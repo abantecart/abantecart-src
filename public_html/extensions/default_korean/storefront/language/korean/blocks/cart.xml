@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[쇼핑 카트]]></value>
+  </definition>
+  <definition>
+    <key>text_subtotal</key>
+    <value><![CDATA[소계 :]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[0 항목]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[확인?]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[풀다]]></value>
+  </definition>
+  <definition>
+    <key>text_view</key>
+    <value><![CDATA[장바구니보기]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[점검]]></value>
+  </definition>
+  <definition>
+    <key>text_items</key>
+    <value><![CDATA[항목]]></value>
+  </definition>
+</definitions>

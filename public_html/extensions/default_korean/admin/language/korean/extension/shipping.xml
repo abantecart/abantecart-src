@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[배송]]></value>
+  </definition>
+  <definition>
+    <key>text_install</key>
+    <value><![CDATA[설치]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall</key>
+    <value><![CDATA[제거]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[배송 방법]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[지위]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[정렬 순서]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[동작]]></value>
+  </definition>
+</definitions>

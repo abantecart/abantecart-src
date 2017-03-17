@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Mé Transakce]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Účet]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[transakce History]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Číslo objednávky]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction_id</key>
+    <value><![CDATA[ID]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction_type</key>
+    <value><![CDATA[Typ]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction_description</key>
+    <value><![CDATA[Popis]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Datum vytvoření]]></value>
+  </definition>
+  <definition>
+    <key>text_debit</key>
+    <value><![CDATA[debet]]></value>
+  </definition>
+  <definition>
+    <key>text_credit</key>
+    <value><![CDATA[Kredit]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Celkový]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Nemáte žádné transakce zaznamenané na vašem účtu!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[내 주문 내역]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[계정]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[주문 내역]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[주문 아이디:]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[지위:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[날자 :]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[고객:]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[제작품:]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[합계:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[당신은 이전 주문을하지 않은!]]></value>
+  </definition>
+</definitions>

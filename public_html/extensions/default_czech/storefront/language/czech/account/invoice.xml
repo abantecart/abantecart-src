@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Podrobnosti o objednávce]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Účet]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[Historie objednávek]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[Faktura]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice_id</key>
+    <value><![CDATA[faktura ID]]></value>
+  </definition>
+  <definition>
+    <key>text_order_id</key>
+    <value><![CDATA[číslo objednávky]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[E-mailem]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[Telefon]]></value>
+  </definition>
+  <definition>
+    <key>text_mobile_phone</key>
+    <value><![CDATA[Mobilní telefon:]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Fax]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[doručovací adresa]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Způsob dopravy]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[platební adresa]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Způsob platby]]></value>
+  </definition>
+  <definition>
+    <key>text_order_history</key>
+    <value><![CDATA[Historie objednávek]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[Produkt]]></value>
+  </definition>
+  <definition>
+    <key>text_model</key>
+    <value><![CDATA[model]]></value>
+  </definition>
+  <definition>
+    <key>text_quantity</key>
+    <value><![CDATA[Množství]]></value>
+  </definition>
+  <definition>
+    <key>text_price</key>
+    <value><![CDATA[Jednotková cena]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Celkový]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[objednat Komentáře]]></value>
+  </definition>
+  <definition>
+    <key>text_image</key>
+    <value><![CDATA[obraz]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Pořadí jste požadovali nebyl nalezen!]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[datum přidáno]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Postavení]]></value>
+  </definition>
+  <definition>
+    <key>column_comment</key>
+    <value><![CDATA[Objednavku komentář]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation</key>
+    <value><![CDATA[Požadovat zrušení vyhlášky]]></value>
+  </definition>
+  <definition>
+    <key>text_request_cancellation_from_customer</key>
+    <value><![CDATA[Požádat o zrušení objednávky od zákazníka]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_confirm</key>
+    <value><![CDATA[Váš požadavek zrušení nemusí být v některých případech, například tehdy, když bylo zboží odesláno. Pokračovat?]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_success</key>
+    <value><![CDATA[Požadavek na zrušení objednávka byla předložena]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_message_title</key>
+    <value><![CDATA[Objednat # %s žádost o zrušení]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_message_body</key>
+    <value><![CDATA[Zákazník %s požádal o zrušení objednávky pro objednávky # %s. Chcete-li si jít do %s]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-mailová adresa se nezdá být platný!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_id</key>
+    <value><![CDATA[ID zakázky je požadováno pole!]]></value>
+  </definition>
+</definitions>

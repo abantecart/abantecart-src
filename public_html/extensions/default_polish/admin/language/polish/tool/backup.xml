@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Kopia zapasowa / Przywracanie / obciążenia]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[Pobierz backup]]></value>
+  </definition>
+  <definition>
+    <key>text_success_backup</key>
+    <value><![CDATA[Sukces: Pomyślnie utworzony plik kopii zapasowej!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukces: Pomyślnie zaimportowany do bazy danych!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_xml</key>
+    <value><![CDATA[Sukces: Pomyślnie zaimportowane xml!]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore</key>
+    <value><![CDATA[Przywracanie danych z pliku xml czy sql:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tables</key>
+    <value><![CDATA[Stoły kopii zapasowych:]]></value>
+  </definition>
+  <definition>
+    <key>entry_loadxml</key>
+    <value><![CDATA[Załaduj plik XML:]]></value>
+  </definition>
+  <definition>
+    <key>tab_backup</key>
+    <value><![CDATA[Utworzyć kopię zapasową]]></value>
+  </definition>
+  <definition>
+    <key>tab_restore</key>
+    <value><![CDATA[Przywracać]]></value>
+  </definition>
+  <definition>
+    <key>tab_loadxml</key>
+    <value><![CDATA[Układ i obciążenie zestawu danych XML]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Ostrzeżenie: Nie masz uprawnień do modyfikowania kopii zapasowych!]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Ostrzeżenie: Proszę ustawić co chcesz do tworzenia kopii zapasowych lub importu!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Ostrzeżenie: Przesłany plik był pusty lub miał niewłaściwy typ pliku!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload</key>
+    <value><![CDATA[Ostrzeżenie: Plik nie został przesłany. Sprawdź post_max_size lub file_upload dyrektyw pliku php.ini.]]></value>
+  </definition>
+  <definition>
+    <key>error_xml</key>
+    <value><![CDATA[Ostrzeżenie: Przesłany plik nie załadowany jako XML! Proszę zobaczyć log-file szczegóły]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_code</key>
+    <value><![CDATA[Kopia zapasowa Code (%s) <br/><span class="help">Podkatalogi z plików kodu wyłączeniem dynamicznych, takich jak pliki cache, pliki dziennika, zdjęć, zasobów itp</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_content</key>
+    <value><![CDATA[Zawartość kopii zapasowej (%s) <br/><span class="help">Podkatalogi z dynamicznym pliki takie jak zdjęcia, pliki do pobrania zasobów itp</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_compress_backup</key>
+    <value><![CDATA[Skompresować kopii zapasowej katalogu %s? <br/><span class="help">zostanie utworzone archiwum * .tar.gz. <br/> Uwaga: to mogła by trwać długo. W przeciwnym razie można wyłączyć kompresję i znaleźć kopię zapasową w folderze %s</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_now</key>
+    <value><![CDATA[backup Now]]></value>
+  </definition>
+  <definition>
+    <key>button_load</key>
+    <value><![CDATA[Załadować]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_schedule</key>
+    <value><![CDATA[harmonogram kopii zapasowych]]></value>
+  </definition>
+  <definition>
+    <key>text_success_scheduled</key>
+    <value><![CDATA[Sukces: pomyślnym utworzeniu kopii zapasowej zaplanowane zadanie! <a href="%s">Patrz szczegóły</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_fail_note</key>
+    <value><![CDATA[UWAGA: realizacja procesu zależy od AbanteCart rozmiaru danych, jak również swoim serwerze wielkości pamięci wirtualnej. Jeśli proces kończy się z błędami, sprawdź w katalogu %s uprawnienia mają być ustawione na -RW-rw-rw i <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[Ustawienie pamięci PHP]</a>. Zwiększ ustawienie pamięci lub backup uruchamiany ręcznie, jeśli proces wciąż zawodzą.]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_file</key>
+    <value><![CDATA[Aby pobrać plik kopii zapasowej można znaleźć <a href="#admin#rt=tool/install_upgrade_history">Install / Upgrade Historia</a>]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_dir</key>
+    <value><![CDATA[Katalog z kopii zapasowych plików jest %s]]></value>
+  </definition>
+</definitions>

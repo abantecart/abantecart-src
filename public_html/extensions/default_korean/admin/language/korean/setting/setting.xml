@@ -1,0 +1,915 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[설정]]></value>
+  </definition>
+  <definition>
+    <key>column_store_alias</key>
+    <value><![CDATA[저장]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[그룹]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[키]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[값]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 당신은 성공적으로 설정을 저장 한!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[이미지 관리자]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- 그룹 선택 -]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[태만]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store_settings</key>
+    <value><![CDATA[편집 설정 :]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_template_settings</key>
+    <value><![CDATA[편집 템플릿 설정 :]]></value>
+  </definition>
+  <definition>
+    <key>text_common_template_settings</key>
+    <value><![CDATA[템플릿 선택]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[편집 매장]]></value>
+  </definition>
+  <definition>
+    <key>text_mail</key>
+    <value><![CDATA[우편]]></value>
+  </definition>
+  <definition>
+    <key>text_smtp</key>
+    <value><![CDATA[SMTP]]></value>
+  </definition>
+  <definition>
+    <key>tab_all</key>
+    <value><![CDATA[모든]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[가게 이름:]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[스토어 URL : <br/><span class="help">상점의 전체 URL을 포함합니다. 마지막에 &#39;/&#39;를 추가해야합니다. 예 : http://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_owner</key>
+    <value><![CDATA[가게 주인:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address</key>
+    <value><![CDATA[주소:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[이메일:]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_emails</key>
+    <value><![CDATA[추가 경고에 전자 메일 : <br/><span class="help">모든 추가 이메일 당신은 본점 이메일뿐만 아니라, 경고 이메일을 수신 할 수 있습니다. (쉼표로 구분)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[전화:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[팩스:]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[제목 : <br/><span class="help">이 점포 브라우저 제목에 표시됩니다</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[메타 태그 설명 : <br/><span class="help">점포 메인 페이지 메타 태그 설명</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_keywords</key>
+    <value><![CDATA[메타 키워드 : <br/><span class="help">점포 메인 페이지 메타 태그 키워드 (쉼표로 구분)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[환영 메시지 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[틀 : <span class="help">점포 템플릿입니다. 이 기본 또는 확장 템플릿 수 있습니다</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_template</key>
+    <value><![CDATA[제어판 틀 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[국가:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[지역 / 국가 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[점포 언어 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_language</key>
+    <value><![CDATA[관리 언어 : <span class="help">참고 :에는 사용자가 원하는 언어가 브라우저에서 발견되지 않는 경우 작동</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency</key>
+    <value><![CDATA[자료 환율 <span class="help">:이 모든 상점에 대한 기본 통화. 당신은 무슨 일이 일어날 지 이해하지 않는 경우 변경하지 마십시오. 경고 : 기준 통화의 변경하면 제품에 대한 기본 가격을 변경하지 않습니다. 검토하고 필요한 경우 모든 가격을 조정해야합니다. 기본 통화 환율은 1.00로 설정하고 모든 다른 통화의 환율은 새로운 기준 통화에 대해 조정됩니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency_auto</key>
+    <value><![CDATA[자동 업데이트 통화 : <br/><span class="help">자동으로 매일 통화를 업데이트 상점을 설정합니다. 야후 서버가 사용됩니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_class</key>
+    <value><![CDATA[무게 클래스 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_length_class</key>
+    <value><![CDATA[길이 클래스 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_auto_translate_status</key>
+    <value><![CDATA[자동 번역 상태 : <br/><span class="help">텍스트 정의 또는 텍스트 값이 사용 된 언어에없는 경우 언어 특정 데이터 누락이 활성화 번역.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_src_lang_code</key>
+    <value><![CDATA[번역 소스 언어 : <br/><span class="help">소스 선택 언어 자동 변환에 사용되는.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method</key>
+    <value><![CDATA[텍스트 번역 방법 : <br/><span class="help">선택 방법 당신은 번역을 위해 사용하고 싶습니다. 기본 방법은 소스 언어 텍스트 직선 카피</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_override_existing</key>
+    <value><![CDATA[소스 언어 텍스트가 변경된 경우 오버라이드 (override) : <br/><span class="help">소스 언어 텍스트를 편집 할 경우 설정하면, 모든 언어의 텍스트는 새로운 번역으로 대체됩니다. 참고 : 많은 번역을 일으킬 수 있음.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_warn_lang_text_missing</key>
+    <value><![CDATA[누락 된 언어 텍스트에 대한 경고 : <br/><span class="help">누락 된 언어 텍스트가 감지되면 경고 메시지를 가져옵니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[세금와 디스플레이 가격 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store</key>
+    <value><![CDATA[스토어 세율을 기본 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_0</key>
+    <value><![CDATA[세금 없음]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_1</key>
+    <value><![CDATA[상점 기본 영역]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer</key>
+    <value><![CDATA[고객 세금 주소를 사용합니다 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_0</key>
+    <value><![CDATA[배송 주소]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_1</key>
+    <value><![CDATA[청구 지 주소]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice</key>
+    <value><![CDATA[송장 시작 번호 : <br/><span class="help">송장부터 시작됩니다 시작 번호를 설정합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice_prefix</key>
+    <value><![CDATA[송장 접두사 : <br/><span class="help">세트 송장 접두사 예를 들면 IN / 001</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[고객 그룹 : <br/><span class="help">기본 고객 그룹.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_price</key>
+    <value><![CDATA[표시 가격 로그인 : <br/><span class="help">고객이 로그인하지 않은 경우에도 표시 가격.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_approval</key>
+    <value><![CDATA[신규 고객을 승인 : <br/><span class="help">자신의 계정이 승인 될 때까지 새로운 고객이 로그인을 허용하지 않습니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_prevent_email_as_login</key>
+    <value><![CDATA[로그인 이름이 필요합니다 <br/><span class="help">보안을 개선하기 위해, 대신 로그인 이름과 이메일 주소를 사용하는 고유 한 로그인 이름을 만들기 위해 고객이 필요합니다. ON으로 설정하면, 기존 고객은 최초 로그인시 새 로그인 이름을 생성하라는 메시지가 표시됩니다. OFF 경우, 로그인 이름은 고객의 이메일 주소로 설정됩니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_guest_checkout</key>
+    <value><![CDATA[고객 체크 아웃 : <br/><span class="help">고객이 계정을 만들지 않고 체크 아웃을 허용합니다. 다운로드 제품을 쇼핑 카트에있을 때 사용할 수 없습니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_account</key>
+    <value><![CDATA[계정 조건 : <br/><span class="help">계정이 생성되기 전에 강제 사람들은 약관에 동의합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_checkout</key>
+    <value><![CDATA[체크 아웃 기간 : <br/><span class="help">부대 사람들은 고객이 체크 아웃 할 수있는 전에 약관에 동의합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_status</key>
+    <value><![CDATA[주문 상태 : <br/><span class="help">주문이 처리 될 때 기본 주문 상태를 설정합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_cancelation_order_status</key>
+    <value><![CDATA[고객 상태에 주문을 취소 할 수 있습니다 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_display</key>
+    <value><![CDATA[디스플레이 재고 : <br/><span class="help">제품 페이지에 표시 재고 수량.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_nostock_autodisable</key>
+    <value><![CDATA[재고 자동 비활성화 : <br/><span class="help">재고가 0 메시지 알림이 전송됩니다에 떨어지면 뷰에 대한 귀하의 제품이나 옵션 값을 사용하지 않습니다</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_checkout</key>
+    <value><![CDATA[재고 체크 아웃 : <br/><span class="help">그들이 주문하는 제품의 재고가없는 경우 고객은 여전히 체크 아웃을 허용합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_status</key>
+    <value><![CDATA[재고 조회 : <br/><span class="help">제품에 대한 재고 상태 메시지 중의 기본 설정입니다. 제품의 편집 페이지에 사용됩니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_logo</key>
+    <value><![CDATA[스토어 로고 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_icon</key>
+    <value><![CDATA[아이콘 : <br/><span class="help">아이콘은 16px X 16px 인 PNG 또는 ICON 유형이 될 수 있습니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_width</key>
+    <value><![CDATA[폭:]]></value>
+  </definition>
+  <definition>
+    <key>entry_height</key>
+    <value><![CDATA[신장:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb</key>
+    <value><![CDATA[제품 이미지 엄지 손가락 크기 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_width</key>
+    <value><![CDATA[제품 이미지 엄지 손가락 폭 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_height</key>
+    <value><![CDATA[제품 이미지 엄지 손가락 높이 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup</key>
+    <value><![CDATA[제품 이미지 팝업 크기 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_width</key>
+    <value><![CDATA[큰 창 미리보기 폭 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_height</key>
+    <value><![CDATA[큰 창 미리보기 높이 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category</key>
+    <value><![CDATA[카테고리 목록 크기 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_width</key>
+    <value><![CDATA[카테고리 목록 폭 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_height</key>
+    <value><![CDATA[카테고리 목록 높이 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_width</key>
+    <value><![CDATA[브랜드 아이콘 목록 폭 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_height</key>
+    <value><![CDATA[브랜드 아이콘 목록 높이 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product</key>
+    <value><![CDATA[제품 목록 크기 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_height</key>
+    <value><![CDATA[제품 목록 높이 : <br/><span class="help">이 점포의 관리자 및 기타 장소의 목록 페이지에 미리보기 이미지의 높이를 제어하는 것입니다. 참고이 설정은 관리자 및 기본 점포 템플릿간에 공유됩니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_width</key>
+    <value><![CDATA[제품 목록 폭 : <br/><span class="help">이 점포의 관리자 및 기타 장소의 목록 페이지에 미리보기 이미지의 폭을 제어하는 것입니다. 참고이 설정은 관리자 및 기본 점포 템플릿간에 공유됩니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional</key>
+    <value><![CDATA[추가 제품 이미지 크기 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_width</key>
+    <value><![CDATA[추가 제품 이미지 폭 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_height</key>
+    <value><![CDATA[추가 제품 이미지 높이 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related</key>
+    <value><![CDATA[관련 제품 이미지 크기 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_width</key>
+    <value><![CDATA[관련 제품 이미지 폭 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_height</key>
+    <value><![CDATA[관련 제품 이미지 높이 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart</key>
+    <value><![CDATA[장바구니 이미지 크기 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_width</key>
+    <value><![CDATA[장바구니 이미지 폭 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_height</key>
+    <value><![CDATA[쇼핑 카트 이미지 높이 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid</key>
+    <value><![CDATA[그리드 이미지 크기 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_width</key>
+    <value><![CDATA[그리드 이미지 폭 : <br/><span class="help">이 관리하고 상점에있는 다른 장소의 목록 그리드에서 매우 작은 미리보기 이미지의 폭을 제어하는 것입니다. 참고이 설정은 관리자 및 기본 점포 템플릿간에 공유됩니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_height</key>
+    <value><![CDATA[그리드 이미지 높이 : <br/><span class="help">이 관리하고 상점에있는 다른 장소의 목록 그리드에서 매우 작은 미리보기 이미지의 높이를 제어하는 것입니다. 참고이 설정은 관리자 및 기본 점포 템플릿간에 공유됩니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_mail</key>
+    <value><![CDATA[경고 메일 : <br/><span class="help">새로운 질서를 만들 때 가게 주인에 이메일을 보냅니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_download</key>
+    <value><![CDATA[다운로드 허용 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_status</key>
+    <value><![CDATA[주문 상태를 다운로드 : <br/><span class="help">세트 고객이 그들의 다운로드 제품에 액세스 할 수 있습니다 전에 도달해야 주문 주문 상태를.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_protocol</key>
+    <value><![CDATA[메일 프로토콜 : <span class="help">메일 : 기본 서버 메일 서버가 사용됩니다. 이 구성되어 있는지와 PHP 메일과 이메일을 보낼 수합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_parameter</key>
+    <value><![CDATA[메일 파라미터 <span class="help">&#39;이메일&#39;을 사용하는 경우, 추가 메일 매개 변수는 예를 들어 &quot;-femail@storeaddress.com&quot;(여기에 추가 될 수있다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_host</key>
+    <value><![CDATA[SMTP 호스트 : <br/><span class="help">SSL 사용 : //smtp.yourdomain.com 보안 SMTP 연결을위한</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_username</key>
+    <value><![CDATA[SMTP 사용자 이름 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_password</key>
+    <value><![CDATA[SMTP 비밀번호 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_port</key>
+    <value><![CDATA[SMTP 포트 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_timeout</key>
+    <value><![CDATA[SMTP 제한 시간 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[: SSL 사용 <br/><span class="help">SSL 인증서가 설치되어있는 경우 호스트와 SSL 검사를 사용합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_session_ttl</key>
+    <value><![CDATA[제어판 세션 만료 : <br/><span class="help">당신으로 인해 활동이 다시 로그인하라는 메시지가 표시됩니다 전에이 값은 분 단위 시간 간격을 제어합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_encryption</key>
+    <value><![CDATA[암호화 키 : <br/><span class="help">설정은 V1.2.1부터 파일을 config (설정)로 마이그레이션.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_seo_url</key>
+    <value><![CDATA[사용 SEO URL의 : <br/><span class="help">SEO URL의 아파치 모듈 모드 - 재 설치해야 사용하고 .htaccess 파일하기 위해 htaccess.txt라는 이름을 변경해야합니다. 참고 : abantecart 도메인의 루트에 설치되어 있지 않은 경우 htaccess로 파일 내부에 rewriteBase 규칙을 변경해야합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_retina_enable</key>
+    <value><![CDATA[고해상도 (망막) 이미지를 생성 : <br/><span class="help">이 아파치 모듈 모드 - 재 설치해야 사용하고 .htaccess로하는 htaccess.txt라는 이름을 변경해야합니다. 참고 : abantecart 도메인의 루트에 설치되어 있지 않은 경우 htaccess로 파일 내부에 rewriteBase 규칙을 변경해야합니다. <br/> 캐시 이미지를 지워야합니다 활성화 한 후.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_quality</key>
+    <value><![CDATA[JPEG 이미지 압축 수준]]></value>
+  </definition>
+  <definition>
+    <key>entry_compression</key>
+    <value><![CDATA[출력 압축 레벨 : <br/><span class="help">요구하는 고객에게보다 효율적인 전송을위한 GZIP. 9 - 압축 레벨은 0 사이 여야합니다</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_display</key>
+    <value><![CDATA[디스플레이 오류 : <br/><span class="help">은 예외와 오류를보고 싶은 경우에 YES로 설정</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_log</key>
+    <value><![CDATA[오류 로그 : <br/><span class="help">YES로 설정을 로그에 예외와 오류를 저장하려면</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_enable_reviews</key>
+    <value><![CDATA[리뷰를 사용 : <br/><span class="help"></span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cache_enable</key>
+    <value><![CDATA[캐시 활성화 : <br/><span class="help">때 비활성화 캐싱주의하십시오. 캐시 된 페이지는 다시 생성되지 않습니다 및 사이트 느린 로딩 시작할 수 있습니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_cache_drivers</key>
+    <value><![CDATA[현재 캐시 <b>%s</b> 드라이버를 사용. 구성에 사용할 다른 드라이버는 <i>%s이다</i>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_status</key>
+    <value><![CDATA[점포 API 상태 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_key</key>
+    <value><![CDATA[점포 API 키 : <br/><span class="help">설정이 키 점포 API에 (보다 안전한) 액세스를 제한 제공합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_stock_check</key>
+    <value><![CDATA[점포 API 스톡 액세스 : <br/><span class="help">당신이 재고를 확인 점포 API 허용하는 경우 사용</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_status</key>
+    <value><![CDATA[관리 API 상태 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_key</key>
+    <value><![CDATA[관리 API 키 : <br/><span class="help">설정이 키 관리 API에 (보다 안전한) 액세스를 제한 제공합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_access_ip_list</key>
+    <value><![CDATA[관리 API 액세스 IPS는 : <br/><span class="help">관리자 API에 액세스 할 수됩니다 IP를의 목록 (쉼표로 구분) 제공합니다. 다른 IP를 차단됩니다</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_max_size</key>
+    <value><![CDATA[자료실 업로드 최대 파일 크기 (KB)]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug</key>
+    <value><![CDATA[보기 디버그 정보 : <br/><span class="help">이 실행 세부 정보를 확인하고 디버그 정보를 표시하려면이 ON 설정합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_0</key>
+    <value><![CDATA[떨어져서]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_1</key>
+    <value><![CDATA[보여 주다]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_2</key>
+    <value><![CDATA[로그]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level</key>
+    <value><![CDATA[디버그 레벨 : <br/><span class="help">디버그 출력에 표시하는 데 필요한 세부 사항의 깊이를 선택합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_0</key>
+    <value><![CDATA[레벨 0 - 아니 로그, 유일한 예외 오류]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_1</key>
+    <value><![CDATA[레벨 1 - 오류 및 경고]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_2</key>
+    <value><![CDATA[레벨 2 - # 1 + MySQL의 사이트로드, PHP 파일 실행 시간과 페이지 요소는 시간을로드]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_3</key>
+    <value><![CDATA[레벨 3 - 2 + 기본 로그 및 실행 스택]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_4</key>
+    <value><![CDATA[레벨 4 - # 3 + 덤프 MySQL의 문]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_5</key>
+    <value><![CDATA[레벨 5 - # 4 + 중간 변수]]></value>
+  </definition>
+  <definition>
+    <key>entry_template_debug</key>
+    <value><![CDATA[템플릿 디버그 : <br/><span class="help">당신이 상점 및 제어 패널의 템플릿으로 문제를 확인해야하는 경우이 설정을 사용합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_filename</key>
+    <value><![CDATA[오류 로그 파일 이름 : <br/><span class="help">이 오류가 저장되는 파일입니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_session</key>
+    <value><![CDATA[사용 배송 세션 : <br/><span class="help">재 인용 불필요하게 방지하기 위해 세션에 배송 따옴표를 저장합니다. 카트 또는 주소가 변경되는 경우 지수는 다시 인용한다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_catalog_limit</key>
+    <value><![CDATA[페이지 당 기본 항목 (점포) : <br/><span class="help">점포 항목이 한 페이지 당 표시 할 얼마나 많은 세트 (제품, 카테고리 등)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_limit</key>
+    <value><![CDATA[페이지 당 기본 항목 (관리자) : <br/><span class="help">관리자 항목 그리드 목록에 한 페이지 당 표시 할 얼마나 많은 세트 (주문, 고객 등)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_bestseller_limit</key>
+    <value><![CDATA[베스트 셀러 블록에서 항목 수]]></value>
+  </definition>
+  <definition>
+    <key>entry_featured_limit</key>
+    <value><![CDATA[주요 블록에서 항목 수]]></value>
+  </definition>
+  <definition>
+    <key>entry_latest_limit</key>
+    <value><![CDATA[최신 블록에서 항목 수]]></value>
+  </definition>
+  <definition>
+    <key>entry_special_limit</key>
+    <value><![CDATA[특수 블록에서 항목 수]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_weight</key>
+    <value><![CDATA[디스플레이 무게 장바구니 페이지에서 : <br/><span class="help">카트 페이지에서 장바구니에 무게를보기</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_reviews</key>
+    <value><![CDATA[: 리뷰 허용 <br/><span class="help">/ 사용 기존 리뷰의 새로운 검토 항목 및 디스플레이를 사용하지 않도록 설정</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_maintenance</key>
+    <value><![CDATA[유지 관리 모드 : <br/><span class="help">상점을 찾아으로부터 고객을 방지합니다. 그들은 대신 유지 보수 메시지가 표시됩니다. 관리자로 로그인 한 경우에는 정상으로 가게를 볼 수 있습니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_voicecontrol</key>
+    <value><![CDATA[음성 제어 : <br/><span class="help">음성 명령 기능을 활성화하기 위해 관리자 음성 제어를 사용합니다. 현재는 Chrome 버전 25 이상에서 지원.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_help_links</key>
+    <value><![CDATA[도움말 링크 : <br/><span class="help">이 도움말 아이콘 및 AbanteCart 사이트에 링크를 참조하십시오. 이렇게하면 기능과 사용 방법에 대해 배울 도움이 될 것입니다. 당신이 사용자 고급 이러한 도움말 아이콘을 표시하지 않으려면, 당신은 해제 할 수 있습니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_show_tree_data</key>
+    <value><![CDATA[트리 그리드 사용 : <br/><span class="help">일 그리드 목록에 부모 / 자녀 유형을 표시하는 관리 그리드를 사용합니다. 참고 : 페이지 설정 및 멀티 작업이 그리드 사용할 수 없습니다</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_ajax</key>
+    <value><![CDATA[같은 페이지 장바구니에 추가 : <br/><span class="help">이 AJAX 장바구니 기능을 추가 할 수있게된다. 제품 쇼핑 카트 페이지로 리디렉션없이 카트에 추가 할 수 있습니다</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_width</key>
+    <value><![CDATA[점포 사이트 폭 : <br/><span class="help">예 : 100 % 또는 1000px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_width</key>
+    <value><![CDATA[관리 사이트 폭 : <br/><span class="help">예 : 100 % 또는 1000px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_maximum</key>
+    <value><![CDATA[최대 주문 금액은 허용 : <br/><span class="help">대형 주문 소계 양의 방지 체크 아웃. 0 = NO LIMIT</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_minimum</key>
+    <value><![CDATA[최소 주문 금액 : <br/><span class="help">주문 소계 설정 최소 금액에 도달하지 않는 경우 방지 체크 아웃. 0 = NO 최소</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_system_check</key>
+    <value><![CDATA[시스템 검사 : <br/><span class="help">이 AbanteCart 기능에 관련하여 시스템의 상태를 확인하려면이 설정을 사용합니다. AbanteCart을 초래 시스템 문제는 관리자에 표시 메시지로보고됩니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[새로운 스토어]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[경고 :이 설정을 수정할 수있는 권한이 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[로그인 이름은 5와 64 자 사이의 숫자 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[이 로그인 이름을 사용할 수 없습니다. 다른 로그인 이름을보십시오!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[가게 이름이 32 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[저장소의 URL이 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[제목이 32 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_owner</key>
+    <value><![CDATA[가게 주인은 2, 64 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[매장 주소는 10, 256 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[이메일 주소가 올바르지 않습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[전화 번호는 2, 32 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[제품 이미지 엄지 손가락 크기의 치수가 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[제품 이미지 팝업 크기 치수가 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[카테고리 목록 크기 치수가 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_manufacturer</key>
+    <value><![CDATA[브랜드 아이콘 목록 크기 치수가 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[제품 목록 크기 치수가 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[추가 제품 이미지 크기 치수가 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[관련 제품 이미지 크기 치수가 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[장바구니 이미지 크기 치수가 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[그리드 이미지 크기 치수가 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_error_filename</key>
+    <value><![CDATA[오류 로그 파일 이름이 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[필요한 데이터가 입력되지 않았습니다. 필드 오류를 확인!]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded_image</key>
+    <value><![CDATA[업로드 된 파일은 %s 이미지 또는 깨진하지 않습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[제한이 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[스토어 프론트]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[관리자]]></value>
+  </definition>
+  <definition>
+    <key>error_mail</key>
+    <value><![CDATA[SMTP 프로토콜에 필요한 필드를 기입하십시오!]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_sort_order_asc</key>
+    <value><![CDATA[제품의 정렬 순서 낮은 &gt; 높은]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[Z - 이름]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[이름 Z -]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_asc</key>
+    <value><![CDATA[낮은 가격 &gt; 높은]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_desc</key>
+    <value><![CDATA[높은 가격 &gt; 낮은]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_asc</key>
+    <value><![CDATA[최저 평점]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_desc</key>
+    <value><![CDATA[최고 평점]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[이전 날짜 &gt; 새로운]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[새 날짜 &gt; 늙은]]></value>
+  </definition>
+  <definition>
+    <key>entry_product_default_sort_order</key>
+    <value><![CDATA[에 의해 기본값으로 정렬 제품 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_zero_customer_balance</key>
+    <value><![CDATA[보기 제로 고객 밸런스 : <br/><span class="help">참고 : 고객의 계정 잔액이 0 인 경우 균형 메시지 / 비활성화 디스플레이를 사용</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_tax_estimate</key>
+    <value><![CDATA[배송 및 세금 견적 : <br/><span class="help">고객이 쇼핑 카트에 빠른 배송 및 세금 추정치를 얻을 수 있습니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon_on_cart_page</key>
+    <value><![CDATA[장바구니 페이지에서 쿠폰 : <br/><span class="help">고객이 쿠폰 코드를 입력하고 장바구니에서 할인 혜택을 볼 수 있습니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_google_analytics</key>
+    <value><![CDATA[Google 웹 로그 분석 계정 수 : <br/><span class="help">귀하의 추가 <a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">Google 웹 로그 분석 계정 번호를</a> 사이트 활동 추적을 가능하게 할 수 있습니다. 이것은 또한 전자 상거래 활동을 추적 할 수 있습니다. 당신은 당신의 웹 사이트에 대한 프로필 설정 페이지에 구글의 추적 전자 상거래를 활성화해야합니다</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[보안 저장소의 URL : <br/><span class="help">상점의 전체 SSL URL을 (HTTPS) 포함. 마지막에 &#39;/&#39;를 추가해야합니다. 예 : https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[보안 URL이 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_email_activation</key>
+    <value><![CDATA[신규 고객을위한 이메일 활성화 : <br/><span class="help">자신의 계정이 이메일을 통해 전송 활성화 링크에 의해 확인 될 때까지 새로운 고객이 로그인을 허용하지 않습니다. 이 작업을 위해, 확인 OFF로 설정되어 &quot;신규 고객이 승인&quot;.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_clone_template</key>
+    <value><![CDATA[AbanteCart 개발자 도구와 복제 템플릿]]></value>
+  </definition>
+  <definition>
+    <key>text_set_template</key>
+    <value><![CDATA[점포에 대한이 템플릿을 설정]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_status</key>
+    <value><![CDATA[점포 삽입을 사용 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_click_action</key>
+    <value><![CDATA[삽입을 클릭합니다 작업 :]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_modal</key>
+    <value><![CDATA[같은 페이지 모달 대화]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_new_window</key>
+    <value><![CDATA[새 탭에서 열기 새 페이지]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_same_window</key>
+    <value><![CDATA[같은 창에서 열기 새 페이지]]></value>
+  </definition>
+  <definition>
+    <key>entry_account_create_captcha</key>
+    <value><![CDATA[: 계정 양식 작성에 보안 문자 <br/><span class="help">인간의 검증 보안 문자를 가능하게하여 방지 스팸 / 로봇 계정 생성을</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_site_key</key>
+    <value><![CDATA[구글 reCAPTCHA를 사이트 키 : <br/><span class="help">추가 <a href="https://www.google.com/recaptcha" target="_blank">구글 reCAPTCHA를 v2가</a> 더 나은 보안 문자 항목으로 방문자를 도와. 당신이 reCAPTCHA를 사이트 / 비밀 키를 사용하면 구글 reCAPTCHA를 v2는 대신 기본 AbanteCart의 보안 문자 이미지의 활성화됩니다</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_secret_key</key>
+    <value><![CDATA[구글 reCAPTCHA를 비밀 키 : <br/><span class="help">추가 <a href="https://www.google.com/recaptcha" target="_blank">구글 reCAPTCHA를 v2가</a> 더 나은 보안 문자 항목으로 방문자를 도와. 당신이 reCAPTCHA를 사이트 / 비밀 키를 사용하면 구글 reCAPTCHA를 v2는 대신 기본 AbanteCart의 보안 문자 이미지의 활성화됩니다</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_php_exceed</key>
+    <value><![CDATA[이 값은 (&lt;= %s) %s php.ini 파일 지시어를 초과 할 수 없습니다]]></value>
+  </definition>
+  <definition>
+    <key>entry_start_order_id</key>
+    <value><![CDATA[주문하기 시작 번호 : <br/><span class="help">주문부터 시작됩니다 시작 번호를 설정합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_start_order_id</key>
+    <value><![CDATA[주문 시작 번호는 숫자해야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_starting_invoice_id</key>
+    <value><![CDATA[송장 시작 번호는 숫자해야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_order_days</key>
+    <value><![CDATA[불완전 주문 만료 : <br/><br/><span class="help">불완전 주문이 삭제되기 전에이 값은 일의 시간 간격을 제어합니다. 빈 값은 주문이 삭제 할 수 없습니다 것을 의미합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_expire_order_days</key>
+    <value><![CDATA[불완전 주문 만료 값은 숫자해야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront</key>
+    <value><![CDATA[점포]]></value>
+  </definition>
+  <definition>
+    <key>text_im_driver</key>
+    <value><![CDATA[운전사]]></value>
+  </definition>
+  <definition>
+    <key>text_im_protocol</key>
+    <value><![CDATA[IM 프로토콜]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver</key>
+    <value><![CDATA[SMS 제공]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver_tooltip</key>
+    <value><![CDATA[SMS 서비스 제공 업체에 대한 확장을 선택합니다]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_status_tooltip</key>
+    <value><![CDATA[고객을위한 SMS 사용]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_status_tooltip</key>
+    <value><![CDATA[관리자를위한 SMS 사용]]></value>
+  </definition>
+  <definition>
+    <key>text_no_driver</key>
+    <value><![CDATA[를 찾을 수 없습니다 IM 드라이버 없음]]></value>
+  </definition>
+  <definition>
+    <key>text_im_settings_attention</key>
+    <value><![CDATA[이러한 설정은 점포 및 관리에 AbanteCart 이벤트 기간 동안 자동으로 전송 인스턴트 메시지입니다.]]></value>
+  </definition>
+  <definition>
+    <key>entry_html_cache</key>
+    <value><![CDATA[HTML 캐시 : <br/><span class="help">활성화 HTML 페이지와 블록 캐시는 페이지에 대한 더 나은 속도를 얻을 수 있습니다. 이 시스템 / config.php 파일에서 활성화 일반 데이터 캐싱에 추가 캐싱입니다</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_task_api_key</key>
+    <value><![CDATA[작업 API 키는 : <br/><span class="help">이 AbanteCart가 /task.php 파일을 사용하여 브라우저에서 예약 된 프로세스를 실행할 수 있도록하는 비밀 키입니다. 설정하지 않으면 작업은 브라우저를 통해 실행되지 않습니다. <br/> 참고 :이 API 키가 작업 명령 줄을 실행하는 데 필요하지 않습니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_duplicate_contact_us</key>
+    <value><![CDATA[연락 문의 메시지에 중복]]></value>
+  </definition>
+</definitions>

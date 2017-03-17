@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[스토어 상세]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 당신은 수정 된 설정이!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[이미지 관리자]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[태만]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[편집 매장보기 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[가게 이름 : <br/><span class="help">설정을 복사 및 점포 섹션에 표시.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[스토어 URL : <br/><span class="help">상점의 전체 URL을 포함합니다. 마지막에 &#39;/&#39;를 추가해야합니다. 예 : http://www.yourdomain.com/path/ <br/><br/> 새로운 저장소를 만들 디렉토리를 사용하지 마십시오. 당신은 항상 당신의 호스팅에 다른 도메인이나 서브 도메인을 가리켜 야합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[: SSL 사용 <br/><span class="help">SSL 인증서가 설치되어있는 경우 호스트와 SSL 검사를 사용합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[표제:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[메타 태그 설명 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[주형:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[환영 메시지 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[국가:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[지역 / 국가 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[언어:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[저장 상태 <br/><span class="help">상점 정면에 보관 상태입니다. 상태 OFF 매장을 기본값으로 연결됩니다. 유지 관리 모드 임시 저장소 유지 관리 메시지를 설정하는 설정 사용</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alias</key>
+    <value><![CDATA[별칭 이름 <br/><span class="help">상점 이름 별칭. 비어있는 경우, 단축 이름을 기준으로한다</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[새로운 스토어]]></value>
+  </definition>
+  <definition>
+    <key>button_delete_store</key>
+    <value><![CDATA[저장 삭제]]></value>
+  </definition>
+  <definition>
+    <key>button_edit_settings</key>
+    <value><![CDATA[편집 설정]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[경고 : 당신은 상점을 수정할 수있는 권한이 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[상점 이름은 3과 32 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[저장소의 URL이 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[제목 3과 32 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[제품 이미지 엄지 손가락 크기의 치수가 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[제품 이미지 팝업 크기 치수가 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[카테고리 목록 크기 치수가 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[제품 목록 크기 치수가 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[추가 제품 이미지 크기 치수가 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[관련 제품 이미지 크기 치수가 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[장바구니 이미지 크기 치수가 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[그리드 이미지 크기 치수가 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[경고 : 현재 %s 주문에 할당 될 때이 점을 삭제할 수 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[필요한 데이터가 입력되지 않았습니다. 필드 오류를 확인!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[제한이 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>entry_clone_store</key>
+    <value><![CDATA[복사 설정 : <br/><span class="help">당신은 몇 가지 기존의 상점에서 모든 설정 복사를 선택할 수 있습니다</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[보안 저장소의 URL : <br/><span class="help">상점의 전체 SSL URL을 (HTTPS) 포함. 마지막에 &#39;/&#39;를 추가해야합니다. 예 : https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[보안 URL이 필요합니다!]]></value>
+  </definition>
+</definitions>

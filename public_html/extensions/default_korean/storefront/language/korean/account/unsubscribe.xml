@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[당신이 성공적으로 수신 거부되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[당신은 이메일 통신에서 수신 거부되었습니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[계정]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공]]></value>
+  </definition>
+</definitions>

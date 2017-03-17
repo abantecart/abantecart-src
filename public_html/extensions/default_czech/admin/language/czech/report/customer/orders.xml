@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[objednávky zákazníků]]></value>
+  </definition>
+  <definition>
+    <key>column_customer_id</key>
+    <value><![CDATA[zákaznické identifikační číslo]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[Jméno zákazníka]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[Customer Group]]></value>
+  </definition>
+  <definition>
+    <key>column_order_count</key>
+    <value><![CDATA[objednávky Count]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Celkový]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Opinie]]></value>
+  </definition>
+  <definition>
+    <key>text_review</key>
+    <value><![CDATA[Recenzja]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[Włóż weryfikacja]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[aktualizacja weryfikacja]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukces: Masz opinie zmodyfikowanych!]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[Produkt]]></value>
+  </definition>
+  <definition>
+    <key>column_author</key>
+    <value><![CDATA[Autor]]></value>
+  </definition>
+  <definition>
+    <key>column_rating</key>
+    <value><![CDATA[Ocena]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[Data dodania]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akcja]]></value>
+  </definition>
+  <definition>
+    <key>entry_product</key>
+    <value><![CDATA[Produkt:]]></value>
+  </definition>
+  <definition>
+    <key>entry_author</key>
+    <value><![CDATA[Autor:]]></value>
+  </definition>
+  <definition>
+    <key>entry_rating</key>
+    <value><![CDATA[Ocena:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_text</key>
+    <value><![CDATA[Tekst:]]></value>
+  </definition>
+  <definition>
+    <key>entry_good</key>
+    <value><![CDATA[Dobry]]></value>
+  </definition>
+  <definition>
+    <key>entry_bad</key>
+    <value><![CDATA[Zły]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Ostrzeżenie: Nie masz uprawnień do modyfikowania opinie!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Wymagane produkt!]]></value>
+  </definition>
+  <definition>
+    <key>error_author</key>
+    <value><![CDATA[Autor musi wynosić od 2 do 64 znaków!]]></value>
+  </definition>
+  <definition>
+    <key>error_text</key>
+    <value><![CDATA[Tekst ocena musi wynosić między 25 a 1000 znaków!]]></value>
+  </definition>
+  <definition>
+    <key>error_rating</key>
+    <value><![CDATA[wymagana ocena opinię!]]></value>
+  </definition>
+  <definition>
+    <key>text_select_product</key>
+    <value><![CDATA[- Wybierz produkt -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_category</key>
+    <value><![CDATA[- Wybierz kategorię -]]></value>
+  </definition>
+</definitions>

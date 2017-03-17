@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_send_email</key>
+    <value><![CDATA[Poslat mail]]></value>
+  </definition>
+  <definition>
+    <key>text_send_sms</key>
+    <value><![CDATA[pošlete SMS]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Vaše zpráva byla uspěšně odeslána!]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[standardní]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_send</key>
+    <value><![CDATA[Ručně vybrané zákazníky]]></value>
+  </definition>
+  <definition>
+    <key>text_all_subscribers</key>
+    <value><![CDATA[Všichni odběratelé]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribers_only</key>
+    <value><![CDATA[Newsletter pouze pro odběratele (non-zákazníci)]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_only</key>
+    <value><![CDATA[Všichni zákazníci]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[Ze skladu: <span class="help">Store e-mailová adresa pro odesílání e-mailů z. Hodnota je nastavena v nastavení ukládání</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_who_ordered</key>
+    <value><![CDATA[Pro zákazníky, kteří si objednali vybrané produkty]]></value>
+  </definition>
+  <definition>
+    <key>entry_to</key>
+    <value><![CDATA[Komu: <span class="help">seznam zákazníků se tato zpráva. POZNÁMKA: Velké seznamy zákazníků bude vyžadovat delší dobu, které mají být zpracovány a mohou vyžadovat alternativní metody. Odkazují na svých webových a e-mailových serverových konfigurací</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_from_lookup</key>
+    <value><![CDATA[Začněte psát jméno zákazníka hledat a vybrat]]></value>
+  </definition>
+  <definition>
+    <key>text_products_from_lookup</key>
+    <value><![CDATA[Začněte psát název produktu pro vyhledání a výběr]]></value>
+  </definition>
+  <definition>
+    <key>entry_subject</key>
+    <value><![CDATA[Předmět:]]></value>
+  </definition>
+  <definition>
+    <key>entry_message</key>
+    <value><![CDATA[Tělo zprávy:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varování: Nemáte oprávnění odesílat e-maily!]]></value>
+  </definition>
+  <definition>
+    <key>error_subject</key>
+    <value><![CDATA[Předmět e-mailu je nutná!]]></value>
+  </definition>
+  <definition>
+    <key>error_message_email</key>
+    <value><![CDATA[Tělo e-mailová zpráva je nutná!]]></value>
+  </definition>
+  <definition>
+    <key>error_message_sms</key>
+    <value><![CDATA[Tělo SMS zprávy je nutné!]]></value>
+  </definition>
+  <definition>
+    <key>error_recipients</key>
+    <value><![CDATA[Příjemci seznam, odběratelé nebo produkty objednané jsou povinné!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_sent</key>
+    <value><![CDATA[&quot;Chyba: Žádné e-maily byly odeslány! Viz protokol chyb podrobnosti. &quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_unsubscribe</key>
+    <value><![CDATA[Tento e-mail byl odeslán na %s, protože vaše e-mailové předvolby jsou nastaveny pro příjem zpravodaje. Klikněte <a href="%s">zde odhlásit</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_total_to_be_sent</key>
+    <value><![CDATA[(Total které mají být zaslány na adresu: %s)]]></value>
+  </definition>
+  <definition>
+    <key>text_select_products</key>
+    <value><![CDATA[- Vyberte produkty -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_customers</key>
+    <value><![CDATA[- Volba Zákazníci -]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[E-mailem]]></value>
+  </definition>
+  <definition>
+    <key>text_sms</key>
+    <value><![CDATA[SMS]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete_tasks</key>
+    <value><![CDATA[nedokončené úkoly]]></value>
+  </definition>
+  <definition>
+    <key>text_task_id</key>
+    <value><![CDATA[ID úkol:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_time_run</key>
+    <value><![CDATA[Naposledy Run:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Vytvořeno:]]></value>
+  </definition>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[Předmět:]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[Zpráva:]]></value>
+  </definition>
+  <definition>
+    <key>text_starter_name</key>
+    <value><![CDATA[Vytvořil:]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[restart]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[Odstranit]]></value>
+  </definition>
+  <definition>
+    <key>error_email_no_recipients</key>
+    <value><![CDATA[Pozor! nebude odeslána zpráva.]]></value>
+  </definition>
+  <definition>
+    <key>error_sms_no_recipients</key>
+    <value><![CDATA[Pozor! Žádné zákazníci s telefonními čísly mobilních telefonů.]]></value>
+  </definition>
+  <definition>
+    <key>text_attention_recipients_count</key>
+    <value><![CDATA[Pozor! Zpráva bude zaslána zákazníkům %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_abort</key>
+    <value><![CDATA[Úkol úspěšně přerušeno.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_sent</key>
+    <value><![CDATA[%s Byly odeslané zprávy.]]></value>
+  </definition>
+  <definition>
+    <key>text_task_failed</key>
+    <value><![CDATA[Některé chyby došlo v průběhu procesu úloh. Viz log podrobnosti, nebo restartovat tohoto úkolu.]]></value>
+  </definition>
+  <definition>
+    <key>text_sent</key>
+    <value><![CDATA[%s Z %s zprávy jsou posílány]]></value>
+  </definition>
+</definitions>

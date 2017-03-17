@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Manipulační poplatek]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[Manipulační poplatek]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Objednat Součty]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspěch: Aktualizovali jste celkem manipulační poplatek!]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Celková částka objednávky: <span class="help">Minimální množství, aby se dosáhlo uplatnit poplatek. V případě objednávky zákazníka celková překročí tuto částku, manipulace feee nebudou použity. Tato hodnota je přepsána s konkrétním nastavením platby.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_placeholder</key>
+    <value><![CDATA[částka objednávky]]></value>
+  </definition>
+  <definition>
+    <key>entry_fee</key>
+    <value><![CDATA[Poplatek: <span class="help">Fee, které se přidávají na objednávku celkem, je-li podmínka minimální výše není splněna. Tato částka je přepsána konkrétním nastavení plateb</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_fee</key>
+    <value><![CDATA[Poplatek: <span class="help">Fee, které se přidávají na objednávku celkem, je-li minimální sub-celková částka podmínka není splněna. Tato částka přepsat hlavní nastavení poplatkové</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Platba: <span class="help">Vyberte si konkrétní platby je třeba přidat poplatek. Tato nastavení přepíše hlavní nastavení, pokud je platba použita zákazníkem.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_subtotal</key>
+    <value><![CDATA[Objednat Sub-Total: <span class="help">Minimální objednávka sub-celková částka má být dosaženo uplatnit poplatek. To přepíše hlavní nastavení</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Daňová třída: <span class="help">Vyberte, pokud je potřeba, aby byla daň aplikována na horní části manipulačního poplatku</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Postavení:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Uspořádání:]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[Výpočet pořadí:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varování: Nemáte oprávnění ke změně celkového manipulační poplatek!]]></value>
+  </definition>
+  <definition>
+    <key>error_number</key>
+    <value><![CDATA[Varování: Pořadí Celkové a manipulační poplatek musí být jen čísla!]]></value>
+  </definition>
+</definitions>

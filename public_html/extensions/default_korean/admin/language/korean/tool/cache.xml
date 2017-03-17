@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[캐시 관리]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 당신은 성공적으로 캐시 파일을 삭제 한!]]></value>
+  </definition>
+  <definition>
+    <key>text_configuration</key>
+    <value><![CDATA[구성]]></value>
+  </definition>
+  <definition>
+    <key>text_layouts_blocks</key>
+    <value><![CDATA[레이아웃 &amp; 블록]]></value>
+  </definition>
+  <definition>
+    <key>text_flexyforms</key>
+    <value><![CDATA[팰랙 양식]]></value>
+  </definition>
+  <definition>
+    <key>text_images</key>
+    <value><![CDATA[이미지]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[제작품]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[카테고리]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[제조사]]></value>
+  </definition>
+  <definition>
+    <key>text_localisations</key>
+    <value><![CDATA[지역화에]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[오류 로그]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_cache</key>
+    <value><![CDATA[삭제 선택한 캐시]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_all_cache</key>
+    <value><![CDATA[지우기 캐시]]></value>
+  </definition>
+  <definition>
+    <key>desc_configuration</key>
+    <value><![CDATA[시스템 및 저장 구성]]></value>
+  </definition>
+  <definition>
+    <key>desc_layouts_blocks</key>
+    <value><![CDATA[페이지, 페이지 레이아웃, 블록]]></value>
+  </definition>
+  <definition>
+    <key>desc_flexyforms</key>
+    <value><![CDATA[팰랙 형태의 데이터]]></value>
+  </definition>
+  <definition>
+    <key>desc_images</key>
+    <value><![CDATA[이미지 미리보기]]></value>
+  </definition>
+  <definition>
+    <key>desc_products</key>
+    <value><![CDATA[제품 데이터]]></value>
+  </definition>
+  <definition>
+    <key>desc_categories</key>
+    <value><![CDATA[카테고리 데이터]]></value>
+  </definition>
+  <definition>
+    <key>desc_manufacturers</key>
+    <value><![CDATA[제조업체 데이터]]></value>
+  </definition>
+  <definition>
+    <key>desc_localisations</key>
+    <value><![CDATA[통화, 언어, 국가, 지역, 길이, 무게, &amp; 다른]]></value>
+  </definition>
+  <definition>
+    <key>desc_error_log</key>
+    <value><![CDATA[오류 로그]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[캐시 유형]]></value>
+  </definition>
+  <definition>
+    <key>column_description</key>
+    <value><![CDATA[기술]]></value>
+  </definition>
+  <definition>
+    <key>text_html_cache</key>
+    <value><![CDATA[HTML 캐시]]></value>
+  </definition>
+  <definition>
+    <key>desc_html_cache</key>
+    <value><![CDATA[캐시 된 HTML 페이지 및 블록]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[역사를 업그레이드 / 설치]]></value>
+  </definition>
+  <definition>
+    <key>desc_install_upgrade_history</key>
+    <value><![CDATA[모두 지우기 역사를 업그레이드 / 설치]]></value>
+  </definition>
+</definitions>

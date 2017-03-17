@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Bloki]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[usuń blok]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[edycji bloku]]></value>
+  </definition>
+  <definition>
+    <key>text_enable</key>
+    <value><![CDATA[Włącz / Wyłącz]]></value>
+  </definition>
+  <definition>
+    <key>text_details</key>
+    <value><![CDATA[Detale]]></value>
+  </definition>
+  <definition>
+    <key>text_create</key>
+    <value><![CDATA[Tworzenie bloku]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukces: Zmieniłeś blok!]]></value>
+  </definition>
+  <definition>
+    <key>column_block_id</key>
+    <value><![CDATA[ID]]></value>
+  </definition>
+  <definition>
+    <key>column_block_txt_id</key>
+    <value><![CDATA[Unikalny identyfikator Tekst]]></value>
+  </definition>
+  <definition>
+    <key>column_block_name</key>
+    <value><![CDATA[Nazwa]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[Data dodania]]></value>
+  </definition>
+  <definition>
+    <key>column_block_type</key>
+    <value><![CDATA[Rodzaj]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akcja]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[porządek sortowania]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Obraz]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_status_note</key>
+    <value><![CDATA[Uwaga: Musisz dodać ten blok w <a style="text-decoration: underline; font-weight: bold;" href="#admin#rt=design/layout">WYGLĄD</a> na żądaną stronę, aby ją zobaczyć pracę]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_type</key>
+    <value><![CDATA[Blok Typ niestandardowy]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_name</key>
+    <value><![CDATA[Nazwa niestandardowego bloku]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_wrapper</key>
+    <value><![CDATA[owijka Zastosowanie bloku (wygląd)]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_framed</key>
+    <value><![CDATA[ramy Stosować bloku]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_title</key>
+    <value><![CDATA[Niestandardowe tabelkę]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_description</key>
+    <value><![CDATA[Opis niestandardowy blok <p> wyłącznie do użytku wewnętrznego: Uwaga </p>]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_content</key>
+    <value><![CDATA[Zawartość niestandardowych Blok]]></value>
+  </definition>
+  <definition>
+    <key>entry_listing_datasource</key>
+    <value><![CDATA[Zamieszczone Źródło danych]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_confirm</key>
+    <value><![CDATA[Potwierdź, aby usunąć blok?]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Proszę wypełnić wszystkie wymagane pola!]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[Nie można usunąć, ponieważ ten blok jest w użyciu. Proszę odwiedzić sekcję Układ.]]></value>
+  </definition>
+  <definition>
+    <key>error_text_status</key>
+    <value><![CDATA[Nie można zmienić stan, ponieważ ten blok nie jest w użyciu. Proszę odwiedzić sekcję Układ.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_deleted</key>
+    <value><![CDATA[Sukces: Usunięto niestandardowy blok!]]></value>
+  </definition>
+  <definition>
+    <key>entry_data_source</key>
+    <value><![CDATA[Źródło danych:]]></value>
+  </definition>
+  <definition>
+    <key>entry_limit</key>
+    <value><![CDATA[Limit:]]></value>
+  </definition>
+  <definition>
+    <key>text_listing_auto</key>
+    <value><![CDATA[Auto aukcja]]></value>
+  </definition>
+  <definition>
+    <key>text_listing_manual</key>
+    <value><![CDATA[niestandardowe ofertę]]></value>
+  </definition>
+  <definition>
+    <key>text_select_listing</key>
+    <value><![CDATA[--- wybierz --- źródło danych sprzedaż]]></value>
+  </definition>
+  <definition>
+    <key>text_products_special</key>
+    <value><![CDATA[Specjalne oferty]]></value>
+  </definition>
+  <definition>
+    <key>text_products_popular</key>
+    <value><![CDATA[Wszystkie produkty]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[Kategorie]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[producenci]]></value>
+  </definition>
+  <definition>
+    <key>text_featured</key>
+    <value><![CDATA[Polecane produkty]]></value>
+  </definition>
+  <definition>
+    <key>text_latest</key>
+    <value><![CDATA[Najnowsze produkty]]></value>
+  </definition>
+  <definition>
+    <key>text_bestsellers</key>
+    <value><![CDATA[Bestsellery Produkty]]></value>
+  </definition>
+  <definition>
+    <key>text_media</key>
+    <value><![CDATA[Głoska bezdźwięczna]]></value>
+  </definition>
+  <definition>
+    <key>entry_resource_type</key>
+    <value><![CDATA[Typ mediów:]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_products</key>
+    <value><![CDATA[Produkty na zamówienie]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_categories</key>
+    <value><![CDATA[Niestandardowe kategorie]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_manufacturers</key>
+    <value><![CDATA[Niestandardowe Producenci]]></value>
+  </definition>
+  <definition>
+    <key>text_html_block</key>
+    <value><![CDATA[HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_listing_block</key>
+    <value><![CDATA[Zamieszczone dane]]></value>
+  </definition>
+  <definition>
+    <key>text_selected</key>
+    <value><![CDATA[Wybrane przedmioty:]]></value>
+  </definition>
+  <definition>
+    <key>text_data_listed</key>
+    <value><![CDATA[Dane powinny być wymienione]]></value>
+  </definition>
+  <definition>
+    <key>text_save_edit</key>
+    <value><![CDATA[Dodawanie / Edycja]]></value>
+  </definition>
+  <definition>
+    <key>text_apply</key>
+    <value><![CDATA[Zastosuj wybór]]></value>
+  </definition>
+  <definition>
+    <key>text_block_id</key>
+    <value><![CDATA[blok ID]]></value>
+  </definition>
+  <definition>
+    <key>text_block_txt_id</key>
+    <value><![CDATA[Blok Tekst ID]]></value>
+  </definition>
+  <definition>
+    <key>text_controller</key>
+    <value><![CDATA[Kontroler]]></value>
+  </definition>
+  <definition>
+    <key>text_templates</key>
+    <value><![CDATA[szablony blokowe]]></value>
+  </definition>
+  <definition>
+    <key>text_block_date_added</key>
+    <value><![CDATA[Data utworzenia bloku]]></value>
+  </definition>
+  <definition>
+    <key>text_layouts</key>
+    <value><![CDATA[Stosowany w układach]]></value>
+  </definition>
+  <definition>
+    <key>text_block_info</key>
+    <value><![CDATA[Informacje o niestandardowych bloku]]></value>
+  </definition>
+  <definition>
+    <key>text_add_block</key>
+    <value><![CDATA[Dodanie bloku do sekcji]]></value>
+  </definition>
+  <definition>
+    <key>text_available_block</key>
+    <value><![CDATA[dostępne Blocks]]></value>
+  </definition>
+  <definition>
+    <key>error_block_not_available</key>
+    <value><![CDATA[Ten blok nie zostanie wyświetlona w wybranej pozycji za pomocą sklepu!]]></value>
+  </definition>
+</definitions>

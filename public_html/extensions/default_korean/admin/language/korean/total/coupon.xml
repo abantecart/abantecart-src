@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[쿠폰]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[쿠폰]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[주문 합계]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 당신은 총 쿠폰을 수정 한!]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[지위:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[정렬 순서 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[계산 순서 :]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[경고 : 총 쿠폰을 수정할 수있는 권한이 없습니다!]]></value>
+  </definition>
+</definitions>

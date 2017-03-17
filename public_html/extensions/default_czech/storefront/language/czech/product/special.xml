@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Speciální nabídky]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[Neexistují žádné speciální nabídky návrat na seznam zboží.]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[%s Z 5 hvězdiček!]]></value>
+  </definition>
+  <definition>
+    <key>text_sort</key>
+    <value><![CDATA[Seřazeno podle:]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[standardní]]></value>
+  </definition>
+  <definition>
+    <key>text_name_asc</key>
+    <value><![CDATA[Name A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_name_desc</key>
+    <value><![CDATA[Názvu Z - A]]></value>
+  </definition>
+  <definition>
+    <key>text_price_asc</key>
+    <value><![CDATA[Cena Low &gt; Vysoký]]></value>
+  </definition>
+  <definition>
+    <key>text_price_desc</key>
+    <value><![CDATA[Cena High &gt; Nízký]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_asc</key>
+    <value><![CDATA[Hodnocení nejnižší]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_desc</key>
+    <value><![CDATA[Hodnocení Nejvyšší]]></value>
+  </definition>
+</definitions>

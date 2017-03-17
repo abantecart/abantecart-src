@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[예약 된 작업]]></value>
+  </definition>
+  <definition>
+    <key>column_id</key>
+    <value><![CDATA[신분증]]></value>
+  </definition>
+  <definition>
+    <key>column_date_created</key>
+    <value><![CDATA[생성 일자]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[이름]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[지위]]></value>
+  </definition>
+  <definition>
+    <key>column_start_time</key>
+    <value><![CDATA[시작 시간]]></value>
+  </definition>
+  <definition>
+    <key>text_stuck</key>
+    <value><![CDATA[고집]]></value>
+  </definition>
+  <definition>
+    <key>text_ready</key>
+    <value><![CDATA[준비된]]></value>
+  </definition>
+  <definition>
+    <key>text_running</key>
+    <value><![CDATA[달리는]]></value>
+  </definition>
+  <definition>
+    <key>text_scheduled</key>
+    <value><![CDATA[예약]]></value>
+  </definition>
+  <definition>
+    <key>text_disabled</key>
+    <value><![CDATA[장애인]]></value>
+  </definition>
+  <definition>
+    <key>text_failed</key>
+    <value><![CDATA[실패한]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete</key>
+    <value><![CDATA[불완전한]]></value>
+  </definition>
+  <definition>
+    <key>text_completed</key>
+    <value><![CDATA[완료]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[다시 시작 작업]]></value>
+  </definition>
+  <definition>
+    <key>text_run</key>
+    <value><![CDATA[작업 실행]]></value>
+  </definition>
+  <definition>
+    <key>text_task_started</key>
+    <value><![CDATA[작업 시작]]></value>
+  </definition>
+  <definition>
+    <key>text_task_not_found</key>
+    <value><![CDATA[작업 찾을 수 없습니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_task</key>
+    <value><![CDATA[태스크 단계가 포함되어 있지 않습니다. 제거되었습니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_forbidden_to_restart</key>
+    <value><![CDATA[다시 시작하려면 금지!]]></value>
+  </definition>
+</definitions>

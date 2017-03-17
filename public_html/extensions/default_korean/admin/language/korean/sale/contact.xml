@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_send_email</key>
+    <value><![CDATA[메일을 보내다]]></value>
+  </definition>
+  <definition>
+    <key>text_send_sms</key>
+    <value><![CDATA[SMS 보내기]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[당신의 메시지가 성공적으로 전송되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[태만]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_send</key>
+    <value><![CDATA[수동으로 실시 선택된 고객]]></value>
+  </definition>
+  <definition>
+    <key>text_all_subscribers</key>
+    <value><![CDATA[모든 구독자]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribers_only</key>
+    <value><![CDATA[뉴스 레터 구독자 만 (비 고객)]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_only</key>
+    <value><![CDATA[모든 고객]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[매장에서 : <span class="help">상점 이메일 주소는 이메일로 보낼 수 있습니다. 값이 저장 설정에서 설정</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_who_ordered</key>
+    <value><![CDATA[고객에게 누가 제품을 선택 순서화]]></value>
+  </definition>
+  <definition>
+    <key>entry_to</key>
+    <value><![CDATA[사람 : <span class="help">고객의 목록이 메시지를받을 수 있습니다. 참고 : 큰 고객 목록을 처리 할 시간이 필요하고 다른 방법이 필요할 수 있습니다. 웹 및 이메일 서버 구성을 참조하십시오</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_from_lookup</key>
+    <value><![CDATA[조회 입력 고객 이름을 시작하고 선택]]></value>
+  </definition>
+  <definition>
+    <key>text_products_from_lookup</key>
+    <value><![CDATA[조회 입력 제품 이름을 시작하고 선택]]></value>
+  </definition>
+  <definition>
+    <key>entry_subject</key>
+    <value><![CDATA[제목:]]></value>
+  </definition>
+  <definition>
+    <key>entry_message</key>
+    <value><![CDATA[메시지 본문 :]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[경고 : 당신은 이메일을 보낼 수있는 권한이 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_subject</key>
+    <value><![CDATA[이메일 제목이 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_message_email</key>
+    <value><![CDATA[이메일 메시지 본문이 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_message_sms</key>
+    <value><![CDATA[SMS 메시지 본문이 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_recipients</key>
+    <value><![CDATA[주문받는 사람 목록, 가입자 또는 제품이 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_sent</key>
+    <value><![CDATA[&#39;오류가 없음 이메일이 전송되지 않았습니다! 자세한 내용은 오류 로그를 참조하십시오. &#39;]]></value>
+  </definition>
+  <definition>
+    <key>text_unsubscribe</key>
+    <value><![CDATA[이메일 환경 설정이 뉴스 레터를 수신하도록 설정되어 있기 때문에이 이메일은, %s에 보내졌다. 클릭 <a href="%s">구독 취소하려면 여기를</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_total_to_be_sent</key>
+    <value><![CDATA[(총을드립니다 %s)]]></value>
+  </definition>
+  <definition>
+    <key>text_select_products</key>
+    <value><![CDATA[- 제품 선택 -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_customers</key>
+    <value><![CDATA[- 고객 선택 -]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[이메일]]></value>
+  </definition>
+  <definition>
+    <key>text_sms</key>
+    <value><![CDATA[SMS]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete_tasks</key>
+    <value><![CDATA[불완전한 작업]]></value>
+  </definition>
+  <definition>
+    <key>text_task_id</key>
+    <value><![CDATA[작업 ID :]]></value>
+  </definition>
+  <definition>
+    <key>text_last_time_run</key>
+    <value><![CDATA[마지막 시간을 실행 :]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[만들어진:]]></value>
+  </definition>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[제목:]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[메시지:]]></value>
+  </definition>
+  <definition>
+    <key>text_starter_name</key>
+    <value><![CDATA[만든이 :]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[재시작]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[풀다]]></value>
+  </definition>
+  <definition>
+    <key>error_email_no_recipients</key>
+    <value><![CDATA[주의! 메시지가 전송되지 않습니다.]]></value>
+  </definition>
+  <definition>
+    <key>error_sms_no_recipients</key>
+    <value><![CDATA[주의! 휴대 전화 번호 없음 고객이 없습니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_attention_recipients_count</key>
+    <value><![CDATA[주의! 이 메시지는 %s 고객에게 전송됩니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_abort</key>
+    <value><![CDATA[작업이 성공적으로 중단.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_sent</key>
+    <value><![CDATA[%s 메시지가 전송되었습니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_task_failed</key>
+    <value><![CDATA[일부 오류가 작업 과정에서 발생했습니다. 자세한 내용은 로그인하거나이 작업을 다시 시작을 참조하십시오.]]></value>
+  </definition>
+  <definition>
+    <key>text_sent</key>
+    <value><![CDATA[%s의 %s 메시지가 전송됩니다]]></value>
+  </definition>
+</definitions>

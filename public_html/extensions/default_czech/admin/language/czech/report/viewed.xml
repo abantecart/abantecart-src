@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Průběh Zpráva]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspěch: Máte resetovat zprávu o produktu pohledu!]]></value>
+  </definition>
+  <definition>
+    <key>column_product_id</key>
+    <value><![CDATA[Product ID]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[jméno výrobku]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[model]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[Kategorie]]></value>
+  </definition>
+  <definition>
+    <key>column_viewed</key>
+    <value><![CDATA[zobrazeno]]></value>
+  </definition>
+  <definition>
+    <key>column_percent</key>
+    <value><![CDATA[Procent]]></value>
+  </definition>
+</definitions>

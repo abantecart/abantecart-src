@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Pokladna Potvrzení]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Košík]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_basket</key>
+    <value><![CDATA[Edit košík]]></value>
+  </definition>
+  <definition>
+    <key>text_accept_agree</key>
+    <value><![CDATA[Kliknutím na tlačítko Potvrdit objednávku, přijímáte a souhlasíte se všemi podmínkami]]></value>
+  </definition>
+  <definition>
+    <key>text_cart_items</key>
+    <value><![CDATA[Položky v košíku]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Lodní doprava]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_shipping</key>
+    <value><![CDATA[editovat vodní doprava]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Platba]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_payment</key>
+    <value><![CDATA[Úprava platby]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_1</key>
+    <value><![CDATA[Guest Pokladna - krok 1]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_2</key>
+    <value><![CDATA[Guest Pokladna - krok 2]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Potvrdit]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[doručovací adresa]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Způsob dopravy]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[platební adresa]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Způsob platby]]></value>
+  </definition>
+  <definition>
+    <key>text_change</key>
+    <value><![CDATA[Změna]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[Vaše připomínky]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[Slevový kupón]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[Produkt]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[model]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Množství]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Cena]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Celkový]]></value>
+  </definition>
+  <definition>
+    <key>text_add_coupon</key>
+    <value><![CDATA[editovat Kupon]]></value>
+  </definition>
+</definitions>

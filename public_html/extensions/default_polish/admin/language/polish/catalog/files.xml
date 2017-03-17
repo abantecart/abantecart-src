@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[pliki wyrobów]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[Produkt]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_product_file</key>
+    <value><![CDATA[Edycja pliku wyrobów]]></value>
+  </definition>
+  <definition>
+    <key>tab_files</key>
+    <value><![CDATA[Akta]]></value>
+  </definition>
+  <definition>
+    <key>tab_general</key>
+    <value><![CDATA[Generał]]></value>
+  </definition>
+  <definition>
+    <key>tab_attributes</key>
+    <value><![CDATA[Pobierz Atrybuty]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_icon</key>
+    <value><![CDATA[Ikona pliku]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>entry_resource</key>
+    <value><![CDATA[Ratunek]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Nazwa]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_name</key>
+    <value><![CDATA[Pobierz Nazwa]]></value>
+  </definition>
+  <definition>
+    <key>entry_mask</key>
+    <value><![CDATA[Pobierz Maska <span class="help">Nazwa alias wyjściu pobierania klienta</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_full_path</key>
+    <value><![CDATA[Ścieżka serwera plików]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_max_downloads</key>
+    <value><![CDATA[max Pobierz]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_sort_order</key>
+    <value><![CDATA[kolejność sortowania]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_push_to_customers</key>
+    <value><![CDATA[Push to klientów]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_activation</key>
+    <value><![CDATA[Aktywacja trybu]]></value>
+  </definition>
+  <definition>
+    <key>text_add_file</key>
+    <value><![CDATA[Dodaj plik]]></value>
+  </definition>
+  <definition>
+    <key>text_new_file</key>
+    <value><![CDATA[Dodaj nowy plik]]></value>
+  </definition>
+  <definition>
+    <key>text_download_attributes</key>
+    <value><![CDATA[Pobierz Atrybuty]]></value>
+  </definition>
+  <definition>
+    <key>text_download_information</key>
+    <value><![CDATA[Generał]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_added</key>
+    <value><![CDATA[Dodane]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_modified</key>
+    <value><![CDATA[zmodyfikowany]]></value>
+  </definition>
+  <definition>
+    <key>entry_max_downloads</key>
+    <value><![CDATA[Max pliki do pobrania <span class="help">Liczba pobrań dopuszczone do klienta</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_activate</key>
+    <value><![CDATA[Aktywowany <span class="help">pobierania będzie aktywuje na wybranym wydarzeniu. <br/> Przykład: Natychmiast. Pobierz to uaktywnić po złożeniu zamówienia, niezależnie od statusu zamówienia</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[porządek sortowania]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_days</key>
+    <value><![CDATA[Wygasają <span class="help">COUNT</span> dni <span class="help">dni od daty zakupu</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_before_order</key>
+    <value><![CDATA[przed Zakonu]]></value>
+  </definition>
+  <definition>
+    <key>text_immediately</key>
+    <value><![CDATA[Natychmiast]]></value>
+  </definition>
+  <definition>
+    <key>text_on_order_status</key>
+    <value><![CDATA[na zamówienie Statusu]]></value>
+  </definition>
+  <definition>
+    <key>text_manually</key>
+    <value><![CDATA[Ręcznie]]></value>
+  </definition>
+  <definition>
+    <key>text_success_download_save</key>
+    <value><![CDATA[Sukces: Zmieniłeś plik!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_exists</key>
+    <value><![CDATA[Błąd: Nie można zaktualizować do pobrania, ponieważ nie istnieje w bazie danych!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_name</key>
+    <value><![CDATA[Błąd: Nazwa pobierania musi mieć długość od 2 do 128 znaków!]]></value>
+  </definition>
+  <definition>
+    <key>error_max_downloads</key>
+    <value><![CDATA[Błąd: maksymalne pliki do pobrania liczyć musi być większa 0!]]></value>
+  </definition>
+  <definition>
+    <key>error_activate</key>
+    <value><![CDATA[Błąd: Wybierz działanie dla aktywacji pobrania!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_status</key>
+    <value><![CDATA[Błąd: wybierz status zamówienia do aktywacji pobrania!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_attributes</key>
+    <value><![CDATA[Pobierz Atrybuty Error (s):]]></value>
+  </definition>
+  <definition>
+    <key>text_shared_downloads</key>
+    <value><![CDATA[Udostępnione do pobrania]]></value>
+  </definition>
+  <definition>
+    <key>text_create_download</key>
+    <value><![CDATA[Utwórz nowy plik]]></value>
+  </definition>
+  <definition>
+    <key>text_path</key>
+    <value><![CDATA[Względna ścieżka dostępu do pliku]]></value>
+  </definition>
+  <definition>
+    <key>text_preview</key>
+    <value><![CDATA[Zapowiedź]]></value>
+  </definition>
+  <definition>
+    <key>entry_shared</key>
+    <value><![CDATA[wspólna Pobierz]]></value>
+  </definition>
+  <definition>
+    <key>text_assign</key>
+    <value><![CDATA[Zapisać]]></value>
+  </definition>
+  <definition>
+    <key>text_assigned_to</key>
+    <value><![CDATA[przypisuje się także do:]]></value>
+  </definition>
+  <definition>
+    <key>text_select_shared_downloads</key>
+    <value><![CDATA[Wybierz udostępnione do pobrania]]></value>
+  </definition>
+  <definition>
+    <key>error_selected_downloads</key>
+    <value><![CDATA[Ostrzeżenie: Proszę wybrać udostępnione pliki do pobrania przeznaczeniem.]]></value>
+  </definition>
+  <definition>
+    <key>text_map_success</key>
+    <value><![CDATA[Sukces: Masz przypisane do pobrania udostępnione produktu!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_or_refuse</key>
+    <value><![CDATA[usunąć lub odmówić (do wspólnego użytku)]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_delete</key>
+    <value><![CDATA[Potwierdź pobieranie usuwać / odmówić]]></value>
+  </definition>
+  <definition>
+    <key>text_success_remove</key>
+    <value><![CDATA[Sukces: lista plików Produkt zmieniło!]]></value>
+  </definition>
+  <definition>
+    <key>text_push</key>
+    <value><![CDATA[Pchać]]></value>
+  </definition>
+  <definition>
+    <key>text_push_to_customers</key>
+    <value><![CDATA[Push to Klientów]]></value>
+  </definition>
+  <definition>
+    <key>text_push_to_orders</key>
+    <value><![CDATA[Wciśnij Pobierz do %s Zamówienia]]></value>
+  </definition>
+  <definition>
+    <key>success_push_to_orders</key>
+    <value><![CDATA[Sukces: Pobierz został zepchnięty do %s celu (ów) pomyślnie]]></value>
+  </definition>
+  <definition>
+    <key>text_no_download_attributes_yet</key>
+    <value><![CDATA[Nie pobieraj jednak atrybuty. <a href="%s" target="_blank">Kliknij, aby dodać</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_push</key>
+    <value><![CDATA[Potwierdzać?]]></value>
+  </definition>
+  <definition>
+    <key>error_downloads_disabled</key>
+    <value><![CDATA[Uwaga: do pobrania są wyłączone w ustawieniach sklepu. <a href="#admin#rt=setting/setting&active=general" target="new">Kliknij Edycja</a> !]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Ostrzeżenie: Nie masz uprawnień do modyfikowania plików produktu!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[Proszę ustawić pliku do pobrania.]]></value>
+  </definition>
+  <definition>
+    <key>attention_shared</key>
+    <value><![CDATA[Zamierzasz edytować udostępniony do pobrania. Edycja wpłynie innych produktów.]]></value>
+  </definition>
+  <definition>
+    <key>text_shared_with</key>
+    <value><![CDATA[Współdzielone z:]]></value>
+  </definition>
+</definitions>

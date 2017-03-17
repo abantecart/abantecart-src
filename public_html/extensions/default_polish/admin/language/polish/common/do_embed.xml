@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_get_product_embed_code</key>
+    <value><![CDATA[Produkt Kod HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_get_category_embed_code</key>
+    <value><![CDATA[Kategoria kod HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_get_manufacturer_embed_code</key>
+    <value><![CDATA[Producent Kod HTML]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[Zobacz zdjęcia]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Pokaż Nazwa]]></value>
+  </definition>
+  <definition>
+    <key>entry_price</key>
+    <value><![CDATA[Poproś cena]]></value>
+  </definition>
+  <definition>
+    <key>entry_rating</key>
+    <value><![CDATA[Wyświetl Opinie i Oceny]]></value>
+  </definition>
+  <definition>
+    <key>entry_blurb</key>
+    <value><![CDATA[Pokaż Blurb]]></value>
+  </definition>
+  <definition>
+    <key>entry_quantity</key>
+    <value><![CDATA[Pokaż ilość]]></value>
+  </definition>
+  <definition>
+    <key>entry_addtocart</key>
+    <value><![CDATA[Przycisk Pokaż]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Wybierz język]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency</key>
+    <value><![CDATA[Wybierz walutę]]></value>
+  </definition>
+  <definition>
+    <key>entry_products_count</key>
+    <value><![CDATA[Produkty hrabia]]></value>
+  </definition>
+</definitions>

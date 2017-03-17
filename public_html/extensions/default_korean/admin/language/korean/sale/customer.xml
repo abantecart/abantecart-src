@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[고객]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[고객]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 당신은 수정 고객이!]]></value>
+  </definition>
+  <definition>
+    <key>text_approved</key>
+    <value><![CDATA[당신은 %s 계정을 승인!]]></value>
+  </definition>
+  <definition>
+    <key>tab_customer_address</key>
+    <value><![CDATA[주소]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_addresses</key>
+    <value><![CDATA[고객 주소]]></value>
+  </definition>
+  <definition>
+    <key>text_add_address</key>
+    <value><![CDATA[새 주소 추가]]></value>
+  </definition>
+  <definition>
+    <key>button_add</key>
+    <value><![CDATA[더하다]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[고객 이름]]></value>
+  </definition>
+  <definition>
+    <key>column_email</key>
+    <value><![CDATA[이메일]]></value>
+  </definition>
+  <definition>
+    <key>column_customer_group</key>
+    <value><![CDATA[고객 그룹]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[그룹]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[지위]]></value>
+  </definition>
+  <definition>
+    <key>column_approved</key>
+    <value><![CDATA[승인]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[날짜 추가]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[동작]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[로그인 이름:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[이름:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[성:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[이메일:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[전화:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[팩스:]]></value>
+  </definition>
+  <definition>
+    <key>entry_newsletter</key>
+    <value><![CDATA[뉴스 레터:]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[고객 그룹 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[지위:]]></value>
+  </definition>
+  <definition>
+    <key>entry_approved</key>
+    <value><![CDATA[승인 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[암호:]]></value>
+  </definition>
+  <definition>
+    <key>entry_confirm</key>
+    <value><![CDATA[확인 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_company</key>
+    <value><![CDATA[회사:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_1</key>
+    <value><![CDATA[주소 1:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_2</key>
+    <value><![CDATA[주소 2:]]></value>
+  </definition>
+  <definition>
+    <key>entry_city</key>
+    <value><![CDATA[시티:]]></value>
+  </definition>
+  <definition>
+    <key>entry_postcode</key>
+    <value><![CDATA[우편 번호 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[국가:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country_id</key>
+    <value><![CDATA[국가:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[지역 / 국가 :]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[경고 : 당신은 고객을 수정할 수있는 권한이 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[로그인 이름은 5와 64 자 사이의 숫자 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[이 로그인 이름을 사용할 수 없습니다. 다른 로그인 이름을보십시오!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[이름은 1과 32 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[성 1과 32 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[이메일 주소가 올바르지 않습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[전화는 3과 32 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_password</key>
+    <value><![CDATA[비밀 번호는 3, 20 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_confirm</key>
+    <value><![CDATA[암호 및 암호 확인이 일치하지 않습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_firstname</key>
+    <value><![CDATA[이름은 1과 32 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_lastname</key>
+    <value><![CDATA[성 1과 32 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_1</key>
+    <value><![CDATA[주소는 3, 128 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_city</key>
+    <value><![CDATA[시는 3, 128 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_country</key>
+    <value><![CDATA[국가를 선택하세요!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone</key>
+    <value><![CDATA[지역 / 국가를 선택하세요!]]></value>
+  </definition>
+  <definition>
+    <key>text_select_approved</key>
+    <value><![CDATA[- 승인을 선택합니다 -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- 그룹 선택 -]]></value>
+  </definition>
+  <definition>
+    <key>tab_customer_details</key>
+    <value><![CDATA[고객 정보]]></value>
+  </definition>
+  <definition>
+    <key>tab_transactions</key>
+    <value><![CDATA[업무]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_transactions</key>
+    <value><![CDATA[고객의 거래]]></value>
+  </definition>
+  <definition>
+    <key>column_create_date</key>
+    <value><![CDATA[생성 일자]]></value>
+  </definition>
+  <definition>
+    <key>column_created_by</key>
+    <value><![CDATA[작성자]]></value>
+  </definition>
+  <definition>
+    <key>column_debit</key>
+    <value><![CDATA[직불]]></value>
+  </definition>
+  <definition>
+    <key>column_credit</key>
+    <value><![CDATA[신용]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_type</key>
+    <value><![CDATA[거래 유형]]></value>
+  </definition>
+  <definition>
+    <key>text_balance</key>
+    <value><![CDATA[밸런스:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_login</key>
+    <value><![CDATA[마지막 로그인:]]></value>
+  </definition>
+  <definition>
+    <key>text_never</key>
+    <value><![CDATA[못]]></value>
+  </definition>
+  <definition>
+    <key>popup_title_info</key>
+    <value><![CDATA[거래 정보]]></value>
+  </definition>
+  <definition>
+    <key>popup_title_insert</key>
+    <value><![CDATA[새로운 거래를 삽입]]></value>
+  </definition>
+  <definition>
+    <key>entry_credit</key>
+    <value><![CDATA[신용 (증가 균형)]]></value>
+  </definition>
+  <definition>
+    <key>entry_debit</key>
+    <value><![CDATA[직불 (감소 균형)]]></value>
+  </definition>
+  <definition>
+    <key>entry_transaction_type</key>
+    <value><![CDATA[트랜잭션 타입 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_other_type</key>
+    <value><![CDATA[다른 사용자 정의 트랜잭션 유형 :]]></value>
+  </definition>
+  <definition>
+    <key>text_option_other_type</key>
+    <value><![CDATA[다른...]]></value>
+  </definition>
+  <definition>
+    <key>entry_transaction_description</key>
+    <value><![CDATA[(고객) 설명 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_transaction_comment</key>
+    <value><![CDATA[(내부 용) 코멘트 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_update_date</key>
+    <value><![CDATA[업데이트 날짜 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_create_date</key>
+    <value><![CDATA[날짜를 만듭니다]]></value>
+  </definition>
+  <definition>
+    <key>error_transaction_type</key>
+    <value><![CDATA[오류 : 트랜잭션 형 양식 필드를 기입하십시오.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_debit_credit</key>
+    <value><![CDATA[오류 : 고객의 거래 직불 카드 또는 신용 값을 기입하십시오.]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction_success</key>
+    <value><![CDATA[성공 : 당신은 트랜잭션을 수정했습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_address</key>
+    <value><![CDATA[주소 편집]]></value>
+  </definition>
+  <definition>
+    <key>entry_default</key>
+    <value><![CDATA[기본 주소 :]]></value>
+  </definition>
+  <definition>
+    <key>error_delete_default</key>
+    <value><![CDATA[오류 : 기본 주소를 삭제할 수 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_delete_last</key>
+    <value><![CDATA[오류 : 당신은 적어도 하나의 주소가 있어야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_added</key>
+    <value><![CDATA[날자 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_modified</key>
+    <value><![CDATA[날짜 수정 된 항목 :]]></value>
+  </definition>
+  <definition>
+    <key>warning_actonbehalf_additional_store</key>
+    <value><![CDATA[추가 매장에서 고객을 대신하여 행동하는 다른 상점의 관리 측면에 로그인해야한다. 잇다?]]></value>
+  </definition>
+  <definition>
+    <key>entry_notify</key>
+    <value><![CDATA[고객 알림 :]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction_notification_subject</key>
+    <value><![CDATA[새로운 트랜잭션은 %s 계정에 게시되어 있습니다]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction_notification_message</key>
+    <value><![CDATA[새로운 트랜잭션은 %s의 양에 %s 계정에 게시되어 있습니다. 자세한 내용은 %s 계정에 로그인]]></value>
+  </definition>
+  <definition>
+    <key>text_total_order</key>
+    <value><![CDATA[총 주문 :]]></value>
+  </definition>
+</definitions>

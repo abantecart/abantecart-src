@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Sklad Stavy]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Sklad Status]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspěch: Změnili jste obrázky statusy!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Sklad Status Name]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akce]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Sklad Status Name:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varování: Nemáte oprávnění ke změně obrázky sochy!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Sklad Status Name musí být v rozmezí 2 až 32 znaků!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Varování: Tato zásoba stav nemůže být odstraněn, protože je aktuálně přiřazen %s výrobků!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Błąd logowania!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Nie jesteś zalogowany. Zostaniesz przekierowany do strony logowania]]></value>
+  </definition>
+</definitions>

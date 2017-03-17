@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[zákazníci]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[Zákazník]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspěch: Změnili jste zákazníky!]]></value>
+  </definition>
+  <definition>
+    <key>text_approved</key>
+    <value><![CDATA[Schválili jste %s účet!]]></value>
+  </definition>
+  <definition>
+    <key>tab_customer_address</key>
+    <value><![CDATA[Adresa]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_addresses</key>
+    <value><![CDATA[Adresy zákazníků]]></value>
+  </definition>
+  <definition>
+    <key>text_add_address</key>
+    <value><![CDATA[Přidat novou adresu]]></value>
+  </definition>
+  <definition>
+    <key>button_add</key>
+    <value><![CDATA[Přidat]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Jméno zákazníka]]></value>
+  </definition>
+  <definition>
+    <key>column_email</key>
+    <value><![CDATA[E-mailem]]></value>
+  </definition>
+  <definition>
+    <key>column_customer_group</key>
+    <value><![CDATA[Customer Group]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[Skupina]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Postavení]]></value>
+  </definition>
+  <definition>
+    <key>column_approved</key>
+    <value><![CDATA[Schválený]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[datum přidáno]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akce]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Přihlašovací jméno:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[Jméno:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Příjmení:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-mailem:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[Telefon:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Fax:]]></value>
+  </definition>
+  <definition>
+    <key>entry_newsletter</key>
+    <value><![CDATA[Zpravodaj:]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[Skupina zákazníků:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Postavení:]]></value>
+  </definition>
+  <definition>
+    <key>entry_approved</key>
+    <value><![CDATA[Schválený:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Heslo:]]></value>
+  </definition>
+  <definition>
+    <key>entry_confirm</key>
+    <value><![CDATA[Potvrdit:]]></value>
+  </definition>
+  <definition>
+    <key>entry_company</key>
+    <value><![CDATA[Společnost:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_1</key>
+    <value><![CDATA[Adresa 1:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_2</key>
+    <value><![CDATA[Adresa 2:]]></value>
+  </definition>
+  <definition>
+    <key>entry_city</key>
+    <value><![CDATA[Město:]]></value>
+  </definition>
+  <definition>
+    <key>entry_postcode</key>
+    <value><![CDATA[PSČ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Země:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country_id</key>
+    <value><![CDATA[Země:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Region / Stát:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varování: Nemáte oprávnění k úpravě zákazníky!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Přihlašovací jméno musí být jen a mezi 5 a 64 písmen abecedy!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[Toto přihlašovací jméno není k dispozici. Zkuste jiné přihlašovací jméno!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[Jméno musí být mezi 1 a 32 znaků!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Last Name musí být v rozmezí 1 až 32 znaků!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-mailová adresa se nezdá být platný!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[Telefon musí být mezi 3 a 32 znaků!]]></value>
+  </definition>
+  <definition>
+    <key>error_password</key>
+    <value><![CDATA[Heslo musí být mezi 3 a 20 znaky!]]></value>
+  </definition>
+  <definition>
+    <key>error_confirm</key>
+    <value><![CDATA[Heslo a potvrzení hesla se neshodují!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_firstname</key>
+    <value><![CDATA[Jméno musí být mezi 1 a 32 znaků!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_lastname</key>
+    <value><![CDATA[Last Name musí být v rozmezí 1 až 32 znaků!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_1</key>
+    <value><![CDATA[Adresa musí být v rozmezí 3 až 128 znaků!]]></value>
+  </definition>
+  <definition>
+    <key>error_city</key>
+    <value><![CDATA[Město musí být v rozmezí 3 až 128 znaků!]]></value>
+  </definition>
+  <definition>
+    <key>error_country</key>
+    <value><![CDATA[Vyberte zemi!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone</key>
+    <value><![CDATA[Vyberte region / stát!]]></value>
+  </definition>
+  <definition>
+    <key>text_select_approved</key>
+    <value><![CDATA[- Vyberte Schváleno -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- Select Group -]]></value>
+  </definition>
+  <definition>
+    <key>tab_customer_details</key>
+    <value><![CDATA[údaje o klientovi]]></value>
+  </definition>
+  <definition>
+    <key>tab_transactions</key>
+    <value><![CDATA[transakce]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_transactions</key>
+    <value><![CDATA[Transakce zákazníka]]></value>
+  </definition>
+  <definition>
+    <key>column_create_date</key>
+    <value><![CDATA[Datum vytvoření]]></value>
+  </definition>
+  <definition>
+    <key>column_created_by</key>
+    <value><![CDATA[Vytvořil]]></value>
+  </definition>
+  <definition>
+    <key>column_debit</key>
+    <value><![CDATA[debet]]></value>
+  </definition>
+  <definition>
+    <key>column_credit</key>
+    <value><![CDATA[Kredit]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_type</key>
+    <value><![CDATA[Druh transakce]]></value>
+  </definition>
+  <definition>
+    <key>text_balance</key>
+    <value><![CDATA[Zůstatek:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_login</key>
+    <value><![CDATA[Poslední přihlášení:]]></value>
+  </definition>
+  <definition>
+    <key>text_never</key>
+    <value><![CDATA[Nikdy]]></value>
+  </definition>
+  <definition>
+    <key>popup_title_info</key>
+    <value><![CDATA[informace o transakcích]]></value>
+  </definition>
+  <definition>
+    <key>popup_title_insert</key>
+    <value><![CDATA[Vložte nová transakce]]></value>
+  </definition>
+  <definition>
+    <key>entry_credit</key>
+    <value><![CDATA[Credit (zvýšení bilance)]]></value>
+  </definition>
+  <definition>
+    <key>entry_debit</key>
+    <value><![CDATA[Debetní (pokles bilance)]]></value>
+  </definition>
+  <definition>
+    <key>entry_transaction_type</key>
+    <value><![CDATA[Typ transakce:]]></value>
+  </definition>
+  <definition>
+    <key>entry_other_type</key>
+    <value><![CDATA[Jiný typ Custom transakce:]]></value>
+  </definition>
+  <definition>
+    <key>text_option_other_type</key>
+    <value><![CDATA[Jiný...]]></value>
+  </definition>
+  <definition>
+    <key>entry_transaction_description</key>
+    <value><![CDATA[Popis (pro zákazníka):]]></value>
+  </definition>
+  <definition>
+    <key>entry_transaction_comment</key>
+    <value><![CDATA[Komentovat (k vnitřnímu použití):]]></value>
+  </definition>
+  <definition>
+    <key>entry_update_date</key>
+    <value><![CDATA[Datum aktualizace:]]></value>
+  </definition>
+  <definition>
+    <key>entry_create_date</key>
+    <value><![CDATA[Datum vytvoření:]]></value>
+  </definition>
+  <definition>
+    <key>error_transaction_type</key>
+    <value><![CDATA[Chyba: Vyplňte transakce pole typ formuláře.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_debit_credit</key>
+    <value><![CDATA[Chyba: Vyplňte debetní nebo kreditní hodnoty pro zákazníka transakci.]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction_success</key>
+    <value><![CDATA[Úspěch: Změnili jste transakci!]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_address</key>
+    <value><![CDATA[Edit Address]]></value>
+  </definition>
+  <definition>
+    <key>entry_default</key>
+    <value><![CDATA[Výchozí Adresa:]]></value>
+  </definition>
+  <definition>
+    <key>error_delete_default</key>
+    <value><![CDATA[Chyba: Výchozí adresa nemůže být smazán!]]></value>
+  </definition>
+  <definition>
+    <key>error_delete_last</key>
+    <value><![CDATA[Chyba: musíte mít alespoň jednu adresu!]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_added</key>
+    <value><![CDATA[Datum přidáno:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_modified</key>
+    <value><![CDATA[Datum změny:]]></value>
+  </definition>
+  <definition>
+    <key>warning_actonbehalf_additional_store</key>
+    <value><![CDATA[Jednat jménem zákazníka v obchodě Další byste měli přihlásit do admin boku jiného obchodního domu. Pokračovat?]]></value>
+  </definition>
+  <definition>
+    <key>entry_notify</key>
+    <value><![CDATA[Informovat zákazníka:]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction_notification_subject</key>
+    <value><![CDATA[Nová transakce byla zaúčtována do souboru %s účtu]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction_notification_message</key>
+    <value><![CDATA[Nová transakce byla zaúčtována do souboru %s účtu ve výši %s. Pro více informací přihlášení do %s účet]]></value>
+  </definition>
+  <definition>
+    <key>text_total_order</key>
+    <value><![CDATA[Celkem Objednávky:]]></value>
+  </definition>
+</definitions>

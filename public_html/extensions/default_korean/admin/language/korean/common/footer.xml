@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_footer_left</key>
+    <value><![CDATA[AbanteCart는 Belavier 상거래 LLC의 상표입니다 <br/> 저작권 &copy; - 2009 %s 판권 소유]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[<a href="http://www.abantecart.com" target="_blank">AbanteCart</a> 버전]]></value>
+  </definition>
+</definitions>

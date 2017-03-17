@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[레이아웃 &amp; 블록 관리자]]></value>
+  </definition>
+  <definition>
+    <key>text_select_template</key>
+    <value><![CDATA[템플릿 선택 :]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_success</key>
+    <value><![CDATA[성공 : 페이지 레이아웃이 삭제되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_restricted</key>
+    <value><![CDATA[오류 : 페이지 레이아웃이 제한되어 제거 할 수 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 당신은 레이아웃을 수정 한 &amp; 블록!]]></value>
+  </definition>
+  <definition>
+    <key>text_preview_generated</key>
+    <value><![CDATA[미리보기 생성!]]></value>
+  </definition>
+  <definition>
+    <key>text_click_here</key>
+    <value><![CDATA[여기를 클릭하십시오]]></value>
+  </definition>
+</definitions>

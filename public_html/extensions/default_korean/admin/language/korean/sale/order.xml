@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[명령]]></value>
+  </definition>
+  <definition>
+    <key>edit_title_details</key>
+    <value><![CDATA[편집 주문 정보]]></value>
+  </definition>
+  <definition>
+    <key>edit_title_shipping</key>
+    <value><![CDATA[편집 배송 주소]]></value>
+  </definition>
+  <definition>
+    <key>edit_title_payment</key>
+    <value><![CDATA[편집 결제 주소]]></value>
+  </definition>
+  <definition>
+    <key>title_payment_details</key>
+    <value><![CDATA[지불 세부 사항]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 주문 정보가 업데이트되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[송장]]></value>
+  </definition>
+  <definition>
+    <key>text_order_id</key>
+    <value><![CDATA[주문 아이디:]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice_id</key>
+    <value><![CDATA[아니 송장 :]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[송장 날짜:]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[전화]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[팩스]]></value>
+  </definition>
+  <definition>
+    <key>text_select_country</key>
+    <value><![CDATA[- 국가 선택 -]]></value>
+  </definition>
+  <definition>
+    <key>text_to</key>
+    <value><![CDATA[에]]></value>
+  </definition>
+  <definition>
+    <key>text_ship_to</key>
+    <value><![CDATA[로 선박 (주소와 다른 경우)]]></value>
+  </definition>
+  <definition>
+    <key>text_missing_orders</key>
+    <value><![CDATA[누락 주문]]></value>
+  </definition>
+  <definition>
+    <key>text_wait</key>
+    <value><![CDATA[잠시만 기다려주십시오!]]></value>
+  </definition>
+  <definition>
+    <key>column_order</key>
+    <value><![CDATA[주문 아이디]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[고객 이름]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[지위]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[날짜 추가]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[합계]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[생성물]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[모델]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[수량]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[단가]]></value>
+  </definition>
+  <definition>
+    <key>column_download</key>
+    <value><![CDATA[다운로드 이름]]></value>
+  </definition>
+  <definition>
+    <key>column_file</key>
+    <value><![CDATA[파일]]></value>
+  </definition>
+  <definition>
+    <key>column_remaining</key>
+    <value><![CDATA[남은]]></value>
+  </definition>
+  <definition>
+    <key>column_expire_date</key>
+    <value><![CDATA[날짜 만료]]></value>
+  </definition>
+  <definition>
+    <key>column_mask</key>
+    <value><![CDATA[마스크]]></value>
+  </definition>
+  <definition>
+    <key>column_notify</key>
+    <value><![CDATA[고객 알려줍니다]]></value>
+  </definition>
+  <definition>
+    <key>column_comment</key>
+    <value><![CDATA[고객의 주문 코멘트]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[동작]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_id</key>
+    <value><![CDATA[주문 아이디:]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice_id</key>
+    <value><![CDATA[송장 ID :]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer</key>
+    <value><![CDATA[고객:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[이름:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[성:]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[고객 그룹 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[이메일:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ip</key>
+    <value><![CDATA[IP 주소:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[전화:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[팩스:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store_name</key>
+    <value><![CDATA[가게 이름:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store_url</key>
+    <value><![CDATA[스토어 URL :]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_added</key>
+    <value><![CDATA[날자 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_method</key>
+    <value><![CDATA[배송 방법:]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_method</key>
+    <value><![CDATA[지불 방법 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[원래 주문 합계 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_status</key>
+    <value><![CDATA[주문 상태:]]></value>
+  </definition>
+  <definition>
+    <key>entry_comment</key>
+    <value><![CDATA[논평:]]></value>
+  </definition>
+  <definition>
+    <key>entry_company</key>
+    <value><![CDATA[회사:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_1</key>
+    <value><![CDATA[주소 1:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_2</key>
+    <value><![CDATA[주소 2:]]></value>
+  </definition>
+  <definition>
+    <key>entry_postcode</key>
+    <value><![CDATA[ZIP / 우편 번호 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_city</key>
+    <value><![CDATA[시티:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[지역 / 국가 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone_code</key>
+    <value><![CDATA[지역 / 국가 코드 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[국가:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[주문 상태:]]></value>
+  </definition>
+  <definition>
+    <key>entry_notify</key>
+    <value><![CDATA[고객 알림 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_append</key>
+    <value><![CDATA[댓글을 추가 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_add_product</key>
+    <value><![CDATA[제품을 추가 :]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[경고 :이 명령을 수정할 수있는 권한이 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_load</key>
+    <value><![CDATA[경고 : 같은 ID를 가진 없음 위해!]]></value>
+  </definition>
+  <definition>
+    <key>text_order_summary</key>
+    <value><![CDATA[주문 요약]]></value>
+  </definition>
+  <definition>
+    <key>tab_order_details</key>
+    <value><![CDATA[주문 정보]]></value>
+  </definition>
+  <definition>
+    <key>tab_shipping</key>
+    <value><![CDATA[배송 주소]]></value>
+  </definition>
+  <definition>
+    <key>tab_payment</key>
+    <value><![CDATA[결제 주소]]></value>
+  </definition>
+  <definition>
+    <key>tab_history</key>
+    <value><![CDATA[상태 및 댓글]]></value>
+  </definition>
+  <definition>
+    <key>tab_files</key>
+    <value><![CDATA[주문 파일]]></value>
+  </definition>
+  <definition>
+    <key>tab_payment_details</key>
+    <value><![CDATA[지불 세부 사항]]></value>
+  </definition>
+  <definition>
+    <key>edit_title_files</key>
+    <value><![CDATA[편집 주문 파일]]></value>
+  </definition>
+  <definition>
+    <key>text_missing_file</key>
+    <value><![CDATA[누락 된 파일]]></value>
+  </definition>
+  <definition>
+    <key>order_download_history</key>
+    <value><![CDATA[다운로드 기록]]></value>
+  </definition>
+  <definition>
+    <key>text_time</key>
+    <value><![CDATA[시각]]></value>
+  </definition>
+  <definition>
+    <key>text_filename</key>
+    <value><![CDATA[파일 이름]]></value>
+  </definition>
+  <definition>
+    <key>text_mask</key>
+    <value><![CDATA[마스크]]></value>
+  </definition>
+  <definition>
+    <key>text_download_percent</key>
+    <value><![CDATA[다운로드 퍼센트]]></value>
+  </definition>
+  <definition>
+    <key>text_download_expired</key>
+    <value><![CDATA[날짜 만료]]></value>
+  </definition>
+  <definition>
+    <key>text_download_remaining_count</key>
+    <value><![CDATA[촬영 가능 매수]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status_required</key>
+    <value><![CDATA[주문 상태 &quot;%s&quot;필수]]></value>
+  </definition>
+  <definition>
+    <key>text_select_product</key>
+    <value><![CDATA[- 제품 선택 -]]></value>
+  </definition>
+  <definition>
+    <key>text_push_download</key>
+    <value><![CDATA[- 푸시 다운로드 -]]></value>
+  </definition>
+  <definition>
+    <key>text_add_product_to_order</key>
+    <value><![CDATA[# 주문 제품을 추가 %s]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_order_product</key>
+    <value><![CDATA[편집 제품]]></value>
+  </definition>
+  <definition>
+    <key>attention_check_total</key>
+    <value><![CDATA[주 : 주문 제품 세부 사항이 변경되었습니다. 총이 자동으로 계산되었다. 검토가 필요합니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_order_total_add</key>
+    <value><![CDATA[총 계산에 새로운 금액을 추가]]></value>
+  </definition>
+  <definition>
+    <key>text_order_total_title</key>
+    <value><![CDATA[쇼 제목]]></value>
+  </definition>
+  <definition>
+    <key>text_order_total_amount</key>
+    <value><![CDATA[양]]></value>
+  </definition>
+  <definition>
+    <key>text_recalc</key>
+    <value><![CDATA[설정을 사용하여 재 계산]]></value>
+  </definition>
+  <definition>
+    <key>entry_im</key>
+    <value><![CDATA[IM :]]></value>
+  </definition>
+</definitions>

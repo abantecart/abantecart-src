@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_get_product_embed_code</key>
+    <value><![CDATA[제품 삽입 코드]]></value>
+  </definition>
+  <definition>
+    <key>text_get_category_embed_code</key>
+    <value><![CDATA[카테고리 삽입 코드]]></value>
+  </definition>
+  <definition>
+    <key>text_get_manufacturer_embed_code</key>
+    <value><![CDATA[제조업체 삽입 코드]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[보기 이미지]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[표시 이름]]></value>
+  </definition>
+  <definition>
+    <key>entry_price</key>
+    <value><![CDATA[표시 가격]]></value>
+  </definition>
+  <definition>
+    <key>entry_rating</key>
+    <value><![CDATA[보기 리뷰 및 평가]]></value>
+  </definition>
+  <definition>
+    <key>entry_blurb</key>
+    <value><![CDATA[쇼 자화 자찬]]></value>
+  </definition>
+  <definition>
+    <key>entry_quantity</key>
+    <value><![CDATA[표시 수량]]></value>
+  </definition>
+  <definition>
+    <key>entry_addtocart</key>
+    <value><![CDATA[보기 버튼]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[언어 선택]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency</key>
+    <value><![CDATA[통화 선택]]></value>
+  </definition>
+  <definition>
+    <key>entry_products_count</key>
+    <value><![CDATA[제품 개수]]></value>
+  </definition>
+</definitions>

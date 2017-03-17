@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[온라인 고객]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[고객 이름]]></value>
+  </definition>
+  <definition>
+    <key>column_ip</key>
+    <value><![CDATA[고객 IP]]></value>
+  </definition>
+  <definition>
+    <key>column_time</key>
+    <value><![CDATA[마지막으로 액세스]]></value>
+  </definition>
+  <definition>
+    <key>column_url</key>
+    <value><![CDATA[URL 접근하는]]></value>
+  </definition>
+</definitions>

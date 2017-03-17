@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_block_id</key>
+    <value><![CDATA[Blok číslo:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_name</key>
+    <value><![CDATA[Název:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_controller</key>
+    <value><![CDATA[Ovladač:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_path</key>
+    <value><![CDATA[Cesta:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_template</key>
+    <value><![CDATA[Šablona:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_parent</key>
+    <value><![CDATA[Rodič:]]></value>
+  </definition>
+  <definition>
+    <key>text_parent_id</key>
+    <value><![CDATA[Parent ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_close</key>
+    <value><![CDATA[Zavřít]]></value>
+  </definition>
+  <definition>
+    <key>text_click</key>
+    <value><![CDATA[Klikni na mě]]></value>
+  </definition>
+</definitions>

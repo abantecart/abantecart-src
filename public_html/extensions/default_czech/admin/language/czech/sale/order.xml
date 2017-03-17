@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[objednávky]]></value>
+  </definition>
+  <definition>
+    <key>edit_title_details</key>
+    <value><![CDATA[Upravit Podrobnosti o objednávce]]></value>
+  </definition>
+  <definition>
+    <key>edit_title_shipping</key>
+    <value><![CDATA[Editovat Dodací adresa]]></value>
+  </definition>
+  <definition>
+    <key>edit_title_payment</key>
+    <value><![CDATA[Editovat Platební adresa]]></value>
+  </definition>
+  <definition>
+    <key>title_payment_details</key>
+    <value><![CDATA[Platební údaje]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspěch: Na objednané údaje byly aktualizovány!]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[Faktura]]></value>
+  </definition>
+  <definition>
+    <key>text_order_id</key>
+    <value><![CDATA[Číslo objednávky:]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice_id</key>
+    <value><![CDATA[Faktura číslo.:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Faktura Datum:]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[Telefon]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Fax]]></value>
+  </definition>
+  <definition>
+    <key>text_select_country</key>
+    <value><![CDATA[- Vyberte zemi -]]></value>
+  </definition>
+  <definition>
+    <key>text_to</key>
+    <value><![CDATA[Na]]></value>
+  </definition>
+  <definition>
+    <key>text_ship_to</key>
+    <value><![CDATA[Chcete-li loď (liší-li se adresa)]]></value>
+  </definition>
+  <definition>
+    <key>text_missing_orders</key>
+    <value><![CDATA[Chybějící objednávky]]></value>
+  </definition>
+  <definition>
+    <key>text_wait</key>
+    <value><![CDATA[Prosím, čekejte!]]></value>
+  </definition>
+  <definition>
+    <key>column_order</key>
+    <value><![CDATA[číslo objednávky]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Jméno zákazníka]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Postavení]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[datum přidáno]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Celkový]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[Produkt]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[model]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Množství]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Jednotková cena]]></value>
+  </definition>
+  <definition>
+    <key>column_download</key>
+    <value><![CDATA[Ke stažení Název]]></value>
+  </definition>
+  <definition>
+    <key>column_file</key>
+    <value><![CDATA[Soubor]]></value>
+  </definition>
+  <definition>
+    <key>column_remaining</key>
+    <value><![CDATA[Zbývající]]></value>
+  </definition>
+  <definition>
+    <key>column_expire_date</key>
+    <value><![CDATA[Datum spotřeby]]></value>
+  </definition>
+  <definition>
+    <key>column_mask</key>
+    <value><![CDATA[Maska]]></value>
+  </definition>
+  <definition>
+    <key>column_notify</key>
+    <value><![CDATA[zákazník Oznámeno]]></value>
+  </definition>
+  <definition>
+    <key>column_comment</key>
+    <value><![CDATA[Objednavku komentář]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akce]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_id</key>
+    <value><![CDATA[Číslo objednávky:]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice_id</key>
+    <value><![CDATA[Faktura ID:]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer</key>
+    <value><![CDATA[Zákazník:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[Jméno:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Příjmení:]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[Skupina zákazníků:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-mailem:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ip</key>
+    <value><![CDATA[IP adresa:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[Telefon:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Fax:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store_name</key>
+    <value><![CDATA[Jméno obchodu:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store_url</key>
+    <value><![CDATA[Store URL:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_added</key>
+    <value><![CDATA[Datum přidáno:]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_method</key>
+    <value><![CDATA[Způsob dopravy:]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_method</key>
+    <value><![CDATA[Způsob platby:]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Původní objednávka Celkem:]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_status</key>
+    <value><![CDATA[Stav objednávky:]]></value>
+  </definition>
+  <definition>
+    <key>entry_comment</key>
+    <value><![CDATA[Komentář:]]></value>
+  </definition>
+  <definition>
+    <key>entry_company</key>
+    <value><![CDATA[Společnost:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_1</key>
+    <value><![CDATA[Adresa 1:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_2</key>
+    <value><![CDATA[Adresa 2:]]></value>
+  </definition>
+  <definition>
+    <key>entry_postcode</key>
+    <value><![CDATA[ZIP / Code příspěvku:]]></value>
+  </definition>
+  <definition>
+    <key>entry_city</key>
+    <value><![CDATA[Město:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Region / Stát:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone_code</key>
+    <value><![CDATA[Region / Stát Code:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Země:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Stav objednávky:]]></value>
+  </definition>
+  <definition>
+    <key>entry_notify</key>
+    <value><![CDATA[Informovat zákazníka:]]></value>
+  </definition>
+  <definition>
+    <key>entry_append</key>
+    <value><![CDATA[Připojit Komentáře:]]></value>
+  </definition>
+  <definition>
+    <key>entry_add_product</key>
+    <value><![CDATA[Přidat produkt:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varování: Nemáte oprávnění k úpravě objednávky!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_load</key>
+    <value><![CDATA[Varování: Ne pořadí s takovým ID!]]></value>
+  </definition>
+  <definition>
+    <key>text_order_summary</key>
+    <value><![CDATA[Přehled objednávky]]></value>
+  </definition>
+  <definition>
+    <key>tab_order_details</key>
+    <value><![CDATA[Podrobnosti o objednávce]]></value>
+  </definition>
+  <definition>
+    <key>tab_shipping</key>
+    <value><![CDATA[doručovací adresa]]></value>
+  </definition>
+  <definition>
+    <key>tab_payment</key>
+    <value><![CDATA[platební adresa]]></value>
+  </definition>
+  <definition>
+    <key>tab_history</key>
+    <value><![CDATA[Stav a Komentáře]]></value>
+  </definition>
+  <definition>
+    <key>tab_files</key>
+    <value><![CDATA[objednat soubory]]></value>
+  </definition>
+  <definition>
+    <key>tab_payment_details</key>
+    <value><![CDATA[Platební údaje]]></value>
+  </definition>
+  <definition>
+    <key>edit_title_files</key>
+    <value><![CDATA[Editovat Objednat Files]]></value>
+  </definition>
+  <definition>
+    <key>text_missing_file</key>
+    <value><![CDATA[chybějící File]]></value>
+  </definition>
+  <definition>
+    <key>order_download_history</key>
+    <value><![CDATA[Ke stažení Historie]]></value>
+  </definition>
+  <definition>
+    <key>text_time</key>
+    <value><![CDATA[Čas]]></value>
+  </definition>
+  <definition>
+    <key>text_filename</key>
+    <value><![CDATA[Název souboru]]></value>
+  </definition>
+  <definition>
+    <key>text_mask</key>
+    <value><![CDATA[Maska]]></value>
+  </definition>
+  <definition>
+    <key>text_download_percent</key>
+    <value><![CDATA[Ke stažení Procenta]]></value>
+  </definition>
+  <definition>
+    <key>text_download_expired</key>
+    <value><![CDATA[Datum ukončení platnosti]]></value>
+  </definition>
+  <definition>
+    <key>text_download_remaining_count</key>
+    <value><![CDATA[zbývající Count]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status_required</key>
+    <value><![CDATA[Stav objednávky &quot;%s&quot; Povinné]]></value>
+  </definition>
+  <definition>
+    <key>text_select_product</key>
+    <value><![CDATA[- Vyberte produkt -]]></value>
+  </definition>
+  <definition>
+    <key>text_push_download</key>
+    <value><![CDATA[- Push stažení -]]></value>
+  </definition>
+  <definition>
+    <key>text_add_product_to_order</key>
+    <value><![CDATA[Přidat produkt k objednávce # %s]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_order_product</key>
+    <value><![CDATA[Upravit produkt]]></value>
+  </definition>
+  <definition>
+    <key>attention_check_total</key>
+    <value><![CDATA[Poznámka: Podrobnosti Objednat produkt změnilo. Celková částka byla přepočítána automaticky. je vyžadováno přezkoumání.]]></value>
+  </definition>
+  <definition>
+    <key>text_order_total_add</key>
+    <value><![CDATA[Přidat nový částku, která má celkovou kalkulaci]]></value>
+  </definition>
+  <definition>
+    <key>text_order_total_title</key>
+    <value><![CDATA[Nárok na výstavě]]></value>
+  </definition>
+  <definition>
+    <key>text_order_total_amount</key>
+    <value><![CDATA[Množství]]></value>
+  </definition>
+  <definition>
+    <key>text_recalc</key>
+    <value><![CDATA[Přepočítat pomocí nastavení]]></value>
+  </definition>
+  <definition>
+    <key>entry_im</key>
+    <value><![CDATA[IM:]]></value>
+  </definition>
+</definitions>

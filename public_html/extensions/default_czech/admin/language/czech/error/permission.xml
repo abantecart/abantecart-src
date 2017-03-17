@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Přístup odepřen!]]></value>
+  </definition>
+  <definition>
+    <key>text_permission</key>
+    <value><![CDATA[Nemáte oprávnění k přístupu na tuto stránku naleznete na správce systému.]]></value>
+  </definition>
+</definitions>

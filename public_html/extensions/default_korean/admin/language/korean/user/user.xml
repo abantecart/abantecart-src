@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[사용자]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_details</key>
+    <value><![CDATA[프로필 세부 사항을 편집]]></value>
+  </definition>
+  <definition>
+    <key>text_user</key>
+    <value><![CDATA[사용자]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 당신은 수정 사용자가!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_details</key>
+    <value><![CDATA[성공 : 당신은 당신의 프로필을 수정했습니다!]]></value>
+  </definition>
+  <definition>
+    <key>column_username</key>
+    <value><![CDATA[사용자 이름]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[그룹]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[지위]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[날짜 추가]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[동작]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[사용자 이름:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[암호:]]></value>
+  </definition>
+  <definition>
+    <key>entry_confirm</key>
+    <value><![CDATA[확인 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[이름:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[성:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[이메일:]]></value>
+  </definition>
+  <definition>
+    <key>entry_user_group</key>
+    <value><![CDATA[사용자 그룹 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[지위:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ims</key>
+    <value><![CDATA[알림]]></value>
+  </definition>
+  <definition>
+    <key>entry_captcha</key>
+    <value><![CDATA[아래 상자에 코드를 입력 :]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[경고 : 사용자가 수정할 수있는 권한이 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_account</key>
+    <value><![CDATA[경고 : 당신은 당신의 자신의 계정을 삭제할 수 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_username</key>
+    <value><![CDATA[사용자 이름이 20 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_password</key>
+    <value><![CDATA[비밀번호는 3 개 이상의 문자를해야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_confirm</key>
+    <value><![CDATA[암호 및 암호 확인이 일치하지 않습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[이름은 2, 32 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[마지막 이름이 32 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[이메일 주소가 올바르지 않습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_captcha</key>
+    <value><![CDATA[인간의 검증은 실패!]]></value>
+  </definition>
+  <definition>
+    <key>error_user_group</key>
+    <value><![CDATA[당신은 사용자 그룹을 변경할 수있는 권한이 없습니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- 그룹 선택 -]]></value>
+  </definition>
+  <definition>
+    <key>entry_im_email</key>
+    <value><![CDATA[이메일 : <span class="help">하나 이상의 쉼표로 구분 된 이메일 주소</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_im_sms</key>
+    <value><![CDATA[휴대 전화 : <span class="help">국제 형식으로 전화 번호. 전의. 14566887777</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_im</key>
+    <value><![CDATA[편집 알림]]></value>
+  </definition>
+  <definition>
+    <key>text_sendpoints</key>
+    <value><![CDATA[알림 설정]]></value>
+  </definition>
+  <definition>
+    <key>text_change_im_addresses</key>
+    <value><![CDATA[편집 알림이 SendPoint에 대한 주소]]></value>
+  </definition>
+</definitions>

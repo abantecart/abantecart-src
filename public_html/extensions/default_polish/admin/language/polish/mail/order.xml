@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Aktualizacja Zamówienie %s]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Order ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Data A do Z:]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[Twoje zamówienie zostało zaktualizowane do następujących statusów:]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[Uwagi do zamówienia są:]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[Aby wyświetlić kliknięcie zamówienie na poniższy link:]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[Proszę odpowiedzieć na ten e-mail, jeśli masz jakiekolwiek pytania.]]></value>
+  </definition>
+</definitions>

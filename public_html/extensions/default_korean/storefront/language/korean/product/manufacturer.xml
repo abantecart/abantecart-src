@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[제작품]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[제조업체를 찾을 수 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[이 제조 업체에서 등록 된 상품이 없습니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[%s 별 5 개 만점!]]></value>
+  </definition>
+  <definition>
+    <key>text_sort</key>
+    <value><![CDATA[정렬 기준 :]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[태만]]></value>
+  </definition>
+  <definition>
+    <key>text_name_asc</key>
+    <value><![CDATA[Z - 이름]]></value>
+  </definition>
+  <definition>
+    <key>text_name_desc</key>
+    <value><![CDATA[이름 Z -]]></value>
+  </definition>
+  <definition>
+    <key>text_price_asc</key>
+    <value><![CDATA[낮은 가격 &gt; 높은]]></value>
+  </definition>
+  <definition>
+    <key>text_price_desc</key>
+    <value><![CDATA[높은 가격 &gt; 낮은]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_asc</key>
+    <value><![CDATA[최저 평점]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_desc</key>
+    <value><![CDATA[최고 평점]]></value>
+  </definition>
+</definitions>

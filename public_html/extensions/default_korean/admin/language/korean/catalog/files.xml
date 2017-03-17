@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[제품 파일]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[생성물]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_product_file</key>
+    <value><![CDATA[편집 제품 파일]]></value>
+  </definition>
+  <definition>
+    <key>tab_files</key>
+    <value><![CDATA[파일]]></value>
+  </definition>
+  <definition>
+    <key>tab_general</key>
+    <value><![CDATA[일반]]></value>
+  </definition>
+  <definition>
+    <key>tab_attributes</key>
+    <value><![CDATA[다운로드 속성]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_icon</key>
+    <value><![CDATA[파일 아이콘]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[지위]]></value>
+  </definition>
+  <definition>
+    <key>entry_resource</key>
+    <value><![CDATA[의지]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[이름]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_name</key>
+    <value><![CDATA[다운로드 이름]]></value>
+  </definition>
+  <definition>
+    <key>entry_mask</key>
+    <value><![CDATA[<span class="help">고객 다운로드 출력</span> 다운로드 마스크 <span class="help">파일 이름 별칭</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_full_path</key>
+    <value><![CDATA[파일 서버 경로]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_max_downloads</key>
+    <value><![CDATA[최대 다운로드]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_sort_order</key>
+    <value><![CDATA[정렬 순서]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_status</key>
+    <value><![CDATA[지위]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_push_to_customers</key>
+    <value><![CDATA[고객에게 밀어]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_activation</key>
+    <value><![CDATA[활성화 모드]]></value>
+  </definition>
+  <definition>
+    <key>text_add_file</key>
+    <value><![CDATA[파일 추가]]></value>
+  </definition>
+  <definition>
+    <key>text_new_file</key>
+    <value><![CDATA[새 파일 추가]]></value>
+  </definition>
+  <definition>
+    <key>text_download_attributes</key>
+    <value><![CDATA[다운로드 속성]]></value>
+  </definition>
+  <definition>
+    <key>text_download_information</key>
+    <value><![CDATA[일반]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_added</key>
+    <value><![CDATA[에 추가]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_modified</key>
+    <value><![CDATA[수정]]></value>
+  </definition>
+  <definition>
+    <key>entry_max_downloads</key>
+    <value><![CDATA[<span class="help">다운로드</span> 최대 다운로드 <span class="help">횟수는 고객 허용</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_activate</key>
+    <value><![CDATA[<span class="help">있을 것이다</span> 활성화 <span class="help">다운로드 선택한 이벤트를 활성화합니다. <br/> 예 : 즉시. 다운로드 주문 접수 후 주문 상태에 관계없이 활성화이고</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[정렬 순서]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_days</key>
+    <value><![CDATA[<span class="help">구매 일로부터 일의</span> 일 <span class="help">카운트</span> 만료]]></value>
+  </definition>
+  <definition>
+    <key>text_before_order</key>
+    <value><![CDATA[주문하기 전에]]></value>
+  </definition>
+  <definition>
+    <key>text_immediately</key>
+    <value><![CDATA[바로]]></value>
+  </definition>
+  <definition>
+    <key>text_on_order_status</key>
+    <value><![CDATA[주문 상태에]]></value>
+  </definition>
+  <definition>
+    <key>text_manually</key>
+    <value><![CDATA[수동으로]]></value>
+  </definition>
+  <definition>
+    <key>text_success_download_save</key>
+    <value><![CDATA[성공 : 당신은 파일을 수정 한!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_exists</key>
+    <value><![CDATA[오류 : 그렇지 데이터베이스에 존재 않기 때문에 다운로드를 업데이트 할 수 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_name</key>
+    <value><![CDATA[오류 : 다운로드 이름은 2, 128 자 사이의 길이가 있어야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_max_downloads</key>
+    <value><![CDATA[오류 : 최대 다운로드 0 커야 계산!]]></value>
+  </definition>
+  <definition>
+    <key>error_activate</key>
+    <value><![CDATA[오류 : 다운로드의 활성화를위한 선택 액션!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_status</key>
+    <value><![CDATA[오류 : 다운로드의 활성화를 위해 주문 상태를 선택!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_attributes</key>
+    <value><![CDATA[다운로드 오류 (들) 속성 :]]></value>
+  </definition>
+  <definition>
+    <key>text_shared_downloads</key>
+    <value><![CDATA[공유 다운로드]]></value>
+  </definition>
+  <definition>
+    <key>text_create_download</key>
+    <value><![CDATA[새 다운로드 만들기]]></value>
+  </definition>
+  <definition>
+    <key>text_path</key>
+    <value><![CDATA[파일에 대한 상대 경로]]></value>
+  </definition>
+  <definition>
+    <key>text_preview</key>
+    <value><![CDATA[시사]]></value>
+  </definition>
+  <definition>
+    <key>entry_shared</key>
+    <value><![CDATA[공유 다운로드]]></value>
+  </definition>
+  <definition>
+    <key>text_assign</key>
+    <value><![CDATA[구하다]]></value>
+  </definition>
+  <definition>
+    <key>text_assigned_to</key>
+    <value><![CDATA[또한 할당 :]]></value>
+  </definition>
+  <definition>
+    <key>text_select_shared_downloads</key>
+    <value><![CDATA[공유 다운로드를 선택]]></value>
+  </definition>
+  <definition>
+    <key>error_selected_downloads</key>
+    <value><![CDATA[경고 : 할당에 대한 공유 다운로드를 선택하십시오.]]></value>
+  </definition>
+  <definition>
+    <key>text_map_success</key>
+    <value><![CDATA[성공 : 당신은 제품 공유 다운로드를 할당!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_or_refuse</key>
+    <value><![CDATA[삭제하거나 (공유 용) 거부]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_delete</key>
+    <value><![CDATA[다운로드 / 거절 삭제 확인]]></value>
+  </definition>
+  <definition>
+    <key>text_success_remove</key>
+    <value><![CDATA[성공 : 제품 파일 목록이 변경!]]></value>
+  </definition>
+  <definition>
+    <key>text_push</key>
+    <value><![CDATA[푸시]]></value>
+  </definition>
+  <definition>
+    <key>text_push_to_customers</key>
+    <value><![CDATA[고객에게 밀어]]></value>
+  </definition>
+  <definition>
+    <key>text_push_to_orders</key>
+    <value><![CDATA[다운로드에 %s 주문을 밀어]]></value>
+  </definition>
+  <definition>
+    <key>success_push_to_orders</key>
+    <value><![CDATA[성공 : 다운로드가 성공적으로 %s 주문 (들)에 밀렸다]]></value>
+  </definition>
+  <definition>
+    <key>text_no_download_attributes_yet</key>
+    <value><![CDATA[없음 다운로드가 아직 속성이 없습니다. <a href="%s" target="_blank">추가하려면 클릭</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_push</key>
+    <value><![CDATA[확인?]]></value>
+  </definition>
+  <definition>
+    <key>error_downloads_disabled</key>
+    <value><![CDATA[경고 : 다운로드 스토어 설정에서 사용할 수 없습니다. <a href="#admin#rt=setting/setting&active=general" target="new">편집을 클릭</a> !]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[경고 :이 제품 파일을 수정할 권한이 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[다운로드 할 파일을 설정하십시오.]]></value>
+  </definition>
+  <definition>
+    <key>attention_shared</key>
+    <value><![CDATA[당신은 공유 다운로드를 편집하려고합니다. 편집 다른 제품에 영향을 것입니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_shared_with</key>
+    <value><![CDATA[공유 :]]></value>
+  </definition>
+</definitions>

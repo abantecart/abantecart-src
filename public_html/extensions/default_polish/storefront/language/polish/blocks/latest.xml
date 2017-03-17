@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Najnowsze produkty]]></value>
+  </definition>
+  <definition>
+    <key>heading_subtitle</key>
+    <value><![CDATA[Pokaż nowe towary]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[%s Z 5 gwiazdek!]]></value>
+  </definition>
+</definitions>

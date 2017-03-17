@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Kupon]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[Kupon]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Sumy Zamówienie]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukces: Zmieniłeś całkowitą kupon!]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Porządek sortowania:]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[Obliczanie Order:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Ostrzeżenie: Nie masz uprawnień do modyfikowania całkowitą kupon!]]></value>
+  </definition>
+</definitions>

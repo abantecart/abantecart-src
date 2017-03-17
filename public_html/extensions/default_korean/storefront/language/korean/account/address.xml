@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[주소록]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[계정]]></value>
+  </definition>
+  <definition>
+    <key>text_address_book</key>
+    <value><![CDATA[도서 항목 주소]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_address</key>
+    <value><![CDATA[주소 편집]]></value>
+  </definition>
+  <definition>
+    <key>text_insert</key>
+    <value><![CDATA[주소가 성공적으로 삽입 된]]></value>
+  </definition>
+  <definition>
+    <key>text_update</key>
+    <value><![CDATA[주소가 성공적으로 업데이트되었습니다]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[주소가 성공적으로 삭제되었습니다]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[이름:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[성:]]></value>
+  </definition>
+  <definition>
+    <key>entry_company</key>
+    <value><![CDATA[회사:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_1</key>
+    <value><![CDATA[주소 1:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_2</key>
+    <value><![CDATA[주소 2:]]></value>
+  </definition>
+  <definition>
+    <key>entry_postcode</key>
+    <value><![CDATA[ZIP / 우편 번호 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_city</key>
+    <value><![CDATA[시티:]]></value>
+  </definition>
+  <definition>
+    <key>error_postcode</key>
+    <value><![CDATA[우편 번호 / 우편 번호는 2, 10 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[국가:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[지역 / 국가 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_default</key>
+    <value><![CDATA[기본 주소 :]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[오류 : 당신은 적어도 하나의 주소가 있어야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[오류 : 당신이 당신의 기본 주소를 삭제할 수 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[이름은 1과 32 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[성 1과 32 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_1</key>
+    <value><![CDATA[주소는 3, 128 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_city</key>
+    <value><![CDATA[시는 3, 128 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_country</key>
+    <value><![CDATA[국가를 선택하세요!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone</key>
+    <value><![CDATA[지역 / 국가를 선택하세요!]]></value>
+  </definition>
+</definitions>

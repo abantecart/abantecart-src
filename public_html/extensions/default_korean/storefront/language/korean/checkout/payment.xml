@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[결제 정보]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[바구니]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[배송]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[지불]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_to</key>
+    <value><![CDATA[당신이 보낸 송장을하려는 경우 주소록에서 선택하십시오.]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[결제 주소]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[지불 방법]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_methods</key>
+    <value><![CDATA[이 순서에서 사용할 선호하는 결제 방법을 선택하세요.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[귀하의 주문에 대한 의견을 추가]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[나는 읽고 동의합니다]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[코드를 입력하고 &quot;쿠폰 적용&quot;및 할인 즉시 주문에 적용을 참조하십시오.]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 쿠폰 할인이 적용되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[성공 : 쿠폰이 삭제되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon</key>
+    <value><![CDATA[쿠폰:]]></value>
+  </definition>
+  <definition>
+    <key>error_payment</key>
+    <value><![CDATA[오류 : 지불 방법이 필요!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[오류 : 당신은 동의 %s해야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[오류 : 쿠폰이 중 유효 만료하거나 사용 한계의 도달!]]></value>
+  </definition>
+</definitions>

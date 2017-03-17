@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[계정 만들기]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[계정]]></value>
+  </definition>
+  <definition>
+    <key>text_create</key>
+    <value><![CDATA[레지스터]]></value>
+  </definition>
+  <definition>
+    <key>text_account_already</key>
+    <value><![CDATA[이미 우리와 함께 계정이있는 경우에 로그인하십시오 <a style="text-decoration: underline" href="%s">로그인 페이지</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_your_details</key>
+    <value><![CDATA[개인 상세 정보]]></value>
+  </definition>
+  <definition>
+    <key>text_your_address</key>
+    <value><![CDATA[주소]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[뉴스 레터]]></value>
+  </definition>
+  <definition>
+    <key>text_your_password</key>
+    <value><![CDATA[너의 비밀번호]]></value>
+  </definition>
+  <definition>
+    <key>text_login_details</key>
+    <value><![CDATA[로그인 세부 사항]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[나는 읽고 동의합니다]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[로그인 이름:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[이름:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[성:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[이메일:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[전화:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[팩스:]]></value>
+  </definition>
+  <definition>
+    <key>entry_company</key>
+    <value><![CDATA[회사:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_1</key>
+    <value><![CDATA[주소 1:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_2</key>
+    <value><![CDATA[주소 2:]]></value>
+  </definition>
+  <definition>
+    <key>entry_postcode</key>
+    <value><![CDATA[우편 번호:]]></value>
+  </definition>
+  <definition>
+    <key>entry_city</key>
+    <value><![CDATA[시티:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[국가:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[지역 / 국가 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_newsletter</key>
+    <value><![CDATA[구독 신청 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[암호:]]></value>
+  </definition>
+  <definition>
+    <key>entry_confirm</key>
+    <value><![CDATA[비밀번호 확인 :]]></value>
+  </definition>
+  <definition>
+    <key>error_exists</key>
+    <value><![CDATA[오류 : E 메일이 주소가 이미 등록되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[로그인 이름은 5와 64 자 사이의 숫자 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[이 로그인 이름을 사용할 수 없습니다. 다른 로그인 이름을보십시오!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[이름은 1과 32 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[성 1과 32 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[이메일 주소가 올바르지 않습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_email_exists</key>
+    <value><![CDATA[이메일 주소는 이미 존재합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_password</key>
+    <value><![CDATA[비밀 번호는 4, 20 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_confirm</key>
+    <value><![CDATA[암호 확인 암호와 일치하지 않습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_1</key>
+    <value><![CDATA[주소 1은 3, 128 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_city</key>
+    <value><![CDATA[시는 3, 128 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_postcode</key>
+    <value><![CDATA[우편 번호 / 우편 번호는 3, 10 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_country</key>
+    <value><![CDATA[국가를 선택하세요!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone</key>
+    <value><![CDATA[지역 / 국가를 선택하세요!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[전화는 3과 32 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[오류 : 당신은 동의 %s해야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_full_register</key>
+    <value><![CDATA[고객을 가입하고 세부 사항에 등록]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribe_register</key>
+    <value><![CDATA[뉴스 레터 구독자가]]></value>
+  </definition>
+  <definition>
+    <key>text_success_subscribe_heading</key>
+    <value><![CDATA[성공적으로 가입 한!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_subscribe</key>
+    <value><![CDATA[성공 : 당신의 뉴스 레터를 구독이 성공적으로 생성되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_subscriber_exists</key>
+    <value><![CDATA[우리의 기록은 당신이 우리와 함께 계정을 가지고 있음을 나타냅니다. 뉴스 레터 구독을 관리하는 계정에 로그인하십시오.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_customer</key>
+    <value><![CDATA[신규 고객 등록 승인이 보류 중입니다]]></value>
+  </definition>
+  <definition>
+    <key>text_pending_customer_approval</key>
+    <value><![CDATA[고객은 %s 새 계정에 등록했다. 승인 작업이 필요합니다! # 관리자 # 1 RT = 판매 / 고객 / 업데이트를 보려면 클릭 &amp; CUSTOMER_ID = %s]]></value>
+  </definition>
+  <definition>
+    <key>text_pending_subscriber_approval</key>
+    <value><![CDATA[가입자는 %s 새 계정에 등록했다. 승인 작업이 필요합니다! # 관리자 # 1 RT = 판매 / 고객 / 업데이트를 보려면 클릭 &amp; CUSTOMER_ID = %s]]></value>
+  </definition>
+</definitions>

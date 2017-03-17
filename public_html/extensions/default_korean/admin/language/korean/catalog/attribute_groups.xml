@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[글로벌 속성 그룹]]></value>
+  </definition>
+  <definition>
+    <key>text_group</key>
+    <value><![CDATA[그룹 속성]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 당신은 수정 된 그룹이!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[그룹 이름]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[정렬 순서]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[지위]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[동작]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[그룹 이름:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[그룹 정렬 순서 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[그룹 상태 :]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[경고 :이 속성 그룹을 수정할 수있는 권한이 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[그룹 이름이 32 자 사이 여야합니다!]]></value>
+  </definition>
+</definitions>

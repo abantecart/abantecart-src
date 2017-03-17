@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Twoje konto zostało aktywowane!]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Witamy i dziękujemy za zarejestrowanie się %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Twoje konto zostało utworzone i można zalogować się za pomocą adresu e-mail i hasło, odwiedzając naszą stronę internetową lub pod następującym adresem URL:]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Po zalogowaniu się, będziesz mógł uzyskać dostęp, listy życzeń, historię zamówień, faktur drukowania i edycji informacji o koncie.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Dziękuję Ci,]]></value>
+  </definition>
+</definitions>

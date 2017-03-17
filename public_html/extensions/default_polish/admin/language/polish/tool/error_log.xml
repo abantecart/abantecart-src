@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Dziennik błędów]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukces: Pomyślnie wyczyszczone swój dziennik błędów!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_tail</key>
+    <value><![CDATA[Ze względu na duży rozmiar pliku dziennika, tylko ostatnia 500kB danych można obejrzeć tutaj. 
+ Aby wyświetlić pełny dziennik, dostać go z serwera bezpośrednio. 
+ Ścieżka:]]></value>
+  </definition>
+</definitions>

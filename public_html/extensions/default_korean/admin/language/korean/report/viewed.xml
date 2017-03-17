@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[제품 보고서 조회]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 당신은 제품 본 보고서를 다시 해!]]></value>
+  </definition>
+  <definition>
+    <key>column_product_id</key>
+    <value><![CDATA[제품 ID]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[상품명]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[모델]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[범주]]></value>
+  </definition>
+  <definition>
+    <key>column_viewed</key>
+    <value><![CDATA[조회]]></value>
+  </definition>
+  <definition>
+    <key>column_percent</key>
+    <value><![CDATA[퍼센트]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[공지 사항 및 뉴스]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[계정]]></value>
+  </definition>
+  <definition>
+    <key>text_notifications</key>
+    <value><![CDATA[알림]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 당신의 알림 설정이 성공적으로 업데이트되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_sendpoint</key>
+    <value><![CDATA[알림]]></value>
+  </definition>
+</definitions>

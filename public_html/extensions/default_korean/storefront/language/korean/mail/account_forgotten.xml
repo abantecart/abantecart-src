@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - 비밀번호 재설정]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[암호 재설정은 %s에서 요청 하였다.]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[아래에 암호를 클릭 링크를 재설정하려면 :]]></value>
+  </definition>
+  <definition>
+    <key>text_password_reset</key>
+    <value><![CDATA[비밀번호가 성공적으로 %s에 다시했다.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_password</key>
+    <value><![CDATA[아래에 새 암호를 입력합니다 :]]></value>
+  </definition>
+  <definition>
+    <key>error_reset_token</key>
+    <value><![CDATA[암호 요청에 대한 잘못된 링크. 한 번 더 시간을 재설정하고 가장 최근의 이메일에서 링크를 이용해보십시오.]]></value>
+  </definition>
+</definitions>

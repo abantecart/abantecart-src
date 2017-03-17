@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[délka Třídy]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[délka Class]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspěch: Změnili jste délkové třídy!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[délka Titul]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[Length Unit]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Hodnota]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akce]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Délka Název:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Délka Jednotka:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Hodnota: <br/><span class="help">Set 1.00000 pokud je to váš výchozí délku.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varování: Nemáte oprávnění ke změně délkové třídy!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Délka Hlava musí být mezi 2 a 32 znaků!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Délka musí být v rozmezí 1 až 4 znaky!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Varování: Tato délka třída nemůže být odstraněn, protože je aktuálně přiřazena jako třída výchozí délky obchod!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Varování: Tato třída délka nemůže být odstraněn, protože je aktuálně přiřazen %s výrobků!]]></value>
+  </definition>
+</definitions>

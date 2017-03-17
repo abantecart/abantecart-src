@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Přehled objednávky]]></value>
+  </definition>
+  <definition>
+    <key>text_subtotal</key>
+    <value><![CDATA[Sub-Total:]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[0 položek]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Potvrdit?]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[Odstranit]]></value>
+  </definition>
+  <definition>
+    <key>text_view</key>
+    <value><![CDATA[Prohlédnout košík]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Překontrolovat]]></value>
+  </definition>
+  <definition>
+    <key>text_items</key>
+    <value><![CDATA[předměty]]></value>
+  </definition>
+</definitions>

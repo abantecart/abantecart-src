@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - 주문 %s]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[%s 제품에 관심을 가져 주셔서 감사합니다. 주문이 접수되었으며, 입금 확인 후 처리됩니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_received</key>
+    <value><![CDATA[당신은 주문을 받았습니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_order_detail</key>
+    <value><![CDATA[주문 정보]]></value>
+  </definition>
+  <definition>
+    <key>text_order_id</key>
+    <value><![CDATA[주문 아이디:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[날짜 정렬 :]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[주문 상태:]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[아래의 링크를 주문 클릭을 보려면 :]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[배송 방법:]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[지불 방법 :]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[배송 주소]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[결제 주소]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[이메일:]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[전화:]]></value>
+  </definition>
+  <definition>
+    <key>text_mobile_phone</key>
+    <value><![CDATA[휴대 전화 :]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[팩스:]]></value>
+  </definition>
+  <definition>
+    <key>text_ip</key>
+    <value><![CDATA[IP 주소:]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[제작품:]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[합계 :]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[결제가 확인되면 당신은 당신의 다운로드 가능한 제품에 액세스하기 위해 아래 링크를 클릭 할 수 있습니다 :]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[주문에 대한 의견은 다음과 같습니다 :]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[당신은 질문이있는 경우이 이메일에 회신 해 주시기 바랍니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_powered_by</key>
+    <value><![CDATA[에 의해 구동]]></value>
+  </definition>
+  <definition>
+    <key>text_new_order</key>
+    <value><![CDATA[새로운 주문 - #]]></value>
+  </definition>
+  <definition>
+    <key>text_new_order_text</key>
+    <value><![CDATA[고객 %s 추가 수주]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[생성물]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[모델]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[수량]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[가격]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[합계]]></value>
+  </definition>
+</definitions>

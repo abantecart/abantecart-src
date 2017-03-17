@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[업데이트 관리자]]></value>
+  </definition>
+  <definition>
+    <key>text_checkupdates</key>
+    <value><![CDATA[업데이트 확인]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[확장 이름]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[유형]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[범주]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[지위]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[현재 버전]]></value>
+  </definition>
+  <definition>
+    <key>column_new_version</key>
+    <value><![CDATA[새로운 버전]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[동작]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 확장이 성공적으로 업데이트되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_update</key>
+    <value><![CDATA[최신 정보]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore_exts</key>
+    <value><![CDATA[백업 된 확장 복원 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[업데이트 :]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[경고 : 당신은 디렉토리를 수정할 수있는 권한이 없습니다 :]]></value>
+  </definition>
+  <definition>
+    <key>warning_server</key>
+    <value><![CDATA[업데이트 서버 inaccesible입니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_title</key>
+    <value><![CDATA[% 확장 %의 업데이트 공지]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_text</key>
+    <value><![CDATA[확장 &#39;의 새로운 버전 &quot;% 확장 %&quot;는 사용할 수 있습니다. %의 링크 %로 이동하고 업그레이드하십시오. &#39;]]></value>
+  </definition>
+  <definition>
+    <key>warning_updates</key>
+    <value><![CDATA[업데이트에 대한 정보를 얻을 수 없습니다.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[경고 : 업로드 한 파일이 비어 있었다!]]></value>
+  </definition>
+  <definition>
+    <key>error_exts_list</key>
+    <value><![CDATA[경고 : 확장리스트가 배열이 아닌!]]></value>
+  </definition>
+  <definition>
+    <key>text_nothing_todo</key>
+    <value><![CDATA[귀하의 확장은 최신입니다. 할 것이 없다.]]></value>
+  </definition>
+  <definition>
+    <key>text_connect</key>
+    <value><![CDATA[잇다]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect</key>
+    <value><![CDATA[시장에 연결]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect_your_store</key>
+    <value><![CDATA[시장에 상점을 연결하십시오]]></value>
+  </definition>
+  <definition>
+    <key>text_note</key>
+    <value><![CDATA[참고 : 구입 한 역사와 연결된 저장에 대한 업데이트를.]]></value>
+  </definition>
+</definitions>

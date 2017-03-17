@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Informacje o płatności]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Kosz]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[Wysyłka]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Zapłata]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_to</key>
+    <value><![CDATA[Proszę wybrać z książki adresowej, gdzie chcesz fakturę wysłana.]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[Adres do płatności]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Metoda płatności]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_methods</key>
+    <value><![CDATA[Proszę wybrać preferowany sposób płatności do wykorzystania w tym celu.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[Dodaj komentarze dotyczące twojego zamówienia]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[Przeczytałem i zgadzam się na]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[Wpisz swój kod i kliknij przycisk &quot;Zastosuj kupon&quot; i zobacz Rabat natychmiast zastosować do Twojego zamówienia.]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukces: Twój kupon został zastosowany zniżki!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[Sukces: Kupon został usunięty!]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon</key>
+    <value><![CDATA[Kupon:]]></value>
+  </definition>
+  <definition>
+    <key>error_payment</key>
+    <value><![CDATA[Błąd: wymagana Sposób płatności!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[Błąd: Musisz zgodzić się do %s!]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Błąd: Kupon jest albo nieważny, wygasły lub osiągnął to wykorzystanie limitu!]]></value>
+  </definition>
+</definitions>

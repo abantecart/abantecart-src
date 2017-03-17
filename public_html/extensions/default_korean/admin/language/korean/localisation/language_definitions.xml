@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[언어 정의]]></value>
+  </definition>
+  <definition>
+    <key>text_definition</key>
+    <value><![CDATA[언어 정의]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 당신은 수정 된 언어가있다!]]></value>
+  </definition>
+  <definition>
+    <key>column_language</key>
+    <value><![CDATA[언어]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[키]]></value>
+  </definition>
+  <definition>
+    <key>column_translation</key>
+    <value><![CDATA[번역]]></value>
+  </definition>
+  <definition>
+    <key>column_block</key>
+    <value><![CDATA[블록]]></value>
+  </definition>
+  <definition>
+    <key>column_update_date</key>
+    <value><![CDATA[업데이트 날짜]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[행위]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_key</key>
+    <value><![CDATA[키]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_value</key>
+    <value><![CDATA[값]]></value>
+  </definition>
+  <definition>
+    <key>entry_translation</key>
+    <value><![CDATA[번역]]></value>
+  </definition>
+  <definition>
+    <key>entry_block</key>
+    <value><![CDATA[블록]]></value>
+  </definition>
+  <definition>
+    <key>entry_section</key>
+    <value><![CDATA[섹션]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[관리자]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront</key>
+    <value><![CDATA[점포]]></value>
+  </definition>
+  <definition>
+    <key>error_language_key</key>
+    <value><![CDATA[언어 키가 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_language_value</key>
+    <value><![CDATA[번역이 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_block</key>
+    <value><![CDATA[블록이 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_section</key>
+    <value><![CDATA[섹션이 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_all_section</key>
+    <value><![CDATA[모든 섹션]]></value>
+  </definition>
+  <definition>
+    <key>text_all_languages</key>
+    <value><![CDATA[모든 언어]]></value>
+  </definition>
+  <definition>
+    <key>error_already exists</key>
+    <value><![CDATA[오류! <br/> 절에서는 이미 %s의 언어 키 정의 &quot;%s&quot;블록 &quot;%s&quot;! <br/> 클릭 <a target="_blank" href="%s">이 링크를</a> 볼 수 있습니다]]></value>
+  </definition>
+</definitions>

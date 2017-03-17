@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[뉴스 레터 가입]]></value>
+  </definition>
+  <definition>
+    <key>text_signup</key>
+    <value><![CDATA[우리의 뉴스 레터에 가입 &amp; 우리의 뉴스 레터에 가입하여 매력적인 상품을 찾으실 수 있습니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_sign_in</key>
+    <value><![CDATA[로그인]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribe</key>
+    <value><![CDATA[뉴스 레터 구독]]></value>
+  </definition>
+  <definition>
+    <key>button_subscribe</key>
+    <value><![CDATA[구독]]></value>
+  </definition>
+</definitions>

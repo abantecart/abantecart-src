@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Error Log]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspěch: Úspěšně jste vymazány protokol chyb!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_tail</key>
+    <value><![CDATA[Vzhledem ke značné velikosti souboru protokolu, pouze poslední 500KB dat si můžete prohlédnout zde. 
+ Chcete-li zobrazit kompletní protokol, dostat to ze serveru přímo. 
+ Cesta:]]></value>
+  </definition>
+</definitions>

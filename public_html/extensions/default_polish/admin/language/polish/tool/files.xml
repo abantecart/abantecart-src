@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Możliwość przesyłania plików]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[Data dodania]]></value>
+  </definition>
+  <definition>
+    <key>column_path</key>
+    <value><![CDATA[Plik]]></value>
+  </definition>
+  <definition>
+    <key>column_section</key>
+    <value><![CDATA[Sekcja]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[aby pobrać plik]]></value>
+  </definition>
+</definitions>

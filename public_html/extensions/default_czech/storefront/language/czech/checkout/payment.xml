@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Informace o platbě]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Košík]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[Lodní doprava]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Platba]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_to</key>
+    <value><![CDATA[Vyberte si z vašeho adresáře, kam si přejete zaslané faktury.]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[platební adresa]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Způsob platby]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_methods</key>
+    <value><![CDATA[Prosím, vyberte preferovanou platební metodu použít v tomto pořadí.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[Přidat komentář ohledně objednávky]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[četl jsem a souhlasím s]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[Zadejte kód a klikněte na tlačítko &quot;Apply kupón&quot; a vidět vaše sleva okamžitě aplikovat na vaši objednávku.]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspěch: Váš kupón sleva byla použita!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[Úspěch: Kupón byl odstraněn!]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon</key>
+    <value><![CDATA[Kupón:]]></value>
+  </definition>
+  <definition>
+    <key>error_payment</key>
+    <value><![CDATA[Chyba: Způsob platby předem!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[Chyba: Musíte souhlasit s %s!]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Chyba: Kupón je buď neplatné, jejichž platnost skončila nebo dosáhla je to omezení použití!]]></value>
+  </definition>
+</definitions>

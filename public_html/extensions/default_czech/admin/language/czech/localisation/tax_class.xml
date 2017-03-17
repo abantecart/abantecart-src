@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[daňové Třídy]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[daňová třída]]></value>
+  </definition>
+  <definition>
+    <key>text_rate</key>
+    <value><![CDATA[Sazba daně]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspěch: Změnili jste daňové třídy!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Tax Class Název]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akce]]></value>
+  </definition>
+  <definition>
+    <key>tab_details</key>
+    <value><![CDATA[podrobnosti]]></value>
+  </definition>
+  <definition>
+    <key>tab_rates</key>
+    <value><![CDATA[sazby]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Daňové třídy Název:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Popis viditelné pro zákazníky]]></value>
+  </definition>
+  <definition>
+    <key>entry_location</key>
+    <value><![CDATA[Umístění]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Místo zóna]]></value>
+  </definition>
+  <definition>
+    <key>entry_priority</key>
+    <value><![CDATA[Přednost]]></value>
+  </definition>
+  <definition>
+    <key>entry_rate</key>
+    <value><![CDATA[Sazba daně]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varování: Nemáte oprávnění ke změně daňových tříd!]]></value>
+  </definition>
+  <definition>
+    <key>error_tax_title</key>
+    <value><![CDATA[Tax Class Název musí být v rozmezí 2 až 32 znaků!]]></value>
+  </definition>
+  <definition>
+    <key>error_rate</key>
+    <value><![CDATA[zapotřebí Sazba daně!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Varování: Tato daň třída nemůže být odstraněn, protože je aktuálně přiřazen %s výrobků!]]></value>
+  </definition>
+  <definition>
+    <key>text_tax_all_zones</key>
+    <value><![CDATA[Všechny Umístění zóny]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_rate_threshold</key>
+    <value><![CDATA[Použít daň, pokud <br/><span class="help">Použití této daně pouze v případě, zdaněny částky (produkt, lodní doprava, mezisoučtu, atd.) Je ...</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_exempt_groups</key>
+    <value><![CDATA[Osvobozeny od daně Skupiny <br/><span class="help">Vyberte zákaznické skupiny osvobodit od této daně</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_absolute</key>
+    <value><![CDATA[Absolutní]]></value>
+  </definition>
+  <definition>
+    <key>text_percent</key>
+    <value><![CDATA[Procent]]></value>
+  </definition>
+</definitions>

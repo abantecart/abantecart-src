@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Login do konta]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Zarejestruj Konto]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Zaloguj Się]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_new_customer</key>
+    <value><![CDATA[Jestem nowym klientem.]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Zamówienie opcje:]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[Gość Zamówienie]]></value>
+  </definition>
+  <definition>
+    <key>text_create_account</key>
+    <value><![CDATA[Tworząc konto będziesz mógł kupować szybciej, być na bieżąco o statusie zlecenia, a śledzenie zamówień dokonanych do tej pory.]]></value>
+  </definition>
+  <definition>
+    <key>text_returning_customer</key>
+    <value><![CDATA[Wracając klienta]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_returning_customer</key>
+    <value><![CDATA[Jestem stałym klientem.]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_login</key>
+    <value><![CDATA[Zapomniałeś loginu?]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_password</key>
+    <value><![CDATA[Zapomniałeś hasła?]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Nazwa użytkownika:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email_address</key>
+    <value><![CDATA[E-mail:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Hasło:]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Błąd: Nieprawidłowy login lub hasło podane.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_activated</key>
+    <value><![CDATA[Sukces: Twoje konto zostało aktywowane pomyślnie. Zaloguj się z poświadczeniami.]]></value>
+  </definition>
+  <definition>
+    <key>text_already_activated</key>
+    <value><![CDATA[Twoje konto jest już aktywne. Zaloguj się z poświadczeniami.]]></value>
+  </definition>
+  <definition>
+    <key>text_resend_activation_email</key>
+    <value><![CDATA[Błąd: Twój adres e-mail nie został jeszcze potwierdzony. Aby ponownie wysłać nową wiadomość e-mail z potwierdzeniem kliknij ten <a href=" %s ">odnośnik</a>]]></value>
+  </definition>
+</definitions>

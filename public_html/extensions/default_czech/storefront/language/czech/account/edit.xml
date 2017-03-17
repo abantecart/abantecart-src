@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Můj účet Informace]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Účet]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[Úprava Informace]]></value>
+  </definition>
+  <definition>
+    <key>text_your_details</key>
+    <value><![CDATA[Vaše osobní údaje]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspěch: Účet byl úspěšně aktualizován.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Přihlašovací jméno:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[Jméno:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Příjmení:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_of_birth</key>
+    <value><![CDATA[Datum narození:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-mailem:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[Telefon:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Fax:]]></value>
+  </definition>
+  <definition>
+    <key>error_exists</key>
+    <value><![CDATA[Chyba: E-mailová adresa je již registrován!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Přihlašovací jméno musí být jen a mezi 5 a 64 písmen abecedy!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[Toto přihlašovací jméno není k dispozici. Zkuste jiné přihlašovací jméno!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[Jméno musí být mezi 1 a 32 znaků!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Last Name musí být v rozmezí 1 až 32 znaků!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-mailová adresa se nezdá být platný!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[Telefon musí být mezi 3 a 32 znaků!]]></value>
+  </definition>
+  <definition>
+    <key>loginname_update_required</key>
+    <value><![CDATA[Vaše přihlašovací jméno je stejné jako e-mailu. Chcete-li zachovat svůj účet chráněn, vytvořte prosím novou unikátní přihlašovací jméno]]></value>
+  </definition>
+</definitions>

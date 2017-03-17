@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Globální Výsledky hledání]]></value>
+  </definition>
+  <definition>
+    <key>no_results_message</key>
+    <value><![CDATA[Je nám líto, ale nemáme výsledky.]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varování: Nemáte povolení k vyhledávání!]]></value>
+  </definition>
+  <definition>
+    <key>text_orders</key>
+    <value><![CDATA[objednávky]]></value>
+  </definition>
+  <definition>
+    <key>text_customers</key>
+    <value><![CDATA[zákazníci]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[Ke stažení]]></value>
+  </definition>
+  <definition>
+    <key>text_product_categories</key>
+    <value><![CDATA[kategorie produktů]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[produkty]]></value>
+  </definition>
+  <definition>
+    <key>text_reviews</key>
+    <value><![CDATA[recenze]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[značky]]></value>
+  </definition>
+  <definition>
+    <key>text_languages</key>
+    <value><![CDATA[jazyky]]></value>
+  </definition>
+  <definition>
+    <key>text_pages</key>
+    <value><![CDATA[stránky]]></value>
+  </definition>
+  <definition>
+    <key>text_settings</key>
+    <value><![CDATA[Nastavení]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[zprávy]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[rozšíření]]></value>
+  </definition>
+  <definition>
+    <key>text_commands</key>
+    <value><![CDATA[Rychlé Příkazy]]></value>
+  </definition>
+  <definition>
+    <key>text_contents</key>
+    <value><![CDATA[Obsah stránek]]></value>
+  </definition>
+</definitions>

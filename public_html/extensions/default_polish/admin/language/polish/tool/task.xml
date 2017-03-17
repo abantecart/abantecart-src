@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Zaplanowane zadania]]></value>
+  </definition>
+  <definition>
+    <key>column_id</key>
+    <value><![CDATA[ID]]></value>
+  </definition>
+  <definition>
+    <key>column_date_created</key>
+    <value><![CDATA[Data utworzenia]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Nazwa]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>column_start_time</key>
+    <value><![CDATA[Czas rozpoczęcia]]></value>
+  </definition>
+  <definition>
+    <key>text_stuck</key>
+    <value><![CDATA[Utknął]]></value>
+  </definition>
+  <definition>
+    <key>text_ready</key>
+    <value><![CDATA[Gotowy]]></value>
+  </definition>
+  <definition>
+    <key>text_running</key>
+    <value><![CDATA[Bieganie]]></value>
+  </definition>
+  <definition>
+    <key>text_scheduled</key>
+    <value><![CDATA[Planowy]]></value>
+  </definition>
+  <definition>
+    <key>text_disabled</key>
+    <value><![CDATA[Niepełnosprawny]]></value>
+  </definition>
+  <definition>
+    <key>text_failed</key>
+    <value><![CDATA[Niepowodzenie]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete</key>
+    <value><![CDATA[Niekompletny]]></value>
+  </definition>
+  <definition>
+    <key>text_completed</key>
+    <value><![CDATA[Zakończony]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[restart Zadanie]]></value>
+  </definition>
+  <definition>
+    <key>text_run</key>
+    <value><![CDATA[Run Task]]></value>
+  </definition>
+  <definition>
+    <key>text_task_started</key>
+    <value><![CDATA[zadanie rozpoczęto]]></value>
+  </definition>
+  <definition>
+    <key>text_task_not_found</key>
+    <value><![CDATA[Zadanie nie została znaleziona.]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_task</key>
+    <value><![CDATA[Zadanie nie zawiera kroki. Usunięto.]]></value>
+  </definition>
+  <definition>
+    <key>text_forbidden_to_restart</key>
+    <value><![CDATA[Zabrania się ponownie uruchomić!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[리뷰]]></value>
+  </definition>
+  <definition>
+    <key>text_review</key>
+    <value><![CDATA[리뷰]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[삽입 검토]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[업데이트 검토]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 당신은 수정 된 리뷰가!]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[생성물]]></value>
+  </definition>
+  <definition>
+    <key>column_author</key>
+    <value><![CDATA[저자]]></value>
+  </definition>
+  <definition>
+    <key>column_rating</key>
+    <value><![CDATA[평가]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[지위]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[날짜 추가]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[동작]]></value>
+  </definition>
+  <definition>
+    <key>entry_product</key>
+    <value><![CDATA[생성물:]]></value>
+  </definition>
+  <definition>
+    <key>entry_author</key>
+    <value><![CDATA[저자:]]></value>
+  </definition>
+  <definition>
+    <key>entry_rating</key>
+    <value><![CDATA[평가:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[지위:]]></value>
+  </definition>
+  <definition>
+    <key>entry_text</key>
+    <value><![CDATA[본문:]]></value>
+  </definition>
+  <definition>
+    <key>entry_good</key>
+    <value><![CDATA[좋은]]></value>
+  </definition>
+  <definition>
+    <key>entry_bad</key>
+    <value><![CDATA[나쁜]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[경고 :이 리뷰를 수정할 수있는 권한이 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[제품이 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_author</key>
+    <value><![CDATA[저자는 2, 64 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_text</key>
+    <value><![CDATA[문자 검토 25, 1000 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_rating</key>
+    <value><![CDATA[리뷰 평가가 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_select_product</key>
+    <value><![CDATA[- 제품 선택 -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_category</key>
+    <value><![CDATA[- 카테고리 선택 -]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[체크 아웃 확인]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[바구니]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_basket</key>
+    <value><![CDATA[편집 카트]]></value>
+  </definition>
+  <definition>
+    <key>text_accept_agree</key>
+    <value><![CDATA[주문 확인을 클릭하면 승인하고 모든 약관에 동의]]></value>
+  </definition>
+  <definition>
+    <key>text_cart_items</key>
+    <value><![CDATA[바구니에 항목]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[배송]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_shipping</key>
+    <value><![CDATA[편집 배송]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[지불]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_payment</key>
+    <value><![CDATA[편집 지급]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_1</key>
+    <value><![CDATA[고객 체크 아웃 - 1 단계]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_2</key>
+    <value><![CDATA[고객 체크 아웃 - 2 단계]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[확인]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[배송 주소]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[배송 방법]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[결제 주소]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[지불 방법]]></value>
+  </definition>
+  <definition>
+    <key>text_change</key>
+    <value><![CDATA[변화]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[귀하의 의견]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[할인 쿠폰]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[생성물]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[모델]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[수량]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[가격]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[합계]]></value>
+  </definition>
+  <definition>
+    <key>text_add_coupon</key>
+    <value><![CDATA[편집 쿠폰]]></value>
+  </definition>
+</definitions>

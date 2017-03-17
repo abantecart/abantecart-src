@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[비밀번호를 잊어 버렸습니까?]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_loginname</key>
+    <value><![CDATA[당신의 로그인 이름을 잊어 버렸습니까?]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[계정]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten</key>
+    <value><![CDATA[비밀 번호]]></value>
+  </definition>
+  <definition>
+    <key>text_your_email</key>
+    <value><![CDATA[당신의 이메일 주소]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[귀하의 계정과 연결된 전자 메일 주소를 입력합니다. 비밀번호가 이메일로 전송 한 것으로 제출을 클릭]]></value>
+  </definition>
+  <definition>
+    <key>text_loginname_email</key>
+    <value><![CDATA[귀하의 계정과 연결된 로그인 이름과 전자 메일 주소를 입력합니다. 암호 재설정을 요청 제출을 클릭합니다]]></value>
+  </definition>
+  <definition>
+    <key>text_lastname_email</key>
+    <value><![CDATA[귀하의 계정과 연결된 마지막 이름과 이메일 주소를 입력합니다. 로그인 이름이 이메일로 전송하도록 제출을 클릭]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 비밀번호 재설정 링크가 이메일 주소로 전송되었습니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_loginname</key>
+    <value><![CDATA[성공 : 당신의 로그인 이름 알림이 이메일 주소로 전송되었습니다.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[로그인 이름:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[성:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[이메일 주소:]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[오류 : 이메일 주소가 제공되지 또는 우리의 기록에서 찾을 수 없습니다, 다시 시도하십시오!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[오류 : 로그인 이름이 제공되지 또는 우리의 기록에서 찾을 수 없습니다, 다시 시도하십시오!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[오류 : 성 제공하지 않거나 우리의 기록에서 찾을 수 없습니다, 다시 시도하십시오!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_found</key>
+    <value><![CDATA[오류 : 발견 일치하는 정보가 제공되지 기록, 정보를 확인하지 않고 다시 시도하십시오!]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_loginname</key>
+    <value><![CDATA[잊혀진 로그인 이름]]></value>
+  </definition>
+</definitions>

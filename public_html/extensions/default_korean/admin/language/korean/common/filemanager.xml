@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[이미지 관리자]]></value>
+  </definition>
+  <definition>
+    <key>text_uploaded</key>
+    <value><![CDATA[성공 : 당신의 파일이 업로드되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_delete</key>
+    <value><![CDATA[파일이 삭제되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_create</key>
+    <value><![CDATA[성공 : 디렉토리 생성!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[성공 : 당신의 파일이나 디렉토리가 삭제되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_move</key>
+    <value><![CDATA[성공 : 당신의 파일이나 디렉토리가 이동되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_copy</key>
+    <value><![CDATA[성공 : 당신의 파일이나 디렉토리를 복사되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_rename</key>
+    <value><![CDATA[성공 : 당신의 파일이나 디렉토리의 이름이 변경되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>entry_folder</key>
+    <value><![CDATA[새 폴더:]]></value>
+  </definition>
+  <definition>
+    <key>entry_move</key>
+    <value><![CDATA[움직임:]]></value>
+  </definition>
+  <definition>
+    <key>entry_copy</key>
+    <value><![CDATA[이름:]]></value>
+  </definition>
+  <definition>
+    <key>entry_rename</key>
+    <value><![CDATA[이름:]]></value>
+  </definition>
+  <definition>
+    <key>error_select</key>
+    <value><![CDATA[경고 : 디렉토리를 선택하거나 파일주세요!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[경고 : 파일을 선택하십시오!]]></value>
+  </definition>
+  <definition>
+    <key>error_directory</key>
+    <value><![CDATA[경고 : 디렉토리를 선택하세요!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[경고 : 기본 디렉토리를 변경할 수 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[경고 :이 디렉토리를 삭제할 수 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_filename</key>
+    <value><![CDATA[경고 : 파일 이름은 세 사이의 255을해야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing</key>
+    <value><![CDATA[경고 : 파일 또는 디렉토리가 존재하지 않습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_exists</key>
+    <value><![CDATA[경고 : 같은 이름이 이미 존재하는 파일이나 디렉토리!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[경고 : 새 이름을 입력하세요!]]></value>
+  </definition>
+  <definition>
+    <key>error_move</key>
+    <value><![CDATA[경고 : 디렉터리로 이동이 존재하지 않습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_copy</key>
+    <value><![CDATA[경고 :이 파일이나 디렉토리를 복사 할 수 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_rename</key>
+    <value><![CDATA[경고 :이 디렉토리 이름을 바꿀 수 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_type</key>
+    <value><![CDATA[경고 : 잘못된 파일 형식!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_size</key>
+    <value><![CDATA[경고 : 큰에 파일 3백킬로바이트 아래에 보관하십시오 및 이하 1000px 높이 또는 너비!]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded</key>
+    <value><![CDATA[경고 : 파일은 알 수없는 이유로 업로드 할 수 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[경고 : 권한 거부!]]></value>
+  </definition>
+  <definition>
+    <key>button_folder</key>
+    <value><![CDATA[새 폴더]]></value>
+  </definition>
+  <definition>
+    <key>button_delete</key>
+    <value><![CDATA[지우다]]></value>
+  </definition>
+  <definition>
+    <key>button_move</key>
+    <value><![CDATA[움직임]]></value>
+  </definition>
+  <definition>
+    <key>button_copy</key>
+    <value><![CDATA[부]]></value>
+  </definition>
+  <definition>
+    <key>button_rename</key>
+    <value><![CDATA[이름 바꾸기]]></value>
+  </definition>
+  <definition>
+    <key>button_upload</key>
+    <value><![CDATA[업로드]]></value>
+  </definition>
+  <definition>
+    <key>button_refresh</key>
+    <value><![CDATA[새롭게 하다]]></value>
+  </definition>
+</definitions>

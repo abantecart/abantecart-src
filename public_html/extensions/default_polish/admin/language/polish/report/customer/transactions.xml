@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Transakcje klientów]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_date</key>
+    <value><![CDATA[Data dokonania transakcji]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[Nazwa klienta]]></value>
+  </definition>
+  <definition>
+    <key>column_created_by</key>
+    <value><![CDATA[Stworzone przez]]></value>
+  </definition>
+  <definition>
+    <key>column_debit</key>
+    <value><![CDATA[Obciążyć]]></value>
+  </definition>
+  <definition>
+    <key>column_credit</key>
+    <value><![CDATA[Kredyt]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_type</key>
+    <value><![CDATA[typ transakcji]]></value>
+  </definition>
+</definitions>
