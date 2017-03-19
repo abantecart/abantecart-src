@@ -544,6 +544,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 		}
 
 		if ((string)$config->package_content->core) {
+            $package_info['package_content']['core'] = array();
 			foreach ($config->package_content->core->files->file as $item) {
 				if ((string)$item) {
 					$package_info['package_content']['core'][ ] = (string)$item;
