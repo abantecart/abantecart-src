@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Store Részletek]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Siker: Van módosított beállításokat!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[image Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Alapértelmezett]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[Áruház szerkesztése:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Üzlet neve: <br/><span class="help">másolva beállításokat, és megjelenik egy kirakat részben.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[Store URL: <br/><span class="help">Tartalmazza a teljes URL-t a boltban. Ügyelj arra, hogy &quot;/&quot; a végén. Példa: http://www.yourdomain.com/path/ <br/><br/> Ne használja a könyvtárakat, hogy új üzlet. Mindig meg kell mutatni egy másik tartomány vagy sub domain tárhely.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[SSL használata: <br/><span class="help">Az SSL, keresse meg a fogadó, ha egy SSL tanúsítvány telepítve.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Cím:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Meta Tag Leírás:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[Sablon:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Welcome Message:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Ország:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Régió / állam:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Nyelv:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Store állapota <br/><span class="help">Store állapotát kirakat. Állapot KI fogja irányítani az alapértelmezett tárolni. Használja Karbantartás mód beállítása, hogy hozzanak átmeneti tárolóba karbantartási üzenet</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alias</key>
+    <value><![CDATA[Név Alias <br/><span class="help">Store neve Alias. Ha üresen hagyja, fog alapulni rövidített neve</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[új Store]]></value>
+  </definition>
+  <definition>
+    <key>button_delete_store</key>
+    <value><![CDATA[Törlés Store]]></value>
+  </definition>
+  <definition>
+    <key>button_edit_settings</key>
+    <value><![CDATA[Beállítások szerkesztése]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Figyelmeztetés: nincs engedélye módosítani boltokban!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Store neve között kell lennie a 3. és 32 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[Store URL szükséges!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Cím között kell lennie a 3. és 32 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[Product Image hüvelykujj méretű méretei szükséges!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[Termék kép Előugró Size szükséges méretekkel!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[Kategória lista Méret szükséges méretekkel!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[Terméklista Size szükséges méretekkel!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[További Product Image Size szükséges méretekkel!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[Kapcsolódó Product Image Size szükséges méretekkel!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[Kosár Képméret szükséges méretekkel!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[Rács Képméret szükséges méretekkel!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Figyelmeztetés: Ez a Store nem lehet törölni, mivel jelenleg hozzárendelt %s megrendeléseket!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Szükséges adatok nem lépett. Ellenőrizzük mező hibákat!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Limit szükséges!]]></value>
+  </definition>
+  <definition>
+    <key>entry_clone_store</key>
+    <value><![CDATA[Másolási beállítások: <br/><span class="help">Megadhatja másolatot beállítások néhány meglévő áruház</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[Biztonságos Store URL: <br/><span class="help">Tartalmazza a teljes SSL URL (HTTPS) a készlet. Ügyelj arra, hogy &quot;/&quot; a végén. Példa: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[Biztonságos URL szükséges!]]></value>
+  </definition>
+</definitions>

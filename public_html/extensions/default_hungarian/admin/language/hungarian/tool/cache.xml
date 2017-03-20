@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[cache menedzsment]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Siker: Sikeresen törölted a cache fájlokat!]]></value>
+  </definition>
+  <definition>
+    <key>text_configuration</key>
+    <value><![CDATA[Configuration]]></value>
+  </definition>
+  <definition>
+    <key>text_layouts_blocks</key>
+    <value><![CDATA[Elrendezések &amp; Blocks]]></value>
+  </definition>
+  <definition>
+    <key>text_flexyforms</key>
+    <value><![CDATA[Flexy Forms]]></value>
+  </definition>
+  <definition>
+    <key>text_images</key>
+    <value><![CDATA[képek]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[Termékek]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[Kategóriák]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[Gyártók]]></value>
+  </definition>
+  <definition>
+    <key>text_localisations</key>
+    <value><![CDATA[helységnevek]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[error Log]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_cache</key>
+    <value><![CDATA[Tiszta kiválasztott gyorsítótár]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_all_cache</key>
+    <value><![CDATA[Összes törlése Gyorsítótár]]></value>
+  </definition>
+  <definition>
+    <key>desc_configuration</key>
+    <value><![CDATA[Rendszer és tárolja konfigurációk]]></value>
+  </definition>
+  <definition>
+    <key>desc_layouts_blocks</key>
+    <value><![CDATA[Oldalak, elrendezések, blokkok]]></value>
+  </definition>
+  <definition>
+    <key>desc_flexyforms</key>
+    <value><![CDATA[Flexy űrlapok adatai]]></value>
+  </definition>
+  <definition>
+    <key>desc_images</key>
+    <value><![CDATA[kép miniatűrök]]></value>
+  </definition>
+  <definition>
+    <key>desc_products</key>
+    <value><![CDATA[termék adatok]]></value>
+  </definition>
+  <definition>
+    <key>desc_categories</key>
+    <value><![CDATA[Kategória adatok]]></value>
+  </definition>
+  <definition>
+    <key>desc_manufacturers</key>
+    <value><![CDATA[gyártó adatai]]></value>
+  </definition>
+  <definition>
+    <key>desc_localisations</key>
+    <value><![CDATA[Valuta, nyelv, ország, egy övezet hossz, tömeg, &amp; más]]></value>
+  </definition>
+  <definition>
+    <key>desc_error_log</key>
+    <value><![CDATA[error Log]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[gyorsítótártípus]]></value>
+  </definition>
+  <definition>
+    <key>column_description</key>
+    <value><![CDATA[Leírás]]></value>
+  </definition>
+  <definition>
+    <key>text_html_cache</key>
+    <value><![CDATA[HTML-cache]]></value>
+  </definition>
+  <definition>
+    <key>desc_html_cache</key>
+    <value><![CDATA[Gyorsítótárazott HTML oldalak és blokkok]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[Telepítés / Frissítés története]]></value>
+  </definition>
+  <definition>
+    <key>desc_install_upgrade_history</key>
+    <value><![CDATA[Összes törlése Telepítés / Frissítés története]]></value>
+  </definition>
+</definitions>

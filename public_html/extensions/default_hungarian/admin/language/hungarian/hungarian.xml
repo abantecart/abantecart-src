@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>code</key>
+    <value><![CDATA[hu]]></value>
+  </definition>
+  <definition>
+    <key>direction</key>
+    <value><![CDATA[ltr]]></value>
+  </definition>
+  <definition>
+    <key>date_format_short</key>
+    <value><![CDATA[Y. m. d.]]></value>
+  </definition>
+  <definition>
+    <key>date_format_long</key>
+    <value><![CDATA[Y. F dS, l]]></value>
+  </definition>
+  <definition>
+    <key>time_format</key>
+    <value><![CDATA[Y/m/d H:i:s]]></value>
+  </definition>
+  <definition>
+    <key>time_format_short</key>
+    <value><![CDATA[H:i:s A]]></value>
+  </definition>
+  <definition>
+    <key>decimal_point</key>
+    <value><![CDATA[,]]></value>
+  </definition>
+  <definition>
+    <key>thousand_point</key>
+    <value><![CDATA[.]]></value>
+  </definition>
+  <definition>
+    <key>text_yes</key>
+    <value><![CDATA[Igen]]></value>
+  </definition>
+  <definition>
+    <key>text_no</key>
+    <value><![CDATA[Nem]]></value>
+  </definition>
+  <definition>
+    <key>text_plus</key>
+    <value><![CDATA[+]]></value>
+  </definition>
+  <definition>
+    <key>text_minus</key>
+    <value><![CDATA[-]]></value>
+  </definition>
+  <definition>
+    <key>text_enabled</key>
+    <value><![CDATA[Engedélyezett]]></value>
+  </definition>
+  <definition>
+    <key>text_disabled</key>
+    <value><![CDATA[Tiltva]]></value>
+  </definition>
+  <definition>
+    <key>text_none</key>
+    <value><![CDATA[--- Egyik sem ---]]></value>
+  </definition>
+  <definition>
+    <key>text_select</key>
+    <value><![CDATA[--- Kérlek, válassz ---]]></value>
+  </definition>
+  <definition>
+    <key>text_select_all</key>
+    <value><![CDATA[Mindet kiválaszt]]></value>
+  </definition>
+  <definition>
+    <key>text_unselect_all</key>
+    <value><![CDATA[Minden kijelölés megszüntetése]]></value>
+  </definition>
+  <definition>
+    <key>text_all_zones</key>
+    <value><![CDATA[minden zóna]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[(Alapértelmezett)]]></value>
+  </definition>
+  <definition>
+    <key>text_close</key>
+    <value><![CDATA[Bezárás]]></value>
+  </definition>
+  <definition>
+    <key>text_pagination</key>
+    <value><![CDATA[A következő {start} és {end} az {teljes} ({} lapok lapok)]]></value>
+  </definition>
+  <definition>
+    <key>text_per_page</key>
+    <value><![CDATA[Oldalanként]]></value>
+  </definition>
+  <definition>
+    <key>text_no_results</key>
+    <value><![CDATA[Nincs találat.]]></value>
+  </definition>
+  <definition>
+    <key>text_separator</key>
+    <value><![CDATA[&gt;]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[szerkesztése]]></value>
+  </definition>
+  <definition>
+    <key>text_view</key>
+    <value><![CDATA[Kilátás]]></value>
+  </definition>
+  <definition>
+    <key>text_home</key>
+    <value><![CDATA[Otthon]]></value>
+  </definition>
+  <definition>
+    <key>button_insert</key>
+    <value><![CDATA[Insert]]></value>
+  </definition>
+  <definition>
+    <key>button_delete</key>
+    <value><![CDATA[Töröl]]></value>
+  </definition>
+  <definition>
+    <key>button_save</key>
+    <value><![CDATA[Mentés]]></value>
+  </definition>
+  <definition>
+    <key>button_save_and_close</key>
+    <value><![CDATA[Mentés és bezárás]]></value>
+  </definition>
+  <definition>
+    <key>button_cancel</key>
+    <value><![CDATA[Megszünteti]]></value>
+  </definition>
+  <definition>
+    <key>button_reset</key>
+    <value><![CDATA[Visszaállítás]]></value>
+  </definition>
+  <definition>
+    <key>button_reload</key>
+    <value><![CDATA[Reload]]></value>
+  </definition>
+  <definition>
+    <key>button_clear</key>
+    <value><![CDATA[Napló törlése]]></value>
+  </definition>
+  <definition>
+    <key>button_close</key>
+    <value><![CDATA[Bezárás]]></value>
+  </definition>
+  <definition>
+    <key>button_upgrade</key>
+    <value><![CDATA[frissítés]]></value>
+  </definition>
+  <definition>
+    <key>button_filter</key>
+    <value><![CDATA[Szűrő]]></value>
+  </definition>
+  <definition>
+    <key>button_send</key>
+    <value><![CDATA[Elküld]]></value>
+  </definition>
+  <definition>
+    <key>button_edit</key>
+    <value><![CDATA[szerkesztése]]></value>
+  </definition>
+  <definition>
+    <key>button_copy</key>
+    <value><![CDATA[Másolat]]></value>
+  </definition>
+  <definition>
+    <key>button_agree</key>
+    <value><![CDATA[Egyetért]]></value>
+  </definition>
+  <definition>
+    <key>button_back</key>
+    <value><![CDATA[Hát]]></value>
+  </definition>
+  <definition>
+    <key>button_continue</key>
+    <value><![CDATA[Folytatni]]></value>
+  </definition>
+  <definition>
+    <key>button_remove</key>
+    <value><![CDATA[eltávolít]]></value>
+  </definition>
+  <definition>
+    <key>button_backup</key>
+    <value><![CDATA[biztonsági mentés]]></value>
+  </definition>
+  <definition>
+    <key>button_restore</key>
+    <value><![CDATA[visszaállítás]]></value>
+  </definition>
+  <definition>
+    <key>button_invoice</key>
+    <value><![CDATA[Számla nyomtatása]]></value>
+  </definition>
+  <definition>
+    <key>button_invoices</key>
+    <value><![CDATA[Nyomtatás Számlák]]></value>
+  </definition>
+  <definition>
+    <key>button_add_option</key>
+    <value><![CDATA[Opció hozzáadása]]></value>
+  </definition>
+  <definition>
+    <key>button_add_option_value</key>
+    <value><![CDATA[Add Opció Érték]]></value>
+  </definition>
+  <definition>
+    <key>button_add_discount</key>
+    <value><![CDATA[Add kedvezmény]]></value>
+  </definition>
+  <definition>
+    <key>button_add_special</key>
+    <value><![CDATA[Add Különleges]]></value>
+  </definition>
+  <definition>
+    <key>button_add_image</key>
+    <value><![CDATA[Kép hozzáadása]]></value>
+  </definition>
+  <definition>
+    <key>button_add_location_zone</key>
+    <value><![CDATA[Hely hozzáadása Zone]]></value>
+  </definition>
+  <definition>
+    <key>button_add_rate</key>
+    <value><![CDATA[Add Tax Rate]]></value>
+  </definition>
+  <definition>
+    <key>button_add_history</key>
+    <value><![CDATA[Add Order History]]></value>
+  </definition>
+  <definition>
+    <key>button_actas</key>
+    <value><![CDATA[Törvény nevében]]></value>
+  </definition>
+  <definition>
+    <key>button_message</key>
+    <value><![CDATA[Vegyék fel a kapcsolatot az ügyfél]]></value>
+  </definition>
+  <definition>
+    <key>button_approve</key>
+    <value><![CDATA[Jóváhagy]]></value>
+  </definition>
+  <definition>
+    <key>button_generate</key>
+    <value><![CDATA[generál]]></value>
+  </definition>
+  <definition>
+    <key>tab_admin</key>
+    <value><![CDATA[admin]]></value>
+  </definition>
+  <definition>
+    <key>tab_data</key>
+    <value><![CDATA[Adat]]></value>
+  </definition>
+  <definition>
+    <key>tab_discount</key>
+    <value><![CDATA[kedvezmények]]></value>
+  </definition>
+  <definition>
+    <key>tab_details</key>
+    <value><![CDATA[Store Részletek]]></value>
+  </definition>
+  <definition>
+    <key>tab_checkout</key>
+    <value><![CDATA[kijelentkezés]]></value>
+  </definition>
+  <definition>
+    <key>tab_appearance</key>
+    <value><![CDATA[Kinézet]]></value>
+  </definition>
+  <definition>
+    <key>tab_im</key>
+    <value><![CDATA[IM]]></value>
+  </definition>
+  <definition>
+    <key>tab_api</key>
+    <value><![CDATA[API]]></value>
+  </definition>
+  <definition>
+    <key>tab_general</key>
+    <value><![CDATA[Tábornok]]></value>
+  </definition>
+  <definition>
+    <key>tab_image</key>
+    <value><![CDATA[további képek]]></value>
+  </definition>
+  <definition>
+    <key>tab_option</key>
+    <value><![CDATA[Lehetőségek]]></value>
+  </definition>
+  <definition>
+    <key>tab_system</key>
+    <value><![CDATA[Rendszer]]></value>
+  </definition>
+  <definition>
+    <key>tab_store</key>
+    <value><![CDATA[Bolt]]></value>
+  </definition>
+  <definition>
+    <key>tab_special</key>
+    <value><![CDATA[Akciós]]></value>
+  </definition>
+  <definition>
+    <key>tab_local</key>
+    <value><![CDATA[Helyi]]></value>
+  </definition>
+  <definition>
+    <key>tab_mail</key>
+    <value><![CDATA[Levél]]></value>
+  </definition>
+  <definition>
+    <key>tab_order</key>
+    <value><![CDATA[Rendelési információk]]></value>
+  </definition>
+  <definition>
+    <key>tab_history</key>
+    <value><![CDATA[Rend története]]></value>
+  </definition>
+  <definition>
+    <key>tab_product</key>
+    <value><![CDATA[Termékek]]></value>
+  </definition>
+  <definition>
+    <key>tab_shipping</key>
+    <value><![CDATA[szállítási cím]]></value>
+  </definition>
+  <definition>
+    <key>tab_payment</key>
+    <value><![CDATA[fizetési cím]]></value>
+  </definition>
+  <definition>
+    <key>entry_discount</key>
+    <value><![CDATA[Kedvezmény]]></value>
+  </definition>
+  <definition>
+    <key>entry_special</key>
+    <value><![CDATA[Különleges]]></value>
+  </definition>
+  <definition>
+    <key>error_upload_1</key>
+    <value><![CDATA[Figyelmeztetés: A feltöltött fájl mérete túllépi a upload_max_filesize utasítást php.ini!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload_2</key>
+    <value><![CDATA[Figyelmeztetés: A feltöltött fájl mérete túllépi a MAX_FILE_SIZE utasítást adott a HTML űrlap!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload_3</key>
+    <value><![CDATA[Figyelmeztetés: A feltöltött fájl csak részben lett feltöltve!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload_4</key>
+    <value><![CDATA[Figyelmeztetés: Nem feltöltésre!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload_6</key>
+    <value><![CDATA[Figyelmeztetés: Hiányzik az ideiglenes mappa!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload_7</key>
+    <value><![CDATA[Figyelmeztetés: Nem sikerült lemezre írni a fájlt!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload_8</key>
+    <value><![CDATA[Figyelmeztetés: leállította a fájl feltöltését kiterjesztéssel!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload_999</key>
+    <value><![CDATA[Figyelmeztetés: nincs hibakód igényével!]]></value>
+  </definition>
+  <definition>
+    <key>text_choose_action</key>
+    <value><![CDATA[válasszon egy műveletet ..]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[Töröl]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_selected</key>
+    <value><![CDATA[kijelöltek eltávolítása]]></value>
+  </definition>
+  <definition>
+    <key>text_save_selected</key>
+    <value><![CDATA[Save Selected]]></value>
+  </definition>
+  <definition>
+    <key>text_save_all</key>
+    <value><![CDATA[összes mentése]]></value>
+  </definition>
+  <definition>
+    <key>text_select_status</key>
+    <value><![CDATA[- Select Állapot -]]></value>
+  </definition>
+  <definition>
+    <key>text_all_orders</key>
+    <value><![CDATA[minden rendelés]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_password</key>
+    <value><![CDATA[jelszó megerősítése]]></value>
+  </definition>
+  <definition>
+    <key>text_insert</key>
+    <value><![CDATA[Insert]]></value>
+  </definition>
+  <definition>
+    <key>text_select_items</key>
+    <value><![CDATA[Kérjük, válasszon tételek]]></value>
+  </definition>
+  <definition>
+    <key>button_go</key>
+    <value><![CDATA[MEGY]]></value>
+  </definition>
+  <definition>
+    <key>search_everywhere</key>
+    <value><![CDATA[Keresés teljes webhely]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akció]]></value>
+  </definition>
+  <definition>
+    <key>error_permission_access</key>
+    <value><![CDATA[Figyelmeztetés: nincs jogosultsága hozzáférni %s!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission_modify</key>
+    <value><![CDATA[Figyelmeztetés: nincs engedélye módosítani %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_add</key>
+    <value><![CDATA[hozzáad]]></value>
+  </definition>
+  <definition>
+    <key>text_add_block</key>
+    <value><![CDATA[Add blokk]]></value>
+  </definition>
+  <definition>
+    <key>text_resource_library</key>
+    <value><![CDATA[erőforrás könyvtár]]></value>
+  </definition>
+  <definition>
+    <key>text_add_media</key>
+    <value><![CDATA[Add Media]]></value>
+  </definition>
+  <definition>
+    <key>confirm_unmap_title</key>
+    <value><![CDATA[Erősítse forrás (ok) Leválasztása]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_unmap</key>
+    <value><![CDATA[Biztosan meg szeretné szüntetni forrás (ok)?]]></value>
+  </definition>
+  <definition>
+    <key>confirm_del_title</key>
+    <value><![CDATA[Erősítse forrás (ok) törlése]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_del</key>
+    <value><![CDATA[Biztosan törölni szeretné forrás (ok)?]]></value>
+  </definition>
+  <definition>
+    <key>text_type_image</key>
+    <value><![CDATA[képek]]></value>
+  </definition>
+  <definition>
+    <key>text_type_audio</key>
+    <value><![CDATA[Hang]]></value>
+  </definition>
+  <definition>
+    <key>text_type_video</key>
+    <value><![CDATA[Videó]]></value>
+  </definition>
+  <definition>
+    <key>text_type_pdf</key>
+    <value><![CDATA[PDF dokumentum]]></value>
+  </definition>
+  <definition>
+    <key>text_type_archive</key>
+    <value><![CDATA[Archív]]></value>
+  </definition>
+  <definition>
+    <key>text_type_download</key>
+    <value><![CDATA[Fájl letöltése]]></value>
+  </definition>
+  <definition>
+    <key>button_unmap</key>
+    <value><![CDATA[kapcsolatának megszüntetése]]></value>
+  </definition>
+  <definition>
+    <key>button_select_resource</key>
+    <value><![CDATA[választ]]></value>
+  </definition>
+  <definition>
+    <key>text_click_to_change</key>
+    <value><![CDATA[Kattints a képre, hogy megváltoztassa]]></value>
+  </definition>
+  <definition>
+    <key>text_select_from_list</key>
+    <value><![CDATA[Válassza ki a listából]]></value>
+  </definition>
+  <definition>
+    <key>text_count_selected</key>
+    <value><![CDATA[Gróf választott termékek:]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_confirm</key>
+    <value><![CDATA[Kérjük, erősítse meg törölni]]></value>
+  </definition>
+  <definition>
+    <key>text_save_edit</key>
+    <value><![CDATA[Hozzáadása / szerkesztése]]></value>
+  </definition>
+  <definition>
+    <key>text_apply</key>
+    <value><![CDATA[alkalmaz]]></value>
+  </definition>
+  <definition>
+    <key>text_on_top</key>
+    <value><![CDATA[Vissza a tetejére]]></value>
+  </definition>
+  <definition>
+    <key>text_all</key>
+    <value><![CDATA[Minden]]></value>
+  </definition>
+  <definition>
+    <key>text_create_new_block</key>
+    <value><![CDATA[Új blokk]]></value>
+  </definition>
+  <definition>
+    <key>button_unlink</key>
+    <value><![CDATA[kapcsolatának megszüntetése]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_unlink</key>
+    <value><![CDATA[Biztosan meg akarja szüntetni az erőforrás?]]></value>
+  </definition>
+  <definition>
+    <key>confirm_unlink_title</key>
+    <value><![CDATA[Erősítse erőforrás Unlink]]></value>
+  </definition>
+  <definition>
+    <key>text_select_store</key>
+    <value><![CDATA[Válasszon egy másik boltban]]></value>
+  </definition>
+  <definition>
+    <key>text_click_browse_file</key>
+    <value><![CDATA[Kattintson böngészhet fájl]]></value>
+  </definition>
+  <definition>
+    <key>text_browse</key>
+    <value><![CDATA[Tallózás]]></value>
+  </definition>
+  <definition>
+    <key>text_or</key>
+    <value><![CDATA[vagy]]></value>
+  </definition>
+  <definition>
+    <key>error_seo_keyword</key>
+    <value><![CDATA[SEO kulcsszó <a target="_blank" href="%s">&quot;%s&quot;</a> már létezik!]]></value>
+  </definition>
+  <definition>
+    <key>column_update_date</key>
+    <value><![CDATA[frissítés dátuma]]></value>
+  </definition>
+  <definition>
+    <key>text_automatic</key>
+    <value><![CDATA[Automatikus]]></value>
+  </definition>
+  <definition>
+    <key>text_sort_order</key>
+    <value><![CDATA[Sorrend]]></value>
+  </definition>
+  <definition>
+    <key>text_select_copy_layout</key>
+    <value><![CDATA[Select másolni elrendezést]]></value>
+  </definition>
+  <definition>
+    <key>text_apply_layout</key>
+    <value><![CDATA[Jelentkezz most]]></value>
+  </definition>
+  <definition>
+    <key>text_new_download</key>
+    <value><![CDATA[új letöltés]]></value>
+  </definition>
+  <definition>
+    <key>text_free</key>
+    <value><![CDATA[Ingyenes]]></value>
+  </definition>
+  <definition>
+    <key>text_sure</key>
+    <value><![CDATA[biztos vagy ebben?]]></value>
+  </definition>
+  <definition>
+    <key>button_add</key>
+    <value><![CDATA[hozzáad]]></value>
+  </definition>
+  <definition>
+    <key>text_please_confirm</key>
+    <value><![CDATA[Kérem erősítse meg]]></value>
+  </definition>
+  <definition>
+    <key>button_confirm</key>
+    <value><![CDATA[Jóváhagy]]></value>
+  </definition>
+  <definition>
+    <key>button_download</key>
+    <value><![CDATA[Letöltés]]></value>
+  </definition>
+  <definition>
+    <key>recent_customers</key>
+    <value><![CDATA[Legutóbb regisztrált ügyfelek]]></value>
+  </definition>
+  <definition>
+    <key>new_orders</key>
+    <value><![CDATA[új rendelések]]></value>
+  </definition>
+  <definition>
+    <key>text_saved</key>
+    <value><![CDATA[Sikeresen elmentve]]></value>
+  </definition>
+  <definition>
+    <key>text_processing</key>
+    <value><![CDATA[Feldolgozás alatt ...]]></value>
+  </definition>
+  <definition>
+    <key>text_next</key>
+    <value><![CDATA[Következő]]></value>
+  </definition>
+  <definition>
+    <key>text_previous</key>
+    <value><![CDATA[Előző]]></value>
+  </definition>
+  <definition>
+    <key>text_on</key>
+    <value><![CDATA[TOVÁBB]]></value>
+  </definition>
+  <definition>
+    <key>text_off</key>
+    <value><![CDATA[KI]]></value>
+  </definition>
+  <definition>
+    <key>text_external_help</key>
+    <value><![CDATA[külső segítség]]></value>
+  </definition>
+  <definition>
+    <key>text_select_from_lookup</key>
+    <value><![CDATA[Kezdje el beírni (név, típus, sku, stb), hogy néz ki, és válassza eredmény]]></value>
+  </definition>
+  <definition>
+    <key>text_continue_typing</key>
+    <value><![CDATA[Folytassa a gépelést ...]]></value>
+  </definition>
+  <definition>
+    <key>text_looking_for</key>
+    <value><![CDATA[Keresni]]></value>
+  </definition>
+  <definition>
+    <key>button_manage_extensions</key>
+    <value><![CDATA[Manage Extensions]]></value>
+  </definition>
+  <definition>
+    <key>text_abc_notification</key>
+    <value><![CDATA[Szoftverfrissítések és értesítések]]></value>
+  </definition>
+  <definition>
+    <key>text_not_applicable</key>
+    <value><![CDATA[NA]]></value>
+  </definition>
+  <definition>
+    <key>text_share_embed_code</key>
+    <value><![CDATA[Beágyazás]]></value>
+  </definition>
+  <definition>
+    <key>text_copy_embed_code</key>
+    <value><![CDATA[Másolat és illessze be ezt a HTML-kódot, ha azt szeretné, hogy eladja]]></value>
+  </definition>
+  <definition>
+    <key>button_retry</key>
+    <value><![CDATA[Próbálja újra]]></value>
+  </definition>
+  <definition>
+    <key>text_system_error</key>
+    <value><![CDATA[Rendszerhiba lépett fel. Ellenőrizze a rendszer <a target="_blank" href="%s">üzenetet</a> vagy <a target="_blank" href="%s">hiba log</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_system_warning</key>
+    <value><![CDATA[Rendszerfigyelmeztetés számoltak be. Ellenőrizze a rendszer <a target="_blank" href="%s">üzenetek</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_system_notice</key>
+    <value><![CDATA[A rendszer értesítést számoltak be. Ellenőrizze a rendszer <a target="_blank" href="%s">üzenetek</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_set_related</key>
+    <value><![CDATA[Állítsa Kapcsolódó]]></value>
+  </definition>
+  <definition>
+    <key>tab_text</key>
+    <value><![CDATA[HTML / szöveg]]></value>
+  </definition>
+  <definition>
+    <key>tab_visual</key>
+    <value><![CDATA[Vizuális]]></value>
+  </definition>
+  <definition>
+    <key>button_add_media</key>
+    <value><![CDATA[Add Media]]></value>
+  </definition>
+  <definition>
+    <key>text_view_more</key>
+    <value><![CDATA[Mutass többet]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[Kezelőpanel]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront</key>
+    <value><![CDATA[kirakat]]></value>
+  </definition>
+  <definition>
+    <key>text_texteditor_extended_mode</key>
+    <value><![CDATA[<a class="texteditor_ext_mode" href="%s" ><i class="fa fa-external-link"></i> Szerkesztés kiterjesztett üzemmódban</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_view</key>
+    <value><![CDATA[Gyors nézet]]></value>
+  </definition>
+  <definition>
+    <key>text_more_current</key>
+    <value><![CDATA[Teljes oldal szerkesztése]]></value>
+  </definition>
+  <definition>
+    <key>text_more_new</key>
+    <value><![CDATA[Új lap szerkesztés]]></value>
+  </definition>
+  <definition>
+    <key>text_back_to_list</key>
+    <value><![CDATA[Vissza hirdetések]]></value>
+  </definition>
+</definitions>

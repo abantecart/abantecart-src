@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Fiók Letöltések]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Fiók]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[Letöltések]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Rendelés azonosító:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Dátum hozzáadva:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_purchased</key>
+    <value><![CDATA[Vásárlás dátuma:]]></value>
+  </definition>
+  <definition>
+    <key>text_name</key>
+    <value><![CDATA[Név:]]></value>
+  </definition>
+  <definition>
+    <key>text_remaining</key>
+    <value><![CDATA[Többi:]]></value>
+  </definition>
+  <definition>
+    <key>text_size</key>
+    <value><![CDATA[Méret:]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Letöltés]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Nem tett korábbi letölthető megrendeléseket!]]></value>
+  </definition>
+  <definition>
+    <key>text_expire_date</key>
+    <value><![CDATA[Lejárati dátum:]]></value>
+  </definition>
+  <definition>
+    <key>text_expired</key>
+    <value><![CDATA[Lejárt]]></value>
+  </definition>
+  <definition>
+    <key>text_pending</key>
+    <value><![CDATA[Függőben levő]]></value>
+  </definition>
+  <definition>
+    <key>text_unavailable</key>
+    <value><![CDATA[Nem érhető el]]></value>
+  </definition>
+  <definition>
+    <key>text_reached_limit</key>
+    <value><![CDATA[elérte Limit]]></value>
+  </definition>
+  <definition>
+    <key>error_download_not_exists</key>
+    <value><![CDATA[A kért fájl nem létezik!]]></value>
+  </definition>
+</definitions>

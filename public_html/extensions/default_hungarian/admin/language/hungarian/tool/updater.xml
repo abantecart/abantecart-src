@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Update manager]]></value>
+  </definition>
+  <definition>
+    <key>text_checkupdates</key>
+    <value><![CDATA[frissítések keresése]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Extension neve]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[típus]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[Kategória]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Állapot]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[Jelenlegi verzió]]></value>
+  </definition>
+  <definition>
+    <key>column_new_version</key>
+    <value><![CDATA[Új verzió]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akció]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Siker: Extensions sikeresen frissítve!]]></value>
+  </definition>
+  <definition>
+    <key>text_update</key>
+    <value><![CDATA[frissítés]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore_exts</key>
+    <value><![CDATA[Restore backuped kiterjesztés:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[Frissítés:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Figyelmeztetés: Nem rendelkezik engedéllyel módosítani könyvtárba:]]></value>
+  </definition>
+  <definition>
+    <key>warning_server</key>
+    <value><![CDATA[Szerver frissítések inaccesible.]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_title</key>
+    <value><![CDATA[Frissítés Értesítés% HOSSZABBÍTÓ%]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_text</key>
+    <value><![CDATA[&quot;Új verzió a kiterjesztés&quot;% HOSSZABBÍTÓ% &quot;áll rendelkezésre. Kérjük, lépjen% LINK% és frissíti azt. &quot;]]></value>
+  </definition>
+  <definition>
+    <key>warning_updates</key>
+    <value><![CDATA[Nem lehet információt szerezni frissítéseket.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Figyelmeztetés: A feltöltött fájl üres volt!]]></value>
+  </definition>
+  <definition>
+    <key>error_exts_list</key>
+    <value><![CDATA[Figyelmeztetés: Extension lista nem tömb!]]></value>
+  </definition>
+  <definition>
+    <key>text_nothing_todo</key>
+    <value><![CDATA[Ön a kiterjesztések naprakész. Nincs mit tenni.]]></value>
+  </definition>
+  <definition>
+    <key>text_connect</key>
+    <value><![CDATA[Csatlakozás]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect</key>
+    <value><![CDATA[Csatlakozás a piacon]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect_your_store</key>
+    <value><![CDATA[Kérjük, csatlakoztassa Store piactéren]]></value>
+  </definition>
+  <definition>
+    <key>text_note</key>
+    <value><![CDATA[Megjegyzés: Frissítés csak a csatlakoztatott boltokban megvásárolt történetében.]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Vásárolt termékek Jelentés]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[termék név]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Modell]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Mennyiség]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Teljes]]></value>
+  </definition>
+</definitions>

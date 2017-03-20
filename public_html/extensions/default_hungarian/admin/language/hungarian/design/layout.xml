@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Layout &amp; Blocks menedzser]]></value>
+  </definition>
+  <definition>
+    <key>text_select_template</key>
+    <value><![CDATA[Sablon kiválasztása:]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_success</key>
+    <value><![CDATA[Siker: Oldalelrendezési törölték!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_restricted</key>
+    <value><![CDATA[Hiba: Oldalelrendezési korlátozott, és nem lehet eltávolítani!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Siker: Ön módosította elrendezés &amp; blokkok!]]></value>
+  </definition>
+  <definition>
+    <key>text_preview_generated</key>
+    <value><![CDATA[Preview generált!]]></value>
+  </definition>
+  <definition>
+    <key>text_click_here</key>
+    <value><![CDATA[Kattints ide]]></value>
+  </definition>
+</definitions>

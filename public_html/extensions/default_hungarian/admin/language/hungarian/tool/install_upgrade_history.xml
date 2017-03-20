@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[telepítési / frissítési előzmények]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[típus]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[dátum hozzáadva]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Package Key]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[Változat]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_date</key>
+    <value><![CDATA[mentés dátuma]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_file</key>
+    <value><![CDATA[Backup File]]></value>
+  </definition>
+  <definition>
+    <key>column_user</key>
+    <value><![CDATA[Felhasználónév]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[fájl letöltése]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_history</key>
+    <value><![CDATA[Előzmények törlése]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_success</key>
+    <value><![CDATA[A telepítési / frissítési előzmények sikeresen törölve.]]></value>
+  </definition>
+</definitions>

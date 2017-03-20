@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Kupon]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[Kupon]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Rendelési összesítések]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Siker: Ön módosította összesen kupont!]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Állapot:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Sorrend:]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[Számítási Order:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Figyelmeztetés: nincs engedélye módosítására teljes kupon!]]></value>
+  </definition>
+</definitions>

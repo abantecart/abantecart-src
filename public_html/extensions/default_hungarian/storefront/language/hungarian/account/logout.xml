@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Fiók Kijelentkezés]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Ön már kijelentkezett fiókját. Ez most biztos, hogy hagyja el a számítógépet. </p><p> Az ön kosara lett mentve, az elemek belsejében helyreáll amikor belép vissza a fiókjába. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Fiók]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Kilépés]]></value>
+  </definition>
+</definitions>

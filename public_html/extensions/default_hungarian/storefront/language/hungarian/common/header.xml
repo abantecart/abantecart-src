@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_home</key>
+    <value><![CDATA[Otthon]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[Különleges ajánlatok]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Kapcsolatba lépni]]></value>
+  </definition>
+  <definition>
+    <key>text_sitemap</key>
+    <value><![CDATA[Sitemap]]></value>
+  </definition>
+  <definition>
+    <key>text_bookmark</key>
+    <value><![CDATA[Könyvjelző]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Fiók]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Belépek]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Kijelentkezés]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[Kosár]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[kijelentkezés]]></value>
+  </definition>
+  <definition>
+    <key>text_keyword</key>
+    <value><![CDATA[Kulcsszavak]]></value>
+  </definition>
+  <definition>
+    <key>text_advanced</key>
+    <value><![CDATA[Részletes keresés]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[Minden kategória]]></value>
+  </definition>
+  <definition>
+    <key>entry_search</key>
+    <value><![CDATA[Keresés:]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Üdv újra]]></value>
+  </definition>
+  <definition>
+    <key>text_not</key>
+    <value><![CDATA[Nem]]></value>
+  </definition>
+  <definition>
+    <key>text_login_or_register</key>
+    <value><![CDATA[Bejelentkezés vagy Regisztráció]]></value>
+  </definition>
+</definitions>

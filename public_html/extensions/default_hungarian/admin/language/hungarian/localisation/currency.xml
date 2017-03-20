@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Pénznemek]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[Valuta]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Siker: Van módosított valuta!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Árfolyam Cím]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Kód]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Érték]]></value>
+  </definition>
+  <definition>
+    <key>column_date_modified</key>
+    <value><![CDATA[Utolsó frissítés]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Állapot]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akció]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Valuta Cím:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Kód: <br/><span class="help">Ne módosítsa, ha ez az alapértelmezett pénznem.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Érték: <br/><span class="help">Állítsa 1,00000 ha ez az alapértelmezett pénznem.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_symbol_left</key>
+    <value><![CDATA[Symbol Balra:]]></value>
+  </definition>
+  <definition>
+    <key>entry_symbol_right</key>
+    <value><![CDATA[Symbol Jobbra:]]></value>
+  </definition>
+  <definition>
+    <key>entry_decimal_place</key>
+    <value><![CDATA[Tizedes jel:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Állapot:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Figyelmeztetés: nincs engedélye módosítani valuták!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Árfolyam Cím között kell lennie a 2. és 32 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Pénznemkód kell tartalmaznia 3 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Figyelmeztetés: Ez a valuta nem lehet törölni, mivel jelenleg kijelölve alapértelmezett boltban valuta!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Figyelmeztetés: Ez a valuta nem lehet törölni, mivel jelenleg hozzárendelt %s boltokban!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Figyelmeztetés: Ez a valuta nem lehet törölni, mivel jelenleg hozzárendelt %s megrendeléseket!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Adminisztráció]]></value>
+  </definition>
+  <definition>
+    <key>text_heading</key>
+    <value><![CDATA[Adminisztráció]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Kérjük, adja meg bejelentkezési adatait.]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[Felhasználónév:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Jelszó:]]></value>
+  </definition>
+  <definition>
+    <key>entry_forgot_password</key>
+    <value><![CDATA[Elfelejtett jelszó?]]></value>
+  </definition>
+  <definition>
+    <key>button_login</key>
+    <value><![CDATA[Belépek]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Nincs találat a felhasználónév és / vagy jelszó.]]></value>
+  </definition>
+  <definition>
+    <key>error_token</key>
+    <value><![CDATA[Érvénytelen token ülésén. Kérjük, jelentkezzen be újra.]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message</key>
+    <value><![CDATA[Sikertelen bejelentkezés admin kísérletet IP:]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message_text</key>
+    <value><![CDATA[Mivel a felhasználói bejelentkezés:]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Oldaltérkép]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[Különleges ajánlatok]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[A fiókom]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[Számla információ]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Jelszó]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Címjegyzék]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[Rend története]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Letöltések]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[Bevásárlókocsi]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[kijelentkezés]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Keresés]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[Információ]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Lépjen kapcsolatba velünk]]></value>
+  </definition>
+</definitions>

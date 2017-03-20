@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[termék Files]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[Termék]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_product_file</key>
+    <value><![CDATA[Szerkesztése Termék fájl]]></value>
+  </definition>
+  <definition>
+    <key>tab_files</key>
+    <value><![CDATA[Files]]></value>
+  </definition>
+  <definition>
+    <key>tab_general</key>
+    <value><![CDATA[Tábornok]]></value>
+  </definition>
+  <definition>
+    <key>tab_attributes</key>
+    <value><![CDATA[Letöltés attribútumok]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_icon</key>
+    <value><![CDATA[fájl ikon]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Állapot]]></value>
+  </definition>
+  <definition>
+    <key>entry_resource</key>
+    <value><![CDATA[Forrás]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Név]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_name</key>
+    <value><![CDATA[Letöltés neve]]></value>
+  </definition>
+  <definition>
+    <key>entry_mask</key>
+    <value><![CDATA[Letöltés maszk <span class="help">Filename alias az ügyfél letöltés kimenet</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_full_path</key>
+    <value><![CDATA[File Server Path]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_max_downloads</key>
+    <value><![CDATA[Max letöltés]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_sort_order</key>
+    <value><![CDATA[Sorrend]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_status</key>
+    <value><![CDATA[Állapot]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_push_to_customers</key>
+    <value><![CDATA[Tolja az ügyfelek]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_activation</key>
+    <value><![CDATA[aktiválás mód]]></value>
+  </definition>
+  <definition>
+    <key>text_add_file</key>
+    <value><![CDATA[Fájl hozzáadása]]></value>
+  </definition>
+  <definition>
+    <key>text_new_file</key>
+    <value><![CDATA[Új fájl]]></value>
+  </definition>
+  <definition>
+    <key>text_download_attributes</key>
+    <value><![CDATA[Letöltés attribútumok]]></value>
+  </definition>
+  <definition>
+    <key>text_download_information</key>
+    <value><![CDATA[Tábornok]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_added</key>
+    <value><![CDATA[Hozzáadva]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_modified</key>
+    <value><![CDATA[Módosított]]></value>
+  </definition>
+  <definition>
+    <key>entry_max_downloads</key>
+    <value><![CDATA[Max letöltés <span class="help">Count letöltések engedélyezett ügyfél</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_activate</key>
+    <value><![CDATA[Az aktivált <span class="help">Letöltés lesz aktiválja a kiválasztott esemény. <br/> példa: Azonnal. Download aktiválja után megrendeléskor, függetlenül attól, hogy a rendelés állapota</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Sorrend]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_days</key>
+    <value><![CDATA[Lejár nap <span class="help">Gróf nappal a vásárlás napjától</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_before_order</key>
+    <value><![CDATA[mielőtt rendelés]]></value>
+  </definition>
+  <definition>
+    <key>text_immediately</key>
+    <value><![CDATA[Azonnal]]></value>
+  </definition>
+  <definition>
+    <key>text_on_order_status</key>
+    <value><![CDATA[A rendelés állapota]]></value>
+  </definition>
+  <definition>
+    <key>text_manually</key>
+    <value><![CDATA[Manuálisan]]></value>
+  </definition>
+  <definition>
+    <key>text_success_download_save</key>
+    <value><![CDATA[Siker: Ön módosította a fájlt!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_exists</key>
+    <value><![CDATA[Hiba: Nem frissíteni letöltés, mert nem szerepel az adatbázisban!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_name</key>
+    <value><![CDATA[Hiba: Letöltés neve kell hossza 2 és 128 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_max_downloads</key>
+    <value><![CDATA[Hiba: a maximális letöltések száma nagyobb kell legyen 0!]]></value>
+  </definition>
+  <definition>
+    <key>error_activate</key>
+    <value><![CDATA[Hiba: válasszuk kereset aktiválása letöltés!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_status</key>
+    <value><![CDATA[Hiba: válassza megrendelés állapotának aktiválása letöltés!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_attributes</key>
+    <value><![CDATA[Letöltés tulajdonságok Error (ek):]]></value>
+  </definition>
+  <definition>
+    <key>text_shared_downloads</key>
+    <value><![CDATA[Közös Letöltések]]></value>
+  </definition>
+  <definition>
+    <key>text_create_download</key>
+    <value><![CDATA[Új letöltés]]></value>
+  </definition>
+  <definition>
+    <key>text_path</key>
+    <value><![CDATA[Relatív útvonalát fájl]]></value>
+  </definition>
+  <definition>
+    <key>text_preview</key>
+    <value><![CDATA[Előnézet]]></value>
+  </definition>
+  <definition>
+    <key>entry_shared</key>
+    <value><![CDATA[megosztani Letöltés]]></value>
+  </definition>
+  <definition>
+    <key>text_assign</key>
+    <value><![CDATA[Mentés]]></value>
+  </definition>
+  <definition>
+    <key>text_assigned_to</key>
+    <value><![CDATA[Osztották:]]></value>
+  </definition>
+  <definition>
+    <key>text_select_shared_downloads</key>
+    <value><![CDATA[Válassza megosztott letöltések]]></value>
+  </definition>
+  <definition>
+    <key>error_selected_downloads</key>
+    <value><![CDATA[Figyelmeztetés: Kérjük, válassza ki a megosztott letöltések rendelhetők.]]></value>
+  </definition>
+  <definition>
+    <key>text_map_success</key>
+    <value><![CDATA[Siker: A rendelt megosztott letöltések a termékhez!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_or_refuse</key>
+    <value><![CDATA[törölni vagy megtagadja (osztott)]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_delete</key>
+    <value><![CDATA[Letöltés megerősítése törlése / szemét]]></value>
+  </definition>
+  <definition>
+    <key>text_success_remove</key>
+    <value><![CDATA[Siker: a termék fájlok listáját megváltozott!]]></value>
+  </definition>
+  <definition>
+    <key>text_push</key>
+    <value><![CDATA[Nyom]]></value>
+  </definition>
+  <definition>
+    <key>text_push_to_customers</key>
+    <value><![CDATA[Tolja az ügyfelek]]></value>
+  </definition>
+  <definition>
+    <key>text_push_to_orders</key>
+    <value><![CDATA[Nyomja Letöltés %s rendelések]]></value>
+  </definition>
+  <definition>
+    <key>success_push_to_orders</key>
+    <value><![CDATA[Siker: Letöltés szorult %s megbízás (ok) sikeresen]]></value>
+  </definition>
+  <definition>
+    <key>text_no_download_attributes_yet</key>
+    <value><![CDATA[Nem kell letölteni attribútumok még. <a href="%s" target="_blank">Kattintson a hozzáadni</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_push</key>
+    <value><![CDATA[Jóváhagy?]]></value>
+  </definition>
+  <definition>
+    <key>error_downloads_disabled</key>
+    <value><![CDATA[Figyelmeztetés: Letöltések le van tiltva a beállítások tárolása. <a href="#admin#rt=setting/setting&active=general" target="new">Kattintson a Szerkesztés</a> !]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Figyelmeztetés: nincs engedélye módosítására termék kép!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[Kérjük, állítsa be a fájl letölthető.]]></value>
+  </definition>
+  <definition>
+    <key>attention_shared</key>
+    <value><![CDATA[Arra készül, hogy módosítsa a megosztott letölthető. Szerkesztése hatással lesz más termékek.]]></value>
+  </definition>
+  <definition>
+    <key>text_shared_with</key>
+    <value><![CDATA[Megosztva vele:]]></value>
+  </definition>
+</definitions>

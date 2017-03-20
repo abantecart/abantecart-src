@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Blocks]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[törölje blokk]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[szerkesztés blokk]]></value>
+  </definition>
+  <definition>
+    <key>text_enable</key>
+    <value><![CDATA[Bekapcsolni kikapcsolni]]></value>
+  </definition>
+  <definition>
+    <key>text_details</key>
+    <value><![CDATA[Részletek]]></value>
+  </definition>
+  <definition>
+    <key>text_create</key>
+    <value><![CDATA[blokk létrehozása]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Siker: Ön módosította blokk!]]></value>
+  </definition>
+  <definition>
+    <key>column_block_id</key>
+    <value><![CDATA[ID]]></value>
+  </definition>
+  <definition>
+    <key>column_block_txt_id</key>
+    <value><![CDATA[Egyedi szöveg ID]]></value>
+  </definition>
+  <definition>
+    <key>column_block_name</key>
+    <value><![CDATA[Név]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[dátum hozzáadva]]></value>
+  </definition>
+  <definition>
+    <key>column_block_type</key>
+    <value><![CDATA[típus]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akció]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Sorrend]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Kép]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_status</key>
+    <value><![CDATA[Állapot]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_status_note</key>
+    <value><![CDATA[Megjegyzés: Meg kell adni ezt a blokkot a <a style="text-decoration: underline; font-weight: bold;" href="#admin#rt=design/layout">ELRENDEZÉS</a> a kívánt oldalt látni dolgozó]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_type</key>
+    <value><![CDATA[Egyedi Blokk típus]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_name</key>
+    <value><![CDATA[Egyéni blokk neve]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_wrapper</key>
+    <value><![CDATA[Használja blokk burkolat (megjelenés)]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_framed</key>
+    <value><![CDATA[Használja blokk keret]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_title</key>
+    <value><![CDATA[Egyéni blokk címe]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_description</key>
+    <value><![CDATA[Egyéni blokk leírása <p> Megjegyzés: csak belső használatra </p>]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_content</key>
+    <value><![CDATA[Egyedi tartalom letiltása]]></value>
+  </definition>
+  <definition>
+    <key>entry_listing_datasource</key>
+    <value><![CDATA[Listing adatforrás]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_confirm</key>
+    <value><![CDATA[Erősítse törölni a blokkot?]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Kérjük, töltse ki az összes kötelező mezőt!]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[Nem lehet törölni, mert ez a blokk van használatban. Kérjük, látogasson el Elrendezés részben.]]></value>
+  </definition>
+  <definition>
+    <key>error_text_status</key>
+    <value><![CDATA[Állapotát nem lehet megváltoztatni, mert ez a blokk nincs használatban. Kérjük, látogasson el Elrendezés részben.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_deleted</key>
+    <value><![CDATA[Siker: kitörölt saját blokkot!]]></value>
+  </definition>
+  <definition>
+    <key>entry_data_source</key>
+    <value><![CDATA[Adatforrás:]]></value>
+  </definition>
+  <definition>
+    <key>entry_limit</key>
+    <value><![CDATA[Határ:]]></value>
+  </definition>
+  <definition>
+    <key>text_listing_auto</key>
+    <value><![CDATA[Auto hirdetések]]></value>
+  </definition>
+  <definition>
+    <key>text_listing_manual</key>
+    <value><![CDATA[egyéni hirdetések]]></value>
+  </definition>
+  <definition>
+    <key>text_select_listing</key>
+    <value><![CDATA[--- Válassza adatokat felsoroló forrás ---]]></value>
+  </definition>
+  <definition>
+    <key>text_products_special</key>
+    <value><![CDATA[Különleges ajánlatok]]></value>
+  </definition>
+  <definition>
+    <key>text_products_popular</key>
+    <value><![CDATA[népszerű termékek]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[Kategóriák]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[Gyártók]]></value>
+  </definition>
+  <definition>
+    <key>text_featured</key>
+    <value><![CDATA[Kiemelt Termék]]></value>
+  </definition>
+  <definition>
+    <key>text_latest</key>
+    <value><![CDATA[legújabb termékek]]></value>
+  </definition>
+  <definition>
+    <key>text_bestsellers</key>
+    <value><![CDATA[bestsellerek Termékek]]></value>
+  </definition>
+  <definition>
+    <key>text_media</key>
+    <value><![CDATA[Média]]></value>
+  </definition>
+  <definition>
+    <key>entry_resource_type</key>
+    <value><![CDATA[Média típus:]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_products</key>
+    <value><![CDATA[Egyedi termékek]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_categories</key>
+    <value><![CDATA[egyéni kategóriák]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_manufacturers</key>
+    <value><![CDATA[Egyedi gyártók]]></value>
+  </definition>
+  <definition>
+    <key>text_html_block</key>
+    <value><![CDATA[HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_listing_block</key>
+    <value><![CDATA[Az adatok felsorolása]]></value>
+  </definition>
+  <definition>
+    <key>text_selected</key>
+    <value><![CDATA[Kijelölt elemek:]]></value>
+  </definition>
+  <definition>
+    <key>text_data_listed</key>
+    <value><![CDATA[Az adatokat fel kell sorolni]]></value>
+  </definition>
+  <definition>
+    <key>text_save_edit</key>
+    <value><![CDATA[Hozzáadása / szerkesztése]]></value>
+  </definition>
+  <definition>
+    <key>text_apply</key>
+    <value><![CDATA[alkalmazza kiválasztás]]></value>
+  </definition>
+  <definition>
+    <key>text_block_id</key>
+    <value><![CDATA[blokk azonosítója]]></value>
+  </definition>
+  <definition>
+    <key>text_block_txt_id</key>
+    <value><![CDATA[Blokk Text ID]]></value>
+  </definition>
+  <definition>
+    <key>text_controller</key>
+    <value><![CDATA[Vezérlő]]></value>
+  </definition>
+  <definition>
+    <key>text_templates</key>
+    <value><![CDATA[blokk sablonok]]></value>
+  </definition>
+  <definition>
+    <key>text_block_date_added</key>
+    <value><![CDATA[Blokk létrehozás dátuma]]></value>
+  </definition>
+  <definition>
+    <key>text_layouts</key>
+    <value><![CDATA[Használt elrendezések]]></value>
+  </definition>
+  <definition>
+    <key>text_block_info</key>
+    <value><![CDATA[Információk Egyedi blokk]]></value>
+  </definition>
+  <definition>
+    <key>text_add_block</key>
+    <value><![CDATA[Hozzáadása blokk rész]]></value>
+  </definition>
+  <definition>
+    <key>text_available_block</key>
+    <value><![CDATA[elérhető Blocks]]></value>
+  </definition>
+  <definition>
+    <key>error_block_not_available</key>
+    <value><![CDATA[Ez a rész nem jelenik meg a kiválasztott helyzet kirakat!]]></value>
+  </definition>
+</definitions>

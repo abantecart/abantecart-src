@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>import_export_title</key>
+    <value><![CDATA[Import Export]]></value>
+  </definition>
+  <definition>
+    <key>tab_import</key>
+    <value><![CDATA[import]]></value>
+  </definition>
+  <definition>
+    <key>tab_export</key>
+    <value><![CDATA[Export]]></value>
+  </definition>
+  <definition>
+    <key>text_tables</key>
+    <value><![CDATA[asztalok]]></value>
+  </definition>
+  <definition>
+    <key>text_options</key>
+    <value><![CDATA[Lehetőségek]]></value>
+  </definition>
+  <definition>
+    <key>text_file_format</key>
+    <value><![CDATA[Fájlformátum:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_name</key>
+    <value><![CDATA[Fájl név:]]></value>
+  </definition>
+  <definition>
+    <key>text_load_file</key>
+    <value><![CDATA[Load File]]></value>
+  </definition>
+  <definition>
+    <key>text_load</key>
+    <value><![CDATA[Betöltés]]></value>
+  </definition>
+  <definition>
+    <key>text_import_loaded</key>
+    <value><![CDATA[Összesen betöltött:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_field</key>
+    <value><![CDATA[File to import: <br/><span class="help">Támogatott formátumok import fájlok XML, CSV, TXT</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_id_range_from</key>
+    <value><![CDATA[ID tartományban:]]></value>
+  </definition>
+  <definition>
+    <key>text_to</key>
+    <value><![CDATA[nak nek:]]></value>
+  </definition>
+  <definition>
+    <key>text_csv_delimiter</key>
+    <value><![CDATA[CSV / TXT határoló:]]></value>
+  </definition>
+  <definition>
+    <key>text_export_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">Minden mező lesz idézőjelek közé.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_import_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">Minden mezőt ki kell idézőjelek közé.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_test_mode</key>
+    <value><![CDATA[Fuss egy teszt üzemmódban <br/><span class="help">Ajánlott futtatni adatimportálást egy teszt üzemmódban először, hogy ha bármilyen kérdés van jelen.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_file_format</key>
+    <value><![CDATA[Hibás fájlformátum!]]></value>
+  </definition>
+  <definition>
+    <key>error_xml_import</key>
+    <value><![CDATA[Hiba az importálás során XML fájlban!]]></value>
+  </definition>
+  <definition>
+    <key>error_csv_import</key>
+    <value><![CDATA[Hiba az importálás során CSV / TXT fájlba! Kérjük, ellenőrizze mezők határoló.]]></value>
+  </definition>
+  <definition>
+    <key>error_data_corrupted</key>
+    <value><![CDATA[Adatok üres vagy sérült.]]></value>
+  </definition>
+  <definition>
+    <key>error_file_empty</key>
+    <value><![CDATA[Fájl üres.]]></value>
+  </definition>
+  <definition>
+    <key>error_writable_backup</key>
+    <value><![CDATA[Backup könyvtárban kell lennie írható CSV / TXT export dolgozni.]]></value>
+  </definition>
+  <definition>
+    <key>text_updated</key>
+    <value><![CDATA[Frissítve:]]></value>
+  </definition>
+  <definition>
+    <key>text_created</key>
+    <value><![CDATA[Alkotó:]]></value>
+  </definition>
+  <definition>
+    <key>text_errors</key>
+    <value><![CDATA[hibák:]]></value>
+  </definition>
+  <definition>
+    <key>text_show_details</key>
+    <value><![CDATA[Mutasd a részleteket]]></value>
+  </definition>
+  <definition>
+    <key>text_no_children</key>
+    <value><![CDATA[Egyetlen gyermek tételek]]></value>
+  </definition>
+  <definition>
+    <key>text_some_errors</key>
+    <value><![CDATA[Vannak hibák.]]></value>
+  </definition>
+  <definition>
+    <key>text_test_completed</key>
+    <value><![CDATA[Próbaüzem befejeződött. Összesen SQL lekérdezések:]]></value>
+  </definition>
+  <definition>
+    <key>text_sort_by</key>
+    <value><![CDATA[Sorrend:]]></value>
+  </definition>
+</definitions>

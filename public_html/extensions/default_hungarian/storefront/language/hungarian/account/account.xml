@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[A fiókom]]></value>
+  </definition>
+  <definition>
+    <key>text_account_dashboard</key>
+    <value><![CDATA[Fiók Portál]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Fiók]]></value>
+  </definition>
+  <definition>
+    <key>text_my_account</key>
+    <value><![CDATA[A fiókom]]></value>
+  </definition>
+  <definition>
+    <key>text_my_orders</key>
+    <value><![CDATA[rendeléseim]]></value>
+  </definition>
+  <definition>
+    <key>text_my_notifications</key>
+    <value><![CDATA[Értesítések]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[Fiókadatok módosítása]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Jelszó módosítása]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Kezelés címjegyzék]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[Rendelési előzmények]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[Tranzakciók előzményei]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Letöltések]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[hírlevél feliratkozás]]></value>
+  </definition>
+  <definition>
+    <key>text_account_wishlist</key>
+    <value><![CDATA[A kívánságlistám]]></value>
+  </definition>
+</definitions>

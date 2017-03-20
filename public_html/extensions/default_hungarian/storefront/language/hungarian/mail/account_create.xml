@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Köszönöm, regisztráció]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Üdvözöljük és köszönjük, hogy regisztrált a %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Fiókja most már létre, és akkor érheti el, hogy felkereste honlapunkat, vagy a következő címen:]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[Fiókja jóvá kell hagynia, mielőtt be tud jelentkezni. A jóváhagyás után be tud jelentkezni az e-mail címével és jelszavával ellátogat honlapunkra, vagy a következő címen:]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[Mielőtt a fiókja aktiválásához egy utolsó lépést meg kell tenni, hogy a regisztráció befejezéséhez. <br/> 
+ Meg kell befejezni ezt az utolsó lépést, hogy lesz egy regisztrált tag. Kérjük, kattintson az alábbi linkre, hogy aktiválja fiókját %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Amikor a bejelentkezés, akkor képes lesz arra, hogy más szolgáltatásokat, beleértve a felülvizsgálata már megrendelések, nyomdai számlák és szerkesztése a fiók adatait.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Köszönöm,]]></value>
+  </definition>
+</definitions>

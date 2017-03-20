@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Nyelvek]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[Nyelv]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Siker: Van módosított nyelven!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Nyelv neve]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Kód]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Sorrend]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akció]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Nyelv Név:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Kód: <br/><span class="help">Ne módosítsa, ha ez az alapértelmezett nyelv.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_locale</key>
+    <value><![CDATA[Nyelv:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[Kép:]]></value>
+  </definition>
+  <definition>
+    <key>entry_directory</key>
+    <value><![CDATA[Könyvtár:]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[Fájl név:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Állapot:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Sorrend:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Figyelmeztetés: nincs engedélye módosítani nyelven!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Nyelv Név között kell lennie a 2. és 32 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Nyelvi kód kell legalább 2 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_locale</key>
+    <value><![CDATA[Nyelv szükséges!]]></value>
+  </definition>
+  <definition>
+    <key>error_image</key>
+    <value><![CDATA[Kép nevét kell lennie a 2 és 64 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_directory</key>
+    <value><![CDATA[Directory szükséges!]]></value>
+  </definition>
+  <definition>
+    <key>error_filename</key>
+    <value><![CDATA[Fájlnév között kell lennie a 2. és 64 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Figyelmeztetés: Ez a nyelv nem lehet hagyni, mivel jelenleg kijelölve alapértelmezett boltban nyelvet!]]></value>
+  </definition>
+  <definition>
+    <key>error_admin</key>
+    <value><![CDATA[Figyelmeztetés: Ez a nyelv nem lehet törölni, mivel jelenleg hozzá, mint az adminisztráció nyelvet!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Figyelmeztetés: Ez a nyelv nem lehet hagyni, mivel jelenleg hozzárendelt %s boltokban!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Figyelmeztetés: Ez a nyelv nem lehet hagyni, mivel jelenleg hozzárendelt %s megrendeléseket!]]></value>
+  </definition>
+  <definition>
+    <key>language_edit_title</key>
+    <value><![CDATA[Szerkesztése Nyelv Részletek]]></value>
+  </definition>
+  <definition>
+    <key>load_language_title</key>
+    <value><![CDATA[Töltsön hiányzó nyelvi adatok]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_selector</key>
+    <value><![CDATA[Forrás nyelv:]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method_selector</key>
+    <value><![CDATA[Szöveg fordítás módszer:]]></value>
+  </definition>
+  <definition>
+    <key>load_language_note</key>
+    <value><![CDATA[Megjegyzés: Ez a művelet eltarthat néhány percig fut. Ne zárja be a böngésző, elhagyja, vagy frissítse az oldalt!]]></value>
+  </definition>
+  <definition>
+    <key>create_language_note</key>
+    <value><![CDATA[Megjegyzés: Javasoljuk létre nyelv kiterjesztése. Ellenőrizze a meglévő nyelvi kiterjesztéseket. Ha továbbra is szeretné, hogy új nyelvet kézzel, meg kell adni a nyelven Flag admin / language / [Language Directory] /flag.png és kirakat / nyelv / [Language Directory] flag.png 
+ Miután a nyelvet teremtett terhelés hiányzó nyelvi adatok lefordítani vagy másolni szöveges tartalom forrásból nyelvet.]]></value>
+  </definition>
+  <definition>
+    <key>button_load_language</key>
+    <value><![CDATA[Betöltés]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete_tasks</key>
+    <value><![CDATA[Befejezetlen feladatok]]></value>
+  </definition>
+  <definition>
+    <key>text_task_id</key>
+    <value><![CDATA[Feladat ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Cím:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_time_run</key>
+    <value><![CDATA[Last Time Run:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Alkotó:]]></value>
+  </definition>
+  <definition>
+    <key>text_starter_name</key>
+    <value><![CDATA[Készítette:]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Újrakezd]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[eltávolít]]></value>
+  </definition>
+  <definition>
+    <key>text_task_title</key>
+    <value><![CDATA[Fordítása leírásokat %s a %s]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Hiba: állítsd Forrás nyelvi és fordítási módszer!]]></value>
+  </definition>
+  <definition>
+    <key>text_translate_override_existing</key>
+    <value><![CDATA[Megjegyzés: Az összes létező leírások célnyelvi lesz cserélve új fordítást. Ön kikapcsolhatja nyomós a <a href="%s">Rendszer-&gt; Beállítások-&gt; Store Részletek</a> .]]></value>
+  </definition>
+</definitions>

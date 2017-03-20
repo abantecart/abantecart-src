@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[A kívánságlistám]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Fiók]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_wishlist</key>
+    <value><![CDATA[Kívánság lista üres]]></value>
+  </definition>
+  <definition>
+    <key>button_cart</key>
+    <value><![CDATA[Kosár megtekintése]]></value>
+  </definition>
+  <definition>
+    <key>button_continue</key>
+    <value><![CDATA[Folytatni a vásárlást]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Kép]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Név]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Modell]]></value>
+  </definition>
+  <definition>
+    <key>column_added</key>
+    <value><![CDATA[Hozzáadott kívánni lista]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Egységár]]></value>
+  </definition>
+  <definition>
+    <key>column_actions</key>
+    <value><![CDATA[Hozzászólások]]></value>
+  </definition>
+</definitions>

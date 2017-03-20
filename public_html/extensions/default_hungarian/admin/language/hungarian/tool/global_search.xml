@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Globális keresés eredménye]]></value>
+  </definition>
+  <definition>
+    <key>no_results_message</key>
+    <value><![CDATA[Sajnáljuk, de nincs eredménye.]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Figyelmeztetés: nincs jogosultsága keresni!]]></value>
+  </definition>
+  <definition>
+    <key>text_orders</key>
+    <value><![CDATA[rendelés]]></value>
+  </definition>
+  <definition>
+    <key>text_customers</key>
+    <value><![CDATA[Az ügyfelek]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[Letöltések]]></value>
+  </definition>
+  <definition>
+    <key>text_product_categories</key>
+    <value><![CDATA[termék kategóriák]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[Termékek]]></value>
+  </definition>
+  <definition>
+    <key>text_reviews</key>
+    <value><![CDATA[Vélemények]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[Márkák]]></value>
+  </definition>
+  <definition>
+    <key>text_languages</key>
+    <value><![CDATA[Nyelvek]]></value>
+  </definition>
+  <definition>
+    <key>text_pages</key>
+    <value><![CDATA[oldalak]]></value>
+  </definition>
+  <definition>
+    <key>text_settings</key>
+    <value><![CDATA[Beállítások]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[üzenetek]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[Extensions]]></value>
+  </definition>
+  <definition>
+    <key>text_commands</key>
+    <value><![CDATA[Gyors parancsok]]></value>
+  </definition>
+  <definition>
+    <key>text_contents</key>
+    <value><![CDATA[Tartalmi oldalak]]></value>
+  </definition>
+</definitions>

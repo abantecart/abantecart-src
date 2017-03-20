@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_footer_left</key>
+    <value><![CDATA[AbanteCart védjegye Belavier Commerce LLC <br/> Szerzői &copy; 2009 - %s Minden jog fenntartva]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[<a href="http://www.abantecart.com" target="_blank">AbanteCart</a> verzió]]></value>
+  </definition>
+</definitions>

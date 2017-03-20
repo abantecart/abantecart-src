@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Fájlfeltöltések]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[dátum hozzáadva]]></value>
+  </definition>
+  <definition>
+    <key>column_path</key>
+    <value><![CDATA[akta]]></value>
+  </definition>
+  <definition>
+    <key>column_section</key>
+    <value><![CDATA[Szakasz]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[fájl letöltése]]></value>
+  </definition>
+</definitions>

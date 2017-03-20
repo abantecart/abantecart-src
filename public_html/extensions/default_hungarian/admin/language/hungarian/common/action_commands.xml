@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_possible_commands</key>
+    <value><![CDATA[Bellow lehetséges parancsok. Akkor speek bővebben parancs után kulcsszó. Például a &quot;nyitott oldal üzenetek&quot; vagy &quot;insert termék&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_multiple_result_found</key>
+    <value><![CDATA[Több akció találat:]]></value>
+  </definition>
+  <definition>
+    <key>text_action_confirm</key>
+    <value><![CDATA[Kérjük, erősítse meg a kérelmet:]]></value>
+  </definition>
+  <definition>
+    <key>command_open</key>
+    <value><![CDATA[nyitott, nyitott oldal, nyitott menü]]></value>
+  </definition>
+  <definition>
+    <key>command_find</key>
+    <value><![CDATA[keresse, megtalálja, keresés, keresni, keresni 4]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_cache</key>
+    <value><![CDATA[tiszta cache, gyorsítótár tiszta, tiszta minden cache]]></value>
+  </definition>
+  <definition>
+    <key>command_view_log</key>
+    <value><![CDATA[kilátás log, log szerint vizsgáljuk log lásd jelentkezzen, megtekintéséhez error log, megtekintheti a hibákat]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_log</key>
+    <value><![CDATA[tiszta log, log tiszta, törölje log, log törlése]]></value>
+  </definition>
+  <definition>
+    <key>command_view_order</key>
+    <value><![CDATA[kilátás érdekében, rendelési szám, nyílt parancsot, show érdekében, nyitott megrendelés számát, a rendelés számát, show rendelési számot, annak érdekében #]]></value>
+  </definition>
+  <definition>
+    <key>command_view_product</key>
+    <value><![CDATA[kilátás a terméket, a termék számát, nyílt termék, show termék, nyitott a termék számát, kilátás a termék számát, show termékszám, termék #]]></value>
+  </definition>
+  <definition>
+    <key>command_create_new</key>
+    <value><![CDATA[helyezze, létrehozni, adjunk hozzá, új, helyezze be az új, új, új]]></value>
+  </definition>
+  <definition>
+    <key>category</key>
+    <value><![CDATA[kategória]]></value>
+  </definition>
+  <definition>
+    <key>product</key>
+    <value><![CDATA[termék]]></value>
+  </definition>
+  <definition>
+    <key>brand</key>
+    <value><![CDATA[márka]]></value>
+  </definition>
+  <definition>
+    <key>manufacturer</key>
+    <value><![CDATA[gyártó]]></value>
+  </definition>
+  <definition>
+    <key>review</key>
+    <value><![CDATA[felülvizsgálat]]></value>
+  </definition>
+  <definition>
+    <key>download</key>
+    <value><![CDATA[Letöltés]]></value>
+  </definition>
+  <definition>
+    <key>attribute</key>
+    <value><![CDATA[tulajdonság]]></value>
+  </definition>
+  <definition>
+    <key>customer</key>
+    <value><![CDATA[vevő]]></value>
+  </definition>
+  <definition>
+    <key>coupon</key>
+    <value><![CDATA[kupon]]></value>
+  </definition>
+  <definition>
+    <key>discount</key>
+    <value><![CDATA[kedvezmény]]></value>
+  </definition>
+  <definition>
+    <key>block</key>
+    <value><![CDATA[Blokk]]></value>
+  </definition>
+  <definition>
+    <key>menu</key>
+    <value><![CDATA[menü]]></value>
+  </definition>
+  <definition>
+    <key>content</key>
+    <value><![CDATA[tartalom]]></value>
+  </definition>
+  <definition>
+    <key>banner</key>
+    <value><![CDATA[transzparens]]></value>
+  </definition>
+  <definition>
+    <key>page</key>
+    <value><![CDATA[oldal]]></value>
+  </definition>
+  <definition>
+    <key>store</key>
+    <value><![CDATA[bolt]]></value>
+  </definition>
+  <definition>
+    <key>language</key>
+    <value><![CDATA[nyelv]]></value>
+  </definition>
+  <definition>
+    <key>currency</key>
+    <value><![CDATA[valuta]]></value>
+  </definition>
+  <definition>
+    <key>location</key>
+    <value><![CDATA[elhelyezkedés]]></value>
+  </definition>
+  <definition>
+    <key>tax</key>
+    <value><![CDATA[adó]]></value>
+  </definition>
+</definitions>

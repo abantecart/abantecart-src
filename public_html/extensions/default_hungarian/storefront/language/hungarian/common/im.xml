@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>im_text_notification</key>
+    <value><![CDATA[Bejelentés]]></value>
+  </definition>
+  <definition>
+    <key>im_error_mail_address</key>
+    <value><![CDATA[E-mail cím %s nem érvényes!]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_email_title</key>
+    <value><![CDATA[Email]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_title</key>
+    <value><![CDATA[SMS]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_empty_warn</key>
+    <value><![CDATA[SMS értesítések nem lehetséges. Mobil száma nincs mentve a fiókjában rekordokat.]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update</key>
+    <value><![CDATA[rendelés frissítése]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update_note</key>
+    <value><![CDATA[Jelölje be, ha szeretne értesítést kapni a megrendelések frissítéseit.]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_admin</key>
+    <value><![CDATA[Rendezés # %s frissült! Megrendelés ID %s]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_customer</key>
+    <value><![CDATA[Megrendelése # %s Frissítve. New Order Status %s]]></value>
+  </definition>
+  <definition>
+    <key>im_new_order_text_to_admin</key>
+    <value><![CDATA[New Order # %s került!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_customer_text_to_admin</key>
+    <value><![CDATA[Új vásárló # %s már regisztrált!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_subscriber_text_to_admin</key>
+    <value><![CDATA[Új Előfizető # %s már regisztrált!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update</key>
+    <value><![CDATA[fiókfrissítési]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update_note</key>
+    <value><![CDATA[Jelölje be, ha szeretne értesítést kapni a fiók frissítéseket.]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_text_to_customer</key>
+    <value><![CDATA[A fiókod Frissítve lett! Ha nem csinál semmi változás, forduljon webhely tulajdonosa]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_email_to_customer</key>
+    <value><![CDATA[Fiók e-mail címét változtatták %s! Ha nem ezt a módosítást, kérjük lépjen kapcsolatba webhely tulajdonosa]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_login_to_customer</key>
+    <value><![CDATA[A fiók bejelentkezési neve változott %s! Ha nem ezt a módosítást, kérjük lépjen kapcsolatba webhely tulajdonosa]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_password_to_customer</key>
+    <value><![CDATA[Fiókja jelszó megváltozott! Ha nem ezt a módosítást, kérjük lépjen kapcsolatba webhely tulajdonosa]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_contact_admin_text</key>
+    <value><![CDATA[Megvan az új vizsgálat az ügyfél (%s, %s)!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter</key>
+    <value><![CDATA[hírlevelek]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter_note</key>
+    <value><![CDATA[Jelölje be, ha szeretne értesítést kapni a termékek és szolgáltatások frissítéseket.]]></value>
+  </definition>
+  <definition>
+    <key>im_product_review_text_to_admin</key>
+    <value><![CDATA[Új termék felülvizsgálata került. A részleteket lásd # admin # rt = katalógus / felülvizsgálat / update &amp; review_id = %s]]></value>
+  </definition>
+  <definition>
+    <key>im_product_out_of_stock_admin_text</key>
+    <value><![CDATA[Product ID # %s elfogyott.]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[felhasználói csoportok]]></value>
+  </definition>
+  <definition>
+    <key>text_group</key>
+    <value><![CDATA[User Group]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Siker: Ön módosította felhasználói csoportok!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_group_added</key>
+    <value><![CDATA[Siker: Létrehozott felhasználói csoport sikeresen!]]></value>
+  </definition>
+  <definition>
+    <key>text_go_to_page</key>
+    <value><![CDATA[Menj az oldalra]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_confirm</key>
+    <value><![CDATA[Felhasználó törlése Csoport?]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Felhasználói csoport neve]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akció]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Felhasználói csoport neve:]]></value>
+  </definition>
+  <definition>
+    <key>column_controller</key>
+    <value><![CDATA[Vezérlő]]></value>
+  </definition>
+  <definition>
+    <key>column_access</key>
+    <value><![CDATA[Hozzáférés]]></value>
+  </definition>
+  <definition>
+    <key>column_modify</key>
+    <value><![CDATA[Módosít]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Figyelmeztetés: nincs engedélye módosítani a felhasználói csoportok!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Felhasználói csoport neve legyen a 2 és 64 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_user</key>
+    <value><![CDATA[Figyelem: Ez a csoport nem törölhető, mert jelenleg hozzárendelt %s felhasználók számára!]]></value>
+  </definition>
+</definitions>

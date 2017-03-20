@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[A felhasználói fiókod elkészült!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Gratulálok! Az új fiók létrehozása sikeresen megtörtént! </p><p> Most kihasználni tag kiváltságok növelése az online vásárlási élményt velünk. </p><p> Ha bármilyen kérdése van a működését az online bolt, írjon a bolt tulajdonosa. </p><p> Egy visszaigazoló küldtünk a megadott e-mail címre. Ha még nem kapta meg egy órán belül, kérjük <a href="%s">lépjen kapcsolatba velünk</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[<p> Köszönjük, hogy regisztrált a %s! </p><p> Lesz e-mailben értesítjük, amint a fiók aktiválva lett a bolt tulajdonosa. </p><p> Ha bármilyen kérdése van a működését az online bolt, kérjük <a href="%s">lépjen kapcsolatba az üzlet tulajdonosa</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[<p> Köszönjük, hogy regisztrált a %s! </p><p> Lesz e-mailben értesítjük a fiókjába aktiválási utasításokat. Rá kell kattintani a linkre az e-mail fiók aktiválásához. Ha nem kap e-mailt, ellenőrizd a levélszemét vagy spam mappát. </p><p> Ha bármilyen kérdése van a működését az online bolt, kérjük <a href="%s">lépjen kapcsolatba az üzlet tulajdonosa</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Fiók]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Siker]]></value>
+  </definition>
+</definitions>

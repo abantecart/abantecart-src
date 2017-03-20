@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[hosszosztályt]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[hosszcsoport]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Siker: Ön módosította hosszosztályt!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Hosszúság Cím]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[Length Unit]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Érték]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akció]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Hosszúság Cím:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Hosszúság egység:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Érték: <br/><span class="help">Állítsa 1,00000 ha ez az alapértelmezett hosszát.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Figyelmeztetés: nincs engedélye módosítani hosszosztályokat!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Hossza Cím között kell lennie a 2. és 32 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Length Unit között kell lennie az 1. és 4. karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Figyelmeztetés: Ez a hossz osztály nem lehet törölni, mivel jelenleg kijelölve alapértelmezett bolt hosszcsoport!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Figyelmeztetés: Ez a hossz osztály nem lehet törölni, mivel jelenleg hozzárendelt %s termék!]]></value>
+  </definition>
+</definitions>

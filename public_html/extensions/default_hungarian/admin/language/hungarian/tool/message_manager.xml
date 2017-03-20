@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[üzenet menedzser]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Siker: Ön módosította üzenetek listáját!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[üzenet címe]]></value>
+  </definition>
+  <definition>
+    <key>column_create_date</key>
+    <value><![CDATA[Dátum]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Állapot]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akció]]></value>
+  </definition>
+  <definition>
+    <key>entry_error</key>
+    <value><![CDATA[Kritikai]]></value>
+  </definition>
+  <definition>
+    <key>entry_warning</key>
+    <value><![CDATA[Figyelem]]></value>
+  </definition>
+  <definition>
+    <key>entry_notice</key>
+    <value><![CDATA[Értesítés]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Figyelmeztetés: nincs engedélye módosítani üzenetek listája!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Üzenet cím legyen 3 és 32 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>text_show</key>
+    <value><![CDATA[Előadás]]></value>
+  </definition>
+  <definition>
+    <key>text_not_found</key>
+    <value><![CDATA[Lett. Nem találja ezt az üzenetet.]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Üzenet állapota:]]></value>
+  </definition>
+  <definition>
+    <key>text_date</key>
+    <value><![CDATA[Dátum:]]></value>
+  </definition>
+  <definition>
+    <key>text_repeats</key>
+    <value><![CDATA[Ismétlések száma:]]></value>
+  </definition>
+  <definition>
+    <key>text_warning</key>
+    <value><![CDATA[Figyelem]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[kritikai]]></value>
+  </definition>
+  <definition>
+    <key>text_notice</key>
+    <value><![CDATA[értesítés]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[töröl]]></value>
+  </definition>
+  <definition>
+    <key>text_close</key>
+    <value><![CDATA[Bezárás]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Jóváhagy?]]></value>
+  </definition>
+  <definition>
+    <key>text_linktext</key>
+    <value><![CDATA[ez a kapcsolat]]></value>
+  </definition>
+  <definition>
+    <key>text_notifier_title</key>
+    <value><![CDATA[You Have %s Új üzenet (ek)]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Adminisztráció]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[Biztonsági mentés visszaállítása]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Üdvözöljük, <b>%s</b>]]></value>
+  </definition>
+  <definition>
+    <key>text_last_login</key>
+    <value><![CDATA[Utolsó bejelentkezés: %s]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_details</key>
+    <value><![CDATA[Edit Profile Részletek]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_notifications</key>
+    <value><![CDATA[Az értesítési beállítások módosítása]]></value>
+  </definition>
+  <definition>
+    <key>text_catalog</key>
+    <value><![CDATA[Katalógus]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[Kategóriák]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Jóváhagy?]]></value>
+  </definition>
+  <definition>
+    <key>text_country</key>
+    <value><![CDATA[Országok]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[Kupon]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[kedvezmények]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[Pénznemek]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[Az ügyfelek]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_group</key>
+    <value><![CDATA[vevőcsoportok]]></value>
+  </definition>
+  <definition>
+    <key>text_dashboard</key>
+    <value><![CDATA[Műszerfal]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Letöltések]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[hiba Naplók]]></value>
+  </definition>
+  <definition>
+    <key>text_extension</key>
+    <value><![CDATA[Extensions]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_short</key>
+    <value><![CDATA[Extensions]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[kirakat]]></value>
+  </definition>
+  <definition>
+    <key>text_location</key>
+    <value><![CDATA[Helyszínek]]></value>
+  </definition>
+  <definition>
+    <key>text_help</key>
+    <value><![CDATA[Segítség]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[Információ]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[Nyelvek]]></value>
+  </definition>
+  <definition>
+    <key>text_language_definitions</key>
+    <value><![CDATA[Nyelv Meghatározások]]></value>
+  </definition>
+  <definition>
+    <key>text_localisation</key>
+    <value><![CDATA[Honosítás]]></value>
+  </definition>
+  <definition>
+    <key>text_logged</key>
+    <value><![CDATA[Be van jelentkezve a <span>%s</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Kilépés]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Levél küldés]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturer</key>
+    <value><![CDATA[Gyártók]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[rendelés]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[a megrendelések állapotát]]></value>
+  </definition>
+  <definition>
+    <key>text_abantecart</key>
+    <value><![CDATA[Homepage]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[kifizetések]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[Termékek]]></value>
+  </definition>
+  <definition>
+    <key>text_reports</key>
+    <value><![CDATA[jelentések]]></value>
+  </definition>
+  <definition>
+    <key>text_online</key>
+    <value><![CDATA[Online]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[tranzakciók]]></value>
+  </definition>
+  <definition>
+    <key>text_tax</key>
+    <value><![CDATA[Adó]]></value>
+  </definition>
+  <definition>
+    <key>text_report_purchased</key>
+    <value><![CDATA[vásárolt termékek]]></value>
+  </definition>
+  <definition>
+    <key>text_report_sale</key>
+    <value><![CDATA[Sales]]></value>
+  </definition>
+  <definition>
+    <key>text_analytics</key>
+    <value><![CDATA[Analytics &amp; Insights]]></value>
+  </definition>
+  <definition>
+    <key>text_report_viewed</key>
+    <value><![CDATA[termékek megtekintett]]></value>
+  </definition>
+  <definition>
+    <key>text_review</key>
+    <value><![CDATA[Vélemények]]></value>
+  </definition>
+  <definition>
+    <key>text_sale</key>
+    <value><![CDATA[Sales]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Szállítás]]></value>
+  </definition>
+  <definition>
+    <key>text_setting</key>
+    <value><![CDATA[Beállítások]]></value>
+  </definition>
+  <definition>
+    <key>text_stock_status</key>
+    <value><![CDATA[Stock Státusok]]></value>
+  </definition>
+  <definition>
+    <key>text_support</key>
+    <value><![CDATA[Fórum]]></value>
+  </definition>
+  <definition>
+    <key>text_system</key>
+    <value><![CDATA[Rendszer]]></value>
+  </definition>
+  <definition>
+    <key>text_tax_class</key>
+    <value><![CDATA[Adó osztályok]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Rendelési összesítések]]></value>
+  </definition>
+  <definition>
+    <key>text_user</key>
+    <value><![CDATA[felhasználók]]></value>
+  </definition>
+  <definition>
+    <key>text_documentation</key>
+    <value><![CDATA[Dokumentáció]]></value>
+  </definition>
+  <definition>
+    <key>text_users</key>
+    <value><![CDATA[felhasználók]]></value>
+  </definition>
+  <definition>
+    <key>text_user_group</key>
+    <value><![CDATA[felhasználói csoportok]]></value>
+  </definition>
+  <definition>
+    <key>text_weight_class</key>
+    <value><![CDATA[súlycsoportban]]></value>
+  </definition>
+  <definition>
+    <key>text_length_class</key>
+    <value><![CDATA[hosszosztályt]]></value>
+  </definition>
+  <definition>
+    <key>text_zone</key>
+    <value><![CDATA[zónák]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[minden Extensions]]></value>
+  </definition>
+  <definition>
+    <key>text_add_extension</key>
+    <value><![CDATA[Install Extension]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_store</key>
+    <value><![CDATA[Get Extensions]]></value>
+  </definition>
+  <definition>
+    <key>text_migrate</key>
+    <value><![CDATA[Migration Tool]]></value>
+  </definition>
+  <definition>
+    <key>text_updater</key>
+    <value><![CDATA[Updater]]></value>
+  </definition>
+  <definition>
+    <key>text_design</key>
+    <value><![CDATA[Tervezés]]></value>
+  </definition>
+  <definition>
+    <key>text_templates</key>
+    <value><![CDATA[sablonok]]></value>
+  </definition>
+  <definition>
+    <key>text_layout</key>
+    <value><![CDATA[elrendezések]]></value>
+  </definition>
+  <definition>
+    <key>text_blocks</key>
+    <value><![CDATA[Blocks]]></value>
+  </definition>
+  <definition>
+    <key>text_menu</key>
+    <value><![CDATA[Menü]]></value>
+  </definition>
+  <definition>
+    <key>text_cache</key>
+    <value><![CDATA[cache]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[üzenetek]]></value>
+  </definition>
+  <definition>
+    <key>text_content</key>
+    <value><![CDATA[Tartalom]]></value>
+  </definition>
+  <definition>
+    <key>text_datasets_manager</key>
+    <value><![CDATA[adatsorok]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[Telepítés / Frissítés története]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute</key>
+    <value><![CDATA[általános tulajdonságok]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute_groups</key>
+    <value><![CDATA[Általános tulajdonságok csoportjai]]></value>
+  </definition>
+  <definition>
+    <key>text_import_export</key>
+    <value><![CDATA[Import Export]]></value>
+  </definition>
+  <definition>
+    <key>text_data</key>
+    <value><![CDATA[Adat]]></value>
+  </definition>
+  <definition>
+    <key>text_logs</key>
+    <value><![CDATA[naplók]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_edit_form</key>
+    <value><![CDATA[Quick Edit Form]]></value>
+  </definition>
+  <definition>
+    <key>text_all_matches</key>
+    <value><![CDATA[minden mérkőzés]]></value>
+  </definition>
+  <definition>
+    <key>text_file_uploads</key>
+    <value><![CDATA[Fájlfeltöltések]]></value>
+  </definition>
+  <definition>
+    <key>text_all_settings</key>
+    <value><![CDATA[All Settings]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_details</key>
+    <value><![CDATA[Store Részletek]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_general</key>
+    <value><![CDATA[Tábornok]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_checkout</key>
+    <value><![CDATA[kijelentkezés]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_appearance</key>
+    <value><![CDATA[Kinézet]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_mail</key>
+    <value><![CDATA[Levél]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_im</key>
+    <value><![CDATA[IM]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_api</key>
+    <value><![CDATA[API]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_system</key>
+    <value><![CDATA[Rendszer]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_newstore</key>
+    <value><![CDATA[Új Store]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_command_prompt</key>
+    <value><![CDATA[Voice Command Prompt.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_select_dialect</key>
+    <value><![CDATA[Válassza ki a nyelvjárás]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_confirm_action</key>
+    <value><![CDATA[Hagyja jóvá a műveletet vagy mégse]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_speak_now</key>
+    <value><![CDATA[Most beszélj.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_speach_detected</key>
+    <value><![CDATA[Nem beszéd volt kimutatható. Lehet, hogy módosítani kell a <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">1 #### 1amp; answer = 1407892 &quot;&gt; mikrofon beállításokat</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_mic_detected</key>
+    <value><![CDATA[Nincs mikrofon találtak. Biztosítani kell, hogy a mikrofon van telepítve, és hogy <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">1 #### 1amp; answer = 1407892 &quot;&gt; mikrofon beállítások</a> vannak beállítva.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_click_allow</key>
+    <value><![CDATA[Kattintson az &quot;Allow&quot; gombra, hogy engedélyezze a mikrofont.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_denied</key>
+    <value><![CDATA[Engedélyt a mikrofon megtagadva.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_permission</key>
+    <value><![CDATA[Engedélyt a mikrofon le van tiltva. Ha módosítani, lépjen a böngésző <a href="chrome://settings/contentExceptions#media-stream">média beállítások</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_not_supported</key>
+    <value><![CDATA[A hangvezérlés nem támogatja ezt a böngészőt. <a href="//www.google.com/chrome" target="_new">Chrome</a> változat 25 vagy újabb szükséges.]]></value>
+  </definition>
+  <definition>
+    <key>text_tasks</key>
+    <value><![CDATA[Ütemezett feladatok]]></value>
+  </definition>
+  <definition>
+    <key>text_read_all_messages</key>
+    <value><![CDATA[Minden üzenet]]></value>
+  </definition>
+  <definition>
+    <key>text_short_stats</key>
+    <value><![CDATA[Gyors statisztika]]></value>
+  </definition>
+  <definition>
+    <key>text_online_now</key>
+    <value><![CDATA[Online vásárlók]]></value>
+  </definition>
+  <definition>
+    <key>text_online_new</key>
+    <value><![CDATA[Új]]></value>
+  </definition>
+  <definition>
+    <key>text_online_registered</key>
+    <value><![CDATA[Bejelentkezve]]></value>
+  </definition>
+  <definition>
+    <key>text_today_orders</key>
+    <value><![CDATA[Új rendelések ma]]></value>
+  </definition>
+  <definition>
+    <key>text_today_sales</key>
+    <value><![CDATA[Összértékesítés Ma]]></value>
+  </definition>
+  <definition>
+    <key>text_today_customers</key>
+    <value><![CDATA[Új ügyfelek ma]]></value>
+  </definition>
+  <definition>
+    <key>text_today_reviews</key>
+    <value><![CDATA[Új vélemény ma]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_manager</key>
+    <value><![CDATA[Media Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_server_time</key>
+    <value><![CDATA[szerver idő]]></value>
+  </definition>
+</definitions>

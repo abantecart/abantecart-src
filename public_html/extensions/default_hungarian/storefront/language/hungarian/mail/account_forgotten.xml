@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Jelszó visszaállítás]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[A jelszó kértek %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Visszaállítani a jelszavát klikk az alábbi linkre:]]></value>
+  </definition>
+  <definition>
+    <key>text_password_reset</key>
+    <value><![CDATA[A jelszó sikeresen alaphelyzetbe %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_password</key>
+    <value><![CDATA[Írja be az új jelszót:]]></value>
+  </definition>
+  <definition>
+    <key>error_reset_token</key>
+    <value><![CDATA[Hibás link jelszó kérése. Próbálja újraindítani még egyszer, és használja a linket ami a legújabb e-mailt.]]></value>
+  </definition>
+</definitions>
