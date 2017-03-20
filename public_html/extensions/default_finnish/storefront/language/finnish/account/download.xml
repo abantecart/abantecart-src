@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Tilin Lataukset]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Tili]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[Lataukset]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Tilausnumero:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Lisäyspäivämäärä:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_purchased</key>
+    <value><![CDATA[Ostopäivämäärä:]]></value>
+  </definition>
+  <definition>
+    <key>text_name</key>
+    <value><![CDATA[Nimi:]]></value>
+  </definition>
+  <definition>
+    <key>text_remaining</key>
+    <value><![CDATA[Jäljelle jäänyt:]]></value>
+  </definition>
+  <definition>
+    <key>text_size</key>
+    <value><![CDATA[Koko:]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[ladata]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Et ole tehnyt edellisen ladattavia tilauksia!]]></value>
+  </definition>
+  <definition>
+    <key>text_expire_date</key>
+    <value><![CDATA[Viimeinen käyttöpäivä:]]></value>
+  </definition>
+  <definition>
+    <key>text_expired</key>
+    <value><![CDATA[Vanhentunut]]></value>
+  </definition>
+  <definition>
+    <key>text_pending</key>
+    <value><![CDATA[odotettaessa]]></value>
+  </definition>
+  <definition>
+    <key>text_unavailable</key>
+    <value><![CDATA[poissa]]></value>
+  </definition>
+  <definition>
+    <key>text_reached_limit</key>
+    <value><![CDATA[saavutettu Limit]]></value>
+  </definition>
+  <definition>
+    <key>error_download_not_exists</key>
+    <value><![CDATA[Pyydetty tiedostoa ei ole olemassa!]]></value>
+  </definition>
+</definitions>

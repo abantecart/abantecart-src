@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Tili on aktivoitu!]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Tervetuloa ja kiitos kirjautuessaan %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Tilisi on nyt luotu ja voit kirjautua sisään käyttämällä sähköpostiosoitetta ja salasanaa vierailemalla verkkosivuilla tai seuraavassa osoitteessa:]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Kun kirjaudut, voit käyttää, muistilistalle, tilaushistoriaa, tulostus laskut ja muokkaamista tilitietoja.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Kiitos,]]></value>
+  </definition>
+</definitions>

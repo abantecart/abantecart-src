@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Unohditko salasanasi?]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_loginname</key>
+    <value><![CDATA[Unohtunut käyttäjätunnuksesi?]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Tili]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten</key>
+    <value><![CDATA[Unohtunut salasana]]></value>
+  </definition>
+  <definition>
+    <key>text_your_email</key>
+    <value><![CDATA[Sähköpostiosoitteesi]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Anna sähköpostiosoite tilisi yhteydessä. Valitse toimittaa niin salasanasi lähetetään sinulle]]></value>
+  </definition>
+  <definition>
+    <key>text_loginname_email</key>
+    <value><![CDATA[Anna kirjautumisnimi ja sähköpostiosoite tilisi yhteydessä. Valitse toimittaa pyytämään salasanan]]></value>
+  </definition>
+  <definition>
+    <key>text_lastname_email</key>
+    <value><![CDATA[Anna sukunimi ja sähköpostiosoite tilisi yhteydessä. Valitse lähetä saada käyttäjätunnuksesi sähköpostiisi]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: salasananvaihtolinkkiä on lähetetty sähköpostiosoitteeseen.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_loginname</key>
+    <value><![CDATA[Success: Sisäänkirjautumisnimesi muistutus on lähetetty sähköpostiosoitteeseen.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Kirjautumisnimi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Sukunimi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[Sähköpostiosoite:]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Virhe: Sähköpostiosoite ei ole säädetty tai sitä ei löydy meidän kirjaa, yritä uudelleen!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Virhe: Tulo nimeä ei toimitettu tai ei löydy tietomme, yritä uudelleen!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Virhe: Sukunimi ei ole säädetty tai sitä ei löydy meidän kirjaa, yritä uudelleen!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_found</key>
+    <value><![CDATA[Virhe: ei löydy vastaavia tietoja oman edellyttäen, tarkista tiedot ja yritä uudelleen!]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_loginname</key>
+    <value><![CDATA[Unohdettu Kirjautumisnimi]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Kiitos rekisteröitymisestä]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Tervetuloa ja kiitos kirjautuessaan %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Tilisi on nyt luotu ja voit käyttää sitä vierailemalla verkkosivuilla tai seuraavassa osoitteessa:]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[Tilisi on hyväksyttävä, ennen kuin voit kirjautua. Kun hyväksytty voit kirjautua sisään käyttämällä sähköpostiosoitetta ja salasanaa vierailemalla verkkosivuilla tai seuraavassa osoitteessa:]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[Ennen kuin voimme aktivoida tilisi viimeinen askel on otettava loppuun rekisteröinnin. <br/> 
+ Sinun tulee suorittaa viimeinen vaihe tulla rekisteröitynyt. Klikkaa seuraavaa linkkiä tilin aktivoimiseksi %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Kun kirjaudut sisään, voit käyttää muita palveluja, kuten tarkastellaan viime tilauksia, tulostus laskut ja muokkaamista tilitietoja.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Kiitos,]]></value>
+  </definition>
+</definitions>

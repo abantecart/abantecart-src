@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>im_text_notification</key>
+    <value><![CDATA[ilmoitus]]></value>
+  </definition>
+  <definition>
+    <key>im_error_mail_address</key>
+    <value><![CDATA[Sähköpostiosoite %s ei ole voimassa!]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_email_title</key>
+    <value><![CDATA[E-mail]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_title</key>
+    <value><![CDATA[tekstiviesti]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_empty_warn</key>
+    <value><![CDATA[Tekstiviesti-ilmoitukset eivät ole mahdollisia. Matkapuhelinnumero ei ole tallennettu tilitiedot.]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update</key>
+    <value><![CDATA[Tilaa päivitys]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update_note</key>
+    <value><![CDATA[Valitse, vastaanottaa ilmoituksia tilauksia &quot;päivitykset.]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_admin</key>
+    <value><![CDATA[Tilaus # %s on päivitetty! Tilauksen tila ID %s]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_customer</key>
+    <value><![CDATA[Tilauksesi # %s päivitetty. New Order tila on %s]]></value>
+  </definition>
+  <definition>
+    <key>im_new_order_text_to_admin</key>
+    <value><![CDATA[New Order # %s on asetettu!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_customer_text_to_admin</key>
+    <value><![CDATA[Uusi asiakas # %s on rekisteröity!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_subscriber_text_to_admin</key>
+    <value><![CDATA[Uusi tilaaja # %s on rekisteröity!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update</key>
+    <value><![CDATA[Tilin päivitys]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update_note</key>
+    <value><![CDATA[Valitse, vastaanottaa ilmoituksia tilin päivitykset.]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_text_to_customer</key>
+    <value><![CDATA[Tilisi on päivitetty! Jos et tee mitään muutoksia, ota yhteyttä sivuston omistaja]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_email_to_customer</key>
+    <value><![CDATA[Tilisi sähköpostiosoitteen muutettiin %s! Jos et tee tätä muutosta, ota yhteyttä sivuston omistaja]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_login_to_customer</key>
+    <value><![CDATA[Tilisi kirjautuminen nimi muutettiin %s! Jos et tee tätä muutosta, ota yhteyttä sivuston omistaja]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_password_to_customer</key>
+    <value><![CDATA[Tilisi salasana on vaihdettu! Jos et tee tätä muutosta, ota yhteyttä sivuston omistaja]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_contact_admin_text</key>
+    <value><![CDATA[Sinulla uusi kysely asiakkaasta (%s, %s)!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter</key>
+    <value><![CDATA[uutiskirjeet]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter_note</key>
+    <value><![CDATA[Valitse jos haluat saada ilmoituksia tuotteistamme ja palvelua päivityksiä.]]></value>
+  </definition>
+  <definition>
+    <key>im_product_review_text_to_admin</key>
+    <value><![CDATA[Uusi tuote tarkastelu on lisätty. Tarkka # admin # rt = luettelo / katsaus / päivitys &amp; REVIEW_ID = %s]]></value>
+  </definition>
+  <definition>
+    <key>im_product_out_of_stock_admin_text</key>
+    <value><![CDATA[Tuote, ID # %s on loppunut.]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Tuotteet katsottu Report]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: Voit palauttaa tuotteen katsottu raportti!]]></value>
+  </definition>
+  <definition>
+    <key>column_product_id</key>
+    <value><![CDATA[Tuotetunnus]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[tuotteen nimi]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Malli]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[Kategoria]]></value>
+  </definition>
+  <definition>
+    <key>column_viewed</key>
+    <value><![CDATA[katsottu]]></value>
+  </definition>
+  <definition>
+    <key>column_percent</key>
+    <value><![CDATA[prosentti]]></value>
+  </definition>
+</definitions>

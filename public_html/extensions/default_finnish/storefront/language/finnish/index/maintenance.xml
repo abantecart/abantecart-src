@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[kunnossapito]]></value>
+  </definition>
+  <definition>
+    <key>text_maintenance</key>
+    <value><![CDATA[kunnossapito]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<h1 style="text-align:center;"> Suoritamme joitakin määräaikaishuolto. <br/> Tulemme takaisin niin pian kuin mahdollista. Tarkista pian. </h1>]]></value>
+  </definition>
+</definitions>

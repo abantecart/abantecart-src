@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: Paketti asennettiin onnistuneesti.]]></value>
+  </definition>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Package Installer]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_license</key>
+    <value><![CDATA[Paketti Lisenssisopimus]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_ftp</key>
+    <value><![CDATA[FTP-yhteys parametrit]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_download</key>
+    <value><![CDATA[paketti ladataan]]></value>
+  </definition>
+  <definition>
+    <key>text_preloading</key>
+    <value><![CDATA[Pakettitiedosto% tiedosto% ladataan.]]></value>
+  </definition>
+  <definition>
+    <key>text_loading</key>
+    <value><![CDATA[Lataaminen tiedosto. Koko: %s. <br/> Saattaa kestää muutaman sekunnin riippuen yhteyden.]]></value>
+  </definition>
+  <definition>
+    <key>text_key_hint</key>
+    <value><![CDATA[Anna Installation Key Täällä]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_user</key>
+    <value><![CDATA[FTP-käyttäjänimi:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_password</key>
+    <value><![CDATA[FTP User Password:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_host</key>
+    <value><![CDATA[FTP Host:]]></value>
+  </definition>
+  <definition>
+    <key>text_i_agree</key>
+    <value><![CDATA[Hyväksyn lisenssin]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[Olla samaa mieltä]]></value>
+  </definition>
+  <definition>
+    <key>text_retry</key>
+    <value><![CDATA[Yritä uudelleen]]></value>
+  </definition>
+  <definition>
+    <key>text_disagree</key>
+    <value><![CDATA[olla eri mieltä]]></value>
+  </definition>
+  <definition>
+    <key>text_download_error</key>
+    <value><![CDATA[Olemme pahoillamme, mutta tapahtui virhe ladattaessa tiedostoa. </br> Yrittää vielä kerran. </br> Jos ongelma jatkuu ladata tiedoston tilaushistorian ja asentaa käsin.]]></value>
+  </definition>
+  <definition>
+    <key>text_continue</key>
+    <value><![CDATA[Jatkaa]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer_heading</key>
+    <value><![CDATA[Vastuuvapauslauseke]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer</key>
+    <value><![CDATA[<h3> Hyvä AbanteCart asiakas, </h3><br/> 
+ Olet asentamassa kolmannen osapuolen laajennuksen omaan AbanteCart. <br/><br/> 
+ Lue huolellisesti tämä vastuuvapauslauseke noin kolmannen osapuolen laajennus, että olet asentamassa. <br/><br/> 
+ Kolmannen osapuolen laajennuksia ja palveluja tarjoavat kolmansien osapuolien. <br/><br/> 
+ Vaikka AbanteCart vahvistaa laatu laajennuksia ja palvelut kolmannen osapuolen AbanterCart ei takaa, että kaikki kolmansien osapuolten laajennustöiden oikein vai ei aiheuta ristiriitoja järjestelmässä. 
+ AbanteCart jäsentä ja tytäryhtiöt eivät ole millään tavalla vastuussa tai vastuussa väitteet liittyvät tuotteisiin tai palveluihin kolmansien osapuolien. AbanteCart ei takaa laatua kolmannen osapuolen laajennuksia tai palveluja. Ohjaa tiedustelut kolmannen osapuolen laajennuksia tai palveluja sopiva ulkopuolinen toimittaja. 
+ Jos olet huolestunut kolmannen osapuolen palveluntarjoajan ota AbanteCart at <a href="http://www.abantecart.com/contact-us" target="_blank">http://www.abantecart.com/contact-us</a><br/><br/> 
+ Sincerely, <br/> 
+ AbanteCart <br/> 
+ Ideal OpenSource verkkokaupparatkaisuilla]]></value>
+  </definition>
+  <definition>
+    <key>warning_ftp</key>
+    <value><![CDATA[Varoitus: Jotkin hakemisto tai tiedosto ei ole kirjoitusoikeutta <span id="see_details">(katso lisää yksityiskohtia)</span><br/> Voit vaihtaa käyttöoikeuksia palvelimelle tai <br/> käyttö ftp käsiksi palvelimen asennus (yleensä, palveluntarjoajaan lähettää nämä tiedot sähköpostitse tai voit hallita sitä hosting valvontavälineitä) <br/>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed</key>
+    <value><![CDATA[<p class="success"> Olet jo% EXTENSION% laajennus asennettu! Jos haluat edetä ja päivittää, vahvista. </p>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed_uninstall</key>
+    <value><![CDATA[Sinulla on jo tämän laajennuksen &quot;% EXTENSION%&quot; asennettu! Jos haluat edetä asentaa, poista ja poista laajennus ensin.]]></value>
+  </definition>
+  <definition>
+    <key>error_pack_file_not_found</key>
+    <value><![CDATA[Virhe: Ei voida purkaa laajennus arkisto %s. Tarkista <a href="#admin#rt=tool/error_log" target="_blank">log</a> virheitä]]></value>
+  </definition>
+  <definition>
+    <key>error_mp</key>
+    <value><![CDATA[Marketplace error:]]></value>
+  </definition>
+  <definition>
+    <key>error_repository</key>
+    <value><![CDATA[Virhe: Tiedostoa ei voi ladata. Repository virhe tai virheellinen laajennus avain. Yrittää vielä kerran. Jos ongelma jatkuu ladata tiedoston tilaushistorian ja asentaa käsin.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_user</key>
+    <value><![CDATA[Virhe: FTP-käyttäjänimi on tyhjä.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_password</key>
+    <value><![CDATA[Virhe: FTP User Password on tyhjä.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_connect</key>
+    <value><![CDATA[Virhe: Ei voida yhdistää ftp-palvelimelle]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_login</key>
+    <value><![CDATA[Virhe: Ei voida kirjautua ftp-palvelimelle. Väärä käyttäjänimi tai salasana.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path</key>
+    <value><![CDATA[Virhe: ei löydy juurihakemistoon AbanteCart FTP polku. <br/> Kokeile jättää sen tyhjäksi automaattista hakua.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path_array</key>
+    <value><![CDATA[Virhe: Ei voida automaattinen tunnista juurihakemistoon AbanteCart FTP-tilassa. <br/> Täytä FTP-polku lomakekenttään. <br/> Path ehdotukset ovat:]]></value>
+  </definition>
+  <definition>
+    <key>error_dir_permission</key>
+    <value><![CDATA[Ei voi säästää tiedostoa, koska ei voida kirjoittaa:]]></value>
+  </definition>
+  <definition>
+    <key>error_package_structure</key>
+    <value><![CDATA[Virhe: Luultavasti paketti on rikki. Rakenne paketti virhe.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config_xml</key>
+    <value><![CDATA[Virhe: Ei voida paikantaa tiedoston Package.xml sisällä uuttaa laajennus. Mahdollisesti laajennus ei uutettu oikein. Tarkista <a href="#admin#rt=tool/error_log" target="_blank">log</a> virheitä]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config2</key>
+    <value><![CDATA[Virhe: ei löydy asennuksen tilassa Package.xml sisällä pakkauksessa.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_info_not_exists</key>
+    <value><![CDATA[Virhe: ei löydy pakettia istunto tietoa tästä ladata.]]></value>
+  </definition>
+  <definition>
+    <key>error_unpack</key>
+    <value><![CDATA[Virhe: Ei voida purkaa paketti &quot;% Paketti%&quot; lataamisen jälkeen. Archive virhe. Katso virhelokista yksityiskohtia.]]></value>
+  </definition>
+  <definition>
+    <key>error_move</key>
+    <value><![CDATA[Virhe: ei voi siirtää pakkauskoodia pakkauksen purkamisen jälkeen. Yritä tarkistaa kirjoitusoikeudet hakemistoon:]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode</key>
+    <value><![CDATA[Virhe: Ei voida asentaa laajennuksen &quot;% paketin%&quot;, koska se on jo asennettu. Tarvitset deinstall ja poistaa se ensin tai saada paketin päivitystä.]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode2</key>
+    <value><![CDATA[Virhe: Ei voida päivittää laajennuksen &quot;% paketin%&quot;, koska se ei ole asennettu. Tarvitset saada paketin asentaa.]]></value>
+  </definition>
+  <definition>
+    <key>error_version_compatibility</key>
+    <value><![CDATA[Virhe: Ei voida asentaa paketti. Ostoskorisi versio <b>on% CURRENT_VERSION%.</b> Version <b>(t)% VERSIONS%</b> vaaditaan.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_version_compatibility</key>
+    <value><![CDATA[Virhe: Ei voida päivityspakkaus. Uudempi paketin versio on jo asennettu.]]></value>
+  </definition>
+  <definition>
+    <key>error_install</key>
+    <value><![CDATA[Virhe: Ei voida asentaa paketti. Katso System -&gt; Virhelokin lisätietoja.]]></value>
+  </definition>
+  <definition>
+    <key>error_core_version</key>
+    <value><![CDATA[Virhe: Sinulla on AbanteCart versio% version% asennettuna. <br/> Päivitys paketti vain versiot alhaisempi]]></value>
+  </definition>
+  <definition>
+    <key>text_interrupt</key>
+    <value><![CDATA[Keskeyttää]]></value>
+  </definition>
+  <definition>
+    <key>confirm_version_incompatibility</key>
+    <value><![CDATA[Nykyinen kopio tämä laajennus ei ole vahvistettu oman version AbanteCart (v %s). <br/> Extension kokoaminen on määritelty AbanteCart v %s. <br/> 
+ Tämä ei ole ongelma, mutta jos huomaat ongelmia tai yhteensopimattomuus, ota yhteys laajennus kehittäjä.]]></value>
+  </definition>
+  <definition>
+    <key>error_move_ftp</key>
+    <value><![CDATA[Virhe: ei voi siirtää pakkauskoodia pakkauksen purkamisen jälkeen. Luultavasti FTP polku on virheellinen. <br/> Lisäksi kannattaa muistaa, yritä tarkistaa kirjoitusoikeudet hakemistoon:]]></value>
+  </definition>
+  <definition>
+    <key>text_network_install</key>
+    <value><![CDATA[Network Install]]></value>
+  </definition>
+  <definition>
+    <key>text_extension_upload</key>
+    <value><![CDATA[laajennus Upload]]></value>
+  </definition>
+  <definition>
+    <key>error_archive_extension</key>
+    <value><![CDATA[Virhe: Vain .tar.gz niitä tiedostoja.]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_file</key>
+    <value><![CDATA[Lataa tiedosto:]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_url</key>
+    <value><![CDATA[Aseta URL:]]></value>
+  </definition>
+  <definition>
+    <key>error_move_backup</key>
+    <value><![CDATA[Virhe: Ei voi varmuuskopioida tiedostot ennen päivitystä. Tarkista kirjoitusoikeudet hakemistoon:]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_title</key>
+    <value><![CDATA[Abantecart Core päivitys]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_attention</key>
+    <value><![CDATA[Huomio! 
+ AbanteCart ollaan päivitetty versioon %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_warning</key>
+    <value><![CDATA[Ei voi peruuttaa sen jälkeen alkaa päivityksen. 
+ Täydellinen tietokanta ja koodin varmuuskopiointi on erittäin suositeltavaa. 
+ Test päivitys ei-live sivustoja ensin. Päivitys live sivustojen ei suositella.]]></value>
+  </definition>
+  <definition>
+    <key>text_upgrade_now</key>
+    <value><![CDATA[Päivitä nyt!]]></value>
+  </definition>
+  <definition>
+    <key>error_additional_help_text</key>
+    <value><![CDATA[Juuttunut? Ei ole ongelma. Voit asentaa laajennuksia toisella tavalla. Tarkista <a href="http://docs.abantecart.com/pages/extensions/install.html#FTPinstall" target="_blank">tämä ohje linkki</a>]]></value>
+  </definition>
+  <definition>
+    <key>error_notconnected</key>
+    <value><![CDATA[Ei voi päivittää tai asentaa laajennuksia torilta. Tämä myymälä ei ole todennettu / kytkettynä. Tunnistus ja yhteyden <a href="%s">markkinapaikka</a>]]></value>
+  </definition>
+</definitions>

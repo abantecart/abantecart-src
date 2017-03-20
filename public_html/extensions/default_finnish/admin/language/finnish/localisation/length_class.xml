@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[pituus Sarjat]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[pituus Class]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: Olet muokannut kokoluokkia!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[pituus Otsikko]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[pituus Unit]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Arvo]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Toiminta]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Pituus Otsikko:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Pituus Yksikkö:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Arvo: <br/><span class="help">Aseta 1.00000 jos tämä on oletuksena pituus.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varoitus: Sinulla ei ole lupaa muokata kokoluokkia!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Pituus Otsikko on oltava 2 ja 32 merkkiä!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Pituus Yksikkö on oltava 1 ja 4 merkkiä!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Varoitus: Tämä pituus luokka ei voi poistaa, koska se on tällä hetkellä määrätty oletussäilössä kokoluokkaan!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Varoitus: Tämä pituus luokka ei voi poistaa, koska se on osoitettu tällä hetkellä %s tuotteita!]]></value>
+  </definition>
+</definitions>

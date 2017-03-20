@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[kieli Määritelmät]]></value>
+  </definition>
+  <definition>
+    <key>text_definition</key>
+    <value><![CDATA[kieli Määritelmä]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: Sinulla on muutettu kielellä!]]></value>
+  </definition>
+  <definition>
+    <key>column_language</key>
+    <value><![CDATA[Kieli]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[avain]]></value>
+  </definition>
+  <definition>
+    <key>column_translation</key>
+    <value><![CDATA[Käännös]]></value>
+  </definition>
+  <definition>
+    <key>column_block</key>
+    <value><![CDATA[Lohko]]></value>
+  </definition>
+  <definition>
+    <key>column_update_date</key>
+    <value><![CDATA[päivityspäivämäärä]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Toimet]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_key</key>
+    <value><![CDATA[avain]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_value</key>
+    <value><![CDATA[Arvo]]></value>
+  </definition>
+  <definition>
+    <key>entry_translation</key>
+    <value><![CDATA[Käännös]]></value>
+  </definition>
+  <definition>
+    <key>entry_block</key>
+    <value><![CDATA[Lohko]]></value>
+  </definition>
+  <definition>
+    <key>entry_section</key>
+    <value><![CDATA[jakso]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[admin]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront</key>
+    <value><![CDATA[Myymälä]]></value>
+  </definition>
+  <definition>
+    <key>error_language_key</key>
+    <value><![CDATA[Kieli tarvittavan avaimen!]]></value>
+  </definition>
+  <definition>
+    <key>error_language_value</key>
+    <value><![CDATA[Käännös tarvita!]]></value>
+  </definition>
+  <definition>
+    <key>error_block</key>
+    <value><![CDATA[Block tarvita!]]></value>
+  </definition>
+  <definition>
+    <key>error_section</key>
+    <value><![CDATA[§ tarvita!]]></value>
+  </definition>
+  <definition>
+    <key>text_all_section</key>
+    <value><![CDATA[kaikki osat]]></value>
+  </definition>
+  <definition>
+    <key>text_all_languages</key>
+    <value><![CDATA[kaikki kielet]]></value>
+  </definition>
+  <definition>
+    <key>error_already exists</key>
+    <value><![CDATA[Virhe! <br/> Kieli määritelmä painamalla &quot;%s&quot; ja block &quot;%s&quot; for %s jakso on jo olemassa! <br/> Klikkaa <a target="_blank" href="%s">tätä linkkiä</a> nähdäksesi]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Ostoskärry]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[kori]]></value>
+  </definition>
+  <definition>
+    <key>text_sub_total</key>
+    <value><![CDATA[Välisumma:]]></value>
+  </definition>
+  <definition>
+    <key>text_weight</key>
+    <value><![CDATA[Cart Paino:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Ostoskori on tyhjä!]]></value>
+  </definition>
+  <definition>
+    <key>column_remove</key>
+    <value><![CDATA[Poistaa]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Kuva]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Nimi]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Malli]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Määrä]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Yksikköhinta]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Kaikki yhteensä]]></value>
+  </definition>
+  <definition>
+    <key>text_continue_shopping</key>
+    <value><![CDATA[Jatka]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_codes</key>
+    <value><![CDATA[Kuponkikoodin]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipping_tax</key>
+    <value><![CDATA[Arvio toimitus ja verot]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_country</key>
+    <value><![CDATA[Maa ja valtion]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_postcode</key>
+    <value><![CDATA[ZIP / Postinumero]]></value>
+  </definition>
+  <definition>
+    <key>button_text_estimate</key>
+    <value><![CDATA[Arvio]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipments</key>
+    <value><![CDATA[lähetykset]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Virhe: kuponki on joko virheellinen, vanhentunut tai saavuttaneet sen käyttö raja!]]></value>
+  </definition>
+  <definition>
+    <key>error_stock</key>
+    <value><![CDATA[Merkityt tuotteet *** ei ole saatavilla haluttu määrä tai loppu!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_options</key>
+    <value><![CDATA[Valitse kaikki tarvittavat asetukset!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_minimum</key>
+    <value><![CDATA[Tilauksesi Saharan kokonaismäärä ei täytä minimimäärä %s tarvitaan. Ole hyvä ja lisää tuotteita ostoskoriisi!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_maximum</key>
+    <value><![CDATA[Tilauksesi Saharan kokonaismäärä ylittää enimmäismäärä %s sallittu per tilaus. Poista joitakin kohteita ostoskorin!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_data</key>
+    <value><![CDATA[File data on vioittunut tai tyhjä.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_name</key>
+    <value><![CDATA[Tiedoston nimi on tyhjä!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_extension</key>
+    <value><![CDATA[Vain tiedostoja laajennus (t) %s on (ovat) sallittu!]]></value>
+  </definition>
+  <definition>
+    <key>error_min_file_size</key>
+    <value><![CDATA[Pienin tiedostokoko upload on %s Kb.]]></value>
+  </definition>
+  <definition>
+    <key>error_max_file_size</key>
+    <value><![CDATA[Suurin tiedostokoko upload on %s Kb.]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_success</key>
+    <value><![CDATA[Success: Kuponki alennus on sovellettu!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[Success: kuponki on poistettu!]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_maximum</key>
+    <value><![CDATA[Sallittu tuotteen määrä ylittää. Määrä oli asetettu maksimiin.]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_minimum</key>
+    <value><![CDATA[Sallittu tuotteen määrä on alle minimiin. Määrä oli asetettu vähimmäismäärä.]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>import_export_title</key>
+    <value><![CDATA[Tuonti ja vienti]]></value>
+  </definition>
+  <definition>
+    <key>tab_import</key>
+    <value><![CDATA[Tuonti]]></value>
+  </definition>
+  <definition>
+    <key>tab_export</key>
+    <value><![CDATA[Viedä]]></value>
+  </definition>
+  <definition>
+    <key>text_tables</key>
+    <value><![CDATA[taulukot]]></value>
+  </definition>
+  <definition>
+    <key>text_options</key>
+    <value><![CDATA[Vaihtoehdot]]></value>
+  </definition>
+  <definition>
+    <key>text_file_format</key>
+    <value><![CDATA[Tiedosto muoto:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_name</key>
+    <value><![CDATA[Tiedoston nimi:]]></value>
+  </definition>
+  <definition>
+    <key>text_load_file</key>
+    <value><![CDATA[Lataa tiedosto]]></value>
+  </definition>
+  <definition>
+    <key>text_load</key>
+    <value><![CDATA[Ladata]]></value>
+  </definition>
+  <definition>
+    <key>text_import_loaded</key>
+    <value><![CDATA[Yhteensä ladattu:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_field</key>
+    <value><![CDATA[Tiedosto tuonti: <br/><span class="help">tuetut formaatit tuoda tiedostoja: XML, CSV, TXT</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_id_range_from</key>
+    <value><![CDATA[ID vaihtelevat:]]></value>
+  </definition>
+  <definition>
+    <key>text_to</key>
+    <value><![CDATA[että:]]></value>
+  </definition>
+  <definition>
+    <key>text_csv_delimiter</key>
+    <value><![CDATA[CSV / TXT erotin:]]></value>
+  </definition>
+  <definition>
+    <key>text_export_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">Kaikki kentät tulee lainausmerkkeihin.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_import_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">Kaikki kentät on laitettu lainausmerkkeihin.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_test_mode</key>
+    <value><![CDATA[Suorita testi tilassa <br/><span class="help">On suositeltavaa tehdä tietojen tuonti on testitilassa ensin nähdä, jos mitään ongelmia esiintyy.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_file_format</key>
+    <value><![CDATA[Väärä tiedostomuoto!]]></value>
+  </definition>
+  <definition>
+    <key>error_xml_import</key>
+    <value><![CDATA[Virhe tuonti XML-tiedoston!]]></value>
+  </definition>
+  <definition>
+    <key>error_csv_import</key>
+    <value><![CDATA[Virhe tuonti CSV / TXT-tiedoston! Tarkista kenttien erotin.]]></value>
+  </definition>
+  <definition>
+    <key>error_data_corrupted</key>
+    <value><![CDATA[Data on tyhjä tai vioittunut.]]></value>
+  </definition>
+  <definition>
+    <key>error_file_empty</key>
+    <value><![CDATA[Tiedosto on tyhjä.]]></value>
+  </definition>
+  <definition>
+    <key>error_writable_backup</key>
+    <value><![CDATA[Varmuuskopiosta on oltava kirjoitettavissa CSV / TXT viedä töihin.]]></value>
+  </definition>
+  <definition>
+    <key>text_updated</key>
+    <value><![CDATA[Päivitetty:]]></value>
+  </definition>
+  <definition>
+    <key>text_created</key>
+    <value><![CDATA[Luotu:]]></value>
+  </definition>
+  <definition>
+    <key>text_errors</key>
+    <value><![CDATA[virheet:]]></value>
+  </definition>
+  <definition>
+    <key>text_show_details</key>
+    <value><![CDATA[Näytä yksityiskohdat]]></value>
+  </definition>
+  <definition>
+    <key>text_no_children</key>
+    <value><![CDATA[Ei lapsi kohteita]]></value>
+  </definition>
+  <definition>
+    <key>text_some_errors</key>
+    <value><![CDATA[On joitakin virheitä.]]></value>
+  </definition>
+  <definition>
+    <key>text_test_completed</key>
+    <value><![CDATA[Koeajo suoritettu. Yhteensä SQL-kyselyt:]]></value>
+  </definition>
+  <definition>
+    <key>text_sort_by</key>
+    <value><![CDATA[Järjestä:]]></value>
+  </definition>
+</definitions>

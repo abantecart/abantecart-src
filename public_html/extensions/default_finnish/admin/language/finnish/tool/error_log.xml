@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[error Log]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: Olet onnistuneesti selvitetty virheloki!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_tail</key>
+    <value><![CDATA[Johtuen suuresta koosta lokitiedoston, vain viimeinen 500Kb tietoja voidaan tarkastella täällä. 
+ Voit tarkastella täydellistä loki, saat sen omalta palvelimelta suoraan. 
+ Path:]]></value>
+  </definition>
+</definitions>

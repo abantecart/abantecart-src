@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[asiakas Group]]></value>
+  </definition>
+  <definition>
+    <key>breadcrumb_title</key>
+    <value><![CDATA[asiakas Ryhmät]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: Olet muokannut asiakasryhmille!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Asiakkaan Group Name]]></value>
+  </definition>
+  <definition>
+    <key>column_tax_exempt</key>
+    <value><![CDATA[verovapaat]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Toiminta]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Asiakas Ryhmän nimi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_exempt</key>
+    <value><![CDATA[Vapautettu kaikista veroista:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varoitus: Sinulla ei ole lupaa muokata asiakasryhmille!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Asiakkaan Ryhmän nimi tulee olla välillä 2 ja 64 merkkiä!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Varoitus: Tämä asiakasryhmä ei voi poistaa, koska se on tällä hetkellä määrätty oletussäilössä asiakasryhmä!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Varoitus: Tämä asiakasryhmä ei voi poistaa, koska se on osoitettu tällä hetkellä %s myymälöissä!]]></value>
+  </definition>
+  <definition>
+    <key>error_customer</key>
+    <value><![CDATA[Varoitus: Tämä asiakasryhmä ei voi poistaa, koska se on osoitettu tällä hetkellä %s asiakkaille!]]></value>
+  </definition>
+</definitions>

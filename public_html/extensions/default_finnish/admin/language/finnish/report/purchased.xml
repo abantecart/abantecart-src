@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Ostettujen tuotteiden Report]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[tuotteen nimi]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Malli]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Määrä]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Kaikki yhteensä]]></value>
+  </definition>
+</definitions>

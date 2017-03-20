@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[välimuistin hallinta]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: Olet onnistuneesti poistanut välimuistitiedostot!]]></value>
+  </definition>
+  <definition>
+    <key>text_configuration</key>
+    <value><![CDATA[kokoonpano]]></value>
+  </definition>
+  <definition>
+    <key>text_layouts_blocks</key>
+    <value><![CDATA[Tilankäyttö &amp; lohkot]]></value>
+  </definition>
+  <definition>
+    <key>text_flexyforms</key>
+    <value><![CDATA[flexy lomakkeet]]></value>
+  </definition>
+  <definition>
+    <key>text_images</key>
+    <value><![CDATA[kuvat]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[Tuotteet]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[Luokat]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[valmistajat]]></value>
+  </definition>
+  <definition>
+    <key>text_localisations</key>
+    <value><![CDATA[lokalisoinneissa]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[error Log]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_cache</key>
+    <value><![CDATA[Tyhjennä valitut Cache]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_all_cache</key>
+    <value><![CDATA[Clear All Cache]]></value>
+  </definition>
+  <definition>
+    <key>desc_configuration</key>
+    <value><![CDATA[Järjestelmä ja tallentaa kokoonpanot]]></value>
+  </definition>
+  <definition>
+    <key>desc_layouts_blocks</key>
+    <value><![CDATA[Sivut, taittoja, lohkot]]></value>
+  </definition>
+  <definition>
+    <key>desc_flexyforms</key>
+    <value><![CDATA[Flexy lomakkeet data]]></value>
+  </definition>
+  <definition>
+    <key>desc_images</key>
+    <value><![CDATA[pikkukuviin]]></value>
+  </definition>
+  <definition>
+    <key>desc_products</key>
+    <value><![CDATA[Tuotetiedot]]></value>
+  </definition>
+  <definition>
+    <key>desc_categories</key>
+    <value><![CDATA[Luokka data]]></value>
+  </definition>
+  <definition>
+    <key>desc_manufacturers</key>
+    <value><![CDATA[Valmistaja tiedot]]></value>
+  </definition>
+  <definition>
+    <key>desc_localisations</key>
+    <value><![CDATA[Valuutta, kieli, maa, vyöhyke, pituus, paino, &amp; muut]]></value>
+  </definition>
+  <definition>
+    <key>desc_error_log</key>
+    <value><![CDATA[error Log]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[cache Tyyppi]]></value>
+  </definition>
+  <definition>
+    <key>column_description</key>
+    <value><![CDATA[Kuvaus]]></value>
+  </definition>
+  <definition>
+    <key>text_html_cache</key>
+    <value><![CDATA[HTML-välimuistin]]></value>
+  </definition>
+  <definition>
+    <key>desc_html_cache</key>
+    <value><![CDATA[Välimuistissa HTML-sivuja ja lohkot]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[Asenna / Päivitä History]]></value>
+  </definition>
+  <definition>
+    <key>desc_install_upgrade_history</key>
+    <value><![CDATA[Tyhjennä kaikki Asenna / Päivitä History]]></value>
+  </definition>
+</definitions>

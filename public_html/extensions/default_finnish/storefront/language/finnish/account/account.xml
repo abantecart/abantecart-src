@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Tilini]]></value>
+  </definition>
+  <definition>
+    <key>text_account_dashboard</key>
+    <value><![CDATA[Tilin Dashboard]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Tili]]></value>
+  </definition>
+  <definition>
+    <key>text_my_account</key>
+    <value><![CDATA[Tilini]]></value>
+  </definition>
+  <definition>
+    <key>text_my_orders</key>
+    <value><![CDATA[Tilaukseni]]></value>
+  </definition>
+  <definition>
+    <key>text_my_notifications</key>
+    <value><![CDATA[ilmoitukset]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[Muokkaa tilitietoja]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Vaihda salasana]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Hallitse Address Book]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[Tilaushistoria]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[Tapahtumahistoria]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Lataukset]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[Uutiskirjeen tilaus]]></value>
+  </definition>
+  <definition>
+    <key>text_account_wishlist</key>
+    <value><![CDATA[Toivelistani]]></value>
+  </definition>
+</definitions>
