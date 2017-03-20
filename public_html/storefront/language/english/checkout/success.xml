@@ -44,4 +44,16 @@
 		<key>text_success</key>
 		<value><![CDATA[Success]]></value>
 	</definition>
+	<definition>
+		<key>text_message_failed_order</key>
+		<value><![CDATA[Oops! Unknown error. Your order will be reviewed manually soon.]]></value>
+	</definition>
+	<definition>
+		<key>text_title_failed_order_to_admin</key>
+		<value><![CDATA[New failed order #%s]]></value>
+	</definition>
+	<definition>
+		<key>text_message_failed_order_to_admin</key>
+		<value><![CDATA[No correct response from payment provider. Needs manual verification! ]]></value>
+	</definition>
 </definitions>

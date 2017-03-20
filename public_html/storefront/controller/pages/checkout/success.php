@@ -23,25 +23,31 @@ if (!defined('DIR_CORE')){
 
 class ControllerPagesCheckoutSuccess extends AController{
 	public $data = array ();
+	public $errors = array ();
 
 	public function main(){
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
+		$order_id = (int)$this->session->data['order_id'];
 
-		if (isset($this->session->data['order_id'])){
-			
+		if ($order_id && $this->validate($order_id)){
+
 			// in default currency
 			$amount = $this->session->data['used_balance']; 
 			if ($amount){
 				$transaction_data = array (
-						'order_id'         => (int)$this->session->data['order_id'],
+						'order_id'         => $order_id,
 						'amount'           => $amount,
 						'transaction_type' => 'order',
 						'created_by'       => $this->customer->getId(),
 						'description'      => sprintf($this->language->get('text_applied_balance_to_order'),
-								$this->currency->format($this->currency->convert($amount, $this->config->get('config_currency'), $this->session->data['currency']), $this->session->data['currency'], 1),
-								(int)$this->session->data['order_id']));
+														$this->currency->format(
+																$this->currency->convert($amount,
+																						$this->config->get('config_currency'),
+																						$this->session->data['currency']),
+																$this->session->data['currency'], 1),
+													  $order_id));
 				try{
 					$this->customer->debitTransaction($transaction_data);
 				}catch(AException $e){
@@ -49,34 +55,37 @@ class ControllerPagesCheckoutSuccess extends AController{
 					$error->toLog()->toMessages();
 				}
 			}
-
-			$this->cart->clear();
-			$this->customer->clearCustomerCart();
+			//clear session before redirect
+			$this->clearSessionInfo();
 
 			//save order_id into session as processed order to allow one redirect
-			$this->session->data['processed_order_id'] = (int)$this->session->data['order_id'];
-
-			unset($this->session->data['shipping_method'],
-					$this->session->data['shipping_methods'],
-					$this->session->data['payment_method'],
-					$this->session->data['payment_methods'],
-					$this->session->data['guest'],
-					$this->session->data['comment'],
-					$this->session->data['order_id'],
-					$this->session->data['coupon'],
-					$this->session->data['used_balance'],
-					$this->session->data['used_balance_full']);
+			$this->session->data['processed_order_id'] = $order_id;
 
 			$this->extensions->hk_ProcessData($this);
-
 			//Redirect back to load new page with cleared shopping cart content
 			redirect($this->html->getSecureURL('checkout/success'));
 		}
+		//when validation failed
+		elseif($order_id){
+			$this->session->data['processed_order_id'] = $order_id;
+		}else{
+			$order_id = $this->session->data['processed_order_id'];
+		}
 
-		$this->document->setTitle($this->language->get('heading_title'));
+		//check for one time load of page
+
+		if(!(int)$this->session->data['processed_order_id']) {
+			redirect($this->html->getURL('index/home'));
+		}elseif(!$order_id && (int)$this->session->data['processed_order_id']){
+			$order_id = (int)$this->session->data['processed_order_id'];
+		}
+		unset($this->session->data['processed_order_id']);
+
+		$heading_title = $this->language->get('heading_title');
+		$this->document->setTitle($heading_title);
+		$this->view->assign('heading_title', $heading_title);
 
 		$this->document->resetBreadcrumbs();
-
 		$this->document->addBreadcrumb(array (
 				'href'      => $this->html->getHomeURL(),
 				'text'      => $this->language->get('text_home'),
@@ -127,15 +136,6 @@ class ControllerPagesCheckoutSuccess extends AController{
 				'separator' => $this->language->get('text_separator')
 		));
 
-		$this->view->assign('heading_title', $this->language->get('heading_title'));
-
-		$order_id = $this->session->data['processed_order_id'];
-		//only one time load, reset
-		unset($this->session->data['processed_order_id']);
-		if(!$order_id) {
-			redirect($this->html->getURL('index/home'));
-		}
-
 		$this->loadModel('account/order');
 		$order_info = $this->model_account_order->getOrder($order_id);
 		if($order_info){
@@ -145,7 +145,9 @@ class ControllerPagesCheckoutSuccess extends AController{
 		$order_totals = $this->model_account_order->getOrderTotals($order_id);
 		$this->_google_analytics($order_info, $order_totals);
 			
-		if ($this->session->data['account'] == 'guest'){
+		if($this->errors){
+			$this->view->assign( 'text_message', implode('<br>', $this->errors) );
+		}elseif ($this->session->data['account'] == 'guest'){
 			//give link on order page for quest
 			$enc = new AEncryption($this->config->get('encryption_key'));
 			$order_token = $enc->encrypt($order_id.'::'.$order_info['email']);
@@ -153,7 +155,7 @@ class ControllerPagesCheckoutSuccess extends AController{
 			$this->view->assign('text_message',
 					sprintf($this->language->get('text_message_guest'), $order_url, $this->html->getURL('content/contact'))
 			);
-		} else {
+		} else{
 			$text_message = sprintf($this->language->get('text_message_account'),
 										$order_id,
 										$this->html->getSecureURL('account/invoice','&order_id='.$order_id),
@@ -170,6 +172,8 @@ class ControllerPagesCheckoutSuccess extends AController{
 						'text'  => $this->language->get('button_continue'),
 						'style' => 'button'));
 		$this->view->assign('continue_button', $continue);
+		//clear session anyway
+		$this->clearSessionInfo();
 
 		if ($this->config->get('embed_mode') == true){
 			//load special headers
@@ -183,8 +187,52 @@ class ControllerPagesCheckoutSuccess extends AController{
 		//init controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
+
+	protected function validate($order_id){
+		$order_id = (int)$order_id;
+
+		//check is order incomplete
+		$this->loadModel('checkout/order');
+		$order_info = $this->model_checkout_order->getOrder($order_id);
+
+		if( (int)$order_info['order_status_id'] == 0 ){
+			$new_status_id = $this->order_status->getStatusByTextId('failed');
+			$this->model_checkout_order->confirm($order_id, $new_status_id);
+			$this->messages->saveWarning(
+					sprintf($this->language->get('text_title_failed_order_to_admin'),$order_id),
+					$this->language->get('text_message_failed_order_to_admin').' '.'#admin#rt=sale/order/details&order_id='.$order_id
+			);
+
+			$text_message = $this->language->get('text_message_failed_order');
+			$this->errors[] = $text_message;
+		}
+		$this->extensions->hk_ValidateData($this);
+
+		if(!$this->errors){
+			$this->session->data['processed_order_id'] = $order_id;
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	protected function clearSessionInfo(){
+		$this->cart->clear();
+		$this->customer->clearCustomerCart();
+
+		unset($this->session->data['shipping_method'],
+				$this->session->data['shipping_methods'],
+				$this->session->data['payment_method'],
+				$this->session->data['payment_methods'],
+				$this->session->data['guest'],
+				$this->session->data['comment'],
+				$this->session->data['order_id'],
+				$this->session->data['coupon'],
+				$this->session->data['used_balance'],
+				$this->session->data['used_balance_full']);
+	}
 	
-	private function _google_analytics( $order_data, $order_totals ){
+	protected function _google_analytics( $order_data, $order_totals ){
 
 		// google analytics data for js-script in footer.tpl
 		$order_tax = $order_total = $order_shipping = 0.0;

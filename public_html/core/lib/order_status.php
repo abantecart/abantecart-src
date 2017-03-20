@@ -32,7 +32,7 @@ class AOrderStatus{
 	/**
 	 * @var array
 	 */
-	private $base_statuses = array (
+	protected $base_statuses = array (
 			0  => 'incomplete',
 			1  => 'pending',
 			2  => 'processing',
