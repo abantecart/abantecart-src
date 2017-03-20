@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[konto Logg]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Du har blitt logget av kontoen din. Det er nå trygt å la datamaskinen. </p><p> Handlekurven har blitt lagret, elementene inni det vil bli gjenopprettet når du logger deg inn på kontoen din. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Konto]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Logg ut]]></value>
+  </definition>
+</definitions>

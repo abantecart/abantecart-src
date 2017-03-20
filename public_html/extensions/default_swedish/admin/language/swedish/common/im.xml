@@ -22,7 +22,7 @@
   </definition>
   <definition>
     <key>im_sendpoint_name_new_customer</key>
-    <value><![CDATA[kund%s%sPOS=TRUNC Registreringar]]></value>
+    <value><![CDATA[kund Registreringar]]></value>
   </definition>
   <definition>
     <key>im_new_customer_text_to_admin</key>
@@ -58,7 +58,7 @@
   </definition>
   <definition>
     <key>im_sendpoint_name_system_messages</key>
-    <value><![CDATA[Systemmeddelanden meddelanden%s%sPOS=HEADCOMP]]></value>
+    <value><![CDATA[Systemmeddelanden meddelanden]]></value>
   </definition>
   <definition>
     <key>im_customer_account_update_text_to_customer</key>

@@ -138,7 +138,7 @@
   </definition>
   <definition>
     <key>text_sendpoints</key>
-    <value><![CDATA[meddelande%s%sPOS=TRUNC inställningar%s%sPOS=HEADCOMP]]></value>
+    <value><![CDATA[meddelande inställningar]]></value>
   </definition>
   <definition>
     <key>text_change_im_addresses</key>

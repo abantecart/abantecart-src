@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Media Resource Library Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[Siste lagt ressurser]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[ressurstype]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[Ressurstype Key <br/><span class="help">Denne ressursen typen nøkkel / navn verdien kan ikke endres</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[Ressurs katalog <br/><span class="help">Directory lokalisering ressurs for denne typen. Hvis endres, vil eksisterende ressurser ikke være acceccible og må kopieres til nye katalogen!</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[Standard ikon <br/><span class="help">Ikon bilde som skal vises i en oversikt over ressurser (Sted: / image / ...).</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[Tillatt filtyper <br/><span class="help">Regex med en liste over tillatte filtyper for denne ressurstype</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Suksess: Du har oppdatert ressurstype!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[Feil: Manglende ressurstype ID!]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[Feil: Ressurstypenavnet må være mellom 2 og 40 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[Feil: Resource katalog i må være mellom 2 og 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[Feil: Ressurstype-ikonet må være mellom 2 og 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[Feil: Resource typen fil Utvidelser regex må være mellom 2 og 40 charcters]]></value>
+  </definition>
+</definitions>

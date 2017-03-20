@@ -74,15 +74,15 @@
   </definition>
   <definition>
     <key>text_disclaimer</key>
-    <value><![CDATA[<h3> Szanowny kliencie AbanteCart, </h3><br/> 
- Zamierzasz zainstalować rozszerzenie strony trzeciej do AbanteCart. <br/><br/> 
- Proszę przeczytać i zrozumieć to zastrzeżenie o przedłużenie trzeciej partii, które zamierza zainstalować. <br/><br/> 
- trzecie rozszerzenia i usługi firm są dostarczane przez dostawców zewnętrznych. <br/><br/> 
- Chociaż AbanteCart zweryfikować jakość rozszerzeń i usług świadczonych przez osoby trzecie, AbanterCart nie gwarantuje, że wszystkie prace rozszerzenie osoba trzecia prawidłowo, czy nie spowoduje to żadnych konfliktów w systemie. 
- członków AbanteCart i stowarzyszone są w żaden sposób nie ponosi odpowiedzialności za roszczeń związanych z produktami lub usługami świadczonymi przez innych dostawców. AbanteCart nie gwarantuje jakość rozszerzeń osób trzecich lub usług. Proszę kierować zapytania dotyczące rozszerzeń osób trzecich lub usług do odpowiedniego dostawcy strony trzeciej. 
- Jeśli masz obawy dowolnego dostawcy strony trzeciej skontaktuj AbanteCart na <a href="http://www.abantecart.com/contact-us" target="_blank">http://www.abantecart.com/contact-us%s%sHEAD=pobj</a><br/><br/> 
- poważaniem, <br/> 
- AbanteCart <br/> 
+    <value><![CDATA[<h3> Szanowny kliencie AbanteCart, </h3><br/>
+ Zamierzasz zainstalować rozszerzenie strony trzeciej do AbanteCart. <br/><br/>
+ Proszę przeczytać i zrozumieć to zastrzeżenie o przedłużenie trzeciej partii, które zamierza zainstalować. <br/><br/>
+ trzecie rozszerzenia i usługi firm są dostarczane przez dostawców zewnętrznych. <br/><br/>
+ Chociaż AbanteCart zweryfikować jakość rozszerzeń i usług świadczonych przez osoby trzecie, AbanterCart nie gwarantuje, że wszystkie prace rozszerzenie osoba trzecia prawidłowo, czy nie spowoduje to żadnych konfliktów w systemie.
+ członków AbanteCart i stowarzyszone są w żaden sposób nie ponosi odpowiedzialności za roszczeń związanych z produktami lub usługami świadczonymi przez innych dostawców. AbanteCart nie gwarantuje jakość rozszerzeń osób trzecich lub usług. Proszę kierować zapytania dotyczące rozszerzeń osób trzecich lub usług do odpowiedniego dostawcy strony trzeciej.
+ Jeśli masz obawy dowolnego dostawcy strony trzeciej skontaktuj AbanteCart na <a href="http://www.abantecart.com/contact-us" target="_blank">http://www.abantecart.com/contact-us</a><br/><br/> 
+ poważaniem, <br/>
+ AbanteCart <br/>
  Idealny OpenSource Rozwiązania e-commerce]]></value>
   </definition>
   <definition>
@@ -191,7 +191,7 @@
   </definition>
   <definition>
     <key>confirm_version_incompatibility</key>
-    <value><![CDATA[Aktualny odpis z tym rozszerzeniem nie został zweryfikowany dla danej wersji AbanteCart (V %s). <br/> Przedłużenie build jest określony dla AbanteCart V %s. <br/> 
+    <value><![CDATA[Aktualny odpis z tym rozszerzeniem nie został zweryfikowany dla danej wersji AbanteCart (V %s). <br/> Przedłużenie build jest określony dla AbanteCart V %s. <br/>
  To nie jest problem, ale jeśli zauważysz problemy lub niezgodności, prosimy o kontakt z deweloperem przedłużacza.]]></value>
   </definition>
   <definition>
@@ -228,13 +228,13 @@
   </definition>
   <definition>
     <key>text_core_upgrade_attention</key>
-    <value><![CDATA[Uwaga! 
+    <value><![CDATA[Uwaga!
  AbanteCart ma być uaktualniony do wersji %s!]]></value>
   </definition>
   <definition>
     <key>text_core_upgrade_warning</key>
-    <value><![CDATA[Nie ma cofania po rozpoczęciu procesu aktualizacji. 
- jest wysoce zalecana pełna kopia zapasowa bazy danych i kodu. 
+    <value><![CDATA[Nie ma cofania po rozpoczęciu procesu aktualizacji.
+ jest wysoce zalecana pełna kopia zapasowa bazy danych i kodu.
  uaktualnienie testu na zwierzętach żywych miejsc pierwszych. Upgrade na żywo witryn nie jest zalecane.]]></value>
   </definition>
   <definition>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Vedlikehold]]></value>
+  </definition>
+  <definition>
+    <key>text_maintenance</key>
+    <value><![CDATA[Vedlikehold]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<h1 style="text-align:center;"> Vi utfører noen planlagt vedlikehold. <br/> Vi vil være tilbake så snart som mulig. Vennligst prøv igjen senere. </h1>]]></value>
+  </definition>
+</definitions>

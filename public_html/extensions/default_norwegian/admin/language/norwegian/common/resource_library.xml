@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Resource Library]]></value>
+  </definition>
+  <definition>
+    <key>view_title</key>
+    <value><![CDATA[Vis Object Resources]]></value>
+  </definition>
+  <definition>
+    <key>confirm_title</key>
+    <value><![CDATA[Bekreft ressurs (er) slette]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_delete</key>
+    <value><![CDATA[Noen ressurser kan være inkludert i teksten. Vi kan ikke sjekke dette automatisk. Slett?]]></value>
+  </definition>
+  <definition>
+    <key>text_cant_delete_title</key>
+    <value><![CDATA[Resource (s) slette]]></value>
+  </definition>
+  <definition>
+    <key>text_cant_delete</key>
+    <value><![CDATA[Skrånende slette ressursen (e) fordi en eller flere ressurser er knyttet til objektet]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_resource</key>
+    <value><![CDATA[Rediger Resource]]></value>
+  </definition>
+  <definition>
+    <key>text_resource_details</key>
+    <value><![CDATA[ressurs Detaljer]]></value>
+  </definition>
+  <definition>
+    <key>text_mapped_to</key>
+    <value><![CDATA[Knyttet til]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[Produkter]]></value>
+  </definition>
+  <definition>
+    <key>text_add_file</key>
+    <value><![CDATA[Legg Resource File]]></value>
+  </definition>
+  <definition>
+    <key>text_add_code</key>
+    <value><![CDATA[Legg Resource HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_add_files</key>
+    <value><![CDATA[Legg til filer...]]></value>
+  </definition>
+  <definition>
+    <key>text_upload_files</key>
+    <value><![CDATA[Last opp filer]]></value>
+  </definition>
+  <definition>
+    <key>text_drag</key>
+    <value><![CDATA[eller dra dem her for å starte opplastingen]]></value>
+  </definition>
+  <definition>
+    <key>text_start_upload</key>
+    <value><![CDATA[start opplasting]]></value>
+  </definition>
+  <definition>
+    <key>text_cancel_upload</key>
+    <value><![CDATA[Avbryt opplasting]]></value>
+  </definition>
+  <definition>
+    <key>text_start</key>
+    <value><![CDATA[Start]]></value>
+  </definition>
+  <definition>
+    <key>text_cancel</key>
+    <value><![CDATA[Avbryt]]></value>
+  </definition>
+  <definition>
+    <key>text_save_sort_order</key>
+    <value><![CDATA[Lagre sorteringsrekkefølge]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Feil]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_files</key>
+    <value><![CDATA[Slett filer]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Søke]]></value>
+  </definition>
+  <definition>
+    <key>text_type</key>
+    <value><![CDATA[Type]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[Språk]]></value>
+  </definition>
+  <definition>
+    <key>text_resource_code</key>
+    <value><![CDATA[Ressurs HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_name</key>
+    <value><![CDATA[Navn]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Tittel]]></value>
+  </definition>
+  <definition>
+    <key>text_description</key>
+    <value><![CDATA[Beskrivelse]]></value>
+  </definition>
+  <definition>
+    <key>text_uploaded</key>
+    <value><![CDATA[Suksess: Ressurs har blitt lastet opp!]]></value>
+  </definition>
+  <definition>
+    <key>text_add</key>
+    <value><![CDATA[Legg til]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[Redigere]]></value>
+  </definition>
+  <definition>
+    <key>text_map</key>
+    <value><![CDATA[Link til Object]]></value>
+  </definition>
+  <definition>
+    <key>text_map_to</key>
+    <value><![CDATA[Link til %s]]></value>
+  </definition>
+  <definition>
+    <key>text_unmap</key>
+    <value><![CDATA[Fjern tilknytningen Address]]></value>
+  </definition>
+  <definition>
+    <key>text_unmap_from</key>
+    <value><![CDATA[Oppheve tilknytningen til %s]]></value>
+  </definition>
+  <definition>
+    <key>text_success_unmap</key>
+    <value><![CDATA[Suksess: Ressurs har blitt frakoblet.]]></value>
+  </definition>
+  <definition>
+    <key>text_file_delete</key>
+    <value><![CDATA[Ressursen er blitt slettet!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[Suksess: Din ressurs er blitt slettet!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_type</key>
+    <value><![CDATA[Advarsel: Feil filtype!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_size</key>
+    <value><![CDATA[Advarsel: fil til stor kan du holde under 300kb og ikke mer enn 1000 piksler høyde eller bredde!]]></value>
+  </definition>
+  <definition>
+    <key>error_maxFileSize</key>
+    <value><![CDATA[Filen er for stor]]></value>
+  </definition>
+  <definition>
+    <key>error_minFileSize</key>
+    <value><![CDATA[Filen er for liten]]></value>
+  </definition>
+  <definition>
+    <key>error_acceptFileTypes</key>
+    <value><![CDATA[Filtypen ikke tillatt]]></value>
+  </definition>
+  <definition>
+    <key>error_maxNumberOfFiles</key>
+    <value><![CDATA[Maks antall filer overskredet]]></value>
+  </definition>
+  <definition>
+    <key>error_uploadedBytes</key>
+    <value><![CDATA[Lastet opp bytes stige filstørrelse]]></value>
+  </definition>
+  <definition>
+    <key>error_emptyResult</key>
+    <value><![CDATA[Tom filopplasting resultat. Muligens filen er skadet eller for stor. Filstørrelse begrenset til 16 MB. Hvis filstørrelsen er mindre enn grensen sjekk php innstillinger for upload_max_filesize &amp; post_max_size]]></value>
+  </definition>
+  <definition>
+    <key>error_1</key>
+    <value><![CDATA[File stiger upload_max_filesize (php.ini direktivet)]]></value>
+  </definition>
+  <definition>
+    <key>error_2</key>
+    <value><![CDATA[File stiger MAX_FILE_SIZE (HTML-skjema direktivet)]]></value>
+  </definition>
+  <definition>
+    <key>error_3</key>
+    <value><![CDATA[Filen ble bare delvis opplastet]]></value>
+  </definition>
+  <definition>
+    <key>error_4</key>
+    <value><![CDATA[Ingen fil ble lastet opp]]></value>
+  </definition>
+  <definition>
+    <key>error_5</key>
+    <value><![CDATA[Mangler en midlertidig mappe]]></value>
+  </definition>
+  <definition>
+    <key>error_6</key>
+    <value><![CDATA[Klarte ikke å skrive fila til harddisken]]></value>
+  </definition>
+  <definition>
+    <key>error_7</key>
+    <value><![CDATA[Filopplasting stoppet av utvidelse]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded</key>
+    <value><![CDATA[Advarsel: Filen kunne ikke lastes opp for en ukjent grunn!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_type</key>
+    <value><![CDATA[Vennligst velg ressurstype]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Nødvendig Data har ikke blitt angitt]]></value>
+  </definition>
+  <definition>
+    <key>error_not_added</key>
+    <value><![CDATA[Ressurs ikke lagt. Vennligst sjekk feilloggen for mer info]]></value>
+  </definition>
+  <definition>
+    <key>error_ajax</key>
+    <value><![CDATA[Load datafeil. Vennligst sjekk feilloggen for mer info]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advarsel: Permission Denied!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Feil: Navn Feltet er nødvendig!]]></value>
+  </definition>
+  <definition>
+    <key>button_delete</key>
+    <value><![CDATA[Slett]]></value>
+  </definition>
+  <definition>
+    <key>button_add</key>
+    <value><![CDATA[Legg Resource]]></value>
+  </definition>
+  <definition>
+    <key>button_done</key>
+    <value><![CDATA[Ferdig]]></value>
+  </definition>
+  <definition>
+    <key>button_select</key>
+    <value><![CDATA[Velg Resources]]></value>
+  </definition>
+  <definition>
+    <key>text_with_selected</key>
+    <value><![CDATA[Med utvalgte:]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Ressurs oppdatert]]></value>
+  </definition>
+  <definition>
+    <key>text_map_success</key>
+    <value><![CDATA[Ressurs nå koblet]]></value>
+  </definition>
+  <definition>
+    <key>text_no_resources</key>
+    <value><![CDATA[Ingen ressurser tilgjengelig]]></value>
+  </definition>
+  <definition>
+    <key>text_preview</key>
+    <value><![CDATA[Forhåndsvisning / Last ned]]></value>
+  </definition>
+  <definition>
+    <key>error_file size</key>
+    <value><![CDATA[OBS: Maksimal filstørrelse for opplasting er %s. Du kan øke denne verdien i php.ini.]]></value>
+  </definition>
+  <definition>
+    <key>text_product_option_value</key>
+    <value><![CDATA[Produktalternativer verdi]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[kategorier]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[produsenter]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[Kan ikke slette ressursen knyttet til flere objekter]]></value>
+  </definition>
+  <definition>
+    <key>error_unmap</key>
+    <value><![CDATA[Kan ikke fjerne koblingen ressurs. Objektet ble ikke angitt.]]></value>
+  </definition>
+  <definition>
+    <key>text_replace_file</key>
+    <value><![CDATA[Skift fil]]></value>
+  </definition>
+  <definition>
+    <key>error_not_replaced</key>
+    <value><![CDATA[File Replacement feil. ID kreves!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_exists</key>
+    <value><![CDATA[File Replacement feil. Ressurs ikke finnes!]]></value>
+  </definition>
+  <definition>
+    <key>error_cannot_move</key>
+    <value><![CDATA[Feil: Kan ikke flytte filen %s til ressurser katalogen.]]></value>
+  </definition>
+  <definition>
+    <key>button_save_n_apply</key>
+    <value><![CDATA[Lagre og Bruk]]></value>
+  </definition>
+  <definition>
+    <key>text_image_size</key>
+    <value><![CDATA[Bildestørrelse:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_size</key>
+    <value><![CDATA[Filstørrelse:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_mime</key>
+    <value><![CDATA[MIME:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_path</key>
+    <value><![CDATA[Filplassering:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_url</key>
+    <value><![CDATA[Resource URL:]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[Dato Old &gt; Ny]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[Dato New &gt; Gammel]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[Navn A - Å]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[Navn Z - A]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_asc</key>
+    <value><![CDATA[Sorteringsrekkefølge Lav &gt; Høy]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_desc</key>
+    <value><![CDATA[Sorteringsrekkefølge Høy &gt; Lav]]></value>
+  </definition>
+</definitions>

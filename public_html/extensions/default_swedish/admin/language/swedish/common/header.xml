@@ -130,7 +130,7 @@
   </definition>
   <definition>
     <key>text_order_status</key>
-    <value><![CDATA[order%s%sPOS=TRUNC]]></value>
+    <value><![CDATA[order]]></value>
   </definition>
   <definition>
     <key>text_abantecart</key>
@@ -206,11 +206,11 @@
   </definition>
   <definition>
     <key>text_tax_class</key>
-    <value><![CDATA[skatte%s%sPOS=TRUNC klasser%s%sPOS=HEADCOMP]]></value>
+    <value><![CDATA[skatte klasser]]></value>
   </definition>
   <definition>
     <key>text_total</key>
-    <value><![CDATA[order%s%sPOS=TRUNC Totals]]></value>
+    <value><![CDATA[order Totals]]></value>
   </definition>
   <definition>
     <key>text_user</key>
@@ -230,7 +230,7 @@
   </definition>
   <definition>
     <key>text_weight_class</key>
-    <value><![CDATA[vikt%s%sPOS=TRUNC klasser%s%sPOS=HEADCOMP]]></value>
+    <value><![CDATA[vikt klasser]]></value>
   </definition>
   <definition>
     <key>text_length_class</key>

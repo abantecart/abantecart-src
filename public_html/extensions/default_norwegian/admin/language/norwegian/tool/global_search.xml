@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Global Søkeresultater]]></value>
+  </definition>
+  <definition>
+    <key>no_results_message</key>
+    <value><![CDATA[Beklager, men vi har ingen resultater.]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advarsel: Du har ikke tillatelse til å søke!]]></value>
+  </definition>
+  <definition>
+    <key>text_orders</key>
+    <value><![CDATA[Bestillinger]]></value>
+  </definition>
+  <definition>
+    <key>text_customers</key>
+    <value><![CDATA[kunder]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[Nedlastinger]]></value>
+  </definition>
+  <definition>
+    <key>text_product_categories</key>
+    <value><![CDATA[Produkt kategorier]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[Produkter]]></value>
+  </definition>
+  <definition>
+    <key>text_reviews</key>
+    <value><![CDATA[anmeldelser]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[Merker]]></value>
+  </definition>
+  <definition>
+    <key>text_languages</key>
+    <value><![CDATA[språk]]></value>
+  </definition>
+  <definition>
+    <key>text_pages</key>
+    <value><![CDATA[sider]]></value>
+  </definition>
+  <definition>
+    <key>text_settings</key>
+    <value><![CDATA[innstillinger]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[meldinger]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[utvidelser]]></value>
+  </definition>
+  <definition>
+    <key>text_commands</key>
+    <value><![CDATA[raske kommandoer]]></value>
+  </definition>
+  <definition>
+    <key>text_contents</key>
+    <value><![CDATA[innholds]]></value>
+  </definition>
+</definitions>

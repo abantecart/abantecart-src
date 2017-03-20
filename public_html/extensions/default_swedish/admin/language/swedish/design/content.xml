@@ -34,7 +34,7 @@
   </definition>
   <definition>
     <key>column_parent</key>
-    <value><![CDATA[moder%s%sPOS=TRUNC innehåll]]></value>
+    <value><![CDATA[Moder innehåll]]></value>
   </definition>
   <definition>
     <key>entry_parent</key>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Takk for din registrering]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Velkommen og takk for at du registrerer deg på %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Din konto er nå opprettet, og du får tilgang til den ved å besøke vår hjemmeside eller på følgende URL:]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[Kontoen må være godkjent før du kan logge inn. Når du er godkjent kan du logge deg på ved å bruke din e-postadresse og passord ved å besøke vår hjemmeside eller på følgende URL:]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[Før vi kan aktivere kontoen din en siste skritt må tas for å fullføre registreringen. <br/> 
+ Du må fullføre dette siste trinnet for å bli registrert som medlem. Vennligst klikk på følgende link for å aktivere kontoen din %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Når du logger deg inn, vil du kunne få tilgang til andre tjenester, inkludert gjennomgang av tidligere ordrer, skrive ut fakturaer og redigere kontoinformasjonen din.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Takk skal du ha,]]></value>
+  </definition>
+</definitions>

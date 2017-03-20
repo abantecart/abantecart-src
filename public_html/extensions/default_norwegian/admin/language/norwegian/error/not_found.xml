@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Side ikke funnet!]]></value>
+  </definition>
+  <definition>
+    <key>text_not_found</key>
+    <value><![CDATA[Siden du leter etter ble ikke funnet! Ta kontakt med administratoren hvis problemet vedvarer.]]></value>
+  </definition>
+</definitions>

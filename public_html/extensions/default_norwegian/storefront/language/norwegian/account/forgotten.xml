@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Glemt passordet?]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_loginname</key>
+    <value><![CDATA[Glemt påloggingsnavn?]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Konto]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten</key>
+    <value><![CDATA[glemt passord]]></value>
+  </definition>
+  <definition>
+    <key>text_your_email</key>
+    <value><![CDATA[Din epostadresse]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Skriv inn e-postadressen som er tilknyttet kontoen din. Klikk sender til passordet bli sent til deg]]></value>
+  </definition>
+  <definition>
+    <key>text_loginname_email</key>
+    <value><![CDATA[Skriv inn brukernavn og e-postadressen som er tilknyttet kontoen din. Klikk på Send for å be om tilbakestilling av passord]]></value>
+  </definition>
+  <definition>
+    <key>text_lastname_email</key>
+    <value><![CDATA[Skriv inn etternavn og e-postadressen som er tilknyttet kontoen din. Klikk på Send for å ha ditt påloggingsnavn sendt til deg]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Suksess: Passord reset adresse har blitt sendt til din e-post adresse.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_loginname</key>
+    <value><![CDATA[Suksess: Ditt påloggingsnavn påminnelse har blitt sendt til din e-post adresse.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Påloggingsnavn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Etternavn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[Epostadresse:]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Feil: E-post ble ikke gitt eller ikke finnes i våre registre, prøv igjen!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Feil: Påloggingsnavn ble ikke gitt eller ikke finnes i våre registre, prøv igjen!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Feil: Etternavn ble ikke gitt eller ikke finnes i våre registre, prøv igjen!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_found</key>
+    <value><![CDATA[Feil: Ingen poster funnet som passer dine opplysninger gitt, vennligst sjekk din informasjon, og prøv igjen!]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_loginname</key>
+    <value><![CDATA[Glemt påloggingsnavn]]></value>
+  </definition>
+</definitions>
