@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[nyhetsbrev prenumeration]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[konto]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[Nyhetsbrev]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Framgång: Din prenumeration har uppdaterats!]]></value>
+  </definition>
+  <definition>
+    <key>entry_newsletter</key>
+    <value><![CDATA[Prenumerera:]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_registration</key>
+    <value><![CDATA[kund Registrering]]></value>
+  </definition>
+  <definition>
+    <key>entry_captcha</key>
+    <value><![CDATA[Ange kod:]]></value>
+  </definition>
+  <definition>
+    <key>error_captcha</key>
+    <value><![CDATA[Mänsklig kontroll har misslyckats! Försök agan.]]></value>
+  </definition>
+</definitions>

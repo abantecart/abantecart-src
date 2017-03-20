@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Åtkomst nekad!]]></value>
+  </definition>
+  <definition>
+    <key>text_permission</key>
+    <value><![CDATA[Du har inte behörighet att se denna sida hänvisas till systemadministratören.]]></value>
+  </definition>
+</definitions>

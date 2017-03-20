@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Kontoinloggning]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Registrera konto]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Logga in]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_new_customer</key>
+    <value><![CDATA[Jag är en ny kund.]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Till kassan alternativ:]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[Guest kassan]]></value>
+  </definition>
+  <definition>
+    <key>text_create_account</key>
+    <value><![CDATA[Genom att skapa ett konto kommer du att kunna handla snabbare, vara uppdaterad om en beställning, och hålla koll på de beställningar du gjort förut.]]></value>
+  </definition>
+  <definition>
+    <key>text_returning_customer</key>
+    <value><![CDATA[återvändande kund]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_returning_customer</key>
+    <value><![CDATA[Jag är en återkommande kund.]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_login</key>
+    <value><![CDATA[Har du glömt dina inloggnings?]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_password</key>
+    <value><![CDATA[Glömt ditt lösenord?]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Inloggningsnamn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email_address</key>
+    <value><![CDATA[E-postadress:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Lösenord:]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Fel: Felaktigt användarnamn eller lösenord tillhandahålls.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_activated</key>
+    <value><![CDATA[Framgång: Ditt konto aktiverades framgångsrikt. Var vänlig logga in med dina referenser.]]></value>
+  </definition>
+  <definition>
+    <key>text_already_activated</key>
+    <value><![CDATA[Ditt konto är redan aktiverat. Var vänlig logga in med dina referenser.]]></value>
+  </definition>
+  <definition>
+    <key>text_resend_activation_email</key>
+    <value><![CDATA[Fel: Din e-postadress har ännu inte bekräftats. Att skicka ett nytt e-postbekräftelse vänligen klicka på denna <a href=" %s ">länk</a>]]></value>
+  </definition>
+</definitions>

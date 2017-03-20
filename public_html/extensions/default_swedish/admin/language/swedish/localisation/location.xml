@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[platser]]></value>
+  </definition>
+  <definition>
+    <key>text_location</key>
+    <value><![CDATA[Plats]]></value>
+  </definition>
+  <definition>
+    <key>text_location_zone</key>
+    <value><![CDATA[läge Zone]]></value>
+  </definition>
+  <definition>
+    <key>text_location_zones</key>
+    <value><![CDATA[lokaliserings zoner]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Framgång: Du har ändrat platser!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Platsnamn]]></value>
+  </definition>
+  <definition>
+    <key>column_description</key>
+    <value><![CDATA[Beskrivning]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Handling]]></value>
+  </definition>
+  <definition>
+    <key>tab_details</key>
+    <value><![CDATA[detaljer]]></value>
+  </definition>
+  <definition>
+    <key>tab_locations</key>
+    <value><![CDATA[lokaliserings zoner]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Platsnamn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Beskrivning:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Land:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Zon (er):]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varning: Du har inte behörighet att ändra platser!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Plats Namn måste vara mellan 2 och 32 tecken!]]></value>
+  </definition>
+  <definition>
+    <key>error_description</key>
+    <value><![CDATA[Beskrivning Namn måste vara mellan 2 och 255 tecken!]]></value>
+  </definition>
+  <definition>
+    <key>error_tax_rate</key>
+    <value><![CDATA[Varning: Detta läge kan inte tas bort eftersom det för närvarande är tilldelad en eller flera skattesatser!]]></value>
+  </definition>
+</definitions>

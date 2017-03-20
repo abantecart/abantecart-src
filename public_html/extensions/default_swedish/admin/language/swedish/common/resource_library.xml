@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[resursbiblioteket]]></value>
+  </definition>
+  <definition>
+    <key>view_title</key>
+    <value><![CDATA[Visa Objekt Resources]]></value>
+  </definition>
+  <definition>
+    <key>confirm_title</key>
+    <value><![CDATA[Bekräfta resurs (er) ta bort]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_delete</key>
+    <value><![CDATA[Vissa resurser kan inkluderas i texten. Vi kan inte kontrollera detta automatiskt. Radera?]]></value>
+  </definition>
+  <definition>
+    <key>text_cant_delete_title</key>
+    <value><![CDATA[Resurs (er) ta bort]]></value>
+  </definition>
+  <definition>
+    <key>text_cant_delete</key>
+    <value><![CDATA[Cant bort resurs (er) eftersom en eller flera resurser är kopplad till objektet]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_resource</key>
+    <value><![CDATA[Redigera resurs]]></value>
+  </definition>
+  <definition>
+    <key>text_resource_details</key>
+    <value><![CDATA[resurs Detaljer]]></value>
+  </definition>
+  <definition>
+    <key>text_mapped_to</key>
+    <value><![CDATA[Länkad till]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[Produkter]]></value>
+  </definition>
+  <definition>
+    <key>text_add_file</key>
+    <value><![CDATA[Lägg till resursfilen]]></value>
+  </definition>
+  <definition>
+    <key>text_add_code</key>
+    <value><![CDATA[Lägg till resurs HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_add_files</key>
+    <value><![CDATA[Lägga till filer...]]></value>
+  </definition>
+  <definition>
+    <key>text_upload_files</key>
+    <value><![CDATA[Ladda upp filer]]></value>
+  </definition>
+  <definition>
+    <key>text_drag</key>
+    <value><![CDATA[eller dra dem här för att starta uppladdning]]></value>
+  </definition>
+  <definition>
+    <key>text_start_upload</key>
+    <value><![CDATA[starta uppladdning]]></value>
+  </definition>
+  <definition>
+    <key>text_cancel_upload</key>
+    <value><![CDATA[Avbryt uppladdning]]></value>
+  </definition>
+  <definition>
+    <key>text_start</key>
+    <value><![CDATA[Start]]></value>
+  </definition>
+  <definition>
+    <key>text_cancel</key>
+    <value><![CDATA[Annullera]]></value>
+  </definition>
+  <definition>
+    <key>text_save_sort_order</key>
+    <value><![CDATA[Spara sorteringsordning]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Fel]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_files</key>
+    <value><![CDATA[Radera filer]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Sök]]></value>
+  </definition>
+  <definition>
+    <key>text_type</key>
+    <value><![CDATA[Typ]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[Språk]]></value>
+  </definition>
+  <definition>
+    <key>text_resource_code</key>
+    <value><![CDATA[resurs HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_name</key>
+    <value><![CDATA[namn]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Titel]]></value>
+  </definition>
+  <definition>
+    <key>text_description</key>
+    <value><![CDATA[Beskrivning]]></value>
+  </definition>
+  <definition>
+    <key>text_uploaded</key>
+    <value><![CDATA[Framgång: Resurs har laddats upp!]]></value>
+  </definition>
+  <definition>
+    <key>text_add</key>
+    <value><![CDATA[Lägg till]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[Redigera]]></value>
+  </definition>
+  <definition>
+    <key>text_map</key>
+    <value><![CDATA[Länk till Object]]></value>
+  </definition>
+  <definition>
+    <key>text_map_to</key>
+    <value><![CDATA[Länk till %s]]></value>
+  </definition>
+  <definition>
+    <key>text_unmap</key>
+    <value><![CDATA[Ta bort länken från Object]]></value>
+  </definition>
+  <definition>
+    <key>text_unmap_from</key>
+    <value><![CDATA[Ta bort länken från %s]]></value>
+  </definition>
+  <definition>
+    <key>text_success_unmap</key>
+    <value><![CDATA[Framgång: Resurs har tagits bort.]]></value>
+  </definition>
+  <definition>
+    <key>text_file_delete</key>
+    <value><![CDATA[Resurs har blivit borttagen!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[Framgång: Din Resurs har blivit borttagen!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_type</key>
+    <value><![CDATA[Varning: Felaktig filtyp!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_size</key>
+    <value><![CDATA[Varning: Fil för stor håll under 300 kB och högst 1000px höjd eller bredd!]]></value>
+  </definition>
+  <definition>
+    <key>error_maxFileSize</key>
+    <value><![CDATA[Filen är för stor]]></value>
+  </definition>
+  <definition>
+    <key>error_minFileSize</key>
+    <value><![CDATA[Filen är för liten]]></value>
+  </definition>
+  <definition>
+    <key>error_acceptFileTypes</key>
+    <value><![CDATA[Filetype inte tillåten]]></value>
+  </definition>
+  <definition>
+    <key>error_maxNumberOfFiles</key>
+    <value><![CDATA[Max antal filer överskridits]]></value>
+  </definition>
+  <definition>
+    <key>error_uploadedBytes</key>
+    <value><![CDATA[Uppladdade byte överstiga filstorleken]]></value>
+  </definition>
+  <definition>
+    <key>error_emptyResult</key>
+    <value><![CDATA[Tom filuppladdning resultat. Möjligen fil är skadad eller för stor. Filstorleken begränsad till 16 MB. Om filstorleken är mindre än gränsen kontrollera php inställningar för upload_max_filesize &amp; post_max_size]]></value>
+  </definition>
+  <definition>
+    <key>error_1</key>
+    <value><![CDATA[Fil överstiger upload_max_filesize (php.ini direktivet)]]></value>
+  </definition>
+  <definition>
+    <key>error_2</key>
+    <value><![CDATA[Fil överstiger MAX_FILE_SIZE (direktiv HTML-formulär)]]></value>
+  </definition>
+  <definition>
+    <key>error_3</key>
+    <value><![CDATA[Fil endast delvis uppladdad]]></value>
+  </definition>
+  <definition>
+    <key>error_4</key>
+    <value><![CDATA[Ingen fil laddades upp]]></value>
+  </definition>
+  <definition>
+    <key>error_5</key>
+    <value><![CDATA[Saknas en temporär mapp]]></value>
+  </definition>
+  <definition>
+    <key>error_6</key>
+    <value><![CDATA[Det gick inte att skriva filen till hårddisken]]></value>
+  </definition>
+  <definition>
+    <key>error_7</key>
+    <value><![CDATA[Filuppladdningen stoppas i förlängningen]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded</key>
+    <value><![CDATA[Varning: Fil kunde inte laddas upp av okänd anledning!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_type</key>
+    <value><![CDATA[Välj typ resurs]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Begärda uppgifterna inte har angetts]]></value>
+  </definition>
+  <definition>
+    <key>error_not_added</key>
+    <value><![CDATA[Resurs inte lagt. Kontrollera felloggen för mer info]]></value>
+  </definition>
+  <definition>
+    <key>error_ajax</key>
+    <value><![CDATA[Last datafel. Kontrollera felloggen för mer info]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varning: Åtkomst nekad!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Fel: Namn fältet är obligatoriskt!]]></value>
+  </definition>
+  <definition>
+    <key>button_delete</key>
+    <value><![CDATA[Radera]]></value>
+  </definition>
+  <definition>
+    <key>button_add</key>
+    <value><![CDATA[Lägg till resurs]]></value>
+  </definition>
+  <definition>
+    <key>button_done</key>
+    <value><![CDATA[Gjort]]></value>
+  </definition>
+  <definition>
+    <key>button_select</key>
+    <value><![CDATA[väljer Resources]]></value>
+  </definition>
+  <definition>
+    <key>text_with_selected</key>
+    <value><![CDATA[Med markerade:]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Resurs har uppdaterats]]></value>
+  </definition>
+  <definition>
+    <key>text_map_success</key>
+    <value><![CDATA[Resurs länkats]]></value>
+  </definition>
+  <definition>
+    <key>text_no_resources</key>
+    <value><![CDATA[Inga tillgängliga resurser]]></value>
+  </definition>
+  <definition>
+    <key>text_preview</key>
+    <value><![CDATA[Förhandsvisning / Hämta]]></value>
+  </definition>
+  <definition>
+    <key>error_file size</key>
+    <value><![CDATA[Observera: Maximal filstorlek för uppladdning är %s. Du kan öka värdet i php.ini.]]></value>
+  </definition>
+  <definition>
+    <key>text_product_option_value</key>
+    <value><![CDATA[Produktval värde]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[kategorier]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[tillverkare]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[Kan inte ta bort resurs kopplat till flera objekt]]></value>
+  </definition>
+  <definition>
+    <key>error_unmap</key>
+    <value><![CDATA[Det går inte att ta bort länken resurs. Objektet inte satt.]]></value>
+  </definition>
+  <definition>
+    <key>text_replace_file</key>
+    <value><![CDATA[Ersätt fil]]></value>
+  </definition>
+  <definition>
+    <key>error_not_replaced</key>
+    <value><![CDATA[Fil Byte Error. ID krävs!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_exists</key>
+    <value><![CDATA[Fil Byte Error. Resurs inte existerar!]]></value>
+  </definition>
+  <definition>
+    <key>error_cannot_move</key>
+    <value><![CDATA[Fel: Det går inte att flytta filen %s resurser katalog.]]></value>
+  </definition>
+  <definition>
+    <key>button_save_n_apply</key>
+    <value><![CDATA[Spara och Apply]]></value>
+  </definition>
+  <definition>
+    <key>text_image_size</key>
+    <value><![CDATA[Bildstorlek:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_size</key>
+    <value><![CDATA[Filstorlek:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_mime</key>
+    <value><![CDATA[MIMA:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_path</key>
+    <value><![CDATA[Fil Plats:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_url</key>
+    <value><![CDATA[Resurs URL:]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[Datum Gammal &gt; Ny]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[Datum New &gt; Gammal]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[Namn A - Ö]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[Namn Ö - A]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_asc</key>
+    <value><![CDATA[Sorteringsordning Låg &gt; Hög]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_desc</key>
+    <value><![CDATA[Sorteringsordning Hög &gt; Låg]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Administrering]]></value>
+  </definition>
+  <definition>
+    <key>text_heading</key>
+    <value><![CDATA[Administrering]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Ange dina inloggningsuppgifter.]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[Användarnamn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Lösenord:]]></value>
+  </definition>
+  <definition>
+    <key>entry_forgot_password</key>
+    <value><![CDATA[Glömt ditt lösenord?]]></value>
+  </definition>
+  <definition>
+    <key>button_login</key>
+    <value><![CDATA[Logga in]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Ingen match för användarnamn och / eller lösenord.]]></value>
+  </definition>
+  <definition>
+    <key>error_token</key>
+    <value><![CDATA[Ogiltig token session. Vänligen logga in igen.]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message</key>
+    <value><![CDATA[Det gick inte att logga in på admin försök från IP:]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message_text</key>
+    <value><![CDATA[Med tanke på användaren logga in:]]></value>
+  </definition>
+</definitions>

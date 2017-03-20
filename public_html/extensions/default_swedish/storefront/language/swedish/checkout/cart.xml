@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Kundvagn]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Korg]]></value>
+  </definition>
+  <definition>
+    <key>text_sub_total</key>
+    <value><![CDATA[Delsumma:]]></value>
+  </definition>
+  <definition>
+    <key>text_weight</key>
+    <value><![CDATA[Kund Vikt:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Din vagn är tom!]]></value>
+  </definition>
+  <definition>
+    <key>column_remove</key>
+    <value><![CDATA[Avlägsna]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Bild]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[namn]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Modell]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Kvantitet]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Enhetspris]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Total]]></value>
+  </definition>
+  <definition>
+    <key>text_continue_shopping</key>
+    <value><![CDATA[Fortsätt handla]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_codes</key>
+    <value><![CDATA[Applicera kupongkod]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipping_tax</key>
+    <value><![CDATA[Uppskattning Frakt &amp; skatter]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_country</key>
+    <value><![CDATA[Land och stat]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_postcode</key>
+    <value><![CDATA[ZIP / Postnummer]]></value>
+  </definition>
+  <definition>
+    <key>button_text_estimate</key>
+    <value><![CDATA[Uppskatta]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipments</key>
+    <value><![CDATA[transporter]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Fel: kupong är antingen ogiltigt, löpt ut eller nått dess användning gräns!]]></value>
+  </definition>
+  <definition>
+    <key>error_stock</key>
+    <value><![CDATA[Produkter som är märkta med *** är inte tillgängliga i den önskade mängden eller slut!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_options</key>
+    <value><![CDATA[Välj alla nödvändiga alternativ!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_minimum</key>
+    <value><![CDATA[Din beställning delsumma beloppet inte uppfyller minsta mängd %s krävs. Vänligen lägga till fler produkter i varukorgen!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_maximum</key>
+    <value><![CDATA[Din beställning delsumma beloppet överstiger maximala mängden %s tillåtet per beställning. Ta bort några objekt från din kundvagn!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_data</key>
+    <value><![CDATA[Fildata är skadad eller tom.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_name</key>
+    <value><![CDATA[Filnamn är tom!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_extension</key>
+    <value><![CDATA[Endast filer med filändelsen (s) %s är (är) tillåtna!]]></value>
+  </definition>
+  <definition>
+    <key>error_min_file_size</key>
+    <value><![CDATA[Minsta filstorlek för uppladdning är %s Kb.]]></value>
+  </definition>
+  <definition>
+    <key>error_max_file_size</key>
+    <value><![CDATA[Maximal filstorlek för uppladdning är %s Kb.]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_success</key>
+    <value><![CDATA[Framgång: Din kupongen har använts!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[Framgång: kupong har tagits bort!]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_maximum</key>
+    <value><![CDATA[Tillåten produktens kvantitet överstiger. Kvantitet inställd på max.]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_minimum</key>
+    <value><![CDATA[Tillåten produktens mängd är under minimum. Antal sattes till minimibeloppet.]]></value>
+  </definition>
+</definitions>

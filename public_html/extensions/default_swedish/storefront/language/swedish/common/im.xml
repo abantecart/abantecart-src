@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>im_text_notification</key>
+    <value><![CDATA[Underrättelse]]></value>
+  </definition>
+  <definition>
+    <key>im_error_mail_address</key>
+    <value><![CDATA[E-postadress %s är inte giltig!]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_email_title</key>
+    <value><![CDATA[E-post]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_title</key>
+    <value><![CDATA[SMS]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_empty_warn</key>
+    <value><![CDATA[SMS-meddelanden är inte möjligt. Mobilnummer sparas inte i dina kontoposter.]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update</key>
+    <value><![CDATA[För Update]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update_note</key>
+    <value><![CDATA[Välj om vill få meddelanden om dina beställningar uppdateringar.]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_admin</key>
+    <value><![CDATA[För # %s har uppdaterats! Orderstatus ID %s]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_customer</key>
+    <value><![CDATA[Din beställning # %s Uppdaterad. New Order Status är %s]]></value>
+  </definition>
+  <definition>
+    <key>im_new_order_text_to_admin</key>
+    <value><![CDATA[New Order # %s har placerats!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_customer_text_to_admin</key>
+    <value><![CDATA[Ny kund # %s har registrerats!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_subscriber_text_to_admin</key>
+    <value><![CDATA[Ny abonnent # %s har registrerats!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update</key>
+    <value><![CDATA[konto uppdatering]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update_note</key>
+    <value><![CDATA[Välj om vill få meddelanden om dina kontouppdateringar.]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_text_to_customer</key>
+    <value><![CDATA[Ditt konto har uppdaterats! Om du inte gör några ändringar, kontakta webbplatsens ägare]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_email_to_customer</key>
+    <value><![CDATA[Ditt konto e-postadress ändrades till %s! Om du inte gör denna förändring, kontakta webbplatsens ägare]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_login_to_customer</key>
+    <value><![CDATA[Ditt konto inloggningsnamn ändrades till %s! Om du inte gör denna förändring, kontakta webbplatsens ägare]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_password_to_customer</key>
+    <value><![CDATA[Ditt lösenord har ändrats! Om du inte gör denna förändring, kontakta webbplatsens ägare]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_contact_admin_text</key>
+    <value><![CDATA[Du har fått ny förfrågan från kund (%s, %s)!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter</key>
+    <value><![CDATA[nyhetsbrev]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter_note</key>
+    <value><![CDATA[Välj om vill få meddelanden om våra produkter och tjänsteuppdateringar.]]></value>
+  </definition>
+  <definition>
+    <key>im_product_review_text_to_admin</key>
+    <value><![CDATA[Ny produkt översyn har lagts till. Se detaljer # admin # rt = katalog / granska / uppdatera &amp; review_id = %s]]></value>
+  </definition>
+  <definition>
+    <key>im_product_out_of_stock_admin_text</key>
+    <value><![CDATA[Produkt med ID # %s är slut i lager.]]></value>
+  </definition>
+</definitions>

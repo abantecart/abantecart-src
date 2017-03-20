@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>import_export_title</key>
+    <value><![CDATA[Import Export]]></value>
+  </definition>
+  <definition>
+    <key>tab_import</key>
+    <value><![CDATA[Importera]]></value>
+  </definition>
+  <definition>
+    <key>tab_export</key>
+    <value><![CDATA[Exportera]]></value>
+  </definition>
+  <definition>
+    <key>text_tables</key>
+    <value><![CDATA[tabeller]]></value>
+  </definition>
+  <definition>
+    <key>text_options</key>
+    <value><![CDATA[alternativ]]></value>
+  </definition>
+  <definition>
+    <key>text_file_format</key>
+    <value><![CDATA[Filformat:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_name</key>
+    <value><![CDATA[Filnamn:]]></value>
+  </definition>
+  <definition>
+    <key>text_load_file</key>
+    <value><![CDATA[Load File]]></value>
+  </definition>
+  <definition>
+    <key>text_load</key>
+    <value><![CDATA[Ladda]]></value>
+  </definition>
+  <definition>
+    <key>text_import_loaded</key>
+    <value><![CDATA[Totalt laddade:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_field</key>
+    <value><![CDATA[Fil som ska importeras: <br/><span class="help">format som stöds för import filer: XML, CSV, TXT</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_id_range_from</key>
+    <value><![CDATA[ID sträcker sig från:]]></value>
+  </definition>
+  <definition>
+    <key>text_to</key>
+    <value><![CDATA[till:]]></value>
+  </definition>
+  <definition>
+    <key>text_csv_delimiter</key>
+    <value><![CDATA[CSV / TXT avgränsare:]]></value>
+  </definition>
+  <definition>
+    <key>text_export_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">Alla fält kommer att omges av dubbla citattecken.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_import_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">Alla fält måste omges av dubbla citattecken.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_test_mode</key>
+    <value><![CDATA[Kör i en testmod <br/><span class="help">Det rekommenderas att köra importera data i en testmod för att se om några problem förekommer.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_file_format</key>
+    <value><![CDATA[Fel filformat!]]></value>
+  </definition>
+  <definition>
+    <key>error_xml_import</key>
+    <value><![CDATA[Fel under import XML-fil!]]></value>
+  </definition>
+  <definition>
+    <key>error_csv_import</key>
+    <value><![CDATA[Fel vid import CSV / TXT-fil! Kontrollera fält avgränsare.]]></value>
+  </definition>
+  <definition>
+    <key>error_data_corrupted</key>
+    <value><![CDATA[Data är tom eller skadad.]]></value>
+  </definition>
+  <definition>
+    <key>error_file_empty</key>
+    <value><![CDATA[Filen är tom.]]></value>
+  </definition>
+  <definition>
+    <key>error_writable_backup</key>
+    <value><![CDATA[Backup katalog måste vara skrivbar för CSV / TXT export till arbete.]]></value>
+  </definition>
+  <definition>
+    <key>text_updated</key>
+    <value><![CDATA[Uppdaterad:]]></value>
+  </definition>
+  <definition>
+    <key>text_created</key>
+    <value><![CDATA[Skapad:]]></value>
+  </definition>
+  <definition>
+    <key>text_errors</key>
+    <value><![CDATA[fel:]]></value>
+  </definition>
+  <definition>
+    <key>text_show_details</key>
+    <value><![CDATA[Visa detaljer]]></value>
+  </definition>
+  <definition>
+    <key>text_no_children</key>
+    <value><![CDATA[Inga underordnade artiklar]]></value>
+  </definition>
+  <definition>
+    <key>text_some_errors</key>
+    <value><![CDATA[Det finns några fel.]]></value>
+  </definition>
+  <definition>
+    <key>text_test_completed</key>
+    <value><![CDATA[Testkörning avslutad. Totalt SQL-frågor:]]></value>
+  </definition>
+  <definition>
+    <key>text_sort_by</key>
+    <value><![CDATA[Sortera efter:]]></value>
+  </definition>
+</definitions>

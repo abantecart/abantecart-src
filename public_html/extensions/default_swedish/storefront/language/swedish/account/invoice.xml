@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Orderdetaljer]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[konto]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[Beställningshistorik]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[Faktura]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice_id</key>
+    <value><![CDATA[faktura ID]]></value>
+  </definition>
+  <definition>
+    <key>text_order_id</key>
+    <value><![CDATA[För ID]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[E-post]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[Telefon]]></value>
+  </definition>
+  <definition>
+    <key>text_mobile_phone</key>
+    <value><![CDATA[Mobiltelefon:]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Fax]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[leveransadress]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Frakt metod]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[betalningsadress]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Betalningsmetod]]></value>
+  </definition>
+  <definition>
+    <key>text_order_history</key>
+    <value><![CDATA[Beställningshistorik]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[Produkt]]></value>
+  </definition>
+  <definition>
+    <key>text_model</key>
+    <value><![CDATA[Modell]]></value>
+  </definition>
+  <definition>
+    <key>text_quantity</key>
+    <value><![CDATA[Kvantitet]]></value>
+  </definition>
+  <definition>
+    <key>text_price</key>
+    <value><![CDATA[Enhetspris]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Total]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[beställa Kommentarer]]></value>
+  </definition>
+  <definition>
+    <key>text_image</key>
+    <value><![CDATA[Bild]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Den ordning du har begärt kunde inte hittas!]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[datum tillagt]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>column_comment</key>
+    <value><![CDATA[Kundens order kommentar]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation</key>
+    <value><![CDATA[Begära annulering av beställningen]]></value>
+  </definition>
+  <definition>
+    <key>text_request_cancellation_from_customer</key>
+    <value><![CDATA[Begär en order annullering av kunden]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_confirm</key>
+    <value><![CDATA[Din begäran om uppsägning får inte göras i vissa fall, till exempel när varorna har levererats. Fortsätta?]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_success</key>
+    <value><![CDATA[För begäran om uppsägning har lämnats in]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_message_title</key>
+    <value><![CDATA[Beställ # %s begäran om uppsägning]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_message_body</key>
+    <value><![CDATA[Kund %s har begärt för annullering för beställning # %s. Att granska gå till %s]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-postadress verkar inte vara giltig!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_id</key>
+    <value><![CDATA[För ID krävs fält!]]></value>
+  </definition>
+</definitions>

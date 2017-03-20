@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Tillverkare eller varumärken]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturer</key>
+    <value><![CDATA[Tillverkare eller märke]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Framgång: Du har modifierade tillverkare!]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Standard]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[Image manager]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Namn på tillverkare]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Sorteringsordning]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Handling]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Namn på tillverkare:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[butiker:]]></value>
+  </definition>
+  <definition>
+    <key>entry_keyword</key>
+    <value><![CDATA[SEO Keyword:]]></value>
+  </definition>
+  <definition>
+    <key>entry_edit</key>
+    <value><![CDATA[Redigera]]></value>
+  </definition>
+  <definition>
+    <key>entry_layout</key>
+    <value><![CDATA[Layout]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[Bild:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Sorteringsordning:]]></value>
+  </definition>
+  <definition>
+    <key>error_manufacturer_not_found</key>
+    <value><![CDATA[Fel: Tillverkare kan ej hittas!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varning: Du har inte behörighet att ändra tillverkare!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Tillverkarens namn måste vara mellan 2 och 64 tecken!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Varning: Denna tillverkare kan inte tas bort eftersom det för närvarande är tilldelad %s produkter!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_layout</key>
+    <value><![CDATA[Framgång: Du har ändrat kategori sidlayout.]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Din har avslutat prenumerationen!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[Du har varit avslutat prenumerationen på e-postkommunikation.]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[konto]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Framgång]]></value>
+  </definition>
+</definitions>

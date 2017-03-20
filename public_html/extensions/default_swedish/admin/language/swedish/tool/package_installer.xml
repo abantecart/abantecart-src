@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Framgång: Paket har installerats.]]></value>
+  </definition>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Package Installer]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_license</key>
+    <value><![CDATA[Paket Licensavtal]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_ftp</key>
+    <value><![CDATA[FTP åtkomstparametrar]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_download</key>
+    <value><![CDATA[paket laddas]]></value>
+  </definition>
+  <definition>
+    <key>text_preloading</key>
+    <value><![CDATA[Paketfilen% file% hämtas.]]></value>
+  </definition>
+  <definition>
+    <key>text_loading</key>
+    <value><![CDATA[Nedladdning av filen. Storlek: %s. <br/> Det kan ta några sekunder beroende på din anslutning.]]></value>
+  </definition>
+  <definition>
+    <key>text_key_hint</key>
+    <value><![CDATA[Ange Installation nyckeln här]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_user</key>
+    <value><![CDATA[FTP-användarnamn:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_password</key>
+    <value><![CDATA[FTP användarlösenord:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_host</key>
+    <value><![CDATA[FTP Värd:]]></value>
+  </definition>
+  <definition>
+    <key>text_i_agree</key>
+    <value><![CDATA[Jag godkänner licensen]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[Hålla med]]></value>
+  </definition>
+  <definition>
+    <key>text_retry</key>
+    <value><![CDATA[Försök igen]]></value>
+  </definition>
+  <definition>
+    <key>text_disagree</key>
+    <value><![CDATA[Instämmer inte alls]]></value>
+  </definition>
+  <definition>
+    <key>text_download_error</key>
+    <value><![CDATA[Tyvärr, men fel uppstod när filen. </br> Försök en gång till. </br> Om problemet kvarstår ladda ner filen i din orderhistorik och installera manuellt.]]></value>
+  </definition>
+  <definition>
+    <key>text_continue</key>
+    <value><![CDATA[Fortsätta]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer_heading</key>
+    <value><![CDATA[varning]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer</key>
+    <value><![CDATA[<h3> Käre AbanteCart kund, </h3><br/> 
+ Du är på väg att installera tredje part förlängning av ditt AbanteCart. <br/><br/> 
+ Läs och förstå denna ansvarsfriskrivning om tredjepartstillägg som du på väg att installera. <br/><br/> 
+ tredje tillägg och tjänster part tillhandahålls av tredjepartsleverantörer. <br/><br/> 
+ Även AbanteCart validera kvaliteten på tillägg och tjänster som tillhandahålls av tredje part, AbanterCart garanterar inte att alla tredjeparts tillbyggnad på rätt sätt eller inte kommer att orsaka några konflikter i systemet. 
+ AbanteCart medlemmar och samarbetspartners är inte på något sätt ansvariga eller ansvariga för påståenden relaterade till de produkter eller tjänster som tillhandahålls av tredjepartsleverantörer. AbanteCart inte garantera kvaliteten på tillägg eller tjänster från tredje part. Vänligen skicka dina frågor om tillägg från tredje part eller tjänster till lämpliga tredjepartsleverantören. 
+ Om du har oro någon tredjepartsleverantör kontakta AbanteCart på <a href="http://www.abantecart.com/contact-us" target="_blank">http://www.abantecart.com/contact-us</a><br/><br/> 
+ Med vänliga hälsningar, <br/> 
+ AbanteCart <br/> 
+ Ideal Opensource e-handel lösning]]></value>
+  </definition>
+  <definition>
+    <key>warning_ftp</key>
+    <value><![CDATA[Varning: Vissa katalog eller fil inte har skrivbehörighet <span id="see_details">(se mer detaljer)</span><br/> Du kan ändra behörigheterna på din server eller <br/> använda ftp tillgång till din server för installation (vanligtvis webbhotell sänder denna information via e-post eller du kan hantera det i hosting kontrollverktyg) <br/>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed</key>
+    <value><![CDATA[<p class="success"> Du har redan% FÖRLÄNGNING% förlängning installerat! Om du vill fortsätta och uppgradera, bekräfta. </p>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed_uninstall</key>
+    <value><![CDATA[Du har redan det här tillägget &quot;% töjning%&quot; installerat! Om du vill fortsätta att installera, avinstallera och ta bort förlängning först.]]></value>
+  </definition>
+  <definition>
+    <key>error_pack_file_not_found</key>
+    <value><![CDATA[Fel: Det går inte extrahera förlängning från arkivet till %s. Kolla <a href="#admin#rt=tool/error_log" target="_blank">log</a> för fel]]></value>
+  </definition>
+  <definition>
+    <key>error_mp</key>
+    <value><![CDATA[Marknads error:]]></value>
+  </definition>
+  <definition>
+    <key>error_repository</key>
+    <value><![CDATA[Fel: Det går inte att hämta filen. Repository fel eller ogiltig förlängning nyckel. Försök en gång till. Om problemet kvarstår ladda ner filen i din orderhistorik och installera manuellt.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_user</key>
+    <value><![CDATA[Fel: FTP-användarnamn är tom.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_password</key>
+    <value><![CDATA[Fel: FTP användarlösenord är tomt.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_connect</key>
+    <value><![CDATA[Fel: Kan inte ansluta till ftp-server]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_login</key>
+    <value><![CDATA[Fel: Det går inte logga in på FTP-servern. Ogiltigt användarnamn eller lösenord.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path</key>
+    <value><![CDATA[Fel: Det går inte att hitta rotkatalogen AbanteCart via FTP väg. <br/> Prova lämna det tomt för automatisk sökning.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path_array</key>
+    <value><![CDATA[Fel: Det går inte automatiskt känna igen rotkatalogen AbanteCart FTP-läge. <br/> Fyll FTP-path formulärfält. <br/> förslag Path är:]]></value>
+  </definition>
+  <definition>
+    <key>error_dir_permission</key>
+    <value><![CDATA[Det går inte att spara filen eftersom katalogen är inte skrivbar:]]></value>
+  </definition>
+  <definition>
+    <key>error_package_structure</key>
+    <value><![CDATA[Fel: Förmodligen paket är bruten. Strukturen för paketet fel.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config_xml</key>
+    <value><![CDATA[Fel: Det går inte att hitta filen Package.xml insidan av extraherat förlängning. Möjligen förlängning extraherades korrekt. Kolla <a href="#admin#rt=tool/error_log" target="_blank">log</a> för fel]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config2</key>
+    <value><![CDATA[Fel: Det går inte att hitta installationsläge i Package.xml inuti förpackningen.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_info_not_exists</key>
+    <value><![CDATA[Fel: Kan inte hitta paketet session info om nedladdning.]]></value>
+  </definition>
+  <definition>
+    <key>error_unpack</key>
+    <value><![CDATA[Fel: Det går inte att packa upp paketet &quot;% PAKET%&quot; efter nedladdning. Arkiv fel. Se felloggen för mer information.]]></value>
+  </definition>
+  <definition>
+    <key>error_move</key>
+    <value><![CDATA[Fel: Det går inte att flytta paket kod efter uppackning. Försök kontrollera skrivbehörigheterna för katalogen:]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode</key>
+    <value><![CDATA[Fel: Det går inte att installera tillägget &quot;% paketet%&quot; eftersom det redan är installerat. Du behöver avinstallera och ta bort den första eller få paket för uppgradering.]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode2</key>
+    <value><![CDATA[Fel: Det går inte att uppgradera förlängning &quot;% paketet%&quot; eftersom det inte är installerad. Du behöver få paket för installation.]]></value>
+  </definition>
+  <definition>
+    <key>error_version_compatibility</key>
+    <value><![CDATA[Fel: Det går inte att installera paketet. Din varukorg version <b>är% CURRENT_VERSION%.</b> Version <b>(s)% VERSIONER% som</b> krävs.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_version_compatibility</key>
+    <value><![CDATA[Fel: Det går inte att uppgradera paket. Nyare paketet version redan är installerad.]]></value>
+  </definition>
+  <definition>
+    <key>error_install</key>
+    <value><![CDATA[Fel: Det går inte att installera paketet. Se System -&gt; felloggen för mer information.]]></value>
+  </definition>
+  <definition>
+    <key>error_core_version</key>
+    <value><![CDATA[Fel: Du har AbanteCart version% version% installerad. <br/> Den här uppgraderingspaket endast för versioner lägre än]]></value>
+  </definition>
+  <definition>
+    <key>text_interrupt</key>
+    <value><![CDATA[Avbryta]]></value>
+  </definition>
+  <definition>
+    <key>confirm_version_incompatibility</key>
+    <value><![CDATA[Aktuell kopia av denna förlängning har inte verifierats för din version av AbanteCart (v %s). <br/> Förlängnings bygga anges för AbanteCart v %s. <br/> 
+ Detta är inte ett problem, men om du märker problem eller inkompatibilitet, kontakta förlängning utvecklare.]]></value>
+  </definition>
+  <definition>
+    <key>error_move_ftp</key>
+    <value><![CDATA[Fel: Det går inte att flytta paket kod efter uppackning. Förmodligen FTP väg är felaktig. <br/> Dessutom, snälla, försök att kontrollera skrivbehörighet för katalogen:]]></value>
+  </definition>
+  <definition>
+    <key>text_network_install</key>
+    <value><![CDATA[nätverksinstallation]]></value>
+  </definition>
+  <definition>
+    <key>text_extension_upload</key>
+    <value><![CDATA[förlängning Överför]]></value>
+  </definition>
+  <definition>
+    <key>error_archive_extension</key>
+    <value><![CDATA[Fel: Endast .tar.gz filer som stöds.]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_file</key>
+    <value><![CDATA[Ladda upp fil:]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_url</key>
+    <value><![CDATA[Infoga URL:]]></value>
+  </definition>
+  <definition>
+    <key>error_move_backup</key>
+    <value><![CDATA[Fel: Det går inte säkerhetskopiera filer innan uppgraderingen. Kontrollera skrivbehörigheterna för katalogen:]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_title</key>
+    <value><![CDATA[Abantecart Kärna Uppgradering]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_attention</key>
+    <value><![CDATA[Uppmärksamhet! 
+ AbanteCart är på väg att uppgraderas till version %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_warning</key>
+    <value><![CDATA[Det finns ingen ångra efter uppgraderingen börjar. 
+ komplett databas och kod backup rekommenderas. 
+ Test uppgradering på icke-levande platser först. Uppgradering på levande platser rekommenderas inte.]]></value>
+  </definition>
+  <definition>
+    <key>text_upgrade_now</key>
+    <value><![CDATA[Uppgradera nu!]]></value>
+  </definition>
+  <definition>
+    <key>error_additional_help_text</key>
+    <value><![CDATA[Fastnat? Inget problem. Du kan installera tillägg annat sätt. Kontrollera <a href="http://docs.abantecart.com/pages/extensions/install.html#FTPinstall" target="_blank">denna länken Hjälp</a>]]></value>
+  </definition>
+  <definition>
+    <key>error_notconnected</key>
+    <value><![CDATA[Det går inte att uppgradera eller installera tillägg från marknaden. Denna butik är inte autentiserad / ansluten. Vänligen autentisera och ansluta till <a href="%s">marknadsplatsen</a>]]></value>
+  </definition>
+</definitions>

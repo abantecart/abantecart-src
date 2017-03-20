@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Total]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[Total]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[order%s%sPOS=TRUNC Totals]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Framgång: Du har ändrat totalt totalt!]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Sorteringsordning:]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[Beräkning Order:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varning: Du har inte behörighet att ändra totalt totalt!]]></value>
+  </definition>
+</definitions>

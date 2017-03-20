@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Media Resource Library Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[Senaste tillsatta källor]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[typ resurs]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[Resurs Typnyckel <br/><span class="help">Denna resurs typ nyckel / namn värde kan inte ändras</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[Resurs katalog <br/><span class="help">Directory lokaliserings resurs för den här typen. Om ändrats, kommer befintliga resurser inte vara acceccible och kommer att behöva kopieras till ny katalog!</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[Standardikon <br/><span class="help">Ikon bild som ska visas i listan av resurser (Plats: / bild / ...).</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[Tillåtna filändelser <br/><span class="help">Regex med en lista över tillåtna filändelser för denna typ resurs</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Framgång: Du har uppdaterat typ resurs!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[Fel: Saknas resurs typ ID!]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[Fel: Resurs typ namn måste vara mellan 2 och 40 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[Fel: Resurs typ katalog måste vara mellan 2 och 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[Fel: Resurs typ ikon måste vara mellan 2 och 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[Fel: Resurs filtyp tillägg som regex måste vara mellan 2 och 40 charcters]]></value>
+  </definition>
+</definitions>

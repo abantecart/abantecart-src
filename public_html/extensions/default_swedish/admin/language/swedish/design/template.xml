@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Template manager]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Framgång: Du har satt en ny skyltfönster mall!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront_templates</key>
+    <value><![CDATA[Tillgängliga Storefront Mallar]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_extension</key>
+    <value><![CDATA[förlängnings%s%sPOS=TRUNC Inställningar]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Fel: Saknas önskad parameter i din förfrågan!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varning: Du har inte behörighet att ändra mallar!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[nyhetsbrev Registrera]]></value>
+  </definition>
+  <definition>
+    <key>text_signup</key>
+    <value><![CDATA[Anmäl dig till vårt nyhetsbrev &amp; få attraktiva erbjudanden genom att prenumerera på våra nyhetsbrev.]]></value>
+  </definition>
+  <definition>
+    <key>text_sign_in</key>
+    <value><![CDATA[Logga in]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribe</key>
+    <value><![CDATA[Prenumerera på nyhetsbrev]]></value>
+  </definition>
+  <definition>
+    <key>button_subscribe</key>
+    <value><![CDATA[Prenumerera]]></value>
+  </definition>
+</definitions>

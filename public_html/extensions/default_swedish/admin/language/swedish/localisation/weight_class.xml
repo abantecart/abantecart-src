@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Vikt klasser]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[viktklassen]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Framgång: Du har ändrat viktklasser!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[vikt Titel]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[vikt Enhet]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Värde]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Handling]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Vikt Titel:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Vikt Enhet:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Värde: <br/><span class="help">Ställ in på 1,00000 om detta är standardvikten.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varning: Du har inte behörighet att ändra viktklasser!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Vikt Titel måste vara mellan 2 och 32 tecken!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Viktenhet måste vara mellan 1 och 4 tecken!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Varning: denna viktklass kan inte tas bort eftersom det är för närvarande tilldelas som standard butiken viktklass!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Varning: denna viktklass kan inte tas bort eftersom det för närvarande är tilldelad %s produkter!]]></value>
+  </definition>
+</definitions>

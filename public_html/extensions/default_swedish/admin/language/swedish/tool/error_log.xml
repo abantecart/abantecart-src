@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Felloggen]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Framgång: Du har rensat felloggen!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_tail</key>
+    <value><![CDATA[Med tanke på det stora storleken på loggfilen kan bara sista 500 kB data ses här. 
+ Om du vill visa komplett logg, få det från servern direkt. 
+ Path:]]></value>
+  </definition>
+</definitions>

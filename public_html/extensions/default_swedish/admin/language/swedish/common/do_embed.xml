@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_get_product_embed_code</key>
+    <value><![CDATA[Produkt inbäddad kod]]></value>
+  </definition>
+  <definition>
+    <key>text_get_category_embed_code</key>
+    <value><![CDATA[Kategori inbäddad kod]]></value>
+  </definition>
+  <definition>
+    <key>text_get_manufacturer_embed_code</key>
+    <value><![CDATA[Tillverkare inbäddad kod]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[Visa bild]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Visa namn]]></value>
+  </definition>
+  <definition>
+    <key>entry_price</key>
+    <value><![CDATA[Visa Pris]]></value>
+  </definition>
+  <definition>
+    <key>entry_rating</key>
+    <value><![CDATA[Visa recensioner och betyg]]></value>
+  </definition>
+  <definition>
+    <key>entry_blurb</key>
+    <value><![CDATA[show Blurb]]></value>
+  </definition>
+  <definition>
+    <key>entry_quantity</key>
+    <value><![CDATA[show Kvantitet]]></value>
+  </definition>
+  <definition>
+    <key>entry_addtocart</key>
+    <value><![CDATA[Visa Button]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Välj språk]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency</key>
+    <value><![CDATA[Välj valuta]]></value>
+  </definition>
+  <definition>
+    <key>entry_products_count</key>
+    <value><![CDATA[produkter Count]]></value>
+  </definition>
+</definitions>

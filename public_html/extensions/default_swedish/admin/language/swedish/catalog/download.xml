@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Delade data]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[delad Hämta]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[insert Hämta]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[Uppdatera Hämta]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Framgång: Du har modifierade nedladdningar!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[nedladdning Namn]]></value>
+  </definition>
+  <definition>
+    <key>column_remaining</key>
+    <value><![CDATA[Antal nedladdningar tillåtna]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Handling]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Känd nedladdning:]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[Filnamn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_remaining</key>
+    <value><![CDATA[Antal nedladdningar tillåtna:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[Tryck till tidigare kunder: <br/><span class="help">Markera detta för att uppdatera tidigare köpta versioner.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varning: Du har inte behörighet att ändra nedladdningar!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Namn måste vara mellan 2 och 64 tecken!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[Ställ in filen för nedladdning.]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Varning: Den här nedladdningen kan inte tas bort eftersom det för närvarande är tilldelad %s produkter!]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Bild]]></value>
+  </definition>
+  <definition>
+    <key>column_products_count</key>
+    <value><![CDATA[produkter Count]]></value>
+  </definition>
+</definitions>

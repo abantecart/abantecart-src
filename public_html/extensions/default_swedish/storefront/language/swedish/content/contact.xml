@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Kontakta oss]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Adress:]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[E-post:]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[Telefon:]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Fax:]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Din förfrågan har skickats till butiksägaren! </p>]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Förnamn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-postadress:]]></value>
+  </definition>
+  <definition>
+    <key>entry_enquiry</key>
+    <value><![CDATA[Förfrågan:]]></value>
+  </definition>
+  <definition>
+    <key>entry_captcha</key>
+    <value><![CDATA[Ange koden i rutan nedan:]]></value>
+  </definition>
+  <definition>
+    <key>email_subject</key>
+    <value><![CDATA[Förfrågan %s]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Namn måste vara mellan 3 och 32 tecken!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-postadress verkar inte vara giltig!]]></value>
+  </definition>
+  <definition>
+    <key>error_enquiry</key>
+    <value><![CDATA[Förfrågan måste vara mellan 10 och 3000 tecken!]]></value>
+  </definition>
+  <definition>
+    <key>entry_duplicate_message_subject</key>
+    <value><![CDATA[New Förfrågan Från %s (%s)]]></value>
+  </definition>
+</definitions>

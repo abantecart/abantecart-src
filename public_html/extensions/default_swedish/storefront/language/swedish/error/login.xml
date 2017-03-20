@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Inloggningsfel!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Du är inte inloggad. Du kommer att omdirigeras till inloggningssidan]]></value>
+  </definition>
+</definitions>

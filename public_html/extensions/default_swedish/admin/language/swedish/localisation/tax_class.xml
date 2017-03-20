@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[om skatter och avgifter Klasserna]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[skatteklass]]></value>
+  </definition>
+  <definition>
+    <key>text_rate</key>
+    <value><![CDATA[Skattenivå]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Framgång: Du har ändrat skatteklasser!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Tax Class Titel]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Handling]]></value>
+  </definition>
+  <definition>
+    <key>tab_details</key>
+    <value><![CDATA[detaljer]]></value>
+  </definition>
+  <definition>
+    <key>tab_rates</key>
+    <value><![CDATA[rates]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Skatteklass Titel:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Beskrivning synliga för kunderna]]></value>
+  </definition>
+  <definition>
+    <key>entry_location</key>
+    <value><![CDATA[Plats]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[läge zon]]></value>
+  </definition>
+  <definition>
+    <key>entry_priority</key>
+    <value><![CDATA[Prioritet]]></value>
+  </definition>
+  <definition>
+    <key>entry_rate</key>
+    <value><![CDATA[Skattenivå]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varning: Du har inte behörighet att ändra skatteklasser!]]></value>
+  </definition>
+  <definition>
+    <key>error_tax_title</key>
+    <value><![CDATA[Tax Class Titel måste vara mellan 2 och 32 tecken!]]></value>
+  </definition>
+  <definition>
+    <key>error_rate</key>
+    <value><![CDATA[Skattesats krävs!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Varning: Denna skatteklass kan inte tas bort eftersom det för närvarande är tilldelad %s produkter!]]></value>
+  </definition>
+  <definition>
+    <key>text_tax_all_zones</key>
+    <value><![CDATA[alla platszoner]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_rate_threshold</key>
+    <value><![CDATA[Applicera skatt om <br/><span class="help">tillämpa denna skatt endast om beskattas belopp (produkt, sjöfart, delsumma, etc.) är ...</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_exempt_groups</key>
+    <value><![CDATA[Skattefri Grupper <br/><span class="help">Välj kundgrupper att undanta från denna skatt</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_absolute</key>
+    <value><![CDATA[Absolut]]></value>
+  </definition>
+  <definition>
+    <key>text_percent</key>
+    <value><![CDATA[Procent]]></value>
+  </definition>
+</definitions>

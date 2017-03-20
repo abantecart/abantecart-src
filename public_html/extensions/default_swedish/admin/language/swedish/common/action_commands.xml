@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_possible_commands</key>
+    <value><![CDATA[Bellow är möjliga kommandon. Du kan speek mer information efter kommando sökord. Exempel, &quot;öppna sökmeddelanden&quot; eller &quot;insatsprodukt&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_multiple_result_found</key>
+    <value><![CDATA[Multipel åtgärder hittade:]]></value>
+  </definition>
+  <definition>
+    <key>text_action_confirm</key>
+    <value><![CDATA[Vänligen bekräfta din begäran:]]></value>
+  </definition>
+  <definition>
+    <key>command_open</key>
+    <value><![CDATA[öppna, öppna sida, öppna menyn]]></value>
+  </definition>
+  <definition>
+    <key>command_find</key>
+    <value><![CDATA[lokalisera, fynd, sökande, söka, söka 4]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_cache</key>
+    <value><![CDATA[Töm cache, cache klar, klar alla cache]]></value>
+  </definition>
+  <definition>
+    <key>command_view_log</key>
+    <value><![CDATA[Visa logg, loggen, inspektera log, se log, visa felloggen, visa fel]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_log</key>
+    <value><![CDATA[rensa loggen, log klar, ta bort log, log bort]]></value>
+  </definition>
+  <definition>
+    <key>command_view_order</key>
+    <value><![CDATA[visa order, ordernummer, öppna ordning, visa ordning, öppna ordernummer, visa ordernummer, visa ordernummer, order #]]></value>
+  </definition>
+  <definition>
+    <key>command_view_product</key>
+    <value><![CDATA[Visa produkt, produktnummer, öppen produkt, visa produkten, öppna produktnummer, visa produktnummer, visa produktnummer, produkt #]]></value>
+  </definition>
+  <definition>
+    <key>command_create_new</key>
+    <value><![CDATA[infoga, skapa, lägga till, nya, infoga nya, skapa nya, lägg till ny]]></value>
+  </definition>
+  <definition>
+    <key>category</key>
+    <value><![CDATA[kategori]]></value>
+  </definition>
+  <definition>
+    <key>product</key>
+    <value><![CDATA[produkt]]></value>
+  </definition>
+  <definition>
+    <key>brand</key>
+    <value><![CDATA[varumärke]]></value>
+  </definition>
+  <definition>
+    <key>manufacturer</key>
+    <value><![CDATA[tillverkare]]></value>
+  </definition>
+  <definition>
+    <key>review</key>
+    <value><![CDATA[recension]]></value>
+  </definition>
+  <definition>
+    <key>download</key>
+    <value><![CDATA[ladda ner]]></value>
+  </definition>
+  <definition>
+    <key>attribute</key>
+    <value><![CDATA[attribut]]></value>
+  </definition>
+  <definition>
+    <key>customer</key>
+    <value><![CDATA[kund]]></value>
+  </definition>
+  <definition>
+    <key>coupon</key>
+    <value><![CDATA[kupong]]></value>
+  </definition>
+  <definition>
+    <key>discount</key>
+    <value><![CDATA[rabatt]]></value>
+  </definition>
+  <definition>
+    <key>block</key>
+    <value><![CDATA[blockera]]></value>
+  </definition>
+  <definition>
+    <key>menu</key>
+    <value><![CDATA[meny]]></value>
+  </definition>
+  <definition>
+    <key>content</key>
+    <value><![CDATA[innehåll]]></value>
+  </definition>
+  <definition>
+    <key>banner</key>
+    <value><![CDATA[baner]]></value>
+  </definition>
+  <definition>
+    <key>page</key>
+    <value><![CDATA[sida]]></value>
+  </definition>
+  <definition>
+    <key>store</key>
+    <value><![CDATA[Lagra]]></value>
+  </definition>
+  <definition>
+    <key>language</key>
+    <value><![CDATA[språk]]></value>
+  </definition>
+  <definition>
+    <key>currency</key>
+    <value><![CDATA[valuta]]></value>
+  </definition>
+  <definition>
+    <key>location</key>
+    <value><![CDATA[plats]]></value>
+  </definition>
+  <definition>
+    <key>tax</key>
+    <value><![CDATA[beskatta]]></value>
+  </definition>
+</definitions>

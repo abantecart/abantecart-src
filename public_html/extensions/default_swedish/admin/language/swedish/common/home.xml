@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[instrumentbräda]]></value>
+  </definition>
+  <definition>
+    <key>text_overview</key>
+    <value><![CDATA[Översikt]]></value>
+  </definition>
+  <definition>
+    <key>text_statistics</key>
+    <value><![CDATA[Statistik]]></value>
+  </definition>
+  <definition>
+    <key>text_latest_10_orders</key>
+    <value><![CDATA[Senaste 10 Beställningar]]></value>
+  </definition>
+  <definition>
+    <key>text_total_sale</key>
+    <value><![CDATA[Total rea:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_sale_year</key>
+    <value><![CDATA[Totalt försäljning i år:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_order</key>
+    <value><![CDATA[Totalt Order:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_customer</key>
+    <value><![CDATA[Antal kunder:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_customer_approval</key>
+    <value><![CDATA[Kunder som väntar godkännande:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_product</key>
+    <value><![CDATA[Antal produkter:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_review</key>
+    <value><![CDATA[Antal utvärderingar:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_review_approval</key>
+    <value><![CDATA[Omdömen Väntar godkännande:]]></value>
+  </definition>
+  <definition>
+    <key>text_day</key>
+    <value><![CDATA[I dag]]></value>
+  </definition>
+  <definition>
+    <key>text_week</key>
+    <value><![CDATA[Denna vecka]]></value>
+  </definition>
+  <definition>
+    <key>text_month</key>
+    <value><![CDATA[Den här månaden]]></value>
+  </definition>
+  <definition>
+    <key>text_year</key>
+    <value><![CDATA[Det här året]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Totalt beställningar]]></value>
+  </definition>
+  <definition>
+    <key>text_order_short</key>
+    <value><![CDATA[Totalt beställningar]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[Totalt Kunder]]></value>
+  </definition>
+  <definition>
+    <key>column_order</key>
+    <value><![CDATA[För ID]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Köparens namn]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[datum tillagt]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Total]]></value>
+  </definition>
+  <definition>
+    <key>column_firstname</key>
+    <value><![CDATA[Förnamn]]></value>
+  </definition>
+  <definition>
+    <key>column_lastname</key>
+    <value><![CDATA[Efternamn]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Handling]]></value>
+  </definition>
+  <definition>
+    <key>entry_range</key>
+    <value><![CDATA[Markera omfång:]]></value>
+  </definition>
+  <definition>
+    <key>orders_text_all</key>
+    <value><![CDATA[alla beställningar]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_all</key>
+    <value><![CDATA[alla kunder]]></value>
+  </definition>
+  <definition>
+    <key>text_latest_10_customers</key>
+    <value><![CDATA[senaste Registreringar]]></value>
+  </definition>
+  <definition>
+    <key>column_email</key>
+    <value><![CDATA[E-post]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>im_text_notification</key>
+    <value><![CDATA[aviseringar]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update</key>
+    <value><![CDATA[För uppdateringar]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_customer</key>
+    <value><![CDATA[Din beställning <a href="%s"># %s</a> har uppdaterats. För mer information, logga in på %s konto.]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_new_order</key>
+    <value><![CDATA[nya beställningar]]></value>
+  </definition>
+  <definition>
+    <key>im_new_order_text_to_admin</key>
+    <value><![CDATA[New Order <a href="#admin#rt=sale/order/details&order_id=%s"># %s</a> har skapats!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_new_customer</key>
+    <value><![CDATA[kund%s%sPOS=TRUNC Registreringar]]></value>
+  </definition>
+  <definition>
+    <key>im_new_customer_text_to_admin</key>
+    <value><![CDATA[Ny kund # %s har registrerats!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_account_update</key>
+    <value><![CDATA[Administratör Användarkontouppdateringar]]></value>
+  </definition>
+  <definition>
+    <key>im_account_update_text_to_admin</key>
+    <value><![CDATA[Dina användaradministratör kontoinformation har ändrats.]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_text_to_admin</key>
+    <value><![CDATA[Ny kund # %s har uppdaterats!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_contact</key>
+    <value><![CDATA[Kund Förfrågningar]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_product_out_of_stock</key>
+    <value><![CDATA[Produkter på lager]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_product_review</key>
+    <value><![CDATA[Nya Produktrecensioner]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter</key>
+    <value><![CDATA[nyhetsbrev]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_system_messages</key>
+    <value><![CDATA[Systemmeddelanden meddelanden%s%sPOS=HEADCOMP]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_text_to_customer</key>
+    <value><![CDATA[Ny transaktion har lagts till din %s konto i mängden %s. För mer information, logga in på %s konto.]]></value>
+  </definition>
+  <definition>
+    <key>text_notification_for</key>
+    <value><![CDATA[Underrättelser för användaren %s]]></value>
+  </definition>
+  <definition>
+    <key>error_unknown_sendpoint</key>
+    <value><![CDATA[Sendpoint %s inte finns i sendpoints lista!]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_success_saved</key>
+    <value><![CDATA[Meddelandeinställningar sparats!]]></value>
+  </definition>
+  <definition>
+    <key>im_error_mail_address</key>
+    <value><![CDATA[E-postadress %s ser ut som ogiltig!]]></value>
+  </definition>
+</definitions>

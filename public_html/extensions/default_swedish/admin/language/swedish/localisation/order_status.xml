@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Beställa statusar]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Orderstatus]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Framgång: Du har ändrat orderstatus!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Orderstatus Namn]]></value>
+  </definition>
+  <definition>
+    <key>column_text_id</key>
+    <value><![CDATA[Order Status Text ID]]></value>
+  </definition>
+  <definition>
+    <key>entry_text_id</key>
+    <value><![CDATA[Order Status Text ID:]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Handling]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Orderstatus Namn:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varning: Du har inte behörighet att ändra order statyer!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Orderstatus Namn måste vara mellan 2 och 32 tecken!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Varning: Denna orderstatus kan inte tas bort eftersom det är för närvarande tilldelas som standardbutiksorderstatus!]]></value>
+  </definition>
+  <definition>
+    <key>error_download</key>
+    <value><![CDATA[Varning: Denna orderstatus kan inte tas bort eftersom det är för närvarande tilldelas som standard hämta status!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Varning: Denna orderstatus kan inte tas bort eftersom det för närvarande är tilldelad %s butiker!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Varning: Denna orderstatus kan inte tas bort eftersom det för närvarande är tilldelad %s order!]]></value>
+  </definition>
+  <definition>
+    <key>error_nondeletable</key>
+    <value><![CDATA[Varning: Detta är viktigt orderstatus som är kopplat till betalningar. Du kan inte ta bort denna status.]]></value>
+  </definition>
+  <definition>
+    <key>error_status_text_id</key>
+    <value><![CDATA[Order Status Text ID måste vara unikt och mellan 2 och 32 tecken!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_block_id</key>
+    <value><![CDATA[Block ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_name</key>
+    <value><![CDATA[Namn:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_controller</key>
+    <value><![CDATA[Kontroller:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_path</key>
+    <value><![CDATA[Väg:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_template</key>
+    <value><![CDATA[Mall:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_parent</key>
+    <value><![CDATA[Förälder:]]></value>
+  </definition>
+  <definition>
+    <key>text_parent_id</key>
+    <value><![CDATA[Förälder ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_close</key>
+    <value><![CDATA[Stänga]]></value>
+  </definition>
+  <definition>
+    <key>text_click</key>
+    <value><![CDATA[Klicka här]]></value>
+  </definition>
+</definitions>

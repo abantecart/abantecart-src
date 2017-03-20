@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[filuppladdning]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[datum tillagt]]></value>
+  </definition>
+  <definition>
+    <key>column_path</key>
+    <value><![CDATA[Fil]]></value>
+  </definition>
+  <definition>
+    <key>column_section</key>
+    <value><![CDATA[Sektion]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[att hämta filen]]></value>
+  </definition>
+</definitions>

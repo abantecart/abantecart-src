@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Leveransinformation]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Korg]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Frakt]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_to</key>
+    <value><![CDATA[Välj från din adressbok där du vill att objekt som ska levereras till.]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[leveransadress]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Frakt metod]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[Välj de föredragna transportsätt som ska användas på denna ordning.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[Lägg till kommentarer angående din beställning]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[Fel: Sändningsmetod krävs!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[Fel: Inga fraktalternativ finns. Vänligen <a href="index.php?rt=content/contact">kontakta oss</a> för att få hjälp!]]></value>
+  </definition>
+</definitions>

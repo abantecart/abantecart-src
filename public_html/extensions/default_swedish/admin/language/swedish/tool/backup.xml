@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Backup / Restore / Load]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[nedladdning Backup]]></value>
+  </definition>
+  <definition>
+    <key>text_success_backup</key>
+    <value><![CDATA[Framgång: Du har nu skapat säkerhetskopian!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Framgång: Du har nu importerat databasen!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_xml</key>
+    <value><![CDATA[Framgång: Du har nu importerat XML!]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore</key>
+    <value><![CDATA[Återställa från SQL eller XML-fil:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tables</key>
+    <value><![CDATA[Backup Tabeller:]]></value>
+  </definition>
+  <definition>
+    <key>entry_loadxml</key>
+    <value><![CDATA[Last XML-fil:]]></value>
+  </definition>
+  <definition>
+    <key>tab_backup</key>
+    <value><![CDATA[Säkerhetskopiering]]></value>
+  </definition>
+  <definition>
+    <key>tab_restore</key>
+    <value><![CDATA[Återställa]]></value>
+  </definition>
+  <definition>
+    <key>tab_loadxml</key>
+    <value><![CDATA[Layout och dataset last XML]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varning: Du har inte behörighet att ändra säkerhetskopior!]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Varning: Ställ in vad du vill säkerhetskopiera eller importera!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Varning: Filen du laddade upp var tom eller hade fel filtyp!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload</key>
+    <value><![CDATA[Varning: Filen var inte laddat. Kontrollera post_max_size eller file_upload direktiv din php.ini fil.]]></value>
+  </definition>
+  <definition>
+    <key>error_xml</key>
+    <value><![CDATA[Varning: Filen du laddade inte läses in som XML! Vänligen se log-fil för mer information]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_code</key>
+    <value><![CDATA[Backup Code (%s) <br/><span class="help">underkataloger med kodfiler exklusive dynamiska filer som cache, loggfiler, bilder, resurser mm</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_content</key>
+    <value><![CDATA[Backup innehåll (%s) <br/><span class="help">underkataloger med dynamiska filer som bilder, nedladdningar, resurser mm</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_compress_backup</key>
+    <value><![CDATA[Komprimera backup Directory %s? <br/><span class="help">Arkiv * .tar.gz skapas. <br/> Obs: Det kan ta lång tid. Annars kan du stänga av kompression och hitta din backup i mappen %s</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_now</key>
+    <value><![CDATA[backup nu]]></value>
+  </definition>
+  <definition>
+    <key>button_load</key>
+    <value><![CDATA[Ladda]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_schedule</key>
+    <value><![CDATA[schema Backup]]></value>
+  </definition>
+  <definition>
+    <key>text_success_scheduled</key>
+    <value><![CDATA[Framgång: Du har skapat schemalagd säkerhetskopiering uppgift! <a href="%s">Se detaljer</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_fail_note</key>
+    <value><![CDATA[OBS: Den här exekveringsprocess beror på AbanteCart datastorleken samt din server virtuellt minne storlek. Om processen avslutas med fel, kontrollera katalog %s behörigheterna sättas till -RW-rw-rw och <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[PHP minnesinställningen]</a>. Öka minnes inställning eller kör backup manuellt om processen fortfarande misslyckas.]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_file</key>
+    <value><![CDATA[För att ladda ner backup-fil besök <a href="#admin#rt=tool/install_upgrade_history">Installera / Uppgradera Historia</a>]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_dir</key>
+    <value><![CDATA[Katalog med backup-filer är %s]]></value>
+  </definition>
+</definitions>

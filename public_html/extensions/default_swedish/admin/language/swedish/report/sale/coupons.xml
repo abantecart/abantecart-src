@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[rabatter Rapportera]]></value>
+  </definition>
+  <definition>
+    <key>column_coupon_name</key>
+    <value><![CDATA[Rabatt / kupong Namn]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Koda]]></value>
+  </definition>
+  <definition>
+    <key>column_orders</key>
+    <value><![CDATA[Antal beställningar]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Total]]></value>
+  </definition>
+  <definition>
+    <key>column_discount_total</key>
+    <value><![CDATA[total rabatt]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[Datum Start:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[Slutdatum:]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Ditt konto har aktiverats!]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Välkommen och tack för registrering på %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Ditt konto har nu skapats och du kan logga in med din e-postadress och lösenord genom att besöka vår hemsida eller på följande adress:]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[När du loggar in, kommer du att kunna komma åt, din önskelista, orderhistorik, fakturor utskrift och redigering din kontoinformation.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Tack,]]></value>
+  </definition>
+</definitions>

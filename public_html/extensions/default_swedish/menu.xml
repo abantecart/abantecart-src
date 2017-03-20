@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_index_home_menu</key>
+    <value><![CDATA[Hem]]></value>
+  </definition>
+  <definition>
+    <key>text_product_special_menu</key>
+    <value><![CDATA[Erbjudanden]]></value>
+  </definition>
+  <definition>
+    <key>text_account_account_menu</key>
+    <value><![CDATA[konto]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout_cart_menu</key>
+    <value><![CDATA[Vagn]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout_shipping_menu</key>
+    <value><![CDATA[Checka ut]]></value>
+  </definition>
+  <definition>
+    <key>text_account_login_menu</key>
+    <value><![CDATA[Logga in]]></value>
+  </definition>
+  <definition>
+    <key>text_account_invoice_menu</key>
+    <value><![CDATA[Kontrollera din beställning]]></value>
+  </definition>
+  <definition>
+    <key>text_account_logout_menu</key>
+    <value><![CDATA[Logga ut]]></value>
+  </definition>
+</definitions>

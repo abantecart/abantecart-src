@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Update manager]]></value>
+  </definition>
+  <definition>
+    <key>text_checkupdates</key>
+    <value><![CDATA[Sök efter uppdateringar]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[förlängning Namn]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[Typ]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[Kategori]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[Aktuell version]]></value>
+  </definition>
+  <definition>
+    <key>column_new_version</key>
+    <value><![CDATA[Ny version]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Handling]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Framgång: Extensions har uppdaterats!]]></value>
+  </definition>
+  <definition>
+    <key>text_update</key>
+    <value><![CDATA[Uppdatering]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore_exts</key>
+    <value><![CDATA[Återställ backuped förlängning:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[uppdateringar:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varning: Du har inte behörighet att ändra katalog:]]></value>
+  </definition>
+  <definition>
+    <key>warning_server</key>
+    <value><![CDATA[Server med uppdateringar är inaccesible.]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_title</key>
+    <value><![CDATA[Uppdatera Meddelande% FÖRLÄNGNING%]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_text</key>
+    <value><![CDATA[&quot;Ny version av tillägget&quot;% töjning% &quot;finns. Vänligen gå till% LINK% och uppgradera den. &quot;]]></value>
+  </definition>
+  <definition>
+    <key>warning_updates</key>
+    <value><![CDATA[Det går inte att få information om uppdateringar.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Varning: Filen du laddade upp var tom!]]></value>
+  </definition>
+  <definition>
+    <key>error_exts_list</key>
+    <value><![CDATA[Varning: Förlängning lista är inte matris!]]></value>
+  </definition>
+  <definition>
+    <key>text_nothing_todo</key>
+    <value><![CDATA[Dina Extensions är uppdaterade. Inget att göra.]]></value>
+  </definition>
+  <definition>
+    <key>text_connect</key>
+    <value><![CDATA[Ansluta]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect</key>
+    <value><![CDATA[Anslut till marknaden]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect_your_store</key>
+    <value><![CDATA[Anslut din butik till Marknads]]></value>
+  </definition>
+  <definition>
+    <key>text_note</key>
+    <value><![CDATA[Obs: Uppdatering endast för anslutna butiker med köpt historia.]]></value>
+  </definition>
+</definitions>

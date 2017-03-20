@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[konto Logga ut]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Du har loggats ut från ditt konto. Det är nu säkert att lämna datorn. </p><p> Din varukorg har sparats, objekt inuti det kommer att återställas när du loggar in på ditt konto. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[konto]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Logga ut]]></value>
+  </definition>
+</definitions>

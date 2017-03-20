@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Mitt kontoinformation]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[konto]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[Ändra information]]></value>
+  </definition>
+  <definition>
+    <key>text_your_details</key>
+    <value><![CDATA[dina personliga detaljer]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Framgång: Ditt konto har uppdaterats.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Inloggningsnamn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[Förnamn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Efternamn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_of_birth</key>
+    <value><![CDATA[Födelsedatum:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-post:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[Telefon:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Fax:]]></value>
+  </definition>
+  <definition>
+    <key>error_exists</key>
+    <value><![CDATA[Fel: E-postadress är redan registrerad!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Inloggningsnamn måste vara bara och mellan 5 och 64 tecken alfanumerisk!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[Denna inloggningsnamn är inte tillgänglig. Prova olika inloggningsnamn!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[Förnamn måste vara mellan 1 och 32 tecken!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Efternamn måste vara mellan 1 och 32 tecken!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-postadress verkar inte vara giltig!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[Telefon måste vara mellan 3 och 32 tecken!]]></value>
+  </definition>
+  <definition>
+    <key>loginname_update_required</key>
+    <value><![CDATA[Ditt inloggningsnamn är samma som din e-post. För att hålla ditt konto skyddat, vänligen skapa ett nytt unikt inloggningsnamn]]></value>
+  </definition>
+</definitions>

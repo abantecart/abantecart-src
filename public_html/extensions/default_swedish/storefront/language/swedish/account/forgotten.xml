@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Glömt ditt lösenord?]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_loginname</key>
+    <value><![CDATA[Har du glömt ditt användarnamn?]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[konto]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten</key>
+    <value><![CDATA[glömt lösenord]]></value>
+  </definition>
+  <definition>
+    <key>text_your_email</key>
+    <value><![CDATA[Din e-postadress]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Ange e-postadressen som är knuten till ditt konto. Klicka skicka ha ditt lösenord skickas till dig]]></value>
+  </definition>
+  <definition>
+    <key>text_loginname_email</key>
+    <value><![CDATA[Ange inloggningsnamn och e-postadress kopplad till ditt konto. Klicka på Skicka för att begära återställning av lösenord]]></value>
+  </definition>
+  <definition>
+    <key>text_lastname_email</key>
+    <value><![CDATA[Ange efternamn och e-postadress kopplad till ditt konto. Klicka kasta sig ha ditt inloggningsnamn skickas till dig]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Framgång: Lösenord återställningslänk har skickats till din e-postadress.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_loginname</key>
+    <value><![CDATA[Framgång: Ditt inloggningsnamn påminnelse har skickats till din e-postadress.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Inloggningsnamn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Efternamn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-postadress:]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Fel: E-postadress angavs inte eller inte finns i våra register, försök igen!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Fel: inloggningsnamn angavs inte eller inte finns i våra register, försök igen!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Fel: Efternamn angavs inte eller inte finns i våra register, försök igen!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_found</key>
+    <value><![CDATA[Fel: Inga journaler som matchar informationen du tillhandahålls, kontrollera dina uppgifter och försök igen!]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_loginname</key>
+    <value><![CDATA[Glömt inloggningsnamn]]></value>
+  </definition>
+</definitions>

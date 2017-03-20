@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_enlarge</key>
+    <value><![CDATA[Klicka på bilden för att förstora]]></value>
+  </definition>
+  <definition>
+    <key>text_zoom</key>
+    <value><![CDATA[Flytta pekaren över bilden för att zooma in]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[Mängdrabatt:]]></value>
+  </definition>
+  <definition>
+    <key>text_options</key>
+    <value><![CDATA[Tillgängliga val:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Produkten kan ej hittas!]]></value>
+  </definition>
+  <definition>
+    <key>text_price</key>
+    <value><![CDATA[Pris:]]></value>
+  </definition>
+  <definition>
+    <key>text_availability</key>
+    <value><![CDATA[Tillgänglighet:]]></value>
+  </definition>
+  <definition>
+    <key>text_model</key>
+    <value><![CDATA[Modell:]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturer</key>
+    <value><![CDATA[Tillverkare:]]></value>
+  </definition>
+  <definition>
+    <key>text_instock</key>
+    <value><![CDATA[I lager]]></value>
+  </definition>
+  <definition>
+    <key>text_order_quantity</key>
+    <value><![CDATA[Order kvantitet]]></value>
+  </definition>
+  <definition>
+    <key>text_price_per_item</key>
+    <value><![CDATA[Pris per styck]]></value>
+  </definition>
+  <definition>
+    <key>text_write</key>
+    <value><![CDATA[Skriv recension]]></value>
+  </definition>
+  <definition>
+    <key>text_no_reviews</key>
+    <value><![CDATA[Det finns inga omdömen för denna produkt.]]></value>
+  </definition>
+  <definition>
+    <key>text_average</key>
+    <value><![CDATA[Betyg i genomsnitt:]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[%s Av 5 stjärnor!]]></value>
+  </definition>
+  <definition>
+    <key>text_no_rating</key>
+    <value><![CDATA[Inte betygsatt]]></value>
+  </definition>
+  <definition>
+    <key>text_no_images</key>
+    <value><![CDATA[Det finns inga fler bilder på den här produkten.]]></value>
+  </definition>
+  <definition>
+    <key>text_no_related</key>
+    <value><![CDATA[Det finns inga relaterade produkter för denna produkt.]]></value>
+  </definition>
+  <definition>
+    <key>text_qty</key>
+    <value><![CDATA[Antal:]]></value>
+  </definition>
+  <definition>
+    <key>text_note</key>
+    <value><![CDATA[<span style="color: #FF0000;">Obs:</span> Använd inte HTML i texten.]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Tack för din recension. Det har överlämnats till webmaster för godkännande.]]></value>
+  </definition>
+  <definition>
+    <key>text_wait</key>
+    <value><![CDATA[Vänta!]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Sök]]></value>
+  </definition>
+  <definition>
+    <key>text_tags</key>
+    <value><![CDATA[Tags:]]></value>
+  </definition>
+  <definition>
+    <key>text_minimum</key>
+    <value><![CDATA[(Denna produkt har en minimal mängd %s)]]></value>
+  </definition>
+  <definition>
+    <key>text_maximum</key>
+    <value><![CDATA[(Denna produkt har en gräns satt till %s post (er) per beställning)]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Ditt namn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_review</key>
+    <value><![CDATA[Din recension:]]></value>
+  </definition>
+  <definition>
+    <key>entry_rating</key>
+    <value><![CDATA[Betyg:]]></value>
+  </definition>
+  <definition>
+    <key>entry_good</key>
+    <value><![CDATA[Bra]]></value>
+  </definition>
+  <definition>
+    <key>entry_bad</key>
+    <value><![CDATA[Dålig]]></value>
+  </definition>
+  <definition>
+    <key>entry_captcha</key>
+    <value><![CDATA[Ange koden i rutan nedan:]]></value>
+  </definition>
+  <definition>
+    <key>tab_description</key>
+    <value><![CDATA[Beskrivning]]></value>
+  </definition>
+  <definition>
+    <key>tab_image</key>
+    <value><![CDATA[ytterligare bilder]]></value>
+  </definition>
+  <definition>
+    <key>tab_review</key>
+    <value><![CDATA[Omdömen (%s)]]></value>
+  </definition>
+  <definition>
+    <key>tab_related</key>
+    <value><![CDATA[Relaterade produkter]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Fel: Review namn måste vara mellan 3 och 25 tecken!]]></value>
+  </definition>
+  <definition>
+    <key>error_text</key>
+    <value><![CDATA[Fel: Recensionstext måste vara mellan 25 och 1000 tecken!]]></value>
+  </definition>
+  <definition>
+    <key>error_rating</key>
+    <value><![CDATA[Fel: Välj en betyg!]]></value>
+  </definition>
+  <definition>
+    <key>text_total_price</key>
+    <value><![CDATA[Totalbelopp:]]></value>
+  </definition>
+  <definition>
+    <key>text_login_view_price</key>
+    <value><![CDATA[Logga in eller registrera dig för att se pris eller för att beställa.]]></value>
+  </definition>
+  <definition>
+    <key>tab_downloads</key>
+    <value><![CDATA[Nedladdningar]]></value>
+  </definition>
+  <definition>
+    <key>text_start_download</key>
+    <value><![CDATA[Starta nedladdning]]></value>
+  </definition>
+  <definition>
+    <key>text_new_review</key>
+    <value><![CDATA[Produkt granskning godkännande väntar]]></value>
+  </definition>
+  <definition>
+    <key>text_pending_review_approval</key>
+    <value><![CDATA[Recension för produkt id %s publiceras. Verkan av godkännande krävs! Klicka för att se # admin # rt = katalog / granska / uppdatera &amp; review_id = %s]]></value>
+  </definition>
+</definitions>

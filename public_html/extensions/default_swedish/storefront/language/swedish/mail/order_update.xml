@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Order Update %s]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[För ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Datum Beställt:]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[Din beställning har uppdaterats till följande status:]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[Kommentarerna för din beställning är:]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[Om du vill visa din beställning klicka på länken nedan:]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[Svara på det här meddelandet om du har några frågor.]]></value>
+  </definition>
+</definitions>

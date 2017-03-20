@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_home</key>
+    <value><![CDATA[Hem]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[Specialerbjudanden]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Kontakta]]></value>
+  </definition>
+  <definition>
+    <key>text_sitemap</key>
+    <value><![CDATA[sitemap]]></value>
+  </definition>
+  <definition>
+    <key>text_bookmark</key>
+    <value><![CDATA[Bokmärke]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[konto]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Logga in]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Logga ut]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[Korg]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Checka ut]]></value>
+  </definition>
+  <definition>
+    <key>text_keyword</key>
+    <value><![CDATA[Nyckelord]]></value>
+  </definition>
+  <definition>
+    <key>text_advanced</key>
+    <value><![CDATA[avancerad sökning]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[alla kategorier]]></value>
+  </definition>
+  <definition>
+    <key>entry_search</key>
+    <value><![CDATA[Sök:]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Välkommen tillbaka]]></value>
+  </definition>
+  <definition>
+    <key>text_not</key>
+    <value><![CDATA[Inte]]></value>
+  </definition>
+  <definition>
+    <key>text_login_or_register</key>
+    <value><![CDATA[Logga in eller registrera]]></value>
+  </definition>
+</definitions>
