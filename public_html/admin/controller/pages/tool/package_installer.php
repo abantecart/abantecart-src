@@ -533,8 +533,9 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$package_info['package_type'] = (string)$config->type;
 		$package_info['package_priority'] = (string)$config->priority;
 		$package_info['package_version'] = (string)$config->version;
-		$package_info['package_content'] = '';
+		$package_info['package_content'] = array();
 		if ((string)$config->package_content->extensions) {
+			$package_info['package_content']['extensions'] = array();
 			foreach ($config->package_content->extensions->extension as $item) {
 				if ((string)$item) {
 					$package_info['package_content']['extensions'][ ] = (string)$item;
@@ -561,7 +562,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 
 		}
 
-		//check cart version compability
+		//check cart version compatibility
 		if (!isset($package_info['confirm_version_incompatibility'])) {
 			if (!$this->_check_cart_version($config)) {
 				if($this->_isCorePackage()){
