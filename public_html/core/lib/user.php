@@ -29,6 +29,8 @@ final class AUser{
 	 * @var int
 	 */
 	private $user_id;
+    private $user_group_id;
+
 	/**
 	 * @var string
 	 */
@@ -37,7 +39,7 @@ final class AUser{
 	private $firstname;
 	private $lastname;
 	private $last_login;
-	private $user_group_id;
+
 	/**
 	 * @var array
 	 */
@@ -55,26 +57,16 @@ final class AUser{
 			$user_query = $this->db->query("SELECT * FROM " . $this->db->table("users") . " WHERE user_id = '" . (int)$this->session->data['user_id'] . "'");
 
 			if ($user_query->num_rows){
-				$this->user_id = $user_query->row['user_id'];
+				$this->user_id = (int)$user_query->row['user_id'];
+                $this->user_group_id = (int)$user_query->row['user_group_id'];
 				$this->email = $user_query->row['email'];
 				$this->username = $user_query->row['username'];
 				$this->firstname = $user_query->row['firstname'];
 				$this->lastname = $user_query->row['lastname'];
 				$this->last_login = $this->session->data['user_last_login'];
-				$this->user_group_id = (int)$user_query->row['user_group_id'];
 
-				$this->db->query("UPDATE " . $this->db->table("users") . " 
-								  SET ip = '" . $this->db->escape($this->request->getRemoteIP()) . "'
-								  WHERE user_id = '" . (int)$this->session->data['user_id'] . "'");
+                $this->_user_init();
 
-				$user_group_query = $this->db->query("SELECT permission
-													  FROM " . $this->db->table("user_groups") . "
-													  WHERE user_group_id = '" . (int)$user_query->row['user_group_id'] . "'");
-				if (unserialize($user_group_query->row['permission'])){
-					foreach (unserialize($user_group_query->row['permission']) as $key => $value){
-						$this->permission[$key] = $value;
-					}
-				}
 			} else{
 				$this->logout();
 			}
@@ -108,34 +100,45 @@ final class AUser{
 		");
 
 		if ($user_query->num_rows){
-			$this->session->data['user_id'] = $user_query->row['user_id'];
-			$this->session->data['user_last_login'] = $user_query->row['last_login'];
-
-			$this->user_id = $user_query->row['user_id'];
+			$this->user_id = $this->session->data['user_id'] = (int)$user_query->row['user_id'];
+            $this->user_group_id = (int)$user_query->row['user_group_id'];
 			$this->username = $user_query->row['username'];
-			$this->last_login = $user_query->row['last_login'];
+
+			$this->last_login = $this->session->data['user_last_login'] = $user_query->row['last_login'];
 			if (!$this->last_login || $this->last_login == 'null' || $this->last_login == '0000-00-00 00:00:00'){
 				$this->session->data['user_last_login'] = $this->last_login = '';
 			}
 
-			$this->db->query("UPDATE " . $this->db->table("users") . " 
-							  SET last_login = NOW()
-							  WHERE user_id = '" . (int)$this->session->data['user_id'] . "'");
+            $this->_user_init();
 
-			$user_group_query = $this->db->query("SELECT permission
-												  FROM " . $this->db->table("user_groups") . "
-												  WHERE user_group_id = '" . (int)$user_query->row['user_group_id'] . "'");
-
-			if ($user_group_query->row['permission']){
-				foreach (unserialize($user_group_query->row['permission']) as $key => $value){
-					$this->permission[$key] = $value;
-				}
-			}
 			return true;
 		} else{
 			return false;
 		}
 	}
+
+    /**
+     * Init user
+     *
+     * @param void
+     * @return void
+     */
+	private function _user_init(){
+
+        $this->db->query("SET @USER_ID = '" . $this->user_id . "'");
+        $this->db->query("UPDATE " . $this->db->table("users") . " 
+								  SET ip = '" . $this->db->escape($this->request->getRemoteIP()) . "'
+								  WHERE user_id = '" . $this->user_id . "'");
+
+        $user_group_query = $this->db->query("SELECT permission
+													  FROM " . $this->db->table("user_groups") . "
+													  WHERE user_group_id = '" . $this->user_group_id . "'");
+        if (unserialize($user_group_query->row['permission'])){
+            foreach (unserialize($user_group_query->row['permission']) as $key => $value){
+                $this->permission[$key] = $value;
+            }
+        }
+    }
 
 	public function logout(){
 		unset($this->session->data['user_id']);
