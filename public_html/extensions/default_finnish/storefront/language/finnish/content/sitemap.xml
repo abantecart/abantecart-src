@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[site Map]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[Erikoistarjouksia]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Tilini]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[Tilitiedot]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Salasana]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Osoitekirja]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[tilaushistoria]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Lataukset]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[Ostoskärry]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Tarkista]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Hae]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[Tiedot]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Ota meihin yhteyttä]]></value>
+  </definition>
+</definitions>

@@ -62,7 +62,7 @@
   </definition>
   <definition>
     <key>text_product_summary</key>
-    <value><![CDATA[produkt%s%sPOS=TRUNC]]></value>
+    <value><![CDATA[produkt]]></value>
   </definition>
   <definition>
     <key>text_image_manager</key>

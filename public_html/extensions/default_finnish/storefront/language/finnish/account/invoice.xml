@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Tilauksen tiedot]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Tili]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[tilaushistoria]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[Lasku]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice_id</key>
+    <value><![CDATA[lasku ID]]></value>
+  </definition>
+  <definition>
+    <key>text_order_id</key>
+    <value><![CDATA[tilausnumero]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[E-Mail]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[Puhelin]]></value>
+  </definition>
+  <definition>
+    <key>text_mobile_phone</key>
+    <value><![CDATA[Kännykkä:]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Faksi]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[Toimitusosoite]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[toimitustapa]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[maksu Osoite]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Maksutapa]]></value>
+  </definition>
+  <definition>
+    <key>text_order_history</key>
+    <value><![CDATA[tilaushistoria]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[Tuote]]></value>
+  </definition>
+  <definition>
+    <key>text_model</key>
+    <value><![CDATA[Malli]]></value>
+  </definition>
+  <definition>
+    <key>text_quantity</key>
+    <value><![CDATA[Määrä]]></value>
+  </definition>
+  <definition>
+    <key>text_price</key>
+    <value><![CDATA[Yksikköhinta]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Kaikki yhteensä]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[Tilaa kommentit]]></value>
+  </definition>
+  <definition>
+    <key>text_image</key>
+    <value><![CDATA[Kuva]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Tilaus olet pyytänyt ei löytynyt!]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[lisäyspäivämäärä]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>column_comment</key>
+    <value><![CDATA[Asiakkaan tilaus kommentti]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation</key>
+    <value><![CDATA[Pyydä peruuttaminen Order]]></value>
+  </definition>
+  <definition>
+    <key>text_request_cancellation_from_customer</key>
+    <value><![CDATA[Pyydä tilauksen peruuttamista Asiakkaan]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_confirm</key>
+    <value><![CDATA[Peruutuspyyntöäsi ei saa tehdä tietyissä tapauksissa, esimerkiksi silloin, kun tavarat on lähetetty. Jatkaa?]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_success</key>
+    <value><![CDATA[Tilauksen peruutus pyyntö on toimitettu]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_message_title</key>
+    <value><![CDATA[Tilaa # %s peruutuspyyntö]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_message_body</key>
+    <value><![CDATA[Asiakas %s on pyytänyt jotta peruutus tilausnumerolle %s. Tarkistamaan mennä %s]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Sähköpostiosoite ei näytä olevan voimassa!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_id</key>
+    <value><![CDATA[Order ID vaaditaan kenttä!]]></value>
+  </definition>
+</definitions>

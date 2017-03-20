@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_send_email</key>
+    <value><![CDATA[Levél küldés]]></value>
+  </definition>
+  <definition>
+    <key>text_send_sms</key>
+    <value><![CDATA[SMS-t küldeni]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Az üzenet sikeresen elküldve!]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Alapértelmezett]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_send</key>
+    <value><![CDATA[Manuálisan kiválasztott vevők]]></value>
+  </definition>
+  <definition>
+    <key>text_all_subscribers</key>
+    <value><![CDATA[minden előfizetők]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribers_only</key>
+    <value><![CDATA[Hírlevél előfizetők csak (nem vevők)]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_only</key>
+    <value><![CDATA[minden ügyfelek]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[A raktárból: <span class="help">Store-mail címét, hogy küldjön e-mailt. Érték van beállítva a beállítások tárolása</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_who_ordered</key>
+    <value><![CDATA[Ahhoz, hogy az ügyfelek, akik rendezett kiválasztott termékek]]></value>
+  </definition>
+  <definition>
+    <key>entry_to</key>
+    <value><![CDATA[To: <span class="help">lista az ügyfelek, hogy megkapja ezt az üzenetet. Megjegyzés: Nagy vevőlisták igényel hosszú időt kell feldolgozni, és szükség lehet alternatív módszerek. Nézze meg a web és e-mail szerver konfigurációk</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_from_lookup</key>
+    <value><![CDATA[Kezdje el beírni a vásárló neve, hogy néz ki, és válassza]]></value>
+  </definition>
+  <definition>
+    <key>text_products_from_lookup</key>
+    <value><![CDATA[Kezdje el beírni a termék nevét, hogy néz ki, és válassza]]></value>
+  </definition>
+  <definition>
+    <key>entry_subject</key>
+    <value><![CDATA[Tantárgy:]]></value>
+  </definition>
+  <definition>
+    <key>entry_message</key>
+    <value><![CDATA[Üzenet törzs:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Figyelmeztetés: nincs engedélye, hogy küldjön e-mailt!]]></value>
+  </definition>
+  <definition>
+    <key>error_subject</key>
+    <value><![CDATA[E-mail tárgy szükséges!]]></value>
+  </definition>
+  <definition>
+    <key>error_message_email</key>
+    <value><![CDATA[E-mail üzenet törzse van szükség!]]></value>
+  </definition>
+  <definition>
+    <key>error_message_sms</key>
+    <value><![CDATA[SMS üzenet szövegét szükséges!]]></value>
+  </definition>
+  <definition>
+    <key>error_recipients</key>
+    <value><![CDATA[A címzettek listája, az előfizetők és a megrendelt termékeket kötelező!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_sent</key>
+    <value><![CDATA[&quot;Hiba: nincs e-maileket küldtek! Kérjük, tekintse meg error log részleteket. &quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_unsubscribe</key>
+    <value><![CDATA[Ez az e-mail-ben küldött %s, mert az e-mail beállítások úgy vannak beállítva, hogy a hírlevelek. Kattintson <a href="%s">ide a leiratkozáshoz</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_total_to_be_sent</key>
+    <value><![CDATA[(Total kell küldeni: %s)]]></value>
+  </definition>
+  <definition>
+    <key>text_select_products</key>
+    <value><![CDATA[- Válassza Termékek -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_customers</key>
+    <value><![CDATA[- Válassza ki a vásárlók -]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Email]]></value>
+  </definition>
+  <definition>
+    <key>text_sms</key>
+    <value><![CDATA[SMS]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete_tasks</key>
+    <value><![CDATA[Befejezetlen feladatok]]></value>
+  </definition>
+  <definition>
+    <key>text_task_id</key>
+    <value><![CDATA[Feladat ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_time_run</key>
+    <value><![CDATA[Last Time Run:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Alkotó:]]></value>
+  </definition>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[Tantárgy:]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[Üzenet:]]></value>
+  </definition>
+  <definition>
+    <key>text_starter_name</key>
+    <value><![CDATA[Készítette:]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Újrakezd]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[eltávolít]]></value>
+  </definition>
+  <definition>
+    <key>error_email_no_recipients</key>
+    <value><![CDATA[Figyelem! Üzenet nem lesz elküldve.]]></value>
+  </definition>
+  <definition>
+    <key>error_sms_no_recipients</key>
+    <value><![CDATA[Figyelem! Nincs ügyfél mobil telefonszámokat.]]></value>
+  </definition>
+  <definition>
+    <key>text_attention_recipients_count</key>
+    <value><![CDATA[Figyelem! Az üzenetet fog küldeni a %s vásárlók.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_abort</key>
+    <value><![CDATA[Feladat megszakadt sikeresen.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_sent</key>
+    <value><![CDATA[%s Üzeneteket küldtek.]]></value>
+  </definition>
+  <definition>
+    <key>text_task_failed</key>
+    <value><![CDATA[Néhány hiba történt közben feladat folyamat. Kérjük, olvassa jelentkezzen a részleteket, vagy indítsa újra ezt a feladatot.]]></value>
+  </definition>
+  <definition>
+    <key>text_sent</key>
+    <value><![CDATA[%s A %s üzeneteket küldeni]]></value>
+  </definition>
+</definitions>

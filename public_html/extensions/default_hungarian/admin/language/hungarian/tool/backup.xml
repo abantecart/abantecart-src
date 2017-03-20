@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Backup / Restore / Load]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[Letöltés Backup]]></value>
+  </definition>
+  <definition>
+    <key>text_success_backup</key>
+    <value><![CDATA[Siker: Sikeresen létrehozott biztonsági másolat fájlt!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Siker: Sikeresen importálta az adatbázisban!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_xml</key>
+    <value><![CDATA[Siker: Sikeresen importálta az xml!]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore</key>
+    <value><![CDATA[Visszaáll sql vagy xml fájlt:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tables</key>
+    <value><![CDATA[Backup asztalok:]]></value>
+  </definition>
+  <definition>
+    <key>entry_loadxml</key>
+    <value><![CDATA[Load XML-fájl:]]></value>
+  </definition>
+  <definition>
+    <key>tab_backup</key>
+    <value><![CDATA[biztonsági mentés]]></value>
+  </definition>
+  <definition>
+    <key>tab_restore</key>
+    <value><![CDATA[visszaállítás]]></value>
+  </definition>
+  <definition>
+    <key>tab_loadxml</key>
+    <value><![CDATA[Elrendezés és adatbázisba terhelés XML]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Figyelmeztetés: nincs engedélye módosítani mentést!]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Figyelmeztetés: Kérjük, állítsa be, hogy mit szeretne mentés vagy import!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Figyelmeztetés: A feltöltött fájl üres volt, vagy volt rossz fájltípus!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload</key>
+    <value><![CDATA[Figyelmeztetés: A fájl nem tölthető fel. Ellenőrizze post_max_size vagy file_upload irányelveket a php.ini állományban.]]></value>
+  </definition>
+  <definition>
+    <key>error_xml</key>
+    <value><![CDATA[Figyelmeztetés: A feltöltött fájl nem töltődik be az XML! Kérjük, lásd log-fájlt a részletekért]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_code</key>
+    <value><![CDATA[Biztonsági kód (%s) <br/><span class="help">Sub-könyvtárak kódfájlokkal kivételével dinamikus fájlok, mint a cache, log fájlokat, képek, források, stb</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_content</key>
+    <value><![CDATA[Backup tartalom (%s) <br/><span class="help">Sub-könyvtárak dinamikus fájlok, például képek, letöltések, forrásokat, stb</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_compress_backup</key>
+    <value><![CDATA[Compress Backup Directory %s? <br/><span class="help">Archive * .tar.gz jön létre. <br/> Megjegyzés: Lehet, hogy hosszú időt vesz igénybe. Ellenkező esetben letilthatja tömörítés és találja meg a mentés mappában %s</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_now</key>
+    <value><![CDATA[Backup Now]]></value>
+  </definition>
+  <definition>
+    <key>button_load</key>
+    <value><![CDATA[Betöltés]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_schedule</key>
+    <value><![CDATA[Menetrend Backup]]></value>
+  </definition>
+  <definition>
+    <key>text_success_scheduled</key>
+    <value><![CDATA[Siker: Sikeresen létrehozott ütemezett mentési feladat! <a href="%s">Lásd a részleteket</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_fail_note</key>
+    <value><![CDATA[Megjegyzés: Ez a folyamat végrehajtása függ a AbanteCart adatok méretét, valamint a szerver virtuális memória méretét. Ha folyamat befejeződik hibákat, ellenőrizze könyvtár %s engedélyeket kell állítani -RW-rw-rw és <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[PHP memória beállítása]</a>. Növelje a memória beállítás vagy futni hát kézzel, ha az eljárás még nem.]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_file</key>
+    <value><![CDATA[Letöltéséhez mentési fájlt kérjük keresse <a href="#admin#rt=tool/install_upgrade_history">Telepítés / Frissítés története</a>]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_dir</key>
+    <value><![CDATA[Directory backup-fájlok %s]]></value>
+  </definition>
+</definitions>

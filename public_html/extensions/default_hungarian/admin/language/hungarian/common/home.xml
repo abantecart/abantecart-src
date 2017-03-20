@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Műszerfal]]></value>
+  </definition>
+  <definition>
+    <key>text_overview</key>
+    <value><![CDATA[Áttekintés]]></value>
+  </definition>
+  <definition>
+    <key>text_statistics</key>
+    <value><![CDATA[Statisztika]]></value>
+  </definition>
+  <definition>
+    <key>text_latest_10_orders</key>
+    <value><![CDATA[Legújabb 10 rendelések]]></value>
+  </definition>
+  <definition>
+    <key>text_total_sale</key>
+    <value><![CDATA[Összesen Értékesítés:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_sale_year</key>
+    <value><![CDATA[Összesen értékesítése az idén:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_order</key>
+    <value><![CDATA[Összes rendelés:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_customer</key>
+    <value><![CDATA[Nem Ügyfelek:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_customer_approval</key>
+    <value><![CDATA[Az ügyfelek jóváhagyására vár:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_product</key>
+    <value><![CDATA[Nem Termékek:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_review</key>
+    <value><![CDATA[Nem felülvizsgálatok:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_review_approval</key>
+    <value><![CDATA[Vélemények jóváhagyására vár:]]></value>
+  </definition>
+  <definition>
+    <key>text_day</key>
+    <value><![CDATA[Ma]]></value>
+  </definition>
+  <definition>
+    <key>text_week</key>
+    <value><![CDATA[Ezen a héten]]></value>
+  </definition>
+  <definition>
+    <key>text_month</key>
+    <value><![CDATA[Ebben a hónapban]]></value>
+  </definition>
+  <definition>
+    <key>text_year</key>
+    <value><![CDATA[Idén]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Összes rendelés]]></value>
+  </definition>
+  <definition>
+    <key>text_order_short</key>
+    <value><![CDATA[Összes rendelés]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[Összesen ügyfelek]]></value>
+  </definition>
+  <definition>
+    <key>column_order</key>
+    <value><![CDATA[Rendelés azonosító]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Ügyfél neve]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Állapot]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[dátum hozzáadva]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Teljes]]></value>
+  </definition>
+  <definition>
+    <key>column_firstname</key>
+    <value><![CDATA[Keresztnév]]></value>
+  </definition>
+  <definition>
+    <key>column_lastname</key>
+    <value><![CDATA[Vezetéknév]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akció]]></value>
+  </definition>
+  <definition>
+    <key>entry_range</key>
+    <value><![CDATA[Tartomány kijelölése:]]></value>
+  </definition>
+  <definition>
+    <key>orders_text_all</key>
+    <value><![CDATA[minden rendelés]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_all</key>
+    <value><![CDATA[minden ügyfelek]]></value>
+  </definition>
+  <definition>
+    <key>text_latest_10_customers</key>
+    <value><![CDATA[legújabb regisztrációk]]></value>
+  </definition>
+  <definition>
+    <key>column_email</key>
+    <value><![CDATA[Email]]></value>
+  </definition>
+</definitions>

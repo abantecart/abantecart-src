@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[kundegruppe]]></value>
+  </definition>
+  <definition>
+    <key>breadcrumb_title</key>
+    <value><![CDATA[kunde grupper]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Suksess: Du har endret kundegrupper!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Kundegruppenavn]]></value>
+  </definition>
+  <definition>
+    <key>column_tax_exempt</key>
+    <value><![CDATA[Skattefri]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Handling]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Kundegruppenavn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_exempt</key>
+    <value><![CDATA[Fritatt for alle avgifter:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advarsel: Du har ikke tillatelse til å endre kundegrupper!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Kundegruppenavn må være mellom 2 og 64 tegn!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Advarsel: Denne kundegruppe kan ikke slettes som det er i dag tildelt som standard store kundegruppe!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Advarsel: Denne kundegruppe kan ikke slettes som det er i dag tildelt %s butikkene!]]></value>
+  </definition>
+  <definition>
+    <key>error_customer</key>
+    <value><![CDATA[Advarsel: Denne kundegruppe kan ikke slettes som det er i dag tildelt %s kunder!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Template manager]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Suksess: Du har satt en ny butikk mal!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront_templates</key>
+    <value><![CDATA[Tilgjengelige Front Maler]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_extension</key>
+    <value><![CDATA[skjøte Innstillinger]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Feil: Mangler nødvendig parameter i din forespørsel!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advarsel: Du har ikke tillatelse til å endre maler!]]></value>
+  </definition>
+</definitions>

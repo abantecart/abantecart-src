@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[datasett manager]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Suksess: Du har endret meldingslisten!]]></value>
+  </definition>
+  <definition>
+    <key>column_id</key>
+    <value><![CDATA[id]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[datasett Name]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[datasett Key]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Handling]]></value>
+  </definition>
+  <definition>
+    <key>text_dataset_name</key>
+    <value><![CDATA[datasett Name]]></value>
+  </definition>
+  <definition>
+    <key>text_dataset_key</key>
+    <value><![CDATA[datasett Key]]></value>
+  </definition>
+  <definition>
+    <key>text_dataset_properties</key>
+    <value><![CDATA[datasett Properties]]></value>
+  </definition>
+  <definition>
+    <key>text_dataset_column_properties</key>
+    <value><![CDATA[Datasett Kolonne Properties]]></value>
+  </definition>
+  <definition>
+    <key>text_dataset_column_definition</key>
+    <value><![CDATA[datasett kolonner]]></value>
+  </definition>
+  <definition>
+    <key>text_num_rows</key>
+    <value><![CDATA[Datasett Row Count]]></value>
+  </definition>
+  <definition>
+    <key>text_popup_title</key>
+    <value><![CDATA[Informasjon om datasett]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Bekrefte?]]></value>
+  </definition>
+  <definition>
+    <key>text_date</key>
+    <value><![CDATA[Dato]]></value>
+  </definition>
+  <definition>
+    <key>text_show</key>
+    <value><![CDATA[Forestilling]]></value>
+  </definition>
+  <definition>
+    <key>text_repeats</key>
+    <value><![CDATA[Antall repetisjoner:]]></value>
+  </definition>
+</definitions>

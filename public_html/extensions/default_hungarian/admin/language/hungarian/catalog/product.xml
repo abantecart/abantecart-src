@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Termékek]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[Termék]]></value>
+  </definition>
+  <definition>
+    <key>tab_media</key>
+    <value><![CDATA[Média]]></value>
+  </definition>
+  <definition>
+    <key>tab_shipping</key>
+    <value><![CDATA[Szállítás]]></value>
+  </definition>
+  <definition>
+    <key>tab_files</key>
+    <value><![CDATA[Files]]></value>
+  </definition>
+  <definition>
+    <key>tab_relations</key>
+    <value><![CDATA[kapcsolatok]]></value>
+  </definition>
+  <definition>
+    <key>tab_promotions</key>
+    <value><![CDATA[akciók]]></value>
+  </definition>
+  <definition>
+    <key>tab_extensions</key>
+    <value><![CDATA[Extensions]]></value>
+  </definition>
+  <definition>
+    <key>tab_layout</key>
+    <value><![CDATA[Oldal elrendezés]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Siker: Van módosított termékek!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_copy</key>
+    <value><![CDATA[Siker: Sikeresen klón termék <b>%s!</b>]]></value>
+  </definition>
+  <definition>
+    <key>text_error_copy</key>
+    <value><![CDATA[A klónozás nem! Eredeti termék nem áll rendelkezésre]]></value>
+  </definition>
+  <definition>
+    <key>text_plus</key>
+    <value><![CDATA[+]]></value>
+  </definition>
+  <definition>
+    <key>text_minus</key>
+    <value><![CDATA[-]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Alapértelmezett]]></value>
+  </definition>
+  <definition>
+    <key>text_product_summary</key>
+    <value><![CDATA[termék Összegzés]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[image Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_option</key>
+    <value><![CDATA[választási lehetőség]]></value>
+  </definition>
+  <definition>
+    <key>text_option_value</key>
+    <value><![CDATA[opció Érték]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[termék név]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Modell]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Kép]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Mennyiség]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Állapot]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Ár]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akció]]></value>
+  </definition>
+  <definition>
+    <key>entry_featured</key>
+    <value><![CDATA[Kiemelt termék:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Termék név:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_keywords</key>
+    <value><![CDATA[Meta Tag Kulcsszavak:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Meta Tag Leírás:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Leírás:]]></value>
+  </definition>
+  <definition>
+    <key>entry_blurb</key>
+    <value><![CDATA[Fülszöveg:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[üzletek:]]></value>
+  </definition>
+  <definition>
+    <key>entry_keyword</key>
+    <value><![CDATA[SEO Kulcsszó: <br/><span class="help">SEO kulcs, amely megmutatja az URL erről a termékről. Tudod generálni kulcsot termék nevét</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_model</key>
+    <value><![CDATA[Modell:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sku</key>
+    <value><![CDATA[SKU:]]></value>
+  </definition>
+  <definition>
+    <key>entry_location</key>
+    <value><![CDATA[Egyéb Tartózkodási hely:]]></value>
+  </definition>
+  <definition>
+    <key>entry_manufacturer</key>
+    <value><![CDATA[Gyártó:]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[Megköveteli Szállítás:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ship_individually</key>
+    <value><![CDATA[Hajó Termék Egyénileg: <br/><span class="help">termék kerül kiszállításra egy külön csomagot, és további szállítási költség hozzáadódik a rendelés több terméket. Ha engedélyezve van, Fix Szállítási Ár kell állítani.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_price</key>
+    <value><![CDATA[Fix Szállítási Ár: <br/><span class="help">Mesterbeállítás rögzített szállítási ár erre a termékre.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_free_shipping</key>
+    <value><![CDATA[Ingyenes házhozszállítás: <br/><span class="help">Mesterbeállítás, hogy ingyenes szállítás a termékről.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_available</key>
+    <value><![CDATA[Elérhető időpont:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_quantity</key>
+    <value><![CDATA[Mennyiség:]]></value>
+  </definition>
+  <definition>
+    <key>entry_quantity</key>
+    <value><![CDATA[Mennyiség: <br/><span class="help">Connected Track Stock beállítás</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_minimum</key>
+    <value><![CDATA[Minimális mennyiség: <br/><span class="help">Force minimális rendelt mennyiség</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_maximum</key>
+    <value><![CDATA[Maximum Mennyiség: <br/><span class="help">szab határt quantaty amely lehet egy minden megrendelés. 0 = nincs korlátozás</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_status</key>
+    <value><![CDATA[Kifogyott állapota: <br/><span class="help">Állapot látható, ha a termék nincs raktáron</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Állapot:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_class</key>
+    <value><![CDATA[Adó Osztály:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cost</key>
+    <value><![CDATA[Költség: <br/><span class="help">A nagykereskedelmi ára használt profit jelentési</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_price</key>
+    <value><![CDATA[Ár:]]></value>
+  </definition>
+  <definition>
+    <key>entry_track_option_stock</key>
+    <value><![CDATA[A pálya Készlet:]]></value>
+  </definition>
+  <definition>
+    <key>entry_subtract</key>
+    <value><![CDATA[A pálya Készlet: <br/><span class="help">Set IGEN, ha szükség van, hogy nyomon készletek mennyiségét a termékről. Amennyiben az opciók használnak csekket kivonni beállítását minden opció értéke</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_class</key>
+    <value><![CDATA[Súly Osztály:]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight</key>
+    <value><![CDATA[Súly:]]></value>
+  </definition>
+  <definition>
+    <key>entry_length_class</key>
+    <value><![CDATA[Hosszúság Osztály:]]></value>
+  </definition>
+  <definition>
+    <key>entry_length</key>
+    <value><![CDATA[Hossz:]]></value>
+  </definition>
+  <definition>
+    <key>entry_width</key>
+    <value><![CDATA[Szélesség:]]></value>
+  </definition>
+  <definition>
+    <key>entry_height</key>
+    <value><![CDATA[Magasság:]]></value>
+  </definition>
+  <definition>
+    <key>entry_dimension</key>
+    <value><![CDATA[Méretek (L x Sz x H):]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[Kép: <br/><span class="help">Kattintson a képre, hogy megváltoztassa.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[Ügyfél Csoport:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[Dátum Kezdés:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[Dátum Vége:]]></value>
+  </definition>
+  <definition>
+    <key>entry_priority</key>
+    <value><![CDATA[Kiemelten fontos:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option</key>
+    <value><![CDATA[Választási lehetőség:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_name</key>
+    <value><![CDATA[Opció Név:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_value</key>
+    <value><![CDATA[Opció Érték:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Sorrend:]]></value>
+  </definition>
+  <definition>
+    <key>entry_prefix</key>
+    <value><![CDATA[előtag:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_prefix</key>
+    <value><![CDATA[Módosítani Ár szerint:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_price</key>
+    <value><![CDATA[Ár módosító:]]></value>
+  </definition>
+  <definition>
+    <key>entry_category</key>
+    <value><![CDATA[Kategóriák:]]></value>
+  </definition>
+  <definition>
+    <key>entry_download</key>
+    <value><![CDATA[Letöltés:]]></value>
+  </definition>
+  <definition>
+    <key>entry_related</key>
+    <value><![CDATA[Kapcsolódó termékek:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tags</key>
+    <value><![CDATA[Termék címkék: <br/><span class="help">vesszővel elválasztva</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Figyelmeztetés: nincs engedélye módosítani termék!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Termék neve nagyobbnak kell lennie, mint 3 és kevesebb, mint 255 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_model</key>
+    <value><![CDATA[Termék modell kisebbnek kell lennie, mint 64 karakter! Remomended 5-25 karakter]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Szükséges adatok nem lépett. Ellenőrizzük mező hibákat!]]></value>
+  </definition>
+  <definition>
+    <key>error_product_not_found</key>
+    <value><![CDATA[Hiba: A termék nem található!]]></value>
+  </definition>
+  <definition>
+    <key>filter_product</key>
+    <value><![CDATA[Keresés termék]]></value>
+  </definition>
+  <definition>
+    <key>filter_any_word</key>
+    <value><![CDATA[Ezen szavak bármelyikét]]></value>
+  </definition>
+  <definition>
+    <key>filter_all_words</key>
+    <value><![CDATA[Mindezek a szavak]]></value>
+  </definition>
+  <definition>
+    <key>filter_exact_match</key>
+    <value><![CDATA[A pontos kifejezés]]></value>
+  </definition>
+  <definition>
+    <key>filter_all_categories</key>
+    <value><![CDATA[- Minden kategória -]]></value>
+  </definition>
+  <definition>
+    <key>filter_price_max</key>
+    <value><![CDATA[max]]></value>
+  </definition>
+  <definition>
+    <key>text_view</key>
+    <value><![CDATA[Kilátás]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[töröl]]></value>
+  </definition>
+  <definition>
+    <key>text_choose_action</key>
+    <value><![CDATA[művelet kiválasztása]]></value>
+  </definition>
+  <definition>
+    <key>text_clone_selected</key>
+    <value><![CDATA[Clone kiválasztott]]></value>
+  </definition>
+  <definition>
+    <key>text_export_selected</key>
+    <value><![CDATA[export selected]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_selected</key>
+    <value><![CDATA[Kijelöltek eltávolítása]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_selected</key>
+    <value><![CDATA[Módosítja a kiválasztott]]></value>
+  </definition>
+  <definition>
+    <key>text_clone</key>
+    <value><![CDATA[Clone]]></value>
+  </definition>
+  <definition>
+    <key>text_export</key>
+    <value><![CDATA[Export]]></value>
+  </definition>
+  <definition>
+    <key>text_select_category</key>
+    <value><![CDATA[- Válassz kategóriát -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_product</key>
+    <value><![CDATA[- Válasszon terméket -]]></value>
+  </definition>
+  <definition>
+    <key>text_option_name</key>
+    <value><![CDATA[opció neve]]></value>
+  </definition>
+  <definition>
+    <key>text_group_option</key>
+    <value><![CDATA[Csoport opció]]></value>
+  </definition>
+  <definition>
+    <key>text_option_type</key>
+    <value><![CDATA[opció típusa]]></value>
+  </definition>
+  <definition>
+    <key>text_option_values</key>
+    <value><![CDATA[Lehetőség értékek]]></value>
+  </definition>
+  <definition>
+    <key>text_no_option_values</key>
+    <value><![CDATA[Nem Lehetőség Értékek]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_option_values</key>
+    <value><![CDATA[Szerkesztése opció értékét]]></value>
+  </definition>
+  <definition>
+    <key>text_save_option_values</key>
+    <value><![CDATA[Save opció értékét]]></value>
+  </definition>
+  <definition>
+    <key>button_remove_option</key>
+    <value><![CDATA[Távolítsuk opció]]></value>
+  </definition>
+  <definition>
+    <key>text_option_removed</key>
+    <value><![CDATA[opció eltávolítva]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_type</key>
+    <value><![CDATA[tömeg típus]]></value>
+  </definition>
+  <definition>
+    <key>text_product_pagination</key>
+    <value><![CDATA[Termék (ek) {INDÍTÁS} {end} A {} összesen]]></value>
+  </definition>
+  <definition>
+    <key>entry_product_id</key>
+    <value><![CDATA[termék azonosító]]></value>
+  </definition>
+  <definition>
+    <key>error_product_load</key>
+    <value><![CDATA[Figyelmeztetés: nincs termék ilyen azonosítót!]]></value>
+  </definition>
+  <definition>
+    <key>error_attribute_not_selected</key>
+    <value><![CDATA[Kérjük, válassza ki az opciót, hogy adjunk!]]></value>
+  </definition>
+  <definition>
+    <key>error_date</key>
+    <value><![CDATA[&quot;Date End&quot; nem lehet kevesebb, mint a &quot;Dátum Start&quot;!]]></value>
+  </definition>
+  <definition>
+    <key>error_required</key>
+    <value><![CDATA[Ez a mező kötelező!]]></value>
+  </definition>
+  <definition>
+    <key>error_option_in_group</key>
+    <value><![CDATA[Opció nem adható hozzá a termékhez, mivel ez már része egy csoport opció!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_layout</key>
+    <value><![CDATA[Siker: Módosította a termék oldal elrendezését.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_option</key>
+    <value><![CDATA[Siker: Ön módosította termék lehetőséget.]]></value>
+  </definition>
+  <definition>
+    <key>text_add_new_option</key>
+    <value><![CDATA[- Új lehetőség -]]></value>
+  </definition>
+  <definition>
+    <key>entry_required</key>
+    <value><![CDATA[Kívánt:]]></value>
+  </definition>
+  <definition>
+    <key>entry_element_type</key>
+    <value><![CDATA[Elem típusa:]]></value>
+  </definition>
+  <definition>
+    <key>entry_element_values</key>
+    <value><![CDATA[Elem Értékek:]]></value>
+  </definition>
+  <definition>
+    <key>text_expand</key>
+    <value><![CDATA[+ bővíteni]]></value>
+  </definition>
+  <definition>
+    <key>text_hide</key>
+    <value><![CDATA[- elrejt]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_placeholder</key>
+    <value><![CDATA[Helykitöltő:]]></value>
+  </definition>
+  <definition>
+    <key>entry_regexp_pattern</key>
+    <value><![CDATA[Reguláris kifejezés Minta:]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_text</key>
+    <value><![CDATA[Hibaüzenet mintegy érvénytelen Érték:]]></value>
+  </definition>
+  <definition>
+    <key>text_product_condition</key>
+    <value><![CDATA[Termék állapota:]]></value>
+  </definition>
+  <definition>
+    <key>text_product_available</key>
+    <value><![CDATA[Elérhető]]></value>
+  </definition>
+  <definition>
+    <key>text_product_disabled</key>
+    <value><![CDATA[Tiltva]]></value>
+  </definition>
+  <definition>
+    <key>text_product_unavailable</key>
+    <value><![CDATA[Nem érhető el]]></value>
+  </definition>
+  <definition>
+    <key>text_product_out_of_stock</key>
+    <value><![CDATA[Nincs raktáron]]></value>
+  </definition>
+  <definition>
+    <key>text_product_in_stock</key>
+    <value><![CDATA[Raktáron]]></value>
+  </definition>
+  <definition>
+    <key>text_product_option_out_of_stock</key>
+    <value><![CDATA[Termék opció (k) Elfogyott]]></value>
+  </definition>
+  <definition>
+    <key>text_call_to_order</key>
+    <value><![CDATA[Rendreutasít]]></value>
+  </definition>
+  <definition>
+    <key>entry_call_to_order</key>
+    <value><![CDATA[Blokk Termék elrendelésétől: <br/><span class="help">Ez tesz termék megjelenítési üzemmódot csak nem képes rendelni. Vegye fel velünk a rendelési üzenet jelenik meg.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_new_option</key>
+    <value><![CDATA[új lehetőség]]></value>
+  </definition>
+  <definition>
+    <key>text_total_orders</key>
+    <value><![CDATA[Összes rendelés]]></value>
+  </definition>
+  <definition>
+    <key>error_measure_value</key>
+    <value><![CDATA[A határérték 999,99 elérte. Adjon kisebb számot.]]></value>
+  </definition>
+  <definition>
+    <key>error_weight_value</key>
+    <value><![CDATA[A terméket a hajózás. Kérjük, állítsa be tömegüket.]]></value>
+  </definition>
+  <definition>
+    <key>error_weight_class</key>
+    <value><![CDATA[Kérjük, állítsa be a súlycsoportban.]]></value>
+  </definition>
+  <definition>
+    <key>entry_allowed_extensions</key>
+    <value><![CDATA[Megengedett fájl kiterjesztések (txt, jpg ...)]]></value>
+  </definition>
+  <definition>
+    <key>entry_min_size</key>
+    <value><![CDATA[Min fájl mérete (Kb)]]></value>
+  </definition>
+  <definition>
+    <key>entry_max_size</key>
+    <value><![CDATA[Maximális fájlméret (Kb)]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_dir</key>
+    <value><![CDATA[Feltöltési könyvtár neve <br/> %s]]></value>
+  </definition>
+  <definition>
+    <key>text_success_relation_set</key>
+    <value><![CDATA[Kapcsolatok a kiválasztott termékek állították sikeresen!]]></value>
+  </definition>
+</definitions>

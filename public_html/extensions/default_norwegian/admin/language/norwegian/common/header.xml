@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Administrasjon]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[Gjenopprette fra sikkerhetskopi]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Velkommen, <b>%s</b>]]></value>
+  </definition>
+  <definition>
+    <key>text_last_login</key>
+    <value><![CDATA[Siste pålogging: %s]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_details</key>
+    <value><![CDATA[Rediger Profil Detaljer]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_notifications</key>
+    <value><![CDATA[Rediger Varslingsinnstillinger]]></value>
+  </definition>
+  <definition>
+    <key>text_catalog</key>
+    <value><![CDATA[Katalog]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[kategorier]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Bekrefte?]]></value>
+  </definition>
+  <definition>
+    <key>text_country</key>
+    <value><![CDATA[land]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[kuponger]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[rabatter]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[valuta]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[kunder]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_group</key>
+    <value><![CDATA[kunde grupper]]></value>
+  </definition>
+  <definition>
+    <key>text_dashboard</key>
+    <value><![CDATA[dashbord]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Nedlastinger]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[feil]]></value>
+  </definition>
+  <definition>
+    <key>text_extension</key>
+    <value><![CDATA[utvidelser]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_short</key>
+    <value><![CDATA[utvidelser]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[Storefront]]></value>
+  </definition>
+  <definition>
+    <key>text_location</key>
+    <value><![CDATA[steder]]></value>
+  </definition>
+  <definition>
+    <key>text_help</key>
+    <value><![CDATA[Hjelp]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[Informasjon]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[språk]]></value>
+  </definition>
+  <definition>
+    <key>text_language_definitions</key>
+    <value><![CDATA[språk Definisjoner]]></value>
+  </definition>
+  <definition>
+    <key>text_localisation</key>
+    <value><![CDATA[lokalisering]]></value>
+  </definition>
+  <definition>
+    <key>text_logged</key>
+    <value><![CDATA[Du er logget inn som <span>%s</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Logg ut]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Send e-post]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturer</key>
+    <value><![CDATA[produsenter]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Bestillinger]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[bestillingsstatuser]]></value>
+  </definition>
+  <definition>
+    <key>text_abantecart</key>
+    <value><![CDATA[hjemmeside]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[betalinger]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[Produkter]]></value>
+  </definition>
+  <definition>
+    <key>text_reports</key>
+    <value><![CDATA[Reports]]></value>
+  </definition>
+  <definition>
+    <key>text_online</key>
+    <value><![CDATA[på nett]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[transaksjoner]]></value>
+  </definition>
+  <definition>
+    <key>text_tax</key>
+    <value><![CDATA[Avgift]]></value>
+  </definition>
+  <definition>
+    <key>text_report_purchased</key>
+    <value><![CDATA[produkter Kjøpt]]></value>
+  </definition>
+  <definition>
+    <key>text_report_sale</key>
+    <value><![CDATA[salgs]]></value>
+  </definition>
+  <definition>
+    <key>text_analytics</key>
+    <value><![CDATA[Analytics og innsikt]]></value>
+  </definition>
+  <definition>
+    <key>text_report_viewed</key>
+    <value><![CDATA[produkter Vist]]></value>
+  </definition>
+  <definition>
+    <key>text_review</key>
+    <value><![CDATA[anmeldelser]]></value>
+  </definition>
+  <definition>
+    <key>text_sale</key>
+    <value><![CDATA[salgs]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Shipping]]></value>
+  </definition>
+  <definition>
+    <key>text_setting</key>
+    <value><![CDATA[innstillinger]]></value>
+  </definition>
+  <definition>
+    <key>text_stock_status</key>
+    <value><![CDATA[aksje stat]]></value>
+  </definition>
+  <definition>
+    <key>text_support</key>
+    <value><![CDATA[Forum]]></value>
+  </definition>
+  <definition>
+    <key>text_system</key>
+    <value><![CDATA[System]]></value>
+  </definition>
+  <definition>
+    <key>text_tax_class</key>
+    <value><![CDATA[skatte klasser]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Bestill Totals]]></value>
+  </definition>
+  <definition>
+    <key>text_user</key>
+    <value><![CDATA[brukere]]></value>
+  </definition>
+  <definition>
+    <key>text_documentation</key>
+    <value><![CDATA[dokumentasjon]]></value>
+  </definition>
+  <definition>
+    <key>text_users</key>
+    <value><![CDATA[brukere]]></value>
+  </definition>
+  <definition>
+    <key>text_user_group</key>
+    <value><![CDATA[brukergrupper]]></value>
+  </definition>
+  <definition>
+    <key>text_weight_class</key>
+    <value><![CDATA[vektklasser]]></value>
+  </definition>
+  <definition>
+    <key>text_length_class</key>
+    <value><![CDATA[lengde Klasser]]></value>
+  </definition>
+  <definition>
+    <key>text_zone</key>
+    <value><![CDATA[soner]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[alle Extensions]]></value>
+  </definition>
+  <definition>
+    <key>text_add_extension</key>
+    <value><![CDATA[Installer Extension]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_store</key>
+    <value><![CDATA[Få Extensions]]></value>
+  </definition>
+  <definition>
+    <key>text_migrate</key>
+    <value><![CDATA[Migration Tool]]></value>
+  </definition>
+  <definition>
+    <key>text_updater</key>
+    <value><![CDATA[Updater]]></value>
+  </definition>
+  <definition>
+    <key>text_design</key>
+    <value><![CDATA[Design]]></value>
+  </definition>
+  <definition>
+    <key>text_templates</key>
+    <value><![CDATA[maler]]></value>
+  </definition>
+  <definition>
+    <key>text_layout</key>
+    <value><![CDATA[utforminger]]></value>
+  </definition>
+  <definition>
+    <key>text_blocks</key>
+    <value><![CDATA[blokker]]></value>
+  </definition>
+  <definition>
+    <key>text_menu</key>
+    <value><![CDATA[Meny]]></value>
+  </definition>
+  <definition>
+    <key>text_cache</key>
+    <value><![CDATA[cache]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[meldinger]]></value>
+  </definition>
+  <definition>
+    <key>text_content</key>
+    <value><![CDATA[Innhold]]></value>
+  </definition>
+  <definition>
+    <key>text_datasets_manager</key>
+    <value><![CDATA[datasett]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[Installer / oppgradering Historie]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute</key>
+    <value><![CDATA[globale attributter]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute_groups</key>
+    <value><![CDATA[Globale attributter Grupper]]></value>
+  </definition>
+  <definition>
+    <key>text_import_export</key>
+    <value><![CDATA[Import Eksport]]></value>
+  </definition>
+  <definition>
+    <key>text_data</key>
+    <value><![CDATA[Data]]></value>
+  </definition>
+  <definition>
+    <key>text_logs</key>
+    <value><![CDATA[logger]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_edit_form</key>
+    <value><![CDATA[Hurtig Rediger skjema]]></value>
+  </definition>
+  <definition>
+    <key>text_all_matches</key>
+    <value><![CDATA[alle kampene]]></value>
+  </definition>
+  <definition>
+    <key>text_file_uploads</key>
+    <value><![CDATA[filopplasting]]></value>
+  </definition>
+  <definition>
+    <key>text_all_settings</key>
+    <value><![CDATA[alle innstillinger]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_details</key>
+    <value><![CDATA[Lagre Detaljer]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_general</key>
+    <value><![CDATA[Generell]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_checkout</key>
+    <value><![CDATA[Sjekk ut]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_appearance</key>
+    <value><![CDATA[Utseende]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_mail</key>
+    <value><![CDATA[Post]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_im</key>
+    <value><![CDATA[JEG ER]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_api</key>
+    <value><![CDATA[API]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_system</key>
+    <value><![CDATA[System]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_newstore</key>
+    <value><![CDATA[Opprett New Store]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_command_prompt</key>
+    <value><![CDATA[Voice Command Prompt.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_select_dialect</key>
+    <value><![CDATA[Velg dialekt]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_confirm_action</key>
+    <value><![CDATA[Bekreft denne handlingen eller avbestille]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_speak_now</key>
+    <value><![CDATA[Snakk nå.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_speach_detected</key>
+    <value><![CDATA[Ingen tale ble oppdaget. Du må kanskje justere <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">en #### 1amp; answer = 1407892 &quot;&gt; mikrofoninnstillingene</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_mic_detected</key>
+    <value><![CDATA[Ingen mikrofon ble funnet. Kontroller at en mikrofon er installert, og at <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">en #### 1amp; answer = 1407892 &quot;&gt; mikrofoninnstillinger</a> er konfigurert riktig.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_click_allow</key>
+    <value><![CDATA[Klikk på &quot;Tillat&quot; knappen over for å aktivere mikrofonen.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_denied</key>
+    <value><![CDATA[Tillatelse til å bruke mikrofonen ble nektet.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_permission</key>
+    <value><![CDATA[Tillatelse til å bruke mikrofonen er blokkert. For å endre, gå til nettleserens <a href="chrome://settings/contentExceptions#media-stream">mediainnstillinger</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_not_supported</key>
+    <value><![CDATA[Talestyring er ikke støttet av denne nettleseren. <a href="//www.google.com/chrome" target="_new">Chrome</a> versjon 25 eller nyere kreves.]]></value>
+  </definition>
+  <definition>
+    <key>text_tasks</key>
+    <value><![CDATA[Planlagte oppgaver]]></value>
+  </definition>
+  <definition>
+    <key>text_read_all_messages</key>
+    <value><![CDATA[Les alle meldinger]]></value>
+  </definition>
+  <definition>
+    <key>text_short_stats</key>
+    <value><![CDATA[Hurtig Stats]]></value>
+  </definition>
+  <definition>
+    <key>text_online_now</key>
+    <value><![CDATA[online-kunder]]></value>
+  </definition>
+  <definition>
+    <key>text_online_new</key>
+    <value><![CDATA[Ny]]></value>
+  </definition>
+  <definition>
+    <key>text_online_registered</key>
+    <value><![CDATA[Logget inn]]></value>
+  </definition>
+  <definition>
+    <key>text_today_orders</key>
+    <value><![CDATA[Nye bestillinger i dag]]></value>
+  </definition>
+  <definition>
+    <key>text_today_sales</key>
+    <value><![CDATA[Totalt salget i dag]]></value>
+  </definition>
+  <definition>
+    <key>text_today_customers</key>
+    <value><![CDATA[Nye kunder i dag]]></value>
+  </definition>
+  <definition>
+    <key>text_today_reviews</key>
+    <value><![CDATA[Nye vurderinger i dag]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_manager</key>
+    <value><![CDATA[Media manager]]></value>
+  </definition>
+  <definition>
+    <key>text_server_time</key>
+    <value><![CDATA[Server Tid]]></value>
+  </definition>
+</definitions>

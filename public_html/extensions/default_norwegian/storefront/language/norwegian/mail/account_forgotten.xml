@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Reset passord]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[En tilbakestilling av passord ble bedt om fra %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[For å tilbakestille passordet ditt, klikk linken nedenfor:]]></value>
+  </definition>
+  <definition>
+    <key>text_password_reset</key>
+    <value><![CDATA[Ditt passord er tilbakestilt på %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_password</key>
+    <value><![CDATA[Skriv inn ditt nye passord nedenfor:]]></value>
+  </definition>
+  <definition>
+    <key>error_reset_token</key>
+    <value><![CDATA[Feil link for passord forespørsel. Prøv å tilbakestille en gang til og bruk link fra siste e-post.]]></value>
+  </definition>
+</definitions>

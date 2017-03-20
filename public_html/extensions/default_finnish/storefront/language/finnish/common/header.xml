@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_home</key>
+    <value><![CDATA[Koti]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[Erikoistarjouksia]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Ottaa yhteyttä]]></value>
+  </definition>
+  <definition>
+    <key>text_sitemap</key>
+    <value><![CDATA[Sivukartta]]></value>
+  </definition>
+  <definition>
+    <key>text_bookmark</key>
+    <value><![CDATA[Kirjanmerkki]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Tili]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Kirjaudu sisään]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Kirjaudu ulos]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[kori]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Tarkista]]></value>
+  </definition>
+  <definition>
+    <key>text_keyword</key>
+    <value><![CDATA[Avainsanat]]></value>
+  </definition>
+  <definition>
+    <key>text_advanced</key>
+    <value><![CDATA[Tarkennettu Haku]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[kaikki kategoriat]]></value>
+  </definition>
+  <definition>
+    <key>entry_search</key>
+    <value><![CDATA[Hae:]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Tervetuloa takaisin]]></value>
+  </definition>
+  <definition>
+    <key>text_not</key>
+    <value><![CDATA[Ei]]></value>
+  </definition>
+  <definition>
+    <key>text_login_or_register</key>
+    <value><![CDATA[Kirjaudu tai rekisteröidy]]></value>
+  </definition>
+</definitions>

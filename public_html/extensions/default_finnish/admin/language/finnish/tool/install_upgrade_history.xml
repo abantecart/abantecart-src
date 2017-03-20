@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[asentaa / Päivitys historia]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[Tyyppi]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[lisäyspäivämäärä]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[paketti Key]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[Versio]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_date</key>
+    <value><![CDATA[Backup Date]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_file</key>
+    <value><![CDATA[varmuuskopiotiedosto]]></value>
+  </definition>
+  <definition>
+    <key>column_user</key>
+    <value><![CDATA[käyttäjätunnus]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Lataa tiedosto]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_history</key>
+    <value><![CDATA[Poista historia]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_success</key>
+    <value><![CDATA[Your Asenna / Päivitä historia on poistettu onnistuneesti.]]></value>
+  </definition>
+</definitions>

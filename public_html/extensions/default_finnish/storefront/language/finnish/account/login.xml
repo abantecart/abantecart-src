@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Tilille kirjautuminen]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[rekisteröi tili]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Kirjaudu sisään]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_new_customer</key>
+    <value><![CDATA[Olen uusi asiakas.]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Kassavaihtoehdot:]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[Guest Kassalle]]></value>
+  </definition>
+  <definition>
+    <key>text_create_account</key>
+    <value><![CDATA[Luomalla tilin voit tehdä ostoksia nopeammin, ajan tasalla tilauksen tilan, ja seurata tilauksia olet aiemmin tehnyt.]]></value>
+  </definition>
+  <definition>
+    <key>text_returning_customer</key>
+    <value><![CDATA[palaava asiakas]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_returning_customer</key>
+    <value><![CDATA[Olen palaava asiakas.]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_login</key>
+    <value><![CDATA[Unohtuiko salasana?]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_password</key>
+    <value><![CDATA[Unohditko salasanasi?]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Kirjautumisnimi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email_address</key>
+    <value><![CDATA[Sähköpostiosoite:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Salasana:]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Virhe: Väärä kirjautuminen tai salasanaa.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_activated</key>
+    <value><![CDATA[Success: Tilisi on aktivoitu onnistuneesti. Kirjaudu käyttäjätiedot.]]></value>
+  </definition>
+  <definition>
+    <key>text_already_activated</key>
+    <value><![CDATA[Tilisi on jo aktivoitu. Kirjaudu käyttäjätiedot.]]></value>
+  </definition>
+  <definition>
+    <key>text_resend_activation_email</key>
+    <value><![CDATA[Virhe: Sähköpostiosoitteesi ei ollut vielä vahvistettu. Voit lähettää uuden vahvistuksen sähköpostitse klikkaa tätä <a href=" %s ">linkkiä</a>]]></value>
+  </definition>
+</definitions>

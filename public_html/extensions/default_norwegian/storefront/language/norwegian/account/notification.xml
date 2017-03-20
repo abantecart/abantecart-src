@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Varsler og nyhetsbrev]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Konto]]></value>
+  </definition>
+  <definition>
+    <key>text_notifications</key>
+    <value><![CDATA[Varsler]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Suksess: varselinnstillingene har blitt oppdatert!]]></value>
+  </definition>
+  <definition>
+    <key>text_sendpoint</key>
+    <value><![CDATA[Varsler]]></value>
+  </definition>
+</definitions>

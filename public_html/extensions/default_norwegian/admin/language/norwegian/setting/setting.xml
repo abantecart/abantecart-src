@@ -1,0 +1,915 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[innstillinger]]></value>
+  </definition>
+  <definition>
+    <key>column_store_alias</key>
+    <value><![CDATA[butikk]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[Gruppe]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[Nøkkel]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Verdi]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Suksess: Du har lagret innstillingene dine!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[image manager]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- Velg Group -]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Misligholde]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store_settings</key>
+    <value><![CDATA[Rediger innstillinger:]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_template_settings</key>
+    <value><![CDATA[Rediger mal Innstillinger:]]></value>
+  </definition>
+  <definition>
+    <key>text_common_template_settings</key>
+    <value><![CDATA[mal Selection]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[Rediger Butikk]]></value>
+  </definition>
+  <definition>
+    <key>text_mail</key>
+    <value><![CDATA[Post]]></value>
+  </definition>
+  <definition>
+    <key>text_smtp</key>
+    <value><![CDATA[SMTP]]></value>
+  </definition>
+  <definition>
+    <key>tab_all</key>
+    <value><![CDATA[Alle]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Butikk navn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[Oppbevares URL: <br/><span class="help">Ta den fullstendige nettadressen til butikken din. Sørg for å legge til &quot;/&quot; på slutten. Eksempel: http://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_owner</key>
+    <value><![CDATA[Butikkeier:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address</key>
+    <value><![CDATA[Adresse:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-post:]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_emails</key>
+    <value><![CDATA[Andre e-postvarsler: <br/><span class="help">Eventuelle ytterligere e-post du ønsker å motta varsling e-post, i tillegg til hoved lagre e-post. (kommaseparert)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[Telefon:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Fax:]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Tittel: <br/><span class="help">Dette vises i utstillingsvinduet leseren tittel</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Meta Tag Beskrivelse: <br/><span class="help">Storefront hovedsiden meta tag beskrivelse</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_keywords</key>
+    <value><![CDATA[Meta Nøkkelord: <br/><span class="help">Front hovedsiden meta tag søkeord (kommaseparert)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Velkommen Melding:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[Mal: <span class="help">Storefront mal. Dette kan være hoved eller forlengelse mal</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_template</key>
+    <value><![CDATA[Kontrollpanel Mal:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Land:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Region / State:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Storefront Språk:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_language</key>
+    <value><![CDATA[Administrasjon Språk: <span class="help">MERK: fungerer hvis noen ønsket språk er funnet i nettleseren</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency</key>
+    <value><![CDATA[Basisvaluta: <span class="help">Dette er en basisvaluta for alle butikkene. Ikke endre hvis du ikke forstår hva som vil skje. Advarsel: Endring av basisvaluta vil ikke endre basispriser for produktene. Du må gjennomgå og justere alle priser hvis nødvendig. Base valutakursen vil bli satt til 1,00 og alle andre valutaer valutakurser vil bli justert i forhold til ny basisvaluta.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency_auto</key>
+    <value><![CDATA[Automatisk oppdatering Valuta: <br/><span class="help">Sett butikken for å automatisk oppdatere valutaer daglig. Yahoo-server.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_class</key>
+    <value><![CDATA[Vekt klasse:]]></value>
+  </definition>
+  <definition>
+    <key>entry_length_class</key>
+    <value><![CDATA[Lengde Klasse:]]></value>
+  </definition>
+  <definition>
+    <key>entry_auto_translate_status</key>
+    <value><![CDATA[Automatisk oversetting Status: <br/><span class="help">Dette gjorde oversettelsen av manglende tekst definisjoner eller språkspesifikke data om tekstverdier mangler for brukte språket.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_src_lang_code</key>
+    <value><![CDATA[Kildespråk for oversettelse: <br/><span class="help">Velg kildespråk som skal brukes til autotranslation.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method</key>
+    <value><![CDATA[Tekst Oversettelse Metode: <br/><span class="help">Velg metoden du vil bruke for oversettelse. Standardmetoden er en rett kopi av kildespråk tekst</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_override_existing</key>
+    <value><![CDATA[Styre dersom kilde språk teksten ble endret: <br/><span class="help">Hvis satt, vil teksten på alle språk bli erstattet med nye oversettelsen hvis kilden språket teksten er redigert. MERK: Kan forårsake mange oversettelser.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_warn_lang_text_missing</key>
+    <value><![CDATA[Advar for manglende språktekst: <br/><span class="help">Få advarsel om manglende språk teksten er oppdaget.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Skjerm Priser Med Skatt:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store</key>
+    <value><![CDATA[Standard butikken Skattesats:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_0</key>
+    <value><![CDATA[Nei Tax]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_1</key>
+    <value><![CDATA[Butikk Standard Zone]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer</key>
+    <value><![CDATA[Bruk Kunde Skatt Adresse:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_0</key>
+    <value><![CDATA[Sendingsadresse]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_1</key>
+    <value><![CDATA[fakturaadresse]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice</key>
+    <value><![CDATA[Faktura Start-nr .: <br/><span class="help">Sett startnummer fakturaene vil begynne fra.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice_prefix</key>
+    <value><![CDATA[Faktura Prefix: <br/><span class="help">Sett fakturaen prefikset f.eks IN / 001</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[Kundegruppe: <br/><span class="help">Standard kundegruppe.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_price</key>
+    <value><![CDATA[Logg inn Skjerm Priser: <br/><span class="help">Vis priser selv om kunden ikke er logget inn.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_approval</key>
+    <value><![CDATA[Godkjenne nye kunder: <br/><span class="help">Ikke la ny kunde for å logge inn til sin konto har blitt godkjent.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_prevent_email_as_login</key>
+    <value><![CDATA[Krev Login Name: <br/><span class="help">For å bedre sikkerheten, kreve kundene for å skape unike innloggingsnavn i stedet for å bruke e-postadressen som påloggingsnavn. Hvis satt til ON, vil eksisterende kunder bedt om å opprette et nytt påloggingsnavn ved første pålogging. Hvis OFF er påloggingsnavnet satt som kunde e-postadresse.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_guest_checkout</key>
+    <value><![CDATA[Gjeste Checkout: <br/><span class="help">La kundene til kassa uten å opprette en konto. Dette vil ikke være tilgjengelig når et nedlastbart produkt er i handlekurven.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_account</key>
+    <value><![CDATA[Kontovilkår: <br/><span class="help">Tvinger folk til å godta vilkårene før en konto kan opprettes.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_checkout</key>
+    <value><![CDATA[Kasse ord: <br/><span class="help">Tvinger folk til å godta vilkårene før en kunde kan kassa.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_status</key>
+    <value><![CDATA[Order Status: <br/><span class="help">Angi standard ordrestatus når en ordre blir behandlet.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_cancelation_order_status</key>
+    <value><![CDATA[La kunden å kansellere bestillingen på Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_display</key>
+    <value><![CDATA[Skjerm lager: <br/><span class="help">-skjerm lager kvantitet på produktsiden.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_nostock_autodisable</key>
+    <value><![CDATA[Ingen lager Auto Deaktiver: <br/><span class="help">Deaktiver produktet eller opsjonsverdien for visning hvis aksjen faller til 0. Message varsling vil bli sendt</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_checkout</key>
+    <value><![CDATA[Stock Checkout: <br/><span class="help">La kundene fortsatt kassa hvis de produktene de bestiller ikke er på lager.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_status</key>
+    <value><![CDATA[Stock Status: <br/><span class="help">Standardinnstillingen for utsolgt statusmelding for produktet. Brukes på produktredigeringssiden.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_logo</key>
+    <value><![CDATA[Butikk Logo:]]></value>
+  </definition>
+  <definition>
+    <key>entry_icon</key>
+    <value><![CDATA[Ikon: <br/><span class="help">Ikonet kan være en PNG eller ICON type som er 16px x 16px.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_width</key>
+    <value><![CDATA[Bredde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_height</key>
+    <value><![CDATA[Høyde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb</key>
+    <value><![CDATA[Produktbilde Thumb størrelse:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_width</key>
+    <value><![CDATA[Produktbilde Thumb Bredde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_height</key>
+    <value><![CDATA[Produktbilde Thumb Høyde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup</key>
+    <value><![CDATA[Produktbilde Popup Størrelse:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_width</key>
+    <value><![CDATA[Stort vindus Preview Bredde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_height</key>
+    <value><![CDATA[Stort vindus Preview Høyde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category</key>
+    <value><![CDATA[Kategoriliste Størrelse:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_width</key>
+    <value><![CDATA[Kategoriliste Bredde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_height</key>
+    <value><![CDATA[Kategoriliste Høyde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_width</key>
+    <value><![CDATA[Brand Icon List Bredde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_height</key>
+    <value><![CDATA[Brand Icon List Høyde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product</key>
+    <value><![CDATA[Produktliste Størrelse:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_height</key>
+    <value><![CDATA[Produktliste Høyde: <br/><span class="help">Dette er for å kontrollere høyden på en forhåndsvisning i oppføringen sider av admin og andre steder i utstillingsvinduet. Merk Denne innstillingen delt mellom admin og standardutstillingsvinduet mal.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_width</key>
+    <value><![CDATA[Produktliste Bredde: <br/><span class="help">Dette er for å kontrollere bredden på en forhåndsvisning i oppføringen sider av admin og andre steder i utstillingsvinduet. Merk Denne innstillingen delt mellom admin og standardutstillingsvinduet mal.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional</key>
+    <value><![CDATA[Tilleggsproduktbilde Størrelse:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_width</key>
+    <value><![CDATA[Tilleggsproduktbilde Bredde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_height</key>
+    <value><![CDATA[Tilleggsproduktbilde Høyde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related</key>
+    <value><![CDATA[Relatert Produktbilde Størrelse:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_width</key>
+    <value><![CDATA[Relatert Produktbilde Bredde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_height</key>
+    <value><![CDATA[Relatert Produktbilde Høyde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart</key>
+    <value><![CDATA[Handlekurv Bildestørrelse:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_width</key>
+    <value><![CDATA[Handlekurv Image Width:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_height</key>
+    <value><![CDATA[Handlekurv Image Height:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid</key>
+    <value><![CDATA[Grid Bildestørrelse:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_width</key>
+    <value><![CDATA[Grid Image Width: <br/><span class="help">Dette er for å kontrollere bredden på en svært liten forhåndsvisning i oppføringen nett av admin og andre steder i utstillingsvinduet. Merk Denne innstillingen delt mellom admin og standardutstillingsvinduet mal.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_height</key>
+    <value><![CDATA[Grid Image Height: <br/><span class="help">Dette er for å kontrollere høyden på en veldig liten forhåndsvisning i oppføringen nett av admin og andre steder i utstillingsvinduet. Merk Denne innstillingen delt mellom admin og standardutstillingsvinduet mal.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_mail</key>
+    <value><![CDATA[Alert Mail: <br/><span class="help">Send en e-post til butikken eieren når en ny ordre blir opprettet.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_download</key>
+    <value><![CDATA[Tillat Downloads:]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_status</key>
+    <value><![CDATA[Last Order Status: <br/><span class="help">Sett ordrestatus kundene bestille må nå før de får lov til å få tilgang til sine nedlastbare produkter.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_protocol</key>
+    <value><![CDATA[Mail Protokoll: <span class="help">Mail: Standardserver postserveren vil bli brukt. Pass på at den er konfigurert og i stand til å sende e-post med PHP post.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_parameter</key>
+    <value><![CDATA[Mail Parametere: <span class="help">Når</span> du <span class="help">bruker &#39;Mail&#39;, flere postparametrene kan legges her (for eksempel &quot;-femail@storeaddress.com&quot;.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_host</key>
+    <value><![CDATA[SMTP Host: <br/><span class="help">Bruk SSL: //smtp.yourdomain.com for sikker smtp tilkobling</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_username</key>
+    <value><![CDATA[SMTP Brukernavn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_password</key>
+    <value><![CDATA[SMTP Passord:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_port</key>
+    <value><![CDATA[SMTP Port:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_timeout</key>
+    <value><![CDATA[SMTP Timeout:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[Bruk SSL: <br/><span class="help">Hvis du vil bruke SSL sjekk med verten om et SSL-sertifikat er installert.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_session_ttl</key>
+    <value><![CDATA[Kontrollpanel Session Utløp: <br/><span class="help">Denne verdien kontrollerer tidsintervall i minutter før du blir bedt om å logge inn igjen på grunn av ingen aktivitet.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_encryption</key>
+    <value><![CDATA[Krypteringsnøkkel: <br/><span class="help">Innstilling migrert til config fil som starter i v1.2.1.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_seo_url</key>
+    <value><![CDATA[Bruk SEO URL-er: <br/><span class="help">For å bruke SEO URL-er apache modul mod-omskriving må installeres og du trenger å endre navn på htaccess.txt til .htaccess. Merk: Hvis abantecart ikke installert i roten av domenet må endres RewriteBase regel inne Htaccess fil.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_retina_enable</key>
+    <value><![CDATA[Genererer høyoppløselig (retina) bilder: <br/><span class="help">For å bruke denne apache modul mod-omskriving må installeres og du trenger å endre navn på htaccess.txt til .htaccess. Merk: Hvis abantecart ikke installert i roten av domenet må endres RewriteBase regel inne Htaccess fil. <br/> Når du har aktivert bør tømme bufferen bilder.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_quality</key>
+    <value><![CDATA[JPEG-bilder Komprimeringsnivå]]></value>
+  </definition>
+  <definition>
+    <key>entry_compression</key>
+    <value><![CDATA[Utgang Komprimeringsnivå: <br/><span class="help">GZIP for mer effektiv overføring til ber kunder. Komprimeringsnivå må være mellom 0 - 9</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_display</key>
+    <value><![CDATA[Skjerm feil: <br/><span class="help">Sett til ja hvis du ønsker å se unntakene og feil</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_log</key>
+    <value><![CDATA[Logg Feil: <br/><span class="help">Sett til ja hvis du ønsker å lagre unntak og feil til loggen</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_enable_reviews</key>
+    <value><![CDATA[Aktiver Anmeldelser: <br/><span class="help"></span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cache_enable</key>
+    <value><![CDATA[Cache aktivert: <br/><span class="help">Vær forsiktig når du deaktivere caching. Bufrede sider vil ikke bli gjenopprettet, og området kan starte lasting treg.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_cache_drivers</key>
+    <value><![CDATA[Foreløpig bruker cache <b>%s</b> driver. Andre drivere tilgjengelig for konfigurasjon er <i>%s</i>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_status</key>
+    <value><![CDATA[Storefront API status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_key</key>
+    <value><![CDATA[Storefront API-nøkkel: <br/><span class="help">Sett denne tasten for å gi begrenset (sikrere) tilgang til utstillingsvinduet API.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_stock_check</key>
+    <value><![CDATA[Storefront API Stock tilgang: <br/><span class="help">Aktiver hvis du tillater utstillingsvinduet API for å sjekke lagerbeholdning</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_status</key>
+    <value><![CDATA[Admin API status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_key</key>
+    <value><![CDATA[Admin API-nøkkel: <br/><span class="help">Sett denne tasten for å gi begrenset (sikrere) tilgang til admin API.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_access_ip_list</key>
+    <value><![CDATA[Admin API Tilgang IPer: <br/><span class="help">Gi liste over IP-adresser (kommaseparert) som vil få lov til å få tilgang til admin API. Andre IP-adresser vil bli blokkert</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_max_size</key>
+    <value><![CDATA[Resource Library Last opp Max filstørrelse, kB]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug</key>
+    <value><![CDATA[Vis Debug Info: <br/><span class="help">Sett denne på hvis du ønsker å se henrettelsen detaljer og vise feilsøkingsdetaljer.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_0</key>
+    <value><![CDATA[Av]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_1</key>
+    <value><![CDATA[Forestilling]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_2</key>
+    <value><![CDATA[Logg]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level</key>
+    <value><![CDATA[Debug Nivå: <br/><span class="help">Velg dybden av detaljene du trenger å se i avlusningsinformasjon.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_0</key>
+    <value><![CDATA[Nivå 0 - ingen logger, bare unntak feil]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_1</key>
+    <value><![CDATA[Nivå 1 - feil og advarsler]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_2</key>
+    <value><![CDATA[Nivå 2 - # 1 + mysql nettstedet belastning, php fil kjøretid og sideelementer laste tid]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_3</key>
+    <value><![CDATA[Nivå 3 - # 2 + grunnleggende stokker og stable på utførelsen]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_4</key>
+    <value><![CDATA[Nivå 4 - # 3 + tipp mysql uttalelser]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_5</key>
+    <value><![CDATA[Nivå 5 - # 4 + mellom variabel]]></value>
+  </definition>
+  <definition>
+    <key>entry_template_debug</key>
+    <value><![CDATA[Mal debug: <br/><span class="help">Aktiver denne innstillingen hvis du trenger å sjekke problemer med malen i utstillingsvinduet og kontrollpanelet.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_filename</key>
+    <value><![CDATA[Feillogg Filnavn: <br/><span class="help">Dette er en fil der feil blir lagret.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_session</key>
+    <value><![CDATA[Bruk Shipping Session: <br/><span class="help">Sparer frakt sitater til sesjon for å unngå re-siterer unødvendig. Sitater vil bare bli re-sitert hvis cart eller adresse endres.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_catalog_limit</key>
+    <value><![CDATA[Standard Elementer per side (Utstillingsvinduet): <br/><span class="help">Sett hvor mange utstillingsvinduet elementer vises per side (produkter, kategorier, etc)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_limit</key>
+    <value><![CDATA[Standard Elementer per side (admin): <br/><span class="help">Sett hvor mange admin elementer vises per side i liste rutenett (ordrer, kunder, etc)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_bestseller_limit</key>
+    <value><![CDATA[Antall i Bestseller Block]]></value>
+  </definition>
+  <definition>
+    <key>entry_featured_limit</key>
+    <value><![CDATA[Antall i Utvalgte Block]]></value>
+  </definition>
+  <definition>
+    <key>entry_latest_limit</key>
+    <value><![CDATA[Antall i Siste Block]]></value>
+  </definition>
+  <definition>
+    <key>entry_special_limit</key>
+    <value><![CDATA[Antall i Special Block]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_weight</key>
+    <value><![CDATA[Skjerm Vekt på kurven Side: <br/><span class="help">Vis handlekurven vekt på vognen side</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_reviews</key>
+    <value><![CDATA[Tillat Anmeldelser: <br/><span class="help">Aktiver / deaktiver ny gjennomgang innskriving og visning av eksisterende vurderinger</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_maintenance</key>
+    <value><![CDATA[Vedlikeholdsmodus: <br/><span class="help">Hindrer kunder fra å surfe butikken din. De vil i stedet se en vedlikeholdsmelding. Hvis logget inn som administrator, vil du se den butikken som normalt.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_voicecontrol</key>
+    <value><![CDATA[Talekontroll: <br/><span class="help">Aktiver admin talestyring for å aktivere talekommandoer funksjonen. Støttes bare tiden i Chrome versjon 25 eller senere.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_help_links</key>
+    <value><![CDATA[Hjelp Links: <br/><span class="help">Hvis du vil se hjelpeikoner og linker til AbanteCart stedet. Dette vil hjelpe deg å lære om funksjoner og hvordan du bruker dem. Hvis du avansert bruker og ønsker ikke å se disse hjelpeikoner, kan du deaktivere.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_show_tree_data</key>
+    <value><![CDATA[Aktiver Tre Grid: <br/><span class="help">Aktiverer admin rutenett for å vise foreldre / barn-typer i ett rutenett oppføring. MERK: paginering og multi-handlinger er deaktivert for disse nett</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_ajax</key>
+    <value><![CDATA[Samme side Legg til handlevogn: <br/><span class="help">Dette vil gjøre det mulig AJAX legg i handlekurven funksjonen. Produktet kan legges til kurven uten å omdirigere til kurv siden</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_width</key>
+    <value><![CDATA[Storefront Nettstedet Bredde: <br/><span class="help">Eksempel: 100% eller 1000 piksler</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_width</key>
+    <value><![CDATA[Admin nettstedet Bredde: <br/><span class="help">Eksempel: 100% eller 1000 piksler</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_maximum</key>
+    <value><![CDATA[Maksimal ordrebeløp tillatt: <br/><span class="help">Forhindre kassen med stor ordre sub-total beløp. 0 = NO LIMIT</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_minimum</key>
+    <value><![CDATA[Minimumsbeløp for: <br/><span class="help">Forhindre kassa hvis for sub-total ikke når minimumsbeløpet satt. 0 = NO MINIMUM</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_system_check</key>
+    <value><![CDATA[System Sjekk: <br/><span class="help">Aktiver denne innstillingen hvis du ønsker å sjekke systemtilstand i forhold til AbanteCart funksjonalitet. Systemproblemer som påvirker AbanteCart vil bli rapportert som meldinger synlige i admin.</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[New Store]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advarsel: Du har ikke tillatelse til å endre innstillinger!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Påloggingsnavn må være alfanumerisk bare og mellom 5 og 64 tegn!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[Denne påloggingsnavn er ikke tilgjengelig. Prøv annet innloggingsnavn!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Butikknavn må være mellom 2 og 32 tegn!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[Oppbevares URL kreves!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Tittelen må være mellom 2 og 32 tegn!]]></value>
+  </definition>
+  <definition>
+    <key>error_owner</key>
+    <value><![CDATA[Butikkeier må være mellom 2 og 64 tegn!]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[Butikk Adresse må være mellom 10 og 256 tegn!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-postadresse ser ikke ut til å være gyldig!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[Telefon må være mellom 2 og 32 tegn!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[Produktbilde Thumb størrelse dimensjoner kreves!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[Produktbilde Popup størrelse dimensjoner kreves!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[Kategoriliste størrelse dimensjoner kreves!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_manufacturer</key>
+    <value><![CDATA[Brand Icon Listestørrelse dimensjoner kreves!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[Produktliste størrelse dimensjoner kreves!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[Ekstra Produkt Bildestørrelse dimensjoner kreves!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[Relatert produkt Bildestørrelse dimensjoner kreves!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[Kurven Bildestørrelse dimensjoner kreves!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[Grid Bildestørrelse dimensjoner kreves!]]></value>
+  </definition>
+  <definition>
+    <key>error_error_filename</key>
+    <value><![CDATA[Feillogg filnavn kreves!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Nødvendig Data har ikke lagt inn. Sjekk for feltfeil!]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded_image</key>
+    <value><![CDATA[Opplastet fil %s er ikke bilde eller ødelagt!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Limit nødvendig!]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[Store Front]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[admin]]></value>
+  </definition>
+  <definition>
+    <key>error_mail</key>
+    <value><![CDATA[Fyll nødvendige feltene for smtp-protokollen!]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_sort_order_asc</key>
+    <value><![CDATA[Produktets sorteringsrekkefølge lav &gt; Høy]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[Navn A - Å]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[Navn Z - A]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_asc</key>
+    <value><![CDATA[Pris Lav &gt; Høy]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_desc</key>
+    <value><![CDATA[Pris Høy &gt; Lav]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_asc</key>
+    <value><![CDATA[Rating Laveste]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_desc</key>
+    <value><![CDATA[Rangering høyest]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[Dato Old &gt; Ny]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[Dato New &gt; Gammel]]></value>
+  </definition>
+  <definition>
+    <key>entry_product_default_sort_order</key>
+    <value><![CDATA[Sorter Produkter som standard ved å:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zero_customer_balance</key>
+    <value><![CDATA[Vis Zero Customer Balanse: <br/><span class="help">Merk: Aktiver / deaktiver visning av balanse melding om kundekonto balanse er 0</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_tax_estimate</key>
+    <value><![CDATA[Frakt og moms Vurdering: <br/><span class="help">La kundene få rask levering og skatt anslaget i handlekurven.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon_on_cart_page</key>
+    <value><![CDATA[Kupong på shopping cart side: <br/><span class="help">La kundene Skriv inn koden og se rabatt i handlekurven.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_google_analytics</key>
+    <value><![CDATA[Google Analytics Kontonummer: <br/><span class="help">Legg inn <a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">Google Analytics-kontonummer</a> for å muliggjøre aktiviteten på nettstedet sporing. Dette gjør at også e-handel aktivitet sporing. Du må aktivere netthandels sporing i google på side for nettstedet ditt på profilinnstillinger</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[Sikker Lagre URL: <br/><span class="help">Inkluder full SSL URL (HTTPS) til butikken din. Sørg for å legge til &quot;/&quot; på slutten. Eksempel: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[Sikker URL kreves!]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_email_activation</key>
+    <value><![CDATA[E-post Aktivering for nye kunder: <br/><span class="help">Ikke la ny kunde for å logge inn til sin konto har blitt bekreftet av aktiveringslenke sendes via e-post. For at dette skal fungere, må &quot;godkjenne nye kunder&quot; er satt til OFF.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_clone_template</key>
+    <value><![CDATA[Clone Mal Med AbanteCart Utviklerverktøy]]></value>
+  </definition>
+  <definition>
+    <key>text_set_template</key>
+    <value><![CDATA[Sett denne malen for utstillingsvinduet]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_status</key>
+    <value><![CDATA[Aktiver Storefront Embed:]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_click_action</key>
+    <value><![CDATA[Embed Klikk Handling:]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_modal</key>
+    <value><![CDATA[Samme side Modal Dialog]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_new_window</key>
+    <value><![CDATA[Åpne ny side i ny fane]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_same_window</key>
+    <value><![CDATA[Åpne ny side i samme vindu]]></value>
+  </definition>
+  <definition>
+    <key>entry_account_create_captcha</key>
+    <value><![CDATA[Captcha på opprette konto skjemaet: <br/><span class="help">forhindre spam / robot kontoopprettelse med slik at menneskelig bekreftelse captcha</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_site_key</key>
+    <value><![CDATA[Google reCAPTCHA nettstedet Key: <br/><span class="help">Legg <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> for å hjelpe de besøkende med bedre captcha oppføring. Hvis du aktiverer reCAPTCHA språk / hemmelige nøkler, vil Google reCAPTCHA v2 aktiveres i stedet for standard AbanteCart captcha bilde</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_secret_key</key>
+    <value><![CDATA[Google reCAPTCHA hemmelig nøkkel: <br/><span class="help">Legg <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> for å hjelpe de besøkende med bedre captcha oppføring. Hvis du aktiverer reCAPTCHA språk / hemmelige nøkler, vil Google reCAPTCHA v2 aktiveres i stedet for standard AbanteCart captcha bilde</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_php_exceed</key>
+    <value><![CDATA[Denne verdien kan ikke overstige php.ini direktivet %s (&lt;= %s)]]></value>
+  </definition>
+  <definition>
+    <key>entry_start_order_id</key>
+    <value><![CDATA[Bestill Start-No .: <br/><span class="help">Sett startnummer ordrene vil begynne fra.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_start_order_id</key>
+    <value><![CDATA[Bestill startnummer må være en numerisk!]]></value>
+  </definition>
+  <definition>
+    <key>error_starting_invoice_id</key>
+    <value><![CDATA[Faktura startnummer må være en numerisk!]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_order_days</key>
+    <value><![CDATA[Ufullstendig Bestill Utløp: <br/><br/><span class="help">Denne verdien kontrollerer tidsintervall i dager før ufullstendige ordrer vil bli slettet. Tom verdi betyr at ingen bestillinger vil være å slettet.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_expire_order_days</key>
+    <value><![CDATA[Ufullstendig Bestill Utløps Verdien må være numerisk!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront</key>
+    <value><![CDATA[Storefront]]></value>
+  </definition>
+  <definition>
+    <key>text_im_driver</key>
+    <value><![CDATA[Sjåfør]]></value>
+  </definition>
+  <definition>
+    <key>text_im_protocol</key>
+    <value><![CDATA[IM Protocol]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver</key>
+    <value><![CDATA[SMS Provider]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver_tooltip</key>
+    <value><![CDATA[Velg en utvidelse for SMS-leverandør]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_status_tooltip</key>
+    <value><![CDATA[Aktiver SMS for kunder]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_status_tooltip</key>
+    <value><![CDATA[Aktiver SMS for administratorer]]></value>
+  </definition>
+  <definition>
+    <key>text_no_driver</key>
+    <value><![CDATA[Ingen IM Driver Funnet]]></value>
+  </definition>
+  <definition>
+    <key>text_im_settings_attention</key>
+    <value><![CDATA[Disse innstillingene er for direktemeldinger som sendes automatisk under AbanteCart hendelser i utstillingsvinduet og admin.]]></value>
+  </definition>
+  <definition>
+    <key>entry_html_cache</key>
+    <value><![CDATA[HTML Cache: <br/><span class="help">Aktivert HTML-sider og blokker caching for å få bedre hastighet for sidene dine. Dette kommer i tillegg caching til vanlig data caching aktivert i system / config.php</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_task_api_key</key>
+    <value><![CDATA[Oppgaver API-nøkkel: <br/><span class="help">Dette er en hemmelig nøkkel for å tillate AbanteCart å kjøre planlagte prosesser fra nettleseren med /task.php fil. Hvis ikke satt, vil oppgaver som ikke kjøres via nettleseren. <br/> MERK: Dette API-nøkkel er ikke nødvendig for å kjøre oppgaver kommandolinjen.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_duplicate_contact_us</key>
+    <value><![CDATA[Duplicate Kontakt Henvendelser til Meldinger]]></value>
+  </definition>
+</definitions>

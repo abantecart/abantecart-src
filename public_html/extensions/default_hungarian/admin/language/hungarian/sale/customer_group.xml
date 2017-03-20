@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Ügyfél nevében]]></value>
+  </definition>
+  <definition>
+    <key>breadcrumb_title</key>
+    <value><![CDATA[vevőcsoportok]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Siker: Ön módosította fogyasztói csoportok!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Ügyfél csoport neve]]></value>
+  </definition>
+  <definition>
+    <key>column_tax_exempt</key>
+    <value><![CDATA[Adómentes]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akció]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Ügyfél-csoport neve:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_exempt</key>
+    <value><![CDATA[Mentesítsék az összes adót:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Figyelmeztetés: nincs engedélye módosítani fogyasztói csoportok!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Ügyfél-csoport neve legyen a 2 és 64 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Figyelmeztetés: Ez a fogyasztói csoport nem lehet hagyni, mivel jelenleg kijelölve alapértelmezett bolt vevői csoport!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Figyelmeztetés: Ez a fogyasztói csoport nem lehet hagyni, mivel jelenleg hozzárendelt %s boltokban!]]></value>
+  </definition>
+  <definition>
+    <key>error_customer</key>
+    <value><![CDATA[Figyelmeztetés: Ez a fogyasztói csoport nem lehet hagyni, mivel jelenleg hozzárendelt %s ügyfelek!]]></value>
+  </definition>
+</definitions>

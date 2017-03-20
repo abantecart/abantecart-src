@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Global Hakutulokset]]></value>
+  </definition>
+  <definition>
+    <key>no_results_message</key>
+    <value><![CDATA[Valitettavasti meillä ei ole tuloksia.]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varoitus: Sinulla ei ole lupaa etsiä!]]></value>
+  </definition>
+  <definition>
+    <key>text_orders</key>
+    <value><![CDATA[määräys]]></value>
+  </definition>
+  <definition>
+    <key>text_customers</key>
+    <value><![CDATA[Asiakkaat]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[Lataukset]]></value>
+  </definition>
+  <definition>
+    <key>text_product_categories</key>
+    <value><![CDATA[Tuoteryhmät]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[Tuotteet]]></value>
+  </definition>
+  <definition>
+    <key>text_reviews</key>
+    <value><![CDATA[Arvostelut]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[Brands]]></value>
+  </definition>
+  <definition>
+    <key>text_languages</key>
+    <value><![CDATA[Kieli (kielet]]></value>
+  </definition>
+  <definition>
+    <key>text_pages</key>
+    <value><![CDATA[sivut]]></value>
+  </definition>
+  <definition>
+    <key>text_settings</key>
+    <value><![CDATA[asetukset]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[viestit]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[Laajennukset]]></value>
+  </definition>
+  <definition>
+    <key>text_commands</key>
+    <value><![CDATA[nopea komennot]]></value>
+  </definition>
+  <definition>
+    <key>text_contents</key>
+    <value><![CDATA[sisältö Sivut]]></value>
+  </definition>
+</definitions>

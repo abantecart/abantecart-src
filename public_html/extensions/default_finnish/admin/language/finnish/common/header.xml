@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[hallinto]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[Varmuuskopio]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Tervetuloa, <b>%s</b>]]></value>
+  </definition>
+  <definition>
+    <key>text_last_login</key>
+    <value><![CDATA[Edellinen kirjautuminen: %s]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_details</key>
+    <value><![CDATA[Muokkaa profiilia Lisätiedot]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_notifications</key>
+    <value><![CDATA[Muokkaa Ilmoitusasetukset]]></value>
+  </definition>
+  <definition>
+    <key>text_catalog</key>
+    <value><![CDATA[Luettelo]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[Luokat]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Vahvistaa?]]></value>
+  </definition>
+  <definition>
+    <key>text_country</key>
+    <value><![CDATA[Maat]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[kupongit]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[alennukset]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[Valuutat]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[Asiakkaat]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_group</key>
+    <value><![CDATA[asiakas Ryhmät]]></value>
+  </definition>
+  <definition>
+    <key>text_dashboard</key>
+    <value><![CDATA[kojelauta]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Lataukset]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[virhelokit]]></value>
+  </definition>
+  <definition>
+    <key>text_extension</key>
+    <value><![CDATA[Laajennukset]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_short</key>
+    <value><![CDATA[Laajennukset]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[Myymälä]]></value>
+  </definition>
+  <definition>
+    <key>text_location</key>
+    <value><![CDATA[Paikat]]></value>
+  </definition>
+  <definition>
+    <key>text_help</key>
+    <value><![CDATA[auta]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[Tiedot]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[Kieli (kielet]]></value>
+  </definition>
+  <definition>
+    <key>text_language_definitions</key>
+    <value><![CDATA[kieli Määritelmät]]></value>
+  </definition>
+  <definition>
+    <key>text_localisation</key>
+    <value><![CDATA[lokalisointi]]></value>
+  </definition>
+  <definition>
+    <key>text_logged</key>
+    <value><![CDATA[Olet kirjautunut sisään <span>%s</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Kirjautua ulos]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Lähetä postia]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturer</key>
+    <value><![CDATA[valmistajat]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[määräys]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[Tilaa Tilat]]></value>
+  </definition>
+  <definition>
+    <key>text_abantecart</key>
+    <value><![CDATA[kotisivu]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[maksut]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[Tuotteet]]></value>
+  </definition>
+  <definition>
+    <key>text_reports</key>
+    <value><![CDATA[raportit]]></value>
+  </definition>
+  <definition>
+    <key>text_online</key>
+    <value><![CDATA[Online]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[Transactions]]></value>
+  </definition>
+  <definition>
+    <key>text_tax</key>
+    <value><![CDATA[Verottaa]]></value>
+  </definition>
+  <definition>
+    <key>text_report_purchased</key>
+    <value><![CDATA[ostettujen tuotteiden]]></value>
+  </definition>
+  <definition>
+    <key>text_report_sale</key>
+    <value><![CDATA[Myynti]]></value>
+  </definition>
+  <definition>
+    <key>text_analytics</key>
+    <value><![CDATA[Analytics &amp; Insights]]></value>
+  </definition>
+  <definition>
+    <key>text_report_viewed</key>
+    <value><![CDATA[tuotteet katsottu]]></value>
+  </definition>
+  <definition>
+    <key>text_review</key>
+    <value><![CDATA[Arvostelut]]></value>
+  </definition>
+  <definition>
+    <key>text_sale</key>
+    <value><![CDATA[Myynti]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[laivaus]]></value>
+  </definition>
+  <definition>
+    <key>text_setting</key>
+    <value><![CDATA[asetukset]]></value>
+  </definition>
+  <definition>
+    <key>text_stock_status</key>
+    <value><![CDATA[Stock Tilat]]></value>
+  </definition>
+  <definition>
+    <key>text_support</key>
+    <value><![CDATA[Tuki Foorumi]]></value>
+  </definition>
+  <definition>
+    <key>text_system</key>
+    <value><![CDATA[järjestelmä]]></value>
+  </definition>
+  <definition>
+    <key>text_tax_class</key>
+    <value><![CDATA[Tax Sarjat]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Tilaa Totals]]></value>
+  </definition>
+  <definition>
+    <key>text_user</key>
+    <value><![CDATA[käyttäjät]]></value>
+  </definition>
+  <definition>
+    <key>text_documentation</key>
+    <value><![CDATA[Dokumentointi]]></value>
+  </definition>
+  <definition>
+    <key>text_users</key>
+    <value><![CDATA[käyttäjät]]></value>
+  </definition>
+  <definition>
+    <key>text_user_group</key>
+    <value><![CDATA[käyttäjäryhmät]]></value>
+  </definition>
+  <definition>
+    <key>text_weight_class</key>
+    <value><![CDATA[painoluokat]]></value>
+  </definition>
+  <definition>
+    <key>text_length_class</key>
+    <value><![CDATA[pituus Sarjat]]></value>
+  </definition>
+  <definition>
+    <key>text_zone</key>
+    <value><![CDATA[Zones]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[kaikki laajennukset]]></value>
+  </definition>
+  <definition>
+    <key>text_add_extension</key>
+    <value><![CDATA[Asenna laajennus]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_store</key>
+    <value><![CDATA[Get Extensions]]></value>
+  </definition>
+  <definition>
+    <key>text_migrate</key>
+    <value><![CDATA[Migration Tool]]></value>
+  </definition>
+  <definition>
+    <key>text_updater</key>
+    <value><![CDATA[Updater]]></value>
+  </definition>
+  <definition>
+    <key>text_design</key>
+    <value><![CDATA[Design]]></value>
+  </definition>
+  <definition>
+    <key>text_templates</key>
+    <value><![CDATA[Mallit]]></value>
+  </definition>
+  <definition>
+    <key>text_layout</key>
+    <value><![CDATA[Layouts]]></value>
+  </definition>
+  <definition>
+    <key>text_blocks</key>
+    <value><![CDATA[lohkot]]></value>
+  </definition>
+  <definition>
+    <key>text_menu</key>
+    <value><![CDATA[valikko]]></value>
+  </definition>
+  <definition>
+    <key>text_cache</key>
+    <value><![CDATA[Kätkö]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[viestit]]></value>
+  </definition>
+  <definition>
+    <key>text_content</key>
+    <value><![CDATA[pitoisuus]]></value>
+  </definition>
+  <definition>
+    <key>text_datasets_manager</key>
+    <value><![CDATA[aineistot]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[Asenna / Päivitä History]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute</key>
+    <value><![CDATA[Global Ominaisuudet]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute_groups</key>
+    <value><![CDATA[Yleiset määritteet Groups]]></value>
+  </definition>
+  <definition>
+    <key>text_import_export</key>
+    <value><![CDATA[Tuonti ja vienti]]></value>
+  </definition>
+  <definition>
+    <key>text_data</key>
+    <value><![CDATA[data]]></value>
+  </definition>
+  <definition>
+    <key>text_logs</key>
+    <value><![CDATA[lokit]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_edit_form</key>
+    <value><![CDATA[Pikamuokkauslinkki Form]]></value>
+  </definition>
+  <definition>
+    <key>text_all_matches</key>
+    <value><![CDATA[kaikki ottelut]]></value>
+  </definition>
+  <definition>
+    <key>text_file_uploads</key>
+    <value><![CDATA[tiedostolautausten]]></value>
+  </definition>
+  <definition>
+    <key>text_all_settings</key>
+    <value><![CDATA[kaikki asetukset]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_details</key>
+    <value><![CDATA[Store tiedot]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_general</key>
+    <value><![CDATA[yleinen]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_checkout</key>
+    <value><![CDATA[Tarkista]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_appearance</key>
+    <value><![CDATA[Ulkomuoto]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_mail</key>
+    <value><![CDATA[posti]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_im</key>
+    <value><![CDATA[OLEN]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_api</key>
+    <value><![CDATA[API]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_system</key>
+    <value><![CDATA[järjestelmä]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_newstore</key>
+    <value><![CDATA[Luo uusi Store]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_command_prompt</key>
+    <value><![CDATA[Voice Komentorivi.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_select_dialect</key>
+    <value><![CDATA[Valitse murre]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_confirm_action</key>
+    <value><![CDATA[Vahvista tämä toiminta tai peruuttaa]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_speak_now</key>
+    <value><![CDATA[Puhu nyt.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_speach_detected</key>
+    <value><![CDATA[Puhetta ei havaittu. Saatat joutua muuttamaan <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">1 #### 1amp; answer = 1407892 &quot;&gt; mikrofoniasetuksia</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_mic_detected</key>
+    <value><![CDATA[Ei mikrofoni löytynyt. Varmista, että mikrofoni on asennettu ja että <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">yksi #### 1amp; Vastaus = 1407892 &quot;&gt; mikrofoni asetukset</a> on määritetty oikein.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_click_allow</key>
+    <value><![CDATA[Valitse &quot;Salli&quot; -painiketta, jotta mikrofonin.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_denied</key>
+    <value><![CDATA[Lupa käyttää mikrofonia evättiin.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_permission</key>
+    <value><![CDATA[Lupa käyttää mikrofonia on estetty. Muuttaa, siirry selaimen <a href="chrome://settings/contentExceptions#media-stream">media-asetukset</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_not_supported</key>
+    <value><![CDATA[Puheohjaus ei tue tätä selainta. <a href="//www.google.com/chrome" target="_new">Chrome</a> versio 25 tai uudempi.]]></value>
+  </definition>
+  <definition>
+    <key>text_tasks</key>
+    <value><![CDATA[Ajoitetut tehtävät]]></value>
+  </definition>
+  <definition>
+    <key>text_read_all_messages</key>
+    <value><![CDATA[Lue kaikki viestit]]></value>
+  </definition>
+  <definition>
+    <key>text_short_stats</key>
+    <value><![CDATA[Pikatilastot]]></value>
+  </definition>
+  <definition>
+    <key>text_online_now</key>
+    <value><![CDATA[Online-asiakkaat]]></value>
+  </definition>
+  <definition>
+    <key>text_online_new</key>
+    <value><![CDATA[Uusi]]></value>
+  </definition>
+  <definition>
+    <key>text_online_registered</key>
+    <value><![CDATA[Kirjautunut sisään]]></value>
+  </definition>
+  <definition>
+    <key>text_today_orders</key>
+    <value><![CDATA[Uudet tilaukset Tänään]]></value>
+  </definition>
+  <definition>
+    <key>text_today_sales</key>
+    <value><![CDATA[Yhteensä Sales Today]]></value>
+  </definition>
+  <definition>
+    <key>text_today_customers</key>
+    <value><![CDATA[Uudet asiakkaat Tänään]]></value>
+  </definition>
+  <definition>
+    <key>text_today_reviews</key>
+    <value><![CDATA[Uudet arvostelut Tänään]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_manager</key>
+    <value><![CDATA[Media Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_server_time</key>
+    <value><![CDATA[palvelimen aika]]></value>
+  </definition>
+</definitions>

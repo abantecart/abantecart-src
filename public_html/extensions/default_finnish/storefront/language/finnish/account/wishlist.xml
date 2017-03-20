@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Toivelistani]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Tili]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_wishlist</key>
+    <value><![CDATA[Toivelista on tyhjä]]></value>
+  </definition>
+  <definition>
+    <key>button_cart</key>
+    <value><![CDATA[Katso ostoskoria]]></value>
+  </definition>
+  <definition>
+    <key>button_continue</key>
+    <value><![CDATA[Jatka]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Kuva]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Nimi]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Malli]]></value>
+  </definition>
+  <definition>
+    <key>column_added</key>
+    <value><![CDATA[Lisätty toivelistalle]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Yksikköhinta]]></value>
+  </definition>
+  <definition>
+    <key>column_actions</key>
+    <value><![CDATA[Toimet]]></value>
+  </definition>
+</definitions>

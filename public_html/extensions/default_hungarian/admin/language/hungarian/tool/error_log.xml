@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[error Log]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Siker: Sikeresen törölte a hibát a mérésre!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_tail</key>
+    <value><![CDATA[Mivel a nagy méret a log fájlt, csak a múlt 500Kb Az adatok megtekinthetők itt. 
+ megtekintéséhez teljes napló, kap ez a szerver közvetlenül. 
+ Path:]]></value>
+  </definition>
+</definitions>

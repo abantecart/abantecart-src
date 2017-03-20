@@ -2,7 +2,7 @@
 <definitions>
   <definition>
     <key>heading_title</key>
-    <value><![CDATA[order%s%sPOS=TRUNC Totals]]></value>
+    <value><![CDATA[order Totals]]></value>
   </definition>
   <definition>
     <key>text_install</key>
@@ -14,7 +14,7 @@
   </definition>
   <definition>
     <key>column_name</key>
-    <value><![CDATA[order%s%sPOS=TRUNC Totals]]></value>
+    <value><![CDATA[order Totals]]></value>
   </definition>
   <definition>
     <key>column_status</key>

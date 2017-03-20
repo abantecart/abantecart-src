@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Din konto har blitt laget!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Gratulerer! Din nye konto er opprettet! </p><p> Du kan nå dra nytte av medlemsrettigheter for å forbedre din online shopping erfaring med oss. </p><p> Hvis du har noen spørsmål om bruken av dette nettbutikken, vennligst kontakt butikkeier. </p><p> En bekreftelse er blitt sendt til den oppgitte e-postadresse. Hvis du ikke har mottatt den i timen, kan du <a href="%s">kontakte oss</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[<p> Takk for at du registrerer deg med %s! </p><p> Du vil bli varslet via e-post når kontoen har blitt aktivert av butikkeier. </p><p> Hvis du har noen spørsmål om bruken av dette online butikk, kan du <a href="%s">ta kontakt med butikkeier</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[<p> Takk for at du registrerer deg med %s! </p><p> Du vil bli varslet via e-post med dine kontoaktiveringsinstruksjoner. Du må klikke på linken i e-posten for å aktivere kontoen din. Hvis du ikke mottar e-posten, kan du sjekke ut søppelpost eller spam mapper. </p><p> Hvis du har noen spørsmål om bruken av dette online butikk, kan du <a href="%s">ta kontakt med butikkeier</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Konto]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Suksess]]></value>
+  </definition>
+</definitions>

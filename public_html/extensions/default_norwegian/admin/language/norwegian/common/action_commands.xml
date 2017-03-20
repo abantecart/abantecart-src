@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_possible_commands</key>
+    <value><![CDATA[Bellow er mulige kommandoer. Du kan speek flere detaljer etter kommandoordet. Eksempel: &quot;åpne side meldinger&quot; eller &quot;insert produkt&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_multiple_result_found</key>
+    <value><![CDATA[Multiple handling resultat funnet:]]></value>
+  </definition>
+  <definition>
+    <key>text_action_confirm</key>
+    <value><![CDATA[Vennligst bekreft din forespørsel:]]></value>
+  </definition>
+  <definition>
+    <key>command_open</key>
+    <value><![CDATA[åpen, åpen side, åpne menyen]]></value>
+  </definition>
+  <definition>
+    <key>command_find</key>
+    <value><![CDATA[finne, finne, søk, søk etter, søk 4]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_cache</key>
+    <value><![CDATA[klar cache, cache tydelig, klart alle cache]]></value>
+  </definition>
+  <definition>
+    <key>command_view_log</key>
+    <value><![CDATA[Vis logg, logg utsikt, inspisere loggen, se logg, vise feilloggen, vise feil]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_log</key>
+    <value><![CDATA[klar logg, logg klart, slette logg, logg slette]]></value>
+  </definition>
+  <definition>
+    <key>command_view_order</key>
+    <value><![CDATA[view ordre, ordrenummer, åpen orden, viser rekkefølgen, åpne ordrenummer, vise ordrenummer, viser ordrenummer, ordre #]]></value>
+  </definition>
+  <definition>
+    <key>command_view_product</key>
+    <value><![CDATA[Utsikten produkt, produktnummer, åpen produkt, viser produktet, åpne produktnummer, utsikt produktnummer, viser produktnummer, produkt #]]></value>
+  </definition>
+  <definition>
+    <key>command_create_new</key>
+    <value><![CDATA[sette inn, opprette, legge til, nytt, setter ny, opprette nye, legge til nye]]></value>
+  </definition>
+  <definition>
+    <key>category</key>
+    <value><![CDATA[kategori]]></value>
+  </definition>
+  <definition>
+    <key>product</key>
+    <value><![CDATA[produkt]]></value>
+  </definition>
+  <definition>
+    <key>brand</key>
+    <value><![CDATA[merke]]></value>
+  </definition>
+  <definition>
+    <key>manufacturer</key>
+    <value><![CDATA[produsent]]></value>
+  </definition>
+  <definition>
+    <key>review</key>
+    <value><![CDATA[anmeldelse]]></value>
+  </definition>
+  <definition>
+    <key>download</key>
+    <value><![CDATA[nedlasting]]></value>
+  </definition>
+  <definition>
+    <key>attribute</key>
+    <value><![CDATA[Egenskap]]></value>
+  </definition>
+  <definition>
+    <key>customer</key>
+    <value><![CDATA[kunde]]></value>
+  </definition>
+  <definition>
+    <key>coupon</key>
+    <value><![CDATA[kupong]]></value>
+  </definition>
+  <definition>
+    <key>discount</key>
+    <value><![CDATA[rabatt]]></value>
+  </definition>
+  <definition>
+    <key>block</key>
+    <value><![CDATA[blokkere]]></value>
+  </definition>
+  <definition>
+    <key>menu</key>
+    <value><![CDATA[Meny]]></value>
+  </definition>
+  <definition>
+    <key>content</key>
+    <value><![CDATA[innhold]]></value>
+  </definition>
+  <definition>
+    <key>banner</key>
+    <value><![CDATA[banner]]></value>
+  </definition>
+  <definition>
+    <key>page</key>
+    <value><![CDATA[side]]></value>
+  </definition>
+  <definition>
+    <key>store</key>
+    <value><![CDATA[butikk]]></value>
+  </definition>
+  <definition>
+    <key>language</key>
+    <value><![CDATA[Språk]]></value>
+  </definition>
+  <definition>
+    <key>currency</key>
+    <value><![CDATA[valuta]]></value>
+  </definition>
+  <definition>
+    <key>location</key>
+    <value><![CDATA[plassering]]></value>
+  </definition>
+  <definition>
+    <key>tax</key>
+    <value><![CDATA[avgift]]></value>
+  </definition>
+</definitions>

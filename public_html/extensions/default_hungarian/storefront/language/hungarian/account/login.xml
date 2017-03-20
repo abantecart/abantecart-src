@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Fiók Belépés]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Fiók regisztrálása]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Belépek]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_new_customer</key>
+    <value><![CDATA[Új vásárló vagyok.]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Fizetési beállítások:]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[vendég kijelentkezés]]></value>
+  </definition>
+  <definition>
+    <key>text_create_account</key>
+    <value><![CDATA[A regisztráció akkor gyorsabban tud vásárolni, naprakész lehet a megrendelés állapotát, és nyomon követheti a megrendeléseket, amelyeket korábban.]]></value>
+  </definition>
+  <definition>
+    <key>text_returning_customer</key>
+    <value><![CDATA[visszatérő vásárló]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_returning_customer</key>
+    <value><![CDATA[Visszatérő vásárló vagyok.]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_login</key>
+    <value><![CDATA[Elfelejtette bejelentkezési?]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_password</key>
+    <value><![CDATA[Elfelejtette a jelszavát?]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Bejelentkezési név:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email_address</key>
+    <value><![CDATA[Email cím:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Jelszó:]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Hiba: Hibás bejelentkezés vagy jelszó segítségével.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_activated</key>
+    <value><![CDATA[Siker: A fiók aktiválása sikerült. Kérjük, lépjen be a hitelesítő adatokat.]]></value>
+  </definition>
+  <definition>
+    <key>text_already_activated</key>
+    <value><![CDATA[Fiókja már aktiválva van. Kérjük, lépjen be a hitelesítő adatokat.]]></value>
+  </definition>
+  <definition>
+    <key>text_resend_activation_email</key>
+    <value><![CDATA[Hiba: E-mail cím még nem nyugtázta. Újraküldeni új megerősítő e-mailt, kérjük kattintson erre a <a href=" %s ">linkre</a>]]></value>
+  </definition>
+</definitions>

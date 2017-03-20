@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Nyelv Meghatározások]]></value>
+  </definition>
+  <definition>
+    <key>text_definition</key>
+    <value><![CDATA[Nyelv Definition]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Siker: Van módosított nyelven!]]></value>
+  </definition>
+  <definition>
+    <key>column_language</key>
+    <value><![CDATA[Nyelv]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[Kulcs]]></value>
+  </definition>
+  <definition>
+    <key>column_translation</key>
+    <value><![CDATA[Fordítás]]></value>
+  </definition>
+  <definition>
+    <key>column_block</key>
+    <value><![CDATA[Blokk]]></value>
+  </definition>
+  <definition>
+    <key>column_update_date</key>
+    <value><![CDATA[frissítés dátuma]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Hozzászólások]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_key</key>
+    <value><![CDATA[Kulcs]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_value</key>
+    <value><![CDATA[Érték]]></value>
+  </definition>
+  <definition>
+    <key>entry_translation</key>
+    <value><![CDATA[Fordítás]]></value>
+  </definition>
+  <definition>
+    <key>entry_block</key>
+    <value><![CDATA[Blokk]]></value>
+  </definition>
+  <definition>
+    <key>entry_section</key>
+    <value><![CDATA[Szakasz]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[admin]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront</key>
+    <value><![CDATA[kirakat]]></value>
+  </definition>
+  <definition>
+    <key>error_language_key</key>
+    <value><![CDATA[Nyelv kulcs szükséges!]]></value>
+  </definition>
+  <definition>
+    <key>error_language_value</key>
+    <value><![CDATA[Fordítás szükséges!]]></value>
+  </definition>
+  <definition>
+    <key>error_block</key>
+    <value><![CDATA[Blokk szükséges!]]></value>
+  </definition>
+  <definition>
+    <key>error_section</key>
+    <value><![CDATA[§ szükséges!]]></value>
+  </definition>
+  <definition>
+    <key>text_all_section</key>
+    <value><![CDATA[minden szekció]]></value>
+  </definition>
+  <definition>
+    <key>text_all_languages</key>
+    <value><![CDATA[minden nyelv]]></value>
+  </definition>
+  <definition>
+    <key>error_already exists</key>
+    <value><![CDATA[Hiba! <br/> nyelv meghatározása a legfontosabb &quot;%s&quot; és a blokk &quot;%s&quot; A %s szakasz már létezik! <br/> Kattintson <a target="_blank" href="%s">ezt a linket</a> , hogy megtekinthesse]]></value>
+  </definition>
+</definitions>

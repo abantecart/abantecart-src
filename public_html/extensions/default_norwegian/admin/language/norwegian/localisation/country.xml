@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[land]]></value>
+  </definition>
+  <definition>
+    <key>text_country</key>
+    <value><![CDATA[Land]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Suksess: Du har endret land!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Landsnavn]]></value>
+  </definition>
+  <definition>
+    <key>column_iso_code_2</key>
+    <value><![CDATA[ISO Code (2)]]></value>
+  </definition>
+  <definition>
+    <key>column_iso_code_3</key>
+    <value><![CDATA[ISO Code (3)]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Handling]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Land Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Landsnavn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_iso_code_2</key>
+    <value><![CDATA[ISO Code (2):]]></value>
+  </definition>
+  <definition>
+    <key>entry_iso_code_3</key>
+    <value><![CDATA[ISO Code (3):]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_format</key>
+    <value><![CDATA[Adresse Format: <br/><span class="help">
+ fornavn = {fornavn} <br/> 
+ etternavn = {etternavn} <br/> 
+ selskapet = {selskapet} <br/> 
+ Adresse 1 = {ADDRESS_1} <br/> 
+ Adresse 2 = {address_2} <br/> 
+ by = {city} <br/> 
+ postnr = {postnummer} <br/> 
+ sone = {sone} <br/> 
+ Zone Code = {zone_code} <br/> 
+ land = {country}</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advarsel: Du har ikke tillatelse til å endre land!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Land Navn må være mellom 2 og 128 tegn!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Advarsel: Dette landet kan ikke slettes som det er i dag tildelt som standard store landet!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Advarsel: Dette landet kan ikke slettes som det er i dag tildelt %s butikkene!]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[Advarsel: Dette landet kan ikke slettes som det er i dag tildelt %s adressebokoppføringer!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone</key>
+    <value><![CDATA[Advarsel: Dette landet kan ikke slettes som det er i dag tildelt %s soner!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone_to_location</key>
+    <value><![CDATA[Advarsel: Dette landet kan ikke slettes som det er i dag tildelt %s soner til steder!]]></value>
+  </definition>
+</definitions>

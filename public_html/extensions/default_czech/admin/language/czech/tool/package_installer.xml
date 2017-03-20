@@ -74,15 +74,15 @@
   </definition>
   <definition>
     <key>text_disclaimer</key>
-    <value><![CDATA[<h3> Vážený AbanteCart zákazník, </h3><br/> 
- Chystáte se nainstalovat rozšíření třetích stran do svého AbanteCart. <br/><br/> 
- Prosím přečíst a pochopit tento dementi o rozšíření třetích stran, které jste asi k instalaci. <br/><br/> 
- rozšíření a služby třetích stran jsou poskytovány jinými dodavateli. <br/><br/> 
- Ačkoli AbanteCart ověřit kvalitu rozšíření a služeb poskytovaných třetí stranou, AbanterCart nezaručuje, že všechny třetí stranou rozšíření pracovat správně nebo nezpůsobí žádné konflikty v systému. 
- členové AbanteCart a přidružené společnosti nejsou v žádném případě odpovědnost ani za tvrzeních v souvislosti s výrobky nebo služby poskytované jinými dodavateli. AbanteCart nezaručuje kvalitu rozšíření či služby třetích stran. Prosím směřujte své dotazy týkající se rozšíření třetích stran nebo služby příslušného dodavatele třetí strany. 
- Máte-li zájem o jakékoliv třetí strany poskytovatele obraťte se na AbanteCart <a href="http://www.abantecart.com/contact-us" target="_blank">http://www.abantecart.com/contact-us%s%sHEAD=pobj</a><br/><br/> 
- pozdravemTAG_BR <br/> 
- AbanteCart <br/> 
+    <value><![CDATA[<h3> Vážený AbanteCart zákazník, </h3><br/>
+ Chystáte se nainstalovat rozšíření třetích stran do svého AbanteCart. <br/><br/>
+ Prosím přečíst a pochopit tento dementi o rozšíření třetích stran, které jste asi k instalaci. <br/><br/>
+ rozšíření a služby třetích stran jsou poskytovány jinými dodavateli. <br/><br/>
+ Ačkoli AbanteCart ověřit kvalitu rozšíření a služeb poskytovaných třetí stranou, AbanterCart nezaručuje, že všechny třetí stranou rozšíření pracovat správně nebo nezpůsobí žádné konflikty v systému.
+ členové AbanteCart a přidružené společnosti nejsou v žádném případě odpovědnost ani za tvrzeních v souvislosti s výrobky nebo služby poskytované jinými dodavateli. AbanteCart nezaručuje kvalitu rozšíření či služby třetích stran. Prosím směřujte své dotazy týkající se rozšíření třetích stran nebo služby příslušného dodavatele třetí strany.
+ Máte-li zájem o jakékoliv třetí strany poskytovatele obraťte se na AbanteCart <a href="http://www.abantecart.com/contact-us" target="_blank">http://www.abantecart.com/contact-us</a><br/><br/>
+ pozdravem <br/>
+ AbanteCart <br/>
  Ideální OpenSource řešení elektronického]]></value>
   </definition>
   <definition>
@@ -191,7 +191,7 @@
   </definition>
   <definition>
     <key>confirm_version_incompatibility</key>
-    <value><![CDATA[Aktuální kopie tohoto rozšíření není ověřena pro verzi AbanteCart (V %s). <br/> Prodloužení build je určen pro AbanteCart V %s. <br/> 
+    <value><![CDATA[Aktuální kopie tohoto rozšíření není ověřena pro verzi AbanteCart (V %s). <br/> Prodloužení build je určen pro AbanteCart V %s. <br/>
  To není problém, ale pokud si všimnete problémy nebo nekompatibilitu, obraťte se na rozšíření vývojáře.]]></value>
   </definition>
   <definition>
@@ -228,13 +228,13 @@
   </definition>
   <definition>
     <key>text_core_upgrade_attention</key>
-    <value><![CDATA[Pozor! 
+    <value><![CDATA[Pozor!
  AbanteCart má být aktualizován na verzi %s!]]></value>
   </definition>
   <definition>
     <key>text_core_upgrade_warning</key>
-    <value><![CDATA[Tam je po spuštění aktualizační proces nelze vrátit. 
- Kompletní databáze a záložní kód je vysoce doporučeno. 
+    <value><![CDATA[Tam je po spuštění aktualizační proces nelze vrátit.
+ Kompletní databáze a záložní kód je vysoce doporučeno.
  Upgrade Test neživých míst jako první. Upgrade na živých stránkách se nedoporučuje.]]></value>
   </definition>
   <definition>

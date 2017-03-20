@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Bestill Totals]]></value>
+  </definition>
+  <definition>
+    <key>text_install</key>
+    <value><![CDATA[Installere]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall</key>
+    <value><![CDATA[Avinstaller]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Bestill Totals]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Sorteringsrekkefølge]]></value>
+  </definition>
+  <definition>
+    <key>column_calculation_order</key>
+    <value><![CDATA[beregning Bestill]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Handling]]></value>
+  </definition>
+</definitions>

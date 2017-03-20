@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Vélemények]]></value>
+  </definition>
+  <definition>
+    <key>text_review</key>
+    <value><![CDATA[Felülvizsgálat]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[Insert felülvizsgálata]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[frissítés felülvizsgálata]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Siker: Van módosított véleménye!]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[Termék]]></value>
+  </definition>
+  <definition>
+    <key>column_author</key>
+    <value><![CDATA[Szerző]]></value>
+  </definition>
+  <definition>
+    <key>column_rating</key>
+    <value><![CDATA[Értékelés]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Állapot]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[dátum hozzáadva]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akció]]></value>
+  </definition>
+  <definition>
+    <key>entry_product</key>
+    <value><![CDATA[Termék:]]></value>
+  </definition>
+  <definition>
+    <key>entry_author</key>
+    <value><![CDATA[Szerző:]]></value>
+  </definition>
+  <definition>
+    <key>entry_rating</key>
+    <value><![CDATA[Értékelés:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Állapot:]]></value>
+  </definition>
+  <definition>
+    <key>entry_text</key>
+    <value><![CDATA[Szöveg:]]></value>
+  </definition>
+  <definition>
+    <key>entry_good</key>
+    <value><![CDATA[Jó]]></value>
+  </definition>
+  <definition>
+    <key>entry_bad</key>
+    <value><![CDATA[Rossz]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Figyelmeztetés: nincs engedélye módosítani véleménye!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[A termék szükséges!]]></value>
+  </definition>
+  <definition>
+    <key>error_author</key>
+    <value><![CDATA[Szerző között kell lennie a 2. és 64 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_text</key>
+    <value><![CDATA[A vélemény szövege között kell lennie a 25 és 1000 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_rating</key>
+    <value><![CDATA[Véleményértékelési szükséges!]]></value>
+  </definition>
+  <definition>
+    <key>text_select_product</key>
+    <value><![CDATA[- Válasszon terméket -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_category</key>
+    <value><![CDATA[- Válassz kategóriát -]]></value>
+  </definition>
+</definitions>

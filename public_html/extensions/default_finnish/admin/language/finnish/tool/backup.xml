@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Varmuuskopiointi / palautus / Load]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[Lataa Backup]]></value>
+  </definition>
+  <definition>
+    <key>text_success_backup</key>
+    <value><![CDATA[Success: Olet onnistuneesti luonut varmuuskopion!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: Olet onnistuneesti tuotu tietokantaan!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_xml</key>
+    <value><![CDATA[Success: Olet onnistuneesti tuonut xml!]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore</key>
+    <value><![CDATA[Palauta sql tai xml-tiedosto:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tables</key>
+    <value><![CDATA[Backup Taulukot:]]></value>
+  </definition>
+  <definition>
+    <key>entry_loadxml</key>
+    <value><![CDATA[Load XML-tiedostoon:]]></value>
+  </definition>
+  <definition>
+    <key>tab_backup</key>
+    <value><![CDATA[Varmuuskopioida]]></value>
+  </definition>
+  <definition>
+    <key>tab_restore</key>
+    <value><![CDATA[Palauttaa]]></value>
+  </definition>
+  <definition>
+    <key>tab_loadxml</key>
+    <value><![CDATA[Taitto ja aineisto kuormitus XML]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varoitus: Sinulla ei ole lupaa muokata varmuuskopiot!]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Varoitus: Määritä mitä haluat varmuuskopioida tai tuoda!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Varoitus: Tiedoston lataaminen oli tyhjä tai oli väärä tiedostotyyppi!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload</key>
+    <value><![CDATA[Varoitus: Tiedostoa ei ladattu. Tarkista post_max_size tai file_upload direktiivien tiedostossa php.ini.]]></value>
+  </definition>
+  <definition>
+    <key>error_xml</key>
+    <value><![CDATA[Varoitus: Tiedoston lataaminen ei ladattu XML! Ole hyvä, katso log-tiedosto lisätietoja]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_code</key>
+    <value><![CDATA[Backup Code (%s) <br/><span class="help">Sub-hakemistojen kooditiedostoja ilman dynaamista tiedostoja, kuten välimuistin, lokitiedostot, kuvia, resurssit jne</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_content</key>
+    <value><![CDATA[Backup sisältö (%s) <br/><span class="help">Sub-hakemistojen dynaaminen tiedostoja, kuten kuvia, ladattavia, resurssit jne</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_compress_backup</key>
+    <value><![CDATA[Pakkaa Backup Directory %s? <br/><span class="help">Archive * .tar.gz luodaan. <br/> Huom: se voisi ottaa pitkän aikaa. Muuten voit poistaa pakkaus ja löytää backup kansiossa %s</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_now</key>
+    <value><![CDATA[Backup Now]]></value>
+  </definition>
+  <definition>
+    <key>button_load</key>
+    <value><![CDATA[Ladata]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_schedule</key>
+    <value><![CDATA[aikataulu varmuuskopiointi]]></value>
+  </definition>
+  <definition>
+    <key>text_success_scheduled</key>
+    <value><![CDATA[Success: olet luonut ajoitettu varmuuskopiointi tehtävä! <a href="%s">Katso yksityiskohdat</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_fail_note</key>
+    <value><![CDATA[HUOMAUTUS: Tämä prosessi toteutus riippuu AbanteCart tiedostokoko sekä palvelimen virtuaalimuistin kokoa. Jos prosessi päättyy virheitä, tarkista hakemisto %s käyttöoikeudet asettaa -RW-rw-rw ja <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[PHP muistin asetusta]</a>. Kasvata muistiasetuksen tai ajaa varmuuskopio käsin, jos prosessi vieläkään.]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_file</key>
+    <value><![CDATA[Voit ladata backup-tiedosto osoitteesta <a href="#admin#rt=tool/install_upgrade_history">Asenna / Päivitä History</a>]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_dir</key>
+    <value><![CDATA[Hakemistoon backup-tiedostojen %s]]></value>
+  </definition>
+</definitions>

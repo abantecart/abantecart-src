@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Kieli (kielet]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[Kieli]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: Sinulla on muutettu kielellä!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[kieli Name]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Koodi]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Lajittelujärjestys]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Toiminta]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Kieli Nimi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Koodi: <br/><span class="help">Älä muuta, jos tämä on oletuskieli.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_locale</key>
+    <value><![CDATA[Kieliversio:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[Kuva:]]></value>
+  </definition>
+  <definition>
+    <key>entry_directory</key>
+    <value><![CDATA[Directory:]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[Tiedoston nimi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Lajittelujärjestys:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varoitus: Sinulla ei ole lupaa muokata kielellä!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Kieli Nimi tulee olla välillä 2 ja 32 merkkiä!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Kielikoodiluettelo on ainakin 2 merkkiä!]]></value>
+  </definition>
+  <definition>
+    <key>error_locale</key>
+    <value><![CDATA[Locale tarvita!]]></value>
+  </definition>
+  <definition>
+    <key>error_image</key>
+    <value><![CDATA[Kuva Tiedoston tulee olla 2 ja 64 merkkiä!]]></value>
+  </definition>
+  <definition>
+    <key>error_directory</key>
+    <value><![CDATA[Directory tarvita!]]></value>
+  </definition>
+  <definition>
+    <key>error_filename</key>
+    <value><![CDATA[Tiedoston tulee olla 2 ja 64 merkkiä!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Varoitus: Tämä kieli ei voi poistaa, koska se on tällä hetkellä määrätty oletussäilössä kieli!]]></value>
+  </definition>
+  <definition>
+    <key>error_admin</key>
+    <value><![CDATA[Varoitus: Tämä kieli ei voi poistaa, koska se on tällä hetkellä määrätty hallinnon kieli!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Varoitus: Tämä kieli ei voi poistaa, koska se on osoitettu tällä hetkellä %s myymälöissä!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Varoitus: Tämä kieli ei voi poistaa, koska se on osoitettu tällä hetkellä %s tilauksia!]]></value>
+  </definition>
+  <definition>
+    <key>language_edit_title</key>
+    <value><![CDATA[Edit Kieli Tiedot]]></value>
+  </definition>
+  <definition>
+    <key>load_language_title</key>
+    <value><![CDATA[Load puuttuvat kieli tietoa]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_selector</key>
+    <value><![CDATA[Lähdekieli:]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method_selector</key>
+    <value><![CDATA[Teksti muunnostapa:]]></value>
+  </definition>
+  <definition>
+    <key>load_language_note</key>
+    <value><![CDATA[HUOMAUTUS: Tämä toimenpide voi kestää muutaman minuutin ajaa. Älä sulje selainta, jätä tai päivitä sivu!]]></value>
+  </definition>
+  <definition>
+    <key>create_language_note</key>
+    <value><![CDATA[HUOM: Suosittelemme luomaan kieli jatkeena. Tarkista nykyisten kielen laajennuksia. Jos kuitenkin haluat luoda uuden kielen manuaalisesti, sinun täytyy lisätä kielen Flag admin / kieltä / [Language Directory] /flag.png ja myymälä / kieli / [Language Directory] flag.png 
+ Kun kieli on luotu kuormaa puuttuu kieli tietoa kääntää tai kopioida tekstin sisällön lähdekieli.]]></value>
+  </definition>
+  <definition>
+    <key>button_load_language</key>
+    <value><![CDATA[Ladata]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete_tasks</key>
+    <value><![CDATA[Puutteellinen tehtävät]]></value>
+  </definition>
+  <definition>
+    <key>text_task_id</key>
+    <value><![CDATA[Tehtävä ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Otsikko:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_time_run</key>
+    <value><![CDATA[Last Time Run:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Luotu:]]></value>
+  </definition>
+  <definition>
+    <key>text_starter_name</key>
+    <value><![CDATA[Luonut:]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Uudelleenkäynnistää]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[Poistaa]]></value>
+  </definition>
+  <definition>
+    <key>text_task_title</key>
+    <value><![CDATA[Käännös Kuvaukset Vuodesta %s on %s]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Virhe: Aseta Source kieli ja kääntäminen Method!]]></value>
+  </definition>
+  <definition>
+    <key>text_translate_override_existing</key>
+    <value><![CDATA[Huom: Kaikki nykyiset kuvaukset kohdekielen korvataan uuden käännöksen. Voit poistaa pakottava in <a href="%s">Järjestelmä-&gt; Asetukset&gt; Store Tiedot</a> .]]></value>
+  </definition>
+</definitions>

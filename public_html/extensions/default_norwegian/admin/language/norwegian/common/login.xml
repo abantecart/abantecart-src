@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Administrasjon]]></value>
+  </definition>
+  <definition>
+    <key>text_heading</key>
+    <value><![CDATA[Administrasjon]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Fyll inn dine innloggingsdetaljer.]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[Brukernavn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Passord:]]></value>
+  </definition>
+  <definition>
+    <key>entry_forgot_password</key>
+    <value><![CDATA[Glemt passord?]]></value>
+  </definition>
+  <definition>
+    <key>button_login</key>
+    <value><![CDATA[Logg Inn]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Ingen kamp for brukernavn og / eller passord.]]></value>
+  </definition>
+  <definition>
+    <key>error_token</key>
+    <value><![CDATA[Ugyldig token økt. Vennligst logg inn igjen.]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message</key>
+    <value><![CDATA[Mislykket innlogging til admin forsøk fra IP:]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message_text</key>
+    <value><![CDATA[Gitt bruker logikk:]]></value>
+  </definition>
+</definitions>

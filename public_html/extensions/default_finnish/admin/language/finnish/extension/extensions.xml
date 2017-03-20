@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Laajennukset]]></value>
+  </definition>
+  <definition>
+    <key>text_install</key>
+    <value><![CDATA[Asentaa]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall</key>
+    <value><![CDATA[Uninstall]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall_delete</key>
+    <value><![CDATA[Poista / Poista]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall_confirm</key>
+    <value><![CDATA[Vahvista, että haluat poistaa laajennuksen. Kaikki laajennuksen asetukset ja niihin liittyviä tietoja saatetaan poistaa ja menetetty.]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[Poistaa]]></value>
+  </definition>
+  <definition>
+    <key>text_enlarge</key>
+    <value><![CDATA[Klikkaa kuvaa suuremmaksi]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[Aktivoida]]></value>
+  </definition>
+  <definition>
+    <key>text_deactivate</key>
+    <value><![CDATA[Poista käytöstä]]></value>
+  </definition>
+  <definition>
+    <key>text_left</key>
+    <value><![CDATA[vasen]]></value>
+  </definition>
+  <definition>
+    <key>text_right</key>
+    <value><![CDATA[oikea]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[lisätty]]></value>
+  </definition>
+  <definition>
+    <key>column_icon</key>
+    <value><![CDATA[ikoni]]></value>
+  </definition>
+  <definition>
+    <key>column_id</key>
+    <value><![CDATA[laajennustunnus]]></value>
+  </definition>
+  <definition>
+    <key>column_required</key>
+    <value><![CDATA[Edellytetään]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[laajennus Name]]></value>
+  </definition>
+  <definition>
+    <key>column_position</key>
+    <value><![CDATA[asema]]></value>
+  </definition>
+  <definition>
+    <key>column_update_date</key>
+    <value><![CDATA[Päivityspäivä]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[Kategoria]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Lajittelujärjestys]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[nopea Toiminnot]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varoitus: Sinulla ei ole lupaa muokata laajennuksia!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_field</key>
+    <value><![CDATA[Virhe: Anna tarvittavat kentät. Mitään ei päivitetty!]]></value>
+  </definition>
+  <definition>
+    <key>error_payment_uninstall</key>
+    <value><![CDATA[Varoitus: Poista pidennyksestä ennen asennuksen!]]></value>
+  </definition>
+  <definition>
+    <key>error_uninstall</key>
+    <value><![CDATA[Varoitus: Poista pidennyksestä ennen poistaa!]]></value>
+  </definition>
+  <definition>
+    <key>text_save_success</key>
+    <value><![CDATA[Success: Olet muokannut laajennuksen asetuksia!]]></value>
+  </definition>
+  <definition>
+    <key>text_restore_success</key>
+    <value><![CDATA[Success: Sinulla on palautettu Oletustunniste asetukset!]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_store</key>
+    <value><![CDATA[Get Extensions]]></value>
+  </definition>
+  <definition>
+    <key>text_required</key>
+    <value><![CDATA[Edellytetään]]></value>
+  </definition>
+  <definition>
+    <key>text_optional</key>
+    <value><![CDATA[Valinnainen]]></value>
+  </definition>
+  <definition>
+    <key>text_add_new</key>
+    <value><![CDATA[Asenna laajennus]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Hae]]></value>
+  </definition>
+  <definition>
+    <key>text_search_for_extension</key>
+    <value><![CDATA[Etsi Extension]]></value>
+  </definition>
+  <definition>
+    <key>text_missing_extension</key>
+    <value><![CDATA[&quot;Laajennus %s: Source ei löydy! Ole hyvä ja poista se ja käydä extention tarjoaja saada täydellistä lähdekoodi asennetaan uudelleen&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_broken_extension</key>
+    <value><![CDATA[&quot;Laajennus %s: Source luultavasti rikki! Etkö löydä config.xml tai main.php tiedostoja. Ole hyvä ja poista se ja käydä extention tarjoaja saada täydellistä lähdekoodi asennetaan uudelleen&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_extension_pagination</key>
+    <value><![CDATA[Extension (s) {start} ja {loppuun} of {yhteensä}]]></value>
+  </definition>
+  <definition>
+    <key>text_per_page</key>
+    <value><![CDATA[per sivu]]></value>
+  </definition>
+  <definition>
+    <key>text_error_in_ajax</key>
+    <value><![CDATA[Virhe ajax puhelun]]></value>
+  </definition>
+  <definition>
+    <key>text_saved</key>
+    <value><![CDATA[Tallennetut]]></value>
+  </definition>
+  <definition>
+    <key>text_save</key>
+    <value><![CDATA[Tallentaa]]></value>
+  </definition>
+  <definition>
+    <key>text_reset</key>
+    <value><![CDATA[asettaa uudelleen]]></value>
+  </definition>
+  <definition>
+    <key>text_back</key>
+    <value><![CDATA[Takaisin]]></value>
+  </definition>
+  <definition>
+    <key>text_additional_settings</key>
+    <value><![CDATA[Muita asetuksia]]></value>
+  </definition>
+  <definition>
+    <key>text_reload</key>
+    <value><![CDATA[ladata]]></value>
+  </definition>
+  <definition>
+    <key>text_version</key>
+    <value><![CDATA[Versio]]></value>
+  </definition>
+  <definition>
+    <key>text_installed_on</key>
+    <value><![CDATA[asennettu]]></value>
+  </definition>
+  <definition>
+    <key>text_installed</key>
+    <value><![CDATA[asennettu]]></value>
+  </definition>
+  <definition>
+    <key>text_not_installed</key>
+    <value><![CDATA[Ei asennettu]]></value>
+  </definition>
+  <definition>
+    <key>text_visit_repository</key>
+    <value><![CDATA[Käy laajennus arkiston ladata laajennus]]></value>
+  </definition>
+  <definition>
+    <key>text_license</key>
+    <value><![CDATA[lisenssi]]></value>
+  </definition>
+  <definition>
+    <key>text_dependency</key>
+    <value><![CDATA[riippuvuus]]></value>
+  </definition>
+  <definition>
+    <key>text_configuration_settings</key>
+    <value><![CDATA[Määritysasetukset]]></value>
+  </definition>
+  <definition>
+    <key>text_upgrade</key>
+    <value><![CDATA[parantaa]]></value>
+  </definition>
+  <definition>
+    <key>text_help</key>
+    <value><![CDATA[auta]]></value>
+  </definition>
+  <definition>
+    <key>text_dependencies</key>
+    <value><![CDATA[riippuvuudet]]></value>
+  </definition>
+  <definition>
+    <key>text_update_available</key>
+    <value><![CDATA[Uusi versio (%s) on käytettävissä. <a href="%s">Klikkaa päivittää nyt.</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_confirm</key>
+    <value><![CDATA[Oletko varma, että haluat poistaa laajennuksen?]]></value>
+  </definition>
+  <definition>
+    <key>error_config_load</key>
+    <value><![CDATA[Virhe: ei voitu ladata config for <b>%s!</b>]]></value>
+  </definition>
+  <definition>
+    <key>error_required_extension</key>
+    <value><![CDATA[<b>%s</b> Laajennus ei voi asentaa: <b>%s</b> tarvittava pidennys]]></value>
+  </definition>
+  <definition>
+    <key>error_required_phpmodule</key>
+    <value><![CDATA[<b>%s</b> Laajennus ei voi asentaa: <b>%s</b> php moduuli tarvitaan]]></value>
+  </definition>
+  <definition>
+    <key>button_restore_defaults</key>
+    <value><![CDATA[Palauta oletusasetukset]]></value>
+  </definition>
+  <definition>
+    <key>additional_settings_confirm</key>
+    <value><![CDATA[Haluat asettaa lisää asetuksia pidentämällä toista tallentaa sinun täytyy kirjautua ohjauspaneeliin toisessa verkkotunnus. Ok?]]></value>
+  </definition>
+  <definition>
+    <key>error_no_help_file</key>
+    <value><![CDATA[Valitettavasti ei ole olemassa ohjetiedostosta jatkamiseen.]]></value>
+  </definition>
+  <definition>
+    <key>text_more_help</key>
+    <value><![CDATA[lisää ohjeita]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_type</key>
+    <value><![CDATA[Tyyppi]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Kaikki yhteensä]]></value>
+  </definition>
+  <definition>
+    <key>text_subtotal</key>
+    <value><![CDATA[Välisumma]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[laivaus]]></value>
+  </definition>
+  <definition>
+    <key>text_tax</key>
+    <value><![CDATA[Verottaa]]></value>
+  </definition>
+  <definition>
+    <key>text_fee</key>
+    <value><![CDATA[Maksu]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[Alennus]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_disable_dependants</key>
+    <value><![CDATA[Laajennus %s on huollettavia ovat: <br/> %s <br/> Se poistetaan käytöstä automaattisesti myös. <br/> Oletteko vahvistaa?]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Tila: <span class="help">Tämä on valvoa liikkeestäsi laajennuksen tilan.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_sort_order</key>
+    <value><![CDATA[Run Order: <span class="help">Numero asettaa näytön asentoon Jotta tämä laajentaminen suhteessa muihin käytössä laajennuksia. (Lajittelu on matalista korkeisiin numero, välittämättä 0 ja tyhjät arvot)</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_minimum_total</key>
+    <value><![CDATA[Yhteensä Order Minimi: <span class="help">Minimitilausmäärä saavutettava, jotta tämä maksu</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_maximum_total</key>
+    <value><![CDATA[Yhteensä Order Maksimi: <span class="help">Maksimi jotta määrä saavutetaan olla hyväksymättä tämän maksun</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_storefront_icon</key>
+    <value><![CDATA[Storefront Icon: <span class="help">Maksu ikoni näytetään kassalla maksun valinta</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_storefront_icon</key>
+    <value><![CDATA[Storefront Icon: <span class="help">Toimitus ikoni näytetään kassalla toimitus valinta</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_autoselect_payment</key>
+    <value><![CDATA[Auto Select: <span class="help">Voit asettaa tämän maksun valitaan oletuksena. Tämä maksutapa on ennalta valittu useita maksuja. Jos tämä on ainoa maksu vaihtoehto, maksutapana valinta vaihe ohitetaan.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_autoselect_shipping</key>
+    <value><![CDATA[Auto Select: <span class="help">Voit asettaa ohittaa merenkulun valintasivulle jos on vain yksi merenkulun vaihtoehto. Tämä toimitustapa valitaan automaattisesti</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_accept_payments_shipping</key>
+    <value><![CDATA[Hyväksy nämä maksut: <span class="help">Jos vain tiettyjä maksutapoja tarvitaan tämän toimitustapa, valitse ne tästä. Jos mitään ei valittu, kaikki käytettävissä olevat maksutavat näytetään</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_ready_to_install</key>
+    <value><![CDATA[Valmis asentamaan]]></value>
+  </definition>
+  <definition>
+    <key>button_install</key>
+    <value><![CDATA[Asentaa]]></value>
+  </definition>
+  <definition>
+    <key>error_dependencies</key>
+    <value><![CDATA[Tämä laajennus ei voi ottaa käyttöön, koska tarvitaan riippuvuutta puuttuu tai ei ole käytössä.]]></value>
+  </definition>
+  <definition>
+    <key>button_howto</key>
+    <value><![CDATA[Miten]]></value>
+  </definition>
+  <definition>
+    <key>text_developer_site</key>
+    <value><![CDATA[Ulkoiset tukisivusto]]></value>
+  </definition>
+  <definition>
+    <key>text_preview</key>
+    <value><![CDATA[preview]]></value>
+  </definition>
+  <definition>
+    <key>text_confirmation</key>
+    <value><![CDATA[Vahvistus]]></value>
+  </definition>
+  <definition>
+    <key>button_confirm</key>
+    <value><![CDATA[Vahvistaa]]></value>
+  </definition>
+  <definition>
+    <key>button_continue</key>
+    <value><![CDATA[Jatkaa]]></value>
+  </definition>
+  <definition>
+    <key>button_cancel</key>
+    <value><![CDATA[Peruuttaa]]></value>
+  </definition>
+  <definition>
+    <key>error_could_not_load_config</key>
+    <value><![CDATA[Virhe: ei voitu ladata config for <b>%s</b> (%s)!]]></value>
+  </definition>
+  <definition>
+    <key>error_could_not_load_override</key>
+    <value><![CDATA[Virhe: ei voi ladata ohitus mallia %s ojennuksessa %s!]]></value>
+  </definition>
+  <definition>
+    <key>tab_general</key>
+    <value><![CDATA[yleinen]]></value>
+  </definition>
+  <definition>
+    <key>tab_additional_settings</key>
+    <value><![CDATA[Lisäasetukset]]></value>
+  </definition>
+  <definition>
+    <key>text_more_extensions</key>
+    <value><![CDATA[Lisää laajennukset ovat saatavilla helposti asentaa.]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - A fiók aktiválva lett!]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Üdvözöljük és köszönjük, hogy regisztrált a %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Fiókja most már létre, és be tud jelentkezni az e-mail címével és jelszavával ellátogat honlapunkra, vagy a következő címen:]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Ha a bejelentkezés, akkor képes lesz elérni, kívánságlistára érdekében történelem, nyomtatás számlák és szerkesztése a fiók adatait.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Köszönöm,]]></value>
+  </definition>
+</definitions>

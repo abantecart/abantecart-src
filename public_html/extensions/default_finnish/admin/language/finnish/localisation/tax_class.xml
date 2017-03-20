@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Tax Sarjat]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[Veroluokka]]></value>
+  </definition>
+  <definition>
+    <key>text_rate</key>
+    <value><![CDATA[Veroaste]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: Olet muokannut vero luokat!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Veroluokka Otsikko]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Toiminta]]></value>
+  </definition>
+  <definition>
+    <key>tab_details</key>
+    <value><![CDATA[Yksityiskohdat]]></value>
+  </definition>
+  <definition>
+    <key>tab_rates</key>
+    <value><![CDATA[hinnat]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Veroluokka Otsikko:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Kuvaus näkyvä asiakkaille]]></value>
+  </definition>
+  <definition>
+    <key>entry_location</key>
+    <value><![CDATA[Sijainti]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Sijainti vyöhyke]]></value>
+  </definition>
+  <definition>
+    <key>entry_priority</key>
+    <value><![CDATA[prioriteetti]]></value>
+  </definition>
+  <definition>
+    <key>entry_rate</key>
+    <value><![CDATA[Veroaste]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varoitus: Sinulla ei ole lupaa muokata vero luokat!]]></value>
+  </definition>
+  <definition>
+    <key>error_tax_title</key>
+    <value><![CDATA[Veroluokka Otsikko on oltava 2 ja 32 merkkiä!]]></value>
+  </definition>
+  <definition>
+    <key>error_rate</key>
+    <value><![CDATA[Veroprosentti tarvita!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Varoitus: Tämä vero luokka ei voi poistaa, koska se on osoitettu tällä hetkellä %s tuotteita!]]></value>
+  </definition>
+  <definition>
+    <key>text_tax_all_zones</key>
+    <value><![CDATA[kaikki sijainti vyöhykkeet]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_rate_threshold</key>
+    <value><![CDATA[Käytä vero jos <br/><span class="help">soveltaa tätä veroa vain silloin, verotetaan määrä (tuote, merenkulku, välisumma, jne) on ...</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_exempt_groups</key>
+    <value><![CDATA[Verovapaat Ryhmät <br/><span class="help">Valitse asiakasryhmille vapauttaa verosta</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_absolute</key>
+    <value><![CDATA[absoluuttinen]]></value>
+  </definition>
+  <definition>
+    <key>text_percent</key>
+    <value><![CDATA[prosentti]]></value>
+  </definition>
+</definitions>

@@ -2,7 +2,7 @@
 <definitions>
   <definition>
     <key>heading_title</key>
-    <value><![CDATA[produkt%s%sPOS=TRUNC filer%s%sPOS=HEADCOMP]]></value>
+    <value><![CDATA[produkt filer]]></value>
   </definition>
   <definition>
     <key>text_product</key>

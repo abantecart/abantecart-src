@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Feil logg]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Suksess: Du har fjernet din feilloggen!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_tail</key>
+    <value><![CDATA[På grunn av store størrelsen på loggfilen, kan bare siste 500kb av data sees her. 
+ Hvis du vil vise hele loggen, få det fra serveren din direkte. 
+ Sti:]]></value>
+  </definition>
+</definitions>

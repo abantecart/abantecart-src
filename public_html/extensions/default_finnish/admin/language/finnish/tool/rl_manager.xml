@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Media Resource Library Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[Uusimmat lisäresurssien]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[resurssityyppi]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[Resurssityyppi Key <br/><span class="help">Tämä resurssityyppi avain / nimeä arvoa ei voida muuttaa</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[Resource hakemisto <br/><span class="help">Directory paikallistamiseen resurssi tämäntyyppisiä. Jos muuttunut, olemassa olevia resursseja ei ole acceccible ja täytyy kopioida uuteen hakemistoon!</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[Oletuskuvake <br/><span class="help">ikoni kuva näytetään listaus resurssit (Location: / image / ...).</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[Sallitut tiedostopäätteet <br/><span class="help">Regex listan sallittujen tiedostopäätteistä tähän julkaisukategoria</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: Olet päivittänyt julkaisukategoria!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[Virhe: Puuttuva julkaisukategoria ID!]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[Virhe: Resurssien tyypin nimi on oltava välillä 2 ja 40 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[Virhe: Resurssien tyyppi hakemisto on oltava välillä 2 ja 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[Virhe: Resurssien tyyppi ikoni on oltava välillä 2 ja 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[Virhe: Resurssityyppi tiedosto extenions regex on oltava välillä 2 ja 40 charcters]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Sinun tilisi on luotu!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Onnea! Uusi tili on luotu onnistuneesti! </p><p> Voit nyt hyödyntää jäsenen etuoikeuksia parantaa verkkokaupoissa kokemus meille. </p><p> Jos sinulla on kysyttävää toiminnasta tämän verkkokaupasta, lähetä sähköpostia tallentaa omistaja. </p><p> Vahvistusviesti on lähetetty edellyttäen sähköpostiosoitteeseen. Jos et ole saanut sitä tunnin sisällä, ota <a href="%s">yhteyttä</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[<p> Kiitos rekisteröitymällä %s! </p><p> Saat ilmoituksen sähköpostitse, kun tilisi on aktivoitu tallentaa omistaja. </p><p> Jos sinulla on kysyttävää toiminnasta tämän verkkokaupasta, ota <a href="%s">yhteyttä verkkokauppaamme</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[<p> Kiitos rekisteröitymällä %s! </p><p> Saat ilmoituksen sähköpostitse kanssa tilin aktivointi ohjeet. Sinun täytyy klikkaa linkkiä sähköpostissa tilin aktivoimiseksi. Jos et saa sähköpostia, tarkista roskaposti tai roskapostikansiosi. </p><p> Jos sinulla on kysyttävää toiminnasta tämän verkkokaupasta, ota <a href="%s">yhteyttä verkkokauppaamme</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Tili]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Menestys]]></value>
+  </definition>
+</definitions>

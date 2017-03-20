@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Gjeste Checkout - Trinn 2]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[Handlekurv]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_1</key>
+    <value><![CDATA[Gjeste Checkout - Trinn 1]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_2</key>
+    <value><![CDATA[Gjeste Checkout - Trinn 2]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Forsendelsesmetode]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[Vennligst fyll ut de foretrukne fraktmetoder å bruke på denne ordren.]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Betalingsmetode]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_methods</key>
+    <value><![CDATA[Velg den foretrukne betalingsmåten for å bruke på denne ordren.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[Legg til kommentarer om din ordre]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[jeg har lest og er enig i]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[Tast inn koden din, trykk på &quot;Apply kupong&quot; -knappen og se din rabatt umiddelbart brukes på din bestilling.]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Suksess: Din kupong rabatt har blitt brukt!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[Suksess: Kupongen er fjernet!]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[Forsendelsesmetode:]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Betalingsmetode:]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon</key>
+    <value><![CDATA[kupong:]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[Feil: Shipping metoden kreves!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[Feil: Ingen Shipping alternativer er tilgjengelige. Ta <a href="index.php?rt=content/contact">kontakt med oss</a> for å få hjelp!]]></value>
+  </definition>
+  <definition>
+    <key>error_payment</key>
+    <value><![CDATA[Feil: Betalingsmåte nødvendig!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[Feil: Du må godta %s!]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Feil: Kupongen er enten ugyldig, utløpt eller nådd det er bruksgrensen!]]></value>
+  </definition>
+</definitions>

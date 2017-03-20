@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[kupongit]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[Kuponki]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: Sinulla on muutettu kuponkeja!]]></value>
+  </definition>
+  <definition>
+    <key>text_percent</key>
+    <value><![CDATA[prosenttimäärä]]></value>
+  </definition>
+  <definition>
+    <key>text_amount</key>
+    <value><![CDATA[kiinteä määrä]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[kuponki Name]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Koodi]]></value>
+  </definition>
+  <definition>
+    <key>column_discount</key>
+    <value><![CDATA[Alennus]]></value>
+  </definition>
+  <definition>
+    <key>column_date_start</key>
+    <value><![CDATA[date Start]]></value>
+  </definition>
+  <definition>
+    <key>column_date_end</key>
+    <value><![CDATA[Päättymispäivä]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Toiminta]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Kuponki Nimi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Kuponki Kuvaus:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Koodi: <br/><span class="help">Koodi asiakas syöttää saada alennusta</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_type</key>
+    <value><![CDATA[Tyyppi: <br/><span class="help">Prosentti tai kiinteä summa</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_discount</key>
+    <value><![CDATA[Alennus:]]></value>
+  </definition>
+  <definition>
+    <key>entry_logged</key>
+    <value><![CDATA[Asiakas Käyttäjätunnus: <br/><span class="help">Asiakkaan täytyy olla kirjautuneena käyttää kuponki.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[Ilmainen toimitus:]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Kokonaismäärä: <br/><span class="help">sub-kokonaismäärä, joka on saavutettu ennen kuponki on voimassa.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_product</key>
+    <value><![CDATA[Valitut tuotteet:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[Date Start:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[Päättymispäivä:]]></value>
+  </definition>
+  <definition>
+    <key>entry_uses_total</key>
+    <value><![CDATA[Käyttää Per kuponki: <br/><span class="help">enimmäismäärä kertaa kuponki voidaan käyttää kuka tahansa asiakas. Jätä tyhjäksi rajoittamaton</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_uses_customer</key>
+    <value><![CDATA[Käyttää Per Asiakas: <br/><span class="help">enimmäismäärä kertaa kuponki voidaan käyttää yhden asiakkaan. Jätä tyhjäksi rajoittamaton</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_coupon_usage</key>
+    <value><![CDATA[Yhteensä kuponki Käyttö: <br/><span class="help">Kreivi kaikkien tilauksia tällä kuponki</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varoitus: Sinulla ei ole lupaa muokata kuponkeja!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Kuponki Nimi tulee olla välillä 2 ja 64 merkkiä!]]></value>
+  </definition>
+  <definition>
+    <key>error_description</key>
+    <value><![CDATA[Kuponki Kuvaus tulee olla 2 merkkiä!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Koodi on välillä 2 ja 10 merkkiä!]]></value>
+  </definition>
+  <definition>
+    <key>error_date</key>
+    <value><![CDATA[Aseta ajanjakso!]]></value>
+  </definition>
+</definitions>

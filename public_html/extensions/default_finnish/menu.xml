@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_index_home_menu</key>
+    <value><![CDATA[Koti]]></value>
+  </definition>
+  <definition>
+    <key>text_product_special_menu</key>
+    <value><![CDATA[Tarjoukset]]></value>
+  </definition>
+  <definition>
+    <key>text_account_account_menu</key>
+    <value><![CDATA[Tili]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout_cart_menu</key>
+    <value><![CDATA[kärry]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout_shipping_menu</key>
+    <value><![CDATA[Tarkista]]></value>
+  </definition>
+  <definition>
+    <key>text_account_login_menu</key>
+    <value><![CDATA[Kirjaudu sisään]]></value>
+  </definition>
+  <definition>
+    <key>text_account_invoice_menu</key>
+    <value><![CDATA[Tarkista tilaus]]></value>
+  </definition>
+  <definition>
+    <key>text_account_logout_menu</key>
+    <value><![CDATA[Kirjautua ulos]]></value>
+  </definition>
+</definitions>

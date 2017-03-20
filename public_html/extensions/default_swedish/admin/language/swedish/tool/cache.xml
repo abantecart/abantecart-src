@@ -70,7 +70,7 @@
   </definition>
   <definition>
     <key>desc_products</key>
-    <value><![CDATA[produkt%s%sPOS=TRUNC]]></value>
+    <value><![CDATA[Produkt]]></value>
   </definition>
   <definition>
     <key>desc_categories</key>

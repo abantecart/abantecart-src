@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Media Resource Library Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[Legújabb megnövelt források]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[erőforrás típus]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[Erőforrás típusa Key <br/><span class="help">Ez az erőforrás típus kulcs / érték nevet nem lehet megváltoztatni</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[Erőforrás könyvtár <br/><span class="help">Directory tájoló forrás ehhez a típushoz. Ha változtatunk, a meglévő források nem lesznek acceccible és át kell másolni az új könyvtárba!</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[Alapértelmezett ikon <br/><span class="help">ikon megjelenítendő kép a tőzsdei források (Hely: / kép / ...).</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[Engedélyezett fájlkiterjesztések <br/><span class="help">Regex egy listát az engedélyezett fájl kiterjesztések erre erőforrás típus</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Siker: Frissítetted erőforrás típus!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[Hiba: Hiányzik az erőforrás-azonosító!]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[Hiba: A forrás típusa név között kell lennie a 2. és 40. charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[Hiba: Típus könyvtár között kell lennie a 2. és a 64. charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[Hiba: Típus ikonra kell lennie a 2 és 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[Hiba: Típus fájl extenions regex között kell lennie a 2. és 40. charcters]]></value>
+  </definition>
+</definitions>

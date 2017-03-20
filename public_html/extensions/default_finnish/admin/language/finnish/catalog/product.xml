@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Tuotteet]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[Tuote]]></value>
+  </definition>
+  <definition>
+    <key>tab_media</key>
+    <value><![CDATA[tiedotusvälineet]]></value>
+  </definition>
+  <definition>
+    <key>tab_shipping</key>
+    <value><![CDATA[laivaus]]></value>
+  </definition>
+  <definition>
+    <key>tab_files</key>
+    <value><![CDATA[Tiedostot]]></value>
+  </definition>
+  <definition>
+    <key>tab_relations</key>
+    <value><![CDATA[Suhteet]]></value>
+  </definition>
+  <definition>
+    <key>tab_promotions</key>
+    <value><![CDATA[Kampanjat]]></value>
+  </definition>
+  <definition>
+    <key>tab_extensions</key>
+    <value><![CDATA[Laajennukset]]></value>
+  </definition>
+  <definition>
+    <key>tab_layout</key>
+    <value><![CDATA[Sivun asettelu]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: Sinulla on muunneltuja tuotteita!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_copy</key>
+    <value><![CDATA[Success: onnistui klooni tuote <b>%s!</b>]]></value>
+  </definition>
+  <definition>
+    <key>text_error_copy</key>
+    <value><![CDATA[Kloonaus on epäonnistunut! Alkuperäinen tuote ei ole saatavilla]]></value>
+  </definition>
+  <definition>
+    <key>text_plus</key>
+    <value><![CDATA[+]]></value>
+  </definition>
+  <definition>
+    <key>text_minus</key>
+    <value><![CDATA[-]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[oletusarvo]]></value>
+  </definition>
+  <definition>
+    <key>text_product_summary</key>
+    <value><![CDATA[tuote Yhteenveto]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[Image Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_option</key>
+    <value><![CDATA[Vaihtoehto]]></value>
+  </definition>
+  <definition>
+    <key>text_option_value</key>
+    <value><![CDATA[vaihtoehto Arvo]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[tuotteen nimi]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Malli]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Kuva]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Määrä]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Hinta]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Toiminta]]></value>
+  </definition>
+  <definition>
+    <key>entry_featured</key>
+    <value><![CDATA[Suositeltu tuote:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Tuotteen nimi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_keywords</key>
+    <value><![CDATA[Meta Tag Avainsanat:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Meta Tag Kuvaus:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Kuvaus:]]></value>
+  </definition>
+  <definition>
+    <key>entry_blurb</key>
+    <value><![CDATA[Mainos:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[Stores:]]></value>
+  </definition>
+  <definition>
+    <key>entry_keyword</key>
+    <value><![CDATA[SEO Avainsana: <br/><span class="help">SEO avain, joka osoittaa URL tälle tuotteelle. Voit luoda avaimen tuotenimellä</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_model</key>
+    <value><![CDATA[Malli:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sku</key>
+    <value><![CDATA[SKU:]]></value>
+  </definition>
+  <definition>
+    <key>entry_location</key>
+    <value><![CDATA[Muut Paikka:]]></value>
+  </definition>
+  <definition>
+    <key>entry_manufacturer</key>
+    <value><![CDATA[Valmistaja:]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[Vaatii Toimitus:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ship_individually</key>
+    <value><![CDATA[Ship Tuote Yksilöllisesti: <br/><span class="help">tuote lähetetään erillisessä pakkauksessa ja ylimääräisiä toimituskulut lisätään tilauksen useita kohteita. Jos käytössä, Fixed Toimitus Hinta on asetettava.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_price</key>
+    <value><![CDATA[Kiinteä Toimitus Hinta: <br/><span class="help">Pääasetus kiinteällä merenkulun hinta tälle tuotteelle.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_free_shipping</key>
+    <value><![CDATA[Free Shipping: <br/><span class="help">Pääasetus mahdollistaa maksuttoman kuljetuksen tälle tuotteelle.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_available</key>
+    <value><![CDATA[Päivä jolloin saatavilla:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_quantity</key>
+    <value><![CDATA[Määrä:]]></value>
+  </definition>
+  <definition>
+    <key>entry_quantity</key>
+    <value><![CDATA[Määrä: <br/><span class="help">Connected Track Stock asetus</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_minimum</key>
+    <value><![CDATA[Minimi Määrä: <br/><span class="help">Force vähintään tilattu määrä</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_maximum</key>
+    <value><![CDATA[Suurin Määrä: <br/><span class="help">asettaa rajan quantaty jotka voidaan valita kutakin järjestyksessä. 0 = ei rajaa</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_status</key>
+    <value><![CDATA[Out Of Stock Status: <br/><span class="help">tila näytetään kun tuote on loppunut varastosta</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_class</key>
+    <value><![CDATA[Veroluokka:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cost</key>
+    <value><![CDATA[Kustannukset: <br/><span class="help">Tukku kustannukset voittovaroja raportointiin</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_price</key>
+    <value><![CDATA[Hinta:]]></value>
+  </definition>
+  <definition>
+    <key>entry_track_option_stock</key>
+    <value><![CDATA[Seuraa Stock:]]></value>
+  </definition>
+  <definition>
+    <key>entry_subtract</key>
+    <value><![CDATA[Seuraa Stock: <br/><span class="help">Set KYLLÄ, jos tarvetta jäljittää varastosaldoon tälle tuotteelle. Jos asetuksia käytetään tarkistaa vähennä asetusta nuolinäppäimillä arvo</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_class</key>
+    <value><![CDATA[Paino-luokka:]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight</key>
+    <value><![CDATA[Paino:]]></value>
+  </definition>
+  <definition>
+    <key>entry_length_class</key>
+    <value><![CDATA[Pituus Class:]]></value>
+  </definition>
+  <definition>
+    <key>entry_length</key>
+    <value><![CDATA[Pituus:]]></value>
+  </definition>
+  <definition>
+    <key>entry_width</key>
+    <value><![CDATA[Leveys:]]></value>
+  </definition>
+  <definition>
+    <key>entry_height</key>
+    <value><![CDATA[Korkeus:]]></value>
+  </definition>
+  <definition>
+    <key>entry_dimension</key>
+    <value><![CDATA[Mitat (P x L x K):]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[Kuva: <br/><span class="help">Klikkaa kuvaa muuttaa sitä.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[Asiakas Ryhmä:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[Date Start:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[Päättymispäivä:]]></value>
+  </definition>
+  <definition>
+    <key>entry_priority</key>
+    <value><![CDATA[prioriteetti:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option</key>
+    <value><![CDATA[Vaihtoehto:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_name</key>
+    <value><![CDATA[Vaihtoehto Name:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_value</key>
+    <value><![CDATA[Vaihtoehto Arvo:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Lajittelujärjestys:]]></value>
+  </definition>
+  <definition>
+    <key>entry_prefix</key>
+    <value><![CDATA[Etuliite:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_prefix</key>
+    <value><![CDATA[Muokkaa Hinnan mukaan:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_price</key>
+    <value><![CDATA[Hinta muokkaaja:]]></value>
+  </definition>
+  <definition>
+    <key>entry_category</key>
+    <value><![CDATA[Luokat:]]></value>
+  </definition>
+  <definition>
+    <key>entry_download</key>
+    <value><![CDATA[Lataukset:]]></value>
+  </definition>
+  <definition>
+    <key>entry_related</key>
+    <value><![CDATA[Liittyvät tuotteet:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tags</key>
+    <value><![CDATA[Tuotteiden tuntomerkkejä: <br/><span class="help">pilkulla erotettuna</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varoitus: Sinulla ei ole lupaa muokata tuotteita!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Tuotteen nimi on oltava suurempi kuin 3 ja pienempi kuin 255 merkkiä!]]></value>
+  </definition>
+  <definition>
+    <key>error_model</key>
+    <value><![CDATA[Tuotteen malli on oltava alle 64 merkkiä! Remomended 5-25 merkkiä]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Tarvittavat tiedot ei ole kirjattu. Tarkista kentän virheitä!]]></value>
+  </definition>
+  <definition>
+    <key>error_product_not_found</key>
+    <value><![CDATA[Virhe: Tuotetta ei löytynyt!]]></value>
+  </definition>
+  <definition>
+    <key>filter_product</key>
+    <value><![CDATA[Etsi tuote]]></value>
+  </definition>
+  <definition>
+    <key>filter_any_word</key>
+    <value><![CDATA[Mikä tahansa näistä sanoista]]></value>
+  </definition>
+  <definition>
+    <key>filter_all_words</key>
+    <value><![CDATA[Kaikki nämä sanat]]></value>
+  </definition>
+  <definition>
+    <key>filter_exact_match</key>
+    <value><![CDATA[Täsmällinen ilmaisu]]></value>
+  </definition>
+  <definition>
+    <key>filter_all_categories</key>
+    <value><![CDATA[- Kaikki kategoriat -]]></value>
+  </definition>
+  <definition>
+    <key>filter_price_max</key>
+    <value><![CDATA[max]]></value>
+  </definition>
+  <definition>
+    <key>text_view</key>
+    <value><![CDATA[näkymä]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[poistaa]]></value>
+  </definition>
+  <definition>
+    <key>text_choose_action</key>
+    <value><![CDATA[Valitse toiminta]]></value>
+  </definition>
+  <definition>
+    <key>text_clone_selected</key>
+    <value><![CDATA[klooni on valittu]]></value>
+  </definition>
+  <definition>
+    <key>text_export_selected</key>
+    <value><![CDATA[Vie valitut]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_selected</key>
+    <value><![CDATA[Poista valitut]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_selected</key>
+    <value><![CDATA[Muokkaa valittuja]]></value>
+  </definition>
+  <definition>
+    <key>text_clone</key>
+    <value><![CDATA[Klooni]]></value>
+  </definition>
+  <definition>
+    <key>text_export</key>
+    <value><![CDATA[Viedä]]></value>
+  </definition>
+  <definition>
+    <key>text_select_category</key>
+    <value><![CDATA[- Valitse kategoria -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_product</key>
+    <value><![CDATA[- Valitse tuote -]]></value>
+  </definition>
+  <definition>
+    <key>text_option_name</key>
+    <value><![CDATA[vaihtoehto Name]]></value>
+  </definition>
+  <definition>
+    <key>text_group_option</key>
+    <value><![CDATA[Ryhmä Vaihtoehto]]></value>
+  </definition>
+  <definition>
+    <key>text_option_type</key>
+    <value><![CDATA[Option Type]]></value>
+  </definition>
+  <definition>
+    <key>text_option_values</key>
+    <value><![CDATA[vaihtoehto Arvot]]></value>
+  </definition>
+  <definition>
+    <key>text_no_option_values</key>
+    <value><![CDATA[Ei Option Values]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_option_values</key>
+    <value><![CDATA[Edit Vaihtoehto Arvo]]></value>
+  </definition>
+  <definition>
+    <key>text_save_option_values</key>
+    <value><![CDATA[Tallenna Vaihtoehto Arvo]]></value>
+  </definition>
+  <definition>
+    <key>button_remove_option</key>
+    <value><![CDATA[Poista Option]]></value>
+  </definition>
+  <definition>
+    <key>text_option_removed</key>
+    <value><![CDATA[vaihtoehto Poistettu]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_type</key>
+    <value><![CDATA[paino Tyyppi]]></value>
+  </definition>
+  <definition>
+    <key>text_product_pagination</key>
+    <value><![CDATA[Tuote (t) {start} ja {loppuun} of {yhteensä}]]></value>
+  </definition>
+  <definition>
+    <key>entry_product_id</key>
+    <value><![CDATA[Tuotetunnus]]></value>
+  </definition>
+  <definition>
+    <key>error_product_load</key>
+    <value><![CDATA[Varoitus: Ei tuote tällaisia ​​ID!]]></value>
+  </definition>
+  <definition>
+    <key>error_attribute_not_selected</key>
+    <value><![CDATA[Valitse mahdollisuus lisätä!]]></value>
+  </definition>
+  <definition>
+    <key>error_date</key>
+    <value><![CDATA[&quot;Date End&quot; ei voi olla pienempi kuin &quot;Date Start&quot;!]]></value>
+  </definition>
+  <definition>
+    <key>error_required</key>
+    <value><![CDATA[Tämä kenttä pitää täyttää!]]></value>
+  </definition>
+  <definition>
+    <key>error_option_in_group</key>
+    <value><![CDATA[Vaihtoehto ei voi lisätä tuotteeseen, koska se on jo osa ryhmää vaihtoehto!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_layout</key>
+    <value><![CDATA[Success: Olet muokannut tuotteen sivun asettelua.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_option</key>
+    <value><![CDATA[Success: Olet muokannut tuote vaihtoehto.]]></value>
+  </definition>
+  <definition>
+    <key>text_add_new_option</key>
+    <value><![CDATA[- Lisää uusi vaihtoehto -]]></value>
+  </definition>
+  <definition>
+    <key>entry_required</key>
+    <value><![CDATA[Edellytetään:]]></value>
+  </definition>
+  <definition>
+    <key>entry_element_type</key>
+    <value><![CDATA[Element Type:]]></value>
+  </definition>
+  <definition>
+    <key>entry_element_values</key>
+    <value><![CDATA[Element Arvot:]]></value>
+  </definition>
+  <definition>
+    <key>text_expand</key>
+    <value><![CDATA[+ laajentaa]]></value>
+  </definition>
+  <definition>
+    <key>text_hide</key>
+    <value><![CDATA[- piilota]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_placeholder</key>
+    <value><![CDATA[Paikanpitäjä:]]></value>
+  </definition>
+  <definition>
+    <key>entry_regexp_pattern</key>
+    <value><![CDATA[Säännöllinen lauseke Pattern:]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_text</key>
+    <value><![CDATA[Virheilmoitus noin kelpaa Arvo:]]></value>
+  </definition>
+  <definition>
+    <key>text_product_condition</key>
+    <value><![CDATA[Tuotteen kunto:]]></value>
+  </definition>
+  <definition>
+    <key>text_product_available</key>
+    <value><![CDATA[Käytettävissä]]></value>
+  </definition>
+  <definition>
+    <key>text_product_disabled</key>
+    <value><![CDATA[Liikuntarajoitteinen]]></value>
+  </definition>
+  <definition>
+    <key>text_product_unavailable</key>
+    <value><![CDATA[poissa]]></value>
+  </definition>
+  <definition>
+    <key>text_product_out_of_stock</key>
+    <value><![CDATA[Loppu varastosta]]></value>
+  </definition>
+  <definition>
+    <key>text_product_in_stock</key>
+    <value><![CDATA[Varastossa]]></value>
+  </definition>
+  <definition>
+    <key>text_product_option_out_of_stock</key>
+    <value><![CDATA[Tuote Option (t) varastossa]]></value>
+  </definition>
+  <definition>
+    <key>text_call_to_order</key>
+    <value><![CDATA[Vaatia palaamaan päiväjärjestykseen]]></value>
+  </definition>
+  <definition>
+    <key>entry_call_to_order</key>
+    <value><![CDATA[Block-tuote Järjestys: <br/><span class="help">Tämä asettaa tuote näyttää tilassa ilman kyky tilauksesta. Ota yhteyttä, jotta näyttöön tulee viesti.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_new_option</key>
+    <value><![CDATA[New Option]]></value>
+  </definition>
+  <definition>
+    <key>text_total_orders</key>
+    <value><![CDATA[Yhteensä tilaukset]]></value>
+  </definition>
+  <definition>
+    <key>error_measure_value</key>
+    <value><![CDATA[Raja 999,99 on saavutettu. Antaa pienempi määrä.]]></value>
+  </definition>
+  <definition>
+    <key>error_weight_value</key>
+    <value><![CDATA[Tämä tuote vaatii merenkulun. Aseta painoarvo.]]></value>
+  </definition>
+  <definition>
+    <key>error_weight_class</key>
+    <value><![CDATA[Aseta painoluokassa.]]></value>
+  </definition>
+  <definition>
+    <key>entry_allowed_extensions</key>
+    <value><![CDATA[Sallittu File Extensions (txt, jpg ...)]]></value>
+  </definition>
+  <definition>
+    <key>entry_min_size</key>
+    <value><![CDATA[Min tiedostokoko (kt)]]></value>
+  </definition>
+  <definition>
+    <key>entry_max_size</key>
+    <value><![CDATA[Tiedoston enimmäiskoko (kt)]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_dir</key>
+    <value><![CDATA[Tallennettu hakemiston nimi <br/> %s]]></value>
+  </definition>
+  <definition>
+    <key>text_success_relation_set</key>
+    <value><![CDATA[Suhteet valittujen tuotteiden asetettiin onnistuneesti!]]></value>
+  </definition>
+</definitions>

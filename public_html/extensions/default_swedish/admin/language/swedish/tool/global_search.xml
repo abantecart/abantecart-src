@@ -62,7 +62,7 @@
   </definition>
   <definition>
     <key>text_commands</key>
-    <value><![CDATA[Snabbkommandon kommandon%s%sPOS=HEADCOMP]]></value>
+    <value><![CDATA[Snabbkommandon kommandon]]></value>
   </definition>
   <definition>
     <key>text_contents</key>

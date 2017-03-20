@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[a megrendelések állapotát]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Rendelés állapota]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Siker: Ön módosította annak érdekében állapotokat!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Rendelés állapota neve]]></value>
+  </definition>
+  <definition>
+    <key>column_text_id</key>
+    <value><![CDATA[Rendelés állapota Text ID]]></value>
+  </definition>
+  <definition>
+    <key>entry_text_id</key>
+    <value><![CDATA[Rendelés állapota Text ID:]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akció]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Rendelés állapota Név:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Figyelmeztetés: nincs engedélye módosítására annak érdekében, szobrokat!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Rendelés állapota Név között kell lennie a 2. és 32 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Figyelmeztetés: Ez a megrendelés állapotát nem lehet törölni, mivel jelenleg kijelölve alapértelmezett áruház rendelés állapota!]]></value>
+  </definition>
+  <definition>
+    <key>error_download</key>
+    <value><![CDATA[Figyelmeztetés: Ez a megrendelés állapotát nem lehet törölni, mivel jelenleg kijelölve alapértelmezett letöltési állapot!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Figyelmeztetés: Ez a megrendelés állapotát nem lehet törölni, mivel jelenleg hozzárendelt %s boltokban!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Figyelmeztetés: Ez a megrendelés állapotát nem lehet törölni, mivel jelenleg hozzárendelt %s megrendeléseket!]]></value>
+  </definition>
+  <definition>
+    <key>error_nondeletable</key>
+    <value><![CDATA[Figyelmeztetés: Ez fontos annak érdekében, hogy a status kapcsolódik kifizetéseket. Nem törölheti ezt az állapotot.]]></value>
+  </definition>
+  <definition>
+    <key>error_status_text_id</key>
+    <value><![CDATA[Rendelés állapota Text ID egyedi legyen, és a 2 és 32 karakter!]]></value>
+  </definition>
+</definitions>

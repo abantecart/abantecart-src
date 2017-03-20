@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Az ügyfelek online]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[Ügyfél neve]]></value>
+  </definition>
+  <definition>
+    <key>column_ip</key>
+    <value><![CDATA[Ügyfél IP]]></value>
+  </definition>
+  <definition>
+    <key>column_time</key>
+    <value><![CDATA[utolsó hozzáférés]]></value>
+  </definition>
+  <definition>
+    <key>column_url</key>
+    <value><![CDATA[uRL-cím]]></value>
+  </definition>
+</definitions>

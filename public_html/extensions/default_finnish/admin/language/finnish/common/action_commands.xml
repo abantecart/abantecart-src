@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_possible_commands</key>
+    <value><![CDATA[Bellow ovat mahdollisia komennot. Voit speek lisätietoja jälkeen komennon avainsanan. Esimerkiksi &quot;avoin sivu viestit&quot; tai &quot;jälkeen tuote&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_multiple_result_found</key>
+    <value><![CDATA[Useita toimia tulos löytyi:]]></value>
+  </definition>
+  <definition>
+    <key>text_action_confirm</key>
+    <value><![CDATA[Vahvista pyyntö:]]></value>
+  </definition>
+  <definition>
+    <key>command_open</key>
+    <value><![CDATA[avoin, avoin sivu, avoin valikko]]></value>
+  </definition>
+  <definition>
+    <key>command_find</key>
+    <value><![CDATA[paikantaa, löytää, haku, etsi, etsi 4]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_cache</key>
+    <value><![CDATA[selkeää välimuisti, välimuistin selkeä, kirkas kaikki välimuistin]]></value>
+  </definition>
+  <definition>
+    <key>command_view_log</key>
+    <value><![CDATA[näkymä log, log mielestä tarkastaa loki, katso log, katsella virhelokin, tarkastella virheitä]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_log</key>
+    <value><![CDATA[selkeä log, log kirkas, poistaa lokin, log poistaa]]></value>
+  </definition>
+  <definition>
+    <key>command_view_order</key>
+    <value><![CDATA[näkymä järjestyksessä, tilausnumero, avoin järjestyksessä, osoittavat järjestyksessä, avoin tilausnumero, näkymä tilausnumero, osoittavat tilausnumero, jotta #]]></value>
+  </definition>
+  <definition>
+    <key>command_view_product</key>
+    <value><![CDATA[näkymä tuote, tuotenumero, avoimia tuote, osoittavat tuote, avoin tuotenumero, näkymä tuotenumero, osoittavat tuotenumero, tuote #]]></value>
+  </definition>
+  <definition>
+    <key>command_create_new</key>
+    <value><![CDATA[aseta, luoda, lisätä, uusi, aseta uusi, luoda uusia, lisätä uusia]]></value>
+  </definition>
+  <definition>
+    <key>category</key>
+    <value><![CDATA[kategoria]]></value>
+  </definition>
+  <definition>
+    <key>product</key>
+    <value><![CDATA[tuote]]></value>
+  </definition>
+  <definition>
+    <key>brand</key>
+    <value><![CDATA[brändi]]></value>
+  </definition>
+  <definition>
+    <key>manufacturer</key>
+    <value><![CDATA[valmistaja]]></value>
+  </definition>
+  <definition>
+    <key>review</key>
+    <value><![CDATA[arvostelu]]></value>
+  </definition>
+  <definition>
+    <key>download</key>
+    <value><![CDATA[ladata]]></value>
+  </definition>
+  <definition>
+    <key>attribute</key>
+    <value><![CDATA[ominaisuus]]></value>
+  </definition>
+  <definition>
+    <key>customer</key>
+    <value><![CDATA[asiakas]]></value>
+  </definition>
+  <definition>
+    <key>coupon</key>
+    <value><![CDATA[kuponki]]></value>
+  </definition>
+  <definition>
+    <key>discount</key>
+    <value><![CDATA[alennus]]></value>
+  </definition>
+  <definition>
+    <key>block</key>
+    <value><![CDATA[lohko]]></value>
+  </definition>
+  <definition>
+    <key>menu</key>
+    <value><![CDATA[valikko]]></value>
+  </definition>
+  <definition>
+    <key>content</key>
+    <value><![CDATA[pitoisuus]]></value>
+  </definition>
+  <definition>
+    <key>banner</key>
+    <value><![CDATA[lippu]]></value>
+  </definition>
+  <definition>
+    <key>page</key>
+    <value><![CDATA[sivu]]></value>
+  </definition>
+  <definition>
+    <key>store</key>
+    <value><![CDATA[kauppa]]></value>
+  </definition>
+  <definition>
+    <key>language</key>
+    <value><![CDATA[Kieli]]></value>
+  </definition>
+  <definition>
+    <key>currency</key>
+    <value><![CDATA[valuutta]]></value>
+  </definition>
+  <definition>
+    <key>location</key>
+    <value><![CDATA[sijainti]]></value>
+  </definition>
+  <definition>
+    <key>tax</key>
+    <value><![CDATA[verottaa]]></value>
+  </definition>
+</definitions>

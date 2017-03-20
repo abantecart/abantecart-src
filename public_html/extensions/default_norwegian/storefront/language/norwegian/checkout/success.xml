@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Din bestilling er behandlet!]]></value>
+  </definition>
+  <definition>
+    <key>text_message_account</key>
+    <value><![CDATA[<p> Bestillingen # %s er opprettet! </p> 
+ <p> Du kan se bestillingsdetaljene ved å gå til <a href="%s">fakturaen siden</a>. </p> 
+ <p> Send eventuelle spørsmål du har til <a href="%s">store eieren</a>. </p> 
+ <p> Takk for at du handler hos oss! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_message_guest</key>
+    <value><![CDATA[<p> Bestillingen har blitt behandlet! </p> 
+ <p> Du kan se bestillingsdetaljene ved å gå til <a href="%s">fakturaen siden</a>. </p> 
+ <p> Send eventuelle spørsmål du har til <a href="%s">store eieren</a>. </p> 
+ <p> Takk for at du handler hos oss! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Kurv]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Shipping]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[innbetaling]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[gjesteutsjekk]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Bekrefte]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Suksess]]></value>
+  </definition>
+</definitions>

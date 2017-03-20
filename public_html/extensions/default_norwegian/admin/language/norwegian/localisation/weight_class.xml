@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[vektklasser]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[vektklasse]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Suksess: Du har endret vektklasser!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[vekt Tittel]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[vekt Unit]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Verdi]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Handling]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Vekt Tittel:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Vekt Enhet:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Verdi: <br/><span class="help">Sett til 1,00000 hvis dette er standard vekt.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advarsel: Du har ikke tillatelse til å endre vektklasser!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Vekt Tittelen må være mellom 2 og 32 tegn!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Vektenhet må være mellom 1 og 4 tegn!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Advarsel: Denne vektklassen kan ikke slettes som det er i dag tildelt som standard store vektklassen!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Advarsel: Denne vektklassen kan ikke slettes som det er i dag tildelt %s produkter!]]></value>
+  </definition>
+</definitions>

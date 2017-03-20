@@ -26,7 +26,7 @@
   </definition>
   <definition>
     <key>column_date_start</key>
-    <value><![CDATA[datum%s%sPOS=HEADCOMP Start]]></value>
+    <value><![CDATA[datum Start]]></value>
   </definition>
   <definition>
     <key>column_date_end</key>

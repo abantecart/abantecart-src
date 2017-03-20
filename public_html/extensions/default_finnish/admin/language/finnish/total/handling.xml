@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Käsittelymaksu]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[Käsittelymaksu]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Tilaa Totals]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: Olet päivittänyt yhteensä käsittelymaksu!]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Tilaus yhteensä: <span class="help">Minimitilausmäärä saavutettava soveltamaan maksu. Jos asiakkaan tilauksen yhteensä ylittää tämän määrän, käsittely FEEE ei sovelleta. Tämä arvo ohittaa maksu erityisiä asetus.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_placeholder</key>
+    <value><![CDATA[Tilaa Määrä]]></value>
+  </definition>
+  <definition>
+    <key>entry_fee</key>
+    <value><![CDATA[Maksu: <span class="help">Maksu voidaan lisätä tilata kokonaismäärä jos vähimmäismäärä ehto ei täyty. Tämä määrä ohittaa maksu erityinen asetus</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_fee</key>
+    <value><![CDATA[Maksu: <span class="help">Maksu voidaan lisätä tilauksen yhteensä jos vähintään osa-kokonaismäärä ehto ei täyty. Tämä määrä ohittaa tärkein maksu asetus</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[<span class="help">Maksu: Tietyn maksun sinun täytyy lisätä maksu. Nämä asetukset ohittavat pääasetukset jos maksu on käytössä asiakkaan.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_subtotal</key>
+    <value><![CDATA[Tilaa Välisumma: <span class="help">Vähimmäismyyntimäärä Saharan kokonaissumma saavutetaan soveltamaan maksu. Tämä ohittaa Tärkein asetus</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Veroluokka: <span class="help">Valitse jos tarvitset veron sovellettava-päälle käsittelymaksu</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Lajittelujärjestys:]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[Laskelma Order:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varoitus: Sinulla ei ole lupaa muokata koko käsittelymaksu!]]></value>
+  </definition>
+  <definition>
+    <key>error_number</key>
+    <value><![CDATA[Varoitus: Tilaa yhteensä ja käsittelymaksu on oltava numeroita!]]></value>
+  </definition>
+</definitions>

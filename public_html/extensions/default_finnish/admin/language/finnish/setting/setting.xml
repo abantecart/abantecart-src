@@ -1,0 +1,915 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[asetukset]]></value>
+  </definition>
+  <definition>
+    <key>column_store_alias</key>
+    <value><![CDATA[kauppa]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[Ryhmä]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[avain]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Arvo]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: Olet onnistuneesti tallentanut asetukset!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[Image Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- Select Group -]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[oletusarvo]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store_settings</key>
+    <value><![CDATA[Muokkaa asetuksia:]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_template_settings</key>
+    <value><![CDATA[Muokkaa mallia Asetukset:]]></value>
+  </definition>
+  <definition>
+    <key>text_common_template_settings</key>
+    <value><![CDATA[Malline valinta]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[Edit Store]]></value>
+  </definition>
+  <definition>
+    <key>text_mail</key>
+    <value><![CDATA[posti]]></value>
+  </definition>
+  <definition>
+    <key>text_smtp</key>
+    <value><![CDATA[SMTP]]></value>
+  </definition>
+  <definition>
+    <key>tab_all</key>
+    <value><![CDATA[Kaikki]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Liikkeen nimi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[Store URL: <br/><span class="help">URL-osoitteen kokonaisuudessaan ihmettelemään. Muista lisätä &quot;/&quot; lopussa. Esimerkki: http://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_owner</key>
+    <value><![CDATA[Kaupan omistaja:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address</key>
+    <value><![CDATA[Osoite:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-Mail:]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_emails</key>
+    <value><![CDATA[Muita Alert sähköpostit: <br/><span class="help">Ylimääräiset viestit haluat vastaanottaa hälytyssähköpostiviestin lisäksi pääasiassa tallentaa sähköpostin. (pilkulla erotettuna)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[Puhelin:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Faksi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Otsikko: <br/><span class="help">Tämä näkyy myymälä selaimessa otsikossa</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Meta Tag Kuvaus: <br/><span class="help">Storefront pääsivulla sisällönkuvauskenttien kuvaus</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_keywords</key>
+    <value><![CDATA[Meta avainsanat: <br/><span class="help">Storefront pääsivulla sisällönkuvauskentässä avainsanat (pilkulla erotettuna)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Tervetulosanat:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[Malline: <span class="help">Storefront malliin. Tämä voi olla tärkein tai laajentamista mallin</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_template</key>
+    <value><![CDATA[Ohjauspaneeli Malline:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Maa:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Alue / Osavaltio:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Storefront Kieli:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_language</key>
+    <value><![CDATA[Administration Kieli: <span class="help">HUOM: toimii, jos ei käyttäjä ensisijainen kieli löytyy selaimen</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency</key>
+    <value><![CDATA[Perusvaluutta: <span class="help">Tämä on perusvaluutta kaikille myymälöissä. Eivät muutu, jos et ymmärrä, mitä tapahtuu. Varoitus: muuttaminen perusvaluutan ei muuta perushintojen tuotteiden. Sinun täytyy tarkistaa ja säätää kaikkia hintoja tarvittaessa. Base valuuttakurssia asetetaan 1,00 ja kaikkien muiden valuuttojen vaihtokurssit mukautetaan suhteessa uuteen perusvaluutaksi.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency_auto</key>
+    <value><![CDATA[Automaattinen päivitys Valuutta: <br/><span class="help">Aseta tallentaa automaattisesti päivittää valuuttojen päivittäin. Yahoo palvelinta käytetään.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_class</key>
+    <value><![CDATA[Paino-luokka:]]></value>
+  </definition>
+  <definition>
+    <key>entry_length_class</key>
+    <value><![CDATA[Pituus Class:]]></value>
+  </definition>
+  <definition>
+    <key>entry_auto_translate_status</key>
+    <value><![CDATA[AutoTranslate Status: <br/><span class="help">Tämä mahdollisti käännös puuttuu tekstiä määritelmiä tai kielen erityisiä tietoja, jos teksti-arvot puuttuvat käytetty kieli.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_src_lang_code</key>
+    <value><![CDATA[Lähdekieli käännettäväksi <br/><span class="help">Valitse lähdekieli käytettävä autotranslation.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method</key>
+    <value><![CDATA[Teksti Translation Menetelmä: <br/><span class="help">Valitse tapa, jota haluat käyttää käännettäväksi. Oletus menetelmä on suora kopio lähteen kielen tekstin</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_override_existing</key>
+    <value><![CDATA[Ohittaa jos lähdekieli teksti on muuttunut: <br/><span class="help">Jos asetettu, tekstin kaikilla kielillä korvataan uuden käännöksen, jos lähdekielen tekstiä muokataan. HUOMAUTUS: Voi aiheuttaa monia käännöksiä.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_warn_lang_text_missing</key>
+    <value><![CDATA[Varoita Puuttuvalle kielen tekstin: <br/><span class="help">Get vikailmoitu jos puuttuva kielen tekstin havaitaan.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Näyttö hinnat With Vero:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store</key>
+    <value><![CDATA[Oletus Store Veron määrä:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_0</key>
+    <value><![CDATA[ei Tax]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_1</key>
+    <value><![CDATA[Store Default Zone]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer</key>
+    <value><![CDATA[Käytä Asiakas Vero Osoite:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_0</key>
+    <value><![CDATA[Toimitusosoite]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_1</key>
+    <value><![CDATA[Laskutusosoite]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice</key>
+    <value><![CDATA[Lasku Start No .: <br/><span class="help">Aseta aloittava numero laskut tulee alkaa.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice_prefix</key>
+    <value><![CDATA[Lasku etuliite: <br/><span class="help">Aseta laskun etuliite esim IN / 001</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[Asiakas Ryhmä: <br/><span class="help">Default asiakasryhmä.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_price</key>
+    <value><![CDATA[Kirjaudu Näyttö Hinta: <br/><span class="help">Näytä hinnat vaikka asiakas ei ole kirjautunut sisään.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_approval</key>
+    <value><![CDATA[Hyväksy uusille asiakkaille: <br/><span class="help">Älä anna uuden asiakkaan kirjautua ennen tilinsä on hyväksytty.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_prevent_email_as_login</key>
+    <value><![CDATA[Vaadi Kirjautumisnimi: <br/><span class="help">Turvallisuuden parantamiseksi vaativat asiakkaat luoda ainutlaatuisia kirjautumisnimen käyttämisen sijaan sähköpostiosoitteen kirjautumisnimi. Jos PÄÄLLÄ, nykyiset asiakkaat pyydetään luomaan uusia kirjautumisnimesi ensimmäisen kirjautumisen yhteydessä. Jos OFF, kirjautumisnimi asetetaan asiakkaiden sähköpostiosoitteeseen.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_guest_checkout</key>
+    <value><![CDATA[Vieraiden kassalle: <br/><span class="help">Anna asiakkaille kassalle luomatta tiliä. Tämä ei ole käytettävissä, kun ladattavissa tuote on ostoskorissa.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_account</key>
+    <value><![CDATA[Tiliehtoja: <br/><span class="help">Forces ihmiset hyväksyvät ehdot ennen tilin voi luoda.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_checkout</key>
+    <value><![CDATA[Kassalle Ehdot: <br/><span class="help">Forces ihmiset hyväksyvät ehdot ennen kuin asiakas voi kassalle.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_status</key>
+    <value><![CDATA[Tilauksen tila: <br/><span class="help">Aseta oletus tilauksen tilan, kun tilaus on käsitelty.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_cancelation_order_status</key>
+    <value><![CDATA[Salli Asiakas Peruuta tilaus tila:]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_display</key>
+    <value><![CDATA[Näyttö Stock: <br/><span class="help">näyttö varastosaldoon tuotesivulla.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_nostock_autodisable</key>
+    <value><![CDATA[Ei Stock Auto Disable: <br/><span class="help">Poista tuotteen tai vaihtoehto vastinetta mieltä, jos varastossa putoaa 0. viesti ilmoitus tulee lähettää</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_checkout</key>
+    <value><![CDATA[Stock kassalle: <br/><span class="help">Salli asiakkaiden yhä kassalle, jos tuotteita he tilaavat ei ole varastossa.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_status</key>
+    <value><![CDATA[Stock Status: <br/><span class="help">oletusasetus loppu tilaviestisi tuotteen. Käytetty tuotteen muokkaussivulla.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_logo</key>
+    <value><![CDATA[Store logo:]]></value>
+  </definition>
+  <definition>
+    <key>entry_icon</key>
+    <value><![CDATA[Icon: <br/><span class="help">Kuvake voi olla PNG tai ICON tyyppi, joka on 16px x 16px.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_width</key>
+    <value><![CDATA[Leveys:]]></value>
+  </definition>
+  <definition>
+    <key>entry_height</key>
+    <value><![CDATA[Korkeus:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb</key>
+    <value><![CDATA[Tuotenäyttö Peukalo koko:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_width</key>
+    <value><![CDATA[Tuotenäyttö Peukalo Leveys:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_height</key>
+    <value><![CDATA[Tuotenäyttö Peukalo Korkeus:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup</key>
+    <value><![CDATA[Tuotteen kuva Popup koko:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_width</key>
+    <value><![CDATA[Suuri ikkuna Preview Leveys:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_height</key>
+    <value><![CDATA[Suuri ikkuna Preview Korkeus:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category</key>
+    <value><![CDATA[Luokka List Koko:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_width</key>
+    <value><![CDATA[Luokka List Leveys:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_height</key>
+    <value><![CDATA[Luokka List Korkeus:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_width</key>
+    <value><![CDATA[Brand kuvakeluettelo Leveys:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_height</key>
+    <value><![CDATA[Brand kuvakeluettelo Korkeus:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product</key>
+    <value><![CDATA[Tuotteen List Koko:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_height</key>
+    <value><![CDATA[Tuote List Korkeus: <br/><span class="help">Tämä on ohjata korkeus esikatselukuvan listaus sivuja admin ja muihin paikkoihin myymälä. Huomaa, että tämä asetus on jaettu admin ja oletuksena liikkeestäsi malliin.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_width</key>
+    <value><![CDATA[Tuote List Leveys: <br/><span class="help">Tämä on ohjata leveys esikatselukuvassa listaus sivuja admin ja muihin paikkoihin myymälä. Huomaa, että tämä asetus on jaettu admin ja oletuksena liikkeestäsi malliin.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional</key>
+    <value><![CDATA[Muita Tuotteen Kuvan koko:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_width</key>
+    <value><![CDATA[Muita Tuotenäyttö Leveys:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_height</key>
+    <value><![CDATA[Muita Tuotenäyttö Korkeus:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related</key>
+    <value><![CDATA[Vastaava tuote Kuvan koko:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_width</key>
+    <value><![CDATA[Liittyvät Tuotenäyttö Leveys:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_height</key>
+    <value><![CDATA[Liittyvät Tuotenäyttö Korkeus:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart</key>
+    <value><![CDATA[Cart Kuvan koko:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_width</key>
+    <value><![CDATA[Cart Kuvan leveys:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_height</key>
+    <value><![CDATA[Cart kuvakorkeus:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid</key>
+    <value><![CDATA[Grid Kuvan koko:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_width</key>
+    <value><![CDATA[Grid Kuvan leveys: <br/><span class="help">Tämä on ohjata leveys on hyvin pieni esikatselukuvassa listaus sähköverkot admin ja muihin paikkoihin myymälä. Huomaa, että tämä asetus on jaettu admin ja oletuksena liikkeestäsi malliin.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_height</key>
+    <value><![CDATA[Grid Kuva Korkeus: <br/><span class="help">Tämä on ohjata korkeus on hyvin pieni esikatselukuvassa listaus sähköverkot admin ja muihin paikkoihin myymälä. Huomaa, että tämä asetus on jaettu admin ja oletuksena liikkeestäsi malliin.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_mail</key>
+    <value><![CDATA[Alert Mail: <br/><span class="help">Lähetä sähköpostin kauppiaan kun uusi tilaus luodaan.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_download</key>
+    <value><![CDATA[Salli Lataukset:]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_status</key>
+    <value><![CDATA[Lataa Tilauksen tila: <br/><span class="help">Aseta tilauksen tilan asiakkaan tilauksesta oltava ennen kuin he voivat käyttää niiden ladattavia tuotteita.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_protocol</key>
+    <value><![CDATA[Mail Protocol: <span class="help">Mail: Oletuspalvelin sähköpostipalvelin käytetään. Varmista, että se on määritetty ja voi lähettää sähköpostia PHP mail.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_parameter</key>
+    <value><![CDATA[Mail parametrit: <span class="help">Käytettäessä &quot;Mail&quot;, ylimääräisiä posti parametreja voidaan lisätä tähän (esimerkiksi &quot;-femail@storeaddress.com&quot;.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_host</key>
+    <value><![CDATA[SMTP Host: <br/><span class="help">Käytä SSL: //smtp.yourdomain.com turvalliseen SMTP-yhteyden</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_username</key>
+    <value><![CDATA[SMTP Käyttäjätunnus:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_password</key>
+    <value><![CDATA[SMTP Salasana:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_port</key>
+    <value><![CDATA[SMTP-portti:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_timeout</key>
+    <value><![CDATA[SMTP Timeout:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[Käytä SSL: <br/><span class="help">SSL tarkistaa kanssa isäntä, jos SSL-sertifikaatti on asennettu.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_session_ttl</key>
+    <value><![CDATA[Ohjauspaneeli Session vanheneminen: <br/><span class="help">Tämä arvo ohjaa aikaväli minuuttia ennen kuin pyydetään kirjautua uudelleen takia ole toimintaa.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_encryption</key>
+    <value><![CDATA[Salausavain: <br/><span class="help">Asetus siirtynyt config tiedosto alkaen v1.2.1.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_seo_url</key>
+    <value><![CDATA[Käytä SEO URL: n: <br/><span class="help">Jos haluat käyttää SEO URL: n apache moduuli mod-uudelleenkirjoitus on asennettava ja sinun täytyy nimetä htaccess.txt .htaccess. Huomaa: Jos abantecart ole asennettu juuresta domain on vaihdettava RewriteBase sääntö sisällä .htaccess tiedosto.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_retina_enable</key>
+    <value><![CDATA[Luo high-res (verkkokalvo) kuvat: <br/><span class="help">Käytä tätä apache moduulin mod-uudelleenkirjoitus on asennettava ja sinun täytyy nimetä htaccess.txt .htaccess. Huomaa: Jos abantecart ole asennettu juuresta domain on vaihdettava RewriteBase sääntö sisällä .htaccess tiedosto. <br/> Kun olet ottanut pitäisi tyhjentää välimuistin kuvia.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_quality</key>
+    <value><![CDATA[JPEG-kuvia Compression Level]]></value>
+  </definition>
+  <definition>
+    <key>entry_compression</key>
+    <value><![CDATA[Output Compression Level: <br/><span class="help">GZIP tehostamiseksi siirtää pyytävälle asiakkaille. Puristus pinnan on oltava 0-9</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_display</key>
+    <value><![CDATA[Näyttö virheet: <br/><span class="help">Aseta Kyllä, jos haluat nähdä poikkeukset ja virheet</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_log</key>
+    <value><![CDATA[Log virheet: <br/><span class="help">Aseta Kyllä, jos haluat tallentaa poikkeukset ja virheet lokiin</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_enable_reviews</key>
+    <value><![CDATA[Ota Arviot: <br/><span class="help"></span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cache_enable</key>
+    <value><![CDATA[Cache päällä: <br/><span class="help">Ole varovainen, kun disable välimuistin. Välimuistissa sivuja ei luoda uudelleen ja sivusto voi alkaa lastaus hitaasti.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_cache_drivers</key>
+    <value><![CDATA[Parhaillaan käytetään välimuistin <b>%s</b> kuljettaja. Muita ohjaimia konfigurointiin ovat <i>%s</i>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_status</key>
+    <value><![CDATA[Storefront API tila:]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_key</key>
+    <value><![CDATA[Storefront Sovellusliittymäavain: <br/><span class="help">Aseta tätä näppäintä tarjota rajoitettua (turvallisempi) pääsy liikkeestäsi API.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_stock_check</key>
+    <value><![CDATA[Storefront API Stock Access: <br/><span class="help">Ota jos annat myymälä API tarkistaa varastotilanteen</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_status</key>
+    <value><![CDATA[Admin API tila:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_key</key>
+    <value><![CDATA[Admin Sovellusliittymäavain: <br/><span class="help">Aseta tätä näppäintä tarjota rajoitettua (turvallisempi) pääsy admin API.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_access_ip_list</key>
+    <value><![CDATA[Admin API Access IP: <br/><span class="help">Anna luettelo IPS (pilkulla erotettuna), jotka saavat käyttää järjestelmänvalvojan API. Muut IP estetään</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_max_size</key>
+    <value><![CDATA[Resurssikirjasto Lataa Tiedoston enimmäiskoko, kB]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug</key>
+    <value><![CDATA[Näytä Debug Info: <br/><span class="help">Aseta tämä, jos haluat nähdä toteutustiedot ja näyttää debug yksityiskohtia.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_0</key>
+    <value><![CDATA[Pois päältä]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_1</key>
+    <value><![CDATA[Show]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_2</key>
+    <value><![CDATA[log]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level</key>
+    <value><![CDATA[Debug taso: <br/><span class="help">Valitse syvyys yksityiskohtia sinun täytyy nähdä vianetsintätuloksen.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_0</key>
+    <value><![CDATA[Taso 0 - ei lokit, poikkeuksena virheitä]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_1</key>
+    <value><![CDATA[Taso 1 - virheet ja varoitukset]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_2</key>
+    <value><![CDATA[Taso 2 - # 1 + mysql sivuston kuormitus, php tiedosto suoritusaika ja sivuelementtejä latausajan]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_3</key>
+    <value><![CDATA[Taso 3 - # 2 + perus lokit ja pino toteutuksen]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_4</key>
+    <value><![CDATA[Taso 4 - # 3 + dump mysql lausuntoja]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_5</key>
+    <value><![CDATA[Taso 5 - # 4 + väli muuttuja]]></value>
+  </definition>
+  <definition>
+    <key>entry_template_debug</key>
+    <value><![CDATA[Malline debug: <br/><span class="help">Ota tämä asetus, jos haluat tarkistaa ongelmia mallin myymälä ja ohjauspaneeli.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_filename</key>
+    <value><![CDATA[Error Log Tiedoston: <br/><span class="help">Tämä tiedosto jossa virheet tallennetaan.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_session</key>
+    <value><![CDATA[Käyttö Toimitus Session: <br/><span class="help">Tallentaa toimitus lainauksia istuntoon välttää uudelleen lainaten tarpeettomasti. Lainaukset vain uudelleen lainata, jos koriin tai osoite muuttuu.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_catalog_limit</key>
+    <value><![CDATA[Oletus Tuotteita Page (Storefront): <br/><span class="help">Asettaa kuinka monta storefront erät per sivu (tuotteita, luokat, jne)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_limit</key>
+    <value><![CDATA[Oletus Tuotteita Page (Admin): <br/><span class="help">Asettaa kuinka monta admin kohteet näkyvät sivua kohti listalle verkkoihin (tilaukset, asiakkaat, jne)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_bestseller_limit</key>
+    <value><![CDATA[Artikkelimäärä Bestseller Block]]></value>
+  </definition>
+  <definition>
+    <key>entry_featured_limit</key>
+    <value><![CDATA[Artikkelimäärä Ohjelmaan Block]]></value>
+  </definition>
+  <definition>
+    <key>entry_latest_limit</key>
+    <value><![CDATA[Määrä kohteet Viimeksi Block]]></value>
+  </definition>
+  <definition>
+    <key>entry_special_limit</key>
+    <value><![CDATA[Artikkelimäärä Special Block]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_weight</key>
+    <value><![CDATA[Näyttö Paino koriin Sivu: <br/><span class="help">Näyttää kärryn paino ostoskorisivulla</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_reviews</key>
+    <value><![CDATA[Salli Arviot: <br/><span class="help">päälle / pois päältä uusi arvostelu tulo ja näyttö nykyisten arvostelua</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_maintenance</key>
+    <value><![CDATA[Maintenance Mode: <br/><span class="help">Estää asiakkaita selata myymälän. He sen sijaan nähdä huolto viestin. Jos kirjautunut admin, näet tallentaa normaalisti.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_voicecontrol</key>
+    <value><![CDATA[Puheohjaus: <br/><span class="help">Ota admin ääniohjaus aktivoida äänikomennot ominaisuus. Tällä hetkellä tuetaan vain Chromen versiossa 25 tai uudempi.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_help_links</key>
+    <value><![CDATA[Help Links: <br/><span class="help">Jos haluat nähdä Ohje kuvakkeet ja linkit AbanteCart sivustoon. Tämä auttaa sinua oppia ominaisuuksista ja miten niitä käytetään. Jos edennyt käyttäjä ja halua nähdä nämä auttavat kuvakkeita, voit poistaa.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_show_tree_data</key>
+    <value><![CDATA[Ota Tree Grid: <br/><span class="help">Mahdollistaa admin ristikot näyttää vanhemman / lasten osalta eräässä verkkoon listalle. HUOM: sivutus ja multi-toiminta on poistettu käytöstä näiden verkkojen</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_ajax</key>
+    <value><![CDATA[Sama: Lisää koriin: <br/><span class="help">Näin AJAX lisää ostoskoriin ominaisuus. Tuote voidaan lisätä ostoskoriin ilman suuntaamalla koriin sivulle</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_width</key>
+    <value><![CDATA[Storefront Site Leveys: <br/><span class="help">Esimerkki: 100% tai 1000px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_width</key>
+    <value><![CDATA[Admin Site Leveys: <br/><span class="help">Esimerkki: 100% tai 1000px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_maximum</key>
+    <value><![CDATA[Suurin järjestys määrä sallittu: <br/><span class="help">Prevent kaupankäyntiä suuren tilauksen sub-kokonaismäärät. 0 = EI LIMIT</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_minimum</key>
+    <value><![CDATA[Minimitilausmäärä: <br/><span class="help">Prevent kassalle jos tilaus Välisumma ei saavuta vähimmäismäärä asetettu. 0 = EI VÄHINTÄÄN</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_system_check</key>
+    <value><![CDATA[Järjestelmän tarkastus: <br/><span class="help">Ota tämä asetus, jos haluat tarkistaa järjestelmän ehdon suhteen AbanteCart toiminnallisuutta. Järjestelmän kysymykset vaikuttavat AbanteCart raportoidaan viestit näkyvät admin.</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[New Store]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varoitus: Sinulla ei ole lupaa muokata asetuksia!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Kirjaudu nimen on oltava aakkosnumeerinen vain välillä 5 ja 64 merkkiä!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[Tämä kirjautumisnimi ei ole käytettävissä. Kokeile eri kirjautumisnimi!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Store Name tulee olla välillä 2 ja 32 merkkiä!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[Store URL tarvita!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Otsikko on oltava 2 ja 32 merkkiä!]]></value>
+  </definition>
+  <definition>
+    <key>error_owner</key>
+    <value><![CDATA[Store omistaja on oltava 2 ja 64 merkkiä!]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[Liikkeen osoite on oltava välillä 10 ja 256 merkkiä!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Sähköpostiosoite ei näytä olevan voimassa!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[Puhelin tulee olla välillä 2 ja 32 merkkiä!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[Tuotteen kuva Peukalo Koko mitat tarvita!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[Tuotteen kuva Popup Koko mitat tarvita!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[Luokka List Koko mitat tarvita!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_manufacturer</key>
+    <value><![CDATA[Brand kuvakeluettelo Koko mitat tarvita!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[Tuotteen List Koko mitat tarvita!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[Muita Tuotteen kuvakoko mitat tarvita!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[Vastaava tuote Kuvan koko mitat tarvita!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[Cart kuvakoko mitat tarvita!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[Grid kuvakoko mitat tarvita!]]></value>
+  </definition>
+  <definition>
+    <key>error_error_filename</key>
+    <value><![CDATA[Error Log Tiedoston tarvita!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Tarvittavat tiedot ei ole kirjattu. Tarkista kentän virheitä!]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded_image</key>
+    <value><![CDATA[Ladattu tiedosto %s ei ole kuva tai rikki!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Raja tarvita!]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[Store Front]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[admin]]></value>
+  </definition>
+  <definition>
+    <key>error_mail</key>
+    <value><![CDATA[Täytä tarvittavat kentät smtp-protokolla!]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_sort_order_asc</key>
+    <value><![CDATA[Tuotteen järjestys Low &gt; Korkea]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[Name - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[Nimi Z - A]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_asc</key>
+    <value><![CDATA[Edullisesta &gt; Korkea]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_desc</key>
+    <value><![CDATA[Hinta Korkea &gt; Matala]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_asc</key>
+    <value><![CDATA[rating Alin]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_desc</key>
+    <value><![CDATA[rating Korkein]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[Date Old &gt; Uusi]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[Päivä New &gt; Vanha]]></value>
+  </definition>
+  <definition>
+    <key>entry_product_default_sort_order</key>
+    <value><![CDATA[Lajittelu Tuotteet oletukseksi by:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zero_customer_balance</key>
+    <value><![CDATA[Näytä Zero Asiakas Balance: <br/><span class="help">Huomautus: päälle / pois näyttö tasapainon sanoman jos asiakas tilin saldo on 0</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_tax_estimate</key>
+    <value><![CDATA[Toimitus ja Tax Arvio: <br/><span class="help">Anna asiakkaat saada nopeasti merenkulun ja vero arvion ostoskorissa.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon_on_cart_page</key>
+    <value><![CDATA[Kuponki ostoskorisivun: <br/><span class="help">Anna asiakkaat syöttää kuponkikoodi ja nähdä alennuksen ostoskorissa.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_google_analytics</key>
+    <value><![CDATA[Google Analytics Tilinumero: <br/><span class="help">Lisää <a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">Google Analytics tilinumeron</a> jotta sivuston ulkopuolisen toiminnan seuraamisesta. Tämä mahdollistaa myös verkkokaupan toimintaa seurannan. Sinun on otettava verkkokauppaseurannan google profiiliin asetussivulla sivustollesi</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[Secure Store URL: <br/><span class="help">Sisällytä täyttä SSL URL (HTTPS) ihmettelemään. Muista lisätä &quot;/&quot; lopussa. Esimerkki: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[Secure URL tarvita!]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_email_activation</key>
+    <value><![CDATA[Sähköposti Aktivointi uusille asiakkaille: <br/><span class="help">Älä anna uuden asiakkaan kirjautua ennen tilinsä on vahvistanut aktivointilinkkiäsi lähettää sähköpostitse. Jotta tämä toimisi, varmista, että &quot;Hyväksy uusille asiakkaille&quot; on asetettu OFF.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_clone_template</key>
+    <value><![CDATA[Klooni Template AbanteCart Kehittäjätuotteet]]></value>
+  </definition>
+  <definition>
+    <key>text_set_template</key>
+    <value><![CDATA[Aseta tämä malli liikkeestäsi]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_status</key>
+    <value><![CDATA[Ota Storefront Upota:]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_click_action</key>
+    <value><![CDATA[Upota Valitse Action:]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_modal</key>
+    <value><![CDATA[Samalla sivulla Modal Dialog]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_new_window</key>
+    <value><![CDATA[Avaa uusi sivu uudessa välilehdessä]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_same_window</key>
+    <value><![CDATA[Avaa uusi sivu samassa ikkunassa]]></value>
+  </definition>
+  <definition>
+    <key>entry_account_create_captcha</key>
+    <value><![CDATA[Captcha on luo tunnus muodossa: <br/><span class="help">Prevent spam / robotti tilin luomisen mahdollistavia ihmisen todentaminen captcha</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_site_key</key>
+    <value><![CDATA[Google reCAPTCHA Site Key: <br/><span class="help">Lisää <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> auttaa kävijöitä paremmin captcha merkintä. Jos otat reCAPTCHA site / salaisia avaimia, Google reCAPTCHA v2 aktivoituu sijasta oletuksena AbanteCart captcha image</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_secret_key</key>
+    <value><![CDATA[Google reCAPTCHA salainen avain: <br/><span class="help">Lisää <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> auttaa kävijöitä paremmin captcha merkintä. Jos otat reCAPTCHA site / salaisia avaimia, Google reCAPTCHA v2 aktivoituu sijasta oletuksena AbanteCart captcha image</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_php_exceed</key>
+    <value><![CDATA[Tämä arvo voi ylittää php.ini direktiivi %s (&lt;= %s)]]></value>
+  </definition>
+  <definition>
+    <key>entry_start_order_id</key>
+    <value><![CDATA[Order Start No .: <br/><span class="help">Aseta lähtö- numero tilauksia alkaa alkaen.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_start_order_id</key>
+    <value><![CDATA[Tilaa alku numero on numeerinen!]]></value>
+  </definition>
+  <definition>
+    <key>error_starting_invoice_id</key>
+    <value><![CDATA[Laskun alku numero on numeerinen!]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_order_days</key>
+    <value><![CDATA[Puutteellinen Order vanheneminen: <br/><br/><span class="help">Tämä arvo ohjaa aikaväli päivinä ennen puutteelliset tilaukset poistetaan. Tyhjä arvo tarkoittaa, että tilauksia tullaan poistetaan.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_expire_order_days</key>
+    <value><![CDATA[Puutteellinen Order vanheneminen arvon on oltava numeerinen!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront</key>
+    <value><![CDATA[Myymälä]]></value>
+  </definition>
+  <definition>
+    <key>text_im_driver</key>
+    <value><![CDATA[kuljettaja]]></value>
+  </definition>
+  <definition>
+    <key>text_im_protocol</key>
+    <value><![CDATA[IM Protocol]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver</key>
+    <value><![CDATA[SMS Provider]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver_tooltip</key>
+    <value><![CDATA[Valitse laajennuksen SMS palveluntarjoaja]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_status_tooltip</key>
+    <value><![CDATA[Ota SMS asiakkaille]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_status_tooltip</key>
+    <value><![CDATA[Ota SMS ylläpitäjille]]></value>
+  </definition>
+  <definition>
+    <key>text_no_driver</key>
+    <value><![CDATA[Ei IM Kuljettajan löydy]]></value>
+  </definition>
+  <definition>
+    <key>text_im_settings_attention</key>
+    <value><![CDATA[Nämä asetukset ovat pikaviestien lähetetään automaattisesti aikana AbanteCart tapahtumien myymälä ja admin.]]></value>
+  </definition>
+  <definition>
+    <key>entry_html_cache</key>
+    <value><![CDATA[HTML Cache: <br/><span class="help">Käytössä HTML-sivuja ja estää välimuistin saada paremmin nopeutta sivuillesi. Tämä on ylimääräinen välimuisti säännöllisesti tietoja välimuistiin päällä järjestelmässä / config.php tiedostoon</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_task_api_key</key>
+    <value><![CDATA[Tehtävät Sovellusliittymäavain: <br/><span class="help">Tämä on salainen avain, jotta AbanteCart ajaa aikataulun prosesseja selaimessa /task.php tiedosto. Jos ei ole asetettu, tehtävät eivät suorita selaimella. <br/> HUOMAUTUS: Tämä API Key ei tarvita käynnissä tehtäviä komentoriviltä.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_duplicate_contact_us</key>
+    <value><![CDATA[Monista yhteyttä tiedustelut viesteihin]]></value>
+  </definition>
+</definitions>

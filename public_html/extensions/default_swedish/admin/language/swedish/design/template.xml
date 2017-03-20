@@ -14,7 +14,7 @@
   </definition>
   <definition>
     <key>text_edit_extension</key>
-    <value><![CDATA[förlängnings%s%sPOS=TRUNC Inställningar]]></value>
+    <value><![CDATA[förlängnings Inställningar]]></value>
   </definition>
   <definition>
     <key>text_error</key>

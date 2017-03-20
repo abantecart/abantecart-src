@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Delte nedlastinger]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Felles Last ned]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[Sett ned]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[oppdatering Last ned]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Suksess: Du har endret nedlastinger!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Last ned Name]]></value>
+  </definition>
+  <definition>
+    <key>column_remaining</key>
+    <value><![CDATA[Totalt nedlastinger tillatt]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Handling]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Dataoverføre Navnet:]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[Filnavn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_remaining</key>
+    <value><![CDATA[Totalt nedlastinger tillatt:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[Trykk og tidligere kunder: <br/><span class="help">Sjekk denne for å oppdatere tidligere kjøpte versjoner også.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advarsel: Du har ikke tillatelse til å endre nedlastinger!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Navnet må være mellom 2 og 64 tegn!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[Vennligst sett filen for nedlasting.]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Advarsel: Denne nedlastingen kan ikke slettes som det er i dag tildelt %s produkter!]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Bilde]]></value>
+  </definition>
+  <definition>
+    <key>column_products_count</key>
+    <value><![CDATA[produkter Count]]></value>
+  </definition>
+</definitions>
