@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_tip</key>
+    <value><![CDATA[Tip]]></value>
+  </definition>
+  <definition>
+    <key>no_enabled_payments_tip</key>
+    <value><![CDATA[<div class="info alert alert-warning"><i class="fa fa fa-exclamation-triangle fa-fw"></i> Du har ingen betalingsmetode aktiveret endnu. </div> 
+ <label class="h4 heading">Kontrollér mest almindelige betalinger:</label> 
+ <div class="row"> 
+ <div class="col-sm-4 h5 center"> 
+ <a href="#admin#rt=extension/extensions/install&extension=default_stripe">
+ <img src="extensions/default_stripe/image/icon.png"><br/> Installer Stripe Extension</a> 
+ </div> 
+ <div class="col-sm-4 h5 center"> 
+ <a href="#admin#rt=extension/extensions/install&extension=default_pp_standart">
+ <img src="extensions/default_pp_standart/image/icon.png"><br/> Installer Paypal Extension</a> 
+ </div> 
+ <div class="col-sm-4 h5 center"> 
+ <a href="#admin#rt=extension/extensions/payment" target="_extension">
+ <img src="admin/view/default/image/default_extension.png"><br/> Flere Betalinger</a> 
+ </div> 
+ </div>]]></value>
+  </definition>
+</definitions>

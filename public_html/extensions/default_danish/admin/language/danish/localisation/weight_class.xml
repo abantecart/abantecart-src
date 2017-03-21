@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Vægt Klasser]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[Vægt Class]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succes: Du har ændret vægtklasser!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Vægt Titel]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[Vægt enhed]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Værdi]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Handling]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Vægt Titel:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Vægt Enhed:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Værdi: <br/><span class="help">Indstil til 1,00 tusind, hvis dette er din standard vægt.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advarsel: Du har ikke tilladelse til at ændre vægtklasser!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Vægt Titel skal være mellem 2 og 32 tegn!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Vægt Enhed skal være mellem 1 og 4 tegn!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Advarsel: Denne vægtklasse kan ikke slettes, da det i øjeblikket er tildelt som standard butik vægtklassen!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Advarsel: Denne vægtklasse kan ikke slettes, da det i øjeblikket er tildelt %s produkter!]]></value>
+  </definition>
+</definitions>

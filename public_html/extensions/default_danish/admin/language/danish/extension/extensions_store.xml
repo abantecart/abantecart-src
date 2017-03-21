@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Udvidelser Marketplace]]></value>
+  </definition>
+  <definition>
+    <key>text_install</key>
+    <value><![CDATA[Installere]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall</key>
+    <value><![CDATA[Afinstaller]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall_delete</key>
+    <value><![CDATA[Fjern / Slet]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall_confirm</key>
+    <value><![CDATA[Bekræft, at du ønsker at afinstallere udvidelsen [% forlængelse%]. Alle udvidelse indstillinger og relaterede data kan blive slettet og tabt.]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[Slet]]></value>
+  </definition>
+  <definition>
+    <key>text_enlarge</key>
+    <value><![CDATA[Klik for større billede]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[Aktiver]]></value>
+  </definition>
+  <definition>
+    <key>text_deactivate</key>
+    <value><![CDATA[Deaktiver]]></value>
+  </definition>
+  <definition>
+    <key>text_left</key>
+    <value><![CDATA[Venstre]]></value>
+  </definition>
+  <definition>
+    <key>text_right</key>
+    <value><![CDATA[Højre]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Tilføjet den]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advarsel: Du har ikke tilladelse til at ændre extensions!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_field</key>
+    <value><![CDATA[Advarsel: Udfyld krævede felter!]]></value>
+  </definition>
+  <definition>
+    <key>error_payment_uninstall</key>
+    <value><![CDATA[Advarsel: Deaktiver udvidelse før afinstallere!]]></value>
+  </definition>
+  <definition>
+    <key>error_uninstall</key>
+    <value><![CDATA[Advarsel: Afinstaller extension før slette!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succes: Du har ændret udvidelsesindstillinger!]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_store</key>
+    <value><![CDATA[Udvidelser Marketplace]]></value>
+  </definition>
+  <definition>
+    <key>text_required</key>
+    <value><![CDATA[Nødvendig]]></value>
+  </definition>
+  <definition>
+    <key>text_optional</key>
+    <value><![CDATA[Valgfri]]></value>
+  </definition>
+  <definition>
+    <key>text_add_new</key>
+    <value><![CDATA[Installer Extension]]></value>
+  </definition>
+  <definition>
+    <key>error_connect</key>
+    <value><![CDATA[Ups, kan Deres AbanteCart ikke forbinde med udvidelser markedsplads. Se System-&gt; Fejl logfiler for detaljer.]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_review_asc</key>
+    <value><![CDATA[Anmeldelse Count Lav&gt; Høj]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_review_desc</key>
+    <value><![CDATA[Anmeldelse Count Høj&gt; Lav]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_asc</key>
+    <value><![CDATA[Pris Lav&gt; Høj]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_desc</key>
+    <value><![CDATA[Pris Høj&gt; Lav]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_desc</key>
+    <value><![CDATA[Bedømmelse Højeste]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_asc</key>
+    <value><![CDATA[Bedømmelse Laveste]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_modified_asc</key>
+    <value><![CDATA[Dato Ny til gammel]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_modified_desc</key>
+    <value><![CDATA[Dato Gammel til Ny]]></value>
+  </definition>
+  <definition>
+    <key>text_my_extensions</key>
+    <value><![CDATA[Mine Udvidelser]]></value>
+  </definition>
+  <definition>
+    <key>text_my_account</key>
+    <value><![CDATA[Min konto]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_site</key>
+    <value><![CDATA[Marketplace site]]></value>
+  </definition>
+  <definition>
+    <key>text_all_categories</key>
+    <value><![CDATA[alle kategorier]]></value>
+  </definition>
+  <definition>
+    <key>text_connect</key>
+    <value><![CDATA[Forbinde]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect</key>
+    <value><![CDATA[Tilslut til markedspladsen]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_extension</key>
+    <value><![CDATA[Forlængelse forhåndsvisning &amp; orden]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_buy</key>
+    <value><![CDATA[Hent denne udvidelse nu]]></value>
+  </definition>
+  <definition>
+    <key>text_connected</key>
+    <value><![CDATA[Forbundet til markedspladsen. Klik for at afbryde]]></value>
+  </definition>
+  <definition>
+    <key>text_disconnect_confirm</key>
+    <value><![CDATA[Er du sikker på du vil afbryde?]]></value>
+  </definition>
+  <definition>
+    <key>text_disconnect_success</key>
+    <value><![CDATA[Denne butik blev afbrudt!]]></value>
+  </definition>
+  <definition>
+    <key>text_connection_required</key>
+    <value><![CDATA[Du skal tilslutte AbanteCart til markedspladsen for at se dine extensions! Klik på &quot;Connect&quot; knappen i ovenstående panel.]]></value>
+  </definition>
+  <definition>
+    <key>text_in_other_store</key>
+    <value><![CDATA[Forlængelse for denne ordre blev installeret i den anden AbanteCart. Tjek dine tilsluttede butikker for historien.]]></value>
+  </definition>
+  <definition>
+    <key>text_no_purchase_or_not_connected</key>
+    <value><![CDATA[Du har ingen indkøb til denne butik eller dette lager blev diconnected fra Marketplace.]]></value>
+  </definition>
+  <definition>
+    <key>text_no_extenions_loaded</key>
+    <value><![CDATA[Ingen udvidelser er tilgængelige. Tjek dit valg eller prøv igen.]]></value>
+  </definition>
+  <definition>
+    <key>text_compatibility</key>
+    <value><![CDATA[Denne udvidelse er ikke bekræftet at arbejde med din version af AbanteCart. Kontakt extension-udvikler for at bekræfte kompatibilitet.]]></value>
+  </definition>
+  <definition>
+    <key>error_mp_connection</key>
+    <value><![CDATA[Ups, kan ikke oprette forbindelse til AbanteCart MarketPlace. Prøv at tjekke senere, eller spørg din hosting udbyder for at få hjælp.]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Søg]]></value>
+  </definition>
+</definitions>

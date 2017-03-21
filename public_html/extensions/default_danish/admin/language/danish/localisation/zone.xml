@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[zoner]]></value>
+  </definition>
+  <definition>
+    <key>text_zone</key>
+    <value><![CDATA[Zone]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succes: Du har ændret zoner!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Zone Name]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Zone kode]]></value>
+  </definition>
+  <definition>
+    <key>column_country</key>
+    <value><![CDATA[Land]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Handling]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[status]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Zone Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Zone Name:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Zone Code:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Land:]]></value>
+  </definition>
+  <definition>
+    <key>text_select_country</key>
+    <value><![CDATA[- Vælg land -]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advarsel: Du har ikke tilladelse til at ændre zoner!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Zone Name skal være mellem 2 og 128 tegn!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Advarsel: Denne zone kan ikke slettes, da det i øjeblikket er tildelt som standard butikken zone!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Advarsel: Denne zone kan ikke slettes, da det i øjeblikket er tildelt %s butikker!]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[Advarsel: Denne zone kan ikke slettes, da det i øjeblikket er tildelt %s adressebogsposter!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone_to_location</key>
+    <value><![CDATA[Advarsel: Denne zone kan ikke slettes, da det i øjeblikket er tildelt %s zoner til placeringer!]]></value>
+  </definition>
+</definitions>

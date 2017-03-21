@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Adgang nægtet!]]></value>
+  </definition>
+  <definition>
+    <key>text_permission</key>
+    <value><![CDATA[Du har ikke adgang til denne side, bedes du kontakte din systemadministrator.]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[error Log]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succes: Du har ryddet din fejllog!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_tail</key>
+    <value><![CDATA[På grund af store størrelse logfilen, kan kun sidste 500KB data ses i her. 
+ For at se komplet log, få det fra din server direkte. 
+ Sti:]]></value>
+  </definition>
+</definitions>
