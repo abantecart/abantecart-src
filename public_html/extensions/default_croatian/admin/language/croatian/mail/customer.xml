@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Vaš korisnički račun je aktiviran!]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Dobro došli i hvala vam na registraciji pri %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Vaš račun je stvoren i možete se prijaviti pomoću e-pošte i zaporku na našu web stranicu ili na sljedećem URL-u:]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Nakon što se prijavite, moći ćete pristupiti, popis želja, povijest narudžbi, ispis računa i uređivanje informacija o računu.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Hvala ti,]]></value>
+  </definition>
+</definitions>

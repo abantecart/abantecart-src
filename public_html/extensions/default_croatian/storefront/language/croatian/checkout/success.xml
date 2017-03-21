@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Vaša narudžba je obrađena!]]></value>
+  </definition>
+  <definition>
+    <key>text_message_account</key>
+    <value><![CDATA[<p> Vaša narudžba # %s je stvoren! </p> 
+ <p> Možete pregledati pojedinosti narudžbe odlaskom na <a href="%s">stranicu računa</a>. </p> 
+ <p> Sva pitanja koja imate do <a href="%s">vlasnika trgovine</a>. </p> 
+ <p> Hvala vam što ste s nama u kupovinu! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_message_guest</key>
+    <value><![CDATA[<p> Vaša narudžba je uspješno obrađen! </p> 
+ <p> Možete pregledati pojedinosti narudžbe odlaskom na <a href="%s">stranicu računa</a>. </p> 
+ <p> Sva pitanja koja imate do <a href="%s">vlasnika trgovine</a>. </p> 
+ <p> Hvala vam što ste s nama u kupovinu! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Košara]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[dostava]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Plaćanje]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[Ocjene Blagajna]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[potvrditi]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspjeh]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order</key>
+    <value><![CDATA[Uh! Nepoznata pogreška. Vaša narudžba će biti pregledani ručno uskoro.]]></value>
+  </definition>
+  <definition>
+    <key>text_title_failed_order_to_admin</key>
+    <value><![CDATA[Novi red red # %s]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order_to_admin</key>
+    <value><![CDATA[Ne ispravan odgovor od plaćanja usluga. Potrebno ručnu provjeru!]]></value>
+  </definition>
+</definitions>

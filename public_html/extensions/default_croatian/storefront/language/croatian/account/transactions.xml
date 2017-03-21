@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Moje transakcije]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Račun]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[Povijest transakcija]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Broj narudžbe]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction_id</key>
+    <value><![CDATA[iskaznica]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction_type</key>
+    <value><![CDATA[Tip]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction_description</key>
+    <value><![CDATA[Opis]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Datum izrade]]></value>
+  </definition>
+  <definition>
+    <key>text_debit</key>
+    <value><![CDATA[Zaduženje]]></value>
+  </definition>
+  <definition>
+    <key>text_credit</key>
+    <value><![CDATA[Kreditna]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[ukupno]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Nemate transakcija snimljene na svoj račun!]]></value>
+  </definition>
+</definitions>

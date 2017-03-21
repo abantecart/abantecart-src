@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Održavanje]]></value>
+  </definition>
+  <definition>
+    <key>text_maintenance</key>
+    <value><![CDATA[Održavanje]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<h1 style="text-align:center;"> Trenutno je u tijeku neki planirano održavanje. <br/> Mi ćemo se vratiti što je prije moguće. Molimo navratite uskoro. </h1>]]></value>
+  </definition>
+</definitions>

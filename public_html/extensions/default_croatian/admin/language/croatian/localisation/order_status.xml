@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Naručite Statusi]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Stanje narudžbe]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspjeh: Izmijenili ste poredak statuse!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Naziv narudžbe Status]]></value>
+  </definition>
+  <definition>
+    <key>column_text_id</key>
+    <value><![CDATA[ID narudžbe Status Text]]></value>
+  </definition>
+  <definition>
+    <key>entry_text_id</key>
+    <value><![CDATA[ID narudžbe Status Tekst:]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akcijski]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Naziv narudžbe Status:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Upozorenje: Nemate dozvolu za izmjenu naloga kipove!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Red Status ime mora biti između 2 i 32 znakova!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Upozorenje: status Ovaj nalog se ne može izbrisati jer trenutno dodijeljen kao status zadani trgovine narudžbe!]]></value>
+  </definition>
+  <definition>
+    <key>error_download</key>
+    <value><![CDATA[Upozorenje: status Ovaj nalog se ne može izbrisati jer trenutno dodijeljen kao status zadani preuzimanje!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Upozorenje: Ovaj status narudžbe se ne može izbrisati, jer je trenutačno dodijeljena %s trgovinama!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Upozorenje: Ovaj status narudžbe se ne može izbrisati, jer je trenutačno dodijeljena %s naloga!]]></value>
+  </definition>
+  <definition>
+    <key>error_nondeletable</key>
+    <value><![CDATA[Upozorenje: Ovo je važno kako bi status koji je povezan s plaćanjima. Ne možete izbrisati taj status.]]></value>
+  </definition>
+  <definition>
+    <key>error_status_text_id</key>
+    <value><![CDATA[Id Tekst Status naloga mora biti jedinstven i između 2 i 32 znakova!]]></value>
+  </definition>
+</definitions>

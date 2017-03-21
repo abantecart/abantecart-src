@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Naknada za rukovanje]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[Naknada za rukovanje]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Ukupan Naručivanje]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspjeh: Vi ste ažurirali ukupna naknada za rukovanje!]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Narudžba Ukupno: <span class="help">Minimalni iznos kako bi se postigli primijeniti naknade. Ako će ukupno kupaca narudžbe prelazi taj iznos, rukovanje feee neće se primjenjivati. Ova vrijednost se prekoračiti određenu plaćanja.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_placeholder</key>
+    <value><![CDATA[Količina za narudžbu]]></value>
+  </definition>
+  <definition>
+    <key>entry_fee</key>
+    <value><![CDATA[Naknada: <span class="help">Naknada koja se dodaje da bi ukupni ako je minimalni iznos uvjet nije zadovoljen. Ovaj iznos je poništio određenu postavku plaćanja</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_fee</key>
+    <value><![CDATA[Naknada: <span class="help">Naknada koja se dodaje da bi ukupni ako je minimalni sub-ukupan iznos uvjet nije zadovoljen. Ovaj iznos premostiti glavnu postavku naknada</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[<span class="help">Plaćanje: Odabir određenog plaćanje koje trebate dodati naknadu. Ove postavke će nadjačati glavne postavke, ako se plaćanje koristi kupca.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_subtotal</key>
+    <value><![CDATA[Naručite Sub-Total: <span class="help">Minimalna narudžba pod-ukupni iznos koji će se sklopiti primijeniti naknade. To nadjačava glavnu postavku</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Porezna klasa: <span class="help">Odaberite ako je potrebno porez koji će se primjenjivati na vrhu naknadu za rukovanje</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Redoslijed:]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[Izračun Order:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Upozorenje: Nemate dozvolu za izmjenu ukupna naknada za rukovanje!]]></value>
+  </definition>
+  <definition>
+    <key>error_number</key>
+    <value><![CDATA[Upozorenje: ukupno Red i rukovanje pristojbe moraju biti brojevi!]]></value>
+  </definition>
+</definitions>

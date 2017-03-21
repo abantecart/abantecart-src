@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Zaboravili ste lozinku?]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_loginname</key>
+    <value><![CDATA[Zaboravili ste Korisničko ime?]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Račun]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten</key>
+    <value><![CDATA[Zaboravljena lozinka]]></value>
+  </definition>
+  <definition>
+    <key>text_your_email</key>
+    <value><![CDATA[Vaša email adresa]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Unesite e-mail adresu povezanu s vašim računom. Kliknite dostaviti vaše lozinke e-poštom na vas]]></value>
+  </definition>
+  <definition>
+    <key>text_loginname_email</key>
+    <value><![CDATA[Unesite korisničko ime i e-mail adresu povezanu s vašim računom. Kliknite podnijeti zahtjev za poništavanje zaporke]]></value>
+  </definition>
+  <definition>
+    <key>text_lastname_email</key>
+    <value><![CDATA[Unesite prezime i e-mail adresu povezanu s vašim računom. Kliknite podnijeti da vam ime za prijavu e-poštom na vas]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspjeh: Lozinka reset link je poslan na Vašu e-mail adresu.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_loginname</key>
+    <value><![CDATA[Uspjeh: Vaše ime za prijavu podsjetnik poslan na vašu e-mail adresu.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Korisničko ime:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Prezime:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[Email adresa:]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Pogreška: E-mail adresa nije bila ili ne nalazi u našoj evidenciji, pokušajte ponovo!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Pogreška: Naziv Prijava nije osiguran ili ne nalazi u našoj evidenciji, pokušajte ponovo!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Pogreška: Prezime nije osiguran ili ne nalazi u našoj evidenciji, pokušajte ponovo!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_found</key>
+    <value><![CDATA[Greška: Nema zapisa pronađeni odgovarajući podaci o vašem uvjetom, provjerite svoje podatke i pokušajte ponovo!]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_loginname</key>
+    <value><![CDATA[Zaboravili Naziv Prijava]]></value>
+  </definition>
+</definitions>

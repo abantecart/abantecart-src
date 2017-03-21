@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Manager Predložak]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspjeh: Postavili ste novi Izlog predložak!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront_templates</key>
+    <value><![CDATA[Dostupni fizičkom lokacijom Predlošci]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_extension</key>
+    <value><![CDATA[Postavke produžni]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Pogreška: Nedostaje obavezni parametar u svoj upit!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Upozorenje: Nemate dozvolu za izmjenu predložaka!]]></value>
+  </definition>
+</definitions>

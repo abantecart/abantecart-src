@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Hvala vam na registraciji]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Dobro došli i hvala vam na registraciji pri %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Vaš račun je kreiran i možete mu pristupiti na našoj web stranici ili na sljedećem URL-u:]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[Vaš račun mora biti odobren prije nego što možete prijaviti. Jednom odobren možete se prijaviti pomoću e-pošte i zaporku na našu web stranicu ili na sljedećem URL-u:]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[Prije nego što možemo aktivirati Vaš korisnički račun jedan korak treba poduzeti kako bi dovršili registraciju. <br/> 
+ Morate ispuniti taj zadnji korak da postane registrirani član. Molimo kliknite na sljedeći link za aktivaciju Vašeg računa %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Nakon prijave, od vas će biti u mogućnosti pristupiti druge usluge, uključujući pregledavanje prošlih naloge, ispis računa i uređivanje informacija o računu.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Hvala ti,]]></value>
+  </definition>
+</definitions>

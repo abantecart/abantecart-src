@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Košarica]]></value>
+  </definition>
+  <definition>
+    <key>text_subtotal</key>
+    <value><![CDATA[Sub-Total:]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[0 proizvoda]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Potvrdi?]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[Ukloniti]]></value>
+  </definition>
+  <definition>
+    <key>text_view</key>
+    <value><![CDATA[Pogledaj košaricu]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Provjeri]]></value>
+  </definition>
+  <definition>
+    <key>text_items</key>
+    <value><![CDATA[Stavke]]></value>
+  </definition>
+</definitions>

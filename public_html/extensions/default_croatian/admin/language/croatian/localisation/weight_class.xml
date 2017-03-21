@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Težina Klase]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[Težina Klasa]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspjeh: Izmijenili ste težinske kategorije!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Težina Naslov]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[jedinica za težinu]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Vrijednost]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akcijski]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Težina Naslov:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Težina uređaja:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Vrijednost: <br/><span class="help">Set za 1.00000 ako je to vaša zadana težina.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Upozorenje: Nemate dozvolu za izmjenu težinske kategorije!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Težina Naslov mora biti između 2 i 32 znakova!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Težina uređaja mora biti između 1 i 4 znaka!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Upozorenje: Ova masa klasa se ne može izbrisati jer trenutno dodijeljen kao klasi zadani trgovine težine!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Upozorenje: Ovaj razred težina ne može biti obrisana jer se trenutačno dodijeljena %s proizvode!]]></value>
+  </definition>
+</definitions>
