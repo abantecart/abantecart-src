@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[稅]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[稅]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[訂單總計]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：你已修改稅金總額！]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[狀態：]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[排序：]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[計算順序：]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[警告：您沒有權限修改稅金總額！]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[文件上傳]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[添加日期]]></value>
+  </definition>
+  <definition>
+    <key>column_path</key>
+    <value><![CDATA[文件]]></value>
+  </definition>
+  <definition>
+    <key>column_section</key>
+    <value><![CDATA[部分]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[下載文件]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[您已成功退訂！]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[你已經從電子郵件通訊退訂成功！]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[帳戶]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功]]></value>
+  </definition>
+</definitions>

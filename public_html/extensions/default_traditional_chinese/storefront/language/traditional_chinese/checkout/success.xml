@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[您的訂單已被處理！]]></value>
+  </definition>
+  <definition>
+    <key>text_message_account</key>
+    <value><![CDATA[<p>您的訂單＃〜已創建！ </p> 
+ <p>您可以通過轉到查看您的訂單詳細信息<a href="%s">的發票頁面</a> 。 </p> 
+ <p>請直接您必須將任何疑問<a href="%s">店老闆</a> 。 </p> 
+ <p>感謝您與我們購物！ </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_message_guest</key>
+    <value><![CDATA[<p>您的訂單已成功處理！ </p> 
+ <p>您可以通過轉到查看您的訂單詳細信息<a href="%s">的發票頁面</a> 。 </p> 
+ <p>請直接您必須將任何疑問<a href="%s">店老闆</a> 。 </p> 
+ <p>感謝您與我們購物！ </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[籃]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[運輸]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[付款]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[訪客結帳]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[確認]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order</key>
+    <value><![CDATA[哎呀！未知錯誤。您的訂單將很快手動進行審查。]]></value>
+  </definition>
+  <definition>
+    <key>text_title_failed_order_to_admin</key>
+    <value><![CDATA[新訂單失敗＃〜]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order_to_admin</key>
+    <value><![CDATA[從支付服務提供商不正確的響應。需要人工驗證！]]></value>
+  </definition>
+</definitions>

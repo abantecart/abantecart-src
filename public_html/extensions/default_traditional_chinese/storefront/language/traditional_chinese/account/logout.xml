@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[賬戶退出]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p>您已註銷您的賬戶。現在可以安全離開計算機。 </p><p>您的購物車已經保存，當你重新登錄到您的帳戶裡面的物品將被恢復。 </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[帳戶]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[登出]]></value>
+  </definition>
+</definitions>

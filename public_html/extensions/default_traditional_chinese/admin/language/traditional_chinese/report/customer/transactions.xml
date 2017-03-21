@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[客戶交易]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_date</key>
+    <value><![CDATA[交易日期]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[顧客姓名]]></value>
+  </definition>
+  <definition>
+    <key>column_created_by</key>
+    <value><![CDATA[由...製作]]></value>
+  </definition>
+  <definition>
+    <key>column_debit</key>
+    <value><![CDATA[借方]]></value>
+  </definition>
+  <definition>
+    <key>column_credit</key>
+    <value><![CDATA[信用]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_type</key>
+    <value><![CDATA[交易類型]]></value>
+  </definition>
+</definitions>

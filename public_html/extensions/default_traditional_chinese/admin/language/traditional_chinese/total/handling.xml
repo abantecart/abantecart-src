@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[手續費]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[手續費]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[訂單總計]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：你已更新的總手續費！]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[訂單總額： <span class="help">最低訂單額要達到申請費。如果客戶的訂單總額將超過這一數額，處理feee將不會被應用。此值覆蓋付款的具體設置。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_placeholder</key>
+    <value><![CDATA[訂單金額]]></value>
+  </definition>
+  <definition>
+    <key>entry_fee</key>
+    <value><![CDATA[<span class="help">無以复加的費用，如果最低金額條件不滿足於訂單總額</span> ：費<span class="help">。這一數額是通過支付特定的設置覆蓋</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_fee</key>
+    <value><![CDATA[<span class="help">無以复加的費用，如果最低分總金額條件不滿足於訂單總額</span> ：費<span class="help">。這一數額覆蓋主要費用設定</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[付款方式： <span class="help">選擇你需要的費用添加到特定的付款。如果付款是由客戶使用這些設置將覆蓋主要設置。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_subtotal</key>
+    <value><![CDATA[訂單小計： <span class="help">要達到最低訂貨子總金額申請費。這將覆蓋主設定</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[稅務類： <span class="help">如果您需要稅務選擇在最上層的手續費可以應用</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[狀態：]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[排序：]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[計算順序：]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[警告：您沒有權限修改總的手續費！]]></value>
+  </definition>
+  <definition>
+    <key>error_number</key>
+    <value><![CDATA[警告：訂單總額和手續費必須是一個數字！]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[行政]]></value>
+  </definition>
+  <definition>
+    <key>text_heading</key>
+    <value><![CDATA[行政]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[請輸入您的登錄信息。]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[用戶名：]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[密碼：]]></value>
+  </definition>
+  <definition>
+    <key>entry_forgot_password</key>
+    <value><![CDATA[忘記密碼？]]></value>
+  </definition>
+  <definition>
+    <key>button_login</key>
+    <value><![CDATA[登錄]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[敵不過用戶名和/或密碼。]]></value>
+  </definition>
+  <definition>
+    <key>error_token</key>
+    <value><![CDATA[無效令牌會話。請重新登錄。]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message</key>
+    <value><![CDATA[登錄失敗，從IP管理的嘗試：]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message_text</key>
+    <value><![CDATA[鑑於用戶登錄：]]></value>
+  </definition>
+</definitions>
