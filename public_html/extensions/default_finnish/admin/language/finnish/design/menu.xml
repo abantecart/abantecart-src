@@ -1,63 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions>
-  <definition>
-    <key>heading_title</key>
-    <value><![CDATA[valikko]]></value>
-  </definition>
-  <definition>
-    <key>text_success</key>
-    <value><![CDATA[Success: Olet muokannut valikosta!]]></value>
-  </definition>
-  <definition>
-    <key>entry_item_id</key>
-    <value><![CDATA[Uniikki tunniste]]></value>
-  </definition>
-  <definition>
-    <key>entry_item_icon</key>
-    <value><![CDATA[ikoni]]></value>
-  </definition>
-  <definition>
-    <key>entry_item_text</key>
-    <value><![CDATA[Teksti]]></value>
-  </definition>
-  <definition>
-    <key>entry_item_url</key>
-    <value><![CDATA[Link <br/><span class="help">ulkoiseen linkit lisätä http: // tai https: // alussa</span>]]></value>
-  </definition>
-  <definition>
-    <key>entry_parent_id</key>
-    <value><![CDATA[vanhempi]]></value>
-  </definition>
-  <definition>
-    <key>entry_sort_order</key>
-    <value><![CDATA[Lajittelujärjestys]]></value>
-  </definition>
-  <definition>
-    <key>entry_link_category</key>
-    <value><![CDATA[Linkki Luokka]]></value>
-  </definition>
-  <definition>
-    <key>entry_link_page</key>
-    <value><![CDATA[Linkki sivulle]]></value>
-  </definition>
-  <definition>
-    <key>text_link</key>
-    <value><![CDATA[Linkki]]></value>
-  </definition>
-  <definition>
-    <key>text_select_parent_id</key>
-    <value><![CDATA[- Root Menu -]]></value>
-  </definition>
-  <definition>
-    <key>error_empty</key>
-    <value><![CDATA[Kenttä ei voi olla tyhjä!]]></value>
-  </definition>
-  <definition>
-    <key>error_non_unique</key>
-    <value><![CDATA[Tunnus ole ainutlaatuinen!]]></value>
-  </definition>
-  <definition>
-    <key>error_non_ascii</key>
-    <value><![CDATA[Vain aakkosnumeeriset merkit sallitaan menu ID kenttä!]]></value>
-  </definition>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[valikko]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Success: Olet muokannut valikosta!]]></value>
+	</definition>
+	<definition>
+		<key>entry_item_id</key>
+		<value><![CDATA[Uniikki tunniste]]></value>
+	</definition>
+	<definition>
+		<key>entry_item_icon</key>
+		<value><![CDATA[ikoni]]></value>
+	</definition>
+	<definition>
+		<key>entry_item_text</key>
+		<value><![CDATA[Teksti]]></value>
+	</definition>
+	<definition>
+		<key>entry_item_url</key>
+		<value><![CDATA[Link <br/><span class="help">ulkoiseen linkit lisätä http: // tai https: // alussa</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_parent_id</key>
+		<value><![CDATA[vanhempi]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Lajittelujärjestys]]></value>
+	</definition>
+	<definition>
+		<key>entry_link_category</key>
+		<value><![CDATA[Linkki Luokka]]></value>
+	</definition>
+	<definition>
+		<key>entry_link_page</key>
+		<value><![CDATA[Linkki sivulle]]></value>
+	</definition>
+	<definition>
+		<key>text_link</key>
+		<value><![CDATA[Linkki]]></value>
+	</definition>
+	<definition>
+		<key>text_select_parent_id</key>
+		<value><![CDATA[- Root Menu -]]></value>
+	</definition>
+	<definition>
+		<key>error_empty</key>
+		<value><![CDATA[Kenttä ei voi olla tyhjä!]]></value>
+	</definition>
+	<definition>
+		<key>error_non_unique</key>
+		<value><![CDATA[Tunnus ole ainutlaatuinen!]]></value>
+	</definition>
+	<definition>
+		<key>error_non_ascii</key>
+		<value><![CDATA[Vain aakkosnumeeriset merkit sallitaan menu ID kenttä!]]></value>
+	</definition>
+	<definition>
+		<key>entry_link_type</key>
+		<value><![CDATA[Link Type]]></value>
+	</definition>
+	<definition>
+		<key>text_category_link_type</key>
+		<value><![CDATA[luokkasivu]]></value>
+	</definition>
+	<definition>
+		<key>text_content_link_type</key>
+		<value><![CDATA[sisältö Sivu]]></value>
+	</definition>
+	<definition>
+		<key>text_custom_link_type</key>
+		<value><![CDATA[Custom Link tai URL]]></value>
+	</definition>
 </definitions>

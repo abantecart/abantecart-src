@@ -1,45 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions>
-  <definition>
-    <key>heading_title</key>
-    <value><![CDATA[A megrendelés feldolgozását!]]></value>
-  </definition>
-  <definition>
-    <key>text_message_account</key>
-    <value><![CDATA[<p> Megrendelése # %s jött létre! </p> 
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[A megrendelés feldolgozását!]]></value>
+	</definition>
+	<definition>
+		<key>text_message_account</key>
+		<value><![CDATA[<p> Megrendelése # %s jött létre! </p> 
  <p> Megnézheti a megrendelés adatait megy, a <a href="%s">számla oldalon</a>. </p> 
  <p> Kérjük, minden kérdése van a <a href="%s">bolt tulajdonosa</a>. </p> 
  <p> Köszönjük, hogy nálunk vásárolt. </p>]]></value>
-  </definition>
-  <definition>
-    <key>text_message_guest</key>
-    <value><![CDATA[<p> Rendelését sikeresen feldolgoztuk! </p> 
+	</definition>
+	<definition>
+		<key>text_message_guest</key>
+		<value><![CDATA[<p> Rendelését sikeresen feldolgoztuk! </p> 
  <p> Megnézheti a megrendelés adatait megy, a <a href="%s">számla oldalon</a>. </p> 
  <p> Kérjük, minden kérdése van a <a href="%s">bolt tulajdonosa</a>. </p> 
  <p> Köszönjük, hogy nálunk vásárolt. </p>]]></value>
-  </definition>
-  <definition>
-    <key>text_basket</key>
-    <value><![CDATA[Kosár]]></value>
-  </definition>
-  <definition>
-    <key>text_shipping</key>
-    <value><![CDATA[Szállítás]]></value>
-  </definition>
-  <definition>
-    <key>text_payment</key>
-    <value><![CDATA[Fizetés]]></value>
-  </definition>
-  <definition>
-    <key>text_guest</key>
-    <value><![CDATA[vendég kijelentkezés]]></value>
-  </definition>
-  <definition>
-    <key>text_confirm</key>
-    <value><![CDATA[Jóváhagy]]></value>
-  </definition>
-  <definition>
-    <key>text_success</key>
-    <value><![CDATA[Siker]]></value>
-  </definition>
+	</definition>
+	<definition>
+		<key>text_basket</key>
+		<value><![CDATA[Kosár]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Szállítás]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Fizetés]]></value>
+	</definition>
+	<definition>
+		<key>text_guest</key>
+		<value><![CDATA[vendég kijelentkezés]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm</key>
+		<value><![CDATA[Jóváhagy]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Siker]]></value>
+	</definition>
+	<definition>
+		<key>text_message_failed_order</key>
+		<value><![CDATA[Hoppá! Tapasztaltuk néhány probléma a tranzakciót. Rendelését ellenőrizni kézzel a rendszergazda.]]></value>
+	</definition>
+	<definition>
+		<key>text_title_failed_order_to_admin</key>
+		<value><![CDATA[Sikertelen megbízás # %s]]></value>
+	</definition>
+	<definition>
+		<key>text_message_failed_order_to_admin</key>
+		<value><![CDATA[Sikertelen vagy hiányzó válasz fizetés-hitelesítési. Manuális ellenőrzés szükséges!]]></value>
+	</definition>
 </definitions>

@@ -1,45 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions>
-  <definition>
-    <key>heading_title</key>
-    <value><![CDATA[Vaše objednávka byla zpracována!]]></value>
-  </definition>
-  <definition>
-    <key>text_message_account</key>
-    <value><![CDATA[<p> Vaše objednávka # %s byl vytvořen! </p> 
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Vaše objednávka byla zpracována!]]></value>
+	</definition>
+	<definition>
+		<key>text_message_account</key>
+		<value><![CDATA[<p> Vaše objednávka # %s byl vytvořen! </p> 
  <p> Můžete zobrazit podrobnosti o objednávce přechodem na <a href="%s">straně faktury</a>. </p> 
  <p> Prosím směřujte na jakékoliv dotazy můžete mít na <a href="%s">majitele obchodu</a>. </p> 
  <p> Děkujeme, že s námi nakupujete! </p>]]></value>
-  </definition>
-  <definition>
-    <key>text_message_guest</key>
-    <value><![CDATA[<p> Vaše objednávka byla úspěšně zpracována! </p> 
+	</definition>
+	<definition>
+		<key>text_message_guest</key>
+		<value><![CDATA[<p> Vaše objednávka byla úspěšně zpracována! </p> 
  <p> Můžete zobrazit podrobnosti o objednávce přechodem na <a href="%s">straně faktury</a>. </p> 
  <p> Prosím směřujte na jakékoliv dotazy můžete mít na <a href="%s">majitele obchodu</a>. </p> 
  <p> Děkujeme, že s námi nakupujete! </p>]]></value>
-  </definition>
-  <definition>
-    <key>text_basket</key>
-    <value><![CDATA[Košík]]></value>
-  </definition>
-  <definition>
-    <key>text_shipping</key>
-    <value><![CDATA[Lodní doprava]]></value>
-  </definition>
-  <definition>
-    <key>text_payment</key>
-    <value><![CDATA[Platba]]></value>
-  </definition>
-  <definition>
-    <key>text_guest</key>
-    <value><![CDATA[host Pokladna]]></value>
-  </definition>
-  <definition>
-    <key>text_confirm</key>
-    <value><![CDATA[Potvrdit]]></value>
-  </definition>
-  <definition>
-    <key>text_success</key>
-    <value><![CDATA[Úspěch]]></value>
-  </definition>
+	</definition>
+	<definition>
+		<key>text_basket</key>
+		<value><![CDATA[Košík]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Lodní doprava]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Platba]]></value>
+	</definition>
+	<definition>
+		<key>text_guest</key>
+		<value><![CDATA[host Pokladna]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm</key>
+		<value><![CDATA[Potvrdit]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Úspěch]]></value>
+	</definition>
+	<definition>
+		<key>text_message_failed_order</key>
+		<value><![CDATA[Jejda! Jsme zažili nějaký problém s vaší transakce. Vaše objednávka bude ověřena ručně administrátorem.]]></value>
+	</definition>
+	<definition>
+		<key>text_title_failed_order_to_admin</key>
+		<value><![CDATA[Nepodařilo pořadí # %s]]></value>
+	</definition>
+	<definition>
+		<key>text_message_failed_order_to_admin</key>
+		<value><![CDATA[Nepodařilo nebo chybějící odpověď z ověření platby. Ruční ověření je nutná!]]></value>
+	</definition>
 </definitions>

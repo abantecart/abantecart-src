@@ -1,45 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions>
-  <definition>
-    <key>heading_title</key>
-    <value><![CDATA[Deine Bestellung wurde bearbeitet!]]></value>
-  </definition>
-  <definition>
-    <key>text_message_account</key>
-    <value><![CDATA[<p>Ihre Bestellung # %s wurde erstellt!</p>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Deine Bestellung wurde bearbeitet!]]></value>
+	</definition>
+	<definition>
+		<key>text_message_account</key>
+		<value><![CDATA[<p>Ihre Bestellung # %s wurde erstellt!</p>
  <p>Sie können Ihre Bestellung Details , indem Sie auf die Ansicht <a href="%s">Rechnung Seite</a>. </p>
  <p>Bitte richten Sie Ihre Fragen , die Sie an die haben <a href="%s">Ladenbesitzer</a>.</p>
  <p>Danke für ihren Einkauf!</p>]]></value>
-  </definition>
-  <definition>
-    <key>text_message_guest</key>
-    <value><![CDATA[<p> Ihre Bestellung wurde erfolgreich bearbeitet! </p>
+	</definition>
+	<definition>
+		<key>text_message_guest</key>
+		<value><![CDATA[<p> Ihre Bestellung wurde erfolgreich bearbeitet! </p>
  <p> Sie können Ihre Bestellung Details , indem Sie auf die Ansicht <a href="%s">Rechnung Seite</a>. </p>
  <p> Bitte richten Sie Ihre Fragen , die Sie an die haben <a href="%s">Ladenbesitzer</a>. </p>
  <p> Danke für ihren Einkauf! </p>]]></value>
-  </definition>
-  <definition>
-    <key>text_basket</key>
-    <value><![CDATA[Korb]]></value>
-  </definition>
-  <definition>
-    <key>text_shipping</key>
-    <value><![CDATA[Versand]]></value>
-  </definition>
-  <definition>
-    <key>text_payment</key>
-    <value><![CDATA[Zahlung]]></value>
-  </definition>
-  <definition>
-    <key>text_guest</key>
-    <value><![CDATA[Gast Kasse]]></value>
-  </definition>
-  <definition>
-    <key>text_confirm</key>
-    <value><![CDATA[Bestätigen]]></value>
-  </definition>
-  <definition>
-    <key>text_success</key>
-    <value><![CDATA[Erfolg]]></value>
-  </definition>
+	</definition>
+	<definition>
+		<key>text_basket</key>
+		<value><![CDATA[Korb]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Versand]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Zahlung]]></value>
+	</definition>
+	<definition>
+		<key>text_guest</key>
+		<value><![CDATA[Gast Kasse]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm</key>
+		<value><![CDATA[Bestätigen]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Erfolg]]></value>
+	</definition>
+	<definition>
+		<key>text_message_failed_order</key>
+		<value><![CDATA[Hoppla! Wir haben einige Problem mit der Transaktion erfahren. Ihre Bestellung wird manuell vom Administrator überprüft werden.]]></value>
+	</definition>
+	<definition>
+		<key>text_title_failed_order_to_admin</key>
+		<value><![CDATA[Fehlgeschlagen Auftrag # %s]]></value>
+	</definition>
+	<definition>
+		<key>text_message_failed_order_to_admin</key>
+		<value><![CDATA[Fehlgeschlagen oder von Zahlungsüberprüfung fehlende Antwort. Manuelle Überprüfung ist erforderlich!]]></value>
+	</definition>
 </definitions>

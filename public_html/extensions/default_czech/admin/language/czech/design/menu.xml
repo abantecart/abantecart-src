@@ -1,63 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions>
-  <definition>
-    <key>heading_title</key>
-    <value><![CDATA[Jídelní lístek]]></value>
-  </definition>
-  <definition>
-    <key>text_success</key>
-    <value><![CDATA[Úspěch: jste nabídku upraven!]]></value>
-  </definition>
-  <definition>
-    <key>entry_item_id</key>
-    <value><![CDATA[Unikátní ID]]></value>
-  </definition>
-  <definition>
-    <key>entry_item_icon</key>
-    <value><![CDATA[Ikona]]></value>
-  </definition>
-  <definition>
-    <key>entry_item_text</key>
-    <value><![CDATA[Text]]></value>
-  </definition>
-  <definition>
-    <key>entry_item_url</key>
-    <value><![CDATA[Link <br/><span class="help">Pro externí odkazy přidat http: // nebo https: // na začátku</span>]]></value>
-  </definition>
-  <definition>
-    <key>entry_parent_id</key>
-    <value><![CDATA[Rodič]]></value>
-  </definition>
-  <definition>
-    <key>entry_sort_order</key>
-    <value><![CDATA[Pořadí řazení]]></value>
-  </definition>
-  <definition>
-    <key>entry_link_category</key>
-    <value><![CDATA[Odkazující na Kategorie]]></value>
-  </definition>
-  <definition>
-    <key>entry_link_page</key>
-    <value><![CDATA[Odkaz na stránku]]></value>
-  </definition>
-  <definition>
-    <key>text_link</key>
-    <value><![CDATA[Odkaz]]></value>
-  </definition>
-  <definition>
-    <key>text_select_parent_id</key>
-    <value><![CDATA[- Root Menu -]]></value>
-  </definition>
-  <definition>
-    <key>error_empty</key>
-    <value><![CDATA[Pole nemůže být prázdný!]]></value>
-  </definition>
-  <definition>
-    <key>error_non_unique</key>
-    <value><![CDATA[ID položky nejsou jedinečné!]]></value>
-  </definition>
-  <definition>
-    <key>error_non_ascii</key>
-    <value><![CDATA[Pouze alfanumerické znaky povoleny pro vstup do menu ID pole!]]></value>
-  </definition>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Jídelní lístek]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Úspěch: jste nabídku upraven!]]></value>
+	</definition>
+	<definition>
+		<key>entry_item_id</key>
+		<value><![CDATA[Unikátní ID]]></value>
+	</definition>
+	<definition>
+		<key>entry_item_icon</key>
+		<value><![CDATA[Ikona]]></value>
+	</definition>
+	<definition>
+		<key>entry_item_text</key>
+		<value><![CDATA[Text]]></value>
+	</definition>
+	<definition>
+		<key>entry_item_url</key>
+		<value><![CDATA[Link <br/><span class="help">Pro externí odkazy přidat http: // nebo https: // na začátku</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_parent_id</key>
+		<value><![CDATA[Rodič]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Pořadí řazení]]></value>
+	</definition>
+	<definition>
+		<key>entry_link_category</key>
+		<value><![CDATA[Odkazující na Kategorie]]></value>
+	</definition>
+	<definition>
+		<key>entry_link_page</key>
+		<value><![CDATA[Odkaz na stránku]]></value>
+	</definition>
+	<definition>
+		<key>text_link</key>
+		<value><![CDATA[Odkaz]]></value>
+	</definition>
+	<definition>
+		<key>text_select_parent_id</key>
+		<value><![CDATA[- Root Menu -]]></value>
+	</definition>
+	<definition>
+		<key>error_empty</key>
+		<value><![CDATA[Pole nemůže být prázdný!]]></value>
+	</definition>
+	<definition>
+		<key>error_non_unique</key>
+		<value><![CDATA[ID položky nejsou jedinečné!]]></value>
+	</definition>
+	<definition>
+		<key>error_non_ascii</key>
+		<value><![CDATA[Pouze alfanumerické znaky povoleny pro vstup do menu ID pole!]]></value>
+	</definition>
+	<definition>
+		<key>entry_link_type</key>
+		<value><![CDATA[Link Type]]></value>
+	</definition>
+	<definition>
+		<key>text_category_link_type</key>
+		<value><![CDATA[Kategorie Page]]></value>
+	</definition>
+	<definition>
+		<key>text_content_link_type</key>
+		<value><![CDATA[obsah stránky]]></value>
+	</definition>
+	<definition>
+		<key>text_custom_link_type</key>
+		<value><![CDATA[Custom Link nebo URL]]></value>
+	</definition>
 </definitions>
