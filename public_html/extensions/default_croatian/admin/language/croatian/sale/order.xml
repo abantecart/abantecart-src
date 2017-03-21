@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Narudžbe]]></value>
+  </definition>
+  <definition>
+    <key>edit_title_details</key>
+    <value><![CDATA[Uredi Detalji narudžbe]]></value>
+  </definition>
+  <definition>
+    <key>edit_title_shipping</key>
+    <value><![CDATA[Uređivanje adrese za dostavu]]></value>
+  </definition>
+  <definition>
+    <key>edit_title_payment</key>
+    <value><![CDATA[Uredi Adresa za plaćanje]]></value>
+  </definition>
+  <definition>
+    <key>title_payment_details</key>
+    <value><![CDATA[Pojedinosti o plaćanju]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspjeh: Pojedinosti o narudžbi su ažurirane!]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[Dostavnica]]></value>
+  </definition>
+  <definition>
+    <key>text_order_id</key>
+    <value><![CDATA[ID narudžbe:]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice_id</key>
+    <value><![CDATA[Račun br.:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Datum dostavnice:]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[Telefon]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Faks]]></value>
+  </definition>
+  <definition>
+    <key>text_select_country</key>
+    <value><![CDATA[- Odaberi državu -]]></value>
+  </definition>
+  <definition>
+    <key>text_to</key>
+    <value><![CDATA[Do]]></value>
+  </definition>
+  <definition>
+    <key>text_ship_to</key>
+    <value><![CDATA[Brod bi (ako se razlikuje adresa)]]></value>
+  </definition>
+  <definition>
+    <key>text_missing_orders</key>
+    <value><![CDATA[Nedostaje narudžbe]]></value>
+  </definition>
+  <definition>
+    <key>text_wait</key>
+    <value><![CDATA[Pričekajte!]]></value>
+  </definition>
+  <definition>
+    <key>column_order</key>
+    <value><![CDATA[ID narudžbe]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Ime kupca]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[Datum dodan]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[ukupno]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[Proizvod]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Model]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Količina]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Jedinična cijena]]></value>
+  </definition>
+  <definition>
+    <key>column_download</key>
+    <value><![CDATA[Preuzimanje Ime]]></value>
+  </definition>
+  <definition>
+    <key>column_file</key>
+    <value><![CDATA[Datoteka]]></value>
+  </definition>
+  <definition>
+    <key>column_remaining</key>
+    <value><![CDATA[ostali]]></value>
+  </definition>
+  <definition>
+    <key>column_expire_date</key>
+    <value><![CDATA[Rok trajanja]]></value>
+  </definition>
+  <definition>
+    <key>column_mask</key>
+    <value><![CDATA[Maska]]></value>
+  </definition>
+  <definition>
+    <key>column_notify</key>
+    <value><![CDATA[Kupac obaviješten]]></value>
+  </definition>
+  <definition>
+    <key>column_comment</key>
+    <value><![CDATA[Redoslijed komentar Kupca]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akcijski]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_id</key>
+    <value><![CDATA[ID narudžbe:]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice_id</key>
+    <value><![CDATA[Račun ID:]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer</key>
+    <value><![CDATA[Kupac:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[Ime:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Prezime:]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[Korisnička grupa:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-mail:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ip</key>
+    <value><![CDATA[IP adresa:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[Telefon:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Faks:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store_name</key>
+    <value><![CDATA[Naziv trgovine:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store_url</key>
+    <value><![CDATA[Trgovina Url:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_added</key>
+    <value><![CDATA[Datum dodan:]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_method</key>
+    <value><![CDATA[Metoda slanja:]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_method</key>
+    <value><![CDATA[Način plaćanja:]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Izvorni Order Total:]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_status</key>
+    <value><![CDATA[Stanje narudžbe:]]></value>
+  </definition>
+  <definition>
+    <key>entry_comment</key>
+    <value><![CDATA[Komentar:]]></value>
+  </definition>
+  <definition>
+    <key>entry_company</key>
+    <value><![CDATA[Društvo:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_1</key>
+    <value><![CDATA[Adresa 1:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_2</key>
+    <value><![CDATA[Adresa 2:]]></value>
+  </definition>
+  <definition>
+    <key>entry_postcode</key>
+    <value><![CDATA[Poštanski Poštanski broj /:]]></value>
+  </definition>
+  <definition>
+    <key>entry_city</key>
+    <value><![CDATA[Grad:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Regija / Država:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone_code</key>
+    <value><![CDATA[Regija / Država Code:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Zemlja:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Stanje narudžbe:]]></value>
+  </definition>
+  <definition>
+    <key>entry_notify</key>
+    <value><![CDATA[Obavijesti za korisnike:]]></value>
+  </definition>
+  <definition>
+    <key>entry_append</key>
+    <value><![CDATA[Dodaj Komentari:]]></value>
+  </definition>
+  <definition>
+    <key>entry_add_product</key>
+    <value><![CDATA[Dodaj proizvod:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Upozorenje: Nemate dozvolu za izmjenu naloga!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_load</key>
+    <value><![CDATA[Upozorenje: Ne nalog s takvim ID!]]></value>
+  </definition>
+  <definition>
+    <key>text_order_summary</key>
+    <value><![CDATA[Sažetak narudžbe]]></value>
+  </definition>
+  <definition>
+    <key>tab_order_details</key>
+    <value><![CDATA[Detalji narudžbe]]></value>
+  </definition>
+  <definition>
+    <key>tab_shipping</key>
+    <value><![CDATA[dostavna adresa]]></value>
+  </definition>
+  <definition>
+    <key>tab_payment</key>
+    <value><![CDATA[Adresa plaćanja]]></value>
+  </definition>
+  <definition>
+    <key>tab_history</key>
+    <value><![CDATA[Stanje i komentara]]></value>
+  </definition>
+  <definition>
+    <key>tab_files</key>
+    <value><![CDATA[Red Files]]></value>
+  </definition>
+  <definition>
+    <key>tab_payment_details</key>
+    <value><![CDATA[Pojedinosti o plaćanju]]></value>
+  </definition>
+  <definition>
+    <key>edit_title_files</key>
+    <value><![CDATA[Uredi Files Order]]></value>
+  </definition>
+  <definition>
+    <key>text_missing_file</key>
+    <value><![CDATA[Nedostaje datoteka]]></value>
+  </definition>
+  <definition>
+    <key>order_download_history</key>
+    <value><![CDATA[Preuzimanje Povijest]]></value>
+  </definition>
+  <definition>
+    <key>text_time</key>
+    <value><![CDATA[Vrijeme]]></value>
+  </definition>
+  <definition>
+    <key>text_filename</key>
+    <value><![CDATA[Naziv datoteke]]></value>
+  </definition>
+  <definition>
+    <key>text_mask</key>
+    <value><![CDATA[Maska]]></value>
+  </definition>
+  <definition>
+    <key>text_download_percent</key>
+    <value><![CDATA[Preuzimanje postotaka]]></value>
+  </definition>
+  <definition>
+    <key>text_download_expired</key>
+    <value><![CDATA[Datum istekla]]></value>
+  </definition>
+  <definition>
+    <key>text_download_remaining_count</key>
+    <value><![CDATA[Preostali Točka]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status_required</key>
+    <value><![CDATA[Status naloga &quot;%s&quot; Potrebna]]></value>
+  </definition>
+  <definition>
+    <key>text_select_product</key>
+    <value><![CDATA[- Odaberite proizvod -]]></value>
+  </definition>
+  <definition>
+    <key>text_push_download</key>
+    <value><![CDATA[- Push Download -]]></value>
+  </definition>
+  <definition>
+    <key>text_add_product_to_order</key>
+    <value><![CDATA[Dodaj proizvod u Naruči # %s]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_order_product</key>
+    <value><![CDATA[Uredi proizvoda]]></value>
+  </definition>
+  <definition>
+    <key>attention_check_total</key>
+    <value><![CDATA[Napomena: Pojedinosti narudžbe proizvoda nije promijenilo. Ukupno je ponovno izračunati automatski. Pregled je potrebno.]]></value>
+  </definition>
+  <definition>
+    <key>text_order_total_add</key>
+    <value><![CDATA[Dodaj novi iznos ukupnog obračuna]]></value>
+  </definition>
+  <definition>
+    <key>text_order_total_title</key>
+    <value><![CDATA[Naslov za emisiju]]></value>
+  </definition>
+  <definition>
+    <key>text_order_total_amount</key>
+    <value><![CDATA[Iznos]]></value>
+  </definition>
+  <definition>
+    <key>text_recalc</key>
+    <value><![CDATA[Ponovni izračun pomoću postavke]]></value>
+  </definition>
+  <definition>
+    <key>entry_im</key>
+    <value><![CDATA[IM:]]></value>
+  </definition>
+</definitions>

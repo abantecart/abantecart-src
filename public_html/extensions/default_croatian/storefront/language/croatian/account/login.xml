@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Prijava na račun]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Registracija račun]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Prijaviti se]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_new_customer</key>
+    <value><![CDATA[Ja sam novi kupac.]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Blagajna opcije:]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[Ocjene Blagajna]]></value>
+  </definition>
+  <definition>
+    <key>text_create_account</key>
+    <value><![CDATA[Otvaranje računa moći ćete bržu kupnju, informiranost o statusu narudžbe i pratiti narudžbe koje ste prethodno napravili.]]></value>
+  </definition>
+  <definition>
+    <key>text_returning_customer</key>
+    <value><![CDATA[stari kupac]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_returning_customer</key>
+    <value><![CDATA[Ja sam povratka kupaca.]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_login</key>
+    <value><![CDATA[Zaboravili ste podatke za prijavu?]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_password</key>
+    <value><![CDATA[Zaboravili ste lozinku?]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Korisničko ime:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email_address</key>
+    <value><![CDATA[Email adresa:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Lozinka:]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Pogreška: Neispravna prijavu ili zaporka pruža.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_activated</key>
+    <value><![CDATA[Uspjeh: Vaš korisnički račun je uspješno aktiviran. Molimo, prijavite se sa svojim vjerodajnice.]]></value>
+  </definition>
+  <definition>
+    <key>text_already_activated</key>
+    <value><![CDATA[Vaš račun već je aktiviran. Molimo, prijavite se sa svojim vjerodajnice.]]></value>
+  </definition>
+  <definition>
+    <key>text_resend_activation_email</key>
+    <value><![CDATA[Pogreška: Vaša e-mail adresa još nije potvrđena. Za ponovno slanje novu e-poštu potvrde molimo kliknite ovaj <a href=" %s ">vezu</a>]]></value>
+  </definition>
+</definitions>

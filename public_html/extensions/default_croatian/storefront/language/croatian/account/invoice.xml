@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Detalji narudžbe]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Račun]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[Povijest Reda]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[Dostavnica]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice_id</key>
+    <value><![CDATA[Račun ID]]></value>
+  </definition>
+  <definition>
+    <key>text_order_id</key>
+    <value><![CDATA[ID narudžbe]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[E-mail]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[Telefon]]></value>
+  </definition>
+  <definition>
+    <key>text_mobile_phone</key>
+    <value><![CDATA[Mobitel:]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Faks]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[dostavna adresa]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Metoda slanja]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[Adresa plaćanja]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Način plaćanja]]></value>
+  </definition>
+  <definition>
+    <key>text_order_history</key>
+    <value><![CDATA[Povijest Reda]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[Proizvod]]></value>
+  </definition>
+  <definition>
+    <key>text_model</key>
+    <value><![CDATA[Model]]></value>
+  </definition>
+  <definition>
+    <key>text_quantity</key>
+    <value><![CDATA[Količina]]></value>
+  </definition>
+  <definition>
+    <key>text_price</key>
+    <value><![CDATA[Jedinična cijena]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[ukupno]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[Naručite Komentari]]></value>
+  </definition>
+  <definition>
+    <key>text_image</key>
+    <value><![CDATA[Slika]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Redoslijed koji ste zatražili nije moguće pronaći!]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[Datum dodan]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>column_comment</key>
+    <value><![CDATA[Redoslijed komentar Kupca]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation</key>
+    <value><![CDATA[Zahtjev za otkazivanje od reda]]></value>
+  </definition>
+  <definition>
+    <key>text_request_cancellation_from_customer</key>
+    <value><![CDATA[Zahtjev za otkazivanje narudžbe od kupca]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_confirm</key>
+    <value><![CDATA[Vaš zahtjev za poništenje ne može se u nekim slučajevima, na primjer, kad je roba otpremljena. Nastaviti?]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_success</key>
+    <value><![CDATA[Zahtjev za poništenje narudžbe podnesen]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_message_title</key>
+    <value><![CDATA[Naručite # %s zahtjeva za otkazivanje]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_message_body</key>
+    <value><![CDATA[Kupac %s zatražio poništenja narudžbe za narudžbu # %s. Za pregled ići na %s]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-mail adresa nije važeća!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_id</key>
+    <value><![CDATA[ID narudžbe potrebno je teren!]]></value>
+  </definition>
+</definitions>

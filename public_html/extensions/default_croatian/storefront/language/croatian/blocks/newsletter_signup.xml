@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Newsletter prijava]]></value>
+  </definition>
+  <definition>
+    <key>text_signup</key>
+    <value><![CDATA[Prijavite se na naš newsletter &amp; dobiti atraktivne ponude tako da se pretplatite na naš newsletter.]]></value>
+  </definition>
+  <definition>
+    <key>text_sign_in</key>
+    <value><![CDATA[Prijaviti se]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribe</key>
+    <value><![CDATA[Pretplatite se na newsletter]]></value>
+  </definition>
+  <definition>
+    <key>button_subscribe</key>
+    <value><![CDATA[pretplatiti]]></value>
+  </definition>
+</definitions>

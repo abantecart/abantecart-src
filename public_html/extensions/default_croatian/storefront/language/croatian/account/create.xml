@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Izradi račun]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Račun]]></value>
+  </definition>
+  <definition>
+    <key>text_create</key>
+    <value><![CDATA[Registrirajte se]]></value>
+  </definition>
+  <definition>
+    <key>text_account_already</key>
+    <value><![CDATA[Ako već imate račun kod nas, molimo prijavite se na <a style="text-decoration: underline" href="%s">stranicu za prijavu</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_your_details</key>
+    <value><![CDATA[Vaši osobni podaci]]></value>
+  </definition>
+  <definition>
+    <key>text_your_address</key>
+    <value><![CDATA[Vaša adresa]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[bilten]]></value>
+  </definition>
+  <definition>
+    <key>text_your_password</key>
+    <value><![CDATA[Tvoja lozinka]]></value>
+  </definition>
+  <definition>
+    <key>text_login_details</key>
+    <value><![CDATA[Detalji Prijava]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[Pročitao sam i slažem se]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Korisničko ime:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[Ime:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Prezime:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-mail:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[Telefon:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Faks:]]></value>
+  </definition>
+  <definition>
+    <key>entry_company</key>
+    <value><![CDATA[Društvo:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_1</key>
+    <value><![CDATA[Adresa 1:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_2</key>
+    <value><![CDATA[Adresa 2:]]></value>
+  </definition>
+  <definition>
+    <key>entry_postcode</key>
+    <value><![CDATA[Poštanski broj:]]></value>
+  </definition>
+  <definition>
+    <key>entry_city</key>
+    <value><![CDATA[Grad:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Zemlja:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Regija / Država:]]></value>
+  </definition>
+  <definition>
+    <key>entry_newsletter</key>
+    <value><![CDATA[Pretplatite:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Lozinka:]]></value>
+  </definition>
+  <definition>
+    <key>entry_confirm</key>
+    <value><![CDATA[Lozinka Potvrdi:]]></value>
+  </definition>
+  <definition>
+    <key>error_exists</key>
+    <value><![CDATA[Pogreška: E-mail adresa već registriran!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Korisničko ime mora biti samo i između 5 i 64 znakova alfanumerička!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[Ovo ime za prijavu nije dostupan. Pokušaj drugi naziv za prijavu!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[Ime mora biti između 1 i 32 znakova!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Prezime mora biti između 1 i 32 znakova!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-mail adresa nije važeća!]]></value>
+  </definition>
+  <definition>
+    <key>error_email_exists</key>
+    <value><![CDATA[E-mail adresa već postoji!]]></value>
+  </definition>
+  <definition>
+    <key>error_password</key>
+    <value><![CDATA[Lozinka mora biti između 4 i 20 znakova!]]></value>
+  </definition>
+  <definition>
+    <key>error_confirm</key>
+    <value><![CDATA[Potvrda lozinke ne odgovara lozinka!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_1</key>
+    <value><![CDATA[Adresa 1 mora biti između 3 i 128 znakova!]]></value>
+  </definition>
+  <definition>
+    <key>error_city</key>
+    <value><![CDATA[Grad mora biti između 3 i 128 znakova!]]></value>
+  </definition>
+  <definition>
+    <key>error_postcode</key>
+    <value><![CDATA[Zip / Poštanski broj mora biti između 3 i 10 znakova!]]></value>
+  </definition>
+  <definition>
+    <key>error_country</key>
+    <value><![CDATA[Odaberite zemlju!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone</key>
+    <value><![CDATA[Odaberite regiju / državu!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[Telefon mora biti između 3 i 32 znakova!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[Greška: Morate pristati na %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_full_register</key>
+    <value><![CDATA[Postanite kupca i registrirati s detaljima]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribe_register</key>
+    <value><![CDATA[Postanite newsletter pretplatnika]]></value>
+  </definition>
+  <definition>
+    <key>text_success_subscribe_heading</key>
+    <value><![CDATA[Uspješno ste se pretplatili!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_subscribe</key>
+    <value><![CDATA[Uspjeh: Vaš newsletter uspješno je stvorio!]]></value>
+  </definition>
+  <definition>
+    <key>error_subscriber_exists</key>
+    <value><![CDATA[Naši zapisi pokazuju da imate račun kod nas. Molimo, prijavite se na svoj račun za upravljanje newsletter pretplatu.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_customer</key>
+    <value><![CDATA[Novi odobrenje registracije kupac je na čekanju]]></value>
+  </definition>
+  <definition>
+    <key>text_pending_customer_approval</key>
+    <value><![CDATA[Kupac %s registrirana na novi račun. Akcija odobrenja je potrebno! Kliknite da biste vidjeli # admin # Rt = prodaja / kupca / ažuriranje &amp; CUSTOMER_ID = %s]]></value>
+  </definition>
+  <definition>
+    <key>text_pending_subscriber_approval</key>
+    <value><![CDATA[Pretplatnik %s registrirana na novi račun. Akcija odobrenja je potrebno! Kliknite da biste vidjeli # admin # Rt = prodaja / kupca / ažuriranje &amp; CUSTOMER_ID = %s]]></value>
+  </definition>
+</definitions>

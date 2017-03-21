@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Transakcije kupaca]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_date</key>
+    <value><![CDATA[Datum transakcije]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[Ime kupca]]></value>
+  </definition>
+  <definition>
+    <key>column_created_by</key>
+    <value><![CDATA[Napravio]]></value>
+  </definition>
+  <definition>
+    <key>column_debit</key>
+    <value><![CDATA[Zaduženje]]></value>
+  </definition>
+  <definition>
+    <key>column_credit</key>
+    <value><![CDATA[Kreditna]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_type</key>
+    <value><![CDATA[Tip transakcije]]></value>
+  </definition>
+</definitions>

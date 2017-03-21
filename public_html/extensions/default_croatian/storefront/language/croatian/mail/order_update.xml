@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Ažuriranje narudžbe %s]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[ID narudžbe:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Datum Ž:]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[Vaša narudžba je ažuriran na sljedeći status:]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[Komentari za svoj red su:]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[Za pregled narudžbu, kliknite na link ispod:]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[Molimo odgovorite na ovu poruku ako imate bilo kakvih pitanja.]]></value>
+  </definition>
+</definitions>

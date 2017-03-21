@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Datoteke proizvoda]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[Proizvod]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_product_file</key>
+    <value><![CDATA[Uredi File proizvoda]]></value>
+  </definition>
+  <definition>
+    <key>tab_files</key>
+    <value><![CDATA[Datoteke]]></value>
+  </definition>
+  <definition>
+    <key>tab_general</key>
+    <value><![CDATA[General]]></value>
+  </definition>
+  <definition>
+    <key>tab_attributes</key>
+    <value><![CDATA[Preuzimanje Značajke]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_icon</key>
+    <value><![CDATA[File Icon]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>entry_resource</key>
+    <value><![CDATA[Resurs]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Ime]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_name</key>
+    <value><![CDATA[Preuzimanje Ime]]></value>
+  </definition>
+  <definition>
+    <key>entry_mask</key>
+    <value><![CDATA[Preuzimanje maska <span class="help">Ime datoteke ime za kupca preuzimanje izlaz</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_full_path</key>
+    <value><![CDATA[File Server Put]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_max_downloads</key>
+    <value><![CDATA[Max Preuzimanje]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_sort_order</key>
+    <value><![CDATA[redoslijed]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_push_to_customers</key>
+    <value><![CDATA[Pritisni za kupce]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_activation</key>
+    <value><![CDATA[Način Aktivacija]]></value>
+  </definition>
+  <definition>
+    <key>text_add_file</key>
+    <value><![CDATA[Dodaj datoteku]]></value>
+  </definition>
+  <definition>
+    <key>text_new_file</key>
+    <value><![CDATA[Dodaj Nova datoteka]]></value>
+  </definition>
+  <definition>
+    <key>text_download_attributes</key>
+    <value><![CDATA[Preuzimanje Značajke]]></value>
+  </definition>
+  <definition>
+    <key>text_download_information</key>
+    <value><![CDATA[General]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_added</key>
+    <value><![CDATA[Dodano dana]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_modified</key>
+    <value><![CDATA[promijenjen]]></value>
+  </definition>
+  <definition>
+    <key>entry_max_downloads</key>
+    <value><![CDATA[Max preuzimanja <span class="help">Točka preuzimanja dozvoljeno za kupca</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_activate</key>
+    <value><![CDATA[Aktiviran <span class="help">Preuzimanje će se aktivira na događaj odabrali. <br/> Primjer: Odmah. Download je aktivirati nakon narudžbe, bez obzira na status narudžbe</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Redoslijed]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_days</key>
+    <value><![CDATA[Isteći dana <span class="help">grofa dana od datuma kupnje</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_before_order</key>
+    <value><![CDATA[prije Reda]]></value>
+  </definition>
+  <definition>
+    <key>text_immediately</key>
+    <value><![CDATA[Odmah]]></value>
+  </definition>
+  <definition>
+    <key>text_on_order_status</key>
+    <value><![CDATA[o statusu narudžbe]]></value>
+  </definition>
+  <definition>
+    <key>text_manually</key>
+    <value><![CDATA[ručno]]></value>
+  </definition>
+  <definition>
+    <key>text_success_download_save</key>
+    <value><![CDATA[Uspjeh: Izmijenili ste datoteku!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_exists</key>
+    <value><![CDATA[Greška: Ne mogu ažurirati preuzimanje, jer ne postoji u bazi podataka!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_name</key>
+    <value><![CDATA[Pogreška: Preuzimanje ime mora imati dužinu od 2 do 128 znakova!]]></value>
+  </definition>
+  <definition>
+    <key>error_max_downloads</key>
+    <value><![CDATA[Pogreška: maksimalni download računati mora biti veći 0!]]></value>
+  </definition>
+  <definition>
+    <key>error_activate</key>
+    <value><![CDATA[Pogreška: odaberite akcija za aktivaciju download!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_status</key>
+    <value><![CDATA[Pogreška: odabir statusa naloga za aktivaciju download!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_attributes</key>
+    <value><![CDATA[Preuzimanje Atributi pogreška (s):]]></value>
+  </definition>
+  <definition>
+    <key>text_shared_downloads</key>
+    <value><![CDATA[Zajednička preuzimanja]]></value>
+  </definition>
+  <definition>
+    <key>text_create_download</key>
+    <value><![CDATA[Izrada novog preuzimanje]]></value>
+  </definition>
+  <definition>
+    <key>text_path</key>
+    <value><![CDATA[Relativna put do datoteke]]></value>
+  </definition>
+  <definition>
+    <key>text_preview</key>
+    <value><![CDATA[pregled]]></value>
+  </definition>
+  <definition>
+    <key>entry_shared</key>
+    <value><![CDATA[Zajednička Preuzimanje]]></value>
+  </definition>
+  <definition>
+    <key>text_assign</key>
+    <value><![CDATA[Uštedjeti]]></value>
+  </definition>
+  <definition>
+    <key>text_assigned_to</key>
+    <value><![CDATA[Također dodijeljena:]]></value>
+  </definition>
+  <definition>
+    <key>text_select_shared_downloads</key>
+    <value><![CDATA[Odaberite zajedničke preuzimanja]]></value>
+  </definition>
+  <definition>
+    <key>error_selected_downloads</key>
+    <value><![CDATA[Upozorenje: Molimo odaberite zajedničke preuzimanja za Pridruľi.]]></value>
+  </definition>
+  <definition>
+    <key>text_map_success</key>
+    <value><![CDATA[Uspjeh: Vi dodijelili zajedničke preuzimanja proizvoda!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_or_refuse</key>
+    <value><![CDATA[brisati ili odbiti (za zajedničke)]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_delete</key>
+    <value><![CDATA[Potvrda preuzimanje izbrisati / odbijaju]]></value>
+  </definition>
+  <definition>
+    <key>text_success_remove</key>
+    <value><![CDATA[Uspjeh: proizvod popis datoteka promijenila!]]></value>
+  </definition>
+  <definition>
+    <key>text_push</key>
+    <value><![CDATA[Gurnuti]]></value>
+  </definition>
+  <definition>
+    <key>text_push_to_customers</key>
+    <value><![CDATA[Pritisni za kupce]]></value>
+  </definition>
+  <definition>
+    <key>text_push_to_orders</key>
+    <value><![CDATA[Push Preuzimanje na %s narudžbe]]></value>
+  </definition>
+  <definition>
+    <key>success_push_to_orders</key>
+    <value><![CDATA[Uspjeh: Preuzimanje je gurnula na %s bi (a) uspješno]]></value>
+  </definition>
+  <definition>
+    <key>text_no_download_attributes_yet</key>
+    <value><![CDATA[Nema preuzimanje atribute još. <a href="%s" target="_blank">Kliknite da biste dodali</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_push</key>
+    <value><![CDATA[Potvrdi?]]></value>
+  </definition>
+  <definition>
+    <key>error_downloads_disabled</key>
+    <value><![CDATA[Upozorenje: Preuzeto su onemogućeni u postavkama trgovine. <a href="#admin#rt=setting/setting&active=general" target="new">Kliknite na Edit</a> !]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Upozorenje: Nemate dozvolu za izmjenu proizvodnih datoteka!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[Molimo postavite datoteku za preuzimanje.]]></value>
+  </definition>
+  <definition>
+    <key>attention_shared</key>
+    <value><![CDATA[Vi ste o da biste uredili zajedničko preuzimanje. Uredi će utjecati na druge proizvode.]]></value>
+  </definition>
+  <definition>
+    <key>text_shared_with</key>
+    <value><![CDATA[Dijeljeno sa:]]></value>
+  </definition>
+</definitions>

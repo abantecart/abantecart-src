@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Backup / Restore / Load]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[Preuzimanje Backup]]></value>
+  </definition>
+  <definition>
+    <key>text_success_backup</key>
+    <value><![CDATA[Uspjeh: Uspješno ste stvorili sigurnosnu kopiju datoteke!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspjeh: Uspješno ste uvezli svoje baze podataka!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_xml</key>
+    <value><![CDATA[Uspjeh: Uspješno ste uvezli svoj xml!]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore</key>
+    <value><![CDATA[Vraćanje iz SQL ili XML datoteke:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tables</key>
+    <value><![CDATA[Backup Tablice:]]></value>
+  </definition>
+  <definition>
+    <key>entry_loadxml</key>
+    <value><![CDATA[Opterećenje XML-datoteka:]]></value>
+  </definition>
+  <definition>
+    <key>tab_backup</key>
+    <value><![CDATA[rezerva]]></value>
+  </definition>
+  <definition>
+    <key>tab_restore</key>
+    <value><![CDATA[Vratiti]]></value>
+  </definition>
+  <definition>
+    <key>tab_loadxml</key>
+    <value><![CDATA[Izgled i skup podataka učitavanje XML]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Upozorenje: Nemate dozvolu za izmjenu sigurnosnih kopija!]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Upozorenje: Molimo postavite ono što želite to sigurnosna kopija ili uvoz!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Upozorenje: Datoteka koju ste prenijeli je prazna ili su imali pogrešnu vrstu datoteke!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload</key>
+    <value><![CDATA[Upozorenje: Datoteka nije prenesena. Provjerite post_max_size ili file_upload smjernice svog php.ini datoteci.]]></value>
+  </definition>
+  <definition>
+    <key>error_xml</key>
+    <value><![CDATA[Upozorenje: Datoteka koju ste prenijeli ne učitava kao XML! Molimo pogledajte datoteke zapisnika za detalje]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_code</key>
+    <value><![CDATA[Backup Code (%s) <br/><span class="help">pod-direktorije sa koda datoteke osim dinamične datoteke, kao što cache, log datoteke, slike, resursi itd</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_content</key>
+    <value><![CDATA[Backup sadržaj (%s) <br/><span class="help">pod-direktorije s dinamičkim datoteke, kao što su slike, preuzimanja, resursa i sl</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_compress_backup</key>
+    <value><![CDATA[Sažimanje Backup Directory %s? <br/><span class="help">Arhiv * .tar.gz će biti kreirana. <br/> Napomena: to bi moglo da se dugo vremena. Inače možete onemogućiti kompresiju i pronaći svoj backup u mapu %s</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_now</key>
+    <value><![CDATA[Backup Sada]]></value>
+  </definition>
+  <definition>
+    <key>button_load</key>
+    <value><![CDATA[Opterećenje]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_schedule</key>
+    <value><![CDATA[Raspored kopija]]></value>
+  </definition>
+  <definition>
+    <key>text_success_scheduled</key>
+    <value><![CDATA[Uspjeh: Uspješno ste stvorili zakazano backup zadatak! <a href="%s">Pogledaj detalje</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_fail_note</key>
+    <value><![CDATA[NAPOMENA: Ovaj izvršenje procesa ovisi o AbanteCart veličine podataka, kao i svoj server virtualne veličine memorije. Ako proces prestaje s pogreškama, provjerite imenik dozvole %s biti postavljena na -RW-RW-RW i <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[PHP postavke memorije]</a>. Povećajte postavke memorije ili pokrenuti backup ručno, ako postupak još uvijek ne uspijevaju.]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_file</key>
+    <value><![CDATA[Za preuzimanje backup-datoteku posjetite <a href="#admin#rt=tool/install_upgrade_history">Instalacija / povijest Nadogradnja</a>]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_dir</key>
+    <value><![CDATA[Katalog sa backup-datoteka je %s]]></value>
+  </definition>
+</definitions>

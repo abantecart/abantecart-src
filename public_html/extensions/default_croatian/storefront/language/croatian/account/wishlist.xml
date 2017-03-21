@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Moja lista želja]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Račun]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_wishlist</key>
+    <value><![CDATA[Lista želja je prazna]]></value>
+  </definition>
+  <definition>
+    <key>button_cart</key>
+    <value><![CDATA[Pogledaj košaricu]]></value>
+  </definition>
+  <definition>
+    <key>button_continue</key>
+    <value><![CDATA[Nastaviti s kupovinom]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Slika]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Ime]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Model]]></value>
+  </definition>
+  <definition>
+    <key>column_added</key>
+    <value><![CDATA[Dodano na listu želja]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Jedinična cijena]]></value>
+  </definition>
+  <definition>
+    <key>column_actions</key>
+    <value><![CDATA[Akcije]]></value>
+  </definition>
+</definitions>

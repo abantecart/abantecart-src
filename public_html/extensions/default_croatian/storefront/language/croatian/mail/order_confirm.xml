@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Naručite %s]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Hvala Vam na Vašem interesu za %s proizvodima. Vaša narudžba je primljena i da će biti obrađen je nakon uplate potvrđena.]]></value>
+  </definition>
+  <definition>
+    <key>text_received</key>
+    <value><![CDATA[Dobili ste zapovijed.]]></value>
+  </definition>
+  <definition>
+    <key>text_order_detail</key>
+    <value><![CDATA[Detalji narudžbe]]></value>
+  </definition>
+  <definition>
+    <key>text_order_id</key>
+    <value><![CDATA[ID narudžbe:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Datum Ž:]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[Stanje narudžbe:]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[Za pregled narudžbu, kliknite na link ispod:]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Metoda slanja:]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Način plaćanja:]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[dostavna adresa]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[Adresa plaćanja]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[E-mail:]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[Telefon:]]></value>
+  </definition>
+  <definition>
+    <key>text_mobile_phone</key>
+    <value><![CDATA[Mobitel:]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Faks:]]></value>
+  </definition>
+  <definition>
+    <key>text_ip</key>
+    <value><![CDATA[IP adresa:]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[Proizvodi:]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Ukupan rezultat:]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Nakon što je plaćanje potvrđeno, možete kliknuti na link ispod da biste pristupili preuzeti proizvoda:]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[Komentari za svoj red su:]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[Molimo odgovorite na ovu poruku ako imate bilo kakvih pitanja.]]></value>
+  </definition>
+  <definition>
+    <key>text_powered_by</key>
+    <value><![CDATA[powered by]]></value>
+  </definition>
+  <definition>
+    <key>text_new_order</key>
+    <value><![CDATA[Novi poredak - #]]></value>
+  </definition>
+  <definition>
+    <key>text_new_order_text</key>
+    <value><![CDATA[Kupac %s dodaje se novi poredak]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[Proizvod]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Model]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Količina]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Cijena]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[ukupno]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_send_email</key>
+    <value><![CDATA[Poslati mail]]></value>
+  </definition>
+  <definition>
+    <key>text_send_sms</key>
+    <value><![CDATA[Pošalji SMS]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Vaša poruka je uspješno poslana!]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Zadano]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_send</key>
+    <value><![CDATA[Ručno odabrane kupce]]></value>
+  </definition>
+  <definition>
+    <key>text_all_subscribers</key>
+    <value><![CDATA[Svi pretplatnici]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribers_only</key>
+    <value><![CDATA[Newsletter samo pretplatnici (ne-klijenti)]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_only</key>
+    <value><![CDATA[Sve kupce]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[Od trgovine: <span class="help">Čuvajte e-mail adresu za slanje e-pošte s. Vrijednost je postavljena u postavkama trgovine</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_who_ordered</key>
+    <value><![CDATA[Za korisnike tko je naručio odabrane proizvode]]></value>
+  </definition>
+  <definition>
+    <key>entry_to</key>
+    <value><![CDATA[Za: <span class="help">Popis kupaca primiti ovu poruku. NAPOMENA: Veliki popisi kupaca bit će potrebno puno vremena da se obrađuju i može zahtijevati alternativne metode. Pogledajte svoje web i e-mail konfiguracije poslužitelja</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_from_lookup</key>
+    <value><![CDATA[Počnite upisivati ​​ime kupca potražiti i odaberite]]></value>
+  </definition>
+  <definition>
+    <key>text_products_from_lookup</key>
+    <value><![CDATA[Počnite upisivati ​​ime proizvoda za traženje i odabir]]></value>
+  </definition>
+  <definition>
+    <key>entry_subject</key>
+    <value><![CDATA[Subject:]]></value>
+  </definition>
+  <definition>
+    <key>entry_message</key>
+    <value><![CDATA[Tijelo poruke:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Upozorenje: Nemate dozvolu za slanje e-pošte!]]></value>
+  </definition>
+  <definition>
+    <key>error_subject</key>
+    <value><![CDATA[E-mail subjekt je dužan!]]></value>
+  </definition>
+  <definition>
+    <key>error_message_email</key>
+    <value><![CDATA[Tijelo poruke e-pošte je obavezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_message_sms</key>
+    <value><![CDATA[Tijelo SMS poruka je obavezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_recipients</key>
+    <value><![CDATA[Primatelji lista, pretplatnici ili proizvodi naručeni su obavezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_sent</key>
+    <value><![CDATA[&#39;Greška: nema e-pošte je poslana! Molimo pogledajte dnevnik grešaka za detalje.]]></value>
+  </definition>
+  <definition>
+    <key>text_unsubscribe</key>
+    <value><![CDATA[Ova e-mail je poslan %s, jer su postavke e-pošte postavljen za primanje newslettera. Kliknite <a href="%s">ovdje da biste Otkazivanje pretplate</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_total_to_be_sent</key>
+    <value><![CDATA[(Ukupno će biti poslan na: %s)]]></value>
+  </definition>
+  <definition>
+    <key>text_select_products</key>
+    <value><![CDATA[- Odaberite proizvode -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_customers</key>
+    <value><![CDATA[- Odaberite kupce -]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[E-mail]]></value>
+  </definition>
+  <definition>
+    <key>text_sms</key>
+    <value><![CDATA[SMS]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete_tasks</key>
+    <value><![CDATA[Nepotpune Zadaci]]></value>
+  </definition>
+  <definition>
+    <key>text_task_id</key>
+    <value><![CDATA[Zadatak ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_time_run</key>
+    <value><![CDATA[Zadnje vrijeme Run:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Kreirano:]]></value>
+  </definition>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[Subject:]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[Poruka:]]></value>
+  </definition>
+  <definition>
+    <key>text_starter_name</key>
+    <value><![CDATA[Napravio:]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Restart]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[Ukloniti]]></value>
+  </definition>
+  <definition>
+    <key>error_email_no_recipients</key>
+    <value><![CDATA[Pažnja! Poruka neće biti poslana.]]></value>
+  </definition>
+  <definition>
+    <key>error_sms_no_recipients</key>
+    <value><![CDATA[Pažnja! Nema kupaca s mobilnim telefonskim brojevima.]]></value>
+  </definition>
+  <definition>
+    <key>text_attention_recipients_count</key>
+    <value><![CDATA[Pažnja! Poruka će biti poslana na %s korisnicima.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_abort</key>
+    <value><![CDATA[Zadatak je uspješno prekinuta.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_sent</key>
+    <value><![CDATA[%s Broj poruka poslana.]]></value>
+  </definition>
+  <definition>
+    <key>text_task_failed</key>
+    <value><![CDATA[Došlo je do pogrešaka tijekom postupka zadatka. Molimo pogledajte prijaviti za detalje ili ponovno pokretanje ovog zadatka.]]></value>
+  </definition>
+  <definition>
+    <key>text_sent</key>
+    <value><![CDATA[%s Of %s poruke se šalju]]></value>
+  </definition>
+</definitions>

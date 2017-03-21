@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[jezici]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[Jezik]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspjeh: Morate modificirane jezika!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Jezik Naziv]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Kodirati]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Redoslijed]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akcijski]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Naziv jezik:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Kod: <br/><span class="help">Nemojte mijenjati, ako je to vaš zadani jezik.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_locale</key>
+    <value><![CDATA[Regionalne:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[Slika:]]></value>
+  </definition>
+  <definition>
+    <key>entry_directory</key>
+    <value><![CDATA[Imenik:]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[Naziv datoteke:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Redoslijed:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Upozorenje: Nemate dozvolu za izmjenu jezika!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Jezik ime mora biti između 2 i 32 znakova!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Jezik kod mora barem 2 znaka!]]></value>
+  </definition>
+  <definition>
+    <key>error_locale</key>
+    <value><![CDATA[Regionalne obavezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_image</key>
+    <value><![CDATA[Slika Ime datoteke mora biti između 2 i 64 znakova!]]></value>
+  </definition>
+  <definition>
+    <key>error_directory</key>
+    <value><![CDATA[Directory obavezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_filename</key>
+    <value><![CDATA[Ime datoteke mora biti između 2 i 64 znakova!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Upozorenje: Ovaj jezik se ne može izbrisati, jer je trenutačno dodijeljena kao zadani trgovine jeziku!]]></value>
+  </definition>
+  <definition>
+    <key>error_admin</key>
+    <value><![CDATA[Upozorenje: Ovaj jezik se ne može izbrisati, jer je trenutačno dodijeljena kao jezik administracije!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Upozorenje: Ovaj jezik se ne može izbrisati, jer je trenutačno dodijeljena %s trgovinama!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Upozorenje: Ovaj jezik se ne može izbrisati, jer je trenutačno dodijeljena %s naloga!]]></value>
+  </definition>
+  <definition>
+    <key>language_edit_title</key>
+    <value><![CDATA[Uredi Detalji Jezik]]></value>
+  </definition>
+  <definition>
+    <key>load_language_title</key>
+    <value><![CDATA[Umetanje podataka koji nedostaju jezik]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_selector</key>
+    <value><![CDATA[Izvor jezik:]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method_selector</key>
+    <value><![CDATA[Način prijevod teksta:]]></value>
+  </definition>
+  <definition>
+    <key>load_language_note</key>
+    <value><![CDATA[NAPOMENA: Ovaj postupak može potrajati nekoliko minuta da se pokreću. Ne zatvarajte preglednik, napuste ili osvježiti stranicu!]]></value>
+  </definition>
+  <definition>
+    <key>create_language_note</key>
+    <value><![CDATA[NAPOMENA: Preporučujemo stvaranje jezik kao produžetak. Provjerite postojeće jezične ekstenzije. Ako i dalje želite ručno stvoriti novi jezik, morate dodati jezik zastavu admin / jezik / [Jezik Directory] /flag.png i izlog / jezik / [Jezik Directory] flag.png 
+ Nakon jezik je stvoren opterećenje nedostaju podaci jezik prevesti ili kopirati sadržaj teksta iz izvornog jezika.]]></value>
+  </definition>
+  <definition>
+    <key>button_load_language</key>
+    <value><![CDATA[Opterećenje]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete_tasks</key>
+    <value><![CDATA[Nepotpune Zadaci]]></value>
+  </definition>
+  <definition>
+    <key>text_task_id</key>
+    <value><![CDATA[Zadatak ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Titula:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_time_run</key>
+    <value><![CDATA[Zadnje vrijeme Run:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Kreirano:]]></value>
+  </definition>
+  <definition>
+    <key>text_starter_name</key>
+    <value><![CDATA[Napravio:]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Restart]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[Ukloniti]]></value>
+  </definition>
+  <definition>
+    <key>text_task_title</key>
+    <value><![CDATA[Prijevod opisa iz %s za %s]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Pogreška: Postavite izvornom jeziku i prijevod metodu!]]></value>
+  </definition>
+  <definition>
+    <key>text_translate_override_existing</key>
+    <value><![CDATA[Napomena: Svi postojeći opisi u ciljnom jeziku bit će zamijenjena novom prijevodu. Možete onemogućiti prevladavajućeg u <a href="%s">System&gt; Postavke&gt; Trgovina podaci</a> .]]></value>
+  </definition>
+</definitions>

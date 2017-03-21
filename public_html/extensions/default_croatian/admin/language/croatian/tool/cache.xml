@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Cache upravljanje]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspjeh: Uspješno si izbrisao cache datoteke!]]></value>
+  </definition>
+  <definition>
+    <key>text_configuration</key>
+    <value><![CDATA[Konfiguracija]]></value>
+  </definition>
+  <definition>
+    <key>text_layouts_blocks</key>
+    <value><![CDATA[Izgledi &amp; blokovi]]></value>
+  </definition>
+  <definition>
+    <key>text_flexyforms</key>
+    <value><![CDATA[Flexy Obrasci]]></value>
+  </definition>
+  <definition>
+    <key>text_images</key>
+    <value><![CDATA[Slike]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[Proizvodi]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[Kategorije]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[Proizvođači]]></value>
+  </definition>
+  <definition>
+    <key>text_localisations</key>
+    <value><![CDATA[lokalizacije]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[Greška Prijava]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_cache</key>
+    <value><![CDATA[Vedro Odabrani Cache]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_all_cache</key>
+    <value><![CDATA[Očisti sve cache]]></value>
+  </definition>
+  <definition>
+    <key>desc_configuration</key>
+    <value><![CDATA[konfiguracije sustava i spremanje]]></value>
+  </definition>
+  <definition>
+    <key>desc_layouts_blocks</key>
+    <value><![CDATA[Pages, izgleda stranica, blokovi]]></value>
+  </definition>
+  <definition>
+    <key>desc_flexyforms</key>
+    <value><![CDATA[Podaci Flexy oblici]]></value>
+  </definition>
+  <definition>
+    <key>desc_images</key>
+    <value><![CDATA[Slika sličice]]></value>
+  </definition>
+  <definition>
+    <key>desc_products</key>
+    <value><![CDATA[podaci o proizvodu]]></value>
+  </definition>
+  <definition>
+    <key>desc_categories</key>
+    <value><![CDATA[podaci Kategorija]]></value>
+  </definition>
+  <definition>
+    <key>desc_manufacturers</key>
+    <value><![CDATA[Proizvođač podataka]]></value>
+  </definition>
+  <definition>
+    <key>desc_localisations</key>
+    <value><![CDATA[Valuta, jezik, zemlju, zona, Duljina, Težina, &amp; drugo]]></value>
+  </definition>
+  <definition>
+    <key>desc_error_log</key>
+    <value><![CDATA[Greška Prijava]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[Cache Vrsta]]></value>
+  </definition>
+  <definition>
+    <key>column_description</key>
+    <value><![CDATA[Opis]]></value>
+  </definition>
+  <definition>
+    <key>text_html_cache</key>
+    <value><![CDATA[HTML-cache]]></value>
+  </definition>
+  <definition>
+    <key>desc_html_cache</key>
+    <value><![CDATA[Predmemorirane HTML stranice i blokovi]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[Instalacija / povijest Nadogradnja]]></value>
+  </definition>
+  <definition>
+    <key>desc_install_upgrade_history</key>
+    <value><![CDATA[Očisti sve Instalacija / povijest Nadogradnja]]></value>
+  </definition>
+</definitions>

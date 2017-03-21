@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[uprava]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[Backup / Restore]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Dobro došli, <b>%s</b>]]></value>
+  </definition>
+  <definition>
+    <key>text_last_login</key>
+    <value><![CDATA[Zadnja prijava: %s]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_details</key>
+    <value><![CDATA[Uređivanje pojedinosti profila]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_notifications</key>
+    <value><![CDATA[Uredi postavke obavijesti]]></value>
+  </definition>
+  <definition>
+    <key>text_catalog</key>
+    <value><![CDATA[Katalog]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[Kategorije]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Potvrdi?]]></value>
+  </definition>
+  <definition>
+    <key>text_country</key>
+    <value><![CDATA[zemlje]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[Kuponi]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[Popusti]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[valute]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[Kupci]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_group</key>
+    <value><![CDATA[kupaca Grupe]]></value>
+  </definition>
+  <definition>
+    <key>text_dashboard</key>
+    <value><![CDATA[kontrolna ploča]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[preuzimanja]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[Zapisnici o pogreškama]]></value>
+  </definition>
+  <definition>
+    <key>text_extension</key>
+    <value><![CDATA[Proširenja]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_short</key>
+    <value><![CDATA[Proširenja]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[izlog]]></value>
+  </definition>
+  <definition>
+    <key>text_location</key>
+    <value><![CDATA[Lokacije]]></value>
+  </definition>
+  <definition>
+    <key>text_help</key>
+    <value><![CDATA[Pomoć]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[Informacija]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[jezici]]></value>
+  </definition>
+  <definition>
+    <key>text_language_definitions</key>
+    <value><![CDATA[Jezik Definicije]]></value>
+  </definition>
+  <definition>
+    <key>text_localisation</key>
+    <value><![CDATA[lokalizacija]]></value>
+  </definition>
+  <definition>
+    <key>text_logged</key>
+    <value><![CDATA[Prijavljeni ste kao <span>%s</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Odjaviti se]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Poslati mail]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturer</key>
+    <value><![CDATA[Proizvođači]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Narudžbe]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[Naručite Statusi]]></value>
+  </definition>
+  <definition>
+    <key>text_abantecart</key>
+    <value><![CDATA[Početna]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Plaćanja]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[Proizvodi]]></value>
+  </definition>
+  <definition>
+    <key>text_reports</key>
+    <value><![CDATA[Izvještaji]]></value>
+  </definition>
+  <definition>
+    <key>text_online</key>
+    <value><![CDATA[Na liniji]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[Transakcije]]></value>
+  </definition>
+  <definition>
+    <key>text_tax</key>
+    <value><![CDATA[Porez]]></value>
+  </definition>
+  <definition>
+    <key>text_report_purchased</key>
+    <value><![CDATA[Proizvodi Kupljen]]></value>
+  </definition>
+  <definition>
+    <key>text_report_sale</key>
+    <value><![CDATA[Prodajni]]></value>
+  </definition>
+  <definition>
+    <key>text_analytics</key>
+    <value><![CDATA[Analize i uvidi]]></value>
+  </definition>
+  <definition>
+    <key>text_report_viewed</key>
+    <value><![CDATA[Proizvodi Gledano]]></value>
+  </definition>
+  <definition>
+    <key>text_review</key>
+    <value><![CDATA[Recenzije]]></value>
+  </definition>
+  <definition>
+    <key>text_sale</key>
+    <value><![CDATA[Prodajni]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[dostava]]></value>
+  </definition>
+  <definition>
+    <key>text_setting</key>
+    <value><![CDATA[Postavke]]></value>
+  </definition>
+  <definition>
+    <key>text_stock_status</key>
+    <value><![CDATA[Stock Statusi]]></value>
+  </definition>
+  <definition>
+    <key>text_support</key>
+    <value><![CDATA[Forum]]></value>
+  </definition>
+  <definition>
+    <key>text_system</key>
+    <value><![CDATA[sistem]]></value>
+  </definition>
+  <definition>
+    <key>text_tax_class</key>
+    <value><![CDATA[Porezni razredi]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Ukupan Naručivanje]]></value>
+  </definition>
+  <definition>
+    <key>text_user</key>
+    <value><![CDATA[korisnici]]></value>
+  </definition>
+  <definition>
+    <key>text_documentation</key>
+    <value><![CDATA[Dokumentacija]]></value>
+  </definition>
+  <definition>
+    <key>text_users</key>
+    <value><![CDATA[korisnici]]></value>
+  </definition>
+  <definition>
+    <key>text_user_group</key>
+    <value><![CDATA[Korisničke grupe]]></value>
+  </definition>
+  <definition>
+    <key>text_weight_class</key>
+    <value><![CDATA[Težina Klase]]></value>
+  </definition>
+  <definition>
+    <key>text_length_class</key>
+    <value><![CDATA[Dužina Klase]]></value>
+  </definition>
+  <definition>
+    <key>text_zone</key>
+    <value><![CDATA[zone]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[Svi Proširenja]]></value>
+  </definition>
+  <definition>
+    <key>text_add_extension</key>
+    <value><![CDATA[Instalirajte proširenje]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_store</key>
+    <value><![CDATA[dobiti proširenja]]></value>
+  </definition>
+  <definition>
+    <key>text_migrate</key>
+    <value><![CDATA[Migracija Alat]]></value>
+  </definition>
+  <definition>
+    <key>text_updater</key>
+    <value><![CDATA[Ažuriranje]]></value>
+  </definition>
+  <definition>
+    <key>text_design</key>
+    <value><![CDATA[Dizajn]]></value>
+  </definition>
+  <definition>
+    <key>text_templates</key>
+    <value><![CDATA[Predlošci]]></value>
+  </definition>
+  <definition>
+    <key>text_layout</key>
+    <value><![CDATA[Izgledi]]></value>
+  </definition>
+  <definition>
+    <key>text_blocks</key>
+    <value><![CDATA[blokovi]]></value>
+  </definition>
+  <definition>
+    <key>text_menu</key>
+    <value><![CDATA[Jelovnik]]></value>
+  </definition>
+  <definition>
+    <key>text_cache</key>
+    <value><![CDATA[Cache]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[Poruke]]></value>
+  </definition>
+  <definition>
+    <key>text_content</key>
+    <value><![CDATA[Sadržaj]]></value>
+  </definition>
+  <definition>
+    <key>text_datasets_manager</key>
+    <value><![CDATA[Skupovi podataka]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[Instalacija / povijest Nadogradnja]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute</key>
+    <value><![CDATA[Globalni atributi]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute_groups</key>
+    <value><![CDATA[Globalna Atributi Grupe]]></value>
+  </definition>
+  <definition>
+    <key>text_import_export</key>
+    <value><![CDATA[Uvoz izvoz]]></value>
+  </definition>
+  <definition>
+    <key>text_data</key>
+    <value><![CDATA[Podaci]]></value>
+  </definition>
+  <definition>
+    <key>text_logs</key>
+    <value><![CDATA[drva]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_edit_form</key>
+    <value><![CDATA[Quick Edit Form]]></value>
+  </definition>
+  <definition>
+    <key>text_all_matches</key>
+    <value><![CDATA[Sve utakmice]]></value>
+  </definition>
+  <definition>
+    <key>text_file_uploads</key>
+    <value><![CDATA[prijenos datoteka]]></value>
+  </definition>
+  <definition>
+    <key>text_all_settings</key>
+    <value><![CDATA[Sve postavke]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_details</key>
+    <value><![CDATA[Pohranite Detalji]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_general</key>
+    <value><![CDATA[General]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_checkout</key>
+    <value><![CDATA[Provjeri]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_appearance</key>
+    <value><![CDATA[Izgled]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_mail</key>
+    <value><![CDATA[pošta]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_im</key>
+    <value><![CDATA[IM]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_api</key>
+    <value><![CDATA[API]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_system</key>
+    <value><![CDATA[sistem]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_newstore</key>
+    <value><![CDATA[Napravi novu trgovinu]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_command_prompt</key>
+    <value><![CDATA[Glas Command Prompt.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_select_dialect</key>
+    <value><![CDATA[Odaberite svoj dijalekt]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_confirm_action</key>
+    <value><![CDATA[Potvrdi ovu radnju ili odustati]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_speak_now</key>
+    <value><![CDATA[Govori sad.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_speach_detected</key>
+    <value><![CDATA[Nema govora bio otkriven. Možda ćete morati prilagoditi <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">1 #### 1amp; answer = 1407892 &quot;&gt; postavke mikrofona</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_mic_detected</key>
+    <value><![CDATA[Mikrofon nije pronađen. Provjerite je li mikrofon instaliran i je <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">1. #### 1amp; answer = 1407892 &quot;&gt; Postavke mikrofona</a> pravilno konfiguriran.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_click_allow</key>
+    <value><![CDATA[Kliknite gore na gumb &quot;Dopusti&quot; kako bi se omogućilo mikrofon.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_denied</key>
+    <value><![CDATA[Dopuštenje za korištenje mikrofona je bio odbijen.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_permission</key>
+    <value><![CDATA[Dopuštenje za korištenje mikrofona je blokiran. Za promjenu, idite na preglednika <a href="chrome://settings/contentExceptions#media-stream">postavke medija</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_not_supported</key>
+    <value><![CDATA[Glasovne naredbe ne podržava ovaj preglednik. <a href="//www.google.com/chrome" target="_new">Chrome</a> verziju 25 ili noviji potreban.]]></value>
+  </definition>
+  <definition>
+    <key>text_tasks</key>
+    <value><![CDATA[Zakazani zadaci]]></value>
+  </definition>
+  <definition>
+    <key>text_read_all_messages</key>
+    <value><![CDATA[Pročitaj sve poruke]]></value>
+  </definition>
+  <definition>
+    <key>text_short_stats</key>
+    <value><![CDATA[Brzi Stats]]></value>
+  </definition>
+  <definition>
+    <key>text_online_now</key>
+    <value><![CDATA[Online kupce]]></value>
+  </definition>
+  <definition>
+    <key>text_online_new</key>
+    <value><![CDATA[Novi]]></value>
+  </definition>
+  <definition>
+    <key>text_online_registered</key>
+    <value><![CDATA[Prijavljeni]]></value>
+  </definition>
+  <definition>
+    <key>text_today_orders</key>
+    <value><![CDATA[Nove narudžbe Danas]]></value>
+  </definition>
+  <definition>
+    <key>text_today_sales</key>
+    <value><![CDATA[Ukupno Prodaja Danas]]></value>
+  </definition>
+  <definition>
+    <key>text_today_customers</key>
+    <value><![CDATA[Nove korisnike]]></value>
+  </definition>
+  <definition>
+    <key>text_today_reviews</key>
+    <value><![CDATA[Novi Mišljenje Danas]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_manager</key>
+    <value><![CDATA[Media Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_server_time</key>
+    <value><![CDATA[Server vrijeme]]></value>
+  </definition>
+</definitions>

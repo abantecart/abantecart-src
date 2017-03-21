@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_possible_commands</key>
+    <value><![CDATA[Ispod su moguće naredbe. Možete speek više detalja nakon naredbenog ključnu riječ. Primjer: &quot;Otvori stranicu poruka&quot; ili &quot;insert proizvod&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_multiple_result_found</key>
+    <value><![CDATA[Pronađeno je više rezultat akcije:]]></value>
+  </definition>
+  <definition>
+    <key>text_action_confirm</key>
+    <value><![CDATA[Molimo Vas da potvrdite svoj zahtjev:]]></value>
+  </definition>
+  <definition>
+    <key>command_open</key>
+    <value><![CDATA[otvorite, otvorite stranicu, otvorite izbornik]]></value>
+  </definition>
+  <definition>
+    <key>command_find</key>
+    <value><![CDATA[locirati, pronaći, pretraživanje, tražiti, tražiti 4]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_cache</key>
+    <value><![CDATA[jasno cache, cache memorije jasno, jasno sve cache memorije]]></value>
+  </definition>
+  <definition>
+    <key>command_view_log</key>
+    <value><![CDATA[Pogled na zapisnik, zapisnik pogled, pregledati zapisnik, vidi se prijaviti, pogledati dnevnik pogrešaka, vidjeti pogreške]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_log</key>
+    <value><![CDATA[Jasno zapisnik, zapisnik jasno, izbrisati zapisnik, zapisnik brisanje]]></value>
+  </definition>
+  <definition>
+    <key>command_view_order</key>
+    <value><![CDATA[Pogled na red, broj narudžbe, otvoren nalog, pokazuju red, otvoren broj narudžbe, broj pogled red, broj predstava red, poredak #]]></value>
+  </definition>
+  <definition>
+    <key>command_view_product</key>
+    <value><![CDATA[Pregled proizvoda, broj proizvoda, otvoreni proizvod, predstava proizvod, otvorena broj proizvoda, broj pogled proizvod, broj predstava proizvod, produkt #]]></value>
+  </definition>
+  <definition>
+    <key>command_create_new</key>
+    <value><![CDATA[umetanje, stvarati, dodavati nove, umetnite novi, stvoriti novi, dodavanje novih]]></value>
+  </definition>
+  <definition>
+    <key>category</key>
+    <value><![CDATA[kategorija]]></value>
+  </definition>
+  <definition>
+    <key>product</key>
+    <value><![CDATA[proizvod]]></value>
+  </definition>
+  <definition>
+    <key>brand</key>
+    <value><![CDATA[marka]]></value>
+  </definition>
+  <definition>
+    <key>manufacturer</key>
+    <value><![CDATA[proizvođač]]></value>
+  </definition>
+  <definition>
+    <key>review</key>
+    <value><![CDATA[pregled]]></value>
+  </definition>
+  <definition>
+    <key>download</key>
+    <value><![CDATA[preuzimanje]]></value>
+  </definition>
+  <definition>
+    <key>attribute</key>
+    <value><![CDATA[atribut]]></value>
+  </definition>
+  <definition>
+    <key>customer</key>
+    <value><![CDATA[kupac]]></value>
+  </definition>
+  <definition>
+    <key>coupon</key>
+    <value><![CDATA[kupon]]></value>
+  </definition>
+  <definition>
+    <key>discount</key>
+    <value><![CDATA[popust]]></value>
+  </definition>
+  <definition>
+    <key>block</key>
+    <value><![CDATA[blok]]></value>
+  </definition>
+  <definition>
+    <key>menu</key>
+    <value><![CDATA[Jelovnik]]></value>
+  </definition>
+  <definition>
+    <key>content</key>
+    <value><![CDATA[sadržaj]]></value>
+  </definition>
+  <definition>
+    <key>banner</key>
+    <value><![CDATA[zastava]]></value>
+  </definition>
+  <definition>
+    <key>page</key>
+    <value><![CDATA[stranica]]></value>
+  </definition>
+  <definition>
+    <key>store</key>
+    <value><![CDATA[dućan]]></value>
+  </definition>
+  <definition>
+    <key>language</key>
+    <value><![CDATA[jezik]]></value>
+  </definition>
+  <definition>
+    <key>currency</key>
+    <value><![CDATA[valuta]]></value>
+  </definition>
+  <definition>
+    <key>location</key>
+    <value><![CDATA[mjesto]]></value>
+  </definition>
+  <definition>
+    <key>tax</key>
+    <value><![CDATA[porez]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Kupci Online]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[Ime kupca]]></value>
+  </definition>
+  <definition>
+    <key>column_ip</key>
+    <value><![CDATA[Korisnička IP]]></value>
+  </definition>
+  <definition>
+    <key>column_time</key>
+    <value><![CDATA[Posljednji pristup]]></value>
+  </definition>
+  <definition>
+    <key>column_url</key>
+    <value><![CDATA[uRL pogledana]]></value>
+  </definition>
+</definitions>

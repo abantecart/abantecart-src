@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Reset zaporke]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Poništavanje zaporke zatraženo je od %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Za resetiranje lozinke klikom link ispod:]]></value>
+  </definition>
+  <definition>
+    <key>text_password_reset</key>
+    <value><![CDATA[Vaša lozinka je uspješno resetirati na %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_password</key>
+    <value><![CDATA[Unesite novu zaporku u nastavku:]]></value>
+  </definition>
+  <definition>
+    <key>error_reset_token</key>
+    <value><![CDATA[Neispravan link za zahtjev lozinku. Pokušajte resetirati još jednom i koristiti vezu iz najnovijih e-pošte.]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[uprava]]></value>
+  </definition>
+  <definition>
+    <key>text_heading</key>
+    <value><![CDATA[uprava]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Molimo unesite svoje podatke za prijavu.]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[Korisničko ime:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Lozinka:]]></value>
+  </definition>
+  <definition>
+    <key>entry_forgot_password</key>
+    <value><![CDATA[Zaboravili ste lozinku?]]></value>
+  </definition>
+  <definition>
+    <key>button_login</key>
+    <value><![CDATA[Prijaviti se]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Ne odgovara za korisničko ime i / ili lozinku.]]></value>
+  </definition>
+  <definition>
+    <key>error_token</key>
+    <value><![CDATA[Pogrešna sjednici token. Molimo, prijavite se ponovo.]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message</key>
+    <value><![CDATA[Prijava nije uspjela da se admin pokušaju iz IP:]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message_text</key>
+    <value><![CDATA[S obzirom na user login:]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Mediji Knjižnica resursa Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[Najnovijih sredstava]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[Vrsta resursa]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[Resource Tip Key <br/><span class="help">Ovaj resurs tipa ključ / naziv vrijednost ne može se mijenjati</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[Resource Directory <br/><span class="help">lociranje resursa katalog za ovu vrstu. Ako se promijenila, postojeća sredstva neće biti acceccible i morat će se kopirati u novi katalog!</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[Zadana ikona <br/><span class="help">Ikona sliku koja će se prikazivati na popisu resursa (Lokacija: / slika / ...).</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[Dopušteno ekstenzije <br/><span class="help">Regularni izraz s popisa dopuštenih datotečne nastavke za ovu vrstu resursa</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspjeh: Vi ste ažurirali vrsta resursa!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[Pogreška: Nedostaje resurs tipa ID!]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[Pogreška: Naziv Vrsta resursa treba biti između 2 i 40 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[Pogreška: Vrsta resursa katalog mora biti između 2 i 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[Pogreška: Ikona Vrsta resursa treba biti između 2 i 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[Pogreška: Resource vrsta datoteka Proširenja regex treba biti između 2 i 40 charcters]]></value>
+  </definition>
+</definitions>

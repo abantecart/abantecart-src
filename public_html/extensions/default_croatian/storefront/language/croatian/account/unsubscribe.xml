@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Vaše uspješno je poništena!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[Uspješno ste poništili pretplatu na e-mail komunikacije.]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Račun]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspjeh]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Stock Statusi]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Stock Status]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspjeh: Izmijenili ste zaliha statuse!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Naziv Stock Status]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akcijski]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Naziv Stock Status:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Upozorenje: Nemate dozvolu za izmjenu dionica kipove!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Stock Status ime mora biti između 2 i 32 znakova!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Upozorenje: Ove obavijesti status ne može biti obrisan jer je trenutačno dodijeljena %s proizvode!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Informacije o plaćanju]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Košara]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[dostava]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Plaćanje]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_to</key>
+    <value><![CDATA[Molimo izaberite iz adresara gdje želite fakturu poslana.]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[Adresa plaćanja]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Način plaćanja]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_methods</key>
+    <value><![CDATA[Odaberite željeni način plaćanja za korištenje ovog reda.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[Dodajte komentar o vašoj narudžbi]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[Pročitao sam i slažem se]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[Unesite svoj kod i kliknite na &quot;Apply kupon&quot; i vidjeti svoj popust odmah primijeniti na svoj red.]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspjeh: Vaš kupon popust primjenjuje se!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[Uspjeh: Kupon je uklonjen!]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon</key>
+    <value><![CDATA[Kupon:]]></value>
+  </definition>
+  <definition>
+    <key>error_payment</key>
+    <value><![CDATA[Pogreška: potrebna Način plaćanja!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[Greška: Morate pristati na %s!]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Pogreška: Kupon je bilo neispravno, istekla ili dosegao je ograničenje upotrebe!]]></value>
+  </definition>
+</definitions>

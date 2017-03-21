@@ -1,0 +1,915 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Postavke]]></value>
+  </definition>
+  <definition>
+    <key>column_store_alias</key>
+    <value><![CDATA[dućan]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[Skupina]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[Ključ]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Vrijednost]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspjeh: Uspješno ste spremili postavke!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[Manager slike]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- Select Group -]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Zadano]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store_settings</key>
+    <value><![CDATA[Uredi postavke:]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_template_settings</key>
+    <value><![CDATA[Uredi postavke predloška:]]></value>
+  </definition>
+  <definition>
+    <key>text_common_template_settings</key>
+    <value><![CDATA[Odabir predloška]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[Uredi Store]]></value>
+  </definition>
+  <definition>
+    <key>text_mail</key>
+    <value><![CDATA[pošta]]></value>
+  </definition>
+  <definition>
+    <key>text_smtp</key>
+    <value><![CDATA[SMTP]]></value>
+  </definition>
+  <definition>
+    <key>tab_all</key>
+    <value><![CDATA[svi]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Naziv trgovine:]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[Trgovina URL: <br/><span class="help">uključite puni URL svoje trgovine. Svakako dodajte &quot;/&quot; na kraju. Primjer: http://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_owner</key>
+    <value><![CDATA[Vlasnik dućana:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address</key>
+    <value><![CDATA[Adresa:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-mail:]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_emails</key>
+    <value><![CDATA[Dodatne obavijesti na e-mailove: <br/><span class="help">Sve dodatne e-poštu želite primati e-mail upozorenja, uz glavnu trgovine e-pošte. (razdvojeno zarezom)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[Telefon:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Faks:]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Naslov: <br/><span class="help">To se prikazuje u naslovu storefront preglednika</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Meta Tag Opis: <br/><span class="help">Izlog Glavna stranica opis meta tag</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_keywords</key>
+    <value><![CDATA[Meta Ključne riječi: <br/><span class="help">fizičkom lokacijom Glavna stranica meta tag ključne riječi (zarezom odvojene)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Dobrodošli Poruka:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[Predložak: <span class="help">Izlog predložak. To može biti glavni ili proširenje predložak</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_template</key>
+    <value><![CDATA[Upravljačka ploča Predložak:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Zemlja:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Regija / Država:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Izlog jezik:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_language</key>
+    <value><![CDATA[Administracija Jezik: <span class="help">NAPOMENA: radi ako nije korisnik preferira se jezik nalazi u pregledniku</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency</key>
+    <value><![CDATA[Baza <span class="help">Valuta: Ovo je osnovna valuta za sve trgovinama. Ne mijenjajte ako ne razumiju što će se dogoditi. Upozorenje: Promjena od osnovne valute neće mijenjati svoje cijene bazne proizvode. Trebat će vam pregledati i prilagoditi sve cijene ako je potrebno. Osnovna valuta tečaj će biti postavljena na 1.00 i sve ostale valute kamatne stope će se prilagoditi u odnosu na nove osnovne valute.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency_auto</key>
+    <value><![CDATA[Automatsko ažuriranje Valuta: <br/><span class="help">Postavite svoj dućan da automatski ažurira valute dnevno. Yahoo poslužitelj.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_class</key>
+    <value><![CDATA[Težina Klasa:]]></value>
+  </definition>
+  <definition>
+    <key>entry_length_class</key>
+    <value><![CDATA[Dužina Klasa:]]></value>
+  </definition>
+  <definition>
+    <key>entry_auto_translate_status</key>
+    <value><![CDATA[Autotranslate Status: <br/><span class="help">To je omogućilo prijevod nedostaje tekst definicije ili jezik određene podatke, ako su tekstualne vrijednosti koje nedostaju koristila jezik.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_src_lang_code</key>
+    <value><![CDATA[Izvorni jezik za prijevod: <br/><span class="help">Select izvornom jeziku koji će se koristiti za autotranslation.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method</key>
+    <value><![CDATA[Tekst Prijevod Metoda: <br/><span class="help">Odaberite način koji želite koristiti za prijevod. Zadani način je ravna kopija izvornog jezika teksta</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_override_existing</key>
+    <value><![CDATA[Nadjačati ako je promijenjen izvorni jezik teksta: <br/><span class="help">Ukoliko je postavljeno, tekst na svim jezicima će biti zamijenjen sa novom prijevodu, ako je izvorni jezik teksta uredio. NAPOMENA: Može uzrokovati mnoge prijevode.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_warn_lang_text_missing</key>
+    <value><![CDATA[Upozorenje za nestale jezika teksta: <br/><span class="help">dobili upozorenje poruke ako se otkrije nedostaje jezik teksta.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Prikaz cijene s porezom:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store</key>
+    <value><![CDATA[Default Store porezna stopa:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_0</key>
+    <value><![CDATA[Nema poreza]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_1</key>
+    <value><![CDATA[Trgovina Zadana zona]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer</key>
+    <value><![CDATA[Koristi za korisnike Tax Adresa:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_0</key>
+    <value><![CDATA[dostavna adresa]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_1</key>
+    <value><![CDATA[Adresa za naplatu]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice</key>
+    <value><![CDATA[Račun Početak br .: <br/><span class="help">Podesite startni broj fakture će početi s.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice_prefix</key>
+    <value><![CDATA[Račun Prefiks: <br/><span class="help">Set faktura prefiks npr IN / 001</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[Kupac Grupa: <br/><span class="help">Zadana grupa korisnika.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_price</key>
+    <value><![CDATA[Prijava Display Cijene: <br/><span class="help">Prikaži cijene, čak i ako kupac nije prijavljen.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_approval</key>
+    <value><![CDATA[Odobravanje nove korisnike: <br/><span class="help">Ne dopustiti novi korisnik prijaviti dok im je račun odobren.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_prevent_email_as_login</key>
+    <value><![CDATA[Zahtijevaju Korisničko ime: <br/><span class="help">Da bi se poboljšala sigurnost, zahtijevaju od klijenata stvoriti jedinstveno ime za prijavu umjesto korištenja e-pošte kao korisničko ime. Ako je postavljeno na ON, postojeći korisnici će biti zatraženo da stvorite novo ime na prve prijave. Ako OFF, ime za prijavu je postavljen kao kupac e-mail adresu.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_guest_checkout</key>
+    <value><![CDATA[Ocjene Blagajna: <br/><span class="help">Omogućiti korisnicima da naplata bez stvaranja računa. To neće biti na raspolaganju kada je preuzeti proizvod u košaricu.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_account</key>
+    <value><![CDATA[Račun Uvjeti: <br/><span class="help">prisiljava ljude da prihvate uvjete prije nego što se račun može biti kreirana.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_checkout</key>
+    <value><![CDATA[Blagajna Uvjeti: <br/><span class="help">prisiljava ljude da prihvate uvjete prije nego što kupac može naplata.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_status</key>
+    <value><![CDATA[Status naloga: <br/><span class="help">Postavite status zadani redoslijed prilikom obrade narudžbe.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_cancelation_order_status</key>
+    <value><![CDATA[Dopusti Korisnička Odustani nalog o statusu:]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_display</key>
+    <value><![CDATA[Prikaz Stock: <br/><span class="help">Zaslon količina dionica na stranici proizvoda.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_nostock_autodisable</key>
+    <value><![CDATA[Ne Stock Auto Onemogući: <br/><span class="help">onemogućiti svoj proizvod ili vrijednosti opcije za prikaz ako dionica padne na 0. obavijest Poruka će biti poslana</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_checkout</key>
+    <value><![CDATA[Stock Blagajna: <br/><span class="help">Omogućiti korisnicima i dalje se naplata ako su proizvodi koji su naručivanje nisu na lageru.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_status</key>
+    <value><![CDATA[Stock Status: <br/><span class="help">Zadana postavka za iz poruke dionica statusa proizvoda. Koristi se na proizvod stranici za uređivanje.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_logo</key>
+    <value><![CDATA[Store Logo:]]></value>
+  </definition>
+  <definition>
+    <key>entry_icon</key>
+    <value><![CDATA[Ikona: <br/><span class="help">Ikona može biti PNG ili ICON tip koji je 16px x 16px.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_width</key>
+    <value><![CDATA[Širina:]]></value>
+  </definition>
+  <definition>
+    <key>entry_height</key>
+    <value><![CDATA[Visina:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb</key>
+    <value><![CDATA[Proizvod slika Thumb Size:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_width</key>
+    <value><![CDATA[Proizvod slika Palac Širina:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_height</key>
+    <value><![CDATA[Proizvod slika Palac Visina:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup</key>
+    <value><![CDATA[Proizvod slika Popup Površina:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_width</key>
+    <value><![CDATA[Veliki prozorčiću Širina:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_height</key>
+    <value><![CDATA[Veliki prozorčiću Visina:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category</key>
+    <value><![CDATA[Lista Kategorija Površina:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_width</key>
+    <value><![CDATA[Širina Lista Kategorija:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_height</key>
+    <value><![CDATA[Lista Kategorija Visina:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_width</key>
+    <value><![CDATA[Marka Ikona Lista Širina:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_height</key>
+    <value><![CDATA[Marka Ikona Lista Visina:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product</key>
+    <value><![CDATA[Popis proizvoda Veličina:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_height</key>
+    <value><![CDATA[Popis proizvoda Visina: <br/><span class="help">Ovo je za kontrolu visine na fotografiji na popisu stranicama admin i drugim mjestima u pekarnicu. Imajte na umu, ova postavka se dijeli između admin i zatezne storefront predlošku.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_width</key>
+    <value><![CDATA[Popis proizvoda Širina: <br/><span class="help">Ovo je za kontrolu širinu fotografiji na popisu stranicama admin i drugim mjestima u pekarnicu. Imajte na umu, ova postavka se dijeli između admin i zatezne storefront predlošku.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional</key>
+    <value><![CDATA[Dodatni Veličina slike proizvoda:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_width</key>
+    <value><![CDATA[Dodatni Širina slike proizvoda:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_height</key>
+    <value><![CDATA[Dodatni Visina slike proizvoda:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related</key>
+    <value><![CDATA[Vezani Veličina slike proizvoda:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_width</key>
+    <value><![CDATA[Širina povezane slike proizvoda:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_height</key>
+    <value><![CDATA[Vezani Visina slike proizvoda:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart</key>
+    <value><![CDATA[Košarica Veličina slike:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_width</key>
+    <value><![CDATA[Košarica Širina slike:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_height</key>
+    <value><![CDATA[Košarica Visina slike:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid</key>
+    <value><![CDATA[Grid Veličina slike:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_width</key>
+    <value><![CDATA[Grid slike Širina: <br/><span class="help">Ovo je za kontrolu širine vrlo mali fotografiji u listu rešetke admin i drugim mjestima u pekarnicu. Imajte na umu, ova postavka se dijeli između admin i zatezne storefront predlošku.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_height</key>
+    <value><![CDATA[Grid Visina slike: <br/><span class="help">Ovo je za kontrolu visine vrlo mali fotografiji u listu rešetke admin i drugim mjestima u pekarnicu. Imajte na umu, ova postavka se dijeli između admin i zatezne storefront predlošku.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_mail</key>
+    <value><![CDATA[Upozorenje Mail: <br/><span class="help">Pošalji e-mail vlasniku trgovine, kada je novi poredak koji je stvorila.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_download</key>
+    <value><![CDATA[Dopusti Downloads:]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_status</key>
+    <value><![CDATA[Preuzimanje Status naloga: <br/><span class="help">Set status narudžbe kupaca poredak mora doći prije nego što je dozvoljeno za pristup njihovim preuzeti proizvoda.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_protocol</key>
+    <value><![CDATA[Protokol Mail: <span class="help">Mail: Zadani mail poslužitelj poslužitelj će se koristiti. Uvjerite se da je konfiguriran i mogućnosti poslati e-mail s PHP mail.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_parameter</key>
+    <value><![CDATA[Mail Parametri: <span class="help">Kada koristite &#39;Mail&#39;, može se dodati dodatni parametri mail ovdje (npr &quot;-femail@storeaddress.com&quot;.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_host</key>
+    <value><![CDATA[SMTP Host: <br/><span class="help">Koristi SSL: //smtp.yourdomain.com za siguran SMTP veze</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_username</key>
+    <value><![CDATA[SMTP korisničko ime:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_password</key>
+    <value><![CDATA[SMTP lozinka:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_port</key>
+    <value><![CDATA[SMTP port:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_timeout</key>
+    <value><![CDATA[SMTP Timeout:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[Koristi SSL: <br/><span class="help">Za korištenje SSL provjerite sa svojim domaćinom, ako je instaliran SSL certifikat.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_session_ttl</key>
+    <value><![CDATA[Upravljačka ploča sjednica do: <br/><span class="help">Ova vrijednost kontrolira vremenski interval u minutama prije nego što će se tražiti da ponovno prijaviti zbog ne aktivnosti.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_encryption</key>
+    <value><![CDATA[Ključa za šifriranje: <br/><span class="help">Postavljanje premješten u konfiguracijsku datoteku s početkom u v1.2.1.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_seo_url</key>
+    <value><![CDATA[Korištenje SEO URL-ova: <br/><span class="help">koristiti SEO URL-Apache modul mod-prepisati mora biti instaliran i morate preimenovati htaccess.txt za .htaccess. Napomena: Ako abantecart nije instaliran u korijenu domene mora biti promijenjen pravilo rewriteBase u .htaccess datoteku.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_retina_enable</key>
+    <value><![CDATA[Generirajte visoke razlučivosti (mrežnica) slika: <br/><span class="help">Za korištenje ove Apache modul mod-prepisati mora biti instaliran i morate preimenovati htaccess.txt za .htaccess. Napomena: Ako abantecart nije instaliran u korijenu domene mora biti promijenjen pravilo rewriteBase u .htaccess datoteku. <br/> Nakon omogućavanja treba očistiti cache slike.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_quality</key>
+    <value><![CDATA[JPEG slike kompresije razini]]></value>
+  </definition>
+  <definition>
+    <key>entry_compression</key>
+    <value><![CDATA[Izlaz Compression Level: <br/><span class="help">GZIP za učinkovitije transfer do traže klijente. Razina kompresije mora biti između 0 - 9</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_display</key>
+    <value><![CDATA[Prikazati pogreške: <br/><span class="help">Postavite na Da ako želite vidjeti iznimke i pogreške</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_log</key>
+    <value><![CDATA[Prijava pogreške: <br/><span class="help">postavljena na Da ako želite spremiti iznimke i pogreške u log</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_enable_reviews</key>
+    <value><![CDATA[Omogući Komentari: <br/><span class="help"></span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cache_enable</key>
+    <value><![CDATA[Cache omogućen: <br/><span class="help">Pažljivo onemogućiti caching. Spremljene stranice neće biti ponovno stvoren i stranica može početi učitava sporo.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_cache_drivers</key>
+    <value><![CDATA[Trenutno koristite predmemoriju <b>%s</b> vozača. Ostali vozači na raspolaganju za konfiguraciju su <i>%s</i>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_status</key>
+    <value><![CDATA[Izlog Status API:]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_key</key>
+    <value><![CDATA[Izlog API ključ: <br/><span class="help">Set ovu tipku da pruže ograničen (sigurniji) pristup storefront API.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_stock_check</key>
+    <value><![CDATA[Izlog pristup API Stock: <br/><span class="help">Omogućite ako dopustiti izlog API provjerili raspoloživost zaliha</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_status</key>
+    <value><![CDATA[Admin Status API:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_key</key>
+    <value><![CDATA[Admin API ključ: <br/><span class="help">Set ovu tipku da pruže ograničen (sigurniji) pristup admin API.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_access_ip_list</key>
+    <value><![CDATA[Admin API pristup IP: <br/><span class="help">Dati popis IP (zarezom odvojene), koji će biti dopušten pristup admin API. Ostali IP adrese će biti blokiran</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_max_size</key>
+    <value><![CDATA[Knjižnica resursa Postavi Max Veličina, kB]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug</key>
+    <value><![CDATA[Prikaži Debug Info: <br/><span class="help">Set ovo ako želite vidjeti detalje izvršenja i pokazati detalje ispravljanje.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_0</key>
+    <value><![CDATA[od]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_1</key>
+    <value><![CDATA[Pokazati]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_2</key>
+    <value><![CDATA[Prijava]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level</key>
+    <value><![CDATA[Debug Razina: <br/><span class="help">Odaberite dubinu detalja koje je potrebno vidjeti u debug izlaz.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_0</key>
+    <value><![CDATA[Razina 0 - nema rezanje, jedini izuzetak pogreške]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_1</key>
+    <value><![CDATA[Razina 1 - pogreške i upozorenja]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_2</key>
+    <value><![CDATA[Razina 2 - # 1 + mysql web opterećenja, vrijeme php izvršenje datoteka i elemente stranice učitati vrijeme]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_3</key>
+    <value><![CDATA[Razina 3 - # 2 + osnovni trupaca i snop izvršenja]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_4</key>
+    <value><![CDATA[Razina 4 - # 3 mysql izjave + dump]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_5</key>
+    <value><![CDATA[Razina 5 - # 4 + srednji varijabla]]></value>
+  </definition>
+  <definition>
+    <key>entry_template_debug</key>
+    <value><![CDATA[Predložak debug: <br/><span class="help">Uključite ovu postavku ako trebate provjeriti probleme s predloškom u storefront i upravljačkoj ploči.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_filename</key>
+    <value><![CDATA[Greška Prijavite Filename: <br/><span class="help">Ova je datoteka u kojoj su greške spašeni.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_session</key>
+    <value><![CDATA[Koristite Dostava sjednica: <br/><span class="help">Sprema dostave citati sjednicu kako bi se izbjeglo ponovno citirajući nepotrebno. Citati samo će se ponovno citiran ako košarice ili adresa se mijenja.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_catalog_limit</key>
+    <value><![CDATA[Zadane Predmeti po stranici (fizičkom lokacijom): <br/><span class="help">Sets koliko su prikazani storefront stavki po stranici (proizvoda, kategorije, itd)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_limit</key>
+    <value><![CDATA[Zadane Predmeti po stranici (admin): <br/><span class="help">Sets koliko su prikazani admin stavki po stranici u uvrštenja Rešetke (narudžbe, kupcima, itd)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_bestseller_limit</key>
+    <value><![CDATA[Broj artikala u Scena Block]]></value>
+  </definition>
+  <definition>
+    <key>entry_featured_limit</key>
+    <value><![CDATA[Broj artikala u istaknutoj Block]]></value>
+  </definition>
+  <definition>
+    <key>entry_latest_limit</key>
+    <value><![CDATA[Broj artikala u najnovije Block]]></value>
+  </definition>
+  <definition>
+    <key>entry_special_limit</key>
+    <value><![CDATA[Broj artikala u posebnim odjelima]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_weight</key>
+    <value><![CDATA[Prikaz težine na košaru Stranica: <br/><span class="help">Prikaži košaricu težinu na stranici košarice</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_reviews</key>
+    <value><![CDATA[Dopusti Komentari: <br/><span class="help">Omogući / Onemogući novi unos pregled i prikaz postojećih mišljenja</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_maintenance</key>
+    <value><![CDATA[Maintenance Mode: <br/><span class="help">Sprječava korisnika od pregledavanja svoj dućan. Oni će umjesto toga vidjeti poruku za održavanje. Ako prijavljeni kao admin, vidjet ćete pohraniti kao normalno.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_voicecontrol</key>
+    <value><![CDATA[Upravljanje glasom: <br/><span class="help">Omogućiti admin upravljanja glasom aktivirati glasovne naredbe imaju. Trenutno su podržani samo u verziji Chrome 25 ili novije.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_help_links</key>
+    <value><![CDATA[Pomoć Linkovi: <br/><span class="help">Ako želite da biste vidjeli pomoć ikone i linkove na AbanteCart stranice. To će vam pomoći da saznate više o značajkama i kako ih koristiti. Ako ste napredni korisnik i ne žele vidjeti ove ikone pomoći, možete onemogućiti.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_show_tree_data</key>
+    <value><![CDATA[Omogući Tree Grid: <br/><span class="help">Omogućuje admin rešetke pokazati roditelja / djece vrste u jednoj rešetki unos. NAPOMENA: Numeriranje i multi-akcije su onemogućeni za ove rešetke</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_ajax</key>
+    <value><![CDATA[Isti stranicu dodaj u košaricu: <br/><span class="help">To će omogućiti AJAX dodaj u košaricu značajku. Proizvod može biti dodan u košaricu, bez preusmjeriti na stranicu košarice</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_width</key>
+    <value><![CDATA[Izlog Site Širina: <br/><span class="help">Primjer: 100% ili 1000 px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_width</key>
+    <value><![CDATA[Admin Site Širina: <br/><span class="help">Primjer: 100% ili 1000 px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_maximum</key>
+    <value><![CDATA[Maksimalni iznos narudžbe dopušteno: <br/><span class="help">Prevent plaćanje uz veliku narudžbu sub-ukupno iznose. 0 = ne postoji ograničenje</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_minimum</key>
+    <value><![CDATA[Minimalni iznos narudžbe: <br/><span class="help">Prevent naplata ako je nalog sub-total ne doseže minimalni iznos set. 0 = NE MINIMALNA</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_system_check</key>
+    <value><![CDATA[Provjerite sustav: <br/><span class="help">Uključite ovu postavku ako želite provjeriti svoj sustav stanje u odnosu na AbanteCart funkcionalnosti. Pitanja sustava koji utječu AbanteCart će biti prijavljen kao poruka vidljive na admin.</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[Novi Store]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Upozorenje: Nemate dozvolu za izmjenu postavki!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Korisničko ime mora biti samo i između 5 i 64 znakova alfanumerička!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[Ovo ime za prijavu nije dostupan. Pokušaj drugi naziv za prijavu!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Naziv trgovine mora biti između 2 i 32 znakova!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[potrebna URL Store!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Naslov mora biti između 2 i 32 znakova!]]></value>
+  </definition>
+  <definition>
+    <key>error_owner</key>
+    <value><![CDATA[Vlasnik trgovine mora biti između 2 i 64 znakova!]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[Čuvati adresa mora biti između 10 i 256 znakova!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-mail adresa nije važeća!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[Telefon mora biti između 2 i 32 znakova!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[Slika proizvoda Palac Veličina Dimenzije obavezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[Slika proizvoda Popup Veličina Dimenzije obavezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[Kategorija listu Veličina Dimenzije obavezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_manufacturer</key>
+    <value><![CDATA[Marka Ikona popisa Veličina Dimenzije obavezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[Popis proizvoda Veličina Dimenzije obavezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[Dodatne Veličina slike Dimenzije obavezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[Vezani Proizvod Veličina slike Dimenzije obavezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[Košarica Veličina slike Dimenzije obavezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[Grid Veličina slike Dimenzije obavezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_error_filename</key>
+    <value><![CDATA[Greška Prijavite Ime datoteke potreban!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Potrebni podaci nisu uneseni. Provjerite na terenu pogreške!]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded_image</key>
+    <value><![CDATA[Dodao datoteke %s ne slike ili razbijen!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Limit je potrebno!]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[ispred trgovine]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[Admin]]></value>
+  </definition>
+  <definition>
+    <key>error_mail</key>
+    <value><![CDATA[Molimo Vas da ispunite tražena polja za SMTP protokol!]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_sort_order_asc</key>
+    <value><![CDATA[Proizvoda Redoslijed Niska &gt; visok]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[Naziv A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[Naziv Z - A]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_asc</key>
+    <value><![CDATA[Cijena Niska &gt; visok]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_desc</key>
+    <value><![CDATA[Cijena viša &gt; nizak]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_asc</key>
+    <value><![CDATA[Ocjena najniža]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_desc</key>
+    <value><![CDATA[Ocjena najviša]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[Datum Old &gt; Novi]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[Datum New &gt; Star]]></value>
+  </definition>
+  <definition>
+    <key>entry_product_default_sort_order</key>
+    <value><![CDATA[Sortiraj proizvode kao zadani i tako:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zero_customer_balance</key>
+    <value><![CDATA[Prikaži Zero Korisnička Stanje: <br/><span class="help">Napomena: uključivanje / isključivanje prikaza bilance poruke ako saldo kupac račun je 0</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_tax_estimate</key>
+    <value><![CDATA[Dostava i poreza Procjena: <br/><span class="help">Omogućiti korisnicima da biste dobili brzi utovar i porezne procjene u košarici.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon_on_cart_page</key>
+    <value><![CDATA[Kupon na stranici košarice: <br/><span class="help">Omogućiti korisnicima da unesete broj kupona i vidjeti popust u košarici.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_google_analytics</key>
+    <value><![CDATA[Google Analytics račun broj: <br/><span class="help">Dodajte svoj <a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">Google Analytics broj računa</a> kako bi se omogućilo praćenje aktivnosti na terenu. To također omogućuje praćenje aktivnosti e-trgovine. Morate omogućiti praćenje u google na stranici postavki profila za vaše web stranice e-trgovine</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[Sigurno Store URL: <br/><span class="help">uključite puni SSL URL (HTTPS) za svoje trgovine. Svakako dodajte &quot;/&quot; na kraju. Primjer: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[potrebna Sigurna URL!]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_email_activation</key>
+    <value><![CDATA[E-mail aktivacije za nove korisnike: <br/><span class="help">Ne dopustiti novi korisnik prijaviti dok im račun je potvrdio aktivacijskim linkom poslan putem e-pošte. Da bi to funkcioniralo, pobrinite &quot;Odobri nove kupce&quot; podešena na OFF.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_clone_template</key>
+    <value><![CDATA[Klon predlošku AbanteCart Razvojni alati]]></value>
+  </definition>
+  <definition>
+    <key>text_set_template</key>
+    <value><![CDATA[Postavite ovaj predložak za izloga]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_status</key>
+    <value><![CDATA[Omogući prodajni izlog Ugradi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_click_action</key>
+    <value><![CDATA[Postavi Kliknite Akcija:]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_modal</key>
+    <value><![CDATA[Ista stranica dijaloškom okviru]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_new_window</key>
+    <value><![CDATA[Otvorena nova stranica u novoj kartici]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_same_window</key>
+    <value><![CDATA[Otvorena nova stranica u istom prozoru]]></value>
+  </definition>
+  <definition>
+    <key>entry_account_create_captcha</key>
+    <value><![CDATA[Captcha na stvaranje obrasca računa: <br/><span class="help">spriječiti spam / robota stvaranje računa s omogućujući ljudski captcha provjeru</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_site_key</key>
+    <value><![CDATA[Google ReCAPTCHA Site Ključ: <br/><span class="help">Dodaj <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> pomoć svoje posjetitelje s boljim ulazak captcha. Ako omogućite recaptcha stranice / tajne ključeve, Google ReCAPTCHA v2 aktivirat će se umjesto zadane AbanteCart captcha sliku</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_secret_key</key>
+    <value><![CDATA[Google ReCAPTCHA Tajni ključ: <br/><span class="help">Dodaj <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> pomoć svoje posjetitelje s boljim ulazak captcha. Ako omogućite recaptcha stranice / tajne ključeve, Google ReCAPTCHA v2 aktivirat će se umjesto zadane AbanteCart captcha sliku</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_php_exceed</key>
+    <value><![CDATA[Ova vrijednost se ne može premašiti svoj php.ini direktive %s (&lt;= %s)]]></value>
+  </definition>
+  <definition>
+    <key>entry_start_order_id</key>
+    <value><![CDATA[Red Početak br .: <br/><span class="help">Postavite početnu broj narudžbe će početi s.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_start_order_id</key>
+    <value><![CDATA[Red start broj mora biti numerička!]]></value>
+  </definition>
+  <definition>
+    <key>error_starting_invoice_id</key>
+    <value><![CDATA[Račun start broj mora biti numerička!]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_order_days</key>
+    <value><![CDATA[Nepotpune Red do: <br/><br/><span class="help">Ova vrijednost kontrolira vremenski interval u danima prije nepotpune narudžbe će biti izbrisani. Prazna vrijednost znači da će bez naloga biti izbrisani.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_expire_order_days</key>
+    <value><![CDATA[Nepotpune Red isteka vrijednost mora biti numerička!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront</key>
+    <value><![CDATA[izlog]]></value>
+  </definition>
+  <definition>
+    <key>text_im_driver</key>
+    <value><![CDATA[Vozač]]></value>
+  </definition>
+  <definition>
+    <key>text_im_protocol</key>
+    <value><![CDATA[Protokol IM]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver</key>
+    <value><![CDATA[SMS-pružatelja usluga]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver_tooltip</key>
+    <value><![CDATA[Odaberite proširenje za SMS usluga]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_status_tooltip</key>
+    <value><![CDATA[Omogućavanje SMS-a za korisnike]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_status_tooltip</key>
+    <value><![CDATA[Omogućavanje SMS-a za administratore]]></value>
+  </definition>
+  <definition>
+    <key>text_no_driver</key>
+    <value><![CDATA[Ne IM Vozač Pronađeno]]></value>
+  </definition>
+  <definition>
+    <key>text_im_settings_attention</key>
+    <value><![CDATA[Ove su postavke za instant poruke automatski se šalju tijekom AbanteCart događanja izloga i admin.]]></value>
+  </definition>
+  <definition>
+    <key>entry_html_cache</key>
+    <value><![CDATA[HTML Cache: <br/><span class="help">Omogućeno HTML stranice i blokovi caching kako bi dobili bolju brzinu za svoje stranice. To je dodatni caching da je omogućeno u sustavu / config.php datoteku redovne caching podataka</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_task_api_key</key>
+    <value><![CDATA[Zadaci API ključ: <br/><span class="help">Ovo je tajni ključ kako bi se omogućilo AbanteCart izvoditi rasporedu procese iz preglednika s /task.php datoteku. Ako nije postavljeno, zadaci neće raditi preko preglednika. <br/> NAPOMENA: Ovaj API ključ nije potrebna za pokretanje zadataka naredbenog retka.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_duplicate_contact_us</key>
+    <value><![CDATA[Dvostruki Kontakt Upiti na poruke]]></value>
+  </definition>
+</definitions>

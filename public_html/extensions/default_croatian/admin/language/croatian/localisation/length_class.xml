@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Dužina Klase]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[Dužina Klasa]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspjeh: Izmijenili ste klase dužine!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Dužina Naslov]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[Duljina jedinica]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Vrijednost]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akcijski]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Dužina Naslov:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Dužina Jedinica:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Vrijednost: <br/><span class="help">Set za 1.00000 ako je to zadano.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Upozorenje: Nemate dozvolu za izmjenu klase dužine!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Dužina Naslov mora biti između 2 i 32 znakova!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Duljina jedinica mora biti između 1 i 4 znaka!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Upozorenje: Ova dužina klasa se ne može izbrisati kao što je trenutno dodijeljena kao klasa zadana duljina dućan!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Upozorenje: Ovaj razred dužina ne može biti obrisan jer je trenutačno dodijeljena %s proizvode!]]></value>
+  </definition>
+</definitions>

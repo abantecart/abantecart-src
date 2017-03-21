@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[prijenos datoteka]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[Datum dodan]]></value>
+  </definition>
+  <definition>
+    <key>column_path</key>
+    <value><![CDATA[Datoteka]]></value>
+  </definition>
+  <definition>
+    <key>column_section</key>
+    <value><![CDATA[Odjeljak]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[za preuzimanje datoteka]]></value>
+  </definition>
+</definitions>

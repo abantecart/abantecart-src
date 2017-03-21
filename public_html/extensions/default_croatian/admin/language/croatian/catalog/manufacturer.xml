@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Proizvođači ili Marke]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturer</key>
+    <value><![CDATA[Proizvođač ili Marka]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspjeh: Morate modificirane proizvođača!]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Zadano]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[Manager slike]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Proizvođač Naziv]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Redoslijed]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akcijski]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Proizvođač Ime:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[Trgovine:]]></value>
+  </definition>
+  <definition>
+    <key>entry_keyword</key>
+    <value><![CDATA[SEO ključne riječi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_edit</key>
+    <value><![CDATA[Uredi]]></value>
+  </definition>
+  <definition>
+    <key>entry_layout</key>
+    <value><![CDATA[raspored]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[Slika:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Redoslijed:]]></value>
+  </definition>
+  <definition>
+    <key>error_manufacturer_not_found</key>
+    <value><![CDATA[Pogreška: Proizvođač nije pronađen!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Upozorenje: Nemate dozvolu za izmjenu proizvođača!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Proizvođač Naziv mora biti između 2 i 64 znakova!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Upozorenje: Ovaj proizvođač se ne može izbrisati, jer je trenutačno dodijeljena %s proizvode!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_layout</key>
+    <value><![CDATA[Uspjeh: Izmijenili ste izgleda kategoriju stranice.]]></value>
+  </definition>
+</definitions>

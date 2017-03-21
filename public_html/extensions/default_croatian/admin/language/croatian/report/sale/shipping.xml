@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[dostava izvještaj]]></value>
+  </definition>
+  <definition>
+    <key>text_year</key>
+    <value><![CDATA[godina]]></value>
+  </definition>
+  <definition>
+    <key>text_month</key>
+    <value><![CDATA[mjeseci]]></value>
+  </definition>
+  <definition>
+    <key>text_week</key>
+    <value><![CDATA[Tjedni]]></value>
+  </definition>
+  <definition>
+    <key>text_day</key>
+    <value><![CDATA[dana]]></value>
+  </definition>
+  <definition>
+    <key>text_all_status</key>
+    <value><![CDATA[Svi Statusi]]></value>
+  </definition>
+  <definition>
+    <key>column_date_start</key>
+    <value><![CDATA[Datum početka]]></value>
+  </definition>
+  <definition>
+    <key>column_date_end</key>
+    <value><![CDATA[Datum završetka]]></value>
+  </definition>
+  <definition>
+    <key>column_orders</key>
+    <value><![CDATA[Broj narudžbi]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[ukupno]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[Datum početka:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[Datum završetka:]]></value>
+  </definition>
+  <definition>
+    <key>entry_group</key>
+    <value><![CDATA[Grupa By:]]></value>
+  </definition>
+</definitions>

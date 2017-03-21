@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Jelovnik]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspjeh: Izmijenili ste izbornik!]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_id</key>
+    <value><![CDATA[jedinstveni ID]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_icon</key>
+    <value><![CDATA[Ikona]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_text</key>
+    <value><![CDATA[Tekst]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_url</key>
+    <value><![CDATA[Link <br/><span class="help">Za vanjske veze dodati http: // ili https: // na početku</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_parent_id</key>
+    <value><![CDATA[Roditelj]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Redoslijed]]></value>
+  </definition>
+  <definition>
+    <key>entry_link_category</key>
+    <value><![CDATA[Link na kategoriju]]></value>
+  </definition>
+  <definition>
+    <key>entry_link_page</key>
+    <value><![CDATA[Link na stranicu]]></value>
+  </definition>
+  <definition>
+    <key>text_link</key>
+    <value><![CDATA[Veza]]></value>
+  </definition>
+  <definition>
+    <key>text_select_parent_id</key>
+    <value><![CDATA[- Korijen Izbornik -]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Polje ne može biti prazno!]]></value>
+  </definition>
+  <definition>
+    <key>error_non_unique</key>
+    <value><![CDATA[ID artikla nije jedinstven!]]></value>
+  </definition>
+  <definition>
+    <key>error_non_ascii</key>
+    <value><![CDATA[Samo alfanumerički znakovi dopušteno ID izbornik području!]]></value>
+  </definition>
+</definitions>

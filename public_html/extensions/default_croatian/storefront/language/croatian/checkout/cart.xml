@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Košarica]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Košara]]></value>
+  </definition>
+  <definition>
+    <key>text_sub_total</key>
+    <value><![CDATA[Sub-Total:]]></value>
+  </definition>
+  <definition>
+    <key>text_weight</key>
+    <value><![CDATA[Košarica Težina:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Vaša košarica je prazna!]]></value>
+  </definition>
+  <definition>
+    <key>column_remove</key>
+    <value><![CDATA[Ukloniti]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Slika]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Ime]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Model]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Količina]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Jedinična cijena]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[ukupno]]></value>
+  </definition>
+  <definition>
+    <key>text_continue_shopping</key>
+    <value><![CDATA[Nastaviti s kupovinom]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_codes</key>
+    <value><![CDATA[Nanesite kupon kod]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipping_tax</key>
+    <value><![CDATA[Procjena Dostava i porezi]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_country</key>
+    <value><![CDATA[Država i državna]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_postcode</key>
+    <value><![CDATA[ZIP / Poštanski broj]]></value>
+  </definition>
+  <definition>
+    <key>button_text_estimate</key>
+    <value><![CDATA[Procjena]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipments</key>
+    <value><![CDATA[Pošiljke]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Pogreška: Kupon je bilo neispravno, istekla ili dosegao je ograničenje upotrebe!]]></value>
+  </definition>
+  <definition>
+    <key>error_stock</key>
+    <value><![CDATA[Proizvodi označeni sa *** nisu dostupne u željenoj količini, ili nema na skladištu!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_options</key>
+    <value><![CDATA[Odaberite sve potrebne opcije!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_minimum</key>
+    <value><![CDATA[Vaša narudžba pod-ukupna količina ne ispunjava minimalnu količinu %s potrebi. Molimo dodati više proizvoda u košarici!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_maximum</key>
+    <value><![CDATA[Vaša narudžba pod-ukupna količina prelazi maksimalnu količinu %s dopušteno po narudžbi. Uklonite neke stavke iz košaricu!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_data</key>
+    <value><![CDATA[Datoteka podataka je oštećena ili prazna.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_name</key>
+    <value><![CDATA[Naziv datoteke je prazna!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_extension</key>
+    <value><![CDATA[Samo datoteke s ekstenzijom (s) %s je (su) dopušteno!]]></value>
+  </definition>
+  <definition>
+    <key>error_min_file_size</key>
+    <value><![CDATA[Minimalna veličina datoteke za upload je %s kb.]]></value>
+  </definition>
+  <definition>
+    <key>error_max_file_size</key>
+    <value><![CDATA[Maksimalna veličina datoteke za upload je %s kb.]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_success</key>
+    <value><![CDATA[Uspjeh: Vaš kupon popust primjenjuje se!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[Uspjeh: Kupon je uklonjen!]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_maximum</key>
+    <value><![CDATA[dopuštena količina proizvod je veća. Količina je postavljena na maksimum.]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_minimum</key>
+    <value><![CDATA[dopuštena količina proizvoda je ispod minimuma. Količina je postavljena na minimalnu količinu.]]></value>
+  </definition>
+</definitions>

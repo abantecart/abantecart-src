@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Greška Prijava]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspjeh: Uspješno ste očistili dnevnik grešaka!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_tail</key>
+    <value><![CDATA[Zbog velike veličine log datoteku, samo zadnja 500 kB podataka može se vidjeti ovdje. 
+ Za prikaz kompletan zapisnik, preuzmite ga s vašeg poslužitelja izravno. 
+ puta:]]></value>
+  </definition>
+</definitions>
