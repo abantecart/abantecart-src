@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[制品]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[类别未找到！]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[有没有任何产品分类中。]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[〜满分5星！]]></value>
+  </definition>
+  <definition>
+    <key>text_sort</key>
+    <value><![CDATA[排序方式：]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[默认]]></value>
+  </definition>
+  <definition>
+    <key>text_name_asc</key>
+    <value><![CDATA[名称A  -  Z]]></value>
+  </definition>
+  <definition>
+    <key>text_name_desc</key>
+    <value><![CDATA[名称Z  -  A]]></value>
+  </definition>
+  <definition>
+    <key>text_price_asc</key>
+    <value><![CDATA[价格低&gt;高]]></value>
+  </definition>
+  <definition>
+    <key>text_price_desc</key>
+    <value><![CDATA[价格高&gt;低]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_asc</key>
+    <value><![CDATA[评价最低]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_desc</key>
+    <value><![CDATA[最高评分]]></value>
+  </definition>
+  <definition>
+    <key>text_top_category</key>
+    <value><![CDATA[热门类别]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[股票以下状态]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[库存情况]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：你已修改的股票状态！]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[库存状态名称]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[行动]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[库存情况名称：]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[警告：您没有权限修改股票雕像！]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[库存状态名称必须在2到32个字符之间！]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[警告：因为它是目前分配给〜品这股状态不能被删除！]]></value>
+  </definition>
+</definitions>

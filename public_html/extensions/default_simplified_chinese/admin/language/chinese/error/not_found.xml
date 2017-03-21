@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[找不到网页！]]></value>
+  </definition>
+  <definition>
+    <key>text_not_found</key>
+    <value><![CDATA[您正在查找的页找不到！如果问题仍然存在，请与管理员联系。]]></value>
+  </definition>
+</definitions>

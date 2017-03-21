@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[布局&amp;块经理]]></value>
+  </definition>
+  <definition>
+    <key>text_select_template</key>
+    <value><![CDATA[选择模板：]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_success</key>
+    <value><![CDATA[成功：页面布局已被删除！]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_restricted</key>
+    <value><![CDATA[错误：页面布局受到限制，无法删除！]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：你已修改布局&amp;块！]]></value>
+  </definition>
+  <definition>
+    <key>text_preview_generated</key>
+    <value><![CDATA[预览生成！]]></value>
+  </definition>
+  <definition>
+    <key>text_click_here</key>
+    <value><![CDATA[点击这里]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[最新产品]]></value>
+  </definition>
+  <definition>
+    <key>heading_subtitle</key>
+    <value><![CDATA[请参见新产品]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[〜满分5星！]]></value>
+  </definition>
+</definitions>

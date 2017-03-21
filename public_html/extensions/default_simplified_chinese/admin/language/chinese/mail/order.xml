@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[〜 - 订单更新〜]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[订单ID：]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[有序日期：]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[您的订单已经更新到以下状态：]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[您的订单的意见是：]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[要查看下面的链接您的订单点击：]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[如果您有任何疑问，请回覆此邮件。]]></value>
+  </definition>
+</definitions>

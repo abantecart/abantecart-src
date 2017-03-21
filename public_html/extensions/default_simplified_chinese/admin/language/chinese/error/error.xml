@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[应用程序错误！]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[请检查错误日志的详细信息]]></value>
+  </definition>
+</definitions>

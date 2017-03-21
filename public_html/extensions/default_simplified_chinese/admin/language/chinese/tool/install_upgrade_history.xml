@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[安装/升级历史]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[类型]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[添加日期]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[包装的关键]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[版]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_date</key>
+    <value><![CDATA[备份日期]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_file</key>
+    <value><![CDATA[备份文件]]></value>
+  </definition>
+  <definition>
+    <key>column_user</key>
+    <value><![CDATA[用户名]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[下载文件]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_history</key>
+    <value><![CDATA[删除历史记录]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_success</key>
+    <value><![CDATA[您的安装/升级历史已经被成功删除。]]></value>
+  </definition>
+</definitions>

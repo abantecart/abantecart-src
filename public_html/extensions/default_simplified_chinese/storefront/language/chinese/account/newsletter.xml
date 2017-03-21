@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[通讯订阅]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[帐户]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[通讯]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：简报的订阅已成功更新！]]></value>
+  </definition>
+  <definition>
+    <key>entry_newsletter</key>
+    <value><![CDATA[订阅：]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_registration</key>
+    <value><![CDATA[客户注册]]></value>
+  </definition>
+  <definition>
+    <key>entry_captcha</key>
+    <value><![CDATA[输入代码：]]></value>
+  </definition>
+  <definition>
+    <key>error_captcha</key>
+    <value><![CDATA[人力验证失败！请尝试阿甘。]]></value>
+  </definition>
+</definitions>

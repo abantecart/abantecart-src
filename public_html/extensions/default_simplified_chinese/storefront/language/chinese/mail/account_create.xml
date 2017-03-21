@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[〜 - 感谢您注册]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[欢迎并感谢您在注册〜！]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[您的帐户现在已经创建，您可以通过访问我们的网站或通过以下网址访问：]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[您的帐户必须经过批准，然后才能登录。一旦获得批准，你可以通过访问我们的网站或通过以下网址使用您的电子邮件地址和密码登录：]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[之前，我们可以激活您的帐号最后一步，必须采取完成注册。 <br/> 
+您必须完成这最后一步成为注册会员。请点击以下链接激活您的帐户〜。]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[在登录时，你将能够访问其他服务，包括回顾过去的订单，发票打印和编辑您的帐户信息。]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[谢谢，]]></value>
+  </definition>
+</definitions>

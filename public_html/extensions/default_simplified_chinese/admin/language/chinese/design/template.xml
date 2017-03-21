@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[模板管理]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：你已设置新的店面模板！]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront_templates</key>
+    <value><![CDATA[可用店面模板]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_extension</key>
+    <value><![CDATA[扩展设置]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[错误：缺少必需的参数在你的要求！]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[警告：您没有权限修改模板！]]></value>
+  </definition>
+</definitions>

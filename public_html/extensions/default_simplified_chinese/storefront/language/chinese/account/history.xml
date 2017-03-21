@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[我的订单记录]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[帐户]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[订单历史]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[订单ID：]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[状态：]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[添加日期：]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[顾客：]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[产品介绍：]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[总：]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[您还没有以前所做的任何订单！]]></value>
+  </definition>
+</definitions>
