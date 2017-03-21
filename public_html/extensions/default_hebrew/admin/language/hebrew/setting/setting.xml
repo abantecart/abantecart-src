@@ -1,0 +1,915 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[הגדרות]]></value>
+  </definition>
+  <definition>
+    <key>column_store_alias</key>
+    <value><![CDATA[חֲנוּת]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[קְבוּצָה]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[מַפְתֵחַ]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[ערך]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: שמרת את ההגדרות שלך בהצלחה!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[מנהל תמונה]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- קבוצה בחר -]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[בְּרִירַת מֶחדָל]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store_settings</key>
+    <value><![CDATA[ערוך הגדרות:]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_template_settings</key>
+    <value><![CDATA[ערוך הגדרות תבנית:]]></value>
+  </definition>
+  <definition>
+    <key>text_common_template_settings</key>
+    <value><![CDATA[בחירת תבנית]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[ערוך חנות]]></value>
+  </definition>
+  <definition>
+    <key>text_mail</key>
+    <value><![CDATA[דוֹאַר]]></value>
+  </definition>
+  <definition>
+    <key>text_smtp</key>
+    <value><![CDATA[SMTP]]></value>
+  </definition>
+  <definition>
+    <key>tab_all</key>
+    <value><![CDATA[את כל]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[שם חנות:]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[כתובת אתר של חנות: <br/><span class="help">כולל את כתובת האתר מלא לחנות שלך. הקפד להוסיף &quot;/&quot; בסוף. דוגמה: http://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_owner</key>
+    <value><![CDATA[בעל החנות:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address</key>
+    <value><![CDATA[כתובת:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[אֶלֶקטרוֹנִי:]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_emails</key>
+    <value><![CDATA[הודעות דואר אלקטרוני התראה נוספת: <br/><span class="help">כל הודעות דוא&quot;ל נוספות אתה רוצה לקבל את הדוא&quot;ל התראה, בנוסף דוא&quot;ל החנות הראשי. (מופרד באמצעות פסיקים)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[טֵלֵפוֹן:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[פַקס:]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[כותרת: <br/><span class="help">זה מוצגת בכותרת דפדפן חנות</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[תיאור תג מטא: <br/><span class="help">תיאור תג meta הראשי Storefront דף</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_keywords</key>
+    <value><![CDATA[מילות מפתח Meta: <br/><span class="help">מילות מפתח meta תג הראשי Storefront דף (מופרדים בפסיקים)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[הודעת פתיחה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[תבנית: <span class="help">תבנית Storefront. זה יכול להיות תבנית תוסף או עיקרית</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_template</key>
+    <value><![CDATA[לוח הבקרה תבנית:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[מדינה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[אזור / מדינה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[שפת חנות:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_language</key>
+    <value><![CDATA[שפת מנהל: <span class="help">הערה: עובדת אם לא שפת משתמש מועדפת נמצאת בדפדפן</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency</key>
+    <value><![CDATA[מטבע הבסיס: <span class="help">זהו מטבע הבסיס לכל החנויות. אל תשנה אם אתה לא מבין מה קורה. אזהרה: שינוי של מטבע הבסיס לא ישתנה מחירי הבסיס שלך עבור מוצרים. אתה צריך לבדוק ולהתאים כל המחירים במידת הצורך. שער החליפין של מטבע הבסיס יוגדר 1.00 ואת כל שערי החליפין במטבעות אחרים יותאם בגין למטבע הבסיס החדש.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency_auto</key>
+    <value><![CDATA[עדכון אוטומטי מטבע: <br/><span class="help">גדר החנות שלך לעדכן מטבעות אוטומטיות על בסיס יומי. שרת יאהו משמש.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_class</key>
+    <value><![CDATA[שיעור משקל:]]></value>
+  </definition>
+  <definition>
+    <key>entry_length_class</key>
+    <value><![CDATA[מחלקה אורך:]]></value>
+  </definition>
+  <definition>
+    <key>entry_auto_translate_status</key>
+    <value><![CDATA[סטטוס תרגום אוטומטי: <br/><span class="help">מופעלת זה תרגום של חסרי הגדרות טקסט או נתונים ספציפיים לשפה אם ערכי טקסט חסרים עבור שפה המשמשת.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_src_lang_code</key>
+    <value><![CDATA[שפת המקור לתרגום: <br/><span class="help">בחר מקור השפה לשמש autotranslation.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method</key>
+    <value><![CDATA[טקסט לתרגום שיטה: <br/><span class="help">שיטה בחר ברצונך להשתמש לתרגום. שיטת ברירת המחדל היא עותק ישר של הטקסט בשפת המקור</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_override_existing</key>
+    <value><![CDATA[דרוס אם טקסט בשפת המקור שונתה: <br/><span class="help">אם להגדיר, טקסט בכל השפות יוחלף תרגום חדש אם טקסט בשפת המקור ערוך. הערה: יכולה לגרום תרגומים רבים.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_warn_lang_text_missing</key>
+    <value><![CDATA[הזהר עבור טקסט בשפה חסר: <br/><span class="help">קבלו אזהרת הודעה אם טקסט בשפה חסר מזוהה.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[מחירי צג LCD עם מס:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store</key>
+    <value><![CDATA[ברירת מחדל שיעור מס חנות:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_0</key>
+    <value><![CDATA[ללא מס]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_1</key>
+    <value><![CDATA[אזור ברירת חנות]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer</key>
+    <value><![CDATA[השתמש כתובת המס של לקוחות:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_0</key>
+    <value><![CDATA[כתובת למשלוח]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_1</key>
+    <value><![CDATA[כתובת לחיוב]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice</key>
+    <value><![CDATA[התחל חשבונית לא .: <br/><span class="help">הגדר את מספר תחילת החשבוניות החלו.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice_prefix</key>
+    <value><![CDATA[קידומת חשבונית: <br/><span class="help">סט חשבונית קידומת למשל / 001</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[קבוצה של לקוחות: <br/><span class="help">קבוצת לקוחות ברירת מחדל.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_price</key>
+    <value><![CDATA[התחברות מחירי תצוגה: <br/><span class="help">מחירי הצג גם אם הלקוח אינו מחובר.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_approval</key>
+    <value><![CDATA[לאשר ללקוחות חדשים: <br/><span class="help">אל תאפשרו ללקוח חדש יוכל להתחבר עד אושר חשבונם.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_prevent_email_as_login</key>
+    <value><![CDATA[דרוש שם כניסה: <br/><span class="help">כדי לשפר את האבטחה, מחייב את הלקוחות כדי ליצור שם כניסה ייחודית במקום להשתמש בכתובת הדוא&quot;ל לשם כניסה. אם במצב ON, לקוחות קיימים יתבקשו ליצור שם כניסה חדשה על הכניסה הראשונה. כאשר האפשרות הזו כבויה, שם כניסה מוגדרת כתובת הדוא&quot;ל לקוח.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_guest_checkout</key>
+    <value><![CDATA[אורח Checkout: <br/><span class="help">אפשר ללקוחות לקופה מבלי ליצור חשבון. זה לא יהיה זמין כאשר מוצר להורדה הוא בעגלת הקניות.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_account</key>
+    <value><![CDATA[תנאי חשבון: <br/><span class="help">אנשי כוחות להסכים לתנאים לפני חשבון ניתן ליצור.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_checkout</key>
+    <value><![CDATA[תנאי Checkout: <br/><span class="help">אנשי כוחות להסכים לתנאים בפני לקוח יכול לקופה.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_status</key>
+    <value><![CDATA[מצב הזמנה: <br/><span class="help">מגדיר את מצב ברירת מחדל הזמנה כאשר צו מעובד.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_cancelation_order_status</key>
+    <value><![CDATA[לאפשר ללקוח לבטל להזמין על סטטוס:]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_display</key>
+    <value><![CDATA[מאגר תצוגה: <br/><span class="help">כמות מניות תצוגה בדף המוצר.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_nostock_autodisable</key>
+    <value><![CDATA[אין במלאי אוטומטי השבת: <br/><span class="help">השבת ערך המוצר או האפשרות שלך עבור תצוגה אם המניה יורדת ל הודעה הודעה 0. יהיה לשלוח</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_checkout</key>
+    <value><![CDATA[מאגר Checkout: <br/><span class="help">אפשר ללקוחות עדיין לקופה אם המוצרים הם מזמינים אינם במלאים.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_status</key>
+    <value><![CDATA[סטטוס במלאי: <br/><span class="help">הגדרת ברירת המחדל עבור מתוך הודעת מצב המניות המוצר. משומשים בעמוד לערוך המוצר.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_logo</key>
+    <value><![CDATA[לוגו החנות:]]></value>
+  </definition>
+  <definition>
+    <key>entry_icon</key>
+    <value><![CDATA[אייקון: <br/><span class="help">סמל יכול להיות סוג PNG או אייקון הוא 16px x 16px.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_width</key>
+    <value><![CDATA[רוֹחַב:]]></value>
+  </definition>
+  <definition>
+    <key>entry_height</key>
+    <value><![CDATA[גוֹבַה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb</key>
+    <value><![CDATA[גודל Thumb תמונת מוצר:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_width</key>
+    <value><![CDATA[רוחב אגודל תמונת מוצר:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_height</key>
+    <value><![CDATA[גובה Thumb תמונת מוצר:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup</key>
+    <value><![CDATA[גודל Popup תמונת מוצר:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_width</key>
+    <value><![CDATA[חלון תצוגה מקדימה גדולה רוחב:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_height</key>
+    <value><![CDATA[גובה חלון תצוגה מקדימה גדולה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category</key>
+    <value><![CDATA[קטגורית רשימת גודל:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_width</key>
+    <value><![CDATA[קטגורית רשימת רוחב:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_height</key>
+    <value><![CDATA[קטגורית רשימת גובה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_width</key>
+    <value><![CDATA[מותג אייקון רשימת רוחב:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_height</key>
+    <value><![CDATA[גובה רשימת אייקון מותג:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product</key>
+    <value><![CDATA[גודל רשימת מוצרים:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_height</key>
+    <value><![CDATA[גובה רשימת מוצרים: <br/><span class="help">זהו לשלוט בגובה של תמונת תצוגה מקדימה של דפי הרישום של מנהל ובמקומות אחרים החנות. הערה, הגדרה זו היא משותפת בין תבנית חנות admin ו ברירת מחדל.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_width</key>
+    <value><![CDATA[רשימת רוחב מוצרים: <br/><span class="help">זה הוא לשלוט רוחב תמונת תצוגה מקדימה של דפי הרישום של מנהל ובמקומות אחרים החנות. הערה, הגדרה זו היא משותפת בין תבנית חנות admin ו ברירת מחדל.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional</key>
+    <value><![CDATA[גודל תמונת מוצרים נוסף:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_width</key>
+    <value><![CDATA[רוחב תמונה מוצרים נוספים:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_height</key>
+    <value><![CDATA[גובה תמונה מוצרים נוספים:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related</key>
+    <value><![CDATA[גודל תמונה מוצרים נלווים:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_width</key>
+    <value><![CDATA[רוחב קשור תמונת מוצר:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_height</key>
+    <value><![CDATA[גובה תמונה מוצרים נלווים:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart</key>
+    <value><![CDATA[גודל תמונה לעגלה]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_width</key>
+    <value><![CDATA[רוחב תמונה לעגלה]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_height</key>
+    <value><![CDATA[גובה תמונה לעגלה]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid</key>
+    <value><![CDATA[גודל תמונה Grid:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_width</key>
+    <value><![CDATA[תמונת Grid רוחב: <br/><span class="help">זה הוא לשלוט רוחב תמונת תצוגה מקדימה מאוד קטנה רשתות הרישום של מנהל ובמקומות אחרים החנות. הערה, הגדרה זו היא משותפת בין תבנית חנות admin ו ברירת מחדל.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_height</key>
+    <value><![CDATA[גובה תמונה Grid: <br/><span class="help">זהו לשלוט בגובה של תמונת תצוגה מקדימה קטנה מאוד רשתות רישום של מנהל ובמקומות אחרים החנות. הערה, הגדרה זו היא משותפת בין תבנית חנות admin ו ברירת מחדל.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_mail</key>
+    <value><![CDATA[מייל התראה: <br/><span class="help">שלח מייל למנהל החנות כאשר סדר חדש נוצר.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_download</key>
+    <value><![CDATA[אפשר הורדות:]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_status</key>
+    <value><![CDATA[הורד מצב הזמנה: <br/><span class="help">הגדיר את מצב הזמנת הלקוחות להזמין חייבת להגיע לפני שהם מורשים לגשת המוצרים להורדה שלהם.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_protocol</key>
+    <value><![CDATA[דואר פרוטוקול: <span class="help">Mail: שרת דואר שרת ברירת מחדל ישמש. ודא שהוא מוגדר ומסוגל לשלוח דוא&quot;ל עם דואר PHP.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_parameter</key>
+    <value><![CDATA[פרמטרי Mail: <span class="help">בעת שימוש &#39;דואר&#39;, פרמטרי דואר נוספים ניתן להוסיף כאן (למשל &quot;-femail@storeaddress.com&quot;.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_host</key>
+    <value><![CDATA[המארח SMTP: <br/><span class="help">השתמש ב- SSL: //smtp.yourdomain.com לחיבור SMTP ב-</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_username</key>
+    <value><![CDATA[SMTP שם משתמש:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_password</key>
+    <value><![CDATA[סיסמא SMTP:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_port</key>
+    <value><![CDATA[SMTP Port:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_timeout</key>
+    <value><![CDATA[SMTP Timeout:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[שימוש ב- SSL: <br/><span class="help">כדי להשתמש סימון SSL בהגשה אם תעודת SSL מותקנת.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_session_ttl</key>
+    <value><![CDATA[לוח הבקרה מושב תפוגה: <br/><span class="help">ערך זה קובע את מרווח הזמן דקות לפני תתבקשו להתחבר שוב בשל חוסר פעילות.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_encryption</key>
+    <value><![CDATA[מפתח הצפנה: <br/><span class="help">הגדרה הגרה config קובץ החל v1.2.1.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_seo_url</key>
+    <value><![CDATA[כתובת האתר של שימוש SEO: <br/><span class="help">כדי להשתמש-לשכתב mod מודול Apache של SEO URL חייב להיות מותקן ואתה צריך לשנות את שם htaccess.txt כדי .htaccess. הערה: אם abantecart לא מותקן בתיקיית השורש של הדומיין חייב להיות שונה כלל rewriteBase בתוך קובץ .htaccess.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_retina_enable</key>
+    <value><![CDATA[צור ברזולוציה גבוהה תמונות (רשתית): <br/><span class="help">כדי להשתמש לשכתב-mod מודול Apache זה חייב להיות מותקן ואתה צריך לשנות את שם htaccess.txt כדי .htaccess. הערה: אם abantecart לא מותקן בתיקיית השורש של הדומיין חייב להיות שונה כלל rewriteBase בתוך קובץ .htaccess. <br/> לאחר ההפעלה צריך לנקות את התמונות מטמון.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_quality</key>
+    <value><![CDATA[רמת דחיסת תמונות JPEG]]></value>
+  </definition>
+  <definition>
+    <key>entry_compression</key>
+    <value><![CDATA[דחיסת רמת פלט: <br/><span class="help">GZIP להעברה יעילה יותר ללקוחות פונים בבקשה. רמת דחיסה חייבת להיות בין 0 - 9</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_display</key>
+    <value><![CDATA[שגיאות תצוגה: <br/><span class="help">מוגדר לכן אם אתה רוצה לראות את החריגות ובעיות</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_log</key>
+    <value><![CDATA[רשום שגיאות: <br/><span class="help">מוגדרים לכן אם אתה רוצה להציל את החריגות ובעיות ביומן</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_enable_reviews</key>
+    <value><![CDATA[אפשר סקירות: <br/><span class="help"></span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cache_enable</key>
+    <value><![CDATA[מטמון מופעל: <br/><span class="help">נא להיזהר כאשר במטמון להשבית. דפי מטמון לא להיווצר מחדש והאתר עלול להתחיל טעינה איטית.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_cache_drivers</key>
+    <value><![CDATA[כיום באמצעות מטמון <b>%s</b> נהג. נהגים נוספים זמינים עבור תצורה הם <i>%s</i>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_status</key>
+    <value><![CDATA[מצב API חנות:]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_key</key>
+    <value><![CDATA[מפתח API חנות: <br/><span class="help">סט מפתח זה כדי לספק מוגבל (בטוחה יותר) גישה ל- API של החנות.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_stock_check</key>
+    <value><![CDATA[גישת Stock API חנות: <br/><span class="help">מפעילים אם אתה מאפשר API החנות לבדוק את זמינות מלאי</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_status</key>
+    <value><![CDATA[מצב API Admin:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_key</key>
+    <value><![CDATA[מפתח API Admin: <br/><span class="help">סט מפתח זה כדי לספק מוגבל (בטוחה יותר) גישה ל- API של מנהל.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_access_ip_list</key>
+    <value><![CDATA[כתובות IP גישה לממשק ה- API לניהול: <br/><span class="help">לספק רשימה של כתובות IP (מופרדים בפסיקים) כי יורשו לגשת API admin. כתובות IP אחרות ייחסמו</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_max_size</key>
+    <value><![CDATA[משאבי ספריית עלה גודל המרבי של קובץ, kB]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug</key>
+    <value><![CDATA[הצג Debug מידע: <br/><span class="help">סט זה אם אתה רוצה לראות את הפרטים ביצוע ולהראות פרטים באגים.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_0</key>
+    <value><![CDATA[כבוי]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_1</key>
+    <value><![CDATA[לְהַצִיג]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_2</key>
+    <value><![CDATA[עֵץ]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level</key>
+    <value><![CDATA[Debug רמה: <br/><span class="help">בחר את עומק הפרטים שאתה צריך לראות את הפלט באגים.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_0</key>
+    <value><![CDATA[רמה 0 - אין יומנים, שגיאות החריג היחיד]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_1</key>
+    <value><![CDATA[רמה 1 - שגיאות ואזהרות]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_2</key>
+    <value><![CDATA[רמה 2 - # 1 + mysql עומס באתר, זמן ביצוע php קובץ ואלמנטים את זמן טעינת דפים]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_3</key>
+    <value><![CDATA[רמה 3 - # 2 + יומני בסיס ערימה של ביצוע]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_4</key>
+    <value><![CDATA[רמה 4 - # 3 + דוחות mysql dump]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_5</key>
+    <value><![CDATA[רמה 5 - # 4 + משתנה ביניים]]></value>
+  </definition>
+  <definition>
+    <key>entry_template_debug</key>
+    <value><![CDATA[באגים תבנית: <br/><span class="help">הפעל הגדרה זו אם אתה צריך לבדוק בעיות עם תבנית בלוח החנות ובקרה.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_filename</key>
+    <value><![CDATA[שגיאה התחבר Filename: <br/><span class="help">זהו קובץ שבו שגיאות נשמרים.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_session</key>
+    <value><![CDATA[השתמש מושב משלוח: <br/><span class="help">חוסך ציטוטי משלוח הפגישה כדי למנוע מחדש מצטט שלא לצורך. ציטוטים יהיו מחדש מצוטטים רק אם לסל או כתובת משתנה.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_catalog_limit</key>
+    <value><![CDATA[פריטי ברירה לעמוד (Storefront): <br/><span class="help">סטים כמה פריטי חנות מוצגים לעמוד (מוצרים, קטגוריות, וכו &#39;)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_limit</key>
+    <value><![CDATA[פריטי ברירה לעמוד (Admin): <br/><span class="help">סטים כמה פריטי מנהל מוצגים לעמוד ברשתות רישום (הזמנות, לקוחות, וכו &#39;)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_bestseller_limit</key>
+    <value><![CDATA[מספר הפריטים חסומים רבי מכר]]></value>
+  </definition>
+  <definition>
+    <key>entry_featured_limit</key>
+    <value><![CDATA[מספר הפריטים חסומים מומלץ]]></value>
+  </definition>
+  <definition>
+    <key>entry_latest_limit</key>
+    <value><![CDATA[מספר הפריטים חסומים האחרון]]></value>
+  </definition>
+  <definition>
+    <key>entry_special_limit</key>
+    <value><![CDATA[מספר פריטי בלוק מיוחד]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_weight</key>
+    <value><![CDATA[משקל מסך על עמוד סל: <br/><span class="help">הראו את משקל העגלה על דף העגלה</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_reviews</key>
+    <value><![CDATA[אפשר ביקורות: <br/><span class="help">מפעילים / בטלנה כניסת חוות דעת חדשה ולהציג ביקורות קיימות</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_maintenance</key>
+    <value><![CDATA[מצב תחזוקה: <br/><span class="help">מונע לקוחות מפני גלישה בחנות שלך. הם במקום יראו הודעת תחזוקה. אם מחובר כ- admin, תוכל לראות את החנות כרגיל.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_voicecontrol</key>
+    <value><![CDATA[בקרת קול: <br/><span class="help">מפעילה שליטה קולית מנהל כדי להפעיל פקודות קוליות תכונה. בשלב זה נתמך רק בגרסת Chrome 25 ואילך.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_help_links</key>
+    <value><![CDATA[קישורי עזרה: <br/><span class="help">אם אתה רוצה לראות עזרת סמלים וקישורים לאתר AbanteCart. זה יעזור לך ללמוד על תכונות וכיצד להשתמש בהם. אם אתה מתקדם משתמש לא רוצה לראות סמלים אלה מסייעים, תוכל להשבית.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_show_tree_data</key>
+    <value><![CDATA[אפשר Tree Grid: <br/><span class="help">מאפשרים רשתות מנהלות להראות סוגי ההורה / ילדים ברישום רשת אחת. הערה: עימוד קמפיין רב מושבתים עבור רשתות אלה</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_ajax</key>
+    <value><![CDATA[באותו דף הוסף לעגלה <br/><span class="help">זה יאפשר AJAX להוסיף תכונה העגלה. מוצר ניתן להוסיף לסל בלי מעביר לדף עגלה</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_width</key>
+    <value><![CDATA[החנות אתר רוחב: <br/><span class="help">דוגמה: 100% או 1000 פיקסלים</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_width</key>
+    <value><![CDATA[מנהל אתר רוחב: <br/><span class="help">דוגמה: 100% או 1000 פיקסלים</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_maximum</key>
+    <value><![CDATA[סכום הזמנה מרבי מוותר: <br/><span class="help">לקוחות מנעו עם כמויות לא מוחלטות הזמנה גדולה. 0 = NO LIMIT</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_minimum</key>
+    <value><![CDATA[כמות מינימום הזמנה: <br/><span class="help">לקוחות מנעו אם לא מוחלט כדי לא להגיע לסכום מינימום שנקבע. 0 = מינימום לא</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_system_check</key>
+    <value><![CDATA[בדיקת מערכת: <br/><span class="help">הפעל הגדרה זו אם ברצונך לבדוק את מצב המערכת בגין לפונקציונליות AbanteCart. בעיות מערכת ולחולל AbanteCart תדווחנה כהודעות גלויות admin.</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[חנות חדשה]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[אזהרה: אין לך הרשאה לשנות את הגדרות!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[שם התחבר חייב להיות אלפאנומריים בלבד בין 5 ל 64 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[שם התחברות זו אינה זמינה. נסו שם פרטי כניסה שונים!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[שם החנות חייב להיות בין 2 ו -32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[כתובת אתר של חנות חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[הכותרת חייבת להיות בין 2 ו -32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_owner</key>
+    <value><![CDATA[בעל חנות חייב להיות בין 2 ו -64 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[כתובת חנות חייבת להיות בין 10 ל -256 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[כתובת הדואר האלקטרוני לא להיראות תקף!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[טלפון חייב להיות בין 2 ו -32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[ממדי גודל Thumb תמונת מוצר חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[ממדי Popup גודל תמונת מוצר חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[קטגורית ממדי רשימת גודל חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_manufacturer</key>
+    <value><![CDATA[ממדי גודל מותג אייקון רשימת חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[ממדים גודל לרשימת המוצרים הנדרשים!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[ממדי גודל תמונת מוצר נוספים נדרשים!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[ממדי גודל תמונת מוצרים קשורים חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[מידות התמונה גודל סל חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[מידות התמונה גודל Grid חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_error_filename</key>
+    <value><![CDATA[שגיאה התחבר שם הקובץ הדרוש!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[הנתונים נחוצים לא הוזנו. בדקו שגיאות שדה!]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded_image</key>
+    <value><![CDATA[קובץ הועלה %s הוא לא תמונה או שבורה!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[הגבל חובה!]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[חזית החנות]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[Admin]]></value>
+  </definition>
+  <definition>
+    <key>error_mail</key>
+    <value><![CDATA[נא למלא את השדות הנדרשים עבור פרוטוקול SMTP!]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_sort_order_asc</key>
+    <value><![CDATA[מיין של מוצרים להזמין נמוך &gt; גָבוֹהַ]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[שם A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[שם Z - A]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_asc</key>
+    <value><![CDATA[מחיר נמוך &gt; גָבוֹהַ]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_desc</key>
+    <value><![CDATA[מחיר מהגבוה &gt; נָמוּך]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_asc</key>
+    <value><![CDATA[הדירוג הנמוך ביותר]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_desc</key>
+    <value><![CDATA[הדירוג הגבוה ביותר]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[תאריך ישן &gt; חָדָשׁ]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[תאריך חדש &gt; ישן]]></value>
+  </definition>
+  <definition>
+    <key>entry_product_default_sort_order</key>
+    <value><![CDATA[מוצרי סדר כברירת מחדל על ידי:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zero_customer_balance</key>
+    <value><![CDATA[צג אפס לקוחות מאזן: <br/><span class="help">הערה: אפשר / שבת לתצוגה של הודעת איזון אם יתרת חשבון ללקוח היא 0</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_tax_estimate</key>
+    <value><![CDATA[משלוח ואומדן מס: <br/><span class="help">אפשר ללקוחות לקבל משלוח מהיר אומדן מס בעגלת הקניות.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon_on_cart_page</key>
+    <value><![CDATA[קופון בעמוד עגלת קניות: <br/><span class="help">לאפשר ללקוחות להיכנס קוד קופון ויראו הנחה בעגלת הקניות.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_google_analytics</key>
+    <value><![CDATA[חשבון של Google Analytics מספר: <br/><span class="help">להוסיף שלך <a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">מספר חשבון ב- Google Analytics</a> כדי לאפשר מעקב אחר פעילות האתר. זה גם מאפשר מעקב פעילות מסחר אלקטרוני. אתה צריך לאפשר מסחר עוקב ב- Google בדף הגדרות פרופיל עבור האתר שלך</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[כתובת אתר חנות מאובטחת: <br/><span class="help">כולל את כתובת אתר SSL המלאה (HTTPS) לחנות שלך. הקפד להוסיף &quot;/&quot; בסוף. דוגמה: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[כתובת אתר מאובטח חובה!]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_email_activation</key>
+    <value><![CDATA[הפעלת דוא&quot;ל ללקוחות חדשים: <br/><span class="help">אל תאפשרי ללקוח חדש יוכל להתחבר עד חשבונם אושר על ידי קישור הפעלה לשלוח בדוא&quot;ל. כדי שזה יעבוד, לוודא &quot;אישור ללקוחות חדשים&quot; מוגדר OFF.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_clone_template</key>
+    <value><![CDATA[תבנית Clone עם כלי פיתוח AbanteCart]]></value>
+  </definition>
+  <definition>
+    <key>text_set_template</key>
+    <value><![CDATA[גדר תבנית זו עבור החנות]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_status</key>
+    <value><![CDATA[אפשר Storefront שבץ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_click_action</key>
+    <value><![CDATA[פעולה לחץ שבץ:]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_modal</key>
+    <value><![CDATA[מודאלי אותו עמוד Dialog]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_new_window</key>
+    <value><![CDATA[דף חדש פתח בלשונית חדשה]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_same_window</key>
+    <value><![CDATA[דף חדש להרחיב באותו חלון]]></value>
+  </definition>
+  <definition>
+    <key>entry_account_create_captcha</key>
+    <value><![CDATA[Captcha על ליצור טופס חשבון: <br/><span class="help">יצירת למנוע ספאם / רובוט חשבון עם מה שמאפשר captcha אימות אנושי</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_site_key</key>
+    <value><![CDATA[ReCAPTCHA Google Site מפתח: <br/><span class="help">הוסף <a href="https://www.google.com/recaptcha" target="_blank">v2 Google reCAPTCHA</a> לסייע לגולשים שלך עם כניסת captcha טובה יותר. אם תפעיל אתר reCAPTCHA / מפתחות סודיים, v2 Google reCAPTCHA יופעל במקום תמונה captcha AbanteCart מחדל</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_secret_key</key>
+    <value><![CDATA[Google reCAPTCHA מפתח סודי: <br/><span class="help">הוסף <a href="https://www.google.com/recaptcha" target="_blank">v2 Google reCAPTCHA</a> לסייע לגולשים שלך עם כניסת captcha טובה יותר. אם תפעיל אתר reCAPTCHA / מפתחות סודיים, v2 Google reCAPTCHA יופעל במקום תמונה captcha AbanteCart מחדל</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_php_exceed</key>
+    <value><![CDATA[ערך זה אינו יכול לחרוג הוראת php.ini שלך %s (&lt;= %s)]]></value>
+  </definition>
+  <definition>
+    <key>entry_start_order_id</key>
+    <value><![CDATA[להזמין התחלה לא .: <br/><span class="help">הגדר את מספר המוצא צווי יחל.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_start_order_id</key>
+    <value><![CDATA[מספר הזמנת התחלה חייב להיות מספרים!]]></value>
+  </definition>
+  <definition>
+    <key>error_starting_invoice_id</key>
+    <value><![CDATA[מספר סטארט חשבונית חייב להיות מספרים!]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_order_days</key>
+    <value><![CDATA[תפוגה להזמין Incomplete: <br/><br/><span class="help">ערך זה מקובע את מרווח זמן ימים לפני תימחקנה הזמנות שלמות. ערך ריק פירושו שאף הזמנות תהיינה נמחקו.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_expire_order_days</key>
+    <value><![CDATA[ערך התפוגה להזמין Incomplete חייב להיות מספרים!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront</key>
+    <value><![CDATA[חנות]]></value>
+  </definition>
+  <definition>
+    <key>text_im_driver</key>
+    <value><![CDATA[נהג]]></value>
+  </definition>
+  <definition>
+    <key>text_im_protocol</key>
+    <value><![CDATA[פרוטוקול IM]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver</key>
+    <value><![CDATA[ספק SMS]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver_tooltip</key>
+    <value><![CDATA[בחר הרחבה עבור ספק שירות ה- SMS]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_status_tooltip</key>
+    <value><![CDATA[אפשר SMS ללקוחות]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_status_tooltip</key>
+    <value><![CDATA[הפעל SMS עבור מנהלים]]></value>
+  </definition>
+  <definition>
+    <key>text_no_driver</key>
+    <value><![CDATA[אין תקן IM נמצא]]></value>
+  </definition>
+  <definition>
+    <key>text_im_settings_attention</key>
+    <value><![CDATA[הגדרות אלו הן עבור הודעות מיידיות שנשלחו באופן אוטומטי במהלך אירועי AbanteCart ב חנות ו admin.]]></value>
+  </definition>
+  <definition>
+    <key>entry_html_cache</key>
+    <value><![CDATA[מטמון HTML: <br/><span class="help">עמודים וחוסמים HTML מופעלים במטמון כדי לקבל מהירות טובה יותר עבור הדפים שלך. זהו במטמון נוסף במטמון נתונים רגיל מופעל בקובץ מערכת / config.php</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_task_api_key</key>
+    <value><![CDATA[משימות מפתח API: <br/><span class="help">זהו מפתח סודי כדי לאפשר AbanteCart לרוץ תהליכים מתוזמנות מהדפדפן עם קובץ /task.php. אם לא מוגדר, משימות לא תפעלנה באמצעות דפדפן. <br/> הערה: מפתח API פעולה זו אינה הכרחית להפעלת שורת הפקודה משימות.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_duplicate_contact_us</key>
+    <value><![CDATA[שכפל פניות לתקשר להודעות]]></value>
+  </definition>
+</definitions>

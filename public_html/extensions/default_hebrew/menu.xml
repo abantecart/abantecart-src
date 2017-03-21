@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_index_home_menu</key>
+    <value><![CDATA[בית]]></value>
+  </definition>
+  <definition>
+    <key>text_product_special_menu</key>
+    <value><![CDATA[מבצע]]></value>
+  </definition>
+  <definition>
+    <key>text_account_account_menu</key>
+    <value><![CDATA[חֶשְׁבּוֹן]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout_cart_menu</key>
+    <value><![CDATA[עֲגָלָה]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout_shipping_menu</key>
+    <value><![CDATA[לבדוק]]></value>
+  </definition>
+  <definition>
+    <key>text_account_login_menu</key>
+    <value><![CDATA[התחברות]]></value>
+  </definition>
+  <definition>
+    <key>text_account_invoice_menu</key>
+    <value><![CDATA[בדוק להזמין שלך]]></value>
+  </definition>
+  <definition>
+    <key>text_account_logout_menu</key>
+    <value><![CDATA[להתנתק]]></value>
+  </definition>
+</definitions>

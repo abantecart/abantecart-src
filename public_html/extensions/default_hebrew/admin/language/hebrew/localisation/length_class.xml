@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[חוגי אורך]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[מחלקה אורך]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: שינית כיתות אורך!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Title זמן]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[יחידת אורך]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[ערך]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[פעולה]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Title זמן:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[יחידת אורך:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[ערך: <br/><span class="help">גדר 1.00000 אם זה אורך ברירת המחדל שלך.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[אזהרה: אין לך הרשאה לשנות כיתות אורך!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[כותרת האורך חייבת להיות בין 2 ו -32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[יחידת אורך חייבת להיות בין 1 ל -4 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[אזהרה: בכיתה אורך זה לא ניתן למחוק כפי שהוא מוקצה כעת כמעמד אורך החנות מחדל!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[אזהרה: בכיתה אורך זה לא ניתן למחוק כפי שהוא מוקצה כעת %s מוצרים!]]></value>
+  </definition>
+</definitions>

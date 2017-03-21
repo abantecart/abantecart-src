@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[עגלת קניות]]></value>
+  </definition>
+  <definition>
+    <key>text_subtotal</key>
+    <value><![CDATA[סיכום ביניים:]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[0 פריטים]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[לְאַשֵׁר?]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[לְהַסִיר]]></value>
+  </definition>
+  <definition>
+    <key>text_view</key>
+    <value><![CDATA[צפה בסל]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[לבדוק]]></value>
+  </definition>
+  <definition>
+    <key>text_items</key>
+    <value><![CDATA[פריטים]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[פרטי תשלום]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[סַל]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[משלוח]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[תַשְׁלוּם]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_to</key>
+    <value><![CDATA[בחר מפנקס הכתובות שלך שבו אתה רוצה את החשבונית נשלחה.]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[כתובת לתשלום]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[אמצעי תשלום]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_methods</key>
+    <value><![CDATA[אנא מלא את שיטת התשלום המועדפת לשימוש על צו זה.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[להוסיף הערות על ההזמנה שלך]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[קראתי ואני מסכים ל]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[הזן את קוד ולחץ על &quot;החל קופון&quot; ולראות ההנחה שלך מיושמת באופן מיידי לסל הקניות שלך.]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: קופון ההנחה שלך הוחלה!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[הצלחה: קופון הוסר!]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon</key>
+    <value><![CDATA[קוּפּוֹן:]]></value>
+  </definition>
+  <definition>
+    <key>error_payment</key>
+    <value><![CDATA[שגיאה: שיטת תשלום חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[שגיאה: אתה חייב להסכים %s!]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[שגיאה: קופון הוא שגוי, או שהוא פג או הגיע זה גבול שימוש!]]></value>
+  </definition>
+</definitions>

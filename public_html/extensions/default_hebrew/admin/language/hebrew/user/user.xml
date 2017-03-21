@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[משתמש]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_details</key>
+    <value><![CDATA[עריכת פרטים אישיים בפרופיל]]></value>
+  </definition>
+  <definition>
+    <key>text_user</key>
+    <value><![CDATA[מִשׁתַמֵשׁ]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: יש לך משתמשים שונים!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_details</key>
+    <value><![CDATA[הצלחה: שני את הפרופיל שלך!]]></value>
+  </definition>
+  <definition>
+    <key>column_username</key>
+    <value><![CDATA[שם משתמש]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[קְבוּצָה]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[סטָטוּס]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[תאריך הוסף]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[פעולה]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[שם משתמש:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[סיסמה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_confirm</key>
+    <value><![CDATA[לְאַשֵׁר:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[שם פרטי:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[שם משפחה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[אֶלֶקטרוֹנִי:]]></value>
+  </definition>
+  <definition>
+    <key>entry_user_group</key>
+    <value><![CDATA[קבוצת משתמשים:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[סטָטוּס:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ims</key>
+    <value><![CDATA[התראות]]></value>
+  </definition>
+  <definition>
+    <key>entry_captcha</key>
+    <value><![CDATA[הקלד את הקוד המופיע בתמונה שלפניך:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[אזהרה: אין לך הרשאה לשנות משתמשים!]]></value>
+  </definition>
+  <definition>
+    <key>error_account</key>
+    <value><![CDATA[אזהרה: אתה לא יכול למחוק את החשבון שלך!]]></value>
+  </definition>
+  <definition>
+    <key>error_username</key>
+    <value><![CDATA[שם המשתמש חייב להיות בין 2 ו -20 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_password</key>
+    <value><![CDATA[הסיסמה צריכה להיות יותר מ 3 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_confirm</key>
+    <value><![CDATA[סיסמה ואישור הסיסמה אינם תואמים!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[שם פרטי חייב להיות בין 2 ו -32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[שם משפחה חייב להיות בין 2 ו -32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[כתובת הדואר האלקטרוני לא להיראות תקף!]]></value>
+  </definition>
+  <definition>
+    <key>error_captcha</key>
+    <value><![CDATA[אדם האימות נכשלה!]]></value>
+  </definition>
+  <definition>
+    <key>error_user_group</key>
+    <value><![CDATA[אין לך הרשאות לשנות קבוצת משתמשים.]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- קבוצה בחר -]]></value>
+  </definition>
+  <definition>
+    <key>entry_im_email</key>
+    <value><![CDATA[E-Mail: <span class="help">אחד או יותר כתובות דוא&quot;ל מופרדים בפסיקים</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_im_sms</key>
+    <value><![CDATA[טלפון נייד: <span class="help">מספר טלפון בפורמט בינלאומי. לְשֶׁעָבַר. +14566887777</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_im</key>
+    <value><![CDATA[ערוך התראות]]></value>
+  </definition>
+  <definition>
+    <key>text_sendpoints</key>
+    <value><![CDATA[הגדרות של הודעות]]></value>
+  </definition>
+  <definition>
+    <key>text_change_im_addresses</key>
+    <value><![CDATA[הודעה ערוכה כתובות עבור SendPoint זה]]></value>
+  </definition>
+</definitions>

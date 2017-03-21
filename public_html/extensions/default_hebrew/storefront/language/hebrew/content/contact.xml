@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[תיצור איתנו קשר]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[כתובת:]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[אֶלֶקטרוֹנִי:]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[טֵלֵפוֹן:]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[פַקס:]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p style=";text-align:right;direction:rtl"> שאלתך נשלחה בהצלחה אל בעל החנות! </p>]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[שם פרטי:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[כתובת דוא&quot;ל:]]></value>
+  </definition>
+  <definition>
+    <key>entry_enquiry</key>
+    <value><![CDATA[חֲקִירָה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_captcha</key>
+    <value><![CDATA[הקלד את הקוד המופיע בתמונה שלפניך:]]></value>
+  </definition>
+  <definition>
+    <key>email_subject</key>
+    <value><![CDATA[חקירה %s]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[שם חייב להיות בין 3 ל -32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[כתובת הדואר האלקטרוני לא להיראות תקף!]]></value>
+  </definition>
+  <definition>
+    <key>error_enquiry</key>
+    <value><![CDATA[החקירה חייבת להיות בין 10 ל 3000 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>entry_duplicate_message_subject</key>
+    <value><![CDATA[ניו חקירה מ %s (%s)]]></value>
+  </definition>
+</definitions>

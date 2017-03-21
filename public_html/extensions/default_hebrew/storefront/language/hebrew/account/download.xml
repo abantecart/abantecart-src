@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[הורדות חשבון]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[חֶשְׁבּוֹן]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[הורדות]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[מספר הזמנה:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[תאריך הוסף:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_purchased</key>
+    <value><![CDATA[תאריך רכישה:]]></value>
+  </definition>
+  <definition>
+    <key>text_name</key>
+    <value><![CDATA[שֵׁם:]]></value>
+  </definition>
+  <definition>
+    <key>text_remaining</key>
+    <value><![CDATA[נוֹתָר:]]></value>
+  </definition>
+  <definition>
+    <key>text_size</key>
+    <value><![CDATA[גודל:]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[הורדה]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[אתה לא עשית שום הזמנות להורדה קודמות!]]></value>
+  </definition>
+  <definition>
+    <key>text_expire_date</key>
+    <value><![CDATA[תאריך תפוגה:]]></value>
+  </definition>
+  <definition>
+    <key>text_expired</key>
+    <value><![CDATA[לא בתוקף]]></value>
+  </definition>
+  <definition>
+    <key>text_pending</key>
+    <value><![CDATA[ממתין ל]]></value>
+  </definition>
+  <definition>
+    <key>text_unavailable</key>
+    <value><![CDATA[לא זמין]]></value>
+  </definition>
+  <definition>
+    <key>text_reached_limit</key>
+    <value><![CDATA[הגיע לגבול]]></value>
+  </definition>
+  <definition>
+    <key>error_download_not_exists</key>
+    <value><![CDATA[הקובץ המבוקש לא קיים!]]></value>
+  </definition>
+</definitions>

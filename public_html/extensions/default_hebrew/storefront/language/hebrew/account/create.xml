@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[צור חשבון]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[חֶשְׁבּוֹן]]></value>
+  </definition>
+  <definition>
+    <key>text_create</key>
+    <value><![CDATA[הירשם]]></value>
+  </definition>
+  <definition>
+    <key>text_account_already</key>
+    <value><![CDATA[אם כבר יש לך חשבון איתנו, אנא התחבר על <a style="text-decoration: underline" href="%s">דף הכניסה</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_your_details</key>
+    <value><![CDATA[הפרטים האישיים שלך]]></value>
+  </definition>
+  <definition>
+    <key>text_your_address</key>
+    <value><![CDATA[הכתובת שלך]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[ניוזלטר]]></value>
+  </definition>
+  <definition>
+    <key>text_your_password</key>
+    <value><![CDATA[הסיסמה שלך]]></value>
+  </definition>
+  <definition>
+    <key>text_login_details</key>
+    <value><![CDATA[פרטי התחברות]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[קראתי ואני מסכים ל]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[שם כניסה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[שם פרטי:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[שם משפחה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[אֶלֶקטרוֹנִי:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[טֵלֵפוֹן:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[פַקס:]]></value>
+  </definition>
+  <definition>
+    <key>entry_company</key>
+    <value><![CDATA[חֶברָה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_1</key>
+    <value><![CDATA[כתובת 1:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_2</key>
+    <value><![CDATA[כתובת 2:]]></value>
+  </definition>
+  <definition>
+    <key>entry_postcode</key>
+    <value><![CDATA[מיקוד:]]></value>
+  </definition>
+  <definition>
+    <key>entry_city</key>
+    <value><![CDATA[עִיר:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[מדינה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[אזור / מדינה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_newsletter</key>
+    <value><![CDATA[הירשם:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[סיסמה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_confirm</key>
+    <value><![CDATA[אישור סיסמה:]]></value>
+  </definition>
+  <definition>
+    <key>error_exists</key>
+    <value><![CDATA[שגיאה: כתובת דואר אלקטרוני כבר רשום!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[שם התחבר חייב להיות אלפאנומריים בלבד בין 5 ל 64 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[שם התחברות זו אינה זמינה. נסו שם פרטי כניסה שונים!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[שם פרטי חייב להיות בין 1 ל -32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[שם משפחה חייב להיות בין 1 ל -32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[כתובת דוא&quot;ל אינה מופיעה להיות תקף!]]></value>
+  </definition>
+  <definition>
+    <key>error_email_exists</key>
+    <value><![CDATA[כתובת אימייל היא כבר קיים!]]></value>
+  </definition>
+  <definition>
+    <key>error_password</key>
+    <value><![CDATA[הסיסמה חייבת להיות בין 4 ל -20 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_confirm</key>
+    <value><![CDATA[אישור סיסמה אינו תואם את הסיסמה!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_1</key>
+    <value><![CDATA[כתובת 1 חייבת להיות בין 3 ל 128 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_city</key>
+    <value><![CDATA[העיר חייבת להיות בין 3 ל 128 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_postcode</key>
+    <value><![CDATA[Zip / מיקוד חייב להיות בין 3 ל -10 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_country</key>
+    <value><![CDATA[בבקשה תבחר מדינה!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone</key>
+    <value><![CDATA[בחר / מדינה באזור!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[טלפון חייב להיות בין 3 ל -32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[שגיאה: אתה חייב להסכים %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_full_register</key>
+    <value><![CDATA[הפוך לקוח ולרשום עם הפרטים שלך]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribe_register</key>
+    <value><![CDATA[הפוך למנוי ניוזלטר]]></value>
+  </definition>
+  <definition>
+    <key>text_success_subscribe_heading</key>
+    <value><![CDATA[נרשם בהצלחה!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_subscribe</key>
+    <value><![CDATA[הצלחה: מנוי לידיעון שלך נוצר בהצלחה!]]></value>
+  </definition>
+  <definition>
+    <key>error_subscriber_exists</key>
+    <value><![CDATA[לפי הרשומות שלנו, יש לך חשבון איתנו. התחבר לחשבון שלך כדי לנהל את מנוי הידיעון.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_customer</key>
+    <value><![CDATA[אישור רישום לקוח חדש תלוי ועומד]]></value>
+  </definition>
+  <definition>
+    <key>text_pending_customer_approval</key>
+    <value><![CDATA[לקוחות %s נרשם עם חשבון חדש. פעולת אישור נדרשה! לחץ לצפיה # מנהל # rt = מכירה / לקוח / עדכון &amp; CUSTOMER_ID = %s]]></value>
+  </definition>
+  <definition>
+    <key>text_pending_subscriber_approval</key>
+    <value><![CDATA[מנוי %s נרשם עם חשבון חדש. פעולת אישור נדרשה! לחץ לצפיה # מנהל # rt = מכירה / לקוח / עדכון &amp; CUSTOMER_ID = %s]]></value>
+  </definition>
+</definitions>

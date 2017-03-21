@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[שכחת ססמה?]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_loginname</key>
+    <value><![CDATA[שכח את שם המשתמש שלך?]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[חֶשְׁבּוֹן]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten</key>
+    <value><![CDATA[סיסמא נשכחת]]></value>
+  </definition>
+  <definition>
+    <key>text_your_email</key>
+    <value><![CDATA[כתובת הדוא&quot;ל שלך]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[הזן את כתובת הדואר האלקטרוני המשויכת לחשבון שלך. לחץ על שלח לך באימייל אליך את סיסמתך]]></value>
+  </definition>
+  <definition>
+    <key>text_loginname_email</key>
+    <value><![CDATA[הזן את הכניסה שם וכתובת דואר אלקטרוני המשויכת לחשבונך. לחץ על שלח כדי לבקש איפוס סיסמה]]></value>
+  </definition>
+  <definition>
+    <key>text_lastname_email</key>
+    <value><![CDATA[הזן את השם ואת כתובת דואר אלקטרונית האחרונה משויכת לחשבונך. לחץ על שלח כדי לקבל בדוא&quot;ל את שם המשתמש שלך אליך]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: קישור לאיפוס הסיסמה נשלח לכתובת הדואר האלקטרוני שלך.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_loginname</key>
+    <value><![CDATA[הצלחה: תזכורת שם המשתמש שלך נשלחה לכתובת הדואר האלקטרוני שלך.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[שם כניסה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[שם משפחה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[כתובת דוא&quot;ל:]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[שגיאה: כתובת דוא&quot;ל לא סופקה או לא נמצאת ברשומות שלנו, אנא נסה שוב!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[שגיאה: שם הכניסה לא סופק או לא נמצא ברשומות שלנו, אנא נסה שוב!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[שגיאה: שם המשפחה לא סופק או לא נמצא ברשומות שלנו, אנא נסה שוב!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_found</key>
+    <value><![CDATA[שגיאה: לא נמצאו רשומות מידע תואמים הניתנים שלך, בדוק את המידע שלך ונסה שוב!]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_loginname</key>
+    <value><![CDATA[שם כניסת שכחה]]></value>
+  </definition>
+</definitions>

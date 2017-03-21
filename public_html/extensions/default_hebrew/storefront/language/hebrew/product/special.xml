@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[הצעות מיוחדות]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[אין מוצרי הצעה מיוחדים לרשימה.]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[%s מתוך 5 כוכבים!]]></value>
+  </definition>
+  <definition>
+    <key>text_sort</key>
+    <value><![CDATA[מיין לפי:]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[בְּרִירַת מֶחדָל]]></value>
+  </definition>
+  <definition>
+    <key>text_name_asc</key>
+    <value><![CDATA[שם A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_name_desc</key>
+    <value><![CDATA[שם Z - A]]></value>
+  </definition>
+  <definition>
+    <key>text_price_asc</key>
+    <value><![CDATA[מחיר נמוך &gt; גָבוֹהַ]]></value>
+  </definition>
+  <definition>
+    <key>text_price_desc</key>
+    <value><![CDATA[מחיר מהגבוה &gt; נָמוּך]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_asc</key>
+    <value><![CDATA[הדירוג הנמוך ביותר]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_desc</key>
+    <value><![CDATA[הדירוג הגבוה ביותר]]></value>
+  </definition>
+</definitions>

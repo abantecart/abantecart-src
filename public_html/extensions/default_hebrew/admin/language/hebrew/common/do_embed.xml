@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_get_product_embed_code</key>
+    <value><![CDATA[קוד מוצר שבץ]]></value>
+  </definition>
+  <definition>
+    <key>text_get_category_embed_code</key>
+    <value><![CDATA[קטגוריה קוד השיבוץ]]></value>
+  </definition>
+  <definition>
+    <key>text_get_manufacturer_embed_code</key>
+    <value><![CDATA[קוד יצרן שבץ]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[הצג תמונה]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[שם פרטי]]></value>
+  </definition>
+  <definition>
+    <key>entry_price</key>
+    <value><![CDATA[מחיר הצג]]></value>
+  </definition>
+  <definition>
+    <key>entry_rating</key>
+    <value><![CDATA[סקירות צג ודירוג]]></value>
+  </definition>
+  <definition>
+    <key>entry_blurb</key>
+    <value><![CDATA[הצג פרסומת]]></value>
+  </definition>
+  <definition>
+    <key>entry_quantity</key>
+    <value><![CDATA[כמות הצג]]></value>
+  </definition>
+  <definition>
+    <key>entry_addtocart</key>
+    <value><![CDATA[לחצן הצג]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[בחר שפה]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency</key>
+    <value><![CDATA[תבחר מדינה]]></value>
+  </definition>
+  <definition>
+    <key>entry_products_count</key>
+    <value><![CDATA[מוצרי רוזן]]></value>
+  </definition>
+</definitions>

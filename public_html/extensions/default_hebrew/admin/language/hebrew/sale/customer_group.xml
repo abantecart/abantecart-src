@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[קבוצה של לקוחות]]></value>
+  </definition>
+  <definition>
+    <key>breadcrumb_title</key>
+    <value><![CDATA[קבוצות לקוחות]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: שינית קבוצות לקוחות!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[שם קבוצה של לקוחות]]></value>
+  </definition>
+  <definition>
+    <key>column_tax_exempt</key>
+    <value><![CDATA[פטור ממס]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[פעולה]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[שם קבוצה של לקוחות:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_exempt</key>
+    <value><![CDATA[פטורה מכל מס:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[אזהרה: אין לך הרשאה לשנות את קבוצות לקוחות!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[הקבוצה של לקוחות שם חייב להיות בין 2 ו -64 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[אזהרה: קבוצת לקוחות זה לא ניתן למחוק כפי שהוא מוקצה כעת כקבוצת לקוחות חנות מחדל!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[אזהרה: קבוצת לקוחות זה לא ניתן למחוק כפי שהוא מוקצה כעת %s בחנויות!]]></value>
+  </definition>
+  <definition>
+    <key>error_customer</key>
+    <value><![CDATA[אזהרה: קבוצת לקוחות זה לא ניתן למחוק כפי שהוא מוקצה כעת %s לקוחות!]]></value>
+  </definition>
+</definitions>

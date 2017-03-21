@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[מאגר סטטוסים]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[מצב המניה]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: שינית סטטוסים במלאי!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[שם סטטוס במלאי]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[פעולה]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[שם סטטוס במלאי:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[אזהרה: אין לך הרשאה לשנות פסלים במלאי!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[שם סטטוס מנייה חייב להיות בין 2 ו -32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[אזהרה: מצב מלאי זה לא ניתן למחוק כפי שהוא מוקצה כעת %s מוצרים!]]></value>
+  </definition>
+</definitions>

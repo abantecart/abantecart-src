@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[שגיאת התחברות!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[אתה לא מחובר. תופנה לדף הכניסה]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[שלך בוטל בהצלחה!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[הרשמתך הוסרה בהצלחה להודעות דוא&quot;ל.]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[חֶשְׁבּוֹן]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הַצלָחָה]]></value>
+  </definition>
+</definitions>

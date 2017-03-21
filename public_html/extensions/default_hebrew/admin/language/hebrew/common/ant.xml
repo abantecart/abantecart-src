@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>notification</key>
+    <value><![CDATA[תשומת הלב!]]></value>
+  </definition>
+  <definition>
+    <key>warning</key>
+    <value><![CDATA[אַזהָרָה!]]></value>
+  </definition>
+</definitions>

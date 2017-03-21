@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_block_id</key>
+    <value><![CDATA[מזהה בלוק:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_name</key>
+    <value><![CDATA[שֵׁם:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_controller</key>
+    <value><![CDATA[בקר:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_path</key>
+    <value><![CDATA[נָתִיב:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_template</key>
+    <value><![CDATA[תבנית:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_parent</key>
+    <value><![CDATA[הוֹרֶה:]]></value>
+  </definition>
+  <definition>
+    <key>text_parent_id</key>
+    <value><![CDATA[זיהוי אב:]]></value>
+  </definition>
+  <definition>
+    <key>text_close</key>
+    <value><![CDATA[לִסְגוֹר]]></value>
+  </definition>
+  <definition>
+    <key>text_click</key>
+    <value><![CDATA[לחץ עלי]]></value>
+  </definition>
+</definitions>

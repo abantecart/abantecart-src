@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[הגדרות שפה]]></value>
+  </definition>
+  <definition>
+    <key>text_definition</key>
+    <value><![CDATA[הגדרת שפה]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: יש לך בשפות שונות!]]></value>
+  </definition>
+  <definition>
+    <key>column_language</key>
+    <value><![CDATA[שפה]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[מַפְתֵחַ]]></value>
+  </definition>
+  <definition>
+    <key>column_translation</key>
+    <value><![CDATA[תִרגוּם]]></value>
+  </definition>
+  <definition>
+    <key>column_block</key>
+    <value><![CDATA[לַחסוֹם]]></value>
+  </definition>
+  <definition>
+    <key>column_update_date</key>
+    <value><![CDATA[תאריך עדכון]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[פעולות]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_key</key>
+    <value><![CDATA[מַפְתֵחַ]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_value</key>
+    <value><![CDATA[ערך]]></value>
+  </definition>
+  <definition>
+    <key>entry_translation</key>
+    <value><![CDATA[תִרגוּם]]></value>
+  </definition>
+  <definition>
+    <key>entry_block</key>
+    <value><![CDATA[לַחסוֹם]]></value>
+  </definition>
+  <definition>
+    <key>entry_section</key>
+    <value><![CDATA[סָעִיף]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[Admin]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront</key>
+    <value><![CDATA[חנות]]></value>
+  </definition>
+  <definition>
+    <key>error_language_key</key>
+    <value><![CDATA[מפתח שפה חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_language_value</key>
+    <value><![CDATA[תרגום חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_block</key>
+    <value><![CDATA[בלוק חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_section</key>
+    <value><![CDATA[סעיף חובה!]]></value>
+  </definition>
+  <definition>
+    <key>text_all_section</key>
+    <value><![CDATA[בכל המדורים]]></value>
+  </definition>
+  <definition>
+    <key>text_all_languages</key>
+    <value><![CDATA[כל השפות]]></value>
+  </definition>
+  <definition>
+    <key>error_already exists</key>
+    <value><![CDATA[שְׁגִיאָה! <br/> שפה הגדרה עם מקש &quot;%s&quot; ולחסום &quot;%s&quot; עבור %s כבר סעיף קיים! <br/> לחץ <a target="_blank" href="%s">על קישור זה</a> כדי להציג]]></value>
+  </definition>
+</definitions>

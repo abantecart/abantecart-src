@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[הודעות ו ניוזלטר]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[חֶשְׁבּוֹן]]></value>
+  </definition>
+  <definition>
+    <key>text_notifications</key>
+    <value><![CDATA[התראות]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: הגדרות ההודעות שלך עודכנו בהצלחה!]]></value>
+  </definition>
+  <definition>
+    <key>text_sendpoint</key>
+    <value><![CDATA[התראות]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[מבצע]]></value>
+  </definition>
+  <definition>
+    <key>heading_subtitle</key>
+    <value><![CDATA[ראה מוצרים במבצע]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[%s מתוך 5 כוכבים!]]></value>
+  </definition>
+</definitions>

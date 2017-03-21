@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[מנהל תמונה]]></value>
+  </definition>
+  <definition>
+    <key>text_uploaded</key>
+    <value><![CDATA[הצלחה: הקובץ שלך הועלה!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_delete</key>
+    <value><![CDATA[הקובץ נמחק!]]></value>
+  </definition>
+  <definition>
+    <key>text_create</key>
+    <value><![CDATA[הצלחה: מדריך נוצר!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[הצלחה: הקובץ או הספרייה שלך נמחק!]]></value>
+  </definition>
+  <definition>
+    <key>text_move</key>
+    <value><![CDATA[הצלחה: הקובץ או הספרייה שלך הועבר!]]></value>
+  </definition>
+  <definition>
+    <key>text_copy</key>
+    <value><![CDATA[הצלחה: הקובץ או הספרייה שלך הועתק!]]></value>
+  </definition>
+  <definition>
+    <key>text_rename</key>
+    <value><![CDATA[הצלחה: הקובץ או הספרייה שלך השתנה!]]></value>
+  </definition>
+  <definition>
+    <key>entry_folder</key>
+    <value><![CDATA[תיקייה חדשה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_move</key>
+    <value><![CDATA[מהלך \ לזוז \ לעבור:]]></value>
+  </definition>
+  <definition>
+    <key>entry_copy</key>
+    <value><![CDATA[שֵׁם:]]></value>
+  </definition>
+  <definition>
+    <key>entry_rename</key>
+    <value><![CDATA[שֵׁם:]]></value>
+  </definition>
+  <definition>
+    <key>error_select</key>
+    <value><![CDATA[אזהרה: אנא בחר ספרייה או קובץ!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[אזהרה: נא לבחור קובץ!]]></value>
+  </definition>
+  <definition>
+    <key>error_directory</key>
+    <value><![CDATA[אזהרה: אנא בחר ספרייה!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[אזהרה: אין לשנות ספריית ברירת המחדל שלך!]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[אזהרה: אתה לא יכול למחוק ספריה זו!]]></value>
+  </definition>
+  <definition>
+    <key>error_filename</key>
+    <value><![CDATA[אזהרה: שם קובץ חייב להיות בין 3 ל -255!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing</key>
+    <value><![CDATA[אזהרה: קובץ או ספרייה לא קיימת!]]></value>
+  </definition>
+  <definition>
+    <key>error_exists</key>
+    <value><![CDATA[אזהרה: קובץ או ספרייה עם שם זהה כבר קיים!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[אזהרה: נא לציין שם חדש!]]></value>
+  </definition>
+  <definition>
+    <key>error_move</key>
+    <value><![CDATA[אזהרה: העבר במדריך לא קיים!]]></value>
+  </definition>
+  <definition>
+    <key>error_copy</key>
+    <value><![CDATA[אזהרה: אין להעתיק את הקובץ או הספרייה!]]></value>
+  </definition>
+  <definition>
+    <key>error_rename</key>
+    <value><![CDATA[אזהרה: אין לשנות ספריה זו!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_type</key>
+    <value><![CDATA[אזהרה: סוג קובץ שגוי!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_size</key>
+    <value><![CDATA[אזהרה: קובץ כדי גדול בבקשה לשמור מתחת 300KB ולא יותר מ 1000 פיקסלים גובה או רוחב!]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded</key>
+    <value><![CDATA[אזהרה: קובץ לא ניתן היה להעלות מסיבה לא ידועה!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[אזהרה: האישור נדחה!]]></value>
+  </definition>
+  <definition>
+    <key>button_folder</key>
+    <value><![CDATA[תיקייה חדשה]]></value>
+  </definition>
+  <definition>
+    <key>button_delete</key>
+    <value><![CDATA[לִמְחוֹק]]></value>
+  </definition>
+  <definition>
+    <key>button_move</key>
+    <value><![CDATA[מהלך \ לזוז \ לעבור]]></value>
+  </definition>
+  <definition>
+    <key>button_copy</key>
+    <value><![CDATA[עותק]]></value>
+  </definition>
+  <definition>
+    <key>button_rename</key>
+    <value><![CDATA[שינוי שם]]></value>
+  </definition>
+  <definition>
+    <key>button_upload</key>
+    <value><![CDATA[העלה]]></value>
+  </definition>
+  <definition>
+    <key>button_refresh</key>
+    <value><![CDATA[לְרַעֲנֵן]]></value>
+  </definition>
+</definitions>

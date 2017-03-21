@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[משימות מתוזמנות]]></value>
+  </definition>
+  <definition>
+    <key>column_id</key>
+    <value><![CDATA[תְעוּדַת זֶהוּת]]></value>
+  </definition>
+  <definition>
+    <key>column_date_created</key>
+    <value><![CDATA[תאריך יצירה]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[שֵׁם]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[סטָטוּס]]></value>
+  </definition>
+  <definition>
+    <key>column_start_time</key>
+    <value><![CDATA[שעת התחלה]]></value>
+  </definition>
+  <definition>
+    <key>text_stuck</key>
+    <value><![CDATA[תָקוּעַ]]></value>
+  </definition>
+  <definition>
+    <key>text_ready</key>
+    <value><![CDATA[מוּכָן]]></value>
+  </definition>
+  <definition>
+    <key>text_running</key>
+    <value><![CDATA[רץ]]></value>
+  </definition>
+  <definition>
+    <key>text_scheduled</key>
+    <value><![CDATA[מתוזמנות]]></value>
+  </definition>
+  <definition>
+    <key>text_disabled</key>
+    <value><![CDATA[נָכֶה]]></value>
+  </definition>
+  <definition>
+    <key>text_failed</key>
+    <value><![CDATA[נִכשָׁל]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete</key>
+    <value><![CDATA[לא שלם]]></value>
+  </definition>
+  <definition>
+    <key>text_completed</key>
+    <value><![CDATA[הושלם]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[משימות Restart]]></value>
+  </definition>
+  <definition>
+    <key>text_run</key>
+    <value><![CDATA[הפעלת משימות]]></value>
+  </definition>
+  <definition>
+    <key>text_task_started</key>
+    <value><![CDATA[המשימות נכתבו]]></value>
+  </definition>
+  <definition>
+    <key>text_task_not_found</key>
+    <value><![CDATA[משימות לא נמצא.]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_task</key>
+    <value><![CDATA[משימות לא מכילות שלבים. הוסר.]]></value>
+  </definition>
+  <definition>
+    <key>text_forbidden_to_restart</key>
+    <value><![CDATA[אסור להפעיל מחדש!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - להזמין %s]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[אנו מודים לך על התעניינותך במוצרים %s. ההזמנה שלך התקבלה ו תעובד לאחר הוא אשר תשלום.]]></value>
+  </definition>
+  <definition>
+    <key>text_received</key>
+    <value><![CDATA[קבלת הזמנה.]]></value>
+  </definition>
+  <definition>
+    <key>text_order_detail</key>
+    <value><![CDATA[פרטי הזמנה]]></value>
+  </definition>
+  <definition>
+    <key>text_order_id</key>
+    <value><![CDATA[מספר הזמנה:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[תאריך הזמנה:]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[מצב הזמנה:]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[לצפייה לחץ הזמנתך על הקישור הבא:]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[שיטת משלוח:]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[אמצעי תשלום:]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[כתובת למשלוח]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[כתובת לתשלום]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[אֶלֶקטרוֹנִי:]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[טֵלֵפוֹן:]]></value>
+  </definition>
+  <definition>
+    <key>text_mobile_phone</key>
+    <value><![CDATA[טלפון נייד:]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[פַקס:]]></value>
+  </definition>
+  <definition>
+    <key>text_ip</key>
+    <value><![CDATA[כתובת ה - IP:]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[מוצרים:]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[סיכומים:]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[לאחר שהתשלום אושר אתה יכול ללחוץ על הקישור הבא כדי לגשת המוצרים להורדה שלך:]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[ההערות על הזמנתך הם:]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[שוב לדוא&quot;ל זה אם יש לך שאלות.]]></value>
+  </definition>
+  <definition>
+    <key>text_powered_by</key>
+    <value><![CDATA[מונע ע&quot;י]]></value>
+  </definition>
+  <definition>
+    <key>text_new_order</key>
+    <value><![CDATA[הזמנה חדשה - #]]></value>
+  </definition>
+  <definition>
+    <key>text_new_order_text</key>
+    <value><![CDATA[לקוחות %s הוסיף סדר חדש]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[מוצר]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[דֶגֶם]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[כַּמוּת]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[מחיר]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[סה&quot;כ]]></value>
+  </definition>
+</definitions>

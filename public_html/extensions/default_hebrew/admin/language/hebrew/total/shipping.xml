@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[משלוח]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[משלוח]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[סיכומים להזמין]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: שינית משלוח הכולל!]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[סטָטוּס:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[סדר המיון:]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[להזמין חישוב:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[אזהרה: אין לך הרשאה לשנות משלוח הכולל!]]></value>
+  </definition>
+</definitions>

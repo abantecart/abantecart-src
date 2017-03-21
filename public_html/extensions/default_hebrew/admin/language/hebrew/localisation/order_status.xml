@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[להזמין סטטוסים]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[מצב הזמנה]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: שינית סטטוסים סדר!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[שם מצב הזמנה]]></value>
+  </definition>
+  <definition>
+    <key>column_text_id</key>
+    <value><![CDATA[מזהה טקסט מצב הזמנה]]></value>
+  </definition>
+  <definition>
+    <key>entry_text_id</key>
+    <value><![CDATA[מזהה טקסט מצב הזמנה:]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[פעולה]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[שם מצב הזמנה:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[אזהרה: אין לך הרשאה לשנות פסלי סדר!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[שם מצב הזמנה חייב להיות בין 2 ו -32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[אזהרה: מצב הזמנה זה לא ניתן למחוק כפי שהוא מוקצה כיום מצב ההזמנה בחנות מחדל!]]></value>
+  </definition>
+  <definition>
+    <key>error_download</key>
+    <value><![CDATA[אזהרה: מצב הזמנה זה לא ניתן למחוק כפי שהוא מוקצה כיום את מצב הורדת ברירת מחדל!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[אזהרה: מצב הזמנה זה לא ניתן למחוק כפי שהוא מוקצה כעת %s בחנויות!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[אזהרה: מצב הזמנה זה לא ניתן למחוק כפי שהוא מוקצה כעת %s הזמנות!]]></value>
+  </definition>
+  <definition>
+    <key>error_nondeletable</key>
+    <value><![CDATA[אזהרה: זהו מצב הזמנה חשוב מקושר תשלומים. אתה לא יכול למחוק את הסטטוס הזה.]]></value>
+  </definition>
+  <definition>
+    <key>error_status_text_id</key>
+    <value><![CDATA[מצב הזמנה טקסט זיהוי חייב להיות ייחודי בין 2 ל 32 תווים!]]></value>
+  </definition>
+</definitions>

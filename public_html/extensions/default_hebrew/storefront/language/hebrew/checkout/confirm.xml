@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[אישור Checkout]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[סַל]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_basket</key>
+    <value><![CDATA[עגלת ערוך]]></value>
+  </definition>
+  <definition>
+    <key>text_accept_agree</key>
+    <value><![CDATA[בלחיצה על אישור הזמנה, אתה מקבל ומסכים לכל התנאים של]]></value>
+  </definition>
+  <definition>
+    <key>text_cart_items</key>
+    <value><![CDATA[מוצרים בעגלת הקניות שלך]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[משלוח]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_shipping</key>
+    <value><![CDATA[משלוח ערוך]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[תַשְׁלוּם]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_payment</key>
+    <value><![CDATA[תשלום ערוך]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_1</key>
+    <value><![CDATA[אורח Checkout - שלב 1]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_2</key>
+    <value><![CDATA[אורח Checkout - שלב 2]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[לְאַשֵׁר]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[כתובת למשלוח]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[שיטת משלוח]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[כתובת לתשלום]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[אמצעי תשלום]]></value>
+  </definition>
+  <definition>
+    <key>text_change</key>
+    <value><![CDATA[שינוי]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[התגובות שלך]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[קופון הנחה]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[מוצר]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[דֶגֶם]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[כַּמוּת]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[מחיר]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[סה&quot;כ]]></value>
+  </definition>
+  <definition>
+    <key>text_add_coupon</key>
+    <value><![CDATA[קופון הערוך]]></value>
+  </definition>
+</definitions>

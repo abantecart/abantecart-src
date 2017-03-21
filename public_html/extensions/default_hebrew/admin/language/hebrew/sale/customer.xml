@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[לקוחות]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[צרכן]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: יש לך לקוחות שונים!]]></value>
+  </definition>
+  <definition>
+    <key>text_approved</key>
+    <value><![CDATA[שאישרת %s חשבון!]]></value>
+  </definition>
+  <definition>
+    <key>tab_customer_address</key>
+    <value><![CDATA[כתובת]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_addresses</key>
+    <value><![CDATA[כתובות של לקוחות]]></value>
+  </definition>
+  <definition>
+    <key>text_add_address</key>
+    <value><![CDATA[הוסף כתובת חדשה]]></value>
+  </definition>
+  <definition>
+    <key>button_add</key>
+    <value><![CDATA[לְהוֹסִיף]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[שם לקוח]]></value>
+  </definition>
+  <definition>
+    <key>column_email</key>
+    <value><![CDATA[אֶלֶקטרוֹנִי]]></value>
+  </definition>
+  <definition>
+    <key>column_customer_group</key>
+    <value><![CDATA[קבוצה של לקוחות]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[קְבוּצָה]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[סטָטוּס]]></value>
+  </definition>
+  <definition>
+    <key>column_approved</key>
+    <value><![CDATA[אושר]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[תאריך הוסף]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[פעולה]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[שם כניסה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[שם פרטי:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[שם משפחה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[אֶלֶקטרוֹנִי:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[טֵלֵפוֹן:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[פַקס:]]></value>
+  </definition>
+  <definition>
+    <key>entry_newsletter</key>
+    <value><![CDATA[עלון:]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[קבוצה של לקוחות:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[סטָטוּס:]]></value>
+  </definition>
+  <definition>
+    <key>entry_approved</key>
+    <value><![CDATA[אושר:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[סיסמה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_confirm</key>
+    <value><![CDATA[לְאַשֵׁר:]]></value>
+  </definition>
+  <definition>
+    <key>entry_company</key>
+    <value><![CDATA[חֶברָה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_1</key>
+    <value><![CDATA[כתובת 1:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_2</key>
+    <value><![CDATA[כתובת 2:]]></value>
+  </definition>
+  <definition>
+    <key>entry_city</key>
+    <value><![CDATA[עִיר:]]></value>
+  </definition>
+  <definition>
+    <key>entry_postcode</key>
+    <value><![CDATA[מיקוד:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[מדינה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country_id</key>
+    <value><![CDATA[מדינה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[אזור / מדינה:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[אזהרה: אין לך הרשאה לשנות לקוחות!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[שם התחבר חייב להיות אלפאנומריים בלבד בין 5 ל 64 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[שם התחברות זו אינה זמינה. נסו שם פרטי כניסה שונים!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[שם פרטי חייב להיות בין 1 ל -32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[שם משפחה חייב להיות בין 1 ל -32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[כתובת הדואר האלקטרוני לא להיראות תקף!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[טלפון חייב להיות בין 3 ל -32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_password</key>
+    <value><![CDATA[הסיסמה צריכה להיות בין 3 ל -20 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_confirm</key>
+    <value><![CDATA[סיסמה ואישור הסיסמה אינם תואמים!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_firstname</key>
+    <value><![CDATA[שם פרטי חייב להיות בין 1 ל -32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_lastname</key>
+    <value><![CDATA[שם משפחה חייב להיות בין 1 ל -32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_1</key>
+    <value><![CDATA[כתובת חייבת להיות בין 3 ל 128 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_city</key>
+    <value><![CDATA[העיר חייבת להיות בין 3 ל 128 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_country</key>
+    <value><![CDATA[בבקשה תבחר מדינה!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone</key>
+    <value><![CDATA[בחר / מדינה באזור!]]></value>
+  </definition>
+  <definition>
+    <key>text_select_approved</key>
+    <value><![CDATA[- בחר מאושר -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- קבוצה בחר -]]></value>
+  </definition>
+  <definition>
+    <key>tab_customer_details</key>
+    <value><![CDATA[פרטי לקוח]]></value>
+  </definition>
+  <definition>
+    <key>tab_transactions</key>
+    <value><![CDATA[עסקאות]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_transactions</key>
+    <value><![CDATA[עסקאות של לקוחות]]></value>
+  </definition>
+  <definition>
+    <key>column_create_date</key>
+    <value><![CDATA[תאריך יצירה]]></value>
+  </definition>
+  <definition>
+    <key>column_created_by</key>
+    <value><![CDATA[נוצר על ידי]]></value>
+  </definition>
+  <definition>
+    <key>column_debit</key>
+    <value><![CDATA[חוֹבָה]]></value>
+  </definition>
+  <definition>
+    <key>column_credit</key>
+    <value><![CDATA[אַשׁרַאי]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_type</key>
+    <value><![CDATA[סוג העסקה]]></value>
+  </definition>
+  <definition>
+    <key>text_balance</key>
+    <value><![CDATA[איזון:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_login</key>
+    <value><![CDATA[כניסה אחרונה:]]></value>
+  </definition>
+  <definition>
+    <key>text_never</key>
+    <value><![CDATA[לעולם לא]]></value>
+  </definition>
+  <definition>
+    <key>popup_title_info</key>
+    <value><![CDATA[מידע עסקה]]></value>
+  </definition>
+  <definition>
+    <key>popup_title_insert</key>
+    <value><![CDATA[הכנס בניו עסקה]]></value>
+  </definition>
+  <definition>
+    <key>entry_credit</key>
+    <value><![CDATA[אשראי (איזון עליה)]]></value>
+  </definition>
+  <definition>
+    <key>entry_debit</key>
+    <value><![CDATA[חיוב (איזון קיטון)]]></value>
+  </definition>
+  <definition>
+    <key>entry_transaction_type</key>
+    <value><![CDATA[סוג עסקה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_other_type</key>
+    <value><![CDATA[סוג עסקה מותאמת אישית אחר:]]></value>
+  </definition>
+  <definition>
+    <key>text_option_other_type</key>
+    <value><![CDATA[אַחֵר...]]></value>
+  </definition>
+  <definition>
+    <key>entry_transaction_description</key>
+    <value><![CDATA[תיאור (עבור לקוח):]]></value>
+  </definition>
+  <definition>
+    <key>entry_transaction_comment</key>
+    <value><![CDATA[תגובה (לשימוש פנימי):]]></value>
+  </definition>
+  <definition>
+    <key>entry_update_date</key>
+    <value><![CDATA[תאריך עדכון:]]></value>
+  </definition>
+  <definition>
+    <key>entry_create_date</key>
+    <value><![CDATA[צור תאריך:]]></value>
+  </definition>
+  <definition>
+    <key>error_transaction_type</key>
+    <value><![CDATA[שגיאה: נא למלא את פרטי סוג עסקת שדה.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_debit_credit</key>
+    <value><![CDATA[שגיאה: נא למלא ערך חיוב או זיכוי עבור עסקה ללקוח.]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction_success</key>
+    <value><![CDATA[הצלחה: שינית עסקה!]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_address</key>
+    <value><![CDATA[כתובת ערוכה]]></value>
+  </definition>
+  <definition>
+    <key>entry_default</key>
+    <value><![CDATA[כתובת ברירת מחדל:]]></value>
+  </definition>
+  <definition>
+    <key>error_delete_default</key>
+    <value><![CDATA[שגיאה: כתובת ברירה לא ניתן למחוק!]]></value>
+  </definition>
+  <definition>
+    <key>error_delete_last</key>
+    <value><![CDATA[שגיאה: אתה חייב להיות לפחות כתובת אחת!]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_added</key>
+    <value><![CDATA[תאריך הוסף:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_modified</key>
+    <value><![CDATA[תאריך שינוי:]]></value>
+  </definition>
+  <definition>
+    <key>warning_actonbehalf_additional_store</key>
+    <value><![CDATA[כדי לפעול בשם לקוח בחנות נוספת אתה צריך להתחבר אל צד הניהול של חנות אחרת. לְהַמשִׁיך?]]></value>
+  </definition>
+  <definition>
+    <key>entry_notify</key>
+    <value><![CDATA[הודע לקוחות:]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction_notification_subject</key>
+    <value><![CDATA[עסקה חדשה כבר פורסמה %s חשבונך]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction_notification_message</key>
+    <value><![CDATA[עסקה חדשה כבר פורסמה %s חשבונך בסך של %s. לפרטים נוספים, היכנס %s חשבון]]></value>
+  </definition>
+  <definition>
+    <key>text_total_order</key>
+    <value><![CDATA[סה&quot;כ הזמנות:]]></value>
+  </definition>
+</definitions>

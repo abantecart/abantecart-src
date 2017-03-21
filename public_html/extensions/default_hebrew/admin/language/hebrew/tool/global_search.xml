@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[תוצאות חיפוש גלובליות]]></value>
+  </definition>
+  <definition>
+    <key>no_results_message</key>
+    <value><![CDATA[מצטער, אבל אין לנו תוצאות.]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[אזהרה: אין לך רשות לחפש!]]></value>
+  </definition>
+  <definition>
+    <key>text_orders</key>
+    <value><![CDATA[הזמנות]]></value>
+  </definition>
+  <definition>
+    <key>text_customers</key>
+    <value><![CDATA[לקוחות]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[הורדות]]></value>
+  </definition>
+  <definition>
+    <key>text_product_categories</key>
+    <value><![CDATA[קטגוריות מוצרים]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[מוצרים]]></value>
+  </definition>
+  <definition>
+    <key>text_reviews</key>
+    <value><![CDATA[ביקורות]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[מותגים]]></value>
+  </definition>
+  <definition>
+    <key>text_languages</key>
+    <value><![CDATA[שפות]]></value>
+  </definition>
+  <definition>
+    <key>text_pages</key>
+    <value><![CDATA[עמודים]]></value>
+  </definition>
+  <definition>
+    <key>text_settings</key>
+    <value><![CDATA[הגדרות]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[הודעות]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[רחבות]]></value>
+  </definition>
+  <definition>
+    <key>text_commands</key>
+    <value><![CDATA[פקודות מהירות]]></value>
+  </definition>
+  <definition>
+    <key>text_contents</key>
+    <value><![CDATA[דפי תוכן]]></value>
+  </definition>
+</definitions>

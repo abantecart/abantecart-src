@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[דווח נחות]]></value>
+  </definition>
+  <definition>
+    <key>column_coupon_name</key>
+    <value><![CDATA[דיסקונט / שם קופון]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[קוד]]></value>
+  </definition>
+  <definition>
+    <key>column_orders</key>
+    <value><![CDATA[הזמנות מס]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[סה&quot;כ]]></value>
+  </definition>
+  <definition>
+    <key>column_discount_total</key>
+    <value><![CDATA[דיסקונט סה&quot;כ]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[תאריך התחלה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[סוף תאריך:]]></value>
+  </definition>
+</definitions>

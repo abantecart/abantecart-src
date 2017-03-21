@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[דמי טיפול]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[דמי טיפול]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[סיכומים להזמין]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: עדכנת דמי טיפול בסך הכל!]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[סה&quot;כ להזמין: <span class="help">כמות מינימום הזמנה כדי להגיע ליישם את האגרה. אם סך הזמנות הלקוח שלך יהיה יעלה על סכום זה, טיפול feee לא יחולו. ערך זה לדרוס עם הגדרת תשלום מבוקשת.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_placeholder</key>
+    <value><![CDATA[כמות הזמנה]]></value>
+  </definition>
+  <definition>
+    <key>entry_fee</key>
+    <value><![CDATA[בתשלום: <span class="help">דמי להתווסף להורות הכולל אם המצב הסכום המינימלי אינו מתקיים. סכום זה אושר על-ידי הגדרת תשלום מבוקשת</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_fee</key>
+    <value><![CDATA[בתשלום: <span class="help">דמים להתווסף להורות הכולל אם מצב כמות משנה כולל מזערי אינו מתקיים. סכום זה לדרוס הגדרת דמי ראשית</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[תשלום: <span class="help">בחר תשלום מסוים אתה צריך להוסיף את הדמים. הגדרות אלו מבטלות את ההגדרות הראשיות אם התשלום נעשה שימוש על ידי הלקוח.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_subtotal</key>
+    <value><![CDATA[להזמין סיכום ביניים: <span class="help">כמות משנה הכולל מינימום הזמנה כדי להגיע ליישם את האגרה. זו עוקפת את ההגדרה הראשית</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[מחלקה מס: <span class="help">בחר אם אתה צריך המס שיש להחיל על העליונה של דמי טיפול</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[סטָטוּס:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[סדר המיון:]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[להזמין חישוב:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[אזהרה: אין לך הרשאה לשנות דמי טיפול בסך הכל!]]></value>
+  </definition>
+  <definition>
+    <key>error_number</key>
+    <value><![CDATA[אזהרה: סה&quot;כ בהזמנה ואת דמי טיפול חייב להיות מספרים!]]></value>
+  </definition>
+</definitions>

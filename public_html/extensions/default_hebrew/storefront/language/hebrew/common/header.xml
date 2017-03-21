@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_home</key>
+    <value><![CDATA[בית]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[הצעות מיוחדות]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[איש קשר]]></value>
+  </definition>
+  <definition>
+    <key>text_sitemap</key>
+    <value><![CDATA[Sitemap]]></value>
+  </definition>
+  <definition>
+    <key>text_bookmark</key>
+    <value><![CDATA[Bookmark]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[חֶשְׁבּוֹן]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[התחברות]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[להתנתק]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[סַל]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[לבדוק]]></value>
+  </definition>
+  <definition>
+    <key>text_keyword</key>
+    <value><![CDATA[מילות מפתח]]></value>
+  </definition>
+  <definition>
+    <key>text_advanced</key>
+    <value><![CDATA[חיפוש מתקדם]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[כל הקטגוריות]]></value>
+  </definition>
+  <definition>
+    <key>entry_search</key>
+    <value><![CDATA[חפש:]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[ברוך שובך]]></value>
+  </definition>
+  <definition>
+    <key>text_not</key>
+    <value><![CDATA[לֹא]]></value>
+  </definition>
+  <definition>
+    <key>text_login_or_register</key>
+    <value><![CDATA[התחבר או הרשם]]></value>
+  </definition>
+</definitions>

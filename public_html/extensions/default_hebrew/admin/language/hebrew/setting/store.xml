@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[פרטי Store]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: יש לך הגדרות שונות!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[מנהל תמונה]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[בְּרִירַת מֶחדָל]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[חנות ערוכה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[שם חנות: <br/><span class="help">הועתק להגדרות והראו על קטע חנות.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[כתובת אתר של חנות: <br/><span class="help">כולל את כתובת האתר מלא לחנות שלך. הקפד להוסיף &quot;/&quot; בסוף. דוגמה: http://www.yourdomain.com/path/ <br/><br/> אל תשתמש ספריות ליצור חנות חדשה. אתה תמיד צריך להצביע תחום אחר או תת תחום האירוח שלך.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[שימוש ב- SSL: <br/><span class="help">כדי להשתמש סימון SSL בהגשה אם תעודת SSL מותקנת.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[כותרת:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[תיאור תג מטא:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[תבנית:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[הודעת פתיחה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[מדינה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[אזור / מדינה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[שפה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[חנות מצב <br/><span class="help">מצב חנות בתוך חנות. OFF המצב ינחה לברירת מחדל בחנות. השתמש מצב תחזוקת ההגדרה להגדיר הודעת תחזוקת חנות זמנית</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alias</key>
+    <value><![CDATA[שם כינוי <br/><span class="help">חנות שם כינוי. אם תשאיר שדה זה ריק, יתבסס על שם מקוצר</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[חנות חדשה]]></value>
+  </definition>
+  <definition>
+    <key>button_delete_store</key>
+    <value><![CDATA[מחק חנות]]></value>
+  </definition>
+  <definition>
+    <key>button_edit_settings</key>
+    <value><![CDATA[ערוך הגדרות]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[אזהרה: אין לך הרשאה לשנות חנויות!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[שם החנות חייב להיות בין 3 ל -32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[כתובת אתר של חנות חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[הכותרת חייבת להיות בין 3 ל -32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[ממדי גודל Thumb תמונת מוצר חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[ממדי Popup גודל תמונת מוצר חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[קטגורית ממדי רשימת גודל חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[ממדים גודל לרשימת המוצרים הנדרשים!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[ממדי גודל תמונת מוצר נוספים נדרשים!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[ממדי גודל תמונת מוצרים קשורים חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[מידות התמונה גודל סל חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[מידות התמונה גודל Grid חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[אזהרה: חנות זה לא ניתן למחוק כפי שהוא מוקצה כעת %s הזמנות!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[הנתונים נחוצים לא הוזנו. בדקו שגיאות שדה!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[הגבל חובה!]]></value>
+  </definition>
+  <definition>
+    <key>entry_clone_store</key>
+    <value><![CDATA[הגדרות העתקה: <br/><span class="help">ניתן לבחור עותק של כל ההגדרות מכמה חנות קיימת</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[כתובת אתר חנות מאובטחת: <br/><span class="help">כולל את כתובת אתר SSL המלאה (HTTPS) לחנות שלך. הקפד להוסיף &quot;/&quot; בסוף. דוגמה: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[כתובת אתר מאובטח חובה!]]></value>
+  </definition>
+</definitions>

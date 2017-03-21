@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[מנהל תבנית]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: אתה צריך להגדיר תבנית חנות חדשה!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront_templates</key>
+    <value><![CDATA[תבניות Storefront זמינות]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_extension</key>
+    <value><![CDATA[הגדרות תוסף]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[שגיאה: פרמטר נדרש חסר בבקשה שלך!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[אזהרה: אין לך הרשאה לשנות תבניות!]]></value>
+  </definition>
+</definitions>

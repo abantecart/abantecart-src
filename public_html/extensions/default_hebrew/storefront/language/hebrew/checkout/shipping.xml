@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[מידע על המשלוח]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[סַל]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[משלוח]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_to</key>
+    <value><![CDATA[בחר מפנקס הכתובות שלך שבו אתה רוצה את הפריטים שיימסרו.]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[כתובת למשלוח]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[שיטת משלוח]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[אנא מלא את שיטות משלוח המועדפות לשימוש על צו זה.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[להוסיף הערות על ההזמנה שלך]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[שגיאה: שיטת משלוח חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[שגיאה: אין אפשרויות משלוח זמינות. אנא <a href="index.php?rt=content/contact">צור איתנו קשר</a> לקבלת סיוע!]]></value>
+  </definition>
+</definitions>

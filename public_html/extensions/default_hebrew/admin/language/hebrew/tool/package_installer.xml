@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: חבילה הותקנה בהצלחה.]]></value>
+  </definition>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[מתקין חבילות]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_license</key>
+    <value><![CDATA[הסכם רישיון אריזה]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_ftp</key>
+    <value><![CDATA[פרמטרי גישת FTP]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_download</key>
+    <value><![CDATA[טוען אריזה]]></value>
+  </definition>
+  <definition>
+    <key>text_preloading</key>
+    <value><![CDATA[חבילת קובץ% קובץ% הורדו.]]></value>
+  </definition>
+  <definition>
+    <key>text_loading</key>
+    <value><![CDATA[הורדת קובץ. גודל: %s. <br/> זה עשוי לקחת מספר שניות תלוי בחיבור שלך.]]></value>
+  </definition>
+  <definition>
+    <key>text_key_hint</key>
+    <value><![CDATA[זן מפתח התקנה כאן]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_user</key>
+    <value><![CDATA[שם משתמש FTP:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_password</key>
+    <value><![CDATA[סיסמת משתמש FTP:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_host</key>
+    <value><![CDATA[שרת FTP:]]></value>
+  </definition>
+  <definition>
+    <key>text_i_agree</key>
+    <value><![CDATA[אני מסכים ל הרישיון]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[לְהַסכִּים]]></value>
+  </definition>
+  <definition>
+    <key>text_retry</key>
+    <value><![CDATA[נסה שוב]]></value>
+  </definition>
+  <definition>
+    <key>text_disagree</key>
+    <value><![CDATA[לא מסכים]]></value>
+  </definition>
+  <definition>
+    <key>text_download_error</key>
+    <value><![CDATA[אנו מצטערים, אך התרחשה שגיאה בעת העלאת הקובץ. </br> תנסה עוד פעם. </br> אם הבעיה נמשכת קובץ הורדה בהיסטורית ההזמנה ולהתקין באופן ידני.]]></value>
+  </definition>
+  <definition>
+    <key>text_continue</key>
+    <value><![CDATA[לְהַמשִׁיך]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer_heading</key>
+    <value><![CDATA[כתב ויתור]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer</key>
+    <value><![CDATA[<h3 style=";text-align:right;direction:rtl"> לקוחות AbanteCart יקרים, </h3><br/> 
+ אתה עומד להתקין את התוסף של צד שלישי כדי AbanteCart שלך. <br/><br/> 
+ אנא לקרוא ולהבין כתב ויתור זה על הארכת צד שלישי שאתה עומד להתקין. <br/><br/> 
+ הרחבות ושירותים של צד שלישי מסופקים על ידי ספקי צד שלישי. <br/><br/> 
+ אמנם, AbanteCart לאמת איכות הרחבות השירותים הניתנים על ידי צד שלישי, AbanterCart לא ערובה כי כל העבודה הרחבה צד שלישי כראוי או לא יגרמו קונפליקטים במערכת. 
+ חברי וחברות מסונפות AbanteCart בשום אופן עלול או אחראי טענות הקשורות למוצרים או השירותים הניתנים על ידי ספקי צד שלישי. AbanteCart אינה מבטיחה את איכות רחבות או שירותי צד שלישיים. אנא הפנה שאלותיך בנוגע רחבות צד שלישיות או שירותי הצד השלישי הספק המתאים. 
+ אם יש לך חשש כלשהו ספק צד שלישי אנא פנה AbanteCart ב <a href="http://www.abantecart.com/contact-us" target="_blank">http://www.abantecart.com/contact-us</a><br/><br/> 
+ בברכה, <br/> 
+ AbanteCart <br/> 
+ מסחר אלקטרוני פתרון אידיאלי OpenSource]]></value>
+  </definition>
+  <definition>
+    <key>warning_ftp</key>
+    <value><![CDATA[אזהרה: חלק הספרייה או קובץ אין אישור כתיבה <span id="see_details">(ראה פירוט נוסף)</span><br/> באפשרותך לשנות הרשאות בשרת שלך או <br/> גישת ftp שימוש לשרת לצורך ההתקנה (בדרך כלל, ספק אירוח שולחת מידע זה באמצעות דוא&quot;ל או אתה יכול לנהל אותו אירוח כלי בקרה) <br/>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed</key>
+    <value><![CDATA[<p class="success" style=";text-align:right;direction:rtl"> אתה כבר סיומת% סיומת% מותקנת! אם ברצונך להמשיך ולשדרג, בבקשה לאשר. </p>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed_uninstall</key>
+    <value><![CDATA[כבר יש לך את התוסף הזה &quot;% סיומת%&quot; מותקן! אם ברצונך להמשיך להתקין מחדש, הסר את הדפדפן ולמחוק ההארכה הראשונה.]]></value>
+  </definition>
+  <definition>
+    <key>error_pack_file_not_found</key>
+    <value><![CDATA[שגיאה: אין אפשרות לחלץ רחבה מהארכיון כדי %s. בדוק <a href="#admin#rt=tool/error_log" target="_blank">להתחבר</a> לשגיאות]]></value>
+  </definition>
+  <definition>
+    <key>error_mp</key>
+    <value><![CDATA[שגיאת Marketplace:]]></value>
+  </definition>
+  <definition>
+    <key>error_repository</key>
+    <value><![CDATA[שגיאה: לא ניתן להוריד את הקובץ. שגיאה במאגר או מפתח רחבה לא חוקי. תנסה עוד פעם. אם הבעיה נמשכת קובץ הורדה בהיסטורית ההזמנה ולהתקין באופן ידני.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_user</key>
+    <value><![CDATA[שגיאה: שם משתמש FTP ריק.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_password</key>
+    <value><![CDATA[שגיאה: סיסמת משתמש FTP ריק.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_connect</key>
+    <value><![CDATA[שגיאה: לא ניתן להתחבר FTP-שרת]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_login</key>
+    <value><![CDATA[שגיאה: לא מצליח להתחבר ל FTP-שרת. שם משתמש או סיסמה לא חוקיים.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path</key>
+    <value><![CDATA[שגיאה: לא ניתן למצוא בספריית השורש של AbanteCart ידי נתיב ה- FTP. <br/> נסו להשאיר אותו ריק לחיפוש אוטומטי.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path_array</key>
+    <value><![CDATA[שגיאה: לא ניתן אוטומטית להכיר בספריית השורש של AbanteCart ב FTP-mode. <br/> נא למלא את השדה בטופס FTP-נתיב. <br/> הצעות נתיב הם:]]></value>
+  </definition>
+  <definition>
+    <key>error_dir_permission</key>
+    <value><![CDATA[לא ניתן לשמור את קובץ בגלל בספרייה אינה ניתנת לכתיבה:]]></value>
+  </definition>
+  <definition>
+    <key>error_package_structure</key>
+    <value><![CDATA[שגיאה: כנראה חבילה היא שבורה. מבנה שגיאת חבילה.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config_xml</key>
+    <value><![CDATA[שגיאה: לא ניתן לאתר את הקובץ Package.xml בתוך ההארכה חילוץ. אולי הארכה לא הופקה בצורה נכונה. בדוק <a href="#admin#rt=tool/error_log" target="_blank">להתחבר</a> לשגיאות]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config2</key>
+    <value><![CDATA[שגיאה: לא ניתן למצוא במצב ההתקנה Package.xml בתוך החבילה.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_info_not_exists</key>
+    <value><![CDATA[שגיאה: לא ניתן למצוא את פרטי פגישת חבילה על הורדה זו.]]></value>
+  </definition>
+  <definition>
+    <key>error_unpack</key>
+    <value><![CDATA[שגיאה: לא ניתן לפרוק חבילה &quot;% חבילת%&quot; לאחר הורדה. שגיאת ארכיון. ראה יומן שגיאות לפרטים.]]></value>
+  </definition>
+  <definition>
+    <key>error_move</key>
+    <value><![CDATA[שגיאה: לא ניתן להעביר קוד החבילה אחרי שרוקן. נסה לבדוק הרשאות כתיבה של בספרייה:]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode</key>
+    <value><![CDATA[שגיאה: לא ניתן להתקין את התוסף &quot;% חבילת%&quot; כי זה כבר מותקן. אתה צריך deinstall ולמחוק אותו לראשונה, או להשיג את החבילה עבור השדרוג.]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode2</key>
+    <value><![CDATA[שגיאה: לא ניתן לשדרג סיומת &quot;% חבילת%&quot; כי זה לא מותקן. אתה צריך להשיג את החבילה עבור התקנה.]]></value>
+  </definition>
+  <definition>
+    <key>error_version_compatibility</key>
+    <value><![CDATA[שגיאה: לא ניתן להתקין את החבילה. גרסת הסל <b>שלך%% CURRENT_VERSION.</b> גרסה <b>(ים)% VERSIONS%</b> הנדרשים.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_version_compatibility</key>
+    <value><![CDATA[שגיאה: לא ניתן לשדרג את החבילה. גרסה חדשה יותר החבילה כבר מותקנת.]]></value>
+  </definition>
+  <definition>
+    <key>error_install</key>
+    <value><![CDATA[שגיאה: לא ניתן להתקין את החבילה. עיין מערכת -&gt; שגיאת יומן לפרטים.]]></value>
+  </definition>
+  <definition>
+    <key>error_core_version</key>
+    <value><![CDATA[שגיאה: יש לך AbanteCart גרסת% VERSION% מותקן. <br/> חבילת השדרוג רק עבור גרסאות ישנות יותר מ]]></value>
+  </definition>
+  <definition>
+    <key>text_interrupt</key>
+    <value><![CDATA[לְהַפְרִיעַ]]></value>
+  </definition>
+  <definition>
+    <key>confirm_version_incompatibility</key>
+    <value><![CDATA[עותק הנוכחי של תוספת זאת אינו מאומת לגרסת AbanteCart (נ %s). <br/> לבנות הרחבה שצוינה עבור נ AbanteCart %s. <br/> 
+ זה לא בעיה, אבל אם תשימו לב בעיות או אי התאמה, אנא צרו מפתח של הרחבה.]]></value>
+  </definition>
+  <definition>
+    <key>error_move_ftp</key>
+    <value><![CDATA[שגיאה: לא ניתן להעביר קוד החבילה אחרי שרוקן. כנראה נתיב ה- FTP אינו נכון. <br/> כמו כן, אנא, נסה לבדוק הרשאות כתיבה של בספרייה:]]></value>
+  </definition>
+  <definition>
+    <key>text_network_install</key>
+    <value><![CDATA[התקנת רשת]]></value>
+  </definition>
+  <definition>
+    <key>text_extension_upload</key>
+    <value><![CDATA[עלה רחב]]></value>
+  </definition>
+  <definition>
+    <key>error_archive_extension</key>
+    <value><![CDATA[שגיאה: קבצים נתמכים .tar.gz רק.]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_file</key>
+    <value><![CDATA[העלה קובץ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_url</key>
+    <value><![CDATA[הכנס כתובת האתר:]]></value>
+  </definition>
+  <definition>
+    <key>error_move_backup</key>
+    <value><![CDATA[שגיאה: אין אפשרות לגבות את הקבצים לפני השדרוג. בדוק הרשאות כתיבה של בספרייה:]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_title</key>
+    <value><![CDATA[שדרוג Core Abantecart]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_attention</key>
+    <value><![CDATA[תשומת הלב! 
+ AbanteCart עומד להיות משודרג לגרסה %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_warning</key>
+    <value><![CDATA[אין אפשרות לבטל לאחר תחילת תהליך השדרוג. 
+ מסד נתונים מלאים וגיבוי קוד מומלץ מאוד. 
+ מבחן שדרוג באתרים שאינם חיים הראשונה. שדרגו באתרים חיים אינו מומלץ.]]></value>
+  </definition>
+  <definition>
+    <key>text_upgrade_now</key>
+    <value><![CDATA[שדרג עכשיו!]]></value>
+  </definition>
+  <definition>
+    <key>error_additional_help_text</key>
+    <value><![CDATA[תָקוּעַ? לא בעיה. אתה יכול להתקין תוספים דרך אחרת. בדוק <a href="http://docs.abantecart.com/pages/extensions/install.html#FTPinstall" target="_blank">קישור עזרה זו</a>]]></value>
+  </definition>
+  <definition>
+    <key>error_notconnected</key>
+    <value><![CDATA[לא ניתן לשדרג או להתקין תוספים מהשוק. מאגר זה אינו מאומת / מחובר. אנא אמת ולהתחבר <a href="%s">בשוק</a>]]></value>
+  </definition>
+</definitions>

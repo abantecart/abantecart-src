@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[אורח Checkout - שלב 1]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[עֲגָלָה]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_1</key>
+    <value><![CDATA[אורח Checkout - שלב 1]]></value>
+  </definition>
+  <definition>
+    <key>text_your_details</key>
+    <value><![CDATA[הפרטים האישיים שלך]]></value>
+  </definition>
+  <definition>
+    <key>text_your_address</key>
+    <value><![CDATA[הכתובת שלך]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[כתובת למשלוח]]></value>
+  </definition>
+  <definition>
+    <key>text_indicator</key>
+    <value><![CDATA[בדוק כאן אם יש לך את כתובת למשלוח נפרדת.]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[שם פרטי:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[שם משפחה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[אֶלֶקטרוֹנִי:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[טֵלֵפוֹן:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[פַקס:]]></value>
+  </definition>
+  <definition>
+    <key>entry_company</key>
+    <value><![CDATA[חֶברָה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_1</key>
+    <value><![CDATA[כתובת 1:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_2</key>
+    <value><![CDATA[כתובת 2:]]></value>
+  </definition>
+  <definition>
+    <key>entry_postcode</key>
+    <value><![CDATA[מיקוד:]]></value>
+  </definition>
+  <definition>
+    <key>entry_city</key>
+    <value><![CDATA[עִיר:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[מדינה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[אזור / מדינה:]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[שם פרטי חייב להיות גדול מ -3 ופחות מ- 32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[שם משפחה חייב להיות גדול מ -3 ופחות מ- 32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[כתובת הדואר האלקטרוני לא להיראות תקף!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[הטלפון חייב להיות גדול מ -3 ופחות מ- 32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_1</key>
+    <value><![CDATA[כתובת 1 חייבת להיות גדולה מ -3 ופחות מ -128 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_city</key>
+    <value><![CDATA[העיר חייבת להיות גדולה מ -3 ופחות מ -128 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_postcode</key>
+    <value><![CDATA[Zip / מיקוד חייב להיות בין 3 ל -10 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_country</key>
+    <value><![CDATA[בבקשה תבחר מדינה!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone</key>
+    <value><![CDATA[בחר / מדינה באזור!]]></value>
+  </definition>
+</definitions>

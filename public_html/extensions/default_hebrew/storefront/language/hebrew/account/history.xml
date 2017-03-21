@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[היסטוריית ההזמנות שלי]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[חֶשְׁבּוֹן]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[היסטוריית הזמנות]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[מספר הזמנה:]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[סטָטוּס:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[תאריך הוסף:]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[צרכן:]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[מוצרים:]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[סה&quot;כ:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[אתה לא עשית שום הזמנות קודמות!]]></value>
+  </definition>
+</definitions>

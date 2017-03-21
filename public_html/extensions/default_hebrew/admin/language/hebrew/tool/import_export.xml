@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>import_export_title</key>
+    <value><![CDATA[יבוא ויצוא]]></value>
+  </definition>
+  <definition>
+    <key>tab_import</key>
+    <value><![CDATA[יְבוּא]]></value>
+  </definition>
+  <definition>
+    <key>tab_export</key>
+    <value><![CDATA[יְצוּא]]></value>
+  </definition>
+  <definition>
+    <key>text_tables</key>
+    <value><![CDATA[שולחנות]]></value>
+  </definition>
+  <definition>
+    <key>text_options</key>
+    <value><![CDATA[אפשרויות]]></value>
+  </definition>
+  <definition>
+    <key>text_file_format</key>
+    <value><![CDATA[פורמט קובץ:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_name</key>
+    <value><![CDATA[שם קובץ:]]></value>
+  </definition>
+  <definition>
+    <key>text_load_file</key>
+    <value><![CDATA[קובץ טען]]></value>
+  </definition>
+  <definition>
+    <key>text_load</key>
+    <value><![CDATA[לִטעוֹן]]></value>
+  </definition>
+  <definition>
+    <key>text_import_loaded</key>
+    <value><![CDATA[סה&quot;כ טעון:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_field</key>
+    <value><![CDATA[קובץ לייבוא <br/><span class="help">פורמטים נתמכים עבור קבצים יבוא: XML, CSV, TXT</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_id_range_from</key>
+    <value><![CDATA[מזהה נע בין:]]></value>
+  </definition>
+  <definition>
+    <key>text_to</key>
+    <value><![CDATA[ל:]]></value>
+  </definition>
+  <definition>
+    <key>text_csv_delimiter</key>
+    <value><![CDATA[מפריד CSV / TXT:]]></value>
+  </definition>
+  <definition>
+    <key>text_export_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">כל השדות יהיו בין מרכאות כפולות.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_import_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">כל השדות חייבים להיות בין מרכאות כפולות.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_test_mode</key>
+    <value><![CDATA[הפעל מצב מבחן <br/><span class="help">מומלץ לרוץ לייבא נתונים במצב המבחן הראשון כדי לראות אם בעיות שבהן נוכחים.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_file_format</key>
+    <value><![CDATA[פורמט קובץ שגוי!]]></value>
+  </definition>
+  <definition>
+    <key>error_xml_import</key>
+    <value><![CDATA[שגיאה במהלך קובץ XML יבוא!]]></value>
+  </definition>
+  <definition>
+    <key>error_csv_import</key>
+    <value><![CDATA[שגיאה במהלך הייבוא ​​CSV / TXT להגיש! אנא קרא מפרידים שדות.]]></value>
+  </definition>
+  <definition>
+    <key>error_data_corrupted</key>
+    <value><![CDATA[הנתונים ריקים או פגום.]]></value>
+  </definition>
+  <definition>
+    <key>error_file_empty</key>
+    <value><![CDATA[קובץ ריק.]]></value>
+  </definition>
+  <definition>
+    <key>error_writable_backup</key>
+    <value><![CDATA[ספריית גיבוי צריך להיות לכתיבה לייצוא CSV / TXT לעבוד.]]></value>
+  </definition>
+  <definition>
+    <key>text_updated</key>
+    <value><![CDATA[מְעוּדכָּן:]]></value>
+  </definition>
+  <definition>
+    <key>text_created</key>
+    <value><![CDATA[נוצר:]]></value>
+  </definition>
+  <definition>
+    <key>text_errors</key>
+    <value><![CDATA[שגיאות:]]></value>
+  </definition>
+  <definition>
+    <key>text_show_details</key>
+    <value><![CDATA[הראה פרטים]]></value>
+  </definition>
+  <definition>
+    <key>text_no_children</key>
+    <value><![CDATA[אין פריטי ילד]]></value>
+  </definition>
+  <definition>
+    <key>text_some_errors</key>
+    <value><![CDATA[יש כמה טעויות.]]></value>
+  </definition>
+  <definition>
+    <key>text_test_completed</key>
+    <value><![CDATA[מבחן ריצה הושלמה. שאילתות SQL סה&quot;כ:]]></value>
+  </definition>
+  <definition>
+    <key>text_sort_by</key>
+    <value><![CDATA[מיין לפי:]]></value>
+  </definition>
+</definitions>

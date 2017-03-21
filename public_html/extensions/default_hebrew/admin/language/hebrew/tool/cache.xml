@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ניהול מטמון]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: יש לך בהצלחה מחק את קבצי המטמון!]]></value>
+  </definition>
+  <definition>
+    <key>text_configuration</key>
+    <value><![CDATA[תְצוּרָה]]></value>
+  </definition>
+  <definition>
+    <key>text_layouts_blocks</key>
+    <value><![CDATA[פריסות &amp; בלוקים]]></value>
+  </definition>
+  <definition>
+    <key>text_flexyforms</key>
+    <value><![CDATA[טפסי Flexy]]></value>
+  </definition>
+  <definition>
+    <key>text_images</key>
+    <value><![CDATA[תמונות]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[מוצרים]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[קטגוריות]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[תעשיינים]]></value>
+  </definition>
+  <definition>
+    <key>text_localisations</key>
+    <value><![CDATA[localisations]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[יומן שגיאות]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_cache</key>
+    <value><![CDATA[נקה מטמון נבחר]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_all_cache</key>
+    <value><![CDATA[נקה הכל מטמון]]></value>
+  </definition>
+  <definition>
+    <key>desc_configuration</key>
+    <value><![CDATA[תצורות מערכת וחנות]]></value>
+  </definition>
+  <definition>
+    <key>desc_layouts_blocks</key>
+    <value><![CDATA[עמודים, פריסות דף, בלוקים]]></value>
+  </definition>
+  <definition>
+    <key>desc_flexyforms</key>
+    <value><![CDATA[נתוני צורות Flexy]]></value>
+  </definition>
+  <definition>
+    <key>desc_images</key>
+    <value><![CDATA[תמונות ממוזערות]]></value>
+  </definition>
+  <definition>
+    <key>desc_products</key>
+    <value><![CDATA[נתוני מוצר]]></value>
+  </definition>
+  <definition>
+    <key>desc_categories</key>
+    <value><![CDATA[נתוני קטגוריה]]></value>
+  </definition>
+  <definition>
+    <key>desc_manufacturers</key>
+    <value><![CDATA[נתוני יצרן]]></value>
+  </definition>
+  <definition>
+    <key>desc_localisations</key>
+    <value><![CDATA[מטבע, שפה, מדינה, אזור, אורך, משקל, &amp; אַחֵר]]></value>
+  </definition>
+  <definition>
+    <key>desc_error_log</key>
+    <value><![CDATA[יומן שגיאות]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[סוג המטמון]]></value>
+  </definition>
+  <definition>
+    <key>column_description</key>
+    <value><![CDATA[תאור]]></value>
+  </definition>
+  <definition>
+    <key>text_html_cache</key>
+    <value><![CDATA[HTML-המטמון]]></value>
+  </definition>
+  <definition>
+    <key>desc_html_cache</key>
+    <value><![CDATA[דפי HTML במטמון וחוסם]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[התקנה / שדרוג היסטוריה]]></value>
+  </definition>
+  <definition>
+    <key>desc_install_upgrade_history</key>
+    <value><![CDATA[נקה הכל התקנה / שדרוג היסטוריה]]></value>
+  </definition>
+</definitions>

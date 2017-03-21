@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[אזורים]]></value>
+  </definition>
+  <definition>
+    <key>text_zone</key>
+    <value><![CDATA[אֵזוֹר]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: יש לך אזורים שונים!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[שם אזור]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[קוד האזור]]></value>
+  </definition>
+  <definition>
+    <key>column_country</key>
+    <value><![CDATA[מדינה]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[פעולה]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[סטָטוּס]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[סטטוס Zone:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[אזור שם:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[קוד אזור:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[מדינה:]]></value>
+  </definition>
+  <definition>
+    <key>text_select_country</key>
+    <value><![CDATA[- בחר מדינה -]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[אזהרה: אין לך הרשאה לשנות אזורים!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[אזור שם חייב להיות בין 2 ל 128 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[אזהרה: אזור זה לא ניתן למחוק כפי שהוא מוקצה כעת כאזור החנות מחדל!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[אזהרה: אזור זה לא ניתן למחוק כפי שהוא מוקצה כעת %s בחנויות!]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[אזהרה: אזור זה לא ניתן למחוק כפי שהוא מוקצה כעת רשום ספר %s כתובת!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone_to_location</key>
+    <value><![CDATA[אזהרה: אזור זה לא ניתן למחוק כפי שהוא מוקצה כעת %s אזורים למקומות!]]></value>
+  </definition>
+</definitions>

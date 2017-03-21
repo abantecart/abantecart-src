@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[חשבון Logout]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p style=";text-align:right;direction:rtl"> התנתקת את חשבונך. עכשיו זה בטוח להשאיר את המחשב. </p><p style=";text-align:right;direction:rtl"> הסל שלך נשמר, את הפריטים בתוכו ישוחזרו בכל פעם שתיכנס שוב לחשבונך. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[חֶשְׁבּוֹן]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[להתנתק]]></value>
+  </definition>
+</definitions>

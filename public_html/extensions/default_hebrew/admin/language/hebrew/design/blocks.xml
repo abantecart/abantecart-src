@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[בלוקים]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[למחוק בלוק]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[בלוק עריכה]]></value>
+  </definition>
+  <definition>
+    <key>text_enable</key>
+    <value><![CDATA[הפעל / בטל]]></value>
+  </definition>
+  <definition>
+    <key>text_details</key>
+    <value><![CDATA[פרטים]]></value>
+  </definition>
+  <definition>
+    <key>text_create</key>
+    <value><![CDATA[צור חסימה]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: שינית בלוק!]]></value>
+  </definition>
+  <definition>
+    <key>column_block_id</key>
+    <value><![CDATA[תְעוּדַת זֶהוּת]]></value>
+  </definition>
+  <definition>
+    <key>column_block_txt_id</key>
+    <value><![CDATA[מזהה טקסט ייחודי]]></value>
+  </definition>
+  <definition>
+    <key>column_block_name</key>
+    <value><![CDATA[שֵׁם]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[תאריך הוסף]]></value>
+  </definition>
+  <definition>
+    <key>column_block_type</key>
+    <value><![CDATA[סוּג]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[פעולה]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[סדר המיון]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[תמונה]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_status</key>
+    <value><![CDATA[סטָטוּס]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_status_note</key>
+    <value><![CDATA[הערה: אתה צריך להוסיף בלוק זה <a style="text-decoration: underline; font-weight: bold;" href="#admin#rt=design/layout">LAYOUT</a> על הדף שאליו אתה רוצה לראות את זה עובד]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_type</key>
+    <value><![CDATA[Custom בלוק סוג]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_name</key>
+    <value><![CDATA[שם בלוק מותאם אישית]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_wrapper</key>
+    <value><![CDATA[השתמש לחסום מעטפת (הופעה)]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_framed</key>
+    <value><![CDATA[מסגרת שימוש של הבלוק]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_title</key>
+    <value><![CDATA[כותרת בלוק מותאם אישית]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_description</key>
+    <value><![CDATA[תיאור בלוק מותאם אישית <p style=";text-align:right;direction:rtl"> הערה: לשימוש פנימי בלבד </p>]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_content</key>
+    <value><![CDATA[חסימת תכנים מותאמים אישית]]></value>
+  </definition>
+  <definition>
+    <key>entry_listing_datasource</key>
+    <value><![CDATA[מקור נתוני רישום]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_confirm</key>
+    <value><![CDATA[אשר למחוק בלוק?]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[אנא מלאו את כל שדות חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[אי אפשר למחוק כי גוש זה נמצא בשימוש. בקר בקטע פריסה.]]></value>
+  </definition>
+  <definition>
+    <key>error_text_status</key>
+    <value><![CDATA[לא ניתן לשנות את המצב כי גוש זה אינו בשימוש. בקר בקטע פריסה.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_deleted</key>
+    <value><![CDATA[הצלחה: שמחקת אתה גוש אישית!]]></value>
+  </definition>
+  <definition>
+    <key>entry_data_source</key>
+    <value><![CDATA[מקור מידע:]]></value>
+  </definition>
+  <definition>
+    <key>entry_limit</key>
+    <value><![CDATA[לְהַגבִּיל:]]></value>
+  </definition>
+  <definition>
+    <key>text_listing_auto</key>
+    <value><![CDATA[רישום אוטומטי]]></value>
+  </definition>
+  <definition>
+    <key>text_listing_manual</key>
+    <value><![CDATA[רישום אישית]]></value>
+  </definition>
+  <definition>
+    <key>text_select_listing</key>
+    <value><![CDATA[--- לבחור נתוני רישום מקור ---]]></value>
+  </definition>
+  <definition>
+    <key>text_products_special</key>
+    <value><![CDATA[הצעות מיוחדות]]></value>
+  </definition>
+  <definition>
+    <key>text_products_popular</key>
+    <value><![CDATA[מוצרים פופולריים]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[קטגוריות]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[תעשיינים]]></value>
+  </definition>
+  <definition>
+    <key>text_featured</key>
+    <value><![CDATA[מוצרים מומלצים]]></value>
+  </definition>
+  <definition>
+    <key>text_latest</key>
+    <value><![CDATA[המוצרים החדישים]]></value>
+  </definition>
+  <definition>
+    <key>text_bestsellers</key>
+    <value><![CDATA[מוצרים הנמכרים]]></value>
+  </definition>
+  <definition>
+    <key>text_media</key>
+    <value><![CDATA[כְּלֵי תִקְשׁוֹרֶת]]></value>
+  </definition>
+  <definition>
+    <key>entry_resource_type</key>
+    <value><![CDATA[סוג המדיה:]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_products</key>
+    <value><![CDATA[מוצרים מותאמים אישית]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_categories</key>
+    <value><![CDATA[קטגוריות מותאמות אישית]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_manufacturers</key>
+    <value><![CDATA[תעשיינים מותאמים אישית]]></value>
+  </definition>
+  <definition>
+    <key>text_html_block</key>
+    <value><![CDATA[HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_listing_block</key>
+    <value><![CDATA[רישום נתונים]]></value>
+  </definition>
+  <definition>
+    <key>text_selected</key>
+    <value><![CDATA[פריטים שנבחרו:]]></value>
+  </definition>
+  <definition>
+    <key>text_data_listed</key>
+    <value><![CDATA[נתונים להיות רשומים]]></value>
+  </definition>
+  <definition>
+    <key>text_save_edit</key>
+    <value><![CDATA[הוספה / עריכה]]></value>
+  </definition>
+  <definition>
+    <key>text_apply</key>
+    <value><![CDATA[החל בחירה]]></value>
+  </definition>
+  <definition>
+    <key>text_block_id</key>
+    <value><![CDATA[חסימת מספר]]></value>
+  </definition>
+  <definition>
+    <key>text_block_txt_id</key>
+    <value><![CDATA[בלוק טקסט מזהה]]></value>
+  </definition>
+  <definition>
+    <key>text_controller</key>
+    <value><![CDATA[בקר]]></value>
+  </definition>
+  <definition>
+    <key>text_templates</key>
+    <value><![CDATA[תבניות בלוק]]></value>
+  </definition>
+  <definition>
+    <key>text_block_date_added</key>
+    <value><![CDATA[תאריך יצירת בלוק]]></value>
+  </definition>
+  <definition>
+    <key>text_layouts</key>
+    <value><![CDATA[משמש פריסות]]></value>
+  </definition>
+  <definition>
+    <key>text_block_info</key>
+    <value><![CDATA[מידע אודות בלוק מותאם אישית]]></value>
+  </definition>
+  <definition>
+    <key>text_add_block</key>
+    <value><![CDATA[הוספת בלוק לסעיף]]></value>
+  </definition>
+  <definition>
+    <key>text_available_block</key>
+    <value><![CDATA[אבני זמין]]></value>
+  </definition>
+  <definition>
+    <key>error_block_not_available</key>
+    <value><![CDATA[בלוק זה לא יוצג במצב שנבחר על חנות!]]></value>
+  </definition>
+</definitions>

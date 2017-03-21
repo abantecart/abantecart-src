@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[יצרנים או מותגים]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturer</key>
+    <value><![CDATA[יצרן או מותג]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: יש לך יצרני שונה!]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[בְּרִירַת מֶחדָל]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[מנהל תמונה]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[שם יצרן]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[סדר המיון]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[פעולה]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[שם יצרן:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[חנויות:]]></value>
+  </definition>
+  <definition>
+    <key>entry_keyword</key>
+    <value><![CDATA[SEO מילות מפתח:]]></value>
+  </definition>
+  <definition>
+    <key>entry_edit</key>
+    <value><![CDATA[לַעֲרוֹך]]></value>
+  </definition>
+  <definition>
+    <key>entry_layout</key>
+    <value><![CDATA[מַעֲרָך]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[תמונה:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[סדר המיון:]]></value>
+  </definition>
+  <definition>
+    <key>error_manufacturer_not_found</key>
+    <value><![CDATA[שגיאה: יצרן לא נמצא!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[אזהרה: אין לך הרשאה לשנות יצרני!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[יצרן שם חייב להיות בין 2 ו -64 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[אזהרה: יצרן זה לא ניתן למחוק כפי שהוא מוקצה כעת %s מוצרים!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_layout</key>
+    <value><![CDATA[הצלחה: שנה את קטגוריית דף פריסה.]]></value>
+  </definition>
+</definitions>
