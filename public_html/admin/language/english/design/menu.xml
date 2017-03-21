@@ -33,16 +33,8 @@
 		<value><![CDATA[Sort Order]]></value>
 	</definition>
 	<definition>
-		<key>entry_link_category</key>
-		<value><![CDATA[Link to Category]]></value>
-	</definition>
-	<definition>
-		<key>entry_link_page</key>
-		<value><![CDATA[Link to Page]]></value>
-	</definition>
-	<definition>
-		<key>text_link</key>
-		<value><![CDATA[Link]]></value>
+		<key>entry_link_type</key>
+		<value><![CDATA[Link Type]]></value>
 	</definition>
 	<definition>
 		<key>text_select_parent_id</key>
@@ -59,5 +51,17 @@
 	<definition>
 		<key>error_non_ascii</key>
 		<value><![CDATA[Only alphanumeric characters allowed for menu ID field!]]></value>
+	</definition>
+	<definition>
+		<key>text_category_link_type</key>
+		<value><![CDATA[Category Page]]></value>
+	</definition>
+	<definition>
+		<key>text_content_link_type</key>
+		<value><![CDATA[Content Page]]></value>
+	</definition>
+	<definition>
+		<key>text_custom_link_type</key>
+		<value><![CDATA[Custom Link or URL]]></value>
 	</definition>
 </definitions>

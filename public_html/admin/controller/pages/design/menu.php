@@ -377,6 +377,21 @@ class ControllerPagesDesignMenu extends AController{
 						'style'    => 'large-field',
 						'multilingual' => true,
 				));
+
+		$this->data['link_types'] = array(
+									'category' => $this->language->get('text_category_link_type'),
+									'content' => $this->language->get('text_content_link_type'),
+									'custom' => $this->language->get('text_custom_link_type'));
+
+		$this->data['link_type'] = $this->html->buildElement(
+				array(
+						'type'    => 'selectbox',
+						'name'    => 'link_type',
+						'options' => $this->data['link_types'],
+						'value'   => '',
+						'style'   => 'no-save short-field',
+		));
+
 		$this->data['form']['fields']['item_url'] = $form->getFieldHtml(
 				array(
 						'type'     => 'input',
@@ -386,6 +401,43 @@ class ControllerPagesDesignMenu extends AController{
 						'required' => true,
 						'help_url' => $this->gen_help_url('item_url'),
 				));
+
+		$this->loadModel('catalog/category');
+		$categories = $this->model_catalog_category->getCategories(0);
+		$options = array('' => $this->language->get('text_select'));
+		foreach($categories as $c){
+			if(!$c['status']){
+				continue;
+			}
+			$options[$c['category_id']] = $c['name'];
+		}
+		$this->data['link_category'] = $this->html->buildElement(
+				array(
+						'type'    => 'selectbox',
+						'name'    => 'menu_categories',
+						'options' => $options,
+						'style'   => 'no-save short-field',
+				));
+
+		$acm = new AContentManager();
+		$results = $acm->getContents();
+		$options = array('' => $this->language->get('text_select'));
+		foreach($results as $c){
+			if(!$c['status']){
+				continue;
+			}
+			$options[$c['content_id']] = $c['title'];
+		}
+
+		$this->data['link_content'] = $this->html->buildElement(
+				array(
+						'type'    => 'selectbox',
+						'name'    => 'menu_information',
+						'options' => $options,
+						'style'   => 'no-save short-field',
+				)
+		);
+
 		$this->data['form']['fields']['parent_id'] = $form->getFieldHtml(
 				array(
 						'type'    => 'selectbox',
@@ -421,49 +473,6 @@ class ControllerPagesDesignMenu extends AController{
 				)
 		);
 		$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
-
-		$this->loadModel('catalog/category');
-		$categories = $this->model_catalog_category->getCategories(0);
-		$options = array('' => $this->language->get('text_select'));
-		foreach($categories as $c){
-			if(!$c['status']){
-				continue;
-			}
-			$options[$c['category_id']] = $c['name'];
-		}
-		$this->data['form']['fields']['link_category'] = $this->html->buildElement(
-				array(
-						'type'    => 'selectbox',
-						'name'    => 'menu_categories',
-						'options' => $options,
-						'style'   => 'no-save large-field',
-				));
-
-		$acm = new AContentManager();
-		$results = $acm->getContents();
-		$options = array('' => $this->language->get('text_select'));
-		foreach($results as $c){
-			if(!$c['status']){
-				continue;
-			}
-			$options[$c['content_id']] = $c['title'];
-		}
-
-		$this->data['form']['fields']['link_page'] = $this->html->buildElement(
-				array(
-						'type'    => 'selectbox',
-						'name'    => 'menu_information',
-						'options' => $options,
-						'style'   => 'no-save large-field',
-				));
-
-		$this->data['button_link'] = $this->html->buildElement(
-				array(
-						'type' => 'button',
-						'name' => 'submit',
-						'text' => $this->language->get('text_link')
-				));
-
 
 		$this->view->batchAssign($this->language->getASet());
 		$this->view->batchAssign($this->data);
