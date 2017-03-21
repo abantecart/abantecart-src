@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[客户在网上]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[顾客姓名]]></value>
+  </definition>
+  <definition>
+    <key>column_ip</key>
+    <value><![CDATA[客户IP]]></value>
+  </definition>
+  <definition>
+    <key>column_time</key>
+    <value><![CDATA[上次访问]]></value>
+  </definition>
+  <definition>
+    <key>column_url</key>
+    <value><![CDATA[访问的URL]]></value>
+  </definition>
+</definitions>

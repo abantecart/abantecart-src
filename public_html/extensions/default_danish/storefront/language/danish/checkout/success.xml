@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Din ordre er blevet behandlet!]]></value>
+  </definition>
+  <definition>
+    <key>text_message_account</key>
+    <value><![CDATA[<p> Din ordre # %s er blevet oprettet! </p> 
+ <p> Du kan se dine ordredetaljer ved at gå til <a href="%s">faktura siden</a>. </p> 
+ <p> Eventuelle spørgsmål, du har til <a href="%s">butiksejeren</a>. </p> 
+ <p> Tak for shopping med os! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_message_guest</key>
+    <value><![CDATA[<p> Din ordre er blevet behandlet! </p> 
+ <p> Du kan se dine ordredetaljer ved at gå til <a href="%s">faktura siden</a>. </p> 
+ <p> Eventuelle spørgsmål, du har til <a href="%s">butiksejeren</a>. </p> 
+ <p> Tak for shopping med os! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Kurv]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Forsendelse]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Betaling]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[gæst bestilling]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Bekræfte]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succes]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order</key>
+    <value><![CDATA[Ups! Ukendt fejl. Din ordre vil blive revideret manuelt snart.]]></value>
+  </definition>
+  <definition>
+    <key>text_title_failed_order_to_admin</key>
+    <value><![CDATA[Ny mislykkedes ordre # %s]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order_to_admin</key>
+    <value><![CDATA[Ingen rigtige svar fra betaling udbyder. Behov manuel kontrol!]]></value>
+  </definition>
+</definitions>

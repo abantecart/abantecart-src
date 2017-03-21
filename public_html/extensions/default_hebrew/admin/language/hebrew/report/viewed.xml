@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[מוצרים נצפים דווחו]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: יש לך לאפס את הדו&quot;ח צפה המוצר!]]></value>
+  </definition>
+  <definition>
+    <key>column_product_id</key>
+    <value><![CDATA[מזהה מוצר]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[שם מוצר]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[דֶגֶם]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[קטגוריה]]></value>
+  </definition>
+  <definition>
+    <key>column_viewed</key>
+    <value><![CDATA[הנצפה]]></value>
+  </definition>
+  <definition>
+    <key>column_percent</key>
+    <value><![CDATA[אָחוּז]]></value>
+  </definition>
+</definitions>

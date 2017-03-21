@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[אורח Checkout - שלב 2]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[עֲגָלָה]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_1</key>
+    <value><![CDATA[אורח Checkout - שלב 1]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_2</key>
+    <value><![CDATA[אורח Checkout - שלב 2]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[שיטת משלוח]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[אנא מלא את שיטות משלוח המועדפות לשימוש על צו זה.]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[אמצעי תשלום]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_methods</key>
+    <value><![CDATA[אנא מלא את שיטת התשלום המועדפת לשימוש על צו זה.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[להוסיף הערות על ההזמנה שלך]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[קראתי ואני מסכים ל]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[הכנס את הקוד שלך, ללחוץ על הכפתור &quot;החל קופון&quot; ולצפות ההנחה שלך להיות מיושמת באופן מיידי לסל הקניות שלך.]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: קופון ההנחה שלך הוחלה!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[הצלחה: קופון הוסר!]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[שיטת משלוח:]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[אמצעי תשלום:]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon</key>
+    <value><![CDATA[קוּפּוֹן:]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[שגיאה: שיטת משלוח חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[שגיאה: אין אפשרויות משלוח זמינות. אנא <a href="index.php?rt=content/contact">צור איתנו קשר</a> לקבלת סיוע!]]></value>
+  </definition>
+  <definition>
+    <key>error_payment</key>
+    <value><![CDATA[שגיאה: שיטת תשלום חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[שגיאה: אתה חייב להסכים %s!]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[שגיאה: קופון הוא שגוי, או שהוא פג או הגיע זה גבול שימוש!]]></value>
+  </definition>
+</definitions>

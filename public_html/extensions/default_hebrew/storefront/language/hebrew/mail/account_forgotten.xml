@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - איפוס סיסמה]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[איפוס סיסמה התבקש מ %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[כדי לאפס קישור קליק הסיסמה שלך להלן:]]></value>
+  </definition>
+  <definition>
+    <key>text_password_reset</key>
+    <value><![CDATA[הסיסמה שלך בהצלחה לאפס על %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_password</key>
+    <value><![CDATA[הזן את הסיסמה החדשה שלך למטה:]]></value>
+  </definition>
+  <definition>
+    <key>error_reset_token</key>
+    <value><![CDATA[קישור שגוי עבור בקשת סיסמה. נסה לאפס עוד פעם אחת ולהשתמש קישור מרוב הדוא&quot;ל האחרון.]]></value>
+  </definition>
+</definitions>

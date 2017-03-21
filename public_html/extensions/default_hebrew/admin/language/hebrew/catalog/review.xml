@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ביקורות]]></value>
+  </definition>
+  <definition>
+    <key>text_review</key>
+    <value><![CDATA[סקירה]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[סקירה הכנס]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[סקירת עדכון]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: יש לך ביקורות שונות!]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[מוצר]]></value>
+  </definition>
+  <definition>
+    <key>column_author</key>
+    <value><![CDATA[מְחַבֵּר]]></value>
+  </definition>
+  <definition>
+    <key>column_rating</key>
+    <value><![CDATA[דֵרוּג]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[סטָטוּס]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[תאריך הוסף]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[פעולה]]></value>
+  </definition>
+  <definition>
+    <key>entry_product</key>
+    <value><![CDATA[מוצר:]]></value>
+  </definition>
+  <definition>
+    <key>entry_author</key>
+    <value><![CDATA[מְחַבֵּר:]]></value>
+  </definition>
+  <definition>
+    <key>entry_rating</key>
+    <value><![CDATA[דֵרוּג:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[סטָטוּס:]]></value>
+  </definition>
+  <definition>
+    <key>entry_text</key>
+    <value><![CDATA[טֶקסט:]]></value>
+  </definition>
+  <definition>
+    <key>entry_good</key>
+    <value><![CDATA[טוֹב]]></value>
+  </definition>
+  <definition>
+    <key>entry_bad</key>
+    <value><![CDATA[רַע]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[אזהרה: אין לך הרשאה לשנות ביקורות!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[מוצר חובה!]]></value>
+  </definition>
+  <definition>
+    <key>error_author</key>
+    <value><![CDATA[מחבר חייב להיות בין 2 ו -64 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_text</key>
+    <value><![CDATA[טקסט סקירה חייב להיות בין 25 ל 1000 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>error_rating</key>
+    <value><![CDATA[דירוג סקירת חובה!]]></value>
+  </definition>
+  <definition>
+    <key>text_select_product</key>
+    <value><![CDATA[- בחר מוצר -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_category</key>
+    <value><![CDATA[- בחר קטגוריה -]]></value>
+  </definition>
+</definitions>

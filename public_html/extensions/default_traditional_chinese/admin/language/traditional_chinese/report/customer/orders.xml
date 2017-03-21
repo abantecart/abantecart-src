@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[客戶訂單]]></value>
+  </definition>
+  <definition>
+    <key>column_customer_id</key>
+    <value><![CDATA[客戶ID]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[顧客姓名]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[客戶群]]></value>
+  </definition>
+  <definition>
+    <key>column_order_count</key>
+    <value><![CDATA[訂單數]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[總]]></value>
+  </definition>
+</definitions>

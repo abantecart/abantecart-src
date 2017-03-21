@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[信息]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[联系我们]]></value>
+  </definition>
+  <definition>
+    <key>text_sitemap</key>
+    <value><![CDATA[网站地图]]></value>
+  </definition>
+</definitions>

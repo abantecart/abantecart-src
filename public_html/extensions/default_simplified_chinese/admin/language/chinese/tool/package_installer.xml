@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：包已成功安装。]]></value>
+  </definition>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[包安装程序]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_license</key>
+    <value><![CDATA[包许可协议]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_ftp</key>
+    <value><![CDATA[FTP访问参数]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_download</key>
+    <value><![CDATA[包加载]]></value>
+  </definition>
+  <definition>
+    <key>text_preloading</key>
+    <value><![CDATA[包文件％文件％将被下载。]]></value>
+  </definition>
+  <definition>
+    <key>text_loading</key>
+    <value><![CDATA[下载文件。尺寸：〜。 <br/>这可能取决于你的连接需要几秒钟。]]></value>
+  </definition>
+  <definition>
+    <key>text_key_hint</key>
+    <value><![CDATA[输入安装密钥在这里]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_user</key>
+    <value><![CDATA[FTP用户名：]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_password</key>
+    <value><![CDATA[FTP用户密码：]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_host</key>
+    <value><![CDATA[FTP主机：]]></value>
+  </definition>
+  <definition>
+    <key>text_i_agree</key>
+    <value><![CDATA[我同意许可]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[同意]]></value>
+  </definition>
+  <definition>
+    <key>text_retry</key>
+    <value><![CDATA[重试]]></value>
+  </definition>
+  <definition>
+    <key>text_disagree</key>
+    <value><![CDATA[不同意]]></value>
+  </definition>
+  <definition>
+    <key>text_download_error</key>
+    <value><![CDATA[我们很抱歉，在上传文件时发生错误。 </br>再试一次。 </br>如果问题仍然存在下载文件在您的订单历史记录，并手动安装。]]></value>
+  </definition>
+  <definition>
+    <key>text_continue</key>
+    <value><![CDATA[继续]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer_heading</key>
+    <value><![CDATA[放弃]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer</key>
+    <value><![CDATA[<h3>尊敬的客户AbanteCart， </h3><br/> 
+你即将第三方扩展安装到您的AbanteCart。 <br/><br/> 
+请仔细阅读并了解本免责声明关于第三方扩展，您要安装。 <br/><br/> 
+第三方扩展和服务是由第三方供应商提供的。 <br/><br/> 
+虽然AbanteCart验证由第三方提供的扩展和服务质量，AbanterCart并不保证所有第三方扩展正常工作或不会导致系统中的任何冲突。 
+ AbanteCart成员和会员绝不或承担责任作出相关的由第三方供应商提供的产品或服务的要求。 AbanteCart不保证第三方扩展或服务的质量。请您直接有关的第三方扩展或服务，合适的第三方供应商查询。 
+如果您有任何关于第三方供应商的关注请联系AbanteCart <a href="http://www.abantecart.com/contact-us" target="_blank">http://www.abantecart.com/contact-us</a><br/><br/> 
+真诚， <br/> 
+ AbanteCart <br/> 
+理想的开放源代码电子商务解决方案]]></value>
+  </definition>
+  <definition>
+    <key>warning_ftp</key>
+    <value><![CDATA[警告：一些目录或文件没有写权限（ <span id="see_details">查看更多详情</span> ） <br/>您可以更改您的服务器或权限<br/>使用FTP访问您的服务器安装（通常，托管服务提供商通过电子邮件发送这些信息也可以在管理它主机控制工具） <br/>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed</key>
+    <value><![CDATA[<p class="success">您已经％伸长％扩展安装！如果你想继续和升级，请证实。 </p>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed_uninstall</key>
+    <value><![CDATA[你已经有了这个扩展名“％扩展％”装！如果要继续重新安装，请卸载首先删除扩展。]]></value>
+  </definition>
+  <definition>
+    <key>error_pack_file_not_found</key>
+    <value><![CDATA[错误：无法从档案中提取扩展〜。检查<a href="#admin#rt=tool/error_log" target="_blank">日志</a>中的错误]]></value>
+  </definition>
+  <definition>
+    <key>error_mp</key>
+    <value><![CDATA[市场错误：]]></value>
+  </definition>
+  <definition>
+    <key>error_repository</key>
+    <value><![CDATA[错误：无法下载文件。信息库错误或无效的扩展键。再试一次。如果问题仍然存在下载文件在您的订单历史记录，并手动安装。]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_user</key>
+    <value><![CDATA[错误：FTP用户名是空的。]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_password</key>
+    <value><![CDATA[错误：FTP用户密码为空。]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_connect</key>
+    <value><![CDATA[错误：无法连接到FTP服务器]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_login</key>
+    <value><![CDATA[错误：无法登录到FTP服务器。无效的用户名或密码。]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path</key>
+    <value><![CDATA[错误：无法通过FTP路径找到AbanteCart的根目录下。 <br/>尽量让它空自动搜索。]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path_array</key>
+    <value><![CDATA[错误：无法自动识别AbanteCart的根目录下的FTP模式。 <br/>请填写FTP路径表单字段。 <br/>路径的建议是：]]></value>
+  </definition>
+  <definition>
+    <key>error_dir_permission</key>
+    <value><![CDATA[无法保存文件，因为目录不可写：]]></value>
+  </definition>
+  <definition>
+    <key>error_package_structure</key>
+    <value><![CDATA[错误：可能包坏了。包错误的结构。]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config_xml</key>
+    <value><![CDATA[错误：无法找到扩展提取里面的文件package.xml中。可能延长未正确萃取。检查<a href="#admin#rt=tool/error_log" target="_blank">日志</a>中的错误]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config2</key>
+    <value><![CDATA[错误：无法找到安装模式里面包package.xml中。]]></value>
+  </definition>
+  <definition>
+    <key>error_package_info_not_exists</key>
+    <value><![CDATA[错误：无法找到有关这个下载包会话信息。]]></value>
+  </definition>
+  <definition>
+    <key>error_unpack</key>
+    <value><![CDATA[错误：下载后无法解压包“％PACKAGE％”。归档错误。看到错误日志的详细信息。]]></value>
+  </definition>
+  <definition>
+    <key>error_move</key>
+    <value><![CDATA[错误：拆封后无法移动封装代码。请尝试检查目录的写权限：]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode</key>
+    <value><![CDATA[错误：因为它已经安装了无法安装扩展“％包％”。您需要卸载并首先将其删除或升级包获得。]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode2</key>
+    <value><![CDATA[错误：因为它没有安装无法升级扩展“％包％”。您需要为安装包获得。]]></value>
+  </definition>
+  <definition>
+    <key>error_version_compatibility</key>
+    <value><![CDATA[错误：无法安装包。您的购物车版本<b>％CURRENT_VERSION％。</b> （诸）版本需要<b>％VERSIONS％。</b>]]></value>
+  </definition>
+  <definition>
+    <key>error_package_version_compatibility</key>
+    <value><![CDATA[错误：无法升级包。较新的软件包版本已安装。]]></value>
+  </definition>
+  <definition>
+    <key>error_install</key>
+    <value><![CDATA[错误：无法安装包。请参阅系统 - &gt;错误日志的详细信息。]]></value>
+  </definition>
+  <definition>
+    <key>error_core_version</key>
+    <value><![CDATA[错误：您已经安装AbanteCart版本％VERSION％。 <br/>该升级包仅适用于版本低于]]></value>
+  </definition>
+  <definition>
+    <key>text_interrupt</key>
+    <value><![CDATA[打断]]></value>
+  </definition>
+  <definition>
+    <key>confirm_version_incompatibility</key>
+    <value><![CDATA[这个扩展的最新副本未通过验证您的版本AbanteCart的（V〜）。 <br/>扩展版本是指定AbanteCart V〜。 <br/> 
+这不是一个问题，但如果发现问题或不兼容，请与扩展开发。]]></value>
+  </definition>
+  <definition>
+    <key>error_move_ftp</key>
+    <value><![CDATA[错误：拆封后无法移动封装代码。也许FTP路径不正确。 <br/>另外，请尝试检查目录的写权限：]]></value>
+  </definition>
+  <definition>
+    <key>text_network_install</key>
+    <value><![CDATA[网络安装]]></value>
+  </definition>
+  <definition>
+    <key>text_extension_upload</key>
+    <value><![CDATA[扩展上传]]></value>
+  </definition>
+  <definition>
+    <key>error_archive_extension</key>
+    <value><![CDATA[错误：仅支持.tar.gz格式的文件。]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_file</key>
+    <value><![CDATA[上传文件：]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_url</key>
+    <value><![CDATA[插入网址：]]></value>
+  </definition>
+  <definition>
+    <key>error_move_backup</key>
+    <value><![CDATA[错误：升级前无法备份文件。检查目录的写权限：]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_title</key>
+    <value><![CDATA[Abantecart核心升级]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_attention</key>
+    <value><![CDATA[注意！ 
+ AbanteCart即将升级到版本〜！]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_warning</key>
+    <value><![CDATA[有开始升级过程完成后不能撤消。 
+强烈建议完整的数据库和代码的备份。 
+在非直播网站的第一个测试升级。建议不要在Live网站升级。]]></value>
+  </definition>
+  <definition>
+    <key>text_upgrade_now</key>
+    <value><![CDATA[即刻升级！]]></value>
+  </definition>
+  <definition>
+    <key>error_additional_help_text</key>
+    <value><![CDATA[卡住？不是一个问题。您可以安装扩展的另一种方式。检查<a href="http://docs.abantecart.com/pages/extensions/install.html#FTPinstall" target="_blank">此帮助链接</a>]]></value>
+  </definition>
+  <definition>
+    <key>error_notconnected</key>
+    <value><![CDATA[不能升级，或从市场上安装扩展程序。这家店未经过身份验证/连接。请验证并连接到<a href="%s">市场</a>]]></value>
+  </definition>
+</definitions>

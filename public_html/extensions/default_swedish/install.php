@@ -13,7 +13,7 @@ if (! defined ( 'DIR_CORE' )) {
 $lng_code = "sv";
 $lng_name = "Svenska";
 $lng_directory = "swedish";
-$lng_locale = "sv_SV.UTF-8,sv_SV,sv-sv,swedish";
+$lng_locale = "sv_SE.UTF-8,sv_SE,sv-se,swedish";
 $lng_flag_path = "extensions/default_swedish/storefront/language/swedish/flag.png";
 $lng_sort = 2; // sorting order with other languages
 $lng_status = 0; // Status on installation of extension
@@ -28,12 +28,12 @@ if ($query->row["language_id"]) {
 	return false;
 }
 
-$this->db->query("INSERT INTO ".$this->db->table("languages")." 
+$this->db->query("INSERT INTO ".$this->db->table("languages")."
 				(`name`,`code`,`locale`,`image`,`directory`,`filename`,`sort_order`, `status`)
 				VALUES (
-				'".$this->db->escape($lng_name)."', 
-				'".$this->db->escape($lng_code)."', 
-				'".$this->db->escape($lng_locale)."', 
+				'".$this->db->escape($lng_name)."',
+				'".$this->db->escape($lng_code)."',
+				'".$this->db->escape($lng_locale)."',
 				'".$this->db->escape($lng_flag_path)."',
 				'".$this->db->escape($lng_directory)."',
 				'".$lng_directory."',

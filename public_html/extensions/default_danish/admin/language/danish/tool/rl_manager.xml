@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Media Resource Library manager]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[NYESTE ressourcer]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[typen ressource]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[Resource type Tast <br/><span class="help">Denne ressourcetype nøgle / navn værdi kan ikke ændres</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[Resource mappe <br/><span class="help">Register lokalisering ressource for denne type. Hvis ændret, vil de eksisterende ressourcer ikke være acceccible og bliver nødt til at blive kopieret til ny mappe!</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[Standard ikon <br/><span class="help">Ikon billede, der skal vises i notering af ressourcer (Placering: / billede / ...).</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[Tilladt filtyper <br/><span class="help">Regex med en liste over tilladte filtypenavne for denne ressourcetype</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succes: Du har opdateret ressourcetype!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[Fejl: Manglende ressourcetype ID!]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[Fejl: Ressourcetype navn skal være mellem 2 og 40 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[Fejl: Ressourcetype mappe skal være mellem 2 og 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[Fejl: Ressourcetype ikon skal være mellem 2 og 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[Fejl: Ressourcetype fil extenions regex skal være mellem 2 og 40 charcters]]></value>
+  </definition>
+</definitions>

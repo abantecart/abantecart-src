@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[登陆错误！]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[您还没有登录。您将被重定向到登录页面]]></value>
+  </definition>
+</definitions>

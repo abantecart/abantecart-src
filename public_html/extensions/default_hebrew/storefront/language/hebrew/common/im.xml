@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>im_text_notification</key>
+    <value><![CDATA[הוֹדָעָה]]></value>
+  </definition>
+  <definition>
+    <key>im_error_mail_address</key>
+    <value><![CDATA[כתובת דוא&quot;ל %s אינה חוקית!]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_email_title</key>
+    <value><![CDATA[אֶלֶקטרוֹנִי]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_title</key>
+    <value><![CDATA[סמס]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_empty_warn</key>
+    <value><![CDATA[הודעות SMS אינן אפשריות. מספר הטלפון הנייד אינו נשמר ברשומות חשבונך.]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update</key>
+    <value><![CDATA[עדכון להזמין]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update_note</key>
+    <value><![CDATA[בחר אם ברצונך לקבל הודעות על עדכוני ההזמנות שלך.]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_admin</key>
+    <value><![CDATA[# להזמין %s עודכן! מזהה מצב להזמין %s]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_customer</key>
+    <value><![CDATA[# ההזמנה שלך %s עודכן. מצב הזמנה חדש הוא %s]]></value>
+  </definition>
+  <definition>
+    <key>im_new_order_text_to_admin</key>
+    <value><![CDATA[ניו אורדר # %s הושם!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_customer_text_to_admin</key>
+    <value><![CDATA[# לקוח חדש %s נרשם!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_subscriber_text_to_admin</key>
+    <value><![CDATA[# מנוי חדש %s נרשם!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update</key>
+    <value><![CDATA[עדכון חשבון]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update_note</key>
+    <value><![CDATA[בחר אם ברצונך לקבל הודעות על עדכוני חשבונך.]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_text_to_customer</key>
+    <value><![CDATA[החשבון שלך עודכן! אם לא עשית את כל השינויים, אנא צור קשר עם בעל האתר]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_email_to_customer</key>
+    <value><![CDATA[כתובת הדוא&quot;ל של חשבונך שונה %s! אם לא עשית את השינוי הזה, אנא צור קשר עם בעל האתר]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_login_to_customer</key>
+    <value><![CDATA[שם ההתחברות לחשבון שלך שונה כדי %s! אם לא עשית את השינוי הזה, אנא צור קשר עם בעל האתר]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_password_to_customer</key>
+    <value><![CDATA[סיסמת החשבון שלך שונתה! אם לא עשית את השינוי הזה, אנא צור קשר עם בעל האתר]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_contact_admin_text</key>
+    <value><![CDATA[יש לך הודעה חדשה מלקוח (%s, %s)!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter</key>
+    <value><![CDATA[עלונים]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter_note</key>
+    <value><![CDATA[בחר אם ברצונך לקבל הודעות על המוצרים שלנו ועדכוני שירות.]]></value>
+  </definition>
+  <definition>
+    <key>im_product_review_text_to_admin</key>
+    <value><![CDATA[ביקורת מוצר חדש שנוסף לו. ראה פירוט # מנהל # rt = קטלוג / סקירה / עדכון &amp; review_id = %s]]></value>
+  </definition>
+  <definition>
+    <key>im_product_out_of_stock_admin_text</key>
+    <value><![CDATA[מוצרים עם ID # %s אזל מהמלאי.]]></value>
+  </definition>
+</definitions>

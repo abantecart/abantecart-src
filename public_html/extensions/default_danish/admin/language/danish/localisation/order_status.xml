@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ordrestatusser]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Ordre status]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succes: Du har ændret ordrestatusser!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Ordrestatus Navn]]></value>
+  </definition>
+  <definition>
+    <key>column_text_id</key>
+    <value><![CDATA[Ordrestatus Tekst-id]]></value>
+  </definition>
+  <definition>
+    <key>entry_text_id</key>
+    <value><![CDATA[Ordrestatus Tekst ID:]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Handling]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Ordrestatus Navn:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advarsel: Du har ikke tilladelse til at ændre ordre statuer!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Ordrestatus Navn skal være mellem 2 og 32 tegn!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Advarsel: Denne ordrestatus kan ikke slettes, da det i øjeblikket er tildelt som standard butikken ordrestatus!]]></value>
+  </definition>
+  <definition>
+    <key>error_download</key>
+    <value><![CDATA[Advarsel: Denne ordrestatus kan ikke slettes, da det i øjeblikket er tildelt som standard download-status!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Advarsel: Denne ordrestatus kan ikke slettes, da det i øjeblikket er tildelt %s butikker!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Advarsel: Denne ordrestatus kan ikke slettes, da det i øjeblikket er tildelt %s ordrer!]]></value>
+  </definition>
+  <definition>
+    <key>error_nondeletable</key>
+    <value><![CDATA[Advarsel: Dette er vigtigt ordrestatus, der er knyttet til betalinger. Du kan ikke slette denne status.]]></value>
+  </definition>
+  <definition>
+    <key>error_status_text_id</key>
+    <value><![CDATA[Ordrestatus Tekst Id skal være unikt og mellem 2 og 32 tegn!]]></value>
+  </definition>
+</definitions>

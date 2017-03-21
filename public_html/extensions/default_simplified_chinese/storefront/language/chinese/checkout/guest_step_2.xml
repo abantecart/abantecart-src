@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[访客结帐 - 第2步]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[大车]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_1</key>
+    <value><![CDATA[客户结账 - 第1步]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_2</key>
+    <value><![CDATA[访客结帐 - 第2步]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[邮寄方式]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[请选择最佳的运输方式，以这个顺序使用。]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[付款方法]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_methods</key>
+    <value><![CDATA[请选择首选付款方式，以这个顺序上使用。]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[添加评论关于您的订单]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[我已经阅读并且同意]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[输入您的密码，点击“应用优惠券”按钮，看你的折扣瞬间就被应用到您的订单。]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：您的优惠券折扣已经应用！]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[成功：优惠券已被删除！]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[邮寄方式：]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[付款方法：]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon</key>
+    <value><![CDATA[优惠券：]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[错误：要求运输方式！]]></value>
+  </definition>
+  <definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[错误：没有运输选项可供选择。请<a href="index.php?rt=content/contact">联系我们</a>寻求帮助！]]></value>
+  </definition>
+  <definition>
+    <key>error_payment</key>
+    <value><![CDATA[错误：所需的付款方式！]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[错误：您必须同意了〜！]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[错误：优惠券或者无效，过期或达到它的使用限制！]]></value>
+  </definition>
+</definitions>

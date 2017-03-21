@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succes: Pakke blev installeret.]]></value>
+  </definition>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Package Installer]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_license</key>
+    <value><![CDATA[Aftale Package License]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_ftp</key>
+    <value><![CDATA[FTP adgang parametre]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_download</key>
+    <value><![CDATA[pakke Loading]]></value>
+  </definition>
+  <definition>
+    <key>text_preloading</key>
+    <value><![CDATA[Package filen% file% bliver downloadet.]]></value>
+  </definition>
+  <definition>
+    <key>text_loading</key>
+    <value><![CDATA[Download af fil. Størrelse: %s. <br/> Det kan tage nogle sekunder, afhængigt af din forbindelse.]]></value>
+  </definition>
+  <definition>
+    <key>text_key_hint</key>
+    <value><![CDATA[Indtast Installation Key Her]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_user</key>
+    <value><![CDATA[FTP brugernavn:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_password</key>
+    <value><![CDATA[FTP User Password:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_host</key>
+    <value><![CDATA[FTP Host:]]></value>
+  </definition>
+  <definition>
+    <key>text_i_agree</key>
+    <value><![CDATA[Jeg accepterer licens]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[Enig]]></value>
+  </definition>
+  <definition>
+    <key>text_retry</key>
+    <value><![CDATA[Prøve igen]]></value>
+  </definition>
+  <definition>
+    <key>text_disagree</key>
+    <value><![CDATA[Være uenig]]></value>
+  </definition>
+  <definition>
+    <key>text_download_error</key>
+    <value><![CDATA[Vi beklager, men opstod fejl under upload af filen. </br> Prøv en gang til. </br> Hvis problemet fortsætter downloade filen i din ordrehistorik og installere manuelt.]]></value>
+  </definition>
+  <definition>
+    <key>text_continue</key>
+    <value><![CDATA[Blive ved]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer_heading</key>
+    <value><![CDATA[Disclaimer]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer</key>
+    <value><![CDATA[<h3> Kære AbanteCart kunde, </h3><br/> 
+ Du er ved at installere tredjeparts udvidelse til din AbanteCart. <br/><br/> 
+ Læs og forstå denne ansvarsfraskrivelse om tredjeparts udvidelse, som du ved at installere. <br/><br/> 
+ Tredjemands udvidelser og tjenester leveres af tredjepartsleverandører. <br/><br/> 
+ Selv AbanteCart validere kvaliteten af udvidelser og tjenesteydelser fra tredjemand, AbanterCart garanterer ikke, at alle tredjepart forlængelse arbejde korrekt eller ikke vil medføre nogen konflikter i systemet. 
+ AbanteCart medlemmer og associerede selskaber er på ingen måde ansvarlig eller ansvarlig for anprisninger relateret til de produkter eller tjenester, som tredjepartsleverandører. AbanteCart ikke garantere kvaliteten af ​​tredjeparts udvidelser eller tjenester. Bedes rettet dine forespørgsler vedrørende tredjeparts udvidelser eller tjenester til den relevante tredjepartsleverandør. 
+ Hvis du har bekymring tredjemand udbyder kontakt AbanteCart på <a href="http://www.abantecart.com/contact-us" target="_blank">http://www.abantecart.com/contact-us</a><br/><br/> 
+ Med venlig hilsen <br/> 
+ AbanteCart <br/> 
+ Ideal OpenSource E-handel Solution]]></value>
+  </definition>
+  <definition>
+    <key>warning_ftp</key>
+    <value><![CDATA[Advarsel: Nogle mappe eller fil har ikke skrivetilladelse <span id="see_details">(se flere detaljer)</span><br/> Du kan ændre tilladelser på din server eller <br/> brug ftp adgang til din server til installation (som regel, hosting udbyder sender denne info via e-mail, eller du kan administrere det i hosting kontrolredskaber) <br/>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed</key>
+    <value><![CDATA[<p class="success"> Du har allerede% EXTENSION% extension installeret! Hvis du vil fortsætte og opgradere, skal du bekræfte. </p>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed_uninstall</key>
+    <value><![CDATA[Du har allerede denne udvidelse &quot;% EXTENSION%&quot; installeret! Hvis du vil fortsætte geninstallere, skal du afinstallere og slette udvidelse først.]]></value>
+  </definition>
+  <definition>
+    <key>error_pack_file_not_found</key>
+    <value><![CDATA[Fejl: Kan ikke udtrække udvidelse fra arkivet til %s. Tjek <a href="#admin#rt=tool/error_log" target="_blank">log</a> for fejl]]></value>
+  </definition>
+  <definition>
+    <key>error_mp</key>
+    <value><![CDATA[Marketplace fejl:]]></value>
+  </definition>
+  <definition>
+    <key>error_repository</key>
+    <value><![CDATA[Fejl: Kan ikke hente filen. Repository fejl eller ugyldig forlængelse nøgle. Prøv en gang til. Hvis problemet fortsætter downloade filen i din ordrehistorik og installere manuelt.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_user</key>
+    <value><![CDATA[Fejl: FTP-brugernavn er tom.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_password</key>
+    <value><![CDATA[Fejl: FTP User Password er tom.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_connect</key>
+    <value><![CDATA[Fejl: Kan ikke forbinde til ftp-server]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_login</key>
+    <value><![CDATA[Fejl: Kan ikke logge på ftp-server. Forkert brugernavn eller kodeord.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path</key>
+    <value><![CDATA[Fejl: Kan ikke finde roden af ​​AbanteCart af FTP sti. <br/> Prøv overlade det tomt for automatisk søgning.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path_array</key>
+    <value><![CDATA[Fejl: Kan ikke automatisk genkende roden af ​​AbanteCart i FTP-tilstand. <br/> Udfyld venligst FTP-sti formularfelt. <br/> Sti forslag er:]]></value>
+  </definition>
+  <definition>
+    <key>error_dir_permission</key>
+    <value><![CDATA[Kan ikke gemme filen, fordi mappe er ikke skrivbar:]]></value>
+  </definition>
+  <definition>
+    <key>error_package_structure</key>
+    <value><![CDATA[Fejl: Sandsynligvis pakke er brudt. Opbygning af pakke fejl.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config_xml</key>
+    <value><![CDATA[Fejl: Kan ikke finde filen Package.xml indersiden af ​​udvundet forlængelse. Muligvis forlængelse blev ikke udvundet korrekt. Tjek <a href="#admin#rt=tool/error_log" target="_blank">log</a> for fejl]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config2</key>
+    <value><![CDATA[Fejl: Kan ikke finde installation mode i Package.xml inde pakke.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_info_not_exists</key>
+    <value><![CDATA[Fejl: Kan ikke finde pakke session info om denne download.]]></value>
+  </definition>
+  <definition>
+    <key>error_unpack</key>
+    <value><![CDATA[Fejl: Kan ikke pakke pakke &quot;% PAKKE%&quot; efter download. Arkiv fejl. Se fejllog for detaljer.]]></value>
+  </definition>
+  <definition>
+    <key>error_move</key>
+    <value><![CDATA[Fejl: Kan ikke flytte pakke kode efter udpakning. Prøv venligst tjek skriverettigheder af mappen:]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode</key>
+    <value><![CDATA[Fejl: Kan ikke installere udvidelse &quot;% pakken%&quot;, fordi det allerede er installeret. Du har brug for afinstallere og slette den første eller få pakke til opgradering.]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode2</key>
+    <value><![CDATA[Fejl: Kan ikke opgradere udvidelse &quot;% pakken%&quot;, fordi det ikke er installeret. Du har brug for at få pakke til installation.]]></value>
+  </definition>
+  <definition>
+    <key>error_version_compatibility</key>
+    <value><![CDATA[Fejl: Kan ikke installere pakken. Din indkøbskurv version <b>er% CURRENT_VERSION%.</b> Version <b>(s)% VERSIONER%, der</b> kræves.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_version_compatibility</key>
+    <value><![CDATA[Fejl: Kan ikke opgradere pakke. Nyere pakkeversion er allerede installeret.]]></value>
+  </definition>
+  <definition>
+    <key>error_install</key>
+    <value><![CDATA[Fejl: Kan ikke installere pakken. Se venligst System -&gt; Error Log for detaljer.]]></value>
+  </definition>
+  <definition>
+    <key>error_core_version</key>
+    <value><![CDATA[Fejl: Du har AbanteCart version% VERSION% installeret. <br/> Denne opgradering pakke kun for versioner lavere end]]></value>
+  </definition>
+  <definition>
+    <key>text_interrupt</key>
+    <value><![CDATA[Afbryde]]></value>
+  </definition>
+  <definition>
+    <key>confirm_version_incompatibility</key>
+    <value><![CDATA[Aktuel kopi af denne udvidelse er ikke bekræftet til din version af AbanteCart (v %s). <br/> Extension build er angivet for AbanteCart v %s. <br/> 
+ Dette er ikke et problem, men hvis du bemærker problemer eller uforenelighed, kontakt udvidelse udvikleren.]]></value>
+  </definition>
+  <definition>
+    <key>error_move_ftp</key>
+    <value><![CDATA[Fejl: Kan ikke flytte pakke kode efter udpakning. Sandsynligvis FTP sti er forkert. <br/> Også venligst, så prøv at tjekke skriverettigheder af mappen:]]></value>
+  </definition>
+  <definition>
+    <key>text_network_install</key>
+    <value><![CDATA[Network Install]]></value>
+  </definition>
+  <definition>
+    <key>text_extension_upload</key>
+    <value><![CDATA[Udvidelse Upload]]></value>
+  </definition>
+  <definition>
+    <key>error_archive_extension</key>
+    <value><![CDATA[Fejl: Kun tar.gz filer understøttes.]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_file</key>
+    <value><![CDATA[Upload fil:]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_url</key>
+    <value><![CDATA[Indsæt URL:]]></value>
+  </definition>
+  <definition>
+    <key>error_move_backup</key>
+    <value><![CDATA[Fejl: Kan ikke backup filer før opgradering. Tjek skriverettigheder af mappen:]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_title</key>
+    <value><![CDATA[Abantecart Core opgradering]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_attention</key>
+    <value><![CDATA[Opmærksomhed! 
+ AbanteCart er ved at blive opgraderet til version %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_warning</key>
+    <value><![CDATA[Der er ingen undo efter start opgraderingen. 
+ Komplet database og kode backup anbefales. 
+ Test opgradering på ikke-levende steder først. Opgrader på levende sites anbefales ikke.]]></value>
+  </definition>
+  <definition>
+    <key>text_upgrade_now</key>
+    <value><![CDATA[Opgrader nu!]]></value>
+  </definition>
+  <definition>
+    <key>error_additional_help_text</key>
+    <value><![CDATA[Sidde fast? Ikke et problem. Du kan installere udvidelser anden måde. Tjek <a href="http://docs.abantecart.com/pages/extensions/install.html#FTPinstall" target="_blank">denne hjælp link</a>]]></value>
+  </definition>
+  <definition>
+    <key>error_notconnected</key>
+    <value><![CDATA[Kan ikke opgradere eller installere udvidelser fra markedspladsen. Denne butik er ikke godkendt / tilsluttet. Venligst godkende og oprette forbindelse til <a href="%s">markedspladsen</a>]]></value>
+  </definition>
+</definitions>

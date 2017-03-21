@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[瀏覽產品報告]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：你已重置產品查看的報表！]]></value>
+  </definition>
+  <definition>
+    <key>column_product_id</key>
+    <value><![CDATA[產品編號]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[產品名稱]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[模型]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[類別]]></value>
+  </definition>
+  <definition>
+    <key>column_viewed</key>
+    <value><![CDATA[觀看]]></value>
+  </definition>
+  <definition>
+    <key>column_percent</key>
+    <value><![CDATA[百分]]></value>
+  </definition>
+</definitions>

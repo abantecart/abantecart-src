@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[site Map]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[Specialtilbud]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Min konto]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[Kontooplysninger]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Adgangskode]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Adressebog]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[ordre historik]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Downloads]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[Indkøbskurv]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[bestilling]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Søg]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[Information]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Kontakt os]]></value>
+  </definition>
+</definitions>

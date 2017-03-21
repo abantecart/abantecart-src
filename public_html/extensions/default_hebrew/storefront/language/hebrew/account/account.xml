@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[החשבון שלי]]></value>
+  </definition>
+  <definition>
+    <key>text_account_dashboard</key>
+    <value><![CDATA[לוח המחוונים חשבון]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[חֶשְׁבּוֹן]]></value>
+  </definition>
+  <definition>
+    <key>text_my_account</key>
+    <value><![CDATA[החשבון שלי]]></value>
+  </definition>
+  <definition>
+    <key>text_my_orders</key>
+    <value><![CDATA[ההזמנות שלי]]></value>
+  </definition>
+  <definition>
+    <key>text_my_notifications</key>
+    <value><![CDATA[התראות]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[פרטי חשבון ערוך]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[שנה סיסמא]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[נהל את פנקס הכתובות]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[היסטוריית הזמנות]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[היסטוריית עסקאות]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[הורדות]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[מנוי לעיתון]]></value>
+  </definition>
+  <definition>
+    <key>text_account_wishlist</key>
+    <value><![CDATA[רשימת המשאלות שלי]]></value>
+  </definition>
+</definitions>

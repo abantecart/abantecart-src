@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[עסקאות הלקוח]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_date</key>
+    <value><![CDATA[תאריך עסקה]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[שם לקוח]]></value>
+  </definition>
+  <definition>
+    <key>column_created_by</key>
+    <value><![CDATA[נוצר על ידי]]></value>
+  </definition>
+  <definition>
+    <key>column_debit</key>
+    <value><![CDATA[חוֹבָה]]></value>
+  </definition>
+  <definition>
+    <key>column_credit</key>
+    <value><![CDATA[אַשׁרַאי]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_type</key>
+    <value><![CDATA[סוג העסקה]]></value>
+  </definition>
+</definitions>

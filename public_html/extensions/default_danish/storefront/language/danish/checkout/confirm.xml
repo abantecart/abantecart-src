@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[bestilling Bekræftelse]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Kurv]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_basket</key>
+    <value><![CDATA[Rediger kurv]]></value>
+  </definition>
+  <definition>
+    <key>text_accept_agree</key>
+    <value><![CDATA[Ved at klikke Bekræft ordre, accepterer og accepterer alle betingelserne i]]></value>
+  </definition>
+  <definition>
+    <key>text_cart_items</key>
+    <value><![CDATA[Varer i din kurv]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Forsendelse]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_shipping</key>
+    <value><![CDATA[Edit Shipping]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Betaling]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_payment</key>
+    <value><![CDATA[Rediger Betaling]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_1</key>
+    <value><![CDATA[Gæst bestilling - Trin 1]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_2</key>
+    <value><![CDATA[Gæst bestilling - Trin 2]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Bekræfte]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[Leveringsadresse]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Fragtmetode]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[Betaling Adresse]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Betalingsmetode]]></value>
+  </definition>
+  <definition>
+    <key>text_change</key>
+    <value><![CDATA[Lave om]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[Dine kommentarer]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[Discount kupon]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[Produkt]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Model]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Antal]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Pris]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Total]]></value>
+  </definition>
+  <definition>
+    <key>text_add_coupon</key>
+    <value><![CDATA[Rediger kupon]]></value>
+  </definition>
+</definitions>

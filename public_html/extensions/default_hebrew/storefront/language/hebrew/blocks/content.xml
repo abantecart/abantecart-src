@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[מֵידָע]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[תיצור איתנו קשר]]></value>
+  </definition>
+  <definition>
+    <key>text_sitemap</key>
+    <value><![CDATA[מפת אתר]]></value>
+  </definition>
+</definitions>

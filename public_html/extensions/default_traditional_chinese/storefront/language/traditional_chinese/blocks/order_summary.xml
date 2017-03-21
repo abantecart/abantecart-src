@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[訂單摘要]]></value>
+  </definition>
+  <definition>
+    <key>text_subtotal</key>
+    <value><![CDATA[小計：]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[0件]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[確認？]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[去掉]]></value>
+  </definition>
+  <definition>
+    <key>text_view</key>
+    <value><![CDATA[查看購物車]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[查看]]></value>
+  </definition>
+  <definition>
+    <key>text_items</key>
+    <value><![CDATA[項目]]></value>
+  </definition>
+</definitions>

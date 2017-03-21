@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[低阶费]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[低阶费]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[订单总计]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：你已修改总低位费！]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[合计订单：]]></value>
+  </definition>
+  <definition>
+    <key>entry_fee</key>
+    <value><![CDATA[费用：]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[税务类：]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[状态：]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[排序：]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[计算顺序：]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[警告：您没有权限修改总的低位费！]]></value>
+  </definition>
+</definitions>

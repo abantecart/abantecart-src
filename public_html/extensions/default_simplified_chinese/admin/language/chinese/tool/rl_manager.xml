@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[媒体资源库管理器]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[最新添加的资源]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[资源类型]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[资源类型键<br/><span class="help">此资源类型的键/值的名称不能改变</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[资源目录<br/><span class="help">这种类型的目录定位的资源。如果发生变化，现有的资源不会acceccible并且将需要被复制到新的目录！</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[默认图标<br/><span class="help">图标图像资源的上市显示（位置：/图片/ ...）。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[允许的文件扩展名<br/><span class="help">正则表达式与此资源类型允许的文件扩展名列表</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：你已更新的资源型！]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[错误：缺少资源类型ID！]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[错误：资源类型名称必须是2和40之间charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[错误：资源类型目录必须是2和64之间charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[错误：资源类型图标必须是2和64之间charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[错误：资源类型文件[扩充正则表达式需要在2到40之间charcters]]></value>
+  </definition>
+</definitions>

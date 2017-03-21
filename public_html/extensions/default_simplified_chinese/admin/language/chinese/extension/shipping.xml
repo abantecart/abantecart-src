@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[运输]]></value>
+  </definition>
+  <definition>
+    <key>text_install</key>
+    <value><![CDATA[安装]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall</key>
+    <value><![CDATA[卸载]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[邮寄方式]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[状态]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[排序]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[行动]]></value>
+  </definition>
+</definitions>

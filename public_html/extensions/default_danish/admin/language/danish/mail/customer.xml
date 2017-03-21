@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Din konto er blevet aktiveret!]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Velkommen og tak for registrering på %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[er nu oprettet din konto, og du kan logge på ved at bruge din e-mailadresse og adgangskode ved at besøge vores hjemmeside eller på følgende webadresse:]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Når du logger ind, vil du være i stand til at få adgang, din ønskeliste, ordrehistorik, trykning fakturaer og redigere dine kontooplysninger.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Tak,]]></value>
+  </definition>
+</definitions>

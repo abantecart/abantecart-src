@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[konto Log]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Du er blevet logget af din konto. Det er nu sikkert at forlade computeren. </p><p> Din indkøbskurv er blevet gemt, elementerne i det vil blive genoprettet, når du logger ind på din konto. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Konto]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Log ud]]></value>
+  </definition>
+</definitions>

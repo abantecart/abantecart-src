@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[מנהל ספריית משאבי מדיה]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[אחרונים משאבים הוסיפו]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[סוג משאב]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[סוג משאב מפתח <br/><span class="help">זה ערך סוג משאב מפתח / שם לא ניתן לשנות</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[ספריית משאבים <br/><span class="help">משאב איתור Directory עבור סוג זה. אם השתנה, המשאבים הקיימים לא יהיה acceccible ויהיה צורך להעתיק לספריה החדשה!</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[סמל ברירת מחדל <br/><span class="help">תמונת אייקון כדי לראות ברישום של משאבים (מיקום: / תמונה / ...).</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[למלון סיומות קבצים <br/><span class="help">Regex עם רשימה של סיומות קבצים מותרות סוג משאב זה</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: עדכנת אתה סוג משאב!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[שגיאה: זיהוי סוג משאב חסר!]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[שגיאה: שם סוג משאבים צריך להיות בין 2 ל 40 מכיל תווים]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[שגיאה: מדריך סוג משאבים צריך להיות בין 2 ו -64 מכיל תווים]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[שגיאה: סמל סוג משאבים צריך להיות בין 2 ו -64 מכיל תווים]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[שגיאה: regex תוספים &#39;סוג קובץ משאבים צריך להיות בין 2 ל 40 מכיל תווים]]></value>
+  </definition>
+</definitions>

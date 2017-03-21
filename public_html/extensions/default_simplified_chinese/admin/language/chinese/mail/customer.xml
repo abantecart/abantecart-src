@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[〜 - 您的帐户已经被激活！]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[欢迎并感谢您在注册〜！]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[您的帐户已被创建，您可以通过访问我们的网站或通过以下网址使用您的电子邮件地址和密码登录：]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[一旦你在登录，您将能够访问，你的心愿，订单历史记录，发票打印和编辑您的帐户信息。]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[谢谢，]]></value>
+  </definition>
+</definitions>

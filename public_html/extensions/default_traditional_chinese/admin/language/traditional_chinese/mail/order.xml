@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[〜 - 訂單更新〜]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[訂單ID：]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[有序日期：]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[您的訂單已經更新到以下狀態：]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[您的訂單的意見是：]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[要查看下面的鏈接您的訂單點擊：]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[如果您有任何疑問，請回覆此郵件。]]></value>
+  </definition>
+</definitions>

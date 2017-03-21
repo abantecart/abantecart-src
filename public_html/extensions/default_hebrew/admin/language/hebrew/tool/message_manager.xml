@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[מנהל הודעה]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: שינית אתה ברשימת ההודעות!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[כותרת ההודעה]]></value>
+  </definition>
+  <definition>
+    <key>column_create_date</key>
+    <value><![CDATA[תַאֲרִיך]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[סטָטוּס]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[פעולה]]></value>
+  </definition>
+  <definition>
+    <key>entry_error</key>
+    <value><![CDATA[קריטי]]></value>
+  </definition>
+  <definition>
+    <key>entry_warning</key>
+    <value><![CDATA[אַזהָרָה]]></value>
+  </definition>
+  <definition>
+    <key>entry_notice</key>
+    <value><![CDATA[הודעה]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[אזהרה: אין לך הרשאה לשנות ברשימת הודעות!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[כותרת הודעה חייבת להיות בין 3 ל -32 תווים!]]></value>
+  </definition>
+  <definition>
+    <key>text_show</key>
+    <value><![CDATA[לְהַצִיג]]></value>
+  </definition>
+  <definition>
+    <key>text_not_found</key>
+    <value><![CDATA[אופס. אנחנו לא יכולים למצוא את ההודעה הזו.]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[מצב הודעה:]]></value>
+  </definition>
+  <definition>
+    <key>text_date</key>
+    <value><![CDATA[תַאֲרִיך:]]></value>
+  </definition>
+  <definition>
+    <key>text_repeats</key>
+    <value><![CDATA[מספר חזרות:]]></value>
+  </definition>
+  <definition>
+    <key>text_warning</key>
+    <value><![CDATA[אַזהָרָה]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[קריטי]]></value>
+  </definition>
+  <definition>
+    <key>text_notice</key>
+    <value><![CDATA[הודעה]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[לִמְחוֹק]]></value>
+  </definition>
+  <definition>
+    <key>text_close</key>
+    <value><![CDATA[לִסְגוֹר]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[לְאַשֵׁר?]]></value>
+  </definition>
+  <definition>
+    <key>text_linktext</key>
+    <value><![CDATA[הקישור הזה]]></value>
+  </definition>
+  <definition>
+    <key>text_notifier_title</key>
+    <value><![CDATA[יש לך הודעה חדשה %s (ים)]]></value>
+  </definition>
+</definitions>

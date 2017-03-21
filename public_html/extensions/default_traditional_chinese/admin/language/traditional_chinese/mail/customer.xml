@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[〜 - 您的帳戶已經被激活！]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[歡迎並感謝您在註冊〜！]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[您的帳戶已被創建，您可以通過訪問我們的網站或通過以下網址使用您的電子郵件地址和密碼登錄：]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[一旦你在登錄，您將能夠訪問，你的心願，訂單歷史記錄，發票打印和編輯您的帳戶信息。]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[謝謝，]]></value>
+  </definition>
+</definitions>

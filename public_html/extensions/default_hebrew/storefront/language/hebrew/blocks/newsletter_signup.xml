@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[הרשמה לניוזלטר]]></value>
+  </definition>
+  <definition>
+    <key>text_signup</key>
+    <value><![CDATA[הרשם לניוזלטר שלנו &amp; לקבל הצעות אטרקטיביות על ידי עשיית מנוי לקבלת עלוני המידע שלנו.]]></value>
+  </definition>
+  <definition>
+    <key>text_sign_in</key>
+    <value><![CDATA[היכנס]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribe</key>
+    <value><![CDATA[הירשם לעדכונים]]></value>
+  </definition>
+  <definition>
+    <key>button_subscribe</key>
+    <value><![CDATA[הירשם]]></value>
+  </definition>
+</definitions>

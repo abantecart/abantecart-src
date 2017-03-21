@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[החשבון שלך נוצר!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p style=";text-align:right;direction:rtl"> מזל טוב! החשבון החדש שלך נוצר בהצלחה! </p><p style=";text-align:right;direction:rtl"> עכשיו אתה יכול לקחת את היתרון של זכויות חבר מנת לשפר את חווית הקניות באינטרנט איתנו. </p><p style=";text-align:right;direction:rtl"> אם יש לך שאלות לגבי פעולת חנות מקוונת זו, אנא כתוב את בעל החנות. </p><p style=";text-align:right;direction:rtl"> אישור נשלח לכתובת הדוא&quot;ל שספקה. אם עדיין לא קיבלת את זה תוך שעה, אנא <a href="%s">צרו איתנו קשר</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[<p style=";text-align:right;direction:rtl"> תודה שנרשם עם %s! </p><p style=";text-align:right;direction:rtl"> תקבל הודעה בדוא&quot;ל לאחר חשבונך הופעל על ידי בעל החנות. </p><p style=";text-align:right;direction:rtl"> אם יש לך שאלות לגבי פעולת חנות מקוונת זו, אנא <a href="%s">צור קשר עם בעל החנות</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[<p style=";text-align:right;direction:rtl"> תודה שנרשם עם %s! </p><p style=";text-align:right;direction:rtl"> תקבלו הודעה בדוא&quot;ל עם הוראות הפעלת החשבון שלך. עליך ללחוץ על הקישור המופיע בהודעת הדוא&quot;ל כדי להפעיל את החשבון שלך. אם אינך מקבל דוא&quot;ל, אנא בדוק בתיקיות זבל או דואר הזבל שלך. </p><p style=";text-align:right;direction:rtl"> אם יש לך שאלות לגבי פעולת חנות מקוונת זו, אנא <a href="%s">צור קשר עם בעל החנות</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[חֶשְׁבּוֹן]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הַצלָחָה]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Produkter Set Rapport]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succes: Du har nulstillet produktet viste rapporten!]]></value>
+  </definition>
+  <definition>
+    <key>column_product_id</key>
+    <value><![CDATA[Produkt-id]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[produktnavn]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Model]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[Kategori]]></value>
+  </definition>
+  <definition>
+    <key>column_viewed</key>
+    <value><![CDATA[har set]]></value>
+  </definition>
+  <definition>
+    <key>column_percent</key>
+    <value><![CDATA[procent]]></value>
+  </definition>
+</definitions>

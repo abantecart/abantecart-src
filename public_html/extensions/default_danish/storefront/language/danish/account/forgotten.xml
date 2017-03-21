@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Glemt din adgangskode?]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_loginname</key>
+    <value><![CDATA[Glemt dit login navn?]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Konto]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten</key>
+    <value><![CDATA[Glemt adgangskode]]></value>
+  </definition>
+  <definition>
+    <key>text_your_email</key>
+    <value><![CDATA[Din email adresse]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Indtast e-mail-adresse, der er tilknyttet din konto. Klik indsende at have sendt dit password til dig]]></value>
+  </definition>
+  <definition>
+    <key>text_loginname_email</key>
+    <value><![CDATA[Indtast login-navn og e-mail-adresse, der er tilknyttet din konto. Klik på Send for at anmode om nulstilling af adgangskode]]></value>
+  </definition>
+  <definition>
+    <key>text_lastname_email</key>
+    <value><![CDATA[Indtast det sidste navn og e-mail-adresse, der er tilknyttet din konto. Klik indsende at have dit brugernavn sendt til dig]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succes: Password reset link er blevet sendt til din e-mail-adresse.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_loginname</key>
+    <value><![CDATA[Succes: Dit login navn påmindelse er blevet sendt til din e-mail-adresse.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Login-navn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Efternavn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[Email adresse:]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Fejl: Den e-mail-adresse blev ikke givet eller ikke fundet i vores arkiver, prøv igen!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Fejl: Den Login navn blev ikke givet eller ikke fundet i vores arkiver, prøv igen!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Fejl: The Last navn blev ikke givet eller ikke fundet i vores arkiver, prøv igen!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_found</key>
+    <value><![CDATA[Fejl: Ingen resultater matchende information din forudsat, skal du tjekke dine oplysninger og prøv igen!]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_loginname</key>
+    <value><![CDATA[Glemt login navn]]></value>
+  </definition>
+</definitions>

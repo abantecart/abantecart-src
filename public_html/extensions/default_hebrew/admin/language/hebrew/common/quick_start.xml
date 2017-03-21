@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_quick_start</key>
+    <value><![CDATA[התחלה מהירה אשף]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_note</key>
+    <value><![CDATA[ברוכים הבאים הממשל AbanteCart. <br/> 
+ זהו אשף כדי לעזור לך להגדיר את עגלת הקניות שלך במהירות עם רוב ההגדרות נפוצות. 
+ <br/>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_general</key>
+    <value><![CDATA[להלן הגדרות כלליות הנפוצות ביותר. 
+ הגדרות נוספות זמינות <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_details</key>
+    <value><![CDATA[להלן הגדרות הנפוצות ביותר לגבי החנות שלכם. 
+ הגדרות נוספות זמינות <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_checkout</key>
+    <value><![CDATA[להלן ההגדרות הנפוצות ביותר עבור תהליך הבדיקה. 
+ הגדרות נוספות זמינות <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_appearance</key>
+    <value><![CDATA[להלן הגדרות הנפוצות ביותר עבור מראה חנות. 
+ הגדרות נוספות זמינות <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_mail</key>
+    <value><![CDATA[להלן הגדרות הנפוצות ביותר כדי לאפשר אימייל. אם אתה משתמש בשרת הדוא&quot;ל חיצוני (google, וכו &#39;) כדי לשלוח דואר אלקטרוני, אתה צריך להשתמש באפשרות SMTP. לקבלת מיילים להישלח מאפשר Mail להשתמש בשרת זה. 
+ הגדרות נוספות זמינות <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_last</key>
+    <value><![CDATA[בלו באפשרותך לבחור תשלומים רצויים ואת שיטות משלוח, שפות נוספות ותכונות רבות אחרות כדי להרחיב את הפונקציונליות eCommerce שלך. 
+ זכר לבדוק מבחר של תוספות על <a href="#admin#rt=extension/extensions_store" target="_extension">שוק AbanteCart</a> המוצע על ידי קהילת מפתחים מקצועיים.]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_last_footer</key>
+    <value><![CDATA[השלמת אשף המתנע מהיר. <br/><br/> 
+ ניתן לאתר את כל ההגדרות <a href="%s">זה הקישור <i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>payments_selection</key>
+    <value><![CDATA[<div class="info alert alert-info" style=";text-align:right;direction:rtl"> 
+ <i class="fa fa-money fa-fw"></i> בחר את אמצעי התשלום שלך. 
+ </div> 
+ <div class="row" style=";text-align:right;direction:rtl"> 
+ <div class="col-sm-3 h5 center" style=";text-align:right;direction:rtl"> 
+ <a href="#admin#rt=extension/extensions/install&extension=default_stripe" target="_extension">
+ <img src="extensions/default_stripe/image/icon.png"><br/> התקן פס</a> 
+ </div> 
+ <div class="col-sm-3 h5 center" style=";text-align:right;direction:rtl"> 
+ <a href="#admin#rt=extension/extensions/install&extension=default_pp_standart" target="_extension">
+ <img src="extensions/default_pp_standart/image/icon.png"><br/> התקן Paypal</a> 
+ </div> 
+ <div class="col-sm-3 h5 center" style=";text-align:right;direction:rtl"> 
+ <a href="#admin#rt=extension/extensions/install&extension=default_payza" target="_extension">
+ <img src="extensions/default_payza/image/icon.png"><br/> התקן Payza</a> 
+ </div> 
+ <div class="col-sm-3 h5 center" style=";text-align:right;direction:rtl"> 
+ <a href="#admin#rt=extension/extensions/payment" target="_extension">
+ <img src="admin/view/default/image/default_extension.png"><br/> תשלומים נוספים</a> 
+ </div> 
+ </div>]]></value>
+  </definition>
+  <definition>
+    <key>shipping_selection</key>
+    <value><![CDATA[<div class="info alert alert-info" style=";text-align:right;direction:rtl"> 
+ <i class="fa fa-truck fa-fw"></i> בחר שיטות המשלוח שלך. 
+ </div> 
+ <div class="row" style=";text-align:right;direction:rtl"> 
+ <div class="col-sm-3 h5 center" style=";text-align:right;direction:rtl"> 
+ <a href="#admin#rt=extension/extensions/install&extension=default_free_shipping" target="_extension">
+ <img src="extensions/default_free_shipping/image/icon.png"><br/> משלוח חינם</a> 
+ </div> 
+ <div class="col-sm-3 h5 center" style=";text-align:right;direction:rtl"> 
+ <a href="#admin#rt=extension/extensions/install&extension=default_fedex" target="_extension">
+ <img src="extensions/default_fedex/image/icon.png"><br/> Fedex</a> 
+ </div> 
+ <div class="col-sm-3 h5 center" style=";text-align:right;direction:rtl"> 
+ <a href="#admin#rt=extension/extensions/install&extension=default_ups" target="_extension">
+ <img src="extensions/default_ups/image/icon.png"><br/> UPS</a> 
+ </div> 
+ <div class="col-sm-3 h5 center" style=";text-align:right;direction:rtl"> 
+ <a href="#admin#rt=extension/extensions/shipping" target="_extension">
+ <img src="admin/view/default/image/default_extension.png"><br/> עוד Shippings</a> 
+ </div> 
+ </div>]]></value>
+  </definition>
+  <definition>
+    <key>language_selection</key>
+    <value><![CDATA[<div class="info alert alert-info" style=";text-align:right;direction:rtl"> 
+ <i class="fa fa-language fa-fw"></i> בחר שפות נוספות. 
+ </div> 
+ <div class="row" style=";text-align:right;direction:rtl"> 
+ <div class="col-sm-3 h5 center" style=";text-align:right;direction:rtl"> 
+ <a href="#admin#rt=extension/extensions/install&extension=default_italian" target="_extension">
+ <img src="extensions/default_italian/image/icon.png"><br/> איטלקים</a> 
+ </div> 
+ <div class="col-sm-3 h5 center" style=";text-align:right;direction:rtl"> 
+ <a href="#admin#rt=extension/extensions/install&extension=default_spanish" target="_extension">
+ <img src="extensions/default_spanish/image/icon.png"><br/> ספרדית</a> 
+ </div> 
+ <div class="col-sm-3 h5 center" style=";text-align:right;direction:rtl"> 
+ <a href="#admin#rt=extension/extensions/install&extension=default_russian" target="_extension">
+ <img src="extensions/default_russian/image/icon.png"><br/> רוסית</a> 
+ </div> 
+ <div class="col-sm-3 h5 center" style=";text-align:right;direction:rtl"> 
+ <a href="#admin#rt=extension/extensions_store&category_id=67&sidx=date_modified" target="_extension">
+ <img src="admin/view/default/image/default_extension.png"><br/> שפות נוספות</a> 
+ </div> 
+ </div>]]></value>
+  </definition>
+  <definition>
+    <key>more_extentions</key>
+    <value><![CDATA[<div class="info alert alert-info" style=";text-align:right;direction:rtl"> 
+ <i class="fa fa-puzzle-piece fa-fw"></i> רחבות יותר על שוק AbanteCart. 
+ </div> 
+ <div class="row center" style=";text-align:right;direction:rtl"> 
+ <div class="btn-group center" style=";text-align:right;direction:rtl"> 
+ <a class="btn btn-primary" href="#admin#rt=extension/extensions_store" target="_extension">
+ <i class="fa fa-cloud-download fa-fw"></i> הרחבות Marketplace 
+</a> 
+ </div> 
+ </div>]]></value>
+  </definition>
+</definitions>

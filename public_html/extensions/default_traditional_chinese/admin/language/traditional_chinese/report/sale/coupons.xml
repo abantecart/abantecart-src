@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[折扣報告]]></value>
+  </definition>
+  <definition>
+    <key>column_coupon_name</key>
+    <value><![CDATA[折扣/優惠券名稱]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[碼]]></value>
+  </definition>
+  <definition>
+    <key>column_orders</key>
+    <value><![CDATA[訂單號]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[總]]></value>
+  </definition>
+  <definition>
+    <key>column_discount_total</key>
+    <value><![CDATA[總折扣]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[起始日期：]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[終止日期：]]></value>
+  </definition>
+</definitions>

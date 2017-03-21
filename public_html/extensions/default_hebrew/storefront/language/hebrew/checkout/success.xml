@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[להזמין יעובד!]]></value>
+  </definition>
+  <definition>
+    <key>text_message_account</key>
+    <value><![CDATA[<p style=";text-align:right;direction:rtl"> # ההזמנה שלך %s נוצר! </p> 
+ <p style=";text-align:right;direction:rtl"> אתה יכול להציג את פרטי ההזמנה על ידי לחיצה על <a href="%s">דף החשבונית</a>. </p> 
+ <p style=";text-align:right;direction:rtl"> אנא הפנה כל שאלה שיש לך על <a href="%s">בעל החנות</a>. </p> 
+ <p style=";text-align:right;direction:rtl"> תודה שקנית אצלנו! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_message_guest</key>
+    <value><![CDATA[<p style=";text-align:right;direction:rtl"> ההזמנה שלך תעובד בהצלחה! </p> 
+ <p style=";text-align:right;direction:rtl"> אתה יכול להציג את פרטי ההזמנה על ידי לחיצה על <a href="%s">דף החשבונית</a>. </p> 
+ <p style=";text-align:right;direction:rtl"> אנא הפנה כל שאלה שיש לך על <a href="%s">בעל החנות</a>. </p> 
+ <p style=";text-align:right;direction:rtl"> תודה שקנית אצלנו! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[סַל]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[משלוח]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[תַשְׁלוּם]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[אורח Checkout]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[לְאַשֵׁר]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הַצלָחָה]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order</key>
+    <value><![CDATA[אופס! שגיאה לא ידועה. ההזמנה שלך תיבדק ידנית בקרוב.]]></value>
+  </definition>
+  <definition>
+    <key>text_title_failed_order_to_admin</key>
+    <value><![CDATA[ניו נכשלה כדי # %s]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order_to_admin</key>
+    <value><![CDATA[לא תשובה נכונה מספקים תשלום. צרכי אימות ידנית!]]></value>
+  </definition>
+</definitions>

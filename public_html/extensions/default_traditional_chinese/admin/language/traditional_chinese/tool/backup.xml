@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[備份/恢復/負載]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[下載備份]]></value>
+  </definition>
+  <definition>
+    <key>text_success_backup</key>
+    <value><![CDATA[成功：你已成功創建備份文件！]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：你已成功導入數據庫！]]></value>
+  </definition>
+  <definition>
+    <key>text_success_xml</key>
+    <value><![CDATA[成功：你已成功導入你的XML！]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore</key>
+    <value><![CDATA[從SQL或XML文件恢復：]]></value>
+  </definition>
+  <definition>
+    <key>entry_tables</key>
+    <value><![CDATA[備份表：]]></value>
+  </definition>
+  <definition>
+    <key>entry_loadxml</key>
+    <value><![CDATA[加載XML的文件：]]></value>
+  </definition>
+  <definition>
+    <key>tab_backup</key>
+    <value><![CDATA[備用]]></value>
+  </definition>
+  <definition>
+    <key>tab_restore</key>
+    <value><![CDATA[恢復]]></value>
+  </definition>
+  <definition>
+    <key>tab_loadxml</key>
+    <value><![CDATA[佈局和數據加載XML]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[警告：您沒有權限修改備份！]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[警告：請設置您要備份或進口的！]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[警告：您上傳的文件是空的或有錯誤的文件類型！]]></value>
+  </definition>
+  <definition>
+    <key>error_upload</key>
+    <value><![CDATA[警告：該文件沒有上傳。請檢查您的php.ini文件中的post_max_size或file_upload指令。]]></value>
+  </definition>
+  <definition>
+    <key>error_xml</key>
+    <value><![CDATA[警告：您所上傳的文件不加載XML！請參閱日誌文件的詳細信息]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_code</key>
+    <value><![CDATA[備份代碼（〜） <br/><span class="help">子目錄與排除動態文件，如高速緩存，日誌文件，圖像，資源等代碼文件</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_content</key>
+    <value><![CDATA[備份內容（〜） <br/><span class="help">子目錄動態文件，如圖像，下載，資源等</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_compress_backup</key>
+    <value><![CDATA[壓縮備份目錄〜？ <br/><span class="help">存檔與* .tar.gz將被創建。 <br/>注意：它可能需要很長的時間。否則，你可以禁用壓縮，找到你的備份文件夾中〜</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_now</key>
+    <value><![CDATA[立即備份]]></value>
+  </definition>
+  <definition>
+    <key>button_load</key>
+    <value><![CDATA[加載]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_schedule</key>
+    <value><![CDATA[排程備份]]></value>
+  </definition>
+  <definition>
+    <key>text_success_scheduled</key>
+    <value><![CDATA[成功：你已成功創建計劃的備份任務！ <a href="%s">查看具體信息</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_fail_note</key>
+    <value><![CDATA[注：此過程的執行取決於你的AbanteCart數據大小以及你的服務器的虛擬內存的大小。如果過程有錯誤終止，檢查目錄的權限〜被設置為-rw-RW-RW和<a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[PHP內存設置]</a> 。手動增加內存設置或運行備份，如果進程仍然會失敗。]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_file</key>
+    <value><![CDATA[下載備份文件，請訪問<a href="#admin#rt=tool/install_upgrade_history">安裝/升級歷史</a>]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_dir</key>
+    <value><![CDATA[與備份文件的目錄是〜]]></value>
+  </definition>
+</definitions>

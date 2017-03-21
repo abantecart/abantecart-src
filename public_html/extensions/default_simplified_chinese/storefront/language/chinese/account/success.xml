@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[您的帐号已经建立！]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p>恭喜！您的新帐户已创建成功！ </p><p>现在，您可以利用成员的特权优势，加强与我们的在线购物体验。 </p><p>如果您对这个网店的操作有任何疑问，请发送电子邮件至店老板。 </p><p>确认已发送到所提供的电子邮件地址。如果你还没有在一小时内收到，请<a href="%s">与我们联系</a> 。 </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[<p>感谢您与注册〜！ </p><p>我们将通过电子邮件一旦您的帐户已被店老板激活的通知。 </p><p>如果您对这个网店的操作有任何疑问，请<a href="%s">联系店主</a> 。 </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[<p>感谢您与注册〜！ </p><p>您将通过电子邮件与您的帐号激活指令通知。你必须点击电子邮件中的激活您的帐户中提供的链接。如果您没有收到邮件，请检查您的垃圾或垃圾邮件文件夹。 </p><p>如果您对这个网店的操作有任何疑问，请<a href="%s">联系店主</a> 。 </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[帐户]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功]]></value>
+  </definition>
+</definitions>

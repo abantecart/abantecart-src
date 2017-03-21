@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[媒體資源庫管理器]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[最新添加的資源]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[資源類型]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[資源類型鍵<br/><span class="help">此資源類型的鍵/值的名稱不能改變</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[資源目錄<br/><span class="help">這種類型的目錄定位的資源。如果發生變化，現有的資源不會acceccible並且將需要被複製到新的目錄！</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[默認圖標<br/><span class="help">圖標圖像資源的上市顯示（位置：/圖片/ ...）。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[允許的文件擴展名<br/><span class="help">正則表達式與此資源類型允許的文件擴展名列表</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：你已更新的資源型！]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[錯誤：缺少資源類型ID！]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[錯誤：資源類型名稱必須是2和40之間charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[錯誤：資源類型目錄必須是2和64之間charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[錯誤：資源類型圖標必須是2和64之間charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[錯誤：資源類型文件[擴充正則表達式需要在2到40之間charcters]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[错误日志]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：你已成功清除错误日志！]]></value>
+  </definition>
+  <definition>
+    <key>text_file_tail</key>
+    <value><![CDATA[由于大尺寸的记录文件中，只有数据的最后500KB可在这里被看到。 
+要查看完整的日志，从你的服务器直接得到它。 
+路：]]></value>
+  </definition>
+</definitions>

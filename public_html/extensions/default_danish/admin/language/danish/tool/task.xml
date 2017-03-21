@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Planlagte opgaver]]></value>
+  </definition>
+  <definition>
+    <key>column_id</key>
+    <value><![CDATA[Id]]></value>
+  </definition>
+  <definition>
+    <key>column_date_created</key>
+    <value><![CDATA[oprettelsesdato]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Navn]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[status]]></value>
+  </definition>
+  <definition>
+    <key>column_start_time</key>
+    <value><![CDATA[Starttidspunkt]]></value>
+  </definition>
+  <definition>
+    <key>text_stuck</key>
+    <value><![CDATA[Sidde fast]]></value>
+  </definition>
+  <definition>
+    <key>text_ready</key>
+    <value><![CDATA[Parat]]></value>
+  </definition>
+  <definition>
+    <key>text_running</key>
+    <value><![CDATA[Løb]]></value>
+  </definition>
+  <definition>
+    <key>text_scheduled</key>
+    <value><![CDATA[Planlagt]]></value>
+  </definition>
+  <definition>
+    <key>text_disabled</key>
+    <value><![CDATA[handicappet]]></value>
+  </definition>
+  <definition>
+    <key>text_failed</key>
+    <value><![CDATA[mislykkedes]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete</key>
+    <value><![CDATA[Ufuldstændig]]></value>
+  </definition>
+  <definition>
+    <key>text_completed</key>
+    <value><![CDATA[Afsluttet]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Genstart Opgave]]></value>
+  </definition>
+  <definition>
+    <key>text_run</key>
+    <value><![CDATA[Kør Opgave]]></value>
+  </definition>
+  <definition>
+    <key>text_task_started</key>
+    <value><![CDATA[Opgave startede]]></value>
+  </definition>
+  <definition>
+    <key>text_task_not_found</key>
+    <value><![CDATA[Task ikke fundet.]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_task</key>
+    <value><![CDATA[Opgave ikke indeholder trin. Fjernet.]]></value>
+  </definition>
+  <definition>
+    <key>text_forbidden_to_restart</key>
+    <value><![CDATA[Forbudt at genstarte!]]></value>
+  </definition>
+</definitions>

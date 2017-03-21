@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[יומן שגיאות]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: יש לך בהצלחת פינת יומן השגיאות שלך!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_tail</key>
+    <value><![CDATA[בשל גודלו של קובץ היומן, רק 500KB של הנתונים האחרונים ניתן לראות כאן. 
+ כדי להציג יומן שלם, לקבל את זה מהשרת שלך ישירות. 
+ נתיב:]]></value>
+  </definition>
+</definitions>

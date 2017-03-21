@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[浏览产品报告]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：你已重置产品查看的报表！]]></value>
+  </definition>
+  <definition>
+    <key>column_product_id</key>
+    <value><![CDATA[产品编号]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[产品名称]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[模型]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[类别]]></value>
+  </definition>
+  <definition>
+    <key>column_viewed</key>
+    <value><![CDATA[观看]]></value>
+  </definition>
+  <definition>
+    <key>column_percent</key>
+    <value><![CDATA[百分]]></value>
+  </definition>
+</definitions>

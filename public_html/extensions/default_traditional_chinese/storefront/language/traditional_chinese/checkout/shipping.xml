@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[配送信息]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[籃]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[運輸]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_to</key>
+    <value><![CDATA[請從您的地址簿中選擇你想傳遞的物品。]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[郵寄地址]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[郵寄方式]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[請選擇最佳的運輸方式，以這個順序使用。]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[添加評論關於您的訂單]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[錯誤：要求運輸方式！]]></value>
+  </definition>
+  <definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[錯誤：沒有運輸選項可供選擇。請<a href="index.php?rt=content/contact">聯繫我們</a>尋求幫助！]]></value>
+  </definition>
+</definitions>

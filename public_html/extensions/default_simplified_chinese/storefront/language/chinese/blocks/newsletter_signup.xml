@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[订阅电子报]]></value>
+  </definition>
+  <definition>
+    <key>text_signup</key>
+    <value><![CDATA[订阅我们的通讯&amp;订阅我们的通讯获得有吸引力的优惠。]]></value>
+  </definition>
+  <definition>
+    <key>text_sign_in</key>
+    <value><![CDATA[签到]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribe</key>
+    <value><![CDATA[订阅电子报]]></value>
+  </definition>
+  <definition>
+    <key>button_subscribe</key>
+    <value><![CDATA[订阅]]></value>
+  </definition>
+</definitions>

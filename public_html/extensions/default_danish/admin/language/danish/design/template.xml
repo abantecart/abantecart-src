@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[template manager]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succes: Du har sat en ny butiksfacade skabelon!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront_templates</key>
+    <value><![CDATA[Ledige Storefront Skabeloner]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_extension</key>
+    <value><![CDATA[Extension Settings]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Fejl: Manglende nødvendig parameter i din forespørgsel!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advarsel: Du har ikke tilladelse til at ændre skabeloner!]]></value>
+  </definition>
+</definitions>

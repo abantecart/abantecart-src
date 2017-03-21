@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[〜 - 感謝您註冊]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[歡迎並感謝您在註冊〜！]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[您的帳戶現在已經創建，您可以通過訪問我們的網站或通過以下網址訪問：]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[您的帳戶必須經過批准，然後才能登錄。一旦獲得批准，你可以通過訪問我們的網站或通過以下網址使用您的電子郵件地址和密碼登錄：]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[之前，我們可以激活您的帳號最後一步，必須採取完成註冊。 <br/> 
+您必須完成這最後一步成為註冊會員。請點擊以下鏈接激活您的帳戶〜。]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[在登錄時，你將能夠訪問其他服務，包括回顧過去的訂單，發票打印和編輯您的帳戶信息。]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[謝謝，]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Content manager]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[Tilføje nyt indhold]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[opdater indhold]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succes: Du har ændret indhold!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_layout</key>
+    <value><![CDATA[Succes: Du har ændret indhold sidelayout.]]></value>
+  </definition>
+  <definition>
+    <key>text_hidden</key>
+    <value><![CDATA[Skjult]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Standard]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Indhold Titel]]></value>
+  </definition>
+  <definition>
+    <key>column_parent</key>
+    <value><![CDATA[Forældre indhold]]></value>
+  </definition>
+  <definition>
+    <key>entry_parent</key>
+    <value><![CDATA[Moderselskab Content Side]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Sorteringsrækkefølge]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[status]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Handling]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Indhold navn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Indhold Titel:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Beskrivelse:]]></value>
+  </definition>
+  <definition>
+    <key>entry_content</key>
+    <value><![CDATA[Indhold:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[butikker:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_keyword</key>
+    <value><![CDATA[SEO Keyword:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Sorteringsrækkefølge:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advarsel: Du har ikke tilladelse til at ændre indhold!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Indhold Titel skal være mellem 2 og 64 tegn!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Indhold navn skal være mellem 2 og 64 tegn!]]></value>
+  </definition>
+  <definition>
+    <key>error_description</key>
+    <value><![CDATA[Beskrivelsen skal være mere end 1 tegn!]]></value>
+  </definition>
+  <definition>
+    <key>error_content</key>
+    <value><![CDATA[Indholdet skal være mere end 1 tegn!]]></value>
+  </definition>
+  <definition>
+    <key>error_seo_url</key>
+    <value><![CDATA[SEO URL skal være mere end 1 tegn!]]></value>
+  </definition>
+  <definition>
+    <key>error_account</key>
+    <value><![CDATA[Advarsel: Dette indhold kan ikke slettes, da det i øjeblikket er tildelt som standard butik kontovilkår de!]]></value>
+  </definition>
+  <definition>
+    <key>error_checkout</key>
+    <value><![CDATA[Advarsel: Dette indhold kan ikke slettes, da det i øjeblikket er tildelt som standard butik kassen vilkår!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Nødvendige data ikke er blevet indtastet. Tjek for marken fejl!]]></value>
+  </definition>
+  <definition>
+    <key>text_top_level</key>
+    <value><![CDATA[Højeste niveau]]></value>
+  </definition>
+  <definition>
+    <key>text_any</key>
+    <value><![CDATA[nogen]]></value>
+  </definition>
+  <definition>
+    <key>tab_form</key>
+    <value><![CDATA[Redigere]]></value>
+  </definition>
+  <definition>
+    <key>tab_layout</key>
+    <value><![CDATA[Layout]]></value>
+  </definition>
+</definitions>

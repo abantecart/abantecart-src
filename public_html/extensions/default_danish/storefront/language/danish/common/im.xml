@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>im_text_notification</key>
+    <value><![CDATA[Notifikation]]></value>
+  </definition>
+  <definition>
+    <key>im_error_mail_address</key>
+    <value><![CDATA[E-mail-adresse %s er ikke gyldig!]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_email_title</key>
+    <value><![CDATA[E-mail]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_title</key>
+    <value><![CDATA[SMS]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_empty_warn</key>
+    <value><![CDATA[SMS-underretninger er ikke mulige. Mobil nummer er ikke gemt i din konto registreringer.]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update</key>
+    <value><![CDATA[Bestil opdatering]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update_note</key>
+    <value><![CDATA[Vælg hvis gerne modtage underretninger om dine ordrer &#39;opdateringer.]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_admin</key>
+    <value><![CDATA[Bestil # %s er blevet opdateret! Ordrestatus id %s]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_customer</key>
+    <value><![CDATA[Din ordre # %s Opdateret. New Order status er %s]]></value>
+  </definition>
+  <definition>
+    <key>im_new_order_text_to_admin</key>
+    <value><![CDATA[New Order # %s er blevet placeret!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_customer_text_to_admin</key>
+    <value><![CDATA[Ny kunde # %s er registreret!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_subscriber_text_to_admin</key>
+    <value><![CDATA[Ny Subscriber # %s er registreret!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update</key>
+    <value><![CDATA[konto opdatering]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update_note</key>
+    <value><![CDATA[Vælg hvis gerne modtage underretninger om dine konto opdateringer.]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_text_to_customer</key>
+    <value><![CDATA[Din konto er blevet opdateret! Hvis du ikke gjorde nogen ændringer, kan du kontakte ejeren af ​​webstedet]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_email_to_customer</key>
+    <value><![CDATA[Din konto emailadresse blev ændret til %s! Hvis du ikke gjorde denne ændring, kan du kontakte ejeren af ​​webstedet]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_login_to_customer</key>
+    <value><![CDATA[Din konto login navn blev ændret til %s! Hvis du ikke gjorde denne ændring, kan du kontakte ejeren af ​​webstedet]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_password_to_customer</key>
+    <value><![CDATA[adgangskoden til din konto er blevet ændret! Hvis du ikke gjorde denne ændring, kan du kontakte ejeren af ​​webstedet]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_contact_admin_text</key>
+    <value><![CDATA[Du har fået ny undersøgelse fra kunde (%s, %s)!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter</key>
+    <value><![CDATA[Nyhedsbreve]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter_note</key>
+    <value><![CDATA[Vælg hvis gerne modtage meddelelser om vores produkter og service-opdateringer.]]></value>
+  </definition>
+  <definition>
+    <key>im_product_review_text_to_admin</key>
+    <value><![CDATA[Nyt produkt gennemgang er blevet tilføjet. Se detaljer # admin # rt = katalog / revision / opdatering &amp; REVIEW_ID = %s]]></value>
+  </definition>
+  <definition>
+    <key>im_product_out_of_stock_admin_text</key>
+    <value><![CDATA[Produkt med ID # %s er udsolgt.]]></value>
+  </definition>
+</definitions>

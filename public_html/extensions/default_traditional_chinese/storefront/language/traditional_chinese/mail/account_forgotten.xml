@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[〜 - 密碼重置]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[從〜請求重置密碼。]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[下面重置您的密碼點擊鏈接：]]></value>
+  </definition>
+  <definition>
+    <key>text_password_reset</key>
+    <value><![CDATA[您的密碼已成功重置〜。]]></value>
+  </definition>
+  <definition>
+    <key>text_new_password</key>
+    <value><![CDATA[下面輸入新密碼：]]></value>
+  </definition>
+  <definition>
+    <key>error_reset_token</key>
+    <value><![CDATA[鏈接不正確密碼的請求。嘗試一次復位並使用最新的電子郵件鏈接。]]></value>
+  </definition>
+</definitions>

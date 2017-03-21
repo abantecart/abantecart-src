@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Backup / Restore / Load]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[Hent Backup]]></value>
+  </definition>
+  <definition>
+    <key>text_success_backup</key>
+    <value><![CDATA[Succes: Du har skabt backup fil!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succes: Du har importeret din database!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_xml</key>
+    <value><![CDATA[Succes: Du har importeret din xml!]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore</key>
+    <value><![CDATA[Gendan fra sql eller xml-fil:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tables</key>
+    <value><![CDATA[Backup Borde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_loadxml</key>
+    <value><![CDATA[Load XML-fil:]]></value>
+  </definition>
+  <definition>
+    <key>tab_backup</key>
+    <value><![CDATA[Backup]]></value>
+  </definition>
+  <definition>
+    <key>tab_restore</key>
+    <value><![CDATA[Gendan]]></value>
+  </definition>
+  <definition>
+    <key>tab_loadxml</key>
+    <value><![CDATA[Layout og datasæt load XML]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advarsel: Du har ikke tilladelse til at ændre backups!]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Advarsel: sæt venligst hvad du ønsker at sikkerhedskopiere eller import!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Advarsel: Den fil, du har uploadet var tom eller havde forkert filtype!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload</key>
+    <value><![CDATA[Advarsel: Filen blev ikke uploadet. Tjek post_max_size eller file_upload direktiver php.ini filen.]]></value>
+  </definition>
+  <definition>
+    <key>error_xml</key>
+    <value><![CDATA[Advarsel: Den fil, du uploadede ikke indlæses som XML! Please, se log-fil for detaljer]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_code</key>
+    <value><![CDATA[Backup Code (%s) <br/><span class="help">Sub-mapper med kodefiler eksklusive dynamiske filer såsom cache, log filer, billeder, ressourcer osv</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_content</key>
+    <value><![CDATA[Backup indhold (%s) <br/><span class="help">Sub-mapper med dynamiske filer såsom billeder, downloads, ressourcer osv</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_compress_backup</key>
+    <value><![CDATA[Komprimer Backup Register %s? <br/><span class="help">Arkiv * .tar.gz vil blive oprettet. <br/> Bemærk: Det kunne for at tage lang tid. Ellers kan du deaktivere komprimering og find din backup i mappen %s</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_now</key>
+    <value><![CDATA[Backup nu]]></value>
+  </definition>
+  <definition>
+    <key>button_load</key>
+    <value><![CDATA[belastning]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_schedule</key>
+    <value><![CDATA[Schedule Backup]]></value>
+  </definition>
+  <definition>
+    <key>text_success_scheduled</key>
+    <value><![CDATA[Succes: Du har skabt planlagt backup opgave! <a href="%s">Se detaljer</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_fail_note</key>
+    <value><![CDATA[BEMÆRK: Denne proces udførelse afhænger af din AbanteCart data størrelse samt din server virtuel hukommelse størrelse. Hvis processen afsluttes med fejl, tjekke mappe %s tilladelser til at være indstillet til -RW-rw-rw og <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[PHP memory indstilling]</a>. Øg hukommelse indstilling eller køre backup manuelt, hvis processen stadig ikke.]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_file</key>
+    <value><![CDATA[For at downloade backup-fil du besøge <a href="#admin#rt=tool/install_upgrade_history">Install / Upgrade Historie</a>]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_dir</key>
+    <value><![CDATA[Register med backup-filer er %s]]></value>
+  </definition>
+</definitions>

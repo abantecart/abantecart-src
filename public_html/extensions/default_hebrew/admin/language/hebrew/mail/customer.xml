@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - החשבון שלך הופעל!]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[ברוכים הבאים ותודה שנרשמת באתר %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[כעת חשבונך נוצר ואתה יכול להתחבר באמצעות כתובת הדוא&quot;ל והסיסמה שלך על ידי ביקור באתר האינטרנט שלנו או בכתובת הבאה:]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[ברגע שאתה מתחבר, תוכל לגשת, היסטורית רשימת הרצונות, הזמנה, חשבוניות הדפסה ועריכת פרטי החשבון שלך.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[תודה,]]></value>
+  </definition>
+</definitions>

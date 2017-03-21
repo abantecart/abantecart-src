@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[我的收藏]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[帐户]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_wishlist</key>
+    <value><![CDATA[我的收藏夹为空]]></value>
+  </definition>
+  <definition>
+    <key>button_cart</key>
+    <value><![CDATA[查看购物车]]></value>
+  </definition>
+  <definition>
+    <key>button_continue</key>
+    <value><![CDATA[继续购物]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[图片]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[名称]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[模型]]></value>
+  </definition>
+  <definition>
+    <key>column_added</key>
+    <value><![CDATA[追加到意愿清单]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[单价]]></value>
+  </definition>
+  <definition>
+    <key>column_actions</key>
+    <value><![CDATA[操作]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_possible_commands</key>
+    <value><![CDATA[בלו פקודות אפשרי. אתה יכול speek פרטים נוספים אחרי מילת מפתח פקודה. דוגמא, &quot;הודעות בדף פתוחות&quot; או &quot;מוצר הוספה&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_multiple_result_found</key>
+    <value><![CDATA[תוצאת פעולה מרובה נמצאה:]]></value>
+  </definition>
+  <definition>
+    <key>text_action_confirm</key>
+    <value><![CDATA[נא לאשר את בקשתך:]]></value>
+  </definition>
+  <definition>
+    <key>command_open</key>
+    <value><![CDATA[דף פתוח, פתוח, תפריט פתוח]]></value>
+  </definition>
+  <definition>
+    <key>command_find</key>
+    <value><![CDATA[לאתר, למצוא, חיפוש, לחפש, לחפש 4]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_cache</key>
+    <value><![CDATA[מטמון ברור, נקה את המטמון המטמון הברורה]]></value>
+  </definition>
+  <definition>
+    <key>command_view_log</key>
+    <value><![CDATA[הצגת יומן, הצגת יומן, לבדוק ביומן, ראה להתחבר, להציג יומן שגיאות, להציג שגיאות]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_log</key>
+    <value><![CDATA[נקה יומן, יומן ברור, למחוק יומן, יומן למחוק]]></value>
+  </definition>
+  <definition>
+    <key>command_view_order</key>
+    <value><![CDATA[כדי להציג, מספר הזמנה, כדי פתוח, כדי מופע, מספר הזמנה פתוח, מספר הזמנת נוף, מספר הזמנת מופע, כדי #]]></value>
+  </definition>
+  <definition>
+    <key>command_view_product</key>
+    <value><![CDATA[מוצר נוף, מספר מוצר, מוצר פתוח, מוצר מופע, מספר מוצר פתוח, מספר מוצר נוף, מספר מוצר מופע, # מוצר]]></value>
+  </definition>
+  <definition>
+    <key>command_create_new</key>
+    <value><![CDATA[הכנס, ליצור, להוסיף, חדש, כנס חדש, ליצור חדש, להוסיף חדש]]></value>
+  </definition>
+  <definition>
+    <key>category</key>
+    <value><![CDATA[קטגוריה]]></value>
+  </definition>
+  <definition>
+    <key>product</key>
+    <value><![CDATA[מוצר]]></value>
+  </definition>
+  <definition>
+    <key>brand</key>
+    <value><![CDATA[מותג]]></value>
+  </definition>
+  <definition>
+    <key>manufacturer</key>
+    <value><![CDATA[יַצרָן]]></value>
+  </definition>
+  <definition>
+    <key>review</key>
+    <value><![CDATA[סקירה]]></value>
+  </definition>
+  <definition>
+    <key>download</key>
+    <value><![CDATA[להורדה]]></value>
+  </definition>
+  <definition>
+    <key>attribute</key>
+    <value><![CDATA[תְכוּנָה]]></value>
+  </definition>
+  <definition>
+    <key>customer</key>
+    <value><![CDATA[צרכן]]></value>
+  </definition>
+  <definition>
+    <key>coupon</key>
+    <value><![CDATA[קוּפּוֹן]]></value>
+  </definition>
+  <definition>
+    <key>discount</key>
+    <value><![CDATA[הנחה]]></value>
+  </definition>
+  <definition>
+    <key>block</key>
+    <value><![CDATA[לַחסוֹם]]></value>
+  </definition>
+  <definition>
+    <key>menu</key>
+    <value><![CDATA[תַפרִיט]]></value>
+  </definition>
+  <definition>
+    <key>content</key>
+    <value><![CDATA[תוֹכֶן]]></value>
+  </definition>
+  <definition>
+    <key>banner</key>
+    <value><![CDATA[דֶגֶל]]></value>
+  </definition>
+  <definition>
+    <key>page</key>
+    <value><![CDATA[עמוד]]></value>
+  </definition>
+  <definition>
+    <key>store</key>
+    <value><![CDATA[חֲנוּת]]></value>
+  </definition>
+  <definition>
+    <key>language</key>
+    <value><![CDATA[שפה]]></value>
+  </definition>
+  <definition>
+    <key>currency</key>
+    <value><![CDATA[מַטְבֵּעַ]]></value>
+  </definition>
+  <definition>
+    <key>location</key>
+    <value><![CDATA[מקום]]></value>
+  </definition>
+  <definition>
+    <key>tax</key>
+    <value><![CDATA[מַס]]></value>
+  </definition>
+</definitions>

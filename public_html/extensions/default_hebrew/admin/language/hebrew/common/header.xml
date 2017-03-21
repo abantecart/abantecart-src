@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[מִנהָל]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[שחזור גיבוי]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[ברוך הבא, <b>%s</b>]]></value>
+  </definition>
+  <definition>
+    <key>text_last_login</key>
+    <value><![CDATA[כניסה אחרונה: %s]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_details</key>
+    <value><![CDATA[עריכת פרטים אישיים בפרופיל]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_notifications</key>
+    <value><![CDATA[ערוך הגדרות התראות]]></value>
+  </definition>
+  <definition>
+    <key>text_catalog</key>
+    <value><![CDATA[קָטָלוֹג]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[קטגוריות]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[לְאַשֵׁר?]]></value>
+  </definition>
+  <definition>
+    <key>text_country</key>
+    <value><![CDATA[מדינות]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[קופונים]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[הנחות]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[מטבעות]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[לקוחות]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_group</key>
+    <value><![CDATA[קבוצות לקוחות]]></value>
+  </definition>
+  <definition>
+    <key>text_dashboard</key>
+    <value><![CDATA[לוּחַ מַחווָנִים]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[הורדות]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[יומני שגיאה]]></value>
+  </definition>
+  <definition>
+    <key>text_extension</key>
+    <value><![CDATA[רחבות]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_short</key>
+    <value><![CDATA[רחבות]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[חנות]]></value>
+  </definition>
+  <definition>
+    <key>text_location</key>
+    <value><![CDATA[מיקומים]]></value>
+  </definition>
+  <definition>
+    <key>text_help</key>
+    <value><![CDATA[עֶזרָה]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[מֵידָע]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[שפות]]></value>
+  </definition>
+  <definition>
+    <key>text_language_definitions</key>
+    <value><![CDATA[הגדרות שפה]]></value>
+  </definition>
+  <definition>
+    <key>text_localisation</key>
+    <value><![CDATA[לוקליזציה]]></value>
+  </definition>
+  <definition>
+    <key>text_logged</key>
+    <value><![CDATA[אתה מחובר כ <span>%s</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[להתנתק]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[שלח מייל]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturer</key>
+    <value><![CDATA[תעשיינים]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[הזמנות]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[להזמין סטטוסים]]></value>
+  </definition>
+  <definition>
+    <key>text_abantecart</key>
+    <value><![CDATA[דף הבית]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[תשלומים]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[מוצרים]]></value>
+  </definition>
+  <definition>
+    <key>text_reports</key>
+    <value><![CDATA[דיווחים]]></value>
+  </definition>
+  <definition>
+    <key>text_online</key>
+    <value><![CDATA[באינטרנט]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[עסקאות]]></value>
+  </definition>
+  <definition>
+    <key>text_tax</key>
+    <value><![CDATA[מַס]]></value>
+  </definition>
+  <definition>
+    <key>text_report_purchased</key>
+    <value><![CDATA[מוצרים שנקנו]]></value>
+  </definition>
+  <definition>
+    <key>text_report_sale</key>
+    <value><![CDATA[מכירות]]></value>
+  </definition>
+  <definition>
+    <key>text_analytics</key>
+    <value><![CDATA[Analytics &amp; תובנות]]></value>
+  </definition>
+  <definition>
+    <key>text_report_viewed</key>
+    <value><![CDATA[מוצרים הנצפים]]></value>
+  </definition>
+  <definition>
+    <key>text_review</key>
+    <value><![CDATA[ביקורות]]></value>
+  </definition>
+  <definition>
+    <key>text_sale</key>
+    <value><![CDATA[מכירות]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[משלוח]]></value>
+  </definition>
+  <definition>
+    <key>text_setting</key>
+    <value><![CDATA[הגדרות]]></value>
+  </definition>
+  <definition>
+    <key>text_stock_status</key>
+    <value><![CDATA[מאגר סטטוסים]]></value>
+  </definition>
+  <definition>
+    <key>text_support</key>
+    <value><![CDATA[פורום תמיכה]]></value>
+  </definition>
+  <definition>
+    <key>text_system</key>
+    <value><![CDATA[מערכת]]></value>
+  </definition>
+  <definition>
+    <key>text_tax_class</key>
+    <value><![CDATA[חוגי מס]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[סיכומים להזמין]]></value>
+  </definition>
+  <definition>
+    <key>text_user</key>
+    <value><![CDATA[משתמש]]></value>
+  </definition>
+  <definition>
+    <key>text_documentation</key>
+    <value><![CDATA[תיעוד]]></value>
+  </definition>
+  <definition>
+    <key>text_users</key>
+    <value><![CDATA[משתמש]]></value>
+  </definition>
+  <definition>
+    <key>text_user_group</key>
+    <value><![CDATA[קבוצות משתמשים]]></value>
+  </definition>
+  <definition>
+    <key>text_weight_class</key>
+    <value><![CDATA[כיתות משקל]]></value>
+  </definition>
+  <definition>
+    <key>text_length_class</key>
+    <value><![CDATA[חוגי אורך]]></value>
+  </definition>
+  <definition>
+    <key>text_zone</key>
+    <value><![CDATA[אזורים]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[כל התוספים]]></value>
+  </definition>
+  <definition>
+    <key>text_add_extension</key>
+    <value><![CDATA[תקן רחבה]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_store</key>
+    <value><![CDATA[קבל רחבות]]></value>
+  </definition>
+  <definition>
+    <key>text_migrate</key>
+    <value><![CDATA[כלי הגירה]]></value>
+  </definition>
+  <definition>
+    <key>text_updater</key>
+    <value><![CDATA[מעדכן]]></value>
+  </definition>
+  <definition>
+    <key>text_design</key>
+    <value><![CDATA[לְעַצֵב]]></value>
+  </definition>
+  <definition>
+    <key>text_templates</key>
+    <value><![CDATA[תבניות]]></value>
+  </definition>
+  <definition>
+    <key>text_layout</key>
+    <value><![CDATA[פריסות]]></value>
+  </definition>
+  <definition>
+    <key>text_blocks</key>
+    <value><![CDATA[בלוקים]]></value>
+  </definition>
+  <definition>
+    <key>text_menu</key>
+    <value><![CDATA[תַפרִיט]]></value>
+  </definition>
+  <definition>
+    <key>text_cache</key>
+    <value><![CDATA[מטמון]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[הודעות]]></value>
+  </definition>
+  <definition>
+    <key>text_content</key>
+    <value><![CDATA[תוֹכֶן]]></value>
+  </definition>
+  <definition>
+    <key>text_datasets_manager</key>
+    <value><![CDATA[מערכי נתונים]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[התקנה / שדרוג היסטוריה]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute</key>
+    <value><![CDATA[תכונות גלובליות]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute_groups</key>
+    <value><![CDATA[מאפיינים גלובליים קבוצות]]></value>
+  </definition>
+  <definition>
+    <key>text_import_export</key>
+    <value><![CDATA[יבוא ויצוא]]></value>
+  </definition>
+  <definition>
+    <key>text_data</key>
+    <value><![CDATA[נתונים]]></value>
+  </definition>
+  <definition>
+    <key>text_logs</key>
+    <value><![CDATA[יומנים]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_edit_form</key>
+    <value><![CDATA[טופס עריכה מהיר]]></value>
+  </definition>
+  <definition>
+    <key>text_all_matches</key>
+    <value><![CDATA[כל המשחקים]]></value>
+  </definition>
+  <definition>
+    <key>text_file_uploads</key>
+    <value><![CDATA[העלאת קבצים]]></value>
+  </definition>
+  <definition>
+    <key>text_all_settings</key>
+    <value><![CDATA[כל ההגדרות]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_details</key>
+    <value><![CDATA[פרטי Store]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_general</key>
+    <value><![CDATA[כללי]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_checkout</key>
+    <value><![CDATA[לבדוק]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_appearance</key>
+    <value><![CDATA[מראה חיצוני]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_mail</key>
+    <value><![CDATA[דוֹאַר]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_im</key>
+    <value><![CDATA[IM]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_api</key>
+    <value><![CDATA[API]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_system</key>
+    <value><![CDATA[מערכת]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_newstore</key>
+    <value><![CDATA[צור חדש בחנות]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_command_prompt</key>
+    <value><![CDATA[שורת פקודה קולית.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_select_dialect</key>
+    <value><![CDATA[בחר בניב שלך]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_confirm_action</key>
+    <value><![CDATA[אשר את הפעולה הזו או לבטל]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_speak_now</key>
+    <value><![CDATA[דבר עכשיו.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_speach_detected</key>
+    <value><![CDATA[שום נאום זוהה. ייתכן שיהיה עליך להתאים שלך <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">1 #### 1amp; answer = 1407892 &quot;&gt; גדרות מיקרופון</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_mic_detected</key>
+    <value><![CDATA[אין מיקרופון נמצא. ודא מיקרופון מותקן וכי <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">1 #### 1amp; תשובה = 1407892 &quot;&gt; גדרות מיקרופון</a> מוגדרות כראוי.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_click_allow</key>
+    <value><![CDATA[לחץ על הלחצן &quot;אפשר&quot; למעלה כדי לאפשר המיקרופון שלך.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_denied</key>
+    <value><![CDATA[הרשאה להשתמש במיקרופון נדחתה.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_permission</key>
+    <value><![CDATA[הרשאה להשתמש במיקרופון חסומה. כדי לשנות, עבור אל דפדפן <a href="chrome://settings/contentExceptions#media-stream">הגדרות המדיה</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_not_supported</key>
+    <value><![CDATA[שליטה קולית אינה נתמכת על ידי דפדפן זה. <a href="//www.google.com/chrome" target="_new">Chrome</a> גרסה 25 ואילך נדרש.]]></value>
+  </definition>
+  <definition>
+    <key>text_tasks</key>
+    <value><![CDATA[משימות מתוזמנות]]></value>
+  </definition>
+  <definition>
+    <key>text_read_all_messages</key>
+    <value><![CDATA[קראו את כל ההודעות]]></value>
+  </definition>
+  <definition>
+    <key>text_short_stats</key>
+    <value><![CDATA[סטטיסטיקות מהירות]]></value>
+  </definition>
+  <definition>
+    <key>text_online_now</key>
+    <value><![CDATA[לקוחות באינטרנט]]></value>
+  </definition>
+  <definition>
+    <key>text_online_new</key>
+    <value><![CDATA[חָדָשׁ]]></value>
+  </definition>
+  <definition>
+    <key>text_online_registered</key>
+    <value><![CDATA[מחובר]]></value>
+  </definition>
+  <definition>
+    <key>text_today_orders</key>
+    <value><![CDATA[הזמנות חדשות היום]]></value>
+  </definition>
+  <definition>
+    <key>text_today_sales</key>
+    <value><![CDATA[היום מכירות סה&quot;כ]]></value>
+  </definition>
+  <definition>
+    <key>text_today_customers</key>
+    <value><![CDATA[ללקוחות חדשים היום]]></value>
+  </definition>
+  <definition>
+    <key>text_today_reviews</key>
+    <value><![CDATA[סיקורים חדשים היום]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_manager</key>
+    <value><![CDATA[מנהל המדיה]]></value>
+  </definition>
+  <definition>
+    <key>text_server_time</key>
+    <value><![CDATA[זמן שרת]]></value>
+  </definition>
+</definitions>

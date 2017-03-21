@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Ekspeditionsgebyr]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[Ekspeditionsgebyr]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Bestil totaler]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succes: Du har opdateret gebyr samlede håndtering!]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Bestil Total: <span class="help">Minimumsbestilling der skal nås for at anvende gebyret. Hvis kundens ordre total vil overstige dette beløb, håndtering FEEE ikke vil blive anvendt. Denne værdi tilsidesættes med betaling specifik indstilling.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_placeholder</key>
+    <value><![CDATA[Bestil Beløb]]></value>
+  </definition>
+  <definition>
+    <key>entry_fee</key>
+    <value><![CDATA[Gebyr: <span class="help">Gebyr skal tilføjes for at bestille alt, hvis minimumsbeløb betingelse ikke er opfyldt. Dette beløb tilsidesættes af betaling bestemt indstilling</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_fee</key>
+    <value><![CDATA[Gebyr: <span class="help">Gebyr skal tilføjes for at bestille alt, hvis minimum sub-samlede betingelse ikke er opfyldt. Dette beløb tilsidesætte vigtigste gebyr indstilling</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Betaling: <span class="help">Vælg en bestemt betaling, du nødt til at tilføje gebyr til. Disse indstillinger tilsidesætter de vigtigste indstillinger, hvis betaling bruges af kunden.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_subtotal</key>
+    <value><![CDATA[Bestil Sub-Total: <span class="help">Minimum ordre subtotal beløb, der skal nås for at anvende gebyret. Dette tilsidesætter vigtigste indstilling</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Skat klasse: <span class="help">Vælg, hvis du har brug for skat, der skal anvendes på toppen af gebyret håndtering</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Sorteringsrækkefølge:]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[Beregning Order:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advarsel: Du har ikke tilladelse til at ændre gebyr total håndtering!]]></value>
+  </definition>
+  <definition>
+    <key>error_number</key>
+    <value><![CDATA[Advarsel: Bestil alt og ekspeditionsgebyr skal være et tal!]]></value>
+  </definition>
+</definitions>

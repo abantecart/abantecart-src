@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[opdater leder]]></value>
+  </definition>
+  <definition>
+    <key>text_checkupdates</key>
+    <value><![CDATA[Søg efter opdateringer]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Udvidelse Navn]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[Type]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[Kategori]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[status]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[Nuværende version]]></value>
+  </definition>
+  <definition>
+    <key>column_new_version</key>
+    <value><![CDATA[Ny version]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Handling]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succes: Udvidelser blev opdateret!]]></value>
+  </definition>
+  <definition>
+    <key>text_update</key>
+    <value><![CDATA[Opdatering]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore_exts</key>
+    <value><![CDATA[Gendan Backuped extension:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[opdateringer:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advarsel: Du har ikke tilladelse til at ændre mappe:]]></value>
+  </definition>
+  <definition>
+    <key>warning_server</key>
+    <value><![CDATA[Server med opdateringer er inaccesible.]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_title</key>
+    <value><![CDATA[Meddelelse om opdatering for% EXTENSION%]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_text</key>
+    <value><![CDATA[&#39;Ny version af udvidelse &quot;% EXTENSION%&quot; er tilgængelig. Venligst gå til% LINK% og opgradere den. «]]></value>
+  </definition>
+  <definition>
+    <key>warning_updates</key>
+    <value><![CDATA[Kan ikke få oplysninger om opdateringer.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Advarsel: Den fil, du har uploadet var tom!]]></value>
+  </definition>
+  <definition>
+    <key>error_exts_list</key>
+    <value><![CDATA[Advarsel: Udvidelse liste er ikke vifte!]]></value>
+  </definition>
+  <definition>
+    <key>text_nothing_todo</key>
+    <value><![CDATA[Dine s udvidelser er opdaterede. Ingenting at lave.]]></value>
+  </definition>
+  <definition>
+    <key>text_connect</key>
+    <value><![CDATA[Forbinde]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect</key>
+    <value><![CDATA[Tilslut til markedspladsen]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect_your_store</key>
+    <value><![CDATA[Venligst Tilslut din butik til markedspladsen]]></value>
+  </definition>
+  <definition>
+    <key>text_note</key>
+    <value><![CDATA[Bemærk: Opdatering kun tilgængelig for tilsluttede butikker med indkøbt historie.]]></value>
+  </definition>
+</definitions>

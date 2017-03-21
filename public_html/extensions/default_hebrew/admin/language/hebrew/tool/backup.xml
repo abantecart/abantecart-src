@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[גיבוי / שחזור / טעינה]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[גיבוי להורדה]]></value>
+  </definition>
+  <definition>
+    <key>text_success_backup</key>
+    <value><![CDATA[הצלחה: יצרה קובץ גיבוי בהצלחה!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[הצלחה: אתה בהצלחה ייבאת מסד הנתונים שלך!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_xml</key>
+    <value><![CDATA[הצלחה: אתה בהצלחה ייבאת XML שלך!]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore</key>
+    <value><![CDATA[שחזור מקובץ SQL או xml:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tables</key>
+    <value><![CDATA[גיבוי טבלאות:]]></value>
+  </definition>
+  <definition>
+    <key>entry_loadxml</key>
+    <value><![CDATA[XML-קובץ טען:]]></value>
+  </definition>
+  <definition>
+    <key>tab_backup</key>
+    <value><![CDATA[גיבוי]]></value>
+  </definition>
+  <definition>
+    <key>tab_restore</key>
+    <value><![CDATA[לשחזר]]></value>
+  </definition>
+  <definition>
+    <key>tab_loadxml</key>
+    <value><![CDATA[XML פריסת עומס נתונים]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[אזהרה: אין לך הרשאה לשנות גיבויים!]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[אזהרה: נא להגדיר מה אתה רוצה גיבוי או יבוא!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[אזהרה: הקובץ שהעלת הייתה ריקה או היה סוג קובץ הלא נכון!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload</key>
+    <value><![CDATA[אזהרה: הקובץ לא נטען. בדוק הנחיות post_max_size או file_upload של קובץ php.ini שלך.]]></value>
+  </definition>
+  <definition>
+    <key>error_xml</key>
+    <value><![CDATA[אזהרה: הקובץ שהעלת אינו טעון כמו XML! אנא ראה קובץ יומן לפרטים]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_code</key>
+    <value><![CDATA[קוד גיבוי (%s) <br/><span class="help">תת-ספריות עם קבצי קוד למעט קבצים דינמיים כגון מטמון, קבצי לוג, תמונות, משאבים וכו &#39;</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_content</key>
+    <value><![CDATA[תוכן גיבוי (%s) <br/><span class="help">תת-ספריות עם קבצים דינמיים כגון תמונות, הורדות, משאבים וכו &#39;</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_compress_backup</key>
+    <value><![CDATA[דחיסת מדריך גיבוי %s? <br/><span class="help">.tar.gz * ארכיון ייוצר. <br/> הערה: זה יכול לקחת זמן רב. לחלופין, ניתן גם לבטל דחיסה ולמצוא גיבוי בתיקייה %s</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_now</key>
+    <value><![CDATA[גיבוי עכשיו]]></value>
+  </definition>
+  <definition>
+    <key>button_load</key>
+    <value><![CDATA[לִטעוֹן]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_schedule</key>
+    <value><![CDATA[גיבוי לוח זמנים]]></value>
+  </definition>
+  <definition>
+    <key>text_success_scheduled</key>
+    <value><![CDATA[הצלחה: לאחר שתיצור בהצלחה משימה מתוזמנת גיבוי! <a href="%s">ראה פרטים</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_fail_note</key>
+    <value><![CDATA[הערה: זה ביצוע תהליך תלוי בגודל מידע AbanteCart שלך, כמו גם גודל הזיכרון הווירטואלי השרת שלך. אם תהליך מסתיים עם שגיאות, תבדוק במדריך %s הרשאות כדי להיות מוגדרות -RW-RW-RW ו- <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[הגדרת זיכרון PHP]</a>. הגדלת מערכת זיכרון או גיבוי לרוץ באופן ידני אם תהליך עדיין נכשל.]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_file</key>
+    <value><![CDATA[כדי להוריד גיבוי קובץ בקר <a href="#admin#rt=tool/install_upgrade_history">התקנה / שדרוג היסטוריה</a>]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_dir</key>
+    <value><![CDATA[מדריך עם קבצי הגיבוי הוא %s]]></value>
+  </definition>
+</definitions>

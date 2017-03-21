@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[特別優惠]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[有沒有特別優惠的產品上市。]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[〜滿分5星！]]></value>
+  </definition>
+  <definition>
+    <key>text_sort</key>
+    <value><![CDATA[排序方式：]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[默認]]></value>
+  </definition>
+  <definition>
+    <key>text_name_asc</key>
+    <value><![CDATA[名稱A  -  Z]]></value>
+  </definition>
+  <definition>
+    <key>text_name_desc</key>
+    <value><![CDATA[名稱Z  -  A]]></value>
+  </definition>
+  <definition>
+    <key>text_price_asc</key>
+    <value><![CDATA[價格低&gt;高]]></value>
+  </definition>
+  <definition>
+    <key>text_price_desc</key>
+    <value><![CDATA[價格高&gt;低]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_asc</key>
+    <value><![CDATA[評價最低]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_desc</key>
+    <value><![CDATA[最高評分]]></value>
+  </definition>
+</definitions>

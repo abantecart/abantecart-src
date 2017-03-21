@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[购买的产品报告]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[产品名称]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[模型]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[数量]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[总]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Længde Klasser]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[Længde Class]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succes: Du har ændret længdeklasser!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Længde Titel]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[længdeenhed]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Værdi]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Handling]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Længde Titel:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Længdeenhed:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Værdi: <br/><span class="help">Indstil til 1,00 tusind, hvis dette er din standard længde.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advarsel: Du har ikke tilladelse til at ændre længdeklasser!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Længde Titel skal være mellem 2 og 32 tegn!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Længde Unit skal være mellem 1 og 4 tegn!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Advarsel: Denne længde klasse kan ikke slettes, da det i øjeblikket er tildelt som standard butikken længde klasse!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Advarsel: Denne længde klasse kan ikke slettes, da det i øjeblikket er tildelt %s produkter!]]></value>
+  </definition>
+</definitions>
