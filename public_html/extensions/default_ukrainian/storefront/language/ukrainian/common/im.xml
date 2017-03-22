@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>im_text_notification</key>
+    <value><![CDATA[повідомлення]]></value>
+  </definition>
+  <definition>
+    <key>im_error_mail_address</key>
+    <value><![CDATA[Адреса електронної пошти %s НЕ діє!]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_email_title</key>
+    <value><![CDATA[Електронна пошта]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_title</key>
+    <value><![CDATA[смс]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_empty_warn</key>
+    <value><![CDATA[SMS повідомлення не представляється можливим. Мобільний телефон не зберігаються в ваш обліковий запис записів.]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update</key>
+    <value><![CDATA[порядок поновлення]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update_note</key>
+    <value><![CDATA[Виберіть, якщо хочете отримувати повідомлення про оновлення ваших замовлень.]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_admin</key>
+    <value><![CDATA[Замовлення # %s був оновлено! Статус замовлення ID %s]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_customer</key>
+    <value><![CDATA[Ваше замовлення # %s Оновлене. Новий статус замовлення становить %s]]></value>
+  </definition>
+  <definition>
+    <key>im_new_order_text_to_admin</key>
+    <value><![CDATA[Новий порядок # %s був зроблений!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_customer_text_to_admin</key>
+    <value><![CDATA[Новий клієнт # %s був зареєстрований!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_subscriber_text_to_admin</key>
+    <value><![CDATA[Новий Абонент # %s був зареєстрований!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update</key>
+    <value><![CDATA[Оновлення облікового запису]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update_note</key>
+    <value><![CDATA[Виберіть, якщо хочете отримувати повідомлення про ваших оновлення в обліковому записі.]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_text_to_customer</key>
+    <value><![CDATA[Ваш аккаунт був оновлено! Якщо ви не робили жодних змін, будь ласка, зв&#39;яжіться з власником сайту]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_email_to_customer</key>
+    <value><![CDATA[Ваш аккаунт адреса електронної пошти був змінений на %s! Якщо ви не зробили цього зміни, будь ласка, зв&#39;яжіться з власником сайту]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_login_to_customer</key>
+    <value><![CDATA[Ваше ім&#39;я реєстрацію Логін було змінено на %s! Якщо ви не зробили цього зміни, будь ласка, зв&#39;яжіться з власником сайту]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_password_to_customer</key>
+    <value><![CDATA[Ваш пароль був змінений! Якщо ви не зробили цього зміни, будь ласка, зв&#39;яжіться з власником сайту]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_contact_admin_text</key>
+    <value><![CDATA[У вас є новий запит від клієнта (%s, %s)!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter</key>
+    <value><![CDATA[Інформаційні бюлетені]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter_note</key>
+    <value><![CDATA[Виберіть, якщо хочете отримувати повідомлення про наших продуктах і оновлення.]]></value>
+  </definition>
+  <definition>
+    <key>im_product_review_text_to_admin</key>
+    <value><![CDATA[Новий огляд продукту був доданий. Детальніше # адмін # ВУ = каталог / огляд / оновлення &amp; review_id = %s]]></value>
+  </definition>
+  <definition>
+    <key>im_product_out_of_stock_admin_text</key>
+    <value><![CDATA[Продукт з ID # %s немає в наявності.]]></value>
+  </definition>
+</definitions>

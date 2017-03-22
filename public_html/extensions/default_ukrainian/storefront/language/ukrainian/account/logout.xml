@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[вихід Рахунок]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Ви були відключені від вашого облікового запису. Тепер можна безпечно залишити комп&#39;ютер. </p><p> Ваша корзина була збережена, елементи всередині нього будуть відновлені при кожному вході в свій аккаунт. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[рахунки]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Вийти]]></value>
+  </definition>
+</definitions>

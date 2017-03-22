@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: Пакет був успішно встановлений.]]></value>
+  </definition>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[пакет вторинного розповсюдження інсталятора]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_license</key>
+    <value><![CDATA[Ліцензійна угода Пакет]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_ftp</key>
+    <value><![CDATA[Параметри доступу FTP]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_download</key>
+    <value><![CDATA[пакет Завантаження]]></value>
+  </definition>
+  <definition>
+    <key>text_preloading</key>
+    <value><![CDATA[Файл пакета% файл% буде завантажений.]]></value>
+  </definition>
+  <definition>
+    <key>text_loading</key>
+    <value><![CDATA[Завантаження файлу. Розмір: %s. <br/> Це може зайняти кілька секунд , в залежності від підключення.]]></value>
+  </definition>
+  <definition>
+    <key>text_key_hint</key>
+    <value><![CDATA[Введіть код установки тут]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_user</key>
+    <value><![CDATA[Ім&#39;я користувача FTP:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_password</key>
+    <value><![CDATA[FTP користувача Пароль:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_host</key>
+    <value><![CDATA[FTP-хоста:]]></value>
+  </definition>
+  <definition>
+    <key>text_i_agree</key>
+    <value><![CDATA[Я згоден з ліцензією]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[згодні]]></value>
+  </definition>
+  <definition>
+    <key>text_retry</key>
+    <value><![CDATA[Спробувати]]></value>
+  </definition>
+  <definition>
+    <key>text_disagree</key>
+    <value><![CDATA[не погоджуватися]]></value>
+  </definition>
+  <definition>
+    <key>text_download_error</key>
+    <value><![CDATA[Ми шкодуємо, але сталася помилка при завантаженні файлу. </br> Спробуйте ще раз. </br> Якщо проблема зберігається завантажити файл в історії замовлення і установки вручну.]]></value>
+  </definition>
+  <definition>
+    <key>text_continue</key>
+    <value><![CDATA[продовжувати]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer_heading</key>
+    <value><![CDATA[відмова]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer</key>
+    <value><![CDATA[<h3> Шановний клієнт AbanteCart, </h3><br/>
+ Ви збираєтеся встановити до вашого AbanteCart розширення третьої сторони. <br/><br/>
+ Будь ласка , уважно прочитайте цю заяву про відмову про продовження третьої сторони , що ви збираєтеся встановити. <br/><br/>
+  розширення і послуг третіх сторонніх організацій надаються сторонніми постачальниками. <br/><br/>
+ Незважаючи на те , AbanteCart перевірки якості розширень і послуг , що надаються третьою стороною, AbanterCart не гарантує , що всі третя сторона розширення працюють неправильно або не викличе якихось - яких конфліктів в системі.
+ Члени AbanteCart і філії жодним чином НЕ несе відповідальності за претензій , пов&#39;язаних з продуктами або послугами , наданими сторонніми постачальниками. AbanteCart не гарантує якість розширень або послуг третіх осіб. Будь ласка, надсилайте ваші запити щодо розширення або послуг третіх осіб до відповідної третій стороні постачальника.
+ Якщо у Вас є занепокоєння щодо приводу будь - якої третьої сторони , будь ласка , зв&#39;яжіться з AbanteCart на <a href="http://www.abantecart.com/contact-us" target="_blank">http://www.abantecart.com/contact-us</a><br/><br/>
+ З повагою, <br/>
+ AbanteCart <br/>
+ Ідеальна OpenSource Електронний магазин]]></value>
+  </definition>
+  <definition>
+    <key>warning_ftp</key>
+    <value><![CDATA[Увага: Деякі каталог або файл не має права на запис <span id="see_details">(докладніше див)</span><br/> Ви можете змінити права доступу на сервері або <br/> використовують доступ до FTP до сервера для установки ( як правило, хостинг - провайдера відправляє цю інформацію по електронній пошті або ви можете керувати нею хостинг інструменти управління) <br/>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed</key>
+    <value><![CDATA[<p class="success"> Ви вже% подовжувачів% встановлений! Якщо ви хочете, щоб продовжити і оновити, будь ласка, підтвердіть. </p>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed_uninstall</key>
+    <value><![CDATA[У вас вже є це розширення &quot;% РОЗШИРЕННЯ%&quot; встановлено! Якщо ви хочете, щоб приступити до перевстановлення, будь ласка, видаліть і видалити розширення в першу чергу.]]></value>
+  </definition>
+  <definition>
+    <key>error_pack_file_not_found</key>
+    <value><![CDATA[Помилка: Не вдається витягти розширення з архіву %s. Перевірте <a href="#admin#rt=tool/error_log" target="_blank">журнал</a> помилок]]></value>
+  </definition>
+  <definition>
+    <key>error_mp</key>
+    <value><![CDATA[Помилка Marketplace:]]></value>
+  </definition>
+  <definition>
+    <key>error_repository</key>
+    <value><![CDATA[Помилка: Неможливо завантажити файл. Repository помилка або недійсний ключ розширення. Спробуйте ще раз. Якщо проблема зберігається завантажити файл в історії замовлення і установки вручну.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_user</key>
+    <value><![CDATA[Помилка: Ім&#39;я користувача FTP порожній.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_password</key>
+    <value><![CDATA[Помилка: FTP Користувач Пароль порожній.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_connect</key>
+    <value><![CDATA[Помилка: Не вдається підключитися до FTP-сервера]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_login</key>
+    <value><![CDATA[Помилка: Не можна увійти в FTP-сервер. Неправильне ім&#39;я користувача або пароль.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path</key>
+    <value><![CDATA[Помилка: Не вдається знайти кореневої каталог AbanteCart по FTP шляху. <br/> Спробуйте залишити його порожнім для автоматичного пошуку.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path_array</key>
+    <value><![CDATA[Помилка: Не вдається розпізнати автоматичний кореневої каталог AbanteCart в FTP-режимі. <br/> Заповніть FTP-шлях поля форми. <br/> пропозиції шляху:]]></value>
+  </definition>
+  <definition>
+    <key>error_dir_permission</key>
+    <value><![CDATA[Неможливо зберегти файл, тому що каталог не доступний для запису:]]></value>
+  </definition>
+  <definition>
+    <key>error_package_structure</key>
+    <value><![CDATA[Помилка: Можливо пакет пошкоджений. Структура пакета помилок.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config_xml</key>
+    <value><![CDATA[Помилка: Не вдається знайти файл package.xml всередині витягнутої розширення. Можливо розширення НЕ екстрагували правильно. Перевірте <a href="#admin#rt=tool/error_log" target="_blank">журнал</a> помилок]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config2</key>
+    <value><![CDATA[Помилка: Не вдається знайти режим установки в package.xml всередині пакету.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_info_not_exists</key>
+    <value><![CDATA[Помилка: Не вдається знайти пакет сесії інформацію про цю завантаженні.]]></value>
+  </definition>
+  <definition>
+    <key>error_unpack</key>
+    <value><![CDATA[Помилка: Неможливо розпакувати пакет &quot;% пакет%&quot; після завантаження. Архів помилок. Див журналі помилок.]]></value>
+  </definition>
+  <definition>
+    <key>error_move</key>
+    <value><![CDATA[Помилка: Не вдається перемістити код пакета після розпакування. Будь ласка, спробуйте перевірити дозволи на запис з каталогу:]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode</key>
+    <value><![CDATA[Помилка: Не вдається встановити розширення &quot;% пакет%&quot;, тому що він вже встановлений. Вам потрібно деінсталювати і видалити його спочатку або отримати пакет для оновлення.]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode2</key>
+    <value><![CDATA[Помилка: Не вдається оновити розширення &quot;% пакета%&quot;, тому що він не встановлений. Вам потрібно отримати пакет для установки.]]></value>
+  </definition>
+  <definition>
+    <key>error_version_compatibility</key>
+    <value><![CDATA[Помилка: Не вдається встановити пакет. Ваша корзина <b>версія% CURRENT_VERSION%.</b> Версія (и) <b>потрібно% ВЕРСІЇ%.</b>]]></value>
+  </definition>
+  <definition>
+    <key>error_package_version_compatibility</key>
+    <value><![CDATA[Помилка: Не вдається оновити пакет. Більш нова версія пакету вже встановлена.]]></value>
+  </definition>
+  <definition>
+    <key>error_install</key>
+    <value><![CDATA[Помилка: Не вдається встановити пакет. Будь ласка, см Система -&gt; Журнал помилок для деталей.]]></value>
+  </definition>
+  <definition>
+    <key>error_core_version</key>
+    <value><![CDATA[Помилка: У вас є AbanteCart версія% VERSION% встановлена. <br/> Цей пакет оновлення тільки для версій нижче]]></value>
+  </definition>
+  <definition>
+    <key>text_interrupt</key>
+    <value><![CDATA[переривання]]></value>
+  </definition>
+  <definition>
+    <key>confirm_version_incompatibility</key>
+    <value><![CDATA[Поточна копія цього розширення не перевіряється для вашої версії AbanteCart (ст %s). <br/> збірки розширення задається для AbanteCart V %s. <br/>
+ Це не проблема, але якщо ви помітили проблеми або несумісності, будь ласка , звертайтеся до розробнику розширення.]]></value>
+  </definition>
+  <definition>
+    <key>error_move_ftp</key>
+    <value><![CDATA[Помилка: Не вдається перемістити код пакета після розпакування. Ймовірно, FTP шлях хибний. <br/> Крім того , будь ласка, спробуйте перевірити дозвіл на запис з каталогу:]]></value>
+  </definition>
+  <definition>
+    <key>text_network_install</key>
+    <value><![CDATA[встановлення через мережу]]></value>
+  </definition>
+  <definition>
+    <key>text_extension_upload</key>
+    <value><![CDATA[розширення Завантажити]]></value>
+  </definition>
+  <definition>
+    <key>error_archive_extension</key>
+    <value><![CDATA[Помилка: підтримується тільки .tar.gz файли.]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_file</key>
+    <value><![CDATA[Завантажити файл:]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_url</key>
+    <value><![CDATA[Вставити URL:]]></value>
+  </definition>
+  <definition>
+    <key>error_move_backup</key>
+    <value><![CDATA[Помилка: файли не резервне копіювання перед оновленням. Перевірте права на запис директорії:]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_title</key>
+    <value><![CDATA[Abantecart Ядро Оновлення]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_attention</key>
+    <value><![CDATA[Увага!
+ AbanteCart збирається бути оновлений до версії %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_warning</key>
+    <value><![CDATA[Там немає скасування після оновлення програмного забезпечення.
+ настійно рекомендується повна база даних і резервного копіювання коду.
+ оновлення Тест на неживих сайтів в першу чергу. Оновлення на живих сайтах не рекомендується.]]></value>
+  </definition>
+  <definition>
+    <key>text_upgrade_now</key>
+    <value><![CDATA[Оновити зараз!]]></value>
+  </definition>
+  <definition>
+    <key>error_additional_help_text</key>
+    <value><![CDATA[Застряг? Не проблема. Ви можете встановити розширення інший шлях. Перевірити <a href="http://docs.abantecart.com/pages/extensions/install.html#FTPinstall" target="_blank">це посилання довідки</a>]]></value>
+  </definition>
+  <definition>
+    <key>error_notconnected</key>
+    <value><![CDATA[Неможливо оновити або встановити розширення з ринку. Цей магазин не пройшов перевірку автентичності / підключений. Будь ласка , перевірку справжності і підключитися до <a href="%s">ринку</a>]]></value>
+  </definition>
+</definitions>

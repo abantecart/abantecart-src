@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Зв&#39;яжіться з нами]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Адреса:]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[E-Mail:]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[Телефон:]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Факс:]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Ваш запит був успішно відправлений власнику магазину! </p>]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Ім&#39;я:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[Адреса електронної пошти:]]></value>
+  </definition>
+  <definition>
+    <key>entry_enquiry</key>
+    <value><![CDATA[Запит інформації:]]></value>
+  </definition>
+  <definition>
+    <key>entry_captcha</key>
+    <value><![CDATA[Введіть код в поле нижче:]]></value>
+  </definition>
+  <definition>
+    <key>email_subject</key>
+    <value><![CDATA[запит %s]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Ім&#39;я повинно бути від 3 до 32 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-Mail, схоже, не дійсні!]]></value>
+  </definition>
+  <definition>
+    <key>error_enquiry</key>
+    <value><![CDATA[Запит повинен бути в межах від 10 до 3000 символів!]]></value>
+  </definition>
+  <definition>
+    <key>entry_duplicate_message_subject</key>
+    <value><![CDATA[Новий Запит від %s (%s)]]></value>
+  </definition>
+</definitions>

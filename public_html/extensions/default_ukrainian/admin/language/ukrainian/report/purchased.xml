@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Куплені товари Звіт]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Назва продукту]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[модель]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[кількість]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[загальний]]></value>
+  </definition>
+</definitions>

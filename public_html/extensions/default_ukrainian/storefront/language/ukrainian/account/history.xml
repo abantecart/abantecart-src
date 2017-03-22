@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Історія замовлень]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[рахунки]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[Історія Замовлень]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[ID замовлення:]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[статус:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Дату додано:]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[Замовник:]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[продукти:]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Разом:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Ви не зробили ніяких попередніх замовлень!]]></value>
+  </definition>
+</definitions>

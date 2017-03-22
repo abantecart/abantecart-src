@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[розширення Marketplace]]></value>
+  </definition>
+  <definition>
+    <key>text_install</key>
+    <value><![CDATA[встановлювати]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall</key>
+    <value><![CDATA[видалення]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall_delete</key>
+    <value><![CDATA[Видалити / Видалити]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall_confirm</key>
+    <value><![CDATA[Будь ласка, підтвердіть, що ви хочете видалити розширення [% розширення%]. Всі настройки розширення і пов&#39;язані з ними дані можуть бути видалені і втрачені.]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[видаляти]]></value>
+  </definition>
+  <definition>
+    <key>text_enlarge</key>
+    <value><![CDATA[Натисніть на зображення, щоб збільшити]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[активувати]]></value>
+  </definition>
+  <definition>
+    <key>text_deactivate</key>
+    <value><![CDATA[дезактивувати]]></value>
+  </definition>
+  <definition>
+    <key>text_left</key>
+    <value><![CDATA[лівий]]></value>
+  </definition>
+  <definition>
+    <key>text_right</key>
+    <value><![CDATA[правий]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Додано]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Увага: У вас немає дозволу на зміну розширень!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_field</key>
+    <value><![CDATA[Увага: Будь ласка, заповніть необхідні поля!]]></value>
+  </definition>
+  <definition>
+    <key>error_payment_uninstall</key>
+    <value><![CDATA[Попередження: Відключити розширення перед тим видалення!]]></value>
+  </definition>
+  <definition>
+    <key>error_uninstall</key>
+    <value><![CDATA[Попередження: розширення Видалення перед тим видалити!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: Ви змінили налаштування розширення!]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_store</key>
+    <value><![CDATA[розширення Marketplace]]></value>
+  </definition>
+  <definition>
+    <key>text_required</key>
+    <value><![CDATA[вимагається]]></value>
+  </definition>
+  <definition>
+    <key>text_optional</key>
+    <value><![CDATA[опціональний]]></value>
+  </definition>
+  <definition>
+    <key>text_add_new</key>
+    <value><![CDATA[встановити розширення]]></value>
+  </definition>
+  <definition>
+    <key>error_connect</key>
+    <value><![CDATA[На жаль, Ваш AbanteCart Відсутній зв&#39;язок між розширеннями ринку. Будь ласка, дивіться Система-&gt; Журнали помилок для деталей.]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_review_asc</key>
+    <value><![CDATA[Огляд графа Низька&gt; Високий]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_review_desc</key>
+    <value><![CDATA[Огляд граф Високий&gt; Низький]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_asc</key>
+    <value><![CDATA[Ціна Низька&gt; Високий]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_desc</key>
+    <value><![CDATA[Ціна Високий&gt; Низька]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_desc</key>
+    <value><![CDATA[Найвищий рейтинг]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_asc</key>
+    <value><![CDATA[оцінка Найнижча]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_modified_asc</key>
+    <value><![CDATA[Дата нових до старих]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_modified_desc</key>
+    <value><![CDATA[Дата від старих до нових]]></value>
+  </definition>
+  <definition>
+    <key>text_my_extensions</key>
+    <value><![CDATA[Мої Розширення]]></value>
+  </definition>
+  <definition>
+    <key>text_my_account</key>
+    <value><![CDATA[Мій рахунок]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_site</key>
+    <value><![CDATA[торгова сайту]]></value>
+  </definition>
+  <definition>
+    <key>text_all_categories</key>
+    <value><![CDATA[всі категорії]]></value>
+  </definition>
+  <definition>
+    <key>text_connect</key>
+    <value><![CDATA[підключати]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect</key>
+    <value><![CDATA[Підключення до ринку]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_extension</key>
+    <value><![CDATA[Попередній перегляд розширення і порядок]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_buy</key>
+    <value><![CDATA[Отримати це розширення прямо зараз]]></value>
+  </definition>
+  <definition>
+    <key>text_connected</key>
+    <value><![CDATA[Підключення до ринку. Натисніть, щоб відключити]]></value>
+  </definition>
+  <definition>
+    <key>text_disconnect_confirm</key>
+    <value><![CDATA[Ви впевнені, що хочете відключити?]]></value>
+  </definition>
+  <definition>
+    <key>text_disconnect_success</key>
+    <value><![CDATA[Цей магазин був відключений!]]></value>
+  </definition>
+  <definition>
+    <key>text_connection_required</key>
+    <value><![CDATA[Вам необхідно підключити AbanteCart до Marketplace, щоб побачити ваші розширення! Натисніть кнопку &quot;Connect&quot; в панелі вище.]]></value>
+  </definition>
+  <definition>
+    <key>text_in_other_store</key>
+    <value><![CDATA[був встановлений Extension для цього замовлення в іншому AbanteCart. Перевірте підключення магазини для історії.]]></value>
+  </definition>
+  <definition>
+    <key>text_no_purchase_or_not_connected</key>
+    <value><![CDATA[У вас немає покупок для цього магазину або цей магазин був diconnected з Marketplace.]]></value>
+  </definition>
+  <definition>
+    <key>text_no_extenions_loaded</key>
+    <value><![CDATA[Ні розширення не доступні. Перевірте ваш вибір або спробуйте ще раз.]]></value>
+  </definition>
+  <definition>
+    <key>text_compatibility</key>
+    <value><![CDATA[Це розширення не підтверджується, щоб працювати з вашою версією AbanteCart. Зв&#39;язатися з розширенням розробник, щоб підтвердити сумісність.]]></value>
+  </definition>
+  <definition>
+    <key>error_mp_connection</key>
+    <value><![CDATA[На жаль, не може підключитися до AbanteCart MarketPlace. Спробуйте перевірити пізніше або зверніться до постачальника послуг хостингу за допомогою.]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[пошук]]></value>
+  </definition>
+</definitions>

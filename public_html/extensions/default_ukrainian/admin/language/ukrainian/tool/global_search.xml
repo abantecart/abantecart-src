@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Глобальні результати пошуку]]></value>
+  </definition>
+  <definition>
+    <key>no_results_message</key>
+    <value><![CDATA[Вибачте, але у нас немає ніяких результатів.]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Увага: У вас немає дозволу на пошук!]]></value>
+  </definition>
+  <definition>
+    <key>text_orders</key>
+    <value><![CDATA[замовлення]]></value>
+  </definition>
+  <definition>
+    <key>text_customers</key>
+    <value><![CDATA[клієнти]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[завантаження]]></value>
+  </definition>
+  <definition>
+    <key>text_product_categories</key>
+    <value><![CDATA[категорії продуктів]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[продукти]]></value>
+  </definition>
+  <definition>
+    <key>text_reviews</key>
+    <value><![CDATA[Відгуки]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[бренди]]></value>
+  </definition>
+  <definition>
+    <key>text_languages</key>
+    <value><![CDATA[мови]]></value>
+  </definition>
+  <definition>
+    <key>text_pages</key>
+    <value><![CDATA[сторінки]]></value>
+  </definition>
+  <definition>
+    <key>text_settings</key>
+    <value><![CDATA[настройки]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[повідомлення]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[розширення]]></value>
+  </definition>
+  <definition>
+    <key>text_commands</key>
+    <value><![CDATA[Швидкі команди]]></value>
+  </definition>
+  <definition>
+    <key>text_contents</key>
+    <value><![CDATA[вміст сторінки]]></value>
+  </definition>
+</definitions>

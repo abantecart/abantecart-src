@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[користувачі онлайн]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[Ім&#39;я клієнта]]></value>
+  </definition>
+  <definition>
+    <key>column_ip</key>
+    <value><![CDATA[IP клієнта]]></value>
+  </definition>
+  <definition>
+    <key>column_time</key>
+    <value><![CDATA[останнє досягається]]></value>
+  </definition>
+  <definition>
+    <key>column_url</key>
+    <value><![CDATA[Веб-сайт досягає]]></value>
+  </definition>
+</definitions>

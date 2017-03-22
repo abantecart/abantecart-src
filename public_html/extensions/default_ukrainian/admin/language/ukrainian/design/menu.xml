@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[меню]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: Ви змінили меню!]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_id</key>
+    <value><![CDATA[унікальний ID]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_icon</key>
+    <value><![CDATA[іконка]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_text</key>
+    <value><![CDATA[текст]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_url</key>
+    <value><![CDATA[Посилання <br/><span class="help">Для зовнішніх посилань додати HTTP: // або https: // на початку</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_parent_id</key>
+    <value><![CDATA[батько]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Порядок сортування]]></value>
+  </definition>
+  <definition>
+    <key>entry_link_type</key>
+    <value><![CDATA[Тип зв&#39;язку]]></value>
+  </definition>
+  <definition>
+    <key>text_select_parent_id</key>
+    <value><![CDATA[- Головне Меню -]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Поле не може бути порожнім!]]></value>
+  </definition>
+  <definition>
+    <key>error_non_unique</key>
+    <value><![CDATA[Item ID не унікальний!]]></value>
+  </definition>
+  <definition>
+    <key>error_non_ascii</key>
+    <value><![CDATA[Тільки буквено-цифрові символи дозволені для меню ID поля!]]></value>
+  </definition>
+  <definition>
+    <key>text_category_link_type</key>
+    <value><![CDATA[Категорія Page]]></value>
+  </definition>
+  <definition>
+    <key>text_content_link_type</key>
+    <value><![CDATA[зміст сторінки]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_link_type</key>
+    <value><![CDATA[Призначені для користувача посилання або URL]]></value>
+  </definition>
+</definitions>

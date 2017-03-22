@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[валюти]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[валюта]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: У вас є модифіковані валюти!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Валюта Назва]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[код]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[значення]]></value>
+  </definition>
+  <definition>
+    <key>column_date_modified</key>
+    <value><![CDATA[Останнє оновлення]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[статус]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[дію]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Валюта Назва:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Код: <br/><span class="help">Не змінюйте</span> , <span class="help">якщо це ваша валюта</span> по <span class="help">замовчуванням.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Значення: <br/><span class="help">Встановіть значення 1.00000</span> , <span class="help">якщо це ваша валюта</span> по <span class="help">замовчуванням.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_symbol_left</key>
+    <value><![CDATA[Символ Зліва:]]></value>
+  </definition>
+  <definition>
+    <key>entry_symbol_right</key>
+    <value><![CDATA[Символ Справа:]]></value>
+  </definition>
+  <definition>
+    <key>entry_decimal_place</key>
+    <value><![CDATA[Десяткові місця:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[статус:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Увага: У вас немає дозволу на зміну валюти!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Валюта Назва повинна бути від 2 до 32 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Код валюти повинен містити 3-х символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Увага: Ця валюта не може бути видалена, як це в даний час призначений як магазин за замовчуванням валюті!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Увага: Ця валюта не може бути видалена, як це в даний час віднесені до %s магазинах!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Увага: Ця валюта не може бути видалена, як це в даний час віднесені до %s замовлень!]]></value>
+  </definition>
+</definitions>

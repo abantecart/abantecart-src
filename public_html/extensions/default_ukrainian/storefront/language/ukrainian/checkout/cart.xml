@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Кошик]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[корзина]]></value>
+  </definition>
+  <definition>
+    <key>text_sub_total</key>
+    <value><![CDATA[Разом:]]></value>
+  </definition>
+  <definition>
+    <key>text_weight</key>
+    <value><![CDATA[Кошик Вага:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Ваш кошик порожній!]]></value>
+  </definition>
+  <definition>
+    <key>column_remove</key>
+    <value><![CDATA[видалення]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[зображення]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[ім&#39;я]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[модель]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[кількість]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Ціна за одиницю]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[загальний]]></value>
+  </definition>
+  <definition>
+    <key>text_continue_shopping</key>
+    <value><![CDATA[Продовжити покупки]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_codes</key>
+    <value><![CDATA[Застосувати код купона]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipping_tax</key>
+    <value><![CDATA[Розрахувати вартість доставки і податки]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_country</key>
+    <value><![CDATA[Країна і Держава]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_postcode</key>
+    <value><![CDATA[ZIP / Поштовий індекс]]></value>
+  </definition>
+  <definition>
+    <key>button_text_estimate</key>
+    <value><![CDATA[оцінка]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipments</key>
+    <value><![CDATA[відвантаження]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Помилка: Купон є або недійсним, закінчився або досяг своєї межі використання!]]></value>
+  </definition>
+  <definition>
+    <key>error_stock</key>
+    <value><![CDATA[Продукти, відмічені *** не доступні в необхідній кількості чи ні в наявності!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_options</key>
+    <value><![CDATA[Будь ласка, виберіть всі необхідні параметри!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_minimum</key>
+    <value><![CDATA[Ваше замовлення на південь загальна сума не відповідає мінімальна кількість %s потрібно. Будь ласка, додайте більше продуктів в корзину!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_maximum</key>
+    <value><![CDATA[Ваше замовлення на південь загальна сума перевищує максимальну кількість %s допустимої послідовності. Будь ласка, видаліть деякі елементи з кошика!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_data</key>
+    <value><![CDATA[Дані файлу пошкоджений або порожній.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_name</key>
+    <value><![CDATA[Файл порожній!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_extension</key>
+    <value><![CDATA[Тільки файли з розширенням (ами) %s (ються) допускається!]]></value>
+  </definition>
+  <definition>
+    <key>error_min_file_size</key>
+    <value><![CDATA[Мінімальний розмір файлу для завантаження становить %s Kb.]]></value>
+  </definition>
+  <definition>
+    <key>error_max_file_size</key>
+    <value><![CDATA[Максимальний розмір файлу для завантаження становить %s Kb.]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_success</key>
+    <value><![CDATA[Успіх: Ваш купон знижка була застосована!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[Успіх: Купон був знищений!]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_maximum</key>
+    <value><![CDATA[допустимої кількості певного товару є більшими. Кількість була встановлена ​​на максимум.]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_minimum</key>
+    <value><![CDATA[допустимої кількості продукту нижче необхідного мінімуму. Кількість був встановлений на мінімальну суму.]]></value>
+  </definition>
+</definitions>

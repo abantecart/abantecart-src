@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Відгуки]]></value>
+  </definition>
+  <definition>
+    <key>text_review</key>
+    <value><![CDATA[огляд]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[вставити Огляд]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[огляд поновлення]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: Ви змінили відгуки!]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[продукт]]></value>
+  </definition>
+  <definition>
+    <key>column_author</key>
+    <value><![CDATA[автор]]></value>
+  </definition>
+  <definition>
+    <key>column_rating</key>
+    <value><![CDATA[рейтинг]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[статус]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[дату додано]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[дію]]></value>
+  </definition>
+  <definition>
+    <key>entry_product</key>
+    <value><![CDATA[продукт:]]></value>
+  </definition>
+  <definition>
+    <key>entry_author</key>
+    <value><![CDATA[Автор:]]></value>
+  </definition>
+  <definition>
+    <key>entry_rating</key>
+    <value><![CDATA[оцінка:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[статус:]]></value>
+  </definition>
+  <definition>
+    <key>entry_text</key>
+    <value><![CDATA[текст:]]></value>
+  </definition>
+  <definition>
+    <key>entry_good</key>
+    <value><![CDATA[добре]]></value>
+  </definition>
+  <definition>
+    <key>entry_bad</key>
+    <value><![CDATA[поганий]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Увага: У вас немає дозволу на зміну відгуки!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Необхідний продукт!]]></value>
+  </definition>
+  <definition>
+    <key>error_author</key>
+    <value><![CDATA[Автор повинен бути в межах від 2 до 64 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_text</key>
+    <value><![CDATA[Текст відгуку повинен бути від 25 до 1000 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_rating</key>
+    <value><![CDATA[Рейтинг відкликання потрібно!]]></value>
+  </definition>
+  <definition>
+    <key>text_select_product</key>
+    <value><![CDATA[- Виберіть продукт -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_category</key>
+    <value><![CDATA[- Виберіть категорію -]]></value>
+  </definition>
+</definitions>

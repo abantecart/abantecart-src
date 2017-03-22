@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Відомості та новини]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[рахунки]]></value>
+  </definition>
+  <definition>
+    <key>text_notifications</key>
+    <value><![CDATA[повідомлення]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: Ваші налаштування повідомлень була успішно оновлена!]]></value>
+  </definition>
+  <definition>
+    <key>text_sendpoint</key>
+    <value><![CDATA[повідомлення]]></value>
+  </definition>
+</definitions>

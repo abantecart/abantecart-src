@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Група клієнтів]]></value>
+  </definition>
+  <definition>
+    <key>breadcrumb_title</key>
+    <value><![CDATA[Групи клієнтів]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: Ви змінили групи клієнтів!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Група Ім&#39;я клієнта]]></value>
+  </definition>
+  <definition>
+    <key>column_tax_exempt</key>
+    <value><![CDATA[Звільняються від оподаткування]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[дію]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Група Ім&#39;я клієнта:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_exempt</key>
+    <value><![CDATA[Звільняються від сплати всіх податків:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Увага: У вас немає прав на зміну групи клієнтів!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Клієнт Ім&#39;я групи має бути від 2 до 64 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Увага: Ця група клієнтів не може бути видалена, як це в даний час призначений в якості групи за замовчуванням магазин клієнта!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Увага: Ця група клієнтів не може бути видалена, як це в даний час віднесені до %s магазинах!]]></value>
+  </definition>
+  <definition>
+    <key>error_customer</key>
+    <value><![CDATA[Увага: Ця група клієнтів не може бути видалена, як це в даний час віднесені до %s клієнтів!]]></value>
+  </definition>
+</definitions>

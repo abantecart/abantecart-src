@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[продукти]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Категорія не знайдена!]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[Там немає товару в цій категорії.]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[%s З 5 зірок!]]></value>
+  </definition>
+  <definition>
+    <key>text_sort</key>
+    <value><![CDATA[Сортувати за:]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[дефолт]]></value>
+  </definition>
+  <definition>
+    <key>text_name_asc</key>
+    <value><![CDATA[Ім&#39;я A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_name_desc</key>
+    <value><![CDATA[Ім&#39;я Z - A]]></value>
+  </definition>
+  <definition>
+    <key>text_price_asc</key>
+    <value><![CDATA[Низька ціна &gt; висока]]></value>
+  </definition>
+  <definition>
+    <key>text_price_desc</key>
+    <value><![CDATA[Ціна High &gt; низький]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_asc</key>
+    <value><![CDATA[оцінка Найнижча]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_desc</key>
+    <value><![CDATA[Найвищий рейтинг]]></value>
+  </definition>
+  <definition>
+    <key>text_top_category</key>
+    <value><![CDATA[Топ категорія]]></value>
+  </definition>
+</definitions>

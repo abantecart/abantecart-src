@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Глобальні атрибути]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute</key>
+    <value><![CDATA[Глобальний атрибут]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: У вас є змінені атрибути!]]></value>
+  </definition>
+  <definition>
+    <key>text_select_type</key>
+    <value><![CDATA[- Виберіть тип -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_parent</key>
+    <value><![CDATA[- Виберіть Батько -]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[ім&#39;я]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[тип]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Порядок сортування]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[статус]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[дію]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[ім&#39;я:]]></value>
+  </definition>
+  <definition>
+    <key>entry_attribute_parent</key>
+    <value><![CDATA[Атрибут Батько:]]></value>
+  </definition>
+  <definition>
+    <key>entry_attribute_group</key>
+    <value><![CDATA[Група атрибутів:]]></value>
+  </definition>
+  <definition>
+    <key>entry_attribute_type</key>
+    <value><![CDATA[Атрибут Тип:]]></value>
+  </definition>
+  <definition>
+    <key>entry_element_type</key>
+    <value><![CDATA[Тип елемента:]]></value>
+  </definition>
+  <definition>
+    <key>entry_element_values</key>
+    <value><![CDATA[Значення елементів:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Порядок сортування:]]></value>
+  </definition>
+  <definition>
+    <key>entry_required</key>
+    <value><![CDATA[Вимагається:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[статус:]]></value>
+  </definition>
+  <definition>
+    <key>entry_children_attributes</key>
+    <value><![CDATA[Атрибути Діти:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Увага: У вас немає дозволу на зміну глобальних атрибутів!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Назва групи повинно бути від 2 до 32 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_required</key>
+    <value><![CDATA[Це поле є обов&#39;язковим!]]></value>
+  </definition>
+  <definition>
+    <key>text_parent_note</key>
+    <value><![CDATA[Якщо це батьківський атрибут з дітьми атрибутів, це може бути тільки типу перемикачі, MultiSelect Box, Checkbox і Checkbox групи. <br/> Діти значення комбінації будуть відображатися як один набір.]]></value>
+  </definition>
+  <definition>
+    <key>entry_allowed_extensions</key>
+    <value><![CDATA[Допустимі розширення файлів (TXT, JPG ...)]]></value>
+  </definition>
+  <definition>
+    <key>entry_min_size</key>
+    <value><![CDATA[Мінімальний розмір файлу (КБ)]]></value>
+  </definition>
+  <definition>
+    <key>entry_max_size</key>
+    <value><![CDATA[Максимальний розмір файлу (КБ)]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_dir</key>
+    <value><![CDATA[Завантажити ім&#39;я каталогу <br/> %s]]></value>
+  </definition>
+  <definition>
+    <key>entry_regexp_pattern</key>
+    <value><![CDATA[Регулярний вираз шаблон для перевірки значень:]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_text</key>
+    <value><![CDATA[Повідомлення про помилку недійсних Цінність:]]></value>
+  </definition>
+  <definition>
+    <key>entry_placeholder</key>
+    <value><![CDATA[заповнювач:]]></value>
+  </definition>
+  <definition>
+    <key>error_attribute_name</key>
+    <value><![CDATA[Ім&#39;я атрибута повинно бути від 2 до 64 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_error_text</key>
+    <value><![CDATA[Текст помилки про недійсних значення атрибута повинно бути від 2 до 255 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_regexp_pattern</key>
+    <value><![CDATA[Регулярний вираз Pattern недійсний!]]></value>
+  </definition>
+  <definition>
+    <key>entry_show_to_customer</key>
+    <value><![CDATA[Показати Клієнту]]></value>
+  </definition>
+</definitions>

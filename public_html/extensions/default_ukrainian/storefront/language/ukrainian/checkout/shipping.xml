@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Інформація про доставку]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[корзина]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Доставка]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_to</key>
+    <value><![CDATA[Будь ласка, виберіть з адресної книги, де ви хотіли б елементи, які будуть доставлені.]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[Адреса доставки]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[метод доставки]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[Будь ласка, виберіть кращі методи доставки для використання в такому порядку.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[Додати коментарі про вашому замовленні]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[Помилка: Метод доставки потрібно!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[Помилка: Немає Варіанти доставки не доступні. Будь ласка , <a href="index.php?rt=content/contact">зв&#39;яжіться</a> з <a href="index.php?rt=content/contact">нами</a> для отримання допомоги!]]></value>
+  </definition>
+</definitions>

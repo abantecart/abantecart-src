@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Дякую за реєстрацію]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Ласкаво просимо! Дякуємо Вам за реєстрацію в %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Тепер Ваш аккаунт був створений, і ви можете отримати доступ до нього, відвідавши наш сайт або за наступною адресою:]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[Ваш аккаунт повинен бути схвалений, перш ніж увійти в систему. Після затвердження ви можете увійти, використовуючи свою адресу електронної пошти і пароль, відвідавши наш сайт або за наступною адресою:]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[Перш ніж ми зможемо активувати свій обліковий запис один останній крок повинні бути прийняті, щоб завершити реєстрацію. <br/> 
+ Ви повинні завершити цей останній крок , щоб стати зареєстрованим користувачем. Будь ласка, натисніть на посилання, щоб активувати обліковий запис %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Після входу в систему, ви будете мати можливість доступу до інших служб, включаючи розгляд попередніх замовлень, друк рахунків-фактур і редагування інформації про обліковий запис.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Дякую,]]></value>
+  </definition>
+</definitions>

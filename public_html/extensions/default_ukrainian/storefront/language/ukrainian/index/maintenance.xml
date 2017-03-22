@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[технічне обслуговування]]></value>
+  </definition>
+  <definition>
+    <key>text_maintenance</key>
+    <value><![CDATA[технічне обслуговування]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<h1 style="text-align:center;"> В даний час проводиться деякий планове технічне обслуговування. <br/> Ми будемо повернутися якомога швидше. Будь ласка, зайдіть в найближчим часом. </h1>]]></value>
+  </definition>
+</definitions>

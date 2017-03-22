@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[замовлення клієнтів]]></value>
+  </definition>
+  <definition>
+    <key>column_customer_id</key>
+    <value><![CDATA[ідентифікатор клієнта]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[Ім&#39;я клієнта]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[Група клієнтів]]></value>
+  </definition>
+  <definition>
+    <key>column_order_count</key>
+    <value><![CDATA[замовлення графа]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[загальний]]></value>
+  </definition>
+</definitions>

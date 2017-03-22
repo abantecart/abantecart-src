@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Операції з клієнтами]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_date</key>
+    <value><![CDATA[угода Дата]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[Ім&#39;я клієнта]]></value>
+  </definition>
+  <definition>
+    <key>column_created_by</key>
+    <value><![CDATA[Створений]]></value>
+  </definition>
+  <definition>
+    <key>column_debit</key>
+    <value><![CDATA[дебет]]></value>
+  </definition>
+  <definition>
+    <key>column_credit</key>
+    <value><![CDATA[кредит]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_type</key>
+    <value><![CDATA[тип операції]]></value>
+  </definition>
+</definitions>

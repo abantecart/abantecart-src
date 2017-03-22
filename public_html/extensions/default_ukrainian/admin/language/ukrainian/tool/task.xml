@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[призначені завдання]]></value>
+  </definition>
+  <definition>
+    <key>column_id</key>
+    <value><![CDATA[Id]]></value>
+  </definition>
+  <definition>
+    <key>column_date_created</key>
+    <value><![CDATA[Дата створення]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[ім&#39;я]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[статус]]></value>
+  </definition>
+  <definition>
+    <key>column_start_time</key>
+    <value><![CDATA[Час початку]]></value>
+  </definition>
+  <definition>
+    <key>text_stuck</key>
+    <value><![CDATA[застряг]]></value>
+  </definition>
+  <definition>
+    <key>text_ready</key>
+    <value><![CDATA[готовий]]></value>
+  </definition>
+  <definition>
+    <key>text_running</key>
+    <value><![CDATA[біг]]></value>
+  </definition>
+  <definition>
+    <key>text_scheduled</key>
+    <value><![CDATA[заплановане]]></value>
+  </definition>
+  <definition>
+    <key>text_disabled</key>
+    <value><![CDATA[інвалід]]></value>
+  </definition>
+  <definition>
+    <key>text_failed</key>
+    <value><![CDATA[не вдалося]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete</key>
+    <value><![CDATA[незавершений]]></value>
+  </definition>
+  <definition>
+    <key>text_completed</key>
+    <value><![CDATA[завершений]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Restart Task]]></value>
+  </definition>
+  <definition>
+    <key>text_run</key>
+    <value><![CDATA[виконання завдання]]></value>
+  </definition>
+  <definition>
+    <key>text_task_started</key>
+    <value><![CDATA[завдання почалася]]></value>
+  </definition>
+  <definition>
+    <key>text_task_not_found</key>
+    <value><![CDATA[Завдання не знайдено.]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_task</key>
+    <value><![CDATA[Завдання не містить кроки. Вилучені.]]></value>
+  </definition>
+  <definition>
+    <key>text_forbidden_to_restart</key>
+    <value><![CDATA[Заборонено перезапустити!]]></value>
+  </definition>
+</definitions>

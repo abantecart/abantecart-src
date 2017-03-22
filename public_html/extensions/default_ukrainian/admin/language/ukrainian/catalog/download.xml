@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[загальні Завантаження]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Загальний Завантажити]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[вставити Завантажити]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[завантажити оновлення]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: У вас є модифіковані завантаження!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[завантажити Ім&#39;я]]></value>
+  </definition>
+  <definition>
+    <key>column_remaining</key>
+    <value><![CDATA[Всього завантажень дозволені]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[дію]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Скачати книгу]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[Файл:]]></value>
+  </definition>
+  <definition>
+    <key>entry_remaining</key>
+    <value><![CDATA[Всього завантажень дозволені:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[Натисніть на попередніх клієнтів: <br/><span class="help">Перевірити це для поновлення раніше придбані версії</span> , <span class="help">а також.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Увага: У вас немає дозволу на зміну завантаження!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Ім&#39;я повинно бути від 2 до 64 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[Будь ласка, встановіть файл для завантаження.]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Увага: Дана завантаження не може бути видалена, як це в даний час віднесені до продукції %s!]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[зображення]]></value>
+  </definition>
+  <definition>
+    <key>column_products_count</key>
+    <value><![CDATA[продукти Кількість]]></value>
+  </definition>
+</definitions>

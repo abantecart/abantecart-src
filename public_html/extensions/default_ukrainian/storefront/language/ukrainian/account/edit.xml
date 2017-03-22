@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Моя інформація про обліковий запис]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[рахунки]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[змінити інформацію]]></value>
+  </definition>
+  <definition>
+    <key>text_your_details</key>
+    <value><![CDATA[Ваші персональні дані]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: Ваш обліковий запис була успішно оновлена.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Логін:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[Ім&#39;я:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Прізвище:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_of_birth</key>
+    <value><![CDATA[Дата народження:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-Mail:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[Телефон:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Факс:]]></value>
+  </definition>
+  <definition>
+    <key>error_exists</key>
+    <value><![CDATA[Помилка: E-Mail адреса вже зареєстрований!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Вхід Ім&#39;я повинно бути тільки та від 5 до 64 алфавітно-цифрових символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[Це ім&#39;я Логін не доступний. Спробуйте інше ім&#39;я входу в систему!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[Ім&#39;я повинно бути від 1 до 32 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Прізвище повинна бути від 1 до 32 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-Mail, схоже, не дійсні!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[Телефон повинен бути в межах від 3 до 32 символів!]]></value>
+  </definition>
+  <definition>
+    <key>loginname_update_required</key>
+    <value><![CDATA[Ваше ім&#39;я Ввійти така ж, як адреса електронної пошти. Щоб зберегти свій аккаунт захищений, будь ласка, створіть нове унікальне ім&#39;я для входу]]></value>
+  </definition>
+</definitions>

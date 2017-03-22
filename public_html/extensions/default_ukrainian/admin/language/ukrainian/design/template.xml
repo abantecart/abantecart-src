@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Template Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: Ви встановили новий шаблон вітрини магазину!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront_templates</key>
+    <value><![CDATA[Доступні варіанти Storefront]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_extension</key>
+    <value><![CDATA[налаштування розширення]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Помилка: Відсутній необхідний параметр в запиті!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Увага: У вас немає дозволу на редагування шаблонів!]]></value>
+  </definition>
+</definitions>

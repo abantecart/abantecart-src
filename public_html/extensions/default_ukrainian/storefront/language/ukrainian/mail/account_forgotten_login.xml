@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Увійти Ім&#39;я нагадування]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Ввійти нагадування назва була запропонована від %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_your_loginname</key>
+    <value><![CDATA[Ваше ім&#39;я Ввійти є:]]></value>
+  </definition>
+</definitions>

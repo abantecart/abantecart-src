@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[рахунок увійти]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Реєстрація аккаунта]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Ввійти]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_new_customer</key>
+    <value><![CDATA[Я новий клієнт.]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Оплата Варіанти:]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[Гість замовлення]]></value>
+  </definition>
+  <definition>
+    <key>text_create_account</key>
+    <value><![CDATA[При створенні облікового запису ви зможете здійснювати покупки набагато швидше, бути в курсі про статус замовлення, а також відстежувати замовлення, які ви раніше зробили.]]></value>
+  </definition>
+  <definition>
+    <key>text_returning_customer</key>
+    <value><![CDATA[повертаючись клієнтів]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_returning_customer</key>
+    <value><![CDATA[Я постійний покупець.]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_login</key>
+    <value><![CDATA[Забули логін?]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_password</key>
+    <value><![CDATA[Забули свій пароль?]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Логін:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email_address</key>
+    <value><![CDATA[Адреса електронної пошти:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[пароль:]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Помилка: Невірний Логін або пароль, наданий.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_activated</key>
+    <value><![CDATA[Успіх: Ваш аккаунт був успішно активований. Будь ласка, увійдіть за обліковими даними.]]></value>
+  </definition>
+  <definition>
+    <key>text_already_activated</key>
+    <value><![CDATA[Ваш обліковий запис вже активована. Будь ласка, увійдіть за обліковими даними.]]></value>
+  </definition>
+  <definition>
+    <key>text_resend_activation_email</key>
+    <value><![CDATA[Помилка: Ваша електронна адреса ще не підтверджений. Для повторного відправлення нового листа з підтвердженням , будь ласка , натисніть на цю <a href=" %s ">посилання</a>]]></value>
+  </definition>
+</definitions>

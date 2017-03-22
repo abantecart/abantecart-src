@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[блоки]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[видалення блоків]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[редагувати блок]]></value>
+  </definition>
+  <definition>
+    <key>text_enable</key>
+    <value><![CDATA[Включення / вимикання]]></value>
+  </definition>
+  <definition>
+    <key>text_details</key>
+    <value><![CDATA[деталі]]></value>
+  </definition>
+  <definition>
+    <key>text_create</key>
+    <value><![CDATA[створити блок]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: Ви змінили блок!]]></value>
+  </definition>
+  <definition>
+    <key>column_block_id</key>
+    <value><![CDATA[ID]]></value>
+  </definition>
+  <definition>
+    <key>column_block_txt_id</key>
+    <value><![CDATA[Унікальний ідентифікатор тексту]]></value>
+  </definition>
+  <definition>
+    <key>column_block_name</key>
+    <value><![CDATA[ім&#39;я]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[дату додано]]></value>
+  </definition>
+  <definition>
+    <key>column_block_type</key>
+    <value><![CDATA[тип]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[дію]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Порядок сортування]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[зображення]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_status</key>
+    <value><![CDATA[статус]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_status_note</key>
+    <value><![CDATA[Примітка: Вам потрібно додати цей блок в <a style="text-decoration: underline; font-weight: bold;" href="#admin#rt=design/layout">розклейте</a> на потрібну сторінку , щоб побачити його працювати]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_type</key>
+    <value><![CDATA[Призначені для користувача Тип блоку]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_name</key>
+    <value><![CDATA[Ім&#39;я користувача блоку]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_wrapper</key>
+    <value><![CDATA[Використовуйте блок обгортку (зовнішній вигляд)]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_framed</key>
+    <value><![CDATA[кадр Використовуйте блоку]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_title</key>
+    <value><![CDATA[Призначений для користувача блок Найменування]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_description</key>
+    <value><![CDATA[Опис призначеного для користувача блоку <p> Тільки для внутрішнього використання: Примітка </p>]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_content</key>
+    <value><![CDATA[Зміст призначеного для користувача блоку]]></value>
+  </definition>
+  <definition>
+    <key>entry_listing_datasource</key>
+    <value><![CDATA[Лістинг Джерело даних]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_confirm</key>
+    <value><![CDATA[Підтвердіть видалення блоку?]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Будь ласка, заповніть всі обов&#39;язкові поля!]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[Неможливо видалити, тому що цей блок використовується. Будь ласка, відвідайте розділ Layout.]]></value>
+  </definition>
+  <definition>
+    <key>error_text_status</key>
+    <value><![CDATA[Неможливо змінити статус, тому що цей блок не використовується. Будь ласка, відвідайте розділ Layout.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_deleted</key>
+    <value><![CDATA[Успіх: Ви видалили призначений для користувача блок!]]></value>
+  </definition>
+  <definition>
+    <key>entry_data_source</key>
+    <value><![CDATA[Джерело даних:]]></value>
+  </definition>
+  <definition>
+    <key>entry_limit</key>
+    <value><![CDATA[ліміт:]]></value>
+  </definition>
+  <definition>
+    <key>text_listing_auto</key>
+    <value><![CDATA[авто реклама]]></value>
+  </definition>
+  <definition>
+    <key>text_listing_manual</key>
+    <value><![CDATA[призначені для користувача лістингу]]></value>
+  </definition>
+  <definition>
+    <key>text_select_listing</key>
+    <value><![CDATA[--- Виберіть дані зі списку джерело ---]]></value>
+  </definition>
+  <definition>
+    <key>text_products_special</key>
+    <value><![CDATA[Спеціальні пропозиції]]></value>
+  </definition>
+  <definition>
+    <key>text_products_popular</key>
+    <value><![CDATA[Популярні продукти]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[категорії]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[Виробники]]></value>
+  </definition>
+  <definition>
+    <key>text_featured</key>
+    <value><![CDATA[Рекомендовані товари]]></value>
+  </definition>
+  <definition>
+    <key>text_latest</key>
+    <value><![CDATA[останні надходження]]></value>
+  </definition>
+  <definition>
+    <key>text_bestsellers</key>
+    <value><![CDATA[бестселери]]></value>
+  </definition>
+  <definition>
+    <key>text_media</key>
+    <value><![CDATA[засоби масової інформації]]></value>
+  </definition>
+  <definition>
+    <key>entry_resource_type</key>
+    <value><![CDATA[Тип носія:]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_products</key>
+    <value><![CDATA[призначені для користувача продукти]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_categories</key>
+    <value><![CDATA[призначені для користувача категорії]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_manufacturers</key>
+    <value><![CDATA[призначені для користувача Виробники]]></value>
+  </definition>
+  <definition>
+    <key>text_html_block</key>
+    <value><![CDATA[HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_listing_block</key>
+    <value><![CDATA[список даних]]></value>
+  </definition>
+  <definition>
+    <key>text_selected</key>
+    <value><![CDATA[Вибрані елементи:]]></value>
+  </definition>
+  <definition>
+    <key>text_data_listed</key>
+    <value><![CDATA[Дані, які будуть перераховані]]></value>
+  </definition>
+  <definition>
+    <key>text_save_edit</key>
+    <value><![CDATA[Додати / Редагувати]]></value>
+  </definition>
+  <definition>
+    <key>text_apply</key>
+    <value><![CDATA[застосувати вибір]]></value>
+  </definition>
+  <definition>
+    <key>text_block_id</key>
+    <value><![CDATA[блок ВД]]></value>
+  </definition>
+  <definition>
+    <key>text_block_txt_id</key>
+    <value><![CDATA[Блок тексту ID]]></value>
+  </definition>
+  <definition>
+    <key>text_controller</key>
+    <value><![CDATA[контролер]]></value>
+  </definition>
+  <definition>
+    <key>text_templates</key>
+    <value><![CDATA[блок Шаблони]]></value>
+  </definition>
+  <definition>
+    <key>text_block_date_added</key>
+    <value><![CDATA[Блок Дата створення]]></value>
+  </definition>
+  <definition>
+    <key>text_layouts</key>
+    <value><![CDATA[Використовується в макетах]]></value>
+  </definition>
+  <definition>
+    <key>text_block_info</key>
+    <value><![CDATA[Інформація про регульованому блоці]]></value>
+  </definition>
+  <definition>
+    <key>text_add_block</key>
+    <value><![CDATA[Додавання блоку в розділ]]></value>
+  </definition>
+  <definition>
+    <key>text_available_block</key>
+    <value><![CDATA[доступні блоки]]></value>
+  </definition>
+  <definition>
+    <key>error_block_not_available</key>
+    <value><![CDATA[Цей блок не буде відображатися в обраному положенні на вітрині магазину!]]></value>
+  </definition>
+</definitions>

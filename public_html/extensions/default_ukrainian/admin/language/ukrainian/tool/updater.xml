@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[менеджер оновлень]]></value>
+  </definition>
+  <definition>
+    <key>text_checkupdates</key>
+    <value><![CDATA[перевірити наявність оновлень]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Ім&#39;я внутрішнього абонента]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[тип]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[категорія]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[статус]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[Поточна версія]]></value>
+  </definition>
+  <definition>
+    <key>column_new_version</key>
+    <value><![CDATA[Нова версія]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[дію]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: Розширення був успішно оновлено!]]></value>
+  </definition>
+  <definition>
+    <key>text_update</key>
+    <value><![CDATA[оновлення]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore_exts</key>
+    <value><![CDATA[Відновлення розширення резервуються:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[оновлення]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Увага: У вас немає дозволу на зміну каталогу:]]></value>
+  </definition>
+  <definition>
+    <key>warning_server</key>
+    <value><![CDATA[Сервер з оновленнями помилку недоступний.]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_title</key>
+    <value><![CDATA[Оновлення Повідомлення для% подовжувачі%]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_text</key>
+    <value><![CDATA[«Нова версія розширення&quot;% РОЗШИРЕННЯ% &quot;доступна. Будь ласка, перейдіть в папку% LINK% і модернізувати його.]]></value>
+  </definition>
+  <definition>
+    <key>warning_updates</key>
+    <value><![CDATA[Неможливо отримати інформацію про оновлення.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Увага: Завантажений файл був порожній!]]></value>
+  </definition>
+  <definition>
+    <key>error_exts_list</key>
+    <value><![CDATA[Увага: список розширення не масив!]]></value>
+  </definition>
+  <definition>
+    <key>text_nothing_todo</key>
+    <value><![CDATA[І вашим розширення в актуальному стані. Нічого робити.]]></value>
+  </definition>
+  <definition>
+    <key>text_connect</key>
+    <value><![CDATA[підключати]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect</key>
+    <value><![CDATA[Підключення до ринку]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect_your_store</key>
+    <value><![CDATA[Будь ласка, підключіть магазин до Торговому майданчику]]></value>
+  </definition>
+  <definition>
+    <key>text_note</key>
+    <value><![CDATA[Примітка: Оновлення доступно тільки для підключених магазинів з придбаної історією.]]></value>
+  </definition>
+</definitions>

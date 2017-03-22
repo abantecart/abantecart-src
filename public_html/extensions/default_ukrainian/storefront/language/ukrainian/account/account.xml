@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Мій рахунок]]></value>
+  </definition>
+  <definition>
+    <key>text_account_dashboard</key>
+    <value><![CDATA[Панель управління облікового запису]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[рахунки]]></value>
+  </definition>
+  <definition>
+    <key>text_my_account</key>
+    <value><![CDATA[Мій рахунок]]></value>
+  </definition>
+  <definition>
+    <key>text_my_orders</key>
+    <value><![CDATA[Мої замовлення]]></value>
+  </definition>
+  <definition>
+    <key>text_my_notifications</key>
+    <value><![CDATA[повідомлення]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[Змінити деталі рахунку]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[зміна пароля]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Управління адресною книгою]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[Історія Замовлень]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[Історія транзакцій]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[завантаження]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[підписка на розсилку]]></value>
+  </definition>
+  <definition>
+    <key>text_account_wishlist</key>
+    <value><![CDATA[Мій список побажань]]></value>
+  </definition>
+</definitions>

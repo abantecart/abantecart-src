@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Ваше замовлення було оброблене!]]></value>
+  </definition>
+  <definition>
+    <key>text_message_account</key>
+    <value><![CDATA[<p> Ваше замовлення # %s був створений! </p> 
+ <p> Ви можете переглядати деталі замовлення, перейшовши на <a href="%s">сторінку рахунки</a> - <a href="%s">фактури</a>. </p> 
+ <p> Будь ласка , направляйте будь-які питання , які ви маєте до <a href="%s">власнику магазину</a>. </p> 
+ <p> Дякуємо Вам за покупками з нами! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_message_guest</key>
+    <value><![CDATA[<p> Ваше замовлення було успішно оброблений! </p> 
+ <p> Ви можете переглядати деталі замовлення, перейшовши на <a href="%s">сторінку рахунки</a> - <a href="%s">фактури</a>. </p> 
+ <p> Будь ласка , направляйте будь-які питання , які ви маєте до <a href="%s">власнику магазину</a>. </p> 
+ <p> Дякуємо Вам за покупками з нами! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[корзина]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Доставка]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[оплата]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[Гість замовлення]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[підтвердити]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[успіх]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order</key>
+    <value><![CDATA[На жаль! Ми випробували деякі проблеми з вашої угоди. Ваше замовлення буде перевірений вручну адміністратором.]]></value>
+  </definition>
+  <definition>
+    <key>text_title_failed_order_to_admin</key>
+    <value><![CDATA[Помилка порядок # %s]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order_to_admin</key>
+    <value><![CDATA[Збій або відсутній відповідь від підтвердження оплати. Ручна перевірка потрібна!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Оформлення замовлення Підтвердження]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[корзина]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_basket</key>
+    <value><![CDATA[редагувати кошик]]></value>
+  </definition>
+  <definition>
+    <key>text_accept_agree</key>
+    <value><![CDATA[Натиснувши Підтвердити замовлення, ви приймаєте та погоджуєтесь з усіма умовами]]></value>
+  </definition>
+  <definition>
+    <key>text_cart_items</key>
+    <value><![CDATA[У вашому кошику]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Доставка]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_shipping</key>
+    <value><![CDATA[редагувати Доставка]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[оплата]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_payment</key>
+    <value><![CDATA[змінити оплати]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_1</key>
+    <value><![CDATA[Гість замовлення - Крок 1]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_2</key>
+    <value><![CDATA[Гість замовлення - Крок 2]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[підтвердити]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[Адреса доставки]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[метод доставки]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[оплата Адреса]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[спосіб оплати]]></value>
+  </definition>
+  <definition>
+    <key>text_change</key>
+    <value><![CDATA[зміна]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[Ваші коментарі]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[знижка купона]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[продукт]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[модель]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[кількість]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[ціна]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[загальний]]></value>
+  </definition>
+  <definition>
+    <key>text_add_coupon</key>
+    <value><![CDATA[редагувати Купон]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[управління кешем]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: Ви успішно видалили файли кешу!]]></value>
+  </definition>
+  <definition>
+    <key>text_configuration</key>
+    <value><![CDATA[конфігурація]]></value>
+  </definition>
+  <definition>
+    <key>text_layouts_blocks</key>
+    <value><![CDATA[Макети &amp; блоки]]></value>
+  </definition>
+  <definition>
+    <key>text_flexyforms</key>
+    <value><![CDATA[флексі Форми]]></value>
+  </definition>
+  <definition>
+    <key>text_images</key>
+    <value><![CDATA[зображень]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[продукти]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[категорії]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[Виробники]]></value>
+  </definition>
+  <definition>
+    <key>text_localisations</key>
+    <value><![CDATA[локалізації]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[Журнал помилок]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_cache</key>
+    <value><![CDATA[Очистити вибрані кеша]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_all_cache</key>
+    <value><![CDATA[Очистити всі кеш]]></value>
+  </definition>
+  <definition>
+    <key>desc_configuration</key>
+    <value><![CDATA[Системні і зберігати конфігурації]]></value>
+  </definition>
+  <definition>
+    <key>desc_layouts_blocks</key>
+    <value><![CDATA[Сторінки, макети сторінок, блоки]]></value>
+  </definition>
+  <definition>
+    <key>desc_flexyforms</key>
+    <value><![CDATA[Дані флексі форми]]></value>
+  </definition>
+  <definition>
+    <key>desc_images</key>
+    <value><![CDATA[зменшених зображень]]></value>
+  </definition>
+  <definition>
+    <key>desc_products</key>
+    <value><![CDATA[дані про продукт]]></value>
+  </definition>
+  <definition>
+    <key>desc_categories</key>
+    <value><![CDATA[Категорія даних]]></value>
+  </definition>
+  <definition>
+    <key>desc_manufacturers</key>
+    <value><![CDATA[дані виробника]]></value>
+  </definition>
+  <definition>
+    <key>desc_localisations</key>
+    <value><![CDATA[Валюта, мова, країна, зона, довжина, вага, &amp; інший]]></value>
+  </definition>
+  <definition>
+    <key>desc_error_log</key>
+    <value><![CDATA[Журнал помилок]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[Тип кешу]]></value>
+  </definition>
+  <definition>
+    <key>column_description</key>
+    <value><![CDATA[опис]]></value>
+  </definition>
+  <definition>
+    <key>text_html_cache</key>
+    <value><![CDATA[HTML-кеша]]></value>
+  </definition>
+  <definition>
+    <key>desc_html_cache</key>
+    <value><![CDATA[Збережено в кеші HTML-сторінок і блоків]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[Встановити / оновити Історія]]></value>
+  </definition>
+  <definition>
+    <key>desc_install_upgrade_history</key>
+    <value><![CDATA[Очистити всі Встановити / оновити Історія]]></value>
+  </definition>
+</definitions>

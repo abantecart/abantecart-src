@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Помилка програми!]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Будь ласка, перевірте журнал помилок для отримання додаткової інформації]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[адміністрація]]></value>
+  </definition>
+  <definition>
+    <key>text_heading</key>
+    <value><![CDATA[адміністрація]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Будь ласка, введіть свої реєстраційні дані.]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[Ім&#39;я користувача:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[пароль:]]></value>
+  </definition>
+  <definition>
+    <key>entry_forgot_password</key>
+    <value><![CDATA[Забули пароль?]]></value>
+  </definition>
+  <definition>
+    <key>button_login</key>
+    <value><![CDATA[Ввійти]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Немає збігів для користувача і / або пароль.]]></value>
+  </definition>
+  <definition>
+    <key>error_token</key>
+    <value><![CDATA[Неприпустимий маркер сеансу. Будь ласка, увійдіть знову.]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message</key>
+    <value><![CDATA[Неможливо Увійти в адміністратора спроба з IP-адреси:]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message_text</key>
+    <value><![CDATA[Беручи до уваги користувач Увійти:]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[бібліотека ресурсів]]></value>
+  </definition>
+  <definition>
+    <key>view_title</key>
+    <value><![CDATA[Ресурси Перегляд об&#39;єкта]]></value>
+  </definition>
+  <definition>
+    <key>confirm_title</key>
+    <value><![CDATA[Підтвердіть ресурс (и) видалити]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_delete</key>
+    <value><![CDATA[Деякі ресурси можуть бути включені в текст. Ми не можемо перевірити це автоматично. Видалити?]]></value>
+  </definition>
+  <definition>
+    <key>text_cant_delete_title</key>
+    <value><![CDATA[Ресурс (и) видалити]]></value>
+  </definition>
+  <definition>
+    <key>text_cant_delete</key>
+    <value><![CDATA[Cant видалити ресурс (и), так як один або кілька ресурсів пов&#39;язаний з об&#39;єктом]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_resource</key>
+    <value><![CDATA[редагування ресурсів]]></value>
+  </definition>
+  <definition>
+    <key>text_resource_details</key>
+    <value><![CDATA[подробиці в ресурсах]]></value>
+  </definition>
+  <definition>
+    <key>text_mapped_to</key>
+    <value><![CDATA[Пов&#39;язані з]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[продукти]]></value>
+  </definition>
+  <definition>
+    <key>text_add_file</key>
+    <value><![CDATA[Додати файл ресурсів]]></value>
+  </definition>
+  <definition>
+    <key>text_add_code</key>
+    <value><![CDATA[Додати ресурс HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_add_files</key>
+    <value><![CDATA[Додати файли...]]></value>
+  </definition>
+  <definition>
+    <key>text_upload_files</key>
+    <value><![CDATA[Завантажити файли]]></value>
+  </definition>
+  <definition>
+    <key>text_drag</key>
+    <value><![CDATA[або Перетягніть їх тут, щоб почати завантаження]]></value>
+  </definition>
+  <definition>
+    <key>text_start_upload</key>
+    <value><![CDATA[почати завантаження]]></value>
+  </definition>
+  <definition>
+    <key>text_cancel_upload</key>
+    <value><![CDATA[Скасувати завантаження]]></value>
+  </definition>
+  <definition>
+    <key>text_start</key>
+    <value><![CDATA[старт]]></value>
+  </definition>
+  <definition>
+    <key>text_cancel</key>
+    <value><![CDATA[скасувати]]></value>
+  </definition>
+  <definition>
+    <key>text_save_sort_order</key>
+    <value><![CDATA[зберегти сортування]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[помилка]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_files</key>
+    <value><![CDATA[видалити файли]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[пошук]]></value>
+  </definition>
+  <definition>
+    <key>text_type</key>
+    <value><![CDATA[тип]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[Мова]]></value>
+  </definition>
+  <definition>
+    <key>text_resource_code</key>
+    <value><![CDATA[ресурс HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_name</key>
+    <value><![CDATA[ім&#39;я]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[назва]]></value>
+  </definition>
+  <definition>
+    <key>text_description</key>
+    <value><![CDATA[опис]]></value>
+  </definition>
+  <definition>
+    <key>text_uploaded</key>
+    <value><![CDATA[Успіх: Ресурс був завантажений!]]></value>
+  </definition>
+  <definition>
+    <key>text_add</key>
+    <value><![CDATA[додавати]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[редагувати]]></value>
+  </definition>
+  <definition>
+    <key>text_map</key>
+    <value><![CDATA[Посилання на об&#39;єкт]]></value>
+  </definition>
+  <definition>
+    <key>text_map_to</key>
+    <value><![CDATA[Посилання на %s]]></value>
+  </definition>
+  <definition>
+    <key>text_unmap</key>
+    <value><![CDATA[Unlink від об&#39;єкта]]></value>
+  </definition>
+  <definition>
+    <key>text_unmap_from</key>
+    <value><![CDATA[Unlink від %s]]></value>
+  </definition>
+  <definition>
+    <key>text_success_unmap</key>
+    <value><![CDATA[Успіх: ресурс був непов&#39;язаними.]]></value>
+  </definition>
+  <definition>
+    <key>text_file_delete</key>
+    <value><![CDATA[Ресурс був знищений!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[Успіх: Ваш ресурс був знищений!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_type</key>
+    <value><![CDATA[Попередження: неправильний тип файлу!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_size</key>
+    <value><![CDATA[Попередження: Файл до великої, будь ласка, тримати нижче 300Кб і не більше 1000px висоту або ширину!]]></value>
+  </definition>
+  <definition>
+    <key>error_maxFileSize</key>
+    <value><![CDATA[Файл занадто великий]]></value>
+  </definition>
+  <definition>
+    <key>error_minFileSize</key>
+    <value><![CDATA[Файл занадто малий]]></value>
+  </definition>
+  <definition>
+    <key>error_acceptFileTypes</key>
+    <value><![CDATA[Filetype не допускається]]></value>
+  </definition>
+  <definition>
+    <key>error_maxNumberOfFiles</key>
+    <value><![CDATA[Максимальна кількість файлів перевищило]]></value>
+  </definition>
+  <definition>
+    <key>error_uploadedBytes</key>
+    <value><![CDATA[Завантажені байт перевищує розмір файлу]]></value>
+  </definition>
+  <definition>
+    <key>error_emptyResult</key>
+    <value><![CDATA[Результат порожній завантаження файлів. Можливо, файл пошкоджений або занадто великий. Розмір файлу обмежений 16 Мб. Якщо розмір файлу менше, ніж межа, будь ласка, перевірте налаштування PHP для upload_max_filesize &amp; post_max_size]]></value>
+  </definition>
+  <definition>
+    <key>error_1</key>
+    <value><![CDATA[Файл перевищує upload_max_filesize (php.ini директива)]]></value>
+  </definition>
+  <definition>
+    <key>error_2</key>
+    <value><![CDATA[Файл перевищує MAX_FILE_SIZE (HTML форма директиви)]]></value>
+  </definition>
+  <definition>
+    <key>error_3</key>
+    <value><![CDATA[Файл був завантажений лише частково]]></value>
+  </definition>
+  <definition>
+    <key>error_4</key>
+    <value><![CDATA[Немає запису був завантажений]]></value>
+  </definition>
+  <definition>
+    <key>error_5</key>
+    <value><![CDATA[Відсутня тимчасову папку]]></value>
+  </definition>
+  <definition>
+    <key>error_6</key>
+    <value><![CDATA[Чи не вдалося записати файл на диск]]></value>
+  </definition>
+  <definition>
+    <key>error_7</key>
+    <value><![CDATA[Завантаження файлу зупинена розширенням]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded</key>
+    <value><![CDATA[Попередження: Файл не може бути завантажений з невідомої причини!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_type</key>
+    <value><![CDATA[Будь ласка, виберіть тип ресурсу]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Необхідні дані не були введені]]></value>
+  </definition>
+  <definition>
+    <key>error_not_added</key>
+    <value><![CDATA[Ресурс не додав. Будь ласка, перевірте журнал помилок для отримання додаткової інформації]]></value>
+  </definition>
+  <definition>
+    <key>error_ajax</key>
+    <value><![CDATA[Помилка даних навантаження. Будь ласка, перевірте журнал помилок для отримання додаткової інформації]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Попередження: Відмовлено в дозволі!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Помилка: потрібно поле Ім&#39;я!]]></value>
+  </definition>
+  <definition>
+    <key>button_delete</key>
+    <value><![CDATA[видаляти]]></value>
+  </definition>
+  <definition>
+    <key>button_add</key>
+    <value><![CDATA[Додати ресурс]]></value>
+  </definition>
+  <definition>
+    <key>button_done</key>
+    <value><![CDATA[зроблено]]></value>
+  </definition>
+  <definition>
+    <key>button_select</key>
+    <value><![CDATA[вибір ресурсів]]></value>
+  </definition>
+  <definition>
+    <key>text_with_selected</key>
+    <value><![CDATA[Вибрані анкети:]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Ресурс успішно оновлений]]></value>
+  </definition>
+  <definition>
+    <key>text_map_success</key>
+    <value><![CDATA[Ресурс успішно пов&#39;язаний]]></value>
+  </definition>
+  <definition>
+    <key>text_no_resources</key>
+    <value><![CDATA[Немає доступних ресурсів]]></value>
+  </definition>
+  <definition>
+    <key>text_preview</key>
+    <value><![CDATA[Перегляд / Завантажити]]></value>
+  </definition>
+  <definition>
+    <key>error_file size</key>
+    <value><![CDATA[Увага: Максимальний розмір файлу для завантаження становить %s. Ви можете збільшити це значення в php.ini.]]></value>
+  </definition>
+  <definition>
+    <key>text_product_option_value</key>
+    <value><![CDATA[Значення опції продукту]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[категорії]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[Виробники]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[Неможливо видалити ресурс пов&#39;язаний з декількома об&#39;єктами]]></value>
+  </definition>
+  <definition>
+    <key>error_unmap</key>
+    <value><![CDATA[Не може роз&#39;єднати ресурс. Об&#39;єкт не був встановлений.]]></value>
+  </definition>
+  <definition>
+    <key>text_replace_file</key>
+    <value><![CDATA[замінити файл]]></value>
+  </definition>
+  <definition>
+    <key>error_not_replaced</key>
+    <value><![CDATA[Файл Заміна помилок. ID потрібно!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_exists</key>
+    <value><![CDATA[Файл Заміна помилок. Ресурс не існує!]]></value>
+  </definition>
+  <definition>
+    <key>error_cannot_move</key>
+    <value><![CDATA[Помилка: Не вдається перемістити файл в папку %s ресурсів.]]></value>
+  </definition>
+  <definition>
+    <key>button_save_n_apply</key>
+    <value><![CDATA[Зберегти та застосувати]]></value>
+  </definition>
+  <definition>
+    <key>text_image_size</key>
+    <value><![CDATA[Розмір зображення:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_size</key>
+    <value><![CDATA[Розмір файлу:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_mime</key>
+    <value><![CDATA[MIME:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_path</key>
+    <value><![CDATA[Файл розташований на:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_url</key>
+    <value><![CDATA[URL ресурсу:]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[Дата Старий &gt; новий]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[Дата Нью - &gt; старий]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[Ім&#39;я A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[Ім&#39;я Z - A]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_asc</key>
+    <value><![CDATA[Порядок сортування Низька &gt; висока]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_desc</key>
+    <value><![CDATA[Порядок сортування High &gt; низький]]></value>
+  </definition>
+</definitions>

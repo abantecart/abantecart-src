@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>import_export_title</key>
+    <value><![CDATA[Імпорт-експорт]]></value>
+  </definition>
+  <definition>
+    <key>tab_import</key>
+    <value><![CDATA[імпорт]]></value>
+  </definition>
+  <definition>
+    <key>tab_export</key>
+    <value><![CDATA[експорт]]></value>
+  </definition>
+  <definition>
+    <key>text_tables</key>
+    <value><![CDATA[таблиці]]></value>
+  </definition>
+  <definition>
+    <key>text_options</key>
+    <value><![CDATA[опції]]></value>
+  </definition>
+  <definition>
+    <key>text_file_format</key>
+    <value><![CDATA[Формат файлу:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_name</key>
+    <value><![CDATA[Файл:]]></value>
+  </definition>
+  <definition>
+    <key>text_load_file</key>
+    <value><![CDATA[Завантажити файл]]></value>
+  </definition>
+  <definition>
+    <key>text_load</key>
+    <value><![CDATA[навантаження]]></value>
+  </definition>
+  <definition>
+    <key>text_import_loaded</key>
+    <value><![CDATA[Максимальна дозволена:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_field</key>
+    <value><![CDATA[Файл для імпорту: <br/><span class="help">Формати для імпорту файлів: XML, CSV, TXT</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_id_range_from</key>
+    <value><![CDATA[ID діапазон від:]]></value>
+  </definition>
+  <definition>
+    <key>text_to</key>
+    <value><![CDATA[щоб:]]></value>
+  </definition>
+  <definition>
+    <key>text_csv_delimiter</key>
+    <value><![CDATA[CSV / TXT роздільник:]]></value>
+  </definition>
+  <definition>
+    <key>text_export_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">Всі поля будуть укладені в подвійні лапки.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_import_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">Всі поля повинні бути укладені в подвійні лапки.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_test_mode</key>
+    <value><![CDATA[Запуск в тестовому режимі <br/><span class="help">Рекомендується запускати імпорт даних в тестовому режимі перших</span> , <span class="help">щоб побачити</span> , <span class="help">якщо будь</span> - <span class="help">які проблеми присутні.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_file_format</key>
+    <value><![CDATA[Неправильний формат файлу!]]></value>
+  </definition>
+  <definition>
+    <key>error_xml_import</key>
+    <value><![CDATA[Помилка під час імпорту файлу XML!]]></value>
+  </definition>
+  <definition>
+    <key>error_csv_import</key>
+    <value><![CDATA[Помилка при імпорті файлу CSV / TXT! Будь ласка, перевірте поля роздільники.]]></value>
+  </definition>
+  <definition>
+    <key>error_data_corrupted</key>
+    <value><![CDATA[Дані порожній або пошкоджений.]]></value>
+  </definition>
+  <definition>
+    <key>error_file_empty</key>
+    <value><![CDATA[Файл порожній.]]></value>
+  </definition>
+  <definition>
+    <key>error_writable_backup</key>
+    <value><![CDATA[Каталог резервного копіювання повинен бути доступний для запису для експорту CSV / TXT працювати.]]></value>
+  </definition>
+  <definition>
+    <key>text_updated</key>
+    <value><![CDATA[Оновлене:]]></value>
+  </definition>
+  <definition>
+    <key>text_created</key>
+    <value><![CDATA[створено:]]></value>
+  </definition>
+  <definition>
+    <key>text_errors</key>
+    <value><![CDATA[помилки:]]></value>
+  </definition>
+  <definition>
+    <key>text_show_details</key>
+    <value><![CDATA[Показати деталі]]></value>
+  </definition>
+  <definition>
+    <key>text_no_children</key>
+    <value><![CDATA[Немає дочірніх елементів]]></value>
+  </definition>
+  <definition>
+    <key>text_some_errors</key>
+    <value><![CDATA[Є деякі помилки.]]></value>
+  </definition>
+  <definition>
+    <key>text_test_completed</key>
+    <value><![CDATA[Тестовий прогін завершено. Всього запитів SQL:]]></value>
+  </definition>
+  <definition>
+    <key>text_sort_by</key>
+    <value><![CDATA[Сортувати за:]]></value>
+  </definition>
+</definitions>

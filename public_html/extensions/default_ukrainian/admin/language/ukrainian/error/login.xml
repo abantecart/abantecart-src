@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Ввійти Помилка!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Ви не увійшли в систему. Ви будете перенаправлені на сторінку входу]]></value>
+  </definition>
+</definitions>

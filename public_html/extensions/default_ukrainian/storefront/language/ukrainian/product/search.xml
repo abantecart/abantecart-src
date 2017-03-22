@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[пошук]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Продукти, які відповідають критеріям пошуку]]></value>
+  </definition>
+  <definition>
+    <key>text_keyword</key>
+    <value><![CDATA[Ключові слова]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[всі категорії]]></value>
+  </definition>
+  <definition>
+    <key>text_critea</key>
+    <value><![CDATA[критерії пошуку]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[Там немає товарів, які відповідають критеріям пошуку.]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[%s З 5 зірок!]]></value>
+  </definition>
+  <definition>
+    <key>text_sort</key>
+    <value><![CDATA[Сортувати за:]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[дефолт]]></value>
+  </definition>
+  <definition>
+    <key>text_name_asc</key>
+    <value><![CDATA[Ім&#39;я A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_name_desc</key>
+    <value><![CDATA[Ім&#39;я Z - A]]></value>
+  </definition>
+  <definition>
+    <key>text_price_asc</key>
+    <value><![CDATA[Низька ціна &gt; висока]]></value>
+  </definition>
+  <definition>
+    <key>text_price_desc</key>
+    <value><![CDATA[Ціна High &gt; низький]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_asc</key>
+    <value><![CDATA[оцінка Найнижча]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_desc</key>
+    <value><![CDATA[Найвищий рейтинг]]></value>
+  </definition>
+  <definition>
+    <key>entry_search</key>
+    <value><![CDATA[Пошук:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Шукати в описі товарів]]></value>
+  </definition>
+  <definition>
+    <key>entry_model</key>
+    <value><![CDATA[Пошук в моделі продукту]]></value>
+  </definition>
+</definitions>

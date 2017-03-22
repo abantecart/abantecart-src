@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Мито за обробку]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[Мито за обробку]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Замовити Підсумкові]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: Ви оновили загальна комісія за доставку!]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Загальна сума замовлення: <span class="help">Мінімальна сума замовлення буде досягнута</span> , <span class="help">щоб застосувати плату. Якщо загальна сума замовлення клієнта перевищить цю суму, обробку feee не застосовуватиметься. Це значення переопределяется з оплатою певної настройки.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_placeholder</key>
+    <value><![CDATA[сума замовлення]]></value>
+  </definition>
+  <definition>
+    <key>entry_fee</key>
+    <value><![CDATA[Плата: <span class="help">Плата буде додана на замовлення</span> , <span class="help">якщо загальна мінімальна сума умова не виконується. Ця сума скасовується оплати певної настройки</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_fee</key>
+    <value><![CDATA[Плата: <span class="help">Плата буде додана на замовлення</span> , <span class="help">якщо загальна мінімальна Проміжні підсумки умова сума не виконується. Ця сума перевизначити основний параметр плату</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Оплата: <span class="help">Вибір конкретного платежу Вам потрібно додати плату. Ці настройки будуть перекривати основні параметри</span> , <span class="help">якщо платіж використовується клієнтом.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_subtotal</key>
+    <value><![CDATA[Замовити Разом: <span class="help">Мінімальне замовлення</span> до <span class="help">південь від загальної суми повинні бути досягнуті</span> , <span class="help">щоб застосувати плату. Це скасовує основний параметр</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Податки Клас: <span class="help">Виберіть</span> , <span class="help">якщо вам потрібно податок для застосування на верхній частині мита за обробку</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[статус:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Порядок сортування:]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[Розрахунок замовлення:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Увага: У вас немає дозволу на зміну загальної мита за обробку!]]></value>
+  </definition>
+  <definition>
+    <key>error_number</key>
+    <value><![CDATA[Попередження: всього замовлення і внесок за обробку повинен бути номера!]]></value>
+  </definition>
+</definitions>

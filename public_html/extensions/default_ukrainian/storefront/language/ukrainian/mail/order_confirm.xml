@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - %s Замовити]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Дякуємо Вам за інтерес, проявлений до продукції %s. Ваше замовлення було отримано і буде оброблений після підтвердження оплати.]]></value>
+  </definition>
+  <definition>
+    <key>text_received</key>
+    <value><![CDATA[Ви отримали замовлення.]]></value>
+  </definition>
+  <definition>
+    <key>text_order_detail</key>
+    <value><![CDATA[деталі замовлення]]></value>
+  </definition>
+  <definition>
+    <key>text_order_id</key>
+    <value><![CDATA[ID замовлення:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Дата замовлення:]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[Статус замовлення:]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[Для перегляду замовлення натисніть на посилання нижче:]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Метод доставки:]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Спосіб оплати:]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[Адреса доставки]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[оплата Адреса]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[E-mail:]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[Телефон:]]></value>
+  </definition>
+  <definition>
+    <key>text_mobile_phone</key>
+    <value><![CDATA[Мобільний телефон:]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Факс:]]></value>
+  </definition>
+  <definition>
+    <key>text_ip</key>
+    <value><![CDATA[IP-адреса:]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[продукти:]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[підсумкові:]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Після того як ваша компенсація була підтверджена ви можете натиснути на посилання нижче, щоб отримати доступ до вашої продукції завантажуються:]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[Коментарі для Вашого замовлення є:]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[Будь ласка, дайте відповідь на цей лист, якщо у вас є які-небудь питання.]]></value>
+  </definition>
+  <definition>
+    <key>text_powered_by</key>
+    <value><![CDATA[живлення від]]></value>
+  </definition>
+  <definition>
+    <key>text_new_order</key>
+    <value><![CDATA[Нове замовлення - #]]></value>
+  </definition>
+  <definition>
+    <key>text_new_order_text</key>
+    <value><![CDATA[Замовник %s доданий новий замовлення]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[продукт]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[модель]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[кількість]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[ціна]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[загальний]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Відновлення пароля]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Скидання пароля запитується %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Щоб скинути пароль, натисніть на посилання нижче:]]></value>
+  </definition>
+  <definition>
+    <key>text_password_reset</key>
+    <value><![CDATA[Ваш пароль був скинутий на %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_password</key>
+    <value><![CDATA[Введіть новий пароль нижче:]]></value>
+  </definition>
+  <definition>
+    <key>error_reset_token</key>
+    <value><![CDATA[Неправильна посилання для запиту пароля. Спробуйте скинути ще один раз і використовувати зв&#39;язок від грали останніми електронної пошти.]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[довжина Класи]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[довжина Клас]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: Ви змінили класи довжини!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[довжина Назва]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[довжина Одиниця]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[значення]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[дію]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Довжина Назва:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Довжина Одиниця виміру:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Значення: <br/><span class="help">Встановіть значення 1.00000</span> , <span class="help">якщо це ваша довжина</span> по <span class="help">замовчуванням.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Увага: У вас немає дозволу на зміну довжини класи!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Довжина Назва повинна бути від 2 до 32 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Довжина Одиниця повинна становити від 1 до 4-х символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Увага: клас Ця довжина не може бути видалена, як це в даний час призначений клас за замовчуванням довжина магазин!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Увага: Цей клас довжина не може бути видалений, як це в даний час віднесені до продукції %s!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Резервне копіювання / відновлення / Завантажити]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[Завантажити Резервне копіювання]]></value>
+  </definition>
+  <definition>
+    <key>text_success_backup</key>
+    <value><![CDATA[Успіх: Ви успішно створили резервний файл!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: Ви успішно імпортували вашу базу даних!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_xml</key>
+    <value><![CDATA[Успіх: Ви успішно імпортували ваш XML!]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore</key>
+    <value><![CDATA[Відновлення з SQL або XML-файла:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tables</key>
+    <value><![CDATA[Резервне копіювання Таблиці:]]></value>
+  </definition>
+  <definition>
+    <key>entry_loadxml</key>
+    <value><![CDATA[Завантажити XML-файл:]]></value>
+  </definition>
+  <definition>
+    <key>tab_backup</key>
+    <value><![CDATA[резервна копія]]></value>
+  </definition>
+  <definition>
+    <key>tab_restore</key>
+    <value><![CDATA[Відновлення]]></value>
+  </definition>
+  <definition>
+    <key>tab_loadxml</key>
+    <value><![CDATA[Компонування і набір даних навантаження XML]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Увага: У вас немає дозволу на зміну резервних копій!]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Увага: Будь ласка, встановіть, що ви хочете зробити резервну копію або імпорту!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Увага: Завантажений файл був порожній або мали неправильний тип файлу!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload</key>
+    <value><![CDATA[Попередження: Немає запису був завантажений. Перевірте post_max_size або file_upload директиви файлу php.ini.]]></value>
+  </definition>
+  <definition>
+    <key>error_xml</key>
+    <value><![CDATA[Увага: Завантажений файл не завантажується як XML! Будь ласка, дивіться лог-файл для докладної інформації]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_code</key>
+    <value><![CDATA[Резервне копіювання коду (%s) <br/><span class="help">Підкаталоги з кодовими файлами</span> , за <span class="help">винятком динамічних файлів</span> , <span class="help">таких як кеш, лог</span> - <span class="help">файли, зображення, ресурси</span> і <span class="help">т.д.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_content</key>
+    <value><![CDATA[Резервну копію вмісту (%s) <br/><span class="help">Підкаталоги з динамічними файлами</span> , <span class="help">такі як зображення, завантажені файли, ресурси</span> і <span class="help">т.д.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_compress_backup</key>
+    <value><![CDATA[Стиснути каталог резервного копіювання %s? <br/><span class="help">Архів * .tar.gz буде створений. <br/> Примітка: це може зайняти багато часу.</span> В <span class="help">іншому випадку ви можете відключити стиск і знайти резервну копію в папці %s</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_now</key>
+    <value><![CDATA[Створити резервну копію]]></value>
+  </definition>
+  <definition>
+    <key>button_load</key>
+    <value><![CDATA[навантаження]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_schedule</key>
+    <value><![CDATA[Розклад резервного копіювання]]></value>
+  </definition>
+  <definition>
+    <key>text_success_scheduled</key>
+    <value><![CDATA[Успіх: Ви успішно створили завдання резервного копіювання за розкладом! <a href="%s">Детальніше</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_fail_note</key>
+    <value><![CDATA[ПРИМІТКА: Це виконання процесу залежить від розміру AbanteCart даних, а також вашого сервера віртуального розміру пам&#39;яті. Якщо процес завершується з помилками перевірте каталог %s дозволів повинен бути встановлений на -rw-RW-RW і <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[Установка пам&#39;яті PHP]</a>. Збільшення пам&#39;яті або резервного копіювання, запущеної вручну, якщо процес як і раніше зазнають невдачі.]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_file</key>
+    <value><![CDATA[Для завантаження резервного копіювання файлів , будь ласка , відвідайте <a href="#admin#rt=tool/install_upgrade_history">Установка / Оновлення Історія</a>]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_dir</key>
+    <value><![CDATA[Каталог з резервного копіювання файлів %s]]></value>
+  </definition>
+</definitions>

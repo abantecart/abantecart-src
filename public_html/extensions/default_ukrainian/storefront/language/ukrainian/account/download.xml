@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[дані Завантаження]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[рахунки]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[завантаження]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[ID замовлення:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Дату додано:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_purchased</key>
+    <value><![CDATA[Дата покупки:]]></value>
+  </definition>
+  <definition>
+    <key>text_name</key>
+    <value><![CDATA[ім&#39;я:]]></value>
+  </definition>
+  <definition>
+    <key>text_remaining</key>
+    <value><![CDATA[залишаючись:]]></value>
+  </definition>
+  <definition>
+    <key>text_size</key>
+    <value><![CDATA[Розмір:]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[скачати]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Ви не зробили ніяких попередніх завантажуються замовлень!]]></value>
+  </definition>
+  <definition>
+    <key>text_expire_date</key>
+    <value><![CDATA[Дата закінчення терміну:]]></value>
+  </definition>
+  <definition>
+    <key>text_expired</key>
+    <value><![CDATA[Термін дії закінчився]]></value>
+  </definition>
+  <definition>
+    <key>text_pending</key>
+    <value><![CDATA[в очікуванні]]></value>
+  </definition>
+  <definition>
+    <key>text_unavailable</key>
+    <value><![CDATA[недоступний]]></value>
+  </definition>
+  <definition>
+    <key>text_reached_limit</key>
+    <value><![CDATA[досягнута межа]]></value>
+  </definition>
+  <definition>
+    <key>error_download_not_exists</key>
+    <value><![CDATA[Запитаний файл не існує!]]></value>
+  </definition>
+</definitions>

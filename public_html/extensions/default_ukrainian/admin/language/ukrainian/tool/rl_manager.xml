@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Media Resource Library Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[Останні додані ресурси]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[Тип ресурсу]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[Тип ресурсу Ключ <br/><span class="help">Значення Тип ключа Цей ресурс / ім&#39;я не може бути змінено</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[Каталог ресурсів <br/><span class="help">Довідник розміщуючи ресурс для цього типу. Якщо змінилося, існуючі ресурси не будуть acceccible і повинні бути скопійовані в новий каталог!</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[За замовчуванням значок <br/><span class="help">Значок зображення, яке відображається в списку ресурсів (Розташування: / зображення / ...).</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[Допустимі розширення файлів <br/><span class="help">Regex зі списком дозволених розширень файлів для даного типу ресурсу</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: Ви оновили тип ресурсу!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[Помилка: Відсутня Тип ресурсу ID!]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[Помилка: Ім&#39;я Тип ресурсу повинно бути від 2 до 40 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[Помилка: каталог Тип ресурсу повинен бути від 2 до 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[Помилка: значок Тип ресурсу повинен бути від 2 до 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[Помилка: Ресурс Тип файлу extenions регулярний вираз має бути від 2 до 40 charcters]]></value>
+  </definition>
+</definitions>

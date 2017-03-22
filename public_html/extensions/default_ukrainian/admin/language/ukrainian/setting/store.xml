@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[магазин Детальніше]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: Ви змінили налаштування!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[Диспетчер зображень]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[дефолт]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[Змінити магазин:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Назва магазину: <br/><span class="help">скопійований в настройки і показано на ділянці вітрину.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[Збереження URL: <br/><span class="help">Увімкніть повний URL до вашого магазину. Переконайтеся</span> в <span class="help">тому</span> , <span class="help">щоб додати &#39;/&#39; в кінці. Приклад: http://www.yourdomain.com/path/ <br/><br/> Чи не</span> слід <span class="help">використовувати каталоги</span> , <span class="help">щоб створити нове сховище. Ви повинні завжди вказувати інший домен або піддомен на вашому хостингу.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[Використовувати SSL: <br/><span class="help">Щоб використовувати перевірку SSL з вашого хоста</span> , <span class="help">якщо встановлений сертифікат SSL.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Назва:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Метатег Опис:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[шаблон:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Привітання:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Країна:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Регіон / Штат:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Мова:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Статус магазину <br/><span class="help">Статус Зберігати в вітрині магазину. Статус OFF направить за замовчуванням магазин. Використовуйте режим обслуговування настройки для установки тимчасового сховища обслуговування повідомлення</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alias</key>
+    <value><![CDATA[Ім&#39;я Ім&#39;я користувача <br/><span class="help">Назва магазину Алиас. Якщо залишити порожнім, буде базуватися на укороченою імені</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[новий магазин]]></value>
+  </definition>
+  <definition>
+    <key>button_delete_store</key>
+    <value><![CDATA[видалити магазин]]></value>
+  </definition>
+  <definition>
+    <key>button_edit_settings</key>
+    <value><![CDATA[змінити налаштування]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Увага: У вас немає дозволу на зміну магазинів!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Назва магазину повинно бути від 3 до 32 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[Збереження URL потрібно!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Назва повинна бути від 3 до 32 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[Продукт зображення Розміри Thumb Розмір потрібно!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[Зображення продукту Розміри спливаючих вікон Розмір потрібно!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[Розміри Список категорій Розмір потрібно!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[Розміри Список продуктів Необхідний розмір!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[Додаткові розміри продукту Розмір зображення не потрібно!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[Пов&#39;язані продукту Розміри Розмір зображення не потрібно!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[Розміри Розмір зображення Кошик потрібно!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[Розміри Розмір зображення Сітка не потрібно!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Увага: цей магазин не може бути видалений, як це в даний час віднесені до %s замовлень!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Необхідні дані не були введені. Перевірка на наявність помилок на місцях!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Обмеження не потрібно!]]></value>
+  </definition>
+  <definition>
+    <key>entry_clone_store</key>
+    <value><![CDATA[Параметри копіювання: <br/><span class="help">Ви можете вибрати копію всіх налаштувань з якого</span> - <span class="help">то існуючого магазину</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[Безпечний URL магазину: <br/><span class="help">Включити повний URL SSL (HTTPS) для вашого магазину. Переконайтеся</span> в <span class="help">тому</span> , <span class="help">щоб додати &#39;/&#39; в кінці. Приклад: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[Безпечний URL потрібно!]]></value>
+  </definition>
+</definitions>

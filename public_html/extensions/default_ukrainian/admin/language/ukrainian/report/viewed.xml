@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Продукти Розглянутий звіт]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: Ви повинні скинути звіт про продукт розглядається!]]></value>
+  </definition>
+  <definition>
+    <key>column_product_id</key>
+    <value><![CDATA[ідентифікатор продукту]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Назва продукту]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[модель]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[категорія]]></value>
+  </definition>
+  <definition>
+    <key>column_viewed</key>
+    <value><![CDATA[розглянутий]]></value>
+  </definition>
+  <definition>
+    <key>column_percent</key>
+    <value><![CDATA[відсотків]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[мови]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[Мова]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: У вас є модифіковані мови!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Назва мови]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[код]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Порядок сортування]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[дію]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Мова Ім&#39;я:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Код: <br/><span class="help">Не змінюйте</span> , <span class="help">якщо це ваш язик</span> по <span class="help">замовчуванням.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_locale</key>
+    <value><![CDATA[Мова:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[зображення:]]></value>
+  </definition>
+  <definition>
+    <key>entry_directory</key>
+    <value><![CDATA[Каталог:]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[Файл:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[статус:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Порядок сортування:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Увага: У вас немає дозволу на зміну мов!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Назва мови повинно бути від 2 до 32 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Код мови повинен як мінімум 2 знака!]]></value>
+  </definition>
+  <definition>
+    <key>error_locale</key>
+    <value><![CDATA[Locale потрібно!]]></value>
+  </definition>
+  <definition>
+    <key>error_image</key>
+    <value><![CDATA[Зображення Назва файлу повинна бути від 2 до 64 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_directory</key>
+    <value><![CDATA[Довідник потрібно!]]></value>
+  </definition>
+  <definition>
+    <key>error_filename</key>
+    <value><![CDATA[Назва файлу повинна бути від 2 до 64 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Увага: ця мова не може бути видалений, як це в даний час призначений в якості мови за замовчуванням магазину!]]></value>
+  </definition>
+  <definition>
+    <key>error_admin</key>
+    <value><![CDATA[Увага: ця мова не може бути видалений, як це в даний час призначений в якості мови управління!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Увага: ця мова не може бути видалений, як це в даний час віднесені до %s магазинах!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Увага: ця мова не може бути видалений, як це в даний час віднесені до %s замовлень!]]></value>
+  </definition>
+  <definition>
+    <key>language_edit_title</key>
+    <value><![CDATA[Змінити відомості Мова]]></value>
+  </definition>
+  <definition>
+    <key>load_language_title</key>
+    <value><![CDATA[Завантаження даних зниклого мови]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_selector</key>
+    <value><![CDATA[Джерело Мова:]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method_selector</key>
+    <value><![CDATA[Текст метод перекладу:]]></value>
+  </definition>
+  <definition>
+    <key>load_language_note</key>
+    <value><![CDATA[Примітка: Ця операція може зайняти кілька хвилин, щоб бігти. Чи не закривайте браузер, залиште або поновіть сторінку!]]></value>
+  </definition>
+  <definition>
+    <key>create_language_note</key>
+    <value><![CDATA[Примітка: Ми рекомендуємо створити мову в якості розширення. Перевірте існуючі розширення мови. Якщо ви все ще хочете створити нову мову вручну, вам потрібно додати мову прапор адміністратору / мова / [Мова директорії] /flag.png і електронна вітрина / мова / [Мова директорії] flag.png 
+ Після створення мови завантаження відсутніх даних мови переводити або скопіювати вміст тексту з мови оригіналу.]]></value>
+  </definition>
+  <definition>
+    <key>button_load_language</key>
+    <value><![CDATA[навантаження]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete_tasks</key>
+    <value><![CDATA[неповні завдання]]></value>
+  </definition>
+  <definition>
+    <key>text_task_id</key>
+    <value><![CDATA[Ідентифікатор завдання:]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Назва:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_time_run</key>
+    <value><![CDATA[Останнім часом виконання:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[створено:]]></value>
+  </definition>
+  <definition>
+    <key>text_starter_name</key>
+    <value><![CDATA[Створений:]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[перезапуск]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[видалення]]></value>
+  </definition>
+  <definition>
+    <key>text_task_title</key>
+    <value><![CDATA[Переклад описів від %s до %s]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Помилка: Будь ласка, встановіть Мова і метод перекладу!]]></value>
+  </definition>
+  <definition>
+    <key>text_translate_override_existing</key>
+    <value><![CDATA[Примітка: Всі існуючі опису в цільовому мовою буде замінений на новий переклад. Ви можете відключити перевизначення в <a href="%s">Система-&gt; Настроювання-&gt; Магазин Подробиці</a> .]]></value>
+  </definition>
+</definitions>

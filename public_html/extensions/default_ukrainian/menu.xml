@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_index_home_menu</key>
+    <value><![CDATA[Чільна]]></value>
+  </definition>
+  <definition>
+    <key>text_product_special_menu</key>
+    <value><![CDATA[Спеціальні пропозиції]]></value>
+  </definition>
+  <definition>
+    <key>text_account_account_menu</key>
+    <value><![CDATA[Особистий кабінет]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout_cart_menu</key>
+    <value><![CDATA[Кошик]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout_shipping_menu</key>
+    <value><![CDATA[Оформити замовлення]]></value>
+  </definition>
+  <definition>
+    <key>text_account_login_menu</key>
+    <value><![CDATA[Ввійти]]></value>
+  </definition>
+  <definition>
+    <key>text_account_invoice_menu</key>
+    <value><![CDATA[Перевірте Ваше замовлення]]></value>
+  </definition>
+  <definition>
+    <key>text_account_logout_menu</key>
+    <value><![CDATA[Вийти]]></value>
+  </definition>
+</definitions>

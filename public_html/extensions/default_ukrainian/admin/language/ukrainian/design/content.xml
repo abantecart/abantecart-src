@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Менеджер контенту]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[Додати Вміст]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[оновлення контенту]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: Ви змінили зміст!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_layout</key>
+    <value><![CDATA[Успіх: Ви змінили макет сторінки вмісту.]]></value>
+  </definition>
+  <definition>
+    <key>text_hidden</key>
+    <value><![CDATA[прихований]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[дефолт]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[зміст Назва]]></value>
+  </definition>
+  <definition>
+    <key>column_parent</key>
+    <value><![CDATA[батько Зміст]]></value>
+  </definition>
+  <definition>
+    <key>entry_parent</key>
+    <value><![CDATA[Батько Вміст сторінки]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Порядок сортування]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[статус]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[дію]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Зміст Ім&#39;я:]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Зміст Назва:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[опис:]]></value>
+  </definition>
+  <definition>
+    <key>entry_content</key>
+    <value><![CDATA[зміст:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[магазини:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[статус:]]></value>
+  </definition>
+  <definition>
+    <key>entry_keyword</key>
+    <value><![CDATA[SEO Ключове слово:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Порядок сортування:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Увага: У вас немає дозволу на зміну змісту!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Зміст Назва повинна бути від 2 до 64 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Зміст Ім&#39;я повинно бути від 2 до 64 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_description</key>
+    <value><![CDATA[Опис повинен бути більше, ніж 1 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_content</key>
+    <value><![CDATA[Контент повинен бути більше 1 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_seo_url</key>
+    <value><![CDATA[SEO URL повинен бути більше 1 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_account</key>
+    <value><![CDATA[Попередження: Цей вміст не може бути видалена, як це в даний час призначений в якості термінів в сховище облікових записів за замовчуванням!]]></value>
+  </definition>
+  <definition>
+    <key>error_checkout</key>
+    <value><![CDATA[Попередження: Цей вміст не може бути видалена, як це в даний час призначений в якості термінів за замовчуванням магазин касі!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Необхідні дані не були введені. Перевірка на наявність помилок на місцях!]]></value>
+  </definition>
+  <definition>
+    <key>text_top_level</key>
+    <value><![CDATA[Вищий рівень]]></value>
+  </definition>
+  <definition>
+    <key>text_any</key>
+    <value><![CDATA[будь-який]]></value>
+  </definition>
+  <definition>
+    <key>tab_form</key>
+    <value><![CDATA[редагувати]]></value>
+  </definition>
+  <definition>
+    <key>tab_layout</key>
+    <value><![CDATA[розкладка]]></value>
+  </definition>
+</definitions>

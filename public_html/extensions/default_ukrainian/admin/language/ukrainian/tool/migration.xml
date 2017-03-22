@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Кошик міграції]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_step_one</key>
+    <value><![CDATA[- Крок 1]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_step_two</key>
+    <value><![CDATA[- Крок 2]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_step_three</key>
+    <value><![CDATA[- Готово]]></value>
+  </definition>
+  <definition>
+    <key>text_description</key>
+    <value><![CDATA[Інструмент міграції дозволяє імпортувати дані з інших візків. <br/> Примітка: AbanteCart імпорту підтримка MySQL тільки на даний момент. <br/> Натисніть кнопку початку міграції , щоб продовжити ...]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: Ви дані успішно transfeerd до Abantecart!]]></value>
+  </definition>
+  <definition>
+    <key>text_cart_info</key>
+    <value><![CDATA[Джерело Кошик Інформація <span class="help">Джерело кошик Деталі додатків.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_db_info</key>
+    <value><![CDATA[Інформація бази даних <span class="help">Примітка: AbanteCart імпорту підтримка MySQL тільки на даний момент.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_type</key>
+    <value><![CDATA[Тип джерела кошик]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_url</key>
+    <value><![CDATA[Джерело кошик URL:]]></value>
+  </definition>
+  <definition>
+    <key>entry_db_host</key>
+    <value><![CDATA[Хост База даних:]]></value>
+  </definition>
+  <definition>
+    <key>entry_db_user</key>
+    <value><![CDATA[Користувач бази даних:]]></value>
+  </definition>
+  <definition>
+    <key>entry_db_password</key>
+    <value><![CDATA[пароль:]]></value>
+  </definition>
+  <definition>
+    <key>entry_db_name</key>
+    <value><![CDATA[Ім&#39;я бази даних:]]></value>
+  </definition>
+  <definition>
+    <key>entry_db_prefix</key>
+    <value><![CDATA[Приставка бази даних:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_select</key>
+    <value><![CDATA[- Виберіть тип кошик -]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_osc</key>
+    <value><![CDATA[Oscommerce 2.2RC2]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_oscmax</key>
+    <value><![CDATA[OscMAX]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_zen</key>
+    <value><![CDATA[ZenCart 1.3.9h]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_cre</key>
+    <value><![CDATA[CRE Loaded 6.4.1 STD]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_opencart</key>
+    <value><![CDATA[OpenCart 1.4.9]]></value>
+  </definition>
+  <definition>
+    <key>entry_migrate_data</key>
+    <value><![CDATA[Вибір даних для перенесення]]></value>
+  </definition>
+  <definition>
+    <key>entry_migrate_data_categories</key>
+    <value><![CDATA[категорії]]></value>
+  </definition>
+  <definition>
+    <key>entry_migrate_data_products</key>
+    <value><![CDATA[Продукти, Категорії, Бренди]]></value>
+  </definition>
+  <definition>
+    <key>entry_migrate_data_customers</key>
+    <value><![CDATA[клієнти]]></value>
+  </definition>
+  <definition>
+    <key>entry_migrate_data_orders</key>
+    <value><![CDATA[замовлення]]></value>
+  </definition>
+  <definition>
+    <key>entry_erase_existing_data</key>
+    <value><![CDATA[Стерти існуючі дані?]]></value>
+  </definition>
+  <definition>
+    <key>button_start_migration</key>
+    <value><![CDATA[початок міграції]]></value>
+  </definition>
+  <definition>
+    <key>button_continue</key>
+    <value><![CDATA[продовжувати]]></value>
+  </definition>
+  <definition>
+    <key>button_back</key>
+    <value><![CDATA[назад]]></value>
+  </definition>
+  <definition>
+    <key>button_cancel</key>
+    <value><![CDATA[скасувати]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Увага: У вас немає дозволу на виконання робіт з міграції!]]></value>
+  </definition>
+  <definition>
+    <key>error_db_host</key>
+    <value><![CDATA[Хост не потрібно!]]></value>
+  </definition>
+  <definition>
+    <key>error_db_user</key>
+    <value><![CDATA[Користувач потрібно!]]></value>
+  </definition>
+  <definition>
+    <key>error_db_name</key>
+    <value><![CDATA[Ім&#39;я бази даних не потрібно!]]></value>
+  </definition>
+  <definition>
+    <key>error_db_connection</key>
+    <value><![CDATA[Помилка: Неможливо підключитися до бази даних, будь ласка, переконайтеся, що сервер бази даних, ім&#39;я користувача і пароль правильно!]]></value>
+  </definition>
+  <definition>
+    <key>error_db_not_exist</key>
+    <value><![CDATA[Помилка: база даних не існує!]]></value>
+  </definition>
+  <definition>
+    <key>error_cart_type</key>
+    <value><![CDATA[Помилка: Будь ласка, виберіть тип кошика!]]></value>
+  </definition>
+  <definition>
+    <key>error_cart_url</key>
+    <value><![CDATA[Помилка: потрібно Кошик URL!]]></value>
+  </definition>
+  <definition>
+    <key>error_cart_not_supported</key>
+    <value><![CDATA[Попередження: Chosen кошик не підтримується зараз!]]></value>
+  </definition>
+  <definition>
+    <key>error_migrate_data</key>
+    <value><![CDATA[Помилка: Будь ласка, виберіть хоча б один пункт!]]></value>
+  </definition>
+  <definition>
+    <key>text_no_customers</key>
+    <value><![CDATA[Примітка: Ніхто клієнт не було імпортовано.]]></value>
+  </definition>
+  <definition>
+    <key>text_no_products</key>
+    <value><![CDATA[Примітка: Ніхто продукт не був імпортований.]]></value>
+  </definition>
+  <definition>
+    <key>text_no_orders</key>
+    <value><![CDATA[Примітка: Ніхто замовлення не був імпортований.]]></value>
+  </definition>
+  <definition>
+    <key>text_no_brands</key>
+    <value><![CDATA[Примітка: Ніхто не бренд був імпортований.]]></value>
+  </definition>
+  <definition>
+    <key>text_no_categories</key>
+    <value><![CDATA[Примітка: Жодна категорія один продукт не був імпортований.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_source_cart</key>
+    <value><![CDATA[Увага: Обраний джерело кошик порожній! Будь ласка, перевірте базу даних і префікс таблиць.]]></value>
+  </definition>
+  <definition>
+    <key>text_finished</key>
+    <value><![CDATA[Міграція завершена.]]></value>
+  </definition>
+</definitions>

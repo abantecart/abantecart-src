@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[продукти]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[продукт]]></value>
+  </definition>
+  <definition>
+    <key>tab_media</key>
+    <value><![CDATA[засоби масової інформації]]></value>
+  </definition>
+  <definition>
+    <key>tab_shipping</key>
+    <value><![CDATA[Доставка]]></value>
+  </definition>
+  <definition>
+    <key>tab_files</key>
+    <value><![CDATA[файли]]></value>
+  </definition>
+  <definition>
+    <key>tab_relations</key>
+    <value><![CDATA[відносини]]></value>
+  </definition>
+  <definition>
+    <key>tab_promotions</key>
+    <value><![CDATA[знижені ціни]]></value>
+  </definition>
+  <definition>
+    <key>tab_extensions</key>
+    <value><![CDATA[розширення]]></value>
+  </definition>
+  <definition>
+    <key>tab_layout</key>
+    <value><![CDATA[Макет сторінки]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: У вас є модифіковані продукти!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_copy</key>
+    <value><![CDATA[Успіх: Ви успішно клонувати продукт <b>%s!</b>]]></value>
+  </definition>
+  <definition>
+    <key>text_error_copy</key>
+    <value><![CDATA[Клонування не вдалося! Оригінальний продукт не доступний]]></value>
+  </definition>
+  <definition>
+    <key>text_plus</key>
+    <value><![CDATA[+]]></value>
+  </definition>
+  <definition>
+    <key>text_minus</key>
+    <value><![CDATA[-]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[дефолт]]></value>
+  </definition>
+  <definition>
+    <key>text_product_summary</key>
+    <value><![CDATA[зведення продукту]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[Диспетчер зображень]]></value>
+  </definition>
+  <definition>
+    <key>text_option</key>
+    <value><![CDATA[варіант]]></value>
+  </definition>
+  <definition>
+    <key>text_option_value</key>
+    <value><![CDATA[значення опції]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Назва продукту]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[модель]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[зображення]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[кількість]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[статус]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[ціна]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[дію]]></value>
+  </definition>
+  <definition>
+    <key>entry_featured</key>
+    <value><![CDATA[Показаний продукт:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Назва продукту:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_keywords</key>
+    <value><![CDATA[Мета-тег Ключові слова:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Метатег Опис:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[опис:]]></value>
+  </definition>
+  <definition>
+    <key>entry_blurb</key>
+    <value><![CDATA[вставка:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[магазини:]]></value>
+  </definition>
+  <definition>
+    <key>entry_keyword</key>
+    <value><![CDATA[SEO Ключове слово: <br/><span class="help">ключа SEO</span> , <span class="help">який буде відображатися в URL для цього продукту. Ви можете згенерувати ключ з назви продукту</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_model</key>
+    <value><![CDATA[модель:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sku</key>
+    <value><![CDATA[SKU:]]></value>
+  </definition>
+  <definition>
+    <key>entry_location</key>
+    <value><![CDATA[Різне Розташування:]]></value>
+  </definition>
+  <definition>
+    <key>entry_manufacturer</key>
+    <value><![CDATA[Виробник:]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[Потрібно Доставка:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ship_individually</key>
+    <value><![CDATA[Корабель продукту Індивідуально: <br/><span class="help">Продукт буде поставлятися в окремій упаковці та додаткову вартість доставки буде додана в замовлення з кількома елементами. Якщо</span> цей <span class="help">параметр включений, фіксована</span> вартість <span class="help">доставки повинна бути встановлена.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_price</key>
+    <value><![CDATA[Фіксована вартість доставки: <br/><span class="help">Майстер налаштування з фіксованою ціною доставки для цього продукту.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_free_shipping</key>
+    <value><![CDATA[Вільна перевезення вантажу: <br/><span class="help">Майстер налаштування</span> , <span class="help">щоб дозволити вільну перевезення вантажу для цього продукту.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_available</key>
+    <value><![CDATA[Доступна дата:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_quantity</key>
+    <value><![CDATA[кількість:]]></value>
+  </definition>
+  <definition>
+    <key>entry_quantity</key>
+    <value><![CDATA[Кількість: <br/><span class="help">Підключення до Відстежити установку зі</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_minimum</key>
+    <value><![CDATA[Мінімальна кількість: <br/><span class="help">Сила мінімум замовленої суми</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_maximum</key>
+    <value><![CDATA[Максимальна кількість: <br/><span class="help">Встановити обмеження на quantaty</span> , <span class="help">які можуть бути обрані в кожному замовленні. 0 = без обмежень</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_status</key>
+    <value><![CDATA[Зі стану запасу: <br/><span class="help">Статус відображається</span> , <span class="help">коли продукт буде в наявності</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[статус:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_class</key>
+    <value><![CDATA[Податковий Клас:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cost</key>
+    <value><![CDATA[Вартість: <br/><span class="help">Оптова вартість використовується для</span> складання <span class="help">звітів</span> про <span class="help">прибутки</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_price</key>
+    <value><![CDATA[Ціна:]]></value>
+  </definition>
+  <definition>
+    <key>entry_track_option_stock</key>
+    <value><![CDATA[Трек Наявність на складі:]]></value>
+  </definition>
+  <definition>
+    <key>entry_subtract</key>
+    <value><![CDATA[Трек Наявність на складі: <br/><span class="help">Встановіть YES</span> , <span class="help">якщо необхідно відстежувати кількість запасів для даного продукту. Якщо опції використовуються настройки вирахування перевірки для кожного значення параметра</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_class</key>
+    <value><![CDATA[Вага Клас:]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight</key>
+    <value><![CDATA[вага:]]></value>
+  </definition>
+  <definition>
+    <key>entry_length_class</key>
+    <value><![CDATA[Довжина Клас:]]></value>
+  </definition>
+  <definition>
+    <key>entry_length</key>
+    <value><![CDATA[довжина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_width</key>
+    <value><![CDATA[Ширина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_height</key>
+    <value><![CDATA[зростання:]]></value>
+  </definition>
+  <definition>
+    <key>entry_dimension</key>
+    <value><![CDATA[Розміри (Д х Ш х В):]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[Зображення: <br/><span class="help">Натисніть</span> на <span class="help">зображення</span> , <span class="help">щоб змінити його.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[Група клієнтів:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[Дата початку:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[Дата закінчення:]]></value>
+  </definition>
+  <definition>
+    <key>entry_priority</key>
+    <value><![CDATA[черговість:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option</key>
+    <value><![CDATA[опція:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_name</key>
+    <value><![CDATA[Ім&#39;я параметра:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_value</key>
+    <value><![CDATA[Значення опції:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Порядок сортування:]]></value>
+  </definition>
+  <definition>
+    <key>entry_prefix</key>
+    <value><![CDATA[приставка:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_prefix</key>
+    <value><![CDATA[Змінити Ціна від:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_price</key>
+    <value><![CDATA[Ціна Модифікатор:]]></value>
+  </definition>
+  <definition>
+    <key>entry_category</key>
+    <value><![CDATA[категорії:]]></value>
+  </definition>
+  <definition>
+    <key>entry_download</key>
+    <value><![CDATA[завантаження:]]></value>
+  </definition>
+  <definition>
+    <key>entry_related</key>
+    <value><![CDATA[Супутні товари:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tags</key>
+    <value><![CDATA[Продукт Мітки: <br/><span class="help">через кому</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Увага: Ви не маєте права модифікувати продукти!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Назва продукту має бути більше 3 і менше 255 символів!]]></value>
+  </definition>
+  <definition>
+    <key>error_model</key>
+    <value><![CDATA[Модель продукту повинна бути не менше 64 символів! Remomended 5-25 символів]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Необхідні дані не були введені. Перевірка на наявність помилок на місцях!]]></value>
+  </definition>
+  <definition>
+    <key>error_product_not_found</key>
+    <value><![CDATA[Помилка: Товар не знайдено!]]></value>
+  </definition>
+  <definition>
+    <key>filter_product</key>
+    <value><![CDATA[Пошук продукту]]></value>
+  </definition>
+  <definition>
+    <key>filter_any_word</key>
+    <value><![CDATA[Будь-яке з цих слів]]></value>
+  </definition>
+  <definition>
+    <key>filter_all_words</key>
+    <value><![CDATA[Всі ці слова]]></value>
+  </definition>
+  <definition>
+    <key>filter_exact_match</key>
+    <value><![CDATA[точна фраза]]></value>
+  </definition>
+  <definition>
+    <key>filter_all_categories</key>
+    <value><![CDATA[- Всі категорії -]]></value>
+  </definition>
+  <definition>
+    <key>filter_price_max</key>
+    <value><![CDATA[Макс]]></value>
+  </definition>
+  <definition>
+    <key>text_view</key>
+    <value><![CDATA[вид]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[видаляти]]></value>
+  </definition>
+  <definition>
+    <key>text_choose_action</key>
+    <value><![CDATA[Виберіть дію]]></value>
+  </definition>
+  <definition>
+    <key>text_clone_selected</key>
+    <value><![CDATA[клон обраний]]></value>
+  </definition>
+  <definition>
+    <key>text_export_selected</key>
+    <value><![CDATA[експорт обраних]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_selected</key>
+    <value><![CDATA[видалити вибраний]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_selected</key>
+    <value><![CDATA[редагувати обраний]]></value>
+  </definition>
+  <definition>
+    <key>text_clone</key>
+    <value><![CDATA[клон]]></value>
+  </definition>
+  <definition>
+    <key>text_export</key>
+    <value><![CDATA[експорт]]></value>
+  </definition>
+  <definition>
+    <key>text_select_category</key>
+    <value><![CDATA[- Виберіть категорію -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_product</key>
+    <value><![CDATA[- Виберіть продукт -]]></value>
+  </definition>
+  <definition>
+    <key>text_option_name</key>
+    <value><![CDATA[опція Ім&#39;я]]></value>
+  </definition>
+  <definition>
+    <key>text_group_option</key>
+    <value><![CDATA[Група Варіант]]></value>
+  </definition>
+  <definition>
+    <key>text_option_type</key>
+    <value><![CDATA[опція Тип]]></value>
+  </definition>
+  <definition>
+    <key>text_option_values</key>
+    <value><![CDATA[опція Значення]]></value>
+  </definition>
+  <definition>
+    <key>text_no_option_values</key>
+    <value><![CDATA[Ні Опція Значення]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_option_values</key>
+    <value><![CDATA[Edit Option Value]]></value>
+  </definition>
+  <definition>
+    <key>text_save_option_values</key>
+    <value><![CDATA[Save Option Value]]></value>
+  </definition>
+  <definition>
+    <key>button_remove_option</key>
+    <value><![CDATA[видалити варіант]]></value>
+  </definition>
+  <definition>
+    <key>text_option_removed</key>
+    <value><![CDATA[опція Вилучені]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_type</key>
+    <value><![CDATA[Тип Вага]]></value>
+  </definition>
+  <definition>
+    <key>text_product_pagination</key>
+    <value><![CDATA[Продукт (и) {Пуск} кілька разів {кінець} з {} загальна]]></value>
+  </definition>
+  <definition>
+    <key>entry_product_id</key>
+    <value><![CDATA[ідентифікатор продукту]]></value>
+  </definition>
+  <definition>
+    <key>error_product_load</key>
+    <value><![CDATA[Увага: Жоден продукт з таким ID!]]></value>
+  </definition>
+  <definition>
+    <key>error_attribute_not_selected</key>
+    <value><![CDATA[Будь ласка, виберіть варіант, щоб додати!]]></value>
+  </definition>
+  <definition>
+    <key>error_date</key>
+    <value><![CDATA[&quot;Дата End&quot; не може бути менше, ніж &quot;Дата початку&quot;!]]></value>
+  </definition>
+  <definition>
+    <key>error_required</key>
+    <value><![CDATA[Це поле є обов&#39;язковим!]]></value>
+  </definition>
+  <definition>
+    <key>error_option_in_group</key>
+    <value><![CDATA[Опція не може бути доданий до продукту, оскільки він вже є частиною опції групи!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_layout</key>
+    <value><![CDATA[Успіх: Ви змінили макет сторінки продукту.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_option</key>
+    <value><![CDATA[Успіх: Ви змінили варіант продукту.]]></value>
+  </definition>
+  <definition>
+    <key>text_add_new_option</key>
+    <value><![CDATA[- Додати новий варіант -]]></value>
+  </definition>
+  <definition>
+    <key>entry_required</key>
+    <value><![CDATA[Вимагається:]]></value>
+  </definition>
+  <definition>
+    <key>entry_element_type</key>
+    <value><![CDATA[Тип елемента:]]></value>
+  </definition>
+  <definition>
+    <key>entry_element_values</key>
+    <value><![CDATA[Значення елементів:]]></value>
+  </definition>
+  <definition>
+    <key>text_expand</key>
+    <value><![CDATA[+ розгорнути]]></value>
+  </definition>
+  <definition>
+    <key>text_hide</key>
+    <value><![CDATA[- приховати]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_placeholder</key>
+    <value><![CDATA[заповнювач:]]></value>
+  </definition>
+  <definition>
+    <key>entry_regexp_pattern</key>
+    <value><![CDATA[Регулярний вираз Pattern:]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_text</key>
+    <value><![CDATA[Повідомлення про помилку про неприпустиме значення:]]></value>
+  </definition>
+  <definition>
+    <key>text_product_condition</key>
+    <value><![CDATA[Стан продукту:]]></value>
+  </definition>
+  <definition>
+    <key>text_product_available</key>
+    <value><![CDATA[наявний]]></value>
+  </definition>
+  <definition>
+    <key>text_product_disabled</key>
+    <value><![CDATA[інвалід]]></value>
+  </definition>
+  <definition>
+    <key>text_product_unavailable</key>
+    <value><![CDATA[недоступний]]></value>
+  </definition>
+  <definition>
+    <key>text_product_out_of_stock</key>
+    <value><![CDATA[Немає на складі]]></value>
+  </definition>
+  <definition>
+    <key>text_product_in_stock</key>
+    <value><![CDATA[В наявності]]></value>
+  </definition>
+  <definition>
+    <key>text_product_option_out_of_stock</key>
+    <value><![CDATA[Варіант Продукт (и) на складі]]></value>
+  </definition>
+  <definition>
+    <key>text_call_to_order</key>
+    <value><![CDATA[Закликати до порядку]]></value>
+  </definition>
+  <definition>
+    <key>entry_call_to_order</key>
+    <value><![CDATA[Блок продукту від замовлення: <br/><span class="help">Це дозволить поставити продукт в режим відображення тільки без можливості зробити замовлення. Зв&#39;яжіться</span> з <span class="help">нами для замовлення повідомлення будуть відображатися.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_new_option</key>
+    <value><![CDATA[новий варіант]]></value>
+  </definition>
+  <definition>
+    <key>text_total_orders</key>
+    <value><![CDATA[всього замовлень]]></value>
+  </definition>
+  <definition>
+    <key>error_measure_value</key>
+    <value><![CDATA[Межа 999,99 досягнуто. Забезпечити менше число.]]></value>
+  </definition>
+  <definition>
+    <key>error_weight_value</key>
+    <value><![CDATA[Цей продукт вимагає доставки. Будь ласка, встановіть значення ваги.]]></value>
+  </definition>
+  <definition>
+    <key>error_weight_class</key>
+    <value><![CDATA[Будь ласка, встановіть клас ваги.]]></value>
+  </definition>
+  <definition>
+    <key>entry_allowed_extensions</key>
+    <value><![CDATA[Допустимі розширення файлів (TXT, JPG ...)]]></value>
+  </definition>
+  <definition>
+    <key>entry_min_size</key>
+    <value><![CDATA[Мінімальний розмір файлу (КБ)]]></value>
+  </definition>
+  <definition>
+    <key>entry_max_size</key>
+    <value><![CDATA[Максимальний розмір файлу (КБ)]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_dir</key>
+    <value><![CDATA[Завантажити ім&#39;я каталогу <br/> %s]]></value>
+  </definition>
+  <definition>
+    <key>text_success_relation_set</key>
+    <value><![CDATA[Відносини окремих видів продукції було встановлено успішно!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Забули свій пароль?]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_loginname</key>
+    <value><![CDATA[Забули Ім&#39;я в системі?]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[рахунки]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten</key>
+    <value><![CDATA[забутого пароля]]></value>
+  </definition>
+  <definition>
+    <key>text_your_email</key>
+    <value><![CDATA[Ваша електронна адреса]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Введіть адресу електронної пошти, пов&#39;язаний з вашим обліковим записом. Натисніть кнопку Надіслати, щоб ваш пароль по електронній пошті]]></value>
+  </definition>
+  <definition>
+    <key>text_loginname_email</key>
+    <value><![CDATA[Введіть ім&#39;я Логін і адресу електронної пошти, пов&#39;язаний з вашим обліковим записом. Натисніть, щоб відправити запит на скидання пароля]]></value>
+  </definition>
+  <definition>
+    <key>text_lastname_email</key>
+    <value><![CDATA[Введіть прізвище та адресу електронної пошти, пов&#39;язаний з вашим обліковим записом. Натисніть, щоб відправити ваше ім&#39;я Увійти по електронній пошті до вас]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успіх: Пароль посилання скидання відправлений на Вашу електронну адресу електронної пошти.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_loginname</key>
+    <value><![CDATA[Успіх: Ваше ім&#39;я нагадування Логін відправлений на Вашу електронну адресу електронної пошти.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Логін:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Прізвище:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[Адреса електронної пошти:]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Помилка: Адреса електронної пошти не було надано або не знайшли в наших записах, будь ласка, спробуйте ще раз!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Помилка: Ім&#39;я Логін не був наданий або не знайшли в наших записах, будь ласка, спробуйте ще раз!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Помилка: Прізвище не був наданий або не знайшли в наших записах, будь ласка, спробуйте ще раз!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_found</key>
+    <value><![CDATA[Помилка: Немає записів знайдено відповідність Ваша інформація надається, будь ласка, перевірте вашу інформацію та спробуйте ще раз!]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_loginname</key>
+    <value><![CDATA[Забутий Увійти Ім&#39;я]]></value>
+  </definition>
+</definitions>
