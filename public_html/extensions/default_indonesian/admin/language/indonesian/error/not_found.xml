@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Halaman tidak ditemukan!]]></value>
+  </definition>
+  <definition>
+    <key>text_not_found</key>
+    <value><![CDATA[Halaman yang Anda cari tidak dapat ditemukan! Silahkan hubungi administrator Anda jika masalah terus berlanjut.]]></value>
+  </definition>
+</definitions>

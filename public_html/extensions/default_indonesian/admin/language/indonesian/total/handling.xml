@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Biaya penanganan]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[Biaya penanganan]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Total pesanan]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Anda telah diperbarui biaya penanganan total!]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Agar Total: <span class="help">jumlah pesanan Minimum dicapai untuk menerapkan biaya. Jika pesanan pelanggan keseluruhan akan melebihi jumlah ini, penanganan Feee tidak akan diterapkan. Nilai ini diganti dengan pengaturan khusus pembayaran.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_placeholder</key>
+    <value><![CDATA[Jumlah pesanan]]></value>
+  </definition>
+  <definition>
+    <key>entry_fee</key>
+    <value><![CDATA[Biaya: <span class="help">Biaya yang akan ditambahkan untuk memesan jumlah jika kondisi jumlah minimum tidak terpenuhi. Jumlah ini diganti oleh pengaturan khusus pembayaran</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_fee</key>
+    <value><![CDATA[Biaya: <span class="help">Biaya yang akan ditambahkan untuk memesan Total jika jumlah kondisi sub-Total minimum tidak terpenuhi. Jumlah ini menimpa pengaturan biaya utama</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Pembayaran: <span class="help">Pilih pembayaran tertentu Anda harus menambahkan biaya untuk. Pengaturan ini akan menimpa pengaturan utama jika pembayaran digunakan oleh pelanggan.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_subtotal</key>
+    <value><![CDATA[Memesan Sub-Total: <span class="help">Minimum order jumlah sub-total yang harus dicapai untuk menerapkan biaya. Ini menimpa pengaturan utama</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Kelas Pajak: <span class="help">Pilih jika Anda perlu pajak yang akan diterapkan di atas biaya penanganan</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Urutan Sortir:]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[Pesanan perhitungan:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Peringatan: Anda tidak memiliki izin untuk mengubah biaya penanganan total!]]></value>
+  </definition>
+  <definition>
+    <key>error_number</key>
+    <value><![CDATA[Peringatan: Jumlah Order dan biaya penanganan harus menjadi nomor!]]></value>
+  </definition>
+</definitions>

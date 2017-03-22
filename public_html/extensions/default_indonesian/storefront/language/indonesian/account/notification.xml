@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Pemberitahuan dan Terakhir]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Rekening]]></value>
+  </definition>
+  <definition>
+    <key>text_notifications</key>
+    <value><![CDATA[pemberitahuan]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: pengaturan pemberitahuan anda telah berhasil diperbarui!]]></value>
+  </definition>
+  <definition>
+    <key>text_sendpoint</key>
+    <value><![CDATA[pemberitahuan]]></value>
+  </definition>
+</definitions>

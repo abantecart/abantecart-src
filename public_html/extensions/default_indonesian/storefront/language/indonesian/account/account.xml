@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Akun saya]]></value>
+  </definition>
+  <definition>
+    <key>text_account_dashboard</key>
+    <value><![CDATA[Dashboard akun]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Rekening]]></value>
+  </definition>
+  <definition>
+    <key>text_my_account</key>
+    <value><![CDATA[Akun saya]]></value>
+  </definition>
+  <definition>
+    <key>text_my_orders</key>
+    <value><![CDATA[pesananku]]></value>
+  </definition>
+  <definition>
+    <key>text_my_notifications</key>
+    <value><![CDATA[pemberitahuan]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[Rincian Edit account]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Ganti kata sandi]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Mengelola Buku Alamat]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[riwayat pesanan]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[Sejarah transaksi]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[download]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[Berlangganan Newsletter]]></value>
+  </definition>
+  <definition>
+    <key>text_account_wishlist</key>
+    <value><![CDATA[Keinginanku]]></value>
+  </definition>
+</definitions>

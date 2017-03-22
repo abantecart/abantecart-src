@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Keluar akun]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Anda telah log off account Anda. Sekarang aman untuk meninggalkan komputer. </p><p> keranjang belanja Anda telah disimpan, item di dalamnya akan dikembalikan setiap kali Anda login kembali ke account Anda. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Rekening]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Keluar]]></value>
+  </definition>
+</definitions>

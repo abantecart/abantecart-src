@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Backup / Restore / Beban]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[Download Backup]]></value>
+  </definition>
+  <definition>
+    <key>text_success_backup</key>
+    <value><![CDATA[Sukses: Anda telah berhasil membuat file cadangan!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Anda telah berhasil diimpor database Anda!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_xml</key>
+    <value><![CDATA[Sukses: Anda telah berhasil diimpor xml Anda!]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore</key>
+    <value><![CDATA[Restore dari sql atau xml berkas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tables</key>
+    <value><![CDATA[Tabel cadangan:]]></value>
+  </definition>
+  <definition>
+    <key>entry_loadxml</key>
+    <value><![CDATA[Beban XML file:]]></value>
+  </definition>
+  <definition>
+    <key>tab_backup</key>
+    <value><![CDATA[backup]]></value>
+  </definition>
+  <definition>
+    <key>tab_restore</key>
+    <value><![CDATA[Mengembalikan]]></value>
+  </definition>
+  <definition>
+    <key>tab_loadxml</key>
+    <value><![CDATA[Tata letak dan beban dataset XML]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Peringatan: Anda tidak memiliki izin untuk mengubah backup!]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Peringatan: Harap mengatur apa yang ingin Anda backup atau impor!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Peringatan: File yang Anda upload kosong atau memiliki jenis file yang salah!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload</key>
+    <value><![CDATA[Peringatan: File tidak upload. Periksa post_max_size atau file_upload arahan dari file php.ini Anda.]]></value>
+  </definition>
+  <definition>
+    <key>error_xml</key>
+    <value><![CDATA[Peringatan: File yang Anda upload tidak dimuat sebagai XML! Silahkan, lihat log-file untuk rincian]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_code</key>
+    <value><![CDATA[Backup Code (%s) <br/><span class="help">Sub-direktori dengan file kode tidak termasuk file dinamis seperti cache, log file, gambar, sumber dll</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_content</key>
+    <value><![CDATA[Backup Content (%s) <br/><span class="help">Sub-direktori dengan file dinamis seperti gambar, download, sumber dll</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_compress_backup</key>
+    <value><![CDATA[Kompres Backup Direktori %s? <br/><span class="help">Arsip * .tar.gz akan dibuat. <br/> Catatan: itu bisa mengambil waktu yang lama. Jika tidak, Anda dapat menonaktifkan kompresi dan menemukan cadangan di folder %s</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_now</key>
+    <value><![CDATA[backup Sekarang]]></value>
+  </definition>
+  <definition>
+    <key>button_load</key>
+    <value><![CDATA[Beban]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_schedule</key>
+    <value><![CDATA[Jadwal Backup]]></value>
+  </definition>
+  <definition>
+    <key>text_success_scheduled</key>
+    <value><![CDATA[Sukses: Anda telah berhasil dibuat dijadwalkan tugas cadangan! <a href="%s">Lihat detail</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_fail_note</key>
+    <value><![CDATA[CATATAN: proses eksekusi ini tergantung pada ukuran data yang AbanteCart Anda serta server ukuran memori virtual Anda. Jika proses berakhir dengan kesalahan, periksa direktori %s izin untuk diatur untuk -rw-rw-rw dan <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[PHP pengaturan memori]</a>. Meningkatkan pengaturan memori atau run backup secara manual jika proses masih gagal.]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_file</key>
+    <value><![CDATA[Untuk men-download backup file silakan kunjungi <a href="#admin#rt=tool/install_upgrade_history">Install / Tingkatkan Sejarah</a>]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_dir</key>
+    <value><![CDATA[Direktori dengan backup-file ini %s]]></value>
+  </definition>
+</definitions>

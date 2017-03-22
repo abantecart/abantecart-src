@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Akun anda telah dibuat!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Selamat! account baru Anda telah berhasil dibuat! </p><p> Anda sekarang dapat mengambil keuntungan dari hak istimewa anggota untuk meningkatkan pengalaman belanja online Anda dengan kami. </p><p> Jika Anda memiliki pertanyaan tentang pengoperasian toko online ini, silahkan email pemilik toko. </p><p> Sebuah konfirmasi telah dikirim ke alamat email yang disediakan. Jika Anda belum menerima dalam waktu satu jam, silakan <a href="%s">hubungi kami</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[<p> Terima kasih telah mendaftar dengan %s! </p><p> Anda akan diberitahu melalui email setelah akun Anda telah diaktifkan oleh pemilik toko. </p><p> Jika Anda memiliki pertanyaan tentang pengoperasian toko online ini, silahkan <a href="%s">hubungi pemilik toko</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[<p> Terima kasih telah mendaftar dengan %s! </p><p> Anda akan diberitahu melalui email dengan petunjuk aktivasi akun Anda. Anda harus mengklik link yang diberikan dalam email untuk mengaktifkan akun Anda. Jika Anda tidak menerima email, silakan cek di folder junk atau spam Anda. </p><p> Jika Anda memiliki pertanyaan tentang pengoperasian toko online ini, silahkan <a href="%s">hubungi pemilik toko</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Rekening]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Keberhasilan]]></value>
+  </definition>
+</definitions>

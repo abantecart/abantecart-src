@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Bahasa]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[Bahasa]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Anda memiliki bahasa diubah!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Nama bahasa]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Kode]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Urutan Sortir]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Tindakan]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Nama bahasa:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Kode: <br/><span class="help">Jangan berubah jika ini adalah bahasa default.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_locale</key>
+    <value><![CDATA[lokal:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[Gambar:]]></value>
+  </definition>
+  <definition>
+    <key>entry_directory</key>
+    <value><![CDATA[Direktori:]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[Nama file:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Urutan Sortir:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Peringatan: Anda tidak memiliki izin untuk mengubah bahasa!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Nama bahasa harus antara 2 dan 32 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Kode bahasa harus setidaknya 2 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_locale</key>
+    <value><![CDATA[Lokal diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_image</key>
+    <value><![CDATA[Gambar Nama file harus antara 2 dan 64 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_directory</key>
+    <value><![CDATA[Direktori diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_filename</key>
+    <value><![CDATA[Nama file harus antara 2 dan 64 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Peringatan: Bahasa ini tidak dapat dihapus seperti yang saat ini ditugaskan sebagai bahasa store default!]]></value>
+  </definition>
+  <definition>
+    <key>error_admin</key>
+    <value><![CDATA[Peringatan: Bahasa ini tidak dapat dihapus seperti yang saat ini ditugaskan sebagai bahasa administrasi!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Peringatan: Bahasa ini tidak dapat dihapus seperti yang saat ini ditugaskan untuk %s toko!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Peringatan: Bahasa ini tidak dapat dihapus seperti yang saat ini ditugaskan untuk %s perintah!]]></value>
+  </definition>
+  <definition>
+    <key>language_edit_title</key>
+    <value><![CDATA[Mengedit Detail Bahasa]]></value>
+  </definition>
+  <definition>
+    <key>load_language_title</key>
+    <value><![CDATA[Memuat data bahasa yang hilang]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_selector</key>
+    <value><![CDATA[Bahasa sumber:]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method_selector</key>
+    <value><![CDATA[metode terjemahan teks:]]></value>
+  </definition>
+  <definition>
+    <key>load_language_note</key>
+    <value><![CDATA[CATATAN: Operasi ini mungkin membutuhkan beberapa menit untuk menjalankan. TIDAK browser menutup, meninggalkan atau refresh halaman!]]></value>
+  </definition>
+  <definition>
+    <key>create_language_note</key>
+    <value><![CDATA[CATATAN: Sebaiknya menciptakan bahasa sebagai perpanjangan. Periksa ekstensi bahasa yang ada. Jika Anda masih ingin membuat bahasa baru secara manual, Anda perlu menambahkan bahasa Flag untuk admin / language / [direktori Bahasa] /flag.png dan toko / bahasa / [direktori Bahasa] flag.png 
+ Setelah bahasa dibuat beban hilang data bahasa untuk menerjemahkan atau menyalin konten teks dari bahasa sumber.]]></value>
+  </definition>
+  <definition>
+    <key>button_load_language</key>
+    <value><![CDATA[Beban]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete_tasks</key>
+    <value><![CDATA[lengkap Tugas]]></value>
+  </definition>
+  <definition>
+    <key>text_task_id</key>
+    <value><![CDATA[Tugas ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Judul:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_time_run</key>
+    <value><![CDATA[Terakhir Waktu Run:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[dibuat:]]></value>
+  </definition>
+  <definition>
+    <key>text_starter_name</key>
+    <value><![CDATA[Dibuat oleh:]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Mengulang kembali]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[Menghapus]]></value>
+  </definition>
+  <definition>
+    <key>text_task_title</key>
+    <value><![CDATA[Terjemahan dari Deskripsi Dari %s ke %s]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Kesalahan: Silakan Set Sumber Bahasa dan Metode Terjemahan!]]></value>
+  </definition>
+  <definition>
+    <key>text_translate_override_existing</key>
+    <value><![CDATA[Catatan: Semua deskripsi yang ada dalam bahasa target akan diganti dengan terjemahan baru. Anda dapat menonaktifkan utama di <a href="%s">System-&gt; Settings-&gt; Detail Toko</a> .]]></value>
+  </definition>
+</definitions>

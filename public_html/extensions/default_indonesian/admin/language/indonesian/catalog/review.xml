@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ulasan]]></value>
+  </definition>
+  <definition>
+    <key>text_review</key>
+    <value><![CDATA[Ulasan]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[Insert Ulasan]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[Perbarui Ulasan]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Anda harus dimodifikasi ulasan!]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[Produk]]></value>
+  </definition>
+  <definition>
+    <key>column_author</key>
+    <value><![CDATA[Penulis]]></value>
+  </definition>
+  <definition>
+    <key>column_rating</key>
+    <value><![CDATA[penilaian]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[Tanggal Ditambahkan]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Tindakan]]></value>
+  </definition>
+  <definition>
+    <key>entry_product</key>
+    <value><![CDATA[Produk:]]></value>
+  </definition>
+  <definition>
+    <key>entry_author</key>
+    <value><![CDATA[Penulis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_rating</key>
+    <value><![CDATA[Peringkat:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_text</key>
+    <value><![CDATA[Teks:]]></value>
+  </definition>
+  <definition>
+    <key>entry_good</key>
+    <value><![CDATA[Baik]]></value>
+  </definition>
+  <definition>
+    <key>entry_bad</key>
+    <value><![CDATA[Buruk]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Peringatan: Anda tidak memiliki izin untuk mengubah ulasan!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Produk yang dibutuhkan!]]></value>
+  </definition>
+  <definition>
+    <key>error_author</key>
+    <value><![CDATA[Penulis harus antara 2 dan 64 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_text</key>
+    <value><![CDATA[Ulasan Teks harus antara 25 dan 1000 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_rating</key>
+    <value><![CDATA[Peringkat Ulasan diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>text_select_product</key>
+    <value><![CDATA[- Pilih Produk -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_category</key>
+    <value><![CDATA[- Pilih Kategori -]]></value>
+  </definition>
+</definitions>

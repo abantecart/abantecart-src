@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Paket berhasil diinstal.]]></value>
+  </definition>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[paket Installer]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_license</key>
+    <value><![CDATA[Perjanjian Lisensi paket]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_ftp</key>
+    <value><![CDATA[parameter akses FTP]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_download</key>
+    <value><![CDATA[paket Memuat]]></value>
+  </definition>
+  <definition>
+    <key>text_preloading</key>
+    <value><![CDATA[file paket% berkas% akan di-download.]]></value>
+  </definition>
+  <definition>
+    <key>text_loading</key>
+    <value><![CDATA[Mengunduh file. Ukuran: %s. <br/> Mungkin butuh beberapa detik tergantung pada koneksi Anda.]]></value>
+  </definition>
+  <definition>
+    <key>text_key_hint</key>
+    <value><![CDATA[Masukkan Instalasi Key sini]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_user</key>
+    <value><![CDATA[FTP User Name:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_password</key>
+    <value><![CDATA[FTP User Password:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_host</key>
+    <value><![CDATA[FTP Host:]]></value>
+  </definition>
+  <definition>
+    <key>text_i_agree</key>
+    <value><![CDATA[Saya setuju untuk lisensi]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[Setuju]]></value>
+  </definition>
+  <definition>
+    <key>text_retry</key>
+    <value><![CDATA[Mencoba kembali]]></value>
+  </definition>
+  <definition>
+    <key>text_disagree</key>
+    <value><![CDATA[Tidak setuju]]></value>
+  </definition>
+  <definition>
+    <key>text_download_error</key>
+    <value><![CDATA[Mohon maaf, tapi terjadi kesalahan saat meng-upload file. </br> Mencoba sekali lagi. </br> Jika masalah tetap men-download file dalam sejarah pesanan Anda dan menginstal secara manual.]]></value>
+  </definition>
+  <definition>
+    <key>text_continue</key>
+    <value><![CDATA[Terus]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer_heading</key>
+    <value><![CDATA[Penolakan]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer</key>
+    <value><![CDATA[<h3> pelanggan AbanteCart sayang, </h3><br/> 
+ Anda akan menginstal ekstensi pihak ketiga untuk AbanteCart Anda. <br/><br/> 
+ Silakan membaca dan memahami disclaimer ini tentang ekstensi pihak ketiga yang Anda akan menginstal. <br/><br/> 
+ ekstensi dan layanan pihak ketiga yang disediakan oleh vendor pihak ketiga. <br/><br/> 
+ Meskipun, AbanteCart memvalidasi kualitas ekstensi dan pelayanan yang ditawarkan pihak ketiga, AbanterCart tidak menjamin bahwa semua pihak ketiga ekstensi bekerja dengan benar atau tidak akan menimbulkan konflik dalam sistem. 
+ anggota AbanteCart dan afiliasi sama sekali tidak bertanggung jawab atau bertanggung jawab atas klaim yang dibuat terkait dengan produk atau layanan yang disediakan oleh vendor pihak ketiga. AbanteCart tidak menjamin kualitas ekstensi atau layanan pihak ketiga. Silahkan langsung pertanyaan Anda mengenai ekstensi atau layanan pihak ketiga untuk vendor pihak ketiga yang sesuai. 
+ Jika Anda memiliki kekhawatiran tentang pihak ketiga yang menyediakan silahkan hubungi AbanteCart di <a href="http://www.abantecart.com/contact-us" target="_blank">http://www.abantecart.com/contact-us</a><br/><br/> 
+ Hormat, <br/> 
+ AbanteCart <br/> 
+ Ideal OpenSource Solusi E-commerce]]></value>
+  </definition>
+  <definition>
+    <key>warning_ftp</key>
+    <value><![CDATA[Peringatan: Beberapa direktori atau file tidak memiliki izin menulis <span id="see_details">(lihat lebih rinci)</span><br/> Anda dapat mengubah hak akses pada server atau <br/> menggunakan akses ftp ke server Anda untuk instalasi (biasanya, penyedia hosting mengirimkan info ini melalui email atau Anda dapat mengelolanya di hosting yang alat kontrol) <br/>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed</key>
+    <value><![CDATA[<p class="success"> Anda sudah memiliki% EXTENSION% ekstensi diinstal! Jika Anda ingin melanjutkan dan meng-upgrade, silahkan konfirmasi. </p>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed_uninstall</key>
+    <value><![CDATA[Anda sudah memiliki ekstensi ini &quot;% EXTENSION%&quot; diinstal! Jika Anda ingin melanjutkan menginstal ulang, silakan uninstall dan menghapus ekstensi pertama.]]></value>
+  </definition>
+  <definition>
+    <key>error_pack_file_not_found</key>
+    <value><![CDATA[Kesalahan: Tidak dapat mengekstrak ekstensi dari arsip ke %s. Periksa <a href="#admin#rt=tool/error_log" target="_blank">log</a> kesalahan]]></value>
+  </definition>
+  <definition>
+    <key>error_mp</key>
+    <value><![CDATA[Kesalahan Marketplace:]]></value>
+  </definition>
+  <definition>
+    <key>error_repository</key>
+    <value><![CDATA[Kesalahan: Tidak dapat men-download file. Repository kesalahan atau kunci ekstensi tidak valid. Mencoba sekali lagi. Jika masalah tetap men-download file dalam sejarah pesanan Anda dan menginstal secara manual.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_user</key>
+    <value><![CDATA[Kesalahan: FTP User Name kosong.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_password</key>
+    <value><![CDATA[Kesalahan: FTP User Password kosong.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_connect</key>
+    <value><![CDATA[Kesalahan: Tidak dapat terhubung ke ftp-server]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_login</key>
+    <value><![CDATA[Kesalahan: Tidak bisa login ke ftp-server. Username dan password salah.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path</key>
+    <value><![CDATA[Kesalahan: Tidak dapat menemukan direktori akar AbanteCart oleh jalur FTP. <br/> Coba biarkan kosong untuk pencarian otomatis.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path_array</key>
+    <value><![CDATA[Kesalahan: Tidak dapat otomatis mengenali direktori akar AbanteCart di FTP-mode. <br/> Silahkan mengisi formulir isian FTP-jalan. <br/> saran Jalur adalah:]]></value>
+  </definition>
+  <definition>
+    <key>error_dir_permission</key>
+    <value><![CDATA[Tidak dapat menyimpan file karena direktori tidak dapat ditulisi:]]></value>
+  </definition>
+  <definition>
+    <key>error_package_structure</key>
+    <value><![CDATA[Kesalahan: Mungkin paket rusak. Struktur kesalahan paket.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config_xml</key>
+    <value><![CDATA[Kesalahan: Tidak dapat menemukan file package.xml dalam ekstensi diekstraksi. Mungkin ekstensi tidak diekstraksi dengan benar. Periksa <a href="#admin#rt=tool/error_log" target="_blank">log</a> kesalahan]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config2</key>
+    <value><![CDATA[Kesalahan: Tidak dapat menemukan modus instalasi di package.xml dalam paket.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_info_not_exists</key>
+    <value><![CDATA[Kesalahan: Tidak dapat menemukan paket sesi info tentang download ini.]]></value>
+  </definition>
+  <definition>
+    <key>error_unpack</key>
+    <value><![CDATA[Kesalahan: Tidak dapat membuka paket &quot;% PAKET%&quot; setelah download. Kesalahan arsip. Lihat log kesalahan untuk rincian.]]></value>
+  </definition>
+  <definition>
+    <key>error_move</key>
+    <value><![CDATA[Kesalahan: Tidak dapat memindahkan kode paket setelah membongkar. Silakan coba periksa hak akses menulis direktori:]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode</key>
+    <value><![CDATA[Kesalahan: Tidak dapat menginstal ekstensi &quot;% paket%&quot; karena sudah terpasang. Anda perlu menghapus instalasi dan menghapusnya pertama atau mendapatkan paket untuk upgrade.]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode2</key>
+    <value><![CDATA[Kesalahan: Tidak dapat meng-upgrade ekstensi &quot;% paket%&quot; karena tidak diinstal. Anda perlu mendapatkan paket untuk menginstal.]]></value>
+  </definition>
+  <definition>
+    <key>error_version_compatibility</key>
+    <value><![CDATA[Kesalahan: Tidak dapat menginstal paket. Versi keranjang Anda <b>adalah% CURRENT_VERSION%.</b> Versi <b>(s)% VERSI%</b> diperlukan.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_version_compatibility</key>
+    <value><![CDATA[Kesalahan: Tidak dapat meng-upgrade paket. Baru versi paket sudah diinstal.]]></value>
+  </definition>
+  <definition>
+    <key>error_install</key>
+    <value><![CDATA[Kesalahan: Tidak dapat menginstal paket. Silakan lihat System -&gt; Error Log untuk rincian.]]></value>
+  </definition>
+  <definition>
+    <key>error_core_version</key>
+    <value><![CDATA[Kesalahan: Anda memiliki versi AbanteCart% VERSION% diinstal. <br/> paket upgrade ini hanya untuk versi lebih rendah dari]]></value>
+  </definition>
+  <definition>
+    <key>text_interrupt</key>
+    <value><![CDATA[Mengganggu]]></value>
+  </definition>
+  <definition>
+    <key>confirm_version_incompatibility</key>
+    <value><![CDATA[copy saat ekstensi ini tidak diverifikasi untuk versi AbanteCart (v %s). <br/> Ekstensi membangun ditentukan untuk AbanteCart v %s. <br/> 
+ ini tidak masalah, tetapi jika Anda melihat masalah atau ketidakcocokan, silahkan hubungi pengembang ekstensi.]]></value>
+  </definition>
+  <definition>
+    <key>error_move_ftp</key>
+    <value><![CDATA[Kesalahan: Tidak dapat memindahkan kode paket setelah membongkar. Mungkin jalan FTP tidak benar. <br/> Juga, silakan, coba cek hak akses menulis direktori:]]></value>
+  </definition>
+  <definition>
+    <key>text_network_install</key>
+    <value><![CDATA[jaringan Instal]]></value>
+  </definition>
+  <definition>
+    <key>text_extension_upload</key>
+    <value><![CDATA[ekstensi Upload]]></value>
+  </definition>
+  <definition>
+    <key>error_archive_extension</key>
+    <value><![CDATA[Kesalahan: Hanya file .tar.gz didukung.]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_file</key>
+    <value><![CDATA[Unggah data:]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_url</key>
+    <value><![CDATA[Masukkan URL:]]></value>
+  </definition>
+  <definition>
+    <key>error_move_backup</key>
+    <value><![CDATA[Kesalahan: Dapatkah file tidak backup sebelum upgrade. Periksa hak akses menulis direktori:]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_title</key>
+    <value><![CDATA[Abantecart Inti Peningkatan]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_attention</key>
+    <value><![CDATA[Perhatian! 
+ AbanteCart adalah tentang ditingkatkan ke versi %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_warning</key>
+    <value><![CDATA[Tidak ada undo setelah memulai proses upgrade. 
+ database yang lengkap dan kode cadangan sangat dianjurkan. 
+ Upgrade Tes di situs non-live pertama. Upgrade pada situs hidup tidak dianjurkan.]]></value>
+  </definition>
+  <definition>
+    <key>text_upgrade_now</key>
+    <value><![CDATA[Tingkatkan sekarang!]]></value>
+  </definition>
+  <definition>
+    <key>error_additional_help_text</key>
+    <value><![CDATA[Terjebak? Bukan masalah. Anda dapat menginstal ekstensi cara lain. Periksa <a href="http://docs.abantecart.com/pages/extensions/install.html#FTPinstall" target="_blank">bantuan link ini</a>]]></value>
+  </definition>
+  <definition>
+    <key>error_notconnected</key>
+    <value><![CDATA[tidak dapat meng-upgrade atau menginstal ekstensi dari pasar. Toko ini tidak dikonfirmasi / terhubung. Silahkan mengotentikasi dan menghubungkan ke <a href="%s">pasar</a>]]></value>
+  </definition>
+</definitions>

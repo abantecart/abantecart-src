@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Anda Telah berhasil berhenti berlangganan!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[Anda telah berhasil berhenti berlangganan dari komunikasi email.]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Rekening]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Keberhasilan]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Media Sumber Daya Perpustakaan Manajer]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[sumber terbaru ditambahkan]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[Jenis sumber daya]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[Sumber Jenis Kunci <br/><span class="help">nilai jenis kunci sumber daya ini / nama tidak dapat diubah</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[Direktori sumber daya <br/><span class="help">direktori sumber daya locating untuk jenis ini. Jika berubah, sumber daya yang ada tidak akan acceccible dan perlu disalin ke direktori baru!</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[Icon bawaan <br/><span class="help">gambar Icon yang akan ditampilkan dalam daftar sumber daya (Lokasi: / image / ...).</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[Diizinkan ekstensi file <br/><span class="help">Regex dengan daftar ekstensi file diperbolehkan untuk jenis sumber daya ini</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Anda telah diperbarui tipe sumber daya!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[Kesalahan: sumber daya Hilang Jenis ID!]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[Kesalahan: nama tipe Sumberdaya perlu antara 2 dan 40 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[Kesalahan: Jenis Sumber Daya direktori harus antara 2 dan 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[Kesalahan: Jenis Sumber Daya icon harus antara 2 dan 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[Kesalahan: Sumber jenis file extenions regex harus antara 2 dan 40 charcters]]></value>
+  </definition>
+</definitions>

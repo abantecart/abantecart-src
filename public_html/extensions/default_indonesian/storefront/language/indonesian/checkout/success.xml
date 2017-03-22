@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Pesanan Anda Telah Diproses!]]></value>
+  </definition>
+  <definition>
+    <key>text_message_account</key>
+    <value><![CDATA[<p> Agar Anda # %s telah dibuat! </p> 
+ <p> Anda dapat melihat detail pesanan Anda dengan pergi ke <a href="%s">halaman faktur</a>. </p> 
+ <p> Ajukan pertanyaan apapun yang Anda miliki ke <a href="%s">pemilik toko</a>. </p> 
+ <p> Terima kasih untuk berbelanja dengan kami! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_message_guest</key>
+    <value><![CDATA[<p> Pesanan Anda telah berhasil diproses! </p> 
+ <p> Anda dapat melihat detail pesanan Anda dengan pergi ke <a href="%s">halaman faktur</a>. </p> 
+ <p> Ajukan pertanyaan apapun yang Anda miliki ke <a href="%s">pemilik toko</a>. </p> 
+ <p> Terima kasih untuk berbelanja dengan kami! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Keranjang]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[pengiriman]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Pembayaran]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[tamu keluar]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Memastikan]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Keberhasilan]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order</key>
+    <value><![CDATA[Ups! Kami telah mengalami beberapa masalah dengan transaksi Anda. Pesanan Anda akan diverifikasi secara manual oleh administrator.]]></value>
+  </definition>
+  <definition>
+    <key>text_title_failed_order_to_admin</key>
+    <value><![CDATA[Agar Gagal # %s]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order_to_admin</key>
+    <value><![CDATA[Gagal atau tanggapan dari verifikasi pembayaran hilang. verifikasi manual diperlukan!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>im_text_notification</key>
+    <value><![CDATA[Pemberitahuan]]></value>
+  </definition>
+  <definition>
+    <key>im_error_mail_address</key>
+    <value><![CDATA[Alamat email %s tidak valid!]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_email_title</key>
+    <value><![CDATA[E-mail]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_title</key>
+    <value><![CDATA[SMS]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_empty_warn</key>
+    <value><![CDATA[notifikasi SMS yang tidak mungkin. nomor ponsel tidak disimpan dalam catatan akun Anda.]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update</key>
+    <value><![CDATA[agar Perbarui]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update_note</key>
+    <value><![CDATA[Pilih jika ingin menerima pemberitahuan tentang update pesanan Anda &#39;.]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_admin</key>
+    <value><![CDATA[Pesanan # %s telah diperbarui! Pesanan ID Status %s]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_customer</key>
+    <value><![CDATA[Agar Anda # %s Updated. Status Orde Baru %s]]></value>
+  </definition>
+  <definition>
+    <key>im_new_order_text_to_admin</key>
+    <value><![CDATA[Orde Baru # %s telah ditempatkan!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_customer_text_to_admin</key>
+    <value><![CDATA[New Pelanggan # %s telah terdaftar!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_subscriber_text_to_admin</key>
+    <value><![CDATA[New Pelanggan # %s telah terdaftar!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update</key>
+    <value><![CDATA[akun Perbarui]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update_note</key>
+    <value><![CDATA[Pilih jika ingin menerima pemberitahuan tentang update akun Anda.]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_text_to_customer</key>
+    <value><![CDATA[Akun anda telah diperbaharui! Jika Anda tidak melakukan perubahan apapun, silahkan hubungi pemilik situs]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_email_to_customer</key>
+    <value><![CDATA[akun alamat email Anda diubah menjadi %s! Jika Anda tidak melakukan perubahan ini, silahkan hubungi pemilik situs]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_login_to_customer</key>
+    <value><![CDATA[Akun nama login Anda diubah menjadi %s! Jika Anda tidak melakukan perubahan ini, silahkan hubungi pemilik situs]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_password_to_customer</key>
+    <value><![CDATA[password account Anda telah berubah! Jika Anda tidak melakukan perubahan ini, silahkan hubungi pemilik situs]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_contact_admin_text</key>
+    <value><![CDATA[Anda punya pertanyaan baru dari pelanggan (%s, %s)!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter</key>
+    <value><![CDATA[newsletter]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter_note</key>
+    <value><![CDATA[Pilih jika ingin menerima pemberitahuan tentang produk kami dan pembaruan layanan.]]></value>
+  </definition>
+  <definition>
+    <key>im_product_review_text_to_admin</key>
+    <value><![CDATA[review produk baru telah ditambahkan. Lihat detail # admin # rt = Katalog / review / update &amp; review_id = %s]]></value>
+  </definition>
+  <definition>
+    <key>im_product_out_of_stock_admin_text</key>
+    <value><![CDATA[Produk dengan ID # %s keluar dari Bursa.]]></value>
+  </definition>
+</definitions>

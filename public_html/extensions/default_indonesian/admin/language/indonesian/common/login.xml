@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Administrasi]]></value>
+  </definition>
+  <definition>
+    <key>text_heading</key>
+    <value><![CDATA[Administrasi]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Cukup masukkan rincian login Anda.]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[Nama pengguna:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Kata sandi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_forgot_password</key>
+    <value><![CDATA[Lupa kata sandi?]]></value>
+  </definition>
+  <definition>
+    <key>button_login</key>
+    <value><![CDATA[Masuk]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Tidak cocok untuk pengguna dan / atau Password.]]></value>
+  </definition>
+  <definition>
+    <key>error_token</key>
+    <value><![CDATA[sesi tanda tidak valid. Silahkan login lagi.]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message</key>
+    <value><![CDATA[Gagal masuk ke admin upaya dari IP:]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message_text</key>
+    <value><![CDATA[Mengingat user login:]]></value>
+  </definition>
+</definitions>

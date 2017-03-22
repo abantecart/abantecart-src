@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[informasi pengiriman]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Keranjang]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[pengiriman]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_to</key>
+    <value><![CDATA[Silakan pilih dari buku alamat Anda di mana Anda ingin barang yang akan dikirim ke.]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[Alamat Pengiriman]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[metode pengiriman]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[Silakan pilih metode pengiriman pilihan untuk digunakan pada pesanan ini.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[Tambahkan Komentar Tentang Pesanan Anda]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[Kesalahan: Metode Pengiriman diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[Kesalahan: Tidak ada pilihan Pengiriman tersedia. Silahkan <a href="index.php?rt=content/contact">hubungi kami</a> untuk bantuan!]]></value>
+  </definition>
+</definitions>

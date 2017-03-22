@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[pesan Manajer]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Anda telah mengubah daftar pesan!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[pesan Judul]]></value>
+  </definition>
+  <definition>
+    <key>column_create_date</key>
+    <value><![CDATA[Tanggal]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Tindakan]]></value>
+  </definition>
+  <definition>
+    <key>entry_error</key>
+    <value><![CDATA[Kritis]]></value>
+  </definition>
+  <definition>
+    <key>entry_warning</key>
+    <value><![CDATA[PERINGATAN]]></value>
+  </definition>
+  <definition>
+    <key>entry_notice</key>
+    <value><![CDATA[Melihat]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Peringatan: Anda tidak memiliki izin untuk mengubah daftar pesan!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[judul pesan harus antara 3 dan 32 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>text_show</key>
+    <value><![CDATA[Menunjukkan]]></value>
+  </definition>
+  <definition>
+    <key>text_not_found</key>
+    <value><![CDATA[Ooops. Kami tidak dapat menemukan pesan ini.]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Status pesan:]]></value>
+  </definition>
+  <definition>
+    <key>text_date</key>
+    <value><![CDATA[Tanggal:]]></value>
+  </definition>
+  <definition>
+    <key>text_repeats</key>
+    <value><![CDATA[Jumlah pengulangan:]]></value>
+  </definition>
+  <definition>
+    <key>text_warning</key>
+    <value><![CDATA[PERINGATAN]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[kritis]]></value>
+  </definition>
+  <definition>
+    <key>text_notice</key>
+    <value><![CDATA[melihat]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[menghapus]]></value>
+  </definition>
+  <definition>
+    <key>text_close</key>
+    <value><![CDATA[dekat]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Memastikan?]]></value>
+  </definition>
+  <definition>
+    <key>text_linktext</key>
+    <value><![CDATA[Link ini]]></value>
+  </definition>
+  <definition>
+    <key>text_notifier_title</key>
+    <value><![CDATA[Anda Memiliki %s Pesan Baru (s)]]></value>
+  </definition>
+</definitions>

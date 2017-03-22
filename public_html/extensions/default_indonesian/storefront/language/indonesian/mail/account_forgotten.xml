@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Password ulang]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Sebuah ulang kata sandi yang diminta dari %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Untuk mereset klik link sandi Anda di bawah ini:]]></value>
+  </definition>
+  <definition>
+    <key>text_password_reset</key>
+    <value><![CDATA[sandi Anda berhasil dijalankan pada %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_password</key>
+    <value><![CDATA[Masukkan password baru anda di bawah ini:]]></value>
+  </definition>
+  <definition>
+    <key>error_reset_token</key>
+    <value><![CDATA[link yang tidak benar untuk permintaan password. Cobalah untuk mengatur ulang sekali lagi dan menggunakan penghubung dari sebagian email terbaru.]]></value>
+  </definition>
+</definitions>

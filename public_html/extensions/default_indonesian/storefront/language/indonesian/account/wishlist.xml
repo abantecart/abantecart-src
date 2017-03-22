@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Keinginanku]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Rekening]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_wishlist</key>
+    <value><![CDATA[daftar keinginan kosong]]></value>
+  </definition>
+  <definition>
+    <key>button_cart</key>
+    <value><![CDATA[Lihat Keranjang]]></value>
+  </definition>
+  <definition>
+    <key>button_continue</key>
+    <value><![CDATA[Lanjutkan Belanja]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Gambar]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Nama]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Model]]></value>
+  </definition>
+  <definition>
+    <key>column_added</key>
+    <value><![CDATA[Ditambahkan ke daftar keinginan]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Patokan harga]]></value>
+  </definition>
+  <definition>
+    <key>column_actions</key>
+    <value><![CDATA[tindakan]]></value>
+  </definition>
+</definitions>

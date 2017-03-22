@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Akun Anda telah diaktifkan!]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Selamat datang dan terima kasih untuk mendaftar di %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Akun Anda sekarang telah dibuat dan Anda bisa login dengan menggunakan alamat email dan password dengan mengunjungi website kami atau di URL berikut:]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Setelah Anda login, Anda akan dapat mengakses, Anda wishlist, sejarah pesanan, faktur cetak dan mengedit informasi akun Anda.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Terima kasih,]]></value>
+  </definition>
+</definitions>

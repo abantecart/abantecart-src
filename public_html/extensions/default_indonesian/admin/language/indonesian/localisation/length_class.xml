@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[panjang Kelas]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[panjang Kelas]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Anda telah mengubah kelas panjang!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[panjang Judul]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[panjang Satuan]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Nilai]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Tindakan]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Panjang Judul:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Panjang Satuan:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Nilai: <br/><span class="help">Set ke 1,00000 jika ini adalah panjang default.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Peringatan: Anda tidak memiliki izin untuk mengubah kelas panjang!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Panjang Judul harus antara 2 dan 32 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Panjang Satuan harus antara 1 dan 4 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Peringatan: kelas panjang ini tidak dapat dihapus seperti yang saat ini ditugaskan sebagai kelas default panjang toko!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Peringatan: kelas panjang ini tidak dapat dihapus seperti yang saat ini ditugaskan untuk %s produk!]]></value>
+  </definition>
+</definitions>

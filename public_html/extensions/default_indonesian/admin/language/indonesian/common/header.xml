@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Administrasi]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[Backup / Restore]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Selamat datang, <b>%s</b>]]></value>
+  </definition>
+  <definition>
+    <key>text_last_login</key>
+    <value><![CDATA[Login terakhir: %s]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_details</key>
+    <value><![CDATA[Mengedit Detail Profil]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_notifications</key>
+    <value><![CDATA[Pengaturan mengedit Pemberitahuan]]></value>
+  </definition>
+  <definition>
+    <key>text_catalog</key>
+    <value><![CDATA[Katalog]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[kategori]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Memastikan?]]></value>
+  </definition>
+  <definition>
+    <key>text_country</key>
+    <value><![CDATA[negara]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[kupon]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[diskon]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[mata uang]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[pelanggan]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_group</key>
+    <value><![CDATA[Grup Pelanggan]]></value>
+  </definition>
+  <definition>
+    <key>text_dashboard</key>
+    <value><![CDATA[Dasbor]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[download]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[Log kesalahan]]></value>
+  </definition>
+  <definition>
+    <key>text_extension</key>
+    <value><![CDATA[ekstensi]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_short</key>
+    <value><![CDATA[ekstensi]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[etalase]]></value>
+  </definition>
+  <definition>
+    <key>text_location</key>
+    <value><![CDATA[lokasi]]></value>
+  </definition>
+  <definition>
+    <key>text_help</key>
+    <value><![CDATA[Membantu]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[Informasi]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[Bahasa]]></value>
+  </definition>
+  <definition>
+    <key>text_language_definitions</key>
+    <value><![CDATA[Definisi bahasa]]></value>
+  </definition>
+  <definition>
+    <key>text_localisation</key>
+    <value><![CDATA[lokalisasi]]></value>
+  </definition>
+  <definition>
+    <key>text_logged</key>
+    <value><![CDATA[Anda login sebagai <span>%s</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Keluar]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Kirim Surat]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturer</key>
+    <value><![CDATA[Produsen]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[pesanan]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[agar Status]]></value>
+  </definition>
+  <definition>
+    <key>text_abantecart</key>
+    <value><![CDATA[homepage]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[pembayaran]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[produk]]></value>
+  </definition>
+  <definition>
+    <key>text_reports</key>
+    <value><![CDATA[laporan]]></value>
+  </definition>
+  <definition>
+    <key>text_online</key>
+    <value><![CDATA[On line]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[transaksi]]></value>
+  </definition>
+  <definition>
+    <key>text_tax</key>
+    <value><![CDATA[Pajak]]></value>
+  </definition>
+  <definition>
+    <key>text_report_purchased</key>
+    <value><![CDATA[produk Dibeli]]></value>
+  </definition>
+  <definition>
+    <key>text_report_sale</key>
+    <value><![CDATA[Penjualan]]></value>
+  </definition>
+  <definition>
+    <key>text_analytics</key>
+    <value><![CDATA[Analytics &amp; Wawasan]]></value>
+  </definition>
+  <definition>
+    <key>text_report_viewed</key>
+    <value><![CDATA[produk Dilihat]]></value>
+  </definition>
+  <definition>
+    <key>text_review</key>
+    <value><![CDATA[ulasan]]></value>
+  </definition>
+  <definition>
+    <key>text_sale</key>
+    <value><![CDATA[Penjualan]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[pengiriman]]></value>
+  </definition>
+  <definition>
+    <key>text_setting</key>
+    <value><![CDATA[pengaturan]]></value>
+  </definition>
+  <definition>
+    <key>text_stock_status</key>
+    <value><![CDATA[Stock Status]]></value>
+  </definition>
+  <definition>
+    <key>text_support</key>
+    <value><![CDATA[Forum Dukungan]]></value>
+  </definition>
+  <definition>
+    <key>text_system</key>
+    <value><![CDATA[Sistem]]></value>
+  </definition>
+  <definition>
+    <key>text_tax_class</key>
+    <value><![CDATA[Kelas pajak]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Total pesanan]]></value>
+  </definition>
+  <definition>
+    <key>text_user</key>
+    <value><![CDATA[pengguna]]></value>
+  </definition>
+  <definition>
+    <key>text_documentation</key>
+    <value><![CDATA[Dokumentasi]]></value>
+  </definition>
+  <definition>
+    <key>text_users</key>
+    <value><![CDATA[pengguna]]></value>
+  </definition>
+  <definition>
+    <key>text_user_group</key>
+    <value><![CDATA[Kelompok pengguna]]></value>
+  </definition>
+  <definition>
+    <key>text_weight_class</key>
+    <value><![CDATA[Kelas berat]]></value>
+  </definition>
+  <definition>
+    <key>text_length_class</key>
+    <value><![CDATA[panjang Kelas]]></value>
+  </definition>
+  <definition>
+    <key>text_zone</key>
+    <value><![CDATA[zona]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[semua Extensions]]></value>
+  </definition>
+  <definition>
+    <key>text_add_extension</key>
+    <value><![CDATA[install Ekstensi]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_store</key>
+    <value><![CDATA[Dapatkan Ekstensi]]></value>
+  </definition>
+  <definition>
+    <key>text_migrate</key>
+    <value><![CDATA[Alat migrasi]]></value>
+  </definition>
+  <definition>
+    <key>text_updater</key>
+    <value><![CDATA[Updater]]></value>
+  </definition>
+  <definition>
+    <key>text_design</key>
+    <value><![CDATA[Desain]]></value>
+  </definition>
+  <definition>
+    <key>text_templates</key>
+    <value><![CDATA[template]]></value>
+  </definition>
+  <definition>
+    <key>text_layout</key>
+    <value><![CDATA[layout]]></value>
+  </definition>
+  <definition>
+    <key>text_blocks</key>
+    <value><![CDATA[blok]]></value>
+  </definition>
+  <definition>
+    <key>text_menu</key>
+    <value><![CDATA[Menu]]></value>
+  </definition>
+  <definition>
+    <key>text_cache</key>
+    <value><![CDATA[Cache]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[pesan]]></value>
+  </definition>
+  <definition>
+    <key>text_content</key>
+    <value><![CDATA[kadar]]></value>
+  </definition>
+  <definition>
+    <key>text_datasets_manager</key>
+    <value><![CDATA[dataset]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[Install / upgrade Sejarah]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute</key>
+    <value><![CDATA[Atribut global]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute_groups</key>
+    <value><![CDATA[Atribut global Grup]]></value>
+  </definition>
+  <definition>
+    <key>text_import_export</key>
+    <value><![CDATA[Ekspor Impor]]></value>
+  </definition>
+  <definition>
+    <key>text_data</key>
+    <value><![CDATA[Data]]></value>
+  </definition>
+  <definition>
+    <key>text_logs</key>
+    <value><![CDATA[log]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_edit_form</key>
+    <value><![CDATA[Quick Edit Form]]></value>
+  </definition>
+  <definition>
+    <key>text_all_matches</key>
+    <value><![CDATA[semua pertandingan]]></value>
+  </definition>
+  <definition>
+    <key>text_file_uploads</key>
+    <value><![CDATA[Upload File]]></value>
+  </definition>
+  <definition>
+    <key>text_all_settings</key>
+    <value><![CDATA[semua Pengaturan]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_details</key>
+    <value><![CDATA[Detail toko]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_general</key>
+    <value><![CDATA[Umum]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_checkout</key>
+    <value><![CDATA[Periksa]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_appearance</key>
+    <value><![CDATA[Penampilan]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_mail</key>
+    <value><![CDATA[Surat]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_im</key>
+    <value><![CDATA[SAYA M]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_api</key>
+    <value><![CDATA[API]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_system</key>
+    <value><![CDATA[Sistem]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_newstore</key>
+    <value><![CDATA[Buat New Toko]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_command_prompt</key>
+    <value><![CDATA[Voice Command Prompt.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_select_dialect</key>
+    <value><![CDATA[Pilih dialek Anda]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_confirm_action</key>
+    <value><![CDATA[Konfirmasi tindakan ini atau membatalkan]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_speak_now</key>
+    <value><![CDATA[Bicara sekarang.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_speach_detected</key>
+    <value><![CDATA[Tidak ada pidato terdeteksi. Anda mungkin perlu menyesuaikan Anda <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">1 #### 1amp; answer = 1407892 &quot;&gt; pengaturan mikrofon</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_mic_detected</key>
+    <value><![CDATA[Tidak ada mikrofon yang ditemukan. Pastikan bahwa mikrofon dipasang dan <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">1 #### 1amp; Jawabannya = 1407892 &quot;&gt; pengaturan mikrofon</a> dikonfigurasi dengan benar.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_click_allow</key>
+    <value><![CDATA[Klik &quot;Allow&quot; tombol di atas untuk mengaktifkan mikrofon Anda.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_denied</key>
+    <value><![CDATA[Izin untuk menggunakan mikrofon ditolak.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_permission</key>
+    <value><![CDATA[Izin untuk menggunakan mikrofon diblokir. Untuk mengubah, masuk ke browser <a href="chrome://settings/contentExceptions#media-stream">pengaturan media</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_not_supported</key>
+    <value><![CDATA[kontrol suara tidak didukung oleh browser ini. <a href="//www.google.com/chrome" target="_new">Chrome</a> versi 25 atau yang lebih baru diperlukan.]]></value>
+  </definition>
+  <definition>
+    <key>text_tasks</key>
+    <value><![CDATA[Tugas yang dijadwalkan]]></value>
+  </definition>
+  <definition>
+    <key>text_read_all_messages</key>
+    <value><![CDATA[Baca Semua Pesan]]></value>
+  </definition>
+  <definition>
+    <key>text_short_stats</key>
+    <value><![CDATA[Statistik cepat]]></value>
+  </definition>
+  <definition>
+    <key>text_online_now</key>
+    <value><![CDATA[Pelanggan secara online]]></value>
+  </definition>
+  <definition>
+    <key>text_online_new</key>
+    <value><![CDATA[Baru]]></value>
+  </definition>
+  <definition>
+    <key>text_online_registered</key>
+    <value><![CDATA[masuk Dalam]]></value>
+  </definition>
+  <definition>
+    <key>text_today_orders</key>
+    <value><![CDATA[Pesanan baru Hari ini]]></value>
+  </definition>
+  <definition>
+    <key>text_today_sales</key>
+    <value><![CDATA[Total Penjualan Hari ini]]></value>
+  </definition>
+  <definition>
+    <key>text_today_customers</key>
+    <value><![CDATA[Pelanggan Baru Hari Ini]]></value>
+  </definition>
+  <definition>
+    <key>text_today_reviews</key>
+    <value><![CDATA[Ulasan Baru Hari Ini]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_manager</key>
+    <value><![CDATA[Media Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_server_time</key>
+    <value><![CDATA[Waktu server]]></value>
+  </definition>
+</definitions>

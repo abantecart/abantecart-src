@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Manajemen Cache]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Anda telah berhasil menghapus file cache!]]></value>
+  </definition>
+  <definition>
+    <key>text_configuration</key>
+    <value><![CDATA[Konfigurasi]]></value>
+  </definition>
+  <definition>
+    <key>text_layouts_blocks</key>
+    <value><![CDATA[Layout &amp; blok]]></value>
+  </definition>
+  <definition>
+    <key>text_flexyforms</key>
+    <value><![CDATA[Bentuk Flexy]]></value>
+  </definition>
+  <definition>
+    <key>text_images</key>
+    <value><![CDATA[gambar]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[produk]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[kategori]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[Produsen]]></value>
+  </definition>
+  <definition>
+    <key>text_localisations</key>
+    <value><![CDATA[localisations]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[Catatan eror]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_cache</key>
+    <value><![CDATA[Hapus Cache Dipilih]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_all_cache</key>
+    <value><![CDATA[Batal Semua Cache]]></value>
+  </definition>
+  <definition>
+    <key>desc_configuration</key>
+    <value><![CDATA[Sistem dan menyimpan konfigurasi]]></value>
+  </definition>
+  <definition>
+    <key>desc_layouts_blocks</key>
+    <value><![CDATA[Halaman, tata letak halaman, blok]]></value>
+  </definition>
+  <definition>
+    <key>desc_flexyforms</key>
+    <value><![CDATA[Data bentuk Flexy]]></value>
+  </definition>
+  <definition>
+    <key>desc_images</key>
+    <value><![CDATA[thumbnail image]]></value>
+  </definition>
+  <definition>
+    <key>desc_products</key>
+    <value><![CDATA[Data produk]]></value>
+  </definition>
+  <definition>
+    <key>desc_categories</key>
+    <value><![CDATA[Kategori Data]]></value>
+  </definition>
+  <definition>
+    <key>desc_manufacturers</key>
+    <value><![CDATA[Data produsen]]></value>
+  </definition>
+  <definition>
+    <key>desc_localisations</key>
+    <value><![CDATA[Mata, Bahasa, Negara, Zone, Panjang, Berat, &amp; lain]]></value>
+  </definition>
+  <definition>
+    <key>desc_error_log</key>
+    <value><![CDATA[Catatan eror]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[Cache Jenis]]></value>
+  </definition>
+  <definition>
+    <key>column_description</key>
+    <value><![CDATA[Deskripsi]]></value>
+  </definition>
+  <definition>
+    <key>text_html_cache</key>
+    <value><![CDATA[HTML cache]]></value>
+  </definition>
+  <definition>
+    <key>desc_html_cache</key>
+    <value><![CDATA[halaman HTML cache dan blok]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[Install / upgrade Sejarah]]></value>
+  </definition>
+  <definition>
+    <key>desc_install_upgrade_history</key>
+    <value><![CDATA[Batal Semua Install / Tingkatkan Sejarah]]></value>
+  </definition>
+</definitions>

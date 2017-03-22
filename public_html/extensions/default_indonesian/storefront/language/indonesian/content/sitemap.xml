@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Peta situs]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[Penawaran khusus]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Akun saya]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[Informasi Akun]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Kata sandi]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Buku alamat]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[Sejarah Orde]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[download]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[Kereta Belanja]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Periksa]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Pencarian]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[Informasi]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Hubungi kami]]></value>
+  </definition>
+</definitions>

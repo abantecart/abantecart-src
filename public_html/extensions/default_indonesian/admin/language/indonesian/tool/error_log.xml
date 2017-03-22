@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Catatan eror]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Anda telah berhasil dibersihkan log kesalahan Anda!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_tail</key>
+    <value><![CDATA[Karena ukurannya yang besar dari file log, hanya 500KB terakhir dari data yang dapat dilihat di sini. 
+ Untuk melihat log lengkap, mendapatkannya dari server Anda secara langsung. 
+ Path:]]></value>
+  </definition>
+</definitions>

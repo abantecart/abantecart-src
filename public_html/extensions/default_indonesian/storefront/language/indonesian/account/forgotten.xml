@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Lupa kata sandi Anda?]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_loginname</key>
+    <value><![CDATA[Lupa Nama Login?]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Rekening]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten</key>
+    <value><![CDATA[password yang terlupakan]]></value>
+  </definition>
+  <definition>
+    <key>text_your_email</key>
+    <value><![CDATA[Alamat email anda]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Masukkan alamat e-mail yang terkait dengan akun Anda. Klik submit agar telah sandi Anda lewat email Anda]]></value>
+  </definition>
+  <definition>
+    <key>text_loginname_email</key>
+    <value><![CDATA[Masukkan nama login dan e-mail alamat yang terkait dengan akun Anda. Klik submit agar meminta password reset]]></value>
+  </definition>
+  <definition>
+    <key>text_lastname_email</key>
+    <value><![CDATA[Masukkan nama dan alamat e-mail terakhir yang terkait dengan akun Anda. Klik kirim agar nama login Anda lewat email]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Password Link ulang telah dikirim ke alamat e-mail Anda.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_loginname</key>
+    <value><![CDATA[Sukses: pengingat nama login Anda telah dikirim ke alamat e-mail Anda.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Nama login:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Nama keluarga:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[Alamat email:]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Kesalahan: Alamat Email tidak tersedia atau tidak ditemukan dalam catatan kami, silakan coba lagi!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Kesalahan: Nama Login tidak disediakan atau tidak ditemukan dalam catatan kami, silakan coba lagi!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Kesalahan: Nama terakhir tidak disediakan atau tidak ditemukan dalam catatan kami, silakan coba lagi!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_found</key>
+    <value><![CDATA[Kesalahan: Tidak ada catatan informasi yang cocok ditemukan Anda tersedia, silakan cek informasi Anda dan coba lagi!]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_loginname</key>
+    <value><![CDATA[Lupa Nama Login]]></value>
+  </definition>
+</definitions>

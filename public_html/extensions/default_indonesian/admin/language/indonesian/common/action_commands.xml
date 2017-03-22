@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_possible_commands</key>
+    <value><![CDATA[Bellow yang mungkin Perintah. Anda dapat speek lebih detail setelah perintah kata kunci. Misalnya, &quot;pesan halaman terbuka&quot; atau &quot;produk insert&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_multiple_result_found</key>
+    <value><![CDATA[Hasil tindakan beberapa ditemukan:]]></value>
+  </definition>
+  <definition>
+    <key>text_action_confirm</key>
+    <value><![CDATA[Silahkan konfirmasi permintaan Anda:]]></value>
+  </definition>
+  <definition>
+    <key>command_open</key>
+    <value><![CDATA[terbuka, halaman terbuka, open menu]]></value>
+  </definition>
+  <definition>
+    <key>command_find</key>
+    <value><![CDATA[mencari, menemukan, pencarian, mencari, mencari 4]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_cache</key>
+    <value><![CDATA[jelas Cache, cache, yang jelas semua tembolok]]></value>
+  </definition>
+  <definition>
+    <key>command_view_log</key>
+    <value><![CDATA[lihat log, log lihat, memeriksa log, lihat log, melihat log error, melihat kesalahan]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_log</key>
+    <value><![CDATA[log yang jelas, log yang jelas, menghapus log, log menghapus]]></value>
+  </definition>
+  <definition>
+    <key>command_view_order</key>
+    <value><![CDATA[lihat rangka, nomor pesanan, pesanan terbuka, acara urutan, nomor pesanan terbuka, jumlah tampilan order, jumlah acara urutan, urutan #]]></value>
+  </definition>
+  <definition>
+    <key>command_view_product</key>
+    <value><![CDATA[lihat produk, jumlah produk, produk open, menunjukkan produk, jumlah produk open, jumlah tampilan produk, nomor menunjukkan produk, produk #]]></value>
+  </definition>
+  <definition>
+    <key>command_create_new</key>
+    <value><![CDATA[menyisipkan, membuat, menambah, baru, masukkan baru, buat baru, tambahkan baru]]></value>
+  </definition>
+  <definition>
+    <key>category</key>
+    <value><![CDATA[kategori]]></value>
+  </definition>
+  <definition>
+    <key>product</key>
+    <value><![CDATA[produk]]></value>
+  </definition>
+  <definition>
+    <key>brand</key>
+    <value><![CDATA[merek]]></value>
+  </definition>
+  <definition>
+    <key>manufacturer</key>
+    <value><![CDATA[pabrikan]]></value>
+  </definition>
+  <definition>
+    <key>review</key>
+    <value><![CDATA[ulasan]]></value>
+  </definition>
+  <definition>
+    <key>download</key>
+    <value><![CDATA[Download]]></value>
+  </definition>
+  <definition>
+    <key>attribute</key>
+    <value><![CDATA[atribut]]></value>
+  </definition>
+  <definition>
+    <key>customer</key>
+    <value><![CDATA[pelanggan]]></value>
+  </definition>
+  <definition>
+    <key>coupon</key>
+    <value><![CDATA[kupon]]></value>
+  </definition>
+  <definition>
+    <key>discount</key>
+    <value><![CDATA[diskon]]></value>
+  </definition>
+  <definition>
+    <key>block</key>
+    <value><![CDATA[blok]]></value>
+  </definition>
+  <definition>
+    <key>menu</key>
+    <value><![CDATA[menu]]></value>
+  </definition>
+  <definition>
+    <key>content</key>
+    <value><![CDATA[kadar]]></value>
+  </definition>
+  <definition>
+    <key>banner</key>
+    <value><![CDATA[spanduk]]></value>
+  </definition>
+  <definition>
+    <key>page</key>
+    <value><![CDATA[halaman]]></value>
+  </definition>
+  <definition>
+    <key>store</key>
+    <value><![CDATA[toko]]></value>
+  </definition>
+  <definition>
+    <key>language</key>
+    <value><![CDATA[bahasa]]></value>
+  </definition>
+  <definition>
+    <key>currency</key>
+    <value><![CDATA[mata uang]]></value>
+  </definition>
+  <definition>
+    <key>location</key>
+    <value><![CDATA[tempat]]></value>
+  </definition>
+  <definition>
+    <key>tax</key>
+    <value><![CDATA[pajak]]></value>
+  </definition>
+</definitions>

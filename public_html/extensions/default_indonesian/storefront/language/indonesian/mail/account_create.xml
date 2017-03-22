@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Terima kasih telah mendaftar]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Selamat datang dan terima kasih untuk mendaftar di %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Akun Anda sekarang telah dibuat dan Anda dapat mengaksesnya dengan mengunjungi website kami atau di URL berikut:]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[Akun Anda harus disetujui sebelum Anda dapat login. Setelah disetujui Anda bisa login dengan menggunakan alamat email dan password dengan mengunjungi website kami atau di URL berikut:]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[Sebelum kita bisa mengaktifkan akun Anda satu langkah terakhir yang harus diambil untuk menyelesaikan pendaftaran Anda. <br/> 
+ Anda harus menyelesaikan langkah terakhir ini menjadi anggota terdaftar. Silahkan klik link berikut untuk mengaktifkan akun Anda %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Setelah login, Anda akan dapat mengakses layanan lainnya termasuk meninjau perintah terakhir, mencetak faktur dan mengedit informasi akun Anda.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Terima kasih,]]></value>
+  </definition>
+</definitions>

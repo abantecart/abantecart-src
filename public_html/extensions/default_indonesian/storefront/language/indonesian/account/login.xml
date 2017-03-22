@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Akun Masuk]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Registrasi Akun]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Masuk]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_new_customer</key>
+    <value><![CDATA[Saya adalah pelanggan baru.]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Checkout Pilihan:]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[tamu keluar]]></value>
+  </definition>
+  <definition>
+    <key>text_create_account</key>
+    <value><![CDATA[Dengan membuat akun Anda akan dapat berbelanja lebih cepat, up to date pada status pesanan, dan bisa meninjau ulang pesanan yang telah Anda buat sebelumnya.]]></value>
+  </definition>
+  <definition>
+    <key>text_returning_customer</key>
+    <value><![CDATA[kembali Pelanggan]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_returning_customer</key>
+    <value><![CDATA[Saya adalah pelanggan kembali.]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_login</key>
+    <value><![CDATA[Lupa login?]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_password</key>
+    <value><![CDATA[lupa kata sandi Anda?]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Nama login:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email_address</key>
+    <value><![CDATA[Alamat email:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Kata sandi:]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Kesalahan: Login atau kata sandi salah disediakan.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_activated</key>
+    <value><![CDATA[Sukses: Akun Anda diaktifkan berhasil. Silahkan login dengan mandat Anda.]]></value>
+  </definition>
+  <definition>
+    <key>text_already_activated</key>
+    <value><![CDATA[Akun Anda sudah diaktifkan. Silahkan login dengan mandat Anda.]]></value>
+  </definition>
+  <definition>
+    <key>text_resend_activation_email</key>
+    <value><![CDATA[Kesalahan: Alamat email Anda belum dikonfirmasi. Untuk mengirim ulang email konfirmasi baru klik ini <a href=" %s ">Link</a>]]></value>
+  </definition>
+</definitions>

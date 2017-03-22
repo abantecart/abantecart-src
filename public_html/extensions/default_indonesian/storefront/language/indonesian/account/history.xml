@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Sejarah Orde saya]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Rekening]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[Sejarah Orde]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Id pemesanan:]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Status:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Tanggal Ditambahkan:]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[Pelanggan:]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[produk:]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Total:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Anda belum membuat pesanan sebelumnya!]]></value>
+  </definition>
+</definitions>

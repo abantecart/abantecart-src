@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[pelanggan online]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[Nama Pelanggan]]></value>
+  </definition>
+  <definition>
+    <key>column_ip</key>
+    <value><![CDATA[Pelanggan IP]]></value>
+  </definition>
+  <definition>
+    <key>column_time</key>
+    <value><![CDATA[Diakses terakhir]]></value>
+  </definition>
+  <definition>
+    <key>column_url</key>
+    <value><![CDATA[url Diakses]]></value>
+  </definition>
+</definitions>

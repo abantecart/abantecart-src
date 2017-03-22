@@ -1,0 +1,915 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[pengaturan]]></value>
+  </definition>
+  <definition>
+    <key>column_store_alias</key>
+    <value><![CDATA[Toko]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[Kelompok]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[Kunci]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Nilai]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Anda telah berhasil disimpan pengaturan Anda!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[image Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- Pilih Group -]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[kegagalan]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store_settings</key>
+    <value><![CDATA[Edit Pengaturan:]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_template_settings</key>
+    <value><![CDATA[Edit Template Pengaturan:]]></value>
+  </definition>
+  <definition>
+    <key>text_common_template_settings</key>
+    <value><![CDATA[Seleksi Template]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[mengedit Toko]]></value>
+  </definition>
+  <definition>
+    <key>text_mail</key>
+    <value><![CDATA[Surat]]></value>
+  </definition>
+  <definition>
+    <key>text_smtp</key>
+    <value><![CDATA[SMTP]]></value>
+  </definition>
+  <definition>
+    <key>tab_all</key>
+    <value><![CDATA[Semua]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Nama Toko:]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[Toko URL: <br/><span class="help">Sertakan URL lengkap ke toko Anda. Pastikan untuk menambahkan &#39;/&#39; di akhir. Contoh: http://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_owner</key>
+    <value><![CDATA[Pemilik toko:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address</key>
+    <value><![CDATA[Alamat:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-mail:]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_emails</key>
+    <value><![CDATA[Tambahan Notifikasi E-Mail: <br/><span class="help">Setiap email tambahan Anda ingin menerima email peringatan, selain email toko utama. (dipisahkan koma)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[Telepon:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Fax:]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Judul: <br/><span class="help">ini ditampilkan di etalase judul peramban</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Meta Tag Description: <br/><span class="help">Storefront halaman utama meta tag deskripsi</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_keywords</key>
+    <value><![CDATA[Meta Keywords: <br/><span class="help">Storefront halaman utama meta tag kata kunci (dipisahkan koma)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Selamat Datang Pesan:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[Template: <span class="help">Template etalase. Ini bisa menjadi utama atau ekstensi Template</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_template</key>
+    <value><![CDATA[Control Panel Template:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Negara:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Region / Negara:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Bahasa etalase:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_language</key>
+    <value><![CDATA[Administrasi Bahasa: <span class="help">CATATAN: bekerja jika tidak ada bahasa yang diinginkan pengguna ditemukan dalam browser</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency</key>
+    <value><![CDATA[Base Currency: <span class="help">Ini adalah mata uang dasar untuk semua toko. Jangan berubah jika Anda tidak mengerti apa yang akan terjadi. Peringatan: Mengubah dari mata uang dasar tidak akan mengubah harga dasar untuk produk. Anda akan perlu untuk meninjau dan menyesuaikan semua harga jika diperlukan. Dasar nilai tukar mata uang akan diatur ke 1,00 dan semua harga mata uang valuta lainnya akan disesuaikan dalam hal mata uang dasar baru.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency_auto</key>
+    <value><![CDATA[Auto Update Mata Uang: <br/><span class="help">Set toko Anda untuk secara otomatis memperbarui mata uang harian. Yahoo server digunakan.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_class</key>
+    <value><![CDATA[Kelas berat:]]></value>
+  </definition>
+  <definition>
+    <key>entry_length_class</key>
+    <value><![CDATA[Panjang Kelas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_auto_translate_status</key>
+    <value><![CDATA[Status Autotranslate: <br/><span class="help">ini memungkinkan penerjemahan hilang definisi teks atau data spesifik bahasa jika nilai-nilai teks yang hilang untuk bahasa yang digunakan.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_src_lang_code</key>
+    <value><![CDATA[Sumber bahasa untuk terjemahan: <br/><span class="help">Pilih bahasa sumber yang akan digunakan untuk autotranslation.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method</key>
+    <value><![CDATA[Teks Metode Terjemahan: <br/><span class="help">Pilih metode yang ingin Anda gunakan untuk terjemahan. Metode default adalah salinan langsung dari teks bahasa sumber</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_override_existing</key>
+    <value><![CDATA[Menimpa jika teks bahasa sumber diubah: <br/><span class="help">Jika diatur, teks dalam semua bahasa akan digantikan dengan terjemahan baru jika teks bahasa sumber diedit. CATATAN: Dapat menyebabkan banyak terjemahan.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_warn_lang_text_missing</key>
+    <value><![CDATA[Memperingatkan untuk teks bahasa yang hilang: <br/><span class="help">Dapatkan pesan peringatan jika teks bahasa yang hilang terdeteksi.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Harga display Dengan Pajak:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store</key>
+    <value><![CDATA[Standar Tarif Pajak Store:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_0</key>
+    <value><![CDATA[Tidak ada Pajak]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_1</key>
+    <value><![CDATA[Toko Zona default]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer</key>
+    <value><![CDATA[Gunakan Pelanggan Alamat Pajak:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_0</key>
+    <value><![CDATA[Alamat Pengiriman]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_1</key>
+    <value><![CDATA[alamat tagihan]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice</key>
+    <value><![CDATA[Faktur Mulai No .: <br/><span class="help">Mengatur jumlah memulai faktur akan dimulai dari.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice_prefix</key>
+    <value><![CDATA[Faktur Prefix: <br/><span class="help">Set faktur awalan misalnya DI / 001</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[Pelanggan Grup: <br/><span class="help">kelompok pelanggan Default.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_price</key>
+    <value><![CDATA[Masuk Harga Tampilan: <br/><span class="help">Tampilkan harga bahkan jika pelanggan tidak login.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_approval</key>
+    <value><![CDATA[Menyetujui Pelanggan Baru: <br/><span class="help">Jangan biarkan pelanggan baru untuk login sampai akun mereka telah disetujui.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_prevent_email_as_login</key>
+    <value><![CDATA[Membutuhkan Login Nama: <br/><span class="help">Untuk meningkatkan keamanan, memerlukan pelanggan untuk membuat nama login yang unik daripada menggunakan alamat email sebagai nama login. Jika diatur ke ON, pelanggan yang sudah ada akan diminta untuk membuat nama login baru pada login pertama. Jika OFF, nama login ditetapkan sebagai alamat email pelanggan.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_guest_checkout</key>
+    <value><![CDATA[Tamu Checkout: <br/><span class="help">Memungkinkan pelanggan untuk checkout tanpa membuat akun. Ini tidak akan tersedia ketika produk download dalam keranjang belanja.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_account</key>
+    <value><![CDATA[Akun Syarat: <br/><span class="help">Forces orang untuk menyetujui persyaratan sebelum account dapat diciptakan.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_checkout</key>
+    <value><![CDATA[Checkout Syarat: <br/><span class="help">Forces orang untuk menyetujui persyaratan sebelum pelanggan dapat checkout.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_status</key>
+    <value><![CDATA[Status Order: <br/><span class="help">Set status pesanan default ketika pesanan diproses.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_cancelation_order_status</key>
+    <value><![CDATA[Memungkinkan pelanggan untuk Cancel Order Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_display</key>
+    <value><![CDATA[Tampilan Stock: <br/><span class="help">tampilan jumlah stok pada halaman produk.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_nostock_autodisable</key>
+    <value><![CDATA[Tidak ada Stock Auto Disable: <br/><span class="help">Nonaktifkan produk atau nilai opsi untuk tampilan jika saham turun menjadi 0. Pesan notifikasi akan dikirimkan</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_checkout</key>
+    <value><![CDATA[Saham Checkout: <br/><span class="help">Memungkinkan pelanggan untuk tetap checkout jika produk mereka memesan tidak di saham.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_status</key>
+    <value><![CDATA[Status saham: <br/><span class="help">Pengaturan standar untuk keluar dari pesan status stok untuk produk. Digunakan pada produk mengedit halaman.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_logo</key>
+    <value><![CDATA[Toko Logo:]]></value>
+  </definition>
+  <definition>
+    <key>entry_icon</key>
+    <value><![CDATA[Icon: <br/><span class="help">ikon bisa menjadi PNG atau ICON tipe yang 16px x 16px.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_width</key>
+    <value><![CDATA[Lebar:]]></value>
+  </definition>
+  <definition>
+    <key>entry_height</key>
+    <value><![CDATA[Tinggi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb</key>
+    <value><![CDATA[Produk Ukuran Gambar Thumb:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_width</key>
+    <value><![CDATA[Gambar Produk Thumb Lebar:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_height</key>
+    <value><![CDATA[Gambar Produk Thumb Tinggi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup</key>
+    <value><![CDATA[Produk Ukuran Gambar Popup:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_width</key>
+    <value><![CDATA[Besar Window Preview Lebar:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_height</key>
+    <value><![CDATA[Besar Window Tinggi Preview:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category</key>
+    <value><![CDATA[Ukuran kategori Daftar:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_width</key>
+    <value><![CDATA[Kategori Daftar Lebar:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_height</key>
+    <value><![CDATA[Kategori Daftar Tinggi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_width</key>
+    <value><![CDATA[Merek Icon Daftar Lebar:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_height</key>
+    <value><![CDATA[Merek Daftar Icon Tinggi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product</key>
+    <value><![CDATA[Ukuran Daftar Produk:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_height</key>
+    <value><![CDATA[Daftar Produk Tinggi: <br/><span class="help">ini adalah untuk mengontrol ketinggian gambar pratinjau di halaman daftar admin dan tempat-tempat lain di etalase. Catatan, pengaturan ini dibagi antara admin dan standar etalase Template.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_width</key>
+    <value><![CDATA[Daftar Produk Lebar: <br/><span class="help">ini adalah untuk mengontrol lebar gambar pratinjau di halaman daftar admin dan tempat-tempat lain di etalase. Catatan, pengaturan ini dibagi antara admin dan standar etalase Template.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional</key>
+    <value><![CDATA[Tambahan Ukuran Gambar Produk:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_width</key>
+    <value><![CDATA[Tambahan Gambar Produk Lebar:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_height</key>
+    <value><![CDATA[Tambahan Gambar Produk Tinggi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related</key>
+    <value><![CDATA[Terkait Ukuran Gambar Produk:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_width</key>
+    <value><![CDATA[Terkait Gambar Produk Lebar:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_height</key>
+    <value><![CDATA[Terkait Gambar Produk Tinggi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart</key>
+    <value><![CDATA[Cart Ukuran Gambar:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_width</key>
+    <value><![CDATA[Keranjang Lebar Gambar:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_height</key>
+    <value><![CDATA[Keranjang Tinggi Gambar:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid</key>
+    <value><![CDATA[Grid Ukuran Gambar:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_width</key>
+    <value><![CDATA[Grid Lebar Gambar: <br/><span class="help">ini adalah untuk mengontrol lebar gambar preview yang sangat kecil di grid daftar dari admin dan tempat-tempat lain di etalase. Catatan, pengaturan ini dibagi antara admin dan standar etalase Template.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_height</key>
+    <value><![CDATA[Grid Tinggi Gambar: <br/><span class="help">ini adalah untuk mengontrol ketinggian gambar preview yang sangat kecil di grid daftar dari admin dan tempat-tempat lain di etalase. Catatan, pengaturan ini dibagi antara admin dan standar etalase Template.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_mail</key>
+    <value><![CDATA[Peringatan Mail: <br/><span class="help">Kirim email ke pemilik toko ketika pesanan baru dibuat.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_download</key>
+    <value><![CDATA[Izinkan Downloads:]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_status</key>
+    <value><![CDATA[Ambil Status Order: <br/><span class="help">Set status pesanan pelanggan memesan harus mencapai sebelum mereka diizinkan untuk mengakses produk download mereka.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_protocol</key>
+    <value><![CDATA[Mail Protokol: <span class="help">Mail: mail server Server default akan digunakan. Pastikan sudah dikonfigurasi dan dapat mengirim email dengan PHP email.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_parameter</key>
+    <value><![CDATA[Parameter mail: <span class="help">Bila menggunakan &#39;Mail&#39;, parameter surat tambahan dapat ditambahkan di sini (misalnya &quot;-femail@storeaddress.com&quot;.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_host</key>
+    <value><![CDATA[SMTP Host: <br/><span class="help">Gunakan ssl: //smtp.yourdomain.com untuk koneksi smtp aman</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_username</key>
+    <value><![CDATA[SMTP Username:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_password</key>
+    <value><![CDATA[SMTP Password:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_port</key>
+    <value><![CDATA[SMTP Pelabuhan:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_timeout</key>
+    <value><![CDATA[SMTP Timeout:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[Gunakan SSL: <br/><span class="help">Untuk menggunakan cek SSL dengan host Anda jika sertifikat SSL diinstal.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_session_ttl</key>
+    <value><![CDATA[Control Panel Sesi Kadaluarsa: <br/><span class="help">Nilai ini mengontrol interval waktu dalam hitungan menit sebelum Anda akan diminta untuk login lagi karena tidak ada aktivitas.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_encryption</key>
+    <value><![CDATA[Kunci Enkripsi: <br/><span class="help">Pengaturan bermigrasi untuk konfigurasi file yang dimulai di v1.2.1.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_seo_url</key>
+    <value><![CDATA[Gunakan SEO URL: <br/><span class="help">Untuk menggunakan SEO URL modul apache mod-rewrite harus diinstal dan Anda perlu untuk mengubah nama htaccess.txt untuk .htaccess. Catatan: Jika abantecart tidak dipasang di root domain harus mengubah aturan RewriteBase di dalam file .htaccess.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_retina_enable</key>
+    <value><![CDATA[Menghasilkan-res tinggi (retina) gambar: <br/><span class="help">Untuk menggunakan modul apache ini mod-rewrite harus diinstal dan Anda perlu untuk mengubah nama htaccess.txt untuk .htaccess. Catatan: Jika abantecart tidak dipasang di root domain harus mengubah aturan RewriteBase di dalam file .htaccess. <br/> Setelah mengaktifkan harus menghapus gambar tembolok.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_quality</key>
+    <value><![CDATA[Jpeg Gambar Kompresi Tingkat]]></value>
+  </definition>
+  <definition>
+    <key>entry_compression</key>
+    <value><![CDATA[Output Compression Level: <br/><span class="help">GZIP untuk transfer yang lebih efisien untuk meminta klien. Tingkat kompresi harus antara 0 - 9</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_display</key>
+    <value><![CDATA[Tampilan Kesalahan: <br/><span class="help">Set ke ya jika Anda ingin melihat pengecualian dan kesalahan</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_log</key>
+    <value><![CDATA[Log Kesalahan: <br/><span class="help">Set ke ya jika Anda ingin menyimpan pengecualian dan kesalahan untuk log</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_enable_reviews</key>
+    <value><![CDATA[Aktifkan Ulasan: <br/><span class="help"></span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cache_enable</key>
+    <value><![CDATA[Cache diaktifkan: <br/><span class="help">Harap berhati-hati ketika menonaktifkan caching. Halaman cache tidak akan dibuat ulang dan situs mungkin mulai memuat lambat.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_cache_drivers</key>
+    <value><![CDATA[Saat menggunakan tembolok <b>%s</b> driver. Driver lain yang tersedia untuk konfigurasi yang <i>%s</i>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_status</key>
+    <value><![CDATA[Etalase Status API:]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_key</key>
+    <value><![CDATA[Etalase API Key: <br/><span class="help">Set tombol ini untuk menyediakan akses (lebih aman) ke etalase API terbatas.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_stock_check</key>
+    <value><![CDATA[Etalase Akses API Stock: <br/><span class="help">Aktifkan jika Anda mengizinkan toko API untuk memeriksa ketersediaan stok</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_status</key>
+    <value><![CDATA[Admin Status API:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_key</key>
+    <value><![CDATA[Admin API Key: <br/><span class="help">Set tombol ini untuk menyediakan akses (lebih aman) untuk API admin dibatasi.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_access_ip_list</key>
+    <value><![CDATA[Admin IP API Access: <br/><span class="help">Memberikan daftar IP (dipisahkan koma) yang akan diizinkan untuk mengakses admin API. IP lain akan diblokir</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_max_size</key>
+    <value><![CDATA[Perpustakaan sumber daya Upload Max Ukuran File, kB]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug</key>
+    <value><![CDATA[Tampilkan Debug Info: <br/><span class="help">Set ini ON jika Anda ingin melihat rincian pelaksanaan dan menunjukkan rincian debug.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_0</key>
+    <value><![CDATA[Mati]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_1</key>
+    <value><![CDATA[Menunjukkan]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_2</key>
+    <value><![CDATA[Log]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level</key>
+    <value><![CDATA[Debug Level: <br/><span class="help">Pilih kedalaman rincian yang Anda butuhkan untuk melihat dalam output debug.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_0</key>
+    <value><![CDATA[Level 0 - tidak ada log, hanya kesalahan pengecualian]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_1</key>
+    <value><![CDATA[Level 1 - kesalahan dan peringatan]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_2</key>
+    <value><![CDATA[Level 2 - # 1 + mysql beban situs, waktu php eksekusi berkas dan halaman elemen memuat waktu]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_3</key>
+    <value><![CDATA[Level 3 - # 2 log + dasar dan tumpukan eksekusi]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_4</key>
+    <value><![CDATA[Level 4 - # 3 laporan mysql + Dump]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_5</key>
+    <value><![CDATA[Level 5 - # 4 + variabel antara]]></value>
+  </definition>
+  <definition>
+    <key>entry_template_debug</key>
+    <value><![CDATA[Template men-debug: <br/><span class="help">Aktifkan pengaturan ini jika Anda perlu memeriksa masalah dengan template dalam etalase dan kontrol panel.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_filename</key>
+    <value><![CDATA[Error Log Filename: <br/><span class="help">ini adalah file di mana kesalahan disimpan.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_session</key>
+    <value><![CDATA[Gunakan Pengiriman Sesi: <br/><span class="help">Menyimpan kutipan pengiriman untuk sesi untuk menghindari re-mengutip perlu. Kutipan hanya akan kembali dikutip jika keranjang atau alamat berubah.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_catalog_limit</key>
+    <value><![CDATA[Produk standar per Halaman (etalase): <br/><span class="help">Set berapa banyak item etalase yang ditampilkan per halaman (produk, kategori, dll)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_limit</key>
+    <value><![CDATA[Produk standar per Halaman (Admin): <br/><span class="help">Set berapa banyak item admin akan ditampilkan di setiap halaman di daftar grid (pesanan, pelanggan, dll)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_bestseller_limit</key>
+    <value><![CDATA[Jumlah Item Dalam Bestseller Block]]></value>
+  </definition>
+  <definition>
+    <key>entry_featured_limit</key>
+    <value><![CDATA[Jumlah Item Di Blok Pilihan]]></value>
+  </definition>
+  <definition>
+    <key>entry_latest_limit</key>
+    <value><![CDATA[Jumlah Item Di Blok Terbaru]]></value>
+  </definition>
+  <definition>
+    <key>entry_special_limit</key>
+    <value><![CDATA[Jumlah Item Di Blok Khusus]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_weight</key>
+    <value><![CDATA[Tampilan Berat pada Cart Halaman: <br/><span class="help">Tampilkan berat gerobak di halaman keranjang</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_reviews</key>
+    <value><![CDATA[Memungkinkan Ulasan: <br/><span class="help">Aktifkan / Nonaktifkan entri ulasan baru dan tampilan ulasan yang ada</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_maintenance</key>
+    <value><![CDATA[Pemeliharaan Mode: <br/><span class="help">Mencegah pelanggan dari browsing toko Anda. Mereka malah akan melihat pesan pemeliharaan. Jika login sebagai admin, Anda akan melihat toko seperti biasa.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_voicecontrol</key>
+    <value><![CDATA[Kontrol Suara: <br/><span class="help">Aktifkan kontrol suara admin untuk mengaktifkan fitur perintah suara. Saat ini hanya didukung di Chrome versi 25 atau yang lebih baru.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_help_links</key>
+    <value><![CDATA[Bantuan Links: <br/><span class="help">Jika Anda ingin melihat bantuan Ikon dan link ke situs AbanteCart. Ini akan membantu Anda belajar tentang fitur dan cara menggunakannya. Jika Anda maju pengguna dan tidak ingin melihat ikon bantuan ini, Anda dapat menonaktifkan.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_show_tree_data</key>
+    <value><![CDATA[Aktifkan Pohon Grid: <br/><span class="help">Memungkinkan grid admin untuk menunjukkan jenis orang tua / anak dalam satu kotak daftar. CATATAN: Pagination dan multi-tindakan dinonaktifkan untuk grid ini</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_ajax</key>
+    <value><![CDATA[Sama Halaman Add To Cart: <br/><span class="help">ini akan memungkinkan AJAX menambah fitur keranjang. Produk dapat ditambahkan ke keranjang tanpa mengarahkan ke halaman keranjang</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_width</key>
+    <value><![CDATA[Etalase Situs Lebar: <br/><span class="help">Contoh: 100% atau 1000px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_width</key>
+    <value><![CDATA[Admin Situs Lebar: <br/><span class="help">Contoh: 100% atau 1000px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_maximum</key>
+    <value><![CDATA[Jumlah pesanan maksimum yang diizinkan: <br/><span class="help">Mencegah checkout dengan pesanan besar jumlah sub-Total. 0 = NO LIMIT</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_minimum</key>
+    <value><![CDATA[Jumlah pesanan minimal: <br/><span class="help">Mencegah checkout jika pesanan sub-totalnya tidak mencapai jumlah minimum yang ditetapkan. 0 = NO MINIMUM</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_system_check</key>
+    <value><![CDATA[Sistem Periksa: <br/><span class="help">Aktifkan pengaturan ini jika Anda ingin memeriksa kondisi sistem anda dalam hal fungsi AbanteCart. Masalah sistem mempengaruhi AbanteCart akan dilaporkan sebagai pesan terlihat di admin.</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[Toko baru]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Peringatan: Anda tidak memiliki izin untuk mengubah pengaturan!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Nama Login harus alfanumerik saja dan antara 5 dan 64 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[nama login ini tidak tersedia. Coba nama login yang berbeda!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Nama Toko harus antara 2 dan 32 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[URL toko diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Judul harus antara 2 dan 32 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_owner</key>
+    <value><![CDATA[Toko Pemilik harus antara 2 dan 64 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[Toko Alamat harus antara 10 dan 256 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-Mail tidak muncul untuk menjadi valid!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[Telepon harus antara 2 dan 32 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[Gambar Produk Thumb Ukuran dimensi diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[Gambar Produk Popup Ukuran dimensi diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[Kategori Daftar Ukuran dimensi diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_manufacturer</key>
+    <value><![CDATA[Merek Icon Daftar Ukuran dimensi diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[Daftar produk Ukuran dimensi diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[Produk tambahan Ukuran Gambar dimensi diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[Terkait produk Ukuran Gambar dimensi diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[Keranjang Gambar Ukuran dimensi diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[Grid Gambar Ukuran dimensi diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_error_filename</key>
+    <value><![CDATA[Error Log Filename diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Data yang dibutuhkan belum masuk. Memeriksa kesalahan bidang!]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded_image</key>
+    <value><![CDATA[file upload %s tidak gambar atau rusak!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Batas diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[store Front]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[Admin]]></value>
+  </definition>
+  <definition>
+    <key>error_mail</key>
+    <value><![CDATA[Silahkan mengisi kolom yang diperlukan untuk smtp-protokol!]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_sort_order_asc</key>
+    <value><![CDATA[Produk Urutan Sortir Rendah &gt; Tinggi]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[Nama A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[Nama Z - A]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_asc</key>
+    <value><![CDATA[Harga Rendah &gt; Tinggi]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_desc</key>
+    <value><![CDATA[Harga Tinggi &gt; Rendah]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_asc</key>
+    <value><![CDATA[Peringkat terendah]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_desc</key>
+    <value><![CDATA[Peringkat tertinggi]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[Tanggal Old &gt; Baru]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[Tanggal New &gt; Tua]]></value>
+  </definition>
+  <definition>
+    <key>entry_product_default_sort_order</key>
+    <value><![CDATA[Urutkan Produk sebagai default oleh:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zero_customer_balance</key>
+    <value><![CDATA[Tampilkan Nol Pelanggan Balance: <br/><span class="help">Catatan: Aktifkan display / menonaktifkan pesan saldo jika saldo rekening nasabah adalah 0</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_tax_estimate</key>
+    <value><![CDATA[Pengiriman dan Perkiraan Pajak: <br/><span class="help">Memungkinkan pelanggan untuk mendapatkan pengiriman cepat dan estimasi pajak dalam keranjang belanja.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon_on_cart_page</key>
+    <value><![CDATA[Kupon pada halaman keranjang belanja: <br/><span class="help">Memungkinkan pelanggan untuk memasukkan kode kupon dan melihat diskon di keranjang belanja.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_google_analytics</key>
+    <value><![CDATA[Google Analytics Nomor Rekening: <br/><span class="help">Tambah <a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">Analytics Nomor Akun Google</a> untuk memungkinkan situs aktivitas tracking. Ini juga memungkinkan pelacakan aktivitas e-commerce. Anda harus mengaktifkan pelacakan di google pada halaman pengaturan profil untuk situs web Anda e-commerce</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[Aman Toko URL: <br/><span class="help">Sertakan URL SSL penuh (HTTPS) ke toko Anda. Pastikan untuk menambahkan &#39;/&#39; di akhir. Contoh: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[URL aman diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_email_activation</key>
+    <value><![CDATA[Email Aktivasi untuk Pelanggan Baru: <br/><span class="help">Jangan biarkan pelanggan baru untuk login sampai akun mereka telah dikonfirmasi oleh link aktivasi yang dikirim melalui email. Untuk ini untuk bekerja, pastikan &quot;Menyetujui Pelanggan Baru&quot; diatur ke OFF.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_clone_template</key>
+    <value><![CDATA[Template Clone Dengan AbanteCart Developer Alat]]></value>
+  </definition>
+  <definition>
+    <key>text_set_template</key>
+    <value><![CDATA[Mengatur template ini untuk etalase]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_status</key>
+    <value><![CDATA[Aktifkan etalase Embed:]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_click_action</key>
+    <value><![CDATA[Embed Klik Action:]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_modal</key>
+    <value><![CDATA[Halaman sama Modal Dialog]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_new_window</key>
+    <value><![CDATA[Halaman baru terbuka di tab baru]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_same_window</key>
+    <value><![CDATA[Halaman baru terbuka di jendela yang sama]]></value>
+  </definition>
+  <definition>
+    <key>entry_account_create_captcha</key>
+    <value><![CDATA[Captcha di buat bentuk akun: <br/><span class="help">Mencegah spam / robot pembuatan akun dengan memungkinkan captcha verifikasi manusia</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_site_key</key>
+    <value><![CDATA[Google reCAPTCHA Site Key: <br/><span class="help">Tambahkan <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> untuk membantu pengunjung Anda dengan entri captcha yang lebih baik. Jika Anda mengaktifkan reCAPTCHA situs / kunci rahasia, Google reCAPTCHA v2 akan diaktifkan bukan default AbanteCart captcha image</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_secret_key</key>
+    <value><![CDATA[Google reCAPTCHA Kunci Rahasia: <br/><span class="help">Tambahkan <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> untuk membantu pengunjung Anda dengan entri captcha yang lebih baik. Jika Anda mengaktifkan reCAPTCHA situs / kunci rahasia, Google reCAPTCHA v2 akan diaktifkan bukan default AbanteCart captcha image</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_php_exceed</key>
+    <value><![CDATA[Nilai ini tidak dapat melebihi direktif php.ini Anda %s (&lt;= %s)]]></value>
+  </definition>
+  <definition>
+    <key>entry_start_order_id</key>
+    <value><![CDATA[Agar Mulai No .: <br/><span class="help">Mengatur jumlah awal perintah akan dimulai dari.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_start_order_id</key>
+    <value><![CDATA[Jumlah awal agar harus numerik a!]]></value>
+  </definition>
+  <definition>
+    <key>error_starting_invoice_id</key>
+    <value><![CDATA[Faktur nomor start harus numerik a!]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_order_days</key>
+    <value><![CDATA[Lengkap Kadaluarsa Order: <br/><br/><span class="help">Nilai ini mengontrol interval waktu di hari sebelum pesanan lengkap akan dihapus. Nilai kosong berarti bahwa tidak ada perintah akan ke dihapus.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_expire_order_days</key>
+    <value><![CDATA[Lengkap Orde nilai Kadaluarsa harus numerik a!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront</key>
+    <value><![CDATA[etalase]]></value>
+  </definition>
+  <definition>
+    <key>text_im_driver</key>
+    <value><![CDATA[Sopir]]></value>
+  </definition>
+  <definition>
+    <key>text_im_protocol</key>
+    <value><![CDATA[Protokol IM]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver</key>
+    <value><![CDATA[Provider SMS]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver_tooltip</key>
+    <value><![CDATA[Pilih ekstensi untuk penyedia layanan SMS]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_status_tooltip</key>
+    <value><![CDATA[Aktifkan SMS bagi pelanggan]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_status_tooltip</key>
+    <value><![CDATA[Aktifkan SMS untuk administrator]]></value>
+  </definition>
+  <definition>
+    <key>text_no_driver</key>
+    <value><![CDATA[No Driver IM Ditemukan]]></value>
+  </definition>
+  <definition>
+    <key>text_im_settings_attention</key>
+    <value><![CDATA[Pengaturan ini untuk pesan instan yang dikirim secara otomatis selama acara AbanteCart di etalase dan admin.]]></value>
+  </definition>
+  <definition>
+    <key>entry_html_cache</key>
+    <value><![CDATA[HTML Cache: <br/><span class="help">halaman HTML Diaktifkan dan blok caching untuk mendapatkan kecepatan yang lebih baik untuk halaman Anda. Ini adalah caching tambahan untuk caching data biasa diaktifkan dalam sistem / file config.php</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_task_api_key</key>
+    <value><![CDATA[Tugas API Key: <br/><span class="help">Ini adalah kunci rahasia untuk memungkinkan AbanteCart untuk menjalankan proses dijadwalkan dari browser dengan file yang /task.php. Jika tidak diatur, tugas tidak akan berjalan melalui browser. <br/> CATATAN: Kunci API ini tidak diperlukan untuk menjalankan tugas-tugas baris perintah.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_duplicate_contact_us</key>
+    <value><![CDATA[Gandakan Kontak Pertanyaan ke Pesan]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Detail toko]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Anda memiliki pengaturan diubah!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[image Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[kegagalan]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[Mengedit Store:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Nama Toko: <br/><span class="help">Disalin ke pengaturan dan ditampilkan pada bagian etalase.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[Toko URL: <br/><span class="help">Sertakan URL lengkap ke toko Anda. Pastikan untuk menambahkan &#39;/&#39; di akhir. Contoh: http://www.yourdomain.com/path/ <br/><br/> Jangan menggunakan direktori untuk membuat sebuah toko baru. Anda harus selalu mengarahkan domain lain atau sub domain ke hosting Anda.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[Gunakan SSL: <br/><span class="help">Untuk menggunakan cek SSL dengan host Anda jika sertifikat SSL diinstal.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Judul:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Meta Tag Description:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[Template:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Selamat Datang Pesan:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Negara:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Region / Negara:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Bahasa:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status toko <br/><span class="help">Status toko di depan sebuah toko. Status OFF akan mengarahkan ke default toko. Gunakan Maintenance Mode pengaturan untuk mengatur pesan pemeliharaan toko sementara</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alias</key>
+    <value><![CDATA[Nama Alias <br/><span class="help">Nama Toko Alias. Jika dibiarkan kosong, akan didasarkan pada nama singkat</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[Toko baru]]></value>
+  </definition>
+  <definition>
+    <key>button_delete_store</key>
+    <value><![CDATA[Hapus Toko]]></value>
+  </definition>
+  <definition>
+    <key>button_edit_settings</key>
+    <value><![CDATA[Edit Pengaturan]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Peringatan: Anda tidak memiliki izin untuk memodifikasi toko!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Nama Toko harus antara 3 dan 32 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[URL toko diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Judul harus antara 3 dan 32 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[Gambar Produk Thumb Ukuran dimensi diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[Gambar Produk Popup Ukuran dimensi diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[Kategori Daftar Ukuran dimensi diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[Daftar produk Ukuran dimensi diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[Produk tambahan Ukuran Gambar dimensi diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[Terkait produk Ukuran Gambar dimensi diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[Keranjang Gambar Ukuran dimensi diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[Grid Gambar Ukuran dimensi diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Peringatan: Toko ini tidak dapat dihapus seperti yang saat ini ditugaskan untuk %s perintah!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Data yang dibutuhkan belum masuk. Memeriksa kesalahan bidang!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Batas diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>entry_clone_store</key>
+    <value><![CDATA[Pengaturan Salin: <br/><span class="help">Anda dapat memilih salinan semua pengaturan dari beberapa toko yang ada</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[Aman Toko URL: <br/><span class="help">Sertakan URL SSL penuh (HTTPS) ke toko Anda. Pastikan untuk menambahkan &#39;/&#39; di akhir. Contoh: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[URL aman diperlukan!]]></value>
+  </definition>
+</definitions>

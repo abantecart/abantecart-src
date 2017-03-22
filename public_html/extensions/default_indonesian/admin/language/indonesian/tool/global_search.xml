@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Hasil Pencarian global]]></value>
+  </definition>
+  <definition>
+    <key>no_results_message</key>
+    <value><![CDATA[Maaf, tapi kami tidak memiliki hasil.]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Peringatan: Anda tidak memiliki izin untuk mencari!]]></value>
+  </definition>
+  <definition>
+    <key>text_orders</key>
+    <value><![CDATA[pesanan]]></value>
+  </definition>
+  <definition>
+    <key>text_customers</key>
+    <value><![CDATA[pelanggan]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[download]]></value>
+  </definition>
+  <definition>
+    <key>text_product_categories</key>
+    <value><![CDATA[Kategori Produk]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[produk]]></value>
+  </definition>
+  <definition>
+    <key>text_reviews</key>
+    <value><![CDATA[ulasan]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[Merek]]></value>
+  </definition>
+  <definition>
+    <key>text_languages</key>
+    <value><![CDATA[Bahasa]]></value>
+  </definition>
+  <definition>
+    <key>text_pages</key>
+    <value><![CDATA[Pages]]></value>
+  </definition>
+  <definition>
+    <key>text_settings</key>
+    <value><![CDATA[pengaturan]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[pesan]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[ekstensi]]></value>
+  </definition>
+  <definition>
+    <key>text_commands</key>
+    <value><![CDATA[Perintah cepat]]></value>
+  </definition>
+  <definition>
+    <key>text_contents</key>
+    <value><![CDATA[konten Pages]]></value>
+  </definition>
+</definitions>

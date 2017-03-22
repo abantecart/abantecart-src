@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[lokasi]]></value>
+  </definition>
+  <definition>
+    <key>text_location</key>
+    <value><![CDATA[tempat]]></value>
+  </definition>
+  <definition>
+    <key>text_location_zone</key>
+    <value><![CDATA[lokasi Zona]]></value>
+  </definition>
+  <definition>
+    <key>text_location_zones</key>
+    <value><![CDATA[lokasi Zona]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Anda memiliki lokasi diubah!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Nama lokasi]]></value>
+  </definition>
+  <definition>
+    <key>column_description</key>
+    <value><![CDATA[Deskripsi]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Tindakan]]></value>
+  </definition>
+  <definition>
+    <key>tab_details</key>
+    <value><![CDATA[rincian]]></value>
+  </definition>
+  <definition>
+    <key>tab_locations</key>
+    <value><![CDATA[lokasi Zona]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Nama lokasi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Deskripsi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Negara:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Zona (s):]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Peringatan: Anda tidak memiliki izin untuk mengubah lokasi!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Lokasi Nama harus antara 2 dan 32 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_description</key>
+    <value><![CDATA[Deskripsi Nama harus antara 2 dan 255 karakter!]]></value>
+  </definition>
+  <definition>
+    <key>error_tax_rate</key>
+    <value><![CDATA[Peringatan: Lokasi ini tidak dapat dihapus seperti yang saat ini ditugaskan untuk satu atau lebih tarif pajak!]]></value>
+  </definition>
+</definitions>

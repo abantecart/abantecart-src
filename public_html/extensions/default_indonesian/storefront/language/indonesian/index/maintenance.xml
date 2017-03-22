@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Pemeliharaan]]></value>
+  </definition>
+  <definition>
+    <key>text_maintenance</key>
+    <value><![CDATA[Pemeliharaan]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<h1 style="text-align:center;"> Kami sedang melakukan beberapa pemeliharaan terjadwal. <br/> Kami akan kembali secepat mungkin. Silakan periksa kembali segera. </h1>]]></value>
+  </definition>
+</definitions>

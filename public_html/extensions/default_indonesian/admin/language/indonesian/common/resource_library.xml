@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Perpustakaan sumber daya]]></value>
+  </definition>
+  <definition>
+    <key>view_title</key>
+    <value><![CDATA[Sumber View Object]]></value>
+  </definition>
+  <definition>
+    <key>confirm_title</key>
+    <value><![CDATA[Konfirmasi sumber daya (s) menghapus]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_delete</key>
+    <value><![CDATA[Beberapa sumber mungkin disertakan dalam teks. Kita tidak dapat memeriksa ini secara otomatis. Menghapus?]]></value>
+  </definition>
+  <definition>
+    <key>text_cant_delete_title</key>
+    <value><![CDATA[Sumber daya (s) menghapus]]></value>
+  </definition>
+  <definition>
+    <key>text_cant_delete</key>
+    <value><![CDATA[Cant menghapus sumber daya (s) karena satu atau lebih sumber daya terkait dengan objek]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_resource</key>
+    <value><![CDATA[mengedit Sumber Daya]]></value>
+  </definition>
+  <definition>
+    <key>text_resource_details</key>
+    <value><![CDATA[Detail sumber daya]]></value>
+  </definition>
+  <definition>
+    <key>text_mapped_to</key>
+    <value><![CDATA[Terkait dengan]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[produk]]></value>
+  </definition>
+  <definition>
+    <key>text_add_file</key>
+    <value><![CDATA[Tambahkan Referensi Berkas]]></value>
+  </definition>
+  <definition>
+    <key>text_add_code</key>
+    <value><![CDATA[Tambahkan Referensi HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_add_files</key>
+    <value><![CDATA[Tambahkan file ...]]></value>
+  </definition>
+  <definition>
+    <key>text_upload_files</key>
+    <value><![CDATA[Unggah berkas]]></value>
+  </definition>
+  <definition>
+    <key>text_drag</key>
+    <value><![CDATA[atau Seret mereka di sini untuk mulai meng-upload]]></value>
+  </definition>
+  <definition>
+    <key>text_start_upload</key>
+    <value><![CDATA[Mulai Upload]]></value>
+  </definition>
+  <definition>
+    <key>text_cancel_upload</key>
+    <value><![CDATA[Batal unggahan]]></value>
+  </definition>
+  <definition>
+    <key>text_start</key>
+    <value><![CDATA[Mulai]]></value>
+  </definition>
+  <definition>
+    <key>text_cancel</key>
+    <value><![CDATA[Membatalkan]]></value>
+  </definition>
+  <definition>
+    <key>text_save_sort_order</key>
+    <value><![CDATA[Simpan Urutkan Pesanan]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Kesalahan]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_files</key>
+    <value><![CDATA[Hapus file]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[pencarian]]></value>
+  </definition>
+  <definition>
+    <key>text_type</key>
+    <value><![CDATA[Mengetik]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[Bahasa]]></value>
+  </definition>
+  <definition>
+    <key>text_resource_code</key>
+    <value><![CDATA[sumber daya HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_name</key>
+    <value><![CDATA[Nama]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Judul]]></value>
+  </definition>
+  <definition>
+    <key>text_description</key>
+    <value><![CDATA[Deskripsi]]></value>
+  </definition>
+  <definition>
+    <key>text_uploaded</key>
+    <value><![CDATA[Sukses: Sumber Daya telah di-upload!]]></value>
+  </definition>
+  <definition>
+    <key>text_add</key>
+    <value><![CDATA[Menambahkan]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[mengedit]]></value>
+  </definition>
+  <definition>
+    <key>text_map</key>
+    <value><![CDATA[Link ke Obyek]]></value>
+  </definition>
+  <definition>
+    <key>text_map_to</key>
+    <value><![CDATA[Link ke %s]]></value>
+  </definition>
+  <definition>
+    <key>text_unmap</key>
+    <value><![CDATA[Tautan dari Object]]></value>
+  </definition>
+  <definition>
+    <key>text_unmap_from</key>
+    <value><![CDATA[Tautan dari %s]]></value>
+  </definition>
+  <definition>
+    <key>text_success_unmap</key>
+    <value><![CDATA[Sukses: Sumber Daya telah tertaut.]]></value>
+  </definition>
+  <definition>
+    <key>text_file_delete</key>
+    <value><![CDATA[Sumber daya telah dihapus!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[Sukses: Sumber Daya Anda telah dihapus!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_type</key>
+    <value><![CDATA[Peringatan: Salah jenis file!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_size</key>
+    <value><![CDATA[Peringatan: File untuk besar silakan tetap di bawah 300kb dan tidak lebih dari 1000px tinggi atau lebar!]]></value>
+  </definition>
+  <definition>
+    <key>error_maxFileSize</key>
+    <value><![CDATA[File terlalu besar]]></value>
+  </definition>
+  <definition>
+    <key>error_minFileSize</key>
+    <value><![CDATA[File terlalu kecil]]></value>
+  </definition>
+  <definition>
+    <key>error_acceptFileTypes</key>
+    <value><![CDATA[Filetype tidak diizinkan]]></value>
+  </definition>
+  <definition>
+    <key>error_maxNumberOfFiles</key>
+    <value><![CDATA[Max jumlah file melebihi]]></value>
+  </definition>
+  <definition>
+    <key>error_uploadedBytes</key>
+    <value><![CDATA[byte upload melebihi ukuran file]]></value>
+  </definition>
+  <definition>
+    <key>error_emptyResult</key>
+    <value><![CDATA[Kosong file hasil upload. Mungkin file rusak atau terlalu besar. ukuran file yang terbatas untuk 16MB. Jika ukuran file kurang dari batas periksa pengaturan php untuk upload_max_filesize &amp; post_max_size]]></value>
+  </definition>
+  <definition>
+    <key>error_1</key>
+    <value><![CDATA[File melebihi upload_max_filesize (php.ini direktif)]]></value>
+  </definition>
+  <definition>
+    <key>error_2</key>
+    <value><![CDATA[File melebihi MAX_FILE_SIZE (HTML bentuk direktif)]]></value>
+  </definition>
+  <definition>
+    <key>error_3</key>
+    <value><![CDATA[File hanya sebagian upload]]></value>
+  </definition>
+  <definition>
+    <key>error_4</key>
+    <value><![CDATA[Tidak ada file yang diupload]]></value>
+  </definition>
+  <definition>
+    <key>error_5</key>
+    <value><![CDATA[Hilang folder sementara]]></value>
+  </definition>
+  <definition>
+    <key>error_6</key>
+    <value><![CDATA[Gagal menulis file ke disk]]></value>
+  </definition>
+  <definition>
+    <key>error_7</key>
+    <value><![CDATA[Upload file dihentikan oleh ekstensi]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded</key>
+    <value><![CDATA[Peringatan: File tidak dapat diupload untuk alasan yang tidak diketahui!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_type</key>
+    <value><![CDATA[Silakan pilih jenis sumber daya]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Data yang dibutuhkan belum masuk]]></value>
+  </definition>
+  <definition>
+    <key>error_not_added</key>
+    <value><![CDATA[Sumber daya tidak ditambahkan. Silakan periksa log kesalahan untuk info lebih lanjut]]></value>
+  </definition>
+  <definition>
+    <key>error_ajax</key>
+    <value><![CDATA[kesalahan data beban. Silakan periksa log kesalahan untuk info lebih lanjut]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Peringatan: Izin Ditolak!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Kesalahan: Nama lapangan diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>button_delete</key>
+    <value><![CDATA[Menghapus]]></value>
+  </definition>
+  <definition>
+    <key>button_add</key>
+    <value><![CDATA[Tambahkan Referensi]]></value>
+  </definition>
+  <definition>
+    <key>button_done</key>
+    <value><![CDATA[matang]]></value>
+  </definition>
+  <definition>
+    <key>button_select</key>
+    <value><![CDATA[Pilih Sumber Daya]]></value>
+  </definition>
+  <definition>
+    <key>text_with_selected</key>
+    <value><![CDATA[Dengan dipilih:]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sumber daya berhasil diperbarui]]></value>
+  </definition>
+  <definition>
+    <key>text_map_success</key>
+    <value><![CDATA[Sumber daya berhasil menghubungkan]]></value>
+  </definition>
+  <definition>
+    <key>text_no_resources</key>
+    <value><![CDATA[Tidak ada sumber daya yang tersedia]]></value>
+  </definition>
+  <definition>
+    <key>text_preview</key>
+    <value><![CDATA[Preview / Download]]></value>
+  </definition>
+  <definition>
+    <key>error_file size</key>
+    <value><![CDATA[Perhatian: Ukuran maksimum file untuk upload %s. Anda dapat meningkatkan nilai ini di php.ini.]]></value>
+  </definition>
+  <definition>
+    <key>text_product_option_value</key>
+    <value><![CDATA[Nilai Pilihan Produk]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[kategori]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[Produsen]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[tidak bisa menghapus sumber daya terkait dengan beberapa objek]]></value>
+  </definition>
+  <definition>
+    <key>error_unmap</key>
+    <value><![CDATA[tidak dapat membatalkan tautan sumber daya. Objek tidak ditetapkan.]]></value>
+  </definition>
+  <definition>
+    <key>text_replace_file</key>
+    <value><![CDATA[Ganti Berkas]]></value>
+  </definition>
+  <definition>
+    <key>error_not_replaced</key>
+    <value><![CDATA[File Penggantian Kesalahan. ID diperlukan!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_exists</key>
+    <value><![CDATA[File Penggantian Kesalahan. Sumber daya tidak ada!]]></value>
+  </definition>
+  <definition>
+    <key>error_cannot_move</key>
+    <value><![CDATA[Kesalahan: Tidak dapat memindahkan file %s direktori sumber.]]></value>
+  </definition>
+  <definition>
+    <key>button_save_n_apply</key>
+    <value><![CDATA[Simpan dan Terapkan]]></value>
+  </definition>
+  <definition>
+    <key>text_image_size</key>
+    <value><![CDATA[Ukuran gambar:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_size</key>
+    <value><![CDATA[Ukuran file:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_mime</key>
+    <value><![CDATA[PANTOMIM:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_path</key>
+    <value><![CDATA[lokasi file:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_url</key>
+    <value><![CDATA[URL sumber daya:]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[Tanggal Old &gt; Baru]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[Tanggal New &gt; Tua]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[Nama A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[Nama Z - A]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_asc</key>
+    <value><![CDATA[Urutan Sortir Rendah &gt; Tinggi]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_desc</key>
+    <value><![CDATA[Urutan Sortir Tinggi &gt; Rendah]]></value>
+  </definition>
+</definitions>
