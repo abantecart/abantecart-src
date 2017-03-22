@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerCommonPage extends AController {
-	
+
 	public function main() {
 
 		//init controller data
@@ -62,30 +62,45 @@ class ControllerCommonPage extends AController {
 				$col_right = true;
 			}
 		}
-		
-		$layout_css_suffix = '';
-		$columns_count= 3;
-		if($col_left && !$col_right) {
-			$layout_css_suffix = '-right';
-			$columns_count = 2;
-		} else if($col_right && !$col_left) {
-			$layout_css_suffix = '-left';
-			$columns_count = 2;
-		} else if(!$col_left && !$col_right) {
-			$layout_css_suffix = '-long';
-			$columns_count = 1;
-		}
-		$this->view->assign('layout_columns', $columns_count);
-		$this->view->assign('layout_css_suffix', $layout_css_suffix);
-		$this->view->assign('layout_width', $this->config->get('storefront_width'));
-		$this->view->assign('rnk_link',base64_decode('aHR0cDovL3d3dy5hYmFudGVjYXJ0LmNvbQ=='));
-		$this->view->assign('rnk_text',base64_decode('UG93ZXJlZCBieSBBYmFudGVjYXJ0IGVDb21tZXJjZSBTb2x1dGlvbg=='));
 
-
-		if($this->config->get('config_maintenance') && isset($this->session->data['merchant'])){
-			$this->view->assign('maintenance_warning',$this->language->get('text_maintenance_notice'));
-		}
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
+
+    public function finalize(){
+        $this->extensions->hk_InitData($this,__FUNCTION__);
+
+        $layout_css_suffix = '';
+        $columns_count= 3;
+        if($col_left && !$col_right) {
+            $layout_css_suffix = '-right';
+            $columns_count = 2;
+        } else if($col_right && !$col_left) {
+            $layout_css_suffix = '-left';
+            $columns_count = 2;
+        } else if(!$col_left && !$col_right) {
+            $layout_css_suffix = '-long';
+            $columns_count = 1;
+        }
+
+        $this->view->assign('layout_columns', $columns_count);
+        $this->view->assign('layout_css_suffix', $layout_css_suffix);
+        $this->view->assign('layout_width', $this->config->get('storefront_width'));
+        $this->view->assign('rnk_link',base64_decode('aHR0cDovL3d3dy5hYmFudGVjYXJ0LmNvbQ=='));
+        $this->view->assign('rnk_text',base64_decode('UG93ZXJlZCBieSBBYmFudGVjYXJ0IGVDb21tZXJjZSBTb2x1dGlvbg=='));
+
+        if($this->config->get('config_maintenance') && isset($this->session->data['merchant'])){
+            $this->view->assign('maintenance_warning',$this->language->get('text_maintenance_notice'));
+        }
+
+        $this->view->assign('scripts_bottom', $this->document->getScriptsBottom());
+        if ($this->config->get('config_google_analytics_code')) {
+            $this->view->assign('google_analytics',  $this->config->get('config_google_analytics_code'));
+        }
+
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+        parent::finalize();
+    }
+
 }

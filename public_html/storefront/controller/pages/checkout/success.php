@@ -244,7 +244,8 @@ class ControllerPagesCheckoutSuccess extends AController{
 
 	protected function _google_analytics($order_data, $order_totals){
 
-		// google analytics data for js-script in footer.tpl
+        //google analytics data for js-script.
+        //This will be shown in the footer of the page
 		$order_tax = $order_total = $order_shipping = 0.0;
 		foreach ($order_totals as $i => $total) {
 			if ($total['type'] == 'total') {
