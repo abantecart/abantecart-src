@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Магазин Детали за]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Мора изменета поставувања!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[менаџер на сликата]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[стандардно]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[Измени Продажно место:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Продавница име: <br/><span class="help">Копирани на поставките и прикажани на делот на продавница.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[Продавница URL: <br/><span class="help">Вклучување на комплетната URL на вашата продавница. Бидете сигурни дека за да додадете &quot;/&quot; на крајот. Пример: http://www.yourdomain.com/path/ <br/><br/> Не користете директориуми да се создаде нова продавница. Секогаш треба да се истакне друг домен или под домен на вашиот хостинг.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[Се користи SSL: <br/><span class="help">да се користи SSL проверете со вашиот домаќин, доколку е инсталиран сертификат SSL.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Наслов:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Мета таг опис:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[шаблон:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Добредојдовте порака:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[земја:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Регион / Држава:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Јазик:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Продавница Статус <br/><span class="help">продавница статусот продавница. Статус OFF ќе ги насочи на стандардно продавница. Користете Одржување Режим на поставување за да го поставите порака одржување привремена продавница</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alias</key>
+    <value><![CDATA[Име Алијас <br/><span class="help">Магазин Име алијас. Доколку празно, ќе се базира на скратено име</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[нова продавница]]></value>
+  </definition>
+  <definition>
+    <key>button_delete_store</key>
+    <value><![CDATA[Избриши Магазин]]></value>
+  </definition>
+  <definition>
+    <key>button_edit_settings</key>
+    <value><![CDATA[Уреди ги подесувањата]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупредување: Вие немате дозвола да ја менувате продавници!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Продавница Името мора да биде помеѓу 3 и 32 карактери!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[потребно продавница рачно!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Насловот мора да биде помеѓу 3 и 32 карактери!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[потребни производ сликата димензии палецот Големина!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[потребни производ сликата димензии скокачки Големина!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[потребните димензии Листа Категорија Големина!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[потребните димензии производот листа Големина!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[Потребни се дополнителни Производ Димензии Големина на слика!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[потребно давање на производот димензии Големина на слика!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[потребните димензии кошничка Големина на слика!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[потребните димензии мрежа Големина на слика!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Предупредување: Оваа Store не може да биде избришан како што е во моментов доделен на %s наредби!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Бараните податоци не се внесени. Проверете за областа грешки!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Граница задолжителни!]]></value>
+  </definition>
+  <definition>
+    <key>entry_clone_store</key>
+    <value><![CDATA[Copy Settings: <br/><span class="help">Можете да изберете копија на сите поставки од некои постоечки продавница</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[Безбедна Магазин URL: <br/><span class="help">вклучуваат целосната URL SSL (HTTPS) на вашата продавница. Бидете сигурни дека за да додадете &quot;/&quot; на крајот. Пример: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[бара безбедна рачно!]]></value>
+  </definition>
+</definitions>

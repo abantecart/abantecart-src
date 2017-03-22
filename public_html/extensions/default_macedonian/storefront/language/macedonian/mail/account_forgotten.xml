@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Ресетирање на Лозинка]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Лозинка ресетирање беше побарано од %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[За да ја ресетирате вашата лозинка кликнете на линкот подолу:]]></value>
+  </definition>
+  <definition>
+    <key>text_password_reset</key>
+    <value><![CDATA[Лозинката е успешно ресетирање на %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_password</key>
+    <value><![CDATA[Внесете ја вашата нова лозинка подолу:]]></value>
+  </definition>
+  <definition>
+    <key>error_reset_token</key>
+    <value><![CDATA[Погрешна врска барање за лозинка. Обидете се да го ресетирате уште еднаш и да го користите линк од најновите е-мејл.]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_home</key>
+    <value><![CDATA[Насловна]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[Специјални понуди]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[контакт]]></value>
+  </definition>
+  <definition>
+    <key>text_sitemap</key>
+    <value><![CDATA[Мапа на сајтот]]></value>
+  </definition>
+  <definition>
+    <key>text_bookmark</key>
+    <value><![CDATA[Обележувач]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[сметка]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Логирај Се]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Одјави се]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[кошница]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Плаќање]]></value>
+  </definition>
+  <definition>
+    <key>text_keyword</key>
+    <value><![CDATA[Клучни зборови]]></value>
+  </definition>
+  <definition>
+    <key>text_advanced</key>
+    <value><![CDATA[Напредно пребарување]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[сите категории]]></value>
+  </definition>
+  <definition>
+    <key>entry_search</key>
+    <value><![CDATA[Барај:]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Добредојде назад]]></value>
+  </definition>
+  <definition>
+    <key>text_not</key>
+    <value><![CDATA[Не]]></value>
+  </definition>
+  <definition>
+    <key>text_login_or_register</key>
+    <value><![CDATA[Пријави се или зачлени]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[телесната тежина класи]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[класа по тежина]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Изменивте телесната тежина класи!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[тежина Наслов]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[единица за тежина]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[вредност]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[акција]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Тежина Наслов:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Единица за тежина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Вредност: <br/><span class="help">Поставете на 1,00000 ако ова е вашата тежина стандардните.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупредување: Вие немате дозвола да ја менувате телесната тежина класи!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Тежина Насловот мора да биде помеѓу 2 и 32 карактери!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Единица тежина треба да биде помеѓу 1 и 4 карактери!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Предупредување: Оваа тежина класа не може да биде избришан како што е во моментов се доделени како класа стандардно продавница тежина!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Предупредување: Оваа класа по тежина не може да биде избришан како што е во моментов доделен на %s производи!]]></value>
+  </definition>
+</definitions>

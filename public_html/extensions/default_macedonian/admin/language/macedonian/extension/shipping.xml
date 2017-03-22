@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Испорака]]></value>
+  </definition>
+  <definition>
+    <key>text_install</key>
+    <value><![CDATA[Инсталирај]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall</key>
+    <value><![CDATA[Избриши]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[метод на испорака]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[статус]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[подредување]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[акција]]></value>
+  </definition>
+</definitions>

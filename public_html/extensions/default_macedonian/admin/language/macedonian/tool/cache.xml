@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[кеш за управување со]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Успешно избришани кеш датотеки!]]></value>
+  </definition>
+  <definition>
+    <key>text_configuration</key>
+    <value><![CDATA[конфигурација]]></value>
+  </definition>
+  <definition>
+    <key>text_layouts_blocks</key>
+    <value><![CDATA[Распоред &amp; блокови]]></value>
+  </definition>
+  <definition>
+    <key>text_flexyforms</key>
+    <value><![CDATA[Флекси форми]]></value>
+  </definition>
+  <definition>
+    <key>text_images</key>
+    <value><![CDATA[слики]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[производи]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[категории]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[производители]]></value>
+  </definition>
+  <definition>
+    <key>text_localisations</key>
+    <value><![CDATA[Localisations]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[грешка Пријавете]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_cache</key>
+    <value><![CDATA[Отстрани ги избраните Кеш]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_all_cache</key>
+    <value><![CDATA[Бришење на сиот кеш]]></value>
+  </definition>
+  <definition>
+    <key>desc_configuration</key>
+    <value><![CDATA[Систем и чување конфигурации]]></value>
+  </definition>
+  <definition>
+    <key>desc_layouts_blocks</key>
+    <value><![CDATA[Страници, страница распоред, блокови]]></value>
+  </definition>
+  <definition>
+    <key>desc_flexyforms</key>
+    <value><![CDATA[податоци Флекси форми]]></value>
+  </definition>
+  <definition>
+    <key>desc_images</key>
+    <value><![CDATA[сликички слика]]></value>
+  </definition>
+  <definition>
+    <key>desc_products</key>
+    <value><![CDATA[податоци за производот]]></value>
+  </definition>
+  <definition>
+    <key>desc_categories</key>
+    <value><![CDATA[категорија на податоци]]></value>
+  </definition>
+  <definition>
+    <key>desc_manufacturers</key>
+    <value><![CDATA[податоци за производителот]]></value>
+  </definition>
+  <definition>
+    <key>desc_localisations</key>
+    <value><![CDATA[Валута, јазик, земја, зона, должина, тежина, &amp; други]]></value>
+  </definition>
+  <definition>
+    <key>desc_error_log</key>
+    <value><![CDATA[грешка Пријавете]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[кеш Тип]]></value>
+  </definition>
+  <definition>
+    <key>column_description</key>
+    <value><![CDATA[Опис]]></value>
+  </definition>
+  <definition>
+    <key>text_html_cache</key>
+    <value><![CDATA[HTML-cache]]></value>
+  </definition>
+  <definition>
+    <key>desc_html_cache</key>
+    <value><![CDATA[Кеширана HTML страници и блокови]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[Инсталирање / надградба Историја]]></value>
+  </definition>
+  <definition>
+    <key>desc_install_upgrade_history</key>
+    <value><![CDATA[Отстрани ги сите Инсталирај / надградба Историја]]></value>
+  </definition>
+</definitions>

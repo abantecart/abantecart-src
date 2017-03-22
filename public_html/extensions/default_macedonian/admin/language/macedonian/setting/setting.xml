@@ -1,0 +1,915 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Подесувања]]></value>
+  </definition>
+  <definition>
+    <key>column_store_alias</key>
+    <value><![CDATA[продавница]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[група]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[клучни]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[вредност]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Успешно спаси вашите поставувања!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[менаџер на сликата]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- Изберете група -]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[стандардно]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store_settings</key>
+    <value><![CDATA[Измени Подесувања:]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_template_settings</key>
+    <value><![CDATA[Уредување на Шаблон Подесувања:]]></value>
+  </definition>
+  <definition>
+    <key>text_common_template_settings</key>
+    <value><![CDATA[шаблон Избор]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[Измени Магазин]]></value>
+  </definition>
+  <definition>
+    <key>text_mail</key>
+    <value><![CDATA[пошта]]></value>
+  </definition>
+  <definition>
+    <key>text_smtp</key>
+    <value><![CDATA[SMTP]]></value>
+  </definition>
+  <definition>
+    <key>tab_all</key>
+    <value><![CDATA[сите]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Продавница име:]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[Продавница URL: <br/><span class="help">Вклучување на комплетната URL на вашата продавница. Бидете сигурни дека за да додадете &quot;/&quot; на крајот. Пример: http://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_owner</key>
+    <value><![CDATA[Продавница Сопственик:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address</key>
+    <value><![CDATA[адреса:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[Е-пошта:]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_emails</key>
+    <value><![CDATA[Дополнителни сигнализација e-mail: <br/><span class="help">Дополнителните пораки сакате да ги примате на алармирање e-mail, покрај главната продавница е-мејл. (разделени со запирка)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[телефон:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Факс:]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Наслов: <br/><span class="help">Ова е прикажано во продавница титулата пребарувач</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Мета таг опис: <br/><span class="help">продавница главната страница опис мета таг</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_keywords</key>
+    <value><![CDATA[Мета Клучни зборови: <br/><span class="help">продавница главната страница мета таг клучни зборови (одделени со запирки)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Добредојдовте порака:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[Шаблон: <span class="help">продавница дефиниција. Ова може да биде главна или продолжување дефиниција</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_template</key>
+    <value><![CDATA[Control Panel Шаблон:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[земја:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Регион / Држава:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Продавница на јазик:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_language</key>
+    <value><![CDATA[Администрација Јазик: <span class="help">Забелешка: работи ако не е корисник претпочитан јазик се наоѓа во прелистувачот</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency</key>
+    <value><![CDATA[База Валута: <span class="help">Ова е основната валута за сите продавници. Не се менуваат, ако не се разбере она што ќе се случи. Предупредување: Промена на основната валута нема да се промени вашата база цени за своите производи. Ќе треба да се разгледа и да се приспособат сите цени ако е потребно. База на валута на девизниот курс ќе биде поставена на 1,00 и сите други валути размена стапки ќе бидат прилагодени во однос на нова база на валута.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency_auto</key>
+    <value><![CDATA[Автоматско ажурирање Валута: <br/><span class="help">Поставете вашата продавница да се ажурира автоматски валути дневно. Се користи Јаху серверот.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_class</key>
+    <value><![CDATA[Класа по тежина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_length_class</key>
+    <value><![CDATA[Должина Класа:]]></value>
+  </definition>
+  <definition>
+    <key>entry_auto_translate_status</key>
+    <value><![CDATA[Автоматски преведи Статус: <br/><span class="help">Ова овозможи превод на исчезнатите дефиниции текст или говор на специфични податоци ако текстот се водат за исчезнати вредности за користени јазик.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_src_lang_code</key>
+    <value><![CDATA[Извор јазикот за превод: <br/><span class="help">Одберете изворниот јазик ќе се користи за autotranslation.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method</key>
+    <value><![CDATA[Метод за превод на текст: <br/><span class="help">Одберете метод сакате да го користите за превод. Метод Стандардно е директно копирање на изворниот текст</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_override_existing</key>
+    <value><![CDATA[Замени ако изворниот текст е изменета: <br/><span class="help">Ако е поставена, текст во сите јазици ќе бидат заменети со нови превод ако изворниот текст е изменет. Забелешка: Може да предизвика многу преводи.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_warn_lang_text_missing</key>
+    <value><![CDATA[Предупреди за исчезнати текст јазик: <br/><span class="help">добиете предупредување порака, ако е откриен недостасува текст јазик.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Покажи Цени со данок:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store</key>
+    <value><![CDATA[Стандардно Магазин Даночна стапка:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_0</key>
+    <value><![CDATA[Не данок]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_1</key>
+    <value><![CDATA[Продавница Стандардна зона]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer</key>
+    <value><![CDATA[Користење на клиентите данок адреса:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_0</key>
+    <value><![CDATA[адреса за достава]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_1</key>
+    <value><![CDATA[Адреса за фактурирање]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice</key>
+    <value><![CDATA[Фактура Почеток бр .: <br/><span class="help">поставите почетна бројот на фактурите ќе започне од.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice_prefix</key>
+    <value><![CDATA[Фактура префикс <br/><span class="help">Поставете фактурата префиксот на пример во / 001</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[Клиент група: <br/><span class="help">Default клиент група.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_price</key>
+    <value><![CDATA[Влези Покажи цени: <br/><span class="help">Прикажи цени дури и ако клиентот не е најавен.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_approval</key>
+    <value><![CDATA[Одобри нови клиенти: <br/><span class="help">Не им дозволувајте на нов клиент за да се најавите до нивната сметка е одобрен.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_prevent_email_as_login</key>
+    <value><![CDATA[Потребен Најава: <br/><span class="help">За да се подобри безбедноста, бара клиенти за да се создаде единствена корисничко име наместо користење на е-мејл адреса, како корисничко име. Ако е поставено на On, постојните клиенти, ќе биде побарано да се создаде ново име за најава на првата најава. Ако OFF, корисничко име е поставен како клиент-мејл адреса.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_guest_checkout</key>
+    <value><![CDATA[Гостин Работа: <br/><span class="help">им овозможи на клиентите да превземете без создавање на профил. Ова нема да биде достапна кога преземање производ е во количката.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_account</key>
+    <value><![CDATA[Профил Услови: <br/><span class="help">ги принудува луѓето да се согласувате со условите пред да се создаде сметка.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_checkout</key>
+    <value><![CDATA[Услови Плаќање: <br/><span class="help">ги принудува луѓето да се согласувате со условите пред купувачот може исходот.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_status</key>
+    <value><![CDATA[Цел Статус: <br/><span class="help">Поставете го статусот на налогот стандардно кога цел е обработена.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_cancelation_order_status</key>
+    <value><![CDATA[Дозволете да го раскине Наредба за Статус:]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_display</key>
+    <value><![CDATA[Покажи Залиха: <br/><span class="help">Покажи акциите на количина на производот страница.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_nostock_autodisable</key>
+    <value><![CDATA[Не Акции Auto Оневозможи: <br/><span class="help">го исклучите вашиот производ или опција вредност за став, ако акциите се намалува на ќе се испрати 0. известување за порака</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_checkout</key>
+    <value><![CDATA[Акции Работа: <br/><span class="help">им овозможи на клиентите да се уште исходот ако производите што се наредува не се во акции.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_status</key>
+    <value><![CDATA[Акции Статус: <br/><span class="help">подесувања за надвор од акциите порака статус на производ. Користи на производот уредување страница.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_logo</key>
+    <value><![CDATA[Да се ​​чува на логото:]]></value>
+  </definition>
+  <definition>
+    <key>entry_icon</key>
+    <value><![CDATA[Икона: <br/><span class="help">Иконата може да биде PNG или икона вид, односно x 16px 16px.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_width</key>
+    <value><![CDATA[ширина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_height</key>
+    <value><![CDATA[Висина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb</key>
+    <value><![CDATA[Производ Големина на слика палецот:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_width</key>
+    <value><![CDATA[Производ слика палецот Ширина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_height</key>
+    <value><![CDATA[Производ слика палецот Висина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup</key>
+    <value><![CDATA[Производ Големина на слика скокачки:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_width</key>
+    <value><![CDATA[Голем прозорец Преглед Ширина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_height</key>
+    <value><![CDATA[Голем прозорец Преглед Висина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category</key>
+    <value><![CDATA[Категории Големина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_width</key>
+    <value><![CDATA[Категории Ширина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_height</key>
+    <value><![CDATA[Категории Висина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_width</key>
+    <value><![CDATA[Бренд икона Листа Ширина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_height</key>
+    <value><![CDATA[Бренд икона Листа Висина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product</key>
+    <value><![CDATA[Листа на производот Големина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_height</key>
+    <value><![CDATA[Производот листа Висина: <br/><span class="help">Ова е да се контролира висината на преглед на слики на страници на листата на админ и на други места во продавница. Имајте на ум дека оваа поставка се дели меѓу желбата на администраторот и стандардно продавница дефиниција.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_width</key>
+    <value><![CDATA[Листа на производи Ширина: <br/><span class="help">Ова е за контрола на ширината на сликата за преглед на страните за листата на администратор и на други места во продавница. Имајте на ум дека оваа поставка се дели меѓу желбата на администраторот и стандардно продавница дефиниција.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional</key>
+    <value><![CDATA[Дополнителни Производ Големина на сликата:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_width</key>
+    <value><![CDATA[Дополнителни Ширина Слика на производ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_height</key>
+    <value><![CDATA[Дополнителни Слика на производ Висина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related</key>
+    <value><![CDATA[Поврзани Производ Големина на сликата:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_width</key>
+    <value><![CDATA[Поврзани Ширина Слика на производ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_height</key>
+    <value><![CDATA[Поврзани Висина Слика на производ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart</key>
+    <value><![CDATA[Кошничката Големина на сликата:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_width</key>
+    <value><![CDATA[Кошничката Ширина на сликата:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_height</key>
+    <value><![CDATA[Кошничката слика Висина:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid</key>
+    <value><![CDATA[Мрежа Големина на сликата:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_width</key>
+    <value><![CDATA[Мрежа слика Ширина: <br/><span class="help">Ова е за контрола на ширината на многу мал преглед на сликата во листата мрежи желбата на администраторот и на други места во продавница. Имајте на ум дека оваа поставка се дели меѓу желбата на администраторот и стандардно продавница дефиниција.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_height</key>
+    <value><![CDATA[Мрежа слика Висина: <br/><span class="help">Ова е да се контролира висината на многу мал преглед на сликата во листата мрежи желбата на администраторот и на други места во продавница. Имајте на ум дека оваа поставка се дели меѓу желбата на администраторот и стандардно продавница дефиниција.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_mail</key>
+    <value><![CDATA[Алармирање Mail: <br/><span class="help">Испрати e-mail на сопственикот на продавницата кога ќе се создаде нов поредок.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_download</key>
+    <value><![CDATA[Дозволете Превземања:]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_status</key>
+    <value><![CDATA[Преземете нарачка Статус: <br/><span class="help">Поставете го статусот на налогот за клиенти со цел да се постигне пред да се дозволи пристап до нивните производи превземање.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_protocol</key>
+    <value><![CDATA[Mail протоколот: <span class="help">Пошта: Стандардно сервер сервер за пошта да се користи. Бидете сигурни дека тоа е конфигуриран и можност да се испрати е-маил со PHP пошта.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_parameter</key>
+    <value><![CDATA[Пошта Параметри: <span class="help">При користење на &quot;Пошта&quot;, може да се додадат дополнителни параметри пошта тука (на пример, &quot;-femail@storeaddress.com&quot;.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_host</key>
+    <value><![CDATA[SMTP домаќин: <br/><span class="help">Користи SSL: //smtp.yourdomain.com за безбеден SMTP врска</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_username</key>
+    <value><![CDATA[SMTP име:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_password</key>
+    <value><![CDATA[SMTP лозинка:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_port</key>
+    <value><![CDATA[SMTP порт:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_timeout</key>
+    <value><![CDATA[SMTP Истек на време:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[Се користи SSL: <br/><span class="help">да се користи SSL проверете со вашиот домаќин, доколку е инсталиран сертификат SSL.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_session_ttl</key>
+    <value><![CDATA[Контролен панел сесија на траење: <br/><span class="help">Оваа вредност ја контролира временски интервал во минути пред вас ќе биде побарано да се најавите повторно поради никаква активност.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_encryption</key>
+    <value><![CDATA[Клуч за криптирање: <br/><span class="help">Поставување преселила во датотеката за конфигурација, која започнува во V1.2.1.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_seo_url</key>
+    <value><![CDATA[Користете оптимизација URL-то е: <br/><span class="help">За да го користите Apache модул Mod-преработи оптимизација URL-то мора да биде инсталиран и ви треба да се преименува htaccess.txt да .htaccess. Забелешка: Ако не abantecart инсталиран во коренот на домен, мора да се промени rewriteBase правило во Htaccess датотека.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_retina_enable</key>
+    <value><![CDATA[Генерирање на висока резолуција (ретината) слики: <br/><span class="help">За да го користите овој Apache модул Mod-преработи мора да биде инсталиран и ви треба да се преименува htaccess.txt да .htaccess. Забелешка: Ако не abantecart инсталиран во коренот на домен, мора да се промени rewriteBase правило во Htaccess датотека. <br/> Одкако ќе треба да го исчистите кешот слики.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_quality</key>
+    <value><![CDATA[JPEG слики Ниво на компресија]]></value>
+  </definition>
+  <definition>
+    <key>entry_compression</key>
+    <value><![CDATA[Излез Ниво на компресија: <br/><span class="help">GZIP за поефикасен трансфер на барање на клиентите. Ниво на компресија треба да биде помеѓу 0 - 9</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_display</key>
+    <value><![CDATA[Покажи Грешки: <br/><span class="help">поставено на Yes ако сакате да се види на исклучоци и грешки</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_log</key>
+    <value><![CDATA[Најавете Грешки: <br/><span class="help">поставено на Yes ако сакате да ја зачувате исклучоци и грешките во дневникот</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_enable_reviews</key>
+    <value><![CDATA[Овозможи Прегледи: <br/><span class="help"></span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cache_enable</key>
+    <value><![CDATA[Кеш овозможи: <br/><span class="help">Ве молиме да се биде внимателен кога се оневозможи кеширање. Кеширани страници нема да биде пресоздадено и сајт може да започне вчитување бавно.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_cache_drivers</key>
+    <value><![CDATA[Во моментов со користење кеш <b>%s</b> возачот. Другите возачи се достапни за конфигурација се <i>%s</i>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_status</key>
+    <value><![CDATA[Продавница статус API:]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_key</key>
+    <value><![CDATA[Продавница API клуч: <br/><span class="help">Поставете го ова копче за да обезбеди ограничено (посигурни) пристап до продавница API.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_stock_check</key>
+    <value><![CDATA[Продавница API Акции Пристап: <br/><span class="help">Овозможи ако ви овозможи продавница API за да ја проверите достапноста на акции</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_status</key>
+    <value><![CDATA[Админ статус API:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_key</key>
+    <value><![CDATA[Admin API клуч: <br/><span class="help">Поставете го ова копче за да обезбеди ограничено (посигурни) пристап до админ API.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_access_ip_list</key>
+    <value><![CDATA[Админ IP адреси API Пристап: <br/><span class="help">обезбеди листа на IP адреси (разделени со запирка), кој ќе им биде дозволено да пристапите на админ API. Други адреси ќе бидат блокирани</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_max_size</key>
+    <value><![CDATA[Ресурси Библиотека Подигни Макс Големина на датотеката, kB]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug</key>
+    <value><![CDATA[Прикажи грешки информации: <br/><span class="help">Нагодете ја On ако сакате да ги видите деталите за извршување и да покаже детали дебагирање.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_0</key>
+    <value><![CDATA[Off]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_1</key>
+    <value><![CDATA[Прикажи]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_2</key>
+    <value><![CDATA[Пријавете се]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level</key>
+    <value><![CDATA[Debug Ниво: <br/><span class="help">Изберете ја длабочината на детали што треба да се види во излезот на грешката.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_0</key>
+    <value><![CDATA[Ниво 0 - без дрва, само исклучок грешки]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_1</key>
+    <value><![CDATA[Ниво 1 - грешки и предупредувања]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_2</key>
+    <value><![CDATA[Ниво 2 - # 1 + MySQL сајт оптоварување, времето на извршување на PHP датотеката и елементи од страната Вчитај Време]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_3</key>
+    <value><![CDATA[Ниво 3 - # 2 + основни трупци и магацинот на извршување]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_4</key>
+    <value><![CDATA[Ниво 4 - # 3 + депонија MySQL извештаи]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_5</key>
+    <value><![CDATA[Ниво 5 - # 4 + средно променлива]]></value>
+  </definition>
+  <definition>
+    <key>entry_template_debug</key>
+    <value><![CDATA[Шаблон debug: <br/><span class="help">Изберете ја оваа опција ако ви треба за да се провери прашања со дефиниција во продавница и контролниот панел.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_filename</key>
+    <value><![CDATA[Грешка Пријавете Име на датотека: <br/><span class="help">Ова е податотека каде се зачувуваат грешки.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_session</key>
+    <value><![CDATA[Користете Испорака сесија: <br/><span class="help">спасува цитати превозот на седницата да се избегне повторно цитирајќи непотребно. Цитати повторно ќе се цитира само ако кошничка или адресата се менува.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_catalog_limit</key>
+    <value><![CDATA[Стандардно Предмети по страница (продавница): <br/><span class="help">колекции колку продавница предмети се прикажани на една страница (производи, категории, итн)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_limit</key>
+    <value><![CDATA[Стандардно Предмети по страница (Admin): <br/><span class="help">колекции колку admin предмети се прикажани на една страница во листата мрежи (нарачки, клиентите, итн)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_bestseller_limit</key>
+    <value><![CDATA[Број на објекти во Бестселер Блок]]></value>
+  </definition>
+  <definition>
+    <key>entry_featured_limit</key>
+    <value><![CDATA[Број на објекти во опремен блок]]></value>
+  </definition>
+  <definition>
+    <key>entry_latest_limit</key>
+    <value><![CDATA[Број на предмети во Најнови Блок]]></value>
+  </definition>
+  <definition>
+    <key>entry_special_limit</key>
+    <value><![CDATA[Број на предмети во посебни Блок]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_weight</key>
+    <value><![CDATA[Приказ на тежината на кошничката Страница: <br/><span class="help">Покажи тежина количка на страница во кошничка</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_reviews</key>
+    <value><![CDATA[Дозволете Прегледи: <br/><span class="help">Овозможи / оневозможи нов запис преглед и приказ на затекнатите прегледи</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_maintenance</key>
+    <value><![CDATA[Одржување Режим: <br/><span class="help">спречува корисниците од пребарување вашата продавница. Наместо тоа, тие ќе видите порака за одржување. Ако сте најавени како администратор, ќе видите продавницата што е нормално.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_voicecontrol</key>
+    <value><![CDATA[Контрола на гласот: <br/><span class="help">Овозможи admin контрола на гласот за да го активирате гласовни команди функција. Во моментов се поддржани само во Хром верзија 25 или понова.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_help_links</key>
+    <value><![CDATA[Помош Линкови: <br/><span class="help">Ако сакате да видете икони и линкови до AbanteCart сајт. Ова ќе ви помогне да дознаете повеќе за можностите и како да ги користите. Ако сте напреден корисник и не сакаат да се види овие помогне икони, можете да го исклучите.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_show_tree_data</key>
+    <value><![CDATA[Овозможи на дрвото мрежа: <br/><span class="help">Овозможува admin мрежи за да покаже видови родител / деца во една мрежа листата. ЗАБЕЛЕШКА: номериране и мулти-акции се оневозможени за овие мрежи</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_ajax</key>
+    <value><![CDATA[Истата страница Додај во кошничката: <br/><span class="help">Ова ќе им овозможи на AJAX Додади во кошничка функција. Производот може да се додаде количката без пренасочува во кошничка страница</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_width</key>
+    <value><![CDATA[Продавница на сајтот Ширина: <br/><span class="help">Пример: 100% или 1000px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_width</key>
+    <value><![CDATA[Административна Ширина: <br/><span class="help">Пример: 100% или 1000px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_maximum</key>
+    <value><![CDATA[Максималниот износ цел дозволени: <br/><span class="help">Спречување на исходот со голема цел под-вкупно износи. 0 = Нема ограничување</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_minimum</key>
+    <value><![CDATA[Минимална количина цел: <br/><span class="help">Спречување на исходот ако цел под-вкупно не достигне минималниот износ во собата. 0 = нема минимум</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_system_check</key>
+    <value><![CDATA[Систем Проверете: <br/><span class="help">Обележете го ова поставување ако сакате да се провери вашиот систем состојба во однос на AbanteCart функционалност. Системски прашања реализирање AbanteCart ќе бидат пријавени како пораки видливи во админ.</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[нова продавница]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупредување: Вие немате дозвола да ги измените прилагодувањата!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Корисничко име мора да биде само како и помеѓу 5 и 64 знаци алфанумерички!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[Ова корисничко име не е достапен. Обиди се со различни корисничко име!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Продавница Името мора да биде помеѓу 2 и 32 карактери!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[потребно продавница рачно!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Насловот мора да биде помеѓу 2 и 32 карактери!]]></value>
+  </definition>
+  <definition>
+    <key>error_owner</key>
+    <value><![CDATA[Продавница Сопственикот мора да биде помеѓу 2 и 64 карактери!]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[Продавница адреса мора да биде меѓу 10 и 256 карактери!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-mail адреса не се појави да биде валиден!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[Телефон да биде помеѓу 2 и 32 карактери!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[потребни производ сликата димензии палецот Големина!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[потребни производ сликата димензии скокачки Големина!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[потребните димензии Листа Категорија Големина!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_manufacturer</key>
+    <value><![CDATA[бара бренд икони Листа димензии Големина!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[потребните димензии производот листа Големина!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[Потребни се дополнителни Производ Димензии Големина на слика!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[потребно давање на производот димензии Големина на слика!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[потребните димензии кошничка Големина на слика!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[потребните димензии мрежа Големина на слика!]]></value>
+  </definition>
+  <definition>
+    <key>error_error_filename</key>
+    <value><![CDATA[Грешка Пријавете Име задолжителни!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Бараните податоци не се внесени. Проверете за областа грешки!]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded_image</key>
+    <value><![CDATA[Качената датотека %s не е слика или скршени!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Граница задолжителни!]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[Магазин фронт]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[admin]]></value>
+  </definition>
+  <definition>
+    <key>error_mail</key>
+    <value><![CDATA[Ве молиме пополнете ги потребните полиња за SMTP-протокол!]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_sort_order_asc</key>
+    <value><![CDATA[Производот подредување низок &gt; висока]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[Име A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[Име Ш - А]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_asc</key>
+    <value><![CDATA[Цена Ниска &gt; висока]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_desc</key>
+    <value><![CDATA[Цена Висок &gt; ниско]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_asc</key>
+    <value><![CDATA[рејтинг најниска]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_desc</key>
+    <value><![CDATA[рејтинг Највисока]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[Датум на Стариот &gt; нови]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[Датум Нов &gt; Стар]]></value>
+  </definition>
+  <definition>
+    <key>entry_product_default_sort_order</key>
+    <value><![CDATA[Вид производи како стандардно од страна на:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zero_customer_balance</key>
+    <value><![CDATA[Покажеме нулта клиентите Биланс: <br/><span class="help">Забелешка: Овозможува / оневозможува прикажувањето на пораката рамнотежа ако избалансираноста на сметката на корисникот е 0</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_tax_estimate</key>
+    <value><![CDATA[Превозот и данок Проценка: <br/><span class="help">овозможи на клиентите да се добие брз превозот и данок проценка во количката.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon_on_cart_page</key>
+    <value><![CDATA[Забава на количката страница: <br/><span class="help">им овозможи на клиентите да влезат забава кодот и да видиме попуст во количката.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_google_analytics</key>
+    <value><![CDATA[Google Analytics Број на сметка: <br/><span class="help">Додади го твојот <a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">број Google Анализа</a> за да се овозможи следење сајт активност. Ова исто така им овозможува следење на e-commerce активност. Мора да им се овозможи следење во Google на страницата за поврзување за вашиот e-commerce сајт</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[Безбедна Магазин URL: <br/><span class="help">вклучуваат целосната URL SSL (HTTPS) на вашата продавница. Бидете сигурни дека за да додадете &quot;/&quot; на крајот. Пример: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[бара безбедна рачно!]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_email_activation</key>
+    <value><![CDATA[Е-пошта за активирање на нови клиенти: <br/><span class="help">Не им дозволувајте на нов клиент за да се најавите до нивната сметка е потврдена со линк за активирање испратени преку е-мејл. За ова да работи, бидете сигурни дека &quot;одобри нови клиенти&quot; е поставено на OFF.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_clone_template</key>
+    <value><![CDATA[Клон Шаблон Со AbanteCart Алатки]]></value>
+  </definition>
+  <definition>
+    <key>text_set_template</key>
+    <value><![CDATA[Поставете го ова образец за продавница]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_status</key>
+    <value><![CDATA[Овозможи продавница Вградување на:]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_click_action</key>
+    <value><![CDATA[Вградување Кликнете акција:]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_modal</key>
+    <value><![CDATA[Истата страница модален дијалог]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_new_window</key>
+    <value><![CDATA[Отвори нова страница во нов таб]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_same_window</key>
+    <value><![CDATA[Отвори нова страница во истиот прозорец]]></value>
+  </definition>
+  <definition>
+    <key>entry_account_create_captcha</key>
+    <value><![CDATA[Captcha на создавање на корисничка сметка форма: <br/><span class="help">се спречи спам креирање на сметка / робот со овозможување на човековите CAPTCHA проверката</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_site_key</key>
+    <value><![CDATA[Google reCAPTCHA Мапа на Клучни: <br/><span class="help">Додади <a href="https://www.google.com/recaptcha" target="_blank">на Google reCAPTCHA v2</a> да им помогне на вашите посетители со подобар влез CAPTCHA. Ако ја овозможите reCAPTCHA сајт / клучеви, Google reCAPTCHA v2 ќе се активира наместо на стандардната AbanteCart CAPTCHA Image</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_secret_key</key>
+    <value><![CDATA[Google reCAPTCHA Таен клуч: <br/><span class="help">Додади <a href="https://www.google.com/recaptcha" target="_blank">на Google reCAPTCHA v2</a> да им помогне на вашите посетители со подобар влез CAPTCHA. Ако ја овозможите reCAPTCHA сајт / клучеви, Google reCAPTCHA v2 ќе се активира наместо на стандардната AbanteCart CAPTCHA Image</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_php_exceed</key>
+    <value><![CDATA[Оваа вредност не може да ги надмине вашите php.ini директива %s (&lt;= %s)]]></value>
+  </definition>
+  <definition>
+    <key>entry_start_order_id</key>
+    <value><![CDATA[Цел започнување бр .: <br/><span class="help">Поставување на почетна број нарачки ќе започне од.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_start_order_id</key>
+    <value><![CDATA[почеток цел број мора да биде нумерички!]]></value>
+  </definition>
+  <definition>
+    <key>error_starting_invoice_id</key>
+    <value><![CDATA[Фактура почеток број мора да биде нумерички!]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_order_days</key>
+    <value><![CDATA[Нецелосни Ред на траење: <br/><br/><span class="help">Оваа вредност ја контролира временски интервал во деновите пред нецелосни нарачки ќе бидат избришани. Празна вредност значи дека без наредби ќе биде избришан.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_expire_order_days</key>
+    <value><![CDATA[Нецелосни нарачка вредност Истекот мора да биде нумерички!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront</key>
+    <value><![CDATA[продавница]]></value>
+  </definition>
+  <definition>
+    <key>text_im_driver</key>
+    <value><![CDATA[возачот]]></value>
+  </definition>
+  <definition>
+    <key>text_im_protocol</key>
+    <value><![CDATA[протокол IM]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver</key>
+    <value><![CDATA[СМС провајдер]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver_tooltip</key>
+    <value><![CDATA[Изберете продолжување за давателот на услугата СМС]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_status_tooltip</key>
+    <value><![CDATA[Овозможи СМС за корисници]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_status_tooltip</key>
+    <value><![CDATA[Овозможи СМС за администратори]]></value>
+  </definition>
+  <definition>
+    <key>text_no_driver</key>
+    <value><![CDATA[Не IM пронајден управувач]]></value>
+  </definition>
+  <definition>
+    <key>text_im_settings_attention</key>
+    <value><![CDATA[Овие поставки се за размена на инстант пораки, испратени автоматски за време на AbanteCart настани во продавница и админ.]]></value>
+  </definition>
+  <definition>
+    <key>entry_html_cache</key>
+    <value><![CDATA[HTML кешот: <br/><span class="help">Овозможено HTML страници и ја блокира кеширање да се добие подобра брзина за вашите страници. Ова е дополнителна кеширање на редовни податоци кеширање-от во системот / датотеката config.php</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_task_api_key</key>
+    <value><![CDATA[Задачи API клуч: <br/><span class="help">Ова е тајниот клуч за да се овозможи да се кандидира AbanteCart закажани процеси од прелистувачот со /task.php датотека. Ако не е поставено, задачи нема да се кандидира преку прелистувачот. <br/> Забелешка: Ова API клуч не се потребни за водење задачи командната линија.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_duplicate_contact_us</key>
+    <value><![CDATA[СТРОГО Контакт Барања за пораки]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Производи купени извештај]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[име на продукт]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[модел]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Квантитет]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Вкупно]]></value>
+  </definition>
+</definitions>

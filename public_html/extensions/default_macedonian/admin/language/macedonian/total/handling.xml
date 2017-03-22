@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ракување со плаќање]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[ракување со плаќање]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[цел одделение]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Сте обновено вкупниот надоместок за ракување!]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Редот Вкупно: <span class="help">Минимална количина за да се постигне да се применуваат на надоместокот. Ако вкупната клиент со цел да ја надмине оваа сума, нема да се применува ракување feee. Оваа вредност се прескокнат со плаќање одредени амбиент.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_placeholder</key>
+    <value><![CDATA[цел износ]]></value>
+  </definition>
+  <definition>
+    <key>entry_fee</key>
+    <value><![CDATA[Плаќање: <span class="help">такса да се додаде на цел вкупен ако услов е минимален износ не е исполнет. Оваа сума е поништена плаќање специфични околности</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_fee</key>
+    <value><![CDATA[Плаќање: <span class="help">такса да се додаде на цел вкупен ако минимум под-вкупно состојба износ не се исполнети. Оваа сума ја замени главната сцена плаќање</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Начин на плаќање: <span class="help">изберете одредена исплата треба да додадете надоместокот. Овие подесувања ќе влијае на главните прилагодувања ако плаќањето се користи од страна на клиентите.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_subtotal</key>
+    <value><![CDATA[Порачајте под-вкупно: <span class="help">Минимална Подреди</span> по <span class="help">под-вкупно износот што треба да се постигне да се применуваат на надоместокот. Ова го пребришува главната сцена</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Данок Класа: <span class="help">Изберете го ако треба данок да се применуваат на врвот на надоместокот за ракување</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[статус:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Подредување:]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[За пресметка на нарачка:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупредување: Вие немате дозвола да ја менувате вкупниот надоместок за ракување!]]></value>
+  </definition>
+  <definition>
+    <key>error_number</key>
+    <value><![CDATA[Предупредување: вкупниот поредок и ракувањето со надомест мора да биде броеви!]]></value>
+  </definition>
+</definitions>

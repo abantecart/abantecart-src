@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Купувачка кошничка]]></value>
+  </definition>
+  <definition>
+    <key>text_subtotal</key>
+    <value><![CDATA[Под-вкупно:]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[0 артикли]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Потврда?]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[Отстрани]]></value>
+  </definition>
+  <definition>
+    <key>text_view</key>
+    <value><![CDATA[Види кошницата]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Плаќање]]></value>
+  </definition>
+  <definition>
+    <key>text_items</key>
+    <value><![CDATA[предмети]]></value>
+  </definition>
+</definitions>

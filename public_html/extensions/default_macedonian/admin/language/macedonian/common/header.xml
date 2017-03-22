@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Администрација]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[Backup / Restore]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Добредојдовте, <b>%s</b>]]></value>
+  </definition>
+  <definition>
+    <key>text_last_login</key>
+    <value><![CDATA[Последна Најава: %s]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_details</key>
+    <value><![CDATA[Измени профил Детали]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_notifications</key>
+    <value><![CDATA[Уредувате поставки за известување]]></value>
+  </definition>
+  <definition>
+    <key>text_catalog</key>
+    <value><![CDATA[каталог]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[категории]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Потврда?]]></value>
+  </definition>
+  <definition>
+    <key>text_country</key>
+    <value><![CDATA[земји]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[Купоните]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[попусти]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[валути]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[клиентите]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_group</key>
+    <value><![CDATA[Групи на клиентите]]></value>
+  </definition>
+  <definition>
+    <key>text_dashboard</key>
+    <value><![CDATA[семафорот]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Превземања]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[Дневници грешка]]></value>
+  </definition>
+  <definition>
+    <key>text_extension</key>
+    <value><![CDATA[екстензии]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_short</key>
+    <value><![CDATA[екстензии]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[продавница]]></value>
+  </definition>
+  <definition>
+    <key>text_location</key>
+    <value><![CDATA[локации]]></value>
+  </definition>
+  <definition>
+    <key>text_help</key>
+    <value><![CDATA[помогне]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[информации]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[јазици]]></value>
+  </definition>
+  <definition>
+    <key>text_language_definitions</key>
+    <value><![CDATA[јазик Дефиниции]]></value>
+  </definition>
+  <definition>
+    <key>text_localisation</key>
+    <value><![CDATA[локализација]]></value>
+  </definition>
+  <definition>
+    <key>text_logged</key>
+    <value><![CDATA[Вие сте најавени како <span>%s</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Одјава]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Испрати Пошта]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturer</key>
+    <value><![CDATA[производители]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[нарачки]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[цел Статуси]]></value>
+  </definition>
+  <definition>
+    <key>text_abantecart</key>
+    <value><![CDATA[Почетната страница од пребарувачот]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[плаќања]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[производи]]></value>
+  </definition>
+  <definition>
+    <key>text_reports</key>
+    <value><![CDATA[извештаи]]></value>
+  </definition>
+  <definition>
+    <key>text_online</key>
+    <value><![CDATA[онлајн]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[трансакции]]></value>
+  </definition>
+  <definition>
+    <key>text_tax</key>
+    <value><![CDATA[данок]]></value>
+  </definition>
+  <definition>
+    <key>text_report_purchased</key>
+    <value><![CDATA[производи купени]]></value>
+  </definition>
+  <definition>
+    <key>text_report_sale</key>
+    <value><![CDATA[продажба]]></value>
+  </definition>
+  <definition>
+    <key>text_analytics</key>
+    <value><![CDATA[Анализа &amp; Увид]]></value>
+  </definition>
+  <definition>
+    <key>text_report_viewed</key>
+    <value><![CDATA[Најгледани производи]]></value>
+  </definition>
+  <definition>
+    <key>text_review</key>
+    <value><![CDATA[Осврти]]></value>
+  </definition>
+  <definition>
+    <key>text_sale</key>
+    <value><![CDATA[продажба]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Испорака]]></value>
+  </definition>
+  <definition>
+    <key>text_setting</key>
+    <value><![CDATA[Подесувања]]></value>
+  </definition>
+  <definition>
+    <key>text_stock_status</key>
+    <value><![CDATA[акции Статуси]]></value>
+  </definition>
+  <definition>
+    <key>text_support</key>
+    <value><![CDATA[поддршка форум]]></value>
+  </definition>
+  <definition>
+    <key>text_system</key>
+    <value><![CDATA[Систем]]></value>
+  </definition>
+  <definition>
+    <key>text_tax_class</key>
+    <value><![CDATA[данок Часовите]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[цел одделение]]></value>
+  </definition>
+  <definition>
+    <key>text_user</key>
+    <value><![CDATA[корисници]]></value>
+  </definition>
+  <definition>
+    <key>text_documentation</key>
+    <value><![CDATA[Документација]]></value>
+  </definition>
+  <definition>
+    <key>text_users</key>
+    <value><![CDATA[корисници]]></value>
+  </definition>
+  <definition>
+    <key>text_user_group</key>
+    <value><![CDATA[Кориснички групи]]></value>
+  </definition>
+  <definition>
+    <key>text_weight_class</key>
+    <value><![CDATA[телесната тежина класи]]></value>
+  </definition>
+  <definition>
+    <key>text_length_class</key>
+    <value><![CDATA[должина Класи]]></value>
+  </definition>
+  <definition>
+    <key>text_zone</key>
+    <value><![CDATA[зони]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[сите екстензии]]></value>
+  </definition>
+  <definition>
+    <key>text_add_extension</key>
+    <value><![CDATA[Инсталирајте Продолжување]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_store</key>
+    <value><![CDATA[Земете екстензии]]></value>
+  </definition>
+  <definition>
+    <key>text_migrate</key>
+    <value><![CDATA[Алатка за миграција]]></value>
+  </definition>
+  <definition>
+    <key>text_updater</key>
+    <value><![CDATA[ажурирање]]></value>
+  </definition>
+  <definition>
+    <key>text_design</key>
+    <value><![CDATA[дизајн]]></value>
+  </definition>
+  <definition>
+    <key>text_templates</key>
+    <value><![CDATA[шаблони]]></value>
+  </definition>
+  <definition>
+    <key>text_layout</key>
+    <value><![CDATA[распоред]]></value>
+  </definition>
+  <definition>
+    <key>text_blocks</key>
+    <value><![CDATA[блокови]]></value>
+  </definition>
+  <definition>
+    <key>text_menu</key>
+    <value><![CDATA[мени]]></value>
+  </definition>
+  <definition>
+    <key>text_cache</key>
+    <value><![CDATA[кеш]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[пораки]]></value>
+  </definition>
+  <definition>
+    <key>text_content</key>
+    <value><![CDATA[содржина]]></value>
+  </definition>
+  <definition>
+    <key>text_datasets_manager</key>
+    <value><![CDATA[бази на податоци]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[Инсталирање / надградба Историја]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute</key>
+    <value><![CDATA[глобална атрибути]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute_groups</key>
+    <value><![CDATA[Глобална карактеристики групи]]></value>
+  </definition>
+  <definition>
+    <key>text_import_export</key>
+    <value><![CDATA[Увоз извоз]]></value>
+  </definition>
+  <definition>
+    <key>text_data</key>
+    <value><![CDATA[податоци]]></value>
+  </definition>
+  <definition>
+    <key>text_logs</key>
+    <value><![CDATA[Дневници]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_edit_form</key>
+    <value><![CDATA[Брзи Edit Form]]></value>
+  </definition>
+  <definition>
+    <key>text_all_matches</key>
+    <value><![CDATA[сите натпревари]]></value>
+  </definition>
+  <definition>
+    <key>text_file_uploads</key>
+    <value><![CDATA[датотека подигнати]]></value>
+  </definition>
+  <definition>
+    <key>text_all_settings</key>
+    <value><![CDATA[сите поставувања]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_details</key>
+    <value><![CDATA[Магазин Детали за]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_general</key>
+    <value><![CDATA[Генералниот]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_checkout</key>
+    <value><![CDATA[Плаќање]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_appearance</key>
+    <value><![CDATA[изглед]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_mail</key>
+    <value><![CDATA[пошта]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_im</key>
+    <value><![CDATA[IM]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_api</key>
+    <value><![CDATA[API]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_system</key>
+    <value><![CDATA[Систем]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_newstore</key>
+    <value><![CDATA[Креирај нова продавница]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_command_prompt</key>
+    <value><![CDATA[Гласот командната линија.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_select_dialect</key>
+    <value><![CDATA[Изберете го вашиот дијалект]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_confirm_action</key>
+    <value><![CDATA[Потврди оваа акција или да го откажете]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_speak_now</key>
+    <value><![CDATA[Зборувај сега.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_speach_detected</key>
+    <value><![CDATA[Без говор е откриен. Можеби ќе треба да го подесите вашиот <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">1 #### 1amp; одговори = 1407892 &quot;&gt; Поставки за микрофон</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_mic_detected</key>
+    <value><![CDATA[Не микрофон беше пронајден. Осигурете се дека микрофонот е инсталиран и дека <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">1 #### 1amp; Одговорот = 1407892 &quot;&gt; Поставки за микрофон</a> се правилно конфигуриран.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_click_allow</key>
+    <value><![CDATA[Кликнете на копчето &quot;Дозволи&quot; погоре за да им овозможи на вашиот микрофон.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_denied</key>
+    <value><![CDATA[Дозвола за користење на микрофон беше одбиен.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_permission</key>
+    <value><![CDATA[Дозвола за користење на микрофон е блокиран. За да го промените, кликнете на прелистувач <a href="chrome://settings/contentExceptions#media-stream">поставувања медиумите</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_not_supported</key>
+    <value><![CDATA[Контрола на гласот не е поддржан од овој интернет пребарувач. <a href="//www.google.com/chrome" target="_new">Хром</a> верзија 25 или понова потребно.]]></value>
+  </definition>
+  <definition>
+    <key>text_tasks</key>
+    <value><![CDATA[листата на закажани задачи]]></value>
+  </definition>
+  <definition>
+    <key>text_read_all_messages</key>
+    <value><![CDATA[Прочитајте ги сите пораки]]></value>
+  </definition>
+  <definition>
+    <key>text_short_stats</key>
+    <value><![CDATA[Брзи статистика]]></value>
+  </definition>
+  <definition>
+    <key>text_online_now</key>
+    <value><![CDATA[онлајн клиенти]]></value>
+  </definition>
+  <definition>
+    <key>text_online_new</key>
+    <value><![CDATA[нови]]></value>
+  </definition>
+  <definition>
+    <key>text_online_registered</key>
+    <value><![CDATA[Најавен]]></value>
+  </definition>
+  <definition>
+    <key>text_today_orders</key>
+    <value><![CDATA[Нови порачки Денес]]></value>
+  </definition>
+  <definition>
+    <key>text_today_sales</key>
+    <value><![CDATA[Вкупната продажба Денес]]></value>
+  </definition>
+  <definition>
+    <key>text_today_customers</key>
+    <value><![CDATA[Нови клиенти Денес]]></value>
+  </definition>
+  <definition>
+    <key>text_today_reviews</key>
+    <value><![CDATA[Нов Осврти Денес]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_manager</key>
+    <value><![CDATA[Media Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_server_time</key>
+    <value><![CDATA[Време на серверот]]></value>
+  </definition>
+</definitions>

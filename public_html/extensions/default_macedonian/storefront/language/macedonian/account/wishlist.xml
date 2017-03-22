@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Мојата листа на желби]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[сметка]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_wishlist</key>
+    <value><![CDATA[листата на желби е празна]]></value>
+  </definition>
+  <definition>
+    <key>button_cart</key>
+    <value><![CDATA[Види кошницата]]></value>
+  </definition>
+  <definition>
+    <key>button_continue</key>
+    <value><![CDATA[Да продолжите со купување]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[слика]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[име]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[модел]]></value>
+  </definition>
+  <definition>
+    <key>column_added</key>
+    <value><![CDATA[Додадени во листата со желби]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Единечната цена]]></value>
+  </definition>
+  <definition>
+    <key>column_actions</key>
+    <value><![CDATA[активности]]></value>
+  </definition>
+</definitions>

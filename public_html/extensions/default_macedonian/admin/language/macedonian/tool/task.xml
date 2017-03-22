@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[листата на закажани задачи]]></value>
+  </definition>
+  <definition>
+    <key>column_id</key>
+    <value><![CDATA[id]]></value>
+  </definition>
+  <definition>
+    <key>column_date_created</key>
+    <value><![CDATA[датум на создавање]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[име]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[статус]]></value>
+  </definition>
+  <definition>
+    <key>column_start_time</key>
+    <value><![CDATA[почеток Време]]></value>
+  </definition>
+  <definition>
+    <key>text_stuck</key>
+    <value><![CDATA[заглавен]]></value>
+  </definition>
+  <definition>
+    <key>text_ready</key>
+    <value><![CDATA[подготвени]]></value>
+  </definition>
+  <definition>
+    <key>text_running</key>
+    <value><![CDATA[Вклучување на]]></value>
+  </definition>
+  <definition>
+    <key>text_scheduled</key>
+    <value><![CDATA[закажани]]></value>
+  </definition>
+  <definition>
+    <key>text_disabled</key>
+    <value><![CDATA[лицата со посебни потреби]]></value>
+  </definition>
+  <definition>
+    <key>text_failed</key>
+    <value><![CDATA[не успеа]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete</key>
+    <value><![CDATA[нецелосни]]></value>
+  </definition>
+  <definition>
+    <key>text_completed</key>
+    <value><![CDATA[Завршено]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Рестартирајте Задача]]></value>
+  </definition>
+  <definition>
+    <key>text_run</key>
+    <value><![CDATA[Испратена Задача]]></value>
+  </definition>
+  <definition>
+    <key>text_task_started</key>
+    <value><![CDATA[задача започна]]></value>
+  </definition>
+  <definition>
+    <key>text_task_not_found</key>
+    <value><![CDATA[Задачата не е пронајден.]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_task</key>
+    <value><![CDATA[Задача не содржи чекори. Отстранети.]]></value>
+  </definition>
+  <definition>
+    <key>text_forbidden_to_restart</key>
+    <value><![CDATA[Забрането е да го рестартирате!]]></value>
+  </definition>
+</definitions>

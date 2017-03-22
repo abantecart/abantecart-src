@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[цел Статуси]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[цел Статус]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Изменивте статуси ред!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Цел Статус Име]]></value>
+  </definition>
+  <definition>
+    <key>column_text_id</key>
+    <value><![CDATA[Цел Статус текст проект]]></value>
+  </definition>
+  <definition>
+    <key>entry_text_id</key>
+    <value><![CDATA[Цел Статус текст ID:]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[акција]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Цел Статус име:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупредување: Вие немате дозвола да ја менувате статуи ред!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Цел Статус Името мора да биде помеѓу 2 и 32 карактери!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Предупредување: Оваа состојба да не може да биде избришан како што е во моментов се доделени што е статусот на стандардниот цел продавница!]]></value>
+  </definition>
+  <definition>
+    <key>error_download</key>
+    <value><![CDATA[Предупредување: Оваа состојба да не може да биде избришан како што е во моментов се доделени како статусот на преземањето стандардно!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Предупредување: Оваа состојба да не може да биде избришан како што е во моментов доделен на %s продавници!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Предупредување: Оваа состојба да не може да биде избришан како што е во моментов доделен на %s наредби!]]></value>
+  </definition>
+  <definition>
+    <key>error_nondeletable</key>
+    <value><![CDATA[Внимание: Ова е важно со цел статус кој е поврзан со плаќања. Вие не може да го избришете овој статус.]]></value>
+  </definition>
+  <definition>
+    <key>error_status_text_id</key>
+    <value><![CDATA[Id на текст статус мора да биде уникатен и помеѓу 2 и 32 карактери!]]></value>
+  </definition>
+</definitions>

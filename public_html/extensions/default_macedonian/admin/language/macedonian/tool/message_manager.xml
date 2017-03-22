@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[менаџер порака]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Изменивте листата со пораки!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[насловот на пораката]]></value>
+  </definition>
+  <definition>
+    <key>column_create_date</key>
+    <value><![CDATA[датум]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[статус]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[акција]]></value>
+  </definition>
+  <definition>
+    <key>entry_error</key>
+    <value><![CDATA[критички]]></value>
+  </definition>
+  <definition>
+    <key>entry_warning</key>
+    <value><![CDATA[Предупредување]]></value>
+  </definition>
+  <definition>
+    <key>entry_notice</key>
+    <value><![CDATA[известување]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупредување: Вие немате дозвола да го измените листата со пораки!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Наслов на пораката мора да биде помеѓу 3 и 32 карактери!]]></value>
+  </definition>
+  <definition>
+    <key>text_show</key>
+    <value><![CDATA[Прикажи]]></value>
+  </definition>
+  <definition>
+    <key>text_not_found</key>
+    <value><![CDATA[Ooops. Ние не може да се најде на оваа порака.]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[статусот на пораката:]]></value>
+  </definition>
+  <definition>
+    <key>text_date</key>
+    <value><![CDATA[датум на издавање:]]></value>
+  </definition>
+  <definition>
+    <key>text_repeats</key>
+    <value><![CDATA[Број на повторувања:]]></value>
+  </definition>
+  <definition>
+    <key>text_warning</key>
+    <value><![CDATA[предупредување]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[критична]]></value>
+  </definition>
+  <definition>
+    <key>text_notice</key>
+    <value><![CDATA[најава]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[избриши]]></value>
+  </definition>
+  <definition>
+    <key>text_close</key>
+    <value><![CDATA[во близина]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Потврда?]]></value>
+  </definition>
+  <definition>
+    <key>text_linktext</key>
+    <value><![CDATA[на овој линк]]></value>
+  </definition>
+  <definition>
+    <key>text_notifier_title</key>
+    <value><![CDATA[Дали сте %s Нова порака (а)]]></value>
+  </definition>
+</definitions>

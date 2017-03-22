@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[датотека подигнати]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[датум на додавање]]></value>
+  </definition>
+  <definition>
+    <key>column_path</key>
+    <value><![CDATA[датотека]]></value>
+  </definition>
+  <definition>
+    <key>column_section</key>
+    <value><![CDATA[Дел]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[за да ја преземете датотеката]]></value>
+  </definition>
+</definitions>

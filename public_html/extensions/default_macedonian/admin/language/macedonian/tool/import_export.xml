@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>import_export_title</key>
+    <value><![CDATA[Увоз извоз]]></value>
+  </definition>
+  <definition>
+    <key>tab_import</key>
+    <value><![CDATA[увоз]]></value>
+  </definition>
+  <definition>
+    <key>tab_export</key>
+    <value><![CDATA[Извоз]]></value>
+  </definition>
+  <definition>
+    <key>text_tables</key>
+    <value><![CDATA[маси]]></value>
+  </definition>
+  <definition>
+    <key>text_options</key>
+    <value><![CDATA[опции]]></value>
+  </definition>
+  <definition>
+    <key>text_file_format</key>
+    <value><![CDATA[Формат на датотеката:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_name</key>
+    <value><![CDATA[Име на датотека:]]></value>
+  </definition>
+  <definition>
+    <key>text_load_file</key>
+    <value><![CDATA[вчитам датотеката]]></value>
+  </definition>
+  <definition>
+    <key>text_load</key>
+    <value><![CDATA[транспорт]]></value>
+  </definition>
+  <definition>
+    <key>text_import_loaded</key>
+    <value><![CDATA[Вкупно Loaded:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_field</key>
+    <value><![CDATA[Датотека за внесување: <br/><span class="help">Поддржани формати за увоз на датотеки: XML, CSV, TXT</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_id_range_from</key>
+    <value><![CDATA[Проект се движат од:]]></value>
+  </definition>
+  <definition>
+    <key>text_to</key>
+    <value><![CDATA[до:]]></value>
+  </definition>
+  <definition>
+    <key>text_csv_delimiter</key>
+    <value><![CDATA[CSV / TXT раздвојувачот:]]></value>
+  </definition>
+  <definition>
+    <key>text_export_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">Сите полиња ќе биде затворен во двојни наводници.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_import_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">Сите полиња мора да биде во наводници.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_test_mode</key>
+    <value><![CDATA[Работи во режим на тест <br/><span class="help">Се препорачува да се кандидира на податоци за увоз во режим на тест прво да се види ако се присутни на сите прашања.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_file_format</key>
+    <value><![CDATA[Погрешен формат на датотека!]]></value>
+  </definition>
+  <definition>
+    <key>error_xml_import</key>
+    <value><![CDATA[Грешка при увоз на XML датотека!]]></value>
+  </definition>
+  <definition>
+    <key>error_csv_import</key>
+    <value><![CDATA[Грешка при увоз CSV / TXT датотека! Ве молиме проверете полиња раздвојувачот.]]></value>
+  </definition>
+  <definition>
+    <key>error_data_corrupted</key>
+    <value><![CDATA[Податоците се празни или оштетени.]]></value>
+  </definition>
+  <definition>
+    <key>error_file_empty</key>
+    <value><![CDATA[Датотеката е празна.]]></value>
+  </definition>
+  <definition>
+    <key>error_writable_backup</key>
+    <value><![CDATA[Резервната директориум треба да биде достапен за запишување за CSV / TXT извоз на работа.]]></value>
+  </definition>
+  <definition>
+    <key>text_updated</key>
+    <value><![CDATA[Ажурирано:]]></value>
+  </definition>
+  <definition>
+    <key>text_created</key>
+    <value><![CDATA[Направено:]]></value>
+  </definition>
+  <definition>
+    <key>text_errors</key>
+    <value><![CDATA[грешки:]]></value>
+  </definition>
+  <definition>
+    <key>text_show_details</key>
+    <value><![CDATA[Покажи детали]]></value>
+  </definition>
+  <definition>
+    <key>text_no_children</key>
+    <value><![CDATA[Ниедно дете не предмети]]></value>
+  </definition>
+  <definition>
+    <key>text_some_errors</key>
+    <value><![CDATA[Постојат некои грешки.]]></value>
+  </definition>
+  <definition>
+    <key>text_test_completed</key>
+    <value><![CDATA[Тест завршен. Вкупно прашања SQL:]]></value>
+  </definition>
+  <definition>
+    <key>text_sort_by</key>
+    <value><![CDATA[Сортирај по:]]></value>
+  </definition>
+</definitions>

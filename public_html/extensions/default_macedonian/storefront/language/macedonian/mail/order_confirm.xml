@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - %s Нарачка]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Ви благодариме за вашиот интерес во %s производи. Вашата цел е примена и ќе бидат обработени по исплата потврди.]]></value>
+  </definition>
+  <definition>
+    <key>text_received</key>
+    <value><![CDATA[Сте добиле наредба.]]></value>
+  </definition>
+  <definition>
+    <key>text_order_detail</key>
+    <value><![CDATA[детали за НАРАЧКА]]></value>
+  </definition>
+  <definition>
+    <key>text_order_id</key>
+    <value><![CDATA[Цел проект:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Датум нареди:]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[Цел Статус:]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[За да ја видите вашата нарачка кликнете на линкот подолу:]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Метод на испорака:]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Метод за плаќање:]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[адреса за достава]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[плаќање адреса]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Е-пошта:]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[телефон:]]></value>
+  </definition>
+  <definition>
+    <key>text_mobile_phone</key>
+    <value><![CDATA[Мобилен телефон:]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Факс:]]></value>
+  </definition>
+  <definition>
+    <key>text_ip</key>
+    <value><![CDATA[IP адреса:]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[производи:]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Вкупно:]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Откако вашата уплата е потврдена можете да кликнете на линкот подолу за да пристапите до Вашите производи за превземање:]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[Коментарите за вашата цел се:]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[Ве молиме да одговорите на оваа е-мејл, ако имате било какви прашања.]]></value>
+  </definition>
+  <definition>
+    <key>text_powered_by</key>
+    <value><![CDATA[Поддржано од]]></value>
+  </definition>
+  <definition>
+    <key>text_new_order</key>
+    <value><![CDATA[Нов поредок - #]]></value>
+  </definition>
+  <definition>
+    <key>text_new_order_text</key>
+    <value><![CDATA[Клиент %s додаде нов ред]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[производ]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[модел]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Квантитет]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[цена]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Вкупно]]></value>
+  </definition>
+</definitions>

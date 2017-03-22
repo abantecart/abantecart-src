@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Превземања сметка]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[сметка]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[Превземања]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Цел проект:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Датум на додавање:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_purchased</key>
+    <value><![CDATA[Дата на набавка:]]></value>
+  </definition>
+  <definition>
+    <key>text_name</key>
+    <value><![CDATA[име:]]></value>
+  </definition>
+  <definition>
+    <key>text_remaining</key>
+    <value><![CDATA[останатите:]]></value>
+  </definition>
+  <definition>
+    <key>text_size</key>
+    <value><![CDATA[големина:]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Превземи]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Вие не го направивте сите претходни превземање наредби!]]></value>
+  </definition>
+  <definition>
+    <key>text_expire_date</key>
+    <value><![CDATA[Срок на автентичност:]]></value>
+  </definition>
+  <definition>
+    <key>text_expired</key>
+    <value><![CDATA[истечен]]></value>
+  </definition>
+  <definition>
+    <key>text_pending</key>
+    <value><![CDATA[Во очекување]]></value>
+  </definition>
+  <definition>
+    <key>text_unavailable</key>
+    <value><![CDATA[недостапна]]></value>
+  </definition>
+  <definition>
+    <key>text_reached_limit</key>
+    <value><![CDATA[достигна ограничувањето]]></value>
+  </definition>
+  <definition>
+    <key>error_download_not_exists</key>
+    <value><![CDATA[Бараната датотека не постои!]]></value>
+  </definition>
+</definitions>

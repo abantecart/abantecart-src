@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Одјава сметка]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Сте биле одјавени вашиот профил. Сега е безбедно да ја напушти компјутер. </p><p> Вашата кошничка е зачувана, предметите во него ќе бидат вратени кога ќе се најавите назад во вашиот профил. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[сметка]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Одјава]]></value>
+  </definition>
+</definitions>

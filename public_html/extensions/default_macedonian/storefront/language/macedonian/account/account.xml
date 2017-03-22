@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Мојот акаунт]]></value>
+  </definition>
+  <definition>
+    <key>text_account_dashboard</key>
+    <value><![CDATA[Табла сметка]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[сметка]]></value>
+  </definition>
+  <definition>
+    <key>text_my_account</key>
+    <value><![CDATA[Мојот акаунт]]></value>
+  </definition>
+  <definition>
+    <key>text_my_orders</key>
+    <value><![CDATA[Мои нарачки]]></value>
+  </definition>
+  <definition>
+    <key>text_my_notifications</key>
+    <value><![CDATA[известувања]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[Уредување детали на сметка]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Промени го пасвордот]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Управување Адресар]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[историја на нарачки]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[историја на трансакции]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Превземања]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[Билтен Претплати]]></value>
+  </definition>
+  <definition>
+    <key>text_account_wishlist</key>
+    <value><![CDATA[Мојата листа на желби]]></value>
+  </definition>
+</definitions>

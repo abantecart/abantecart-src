@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ресурс библиотека]]></value>
+  </definition>
+  <definition>
+    <key>view_title</key>
+    <value><![CDATA[Ресурси поглед објект]]></value>
+  </definition>
+  <definition>
+    <key>confirm_title</key>
+    <value><![CDATA[Потврди ресурс (и) да избрише]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_delete</key>
+    <value><![CDATA[Некои ресурси можат да бидат вклучени во текстот. Ние не може да се провери ова автоматски. Избриши?]]></value>
+  </definition>
+  <definition>
+    <key>text_cant_delete_title</key>
+    <value><![CDATA[Ресурси (а) да го избришете]]></value>
+  </definition>
+  <definition>
+    <key>text_cant_delete</key>
+    <value><![CDATA[Не може да го избришете ресурси (s) бидејќи еден или повеќе ресурси е поврзана со предметот]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_resource</key>
+    <value><![CDATA[Измени ресурси]]></value>
+  </definition>
+  <definition>
+    <key>text_resource_details</key>
+    <value><![CDATA[ресурси Детали за]]></value>
+  </definition>
+  <definition>
+    <key>text_mapped_to</key>
+    <value><![CDATA[Поврзани со]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[производи]]></value>
+  </definition>
+  <definition>
+    <key>text_add_file</key>
+    <value><![CDATA[Додај ресурс датотека]]></value>
+  </definition>
+  <definition>
+    <key>text_add_code</key>
+    <value><![CDATA[Додај ресурси HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_add_files</key>
+    <value><![CDATA[Додај датотеки ...]]></value>
+  </definition>
+  <definition>
+    <key>text_upload_files</key>
+    <value><![CDATA[испраќате датотеки]]></value>
+  </definition>
+  <definition>
+    <key>text_drag</key>
+    <value><![CDATA[или да ги Повлечете тука за да започне upload]]></value>
+  </definition>
+  <definition>
+    <key>text_start_upload</key>
+    <value><![CDATA[Почнат да испратите]]></value>
+  </definition>
+  <definition>
+    <key>text_cancel_upload</key>
+    <value><![CDATA[Откажи поставување]]></value>
+  </definition>
+  <definition>
+    <key>text_start</key>
+    <value><![CDATA[почеток]]></value>
+  </definition>
+  <definition>
+    <key>text_cancel</key>
+    <value><![CDATA[Откажи]]></value>
+  </definition>
+  <definition>
+    <key>text_save_sort_order</key>
+    <value><![CDATA[Зачувај подредување]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[грешка]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_files</key>
+    <value><![CDATA[Избриши датотеки]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Барај]]></value>
+  </definition>
+  <definition>
+    <key>text_type</key>
+    <value><![CDATA[тип]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[Јазик]]></value>
+  </definition>
+  <definition>
+    <key>text_resource_code</key>
+    <value><![CDATA[ресурси HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_name</key>
+    <value><![CDATA[име]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Наслов]]></value>
+  </definition>
+  <definition>
+    <key>text_description</key>
+    <value><![CDATA[Опис]]></value>
+  </definition>
+  <definition>
+    <key>text_uploaded</key>
+    <value><![CDATA[Успех: ресурси е поставено!]]></value>
+  </definition>
+  <definition>
+    <key>text_add</key>
+    <value><![CDATA[Додај]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[Уредување]]></value>
+  </definition>
+  <definition>
+    <key>text_map</key>
+    <value><![CDATA[Линк до Објектно]]></value>
+  </definition>
+  <definition>
+    <key>text_map_to</key>
+    <value><![CDATA[Линк до %s]]></value>
+  </definition>
+  <definition>
+    <key>text_unmap</key>
+    <value><![CDATA[Се прекине врската објект]]></value>
+  </definition>
+  <definition>
+    <key>text_unmap_from</key>
+    <value><![CDATA[Ја прекине врската од %s]]></value>
+  </definition>
+  <definition>
+    <key>text_success_unmap</key>
+    <value><![CDATA[Успех: ресурси е прекината врската.]]></value>
+  </definition>
+  <definition>
+    <key>text_file_delete</key>
+    <value><![CDATA[Ресурси е избришан!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[Успех: Ресурсот е избришан!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_type</key>
+    <value><![CDATA[Предупредување: Неточните тип на датотека!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_size</key>
+    <value><![CDATA[Предупредување: Датотека за големи Ве молиме имајте под 300KB и не повеќе од 1000px висина или ширина!]]></value>
+  </definition>
+  <definition>
+    <key>error_maxFileSize</key>
+    <value><![CDATA[Датотеката е преголема]]></value>
+  </definition>
+  <definition>
+    <key>error_minFileSize</key>
+    <value><![CDATA[Датотека е премногу мал]]></value>
+  </definition>
+  <definition>
+    <key>error_acceptFileTypes</key>
+    <value><![CDATA[Тип на датотека не е дозволено]]></value>
+  </definition>
+  <definition>
+    <key>error_maxNumberOfFiles</key>
+    <value><![CDATA[Максимум број на датотеки надмината]]></value>
+  </definition>
+  <definition>
+    <key>error_uploadedBytes</key>
+    <value><![CDATA[Подигнати бајти надминува големината на датотеката]]></value>
+  </definition>
+  <definition>
+    <key>error_emptyResult</key>
+    <value><![CDATA[Испразни резултат file upload. Можно датотека е оштетена или премногу голема. Големина на датотеката ограничен на 16 MB. Ако големината на датотеката е помала од границата Проверете ги поставувањата на PHP за upload_max_filesize и post_max_size]]></value>
+  </definition>
+  <definition>
+    <key>error_1</key>
+    <value><![CDATA[Датотека надминува upload_max_filesize (php.ini директива)]]></value>
+  </definition>
+  <definition>
+    <key>error_2</key>
+    <value><![CDATA[Датотека надминува MAX_FILE_SIZE (HTML директива форма)]]></value>
+  </definition>
+  <definition>
+    <key>error_3</key>
+    <value><![CDATA[Датотека беше само делумно подигнатите]]></value>
+  </definition>
+  <definition>
+    <key>error_4</key>
+    <value><![CDATA[Нема датотека беше качен]]></value>
+  </definition>
+  <definition>
+    <key>error_5</key>
+    <value><![CDATA[Недостасува привремена папка]]></value>
+  </definition>
+  <definition>
+    <key>error_6</key>
+    <value><![CDATA[Не успеав да запишам во датотеката на дискот]]></value>
+  </definition>
+  <definition>
+    <key>error_7</key>
+    <value><![CDATA[File Upload запре со проширување]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded</key>
+    <value><![CDATA[Предупредување: Оваа датотека не може да бидат поставени за некоја непозната причина!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_type</key>
+    <value><![CDATA[Изберете го типот на ресурси]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Бараните податоци не се внесени]]></value>
+  </definition>
+  <definition>
+    <key>error_not_added</key>
+    <value><![CDATA[Ресурс не е додадена. Ве молиме проверете дневник на грешки за повеќе информации]]></value>
+  </definition>
+  <definition>
+    <key>error_ajax</key>
+    <value><![CDATA[грешка транспорт на податоци. Ве молиме проверете дневник на грешки за повеќе информации]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупредување: забранет пристап!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Грешка: Не е потребно поле име!]]></value>
+  </definition>
+  <definition>
+    <key>button_delete</key>
+    <value><![CDATA[Избриши]]></value>
+  </definition>
+  <definition>
+    <key>button_add</key>
+    <value><![CDATA[Додај ресурси]]></value>
+  </definition>
+  <definition>
+    <key>button_done</key>
+    <value><![CDATA[Завршено]]></value>
+  </definition>
+  <definition>
+    <key>button_select</key>
+    <value><![CDATA[одберете ресурси]]></value>
+  </definition>
+  <definition>
+    <key>text_with_selected</key>
+    <value><![CDATA[Со избрани:]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Ресурси е успешно ажурирана]]></value>
+  </definition>
+  <definition>
+    <key>text_map_success</key>
+    <value><![CDATA[Ресурси успешно поврзани]]></value>
+  </definition>
+  <definition>
+    <key>text_no_resources</key>
+    <value><![CDATA[Нема достапни ресурси]]></value>
+  </definition>
+  <definition>
+    <key>text_preview</key>
+    <value><![CDATA[Преглед / Превземи]]></value>
+  </definition>
+  <definition>
+    <key>error_file size</key>
+    <value><![CDATA[Внимание: Максимална големина на датотеки за upload е %s. Може да ја зголеми оваа вредност во php.ini.]]></value>
+  </definition>
+  <definition>
+    <key>text_product_option_value</key>
+    <value><![CDATA[вредност производ опции]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[категории]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[производители]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[Не можам да креирам ресурси поврзани со повеќе објекти]]></value>
+  </definition>
+  <definition>
+    <key>error_unmap</key>
+    <value><![CDATA[Не може да се прекине врската ресурси. Објектот не е поставена.]]></value>
+  </definition>
+  <definition>
+    <key>text_replace_file</key>
+    <value><![CDATA[замени на датотеката]]></value>
+  </definition>
+  <definition>
+    <key>error_not_replaced</key>
+    <value><![CDATA[Датотека Замена Грешка. Проект задолжителни!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_exists</key>
+    <value><![CDATA[Датотека Замена Грешка. Ресурси не постои!]]></value>
+  </definition>
+  <definition>
+    <key>error_cannot_move</key>
+    <value><![CDATA[Грешка: Не можам да ја преместам датотеката во директориумот %s ресурси.]]></value>
+  </definition>
+  <definition>
+    <key>button_save_n_apply</key>
+    <value><![CDATA[Зачувај и примена на]]></value>
+  </definition>
+  <definition>
+    <key>text_image_size</key>
+    <value><![CDATA[Големина на слика:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_size</key>
+    <value><![CDATA[Големина на датотеката:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_mime</key>
+    <value><![CDATA[MIME:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_path</key>
+    <value><![CDATA[локација на фајл:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_url</key>
+    <value><![CDATA[Ресурси URL:]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[Датум на Стариот &gt; нови]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[Датум Нов &gt; Стар]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[Име A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[Име Ш - А]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_asc</key>
+    <value><![CDATA[Подредување низок &gt; висока]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_desc</key>
+    <value><![CDATA[Подредување Висока &gt; ниско]]></value>
+  </definition>
+</definitions>

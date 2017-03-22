@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[јазици]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[Јазик]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Мора изменета јазици!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[јазик Име]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Код]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[подредување]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[акција]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Јазик име:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Код: <br/><span class="help">Не менувајте ако ова е вашата стандардниот јазик.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_locale</key>
+    <value><![CDATA[локација:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[сликата:]]></value>
+  </definition>
+  <definition>
+    <key>entry_directory</key>
+    <value><![CDATA[директориум:]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[Име на датотека:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[статус:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Подредување:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупредување: Вие немате дозвола да ја менувате јазици!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Јазик Името мора да биде помеѓу 2 и 32 карактери!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Јазик Законик мора да биде најмалку 2 карактери!]]></value>
+  </definition>
+  <definition>
+    <key>error_locale</key>
+    <value><![CDATA[бара локација!]]></value>
+  </definition>
+  <definition>
+    <key>error_image</key>
+    <value><![CDATA[Слика Име на датотеката мора да биде помеѓу 2 и 64 карактери!]]></value>
+  </definition>
+  <definition>
+    <key>error_directory</key>
+    <value><![CDATA[бара директориум!]]></value>
+  </definition>
+  <definition>
+    <key>error_filename</key>
+    <value><![CDATA[Име на датотеката мора да биде помеѓу 2 и 64 карактери!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Предупредување: Овој јазик не може да биде избришан како што е во моментов се доделени како јазик на продавница стандардно!]]></value>
+  </definition>
+  <definition>
+    <key>error_admin</key>
+    <value><![CDATA[Предупредување: Овој јазик не може да биде избришан како што е во моментов се доделени како јазик на администрацијата!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Предупредување: Овој јазик не може да биде избришан како што е во моментов доделен на %s продавници!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Предупредување: Овој јазик не може да биде избришан како што е во моментов доделен на %s наредби!]]></value>
+  </definition>
+  <definition>
+    <key>language_edit_title</key>
+    <value><![CDATA[Измени јазик Детали]]></value>
+  </definition>
+  <definition>
+    <key>load_language_title</key>
+    <value><![CDATA[Вчитаат податоците кои недостасуваат јазик]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_selector</key>
+    <value><![CDATA[Извор Јазик:]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method_selector</key>
+    <value><![CDATA[метод текст превод:]]></value>
+  </definition>
+  <definition>
+    <key>load_language_note</key>
+    <value><![CDATA[Забелешка: Оваа операција може да потрае неколку минути за да се кандидира. Не затворајте пребарувач, го напушти или да се освежи страница!]]></value>
+  </definition>
+  <definition>
+    <key>create_language_note</key>
+    <value><![CDATA[Забелешка: Се препорачува создавање на јазикот како продолжување. Проверете постоечки јазик екстензии. Ако се уште сакаш да се создаде нов јазик рачно, треба да се додаде јазик Знаме на admin / јазик / [Language директориум] /flag.png и продавница / јазик / [Language директориум] flag.png 
+ По јазикот е создадена оптоварување податоците кои недостасуваат јазик да се преведе или да копирате текст содржина од изворниот јазик.]]></value>
+  </definition>
+  <definition>
+    <key>button_load_language</key>
+    <value><![CDATA[транспорт]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete_tasks</key>
+    <value><![CDATA[нецелосни задачи]]></value>
+  </definition>
+  <definition>
+    <key>text_task_id</key>
+    <value><![CDATA[Задача проект:]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Наслов:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_time_run</key>
+    <value><![CDATA[Последен пат Испратена:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Направено:]]></value>
+  </definition>
+  <definition>
+    <key>text_starter_name</key>
+    <value><![CDATA[Направено од:]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Рестарт]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[Отстрани]]></value>
+  </definition>
+  <definition>
+    <key>text_task_title</key>
+    <value><![CDATA[Превод на описот од %s на %s]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Грешка: Ве молиме Постави Извор јазик и начин превод!]]></value>
+  </definition>
+  <definition>
+    <key>text_translate_override_existing</key>
+    <value><![CDATA[Забелешка: Сите постоечки описите во целниот јазик ќе бидат заменети со нови превод. Може да го оневозможите највисок во <a href="%s">систем-&gt; Settings-&gt; Магазин Детали</a> .]]></value>
+  </definition>
+</definitions>

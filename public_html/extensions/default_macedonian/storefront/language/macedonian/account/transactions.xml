@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[мојата Трансакции]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[сметка]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[трансакции Историја]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Број на нарачка]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction_id</key>
+    <value><![CDATA[проект]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction_type</key>
+    <value><![CDATA[тип]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction_description</key>
+    <value><![CDATA[Опис]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[датум на создавање]]></value>
+  </definition>
+  <definition>
+    <key>text_debit</key>
+    <value><![CDATA[дебитна]]></value>
+  </definition>
+  <definition>
+    <key>text_credit</key>
+    <value><![CDATA[Кредитна]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Вкупно]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Немате трансакции снимен на вашата сметка!]]></value>
+  </definition>
+</definitions>

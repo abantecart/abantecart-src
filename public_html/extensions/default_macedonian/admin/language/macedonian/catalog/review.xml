@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Осврти]]></value>
+  </definition>
+  <definition>
+    <key>text_review</key>
+    <value><![CDATA[преглед]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[Вметни Преглед]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[ажурирање Преглед]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Мора изменета коментарите!]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[производ]]></value>
+  </definition>
+  <definition>
+    <key>column_author</key>
+    <value><![CDATA[автор]]></value>
+  </definition>
+  <definition>
+    <key>column_rating</key>
+    <value><![CDATA[Рејтинг]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[статус]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[датум на додавање]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[акција]]></value>
+  </definition>
+  <definition>
+    <key>entry_product</key>
+    <value><![CDATA[на производот:]]></value>
+  </definition>
+  <definition>
+    <key>entry_author</key>
+    <value><![CDATA[автор:]]></value>
+  </definition>
+  <definition>
+    <key>entry_rating</key>
+    <value><![CDATA[Рејтинг:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[статус:]]></value>
+  </definition>
+  <definition>
+    <key>entry_text</key>
+    <value><![CDATA[текст:]]></value>
+  </definition>
+  <definition>
+    <key>entry_good</key>
+    <value><![CDATA[добар]]></value>
+  </definition>
+  <definition>
+    <key>entry_bad</key>
+    <value><![CDATA[Лош]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупредување: Вие немате дозвола да ја менувате коментарите!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[потребни производ!]]></value>
+  </definition>
+  <definition>
+    <key>error_author</key>
+    <value><![CDATA[Авторот мора да биде помеѓу 2 и 64 карактери!]]></value>
+  </definition>
+  <definition>
+    <key>error_text</key>
+    <value><![CDATA[Преглед на текст треба да биде помеѓу 25 и 1000 карактери!]]></value>
+  </definition>
+  <definition>
+    <key>error_rating</key>
+    <value><![CDATA[Преглед рејтинг задолжителни!]]></value>
+  </definition>
+  <definition>
+    <key>text_select_product</key>
+    <value><![CDATA[- Изберете производ -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_category</key>
+    <value><![CDATA[- Изберете Категорија -]]></value>
+  </definition>
+</definitions>

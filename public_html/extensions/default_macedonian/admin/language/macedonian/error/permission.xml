@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Барањето е одбиено!]]></value>
+  </definition>
+  <definition>
+    <key>text_permission</key>
+    <value><![CDATA[Вие немате дозвола за пристап до оваа страница, ве молиме погледнете го вашиот систем администратор.]]></value>
+  </definition>
+</definitions>

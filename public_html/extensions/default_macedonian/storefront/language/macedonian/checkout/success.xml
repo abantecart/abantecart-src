@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Нарачката е Обработени!]]></value>
+  </definition>
+  <definition>
+    <key>text_message_account</key>
+    <value><![CDATA[<p> Вашата нарачка # %s беше замислен! </p> 
+ <p> Можете да ја видите вашата нарачка детали ќе отидете на <a href="%s">страница фактура</a>. </p> 
+ <p> Ве молиме директно било какви прашања имате на <a href="%s">сопственикот на продавницата</a>. </p> 
+ <p> Ви благодариме за шопинг со нас! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_message_guest</key>
+    <value><![CDATA[<p> Нарачката е успешно обработени! </p> 
+ <p> Можете да ја видите вашата нарачка детали ќе отидете на <a href="%s">страница фактура</a>. </p> 
+ <p> Ве молиме директно било какви прашања имате на <a href="%s">сопственикот на продавницата</a>. </p> 
+ <p> Ви благодариме за шопинг со нас! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[кошница]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Испорака]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[плаќање]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[гостин Checkout]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[потврди]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[успех]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order</key>
+    <value><![CDATA[Упс! Имаме искусни некои проблем со вашата трансакција. Вашата цел ќе се проверат рачно од страна на администраторот.]]></value>
+  </definition>
+  <definition>
+    <key>text_title_failed_order_to_admin</key>
+    <value><![CDATA[Не успеав да # %s]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order_to_admin</key>
+    <value><![CDATA[Не успеа или исчезнати одговор од плаќање проверка. Прирачник за верификација се задолжителни!]]></value>
+  </definition>
+</definitions>

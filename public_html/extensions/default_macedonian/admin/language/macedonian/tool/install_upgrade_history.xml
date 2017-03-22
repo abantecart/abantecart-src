@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[инсталирање / надградба Историја]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[тип]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[датум на додавање]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[пакет Клучни]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[верзија]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_date</key>
+    <value><![CDATA[Backup Датум]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_file</key>
+    <value><![CDATA[бекап датотеката]]></value>
+  </definition>
+  <definition>
+    <key>column_user</key>
+    <value><![CDATA[Корисничко име]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[за да ја преземете датотеката]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_history</key>
+    <value><![CDATA[Избриши Историја]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_success</key>
+    <value><![CDATA[Вашиот Инсталирај / надградба Историја е избришан успешно.]]></value>
+  </definition>
+</definitions>

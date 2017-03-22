@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Страната не е пронајдена!]]></value>
+  </definition>
+  <definition>
+    <key>text_not_found</key>
+    <value><![CDATA[На страницата што ја барате не може да се најде! Ве молиме контактирајте со вашиот администратор ако проблемот продолжи.]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Информации за испорака]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[кошница]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Испорака]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_to</key>
+    <value><![CDATA[Ве молиме изберете од вашиот адресар, каде што би сакале на ставки да бидат доставени.]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[адреса за достава]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[метод на испорака]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[Ве молиме изберете склопот на превозот методи за користење на оваа цел.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[Додај коментар за вашата нарачка]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[Грешка: Потребна е метод за испорака!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[Грешка: Не превозот опции се достапни. Ве молиме <a href="index.php?rt=content/contact">контактирајте со нас</a> за помош!]]></value>
+  </definition>
+</definitions>

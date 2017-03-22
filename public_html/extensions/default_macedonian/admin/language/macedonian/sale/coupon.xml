@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Купоните]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[забава]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Мора изменета купони!]]></value>
+  </definition>
+  <definition>
+    <key>text_percent</key>
+    <value><![CDATA[процент]]></value>
+  </definition>
+  <definition>
+    <key>text_amount</key>
+    <value><![CDATA[фиксен износ]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Име на забава]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Код]]></value>
+  </definition>
+  <definition>
+    <key>column_discount</key>
+    <value><![CDATA[попуст]]></value>
+  </definition>
+  <definition>
+    <key>column_date_start</key>
+    <value><![CDATA[Дата на започнување]]></value>
+  </definition>
+  <definition>
+    <key>column_date_end</key>
+    <value><![CDATA[датум на престанок на]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[статус]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[акција]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Забава име:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Забава Опис:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Код: <br/><span class="help">Кодот клиентот влегува за да се добие попуст</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_type</key>
+    <value><![CDATA[Тип: <br/><span class="help">процент или фиксен износ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_discount</key>
+    <value><![CDATA[попуст:]]></value>
+  </definition>
+  <definition>
+    <key>entry_logged</key>
+    <value><![CDATA[Најава за клиенти: <br/><span class="help">клиентите треба да бидете најавени за користење на купони.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[Бесплатна испорака:]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Вкупен износ: <br/><span class="help">под-вкупно износ што мора да се постигне пред забава е валидна.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_product</key>
+    <value><![CDATA[Одбрани производи:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[Дата на започнување:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[Датум на престанок на:]]></value>
+  </definition>
+  <definition>
+    <key>entry_uses_total</key>
+    <value><![CDATA[Користи Пер купони: <br/><span class="help">Максималниот број на пати за забава може да се користи од страна на секој клиент. Оставете празно за неограничен</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_uses_customer</key>
+    <value><![CDATA[Користи на клиент: <br/><span class="help">Максималниот број на пати за забава може да се користи од страна на еден клиент. Оставете празно за неограничен</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[статус:]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_coupon_usage</key>
+    <value><![CDATA[Вкупно купони Употреба: <br/><span class="help">Грофот од сите нарачки со користење на овој талон</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупредување: Вие немате дозвола да ја менувате купони!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Забава Името мора да биде помеѓу 2 и 64 карактери!]]></value>
+  </definition>
+  <definition>
+    <key>error_description</key>
+    <value><![CDATA[Опис на забава да биде помеѓу 2 карактери!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Код мора да биде помеѓу 2 и 10 карактери!]]></value>
+  </definition>
+  <definition>
+    <key>error_date</key>
+    <value><![CDATA[Поставете опсег!]]></value>
+  </definition>
+</definitions>

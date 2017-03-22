@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[производи]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Категорија не е пронајдена!]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[Нема производи на листата во оваа категорија.]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[%s Од 5 ѕвезди!]]></value>
+  </definition>
+  <definition>
+    <key>text_sort</key>
+    <value><![CDATA[Сортирај по:]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[стандардно]]></value>
+  </definition>
+  <definition>
+    <key>text_name_asc</key>
+    <value><![CDATA[Име A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_name_desc</key>
+    <value><![CDATA[Име Ш - А]]></value>
+  </definition>
+  <definition>
+    <key>text_price_asc</key>
+    <value><![CDATA[Цена Ниска &gt; висока]]></value>
+  </definition>
+  <definition>
+    <key>text_price_desc</key>
+    <value><![CDATA[Цена Висок &gt; ниско]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_asc</key>
+    <value><![CDATA[рејтинг најниска]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_desc</key>
+    <value><![CDATA[рејтинг Највисока]]></value>
+  </definition>
+  <definition>
+    <key>text_top_category</key>
+    <value><![CDATA[Топ Категорија]]></value>
+  </definition>
+</definitions>

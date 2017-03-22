@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[шаблон Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Можете да го поставите нова продавница дефиниција!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront_templates</key>
+    <value><![CDATA[Достапно продавница Урнеци]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_extension</key>
+    <value><![CDATA[Прилагодување продолжување]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Грешка: Недостасува им параметар во вашето барање!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупредување: Вие немате дозвола да ја менувате шаблони!]]></value>
+  </definition>
+</definitions>

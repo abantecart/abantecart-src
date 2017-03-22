@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_possible_commands</key>
+    <value><![CDATA[Подолу се можни команди. Можете да speek повеќе детали по команда клучни зборови. На пример, &quot;отворен пораки страница&quot; или &quot;Внеси производ&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_multiple_result_found</key>
+    <value><![CDATA[Повеќе резултат акција најде:]]></value>
+  </definition>
+  <definition>
+    <key>text_action_confirm</key>
+    <value><![CDATA[Ве молиме потврдете го вашето барање:]]></value>
+  </definition>
+  <definition>
+    <key>command_open</key>
+    <value><![CDATA[отворен, отворена страница, отворете го менито]]></value>
+  </definition>
+  <definition>
+    <key>command_find</key>
+    <value><![CDATA[лоцира, најдете, пребарување, пребарување, пребарување 4]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_cache</key>
+    <value><![CDATA[Избриши кеш, кеш јасен, јасни сите кеш]]></value>
+  </definition>
+  <definition>
+    <key>command_view_log</key>
+    <value><![CDATA[приказот на дневникот, влези поглед, врши увид најавите, видете најавите, приказот на дневникот за грешки, погледнете грешки]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_log</key>
+    <value><![CDATA[јасно се најавите, влези јасно, избришете се најавите, влези избришете]]></value>
+  </definition>
+  <definition>
+    <key>command_view_order</key>
+    <value><![CDATA[Поглед на цел, цел број, отворен цел, шоу цел, отворен цел број, број поглед ред, бројот шоу на нарачката, #]]></value>
+  </definition>
+  <definition>
+    <key>command_view_product</key>
+    <value><![CDATA[Погледни производ, производ број, отворен производ, покажуваат производ, отворен производ број, број Погледни производ, број шоу на производот, производ #]]></value>
+  </definition>
+  <definition>
+    <key>command_create_new</key>
+    <value><![CDATA[вметнете, се создаде, да додадете, нови, ставете нова, да креираат нови, да додадете нови]]></value>
+  </definition>
+  <definition>
+    <key>category</key>
+    <value><![CDATA[категорија]]></value>
+  </definition>
+  <definition>
+    <key>product</key>
+    <value><![CDATA[производ]]></value>
+  </definition>
+  <definition>
+    <key>brand</key>
+    <value><![CDATA[бренд]]></value>
+  </definition>
+  <definition>
+    <key>manufacturer</key>
+    <value><![CDATA[производителот]]></value>
+  </definition>
+  <definition>
+    <key>review</key>
+    <value><![CDATA[преглед]]></value>
+  </definition>
+  <definition>
+    <key>download</key>
+    <value><![CDATA[Превземи]]></value>
+  </definition>
+  <definition>
+    <key>attribute</key>
+    <value><![CDATA[атрибут]]></value>
+  </definition>
+  <definition>
+    <key>customer</key>
+    <value><![CDATA[клиентите]]></value>
+  </definition>
+  <definition>
+    <key>coupon</key>
+    <value><![CDATA[забава]]></value>
+  </definition>
+  <definition>
+    <key>discount</key>
+    <value><![CDATA[попуст]]></value>
+  </definition>
+  <definition>
+    <key>block</key>
+    <value><![CDATA[блок]]></value>
+  </definition>
+  <definition>
+    <key>menu</key>
+    <value><![CDATA[мени]]></value>
+  </definition>
+  <definition>
+    <key>content</key>
+    <value><![CDATA[содржина]]></value>
+  </definition>
+  <definition>
+    <key>banner</key>
+    <value><![CDATA[банер]]></value>
+  </definition>
+  <definition>
+    <key>page</key>
+    <value><![CDATA[страница]]></value>
+  </definition>
+  <definition>
+    <key>store</key>
+    <value><![CDATA[продавница]]></value>
+  </definition>
+  <definition>
+    <key>language</key>
+    <value><![CDATA[јазик]]></value>
+  </definition>
+  <definition>
+    <key>currency</key>
+    <value><![CDATA[валута]]></value>
+  </definition>
+  <definition>
+    <key>location</key>
+    <value><![CDATA[локација]]></value>
+  </definition>
+  <definition>
+    <key>tax</key>
+    <value><![CDATA[данок]]></value>
+  </definition>
+</definitions>

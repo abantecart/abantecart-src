@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Мапа на сајтот]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[Специјални понуди]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Мојот акаунт]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[Информации за сметката]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Лозинка]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Адресар]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[за историја]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Превземања]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[Купувачка кошничка]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Плаќање]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Барај]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[информации]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Контактирајте не]]></value>
+  </definition>
+</definitions>

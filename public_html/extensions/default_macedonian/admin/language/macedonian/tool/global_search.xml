@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Глобална Резултати од пребарувањето]]></value>
+  </definition>
+  <definition>
+    <key>no_results_message</key>
+    <value><![CDATA[Жал ми е, но немаме резултати.]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупредување: Вие немате дозвола да се Барај!]]></value>
+  </definition>
+  <definition>
+    <key>text_orders</key>
+    <value><![CDATA[нарачки]]></value>
+  </definition>
+  <definition>
+    <key>text_customers</key>
+    <value><![CDATA[клиентите]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[Превземања]]></value>
+  </definition>
+  <definition>
+    <key>text_product_categories</key>
+    <value><![CDATA[Категории на производи]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[производи]]></value>
+  </definition>
+  <definition>
+    <key>text_reviews</key>
+    <value><![CDATA[Осврти]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[брендови]]></value>
+  </definition>
+  <definition>
+    <key>text_languages</key>
+    <value><![CDATA[јазици]]></value>
+  </definition>
+  <definition>
+    <key>text_pages</key>
+    <value><![CDATA[страници со врски]]></value>
+  </definition>
+  <definition>
+    <key>text_settings</key>
+    <value><![CDATA[Подесувања]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[пораки]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[екстензии]]></value>
+  </definition>
+  <definition>
+    <key>text_commands</key>
+    <value><![CDATA[Брзи команди]]></value>
+  </definition>
+  <definition>
+    <key>text_contents</key>
+    <value><![CDATA[содржина страници]]></value>
+  </definition>
+</definitions>

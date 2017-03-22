@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Вашата сметка е активирана!]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Добредојдовте и Ви благодарам за регистрирање на %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[вашата сметка е креирана и можете да се логирате со користење на вашата e-mail адреса и лозинка со посетата на нашиот веб-сајт или на следнава адреса:]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Откако ќе влезете внатре, ќе бидат во можност да имаат пристап, со желби, историја ред, вашите фактури печатење и уредување на информациите за вашата сметка.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Ти благодарам,]]></value>
+  </definition>
+</definitions>

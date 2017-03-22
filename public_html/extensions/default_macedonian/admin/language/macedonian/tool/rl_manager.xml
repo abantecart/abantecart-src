@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Медиумите ресурси Библиотека менаџер]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[Најнови додадени ресурси]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[вид на изворот]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[Тип на ресурси Клучни <br/><span class="help">вредност тип на клуч Овој ресурс / име не може да се промени</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[Ресурс директориум <br/><span class="help">Директориум на лоцирање на ресурси за овој тип. Ако се промени, на постојните ресурси нема да биде acceccible и ќе треба да се копира на нов директориум!</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[Икона на стандарден <br/><span class="help">Икона слика да се прикажува во листата на ресурси (Локација: / слика / ...).</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[Домашни екстензии на датотеки <br/><span class="help">назив со листа на дозволени екстензии на датотеки за овој тип на ресурси</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Сте обновено ресурс тип!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[Грешка: тип исчезнати ресурс проект!]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[Грешка: име на тип ресурси треба да биде помеѓу 2 и 40 знаци со]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[Грешка: вид ресурс директориум треба да биде помеѓу 2 и 64 знаци со]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[Грешка: икона ресурс тип треба да биде помеѓу 2 и 64 знаци со]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[Грешка: Ресурси тип на датотека extenions назив треба да биде помеѓу 2 и 40 знаци со]]></value>
+  </definition>
+</definitions>

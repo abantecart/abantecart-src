@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Плаќање Потврда]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[кошница]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_basket</key>
+    <value><![CDATA[Измени кошничката]]></value>
+  </definition>
+  <definition>
+    <key>text_accept_agree</key>
+    <value><![CDATA[Со кликнување Потврди ја порачката, ги прифаќате и се согласувате со сите услови на]]></value>
+  </definition>
+  <definition>
+    <key>text_cart_items</key>
+    <value><![CDATA[Предмети во вашата кошничка]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Испорака]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_shipping</key>
+    <value><![CDATA[Уреди за испорака]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[плаќање]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_payment</key>
+    <value><![CDATA[уредување на плаќање]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_1</key>
+    <value><![CDATA[Гостин Работа - Чекор 1]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_2</key>
+    <value><![CDATA[Гостин Работа - Чекор 2]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[потврди]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[адреса за достава]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[метод на испорака]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[плаќање адреса]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Метод за плаќање]]></value>
+  </definition>
+  <definition>
+    <key>text_change</key>
+    <value><![CDATA[промена]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[вашиот Коментари]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[попуст купони]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[производ]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[модел]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Квантитет]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[цена]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Вкупно]]></value>
+  </definition>
+  <definition>
+    <key>text_add_coupon</key>
+    <value><![CDATA[Измени купони]]></value>
+  </definition>
+</definitions>

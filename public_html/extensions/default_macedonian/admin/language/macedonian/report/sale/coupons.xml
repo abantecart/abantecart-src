@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[попусти извештај]]></value>
+  </definition>
+  <definition>
+    <key>column_coupon_name</key>
+    <value><![CDATA[Попуст / купони Име]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Код]]></value>
+  </definition>
+  <definition>
+    <key>column_orders</key>
+    <value><![CDATA[бр Нарачки]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Вкупно]]></value>
+  </definition>
+  <definition>
+    <key>column_discount_total</key>
+    <value><![CDATA[вкупниот попуст]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[Дата на започнување:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[Датум на престанок на:]]></value>
+  </definition>
+</definitions>

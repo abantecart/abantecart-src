@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[менаџер ажурирање]]></value>
+  </definition>
+  <definition>
+    <key>text_checkupdates</key>
+    <value><![CDATA[проверите за надградби]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[продолжување Име]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[тип]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[категорија]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[статус]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[тековната верзија]]></value>
+  </definition>
+  <definition>
+    <key>column_new_version</key>
+    <value><![CDATA[Нова верзија]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[акција]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Екстензии беше успешно обновен!]]></value>
+  </definition>
+  <definition>
+    <key>text_update</key>
+    <value><![CDATA[ажурирање]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore_exts</key>
+    <value><![CDATA[Враќање на продолжување Backuped:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[новости:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупредување: Вие немате дозвола да ја менувате директориум:]]></value>
+  </definition>
+  <definition>
+    <key>warning_server</key>
+    <value><![CDATA[Сервер со надградби е inaccesible.]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_title</key>
+    <value><![CDATA[Ажурирање Известување за% ПРОШИРУВАЊЕ%]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_text</key>
+    <value><![CDATA[&quot;Нова верзија на екстензија&quot;% ПРОШИРУВАЊЕ% &quot;е на располагање. Ве молиме, одете на% врска% и надградба на тоа. &quot;]]></value>
+  </definition>
+  <definition>
+    <key>warning_updates</key>
+    <value><![CDATA[Не можам да добијам информации за надградби.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Предупредување: Датотеката што ја поставивте е празна!]]></value>
+  </definition>
+  <definition>
+    <key>error_exts_list</key>
+    <value><![CDATA[Предупредување: листа на локалот не е низа!]]></value>
+  </definition>
+  <definition>
+    <key>text_nothing_todo</key>
+    <value><![CDATA[Вашето екстензии се до датумот. Нема што да се прави.]]></value>
+  </definition>
+  <definition>
+    <key>text_connect</key>
+    <value><![CDATA[Поврзете се]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect</key>
+    <value><![CDATA[Поврзете се на пазар]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect_your_store</key>
+    <value><![CDATA[Поврзете го вашиот продавницата на пазарот]]></value>
+  </definition>
+  <definition>
+    <key>text_note</key>
+    <value><![CDATA[Забелешка: Ажурирање достапна само за поврзани продавници со купени историја.]]></value>
+  </definition>
+</definitions>

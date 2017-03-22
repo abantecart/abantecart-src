@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Барај]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Производи ги исполнуваат критериумите за пребарување]]></value>
+  </definition>
+  <definition>
+    <key>text_keyword</key>
+    <value><![CDATA[Клучни зборови]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[сите категории]]></value>
+  </definition>
+  <definition>
+    <key>text_critea</key>
+    <value><![CDATA[Критериуми за пребарување]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[Не постои производ што одговара на критериуми за пребарување.]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[%s Од 5 ѕвезди!]]></value>
+  </definition>
+  <definition>
+    <key>text_sort</key>
+    <value><![CDATA[Сортирај по:]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[стандардно]]></value>
+  </definition>
+  <definition>
+    <key>text_name_asc</key>
+    <value><![CDATA[Име A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_name_desc</key>
+    <value><![CDATA[Име Ш - А]]></value>
+  </definition>
+  <definition>
+    <key>text_price_asc</key>
+    <value><![CDATA[Цена Ниска &gt; висока]]></value>
+  </definition>
+  <definition>
+    <key>text_price_desc</key>
+    <value><![CDATA[Цена Висок &gt; ниско]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_asc</key>
+    <value><![CDATA[рејтинг најниска]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_desc</key>
+    <value><![CDATA[рејтинг Највисока]]></value>
+  </definition>
+  <definition>
+    <key>entry_search</key>
+    <value><![CDATA[Барај:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Барај во опис на производот]]></value>
+  </definition>
+  <definition>
+    <key>entry_model</key>
+    <value><![CDATA[Барај во производ модел]]></value>
+  </definition>
+</definitions>

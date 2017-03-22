@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Ви благодариме за регистрацијата]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Добредојдовте и Ви благодарам за регистрирање на %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Вашата сметка сега се создадени и може да ја пристапите со посетата на нашиот веб-сајт или на следнава адреса:]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[Вашата сметка мора да биде одобрена пред да можете да се најавите. Откако ќе биде одобрен можете да се логирате со користење на вашата e-mail адреса и лозинка со посетата на нашиот веб-сајт или на следнава адреса:]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[Пред да можеме да ја активирате вашата сметка мора да се земе уште еден последен чекор за да се заврши регистрацијата. <br/> 
+ Мора да заврши последниот чекор да стане регистриран член. Ве молиме кликнете на следниот линк за да ја активирате вашата сметка %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[По пријавувањето, ќе биде во можност за пристап до други услуги, вклучувајќи разгледување на минатото нарачки, фактури печатење и уредување на информациите за вашата сметка.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Ти благодарам,]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[грешка Пријавете]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Успешно расчисти вашиот дневник на грешки!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_tail</key>
+    <value><![CDATA[Поради големината на log датотеката, само минатата 500KB на податоци може да се гледа тука. 
+ За да ја видите комплетната најавите, да го добие од Вашиот сервер директно. 
+ Патека:]]></value>
+  </definition>
+</definitions>

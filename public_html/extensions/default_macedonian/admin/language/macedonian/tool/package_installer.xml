@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Пакетот е инсталиран успешно.]]></value>
+  </definition>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[пакет Installer]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_license</key>
+    <value><![CDATA[Пакет договор за лиценца]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_ftp</key>
+    <value><![CDATA[параметри FTP пристап]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_download</key>
+    <value><![CDATA[пакет Се поврзува]]></value>
+  </definition>
+  <definition>
+    <key>text_preloading</key>
+    <value><![CDATA[Пакет датотека% file% ќе биде сменет.]]></value>
+  </definition>
+  <definition>
+    <key>text_loading</key>
+    <value><![CDATA[Да ја преземете датотеката. Големина: %s. <br/> Тоа може да потрае неколку секунди во зависност од вашата врска.]]></value>
+  </definition>
+  <definition>
+    <key>text_key_hint</key>
+    <value><![CDATA[Внесете Инсталација Клучот тука]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_user</key>
+    <value><![CDATA[FTP Корисничко име:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_password</key>
+    <value><![CDATA[FTP Лозинка:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_host</key>
+    <value><![CDATA[FTP домаќин на:]]></value>
+  </definition>
+  <definition>
+    <key>text_i_agree</key>
+    <value><![CDATA[Се согласувам со дозвола]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[Се согласувам]]></value>
+  </definition>
+  <definition>
+    <key>text_retry</key>
+    <value><![CDATA[обидете се повторно]]></value>
+  </definition>
+  <definition>
+    <key>text_disagree</key>
+    <value><![CDATA[Не се согласувам]]></value>
+  </definition>
+  <definition>
+    <key>text_download_error</key>
+    <value><![CDATA[Жал ни е, но случи грешка при качувањето на датотеката. </br> Обиди се уште еднаш. </br> Ако проблемот се истрае да ја преземете датотеката во историјата на својата цел и да ја инсталирате рачно.]]></value>
+  </definition>
+  <definition>
+    <key>text_continue</key>
+    <value><![CDATA[продолжи]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer_heading</key>
+    <value><![CDATA[Општи услови]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer</key>
+    <value><![CDATA[<h3> Почитувани AbanteCart на клиентите, </h3><br/> 
+ Вие сте за да се инсталира продолжување на трети страни на вашиот AbanteCart. <br/><br/> 
+ Ве молиме да се прочита и разбере овој демант за продолжување на трети лица да го инсталирате. <br/><br/> 
+ Трето екстензии и услуги на трети страни се предвидени од страна на трети лица продавачи. <br/><br/> 
+ Иако, AbanteCart се провери квалитетот на екстензии и услуги обезбедени од страна на трети лица, AbanterCart не е гаранција дека сите продолжување работа на трети лица правилно или нема да предизвика конфликти во системот. 
+ членови AbanteCart и филијали во никој случај не никаква одговорност за тврдењата поврзани со обезбедени од страна на трети лица продавачи производи или услуги. AbanteCart не гарантира за квалитетот на проширувања или услуги на трети лица. Ве молиме директно на вашите барања во врска со продолжување на трети лица или услуги на соодветната трета страна продавач. 
+ Ако имате загриженост во врска со било која трета страна провајдер ве молиме контактирајте AbanteCart во <a href="http://www.abantecart.com/contact-us" target="_blank">http://www.abantecart.com/contact-us</a><br/><br/> 
+ Со почит, <br/> 
+ AbanteCart <br/> 
+ Идеален Свет E-commerce решение]]></value>
+  </definition>
+  <definition>
+    <key>warning_ftp</key>
+    <value><![CDATA[Предупредување: Некои директориум или датотека не имате дозвола за запишување <span id="see_details">(повеќе информации)</span><br/> Можете да ги изменам дозволите на вашиот сервер или <br/> употреба FTP пристап до вашиот сервер за инсталација (обично, хостинг провајдер праќа оваа информации преку е-мејл или можете да го управувате со хостинг контролен алатки) <br/>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed</key>
+    <value><![CDATA[<p class="success"> Веќе имате инсталирано% ПРОШИРУВАЊЕ% продолжување! Ако сакате да продолжите и надградба, Ве молиме да потврдите. </p>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed_uninstall</key>
+    <value><![CDATA[Вие веќе ја имаат оваа екстензија &quot;% ПРОШИРУВАЊЕ%&quot; инсталирана! Ако сакате да продолжите да ја инсталирате, Ве молиме да го деинсталирате и да го избришете продолжување на прво место.]]></value>
+  </definition>
+  <definition>
+    <key>error_pack_file_not_found</key>
+    <value><![CDATA[Грешка: Не може да се извлече продолжување од архивата на %s. Проверете <a href="#admin#rt=tool/error_log" target="_blank">логирате</a> за грешки]]></value>
+  </definition>
+  <definition>
+    <key>error_mp</key>
+    <value><![CDATA[Пазар за грешка:]]></value>
+  </definition>
+  <definition>
+    <key>error_repository</key>
+    <value><![CDATA[Грешка: Не може да преземе датотека. Складиштето грешка или невалиден клуч за продолжување. Обиди се уште еднаш. Ако проблемот се истрае да ја преземете датотеката во историјата на својата цел и да ја инсталирате рачно.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_user</key>
+    <value><![CDATA[Грешка: FTP корисничко име е празна.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_password</key>
+    <value><![CDATA[Грешка: FTP корисник лозинка е празна.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_connect</key>
+    <value><![CDATA[Грешка: Не може да се поврзете со FTP-серверот]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_login</key>
+    <value><![CDATA[Грешка: Не може да се најавите на FTP-серверот. Неправилно корисничко име или лозинка.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path</key>
+    <value><![CDATA[Грешка: Не може да root директориумот на AbanteCart преку FTP пат. <br/> Обидете се да ја оставите празно за автоматско пребарување.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path_array</key>
+    <value><![CDATA[Грешка: Не може да се препознае автоматски root директориумот на AbanteCart во FTP режим. <br/> Ве молиме пополнете го формуларот поле FTP-патека. <br/> Пат предлози се:]]></value>
+  </definition>
+  <definition>
+    <key>error_dir_permission</key>
+    <value><![CDATA[не може да ја зачувам датотеката, бидејќи директориумот не може да се запишува:]]></value>
+  </definition>
+  <definition>
+    <key>error_package_structure</key>
+    <value><![CDATA[Грешка: Веројатно пакетот е скршен. Структура на пакетот за грешка.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config_xml</key>
+    <value><![CDATA[Грешка: Не може да го пронајде датотека package.xml внатрешноста на извлечена продолжување. Можно продолжување не беше извлечена правилно. Проверете <a href="#admin#rt=tool/error_log" target="_blank">логирате</a> за грешки]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config2</key>
+    <value><![CDATA[Грешка: Не може да се најде на владата инсталација во package.xml во пакет.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_info_not_exists</key>
+    <value><![CDATA[Грешка: Не може да се најде пакет информации сесија за тоа превземање.]]></value>
+  </definition>
+  <definition>
+    <key>error_unpack</key>
+    <value><![CDATA[Грешка: Не може да се отпакува пакетот &quot;% ПАКЕТ%&quot; по преземање. Архива грешка. Видете дневник на грешки за детали.]]></value>
+  </definition>
+  <definition>
+    <key>error_move</key>
+    <value><![CDATA[Грешка: Не може да се премести пакет кодот по отпакувањето. Ве молиме обидете се да се провери пермисии на директориумот:]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode</key>
+    <value><![CDATA[Грешка: Не може да се инсталира екстензија &quot;% пакетот%&quot;, бидејќи тоа е веќе инсталиран. Вие треба deinstall и избришете го првиот или да добијат пакет за надградба.]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode2</key>
+    <value><![CDATA[Грешка: Не може да се надградат екстензија &quot;% пакетот%&quot;, бидејќи тоа не е инсталиран. Вие треба да добијат пакет за инсталација.]]></value>
+  </definition>
+  <definition>
+    <key>error_version_compatibility</key>
+    <value><![CDATA[Грешка: Не може да се инсталира пакет. Вашата кошничка е <b>верзија% CURRENT_VERSION%.</b> Верзија <b>(s)% ВЕРЗИИ%</b> е потребно.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_version_compatibility</key>
+    <value><![CDATA[Грешка: Не може да се надградат пакет. Понови пакет верзија е веќе инсталиран.]]></value>
+  </definition>
+  <definition>
+    <key>error_install</key>
+    <value><![CDATA[Грешка: Не може да се инсталира пакет. Ве молиме погледнете систем -&gt; Грешка Пријавете се за детали.]]></value>
+  </definition>
+  <definition>
+    <key>error_core_version</key>
+    <value><![CDATA[Грешка: Морате да има инсталирано AbanteCart верзија% верзија%. <br/> Оваа надградба пакет само за верзии пониска од]]></value>
+  </definition>
+  <definition>
+    <key>text_interrupt</key>
+    <value><![CDATA[прекин]]></value>
+  </definition>
+  <definition>
+    <key>confirm_version_incompatibility</key>
+    <value><![CDATA[Тековни копија од оваа екстензија не е потврдена за вашата верзија на AbanteCart (V %s). <br/> Продолжување изгради е одредено за AbanteCart V %s. <br/> 
+ Ова не е проблем, но ако забележите или некомпатибилност прашања, Ве молиме контактирајте продолжување инвеститорот.]]></value>
+  </definition>
+  <definition>
+    <key>error_move_ftp</key>
+    <value><![CDATA[Грешка: Не може да се премести пакет кодот по отпакувањето. Веројатно FTP пат не е точно. <br/> Исто така, Ве молиме, обидете се да се провери пермисии на директориумот:]]></value>
+  </definition>
+  <definition>
+    <key>text_network_install</key>
+    <value><![CDATA[мрежа Инсталирајте]]></value>
+  </definition>
+  <definition>
+    <key>text_extension_upload</key>
+    <value><![CDATA[продолжување Подигни датотека]]></value>
+  </definition>
+  <definition>
+    <key>error_archive_extension</key>
+    <value><![CDATA[Грешка: поддржани само .tar.gz датотеки.]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_file</key>
+    <value><![CDATA[Додадени фајлови:]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_url</key>
+    <value><![CDATA[Внесете URL:]]></value>
+  </definition>
+  <definition>
+    <key>error_move_backup</key>
+    <value><![CDATA[Грешка: Не може да се резервните датотеки пред надградба. Проверете дозволи за запишување на директориумот:]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_title</key>
+    <value><![CDATA[Надградба Abantecart Core]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_attention</key>
+    <value><![CDATA[Внимание! 
+ AbanteCart е за да биде надграден на верзија %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_warning</key>
+    <value><![CDATA[Не постои вратите по започнување на процесот на надградба. 
+ е високо препорачливо веб страница и кодот резервна копија. 
+ Тест надградба на неживи сајтови во прв план. Надградба на живи сајтови не се препорачува.]]></value>
+  </definition>
+  <definition>
+    <key>text_upgrade_now</key>
+    <value><![CDATA[Надогради сега!]]></value>
+  </definition>
+  <definition>
+    <key>error_additional_help_text</key>
+    <value><![CDATA[Заглавен? Не е проблем. Можете да ја инсталирате екстензии на друг начин. Проверете го <a href="http://docs.abantecart.com/pages/extensions/install.html#FTPinstall" target="_blank">овој линк помош</a>]]></value>
+  </definition>
+  <definition>
+    <key>error_notconnected</key>
+    <value><![CDATA[не може да се надополни или да го инсталира екстензии од пазарот. Оваа продавница не е проверено / поврзани. Ве молиме да се идентификувате и да се поврзете на <a href="%s">пазарот</a>]]></value>
+  </definition>
+</definitions>

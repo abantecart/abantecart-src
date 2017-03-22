@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Ја заборави лозинката?]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_loginname</key>
+    <value><![CDATA[Го заборавивте вашето корисничко име име?]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[сметка]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten</key>
+    <value><![CDATA[Заборавена лозинка]]></value>
+  </definition>
+  <definition>
+    <key>text_your_email</key>
+    <value><![CDATA[Твојата е-маил адреса]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Внесете ја адресата на е-пошта поврзана со вашиот профил. Кликнете на Прати дека вашата лозинка преку е-маил]]></value>
+  </definition>
+  <definition>
+    <key>text_loginname_email</key>
+    <value><![CDATA[Внесете корисничко име и е-пошта поврзана со вашиот профил. Кликнете испрати да побара ресетирање на лозинката]]></value>
+  </definition>
+  <definition>
+    <key>text_lastname_email</key>
+    <value><![CDATA[Внесете го презимето и е-пошта поврзана со вашиот профил. Кликнете испрати да има вашето име за најава преку е-маил]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Лозинка Ресетирај линк е испратена на Вашата e-mail адреса.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_loginname</key>
+    <value><![CDATA[Успех: Вашето корисничко име потсетникот е испратена на Вашата e-mail адреса.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Корисничко име:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Презиме:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[И-мејл адреса:]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Грешка: адреса на е-пошта не е обезбедена или не се најде во нашата база на податоци, Ве молиме обидете се повторно!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Грешка: корисничкото име не е обезбедена или не се најде во нашата база на податоци, Ве молиме обидете се повторно!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Грешка: Презиме не е обезбедена или не се најде во нашата база на податоци, Ве молиме обидете се повторно!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_found</key>
+    <value><![CDATA[Грешка: Не евиденција најде за појавување на информациите обезбедени, ве молиме проверете ја вашата информации и обидете се повторно!]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_loginname</key>
+    <value><![CDATA[Заборавена Најава]]></value>
+  </definition>
+</definitions>

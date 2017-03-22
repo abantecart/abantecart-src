@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Купувачка кошничка]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[кошница]]></value>
+  </definition>
+  <definition>
+    <key>text_sub_total</key>
+    <value><![CDATA[Под-вкупно:]]></value>
+  </definition>
+  <definition>
+    <key>text_weight</key>
+    <value><![CDATA[Кошничката Тежина:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Вашата кошничка е празна!]]></value>
+  </definition>
+  <definition>
+    <key>column_remove</key>
+    <value><![CDATA[Отстрани]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[слика]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[име]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[модел]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Квантитет]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Единечната цена]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Вкупно]]></value>
+  </definition>
+  <definition>
+    <key>text_continue_shopping</key>
+    <value><![CDATA[Да продолжите со купување]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_codes</key>
+    <value><![CDATA[Примени купони законик]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipping_tax</key>
+    <value><![CDATA[Проценка Испорака и даноци]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_country</key>
+    <value><![CDATA[Земја и држава]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_postcode</key>
+    <value><![CDATA[ZIP / Поштенски код]]></value>
+  </definition>
+  <definition>
+    <key>button_text_estimate</key>
+    <value><![CDATA[проценка]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipments</key>
+    <value><![CDATA[пратки]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Грешка: забава е или не е валиден, истекуваат или се постигне тоа е ограничување на употреба!]]></value>
+  </definition>
+  <definition>
+    <key>error_stock</key>
+    <value><![CDATA[Производи означени со *** не се достапни во саканата количина или надвор од акциите!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_options</key>
+    <value><![CDATA[Ве молиме изберете сите потребни опции!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_minimum</key>
+    <value><![CDATA[Вашата цел под-вкупно износ не ги исполнува минималниот износ на %s е потребно. Ве молиме додадете повеќе производи во Вашата кошничка!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_maximum</key>
+    <value><![CDATA[Вашата цел под-вкупно износ го надминува максималниот износ на %s дозволено по ред. Ве молиме отстранете некои ставки од вашата кошничка!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_data</key>
+    <value><![CDATA[податоци датотека е оштетена или празна.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_name</key>
+    <value><![CDATA[Името на датотеката е празна!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_extension</key>
+    <value><![CDATA[Само датотеки со екстензија (а) %s е (се) не се дозволени!]]></value>
+  </definition>
+  <definition>
+    <key>error_min_file_size</key>
+    <value><![CDATA[Минимална големина на датотеки за upload е %s Kb.]]></value>
+  </definition>
+  <definition>
+    <key>error_max_file_size</key>
+    <value><![CDATA[Максимална големина на датотеки за upload е %s Kb.]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_success</key>
+    <value><![CDATA[Успех: Твојата талон попуст се применува!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[Успех: купони е отстранета!]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_maximum</key>
+    <value><![CDATA[количество дозволено производот надминува. Кол беше поставена на максимум.]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_minimum</key>
+    <value><![CDATA[количество дозволено производ е под потребниот минимум. Кол беше поставено на минимален износ.]]></value>
+  </definition>
+</definitions>

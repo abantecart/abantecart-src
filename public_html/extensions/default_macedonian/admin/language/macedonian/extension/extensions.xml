@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[екстензии]]></value>
+  </definition>
+  <definition>
+    <key>text_install</key>
+    <value><![CDATA[Инсталирај]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall</key>
+    <value><![CDATA[Избриши]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall_delete</key>
+    <value><![CDATA[Избриши / Delete]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall_confirm</key>
+    <value><![CDATA[Ве молиме потврдете дека сакате да ја деинсталирате продолжување. Сите поставувања продолжување и сродни податоци може да бидат избришани и изгубени.]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[Избриши]]></value>
+  </definition>
+  <definition>
+    <key>text_enlarge</key>
+    <value><![CDATA[Кликнете на сликата за зголемување]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[Активирајте]]></value>
+  </definition>
+  <definition>
+    <key>text_deactivate</key>
+    <value><![CDATA[Деактивирајте]]></value>
+  </definition>
+  <definition>
+    <key>text_left</key>
+    <value><![CDATA[лево]]></value>
+  </definition>
+  <definition>
+    <key>text_right</key>
+    <value><![CDATA[право]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Додадено на]]></value>
+  </definition>
+  <definition>
+    <key>column_icon</key>
+    <value><![CDATA[икона]]></value>
+  </definition>
+  <definition>
+    <key>column_id</key>
+    <value><![CDATA[продолжување проект]]></value>
+  </definition>
+  <definition>
+    <key>column_required</key>
+    <value><![CDATA[Задолжителни]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[продолжување Име]]></value>
+  </definition>
+  <definition>
+    <key>column_position</key>
+    <value><![CDATA[позиција]]></value>
+  </definition>
+  <definition>
+    <key>column_update_date</key>
+    <value><![CDATA[на датумот]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[категорија]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[статус]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[подредување]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Брзи Опции]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупредување: Вие немате дозвола да ја менувате екстензии!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_field</key>
+    <value><![CDATA[Грешка: Ве молиме внесете полиња. Ништо не беше обновен!]]></value>
+  </definition>
+  <definition>
+    <key>error_payment_uninstall</key>
+    <value><![CDATA[Предупредување: Исклучи додаток пред Избриши!]]></value>
+  </definition>
+  <definition>
+    <key>error_uninstall</key>
+    <value><![CDATA[Предупредување: продолжување избришам, пред да ги избришете!]]></value>
+  </definition>
+  <definition>
+    <key>text_save_success</key>
+    <value><![CDATA[Успех: Сте сменети поставувања продолжување!]]></value>
+  </definition>
+  <definition>
+    <key>text_restore_success</key>
+    <value><![CDATA[Успех: Имате врати поставувања продолжување стандардно!]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_store</key>
+    <value><![CDATA[Земете екстензии]]></value>
+  </definition>
+  <definition>
+    <key>text_required</key>
+    <value><![CDATA[Задолжителни]]></value>
+  </definition>
+  <definition>
+    <key>text_optional</key>
+    <value><![CDATA[Факултативна]]></value>
+  </definition>
+  <definition>
+    <key>text_add_new</key>
+    <value><![CDATA[Инсталирајте Продолжување]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Барај]]></value>
+  </definition>
+  <definition>
+    <key>text_search_for_extension</key>
+    <value><![CDATA[Барањето за продолжување]]></value>
+  </definition>
+  <definition>
+    <key>text_missing_extension</key>
+    <value><![CDATA[&quot;Продолжување %s Извор: не може да се наоѓа објект избришете го и посета на продолжување провајдер да се добие комплетен извор и да ја инсталирате повторно!&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_broken_extension</key>
+    <value><![CDATA[&quot;Продолжување %s:. Извор веројатно скршени Не можат да најдат config.xml или main.php датотеки избришете го и посета на продолжување провајдер да се добие комплетен извор и да ја инсталирате повторно&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_extension_pagination</key>
+    <value><![CDATA[Продолжување (а) {почне} до {крајот} на {вкупното}]]></value>
+  </definition>
+  <definition>
+    <key>text_per_page</key>
+    <value><![CDATA[по страница]]></value>
+  </definition>
+  <definition>
+    <key>text_error_in_ajax</key>
+    <value><![CDATA[Грешка во Ајакс повик]]></value>
+  </definition>
+  <definition>
+    <key>text_saved</key>
+    <value><![CDATA[зачувани]]></value>
+  </definition>
+  <definition>
+    <key>text_save</key>
+    <value><![CDATA[Зачувај]]></value>
+  </definition>
+  <definition>
+    <key>text_reset</key>
+    <value><![CDATA[Ресетирај]]></value>
+  </definition>
+  <definition>
+    <key>text_back</key>
+    <value><![CDATA[назад]]></value>
+  </definition>
+  <definition>
+    <key>text_additional_settings</key>
+    <value><![CDATA[дополнителни поставки]]></value>
+  </definition>
+  <definition>
+    <key>text_reload</key>
+    <value><![CDATA[Вчитај ја страната повторно]]></value>
+  </definition>
+  <definition>
+    <key>text_version</key>
+    <value><![CDATA[верзија]]></value>
+  </definition>
+  <definition>
+    <key>text_installed_on</key>
+    <value><![CDATA[инсталиран на]]></value>
+  </definition>
+  <definition>
+    <key>text_installed</key>
+    <value><![CDATA[инсталиран]]></value>
+  </definition>
+  <definition>
+    <key>text_not_installed</key>
+    <value><![CDATA[не се инсталирани]]></value>
+  </definition>
+  <definition>
+    <key>text_visit_repository</key>
+    <value><![CDATA[Посетете продолжување складиштето за да ја преземете наставката]]></value>
+  </definition>
+  <definition>
+    <key>text_license</key>
+    <value><![CDATA[лиценца]]></value>
+  </definition>
+  <definition>
+    <key>text_dependency</key>
+    <value><![CDATA[зависност]]></value>
+  </definition>
+  <definition>
+    <key>text_configuration_settings</key>
+    <value><![CDATA[прилагодувања за конфигурација]]></value>
+  </definition>
+  <definition>
+    <key>text_upgrade</key>
+    <value><![CDATA[надградба]]></value>
+  </definition>
+  <definition>
+    <key>text_help</key>
+    <value><![CDATA[помогне]]></value>
+  </definition>
+  <definition>
+    <key>text_dependencies</key>
+    <value><![CDATA[зависности]]></value>
+  </definition>
+  <definition>
+    <key>text_update_available</key>
+    <value><![CDATA[Нова верзија (%s) е на располагање. <a href="%s">Кликни за да го ажурирате сега.</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_confirm</key>
+    <value><![CDATA[Дали сте сигурни дека сакате да ја избришете екстензија?]]></value>
+  </definition>
+  <definition>
+    <key>error_config_load</key>
+    <value><![CDATA[Грешка: Не може да се вчита за конфигурација <b>%s!</b>]]></value>
+  </definition>
+  <definition>
+    <key>error_required_extension</key>
+    <value><![CDATA[<b>%s</b> Продолжување не може да се инсталира: <b>%s</b> бара продолжување]]></value>
+  </definition>
+  <definition>
+    <key>error_required_phpmodule</key>
+    <value><![CDATA[<b>%s</b> Продолжување не може да се инсталира: потребни <b>%s</b> PHP модул]]></value>
+  </definition>
+  <definition>
+    <key>button_restore_defaults</key>
+    <value><![CDATA[Врати ги стандардите]]></value>
+  </definition>
+  <definition>
+    <key>additional_settings_confirm</key>
+    <value><![CDATA[За да го поставите дополнителни поставувања за продолжување на уште една продавница што треба да се најавите во контролен панел на друго име на домен. Добро?]]></value>
+  </definition>
+  <definition>
+    <key>error_no_help_file</key>
+    <value><![CDATA[За жал, не постои датотеката за помош за оваа екстензија.]]></value>
+  </definition>
+  <definition>
+    <key>text_more_help</key>
+    <value><![CDATA[повеќе помош]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_type</key>
+    <value><![CDATA[тип]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Вкупно]]></value>
+  </definition>
+  <definition>
+    <key>text_subtotal</key>
+    <value><![CDATA[Под-вкупно]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Испорака]]></value>
+  </definition>
+  <definition>
+    <key>text_tax</key>
+    <value><![CDATA[данок]]></value>
+  </definition>
+  <definition>
+    <key>text_fee</key>
+    <value><![CDATA[Провизија]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[попуст]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_disable_dependants</key>
+    <value><![CDATA[Продолжување %s имаат зависни се: <br/> %s <br/> Тоа автоматски ќе се оневозможи премногу. <br/> Дали сакате да ја?]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Статус: <span class="help">Оваа е да се контролира статус продавница продолжување.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_sort_order</key>
+    <value><![CDATA[Испратена Подреди по: <span class="help">Број да се постави цел екран позиција за ова проширување во однос на другите JavaScript за екстензии. (Сортирањето е од пониските кон повисоките број, игнорирајќи 0 и празни вредности)</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_minimum_total</key>
+    <value><![CDATA[Вкупниот поредок Минимум: <span class="help">Минимална количина за да се постигне за да се овозможи оваа исплата</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_maximum_total</key>
+    <value><![CDATA[Вкупниот поредок Максимум: <span class="help">Максимален износ цел да се постигне за да ги оневозможите ова плаќање</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_storefront_icon</key>
+    <value><![CDATA[Продавница на икони: <span class="help">Плаќање икона да биде прикажана селекција исходот исплата</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_storefront_icon</key>
+    <value><![CDATA[Продавница на икони: <span class="help">Испорака икона да биде прикажана селекција исходот превозот</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_autoselect_payment</key>
+    <value><![CDATA[Автоматски избор: <span class="help">Можете да го поставите на овој плаќањето да биде избран од страна стандардно. Овој начин на плаќање ќе биде пре избрани за повеќе исплати. Ако ова е единствената опција за исплата, чекор избор плаќање опција, ќе бидат исфрлени.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_autoselect_shipping</key>
+    <value><![CDATA[Автоматски избор: <span class="help">Можете да го поставите за да го прескокнете страница избор превозот ако има само една опција превозот. Овој метод превозот ќе биде избран автоматски</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_accept_payments_shipping</key>
+    <value><![CDATA[Ги прифатат овие плаќања: <span class="help">Ако се потребни само на одредени начини на плаќање за овој метод превозот, изберете ги тука. Ако е избрано ништо друго, сите расположливи начини на плаќање ќе биде прикажан</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_ready_to_install</key>
+    <value><![CDATA[Подготвени да се инсталира]]></value>
+  </definition>
+  <definition>
+    <key>button_install</key>
+    <value><![CDATA[Инсталирај]]></value>
+  </definition>
+  <definition>
+    <key>error_dependencies</key>
+    <value><![CDATA[Оваа екстензија не е можно, бидејќи Потребната зависност недостасува или не е овозможено.]]></value>
+  </definition>
+  <definition>
+    <key>button_howto</key>
+    <value><![CDATA[Како да]]></value>
+  </definition>
+  <definition>
+    <key>text_developer_site</key>
+    <value><![CDATA[Надворешен сајт за поддршка]]></value>
+  </definition>
+  <definition>
+    <key>text_preview</key>
+    <value><![CDATA[преглед]]></value>
+  </definition>
+  <definition>
+    <key>text_confirmation</key>
+    <value><![CDATA[потврда]]></value>
+  </definition>
+  <definition>
+    <key>button_confirm</key>
+    <value><![CDATA[потврди]]></value>
+  </definition>
+  <definition>
+    <key>button_continue</key>
+    <value><![CDATA[продолжи]]></value>
+  </definition>
+  <definition>
+    <key>button_cancel</key>
+    <value><![CDATA[Откажи]]></value>
+  </definition>
+  <definition>
+    <key>error_could_not_load_config</key>
+    <value><![CDATA[Грешка: Не може да се вчита конфигурација за <b>%s</b> (%s)!]]></value>
+  </definition>
+  <definition>
+    <key>error_could_not_load_override</key>
+    <value><![CDATA[Грешка: Не може да се вчита редефинирање дефиниција %s во продолжување %s!]]></value>
+  </definition>
+  <definition>
+    <key>tab_general</key>
+    <value><![CDATA[Генералниот]]></value>
+  </definition>
+  <definition>
+    <key>tab_additional_settings</key>
+    <value><![CDATA[дополнителни поставки]]></value>
+  </definition>
+  <definition>
+    <key>text_more_extensions</key>
+    <value><![CDATA[Повеќе екстензии се на располагање за лесна инсталација.]]></value>
+  </definition>
+</definitions>

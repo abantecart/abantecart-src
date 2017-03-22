@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Примена Грешка!]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Ве молиме проверете дневник на грешки за повеќе информации]]></value>
+  </definition>
+</definitions>

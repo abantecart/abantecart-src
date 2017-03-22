@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Backup / Restore / транспорт]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[Превземи Backup]]></value>
+  </definition>
+  <definition>
+    <key>text_success_backup</key>
+    <value><![CDATA[Успех: успешно ќе креирате резервна копија на датотека!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Успешно се увезени вашата база!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_xml</key>
+    <value><![CDATA[Успех: Успешно се увезени вашиот XML!]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore</key>
+    <value><![CDATA[Наплата од SQL или XML датотеката:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tables</key>
+    <value><![CDATA[Backup маси:]]></value>
+  </definition>
+  <definition>
+    <key>entry_loadxml</key>
+    <value><![CDATA[Транспорт XML-датотека:]]></value>
+  </definition>
+  <definition>
+    <key>tab_backup</key>
+    <value><![CDATA[Backup]]></value>
+  </definition>
+  <definition>
+    <key>tab_restore</key>
+    <value><![CDATA[Враќање]]></value>
+  </definition>
+  <definition>
+    <key>tab_loadxml</key>
+    <value><![CDATA[Распоред и базата на товар на XML]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупредување: Вие немате дозвола да ја менувате резерви!]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Предупредување: Ве молиме поставите тоа што сакате да направите резерва или увоз!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Предупредување: Датотеката што ја подигнавте е празен или во погрешен тип на датотека!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload</key>
+    <value><![CDATA[Предупредување: Датотеката не е поставено. Проверете post_max_size или file_upload директивите на php.ini датотеката.]]></value>
+  </definition>
+  <definition>
+    <key>error_xml</key>
+    <value><![CDATA[Предупредување: Датотеката што ја подигнавте не е вчитан како XML! Ве молиме, видете Log датотека за детали]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_code</key>
+    <value><![CDATA[Backup законик (%s) <br/><span class="help">под-директориуми со код на датотеки со исклучок на динамичен датотеки како кеш, лог датотеки, слики, ресурси, итн</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_content</key>
+    <value><![CDATA[Резервни копии на содржини (%s) <br/><span class="help">под-директориуми со динамичен датотеки како што се слики, преземања ресурси итн</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_compress_backup</key>
+    <value><![CDATA[Компресира Backup Директориум %s? <br/><span class="help">ќе бидат создадени Архива * .tar.gz. <br/> Забелешка: тоа би можело да трае долго време. Во спротивно можете да го исклучите компресија и да се најде на вашата резерви во папката %s</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_now</key>
+    <value><![CDATA[Backup Сега]]></value>
+  </definition>
+  <definition>
+    <key>button_load</key>
+    <value><![CDATA[транспорт]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_schedule</key>
+    <value><![CDATA[распоред Backup]]></value>
+  </definition>
+  <definition>
+    <key>text_success_scheduled</key>
+    <value><![CDATA[Успех: успешно ќе креирате закажани бекап задача! <a href="%s">види ги деталите</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_fail_note</key>
+    <value><![CDATA[Забелешка: Оваа процесот на извршување зависи од големината на AbanteCart податоци, како и виртуелен сервер големината на меморијата. Ако процесот завршува со грешки, проверете директориум %s дозволи да се постави за да -RW-RW-RW и <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[поставување PHP меморија]</a>. Зголемете ја поставката меморија или да ја стартувате backup рачно ако процесот се уште не успеваат.]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_file</key>
+    <value><![CDATA[За да ја преземете резервната датотека посетете <a href="#admin#rt=tool/install_upgrade_history">Инсталирај / надградба Историја</a>]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_dir</key>
+    <value><![CDATA[Директориум со резервната датотека е %s]]></value>
+  </definition>
+</definitions>

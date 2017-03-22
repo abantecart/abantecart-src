@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[мени]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успех: Изменивте мени!]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_id</key>
+    <value><![CDATA[единствен број]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_icon</key>
+    <value><![CDATA[икона]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_text</key>
+    <value><![CDATA[текст]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_url</key>
+    <value><![CDATA[Линк <br/><span class="help">за надворешни линкови додадете http: // или https: // на почетокот</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_parent_id</key>
+    <value><![CDATA[родител]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[подредување]]></value>
+  </definition>
+  <definition>
+    <key>entry_link_type</key>
+    <value><![CDATA[Тип на врска]]></value>
+  </definition>
+  <definition>
+    <key>text_select_parent_id</key>
+    <value><![CDATA[- Корен Мени -]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Поле не може да биде празна!]]></value>
+  </definition>
+  <definition>
+    <key>error_non_unique</key>
+    <value><![CDATA[Точка проект не и единствен!]]></value>
+  </definition>
+  <definition>
+    <key>error_non_ascii</key>
+    <value><![CDATA[Само алфанумерички знаци дозволено за мени проект поле!]]></value>
+  </definition>
+  <definition>
+    <key>text_category_link_type</key>
+    <value><![CDATA[категорија страна]]></value>
+  </definition>
+  <definition>
+    <key>text_content_link_type</key>
+    <value><![CDATA[содржина од страната]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_link_type</key>
+    <value><![CDATA[Прилагодена врска или URL]]></value>
+  </definition>
+</definitions>
