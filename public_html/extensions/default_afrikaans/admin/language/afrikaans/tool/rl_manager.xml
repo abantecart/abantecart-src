@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Media bronbiblioteek Bestuurder]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[Laaste bygevoeg hulpbronne]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[tipe hulpbron]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[Hulpbron Tipe Sleutel <br/><span class="help">Hierdie hulpbron tipe sleutel / naam waarde kan nie verander word</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[Hulpbron gids <br/><span class="help">Gids opspoor hulpbron vir hierdie tipe. As verander, sal die bestaande hulpbronne nie acceccible wees en sal moet verskuif word na nuwe gids!</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[Standaard ikoon <br/><span class="help">Beeld-simbool word vertoon in die lys van hulpbronne (Plek: / beeld / ...).</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[Toegelaat lêeruitbreidings <br/><span class="help">Regex met &#39;n lys van toegelaat lêeruitbreidings vir hierdie tipe hulpbron</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Jy het opgedateer tipe hulpbron!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[Fout: Missing hulpbron tipe ID!]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[Fout: tipe Resource naam moet tussen 2 en 40 karakters in]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[Fout: tipe Resource directory moet tussen 2 en 64 karakters in]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[Fout: tipe Resource ikoon moet tussen 2 en 64 karakters in]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[Fout: Hulpbronne lêertipe extenions regex moet tussen 2 en 40 karakters in]]></value>
+  </definition>
+</definitions>

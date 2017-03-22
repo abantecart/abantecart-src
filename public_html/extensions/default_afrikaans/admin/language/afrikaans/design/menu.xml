@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Spyskaart]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Jy het spyskaart verander!]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_id</key>
+    <value><![CDATA[unieke ID]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_icon</key>
+    <value><![CDATA[ikoon]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_text</key>
+    <value><![CDATA[teks]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_url</key>
+    <value><![CDATA[Link <br/><span class="help">Vir eksterne skakels by te voeg http: // of https: // in die begin</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_parent_id</key>
+    <value><![CDATA[Ouer]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Sorteervolgorde]]></value>
+  </definition>
+  <definition>
+    <key>entry_link_type</key>
+    <value><![CDATA[Link Tipe]]></value>
+  </definition>
+  <definition>
+    <key>text_select_parent_id</key>
+    <value><![CDATA[- Wortel Menu -]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Veld kan nie leeg wees!]]></value>
+  </definition>
+  <definition>
+    <key>error_non_unique</key>
+    <value><![CDATA[Item ID nie uniek!]]></value>
+  </definition>
+  <definition>
+    <key>error_non_ascii</key>
+    <value><![CDATA[Slegs alfanumeriese karakters toegelaat vir spyskaart ID veld!]]></value>
+  </definition>
+  <definition>
+    <key>text_category_link_type</key>
+    <value><![CDATA[kategorie Page]]></value>
+  </definition>
+  <definition>
+    <key>text_content_link_type</key>
+    <value><![CDATA[inhoud Page]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_link_type</key>
+    <value><![CDATA[Custom Link of URL]]></value>
+  </definition>
+</definitions>

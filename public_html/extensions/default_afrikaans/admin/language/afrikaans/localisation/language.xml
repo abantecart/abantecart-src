@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Tale]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[Taal]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Jy het tale!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[taal Naam]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[kode]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Sorteervolgorde]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Aksie]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Taal Naam:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Kode: <br/><span class="help">Moenie verander as dit jou verstek taal.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_locale</key>
+    <value><![CDATA[land:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[Image:]]></value>
+  </definition>
+  <definition>
+    <key>entry_directory</key>
+    <value><![CDATA[Gids:]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[Lêernaam:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Sorteervolgorde:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Waarskuwing: Jy het nie toestemming om tale te verander nie!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Taal Naam moet tussen 2 en 32 karakters!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Taal moet minstens 2 karakters!]]></value>
+  </definition>
+  <definition>
+    <key>error_locale</key>
+    <value><![CDATA[Land nodig!]]></value>
+  </definition>
+  <definition>
+    <key>error_image</key>
+    <value><![CDATA[Image File Name moet tussen 2 en 64 karakters!]]></value>
+  </definition>
+  <definition>
+    <key>error_directory</key>
+    <value><![CDATA[Gids nodig!]]></value>
+  </definition>
+  <definition>
+    <key>error_filename</key>
+    <value><![CDATA[Lêernaam moet tussen 2 en 64 karakters!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Waarskuwing: Hierdie taal kan nie geskrap word omdat dit op die oomblik is aangewys as die verstek winkel taal!]]></value>
+  </definition>
+  <definition>
+    <key>error_admin</key>
+    <value><![CDATA[Waarskuwing: Hierdie taal kan nie geskrap word omdat dit op die oomblik is aangewys as die administrasie taal!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Waarskuwing: Hierdie taal kan nie geskrap word soos dit tans aan %s winkels!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Waarskuwing: Hierdie taal kan nie geskrap word soos dit tans aan %s bestellings!]]></value>
+  </definition>
+  <definition>
+    <key>language_edit_title</key>
+    <value><![CDATA[Wysig taal Besonderhede]]></value>
+  </definition>
+  <definition>
+    <key>load_language_title</key>
+    <value><![CDATA[Laai vermiste taal data]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_selector</key>
+    <value><![CDATA[Bron Taal:]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method_selector</key>
+    <value><![CDATA[Teks vertaal metode:]]></value>
+  </definition>
+  <definition>
+    <key>load_language_note</key>
+    <value><![CDATA[NOTA: Hierdie operasie kan n paar minute om te loop nie. Moet nie naby leser, laat of te verfris die bladsy!]]></value>
+  </definition>
+  <definition>
+    <key>create_language_note</key>
+    <value><![CDATA[NOTA: Ons beveel die skep van taal as &#39;n uitbreiding. Gaan bestaande taal uitbreidings. As jy nog steeds wil nuwe taal met die hand te skep, moet jy Vlag taal toe te voeg tot admin / taal / [Taal Gids] /flag.png en gebou / taal / [Taal Gids] flag.png 
+ Na taal geskep vrag ontbreek taal data om te vertaal of kopieer teks inhoud van brontaal.]]></value>
+  </definition>
+  <definition>
+    <key>button_load_language</key>
+    <value><![CDATA[vrag]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete_tasks</key>
+    <value><![CDATA[onvolledige Take]]></value>
+  </definition>
+  <definition>
+    <key>text_task_id</key>
+    <value><![CDATA[Taak ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Titel:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_time_run</key>
+    <value><![CDATA[Verlede Tyd Run:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Geskep:]]></value>
+  </definition>
+  <definition>
+    <key>text_starter_name</key>
+    <value><![CDATA[Gemaak deur:]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Begin oor]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[verwyder]]></value>
+  </definition>
+  <definition>
+    <key>text_task_title</key>
+    <value><![CDATA[Vertaling beskrywings Van %s om %s]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Fout: Stel Bron taal en vertaalmetode!]]></value>
+  </definition>
+  <definition>
+    <key>text_translate_override_existing</key>
+    <value><![CDATA[Let wel: Alle bestaande beskrywings in doeltaal sal vervang word met &#39;n nuwe vertaling. Jy kan oorheersende in te skakel <a href="%s">System&gt; Settings-&gt; Store besonderhede</a> .]]></value>
+  </definition>
+</definitions>

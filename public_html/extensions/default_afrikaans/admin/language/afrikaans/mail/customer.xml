@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Jou rekening is geaktiveer!]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Welkom en dankie vir die registrasie by %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Jou rekening is nou geskep en jy kan inteken deur die gebruik van jou e-posadres en wagwoord deur &#39;n besoek ons ​​webwerf of by die volgende skakel:]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Sodra jy in te teken, sal jy in staat wees om toegang te verkry, jou lys, sodat die geskiedenis, druk fakture en jou rekening inligting redigering.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Dankie,]]></value>
+  </definition>
+</definitions>

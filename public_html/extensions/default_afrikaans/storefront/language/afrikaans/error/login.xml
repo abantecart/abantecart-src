@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Teken Fout!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Jy is nie in geteken nie. Jy sal herlei word na aanteken bladsy]]></value>
+  </definition>
+</definitions>

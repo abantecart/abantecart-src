@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Hanteringsfooi]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[Hanteringsfooi]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Bestel Totale]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Jy het opgedateer totale hanteringsfooi!]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Bestel <span class="help">Totaal: Minimum bedrag wat bereik moet word om die fooi van toepassing. As kliënt order totale hierdie bedrag sal oorskry, hantering feee sal nie toegepas word. Hierdie waarde is geneutraliseer met betaling spesifieke omgewing.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_placeholder</key>
+    <value><![CDATA[Bestel Bedrag]]></value>
+  </definition>
+  <definition>
+    <key>entry_fee</key>
+    <value><![CDATA[Fooi: <span class="help">fooi word bygevoeg om te bestel totale indien minimum bedrag toestand nie nagekom word. Hierdie bedrag is geneutraliseer deur betaling spesifieke omgewing</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_fee</key>
+    <value><![CDATA[Fooi: <span class="help">fooi word bygevoeg om te bestel totale indien minimum sub-totale bedrag toestand nie nagekom word. Hierdie bedrag ignoreer belangrikste fooi omgewing</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Betaling: <span class="help">Kies &#39;n spesifieke betaling wat jy nodig het om die fooi te voeg aan. Hierdie instellings sal die vernaamste instellings oorheers as betaling gebruik deur die kliënt.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_subtotal</key>
+    <value><![CDATA[Bestel <span class="help">Subtotaal: Minimum</span> van <span class="help">sub-totale bedrag wat bereik moet word om die fooi van toepassing. Dit oorheers belangrikste instelling</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Belasting Klas: <span class="help">Kies as jy belasting moet toegepas word op die top van die hanteringsfooi</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Sorteervolgorde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[Berekening Orde:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Waarskuwing: Jy het nie toestemming om totale hanteringsfooi verander het!]]></value>
+  </definition>
+  <definition>
+    <key>error_number</key>
+    <value><![CDATA[Waarskuwing: totale Bestel en hanteringsfooi moet &#39;n getalle!]]></value>
+  </definition>
+</definitions>

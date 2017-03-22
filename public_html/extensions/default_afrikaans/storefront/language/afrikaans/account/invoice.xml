@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Bestel Besonderhede]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[rekening]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[Bestel Geskiedenis]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[faktuur]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice_id</key>
+    <value><![CDATA[faktuur ID]]></value>
+  </definition>
+  <definition>
+    <key>text_order_id</key>
+    <value><![CDATA[Bestel ID]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[E-pos]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[Telefoon]]></value>
+  </definition>
+  <definition>
+    <key>text_mobile_phone</key>
+    <value><![CDATA[Selfoon:]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Faks]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[Pos Adres]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Pos Metode]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[betaling Adres]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Betalings metode]]></value>
+  </definition>
+  <definition>
+    <key>text_order_history</key>
+    <value><![CDATA[Bestel Geskiedenis]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[produk]]></value>
+  </definition>
+  <definition>
+    <key>text_model</key>
+    <value><![CDATA[model]]></value>
+  </definition>
+  <definition>
+    <key>text_quantity</key>
+    <value><![CDATA[hoeveelheid]]></value>
+  </definition>
+  <definition>
+    <key>text_price</key>
+    <value><![CDATA[Eenheidsprys]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Totaal]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[bestel Kommentaar]]></value>
+  </definition>
+  <definition>
+    <key>text_image</key>
+    <value><![CDATA[Image]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Die wat u aangevra het bevel kon nie gevind word!]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[datum bygevoeg]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[status]]></value>
+  </definition>
+  <definition>
+    <key>column_comment</key>
+    <value><![CDATA[Kliënt se orde kommentaar]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation</key>
+    <value><![CDATA[Versoek Kansellasie van Orde]]></value>
+  </definition>
+  <definition>
+    <key>text_request_cancellation_from_customer</key>
+    <value><![CDATA[Versoek &#39;n Orde kansellasie van die kliënt]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_confirm</key>
+    <value><![CDATA[kansellasie versoek u kan nie gemaak word in sommige gevalle, byvoorbeeld wanneer die goedere verskeep. Aanhou?]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_success</key>
+    <value><![CDATA[Bestel kansellasie versoek ingedien is]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_message_title</key>
+    <value><![CDATA[versoek bestel # %s kansellasie]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_message_body</key>
+    <value><![CDATA[Kliënt %s het einde kansellasie versoek vir orde # %s. Om te hersien gaan na %s]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-pos adres is nie geldig te wees!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_id</key>
+    <value><![CDATA[Bestel ID vereis veld!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Onderhoud]]></value>
+  </definition>
+  <definition>
+    <key>text_maintenance</key>
+    <value><![CDATA[Onderhoud]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<h1 style="text-align:center;"> Ons is tans die uitvoering van &#39;n paar geskeduleerde instandhouding. <br/> Ons sal so gou as moontlik wees. Gaan asseblief gou terug. </h1>]]></value>
+  </definition>
+</definitions>

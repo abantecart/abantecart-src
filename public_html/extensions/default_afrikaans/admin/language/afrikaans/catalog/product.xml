@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[produkte]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[produk]]></value>
+  </definition>
+  <definition>
+    <key>tab_media</key>
+    <value><![CDATA[media]]></value>
+  </definition>
+  <definition>
+    <key>tab_shipping</key>
+    <value><![CDATA[Gestuur]]></value>
+  </definition>
+  <definition>
+    <key>tab_files</key>
+    <value><![CDATA[lêers]]></value>
+  </definition>
+  <definition>
+    <key>tab_relations</key>
+    <value><![CDATA[betrekkinge]]></value>
+  </definition>
+  <definition>
+    <key>tab_promotions</key>
+    <value><![CDATA[promosies]]></value>
+  </definition>
+  <definition>
+    <key>tab_extensions</key>
+    <value><![CDATA[uitbreidings]]></value>
+  </definition>
+  <definition>
+    <key>tab_layout</key>
+    <value><![CDATA[Bladuitleg]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Jy het produkte!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_copy</key>
+    <value><![CDATA[Sukses: Jy het suksesvol kloon produk <b>%s!</b>]]></value>
+  </definition>
+  <definition>
+    <key>text_error_copy</key>
+    <value><![CDATA[Kloning in gebreke gebly het! Oorspronklike produk nie beskikbaar is nie]]></value>
+  </definition>
+  <definition>
+    <key>text_plus</key>
+    <value><![CDATA[+]]></value>
+  </definition>
+  <definition>
+    <key>text_minus</key>
+    <value><![CDATA[-]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[standaard]]></value>
+  </definition>
+  <definition>
+    <key>text_product_summary</key>
+    <value><![CDATA[produk Opsomming]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[Image Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_option</key>
+    <value><![CDATA[Opsie]]></value>
+  </definition>
+  <definition>
+    <key>text_option_value</key>
+    <value><![CDATA[opsie Value]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Produk Naam]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[model]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Image]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[hoeveelheid]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[status]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[prys]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Aksie]]></value>
+  </definition>
+  <definition>
+    <key>entry_featured</key>
+    <value><![CDATA[Gewilde Produk:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Produk Naam:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_keywords</key>
+    <value><![CDATA[Metatag Sleutelwoorde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Metatag beskrywing:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Beskrywing:]]></value>
+  </definition>
+  <definition>
+    <key>entry_blurb</key>
+    <value><![CDATA[blurb:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[winkels:]]></value>
+  </definition>
+  <definition>
+    <key>entry_keyword</key>
+    <value><![CDATA[SEO Sleutelwoord: <br/><span class="help">SEO sleutel wat sal wys in URL vir hierdie produk. Jy kan sleutel van produk se naam te genereer</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_model</key>
+    <value><![CDATA[model:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sku</key>
+    <value><![CDATA[SKU:]]></value>
+  </definition>
+  <definition>
+    <key>entry_location</key>
+    <value><![CDATA[Misc ligging:]]></value>
+  </definition>
+  <definition>
+    <key>entry_manufacturer</key>
+    <value><![CDATA[vervaardiger:]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[Vereis Pos:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ship_individually</key>
+    <value><![CDATA[Ship produk individueel: <br/><span class="help">Produk sal gestuur word in &#39;n aparte pakket en addisionele gestuur koste sal na die einde met verskeie items bygevoeg word. As hierdie geaktiveer is, Vaste Pos Prys moet stel.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_price</key>
+    <value><![CDATA[Vaste Pos Prys: <br/><span class="help">Meester instelling met &#39;n vaste gestuur prys vir hierdie produk.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_free_shipping</key>
+    <value><![CDATA[Gratis gelewer: <br/><span class="help">Meester opset Na gratis gestuur in staat te stel om hierdie produk.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_available</key>
+    <value><![CDATA[Datum beskikbaar:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_quantity</key>
+    <value><![CDATA[hoeveelheid:]]></value>
+  </definition>
+  <definition>
+    <key>entry_quantity</key>
+    <value><![CDATA[Hoeveelheid: <br/><span class="help">Gekoppel aan Stock omgewing Track</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_minimum</key>
+    <value><![CDATA[Minimum Hoeveelheid: <br/><span class="help">Force &#39;n minimum bestel hoeveelheid</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_maximum</key>
+    <value><![CDATA[Maksimum Hoeveelheid: <br/><span class="help">Stel &#39;n beperking op quantaty wat gekies kan word per elke bestelling. 0 = geen beperking</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_status</key>
+    <value><![CDATA[Out of stock Status: <br/><span class="help">Status getoon wanneer &#39;n produk is uit voorraad</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_class</key>
+    <value><![CDATA[Belasting Klas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cost</key>
+    <value><![CDATA[Koste: <br/><span class="help">Die groot koste wat gebruik word vir wins verslagdoening</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_price</key>
+    <value><![CDATA[prys:]]></value>
+  </definition>
+  <definition>
+    <key>entry_track_option_stock</key>
+    <value><![CDATA[Volg Stock:]]></value>
+  </definition>
+  <definition>
+    <key>entry_subtract</key>
+    <value><![CDATA[Volg Stock: <br/><span class="help">Stel JA indien nodig om voorraad hoeveelheid dop vir hierdie produk. As opsies gebruik tjek Trek omgewing vir elke opsie waarde</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_class</key>
+    <value><![CDATA[Gewig klas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight</key>
+    <value><![CDATA[gewig:]]></value>
+  </definition>
+  <definition>
+    <key>entry_length_class</key>
+    <value><![CDATA[Lengte Klas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_length</key>
+    <value><![CDATA[lengte:]]></value>
+  </definition>
+  <definition>
+    <key>entry_width</key>
+    <value><![CDATA[breedte:]]></value>
+  </definition>
+  <definition>
+    <key>entry_height</key>
+    <value><![CDATA[Hoogte:]]></value>
+  </definition>
+  <definition>
+    <key>entry_dimension</key>
+    <value><![CDATA[Dimensies (L x B x H):]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[Image: <br/><span class="help">beeld Klik om dit te verander.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[Kliënt Groep:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[Datum Begin:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[Datum Einde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_priority</key>
+    <value><![CDATA[prioriteit:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option</key>
+    <value><![CDATA[Opsie:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_name</key>
+    <value><![CDATA[Opsie Naam:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_value</key>
+    <value><![CDATA[Opsie Value:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Sorteervolgorde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_prefix</key>
+    <value><![CDATA[prefix:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_prefix</key>
+    <value><![CDATA[Verander die prys met:]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_price</key>
+    <value><![CDATA[Prys Wysiger:]]></value>
+  </definition>
+  <definition>
+    <key>entry_category</key>
+    <value><![CDATA[kategorieë:]]></value>
+  </definition>
+  <definition>
+    <key>entry_download</key>
+    <value><![CDATA[Populariteit:]]></value>
+  </definition>
+  <definition>
+    <key>entry_related</key>
+    <value><![CDATA[Verwante Produkte:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tags</key>
+    <value><![CDATA[Produk Tags: <br/><span class="help">deur kommas geskei</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Waarskuwing: Jy het nie toestemming om produkte te verander nie!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Produk Naam moet groter as 3 en minder as 255 karakters wees!]]></value>
+  </definition>
+  <definition>
+    <key>error_model</key>
+    <value><![CDATA[Produk Model moet wees minder as 64 karakters! Remomended 5-25 karakters]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Nodige data is nie ingevoer. Kyk vir veld foute!]]></value>
+  </definition>
+  <definition>
+    <key>error_product_not_found</key>
+    <value><![CDATA[Fout: Produk nie gevind!]]></value>
+  </definition>
+  <definition>
+    <key>filter_product</key>
+    <value><![CDATA[Soek vir produk]]></value>
+  </definition>
+  <definition>
+    <key>filter_any_word</key>
+    <value><![CDATA[Enige van hierdie woorde]]></value>
+  </definition>
+  <definition>
+    <key>filter_all_words</key>
+    <value><![CDATA[Al hierdie woorde]]></value>
+  </definition>
+  <definition>
+    <key>filter_exact_match</key>
+    <value><![CDATA[Die presiese frase]]></value>
+  </definition>
+  <definition>
+    <key>filter_all_categories</key>
+    <value><![CDATA[- Alle kategorieë -]]></value>
+  </definition>
+  <definition>
+    <key>filter_price_max</key>
+    <value><![CDATA[Max]]></value>
+  </definition>
+  <definition>
+    <key>text_view</key>
+    <value><![CDATA[beskou]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[verwyder]]></value>
+  </definition>
+  <definition>
+    <key>text_choose_action</key>
+    <value><![CDATA[kies aksie]]></value>
+  </definition>
+  <definition>
+    <key>text_clone_selected</key>
+    <value><![CDATA[kloon gekies]]></value>
+  </definition>
+  <definition>
+    <key>text_export_selected</key>
+    <value><![CDATA[uitvoer gekies]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_selected</key>
+    <value><![CDATA[Vee gekose]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_selected</key>
+    <value><![CDATA[wysig gekies]]></value>
+  </definition>
+  <definition>
+    <key>text_clone</key>
+    <value><![CDATA[kloon]]></value>
+  </definition>
+  <definition>
+    <key>text_export</key>
+    <value><![CDATA[uitvoer]]></value>
+  </definition>
+  <definition>
+    <key>text_select_category</key>
+    <value><![CDATA[- Kies &#39;n Kategorie -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_product</key>
+    <value><![CDATA[- Kies Produk -]]></value>
+  </definition>
+  <definition>
+    <key>text_option_name</key>
+    <value><![CDATA[opsie Naam]]></value>
+  </definition>
+  <definition>
+    <key>text_group_option</key>
+    <value><![CDATA[groep Opsie]]></value>
+  </definition>
+  <definition>
+    <key>text_option_type</key>
+    <value><![CDATA[opsie Tipe]]></value>
+  </definition>
+  <definition>
+    <key>text_option_values</key>
+    <value><![CDATA[opsie Waardes]]></value>
+  </definition>
+  <definition>
+    <key>text_no_option_values</key>
+    <value><![CDATA[Geen ander keuse Waardes]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_option_values</key>
+    <value><![CDATA[Wysig Opsie Value]]></value>
+  </definition>
+  <definition>
+    <key>text_save_option_values</key>
+    <value><![CDATA[Save Opsie Value]]></value>
+  </definition>
+  <definition>
+    <key>button_remove_option</key>
+    <value><![CDATA[verwyder Opsie]]></value>
+  </definition>
+  <definition>
+    <key>text_option_removed</key>
+    <value><![CDATA[opsie verwyder]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_type</key>
+    <value><![CDATA[gewig Tipe]]></value>
+  </definition>
+  <definition>
+    <key>text_product_pagination</key>
+    <value><![CDATA[Produk (te) {begin} tot {einde} van {totale}]]></value>
+  </definition>
+  <definition>
+    <key>entry_product_id</key>
+    <value><![CDATA[produk ID]]></value>
+  </definition>
+  <definition>
+    <key>error_product_load</key>
+    <value><![CDATA[Waarskuwing: Geen produk met sulke ID!]]></value>
+  </definition>
+  <definition>
+    <key>error_attribute_not_selected</key>
+    <value><![CDATA[Kies opsie om by te voeg!]]></value>
+  </definition>
+  <definition>
+    <key>error_date</key>
+    <value><![CDATA[&quot;Datum Einde&quot; kan nie minder as &quot;Datum Begin&quot; wees!]]></value>
+  </definition>
+  <definition>
+    <key>error_required</key>
+    <value><![CDATA[Hierdie veld word vereis!]]></value>
+  </definition>
+  <definition>
+    <key>error_option_in_group</key>
+    <value><![CDATA[Opsie kan nie bygevoeg word om die produk as dit is reeds &#39;n deel van &#39;n groep opsie!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_layout</key>
+    <value><![CDATA[Sukses: Jy het die produk bladuitleg.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_option</key>
+    <value><![CDATA[Sukses: Jy het die produk opsie verander.]]></value>
+  </definition>
+  <definition>
+    <key>text_add_new_option</key>
+    <value><![CDATA[- Voeg nuwe opsie -]]></value>
+  </definition>
+  <definition>
+    <key>entry_required</key>
+    <value><![CDATA[vereiste:]]></value>
+  </definition>
+  <definition>
+    <key>entry_element_type</key>
+    <value><![CDATA[Element Tipe:]]></value>
+  </definition>
+  <definition>
+    <key>entry_element_values</key>
+    <value><![CDATA[Element Waardes:]]></value>
+  </definition>
+  <definition>
+    <key>text_expand</key>
+    <value><![CDATA[+ brei]]></value>
+  </definition>
+  <definition>
+    <key>text_hide</key>
+    <value><![CDATA[- verberg]]></value>
+  </definition>
+  <definition>
+    <key>entry_option_placeholder</key>
+    <value><![CDATA[plekhouer:]]></value>
+  </definition>
+  <definition>
+    <key>entry_regexp_pattern</key>
+    <value><![CDATA[Regular expression Patroon:]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_text</key>
+    <value><![CDATA[Fout Boodskap oor ongeldige waarde:]]></value>
+  </definition>
+  <definition>
+    <key>text_product_condition</key>
+    <value><![CDATA[Produk Condition:]]></value>
+  </definition>
+  <definition>
+    <key>text_product_available</key>
+    <value><![CDATA[Beskikbaar]]></value>
+  </definition>
+  <definition>
+    <key>text_product_disabled</key>
+    <value><![CDATA[gestremde]]></value>
+  </definition>
+  <definition>
+    <key>text_product_unavailable</key>
+    <value><![CDATA[nie beskikbaar nie]]></value>
+  </definition>
+  <definition>
+    <key>text_product_out_of_stock</key>
+    <value><![CDATA[Uit voorraad uit]]></value>
+  </definition>
+  <definition>
+    <key>text_product_in_stock</key>
+    <value><![CDATA[in Stock]]></value>
+  </definition>
+  <definition>
+    <key>text_product_option_out_of_stock</key>
+    <value><![CDATA[Produk opsie (s) Uit Stock]]></value>
+  </definition>
+  <definition>
+    <key>text_call_to_order</key>
+    <value><![CDATA[Tot orde te roep]]></value>
+  </definition>
+  <definition>
+    <key>entry_call_to_order</key>
+    <value><![CDATA[Blok produk van Sortering: <br/><span class="help">Dit sal die produk te maak aan modus vertoon slegs met geen vermoë om te bestel. Kontak ons vir bestelling boodskap sal vertoon word.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_new_option</key>
+    <value><![CDATA[nuwe Opsie]]></value>
+  </definition>
+  <definition>
+    <key>text_total_orders</key>
+    <value><![CDATA[Totaal Bestellings]]></value>
+  </definition>
+  <definition>
+    <key>error_measure_value</key>
+    <value><![CDATA[Die limiet van 999,99 bereik. Verskaf kleiner getal.]]></value>
+  </definition>
+  <definition>
+    <key>error_weight_value</key>
+    <value><![CDATA[Hierdie produk vereis gestuur. Stel gewigswaarde.]]></value>
+  </definition>
+  <definition>
+    <key>error_weight_class</key>
+    <value><![CDATA[Stel gewig klas.]]></value>
+  </definition>
+  <definition>
+    <key>entry_allowed_extensions</key>
+    <value><![CDATA[Toegelaat lêeruitbreidings (txt, jpg ...)]]></value>
+  </definition>
+  <definition>
+    <key>entry_min_size</key>
+    <value><![CDATA[Min lêergrootte (KB)]]></value>
+  </definition>
+  <definition>
+    <key>entry_max_size</key>
+    <value><![CDATA[Max lêergrootte (KB)]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_dir</key>
+    <value><![CDATA[Oplaaigids naam <br/> %s]]></value>
+  </definition>
+  <definition>
+    <key>text_success_relation_set</key>
+    <value><![CDATA[Betrekkinge van geselekteerde produkte is suksesvol ingestel!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Winkelwagen]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[basket]]></value>
+  </definition>
+  <definition>
+    <key>text_sub_total</key>
+    <value><![CDATA[Subtotaal:]]></value>
+  </definition>
+  <definition>
+    <key>text_weight</key>
+    <value><![CDATA[Wa Gewig:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Jou inkopie mandjie is leeg!]]></value>
+  </definition>
+  <definition>
+    <key>column_remove</key>
+    <value><![CDATA[verwyder]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Image]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[naam]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[model]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[hoeveelheid]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Eenheidsprys]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Totaal]]></value>
+  </definition>
+  <definition>
+    <key>text_continue_shopping</key>
+    <value><![CDATA[Gaan voort Winkelsentrum]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_codes</key>
+    <value><![CDATA[Pas Coupon Kode]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipping_tax</key>
+    <value><![CDATA[Skatting Pos &amp; Belasting]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_country</key>
+    <value><![CDATA[Land en Staat]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_postcode</key>
+    <value><![CDATA[Zip / Meesters Kode]]></value>
+  </definition>
+  <definition>
+    <key>button_text_estimate</key>
+    <value><![CDATA[Skat]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipments</key>
+    <value><![CDATA[verskepings]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Fout: Coupon is óf ongeldig, verval of bereik dit gebruik limiet!]]></value>
+  </definition>
+  <definition>
+    <key>error_stock</key>
+    <value><![CDATA[Produkte gemerk met *** is nie beskikbaar in die gewenste hoeveelheid of uit voorraad!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_options</key>
+    <value><![CDATA[Kies al die nodige opsies!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_minimum</key>
+    <value><![CDATA[Jou bestelling sub-totale bedrag nie aan die minimum bedrag van %s vereis. Voeg meer produkte om jou wa!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_maximum</key>
+    <value><![CDATA[Jou bestelling sub-totale bedrag oorskry maksimum bedrag van %s toegelaat per bestelling. Verwyder &#39;n paar items uit jou kar!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_data</key>
+    <value><![CDATA[Lêer data is beskadig of leeg.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_name</key>
+    <value><![CDATA[lêernaam is leeg!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_extension</key>
+    <value><![CDATA[Slegs lêers met uitbreiding (s) %s is (is) toegelaat nie!]]></value>
+  </definition>
+  <definition>
+    <key>error_min_file_size</key>
+    <value><![CDATA[Minimum grootte lêer vir oplaai is %s Kb.]]></value>
+  </definition>
+  <definition>
+    <key>error_max_file_size</key>
+    <value><![CDATA[Maksimum grootte lêer vir oplaai is %s Kb.]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_success</key>
+    <value><![CDATA[Sukses: Jou koepon afslag toegepas!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[Sukses: Coupon verwyder!]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_maximum</key>
+    <value><![CDATA[hoeveelheid toegelaat produk se oorskry. Hoeveelheid is gestig om die maksimum.]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_minimum</key>
+    <value><![CDATA[hoeveelheid toegelaat produk se laer minimum vereiste. Hoeveelheid is gestig om minimum bedrag.]]></value>
+  </definition>
+</definitions>

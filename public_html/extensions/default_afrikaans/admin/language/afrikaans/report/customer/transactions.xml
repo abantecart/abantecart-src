@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[kliënt Transaksies]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_date</key>
+    <value><![CDATA[Transaksie datum]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[Kliënt naam]]></value>
+  </definition>
+  <definition>
+    <key>column_created_by</key>
+    <value><![CDATA[Gemaak deur]]></value>
+  </definition>
+  <definition>
+    <key>column_debit</key>
+    <value><![CDATA[debiet]]></value>
+  </definition>
+  <definition>
+    <key>column_credit</key>
+    <value><![CDATA[krediet]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_type</key>
+    <value><![CDATA[transaksie Tipe]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Toestemming geweier!]]></value>
+  </definition>
+  <definition>
+    <key>text_permission</key>
+    <value><![CDATA[Jy het nie toestemming om toegang tot hierdie bladsy het, verwys asseblief na u stelsel administrateur.]]></value>
+  </definition>
+</definitions>

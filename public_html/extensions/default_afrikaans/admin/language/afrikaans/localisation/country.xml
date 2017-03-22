@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[lande]]></value>
+  </definition>
+  <definition>
+    <key>text_country</key>
+    <value><![CDATA[land]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Jy het lande!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[land Naam]]></value>
+  </definition>
+  <definition>
+    <key>column_iso_code_2</key>
+    <value><![CDATA[ISO Kode (2)]]></value>
+  </definition>
+  <definition>
+    <key>column_iso_code_3</key>
+    <value><![CDATA[ISO Kode (3)]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Aksie]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[status]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Land Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Land Naam:]]></value>
+  </definition>
+  <definition>
+    <key>entry_iso_code_2</key>
+    <value><![CDATA[ISO Kode (2):]]></value>
+  </definition>
+  <definition>
+    <key>entry_iso_code_3</key>
+    <value><![CDATA[ISO Kode (3):]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_format</key>
+    <value><![CDATA[Adres Formaat: <br/><span class="help">
+ Eerste Naam = {Naam} <br/> 
+ Laaste Naam = {Language} <br/> 
+ Company = {maatskappy} <br/> 
+ adres 1 = {ADDRESS_1} <br/> 
+ -posadres 2 = {address_2} <br/> 
+ City = {stad} <br/> 
+ Poskode = {poskode} <br/> 
+ Sone = {sone} <br/> 
+ Sone Kode = {zone_code} <br/> 
+ land = {land}</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Waarskuwing: Jy het nie toestemming om lande te verander nie!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Land Naam moet tussen 2 en 128 karakters!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Waarskuwing: Hierdie land kan nie geskrap word omdat dit op die oomblik is aangewys as die verstek winkel land!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Waarskuwing: Hierdie land kan nie geskrap word soos dit tans aan %s winkels!]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[Waarskuwing: Hierdie land kan nie geskrap word soos dit tans aan %s inskrywings adresboek!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone</key>
+    <value><![CDATA[Waarskuwing: Hierdie land kan nie geskrap word soos dit tans aan %s sones!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone_to_location</key>
+    <value><![CDATA[Waarskuwing: Hierdie land kan nie geskrap word soos dit tans aan %s sones om plekke!]]></value>
+  </definition>
+</definitions>

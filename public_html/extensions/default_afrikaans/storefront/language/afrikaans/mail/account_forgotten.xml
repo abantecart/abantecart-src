@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Wagwoordterugstelling]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[&#39;N wagwoord herstel versoek van %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Om jou wagwoord klik skakel hieronder te herstel:]]></value>
+  </definition>
+  <definition>
+    <key>text_password_reset</key>
+    <value><![CDATA[Jou wagwoord is suksesvol herstel op %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_password</key>
+    <value><![CDATA[Tik hieronder jou nuwe wagwoord:]]></value>
+  </definition>
+  <definition>
+    <key>error_reset_token</key>
+    <value><![CDATA[Foutiewe skakel vir wagwoord versoek. Probeer om nog een keer weer in te stel en te gebruik skakel vanaf mees onlangse e-pos.]]></value>
+  </definition>
+</definitions>

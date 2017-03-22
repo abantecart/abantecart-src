@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Jou rekening is geskep!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Veels geluk! Jou nuwe rekening is suksesvol geskep! </p><p> Jy kan nou gebruik maak van lid voorregte om jou aanlyn inkopie-ervaring met ons te verbeter. </p><p> Indien u enige vrae oor die werking van hierdie aanlyn winkel, stuur &#39;n epos die winkel eienaar. </p><p> &#39;N bevestiging is gestuur na die gekose e-posadres. As jy dit nie binne &#39;n uur ontvang het, moet asseblief <a href="%s">kontak ons</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[<p> Dankie vir registrasie by %s jy! </p><p> Jy sal in kennis gestel word deur e-pos wanneer jou rekening is geaktiveer deur die winkel eienaar. </p><p> Indien u enige vrae oor die werking van hierdie aanlyn winkel, kan jy <a href="%s">kontak die winkel eienaar</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[<p> Dankie vir registrasie by %s jy! </p><p> Jy sal in kennis gestel word via e-pos met jou rekening activering instruksies. Jy moet op die skakel in die e-pos om jou rekening te aktiveer klik. As jy nie e-pos ontvang, maak seker jou rommel of spam dopgehou. </p><p> Indien u enige vrae oor die werking van hierdie aanlyn winkel, kan jy <a href="%s">kontak die winkel eienaar</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[rekening]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[sukses]]></value>
+  </definition>
+</definitions>

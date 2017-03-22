@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_quick_start</key>
+    <value><![CDATA[Wizard Quick Start]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_note</key>
+    <value><![CDATA[Welkom by AbanteCart administrasie. <br/> 
+ Dit is &#39;n towenaar te help jy vinnig die opstel van jou inkopie mandjie met mees algemene instellings. 
+ <br/>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_general</key>
+    <value><![CDATA[Hier is &#39;n mees algemene algemene instellings. 
+ Meer instellings is beskikbaar <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_details</key>
+    <value><![CDATA[Hier is &#39;n mees algemene instellings oor jou winkel. 
+ Meer instellings is beskikbaar <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_checkout</key>
+    <value><![CDATA[Hier is &#39;n mees algemene instellings vir betaling proses. 
+ Meer instellings is beskikbaar <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_appearance</key>
+    <value><![CDATA[Hier is &#39;n mees algemene instellings vir gebou voorkoms. 
+ Meer instellings is beskikbaar <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_mail</key>
+    <value><![CDATA[Hier is &#39;n mees algemene instellings te e-pos in te skakel. As jy eksterne e-pos bediener (Google, ens) gebruik om e-pos te stuur, moet jy SMTP opsie gebruik. Vir e-pos gestuur word aan hierdie bediener gebruik Mail opsie. 
+ Meer instellings is beskikbaar <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_last</key>
+    <value><![CDATA[Geloei jou gewenste betaling en gestuur metodes, addisionele tale en baie ander funksies kan kies om jou eCommerce funksies uit te brei. 
+ Onthou om &#39;n seleksie van uitbreidings op check <a href="#admin#rt=extension/extensions_store" target="_extension">AbanteCart mark</a> aangebied word deur die gemeenskap van professionele ontwikkelaars.]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_last_footer</key>
+    <value><![CDATA[Jy het &#39;n vinnige voorgereg towenaar voltooi. <br/><br/> 
+ Jy kan al die instellings op te spoor <a href="%s">hierdie skakel <i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>payments_selection</key>
+    <value><![CDATA[<div class="info alert alert-info"> 
+ <i class="fa fa-money fa-fw"></i> Kies jou betaling metodes. 
+ </div> 
+ <div class="row"> 
+ <div class="col-sm-3 h5 center"> 
+ <a href="#admin#rt=extension/extensions/install&extension=default_stripe" target="_extension">
+ <img src="extensions/default_stripe/image/icon.png"><br/> installeer Stripe</a> 
+ </div> 
+ <div class="col-sm-3 h5 center"> 
+ <a href="#admin#rt=extension/extensions/install&extension=default_pp_standart" target="_extension">
+ <img src="extensions/default_pp_standart/image/icon.png"><br/> installeer Paypal</a> 
+ </div> 
+ <div class="col-sm-3 h5 center"> 
+ <a href="#admin#rt=extension/extensions/install&extension=default_payza" target="_extension">
+ <img src="extensions/default_payza/image/icon.png"><br/> installeer Payza</a> 
+ </div> 
+ <div class="col-sm-3 h5 center"> 
+ <a href="#admin#rt=extension/extensions/payment" target="_extension">
+ <img src="admin/view/default/image/default_extension.png"><br/> Meer Betalings</a> 
+ </div> 
+ </div>]]></value>
+  </definition>
+  <definition>
+    <key>shipping_selection</key>
+    <value><![CDATA[<div class="info alert alert-info"> 
+ <i class="fa fa-truck fa-fw"></i> Kies jou gestuur metodes. 
+ </div> 
+ <div class="row"> 
+ <div class="col-sm-3 h5 center"> 
+ <a href="#admin#rt=extension/extensions/install&extension=default_free_shipping" target="_extension">
+ <img src="extensions/default_free_shipping/image/icon.png"><br/> Geen gestuur</a> 
+ </div> 
+ <div class="col-sm-3 h5 center"> 
+ <a href="#admin#rt=extension/extensions/install&extension=default_fedex" target="_extension">
+ <img src="extensions/default_fedex/image/icon.png"><br/> Fedex</a> 
+ </div> 
+ <div class="col-sm-3 h5 center"> 
+ <a href="#admin#rt=extension/extensions/install&extension=default_ups" target="_extension">
+ <img src="extensions/default_ups/image/icon.png"><br/> UPS</a> 
+ </div> 
+ <div class="col-sm-3 h5 center"> 
+ <a href="#admin#rt=extension/extensions/shipping" target="_extension">
+ <img src="admin/view/default/image/default_extension.png"><br/> Meer bestellingen</a> 
+ </div> 
+ </div>]]></value>
+  </definition>
+  <definition>
+    <key>language_selection</key>
+    <value><![CDATA[<div class="info alert alert-info"> 
+ <i class="fa fa-language fa-fw"></i> Kies bykomende tale. 
+ </div> 
+ <div class="row"> 
+ <div class="col-sm-3 h5 center"> 
+ <a href="#admin#rt=extension/extensions/install&extension=default_italian" target="_extension">
+ <img src="extensions/default_italian/image/icon.png"><br/> Italiaanse</a> 
+ </div> 
+ <div class="col-sm-3 h5 center"> 
+ <a href="#admin#rt=extension/extensions/install&extension=default_spanish" target="_extension">
+ <img src="extensions/default_spanish/image/icon.png"><br/> Spaans</a> 
+ </div> 
+ <div class="col-sm-3 h5 center"> 
+ <a href="#admin#rt=extension/extensions/install&extension=default_russian" target="_extension">
+ <img src="extensions/default_russian/image/icon.png"><br/> Russiese</a> 
+ </div> 
+ <div class="col-sm-3 h5 center"> 
+ <a href="#admin#rt=extension/extensions_store&category_id=67&sidx=date_modified" target="_extension">
+ <img src="admin/view/default/image/default_extension.png"><br/> Meer Tale</a> 
+ </div> 
+ </div>]]></value>
+  </definition>
+  <definition>
+    <key>more_extentions</key>
+    <value><![CDATA[<div class="info alert alert-info"> 
+ <i class="fa fa-puzzle-piece fa-fw"></i> Meer uitbreidings op AbanteCart mark. 
+ </div> 
+ <div class="row center"> 
+ <div class="btn-group center"> 
+ <a class="btn btn-primary" href="#admin#rt=extension/extensions_store" target="_extension">
+ <i class="fa fa-cloud-download fa-fw"></i> Uitbreidings Marketplace 
+</a> 
+ </div> 
+ </div>]]></value>
+  </definition>
+</definitions>

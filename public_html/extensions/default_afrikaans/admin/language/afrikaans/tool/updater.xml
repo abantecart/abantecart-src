@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[bestuurder Werk]]></value>
+  </definition>
+  <definition>
+    <key>text_checkupdates</key>
+    <value><![CDATA[kyk vir updates]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Uitbreiding Naam]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[tipe]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[kategorie]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[status]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[Huidige weergawe]]></value>
+  </definition>
+  <definition>
+    <key>column_new_version</key>
+    <value><![CDATA[Nuwe weergawe]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Aksie]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Uitbreidings is suksesvol opgedateer!]]></value>
+  </definition>
+  <definition>
+    <key>text_update</key>
+    <value><![CDATA[Opdateer]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore_exts</key>
+    <value><![CDATA[Herstel Friends uitbreiding:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[updates:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Waarskuwing: Jy het nie toestemming om gids verander het:]]></value>
+  </definition>
+  <definition>
+    <key>warning_server</key>
+    <value><![CDATA[Bediener met updates is onbereikbaar.]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_title</key>
+    <value><![CDATA[Werk Kennisgewing vir% UITBREIDING%]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_text</key>
+    <value><![CDATA[Nuwe weergawe van uitbreiding &quot;% UITBREIDING%&quot; is beskikbaar. Asseblief, gaan na% LINK% en dit op te gradeer. &quot;]]></value>
+  </definition>
+  <definition>
+    <key>warning_updates</key>
+    <value><![CDATA[Kan inligting oor updates nie.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Waarskuwing: Die lêer wat jy afgelaai het leeg!]]></value>
+  </definition>
+  <definition>
+    <key>error_exts_list</key>
+    <value><![CDATA[Waarskuwing: Uitbreiding lys is nie verskeidenheid!]]></value>
+  </definition>
+  <definition>
+    <key>text_nothing_todo</key>
+    <value><![CDATA[Jou se uitbreidings op datum is. Niks om te doen.]]></value>
+  </definition>
+  <definition>
+    <key>text_connect</key>
+    <value><![CDATA[Verbind]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect</key>
+    <value><![CDATA[Skakel gerus in op die mark]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect_your_store</key>
+    <value><![CDATA[Let Sluit Jou winkel aan die mark]]></value>
+  </definition>
+  <definition>
+    <key>text_note</key>
+    <value><![CDATA[Let wel: Werk slegs beskikbaar vir gekoppelde winkels met aangekoop geskiedenis.]]></value>
+  </definition>
+</definitions>

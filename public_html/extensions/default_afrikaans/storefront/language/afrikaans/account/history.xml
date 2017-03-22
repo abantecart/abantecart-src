@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[My Bestel Geskiedenis]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[rekening]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[Bestel Geskiedenis]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Bestel ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[status:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Datum bygevoeg:]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[kliënt:]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[produkte:]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Totaal:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Jy het geen vorige bestellings gemaak!]]></value>
+  </definition>
+</definitions>

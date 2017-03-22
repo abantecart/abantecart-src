@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[My wenslys]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[rekening]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_wishlist</key>
+    <value><![CDATA[Wens lys is leeg]]></value>
+  </definition>
+  <definition>
+    <key>button_cart</key>
+    <value><![CDATA[Kyk Cart]]></value>
+  </definition>
+  <definition>
+    <key>button_continue</key>
+    <value><![CDATA[Gaan voort Winkelsentrum]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Image]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[naam]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[model]]></value>
+  </definition>
+  <definition>
+    <key>column_added</key>
+    <value><![CDATA[Bykomend tot die lys wil]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Eenheidsprys]]></value>
+  </definition>
+  <definition>
+    <key>column_actions</key>
+    <value><![CDATA[aksies]]></value>
+  </definition>
+</definitions>

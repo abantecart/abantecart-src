@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[geldeenhede]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[geldeenheid]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Jy het geldeenhede!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[geldeenheid titel]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[kode]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[waarde]]></value>
+  </definition>
+  <definition>
+    <key>column_date_modified</key>
+    <value><![CDATA[laaste opgedateer op]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[status]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Aksie]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Geldeenheid Titel:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Kode: <br/><span class="help">Moenie verander as dit jou verstek geldeenheid.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Waarde: <br/><span class="help">Stel om 1,00000 as dit jou verstek geldeenheid.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_symbol_left</key>
+    <value><![CDATA[Simbool Links:]]></value>
+  </definition>
+  <definition>
+    <key>entry_symbol_right</key>
+    <value><![CDATA[Simbool Regs:]]></value>
+  </definition>
+  <definition>
+    <key>entry_decimal_place</key>
+    <value><![CDATA[Desimale plekke:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[status:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Waarskuwing: Jy het nie toestemming om geldeenhede verander het!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Geldeenheid titel moet tussen 2 en 32 karakters!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Geldeenheid Kode moet 3 karakters!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Waarskuwing: Hierdie valuta kan nie geskrap word omdat dit op die oomblik is aangewys as die verstek winkel geldeenheid!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Waarskuwing: Hierdie valuta kan nie geskrap word soos dit tans aan %s winkels!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Waarskuwing: Hierdie valuta kan nie geskrap word soos dit tans aan %s bestellings!]]></value>
+  </definition>
+</definitions>

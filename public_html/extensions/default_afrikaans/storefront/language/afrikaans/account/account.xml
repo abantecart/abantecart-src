@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[My rekening]]></value>
+  </definition>
+  <definition>
+    <key>text_account_dashboard</key>
+    <value><![CDATA[rekening Dashboard]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[rekening]]></value>
+  </definition>
+  <definition>
+    <key>text_my_account</key>
+    <value><![CDATA[My rekening]]></value>
+  </definition>
+  <definition>
+    <key>text_my_orders</key>
+    <value><![CDATA[my Bestellings]]></value>
+  </definition>
+  <definition>
+    <key>text_my_notifications</key>
+    <value><![CDATA[Kennisgewings]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[rekening wysig besonderhede]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Verander wagwoord]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Bestuur adresboek]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[geskiedenis Bestel]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[transaksie geskiedenis]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[downloads]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[Teken nuusbrief]]></value>
+  </definition>
+  <definition>
+    <key>text_account_wishlist</key>
+    <value><![CDATA[My wenslys]]></value>
+  </definition>
+</definitions>

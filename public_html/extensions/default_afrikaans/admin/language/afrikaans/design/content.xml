@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Content Manager]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[Nuwe inhoud]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[Inhoud update]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Jy het die inhoud!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_layout</key>
+    <value><![CDATA[Sukses: Jy het inhoud bladuitleg.]]></value>
+  </definition>
+  <definition>
+    <key>text_hidden</key>
+    <value><![CDATA[verborge]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[standaard]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[inhoud titel]]></value>
+  </definition>
+  <definition>
+    <key>column_parent</key>
+    <value><![CDATA[ouer inhoud]]></value>
+  </definition>
+  <definition>
+    <key>entry_parent</key>
+    <value><![CDATA[Ouer inhoud Page]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Sorteervolgorde]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[status]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Aksie]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Inhoud Naam:]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Inhoud Titel:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Beskrywing:]]></value>
+  </definition>
+  <definition>
+    <key>entry_content</key>
+    <value><![CDATA[inhoud:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[winkels:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_keyword</key>
+    <value><![CDATA[SEO Sleutelwoord:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Sorteervolgorde:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Waarskuwing: Jy het nie toestemming om inhoud te verander nie!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Inhoud titel moet tussen 2 en 64 karakters!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Inhoud Naam moet tussen 2 en 64 karakters!]]></value>
+  </definition>
+  <definition>
+    <key>error_description</key>
+    <value><![CDATA[Beskrywing moet meer as 1 karakters!]]></value>
+  </definition>
+  <definition>
+    <key>error_content</key>
+    <value><![CDATA[Inhoud moet meer as 1 karakters!]]></value>
+  </definition>
+  <definition>
+    <key>error_seo_url</key>
+    <value><![CDATA[SEO URL moet meer as 1 karakters!]]></value>
+  </definition>
+  <definition>
+    <key>error_account</key>
+    <value><![CDATA[Waarskuwing: Hierdie inhoud kan nie geskrap word omdat dit op die oomblik is aangewys as die verstek winkel rekening terme!]]></value>
+  </definition>
+  <definition>
+    <key>error_checkout</key>
+    <value><![CDATA[Waarskuwing: Hierdie inhoud kan nie geskrap word omdat dit op die oomblik is aangewys as die verstek winkel Checkout terme!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Nodige data is nie ingevoer. Kyk vir veld foute!]]></value>
+  </definition>
+  <definition>
+    <key>text_top_level</key>
+    <value><![CDATA[Hoogste vlak]]></value>
+  </definition>
+  <definition>
+    <key>text_any</key>
+    <value><![CDATA[enige]]></value>
+  </definition>
+  <definition>
+    <key>tab_form</key>
+    <value><![CDATA[wysig]]></value>
+  </definition>
+  <definition>
+    <key>tab_layout</key>
+    <value><![CDATA[uitleg]]></value>
+  </definition>
+</definitions>

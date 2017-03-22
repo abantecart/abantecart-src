@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Pakket is suksesvol geïnstalleer.]]></value>
+  </definition>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[installeerder]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_license</key>
+    <value><![CDATA[Pakket lisensie-ooreenkoms]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_ftp</key>
+    <value><![CDATA[FTP toegang parameters]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_download</key>
+    <value><![CDATA[pakket te laai]]></value>
+  </definition>
+  <definition>
+    <key>text_preloading</key>
+    <value><![CDATA[Lêer% lêer% sal afgelaai word.]]></value>
+  </definition>
+  <definition>
+    <key>text_loading</key>
+    <value><![CDATA[Aflaai lêer. Grootte: %s. <br/> Dit mag dalk n paar sekondes neem, afhangende van jou verbinding.]]></value>
+  </definition>
+  <definition>
+    <key>text_key_hint</key>
+    <value><![CDATA[Gee Installasie sleutel hier]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_user</key>
+    <value><![CDATA[FTP Gebruikersnaam:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_password</key>
+    <value><![CDATA[FTP gebruiker Wagwoord:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_host</key>
+    <value><![CDATA[FTP Host:]]></value>
+  </definition>
+  <definition>
+    <key>text_i_agree</key>
+    <value><![CDATA[Ek stem saam met die lisensie]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[Stem saam]]></value>
+  </definition>
+  <definition>
+    <key>text_retry</key>
+    <value><![CDATA[Weer]]></value>
+  </definition>
+  <definition>
+    <key>text_disagree</key>
+    <value><![CDATA[Verskil]]></value>
+  </definition>
+  <definition>
+    <key>text_download_error</key>
+    <value><![CDATA[Ons is jammer, maar fout tydens die laai van die lêer. </br> Probeer nog een keer. </br> As probleem voortduur aflaai lêer in jou bestelling geskiedenis en handmatig te installeer.]]></value>
+  </definition>
+  <definition>
+    <key>text_continue</key>
+    <value><![CDATA[Aanhou]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer_heading</key>
+    <value><![CDATA[Vrywaring]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer</key>
+    <value><![CDATA[<h3> Geagte AbanteCart kliënt, </h3><br/> 
+ Jy is op die punt om derde uitbreiding partytjie installeer om jou AbanteCart. <br/><br/> 
+ Lees en verstaan hierdie disclaimer oor derde uitbreiding party wat jy oor om te installeer. <br/><br/> 
+ Derdeparty uitbreidings en dienste gelewer word deur &#39;n derde verkopers party. <br/><br/> 
+ Alhoewel, AbanteCart bekragtig kwaliteit van uitbreidings en dienste wat gelewer word deur &#39;n derde party, AbanterCart nie waarborg dat al die derde party uitbreiding werk korrek of nie konflikte in die stelsel sal veroorsaak. 
+ AbanteCart lede en affiliasies is geensins aanspreeklik of verantwoordelik vir eise wat verband hou aan die produkte of dienste wat gelewer word deur &#39;n derde verkopers party. AbanteCart waarborg nie die kwaliteit van derde uitbreidings of dienste party. Rig asseblief u navrae in verband met derde uitbreidings of dienste party tot die toepaslike verkoper derde party. 
+ As jy bekommerd oor &#39;n derde party verskaffer kontak AbanteCart by <a href="http://www.abantecart.com/contact-us" target="_blank">http://www.abantecart.com/contact-us</a><br/><br/> 
+ Die uwe, <br/> 
+ AbanteCart <br/> 
+ Ideale open source ecommerce oplossing]]></value>
+  </definition>
+  <definition>
+    <key>warning_ftp</key>
+    <value><![CDATA[Waarskuwing: Sommige gids of lêer nie het skryf reg <span id="see_details">(sien meer besonderhede)</span><br/> Jy kan regte op jou bediener of verander <br/> gebruik FTP toegang tot jou bediener vir die installasie (gewoonlik, hosting provider stuur hierdie inligting via e-pos of jy kan dit te bestuur in hosting beheer gereedskap) <br/>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed</key>
+    <value><![CDATA[<p class="success"> Jy het reeds% UITBREIDING% uitbreiding geïnstalleer! As jy wil om voort te gaan en op te gradeer, bevestig asseblief. </p>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed_uninstall</key>
+    <value><![CDATA[Jy het reeds hierdie uitbreiding &quot;% UITBREIDING%&quot; geïnstalleer! As jy wil om voort te gaan om weer te installeer, verwyder en uitbreiding eerste verwyder.]]></value>
+  </definition>
+  <definition>
+    <key>error_pack_file_not_found</key>
+    <value><![CDATA[Fout: Kan nie uitbreiding uittreksel uit die argief te %s. Gaan <a href="#admin#rt=tool/error_log" target="_blank">teken</a> vir foute]]></value>
+  </definition>
+  <definition>
+    <key>error_mp</key>
+    <value><![CDATA[Marketplace fout:]]></value>
+  </definition>
+  <definition>
+    <key>error_repository</key>
+    <value><![CDATA[Fout: Kan nie lêer aflaai. Repository fout of ongeldig uitbreiding sleutel. Probeer nog een keer. As probleem voortduur aflaai lêer in jou bestelling geskiedenis en handmatig te installeer.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_user</key>
+    <value><![CDATA[Fout: FTP Gebruikersnaam is leeg.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_password</key>
+    <value><![CDATA[Fout: FTP gebruiker wagwoord is leeg.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_connect</key>
+    <value><![CDATA[Fout: Kan nie konnekteer FTP-bediener]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_login</key>
+    <value><![CDATA[Fout: Kan nie inteken FTP-bediener. Ongeldige gebruikersnaam of wagwoord.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path</key>
+    <value><![CDATA[Fout: Kan hoofdmap van AbanteCart nie vind deur FTP pad. <br/> Probeer laat dit leeg vir &#39;n outomatiese soek.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path_array</key>
+    <value><![CDATA[Fout: Kan nie outomatiese erken hoofdmap van AbanteCart in FTP-modus. <br/> Vul vorm veld FTP-pad. <br/> Pad voorstelle is:]]></value>
+  </definition>
+  <definition>
+    <key>error_dir_permission</key>
+    <value><![CDATA[Kan nie lêer te stoor omdat Gids is nie skryfbaar nie:]]></value>
+  </definition>
+  <definition>
+    <key>error_package_structure</key>
+    <value><![CDATA[Fout: Waarskynlik pakket is gebreek. Struktuur van pakket fout.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config_xml</key>
+    <value><![CDATA[Fout: Kan nie spoor lêer package.xml binnekant van &#39;n uittreksel uitbreiding. Moontlik uitbreiding is nie korrek onttrek. Gaan <a href="#admin#rt=tool/error_log" target="_blank">teken</a> vir foute]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config2</key>
+    <value><![CDATA[Fout: Kan installasie af nie vind in package.xml binnekant pakket.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_info_not_exists</key>
+    <value><![CDATA[Fout: Kan nie vind pakket sessie inligting oor hierdie aflaai.]]></value>
+  </definition>
+  <definition>
+    <key>error_unpack</key>
+    <value><![CDATA[Fout: Kan nie uitpak pakket &quot;% PAKKET%&quot; na die aflaai. Argief fout. Sien fout log vir besonderhede.]]></value>
+  </definition>
+  <definition>
+    <key>error_move</key>
+    <value><![CDATA[Fout: Kan nie beweeg pakket kode ná pak. Probeer asseblief skryf regte van die gids:]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode</key>
+    <value><![CDATA[Fout: Kan uitbreiding nie installeer &quot;% pakket%&quot;, want dit is reeds geïnstalleer. Jy moet deinstall en verwyder dit die eerste keer of kry pakket vir opgradering.]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode2</key>
+    <value><![CDATA[Fout: Kan nie opgradeer uitbreiding &quot;% pakket%&quot; omdat dit nie geïnstalleer. Jy moet kry pakket vir installeer.]]></value>
+  </definition>
+  <definition>
+    <key>error_version_compatibility</key>
+    <value><![CDATA[Fout: Kan pakket installeer nie. Jou mandjie weergawe <b>is% CURRENT_VERSION%.</b> Weergawe <b>(s)% weergawes%</b> vereis.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_version_compatibility</key>
+    <value><![CDATA[Fout: Kan nie opgradeer pakket. Nuwer pakket weergawe is reeds geïnstalleer.]]></value>
+  </definition>
+  <definition>
+    <key>error_install</key>
+    <value><![CDATA[Fout: Kan pakket installeer nie. Sien asseblief System -&gt; Fout log vir besonderhede.]]></value>
+  </definition>
+  <definition>
+    <key>error_core_version</key>
+    <value><![CDATA[Fout: Jy moet AbanteCart weergawe% weergawe% geïnstalleer. <br/> Hierdie opgradeer pakket net vir weergawes laer as]]></value>
+  </definition>
+  <definition>
+    <key>text_interrupt</key>
+    <value><![CDATA[onderbreking]]></value>
+  </definition>
+  <definition>
+    <key>confirm_version_incompatibility</key>
+    <value><![CDATA[Huidige afskrif van hierdie uitbreiding is nie nagegaan vir jou weergawe van AbanteCart (v %s). <br/> Uitbreiding bou gespesifiseer vir AbanteCart v %s. <br/> 
+ Dit is nie &#39;n probleem nie, maar as jy probleme of onversoenbaarheid sien, kontak uitbreiding ontwikkelaar.]]></value>
+  </definition>
+  <definition>
+    <key>error_move_ftp</key>
+    <value><![CDATA[Fout: Kan nie beweeg pakket kode ná pak. Waarskynlik is verkeerd FTP pad. <br/> Ook, asseblief, probeer om te skryf regte van die gids te gaan:]]></value>
+  </definition>
+  <definition>
+    <key>text_network_install</key>
+    <value><![CDATA[netwerk installeer]]></value>
+  </definition>
+  <definition>
+    <key>text_extension_upload</key>
+    <value><![CDATA[Uitbreiding oplaai]]></value>
+  </definition>
+  <definition>
+    <key>error_archive_extension</key>
+    <value><![CDATA[Fout: ondersteun Slegs Tar.gz lêers.]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_file</key>
+    <value><![CDATA[Laai lêer:]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_url</key>
+    <value><![CDATA[Voeg URL:]]></value>
+  </definition>
+  <definition>
+    <key>error_move_backup</key>
+    <value><![CDATA[Fout: Kan nie rugsteunlêers voor opgradering. Gaan skryf regte van die gids:]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_title</key>
+    <value><![CDATA[Abantecart Core Upgrade]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_attention</key>
+    <value><![CDATA[Aandag! 
+ AbanteCart gaan word opgegradeer na weergawe %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_warning</key>
+    <value><![CDATA[Daar is geen ongedaan ná die aanvang van opgradering proses. 
+ Volledige databasis en kode Friends word sterk aanbeveel. 
+ Toets opgradering op nie-lewende webwerwe eerste. Gradeer op live webwerwe word nie aanbeveel nie.]]></value>
+  </definition>
+  <definition>
+    <key>text_upgrade_now</key>
+    <value><![CDATA[Gradeer nou op!]]></value>
+  </definition>
+  <definition>
+    <key>error_additional_help_text</key>
+    <value><![CDATA[Vas? Geen probleem. Jy kan uitbreidings te installeer &#39;n ander manier. Gaan <a href="http://docs.abantecart.com/pages/extensions/install.html#FTPinstall" target="_blank">dit help skakel</a>]]></value>
+  </definition>
+  <definition>
+    <key>error_notconnected</key>
+    <value><![CDATA[Kan nie op te gradeer of uitbreidings te installeer vanaf die mark. Hierdie winkel is nie bevestig / verbind. Asseblief kontroleer en aan te sluit op die <a href="%s">mark</a>]]></value>
+  </definition>
+</definitions>

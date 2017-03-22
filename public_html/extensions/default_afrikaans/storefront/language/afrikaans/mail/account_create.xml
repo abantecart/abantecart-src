@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Dankie vir die registrasie]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Welkom en dankie vir die registrasie by %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Jou rekening is nou geskep en jy kan dit toegang deur &#39;n besoek ons ​​webwerf of by die volgende skakel:]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[Jou rekening moet goedgekeur word voordat jy kan aanmeld. Sodra dit goedgekeur kan jy inteken deur die gebruik van jou e-posadres en wagwoord deur &#39;n besoek ons ​​webwerf of by die volgende skakel:]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[Voordat ons u rekening kan aktiveer &#39;n laaste stap geneem moet word om jou registrasie te voltooi. <br/> 
+ Jy moet hierdie laaste stap om &#39;n geregistreerde lid geword voltooi. Klik op die volgende skakel om jou rekening te aktiveer %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[By jou aan te meld, sal jy in staat wees om toegang te verkry tot ander dienste, insluitend die hersiening van die verlede bestellings, druk fakture en jou rekening inligting redigering.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Dankie,]]></value>
+  </definition>
+</definitions>

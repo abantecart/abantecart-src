@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Jou bestelling verwerk!]]></value>
+  </definition>
+  <definition>
+    <key>text_message_account</key>
+    <value><![CDATA[<p> Jou bestelling # %s is geskep! </p> 
+ <p> Jy kan jou bestelling besonderhede te sien deur te gaan na die <a href="%s">faktuur bladsy</a>. </p> 
+ <p> Rig asseblief enige vrae wat jy het die <a href="%s">winkel eienaar</a>. </p> 
+ <p> Dankie vir inkopies saam met ons jou! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_message_guest</key>
+    <value><![CDATA[<p> Jou bestelling is suksesvol verwerk! </p> 
+ <p> Jy kan jou bestelling besonderhede te sien deur te gaan na die <a href="%s">faktuur bladsy</a>. </p> 
+ <p> Rig asseblief enige vrae wat jy het die <a href="%s">winkel eienaar</a>. </p> 
+ <p> Dankie vir inkopies saam met ons jou! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[basket]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Gestuur]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[betaling]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[Guest Checkout]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[bevestig]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[sukses]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order</key>
+    <value><![CDATA[Oeps! Ons het &#39;n paar probleem ondervind met jou transaksie. Jou bestelling sal met die hand gekontroleer deur administrateur.]]></value>
+  </definition>
+  <definition>
+    <key>text_title_failed_order_to_admin</key>
+    <value><![CDATA[Kon orde # %s]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order_to_admin</key>
+    <value><![CDATA[Kon of ontbreek reaksie van verifikasie betaling. Handleiding verifikasie vereis!]]></value>
+  </definition>
+</definitions>

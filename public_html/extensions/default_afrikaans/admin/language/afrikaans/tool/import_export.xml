@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>import_export_title</key>
+    <value><![CDATA[Invoer uitvoer]]></value>
+  </definition>
+  <definition>
+    <key>tab_import</key>
+    <value><![CDATA[invoer]]></value>
+  </definition>
+  <definition>
+    <key>tab_export</key>
+    <value><![CDATA[uitvoer]]></value>
+  </definition>
+  <definition>
+    <key>text_tables</key>
+    <value><![CDATA[tafels]]></value>
+  </definition>
+  <definition>
+    <key>text_options</key>
+    <value><![CDATA[opsies]]></value>
+  </definition>
+  <definition>
+    <key>text_file_format</key>
+    <value><![CDATA[Lêerformaat:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_name</key>
+    <value><![CDATA[Lêernaam:]]></value>
+  </definition>
+  <definition>
+    <key>text_load_file</key>
+    <value><![CDATA[vrag lêer]]></value>
+  </definition>
+  <definition>
+    <key>text_load</key>
+    <value><![CDATA[vrag]]></value>
+  </definition>
+  <definition>
+    <key>text_import_loaded</key>
+    <value><![CDATA[Totaal gelaai:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_field</key>
+    <value><![CDATA[Lêer invoer: <br/><span class="help">Ondersteunde formate vir die invoer lêers: XML, CSV, TXT</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_id_range_from</key>
+    <value><![CDATA[ID wissel van:]]></value>
+  </definition>
+  <definition>
+    <key>text_to</key>
+    <value><![CDATA[om:]]></value>
+  </definition>
+  <definition>
+    <key>text_csv_delimiter</key>
+    <value><![CDATA[CSV / TXT delimiter:]]></value>
+  </definition>
+  <definition>
+    <key>text_export_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">Alle velde word tussen dubbele aanhalingstekens.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_import_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">Alle velde moet tussen dubbele aanhalingstekens.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_test_mode</key>
+    <value><![CDATA[Begin op &#39;n toets af <br/><span class="help">Dit word aanbeveel om data invoer hardloop in &#39;n toets af eerste om te sien of enige kwessies teenwoordig is.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_file_format</key>
+    <value><![CDATA[Verkeerde lêer formaat!]]></value>
+  </definition>
+  <definition>
+    <key>error_xml_import</key>
+    <value><![CDATA[Fout tydens die invoer XML-lêer!]]></value>
+  </definition>
+  <definition>
+    <key>error_csv_import</key>
+    <value><![CDATA[Fout tydens die invoer CSV / TXT lêer! Gaan asseblief velde delimiter.]]></value>
+  </definition>
+  <definition>
+    <key>error_data_corrupted</key>
+    <value><![CDATA[Data is leeg of beskadig.]]></value>
+  </definition>
+  <definition>
+    <key>error_file_empty</key>
+    <value><![CDATA[Lêer is leeg.]]></value>
+  </definition>
+  <definition>
+    <key>error_writable_backup</key>
+    <value><![CDATA[Friends gids moet skryfbaar vir CSV / TXT uitvoer na werk te wees.]]></value>
+  </definition>
+  <definition>
+    <key>text_updated</key>
+    <value><![CDATA[Opgedateer:]]></value>
+  </definition>
+  <definition>
+    <key>text_created</key>
+    <value><![CDATA[Geskep:]]></value>
+  </definition>
+  <definition>
+    <key>text_errors</key>
+    <value><![CDATA[foute:]]></value>
+  </definition>
+  <definition>
+    <key>text_show_details</key>
+    <value><![CDATA[Wys besonderhede]]></value>
+  </definition>
+  <definition>
+    <key>text_no_children</key>
+    <value><![CDATA[Geen kind items]]></value>
+  </definition>
+  <definition>
+    <key>text_some_errors</key>
+    <value><![CDATA[Daar is &#39;n paar foute.]]></value>
+  </definition>
+  <definition>
+    <key>text_test_completed</key>
+    <value><![CDATA[Toetslopie voltooi. Totaal SQL navrae:]]></value>
+  </definition>
+  <definition>
+    <key>text_sort_by</key>
+    <value><![CDATA[Sorteer Volgens:]]></value>
+  </definition>
+</definitions>

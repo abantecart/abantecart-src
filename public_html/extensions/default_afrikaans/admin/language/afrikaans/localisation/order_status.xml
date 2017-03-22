@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Bestel statusse]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Bestel Status]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Jy het bevel status verander!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Bestel Status Naam]]></value>
+  </definition>
+  <definition>
+    <key>column_text_id</key>
+    <value><![CDATA[Bestel Status teks ID]]></value>
+  </definition>
+  <definition>
+    <key>entry_text_id</key>
+    <value><![CDATA[Bestel Status teks ID:]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Aksie]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Bestel Status Naam:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Waarskuwing: Jy het nie toestemming om orde standbeelde verander het!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Bestel Status Naam moet tussen 2 en 32 karakters!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Waarskuwing: Hierdie orde status kan nie geskrap word omdat dit op die oomblik is aangewys as die verstek winkel order status!]]></value>
+  </definition>
+  <definition>
+    <key>error_download</key>
+    <value><![CDATA[Waarskuwing: Hierdie orde status kan nie geskrap word omdat dit op die oomblik is aangewys as die verstek aflaai status!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Waarskuwing: Hierdie orde status kan nie geskrap word soos dit tans aan %s winkels!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Waarskuwing: Hierdie orde status kan nie geskrap word soos dit tans aan %s bestellings!]]></value>
+  </definition>
+  <definition>
+    <key>error_nondeletable</key>
+    <value><![CDATA[Waarskuwing: Hierdie is &#39;n belangrike order status wat verband hou met betalings. Jy kan hierdie status nie verwyder.]]></value>
+  </definition>
+  <definition>
+    <key>error_status_text_id</key>
+    <value><![CDATA[Bestel Status teks id moet uniek en tussen 2 en 32 karakters wees!]]></value>
+  </definition>
+</definitions>

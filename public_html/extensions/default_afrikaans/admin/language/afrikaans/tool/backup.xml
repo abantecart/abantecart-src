@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Rugsteun / Herstel / Load]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[aflaai Backup]]></value>
+  </definition>
+  <definition>
+    <key>text_success_backup</key>
+    <value><![CDATA[Sukses: Jy het suksesvol geskep rugsteunlêer!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Jy het suksesvol jou databasis ingevoer!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_xml</key>
+    <value><![CDATA[Sukses: Jy het suksesvol ingevoer jou xml!]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore</key>
+    <value><![CDATA[Herstel van SQL of XML-lêer:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tables</key>
+    <value><![CDATA[Friends tabelle:]]></value>
+  </definition>
+  <definition>
+    <key>entry_loadxml</key>
+    <value><![CDATA[Vrag XML-lêer:]]></value>
+  </definition>
+  <definition>
+    <key>tab_backup</key>
+    <value><![CDATA[Ondersteuning]]></value>
+  </definition>
+  <definition>
+    <key>tab_restore</key>
+    <value><![CDATA[herstel]]></value>
+  </definition>
+  <definition>
+    <key>tab_loadxml</key>
+    <value><![CDATA[Uitleg en dataset vrag XML]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Waarskuwing: Jy het nie toestemming om rugsteun te verander nie!]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Waarskuwing: Stel wat jy wil Friends of invoer!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Waarskuwing: Die lêer wat jy afgelaai het leë of het verkeerd lêer tipe!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload</key>
+    <value><![CDATA[Waarskuwing: Die lêer is nie gelaai. Gaan post_max_size of file_upload voorskrifte van jou php.ini lêer.]]></value>
+  </definition>
+  <definition>
+    <key>error_xml</key>
+    <value><![CDATA[Waarskuwing: Die lêer wat u opgelaai nie soos XML gelaai! Asseblief, kyk log-lêer vir meer inligting]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_code</key>
+    <value><![CDATA[Friends Kode (%s) <br/><span class="help">Sub-dopgehou met kode lêers uitgesluit dinamiese lêers soos kas, log files, beelde, hulpbronne ens</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_content</key>
+    <value><![CDATA[Friends inhoud (%s) <br/><span class="help">Sub-gidse met &#39;n dinamiese lêers soos beelde, downloads, hulpbronne ens</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_compress_backup</key>
+    <value><![CDATA[Compress Backup Gids %s? <br/><span class="help">Argief * Tar.gz geskep sal word. <br/> Let wel: dit kan &#39;n lang tyd in beslag neem. Andersins kan jy kompressie te skakel en vind jou Friends in die gids %s</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_now</key>
+    <value><![CDATA[Maak nou &#39;n rugsteun]]></value>
+  </definition>
+  <definition>
+    <key>button_load</key>
+    <value><![CDATA[vrag]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_schedule</key>
+    <value><![CDATA[Bylae Backup]]></value>
+  </definition>
+  <definition>
+    <key>text_success_scheduled</key>
+    <value><![CDATA[Sukses: Jy het suksesvol geskep geskeduleer Friends taak! <a href="%s">sien besonderhede</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_fail_note</key>
+    <value><![CDATA[NOTA: Hierdie proses uitvoering hang af van jou AbanteCart data grootte sowel as jou bediener virtuele geheue grootte. As proses beëindig met foute, gaan gids %s regte om in te lê om -RW-RW-RW en <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[PHP geheue omgewing]</a>. Verhoog geheue instelling of hardloop Friends hand as proses steeds misluk.]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_file</key>
+    <value><![CDATA[Friends-lêer af te laai besoek <a href="#admin#rt=tool/install_upgrade_history">installeer / Upgrade Geskiedenis</a>]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_dir</key>
+    <value><![CDATA[Gids met Friends-lêers is %s]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[coupons]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[coupon]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Jy het coupons!]]></value>
+  </definition>
+  <definition>
+    <key>text_percent</key>
+    <value><![CDATA[persentasie]]></value>
+  </definition>
+  <definition>
+    <key>text_amount</key>
+    <value><![CDATA[vaste bedrag]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[coupon Naam]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[kode]]></value>
+  </definition>
+  <definition>
+    <key>column_discount</key>
+    <value><![CDATA[afslag]]></value>
+  </definition>
+  <definition>
+    <key>column_date_start</key>
+    <value><![CDATA[datum Begin]]></value>
+  </definition>
+  <definition>
+    <key>column_date_end</key>
+    <value><![CDATA[datum Einde]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[status]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Aksie]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Coupon Naam:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Coupon Beskrywing:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Kode: <br/><span class="help">Die kode van die kliënt binnegaan om die afslag te kry</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_type</key>
+    <value><![CDATA[Tipe: <br/><span class="help">persentasie of vaste bedrag</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_discount</key>
+    <value><![CDATA[afslag:]]></value>
+  </definition>
+  <definition>
+    <key>entry_logged</key>
+    <value><![CDATA[Kliënt teken: <br/><span class="help">kliënt moet aangeteken om die koepon gebruik.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[Gratis aflewering:]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Totale bedrag: <br/><span class="help">Die sub-totale bedrag wat moet bereik voor die koepon is geldig.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_product</key>
+    <value><![CDATA[Geselekteerde produkte:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[Datum Begin:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[Datum Einde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_uses_total</key>
+    <value><![CDATA[Gebruik Per Coupon: <br/><span class="help">Die maksimum aantal kere wat die koepon gebruik kan word deur &#39;n kliënt. Laat leeg vir &#39;n onbeperkte</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_uses_customer</key>
+    <value><![CDATA[Gebruik per kliënt: <br/><span class="help">Die maksimum aantal kere wat die koepon gebruik kan word deur &#39;n enkele kliënt. Laat leeg vir &#39;n onbeperkte</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_coupon_usage</key>
+    <value><![CDATA[Totaal Coupon Gebruik: <br/><span class="help">Telling van alle bestellings geplaas met behulp van hierdie coupon</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Waarskuwing: Jy het nie toestemming om coupons verander het!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Coupon Naam moet tussen 2 en 64 karakters!]]></value>
+  </definition>
+  <definition>
+    <key>error_description</key>
+    <value><![CDATA[Coupon beskrywing moet tussen 2 karakters!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Kode moet tussen 2 en 10 karakters!]]></value>
+  </definition>
+  <definition>
+    <key>error_date</key>
+    <value><![CDATA[Stel datum bereik!]]></value>
+  </definition>
+</definitions>

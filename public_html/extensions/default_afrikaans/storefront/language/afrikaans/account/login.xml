@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[rekening Teken in]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[registreer rekening]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Teken aan]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_new_customer</key>
+    <value><![CDATA[Ek is &#39;n nuwe kliënt.]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Checkout Options:]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[Guest Checkout]]></value>
+  </definition>
+  <definition>
+    <key>text_create_account</key>
+    <value><![CDATA[Deur die skep van &#39;n rekening wat jy sal in staat wees om baie vinnig aanlyn up to date op status &#39;n bevel se, en hou van die bestellings wat jy voorheen gemaak het.]]></value>
+  </definition>
+  <definition>
+    <key>text_returning_customer</key>
+    <value><![CDATA[Reeds kliënt]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_returning_customer</key>
+    <value><![CDATA[Ek is &#39;n herhalende kliënt.]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_login</key>
+    <value><![CDATA[Vergeet van jou inskrywing?]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_password</key>
+    <value><![CDATA[Het jy jou wagwoord vergeet?]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Teken Naam:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email_address</key>
+    <value><![CDATA[E-pos adres:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[wagwoord:]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Fout: Verkeerde login en wagwoord verskaf.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_activated</key>
+    <value><![CDATA[Sukses: Jou rekening is suksesvol geaktiveer. Sal u asseblief aanmeld met jou geloofsbriewe.]]></value>
+  </definition>
+  <definition>
+    <key>text_already_activated</key>
+    <value><![CDATA[Jou rekening is reeds geaktiveer. Sal u asseblief aanmeld met jou geloofsbriewe.]]></value>
+  </definition>
+  <definition>
+    <key>text_resend_activation_email</key>
+    <value><![CDATA[Fout: Jou e-posadres is nog nie bevestig word nie. Om nuwe bevestiging e-pos herstuur kliek hierdie <a href=" %s ">skakel</a>]]></value>
+  </definition>
+</definitions>

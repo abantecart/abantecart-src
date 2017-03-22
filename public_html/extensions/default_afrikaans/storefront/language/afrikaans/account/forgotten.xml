@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Het jy jou wagwoord vergeet?]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_loginname</key>
+    <value><![CDATA[Vergeet Teken Naam?]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[rekening]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten</key>
+    <value><![CDATA[Vergeet]]></value>
+  </definition>
+  <definition>
+    <key>text_your_email</key>
+    <value><![CDATA[Jou eposadres]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Tik die e-pos adres wat verband hou met jou rekening. Klik op stuur jou wagwoord te e-pos aan jou]]></value>
+  </definition>
+  <definition>
+    <key>text_loginname_email</key>
+    <value><![CDATA[Tik die login naam en e-pos adres wat verband hou met jou rekening. Klik op stuur om wagwoordterugstellingversoek]]></value>
+  </definition>
+  <definition>
+    <key>text_lastname_email</key>
+    <value><![CDATA[Tik die naam en e-pos adres wat verband hou met jou rekening. Klik op stuur om jou inskrywing naam per e-pos aan jou]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: wagwoordterugstellingskakel is gestuur na jou e-pos adres.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_loginname</key>
+    <value><![CDATA[Sukses: Jou login naam herinnering is gestuur na jou e-pos adres.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Teken Naam:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Van:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-pos adres:]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Fout: die e-posadres is nie voorsien of nie in ons rekords, probeer weer!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Fout: Die Teken naam is nie voorsien of nie in ons rekords, probeer weer!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Fout: Die Laaste naam is nie voorsien of nie in ons rekords, probeer weer!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_found</key>
+    <value><![CDATA[Fout: Geen rekords gevind wat ooreenstem met die inligting jou verskaf, maak seker jou inligting en probeer weer!]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_loginname</key>
+    <value><![CDATA[Login Naam]]></value>
+  </definition>
+</definitions>

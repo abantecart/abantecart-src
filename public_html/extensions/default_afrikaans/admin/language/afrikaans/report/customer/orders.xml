@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[kliënt Bestellings]]></value>
+  </definition>
+  <definition>
+    <key>column_customer_id</key>
+    <value><![CDATA[Customer ID]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[Kliënt naam]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[kliënt Groep]]></value>
+  </definition>
+  <definition>
+    <key>column_order_count</key>
+    <value><![CDATA[bestellings Tel]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Totaal]]></value>
+  </definition>
+</definitions>

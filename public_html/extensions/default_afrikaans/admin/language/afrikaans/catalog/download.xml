@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Gedeelde te laai]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[gedeel Aflaai]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[Aflaai insetsel]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[Werk Aflaai]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Jy het downloads!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[aflaai Naam]]></value>
+  </definition>
+  <definition>
+    <key>column_remaining</key>
+    <value><![CDATA[Laai toegelaat]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Aksie]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Aflaai Naam:]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[Lêernaam:]]></value>
+  </definition>
+  <definition>
+    <key>entry_remaining</key>
+    <value><![CDATA[Laai toegelaat:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[Stoot om vorige kliënte: <br/><span class="help">Check hierdie voorheen gekoop weergawes werk so goed.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Waarskuwing: Jy het nie toestemming om afgelaai te pas nie!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Naam moet tussen 2 en 64 karakters!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[Stel die lêer af te laai.]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Waarskuwing: Hierdie download kan nie geskrap word soos dit tans aan %s produkte!]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Image]]></value>
+  </definition>
+  <definition>
+    <key>column_products_count</key>
+    <value><![CDATA[produkte Tel]]></value>
+  </definition>
+</definitions>

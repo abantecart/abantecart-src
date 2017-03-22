@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Global Search Results]]></value>
+  </definition>
+  <definition>
+    <key>no_results_message</key>
+    <value><![CDATA[Jammer, maar ons het geen resultate.]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Waarskuwing: U het geen regte om te soek nie!]]></value>
+  </definition>
+  <definition>
+    <key>text_orders</key>
+    <value><![CDATA[bestellings]]></value>
+  </definition>
+  <definition>
+    <key>text_customers</key>
+    <value><![CDATA[kliënte]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[downloads]]></value>
+  </definition>
+  <definition>
+    <key>text_product_categories</key>
+    <value><![CDATA[produk Kategorieë]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[produkte]]></value>
+  </definition>
+  <definition>
+    <key>text_reviews</key>
+    <value><![CDATA[resensies]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[Brands]]></value>
+  </definition>
+  <definition>
+    <key>text_languages</key>
+    <value><![CDATA[Tale]]></value>
+  </definition>
+  <definition>
+    <key>text_pages</key>
+    <value><![CDATA[bladsye]]></value>
+  </definition>
+  <definition>
+    <key>text_settings</key>
+    <value><![CDATA[instellings]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[boodskappe]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[uitbreidings]]></value>
+  </definition>
+  <definition>
+    <key>text_commands</key>
+    <value><![CDATA[Vinnige opdragte]]></value>
+  </definition>
+  <definition>
+    <key>text_contents</key>
+    <value><![CDATA[Inhoudelike bladsye]]></value>
+  </definition>
+</definitions>

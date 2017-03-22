@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[geskeduleerde take]]></value>
+  </definition>
+  <definition>
+    <key>column_id</key>
+    <value><![CDATA[ID]]></value>
+  </definition>
+  <definition>
+    <key>column_date_created</key>
+    <value><![CDATA[datum geskep]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[naam]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[status]]></value>
+  </definition>
+  <definition>
+    <key>column_start_time</key>
+    <value><![CDATA[Begin Tyd]]></value>
+  </definition>
+  <definition>
+    <key>text_stuck</key>
+    <value><![CDATA[vas]]></value>
+  </definition>
+  <definition>
+    <key>text_ready</key>
+    <value><![CDATA[gereed]]></value>
+  </definition>
+  <definition>
+    <key>text_running</key>
+    <value><![CDATA[Running]]></value>
+  </definition>
+  <definition>
+    <key>text_scheduled</key>
+    <value><![CDATA[geskeduleerde]]></value>
+  </definition>
+  <definition>
+    <key>text_disabled</key>
+    <value><![CDATA[gestremde]]></value>
+  </definition>
+  <definition>
+    <key>text_failed</key>
+    <value><![CDATA[Kon]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete</key>
+    <value><![CDATA[onvolledige]]></value>
+  </definition>
+  <definition>
+    <key>text_completed</key>
+    <value><![CDATA[voltooi]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Restart Taak]]></value>
+  </definition>
+  <definition>
+    <key>text_run</key>
+    <value><![CDATA[Run Taak]]></value>
+  </definition>
+  <definition>
+    <key>text_task_started</key>
+    <value><![CDATA[taak begin]]></value>
+  </definition>
+  <definition>
+    <key>text_task_not_found</key>
+    <value><![CDATA[Taak nie gevind nie.]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_task</key>
+    <value><![CDATA[Taak nie bevat stappe. Verwyder.]]></value>
+  </definition>
+  <definition>
+    <key>text_forbidden_to_restart</key>
+    <value><![CDATA[Verbied om weer te begin!]]></value>
+  </definition>
+</definitions>

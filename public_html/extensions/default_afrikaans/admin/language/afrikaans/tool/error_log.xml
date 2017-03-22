@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[fout log]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Jy het suksesvol skoongemaak jou fout log!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_tail</key>
+    <value><![CDATA[As gevolg van groot omvang van die log lêer, kan net verlede 500Kb van data gesien word in hier. 
+ Om volledige log te sien, kry dit uit jou bediener direk. 
+ Pad:]]></value>
+  </definition>
+</definitions>

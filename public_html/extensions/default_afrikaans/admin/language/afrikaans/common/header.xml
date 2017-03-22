@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Administrasie]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[Rugsteun / Herstel]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Welkom, <b>%s</b>]]></value>
+  </definition>
+  <definition>
+    <key>text_last_login</key>
+    <value><![CDATA[Laaste Aanmelding: %s]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_details</key>
+    <value><![CDATA[Wysig Profiel Besonderhede]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_notifications</key>
+    <value><![CDATA[Kennisgewing wysig Instellings]]></value>
+  </definition>
+  <definition>
+    <key>text_catalog</key>
+    <value><![CDATA[Winkel]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[kategorieë]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Bevestig?]]></value>
+  </definition>
+  <definition>
+    <key>text_country</key>
+    <value><![CDATA[lande]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[coupons]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[afslag]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[geldeenhede]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[kliënte]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_group</key>
+    <value><![CDATA[kliënt Groepe]]></value>
+  </definition>
+  <definition>
+    <key>text_dashboard</key>
+    <value><![CDATA[Dashboard]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[downloads]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[fout Logs]]></value>
+  </definition>
+  <definition>
+    <key>text_extension</key>
+    <value><![CDATA[uitbreidings]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_short</key>
+    <value><![CDATA[uitbreidings]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[gebou]]></value>
+  </definition>
+  <definition>
+    <key>text_location</key>
+    <value><![CDATA[plekke]]></value>
+  </definition>
+  <definition>
+    <key>text_help</key>
+    <value><![CDATA[help]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[inligting]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[Tale]]></value>
+  </definition>
+  <definition>
+    <key>text_language_definitions</key>
+    <value><![CDATA[taal Definisies]]></value>
+  </definition>
+  <definition>
+    <key>text_localisation</key>
+    <value><![CDATA[lokalisering]]></value>
+  </definition>
+  <definition>
+    <key>text_logged</key>
+    <value><![CDATA[Jy is ingeteken as <span>%s</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Teken uit]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Stuur pos]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturer</key>
+    <value><![CDATA[vervaardigers]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[bestellings]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[Bestel statusse]]></value>
+  </definition>
+  <definition>
+    <key>text_abantecart</key>
+    <value><![CDATA[tuisblad]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[betalings]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[produkte]]></value>
+  </definition>
+  <definition>
+    <key>text_reports</key>
+    <value><![CDATA[Berigte]]></value>
+  </definition>
+  <definition>
+    <key>text_online</key>
+    <value><![CDATA[Online]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[transaksies]]></value>
+  </definition>
+  <definition>
+    <key>text_tax</key>
+    <value><![CDATA[belasting]]></value>
+  </definition>
+  <definition>
+    <key>text_report_purchased</key>
+    <value><![CDATA[produkte aangekoop]]></value>
+  </definition>
+  <definition>
+    <key>text_report_sale</key>
+    <value><![CDATA[verkope]]></value>
+  </definition>
+  <definition>
+    <key>text_analytics</key>
+    <value><![CDATA[Analytics en insigte]]></value>
+  </definition>
+  <definition>
+    <key>text_report_viewed</key>
+    <value><![CDATA[produkte aangevra]]></value>
+  </definition>
+  <definition>
+    <key>text_review</key>
+    <value><![CDATA[resensies]]></value>
+  </definition>
+  <definition>
+    <key>text_sale</key>
+    <value><![CDATA[verkope]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Gestuur]]></value>
+  </definition>
+  <definition>
+    <key>text_setting</key>
+    <value><![CDATA[instellings]]></value>
+  </definition>
+  <definition>
+    <key>text_stock_status</key>
+    <value><![CDATA[Stock statusse]]></value>
+  </definition>
+  <definition>
+    <key>text_support</key>
+    <value><![CDATA[Ondersteuning Forum]]></value>
+  </definition>
+  <definition>
+    <key>text_system</key>
+    <value><![CDATA[stelsel]]></value>
+  </definition>
+  <definition>
+    <key>text_tax_class</key>
+    <value><![CDATA[belasting Klasse]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Bestel Totale]]></value>
+  </definition>
+  <definition>
+    <key>text_user</key>
+    <value><![CDATA[gebruikers]]></value>
+  </definition>
+  <definition>
+    <key>text_documentation</key>
+    <value><![CDATA[dokumentasie]]></value>
+  </definition>
+  <definition>
+    <key>text_users</key>
+    <value><![CDATA[gebruikers]]></value>
+  </definition>
+  <definition>
+    <key>text_user_group</key>
+    <value><![CDATA[gebruikers Groepe]]></value>
+  </definition>
+  <definition>
+    <key>text_weight_class</key>
+    <value><![CDATA[gewigsklasse]]></value>
+  </definition>
+  <definition>
+    <key>text_length_class</key>
+    <value><![CDATA[lengte Klasse]]></value>
+  </definition>
+  <definition>
+    <key>text_zone</key>
+    <value><![CDATA[sones]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[Alle uitbreidings]]></value>
+  </definition>
+  <definition>
+    <key>text_add_extension</key>
+    <value><![CDATA[installeer Uitbreiding]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_store</key>
+    <value><![CDATA[kry Uitbreidings]]></value>
+  </definition>
+  <definition>
+    <key>text_migrate</key>
+    <value><![CDATA[migrasie Tool]]></value>
+  </definition>
+  <definition>
+    <key>text_updater</key>
+    <value><![CDATA[Updater]]></value>
+  </definition>
+  <definition>
+    <key>text_design</key>
+    <value><![CDATA[ontwerp]]></value>
+  </definition>
+  <definition>
+    <key>text_templates</key>
+    <value><![CDATA[templates]]></value>
+  </definition>
+  <definition>
+    <key>text_layout</key>
+    <value><![CDATA[layouts]]></value>
+  </definition>
+  <definition>
+    <key>text_blocks</key>
+    <value><![CDATA[Blocks]]></value>
+  </definition>
+  <definition>
+    <key>text_menu</key>
+    <value><![CDATA[Spyskaart]]></value>
+  </definition>
+  <definition>
+    <key>text_cache</key>
+    <value><![CDATA[kas]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[boodskappe]]></value>
+  </definition>
+  <definition>
+    <key>text_content</key>
+    <value><![CDATA[inhoud]]></value>
+  </definition>
+  <definition>
+    <key>text_datasets_manager</key>
+    <value><![CDATA[datastelle]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[Installeer / Upgrade Geskiedenis]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute</key>
+    <value><![CDATA[Algemene eienskappe]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute_groups</key>
+    <value><![CDATA[Algemene eienskappe Groepe]]></value>
+  </definition>
+  <definition>
+    <key>text_import_export</key>
+    <value><![CDATA[Invoer uitvoer]]></value>
+  </definition>
+  <definition>
+    <key>text_data</key>
+    <value><![CDATA[data]]></value>
+  </definition>
+  <definition>
+    <key>text_logs</key>
+    <value><![CDATA[Logs]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_edit_form</key>
+    <value><![CDATA[Vinnige wysig Form]]></value>
+  </definition>
+  <definition>
+    <key>text_all_matches</key>
+    <value><![CDATA[alle wedstryde]]></value>
+  </definition>
+  <definition>
+    <key>text_file_uploads</key>
+    <value><![CDATA[Die oplaai van lêers]]></value>
+  </definition>
+  <definition>
+    <key>text_all_settings</key>
+    <value><![CDATA[Alle instellings]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_details</key>
+    <value><![CDATA[Store besonderhede]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_general</key>
+    <value><![CDATA[algemene]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_checkout</key>
+    <value><![CDATA[Uitteken]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_appearance</key>
+    <value><![CDATA[voorkoms]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_mail</key>
+    <value><![CDATA[pos]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_im</key>
+    <value><![CDATA[IM]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_api</key>
+    <value><![CDATA[API]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_system</key>
+    <value><![CDATA[stelsel]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_newstore</key>
+    <value><![CDATA[Skep nuwe winkel]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_command_prompt</key>
+    <value><![CDATA[Voice Command Prompt.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_select_dialect</key>
+    <value><![CDATA[Kies jou dialek]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_confirm_action</key>
+    <value><![CDATA[Bevestig hierdie aksie of kanselleer]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_speak_now</key>
+    <value><![CDATA[Praat nou.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_speach_detected</key>
+    <value><![CDATA[Geen spraak is bespeur. Dit mag nodig wees om jou te pas <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">1 #### 1amp; beantwoord = 1407892 &quot;&gt; mikrofoon instellings</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_mic_detected</key>
+    <value><![CDATA[Geen mikrofoon is gevind. Maak seker dat &#39;n mikrofoon is geïnstalleer en wat <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">1 #### 1amp; antwoord = 1407892 &quot;&gt; mikrofoon instellings</a> korrek ingestel.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_click_allow</key>
+    <value><![CDATA[Klik hierbo op die knoppie &quot;Laat&quot; om jou mikrofoon in te skakel.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_denied</key>
+    <value><![CDATA[Toestemming om mikrofoon gebruik is geweier.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_permission</key>
+    <value><![CDATA[Toestemming om mikrofoon gebruik word geblokkeer. Om te verander, gaan na die leser <a href="chrome://settings/contentExceptions#media-stream">media instellings</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_not_supported</key>
+    <value><![CDATA[Stembeheer word nie ondersteun deur die leser. <a href="//www.google.com/chrome" target="_new">Chrome</a> weergawe 25 of hoër is nodig.]]></value>
+  </definition>
+  <definition>
+    <key>text_tasks</key>
+    <value><![CDATA[geskeduleerde take]]></value>
+  </definition>
+  <definition>
+    <key>text_read_all_messages</key>
+    <value><![CDATA[Lees Alle Kontak]]></value>
+  </definition>
+  <definition>
+    <key>text_short_stats</key>
+    <value><![CDATA[Vinnige Statistiek]]></value>
+  </definition>
+  <definition>
+    <key>text_online_now</key>
+    <value><![CDATA[Online Kliënte]]></value>
+  </definition>
+  <definition>
+    <key>text_online_new</key>
+    <value><![CDATA[nuwe]]></value>
+  </definition>
+  <definition>
+    <key>text_online_registered</key>
+    <value><![CDATA[Aangemeld]]></value>
+  </definition>
+  <definition>
+    <key>text_today_orders</key>
+    <value><![CDATA[Nuwe bestellings Vandag]]></value>
+  </definition>
+  <definition>
+    <key>text_today_sales</key>
+    <value><![CDATA[Totale verkope Vandag]]></value>
+  </definition>
+  <definition>
+    <key>text_today_customers</key>
+    <value><![CDATA[Nuwe kliënte Vandag]]></value>
+  </definition>
+  <definition>
+    <key>text_today_reviews</key>
+    <value><![CDATA[Nuwe Resensies Vandag]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_manager</key>
+    <value><![CDATA[media Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_server_time</key>
+    <value><![CDATA[bediener Tyd]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[kliënte Online]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[Kliënt naam]]></value>
+  </definition>
+  <definition>
+    <key>column_ip</key>
+    <value><![CDATA[kliënt IP]]></value>
+  </definition>
+  <definition>
+    <key>column_time</key>
+    <value><![CDATA[laaste aangevra]]></value>
+  </definition>
+  <definition>
+    <key>column_url</key>
+    <value><![CDATA[Url aangevra]]></value>
+  </definition>
+</definitions>

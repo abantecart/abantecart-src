@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[rekening Teken]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Jy is nou uitgeteken jou rekening. Dit is nou veilig om die rekenaar te verlaat. </p><p> Jou inkopie mandjie is gestoor, die items daarin sal bewaar totdat jy weer aan te meld by jou rekening. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[rekening]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Teken uit]]></value>
+  </definition>
+</definitions>

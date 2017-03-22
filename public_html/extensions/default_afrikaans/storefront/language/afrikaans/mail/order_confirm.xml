@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Bestel %s]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Dankie vir jou belangstelling in %s produkte. Jou bestelling ontvang is en sal verwerk word na betaling bevestig is.]]></value>
+  </definition>
+  <definition>
+    <key>text_received</key>
+    <value><![CDATA[Jy het &#39;n bevel ontvang het.]]></value>
+  </definition>
+  <definition>
+    <key>text_order_detail</key>
+    <value><![CDATA[Bestel Besonderhede]]></value>
+  </definition>
+  <definition>
+    <key>text_order_id</key>
+    <value><![CDATA[Bestel ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Datum Gelas:]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[Bestel Status:]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[Om te sien jou bestelling kliek op die skakel hieronder:]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Pos Metode:]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Betalings metode:]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[Pos Adres]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[betaling Adres]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[e-pos:]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[Telefoon:]]></value>
+  </definition>
+  <definition>
+    <key>text_mobile_phone</key>
+    <value><![CDATA[Selfoon:]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Faks:]]></value>
+  </definition>
+  <definition>
+    <key>text_ip</key>
+    <value><![CDATA[IP adres:]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[produkte:]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[totale:]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Sodra jou betaling bevestig is jy kan kliek op die onderstaande skakel om toegang te verkry tot jou aflaaibare produkte:]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[Die kommentaar vir jou bestelling is:]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[Jy reageer op hierdie e-pos as jy enige vrae het.]]></value>
+  </definition>
+  <definition>
+    <key>text_powered_by</key>
+    <value><![CDATA[aangedryf deur]]></value>
+  </definition>
+  <definition>
+    <key>text_new_order</key>
+    <value><![CDATA[Nuwe bestelling - #]]></value>
+  </definition>
+  <definition>
+    <key>text_new_order_text</key>
+    <value><![CDATA[Kliënt %s bygevoeg nuwe orde]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[produk]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[model]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[hoeveelheid]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[prys]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Totaal]]></value>
+  </definition>
+</definitions>

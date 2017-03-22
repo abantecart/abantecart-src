@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Administrasie]]></value>
+  </definition>
+  <definition>
+    <key>text_heading</key>
+    <value><![CDATA[Administrasie]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Voer jou inskrywing inligting.]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[Gebruikersnaam:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[wagwoord:]]></value>
+  </definition>
+  <definition>
+    <key>entry_forgot_password</key>
+    <value><![CDATA[Wagwoord vergeet?]]></value>
+  </definition>
+  <definition>
+    <key>button_login</key>
+    <value><![CDATA[Teken aan]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Nie opgewasse vir Gebruikersnaam en / of wagwoord.]]></value>
+  </definition>
+  <definition>
+    <key>error_token</key>
+    <value><![CDATA[Ongeldig teken sessie. Asseblief weer aanteken.]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message</key>
+    <value><![CDATA[Kon Teken in op admin poging van IP:]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message_text</key>
+    <value><![CDATA[Gegewe gebruiker login:]]></value>
+  </definition>
+</definitions>

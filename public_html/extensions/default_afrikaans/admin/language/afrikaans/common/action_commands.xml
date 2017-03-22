@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_possible_commands</key>
+    <value><![CDATA[Geloei is moontlike opdragte. Jy kan meer besonderhede na opdrag navraag speek. Byvoorbeeld, &quot;oop bladsy boodskappe&quot; of &quot;insetsel produk&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_multiple_result_found</key>
+    <value><![CDATA[Veelvuldige gevolg aksie gevind:]]></value>
+  </definition>
+  <definition>
+    <key>text_action_confirm</key>
+    <value><![CDATA[Bevestig asseblief u versoek:]]></value>
+  </definition>
+  <definition>
+    <key>command_open</key>
+    <value><![CDATA[oop, oop bladsy, oop spyskaart]]></value>
+  </definition>
+  <definition>
+    <key>command_find</key>
+    <value><![CDATA[spoor, vind, soek, soek, soek 4]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_cache</key>
+    <value><![CDATA[duidelik kas, kas duidelik, duidelik al die kas]]></value>
+  </definition>
+  <definition>
+    <key>command_view_log</key>
+    <value><![CDATA[View log, teken siening, inspekteer log, sien aanteken, sien fout log, sien foute]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_log</key>
+    <value><![CDATA[duidelike teken, teken duidelik, verwyder log, teken verwyder]]></value>
+  </definition>
+  <definition>
+    <key>command_view_order</key>
+    <value><![CDATA[View orde, order nommer, oop einde, show orde, oop order nommer, oog order nommer, show order nommer, sodat #]]></value>
+  </definition>
+  <definition>
+    <key>command_view_product</key>
+    <value><![CDATA[View produk, produk nommer, oop produk, show produk, oop produk nommer, oog produk nommer, show produk nommer, produk #]]></value>
+  </definition>
+  <definition>
+    <key>command_create_new</key>
+    <value><![CDATA[voeg, te skep, voeg, nuwe, voeg nuwe, skep nuwe, voeg nuwe]]></value>
+  </definition>
+  <definition>
+    <key>category</key>
+    <value><![CDATA[kategorie]]></value>
+  </definition>
+  <definition>
+    <key>product</key>
+    <value><![CDATA[produk]]></value>
+  </definition>
+  <definition>
+    <key>brand</key>
+    <value><![CDATA[merk]]></value>
+  </definition>
+  <definition>
+    <key>manufacturer</key>
+    <value><![CDATA[vervaardiger]]></value>
+  </definition>
+  <definition>
+    <key>review</key>
+    <value><![CDATA[resensie]]></value>
+  </definition>
+  <definition>
+    <key>download</key>
+    <value><![CDATA[Aflaai]]></value>
+  </definition>
+  <definition>
+    <key>attribute</key>
+    <value><![CDATA[kenmerk]]></value>
+  </definition>
+  <definition>
+    <key>customer</key>
+    <value><![CDATA[kliënt]]></value>
+  </definition>
+  <definition>
+    <key>coupon</key>
+    <value><![CDATA[koepon]]></value>
+  </definition>
+  <definition>
+    <key>discount</key>
+    <value><![CDATA[afslag]]></value>
+  </definition>
+  <definition>
+    <key>block</key>
+    <value><![CDATA[blok]]></value>
+  </definition>
+  <definition>
+    <key>menu</key>
+    <value><![CDATA[spyskaart]]></value>
+  </definition>
+  <definition>
+    <key>content</key>
+    <value><![CDATA[inhoud]]></value>
+  </definition>
+  <definition>
+    <key>banner</key>
+    <value><![CDATA[banier]]></value>
+  </definition>
+  <definition>
+    <key>page</key>
+    <value><![CDATA[bladsy]]></value>
+  </definition>
+  <definition>
+    <key>store</key>
+    <value><![CDATA[winkel]]></value>
+  </definition>
+  <definition>
+    <key>language</key>
+    <value><![CDATA[Taal]]></value>
+  </definition>
+  <definition>
+    <key>currency</key>
+    <value><![CDATA[geldeenheid]]></value>
+  </definition>
+  <definition>
+    <key>location</key>
+    <value><![CDATA[plek]]></value>
+  </definition>
+  <definition>
+    <key>tax</key>
+    <value><![CDATA[belasting]]></value>
+  </definition>
+</definitions>

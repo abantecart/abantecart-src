@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Die wat u versoek bladsy kan nie gevind word nie!]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Die wat u versoek bladsy kan nie gevind word nie.]]></value>
+  </definition>
+</definitions>

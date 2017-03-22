@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_home</key>
+    <value><![CDATA[Tuis]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[Spesiale aanbiedinge]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Kontak]]></value>
+  </definition>
+  <definition>
+    <key>text_sitemap</key>
+    <value><![CDATA[Sitemap]]></value>
+  </definition>
+  <definition>
+    <key>text_bookmark</key>
+    <value><![CDATA[Bookmark]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[rekening]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Teken aan]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Logoff]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[basket]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Uitteken]]></value>
+  </definition>
+  <definition>
+    <key>text_keyword</key>
+    <value><![CDATA[sleutelwoorde]]></value>
+  </definition>
+  <definition>
+    <key>text_advanced</key>
+    <value><![CDATA[Gevorderde soek]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[alle kategorieë]]></value>
+  </definition>
+  <definition>
+    <key>entry_search</key>
+    <value><![CDATA[Soek:]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Welkom terug]]></value>
+  </definition>
+  <definition>
+    <key>text_not</key>
+    <value><![CDATA[nie]]></value>
+  </definition>
+  <definition>
+    <key>text_login_or_register</key>
+    <value><![CDATA[Aanmeld of registreer]]></value>
+  </definition>
+</definitions>

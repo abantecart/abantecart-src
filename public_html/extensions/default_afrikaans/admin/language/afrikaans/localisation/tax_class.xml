@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[belasting Klasse]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[belasting Klas]]></value>
+  </definition>
+  <definition>
+    <key>text_rate</key>
+    <value><![CDATA[Belastingkoers]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukses: Jy het belasting klasse verander!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Belasting Klas titel]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Aksie]]></value>
+  </definition>
+  <definition>
+    <key>tab_details</key>
+    <value><![CDATA[besonderhede]]></value>
+  </definition>
+  <definition>
+    <key>tab_rates</key>
+    <value><![CDATA[tariewe]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Belasting Klas Titel:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Beskrywing sigbaar vir kliënte]]></value>
+  </definition>
+  <definition>
+    <key>entry_location</key>
+    <value><![CDATA[plek]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[plek sone]]></value>
+  </definition>
+  <definition>
+    <key>entry_priority</key>
+    <value><![CDATA[prioriteit]]></value>
+  </definition>
+  <definition>
+    <key>entry_rate</key>
+    <value><![CDATA[Belastingkoers]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Waarskuwing: Jy het nie toestemming om belasting klasse verander het!]]></value>
+  </definition>
+  <definition>
+    <key>error_tax_title</key>
+    <value><![CDATA[Belasting Klas titel moet tussen 2 en 32 karakters!]]></value>
+  </definition>
+  <definition>
+    <key>error_rate</key>
+    <value><![CDATA[Belastingkoers nodig!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Waarskuwing: Hierdie belasting klas kan nie geskrap word soos dit tans aan %s produkte!]]></value>
+  </definition>
+  <definition>
+    <key>text_tax_all_zones</key>
+    <value><![CDATA[al plek sones]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_rate_threshold</key>
+    <value><![CDATA[Pas belasting as <br/><span class="help">Pas hierdie belasting slegs indien, belas bedrag (produk, gestuur, subtotaal, ens) is ...</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_exempt_groups</key>
+    <value><![CDATA[Belastingvrystellingstatus Groepe <br/><span class="help">Kies kliënt groepe vry te stel van die belasting</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_absolute</key>
+    <value><![CDATA[absolute]]></value>
+  </definition>
+  <definition>
+    <key>text_percent</key>
+    <value><![CDATA[persent]]></value>
+  </definition>
+</definitions>
