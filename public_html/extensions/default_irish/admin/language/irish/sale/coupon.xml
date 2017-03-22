@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[cúpóin]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[cúpón]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Rath: Tá tú cúpóin modhnaithe!]]></value>
+  </definition>
+  <definition>
+    <key>text_percent</key>
+    <value><![CDATA[céatadán]]></value>
+  </definition>
+  <definition>
+    <key>text_amount</key>
+    <value><![CDATA[Méid seasta]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[cúpón Ainm]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[cód]]></value>
+  </definition>
+  <definition>
+    <key>column_discount</key>
+    <value><![CDATA[lascaine]]></value>
+  </definition>
+  <definition>
+    <key>column_date_start</key>
+    <value><![CDATA[dáta tosaigh]]></value>
+  </definition>
+  <definition>
+    <key>column_date_end</key>
+    <value><![CDATA[dáta Deiridh]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[stádas]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[gníomh]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Cúpón Ainm:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Cúpón síos:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Cód: <br/><span class="help">an cód a théann custaiméir a fháil ar an lascaine</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_type</key>
+    <value><![CDATA[Cineál: <br/><span class="help">Céatadán nó Méid Seasta</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_discount</key>
+    <value><![CDATA[lascaine:]]></value>
+  </definition>
+  <definition>
+    <key>entry_logged</key>
+    <value><![CDATA[Logáil isteach do Chustaiméirí: <br/><span class="help">Ní mór do Chustaiméirí bheith logáilte isteach chun bhaint as an cúpón.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[Loingeas SAOR IN AISCE:]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Méid iomlán: <br/><span class="help">An méid fo-iomlán a chaithfidh gur shroich roimh an cúpón bailí.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_product</key>
+    <value><![CDATA[Táirgí Roghnaithe:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[Dáta tosaigh:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[Dáta Deiridh:]]></value>
+  </definition>
+  <definition>
+    <key>entry_uses_total</key>
+    <value><![CDATA[Úsáideann Per Cúpón: <br/><span class="help">An líon uasta na n-amanna is féidir leis an cúpón a úsáid ag aon chustaiméir. Fág bán le haghaidh neamhtheoranta</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_uses_customer</key>
+    <value><![CDATA[Úsáideann Per Chustaiméirí: <br/><span class="help">An líon uasta na n-amanna is féidir leis an cúpón a úsáid ag custaiméir aonair. Fág bán le haghaidh neamhtheoranta</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[stádas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_coupon_usage</key>
+    <value><![CDATA[Iomlán Úsáid Cúpón: <br/><span class="help">Líon na mac gach ordú chur ag baint úsáide an cúpón</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Rabhadh: Ní gá duit cead chun cúpóin mhodhnú!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Ní mór Cúpón Ainm a bheith idir 2 agus 64 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_description</key>
+    <value><![CDATA[Ní mór Cúpón Tuairisc bheith idir 2 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Ní mór Cód a bheith idir 2 agus 10 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_date</key>
+    <value><![CDATA[Tabhair raon dáta atá leagtha!]]></value>
+  </definition>
+</definitions>

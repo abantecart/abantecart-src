@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Ordú Mionsonraí]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Cuntas]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[Ordú Stair]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[Sonraisc]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice_id</key>
+    <value><![CDATA[ID Sonraisc]]></value>
+  </definition>
+  <definition>
+    <key>text_order_id</key>
+    <value><![CDATA[Ordú ID]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Ríomhphost]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[Teileafón]]></value>
+  </definition>
+  <definition>
+    <key>text_mobile_phone</key>
+    <value><![CDATA[Fón póca:]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Facs]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[Seoladh Loingseoireacht]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Modh Loingseoireacht]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[Seoladh íocaíochta]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Modh íocaíochta]]></value>
+  </definition>
+  <definition>
+    <key>text_order_history</key>
+    <value><![CDATA[Ordú Stair]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[táirge]]></value>
+  </definition>
+  <definition>
+    <key>text_model</key>
+    <value><![CDATA[Mionsamhail]]></value>
+  </definition>
+  <definition>
+    <key>text_quantity</key>
+    <value><![CDATA[Cainníocht]]></value>
+  </definition>
+  <definition>
+    <key>text_price</key>
+    <value><![CDATA[Praghas aonaid]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Iomlán]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[ordú Comments]]></value>
+  </definition>
+  <definition>
+    <key>text_image</key>
+    <value><![CDATA[Íomha]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Níorbh fhéidir an t-ordú d&#39;iarr tú a fháil!]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[dáta seo a leanas]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[stádas]]></value>
+  </definition>
+  <definition>
+    <key>column_comment</key>
+    <value><![CDATA[comment ordú do Chustaiméirí]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation</key>
+    <value><![CDATA[Iarratas chealú Ordú]]></value>
+  </definition>
+  <definition>
+    <key>text_request_cancellation_from_customer</key>
+    <value><![CDATA[Iarr cealú Ordú ó Chustaiméirí]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_confirm</key>
+    <value><![CDATA[Ní féidir d&#39;iarratas ar ceal a dhéanamh i gcásanna áirithe, mar shampla, nuair atá na hearraí shipped. Leanúint ar aghaidh?]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_success</key>
+    <value><![CDATA[Tá iarratas ordú cealúcháin curtha isteach]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_message_title</key>
+    <value><![CDATA[Ordú # %s iarraidh cealúcháin]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_message_body</key>
+    <value><![CDATA[%s Custaiméara d&#39;iarr orduithe nea-mbríochainte ar ordú # %s. Athbhreithniú a téigh go dtí %s]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Ní Seoladh Ríomhphoist cosúil go bailí!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_id</key>
+    <value><![CDATA[Ordú ID ag teastáil réimse!]]></value>
+  </definition>
+</definitions>

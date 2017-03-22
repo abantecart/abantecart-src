@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Táirgí Tuairisc Ceannaithe]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Ainm Táirge]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Mionsamhail]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Cainníocht]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Iomlán]]></value>
+  </definition>
+</definitions>

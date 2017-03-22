@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Cart siopadóireacht]]></value>
+  </definition>
+  <definition>
+    <key>text_subtotal</key>
+    <value><![CDATA[Fo-iomlán:]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[0 míreanna]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Deimhnigh?]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[bain]]></value>
+  </definition>
+  <definition>
+    <key>text_view</key>
+    <value><![CDATA[Féach ar Cart]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Seiceáil]]></value>
+  </definition>
+  <definition>
+    <key>text_items</key>
+    <value><![CDATA[míreanna]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Fad Ranganna]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[Fad Rang]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Rath: Tá tú mhodhnú ranganna fhad!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Fad Teideal]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[Fad Aonad]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[luach]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[gníomh]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Fad Teideal:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Fad Aonad:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Luach: <br/><span class="help">Socraigh 1.00000 más é seo do fad réamhshocraithe.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Rabhadh: Ní gá duit cead a mhodhnú ranganna fhad!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Ní mór Fad Teideal bheith idir 2 agus 32 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Ní mór Fad Aonad bheith idir 1 agus 4 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Rabhadh: Ní féidir an rang seo le fad a scriosadh mar go bhfuil sé arna sannadh faoi láthair mar an rang fad siopa réamhshocraithe!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Rabhadh: Ní féidir an rang ar fad a scriosadh mar go bhfuil sé sannta faoi láthair %s táirgí!]]></value>
+  </definition>
+</definitions>

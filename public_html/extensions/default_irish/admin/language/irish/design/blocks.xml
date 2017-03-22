@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[bloic]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[scriosadh bloc]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[in eagar bloc]]></value>
+  </definition>
+  <definition>
+    <key>text_enable</key>
+    <value><![CDATA[Cumasaigh / Díchumasaigh]]></value>
+  </definition>
+  <definition>
+    <key>text_details</key>
+    <value><![CDATA[Mionsonraí]]></value>
+  </definition>
+  <definition>
+    <key>text_create</key>
+    <value><![CDATA[Cruthaigh bloc]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Rath: Tá tú mhodhnú bloc!]]></value>
+  </definition>
+  <definition>
+    <key>column_block_id</key>
+    <value><![CDATA[ID]]></value>
+  </definition>
+  <definition>
+    <key>column_block_txt_id</key>
+    <value><![CDATA[ID Text leith]]></value>
+  </definition>
+  <definition>
+    <key>column_block_name</key>
+    <value><![CDATA[Ainm]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[dáta seo a leanas]]></value>
+  </definition>
+  <definition>
+    <key>column_block_type</key>
+    <value><![CDATA[cineál]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[gníomh]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Ordú Sórtáil]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Íomha]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_status</key>
+    <value><![CDATA[stádas]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_status_note</key>
+    <value><![CDATA[Tabhair faoi deara: Ní mór duit a chur leis an bloc sa <a style="text-decoration: underline; font-weight: bold;" href="#admin#rt=design/layout">LEAGAN AMACH</a> ar leathanach atá ag teastáil chun é a fheiceáil ag obair]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_type</key>
+    <value><![CDATA[Saincheaptha Bloc Cineál]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_name</key>
+    <value><![CDATA[Custom Bloc Ainm]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_wrapper</key>
+    <value><![CDATA[wrapper bloc Úsáid (cuma)]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_framed</key>
+    <value><![CDATA[bloc úsáid ar fhráma]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_title</key>
+    <value><![CDATA[Saincheaptha Bloc Teideal]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_description</key>
+    <value><![CDATA[Saincheaptha Bloc síos <p> Tabhair faoi deara: úsáid inmheánach amháin </p>]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_content</key>
+    <value><![CDATA[ábhar saincheaptha Bloc]]></value>
+  </definition>
+  <definition>
+    <key>entry_listing_datasource</key>
+    <value><![CDATA[Liostú Sonraí Foinse]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_confirm</key>
+    <value><![CDATA[Deimhnigh bloc a scriosadh?]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Tabhair Líon All Réimsí Riachtanacha!]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[Ní féidir a scriosadh toisc go bhfuil an bloc in úsáid. Tabhair cuairt ar roinn Leagan Amach.]]></value>
+  </definition>
+  <definition>
+    <key>error_text_status</key>
+    <value><![CDATA[Ní féidir athrú stádais toisc nach bhfuil an bloc in úsáid. Tabhair cuairt ar roinn Leagan Amach.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_deleted</key>
+    <value><![CDATA[Rath: Tá tú a scriosadh bloc saincheaptha!]]></value>
+  </definition>
+  <definition>
+    <key>entry_data_source</key>
+    <value><![CDATA[Sonraí Foinse:]]></value>
+  </definition>
+  <definition>
+    <key>entry_limit</key>
+    <value><![CDATA[teorainn:]]></value>
+  </definition>
+  <definition>
+    <key>text_listing_auto</key>
+    <value><![CDATA[Auto liostú]]></value>
+  </definition>
+  <definition>
+    <key>text_listing_manual</key>
+    <value><![CDATA[liostú Saincheaptha]]></value>
+  </definition>
+  <definition>
+    <key>text_select_listing</key>
+    <value><![CDATA[--- Sonraí roghnú foinse liostú ---]]></value>
+  </definition>
+  <definition>
+    <key>text_products_special</key>
+    <value><![CDATA[Tairiscintí speisialta]]></value>
+  </definition>
+  <definition>
+    <key>text_products_popular</key>
+    <value><![CDATA[Táirgí Coitianta]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[Catagóirí]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[monaróirí]]></value>
+  </definition>
+  <definition>
+    <key>text_featured</key>
+    <value><![CDATA[Táirgí Réadmhaoin]]></value>
+  </definition>
+  <definition>
+    <key>text_latest</key>
+    <value><![CDATA[Táirgí is déanaí]]></value>
+  </definition>
+  <definition>
+    <key>text_bestsellers</key>
+    <value><![CDATA[bestsellers Táirgí]]></value>
+  </definition>
+  <definition>
+    <key>text_media</key>
+    <value><![CDATA[Meáin]]></value>
+  </definition>
+  <definition>
+    <key>entry_resource_type</key>
+    <value><![CDATA[Cineál Meáin:]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_products</key>
+    <value><![CDATA[Táirgí Saincheaptha]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_categories</key>
+    <value><![CDATA[Saincheaptha Catagóirí]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_manufacturers</key>
+    <value><![CDATA[Saincheaptha monaróirí]]></value>
+  </definition>
+  <definition>
+    <key>text_html_block</key>
+    <value><![CDATA[HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_listing_block</key>
+    <value><![CDATA[sonraí Liosta]]></value>
+  </definition>
+  <definition>
+    <key>text_selected</key>
+    <value><![CDATA[Míreanna Roghnaithe:]]></value>
+  </definition>
+  <definition>
+    <key>text_data_listed</key>
+    <value><![CDATA[Sonraí a bheidh le liostú]]></value>
+  </definition>
+  <definition>
+    <key>text_save_edit</key>
+    <value><![CDATA[Cuir / Edit]]></value>
+  </definition>
+  <definition>
+    <key>text_apply</key>
+    <value><![CDATA[Cuir iarratas isteach roghnú]]></value>
+  </definition>
+  <definition>
+    <key>text_block_id</key>
+    <value><![CDATA[Bloc ID]]></value>
+  </definition>
+  <definition>
+    <key>text_block_txt_id</key>
+    <value><![CDATA[Bloc Text ID]]></value>
+  </definition>
+  <definition>
+    <key>text_controller</key>
+    <value><![CDATA[rialaitheoir]]></value>
+  </definition>
+  <definition>
+    <key>text_templates</key>
+    <value><![CDATA[Teimpléid Bloc]]></value>
+  </definition>
+  <definition>
+    <key>text_block_date_added</key>
+    <value><![CDATA[Bloc Cruthú Dáta]]></value>
+  </definition>
+  <definition>
+    <key>text_layouts</key>
+    <value><![CDATA[Úsáidte i leagan amach]]></value>
+  </definition>
+  <definition>
+    <key>text_block_info</key>
+    <value><![CDATA[Information About Saincheaptha Bloc]]></value>
+  </definition>
+  <definition>
+    <key>text_add_block</key>
+    <value><![CDATA[Nuair a chuirfear bloc ailt]]></value>
+  </definition>
+  <definition>
+    <key>text_available_block</key>
+    <value><![CDATA[Bloic fáil]]></value>
+  </definition>
+  <definition>
+    <key>error_block_not_available</key>
+    <value><![CDATA[Ní bheidh an bloc a chur ar taispeáint i suíomh roghnaithe ar storefront!]]></value>
+  </definition>
+</definitions>

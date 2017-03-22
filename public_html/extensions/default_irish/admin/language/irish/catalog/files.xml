@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Comhaid táirge]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[táirge]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_product_file</key>
+    <value><![CDATA[Cuir Comhad Táirge]]></value>
+  </definition>
+  <definition>
+    <key>tab_files</key>
+    <value><![CDATA[comhaid]]></value>
+  </definition>
+  <definition>
+    <key>tab_general</key>
+    <value><![CDATA[General]]></value>
+  </definition>
+  <definition>
+    <key>tab_attributes</key>
+    <value><![CDATA[íoslódáil Tréithe]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_icon</key>
+    <value><![CDATA[Deilbhín comhad]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[stádas]]></value>
+  </definition>
+  <definition>
+    <key>entry_resource</key>
+    <value><![CDATA[acmhainn]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Ainm]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_name</key>
+    <value><![CDATA[Íosluchtaigh Ainm]]></value>
+  </definition>
+  <definition>
+    <key>entry_mask</key>
+    <value><![CDATA[Íosluchtaigh <span class="help">masc, tá réimse seo Ainm comhaid le haghaidh aschur do chustaiméirí a íoslódáil</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_full_path</key>
+    <value><![CDATA[Conair Freastalaí Comhad]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_max_downloads</key>
+    <value><![CDATA[Max Íosluchtaigh]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_sort_order</key>
+    <value><![CDATA[ordú Sórtáil]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_status</key>
+    <value><![CDATA[stádas]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_push_to_customers</key>
+    <value><![CDATA[Brúigh do chustaiméirí]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_activation</key>
+    <value><![CDATA[Mód Gníomhachtaithe]]></value>
+  </definition>
+  <definition>
+    <key>text_add_file</key>
+    <value><![CDATA[Cuir Comhad]]></value>
+  </definition>
+  <definition>
+    <key>text_new_file</key>
+    <value><![CDATA[Cuir Comhad Nua]]></value>
+  </definition>
+  <definition>
+    <key>text_download_attributes</key>
+    <value><![CDATA[íoslódáil Tréithe]]></value>
+  </definition>
+  <definition>
+    <key>text_download_information</key>
+    <value><![CDATA[General]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_added</key>
+    <value><![CDATA[Curtha ar]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_modified</key>
+    <value><![CDATA[Athraithe]]></value>
+  </definition>
+  <definition>
+    <key>entry_max_downloads</key>
+    <value><![CDATA[Max Íosluchtú <span class="help">Líon na mac íosluchtú cheadaítear do chustaiméirí</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_activate</key>
+    <value><![CDATA[<span class="help">Íosluchtaigh</span> gníomhachtaithe <span class="help">Beidh CCF ar an ócáid roghnaithe. <br/> Sampla: Láithreach. Is Íosluchtaigh ghníomhachtú tar éis ordú a chur, beag beann ar an stádas ordú</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Ordú Sórtáil]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_days</key>
+    <value><![CDATA[Éag laethanta <span class="help">Líon na laethanta ó dháta an cheannaigh</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_before_order</key>
+    <value><![CDATA[Roimh Ordú]]></value>
+  </definition>
+  <definition>
+    <key>text_immediately</key>
+    <value><![CDATA[láithreach]]></value>
+  </definition>
+  <definition>
+    <key>text_on_order_status</key>
+    <value><![CDATA[ar Ordú um Stádas]]></value>
+  </definition>
+  <definition>
+    <key>text_manually</key>
+    <value><![CDATA[láimh]]></value>
+  </definition>
+  <definition>
+    <key>text_success_download_save</key>
+    <value><![CDATA[Rath: Tá tú mhodhnú comhad!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_exists</key>
+    <value><![CDATA[Earráid: Déan íoslódáil thabhairt cothrom le dáta toisc nach bhfuil sé ann sa bhunachar sonraí!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_name</key>
+    <value><![CDATA[Earráid: Ní mór Download ainm a bheith ar fhad idir 2 agus 128 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_max_downloads</key>
+    <value><![CDATA[Earráid: Íosluchtú uasta comhaireamh a bheith níos mó 0!]]></value>
+  </definition>
+  <definition>
+    <key>error_activate</key>
+    <value><![CDATA[Earráid: gníomh a roghnú le haghaidh gníomhachtú híoslódáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_status</key>
+    <value><![CDATA[Earráid: roghnaigh stádas ordú do ghníomhachtú de híoslódáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_attributes</key>
+    <value><![CDATA[Íoslódáil Tréithe Earráid (í):]]></value>
+  </definition>
+  <definition>
+    <key>text_shared_downloads</key>
+    <value><![CDATA[Íoslódálacha Roinnte]]></value>
+  </definition>
+  <definition>
+    <key>text_create_download</key>
+    <value><![CDATA[Cruthaigh íoslódáil nua]]></value>
+  </definition>
+  <definition>
+    <key>text_path</key>
+    <value><![CDATA[Conair choibhneasta an comhad]]></value>
+  </definition>
+  <definition>
+    <key>text_preview</key>
+    <value><![CDATA[réamhamharc]]></value>
+  </definition>
+  <definition>
+    <key>entry_shared</key>
+    <value><![CDATA[roinnte Íosluchtaigh]]></value>
+  </definition>
+  <definition>
+    <key>text_assign</key>
+    <value><![CDATA[Sábháil]]></value>
+  </definition>
+  <definition>
+    <key>text_assigned_to</key>
+    <value><![CDATA[Chomh maith leis sin a shanntar:]]></value>
+  </definition>
+  <definition>
+    <key>text_select_shared_downloads</key>
+    <value><![CDATA[Roghnaigh íosluchtú roinnte]]></value>
+  </definition>
+  <definition>
+    <key>error_selected_downloads</key>
+    <value><![CDATA[Rabhadh: Roghnaigh an íosluchtú roinnte do shannadh.]]></value>
+  </definition>
+  <definition>
+    <key>text_map_success</key>
+    <value><![CDATA[Rath: Tá tú íoslódáil roinnte shanntar táirge!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_or_refuse</key>
+    <value><![CDATA[scriosadh nó diúltú (do roinnte)]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_delete</key>
+    <value><![CDATA[Deimhnigh íoslódáil scriosadh / a dhiúltú]]></value>
+  </definition>
+  <definition>
+    <key>text_success_remove</key>
+    <value><![CDATA[Rath: liosta a táirge comhaid athrú!]]></value>
+  </definition>
+  <definition>
+    <key>text_push</key>
+    <value><![CDATA[Brúigh]]></value>
+  </definition>
+  <definition>
+    <key>text_push_to_customers</key>
+    <value><![CDATA[Brúigh do Chustaiméirí]]></value>
+  </definition>
+  <definition>
+    <key>text_push_to_orders</key>
+    <value><![CDATA[Brúigh Íoslódáil %s Orduithe]]></value>
+  </definition>
+  <definition>
+    <key>success_push_to_orders</key>
+    <value><![CDATA[Rath: Cuireadh Íosluchtaigh bhrú chun %s ordú (í) go rathúil]]></value>
+  </definition>
+  <definition>
+    <key>text_no_download_attributes_yet</key>
+    <value><![CDATA[tréithe Uimh íoslódáil go fóill. <a href="%s" target="_blank">Cliceáil a chur</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_push</key>
+    <value><![CDATA[Deimhnigh?]]></value>
+  </definition>
+  <definition>
+    <key>error_downloads_disabled</key>
+    <value><![CDATA[Rabhadh: Tá Íosluchtuithe mhíchumas i suímh siopa. <a href="#admin#rt=setting/setting&active=general" target="new">Cliceáil chun Cuir</a> !]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Rabhadh: Ní gá duit cead a mhodhnú comhaid táirge!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[Socraigh an comhad le híoslódáil.]]></value>
+  </definition>
+  <definition>
+    <key>attention_shared</key>
+    <value><![CDATA[Tá tú ar tí a chur in eagar íoslódáil roinnte. Beidh Cuir éifeacht táirgí eile.]]></value>
+  </definition>
+  <definition>
+    <key>text_shared_with</key>
+    <value><![CDATA[Roinnte le:]]></value>
+  </definition>
+</definitions>

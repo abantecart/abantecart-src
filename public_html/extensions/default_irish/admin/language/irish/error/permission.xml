@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Cead diúltaithe!]]></value>
+  </definition>
+  <definition>
+    <key>text_permission</key>
+    <value><![CDATA[Ní gá duit cead chun rochtain an leathanach seo, féach le riarthóir do chórais.]]></value>
+  </definition>
+</definitions>

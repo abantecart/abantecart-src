@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Tascanna sceidealta]]></value>
+  </definition>
+  <definition>
+    <key>column_id</key>
+    <value><![CDATA[Id]]></value>
+  </definition>
+  <definition>
+    <key>column_date_created</key>
+    <value><![CDATA[dáta Cruthaithe]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Ainm]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[stádas]]></value>
+  </definition>
+  <definition>
+    <key>column_start_time</key>
+    <value><![CDATA[Am tosaithe]]></value>
+  </definition>
+  <definition>
+    <key>text_stuck</key>
+    <value><![CDATA[bhfostú]]></value>
+  </definition>
+  <definition>
+    <key>text_ready</key>
+    <value><![CDATA[réidh]]></value>
+  </definition>
+  <definition>
+    <key>text_running</key>
+    <value><![CDATA[Rith]]></value>
+  </definition>
+  <definition>
+    <key>text_scheduled</key>
+    <value><![CDATA[sceidealta]]></value>
+  </definition>
+  <definition>
+    <key>text_disabled</key>
+    <value><![CDATA[Faoi mhíchumas]]></value>
+  </definition>
+  <definition>
+    <key>text_failed</key>
+    <value><![CDATA[theip]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete</key>
+    <value><![CDATA[neamhiomlán]]></value>
+  </definition>
+  <definition>
+    <key>text_completed</key>
+    <value><![CDATA[Críochnaithe]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Atosaigh Tasc]]></value>
+  </definition>
+  <definition>
+    <key>text_run</key>
+    <value><![CDATA[Rith Tasc]]></value>
+  </definition>
+  <definition>
+    <key>text_task_started</key>
+    <value><![CDATA[tasc thosaigh]]></value>
+  </definition>
+  <definition>
+    <key>text_task_not_found</key>
+    <value><![CDATA[Tasc Ní Torthaí.]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_task</key>
+    <value><![CDATA[Ní Tá Tasc céimeanna. Bhaint.]]></value>
+  </definition>
+  <definition>
+    <key>text_forbidden_to_restart</key>
+    <value><![CDATA[Toirmiscthe a atosú!]]></value>
+  </definition>
+</definitions>

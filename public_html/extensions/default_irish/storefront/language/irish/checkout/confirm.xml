@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Deimhniú Seiceáil]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Ciseán]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_basket</key>
+    <value><![CDATA[Cuir Cart]]></value>
+  </definition>
+  <definition>
+    <key>text_accept_agree</key>
+    <value><![CDATA[Trí chliceáil Deimhnigh Ordú, glacann tú agus aontaíonn gach coinníoll den]]></value>
+  </definition>
+  <definition>
+    <key>text_cart_items</key>
+    <value><![CDATA[Míreanna i do cart]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Á sheoladh]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_shipping</key>
+    <value><![CDATA[Cuir Shipping]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[íocaíocht]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_payment</key>
+    <value><![CDATA[Cuir Íocaíochta]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_1</key>
+    <value><![CDATA[Guest Seiceáil - Céim 1]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_2</key>
+    <value><![CDATA[Guest Seiceáil - Céim 2]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Deimhnigh]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[Seoladh Loingseoireacht]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Modh Loingseoireacht]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[Seoladh íocaíochta]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Modh íocaíochta]]></value>
+  </definition>
+  <definition>
+    <key>text_change</key>
+    <value><![CDATA[Athraigh]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[do Thuairimí]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[Cúpón lascaine]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[táirge]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Mionsamhail]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Cainníocht]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Praghas]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Iomlán]]></value>
+  </definition>
+  <definition>
+    <key>text_add_coupon</key>
+    <value><![CDATA[Cuir Cúpón]]></value>
+  </definition>
+</definitions>

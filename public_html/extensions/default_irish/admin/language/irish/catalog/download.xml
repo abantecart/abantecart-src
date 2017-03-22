@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Íoslódálacha Roinnte]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[roinnte Íosluchtaigh]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[Ionsáigh Íosluchtaigh]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[Nuashonraigh Íosluchtaigh]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Rath: Tá tú íosluchtú modhnaithe!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Íosluchtaigh Ainm]]></value>
+  </definition>
+  <definition>
+    <key>column_remaining</key>
+    <value><![CDATA[Íosluchtú san iomlán Ceadaithe]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[gníomh]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Íoslódáil Ainm:]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[Ainm comhaid:]]></value>
+  </definition>
+  <definition>
+    <key>entry_remaining</key>
+    <value><![CDATA[Íosluchtú san iomlán Ceadaithe:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[Brúigh do Chustaiméirí Roimhe Seo: <br/><span class="help">Seiceáil seo a thabhairt cothrom le dáta leaganacha ceannaíodh roimhe seo chomh maith.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Rabhadh: Ní gá duit cead chun íoslódálacha mhodhnú!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Ní mór ainm a bheith idir 2 agus 64 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[Socraigh an comhad le híoslódáil.]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Rabhadh: Ní féidir an íoslódáil a scriosadh mar go bhfuil sé sannta faoi láthair %s táirgí!]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Íomha]]></value>
+  </definition>
+  <definition>
+    <key>column_products_count</key>
+    <value><![CDATA[táirgí Comhair]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Logáil isteach Chuntas]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Cláraigh Cuntas]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Logáil isteach]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_new_customer</key>
+    <value><![CDATA[Tá mé custaiméir nua.]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Roghanna Seiceáil:]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[Guest Seiceáil]]></value>
+  </definition>
+  <definition>
+    <key>text_create_account</key>
+    <value><![CDATA[De réir a cuntas a chruthú beidh tú in ann chun siopadóireacht níos tapúla, a bheith suas chun dáta ar ordú stádas, agus súil a choinneáil ar na n-orduithe atá déanta agat cheana a choinneáil.]]></value>
+  </definition>
+  <definition>
+    <key>text_returning_customer</key>
+    <value><![CDATA[Ag filleadh Chustaiméirí]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_returning_customer</key>
+    <value><![CDATA[Tá mé custaiméir ar ais.]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_login</key>
+    <value><![CDATA[Dearmad ar do logáil isteach?]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_password</key>
+    <value><![CDATA[Ar rinne tú dearmad ar do Phásfhocail?]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Ainm logála isteach:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email_address</key>
+    <value><![CDATA[Seoladh ríomhphoist:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Pasfhocal:]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Earráid: logáil mícheart nó focal faire.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_activated</key>
+    <value><![CDATA[Rath: bhí i ngníomh do chuntas go rathúil. Cuir logáil isteach le do dintiúir.]]></value>
+  </definition>
+  <definition>
+    <key>text_already_activated</key>
+    <value><![CDATA[Tá do chuntas i ngníomh cheana féin. Cuir logáil isteach le do dintiúir.]]></value>
+  </definition>
+  <definition>
+    <key>text_resend_activation_email</key>
+    <value><![CDATA[Earráid: Níor seoladh do sheoladh r-phoist deimhnithe go fóill. Chun cuirfear ar aghaidh arís ríomhphost deimhnithe nua cliceáil ar an <a href=" %s ">nasc seo</a>]]></value>
+  </definition>
+</definitions>

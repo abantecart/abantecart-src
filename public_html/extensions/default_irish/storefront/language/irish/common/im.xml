@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>im_text_notification</key>
+    <value><![CDATA[Fógra]]></value>
+  </definition>
+  <definition>
+    <key>im_error_mail_address</key>
+    <value><![CDATA[Níl Seoladh Ríomhphoist %s bailí!]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_email_title</key>
+    <value><![CDATA[Ríomhphost]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_title</key>
+    <value><![CDATA[SMS]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_empty_warn</key>
+    <value><![CDATA[Níl fógraí SMS agus is féidir. Níl uimhir soghluaiste shábháil i do thaifid chuntas.]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update</key>
+    <value><![CDATA[Ordú Nuashonrú]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update_note</key>
+    <value><![CDATA[Roghnaigh más mian chun fógraí faoi nuashonruithe do orduithe &#39;fháil.]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_admin</key>
+    <value><![CDATA[Ordú # Tá %s Nuashonraíodh! Ordú ID stádais %s]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_customer</key>
+    <value><![CDATA[Do ordú # %s Nuashonraithe. Is Ordú um Stádas Nua %s]]></value>
+  </definition>
+  <definition>
+    <key>im_new_order_text_to_admin</key>
+    <value><![CDATA[Ordú Nua # %s curtha!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_customer_text_to_admin</key>
+    <value><![CDATA[New Chustaiméirí # %s bhí cláraithe!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_subscriber_text_to_admin</key>
+    <value><![CDATA[New Suibscríobhaí # %s bhí cláraithe!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update</key>
+    <value><![CDATA[Nuashonraigh Cuntas]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update_note</key>
+    <value><![CDATA[Roghnaigh más mian a fháil fógraí faoi do nuashonruithe chuntas.]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_text_to_customer</key>
+    <value><![CDATA[Tá do chuntas tugtha cothrom le dáta! Mura ndearna tú a dhéanamh ar aon athruithe, téigh i dteagmháil le úinéir an suíomh]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_email_to_customer</key>
+    <value><![CDATA[Athraíodh Do chuntas sheoladh ríomhphoist %s! Mura ndearna tú é seo a athrú, téigh i dteagmháil le úinéir an suíomh]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_login_to_customer</key>
+    <value><![CDATA[Athraíodh Do chuntas Ainm logáil isteach chun %s! Mura ndearna tú é seo a athrú, téigh i dteagmháil le úinéir an suíomh]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_password_to_customer</key>
+    <value><![CDATA[Tá d &#39;fhocal faire chuntas athrú! Mura ndearna tú é seo a athrú, téigh i dteagmháil le úinéir an suíomh]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_contact_admin_text</key>
+    <value><![CDATA[Tá sé agat fiosrúchán nua ó chustaiméirí (%s, %s)!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter</key>
+    <value><![CDATA[Nuachtlitreacha]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter_note</key>
+    <value><![CDATA[Roghnaigh más mian le fógraí maidir lenár dtáirgí agus nuashonruithe seirbhísí a fháil.]]></value>
+  </definition>
+  <definition>
+    <key>im_product_review_text_to_admin</key>
+    <value><![CDATA[Tá athbhreithniú a táirge nua curtha leis. Féach mionsonraí # admin # rt = catalóg / athbhreithnithe / nuashonrú &amp; review_id = %s]]></value>
+  </definition>
+  <definition>
+    <key>im_product_out_of_stock_admin_text</key>
+    <value><![CDATA[Táirge le ID # Is %s as The.]]></value>
+  </definition>
+</definitions>

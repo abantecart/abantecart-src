@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Uasluchtuithe comhad]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[dáta seo a leanas]]></value>
+  </definition>
+  <definition>
+    <key>column_path</key>
+    <value><![CDATA[comhad]]></value>
+  </definition>
+  <definition>
+    <key>column_section</key>
+    <value><![CDATA[Alt]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[comhad a íoslódáil]]></value>
+  </definition>
+</definitions>

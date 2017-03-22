@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Guest Seiceáil - Céim 2]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[cart]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_1</key>
+    <value><![CDATA[Guest Seiceáil - Céim 1]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_2</key>
+    <value><![CDATA[Guest Seiceáil - Céim 2]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Modh Loingseoireacht]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[Roghnaigh na modhanna loingseoireachta is fearr a úsáid ar an ordú.]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Modh íocaíochta]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_methods</key>
+    <value><![CDATA[Roghnaigh an modh íocaíochta is fearr a úsáid ar an ordú.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[Cuir Comments Eolas ar do Ordú]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[Léigh mé agus aontaím leis an]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[Cuir isteach do chód, bhuail an &quot;Cuir i bhfeidhm Cúpón&quot; a bhrú agus ag breathnú ar do lascaine a chur i bhfeidhm láithreach le d&#39;ordú.]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Rath: Tá do lascaine cúpón i bhfeidhm!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[Rath: Tá Cúpón bainte!]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[Modh Loingseoireacht:]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Modh íocaíochta:]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon</key>
+    <value><![CDATA[cúpón:]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[Earráid: Modh Loingseoireacht teastáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[Earráid: Níl aon roghanna loingseoireachta ar fáil. Tabhair <a href="index.php?rt=content/contact">i dteagmháil linn</a> le haghaidh cúnaimh!]]></value>
+  </definition>
+  <definition>
+    <key>error_payment</key>
+    <value><![CDATA[Earráid: Modh Íocaíochta teastáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[Earráid: Ní mór duit aontú leis an %s!]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Earráid: Is Coupon ceachtar neamhbhailí, in éag nó shroich sé teorainn úsáide!]]></value>
+  </definition>
+</definitions>

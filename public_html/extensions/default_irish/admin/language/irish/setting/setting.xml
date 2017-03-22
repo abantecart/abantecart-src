@@ -1,0 +1,915 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Socruithe]]></value>
+  </definition>
+  <definition>
+    <key>column_store_alias</key>
+    <value><![CDATA[Store]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[Grúpa]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[Key]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[luach]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Rath: Tá tú éirigh le sábháil do chuid socruithe!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[Bainisteoir íomhá]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- Roghnaigh Group -]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Réamhshocrú]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store_settings</key>
+    <value><![CDATA[Socruithe Eagar:]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_template_settings</key>
+    <value><![CDATA[Socruithe Teimpléad Edit:]]></value>
+  </definition>
+  <definition>
+    <key>text_common_template_settings</key>
+    <value><![CDATA[Roghnú teimpléad]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[Edit Store]]></value>
+  </definition>
+  <definition>
+    <key>text_mail</key>
+    <value><![CDATA[Mail]]></value>
+  </definition>
+  <definition>
+    <key>text_smtp</key>
+    <value><![CDATA[SMTP]]></value>
+  </definition>
+  <definition>
+    <key>tab_all</key>
+    <value><![CDATA[Gach]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Store Ainm:]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[Store URL: <br/><span class="help">Cuir an URL iomlán ar do siopa. Bí cinnte a chur &#39;/&#39; ag an deireadh. Sampla: http://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_owner</key>
+    <value><![CDATA[Store Úinéir:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address</key>
+    <value><![CDATA[seoladh:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[Ríomhphost:]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_emails</key>
+    <value><![CDATA[Breise Alert R-Phoist: <br/><span class="help">Aon ríomhphost breise is mian leat a fháil ar an ríomhphost airdeall, chomh maith leis an r-phost siopa is mó. (scartha le camóga)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[Teileafón:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Facs:]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Teideal: <br/><span class="help">Tá sé seo ar taispeáint i dteideal bhrabhsálaí storefront</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Meta Tag Cur síos: <br/><span class="help">Storefront príomh leathanach tuairisc meta tag</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_keywords</key>
+    <value><![CDATA[Keywords Meta: <br/><span class="help">Storefront príomh leathanach eochairfhocail meta tag (camóga eatarthu)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Fáilte Teachtaireacht:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[Teimpléad: <span class="help">teimpléad Storefront. Is féidir é seo a bheith phríomh nó síneadh teimpléad</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_template</key>
+    <value><![CDATA[Rialú Teimpléad Painéal:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Tír:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Réigiún / stát:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Teanga storefront:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_language</key>
+    <value><![CDATA[Riarachán Teanga: <span class="help">TABHAIR FAOI DEARA: oibreacha mara ndéantar rogha teanga úsáideora le fáil sa bhrabhsálaí</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency</key>
+    <value><![CDATA[Bonn Airgeadra: <span class="help">Is é seo an airgeadra bonn le haghaidh gach siopaí. Ná athrú más rud é nach dtuigeann tú cad a tharlóidh. Rabhadh: Ní bheidh Athrú airgeadra bonn athrú ar do praghsanna bonn le haghaidh táirgí. Beidh ort a athbhreithniú agus a choigeartú na praghsanna más gá. Beidh Base ráta mhalairte airgeadra a shocrú chun 1.00 agus beidh gach ráta airgeadraí malairte eile a choigeartú i ndáil le airgeadra bonn nua.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency_auto</key>
+    <value><![CDATA[Auto Update Airgeadra: <br/><span class="help">Socraigh do stóráil a thabhairt cothrom le dáta go huathoibríoch hairgeadraí laethúil. Tá yahoo freastalaí a úsáidtear.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_class</key>
+    <value><![CDATA[Rang Meáchan:]]></value>
+  </definition>
+  <definition>
+    <key>entry_length_class</key>
+    <value><![CDATA[Fad Rang:]]></value>
+  </definition>
+  <definition>
+    <key>entry_auto_translate_status</key>
+    <value><![CDATA[Stádas Autotranslate: <br/><span class="help">aistriúchán seo cumasaithe sainmhínithe téacs nó sonraí sonracha teanga má luachanna téacs ar iarraidh le haghaidh teanga a úsáidtear in easnamh.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_src_lang_code</key>
+    <value><![CDATA[Teanga Foinse do aistriúchán: <br/><span class="help">teanga fhoinseach Roghnaigh a bheidh le húsáid le haghaidh autotranslation.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method</key>
+    <value><![CDATA[Téacs Modh Aistriúchán: <br/><span class="help">Roghnaigh modh is mian leat a úsáid le haistriú. Modh Réamhshocrú cóip dhíreach téacs teanga foinse</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_override_existing</key>
+    <value><![CDATA[Sáraigh dá athraíodh téacs teanga foinse: <br/><span class="help">Má leagtar, beidh an téacs i ngach teanga a chur in ionad le aistriúchán nua má tá an téacs sa teanga fhoinseach in eagar. TABHAIR FAOI DEARA: An féidir ina chúis aistriúcháin leor.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_warn_lang_text_missing</key>
+    <value><![CDATA[Tabhair rabhadh téacs teanga ar iarraidh: <br/><span class="help">Faigh rabhadh teachtaireacht má tá téacs teanga ar iarraidh braitheadh.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Taispeáint Praghsanna Le Cánach:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store</key>
+    <value><![CDATA[Default Ráta Cánach Store:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_0</key>
+    <value><![CDATA[Gan Cáin]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_1</key>
+    <value><![CDATA[Store Zone réamhshocraithe]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer</key>
+    <value><![CDATA[Úsáid Chustaiméara Seoladh Cánach:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_0</key>
+    <value><![CDATA[Seoladh Loingseoireacht]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_1</key>
+    <value><![CDATA[Seoladh billeála]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice</key>
+    <value><![CDATA[Sonraisc Start Uimh .: <br/><span class="help">Socraigh an uimhir ag tosú a bheidh na sonraisc tosú ó.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice_prefix</key>
+    <value><![CDATA[Sonraisc Réimír: <br/><span class="help">Set an sonrasc réimír eg IN / 001</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[Grúpa Chustaiméirí: <br/><span class="help">Grúpa Réamhshocrú chustaiméirí.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_price</key>
+    <value><![CDATA[Logáil Taispeáin Praghsanna: <br/><span class="help">Praghsanna Taispeáin fiú mura bhfuil custaiméir logáilte isteach.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_approval</key>
+    <value><![CDATA[Cheadú Custaiméirí Nua: <br/><span class="help">Ná ceadaigh do chustaiméirí nua chun logáil isteach go dtí go a gcuntas ceadaithe.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_prevent_email_as_login</key>
+    <value><![CDATA[A éileamh Logáil Ainm: <br/><span class="help">tslándáil a fheabhsú, a cheangal ar chustaiméirí a chruthú ainm logáil isteach ar leith seachas úsáid a bhaint sheoladh ríomhphoist mar ainm logáil isteach. Má leagtar a AR, beidh custaiméirí atá ann cheana go n-iarrfaí a chruthú ainm logáil isteach nua ag an gcéad logáil isteach. Má Off, an t-ainm logáil leagtar sheoladh r-phoist do chustaiméirí.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_guest_checkout</key>
+    <value><![CDATA[Aoi Seiceáil: <br/><span class="help">Ceadaigh custaiméirí a Seiceáil gan cuntas a chruthú. Ní bheidh sé seo ar fáil nuair a bhíonn táirge a íoslódáil sa cart siopadóireacht.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_account</key>
+    <value><![CDATA[Téarmaí Chuntais: <br/><span class="help">duine Fórsaí chun aontú le téarmaí sular féidir cuntas a chruthú.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_checkout</key>
+    <value><![CDATA[Téarmaí Seiceáil: <br/><span class="help">duine Fórsaí chun aontú le téarmaí sula féidir le custaiméir Seiceáil.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_status</key>
+    <value><![CDATA[Ordú um Stádas: <br/><span class="help">Socraigh an stádas ordú réamhshocraithe nuair ndéanfar ordú próiseáilte.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_cancelation_order_status</key>
+    <value><![CDATA[Ceadaigh do Chustaiméirí a Cealaigh Ordú ar Stádas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_display</key>
+    <value><![CDATA[Taispeáin stoc: <br/><span class="help">stoic chainníocht Taispeáin ar an leathanach táirge.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_nostock_autodisable</key>
+    <value><![CDATA[Gan Stoc Auto Díchumasaigh: <br/><span class="help">Díchumasaigh do tháirge nó luach rogha do bhfianaise má titeann stoc a bheidh 0. fógra teachtaireacht a sheoladh</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_checkout</key>
+    <value><![CDATA[Stoc Seiceáil: <br/><span class="help">Ceadaigh custaiméirí a Seiceáil go fóill mura bhfuil na táirgí go bhfuil siad ordú i stoc.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_status</key>
+    <value><![CDATA[Stoc Stádas: <br/><span class="help">suíomh Idirlín chun as teachtaireachta stádais stoc tháirge. Úsáidte ar eagar táirge leathanach.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_logo</key>
+    <value><![CDATA[Store Lógó:]]></value>
+  </definition>
+  <definition>
+    <key>entry_icon</key>
+    <value><![CDATA[Deilbhín: <br/><span class="help">Is féidir leis an icon a bheith ina PNG nó ICON chineál atá 16px x 16px.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_width</key>
+    <value><![CDATA[leithead:]]></value>
+  </definition>
+  <definition>
+    <key>entry_height</key>
+    <value><![CDATA[airde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb</key>
+    <value><![CDATA[Product Íomhá Thumb Méid:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_width</key>
+    <value><![CDATA[Táirge Íomhá Thumb Leithead:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_height</key>
+    <value><![CDATA[Táirge Íomhá Thumb Airde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup</key>
+    <value><![CDATA[Product Íomhá Popup Size:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_width</key>
+    <value><![CDATA[Large Fuinneog Réamhamhairc Leithead:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_height</key>
+    <value><![CDATA[Móra Airde Fuinneog Réamhamhairc:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category</key>
+    <value><![CDATA[Catagóir Liosta Méid:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_width</key>
+    <value><![CDATA[Catagóir Liosta Leithead:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_height</key>
+    <value><![CDATA[Catagóir Liosta Airde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_width</key>
+    <value><![CDATA[Deilbhín Branda List Leithead:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_height</key>
+    <value><![CDATA[Brand List Deilbhín Airde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product</key>
+    <value><![CDATA[Liosta Táirge Méid:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_height</key>
+    <value><![CDATA[Liosta Táirge Airde: <br/><span class="help">Is é seo an airde íomhá réamhamharc a rialú ar na leathanaigh liosta de admin agus áiteanna eile sa storefront. Tabhair faoi deara, tú é seo roinnte idir admin agus default teimpléad storefront.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_width</key>
+    <value><![CDATA[Liosta táirge Leithead: <br/><span class="help">Is é seo an leithead íomhá réamhamharc a rialú ar na leathanaigh liosta de admin agus áiteanna eile sa storefront. Tabhair faoi deara, tú é seo roinnte idir admin agus default teimpléad storefront.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional</key>
+    <value><![CDATA[Breise Íomhá Táirge Méid:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_width</key>
+    <value><![CDATA[Leithead Breise Íomhá Táirge:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_height</key>
+    <value><![CDATA[Breise Íomhá Táirge Airde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related</key>
+    <value><![CDATA[Íomhá Táirge Ghaolmhara Méid:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_width</key>
+    <value><![CDATA[Íomhá Táirge Ghaolmhara Leithead:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_height</key>
+    <value><![CDATA[Ghaolmhara Íomhá Táirge Airde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart</key>
+    <value><![CDATA[Cart Íomhá Méid:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_width</key>
+    <value><![CDATA[Cart Íomhá Leithead:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_height</key>
+    <value><![CDATA[Cart Íomhá Airde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid</key>
+    <value><![CDATA[Greille Íomhá Méid:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_width</key>
+    <value><![CDATA[Greille Íomhá Leithead: <br/><span class="help">Tá an leithead íomhá réamhamharc an-bheag a rialú sa greillí liostú na admin agus áiteanna eile sa storefront. Tabhair faoi deara, tú é seo roinnte idir admin agus default teimpléad storefront.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_height</key>
+    <value><![CDATA[Greille Íomhá Airde: <br/><span class="help">Tá an airde de íomhá réamhamharc an-bheag a rialú sa greillí liostú na admin agus áiteanna eile sa storefront. Tabhair faoi deara, tú é seo roinnte idir admin agus default teimpléad storefront.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_mail</key>
+    <value><![CDATA[Mail Alert: <br/><span class="help">Cuir ríomhphost chuig an úinéir siopa nuair a ordú nua a cruthaíodh.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_download</key>
+    <value><![CDATA[Ceadaigh Íoslódálacha:]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_status</key>
+    <value><![CDATA[Íosluchtaigh Ordú Stádas: <br/><span class="help">Set stádas ordú na custaiméirí a ordú a bheith faighte sula ndéantar iad a cheadaítear chun rochtain ar a dtáirgí a íoslódáil.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_protocol</key>
+    <value><![CDATA[Prótacal Mail: <span class="help">Ríomhphost: Beidh freastalaí ríomhphoist réamhshocraithe freastalaí a úsáid. Bí cinnte go bhfuil sé cumraithe agus in ann ríomhphost a sheoladh le PHP mail.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_parameter</key>
+    <value><![CDATA[Mail Paraiméadair: <span class="help">Nuair a úsáidtear &#39;Mail&#39;, paraiméadair ríomhphoist breise a chur leis anseo (m.sh. &quot;-femail@storeaddress.com&quot;.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_host</key>
+    <value><![CDATA[SMTP Óstach: <br/><span class="help">Úsáid ssl: //smtp.yourdomain.com le nascadh SMTP slán</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_username</key>
+    <value><![CDATA[SMTP Ainm Úsáideora:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_password</key>
+    <value><![CDATA[SMTP Pasfhocal:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_port</key>
+    <value><![CDATA[SMTP Port:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_timeout</key>
+    <value><![CDATA[SMTP Teorainn Ama:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[Úsáid SSL: <br/><span class="help">a úsáid seiceáil SSL le do óstach má tá teastas SSL suiteáilte.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_session_ttl</key>
+    <value><![CDATA[Painéal Rialúcháin Seisiún Dhul in éag: <br/><span class="help">rialuithe seo luach eatramh ama i nóiméid sula iarrfar ort logáil isteach arís mar gheall ar aon ghníomhaíocht.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_encryption</key>
+    <value><![CDATA[Eochair Criptiú: <br/><span class="help">Socrú migrated comhad a config tosú i v1.2.1.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_seo_url</key>
+    <value><![CDATA[Bain úsáid as Sinsearach URL: <br/><span class="help">Úsáid a bhaint Caithfidh Sinsearach URL modúl Apache mod-athscríobh a shuiteáil agus is gá duit a athainmniú an htaccess.txt a htaccess. Tabhair faoi deara: Ní mór Ní Má abantecart suiteáilte sa fhréamh fearainn a athrú rialach rewriteBase taobh istigh comhad htaccess.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_retina_enable</key>
+    <value><![CDATA[Gin ard-res (reitine) íomhánna: <br/><span class="help">a úsáid ní mór an modúl Apache mod-athscríobh a shuiteáil agus is gá duit a athainmniú an htaccess.txt a htaccess. Tabhair faoi deara: Ní mór Ní Má abantecart suiteáilte sa fhréamh fearainn a athrú rialach rewriteBase taobh istigh comhad htaccess. <br/> I ndiaidh chumasú chóir soiléir ar na híomhánna taisce.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_quality</key>
+    <value><![CDATA[JPEG Leibhéal Íomhánna comhbhrúite]]></value>
+  </definition>
+  <definition>
+    <key>entry_compression</key>
+    <value><![CDATA[Aschur comhbhrúite Level: <br/><span class="help">Gzip aistriú níos éifeachtaí do chliaint iarraidh. Ní mór leibhéal comhbhrú a bheith idir 0-9</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_display</key>
+    <value><![CDATA[Earráidí Taispeáin: <br/><span class="help">Socraigh yes más mian leat a fheiceáil na heisceachtaí agus earráidí</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_log</key>
+    <value><![CDATA[Earráidí Logáil: <br/><span class="help">Socraigh yes más mian leat a shábháil ar na heisceachtaí agus earráidí chuig an logáil isteach</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_enable_reviews</key>
+    <value><![CDATA[Léirmheasanna Cumasaigh: <br/><span class="help"></span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cache_enable</key>
+    <value><![CDATA[Cache cumasaithe: <br/><span class="help">Tabhair faoi a bheith cúramach nuair a caching dhíchumasú. Beidh leathanaigh dtaisce a ath-cruthaíodh agus a d&#39;fhéadfadh an suíomh tús luchtú mall.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_cache_drivers</key>
+    <value><![CDATA[Faoi láthair ag baint úsáide as taisce <b>%s</b> tiománaí. Tá tiománaithe eile atá ar fáil do chumraíocht <i>%s</i>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_status</key>
+    <value><![CDATA[Stádas API storefront:]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_key</key>
+    <value><![CDATA[Storefront Eochair API: <br/><span class="help">Set seo eochair a sholáthar srianta (níos sábháilte) rochtain ar API storefront.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_stock_check</key>
+    <value><![CDATA[Storefront API Stoc Rochtain: <br/><span class="help">Cumasaigh má cheadaíonn duit storefront API infhaighteacht stoic a sheiceáil</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_status</key>
+    <value><![CDATA[Stádas API admin:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_key</key>
+    <value><![CDATA[Riarachán Eochair API: <br/><span class="help">Set seo eochair a sholáthar srianta (níos sábháilte) rochtain ar API admin.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_access_ip_list</key>
+    <value><![CDATA[Riarachán IPs API Rochtana: <br/><span class="help">liosta de IPs (camóga eatarthu) go mbeadh cead chun rochtain API admin ar fáil. Beidh IPs eile bac</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_max_size</key>
+    <value><![CDATA[Leabharlann Acmhainne Uaslódáil Max Méid Comhad, kB]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug</key>
+    <value><![CDATA[Taispeáin Debug Info: <br/><span class="help">Set seo AR más mian leat a fheiceáil na sonraí fhorghníomhú agus sonraí dífhabhtaithe a thaispeáint.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_0</key>
+    <value><![CDATA[off]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_1</key>
+    <value><![CDATA[Taispeáin]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_2</key>
+    <value><![CDATA[Logáil]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level</key>
+    <value><![CDATA[Debug Level: <br/><span class="help">Roghnaigh an doimhneacht na sonraí is gá duit a fheiceáil sa aschur dífhabhtaithe.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_0</key>
+    <value><![CDATA[Leibhéal 0 - gan aon logs, ach earráidí eisceacht]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_1</key>
+    <value><![CDATA[Leibhéal 1 - earráidí agus rabhaidh]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_2</key>
+    <value><![CDATA[Leibhéal 2 - # 1 + MySQL ualach láithreán, ualach eilimintí am php comhad a fhorghníomhú agus leathanach ama]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_3</key>
+    <value><![CDATA[Leibhéal 3 - # 2 logs + bunúsacha agus Stack fhorghníomhú]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_4</key>
+    <value><![CDATA[Leibhéal 4 - # 3 Ráitis MySQL + Dumpáil]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_5</key>
+    <value><![CDATA[Leibhéal 5 - # 4 + athróg idirmheánach]]></value>
+  </definition>
+  <definition>
+    <key>entry_template_debug</key>
+    <value><![CDATA[Debug Teimpléad: <br/><span class="help">Cumasaigh an leagan más gá duit a saincheisteanna seiceáil leis teimpléad i bpainéal storefront agus rialú.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_filename</key>
+    <value><![CDATA[Logchomhad Earráidí Ainm comhaid: <br/><span class="help">Is é seo an comhad ina bhfuil earráidí a shábháil.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_session</key>
+    <value><![CDATA[Úsáid Seisiún Loingseoireacht: <br/><span class="help">Sábháil Sleachta loingseoireachta le seisiún a sheachaint ath-insint gan ghá. Beidh comharthaí athfhriotail a ath-lua ach amháin más rud é go bhfuil cart nó seoladh athraithe.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_catalog_limit</key>
+    <value><![CDATA[Míreanna Réamhshocrú aghaidh Leathanach (Storefront): <br/><span class="help">Seiteanna cé mhéad míreanna storefront a thaispeántar in aghaidh an leathanaigh (táirgí, catagóirí, srl)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_limit</key>
+    <value><![CDATA[Míreanna Réamhshocrú aghaidh Leathanach (Riarachán): <br/><span class="help">Seiteanna cé mhéad míreanna admin Taispeántar in aghaidh an leathanaigh i liostú greillí (orduithe, custaiméirí, srl)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_bestseller_limit</key>
+    <value><![CDATA[Líon na Míreanna San Bestseller Bloc]]></value>
+  </definition>
+  <definition>
+    <key>entry_featured_limit</key>
+    <value><![CDATA[Líon na Míreanna San Bloc Réadmhaoin]]></value>
+  </definition>
+  <definition>
+    <key>entry_latest_limit</key>
+    <value><![CDATA[Líon na Míreanna San Bloc déanaí]]></value>
+  </definition>
+  <definition>
+    <key>entry_special_limit</key>
+    <value><![CDATA[Líon na Míreanna San Bloc Speisialta]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_weight</key>
+    <value><![CDATA[Taispeáin Meáchan ar Cart leathanach: <br/><span class="help">Taispeáin an meáchan cart ar an leathanach cart</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_reviews</key>
+    <value><![CDATA[Ceadaigh Léirmheasanna: <br/><span class="help">Cumasaigh / Díchumasaigh iontráil athbhreithnithe nua agus taispeáint na n-athbhreithnithe atá ann faoi láthair</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_maintenance</key>
+    <value><![CDATA[Cothabháil Mód: <br/><span class="help">cosc custaiméirí ó brabhsáil do siopa. Feicfidh siad ina ionad sin teachtaireacht cothabhála. Má logáilte isteach mar admin, feicfidh tú an siopa mar is gnáth.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_voicecontrol</key>
+    <value><![CDATA[Rialú Guth: <br/><span class="help">Cumasaigh rialú guth admin a ghníomhachtú orduithe guth gné. Faoi láthair tá tacaíocht ach amháin i Chrome leagan 25 nó níos déanaí.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_help_links</key>
+    <value><![CDATA[Cabhair Naisc: <br/><span class="help">Más mian leat a fheiceáil Dheilbhíní Cabhair agus naisc chuig suíomh AbanteCart. Cabhróidh sé seo tú ag foghlaim faoi ghnéithe agus conas iad a úsáid. Má cinn tú úsáideoir agus nach mian a fheiceáil ar na deilbhíní cabhrú, is féidir leat a dhíchumasú.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_show_tree_data</key>
+    <value><![CDATA[Cumasaigh Greille Crann: <br/><span class="help">Cumasaigh eangacha admin a thaispeáint cineálacha tuismitheoirí / leanaí liostú greille amháin. DEARA: Pagination agus il-gníomhartha atá faoi mhíchumas do na greillí</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_ajax</key>
+    <value><![CDATA[Same Page Cuir Cart: <br/><span class="help">Cuirfidh sé seo ar chumas AJAX chur gné cart. Is féidir do Tháirgí a chur leis cart gan atreorú chuig an leathanach cart</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_width</key>
+    <value><![CDATA[Storefront Leithead Suíomh: <br/><span class="help">Sampla: 100% nó 1000px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_width</key>
+    <value><![CDATA[Riarachán Leithead Suíomh: <br/><span class="help">Sampla: 100% nó 1000px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_maximum</key>
+    <value><![CDATA[Ordú-uasmhéid ceadaithe: <br/><span class="help">Cosc Seiceáil le méideanna fo-iomlán ordú mór. 0 = NÍL LIMIT</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_minimum</key>
+    <value><![CDATA[Ordú Méid íosta: <br/><span class="help">Cosc Seiceáil más rud é nach ordú fo-iomlán a bhaint amach méid íosta a leagtar. 0 = NO ÍOSTA</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_system_check</key>
+    <value><![CDATA[Córas Seiceáil: <br/><span class="help">Cumasaigh an leagan seo más mian leat a sheiceáil le do riocht córas i ndáil le feidhmiúlacht AbanteCart. Beidh ceisteanna córas effecting AbanteCart a thuairisciú mar theachtaireachtaí infheicthe i admin.</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[Store nua]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Rabhadh: Ní gá duit cead chun socruithe a mhodhnú!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Ní mór ainm logáil bheith alfa-uimhriúla amháin agus idir 5 agus 64 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[Níl an t-ainm logála isteach ar fáil. Bain triail as ainm logáil isteach éagsúla!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Caithfidh Store Ainm bheith idir 2 agus 32 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[Store URL dhíth!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Ní mór teideal a bheith idir 2 agus 32 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_owner</key>
+    <value><![CDATA[Ní mór Store Úinéir bheith idir 2 agus 64 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[Ní mór Store Seoladh bheith idir 10 agus 256 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Ní Seoladh Ríomhphoist cosúil go bailí!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[Ní mór Teileafón bheith idir 2 agus 32 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[Íomhá Táirge toisí Thumb Méid teastáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[Íomhá Táirge toisí Popup Size teastáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[toisí Catagóir Liosta Méid teastáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_manufacturer</key>
+    <value><![CDATA[Brand Deilbhín Liosta toisí Méid teastáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[toisí Liosta Táirge Méid teastáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[Táirge toisí breise Íomhá Méid teastáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[Táirge Suímh toisí Íomhá Méid teastáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[toisí cart Íomhá Méid teastáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[toisí greille Íomhá Méid teastáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_error_filename</key>
+    <value><![CDATA[Logchomhad Earráidí Ainm comhaid de dhíth!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Nach bhfuil Riachtanach Sonraí curtha isteach. Seiceáil do earráidí réimse!]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded_image</key>
+    <value><![CDATA[Níl an comhad uaslódáilte %s íomhá nó briste!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Teorainn teastáil!]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[Store Front]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[Riarachán]]></value>
+  </definition>
+  <definition>
+    <key>error_mail</key>
+    <value><![CDATA[Líon isteach réimsí riachtanacha chun SMTP-prótacal!]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_sort_order_asc</key>
+    <value><![CDATA[Táirge Sórtáil Ordú Low &gt; High]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[Name - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[Ainm Z - A]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_asc</key>
+    <value><![CDATA[Low Price &gt; High]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_desc</key>
+    <value><![CDATA[Praghas Ard &gt; Íseal]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_asc</key>
+    <value><![CDATA[rátáil ísle]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_desc</key>
+    <value><![CDATA[rátáil Is airde]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[Dáta Sean &gt; Nua]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[Dáta nua &gt; Sean]]></value>
+  </definition>
+  <definition>
+    <key>entry_product_default_sort_order</key>
+    <value><![CDATA[Táirgí Sórtáil mar réamhshocrú réir:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zero_customer_balance</key>
+    <value><![CDATA[Taispeáin Zero Iarmhéid do Chustaiméirí: <br/><span class="help">Tabhair faoi deara: Cumasaigh / Taispeáint dhíchumasú an teachtaireacht iarmhéid má tá iarmhéid cuntais custaiméara 0</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_tax_estimate</key>
+    <value><![CDATA[Loingseoireacht agus Meastachán Cánach: <br/><span class="help">Ceadaigh custaiméirí a fháil loingseoireachta tapaidh agus meastachán cánach sa cart siopadóireacht.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon_on_cart_page</key>
+    <value><![CDATA[Cúpón ar leathanach cart siopadóireacht: <br/><span class="help">Ceadaigh custaiméirí a chur isteach cód cúpón agus a fheiceáil lascaine sa cart siopadóireacht.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_google_analytics</key>
+    <value><![CDATA[Google Uimhir Chuntais Analytics: <br/><span class="help">Do chuid <a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">Analytics google Uimhir Chuntais</a> ar chumas rianú gníomhaíocht suíomh. Éascaíonn sé seo freisin rianú ghníomhaíocht ríomhthráchtáil. Ní mór duit a chumasú ríomhthráchtáil rianú i google ar an leathanach suímh phróifíl ar do láithreán gréasáin</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[Secure URL Store: <br/><span class="help">Cuir an URL SSL iomlán (HTTPS) le do stóráil. Bí cinnte a chur &#39;/&#39; ag an deireadh. Sampla: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[URL Slán dhíth!]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_email_activation</key>
+    <value><![CDATA[Ríomhphost Gníomhachtaithe do Chustaiméirí nua: <br/><span class="help">Ná ní féidir do chustaiméirí nua chun logáil isteach go dtí go a gcuntas seo deimhnithe ag an nasc gníomhachtú sheoladh tríd an ríomhphost. Mar sin a bheith ag obair, déan cinnte &quot;cheadú Custaiméirí Nua&quot; leagtha chun Off.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_clone_template</key>
+    <value><![CDATA[Teimpléad Chlónála Le AbanteCart Uirlisí d&#39;Fhorbróirí]]></value>
+  </definition>
+  <definition>
+    <key>text_set_template</key>
+    <value><![CDATA[Socraigh an teimpléad le haghaidh an storefront]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_status</key>
+    <value><![CDATA[Cumasaigh Storefront Leabú:]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_click_action</key>
+    <value><![CDATA[Leabú Cliceáil Gníomh:]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_modal</key>
+    <value><![CDATA[leathanach same Modal Dialóg]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_new_window</key>
+    <value><![CDATA[leathanach nua Oscail i gcluaisín nua]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_same_window</key>
+    <value><![CDATA[leathanach nua Oscail i bhfuinneog céanna]]></value>
+  </definition>
+  <definition>
+    <key>entry_account_create_captcha</key>
+    <value><![CDATA[Captcha ar an bhfoirm cuntas a chruthú: <br/><span class="help">Cosc a spam account creation / robot le chumasú captcha fíorú daonna</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_site_key</key>
+    <value><![CDATA[Google reCAPTCHA Eochair Site: <br/><span class="help">Cuir <a href="https://www.google.com/recaptcha" target="_blank">google reCAPTCHA v2</a> chun cabhrú le do chuairteoirí a bhfuil iontráil captcha níos fearr. Má tá tú ar chumas reCAPTCHA suíomh / eochracha rúnda, beidh Google reCAPTCHA v2 a chur i ngníomh in ionad mainneachtana íomhá AbanteCart captcha</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_secret_key</key>
+    <value><![CDATA[Google reCAPTCHA Rúnda Eochair: <br/><span class="help">Cuir <a href="https://www.google.com/recaptcha" target="_blank">google reCAPTCHA v2</a> chun cabhrú le do chuairteoirí a bhfuil iontráil captcha níos fearr. Má tá tú ar chumas reCAPTCHA suíomh / eochracha rúnda, beidh Google reCAPTCHA v2 a chur i ngníomh in ionad mainneachtana íomhá AbanteCart captcha</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_php_exceed</key>
+    <value><![CDATA[Ní féidir an luach níos mó ná do treoir php.ini %s (&lt;= %s)]]></value>
+  </definition>
+  <definition>
+    <key>entry_start_order_id</key>
+    <value><![CDATA[Ordú Tosaigh Uimh .: <br/><span class="help">Socraigh an uimhir ag tosú beidh na horduithe tosú ó.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_start_order_id</key>
+    <value><![CDATA[Ní mór Ordú uimhir tús a bheith ina uimhriúil!]]></value>
+  </definition>
+  <definition>
+    <key>error_starting_invoice_id</key>
+    <value><![CDATA[Ní mór uimhir tús Sonraisc ina uimhriúil!]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_order_days</key>
+    <value><![CDATA[Ordú neamhiomlána Caite: <br/><br/><span class="help">Rialuithe an luach eatramh ama i laethanta sula mbeidh orduithe neamhiomlána a scriosadh. Ciallaíonn luach Folamh go mbeidh aon orduithe bheidh a scriosadh.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_expire_order_days</key>
+    <value><![CDATA[Ní mór Ordú neamhiomlána luach Dhul in éag a bheith ina uimhriúil!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront</key>
+    <value><![CDATA[storefront]]></value>
+  </definition>
+  <definition>
+    <key>text_im_driver</key>
+    <value><![CDATA[tiománaí]]></value>
+  </definition>
+  <definition>
+    <key>text_im_protocol</key>
+    <value><![CDATA[Prótacal IM]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver</key>
+    <value><![CDATA[Soláthraí SMS]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver_tooltip</key>
+    <value><![CDATA[Roghnaigh eisínteacht le sholáthraí seirbhíse SMS]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_status_tooltip</key>
+    <value><![CDATA[Cumasaigh SMS do chustaiméirí]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_status_tooltip</key>
+    <value><![CDATA[Cumasaigh SMS do riarthóirí]]></value>
+  </definition>
+  <definition>
+    <key>text_no_driver</key>
+    <value><![CDATA[Gan Tiománaí IM Aimsíodh]]></value>
+  </definition>
+  <definition>
+    <key>text_im_settings_attention</key>
+    <value><![CDATA[Tá na socruithe le haghaidh teachtaireachtaí meandaracha a sheoladh go huathoibríoch le linn imeachtaí AbanteCart in storefront agus admin.]]></value>
+  </definition>
+  <definition>
+    <key>entry_html_cache</key>
+    <value><![CDATA[HTML Cache: <br/><span class="help">leathanaigh HTML Cumasaithe agus bloic caching a fháil ar luas níos fearr do do leathanaigh. Tá an caching bhreis ar caching sonraí rialta ar chumas sa chóras / chomhad config.php</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_task_api_key</key>
+    <value><![CDATA[Tascanna API Eochair: <br/><span class="help">Is é seo an eochair rúnda chun ligean AbanteCart a rith próisis sceidealta ón mbrabhsálaí le comhad /task.php. Más rud é nach leagtar, ní bheidh tascanna siúl trí bhrabhsálaí. <br/> NÓTA: Ní hé seo an Príomh API gá chun a reáchtáil tascanna na n-orduithe.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_duplicate_contact_us</key>
+    <value><![CDATA[Duplicate Fiosrúcháin Teagmháil le Teachtaireachtaí]]></value>
+  </definition>
+</definitions>

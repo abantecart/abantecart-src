@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Ordú %s]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Go raibh maith agat as spéis i dtáirgí %s. Tá do ordú faighte agus déanfar é a phróiseáil go tar éis íocaíocht deimhnithe.]]></value>
+  </definition>
+  <definition>
+    <key>text_received</key>
+    <value><![CDATA[Tá ordú faighte agat.]]></value>
+  </definition>
+  <definition>
+    <key>text_order_detail</key>
+    <value><![CDATA[Ordú Mionsonraí]]></value>
+  </definition>
+  <definition>
+    <key>text_order_id</key>
+    <value><![CDATA[Ordú ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Dáta Orduithe:]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[Ordú um Stádas:]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[Chun breathnú ar d&#39;ordú cliceáil ar an nasc thíos:]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Modh Loingseoireacht:]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Modh íocaíochta:]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[Seoladh Loingseoireacht]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[Seoladh íocaíochta]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Ríomhphost:]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[Teileafón:]]></value>
+  </definition>
+  <definition>
+    <key>text_mobile_phone</key>
+    <value><![CDATA[Fón póca:]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Facs:]]></value>
+  </definition>
+  <definition>
+    <key>text_ip</key>
+    <value><![CDATA[Seoladh IP:]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[táirgí:]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Iomláin:]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Chomh luath d&#39;íocaíocht deimhnithe is féidir leat cliceáil ar an nasc thíos chun teacht ar do tháirgí a íoslódáil:]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[Is iad na tuairimí le haghaidh do ordú:]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[Tabhair freagra ar an ríomhphost seo má tá aon cheist agat.]]></value>
+  </definition>
+  <definition>
+    <key>text_powered_by</key>
+    <value><![CDATA[Cumhachtaithe ag]]></value>
+  </definition>
+  <definition>
+    <key>text_new_order</key>
+    <value><![CDATA[New Ordú - #]]></value>
+  </definition>
+  <definition>
+    <key>text_new_order_text</key>
+    <value><![CDATA[Custaiméirí %s ordú nua leis]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[táirge]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Mionsamhail]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Cainníocht]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Praghas]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Iomlán]]></value>
+  </definition>
+</definitions>

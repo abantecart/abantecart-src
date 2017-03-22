@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[bainisteoir Nuashonrú]]></value>
+  </definition>
+  <definition>
+    <key>text_checkupdates</key>
+    <value><![CDATA[sheiceáil le haghaidh cothrom le dáta]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Ainm Extension]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[cineál]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[Catagóir]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[stádas]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[leagan reatha]]></value>
+  </definition>
+  <definition>
+    <key>column_new_version</key>
+    <value><![CDATA[leagan nua]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[gníomh]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Rath: Bhí Eisínteachtaí nuashonrú go rathúil!]]></value>
+  </definition>
+  <definition>
+    <key>text_update</key>
+    <value><![CDATA[Nuashonraigh]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore_exts</key>
+    <value><![CDATA[Athchóirigh síneadh Backuped:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[Nuashonruithe:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Rabhadh: Ní gá duit cead eolaire a mhodhnú:]]></value>
+  </definition>
+  <definition>
+    <key>warning_server</key>
+    <value><![CDATA[Is freastalaí le nuashonruithe inaccesible.]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_title</key>
+    <value><![CDATA[Fógra Nuashonrú haghaidh% EXTENSION%]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_text</key>
+    <value><![CDATA[Is &#39;Leagan nua de síneadh &quot;% EXTENSION%&quot; ar fáil. Le do thoil, téigh go dtí% NASC% agus é a uasghrádú. &#39;]]></value>
+  </definition>
+  <definition>
+    <key>warning_updates</key>
+    <value><![CDATA[Ní féidir eolas faoi nuashonruithe a fháil.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Rabhadh: Ba é an comhad a d&#39;uaslódáil tú folamh!]]></value>
+  </definition>
+  <definition>
+    <key>error_exts_list</key>
+    <value><![CDATA[Rabhadh: Ní liosta Síneadh eagar!]]></value>
+  </definition>
+  <definition>
+    <key>text_nothing_todo</key>
+    <value><![CDATA[Tá do s síntí suas chun dáta. Tada le déanamh.]]></value>
+  </definition>
+  <definition>
+    <key>text_connect</key>
+    <value><![CDATA[Ceangail]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect</key>
+    <value><![CDATA[Ceangail leis an margadh]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect_your_store</key>
+    <value><![CDATA[Tabhair Ceangail Do Store don Mhargaidh]]></value>
+  </definition>
+  <definition>
+    <key>text_note</key>
+    <value><![CDATA[Tabhair faoi deara: Nuashonrú ar fáil ach amháin le haghaidh siopaí nasctha le stair a ceannaíodh.]]></value>
+  </definition>
+</definitions>

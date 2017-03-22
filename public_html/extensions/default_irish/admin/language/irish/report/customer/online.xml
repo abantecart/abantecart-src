@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[custaiméirí Líne]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[Ainm Chustaiméirí]]></value>
+  </definition>
+  <definition>
+    <key>column_ip</key>
+    <value><![CDATA[IP Chustaiméirí]]></value>
+  </definition>
+  <definition>
+    <key>column_time</key>
+    <value><![CDATA[raibh rochtain orthu Last]]></value>
+  </definition>
+  <definition>
+    <key>column_url</key>
+    <value><![CDATA[URL raibh rochtain orthu]]></value>
+  </definition>
+</definitions>

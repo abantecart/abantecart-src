@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Bainisteoir Ábhar]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[Cuir Ábhar Nua]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[Nuashonraigh Ábhar]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Rath: Tá tú ábhar a mhodhnú!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_layout</key>
+    <value><![CDATA[Rath: Tá tú mhodhnú leagan inneachar an leathanaigh.]]></value>
+  </definition>
+  <definition>
+    <key>text_hidden</key>
+    <value><![CDATA[Hidden]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Réamhshocrú]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Teideal Ábhar]]></value>
+  </definition>
+  <definition>
+    <key>column_parent</key>
+    <value><![CDATA[Ábhar Tuismitheora]]></value>
+  </definition>
+  <definition>
+    <key>entry_parent</key>
+    <value><![CDATA[Ábhar Tuismitheora Leathanach]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Ordú Sórtáil]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[stádas]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[gníomh]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Ainm Ábhar:]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Teideal Ábhar:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Cur síos:]]></value>
+  </definition>
+  <definition>
+    <key>entry_content</key>
+    <value><![CDATA[Ábhar:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[Stores:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[stádas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_keyword</key>
+    <value><![CDATA[Sinsearach Eochairfhocal:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Ordú Sórtáil:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Rabhadh: Ní gá duit cead ábhar a mhodhnú!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Caithfidh Teideal Content bheith idir 2 agus 64 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Ní mór ainm Content bheith idir 2 agus 64 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_description</key>
+    <value><![CDATA[Ní mór cur síos a bheith níos mó ná 1 carachtar!]]></value>
+  </definition>
+  <definition>
+    <key>error_content</key>
+    <value><![CDATA[Ní mór ábhar a bheith níos mó ná 1 carachtar!]]></value>
+  </definition>
+  <definition>
+    <key>error_seo_url</key>
+    <value><![CDATA[Caithfidh Sinsearach URL a bheith níos mó ná 1 carachtar!]]></value>
+  </definition>
+  <definition>
+    <key>error_account</key>
+    <value><![CDATA[Rabhadh: Ní féidir an t-ábhar a scriosadh mar go bhfuil sé arna sannadh láthair na téarmaí cuntas siopa réamhshocraithe!]]></value>
+  </definition>
+  <definition>
+    <key>error_checkout</key>
+    <value><![CDATA[Rabhadh: Ní féidir an t-ábhar a scriosadh mar go bhfuil sé arna sannadh láthair na téarmaí réamhshocraithe siopa Seiceáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Nach bhfuil Riachtanach Sonraí curtha isteach. Seiceáil do earráidí réimse!]]></value>
+  </definition>
+  <definition>
+    <key>text_top_level</key>
+    <value><![CDATA[Ardleibhéil]]></value>
+  </definition>
+  <definition>
+    <key>text_any</key>
+    <value><![CDATA[aon]]></value>
+  </definition>
+  <definition>
+    <key>tab_form</key>
+    <value><![CDATA[Edit]]></value>
+  </definition>
+  <definition>
+    <key>tab_layout</key>
+    <value><![CDATA[Leagan Amach]]></value>
+  </definition>
+</definitions>

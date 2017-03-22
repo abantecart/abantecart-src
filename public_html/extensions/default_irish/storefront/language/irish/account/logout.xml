@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Logout Cuntas]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Bhí tú ag logáilte amach do chuntas. Tá sé sábháilte anois a fhágáil ar an ríomhaire. </p><p> Tá do cart siopadóireacht Sábháladh, beidh na nithe taobh istigh é a chur ar ais aon uair a logáil tú ar ais isteach i do chuntas. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Cuntas]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Logáil Amach]]></value>
+  </definition>
+</definitions>

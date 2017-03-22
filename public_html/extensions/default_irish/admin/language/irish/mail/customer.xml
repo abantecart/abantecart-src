@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Tá do Chuntas Ghníomhachtaíodh!]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Fáilte agus buíochas a ghabháil leat as clárú ag %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Tá do chuntas cruthaithe anois agus is féidir leat logáil isteach ag baint úsáide as do sheoladh ríomhphoist agus do phasfhocal trí chuairt a thabhairt ar ár suíomh gréasáin nó ar an URL seo a leanas:]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Chomh luath agus logáil tú i, beidh tú in ann rochtain a fháil ar, le do Liosta Mianta, stair ordú, sonraisc a phriontáil agus eagarthóireacht do chuid faisnéise san áireamh.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Go raibh maith agat,]]></value>
+  </definition>
+</definitions>

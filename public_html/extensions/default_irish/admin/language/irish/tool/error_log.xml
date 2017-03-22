@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Logchomhad earráidí]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Rath: Tá tú glanta go rathúil do logáil earráid!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_tail</key>
+    <value><![CDATA[Mar gheall ar méid mór de na comhaid logáil isteach, ní féidir ach 500KB deiridh de shonraí a fheiceáil i anseo. 
+ Chun breathnú logáil iomlán, é a fháil ó do fhreastalaí díreach. 
+ Conair:]]></value>
+  </definition>
+</definitions>

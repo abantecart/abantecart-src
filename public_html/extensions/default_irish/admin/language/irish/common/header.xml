@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Riarachán]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[Cúltaca / Athchóirigh]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Fáilte, <b>%s</b>]]></value>
+  </definition>
+  <definition>
+    <key>text_last_login</key>
+    <value><![CDATA[Logáil isteach Last: %s]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_details</key>
+    <value><![CDATA[Athraigh Mionsonraí Próifíl]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_notifications</key>
+    <value><![CDATA[Socruithe Eagar Fógra]]></value>
+  </definition>
+  <definition>
+    <key>text_catalog</key>
+    <value><![CDATA[Catalóg]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[Catagóirí]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Deimhnigh?]]></value>
+  </definition>
+  <definition>
+    <key>text_country</key>
+    <value><![CDATA[tíortha]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[cúpóin]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[Lascainí]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[airgeadraí]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[custaiméirí]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_group</key>
+    <value><![CDATA[Grúpaí Custaiméirí]]></value>
+  </definition>
+  <definition>
+    <key>text_dashboard</key>
+    <value><![CDATA[Painéal na nIonstraimí]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Íoslódálacha]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[Logchomhaid earráid]]></value>
+  </definition>
+  <definition>
+    <key>text_extension</key>
+    <value><![CDATA[Eisínteachtaí]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_short</key>
+    <value><![CDATA[Eisínteachtaí]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[storefront]]></value>
+  </definition>
+  <definition>
+    <key>text_location</key>
+    <value><![CDATA[suímh]]></value>
+  </definition>
+  <definition>
+    <key>text_help</key>
+    <value><![CDATA[Cabhrú]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[Eolas]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[teangacha]]></value>
+  </definition>
+  <definition>
+    <key>text_language_definitions</key>
+    <value><![CDATA[Sainmhínithe teanga]]></value>
+  </definition>
+  <definition>
+    <key>text_localisation</key>
+    <value><![CDATA[logánú]]></value>
+  </definition>
+  <definition>
+    <key>text_logged</key>
+    <value><![CDATA[Tá tú logáilte isteach mar <span>%s</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Logáil Amach]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Seol Ríomhphost]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturer</key>
+    <value><![CDATA[monaróirí]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Orduithe]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[Ordú statuses]]></value>
+  </definition>
+  <definition>
+    <key>text_abantecart</key>
+    <value><![CDATA[Leathanach baile]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[íocaíochtaí]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[táirgí]]></value>
+  </definition>
+  <definition>
+    <key>text_reports</key>
+    <value><![CDATA[tuarascálacha]]></value>
+  </definition>
+  <definition>
+    <key>text_online</key>
+    <value><![CDATA[Líne]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[Idirbhearta]]></value>
+  </definition>
+  <definition>
+    <key>text_tax</key>
+    <value><![CDATA[cáin]]></value>
+  </definition>
+  <definition>
+    <key>text_report_purchased</key>
+    <value><![CDATA[táirgí Ceannaithe]]></value>
+  </definition>
+  <definition>
+    <key>text_report_sale</key>
+    <value><![CDATA[Díolacháin]]></value>
+  </definition>
+  <definition>
+    <key>text_analytics</key>
+    <value><![CDATA[Analytics &amp; Léargais]]></value>
+  </definition>
+  <definition>
+    <key>text_report_viewed</key>
+    <value><![CDATA[táirgí Bhreathnaigh]]></value>
+  </definition>
+  <definition>
+    <key>text_review</key>
+    <value><![CDATA[Léirmheasanna]]></value>
+  </definition>
+  <definition>
+    <key>text_sale</key>
+    <value><![CDATA[Díolacháin]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Á sheoladh]]></value>
+  </definition>
+  <definition>
+    <key>text_setting</key>
+    <value><![CDATA[Socruithe]]></value>
+  </definition>
+  <definition>
+    <key>text_stock_status</key>
+    <value><![CDATA[stoc statuses]]></value>
+  </definition>
+  <definition>
+    <key>text_support</key>
+    <value><![CDATA[Tacaíocht Fóram]]></value>
+  </definition>
+  <definition>
+    <key>text_system</key>
+    <value><![CDATA[córas]]></value>
+  </definition>
+  <definition>
+    <key>text_tax_class</key>
+    <value><![CDATA[Ranganna cánach]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Iomláin Ordú]]></value>
+  </definition>
+  <definition>
+    <key>text_user</key>
+    <value><![CDATA[Users]]></value>
+  </definition>
+  <definition>
+    <key>text_documentation</key>
+    <value><![CDATA[Doiciméadú]]></value>
+  </definition>
+  <definition>
+    <key>text_users</key>
+    <value><![CDATA[Users]]></value>
+  </definition>
+  <definition>
+    <key>text_user_group</key>
+    <value><![CDATA[Grúpaí Úsáideoirí]]></value>
+  </definition>
+  <definition>
+    <key>text_weight_class</key>
+    <value><![CDATA[Ranganna meáchan]]></value>
+  </definition>
+  <definition>
+    <key>text_length_class</key>
+    <value><![CDATA[Fad Ranganna]]></value>
+  </definition>
+  <definition>
+    <key>text_zone</key>
+    <value><![CDATA[criosanna]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[Gach Eisínteachtaí]]></value>
+  </definition>
+  <definition>
+    <key>text_add_extension</key>
+    <value><![CDATA[Suiteáil Síneadh]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_store</key>
+    <value><![CDATA[Faigh Eisínteachtaí]]></value>
+  </definition>
+  <definition>
+    <key>text_migrate</key>
+    <value><![CDATA[Uirlis Imirce]]></value>
+  </definition>
+  <definition>
+    <key>text_updater</key>
+    <value><![CDATA[updater]]></value>
+  </definition>
+  <definition>
+    <key>text_design</key>
+    <value><![CDATA[dearadh]]></value>
+  </definition>
+  <definition>
+    <key>text_templates</key>
+    <value><![CDATA[teimpléid]]></value>
+  </definition>
+  <definition>
+    <key>text_layout</key>
+    <value><![CDATA[Leaganacha]]></value>
+  </definition>
+  <definition>
+    <key>text_blocks</key>
+    <value><![CDATA[bloic]]></value>
+  </definition>
+  <definition>
+    <key>text_menu</key>
+    <value><![CDATA[roghchlár]]></value>
+  </definition>
+  <definition>
+    <key>text_cache</key>
+    <value><![CDATA[Cache]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[teachtaireachtaí]]></value>
+  </definition>
+  <definition>
+    <key>text_content</key>
+    <value><![CDATA[Ábhar]]></value>
+  </definition>
+  <definition>
+    <key>text_datasets_manager</key>
+    <value><![CDATA[tacair sonraí]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[Suiteáil / Uasghrádú Stair]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute</key>
+    <value><![CDATA[Tréithe domhanda]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute_groups</key>
+    <value><![CDATA[Global Tréithe Grúpaí]]></value>
+  </definition>
+  <definition>
+    <key>text_import_export</key>
+    <value><![CDATA[Iompórtáil / Easpórtáil]]></value>
+  </definition>
+  <definition>
+    <key>text_data</key>
+    <value><![CDATA[sonraí]]></value>
+  </definition>
+  <definition>
+    <key>text_logs</key>
+    <value><![CDATA[logs]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_edit_form</key>
+    <value><![CDATA[Foirm Edit Thapa]]></value>
+  </definition>
+  <definition>
+    <key>text_all_matches</key>
+    <value><![CDATA[gach cluichí]]></value>
+  </definition>
+  <definition>
+    <key>text_file_uploads</key>
+    <value><![CDATA[Uasluchtuithe comhad]]></value>
+  </definition>
+  <definition>
+    <key>text_all_settings</key>
+    <value><![CDATA[Gach Socruithe]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_details</key>
+    <value><![CDATA[Sonraí Store]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_general</key>
+    <value><![CDATA[General]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_checkout</key>
+    <value><![CDATA[Seiceáil]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_appearance</key>
+    <value><![CDATA[Dealramh]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_mail</key>
+    <value><![CDATA[Mail]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_im</key>
+    <value><![CDATA[IM]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_api</key>
+    <value><![CDATA[API]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_system</key>
+    <value><![CDATA[córas]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_newstore</key>
+    <value><![CDATA[Cruthaigh Nua Store]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_command_prompt</key>
+    <value><![CDATA[Ordú Guth Pras.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_select_dialect</key>
+    <value><![CDATA[Roghnaigh do chanúint]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_confirm_action</key>
+    <value><![CDATA[Deimhnigh an ngníomh nó a chealú]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_speak_now</key>
+    <value><![CDATA[Abair anois.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_speach_detected</key>
+    <value><![CDATA[braitheadh ​​aon chaint. Seans go mbeidh ort a choigeartú do <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">1amp 1 ####; freagra = 1407892 &quot;&gt; socruithe micreafón</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_mic_detected</key>
+    <value><![CDATA[Níor aimsíodh aon micreafón. A chinntiú go bhfuil micreafón suiteáilte agus go <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">1 #### 1amp; freagra uirthi 1407892 &quot;&gt; socruithe micreafón</a> atá cumraithe i gceart.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_click_allow</key>
+    <value><![CDATA[Cliceáil ar an gcnaipe &quot;Ceadaigh&quot; thuas a chumasú do micreafón.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_denied</key>
+    <value><![CDATA[Diúltaíodh Cead micreafón a úsáid.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_permission</key>
+    <value><![CDATA[Tá Cead micreafón a úsáid bac. A athrú, téigh go dtí bhrabhsálaí <a href="chrome://settings/contentExceptions#media-stream">suímh meáin</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_not_supported</key>
+    <value><![CDATA[Ní rialú guth Tacaíonn an bhrabhsálaí. <a href="//www.google.com/chrome" target="_new">Chrome</a> leagan 25 nó a cheanglaítear ina dhiaidh sin.]]></value>
+  </definition>
+  <definition>
+    <key>text_tasks</key>
+    <value><![CDATA[Tascanna sceidealta]]></value>
+  </definition>
+  <definition>
+    <key>text_read_all_messages</key>
+    <value><![CDATA[Léigh Gach Teachtaireacht]]></value>
+  </definition>
+  <definition>
+    <key>text_short_stats</key>
+    <value><![CDATA[Stats Thapa]]></value>
+  </definition>
+  <definition>
+    <key>text_online_now</key>
+    <value><![CDATA[Custaiméirí Líne]]></value>
+  </definition>
+  <definition>
+    <key>text_online_new</key>
+    <value><![CDATA[Nua]]></value>
+  </definition>
+  <definition>
+    <key>text_online_registered</key>
+    <value><![CDATA[logáilte I]]></value>
+  </definition>
+  <definition>
+    <key>text_today_orders</key>
+    <value><![CDATA[Orduithe nua lá atá inniu ann]]></value>
+  </definition>
+  <definition>
+    <key>text_today_sales</key>
+    <value><![CDATA[Iomlán Díolacháin Sa lá atá inniu]]></value>
+  </definition>
+  <definition>
+    <key>text_today_customers</key>
+    <value><![CDATA[Custaiméirí Nua Sa lá atá inniu]]></value>
+  </definition>
+  <definition>
+    <key>text_today_reviews</key>
+    <value><![CDATA[Léirmheasanna Nua Sa lá atá inniu]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_manager</key>
+    <value><![CDATA[Bainisteoir Meáin]]></value>
+  </definition>
+  <definition>
+    <key>text_server_time</key>
+    <value><![CDATA[Am freastalaí]]></value>
+  </definition>
+</definitions>

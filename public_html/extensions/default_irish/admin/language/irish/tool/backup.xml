@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Cúltaca / Athchóirigh / Luchtaigh]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[Íosluchtaigh Cúltaca]]></value>
+  </definition>
+  <definition>
+    <key>text_success_backup</key>
+    <value><![CDATA[Rath: Tá tú a chruthaigh go rathúil comhad cúltaca!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Rath: Tá tú éirigh le hiompórtáil do bhunachar sonraí!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_xml</key>
+    <value><![CDATA[Rath: Tá tú tar éis a allmhairítear go rathúil do xml!]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore</key>
+    <value><![CDATA[Athchóirigh ó SQL nó xml file:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tables</key>
+    <value><![CDATA[Táblaí Backup:]]></value>
+  </definition>
+  <definition>
+    <key>entry_loadxml</key>
+    <value><![CDATA[Luchtaigh XML-comhad:]]></value>
+  </definition>
+  <definition>
+    <key>tab_backup</key>
+    <value><![CDATA[cúltaca]]></value>
+  </definition>
+  <definition>
+    <key>tab_restore</key>
+    <value><![CDATA[Athchóirigh]]></value>
+  </definition>
+  <definition>
+    <key>tab_loadxml</key>
+    <value><![CDATA[Leagan amach agus ualach tacar sonraí XML]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Rabhadh: Ní gá duit cead chun backups mhodhnú!]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Rabhadh: Socraigh cad ba mhaith leat a cúltaca nó a allmhairiú!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Rabhadh: An comhad uaslódáil tú go raibh folamh nó go raibh cineál comhaid mícheart!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload</key>
+    <value><![CDATA[Rabhadh: Ní raibh an comhad uaslódáilte. Seiceáil post_max_size nó file_upload treoracha do chomhad php.ini.]]></value>
+  </definition>
+  <definition>
+    <key>error_xml</key>
+    <value><![CDATA[Rabhadh: Níl an comhad a d&#39;uaslódáil tú luchtófaí é mar XML! Le do thoil, féach ar logáil-comhad le haghaidh sonraí]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_code</key>
+    <value><![CDATA[Cúltaca Cód (%s) <br/><span class="help">Fo-eolairí le comhaid cód gan comhaid dinimiciúil cosúil le taisce, logáil comhaid, íomhánna, acmhainní srl</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_content</key>
+    <value><![CDATA[Ábhar Cúltaca (%s) <br/><span class="help">Fo-eolairí le comhaid dinimiciúil mar shampla íomhánna, downloads, acmhainní srl</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_compress_backup</key>
+    <value><![CDATA[Comhbhrúigh Eolaire Cúltaca %s? <br/><span class="help">Beidh Cartlann * .tar.gz a chruthú. <br/> Tabhair faoi deara: d&#39;fhéadfadh sé a ghlacadh le fada. Seachas sin is féidir leat a dhíchumasú comhbhrúite agus teacht ar do cúltaca i bhfillteán %s</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_now</key>
+    <value><![CDATA[cúltaca Anois]]></value>
+  </definition>
+  <definition>
+    <key>button_load</key>
+    <value><![CDATA[Luchtaigh]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_schedule</key>
+    <value><![CDATA[Sceideal Cúltaca]]></value>
+  </definition>
+  <definition>
+    <key>text_success_scheduled</key>
+    <value><![CDATA[Rath: Tá tú go rathúil a cruthaíodh sceidealaithe tasc cúltaca! <a href="%s">Féach mionsonraí</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_fail_note</key>
+    <value><![CDATA[TABHAIR FAOI DEARA: Braitheann sé seo i gcrích an próiseas ar do mhéid shonraí AbanteCart chomh maith le do fhreastalaí méid chuimhne fíorúil. Más é próiseas le hearráidí, seiceáil eolaire %s ceadanna a leagan síos le -RW-rw-rw agus <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[leagan cuimhne PHP]</a>. Méadú leagan cuimhne nó cúltaca a reáchtáil de láimh má próiseas theipeann fós.]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_file</key>
+    <value><![CDATA[A íoslódáil cúltaca-comhad tabhair cuairt <a href="#admin#rt=tool/install_upgrade_history">Suiteáil / Uasghrádú Stair</a>]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_dir</key>
+    <value><![CDATA[Eolaire le cúltaca-comhaid is %s]]></value>
+  </definition>
+</definitions>

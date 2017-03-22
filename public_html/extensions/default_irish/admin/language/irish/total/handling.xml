@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Táille Láimhseáil]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[Táille Láimhseáil]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Iomláin Ordú]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Rath: tú suas chun dáta táille láimhseála iomlán!]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Ordú Iomlán: <span class="help">D&#39;fhonn méid íosta atá le baint amach a chur i bhfeidhm ar an táille. Má Beidh ordú do chustaiméirí iomlán níos mó ná an méid sin, ní bheidh láimhseáil feee bhfeidhm. Tá an luach sáraithe le leagan faoi leith íocaíocht.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_placeholder</key>
+    <value><![CDATA[Ordú Méid]]></value>
+  </definition>
+  <definition>
+    <key>entry_fee</key>
+    <value><![CDATA[Táille: <span class="help">Táille a chur leis a ordú iomlán mura bhfuil íosmhéid coinníoll comhlíonta. Tá an méid sáraithe ag leagan sonrach íocaíocht</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_fee</key>
+    <value><![CDATA[Táille: <span class="help">Táille a chur leis a ordú iomlán mura bhfuil fo-iomlán íosta méid coinníoll comhlíonta. An méid sáraíocht leagan táille mó</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Íocaíocht: <span class="help">Roghnaigh íocaíocht shonrach is gá duit an táille a chur leis. Beidh na socruithe sáraigh an príomh suímh má tá íocaíocht a úsáideann custaiméir.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_subtotal</key>
+    <value><![CDATA[Ordú Fo-iomlán: <span class="help">fo-iomlán méid ordú íosta atá le baint amach a chur i bhfeidhm ar an táille. Tá sáraíocht ag an príomh leagan</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Rang Cánach: <span class="help">Roghnaigh más gá duit cáin a chur i bhfeidhm ar-bharr an táille láimhseála</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[stádas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Ordú Sórtáil:]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[Ordú Ríomh:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Rabhadh: Ní gá duit cead a mhodhnú táille láimhseála iomlán!]]></value>
+  </definition>
+  <definition>
+    <key>error_number</key>
+    <value><![CDATA[Rabhadh: Ordú iomlán agus ní mór a bheith táille láimhseála uimhreacha!]]></value>
+  </definition>
+</definitions>

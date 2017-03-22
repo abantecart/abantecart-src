@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[airgeadraí]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[airgeadra]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Rath: Tá tú airgeadraí modhnaithe!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Teideal airgeadra]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[cód]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[luach]]></value>
+  </definition>
+  <definition>
+    <key>column_date_modified</key>
+    <value><![CDATA[An Nuashonrú Deiridh]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[stádas]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[gníomh]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Airgeadra Teideal:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Cód: <br/><span class="help">Ná athrú más é seo do t-airgeadra réamhshocraithe.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Luach: <br/><span class="help">Socraigh 1.00000 más é seo do t-airgeadra réamhshocraithe.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_symbol_left</key>
+    <value><![CDATA[Siombail Chlé:]]></value>
+  </definition>
+  <definition>
+    <key>entry_symbol_right</key>
+    <value><![CDATA[Siombail Ar dheis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_decimal_place</key>
+    <value><![CDATA[Áiteanna dheachúlach:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[stádas:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Rabhadh: Ní gá duit cead chun hairgeadraí mhodhnú!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Ní mór Airgeadra Teideal bheith idir 2 agus 32 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Caithfidh Airgeadra Cód iontu 3 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Rabhadh: Ní féidir an t-airgeadra a scriosadh mar go bhfuil sé arna sannadh faoi láthair mar airgeadra siopa réamhshocraithe!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Rabhadh: Ní féidir an t-airgeadra a scriosadh mar go bhfuil sé sannta faoi láthair %s siopaí!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Rabhadh: Ní féidir an t-airgeadra a scriosadh mar go bhfuil sé sannta faoi láthair %s orduithe!]]></value>
+  </definition>
+</definitions>

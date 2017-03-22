@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_enlarge</key>
+    <value><![CDATA[Cliceáil chun íomhá a mhéadú]]></value>
+  </definition>
+  <definition>
+    <key>text_zoom</key>
+    <value><![CDATA[Bog an pointeoir thar an íomhá a zúmáil isteach]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[Cainníocht Lascaine:]]></value>
+  </definition>
+  <definition>
+    <key>text_options</key>
+    <value><![CDATA[Roghanna atá ar fáil:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Táirge gan aimsiú!]]></value>
+  </definition>
+  <definition>
+    <key>text_price</key>
+    <value><![CDATA[Praghas:]]></value>
+  </definition>
+  <definition>
+    <key>text_availability</key>
+    <value><![CDATA[infhaighteacht:]]></value>
+  </definition>
+  <definition>
+    <key>text_model</key>
+    <value><![CDATA[Mionsamhail:]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturer</key>
+    <value><![CDATA[Manufacturer:]]></value>
+  </definition>
+  <definition>
+    <key>text_instock</key>
+    <value><![CDATA[I stoc]]></value>
+  </definition>
+  <definition>
+    <key>text_order_quantity</key>
+    <value><![CDATA[Ordú Cainníocht]]></value>
+  </definition>
+  <definition>
+    <key>text_price_per_item</key>
+    <value><![CDATA[Praghas in aghaidh Mír]]></value>
+  </definition>
+  <definition>
+    <key>text_write</key>
+    <value><![CDATA[Write]]></value>
+  </definition>
+  <definition>
+    <key>text_no_reviews</key>
+    <value><![CDATA[Níl aon léirmheas ar an táirge.]]></value>
+  </definition>
+  <definition>
+    <key>text_average</key>
+    <value><![CDATA[Average Rating:]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[%s Out of 5 Stars!]]></value>
+  </definition>
+  <definition>
+    <key>text_no_rating</key>
+    <value><![CDATA[Gan Rátáil]]></value>
+  </definition>
+  <definition>
+    <key>text_no_images</key>
+    <value><![CDATA[Níl aon íomhánna breise le haghaidh an táirge seo.]]></value>
+  </definition>
+  <definition>
+    <key>text_no_related</key>
+    <value><![CDATA[Níl aon táirgí a bhaineann le haghaidh an táirge.]]></value>
+  </definition>
+  <definition>
+    <key>text_qty</key>
+    <value><![CDATA[Qty:]]></value>
+  </definition>
+  <definition>
+    <key>text_note</key>
+    <value><![CDATA[<span style="color: #FF0000;">Tabhair faoi deara:</span> Ná húsáid HTML sa téacs.]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Go raibh maith agat as do athbhreithniú. Tá sé faoi bhráid an stiúrthóir gréasáin le faomhadh.]]></value>
+  </definition>
+  <definition>
+    <key>text_wait</key>
+    <value><![CDATA[Fán le do thoil!]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Search]]></value>
+  </definition>
+  <definition>
+    <key>text_tags</key>
+    <value><![CDATA[Tags:]]></value>
+  </definition>
+  <definition>
+    <key>text_minimum</key>
+    <value><![CDATA[(Tá an táirge íosmhéid de %s)]]></value>
+  </definition>
+  <definition>
+    <key>text_maximum</key>
+    <value><![CDATA[(Tá an táirge teorainn a leagtar a %s mír (eanna) in aghaidh an ordú)]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Do ainm:]]></value>
+  </definition>
+  <definition>
+    <key>entry_review</key>
+    <value><![CDATA[Do Athbhreithniú:]]></value>
+  </definition>
+  <definition>
+    <key>entry_rating</key>
+    <value><![CDATA[Rátáil:]]></value>
+  </definition>
+  <definition>
+    <key>entry_good</key>
+    <value><![CDATA[Dea]]></value>
+  </definition>
+  <definition>
+    <key>entry_bad</key>
+    <value><![CDATA[Bad]]></value>
+  </definition>
+  <definition>
+    <key>entry_captcha</key>
+    <value><![CDATA[Cuir isteach an cód sa bhosca thíos:]]></value>
+  </definition>
+  <definition>
+    <key>tab_description</key>
+    <value><![CDATA[Tuairisc]]></value>
+  </definition>
+  <definition>
+    <key>tab_image</key>
+    <value><![CDATA[Íomhánna breise]]></value>
+  </definition>
+  <definition>
+    <key>tab_review</key>
+    <value><![CDATA[Léirmheasanna (%s)]]></value>
+  </definition>
+  <definition>
+    <key>tab_related</key>
+    <value><![CDATA[Related Products]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Earráid: Ní mór athbhreithniú Ainm idir 3 agus 25 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_text</key>
+    <value><![CDATA[Earráid: Ní mór athbhreithniú téacs a bheith idir 25 agus 1000 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_rating</key>
+    <value><![CDATA[Earráid: Roghnaigh rátáil athbhreithnithe!]]></value>
+  </definition>
+  <definition>
+    <key>text_total_price</key>
+    <value><![CDATA[Praghas iomlán:]]></value>
+  </definition>
+  <definition>
+    <key>text_login_view_price</key>
+    <value><![CDATA[Cuir logáil isteach nó a chlárú a fheiceáil praghas nó a ordú.]]></value>
+  </definition>
+  <definition>
+    <key>tab_downloads</key>
+    <value><![CDATA[Íoslódálacha]]></value>
+  </definition>
+  <definition>
+    <key>text_start_download</key>
+    <value><![CDATA[Tosaigh Download]]></value>
+  </definition>
+  <definition>
+    <key>text_new_review</key>
+    <value><![CDATA[Is ceadú Athbhreithniú Táirge feitheamh]]></value>
+  </definition>
+  <definition>
+    <key>text_pending_review_approval</key>
+    <value><![CDATA[Léirmheas ar id táirge %s phost. Tugtar aghaidh ar ghníomhaíocht ar formheas ag teastáil! Cliceáil chun amharc # admin # rt = catalóg / athbhreithnithe / nuashonrú &amp; review_id = %s]]></value>
+  </definition>
+</definitions>

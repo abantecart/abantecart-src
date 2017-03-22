@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[shuiteáil / Uasghrádú Stair]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[cineál]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[dáta seo a leanas]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[pacáiste Eochair]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[Leagan]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_date</key>
+    <value><![CDATA[Dáta cúltaca]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_file</key>
+    <value><![CDATA[Comhad cúltaca]]></value>
+  </definition>
+  <definition>
+    <key>column_user</key>
+    <value><![CDATA[Ainm Úsáideora]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[comhad a íoslódáil]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_history</key>
+    <value><![CDATA[Scrios Stair]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_success</key>
+    <value><![CDATA[Tá do Suiteáil / Uasghrádú Stair Scriosadh rathúil.]]></value>
+  </definition>
+</definitions>

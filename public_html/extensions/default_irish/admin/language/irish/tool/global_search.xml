@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Global Torthaí Cuardaigh]]></value>
+  </definition>
+  <definition>
+    <key>no_results_message</key>
+    <value><![CDATA[Tá brón orm, ach ní mór dúinn aon torthaí.]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Rabhadh: Ní gá duit cead a chuardach!]]></value>
+  </definition>
+  <definition>
+    <key>text_orders</key>
+    <value><![CDATA[Orduithe]]></value>
+  </definition>
+  <definition>
+    <key>text_customers</key>
+    <value><![CDATA[custaiméirí]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[Íoslódálacha]]></value>
+  </definition>
+  <definition>
+    <key>text_product_categories</key>
+    <value><![CDATA[Catagóirí Táirgí]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[táirgí]]></value>
+  </definition>
+  <definition>
+    <key>text_reviews</key>
+    <value><![CDATA[Léirmheasanna]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[brandaí]]></value>
+  </definition>
+  <definition>
+    <key>text_languages</key>
+    <value><![CDATA[teangacha]]></value>
+  </definition>
+  <definition>
+    <key>text_pages</key>
+    <value><![CDATA[Leathanaigh]]></value>
+  </definition>
+  <definition>
+    <key>text_settings</key>
+    <value><![CDATA[Socruithe]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[teachtaireachtaí]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[Eisínteachtaí]]></value>
+  </definition>
+  <definition>
+    <key>text_commands</key>
+    <value><![CDATA[Orduithe Thapa]]></value>
+  </definition>
+  <definition>
+    <key>text_contents</key>
+    <value><![CDATA[Ábhar Leathanaigh]]></value>
+  </definition>
+</definitions>

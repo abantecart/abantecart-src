@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Ordú statuses]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Ordú um Stádas]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Rath: Tá tú mhodhnú statuses ordú!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Ordú um Stádas Ainm]]></value>
+  </definition>
+  <definition>
+    <key>column_text_id</key>
+    <value><![CDATA[Ordú ID Stádas Text]]></value>
+  </definition>
+  <definition>
+    <key>entry_text_id</key>
+    <value><![CDATA[Ordú um Stádas Text ID:]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[gníomh]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Ordú Ainm Stádas:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Rabhadh: Ní gá duit cead a mhodhnú dealbha ordú!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Ní mór Ordú um Stádas Ainm bheith idir 2 agus 32 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Rabhadh: Ní féidir stádas ordú seo a scriosadh mar go bhfuil sé arna sannadh faoi láthair mar an stádas ordú siopa réamhshocraithe!]]></value>
+  </definition>
+  <definition>
+    <key>error_download</key>
+    <value><![CDATA[Rabhadh: Ní féidir stádas ordú seo a scriosadh mar go bhfuil sé arna sannadh faoi láthair mar an stádas réamhshocraithe íoslódáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Rabhadh: Ní féidir an stádas ordú a scriosadh mar go bhfuil sé sannta faoi láthair %s siopaí!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Rabhadh: Ní féidir an stádas ordú a scriosadh mar go bhfuil sé sannta faoi láthair %s orduithe!]]></value>
+  </definition>
+  <definition>
+    <key>error_nondeletable</key>
+    <value><![CDATA[Rabhadh: Tá an stádas ordú tábhachtach atá nasctha le híocaíochtaí. Ní féidir leat a scriosadh an stádas seo.]]></value>
+  </definition>
+  <definition>
+    <key>error_status_text_id</key>
+    <value><![CDATA[Ní mór Ordú um Stádas Id téacs a Uathúil agus idir 2 agus 32 carachtair!]]></value>
+  </definition>
+</definitions>

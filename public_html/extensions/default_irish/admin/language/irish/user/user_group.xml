@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Grúpaí Úsáideoirí]]></value>
+  </definition>
+  <definition>
+    <key>text_group</key>
+    <value><![CDATA[Grúpa Úsáideoirí]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Rath: Tá tú mhodhnú grúpaí úsáideoirí!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_group_added</key>
+    <value><![CDATA[Rath: Tá tú a chruthaigh grúpa úsáideoirí go rathúil!]]></value>
+  </definition>
+  <definition>
+    <key>text_go_to_page</key>
+    <value><![CDATA[Téigh go dtí Leathanach]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_confirm</key>
+    <value><![CDATA[Scrios Grúpa Úsáideoirí?]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Ainm Úsáideora Group]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[gníomh]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Úsáideoir Ainm Group:]]></value>
+  </definition>
+  <definition>
+    <key>column_controller</key>
+    <value><![CDATA[rialaitheoir]]></value>
+  </definition>
+  <definition>
+    <key>column_access</key>
+    <value><![CDATA[rochtain]]></value>
+  </definition>
+  <definition>
+    <key>column_modify</key>
+    <value><![CDATA[Athraigh]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Rabhadh: Ní gá duit cead chun grúpaí úsáideoirí a mhodhnú!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Ní mór Úsáideora Grúpa Ainm bheith idir 2 agus 64 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_user</key>
+    <value><![CDATA[Rabhadh: Ní féidir an grúpa úsáideoirí a scriosadh mar go bhfuil sé sannta faoi láthair %s úsáideoirí!]]></value>
+  </definition>
+</definitions>

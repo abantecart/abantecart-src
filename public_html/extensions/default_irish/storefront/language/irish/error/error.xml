@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Earráid Iarratais!]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Seiceáil le do thoil logáil isteach earráid le haghaidh tuilleadh eolais]]></value>
+  </definition>
+</definitions>

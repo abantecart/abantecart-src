@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Cart siopadóireacht]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Ciseán]]></value>
+  </definition>
+  <definition>
+    <key>text_sub_total</key>
+    <value><![CDATA[Fo-iomlán:]]></value>
+  </definition>
+  <definition>
+    <key>text_weight</key>
+    <value><![CDATA[Cart Meáchan:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Tá do cart siopadóireacht folamh!]]></value>
+  </definition>
+  <definition>
+    <key>column_remove</key>
+    <value><![CDATA[bain]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Íomha]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Ainm]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Mionsamhail]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Cainníocht]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Praghas aonaid]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Iomlán]]></value>
+  </definition>
+  <definition>
+    <key>text_continue_shopping</key>
+    <value><![CDATA[Lean ort ag siopadóireacht]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_codes</key>
+    <value><![CDATA[Cuir iarratas isteach Cód Cúpón]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipping_tax</key>
+    <value><![CDATA[Meastachán Shipping &amp; Cánacha]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_country</key>
+    <value><![CDATA[Tír agus Stát]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_postcode</key>
+    <value><![CDATA[ZIP / Cód poist]]></value>
+  </definition>
+  <definition>
+    <key>button_text_estimate</key>
+    <value><![CDATA[Meastachán]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipments</key>
+    <value><![CDATA[lastais]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Earráid: Is Coupon ceachtar neamhbhailí, in éag nó shroich sé teorainn úsáide!]]></value>
+  </definition>
+  <definition>
+    <key>error_stock</key>
+    <value><![CDATA[nach bhfuil na táirgí marcáilte le *** fáil ar an méid atá ag teastáil nó as stoc!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_options</key>
+    <value><![CDATA[Roghnaigh na roghanna go léir is gá!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_minimum</key>
+    <value><![CDATA[Ní thacaíonn do fo-iomlán méid ordú a chomhlíonadh méid íosta %s teastáil. Cuir táirgí níos mó le do cart!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_maximum</key>
+    <value><![CDATA[Do fo-iomlán méid ordú mó uasmhéid na %s cheadaítear in aghaidh an ordú. Tabhair bhaint roinnt míreanna ó do cart!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_data</key>
+    <value><![CDATA[Tá sonraí Comhad truaillithe nó folamh.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_name</key>
+    <value><![CDATA[ainm an chomhaid folamh!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_extension</key>
+    <value><![CDATA[Comhaid Amháin le síneadh (í) %s Tá (Tá) cheadaítear!]]></value>
+  </definition>
+  <definition>
+    <key>error_min_file_size</key>
+    <value><![CDATA[Is é méid comhaid is lú le huaslódáil %s Kb.]]></value>
+  </definition>
+  <definition>
+    <key>error_max_file_size</key>
+    <value><![CDATA[Is é méid comhaid uasmhéid le huaslódáil %s Kb.]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_success</key>
+    <value><![CDATA[Rath: Tá do lascaine cúpón i bhfeidhm!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[Rath: Tá Cúpón bainte!]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_maximum</key>
+    <value><![CDATA[táirge Ceadaithe ar chainníocht mó. Bunaíodh Cainníocht go huasmhéid.]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_minimum</key>
+    <value><![CDATA[Is táirge Ceadaithe ar chainníocht bhun íosmhéid is gá. Cuireadh Cainníocht leagtha chun méid íosta.]]></value>
+  </definition>
+</definitions>

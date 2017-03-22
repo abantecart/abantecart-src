@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Pasfhocal athshocrú]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Iarradh ar phasfhocal a athshocrú ó %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[A athshocrú do phasfhocal nasc cliceáil thíos:]]></value>
+  </definition>
+  <definition>
+    <key>text_password_reset</key>
+    <value><![CDATA[Bhí Do phasfhocal a athshocrú go rathúil ar %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_password</key>
+    <value><![CDATA[Iontráil focal faire nua thíos:]]></value>
+  </definition>
+  <definition>
+    <key>error_reset_token</key>
+    <value><![CDATA[nasc mícheart le haghaidh iarratas phasfhocal. Bain triail as a athshocrú amháin níos mó ama agus a úsáid an nasc ó chuid is mó r-phost le déanaí.]]></value>
+  </definition>
+</definitions>

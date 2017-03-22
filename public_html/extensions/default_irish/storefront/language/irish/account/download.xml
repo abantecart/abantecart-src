@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Íoslódálacha Cuntas]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Cuntas]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[Íoslódálacha]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Ordú ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Dáta seo a leanas:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_purchased</key>
+    <value><![CDATA[Dáta Ceannaithe:]]></value>
+  </definition>
+  <definition>
+    <key>text_name</key>
+    <value><![CDATA[Ainm:]]></value>
+  </definition>
+  <definition>
+    <key>text_remaining</key>
+    <value><![CDATA[fágtha:]]></value>
+  </definition>
+  <definition>
+    <key>text_size</key>
+    <value><![CDATA[méid:]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[íoslódáil]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Níor thug tú déanta aon orduithe a íoslódáil roimhe!]]></value>
+  </definition>
+  <definition>
+    <key>text_expire_date</key>
+    <value><![CDATA[Dáta in éag:]]></value>
+  </definition>
+  <definition>
+    <key>text_expired</key>
+    <value><![CDATA[éag]]></value>
+  </definition>
+  <definition>
+    <key>text_pending</key>
+    <value><![CDATA[Go dtí go]]></value>
+  </definition>
+  <definition>
+    <key>text_unavailable</key>
+    <value><![CDATA[Unavailable]]></value>
+  </definition>
+  <definition>
+    <key>text_reached_limit</key>
+    <value><![CDATA[Teorainn shroich]]></value>
+  </definition>
+  <definition>
+    <key>error_download_not_exists</key>
+    <value><![CDATA[ní comhad iarrtha ann!]]></value>
+  </definition>
+</definitions>

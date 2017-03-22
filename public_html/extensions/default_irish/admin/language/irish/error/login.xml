@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Earráid Logáil isteach!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Níl tú logáilte isteach. Beidh tú a atreorú leathanach a logáil isteach]]></value>
+  </definition>
+</definitions>

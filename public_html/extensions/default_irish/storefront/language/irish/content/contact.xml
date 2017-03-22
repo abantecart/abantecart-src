@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Glaoigh orainn]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[seoladh:]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Ríomhphost:]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[Teileafón:]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Facs:]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Tá do fhiosrúchán seolta go rathúil leis an úinéir siopa! </p>]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Ainm:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[Seoladh ríomhphoist:]]></value>
+  </definition>
+  <definition>
+    <key>entry_enquiry</key>
+    <value><![CDATA[Fiosrúchán:]]></value>
+  </definition>
+  <definition>
+    <key>entry_captcha</key>
+    <value><![CDATA[Cuir isteach an cód sa bhosca thíos:]]></value>
+  </definition>
+  <definition>
+    <key>email_subject</key>
+    <value><![CDATA[Fiosrúcháin %s]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Ní mór ainm a bheith idir 3 agus 32 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Ní Seoladh Ríomhphoist cosúil go bailí!]]></value>
+  </definition>
+  <definition>
+    <key>error_enquiry</key>
+    <value><![CDATA[Ní mór Fiosrúcháin bheith idir 10 agus 3000 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>entry_duplicate_message_subject</key>
+    <value><![CDATA[New Fiosrúcháin ó %s (%s)]]></value>
+  </definition>
+</definitions>

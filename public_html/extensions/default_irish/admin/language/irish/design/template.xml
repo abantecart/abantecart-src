@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Bainisteoir teimpléad]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Rath: Tá tú a shocrú le teimpléad nua storefront!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront_templates</key>
+    <value><![CDATA[Teimpléid Storefront Fáil]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_extension</key>
+    <value><![CDATA[Socruithe síneadh]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Earráid: Iarraidh pharaiméadar riachtanach i d&#39;iarratas!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Rabhadh: Ní gá duit cead chun teimpléid mhodhnú!]]></value>
+  </definition>
+</definitions>

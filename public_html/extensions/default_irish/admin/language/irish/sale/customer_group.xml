@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Grúpa Custaiméirí]]></value>
+  </definition>
+  <definition>
+    <key>breadcrumb_title</key>
+    <value><![CDATA[Grúpaí Custaiméirí]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Rath: Tá tú mhodhnú grúpaí custaiméirí!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Ainm an Ghrúpa Custaiméirí]]></value>
+  </definition>
+  <definition>
+    <key>column_tax_exempt</key>
+    <value><![CDATA[cáin Díolmhaithe]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[gníomh]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Ainm an Ghrúpa do Chustaiméirí:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_exempt</key>
+    <value><![CDATA[A dhíolmhú ó gach cáin:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Rabhadh: Ní gá duit cead chun grúpaí custaiméirí a mhodhnú!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Ní mór do Chustaiméirí Grúpa Ainm bheith idir 2 agus 64 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Rabhadh: Ní féidir an ghrúpa de chustaiméirí a scriosadh mar go bhfuil sé arna sannadh faoi láthair mar ghrúpa réamhshocraithe siopa do chustaiméirí!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Rabhadh: Ní féidir an ghrúpa de chustaiméirí a scriosadh mar go bhfuil sé sannta faoi láthair %s siopaí!]]></value>
+  </definition>
+  <definition>
+    <key>error_customer</key>
+    <value><![CDATA[Rabhadh: Ní féidir an ghrúpa de chustaiméirí a scriosadh mar go bhfuil sé sannta faoi láthair %s chustaiméirí!]]></value>
+  </definition>
+</definitions>

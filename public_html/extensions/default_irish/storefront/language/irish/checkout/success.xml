@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[An bhfuil d&#39;ordú a phróiseáil!]]></value>
+  </definition>
+  <definition>
+    <key>text_message_account</key>
+    <value><![CDATA[<p> Do ordú # Tá %s cruthaíodh! </p> 
+ <p> Is féidir leat féachaint ar do shonraí ordú trí dul go dtí an <a href="%s">leathanach sonrasc</a>. </p> 
+ <p> Tá fiosrúchán ar bith agat ar an <a href="%s">úinéir siopa</a>. </p> 
+ <p> Go raibh maith agat as siopadóireacht le linn! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_message_guest</key>
+    <value><![CDATA[<p> Tá do ordú a phróiseáil go rathúil! </p> 
+ <p> Is féidir leat féachaint ar do shonraí ordú trí dul go dtí an <a href="%s">leathanach sonrasc</a>. </p> 
+ <p> Tá fiosrúchán ar bith agat ar an <a href="%s">úinéir siopa</a>. </p> 
+ <p> Go raibh maith agat as siopadóireacht le linn! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Ciseán]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Á sheoladh]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[íocaíocht]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[Guest Seiceáil]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Deimhnigh]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[rath]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order</key>
+    <value><![CDATA[Oops! Táimid tar éis taithí roinnt cheist leis idirbheart. Beidh d&#39;ordú a fhíorú de láimh trí riarthóir.]]></value>
+  </definition>
+  <definition>
+    <key>text_title_failed_order_to_admin</key>
+    <value><![CDATA[ordú Theip # %s]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order_to_admin</key>
+    <value><![CDATA[Theip nó freagra ó fíorú íocaíochta in easnamh. Tá fíorú Lámhleabhar ag teastáil!]]></value>
+  </definition>
+</definitions>

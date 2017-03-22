@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Eisínteachtaí Marketplace]]></value>
+  </definition>
+  <definition>
+    <key>text_install</key>
+    <value><![CDATA[Suiteáil]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall</key>
+    <value><![CDATA[Díshuiteáil]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall_delete</key>
+    <value><![CDATA[Díshuiteáil / Scrios]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall_confirm</key>
+    <value><![CDATA[Cinntigh mhaith leat síneadh [% síneadh%] a dhíshuiteáil. D&#39;fhéadfadh gach suíomh leathnú agus sonraí gaolmhara a scriosadh agus caillte.]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[Scrios]]></value>
+  </definition>
+  <definition>
+    <key>text_enlarge</key>
+    <value><![CDATA[Cliceáil Íomhá chun Enlarge]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[Gníomhachtaigh]]></value>
+  </definition>
+  <definition>
+    <key>text_deactivate</key>
+    <value><![CDATA[Díghníomhachtaigh]]></value>
+  </definition>
+  <definition>
+    <key>text_left</key>
+    <value><![CDATA[Clé]]></value>
+  </definition>
+  <definition>
+    <key>text_right</key>
+    <value><![CDATA[Ceart]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Curtha ar]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Rabhadh: Ní gá duit cead chun síntí mhodhnú!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_field</key>
+    <value><![CDATA[Rabhadh: Líon isteach réimsí riachtanacha!]]></value>
+  </definition>
+  <definition>
+    <key>error_payment_uninstall</key>
+    <value><![CDATA[Rabhadh: síneadh Díchumasaigh roimh dhíshuiteáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_uninstall</key>
+    <value><![CDATA[Rabhadh: síneadh Díshuiteáil roimh scriosadh!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Rath: Tá tú mhodhnú socruithe síneadh!]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_store</key>
+    <value><![CDATA[Eisínteachtaí Marketplace]]></value>
+  </definition>
+  <definition>
+    <key>text_required</key>
+    <value><![CDATA[Riachtanach]]></value>
+  </definition>
+  <definition>
+    <key>text_optional</key>
+    <value><![CDATA[roghnach]]></value>
+  </definition>
+  <definition>
+    <key>text_add_new</key>
+    <value><![CDATA[Suiteáil Síneadh]]></value>
+  </definition>
+  <definition>
+    <key>error_connect</key>
+    <value><![CDATA[Oops, ní féidir le do AbanteCart nascadh le síntí mhargadh. Féach Córas-&gt; logaí Earráid le haghaidh sonraí.]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_review_asc</key>
+    <value><![CDATA[Líon Athbhreithniú Íseal&gt; Ard]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_review_desc</key>
+    <value><![CDATA[Líon Athbhreithniú Ard&gt; Íseal]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_asc</key>
+    <value><![CDATA[Price Low&gt; High]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_desc</key>
+    <value><![CDATA[Price Ard&gt; Íseal]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_desc</key>
+    <value><![CDATA[rátáil Is airde]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_asc</key>
+    <value><![CDATA[rátáil ísle]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_modified_asc</key>
+    <value><![CDATA[Dáta Nua Chun Sean]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_modified_desc</key>
+    <value><![CDATA[Dáta Sean go Nua]]></value>
+  </definition>
+  <definition>
+    <key>text_my_extensions</key>
+    <value><![CDATA[Mo Eisínteachtaí]]></value>
+  </definition>
+  <definition>
+    <key>text_my_account</key>
+    <value><![CDATA[Mo chuntas]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_site</key>
+    <value><![CDATA[Áit mhargaidh suíomh]]></value>
+  </definition>
+  <definition>
+    <key>text_all_categories</key>
+    <value><![CDATA[Gach Catagóirí]]></value>
+  </definition>
+  <definition>
+    <key>text_connect</key>
+    <value><![CDATA[Ceangail]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect</key>
+    <value><![CDATA[Ceangail leis an margadh]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_extension</key>
+    <value><![CDATA[réamhamharc Síneadh &amp; ordú]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_buy</key>
+    <value><![CDATA[Faigh an síneadh anois]]></value>
+  </definition>
+  <definition>
+    <key>text_connected</key>
+    <value><![CDATA[Ceangailte leis an margadh. Cliceáil chun dhícheangal]]></value>
+  </definition>
+  <definition>
+    <key>text_disconnect_confirm</key>
+    <value><![CDATA[An bhfuil tú cinnte gur mian leat dhícheangal?]]></value>
+  </definition>
+  <definition>
+    <key>text_disconnect_success</key>
+    <value><![CDATA[Cuireadh dícheangailte an siopa!]]></value>
+  </definition>
+  <definition>
+    <key>text_connection_required</key>
+    <value><![CDATA[Ní mór duit AbanteCart a nascadh leis an Margadh a fheiceáil do síntí! Cliceáil &quot;ceangal&quot; a bhrú sa phainéal thuas.]]></value>
+  </definition>
+  <definition>
+    <key>text_in_other_store</key>
+    <value><![CDATA[Suiteáladh Síneadh don ordú san AbanteCart eile. Seiceáil do siopaí ceangailte don stair.]]></value>
+  </definition>
+  <definition>
+    <key>text_no_purchase_or_not_connected</key>
+    <value><![CDATA[Níl aon ceannacháin don siopa nó bhí diconnected siopa ón margadh.]]></value>
+  </definition>
+  <definition>
+    <key>text_no_extenions_loaded</key>
+    <value><![CDATA[Níl aon síntí ar fáil. Seiceáil do rogha nó bain triail eile as.]]></value>
+  </definition>
+  <definition>
+    <key>text_compatibility</key>
+    <value><![CDATA[Níl an síneadh deimhnithe a bheith ag obair leis an leagan de AbanteCart. Déan teagmháil síneadh forbróir comhoiriúnacht a dheimhniú.]]></value>
+  </definition>
+  <definition>
+    <key>error_mp_connection</key>
+    <value><![CDATA[Oops, ní féidir ceangal leis AbanteCart MarketPlace. Le do thoil déan iarracht a sheiceáil ina dhiaidh sin nó iarr ar do sholáthraí seirbhíse a óstáil chun cabhair.]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[cuardaigh]]></value>
+  </definition>
+</definitions>

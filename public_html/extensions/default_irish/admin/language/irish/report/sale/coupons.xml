@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Lascainí Tuairisc]]></value>
+  </definition>
+  <definition>
+    <key>column_coupon_name</key>
+    <value><![CDATA[Lascaine / Cúpón Ainm]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[cód]]></value>
+  </definition>
+  <definition>
+    <key>column_orders</key>
+    <value><![CDATA[Orduithe Uimh]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Iomlán]]></value>
+  </definition>
+  <definition>
+    <key>column_discount_total</key>
+    <value><![CDATA[Lascaine iomlán]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[Dáta tosaigh:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[Dáta Deiridh:]]></value>
+  </definition>
+</definitions>

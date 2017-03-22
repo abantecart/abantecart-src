@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Suiteáladh Pacáiste rathúil: Rath.]]></value>
+  </definition>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[pacáiste Suiteálaí]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_license</key>
+    <value><![CDATA[Comhaontú Ceadúnais Pacáiste]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_ftp</key>
+    <value><![CDATA[paraiméadar rochtana FTP]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_download</key>
+    <value><![CDATA[pacáiste Loading]]></value>
+  </definition>
+  <definition>
+    <key>text_preloading</key>
+    <value><![CDATA[Beidh comhad Pacáiste% file% a íoslódáil.]]></value>
+  </definition>
+  <definition>
+    <key>text_loading</key>
+    <value><![CDATA[Íosluchtú comhad. Méid: %s. <br/> D&#39;fhéadfadh sé a ghlacadh cúpla soicind ag brath ar do nasc.]]></value>
+  </definition>
+  <definition>
+    <key>text_key_hint</key>
+    <value><![CDATA[Iontráil Eochair Suiteáil anseo]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_user</key>
+    <value><![CDATA[FTP Ainm Úsáideora:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_password</key>
+    <value><![CDATA[FTP Úsáideora Pasfhocal:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_host</key>
+    <value><![CDATA[FTP Óstach:]]></value>
+  </definition>
+  <definition>
+    <key>text_i_agree</key>
+    <value><![CDATA[Aontaím leis an gceadúnas]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[Aontaigh]]></value>
+  </definition>
+  <definition>
+    <key>text_retry</key>
+    <value><![CDATA[Atriail]]></value>
+  </definition>
+  <definition>
+    <key>text_disagree</key>
+    <value><![CDATA[Ní aontaím]]></value>
+  </definition>
+  <definition>
+    <key>text_download_error</key>
+    <value><![CDATA[Tá brón orainn, ach tharla earráid agus uaslódáil an comhad. </br> Bain triail as níos mó ama. </br> Má fhadhb fós ann comhad a íoslódáil i do stair ord agus a shuiteáil de láimh.]]></value>
+  </definition>
+  <definition>
+    <key>text_continue</key>
+    <value><![CDATA[Leanúint ar aghaidh]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer_heading</key>
+    <value><![CDATA[Séanadh]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer</key>
+    <value><![CDATA[<h3> do chustaiméirí AbanteCart chara, </h3><br/> 
+ Tá tú ar tí síneadh tríú páirtí a shuiteáil ar do AbanteCart. <br/><br/> 
+ Léigh agus an séanadh faoi síneadh tríú páirtí go bhfuil tú ar tí é a shuiteáil thuiscint. <br/><br/> 
+ síntí agus seirbhísí tríú páirtí ar fáil ag díoltóirí tríú páirtí. <br/><br/> 
+ Cé, AbanteCart bhailíochtú cáilíocht na síntí agus na seirbhísí arna soláthar ag tríú páirtí, ní AbanterCart guaranty go léir tríú páirtí oibre síneadh i gceart nó ní faoi deara aon choinbhleachtaí sa chóras. 
+ Tá baill AbanteCart agus chleamhnaithe ar aon bhealach faoi dhliteanas nó a bheidh freagrach as éilimh a rinneadh a bhaineann leis na táirgí nó seirbhísí a sholáthraíonn díoltóirí tríú páirtí. Ní AbanteCart ráthú ar chaighdeán na síntí tríú páirtí nó seirbhísí. Má tá fiosrúchán ar do chuid fiosruithe maidir síntí tríú páirtí nó seirbhísí ar an díoltóir cuí tríú páirtí. 
+ Má tá imní mar gheall ar aon soláthraí tríú páirtí téigh i dteagmháil AbanteCart ag <a href="http://www.abantecart.com/contact-us" target="_blank">http://www.abantecart.com/contact-us</a><br/><br/> 
+ Le meas, <br/> 
+ AbanteCart <br/> 
+ Ideal opensource ríomhthráchtáil Réiteach]]></value>
+  </definition>
+  <definition>
+    <key>warning_ftp</key>
+    <value><![CDATA[Rabhadh: Ní roinnt eolaire nó comhad cead scríobh <span id="see_details">(féach sonraí breise)</span><br/> Is féidir leat ceadanna ar do fhreastalaí nó athrú <br/> Rochtain ftp úsáid ar do fhreastalaí do shuiteáil (de ghnáth, a óstáil cuireann an eolas tríd an ríomhphost nó is féidir leat é a bhainistiú i óstáil uirlisí rialaithe) <br/>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed</key>
+    <value><![CDATA[<p class="success"> Tá tú%% síneadh EXTENSION suiteáilte cheana! Más mian leat dul ar aghaidh agus a uasghrádú, deimhnigh. </p>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed_uninstall</key>
+    <value><![CDATA[Tá tú cheana féin an síneadh &quot;% EXTENSION%&quot; suiteáilte! Más mian leat dul ar aghaidh a reinstall, le do thoil dhíshuiteáil agus scrios síneadh ar dtús.]]></value>
+  </definition>
+  <definition>
+    <key>error_pack_file_not_found</key>
+    <value><![CDATA[Earráid: Ní féidir sliocht síneadh ón gcartlann a %s. Seiceáil <a href="#admin#rt=tool/error_log" target="_blank">logáil</a> d&#39;earráidí]]></value>
+  </definition>
+  <definition>
+    <key>error_mp</key>
+    <value><![CDATA[Earráid Marketplace:]]></value>
+  </definition>
+  <definition>
+    <key>error_repository</key>
+    <value><![CDATA[Earráid: Ní féidir a íoslódáil comhad. Earráid Stór nó eochair síneadh neamhbhailí. Bain triail as níos mó ama. Má fhadhb fós ann comhad a íoslódáil i do stair ord agus a shuiteáil de láimh.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_user</key>
+    <value><![CDATA[Earráid: Is FTP Ainm Úsáideora folamh.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_password</key>
+    <value><![CDATA[Earráid: Is FTP Úsáideora Pasfhocal folamh.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_connect</key>
+    <value><![CDATA[Earráid: Ní féidir ceangal a ftp-freastalaí]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_login</key>
+    <value><![CDATA[Earráid: Ní féidir logáil isteach ftp-freastalaí. Ainm Úsáideora neamhbhailí nó Pasfhocal.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path</key>
+    <value><![CDATA[Earráid: Ní féidir a aimsiú eolaire fhréamh AbanteCart réir chosáin FTP. <br/> Bain triail as fág folamh ar chuardach uathoibríoch.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path_array</key>
+    <value><![CDATA[Earráid: Déan uathoibríoch aitheantas eolaire fhréamh AbanteCart i FTP-mód. <br/> Líon isteach an fhoirm réimse FTP-chonair. <br/> Is iad moltaí Path:]]></value>
+  </definition>
+  <definition>
+    <key>error_dir_permission</key>
+    <value><![CDATA[Déan an comhad a shábháil mar nach bhfuil eolaire inscríofa:]]></value>
+  </definition>
+  <definition>
+    <key>error_package_structure</key>
+    <value><![CDATA[Earráid: Is dócha go bhfuil pacáiste briste. Struchtúr an earráid phacáiste.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config_xml</key>
+    <value><![CDATA[Earráid: Ní féidir a aimsiú package.xml comhad taobh istigh de síneadh bhaintear. B&#39;fhéidir nach raibh síneadh bhaintear gceart. Seiceáil <a href="#admin#rt=tool/error_log" target="_blank">logáil</a> d&#39;earráidí]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config2</key>
+    <value><![CDATA[Earráid: Ní féidir a aimsiú modh suiteáil in package.xml taobh istigh phacáiste.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_info_not_exists</key>
+    <value><![CDATA[Earráid: Ní féidir a aimsiú eolas seisiún pacáiste faoin íoslódáil.]]></value>
+  </definition>
+  <definition>
+    <key>error_unpack</key>
+    <value><![CDATA[Earráid: Ní féidir unpack pacáiste &quot;% PACÁISTE%&quot; i ndiaidh íoslódáil. Earráid Archive. Féach logáil earráid le haghaidh sonraí.]]></value>
+  </definition>
+  <definition>
+    <key>error_move</key>
+    <value><![CDATA[Earráid: Ní féidir a bhogadh cód pacáiste i ndiaidh díphacáil. Bain triail Seiceáil na ceadanna scríofa ar eolaire:]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode</key>
+    <value><![CDATA[Earráid: Ní féidir a shuiteáil síneadh &quot;pacáiste%%&quot; toisc suiteáilte sé cheana. Ní mór duit deinstall agus scrios ar dtús nó pacáiste a fháil chun uasghrádú.]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode2</key>
+    <value><![CDATA[Earráid: Ní féidir uasghrádú síneadh &quot;pacáiste%%&quot; ní mar gheall sé suiteáilte. Ní mór duit pacáiste a fháil do shuiteáil.]]></value>
+  </definition>
+  <definition>
+    <key>error_version_compatibility</key>
+    <value><![CDATA[Earráid: Ní féidir a shuiteáil pacáiste. Tá an leagan <b>cart% CURRENT_VERSION%.</b> Leagan <b>(í)% Leaganacha%</b> ag teastáil.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_version_compatibility</key>
+    <value><![CDATA[Earráid: Ní féidir a uasghrádú pacáiste. Tá leagan pacáiste nua suiteáilte cheana.]]></value>
+  </definition>
+  <definition>
+    <key>error_install</key>
+    <value><![CDATA[Earráid: Ní féidir a shuiteáil pacáiste. Féach Córas -&gt; Logchomhad Earráidí le haghaidh sonraí.]]></value>
+  </definition>
+  <definition>
+    <key>error_core_version</key>
+    <value><![CDATA[Earráid: Tá tú Leagan AbanteCart% LEAGAN% shuiteáil. <br/> an pacáiste uasghrádú ach i gcás múnlaí níos ísle ná]]></value>
+  </definition>
+  <definition>
+    <key>text_interrupt</key>
+    <value><![CDATA[interrupt]]></value>
+  </definition>
+  <definition>
+    <key>confirm_version_incompatibility</key>
+    <value><![CDATA[Níl cóip reatha an síneadh seo fíoraithe do leagan de AbanteCart (v %s). <br/> Tá tógáil Leathnú shonraítear le haghaidh AbanteCart v %s. <br/> 
+ Seo nach bhfuil fadhb, ach má thugann tú le saincheisteanna nó neamhluí, téigh i dteagmháil le síneadh forbróir.]]></value>
+  </definition>
+  <definition>
+    <key>error_move_ftp</key>
+    <value><![CDATA[Earráid: Ní féidir a bhogadh cód pacáiste i ndiaidh díphacáil. Is dócha go bhfuil cosán FTP mícheart. <br/> Ina theannta sin, le do thoil, déan iarracht a Seiceáil na ceadanna scríofa ar eolaire:]]></value>
+  </definition>
+  <definition>
+    <key>text_network_install</key>
+    <value><![CDATA[líonra Suiteáil]]></value>
+  </definition>
+  <definition>
+    <key>text_extension_upload</key>
+    <value><![CDATA[síneadh Upload]]></value>
+  </definition>
+  <definition>
+    <key>error_archive_extension</key>
+    <value><![CDATA[Earráid: Níl ach comhaid .tar.gz tacaíocht.]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_file</key>
+    <value><![CDATA[Uaslódáil comhad:]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_url</key>
+    <value><![CDATA[Ionsáigh URL:]]></value>
+  </definition>
+  <definition>
+    <key>error_move_backup</key>
+    <value><![CDATA[Earráid: An féidir comhaid nach cúltaca roimh uasghrádú. Seiceáil na ceadanna scríofa ar eolaire:]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_title</key>
+    <value><![CDATA[Abantecart Core Uasghrádú]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_attention</key>
+    <value><![CDATA[Tabhair aire! 
+ Is AbanteCart tí a uasghrádú chun leagan %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_warning</key>
+    <value><![CDATA[Níl aon Cealaigh ndiaidh duit tosú próiseas uasghrádú. 
+ Tá bunachar Comhlánaigh agus cúltaca cód Moltar go mór. 
+ uasghrádú Tástáil ar láithreáin nach beo ar dtús. Uasghrádú ar láithreáin beo nach bhfuil molta.]]></value>
+  </definition>
+  <definition>
+    <key>text_upgrade_now</key>
+    <value><![CDATA[Uasghrádú Anois!]]></value>
+  </definition>
+  <definition>
+    <key>error_additional_help_text</key>
+    <value><![CDATA[Bhfostú? Ní fadhb. Is féidir leat a shuiteáil síntí ar bhealach eile. Seiceáil <a href="http://docs.abantecart.com/pages/extensions/install.html#FTPinstall" target="_blank">an nasc seo cabhrú</a>]]></value>
+  </definition>
+  <definition>
+    <key>error_notconnected</key>
+    <value><![CDATA[Ní féidir a uasghrádú nó síntí shuiteáil ón margadh. Ní hé seo an siopa fíordheimhnithe / nasctha. Tabhair fhíordheimhniú agus a nascadh leis an <a href="%s">margadh</a>]]></value>
+  </definition>
+</definitions>

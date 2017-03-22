@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Meáin Acmhainní Bainisteoir Leabharlann]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[Déanaí Acmhainní chur leis]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[chineál acmhainne]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[Cineál acmhainní Key <br/><span class="help">Ní féidir luach cineálcheadaithe eochair acmhainn seo / ainm a athrú</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[Eolaire Áis <br/><span class="help">acmhainn lonnú Eolaire don chineál seo. Má d&#39;athraigh, ní bheidh na hacmhainní atá ann cheana a acceccible agus caithfear a chóipeáil isteach eolaire nua!</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[Default icon <br/><span class="help">Deilbhín íomhá a thaispeáint sa liosta na n-acmhainní (Láthair: / image / ...).</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[Ceadaithe síntí comhad <br/><span class="help">Regex le Liosta d &#39;iarmhíreanna comhaid ceadaithe don chineál acmhainne</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Rath: tú suas chun dáta chineál acmhainne!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[Earráid: cineál ID acmhainní Iarraidh!]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[Riachtanais ainm cineáil Acmhainne a bheith idir 2 agus 40 charcters: Earráid]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[Riachtanais eolaire cineál Acmhainne a bheith idir 2 agus 64 charcters: Earráid]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[Riachtanais cineál Acmhainne icon a bheith idir 2 agus 64 charcters: Earráid]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[Riachtanais Acmhainne extenions comhad de chineál regex a bheith idir 2 agus 40 charcters: Earráid]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Do chuntas Cruthaithe!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Comhghairdeas! Tá do chuntas nua a cruthaíodh go rathúil! </p><p> Is féidir leat a ghlacadh anois buntáiste a bhaint as pribhléidí ball a fheabhsú do thaithí siopadóireacht ar líne le linn. </p><p> Má tá AON ceisteanna maidir leis an oibriú an siopa ar líne, le do thoil ríomhphost an t-úinéir siopa. </p><p> Tá deimhniú seolta chuig an seoladh r-phoist ar fáil. Mura bhfuair tú é taobh istigh den uair an chloig, déan <a href="%s">teagmháil linn</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[<p> Go raibh maith agat as clárú le %s! </p><p> Cuirfear in iúl duit trí r-phost nuair a bhfuil do chuntas i ngníomh ag an úinéir siopa. </p><p> Má tá AON ceisteanna maidir leis an oibriú an siopa ar líne, le do thoil <a href="%s">i dteagmháil leis an úinéir siopa</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[<p> Go raibh maith agat as clárú le %s! </p><p> Cuirfear in iúl duit tríd an ríomhphost le do treoracha gníomhachtaithe cuntas. Ní mór duit cliceáil ar an nasc ar fáil sa r-phost chun do chuntas. Mura bhfaigheann tú ríomhphost, seiceáil le do thoil do junk nó spam fillteáin. </p><p> Má tá AON ceisteanna maidir leis an oibriú an siopa ar líne, le do thoil <a href="%s">i dteagmháil leis an úinéir siopa</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Cuntas]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[rath]]></value>
+  </definition>
+</definitions>

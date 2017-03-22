@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Ar rinne tú dearmad ar do Phásfhocail?]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_loginname</key>
+    <value><![CDATA[An bhfuil dearmad déanta D&#39;Logáil Ainm?]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Cuntas]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten</key>
+    <value><![CDATA[Pasfhocal i ndearmad]]></value>
+  </definition>
+  <definition>
+    <key>text_your_email</key>
+    <value><![CDATA[Do sheoladh ríomhphoist]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Cuir isteach an seoladh r-phoist a bhaineann le do chuntas. Cliceáil faoi bhráid go bhfuil do phasfhocal ríomhphost a thabhairt duit]]></value>
+  </definition>
+  <definition>
+    <key>text_loginname_email</key>
+    <value><![CDATA[Cuir isteach an ainm úsáideora agus do r-phoist a bhaineann le do chuntas. Cliceáil faoi bhráid iarraidh phasfhocal a athshocrú]]></value>
+  </definition>
+  <definition>
+    <key>text_lastname_email</key>
+    <value><![CDATA[Cuir isteach na deireanach ainm agus seoladh r-phoist a bhaineann le do chuntas. Cliceáil faoi bhráid d&#39;ainm logáil isteach ríomhphost a thabhairt duit]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Rath: Tá Pasfhocal nasc athshocrú seolta chuig do sheoladh r-phoist.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_loginname</key>
+    <value><![CDATA[Rath: Tá do ainm logáil isteach meabhrúcháin seolta chuig do sheoladh r-phoist.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Ainm logála isteach:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Sloinne:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[Seoladh ríomhphoist:]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Earráid: Ní raibh an seoladh ríomhphoist ar fáil nó nach bhfuil le fáil in ár dtaifid, le do thoil bain triail eile as!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Earráid: Ní raibh an t-ainm Logáil arna sholáthar nó nach bhfuil le fáil in ár dtaifid, le do thoil bain triail eile as!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Earráid: Ní raibh an t-ainm seo caite ar fáil nó nach bhfuil le fáil in ár dtaifid, le do thoil bain triail eile as!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_found</key>
+    <value><![CDATA[Earráid: No taifid aimsíodh faisnéis a thagann le do sholáthar, le do thoil seiceáil ar do chuid faisnéise agus bain triail eile as!]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_loginname</key>
+    <value><![CDATA[Dearmad déanta agat Logáil Ainm]]></value>
+  </definition>
+</definitions>

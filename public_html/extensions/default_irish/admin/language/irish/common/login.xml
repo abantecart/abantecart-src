@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Riarachán]]></value>
+  </definition>
+  <definition>
+    <key>text_heading</key>
+    <value><![CDATA[Riarachán]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Cuir isteach do chuid sonraí logáil isteach.]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[Ainm úsáideora:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Pasfhocal:]]></value>
+  </definition>
+  <definition>
+    <key>entry_forgot_password</key>
+    <value><![CDATA[Dearmad ar pasfhocal?]]></value>
+  </definition>
+  <definition>
+    <key>button_login</key>
+    <value><![CDATA[Logáil isteach]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Aon comhoiriúnach le haghaidh Úsáideora agus / nó Pasfhocal.]]></value>
+  </definition>
+  <definition>
+    <key>error_token</key>
+    <value><![CDATA[seisiún chomhartha neamhbhailí. Cuir logáil isteach arís.]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message</key>
+    <value><![CDATA[logáil Theip ar iarracht admin ó IP:]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message_text</key>
+    <value><![CDATA[logáil isteach úsáideora a tugadh:]]></value>
+  </definition>
+</definitions>

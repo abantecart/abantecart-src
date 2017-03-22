@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Sonraí Store]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Rath: Tá tú socruithe modhnaithe!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[Bainisteoir íomhá]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Réamhshocrú]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[Athraigh Store:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Store Ainm: <br/><span class="help">Cóipeáladh go dtí suíomhanna agus léirithe ar chuid storefront.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[Store URL: <br/><span class="help">Cuir an URL iomlán ar do siopa. Bí cinnte a chur &#39;/&#39; ag an deireadh. Sampla: http://www.yourdomain.com/path/ <br/><br/> Ná eolairí úsáid a chruthú siopa nua. Ba cheart duit a chur in iúl i gcónaí fearainn eile nó fearainn fo do óstáil.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[Úsáid SSL: <br/><span class="help">a úsáid seiceáil SSL le do óstach má tá teastas SSL suiteáilte.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Teideal:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Meta Tag Cur síos:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[teimpléad:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Fáilte Teachtaireacht:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Tír:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Réigiún / stát:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[teanga:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Store Stádas <br/><span class="help">Stádas Store i storefront. Beidh Stádas Off díreach siopa réamhshocraithe. Úsáid Mód Cothabháil leagan síos a leagan teachtaireacht cothabhála siopa sealadach</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alias</key>
+    <value><![CDATA[Ainm Ailias <br/><span class="help">Store Ainm Ailias. Má d&#39;fhág bán a bheidh, a bheith bunaithe ar ainm giorraithe</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[Store nua]]></value>
+  </definition>
+  <definition>
+    <key>button_delete_store</key>
+    <value><![CDATA[Scrios Store]]></value>
+  </definition>
+  <definition>
+    <key>button_edit_settings</key>
+    <value><![CDATA[Socruithe eagar]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Rabhadh: Ní gá duit cead a siopaí mhodhnú!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Caithfidh Store Ainm idir 3 agus 32 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[Store URL dhíth!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Ní mór Teidil a bheith idir 3 agus 32 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[Íomhá Táirge toisí Thumb Méid teastáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[Íomhá Táirge toisí Popup Size teastáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[toisí Catagóir Liosta Méid teastáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[toisí Liosta Táirge Méid teastáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[Táirge toisí breise Íomhá Méid teastáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[Táirge Suímh toisí Íomhá Méid teastáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[toisí cart Íomhá Méid teastáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[toisí greille Íomhá Méid teastáil!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Rabhadh: Ní féidir an Store a scriosadh mar go bhfuil sé sannta faoi láthair %s orduithe!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Nach bhfuil Riachtanach Sonraí curtha isteach. Seiceáil do earráidí réimse!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Teorainn teastáil!]]></value>
+  </definition>
+  <definition>
+    <key>entry_clone_store</key>
+    <value><![CDATA[Cóip Socruithe: <br/><span class="help">Is féidir leat a roghnú cóip de na suímh ó roinnt siopa atá ann cheana féin</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[Secure URL Store: <br/><span class="help">Cuir an URL SSL iomlán (HTTPS) le do stóráil. Bí cinnte a chur &#39;/&#39; ag an deireadh. Sampla: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[URL Slán dhíth!]]></value>
+  </definition>
+</definitions>

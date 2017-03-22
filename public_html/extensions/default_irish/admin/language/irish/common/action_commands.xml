@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_possible_commands</key>
+    <value><![CDATA[Tá Bellow Orduithe féidir. Is féidir leat speek tuilleadh sonraí tar éis eochairfhocal ordú. Sampla, &quot;teachtaireachtaí leathanach oscailte&quot; nó &quot;táirge isteach&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_multiple_result_found</key>
+    <value><![CDATA[toradh gníomh Il fuair:]]></value>
+  </definition>
+  <definition>
+    <key>text_action_confirm</key>
+    <value><![CDATA[Cinntigh d&#39;iarratas:]]></value>
+  </definition>
+  <definition>
+    <key>command_open</key>
+    <value><![CDATA[oscailte, leathanach oscailte, roghchlár oscailte]]></value>
+  </definition>
+  <definition>
+    <key>command_find</key>
+    <value><![CDATA[aimsiú, a aimsiú, cuardaigh, cuardach, cuardaigh 4]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_cache</key>
+    <value><![CDATA[taisce soiléir, taisce soiléir, soiléir go léir taisce]]></value>
+  </definition>
+  <definition>
+    <key>command_view_log</key>
+    <value><![CDATA[d&#39;fhonn logáil isteach, logáil isteach tuairim, logáil iniúchadh, féach logáil, d&#39;fhonn logáil isteach earráid, earráidí amharc]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_log</key>
+    <value><![CDATA[logáil soiléir, logáil soiléir, a scriosadh logáil isteach, logáil scriosadh]]></value>
+  </definition>
+  <definition>
+    <key>command_view_order</key>
+    <value><![CDATA[ordú tuairim, uimhir ordú, ordú oscailte, ordú a thaispeáint, uimhir ordú oscailte, uimhir ordú tuairim, uimhir ordú a thaispeáint, ordú #]]></value>
+  </definition>
+  <definition>
+    <key>command_view_product</key>
+    <value><![CDATA[táirge tuairim, uimhir táirge, táirgí oscailte, táirgí a thaispeáint, uimhir táirge oscailte, uimhir táirge tuairim, uimhir táirge a thaispeáint, táirgí #]]></value>
+  </definition>
+  <definition>
+    <key>command_create_new</key>
+    <value><![CDATA[isteach, a chruthú, cuir, nua, cuir isteach nua, a chruthú nua, cuir nua]]></value>
+  </definition>
+  <definition>
+    <key>category</key>
+    <value><![CDATA[catagóir]]></value>
+  </definition>
+  <definition>
+    <key>product</key>
+    <value><![CDATA[táirge]]></value>
+  </definition>
+  <definition>
+    <key>brand</key>
+    <value><![CDATA[branda]]></value>
+  </definition>
+  <definition>
+    <key>manufacturer</key>
+    <value><![CDATA[monaróir]]></value>
+  </definition>
+  <definition>
+    <key>review</key>
+    <value><![CDATA[athbhreithniú]]></value>
+  </definition>
+  <definition>
+    <key>download</key>
+    <value><![CDATA[íoslódáil]]></value>
+  </definition>
+  <definition>
+    <key>attribute</key>
+    <value><![CDATA[tréith]]></value>
+  </definition>
+  <definition>
+    <key>customer</key>
+    <value><![CDATA[do chustaiméirí]]></value>
+  </definition>
+  <definition>
+    <key>coupon</key>
+    <value><![CDATA[cúpón]]></value>
+  </definition>
+  <definition>
+    <key>discount</key>
+    <value><![CDATA[lascaine]]></value>
+  </definition>
+  <definition>
+    <key>block</key>
+    <value><![CDATA[bloc]]></value>
+  </definition>
+  <definition>
+    <key>menu</key>
+    <value><![CDATA[roghchlár]]></value>
+  </definition>
+  <definition>
+    <key>content</key>
+    <value><![CDATA[ábhar]]></value>
+  </definition>
+  <definition>
+    <key>banner</key>
+    <value><![CDATA[banner]]></value>
+  </definition>
+  <definition>
+    <key>page</key>
+    <value><![CDATA[leathanach]]></value>
+  </definition>
+  <definition>
+    <key>store</key>
+    <value><![CDATA[siopa]]></value>
+  </definition>
+  <definition>
+    <key>language</key>
+    <value><![CDATA[teanga]]></value>
+  </definition>
+  <definition>
+    <key>currency</key>
+    <value><![CDATA[airgeadra]]></value>
+  </definition>
+  <definition>
+    <key>location</key>
+    <value><![CDATA[suíomh]]></value>
+  </definition>
+  <definition>
+    <key>tax</key>
+    <value><![CDATA[cáin]]></value>
+  </definition>
+</definitions>

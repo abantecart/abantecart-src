@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Ní féidir leis an leathanaigh a d&#39;iarr tú a fháil!]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Ní féidir leis an leathanaigh a d&#39;iarr tú a fháil.]]></value>
+  </definition>
+</definitions>

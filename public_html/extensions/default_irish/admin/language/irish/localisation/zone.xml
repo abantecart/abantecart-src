@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[criosanna]]></value>
+  </definition>
+  <definition>
+    <key>text_zone</key>
+    <value><![CDATA[Zone]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Rath: Tá tú criosanna modhnaithe!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Ainm Zone]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Crios Cód]]></value>
+  </definition>
+  <definition>
+    <key>column_country</key>
+    <value><![CDATA[Country]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[gníomh]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[stádas]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Stádas Zone:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Crios Ainm:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Cód Zone:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Tír:]]></value>
+  </definition>
+  <definition>
+    <key>text_select_country</key>
+    <value><![CDATA[- Roghnaigh tír -]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Rabhadh: Ní gá duit cead chun criosanna mhodhnú!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Caithfidh Crios Ainm bheith idir 2 agus 128 carachtair!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Rabhadh: Ní féidir an crios a scriosadh mar go bhfuil sé arna sannadh faoi láthair mar chrios siopa réamhshocraithe!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Rabhadh: Ní féidir an crios a scriosadh mar go bhfuil sé sannta faoi láthair %s siopaí!]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[Rabhadh: Ní féidir an crios a scriosadh mar go bhfuil sé sannta faoi láthair %s iontrálacha leabhar seoltaí!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone_to_location</key>
+    <value><![CDATA[Rabhadh: Ní féidir an crios a scriosadh mar go bhfuil sé sannta faoi láthair %s criosanna chuig láithreacha!]]></value>
+  </definition>
+</definitions>

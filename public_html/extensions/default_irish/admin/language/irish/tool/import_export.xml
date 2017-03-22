@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>import_export_title</key>
+    <value><![CDATA[Iompórtáil agus Easpórtáil]]></value>
+  </definition>
+  <definition>
+    <key>tab_import</key>
+    <value><![CDATA[Iompórtáil]]></value>
+  </definition>
+  <definition>
+    <key>tab_export</key>
+    <value><![CDATA[Easpórtáil]]></value>
+  </definition>
+  <definition>
+    <key>text_tables</key>
+    <value><![CDATA[táblaí]]></value>
+  </definition>
+  <definition>
+    <key>text_options</key>
+    <value><![CDATA[roghanna]]></value>
+  </definition>
+  <definition>
+    <key>text_file_format</key>
+    <value><![CDATA[File Format:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_name</key>
+    <value><![CDATA[Ainm comhaid:]]></value>
+  </definition>
+  <definition>
+    <key>text_load_file</key>
+    <value><![CDATA[Luchtaigh Comhad]]></value>
+  </definition>
+  <definition>
+    <key>text_load</key>
+    <value><![CDATA[Luchtaigh]]></value>
+  </definition>
+  <definition>
+    <key>text_import_loaded</key>
+    <value><![CDATA[Iomlán luchtú:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_field</key>
+    <value><![CDATA[Comhad le hiompórtáil: <br/><span class="help">formáidí Tacaithe do chomhaid allmhairiú: XML, CSV, TXT</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_id_range_from</key>
+    <value><![CDATA[Réimse ID ó:]]></value>
+  </definition>
+  <definition>
+    <key>text_to</key>
+    <value><![CDATA[chun:]]></value>
+  </definition>
+  <definition>
+    <key>text_csv_delimiter</key>
+    <value><![CDATA[CSV / TXT teormharcóir:]]></value>
+  </definition>
+  <definition>
+    <key>text_export_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">Beidh gach réimse a chur faoi iamh in Sleachta dúbailte.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_import_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">Ní mór gach réimse a bheith faoi iamh in Sleachta dúbailte.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_test_mode</key>
+    <value><![CDATA[Rith i modh tástála <br/><span class="help">Moltar a reáchtáil ar allmhairí sonraí i modh tástála ar dtús a fheiceáil má tá aon cheisteanna faoi láthair.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_file_format</key>
+    <value><![CDATA[Formáid comhaid Mícheart!]]></value>
+  </definition>
+  <definition>
+    <key>error_xml_import</key>
+    <value><![CDATA[Earráid le linn comhad XML allmhairiú!]]></value>
+  </definition>
+  <definition>
+    <key>error_csv_import</key>
+    <value><![CDATA[Earráid le linn allmhairiú CSV / TXT comhad! Seiceáil le do thoil réimsí teormharcóir.]]></value>
+  </definition>
+  <definition>
+    <key>error_data_corrupted</key>
+    <value><![CDATA[Tá sonraí folamh nó truaillithe.]]></value>
+  </definition>
+  <definition>
+    <key>error_file_empty</key>
+    <value><![CDATA[Is comhad folamh.]]></value>
+  </definition>
+  <definition>
+    <key>error_writable_backup</key>
+    <value><![CDATA[Ní mór eolaire Cúltaca a bheith inscríofa do CSV / TXT onnmhairiú a bheith ag obair.]]></value>
+  </definition>
+  <definition>
+    <key>text_updated</key>
+    <value><![CDATA[Nuashonraithe:]]></value>
+  </definition>
+  <definition>
+    <key>text_created</key>
+    <value><![CDATA[cruthaithe:]]></value>
+  </definition>
+  <definition>
+    <key>text_errors</key>
+    <value><![CDATA[earráidí:]]></value>
+  </definition>
+  <definition>
+    <key>text_show_details</key>
+    <value><![CDATA[mionsonraí]]></value>
+  </definition>
+  <definition>
+    <key>text_no_children</key>
+    <value><![CDATA[Níl aon rud leanaí]]></value>
+  </definition>
+  <definition>
+    <key>text_some_errors</key>
+    <value><![CDATA[Tá roinnt earráidí.]]></value>
+  </definition>
+  <definition>
+    <key>text_test_completed</key>
+    <value><![CDATA[Tástáil reáchtáil i gcrích. Iomlán ceisteanna SQL:]]></value>
+  </definition>
+  <definition>
+    <key>text_sort_by</key>
+    <value><![CDATA[Sórtáil de réir:]]></value>
+  </definition>
+</definitions>

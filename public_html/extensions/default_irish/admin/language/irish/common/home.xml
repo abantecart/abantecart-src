@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Painéal na nIonstraimí]]></value>
+  </definition>
+  <definition>
+    <key>text_overview</key>
+    <value><![CDATA[Forbhreathnú]]></value>
+  </definition>
+  <definition>
+    <key>text_statistics</key>
+    <value><![CDATA[Staitisticí]]></value>
+  </definition>
+  <definition>
+    <key>text_latest_10_orders</key>
+    <value><![CDATA[Déanaí 10 Orduithe]]></value>
+  </definition>
+  <definition>
+    <key>text_total_sale</key>
+    <value><![CDATA[Díolacháin Iomlán:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_sale_year</key>
+    <value><![CDATA[Iomlán Díolacháin Seo Bliain:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_order</key>
+    <value><![CDATA[Orduithe Iomlán:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_customer</key>
+    <value><![CDATA[Líon Of Custaiméirí:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_customer_approval</key>
+    <value><![CDATA[Custaiméirí Feithimh Faomhadh:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_product</key>
+    <value><![CDATA[Táirgí Uimhir:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_review</key>
+    <value><![CDATA[Líon Of Léirmheasanna:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_review_approval</key>
+    <value><![CDATA[Léirmheasanna Feithimh Faomhadh:]]></value>
+  </definition>
+  <definition>
+    <key>text_day</key>
+    <value><![CDATA[Inniu]]></value>
+  </definition>
+  <definition>
+    <key>text_week</key>
+    <value><![CDATA[An tseachtain seo]]></value>
+  </definition>
+  <definition>
+    <key>text_month</key>
+    <value><![CDATA[An mhí seo]]></value>
+  </definition>
+  <definition>
+    <key>text_year</key>
+    <value><![CDATA[An bhliain seo]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Iomlán Orduithe]]></value>
+  </definition>
+  <definition>
+    <key>text_order_short</key>
+    <value><![CDATA[Iomlán Orduithe]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[Iomlán Custaiméirí]]></value>
+  </definition>
+  <definition>
+    <key>column_order</key>
+    <value><![CDATA[Ordú ID]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Ainm Chustaiméirí]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[stádas]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[dáta seo a leanas]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Iomlán]]></value>
+  </definition>
+  <definition>
+    <key>column_firstname</key>
+    <value><![CDATA[Ainm]]></value>
+  </definition>
+  <definition>
+    <key>column_lastname</key>
+    <value><![CDATA[Sloinne]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[gníomh]]></value>
+  </definition>
+  <definition>
+    <key>entry_range</key>
+    <value><![CDATA[Roghnaigh Raon:]]></value>
+  </definition>
+  <definition>
+    <key>orders_text_all</key>
+    <value><![CDATA[Gach Orduithe]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_all</key>
+    <value><![CDATA[Gach Custaiméir]]></value>
+  </definition>
+  <definition>
+    <key>text_latest_10_customers</key>
+    <value><![CDATA[Clárúcháin déanaí]]></value>
+  </definition>
+  <definition>
+    <key>column_email</key>
+    <value><![CDATA[Ríomhphost]]></value>
+  </definition>
+</definitions>
