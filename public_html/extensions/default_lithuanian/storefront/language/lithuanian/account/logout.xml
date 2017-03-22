@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[sąskaita Išsiregistruoti]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Jūs buvote prisijungęs išjungti savo sąskaitą. dabar jis yra saugus palikti kompiuterį. </p><p> Jūsų pirkinių krepšelis buvo išsaugota, viduje jo elementai bus atkurta, kai jums prisijungti prie savo sąskaitos. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[sąskaita]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Atsijungti]]></value>
+  </definition>
+</definitions>

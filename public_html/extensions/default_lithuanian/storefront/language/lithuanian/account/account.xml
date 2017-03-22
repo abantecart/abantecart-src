@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Mano sąskaita]]></value>
+  </definition>
+  <definition>
+    <key>text_account_dashboard</key>
+    <value><![CDATA[sąskaita skydelis]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[sąskaita]]></value>
+  </definition>
+  <definition>
+    <key>text_my_account</key>
+    <value><![CDATA[Mano sąskaita]]></value>
+  </definition>
+  <definition>
+    <key>text_my_orders</key>
+    <value><![CDATA[Mano įsakymai]]></value>
+  </definition>
+  <definition>
+    <key>text_my_notifications</key>
+    <value><![CDATA[Pranešimai]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[Redaguoti sąskaitos duomenys]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Pakeisti slaptažodį]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Tvarkyti Adresų knyga]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[Užsakymų Istorija]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[sandorio istorija]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Siuntiniai]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[Naujienų prenumerata]]></value>
+  </definition>
+  <definition>
+    <key>text_account_wishlist</key>
+    <value><![CDATA[Mano norų sąrašas]]></value>
+  </definition>
+</definitions>

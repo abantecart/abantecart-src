@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Shared Prenosi]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[deljeno Download]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[Vstavi Download]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[Update Download]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspeh: Imate spremenjene prenosov!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Prenos Ime]]></value>
+  </definition>
+  <definition>
+    <key>column_remaining</key>
+    <value><![CDATA[Skupaj prenosi dovoljeni]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Ukrep]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Naložite Ime:]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[Ime datoteke:]]></value>
+  </definition>
+  <definition>
+    <key>entry_remaining</key>
+    <value><![CDATA[Skupaj prenosi dovoljeni:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[Pritisni prejšnjih strank: <br/><span class="help">Preverite, da je to posodobitev že kupljene različice, kot dobro.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Opozorilo: Nimate dovoljenja za spreminjanje prenosov!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Ime mora biti med 2 in 64 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[Nastavite datoteko za prenos.]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Opozorilo: Ta prenos ne more biti izbrisan, ker je trenutno dodeljen %s izdelkov!]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Image]]></value>
+  </definition>
+  <definition>
+    <key>column_products_count</key>
+    <value><![CDATA[izdelki Count]]></value>
+  </definition>
+</definitions>

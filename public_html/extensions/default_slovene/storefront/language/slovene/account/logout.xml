@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Odjava račun]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Bili ste odjavljeni svoj račun. Zdaj je varno zapustiti računalnik. </p><p> Vaša košarica je bil shranjen, elementi v notranjosti pa se bo obnovi vsakič, ko se prijavite v račun. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[račun]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Izpisati]]></value>
+  </definition>
+</definitions>

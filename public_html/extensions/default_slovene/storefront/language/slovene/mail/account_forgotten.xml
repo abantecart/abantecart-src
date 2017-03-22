@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Ponastavitev gesla]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Za ponastavitev gesla zahtevale od %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Spodaj ponastavitev gesla klikni povezavo:]]></value>
+  </definition>
+  <definition>
+    <key>text_password_reset</key>
+    <value><![CDATA[Vaše geslo je bilo uspešno ponastavitev %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_password</key>
+    <value><![CDATA[Spodaj vnesite novo geslo:]]></value>
+  </definition>
+  <definition>
+    <key>error_reset_token</key>
+    <value><![CDATA[Nepravilna povezava za zahtevo gesla. Poskusite ponastaviti še enkrat in uporabite povezavo iz najnovejših e-pošte.]]></value>
+  </definition>
+</definitions>

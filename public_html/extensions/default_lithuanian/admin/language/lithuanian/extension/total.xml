@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Užsakyti sumos]]></value>
+  </definition>
+  <definition>
+    <key>text_install</key>
+    <value><![CDATA[Diegti]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall</key>
+    <value><![CDATA[Pašalinti]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Užsakyti sumos]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[statusas]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Rikiuoti]]></value>
+  </definition>
+  <definition>
+    <key>column_calculation_order</key>
+    <value><![CDATA[skaičiavimas Užsakyti]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[veiksmas]]></value>
+  </definition>
+</definitions>

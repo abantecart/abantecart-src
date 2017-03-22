@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Nadzorna plošča]]></value>
+  </definition>
+  <definition>
+    <key>text_overview</key>
+    <value><![CDATA[Pregled]]></value>
+  </definition>
+  <definition>
+    <key>text_statistics</key>
+    <value><![CDATA[statistika]]></value>
+  </definition>
+  <definition>
+    <key>text_latest_10_orders</key>
+    <value><![CDATA[Zadnjih 10 Naročila]]></value>
+  </definition>
+  <definition>
+    <key>text_total_sale</key>
+    <value><![CDATA[Skupaj prodaje:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_sale_year</key>
+    <value><![CDATA[Skupaj prodaje v letošnjem letu:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_order</key>
+    <value><![CDATA[Skupaj naročila:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_customer</key>
+    <value><![CDATA[Število kupcev:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_customer_approval</key>
+    <value><![CDATA[Kupci Waiting odobritev:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_product</key>
+    <value><![CDATA[Št izdelki:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_review</key>
+    <value><![CDATA[Število pregledov:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_review_approval</key>
+    <value><![CDATA[Mnenja Čakalne odobritev:]]></value>
+  </definition>
+  <definition>
+    <key>text_day</key>
+    <value><![CDATA[danes]]></value>
+  </definition>
+  <definition>
+    <key>text_week</key>
+    <value><![CDATA[Ta teden]]></value>
+  </definition>
+  <definition>
+    <key>text_month</key>
+    <value><![CDATA[Ta mesec]]></value>
+  </definition>
+  <definition>
+    <key>text_year</key>
+    <value><![CDATA[To leto]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Skupaj Naročila]]></value>
+  </definition>
+  <definition>
+    <key>text_order_short</key>
+    <value><![CDATA[Skupaj Naročila]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[Skupaj Stranke]]></value>
+  </definition>
+  <definition>
+    <key>column_order</key>
+    <value><![CDATA[Številka naročila]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Ime stranke]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Stanje]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[Datum vpisa]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Skupaj]]></value>
+  </definition>
+  <definition>
+    <key>column_firstname</key>
+    <value><![CDATA[Ime]]></value>
+  </definition>
+  <definition>
+    <key>column_lastname</key>
+    <value><![CDATA[Priimek]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Ukrep]]></value>
+  </definition>
+  <definition>
+    <key>entry_range</key>
+    <value><![CDATA[Izberite območje:]]></value>
+  </definition>
+  <definition>
+    <key>orders_text_all</key>
+    <value><![CDATA[Vsa naročila]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_all</key>
+    <value><![CDATA[Vse stranke]]></value>
+  </definition>
+  <definition>
+    <key>text_latest_10_customers</key>
+    <value><![CDATA[Zadnje Registracije]]></value>
+  </definition>
+  <definition>
+    <key>column_email</key>
+    <value><![CDATA[E-naslov]]></value>
+  </definition>
+</definitions>

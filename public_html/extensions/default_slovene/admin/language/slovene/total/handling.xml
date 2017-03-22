@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Takso]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[Takso]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Naročite zaokrožanju]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspeh: Posodobili ste skupno provizije!]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Vrstni red Skupaj: <span class="help">Minimalni znesek Da bi lahko dosegli, da uporabljajo pristojbine. Če bo naročilo stranke skupaj presegajo ta znesek, ne bodo uporabljene ravnanje feee. Ta vrednost je prepisana s plačilno določenem okolju.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_placeholder</key>
+    <value><![CDATA[Da bi Znesek]]></value>
+  </definition>
+  <definition>
+    <key>entry_fee</key>
+    <value><![CDATA[Fee: <span class="help">Pristojbina se doda naročite skupaj, če je minimalni znesek pogoj ni izpolnjen. Ta znesek se ne prevlada plačila določeni nastavitvi</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_fee</key>
+    <value><![CDATA[Fee: <span class="help">Pristojbina se doda naročite skupaj, če je minimalna sub-skupni znesek pogoj ni izpolnjen. Ta znesek preglasi glavni nastavitev pristojbin</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Plačilo: <span class="help">Izberite določeno plačilo, morate dodati pristojbino. Te nastavitve bodo povozile glavne nastavitve, če je plačilo, ki ga kupec uporablja.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_subtotal</key>
+    <value><![CDATA[Naročite Sub-Total: <span class="help">Minimalno naročilo sub-skupni znesek, ki bo dosegel, da uporabljajo pristojbine. Ta prednost pred glavno nastavitev</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Davčna razred: <span class="help">Izberite, če morate davek, ki se uporabljajo na vrhu takso</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Stanje:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Vrstni red:]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[Izračun za naročilo:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Opozorilo: Nimate dovoljenja za spreminjanje celotno pristojbino ravnanje!]]></value>
+  </definition>
+  <definition>
+    <key>error_number</key>
+    <value><![CDATA[Opozorilo: skupni red in ravnanje pristojbino je treba številke!]]></value>
+  </definition>
+</definitions>

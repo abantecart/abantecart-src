@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_home</key>
+    <value><![CDATA[Domov]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[Posebne ponudbe]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Kontakt]]></value>
+  </definition>
+  <definition>
+    <key>text_sitemap</key>
+    <value><![CDATA[Kazalo]]></value>
+  </definition>
+  <definition>
+    <key>text_bookmark</key>
+    <value><![CDATA[zaznamek]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[račun]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Vpiši se]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Odjava]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[Košara]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Preveri]]></value>
+  </definition>
+  <definition>
+    <key>text_keyword</key>
+    <value><![CDATA[ključne besede]]></value>
+  </definition>
+  <definition>
+    <key>text_advanced</key>
+    <value><![CDATA[napredno iskanje]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[vse kategorije]]></value>
+  </definition>
+  <definition>
+    <key>entry_search</key>
+    <value><![CDATA[Iskanje:]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Dobrodošel nazaj]]></value>
+  </definition>
+  <definition>
+    <key>text_not</key>
+    <value><![CDATA[ne]]></value>
+  </definition>
+  <definition>
+    <key>text_login_or_register</key>
+    <value><![CDATA[Prijavite se ali registrirajte]]></value>
+  </definition>
+</definitions>

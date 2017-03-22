@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Administracija]]></value>
+  </definition>
+  <definition>
+    <key>text_heading</key>
+    <value><![CDATA[Administracija]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Prašome įvesti savo prisijungimo duomenis.]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[Vartotojo vardas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Slaptažodis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_forgot_password</key>
+    <value><![CDATA[Pamiršote slaptažodį?]]></value>
+  </definition>
+  <definition>
+    <key>button_login</key>
+    <value><![CDATA[Prisijungti]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Nėra rungtynės vartotojo vardą ir / arba slaptažodis.]]></value>
+  </definition>
+  <definition>
+    <key>error_token</key>
+    <value><![CDATA[Neteisingas raktas sesijoje. Prašome prisijungti iš naujo.]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message</key>
+    <value><![CDATA[Nepavyko prisijungti prie admin bandymas IP:]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message_text</key>
+    <value><![CDATA[Atsižvelgiant Vartotojas:]]></value>
+  </definition>
+</definitions>

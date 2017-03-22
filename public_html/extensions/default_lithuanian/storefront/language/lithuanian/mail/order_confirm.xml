@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Priteisti %s]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Dėkojame už Jūsų susidomėjimą %s produktus. Jūsų užsakymas buvo gautos ir bus tvarkomi po mokėjimo patvirtino.]]></value>
+  </definition>
+  <definition>
+    <key>text_received</key>
+    <value><![CDATA[Gavote užsakymą.]]></value>
+  </definition>
+  <definition>
+    <key>text_order_detail</key>
+    <value><![CDATA[Užsakymo informacija]]></value>
+  </definition>
+  <definition>
+    <key>text_order_id</key>
+    <value><![CDATA[Užsakyti ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Užsakytas data:]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[Užsakymo būsena:]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[Norėdami peržiūrėti savo užsakymų spauskite žemiau esančią nuorodą:]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Atsiuntimo metodas:]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Mokėjimo būdas:]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[Pristatymo adresas]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[Mokėjimo Adresas]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[paštas:]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[Telefonas:]]></value>
+  </definition>
+  <definition>
+    <key>text_mobile_phone</key>
+    <value><![CDATA[Mobilusis telefonas:]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Faksas:]]></value>
+  </definition>
+  <definition>
+    <key>text_ip</key>
+    <value><![CDATA[IP adresas:]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[produktai:]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[sumos:]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Kai jūsų mokėjimas patvirtino jūs galite spustelėti ant žemiau esančią nuorodą prieiti prie savo produktų atsisiųsti:]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[Už jūsų užsakymą komentarai:]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[Prašome atsakyti į šį laišką, jei turite kokių nors klausimų.]]></value>
+  </definition>
+  <definition>
+    <key>text_powered_by</key>
+    <value><![CDATA[powered by]]></value>
+  </definition>
+  <definition>
+    <key>text_new_order</key>
+    <value><![CDATA[Naujas užsakymas - #]]></value>
+  </definition>
+  <definition>
+    <key>text_new_order_text</key>
+    <value><![CDATA[Klientų %s pridėta nauja tvarka]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[produktas]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Modelis]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[kiekis]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[kaina]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[visas]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Klientų grupė]]></value>
+  </definition>
+  <definition>
+    <key>breadcrumb_title</key>
+    <value><![CDATA[klientų Grupės]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Jūs keistas klientų grupėms!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Klientų Grupės pavadinimas]]></value>
+  </definition>
+  <definition>
+    <key>column_tax_exempt</key>
+    <value><![CDATA[neapmokestinamas]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[veiksmas]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Klientų Grupės pavadinimas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_exempt</key>
+    <value><![CDATA[Atleidžiami nuo visų mokesčių:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Įspėjimas: Jūs neturite teisės keisti klientų grupėms!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Klientų Grupės pavadinimas turi būti tarp 2 ir 64 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Įspėjimas: Šis klientas grupė negali būti panaikinta, nes ji šiuo metu skiriamas kaip numatytąją parduotuvė klientų grupei!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Įspėjimas: Šis klientas grupė negali būti panaikinta, nes ji šiuo metu skiriamas %s parduotuvėse!]]></value>
+  </definition>
+  <definition>
+    <key>error_customer</key>
+    <value><![CDATA[Įspėjimas: Šis klientas grupė negali būti panaikinta, nes ji šiuo metu skiriamas %s klientams!]]></value>
+  </definition>
+</definitions>

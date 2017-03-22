@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Sukurti paskyrą]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[sąskaita]]></value>
+  </definition>
+  <definition>
+    <key>text_create</key>
+    <value><![CDATA[Registruotis]]></value>
+  </definition>
+  <definition>
+    <key>text_account_already</key>
+    <value><![CDATA[Jei jau turite sąskaitą su mumis, prašome prisijungti <a style="text-decoration: underline" href="%s">prisijungimo tinklapyje</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_your_details</key>
+    <value><![CDATA[Jūsų asmeniniai duomenys]]></value>
+  </definition>
+  <definition>
+    <key>text_your_address</key>
+    <value><![CDATA[Jūsų adresas]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[Naujienlaiškis]]></value>
+  </definition>
+  <definition>
+    <key>text_your_password</key>
+    <value><![CDATA[Jūsų slaptažodis]]></value>
+  </definition>
+  <definition>
+    <key>text_login_details</key>
+    <value><![CDATA[Vartotojas detalės]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[Aš perskaičiau ir sutinku su]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Prisijungimo vardas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[Pirmas vardas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Pavardė:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-paštas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[Telefonas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Faksas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_company</key>
+    <value><![CDATA[Bendrovė:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_1</key>
+    <value><![CDATA[1 Adresas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_2</key>
+    <value><![CDATA[2-as Adresas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_postcode</key>
+    <value><![CDATA[Pašto kodas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_city</key>
+    <value><![CDATA[Miestas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Šalis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Regionas / Valstybė:]]></value>
+  </definition>
+  <definition>
+    <key>entry_newsletter</key>
+    <value><![CDATA[Prenumeruoti:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Slaptažodis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_confirm</key>
+    <value><![CDATA[Slaptažodis Patvirtinti:]]></value>
+  </definition>
+  <definition>
+    <key>error_exists</key>
+    <value><![CDATA[Klaida: El pašto adresas jau užregistruotas!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Prisijungimo vardas turi būti raidinis skaitmeninis tik tarp 5 ir 64 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[Ši prisijungimo vardas yra neprieinama. Pabandykite naudoti kitokį prisijungimo vardą!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[Vardas turi būti tarp 1 ir 32 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Pavardė turi būti tarp 1 ir 32 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Pašto adresas neatrodo galioja!]]></value>
+  </definition>
+  <definition>
+    <key>error_email_exists</key>
+    <value><![CDATA[Pašto adresas jau egzistuoja!]]></value>
+  </definition>
+  <definition>
+    <key>error_password</key>
+    <value><![CDATA[Slaptažodis turi būti tarp 4 ir 20 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_confirm</key>
+    <value><![CDATA[Pakartokite slaptažodį nesutampa slaptažodį!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_1</key>
+    <value><![CDATA[Adresas 1 turi būti tarp 3 ir 128 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_city</key>
+    <value><![CDATA[Miestas turi būti tarp 3 ir 128 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_postcode</key>
+    <value><![CDATA[Zip / Postal Code turi būti tarp 3 ir 10 simbolius!]]></value>
+  </definition>
+  <definition>
+    <key>error_country</key>
+    <value><![CDATA[Prašome pasirinkti šalį!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone</key>
+    <value><![CDATA[Prašome pasirinkite regioną / Valstybės!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[Telefonas turi būti tarp 3 ir 32 simbolius!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[Klaida: Jūs turite sutikti su %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_full_register</key>
+    <value><![CDATA[Tapkite klientu ir užsiregistruoti su savo duomenimis]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribe_register</key>
+    <value><![CDATA[Tapkite naujienlaiškis abonentų]]></value>
+  </definition>
+  <definition>
+    <key>text_success_subscribe_heading</key>
+    <value><![CDATA[Jūs užsiprenumeravote sėkmingai!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_subscribe</key>
+    <value><![CDATA[Sėkmė: Jūsų Naujienų prenumerata sėkmingai sukurta!]]></value>
+  </definition>
+  <definition>
+    <key>error_subscriber_exists</key>
+    <value><![CDATA[Mūsų duomenys rodo, kad jūs turite su mūsų sąskaitą. Prašome prisijungti prie savo paskyros valdyti savo Naujienlaiškio prenumerata.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_customer</key>
+    <value><![CDATA[Naujo vartotojo registracija patvirtinimo laukiama]]></value>
+  </definition>
+  <definition>
+    <key>text_pending_customer_approval</key>
+    <value><![CDATA[Klientų %s įsiregistravęs naują sąskaitą. Veiksmas patvirtinimo reikia! Spustelėkite norėdami peržiūrėti # admin # Rt = parduoda / klientų / atnaujinti ir CUSTOMER_ID = %s]]></value>
+  </definition>
+  <definition>
+    <key>text_pending_subscriber_approval</key>
+    <value><![CDATA[Prenumeratoriaus %s įsiregistravęs naują sąskaitą. Veiksmas patvirtinimo reikia! Spustelėkite norėdami peržiūrėti # admin # Rt = parduoda / klientų / atnaujinti ir CUSTOMER_ID = %s]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Pamiršai slaptažodį?]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_loginname</key>
+    <value><![CDATA[Pamiršote prisijungimo vardą?]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[sąskaita]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten</key>
+    <value><![CDATA[pamirštas slaptažodis]]></value>
+  </definition>
+  <definition>
+    <key>text_your_email</key>
+    <value><![CDATA[Jūsų elektroninio pašto adresas]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Įveskite e-pašto adresą, susietą su Jūsų sąskaita. Paspauskite patvirtinti ir savo slaptažodį išsiųsta Jums elektroniniu paštu]]></value>
+  </definition>
+  <definition>
+    <key>text_loginname_email</key>
+    <value><![CDATA[Įveskite prisijungimo vardą ir elektroninio pašto adresą, susietą su Jūsų sąskaita. Spustelėkite pateikti prašyti slaptažodžio atkūrimas]]></value>
+  </definition>
+  <definition>
+    <key>text_lastname_email</key>
+    <value><![CDATA[Įveskite pavardę ir e-pašto adresą, susietą su Jūsų sąskaita. Paspauskite patvirtinti ir savo prisijungimo vardą išsiųsta Jums elektroniniu paštu]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Slaptažodis naujo ryšys buvo išsiųstas į jūsų elektroninio pašto adresą.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_loginname</key>
+    <value><![CDATA[Sėkmė: Jūsų prisijungimo vardas priminimas buvo išsiųstas į jūsų elektroninio pašto adresą.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Prisijungimo vardas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Pavardė:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[Elektroninio pašto adresas:]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Klaida: el.paštu nebuvo pateikta arba nerastas mūsų duomenų, bandykite dar kartą!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Klaida: Prisijungimo vardas nebuvo pateikta arba nerastas mūsų duomenų, bandykite dar kartą!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Klaida: Pavardė nebuvo pateikta arba nerastas mūsų duomenų, bandykite dar kartą!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_found</key>
+    <value><![CDATA[Klaida: Nerasta jokių įrašų atitikimo informacija jūsų numatytos, prašom patikrinkite savo informaciją ir bandykite dar kartą!]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_loginname</key>
+    <value><![CDATA[Pamiršote prisijungimo vardą]]></value>
+  </definition>
+</definitions>

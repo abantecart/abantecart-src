@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Teža razredi]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[Teža razred]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspeh: ste spremenjeni razrede teže!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Teža Naslov]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[Teža Enota]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[vrednost]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Ukrep]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Teža Naslov:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Teža na enoto:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Vrednost: <br/><span class="help">Set za 1.00000, če je to vaš privzeti težo.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Opozorilo: Nimate dovoljenja za spreminjanje razredov teže!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Masa Naslov mora biti med 2 in 32 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Teža Enota mora biti med 1 in 4 znake!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Opozorilo: razred Ta teža se ni mogoče izbrisati, kot je trenutno dodeljen kot razred privzeti trgovina teže!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Opozorilo: Ta razred teže ni mogoče izbrisati, saj je trenutno dodeljen %s izdelkov!]]></value>
+  </definition>
+</definitions>

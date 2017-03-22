@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Administracija]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[Atsarginės kopijos atkūrimas]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Sveiki, <b>%s</b>]]></value>
+  </definition>
+  <definition>
+    <key>text_last_login</key>
+    <value><![CDATA[Paskutinį kartą prisijungė: %s]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_details</key>
+    <value><![CDATA[Redaguoti profilį Details]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_notifications</key>
+    <value><![CDATA[Pranešti Redaguoti]]></value>
+  </definition>
+  <definition>
+    <key>text_catalog</key>
+    <value><![CDATA[katalogas]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[Kategorijos]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Patvirtinti?]]></value>
+  </definition>
+  <definition>
+    <key>text_country</key>
+    <value><![CDATA[šalys]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[kuponai]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[Nuolaidos]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[Valiutos]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[klientai]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_group</key>
+    <value><![CDATA[klientų Grupės]]></value>
+  </definition>
+  <definition>
+    <key>text_dashboard</key>
+    <value><![CDATA[prietaisų skydas]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Siuntiniai]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[klaidų Įrašai]]></value>
+  </definition>
+  <definition>
+    <key>text_extension</key>
+    <value><![CDATA[plėtiniai]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_short</key>
+    <value><![CDATA[plėtiniai]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[Vitrinos svetainė]]></value>
+  </definition>
+  <definition>
+    <key>text_location</key>
+    <value><![CDATA[vietos]]></value>
+  </definition>
+  <definition>
+    <key>text_help</key>
+    <value><![CDATA[padėti]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[informacija]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[kalbos]]></value>
+  </definition>
+  <definition>
+    <key>text_language_definitions</key>
+    <value><![CDATA[Kalbų Apibrėžimai]]></value>
+  </definition>
+  <definition>
+    <key>text_localisation</key>
+    <value><![CDATA[lokalizavimas]]></value>
+  </definition>
+  <definition>
+    <key>text_logged</key>
+    <value><![CDATA[Jūs esate prisijungęs kaip <span>%s</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Atsijungti]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Išsiųsti laišką]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturer</key>
+    <value><![CDATA[Gamintojai]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Užsakymai]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[Užsakyti Statusai]]></value>
+  </definition>
+  <definition>
+    <key>text_abantecart</key>
+    <value><![CDATA[Pagrindinis puslapis]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Mokėjimai]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[produktai]]></value>
+  </definition>
+  <definition>
+    <key>text_reports</key>
+    <value><![CDATA[ataskaitos]]></value>
+  </definition>
+  <definition>
+    <key>text_online</key>
+    <value><![CDATA[Prisijunges]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[Pirkimas]]></value>
+  </definition>
+  <definition>
+    <key>text_tax</key>
+    <value><![CDATA[mokestis]]></value>
+  </definition>
+  <definition>
+    <key>text_report_purchased</key>
+    <value><![CDATA[produktai Nupirkta]]></value>
+  </definition>
+  <definition>
+    <key>text_report_sale</key>
+    <value><![CDATA[pardavimų]]></value>
+  </definition>
+  <definition>
+    <key>text_analytics</key>
+    <value><![CDATA[Google Analytics ir įžvalgos]]></value>
+  </definition>
+  <definition>
+    <key>text_report_viewed</key>
+    <value><![CDATA[produktai Peržiūrėta]]></value>
+  </definition>
+  <definition>
+    <key>text_review</key>
+    <value><![CDATA[Atsiliepimai]]></value>
+  </definition>
+  <definition>
+    <key>text_sale</key>
+    <value><![CDATA[pardavimų]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[gabenimas]]></value>
+  </definition>
+  <definition>
+    <key>text_setting</key>
+    <value><![CDATA[Nustatymai]]></value>
+  </definition>
+  <definition>
+    <key>text_stock_status</key>
+    <value><![CDATA[Akcijų Statusai]]></value>
+  </definition>
+  <definition>
+    <key>text_support</key>
+    <value><![CDATA[Pagalba Forumas]]></value>
+  </definition>
+  <definition>
+    <key>text_system</key>
+    <value><![CDATA[sistema]]></value>
+  </definition>
+  <definition>
+    <key>text_tax_class</key>
+    <value><![CDATA[mokesčių klasės]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Užsakyti sumos]]></value>
+  </definition>
+  <definition>
+    <key>text_user</key>
+    <value><![CDATA[vartotojai]]></value>
+  </definition>
+  <definition>
+    <key>text_documentation</key>
+    <value><![CDATA[Dokumentacija]]></value>
+  </definition>
+  <definition>
+    <key>text_users</key>
+    <value><![CDATA[vartotojai]]></value>
+  </definition>
+  <definition>
+    <key>text_user_group</key>
+    <value><![CDATA[Vartotojų grupės Vartotojų grupės]]></value>
+  </definition>
+  <definition>
+    <key>text_weight_class</key>
+    <value><![CDATA[Svoris klasės]]></value>
+  </definition>
+  <definition>
+    <key>text_length_class</key>
+    <value><![CDATA[Ilgis klasės]]></value>
+  </definition>
+  <definition>
+    <key>text_zone</key>
+    <value><![CDATA[zonos]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[Visi priauginimui]]></value>
+  </definition>
+  <definition>
+    <key>text_add_extension</key>
+    <value><![CDATA[Įdiekite pratęsimas]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_store</key>
+    <value><![CDATA[Gauk plėtiniai]]></value>
+  </definition>
+  <definition>
+    <key>text_migrate</key>
+    <value><![CDATA[migracijos įrankis]]></value>
+  </definition>
+  <definition>
+    <key>text_updater</key>
+    <value><![CDATA[atnaujinimų]]></value>
+  </definition>
+  <definition>
+    <key>text_design</key>
+    <value><![CDATA[dizainas]]></value>
+  </definition>
+  <definition>
+    <key>text_templates</key>
+    <value><![CDATA[šablonai]]></value>
+  </definition>
+  <definition>
+    <key>text_layout</key>
+    <value><![CDATA[maketai]]></value>
+  </definition>
+  <definition>
+    <key>text_blocks</key>
+    <value><![CDATA[blokai]]></value>
+  </definition>
+  <definition>
+    <key>text_menu</key>
+    <value><![CDATA[Meniu]]></value>
+  </definition>
+  <definition>
+    <key>text_cache</key>
+    <value><![CDATA[slėptuvė]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[Žinutės]]></value>
+  </definition>
+  <definition>
+    <key>text_content</key>
+    <value><![CDATA[Turinys]]></value>
+  </definition>
+  <definition>
+    <key>text_datasets_manager</key>
+    <value><![CDATA[duomenų rinkiniai]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[Įdiekite / Atnaujinkite istorija]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute</key>
+    <value><![CDATA[Bendrosios savybės]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute_groups</key>
+    <value><![CDATA[Pasaulinis savybės grupes]]></value>
+  </definition>
+  <definition>
+    <key>text_import_export</key>
+    <value><![CDATA[Importas eksportas]]></value>
+  </definition>
+  <definition>
+    <key>text_data</key>
+    <value><![CDATA[duomenys]]></value>
+  </definition>
+  <definition>
+    <key>text_logs</key>
+    <value><![CDATA[Prisijungia]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_edit_form</key>
+    <value><![CDATA[Greita Redaguoti forma]]></value>
+  </definition>
+  <definition>
+    <key>text_all_matches</key>
+    <value><![CDATA[visos rungtynės]]></value>
+  </definition>
+  <definition>
+    <key>text_file_uploads</key>
+    <value><![CDATA[failų įkėlimas]]></value>
+  </definition>
+  <definition>
+    <key>text_all_settings</key>
+    <value><![CDATA[Visi nustatymai]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_details</key>
+    <value><![CDATA[Patalpink detalės]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_general</key>
+    <value><![CDATA[bendras]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_checkout</key>
+    <value><![CDATA[Užsakymas]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_appearance</key>
+    <value><![CDATA[išvaizda]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_mail</key>
+    <value><![CDATA[paštas]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_im</key>
+    <value><![CDATA[AŠ]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_api</key>
+    <value><![CDATA[API]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_system</key>
+    <value><![CDATA[sistema]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_newstore</key>
+    <value><![CDATA[Sukurti naują parduotuvę]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_command_prompt</key>
+    <value><![CDATA[Balso komandų eilutės.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_select_dialect</key>
+    <value><![CDATA[Pasirinkite tarme]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_confirm_action</key>
+    <value><![CDATA[Patvirtinkite šį veiksmą arba atšaukti]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_speak_now</key>
+    <value><![CDATA[Kalbėk dabar.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_speach_detected</key>
+    <value><![CDATA[Nėra kalbos buvo aptikta. Jums gali tekti koreguoti <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">1 #### 1amp; answer = 1407892 &quot;&gt; mikrofono nustatymus</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_mic_detected</key>
+    <value><![CDATA[Nėra mikrofonas buvo rasta. Įsitikinkite, kad mikrofonas yra įdiegta, ir kad <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">1 #### 1amp; answer = 1407892 &quot;&gt; mikrofono nustatymai</a> yra tinkamai sukonfigūruotas.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_click_allow</key>
+    <value><![CDATA[Spustelėkite &quot;Leisti&quot; mygtuką viršuje, kad mikrofoną.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_denied</key>
+    <value><![CDATA[Leidimas naudoti mikrofoną buvo paneigta.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_permission</key>
+    <value><![CDATA[Leidimas naudoti mikrofoną užblokuotas. Norìdami pakeisti, eikite į naršyklės <a href="chrome://settings/contentExceptions#media-stream">žiniasklaidos nustatymus</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_not_supported</key>
+    <value><![CDATA[Valdymas balsu nepalaiko šios naršyklės. <a href="//www.google.com/chrome" target="_new">&quot;Chrome</a> 25 arba naujesnės versijos nereikia.]]></value>
+  </definition>
+  <definition>
+    <key>text_tasks</key>
+    <value><![CDATA[numatytas užduotis]]></value>
+  </definition>
+  <definition>
+    <key>text_read_all_messages</key>
+    <value><![CDATA[Skaityti visus pranešimus]]></value>
+  </definition>
+  <definition>
+    <key>text_short_stats</key>
+    <value><![CDATA[Trumpa statistika]]></value>
+  </definition>
+  <definition>
+    <key>text_online_now</key>
+    <value><![CDATA[Dabar klientai]]></value>
+  </definition>
+  <definition>
+    <key>text_online_new</key>
+    <value><![CDATA[naujas]]></value>
+  </definition>
+  <definition>
+    <key>text_online_registered</key>
+    <value><![CDATA[Prisijungęs]]></value>
+  </definition>
+  <definition>
+    <key>text_today_orders</key>
+    <value><![CDATA[Naujų užsakymų Šiandien]]></value>
+  </definition>
+  <definition>
+    <key>text_today_sales</key>
+    <value><![CDATA[Iš viso Pardavimų Šiandien]]></value>
+  </definition>
+  <definition>
+    <key>text_today_customers</key>
+    <value><![CDATA[Nauji klientai Šiandien]]></value>
+  </definition>
+  <definition>
+    <key>text_today_reviews</key>
+    <value><![CDATA[Naujos Atsiliepimai Šiandien]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_manager</key>
+    <value><![CDATA[media Manager &quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_server_time</key>
+    <value><![CDATA[serverio laikas]]></value>
+  </definition>
+</definitions>

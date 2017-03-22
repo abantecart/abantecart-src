@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Pranešimai ir naujienų prenumerata]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[sąskaita]]></value>
+  </definition>
+  <definition>
+    <key>text_notifications</key>
+    <value><![CDATA[Pranešimai]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Jūsų pranešimo parametrai buvo sėkmingai atnaujintas!]]></value>
+  </definition>
+  <definition>
+    <key>text_sendpoint</key>
+    <value><![CDATA[Pranešimai]]></value>
+  </definition>
+</definitions>

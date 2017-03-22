@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Administracija]]></value>
+  </definition>
+  <definition>
+    <key>text_heading</key>
+    <value><![CDATA[Administracija]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Vnesite svoje prijavne podatke.]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[Uporabniško ime:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[geslo:]]></value>
+  </definition>
+  <definition>
+    <key>entry_forgot_password</key>
+    <value><![CDATA[Ste pozabili geslo?]]></value>
+  </definition>
+  <definition>
+    <key>button_login</key>
+    <value><![CDATA[Vpiši se]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Ne ujemajo za ime in / ali geslo.]]></value>
+  </definition>
+  <definition>
+    <key>error_token</key>
+    <value><![CDATA[Neveljaven žeton seje. Znova se prijavite.]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message</key>
+    <value><![CDATA[Ni za prijavo na admin poskus iz OP:]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message_text</key>
+    <value><![CDATA[Glede uporabnik prijava:]]></value>
+  </definition>
+</definitions>

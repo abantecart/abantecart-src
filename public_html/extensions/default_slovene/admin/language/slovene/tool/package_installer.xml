@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspeh: Paket je bil uspešno nameščen.]]></value>
+  </definition>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Package Installer]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_license</key>
+    <value><![CDATA[Licenčna pogodba za paket]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_ftp</key>
+    <value><![CDATA[Parametri dostop FTP]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_download</key>
+    <value><![CDATA[paket Nalaganje]]></value>
+  </definition>
+  <definition>
+    <key>text_preloading</key>
+    <value><![CDATA[Paketna datoteka% file% se bo prenesla.]]></value>
+  </definition>
+  <definition>
+    <key>text_loading</key>
+    <value><![CDATA[Prenos datoteke. Velikost: %s. <br/> lahko traja nekaj sekund, odvisno od vaše povezave.]]></value>
+  </definition>
+  <definition>
+    <key>text_key_hint</key>
+    <value><![CDATA[Vnesite namestitveni ključ Tu]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_user</key>
+    <value><![CDATA[FTP uporabniško ime:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_password</key>
+    <value><![CDATA[FTP uporabniško geslo:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_host</key>
+    <value><![CDATA[FTP Host:]]></value>
+  </definition>
+  <definition>
+    <key>text_i_agree</key>
+    <value><![CDATA[Strinjam se z licenco]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[se strinjam]]></value>
+  </definition>
+  <definition>
+    <key>text_retry</key>
+    <value><![CDATA[poskusite znova]]></value>
+  </definition>
+  <definition>
+    <key>text_disagree</key>
+    <value><![CDATA[Se ne strinjam]]></value>
+  </definition>
+  <definition>
+    <key>text_download_error</key>
+    <value><![CDATA[Žal nam je, toda pri nalaganju datoteke je prišlo do napake. </br> Poskusi še enkrat. </br> Če težave ne morete odpraviti preneseno datoteko v zgodovini naročil in namestiti ročno.]]></value>
+  </definition>
+  <definition>
+    <key>text_continue</key>
+    <value><![CDATA[Naprej]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer_heading</key>
+    <value><![CDATA[Pogoji za uporabo]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer</key>
+    <value><![CDATA[<h3> Spoštovani AbanteCart kupec, </h3><br/>
+ boste namestiti razširitev tretjih oseb na svoj AbanteCart. <br/><br/>
+ Prosimo, prebrati in razumeti ta disclaimer o podaljšanju tretje osebe, ki jih na tem, da ga namestite. <br/><br/>
+ razširitve in storitve tretje stranke, ki jih prodajalci tretjih oseb. <br/><br/>
+ Čeprav AbanteCart potrditev kakovosti razširitev in storitev, ki jih zagotavljajo tretje osebe, AbanterCart ne garancije, da vse podaljšanje delo tretjih oseb pravilno ali ne bo povzročal nobenih konfliktov v sistemu.
+ člani AbanteCart in podružnice v nobenem primeru ne odgovarja, ali je odgovoren za trditve v zvezi s proizvodi ali storitve, ki jih prodajalci tretjih oseb. AbanteCart ne zagotavlja kakovosti razširitev ali storitev tretjih oseb. Prosimo neposredno vaša vprašanja v zvezi z razširitvami tretjih oseb ali storitev na ustrezni tretja stranka prodajalec.
+ Če imate zaskrbljenost koli ponudniku iz tretje obrnite AbanteCart na <a href="http://www.abantecart.com/contact-us" target="_blank">http://www.abantecart.com/contact-us</a><br/><br/> 
+ Lep pozdrav, <br/>
+ AbanteCart <br/>
+ Idealno opensource E-Commerce Solution]]></value>
+  </definition>
+  <definition>
+    <key>warning_ftp</key>
+    <value><![CDATA[Opozorilo: Nekateri imenika ali datoteke nima dovoljenja za pisanje <span id="see_details">(glej podrobnosti)</span><br/> lahko spremenite dovoljenja na strežniku ali <br/> uporabe FTP dostop do strežnika za namestitev (običajno ponudnika gostovanja pošlje te informacije po e-pošti ali pa ga upravljati gostovanje orodja za nadzor) <br/>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed</key>
+    <value><![CDATA[<p class="success"> Si že% EXTENSION% podaljšanje nameščen! Če želite nadaljevati in nadgraditi, prosim potrdite. </p>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed_uninstall</key>
+    <value><![CDATA[Že imate to razširitev »% EXTENSION%&quot; nameščen! Če želite nadaljevati, da znova, odstranite in najprej izbrisati razširitev.]]></value>
+  </definition>
+  <definition>
+    <key>error_pack_file_not_found</key>
+    <value><![CDATA[Napaka: Ne morem izvleči podaljšek iz arhiva do %s. Preverite <a href="#admin#rt=tool/error_log" target="_blank">log</a> napake]]></value>
+  </definition>
+  <definition>
+    <key>error_mp</key>
+    <value><![CDATA[Napaka Marketplace:]]></value>
+  </definition>
+  <definition>
+    <key>error_repository</key>
+    <value><![CDATA[Napaka: Datoteke ni mogoče prenesti. Skladišče napaka ali neveljaven ključ razširitev. Poskusi še enkrat. Če težave ne morete odpraviti preneseno datoteko v zgodovini naročil in namestiti ročno.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_user</key>
+    <value><![CDATA[Napaka: FTP uporabniško ime je prazna.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_password</key>
+    <value><![CDATA[Napaka: FTP Uporabnik Geslo je prazna.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_connect</key>
+    <value><![CDATA[Napaka: Ne morem se povezati na FTP-strežnik]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_login</key>
+    <value><![CDATA[Napaka: Ne morem prijavo FTP-strežnik. Napačno uporabniško ime ali geslo.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path</key>
+    <value><![CDATA[Napaka: Ne morem najti korenski imenik AbanteCart s FTP poti. <br/> Poskusite pusti prazno za samodejno iskanje.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path_array</key>
+    <value><![CDATA[Napaka: Ne morem samodejno prepozna korenski imenik AbanteCart v FTP-načinu. <br/> Izpolnite FTP-pot polje obrazca. <br/> predlogi Pot so:]]></value>
+  </definition>
+  <definition>
+    <key>error_dir_permission</key>
+    <value><![CDATA[Ne morem shraniti datoteke, ker imenika ni mogoče pisati:]]></value>
+  </definition>
+  <definition>
+    <key>error_package_structure</key>
+    <value><![CDATA[Napaka: Verjetno paket je pokvarjen. Struktura napake paketa.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config_xml</key>
+    <value><![CDATA[Napaka: Ne morem najti datoteke package.xml znotraj izpisanih podaljšanja. Po možnosti podaljšanje ne ekstrahiramo pravilno. Preverite <a href="#admin#rt=tool/error_log" target="_blank">log</a> napake]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config2</key>
+    <value><![CDATA[Napaka: Ne morem najti način za namestitev v package.xml znotraj paketa.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_info_not_exists</key>
+    <value><![CDATA[Napaka: Ne morem najti seje informacije paket o tem prenosu.]]></value>
+  </definition>
+  <definition>
+    <key>error_unpack</key>
+    <value><![CDATA[Napaka: Ne morem razpakirati paket &quot;% paket%&quot; po prenosu. Arhiv napake. Glej dnevnik napak za podrobnosti.]]></value>
+  </definition>
+  <definition>
+    <key>error_move</key>
+    <value><![CDATA[Napaka: Ne morem premakniti priloženo kodo po razpakiranje. Poskusite preveriti dovoljenja za pisanje imenika:]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode</key>
+    <value><![CDATA[Napaka: Ne morem namestiti razširitev »% paketa%&quot;, ker je že nameščen. Če ga želite deinstall in jo najprej izbrisati ali dobiti paket za nadgradnjo.]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode2</key>
+    <value><![CDATA[Napaka: Ne morem nadgraditi razširitev »% paketa%&quot;, ker ni nameščen. Boste morali dobiti paket za namestitev.]]></value>
+  </definition>
+  <definition>
+    <key>error_version_compatibility</key>
+    <value><![CDATA[Napaka: Ne morem namestiti paket. Vaša košarica različica <b>je% CURRENT_VERSION%.</b> Version <b>(s)% RAZLIČICE%</b> potrebna.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_version_compatibility</key>
+    <value><![CDATA[Napaka: Ne morem nadgraditi paket. Novejša različica paketa je že nameščen.]]></value>
+  </definition>
+  <definition>
+    <key>error_install</key>
+    <value><![CDATA[Napaka: Ne morem namestiti paket. Oglejte si sistemske -&gt; Napaka Prijava za podrobnosti.]]></value>
+  </definition>
+  <definition>
+    <key>error_core_version</key>
+    <value><![CDATA[Napaka: Imaš nameščen AbanteCart različica% VERSION%. <br/> Ta nadgradnja paket samo različice nižja od]]></value>
+  </definition>
+  <definition>
+    <key>text_interrupt</key>
+    <value><![CDATA[Interrupt]]></value>
+  </definition>
+  <definition>
+    <key>confirm_version_incompatibility</key>
+    <value><![CDATA[Trenutni kopijo tega podaljšanja ni potrjen za svojo različico AbanteCart (proti %s). <br/> Podaljšanje graditi je določen za AbanteCart proti %s. <br/>
+ To ni problem, če pa opazite težave ali nezdružljivost, se obrnite na podaljšek razvijalca.]]></value>
+  </definition>
+  <definition>
+    <key>error_move_ftp</key>
+    <value><![CDATA[Napaka: Ne morem premakniti priloženo kodo po razpakiranje. Verjetno FTP pot ni pravilna. <br/> Prav tako vas prosimo, poskusite preveriti dovoljenja za pisanje imenika:]]></value>
+  </definition>
+  <definition>
+    <key>text_network_install</key>
+    <value><![CDATA[omrežna namestitev]]></value>
+  </definition>
+  <definition>
+    <key>text_extension_upload</key>
+    <value><![CDATA[razširitev Pošiljanje]]></value>
+  </definition>
+  <definition>
+    <key>error_archive_extension</key>
+    <value><![CDATA[Napaka: podpira samo stisnjene datoteke.]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_file</key>
+    <value><![CDATA[Naloži datoteko:]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_url</key>
+    <value><![CDATA[Vstavi URL:]]></value>
+  </definition>
+  <definition>
+    <key>error_move_backup</key>
+    <value><![CDATA[Napaka: ne more varnostne kopije pred nadgradnjo. Preverite dovoljenja za pisanje imenika:]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_title</key>
+    <value><![CDATA[Abantecart Core Upgrade]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_attention</key>
+    <value><![CDATA[Pozor!
+ AbanteCart je na tem, da je treba nadgraditi na različico %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_warning</key>
+    <value><![CDATA[Ni undo po začetku postopka nadgradnje.
+ Popolna zbirka podatkov in kodo backup je zelo priporočljivo.
+ Testna nadgradnja na ne-živih straneh prvih. Nadgradnja na živih mestih ni priporočljivo.]]></value>
+  </definition>
+  <definition>
+    <key>text_upgrade_now</key>
+    <value><![CDATA[Nadgradi zdaj!]]></value>
+  </definition>
+  <definition>
+    <key>error_additional_help_text</key>
+    <value><![CDATA[Zaljubljen? Ni problem. Lahko namestite razširitve drug način. Preverite <a href="http://docs.abantecart.com/pages/extensions/install.html#FTPinstall" target="_blank">to pomoč povezavo</a>]]></value>
+  </definition>
+  <definition>
+    <key>error_notconnected</key>
+    <value><![CDATA[ni mogoče nadgraditi ali namestiti razširitve s trga. Ta trgovina se ni potrjen / priključen. Prosimo, avtentikacijo in povezavo na <a href="%s">trgu</a>]]></value>
+  </definition>
+</definitions>

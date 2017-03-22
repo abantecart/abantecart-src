@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Atsarginę kopiją / atkurti / krovinį]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[parsisiųsti dubliavimas]]></value>
+  </definition>
+  <definition>
+    <key>text_success_backup</key>
+    <value><![CDATA[Sėkmė: Jūs sėkmingai sukurtas failo atsarginę kopiją!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Jūs sėkmingai importuoti savo bazę!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_xml</key>
+    <value><![CDATA[Sėkmė: Jūs sėkmingai importuoti XML!]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore</key>
+    <value><![CDATA[Atkurti iš SQL arba XML failo:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tables</key>
+    <value><![CDATA[Atsarginė Stalai:]]></value>
+  </definition>
+  <definition>
+    <key>entry_loadxml</key>
+    <value><![CDATA[Apkrovos XML failą:]]></value>
+  </definition>
+  <definition>
+    <key>tab_backup</key>
+    <value><![CDATA[Atsarginė]]></value>
+  </definition>
+  <definition>
+    <key>tab_restore</key>
+    <value><![CDATA[Atkurti]]></value>
+  </definition>
+  <definition>
+    <key>tab_loadxml</key>
+    <value><![CDATA[Maketavimas ir duomenų rinkinys apkrova XML]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Įspėjimas: Jūs neturite teisės keisti atsargines kopijas!]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Įspėjimas: Prašome nustatyti, ką norite atsarginę kopiją arba importo!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Įspėjimas: Šis failas, kurį įkėlėte buvo tuščia arba turėjo klaidingą failo tipą!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload</key>
+    <value><![CDATA[Įspėjimas: Failas nebuvo įkeltas. Patikrinkite post_max_size arba file_upload direktyvas savo php.ini failą.]]></value>
+  </definition>
+  <definition>
+    <key>error_xml</key>
+    <value><![CDATA[Įspėjimas: Šis failas, kurį įkėlėte nėra pakrautas kaip XML! Prašome žr Prisijungti failo duomenis]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_code</key>
+    <value><![CDATA[Atsarginė kodas (%s) <br/><span class="help">Sub-katalogai su kodu failus išskyrus dinaminius failus, pavyzdžiui, talpyklos, failus, vaizdus, ištekliai ir tt</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_content</key>
+    <value><![CDATA[Atsarginė turinys (%s) <br/><span class="help">Sub-katalogai su dinaminiais failus, pavyzdžiui, nuotraukas, parsisiųsti, išteklių ir pan</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_compress_backup</key>
+    <value><![CDATA[Suspausti Backup Directory %s? <br/><span class="help">Archyvas * .tar.gz bus sukurta. <br/> pastaba: galima imtis ilgą laiką. Priešingu atveju galite išjungti suspaudimo ir surasti savo atsarginę kopiją aplanke %s</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_now</key>
+    <value><![CDATA[Atsarginė Dabar]]></value>
+  </definition>
+  <definition>
+    <key>button_load</key>
+    <value><![CDATA[apkrova]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_schedule</key>
+    <value><![CDATA[Tvarkaraštis Atsarginė]]></value>
+  </definition>
+  <definition>
+    <key>text_success_scheduled</key>
+    <value><![CDATA[Sėkmė: Sėkmingai sukūrę planuojama atsarginę užduotį! <a href="%s">Išsamiau</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_fail_note</key>
+    <value><![CDATA[PASTABA: Šis procesas vykdymas priklauso nuo jūsų AbanteCart duomenų dydį, taip pat savo serverio virtualios atminties dydžio. Jei procesas nutraukia su klaidomis, patikrinkite katalogas %s leidimai turi būti nustatytas -RW-RW-RW ir <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[PHP atminties nustatymas]</a>. Didinti atminties nustatymą arba paleisti atsargines kopijas rankiniu būdu, jei procesas vis dar nepavyksta.]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_file</key>
+    <value><![CDATA[Norėdami atsisiųsti atsarginę failą apsilankykite <a href="#admin#rt=tool/install_upgrade_history">Įdiekite / Atnaujinkite istorija</a>]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_dir</key>
+    <value><![CDATA[Katalogas su atsargine-failų %s]]></value>
+  </definition>
+</definitions>

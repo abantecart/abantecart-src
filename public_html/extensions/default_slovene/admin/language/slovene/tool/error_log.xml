@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Error Log]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspeh: Uspešno ste počistili dnevnik napak!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_tail</key>
+    <value><![CDATA[Zaradi velikega obsega log datoteko, lahko le zadnji 500KB podatkov lahko ogledate tukaj. 
+ Če si želite ogledati celoten dnevnik, ga dobili od strežnika neposredno. 
+ poti:]]></value>
+  </definition>
+</definitions>

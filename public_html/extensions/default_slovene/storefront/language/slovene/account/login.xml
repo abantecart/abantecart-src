@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Prijava v račun]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Registriraj račun]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Vpiši se]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_new_customer</key>
+    <value><![CDATA[Sem nova stranka.]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Naročilo Možnosti:]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[Gost blagajno]]></value>
+  </definition>
+  <definition>
+    <key>text_create_account</key>
+    <value><![CDATA[Z ustvarjanjem uporabniškega računa boste lahko izbirali hitreje, biti na tekočem o statusu za naročilo, in za spremljanje naročil, ki ste jih že naredili.]]></value>
+  </definition>
+  <definition>
+    <key>text_returning_customer</key>
+    <value><![CDATA[vračajo stranke]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_returning_customer</key>
+    <value><![CDATA[Sem stalna stranka.]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_login</key>
+    <value><![CDATA[Ste pozabili uporabniško ime?]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_password</key>
+    <value><![CDATA[Ste pozabili geslo?]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Login Name:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email_address</key>
+    <value><![CDATA[Email naslov:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[geslo:]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Napaka: Napačna ali geslo voljo.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_activated</key>
+    <value><![CDATA[Uspeh: Vaš račun je bil uspešno aktiviran. Prosimo, prijavi se s svojim poverilnice.]]></value>
+  </definition>
+  <definition>
+    <key>text_already_activated</key>
+    <value><![CDATA[Vaš račun je že aktiviran. Prosimo, prijavi se s svojim poverilnice.]]></value>
+  </definition>
+  <definition>
+    <key>text_resend_activation_email</key>
+    <value><![CDATA[Napaka: E-poštni naslov še ni bil potrjen. Ponovno poslati novo potrditveno sporočilo, kliknite na to <a href=" %s ">povezavo</a>]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[popusti poročilo]]></value>
+  </definition>
+  <definition>
+    <key>column_coupon_name</key>
+    <value><![CDATA[Popust / kupon Ime]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Koda]]></value>
+  </definition>
+  <definition>
+    <key>column_orders</key>
+    <value><![CDATA[št Naročila]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Skupaj]]></value>
+  </definition>
+  <definition>
+    <key>column_discount_total</key>
+    <value><![CDATA[Skupaj Popust]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[Datum začetka:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[Končni datum:]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Trgovina Podrobnosti]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspeh: Imate spremenjene nastavitve!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[Manager slike]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[privzeto]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[Uredi Store:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Ime trgovine: <br/><span class="help">Kopirano v nastavitvah prikazan na odseku prodajalne.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[Trgovina URL: <br/><span class="help">Vključite celoten URL vaše trgovine. Poskrbite, da dodate &quot;/&quot; na koncu. Primer: http://www.yourdomain.com/path/ <br/><br/> Ne uporabljajte imenikov ustvariti novo trgovino. Vedno bi se morali izpostaviti še eno domeno ali sub domeno vaše gostovanje.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[Uporabi SSL: <br/><span class="help">Za uporabo preverite SSL s svojim gostiteljem, če je nameščen certifikat SSL.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Naslov:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Meta Tag Opis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[Predloga:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Dobrodošli Sporočilo:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Država:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Regija / država:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Jezik:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Trgovina Status <br/><span class="help">Store stanje v prodajalne. Status OFF bo neposredno na privzete trgovino. Uporabite Maintenance Mode nastavitev za sporočila vzdrževanje začasno shranjevanje</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alias</key>
+    <value><![CDATA[Ime Alias <br/><span class="help">Store drugo ime. Če pustite prazno, bo temeljil na skrajšano ime</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[Nova trgovina]]></value>
+  </definition>
+  <definition>
+    <key>button_delete_store</key>
+    <value><![CDATA[Brisanje trgovino]]></value>
+  </definition>
+  <definition>
+    <key>button_edit_settings</key>
+    <value><![CDATA[Urejanje nastavitev]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Opozorilo: Nimate dovoljenja za spreminjanje trgovin!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Ime trgovine mora biti med 3 in 32 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[URL Store obvezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Naslovno mora biti med 3 in 32 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[Slika izdelka Thumb Velikost dimenzije obvezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[Slika izdelka Popup Dimenzije obvezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[Lista kategorij Dimenzije obvezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[Seznam izdelkov Dimenzije obvezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[Dodatne izdelka Velikost slike dimenzije obvezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[Podobni izdelka Velikost slike dimenzije obvezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[Košarica Velikost slike dimenzije obvezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[Mreža Velikost slike dimenzije obvezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Opozorilo: Ta trgovina ni mogoče izbrisati, saj je trenutno dodeljen %s naročila!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Zahtevani podatki ni bil vložen. Preverite za napake na terenu!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Limit obvezna!]]></value>
+  </definition>
+  <definition>
+    <key>entry_clone_store</key>
+    <value><![CDATA[Nastavitve kopiranja: <br/><span class="help">Izberete lahko kopijo vseh nastavitev od nekaterih obstoječih trgovini</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[Secure Store URL: <br/><span class="help">Vključite celoten URL SSL (HTTPS) v vašo trgovino. Poskrbite, da dodate &quot;/&quot; na koncu. Primer: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[Secure URL obvezna!]]></value>
+  </definition>
+</definitions>

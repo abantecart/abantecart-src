@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Naročite Stanja]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Status naročila]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspeh: ste spremenjeni naročilo stanja!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Ime naročila Status]]></value>
+  </definition>
+  <definition>
+    <key>column_text_id</key>
+    <value><![CDATA[ID naročila Status Besedilo]]></value>
+  </definition>
+  <definition>
+    <key>entry_text_id</key>
+    <value><![CDATA[ID naročila Status Besedilo:]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Ukrep]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Ime naročila Status:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Opozorilo: Nimate dovoljenja za spreminjanje reda kipe!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Ime naročila Stanje mora biti med 2 in 32 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Opozorilo: Status Ta vrstni red je ni mogoče izbrisati, kot je trenutno dodeljen so status privzeti trgovina naročilu!]]></value>
+  </definition>
+  <definition>
+    <key>error_download</key>
+    <value><![CDATA[Opozorilo: Status Ta vrstni red je ni mogoče izbrisati, kot je trenutno dodeljen so status privzeto prenos!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Opozorilo: Ta status naročila ni mogoče izbrisati, saj je trenutno dodeljen %s trgovinah!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Opozorilo: Ta status naročila ni mogoče izbrisati, saj je trenutno dodeljen %s naročila!]]></value>
+  </definition>
+  <definition>
+    <key>error_nondeletable</key>
+    <value><![CDATA[Opozorilo: To je pomembno, da je stanje naročila, ki je povezana s plačili. Ne, ne moreš izbrisati ta status.]]></value>
+  </definition>
+  <definition>
+    <key>error_status_text_id</key>
+    <value><![CDATA[Id Besedilo Stanje naročila mora biti Unique in od 2 do 32 znakov!]]></value>
+  </definition>
+</definitions>

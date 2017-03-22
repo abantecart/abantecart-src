@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Ilgis klasės]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[ilgis klasė]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Jūs keistas ilgio klases!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[ilgis Pavadinimas]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[ilgis vienetai]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[vertė]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[veiksmas]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Ilgis Pavadinimas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Ilgis Vienetas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Vertė: <br/><span class="help">Nustatyti 1.00000 jei tai yra jūsų numatytoji trukmė.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Įspėjimas: Jūs neturite teisės keisti ilgio klases!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Ilgis Pavadinimas turi būti tarp 2 ir 32 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Ilgis vienetai turi būti tarp 1 ir 4 simboliai!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Įspėjimas: Šis ilgis klasė negali būti panaikinta, nes ji šiuo metu skiriamas kaip numatytąją parduotuvė ilgio klasės!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Įspėjimas: Šis ilgis klasė negali būti panaikinta, nes ji šiuo metu skiriamas %s produktų!]]></value>
+  </definition>
+</definitions>

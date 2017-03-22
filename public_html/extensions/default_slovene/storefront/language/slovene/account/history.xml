@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Moja zgodovina naročil]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[račun]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[Zgodovina naročil]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Številka naročila:]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Stanje:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Datum vpisa:]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[stranka:]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[izdelki:]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Skupaj:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Vi niste nobenih prejšnjih naročil!]]></value>
+  </definition>
+</definitions>

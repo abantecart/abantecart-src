@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Globalni Rezultati iskanja]]></value>
+  </definition>
+  <definition>
+    <key>no_results_message</key>
+    <value><![CDATA[Žal nimamo rezultatov.]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Opozorilo: Nimate dovoljenja za iskanje!]]></value>
+  </definition>
+  <definition>
+    <key>text_orders</key>
+    <value><![CDATA[naročila]]></value>
+  </definition>
+  <definition>
+    <key>text_customers</key>
+    <value><![CDATA[stranke]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[Prenosi]]></value>
+  </definition>
+  <definition>
+    <key>text_product_categories</key>
+    <value><![CDATA[Kategorije izdelkov]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[izdelki]]></value>
+  </definition>
+  <definition>
+    <key>text_reviews</key>
+    <value><![CDATA[komentarji]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[Blagovne znamke]]></value>
+  </definition>
+  <definition>
+    <key>text_languages</key>
+    <value><![CDATA[jeziki]]></value>
+  </definition>
+  <definition>
+    <key>text_pages</key>
+    <value><![CDATA[strani]]></value>
+  </definition>
+  <definition>
+    <key>text_settings</key>
+    <value><![CDATA[Nastavitve]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[sporočila]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[razširitve]]></value>
+  </definition>
+  <definition>
+    <key>text_commands</key>
+    <value><![CDATA[Hitri ukazi]]></value>
+  </definition>
+  <definition>
+    <key>text_contents</key>
+    <value><![CDATA[strani vsebine]]></value>
+  </definition>
+</definitions>

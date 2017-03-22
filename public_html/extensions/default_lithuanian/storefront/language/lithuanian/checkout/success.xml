@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Jūsų užsakymas buvo apdorota!]]></value>
+  </definition>
+  <definition>
+    <key>text_message_account</key>
+    <value><![CDATA[<p> Jūsų užsakymas # %s buvo sukurta! </p> 
+ <p> Galite peržiūrėti savo užsakymų detales, eikite į <a href="%s">sąskaitos faktūros puslapyje</a>. </p> 
+ <p> Prašome nukreipti klausimų, turite su <a href="%s">parduotuvės savininku</a>. </p> 
+ <p> Dėkojame, kad perkate pas mus! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_message_guest</key>
+    <value><![CDATA[<p> Jūsų užsakymas buvo sėkmingai apdorotas! </p> 
+ <p> Galite peržiūrėti savo užsakymų detales, eikite į <a href="%s">sąskaitos faktūros puslapyje</a>. </p> 
+ <p> Prašome nukreipti klausimų, turite su <a href="%s">parduotuvės savininku</a>. </p> 
+ <p> Dėkojame, kad perkate pas mus! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[krepšys]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[gabenimas]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[mokėjimas]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[Svečių Vykdyti užsakymą]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Patvirtinti]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order</key>
+    <value><![CDATA[Oi! Mes patyrėme tam tikrą problemą su savo operaciją. Jūsų užsakymas bus tikrinamas rankiniu būdu administratorius.]]></value>
+  </definition>
+  <definition>
+    <key>text_title_failed_order_to_admin</key>
+    <value><![CDATA[Nepavyko užsakymas # %s]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order_to_admin</key>
+    <value><![CDATA[Nepavyko ar trūksta atsakymą iš mokėjimo patikrinimo. Rankinis patikrinimas yra būtinas!]]></value>
+  </definition>
+</definitions>

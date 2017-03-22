@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_footer_left</key>
+    <value><![CDATA[AbanteCart yra Belavier komercija LLC prekinis ženklas <br/> Copyright &copy; 2009 - %s Visos teisės saugomos]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[<a href="http://www.abantecart.com" target="_blank">AbanteCart</a> Versija]]></value>
+  </definition>
+</definitions>

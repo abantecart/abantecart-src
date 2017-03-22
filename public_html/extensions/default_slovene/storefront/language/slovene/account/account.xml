@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Moj račun]]></value>
+  </definition>
+  <definition>
+    <key>text_account_dashboard</key>
+    <value><![CDATA[Nadzorna plošča račun]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[račun]]></value>
+  </definition>
+  <definition>
+    <key>text_my_account</key>
+    <value><![CDATA[Moj račun]]></value>
+  </definition>
+  <definition>
+    <key>text_my_orders</key>
+    <value><![CDATA[Moja naročila]]></value>
+  </definition>
+  <definition>
+    <key>text_my_notifications</key>
+    <value><![CDATA[Obvestila]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[Urejanje podrobnosti računa]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Spremeni geslo]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Upravljanje adresar]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[Zgodovina naročil]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[zgodovina transakcij]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Prenosi]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[Newsletter Naročnina]]></value>
+  </definition>
+  <definition>
+    <key>text_account_wishlist</key>
+    <value><![CDATA[Moj seznam želja]]></value>
+  </definition>
+</definitions>

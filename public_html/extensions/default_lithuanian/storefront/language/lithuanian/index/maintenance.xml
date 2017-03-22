@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[priežiūra]]></value>
+  </definition>
+  <definition>
+    <key>text_maintenance</key>
+    <value><![CDATA[priežiūra]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<h1 style="text-align:center;"> Mes šiuo metu atlieka tam tikrą numatytą techninę priežiūrą. <br/> Mes vėl bus kaip įmanoma greičiau. Prašome patikrinti vėliau. </h1>]]></value>
+  </definition>
+</definitions>

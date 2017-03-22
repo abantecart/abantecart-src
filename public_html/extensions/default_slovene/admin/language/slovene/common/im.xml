@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>im_text_notification</key>
+    <value><![CDATA[Obvestila]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update</key>
+    <value><![CDATA[Da bi Posodobitve]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_customer</key>
+    <value><![CDATA[Naročilo <a href="%s"># %s</a> je bil posodobljen. Za več podrobnosti, se prijavite na %s račun.]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_new_order</key>
+    <value><![CDATA[Nova naročila]]></value>
+  </definition>
+  <definition>
+    <key>im_new_order_text_to_admin</key>
+    <value><![CDATA[New Order <a href="#admin#rt=sale/order/details&order_id=%s"># %s</a> je bila ustvarjena!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_new_customer</key>
+    <value><![CDATA[Registracije strank]]></value>
+  </definition>
+  <definition>
+    <key>im_new_customer_text_to_admin</key>
+    <value><![CDATA[Nova Stranka # %s je bila registrirana!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_account_update</key>
+    <value><![CDATA[Posodobitve Administrator Uporabniški račun]]></value>
+  </definition>
+  <definition>
+    <key>im_account_update_text_to_admin</key>
+    <value><![CDATA[Uporabniške administrator podatki o računu so bile spremenjene.]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_text_to_admin</key>
+    <value><![CDATA[Nova Stranka # %s je bila posodobljena!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_contact</key>
+    <value><![CDATA[Vprašanja uporabnikov]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_product_out_of_stock</key>
+    <value><![CDATA[Izdelki na zalogi]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_product_review</key>
+    <value><![CDATA[Nove Mnenja o izdelku]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter</key>
+    <value><![CDATA[glasila]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_system_messages</key>
+    <value><![CDATA[Sistemska sporočila]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_text_to_customer</key>
+    <value><![CDATA[Nov posel je bil objavljen na svoj %s račun v višini %s. Za več podrobnosti, se prijavite na %s račun.]]></value>
+  </definition>
+  <definition>
+    <key>text_notification_for</key>
+    <value><![CDATA[Obvestila za uporabnika %s]]></value>
+  </definition>
+  <definition>
+    <key>error_unknown_sendpoint</key>
+    <value><![CDATA[Sendpoint %s ne najdemo v seznamu sendpoints!]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_success_saved</key>
+    <value><![CDATA[Nastavitve obvestil uspešno shranjene!]]></value>
+  </definition>
+  <definition>
+    <key>im_error_mail_address</key>
+    <value><![CDATA[E-poštni naslov %s izgleda neveljavna!]]></value>
+  </definition>
+</definitions>

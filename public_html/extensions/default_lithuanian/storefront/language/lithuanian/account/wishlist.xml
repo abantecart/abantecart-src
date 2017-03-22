@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Mano norų sąrašas]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[sąskaita]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_wishlist</key>
+    <value><![CDATA[Pageidavimų sąrašas tuščias]]></value>
+  </definition>
+  <definition>
+    <key>button_cart</key>
+    <value><![CDATA[Peržiūrėti krepšelį]]></value>
+  </definition>
+  <definition>
+    <key>button_continue</key>
+    <value><![CDATA[Tęsti apsipirkimą]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[vaizdas]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[vardas]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Modelis]]></value>
+  </definition>
+  <definition>
+    <key>column_added</key>
+    <value><![CDATA[Pridėta prie norų sąrašo]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Vieneto kaina]]></value>
+  </definition>
+  <definition>
+    <key>column_actions</key>
+    <value><![CDATA[Veiksmai]]></value>
+  </definition>
+</definitions>

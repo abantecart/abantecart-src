@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Užsakymo suvestinė]]></value>
+  </definition>
+  <definition>
+    <key>text_subtotal</key>
+    <value><![CDATA[Tarpinė suma:]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[0 prekių]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Patvirtinti?]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[pašalinti]]></value>
+  </definition>
+  <definition>
+    <key>text_view</key>
+    <value><![CDATA[Peržiūrėti krepšelį]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Užsakymas]]></value>
+  </definition>
+  <definition>
+    <key>text_items</key>
+    <value><![CDATA[Daiktai]]></value>
+  </definition>
+</definitions>

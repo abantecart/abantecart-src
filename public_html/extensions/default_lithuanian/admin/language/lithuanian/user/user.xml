@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[vartotojai]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_details</key>
+    <value><![CDATA[Redaguoti profilį Details]]></value>
+  </definition>
+  <definition>
+    <key>text_user</key>
+    <value><![CDATA[Vartotojas]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Jūs turite modifikuotų vartotojams!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_details</key>
+    <value><![CDATA[Sėkmė: Jūs pakeitėte savo profilį!]]></value>
+  </definition>
+  <definition>
+    <key>column_username</key>
+    <value><![CDATA[Vartotojo vardas]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[grupė]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[statusas]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[Data pridėta]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[veiksmas]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[Vartotojo vardas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Slaptažodis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_confirm</key>
+    <value><![CDATA[Patvirtinti:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[Pirmas vardas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Pavardė:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-paštas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_user_group</key>
+    <value><![CDATA[Vartotojų grupė:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[būsena:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ims</key>
+    <value><![CDATA[Pranešimai]]></value>
+  </definition>
+  <definition>
+    <key>entry_captcha</key>
+    <value><![CDATA[Įveskite žemiau esantį laukelį įveskite patikros kodą:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Įspėjimas: Jūs neturite teisės keisti vartotojams!]]></value>
+  </definition>
+  <definition>
+    <key>error_account</key>
+    <value><![CDATA[Įspėjimas: Jūs negalite trinti savo paskyrą!]]></value>
+  </definition>
+  <definition>
+    <key>error_username</key>
+    <value><![CDATA[Vartotojo vardą turi nuo 2 iki 20 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_password</key>
+    <value><![CDATA[Slaptažodis turi būti daugiau nei 3 simboliai!]]></value>
+  </definition>
+  <definition>
+    <key>error_confirm</key>
+    <value><![CDATA[Slaptažodis ir slaptažodis patvirtinimas nesutampa!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[Vardas turi būti tarp 2 ir 32 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Pavardė turi būti tarp 2 ir 32 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-paštas Adresas neatrodo galioja!]]></value>
+  </definition>
+  <definition>
+    <key>error_captcha</key>
+    <value><![CDATA[Žmogaus patikrinimas nepavyko!]]></value>
+  </definition>
+  <definition>
+    <key>error_user_group</key>
+    <value><![CDATA[Jūs neturite leidimo pakeisti vartotojo grupę.]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- Pasirinkti Grupės -]]></value>
+  </definition>
+  <definition>
+    <key>entry_im_email</key>
+    <value><![CDATA[E-mail: <span class="help">Vienas ar daugiau atskirtų kableliais elektroninio pašto adresai</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_im_sms</key>
+    <value><![CDATA[Mobilusis telefonas: <span class="help">Telefono numeris tarptautiniu formatu. pvz. +14566887777</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_im</key>
+    <value><![CDATA[redaguoti Pranešimai]]></value>
+  </definition>
+  <definition>
+    <key>text_sendpoints</key>
+    <value><![CDATA[pranešimo nustatymai]]></value>
+  </definition>
+  <definition>
+    <key>text_change_im_addresses</key>
+    <value><![CDATA[Pranešimas Redaguoti Adresai šiam SendPoint]]></value>
+  </definition>
+</definitions>

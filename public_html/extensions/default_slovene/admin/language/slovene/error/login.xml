@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Napaka pri prijavi!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Niste prijavljeni. Ti bodo preusmerjeni na strani za prijavo]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Jūsų paskyra sukurta!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Sveikiname! Jūsų Nauja paskyra buvo sėkmingai sukurta! </p><p> Dabar galite pasinaudoti narių privilegijomis siekiant pagerinti jūsų interneto prekybos patirtį su mumis. </p><p> Jei turite kokių nors klausimų apie šią internetinę parduotuvę operaciją, rašykite tik parduotuvės savininkui. </p><p> Patvirtinimo buvo išsiųstas pateiktą elektroninio pašto adresą. Jei negavote jį per valandą, prašome <a href="%s">susisiekti su mumis</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[<p> Dėkojame už registruodamiesi %s! </p><p> Jums bus pranešta elektroniniu paštu, kai jūsų sąskaita buvo aktyvuota tik parduotuvės savininkui. </p><p> Jei turite kokių nors klausimų apie šią internetinę parduotuvę naudojimo, prašome <a href="%s">kreiptis į šios parduotuvės savininkas</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[<p> Dėkojame už registruodamiesi %s! </p><p> Jums bus pranešta elektroniniu paštu su savo paskyros aktyvavimo instrukcijomis. Jūs turite spustelėkite pateiktą nuorodą el aktyvuoti savo sąskaitą. Jei negaunate laiško, prašome patikrinti savo &quot;junk ar šlamšto aplankus. </p><p> Jei turite kokių nors klausimų apie šią internetinę parduotuvę naudojimo, prašome <a href="%s">kreiptis į šios parduotuvės savininkas</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[sąskaita]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė]]></value>
+  </definition>
+</definitions>

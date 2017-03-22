@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Komplektas buvo sėkmingai įdiegta.]]></value>
+  </definition>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Pakuotės diegimo]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_license</key>
+    <value><![CDATA[Pakuotės licencinė sutartis]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_ftp</key>
+    <value><![CDATA[FTP prieigos parametrai]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_download</key>
+    <value><![CDATA[Pakuotės Kraunasi]]></value>
+  </definition>
+  <definition>
+    <key>text_preloading</key>
+    <value><![CDATA[Pakuotės failas% failas% bus atsiųstas.]]></value>
+  </definition>
+  <definition>
+    <key>text_loading</key>
+    <value><![CDATA[Atsisiuntimas failą. Dydis: %s. <br/> Tai gali užtrukti keletą sekundžių, priklausomai nuo jūsų ryšį.]]></value>
+  </definition>
+  <definition>
+    <key>text_key_hint</key>
+    <value><![CDATA[Įveskite diegimo raktas čia]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_user</key>
+    <value><![CDATA[FTP Vartotojo vardas:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_password</key>
+    <value><![CDATA[FTP Vartotojas Slaptažodis:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_host</key>
+    <value><![CDATA[FTP kompiuteryje:]]></value>
+  </definition>
+  <definition>
+    <key>text_i_agree</key>
+    <value><![CDATA[Aš sutinku su licencijos]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[susitarti]]></value>
+  </definition>
+  <definition>
+    <key>text_retry</key>
+    <value><![CDATA[Bandyti dar kartą]]></value>
+  </definition>
+  <definition>
+    <key>text_disagree</key>
+    <value><![CDATA[Nesutikti]]></value>
+  </definition>
+  <definition>
+    <key>text_download_error</key>
+    <value><![CDATA[Mes atsiprašome, bet įkeliant failą įvyko klaida. </br> Pabandykite dar kartą. </br> Jei problema išlieka Parsisiųsti failą savo užsakymų istorijoje ir įdiegti rankiniu būdu.]]></value>
+  </definition>
+  <definition>
+    <key>text_continue</key>
+    <value><![CDATA[Tęsti]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer_heading</key>
+    <value><![CDATA[atsisakymas]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer</key>
+    <value><![CDATA[<h3> Gerbiamas AbanteCart klientas, </h3><br/>
+ Jūs ketinate įdiegti trečiosios šalies pratęsimo Jūsų AbanteCart. <br/><br/>
+ Prašome perskaityti ir suprasti šį atsisakymą apie trečiosios šalies pratęsimo, kad jūs ketinate įdiegti. <br/><br/>
+ Trečiųjų šalių plėtiniai ir paslaugos yra teikiamos trečiųjų šalių tiekėjų. <br/><br/>
+ Nors AbanteCart patvirtinti kokybę pratęsimų ir teikiamų paslaugų trečiajai šaliai, AbanterCart nėra garantiją, kad visi trečioji šalis pratęsimo teisingai veikti arba nesukels jokių sistemoje konfliktus.
+ AbanteCart nariai ir filialai yra jokiu būdu atsakinga arba atsakingi už teiginius, susijusius su produktų ar teikiamų paslaugų trečiųjų šalių tiekėjų. AbanteCart negarantuoja trečiųjų šalių plėtinių ar paslaugų kokybę. Prašome nukreipti užklausas dėl trečiųjų šalių plėtinių ar paslaugų į atitinkamą trečiosios šalies tiekėjų.
+ Jei turite susirūpinimą dėl kokio nors trečių šalių teikėjo susisiekite AbanteCart ne <a href="http://www.abantecart.com/contact-us" target="_blank">http://www.abantecart.com/contact-us</a><br/><br/> 
+ Pagarbiai, <br/>
+ AbanteCart <br/>
+ Idealiai opensource Elektroninė prekyba Sprendimas]]></value>
+  </definition>
+  <definition>
+    <key>warning_ftp</key>
+    <value><![CDATA[Įspėjimas: Kai kurie katalogas ar failas neturi rašymo leidimą <span id="see_details">(daugiau informacijos žr)</span><br/> Galite pakeisti leidimus jūsų serverio ar <br/> naudoti FTP prieigą prie jūsų serverio įrengimas (paprastai prieglobos paslaugų teikėjas siunčia šios informacijos elektroniniu paštu arba galite valdyti jį hostingas kontrolės priemones) <br/>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed</key>
+    <value><![CDATA[<p class="success"> Jūs jau% PRATĘSIMAS% pratęsimo įdiegta! Jei norite tęsti ir atnaujinti, prašome patvirtinti. </p>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed_uninstall</key>
+    <value><![CDATA[Jūs jau turite šį pratęsimą &quot;% PRATĘSIMAS%&quot; Installed! Jei norite tęsti įdiegti, prašome pašalinti ir ištrinti pratęsimo pirmas.]]></value>
+  </definition>
+  <definition>
+    <key>error_pack_file_not_found</key>
+    <value><![CDATA[Klaida: Nepavyko išskleisti pratęsimo iš archyvo į %s. Patikrinkite <a href="#admin#rt=tool/error_log" target="_blank">prisijungti</a> klaidų]]></value>
+  </definition>
+  <definition>
+    <key>error_mp</key>
+    <value><![CDATA[Marketplace &quot;klaida:]]></value>
+  </definition>
+  <definition>
+    <key>error_repository</key>
+    <value><![CDATA[Klaida: Nepavyko atsisiųsti failą. Saugykla klaida arba neteisingas plėtinys raktas. Pabandykite dar kartą. Jei problema išlieka Parsisiųsti failą savo užsakymų istorijoje ir įdiegti rankiniu būdu.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_user</key>
+    <value><![CDATA[Klaida: FTP Vartotojo vardas tuščias.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_password</key>
+    <value><![CDATA[Klaida: FTP vartotojo slaptažodis yra tuščias.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_connect</key>
+    <value><![CDATA[Klaida: Nepavyko prisijungti prie FTP serverio]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_login</key>
+    <value><![CDATA[Klaida: Negaliu prisijungti prie ftp serverio. Neteisingas vartotojo vardas ar slaptažodis.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path</key>
+    <value><![CDATA[Klaida: Nepavyko rasti šakninį katalogą AbanteCart FTP kelią. <br/> Pabandykite palikti jį tuščią automatiniam paiešką.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path_array</key>
+    <value><![CDATA[Klaida: Negaliu automatinis pripažinti šakninį katalogą AbanteCart FTP režimu. <br/> Prašome užpildyti FTP kelio formos lauką. <br/> Kelias patarimų:]]></value>
+  </definition>
+  <definition>
+    <key>error_dir_permission</key>
+    <value><![CDATA[Negalima taupyti failo, nes direktorija neįrašomi:]]></value>
+  </definition>
+  <definition>
+    <key>error_package_structure</key>
+    <value><![CDATA[Klaida: Tikriausiai paketas yra pažeistas. Struktūra paketo klaidos.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config_xml</key>
+    <value><![CDATA[Klaida: Nepavyko rasti failo package.xml viduje išgauti pratęsimo. Galbūt plėtinys buvo paimti ne teisingai. Patikrinkite <a href="#admin#rt=tool/error_log" target="_blank">prisijungti</a> klaidų]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config2</key>
+    <value><![CDATA[Klaida: Nepavyko rasti diegimo režimą package.xml viduje paketą.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_info_not_exists</key>
+    <value><![CDATA[Klaida: Nepavyko rasti paketo sesija informacijos apie šį atsisiuntimą.]]></value>
+  </definition>
+  <definition>
+    <key>error_unpack</key>
+    <value><![CDATA[Klaida: Negalima spausti paketą &quot;% Paketas%&quot; po atsisiųsti. Archyvas klaida. Žiūrėti klaidos žurnale duomenis.]]></value>
+  </definition>
+  <definition>
+    <key>error_move</key>
+    <value><![CDATA[Klaida: Negaliu perkelti pakuotės kodą išpakavę. Bandykite patikrinti rašymo leidimus kataloge:]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode</key>
+    <value><![CDATA[Klaida: Nepavyko įdiegti plėtinį &quot;% Paketas%&quot;, nes ji jau įdiegta. Jums reikia deinstall ir pirmiausia jį ištrinkite arba gauti paketą atnaujinti.]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode2</key>
+    <value><![CDATA[Klaida: Negaliu atnaujinti plėtinį &quot;% Paketas%&quot;, nes jis nėra įdiegtas. Jums reikia gauti paketą įdiegti.]]></value>
+  </definition>
+  <definition>
+    <key>error_version_compatibility</key>
+    <value><![CDATA[Klaida: Nepavyko įdiegti paketą. Jūsų krepšelis versija <b>yra% CURRENT_VERSION%.</b> Versija (-ai) <b>privalo% VERSIJOS%.</b>]]></value>
+  </definition>
+  <definition>
+    <key>error_package_version_compatibility</key>
+    <value><![CDATA[Klaida: Negaliu atnaujinti paketą. Naujesni paketo versija jau yra įdiegtas.]]></value>
+  </definition>
+  <definition>
+    <key>error_install</key>
+    <value><![CDATA[Klaida: Nepavyko įdiegti paketą. Žiūrėkite sistema -&gt; Klaidos Prisijungti detales.]]></value>
+  </definition>
+  <definition>
+    <key>error_core_version</key>
+    <value><![CDATA[Klaida: Jūs turite įdiegta AbanteCart versija% versija%. <br/> Šis atnaujinimas paketas tik versijos mažesnis nei]]></value>
+  </definition>
+  <definition>
+    <key>text_interrupt</key>
+    <value><![CDATA[Nutraukti]]></value>
+  </definition>
+  <definition>
+    <key>confirm_version_incompatibility</key>
+    <value><![CDATA[Dabartinis kopija šio pratęsimo nėra patikrinta jūsų versija AbanteCart (V %s). <br/> pratęsimas Sukauptos nurodyta už AbanteCart V %s. <br/>
+ Tai ne problema, bet jei pastebėjote klausimus ar nesuderinamumo, susisiekite su prailginimo kūrėjas.]]></value>
+  </definition>
+  <definition>
+    <key>error_move_ftp</key>
+    <value><![CDATA[Klaida: Negaliu perkelti pakuotės kodą išpakavę. Tikriausiai FTP kelias yra neteisingas. <br/> Taip pat, prašome pabandyti patikrinti rašymo leidimus kataloge:]]></value>
+  </definition>
+  <definition>
+    <key>text_network_install</key>
+    <value><![CDATA[Tinklo diegimas]]></value>
+  </definition>
+  <definition>
+    <key>text_extension_upload</key>
+    <value><![CDATA[pratęsimas Įkelti]]></value>
+  </definition>
+  <definition>
+    <key>error_archive_extension</key>
+    <value><![CDATA[Klaida: Palaikomi tik .tar.gz failai.]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_file</key>
+    <value><![CDATA[Įkelti failą:]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_url</key>
+    <value><![CDATA[Įdėkite URL:]]></value>
+  </definition>
+  <definition>
+    <key>error_move_backup</key>
+    <value><![CDATA[Klaida: Nepavyko atsarginių kopijų failus prieš atnaujinimą. Patikrinkite rašymo leidimus kataloge:]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_title</key>
+    <value><![CDATA[Abantecart Core Upgrade]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_attention</key>
+    <value><![CDATA[Dėmesio!
+ AbanteCart netrukus bus atnaujintas iki versijos %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_warning</key>
+    <value><![CDATA[Nėra anuliuoti pradėjus atnaujinimo procesą.
+ Užbaigti duomenų ir kodas atsarginės yra labai rekomenduojama.
+ bandymas atnaujinti apie ne gyvų svetainių pirmųjų. Atnaujinkite gyvų svetainių nerekomenduojama.]]></value>
+  </definition>
+  <definition>
+    <key>text_upgrade_now</key>
+    <value><![CDATA[Patobulinti dabar!]]></value>
+  </definition>
+  <definition>
+    <key>error_additional_help_text</key>
+    <value><![CDATA[Stuck? Ne bėda. Jūs galite įdiegti plėtinius ir kitas būdas. Patikrinkite <a href="http://docs.abantecart.com/pages/extensions/install.html#FTPinstall" target="_blank">šį pagalbos nuorodą</a>]]></value>
+  </definition>
+  <definition>
+    <key>error_notconnected</key>
+    <value><![CDATA[Negalima atnaujinti arba įdiegti plėtinius iš rinkos. Ši parduotuvė neautentifikuotas / prijungti. Prašome patvirtinti ir prisijungti prie <a href="%s">rinkos</a>]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Prisijungimo klaida!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Jūs nesate prisijungęs. Būsite nukreipti į prisijungimo puslapį]]></value>
+  </definition>
+</definitions>

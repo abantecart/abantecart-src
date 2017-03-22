@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Prisijungti]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[registruotis paskyrą]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Prisijungti]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_new_customer</key>
+    <value><![CDATA[Aš esu naujas klientas.]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Vykdyti pasirinkimai:]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[Svečių Vykdyti užsakymą]]></value>
+  </definition>
+  <definition>
+    <key>text_create_account</key>
+    <value><![CDATA[Susikurdami savo paskyrą galėsite apsipirkti greičiau, būti atnaujinami dėl įsakymo statusą ir sekti užsakymų istoriją, matyti ankstesnius.]]></value>
+  </definition>
+  <definition>
+    <key>text_returning_customer</key>
+    <value><![CDATA[Grįžęs Klientų]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_returning_customer</key>
+    <value><![CDATA[Aš esu sugrįžęs klientas.]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_login</key>
+    <value><![CDATA[Pamiršote prisijungimo vardą?]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_password</key>
+    <value><![CDATA[Pamiršai slaptažodį?]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Prisijungimo vardas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email_address</key>
+    <value><![CDATA[Elektroninio pašto adresas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Slaptažodis:]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Klaida: Neteisingas loginas ar slaptažodis sąlyga.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_activated</key>
+    <value><![CDATA[Sėkmė: Jūsų sąskaita buvo aktyvuota sėkmingai. Prašome prisijungti su savo kredencialus.]]></value>
+  </definition>
+  <definition>
+    <key>text_already_activated</key>
+    <value><![CDATA[Jūsų sąskaita jau yra aktyvuota. Prašome prisijungti su savo kredencialus.]]></value>
+  </definition>
+  <definition>
+    <key>text_resend_activation_email</key>
+    <value><![CDATA[Klaida: Jūsų elektroninio pašto adresas dar nebuvo patvirtinta. Norėdami persiųsti naują patvirtinimo laišką, spauskite šio <a href=" %s ">nuorodą</a>]]></value>
+  </definition>
+</definitions>

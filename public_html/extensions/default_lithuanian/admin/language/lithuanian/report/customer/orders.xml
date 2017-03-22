@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[klientų užsakymus]]></value>
+  </definition>
+  <definition>
+    <key>column_customer_id</key>
+    <value><![CDATA[Kliento ID]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[Kliento vardas]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[Klientų grupė]]></value>
+  </definition>
+  <definition>
+    <key>column_order_count</key>
+    <value><![CDATA[Užsakymai Count]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[visas]]></value>
+  </definition>
+</definitions>

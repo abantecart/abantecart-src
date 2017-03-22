@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Užsakymas patvirtinimas]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[krepšys]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_basket</key>
+    <value><![CDATA[Redaguoti krepšelį]]></value>
+  </definition>
+  <definition>
+    <key>text_accept_agree</key>
+    <value><![CDATA[Paspaudę Patvirtinti užsakymą, Jūs sutinkate visų terminų]]></value>
+  </definition>
+  <definition>
+    <key>text_cart_items</key>
+    <value><![CDATA[Produktai Jūsų krepšelyje]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[gabenimas]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_shipping</key>
+    <value><![CDATA[Redaguoti Pristatymas]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[mokėjimas]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_payment</key>
+    <value><![CDATA[Redaguoti Mokėjimo]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_1</key>
+    <value><![CDATA[Svečių Vykdyti užsakymą - 1 etapas]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_2</key>
+    <value><![CDATA[Svečių Vykdyti užsakymą - 2 etapas]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Patvirtinti]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[Pristatymo adresas]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[atsiuntimo metodas]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[Mokėjimo Adresas]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Mokėjimo būdas]]></value>
+  </definition>
+  <definition>
+    <key>text_change</key>
+    <value><![CDATA[pokytis]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[Tavo komentarai]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[Nuolaida kupono]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[produktas]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Modelis]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[kiekis]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[kaina]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[visas]]></value>
+  </definition>
+  <definition>
+    <key>text_add_coupon</key>
+    <value><![CDATA[Redaguoti kupono]]></value>
+  </definition>
+</definitions>

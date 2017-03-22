@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Atsiliepimai]]></value>
+  </definition>
+  <definition>
+    <key>text_review</key>
+    <value><![CDATA[apžvalga]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[Įdėkite apžvalga]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[Atnaujinti apžvalga]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Jūs turite modifikuotų nuomones!]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[produktas]]></value>
+  </definition>
+  <definition>
+    <key>column_author</key>
+    <value><![CDATA[autorius]]></value>
+  </definition>
+  <definition>
+    <key>column_rating</key>
+    <value><![CDATA[Reitingas]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[statusas]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[Data pridėta]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[veiksmas]]></value>
+  </definition>
+  <definition>
+    <key>entry_product</key>
+    <value><![CDATA[Prekės:]]></value>
+  </definition>
+  <definition>
+    <key>entry_author</key>
+    <value><![CDATA[Autorius:]]></value>
+  </definition>
+  <definition>
+    <key>entry_rating</key>
+    <value><![CDATA[Reitingas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[būsena:]]></value>
+  </definition>
+  <definition>
+    <key>entry_text</key>
+    <value><![CDATA[tekstas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_good</key>
+    <value><![CDATA[geras]]></value>
+  </definition>
+  <definition>
+    <key>entry_bad</key>
+    <value><![CDATA[blogas]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Įspėjimas: Jūs neturite teisės keisti nuomones!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Prekės reikalingas!]]></value>
+  </definition>
+  <definition>
+    <key>error_author</key>
+    <value><![CDATA[Autorius turi būti tarp 2 ir 64 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_text</key>
+    <value><![CDATA[Apžvalga tekstas turi būti tarp 25 ir 1000 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_rating</key>
+    <value><![CDATA[Apžvalga įvertinimas reikalingas!]]></value>
+  </definition>
+  <definition>
+    <key>text_select_product</key>
+    <value><![CDATA[- Pasirinkti Prekės -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_category</key>
+    <value><![CDATA[- Pasirinkite kategoriją -]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Tvarkymo mokestis]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[Tvarkymo mokestis]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Užsakyti sumos]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Jūs atnaujinote viso tvarkymo mokestis!]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Užsakyti Iš viso: <span class="help">Minimalus užsakymo suma siekė taikyti mokestį. Jei klientas užsakymo suma viršys šią sumą, tvarkymo feee nebus taikoma. Ši vertė yra svarbesni su mokėjimo konkretų parametrą.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_placeholder</key>
+    <value><![CDATA[Užsakymo suma]]></value>
+  </definition>
+  <definition>
+    <key>entry_fee</key>
+    <value><![CDATA[Įmoka: <span class="help">mokestis turi būti įtraukta į užsakymo sumos, jeigu minimali suma sąlyga netenkinama. Ši suma yra svarbesni mokėjimo konkrečios aplinkoje</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_fee</key>
+    <value><![CDATA[Įmoka: <span class="help">mokestis turi būti įtraukta į užsakymo sumos, jei minimalus subrangos suma sąlyga netenkinama. Ši suma nepaisyti pagrindinę mokestis nustatymą</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Apmokėjimas: <span class="help">Pasirinkite konkrečią išmoką, jums reikia pridėti mokestį. Šie nustatymai bus perrašyti pagrindinius parametrus, jei mokėjimas yra naudojama klientui.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_subtotal</key>
+    <value><![CDATA[Užsakymo subfondas Iš viso: <span class="help">Minimalus užsakymo tarpinė suma suma siekė taikyti mokestį. Tai yra viršesnis pagrindinį nustatymą</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Mokesčių klasė: <span class="help">pasirinkite, jei jums reikia mokestį taikyti nuo-viršuje tvarkymo mokestis</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[būsena:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Rikiuoti:]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[Skaičiavimas užsakymas:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Įspėjimas: Jūs neturite teisės keisti bendrą tvarkymo mokestis!]]></value>
+  </definition>
+  <definition>
+    <key>error_number</key>
+    <value><![CDATA[Įspėjimas: Užsakymas iš viso ir tvarkymo mokestį turi būti numeriai!]]></value>
+  </definition>
+</definitions>

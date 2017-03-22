@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Žemas Užsakyti mokestis]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[Žemas Užsakyti mokestis]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Užsakyti sumos]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Jūs keistas bendras žemas užsakymo mokestį!]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Užsakymo suma:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fee</key>
+    <value><![CDATA[Rinkliava:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Mokesčių klasė:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[būsena:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Rikiuoti:]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[Skaičiavimas užsakymas:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Įspėjimas: Jūs neturite teisės keisti visą mažas užsakymo mokestį!]]></value>
+  </definition>
+</definitions>

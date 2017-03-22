@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[klientų sandoriai]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_date</key>
+    <value><![CDATA[Pervedimo data]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[Kliento vardas]]></value>
+  </definition>
+  <definition>
+    <key>column_created_by</key>
+    <value><![CDATA[Sukurta]]></value>
+  </definition>
+  <definition>
+    <key>column_debit</key>
+    <value><![CDATA[debetas]]></value>
+  </definition>
+  <definition>
+    <key>column_credit</key>
+    <value><![CDATA[kreditas]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_type</key>
+    <value><![CDATA[sandorio tipas]]></value>
+  </definition>
+</definitions>

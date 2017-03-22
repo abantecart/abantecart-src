@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Content Manager &quot;]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[Pridėti naują turinį]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[Atnaujinti turinys]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Jūs turite pakeistą turinį!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_layout</key>
+    <value><![CDATA[Sėkmė: Jūs keistas turinio puslapio maketą.]]></value>
+  </definition>
+  <definition>
+    <key>text_hidden</key>
+    <value><![CDATA[paslėptas]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Numatytas]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[turinio Pavadinimas]]></value>
+  </definition>
+  <definition>
+    <key>column_parent</key>
+    <value><![CDATA[tėvų turinys]]></value>
+  </definition>
+  <definition>
+    <key>entry_parent</key>
+    <value><![CDATA[Tėvų Turinys Page]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Rikiuoti]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[statusas]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[veiksmas]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Turinio Vardas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Turinio Pavadinimas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Aprašymas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_content</key>
+    <value><![CDATA[Turinys:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[parduotuvės:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[būsena:]]></value>
+  </definition>
+  <definition>
+    <key>entry_keyword</key>
+    <value><![CDATA[SEO, Raktažodžių:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Rikiuoti:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Įspėjimas: Jūs neturite teisės keisti turinį!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Turinio Pavadinimas turi būti tarp 2 ir 64 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Turinio Vardas privalo būti nuo 2 iki 64 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_description</key>
+    <value><![CDATA[Aprašymas turi būti daugiau nei 1 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_content</key>
+    <value><![CDATA[Turinys turi būti daugiau nei 1 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_seo_url</key>
+    <value><![CDATA[SEO URL turi būti daugiau nei 1 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_account</key>
+    <value><![CDATA[Įspėjimas: Šis turinys negali būti panaikinta, nes ji šiuo metu skiriamas kaip numatytąją Store sąskaitą sąlygomis!]]></value>
+  </definition>
+  <definition>
+    <key>error_checkout</key>
+    <value><![CDATA[Įspėjimas: Šis turinys negali būti panaikinta, nes ji šiuo metu skiriamas kaip numatytąją parduotuvė kasos sąlygomis!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Būtini duomenys nebuvo įtraukta. Patikrinkite lauko klaidų!]]></value>
+  </definition>
+  <definition>
+    <key>text_top_level</key>
+    <value><![CDATA[Auksciausias lygis]]></value>
+  </definition>
+  <definition>
+    <key>text_any</key>
+    <value><![CDATA[bet koks]]></value>
+  </definition>
+  <definition>
+    <key>tab_form</key>
+    <value><![CDATA[Redaguoti]]></value>
+  </definition>
+  <definition>
+    <key>tab_layout</key>
+    <value><![CDATA[maketavimas]]></value>
+  </definition>
+</definitions>

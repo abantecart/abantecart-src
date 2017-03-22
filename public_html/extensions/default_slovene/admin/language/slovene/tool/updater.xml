@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[vodja Update]]></value>
+  </definition>
+  <definition>
+    <key>text_checkupdates</key>
+    <value><![CDATA[preveri za posodobitve]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[razširitev Ime]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[Vrsta]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[Kategorija]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Stanje]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[Trenutna verzija]]></value>
+  </definition>
+  <definition>
+    <key>column_new_version</key>
+    <value><![CDATA[Nova različica]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Ukrep]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspeh: Extensions je bil uspešno posodobljen!]]></value>
+  </definition>
+  <definition>
+    <key>text_update</key>
+    <value><![CDATA[Nadgradnja]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore_exts</key>
+    <value><![CDATA[Obnovitev Backuped razširitev:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[posodobitve:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Opozorilo: Nimate dovoljenja za spreminjanje imenika:]]></value>
+  </definition>
+  <definition>
+    <key>warning_server</key>
+    <value><![CDATA[Strežnik s posodobitvami je nedostopno.]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_title</key>
+    <value><![CDATA[Posodobitev Obvestilo% NOVO%]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_text</key>
+    <value><![CDATA[&quot;Nova različica razširitve&quot;% EXTENSION% &quot;je na voljo. Prosimo, pojdite na% LINK% in ga nadgraditi. &quot;]]></value>
+  </definition>
+  <definition>
+    <key>warning_updates</key>
+    <value><![CDATA[ni mogoče dobiti informacije o posodobitvah.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Opozorilo: Naložena datoteka je bila prazna!]]></value>
+  </definition>
+  <definition>
+    <key>error_exts_list</key>
+    <value><![CDATA[Opozorilo: seznam Podaljšanje ni matrika!]]></value>
+  </definition>
+  <definition>
+    <key>text_nothing_todo</key>
+    <value><![CDATA[Vaš je razširitve so posodobljeni. Nič za početi.]]></value>
+  </definition>
+  <definition>
+    <key>text_connect</key>
+    <value><![CDATA[Poveži]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect</key>
+    <value><![CDATA[Povežite se na trgu]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect_your_store</key>
+    <value><![CDATA[Prosimo Povežite vašo trgovino na tržnici]]></value>
+  </definition>
+  <definition>
+    <key>text_note</key>
+    <value><![CDATA[Opomba: posodobitev je na voljo samo za povezane prodajalnah s kupljeno zgodovino.]]></value>
+  </definition>
+</definitions>

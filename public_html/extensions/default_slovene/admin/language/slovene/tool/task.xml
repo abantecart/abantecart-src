@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Redni Naloge]]></value>
+  </definition>
+  <definition>
+    <key>column_id</key>
+    <value><![CDATA[id]]></value>
+  </definition>
+  <definition>
+    <key>column_date_created</key>
+    <value><![CDATA[Datum nastanka]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[ime]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Stanje]]></value>
+  </definition>
+  <definition>
+    <key>column_start_time</key>
+    <value><![CDATA[Začetni čas]]></value>
+  </definition>
+  <definition>
+    <key>text_stuck</key>
+    <value><![CDATA[Stuck]]></value>
+  </definition>
+  <definition>
+    <key>text_ready</key>
+    <value><![CDATA[pripravljen]]></value>
+  </definition>
+  <definition>
+    <key>text_running</key>
+    <value><![CDATA[tek]]></value>
+  </definition>
+  <definition>
+    <key>text_scheduled</key>
+    <value><![CDATA[Načrtovani]]></value>
+  </definition>
+  <definition>
+    <key>text_disabled</key>
+    <value><![CDATA[Onemogočeno]]></value>
+  </definition>
+  <definition>
+    <key>text_failed</key>
+    <value><![CDATA[ni uspelo]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete</key>
+    <value><![CDATA[nepopolna]]></value>
+  </definition>
+  <definition>
+    <key>text_completed</key>
+    <value><![CDATA[končan]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Ponovni zagon Task]]></value>
+  </definition>
+  <definition>
+    <key>text_run</key>
+    <value><![CDATA[Run Naloga]]></value>
+  </definition>
+  <definition>
+    <key>text_task_started</key>
+    <value><![CDATA[naloga je začela]]></value>
+  </definition>
+  <definition>
+    <key>text_task_not_found</key>
+    <value><![CDATA[Naloga ni mogoče najti.]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_task</key>
+    <value><![CDATA[Naloga ne vsebuje korake. Odstranjen.]]></value>
+  </definition>
+  <definition>
+    <key>text_forbidden_to_restart</key>
+    <value><![CDATA[Prepovedano Za ponovni zagon!]]></value>
+  </definition>
+</definitions>

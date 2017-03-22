@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Valiutos]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[valiuta]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Jūs turite modifikuotų valiutas!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[valiuta Pavadinimas]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[kodas]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[vertė]]></value>
+  </definition>
+  <definition>
+    <key>column_date_modified</key>
+    <value><![CDATA[Paskutinį kartą atnaujinta]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[statusas]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[veiksmas]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Valiuta Pavadinimas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Kodas: <br/><span class="help">Nekeiskite jei tai yra jūsų numatytasis valiuta.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Vertė: <br/><span class="help">Nustatyti 1.00000 jei tai yra jūsų numatytasis valiuta.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_symbol_left</key>
+    <value><![CDATA[Akcija Kairysis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_symbol_right</key>
+    <value><![CDATA[Akcija Teisė:]]></value>
+  </definition>
+  <definition>
+    <key>entry_decimal_place</key>
+    <value><![CDATA[Dešimtųjų tikslumu:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[būsena:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Įspėjimas: Jūs neturite teisės keisti valiutas!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Valiuta Pavadinimas privalo būti nuo 2 iki 32 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Valiutos kodas turi būti 3 simbolius!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Įspėjimas: Ši valiuta negali būti panaikinta, nes ji šiuo metu skiriamas kaip numatytąją parduotuvės valiuta!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Įspėjimas: Ši valiuta negali būti panaikinta, nes ji šiuo metu skiriamas %s parduotuvėse!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Įspėjimas: Ši valiuta negali būti panaikinta, nes ji šiuo metu skiriamas %s užsakymų!]]></value>
+  </definition>
+</definitions>

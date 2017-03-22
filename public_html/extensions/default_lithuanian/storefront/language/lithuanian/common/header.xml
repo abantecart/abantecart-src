@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_home</key>
+    <value><![CDATA[Namai]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[Specialūs pasiūlymai]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[kontaktas]]></value>
+  </definition>
+  <definition>
+    <key>text_sitemap</key>
+    <value><![CDATA[Svetainės medis]]></value>
+  </definition>
+  <definition>
+    <key>text_bookmark</key>
+    <value><![CDATA[Pažymėti]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[sąskaita]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Prisijungti]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Atsijungti]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[krepšys]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Užsakymas]]></value>
+  </definition>
+  <definition>
+    <key>text_keyword</key>
+    <value><![CDATA[Raktažodžiai]]></value>
+  </definition>
+  <definition>
+    <key>text_advanced</key>
+    <value><![CDATA[Išplėstinė paieška]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[Visos kategorijos]]></value>
+  </definition>
+  <definition>
+    <key>entry_search</key>
+    <value><![CDATA[Paieška:]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Sveikas sugrįžęs]]></value>
+  </definition>
+  <definition>
+    <key>text_not</key>
+    <value><![CDATA[ne]]></value>
+  </definition>
+  <definition>
+    <key>text_login_or_register</key>
+    <value><![CDATA[Prisijunkite arba užsiregistruokite,]]></value>
+  </definition>
+</definitions>

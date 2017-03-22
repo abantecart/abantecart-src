@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Laikinoji valdymas]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Jūs sėkmingai ištrynė talpyklos failus!]]></value>
+  </definition>
+  <definition>
+    <key>text_configuration</key>
+    <value><![CDATA[Konfigūracija]]></value>
+  </definition>
+  <definition>
+    <key>text_layouts_blocks</key>
+    <value><![CDATA[Maketai &amp; blokai]]></value>
+  </definition>
+  <definition>
+    <key>text_flexyforms</key>
+    <value><![CDATA[Flexy formos]]></value>
+  </definition>
+  <definition>
+    <key>text_images</key>
+    <value><![CDATA[Vaizdai]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[produktai]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[Kategorijos]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[Gamintojai]]></value>
+  </definition>
+  <definition>
+    <key>text_localisations</key>
+    <value><![CDATA[lokalizacijos]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[klaida Prisijungti]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_cache</key>
+    <value><![CDATA[Išvalyti Pasirinkti talpyklos]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_all_cache</key>
+    <value><![CDATA[Išvalyti talpyklą]]></value>
+  </definition>
+  <definition>
+    <key>desc_configuration</key>
+    <value><![CDATA[Sistemos ir saugoti konfigūracijos]]></value>
+  </definition>
+  <definition>
+    <key>desc_layouts_blocks</key>
+    <value><![CDATA[Puslapiai, puslapis maketai, blokai]]></value>
+  </definition>
+  <definition>
+    <key>desc_flexyforms</key>
+    <value><![CDATA[Flexy formos duomenis]]></value>
+  </definition>
+  <definition>
+    <key>desc_images</key>
+    <value><![CDATA[vaizdo miniatiūros]]></value>
+  </definition>
+  <definition>
+    <key>desc_products</key>
+    <value><![CDATA[Prekės duomenys]]></value>
+  </definition>
+  <definition>
+    <key>desc_categories</key>
+    <value><![CDATA[duomenų kategorija]]></value>
+  </definition>
+  <definition>
+    <key>desc_manufacturers</key>
+    <value><![CDATA[Gamintojas duomenys]]></value>
+  </definition>
+  <definition>
+    <key>desc_localisations</key>
+    <value><![CDATA[Valiuta, kalbos, šalies, zona, ilgis, svoris, &amp; kitas]]></value>
+  </definition>
+  <definition>
+    <key>desc_error_log</key>
+    <value><![CDATA[klaida Prisijungti]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[Laikinoji tipas]]></value>
+  </definition>
+  <definition>
+    <key>column_description</key>
+    <value><![CDATA[aprašymas]]></value>
+  </definition>
+  <definition>
+    <key>text_html_cache</key>
+    <value><![CDATA[HTML talpyklos]]></value>
+  </definition>
+  <definition>
+    <key>desc_html_cache</key>
+    <value><![CDATA[Talpyklos HTML puslapius ir blokai]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[Įdiekite / Atnaujinkite istorija]]></value>
+  </definition>
+  <definition>
+    <key>desc_install_upgrade_history</key>
+    <value><![CDATA[Išvalyti viską įdiegti / atnaujinti istorija]]></value>
+  </definition>
+</definitions>

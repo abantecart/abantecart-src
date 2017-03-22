@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[davčnih razredov]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[davčna razred]]></value>
+  </definition>
+  <definition>
+    <key>text_rate</key>
+    <value><![CDATA[Davčna stopnja]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspeh: ste spremenjene davčne razrede!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Davčna Razred Naslov]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Ukrep]]></value>
+  </definition>
+  <definition>
+    <key>tab_details</key>
+    <value><![CDATA[podrobnosti]]></value>
+  </definition>
+  <definition>
+    <key>tab_rates</key>
+    <value><![CDATA[Cene]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Davčna Razred Naslov:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Opis vidna strankam]]></value>
+  </definition>
+  <definition>
+    <key>entry_location</key>
+    <value><![CDATA[lokacija]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Lokacija cona]]></value>
+  </definition>
+  <definition>
+    <key>entry_priority</key>
+    <value><![CDATA[Prednost]]></value>
+  </definition>
+  <definition>
+    <key>entry_rate</key>
+    <value><![CDATA[Davčna stopnja]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Opozorilo: Nimate dovoljenja za spreminjanje davčnih razredov!]]></value>
+  </definition>
+  <definition>
+    <key>error_tax_title</key>
+    <value><![CDATA[Davčna Razred Naslov mora biti med 2 in 32 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_rate</key>
+    <value><![CDATA[Davčna stopnja obvezna!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Opozorilo: Ta davčni razred ni mogoče izbrisati, saj je trenutno dodeljen %s izdelkov!]]></value>
+  </definition>
+  <definition>
+    <key>text_tax_all_zones</key>
+    <value><![CDATA[Vse lokacije cone]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_rate_threshold</key>
+    <value><![CDATA[Uporabi davka, če <br/><span class="help">uporablja ta davek le, če je obdavčen znesek (izdelek, ladijski promet, vmesnega seštevka, itd) ...</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_exempt_groups</key>
+    <value><![CDATA[Oproščene davka Skupine <br/><span class="help">Izberite skupine strank za oprostitev plačila tega davka</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_absolute</key>
+    <value><![CDATA[Absolute]]></value>
+  </definition>
+  <definition>
+    <key>text_percent</key>
+    <value><![CDATA[odstotek]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Slaptažodžio atstatymas]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Slaptažodžio nustatymo iš naujo buvo paprašyta iš %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Norėdami iš naujo nustatyti žemiau savo slaptažodį Spauskite nuorodą:]]></value>
+  </definition>
+  <definition>
+    <key>text_password_reset</key>
+    <value><![CDATA[Jūsų slaptažodis buvo sėkmingai iš naujo ant %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_password</key>
+    <value><![CDATA[Įveskite naują slaptažodį žemiau:]]></value>
+  </definition>
+  <definition>
+    <key>error_reset_token</key>
+    <value><![CDATA[Neteisingas nurodo slaptažodžio prašymą. Pabandykite iš naujo dar kartą ir naudoti nuorodą nuo naujausio paštu.]]></value>
+  </definition>
+</definitions>

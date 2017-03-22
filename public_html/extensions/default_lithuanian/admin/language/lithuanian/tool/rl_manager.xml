@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Žiniasklaida Išteklių biblioteka direktorius]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[Paskutinės pridėtos ištekliai]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[ištekliaus tipas]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[Ištekliaus tipas raktas <br/><span class="help">Tai ištekliaus tipas raktas / vardas vertė negali būti pakeista</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[Išteklių katalogas <br/><span class="help">katalogo buvimo vietos išteklių Šio tipo. Jei pasikeitė esami ištekliai nebus acceccible ir reikės nukopijuoti į naują katalogą!</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[Numatytasis piktograma <br/><span class="help">piktograma nuotrauka būtų parodyta išteklių sąrašą (Vieta: / vaizdo / ...).</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[Leido failų plėtiniai <br/><span class="help">Reguliarieji reiškiniai su leidžiamų failų plėtinius sąrašą šio ištekliaus tipas</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Jūs atnaujinote ištekliaus tipas!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[Klaida: Trūksta ištekliaus tipas ID!]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[Klaida: Ištekliaus tipas vardas turi būti nuo 2 iki 40 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[Klaida: Ištekliaus tipas katalogas turi būti nuo 2 iki 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[Klaida: Ištekliaus tipas piktograma turi būti nuo 2 iki 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[Klaida: Ištekliaus tipas failų Plėtiniai &quot;šalia įpraiška turi būti nuo 2 iki 40 charcters]]></value>
+  </definition>
+</definitions>

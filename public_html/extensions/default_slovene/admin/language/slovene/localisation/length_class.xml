@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[dolžina razredi]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[dolžina razred]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspeh: ste spremenjeni dolžinske razrede!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[dolžina Naslov]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[dolžina Unit]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[vrednost]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Ukrep]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Dolžina Naslov:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Dolžina enote:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Vrednost: <br/><span class="help">Set za 1.00000, če je to vaš privzeti dolžina.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Opozorilo: Nimate dovoljenja za spreminjanje dolžinske razrede!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Dolžina Naslov mora biti med 2 in 32 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Dolžina Enota mora biti med 1 in 4 znake!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Opozorilo: razred Ta dolžina ni mogoče izbrisati, kot je trenutno dodeljen kot razred privzeto dolžino trgovina!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Opozorilo: Ta razred dolžina ni mogoče izbrisati, saj je trenutno dodeljen %s izdelkov!]]></value>
+  </definition>
+</definitions>

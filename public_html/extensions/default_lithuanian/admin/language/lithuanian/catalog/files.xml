@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Prekės failai]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[produktas]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_product_file</key>
+    <value><![CDATA[Redaguoti Prekės Failų]]></value>
+  </definition>
+  <definition>
+    <key>tab_files</key>
+    <value><![CDATA[failai]]></value>
+  </definition>
+  <definition>
+    <key>tab_general</key>
+    <value><![CDATA[bendras]]></value>
+  </definition>
+  <definition>
+    <key>tab_attributes</key>
+    <value><![CDATA[Parsisiųsti atributai]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_icon</key>
+    <value><![CDATA[file icon]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[statusas]]></value>
+  </definition>
+  <definition>
+    <key>entry_resource</key>
+    <value><![CDATA[išteklių]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[vardas]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_name</key>
+    <value><![CDATA[Atsisiuntimo pavadinimas]]></value>
+  </definition>
+  <definition>
+    <key>entry_mask</key>
+    <value><![CDATA[Parsisiųsti kaukė <span class="help">Failo slapyvardis už klientų parsisiųsti produkcijos</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_full_path</key>
+    <value><![CDATA[Failų serveris kelias]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_max_downloads</key>
+    <value><![CDATA[Maksimalus Parsisiųsti]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_sort_order</key>
+    <value><![CDATA[Rikiuoti]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_status</key>
+    <value><![CDATA[statusas]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_push_to_customers</key>
+    <value><![CDATA[Push klientams]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_activation</key>
+    <value><![CDATA[aktyvavimo būdas]]></value>
+  </definition>
+  <definition>
+    <key>text_add_file</key>
+    <value><![CDATA[Pridėti failą]]></value>
+  </definition>
+  <definition>
+    <key>text_new_file</key>
+    <value><![CDATA[Pridėti naują failą]]></value>
+  </definition>
+  <definition>
+    <key>text_download_attributes</key>
+    <value><![CDATA[Parsisiųsti atributai]]></value>
+  </definition>
+  <definition>
+    <key>text_download_information</key>
+    <value><![CDATA[bendras]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_added</key>
+    <value><![CDATA[pridėtas]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_modified</key>
+    <value><![CDATA[modifikuotas]]></value>
+  </definition>
+  <definition>
+    <key>entry_max_downloads</key>
+    <value><![CDATA[Maksimalus parsisiųsti <span class="help">Grafas parsisiųsti leidžiama klientui</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_activate</key>
+    <value><![CDATA[Aktyvuotas <span class="help">Parsisiųsti bus aktyvuojasi renginio pasirinktos. <br/> Pavyzdys: Iš karto. Parsisiųsti yra įjungti po tam dedamas, nepriklausomai nuo užsakymo būsena</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Rikiuoti]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_days</key>
+    <value><![CDATA[Baigiasi dienos <span class="help">Count dienų nuo pirkimo datos</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_before_order</key>
+    <value><![CDATA[prieš ordino]]></value>
+  </definition>
+  <definition>
+    <key>text_immediately</key>
+    <value><![CDATA[tuojau]]></value>
+  </definition>
+  <definition>
+    <key>text_on_order_status</key>
+    <value><![CDATA[ant Užsakymo būsena]]></value>
+  </definition>
+  <definition>
+    <key>text_manually</key>
+    <value><![CDATA[rankiniu]]></value>
+  </definition>
+  <definition>
+    <key>text_success_download_save</key>
+    <value><![CDATA[Sėkmė: Jūs pakeistą iliustraciją!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_exists</key>
+    <value><![CDATA[Klaida: Negaliu atnaujinti parsisiųsti, nes ji neturi egzistuoja duomenų bazėje!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_name</key>
+    <value><![CDATA[Klaida: Parsisiųsti pavadinimas turi turėti ilgis nuo 2 iki 128 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_max_downloads</key>
+    <value><![CDATA[Klaida: maksimalūs parsisiųsti skaičiuoti turi būti didesnis 0!]]></value>
+  </definition>
+  <definition>
+    <key>error_activate</key>
+    <value><![CDATA[Klaida: Pasirinkite veiksmą aktyvavimo atsisiųsti!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_status</key>
+    <value><![CDATA[Klaida: pasirinkti užsakymo būseną aktyvavimo atsisiųsti!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_attributes</key>
+    <value><![CDATA[Parsisiųsti savybės klaidą (-as):]]></value>
+  </definition>
+  <definition>
+    <key>text_shared_downloads</key>
+    <value><![CDATA[Shared Siuntiniai]]></value>
+  </definition>
+  <definition>
+    <key>text_create_download</key>
+    <value><![CDATA[Kurti naują parsisiųsti]]></value>
+  </definition>
+  <definition>
+    <key>text_path</key>
+    <value><![CDATA[Santykinis kelias iki failo]]></value>
+  </definition>
+  <definition>
+    <key>text_preview</key>
+    <value><![CDATA[Peržiūrėti]]></value>
+  </definition>
+  <definition>
+    <key>entry_shared</key>
+    <value><![CDATA[Bendri Parsisiųsti]]></value>
+  </definition>
+  <definition>
+    <key>text_assign</key>
+    <value><![CDATA[Sutaupyti]]></value>
+  </definition>
+  <definition>
+    <key>text_assigned_to</key>
+    <value><![CDATA[Taip pat skiriamas:]]></value>
+  </definition>
+  <definition>
+    <key>text_select_shared_downloads</key>
+    <value><![CDATA[Pasirinkite bendrus parsisiųsti]]></value>
+  </definition>
+  <definition>
+    <key>error_selected_downloads</key>
+    <value><![CDATA[Įspėjimas: Prašome pasirinkti bendrus parsisiųsti už Susieti.]]></value>
+  </definition>
+  <definition>
+    <key>text_map_success</key>
+    <value><![CDATA[Sėkmė: Jūs priskyrėte bendrus parsisiųsti į prekę!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_or_refuse</key>
+    <value><![CDATA[ištrinti arba atsisakyti (pasidalijamojo)]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_delete</key>
+    <value><![CDATA[Patvirtinti parsisiųsti ištrinti / atsisakyti]]></value>
+  </definition>
+  <definition>
+    <key>text_success_remove</key>
+    <value><![CDATA[Sėkmė: produkto failai sąrašas pasikeitė!]]></value>
+  </definition>
+  <definition>
+    <key>text_push</key>
+    <value><![CDATA[stumti]]></value>
+  </definition>
+  <definition>
+    <key>text_push_to_customers</key>
+    <value><![CDATA[Tiesioginis klientams]]></value>
+  </definition>
+  <definition>
+    <key>text_push_to_orders</key>
+    <value><![CDATA[Push Atsisiųsti į %s užsakymus]]></value>
+  </definition>
+  <definition>
+    <key>success_push_to_orders</key>
+    <value><![CDATA[Sėkmė: Parsisiųsti buvo stumiama į %s nurodymo (-ų) sėkmingai]]></value>
+  </definition>
+  <definition>
+    <key>text_no_download_attributes_yet</key>
+    <value><![CDATA[Nėra parsisiųsti atributus dar. <a href="%s" target="_blank">Spustelėkite ir pridėkite</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_push</key>
+    <value><![CDATA[Patvirtinti?]]></value>
+  </definition>
+  <definition>
+    <key>error_downloads_disabled</key>
+    <value><![CDATA[Įspėjimas: Siuntiniai yra neįgaliųjų parduotuvių nustatymus. <a href="#admin#rt=setting/setting&active=general" target="new">Spustelėkite, norėdami redaguoti</a> !]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Įspėjimas: Jūs neturite teisės keisti produktų failus!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[Prašome nustatyti už atsisiųsti failą.]]></value>
+  </definition>
+  <definition>
+    <key>attention_shared</key>
+    <value><![CDATA[Jūs ketinate redaguoti bendrą siuntimą. Redaguoti vykdys kitus produktus.]]></value>
+  </definition>
+  <definition>
+    <key>text_shared_with</key>
+    <value><![CDATA[Dalijamasi su:]]></value>
+  </definition>
+</definitions>

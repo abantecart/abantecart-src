@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[valute]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[valuta]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspeh: Imate spremenjene valute!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[valuta Naslov]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Koda]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[vrednost]]></value>
+  </definition>
+  <definition>
+    <key>column_date_modified</key>
+    <value><![CDATA[Zadnja posodobitev]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Stanje]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Ukrep]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Valuta Naslov:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Koda: <br/><span class="help">ne spremeni, če je to vaša privzeta valuta.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Vrednost: <br/><span class="help">Set za 1.00000 če je to vaš privzeta valuta.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_symbol_left</key>
+    <value><![CDATA[Simbol Levo:]]></value>
+  </definition>
+  <definition>
+    <key>entry_symbol_right</key>
+    <value><![CDATA[Simbol Desno:]]></value>
+  </definition>
+  <definition>
+    <key>entry_decimal_place</key>
+    <value><![CDATA[Decimalna mesta:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Stanje:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Opozorilo: Nimate dovoljenja za spreminjanje valute!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Valuta Naslov mora biti med 2 in 32 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Valuta Koda mora vsebovati 3 znake!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Opozorilo: Ta valuta ni mogoče izbrisati, kot je trenutno določena za privzeto trgovini valuti!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Opozorilo: Ta valuta ni mogoče izbrisati, saj je trenutno dodeljen %s trgovinah!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Opozorilo: Ta valuta ni mogoče izbrisati, saj je trenutno dodeljen %s naročila!]]></value>
+  </definition>
+</definitions>

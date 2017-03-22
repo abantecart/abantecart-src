@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[numatytas užduotis]]></value>
+  </definition>
+  <definition>
+    <key>column_id</key>
+    <value><![CDATA[id]]></value>
+  </definition>
+  <definition>
+    <key>column_date_created</key>
+    <value><![CDATA[Sukūrimo data]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[vardas]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[statusas]]></value>
+  </definition>
+  <definition>
+    <key>column_start_time</key>
+    <value><![CDATA[Pradžios laikas]]></value>
+  </definition>
+  <definition>
+    <key>text_stuck</key>
+    <value><![CDATA[Stuck]]></value>
+  </definition>
+  <definition>
+    <key>text_ready</key>
+    <value><![CDATA[paruoštas]]></value>
+  </definition>
+  <definition>
+    <key>text_running</key>
+    <value><![CDATA[veikia]]></value>
+  </definition>
+  <definition>
+    <key>text_scheduled</key>
+    <value><![CDATA[planuojama]]></value>
+  </definition>
+  <definition>
+    <key>text_disabled</key>
+    <value><![CDATA[neįgalusis]]></value>
+  </definition>
+  <definition>
+    <key>text_failed</key>
+    <value><![CDATA[nepavyko]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete</key>
+    <value><![CDATA[Nebaigtas]]></value>
+  </definition>
+  <definition>
+    <key>text_completed</key>
+    <value><![CDATA[užbaigtas]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Iš naujo darbo]]></value>
+  </definition>
+  <definition>
+    <key>text_run</key>
+    <value><![CDATA[Vykdyti Užduotis]]></value>
+  </definition>
+  <definition>
+    <key>text_task_started</key>
+    <value><![CDATA[užduotis pradėjo]]></value>
+  </definition>
+  <definition>
+    <key>text_task_not_found</key>
+    <value><![CDATA[Užduotis nerastas.]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_task</key>
+    <value><![CDATA[Užduotis nėra pateikiami veiksmai. Pašalintas.]]></value>
+  </definition>
+  <definition>
+    <key>text_forbidden_to_restart</key>
+    <value><![CDATA[Draudžiama iš naujo!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Zemljevid strani]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[Posebne ponudbe]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Moj račun]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[Podatki o računu]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[geslo]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Imenik]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[Zgodovina naročil]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Prenosi]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[Nakupovalni voziček]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Preveri]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Iskanje]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[informacije]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Kontaktiraj nas]]></value>
+  </definition>
+</definitions>

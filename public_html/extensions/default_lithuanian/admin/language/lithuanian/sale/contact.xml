@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_send_email</key>
+    <value><![CDATA[Išsiųsti laišką]]></value>
+  </definition>
+  <definition>
+    <key>text_send_sms</key>
+    <value><![CDATA[siųsti SMS]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Jūsų žinutė buvo sėkmingai išsiųsta!]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Numatytas]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_send</key>
+    <value><![CDATA[Rankiniu būdu atrinkti klientai]]></value>
+  </definition>
+  <definition>
+    <key>text_all_subscribers</key>
+    <value><![CDATA[Visi žiūrovai]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribers_only</key>
+    <value><![CDATA[Naujienlaiškis abonentų Tik (ne klientai)]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_only</key>
+    <value><![CDATA[Visi klientai]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[Nuo parduotuvė: <span class="help">Laikyti elektroninio pašto adresą siųsti laišką iš. Vertė yra nustatytas parduotuvės nustatymų</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_who_ordered</key>
+    <value><![CDATA[Klientams, kurie įsakė pasirinktas produktus]]></value>
+  </definition>
+  <definition>
+    <key>entry_to</key>
+    <value><![CDATA[Į: <span class="help">sąrašas klientams gauti šį pranešimą. PASTABA: Dideli klientų sąrašus reikės ilgą laiką turi būti tvarkomi ir gali prireikti taikyti alternatyvius metodus. Žiūrėkite savo interneto ir elektroninio pašto serverio konfigūracijos</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_from_lookup</key>
+    <value><![CDATA[Pradėkite įvedinėti klientų vardą ieškoti ir pasirinkite]]></value>
+  </definition>
+  <definition>
+    <key>text_products_from_lookup</key>
+    <value><![CDATA[Pradėkite įvedinėti produkto pavadinimas ieškoti ir pasirinkite]]></value>
+  </definition>
+  <definition>
+    <key>entry_subject</key>
+    <value><![CDATA[Tema:]]></value>
+  </definition>
+  <definition>
+    <key>entry_message</key>
+    <value><![CDATA[Pranešimo tekstas:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Įspėjimas: Jūs neturite leidimo siųsti laiškus!]]></value>
+  </definition>
+  <definition>
+    <key>error_subject</key>
+    <value><![CDATA[Paštas objektas reikalingas!]]></value>
+  </definition>
+  <definition>
+    <key>error_message_email</key>
+    <value><![CDATA[Siųsti žinutę institucija turi!]]></value>
+  </definition>
+  <definition>
+    <key>error_message_sms</key>
+    <value><![CDATA[SMS žinutė institucija turi!]]></value>
+  </definition>
+  <definition>
+    <key>error_recipients</key>
+    <value><![CDATA[Gavėjų sąrašą, abonentai ar užsakytos prekės yra privalomi!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_sent</key>
+    <value><![CDATA[Klaida: Nieko laiškus buvo išsiųstas! Žiūrėkite klaidos žurnalą detales. &quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_unsubscribe</key>
+    <value><![CDATA[Tai laiškas buvo išsiųstas į %s, nes jūsų elektroninio pašto lengvatos nustatyti gauti naujienlaiškius. Spauskite <a href="%s">čia norėdami Atsisakyti</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_total_to_be_sent</key>
+    <value><![CDATA[(Viso turi būti siunčiami: %s)]]></value>
+  </definition>
+  <definition>
+    <key>text_select_products</key>
+    <value><![CDATA[- Pasirinkite gaminiai -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_customers</key>
+    <value><![CDATA[- Pasirinkite Klientai -]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[paštas]]></value>
+  </definition>
+  <definition>
+    <key>text_sms</key>
+    <value><![CDATA[trumpoji žinutė]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete_tasks</key>
+    <value><![CDATA[Nepilnos uždaviniai]]></value>
+  </definition>
+  <definition>
+    <key>text_task_id</key>
+    <value><![CDATA[Užduoties ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_time_run</key>
+    <value><![CDATA[Paskutinis laikui bėgant:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Sukurta:]]></value>
+  </definition>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[Tema:]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[pranešimas:]]></value>
+  </definition>
+  <definition>
+    <key>text_starter_name</key>
+    <value><![CDATA[Sukurta:]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Perkrauti]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[pašalinti]]></value>
+  </definition>
+  <definition>
+    <key>error_email_no_recipients</key>
+    <value><![CDATA[Dėmesio! Pranešimo nebus išsiųstas.]]></value>
+  </definition>
+  <definition>
+    <key>error_sms_no_recipients</key>
+    <value><![CDATA[Dėmesio! Nėra klientams mobiliųjų telefonų numerius.]]></value>
+  </definition>
+  <definition>
+    <key>text_attention_recipients_count</key>
+    <value><![CDATA[Dėmesio! Pranešimas bus išsiųstas %s klientams.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_abort</key>
+    <value><![CDATA[Užduotis sėkmingai nutrauktas.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_sent</key>
+    <value><![CDATA[%s Buvo siunčiami pranešimai.]]></value>
+  </definition>
+  <definition>
+    <key>text_task_failed</key>
+    <value><![CDATA[Kai kurios klaidos įvyko užduočių metu. Žiūrėkite prisijungti išsamesnę informaciją, arba iš naujo paleiskite šią užduotį.]]></value>
+  </definition>
+  <definition>
+    <key>text_sent</key>
+    <value><![CDATA[%s Apie %s pranešimai siunčiami]]></value>
+  </definition>
+</definitions>

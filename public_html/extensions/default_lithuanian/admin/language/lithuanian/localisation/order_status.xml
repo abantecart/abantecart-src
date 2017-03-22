@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Užsakyti Statusai]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Užsakymo būsena]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Jūs modifikuotos būsenas!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Užsakymo statusas Vardas]]></value>
+  </definition>
+  <definition>
+    <key>column_text_id</key>
+    <value><![CDATA[Užsakymo statusas Tekstas ID]]></value>
+  </definition>
+  <definition>
+    <key>entry_text_id</key>
+    <value><![CDATA[Užsakymo statusas Tekstas ID:]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[veiksmas]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Užsakymo statusas Vardas:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Įspėjimas: Jūs neturite teisės keisti užsakymo statulos!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Užsakymo statusas Vardas privalo būti nuo 2 iki 32 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Įspėjimas: šio užsakymo būseną negali būti panaikinta, nes ji šiuo metu skiriamas kaip numatytąją parduotuvė užsakymo būsena!]]></value>
+  </definition>
+  <definition>
+    <key>error_download</key>
+    <value><![CDATA[Įspėjimas: šio užsakymo būseną negali būti panaikinta, nes ji šiuo metu skiriamas kaip numatytąją atsisiuntimų statusą!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Įspėjimas: šio užsakymo būseną negali būti panaikinta, nes ji šiuo metu skiriamas %s parduotuvėse!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Įspėjimas: šio užsakymo būseną negali būti panaikinta, nes ji šiuo metu skiriamas %s užsakymų!]]></value>
+  </definition>
+  <definition>
+    <key>error_nondeletable</key>
+    <value><![CDATA[Perspėjimas: Tai yra svarbu, užsakymo būsena, kuri yra susijusi su mokėjimais. Jūs negalite trinti šį statusą.]]></value>
+  </definition>
+  <definition>
+    <key>error_status_text_id</key>
+    <value><![CDATA[Užsakymo statusas Tekstas ID turi būti unikalus ir tarp 2 ir 32 simbolių!]]></value>
+  </definition>
+</definitions>

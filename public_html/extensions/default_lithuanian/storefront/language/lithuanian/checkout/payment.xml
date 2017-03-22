@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Mokėjimo informacija]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[krepšys]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[gabenimas]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[mokėjimas]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_to</key>
+    <value><![CDATA[Prašome pasirinkti iš savo adresų knygą, kurioje norėtumėte sąskaitą faktūrą išsiųstas.]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[Mokėjimo Adresas]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Mokėjimo būdas]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_methods</key>
+    <value><![CDATA[Prašome pasirinkti pageidaujamą mokėjimo būdą naudoti šioje tvarka.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[Pridėti atsiliepimai apie užsakymą]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[Aš perskaičiau ir sutinku su]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[Įveskite savo kodą ir spustelėkite mygtuką &quot;Taikyti kuponas&quot; ir pamatyti nuolaidą iškart kreipėsi į užsakymą.]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Jūsų kuponas nuolaida buvo taikoma!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[Sėkmė: Kuponas buvo ištrintas!]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon</key>
+    <value><![CDATA[kupono:]]></value>
+  </definition>
+  <definition>
+    <key>error_payment</key>
+    <value><![CDATA[Klaida: reikia Apmokėjimo būdas!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[Klaida: Jūs turite sutikti su %s!]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Klaida: kuponas arba negaliojantis, pasibaigė arba pasiekė tai naudojimas riba!]]></value>
+  </definition>
+</definitions>

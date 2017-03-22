@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Ste pozabili geslo?]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_loginname</key>
+    <value><![CDATA[Ste pozabili Login Name?]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[račun]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten</key>
+    <value><![CDATA[Pozabljeno geslo]]></value>
+  </definition>
+  <definition>
+    <key>text_your_email</key>
+    <value><![CDATA[Vaš email naslov]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Vnesite e-poštni naslov, povezan z vašim računom. Kliknite predloži so geslo po e-pošti]]></value>
+  </definition>
+  <definition>
+    <key>text_loginname_email</key>
+    <value><![CDATA[Vnesite ime za prijavo in e-poštni naslov, povezan z vašim računom. Kliknite predloži zahteva ponastavitev gesla]]></value>
+  </definition>
+  <definition>
+    <key>text_lastname_email</key>
+    <value><![CDATA[Vnesite priimek in e-poštni naslov, povezan z vašim računom. Kliknite predloži vaše ime za prijavo po e-pošti]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspeh: Geslo ponastavitev povezava je bilo poslano na vaš e-poštni naslov.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_loginname</key>
+    <value><![CDATA[Uspeh: Opomnik ime geslo je bilo poslano na vaš e-poštni naslov.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Login Name:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Priimek:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[Email naslov:]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Napaka: E-poštni naslov ni na voljo ali ni bilo mogoče najti v naših evidencah, poskusite znova!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Napaka: Ime prijava ni bila na voljo ali ni bilo mogoče najti v naših evidencah, poskusite znova!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Napaka: Priimek ni na voljo ali ni bilo mogoče najti v naših evidencah, poskusite znova!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_found</key>
+    <value><![CDATA[Napaka: Ni najdenih zapisov ujemanje informacije svoj predvideni, preverite svoje podatke in poskusite znova!]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_loginname</key>
+    <value><![CDATA[Pozabljeno Login Name]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[klientai Dabar]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[Kliento vardas]]></value>
+  </definition>
+  <definition>
+    <key>column_ip</key>
+    <value><![CDATA[Klientų IP]]></value>
+  </definition>
+  <definition>
+    <key>column_time</key>
+    <value><![CDATA[Paskutinį kartą prisijungta]]></value>
+  </definition>
+  <definition>
+    <key>column_url</key>
+    <value><![CDATA[adresas prisijungta]]></value>
+  </definition>
+</definitions>

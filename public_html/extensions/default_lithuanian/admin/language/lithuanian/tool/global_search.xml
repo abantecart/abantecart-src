@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Bendrosios paieškos rezultatai]]></value>
+  </definition>
+  <definition>
+    <key>no_results_message</key>
+    <value><![CDATA[Atsiprašome, tačiau mes turime jokių rezultatų.]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Įspėjimas: Jūs neturite leidimo Ieškoti!]]></value>
+  </definition>
+  <definition>
+    <key>text_orders</key>
+    <value><![CDATA[Užsakymai]]></value>
+  </definition>
+  <definition>
+    <key>text_customers</key>
+    <value><![CDATA[klientai]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[Siuntiniai]]></value>
+  </definition>
+  <definition>
+    <key>text_product_categories</key>
+    <value><![CDATA[produktų kategorijos]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[produktai]]></value>
+  </definition>
+  <definition>
+    <key>text_reviews</key>
+    <value><![CDATA[Atsiliepimai]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[Prekiniai ženklai]]></value>
+  </definition>
+  <definition>
+    <key>text_languages</key>
+    <value><![CDATA[kalbos]]></value>
+  </definition>
+  <definition>
+    <key>text_pages</key>
+    <value><![CDATA[puslapiai]]></value>
+  </definition>
+  <definition>
+    <key>text_settings</key>
+    <value><![CDATA[Nustatymai]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[Žinutės]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[plėtiniai]]></value>
+  </definition>
+  <definition>
+    <key>text_commands</key>
+    <value><![CDATA[Greita Komandos]]></value>
+  </definition>
+  <definition>
+    <key>text_contents</key>
+    <value><![CDATA[turinio puslapiai]]></value>
+  </definition>
+</definitions>

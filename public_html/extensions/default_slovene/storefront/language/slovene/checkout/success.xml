@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Vaše naročilo je bilo obdelano!]]></value>
+  </definition>
+  <definition>
+    <key>text_message_account</key>
+    <value><![CDATA[<p> Naročilo # %s je bila ustvarjena! </p> 
+ <p> Ogledate si lahko podrobnosti naročila, ki jih bo na <a href="%s">strani računa</a>. </p> 
+ <p> Če imate kakršna koli vprašanja, ki jih imajo do <a href="%s">lastnika trgovine</a>. </p> 
+ <p> Hvala za nakupe pri nas! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_message_guest</key>
+    <value><![CDATA[<p> Vaše naročilo je bilo uspešno obdelano! </p> 
+ <p> Ogledate si lahko podrobnosti naročila, ki jih bo na <a href="%s">strani računa</a>. </p> 
+ <p> Če imate kakršna koli vprašanja, ki jih imajo do <a href="%s">lastnika trgovine</a>. </p> 
+ <p> Hvala za nakupe pri nas! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Košara]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Dostava]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[plačilo]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[Gost blagajno]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Potrdi]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[uspeh]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order</key>
+    <value><![CDATA[Ups! Smo doživeli nekaj težavo s svojim poslom. Vaše naročilo bo ročno preveri s strani administratorja.]]></value>
+  </definition>
+  <definition>
+    <key>text_title_failed_order_to_admin</key>
+    <value><![CDATA[Ni red # %s]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order_to_admin</key>
+    <value><![CDATA[Ni ali manjka odziv preverjanje plačila. Ročno preverjanje je potrebno!]]></value>
+  </definition>
+</definitions>

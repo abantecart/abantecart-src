@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Izdelki ogledov poročilo]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspeh: Imate ponastaviti poročilo forum ogledov!]]></value>
+  </definition>
+  <definition>
+    <key>column_product_id</key>
+    <value><![CDATA[ID izdelka]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[ime izdelka]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Model]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[Kategorija]]></value>
+  </definition>
+  <definition>
+    <key>column_viewed</key>
+    <value><![CDATA[ogledov]]></value>
+  </definition>
+  <definition>
+    <key>column_percent</key>
+    <value><![CDATA[odstotek]]></value>
+  </definition>
+</definitions>

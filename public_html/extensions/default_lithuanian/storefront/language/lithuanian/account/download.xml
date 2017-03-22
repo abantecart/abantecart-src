@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Anketa Siuntiniai]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[sąskaita]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[Siuntiniai]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Užsakyti ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Data pridėta:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_purchased</key>
+    <value><![CDATA[Įsigyta data:]]></value>
+  </definition>
+  <definition>
+    <key>text_name</key>
+    <value><![CDATA[Vardas:]]></value>
+  </definition>
+  <definition>
+    <key>text_remaining</key>
+    <value><![CDATA[Liko:]]></value>
+  </definition>
+  <definition>
+    <key>text_size</key>
+    <value><![CDATA[Dydis:]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[parsisiųsti]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Jūs neturite jokių ankstesnių atsisiųsti užsakymus!]]></value>
+  </definition>
+  <definition>
+    <key>text_expire_date</key>
+    <value><![CDATA[Galiojimo data:]]></value>
+  </definition>
+  <definition>
+    <key>text_expired</key>
+    <value><![CDATA[baigėsi]]></value>
+  </definition>
+  <definition>
+    <key>text_pending</key>
+    <value><![CDATA[kol]]></value>
+  </definition>
+  <definition>
+    <key>text_unavailable</key>
+    <value><![CDATA[Nepasiekiamas]]></value>
+  </definition>
+  <definition>
+    <key>text_reached_limit</key>
+    <value><![CDATA[pasiektas limitas]]></value>
+  </definition>
+  <definition>
+    <key>error_download_not_exists</key>
+    <value><![CDATA[Prašoma failas neegzistuoja!]]></value>
+  </definition>
+</definitions>

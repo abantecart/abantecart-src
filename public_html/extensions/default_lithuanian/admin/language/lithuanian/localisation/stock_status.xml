@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Akcijų Statusai]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[išteklių būklė]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Jūs keistas akcijų būsenas!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Akcijų statusas Vardas]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[veiksmas]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Išteklių būklės Vardas:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Įspėjimas: Jūs neturite teisės keisti akcijų statulos!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Akcijų statusas Vardas privalo būti nuo 2 iki 32 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Įspėjimas: prieinamumo statusas negali būti panaikinta, nes ji šiuo metu skiriamas %s produktų!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[razširitve Marketplace]]></value>
+  </definition>
+  <definition>
+    <key>text_install</key>
+    <value><![CDATA[namestitev]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall</key>
+    <value><![CDATA[Odstrani]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall_delete</key>
+    <value><![CDATA[Odstrani / Izbriši]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall_confirm</key>
+    <value><![CDATA[Potrdite, da želite odstraniti razširitev [% podaljšanje%]. Vse nastavitve razširitve in z njimi povezane podatke, se lahko črta, izgubljena.]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[Brisanje]]></value>
+  </definition>
+  <definition>
+    <key>text_enlarge</key>
+    <value><![CDATA[Klikni na sliko za povečavo]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[Aktivirajte]]></value>
+  </definition>
+  <definition>
+    <key>text_deactivate</key>
+    <value><![CDATA[deaktiviranje]]></value>
+  </definition>
+  <definition>
+    <key>text_left</key>
+    <value><![CDATA[levo]]></value>
+  </definition>
+  <definition>
+    <key>text_right</key>
+    <value><![CDATA[Prav]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[dodano na]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Opozorilo: Nimate dovoljenja za spreminjanje razširitve!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_field</key>
+    <value><![CDATA[Opozorilo: Prosimo, da izpolnite zahtevana polja!]]></value>
+  </definition>
+  <definition>
+    <key>error_payment_uninstall</key>
+    <value><![CDATA[Opozorilo: Onemogočite podaljšanje pred odstranjevanjem!]]></value>
+  </definition>
+  <definition>
+    <key>error_uninstall</key>
+    <value><![CDATA[Opozorilo: Uninstall podaljšanje pred izbrisom!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspeh: ste spremenjene nastavitve razširitev!]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_store</key>
+    <value><![CDATA[razširitve Marketplace]]></value>
+  </definition>
+  <definition>
+    <key>text_required</key>
+    <value><![CDATA[Zahtevana]]></value>
+  </definition>
+  <definition>
+    <key>text_optional</key>
+    <value><![CDATA[neobvezno]]></value>
+  </definition>
+  <definition>
+    <key>text_add_new</key>
+    <value><![CDATA[Namesti razširitev]]></value>
+  </definition>
+  <definition>
+    <key>error_connect</key>
+    <value><![CDATA[Ups, Vaš AbanteCart ne more povezati z razširitvami trgu. Oglejte si System&gt; dnevnike o napakah za podrobnosti.]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_review_asc</key>
+    <value><![CDATA[Pregled Count najnižja&gt; najvišja]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_review_desc</key>
+    <value><![CDATA[Pregled Count Visoka&gt; Nizka]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_asc</key>
+    <value><![CDATA[Ceni najnižja&gt; najvišja]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_desc</key>
+    <value><![CDATA[Cena Visoka&gt; Nizka]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_desc</key>
+    <value><![CDATA[Po oceni najvišja]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_asc</key>
+    <value><![CDATA[Po oceni najnižja]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_modified_asc</key>
+    <value><![CDATA[Datum nov do star]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_modified_desc</key>
+    <value><![CDATA[Datum star do nov]]></value>
+  </definition>
+  <definition>
+    <key>text_my_extensions</key>
+    <value><![CDATA[Moje Extensions]]></value>
+  </definition>
+  <definition>
+    <key>text_my_account</key>
+    <value><![CDATA[Moj račun]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_site</key>
+    <value><![CDATA[Marketplace Site]]></value>
+  </definition>
+  <definition>
+    <key>text_all_categories</key>
+    <value><![CDATA[vse kategorije]]></value>
+  </definition>
+  <definition>
+    <key>text_connect</key>
+    <value><![CDATA[Poveži]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect</key>
+    <value><![CDATA[Povežite se na trgu]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_extension</key>
+    <value><![CDATA[Podaljšanje predogled in red]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_buy</key>
+    <value><![CDATA[Get to podaljšanje zdaj]]></value>
+  </definition>
+  <definition>
+    <key>text_connected</key>
+    <value><![CDATA[Priključen na trgu. Kliknite za izklop]]></value>
+  </definition>
+  <definition>
+    <key>text_disconnect_confirm</key>
+    <value><![CDATA[Ali ste prepričani, da želite prekiniti povezavo?]]></value>
+  </definition>
+  <definition>
+    <key>text_disconnect_success</key>
+    <value><![CDATA[Ta trgovina je bila prekinjena!]]></value>
+  </definition>
+  <definition>
+    <key>text_connection_required</key>
+    <value><![CDATA[Morate povezati AbanteCart na tržnici videti razširitve! Kliknite gumb &quot;connect&quot; v zgornji plošči.]]></value>
+  </definition>
+  <definition>
+    <key>text_in_other_store</key>
+    <value><![CDATA[Razširitev za to, da je bil nameščen v drugi AbanteCart. Preverite povezane trgovin za zgodovino.]]></value>
+  </definition>
+  <definition>
+    <key>text_no_purchase_or_not_connected</key>
+    <value><![CDATA[Nimate nakupe za to trgovino ali ta trgovina je nepovezanost iz Marketplace.]]></value>
+  </definition>
+  <definition>
+    <key>text_no_extenions_loaded</key>
+    <value><![CDATA[Ni razširitve so na voljo. Preverite svoj izbor in poskusite znova.]]></value>
+  </definition>
+  <definition>
+    <key>text_compatibility</key>
+    <value><![CDATA[Ta razširitev ni potrjena za delo z vašo različico AbanteCart. Kontakt razširitev razvijalec za potrditev skladnosti.]]></value>
+  </definition>
+  <definition>
+    <key>error_mp_connection</key>
+    <value><![CDATA[Ups, ne more povezati z AbanteCart trgu. Prosimo, poskusite kasneje preveriti, ali povprašajte svojega ponudnika gostovanja storitev za pomoč.]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Iskanje]]></value>
+  </definition>
+</definitions>

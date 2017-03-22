@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[šablonas vadybininkas]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Jūs nustatėte naują pagrindinio puslapio šabloną!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront_templates</key>
+    <value><![CDATA[Laisvi Fizinės Šablonai]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_extension</key>
+    <value><![CDATA[Extension Nustatymai]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Klaida: Trūksta reikiamą parametrą jūsų prašymą!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Įspėjimas: Jūs neturite teisės keisti šablonus!]]></value>
+  </definition>
+</definitions>

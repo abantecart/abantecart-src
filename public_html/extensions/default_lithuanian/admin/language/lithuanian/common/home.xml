@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[prietaisų skydas]]></value>
+  </definition>
+  <definition>
+    <key>text_overview</key>
+    <value><![CDATA[apžvalga]]></value>
+  </definition>
+  <definition>
+    <key>text_statistics</key>
+    <value><![CDATA[statistika]]></value>
+  </definition>
+  <definition>
+    <key>text_latest_10_orders</key>
+    <value><![CDATA[Paskutinės 10 Užsakymai]]></value>
+  </definition>
+  <definition>
+    <key>text_total_sale</key>
+    <value><![CDATA[Iš viso pardavimų:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_sale_year</key>
+    <value><![CDATA[Iš viso pardavimai šiemet]]></value>
+  </definition>
+  <definition>
+    <key>text_total_order</key>
+    <value><![CDATA[Viso užsakymų:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_customer</key>
+    <value><![CDATA[Nr klientų:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_customer_approval</key>
+    <value><![CDATA[Klientai Laukiama patvirtinimo:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_product</key>
+    <value><![CDATA[Nr produktai:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_review</key>
+    <value><![CDATA[Ne nuomonių:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_review_approval</key>
+    <value><![CDATA[Atsiliepimai Laukiama patvirtinimo:]]></value>
+  </definition>
+  <definition>
+    <key>text_day</key>
+    <value><![CDATA[šiandien]]></value>
+  </definition>
+  <definition>
+    <key>text_week</key>
+    <value><![CDATA[Šią savaitę]]></value>
+  </definition>
+  <definition>
+    <key>text_month</key>
+    <value><![CDATA[Šį mėnesį]]></value>
+  </definition>
+  <definition>
+    <key>text_year</key>
+    <value><![CDATA[Šiais metais]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Iš viso Užsakymai]]></value>
+  </definition>
+  <definition>
+    <key>text_order_short</key>
+    <value><![CDATA[Iš viso Užsakymai]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[Iš viso Klientai]]></value>
+  </definition>
+  <definition>
+    <key>column_order</key>
+    <value><![CDATA[užsakymo ID]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Kliento vardas]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[statusas]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[Data pridėta]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[visas]]></value>
+  </definition>
+  <definition>
+    <key>column_firstname</key>
+    <value><![CDATA[Pirmas vardas]]></value>
+  </definition>
+  <definition>
+    <key>column_lastname</key>
+    <value><![CDATA[Pavardė]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[veiksmas]]></value>
+  </definition>
+  <definition>
+    <key>entry_range</key>
+    <value><![CDATA[Pasirinkite Diapazonas:]]></value>
+  </definition>
+  <definition>
+    <key>orders_text_all</key>
+    <value><![CDATA[Visi užsakymai]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_all</key>
+    <value><![CDATA[Visi klientai]]></value>
+  </definition>
+  <definition>
+    <key>text_latest_10_customers</key>
+    <value><![CDATA[Naujausios registracija]]></value>
+  </definition>
+  <definition>
+    <key>column_email</key>
+    <value><![CDATA[paštas]]></value>
+  </definition>
+</definitions>

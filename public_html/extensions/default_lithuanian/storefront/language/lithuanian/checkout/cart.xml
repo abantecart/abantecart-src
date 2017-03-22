@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Prekių krepšelis]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[krepšys]]></value>
+  </definition>
+  <definition>
+    <key>text_sub_total</key>
+    <value><![CDATA[Tarpinė suma:]]></value>
+  </definition>
+  <definition>
+    <key>text_weight</key>
+    <value><![CDATA[Krepšelis Svoris:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Jūsų pirkinių krepšelis yra tuščias!]]></value>
+  </definition>
+  <definition>
+    <key>column_remove</key>
+    <value><![CDATA[pašalinti]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[vaizdas]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[vardas]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Modelis]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[kiekis]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Vieneto kaina]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[visas]]></value>
+  </definition>
+  <definition>
+    <key>text_continue_shopping</key>
+    <value><![CDATA[Tęsti apsipirkimą]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_codes</key>
+    <value><![CDATA[Taikyti kupono kodą]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipping_tax</key>
+    <value><![CDATA[Apytikslis Pristatymas ir mokesčiai]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_country</key>
+    <value><![CDATA[Šalis ir valstybė]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_postcode</key>
+    <value><![CDATA[Zip / pašto kodas]]></value>
+  </definition>
+  <definition>
+    <key>button_text_estimate</key>
+    <value><![CDATA[įvertinimas]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipments</key>
+    <value><![CDATA[vežimas]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Klaida: kuponas arba negaliojantis, pasibaigė arba pasiekė tai naudojimas riba!]]></value>
+  </definition>
+  <definition>
+    <key>error_stock</key>
+    <value><![CDATA[pažymėtos *** produktai nėra norimą kiekį arba sandelyje!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_options</key>
+    <value><![CDATA[Prašome pasirinkti visas reikiamas parinktis!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_minimum</key>
+    <value><![CDATA[Jūsų užsakymas subrangos suma neatitinka minimalų %s reikalaujama. Prašome pridėti daugiau produktų į savo krepšelį!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_maximum</key>
+    <value><![CDATA[Jūsų užsakymas subrangos bendra suma viršija maksimalią %s už užsakymą leido. Prašome pašalinti kai kuriuos elementus iš krepšelio!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_data</key>
+    <value><![CDATA[Byloje esantys duomenys yra sugadinta arba tuščias.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_name</key>
+    <value><![CDATA[Failo vardas yra tuščias!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_extension</key>
+    <value><![CDATA[Tik failus su plėtiniu (-ų) %s yra (yra) leidžiama!]]></value>
+  </definition>
+  <definition>
+    <key>error_min_file_size</key>
+    <value><![CDATA[Minimalus failo dydis įkelti yra %s kb.]]></value>
+  </definition>
+  <definition>
+    <key>error_max_file_size</key>
+    <value><![CDATA[Maksimalus failo dydis įkelti yra %s kb.]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_success</key>
+    <value><![CDATA[Sėkmė: Jūsų kuponas nuolaida buvo taikoma!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[Sėkmė: Kuponas buvo ištrintas!]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_maximum</key>
+    <value><![CDATA[Leidžiama produkto kiekis viršija. Kiekis buvo nustatytas maksimalus.]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_minimum</key>
+    <value><![CDATA[Leidžiama produkto kiekis yra mažesnis minimalūs. Kiekis buvo nustatyti minimalią sumą.]]></value>
+  </definition>
+</definitions>

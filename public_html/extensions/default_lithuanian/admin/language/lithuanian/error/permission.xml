@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Leidimas nesuteiktas!]]></value>
+  </definition>
+  <definition>
+    <key>text_permission</key>
+    <value><![CDATA[Jūs neturite leidimo pasiekti šį puslapį, prašome kreiptis į savo sistemos administratorių.]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Jūsų paskyra aktyvuota!]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Sveiki ir ačiū už registruodamiesi %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Jūsų sąskaita jau buvo sukurta, ir jūs galite prisijungti naudojant savo elektroninio pašto adresą ir slaptažodį, apsilankykite mūsų interneto svetainėje arba šiuo adresu:]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Kai prisijungiate, galėsite prieiti, pageidavimų, užsakymų istoriją, spausdinimo sąskaitas faktūras ir redaguoti savo sąskaitos informaciją.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Ačiū,]]></value>
+  </definition>
+</definitions>

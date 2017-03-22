@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Skupine uporabnikov]]></value>
+  </definition>
+  <definition>
+    <key>text_group</key>
+    <value><![CDATA[User Group]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspeh: ste spremenjene skupine uporabnikov!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_group_added</key>
+    <value><![CDATA[Uspeh: ste ustvarili skupino uporabnikov uspešno!]]></value>
+  </definition>
+  <definition>
+    <key>text_go_to_page</key>
+    <value><![CDATA[Pojdi na stran]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_confirm</key>
+    <value><![CDATA[Brisanje User Group?]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Uporabniško ime skupine]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Ukrep]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Uporabniško ime skupine:]]></value>
+  </definition>
+  <definition>
+    <key>column_controller</key>
+    <value><![CDATA[Controller]]></value>
+  </definition>
+  <definition>
+    <key>column_access</key>
+    <value><![CDATA[Dostop]]></value>
+  </definition>
+  <definition>
+    <key>column_modify</key>
+    <value><![CDATA[spreminjanje]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Opozorilo: Nimate dovoljenja za spreminjanje uporabniških skupin!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[User Group ime mora biti med 2 in 64 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_user</key>
+    <value><![CDATA[Opozorilo: Ta skupina uporabnikov ni mogoče izbrisati, saj je trenutno dodeljen %s uporabnike!]]></value>
+  </definition>
+</definitions>

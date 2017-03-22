@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[mokesčių klasės]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[mokesčių klasė]]></value>
+  </definition>
+  <definition>
+    <key>text_rate</key>
+    <value><![CDATA[Mokesčio tarifas]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Jūs keistas mokesčių klases!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Mokesčių klasė Pavadinimas]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[veiksmas]]></value>
+  </definition>
+  <definition>
+    <key>tab_details</key>
+    <value><![CDATA[detalės]]></value>
+  </definition>
+  <definition>
+    <key>tab_rates</key>
+    <value><![CDATA[Kainos]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Mokesčių klasė Pavadinimas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Aprašymas matomas klientams]]></value>
+  </definition>
+  <definition>
+    <key>entry_location</key>
+    <value><![CDATA[vieta]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[kur zona]]></value>
+  </definition>
+  <definition>
+    <key>entry_priority</key>
+    <value><![CDATA[Prioritetas]]></value>
+  </definition>
+  <definition>
+    <key>entry_rate</key>
+    <value><![CDATA[Mokesčio tarifas]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Įspėjimas: Jūs neturite teisės keisti mokesčių klases!]]></value>
+  </definition>
+  <definition>
+    <key>error_tax_title</key>
+    <value><![CDATA[Mokesčių klasė Pavadinimas turi būti tarp 2 ir 32 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_rate</key>
+    <value><![CDATA[Mokesčių tarifas, kurio reikia!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Įspėjimas: Šis mokestis klasė negali būti panaikinta, nes ji šiuo metu skiriamas %s produktų!]]></value>
+  </definition>
+  <definition>
+    <key>text_tax_all_zones</key>
+    <value><![CDATA[visi vietos zonos]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_rate_threshold</key>
+    <value><![CDATA[Taikyti mokestį, jei <br/><span class="help">Taikyti šį mokestį tik tada, jeigu apmokestinami suma (produkto, laivyba, dalinė ir tt) is ...</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_exempt_groups</key>
+    <value><![CDATA[Neapmokestinamas Grupės <br/><span class="help">Pasirinkite klientų grupėms atleisti nuo šio mokesčio</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_absolute</key>
+    <value><![CDATA[absoliutus]]></value>
+  </definition>
+  <definition>
+    <key>text_percent</key>
+    <value><![CDATA[procentai]]></value>
+  </definition>
+</definitions>

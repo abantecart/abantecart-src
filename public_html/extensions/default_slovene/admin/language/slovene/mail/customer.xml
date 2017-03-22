@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Vaš račun je bil aktiviran!]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Pozdrav in hvala za prijavo na %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Vaš račun je bil sedaj ustvarjen in se lahko prijavite z uporabo e-poštni naslov in geslo, da obiščete našo spletno stran ali na naslednjem spletnem naslovu:]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Ko se prijavite, boste lahko dostopali, seznam želja, zgodovino naročil, tiskanje računov in urejanje informacij o računu.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Hvala vam,]]></value>
+  </definition>
+</definitions>

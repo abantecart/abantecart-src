@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[klaida Prisijungti]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Jūs sėkmingai įveikė savo klaidos žurnalą!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_tail</key>
+    <value><![CDATA[Dėl didelio dydžio failą, tik paskutinis 500KB Duomenų galima peržiūrėti čia. 
+ Norėdami peržiūrėti pilną žurnalą, jį gauti iš savo serverio tiesiogiai. 
+ Kelias:]]></value>
+  </definition>
+</definitions>

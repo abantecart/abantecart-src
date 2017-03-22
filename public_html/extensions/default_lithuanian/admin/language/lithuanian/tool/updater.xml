@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Atnaujinti vadybininkas]]></value>
+  </definition>
+  <definition>
+    <key>text_checkupdates</key>
+    <value><![CDATA[Tikrinti, ar yra atnaujinimų]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[pratęsimas Vardas]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[tipas]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[Kategorija]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[statusas]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[Dabartinė versija]]></value>
+  </definition>
+  <definition>
+    <key>column_new_version</key>
+    <value><![CDATA[Nauja versija]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[veiksmas]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: plėtinių buvo sėkmingai atnaujintas!]]></value>
+  </definition>
+  <definition>
+    <key>text_update</key>
+    <value><![CDATA[atnaujinimas]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore_exts</key>
+    <value><![CDATA[Atkurti atsargines kopijas pratęsimo:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[Atnaujinimai:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Įspėjimas: Jūs neturite teisės keisti katalogą:]]></value>
+  </definition>
+  <definition>
+    <key>warning_server</key>
+    <value><![CDATA[Serverio atnaujinimus yra inaccesible.]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_title</key>
+    <value><![CDATA[Pranešimas naujinimas% EXTENSION%]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_text</key>
+    <value><![CDATA[&quot;Nauja versija pratęsimo&quot;% PRATĘSIMAS% &quot;yra prieinamas. Prašome eiti į% LINK%, o ją atnaujinti.]]></value>
+  </definition>
+  <definition>
+    <key>warning_updates</key>
+    <value><![CDATA[Negalima gauti informaciją apie atnaujinimus.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Įspėjimas: Šis failas, kurį įkėlėte buvo tuščia!]]></value>
+  </definition>
+  <definition>
+    <key>error_exts_list</key>
+    <value><![CDATA[Įspėjimas: pratęsimas sąrašas nėra masyvo!]]></value>
+  </definition>
+  <definition>
+    <key>text_nothing_todo</key>
+    <value><![CDATA[Jūsų anketa plėtiniai yra atnaujinami. Nėra ką veikti.]]></value>
+  </definition>
+  <definition>
+    <key>text_connect</key>
+    <value><![CDATA[Prisijungti]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect</key>
+    <value><![CDATA[Prisijunkite prie rinkos]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect_your_store</key>
+    <value><![CDATA[Prašome prisijungti savo parduotuvę į rinką]]></value>
+  </definition>
+  <definition>
+    <key>text_note</key>
+    <value><![CDATA[Pastaba: Update prieinama tik prijungtų parduotuvėse perkamos istorijoje.]]></value>
+  </definition>
+</definitions>

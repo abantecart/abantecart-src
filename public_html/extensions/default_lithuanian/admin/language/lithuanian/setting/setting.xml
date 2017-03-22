@@ -1,0 +1,915 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Nustatymai]]></value>
+  </definition>
+  <definition>
+    <key>column_store_alias</key>
+    <value><![CDATA[parduotuvė]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[grupė]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[raktas]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[vertė]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Jūs sėkmingai išsaugotas nustatymus!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[Image Manager &quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- Pasirinkti Grupės -]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Numatytas]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store_settings</key>
+    <value><![CDATA[Redaguoti:]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_template_settings</key>
+    <value><![CDATA[Redaguoti šablono parametrus:]]></value>
+  </definition>
+  <definition>
+    <key>text_common_template_settings</key>
+    <value><![CDATA[Šablono pasirinkimas]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[Redaguoti parduotuvė]]></value>
+  </definition>
+  <definition>
+    <key>text_mail</key>
+    <value><![CDATA[paštas]]></value>
+  </definition>
+  <definition>
+    <key>text_smtp</key>
+    <value><![CDATA[SMTP]]></value>
+  </definition>
+  <definition>
+    <key>tab_all</key>
+    <value><![CDATA[visi]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Parduotuvės pavadinimas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[Laikyti URL: <br/><span class="help">Įtraukti pilną URL į jūsų parduotuvę. Įsitikinkite, kad pridėti &quot;/&quot; pabaigoje. Pavyzdys: http://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_owner</key>
+    <value><![CDATA[Parduotuvės savininkas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address</key>
+    <value><![CDATA[adresas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-paštas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_emails</key>
+    <value><![CDATA[Papildomos Alert E-mail: <br/><span class="help">Bet kokie papildomi laiškus norite gauti įspėjimo laišką, be pagrindinės parduotuvės elektroniniu paštu. (atskirtų kableliais)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[Telefonas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Faksas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Pavadinimas: <br/><span class="help">Tai yra rodomas Vitrinos naršyklės pavadinime</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Meta Tag Aprašymas: <br/><span class="help">Vitrinos svetainė Pagrindinė puslapis meta žymeles aprašymas</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_keywords</key>
+    <value><![CDATA[Meta Raktažodžiai: <br/><span class="help">Vitrinos svetainė Pagrindinė puslapis meta žymeles raktiniais (atskirtų kableliais)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Sveiki pranešimas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[Šablonas: <span class="help">Storefront šablonas. Tai gali būti pagrindinis arba išplėtimas šablonas</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_template</key>
+    <value><![CDATA[Valdymo skydas Šablonas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Šalis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Regionas / Valstybė:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Vitrinos svetainė Kalba:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_language</key>
+    <value><![CDATA[Administracija Kalba: <span class="help">Pastaba: veikia, jei ne vartotojas pageidaujamą kalbą randamas naršyklėje</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency</key>
+    <value><![CDATA[Bazinė <span class="help">valiuta: Tai yra bazinė valiuta visose parduotuvėse. Nekeiskite jei jūs nesuprantate, kas nutiks. Įspėjimas: keitimas bazine valiuta nesikeis savo bazę produktų kainų. Jums reikės peržiūrėti ir, jei reikia, reguliuoti visas kainas. Bazinės valiutos keitimo kursas bus nustatytas 1,00 ir visų kitų valiutų keitimo kursus bus koreguojama, atsižvelgiant į naują bazinę valiutą.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency_auto</key>
+    <value><![CDATA[Auto-Atnaujinimas Valiuta: <br/><span class="help">Nustatykite savo parduotuvę automatiškai atnaujinti valiutas kasdien. &quot;Yahoo&quot; serveris yra naudojamas.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_class</key>
+    <value><![CDATA[Svoris klasė:]]></value>
+  </definition>
+  <definition>
+    <key>entry_length_class</key>
+    <value><![CDATA[Ilgis klasė:]]></value>
+  </definition>
+  <definition>
+    <key>entry_auto_translate_status</key>
+    <value><![CDATA[Automatinio vertimo Būsena: <br/><span class="help">Tai leido vertimas trūksta teksto sąvokos ar kalbos konkrečius duomenis, jei tekstas vertės dingęs naudotų kalba.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_src_lang_code</key>
+    <value><![CDATA[Originalo kalba versti <br/><span class="help">Pasirinkite originalo kalba turi būti naudojami autotranslation.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method</key>
+    <value><![CDATA[Teksto vertimas metodas: <br/><span class="help">Pasirinkite metodą, kurį norite naudoti vertimo. Numatytasis metodas yra tiesi kopija originalo kalba tekstą</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_override_existing</key>
+    <value><![CDATA[Nepaisyti jei Originalo kalba tekstas buvo pakeistas: <br/><span class="help">Jei nustatyta, tekstas visomis kalbomis bus keičiamas nauju vertimu jei Originalo kalba tekstas redaguojamas. PASTABA: Gali sukelti daug vertimų.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_warn_lang_text_missing</key>
+    <value><![CDATA[Perspėti dėl dingusio kalbos tekstą: <br/><span class="help">Gauk įspėjamasis pranešimas, jei trūksta kalba tekstas yra aptinkamas.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Display Kainos su mokesčiais:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store</key>
+    <value><![CDATA[Numatytasis parduotuvė mokesčio tarifas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_0</key>
+    <value><![CDATA[Nėra mokesčių]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_1</key>
+    <value><![CDATA[Laikyti Įprasta Zona]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer</key>
+    <value><![CDATA[Naudokite klientų Mokesčių Adresas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_0</key>
+    <value><![CDATA[Pristatymo adresas]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_1</key>
+    <value><![CDATA[atsiskaitymo Adresas]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice</key>
+    <value><![CDATA[Sąskaita Pradėti Nėra .: <br/><span class="help">nustatyti pradinę skaičių sąskaitos faktūros bus pradėti nuo.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice_prefix</key>
+    <value><![CDATA[Sąskaita Priešdėlis: <br/><span class="help">komplektas sąskaitos faktūros prefiksas pvz / 001</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[Klientų Grupė: <br/><span class="help">Įprasta klientų grupė.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_price</key>
+    <value><![CDATA[Prisijungti Display kainos: <br/><span class="help">Rodyti kainas, net jei klientas nesate prisijungęs.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_approval</key>
+    <value><![CDATA[Patvirtinti naują klientams: <br/><span class="help">Neleiskite naujas klientas prisijungti kol jų sąskaita buvo patvirtintas.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_prevent_email_as_login</key>
+    <value><![CDATA[Reikalauti Prisijungimo vardas: <br/><span class="help">Norėdami pagerinti saugumą, reikalauja, kad klientas sukurti unikalų prisijungimo vardą, o ne naudojant elektroninio pašto adresą, prisijungimo vardą. Jei įjungtas, esamiems klientams bus paprašyta sukurti naują prisijungimo vardą pirmo prisijungimo. Jei OFF, prisijungimo vardas yra nustatytas kaip klientas pašto adresą.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_guest_checkout</key>
+    <value><![CDATA[Svečių Vykdyti užsakymą: <br/><span class="help">Leisti vartotojams kasos nesukuriant sąskaitą. Tai nebus galima, kai atsisiųsti produktas yra pirkinių krepšelį.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_account</key>
+    <value><![CDATA[Anketa sąlygos: <br/><span class="help">Forces žmonės sutikti su taisyklėmis prieš sąskaita gali būti sukurta.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_checkout</key>
+    <value><![CDATA[Vykdyti sąlygos: <br/><span class="help">Forces žmonės sutikti su taisyklėmis, prieš įvedant klientas gali išsiregistruoti.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_status</key>
+    <value><![CDATA[Užsakymo statusas: <br/><span class="help">Nustatykite numatytąjį užsakymo būseną, kai užsakymas yra tvarkomi.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_cancelation_order_status</key>
+    <value><![CDATA[Leiskite Klientų atšaukti įsakymą dėl statuso:]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_display</key>
+    <value><![CDATA[Ekranas sandėlyje: <br/><span class="help">Ekranas Kiekis sandėlyje ant gaminio puslapį.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_nostock_autodisable</key>
+    <value><![CDATA[Nėra sandėlyje Automatinis išjungimas: <br/><span class="help">Išjungti jūsų produktą ar sandorių vertės norėdami žiūrėti, jei akcijų nukris iki 0. Pranešimas Pranešimas bus išsiųsti</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_checkout</key>
+    <value><![CDATA[Akcijų Vykdyti užsakymą: <br/><span class="help">Leisti vartotojams dar kasos, jei produktai jie Užsakant nėra sandėlyje.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_status</key>
+    <value><![CDATA[Akcijų Būsena: <br/><span class="help">numatytasis nustatymas Išparduota būsenos pranešimą, vykdant produkto. Naudojamas produktas redagavimo puslapyje.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_logo</key>
+    <value><![CDATA[Laikyti Logotipas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_icon</key>
+    <value><![CDATA[Piktograma: <br/><span class="help">piktograma gali būti PNG arba ICON tipo, kad yra 16px x 16px.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_width</key>
+    <value><![CDATA[plotis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_height</key>
+    <value><![CDATA[Ūgis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb</key>
+    <value><![CDATA[Prekės nuotrauka Thumb &quot;Dydis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_width</key>
+    <value><![CDATA[Prekės nuotrauka Thumb Plotis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_height</key>
+    <value><![CDATA[Prekės nuotrauka Thumb Ūgis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup</key>
+    <value><![CDATA[Prekės nuotrauka langų dydis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_width</key>
+    <value><![CDATA[Didelis peržiūros lange Plotis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_height</key>
+    <value><![CDATA[Didelis peržiūros lange Ūgis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category</key>
+    <value><![CDATA[Kategorijų sąrašas Dydis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_width</key>
+    <value><![CDATA[Kategorijų sąrašas Plotis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_height</key>
+    <value><![CDATA[Kategorijų sąrašas Ūgis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_width</key>
+    <value><![CDATA[Gamintojas Piktograma sąrašas Plotis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_height</key>
+    <value><![CDATA[Gamintojas Piktograma sąrašas Ūgis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product</key>
+    <value><![CDATA[Produktų sąrašas Dydis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_height</key>
+    <value><![CDATA[Produktų sąrašas Ūgis: <br/><span class="help">Tai yra kontroliuoti aukštis atvaizdo peržiūros biuletenyje puslapių admin ir kitų vietų parduotuvę. Pastaba, šis nustatymas dalijasi admin ir numatytąjį Vitrinos šabloną.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_width</key>
+    <value><![CDATA[Produktų sąrašas Plotis: <br/><span class="help">Tai yra kontroliuoti plotį atvaizdo peržiūros biuletenyje puslapių admin ir kitų vietų parduotuvę. Pastaba, šis nustatymas dalijasi admin ir numatytąjį Vitrinos šabloną.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional</key>
+    <value><![CDATA[Papildoma Prekės Paveiksliuko dydis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_width</key>
+    <value><![CDATA[Papildoma Prekės nuotrauka Plotis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_height</key>
+    <value><![CDATA[Papildoma Prekės nuotrauka Ūgis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related</key>
+    <value><![CDATA[Susiję Prekės Paveiksliuko dydis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_width</key>
+    <value><![CDATA[Susiję Prekės nuotrauka Plotis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_height</key>
+    <value><![CDATA[Susiję Prekės nuotrauka Ūgis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart</key>
+    <value><![CDATA[Krepšelis Paveiksliuko dydis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_width</key>
+    <value><![CDATA[Krepšelis Vaizdo Plotis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_height</key>
+    <value><![CDATA[Krepšelis Vaizdo Ūgis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid</key>
+    <value><![CDATA[Tinklelis Paveiksliuko dydis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_width</key>
+    <value><![CDATA[Tinklelis Vaizdo Plotis: <br/><span class="help">Tai yra kontroliuoti plotis labai mažas peržiūrėti vaizdą per aukcioną tinklų ADMIN ir kitų vietų parduotuvę. Pastaba, šis nustatymas dalijasi admin ir numatytąjį Vitrinos šabloną.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_height</key>
+    <value><![CDATA[Tinklelis Vaizdo Ūgis: <br/><span class="help">Tai yra kontroliuoti aukštį labai mažą peržiūrėti vaizdą per aukcioną tinklų ADMIN ir kitų vietų parduotuvę. Pastaba, šis nustatymas dalijasi admin ir numatytąjį Vitrinos šabloną.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_mail</key>
+    <value><![CDATA[Perspėjimas paštas: <br/><span class="help">Siųsti el.laišką parduotuvės savininkui, kai nauja tvarka yra sukurta.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_download</key>
+    <value><![CDATA[Leisti atsisiuntimus:]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_status</key>
+    <value><![CDATA[Atsisiųsti Užsakyti Status: <br/><span class="help">nustatyti tvarką statusą klientai tvarka turi pasiekti iki jiems leidžiama prieiti prie savo atsisiųsti produktus.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_protocol</key>
+    <value><![CDATA[Pašto protokolas: <span class="help">Paštas: Numatytasis serveris pašto serveris bus naudojamas. Įsitikinkite, kad jis yra sukonfigūruotas ir gali siųsti elektroniniu paštu su PHP paštu.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_parameter</key>
+    <value><![CDATA[Pašto parametrai: <span class="help">Jei naudojate &quot;Mail&quot;, papildomi paštas parametrai gali būti čia įtraukta (pavyzdžiui, &quot;-femail@storeaddress.com&quot;.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_host</key>
+    <value><![CDATA[SMTP: <br/><span class="help">yj: //smtp.yourdomain.com saugaus ryšio SMTP</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_username</key>
+    <value><![CDATA[SMTP Nick:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_password</key>
+    <value><![CDATA[SMTP slaptažodis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_port</key>
+    <value><![CDATA[SMTP prievadas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_timeout</key>
+    <value><![CDATA[SMTP skirtasis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[Naudokite SSL: <br/><span class="help">Norėdami naudoti SSL Pasitarkite su savo šeimininko jei SSL sertifikatas yra įdiegtas.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_session_ttl</key>
+    <value><![CDATA[Valdymo skydas sesija Galiojimo: <br/><span class="help">Ši vertė kontroliuoja laiko intervalas minučių prieš jūsų bus paprašyta prisijungti iš naujo, nes be veiklos.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_encryption</key>
+    <value><![CDATA[Šifravimo rakto: <br/><span class="help">nustatymai migravo į config failą pradedant V1.2.1.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_seo_url</key>
+    <value><![CDATA[Naudokite SEO URL: <br/><span class="help">Norėdami naudoti SEO URL anketa Apache modulis Mod-perrašyti turi būti įdiegta ir jums reikia pervadinti htaccess.txt į .htaccess. Pastaba: Jei abantecart neįdiegta domenų šaknis turi būti pakeistas rewriteBase taisyklę viduje .htaccess failą.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_retina_enable</key>
+    <value><![CDATA[Sukurti High-res (tinklainės) Vaizdai: <br/><span class="help">Norėdami naudoti šią Apache modulis Mod-perrašyti turi būti įdiegta ir jums reikia pervadinti htaccess.txt į .htaccess. Pastaba: Jei abantecart neįdiegta domenų šaknis turi būti pakeistas rewriteBase taisyklę viduje .htaccess failą. <br/> Įjungę turėtų išvalyti talpyklą vaizdų.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_quality</key>
+    <value><![CDATA[JPEG vaizdus suspaudimo lygį]]></value>
+  </definition>
+  <definition>
+    <key>entry_compression</key>
+    <value><![CDATA[Išėjimo Suspaudimas Lygis: <br/><span class="help">GZIP efektyviau perdavimo prašančioms klientams. Suspaudimas lygis turi būti tarp 0 - 9</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_display</key>
+    <value><![CDATA[Display Klaidos: <br/><span class="help">nustatyta Taip, jei norite pamatyti išimtis ir klaidas</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_log</key>
+    <value><![CDATA[Prisijungti Klaidos: <br/><span class="help">nustatyta Taip, jei norite išsaugoti išimtis ir klaidų į žurnalą</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_enable_reviews</key>
+    <value><![CDATA[Įjungti Atsiliepimai: <br/><span class="help"></span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cache_enable</key>
+    <value><![CDATA[Laikinoji įjungtas: <br/><span class="help">Prašome būti atsargūs, kai išjungti spartinimo. Talpyklos puslapiai nebus iš naujo sukurta ir svetainė gali pradėti pakrovimo lėtai.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_cache_drivers</key>
+    <value><![CDATA[Šiuo metu naudojant talpyklos <b>%s</b> tvarkyklę. Kitos tvarkykles galima konfigūracijos yra <i>%s</i>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_status</key>
+    <value><![CDATA[Vitrinos svetainė API būsena:]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_key</key>
+    <value><![CDATA[Vitrinos svetainė API raktas: <br/><span class="help">komplektas tai raktas į teikiame apribotas (saugesnę) prieiga prie Vitrinos API.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_stock_check</key>
+    <value><![CDATA[Vitrinos svetainė API sandėlyje prisjungimas: <br/><span class="help">Įjungti, jei leisite Vitrinos API patikrinti atsargų prieinamumą</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_status</key>
+    <value><![CDATA[Administratorius API būsena:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_key</key>
+    <value><![CDATA[Administratorius API raktas: <br/><span class="help">komplektas tai raktas į teikiame apribotas (saugesnę) prieiga prie admin API.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_access_ip_list</key>
+    <value><![CDATA[Admin API prieigos IP: <br/><span class="help">Pateikite sąrašą IP (atskirtų kableliais) kad bus leista naudotis admin API. Kitos IP bus užblokuotas</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_max_size</key>
+    <value><![CDATA[Išteklių biblioteka Įkelti Maksimalus failo dydis, KB]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug</key>
+    <value><![CDATA[Rodyti Derinimo informacija: <br/><span class="help">Nustatykite šią funkciją, jei norite pamatyti vykdymo detales ir parodyti debug detales.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_0</key>
+    <value><![CDATA[nuo]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_1</key>
+    <value><![CDATA[Rodyti]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_2</key>
+    <value><![CDATA[Prisijungti]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level</key>
+    <value><![CDATA[Derinimo Lygis: <br/><span class="help">Pasirinkite detales jums reikia pamatyti debug produkcijos gylį.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_0</key>
+    <value><![CDATA[0 lygis - jokių rąstai, vienintelė išimtis klaidų]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_1</key>
+    <value><![CDATA[1 lygis - klaidos ir įspėjimai]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_2</key>
+    <value><![CDATA[Lygis 2 - # 1 + MySQL svetainė apkrova, PHP failą Vykdymo laikas ir puslapio elementai krovimosi laikas]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_3</key>
+    <value><![CDATA[3 lygis - # 2 + pagrindiniai rąstų ir kamino vykdymo]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_4</key>
+    <value><![CDATA[4 lygis - # 3 + savivarčiai mysql ataskaitos]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_5</key>
+    <value><![CDATA[Lygis 5 - # 4 + tarpinis kintamasis]]></value>
+  </definition>
+  <definition>
+    <key>entry_template_debug</key>
+    <value><![CDATA[Šablonas derinti: <br/><span class="help">Įjunkite šį parametrą, jei reikia patikrinti klausimus su šabloną Vitrinos ir valdymo skydelyje.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_filename</key>
+    <value><![CDATA[Klaida Prisijungti Failo pavadinimas: <br/><span class="help">Šis failas yra kur klaidos yra išsaugotas.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_session</key>
+    <value><![CDATA[Naudokite Pristatymas sesija: <br/><span class="help">Įrašo laivybos kabučių sesijos išvengti naujo cituodamas be reikalo. Citatos bus vėl cituojamas tik jei krepšelį arba adresas pasikeitė.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_catalog_limit</key>
+    <value><![CDATA[Numatytųjų elementų skaičius puslapyje (Fizinės): <br/><span class="help">Rinkiniai kiek vitrinos elementai yra parodyta puslapyje (produktai, kategorijas, ir tt)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_limit</key>
+    <value><![CDATA[Numatytųjų elementų skaičius puslapyje (Administratorius): <br/><span class="help">Rinkiniai kiek admin elementai pavaizduoti viename puslapyje aukcioną Grotelės (nutarties, klientus ir tt)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_bestseller_limit</key>
+    <value><![CDATA[Taškų Produktai bestselerio blokas]]></value>
+  </definition>
+  <definition>
+    <key>entry_featured_limit</key>
+    <value><![CDATA[Elementų skaičius in Teminiai blokas]]></value>
+  </definition>
+  <definition>
+    <key>entry_latest_limit</key>
+    <value><![CDATA[Elementų skaičius naujausioje blokas]]></value>
+  </definition>
+  <definition>
+    <key>entry_special_limit</key>
+    <value><![CDATA[Elementų skaičius specialiose blokas]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_weight</key>
+    <value><![CDATA[Rodyti svoris krepšelį Puslapis: <br/><span class="help">Rodyti krepšelis svorį krepšelį puslapį</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_reviews</key>
+    <value><![CDATA[Leiskite Atsiliepimai: <br/><span class="help">Įjungti / Išjungti naują apžvalgą įrašą ir rodyti esamus atsiliepimus</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_maintenance</key>
+    <value><![CDATA[Priežiūros režimas: <br/><span class="help">Apsaugo klientams iš peržiūrintys savo parduotuvę. Jie, o ne pamatyti priežiūros žinutę. Jei prisijungęs kaip administratorius, pamatysite Išsaugoti kaip įprasta.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_voicecontrol</key>
+    <value><![CDATA[Valdymas balsu: <br/><span class="help">Įjungti admin valdymą balsu aktyvuoti balso komandos funkcija. Šiuo metu palaiko tik &quot;Chrome 25 ar naujesnės versijos.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_help_links</key>
+    <value><![CDATA[Pagalba Nuorodos: <br/><span class="help">Jei norite matyti Pagalba piktogramos ir nuorodos į AbanteCart svetainėje. Tai padės jums sužinoti apie funkcijas ir kaip jomis naudotis. Jei patyręs vartotojas ir nenoriu pamatyti šiuos pagalbos piktogramas, galite išjungti.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_show_tree_data</key>
+    <value><![CDATA[Įjungti medis Tinklelis: <br/><span class="help">Leidžia admin tinklus parodyti tėvų / vaikų tipus vienoje tinklo sąrašą. PASTABA: Numeracija ir daugialypės veiksmai yra išjungtas šių tinklų</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_ajax</key>
+    <value><![CDATA[Tame pačiame puslapyje Įdėti į krepšelį: <br/><span class="help">Tai leis AJAX į krepšelį funkcija. Prekės gali būti pridėta į krepšelį, be nukreipti į krepšelį puslapį</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_width</key>
+    <value><![CDATA[Vitrinos svetainė Plotis: <br/><span class="help">Pavyzdys: 100% arba 1000px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_width</key>
+    <value><![CDATA[Administratorius Svetainės Plotis: <br/><span class="help">Pavyzdys: 100% arba 1000px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_maximum</key>
+    <value><![CDATA[Maksimali užsakymo suma neleidžiami: <br/><span class="help">Uždrausti kasos su didelį užsakymą tarpinė suma sumas. 0 = No Limit</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_minimum</key>
+    <value><![CDATA[Minimalus užsakymo kiekis: <br/><span class="help">Uždrausti kasos, jei tam tarpinė suma nepasiekia nustatyti minimalią sumą. 0 = Ne MINIMALUS</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_system_check</key>
+    <value><![CDATA[Sistemos patikrinimas: <br/><span class="help">Įjunkite šį parametrą, jei norite patikrinti jūsų sistemos būklę atžvilgiu AbanteCart funkcionalumą. Sistemos klausimai vykdomai AbanteCart bus pranešta kaip pranešimų matomų admin.</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[nauja parduotuvė]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Įspėjimas: Jūs neturite teisės keisti nustatymus!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Prisijungimo vardas turi būti raidinis skaitmeninis tik tarp 5 ir 64 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[Ši prisijungimo vardas yra neprieinama. Pabandykite naudoti kitokį prisijungimo vardą!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Parduotuvės pavadinimas turi būti tarp 2 ir 32 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[reikalinga parduotuvės URL!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Pavadinimas turi būti tarp 2 ir 32 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_owner</key>
+    <value><![CDATA[Parduotuvės savininkas turi būti tarp 2 ir 64 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[Parduotuvė Adresas turi būti tarp 10 ir 256 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-paštas Adresas neatrodo galioja!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[Telefono turi būti tarp 2 ir 32 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[Product Image Thumb &quot;Formatas Matmenys reikia!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[Product Image langų dydis matmenys reikalingas!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[Kategorijų sąrašas Dydis matmenys reikalingas!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_manufacturer</key>
+    <value><![CDATA[Gamintojas icon Dydis matmenys reikalingas!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[Produktų sąrašas Dydis matmenys reikalingas!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[Papildomos vaizdo dydis Prekės matmenys reikalingas!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[Susiję vaizdo dydis Prekės matmenys reikalingas!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[Krepšelis Vaizdo dydis matmenys reikalingas!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[Tinklelis Vaizdo dydis matmenys reikalingas!]]></value>
+  </definition>
+  <definition>
+    <key>error_error_filename</key>
+    <value><![CDATA[reikia Klaidos Prisijungti Failo!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Būtini duomenys nebuvo įtraukta. Patikrinkite lauko klaidų!]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded_image</key>
+    <value><![CDATA[Įkeltas failas %s nėra vaizdo arba skaldytos!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Riba reikia!]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[Laikyti Priekinis]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[Administratorius]]></value>
+  </definition>
+  <definition>
+    <key>error_mail</key>
+    <value><![CDATA[Prašome užpildyti privalomus laukus SMTP protokolą!]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_sort_order_asc</key>
+    <value><![CDATA[Produkto Rikiuoti Žemas &gt; aukštas]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[Pavadinimas A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[Vardas Z -]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_asc</key>
+    <value><![CDATA[Kaina Žemas &gt; aukštas]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_desc</key>
+    <value><![CDATA[Kaina Aukštos &gt; žemas]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_asc</key>
+    <value><![CDATA[Reitingas Mažiausia]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_desc</key>
+    <value><![CDATA[Reitingas Aukščiausias]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[Data Senos &gt; naujas]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[Data Naujoji &gt; senas]]></value>
+  </definition>
+  <definition>
+    <key>entry_product_default_sort_order</key>
+    <value><![CDATA[Rūšiuoti Products AS kaltės:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zero_customer_balance</key>
+    <value><![CDATA[Rodyti nulis Klientų balansas: <br/><span class="help">pastaba: Įjungti / išjungti rodyti balanso pranešimą, jei klientas sąskaitos balansas yra 0</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_tax_estimate</key>
+    <value><![CDATA[Pristatymas ir mokesčių apskaičiavimas: <br/><span class="help">Leisti vartotojams gauti greitai laivybą ir mokesčių sąmatą į krepšelį.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon_on_cart_page</key>
+    <value><![CDATA[Atkarpa krepšelį puslapyje: <br/><span class="help">Leisti vartotojams įvesti kupono kodą ir pamatyti nuolaida į krepšelį.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_google_analytics</key>
+    <value><![CDATA[&quot;Google Analytics&quot; Sąskaitos numeris: <br/><span class="help">Pridėti savo <a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">sąskaitos numeriu Google Analytics</a> kad svetainė veiklos stebėjimą. Tai taip pat leidžia e-commerce veiklos stebėjimą. Jūs turite įjungti e-commerce sekimo &quot;Google&quot; profilis nustatymų puslapyje, kad jūsų svetainėje</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[Saugus parduotuvė URL: <br/><span class="help">Įtraukti visą SSL (HTTPS URL), kad jūsų parduotuvėje. Įsitikinkite, kad pridėti &quot;/&quot; pabaigoje. Pavyzdys: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[reikia Saugus adresas!]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_email_activation</key>
+    <value><![CDATA[Paštas aktyvinimas Nauji klientai: <br/><span class="help">Neleiskite naujas klientas prisijungti kol jų sąskaita buvo patvirtinta aktyvacijos nuoroda siųsti elektroniniu paštu. Šį darbą, įsitikinkite, kad &quot;Patvirtinti Nauji klientai&quot; yra nustatytas į OFF.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_clone_template</key>
+    <value><![CDATA[Klonas šabloną AbanteCart Developer Tools]]></value>
+  </definition>
+  <definition>
+    <key>text_set_template</key>
+    <value><![CDATA[Nustatykite šį šabloną už parduotuvę]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_status</key>
+    <value><![CDATA[Įjungti Vitrinos Įdėkite:]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_click_action</key>
+    <value><![CDATA[Įterpti Spustelėkite Veiksmas:]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_modal</key>
+    <value><![CDATA[Tas pats puslapis modalusis dialogas]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_new_window</key>
+    <value><![CDATA[Atidaryti naują puslapis naujame skirtuke]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_same_window</key>
+    <value><![CDATA[Atidarykite naują puslapį tame pačiame lange]]></value>
+  </definition>
+  <definition>
+    <key>entry_account_create_captcha</key>
+    <value><![CDATA[Captcha ant sukurti formą: <br/><span class="help">Uždrausti Šlamštas / robotas paskyros sukūrimas su leidžianti žmogaus patikrinimo captcha &quot;</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_site_key</key>
+    <value><![CDATA[&quot;Google&quot; reCAPTCHA Svetainės Raktas: <br/><span class="help">Pridėti <a href="https://www.google.com/recaptcha" target="_blank">&quot;Google reCAPTCHA v2</a> padėti savo lankytojams geriau captcha įrašą. Jei įjungsite &quot;recaptcha svetainė / slaptas raktus,&quot; Google &quot;reCAPTCHA V2 bus aktyvuota vietoj numatytojo AbanteCart captcha image</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_secret_key</key>
+    <value><![CDATA[&quot;Google&quot; reCAPTCHA slaptąraktą: <br/><span class="help">Pridėti <a href="https://www.google.com/recaptcha" target="_blank">&quot;Google reCAPTCHA v2</a> padėti savo lankytojams geriau captcha įrašą. Jei įjungsite &quot;recaptcha svetainė / slaptas raktus,&quot; Google &quot;reCAPTCHA V2 bus aktyvuota vietoj numatytojo AbanteCart captcha image</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_php_exceed</key>
+    <value><![CDATA[Ši vertė negali viršyti php.ini direktyvą %s (&lt;= %s)]]></value>
+  </definition>
+  <definition>
+    <key>entry_start_order_id</key>
+    <value><![CDATA[Užsakyti Pradėti Nėra .: <br/><span class="help">Nustatykite pradžios skaičių užsakymai bus pradėti iš.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_start_order_id</key>
+    <value><![CDATA[Užsakyti pradžia skaičius turi būti skaitinė!]]></value>
+  </definition>
+  <definition>
+    <key>error_starting_invoice_id</key>
+    <value><![CDATA[Sąskaita pradžia skaičius turi būti skaitinė!]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_order_days</key>
+    <value><![CDATA[Nepilna Užsakyti Galiojimo: <br/><br/><span class="help">Ši vertė kontroliuoja laiko intervalas dienų iki nepilnų užsakymai bus ištrinta. Tuščias vertė reiškia, kad nėra įsakymų bus ištrinta.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_expire_order_days</key>
+    <value><![CDATA[Nepilna Užsakyti Galiojimo vertė turi būti skaitinė!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront</key>
+    <value><![CDATA[Vitrinos svetainė]]></value>
+  </definition>
+  <definition>
+    <key>text_im_driver</key>
+    <value><![CDATA[vairuotojas]]></value>
+  </definition>
+  <definition>
+    <key>text_im_protocol</key>
+    <value><![CDATA[MP protokolas]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver</key>
+    <value><![CDATA[SMS teikėjas]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver_tooltip</key>
+    <value><![CDATA[Pasirinkite SMS paslaugų teikėjo pratęsimo]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_status_tooltip</key>
+    <value><![CDATA[Įjungti SMS klientams]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_status_tooltip</key>
+    <value><![CDATA[Įjungti SMS administratoriams]]></value>
+  </definition>
+  <definition>
+    <key>text_no_driver</key>
+    <value><![CDATA[Nėra MP Vairuotojo Surasta]]></value>
+  </definition>
+  <definition>
+    <key>text_im_settings_attention</key>
+    <value><![CDATA[Šie parametrai yra už momentinių pranešimų automatiškai siunčiami per AbanteCart įvykių parduotuvę ir admin.]]></value>
+  </definition>
+  <definition>
+    <key>entry_html_cache</key>
+    <value><![CDATA[HTML Talpykla: <br/><span class="help">Įjungta HTML puslapius ir blokai spartinimo gauti geresnį greitį savo puslapius. Tai papildoma spartinimo reguliariai duomenų spartinimo įjungtas į sistemos / config.php failą</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_task_api_key</key>
+    <value><![CDATA[Užduotys API raktas: <br/><span class="help">Tai yra slaptas raktas leisti AbanteCart paleisti reguliaraus procesus nuo naršyklė /task.php failą. Jei nenustatytas, užduotys nebus paleisti per naršyklę. <br/> PASTABA: Ši API raktas nereikia vykdomas užduotis komandų eilutę.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_duplicate_contact_us</key>
+    <value><![CDATA[Dublikatas Kontaktai Užklausos į pranešimus]]></value>
+  </definition>
+</definitions>

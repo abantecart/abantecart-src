@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[lokacije]]></value>
+  </definition>
+  <definition>
+    <key>text_location</key>
+    <value><![CDATA[lokacija]]></value>
+  </definition>
+  <definition>
+    <key>text_location_zone</key>
+    <value><![CDATA[Lokacija Zone]]></value>
+  </definition>
+  <definition>
+    <key>text_location_zones</key>
+    <value><![CDATA[Območja lokacije]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Uspeh: Imate spremenjene lokacije!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Lokacija Ime]]></value>
+  </definition>
+  <definition>
+    <key>column_description</key>
+    <value><![CDATA[Opis]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Ukrep]]></value>
+  </definition>
+  <definition>
+    <key>tab_details</key>
+    <value><![CDATA[podrobnosti]]></value>
+  </definition>
+  <definition>
+    <key>tab_locations</key>
+    <value><![CDATA[Območja lokacije]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Lokacija Ime:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Opis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Država:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Cona (i):]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Opozorilo: Nimate dovoljenja za spreminjanje lokacije!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Lokacija Ime mora biti med 2 in 32 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_description</key>
+    <value><![CDATA[Opis ime mora biti med 2 in 255 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_tax_rate</key>
+    <value><![CDATA[Opozorilo: Ta lokacija ni mogoče izbrisati, kot je trenutno dodeljena za eno ali več davčnih stopenj!]]></value>
+  </definition>
+</definitions>

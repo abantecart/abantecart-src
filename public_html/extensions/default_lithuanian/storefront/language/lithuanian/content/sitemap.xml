@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Svetainės žemėlapis]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[Specialūs pasiūlymai]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Mano sąskaita]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[Paskyros informacija]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[slaptažodis]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Adresų knyga]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[Užsakymų Istorija]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Siuntiniai]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[Prekių krepšelis]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Užsakymas]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Paieška]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[informacija]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Susisiekite su mumis]]></value>
+  </definition>
+</definitions>

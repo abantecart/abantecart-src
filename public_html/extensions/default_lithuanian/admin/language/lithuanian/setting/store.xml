@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Patalpink detalės]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Jūs turite modifikuotų nustatymus!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[Image Manager &quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Numatytas]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[Redaguoti parduotuvė:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Laikyti Vardas: <br/><span class="help">Nukopijuota į nustatymus ir parodyta ant Vitrinos skyriuje.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[Laikyti URL: <br/><span class="help">Įtraukti pilną URL į jūsų parduotuvę. Įsitikinkite, kad pridėti &quot;/&quot; pabaigoje. Pavyzdys: http://www.yourdomain.com/path/ <br/><br/> Nenaudokite katalogų sukurti naują parduotuvę. Jūs visada turėtų atkreipti kitą domeną ar sub domeną į savo hostingo.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[Naudokite SSL: <br/><span class="help">Norėdami naudoti SSL Pasitarkite su savo šeimininko jei SSL sertifikatas yra įdiegtas.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Pavadinimas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Meta Tag Aprašymas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[šablonas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Sveiki pranešimas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Šalis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Regionas / Valstybė:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Kalba:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Laikyti Būsena <br/><span class="help">parduotuvė būklės parduotuvę. Būsena išjungtas nukreips į numatytuosius parduotuvė. Naudokite Priežiūros režimo nustatymo nustatyti laikinas parduotuvės priežiūra pranešimą</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alias</key>
+    <value><![CDATA[Vardas Alias <br/><span class="help">parduotuvės pavadinimą Alias. Jei paliktas tuščias, bus grindžiama sutrumpintas pavadinimas</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[nauja parduotuvė]]></value>
+  </definition>
+  <definition>
+    <key>button_delete_store</key>
+    <value><![CDATA[Ištrinti parduotuvė]]></value>
+  </definition>
+  <definition>
+    <key>button_edit_settings</key>
+    <value><![CDATA[redaguoti]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Įspėjimas: Jūs neturite teisės keisti parduotuvėse!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Parduotuvės pavadinimas turi būti tarp 3 ir 32 simbolius!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[reikalinga parduotuvės URL!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Pavadinimas turi būti tarp 3 ir 32 simbolius!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[Product Image Thumb &quot;Formatas Matmenys reikia!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[Product Image langų dydis matmenys reikalingas!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[Kategorijų sąrašas Dydis matmenys reikalingas!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[Produktų sąrašas Dydis matmenys reikalingas!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[Papildomos vaizdo dydis Prekės matmenys reikalingas!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[Susiję vaizdo dydis Prekės matmenys reikalingas!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[Krepšelis Vaizdo dydis matmenys reikalingas!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[Tinklelis Vaizdo dydis matmenys reikalingas!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Įspėjimas: šioje parduotuvėje negali būti panaikinta, nes ji šiuo metu skiriamas %s užsakymų!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Būtini duomenys nebuvo įtraukta. Patikrinkite lauko klaidų!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Riba reikia!]]></value>
+  </definition>
+  <definition>
+    <key>entry_clone_store</key>
+    <value><![CDATA[Kopijuoti Nustatymai: <br/><span class="help">Galite pasirinkti kopiją visų nustatymų iš kai kurių esamų parduotuvėje</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[Saugus parduotuvė URL: <br/><span class="help">Įtraukti visą SSL (HTTPS URL), kad jūsų parduotuvėje. Įsitikinkite, kad pridėti &quot;/&quot; pabaigoje. Pavyzdys: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[reikia Saugus adresas!]]></value>
+  </definition>
+</definitions>

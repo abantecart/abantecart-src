@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[kalbos]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[kalba]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Jūs turite modifikuotų kalbos!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Kalba Vardas]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[kodas]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Rikiuoti]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[veiksmas]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Kalba Vardas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Kodas: <br/><span class="help">Nekeiskite jei tai yra jūsų numatytoji kalba.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_locale</key>
+    <value><![CDATA[lokalė:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[Nuotrauka:]]></value>
+  </definition>
+  <definition>
+    <key>entry_directory</key>
+    <value><![CDATA[katalogas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[Failo pavadinimas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[būsena:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Rikiuoti:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Įspėjimas: Jūs neturite teisės keisti kalbų!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Kalba Vardas privalo būti nuo 2 iki 32 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Kalba kodas turi bent 2 simbolius!]]></value>
+  </definition>
+  <definition>
+    <key>error_locale</key>
+    <value><![CDATA[Locale reikia!]]></value>
+  </definition>
+  <definition>
+    <key>error_image</key>
+    <value><![CDATA[Vaizdo Failo pavadinimas turi būti tarp 2 ir 64 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_directory</key>
+    <value><![CDATA[Katalogas reikia!]]></value>
+  </definition>
+  <definition>
+    <key>error_filename</key>
+    <value><![CDATA[Failo pavadinimas turi būti tarp 2 ir 64 simbolių!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Įspėjimas: Ši kalba negali būti panaikinta, nes ji šiuo metu skiriamas kaip numatytąją parduotuvė kalba!]]></value>
+  </definition>
+  <definition>
+    <key>error_admin</key>
+    <value><![CDATA[Įspėjimas: Ši kalba negali būti panaikinta, nes ji šiuo metu paskirtas administravimo kalba!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Įspėjimas: Ši kalba negali būti panaikinta, nes ji šiuo metu skiriamas %s parduotuvėse!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Įspėjimas: Ši kalba negali būti panaikinta, nes ji šiuo metu skiriamas %s užsakymų!]]></value>
+  </definition>
+  <definition>
+    <key>language_edit_title</key>
+    <value><![CDATA[Redaguoti Kalba detalės]]></value>
+  </definition>
+  <definition>
+    <key>load_language_title</key>
+    <value><![CDATA[Įkelti trūkstamų kalbos duomenis]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_selector</key>
+    <value><![CDATA[Originalo kalba:]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method_selector</key>
+    <value><![CDATA[Teksto vertimas būdas:]]></value>
+  </definition>
+  <definition>
+    <key>load_language_note</key>
+    <value><![CDATA[PASTABA: Ši operacija gali trukti kelias minutes, paleisti. Neuždarykite naršyklė, palikti arba atnaujinti puslapį!]]></value>
+  </definition>
+  <definition>
+    <key>create_language_note</key>
+    <value><![CDATA[PASTABA: Mes rekomenduojame sukurti kalbą, kaip pratęsti. Patikrinkite esamus kalbos plėtinius. Jei vis dar norite sukurti naują kalbą rankiniu būdu, jums reikia pridėti kalbų vėliava admin / kalba / [Kalba katalogo] /flag.png ir Vitrinos / kalba / [Kalba katalogo] flag.png 
+ Po kalba yra sukurta apkrova trūksta kalba duomenys išversti ar kopijuoti teksto turinį iš originalo kalbos.]]></value>
+  </definition>
+  <definition>
+    <key>button_load_language</key>
+    <value><![CDATA[apkrova]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete_tasks</key>
+    <value><![CDATA[Nepilnos uždaviniai]]></value>
+  </definition>
+  <definition>
+    <key>text_task_id</key>
+    <value><![CDATA[Užduoties ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Pavadinimas:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_time_run</key>
+    <value><![CDATA[Paskutinis laikui bėgant:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Sukurta:]]></value>
+  </definition>
+  <definition>
+    <key>text_starter_name</key>
+    <value><![CDATA[Sukurta:]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Perkrauti]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[pašalinti]]></value>
+  </definition>
+  <definition>
+    <key>text_task_title</key>
+    <value><![CDATA[Vertimas aprašai iš %s iki %s]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Klaida: Nustatyti Originalo kalba ir vertimo metodas!]]></value>
+  </definition>
+  <definition>
+    <key>text_translate_override_existing</key>
+    <value><![CDATA[Pastaba: Visos esamos aprašymai tiksline kalba bus pakeista nauja vertimo. Galite išjungti užvažiuoti į <a href="%s">sistemingai&gt; Nustatymai-&gt; parduotuvė Details</a> .]]></value>
+  </definition>
+</definitions>

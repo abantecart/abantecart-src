@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>im_text_notification</key>
+    <value><![CDATA[pranešimas]]></value>
+  </definition>
+  <definition>
+    <key>im_error_mail_address</key>
+    <value><![CDATA[Pašto adresas %s negalioja!]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_email_title</key>
+    <value><![CDATA[Elektroninis paštas]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_title</key>
+    <value><![CDATA[trumpoji žinutė]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_empty_warn</key>
+    <value><![CDATA[SMS pranešimai yra neįmanoma. Mobilus numeris nėra išsaugotas jūsų sąskaitos įrašų.]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update</key>
+    <value><![CDATA[Užsakyti Atnaujinti]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update_note</key>
+    <value><![CDATA[Pasirinkite, jei norite gauti pranešimus apie užsakymus &quot;atnaujinimus.]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_admin</key>
+    <value><![CDATA[Užsakyti # %s buvo atnaujintas! Užsakymo statusas ID %s]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_customer</key>
+    <value><![CDATA[Jūsų užsakymas # %s Atnaujinta. Nauja užsakymo būsena yra %s]]></value>
+  </definition>
+  <definition>
+    <key>im_new_order_text_to_admin</key>
+    <value><![CDATA[&quot;New Order&quot; # %s buvo pateiktas!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_customer_text_to_admin</key>
+    <value><![CDATA[Naujas klientas # %s buvo užregistruotas!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_subscriber_text_to_admin</key>
+    <value><![CDATA[Nauja abonento # %s buvo užregistruotas!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update</key>
+    <value><![CDATA[sąskaita Atnaujinti]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update_note</key>
+    <value><![CDATA[Pasirinkite, jei norite gauti pranešimus apie paskyros atnaujinimus.]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_text_to_customer</key>
+    <value><![CDATA[Jūsų sąskaita buvo atnaujintas! Jei nebuvo padaryti bet kokius pakeitimus, prašome susisiekti su svetainės savininku]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_email_to_customer</key>
+    <value><![CDATA[Jūsų sąskaita pašto adresas buvo pakeistas į %s! Jei nebuvo padaryti šį pakeitimą, prašome susisiekti su svetainės savininkas]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_login_to_customer</key>
+    <value><![CDATA[Jūsų sąskaita prisijungimo vardas buvo pakeistas į %s! Jei nebuvo padaryti šį pakeitimą, prašome susisiekti su svetainės savininkas]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_password_to_customer</key>
+    <value><![CDATA[Jūsų paskyros slaptažodis buvo pakeistas! Jei nebuvo padaryti šį pakeitimą, prašome susisiekti su svetainės savininkas]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_contact_admin_text</key>
+    <value><![CDATA[Jūs turite naują tyrimą iš klientų (%s %s)!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter</key>
+    <value><![CDATA[Naujienų prenumerata]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter_note</key>
+    <value><![CDATA[Pasirinkite, jei norite gauti pranešimus apie mūsų produktus ir paslaugas atnaujinimus.]]></value>
+  </definition>
+  <definition>
+    <key>im_product_review_text_to_admin</key>
+    <value><![CDATA[Naujas produktas peržiūra buvo pridėta. Peržiūrėti detales # Admin # RT = katalogas / peržiūra / atnaujinti ir review_id = %s]]></value>
+  </definition>
+  <definition>
+    <key>im_product_out_of_stock_admin_text</key>
+    <value><![CDATA[Prekės su ID # %s yra Išparduota.]]></value>
+  </definition>
+</definitions>

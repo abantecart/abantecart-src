@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Svečių Vykdyti užsakymą - 2 etapas]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[krepšelis]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_1</key>
+    <value><![CDATA[Svečių Vykdyti užsakymą - 1 etapas]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_2</key>
+    <value><![CDATA[Svečių Vykdyti užsakymą - 2 etapas]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[atsiuntimo metodas]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[Prašome pasirinkti norimą siuntimo metodai, naudoti šią nutartį.]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Mokėjimo būdas]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_methods</key>
+    <value><![CDATA[Prašome pasirinkti pageidaujamą mokėjimo būdą naudoti šioje tvarka.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[Pridėti atsiliepimai apie užsakymą]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[Aš perskaičiau ir sutinku su]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[Įveskite kodą, paspauskite &quot;Apply kuponas&quot; mygtuką ir žiūrėti jūsų nuolaida iš karto būti taikomas Jūsų užsakymą.]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sėkmė: Jūsų kuponas nuolaida buvo taikoma!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[Sėkmė: Kuponas buvo ištrintas!]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[Atsiuntimo metodas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Mokėjimo būdas:]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon</key>
+    <value><![CDATA[kupono:]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[Klaida: reikalingas Pristatymas metodas!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[Klaida: Nieko Pristatymas variantai. Prašome <a href="index.php?rt=content/contact">susisiekti su mumis</a> dėl pagalbos!]]></value>
+  </definition>
+  <definition>
+    <key>error_payment</key>
+    <value><![CDATA[Klaida: reikia Apmokėjimo būdas!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[Klaida: Jūs turite sutikti su %s!]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Klaida: kuponas arba negaliojantis, pasibaigė arba pasiekė tai naudojimas riba!]]></value>
+  </definition>
+</definitions>

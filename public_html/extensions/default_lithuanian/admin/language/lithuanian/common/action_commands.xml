@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_possible_commands</key>
+    <value><![CDATA[Žemiau yra galimas komandas. Galite speek daugiau detalių po komandų raktinį žodį. Pavyzdžiui, &quot;open puslapis pranešimai&quot; arba &quot;įterpti produktas&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_multiple_result_found</key>
+    <value><![CDATA[Keli veiksmų rezultatas rasta:]]></value>
+  </definition>
+  <definition>
+    <key>text_action_confirm</key>
+    <value><![CDATA[Prašome patvirtinti savo prašymą:]]></value>
+  </definition>
+  <definition>
+    <key>command_open</key>
+    <value><![CDATA[atviras, atviras puslapis, atvira meniu]]></value>
+  </definition>
+  <definition>
+    <key>command_find</key>
+    <value><![CDATA[rasti, ieškoti, ieškoti, ieškoti, ieškoti 4]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_cache</key>
+    <value><![CDATA[Išvalyti talpyklą, talpyklos aišku, aišku, visi talpyklos]]></value>
+  </definition>
+  <definition>
+    <key>command_view_log</key>
+    <value><![CDATA[Žiūrėti žurnalą, prisijunkite vaizdą, apžiūrėti Prisijungti žr prisijungti, peržiūrėti klaidos žurnalą, peržiūrėti klaidas]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_log</key>
+    <value><![CDATA[aišku, žurnalas, prisijunkite aišku, ištrinti Prisijungti, prisijunkite ištrinti]]></value>
+  </definition>
+  <definition>
+    <key>command_view_order</key>
+    <value><![CDATA[Žiūrėti užsakymą, užsakymo numeris, atvira tam, rodyti tam, atvira užsakymo numeris, vaizdas užsakymo numeris, rodyti užsakymo numeris, užsakymo #]]></value>
+  </definition>
+  <definition>
+    <key>command_view_product</key>
+    <value><![CDATA[Peržiūrėti produktas, produkto numeris, atvira produktas, rodyti produktas, atvira produkto numeris, vaizdas produkto numeris, rodyti produkto numeris, produkto #]]></value>
+  </definition>
+  <definition>
+    <key>command_create_new</key>
+    <value><![CDATA[įterpti, kurti, pridėti, naujas, įterpti naujas, kurti naujas, pridėti naują]]></value>
+  </definition>
+  <definition>
+    <key>category</key>
+    <value><![CDATA[Kategorija]]></value>
+  </definition>
+  <definition>
+    <key>product</key>
+    <value><![CDATA[produktas]]></value>
+  </definition>
+  <definition>
+    <key>brand</key>
+    <value><![CDATA[markė]]></value>
+  </definition>
+  <definition>
+    <key>manufacturer</key>
+    <value><![CDATA[gamintojas]]></value>
+  </definition>
+  <definition>
+    <key>review</key>
+    <value><![CDATA[apžvalga]]></value>
+  </definition>
+  <definition>
+    <key>download</key>
+    <value><![CDATA[parsisiųsti]]></value>
+  </definition>
+  <definition>
+    <key>attribute</key>
+    <value><![CDATA[atributas]]></value>
+  </definition>
+  <definition>
+    <key>customer</key>
+    <value><![CDATA[klientas]]></value>
+  </definition>
+  <definition>
+    <key>coupon</key>
+    <value><![CDATA[kuponas]]></value>
+  </definition>
+  <definition>
+    <key>discount</key>
+    <value><![CDATA[nuolaida]]></value>
+  </definition>
+  <definition>
+    <key>block</key>
+    <value><![CDATA[blokas]]></value>
+  </definition>
+  <definition>
+    <key>menu</key>
+    <value><![CDATA[meniu]]></value>
+  </definition>
+  <definition>
+    <key>content</key>
+    <value><![CDATA[turinys]]></value>
+  </definition>
+  <definition>
+    <key>banner</key>
+    <value><![CDATA[vėliava]]></value>
+  </definition>
+  <definition>
+    <key>page</key>
+    <value><![CDATA[puslapis]]></value>
+  </definition>
+  <definition>
+    <key>store</key>
+    <value><![CDATA[parduotuvė]]></value>
+  </definition>
+  <definition>
+    <key>language</key>
+    <value><![CDATA[kalba]]></value>
+  </definition>
+  <definition>
+    <key>currency</key>
+    <value><![CDATA[valiuta]]></value>
+  </definition>
+  <definition>
+    <key>location</key>
+    <value><![CDATA[vieta]]></value>
+  </definition>
+  <definition>
+    <key>tax</key>
+    <value><![CDATA[mokestis]]></value>
+  </definition>
+</definitions>
