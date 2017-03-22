@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[สกุลเงิน]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[เงินตรา]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: คุณมีการปรับเปลี่ยนสกุลเงิน!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[ชื่อสกุลเงิน]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[รหัส]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[ความคุ้มค่า]]></value>
+  </definition>
+  <definition>
+    <key>column_date_modified</key>
+    <value><![CDATA[ปรับปรุงล่าสุด]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[สถานะ]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[การกระทำ]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[สกุลเงินชื่อเรื่อง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[รหัสสินค้า: <br/><span class="help">อย่าเปลี่ยนถ้านี้เป็นสกุลเงินเริ่มต้นของคุณ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[ราคา: <br/><span class="help">ชุดที่จะ 1.00000 ถ้านี้เป็นสกุลเงินเริ่มต้นของคุณ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_symbol_left</key>
+    <value><![CDATA[สัญลักษณ์ซ้าย:]]></value>
+  </definition>
+  <definition>
+    <key>entry_symbol_right</key>
+    <value><![CDATA[สัญลักษณ์ขวา:]]></value>
+  </definition>
+  <definition>
+    <key>entry_decimal_place</key>
+    <value><![CDATA[ตำแหน่งทศนิยม:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[สถานะ:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[คำเตือน: คุณไม่ได้รับสิทธิ์ในการปรับเปลี่ยนสกุลเงิน!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[สกุลเงินชื่อเรื่องจะต้องอยู่ระหว่าง 2 และ 32 ตัว!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[รหัสสกุลเงินต้องประกอบด้วย 3 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[คำเตือน: สกุลเงินนี้ไม่สามารถลบได้เมื่อได้รับสิทธิ์ในปัจจุบันเป็นสกุลเงินที่เก็บเริ่มต้น!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[คำเตือน: สกุลเงินนี้ไม่สามารถลบได้ในขณะที่มันอยู่ในขณะนี้ไปยังร้านค้า %s!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[คำเตือน: สกุลเงินนี้ไม่สามารถลบได้ในขณะที่มันอยู่ในขณะนี้ที่จะสั่งซื้อ %s!]]></value>
+  </definition>
+</definitions>

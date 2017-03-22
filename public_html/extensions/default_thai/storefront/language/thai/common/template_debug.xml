@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_block_id</key>
+    <value><![CDATA[ID บล็อก:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_name</key>
+    <value><![CDATA[ชื่อ:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_controller</key>
+    <value><![CDATA[ควบคุม:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_path</key>
+    <value><![CDATA[เส้นทาง:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_template</key>
+    <value><![CDATA[แม่แบบ:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_parent</key>
+    <value><![CDATA[ผู้ปกครอง:]]></value>
+  </definition>
+  <definition>
+    <key>text_parent_id</key>
+    <value><![CDATA[ID ผู้ปกครอง:]]></value>
+  </definition>
+  <definition>
+    <key>text_close</key>
+    <value><![CDATA[ปิด]]></value>
+  </definition>
+  <definition>
+    <key>text_click</key>
+    <value><![CDATA[คลิก Me]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ผู้จัดการเนื้อหา]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[เพิ่มเนื้อหาใหม่]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[ปรับปรุงเนื้อหา]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: คุณมีเนื้อหาที่มีการปรับเปลี่ยน!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_layout</key>
+    <value><![CDATA[ความสำเร็จ: คุณได้แก้ไขรูปแบบหน้าเนื้อหา]]></value>
+  </definition>
+  <definition>
+    <key>text_hidden</key>
+    <value><![CDATA[ซ่อนเร้น]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[ค่าเริ่มต้น]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[ชื่อเรื่องเนื้อหา]]></value>
+  </definition>
+  <definition>
+    <key>column_parent</key>
+    <value><![CDATA[เนื้อหาของผู้ปกครอง]]></value>
+  </definition>
+  <definition>
+    <key>entry_parent</key>
+    <value><![CDATA[หน้าเนื้อหาผู้ปกครอง]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[เรียง]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[สถานะ]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[การกระทำ]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[ชื่อเนื้อหา:]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[ชื่อเรื่องเนื้อหา:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[รายละเอียด:]]></value>
+  </definition>
+  <definition>
+    <key>entry_content</key>
+    <value><![CDATA[เนื้อหา:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[ร้านค้า:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[สถานะ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_keyword</key>
+    <value><![CDATA[SEO คำสำคัญ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[เรียง:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[คำเตือน: คุณไม่ได้รับสิทธิ์ในการปรับเปลี่ยนเนื้อหา!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[เนื้อหาชื่อเรื่องจะต้องอยู่ระหว่าง 2 และ 64 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[ชื่อเนื้อหาจะต้องระหว่าง 2 และ 64 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_description</key>
+    <value><![CDATA[คำอธิบายต้องมากกว่า 1 ตัวละคร!]]></value>
+  </definition>
+  <definition>
+    <key>error_content</key>
+    <value><![CDATA[เนื้อหาต้องมีมากกว่า 1 ตัวละคร!]]></value>
+  </definition>
+  <definition>
+    <key>error_seo_url</key>
+    <value><![CDATA[SEO URL ต้องมากกว่า 1 ตัวละคร!]]></value>
+  </definition>
+  <definition>
+    <key>error_account</key>
+    <value><![CDATA[คำเตือน: เนื้อหานี้ไม่สามารถลบได้ในขณะที่มันอยู่ในขณะนี้เป็นข้อกำหนดบัญชีเก็บเริ่มต้น!]]></value>
+  </definition>
+  <definition>
+    <key>error_checkout</key>
+    <value><![CDATA[คำเตือน: เนื้อหานี้ไม่สามารถลบได้ในขณะที่มันอยู่ในขณะนี้เป็นแง่เริ่มต้นเก็บเช็คเอาต์!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[ข้อมูลที่ต้องการยังไม่ได้รับการป้อน ตรวจสอบข้อผิดพลาดของข้อมูล!]]></value>
+  </definition>
+  <definition>
+    <key>text_top_level</key>
+    <value><![CDATA[ระดับสูง]]></value>
+  </definition>
+  <definition>
+    <key>text_any</key>
+    <value><![CDATA[ใด]]></value>
+  </definition>
+  <definition>
+    <key>tab_form</key>
+    <value><![CDATA[แก้ไข]]></value>
+  </definition>
+  <definition>
+    <key>tab_layout</key>
+    <value><![CDATA[แบบ]]></value>
+  </definition>
+</definitions>

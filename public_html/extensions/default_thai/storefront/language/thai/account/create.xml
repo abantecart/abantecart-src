@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[สร้างบัญชี]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[บัญชี]]></value>
+  </definition>
+  <definition>
+    <key>text_create</key>
+    <value><![CDATA[สมัครสมาชิก]]></value>
+  </definition>
+  <definition>
+    <key>text_account_already</key>
+    <value><![CDATA[หากคุณมีบัญชีผู้ใช้กับเรากรุณาเข้าสู่ระบบที่ <a style="text-decoration: underline" href="%s">หน้าเข้าสู่ระบบ</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_your_details</key>
+    <value><![CDATA[รายละเอียดส่วนบุคคลของคุณ]]></value>
+  </definition>
+  <definition>
+    <key>text_your_address</key>
+    <value><![CDATA[ที่อยู่ของคุณ]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[จดหมายข่าว]]></value>
+  </definition>
+  <definition>
+    <key>text_your_password</key>
+    <value><![CDATA[รหัสผ่านของคุณ]]></value>
+  </definition>
+  <definition>
+    <key>text_login_details</key>
+    <value><![CDATA[เข้าสู่ระบบรายละเอียด]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[ฉันได้อ่านและยอมรับ]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[ชื่อเข้าสู่ระบบ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[ชื่อจริง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[นามสกุล:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-Mail:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[โทรศัพท์:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[แฟกซ์:]]></value>
+  </definition>
+  <definition>
+    <key>entry_company</key>
+    <value><![CDATA[บริษัท:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_1</key>
+    <value><![CDATA[ที่อยู่ 1:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_2</key>
+    <value><![CDATA[ที่อยู่ 2:]]></value>
+  </definition>
+  <definition>
+    <key>entry_postcode</key>
+    <value><![CDATA[รหัสไปรษณีย์:]]></value>
+  </definition>
+  <definition>
+    <key>entry_city</key>
+    <value><![CDATA[เมือง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[ประเทศ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[ภูมิภาค / รัฐ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_newsletter</key>
+    <value><![CDATA[สมัครสมาชิก:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[รหัสผ่าน:]]></value>
+  </definition>
+  <definition>
+    <key>entry_confirm</key>
+    <value><![CDATA[ยืนยันรหัสผ่าน:]]></value>
+  </definition>
+  <definition>
+    <key>error_exists</key>
+    <value><![CDATA[ข้อผิดพลาด: ที่อยู่อีเมลมีการลงทะเบียนแล้ว!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[เข้าสู่ระบบชื่อจะต้องเป็นตัวเลขเท่านั้นและระหว่างวันที่ 5 และ 64 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[ชื่อเข้าสู่ระบบนี้ไม่สามารถใช้ได้ ลองชื่อเข้าสู่ระบบที่แตกต่างกัน!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[ชื่อจริงต้องอยู่ระหว่าง 1 และ 32 ตัว!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[นามสกุลต้องอยู่ระหว่าง 1 และ 32 ตัว!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[อีเมล์ของคุณไม่ถูกต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_email_exists</key>
+    <value><![CDATA[ที่อยู่อีเมลอยู่แล้ว!]]></value>
+  </definition>
+  <definition>
+    <key>error_password</key>
+    <value><![CDATA[รหัสผ่านจะต้องอยู่ระหว่าง 4 และ 20 ตัว!]]></value>
+  </definition>
+  <definition>
+    <key>error_confirm</key>
+    <value><![CDATA[ยืนยันรหัสผ่านไม่ตรงกับรหัสผ่าน!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_1</key>
+    <value><![CDATA[ที่อยู่ 1 ต้องอยู่ระหว่าง 3 และ 128 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_city</key>
+    <value><![CDATA[เมืองต้องอยู่ระหว่าง 3 และ 128 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_postcode</key>
+    <value><![CDATA[Zip / รหัสไปรษณีย์ต้องอยู่ระหว่าง 3 และ 10 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_country</key>
+    <value><![CDATA[โปรดเลือกประเทศ!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone</key>
+    <value><![CDATA[โปรดเลือกเขต / รัฐ!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[โทรศัพท์จะต้องอยู่ระหว่าง 3 และ 32 ตัว!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[ข้อผิดพลาด: คุณต้องยอมรับ %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_full_register</key>
+    <value><![CDATA[เป็นลูกค้าและลงทะเบียนกับรายละเอียดของคุณ]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribe_register</key>
+    <value><![CDATA[เป็นสมาชิกจดหมายข่าว]]></value>
+  </definition>
+  <definition>
+    <key>text_success_subscribe_heading</key>
+    <value><![CDATA[คุณได้สมัครเรียบร้อยแล้ว!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_subscribe</key>
+    <value><![CDATA[ความสำเร็จ: สมัครรับจดหมายข่าวของคุณได้รับการสร้างขึ้นเรียบร้อยแล้ว!]]></value>
+  </definition>
+  <definition>
+    <key>error_subscriber_exists</key>
+    <value><![CDATA[ข้อมูลของเราแสดงให้เห็นว่าคุณมีบัญชีกับเรา กรุณาเข้าสู่ระบบบัญชีของคุณในการจัดการการสมัครสมาชิกจดหมายข่าวของคุณ]]></value>
+  </definition>
+  <definition>
+    <key>text_new_customer</key>
+    <value><![CDATA[ได้รับการอนุมัติการลงทะเบียนลูกค้าใหม่อยู่ระหว่างการพิจารณา]]></value>
+  </definition>
+  <definition>
+    <key>text_pending_customer_approval</key>
+    <value><![CDATA[ลูกค้า %s ได้ลงทะเบียนกับบัญชีใหม่ การดำเนินการของการอนุมัติจะต้อง! คลิกเพื่อดู # # ผู้ดูแลระบบ RT = ขาย / ลูกค้า / อัปเดต CUSTOMER_ID = %s]]></value>
+  </definition>
+  <definition>
+    <key>text_pending_subscriber_approval</key>
+    <value><![CDATA[สมาชิก %s ได้ลงทะเบียนกับบัญชีใหม่ การดำเนินการของการอนุมัติจะต้อง! คลิกเพื่อดู # # ผู้ดูแลระบบ RT = ขาย / ลูกค้า / อัปเดต CUSTOMER_ID = %s]]></value>
+  </definition>
+</definitions>

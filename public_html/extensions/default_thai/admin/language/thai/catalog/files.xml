@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[แฟ้มผลิตภัณฑ์]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[สินค้า]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_product_file</key>
+    <value><![CDATA[แก้ไขไฟล์สินค้า]]></value>
+  </definition>
+  <definition>
+    <key>tab_files</key>
+    <value><![CDATA[ไฟล์]]></value>
+  </definition>
+  <definition>
+    <key>tab_general</key>
+    <value><![CDATA[ทั่วไป]]></value>
+  </definition>
+  <definition>
+    <key>tab_attributes</key>
+    <value><![CDATA[ดาวน์โหลดแอตทริบิวต์]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_icon</key>
+    <value><![CDATA[ไอคอนของไฟล์]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[สถานะ]]></value>
+  </definition>
+  <definition>
+    <key>entry_resource</key>
+    <value><![CDATA[ทรัพยากร]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[ชื่อ]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_name</key>
+    <value><![CDATA[ดาวน์โหลดชื่อ]]></value>
+  </definition>
+  <definition>
+    <key>entry_mask</key>
+    <value><![CDATA[<span class="help">ดาวน์โหลดหน้ากากนามแฝงชื่อไฟล์สำหรับการส่งออกของลูกค้าดาวน์โหลด</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_full_path</key>
+    <value><![CDATA[เส้นทางเซิร์ฟเวอร์ไฟล์]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_max_downloads</key>
+    <value><![CDATA[แม็กซ์ดาวน์โหลด]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_sort_order</key>
+    <value><![CDATA[ลำดับการจัดเรียง]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_status</key>
+    <value><![CDATA[สถานะ]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_push_to_customers</key>
+    <value><![CDATA[ผลักดันให้กับลูกค้า]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_activation</key>
+    <value><![CDATA[เปิดใช้งานโหมด]]></value>
+  </definition>
+  <definition>
+    <key>text_add_file</key>
+    <value><![CDATA[เพิ่มไฟล์]]></value>
+  </definition>
+  <definition>
+    <key>text_new_file</key>
+    <value><![CDATA[เพิ่มไฟล์ใหม่]]></value>
+  </definition>
+  <definition>
+    <key>text_download_attributes</key>
+    <value><![CDATA[ดาวน์โหลดแอตทริบิวต์]]></value>
+  </definition>
+  <definition>
+    <key>text_download_information</key>
+    <value><![CDATA[ทั่วไป]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_added</key>
+    <value><![CDATA[วันที่เพิ่ม]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_modified</key>
+    <value><![CDATA[ดัดแปลง]]></value>
+  </definition>
+  <definition>
+    <key>entry_max_downloads</key>
+    <value><![CDATA[<span class="help">แม็กซ์นับการดาวน์โหลดของการดาวน์โหลดได้รับอนุญาตสำหรับลูกค้า</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_activate</key>
+    <value><![CDATA[<span class="help">เปิดใช้งานดาวน์โหลดจะเปิดใช้งานเกี่ยวกับเหตุการณ์ที่เลือก <br/> ตัวอย่าง: ทันที ดาวน์โหลดคือเปิดใช้งานหลังจากที่สั่งซื้อจะถูกวางไว้โดยไม่คำนึงถึงสถานะการสั่งซื้อ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[เรียง]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_days</key>
+    <value><![CDATA[<span class="help">หมดอายุจำนวนวันของวันนับจากวันที่ซื้อ</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_before_order</key>
+    <value><![CDATA[ก่อนที่จะสั่งซื้อสินค้า]]></value>
+  </definition>
+  <definition>
+    <key>text_immediately</key>
+    <value><![CDATA[ทันที]]></value>
+  </definition>
+  <definition>
+    <key>text_on_order_status</key>
+    <value><![CDATA[สถานะการสั่งซื้อ]]></value>
+  </definition>
+  <definition>
+    <key>text_manually</key>
+    <value><![CDATA[ด้วยมือ]]></value>
+  </definition>
+  <definition>
+    <key>text_success_download_save</key>
+    <value><![CDATA[ความสำเร็จ: คุณได้แก้ไขไฟล์!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_exists</key>
+    <value><![CDATA[ข้อผิดพลาด: ไม่สามารถอัปเดตการดาวน์โหลดเพราะมันไม่ได้มีอยู่ในฐานข้อมูล!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_name</key>
+    <value><![CDATA[ข้อผิดพลาด: ดาวน์โหลดชื่อจะต้องมีความยาวระหว่าง 2 และ 128 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_max_downloads</key>
+    <value><![CDATA[ข้อผิดพลาด: ดาวน์โหลดสูงสุดนับต้องมากกว่า 0!]]></value>
+  </definition>
+  <definition>
+    <key>error_activate</key>
+    <value><![CDATA[ข้อผิดพลาด: เลือกการดำเนินการสำหรับการเปิดใช้งานการดาวน์โหลด!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_status</key>
+    <value><![CDATA[ข้อผิดพลาด: เลือกสถานะการสั่งซื้อสำหรับการเปิดใช้งานการดาวน์โหลด!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_attributes</key>
+    <value><![CDATA[ดาวน์โหลดคุณสมบัติข้อผิดพลาด (s):]]></value>
+  </definition>
+  <definition>
+    <key>text_shared_downloads</key>
+    <value><![CDATA[ดาวน์โหลดที่ใช้ร่วมกัน]]></value>
+  </definition>
+  <definition>
+    <key>text_create_download</key>
+    <value><![CDATA[สร้างการดาวน์โหลดใหม่]]></value>
+  </definition>
+  <definition>
+    <key>text_path</key>
+    <value><![CDATA[ทางญาติไปยังแฟ้ม]]></value>
+  </definition>
+  <definition>
+    <key>text_preview</key>
+    <value><![CDATA[ดูตัวอย่าง]]></value>
+  </definition>
+  <definition>
+    <key>entry_shared</key>
+    <value><![CDATA[ที่ใช้ร่วมกันดาวน์โหลด]]></value>
+  </definition>
+  <definition>
+    <key>text_assign</key>
+    <value><![CDATA[บันทึก]]></value>
+  </definition>
+  <definition>
+    <key>text_assigned_to</key>
+    <value><![CDATA[นอกจากนี้ยังได้รับมอบหมายให้:]]></value>
+  </definition>
+  <definition>
+    <key>text_select_shared_downloads</key>
+    <value><![CDATA[เลือกดาวน์โหลดที่ใช้ร่วมกัน]]></value>
+  </definition>
+  <definition>
+    <key>error_selected_downloads</key>
+    <value><![CDATA[คำเตือน: โปรดเลือกดาวน์โหลดร่วมกันกำหนด]]></value>
+  </definition>
+  <definition>
+    <key>text_map_success</key>
+    <value><![CDATA[ความสำเร็จ: คุณได้รับมอบหมายให้ดาวน์โหลดใช้ร่วมกันกับผลิตภัณฑ์!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_or_refuse</key>
+    <value><![CDATA[ลบหรือปฏิเสธ (สำหรับใช้ร่วมกัน)]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_delete</key>
+    <value><![CDATA[ยืนยันการดาวน์โหลดลบ / ปฏิเสธ]]></value>
+  </definition>
+  <definition>
+    <key>text_success_remove</key>
+    <value><![CDATA[ความสำเร็จ: รายการสินค้าไฟล์การเปลี่ยนแปลง!]]></value>
+  </definition>
+  <definition>
+    <key>text_push</key>
+    <value><![CDATA[ดัน]]></value>
+  </definition>
+  <definition>
+    <key>text_push_to_customers</key>
+    <value><![CDATA[ผลักดันให้กับลูกค้า]]></value>
+  </definition>
+  <definition>
+    <key>text_push_to_orders</key>
+    <value><![CDATA[ดาวน์โหลด Push ไป %s สั่งซื้อ]]></value>
+  </definition>
+  <definition>
+    <key>success_push_to_orders</key>
+    <value><![CDATA[ความสำเร็จ: ดาวน์โหลดได้รับการผลักดันให้การสั่งซื้อ %s (s) ที่ประสบความสำเร็จ]]></value>
+  </definition>
+  <definition>
+    <key>text_no_download_attributes_yet</key>
+    <value><![CDATA[ดาวน์โหลดไม่มีแอตทริบิวต์เลย <a href="%s" target="_blank">คลิกเพื่อเพิ่ม</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_push</key>
+    <value><![CDATA[ยืนยัน?]]></value>
+  </definition>
+  <definition>
+    <key>error_downloads_disabled</key>
+    <value><![CDATA[คำเตือน: การดาวน์โหลดจะถูกปิดการใช้งานในการตั้งค่าการจัดเก็บ <a href="#admin#rt=setting/setting&active=general" target="new">คลิกที่นี่เพื่อแก้ไข</a> !]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[คำเตือน: คุณไม่ได้รับสิทธิ์ในการปรับเปลี่ยนแฟ้มผลิตภัณฑ์!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[กรุณาตั้งค่าไฟล์สำหรับการดาวน์โหลด]]></value>
+  </definition>
+  <definition>
+    <key>attention_shared</key>
+    <value><![CDATA[คุณกำลังจะแก้ไขดาวน์โหลดที่ใช้ร่วมกัน แก้ไขจะมีผลต่อผลิตภัณฑ์อื่น ๆ]]></value>
+  </definition>
+  <definition>
+    <key>text_shared_with</key>
+    <value><![CDATA[ร่วมกับ:]]></value>
+  </definition>
+</definitions>

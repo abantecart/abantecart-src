@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ออกจากระบบบัญชี]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> คุณได้รับการออกจากระบบบัญชีของคุณ ตอนนี้มันเป็นความปลอดภัยที่จะออกจากคอมพิวเตอร์ </p><p> รถเข็นของคุณได้รับการบันทึกรายการที่อยู่ภายในนั้นจะถูกเรียกคืนเมื่อใดก็ตามที่คุณกลับเข้าสู่บัญชีของคุณ </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[บัญชี]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[ออกจากระบบ]]></value>
+  </definition>
+</definitions>

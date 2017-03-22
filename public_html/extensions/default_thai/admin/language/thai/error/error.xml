@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Application Error!]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[กรุณาตรวจสอบบันทึกข้อผิดพลาดสำหรับข้อมูลเพิ่มเติม]]></value>
+  </definition>
+</definitions>

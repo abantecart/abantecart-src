@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ที่อยู่กร้า]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[ตะกร้า]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[การส่งสินค้า]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[การชำระเงิน]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[ที่อยู่]]></value>
+  </definition>
+  <definition>
+    <key>text_new_address</key>
+    <value><![CDATA[ที่อยู่ใหม่]]></value>
+  </definition>
+  <definition>
+    <key>text_entries</key>
+    <value><![CDATA[สมุดที่อยู่รายการ]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[ชื่อจริง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[นามสกุล:]]></value>
+  </definition>
+  <definition>
+    <key>entry_company</key>
+    <value><![CDATA[บริษัท:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_1</key>
+    <value><![CDATA[ที่อยู่ 1:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_2</key>
+    <value><![CDATA[ที่อยู่ 2:]]></value>
+  </definition>
+  <definition>
+    <key>entry_postcode</key>
+    <value><![CDATA[ไปรษณีย์ / รหัสไปรษณีย์:]]></value>
+  </definition>
+  <definition>
+    <key>entry_city</key>
+    <value><![CDATA[เมือง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[ภูมิภาค / รัฐ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[ประเทศ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[โทรศัพท์:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[แฟกซ์:]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[ชื่อจริงต้องอยู่ระหว่าง 1 และ 32 ตัว!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[นามสกุลต้องอยู่ระหว่าง 1 และ 32 ตัว!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_1</key>
+    <value><![CDATA[ที่อยู่ 1 ต้องอยู่ระหว่าง 3 และ 64 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_city</key>
+    <value><![CDATA[เมืองต้องอยู่ระหว่าง 3 และ 32 ตัว!]]></value>
+  </definition>
+  <definition>
+    <key>error_postcode</key>
+    <value><![CDATA[Zip / รหัสไปรษณีย์ต้องอยู่ระหว่าง 3 และ 10 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_country</key>
+    <value><![CDATA[โปรดเลือกประเทศ!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone</key>
+    <value><![CDATA[โปรดเลือกเขต / รัฐ!]]></value>
+  </definition>
+</definitions>

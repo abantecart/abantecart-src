@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ผู้จัดการภาพ]]></value>
+  </definition>
+  <definition>
+    <key>text_uploaded</key>
+    <value><![CDATA[ความสำเร็จ: ไฟล์ของคุณได้รับการอัปโหลด!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_delete</key>
+    <value><![CDATA[ไฟล์ถูกลบไปแล้ว!]]></value>
+  </definition>
+  <definition>
+    <key>text_create</key>
+    <value><![CDATA[ความสำเร็จ: Directory สร้าง!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[ความสำเร็จ: แฟ้มหรือไดเรกทอรีของคุณได้ถูกลบไปแล้ว!]]></value>
+  </definition>
+  <definition>
+    <key>text_move</key>
+    <value><![CDATA[ความสำเร็จ: แฟ้มหรือไดเรกทอรีของคุณถูกย้าย!]]></value>
+  </definition>
+  <definition>
+    <key>text_copy</key>
+    <value><![CDATA[ความสำเร็จ: แฟ้มหรือไดเรกทอรีของคุณได้รับการคัดลอก!]]></value>
+  </definition>
+  <definition>
+    <key>text_rename</key>
+    <value><![CDATA[ความสำเร็จ: แฟ้มหรือไดเรกทอรีของคุณได้รับการเปลี่ยนชื่อ!]]></value>
+  </definition>
+  <definition>
+    <key>entry_folder</key>
+    <value><![CDATA[แฟ้มใหม่:]]></value>
+  </definition>
+  <definition>
+    <key>entry_move</key>
+    <value><![CDATA[ย้าย:]]></value>
+  </definition>
+  <definition>
+    <key>entry_copy</key>
+    <value><![CDATA[ชื่อ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_rename</key>
+    <value><![CDATA[ชื่อ:]]></value>
+  </definition>
+  <definition>
+    <key>error_select</key>
+    <value><![CDATA[คำเตือน: โปรดเลือกไดเรกทอรีหรือไฟล์!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[คำเตือน: โปรดเลือกไฟล์!]]></value>
+  </definition>
+  <definition>
+    <key>error_directory</key>
+    <value><![CDATA[คำเตือน: กรุณาเลือกไดเรกทอรี!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[คำเตือน: ไม่สามารถแก้ไขไดเรกทอรีเริ่มต้นของคุณ!]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[คำเตือน: คุณไม่สามารถลบไดเรกทอรีนี้!]]></value>
+  </definition>
+  <definition>
+    <key>error_filename</key>
+    <value><![CDATA[คำเตือน: ชื่อไฟล์ต้องเป็นระหว่าง 3 และ 255!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing</key>
+    <value><![CDATA[คำเตือน: แฟ้มหรือไดเรกทอรีไม่อยู่!]]></value>
+  </definition>
+  <definition>
+    <key>error_exists</key>
+    <value><![CDATA[คำเตือน: แฟ้มหรือไดเรกทอรีที่มีชื่อเดียวกันอยู่แล้ว!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[คำเตือน: กรุณาใส่ชื่อใหม่!]]></value>
+  </definition>
+  <definition>
+    <key>error_move</key>
+    <value><![CDATA[คำเตือน: การเคลื่อนย้ายไปยังไดเรกทอรีไม่อยู่!]]></value>
+  </definition>
+  <definition>
+    <key>error_copy</key>
+    <value><![CDATA[คำเตือน: ไม่สามารถคัดลอกไฟล์นี้หรือไดเรกทอรี!]]></value>
+  </definition>
+  <definition>
+    <key>error_rename</key>
+    <value><![CDATA[คำเตือน: ไม่สามารถเปลี่ยนชื่อไดเรกทอรีนี้!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_type</key>
+    <value><![CDATA[คำเตือน: ประเภทของไฟล์ที่ไม่ถูกต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_size</key>
+    <value><![CDATA[คำเตือน: ไฟล์ใหญ่โปรดให้ด้านล่าง 300kb และไม่เกิน 1000px สูงหรือความกว้าง!]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded</key>
+    <value><![CDATA[คำเตือน: ไฟล์ไม่สามารถอัปโหลดโดยไม่ทราบสาเหตุ!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[คำเตือน: การอนุญาตปฏิเสธ!]]></value>
+  </definition>
+  <definition>
+    <key>button_folder</key>
+    <value><![CDATA[แฟ้มใหม่]]></value>
+  </definition>
+  <definition>
+    <key>button_delete</key>
+    <value><![CDATA[ลบ]]></value>
+  </definition>
+  <definition>
+    <key>button_move</key>
+    <value><![CDATA[ย้าย]]></value>
+  </definition>
+  <definition>
+    <key>button_copy</key>
+    <value><![CDATA[สำเนา]]></value>
+  </definition>
+  <definition>
+    <key>button_rename</key>
+    <value><![CDATA[ตั้งชื่อใหม่]]></value>
+  </definition>
+  <definition>
+    <key>button_upload</key>
+    <value><![CDATA[อัปโหลด]]></value>
+  </definition>
+  <definition>
+    <key>button_refresh</key>
+    <value><![CDATA[รีเฟรช]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[กลุ่มลูกค้า]]></value>
+  </definition>
+  <definition>
+    <key>breadcrumb_title</key>
+    <value><![CDATA[กลุ่มลูกค้า]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: คุณได้แก้ไขกลุ่มลูกค้า!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[ชื่อกลุ่มลูกค้า]]></value>
+  </definition>
+  <definition>
+    <key>column_tax_exempt</key>
+    <value><![CDATA[รับการยกเว้นภาษี]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[การกระทำ]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[ลูกค้าชื่อกลุ่ม:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_exempt</key>
+    <value><![CDATA[ได้รับการยกเว้นภาษีทั้งหมด:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[คำเตือน: คุณไม่ได้รับสิทธิ์ในการปรับเปลี่ยนกลุ่มลูกค้า!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[ลูกค้ากลุ่มชื่อต้องมีระหว่าง 2 และ 64 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[คำเตือน: กลุ่มลูกค้ารายนี้ไม่สามารถลบได้ในขณะที่มันอยู่ในขณะนี้เป็นกลุ่มลูกค้าร้านค้าเริ่มต้น!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[คำเตือน: กลุ่มลูกค้ารายนี้ไม่สามารถลบได้ในขณะที่มันอยู่ในขณะนี้ไปยังร้านค้า %s!]]></value>
+  </definition>
+  <definition>
+    <key>error_customer</key>
+    <value><![CDATA[คำเตือน: กลุ่มลูกค้ารายนี้ไม่สามารถลบได้ในขณะที่มันอยู่ในขณะนี้ให้กับลูกค้า %s!]]></value>
+  </definition>
+</definitions>

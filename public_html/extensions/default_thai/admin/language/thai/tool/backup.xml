@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Backup / Restore / โหลด]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[ดาวน์โหลดสำรองข้อมูล]]></value>
+  </definition>
+  <definition>
+    <key>text_success_backup</key>
+    <value><![CDATA[ความสำเร็จ: คุณได้สร้างเสร็จเรียบร้อยแล้วแฟ้มสำรอง!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: คุณได้นำเข้าฐานข้อมูลของคุณประสบความสำเร็จ!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_xml</key>
+    <value><![CDATA[ความสำเร็จ: คุณได้นำเข้าสำเร็จ XML ของคุณ!]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore</key>
+    <value><![CDATA[เรียกคืนจาก SQL หรือ XML ไฟล์:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tables</key>
+    <value><![CDATA[ตารางสำรอง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_loadxml</key>
+    <value><![CDATA[โหลดไฟล์ XML:]]></value>
+  </definition>
+  <definition>
+    <key>tab_backup</key>
+    <value><![CDATA[การสำรองข้อมูล]]></value>
+  </definition>
+  <definition>
+    <key>tab_restore</key>
+    <value><![CDATA[ฟื้นฟู]]></value>
+  </definition>
+  <definition>
+    <key>tab_loadxml</key>
+    <value><![CDATA[รูปแบบและโหลดชุดข้อมูล XML]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[คำเตือน: คุณไม่ได้รับสิทธิ์ในการปรับเปลี่ยนการสำรองข้อมูล!]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[คำเตือน: โปรดตั้งสิ่งที่คุณต้องการในการสำรองข้อมูลหรือนำเข้า!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[คำเตือน: ไฟล์ที่คุณอัปโหลดเป็นที่ว่างเปล่าหรือมีประเภทของไฟล์ผิด!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload</key>
+    <value><![CDATA[คำเตือน: ไฟล์ที่ได้รับไม่ได้อัปโหลด ตรวจสอบ post_max_size หรือ file_upload สั่งของไฟล์ php.ini ของคุณ]]></value>
+  </definition>
+  <definition>
+    <key>error_xml</key>
+    <value><![CDATA[คำเตือน: ไฟล์ที่คุณอัปโหลดไม่ได้โหลดเป็น XML! กรุณาเข้าสู่ระบบดูไฟล์สำหรับรายละเอียด]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_code</key>
+    <value><![CDATA[การสำรองข้อมูลรหัส (%s) <br/><span class="help">ไดเรกทอรีย่อยกับไฟล์รหัสไม่รวมไฟล์แบบไดนามิกเช่นแคชไฟล์บันทึกภาพทรัพยากร ฯลฯ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_content</key>
+    <value><![CDATA[เนื้อหาการสำรองข้อมูล (%s) <br/><span class="help">ไดเรกทอรีย่อยกับไฟล์แบบไดนามิกเช่นภาพดาวน์โหลดทรัพยากร ฯลฯ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_compress_backup</key>
+    <value><![CDATA[บีบอัดไดเรกทอรีสำรอง %s? <br/><span class="help">เอกสารเก่า * .tar.gz จะถูกสร้างขึ้น <br/> หมายเหตุ: มันอาจจะใช้เวลานาน มิฉะนั้นคุณสามารถปิดการใช้การบีบอัดและหาสำรองของคุณในโฟลเดอร์ %s</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_now</key>
+    <value><![CDATA[การสำรองข้อมูลในขณะนี้]]></value>
+  </definition>
+  <definition>
+    <key>button_load</key>
+    <value><![CDATA[ภาระ]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_schedule</key>
+    <value><![CDATA[ตารางเวลาการสำรองข้อมูล]]></value>
+  </definition>
+  <definition>
+    <key>text_success_scheduled</key>
+    <value><![CDATA[ความสำเร็จ: คุณได้ประสบความสำเร็จสร้างตารางงานสำรอง! <a href="%s">ดูรายละเอียด</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_fail_note</key>
+    <value><![CDATA[หมายเหตุ: การดำเนินการขั้นตอนนี้ขึ้นอยู่กับขนาดของข้อมูล AbanteCart ของคุณเป็นเซิร์ฟเวอร์ขนาดหน่วยความจำเสมือนของคุณ สิทธิ์ถ้ากระบวนการยุติมีข้อผิดพลาดไดเรกทอรีตรวจสอบ %s เพื่อจะกำหนดให้ -rw-RW-RW และ <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[PHP การตั้งค่าหน่วยความจำ]</a> เพิ่มการตั้งค่าหน่วยความจำหรือเรียกใช้การสำรองข้อมูลด้วยตนเองหากกระบวนการยังคงล้มเหลว]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_file</key>
+    <value><![CDATA[การสำรองข้อมูลในการดาวน์โหลดไฟล์กรุณาเยี่ยมชม <a href="#admin#rt=tool/install_upgrade_history">การติดตั้ง / อัพเกรดประวัติศาสตร์</a>]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_dir</key>
+    <value><![CDATA[ไดเรกทอรีที่มีการสำรองข้อมูลไฟล์ %s]]></value>
+  </definition>
+</definitions>

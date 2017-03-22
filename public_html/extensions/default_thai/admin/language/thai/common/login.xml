@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[การบริหาร]]></value>
+  </definition>
+  <definition>
+    <key>text_heading</key>
+    <value><![CDATA[การบริหาร]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[กรุณากรอกรายละเอียดการเข้าสู่ระบบ]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[ชื่อผู้ใช้:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[รหัสผ่าน:]]></value>
+  </definition>
+  <definition>
+    <key>entry_forgot_password</key>
+    <value><![CDATA[ลืมรหัสผ่าน?]]></value>
+  </definition>
+  <definition>
+    <key>button_login</key>
+    <value><![CDATA[เข้าสู่ระบบ]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[ไม่ตรงกับชื่อผู้ใช้และ / หรือรหัสผ่าน]]></value>
+  </definition>
+  <definition>
+    <key>error_token</key>
+    <value><![CDATA[เซสชั่นโทเค็นไม่ถูกต้อง กรุณาเข้าสู่ระบบอีกครั้ง]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message</key>
+    <value><![CDATA[ล้มเหลวในการเข้าสู่ระบบผู้ดูแลระบบความพยายามจาก IP:]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message_text</key>
+    <value><![CDATA[เข้าสู่ระบบผู้ได้รับ:]]></value>
+  </definition>
+</definitions>

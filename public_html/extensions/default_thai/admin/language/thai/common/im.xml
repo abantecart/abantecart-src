@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>im_text_notification</key>
+    <value><![CDATA[การแจ้งเตือน]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update</key>
+    <value><![CDATA[อัพเดทการสั่งซื้อสินค้า]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_customer</key>
+    <value><![CDATA[สั่งซื้อของคุณ <a href="%s"># %s</a> ได้รับการปรับปรุง สำหรับรายละเอียดเพิ่มเติมเข้าสู่ระบบเพื่อ %s บัญชี]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_new_order</key>
+    <value><![CDATA[คำสั่งซื้อใหม่]]></value>
+  </definition>
+  <definition>
+    <key>im_new_order_text_to_admin</key>
+    <value><![CDATA[คำสั่งซื้อใหม่ <a href="#admin#rt=sale/order/details&order_id=%s"># %s</a> ได้ถูกสร้างขึ้น!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_new_customer</key>
+    <value><![CDATA[ลงทะเบียนลูกค้า]]></value>
+  </definition>
+  <definition>
+    <key>im_new_customer_text_to_admin</key>
+    <value><![CDATA[ลูกค้าใหม่ # %s ได้รับการจดทะเบียน!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_account_update</key>
+    <value><![CDATA[การปรับปรุงบัญชีผู้ดูแลระบบผู้ใช้]]></value>
+  </definition>
+  <definition>
+    <key>im_account_update_text_to_admin</key>
+    <value><![CDATA[รายละเอียดบัญชีผู้ดูแลระบบของคุณได้รับการเปลี่ยนแปลง]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_text_to_admin</key>
+    <value><![CDATA[ลูกค้าใหม่ # %s ได้รับการปรับปรุง!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_contact</key>
+    <value><![CDATA[สอบถามลูกค้า]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_product_out_of_stock</key>
+    <value><![CDATA[สินค้าในสต็อก]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_product_review</key>
+    <value><![CDATA[ความคิดเห็นเกี่ยวกับสินค้าใหม่]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter</key>
+    <value><![CDATA[จดหมายข่าว]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_system_messages</key>
+    <value><![CDATA[ข้อความระบบ]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_text_to_customer</key>
+    <value><![CDATA[การทำธุรกรรมใหม่ได้รับการโพสต์ไปยังบัญชีของคุณ %s ในจำนวนของ %s สำหรับรายละเอียดเพิ่มเติมเข้าสู่ระบบเพื่อ %s บัญชี]]></value>
+  </definition>
+  <definition>
+    <key>text_notification_for</key>
+    <value><![CDATA[การแจ้งเตือนสำหรับผู้ใช้ %s]]></value>
+  </definition>
+  <definition>
+    <key>error_unknown_sendpoint</key>
+    <value><![CDATA[Sendpoint %s ไม่พบในรายการ sendpoints!]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_success_saved</key>
+    <value><![CDATA[ตั้งค่าการแจ้งบันทึกเรียบร้อยแล้ว!]]></value>
+  </definition>
+  <definition>
+    <key>im_error_mail_address</key>
+    <value><![CDATA[ที่อยู่อีเมล %s ดูเหมือนว่าไม่ถูกต้อง!]]></value>
+  </definition>
+</definitions>

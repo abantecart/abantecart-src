@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ยอดรวมการสั่งซื้อสินค้า]]></value>
+  </definition>
+  <definition>
+    <key>text_install</key>
+    <value><![CDATA[ติดตั้ง]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall</key>
+    <value><![CDATA[ถอนการติดตั้ง]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[ยอดรวมการสั่งซื้อสินค้า]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[สถานะ]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[เรียง]]></value>
+  </definition>
+  <definition>
+    <key>column_calculation_order</key>
+    <value><![CDATA[การสั่งซื้อการคำนวณ]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[การกระทำ]]></value>
+  </definition>
+</definitions>

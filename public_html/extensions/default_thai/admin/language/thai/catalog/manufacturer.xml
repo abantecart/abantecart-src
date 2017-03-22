@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ผู้ผลิตหรือแบรนด์]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturer</key>
+    <value><![CDATA[ผู้ผลิตหรือยี่ห้อ]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: คุณมีการปรับเปลี่ยนผู้ผลิต!]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[ค่าเริ่มต้น]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[ผู้จัดการภาพ]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[ชื่อผู้ผลิต]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[เรียง]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[การกระทำ]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[ชื่อผู้ผลิต:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[ร้านค้า:]]></value>
+  </definition>
+  <definition>
+    <key>entry_keyword</key>
+    <value><![CDATA[SEO คำสำคัญ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_edit</key>
+    <value><![CDATA[แก้ไข]]></value>
+  </definition>
+  <definition>
+    <key>entry_layout</key>
+    <value><![CDATA[แบบ]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[ภาพ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[เรียง:]]></value>
+  </definition>
+  <definition>
+    <key>error_manufacturer_not_found</key>
+    <value><![CDATA[ข้อผิดพลาด: ไม่พบผู้ผลิต!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[คำเตือน: คุณไม่ได้รับสิทธิ์ในการปรับเปลี่ยนผู้ผลิต!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[ชื่อผู้ผลิตจะต้องอยู่ระหว่าง 2 และ 64 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[คำเตือน: ผู้ผลิตนี้ไม่สามารถลบได้ในขณะที่มันอยู่ในขณะนี้กับผลิตภัณฑ์ %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_layout</key>
+    <value><![CDATA[ความสำเร็จ: คุณได้แก้ไขรูปแบบหน้าหมวดหมู่]]></value>
+  </definition>
+</definitions>

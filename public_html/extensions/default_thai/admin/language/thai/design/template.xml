@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Manager แม่]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: คุณได้กำหนดแม่แบบหน้าร้านใหม่!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront_templates</key>
+    <value><![CDATA[แม่แบบหน้าร้านที่มีอยู่]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_extension</key>
+    <value><![CDATA[ตั้งค่าส่วนขยาย]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[ข้อผิดพลาด: หายไปพารามิเตอร์ที่จำเป็นในคำขอของคุณ!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[คำเตือน: คุณไม่ได้รับสิทธิ์ในการปรับเปลี่ยนแม่!]]></value>
+  </definition>
+</definitions>

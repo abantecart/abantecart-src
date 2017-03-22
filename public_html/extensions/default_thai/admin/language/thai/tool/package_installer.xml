@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: แพคเกจติดตั้งเรียบร้อยแล้ว]]></value>
+  </definition>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[แพคเกจการติดตั้ง]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_license</key>
+    <value><![CDATA[ข้อตกลงการอนุญาตแพคเกจ]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_ftp</key>
+    <value><![CDATA[พารามิเตอร์เข้าถึง FTP]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_download</key>
+    <value><![CDATA[แพคเกจโหลด]]></value>
+  </definition>
+  <definition>
+    <key>text_preloading</key>
+    <value><![CDATA[แฟ้มแพคเกจ% แฟ้ม% จะถูกดาวน์โหลด]]></value>
+  </definition>
+  <definition>
+    <key>text_loading</key>
+    <value><![CDATA[ดาวน์โหลดไฟล์ ขนาด: %s <br/> มันอาจจะใช้เวลาไม่กี่วินาทีขึ้นอยู่กับการเชื่อมต่อของคุณ]]></value>
+  </definition>
+  <definition>
+    <key>text_key_hint</key>
+    <value><![CDATA[ป้อนคีย์การติดตั้งที่นี่]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_user</key>
+    <value><![CDATA[FTP ชื่อผู้ใช้:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_password</key>
+    <value><![CDATA[รหัสผ่าน FTP ผู้ใช้:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_host</key>
+    <value><![CDATA[FTP Host:]]></value>
+  </definition>
+  <definition>
+    <key>text_i_agree</key>
+    <value><![CDATA[ผมเห็นด้วยกับใบอนุญาต]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[ตกลง]]></value>
+  </definition>
+  <definition>
+    <key>text_retry</key>
+    <value><![CDATA[ลองใหม่อีกครั้ง]]></value>
+  </definition>
+  <definition>
+    <key>text_disagree</key>
+    <value><![CDATA[ไม่เห็นด้วย]]></value>
+  </definition>
+  <definition>
+    <key>text_download_error</key>
+    <value><![CDATA[เราจะเสียใจ แต่ข้อผิดพลาดขณะอัปโหลดไฟล์ </br> ลองอีกครั้งหนึ่ง </br> หากปัญหายังคงมีอยู่ในการดาวน์โหลดไฟล์ประวัติการสั่งซื้อและติดตั้งด้วยตนเอง]]></value>
+  </definition>
+  <definition>
+    <key>text_continue</key>
+    <value><![CDATA[ต่อ]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer_heading</key>
+    <value><![CDATA[คำปฏิเสธ]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer</key>
+    <value><![CDATA[<h3> ลูกค้า AbanteCart เรียน </h3><br/> 
+ คุณกำลังจะติดตั้งส่วนขยายของบุคคลที่สาม AbanteCart ของคุณ <br/><br/> 
+ กรุณาอ่านและทำความเข้าใจเกี่ยวกับการปฏิเสธความรับผิดชอบนี้นามสกุลบุคคลที่สามที่คุณเกี่ยวกับการติดตั้ง <br/><br/> 
+ ส่วนขยายของบุคคลที่สามและการบริการที่ให้บริการโดยผู้ขายบุคคลภายนอก <br/><br/> 
+ แม้ว่า AbanteCart ตรวจสอบคุณภาพของการขยายและการให้บริการโดยบุคคลที่สาม AbanterCart ไม่ได้รับประกันว่าทุกงานส่วนขยายของบุคคลที่สามได้อย่างถูกต้องหรือไม่จะก่อให้เกิดความขัดแย้งใด ๆ ในระบบ 
+ สมาชิก AbanteCart และ บริษัท ในเครืออยู่ในทางที่รับผิดหรือความรับผิดชอบในการเรียกร้องที่ทำเกี่ยวข้องกับผลิตภัณฑ์หรือบริการจากผู้จำหน่ายของบุคคลที่สาม AbanteCart ไม่ได้รับประกันคุณภาพของนามสกุลของบุคคลที่สามหรือบริการ กรุณาส่งคำถามของคุณเกี่ยวกับนามสกุลของบุคคลที่สามหรือบริการไปยังผู้ขายของบุคคลที่สามที่เหมาะสม 
+ ถ้าคุณมีความกังวลเกี่ยวกับการให้บริการของบุคคลที่สามใด ๆ โปรดติดต่อ AbanteCart ที่ <a href="http://www.abantecart.com/contact-us" target="_blank">http://www.abantecart.com/contact-us</a><br/><br/> 
+ ขอแสดงความนับถือ <br/> 
+ AbanteCart <br/> 
+ เหมาะ OpenSource โซลูชั่นอีคอมเมิร์ซ]]></value>
+  </definition>
+  <definition>
+    <key>warning_ftp</key>
+    <value><![CDATA[คำเตือน: ไดเรกทอรีบางส่วนหรือไฟล์ไม่ได้เขียนได้รับอนุญาต <span id="see_details">(ดูรายละเอียดเพิ่มเติม)</span><br/> คุณสามารถเปลี่ยนสิทธิ์บนเซิร์ฟเวอร์ของคุณหรือ <br/> ใช้ FTP เข้าถึงเซิร์ฟเวอร์ของคุณสำหรับการติดตั้ง (โดยปกติผู้ให้บริการโฮสติ้งส่งข้อมูลนี้ผ่านทางอีเมลหรือคุณสามารถจัดการได้ใน โฮสติ้งเครื่องมือในการควบคุม) <br/>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed</key>
+    <value><![CDATA[<p class="success"> คุณมี% เสริม% การติดตั้ง! หากคุณต้องการที่จะดำเนินการและการอัพเกรดโปรดยืนยัน </p>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed_uninstall</key>
+    <value><![CDATA[คุณมีส่วนขยายนี้ &quot;% EXTENSION%&quot; การติดตั้ง! หากคุณต้องการที่จะดำเนินการติดตั้งโปรดถอนการติดตั้งและลบขยายแรก]]></value>
+  </definition>
+  <definition>
+    <key>error_pack_file_not_found</key>
+    <value><![CDATA[ข้อผิดพลาด: ไม่สามารถแยกส่วนขยายจากที่เก็บไป %s ตรวจสอบการ <a href="#admin#rt=tool/error_log" target="_blank">เข้าสู่ระบบ</a> สำหรับข้อผิดพลาด]]></value>
+  </definition>
+  <definition>
+    <key>error_mp</key>
+    <value><![CDATA[ข้อผิดพลาด Marketplace:]]></value>
+  </definition>
+  <definition>
+    <key>error_repository</key>
+    <value><![CDATA[ข้อผิดพลาด: ไม่สามารถดาวน์โหลดไฟล์ ข้อผิดพลาด Repository หรือคีย์ส่วนขยายที่ไม่ถูกต้อง ลองอีกครั้งหนึ่ง หากปัญหายังคงมีอยู่ในการดาวน์โหลดไฟล์ประวัติการสั่งซื้อและติดตั้งด้วยตนเอง]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_user</key>
+    <value><![CDATA[ข้อผิดพลาด: FTP ชื่อผู้ใช้งานเป็นที่ว่างเปล่า]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_password</key>
+    <value><![CDATA[ข้อผิดพลาด: FTP ผู้ใช้รหัสผ่านว่างเปล่า]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_connect</key>
+    <value><![CDATA[ข้อผิดพลาด: ไม่สามารถเชื่อมต่อไปยัง FTP เซิร์ฟเวอร์]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_login</key>
+    <value><![CDATA[ข้อผิดพลาด: ไม่สามารถเข้าสู่ระบบไปยัง FTP เซิร์ฟเวอร์ ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path</key>
+    <value><![CDATA[ข้อผิดพลาด: ไม่สามารถหาไดเรกทอรีรากของ AbanteCart โดยเส้นทาง FTP <br/> ลองปล่อยให้มันว่างเปล่าสำหรับการค้นหาอัตโนมัติ]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path_array</key>
+    <value><![CDATA[ข้อผิดพลาด: ไม่สามารถรับรู้โดยอัตโนมัติไดเรกทอรีรากของ AbanteCart ใน FTP โหมด <br/> กรุณากรอกข้อมูลในแบบฟอร์มการ FTP เส้นทาง <br/> ข้อเสนอแนะเส้นทาง ได้แก่ :]]></value>
+  </definition>
+  <definition>
+    <key>error_dir_permission</key>
+    <value><![CDATA[ไม่สามารถบันทึกไฟล์เพราะไดเรกทอรีไม่สามารถเขียน:]]></value>
+  </definition>
+  <definition>
+    <key>error_package_structure</key>
+    <value><![CDATA[ข้อผิดพลาด: แพคเกจน่าจะเสีย โครงสร้างของข้อผิดพลาดแพคเกจ]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config_xml</key>
+    <value><![CDATA[ข้อผิดพลาด: ไม่สามารถหาไฟล์ package.xml ภายในของส่วนขยายที่สกัด อาจจะเป็นส่วนขยายที่ไม่ได้สกัดได้อย่างถูกต้อง ตรวจสอบการ <a href="#admin#rt=tool/error_log" target="_blank">เข้าสู่ระบบ</a> สำหรับข้อผิดพลาด]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config2</key>
+    <value><![CDATA[ข้อผิดพลาด: ไม่พบโหมดการติดตั้งใน package.xml ภายในแพคเกจ]]></value>
+  </definition>
+  <definition>
+    <key>error_package_info_not_exists</key>
+    <value><![CDATA[ข้อผิดพลาด: ไม่สามารถหาข้อมูลเกี่ยวกับเซสชั่นแพคเกจการดาวน์โหลดนี้]]></value>
+  </definition>
+  <definition>
+    <key>error_unpack</key>
+    <value><![CDATA[ข้อผิดพลาด: ไม่สามารถแยกแพคเกจ &quot;% แพคเกจ%&quot; หลังจากการดาวน์โหลด ข้อผิดพลาดเอกสารเก่า ดูบันทึกข้อผิดพลาดสำหรับรายละเอียด]]></value>
+  </definition>
+  <definition>
+    <key>error_move</key>
+    <value><![CDATA[ข้อผิดพลาด: ไม่สามารถย้ายรหัสแพคเกจหลังจากการเปิดออก โปรดลองตรวจสอบสิทธิ์ในการเขียนสารบบ:]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode</key>
+    <value><![CDATA[ข้อผิดพลาด: ไม่สามารถติดตั้งส่วนขยาย &quot;แพคเกจ%%&quot; เพราะการติดตั้งแล้ว คุณต้อง deinstall และลบมันเป็นครั้งแรกหรือได้รับแพคเกจสำหรับการอัพเกรด]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode2</key>
+    <value><![CDATA[ข้อผิดพลาด: ไม่สามารถปรับขยาย &quot;แพคเกจ%%&quot; เพราะมันไม่ได้ติดตั้ง คุณต้องได้รับแพคเกจสำหรับการติดตั้ง]]></value>
+  </definition>
+  <definition>
+    <key>error_version_compatibility</key>
+    <value><![CDATA[ข้อผิดพลาด: ไม่สามารถติดตั้งแพคเกจ <b>รุ่นรถเข็นของคุณคือ% CURRENT_VERSION อยู่ในขณะ%</b> รุ่น <b>(s)%% รุ่นที่ต้องการ</b>]]></value>
+  </definition>
+  <definition>
+    <key>error_package_version_compatibility</key>
+    <value><![CDATA[ข้อผิดพลาด: ไม่สามารถปรับแพคเกจ แพคเกจรุ่นที่ใหม่กว่าถูกติดตั้งแล้ว]]></value>
+  </definition>
+  <definition>
+    <key>error_install</key>
+    <value><![CDATA[ข้อผิดพลาด: ไม่สามารถติดตั้งแพคเกจ โปรดดูระบบ -&gt; บันทึกข้อผิดพลาดสำหรับรายละเอียด]]></value>
+  </definition>
+  <definition>
+    <key>error_core_version</key>
+    <value><![CDATA[ข้อผิดพลาด: คุณมี AbanteCart รุ่น% รุ่น% ติดตั้ง <br/> แพคเกจการปรับรุ่นนี้เท่านั้นสำหรับรุ่นที่ต่ำกว่า]]></value>
+  </definition>
+  <definition>
+    <key>text_interrupt</key>
+    <value><![CDATA[ขัดจังหวะ]]></value>
+  </definition>
+  <definition>
+    <key>confirm_version_incompatibility</key>
+    <value><![CDATA[สำเนาปัจจุบันของส่วนขยายนี้ไม่ได้ยืนยันสำหรับรุ่นของ AbanteCart (V %s) <br/> ขยายสร้างระบุสำหรับ AbanteCart V %s <br/> 
+ นี้ไม่ได้เป็นปัญหา แต่ถ้าคุณสังเกตเห็นปัญหาหรือความไม่ลงรอยกันโปรดติดต่อนักพัฒนาส่วนขยาย]]></value>
+  </definition>
+  <definition>
+    <key>error_move_ftp</key>
+    <value><![CDATA[ข้อผิดพลาด: ไม่สามารถย้ายรหัสแพคเกจหลังจากการเปิดออก น่าจะเป็นเส้นทาง FTP ไม่ถูกต้อง <br/> นอกจากนี้โปรดพยายามที่จะตรวจสอบการเขียนสิทธิ์สารบบ:]]></value>
+  </definition>
+  <definition>
+    <key>text_network_install</key>
+    <value><![CDATA[ติดตั้งเครือข่าย]]></value>
+  </definition>
+  <definition>
+    <key>text_extension_upload</key>
+    <value><![CDATA[ขยายอัปโหลด]]></value>
+  </definition>
+  <definition>
+    <key>error_archive_extension</key>
+    <value><![CDATA[ข้อผิดพลาด: เฉพาะไฟล์ .tar.gz สนับสนุน]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_file</key>
+    <value><![CDATA[อัปโหลดไฟล์:]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_url</key>
+    <value><![CDATA[ใส่ URL:]]></value>
+  </definition>
+  <definition>
+    <key>error_move_backup</key>
+    <value><![CDATA[ข้อผิดพลาด: Can ไฟล์ไม่ได้สำรองข้อมูลก่อนที่จะอัพเกรด ตรวจสอบการเขียนสิทธิ์สารบบ:]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_title</key>
+    <value><![CDATA[อัพเกรด Abantecart หลัก]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_attention</key>
+    <value><![CDATA[ความสนใจ! 
+ AbanteCart เป็นเรื่องเกี่ยวกับที่จะได้รับการอัพเกรดไปเป็นเวอร์ชั่น %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_warning</key>
+    <value><![CDATA[มียกเลิกหลังจากที่เริ่มต้นขั้นตอนการอัพเกรดไม่เป็น 
+ ฐานข้อมูลที่สมบูรณ์และการสำรองข้อมูลรหัสขอแนะนำ 
+ การปรับรุ่นการทดสอบบนไซต์ที่ไม่ใช่ครั้งแรกในชีวิต อัพเกรดบนเว็บไซต์สดไม่แนะนำ]]></value>
+  </definition>
+  <definition>
+    <key>text_upgrade_now</key>
+    <value><![CDATA[อัพเกรดเดี๋ยวนี้!]]></value>
+  </definition>
+  <definition>
+    <key>error_additional_help_text</key>
+    <value><![CDATA[ติดอยู่? ไม่ใช่ปัญหา. คุณสามารถติดตั้งส่วนขยายอีกทางหนึ่ง ตรวจสอบ <a href="http://docs.abantecart.com/pages/extensions/install.html#FTPinstall" target="_blank">การเชื่อมโยงความช่วยเหลือนี้</a>]]></value>
+  </definition>
+  <definition>
+    <key>error_notconnected</key>
+    <value><![CDATA[ไม่สามารถปรับหรือติดตั้งส่วนขยายจากตลาด ร้านนี้ไม่ได้รับการรับรองความถูกต้อง / การเชื่อมต่อ โปรดตรวจสอบสิทธิ์และเชื่อมต่อไปยัง <a href="%s">ตลาด</a>]]></value>
+  </definition>
+</definitions>

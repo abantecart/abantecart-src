@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ลงชื่อเข้าใช้]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[ลงทะเบียนบัญชี]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[เข้าสู่ระบบ]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_new_customer</key>
+    <value><![CDATA[ฉันเป็นลูกค้าใหม่.]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[ตัวเลือกกร้า:]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[ชำระเงินบุคคลทั่วไป]]></value>
+  </definition>
+  <definition>
+    <key>text_create_account</key>
+    <value><![CDATA[โดยการสร้างบัญชีคุณจะสามารถซื้อสินค้าได้เร็วขึ้นถึงวันที่เกี่ยวกับสถานะของคำสั่งซื้อและติดตามการสั่งซื้อที่คุณได้ทำไว้ก่อนหน้านี้]]></value>
+  </definition>
+  <definition>
+    <key>text_returning_customer</key>
+    <value><![CDATA[ลูกค้าเก่า]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_returning_customer</key>
+    <value><![CDATA[ผมเป็นลูกค้าที่กลับมา]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_login</key>
+    <value><![CDATA[ลืมการเข้าสู่ระบบของคุณหรือไม่]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_password</key>
+    <value><![CDATA[ลืมรหัสผ่านหรือไม่?]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[ชื่อเข้าสู่ระบบ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email_address</key>
+    <value><![CDATA[ที่อยู่อีเมล:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[รหัสผ่าน:]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[ข้อผิดพลาด: เข้าสู่ระบบที่ไม่ถูกต้องหรือรหัสผ่าน]]></value>
+  </definition>
+  <definition>
+    <key>text_success_activated</key>
+    <value><![CDATA[ความสำเร็จ: บัญชีของคุณถูกเปิดใช้งานเรียบร้อยแล้ว กรุณาเข้าสู่ระบบที่มีสิทธิของคุณ]]></value>
+  </definition>
+  <definition>
+    <key>text_already_activated</key>
+    <value><![CDATA[บัญชีของคุณถูกเปิดใช้งานอยู่แล้ว กรุณาเข้าสู่ระบบที่มีสิทธิของคุณ]]></value>
+  </definition>
+  <definition>
+    <key>text_resend_activation_email</key>
+    <value><![CDATA[ข้อผิดพลาด: อยู่อีเมลของคุณยังไม่ได้รับการยืนยัน เพื่อส่งอีเมลยืนยันใหม่โปรดคลิกที่นี้ <a href=" %s ">การเชื่อมโยง</a>]]></value>
+  </definition>
+</definitions>

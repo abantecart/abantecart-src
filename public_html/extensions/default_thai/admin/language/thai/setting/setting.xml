@@ -1,0 +1,915 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[การตั้งค่า]]></value>
+  </definition>
+  <definition>
+    <key>column_store_alias</key>
+    <value><![CDATA[เก็บ]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[กลุ่ม]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[สำคัญ]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[ความคุ้มค่า]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: คุณได้บันทึกประสบความสำเร็จในการตั้งค่าของคุณ!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[ผู้จัดการภาพ]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- เลือกกลุ่ม -]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[ค่าเริ่มต้น]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store_settings</key>
+    <value><![CDATA[แก้ไขการตั้งค่า:]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_template_settings</key>
+    <value><![CDATA[แก้ไขการตั้งค่าแม่แบบ:]]></value>
+  </definition>
+  <definition>
+    <key>text_common_template_settings</key>
+    <value><![CDATA[เลือกแม่แบบ]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[แก้ไขร้าน]]></value>
+  </definition>
+  <definition>
+    <key>text_mail</key>
+    <value><![CDATA[จดหมาย]]></value>
+  </definition>
+  <definition>
+    <key>text_smtp</key>
+    <value><![CDATA[SMTP]]></value>
+  </definition>
+  <definition>
+    <key>tab_all</key>
+    <value><![CDATA[ทั้งหมด]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[ชื่อร้าน:]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[URL Store: <br/><span class="help">รวม URL แบบเต็มไปร้านค้าของคุณ ตรวจสอบเพื่อเพิ่ม &#39;/&#39; ในตอนท้าย ตัวอย่าง: http://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_owner</key>
+    <value><![CDATA[เจ้าของร้าน:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address</key>
+    <value><![CDATA[ที่อยู่:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-Mail:]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_emails</key>
+    <value><![CDATA[เพิ่มเติมการแจ้งเตือนอีเมล: <br/><span class="help">อีเมลเพิ่มเติมใด ๆ ที่คุณต้องการที่จะได้รับอีเมลแจ้งเตือนนอกเหนือไปจากการจัดเก็บอีเมลหลัก (คั่นด้วยเครื่องหมายจุลภาค)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[โทรศัพท์:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[แฟกซ์:]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[ชื่อเรื่อง: <br/><span class="help">นี้จะแสดงในหน้าร้านชื่อเบราว์เซอร์</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[เมตาแท็กคำอธิบาย: <br/><span class="help">หน้าร้านหน้าหลักของเมตาแท็กคำอธิบาย</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_keywords</key>
+    <value><![CDATA[คำ meta: <br/><span class="help">หน้าร้านหน้าหลักคำหลักเมตาแท็ก (คั่นด้วยเครื่องหมายจุลภาค)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[ข้อความยินดีต้อนรับ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[แม่แบบ: <span class="help">แม่แบบหน้าร้าน นี้สามารถเป็นหลักหรือส่วนขยายแม่แบบ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_template</key>
+    <value><![CDATA[แม่แบบการควบคุมแผง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[ประเทศ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[ภูมิภาค / รัฐ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[ภาษาหน้าร้าน:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_language</key>
+    <value><![CDATA[บริหารภาษา: <span class="help">หมายเหตุ: ทำงานหากไม่มีการใช้ภาษาที่ต้องการจะพบในเบราว์เซอร์</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency</key>
+    <value><![CDATA[<span class="help">สกุลเงินหลัก: นี่คือสกุลเงินหลักสำหรับร้านค้าทั้งหมด อย่าเปลี่ยนถ้าคุณไม่เข้าใจในสิ่งที่จะเกิดขึ้น คำเตือน: การเปลี่ยนสกุลเงินหลักจะไม่เปลี่ยนราคาฐานของคุณสำหรับผลิตภัณฑ์ คุณจะต้องตรวจสอบและปรับราคาทั้งหมดหากมีความจำเป็น อัตราแลกเปลี่ยนสกุลเงินหลักจะถูกตั้งค่า 1.00 และอัตราแลกเปลี่ยนสกุลเงินอื่น ๆ จะมีการปรับในส่วนที่เกี่ยวกับสกุลเงินฐานใหม่</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency_auto</key>
+    <value><![CDATA[Auto Update สกุลเงิน: <br/><span class="help">ตั้งร้านค้าของคุณเพื่ออัปเดตอัตโนมัติสกุลเงินในชีวิตประจำวัน เซิร์ฟเวอร์ yahoo ถูกนำมาใช้</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_class</key>
+    <value><![CDATA[ระดับน้ำหนัก:]]></value>
+  </definition>
+  <definition>
+    <key>entry_length_class</key>
+    <value><![CDATA[ระดับความยาว:]]></value>
+  </definition>
+  <definition>
+    <key>entry_auto_translate_status</key>
+    <value><![CDATA[สถานะ Autotranslate: <br/><span class="help">ฉบับภาษาเปิดการใช้งานของคำนิยามข้อความหรือข้อมูลที่เฉพาะเจาะจงภาษาหายไปถ้าค่าข้อความขาดหายไปสำหรับภาษาที่ใช้</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_src_lang_code</key>
+    <value><![CDATA[ภาษาต้นฉบับสำหรับการแปล: <br/><span class="help">เลือกภาษาที่จะใช้สำหรับ Autotranslation</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method</key>
+    <value><![CDATA[ข้อความแปลวิธีการ: <br/><span class="help">เลือกวิธีการที่คุณต้องการใช้สำหรับการแปล วิธีการเริ่มต้นเป็นสำเนาตรงของข้อความต้นฉบับภาษา</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_override_existing</key>
+    <value><![CDATA[แทนที่ถ้าข้อความต้นฉบับภาษาก็เปลี่ยน: <br/><span class="help">ถ้าตั้งค่าข้อความในทุกภาษาจะถูกแทนที่ด้วยการแปลใหม่หากข้อความต้นฉบับภาษามีการแก้ไข หมายเหตุ: สามารถทำให้เกิดการแปลหลาย</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_warn_lang_text_missing</key>
+    <value><![CDATA[เตือนสำหรับข้อความภาษาที่ขาดหายไป: <br/><span class="help">ได้รับการเตือนข้อความถ้าข้อความภาษาหายไปมีการตรวจพบ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[แสดงราคาที่มีภาษี:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store</key>
+    <value><![CDATA[เริ่มต้นเก็บอัตราภาษี:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_0</key>
+    <value><![CDATA[ไม่มีภาษี]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_1</key>
+    <value><![CDATA[เก็บเริ่มต้นโซน]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer</key>
+    <value><![CDATA[ใช้ที่อยู่ภาษีของลูกค้า:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_0</key>
+    <value><![CDATA[ที่อยู่จัดส่ง]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_1</key>
+    <value><![CDATA[ที่อยู่เรียกเก็บเงิน]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice</key>
+    <value><![CDATA[ใบแจ้งหนี้เริ่มต้น No .: <br/><span class="help">กำหนดจำนวนเริ่มต้นที่ใบแจ้งหนี้ที่จะเริ่มต้นจาก</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice_prefix</key>
+    <value><![CDATA[คำนำหน้าใบแจ้งหนี้: <br/><span class="help">ชุดใบแจ้งหนี้คำนำหน้าเช่น IN / 001</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[กลุ่มลูกค้า: <br/><span class="help">ลูกค้ากลุ่มเริ่มต้น</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_price</key>
+    <value><![CDATA[เข้าสู่ระบบราคาการแสดงผล: <br/><span class="help">แสดงราคาแม้ว่าลูกค้าจะไม่ได้เข้าสู่ระบบ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_approval</key>
+    <value><![CDATA[อนุมัติลูกค้าใหม่: <br/><span class="help">ไม่อนุญาตให้มีลูกค้าใหม่เข้าสู่ระบบบัญชีของพวกเขาจนกว่าจะได้รับการอนุมัติ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_prevent_email_as_login</key>
+    <value><![CDATA[จำเป็นต้องเข้าสู่ระบบชื่อ: <br/><span class="help">เพื่อปรับปรุงความปลอดภัยต้องให้ลูกค้าสามารถสร้างชื่อเข้าสู่ระบบที่ไม่ซ้ำกันแทนการใช้ที่อยู่อีเมลเป็นชื่อการเข้าสู่ระบบ หากการตั้งค่า ON, ลูกค้าที่มีอยู่จะถูกขอให้สร้างชื่อเข้าสู่ระบบใหม่ที่เข้าสู่ระบบครั้งแรก หากปิดชื่อเข้าสู่ระบบการตั้งค่าที่อยู่อีเมลของลูกค้า</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_guest_checkout</key>
+    <value><![CDATA[ชำระเงินบุคคลทั่วไป: <br/><span class="help">อนุญาตให้ลูกค้าชำระเงินโดยไม่ต้องสร้างบัญชีผู้ใช้ นี้จะไม่สามารถใช้งานได้เมื่อมีสินค้าที่สามารถดาวน์โหลดได้อยู่ในรถเข็นช้อปปิ้ง</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_account</key>
+    <value><![CDATA[ข้อตกลงบัญชี: <br/><span class="help">กองกำลังคนที่จะยอมรับข้อตกลงก่อนที่บัญชีผู้ใช้สามารถสร้าง</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_checkout</key>
+    <value><![CDATA[ข้อกำหนดในการเช็คเอาต์: <br/><span class="help">กองกำลังคนที่จะยอมรับข้อตกลงก่อนที่ลูกค้าสามารถชำระเงิน</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_status</key>
+    <value><![CDATA[สถานะการสั่งซื้อ: <br/><span class="help">ตั้งค่าสถานะการสั่งซื้อเริ่มต้นเมื่อมีคำสั่งจะถูกประมวลผล</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_cancelation_order_status</key>
+    <value><![CDATA[การอนุญาตให้ลูกค้ายกเลิกคำสั่งซื้อในสถานะ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_display</key>
+    <value><![CDATA[แจ้งการแสดงผล: <br/><span class="help">แสดงผลปริมาณสต็อกในหน้าผลิตภัณฑ์</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_nostock_autodisable</key>
+    <value><![CDATA[ไม่มีการแจ้งปิดการใช้งานรถยนต์: <br/><span class="help">ปิดการใช้งานสินค้าหรือค่าตัวเลือกของคุณสำหรับมุมมองถ้าหุ้นลดลงเป็น 0 การแจ้งเตือนข้อความจะถูกส่ง</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_checkout</key>
+    <value><![CDATA[แจ้งการชำระเงิน: <br/><span class="help">อนุญาตให้ลูกค้ายังคงชำระเงินถ้าผลิตภัณฑ์ที่พวกเขามีการสั่งซื้อไม่ได้ในสต็อก</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_status</key>
+    <value><![CDATA[สินค้าคงคลัง: <br/><span class="help">ตั้งค่าเริ่มต้นสำหรับการออกจากข้อความสถานะสต็อกสำหรับสินค้า ใช้ในหน้าแก้ไขสินค้า</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_logo</key>
+    <value><![CDATA[ร้านโลโก้:]]></value>
+  </definition>
+  <definition>
+    <key>entry_icon</key>
+    <value><![CDATA[ไอคอน: <br/><span class="help">ไอคอนสามารถเป็น PNG หรือไอคอนประเภทที่เป็น 16px 16px X</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_width</key>
+    <value><![CDATA[ความกว้าง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_height</key>
+    <value><![CDATA[ความสูง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb</key>
+    <value><![CDATA[สินค้าขนาดภาพ thumb:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_width</key>
+    <value><![CDATA[สินค้าความกว้างของภาพ thumb:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_height</key>
+    <value><![CDATA[สินค้าความสูงของภาพ thumb:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup</key>
+    <value><![CDATA[สินค้าขนาดภาพป๊อปอัพ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_width</key>
+    <value><![CDATA[หน้าต่างบานใหญ่ดูตัวอย่างความกว้าง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_height</key>
+    <value><![CDATA[ขนาดใหญ่ความสูงหน้าต่างแสดงตัวอย่าง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category</key>
+    <value><![CDATA[ประเภท: รายการขนาด:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_width</key>
+    <value><![CDATA[รายการหมวดหมู่ความกว้าง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_height</key>
+    <value><![CDATA[รายการหมวดหมู่ความสูง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_width</key>
+    <value><![CDATA[ยี่ห้อไอคอนรายการความกว้าง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_height</key>
+    <value><![CDATA[ยี่ห้อไอคอนความสูง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product</key>
+    <value><![CDATA[แสดงรายการสินค้าขนาด:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_height</key>
+    <value><![CDATA[แสดงรายการสินค้าสูง: <br/><span class="help">นี้คือการควบคุมความสูงของภาพตัวอย่างในหน้ารายชื่อของผู้ดูแลระบบและสถานที่อื่น ๆ ในหน้าร้าน หมายเหตุ: การตั้งค่านี้จะใช้ร่วมกันระหว่าง admin และแม่แบบหน้าร้านเริ่มต้น</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_width</key>
+    <value><![CDATA[แสดงรายการสินค้าความกว้าง: <br/><span class="help">นี้คือการควบคุมความกว้างของภาพตัวอย่างในหน้ารายชื่อของผู้ดูแลระบบและสถานที่อื่น ๆ ในหน้าร้าน หมายเหตุ: การตั้งค่านี้จะใช้ร่วมกันระหว่าง admin และแม่แบบหน้าร้านเริ่มต้น</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional</key>
+    <value><![CDATA[เพิ่มเติมสินค้าขนาดภาพ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_width</key>
+    <value><![CDATA[เพิ่มเติมความกว้างของผลิตภัณฑ์ภาพ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_height</key>
+    <value><![CDATA[เพิ่มเติมความสูงของผลิตภัณฑ์ภาพ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related</key>
+    <value><![CDATA[ที่เกี่ยวข้องกับสินค้าขนาดภาพ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_width</key>
+    <value><![CDATA[ที่เกี่ยวข้องกับความกว้างของผลิตภัณฑ์ภาพ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_height</key>
+    <value><![CDATA[ที่เกี่ยวข้องกับความสูงของผลิตภัณฑ์ภาพ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart</key>
+    <value><![CDATA[รถเข็นขนาดภาพ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_width</key>
+    <value><![CDATA[รถเข็นกว้างภาพ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_height</key>
+    <value><![CDATA[รถเข็นความสูงของภาพ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid</key>
+    <value><![CDATA[ตารางขนาดภาพ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_width</key>
+    <value><![CDATA[ตารางความกว้างของรูปภาพ: <br/><span class="help">นี้คือการควบคุมความกว้างของภาพตัวอย่างขนาดเล็กมากในกริดรายชื่อของผู้ดูแลระบบและสถานที่อื่น ๆ ในหน้าร้าน หมายเหตุ: การตั้งค่านี้จะใช้ร่วมกันระหว่าง admin และแม่แบบหน้าร้านเริ่มต้น</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_height</key>
+    <value><![CDATA[ตารางความสูงของภาพ: <br/><span class="help">นี้คือการควบคุมความสูงของภาพตัวอย่างขนาดเล็กมากในกริดรายชื่อของผู้ดูแลระบบและสถานที่อื่น ๆ ในหน้าร้าน หมายเหตุ: การตั้งค่านี้จะใช้ร่วมกันระหว่าง admin และแม่แบบหน้าร้านเริ่มต้น</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_mail</key>
+    <value><![CDATA[จดหมายแจ้งเตือน: <br/><span class="help">ส่งอีเมลไปยังเจ้าของร้านเมื่อคำสั่งซื้อใหม่จะถูกสร้างขึ้น</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_download</key>
+    <value><![CDATA[อนุญาตให้ดาวน์โหลด:]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_status</key>
+    <value><![CDATA[สถานะการดาวน์โหลดสั่งซื้อ: <br/><span class="help">ตั้งค่าสถานะการสั่งซื้อของลูกค้าที่สั่งซื้อจะต้องเข้าถึงก่อนที่พวกเขาได้รับอนุญาตให้เข้าถึงผลิตภัณฑ์ของพวกเขาที่สามารถดาวน์โหลดได้</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_protocol</key>
+    <value><![CDATA[จดหมายโปรโตคอล: <span class="help">Mail: เซิร์ฟเวอร์อีเมลเซิร์ฟเวอร์เริ่มต้นจะถูกนำมาใช้ ตรวจสอบว่ามีการกำหนดค่าและมีความสามารถในการส่งอีเมลที่มีจดหมาย PHP</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_parameter</key>
+    <value><![CDATA[พารามิเตอร์ mail: <span class="help">เมื่อใช้ &quot;Mail&quot; พารามิเตอร์อีเมลเพิ่มเติมสามารถเพิ่มได้ที่นี่ (เช่น &quot;-femail@storeaddress.com&quot;</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_host</key>
+    <value><![CDATA[SMTP Host: <br/><span class="help">ใช้ SSL: //smtp.yourdomain.com สำหรับการเชื่อมต่อ SMTP ที่เชื่อถือได้</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_username</key>
+    <value><![CDATA[SMTP ชื่อผู้ใช้:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_password</key>
+    <value><![CDATA[รหัสผ่าน SMTP:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_port</key>
+    <value><![CDATA[SMTP Port:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_timeout</key>
+    <value><![CDATA[SMTP หมดเวลา:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[ใช้ SSL: <br/><span class="help">เมื่อต้องการใช้การตรวจสอบ SSL กับโฮสต์ของคุณถ้าใบรับรอง SSL มีการติดตั้ง</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_session_ttl</key>
+    <value><![CDATA[หมดอายุแผงควบคุมเซสชัน: <br/><span class="help">ค่านี้ใช้ควบคุมในช่วงเวลานาทีก่อนที่คุณจะถูกขอให้เข้าสู่ระบบอีกครั้งเนื่องจากไม่มีกิจกรรมใด ๆ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_encryption</key>
+    <value><![CDATA[คีย์การเข้ารหัสลับ: <br/><span class="help">การตั้งค่าการอพยพไปยังไฟล์ config เริ่มต้นใน v1.2.1</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_seo_url</key>
+    <value><![CDATA[ใช้ URL ของ SEO: <br/><span class="help">การใช้ SEO URL ของโมดูล Apache mod-เขียนจะต้องติดตั้งและคุณจำเป็นต้องเปลี่ยนชื่อ htaccess.txt เพื่อ .htaccess กฎ rewriteBase หาก abantecart ไม่ได้ติดตั้งในรากของโดเมนต้องมีการเปลี่ยนแปลงภายใน htaccess ไฟล์: หมายเหตุ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_retina_enable</key>
+    <value><![CDATA[สร้างสูง Res-(เรตินา) ภาพ: <br/><span class="help">ใช้นี้โมดูล Apache mod-เขียนจะต้องติดตั้งและคุณจำเป็นต้องเปลี่ยนชื่อ htaccess.txt เพื่อ .htaccess กฎ rewriteBase หาก abantecart ไม่ได้ติดตั้งในรากของโดเมนต้องมีการเปลี่ยนแปลงภายใน htaccess ไฟล์: หมายเหตุ <br/> หลังจากเปิดใช้ควรล้างภาพแคช</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_quality</key>
+    <value><![CDATA[jpeg ระดับการบีบอัดรูปภาพ]]></value>
+  </definition>
+  <definition>
+    <key>entry_compression</key>
+    <value><![CDATA[ระดับการบีบอัดเอาท์พุท: <br/><span class="help">GZIP สำหรับการถ่ายโอนมีประสิทธิภาพมากขึ้นให้กับลูกค้าร้องขอ ระดับการบีบอัดจะต้องอยู่ระหว่าง 0 - 9</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_display</key>
+    <value><![CDATA[ข้อผิดพลาดการแสดงผล: <br/><span class="help">ชุดที่จะใช่ถ้าคุณต้องการที่จะเห็นข้อยกเว้นและข้อผิดพลาด</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_log</key>
+    <value><![CDATA[เข้าสู่ระบบข้อผิดพลาด: <br/><span class="help">ชุดที่จะใช่ถ้าคุณต้องการที่จะบันทึกข้อยกเว้นและข้อผิดพลาดในการเข้าสู่ระบบ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_enable_reviews</key>
+    <value><![CDATA[เปิดใช้งานความคิดเห็น: <br/><span class="help"></span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cache_enable</key>
+    <value><![CDATA[แคชเปิดใช้งาน: <br/><span class="help">โปรดระวังเมื่อแคชปิดการใช้งาน หน้าที่เก็บไว้จะไม่ถูกสร้างขึ้นใหม่และเว็บไซต์ที่อาจเริ่มโหลดช้า</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_cache_drivers</key>
+    <value><![CDATA[กำลังใช้แคช <b>%s</b> คนขับ ไดรเวอร์อื่น ๆ ที่มีอยู่สำหรับการกำหนดค่า <i>%s</i>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_status</key>
+    <value><![CDATA[สถานะ API หน้าร้าน:]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_key</key>
+    <value><![CDATA[คีย์ API หน้าร้าน: <br/><span class="help">ชุดคีย์นี้เพื่อให้การเข้าถึง จำกัด (ปลอดภัยมากขึ้น) เพื่อหน้าร้าน API</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_stock_check</key>
+    <value><![CDATA[หน้าร้านการเข้าถึง API Stock: <br/><span class="help">เปิดใช้งานถ้าคุณให้หน้าร้าน API เพื่อตรวจสอบห้องว่างหุ้น</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_status</key>
+    <value><![CDATA[สถานะ API การดูแลระบบ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_key</key>
+    <value><![CDATA[ผู้ดูแลระบบคีย์ API: <br/><span class="help">ชุดคีย์นี้เพื่อให้การเข้าถึง จำกัด (ปลอดภัยมากขึ้น) เพื่อ API การดูแลระบบ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_access_ip_list</key>
+    <value><![CDATA[API การดูแลระบบ IP ที่เข้าสู่ระบบ: <br/><span class="help">ระบุรายชื่อของไอพี (คั่นด้วยเครื่องหมายจุลภาค) ที่จะได้รับอนุญาตให้เข้าถึง API การดูแลระบบ IP ที่อื่น ๆ จะถูกปิดกั้น</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_max_size</key>
+    <value><![CDATA[ทรัพยากรห้องสมุดอัปโหลดขนาดไฟล์สูงสุดกิโลไบต์]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug</key>
+    <value><![CDATA[แสดงข้อมูล Debug: <br/><span class="help">ชุดนี้ถ้าคุณต้องการที่จะดูรายละเอียดการดำเนินการและแสดงรายละเอียดการแก้ปัญหา</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_0</key>
+    <value><![CDATA[ปิด]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_1</key>
+    <value><![CDATA[แสดง]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_2</key>
+    <value><![CDATA[เข้าสู่ระบบ]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level</key>
+    <value><![CDATA[แก้ปัญหาระดับ: <br/><span class="help">เลือกความลึกของรายละเอียดที่คุณต้องการที่จะเห็นในการแก้ปัญหาการส่งออก</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_0</key>
+    <value><![CDATA[ระดับ 0 - บันทึกไม่มีข้อผิดพลาดเพียงข้อยกเว้น]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_1</key>
+    <value><![CDATA[ระดับ 1 - ข้อผิดพลาดและคำเตือน]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_2</key>
+    <value><![CDATA[ระดับที่ 2 - # 1 + MySQL โหลดเว็บไซต์ PHP เวลาการดำเนินการของไฟล์และหน้าองค์ประกอบเวลาในการโหลด]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_3</key>
+    <value><![CDATA[Level 3 - # 2 + บันทึกขั้นพื้นฐานและสแต็คของการดำเนินการ]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_4</key>
+    <value><![CDATA[Level 4 - # 3 งบ MySQL + การถ่ายโอนข้อมูล]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_5</key>
+    <value><![CDATA[ระดับที่ 5 - # 4 + ตัวแปรกลาง]]></value>
+  </definition>
+  <definition>
+    <key>entry_template_debug</key>
+    <value><![CDATA[การแก้ปัญหาแม่แบบ: <br/><span class="help">เปิดใช้งานการตั้งค่านี้ถ้าคุณต้องตรวจสอบปัญหาเกี่ยวกับแม่แบบในหน้าร้านและแผงควบคุม</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_filename</key>
+    <value><![CDATA[ข้อผิดพลาดในการเข้าสู่ระบบชื่อไฟล์: <br/><span class="help">ไฟล์ที่ข้อผิดพลาดที่บันทึกไว้</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_session</key>
+    <value><![CDATA[ใช้การจัดส่งสินค้าเซสชัน: <br/><span class="help">บันทึกคำพูดการจัดส่งสินค้าให้กับเซสชั่นที่จะหลีกเลี่ยงอีกครั้งอ้างไม่จำเป็น คำพูดจะถูกยกมาอีกครั้งถ้ารถเข็นหรือที่อยู่ที่มีการเปลี่ยนแปลง</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_catalog_limit</key>
+    <value><![CDATA[รายการเริ่มต้นต่อหน้า (หน้าร้าน): <br/><span class="help">ชุดจำนวนรายการที่หน้าร้านจะแสดงต่อหน้า (ผลิตภัณฑ์ประเภท ฯลฯ )</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_limit</key>
+    <value><![CDATA[รายการเริ่มต้นต่อหน้า (Admin): <br/><span class="help">ชุดจำนวนรายการที่ผู้ดูแลระบบจะแสดงหน้าต่อในรายชื่อกริด (คำสั่งซื้อลูกค้า ฯลฯ )</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_bestseller_limit</key>
+    <value><![CDATA[จำนวนของรายการในสินค้าขายดีบล็อก]]></value>
+  </definition>
+  <definition>
+    <key>entry_featured_limit</key>
+    <value><![CDATA[จำนวนของรายการในบล็อกแนะนำ]]></value>
+  </definition>
+  <definition>
+    <key>entry_latest_limit</key>
+    <value><![CDATA[จำนวนของรายการในบล็อกล่าสุด]]></value>
+  </definition>
+  <definition>
+    <key>entry_special_limit</key>
+    <value><![CDATA[จำนวนของรายการในบล็อกพิเศษ]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_weight</key>
+    <value><![CDATA[การแสดงผลบนหน้าน้ำหนักรถเข็น: <br/><span class="help">แสดงน้ำหนักรถเข็นบนรถเข็นหน้า</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_reviews</key>
+    <value><![CDATA[อนุญาตให้รีวิว: <br/><span class="help">เปิด / ปิดการใช้งานการเข้าตรวจสอบใหม่และการแสดงความคิดเห็นที่มีอยู่</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_maintenance</key>
+    <value><![CDATA[โหมดการบำรุงรักษา: <br/><span class="help">ป้องกันไม่ให้ลูกค้าจากการเรียกดูร้านค้าของคุณ แทนพวกเขาจะเห็นข้อความการบำรุงรักษา หากสู่ระบบในฐานะผู้ดูแลระบบคุณจะเห็นการจัดเก็บตามปกติ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_voicecontrol</key>
+    <value><![CDATA[การควบคุมด้วยเสียง: <br/><span class="help">เปิดใช้งานการควบคุมเสียงผู้ดูแลระบบเพื่อเปิดใช้งานคำสั่งเสียงคุณลักษณะ ขณะนี้ได้รับการสนับสนุนเฉพาะในรุ่น Chrome 25 หรือสูงกว่า</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_help_links</key>
+    <value><![CDATA[ลิงก์ช่วยเหลือ: <br/><span class="help">ถ้าคุณต้องการที่จะเห็นไอคอนช่วยเหลือและการเชื่อมโยงไปยังเว็บไซต์ AbanteCart นี้จะช่วยให้คุณเรียนรู้เกี่ยวกับคุณสมบัติและวิธีการใช้ หากคุณผู้ใช้ขั้นสูงและไม่ต้องการที่จะเห็นไอคอนความช่วยเหลือเหล่านี้คุณสามารถปิดการใช้งาน</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_show_tree_data</key>
+    <value><![CDATA[เปิดใช้งานต้นไม้ตาราง: <br/><span class="help">ช่วยให้ผู้ดูแลระบบกริดที่จะแสดงแม่ / เด็กประเภทหนึ่งในรายการตาราง หมายเหตุ: เลขและหลายการกระทำที่ถูกปิดใช้งานสำหรับกริดเหล่านี้</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_ajax</key>
+    <value><![CDATA[หน้าเดียวกัน Add to Cart: <br/><span class="help">นี้จะช่วยให้ AJAX เพิ่มในรถเข็นคุณลักษณะ สินค้าสามารถเพิ่มไปยังรถเข็นโดยไม่ต้องเปลี่ยนเส้นทางไปยังหน้าตะกร้า</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_width</key>
+    <value><![CDATA[หน้าร้านเว็บไซต์กว้าง: <br/><span class="help">ตัวอย่าง: 100% หรือ 1000px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_width</key>
+    <value><![CDATA[ดูแลเว็บไซต์กว้าง: <br/><span class="help">ตัวอย่าง: 100% หรือ 1000px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_maximum</key>
+    <value><![CDATA[จำนวนการสั่งซื้อสูงสุดที่อนุญาต: <br/><span class="help">Checkout ป้องกันไม่ให้มีจำนวนรวมย่อยสินค้าขนาดใหญ่ 0 = ไม่มีขีด จำกัด</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_minimum</key>
+    <value><![CDATA[จำนวนสั่งซื้อขั้นต่ำ: <br/><span class="help">ป้องกันการเช็คเอาต์หากคำสั่งย่อยรวมไม่ถึงชุดจำนวนเงินขั้นต่ำ 0 = ขั้นต่ำ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_system_check</key>
+    <value><![CDATA[ระบบการตรวจสอบ: <br/><span class="help">เปิดใช้งานการตั้งค่านี้ถ้าคุณต้องการที่จะตรวจสอบสภาพระบบของคุณในส่วนที่เกี่ยวกับการทำงาน AbanteCart ปัญหาที่มีผลกระทบต่อระบบ AbanteCart จะมีการรายงานเป็นข้อความที่มองเห็นในผู้ดูแลระบบ</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[ร้านค้าใหม่]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[คำเตือน: คุณไม่ได้รับสิทธิ์ในการปรับเปลี่ยนการตั้งค่า!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[เข้าสู่ระบบชื่อจะต้องเป็นตัวเลขเท่านั้นและระหว่างวันที่ 5 และ 64 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[ชื่อเข้าสู่ระบบนี้ไม่สามารถใช้ได้ ลองชื่อเข้าสู่ระบบที่แตกต่างกัน!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[ร้านชื่อต้องมีระหว่าง 2 และ 32 ตัว!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[URL ร้านต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[ชื่อเรื่องจะต้องอยู่ระหว่าง 2 และ 32 ตัว!]]></value>
+  </definition>
+  <definition>
+    <key>error_owner</key>
+    <value><![CDATA[เจ้าของร้านจะต้องอยู่ระหว่าง 2 และ 64 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[ที่อยู่ร้านค้าจะต้องอยู่ระหว่าง 10 และ 256 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[ที่อยู่อีเมลไม่ถูกต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[โทรศัพท์จะต้องอยู่ระหว่าง 2 และ 32 ตัว!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[ภาพผลิตภัณฑ์ขนาดนิ้วหัวแม่มือขนาดต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[ภาพผลิตภัณฑ์ขนาดป๊อปอัพขนาดต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[ขนาดรายการประเภทขนาดต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_manufacturer</key>
+    <value><![CDATA[ยี่ห้อไอคอนรายการมิติขนาดต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[ขนาดรายการสินค้าขนาดต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[ผลิตภัณฑ์เพิ่มเติมมิติขนาดภาพต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[สินค้าที่เกี่ยวข้องกับขนาดของภาพขนาดต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[ขนาดรถเข็นขนาดภาพต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[ขนาดกริดขนาดภาพต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_error_filename</key>
+    <value><![CDATA[ข้อผิดพลาดในการเข้าสู่ระบบชื่อไฟล์ต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[ข้อมูลที่ต้องการยังไม่ได้รับการป้อน ตรวจสอบข้อผิดพลาดของข้อมูล!]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded_image</key>
+    <value><![CDATA[ไฟล์ที่อัปโหลด %s ไม่ได้เป็นภาพหรือเสีย!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[ขีด จำกัด ต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[หน้าร้าน]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[ผู้ดูแลระบบ]]></value>
+  </definition>
+  <definition>
+    <key>error_mail</key>
+    <value><![CDATA[กรุณากรอกข้อมูลที่จำเป็นสำหรับ SMTP โปรโตคอล!]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_sort_order_asc</key>
+    <value><![CDATA[ของสินค้าเรียงต่ำ &gt; สูง]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[ชื่อ A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[ชื่อ Z - A ค]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_asc</key>
+    <value><![CDATA[ราคาต่ำ &gt; สูง]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_desc</key>
+    <value><![CDATA[ราคาสูง &gt; ต่ำ]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_asc</key>
+    <value><![CDATA[อันดับที่ต่ำที่สุด]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_desc</key>
+    <value><![CDATA[การจัดอันดับสูงสุด]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[เก่าวันที่ &gt; ใหม่]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[วันที่ใหม่ &gt; เก่า]]></value>
+  </definition>
+  <definition>
+    <key>entry_product_default_sort_order</key>
+    <value><![CDATA[เรียงสินค้าเป็นค่าเริ่มต้นโดย:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zero_customer_balance</key>
+    <value><![CDATA[แสดงความสมดุลของศูนย์ลูกค้า: <br/><span class="help">หมายเหตุ: เปิด / ปิดการใช้งานจอแสดงผลของข้อความที่สมดุลหากยอดเงินในบัญชีของลูกค้าคือ 0</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_tax_estimate</key>
+    <value><![CDATA[การจัดส่งและประมาณการภาษี: <br/><span class="help">ช่วยให้ลูกค้าที่จะได้รับการจัดส่งที่รวดเร็วและการประมาณการภาษีในรถเข็น</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon_on_cart_page</key>
+    <value><![CDATA[คูปองในหน้ารถเข็น: <br/><span class="help">อนุญาตให้ลูกค้าป้อนรหัสคูปองส่วนลดและดูในรถเข็น</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_google_analytics</key>
+    <value><![CDATA[หมายเลขบัญชี Google Analytics: <br/><span class="help">เพิ่มของ <a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">จำนวนบัญชี Google Analytics</a> เพื่อเปิดใช้งานการติดตามกิจกรรมของไซต์ นอกจากนี้ยังช่วยให้การติดตามกิจกรรมอีคอมเมิร์ซ คุณต้องเปิดการติดตามอีคอมเมิร์ซใน Google ในหน้าการตั้งค่าโปรไฟล์สำหรับเว็บไซต์ของคุณ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[การรักษาความปลอดภัย URL Store: <br/><span class="help">ใส่ URL SSL เต็ม (HTTPS) เพื่อจัดเก็บของคุณ ตรวจสอบเพื่อเพิ่ม &#39;/&#39; ในตอนท้าย ตัวอย่าง: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[URL ที่การรักษาความปลอดภัยจำเป็นต้องใช้!]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_email_activation</key>
+    <value><![CDATA[การเปิดใช้งานอีเมล์สำหรับลูกค้าใหม่: <br/><span class="help">ไม่อนุญาตให้มีลูกค้าใหม่เข้าสู่ระบบบัญชีของพวกเขาจนได้รับการยืนยันโดยการเชื่อมโยงการเปิดใช้งานส่งทางอีเมล สำหรับการทำงานตรวจสอบให้แน่ใจ &quot;อนุมัติลูกค้าใหม่&quot; ถูกตั้งไว้ที่ OFF</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_clone_template</key>
+    <value><![CDATA[แม่แบบโคลน AbanteCart เครื่องมือสำหรับนักพัฒนา]]></value>
+  </definition>
+  <definition>
+    <key>text_set_template</key>
+    <value><![CDATA[ตั้งแม่แบบนี้สำหรับหน้าร้าน]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_status</key>
+    <value><![CDATA[เปิดใช้งานหน้าร้านฝัง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_click_action</key>
+    <value><![CDATA[คลิกการกระทำฝัง:]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_modal</key>
+    <value><![CDATA[หน้าเดียวกันโต้ตอบ Modal]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_new_window</key>
+    <value><![CDATA[หน้าใหม่ที่เปิดในแท็บใหม่]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_same_window</key>
+    <value><![CDATA[หน้าใหม่ที่เปิดในหน้าต่างเดียวกัน]]></value>
+  </definition>
+  <definition>
+    <key>entry_account_create_captcha</key>
+    <value><![CDATA[แจ้งลบความคิดเห็นเกี่ยวกับการสร้างแบบฟอร์มบัญชีที่: <br/><span class="help">สร้างบัญชี / หุ่นยนต์ป้องกันสแปมที่มีการเปิดใช้งานการตรวจสอบ CAPTCHA มนุษย์</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_site_key</key>
+    <value><![CDATA[Google reCAPTCHA เว็บไซต์สำคัญ: <br/><span class="help">เพิ่ม <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA V2</a> ที่จะช่วยให้ผู้เข้าชมกับรายการ CAPTCHA ที่ดีกว่า หากคุณเปิดใช้ reCAPTCHA เว็บไซต์ / คีย์ลับของ Google reCAPTCHA V2 จะเปิดใช้งานแทนการเริ่มต้นภาพ AbanteCart แจ้งลบความคิดเห็น</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_secret_key</key>
+    <value><![CDATA[Google reCAPTCHA ลับสำคัญ: <br/><span class="help">เพิ่ม <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA V2</a> ที่จะช่วยให้ผู้เข้าชมกับรายการ CAPTCHA ที่ดีกว่า หากคุณเปิดใช้ reCAPTCHA เว็บไซต์ / คีย์ลับของ Google reCAPTCHA V2 จะเปิดใช้งานแทนการเริ่มต้นภาพ AbanteCart แจ้งลบความคิดเห็น</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_php_exceed</key>
+    <value><![CDATA[ค่านี้ไม่สามารถเกินสั่ง php.ini ของคุณ %s (&lt;= %s)]]></value>
+  </definition>
+  <definition>
+    <key>entry_start_order_id</key>
+    <value><![CDATA[การสั่งซื้อสินค้าเริ่มต้น No .: <br/><span class="help">กำหนดจำนวนเริ่มต้นของคำสั่งซื้อจะเริ่มต้นจาก</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_start_order_id</key>
+    <value><![CDATA[จำนวนการสั่งซื้อสินค้าเริ่มต้นจะต้องเป็นตัวเลข!]]></value>
+  </definition>
+  <definition>
+    <key>error_starting_invoice_id</key>
+    <value><![CDATA[จำนวนเริ่มต้นที่ใบแจ้งหนี้จะต้องเป็นตัวเลข!]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_order_days</key>
+    <value><![CDATA[ไม่สมบูรณ์หมดอายุสั่งซื้อ: <br/><br/><span class="help">ค่านี้ใช้ควบคุมช่วงเวลาในวันก่อนการสั่งซื้อที่ไม่สมบูรณ์จะถูกลบ ค่าว่างหมายความว่าคำสั่งซื้อจะไม่มีการลบ</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_expire_order_days</key>
+    <value><![CDATA[ค่าหมดอายุการสั่งซื้อที่ไม่สมบูรณ์จะต้องเป็นตัวเลข!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront</key>
+    <value><![CDATA[หน้าร้าน]]></value>
+  </definition>
+  <definition>
+    <key>text_im_driver</key>
+    <value><![CDATA[คนขับรถ]]></value>
+  </definition>
+  <definition>
+    <key>text_im_protocol</key>
+    <value><![CDATA[พิธีสาร IM]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver</key>
+    <value><![CDATA[ให้บริการ SMS]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver_tooltip</key>
+    <value><![CDATA[เลือกส่วนขยายสำหรับผู้ให้บริการ SMS]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_status_tooltip</key>
+    <value><![CDATA[เปิดใช้งาน SMS สำหรับลูกค้า]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_status_tooltip</key>
+    <value><![CDATA[เปิดใช้งาน SMS สำหรับผู้ดูแลระบบ]]></value>
+  </definition>
+  <definition>
+    <key>text_no_driver</key>
+    <value><![CDATA[ไม่ขับรถ IM พบ]]></value>
+  </definition>
+  <definition>
+    <key>text_im_settings_attention</key>
+    <value><![CDATA[การตั้งค่าเหล่านี้สำหรับข้อความโต้ตอบแบบทันทีส่งโดยอัตโนมัติในช่วงเหตุการณ์ AbanteCart ในหน้าร้านและผู้ดูแล]]></value>
+  </definition>
+  <definition>
+    <key>entry_html_cache</key>
+    <value><![CDATA[แคช HTML: <br/><span class="help">ที่เปิดใช้งานหน้าเว็บ HTML และบล็อกแคชเพื่อให้ได้ความเร็วที่ดีกว่าสำหรับหน้าเว็บของคุณ นี่คือแคชเพิ่มเติมเพื่อการแคชข้อมูลทั่วไปเปิดใช้งานในระบบแฟ้ม / config.php</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_task_api_key</key>
+    <value><![CDATA[ที่สำคัญงาน API: <br/><span class="help">นี้เป็นความลับสำคัญที่จะช่วยให้ AbanteCart เพื่อดำเนินการกระบวนการที่กำหนดไว้จากเบราว์เซอร์ที่มีไฟล์ /task.php ถ้าไม่ได้กำหนดงานจะไม่ทำงานผ่านเบราว์เซอร์ <br/> หมายเหตุ: คีย์ API นี้ไม่จำเป็นสำหรับการเรียกใช้บรรทัดคำสั่งงาน</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_duplicate_contact_us</key>
+    <value><![CDATA[ซ้ำติดต่อสอบถามไปยังข้อความ]]></value>
+  </definition>
+</definitions>

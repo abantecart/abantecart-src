@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - การรีเซ็ตรหัสผ่าน]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[กำหนดรหัสผ่านใหม่ได้รับการร้องขอจาก %s]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[การเชื่อมโยงในการรีเซ็ตรหัสผ่านของคุณคลิกด้านล่าง:]]></value>
+  </definition>
+  <definition>
+    <key>text_password_reset</key>
+    <value><![CDATA[รหัสผ่านของคุณประสบความสำเร็จในการตั้งค่า %s]]></value>
+  </definition>
+  <definition>
+    <key>text_new_password</key>
+    <value><![CDATA[ป้อนรหัสผ่านใหม่ของคุณด้านล่าง:]]></value>
+  </definition>
+  <definition>
+    <key>error_reset_token</key>
+    <value><![CDATA[การเชื่อมโยงที่ไม่ถูกต้องสำหรับการร้องขอรหัสผ่าน พยายามที่จะตั้งค่าอีกครั้งหนึ่งและใช้การเชื่อมโยงจากอีเมลล่าสุด]]></value>
+  </definition>
+</definitions>

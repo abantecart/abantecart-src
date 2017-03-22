@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[คุณได้ยกเลิกการสมัครเรียบร้อยแล้ว!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[คุณได้รับการยกเลิกการรับการสื่อสารทางอีเมล]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[บัญชี]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ]]></value>
+  </definition>
+</definitions>

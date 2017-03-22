@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[สถานะหุ้น]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[สินค้าคงคลัง]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: คุณได้แก้ไขสถานะของสต็อก!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[ชื่อสินค้าคงคลัง]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[การกระทำ]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[ชื่อสินค้าคงคลัง:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[คำเตือน: คุณไม่ได้รับสิทธิ์ในการปรับเปลี่ยนรูปปั้นสต็อก!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[การแจ้งสถานะของชื่อจะต้องอยู่ระหว่าง 2 และ 32 ตัว!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[คำเตือน: สถานะนี้ไม่สามารถลบได้ในขณะที่มันอยู่ในขณะนี้กับผลิตภัณฑ์ %s!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ทำธุรกรรมของลูกค้า]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_date</key>
+    <value><![CDATA[วันที่ทำรายการ]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[ชื่อลูกค้า]]></value>
+  </definition>
+  <definition>
+    <key>column_created_by</key>
+    <value><![CDATA[สร้างโดย]]></value>
+  </definition>
+  <definition>
+    <key>column_debit</key>
+    <value><![CDATA[หักบัญชี]]></value>
+  </definition>
+  <definition>
+    <key>column_credit</key>
+    <value><![CDATA[เครดิต]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_type</key>
+    <value><![CDATA[ชนิดของธุรกรรม]]></value>
+  </definition>
+</definitions>

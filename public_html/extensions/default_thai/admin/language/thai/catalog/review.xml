@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ความคิดเห็น]]></value>
+  </definition>
+  <definition>
+    <key>text_review</key>
+    <value><![CDATA[ทบทวน]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[แทรกรีวิว]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[ปรับปรุงความคิดเห็น]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: คุณมีความคิดเห็นการแก้ไข!]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[สินค้า]]></value>
+  </definition>
+  <definition>
+    <key>column_author</key>
+    <value><![CDATA[ผู้เขียน]]></value>
+  </definition>
+  <definition>
+    <key>column_rating</key>
+    <value><![CDATA[อันดับ]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[สถานะ]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[เพิ่มเมื่อวันที่]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[การกระทำ]]></value>
+  </definition>
+  <definition>
+    <key>entry_product</key>
+    <value><![CDATA[สินค้า:]]></value>
+  </definition>
+  <definition>
+    <key>entry_author</key>
+    <value><![CDATA[ผู้แต่ง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_rating</key>
+    <value><![CDATA[การจัดอันดับ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[สถานะ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_text</key>
+    <value><![CDATA[ข้อความ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_good</key>
+    <value><![CDATA[ดี]]></value>
+  </definition>
+  <definition>
+    <key>entry_bad</key>
+    <value><![CDATA[ไม่ดี]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[คำเตือน: คุณไม่ได้รับสิทธิ์ในการปรับเปลี่ยนความคิดเห็น!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[สินค้าต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_author</key>
+    <value><![CDATA[ผู้เขียนจะต้องอยู่ระหว่าง 2 และ 64 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_text</key>
+    <value><![CDATA[รีวิวข้อความจะต้องอยู่ระหว่าง 25 และ 1000 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_rating</key>
+    <value><![CDATA[คะแนนรีวิวต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>text_select_product</key>
+    <value><![CDATA[- เลือกผลิตภัณฑ์ -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_category</key>
+    <value><![CDATA[- เลือกประเภท -]]></value>
+  </definition>
+</definitions>

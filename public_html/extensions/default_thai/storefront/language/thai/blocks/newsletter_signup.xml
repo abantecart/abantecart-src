@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[สมัครรับจดหมายข่าว]]></value>
+  </definition>
+  <definition>
+    <key>text_signup</key>
+    <value><![CDATA[สมัครสมาชิกเพื่อรับจดหมายข่าวของเรา &amp; ได้รับข้อเสนอที่น่าสนใจโดยสมัครรับจดหมายข่าวของเรา]]></value>
+  </definition>
+  <definition>
+    <key>text_sign_in</key>
+    <value><![CDATA[ลงชื่อเข้าใช้]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribe</key>
+    <value><![CDATA[สมัครรับจดหมายข่าว]]></value>
+  </definition>
+  <definition>
+    <key>button_subscribe</key>
+    <value><![CDATA[สมัครสมาชิก]]></value>
+  </definition>
+</definitions>

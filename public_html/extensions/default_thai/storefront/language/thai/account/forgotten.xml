@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ลืมรหัสผ่านหรือไม่?]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_loginname</key>
+    <value><![CDATA[เข้าสู่ระบบลืมชื่อของคุณ?]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[บัญชี]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten</key>
+    <value><![CDATA[ลืมรหัสผ่าน]]></value>
+  </definition>
+  <definition>
+    <key>text_your_email</key>
+    <value><![CDATA[ของคุณที่อยู่อีเมล]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[ป้อนที่อยู่อีเมลที่เชื่อมโยงกับบัญชีของคุณ คลิกส่งเพื่อให้รหัสผ่านของคุณส่งไปยังคุณ]]></value>
+  </definition>
+  <definition>
+    <key>text_loginname_email</key>
+    <value><![CDATA[ใส่ชื่อล็อกอินและที่อยู่อีเมลที่เชื่อมโยงกับบัญชีของคุณ คลิกส่งเพื่อขอรีเซ็ตรหัสผ่าน]]></value>
+  </definition>
+  <definition>
+    <key>text_lastname_email</key>
+    <value><![CDATA[ป้อนชื่อและ e-mail ที่ผ่านมาที่อยู่เชื่อมโยงกับบัญชีของคุณ คลิกส่งเพื่อให้ชื่อเข้าสู่ระบบของคุณส่งไปยังคุณ]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: ลิงก์รีเซ็ตรหัสผ่านได้ถูกส่งไปยังที่อยู่อีเมลของคุณ]]></value>
+  </definition>
+  <definition>
+    <key>text_success_loginname</key>
+    <value><![CDATA[ความสำเร็จ: เตือนความจำชื่อเข้าสู่ระบบของคุณได้ถูกส่งไปยังที่อยู่อีเมลของคุณ]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[ชื่อเข้าสู่ระบบ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[นามสกุล:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[ที่อยู่อีเมล:]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[ข้อผิดพลาด: ที่อยู่อีเมลที่ไม่ได้ให้หรือไม่พบในบันทึกของเราโปรดลองอีกครั้ง!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[ข้อผิดพลาด: ชื่อเข้าสู่ระบบไม่ได้ให้หรือไม่พบในบันทึกของเราโปรดลองอีกครั้ง!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[ข้อผิดพลาด: นามสกุลไม่ได้ให้หรือไม่พบในบันทึกของเราโปรดลองอีกครั้ง!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_found</key>
+    <value><![CDATA[ข้อผิดพลาด: บันทึกไม่พบข้อมูลที่ตรงกับที่ให้บริการของคุณโปรดตรวจสอบข้อมูลและลองอีกครั้ง!]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_loginname</key>
+    <value><![CDATA[ลืมชื่อเข้าสู่ระบบ]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ผู้ใช้]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_details</key>
+    <value><![CDATA[แก้ไขรายละเอียดข้อมูลส่วนตัว]]></value>
+  </definition>
+  <definition>
+    <key>text_user</key>
+    <value><![CDATA[ผู้ใช้งาน]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: คุณมีผู้ใช้ปรับเปลี่ยน!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_details</key>
+    <value><![CDATA[ความสำเร็จ: คุณได้แก้ไขรายละเอียดของคุณ!]]></value>
+  </definition>
+  <definition>
+    <key>column_username</key>
+    <value><![CDATA[ชื่อผู้ใช้]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[กลุ่ม]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[สถานะ]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[เพิ่มเมื่อวันที่]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[การกระทำ]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[ชื่อผู้ใช้:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[รหัสผ่าน:]]></value>
+  </definition>
+  <definition>
+    <key>entry_confirm</key>
+    <value><![CDATA[ยืนยัน:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[ชื่อจริง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[นามสกุล:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-Mail:]]></value>
+  </definition>
+  <definition>
+    <key>entry_user_group</key>
+    <value><![CDATA[กลุ่มผู้ใช้:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[สถานะ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ims</key>
+    <value><![CDATA[การแจ้งเตือน]]></value>
+  </definition>
+  <definition>
+    <key>entry_captcha</key>
+    <value><![CDATA[ป้อนรหัสในกล่องข้างล่างนี้:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[คำเตือน: คุณไม่ได้รับสิทธิ์ในการปรับเปลี่ยนผู้ใช้!]]></value>
+  </definition>
+  <definition>
+    <key>error_account</key>
+    <value><![CDATA[คำเตือน: คุณไม่สามารถลบบัญชีของคุณเอง!]]></value>
+  </definition>
+  <definition>
+    <key>error_username</key>
+    <value><![CDATA[ชื่อผู้ใช้งานจะต้องอยู่ระหว่าง 2 และ 20 ตัว!]]></value>
+  </definition>
+  <definition>
+    <key>error_password</key>
+    <value><![CDATA[รหัสผ่านต้องมีมากกว่า 3 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_confirm</key>
+    <value><![CDATA[รหัสผ่านและการยืนยันรหัสผ่านไม่ตรงกัน!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[ชื่อจริงต้องอยู่ระหว่าง 2 และ 32 ตัว!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[นามสกุลต้องอยู่ระหว่าง 2 และ 32 ตัว!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[ที่อยู่อีเมลไม่ถูกต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_captcha</key>
+    <value><![CDATA[การตรวจสอบความมั่นคงของมนุษย์ล้มเหลว!]]></value>
+  </definition>
+  <definition>
+    <key>error_user_group</key>
+    <value><![CDATA[คุณไม่มีสิทธิ์ในการเปลี่ยนกลุ่มผู้ใช้]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- เลือกกลุ่ม -]]></value>
+  </definition>
+  <definition>
+    <key>entry_im_email</key>
+    <value><![CDATA[E-Mail: <span class="help">หนึ่งหรือเครื่องหมายจุลภาคเพิ่มเติมแยกที่อยู่อีเมล</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_im_sms</key>
+    <value><![CDATA[โทรศัพท์มือถือ: <span class="help">หมายเลขโทรศัพท์ในรูปแบบสากล อดีต +14566887777</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_im</key>
+    <value><![CDATA[แก้ไขการแจ้งเตือน]]></value>
+  </definition>
+  <definition>
+    <key>text_sendpoints</key>
+    <value><![CDATA[การตั้งค่าการแจ้งเตือน]]></value>
+  </definition>
+  <definition>
+    <key>text_change_im_addresses</key>
+    <value><![CDATA[แก้ไขแจ้งที่อยู่สำหรับ SendPoint นี้]]></value>
+  </definition>
+</definitions>

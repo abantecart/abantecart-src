@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Media Manager ทรัพยากรห้องสมุด]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[ล่าสุดเพิ่มทรัพยากร]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[ชนิดของทรัพยากร]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[ประเภททรัพยากรที่สำคัญ <br/><span class="help">มูลค่าทรัพยากรนี้ที่สำคัญประเภท / ชื่อไม่สามารถเปลี่ยนแปลงได้</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[ไดเรกทอรีทรัพยากร <br/><span class="help">ไดเรกทอรีทรัพยากรตำแหน่งสำหรับประเภทนี้ หากการเปลี่ยนแปลงทรัพยากรที่มีอยู่จะไม่ acceccible และจะต้องมีการคัดลอกไปยังไดเรกทอรีใหม่!</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[เริ่มต้นไอคอน <br/><span class="help">ภาพไอคอนที่จะแสดงให้เห็นในรายชื่อของทรัพยากร (สถานที่: / ภาพ / ... )</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[ได้รับอนุญาตนามสกุลไฟล์ <br/><span class="help">Regex ที่มีรายชื่อของนามสกุลไฟล์ที่อนุญาตสำหรับชนิดของทรัพยากรนี้</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: คุณมีการปรับปรุงประเภททรัพยากร!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[ข้อผิดพลาด: ประเภททรัพยากรที่ขาดหาย ID!]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[ข้อผิดพลาด: ชื่อทรัพยากรชนิดต้องอยู่ระหว่าง 2 และ 40 อักขระที่]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[ข้อผิดพลาด: ทรัพยากรประเภทไดเรกทอรีต้องอยู่ระหว่าง 2 และ 64 อักขระที่]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[ข้อผิดพลาด: ทรัพยากรประเภทไอคอนต้องอยู่ระหว่าง 2 และ 64 อักขระที่]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[ข้อผิดพลาด: ทรัพยากรประเภทไฟล์ส่วนขยายให้ regex ต้องอยู่ระหว่าง 2 และ 40 อักขระที่]]></value>
+  </definition>
+</definitions>

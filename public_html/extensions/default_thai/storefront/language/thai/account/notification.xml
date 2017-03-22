@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[การแจ้งเตือนและจดหมายข่าว]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[บัญชี]]></value>
+  </definition>
+  <definition>
+    <key>text_notifications</key>
+    <value><![CDATA[การแจ้งเตือน]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: การตั้งค่าการแจ้งเตือนของคุณได้รับการปรับปรุงเรียบร้อยแล้ว!]]></value>
+  </definition>
+  <definition>
+    <key>text_sendpoint</key>
+    <value><![CDATA[การแจ้งเตือน]]></value>
+  </definition>
+</definitions>

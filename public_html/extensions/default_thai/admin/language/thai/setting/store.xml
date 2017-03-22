@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[รายละเอียดร้านค้า]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: คุณมีการปรับเปลี่ยนการตั้งค่า!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[ผู้จัดการภาพ]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[ค่าเริ่มต้น]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[แก้ไข Store:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[ชื่อร้าน: <br/><span class="help">คัดลอกการตั้งค่าและแสดงบนส่วนหน้าร้าน</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[URL Store: <br/><span class="help">รวม URL แบบเต็มไปร้านค้าของคุณ ตรวจสอบเพื่อเพิ่ม &#39;/&#39; ในตอนท้าย ตัวอย่าง: http://www.yourdomain.com/path/ <br/><br/> อย่าใช้ไดเรกทอรีที่จะสร้างร้านใหม่ คุณควรชี้โดเมนอื่นหรือโดเมนย่อยพื้นที่ของคุณ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[ใช้ SSL: <br/><span class="help">เมื่อต้องการใช้การตรวจสอบ SSL กับโฮสต์ของคุณถ้าใบรับรอง SSL มีการติดตั้ง</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[หัวข้อ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[เมตาแท็กคำอธิบาย:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[แม่แบบ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[ข้อความยินดีต้อนรับ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[ประเทศ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[ภูมิภาค / รัฐ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[ภาษา:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[สถานะร้าน <br/><span class="help">สถานะในร้านหน้าร้าน สถานะ OFF จะนำที่จะเริ่มต้นการจัดเก็บ ใช้โหมดการบำรุงรักษาการตั้งค่าตั้งค่าข้อความการบำรุงรักษาจัดเก็บชั่วคราว</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alias</key>
+    <value><![CDATA[ชื่อนามแฝง <br/><span class="help">ร้านชื่อนามแฝง หากปล่อยว่างจะขึ้นอยู่กับชื่อที่สั้นลง</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[ร้านค้าใหม่]]></value>
+  </definition>
+  <definition>
+    <key>button_delete_store</key>
+    <value><![CDATA[ลบร้านค้า]]></value>
+  </definition>
+  <definition>
+    <key>button_edit_settings</key>
+    <value><![CDATA[แก้ไขการตั้งค่า]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[คำเตือน: คุณไม่ได้รับสิทธิ์ในการปรับเปลี่ยนร้านค้า!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[ร้านชื่อต้องมีระหว่าง 3 และ 32 ตัว!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[URL ร้านต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[ชื่อเรื่องจะต้องอยู่ระหว่าง 3 และ 32 ตัว!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[ภาพผลิตภัณฑ์ขนาดนิ้วหัวแม่มือขนาดต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[ภาพผลิตภัณฑ์ขนาดป๊อปอัพขนาดต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[ขนาดรายการประเภทขนาดต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[ขนาดรายการสินค้าขนาดต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[ผลิตภัณฑ์เพิ่มเติมมิติขนาดภาพต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[สินค้าที่เกี่ยวข้องกับขนาดของภาพขนาดต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[ขนาดรถเข็นขนาดภาพต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[ขนาดกริดขนาดภาพต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[คำเตือน: ร้านนี้ไม่สามารถลบได้ในขณะที่มันอยู่ในขณะนี้ที่จะสั่งซื้อ %s!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[ข้อมูลที่ต้องการยังไม่ได้รับการป้อน ตรวจสอบข้อผิดพลาดของข้อมูล!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[ขีด จำกัด ต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>entry_clone_store</key>
+    <value><![CDATA[การตั้งค่าการคัดลอก: <br/><span class="help">คุณสามารถเลือกสำเนาของการตั้งค่าทั้งหมดจากร้านค้าที่มีอยู่</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[การรักษาความปลอดภัย URL Store: <br/><span class="help">ใส่ URL SSL เต็ม (HTTPS) เพื่อจัดเก็บของคุณ ตรวจสอบเพื่อเพิ่ม &#39;/&#39; ในตอนท้าย ตัวอย่าง: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[URL ที่การรักษาความปลอดภัยจำเป็นต้องใช้!]]></value>
+  </definition>
+</definitions>

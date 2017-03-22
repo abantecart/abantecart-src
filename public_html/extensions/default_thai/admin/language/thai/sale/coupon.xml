@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[คูปอง]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[คูปอง]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: คุณมีการปรับเปลี่ยนคูปอง!]]></value>
+  </definition>
+  <definition>
+    <key>text_percent</key>
+    <value><![CDATA[ร้อยละ]]></value>
+  </definition>
+  <definition>
+    <key>text_amount</key>
+    <value><![CDATA[จำนวนคงที่]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[ชื่อคูปอง]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[รหัส]]></value>
+  </definition>
+  <definition>
+    <key>column_discount</key>
+    <value><![CDATA[ส่วนลด]]></value>
+  </definition>
+  <definition>
+    <key>column_date_start</key>
+    <value><![CDATA[วันที่เริ่มต้น]]></value>
+  </definition>
+  <definition>
+    <key>column_date_end</key>
+    <value><![CDATA[วันที่สิ้นสุด]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[สถานะ]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[การกระทำ]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[ชื่อคูปอง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[คำอธิบายคูปอง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[รหัสสินค้า: <br/><span class="help">รหัสลูกค้าเข้ามาจะได้รับส่วนลด</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_type</key>
+    <value><![CDATA[ประเภท: <br/><span class="help">เปอร์เซ็นต์หรือจำนวนที่คงที่</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_discount</key>
+    <value><![CDATA[ส่วนลด:]]></value>
+  </definition>
+  <definition>
+    <key>entry_logged</key>
+    <value><![CDATA[เข้าสู่ระบบของลูกค้า: <br/><span class="help">ลูกค้าจะต้องถูกบันทึกไว้ในการใช้คูปอง</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[จัดส่งฟรี:]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[จำนวนเงินทั้งหมด: <br/><span class="help">จำนวนเงินรวมย่อยที่จะต้องมาถึงก่อนที่จะสามารถใช้คูปองได้</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_product</key>
+    <value><![CDATA[สินค้าที่เลือก:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[วันที่เริ่มต้น:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[สิ้นสุดวันที่:]]></value>
+  </definition>
+  <definition>
+    <key>entry_uses_total</key>
+    <value><![CDATA[ใช้ต่อคูปอง: <br/><span class="help">จำนวนครั้งสูงสุดคูปองสามารถใช้งานโดยลูกค้าใด ๆ เว้นว่างไม่ จำกัด</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_uses_customer</key>
+    <value><![CDATA[ใช้ต่อลูกค้า: <br/><span class="help">จำนวนครั้งสูงสุดคูปองสามารถใช้งานโดยลูกค้าคนเดียว เว้นว่างไม่ จำกัด</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[สถานะ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_coupon_usage</key>
+    <value><![CDATA[การใช้คูปองทั้งหมด: <br/><span class="help">จำนวนคำสั่งซื้อทั้งหมดที่วางโดยใช้คูปองนี้</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[คำเตือน: คุณไม่ได้รับสิทธิ์ในการปรับเปลี่ยนคูปอง!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[ชื่อคูปองต้องอยู่ระหว่าง 2 และ 64 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_description</key>
+    <value><![CDATA[คูปองรายละเอียดจะต้องอยู่ระหว่าง 2 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[รหัสจะต้องอยู่ระหว่าง 2 และ 10 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_date</key>
+    <value><![CDATA[กรุณาตั้งค่าช่วงวัน!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - ปรับปรุงการสั่งซื้อ %s]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[รหัสการสั่งซื้อ:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[วันที่สั่งซื้อ:]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[สั่งซื้อของคุณได้รับการปรับปรุงสถานะต่อไปนี้:]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[ความคิดเห็นที่สำหรับการสั่งซื้อของคุณ:]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[คลิกเพื่อดูการสั่งซื้อในลิงค์ด้านล่าง:]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[โปรดตอบกลับอีเมลนี้หากคุณมีคำถามใด ๆ]]></value>
+  </definition>
+</definitions>

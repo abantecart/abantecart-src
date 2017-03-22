@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ดาวน์โหลดที่ใช้ร่วมกัน]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[ที่ใช้ร่วมกันดาวน์โหลด]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[แทรกดาวน์โหลด]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[อัพเดต Download]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: คุณมีการดาวน์โหลดการแก้ไข!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[ดาวน์โหลดชื่อ]]></value>
+  </definition>
+  <definition>
+    <key>column_remaining</key>
+    <value><![CDATA[ดาวน์โหลดทั้งหมดที่ได้รับอนุญาต]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[การกระทำ]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[ดาวน์โหลดชื่อ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[ชื่อไฟล์:]]></value>
+  </definition>
+  <definition>
+    <key>entry_remaining</key>
+    <value><![CDATA[ดาวน์โหลดทั้งหมดที่อนุญาต:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[ผลักดันให้กับลูกค้าก่อนหน้านี้: <br/><span class="help">เครื่องหมายนี้เพื่ออัปเดตเวอร์ชันซื้อก่อนหน้านี้เช่นกัน</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[คำเตือน: คุณไม่ได้รับอนุญาตให้แก้ไขดาวน์โหลด!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[ชื่อต้องมีระหว่าง 2 และ 64 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[กรุณาตั้งค่าไฟล์สำหรับการดาวน์โหลด]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[คำเตือน: การดาวน์โหลดนี้ไม่สามารถลบได้ในขณะที่มันอยู่ในขณะนี้กับผลิตภัณฑ์ %s!]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[ภาพ]]></value>
+  </definition>
+  <definition>
+    <key>column_products_count</key>
+    <value><![CDATA[ผลิตภัณฑ์นับ]]></value>
+  </definition>
+</definitions>

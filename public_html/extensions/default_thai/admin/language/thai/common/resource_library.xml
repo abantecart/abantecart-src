@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ทรัพยากรห้องสมุด]]></value>
+  </definition>
+  <definition>
+    <key>view_title</key>
+    <value><![CDATA[ทรัพยากรดูวัตถุ]]></value>
+  </definition>
+  <definition>
+    <key>confirm_title</key>
+    <value><![CDATA[ยืนยันทรัพยากร (s) ลบ]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_delete</key>
+    <value><![CDATA[ทรัพยากรบางคนอาจจะรวมอยู่ในข้อความ เราไม่สามารถตรวจสอบเรื่องนี้โดยอัตโนมัติ ลบ?]]></value>
+  </definition>
+  <definition>
+    <key>text_cant_delete_title</key>
+    <value><![CDATA[ทรัพยากร (s) ลบ]]></value>
+  </definition>
+  <definition>
+    <key>text_cant_delete</key>
+    <value><![CDATA[ลาดเทลบทรัพยากร (s) เพราะหนึ่งหรือมากกว่าทรัพยากรที่มีการเชื่อมโยงไปยังวัตถุ]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_resource</key>
+    <value><![CDATA[แก้ไขทรัพยากร]]></value>
+  </definition>
+  <definition>
+    <key>text_resource_details</key>
+    <value><![CDATA[รายละเอียดทรัพยากร]]></value>
+  </definition>
+  <definition>
+    <key>text_mapped_to</key>
+    <value><![CDATA[ที่เชื่อมโยงกับ]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[ผลิตภัณฑ์]]></value>
+  </definition>
+  <definition>
+    <key>text_add_file</key>
+    <value><![CDATA[เพิ่มแฟ้มทรัพยากร]]></value>
+  </definition>
+  <definition>
+    <key>text_add_code</key>
+    <value><![CDATA[เพิ่มทรัพยากร HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_add_files</key>
+    <value><![CDATA[เพิ่มไฟล์ ...]]></value>
+  </definition>
+  <definition>
+    <key>text_upload_files</key>
+    <value><![CDATA[อัพโหลดไฟล์]]></value>
+  </definition>
+  <definition>
+    <key>text_drag</key>
+    <value><![CDATA[หรือลากพวกเขาที่นี่เพื่อเริ่มการอัปโหลด]]></value>
+  </definition>
+  <definition>
+    <key>text_start_upload</key>
+    <value><![CDATA[เริ่มการอัพโหลด]]></value>
+  </definition>
+  <definition>
+    <key>text_cancel_upload</key>
+    <value><![CDATA[ยกเลิกการอัปโหลด]]></value>
+  </definition>
+  <definition>
+    <key>text_start</key>
+    <value><![CDATA[เริ่มต้น]]></value>
+  </definition>
+  <definition>
+    <key>text_cancel</key>
+    <value><![CDATA[ยกเลิก]]></value>
+  </definition>
+  <definition>
+    <key>text_save_sort_order</key>
+    <value><![CDATA[บันทึกเรียง]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[ความผิดพลาด]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_files</key>
+    <value><![CDATA[ลบไฟล์]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[ค้นหา]]></value>
+  </definition>
+  <definition>
+    <key>text_type</key>
+    <value><![CDATA[ชนิด]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[ภาษา]]></value>
+  </definition>
+  <definition>
+    <key>text_resource_code</key>
+    <value><![CDATA[ทรัพยากร HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_name</key>
+    <value><![CDATA[ชื่อ]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[หัวข้อ]]></value>
+  </definition>
+  <definition>
+    <key>text_description</key>
+    <value><![CDATA[ลักษณะ]]></value>
+  </definition>
+  <definition>
+    <key>text_uploaded</key>
+    <value><![CDATA[ความสำเร็จ: ทรัพยากรได้รับการอัปโหลด!]]></value>
+  </definition>
+  <definition>
+    <key>text_add</key>
+    <value><![CDATA[เพิ่ม]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[แก้ไข]]></value>
+  </definition>
+  <definition>
+    <key>text_map</key>
+    <value><![CDATA[เชื่อมโยงไปยังวัตถุ]]></value>
+  </definition>
+  <definition>
+    <key>text_map_to</key>
+    <value><![CDATA[เชื่อมโยงไปยัง %s]]></value>
+  </definition>
+  <definition>
+    <key>text_unmap</key>
+    <value><![CDATA[ยกเลิกการเชื่อมโยงจากวัตถุ]]></value>
+  </definition>
+  <definition>
+    <key>text_unmap_from</key>
+    <value><![CDATA[ยกเลิกการเชื่อมโยงจาก %s]]></value>
+  </definition>
+  <definition>
+    <key>text_success_unmap</key>
+    <value><![CDATA[ความสำเร็จ: ทรัพยากรได้รับการยกเลิกการเชื่อมโยง]]></value>
+  </definition>
+  <definition>
+    <key>text_file_delete</key>
+    <value><![CDATA[ทรัพยากรได้ถูกลบ!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[ความสำเร็จ: ทรัพยากรของคุณได้ถูกลบ!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_type</key>
+    <value><![CDATA[คำเตือน: ประเภทของไฟล์ที่ไม่ถูกต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_size</key>
+    <value><![CDATA[คำเตือน: ไฟล์ใหญ่โปรดให้ด้านล่าง 300kb และไม่เกิน 1000px สูงหรือความกว้าง!]]></value>
+  </definition>
+  <definition>
+    <key>error_maxFileSize</key>
+    <value><![CDATA[ไฟล์มีขนาดใหญ่เกินไป]]></value>
+  </definition>
+  <definition>
+    <key>error_minFileSize</key>
+    <value><![CDATA[ไฟล์มีขนาดเล็กเกินไป]]></value>
+  </definition>
+  <definition>
+    <key>error_acceptFileTypes</key>
+    <value><![CDATA[filetype ไม่ได้รับอนุญาต]]></value>
+  </definition>
+  <definition>
+    <key>error_maxNumberOfFiles</key>
+    <value><![CDATA[จำนวนสูงสุดของไฟล์ที่เกิน]]></value>
+  </definition>
+  <definition>
+    <key>error_uploadedBytes</key>
+    <value><![CDATA[ไบต์อัปโหลดเกินขนาดไฟล์]]></value>
+  </definition>
+  <definition>
+    <key>error_emptyResult</key>
+    <value><![CDATA[ผลการอัปโหลดไฟล์ที่ว่างเปล่า อาจจะเป็นไฟล์เสียหายหรือมีขนาดใหญ่เกินไป ขนาดไฟล์ จำกัด ไว้ที่ 16MB ถ้าขนาดของไฟล์จะน้อยกว่าวงเงินโปรดตรวจสอบการตั้งค่า php สำหรับ upload_max_filesize &amp; post_max_size]]></value>
+  </definition>
+  <definition>
+    <key>error_1</key>
+    <value><![CDATA[ไฟล์เกิน upload_max_filesize (Directive php.ini)]]></value>
+  </definition>
+  <definition>
+    <key>error_2</key>
+    <value><![CDATA[ไฟล์เกิน MAX_FILE_SIZE (แบบ HTML Directive)]]></value>
+  </definition>
+  <definition>
+    <key>error_3</key>
+    <value><![CDATA[อัพโหลดไฟล์เพียงบางส่วนเท่านั้น]]></value>
+  </definition>
+  <definition>
+    <key>error_4</key>
+    <value><![CDATA[ไม่มีไฟล์ถูกอัปโหลด]]></value>
+  </definition>
+  <definition>
+    <key>error_5</key>
+    <value><![CDATA[หายไปยังโฟลเดอร์ชั่วคราว]]></value>
+  </definition>
+  <definition>
+    <key>error_6</key>
+    <value><![CDATA[ล้มเหลวในการเขียนไฟล์ไปยังดิสก์]]></value>
+  </definition>
+  <definition>
+    <key>error_7</key>
+    <value><![CDATA[อัปโหลดไฟล์หยุดโดยการขยาย]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded</key>
+    <value><![CDATA[คำเตือน: ไฟล์ไม่สามารถอัปโหลดโดยไม่ทราบสาเหตุ!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_type</key>
+    <value><![CDATA[กรุณาเลือกชนิดของทรัพยากร]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[ข้อมูลที่ต้องการยังไม่ได้รับการป้อน]]></value>
+  </definition>
+  <definition>
+    <key>error_not_added</key>
+    <value><![CDATA[ทรัพยากรไม่ได้เพิ่ม กรุณาตรวจสอบบันทึกข้อผิดพลาดสำหรับข้อมูลเพิ่มเติม]]></value>
+  </definition>
+  <definition>
+    <key>error_ajax</key>
+    <value><![CDATA[ข้อผิดพลาดในการโหลดข้อมูล กรุณาตรวจสอบบันทึกข้อผิดพลาดสำหรับข้อมูลเพิ่มเติม]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[คำเตือน: การอนุญาตปฏิเสธ!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[ข้อผิดพลาด: ฟิลด์ชื่อจะต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>button_delete</key>
+    <value><![CDATA[ลบ]]></value>
+  </definition>
+  <definition>
+    <key>button_add</key>
+    <value><![CDATA[เพิ่มทรัพยากร]]></value>
+  </definition>
+  <definition>
+    <key>button_done</key>
+    <value><![CDATA[เสร็จสิ้น]]></value>
+  </definition>
+  <definition>
+    <key>button_select</key>
+    <value><![CDATA[เลือกทรัพยากร]]></value>
+  </definition>
+  <definition>
+    <key>text_with_selected</key>
+    <value><![CDATA[ด้วยการเลือก:]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ทรัพยากรการปรับปรุงเรียบร้อยแล้ว]]></value>
+  </definition>
+  <definition>
+    <key>text_map_success</key>
+    <value><![CDATA[ทรัพยากรที่เชื่อมโยงประสบความสำเร็จ]]></value>
+  </definition>
+  <definition>
+    <key>text_no_resources</key>
+    <value><![CDATA[ไม่ทรัพยากรที่มีอยู่]]></value>
+  </definition>
+  <definition>
+    <key>text_preview</key>
+    <value><![CDATA[ดูตัวอย่าง / ดาวน์โหลด]]></value>
+  </definition>
+  <definition>
+    <key>error_file size</key>
+    <value><![CDATA[เรียนขนาดสูงสุดของไฟล์สำหรับการอัปโหลดเป็น %s คุณสามารถเพิ่มค่านี้ใน php.ini]]></value>
+  </definition>
+  <definition>
+    <key>text_product_option_value</key>
+    <value><![CDATA[ค่าตัวเลือกสินค้า]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[หมวดหมู่]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[ผู้ผลิต]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[ไม่สามารถลบทรัพยากรที่เชื่อมโยงกับวัตถุหลาย]]></value>
+  </definition>
+  <definition>
+    <key>error_unmap</key>
+    <value><![CDATA[ไม่สามารถยกเลิกการเชื่อมโยงทรัพยากร วัตถุที่ไม่ได้ตั้งค่า]]></value>
+  </definition>
+  <definition>
+    <key>text_replace_file</key>
+    <value><![CDATA[แทนแฟ้ม]]></value>
+  </definition>
+  <definition>
+    <key>error_not_replaced</key>
+    <value><![CDATA[ข้อผิดพลาดในการเปลี่ยนไฟล์ ID ต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_exists</key>
+    <value><![CDATA[ข้อผิดพลาดในการเปลี่ยนไฟล์ ทรัพยากรที่มีอยู่ไม่ได้!]]></value>
+  </definition>
+  <definition>
+    <key>error_cannot_move</key>
+    <value><![CDATA[ข้อผิดพลาด: ไม่สามารถย้ายไฟล์ไปยังไดเรกทอรี %s ทรัพยากร]]></value>
+  </definition>
+  <definition>
+    <key>button_save_n_apply</key>
+    <value><![CDATA[บันทึกและนำไปใช้]]></value>
+  </definition>
+  <definition>
+    <key>text_image_size</key>
+    <value><![CDATA[ขนาดรูปภาพ:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_size</key>
+    <value><![CDATA[ขนาดไฟล์:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_mime</key>
+    <value><![CDATA[ไมม์:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_path</key>
+    <value><![CDATA[สถานที่ตั้งของไฟล์:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_url</key>
+    <value><![CDATA[URL ทรัพยากร:]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[เก่าวันที่ &gt; ใหม่]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[วันที่ใหม่ &gt; เก่า]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[ชื่อ A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[ชื่อ Z - A ค]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_asc</key>
+    <value><![CDATA[เรียงต่ำ &gt; สูง]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_desc</key>
+    <value><![CDATA[เรียงสูง &gt; ต่ำ]]></value>
+  </definition>
+</definitions>

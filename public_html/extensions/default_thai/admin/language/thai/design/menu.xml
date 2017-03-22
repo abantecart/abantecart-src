@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[เมนู]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: คุณได้แก้ไขเมนู!]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_id</key>
+    <value><![CDATA[ID ไม่ซ้ำกัน]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_icon</key>
+    <value><![CDATA[ไอคอน]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_text</key>
+    <value><![CDATA[ข้อความ]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_url</key>
+    <value><![CDATA[การเชื่อมโยง <br/><span class="help">สำหรับการเชื่อมโยงภายนอกเพิ่ม http: // หรือ https: // ในการเริ่มต้น</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_parent_id</key>
+    <value><![CDATA[ผู้ปกครอง]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[เรียง]]></value>
+  </definition>
+  <definition>
+    <key>entry_link_type</key>
+    <value><![CDATA[ประเภทการเชื่อมโยง]]></value>
+  </definition>
+  <definition>
+    <key>text_select_parent_id</key>
+    <value><![CDATA[- เมนูราก -]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[สนามไม่ว่างเปล่า!]]></value>
+  </definition>
+  <definition>
+    <key>error_non_unique</key>
+    <value><![CDATA[รหัสรายการไม่ซ้ำกัน!]]></value>
+  </definition>
+  <definition>
+    <key>error_non_ascii</key>
+    <value><![CDATA[ตัวอักษรและตัวเลขได้รับอนุญาตเท่านั้นสำหรับเขตเมนู ID!]]></value>
+  </definition>
+  <definition>
+    <key>text_category_link_type</key>
+    <value><![CDATA[หน้าหมวดหมู่]]></value>
+  </definition>
+  <definition>
+    <key>text_content_link_type</key>
+    <value><![CDATA[หน้าเนื้อหา]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_link_type</key>
+    <value><![CDATA[ลิงก์ที่กำหนดเองหรือ URL]]></value>
+  </definition>
+</definitions>

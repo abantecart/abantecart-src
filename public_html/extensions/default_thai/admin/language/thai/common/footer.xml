@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_footer_left</key>
+    <value><![CDATA[AbanteCart เป็นเครื่องหมายการค้าของ Belavier พาณิชย์ LLC <br/> ลิขสิทธิ์ &copy; 2009 - %s สงวนลิขสิทธิ์]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[<a href="http://www.abantecart.com" target="_blank">AbanteCart</a> รุ่น]]></value>
+  </definition>
+</definitions>

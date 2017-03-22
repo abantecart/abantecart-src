@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ผลิตภัณฑ์ดูรายงาน]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: คุณต้องรีเซ็ตรายงานผลิตภัณฑ์ดู!]]></value>
+  </definition>
+  <definition>
+    <key>column_product_id</key>
+    <value><![CDATA[รหัสสินค้า]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[ชื่อผลิตภัณฑ์]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[แบบ]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[ประเภท]]></value>
+  </definition>
+  <definition>
+    <key>column_viewed</key>
+    <value><![CDATA[ผู้เข้าชม]]></value>
+  </definition>
+  <definition>
+    <key>column_percent</key>
+    <value><![CDATA[เปอร์เซ็นต์]]></value>
+  </definition>
+</definitions>

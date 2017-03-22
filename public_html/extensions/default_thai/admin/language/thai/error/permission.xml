@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[อนุญาตปฏิเสธ!]]></value>
+  </definition>
+  <definition>
+    <key>text_permission</key>
+    <value><![CDATA[คุณไม่ได้รับอนุญาตให้เข้าถึงหน้านี้โปรดดูที่ดูแลระบบของคุณ]]></value>
+  </definition>
+</definitions>

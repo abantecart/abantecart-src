@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[รายการสินค้าที่ต้องการของฉัน]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[บัญชี]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_wishlist</key>
+    <value><![CDATA[รายการสินค้าที่ต้องการเป็นที่ว่างเปล่า]]></value>
+  </definition>
+  <definition>
+    <key>button_cart</key>
+    <value><![CDATA[ดูสินค้าในตะกร้า]]></value>
+  </definition>
+  <definition>
+    <key>button_continue</key>
+    <value><![CDATA[เลือกซื้อสินค้าต่อ]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[ภาพ]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[ชื่อ]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[แบบ]]></value>
+  </definition>
+  <definition>
+    <key>column_added</key>
+    <value><![CDATA[เพิ่มไปยังรายการสินค้าที่ต้องการ]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[ราคาต่อหน่วย]]></value>
+  </definition>
+  <definition>
+    <key>column_actions</key>
+    <value><![CDATA[การปฏิบัติ]]></value>
+  </definition>
+</definitions>

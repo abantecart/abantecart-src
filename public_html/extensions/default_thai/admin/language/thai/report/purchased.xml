@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ผลิตภัณฑ์ที่ซื้อรายงาน]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[ชื่อผลิตภัณฑ์]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[แบบ]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[ปริมาณ]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[ทั้งหมด]]></value>
+  </definition>
+</definitions>

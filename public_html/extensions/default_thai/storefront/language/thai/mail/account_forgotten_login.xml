@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - ลืมชื่อเข้าสู่ระบบ]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[เตือนความจำชื่อเข้าสู่ระบบได้รับการร้องขอจาก %s]]></value>
+  </definition>
+  <definition>
+    <key>text_your_loginname</key>
+    <value><![CDATA[ชื่อเข้าสู่ระบบของคุณคือ:]]></value>
+  </definition>
+</definitions>

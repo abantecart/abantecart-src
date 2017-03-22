@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[สั่งซื้อของคุณได้รับการประมวล!]]></value>
+  </definition>
+  <definition>
+    <key>text_message_account</key>
+    <value><![CDATA[<p> สั่งซื้อของคุณ # %s ได้ถูกสร้างขึ้น! </p> 
+ <p> ท่านสามารถดูรายละเอียดการสั่งซื้อของคุณได้โดยไปที่ <a href="%s">หน้าใบแจ้งหนี้</a></p> 
+ <p> กรุณาส่งคำถามใด ๆ ที่คุณมีให้กับ <a href="%s">เจ้าของร้าน</a></p> 
+ <p> ขอขอบคุณสำหรับการช้อปปิ้งกับเรา! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_message_guest</key>
+    <value><![CDATA[<p> สั่งซื้อของคุณได้รับการดำเนินการเรียบร้อยแล้ว! </p> 
+ <p> ท่านสามารถดูรายละเอียดการสั่งซื้อของคุณได้โดยไปที่ <a href="%s">หน้าใบแจ้งหนี้</a></p> 
+ <p> กรุณาส่งคำถามใด ๆ ที่คุณมีให้กับ <a href="%s">เจ้าของร้าน</a></p> 
+ <p> ขอขอบคุณสำหรับการช้อปปิ้งกับเรา! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[ตะกร้า]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[การส่งสินค้า]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[การชำระเงิน]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[ชำระเงินบุคคลทั่วไป]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[ยืนยัน]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order</key>
+    <value><![CDATA[อ๊ะ! เราได้ประสบปัญหาบางอย่างกับการทำธุรกรรมของคุณ สั่งซื้อของคุณจะถูกตรวจสอบด้วยตนเองโดยผู้ดูแลระบบ]]></value>
+  </definition>
+  <definition>
+    <key>text_title_failed_order_to_admin</key>
+    <value><![CDATA[เพื่อล้มเหลว # %s]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order_to_admin</key>
+    <value><![CDATA[ล้มเหลวหรือการตอบสนองจากการตรวจสอบการชำระเงินที่ขาดหายไป ตรวจสอบด้วยตนเองจะต้อง!]]></value>
+  </definition>
+</definitions>

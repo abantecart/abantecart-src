@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ลูกค้าออนไลน์]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[ชื่อลูกค้า]]></value>
+  </definition>
+  <definition>
+    <key>column_ip</key>
+    <value><![CDATA[IP ของลูกค้า]]></value>
+  </definition>
+  <definition>
+    <key>column_time</key>
+    <value><![CDATA[เข้าถึงล่าสุด]]></value>
+  </definition>
+  <definition>
+    <key>column_url</key>
+    <value><![CDATA[เข้าถึง url]]></value>
+  </definition>
+</definitions>

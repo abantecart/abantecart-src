@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[สั่งซื้อของลูกค้า]]></value>
+  </definition>
+  <definition>
+    <key>column_customer_id</key>
+    <value><![CDATA[รหัสลูกค้า]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[ชื่อลูกค้า]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[กลุ่มลูกค้า]]></value>
+  </definition>
+  <definition>
+    <key>column_order_count</key>
+    <value><![CDATA[สั่งซื้อนับ]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[ทั้งหมด]]></value>
+  </definition>
+</definitions>

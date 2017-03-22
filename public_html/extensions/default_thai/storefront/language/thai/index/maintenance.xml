@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ซ่อมบำรุง]]></value>
+  </definition>
+  <definition>
+    <key>text_maintenance</key>
+    <value><![CDATA[ซ่อมบำรุง]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<h1 style="text-align:center;"> ขณะนี้เรากำลังดำเนินการบำรุงรักษาที่กำหนดไว้บางส่วน <br/> เราจะกลับมาโดยเร็วที่สุดเท่าที่เป็นไปได้ โปรดกลับมาเร็ว ๆ นี้ </h1>]]></value>
+  </definition>
+</definitions>

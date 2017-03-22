@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>import_export_title</key>
+    <value><![CDATA[นำเข้าส่งออก]]></value>
+  </definition>
+  <definition>
+    <key>tab_import</key>
+    <value><![CDATA[นำเข้า]]></value>
+  </definition>
+  <definition>
+    <key>tab_export</key>
+    <value><![CDATA[ส่งออก]]></value>
+  </definition>
+  <definition>
+    <key>text_tables</key>
+    <value><![CDATA[ตาราง]]></value>
+  </definition>
+  <definition>
+    <key>text_options</key>
+    <value><![CDATA[ตัวเลือก]]></value>
+  </definition>
+  <definition>
+    <key>text_file_format</key>
+    <value><![CDATA[รูปแบบไฟล์:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_name</key>
+    <value><![CDATA[ชื่อไฟล์:]]></value>
+  </definition>
+  <definition>
+    <key>text_load_file</key>
+    <value><![CDATA[โหลดไฟล์]]></value>
+  </definition>
+  <definition>
+    <key>text_load</key>
+    <value><![CDATA[ภาระ]]></value>
+  </definition>
+  <definition>
+    <key>text_import_loaded</key>
+    <value><![CDATA[รวมโหลด:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_field</key>
+    <value><![CDATA[File เพื่อนำเข้า: <br/><span class="help">รูปแบบที่สนับสนุนสำหรับไฟล์นำเข้า: XML, CSV, TXT</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_id_range_from</key>
+    <value><![CDATA[ช่วง ID จาก:]]></value>
+  </definition>
+  <definition>
+    <key>text_to</key>
+    <value><![CDATA[ไปที่:]]></value>
+  </definition>
+  <definition>
+    <key>text_csv_delimiter</key>
+    <value><![CDATA[CSV / TXT คั่น:]]></value>
+  </definition>
+  <definition>
+    <key>text_export_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">เขตข้อมูลทั้งหมดจะถูกปิดล้อมอยู่ในเครื่องหมายคำพูดคู่</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_import_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">สาขาที่ทุกคนจะต้องอัญประกาศ</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_test_mode</key>
+    <value><![CDATA[ทำงานในโหมดการทดสอบ <br/><span class="help">ก็จะแนะนำให้เรียกใช้นำเข้าข้อมูลในโหมดการทดสอบเป็นครั้งแรกเพื่อดูว่าปัญหาใด ๆ ที่มีอยู่</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_file_format</key>
+    <value><![CDATA[รูปแบบไฟล์ผิด!]]></value>
+  </definition>
+  <definition>
+    <key>error_xml_import</key>
+    <value><![CDATA[ข้อผิดพลาดระหว่างการนำเข้าไฟล์ XML!]]></value>
+  </definition>
+  <definition>
+    <key>error_csv_import</key>
+    <value><![CDATA[ข้อผิดพลาดระหว่างการนำเข้าไฟล์ CSV / TXT! โปรดตรวจสอบสาขาที่คั่น]]></value>
+  </definition>
+  <definition>
+    <key>error_data_corrupted</key>
+    <value><![CDATA[ข้อมูลเป็นที่ว่างเปล่าหรือเสียหาย]]></value>
+  </definition>
+  <definition>
+    <key>error_file_empty</key>
+    <value><![CDATA[ไฟล์ที่ว่างเปล่า]]></value>
+  </definition>
+  <definition>
+    <key>error_writable_backup</key>
+    <value><![CDATA[ไดเรกทอรีสำรองจะต้องสามารถเขียนเพื่อการส่งออก CSV / TXT ในการทำงาน]]></value>
+  </definition>
+  <definition>
+    <key>text_updated</key>
+    <value><![CDATA[Updated:]]></value>
+  </definition>
+  <definition>
+    <key>text_created</key>
+    <value><![CDATA[ที่สร้างไว้:]]></value>
+  </definition>
+  <definition>
+    <key>text_errors</key>
+    <value><![CDATA[ข้อผิดพลาด:]]></value>
+  </definition>
+  <definition>
+    <key>text_show_details</key>
+    <value><![CDATA[แสดงรายละเอียด]]></value>
+  </definition>
+  <definition>
+    <key>text_no_children</key>
+    <value><![CDATA[ไม่มีรายการเด็ก]]></value>
+  </definition>
+  <definition>
+    <key>text_some_errors</key>
+    <value><![CDATA[มีข้อผิดพลาดบางอย่างที่]]></value>
+  </definition>
+  <definition>
+    <key>text_test_completed</key>
+    <value><![CDATA[ทดสอบการทำงานเสร็จสิ้น แบบสอบถาม SQL ทั้งหมด:]]></value>
+  </definition>
+  <definition>
+    <key>text_sort_by</key>
+    <value><![CDATA[เรียงลำดับโดย:]]></value>
+  </definition>
+</definitions>

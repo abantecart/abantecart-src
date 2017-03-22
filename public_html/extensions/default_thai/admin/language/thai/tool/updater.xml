@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ผู้จัดการการปรับปรุง]]></value>
+  </definition>
+  <definition>
+    <key>text_checkupdates</key>
+    <value><![CDATA[ตรวจสอบสำหรับการอัพเดต]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[ชื่อนามสกุล]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[ชนิด]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[ประเภท]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[สถานะ]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[รุ่นปัจจุบัน]]></value>
+  </definition>
+  <definition>
+    <key>column_new_version</key>
+    <value><![CDATA[เวอร์ชั่นใหม่]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[การกระทำ]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: ส่วนขยายได้รับการปรับปรุงเรียบร้อยแล้ว!]]></value>
+  </definition>
+  <definition>
+    <key>text_update</key>
+    <value><![CDATA[ปรับปรุง]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore_exts</key>
+    <value><![CDATA[Restore ขยาย backuped:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[ปรับปรุง:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[คำเตือน: คุณไม่ได้รับสิทธิ์ในการปรับเปลี่ยนไดเรกทอรี:]]></value>
+  </definition>
+  <definition>
+    <key>warning_server</key>
+    <value><![CDATA[เซิร์ฟเวอร์ที่มีการปรับปรุงเป็น inaccesible]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_title</key>
+    <value><![CDATA[ประกาศเกี่ยวกับการปรับปรุงสำหรับ% EXTENSION%]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_text</key>
+    <value><![CDATA[&#39;เวอร์ชั่นใหม่ของนามสกุล &quot;% EXTENSION%&quot; สามารถใช้ได้ โปรดไปที่ LINK%% และอัพเกรดได้.]]></value>
+  </definition>
+  <definition>
+    <key>warning_updates</key>
+    <value><![CDATA[ไม่สามารถได้รับข้อมูลเกี่ยวกับการปรับปรุง]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[คำเตือน: ไฟล์ที่คุณอัปโหลดเป็นที่ว่างเปล่า!]]></value>
+  </definition>
+  <definition>
+    <key>error_exts_list</key>
+    <value><![CDATA[คำเตือน: รายการส่วนขยายไม่ได้เป็นอาร์เรย์!]]></value>
+  </definition>
+  <definition>
+    <key>text_nothing_todo</key>
+    <value><![CDATA[ส่วนขยายของคุณมีถึงวันที่ ไม่มีอะไรทำ.]]></value>
+  </definition>
+  <definition>
+    <key>text_connect</key>
+    <value><![CDATA[ต่อ]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect</key>
+    <value><![CDATA[เชื่อมต่อไปยังตลาด]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect_your_store</key>
+    <value><![CDATA[โปรดเชื่อมต่อร้านของคุณออกสู่ตลาด]]></value>
+  </definition>
+  <definition>
+    <key>text_note</key>
+    <value><![CDATA[หมายเหตุ: การอัพเดตใช้ได้เฉพาะร้านค้าที่เชื่อมต่อที่มีประวัติซื้อ]]></value>
+  </definition>
+</definitions>

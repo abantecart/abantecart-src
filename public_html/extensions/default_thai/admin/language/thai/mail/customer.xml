@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - บัญชีของคุณถูกเปิดใช้งาน!]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[ยินดีต้อนรับและขอขอบคุณสำหรับการลงทะเบียนที่ %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[บัญชีของคุณได้รับการสร้างขึ้นและท่านสามารถเข้าสู่ระบบโดยใช้ที่อยู่อีเมลและรหัสผ่านของคุณโดยการเยี่ยมชมเว็บไซต์ของเราหรือที่ URL ต่อไปนี้:]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[เมื่อคุณเข้าสู่ระบบแล้วคุณจะสามารถเข้าถึงสิ่งที่คุณอยากประวัติการสั่งซื้อพิมพ์ใบแจ้งหนี้และการแก้ไขข้อมูลบัญชีของคุณ]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[ขอขอบคุณ,]]></value>
+  </definition>
+</definitions>

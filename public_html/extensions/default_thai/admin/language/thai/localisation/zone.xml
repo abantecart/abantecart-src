@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[โซน]]></value>
+  </definition>
+  <definition>
+    <key>text_zone</key>
+    <value><![CDATA[โซน]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: คุณมีโซนปรับเปลี่ยน!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[ชื่อโซน]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[รหัสโซน]]></value>
+  </definition>
+  <definition>
+    <key>column_country</key>
+    <value><![CDATA[ประเทศ]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[การกระทำ]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[สถานะ]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[สถานะโซน:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[ชื่อโซน:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[โซนรหัสสินค้า:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[ประเทศ:]]></value>
+  </definition>
+  <definition>
+    <key>text_select_country</key>
+    <value><![CDATA[- เลือกประเทศ -]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[คำเตือน: คุณไม่ได้รับสิทธิ์ในการปรับเปลี่ยนโซน!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[โซนชื่อต้องมีระหว่าง 2 และ 128 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[คำเตือน: โซนนี้ไม่สามารถลบได้ในขณะที่มันอยู่ในขณะนี้เป็นโซนเก็บเริ่มต้น!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[คำเตือน: โซนนี้ไม่สามารถลบได้ในขณะที่มันอยู่ในขณะนี้ไปยังร้านค้า %s!]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[คำเตือน: โซนนี้ไม่สามารถลบได้ในขณะที่มันอยู่ในขณะนี้ที่จะ %s รายการสมุดที่อยู่!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone_to_location</key>
+    <value><![CDATA[คำเตือน: โซนนี้ไม่สามารถลบได้ในขณะที่มันอยู่ในขณะนี้ที่จะ %s โซนไปยังสถานที่!]]></value>
+  </definition>
+</definitions>

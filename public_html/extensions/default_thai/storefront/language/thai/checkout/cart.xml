@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[รถเข็น]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[ตะกร้า]]></value>
+  </definition>
+  <definition>
+    <key>text_sub_total</key>
+    <value><![CDATA[ตทั้งหมด:]]></value>
+  </definition>
+  <definition>
+    <key>text_weight</key>
+    <value><![CDATA[รถเข็นน้ำหนัก:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[ตะกร้าช้อปปิ้งของคุณว่างเปล่า!]]></value>
+  </definition>
+  <definition>
+    <key>column_remove</key>
+    <value><![CDATA[เอาออก]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[ภาพ]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[ชื่อ]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[แบบ]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[ปริมาณ]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[ราคาต่อหน่วย]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[ทั้งหมด]]></value>
+  </definition>
+  <definition>
+    <key>text_continue_shopping</key>
+    <value><![CDATA[เลือกซื้อสินค้าต่อ]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_codes</key>
+    <value><![CDATA[ใช้รหัสคูปอง]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipping_tax</key>
+    <value><![CDATA[ประมาณการจัดส่งสินค้าและภาษี]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_country</key>
+    <value><![CDATA[ประเทศและรัฐ]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_postcode</key>
+    <value><![CDATA[ไปรษณีย์ / รหัสไปรษณีย์]]></value>
+  </definition>
+  <definition>
+    <key>button_text_estimate</key>
+    <value><![CDATA[ประมาณการ]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipments</key>
+    <value><![CDATA[การจัดส่ง]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[ข้อผิดพลาด: คูปองนี้อย่างใดอย่างหนึ่งที่ไม่ถูกต้องหมดอายุหรือถึงมันเป็นขีด จำกัด ของการใช้งาน!]]></value>
+  </definition>
+  <definition>
+    <key>error_stock</key>
+    <value><![CDATA[ผลิตภัณฑ์ที่มีเครื่องหมาย *** ไม่สามารถใช้ได้ในปริมาณที่ต้องการหรือออกจากสต็อก!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_options</key>
+    <value><![CDATA[กรุณาเลือกตัวเลือกที่จำเป็นทั้งหมด!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_minimum</key>
+    <value><![CDATA[จำนวนรวมย่อยสั่งซื้อของคุณไม่ตรงกับจำนวนเงินขั้นต่ำของ %s ต้อง กรุณาเพิ่มสินค้าอื่น ๆ ในรถเข็นของคุณ!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_maximum</key>
+    <value><![CDATA[จำนวนการสั่งซื้อย่อยทั้งหมดของคุณเกินจำนวนเงินสูงสุดของ %s ได้รับอนุญาตต่อคำสั่งซื้อ กรุณาลบบางรายการออกจากรถเข็นของคุณ!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_data</key>
+    <value><![CDATA[แฟ้มข้อมูลเสียหายหรือเปล่า]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_name</key>
+    <value><![CDATA[ชื่อแฟ้มว่างเปล่า!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_extension</key>
+    <value><![CDATA[เฉพาะไฟล์ที่มีนามสกุล (s) %s ได้ (จะ) ได้รับอนุญาต!]]></value>
+  </definition>
+  <definition>
+    <key>error_min_file_size</key>
+    <value><![CDATA[ขนาดไฟล์ขั้นต่ำสำหรับการอัปโหลดเป็น %s Kb]]></value>
+  </definition>
+  <definition>
+    <key>error_max_file_size</key>
+    <value><![CDATA[ขนาดไฟล์สูงสุดสำหรับการอัปโหลดเป็น %s Kb]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_success</key>
+    <value><![CDATA[ความสำเร็จ: คูปองส่วนลดของคุณได้ถูกนำมาใช้!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[ความสำเร็จ: คูปองได้ถูกลบออก!]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_maximum</key>
+    <value><![CDATA[ปริมาณที่ได้รับอนุญาตของผลิตภัณฑ์เกิน ปริมาณถูกกำหนดให้สูงสุด]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_minimum</key>
+    <value><![CDATA[ปริมาณที่ได้รับอนุญาตของผลิตภัณฑ์ต่ำกว่าขั้นต่ำที่จำเป็น ปริมาณถูกกำหนดให้จำนวนเงินขั้นต่ำ]]></value>
+  </definition>
+</definitions>

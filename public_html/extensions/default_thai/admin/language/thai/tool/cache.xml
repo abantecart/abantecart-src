@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[การบริหารจัดการแคช]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: คุณได้ลบไฟล์ที่ประสบความสำเร็จในแคช!]]></value>
+  </definition>
+  <definition>
+    <key>text_configuration</key>
+    <value><![CDATA[องค์ประกอบ]]></value>
+  </definition>
+  <definition>
+    <key>text_layouts_blocks</key>
+    <value><![CDATA[รูปแบบที่ &amp; บล็อก]]></value>
+  </definition>
+  <definition>
+    <key>text_flexyforms</key>
+    <value><![CDATA[แบบฟอร์ม Flexy]]></value>
+  </definition>
+  <definition>
+    <key>text_images</key>
+    <value><![CDATA[ภาพ]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[ผลิตภัณฑ์]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[หมวดหมู่]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[ผู้ผลิต]]></value>
+  </definition>
+  <definition>
+    <key>text_localisations</key>
+    <value><![CDATA[Localisations]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[บันทึกข้อผิดพลาด]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_cache</key>
+    <value><![CDATA[แคชเลือกที่ชัดเจน]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_all_cache</key>
+    <value><![CDATA[ล้างแคชทั้งหมด]]></value>
+  </definition>
+  <definition>
+    <key>desc_configuration</key>
+    <value><![CDATA[การกำหนดค่าระบบและการจัดเก็บ]]></value>
+  </definition>
+  <definition>
+    <key>desc_layouts_blocks</key>
+    <value><![CDATA[หน้ารูปแบบหน้าบล็อก]]></value>
+  </definition>
+  <definition>
+    <key>desc_flexyforms</key>
+    <value><![CDATA[ข้อมูลรูปแบบ Flexy]]></value>
+  </definition>
+  <definition>
+    <key>desc_images</key>
+    <value><![CDATA[ภาพขนาดเล็ก]]></value>
+  </definition>
+  <definition>
+    <key>desc_products</key>
+    <value><![CDATA[ข้อมูลผลิตภัณฑ์]]></value>
+  </definition>
+  <definition>
+    <key>desc_categories</key>
+    <value><![CDATA[หมวดหมู่ข้อมูล]]></value>
+  </definition>
+  <definition>
+    <key>desc_manufacturers</key>
+    <value><![CDATA[ข้อมูลจากผู้ผลิต]]></value>
+  </definition>
+  <definition>
+    <key>desc_localisations</key>
+    <value><![CDATA[เงินตราต่างประเทศ, ภาษาประเทศ, โซน, ความยาวน้ำหนัก &amp; อื่น ๆ]]></value>
+  </definition>
+  <definition>
+    <key>desc_error_log</key>
+    <value><![CDATA[บันทึกข้อผิดพลาด]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[ประเภทแคช]]></value>
+  </definition>
+  <definition>
+    <key>column_description</key>
+    <value><![CDATA[ลักษณะ]]></value>
+  </definition>
+  <definition>
+    <key>text_html_cache</key>
+    <value><![CDATA[HTML แคช]]></value>
+  </definition>
+  <definition>
+    <key>desc_html_cache</key>
+    <value><![CDATA[หน้าเว็บ HTML Cached และบล็อก]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[การติดตั้ง / อัพเกรดประวัติศาสตร์]]></value>
+  </definition>
+  <definition>
+    <key>desc_install_upgrade_history</key>
+    <value><![CDATA[ล้างทั้งหมดติดตั้ง / อัพเกรดประวัติศาสตร์]]></value>
+  </definition>
+</definitions>

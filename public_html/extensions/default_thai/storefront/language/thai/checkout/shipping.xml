@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ข้อมูลการจัดส่ง]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[ตะกร้า]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[การส่งสินค้า]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_to</key>
+    <value><![CDATA[โปรดเลือกจากสมุดที่อยู่ของคุณที่คุณต้องการรายการที่จะถูกส่งไปยัง]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[ที่อยู่จัดส่ง]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[วิธีการจัดส่งสินค้า]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[โปรดเลือกวิธีการจัดส่งที่ต้องการที่จะใช้ในการสั่งซื้อนี้]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[เพิ่มความคิดเห็นเกี่ยวกับการสั่งซื้อ]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[ข้อผิดพลาด: วิธีการจัดส่งต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[ผิดพลาด: ไม่มีตัวเลือกการจัดส่งสินค้าที่มีอยู่ กรุณา <a href="index.php?rt=content/contact">ติดต่อเรา</a> เพื่อขอความช่วยเหลือ!]]></value>
+  </definition>
+</definitions>

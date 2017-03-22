@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ข้อมูลบัญชีของฉัน]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[บัญชี]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[แก้ไขข้อมูล]]></value>
+  </definition>
+  <definition>
+    <key>text_your_details</key>
+    <value><![CDATA[รายละเอียดส่วนบุคคลของคุณ]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: บัญชีของคุณได้รับการปรับปรุงเรียบร้อยแล้ว]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[ชื่อเข้าสู่ระบบ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[ชื่อจริง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[นามสกุล:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_of_birth</key>
+    <value><![CDATA[วันเกิด:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-Mail:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[โทรศัพท์:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[แฟกซ์:]]></value>
+  </definition>
+  <definition>
+    <key>error_exists</key>
+    <value><![CDATA[ข้อผิดพลาด: E-mail Address มีการลงทะเบียนแล้ว!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[เข้าสู่ระบบชื่อจะต้องเป็นตัวเลขเท่านั้นและระหว่างวันที่ 5 และ 64 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[ชื่อเข้าสู่ระบบนี้ไม่สามารถใช้ได้ ลองชื่อเข้าสู่ระบบที่แตกต่างกัน!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[ชื่อจริงต้องอยู่ระหว่าง 1 และ 32 ตัว!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[นามสกุลต้องอยู่ระหว่าง 1 และ 32 ตัว!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[ที่อยู่อีเมลไม่ถูกต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[โทรศัพท์จะต้องอยู่ระหว่าง 3 และ 32 ตัว!]]></value>
+  </definition>
+  <definition>
+    <key>loginname_update_required</key>
+    <value><![CDATA[ชื่อเข้าสู่ระบบของคุณเป็นเช่นเดียวกับอีเมลของคุณ เพื่อให้บัญชีของคุณป้องกันโปรดสร้างชื่อเข้าสู่ระบบใหม่ที่ไม่ซ้ำกัน]]></value>
+  </definition>
+</definitions>

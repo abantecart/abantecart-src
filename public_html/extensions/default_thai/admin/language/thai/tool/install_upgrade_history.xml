@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ติดตั้ง / อัพเกรดประวัติศาสตร์]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[ชนิด]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[เพิ่มเมื่อวันที่]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[แพคเกจที่สำคัญ]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[รุ่น]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_date</key>
+    <value><![CDATA[การสำรองข้อมูลวันที่]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_file</key>
+    <value><![CDATA[การสำรองข้อมูลแฟ้ม]]></value>
+  </definition>
+  <definition>
+    <key>column_user</key>
+    <value><![CDATA[ชื่อผู้ใช้]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[เพื่อดาวน์โหลดไฟล์]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_history</key>
+    <value><![CDATA[ลบประวัติ]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_success</key>
+    <value><![CDATA[การติดตั้ง / อัพเกรดประวัติของคุณได้รับการลบเรียบร้อยแล้ว]]></value>
+  </definition>
+</definitions>

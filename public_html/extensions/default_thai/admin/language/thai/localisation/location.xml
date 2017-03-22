@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[สถานที่]]></value>
+  </definition>
+  <definition>
+    <key>text_location</key>
+    <value><![CDATA[ที่ตั้ง]]></value>
+  </definition>
+  <definition>
+    <key>text_location_zone</key>
+    <value><![CDATA[สถานที่ตั้งโซน]]></value>
+  </definition>
+  <definition>
+    <key>text_location_zones</key>
+    <value><![CDATA[โซนสถานที่ตั้ง]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: คุณมีการปรับเปลี่ยนสถานที่!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[ชื่อสถานที่ตั้ง]]></value>
+  </definition>
+  <definition>
+    <key>column_description</key>
+    <value><![CDATA[ลักษณะ]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[การกระทำ]]></value>
+  </definition>
+  <definition>
+    <key>tab_details</key>
+    <value><![CDATA[รายละเอียด]]></value>
+  </definition>
+  <definition>
+    <key>tab_locations</key>
+    <value><![CDATA[โซนสถานที่ตั้ง]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[ชื่อสถานที่:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[รายละเอียด:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[ประเทศ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[โซน (s):]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[คำเตือน: คุณไม่ได้รับสิทธิ์ในการปรับเปลี่ยนสถานที่!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[สถานที่ตั้งชื่อต้องมีระหว่าง 2 และ 32 ตัว!]]></value>
+  </definition>
+  <definition>
+    <key>error_description</key>
+    <value><![CDATA[คำอธิบายชื่อต้องมีระหว่าง 2 และ 255 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_tax_rate</key>
+    <value><![CDATA[คำเตือน: สถานที่แห่งนี้ไม่สามารถลบได้ในขณะที่มันอยู่ในขณะนี้อย่างใดอย่างหนึ่งหรือมากกว่าอัตราภาษี!]]></value>
+  </definition>
+</definitions>

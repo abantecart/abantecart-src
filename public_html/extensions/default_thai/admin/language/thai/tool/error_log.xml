@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[บันทึกข้อผิดพลาด]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: คุณได้ล้างประสบความสำเร็จในบันทึกข้อผิดพลาดของคุณ!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_tail</key>
+    <value><![CDATA[เนื่องจากขนาดใหญ่ของล็อกไฟล์เท่านั้นที่ผ่านมา 500 กิโลไบต์ของข้อมูลที่สามารถดูได้ที่นี่ 
+ การดูบันทึกที่สมบูรณ์ได้รับจากเซิร์ฟเวอร์ของคุณโดยตรง 
+ เส้นทาง:]]></value>
+  </definition>
+</definitions>

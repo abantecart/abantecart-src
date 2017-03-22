@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - ขอบคุณสำหรับการลงทะเบียน]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[ยินดีต้อนรับและขอขอบคุณสำหรับการลงทะเบียนที่ %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[บัญชีของคุณได้รับการสร้างขึ้นและคุณสามารถเข้าถึงได้โดยการเยี่ยมชมเว็บไซต์ของเราหรือที่ URL ต่อไปนี้:]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[บัญชีของคุณต้องได้รับการอนุมัติก่อนที่คุณจะสามารถเข้าสู่ระบบ เมื่อได้รับอนุมัติให้คุณสามารถเข้าสู่ระบบโดยใช้ที่อยู่อีเมลและรหัสผ่านของคุณโดยการเยี่ยมชมเว็บไซต์ของเราหรือที่ URL ต่อไปนี้:]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[ก่อนที่เราจะสามารถเปิดใช้งานบัญชีของคุณหนึ่งในขั้นตอนสุดท้ายจะต้องนำไปดำเนินการลงทะเบียนของคุณ <br/> 
+ คุณต้องดำเนินการขั้นตอนสุดท้ายนี้จะกลายเป็นสมาชิกที่ลงทะเบียน กรุณาคลิกที่ลิงค์ต่อไปนี้เพื่อเปิดใช้งานบัญชีของคุณ %s]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[เมื่อเข้าสู่ระบบคุณจะสามารถเข้าถึงบริการอื่น ๆ รวมทั้งการตรวจสอบการสั่งซื้อที่ผ่านมาพิมพ์ใบแจ้งหนี้และการแก้ไขข้อมูลบัญชีของคุณ]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[ขอขอบคุณ,]]></value>
+  </definition>
+</definitions>

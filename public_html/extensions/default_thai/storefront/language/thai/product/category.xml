@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[ผลิตภัณฑ์]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[ไม่พบหมวดหมู่!]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[ไม่มีรายการสินค้าอยู่ในหมวดหมู่นี้]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[%s จาก 5 ดาว!]]></value>
+  </definition>
+  <definition>
+    <key>text_sort</key>
+    <value><![CDATA[เรียงลำดับตาม:]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[ค่าเริ่มต้น]]></value>
+  </definition>
+  <definition>
+    <key>text_name_asc</key>
+    <value><![CDATA[ชื่อ A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_name_desc</key>
+    <value><![CDATA[ชื่อ Z - A ค]]></value>
+  </definition>
+  <definition>
+    <key>text_price_asc</key>
+    <value><![CDATA[ราคาต่ำ &gt; สูง]]></value>
+  </definition>
+  <definition>
+    <key>text_price_desc</key>
+    <value><![CDATA[ราคาสูง &gt; ต่ำ]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_asc</key>
+    <value><![CDATA[อันดับที่ต่ำที่สุด]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_desc</key>
+    <value><![CDATA[การจัดอันดับสูงสุด]]></value>
+  </definition>
+  <definition>
+    <key>text_top_category</key>
+    <value><![CDATA[หมวดหมู่ยอดนิยม]]></value>
+  </definition>
+</definitions>

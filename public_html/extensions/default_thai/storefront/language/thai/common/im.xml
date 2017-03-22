@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>im_text_notification</key>
+    <value><![CDATA[การแจ้งเตือน]]></value>
+  </definition>
+  <definition>
+    <key>im_error_mail_address</key>
+    <value><![CDATA[ที่อยู่อีเมล์ %s ไม่ถูกต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_email_title</key>
+    <value><![CDATA[E-mail]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_title</key>
+    <value><![CDATA[ข้อความ]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_empty_warn</key>
+    <value><![CDATA[แจ้งเตือนทาง SMS เป็นไปไม่ได้ หมายเลขโทรศัพท์มือถือไม่ได้ถูกบันทึกในบันทึกบัญชีของคุณ]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update</key>
+    <value><![CDATA[ปรับปรุงการสั่งซื้อสินค้า]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update_note</key>
+    <value><![CDATA[เลือกได้ว่าต้องการที่จะรับการแจ้งเตือนเกี่ยวกับการปรับปรุงคำสั่งของคุณ &#39;]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_admin</key>
+    <value><![CDATA[สั่งซื้อ # %s ได้รับการปรับปรุง! รหัสสถานะการสั่งซื้อ %s]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_customer</key>
+    <value><![CDATA[สั่งซื้อของคุณ # %s Updated สถานะการสั่งซื้อใหม่เป็น %s]]></value>
+  </definition>
+  <definition>
+    <key>im_new_order_text_to_admin</key>
+    <value><![CDATA[คำสั่งซื้อใหม่ # %s ได้ถูกวางไว้!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_customer_text_to_admin</key>
+    <value><![CDATA[ลูกค้าใหม่ # %s ได้รับการจดทะเบียน!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_subscriber_text_to_admin</key>
+    <value><![CDATA[สมาชิกใหม่ # %s ได้รับการจดทะเบียน!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update</key>
+    <value><![CDATA[อัปเดตบัญชี]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update_note</key>
+    <value><![CDATA[เลือกได้ว่าต้องการที่จะรับการแจ้งเตือนเกี่ยวกับการปรับปรุงบัญชีของคุณ]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_text_to_customer</key>
+    <value><![CDATA[บัญชีของคุณได้รับการปรับปรุง! ถ้าคุณไม่ได้ทำการเปลี่ยนแปลงใด ๆ โปรดติดต่อเจ้าของเว็บไซต์]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_email_to_customer</key>
+    <value><![CDATA[ที่อยู่อีเมลของบัญชีของคุณก็เปลี่ยนไป %s! ถ้าคุณไม่ได้ทำการเปลี่ยนแปลงนี้โปรดติดต่อเจ้าของเว็บไซต์]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_login_to_customer</key>
+    <value><![CDATA[ชื่อเข้าสู่ระบบบัญชีของคุณก็เปลี่ยนไป %s! ถ้าคุณไม่ได้ทำการเปลี่ยนแปลงนี้โปรดติดต่อเจ้าของเว็บไซต์]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_password_to_customer</key>
+    <value><![CDATA[รหัสผ่านของบัญชีของคุณได้รับการเปลี่ยนแปลง! ถ้าคุณไม่ได้ทำการเปลี่ยนแปลงนี้โปรดติดต่อเจ้าของเว็บไซต์]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_contact_admin_text</key>
+    <value><![CDATA[คุณได้มีการสอบถามจากลูกค้าใหม่ (%s %s)!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter</key>
+    <value><![CDATA[จดหมายข่าว]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter_note</key>
+    <value><![CDATA[เลือกได้ว่าต้องการที่จะรับการแจ้งเตือนเกี่ยวกับผลิตภัณฑ์และการปรับปรุงการบริการของเรา]]></value>
+  </definition>
+  <definition>
+    <key>im_product_review_text_to_admin</key>
+    <value><![CDATA[รีวิวสินค้าใหม่ได้รับการเพิ่ม ดูรายละเอียดผู้ดูแลระบบ # # RT = แคตตาล็อก / ทบทวน / อัปเดต review_id = %s]]></value>
+  </definition>
+  <definition>
+    <key>im_product_out_of_stock_admin_text</key>
+    <value><![CDATA[สินค้าที่มี ID # %s หมดสต็อก]]></value>
+  </definition>
+</definitions>

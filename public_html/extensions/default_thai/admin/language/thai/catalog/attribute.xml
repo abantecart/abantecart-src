@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[แอตทริบิวต์ทั่วโลก]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute</key>
+    <value><![CDATA[แอตทริบิวต์ทั่วโลก]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: คุณมีคุณลักษณะการแก้ไข!]]></value>
+  </definition>
+  <definition>
+    <key>text_select_type</key>
+    <value><![CDATA[- เลือกประเภท -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_parent</key>
+    <value><![CDATA[- เลือกผู้ปกครอง -]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[ชื่อ]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[ชนิด]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[เรียง]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[สถานะ]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[การกระทำ]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[ชื่อ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_attribute_parent</key>
+    <value><![CDATA[Attribute ผู้ปกครอง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_attribute_group</key>
+    <value><![CDATA[กลุ่มคุณสมบัติ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_attribute_type</key>
+    <value><![CDATA[แอตทริบิวต์ type:]]></value>
+  </definition>
+  <definition>
+    <key>entry_element_type</key>
+    <value><![CDATA[ประเภทส่วนประกอบ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_element_values</key>
+    <value><![CDATA[ค่าองค์ประกอบ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[เรียง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_required</key>
+    <value><![CDATA[จำเป็นต้องใช้:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[สถานะ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_children_attributes</key>
+    <value><![CDATA[เด็กแอตทริบิวต์:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[คำเตือน: คุณไม่ได้รับอนุญาตให้ปรับเปลี่ยนแอตทริบิวต์โลก!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[ชื่อกลุ่มต้องอยู่ระหว่าง 2 และ 32 ตัว!]]></value>
+  </definition>
+  <definition>
+    <key>error_required</key>
+    <value><![CDATA[ฟิลด์นี้จะต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>text_parent_note</key>
+    <value><![CDATA[หากนี่เป็นคุณลักษณะของผู้ปกครองที่มีเด็กแอตทริบิวต์ก็สามารถเป็นชนิด selectbox, MultiSelect กล่องทำเครื่องหมายในช่อง Checkbox กลุ่ม <br/> เด็กเห็นคุณค่าของการรวมกันจะแสดงเป็นหนึ่งชุด]]></value>
+  </definition>
+  <definition>
+    <key>entry_allowed_extensions</key>
+    <value><![CDATA[ได้รับอนุญาตส่วนขยายไฟล์ (txt, jpg ... )]]></value>
+  </definition>
+  <definition>
+    <key>entry_min_size</key>
+    <value><![CDATA[ขนาดไฟล์ Min (KB)]]></value>
+  </definition>
+  <definition>
+    <key>entry_max_size</key>
+    <value><![CDATA[ขนาดไฟล์สูงสุด (KB)]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_dir</key>
+    <value><![CDATA[อัปโหลดชื่อไดเรกทอรี <br/> %s]]></value>
+  </definition>
+  <definition>
+    <key>entry_regexp_pattern</key>
+    <value><![CDATA[รูปแบบการแสดงออกปกติสำหรับการตรวจสอบของค่า:]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_text</key>
+    <value><![CDATA[เกิดข้อผิดพลาดของค่าไม่ถูกต้อง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_placeholder</key>
+    <value><![CDATA[ตัวยึด:]]></value>
+  </definition>
+  <definition>
+    <key>error_attribute_name</key>
+    <value><![CDATA[ชื่อแอตทริบิวต์ต้องอยู่ระหว่าง 2 และ 64 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_error_text</key>
+    <value><![CDATA[ข้อความผิดพลาดเกี่ยวกับค่าแอตทริบิวต์ที่ไม่ถูกต้องจะต้องอยู่ระหว่าง 2 และ 255 ตัวอักษร!]]></value>
+  </definition>
+  <definition>
+    <key>error_regexp_pattern</key>
+    <value><![CDATA[รูปแบบปกติการแสดงออกไม่ถูกต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>entry_show_to_customer</key>
+    <value><![CDATA[แสดงให้แก่ลูกค้า]]></value>
+  </definition>
+</definitions>

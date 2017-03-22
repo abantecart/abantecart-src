@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_send_email</key>
+    <value><![CDATA[ส่งอีเมล์]]></value>
+  </definition>
+  <definition>
+    <key>text_send_sms</key>
+    <value><![CDATA[ส่ง SMS]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ข้อความของคุณถูกส่งเรียบร้อยแล้ว!]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[ค่าเริ่มต้น]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_send</key>
+    <value><![CDATA[ลูกค้าที่เลือก manualy]]></value>
+  </definition>
+  <definition>
+    <key>text_all_subscribers</key>
+    <value><![CDATA[สมาชิกทั้งหมด]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribers_only</key>
+    <value><![CDATA[สมาชิกจดหมายข่าวเท่านั้น (ไม่ใช่ลูกค้า)]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_only</key>
+    <value><![CDATA[ลูกค้าทุกท่าน]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[จากร้านค้า: <span class="help">ที่อยู่อีเมล Store เพื่อส่งอีเมลจาก ถูกตั้งค่าในการตั้งค่าการจัดเก็บ</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_who_ordered</key>
+    <value><![CDATA[ให้กับลูกค้าที่สั่งซื้อผลิตภัณฑ์ที่เลือก]]></value>
+  </definition>
+  <definition>
+    <key>entry_to</key>
+    <value><![CDATA[<span class="help">ต้องการ: รายชื่อลูกค้าที่จะได้รับข้อความนี้ หมายเหตุ: รายชื่อลูกค้าขนาดใหญ่จะต้องใช้เวลานานในการได้รับการประมวลผลและอาจจำเป็นต้องใช้วิธีการทางเลือก อ้างถึงเว็บและอีเมลการกำหนดค่าเซิร์ฟเวอร์ของคุณ</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_from_lookup</key>
+    <value><![CDATA[เริ่มพิมพ์ชื่อลูกค้าที่จะมองขึ้นและเลือก]]></value>
+  </definition>
+  <definition>
+    <key>text_products_from_lookup</key>
+    <value><![CDATA[เริ่มพิมพ์ชื่อสินค้าที่จะมองขึ้นและเลือก]]></value>
+  </definition>
+  <definition>
+    <key>entry_subject</key>
+    <value><![CDATA[เรื่อง:]]></value>
+  </definition>
+  <definition>
+    <key>entry_message</key>
+    <value><![CDATA[ร่างกายข้อความ:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[คำเตือน: คุณไม่ได้รับอนุญาตในการส่งอีเมล!]]></value>
+  </definition>
+  <definition>
+    <key>error_subject</key>
+    <value><![CDATA[หัวเรื่องอีเมลจะต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_message_email</key>
+    <value><![CDATA[เนื้อหาของข้อความอีเมลจะต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_message_sms</key>
+    <value><![CDATA[เนื้อหาของข้อความ SMS จะต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_recipients</key>
+    <value><![CDATA[ผู้รับรายชื่อสมาชิกหรือผลิตภัณฑ์ที่สั่งซื้อจะต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_sent</key>
+    <value><![CDATA[&#39;ข้อผิดพลาด: ไม่มีอีเมลที่ถูกส่ง! โปรดดูบันทึกข้อผิดพลาดสำหรับรายละเอียด.]]></value>
+  </definition>
+  <definition>
+    <key>text_unsubscribe</key>
+    <value><![CDATA[อีเมลนี้จะถูกส่งไป %s เนื่องจากการตั้งค่าอีเมลของคุณจะถูกตั้งค่าที่จะได้รับจดหมายข่าว คลิก <a href="%s">ที่นี่เพื่อยกเลิกการเป็นสมาชิก</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_total_to_be_sent</key>
+    <value><![CDATA[(ทั้งหมดจะถูกส่งไป: %s)]]></value>
+  </definition>
+  <definition>
+    <key>text_select_products</key>
+    <value><![CDATA[- เลือกผลิตภัณฑ์ -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_customers</key>
+    <value><![CDATA[- เลือกลูกค้า -]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[อีเมล์]]></value>
+  </definition>
+  <definition>
+    <key>text_sms</key>
+    <value><![CDATA[ข้อความ]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete_tasks</key>
+    <value><![CDATA[งานที่ไม่สมบูรณ์]]></value>
+  </definition>
+  <definition>
+    <key>text_task_id</key>
+    <value><![CDATA[งาน ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_time_run</key>
+    <value><![CDATA[ครั้งสุดท้ายที่ทำงาน:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[ที่สร้างไว้:]]></value>
+  </definition>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[เรื่อง:]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[ข้อความ:]]></value>
+  </definition>
+  <definition>
+    <key>text_starter_name</key>
+    <value><![CDATA[สร้างโดย:]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[เริ่มต้นใหม่]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[เอาออก]]></value>
+  </definition>
+  <definition>
+    <key>error_email_no_recipients</key>
+    <value><![CDATA[ความสนใจ! ข้อความจะไม่ถูกส่ง]]></value>
+  </definition>
+  <definition>
+    <key>error_sms_no_recipients</key>
+    <value><![CDATA[ความสนใจ! ไม่มีลูกค้าที่มีหมายเลขโทรศัพท์มือถือ]]></value>
+  </definition>
+  <definition>
+    <key>text_attention_recipients_count</key>
+    <value><![CDATA[ความสนใจ! ข้อความจะถูกส่งไปยังลูกค้า %s]]></value>
+  </definition>
+  <definition>
+    <key>text_success_abort</key>
+    <value><![CDATA[งานที่ประสบความสำเร็จในการขัดจังหวะ]]></value>
+  </definition>
+  <definition>
+    <key>text_success_sent</key>
+    <value><![CDATA[ข้อความ %s ได้รับการส่ง]]></value>
+  </definition>
+  <definition>
+    <key>text_task_failed</key>
+    <value><![CDATA[ข้อผิดพลาดบางเกิดขึ้นในระหว่างขั้นตอนงาน โปรดดูเข้าสู่ระบบเพื่อดูรายละเอียดหรือเริ่มต้นงานนี้]]></value>
+  </definition>
+  <definition>
+    <key>text_sent</key>
+    <value><![CDATA[ข้อความของ %s %s จะมีการส่ง]]></value>
+  </definition>
+</definitions>

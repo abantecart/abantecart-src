@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ข้อมูลการชำระเงิน]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[ตะกร้า]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[การส่งสินค้า]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[การชำระเงิน]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_to</key>
+    <value><![CDATA[โปรดเลือกจากสมุดที่อยู่ของคุณที่คุณต้องการส่งใบแจ้งหนี้]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[อยู่การชำระเงิน]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[วิธีการชำระเงิน]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_methods</key>
+    <value><![CDATA[กรุณาเลือกวิธีการชำระเงินที่ต้องการที่จะใช้ในการสั่งซื้อนี้]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[เพิ่มความคิดเห็นเกี่ยวกับการสั่งซื้อ]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[ฉันได้อ่านและยอมรับ]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[ใส่รหัสของคุณและคลิกปุ่ม &quot;ใช้คูปอง&quot; และเพื่อดูส่วนลดของคุณนำไปใช้ทันทีที่สั่งซื้อของคุณ]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[ความสำเร็จ: คูปองส่วนลดของคุณได้ถูกนำมาใช้!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[ความสำเร็จ: คูปองได้ถูกลบออก!]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon</key>
+    <value><![CDATA[คูปอง:]]></value>
+  </definition>
+  <definition>
+    <key>error_payment</key>
+    <value><![CDATA[ข้อผิดพลาด: วิธีการชำระเงินต้อง!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[ข้อผิดพลาด: คุณต้องยอมรับ %s!]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[ข้อผิดพลาด: คูปองนี้อย่างใดอย่างหนึ่งที่ไม่ถูกต้องหมดอายุหรือถึงมันเป็นขีด จำกัด ของการใช้งาน!]]></value>
+  </definition>
+</definitions>
