@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：パッケージが正常にインストールされました。]]></value>
+  </definition>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[パッケージインストーラ]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_license</key>
+    <value><![CDATA[パッケージライセンス契約]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_ftp</key>
+    <value><![CDATA[FTPアクセスパラメータ]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_download</key>
+    <value><![CDATA[パッケージのロード]]></value>
+  </definition>
+  <definition>
+    <key>text_preloading</key>
+    <value><![CDATA[パッケージファイル％file％がダウンロードされます。]]></value>
+  </definition>
+  <definition>
+    <key>text_loading</key>
+    <value><![CDATA[ファイルをダウンロードします。サイズ：〜。 <br/>それはあなたの接続に応じて、数秒かかることがあります。]]></value>
+  </definition>
+  <definition>
+    <key>text_key_hint</key>
+    <value><![CDATA[ここでインストールキーを入力してください]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_user</key>
+    <value><![CDATA[FTPユーザー名：]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_password</key>
+    <value><![CDATA[FTPユーザーパスワード：]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_host</key>
+    <value><![CDATA[FTPホスト：]]></value>
+  </definition>
+  <definition>
+    <key>text_i_agree</key>
+    <value><![CDATA[私は、ライセンスに同意します]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[同意します]]></value>
+  </definition>
+  <definition>
+    <key>text_retry</key>
+    <value><![CDATA[リトライ]]></value>
+  </definition>
+  <definition>
+    <key>text_disagree</key>
+    <value><![CDATA[同意しません]]></value>
+  </definition>
+  <definition>
+    <key>text_download_error</key>
+    <value><![CDATA[申し訳ありません。ファイルのアップロード中にエラーが発生しました。 </br> 1より多くの時間を試してみてください。 </br>問題は、ご注文履歴にダウンロードファイルを持続し、手動でインストールする場合。]]></value>
+  </definition>
+  <definition>
+    <key>text_continue</key>
+    <value><![CDATA[持続する]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer_heading</key>
+    <value><![CDATA[免責事項]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer</key>
+    <value><![CDATA[<h3> AbanteCart顧客親愛なる、 </h3><br/> 
+あなたのAbanteCartにサードパーティ製の拡張機能をインストールしようとしています。 <br/><br/> 
+インストールするには、約サードパーティ製の拡張機能については、この免責事項を読んで理解してください。 <br/><br/> 
+サードパーティの拡張機能とサービスは、サードパーティベンダーによって提供されています。 <br/><br/> 
+あるが、AbanteCartは、第三者によって提供拡張機能とサービスの品質を検証し、AbanterCartはない、システム内のすべての競合が発生することはありませんすべてのサードパーティ製の拡張工事正しくまたは保証を行います。 
+ AbanteCartメンバーと関連会社は決して責任またはサード・パーティ・ベンダーが提供する製品やサービスに関連し作られた申し立てにも責任があります。 AbanteCartは、サードパーティの拡張機能やサービスの品質を保証するものではありません。適切なサードパーティベンダーへのサードパーティ製の拡張機能やサービスに関するお問い合わせを指示してください。 
+あなたは、任意のサードパーティのプロバイダについての懸念を持っている場合でAbanteCartまでご連絡ください<a href="http://www.abantecart.com/contact-us" target="_blank">http://www.abantecart.com/contact-us</a><br/><br/> 
+敬具、 <br/> 
+ AbanteCart <br/> 
+理想的なオープンソースのeコマースソリューション]]></value>
+  </definition>
+  <definition>
+    <key>warning_ftp</key>
+    <value><![CDATA[警告：一部のディレクトリまたはファイルが書き込み権限を持っていません（ <span id="see_details">詳細を参照してください</span> ） <br/>あなたのサーバーまたはのパーミッションを変更することができます<br/>インストールのためのサーバーへの使用のftpのアクセス（通常は、ホスティングプロバイダが電子メールを介してこの情報を送信したり、それを管理することができます管理ツールをホストする） <br/>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed</key>
+    <value><![CDATA[<p class="success">あなたは既にインストールされている％のEXTENSION％の拡張子を持っています！あなたが進み、アップグレードしたい場合は、ご確認ください。 </p>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed_uninstall</key>
+    <value><![CDATA[あなたは既にこの拡張機能「％伸長％」がインストールされています！再インストールに進みたい場合は、アンインストールして、最初の拡張子を削除してください。]]></value>
+  </definition>
+  <definition>
+    <key>error_pack_file_not_found</key>
+    <value><![CDATA[エラー：〜にアーカイブから拡張子を抽出できません。チェック<a href="#admin#rt=tool/error_log" target="_blank">ログ</a>のエラーのために]]></value>
+  </definition>
+  <definition>
+    <key>error_mp</key>
+    <value><![CDATA[マーケットプレイスエラー：]]></value>
+  </definition>
+  <definition>
+    <key>error_repository</key>
+    <value><![CDATA[エラー：ファイルをダウンロードすることはできません。リポジトリエラーまたは無効な拡張キー。 1より多くの時間を試してみてください。問題は、ご注文履歴にダウンロードファイルを持続し、手動でインストールする場合。]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_user</key>
+    <value><![CDATA[エラー：FTPユーザ名が空です。]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_password</key>
+    <value><![CDATA[エラー：FTPユーザパスワードは空です。]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_connect</key>
+    <value><![CDATA[エラー：サーバをftpに接続できません]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_login</key>
+    <value><![CDATA[エラー：サーバをftpにログインできません。ユーザー名かパスワードが無効。]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path</key>
+    <value><![CDATA[エラー：FTPパスによってAbanteCartのルートディレクトリを見つけることができません。 <br/>自動検索のために空のままにしてみてください。]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path_array</key>
+    <value><![CDATA[エラー：自動FTPモードでAbanteCartのルートディレクトリを認識することはできません。 <br/> FTPパスのフォームフィールドを入力してください。 <br/>パスの提案は以下のとおりです。]]></value>
+  </definition>
+  <definition>
+    <key>error_dir_permission</key>
+    <value><![CDATA[ディレクトリが書き込み可能でないため、ファイルを保存することはできません。]]></value>
+  </definition>
+  <definition>
+    <key>error_package_structure</key>
+    <value><![CDATA[エラー：おそらくパッケージが壊れています。パッケージエラーの構造。]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config_xml</key>
+    <value><![CDATA[エラー：抽出された拡張子の内部のファイルpackage.xmlを見つけることができません。おそらく拡張子が正しく抽出されませんでした。チェック<a href="#admin#rt=tool/error_log" target="_blank">ログ</a>のエラーのために]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config2</key>
+    <value><![CDATA[エラー：パッケージ内のpackage.xmlでインストールモードを見つけることができません。]]></value>
+  </definition>
+  <definition>
+    <key>error_package_info_not_exists</key>
+    <value><![CDATA[エラー：このダウンロードについてのパッケージのセッション情報を見つけることができません。]]></value>
+  </definition>
+  <definition>
+    <key>error_unpack</key>
+    <value><![CDATA[エラー：ダウンロード後にパッケージ &quot;％PACKAGE％」を解凍することはできません。アーカイブエラー。詳細については、エラーログを参照してください。]]></value>
+  </definition>
+  <definition>
+    <key>error_move</key>
+    <value><![CDATA[エラー：開封後のパッケージのコードを移動することはできません。ディレクトリの書き込み権限をチェックしてみてください：]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode</key>
+    <value><![CDATA[エラー：これはすでにインストールされているため、「％パッケージ％を &quot;拡張機能をインストールすることはできません。あなたが削除し、最初にそれを削除するか、アップグレード用のパッケージを取得する必要があります。]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode2</key>
+    <value><![CDATA[エラー：それがインストールされていないため、拡張子 &quot;％パッケージ％」をアップグレードすることはできません。あなたは、インストール用のパッケージを取得する必要があります。]]></value>
+  </definition>
+  <definition>
+    <key>error_version_compatibility</key>
+    <value><![CDATA[エラー：パッケージをインストールすることはできません。カートのバージョン<b>％CURRENT_VERSION％</b>です。バージョン（複数可<b>）％バージョン％が</b>必要です。]]></value>
+  </definition>
+  <definition>
+    <key>error_package_version_compatibility</key>
+    <value><![CDATA[エラー：パッケージをアップグレードすることはできません。新しいパッケージのバージョンがすでにインストールされています。]]></value>
+  </definition>
+  <definition>
+    <key>error_install</key>
+    <value><![CDATA[エラー：パッケージをインストールすることはできません。詳細については、&gt;エラーログ - システムを参照してください。]]></value>
+  </definition>
+  <definition>
+    <key>error_core_version</key>
+    <value><![CDATA[エラー：あなたがAbanteCartバージョン％VERSION％がインストールされています。 <br/>のみよりも低いバージョンのこのアップグレードパッケージには、]]></value>
+  </definition>
+  <definition>
+    <key>text_interrupt</key>
+    <value><![CDATA[割り込み]]></value>
+  </definition>
+  <definition>
+    <key>confirm_version_incompatibility</key>
+    <value><![CDATA[この拡張機能の現在のコピーがAbanteCartのバージョン（V〜）のために確認されません。 <br/>拡張ビルドがAbanteCart V〜のために指定されています。 <br/> 
+これは問題ではありませんが、あなたが問題や非互換性に気づいた場合、拡張の開発者に連絡してください。]]></value>
+  </definition>
+  <definition>
+    <key>error_move_ftp</key>
+    <value><![CDATA[エラー：開封後のパッケージのコードを移動することはできません。おそらくFTPパスが正しくありません。 <br/>また、ディレクトリの書き込み権限を確認してみてください。]]></value>
+  </definition>
+  <definition>
+    <key>text_network_install</key>
+    <value><![CDATA[ネットワークインストール]]></value>
+  </definition>
+  <definition>
+    <key>text_extension_upload</key>
+    <value><![CDATA[拡張アップロード]]></value>
+  </definition>
+  <definition>
+    <key>error_archive_extension</key>
+    <value><![CDATA[エラー：のみの.tar.gzファイルはサポートされています。]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_file</key>
+    <value><![CDATA[ファイルをアップロードする：]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_url</key>
+    <value><![CDATA[URLを挿入します。]]></value>
+  </definition>
+  <definition>
+    <key>error_move_backup</key>
+    <value><![CDATA[エラー：アップグレード前のバックアップはできませんファイル。ディレクトリの書き込み権限を確認してください：]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_title</key>
+    <value><![CDATA[Abantecartコアアップグレード]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_attention</key>
+    <value><![CDATA[注意！ 
+ AbanteCartは〜バージョンにアップグレードされようとしています！]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_warning</key>
+    <value><![CDATA[アップグレードプロセスを開始した後の取り消しはできません。 
+完全なデータベースとコードのバックアップを強くお勧めします。 
+最初の非ライブサイトでのテストアップグレード。ライブのサイトでアップグレードが推奨されていません。]]></value>
+  </definition>
+  <definition>
+    <key>text_upgrade_now</key>
+    <value><![CDATA[今すぐアップグレード！]]></value>
+  </definition>
+  <definition>
+    <key>error_additional_help_text</key>
+    <value><![CDATA[立ち往生？問題ない。あなたは別の方法で拡張機能をインストールすることができます。チェック<a href="http://docs.abantecart.com/pages/extensions/install.html#FTPinstall" target="_blank">このヘルプリンクを</a>]]></value>
+  </definition>
+  <definition>
+    <key>error_notconnected</key>
+    <value><![CDATA[市場からの拡張機能をアップグレードまたはインストールすることはできません。この店は、接続/認証されません。認証とに接続してください<a href="%s">市場</a>]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[マイウィッシュリスト]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[アカウント]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_wishlist</key>
+    <value><![CDATA[ウィッシュリストは空です]]></value>
+  </definition>
+  <definition>
+    <key>button_cart</key>
+    <value><![CDATA[かごの中身を見る]]></value>
+  </definition>
+  <definition>
+    <key>button_continue</key>
+    <value><![CDATA[ショッピングを続ける]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[画像]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[名]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[モデル]]></value>
+  </definition>
+  <definition>
+    <key>column_added</key>
+    <value><![CDATA[ウィッシュリストに追加しました]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[単価]]></value>
+  </definition>
+  <definition>
+    <key>column_actions</key>
+    <value><![CDATA[行動]]></value>
+  </definition>
+</definitions>

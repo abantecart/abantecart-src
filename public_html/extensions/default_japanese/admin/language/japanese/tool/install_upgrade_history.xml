@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[歴史をアップグレード/インストール]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[タイプ]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[追加された日付]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[パッケージキー]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[バージョン]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_date</key>
+    <value><![CDATA[バックアップの日付]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_file</key>
+    <value><![CDATA[バックアップファイル]]></value>
+  </definition>
+  <definition>
+    <key>column_user</key>
+    <value><![CDATA[ユーザー名]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[ファイルをダウンロードします]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_history</key>
+    <value><![CDATA[履歴を削除します]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_success</key>
+    <value><![CDATA[あなたのインストール/アップグレード履歴が正常に削除されました。]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[〜 - あなたのアカウントがアクティブになりました！]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[ようこそと〜でのご登録をお願い致します！]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[あなたのアカウントが作成されました、あなたは私達のウェブサイトを訪問するか、次のURLでメールアドレスとパスワードを使用してログインすることができます。]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[あなたがログインすると、あなたは、あなたのウィッシュリスト、注文履歴、印刷請求書とアカウント情報を編集するにアクセスすることができます。]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[ありがとうございました、]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ニュースレターのサインアップ]]></value>
+  </definition>
+  <definition>
+    <key>text_signup</key>
+    <value><![CDATA[ニュースレターを登録&amp;私たちのニュースレターを購読して魅力的なオファーを取得します。]]></value>
+  </definition>
+  <definition>
+    <key>text_sign_in</key>
+    <value><![CDATA[サインイン]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribe</key>
+    <value><![CDATA[ニュースレターを購読します]]></value>
+  </definition>
+  <definition>
+    <key>button_subscribe</key>
+    <value><![CDATA[申し込む]]></value>
+  </definition>
+</definitions>

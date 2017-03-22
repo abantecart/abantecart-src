@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[レポート閲覧した製品]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：あなたは、製品がレポートを見リセットしています！]]></value>
+  </definition>
+  <definition>
+    <key>column_product_id</key>
+    <value><![CDATA[製品番号]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[商品名]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[モデル]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[カテゴリー]]></value>
+  </definition>
+  <definition>
+    <key>column_viewed</key>
+    <value><![CDATA[閲覧]]></value>
+  </definition>
+  <definition>
+    <key>column_percent</key>
+    <value><![CDATA[パーセント]]></value>
+  </definition>
+</definitions>

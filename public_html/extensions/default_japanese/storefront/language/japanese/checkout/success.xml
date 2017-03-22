@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ご注文が処理されました！]]></value>
+  </definition>
+  <definition>
+    <key>text_message_account</key>
+    <value><![CDATA[<p>ご注文番号は〜に作成されました！ </p> 
+ <p>あなたがに行くことによってあなたの注文の詳細を表示することができます<a href="%s">請求書のページ</a> 。 </p> 
+ <p>あなたが持っている任意の質問に直接お問い合わせください<a href="%s">店のオーナー</a> 。 </p> 
+ <p>ありがとうございます！ </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_message_guest</key>
+    <value><![CDATA[<p>ご注文は正常に処理されました！ </p> 
+ <p>あなたがに行くことによってあなたの注文の詳細を表示することができます<a href="%s">請求書のページ</a> 。 </p> 
+ <p>あなたが持っている任意の質問に直接お問い合わせください<a href="%s">店のオーナー</a> 。 </p> 
+ <p>ありがとうございます！ </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[バスケット]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[運送]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[支払い]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[ゲストチェックアウト]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[確認します]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order</key>
+    <value><![CDATA[おっとっと！私たちはあなたのトランザクションにいくつかの問題を経験しています。ご注文は管理者が手動で検証されます。]]></value>
+  </definition>
+  <definition>
+    <key>text_title_failed_order_to_admin</key>
+    <value><![CDATA[失敗したため＃〜]]></value>
+  </definition>
+  <definition>
+    <key>text_message_failed_order_to_admin</key>
+    <value><![CDATA[失敗したか、入金確認からの応答が欠落。マニュアル検証が必要です！]]></value>
+  </definition>
+</definitions>

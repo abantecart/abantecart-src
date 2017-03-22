@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ゲストチェックアウト - ステップ2]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[カート]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_1</key>
+    <value><![CDATA[ゲストチェックアウト - ステップ1]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_2</key>
+    <value><![CDATA[ゲストチェックアウト - ステップ2]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[配送方法]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[このために使用することが好ましい配送方法を選択してください。]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[支払方法]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_methods</key>
+    <value><![CDATA[このために使用することが好ましい支払い方法を選択してください。]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[ご注文についてコメントを追加]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[私は読み、内容に同意します]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[あなたのコードを入力し、「クーポンの適用」ボタンを押すと、あなたの割引は即座にあなたのためにも適用することが見守ります。]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：あなたのクーポン割引が適用されています！]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[成功：クーポンが削除されました！]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[配送方法：]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[支払方法：]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon</key>
+    <value><![CDATA[クーポン：]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[エラー：配送方法が必要です！]]></value>
+  </definition>
+  <definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[エラー：配送のオプションが用意されていません。してください<a href="index.php?rt=content/contact">私達に連絡して</a>支援を！]]></value>
+  </definition>
+  <definition>
+    <key>error_payment</key>
+    <value><![CDATA[エラー：支払方法が必要！]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[エラー：あなたは〜に同意する必要があります！]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[エラー：クーポンは無効か、有効期限が切れているか、それが使用限界だ達しました！]]></value>
+  </definition>
+</definitions>

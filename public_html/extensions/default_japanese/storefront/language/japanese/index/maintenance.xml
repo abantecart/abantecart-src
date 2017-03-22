@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[メンテナンス]]></value>
+  </definition>
+  <definition>
+    <key>text_maintenance</key>
+    <value><![CDATA[メンテナンス]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<h1 style="text-align:center;">現在、いくつかの定期メンテナンスを行っています。 <br/>我々はできるだけ早く戻ってきます。すぐに戻って確認してください。 </h1>]]></value>
+  </definition>
+</definitions>

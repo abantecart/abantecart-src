@@ -1,0 +1,915 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[設定]]></value>
+  </definition>
+  <definition>
+    <key>column_store_alias</key>
+    <value><![CDATA[格納]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[グループ]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[キー]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[値]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：あなたはあなたの設定を正常に保存されています！]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[イメージマネージャ]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- グループを選択します -]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[デフォルト]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store_settings</key>
+    <value><![CDATA[設定の編集：]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_template_settings</key>
+    <value><![CDATA[編集テンプレートの設定：]]></value>
+  </definition>
+  <definition>
+    <key>text_common_template_settings</key>
+    <value><![CDATA[テンプレートの選択]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[編集ショップ]]></value>
+  </definition>
+  <definition>
+    <key>text_mail</key>
+    <value><![CDATA[郵便物]]></value>
+  </definition>
+  <definition>
+    <key>text_smtp</key>
+    <value><![CDATA[SMTP]]></value>
+  </definition>
+  <definition>
+    <key>tab_all</key>
+    <value><![CDATA[すべて]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[店名：]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[ストアURL： <br/><span class="help">あなたの店に完全なURLを含めます。最後に「/」を追加してください。例：http://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_owner</key>
+    <value><![CDATA[店のオーナー：]]></value>
+  </definition>
+  <definition>
+    <key>entry_address</key>
+    <value><![CDATA[住所：]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[Eメール：]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_emails</key>
+    <value><![CDATA[追加のアラートEメール： <br/><span class="help">追加のメールは、メインストアのメールに加えて、警告の電子メールを受信したいです。 （カンマ区切り）</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[電話：]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[ファックス：]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[タイトル： <br/><span class="help">これは店頭ブラウザのタイトルに表示されます</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[メタタグの説明： <br/><span class="help">ストアフロントメインページmetaタグの説明</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_keywords</key>
+    <value><![CDATA[メタキーワード： <br/><span class="help">ストアフロントメインページメタタグのキーワード（カンマ区切り）</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[ウェルカムメッセージ：]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[テンプレート： <span class="help">店頭テンプレートです。これは、メインまたは拡張テンプレートすることができます</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_template</key>
+    <value><![CDATA[コントロールパネルテンプレート：]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[国：]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[地域/州：]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[店頭言語：]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_language</key>
+    <value><![CDATA[管理言語： <span class="help">注記：ユーザーの優先言語がブラウザで発見されていない場合は動作します</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency</key>
+    <value><![CDATA[基準通貨： <span class="help">これは</span> 、 <span class="help">すべての店舗のための基本通貨です。あなたは何が起こるか理解していない場合は変更しないでください。警告：基本通貨の変更が製品にお使いのベース価格は変更されません。あなたが確認し、必要に応じて、すべての価格を調整する必要があります。基本通貨の為替レートは1.00に設定され、すべての他の通貨の為替レートは、新しいベース通貨に対してで調整されます。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency_auto</key>
+    <value><![CDATA[自動更新通貨： <br/><span class="help">自動的に毎日の通貨を更新するように設定お店。ヤフーサーバーが使用されます。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_class</key>
+    <value><![CDATA[重量クラス：]]></value>
+  </definition>
+  <definition>
+    <key>entry_length_class</key>
+    <value><![CDATA[長さのクラス：]]></value>
+  </definition>
+  <definition>
+    <key>entry_auto_translate_status</key>
+    <value><![CDATA[Autotranslateステータス： <br/><span class="help">テキストの定義またはテキスト値が使用される言語のために不足している場合、言語固有のデータの欠落この有効に翻訳。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_src_lang_code</key>
+    <value><![CDATA[翻訳のためのソース言語： <br/><span class="help">選択ソース言語が自動変換に使用されます。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method</key>
+    <value><![CDATA[テキスト翻訳方法： <br/><span class="help">あなたは翻訳のために使用する選択方法。デフォルトの方法は、ソース言語のテキストのストレートコピーです</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_override_existing</key>
+    <value><![CDATA[ソース言語のテキストが変更された場合オーバーライド： <br/><span class="help">設定した場合は、ソース言語のテキストが編集された場合、すべての言語のテキストが新しい翻訳に置き換えられます。注：多くの翻訳を引き起こす可能性があります。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_warn_lang_text_missing</key>
+    <value><![CDATA[不足している言語のテキストのために警告する： <br/><span class="help">欠落している言語のテキストが検出された場合に警告メッセージを取得します。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[税込価格を表示します。]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store</key>
+    <value><![CDATA[ストア税率デフォルト：]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_0</key>
+    <value><![CDATA[いいえ税はありません]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_1</key>
+    <value><![CDATA[ストアデフォルトのゾーン]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer</key>
+    <value><![CDATA[カスタマー税アドレスを使用します。]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_0</key>
+    <value><![CDATA[お届け先の住所]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_1</key>
+    <value><![CDATA[請求先住所]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice</key>
+    <value><![CDATA[請求書のスタート番号： <br/><span class="help">請求書から始まります開始番号を設定します。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice_prefix</key>
+    <value><![CDATA[請求書プレフィックス： <br/><span class="help">セットの請求書プレフィックス例えばIN / 001</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[カスタマーグループ： <br/><span class="help">デフォルト顧客グループ。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_price</key>
+    <value><![CDATA[表示価格ログイン： <br/><span class="help">表示価格顧客がログインしていない場合であっても。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_approval</key>
+    <value><![CDATA[新規のお客様の承認： <br/><span class="help">自分のアカウントが承認されるまで新規顧客がログインしないようにしてください。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_prevent_email_as_login</key>
+    <value><![CDATA[ログイン名を必要とする： <br/><span class="help">セキュリティを向上させるために、代わりにログイン名としてメールアドレスを使用してのユニークなログイン名を作成するために、顧客が必要となります。 ONに設定すると、既存の顧客は、最初のログイン時に新しいログイン名を作成するように求められます。 OFFした場合、ログイン名は、顧客の電子メールアドレスとして設定されています。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_guest_checkout</key>
+    <value><![CDATA[お客様のチェックアウトは： <br/><span class="help">顧客がアカウントを作成せずにチェックアウトすることを許可します。ダウンロード製品がショッピングカート内にあるとき、これは利用できません。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_account</key>
+    <value><![CDATA[アカウント利用規約： <br/><span class="help">アカウントを作成することができます前に、軍の人々が条件に同意します。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_checkout</key>
+    <value><![CDATA[チェックアウト規約： <br/><span class="help">軍の人々は、顧客がチェックアウトする前に、条件に同意します。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_status</key>
+    <value><![CDATA[注文状況： <br/><span class="help">注文が処理されると、デフォルトの注文状況を設定します。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_cancelation_order_status</key>
+    <value><![CDATA[お客様がステータスに注文をキャンセルさせ：]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_display</key>
+    <value><![CDATA[表示在庫： <br/><span class="help">製品ページの表示在庫数量。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_nostock_autodisable</key>
+    <value><![CDATA[在庫無しの自動無効に： <br/><span class="help">在庫が0メッセージ通知に低下した場合、ビューについては、製品またはオプションの値を無効にしますが送信されません</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_checkout</key>
+    <value><![CDATA[在庫チェックアウト： <br/><span class="help">彼らは発注される製品の在庫がない場合は、お客様がまだチェックアウトすることを許可します。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_status</key>
+    <value><![CDATA[在庫状況： <br/><span class="help">製品の在庫状況メッセージのうちのデフォルト設定。製品の編集ページ上で使用されます。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_logo</key>
+    <value><![CDATA[店舗ロゴ：]]></value>
+  </definition>
+  <definition>
+    <key>entry_icon</key>
+    <value><![CDATA[アイコン： <br/><span class="help">アイコンは16pxにXに16pxであるPNGまたはICONタイプにすることができます。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_width</key>
+    <value><![CDATA[幅：]]></value>
+  </definition>
+  <definition>
+    <key>entry_height</key>
+    <value><![CDATA[高さ：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb</key>
+    <value><![CDATA[製品イメージ親指サイズ：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_width</key>
+    <value><![CDATA[製品イメージ親指の幅：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_height</key>
+    <value><![CDATA[製品イメージ親指身長：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup</key>
+    <value><![CDATA[製品イメージポップアップサイズ：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_width</key>
+    <value><![CDATA[大きな窓プレビュー幅：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_height</key>
+    <value><![CDATA[大きな窓プレビュー身長：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category</key>
+    <value><![CDATA[カテゴリ一覧サイズ：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_width</key>
+    <value><![CDATA[カテゴリ一覧幅：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_height</key>
+    <value><![CDATA[カテゴリ一覧身長：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_width</key>
+    <value><![CDATA[ブランドアイコン一覧幅：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_height</key>
+    <value><![CDATA[ブランドアイコン一覧身長：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product</key>
+    <value><![CDATA[商品リストサイズ：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_height</key>
+    <value><![CDATA[商品リストの高さ： <br/><span class="help">これは、店頭での管理者や他の場所のリストページでプレビュー画像の高さを制御することです。 （注）この設定はadmin、デフォルト店頭テンプレート間で共有されています。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_width</key>
+    <value><![CDATA[商品リスト幅： <br/><span class="help">これは、店頭での管理者や他の場所のリストページのプレビュー画像の幅を制御することです。 （注）この設定はadmin、デフォルト店頭テンプレート間で共有されています。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional</key>
+    <value><![CDATA[追加の商品画像サイズ：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_width</key>
+    <value><![CDATA[追加の商品画像幅：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_height</key>
+    <value><![CDATA[追加の商品画像の高さ：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related</key>
+    <value><![CDATA[関連商品画像サイズ：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_width</key>
+    <value><![CDATA[関連商品画像幅：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_height</key>
+    <value><![CDATA[関連商品画像の高さ：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart</key>
+    <value><![CDATA[カート画像サイズ：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_width</key>
+    <value><![CDATA[カートイメージ幅：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_height</key>
+    <value><![CDATA[カート画像の高さ：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid</key>
+    <value><![CDATA[グリッド・画像サイズ：]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_width</key>
+    <value><![CDATA[グリッド画像幅： <br/><span class="help">これは、管理者および店頭の他の場所のリストグリッドでは非常に小さなプレビュー画像の幅を制御することです。 （注）この設定はadmin、デフォルト店頭テンプレート間で共有されています。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_height</key>
+    <value><![CDATA[グリッド画像の高さ： <br/><span class="help">これは、管理者および店頭の他の場所のリストグリッドでは非常に小さなプレビュー画像の高さを制御することです。 （注）この設定はadmin、デフォルト店頭テンプレート間で共有されています。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_mail</key>
+    <value><![CDATA[アラートメール： <br/><span class="help">新しいオーダーが作成されたときに店のオーナーにメールを送信します。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_download</key>
+    <value><![CDATA[ダウンロードを許可します：]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_status</key>
+    <value><![CDATA[オーダーステータスをダウンロード： <br/><span class="help">セット注文状況彼らは彼らのダウンロード可能な製品へのアクセスを許可する前に、顧客の注文が到達しなければなりません。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_protocol</key>
+    <value><![CDATA[メールプロトコル： <span class="help">メール：デフォルトサーバーメールサーバーが使用されます。それが設定され、PHPのメールに電子メールを送信することができていることを確認します。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_parameter</key>
+    <value><![CDATA[メールパラメータ<span class="help">：「メール」を使用する場合は、追加のメールパラメータは、例えば、「-femail@storeaddress.com」（ここで追加することができます。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_host</key>
+    <value><![CDATA[SMTPホスト： <br/><span class="help">セキュアなSMTP接続用の//smtp.yourdomain.com：SSLを使用</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_username</key>
+    <value><![CDATA[SMTPユーザー名：]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_password</key>
+    <value><![CDATA[SMTPパスワード：]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_port</key>
+    <value><![CDATA[SMTPポート：]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_timeout</key>
+    <value><![CDATA[SMTPタイムアウト：]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[：SSLを使用し<br/><span class="help">SSL証明書がインストールされている場合は、ホストとのSSLチェックを使用するには。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_session_ttl</key>
+    <value><![CDATA[コントロールパネルセッションの有効期限： <br/><span class="help">あなたが原因で活動なしに再度ログインするように求められます前に、この値は、分単位で時間間隔を制御します。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_encryption</key>
+    <value><![CDATA[暗号化キー： <br/><span class="help">の設定は、V1.2.1で始まるファイルを設定へ移行しました。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_seo_url</key>
+    <value><![CDATA[使用SEOのURL： <br/><span class="help">SEOのURLのApacheモジュールMOD-書き換えをインストールする必要があります使用するには、あなたが.htaccessファイルするhtaccess.txtの名前を変更する必要があります。注：abantecartは、ドメインのルートにインストールされていない場合は、.htaccessファイルの内部でRewriteBaseルールを変更する必要があります。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_retina_enable</key>
+    <value><![CDATA[高解像度（網膜）の画像を生成： <br/><span class="help">、このApacheモジュールのmod -書き換えをインストールする必要があります使用するためには、あなたが.htaccessファイルするhtaccess.txtの名前を変更する必要があります。注：abantecartは、ドメインのルートにインストールされていない場合は、.htaccessファイルの内部でRewriteBaseルールを変更する必要があります。 <br/>キャッシュ画像を消去する必要があります有効にした後。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_quality</key>
+    <value><![CDATA[JPEG画像の圧縮レベル]]></value>
+  </definition>
+  <definition>
+    <key>entry_compression</key>
+    <value><![CDATA[出力圧縮レベル： <br/><span class="help">要求しているクライアントへのより効率的な転送のためのGZIP。 9 -圧縮レベルは0の間でなければなりません</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_display</key>
+    <value><![CDATA[表示エラー： <br/><span class="help">あなたは例外やエラーを表示する場合は[はい]に設定</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_log</key>
+    <value><![CDATA[：エラーログ<br/><span class="help">ログに例外やエラーを保存する場合は[はい]に設定し</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_enable_reviews</key>
+    <value><![CDATA[レビューを有効にする： <br/><span class="help"></span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cache_enable</key>
+    <value><![CDATA[キャッシュが有効になって： <br/><span class="help">時キャッシュを無効に注意してください。キャッシュされたページが再作成されず、サイトが遅いロードを開始可能性があります。</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_cache_drivers</key>
+    <value><![CDATA[現在キャッシュ<b>〜</b>ドライバを使用。設定に使用できる他のドライバがあります<i>〜</i>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_status</key>
+    <value><![CDATA[店頭APIのステータス：]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_key</key>
+    <value><![CDATA[店頭APIキー： <br/><span class="help">セット店頭APIに制限された（より安全な）アクセスを提供するために、このキーを押します。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_stock_check</key>
+    <value><![CDATA[店頭APIストックアクセス： <br/><span class="help">あなたは店頭APIは、在庫状況を確認できるようにする場合は有効にします</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_status</key>
+    <value><![CDATA[管理APIのステータス：]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_key</key>
+    <value><![CDATA[管理APIキー： <br/><span class="help">管理APIへの制限された（より安全な）アクセスを提供するように設定このキーを押します。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_access_ip_list</key>
+    <value><![CDATA[管理APIアクセスのIPアドレスは： <br/><span class="help">、管理APIへのアクセスを許可するIPアドレスのリストを（カンマ区切り）を提供します。他のIPアドレスがブロックされます</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_max_size</key>
+    <value><![CDATA[リソースライブラリのアップロード最大ファイルサイズ（KB）]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug</key>
+    <value><![CDATA[表示デバッグ情報： <br/><span class="help">あなたは、実行の詳細を表示し、デバッグの詳細を表示する場合は、このONに設定します。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_0</key>
+    <value><![CDATA[オフ]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_1</key>
+    <value><![CDATA[ショー]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_2</key>
+    <value><![CDATA[ログ]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level</key>
+    <value><![CDATA[デバッグレベル： <br/><span class="help">あなたがデバッグ出力に表示する必要がある詳細の深さを選択します。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_0</key>
+    <value><![CDATA[レベル0  - なしログ、唯一の例外エラー]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_1</key>
+    <value><![CDATA[レベル1  - エラーと警告]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_2</key>
+    <value><![CDATA[レベル2  - ＃1 + MySQLのサイトの負荷、PHPファイルの実行時間とページの要素は、時間を読み込みます]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_3</key>
+    <value><![CDATA[レベル3  - ＃2 +基本的なログと実行のスタック]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_4</key>
+    <value><![CDATA[レベル4  - ＃3 + mysqlの文をダンプ]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_5</key>
+    <value><![CDATA[レベル5  - ＃4 +中間変数]]></value>
+  </definition>
+  <definition>
+    <key>entry_template_debug</key>
+    <value><![CDATA[テンプレートデバッグ： <br/><span class="help">あなたは店頭でテンプレートとコントロールパネルの問題をチェックする必要がある場合は、この設定を有効にします。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_filename</key>
+    <value><![CDATA[エラーログファイル名： <br/><span class="help">これはエラーが保存されるファイルです。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_session</key>
+    <value><![CDATA[使用送料セッション： <br/><span class="help">不必要に再クォートを避けるために、セッションに引用符を出荷し保存します。カートやアドレスが変更された場合は、引用符をのみ再引用符で囲まれます。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_catalog_limit</key>
+    <value><![CDATA[ページごとのデフォルト・アイテム（店頭）： <br/><span class="help">店頭項目がページごとに表示されているどのように多くのセット（製品、カテゴリ、など）</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_limit</key>
+    <value><![CDATA[ページごとのデフォルトのアイテム（管理者）： <br/><span class="help">グリッド（受注、顧客、など）を一覧表示でページごとに表示されているどのように多くの管理項目を設定します</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_bestseller_limit</key>
+    <value><![CDATA[ベストセラーブロック内のアイテムの数]]></value>
+  </definition>
+  <definition>
+    <key>entry_featured_limit</key>
+    <value><![CDATA[注目ブロック内のアイテムの数]]></value>
+  </definition>
+  <definition>
+    <key>entry_latest_limit</key>
+    <value><![CDATA[最新のブロック内のアイテムの数]]></value>
+  </definition>
+  <definition>
+    <key>entry_special_limit</key>
+    <value><![CDATA[特殊ブロック内のアイテムの数]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_weight</key>
+    <value><![CDATA[カートページに表示重量： <br/><span class="help">カートのページでカートの重量を表示します</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_reviews</key>
+    <value><![CDATA[：レビューを許可<br/><span class="help">/有効既存件の新しいレビューの入力と表示を無効にします</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_maintenance</key>
+    <value><![CDATA[メンテナンスモード： <br/><span class="help">あなたの店をブラウズから顧客を禁止します。彼らは代わりにメンテナンスメッセージが表示されます。管理者としてログインしている場合は、通常通り店が表示されます。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_voicecontrol</key>
+    <value><![CDATA[音声コントロール： <br/><span class="help">特徴と音声コマンドを有効にするには管理者の音声コントロールを有効にします。現在のところ、Chromeバージョン25以降でサポートされています。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_help_links</key>
+    <value><![CDATA[ヘルプリンク： <br/><span class="help">あなたは、ヘルプアイコンとAbanteCartサイトへのリンクを参照してください。これは、機能とその使用方法について学習するのに役立ちます。ユーザーを進められ、これらのヘルプアイコンを表示したくない場合は、無効にすることができます。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_show_tree_data</key>
+    <value><![CDATA[ツリーグリッドを有効にする： <br/><span class="help">1つのグリッド・リストに親/子のタイプを表示するには、adminグリッドを有効にします。注：ページネーションとマルチアクションは、これらのグリッドが無効になっています</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_ajax</key>
+    <value><![CDATA[同じページカートに入れる： <br/><span class="help">これは、AJAXは、カート機能を追加できるようになります。商品は、カートのページにリダイレクトすることなく、カートに追加することができます</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_width</key>
+    <value><![CDATA[店先サイト幅： <br/><span class="help">例：100％または1000px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_width</key>
+    <value><![CDATA[管理サイトの幅： <br/><span class="help">例：100％または1000px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_maximum</key>
+    <value><![CDATA[許容される最大受注量： <br/><span class="help">大量注文サブ合計量の防止のチェックアウト。 0 = NO LIMIT</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_minimum</key>
+    <value><![CDATA[最小注文量： <br/><span class="help">オーダサブ合計が設定された最小量に達していない場合防ぎチェックアウト。 0 = NO MINIMUM</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_system_check</key>
+    <value><![CDATA[システムチェック： <br/><span class="help">あなたはAbanteCartの機能に関してでシステムの状態を確認したい場合は、この設定を有効にします。 AbanteCartを行うシステムの問題は、管理者には表示メッセージとして報告されます。</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[新店舗]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[警告：設定を変更する権限がありません！]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[ログイン名だけと5〜64文字の英数字でなければなりません！]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[このログイン名は使用できません。別のログイン名をお試しください！]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[店の名前は、2〜32文字でなければなりません！]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[ストアURLが必要！]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[タイトルは2と32文字の間でなければなりません！]]></value>
+  </definition>
+  <definition>
+    <key>error_owner</key>
+    <value><![CDATA[店のオーナーは、2〜64文字の間でなければなりません！]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[ストアアドレスは10と256文字の間でなければなりません！]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Eメールアドレスは有効ではないようです！]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[電話は2と32文字の間でなければなりません！]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[商品画像親指サイズの寸法が必要！]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[商品画像ポップアップサイズ寸法が必要！]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[カテゴリ一覧サイズ寸法が必要！]]></value>
+  </definition>
+  <definition>
+    <key>error_image_manufacturer</key>
+    <value><![CDATA[ブランドアイコン一覧サイズ寸法が必要！]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[商品リストサイズ寸法が必要！]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[追加の商品画像サイズの寸法は必要！]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[関連商品画像サイズの寸法が必要！]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[カート画像サイズの大きさが必要！]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[グリッド・画像サイズの大きさが必要！]]></value>
+  </definition>
+  <definition>
+    <key>error_error_filename</key>
+    <value><![CDATA[エラーログファイル名が必要です！]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[必要なデータが入力されていません。フィールドエラーをチェック！]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded_image</key>
+    <value><![CDATA[アップロードされたファイルは、〜イメージまたは壊れていないです！]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[制限が必要！]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[ストアフロント]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[管理者]]></value>
+  </definition>
+  <definition>
+    <key>error_mail</key>
+    <value><![CDATA[SMTPプロトコルのために必要なフィールドを記入してください！]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_sort_order_asc</key>
+    <value><![CDATA[製品のソート順ロー&gt;高い]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[Z  - 名前]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[名前Z  -  A]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_asc</key>
+    <value><![CDATA[低価格&gt;高い]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_desc</key>
+    <value><![CDATA[高価格&gt;ロー]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_asc</key>
+    <value><![CDATA[評価最低]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_desc</key>
+    <value><![CDATA[最高の格付け]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[オールド日&gt;新しい]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[新日&gt;古い]]></value>
+  </definition>
+  <definition>
+    <key>entry_product_default_sort_order</key>
+    <value><![CDATA[デフォルトとしてソート製品：]]></value>
+  </definition>
+  <definition>
+    <key>entry_zero_customer_balance</key>
+    <value><![CDATA[ショーゼロカスタマー・バランス： <br/><span class="help">注：顧客の口座残高が0であればバランスメッセージの許可/禁止の表示を有効にします</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_tax_estimate</key>
+    <value><![CDATA[配送料金と税金の見積もり： <br/><span class="help">の顧客がショッピングカートに迅速に出荷し、税金の見積もりを取得することを許可します。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon_on_cart_page</key>
+    <value><![CDATA[ショッピングカートページ上のクーポン： <br/><span class="help">の顧客がクーポンコードを入力することを許可すると、ショッピングカートに割引を参照してください。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_google_analytics</key>
+    <value><![CDATA[Google Analyticsのアカウント番号： <br/><span class="help">あなたの追加<a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">のGoogle Analyticsアカウント番号を</a>サイト活動の追跡を有効にします。これはまた、eコマース活動追跡を可能にします。あなたはあなたのウェブサイトのプロファイル設定ページにグーグルでeコマーストラッキングを有効にする必要があります</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[セキュアストアのURL： <br/><span class="help">あなたのストアに完全なSSLのURL（HTTPS）を含めます。最後に「/」を追加してください。例：https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[セキュアなURLが必要です！]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_email_activation</key>
+    <value><![CDATA[新規のお客様にEメールでアクティベーション： <br/><span class="help">自分のアカウントが電子メールを介して送信されたアクティベーションリンクによって確認されるまで、新しい顧客がログインしないようにしてください。これが機能するためには、OFFに設定されている「新規のお客様は承認」を確認してください。</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_clone_template</key>
+    <value><![CDATA[AbanteCart開発者ツールを使用してクローンのテンプレート]]></value>
+  </definition>
+  <definition>
+    <key>text_set_template</key>
+    <value><![CDATA[店頭のためにこのテンプレートを設定します]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_status</key>
+    <value><![CDATA[店頭埋め込みを有効にします：]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_click_action</key>
+    <value><![CDATA[埋め込みクリックアクション：]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_modal</key>
+    <value><![CDATA[同じページモーダルダイアログ]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_new_window</key>
+    <value><![CDATA[新しいタブで新しいページを開きます。]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_same_window</key>
+    <value><![CDATA[同じウィンドウで新しいページを開きます。]]></value>
+  </definition>
+  <definition>
+    <key>entry_account_create_captcha</key>
+    <value><![CDATA[アカウントのフォームを作成する上でキャプチャ： <br/><span class="help">人の検証キャプチャを有効にすると防止、スパム/ロボットアカウントの作成</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_site_key</key>
+    <value><![CDATA[GoogleのreCAPTCHAのサイトキー： <br/><span class="help">追加<a href="https://www.google.com/recaptcha" target="_blank">GoogleのreCAPTCHAのv2を</a>よりよくキャプチャエントリにあなたの訪問者を助けるために。あなたがreCAPTCHAのサイト/秘密鍵を有効にすると、GoogleのreCAPTCHAのv2は代わりにデフォルトAbanteCartのキャプチャ画像のアクティブ化されます</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_secret_key</key>
+    <value><![CDATA[GoogleのreCAPTCHAの秘密鍵は： <br/><span class="help">追加<a href="https://www.google.com/recaptcha" target="_blank">GoogleのreCAPTCHAのv2を</a>よりよくキャプチャエントリにあなたの訪問者を助けるために。あなたがreCAPTCHAのサイト/秘密鍵を有効にすると、GoogleのreCAPTCHAのv2は代わりにデフォルトAbanteCartのキャプチャ画像のアクティブ化されます</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_php_exceed</key>
+    <value><![CDATA[この値は、（&lt;=〜）〜あなたのphp.iniディレクティブを超えることはできません。]]></value>
+  </definition>
+  <definition>
+    <key>entry_start_order_id</key>
+    <value><![CDATA[受注開始番号： <br/><span class="help">受注から開始する開始番号を設定します。</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_start_order_id</key>
+    <value><![CDATA[受注開始番号は数値でなければなりません！]]></value>
+  </definition>
+  <definition>
+    <key>error_starting_invoice_id</key>
+    <value><![CDATA[請求書開始番号は数値でなければなりません！]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_order_days</key>
+    <value><![CDATA[不完全な注文の有効期限： <br/><br/><span class="help">この値は、不完全な注文が削除される前に、日中の時間間隔を制御します。空の値は、注文が削除することはないことを意味します。</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_expire_order_days</key>
+    <value><![CDATA[不完全な注文の有効期限の値が数値でなければなりません！]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront</key>
+    <value><![CDATA[店先]]></value>
+  </definition>
+  <definition>
+    <key>text_im_driver</key>
+    <value><![CDATA[ドライバ]]></value>
+  </definition>
+  <definition>
+    <key>text_im_protocol</key>
+    <value><![CDATA[IMプロトコル]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver</key>
+    <value><![CDATA[SMSプロバイダ]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver_tooltip</key>
+    <value><![CDATA[SMSサービスプロバイダのための拡張機能を選択]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_status_tooltip</key>
+    <value><![CDATA[顧客のためのSMSを有効にします]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_status_tooltip</key>
+    <value><![CDATA[管理者のためのSMSを有効にします]]></value>
+  </definition>
+  <definition>
+    <key>text_no_driver</key>
+    <value><![CDATA[IMドライバは見つかりませんでしたなし]]></value>
+  </definition>
+  <definition>
+    <key>text_im_settings_attention</key>
+    <value><![CDATA[これらの設定は、店頭および管理におけるAbanteCartイベント時に自動的に送信されたインスタントメッセージのためのものです。]]></value>
+  </definition>
+  <definition>
+    <key>entry_html_cache</key>
+    <value><![CDATA[HTMLキャッシュ： <br/><span class="help">あなたのページのためのより良い速度を得るためにキャッシュする有効なHTMLページとブロック。これは、システム/ config.phpファイルで有効になって通常のデータキャッシュに追加のキャッシングです</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_task_api_key</key>
+    <value><![CDATA[タスクAPIキー： <br/><span class="help">これはAbanteCartは/task.phpファイルブラウザからスケジュールのプロセスを実行することを可能にする秘密鍵です。設定されていない場合、タスクは、ブラウザを介して実行されません。 <br/>注：このAPIキーは、タスクのコマンドラインを実行する必要はありません。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_duplicate_contact_us</key>
+    <value><![CDATA[メッセージへの連絡先お問い合わせを複製]]></value>
+  </definition>
+</definitions>

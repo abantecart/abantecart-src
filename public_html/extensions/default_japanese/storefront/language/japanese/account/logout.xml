@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[アカウントログアウト]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p>あなたは、あなたのアカウントをログオフされています。コンピュータを残しても安全です。 </p><p>ショッピングカートは、あなたのアカウントに再度ログインするたびにその中のアイテムが復元され、保存されています。 </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[アカウント]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[ログアウト]]></value>
+  </definition>
+</definitions>

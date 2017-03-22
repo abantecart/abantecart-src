@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[〜 - 登録ありがとうございます]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[ようこそと〜でのご登録をお願い致します！]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[あなたのアカウントが作成されました、あなたは私達のウェブサイトを訪問するか、次のURLでそれにアクセスすることができます。]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[あなたがログインする前にアカウントは承認されなければなりません。承認されたら、私たちのウェブサイトを訪問するか、次のURLでメールアドレスとパスワードを使用してログインすることができます。]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[私たちはあなたのアカウントをアクティブにする前に最後のステップは、あなたの登録を完了するために注意しなければなりません。 <br/> 
+あなたが登録メンバーになるには、この最後のステップを完了する必要があります。 〜アカウントを有効にするには次のリンクをクリックしてください。]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[ログインすると、あなたは、過去の注文を見直し印刷請求書とアカウント情報を編集するなど、他のサービスにアクセスすることができます。]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[ありがとうございました、]]></value>
+  </definition>
+</definitions>

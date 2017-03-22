@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[メディアリソースライブラリマネージャ]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[最新追加されたリソース]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[リソースタイプ]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[キーリソースタイプ<br/><span class="help">このリソースタイプのキー/名前の値を変更することはできません</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[リソースディレクトリ<br/><span class="help">このタイプのリソースを配置するディレクトリ。変更した場合、既存のリソースはacceccibleされず、新しいディレクトリにコピーする必要があります！</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[デフォルトのアイコン<br/><span class="help">アイコン画像は、リソースの一覧に表示される（所在地：/画像/ ...）。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[ファイル拡張子可<br/><span class="help">このリソースタイプに許可されたファイル拡張子のリストに正規表現</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：あなたはリソース・タイプを更新しました！]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[エラー：不足しているリソースタイプのID！]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[エラー：リソースタイプ名は、2と40 charctersの間であることが必要です]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[エラー：リソースタイプディレクトリには、2と64 charctersの間であることが必要です]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[エラー：リソースの種類のアイコンが2と64 charctersの間であることが必要です]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[エラー：リソースタイプのファイルextenionsの正規表現は、2と40 charctersの間であることが必要です]]></value>
+  </definition>
+</definitions>

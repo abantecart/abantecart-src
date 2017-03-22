@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[在庫ステータス]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[在庫状況]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：あなたは在庫ステータスを変更しました！]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[在庫状況の名前]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[アクション]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[在庫状況名：]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[警告：在庫の彫像を変更する権限がありません！]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[在庫状況の名前は2〜32文字でなければなりません！]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[警告：それは現在〜製品に割り当てられているように、この在庫状況は削除できません！]]></value>
+  </definition>
+</definitions>

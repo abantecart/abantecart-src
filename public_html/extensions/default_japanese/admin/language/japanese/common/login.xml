@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[管理]]></value>
+  </definition>
+  <definition>
+    <key>text_heading</key>
+    <value><![CDATA[管理]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[ログイン情報を入力してください。]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[ユーザー名：]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[パスワード：]]></value>
+  </definition>
+  <definition>
+    <key>entry_forgot_password</key>
+    <value><![CDATA[パスワードをお忘れですか？]]></value>
+  </definition>
+  <definition>
+    <key>button_login</key>
+    <value><![CDATA[ログイン]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[ユーザー名および/またはパスワードには一致しません。]]></value>
+  </definition>
+  <definition>
+    <key>error_token</key>
+    <value><![CDATA[無効なトークンセッション。もう一度ログインしてください。]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message</key>
+    <value><![CDATA[IPからの管理の試みに失敗したログイン：]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message_text</key>
+    <value><![CDATA[与えられたユーザのログイン：]]></value>
+  </definition>
+</definitions>

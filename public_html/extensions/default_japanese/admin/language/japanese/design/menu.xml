@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[メニュー]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：あなたは、メニューを変更しました！]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_id</key>
+    <value><![CDATA[一意のID]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_icon</key>
+    <value><![CDATA[アイコン]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_text</key>
+    <value><![CDATA[テキスト]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_url</key>
+    <value><![CDATA[リンク<br/><span class="help">//またはhttps：外部リンクの場合は、httpを追加//初めに</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_parent_id</key>
+    <value><![CDATA[親]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[ソート順序]]></value>
+  </definition>
+  <definition>
+    <key>entry_link_type</key>
+    <value><![CDATA[リンク型]]></value>
+  </definition>
+  <definition>
+    <key>text_select_parent_id</key>
+    <value><![CDATA[- ルートメニュー -]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[フィールドは空にすることはできません！]]></value>
+  </definition>
+  <definition>
+    <key>error_non_unique</key>
+    <value><![CDATA[アイテムID一意ではありません！]]></value>
+  </definition>
+  <definition>
+    <key>error_non_ascii</key>
+    <value><![CDATA[メニューIDフィールドに許可される英数字のみ！]]></value>
+  </definition>
+  <definition>
+    <key>text_category_link_type</key>
+    <value><![CDATA[カテゴリページ]]></value>
+  </definition>
+  <definition>
+    <key>text_content_link_type</key>
+    <value><![CDATA[コンテンツページ]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_link_type</key>
+    <value><![CDATA[カスタムリンクまたはURL]]></value>
+  </definition>
+</definitions>

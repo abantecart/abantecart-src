@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[〜 - パスワードのリセット]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[パスワードのリセットが〜から要求されました。]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[以下のパスワードのクリックリンクをリセットするには：]]></value>
+  </definition>
+  <definition>
+    <key>text_password_reset</key>
+    <value><![CDATA[パスワードが正常に〜にリセットされました。]]></value>
+  </definition>
+  <definition>
+    <key>text_new_password</key>
+    <value><![CDATA[以下に新しいパスワードを入力します。]]></value>
+  </definition>
+  <definition>
+    <key>error_reset_token</key>
+    <value><![CDATA[パスワード要求のための不正なリンク。 1より多くの時間をリセットして、最新の電子メールからのリンクを使用してみてください。]]></value>
+  </definition>
+</definitions>

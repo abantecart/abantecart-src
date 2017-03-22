@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[バックアップ/リストア/ロード]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[ダウンロードバックアップ]]></value>
+  </definition>
+  <definition>
+    <key>text_success_backup</key>
+    <value><![CDATA[成功：あなたは正常にバックアップファイルを作成しました！]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：あなたはあなたのデータベースを正常にインポートしました！]]></value>
+  </definition>
+  <definition>
+    <key>text_success_xml</key>
+    <value><![CDATA[成功：あなたは、XMLを正常にインポートしました！]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore</key>
+    <value><![CDATA[SQLまたはXMLファイルから復元します。]]></value>
+  </definition>
+  <definition>
+    <key>entry_tables</key>
+    <value><![CDATA[バックアップテーブル：]]></value>
+  </definition>
+  <definition>
+    <key>entry_loadxml</key>
+    <value><![CDATA[ロードXMLファイル：]]></value>
+  </definition>
+  <definition>
+    <key>tab_backup</key>
+    <value><![CDATA[バックアップ]]></value>
+  </definition>
+  <definition>
+    <key>tab_restore</key>
+    <value><![CDATA[リストア]]></value>
+  </definition>
+  <definition>
+    <key>tab_loadxml</key>
+    <value><![CDATA[レイアウトとデータセットのロードXML]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[警告：あなたはバックアップを変更する権限がありません！]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[警告：バックアップまたはインポートしたいものを設定してください！]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[警告：アップロードしたファイルが空だったり、間違ったファイルタイプを持っていました！]]></value>
+  </definition>
+  <definition>
+    <key>error_upload</key>
+    <value><![CDATA[警告：ファイルがアップロードされませんでした。 php.iniファイルのpost_max_sizeのかfile_uploadディレクティブを確認してください。]]></value>
+  </definition>
+  <definition>
+    <key>error_xml</key>
+    <value><![CDATA[警告：アップロードしたファイルをXMLとしてロードされていません！詳細については、ログ・ファイルを参照してください]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_code</key>
+    <value><![CDATA[バックアップコード（〜） <br/><span class="help">キャッシュなど、ログファイル、画像、リソースなどの動的なファイルを除外コードファイルとサブディレクトリ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_content</key>
+    <value><![CDATA[バックアップ内容（〜） <br/><span class="help">、画像、ダウンロード、資源などのような動的ファイルとサブディレクトリ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_compress_backup</key>
+    <value><![CDATA[〜バックアップディレクトリを圧縮？ <br/><span class="help">* .tar.gzのが作成されますアーカイブ。 <br/>注：それは長い時間がかかるためにできます。そうでなければ、あなたは〜の圧縮を無効にして、フォルダにバックアップを見つけることができます</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_now</key>
+    <value><![CDATA[今すぐバックアップ]]></value>
+  </definition>
+  <definition>
+    <key>button_load</key>
+    <value><![CDATA[負荷]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_schedule</key>
+    <value><![CDATA[バックアップのスケジュール]]></value>
+  </definition>
+  <definition>
+    <key>text_success_scheduled</key>
+    <value><![CDATA[成功：あなたがスケジュールされたバックアップタスクを正常に作成しました！ <a href="%s">詳細を見る</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_fail_note</key>
+    <value><![CDATA[注：このプロセスの実行は、あなたのAbanteCartデータサイズだけでなく、あなたのサーバーの仮想メモリのサイズによって異なります。プロセスはエラーで終了した場合、ディレクトリ〜パーミッションが-rw--RW RWにして設定することが確認<a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[PHPメモリの設定]</a> 。プロセスがまだ失敗する場合は、手動でメモリの設定または実行バックアップを増やします。]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_file</key>
+    <value><![CDATA[バックアップファイルをダウンロードするにはご覧ください<a href="#admin#rt=tool/install_upgrade_history">史をインストール/アップグレード</a>]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_dir</key>
+    <value><![CDATA[バックアップファイルとディレクトリは〜であります]]></value>
+  </definition>
+</definitions>

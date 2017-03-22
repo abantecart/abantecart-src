@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[特別オファー]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[一覧表示するための特別なオファー製品がありません。]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[〜5つ星のうち！]]></value>
+  </definition>
+  <definition>
+    <key>text_sort</key>
+    <value><![CDATA[並び替え：]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[デフォルト]]></value>
+  </definition>
+  <definition>
+    <key>text_name_asc</key>
+    <value><![CDATA[Z  - 名前]]></value>
+  </definition>
+  <definition>
+    <key>text_name_desc</key>
+    <value><![CDATA[名前Z  -  A]]></value>
+  </definition>
+  <definition>
+    <key>text_price_asc</key>
+    <value><![CDATA[低価格&gt;高い]]></value>
+  </definition>
+  <definition>
+    <key>text_price_desc</key>
+    <value><![CDATA[高価格&gt;ロー]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_asc</key>
+    <value><![CDATA[評価最低]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_desc</key>
+    <value><![CDATA[最高の格付け]]></value>
+  </definition>
+</definitions>

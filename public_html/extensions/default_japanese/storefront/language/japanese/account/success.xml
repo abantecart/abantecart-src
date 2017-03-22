@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[あなたのアカウントが作成されました！]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p>おめでとう！新しいアカウントは正常に作成されました！ </p><p>あなたは今、私達とのあなたのオンラインショッピング体験を向上させるためにメンバーの権限を利用することができます。 </p><p>あなたがこのオンラインショップの操作に関するご質問がある場合は、店のオーナーにメールしてください。 </p><p>確認が提供されるメールアドレスに送信されてきました。あなたが時間内にそれを受け取っていない場合は、してください<a href="%s">お問い合わせください</a> 。 </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[<p> 〜に登録していただきありがとうございます！ </p><p>アカウントが店のオーナーによって活性化された後、あなたは電子メールで通知されます。 </p><p>あなたがこのオンラインショップの操作に関するご質問がありましたら、お願い<a href="%s">店のオーナーに連絡してください</a> 。 </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[<p> 〜に登録していただきありがとうございます！ </p><p>あなたは、あなたのアカウント起動指示を電子メールで通知されます。あなたは、あなたのアカウントをアクティブにするには、電子メールに記載されているリンクをクリックする必要があります。あなたはメールが届かない場合は、迷惑フォルダや迷惑メールフォルダに確認してください。 </p><p>あなたがこのオンラインショップの操作に関するご質問がありましたら、お願い<a href="%s">店のオーナーに連絡してください</a> 。 </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[アカウント]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[エラーログ]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：あなたは正常にエラーログをクリアしました！]]></value>
+  </definition>
+  <definition>
+    <key>text_file_tail</key>
+    <value><![CDATA[ログファイルのサイズが大きいため、データの最後の500KBはここで見ることができます。 
+完全なログを表示するには、直接サーバーからそれを得ます。 
+パス：]]></value>
+  </definition>
+</definitions>

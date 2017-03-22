@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[レポート購入された商品]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[商品名]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[モデル]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[量]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[合計]]></value>
+  </definition>
+</definitions>

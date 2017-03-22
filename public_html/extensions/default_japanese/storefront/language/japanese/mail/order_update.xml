@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[〜 - ご注文の更新〜]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[オーダーID：]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[日付は順序：]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[ご注文は、以下の状態に更新されました：]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[ご注文のコメントは以下のとおりです。]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[下記のリンクをご注文のクリックを表示するには：]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[ご不明な点がございましたら、このメールに返信してください。]]></value>
+  </definition>
+</definitions>

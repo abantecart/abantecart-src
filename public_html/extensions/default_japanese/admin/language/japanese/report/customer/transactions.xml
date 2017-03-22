@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[顧客取引]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_date</key>
+    <value><![CDATA[取引日]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[顧客名]]></value>
+  </definition>
+  <definition>
+    <key>column_created_by</key>
+    <value><![CDATA[によって作成された]]></value>
+  </definition>
+  <definition>
+    <key>column_debit</key>
+    <value><![CDATA[借方]]></value>
+  </definition>
+  <definition>
+    <key>column_credit</key>
+    <value><![CDATA[クレジット]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_type</key>
+    <value><![CDATA[取引形態]]></value>
+  </definition>
+</definitions>

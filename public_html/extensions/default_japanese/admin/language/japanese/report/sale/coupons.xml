@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[割引のレポート]]></value>
+  </definition>
+  <definition>
+    <key>column_coupon_name</key>
+    <value><![CDATA[割引/クーポン名前]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[コード]]></value>
+  </definition>
+  <definition>
+    <key>column_orders</key>
+    <value><![CDATA[第受注]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[合計]]></value>
+  </definition>
+  <definition>
+    <key>column_discount_total</key>
+    <value><![CDATA[総割引]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[日付を起動します。]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[日付の終了：]]></value>
+  </definition>
+</definitions>

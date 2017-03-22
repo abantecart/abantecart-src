@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[配送に関する情報]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[バスケット]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[運送]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_to</key>
+    <value><![CDATA[あなたはに配信されるアイテムをしたいと思い、あなたのアドレス帳からお選びください。]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[お届け先の住所]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[配送方法]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[このために使用することが好ましい配送方法を選択してください。]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[ご注文についてコメントを追加]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[エラー：配送方法が必要です！]]></value>
+  </definition>
+  <definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[エラー：配送のオプションが用意されていません。してください<a href="index.php?rt=content/contact">私達に連絡して</a>支援を！]]></value>
+  </definition>
+</definitions>

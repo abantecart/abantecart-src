@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[テンプレートマネージャー]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：あなたは新しい店頭テンプレートを設定しています！]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront_templates</key>
+    <value><![CDATA[利用可能なストアフロントテンプレート]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_extension</key>
+    <value><![CDATA[拡張設定]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[エラー：あなたの要求に必要なパラメータがありません！]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[警告：テンプレートを変更する権限がありません！]]></value>
+  </definition>
+</definitions>

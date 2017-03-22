@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[アクセス拒否！]]></value>
+  </definition>
+  <definition>
+    <key>text_permission</key>
+    <value><![CDATA[あなたがこのページにアクセスする権限を持っていない、あなたのシステム管理者を参照してください。]]></value>
+  </definition>
+</definitions>

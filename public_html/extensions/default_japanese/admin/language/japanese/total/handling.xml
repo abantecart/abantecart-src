@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[手数料]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[手数料]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[注文の合計]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：あなたは全体の手数料を更新しました！]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[ご注文合計： <span class="help">最低注文金額は、手数料を適用するために到達します。顧客の注文の合計がこの金額を超える場合は、feee取り扱いが適用されることはありません。この値は、支払い特定の設定で上書きされます。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_placeholder</key>
+    <value><![CDATA[注文金額]]></value>
+  </definition>
+  <definition>
+    <key>entry_fee</key>
+    <value><![CDATA[料金： <span class="help">最低額の条件が満たされない場合料金は合計注文に追加します。この金額は支払い、特定の設定によって上書きされます</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_fee</key>
+    <value><![CDATA[料金： <span class="help">料金は、最小サブ総量の条件が満たされない場合、全順序に追加します。この量は、メイン料金設定を上書き</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[お支払い方法： <span class="help">あなたが料金を追加する必要があり、特定の支払いを選択します。支払いが顧客によって使用されている場合、これらの設定は、メインの設定を上書きします。</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_subtotal</key>
+    <value><![CDATA[小計をオーダー： <span class="help">最小注文サブ総量は手数料を適用するために到達します。これは、メイン設定を上書きします</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[税クラス： <span class="help">あなたは上のトップ手数料の適用される税金が必要な場合に選択します</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[状態：]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[ソート順：]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[計算順序：]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[警告：あなたは全体の手数料を変更する権限がありません！]]></value>
+  </definition>
+  <definition>
+    <key>error_number</key>
+    <value><![CDATA[警告：注文合計および取扱手数料は数字でなければなりません！]]></value>
+  </definition>
+</definitions>

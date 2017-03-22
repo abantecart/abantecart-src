@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[通知とニュースレター]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[アカウント]]></value>
+  </definition>
+  <definition>
+    <key>text_notifications</key>
+    <value><![CDATA[お知らせ]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：あなたの通知設定が正常に更新されました！]]></value>
+  </definition>
+  <definition>
+    <key>text_sendpoint</key>
+    <value><![CDATA[お知らせ]]></value>
+  </definition>
+</definitions>

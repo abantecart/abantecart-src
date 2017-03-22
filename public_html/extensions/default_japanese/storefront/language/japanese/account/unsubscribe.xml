@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[あなたは登録を解除されました！]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[あなたは電子メール通信から登録を解除されています。]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[アカウント]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功]]></value>
+  </definition>
+</definitions>

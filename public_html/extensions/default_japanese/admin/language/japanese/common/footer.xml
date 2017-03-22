@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_footer_left</key>
+    <value><![CDATA[AbanteCartはBelavierコマースLLCの商標です。 <br/>著作権&copy; 2009  - 〜すべての権利予約]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[<a href="http://www.abantecart.com" target="_blank">AbanteCart</a>バージョン]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[バランス]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[バランス]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[注文の合計]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[成功：あなたはトータルバランスを変更しています！]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[状態：]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[ソート順：]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[計算順序：]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[警告：あなたは全体のバランスを変更する権限がありません！]]></value>
+  </definition>
+</definitions>

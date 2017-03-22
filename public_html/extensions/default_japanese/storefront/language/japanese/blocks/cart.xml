@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[ショッピングカート]]></value>
+  </definition>
+  <definition>
+    <key>text_subtotal</key>
+    <value><![CDATA[小計：]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[0アイテム]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[確認してください？]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[削除します]]></value>
+  </definition>
+  <definition>
+    <key>text_view</key>
+    <value><![CDATA[かごの中身を見る]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[チェックアウト]]></value>
+  </definition>
+  <definition>
+    <key>text_items</key>
+    <value><![CDATA[アイテム]]></value>
+  </definition>
+</definitions>
