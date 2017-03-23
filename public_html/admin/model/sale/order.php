@@ -96,6 +96,7 @@ class ModelSaleOrder extends Model{
 										product_id = '" . (int)$product['product_id'] . "',
 										name = '" . $this->db->escape($product_query->row['name']) . "',
 										model = '" . $this->db->escape($product_query->row['model']) . "',
+										sku = '" . $this->db->escape($product_query->row['sku']) . "',
 										price = '" . $this->db->escape(preformatFloat($product['price'], $this->language->get('decimal_point'))) . "',
 										total = '" . $this->db->escape(preformatFloat($product['total'], $this->language->get('decimal_point'))) . "',
 										quantity = '" . $this->db->escape($product['quantity']) . "'");
@@ -244,6 +245,7 @@ class ModelSaleOrder extends Model{
 								product_id = '" . (int)$product['product_id'] . "',
 								name = '" . $this->db->escape($product_query->row['name']) . "',
 								model = '" . $this->db->escape($product_query->row['model']) . "',
+								sku = '" . $this->db->escape($product_query->row['sku']) . "',
 								price = '" . $this->db->escape((preformatFloat($product['price'], $this->language->get('decimal_point')) / $order['value'])) . "',
 								total = '" . $this->db->escape((preformatFloat($product['total'], $this->language->get('decimal_point')) / $order['value'])) . "',
 								quantity = '" . $this->db->escape($product['quantity']) . "'");
@@ -353,6 +355,7 @@ class ModelSaleOrder extends Model{
 								product_id = '" . (int)$product_id . "',
 								name = '" . $this->db->escape($product_query->row['name']) . "',
 								model = '" . $this->db->escape($product_query->row['model']) . "',
+								sku = '" . $this->db->escape($product_query->row['sku']) . "',
 								price = '" . $this->db->escape((preformatFloat($product['price'], $this->language->get('decimal_point')) / $order_info['value'])) . "',
 								total = '" . $this->db->escape((preformatFloat($product['total'], $this->language->get('decimal_point')) / $order_info['value'])) . "',
 								quantity = '" . (int)$product['quantity'] . "'");
@@ -451,6 +454,7 @@ class ModelSaleOrder extends Model{
 											`order_product_id`,
 											`product_option_value_id`,
 											`name`,
+											`sku`,
 											`value`,
 											`price`,
 											`prefix`)
@@ -458,6 +462,7 @@ class ModelSaleOrder extends Model{
 												'" . (int)$order_product_id . "',
 												'" . (int)$value . "',
 												'" . $this->db->escape($option_value_info[$arr_key]['option_name']) . "',
+												'" . $this->db->escape($option_value_info[$arr_key]['sku']) . "',
 												'" . $this->db->escape($option_value_info[$arr_key]['option_value_name']) . "',
 												'" . $this->db->escape($option_value_info[$arr_key]['price']) . "',
 												'" . $this->db->escape($option_value_info[$arr_key]['prefix']) . "')";

@@ -307,6 +307,7 @@ class AOrder{
 					'product_id' => $product['product_id'],
 					'name'       => $product['name'],
 					'model'      => $product['model'],
+					'sku'        => $product['sku'],
 					'option'     => $product['option'],
 					'download'   => $product['download'],
 					'quantity'   => $product['quantity'],

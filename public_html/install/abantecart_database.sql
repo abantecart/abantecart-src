@@ -1189,11 +1189,12 @@ CREATE TABLE `ac_order_options` (
   `order_id` int(11) NOT NULL,
   `order_product_id` int(11) NOT NULL,
   `product_option_value_id` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(255) COLLATE utf8_general_ci NOT NULL,
-  `value` text COLLATE utf8_general_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `sku` varchar(64) NOT NULL DEFAULT '',
+  `value` text NOT NULL,
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `prefix` char(1) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `settings` longtext COLLATE utf8_general_ci,
+  `prefix` char(1) NOT NULL DEFAULT '',
+  `settings` longtext,
   PRIMARY KEY (`order_option_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
@@ -1209,8 +1210,9 @@ CREATE TABLE `ac_order_products` (
   `order_product_id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_general_ci NOT NULL,
-  `model` varchar(24) COLLATE utf8_general_ci NOT NULL,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `model` varchar(24) NOT NULL DEFAULT '',
+  `sku` varchar(64) NOT NULL DEFAULT '',
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `total` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `tax` decimal(15,4) NOT NULL DEFAULT '0.0000',

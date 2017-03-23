@@ -497,50 +497,53 @@ VALUES
  (24,13,49,713,'Size','1.7 oz',72.0000,'$',NULL),
  (25,13,49,1,'Gift Wrapping','1',72.0000,'$',NULL);
 
-INSERT INTO `ac_order_products` VALUES (6,2,97,'Eye Rejuvenating Serum','GRMBC004',126.0000,126.0000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (7,2,100,'Smooth silk lip pencils','GRMBC007',10.0000,40.0000,8.5000,4,0);
-INSERT INTO `ac_order_products` VALUES (8,2,93,'Creme Precieuse Nuit 50ml','BVLG003',220.0000,220.0000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (9,3,69,'Seaweed Conditioner','SCND001',49.0000,49.0000,0.0000,1,0);
-INSERT INTO `ac_order_products` VALUES (10,3,69,'Seaweed Conditioner','SCND001',19.0000,19.0000,0.0000,1,0);
-INSERT INTO `ac_order_products` VALUES (11,3,77,'Men+Care Active Clean Shower Tool','DMBW0014',6.0000,6.0000,0.0000,1,0);
-INSERT INTO `ac_order_products` VALUES (12,3,98,'Shaving cream','GRMBC005',98.0000,98.0000,0.0000,1,0);
-INSERT INTO `ac_order_products` VALUES (13,3,62,'ck one shock for him Deodorant','601232',14.0000,14.0000,0.0000,1,0);
-INSERT INTO `ac_order_products` VALUES (14,3,66,'Total Moisture Facial Cream','556240',38.0000,38.0000,0.0000,1,0);
-INSERT INTO `ac_order_products` VALUES (15,3,54,'L\'EXTRÊME Instant Extensions Lengthening Mascara','74144',20.0000,20.0000,0.0000,1,0);
-INSERT INTO `ac_order_products` VALUES (16,4,57,'Delicate Oil-Free Powder Blush','117148',29.5000,29.5000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (17,4,67,'Flash Bronzer Body Gel','463686',29.0000,29.0000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (18,4,80,'Acqua Di Gio Pour Homme','GRM001',84.0000,84.0000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (19,4,89,'Secret Obsession Perfume','CK0012',92.0000,92.0000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (20,4,75,'Dove Men +Care Body Wash','DMBW0012',6.7000,6.7000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (21,4,78,'ck IN2U Eau De Toilette Spray for Him','Cl0001',45.0000,45.0000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (22,5,97,'Eye Rejuvenating Serum','GRMBC004',126.0000,126.0000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (23,5,61,'Color Design Eye Brightening All in One 5 Shadow &amp; Liner Palette','529071',48.0000,48.0000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (24,5,61,'Color Design Eye Brightening All in One 5 Shadow &amp; Liner Palette','529071',48.0000,96.0000,8.5000,2,0);
-INSERT INTO `ac_order_products` VALUES (25,5,60,'Nail Lacquer','112423',15.0000,15.0000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (26,5,55,'LE ROUGE ABSOLU Reshaping &amp; Replenishing LipColour SPF 15','tw152236',27.0000,27.0000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (27,5,56,'Waterproof Protective Undereye Concealer','35190',30.5000,30.5000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (28,5,51,'BeneFit Girl Meets Pearl','483857',19.0000,19.0000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (29,5,93,'Creme Precieuse Nuit 50ml','BVLG003',220.0000,220.0000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (30,5,69,'Seaweed Conditioner','SCND001',49.0000,49.0000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (31,6,84,'Armani Code Pour Femme','GRM005',30.0000,30.0000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (32,6,92,'Body Cream by Bulgari','BVLG002',57.0000,171.0000,8.5000,3,0);
-INSERT INTO `ac_order_products` VALUES (33,7,63,'Pour Homme Eau de Toilette','374622',88.0000,88.0000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (34,7,78,'ck IN2U Eau De Toilette Spray for Him','Cl0001',37.0000,74.0000,8.5000,2,0);
-INSERT INTO `ac_order_products` VALUES (35,8,54,'L\'EXTRÊME Instant Extensions Lengthening Mascara','74144',20.0000,20.0000,0.0000,1,0);
-INSERT INTO `ac_order_products` VALUES (36,8,100,'Smooth silk lip pencils','GRMBC007',10.0000,40.0000,0.0000,4,0);
-INSERT INTO `ac_order_products` VALUES (37,9,94,'Night Care Crema Nera Obsidian Mineral Complex','GRMBC001',263.0000,263.0000,0.0000,1,0);
-INSERT INTO `ac_order_products` VALUES (38,9,67,'Flash Bronzer Body Gel','463686',29.0000,29.0000,0.0000,1,0);
-INSERT INTO `ac_order_products` VALUES (39,9,91,'Jasmin Noir Body Lotion 6.8 fl oz','BVLG001',29.0000,58.0000,0.0000,2,0);
-INSERT INTO `ac_order_products` VALUES (40,10,72,'Brunette expressions Conditioner','PCND002',24.0000,24.0000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (41,10,81,'Armani Eau de Toilette Spray ','GRM002',61.0000,61.0000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (42,10,88,'ck one Summer 3.4 oz','CK0011',27.0000,27.0000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (43,10,70,'Eau Parfumee au The Vert Shampoo','522823',31.0000,31.0000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (44,11,51,'BeneFit Girl Meets Pearl','483857',19.0000,19.0000,0.0000,1,0);
-INSERT INTO `ac_order_products` VALUES (45,12,105,'Bvlgari Aqua','PRF00273',78.5000,78.5000,0.0000,1,0);
-INSERT INTO `ac_order_products` VALUES (46,12,65,'Absolue Eye Precious Cells','427847',105.0000,105.0000,8.5000,1,0);
-INSERT INTO `ac_order_products` VALUES (47,12,110,'Flora By Gucci Eau Fraiche','PRF00278',90.0000,270.0000,8.5000,3,0);
-INSERT INTO `ac_order_products` VALUES (48,12,95,'Skin Minerals For Men Cleansing Cream','GRMBC002',104.0000,0.0000,8.5000,0,0);
-INSERT INTO `ac_order_products` VALUES (49,13,104,'Calvin Klein Obsession For Women EDP Spray','PRF00271',72.0000,576.0000,8.5000,8,0);
+INSERT INTO `ac_order_products`
+(`order_product_id`, `order_id`, `product_id`, `name`, `model`, `price`, `total`, `tax`, `quantity`, `subtract`)
+VALUES
+(6,2,97,'Eye Rejuvenating Serum','GRMBC004',126.0000,126.0000,8.5000,1,0),
+(7,2,100,'Smooth silk lip pencils','GRMBC007',10.0000,40.0000,8.5000,4,0),
+(8,2,93,'Creme Precieuse Nuit 50ml','BVLG003',220.0000,220.0000,8.5000,1,0),
+(9,3,69,'Seaweed Conditioner','SCND001',49.0000,49.0000,0.0000,1,0),
+(10,3,69,'Seaweed Conditioner','SCND001',19.0000,19.0000,0.0000,1,0),
+(11,3,77,'Men+Care Active Clean Shower Tool','DMBW0014',6.0000,6.0000,0.0000,1,0),
+(12,3,98,'Shaving cream','GRMBC005',98.0000,98.0000,0.0000,1,0),
+(13,3,62,'ck one shock for him Deodorant','601232',14.0000,14.0000,0.0000,1,0),
+(14,3,66,'Total Moisture Facial Cream','556240',38.0000,38.0000,0.0000,1,0),
+(15,3,54,'L\'EXTRÊME Instant Extensions Lengthening Mascara','74144',20.0000,20.0000,0.0000,1,0),
+(16,4,57,'Delicate Oil-Free Powder Blush','117148',29.5000,29.5000,8.5000,1,0),
+(17,4,67,'Flash Bronzer Body Gel','463686',29.0000,29.0000,8.5000,1,0),
+(18,4,80,'Acqua Di Gio Pour Homme','GRM001',84.0000,84.0000,8.5000,1,0),
+(19,4,89,'Secret Obsession Perfume','CK0012',92.0000,92.0000,8.5000,1,0),
+(20,4,75,'Dove Men +Care Body Wash','DMBW0012',6.7000,6.7000,8.5000,1,0),
+(21,4,78,'ck IN2U Eau De Toilette Spray for Him','Cl0001',45.0000,45.0000,8.5000,1,0),
+(22,5,97,'Eye Rejuvenating Serum','GRMBC004',126.0000,126.0000,8.5000,1,0),
+(23,5,61,'Color Design Eye Brightening All in One 5 Shadow &amp; Liner Palette','529071',48.0000,48.0000,8.5000,1,0),
+(24,5,61,'Color Design Eye Brightening All in One 5 Shadow &amp; Liner Palette','529071',48.0000,96.0000,8.5000,2,0),
+(25,5,60,'Nail Lacquer','112423',15.0000,15.0000,8.5000,1,0),
+(26,5,55,'LE ROUGE ABSOLU Reshaping &amp; Replenishing LipColour SPF 15','tw152236',27.0000,27.0000,8.5000,1,0),
+(27,5,56,'Waterproof Protective Undereye Concealer','35190',30.5000,30.5000,8.5000,1,0),
+(28,5,51,'BeneFit Girl Meets Pearl','483857',19.0000,19.0000,8.5000,1,0),
+(29,5,93,'Creme Precieuse Nuit 50ml','BVLG003',220.0000,220.0000,8.5000,1,0),
+(30,5,69,'Seaweed Conditioner','SCND001',49.0000,49.0000,8.5000,1,0),
+(31,6,84,'Armani Code Pour Femme','GRM005',30.0000,30.0000,8.5000,1,0),
+(32,6,92,'Body Cream by Bulgari','BVLG002',57.0000,171.0000,8.5000,3,0),
+(33,7,63,'Pour Homme Eau de Toilette','374622',88.0000,88.0000,8.5000,1,0),
+(34,7,78,'ck IN2U Eau De Toilette Spray for Him','Cl0001',37.0000,74.0000,8.5000,2,0),
+(35,8,54,'L\'EXTRÊME Instant Extensions Lengthening Mascara','74144',20.0000,20.0000,0.0000,1,0),
+(36,8,100,'Smooth silk lip pencils','GRMBC007',10.0000,40.0000,0.0000,4,0),
+(37,9,94,'Night Care Crema Nera Obsidian Mineral Complex','GRMBC001',263.0000,263.0000,0.0000,1,0),
+(38,9,67,'Flash Bronzer Body Gel','463686',29.0000,29.0000,0.0000,1,0),
+(39,9,91,'Jasmin Noir Body Lotion 6.8 fl oz','BVLG001',29.0000,58.0000,0.0000,2,0),
+(40,10,72,'Brunette expressions Conditioner','PCND002',24.0000,24.0000,8.5000,1,0),
+(41,10,81,'Armani Eau de Toilette Spray ','GRM002',61.0000,61.0000,8.5000,1,0),
+(42,10,88,'ck one Summer 3.4 oz','CK0011',27.0000,27.0000,8.5000,1,0),
+(43,10,70,'Eau Parfumee au The Vert Shampoo','522823',31.0000,31.0000,8.5000,1,0),
+(44,11,51,'BeneFit Girl Meets Pearl','483857',19.0000,19.0000,0.0000,1,0),
+(45,12,105,'Bvlgari Aqua','PRF00273',78.5000,78.5000,0.0000,1,0),
+(46,12,65,'Absolue Eye Precious Cells','427847',105.0000,105.0000,8.5000,1,0),
+(47,12,110,'Flora By Gucci Eau Fraiche','PRF00278',90.0000,270.0000,8.5000,3,0),
+(48,12,95,'Skin Minerals For Men Cleansing Cream','GRMBC002',104.0000,0.0000,8.5000,0,0),
+(49,13,104,'Calvin Klein Obsession For Women EDP Spray','PRF00271',72.0000,576.0000,8.5000,8,0);
 
 --
 -- Dumping data for table `order_totals`

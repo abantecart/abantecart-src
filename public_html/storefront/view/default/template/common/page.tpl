@@ -128,6 +128,9 @@ if($scripts_bottom && is_array($scripts_bottom)) {
 
 <?php if ($google_analytics){
 	//get ecommerce tracking data from checkout page
+	/**
+	 * @see ControllerPagesCheckoutSuccess::_google_analytics()
+	 */
 	$ga_data = $this->registry->get('google_analytics_data');
 ?>
 <script>

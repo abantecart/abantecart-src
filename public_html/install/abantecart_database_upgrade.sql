@@ -17,3 +17,7 @@ VALUES (12, 1, 'Cart Page', '', '', '', '', '', now() );
 
 INSERT INTO `ac_settings` (`group`, `key`, `value`)
 VALUES ('details','config_duplicate_contact_us_to_message',1);
+
+ALTER TABLE `ac_order_products` ADD COLUMN `sku` VARCHAR(64) NOT NULL AFTER `model`;
+ALTER TABLE `ac_order_options` ADD COLUMN `sku` VARCHAR(64) NOT NULL AFTER `name`;
+

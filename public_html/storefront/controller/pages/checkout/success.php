@@ -287,8 +287,7 @@ class ControllerPagesCheckoutSuccess extends AController{
 				$ga_data['items'][] = array (
 						'id'       => (int)$order_data['order_id'],
 						'name'     => $product['name'],
-					// TODO: needs to add sku into order_products table in db
-						'sku'      => $product['model'],
+						'sku'      => $product['sku'],
 						'price'    => $product['price'],
 						'quantity' => $product['quantity']
 				);
