@@ -146,7 +146,7 @@
   </definition>
   <definition>
     <key>text_extension_pagination</key>
-    <value><![CDATA[Extension (s) {start} à {end} de {} totale]]></value>
+    <value><![CDATA[Extension (s) {start} à {end} de {total}]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>
