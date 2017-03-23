@@ -146,7 +146,7 @@
   </definition>
   <definition>
     <key>text_extension_pagination</key>
-    <value><![CDATA[ส่วนต่อขยาย (s) {} เพื่อเริ่มต้น {} สิ้นของ {รวม}]]></value>
+    <value><![CDATA[ส่วนต่อขยาย (s) {start} เพื่อเริ่มต้น {end} สิ้นของ {total}]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

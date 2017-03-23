@@ -146,7 +146,7 @@
   </definition>
   <definition>
     <key>text_extension_pagination</key>
-    <value><![CDATA[(Eke) t {start} és {end} A {} összesen]]></value>
+    <value><![CDATA[(Eke) t {start} és {end} A {pages} összesen]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

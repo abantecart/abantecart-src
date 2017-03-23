@@ -86,7 +86,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[Menampilkan {mulai} ke {end} dari {jumlah} ({} halaman Pages)]]></value>
+    <value><![CDATA[Menampilkan {start} ke {end} dari {total} ({pages} halaman Pages)]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

@@ -86,7 +86,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[Näytetään {start} ja {loppuun} of {yhteensä} ({sivua} Sivut)]]></value>
+    <value><![CDATA[Näytetään {start} ja {end} of {total} ({pages} Sivut)]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

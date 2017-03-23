@@ -86,7 +86,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[Ukazující {start} na {konci roku} {celk} ({} stránek Stránky)]]></value>
+    <value><![CDATA[Ukazující {start} na {end} {total} ({pages} stránek Stránky)]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>
