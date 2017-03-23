@@ -31,7 +31,7 @@
 
 <?php 
 /* 
-	Set $faster_browser_rendering == true; for loafing tuning. For better rendering minify and include inline css.
+	Set $faster_browser_rendering == true; for loading tuning. For better rendering minify and include inline css.
     Note: This will increase page size, but will improve HTML rendering. 
     As alternative, you can merge all CSS files in to one singe file and minify 
     Example: <link href=".../stylesheet/all.min.css" rel="stylesheet" type='text/css' />
@@ -155,23 +155,16 @@ $(document).on('click','a.call_to_order',function(){
 <?php 
 //search block form function ?>
 function search_submit () {
-
     var url = '<?php echo $search_url;?>';
-
 	var filter_keyword = $('#filter_keyword').val();
-
 	if (filter_keyword) {
 	    url += '&keyword=' + encodeURIComponent(filter_keyword);
 	}
-
 	var filter_category_id = $('#filter_category_id').attr('value');
-
 	if (filter_category_id) {
 	    url += '&category_id=' + filter_category_id;
 	}
-
 	location = url;
-
 	return false;
 }
 </script>

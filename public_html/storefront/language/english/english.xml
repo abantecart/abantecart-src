@@ -329,4 +329,8 @@
 		<key>text_click_browse_file</key>
 		<value><![CDATA[Click to browse file]]></value>
 	</definition>
+	<definition>
+		<key>text_back_on_top</key>
+		<value><![CDATA[Back to top]]></value>
+	</definition>
 </definitions>

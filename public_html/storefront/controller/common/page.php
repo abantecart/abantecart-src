@@ -52,16 +52,6 @@ class ControllerCommonPage extends AController {
 		}
 
 		$this->processTemplate('common/page.tpl');
-		
-		$col_left = false;
-		$col_right = false;
-		foreach($this->layout->blocks as $block) {
-			if($block['block_txt_id'] == 'column_left') {
-				$col_left = true;
-			} else if($block['block_txt_id'] == 'column_right') {
-				$col_right = true;
-			}
-		}
 
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
@@ -69,6 +59,16 @@ class ControllerCommonPage extends AController {
 
     public function finalize(){
         $this->extensions->hk_InitData($this,__FUNCTION__);
+
+	    $col_left = false;
+        $col_right = false;
+        foreach($this->layout->blocks as $block) {
+            if($block['block_txt_id'] == 'column_left') {
+                $col_left = true;
+            } else if($block['block_txt_id'] == 'column_right') {
+                $col_right = true;
+            }
+        }
 
         $layout_css_suffix = '';
         $columns_count= 3;
@@ -102,5 +102,4 @@ class ControllerCommonPage extends AController {
 
         parent::finalize();
     }
-
 }
