@@ -1,4 +1,9 @@
-<?php if ($error){ ?>
+<?php
+$tax_exempt = $this->customer->isTaxExempt();
+$config_tax = $this->config->get('config_tax');
+$tax_message = '';
+
+if ($error){ ?>
 	<div class="alert alert-error alert-danger">
 		<button type="button" class="close" data-dismiss="alert">&times;</button>
 		<strong><?php echo is_array($error) ? implode('<br>', $error) : $error; ?></strong>
@@ -86,7 +91,7 @@
 						?>
 						<?php
 							$tax_message = '';
-							if($this->config->get('config_tax')){
+							if($config_tax && !$tax_exempt){
 							$tax_message = '&nbsp;&nbsp;<span class="productpricesmall">'.$price_with_tax.'</span>';
 						}
 						?>
@@ -381,7 +386,10 @@
 					</div>
 				<?php } ?>
 
-				<?php if ($related_products){ ?>
+				<?php if ($related_products){
+							if($config_tax && !$tax_exempt){
+								$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
+							} ?>
 					<div class="tab-pane" id="relatedproducts">
 						<ul class="row side_prd_list">
 							<?php foreach ($related_products as $related_product){
@@ -398,10 +406,10 @@
 
 									<div class="price">
 										<?php if ($related_product['special']){ ?>
-											<span class="pricenew"><?php echo $related_product['special'] ?></span>
+											<span class="pricenew"><?php echo $related_product['special'] . $tax_message ?></span>
 											<span class="priceold"><?php echo $related_product['price'] ?></span>
 										<?php } else{ ?>
-											<span class="oneprice"><?php echo $related_product['price'] ?></span>
+											<span class="oneprice"><?php echo $related_product['price'] . $tax_message ?></span>
 										<?php } ?>
 									</div>
 								</li>

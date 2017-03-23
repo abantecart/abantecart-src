@@ -1,6 +1,8 @@
 <div class="thumbnails grid row list-inline">
 	<?php
 	$icount = 0;
+	$tax_exempt = $this->customer->isTaxExempt();
+	$config_tax = $this->config->get('config_tax');
 	foreach ($products as $product) {
 		$item = array();
 		$item['image'] = $product['thumb']['thumb_html'];
@@ -21,7 +23,7 @@
 		}
 
 		$tax_message = '';
-		if($this->config->get('config_tax')){
+		if($config_tax && !$tax_exempt){
 			$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
 		}
 
@@ -93,6 +95,8 @@
 
 <div class="thumbnails list row">
 	<?php
+	$tax_exempt = $this->customer->isTaxExempt();
+	$config_tax = $this->config->get('config_tax');
 	foreach ($products as $product) {
 		$item = array();
 		$item['image'] = $product['thumb']['thumb_html'];
@@ -106,7 +110,7 @@
 		}
 
 		$tax_message = '';
-		if($this->config->get('config_tax')){
+		if($config_tax && !$tax_exempt){
 			$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
 		}
 

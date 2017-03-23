@@ -27,6 +27,7 @@ if (!defined('DIR_CORE')){
  * @property AConfig $config
  * @property ACache $cache
  * @property ADB $db
+ * @property ACustomer $customer
  */
 final class ATax{
 	private $taxes = array ();
@@ -168,7 +169,7 @@ final class ATax{
 	 * @return float
 	 */
 	public function calculate($value, $tax_class_id, $calculate = true){
-		if (($calculate) && (isset($this->taxes[$tax_class_id]))){
+		if (!$this->customer->isTaxExempt() && ($calculate) && (isset($this->taxes[$tax_class_id]))){
 			return $value + $this->calcTotalTaxAmount($value, $tax_class_id);
 		} else{
 			//skip calculation
@@ -200,7 +201,7 @@ final class ATax{
 	 */
 	public function calcTaxAmount($amount, $tax_rate = array ()){
 		$tax_amount = 0.0;
-		if (!empty($tax_rate) && isset($tax_rate['rate'])){
+		if (!$this->customer->isTaxExempt() && !empty($tax_rate) && isset($tax_rate['rate'])){
 			//Validate tax class rules if condition present and see if applicable
 			if ($tax_rate['threshold_condition'] && is_numeric($tax_rate['threshold'])){
 				if (!$this->_compare($amount, $tax_rate['threshold'], $tax_rate['threshold_condition'])){
