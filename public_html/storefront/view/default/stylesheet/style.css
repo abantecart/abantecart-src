@@ -41,19 +41,19 @@ ul {
 }
 
 .heading1 {
-	margin-bottom: 20px;
+	margin: 10px 0 20px 0;
 	border-bottom: 1px solid #efefef;
-	margin-top: 0;
-	font-size: 34px
+	font-size: 34px;
+	text-transform: uppercase;
 }
 
 .heading2 {
-	font-size: 24px;
-	color: #00A1CB;
+	font-size: 22px;
+	color: #00a1cb;
 	font-weight: normal;
 	padding: 0;
+	font-family: inherit;
 	text-transform: uppercase;
-	font-family: 'Crete Round', serif;
 }
 
 .heading1 .subtext {
@@ -65,11 +65,10 @@ ul {
 }
 
 .heading1 .maintext {
-	font-size: 28px;
+	font-size: 24px;
 	color: #5e626b;
-	text-transform: uppercase;
 	padding: 0 14px 4px 0;
-	font-family: 'Crete Round', serif;
+	font-family: inherit;
 }
 
 .hidden {
@@ -212,11 +211,17 @@ form {
 	margin: 10px 0;
 }
 
-
 .footerlinks ul li a, .footerlinks ul li a:hover, .thumbnail .shortlinks a, .thumbnail .shortlinks a:hover, .flex-control-paging li a, .flex-control-paging li a:hover, ul.categorymenu > li > a, ul.categorymenu > li > a:hover, .dropdown-menu li > a, .dropdown-menu li > a:hover, ul.categorymenu > li > div > ul > li > a, ul.categorymenu > li > div > ul > li > a:hover, #topnav ul li a, #topnav ul li a:hover, #customernav ul li a, #customernav ul li a:hover, .thumbnail a.productcart, .thumbnail a:hover.productcart, input, input:focus, select, select:focus, textarea, textarea:focus {
 	-moz-transition: all .2s ease;
 	-webkit-transition: all .2s ease;
 	-o-transition: all .2s ease
+}
+
+#categorymenu, .breadcrumb, .jumbotron, .well{
+	background-color: #f5f5f5;
+	border: 1px solid #d7d8da;
+	border-radius: 1px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.025) inset;
 }
 
 .container-fixed {
@@ -354,8 +359,9 @@ section.row {
 
 .top-search input {
 	width: 210px;
-	border: 4px solid #F5F5F5;
-	padding: 6px;
+	border: 1px solid #d7d8da;
+	border-radius: 1px;
+	padding: 9px;
 	float: left;
 	vertical-align: middle;
 }
@@ -880,7 +886,6 @@ ul.categorymenu > li ul > li img {
 
 .thumbnails .prdocutname {
 	font-size: 14px;
-	color: #5e626b;
 	text-transform: uppercase;
 	text-align: center;
 	margin: 0 0 10px 0;
@@ -1614,8 +1619,8 @@ ul.productpagecart li {
 }
 
 h1.productname {
-	color: #00A1CB;
-	font-size: 26px;
+	color: #00a1cb;
+	font-size: 24px;
 	margin: 0 0 20px 0;
 	background: none;
 }
@@ -1636,10 +1641,6 @@ h1.productname {
 
 .productdesc .nav-tabs li a:hover {
 	color: #333
-}
-
-.productdesc .nav-tabs li.active {
-	border-bottom: 1px solid #fff;
 }
 
 .productdesc .nav-tabs li.active a {
@@ -2435,7 +2436,10 @@ label.error {
 .footersocial {
 	padding: 30px 0 40px;
 	background: #F5F5F5;
-	color: #5E626B
+	color: #5E626B;
+	border-top: 1px solid #d7d8da;
+	border-radius: 1px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.025) inset;
 }
 
 .footersocial h2 {
@@ -2763,11 +2767,12 @@ form .help-block {
 }
 
 .dropdown-menu {
-	top: 97%
+	top: 97%;
 }
 
 .nav-tabs > li > a, .nav-pills > li > a {
-	margin: 2px 5px 2px 6px
+	margin: 2px 5px 2px 6px;
+	border-radius: 1px 1px 0 0;
 }
 
 .thumbnail {
