@@ -591,7 +591,8 @@ class ControllerPagesProductProduct extends AController{
 					'special'       => $special,
 					'image'         => $image,
 					'href'          => $this->html->getSEOURL('product/product', '&product_id=' . $result['product_id'], '&encode'),
-					'add'           => $add
+					'add'           => $add,
+					'tax_class_id'  => $result['tax_class_id']
 			);
 		}
 

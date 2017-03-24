@@ -23,7 +23,7 @@
 		}
 
 		$tax_message = '';
-		if($config_tax && !$tax_exempt){
+		if(($config_tax && !$tax_exempt) xor !$product['tax_class_id']){
 			$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
 		}
 

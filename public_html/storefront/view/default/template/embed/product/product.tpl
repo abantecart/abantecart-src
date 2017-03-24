@@ -1,6 +1,7 @@
-<?php echo $head; ?>
-
-<?php if ($error) { ?>
+<?php echo $head;
+$tax_exempt = $this->customer->isTaxExempt();
+$config_tax = $this->config->get('config_tax');
+if ($error) { ?>
 	<div class="alert alert-error alert-danger">
 		<button type="button" class="close" data-dismiss="alert">&times;</button>
 		<strong><?php echo is_array($error) ? implode('<br>', $error) : $error; ?></strong>
@@ -67,15 +68,19 @@
 						<div class="productprice">
 							<?php
 
-							if ($display_price) { ?>
+							if ($display_price) {
+								$tax_message = '';
+								if(($config_tax && !$tax_exempt) xor !$tax_class_id){
+									$tax_message = '&nbsp;&nbsp;<span class="productpricesmall">'.$price_with_tax.'</span>';
+								}?>
 								<div class="productpageprice jumbotron">
 									<?php if ($special) { ?>
 										<div class="productfilneprice">
-											<span class="spiral"></span><?php echo $special; ?></div>
+											<span class="spiral"></span><?php echo $special.$tax_message; ?></div>
 										<span class="productpageoldprice"><?php echo $price; ?></span>
 									<?php } else { ?>
 										<span class="productfilneprice"></span><span
-												class="spiral"></span><?php echo $price; ?>
+												class="spiral"></span><?php echo $price.$tax_message; ?>
 									<?php } ?>
 								</div>
 							<?php }
@@ -352,27 +357,30 @@
 				<?php if ($related_products) { ?>
 					<div class="tab-pane" id="relatedproducts">
 						<ul class="row side_prd_list">
-						<?php foreach ($related_products as $related_product) {
-								$item['rating'] = ($related_product['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png') . "' alt='" . $related_product['stars'] . "' width='64' height='12' />" : '';
-								if (!$display_price) {
-									$related_product['price'] = $related_product['special'] = '';
-								}
-							?>
-								<li class="col-md-3 col-sm-4 col-xs-6 related_product">
-									<a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
-									<a class="productname"
-									   href="<?php echo $related_product['href']; ?>"><?php echo $related_product['name']; ?></a>
-									<span class="procategory"><?php echo $item['rating'] ?></span>
-
-									<div class="price">
-										<?php if ($related_product['special']) { ?>
-											<span class="pricenew"><?php echo $related_product['special'] ?></span>
-											<span class="priceold"><?php echo $related_product['price'] ?></span>
-										<?php } else { ?>
-											<span class="oneprice"><?php echo $related_product['price'] ?></span>
-										<?php } ?>
-									</div>
-								</li>
+						<?php
+						foreach ($related_products as $related_product) {
+							$item['rating'] = ($related_product['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png') . "' alt='" . $related_product['stars'] . "' width='64' height='12' />" : '';
+							if (!$display_price) {
+								$related_product['price'] = $related_product['special'] = '';
+							}
+							$tax_message = '';
+							if(($config_tax && !$tax_exempt) xor !$related_product['tax_class_id']){
+								$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
+							} ?>
+							<li class="col-md-3 col-sm-4 col-xs-6 related_product">
+								<a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
+								<a class="productname"
+								   href="<?php echo $related_product['href']; ?>"><?php echo $related_product['name']; ?></a>
+								<span class="procategory"><?php echo $item['rating'] ?></span>
+								<div class="price">
+									<?php if ($related_product['special']) { ?>
+										<span class="pricenew"><?php echo $related_product['special'] . $tax_message ?></span>
+										<span class="priceold"><?php echo $related_product['price'] ?></span>
+									<?php } else { ?>
+										<span class="oneprice"><?php echo $related_product['price'] . $tax_message ?></span>
+									<?php } ?>
+								</div>
+							</li>
 						<?php } ?>
 						</ul>
 					</div>

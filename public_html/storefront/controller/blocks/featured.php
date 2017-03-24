@@ -124,7 +124,8 @@ class ControllerBlocksfeatured extends AController {
 				'in_stock'		=> $in_stock,
 				'no_stock_text' => $no_stock_text,
 				'total_quantity'=> $total_quantity,
-				'date_added'    => $result['date_added']
+				'date_added'    => $result['date_added'],
+				'tax_class_id'  => $result['tax_class_id']
 			);
 		}
 

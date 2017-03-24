@@ -122,7 +122,8 @@ class ControllerBlocksBestSeller extends AController {
 				'track_stock' => $track_stock,
 				'in_stock'		=> $in_stock,
 				'no_stock_text' => $no_stock_text,
-				'total_quantity'=> $total_quantity			
+				'total_quantity'=> $total_quantity,
+				'tax_class_id'  => $result['tax_class_id']
 			);
 		}
 

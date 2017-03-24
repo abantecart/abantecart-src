@@ -138,7 +138,8 @@ class ControllerBlocksListingBlock extends AController {
 								'image'   		=> $result['image'],
 								'href'    		=> $this->html->getSEOURL('product/product', '&product_id=' . $result['product_id'], '&encode'),
 								'add'    		=> $add_to_cart,
-								'item_name'		=> 'product'
+								'item_name'		=> 'product',
+								'tax_class_id'  => $result['tax_class_id']
 			);
 		}
 		$data_source= array(

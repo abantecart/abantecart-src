@@ -1,13 +1,15 @@
 <div class="thumbnails list-inline">
 	<?php
 	if ($products) {
-		$tax_message = '';
-		if ($this->config->get('config_tax') && !$this->customer->isTaxExempt()){
-			$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
-		}
+		$tax_exempt = $this->customer->isTaxExempt();
+		$config_tax = $this->config->get('config_tax');
 		$icount = 0;
-
 		foreach ($products as $product) {
+			$tax_message = '';
+			if (($config_tax && !$tax_exempt) xor !$product['tax_class_id']){
+				$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
+			}
+
 			$item = array();
 			$item['image'] = $product['thumb']['thumb_html'];
 			$item['title'] = $product['name'];

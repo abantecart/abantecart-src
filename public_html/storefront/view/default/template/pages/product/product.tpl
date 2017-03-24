@@ -88,13 +88,10 @@ if ($error){ ?>
 					<div class="productprice">
 						<?php
 						if ($display_price){
-						?>
-						<?php
 							$tax_message = '';
-							if($config_tax && !$tax_exempt){
-							$tax_message = '&nbsp;&nbsp;<span class="productpricesmall">'.$price_with_tax.'</span>';
-						}
-						?>
+							if(($config_tax && !$tax_exempt) xor !$tax_class_id){
+								$tax_message = '&nbsp;&nbsp;<span class="productpricesmall">'.$price_with_tax.'</span>';
+							}?>
 						<div class="productpageprice jumbotron">
 							<?php if ($special){ ?>
 								<div class="productfilneprice">
@@ -395,18 +392,18 @@ if ($error){ ?>
 					</div>
 				<?php } ?>
 
-				<?php if ($related_products){
-							if($config_tax && !$tax_exempt){
-								$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
-							} ?>
+				<?php if ($related_products){ ?>
 					<div class="tab-pane" id="relatedproducts">
 						<ul class="row side_prd_list">
 							<?php foreach ($related_products as $related_product){
+								$tax_message = '';
+								if(($config_tax && !$tax_exempt) xor !$related_product['tax_class_id']){
+									$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
+								}
 								$item['rating'] = ($related_product['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png') . "' class='rating' alt='" . $related_product['stars'] . "' width='64' height='12' />" : '';
 								if (!$display_price){
 									$related_product['price'] = $related_product['special'] = '';
-								}
-								?>
+								}?>
 								<li class="col-md-3 col-sm-5 col-xs-6 related_product">
 									<a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
 									<a class="productname" title="<?php echo $related_product['name']; ?>"

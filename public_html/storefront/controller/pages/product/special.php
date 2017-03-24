@@ -173,7 +173,7 @@ class ControllerPagesProductSpecial extends AController {
                     'rating'  		=> $rating,
                     'stars'   		=> sprintf($this->language->get('text_stars'), $rating),
                     'price'   		=> $price,
-					'call_to_order'=> $result['call_to_order'],
+					'call_to_order' => $result['call_to_order'],
                     'options'   	=> $options,
                     'special' 		=> $special,
                     'thumb'   		=> $thumbnail,
@@ -181,10 +181,11 @@ class ControllerPagesProductSpecial extends AController {
                     'add'    		=> $add,
                     'description'	=> html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
                     'blurb'	        => $result['blurb'],
-					'track_stock' => $track_stock,
+					'track_stock'   => $track_stock,
 					'in_stock'		=> $in_stock,
 					'no_stock_text' => $no_stock_text,
 					'total_quantity'=> $total_quantity,
+					'tax_class_id'  => $result['tax_class_id']
                 );
             }
 

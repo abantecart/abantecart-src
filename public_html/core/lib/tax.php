@@ -29,16 +29,16 @@ if (!defined('DIR_CORE')){
  * @property ADB $db
  * @property ACustomer $customer
  */
-final class ATax{
-	private $taxes = array ();
+class ATax{
+	protected $taxes = array ();
 	/**
 	 * @var Registry
 	 */
-	private $registry;
+	protected $registry;
 	/**
 	 * @var ASession or customer's data
 	 */
-	private $customer_data;
+	protected $customer_data;
 
 	/**
 	 * @param $registry Registry
@@ -89,6 +89,7 @@ final class ATax{
 		$this->taxes = array ();
 		foreach ($results as $result){
 			$this->taxes[$result['tax_class_id']][] = array (
+					'tax_class_id'        => $result['tax_class_id'],
 					'rate'                => $result['rate'],
 					'rate_prefix'         => $result['rate_prefix'],
 					'threshold_condition' => $result['threshold_condition'],
@@ -177,6 +178,13 @@ final class ATax{
 		}
 	}
 
+	protected function _is_tax_rate_exempt($tax_rate_info,$customer_group_id){
+		if(in_array($customer_group_id, (array)$tax_rate_info['tax_exempt_groups'])){
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * Calculate total applicable tax amount based on the amount provided
 	 * @param float $amount
@@ -201,7 +209,11 @@ final class ATax{
 	 */
 	public function calcTaxAmount($amount, $tax_rate = array ()){
 		$tax_amount = 0.0;
-		if (!$this->customer->isTaxExempt() && !empty($tax_rate) && isset($tax_rate['rate'])){
+
+		if (!$this->customer->isTaxExempt()
+				&& !$this->_is_tax_rate_exempt($tax_rate,$this->customer->getCustomerGroupId())
+				&& !empty($tax_rate) && isset($tax_rate['rate'])
+		){
 			//Validate tax class rules if condition present and see if applicable
 			if ($tax_rate['threshold_condition'] && is_numeric($tax_rate['threshold'])){
 				if (!$this->_compare($amount, $tax_rate['threshold'], $tax_rate['threshold_condition'])){

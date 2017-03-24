@@ -272,7 +272,7 @@ class ControllerPagesProductSearch extends AController {
 				    			$in_stock = true;
 			    			}
 						}
-						
+
 						$products[] = array(
 							'product_id' => $result['product_id'],
 	            			'name'    => $result['name'],
@@ -292,6 +292,7 @@ class ControllerPagesProductSearch extends AController {
 							'in_stock'		=> $in_stock,
 							'no_stock_text' => $no_stock_text,
 							'total_quantity'=> $total_quantity,
+							'tax_class_id'  => $result['tax_class_id']
 	          			);
 	        		}
 				}
