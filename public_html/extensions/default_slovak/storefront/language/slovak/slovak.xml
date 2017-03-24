@@ -58,7 +58,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[{Start} - {end} o {celk}]]></value>
+    <value><![CDATA[{start} - {end} o {total}]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

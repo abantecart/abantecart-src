@@ -86,7 +86,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[การแสดงเริ่มต้น {} เป็น {} สิ้นของ {รวม} ({} หน้าหน้า)]]></value>
+    <value><![CDATA[การแสดงเริ่มต้น {start} เป็น {end} สิ้นของ {total} ({pages} หน้าหน้า)]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

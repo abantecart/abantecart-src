@@ -438,7 +438,7 @@
   </definition>
   <definition>
     <key>text_product_pagination</key>
-    <value><![CDATA[Product (s) {} เพื่อเริ่มต้น {} สิ้นของ {รวม}]]></value>
+    <value><![CDATA[Product (s) {start} เพื่อเริ่มต้น {end} สิ้นของ {total}]]></value>
   </definition>
   <definition>
     <key>entry_product_id</key>

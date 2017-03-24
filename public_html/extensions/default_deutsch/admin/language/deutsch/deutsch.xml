@@ -86,7 +86,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[Zeige {start} bis {end} von {total} ({Seiten} Seiten)]]></value>
+    <value><![CDATA[Zeige {start} bis {end} von {total} ({pages} Seiten)]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

@@ -438,7 +438,7 @@
   </definition>
   <definition>
     <key>text_product_pagination</key>
-    <value><![CDATA[Produkt (er) {Start} til {slutt} av {total}]]></value>
+    <value><![CDATA[Produkt(er) {start} til {end} av {total}]]></value>
   </definition>
   <definition>
     <key>entry_product_id</key>

@@ -284,10 +284,23 @@ class ControllerPagesCheckoutSuccess extends AController{
 		if ($order_data['order_products']) {
 			$ga_data['items'] = array ();
 			foreach ($order_data['order_products'] as $product) {
+				//try to get option sku for product. If not presents - take main sku from product details
+				$options = $this->model_account_order->getOrderOptions((int)$order_data['order_id'], $product['order_product_id']);
+				$sku = '';
+				foreach($options as $opt){
+					if($opt['sku']){
+						$sku = $opt['sku'];
+						break;
+					}
+				}
+				if(!$sku){
+					$sku = $product['sku'];
+				}
+
 				$ga_data['items'][] = array (
 						'id'       => (int)$order_data['order_id'],
 						'name'     => $product['name'],
-						'sku'      => $product['sku'],
+						'sku'      => $sku,
 						'price'    => $product['price'],
 						'quantity' => $product['quantity']
 				);

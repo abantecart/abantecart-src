@@ -2,7 +2,7 @@
 	<?php
 	if ($products) {
 		$tax_message = '';
-		if ($this->config->get('config_tax')){
+		if ($this->config->get('config_tax') && !$this->customer->isTaxExempt()){
 			$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
 		}
 		$icount = 0;

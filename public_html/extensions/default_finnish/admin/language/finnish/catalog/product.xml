@@ -438,7 +438,7 @@
   </definition>
   <definition>
     <key>text_product_pagination</key>
-    <value><![CDATA[Tuote (t) {start} ja {loppuun} of {yhteensä}]]></value>
+    <value><![CDATA[Tuote (t) {start} ja {end} of {total}]]></value>
   </definition>
   <definition>
     <key>entry_product_id</key>

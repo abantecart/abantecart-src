@@ -86,7 +86,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[A következő {start} és {end} az {teljes} ({} lapok lapok)]]></value>
+    <value><![CDATA[A következő {start} és {end} az {total} ({pages} lapok lapok)]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>
