@@ -71,34 +71,14 @@ class ControllerPagesAccountInvoice extends AController{
 			}
 		}
 
-		$this->view->assign('error', $this->error);
-
-		if (!$this->customer->isLogged() && !$guest){
-			$this->session->data['redirect'] = $this->html->getSecureURL('account/invoice', '&order_id=' . $order_id);
-			$this->getForm();
-			return null;
-		}
-
-		if (!$order_id && $this->customer->isLogged()){
-			redirect($this->html->getSecureURL('account/history'));
-		}
-
-		//get info for registered customers
-		if (!$order_info){
-			$order_info = $this->model_account_order->getOrder($order_id);
-		}
-
 		$this->document->setTitle($this->language->get('heading_title'));
-
 		$this->document->resetBreadcrumbs();
-
 		$this->document->addBreadcrumb(
 				array (
 						'href'      => $this->html->getHomeURL(),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
-
 		$this->document->addBreadcrumb(
 				array (
 						'href'      => $this->html->getSecureURL('account/account'),
@@ -119,6 +99,27 @@ class ControllerPagesAccountInvoice extends AController{
 				'text'      => $this->language->get('text_invoice'),
 				'separator' => $this->language->get('text_separator')
 		));
+
+
+
+		$this->view->assign('error', $this->error);
+
+		if (!$this->customer->isLogged() && !$guest){
+			$this->session->data['redirect'] = $this->html->getSecureURL('account/invoice', '&order_id=' . $order_id);
+			$this->getForm();
+			return null;
+		}
+
+		if (!$order_id && $this->customer->isLogged()){
+			redirect($this->html->getSecureURL('account/history'));
+		}
+
+		//get info for registered customers
+		if (!$order_info){
+			$order_info = $this->model_account_order->getOrder($order_id);
+		}
+
+
 
 		$this->data['success'] = '';
 		if (isset($this->session->data['success'])){
