@@ -12096,7 +12096,7 @@ VALUES
 (2,1,'Icon Home','','','','<i class="fa fa-home"></i>&nbsp;',now()),
 (3,1,'Login Icon','','','','<i class="fa fa-lock"></i>&nbsp;&nbsp;',now()),
 (4,1,'Account Icon','','','','<i class="fa fa-user"></i>&nbsp;',now()),
-(5,1,'Cart Icon','','','','<i class="fa fa-shopping-cart"></i>&nbsp;',now()),
+(5,1,'Basket Icon','','','','<i class="fa fa-shopping-basket"></i>&nbsp;',now()),
 (6,1,'Checkout Icon','','','','<i class="fa fa-barcode"></i>&nbsp;&nbsp;',now());
 
 #Admin Menu Icons

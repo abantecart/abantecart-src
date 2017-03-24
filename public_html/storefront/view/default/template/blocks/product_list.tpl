@@ -71,7 +71,10 @@
 							<?php } else { ?>
 							<a data-id="<?php echo $product['product_id'] ?>"
 								href="<?php echo $item['buy_url'] ?>"
-							   class="productcart"><?php echo $button_add_to_cart ?>
+							   class="productcart"
+							   title="<?php echo $button_add_to_cart ?>"
+							>
+								<i class="fa fa-cart-plus fa-fw"></i>
 							</a>
 							<?php } ?>
 							<div class="price">

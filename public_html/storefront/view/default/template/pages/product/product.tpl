@@ -200,6 +200,7 @@
 										<ul class="productpagecart">
 											<li><?php if(!$this->getHookVar('product_add_to_cart_html')) { ?>
 												<a href="#" onclick="$(this).closest('form').submit(); return false;" class="cart">
+													<i class="fa fa-cart-plus fa-fw"></i>
 													<?php echo $button_add_to_cart; ?>
 												</a>
 												<?php } else { ?>
@@ -210,11 +211,17 @@
 										<?php } ?>
 										<?php } else { ?>
 											<ul class="productpagecart call_to_order">
-												<li><a href="#" class="call_to_order"><i class="fa fa-phone"></i>&nbsp;&nbsp;<?php echo $text_call_to_order; ?></a></li>
+												<li>
+													<a href="#" class="call_to_order">
+														<i class="fa fa-phone fa-fw"></i>&nbsp;&nbsp;
+														<?php echo $text_call_to_order; ?>
+													</a>
+												</li>
 											</ul>
 										<?php } ?>										
 										<a class="productprint btn btn-large" href="javascript:window.print();">
-											<i class="fa fa-print"></i> <?php echo $button_print; ?>
+											<i class="fa fa-print fa-fw"></i>
+											<?php echo $button_print; ?>
 										</a>
 										<?php echo $this->getHookVar('buttons'); ?>
 									</div>
@@ -231,10 +238,12 @@
 									<?php if ($is_customer) { ?>
 									<div class="wishlist">
 										<a class="wishlist_remove btn btn-large" href="#" onclick="wishlist_remove(); return false;" <?php echo $nowhislist; ?>>
-											<i class="fa fa-trash-o"></i> <?php echo $button_remove_wishlist; ?>
+											<i class="fa fa-trash-o fa-fw"></i>
+											<?php echo $button_remove_wishlist; ?>
 										</a>
 										<a class="wishlist_add btn btn-large" href="#" onclick="wishlist_add(); return false;" <?php echo $whislist; ?>>
-											<i class="fa fa-plus-square"></i> <?php echo $button_add_wishlist; ?>
+											<i class="fa fa-plus-square fa-fw"></i>
+											<?php echo $button_add_wishlist; ?>
 										</a>
 									</div>
 									<?php } ?>

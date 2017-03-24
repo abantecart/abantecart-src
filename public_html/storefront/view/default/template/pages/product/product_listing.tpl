@@ -69,8 +69,12 @@
 							<span class="nostock"><?php echo $product['no_stock_text']; ?></span>
 						<?php } else { ?>
 							<a data-id="<?php echo $product['product_id'] ?>"
-													   href="<?php echo $item['buy_url'] ?>"
-													   class="productcart"><?php echo $button_add_to_cart ?></a>
+							   href="<?php echo $item['buy_url'] ?>"
+							   class="productcart"
+							   title="<?php echo $button_add_to_cart ?>"
+							>
+								<i class="fa fa-cart-plus fa-fw"></i>
+							</a>
 						<?php } ?>
 
 						<div class="price">
@@ -144,7 +148,7 @@
 						<div class="blurb"><?php echo $product['blurb'] ?></div>
 						<?php echo $this->getHookvar('product_listing_details00_'.$product['product_id']);?>
 						<?php if ($display_price) { ?>
-						<div class="pricetag_wide pull-right">
+						<div class="pricetag pricetag_wide pull-right">
 							<span class="spiral"></span>
 
 							<?php if($product['call_to_order']){ ?>
@@ -154,8 +158,12 @@
 								<span class="nostock"><?php echo $product['no_stock_text']; ?></span>
 							<?php } else { ?>
 								<a data-id="<?php echo $product['product_id'] ?>"
-														   href="<?php echo $item['buy_url'] ?>"
-														   class="productcart"><?php echo $button_add_to_cart ?></a>
+								   href="<?php echo $item['buy_url'] ?>"
+								   class="productcart"
+								   title="<?php echo $button_add_to_cart ?>"
+								>
+									<i class="fa fa-cart-plus fa-fw"></i>
+								</a>
 							<?php } ?>
 
 

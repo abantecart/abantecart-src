@@ -135,10 +135,10 @@ if($faster_browser_rendering == true) {
         }
         if(item.attr('data-id')){
 	        if( update_cart(item.attr('data-id')) == true ) {
-		        var alert_msg = '<div class="added_to_cart pull-right">'
+		        var alert_msg = '<div class="quick_basket">'
 				        + '<a href="<?php echo $cart_url ?>" title="<?php echo $text_add_cart_confirm; ?>">'
-				        + '<i class="fa fa-check"></i></a></div>';
-		        item.closest('.thumbnail .pricetag').prepend(alert_msg);
+				        + '<i class="fa fa-shopping-basket fa-fw"></i></a></div>';
+				item.closest('.thumbnail .pricetag').addClass('added_to_cart').prepend(alert_msg);
 	        }
         }
     return false;
