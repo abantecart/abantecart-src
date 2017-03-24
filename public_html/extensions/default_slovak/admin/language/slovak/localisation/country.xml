@@ -50,17 +50,17 @@
   </definition>
   <definition>
     <key>entry_address_format</key>
-    <value><![CDATA[Formát Adresa: <br/><span class="help">
- First Name = {krstné meno} <br/> 
- Last Name = {priezvisko} <br/> 
- Company = {Spoločnosť} <br/> 
- Adresa 1 = {ADDRESS_1} <br/> 
- Adresa 2 = {address_2} <br/> 
- Mesto = {mesta} <br/> 
- postcode = {} poštové smerovacie číslo <br/> 
- zóna = {} zóna <br/> 
- Zone Code = {} zone_code <br/> 
- Country = {country}</span>]]></value>
+    <value><![CDATA[Address Format:<br /><span class="help">
+Krstné meno = {firstname}<br />
+Priezvisko = {lastname}<br />
+spoločnosť = {company}<br />
+adresa 1 = {address_1}<br />
+adresa 2 = {address_2}<br />
+veľkomesto = {city}<br />
+poštové smerovacie číslo = {postcode}<br />
+Zone = {zone}<br />
+Zone Code = {zone_code}<br />
+Krajina = {country}</span>]]></value>
   </definition>
   <definition>
     <key>error_permission</key>

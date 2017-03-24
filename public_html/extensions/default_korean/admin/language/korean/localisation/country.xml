@@ -50,17 +50,17 @@
   </definition>
   <definition>
     <key>entry_address_format</key>
-    <value><![CDATA[주소 형식 : <br/><span class="help">
- 이름 = {FIRSTNAME} <br/> 
- 성 = {LASTNAME} <br/> 
- 회사 = {회사} <br/> 
- 주소 1 = {ADDRESS_1} <br/> 
- 주소 2 = {address_2} <br/> 
- 시 = {시} <br/> 
- 우편 번호 = {우편 번호} <br/> 
- 구역 = {존} <br/> 
- 지역 코드 = {zone_code} <br/> 
- 나라 = {국가}</span>]]></value>
+    <value><![CDATA[Address Format:<br /><span class="help">
+  이름 = {firstname}<br />
+  성 = {lastname}<br />
+  회사 = {company}<br />
+  주소 1 = {address_1}<br />
+  주소 2 = {address_2}<br />
+  시티 = {city}<br />
+  우편 번호 = {postcode}<br />
+  존 = {zone}<br />
+  구역 코드 = {zone_code}<br />
+  국가 = {country}</span>]]></value>
   </definition>
   <definition>
     <key>error_permission</key>

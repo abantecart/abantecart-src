@@ -50,17 +50,17 @@
   </definition>
   <definition>
     <key>entry_address_format</key>
-    <value><![CDATA[Định dạng Địa chỉ: <br/><span class="help">
- Tên = {FirstName} <br/> 
- Last Name = {lastname} <br/> 
- Công ty = {công ty} <br/> 
- Địa chỉ 1 = {ADDRESS_1} <br/> 
- Địa chỉ 2 = {Address_2} <br/> 
- thành phố = {city} <br/> 
- Mã bưu = {} mã bưu <br/> 
- Zone = {} khu <br/> 
- Zone Mã = {} zone_code <br/> 
- nước = {country}</span>]]></value>
+    <value><![CDATA[Address Format:<br /><span class="help">
+Tên đầu tiên = {firstname}<br />
+Họ = {lastname}<br />
+Công ty = {company}<br />
+Địa chỉ nhà 1 = {address_1}<br />
+Địa chỉ nhà 2 = {address_2}<br />
+Thành phố = {city}<br />
+Mã bưu điện = {postcode}<br />
+Khu = {zone}<br />
+Mã vùng = {zone_code}<br />
+Quốc gia = {country}</span>]]></value>
   </definition>
   <definition>
     <key>error_permission</key>

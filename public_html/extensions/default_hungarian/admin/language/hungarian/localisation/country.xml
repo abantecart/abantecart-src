@@ -50,17 +50,17 @@
   </definition>
   <definition>
     <key>entry_address_format</key>
-    <value><![CDATA[Címformátum: <br/><span class="help">
- First Name = {firstname} <br/> 
- Last Name = {lastname} <br/> 
- Company = {cég} <br/> 
- Cím 1 = {ADDRESS_1} <br/> 
- Cím 2 = {address_2} <br/> 
- Város = {város} <br/> 
- postcode = {} postcode <br/> 
- zóna = {} zóna <br/> 
- Zone Code = {} zone_code <br/> 
- Ország = {country}</span>]]></value>
+    <value><![CDATA[Address Format:<br /><span class="help">
+First Name = {firstname}<br />
+Last Name = {lastname}<br />
+Company = {company}<br />
+Address 1 = {address_1}<br />
+Address 2 = {address_2}<br />
+City = {city}<br />
+Postcode = {postcode}<br />
+Zone = {zone}<br />
+Zone Code = {zone_code}<br />
+Country = {country}</span>]]></value>
   </definition>
   <definition>
     <key>error_permission</key>

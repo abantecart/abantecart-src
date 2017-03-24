@@ -50,17 +50,17 @@
   </definition>
   <definition>
     <key>entry_address_format</key>
-    <value><![CDATA[รูปแบบที่อยู่: <br/><span class="help">
- ชื่อ = {FirstName} <br/> 
- นามสกุล = {นามสกุล} <br/> 
- บริษัท = { บริษัท } <br/> 
- อยู่ 1 = {ADDRESS_1} <br/> 
- อยู่ 2 = {address_2} <br/> 
- เมือง = {เมือง} <br/> 
- รหัสไปรษณีย์รหัสไปรษณีย์ = {} <br/> 
- โซนโซน = {} <br/> 
- โซนรหัส = {} zone_code <br/> 
- ประเทศ = {} ประเทศ</span>]]></value>
+    <value><![CDATA[Address Format:<br /><span class="help">
+ชื่อจริง = {firstname}<br />
+นามสกุล = {lastname}<br />
+บริษัท = {company}<br />
+ที่อยู่ 1 = {address_1}<br />
+ที่อยู่ 2 = {address_2}<br />
+เมือง = {city}<br />
+รหัสไปรษณีย์ = {postcode}<br />
+โซน = {zone}<br />
+รหัสโซน = {zone_code}<br />
+ประเทศ = {country}</span>]]></value>
   </definition>
   <definition>
     <key>error_permission</key>

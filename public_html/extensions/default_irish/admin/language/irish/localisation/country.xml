@@ -50,17 +50,17 @@
   </definition>
   <definition>
     <key>entry_address_format</key>
-    <value><![CDATA[Seoladh Format: <br/><span class="help">
- Céadainm = {ainm sloinne} <br/> 
- Last Name = {LastName} <br/> 
- Company = {cuideachta} <br/> 
- Seoladh 1 = {address_1} <br/> 
- Seoladh 2 = {address_2} <br/> 
- Cathrach = {cathrach} <br/> 
- Cód Poist = {postchód} <br/> 
- Crios = {crios} <br/> 
- Crios Cód = {zone_code} <br/> 
- Tír = {tír}</span>]]></value>
+    <value><![CDATA[Address Format:<br /><span class="help">
+First Name = {firstname}<br />
+Last Name = {lastname}<br />
+Company = {company}<br />
+Address 1 = {address_1}<br />
+Address 2 = {address_2}<br />
+City = {city}<br />
+Postcode = {postcode}<br />
+Zone = {zone}<br />
+Zone Code = {zone_code}<br />
+Country = {country}</span>]]></value>
   </definition>
   <definition>
     <key>error_permission</key>

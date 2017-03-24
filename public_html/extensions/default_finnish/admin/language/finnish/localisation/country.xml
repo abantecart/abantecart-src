@@ -50,17 +50,17 @@
   </definition>
   <definition>
     <key>entry_address_format</key>
-    <value><![CDATA[Osoite Muoto: <br/><span class="help">
- First Name = {firstname} <br/> 
- Sukunimi = {lastname} <br/> 
- Yrityksen = {yritys} <br/> 
- Osoite 1 = {ADDRESS_1} <br/> 
- Osoite 2 = {address_2} <br/> 
- Kaupunki = {city} <br/> 
- Postinumero = {postinumeron} <br/> 
- Zone = {vyöhyke} <br/> 
- Zone Code = {zone_code} <br/> 
- Maa = {maa}</span>]]></value>
+    <value><![CDATA[Address Format:<br /><span class="help">
+First Name = {firstname}<br />
+Last Name = {lastname}<br />
+Company = {company}<br />
+Address 1 = {address_1}<br />
+Address 2 = {address_2}<br />
+City = {city}<br />
+Postcode = {postcode}<br />
+Zone = {zone}<br />
+Zone Code = {zone_code}<br />
+Country = {country}</span>]]></value>
   </definition>
   <definition>
     <key>error_permission</key>

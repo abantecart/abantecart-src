@@ -50,17 +50,17 @@
   </definition>
   <definition>
     <key>entry_address_format</key>
-    <value><![CDATA[アドレス形式： <br/><span class="help">
-ファーストネーム= {FIRSTNAME} <br/> 
-姓= {姓} <br/> 
-会社= {会社} <br/> 
-番地1 = {ADDRESS_1} <br/> 
-アドレス2 = {address_2} <br/> 
-市= {都市} <br/> 
-郵便番号= {郵便番号} <br/> 
-区= {ゾーン} <br/> 
-ゾーンコード= {zone_code} <br/> 
-国= {国}</span>]]></value>
+    <value><![CDATA[Address Format:<br /><span class="help">
+    ファーストネーム = {firstname}<br />
+苗字 = {lastname}<br />
+会社 = {company}<br />
+住所 1 = {address_1}<br />
+住所 2 = {address_2}<br />
+シティ = {city}<br />
+郵便番号 = {postcode}<br />
+領域 = {zone}<br />
+領域 Code = {zone_code}<br />
+国 = {country}</span>]]></value>
   </definition>
   <definition>
     <key>error_permission</key>

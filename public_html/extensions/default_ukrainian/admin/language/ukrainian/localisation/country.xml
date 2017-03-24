@@ -6,7 +6,7 @@
   </definition>
   <definition>
     <key>text_country</key>
-    <value><![CDATA[країна]]></value>
+    <value><![CDATA[Країна]]></value>
   </definition>
   <definition>
     <key>text_success</key>
@@ -34,7 +34,7 @@
   </definition>
   <definition>
     <key>entry_status</key>
-    <value><![CDATA[Країна Статус:]]></value>
+    <value><![CDATA[Статус країни:]]></value>
   </definition>
   <definition>
     <key>entry_name</key>
@@ -50,17 +50,17 @@
   </definition>
   <definition>
     <key>entry_address_format</key>
-    <value><![CDATA[Адреса Формат: <br/><span class="help">
- Ім&#39;я = {FirstName} <br/> 
- Прізвище = {Lastname} <br/> 
- Компанія = {компанія} <br/> 
- Адреса 1 = {ADDRESS_1} <br/> 
- Адреса 2 = {address_2} <br/> 
- Місто = {місто} <br/> 
- Поштовий індекс = {} поштовий індекс <br/> 
- зона = {зона} <br/> 
- зони Код = {zone_code} <br/> 
- країна = {країна}</span>]]></value>
+    <value><![CDATA[Address Format:<br /><span class="help">
+Ім&#39;я = {firstname}<br />
+Прізвище = {lastname}<br />
+Компанія = {company}<br />
+Адреса 1 = {address_1}<br />
+Адреса 2 = {address_2}<br />
+Місто = {city}<br />
+Поштовий індекс = {postcode}<br />
+Область = {zone}<br />
+Код Області = {zone_code}<br />
+Країна = {country}</span>]]></value>
   </definition>
   <definition>
     <key>error_permission</key>
