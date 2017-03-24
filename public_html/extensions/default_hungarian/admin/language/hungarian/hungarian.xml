@@ -86,7 +86,11 @@
   </definition>
   <definition>
     <key>text_pagination</key>
+<<<<<<< Updated upstream
     <value><![CDATA[A következő {start} és {end} az {total} ({pages} lapok lapok)]]></value>
+=======
+    <value><![CDATA[A következő {start} és {end} az {total} ({pages} lapok)]]></value>
+>>>>>>> Stashed changes
   </definition>
   <definition>
     <key>text_per_page</key>

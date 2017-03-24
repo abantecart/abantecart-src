@@ -86,7 +86,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[Resultate {begin} tot {einde} van {totale} ({bladsye} Bladsye)]]></value>
+    <value><![CDATA[Resultate {start} tot {end} van {total} ({pages} Bladsye)]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

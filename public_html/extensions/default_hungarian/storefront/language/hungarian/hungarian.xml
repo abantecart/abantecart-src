@@ -58,7 +58,11 @@
   </definition>
   <definition>
     <key>text_pagination</key>
+<<<<<<< Updated upstream
     <value><![CDATA[{start} - {end} A {total} összesen]]></value>
+=======
+    <value><![CDATA[{start} - {end} A {total}]]></value>
+>>>>>>> Stashed changes
   </definition>
   <definition>
     <key>text_per_page</key>

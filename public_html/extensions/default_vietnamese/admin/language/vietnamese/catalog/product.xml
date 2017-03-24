@@ -438,7 +438,7 @@
   </definition>
   <definition>
     <key>text_product_pagination</key>
-    <value><![CDATA[Sản phẩm (s) {} bắt đầu để {cuối} của {} tổng]]></value>
+    <value><![CDATA[Sản phẩm (s) {start} bắt đầu để {end} của {total}]]></value>
   </definition>
   <definition>
     <key>entry_product_id</key>

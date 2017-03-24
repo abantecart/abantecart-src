@@ -86,7 +86,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[מציג {להתחיל} ל- {סוף} של {סה} ({} דפי האתר)]]></value>
+    <value><![CDATA[מציג {start} עד {end} מתוך {total} ({דפים} דפים)]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

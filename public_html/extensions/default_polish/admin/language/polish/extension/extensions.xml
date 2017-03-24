@@ -146,7 +146,11 @@
   </definition>
   <definition>
     <key>text_extension_pagination</key>
+<<<<<<< Updated upstream
     <value><![CDATA[Rozszerzenie (e) {start} na {end} z {pages} ogółem]]></value>
+=======
+    <value><![CDATA[Rozszerzenie (e) {start} na {end} z {total}]]></value>
+>>>>>>> Stashed changes
   </definition>
   <definition>
     <key>text_per_page</key>

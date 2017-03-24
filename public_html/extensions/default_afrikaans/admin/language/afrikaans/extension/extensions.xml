@@ -146,7 +146,7 @@
   </definition>
   <definition>
     <key>text_extension_pagination</key>
-    <value><![CDATA[Uitbreiding (s) {begin} tot {einde} van {totale}]]></value>
+    <value><![CDATA[Uitbreiding (s) {start} tot {end} van {total}]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

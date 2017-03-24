@@ -58,7 +58,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[{เริ่มต้น} - {} สิ้นของ {รวม}]]></value>
+    <value><![CDATA[{start} - {end} สิ้นของ {total}]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

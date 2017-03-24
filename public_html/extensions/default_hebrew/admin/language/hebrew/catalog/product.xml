@@ -438,7 +438,7 @@
   </definition>
   <definition>
     <key>text_product_pagination</key>
-    <value><![CDATA[מוצר (ים) {להתחיל} ל- {סוף} של {סה}]]></value>
+    <value><![CDATA[Product(s) {start} to {end} of {total}]]></value>
   </definition>
   <definition>
     <key>entry_product_id</key>

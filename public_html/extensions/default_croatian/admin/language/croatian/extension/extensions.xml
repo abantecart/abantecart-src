@@ -146,7 +146,7 @@
   </definition>
   <definition>
     <key>text_extension_pagination</key>
-    <value><![CDATA[Proširenje (e) {početak} do {kraj} od {ukupno}]]></value>
+    <value><![CDATA[Proširenje (e) {start} do {end} od {total}]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

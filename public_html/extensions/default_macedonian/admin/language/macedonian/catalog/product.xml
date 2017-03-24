@@ -438,7 +438,7 @@
   </definition>
   <definition>
     <key>text_product_pagination</key>
-    <value><![CDATA[Производ (и) {почне} до {крајот} на {вкупното}]]></value>
+    <value><![CDATA[Производ (и) {start} до {end} на {total}]]></value>
   </definition>
   <definition>
     <key>entry_product_id</key>

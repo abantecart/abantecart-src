@@ -58,7 +58,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[{להתחיל} - {סוף} של {סה}]]></value>
+    <value><![CDATA[{start} - {end} מתוך {total}]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

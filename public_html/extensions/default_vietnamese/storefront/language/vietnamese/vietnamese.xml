@@ -58,7 +58,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[{Bắt đầu} - {cuối} của {} tổng]]></value>
+    <value><![CDATA[{start} - {end} của {total}]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

@@ -58,7 +58,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[{Почне} - {} на {крајот вкупното}]]></value>
+    <value><![CDATA[{start} - {end} на {total}]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

@@ -86,7 +86,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[显示{}开始向{结束} {}总额（{}页页）]]></value>
+    <value><![CDATA[显示 {start} 至 {end} 的 {total} ({pages} 页面)]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

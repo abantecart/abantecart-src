@@ -58,7 +58,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[{Mulai} - {end} dari {jumlah}]]></value>
+    <value><![CDATA[{start} - {end} dari {total}]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

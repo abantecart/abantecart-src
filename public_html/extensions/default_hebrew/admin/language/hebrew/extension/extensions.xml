@@ -138,7 +138,7 @@
   </definition>
   <definition>
     <key>text_missing_extension</key>
-    <value><![CDATA[&quot;רחבה %s: המקור יכול לא להיות ממוקם אנא מחק אותו ולבקר ספק extention לקבל מקור מלא ולהתקין אותה שוב!&quot;]]></value>
+    <value><![CDATA[&quot;רחבה %s: המקור יכול לא להיות ממוקם אנא מחק אותו ולבקר ספק extension לקבל מקור מלא ולהתקין אותה שוב!&quot;]]></value>
   </definition>
   <definition>
     <key>text_broken_extension</key>
@@ -146,7 +146,7 @@
   </definition>
   <definition>
     <key>text_extension_pagination</key>
-    <value><![CDATA[הרחבה (ים) {להתחיל} ל- {סוף} של {סה}]]></value>
+    <value><![CDATA[Extension(s) {start} to {end} of {total}]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

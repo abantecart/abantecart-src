@@ -438,7 +438,7 @@
   </definition>
   <definition>
     <key>text_product_pagination</key>
-    <value><![CDATA[Termék (ek) {INDÍTÁS} {end} A {} összesen]]></value>
+    <value><![CDATA[Termék (ek) {start} {end} A {total}]]></value>
   </definition>
   <definition>
     <key>entry_product_id</key>

@@ -86,7 +86,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[Torthaí {tús} dtí {deireadh} de {iomlán} ({leathanaigh} Leathanaigh)]]></value>
+    <value><![CDATA[Torthaí {start} dtí {end} de {total} ({pages} Leathanaigh)]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

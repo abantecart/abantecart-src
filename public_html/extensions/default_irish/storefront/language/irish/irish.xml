@@ -58,7 +58,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[{Tús} - {deireadh} de {iomlán}]]></value>
+    <value><![CDATA[{start} - {end} de {total}]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

@@ -86,7 +86,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[Прикажани {почне} до {крајот} на {вкупното} (страници} {страници)]]></value>
+    <value><![CDATA[Прикажани {start} до {end} на {total} ({pages} страници)]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

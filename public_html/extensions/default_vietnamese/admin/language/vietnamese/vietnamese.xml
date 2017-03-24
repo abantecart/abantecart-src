@@ -86,7 +86,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[Hiển thị {bắt đầu} để {cuối} của {tổng} ({trang} Trang)]]></value>
+    <value><![CDATA[Hiển thị {start} để {end} của {tổng} ({pages} Trang)]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

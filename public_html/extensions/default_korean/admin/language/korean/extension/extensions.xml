@@ -146,7 +146,7 @@
   </definition>
   <definition>
     <key>text_extension_pagination</key>
-    <value><![CDATA[확장 (들) {말}에 {시작}의 {총}]]></value>
+    <value><![CDATA[확장 (들) {start}에 {end}의 {total}]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

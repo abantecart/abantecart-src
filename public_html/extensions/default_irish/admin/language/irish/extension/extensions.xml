@@ -146,7 +146,7 @@
   </definition>
   <definition>
     <key>text_extension_pagination</key>
-    <value><![CDATA[Leathnú (í) {tús} dtí {deireadh} de {iomlán}]]></value>
+    <value><![CDATA[Leathnú (í) {start} dtí {end} de {total}]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

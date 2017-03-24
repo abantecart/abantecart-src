@@ -58,7 +58,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[【開始】 -  {的結束} {}總]]></value>
+    <value><![CDATA[{start} - {end} 的 {total}]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

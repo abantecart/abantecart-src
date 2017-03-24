@@ -146,7 +146,7 @@
   </definition>
   <definition>
     <key>text_extension_pagination</key>
-    <value><![CDATA[Extension (y) {štart} až {konci} o {celk}]]></value>
+    <value><![CDATA[Extension (y) {start} až {end} o {total}]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

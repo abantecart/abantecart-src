@@ -86,7 +86,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[의 {말} {총} ({페이지} 페이지)에 {시작}보기]]></value>
+    <value><![CDATA[전시 {start} 에 {end} 의 {total} ({pages} 페이지)]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

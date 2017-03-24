@@ -86,7 +86,11 @@
   </definition>
   <definition>
     <key>text_pagination</key>
+<<<<<<< Updated upstream
     <value><![CDATA[Menampilkan {start} ke {end} dari {total} ({pages} halaman Pages)]]></value>
+=======
+    <value><![CDATA[Menampilkan {start} ke {end} dari {total} ({pages} Pages)]]></value>
+>>>>>>> Stashed changes
   </definition>
   <definition>
     <key>text_per_page</key>

@@ -58,7 +58,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[{Začeti} - {end} od {skupno}]]></value>
+    <value><![CDATA[{start} - {end} od {total}]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>
