@@ -41,7 +41,7 @@
 			<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
 				<label class="control-label col-sm-3 col-xs-12" ></label>
 				<div class="input-group afield col-sm-9 col-xs-12">
-					<div class="pull-left col-sm-4 col-xs-12">
+					<div class="pull-left col-sm-6 col-xs-12">
 						<label class="control-label col-sm-5 mt10" for="<?php echo $link_type->element_id; ?>">
 							<?php echo $entry_link_type; ?></label>
 						<div class="input-group afield col-sm-7 mt10">
@@ -49,7 +49,7 @@
 						</div>
 					</div>
 				<?php foreach(array('link_category', 'link_content') as $subfld_name){?>
-						<div id="<?php echo $subfld_name.'_wrapper';?>" class="link_types pull-left col-sm-4 col-xs-12 <?php echo ($subfld_name == 'link_type' ? '' : 'hide');?>">
+						<div id="<?php echo $subfld_name.'_wrapper';?>" class="link_types pull-left col-sm-6 col-xs-12 <?php echo ($subfld_name == 'link_type' ? '' : 'hide');?>">
 							<div class="input-group afield col-sm-7 mt10">
 							<?php echo $$subfld_name;  ?>
 							</div>
@@ -58,7 +58,6 @@
 				</div>
 			</div>
 			<?php } ?>
-
 			<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
 				<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 				<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
@@ -68,8 +67,6 @@
 				<span class="help-block field_err"><?php echo $error[$name]; ?></span>
 				<?php } ?>
 			</div>
-
-
 		<?php }  ?><!-- <div class="fieldset"> -->
 
 
@@ -155,6 +152,7 @@ jQuery(function($){
 			$('#link_type').val('content');
 			$('input[name="item_url"]').attr('readonly','readonly');
 		}else{
+			$('#link_type').val('custom');
 			$('input[name="item_url"]').removeAttr('readonly');
 		}
 	}
