@@ -140,12 +140,12 @@
 	<definition>
 		<key>text_missing_extension</key>
 		<value>
-			<![CDATA["L'origine dell'estensione %EXT% non può essere individuata! Si prega di eliminarla e visitare il fornitore dell'estensione per ottenere l'origine completa e installarla di nuovo "]]></value>
+			<![CDATA["L'origine dell'estensione %s non può essere individuata! Si prega di eliminarla e visitare il fornitore dell'estensione per ottenere l'origine completa e installarla di nuovo "]]></value>
 	</definition>
 	<definition>
 		<key>text_broken_extension</key>
 		<value>
-			<![CDATA["L'origine dell'estensione %EXT% è probabilmente danneggiata! Non si riesce a trovare il file config.xml o main.php. Si prega di eliminarla e di visitare il fornitore dell'estensione per ottenere l'origine completa e installarla di nuovo "]]></value>
+			<![CDATA["L'origine dell'estensione %s è probabilmente danneggiata! Non si riesce a trovare il file config.xml o main.php. Si prega di eliminarla e di visitare il fornitore dell'estensione per ottenere l'origine completa e installarla di nuovo "]]></value>
 	</definition>
 	<definition>
 		<key>text_extension_pagination</key>

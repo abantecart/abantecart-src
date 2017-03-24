@@ -138,11 +138,11 @@
   </definition>
   <definition>
     <key>text_missing_extension</key>
-    <value><![CDATA["Extension %s:  Source can not be located! Please delete it and visit extention provider to get complete source and install it again  "]]></value>
+    <value><![CDATA["Extension %s:  Source can not be located! Please delete it and visit extension provider to get complete source and install it again  "]]></value>
   </definition>
   <definition>
     <key>text_broken_extension</key>
-    <value><![CDATA["Extension %s:  Source probably broken! Can't find config.xml or main.php files. Please delete it and visit extention provider to get complete source and install it again  "]]></value>
+    <value><![CDATA["Extension %s:  Source probably broken! Can't find config.xml or main.php files. Please delete it and visit extension provider to get complete source and install it again  "]]></value>
   </definition>
   <definition>
     <key>text_extension_pagination</key>

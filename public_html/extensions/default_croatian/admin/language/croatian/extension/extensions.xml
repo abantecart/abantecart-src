@@ -142,7 +142,7 @@
   </definition>
   <definition>
     <key>text_broken_extension</key>
-    <value><![CDATA[&quot;Proširenje %s:!. Izvor vjerojatno slomljena Ne možete pronaći config.xml ili main.php datoteke Izbrišite ga i posjetite proširenje usluga da biste dobili potpunu izvor i ponovno ga instalirati&quot;]]></value>
+    <value><![CDATA[&quot;Proširenje %s: Izvor vjerojatno slomljena Ne možete pronaći config.xml ili main.php datoteke Izbrišite ga i posjetite proširenje usluga da biste dobili potpunu izvor i ponovno ga instalirati&quot;]]></value>
   </definition>
   <definition>
     <key>text_extension_pagination</key>

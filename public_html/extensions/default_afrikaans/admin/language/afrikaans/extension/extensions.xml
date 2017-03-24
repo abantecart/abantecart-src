@@ -142,7 +142,7 @@
   </definition>
   <definition>
     <key>text_broken_extension</key>
-    <value><![CDATA[&quot;Uitbreiding %s:!. Bron waarskynlik gebreek Kan config.xml of main.php lêers nie vind asseblief verwyder dit en besoek uitbreiding verskaffer om volledige bron kry en weer installeer&quot;]]></value>
+    <value><![CDATA[&quot;Uitbreiding %s: Bron waarskynlik gebreek Kan config.xml of main.php lêers nie vind asseblief verwyder dit en besoek uitbreiding verskaffer om volledige bron kry en weer installeer&quot;]]></value>
   </definition>
   <definition>
     <key>text_extension_pagination</key>
