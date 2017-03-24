@@ -146,11 +146,7 @@
   </definition>
   <definition>
     <key>text_extension_pagination</key>
-<<<<<<< Updated upstream
-    <value><![CDATA[(Eke) t {start} és {end} A {pages} összesen]]></value>
-=======
     <value><![CDATA[(Eke) t {start} és {end} A {total}]]></value>
->>>>>>> Stashed changes
   </definition>
   <definition>
     <key>text_per_page</key>

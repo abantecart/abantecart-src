@@ -86,11 +86,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-<<<<<<< Updated upstream
-    <value><![CDATA[Ukazující {start} na {end} {total} ({pages} stránek Stránky)]]></value>
-=======
     <value><![CDATA[Ukazující {start} na {end} {total} ({pages} Stránky)]]></value>
->>>>>>> Stashed changes
   </definition>
   <definition>
     <key>text_per_page</key>

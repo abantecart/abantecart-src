@@ -146,7 +146,7 @@
   </definition>
   <definition>
     <key>text_extension_pagination</key>
-    <value><![CDATA[拡張（複数可）{終了}に{開始}の{合計}]]></value>
+    <value><![CDATA[拡張(s) {start} に {end} の {total}]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

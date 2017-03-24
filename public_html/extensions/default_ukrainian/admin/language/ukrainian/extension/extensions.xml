@@ -2,19 +2,19 @@
 <definitions>
   <definition>
     <key>heading_title</key>
-    <value><![CDATA[розширення]]></value>
+    <value><![CDATA[Розширення]]></value>
   </definition>
   <definition>
     <key>text_install</key>
-    <value><![CDATA[встановлювати]]></value>
+    <value><![CDATA[Встановити]]></value>
   </definition>
   <definition>
     <key>text_uninstall</key>
-    <value><![CDATA[видалення]]></value>
+    <value><![CDATA[Видалення]]></value>
   </definition>
   <definition>
     <key>text_uninstall_delete</key>
-    <value><![CDATA[Видалити / Видалити]]></value>
+    <value><![CDATA[Деінсталювати / Видалити]]></value>
   </definition>
   <definition>
     <key>text_uninstall_confirm</key>
@@ -22,7 +22,7 @@
   </definition>
   <definition>
     <key>text_delete</key>
-    <value><![CDATA[видаляти]]></value>
+    <value><![CDATA[Видалити]]></value>
   </definition>
   <definition>
     <key>text_enlarge</key>
@@ -30,11 +30,11 @@
   </definition>
   <definition>
     <key>text_activate</key>
-    <value><![CDATA[активувати]]></value>
+    <value><![CDATA[Активувати]]></value>
   </definition>
   <definition>
     <key>text_deactivate</key>
-    <value><![CDATA[дезактивувати]]></value>
+    <value><![CDATA[Дезактивувати]]></value>
   </definition>
   <definition>
     <key>text_left</key>
@@ -58,7 +58,7 @@
   </definition>
   <definition>
     <key>column_required</key>
-    <value><![CDATA[вимагається]]></value>
+    <value><![CDATA[Обов&#39;язкове]]></value>
   </definition>
   <definition>
     <key>column_name</key>
@@ -66,19 +66,19 @@
   </definition>
   <definition>
     <key>column_position</key>
-    <value><![CDATA[становище]]></value>
+    <value><![CDATA[позиція]]></value>
   </definition>
   <definition>
     <key>column_update_date</key>
-    <value><![CDATA[оновлення Дата]]></value>
+    <value><![CDATA[Дата оновлення]]></value>
   </definition>
   <definition>
     <key>column_category</key>
-    <value><![CDATA[категорія]]></value>
+    <value><![CDATA[Категорія]]></value>
   </definition>
   <definition>
     <key>column_status</key>
-    <value><![CDATA[статус]]></value>
+    <value><![CDATA[Статус]]></value>
   </definition>
   <definition>
     <key>column_sort_order</key>
@@ -134,7 +134,7 @@
   </definition>
   <definition>
     <key>text_search_for_extension</key>
-    <value><![CDATA[Пошук Extension]]></value>
+    <value><![CDATA[Пошук Розширень]]></value>
   </definition>
   <definition>
     <key>text_missing_extension</key>
@@ -146,7 +146,7 @@
   </definition>
   <definition>
     <key>text_extension_pagination</key>
-    <value><![CDATA[Extension (s) {Пуск} кілька разів {кінець} з {} загальна]]></value>
+    <value><![CDATA[Додатки {start} - {end} з {total}]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

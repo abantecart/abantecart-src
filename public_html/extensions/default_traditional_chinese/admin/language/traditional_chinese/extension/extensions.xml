@@ -146,7 +146,7 @@
   </definition>
   <definition>
     <key>text_extension_pagination</key>
-    <value><![CDATA[擴展（S）{}開始為{}結束{中}總]]></value>
+    <value><![CDATA[Extension(s) {start} to {end} of {total}]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

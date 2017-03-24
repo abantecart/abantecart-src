@@ -438,11 +438,7 @@
   </definition>
   <definition>
     <key>text_product_pagination</key>
-<<<<<<< Updated upstream
-    <value><![CDATA[Produkt(y) {start} až {end} o {total}]]></value>
-=======
     <value><![CDATA[Produkt (y) {start} až {end} o {total}]]></value>
->>>>>>> Stashed changes
   </definition>
   <definition>
     <key>entry_product_id</key>
