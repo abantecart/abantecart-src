@@ -610,12 +610,15 @@ function getExtensionConfigXml($extension_txt_id) {
 /**
  * Function for starting new storefront session for control panel user
  * NOTE: do not try to save into session any data after this function call!
+ * Also function returns false on POST-requests!
  *
  * @param $user_id int - control panel user_id
  * @param array $data data for writing into new session storage
  * @return bool
  */
 function startStorefrontSession($user_id, $data=array()){
+	//NOTE: do not allow create sf-session via POST-request. Related to language-switcher and enabled maintenance mode(see usages)
+	if($_SERVER['REQUEST_METHOD'] != 'GET'){ return false; }
     $data = (array)$data;
     $data['merchant'] = (int)$user_id;
     if(!$data['merchant']){ return false;}
