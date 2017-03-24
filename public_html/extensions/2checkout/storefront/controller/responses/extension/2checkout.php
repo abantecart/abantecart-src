@@ -44,6 +44,7 @@ class ControllerResponsesExtension2Checkout extends AController{
 		}
 
 		$this->data['sid'] = $this->config->get('2checkout_account');
+		$this->data['currency_code'] = $order_info['currency'];
 		$this->data['total'] = $this->currency->format($order_info['total'], $order_info['currency'], $order_info['value'], false);
 		$this->data['cart_order_id'] = $this->session->data['order_id'];
 		$this->data['order_number'] = $this->session->data['order_id'];

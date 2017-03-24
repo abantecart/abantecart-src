@@ -1,5 +1,6 @@
 <form action="<?php echo str_replace('&', '&amp;', $action); ?>" method="post" id="checkout">
 	<input type="hidden" name="sid" value="<?php echo $sid; ?>"/>
+	<input type="hidden" name="currency_code" value="<?php echo $currency_code; ?>"/>
 	<input type="hidden" name="total" value="<?php echo $total; ?>"/>
 	<input type="hidden" name="cart_order_id" value="<?php echo $cart_order_id; ?>"/>
 	<input type="hidden" name="merchant_order_id" value="<?php echo $cart_order_id; ?>"/>
