@@ -86,7 +86,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[Rodoma {pradėti} į {pabaigoje} iš {viso} ({puslapių} puslapių)]]></value>
+    <value><![CDATA[Showing {start} to {end} of {total} ({pages} Pages)]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

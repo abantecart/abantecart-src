@@ -86,7 +86,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[{総}（{ページ}のページ）の{終了}に{開始}表示]]></value>
+    <value><![CDATA[Showing {start} to {end} of {total} ({pages} Pages)]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

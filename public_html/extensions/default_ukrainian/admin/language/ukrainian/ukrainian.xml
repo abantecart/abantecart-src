@@ -78,7 +78,7 @@
   </definition>
   <definition>
     <key>text_default</key>
-    <value><![CDATA[(За замовчуванням)]]></value>
+    <value><![CDATA[За замовчуванням]]></value>
   </definition>
   <definition>
     <key>text_close</key>
@@ -86,7 +86,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[Відображення {Пуск} кілька разів {кінець} з {загальне} ({сторінок} Сторінки)]]></value>
+    <value><![CDATA[Показано {start} - {end} з {total} ({pages} сторінок)]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>

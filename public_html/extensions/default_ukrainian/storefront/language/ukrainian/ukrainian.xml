@@ -58,7 +58,7 @@
   </definition>
   <definition>
     <key>text_pagination</key>
-    <value><![CDATA[{Пуск} - {кінець} з {} загальна]]></value>
+    <value><![CDATA[{start} - {end} з {total}]]></value>
   </definition>
   <definition>
     <key>text_per_page</key>
