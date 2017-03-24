@@ -1553,7 +1553,7 @@ class ModelCatalogProduct extends Model{
 					'sku'                    => $data['sku'][$opt_val_id],
 					'quantity'               => $data['quantity'][$opt_val_id],
 					'subtract'               => $data['subtract'][$opt_val_id],
-					'price'                  => preg_replace('/[^0-9\.\-]/', '', $data['price'][$opt_val_id]),
+					'price'                  => preformatFloat($data['price'][$opt_val_id], $this->language->get('decimal_point')),
 					'prefix'                 => $data['prefix'][$opt_val_id],
 					'sort_order'             => $data['sort_order'][$opt_val_id],
 					'weight'                 => $data['weight'][$opt_val_id],
