@@ -2,15 +2,15 @@
 <definitions>
   <definition>
     <key>heading_title</key>
-    <value><![CDATA[продукти]]></value>
+    <value><![CDATA[Продукти]]></value>
   </definition>
   <definition>
     <key>text_product</key>
-    <value><![CDATA[продукт]]></value>
+    <value><![CDATA[Продукт]]></value>
   </definition>
   <definition>
     <key>tab_media</key>
-    <value><![CDATA[засоби масової інформації]]></value>
+    <value><![CDATA[Медіа ресурси]]></value>
   </definition>
   <definition>
     <key>tab_shipping</key>
@@ -18,7 +18,7 @@
   </definition>
   <definition>
     <key>tab_files</key>
-    <value><![CDATA[файли]]></value>
+    <value><![CDATA[Файли]]></value>
   </definition>
   <definition>
     <key>tab_relations</key>
@@ -30,7 +30,7 @@
   </definition>
   <definition>
     <key>tab_extensions</key>
-    <value><![CDATA[розширення]]></value>
+    <value><![CDATA[Розширення]]></value>
   </definition>
   <definition>
     <key>tab_layout</key>
@@ -58,7 +58,7 @@
   </definition>
   <definition>
     <key>text_default</key>
-    <value><![CDATA[дефолт]]></value>
+    <value><![CDATA[за замовчуванням]]></value>
   </definition>
   <definition>
     <key>text_product_summary</key>
@@ -102,7 +102,7 @@
   </definition>
   <definition>
     <key>column_action</key>
-    <value><![CDATA[дію]]></value>
+    <value><![CDATA[дія]]></value>
   </definition>
   <definition>
     <key>entry_featured</key>
@@ -114,11 +114,11 @@
   </definition>
   <definition>
     <key>entry_meta_keywords</key>
-    <value><![CDATA[Мета-тег Ключові слова:]]></value>
+    <value><![CDATA[Мета-теґ Ключові слова:]]></value>
   </definition>
   <definition>
     <key>entry_meta_description</key>
-    <value><![CDATA[Метатег Опис:]]></value>
+    <value><![CDATA[Метатеґ Опис:]]></value>
   </definition>
   <definition>
     <key>entry_description</key>
@@ -158,7 +158,7 @@
   </definition>
   <definition>
     <key>entry_ship_individually</key>
-    <value><![CDATA[Корабель продукту Індивідуально: <br/><span class="help">Продукт буде поставлятися в окремій упаковці та додаткову вартість доставки буде додана в замовлення з кількома елементами. Якщо</span> цей <span class="help">параметр включений, фіксована</span> вартість <span class="help">доставки повинна бути встановлена.</span>]]></value>
+    <value><![CDATA[Доставка продукту індивідуально: <br/><span class="help">Продукт буде поставлятися в окремій упаковці та додаткову вартість доставки буде додана в замовлення з кількома елементами. Якщо</span> цей <span class="help">параметр включений, фіксована</span> вартість <span class="help">доставки повинна бути встановлена.</span>]]></value>
   </definition>
   <definition>
     <key>entry_shipping_price</key>
@@ -174,7 +174,7 @@
   </definition>
   <definition>
     <key>entry_option_quantity</key>
-    <value><![CDATA[кількість:]]></value>
+    <value><![CDATA[Кількість:]]></value>
   </definition>
   <definition>
     <key>entry_quantity</key>
@@ -434,19 +434,19 @@
   </definition>
   <definition>
     <key>entry_weight_type</key>
-    <value><![CDATA[Тип Вага]]></value>
+    <value><![CDATA[Тип Ваги]]></value>
   </definition>
   <definition>
     <key>text_product_pagination</key>
-    <value><![CDATA[Продукт (и) {Пуск} кілька разів {кінець} з {} загальна]]></value>
+    <value><![CDATA[Товар(и) {start} - {end} з {total}]]></value>
   </definition>
   <definition>
     <key>entry_product_id</key>
-    <value><![CDATA[ідентифікатор продукту]]></value>
+    <value><![CDATA[Ідентифікатор продукту]]></value>
   </definition>
   <definition>
     <key>error_product_load</key>
-    <value><![CDATA[Увага: Жоден продукт з таким ID!]]></value>
+    <value><![CDATA[Увага: Жодного товару з таким ID!]]></value>
   </definition>
   <definition>
     <key>error_attribute_not_selected</key>
