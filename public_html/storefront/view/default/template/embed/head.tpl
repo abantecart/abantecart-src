@@ -59,19 +59,10 @@ if (typeof jQuery == 'undefined') {
 				dataType: 'json',
 				data: {product_id: item.attr('data-id')},
 				success: function (data) {
-                    var alert_msg = '<div class="added_to_cart pull-right"> \
-                    		<a href="<?php echo $cart_url ?>" title="<?php echo $text_add_cart_confirm; ?>"> \
-                    		<i class="fa fa-check"></i></a> \
-                    		</div>';
-					item.closest('.thumbnail .pricetag').prepend(alert_msg);
-
-					//topcart
-					$('.nav.topcart .dropdown-toggle span').first().html(data.item_count);
-					$('.nav.topcart .dropdown-toggle .cart_total').html(data.total);
-					if ($('#top_cart_product_list')) {
-						$('#top_cart_product_list').html(data.cart_details);
-					}
-					;
+					var alert_msg = '<div class="quick_basket">'
+							+ '<a href="<?php echo $cart_url ?>" title="<?php echo $text_add_cart_confirm; ?>">'
+							+ '<i class="fa fa-shopping-basket fa-fw"></i></a></div>';
+					item.closest('.thumbnail .pricetag').addClass('added_to_cart').prepend(alert_msg);
 				}
 			});
 		}

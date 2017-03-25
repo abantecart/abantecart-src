@@ -55,8 +55,8 @@ if ($total_items > 0) {
 	<tbody>
 	<?php foreach ($totals as $total) { ?>
 		<tr>
-			<td width="50%"><span class="cart_block_total"><b><?php echo $total['title']; ?></b></span></td>
-			<td width="50%"><span class="cart_block_total"><?php echo $total['text']; ?></span></td>
+			<td><span class="cart_block_total"><b><?php echo $total['title']; ?></b></span></td>
+			<td><span class="cart_block_total"><?php echo $total['text']; ?></span></td>
 		</tr>
 	<?php } ?>
 	</tbody>

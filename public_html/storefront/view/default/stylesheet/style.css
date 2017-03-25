@@ -29,6 +29,7 @@ a:hover {
 }
 
 h1, h2, h3, h4, h5 {
+	font-family: 'Source Sans Pro', sans-serif;
 	font-weight: normal
 }
 
@@ -314,7 +315,7 @@ section.row {
 }
 
 #topnav ul.dropdown-menu li a {
-	color: #999999;
+	color: #999;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	-o-text-overflow: ellipsis;
@@ -336,7 +337,7 @@ section.row {
 }
 
 #customernav ul.dropdown-menu li a {
-	color: #999999;
+	color: #999;
 }
 
 #topnav ul.dropdown-menu li a span, #customernav ul.dropdown-menu li a span {
@@ -437,13 +438,13 @@ li.dropdown {
 }
 
 .headerdetails #main-nav ul > li.topcart a {
-	color: #999999;
+	color: #999;
 	font-size: 14px
 }
 
 .headerdetails .navbar .nav li.topcart .dropdown-toggle .caret, .navbar .nav li.dropdown.open.topcart .caret {
-	border-bottom-color: #999999;
-	border-top-color: #999999;
+	border-bottom-color: #999;
+	border-top-color: #999;
 }
 
 .headerdetails ul.topcartopen {
@@ -473,7 +474,7 @@ li.dropdown {
 }
 
 .headerdetails ul.topcartopen li > table .name small {
-	color: #999999;
+	color: #999;
 }
 
 .headerdetails ul.topcartopen li > table .quantity {
@@ -537,7 +538,7 @@ li.dropdown {
 #top_cart_product_list .empty_cart {
 	padding: 15px;
 	font-size: 36px;
-	color: #999999;
+	color: #999;
 }
 #top_cart_product_list table td.image, #top_cart_product_list table td.image img {
 	width: 50px;
@@ -559,6 +560,7 @@ li.dropdown {
 #top_cart_product_list .totals {
 	margin-top: 10px;
 	margin-bottom: 10px;
+	width: 100%;
 }
 
 #top_cart_product_list .totals td {
@@ -582,6 +584,13 @@ li.dropdown {
 #customernav .dropdown a:hover, #customernav .dropdown.current a {
 	background: #00A1CB;
 	color: #fff;
+}
+#customernav div.menu_text{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	white-space: nowrap;
+	max-width: 250px;
 }
 
 .main_menu .dropdown-menu {
@@ -773,6 +782,7 @@ ul.categorymenu > li ul > li img {
 	border: 1px solid #d7d8da;
 	margin: 0 auto 10px auto;
 	width: auto;
+	color: #4b5b58;
 }
 .promo_block {
     overflow: hidden;
@@ -981,11 +991,11 @@ ul.categorymenu > li ul > li img {
 	width: 350px;
 }
 .added_to_cart {
-	background-color: #dff0d8;
-	border-color: #37891b;
-	color: #3c763d;
-	border-radius: 1px;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.025) inset;
+	background-color: #dff0d8 !important;
+	border-color: #37891b !important;
+	border-radius: 1px !important;
+	color: #3c763d !important;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.025) inset !important;
 }
 .added_to_cart .quick_basket{
 	color: #37891b;
@@ -1521,7 +1531,7 @@ ul.rate li.off {
 	font-size: 26px;
 	text-align: center;
 	line-height: 44px;
-	color: #333
+	color: #333;
 }
 
 .productfilneprice{
@@ -1618,11 +1628,11 @@ h1.productname {
 .productdesc .nav-tabs li a {
 	font-size: 13px;
 	text-shadow: 1px 1px 1px #fff;
-	color: #999999
+	color: #999;
 }
 
 .productdesc .nav-tabs li a:hover {
-	color: #333
+	color: #333;
 }
 
 .productdesc .nav-tabs li.active a {
@@ -1939,7 +1949,7 @@ ul.total li span.extra {
 	display: block;
 	padding: 5px 5px 5px 5px;
 	background: none;
-	color: #999999;
+	color: #999;
 }
 
 .myaccountbox ul li.selected, .myaccountbox ul li.selected a  {
@@ -1997,7 +2007,7 @@ ul.tags li a {
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
-	color: #999999
+	color: #999;
 }
 
 ul.tags li a:hover {
@@ -2074,7 +2084,7 @@ ul.side_list li a {
 	display: block;
 	padding: 6px 5px 6px 30px;
 	background: url("../image/arrowcategory.png") no-repeat scroll 10px center transparent;
-	color: #999999;
+	color: #999;
 	font-size: 15px
 }
 
@@ -2105,7 +2115,7 @@ ul.side_prd_list li a.productname {
 }
 
 ul.side_prd_list li a:Hover.productname {
-	color: #333
+	color: #333;
 }
 
 ul.side_prd_list li img {
@@ -2122,7 +2132,7 @@ ul.side_prd_list li span.price {
 
 ul.side_prd_list li span.procategory {
 	display: block;
-	color: #333
+	color: #333;
 }
 
 ul.side_prd_list li {
@@ -2570,7 +2580,7 @@ label.error {
 }
 
 #footernav ul.dropdown-menu li a {
-	color: #999999;
+	color: #999;
 }
 
 #footernav ul.dropdown-menu li a span {
@@ -2762,7 +2772,7 @@ form .help-block {
 }
 
 table th {
-	color: #333
+	color: #333;
 }
 
 .nav li.dropdown.open a:hover .caret {
@@ -2906,7 +2916,7 @@ paypal pro styles
 }
 #primary-nav li a {
     background-color: #E9E9E9;
-    color: #999999;
+    color: #999;
     display: block;
     margin: 5px 0 0;
     padding: 9px 10px 6px 40px;
@@ -2919,12 +2929,12 @@ paypal pro styles
 #primary-nav li a.active {
     background-color: #FFFFFF;
     border-left: 5px solid #DB4A39;
-    color: #333333;
+    color: #333;
     margin: 5px 0 0;
     padding-left: 35px;
 }
 #primary-nav li i {
-    color: #999999;
+    color: #999;
     display: inline-block;
     margin: 0 10px 0 -30px;
     text-align: center;
@@ -2970,7 +2980,7 @@ paypal pro styles
 #nav-info > li {
 	background: no-repeat left top;
 	background-size: 5px 30px;
-    color: #999999;
+    color: #999;
     float: left;
     font-size: 12px;
     height: 30px;
@@ -2978,10 +2988,10 @@ paypal pro styles
     padding: 0 15px 0 20px;
 }
 #nav-info > li > a {
-    color: #555555;
+    color: #555;
 }
 #nav-info > li.active {
-    color: #555555;
+    color: #555;
 }
 #nav-info > li.active a {
     color: #DB4A39;
@@ -3030,8 +3040,8 @@ paypal pro styles
 }
 
 .dash-tiles {
-    color: #333333;
-    font-family: Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #333;
+    font-family: inherit;
 }
 
 .dash-tile {
@@ -3062,7 +3072,7 @@ paypal pro styles
     line-height: 41px;
 }
 .dash-tile-options a:hover {
-    color: #333333;
+    color: #333;
     text-decoration: none;
 }
 .dash-tile-content {

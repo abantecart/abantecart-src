@@ -1,6 +1,6 @@
 <?php echo $head; ?>
 <h1 class="heading1">
-	<span class="maintext"><i class="fa fa-shopping-cart"></i> <?php echo $heading_title; ?></span>
+	<span class="maintext"><i class="fa fa-shopping-basket fa-fw"></i> <?php echo $heading_title; ?></span>
 	<?php if ($weight) { ?>
 		<span class="subtext">(<?php echo $weight; ?>)</span>
 	<?php } ?>
