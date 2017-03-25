@@ -24,6 +24,12 @@ class ControllerResponsesEmbedJS extends AController {
 
 	public $data = array();
 
+    public function __construct(Registry $registry, $instance_id, $controller, $parent_controller = ''){
+    	// generate unique id for js-code
+	    $this->data['js_unique_id'] = date();
+	    parent::__construct($registry, $instance_id, $controller, $parent_controller);
+    }
+
 	/**
 	 * NOTE: main() is bootup method
 	 */
@@ -41,11 +47,11 @@ class ControllerResponsesEmbedJS extends AController {
 		}
 
 		if (HTTPS === true) {
-			$this->view->assign('base', HTTPS_SERVER);
+			$base_url = HTTPS_SERVER;
 		} else {
-			$this->view->assign('base', HTTP_SERVER);
+			$base_url = HTTP_SERVER;
 		}
-
+		$this->view->assign('base', $base_url);
 		$this->view->assign('store_name', $this->config->get('store_name'));
 		
  		$icon_rl = $this->config->get('config_icon');
@@ -87,6 +93,7 @@ class ControllerResponsesEmbedJS extends AController {
 		$this->data['checkout'] =  $this->html->getSecureURL('r/checkout/shipping');
 
 		$this->data['embed_click_action'] =  $this->config->get('config_embed_click_action');
+
 
 		$this->view->setTemplate( 'embed/js.tpl' );
 		$this->view->batchAssign($this->data);

@@ -6,7 +6,7 @@ if(window.abc_count === undefined){
 	window.abc_count = 0;
 }
 
-var init = function() {
+var init_<?php echo $js_unique_id;?> = function() {
 	// Localize jQuery
 	var jQuery;
 	if(window.abc_count > 0) {
@@ -106,7 +106,7 @@ var init = function() {
 	/********* AbanteCart url wrapper  ***********/
 	function abc_process_url(url){
 		if(abc_cookie_allowed==false){
-			url += '&'+abc_token_name+'='+abc_token_value;
+			url += '&'+'<?php echo EMBED_TOKEN_NAME; ?>'+'='+abc_token_value;
 		}
 		return url;
 	}
@@ -130,7 +130,7 @@ var init = function() {
 	}
 
 	/******** Main function ********/
-	function main() { 
+	function main() {
 		//set new custom jQuery in global space for included scripts (custom bootstrap)
 		window.jQuery_abc = jQuery;
 
@@ -144,7 +144,7 @@ var init = function() {
 			script_loader("<?php echo $base.$this->templateResource('/javascript/bootstrap.embed.js'); ?>");
 
 			// Load bootstrap custom modal (single instance)
-			modal = '<div id="abc_embed_modal" class="abcmodal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">'+
+			modal = '<div id="abc_embed_modal_<?php echo $js_unique_id;?>" class="abcmodal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">'+
 						'<div class="abcmodal-dialog abcmodal-lg">'+
 							'<div class="abcmodal-content">' +
 								'<div class="abcmodal-header">' +
@@ -158,7 +158,7 @@ var init = function() {
 									'<button aria-hidden="true" data-dismiss="abcmodal" class="abcmodal_close" type="button">&times;</button>' +
 					'<h4 class="abcmodal-title"></h4>' +
 								'</div>' +
-					'<div class="abcmodal-body"><iframe id="amp_product_frame" width="100%" height="650px" frameBorder="0"></iframe>' +
+					'<div class="abcmodal-body"><iframe id="amp_product_frame_<?php echo $js_unique_id;?>" width="100%" height="650px" frameBorder="0"></iframe>' +
 					'<div id="iframe_loading" display="none"></div>' +
 								'</div>' +
 							'</div>' +
@@ -166,13 +166,13 @@ var init = function() {
 				'</div>';
 			modal += '<div class="abantecart-widget-cart"></div>';
 			<?php
-			} else { 
+			} else {
 			?>
 				//for direct-link mode
 				$(document).on('click', "[data-toggle='abcmodal']", function(){
 					var url = $(this).attr('data-href');
 					if(url.length > 0){
-						url += abc_add_common_params($(this).closest('.abantecart-widget-container'));		
+						url += abc_add_common_params($(this).closest('.abantecart-widget-container_<?php echo $js_unique_id;?>'));
 					<?php if($embed_click_action=='same_window'){ ?>
 						window.location = url;
 					<?php } ?>
@@ -182,15 +182,15 @@ var init = function() {
 					}
 					return false;
 				});
-			<?php 
+			<?php
 			}
 			?>
 
-			if( !$('#abc_embed_modal').length && modal.length) {
+			if( !$('#abc_embed_modal_<?php echo $js_unique_id;?>').length && modal.length) {
 				$('body').append(modal);
 			<?php
 				// do cookie-test if session id not retrieved from http-request
-				if($test_cookie) { 
+				if($test_cookie) {
 			?>
 					abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
 					abc_token_value = abc_get_cookie();
@@ -199,8 +199,8 @@ var init = function() {
 						testcookieurl +='&<?php echo EMBED_TOKEN_NAME; ?>='+abc_token_value;
 					}
 					abc_process_request(testcookieurl);
-			<?php 
-				} 
+			<?php
+				}
 			?>
 			}
 
@@ -212,39 +212,39 @@ var init = function() {
 				else {
 					window.setTimeout(function() { processReady(callback); }, 100);
 				}
-			};	
+			};
 
 			processReady(function($){
 				//fill data into embedded blocks
 				abc_process_wrapper();
-			});	
-			
-			$('#abc_embed_modal').on('click', '.abcmodal-reload', function (e) {
+			});
+
+			$('#abc_embed_modal_<?php echo $js_unique_id;?>').on('click', '.abcmodal-reload', function (e) {
 				var url = $(this).attr('data-href');
-				url += abc_add_common_params($(this).closest('.abantecart-widget-container'));
+				url += abc_add_common_params($(this).closest('.abantecart-widget-container_<?php echo $js_unique_id;?>'));
 				loadIframe( url );
 				return false;
 			});
-			
-			$('#abc_embed_modal').on('shown.bs.abcmodal', function (e) {
+
+			$('#abc_embed_modal_<?php echo $js_unique_id;?>').on('shown.bs.abcmodal', function (e) {
 				var url = $(e.relatedTarget).attr('data-href');
-				url += abc_add_common_params($(e.relatedTarget).closest('.abantecart-widget-container'));
+				url += abc_add_common_params($(e.relatedTarget).closest('.abantecart-widget-container_<?php echo $js_unique_id;?>'));
 				loadIframe( url );
-				$('#abc_embed_modal').abcmodal('show');
+				$('#abc_embed_modal_<?php echo $js_unique_id;?>').abcmodal('show');
 				$('.abantecart-widget-cart').hide();
 			});
 
-			$('#abc_embed_modal').on('hide.bs.abcmodal', function (e) {
+			$('#abc_embed_modal_<?php echo $js_unique_id;?>').on('hide.bs.abcmodal', function (e) {
 				//clear iframe
-				$('#abc_embed_modal').find('iframe').attr('src', '');
+				$('#abc_embed_modal_<?php echo $js_unique_id;?>').find('iframe').attr('src', '');
 				//reload cart
-				var $first_obj = $('.abantecart-widget-container').first();
+				var $first_obj = $('.abantecart-widget-container_<?php echo $js_unique_id;?>').first();
 				var w_url = $first_obj.attr('data-url');
 				abc_populate_cart(w_url, abc_add_common_params($first_obj));
 			});
 
 			var loadIframe = function(url) {
-				var $iframe = $("#abc_embed_modal iframe");
+				var $iframe = $("#abc_embed_modal_<?php echo $js_unique_id;?> iframe");
 				//clear iframe
 				$iframe.attr('src', '');
 				$iframe.hide();
@@ -259,14 +259,14 @@ var init = function() {
 				$iframe.attr("src", frame_url);
 				return false;
 			};
-			
+
 		});
 
 		var abc_process_wrapper = function(){
 			//using local jQuery
 			$ = jQuery;
-			$('.abantecart-widget-container').show();
-			$('.abantecart-widget-container').each(function(){
+			$('.abantecart-widget-container_<?php echo $js_unique_id;?>').show();
+			$('.abantecart-widget-container_<?php echo $js_unique_id;?>').each(function(){
 				var c = $(this);
 				//widget url - base url of widget data (for case when 2 widgets from different domains on the same page)
 				var w_url = c.attr('data-url');
@@ -278,12 +278,12 @@ var init = function() {
 			});
 
 			//populate cart only 1 time
-			var $first_obj = $('.abantecart-widget-container').first();
+			var $first_obj = $('.abantecart-widget-container_<?php echo $js_unique_id;?>').first();
 			var main_url = $first_obj.attr('data-url');
 			var url_params = abc_add_common_params($first_obj);
 			abc_populate_cart(main_url, url_params);
 
-			$('.abantecart-widget-container').on("click", ".abantecart_addtocart", function(e){
+			$('.abantecart-widget-container_<?php echo $js_unique_id;?>').on("click", ".abantecart_addtocart", function(e){
 				var add_url='';
 				if($(e.target).attr('data-toggle') == "abcmodal"){
 					add_url =  $(e.target).attr('data-href');
@@ -329,7 +329,7 @@ var init = function() {
 			var target_id = child.attr('id');
 			child.attr('id',target_id);
 			var url = w_url+'?rt=r/embed/js/product&product_id=' + product_id + '&target=' + target_id;
-			url += abc_add_common_params(child.parent('.abantecart-widget-container'));
+			url += abc_add_common_params(child.parent('.abantecart-widget-container_<?php echo $js_unique_id;?>'));
 			abc_process_request(url);
 		}
 
@@ -345,10 +345,10 @@ var init = function() {
 					url += '&category_id[]=' + cid +'&target_id['+cid+']=' + $(this).attr('id');
 				}
 			})
-			url += abc_add_common_params(children.first().parent('.abantecart-widget-container'));
+			url += abc_add_common_params(children.first().parent('.abantecart-widget-container_<?php echo $js_unique_id;?>'));
 			abc_process_request(url);
 		}
-		
+
 		var abc_populate_manufacturers_items = function(children, w_url){
 			//using local jQuery
 			$ = jQuery;
@@ -361,7 +361,7 @@ var init = function() {
 					url += '&manufacturer_id[]=' + cid +'&target_id['+cid+']=' + $(this).attr('id');
 				}
 			})
-			url += abc_add_common_params(children.first().parent('.abantecart-widget-container'));
+			url += abc_add_common_params(children.first().parent('.abantecart-widget-container_<?php echo $js_unique_id;?>'));
 			abc_process_request(url);
 		}
 
@@ -381,22 +381,23 @@ var init = function() {
 			}
 			if(currency && currency.length > 0) {
 				append += '&currency='+currency;
-			}	
-			return append;		
+			}
+			return append;
 		}
 	}
 };
 
-if( checkLoaded() ) {
+var checkLoaded_<?php echo $js_unique_id;?> = function() {
+  return document.readyState === "complete" || document.readyState === "interactive";
+}
+
+if( checkLoaded_<?php echo $js_unique_id;?>() ) {
 	//if main window is already loaded fire up
-	init();
+	init_<?php echo $js_unique_id;?>();
 } else {
 	window.addEventListener("load", function () {
 	    // wait for main window to finish loading
-	   	init();
+	   	init_<?php echo $js_unique_id;?>();
 	});
 }
 
-function checkLoaded() {
-  return document.readyState === "complete" || document.readyState === "interactive";
-}
