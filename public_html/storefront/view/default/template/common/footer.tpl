@@ -5,19 +5,17 @@
 			<h4 class="hidden">&nbsp;</h4>
 
 			<div class="container-fluid">
-				<div class="row">
-					<div class="col-md-3">
-						<?php echo ${$children_blocks[0]}; ?>
-					</div>
-					<div class="col-md-3">
-						<?php echo ${$children_blocks[1]}; ?>
-					</div>
-					<div class="col-md-3">
-						<?php echo ${$children_blocks[2]}; ?>
-					</div>
-					<div class="col-md-3">
-						<?php echo ${$children_blocks[3]}; ?>
-					</div>
+				<div class="col-md-3">
+					<?php echo ${$children_blocks[0]}; ?>
+				</div>
+				<div class="col-md-3">
+					<?php echo ${$children_blocks[1]}; ?>
+				</div>
+				<div class="col-md-3">
+					<?php echo ${$children_blocks[2]}; ?>
+				</div>
+				<div class="col-md-3">
+					<?php echo ${$children_blocks[3]}; ?>
 				</div>
 			</div>
 		</section>

@@ -63,6 +63,6 @@ if ($total_items > 0) {
 </table>
 <?php } else { ?>
 	<div class="empty_cart text-center">
-		<i class="fa fa-shopping-basket"></i>
+		<i class="fa fa-shopping-cart"></i>
 	</div>
 <?php } ?>

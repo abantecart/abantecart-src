@@ -78,7 +78,7 @@
 				<?php echo $button_continue; ?>
 			</a>
 			<a href="<?php echo $cart; ?>" class="btn btn-orange">
-				<i class="fa fa-shopping-basket fa-fw"></i>
+				<i class="fa fa-shopping-cart fa-fw"></i>
 				<?php echo $button_cart; ?>
 			</a>
 			<?php echo $this->getHookVar('bottom_wishlist_buttons'); ?>

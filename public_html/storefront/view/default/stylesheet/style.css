@@ -536,7 +536,7 @@ li.dropdown {
 #top_cart_product_list .empty_cart {
 	padding: 15px;
 	font-size: 36px;
-	color: #999;
+	color: #ccc;
 }
 #top_cart_product_list table td.image, #top_cart_product_list table td.image img {
 	width: 50px;
@@ -3439,6 +3439,11 @@ paypal pro styles
 	}
 	nav.subnav ul {
 		display: none
+	}
+
+	#categorymenu, .breadcrumb, .jumbotron, .well{
+		border: 0px;
+		box-shadow: none;
 	}
 
 	/* Top menu small resolution */

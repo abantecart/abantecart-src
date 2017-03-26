@@ -15,7 +15,7 @@
 
 <link href="<?php echo $this->templateResource('/stylesheet/style.response.css'); ?>" rel="stylesheet" type='text/css' />
 <link href="<?php echo $this->templateResource('/javascript/intl-tel-input/css/intlTelInput.css'); ?>" rel="stylesheet" type='text/css' />
-	
+
 <?php foreach ($styles as $style) { ?>
 <link rel="<?php echo $style['rel']; ?>" type="text/css" href="<?php echo $style['href']; ?>" media="<?php echo $style['media']; ?>" />
 <?php } ?>
@@ -53,7 +53,7 @@ if (typeof jQuery == 'undefined') {
 				success: function (data) {
 					var alert_msg = '<div class="quick_basket">'
 							+ '<a href="<?php echo $cart_url ?>" title="<?php echo $text_add_cart_confirm; ?>">'
-							+ '<i class="fa fa-shopping-basket fa-fw"></i></a></div>';
+							+ '<i class="fa fa-shopping-cart fa-fw"></i></a></div>';
 					item.closest('.thumbnail .pricetag').addClass('added_to_cart').prepend(alert_msg);
 				}
 			});
