@@ -1,6 +1,6 @@
 <ul class="nav topcart pull-left">
     <li class="dropdown hover"> 
-        <a href="<?php echo $view; ?>" class="dropdown-toggle"><i class="fa fa-shopping-cart fa-fw"></i>&nbsp;&nbsp;
+        <a href="<?php echo $view; ?>" class="dropdown-toggle"><i class="fa fa-shopping-basket fa-fw"></i>&nbsp;&nbsp;
 			<span class="label label-orange font14">
 				<?php echo $total_qty;?>
 			</span>

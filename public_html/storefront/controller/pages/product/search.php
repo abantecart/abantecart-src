@@ -282,6 +282,7 @@ class ControllerPagesProductSearch extends AController {
 							'stars'   => sprintf($this->language->get('text_stars'), $rating),
 	            			'thumb'   => $thumbnail,
 	            			'price'   => $price,
+                            'raw_price' => $result['price'],
 							'call_to_order'=> $result['call_to_order'],
                             'options' => $options,
 							'special' => $special,

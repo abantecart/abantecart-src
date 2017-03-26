@@ -14,7 +14,6 @@ AbanteCart brand color styles: #064770 (dark blue) #F19013 (Orange)
 /* CSS Document */
 /* ------------ Reset ------------ */
 body {
-	font-family: 'Open Sans', sans-serif;
 	color: #333;
 	font-size: 13px;
 	margin: 0;
@@ -32,7 +31,6 @@ a:hover {
 }
 
 h1, h2, h3, h4, h5 {
-	font-family: 'Source Sans Pro', sans-serif;
 	font-weight: normal
 }
 
@@ -1753,7 +1751,6 @@ paypal pro styles
 
 .dash-tiles {
     color: #333333;
-    font-family: Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 .dash-tile {
@@ -1942,19 +1939,11 @@ paypal pro styles
 		text-align: center;
 	}
 
-	.top-search input {
-		margin-left: auto;
-		margin-right: auto;
-		float: left;
-	}
-
 	.form-inline .checkbox.pull-right.mr10 {
 		width: auto;
 		min-width: 310px;
 		text-align: right;
 	}
-
-
 }
 
 @media (min-width: 1024px) and (max-width: 1200px){

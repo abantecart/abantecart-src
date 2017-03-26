@@ -45,10 +45,10 @@
 				</div>
 				<div class="thumbnail">
 					<?php if ($product['special']) { ?>
-						<span class="sale tooltip-test"><?php echo $text_sale_label; ?></span>
+						<span class="sale"></span>
 					<?php } ?>
 					<?php if ($product['new_product']) { ?>
-						<span class="new tooltip-test"><?php echo $text_new_label; ?></span>
+						<span class="new"></span>
 					<?php } ?>
 					<a href="<?php echo $item['info_url'] ?>"><?php echo $item['image'] ?></a>
 

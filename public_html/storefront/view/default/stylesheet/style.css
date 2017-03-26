@@ -11,7 +11,6 @@ AbanteCart brand color styles: #064770 (dark blue) #F19013 (Orange)
 /* CSS Document */
 /* ------------ Reset ------------ */
 body {
-	font-family: 'Open Sans', sans-serif;
 	color: #333;
 	font-size: 13px;
 	margin: 0;
@@ -29,7 +28,6 @@ a:hover {
 }
 
 h1, h2, h3, h4, h5 {
-	font-family: 'Source Sans Pro', sans-serif;
 	font-weight: normal
 }
 
@@ -362,7 +360,7 @@ section.row {
 }
 
 .top-search input {
-	width: 210px;
+	width: 230px;
 	border: 1px solid #d7d8da;
 	border-radius: 1px;
 	padding: 9px;
@@ -585,7 +583,7 @@ li.dropdown {
 	background: #00A1CB;
 	color: #fff;
 }
-#customernav div.menu_text{
+#customernav div.menu_text, #customernav ul li a{
 	overflow: hidden;
 	text-overflow: ellipsis;
 	-o-text-overflow: ellipsis;
@@ -2317,7 +2315,7 @@ label.error {
 
 .contact li {
 	padding: 0;
-	height: 53px
+	height: 40px;
 }
 
 .contact li>span {

@@ -126,7 +126,7 @@
 
 	<h4 class="heading4"><?php echo $text_cart_items; ?>
 		<a class="pull-right mr10 btn btn-default btn-xs" href="<?php echo $cart; ?>">
-			<i class="fa fa-shopping-cart"></i>
+			<i class="fa fa-shopping-cart fa-fw"></i>
 			<?php echo $text_edit_basket; ?>
 		</a>
 	</h4>

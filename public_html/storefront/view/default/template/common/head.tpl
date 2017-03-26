@@ -47,14 +47,12 @@ if($faster_browser_rendering == true) {
 	<style><?php echo $this->LoadMinifyCSS('/stylesheet/flexslider.css'); ?></style>
 	<style><?php echo $this->LoadMinifyCSS('/stylesheet/onebyone.css'); ?></style>
 	<style><?php echo $this->LoadMinifyCSS('/stylesheet/font-awesome.min.css'); ?></style>
-	<style><?php echo $this->LoadMinifyCSS('/stylesheet/fonts.google.css'); ?></style>
-	<style><?php echo $this->LoadMinifyCSS('/stylesheet/style.css'); ?></style>	
+	<style><?php echo $this->LoadMinifyCSS('/stylesheet/style.css'); ?></style>
 <?php } else { ?>
 	<link href="<?php echo $this->templateResource('/stylesheet/bootstrap.min.css'); ?>" rel="stylesheet" type='text/css' />
 	<link href="<?php echo $this->templateResource('/stylesheet/flexslider.css'); ?>" rel="stylesheet" type='text/css' />
 	<link href="<?php echo $this->templateResource('/stylesheet/onebyone.css'); ?>" rel="stylesheet" type='text/css' />
 	<link href="<?php echo $this->templateResource('/stylesheet/font-awesome.min.css'); ?>" rel="stylesheet" type='text/css' />
-	<link href="<?php echo $this->templateResource('/stylesheet/fonts.google.css'); ?>" rel="stylesheet" type='text/css' />
 	<link href="<?php echo $this->templateResource('/stylesheet/style.css'); ?>" rel="stylesheet" type='text/css' />
 <?php } ?>
 

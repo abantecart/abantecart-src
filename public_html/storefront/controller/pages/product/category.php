@@ -210,9 +210,9 @@ class ControllerPagesProductCategory extends AController {
 					
 						if ($special) {
 							$special = $this->currency->format($this->tax->calculate($special, $result['tax_class_id'], $this->config->get('config_tax')));
-						}					
+						}
 					}
-			
+
 					if ($products_info[$result['product_id']]['options']) {
 						$add = $this->html->getSEOURL('product/product','&product_id=' . $result['product_id'], '&encode');
 					} else {
@@ -246,6 +246,7 @@ class ControllerPagesProductCategory extends AController {
 						'stars'   	 	=> sprintf($this->language->get('text_stars'), $rating),
 						'thumb'   	 	=> $thumbnail,
             			'price'   	 	=> $price,
+                        'raw_price'     => $result['price'],
             			'call_to_order' => $result['call_to_order'],
             			'options' 	 	=> $products_info[$result['product_id']]['options'],
 						'special' 	 	=> $special,

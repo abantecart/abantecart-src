@@ -59,7 +59,7 @@
 							<span class="nostock"><?php echo $product['no_stock_text']; ?></span>
 						<?php } else { ?>
 							<a href="<?php echo $product['add']; ?>" class="btn btn-sm btn-primary">
-								<i class="fa fa-shopping-cart fa-fw"></i>
+								<i class="fa fa-cart-plus fa-fw"></i>
 							</a>
 						<?php } ?>
 					<?php } ?>
@@ -78,7 +78,7 @@
 				<?php echo $button_continue; ?>
 			</a>
 			<a href="<?php echo $cart; ?>" class="btn btn-orange">
-				<i class="fa fa-shopping-cart"></i>
+				<i class="fa fa-shopping-basket fa-fw"></i>
 				<?php echo $button_cart; ?>
 			</a>
 			<?php echo $this->getHookVar('bottom_wishlist_buttons'); ?>
