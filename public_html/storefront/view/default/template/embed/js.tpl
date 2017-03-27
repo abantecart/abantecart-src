@@ -1,18 +1,24 @@
+<?php
+	//set dynamic valiables for javascript
+	$abc_count = "abc_count_$js_unique_id";
+	$abc_init = "init_$js_unique_id";
+
+?>
 //set global sign of allowed 3dparty cookies as true by default. This value might be overridden by test cookie js
 var abc_cookie_allowed = true; 
 var abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
 var abc_token_value = '';
-if(window.abc_count === undefined){
-	window.abc_count = 0;
+if(window.<?php echo $abc_count;?> === undefined){
+	window.<?php echo $abc_count;?> = 0;
 }
 
-var init_<?php echo $js_unique_id;?> = function() {
+var <?php echo $abc_init;?> = function() {
 	// Localize jQuery
 	var jQuery;
-	if(window.abc_count > 0) {
+	if(window.<?php echo $abc_count;?> > 0) {
 		return false;
 	} else {
-		window.abc_count++;
+		window.<?php echo $abc_count;?>++;
 	}
 	
 	/******** Load jQuery if not yet loaded (note: supported jquery >= 10 ) *********/
@@ -144,7 +150,7 @@ var init_<?php echo $js_unique_id;?> = function() {
 			script_loader("<?php echo $base.$this->templateResource('/javascript/bootstrap.embed.js'); ?>");
 
 			// Load bootstrap custom modal (single instance)
-			modal = '<div id="abc_embed_modal_<?php echo $js_unique_id;?>" class="abcmodal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">'+
+			modal = '<div id="<?php echo $abc_embed_modal_id;?>" class="<?php echo $abcmodal_class_id; ?> fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">'+
 						'<div class="abcmodal-dialog abcmodal-lg">'+
 							'<div class="abcmodal-content">' +
 								'<div class="abcmodal-header">' +
@@ -155,7 +161,7 @@ var init_<?php echo $js_unique_id;?> = function() {
 									'|&nbsp;<a class="abcmodal-reload" href="#" data-href="<?php echo $cart;?>"><?php echo $text_cart;?></a>&nbsp;&nbsp;' +
 									'|&nbsp;<a class="abcmodal-reload" href="#" data-href="<?php echo $checkout;?>"><?php echo $text_checkout;?></a>&nbsp;&nbsp;' +
 									'</div>'+
-									'<button aria-hidden="true" data-dismiss="abcmodal" class="abcmodal_close" type="button">&times;</button>' +
+									'<button aria-hidden="true" data-dismiss="<?php echo $abcmodal_class_id; ?>" class="abcmodal_close" type="button">&times;</button>' +
 					'<h4 class="abcmodal-title"></h4>' +
 								'</div>' +
 					'<div class="abcmodal-body"><iframe id="amp_product_frame_<?php echo $js_unique_id;?>" width="100%" height="650px" frameBorder="0"></iframe>' +
@@ -169,10 +175,10 @@ var init_<?php echo $js_unique_id;?> = function() {
 			} else {
 			?>
 				//for direct-link mode
-				$(document).on('click', "[data-toggle='abcmodal']", function(){
+				$(document).on('click', "[data-toggle='<?php echo $abcmodal_class_id; ?>']", function(){
 					var url = $(this).attr('data-href');
 					if(url.length > 0){
-						url += abc_add_common_params($(this).closest('.abantecart-widget-container_<?php echo $js_unique_id;?>'));
+						url += abc_add_common_params($(this).closest('.abantecart-widget-container'));
 					<?php if($embed_click_action=='same_window'){ ?>
 						window.location = url;
 					<?php } ?>
@@ -186,7 +192,7 @@ var init_<?php echo $js_unique_id;?> = function() {
 			}
 			?>
 
-			if( !$('#abc_embed_modal_<?php echo $js_unique_id;?>').length && modal.length) {
+			if( !$('#<?php echo $abc_embed_modal_id;?>').length && modal.length) {
 				$('body').append(modal);
 			<?php
 				// do cookie-test if session id not retrieved from http-request
@@ -219,32 +225,32 @@ var init_<?php echo $js_unique_id;?> = function() {
 				abc_process_wrapper();
 			});
 
-			$('#abc_embed_modal_<?php echo $js_unique_id;?>').on('click', '.abcmodal-reload', function (e) {
+			$('#<?php echo $abc_embed_modal_id;?>').on('click', '.abcmodal-reload', function (e) {
 				var url = $(this).attr('data-href');
-				url += abc_add_common_params($(this).closest('.abantecart-widget-container_<?php echo $js_unique_id;?>'));
+				url += abc_add_common_params($(this).closest('.abantecart-widget-container'));
 				loadIframe( url );
 				return false;
 			});
 
-			$('#abc_embed_modal_<?php echo $js_unique_id;?>').on('shown.bs.abcmodal', function (e) {
+			$('#<?php echo $abc_embed_modal_id;?>').on('shown.bs.<?php echo $abcmodal_class_id; ?>', function (e) {
 				var url = $(e.relatedTarget).attr('data-href');
-				url += abc_add_common_params($(e.relatedTarget).closest('.abantecart-widget-container_<?php echo $js_unique_id;?>'));
+				url += abc_add_common_params($(e.relatedTarget).closest('.abantecart-widget-container'));
 				loadIframe( url );
-				$('#abc_embed_modal_<?php echo $js_unique_id;?>').abcmodal('show');
-				$('.abantecart-widget-cart').hide();
+				$('#<?php echo $abc_embed_modal_id;?>').<?php echo $abcmodal_class_id; ?>('show');
+				$('.abantecart-widget-cart.<?php echo $js_unique_id; ?>').hide();
 			});
 
-			$('#abc_embed_modal_<?php echo $js_unique_id;?>').on('hide.bs.abcmodal', function (e) {
+			$('#<?php echo $abc_embed_modal_id;?>').on('hide.bs.<?php echo $abcmodal_class_id; ?>', function (e) {
 				//clear iframe
-				$('#abc_embed_modal_<?php echo $js_unique_id;?>').find('iframe').attr('src', '');
+				$('#<?php echo $abc_embed_modal_id;?>').find('iframe').attr('src', '');
 				//reload cart
-				var $first_obj = $('.abantecart-widget-container_<?php echo $js_unique_id;?>').first();
+				var $first_obj = $('.abantecart-widget-container').first();
 				var w_url = $first_obj.attr('data-url');
 				abc_populate_cart(w_url, abc_add_common_params($first_obj));
 			});
 
 			var loadIframe = function(url) {
-				var $iframe = $("#abc_embed_modal_<?php echo $js_unique_id;?> iframe");
+				var $iframe = $("#<?php echo $abc_embed_modal_id;?> iframe");
 				//clear iframe
 				$iframe.attr('src', '');
 				$iframe.hide();
@@ -265,8 +271,8 @@ var init_<?php echo $js_unique_id;?> = function() {
 		var abc_process_wrapper = function(){
 			//using local jQuery
 			$ = jQuery;
-			$('.abantecart-widget-container_<?php echo $js_unique_id;?>').show();
-			$('.abantecart-widget-container_<?php echo $js_unique_id;?>').each(function(){
+			$('.abantecart-widget-container').show();
+			$('.abantecart-widget-container').each(function(){
 				var c = $(this);
 				//widget url - base url of widget data (for case when 2 widgets from different domains on the same page)
 				var w_url = c.attr('data-url');
@@ -278,14 +284,14 @@ var init_<?php echo $js_unique_id;?> = function() {
 			});
 
 			//populate cart only 1 time
-			var $first_obj = $('.abantecart-widget-container_<?php echo $js_unique_id;?>').first();
+			var $first_obj = $('.abantecart-widget-container').first();
 			var main_url = $first_obj.attr('data-url');
 			var url_params = abc_add_common_params($first_obj);
 			abc_populate_cart(main_url, url_params);
 
-			$('.abantecart-widget-container_<?php echo $js_unique_id;?>').on("click", ".abantecart_addtocart", function(e){
+			$('.abantecart-widget-container').on("click", ".abantecart_addtocart", function(e){
 				var add_url='';
-				if($(e.target).attr('data-toggle') == "abcmodal"){
+				if($(e.target).attr('data-toggle') == "<?php echo $abcmodal_class_id; ?>"){
 					add_url =  $(e.target).attr('data-href');
 				}else{
 					add_url = $(this).find('button').attr('data-href');
@@ -295,7 +301,7 @@ var init_<?php echo $js_unique_id;?> = function() {
 						add_url += '&quantity='+ $('.abantecart_quantity input').val();
 				}
 
-				if($(e.target).attr('data-toggle') == "abcmodal"){
+				if($(e.target).attr('data-toggle') == "<?php echo $abcmodal_class_id; ?>"){
 					$(e.target).attr('data-href', add_url);
 					return null;
 				}
@@ -329,7 +335,7 @@ var init_<?php echo $js_unique_id;?> = function() {
 			var target_id = child.attr('id');
 			child.attr('id',target_id);
 			var url = w_url+'?rt=r/embed/js/product&product_id=' + product_id + '&target=' + target_id;
-			url += abc_add_common_params(child.parent('.abantecart-widget-container_<?php echo $js_unique_id;?>'));
+			url += abc_add_common_params(child.parent('.abantecart-widget-container'));
 			abc_process_request(url);
 		}
 
@@ -345,7 +351,7 @@ var init_<?php echo $js_unique_id;?> = function() {
 					url += '&category_id[]=' + cid +'&target_id['+cid+']=' + $(this).attr('id');
 				}
 			})
-			url += abc_add_common_params(children.first().parent('.abantecart-widget-container_<?php echo $js_unique_id;?>'));
+			url += abc_add_common_params(children.first().parent('.abantecart-widget-container'));
 			abc_process_request(url);
 		}
 
@@ -361,7 +367,7 @@ var init_<?php echo $js_unique_id;?> = function() {
 					url += '&manufacturer_id[]=' + cid +'&target_id['+cid+']=' + $(this).attr('id');
 				}
 			})
-			url += abc_add_common_params(children.first().parent('.abantecart-widget-container_<?php echo $js_unique_id;?>'));
+			url += abc_add_common_params(children.first().parent('.abantecart-widget-container'));
 			abc_process_request(url);
 		}
 
@@ -387,17 +393,17 @@ var init_<?php echo $js_unique_id;?> = function() {
 	}
 };
 
-var checkLoaded_<?php echo $js_unique_id;?> = function() {
+var checkLoaded = function() {
   return document.readyState === "complete" || document.readyState === "interactive";
 }
 
-if( checkLoaded_<?php echo $js_unique_id;?>() ) {
+if( checkLoaded() ) {
 	//if main window is already loaded fire up
-	init_<?php echo $js_unique_id;?>();
+	<?php echo $abc_init;?>();
 } else {
 	window.addEventListener("load", function () {
 	    // wait for main window to finish loading
-	   	init_<?php echo $js_unique_id;?>();
+	   	<?php echo $abc_init;?>();
 	});
 }
 
