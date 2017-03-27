@@ -24,20 +24,6 @@ class ControllerResponsesEmbedJS extends AController {
 
 	public $data = array();
 
-    public function __construct(Registry $registry, $instance_id, $controller, $parent_controller = ''){
-        if (HTTPS === true) {
-            $this->data['base'] = HTTPS_SERVER;
-        } else {
-            $this->data['base'] = HTTP_SERVER;
-        }
-        // generate unique URL based id. Fix for multi-store embed on single page
-	    $this->data['js_unique_id'] = base64_encode(preg_replace('#^https?://#', '', $this->data['base']));
-        $this->data['abc_embed_modal_id'] = "abc_embed_modal_".$this->data['js_unique_id'];
-        $this->data['abcmodal_class_id'] = "abcmodal";
-
-	    parent::__construct($registry, $instance_id, $controller, $parent_controller);
-    }
-
 	/**
 	 * NOTE: main() is bootup method
 	 */
@@ -54,8 +40,14 @@ class ControllerResponsesEmbedJS extends AController {
 			$this->data['test_cookie'] = true;
 		}
 
-        $this->data['store_name'] = $this->config->get('store_name');
+		if (HTTPS === true) {
+			$this->view->assign('base', HTTPS_SERVER);
+		} else {
+			$this->view->assign('base', HTTP_SERVER);
+		}
 
+		$this->view->assign('store_name', $this->config->get('store_name'));
+		
  		$icon_rl = $this->config->get('config_icon');
 		//see if we have a resource ID or path
 		if (is_numeric($icon_rl)) {
@@ -69,9 +61,9 @@ class ControllerResponsesEmbedJS extends AController {
 		} else if(!is_file(DIR_RESOURCE.$icon_rl)){
 		   $icon_rl ='';
 		}
-        $this->data['icon'] = $icon_rl;
-		$this->data['logo'] = $this->config->get('config_icon');
+		$this->view->assign('icon', $icon_rl);
 
+		$this->data['logo'] = $this->config->get('config_icon');
 		//see if we have a resource ID
 		if (is_numeric($this->data['logo'])) {
 			$resource = new AResource('image');
@@ -95,7 +87,6 @@ class ControllerResponsesEmbedJS extends AController {
 		$this->data['checkout'] =  $this->html->getSecureURL('r/checkout/shipping');
 
 		$this->data['embed_click_action'] =  $this->config->get('config_embed_click_action');
-
 
 		$this->view->setTemplate( 'embed/js.tpl' );
 		$this->view->batchAssign($this->data);
@@ -198,25 +189,22 @@ class ControllerResponsesEmbedJS extends AController {
 		$product_options = $this->model_catalog_product->getProductOptions( $product_id );
 
 		if(!$product_options) {
-            $attr = ' data-product-id="' . $product_id . '" data-href = "' . $this->html->getURL('r/embed/js/addtocart', '&product_id=' . $product_id) . '" ';
-
-            $product_info['button_addtocart'] = $this->html->buildElement(
-					array(
-							'type' => 'button',
-							'name' => 'addtocart' . $product_id,
-							'text' => $this->language->get('button_add_to_cart'),
-							'attr' => $attr
-					)
-			);
-		} else {
-            $attr = ' data-href="'. $this->data['product_details_url'].'" data-id="'. $product_id.'" data-html="true" data-target="#'.$this->data['abc_embed_modal_id'].'" data-toggle="'.$this->data['abcmodal_class_id'].'" ';
-
 			$product_info['button_addtocart'] = $this->html->buildElement(
 					array(
 							'type' => 'button',
 							'name' => 'addtocart' . $product_id,
 							'text' => $this->language->get('button_add_to_cart'),
-							'attr' => $attr
+
+							'attr' => 'data-product-id="' . $product_id . '" data-href = "' . $this->html->getURL('r/embed/js/addtocart', '&product_id=' . $product_id) . '"'
+					)
+			);
+		} else {
+			$product_info['button_addtocart'] = $this->html->buildElement(
+					array(
+							'type' => 'button',
+							'name' => 'addtocart' . $product_id,
+							'text' => $this->language->get('button_add_to_cart'),
+							'attr' => ' data-href="'. $this->data['product_details_url'].'"  data-id="'. $product_id.'" data-html="true" data-target="#abc_embed_modal" data-toggle="abcmodal" '
 					)
 			);
 			$product_info['options'] = $product_options;

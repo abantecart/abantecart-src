@@ -1,24 +1,18 @@
-<?php
-	//set dynamic valiables for javascript
-	$abc_count = "abc_count_$js_unique_id";
-	$abc_init = "init_$js_unique_id";
-
-?>
 //set global sign of allowed 3dparty cookies as true by default. This value might be overridden by test cookie js
 var abc_cookie_allowed = true; 
 var abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
 var abc_token_value = '';
-if(window.<?php echo $abc_count;?> === undefined){
-	window.<?php echo $abc_count;?> = 0;
+if(window.abc_count === undefined){
+	window.abc_count = 0;
 }
 
-var <?php echo $abc_init;?> = function() {
+var init = function() {
 	// Localize jQuery
 	var jQuery;
-	if(window.<?php echo $abc_count;?> > 0) {
+	if(window.abc_count > 0) {
 		return false;
 	} else {
-		window.<?php echo $abc_count;?>++;
+		window.abc_count++;
 	}
 	
 	/******** Load jQuery if not yet loaded (note: supported jquery >= 10 ) *********/
@@ -112,7 +106,7 @@ var <?php echo $abc_init;?> = function() {
 	/********* AbanteCart url wrapper  ***********/
 	function abc_process_url(url){
 		if(abc_cookie_allowed==false){
-			url += '&'+'<?php echo EMBED_TOKEN_NAME; ?>'+'='+abc_token_value;
+			url += '&'+abc_token_name+'='+abc_token_value;
 		}
 		return url;
 	}
@@ -136,7 +130,7 @@ var <?php echo $abc_init;?> = function() {
 	}
 
 	/******** Main function ********/
-	function main() {
+	function main() { 
 		//set new custom jQuery in global space for included scripts (custom bootstrap)
 		window.jQuery_abc = jQuery;
 
@@ -150,7 +144,7 @@ var <?php echo $abc_init;?> = function() {
 			script_loader("<?php echo $base.$this->templateResource('/javascript/bootstrap.embed.js'); ?>");
 
 			// Load bootstrap custom modal (single instance)
-			modal = '<div id="<?php echo $abc_embed_modal_id;?>" class="<?php echo $abcmodal_class_id; ?> fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">'+
+			modal = '<div id="abc_embed_modal" class="abcmodal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">'+
 						'<div class="abcmodal-dialog abcmodal-lg">'+
 							'<div class="abcmodal-content">' +
 								'<div class="abcmodal-header">' +
@@ -161,10 +155,10 @@ var <?php echo $abc_init;?> = function() {
 									'|&nbsp;<a class="abcmodal-reload" href="#" data-href="<?php echo $cart;?>"><?php echo $text_cart;?></a>&nbsp;&nbsp;' +
 									'|&nbsp;<a class="abcmodal-reload" href="#" data-href="<?php echo $checkout;?>"><?php echo $text_checkout;?></a>&nbsp;&nbsp;' +
 									'</div>'+
-									'<button aria-hidden="true" data-dismiss="<?php echo $abcmodal_class_id; ?>" class="abcmodal_close" type="button">&times;</button>' +
+									'<button aria-hidden="true" data-dismiss="abcmodal" class="abcmodal_close" type="button">&times;</button>' +
 					'<h4 class="abcmodal-title"></h4>' +
 								'</div>' +
-					'<div class="abcmodal-body"><iframe id="amp_product_frame_<?php echo $js_unique_id;?>" width="100%" height="650px" frameBorder="0"></iframe>' +
+					'<div class="abcmodal-body"><iframe id="amp_product_frame" width="100%" height="650px" frameBorder="0"></iframe>' +
 					'<div id="iframe_loading" display="none"></div>' +
 								'</div>' +
 							'</div>' +
@@ -172,13 +166,13 @@ var <?php echo $abc_init;?> = function() {
 				'</div>';
 			modal += '<div class="abantecart-widget-cart"></div>';
 			<?php
-			} else {
+			} else { 
 			?>
 				//for direct-link mode
-				$(document).on('click', "[data-toggle='<?php echo $abcmodal_class_id; ?>']", function(){
+				$(document).on('click', "[data-toggle='abcmodal']", function(){
 					var url = $(this).attr('data-href');
 					if(url.length > 0){
-						url += abc_add_common_params($(this).closest('.abantecart-widget-container'));
+						url += abc_add_common_params($(this).closest('.abantecart-widget-container'));		
 					<?php if($embed_click_action=='same_window'){ ?>
 						window.location = url;
 					<?php } ?>
@@ -188,15 +182,15 @@ var <?php echo $abc_init;?> = function() {
 					}
 					return false;
 				});
-			<?php
+			<?php 
 			}
 			?>
 
-			if( !$('#<?php echo $abc_embed_modal_id;?>').length && modal.length) {
+			if( !$('#abc_embed_modal').length && modal.length) {
 				$('body').append(modal);
 			<?php
 				// do cookie-test if session id not retrieved from http-request
-				if($test_cookie) {
+				if($test_cookie) { 
 			?>
 					abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
 					abc_token_value = abc_get_cookie();
@@ -205,8 +199,8 @@ var <?php echo $abc_init;?> = function() {
 						testcookieurl +='&<?php echo EMBED_TOKEN_NAME; ?>='+abc_token_value;
 					}
 					abc_process_request(testcookieurl);
-			<?php
-				}
+			<?php 
+				} 
 			?>
 			}
 
@@ -218,31 +212,31 @@ var <?php echo $abc_init;?> = function() {
 				else {
 					window.setTimeout(function() { processReady(callback); }, 100);
 				}
-			};
+			};	
 
 			processReady(function($){
 				//fill data into embedded blocks
 				abc_process_wrapper();
-			});
-
-			$('#<?php echo $abc_embed_modal_id;?>').on('click', '.abcmodal-reload', function (e) {
+			});	
+			
+			$('#abc_embed_modal').on('click', '.abcmodal-reload', function (e) {
 				var url = $(this).attr('data-href');
 				url += abc_add_common_params($(this).closest('.abantecart-widget-container'));
 				loadIframe( url );
 				return false;
 			});
-
-			$('#<?php echo $abc_embed_modal_id;?>').on('shown.bs.<?php echo $abcmodal_class_id; ?>', function (e) {
+			
+			$('#abc_embed_modal').on('shown.bs.abcmodal', function (e) {
 				var url = $(e.relatedTarget).attr('data-href');
 				url += abc_add_common_params($(e.relatedTarget).closest('.abantecart-widget-container'));
 				loadIframe( url );
-				$('#<?php echo $abc_embed_modal_id;?>').<?php echo $abcmodal_class_id; ?>('show');
-				$('.abantecart-widget-cart.<?php echo $js_unique_id; ?>').hide();
+				$('#abc_embed_modal').abcmodal('show');
+				$('.abantecart-widget-cart').hide();
 			});
 
-			$('#<?php echo $abc_embed_modal_id;?>').on('hide.bs.<?php echo $abcmodal_class_id; ?>', function (e) {
+			$('#abc_embed_modal').on('hide.bs.abcmodal', function (e) {
 				//clear iframe
-				$('#<?php echo $abc_embed_modal_id;?>').find('iframe').attr('src', '');
+				$('#abc_embed_modal').find('iframe').attr('src', '');
 				//reload cart
 				var $first_obj = $('.abantecart-widget-container').first();
 				var w_url = $first_obj.attr('data-url');
@@ -250,7 +244,7 @@ var <?php echo $abc_init;?> = function() {
 			});
 
 			var loadIframe = function(url) {
-				var $iframe = $("#<?php echo $abc_embed_modal_id;?> iframe");
+				var $iframe = $("#abc_embed_modal iframe");
 				//clear iframe
 				$iframe.attr('src', '');
 				$iframe.hide();
@@ -265,7 +259,7 @@ var <?php echo $abc_init;?> = function() {
 				$iframe.attr("src", frame_url);
 				return false;
 			};
-
+			
 		});
 
 		var abc_process_wrapper = function(){
@@ -291,7 +285,7 @@ var <?php echo $abc_init;?> = function() {
 
 			$('.abantecart-widget-container').on("click", ".abantecart_addtocart", function(e){
 				var add_url='';
-				if($(e.target).attr('data-toggle') == "<?php echo $abcmodal_class_id; ?>"){
+				if($(e.target).attr('data-toggle') == "abcmodal"){
 					add_url =  $(e.target).attr('data-href');
 				}else{
 					add_url = $(this).find('button').attr('data-href');
@@ -301,7 +295,7 @@ var <?php echo $abc_init;?> = function() {
 						add_url += '&quantity='+ $('.abantecart_quantity input').val();
 				}
 
-				if($(e.target).attr('data-toggle') == "<?php echo $abcmodal_class_id; ?>"){
+				if($(e.target).attr('data-toggle') == "abcmodal"){
 					$(e.target).attr('data-href', add_url);
 					return null;
 				}
@@ -354,7 +348,7 @@ var <?php echo $abc_init;?> = function() {
 			url += abc_add_common_params(children.first().parent('.abantecart-widget-container'));
 			abc_process_request(url);
 		}
-
+		
 		var abc_populate_manufacturers_items = function(children, w_url){
 			//using local jQuery
 			$ = jQuery;
@@ -387,23 +381,22 @@ var <?php echo $abc_init;?> = function() {
 			}
 			if(currency && currency.length > 0) {
 				append += '&currency='+currency;
-			}
-			return append;
+			}	
+			return append;		
 		}
 	}
 };
 
-var checkLoaded = function() {
-  return document.readyState === "complete" || document.readyState === "interactive";
-}
-
 if( checkLoaded() ) {
 	//if main window is already loaded fire up
-	<?php echo $abc_init;?>();
+	init();
 } else {
 	window.addEventListener("load", function () {
 	    // wait for main window to finish loading
-	   	<?php echo $abc_init;?>();
+	   	init();
 	});
 }
 
+function checkLoaded() {
+  return document.readyState === "complete" || document.readyState === "interactive";
+}
