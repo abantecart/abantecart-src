@@ -32,33 +32,11 @@ class ControllerPagesCheckoutSuccess extends AController{
 		$order_id = (int)$this->session->data['order_id'];
 
 		if ($order_id && $this->validate($order_id)) {
+			//debit transaction
+			$this->_debit_transaction($order_id);
 
-			// in default currency
-			$amount = $this->session->data['used_balance'];
-			if ($amount) {
-				$transaction_data = array (
-						'order_id'         => $order_id,
-						'amount'           => $amount,
-						'transaction_type' => 'order',
-						'created_by'       => $this->customer->getId(),
-						'description'      => sprintf($this->language->get('text_applied_balance_to_order'),
-								$this->currency->format($this->currency->convert($amount,
-										$this->config->get('config_currency'),
-										$this->session->data['currency']),
-										$this->session->data['currency'], 1),
-								$order_id)
-				);
-
-				try{
-					$this->customer->debitTransaction($transaction_data);
-				} catch (AException $e){
-					$error = new AError('Error: Debit transaction cannot be applied.' . var_export($transaction_data,
-									true) . "\n" . $e->getMessage() . "\n" . $e->getFile());
-					$error->toLog()->toMessages();
-				}
-			}
 			//clear session before redirect
-			$this->clearOrderSession();
+			$this->_clear_order_session();
 
 			//save order_id into session as processed order to allow one redirect
 			$this->session->data['processed_order_id'] = $order_id;
@@ -177,7 +155,7 @@ class ControllerPagesCheckoutSuccess extends AController{
 				));
 		$this->view->assign('continue_button', $continue);
 		//clear session anyway
-		$this->clearOrderSession();
+		$this->_clear_order_session();
 
 		if ($this->config->get('embed_mode') == true) {
 			//load special headers
@@ -206,6 +184,7 @@ class ControllerPagesCheckoutSuccess extends AController{
 		if ((int)$order_info['order_status_id'] == $this->order_status->getStatusByTextId('incomplete')) {
 			$new_status_id = $this->order_status->getStatusByTextId('failed');
 			$this->model_checkout_order->confirm($order_id, $new_status_id);
+			$this->_debit_transaction($order_id);
 			$this->messages->saveWarning(
 					sprintf($this->language->get('text_title_failed_order_to_admin'), $order_id),
 					$this->language->get('text_message_failed_order_to_admin') . ' ' . '#admin#rt=sale/order/details&order_id=' . $order_id
@@ -225,9 +204,42 @@ class ControllerPagesCheckoutSuccess extends AController{
 	}
 
 	/**
+	 * @param $order_id
+	 * @return bool|null
+	 */
+	protected function _debit_transaction($order_id){
+		// in default currency
+		$amount = $this->session->data['used_balance'];
+		if (!$amount) { return null; }
+		$transaction_data = array (
+				'order_id'         => $order_id,
+				'amount'           => $amount,
+				'transaction_type' => 'order',
+				'created_by'       => $this->customer->getId(),
+				'description'      => sprintf($this->language->get('text_applied_balance_to_order'),
+						$this->currency->format($this->currency->convert($amount,
+								$this->config->get('config_currency'),
+								$this->session->data['currency']),
+								$this->session->data['currency'], 1),
+						$order_id)
+		);
+
+		try{
+			$this->customer->debitTransaction($transaction_data);
+		} catch (AException $e){
+			$error = new AError('Error: Debit transaction cannot be applied.' . var_export($transaction_data,
+							true) . "\n" . $e->getMessage() . "\n" . $e->getFile());
+			$error->toLog()->toMessages();
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Method for purging session data related to order
 	 */
-	protected function clearOrderSession(){
+	protected function _clear_order_session(){
 		$this->cart->clear();
 		$this->customer->clearCustomerCart();
 		unset($this->session->data['shipping_method'],
