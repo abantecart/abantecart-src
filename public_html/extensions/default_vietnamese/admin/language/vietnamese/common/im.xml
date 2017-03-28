@@ -1,83 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions>
-  <definition>
-    <key>im_text_notification</key>
-    <value><![CDATA[thông báo]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_order_update</key>
-    <value><![CDATA[để cập nhật]]></value>
-  </definition>
-  <definition>
-    <key>im_order_update_text_to_customer</key>
-    <value><![CDATA[Chỗ đặt của bạn <a href="%s"># %s</a> đã được cập nhật. Để biết thêm thông tin chi tiết, đăng nhập vào tài khoản của %s.]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_new_order</key>
-    <value><![CDATA[Đơn hàng mới]]></value>
-  </definition>
-  <definition>
-    <key>im_new_order_text_to_admin</key>
-    <value><![CDATA[New Order <a href="#admin#rt=sale/order/details&order_id=%s"># %s</a> đã được tạo ra!]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_new_customer</key>
-    <value><![CDATA[Đăng ký khách hàng]]></value>
-  </definition>
-  <definition>
-    <key>im_new_customer_text_to_admin</key>
-    <value><![CDATA[Khách hàng mới # %s đã được đăng ký!]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_account_update</key>
-    <value><![CDATA[Cập nhật Tài khoản Administrator]]></value>
-  </definition>
-  <definition>
-    <key>im_account_update_text_to_admin</key>
-    <value><![CDATA[thông tin tài khoản quản trị viên của bạn đã được thay đổi.]]></value>
-  </definition>
-  <definition>
-    <key>im_customer_account_update_text_to_admin</key>
-    <value><![CDATA[Khách hàng mới # %s đã được cập nhật!]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_customer_contact</key>
-    <value><![CDATA[Thắc mắc khách hàng]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_product_out_of_stock</key>
-    <value><![CDATA[Sản phẩm Hết hàng]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_product_review</key>
-    <value><![CDATA[Nhận xét sản phẩm mới]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_newsletter</key>
-    <value><![CDATA[Tin]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_system_messages</key>
-    <value><![CDATA[hệ thống tin nhắn]]></value>
-  </definition>
-  <definition>
-    <key>im_customer_account_update_text_to_customer</key>
-    <value><![CDATA[giao dịch mới đã được đăng lên tài khoản %s bạn với số tiền của %s. Để biết thêm thông tin chi tiết, đăng nhập vào tài khoản của %s.]]></value>
-  </definition>
-  <definition>
-    <key>text_notification_for</key>
-    <value><![CDATA[Thông báo cho người sử dụng %s]]></value>
-  </definition>
-  <definition>
-    <key>error_unknown_sendpoint</key>
-    <value><![CDATA[Sendpoint %s không tìm thấy trong danh sách sendpoints!]]></value>
-  </definition>
-  <definition>
-    <key>text_settings_success_saved</key>
-    <value><![CDATA[Cài đặt thông báo lưu thành công!]]></value>
-  </definition>
-  <definition>
-    <key>im_error_mail_address</key>
-    <value><![CDATA[địa chỉ email %s hình như không hợp lệ!]]></value>
-  </definition>
+	<definition>
+		<key>im_text_notification</key>
+		<value><![CDATA[thông báo]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_order_update</key>
+		<value><![CDATA[để cập nhật]]></value>
+	</definition>
+	<definition>
+		<key>im_order_update_text_to_customer</key>
+		<value><![CDATA[Chỗ đặt của bạn <a href="%s"># %s</a> đã được cập nhật. Để biết thêm thông tin chi tiết, đăng nhập vào tài khoản của %s.]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_new_order</key>
+		<value><![CDATA[Đơn hàng mới]]></value>
+	</definition>
+	<definition>
+		<key>im_new_order_text_to_admin</key>
+		<value><![CDATA[New Order <a href="#admin#rt=sale/order/details&order_id=%s"># %s</a> đã được tạo ra!]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_new_customer</key>
+		<value><![CDATA[Đăng ký khách hàng]]></value>
+	</definition>
+	<definition>
+		<key>im_new_customer_text_to_admin</key>
+		<value><![CDATA[Khách hàng mới # %s đã được đăng ký!]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_account_update</key>
+		<value><![CDATA[Cập nhật Tài khoản Administrator]]></value>
+	</definition>
+	<definition>
+		<key>im_account_update_text_to_admin</key>
+		<value><![CDATA[thông tin tài khoản quản trị viên của bạn đã được thay đổi.]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_text_to_admin</key>
+		<value><![CDATA[Khách hàng mới # %s đã được cập nhật!]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_customer_contact</key>
+		<value><![CDATA[Thắc mắc khách hàng]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_product_out_of_stock</key>
+		<value><![CDATA[Sản phẩm Hết hàng]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_product_review</key>
+		<value><![CDATA[Nhận xét sản phẩm mới]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_newsletter</key>
+		<value><![CDATA[Tin]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_system_messages</key>
+		<value><![CDATA[hệ thống tin nhắn]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_text_to_customer</key>
+		<value><![CDATA[giao dịch mới đã được đăng lên tài khoản %s bạn với số tiền của %s. Để biết thêm thông tin chi tiết, đăng nhập vào tài khoản của %s.]]></value>
+	</definition>
+	<definition>
+		<key>text_notification_for</key>
+		<value><![CDATA[Thông báo cho người sử dụng %s]]></value>
+	</definition>
+	<definition>
+		<key>error_unknown_sendpoint</key>
+		<value><![CDATA[Sendpoint %s không tìm thấy trong danh sách sendpoints!]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_success_saved</key>
+		<value><![CDATA[Cài đặt thông báo lưu thành công!]]></value>
+	</definition>
+	<definition>
+		<key>im_error_mail_address</key>
+		<value><![CDATA[địa chỉ email %s hình như không hợp lệ!]]></value>
+	</definition>
+	<definition>
+		<key>im_order_update_text_to_guest</key>
+		<value><![CDATA[Chỗ đặt của bạn <a href="%s"># %s</a> đã được cập nhật. Để biết thêm chi tiết, vui lòng truy cập trang đặt hàng %s.]]></value>
+	</definition>
 </definitions>

@@ -332,4 +332,8 @@
 		<key>price_with_tax</key>
 		<value><![CDATA[вкл. налоги]]></value>
 	</definition>
+	<definition>
+		<key>text_back_on_top</key>
+		<value><![CDATA[Вернуться к началу]]></value>
+	</definition>
 </definitions>

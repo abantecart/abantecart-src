@@ -1,83 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions>
-  <definition>
-    <key>im_text_notification</key>
-    <value><![CDATA[Notifications]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_order_update</key>
-    <value><![CDATA[Commander Mises à jour]]></value>
-  </definition>
-  <definition>
-    <key>im_order_update_text_to_customer</key>
-    <value><![CDATA[Votre commande <a href="%s"># %s</a> a été mis à jour. Pour plus de détails, connectez-vous %s compte.]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_new_order</key>
-    <value><![CDATA[Nouvelles commandes]]></value>
-  </definition>
-  <definition>
-    <key>im_new_order_text_to_admin</key>
-    <value><![CDATA[New Order <a href="#admin#rt=sale/order/details&order_id=%s"># %s</a> a été créé!]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_new_customer</key>
-    <value><![CDATA[Enregistrements clients]]></value>
-  </definition>
-  <definition>
-    <key>im_new_customer_text_to_admin</key>
-    <value><![CDATA[Nouveau client # %s a été enregistré!]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_account_update</key>
-    <value><![CDATA[Mises à jour du compte Administrateur de l&#39;utilisateur]]></value>
-  </definition>
-  <definition>
-    <key>im_account_update_text_to_admin</key>
-    <value><![CDATA[Votre compte utilisateur administrateur de détails ont été changés.]]></value>
-  </definition>
-  <definition>
-    <key>im_customer_account_update_text_to_admin</key>
-    <value><![CDATA[Nouveau client # %s a été mis à jour!]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_customer_contact</key>
-    <value><![CDATA[Demandes de renseignements des clients]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_product_out_of_stock</key>
-    <value><![CDATA[Produits Rupture de stock]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_product_review</key>
-    <value><![CDATA[Nouveaux Commentaires sur les produits]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_newsletter</key>
-    <value><![CDATA[Newsletters]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_system_messages</key>
-    <value><![CDATA[Messages système]]></value>
-  </definition>
-  <definition>
-    <key>im_customer_account_update_text_to_customer</key>
-    <value><![CDATA[Nouvelle transaction a été affecté à votre compte %s la quantité de %s. Pour plus de détails, connectez-vous %s compte.]]></value>
-  </definition>
-  <definition>
-    <key>text_notification_for</key>
-    <value><![CDATA[Notifications pour l&#39;utilisateur %s]]></value>
-  </definition>
-  <definition>
-    <key>error_unknown_sendpoint</key>
-    <value><![CDATA[Sendpoint %s ne se trouve pas dans la liste des sendpoints!]]></value>
-  </definition>
-  <definition>
-    <key>text_settings_success_saved</key>
-    <value><![CDATA[Paramètres de notification sauvegardés avec succès!]]></value>
-  </definition>
-  <definition>
-    <key>im_error_mail_address</key>
-    <value><![CDATA[Adresse e-mail %s ressemble invalide!]]></value>
-  </definition>
+	<definition>
+		<key>im_text_notification</key>
+		<value><![CDATA[Notifications]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_order_update</key>
+		<value><![CDATA[Commander Mises à jour]]></value>
+	</definition>
+	<definition>
+		<key>im_order_update_text_to_customer</key>
+		<value><![CDATA[Votre commande <a href="%s"># %s</a> a été mis à jour. Pour plus de détails, connectez-vous %s compte.]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_new_order</key>
+		<value><![CDATA[Nouvelles commandes]]></value>
+	</definition>
+	<definition>
+		<key>im_new_order_text_to_admin</key>
+		<value><![CDATA[New Order <a href="#admin#rt=sale/order/details&order_id=%s"># %s</a> a été créé!]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_new_customer</key>
+		<value><![CDATA[Enregistrements clients]]></value>
+	</definition>
+	<definition>
+		<key>im_new_customer_text_to_admin</key>
+		<value><![CDATA[Nouveau client # %s a été enregistré!]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_account_update</key>
+		<value><![CDATA[Mises à jour du compte Administrateur de l&#39;utilisateur]]></value>
+	</definition>
+	<definition>
+		<key>im_account_update_text_to_admin</key>
+		<value><![CDATA[Votre compte utilisateur administrateur de détails ont été changés.]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_text_to_admin</key>
+		<value><![CDATA[Nouveau client # %s a été mis à jour!]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_customer_contact</key>
+		<value><![CDATA[Demandes de renseignements des clients]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_product_out_of_stock</key>
+		<value><![CDATA[Produits Rupture de stock]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_product_review</key>
+		<value><![CDATA[Nouveaux Commentaires sur les produits]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_newsletter</key>
+		<value><![CDATA[Newsletters]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_system_messages</key>
+		<value><![CDATA[Messages système]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_text_to_customer</key>
+		<value><![CDATA[Nouvelle transaction a été affecté à votre compte %s la quantité de %s. Pour plus de détails, connectez-vous %s compte.]]></value>
+	</definition>
+	<definition>
+		<key>text_notification_for</key>
+		<value><![CDATA[Notifications pour l&#39;utilisateur %s]]></value>
+	</definition>
+	<definition>
+		<key>error_unknown_sendpoint</key>
+		<value><![CDATA[Sendpoint %s ne se trouve pas dans la liste des sendpoints!]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_success_saved</key>
+		<value><![CDATA[Paramètres de notification sauvegardés avec succès!]]></value>
+	</definition>
+	<definition>
+		<key>im_error_mail_address</key>
+		<value><![CDATA[Adresse e-mail %s ressemble invalide!]]></value>
+	</definition>
+	<definition>
+		<key>im_order_update_text_to_guest</key>
+		<value><![CDATA[Votre commande <a href="%s"># %s</a> a été mis à jour. Pour plus de détails, consulter la page s&#39;il vous plaît de commande %s.]]></value>
+	</definition>
 </definitions>

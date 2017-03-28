@@ -84,4 +84,8 @@
 		<key>im_account_update_text_to_admin</key>
 		<value><![CDATA[Ваша учетная запись администратора была изменена.]]></value>
 	</definition>
+	<definition>
+		<key>im_order_update_text_to_guest</key>
+		<value><![CDATA[Ваш заказ <a href="%s"># %s</a> обновлен. Для получения более подробной информации, пожалуйста, посетите страницу заказа %s.]]></value>
+	</definition>
 </definitions>

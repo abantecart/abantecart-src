@@ -1,83 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions>
-  <definition>
-    <key>im_text_notification</key>
-    <value><![CDATA[underretninger]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_order_update</key>
-    <value><![CDATA[Bestil opdateringer]]></value>
-  </definition>
-  <definition>
-    <key>im_order_update_text_to_customer</key>
-    <value><![CDATA[Din ordre <a href="%s"># %s</a> er blevet opdateret. For flere detaljer, login til %s konto.]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_new_order</key>
-    <value><![CDATA[Nye ordrer]]></value>
-  </definition>
-  <definition>
-    <key>im_new_order_text_to_admin</key>
-    <value><![CDATA[New Order <a href="#admin#rt=sale/order/details&order_id=%s"># %s</a> er blevet oprettet!]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_new_customer</key>
-    <value><![CDATA[Kundernes Registreringer]]></value>
-  </definition>
-  <definition>
-    <key>im_new_customer_text_to_admin</key>
-    <value><![CDATA[Ny kunde # %s er registreret!]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_account_update</key>
-    <value><![CDATA[Konto opdateringer Administrator User]]></value>
-  </definition>
-  <definition>
-    <key>im_account_update_text_to_admin</key>
-    <value><![CDATA[dine kontooplysninger administrator bruger er blevet ændret.]]></value>
-  </definition>
-  <definition>
-    <key>im_customer_account_update_text_to_admin</key>
-    <value><![CDATA[Ny kunde # %s er blevet opdateret!]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_customer_contact</key>
-    <value><![CDATA[Kunde Forespørgsler]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_product_out_of_stock</key>
-    <value><![CDATA[Produkter Udsolgt]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_product_review</key>
-    <value><![CDATA[Nye anmeldelser om produktet]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_newsletter</key>
-    <value><![CDATA[Nyhedsbreve]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_system_messages</key>
-    <value><![CDATA[Systemmeddelelser]]></value>
-  </definition>
-  <definition>
-    <key>im_customer_account_update_text_to_customer</key>
-    <value><![CDATA[Ny transaktion er blevet sendt til din %s konto i mængden af ​​%s. For flere detaljer, login til %s konto.]]></value>
-  </definition>
-  <definition>
-    <key>text_notification_for</key>
-    <value><![CDATA[Meddelelser til brugeren %s]]></value>
-  </definition>
-  <definition>
-    <key>error_unknown_sendpoint</key>
-    <value><![CDATA[Sendpoint %s ikke findes i sendpoints liste!]]></value>
-  </definition>
-  <definition>
-    <key>text_settings_success_saved</key>
-    <value><![CDATA[Underretningsindstillinger gemt!]]></value>
-  </definition>
-  <definition>
-    <key>im_error_mail_address</key>
-    <value><![CDATA[E-mail-adresse %s ligner ugyldig!]]></value>
-  </definition>
+	<definition>
+		<key>im_text_notification</key>
+		<value><![CDATA[underretninger]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_order_update</key>
+		<value><![CDATA[Bestil opdateringer]]></value>
+	</definition>
+	<definition>
+		<key>im_order_update_text_to_customer</key>
+		<value><![CDATA[Din ordre <a href="%s"># %s</a> er blevet opdateret. For flere detaljer, login til %s konto.]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_new_order</key>
+		<value><![CDATA[Nye ordrer]]></value>
+	</definition>
+	<definition>
+		<key>im_new_order_text_to_admin</key>
+		<value><![CDATA[New Order <a href="#admin#rt=sale/order/details&order_id=%s"># %s</a> er blevet oprettet!]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_new_customer</key>
+		<value><![CDATA[Kundernes Registreringer]]></value>
+	</definition>
+	<definition>
+		<key>im_new_customer_text_to_admin</key>
+		<value><![CDATA[Ny kunde # %s er registreret!]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_account_update</key>
+		<value><![CDATA[Konto opdateringer Administrator User]]></value>
+	</definition>
+	<definition>
+		<key>im_account_update_text_to_admin</key>
+		<value><![CDATA[dine kontooplysninger administrator bruger er blevet ændret.]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_text_to_admin</key>
+		<value><![CDATA[Ny kunde # %s er blevet opdateret!]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_customer_contact</key>
+		<value><![CDATA[Kunde Forespørgsler]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_product_out_of_stock</key>
+		<value><![CDATA[Produkter Udsolgt]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_product_review</key>
+		<value><![CDATA[Nye anmeldelser om produktet]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_newsletter</key>
+		<value><![CDATA[Nyhedsbreve]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_system_messages</key>
+		<value><![CDATA[Systemmeddelelser]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_text_to_customer</key>
+		<value><![CDATA[Ny transaktion er blevet sendt til din %s konto i mængden af ​​%s. For flere detaljer, login til %s konto.]]></value>
+	</definition>
+	<definition>
+		<key>text_notification_for</key>
+		<value><![CDATA[Meddelelser til brugeren %s]]></value>
+	</definition>
+	<definition>
+		<key>error_unknown_sendpoint</key>
+		<value><![CDATA[Sendpoint %s ikke findes i sendpoints liste!]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_success_saved</key>
+		<value><![CDATA[Underretningsindstillinger gemt!]]></value>
+	</definition>
+	<definition>
+		<key>im_error_mail_address</key>
+		<value><![CDATA[E-mail-adresse %s ligner ugyldig!]]></value>
+	</definition>
+	<definition>
+		<key>im_order_update_text_to_guest</key>
+		<value><![CDATA[Din ordre <a href="%s"># %s</a> er blevet opdateret. For flere detaljer, kan du besøge ordre side %s.]]></value>
+	</definition>
 </definitions>

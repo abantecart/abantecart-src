@@ -328,4 +328,8 @@
 		<key>price_with_tax</key>
 		<value><![CDATA[Inc Tax]]></value>
 	</definition>
+	<definition>
+		<key>text_back_on_top</key>
+		<value><![CDATA[Back to top]]></value>
+	</definition>
 </definitions>

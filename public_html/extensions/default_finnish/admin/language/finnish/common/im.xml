@@ -1,83 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions>
-  <definition>
-    <key>im_text_notification</key>
-    <value><![CDATA[ilmoitukset]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_order_update</key>
-    <value><![CDATA[Tilaa päivitykset]]></value>
-  </definition>
-  <definition>
-    <key>im_order_update_text_to_customer</key>
-    <value><![CDATA[Tilauksesi <a href="%s"># %s</a> on päivitetty. Lisätietoja, kirjaudu %s tilille.]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_new_order</key>
-    <value><![CDATA[Uudet tilaukset]]></value>
-  </definition>
-  <definition>
-    <key>im_new_order_text_to_admin</key>
-    <value><![CDATA[New Order <a href="#admin#rt=sale/order/details&order_id=%s"># %s</a> on luotu!]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_new_customer</key>
-    <value><![CDATA[asiakas rekisteröinnit]]></value>
-  </definition>
-  <definition>
-    <key>im_new_customer_text_to_admin</key>
-    <value><![CDATA[Uusi asiakas # %s on rekisteröity!]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_account_update</key>
-    <value><![CDATA[Ylläpitäjä User Account päivitykset]]></value>
-  </definition>
-  <definition>
-    <key>im_account_update_text_to_admin</key>
-    <value><![CDATA[Järjestelmänvalvoja käyttäjätilin tiedot ovat muuttuneet.]]></value>
-  </definition>
-  <definition>
-    <key>im_customer_account_update_text_to_admin</key>
-    <value><![CDATA[Uusi asiakas # %s on päivitetty!]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_customer_contact</key>
-    <value><![CDATA[asiakkaan Tiedusteluja]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_product_out_of_stock</key>
-    <value><![CDATA[Tuotteet varastossa]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_product_review</key>
-    <value><![CDATA[Uusi Tuotearvostelut]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_newsletter</key>
-    <value><![CDATA[uutiskirjeet]]></value>
-  </definition>
-  <definition>
-    <key>im_sendpoint_name_system_messages</key>
-    <value><![CDATA[Järjestelmäilmoitukset]]></value>
-  </definition>
-  <definition>
-    <key>im_customer_account_update_text_to_customer</key>
-    <value><![CDATA[Uusi tapahtuma on lähetetty oman %s tilille määrän %s. Lisätietoja, kirjaudu %s tilille.]]></value>
-  </definition>
-  <definition>
-    <key>text_notification_for</key>
-    <value><![CDATA[Ilmoitukset käyttäjälle %s]]></value>
-  </definition>
-  <definition>
-    <key>error_unknown_sendpoint</key>
-    <value><![CDATA[Sendpoint %s ei löydy sendpoints lista!]]></value>
-  </definition>
-  <definition>
-    <key>text_settings_success_saved</key>
-    <value><![CDATA[Ilmoitus-asetukset tallennettu!]]></value>
-  </definition>
-  <definition>
-    <key>im_error_mail_address</key>
-    <value><![CDATA[Sähköpostiosoite %s näyttää kelpaa!]]></value>
-  </definition>
+	<definition>
+		<key>im_text_notification</key>
+		<value><![CDATA[ilmoitukset]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_order_update</key>
+		<value><![CDATA[Tilaa päivitykset]]></value>
+	</definition>
+	<definition>
+		<key>im_order_update_text_to_customer</key>
+		<value><![CDATA[Tilauksesi <a href="%s"># %s</a> on päivitetty. Lisätietoja, kirjaudu %s tilille.]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_new_order</key>
+		<value><![CDATA[Uudet tilaukset]]></value>
+	</definition>
+	<definition>
+		<key>im_new_order_text_to_admin</key>
+		<value><![CDATA[New Order <a href="#admin#rt=sale/order/details&order_id=%s"># %s</a> on luotu!]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_new_customer</key>
+		<value><![CDATA[asiakas rekisteröinnit]]></value>
+	</definition>
+	<definition>
+		<key>im_new_customer_text_to_admin</key>
+		<value><![CDATA[Uusi asiakas # %s on rekisteröity!]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_account_update</key>
+		<value><![CDATA[Ylläpitäjä User Account päivitykset]]></value>
+	</definition>
+	<definition>
+		<key>im_account_update_text_to_admin</key>
+		<value><![CDATA[Järjestelmänvalvoja käyttäjätilin tiedot ovat muuttuneet.]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_text_to_admin</key>
+		<value><![CDATA[Uusi asiakas # %s on päivitetty!]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_customer_contact</key>
+		<value><![CDATA[asiakkaan Tiedusteluja]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_product_out_of_stock</key>
+		<value><![CDATA[Tuotteet varastossa]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_product_review</key>
+		<value><![CDATA[Uusi Tuotearvostelut]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_newsletter</key>
+		<value><![CDATA[uutiskirjeet]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_system_messages</key>
+		<value><![CDATA[Järjestelmäilmoitukset]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_text_to_customer</key>
+		<value><![CDATA[Uusi tapahtuma on lähetetty oman %s tilille määrän %s. Lisätietoja, kirjaudu %s tilille.]]></value>
+	</definition>
+	<definition>
+		<key>text_notification_for</key>
+		<value><![CDATA[Ilmoitukset käyttäjälle %s]]></value>
+	</definition>
+	<definition>
+		<key>error_unknown_sendpoint</key>
+		<value><![CDATA[Sendpoint %s ei löydy sendpoints lista!]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_success_saved</key>
+		<value><![CDATA[Ilmoitus-asetukset tallennettu!]]></value>
+	</definition>
+	<definition>
+		<key>im_error_mail_address</key>
+		<value><![CDATA[Sähköpostiosoite %s näyttää kelpaa!]]></value>
+	</definition>
+	<definition>
+		<key>im_order_update_text_to_guest</key>
+		<value><![CDATA[Tilauksesi <a href="%s"># %s</a> on päivitetty. Lisätietoja osoitteessa tilaussivulle %s.]]></value>
+	</definition>
 </definitions>
