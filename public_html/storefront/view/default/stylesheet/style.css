@@ -2543,7 +2543,8 @@ label.error {
 	background: url(../image/gotop.png) no-repeat 0 0;
 	display: block;
 	text-indent: -9999px;
-	overflow: hidden
+	overflow: hidden;
+	z-index: 100;
 }
 
 .the-icons li {
