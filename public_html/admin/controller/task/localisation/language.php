@@ -65,7 +65,10 @@ class ControllerTaskLocalisationLanguage extends AController{
 		$dst_language_id = $step_settings['language_id'];
 		$src_language_id = $step_settings['src_language_id'];
 
-		$pkeys = $this->language->getTranslatableFields($table_name);
+		$pkeys = $this->language->getPrimaryKeys($table_name);
+		$pkeys = array_merge($pkeys,array_keys($step_settings['table']['indexes']));
+		$pkeys = array_unique($pkeys);
+
 		$specific_sql = '';
 		foreach ($pkeys as $pk){
 			if ($pk == 'language_id'){
