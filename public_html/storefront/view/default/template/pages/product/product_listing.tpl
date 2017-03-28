@@ -63,10 +63,11 @@
 				<?php echo $this->getHookvar('product_listing_details0_'.$product['product_id']);?>
 				<?php if ($display_price) { ?>
 					<div class="pricetag jumbotron">
-						<span class="spiral"></span>
 						<?php if($product['call_to_order']){ ?>
 							<a data-id="<?php echo $product['product_id'] ?>" href="#"
-								   class="btn call_to_order"><?php echo $text_call_to_order?>&nbsp;&nbsp;<i class="fa fa-phone"></i></a>
+								   class="btn call_to_order" title="<?php echo $text_call_to_order?>">
+								<i class="fa fa-phone fa-fw"></i>
+							</a>
 						<?php } else if ($product['track_stock'] && !$product['in_stock']) { ?>
 							<span class="nostock"><?php echo $product['no_stock_text']; ?></span>
 						<?php } else { ?>
@@ -157,7 +158,9 @@
 
 							<?php if($product['call_to_order']){ ?>
 								<a data-id="<?php echo $product['product_id'] ?>" href="#"
-									   class="btn call_to_order"><?php echo $text_call_to_order?>&nbsp;&nbsp;<i class="fa fa-phone"></i></a>
+									   class="btn call_to_order" title="<?php echo $text_call_to_order?>">
+									<i class="fa fa-phone fa-fw"></i>
+								</a>
 							<?php } else if ($product['track_stock'] && !$product['in_stock']) { ?>
 								<span class="nostock"><?php echo $product['no_stock_text']; ?></span>
 							<?php } else { ?>
