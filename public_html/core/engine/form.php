@@ -564,6 +564,7 @@ class AForm{
 							'form_open'   => $js . $form_open->getHtml(),
 							'form_close'  => $form_close,
 							'submit'      => $submit,
+                            'button_reset' => $this->language->get('button_reset'),
 					)
 			);
 			$output = $view->fetch('form/form.tpl');
