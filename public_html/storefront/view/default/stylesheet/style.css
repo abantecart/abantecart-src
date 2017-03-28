@@ -3327,6 +3327,16 @@ paypal pro styles
 		max-width: 235px !important;
 	}
 
+	.promo_block .promo_icon {
+		font-size: 40px;
+	}
+	#banner_slides img.wp1_3 {
+		left: auto !important;
+	}
+	#banner_slides .wp1_left.slide2_bot {
+		left: 0 !important;
+	}
+
 	.returncustomer, .newcustomer {
 		width: 46%;
 		padding: 10px 10px;
