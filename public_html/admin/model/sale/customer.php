@@ -995,9 +995,6 @@ class ModelSaleCustomer extends Model {
 
 		// send email to customer
 		$customer_info = $this->getCustomer($customer_id);
-
-		$this->log->write(var_Export($customer_info, true));
-
 		if ($customer_info && !$customer_info[ 'approved' ]) {
 
 			$this->load->language('mail/customer');
