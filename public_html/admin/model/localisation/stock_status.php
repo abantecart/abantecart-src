@@ -44,7 +44,7 @@ class ModelLocalisationStockStatus extends Model {
 	public function editStockStatus($stock_status_id, $data) {
 		foreach ($data['stock_status'] as $language_id => $value) {
 
-			$this->language->updateDescriptions('stock_statuses',
+			$this->language->replaceDescriptions('stock_statuses',
 												 array( 'stock_status_id' => (int)$stock_status_id,
 														'language_id' => (int)$language_id ),
 												 array($language_id => array(
