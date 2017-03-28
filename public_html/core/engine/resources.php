@@ -764,12 +764,14 @@ class AResource{
 				//when need to show default image
 				if ($noimage){
 					$thumb_url = $this->getResizedImageURL(array ('resource_id' => 0), $width, $height);
+
 					$output[$object_id] = array (
 							'origin'      => 'internal',
 							'title'       => '',
 							'description' => '',
 							'width'       => $width,
 							'height'      => $height,
+							'thumb_url'     => $thumb_url,
 							'thumb_html'  => $this->html->buildResourceImage(
 									array (
 											'url'    => $thumb_url,
@@ -777,6 +779,8 @@ class AResource{
 											'height' => $height,
 											'attr'   => 'alt=""'))
 					);
+
+
 				} else{
 					$output[$object_id] = array ();
 				}
