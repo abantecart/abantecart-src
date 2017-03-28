@@ -548,7 +548,7 @@ li.dropdown {
     text-overflow: ellipsis;
     -o-text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 120px;
+    max-width: 115px;
 }
 
 #top_cart_product_list table td.total {
@@ -1033,8 +1033,6 @@ ul.categorymenu > li ul > li img {
 	background: #00A1CB;
 	color: #fff;
 	padding: 8px;
-	max-width: 195px;
-	min-width: 112px;
 	font-size: 13px;
 	text-transform: uppercase;
 	border: none;
@@ -2543,7 +2541,8 @@ label.error {
 	background: url(../image/gotop.png) no-repeat 0 0;
 	display: block;
 	text-indent: -9999px;
-	overflow: hidden
+	overflow: hidden;
+	z-index: 100;
 }
 
 .the-icons li {
