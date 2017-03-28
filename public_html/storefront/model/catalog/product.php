@@ -228,7 +228,7 @@ class ModelCatalogProduct extends Model{
     {
         $store_id = (int)$this->config->get('config_store_id');
         $language_id = (int)$this->config->get('storefront_language_id');
-        $cache_key = 'product_listing.products_category.'.(int)$category_id.'.store_'.$store_id.'_sort_'.$sort.'_order_'.$order.'_start_'.$start.'_limit_'.$limit.'_lang_'.$language_id;
+        $cache_key = 'product.listing.products_category.'.(int)$category_id.'.store_'.$store_id.'_sort_'.$sort.'_order_'.$order.'_start_'.$start.'_limit_'.$limit.'_lang_'.$language_id;
         $cache = $this->cache->pull($cache_key);
         if ($cache === false) {
 
@@ -291,7 +291,7 @@ class ModelCatalogProduct extends Model{
 	public function getTotalProductsByCategoryId($category_id = 0){
         $store_id = (int)$this->config->get('config_store_id');
 
-        $cache_key = 'product_listing.products_by_category.'.(int)$category_id.'.store_'.$store_id;
+        $cache_key = 'product.listing.products_by_category.'.(int)$category_id.'.store_'.$store_id;
         $cache = $this->cache->pull($cache_key);
         if ($cache === false) {
 		    $query = $this->db->query("SELECT COUNT(*) AS total
@@ -972,13 +972,12 @@ class ModelCatalogProduct extends Model{
 	}
 
     /**
-     * Quick check if there are any optioins for the product
+     * Quick check if there are any options for the product
      *
      * @param int $product_id
      * @return boolean
      */
     public function hasAnyOptions($product_id){
-        return true;
         if (!(int)$product_id) {
             return null;
         }
