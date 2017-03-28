@@ -1473,6 +1473,12 @@ form .help-block {
 	-moz-border-radius: 0;
 	border-radius: 0;
 }
+.input-group-addon.captcha-addon {
+	padding: 0;
+}
+.input-group-addon.captcha-addon img{
+	height: 32px;
+}
 
 .btn-orange, .btn-primary {
 	color: #ffffff;
