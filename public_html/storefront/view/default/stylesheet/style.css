@@ -548,7 +548,7 @@ li.dropdown {
     text-overflow: ellipsis;
     -o-text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 120px;
+    max-width: 115px;
 }
 
 #top_cart_product_list table td.total {
