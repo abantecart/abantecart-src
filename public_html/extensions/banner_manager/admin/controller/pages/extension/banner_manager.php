@@ -428,7 +428,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 				'value' => dateISO2Display($this->data['end_date']),
 				'default' => '',
 				'dateformat' => format4Datepicker($this->language->get('date_format_short')),
-				'highlight' => 'pased',
+				'highlight' => 'past',
 				'style' => 'small-field'));
 
 		$this->data['form']['text']['date_end'] = $this->language->get('entry_banner_date_end');

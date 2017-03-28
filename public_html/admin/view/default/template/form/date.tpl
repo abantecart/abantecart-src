@@ -15,7 +15,7 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#<?php echo $id ?>').datepicker({dateFormat: '<?php echo $dateformat ?>'});
-		<?php if ( $highlight == 'pased' ) : ?>
+		<?php if ( $highlight == 'past' ) : ?>
 		var startdate = $('#<?php echo $id ?>').val();
 		if ((new Date(startdate).getTime() < new Date().getTime())) {
 			$('#<?php echo $id ?>').closest('.afield').addClass('focus');
