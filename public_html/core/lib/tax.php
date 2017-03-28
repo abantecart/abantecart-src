@@ -39,6 +39,7 @@ class ATax{
 	 * @var ASession or customer's data
 	 */
 	protected $customer_data;
+	protected $customer_group_id;
 
 	/**
 	 * @param $registry Registry
@@ -66,6 +67,12 @@ class ATax{
 			}
 		}
 		$this->setZone($country_id, $zone_id);
+
+		//if guest or registered customer non-exemption and tax rate without exemption mark
+		$this->customer_group_id = (int)$this->customer->getCustomerGroupId();
+		if(!$this->customer_group_id){
+			$this->customer_group_id = $this->config->get('config_customer_group_id');
+		}
 	}
 
 	public function __get($key){
@@ -209,11 +216,10 @@ class ATax{
 	 */
 	public function calcTaxAmount($amount, $tax_rate = array ()){
 		$tax_amount = 0.0;
-
 		if (!$this->customer->isTaxExempt()
-				&& !$this->_is_tax_rate_exempt($tax_rate,$this->customer->getCustomerGroupId())
-				&& !empty($tax_rate) && isset($tax_rate['rate'])
-		){
+				&& !$this->_is_tax_rate_exempt($tax_rate,$this->customer_group_id)
+				&& !empty($tax_rate)
+				&& isset($tax_rate['rate'])){
 			//Validate tax class rules if condition present and see if applicable
 			if ($tax_rate['threshold_condition'] && is_numeric($tax_rate['threshold'])){
 				if (!$this->_compare($amount, $tax_rate['threshold'], $tax_rate['threshold_condition'])){
