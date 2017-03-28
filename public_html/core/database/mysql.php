@@ -47,13 +47,7 @@ final class MySQL {
 		if (!$connection) {
 			$err = new AError('Cannot establish database connection to ' . $database.' using ' . $username . '@' . $hostname);
 			$err->toLog();
-			$message = 'Cannot establish database connection. ';
-			if(filesize(DIR_SYSTEM.'config.php')){
-				$message .= 'Check your database setting in configuration file.';
-			}else{
-				$message .= 'Check your database credentials.';
-			}
-            throw new AException(AC_ERR_MYSQL, $message);
+            throw new AException(AC_ERR_MYSQL, 'Cannot establish database connection. Check your database connection settings.');
     	}
 
     	if (!mysql_select_db($database, $connection)) {
