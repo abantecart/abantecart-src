@@ -352,7 +352,7 @@ class ControllerPagesAccountInvoice extends AController{
                     'csrf' => true,
 				));
 
-		$order_id = (int)$this->request->post['order_id'] ? (int)$this->request->post['order_id'] : '';
+		$order_id = (int)$this->request->post_or_get('order_id') ? (int)$this->request->post_or_get('order_id') : '';
 		$this->data['form']['order_id'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',

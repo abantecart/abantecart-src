@@ -13,6 +13,10 @@
     	<value><![CDATA[Your order <a href="%s">#%s</a> has been updated. For more details, login to %s account.]]></value>
   	</definition>
   	<definition>
+    	<key>im_order_update_text_to_guest</key>
+    	<value><![CDATA[Your order <a href="%s">#%s</a> has been updated. For more details, please visit order page %s.]]></value>
+  	</definition>
+  	<definition>
     	<key>im_sendpoint_name_new_order</key>
     	<value><![CDATA[New Orders]]></value>
   	</definition>

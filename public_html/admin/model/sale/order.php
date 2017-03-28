@@ -682,16 +682,26 @@ class ModelSaleOrder extends Model{
 				$invoice_url = $order_query->row['store_url'] . 'index.php?rt=account/invoice&order_id=' . $order_id;
 				//disable email protocol to prevent duplicates emails
 				$this->im->removeProtocol('email');
-				$message_arr = array (
-						0 => array ('message' => sprintf($language->get('im_order_update_text_to_customer'),
-								$invoice_url,
-								$order_id,
-								html_entity_decode($order_query->row['store_url'] . 'index.php?rt=account/account')),
-						)
-				);
+
 				if($order_query->row['customer_id']){
+					$message_arr = array (
+							0 => array (
+									'message' => sprintf($language->get('im_order_update_text_to_customer'),
+														$invoice_url,
+														$order_id,
+														html_entity_decode($order_query->row['store_url'] . 'index.php?rt=account/account')),
+							)
+					);
 					$this->im->sendToCustomer($order_query->row['customer_id'], 'order_update', $message_arr);
 				}else{
+					$message_arr = array (
+							0 => array (
+									'message' => sprintf($language->get('im_order_update_text_to_guest'),
+														$invoice_url,
+														$order_id,
+														html_entity_decode($invoice_url)),
+							)
+					);
 					$this->im->sendToGuest($order_id, $message_arr);
 				}
 				//turn email-protocol back
