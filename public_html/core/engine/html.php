@@ -399,7 +399,7 @@ class AHtml extends AController{
 	 * @param string $keyword
 	 * @return string
 	 */
-	public function isSEOkeywordExists($query, $keyword = ''){
+	public function isSEOKeywordExists($query, $keyword = ''){
 		if (!$keyword){
 			return '';
 		}
@@ -1560,6 +1560,8 @@ class ButtonHtmlElement extends HtmlElement{
  * @property string $attr
  * @property string $method
  * @property string $style
+ * @property string $enctype
+ * @property bool $csrf
  */
 class FormHtmlElement extends HtmlElement{
 
@@ -1577,18 +1579,18 @@ class FormHtmlElement extends HtmlElement{
 						'enctype' => $this->enctype
 				)
 		);
-        //add CSRF token
-        if($this->csrf === true) {
-            $csrftoken = $this->registry->get('csrftoken');
-            $this->view->batchAssign(
-                array (
-                    'csrfinstance' => $csrftoken->setInstance(),
-                    'csrftoken' => $csrftoken->setToken()
-                )
-            );
-        }
+		//add CSRF token
+		if ($this->csrf === true) {
+			$csrftoken = $this->registry->get('csrftoken');
+			$this->view->batchAssign(
+					array (
+							'csrfinstance' => $csrftoken->setInstance(),
+							'csrftoken'    => $csrftoken->setToken()
+					)
+			);
+		}
 
-		return $this->view->fetch('form/form_open.tpl');
+		return $this->view->fetch('form/form_open.tpl') . $this->view->fetch('form/form_csrf.tpl');
 	}
 }
 
@@ -1646,6 +1648,7 @@ class RatingHtmlElement extends HtmlElement{
  * @property string $attr
  * @property bool $required
  * @property string $placeholder
+ * @property Registry $registry
  */
 class CaptchaHtmlElement extends HtmlElement{
 
@@ -1654,7 +1657,7 @@ class CaptchaHtmlElement extends HtmlElement{
 				array (
 						'name'        => $this->name,
 						'id'          => $this->element_id,
-					//TODO: remove deprecated attribute aform_field_type
+						//TODO: remove deprecated attribute aform_field_type
 						'attr'        => 'aform_field_type="captcha" ' . $this->attr . ' data-aform-field-type="captcha"',
 						'style'       => $this->style,
 						'required'    => $this->required,
@@ -1675,7 +1678,6 @@ class CaptchaHtmlElement extends HtmlElement{
  * @property string $recaptcha_site_key
  */
 class ReCaptchaHtmlElement extends HtmlElement{
-
 	public function getHtml(){
 		$this->view->batchAssign(
 				array (
