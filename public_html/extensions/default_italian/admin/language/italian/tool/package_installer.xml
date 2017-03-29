@@ -240,7 +240,7 @@ AbanteCart is about to be upgraded to version %s!
 		<key>text_core_upgrade_warning</key>
 		<value><![CDATA[ There is no undo after starting upgrade process.
 Complete database and code backup is highly recommended.
-Test upgrade on non-live sites first. Upgrade on live sites is not recommended. ]]></value>
+Test upgrade on non-live sites first. Upgrade on live sites should be done only after testing. ]]></value>
 	</definition>
 	<definition>
 		<key>text_upgrade_now</key>
