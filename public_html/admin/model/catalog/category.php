@@ -144,6 +144,7 @@ class ModelCatalogCategory extends Model{
 		}
 
 		$this->cache->remove('category');
+		$this->cache->remove('product');
 
 	}
 
@@ -181,6 +182,7 @@ class ModelCatalogCategory extends Model{
 		}
 
 		$this->cache->remove('category');
+		$this->cache->remove('product');
 	}
 
 	/**

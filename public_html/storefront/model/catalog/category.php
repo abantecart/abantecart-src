@@ -35,7 +35,7 @@ class ModelCatalogCategory extends Model {
         $store_id = (int)$this->config->get('config_store_id');
         $language_id = (int)$this->config->get('storefront_language_id');
 
-        $cache_key = 'product_listing.category.'.(int)$category_id.'.store_'.$store_id.'_lang_'.$language_id;
+        $cache_key = 'product.listing.category.'.(int)$category_id.'.store_'.$store_id.'_lang_'.$language_id;
         $cache = $this->cache->pull($cache_key);
         if ($cache === false) {
 		    $query = $this->db->query("SELECT DISTINCT *,
