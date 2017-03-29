@@ -17,38 +17,45 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE')){
+if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
 
 /**
  * Class AImage
  */
-final class AImage{
+class AImage{
 	/**
 	 * @var string
 	 */
-	private $file;
+	protected $file;
 	/**
 	 * @var resource
 	 */
-	private $image;
+	protected $image;
 	/**
 	 * @var array
 	 */
-	private $info = array ();
+	protected $info = array ();
 
 	/**
 	 * @var
 	 */
-	private $registry;
+	protected $registry;
 
 	/**
 	 * @param string $filename
 	 * @throws AException
 	 */
 	public function __construct($filename){
-		if (file_exists($filename) && ($info = getimagesize($filename))){
+		if (!file_exists($filename)) {
+			$error = new AError('Error: Cannot load image ' . $filename . ' . File does not exist.');
+			$error->toLog();
+			return false;
+		}
+
+		try{
+			$info = getimagesize($filename);
 			$this->file = $filename;
 			$this->info = array (
 					'width'    => $info[0],
@@ -59,9 +66,9 @@ final class AImage{
 			);
 			$this->registry = Registry::getInstance();
 			$this->image = $this->get_gd_resource($filename);
-		} else{
+		} catch (AException $e){
 			$error = new AError('Error: Cannot load image ' . $filename);
-			$error->toMessages()->toDebug()->toLog();
+			$error->toLog();
 			return false;
 		}
 		return true;
@@ -91,27 +98,30 @@ final class AImage{
 						+ Pow(2, 16)
 				) * 1.7
 		);
-		if (function_exists('memory_get_usage')){
-			if (memory_get_usage() + $mem_estimate > (integer)ini_get('memory_limit') * pow(1024, 2)){
-				$new_mem = (integer)ini_get('memory_limit') + ceil(((memory_get_usage() + $mem_estimate) - (integer)ini_get('memory_limit') * pow(1024, 2)) / pow(1024, 2)) . 'M';
-				//TODO. Validate if memory change was in fact changed or report an error 
+		if (function_exists('memory_get_usage')) {
+			if (memory_get_usage() + $mem_estimate > (integer)ini_get('memory_limit') * pow(1024, 2)) {
+				$new_mem = (integer)ini_get('memory_limit')
+						+ ceil(((memory_get_usage()
+												+ $mem_estimate) - (integer)ini_get('memory_limit') * pow(1024,
+												2)) / pow(1024, 2)) . 'M';
+				//TODO. Validate if memory change was in fact changed or report an error
 				ini_set('memory_limit', $new_mem);
 			}
 		}
 
 		$res_img = '';
-		if ($mime == 'image/gif'){
+		if ($mime == 'image/gif') {
 			$res_img = imagecreatefromgif($filename);
-		} elseif ($mime == 'image/png'){
+		} elseif ($mime == 'image/png') {
 			$res_img = imagecreatefrompng($filename);
-		} elseif ($mime == 'image/jpeg'){
+		} elseif ($mime == 'image/jpeg') {
 			$res_img = imagecreatefromjpeg($filename);
 		}
 		return $res_img;
 	}
 
 	public function resizeAndSave($filename, $width, $height, $options = array ()){
-		if (!$filename){
+		if (!$filename) {
 			return false;
 		}
 		$width = (int)$width;
@@ -122,10 +132,10 @@ final class AImage{
 		$nofill = !isset($options['nofill']) ? false : $options['nofill'];
 
 		//if size will change - resize it and save with GD2, otherwise - just copy file
-		if ($this->info['width'] != $width || $this->info['height'] != $height){
+		if ($this->info['width'] != $width || $this->info['height'] != $height) {
 			$this->resize($width, $height, $nofill);
 			$result = $this->save($filename, $quality);
-		} else{
+		} else {
 			$result = copy($this->file, $filename);
 		}
 
@@ -138,9 +148,9 @@ final class AImage{
 	 * @return bool
 	 */
 	public function save($filename, $quality = 90){
-		if (is_object($this->registry) && $this->registry->has('extensions')){
+		if (is_object($this->registry) && $this->registry->has('extensions')) {
 			$result = $this->registry->get('extensions')->hk_save($this, $filename, $quality);
-		} else{
+		} else {
 			$result = $this->_save($filename, $quality);
 		}
 		return $result;
@@ -152,7 +162,7 @@ final class AImage{
 	 * @return bool
 	 */
 	public function _save($filename, $quality = 90){
-		if (!$filename || !$this->image){
+		if (!$filename || !$this->image) {
 			return false;
 		}
 
@@ -161,23 +171,30 @@ final class AImage{
 		$quality = $quality < 1 ? 1 : $quality;
 
 		$extension = pathinfo($filename, PATHINFO_EXTENSION);
-		if ($extension == 'jpeg' || $extension == 'jpg'){
-			imagejpeg($this->image, $filename, $quality);
-		} elseif ($extension == 'png'){
-			//use maximum compression for PNG
-			imagepng($this->image, $filename, 9, PNG_ALL_FILTERS);
-		} elseif ($extension == 'gif'){
-			imagegif($this->image, $filename);
-		}
-		if (is_file($filename)){
-			$result = chmod($filename, 0777);
-			if (!$result){
-				$error_text = "AImage: cannot to change permissions for " . $filename;
-				$err = new AError($error_text);
-				$err->toLog();
+		try{
+			if ($extension == 'jpeg' || $extension == 'jpg') {
+				imagejpeg($this->image, $filename, $quality);
+			} elseif ($extension == 'png') {
+				//use maximum compression for PNG
+				imagepng($this->image, $filename, 9, PNG_ALL_FILTERS);
+			} elseif ($extension == 'gif') {
+				imagegif($this->image, $filename);
 			}
+			if (is_file($filename)) {
+				$result = chmod($filename, 0777);
+				if (!$result) {
+					$error_text = "AImage: cannot to change permissions for " . $filename;
+					$err = new AError($error_text);
+					$err->toLog();
+				}
+			}
+			imagedestroy($this->image);
+		} catch (AException $e){
+			$error = new AError('Image file ' . $this->file . ' cannot be saved as ' . $filename . '. ' . $e->getMessage());
+			$error->toLog()->toDebug();
+			return false;
 		}
-		imagedestroy($this->image);
+
 		return true;
 	}
 
@@ -188,18 +205,15 @@ final class AImage{
 	 * @return bool|null
 	 */
 	public function resize($width = 0, $height = 0, $nofill = false){
-		if (!$this->image || !$this->info['width'] || !$this->info['height']){
+		if (!$this->image || !$this->info['width'] || !$this->info['height']) {
 			return false;
 		}
-		if ($width == 0 && $height == 0){
+		if ($width == 0 && $height == 0) {
 			return false;
 		}
 
 		$scale = min($width / $this->info['width'], $height / $this->info['height']);
-
-//var_dump($this->info['width'],$width,$this->info['height'], $height, $scale);
-
-		if ($scale == 1 && $this->info['mime'] != 'image/png'){
+		if ($scale == 1 && $this->info['mime'] != 'image/png') {
 			return false;
 		}
 
@@ -209,26 +223,33 @@ final class AImage{
 		$ypos = (int)(($height - $new_height) / 2);
 
 		$image_old = $this->image;
+		if ($this->_is_memory_enough($this->info['width'], $this->info['height'])) {
+			$this->image = imagecreatetruecolor($width, $height);
 
-		$this->image = imagecreatetruecolor($width, $height);
-
-		if (isset($this->info['mime']) && $this->info['mime'] == 'image/png'){
-			imagealphablending($this->image, false);
-			imagesavealpha($this->image, true);
-			$background = imagecolorallocatealpha($this->image, 255, 255, 255, 127);
-			imagefill($this->image, 0, 0, $background);
-		} else{
-			if (!$nofill){ // if image no transparant
-				$background = imagecolorallocate($this->image, 255, 255, 255);
-				imagefilledrectangle($this->image, 0, 0, $width, $height, $background);
+			if (isset($this->info['mime']) && $this->info['mime'] == 'image/png') {
+				imagealphablending($this->image, false);
+				imagesavealpha($this->image, true);
+				$background = imagecolorallocatealpha($this->image, 255, 255, 255, 127);
+				imagefill($this->image, 0, 0, $background);
+			} else {
+				if (!$nofill) { // if image no transparent
+					$background = imagecolorallocate($this->image, 255, 255, 255);
+					imagefilledrectangle($this->image, 0, 0, $width, $height, $background);
+				}
 			}
-		}
 
-		if (is_resource($this->image)){
-			imagecopyresampled($this->image, $image_old, $xpos, $ypos, 0, 0, $new_width, $new_height, $this->info['width'], $this->info['height']);
-		}
-		if (is_resource($image_old)){
-			imagedestroy($image_old);
+			if (is_resource($this->image)) {
+				imagecopyresampled($this->image, $image_old, $xpos, $ypos, 0, 0, $new_width, $new_height,
+						$this->info['width'], $this->info['height']);
+			}
+			if (is_resource($image_old)) {
+				imagedestroy($image_old);
+			}
+		} else {
+			$message = 'Image file ' . $this->file . ' cannot be resized. Try to decrease original image size ' . $this->info['width'] . 'x' . $this->info['height'] . 'px or reduce file size.';
+			$error = new AError($message);
+			$error->toLog()->toDebug()->toMessages();
+			return false;
 		}
 
 		$this->info['width'] = $width;
@@ -243,35 +264,40 @@ final class AImage{
 	 * @return bool
 	 */
 	public function watermark($filename, $position = 'bottomright'){
-		if (!is_resource($this->image)){
+		if (!is_resource($this->image)) {
 			return false;
 		}
 		$watermark = $this->get_gd_resource($filename);
+		try{
+			$watermark_width = imagesx($watermark);
+			$watermark_height = imagesy($watermark);
+			$watermark_pos_x = $watermark_pos_y = 0;
 
-		$watermark_width = imagesx($watermark);
-		$watermark_height = imagesy($watermark);
-		$watermark_pos_x = $watermark_pos_y = 0;
-
-		switch($position){
-			case 'topleft':
-				$watermark_pos_x = 0;
-				$watermark_pos_y = 0;
-				break;
-			case 'topright':
-				$watermark_pos_x = $this->info['width'] - $watermark_width;
-				$watermark_pos_y = 0;
-				break;
-			case 'bottomleft':
-				$watermark_pos_x = 0;
-				$watermark_pos_y = $this->info['height'] - $watermark_height;
-				break;
-			case 'bottomright':
-				$watermark_pos_x = $this->info['width'] - $watermark_width;
-				$watermark_pos_y = $this->info['height'] - $watermark_height;
-				break;
+			switch ($position) {
+				case 'topleft':
+					$watermark_pos_x = 0;
+					$watermark_pos_y = 0;
+					break;
+				case 'topright':
+					$watermark_pos_x = $this->info['width'] - $watermark_width;
+					$watermark_pos_y = 0;
+					break;
+				case 'bottomleft':
+					$watermark_pos_x = 0;
+					$watermark_pos_y = $this->info['height'] - $watermark_height;
+					break;
+				case 'bottomright':
+					$watermark_pos_x = $this->info['width'] - $watermark_width;
+					$watermark_pos_y = $this->info['height'] - $watermark_height;
+					break;
+			}
+			imagecopy($this->image, $watermark, $watermark_pos_x, $watermark_pos_y, 0, 0, 120, 40);
+			imagedestroy($watermark);
+		} catch (AException $e){
+			$error = new AError('Cannot to apply watermark to the image file ' . $this->file . '. ' . $e->getMessage());
+			$error->toLog()->toDebug();
+			return false;
 		}
-		imagecopy($this->image, $watermark, $watermark_pos_x, $watermark_pos_y, 0, 0, 120, 40);
-		imagedestroy($watermark);
 		return true;
 	}
 
@@ -283,18 +309,23 @@ final class AImage{
 	 * @return bool
 	 */
 	public function crop($top_x, $top_y, $bottom_x, $bottom_y){
-		if (!is_resource($this->image)){
+		if (!is_resource($this->image)) {
 			return false;
 		}
+		if ($this->_is_memory_enough($bottom_x - $top_x, $bottom_y - $top_y)) {
+			$image_old = $this->image;
+			$this->image = imagecreatetruecolor($bottom_x - $top_x, $bottom_y - $top_y);
 
-		$image_old = $this->image;
-		$this->image = imagecreatetruecolor($bottom_x - $top_x, $bottom_y - $top_y);
+			imagecopy($this->image, $image_old, 0, 0, $top_x, $top_y, $this->info['width'], $this->info['height']);
+			imagedestroy($image_old);
 
-		imagecopy($this->image, $image_old, 0, 0, $top_x, $top_y, $this->info['width'], $this->info['height']);
-		imagedestroy($image_old);
-
-		$this->info['width'] = $bottom_x - $top_x;
-		$this->info['height'] = $bottom_y - $top_y;
+			$this->info['width'] = $bottom_x - $top_x;
+			$this->info['height'] = $bottom_y - $top_y;
+		} else {
+			$error = new AError('Cannot to crop image file ' . $this->file);
+			$error->toLog()->toDebug();
+			return false;
+		}
 		return true;
 	}
 
@@ -304,14 +335,21 @@ final class AImage{
 	 * @return bool
 	 */
 	public function rotate($degree, $color = 'FFFFFF'){
-		if (!is_resource($this->image)){
+		if (!is_resource($this->image)) {
 			return false;
 		}
-
-		$rgb = $this->html2rgb($color);
-		$this->image = imagerotate($this->image, $degree, imagecolorallocate($this->image, $rgb[0], $rgb[1], $rgb[2]));
-		$this->info['width'] = imagesx($this->image);
-		$this->info['height'] = imagesy($this->image);
+		try{
+			$rgb = $this->html2rgb($color);
+			$this->image = imagerotate($this->image,
+					$degree,
+					imagecolorallocate($this->image, $rgb[0], $rgb[1], $rgb[2]));
+			$this->info['width'] = imagesx($this->image);
+			$this->info['height'] = imagesy($this->image);
+		} catch (AException $e){
+			$error = new AError('Cannot to rotate image file ' . $this->file . '. ' . $e->getMessage());
+			$error->toLog()->toDebug();
+			return false;
+		}
 		return true;
 	}
 
@@ -320,10 +358,16 @@ final class AImage{
 	 * @return bool
 	 */
 	public function filter($filter){
-		if (!is_resource($this->image)){
+		if (!is_resource($this->image)) {
 			return false;
 		}
-		imagefilter($this->image, $filter);
+		try{
+			imagefilter($this->image, $filter);
+		} catch (AException $e){
+			$error = new AError('Cannot to apply filter to the image file ' . $this->file . '. ' . $e->getMessage());
+			$error->toLog()->toDebug();
+			return false;
+		}
 		return true;
 	}
 
@@ -336,11 +380,18 @@ final class AImage{
 	 * @return bool
 	 */
 	public function text($text, $x = 0, $y = 0, $size = 5, $color = '000000'){
-		if (!is_resource($this->image)){
+		if (!is_resource($this->image)) {
 			return false;
 		}
 		$rgb = $this->html2rgb($color);
-		imagestring($this->image, $size, $x, $y, $text, imagecolorallocate($this->image, $rgb[0], $rgb[1], $rgb[2]));
+		try{
+			imagestring($this->image, $size, $x, $y, $text,
+					imagecolorallocate($this->image, $rgb[0], $rgb[1], $rgb[2]));
+		} catch (AException $e){
+			$error = new AError('Cannot to add text into image file ' . $this->file . '. ' . $e->getMessage());
+			$error->toLog()->toDebug();
+			return false;
+		}
 		return true;
 	}
 
@@ -355,15 +406,20 @@ final class AImage{
 
 		$merge = $this->get_gd_resource($filename);
 
-		if (!is_resource($this->image) || $merge){
+		if (!is_resource($this->image) || $merge) {
 			return false;
 		}
 
-		$merge_width = imagesx($merge);
-		$merge_height = imagesy($merge);
-
-		imagecopymerge($this->image, $merge, $x, $y, 0, 0, $merge_width, $merge_height, $opacity);
-		return false;
+		try{
+			$merge_width = imagesx($merge);
+			$merge_height = imagesy($merge);
+			imagecopymerge($this->image, $merge, $x, $y, 0, 0, $merge_width, $merge_height, $opacity);
+		} catch (AException $e){
+			$error = new AError('Cannot to merge image files ' . $this->file . ' and ' . $filename . '. ' . $e->getMessage());
+			$error->toLog()->toDebug();
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -371,15 +427,15 @@ final class AImage{
 	 * @return array|bool
 	 */
 	private function html2rgb($color){
-		if ($color[0] == '#'){
+		if ($color[0] == '#') {
 			$color = substr($color, 1);
 		}
 
-		if (strlen($color) == 6){
+		if (strlen($color) == 6) {
 			list($r, $g, $b) = array ($color[0] . $color[1], $color[2] . $color[3], $color[4] . $color[5]);
-		} elseif (strlen($color) == 3){
+		} elseif (strlen($color) == 3) {
 			list($r, $g, $b) = array ($color[0] . $color[0], $color[1] . $color[1], $color[2] . $color[2]);
-		} else{
+		} else {
 			return false;
 		}
 
@@ -390,11 +446,30 @@ final class AImage{
 		return array ($r, $g, $b);
 	}
 
+	protected function _is_memory_enough($x, $y, $rgb = 3){
+		$memory_limit = trim(ini_get('memory_limit'));
+		$last = strtolower($memory_limit[strlen($memory_limit) - 1]);
+
+		switch ($last) {
+			case 'g':
+				$memory_limit *= (1024 * 1024 * 1024);
+				break;
+			case 'm':
+				$memory_limit *= (1024 * 1024);
+				break;
+			case 'k':
+				$memory_limit *= 1024;
+				break;
+		}
+		return ($x * $y * $rgb * 1.7 < $memory_limit - memory_get_usage());
+	}
+
 	public function __destruct(){
-		if (is_resource($this->image)){
+		if (is_resource($this->image)) {
 			imagedestroy($this->image);
-		} else{
+		} else {
 			$this->image = null;
 		}
 	}
+
 }
