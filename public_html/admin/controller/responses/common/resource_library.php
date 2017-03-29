@@ -757,6 +757,9 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$object_id = $this->request->get['object_id'];
 		$keyword = $this->request->get['keyword'];
 		$language_id = $this->request->get['language_id'];
+		if(!$language_id){
+			$language_id = $this->language->getContentLanguageID();
+		}
 		$limit = (int)$this->request->get['limit'];
 
 		$rm = new AResourceManager();
