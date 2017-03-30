@@ -110,14 +110,19 @@ class AImage{
 		}
 
 		$res_img = '';
-		if ($mime == 'image/gif') {
-			$res_img = imagecreatefromgif($filename);
-		} elseif ($mime == 'image/png') {
-			$res_img = imagecreatefrompng($filename);
-		} elseif ($mime == 'image/jpeg') {
-			$res_img = imagecreatefromjpeg($filename);
+		if ($this->_is_memory_enough($this->info['width'], $this->info['height'])) {
+			if ($mime == 'image/gif') {
+				$res_img = imagecreatefromgif($filename);
+			} elseif ($mime == 'image/png') {
+				$res_img = imagecreatefrompng($filename);
+			} elseif ($mime == 'image/jpeg') {
+				$res_img = imagecreatefromjpeg($filename);
+			}
+			return $res_img;
+		}else{
+			throw new AException(AC_ERR_LOAD, 'Unable to create internal image from file '.$filename.'. Try to decrease original image size ' . $this->info['width'] . 'x' . $this->info['height'] . 'px or reduce file size.');
 		}
-		return $res_img;
+
 	}
 
 	public function resizeAndSave($filename, $width, $height, $options = array ()){
@@ -133,8 +138,10 @@ class AImage{
 
 		//if size will change - resize it and save with GD2, otherwise - just copy file
 		if ($this->info['width'] != $width || $this->info['height'] != $height) {
-			$this->resize($width, $height, $nofill);
-			$result = $this->save($filename, $quality);
+			$result_size = $this->resize($width, $height, $nofill);
+			if($result_size) {
+				$result = $this->save($filename, $quality);
+			}
 		} else {
 			$result = copy($this->file, $filename);
 		}
@@ -171,7 +178,7 @@ class AImage{
 		$quality = $quality < 1 ? 1 : $quality;
 
 		$extension = pathinfo($filename, PATHINFO_EXTENSION);
-		try{
+		if ($this->_is_memory_enough($this->info['width'], $this->info['height'])) {
 			if ($extension == 'jpeg' || $extension == 'jpg') {
 				imagejpeg($this->image, $filename, $quality);
 			} elseif ($extension == 'png') {
@@ -189,8 +196,8 @@ class AImage{
 				}
 			}
 			imagedestroy($this->image);
-		} catch (AException $e){
-			$error = new AError('Image file ' . $this->file . ' cannot be saved as ' . $filename . '. ' . $e->getMessage());
+		} else {
+			$error = new AError('Image file ' . $this->file . ' cannot be saved as ' . $filename . '. ');
 			$error->toLog()->toDebug();
 			return false;
 		}
@@ -446,7 +453,7 @@ class AImage{
 		return array ($r, $g, $b);
 	}
 
-	protected function _is_memory_enough($x, $y, $rgb = 3){
+	protected function _is_memory_enough($x, $y, $rgb = 4){
 		$memory_limit = trim(ini_get('memory_limit'));
 		$last = strtolower($memory_limit[strlen($memory_limit) - 1]);
 

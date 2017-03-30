@@ -264,7 +264,7 @@ class AResource{
 			$result = $resource[$language_id];
 		} else if (!empty($resource)){
 			reset($resource);
-			list($key, $result) = each($resource);
+			list(, $result) = each($resource);
 		}
 
 		return $result;
@@ -306,7 +306,6 @@ class AResource{
 				if (!$rsrc_info['resource_path']){
 					$origin_path = '';
 				}
-
 				break;
 			default :
 				//this is non image type return original
@@ -345,6 +344,7 @@ class AResource{
 			if (!check_resize_image($origin_path, $new_image, $width, $height, $this->config->get('config_image_quality'))){
 				$err = new AError('Resize image error. File: ' . $origin_path);
 				$err->toLog()->toDebug()->toMessages();
+				return null;
 			}
 			//do retina version
 			if ($this->config->get('config_retina_enable')){
@@ -352,6 +352,7 @@ class AResource{
 				if (!check_resize_image($origin_path, $new_image2x, $width * 2, $height * 2, $this->config->get('config_image_quality'))){
 					$err = new AError('Resize image error. File: ' . $origin_path);
 					$err->toLog()->toDebug()->toMessages();
+					return null;
 				}
 			}
 			//hook here to affect this image
@@ -368,7 +369,7 @@ class AResource{
 	/**
 	 * @param string $resource_path (hashed resource path from database)
 	 * @param string $mode full (with http and domain) or relative (from store url up)
-	 * @return array
+	 * @return string
 	 */
 	public function buildResourceURL($resource_path, $mode = 'full'){
 
