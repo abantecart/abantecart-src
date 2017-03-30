@@ -149,8 +149,8 @@ class AResourceManager extends AResource{
 		}
 
 		$sql = "INSERT INTO " . $this->db->table("resource_library") . "
-					SET type_id = '" . $this->type_id . "',
-						date_added = NOW()";
+				SET type_id = '" . $this->type_id . "',
+					date_added = NOW()";
 		$this->db->query($sql);
 		$resource_id = $this->db->getLastId();
 
@@ -410,11 +410,11 @@ class AResourceManager extends AResource{
 		$new_sort_order = $result->row['sort_order'] + 1;
 
 		$sql = "INSERT INTO " . $this->db->table("resource_map") . "
-					SET resource_id = '" . (int)$resource_id . "',
-						object_name = '" . $this->db->escape($object_name) . "',
-						object_id = '" . (int)$object_id . "',
-						sort_order = '" . (int)$new_sort_order . "',
-						date_added = NOW()";
+				SET resource_id = '" . (int)$resource_id . "',
+					object_name = '" . $this->db->escape($object_name) . "',
+					object_id = '" . (int)$object_id . "',
+					sort_order = '" . (int)$new_sort_order . "',
+					date_added = NOW()";
 		$this->db->query($sql);
 
 		$this->cache->remove('resources');
@@ -466,11 +466,11 @@ class AResourceManager extends AResource{
 			$new_sort_order = $result->row['sort_order'] + 1;
 
 			$sql = "INSERT INTO " . $this->db->table("resource_map") . " 
-						SET resource_id = '" . (int)$resource_id . "',
-							object_name = '" . $this->db->escape($object_name) . "',
-							object_id = '" . (int)$object_id . "',
-							sort_order = '" . (int)$new_sort_order . "',
-							date_added = NOW()";
+					SET resource_id = '" . (int)$resource_id . "',
+						object_name = '" . $this->db->escape($object_name) . "',
+						object_id = '" . (int)$object_id . "',
+						sort_order = '" . (int)$new_sort_order . "',
+						date_added = NOW()";
 			$this->db->query($sql);
 		}
 		return true;
@@ -490,9 +490,9 @@ class AResourceManager extends AResource{
 		}
 
 		$sql = "DELETE FROM " . $this->db->table("resource_map") . " 
-					WHERE resource_id = '" . (int)$resource_id . "'
-						AND object_name = '" . $this->db->escape($object_name) . "'
-						AND object_id = '" . (int)$object_id . "'";
+				WHERE resource_id = '" . (int)$resource_id . "'
+					AND object_name = '" . $this->db->escape($object_name) . "'
+					AND object_id = '" . (int)$object_id . "'";
 		$this->db->query($sql);
 
 		$this->cache->remove('resources');
@@ -858,11 +858,11 @@ class AResourceManager extends AResource{
 		$resource_objects = $this->cache->pull($cache_key);
 		if ($resource_objects === false) {
 			$sql = "SELECT rm.object_id, 'categories' as object_name, cd.name
-				FROM " . $this->db->table("resource_map") . " rm
-				LEFT JOIN " . $this->db->table("category_descriptions") . " cd
-					ON ( rm.object_id = cd.category_id AND cd.language_id = '" . (int)$language_id . "')
-				WHERE rm.resource_id = '" . (int)$resource_id . "'
-					AND rm.object_name = 'categories'";
+					FROM " . $this->db->table("resource_map") . " rm
+					LEFT JOIN " . $this->db->table("category_descriptions") . " cd
+						ON ( rm.object_id = cd.category_id AND cd.language_id = '" . (int)$language_id . "')
+					WHERE rm.resource_id = '" . (int)$resource_id . "'
+						AND rm.object_name = 'categories'";
 			$query = $this->db->query($sql);
 			$resource_objects = $query->rows;
 			$this->cache->push($cache_key, $resource_objects);
