@@ -70,7 +70,7 @@ if ($error) { ?>
 
 							if ($display_price) {
 								$tax_message = '';
-								if(($config_tax && !$tax_exempt) xor !$tax_class_id){
+								if($config_tax && !$tax_exempt && $tax_class_id){
 									$tax_message = '&nbsp;&nbsp;<span class="productpricesmall">'.$price_with_tax.'</span>';
 								}?>
 								<div class="productpageprice jumbotron">
@@ -373,7 +373,7 @@ if ($error) { ?>
 								$related_product['price'] = $related_product['special'] = '';
 							}
 							$tax_message = '';
-							if(($config_tax && !$tax_exempt) xor !$related_product['tax_class_id']){
+							if($config_tax && !$tax_exempt && $related_product['tax_class_id']){
 								$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
 							} ?>
 							<li class="col-md-3 col-sm-4 col-xs-6 related_product">

@@ -89,7 +89,7 @@ if ($error){ ?>
 						<?php
 						if ($display_price){
 							$tax_message = '';
-							if(($config_tax && !$tax_exempt) xor !$tax_class_id){
+							if($config_tax && !$tax_exempt && $tax_class_id){
 								$tax_message = '&nbsp;&nbsp;<span class="productpricesmall">'.$price_with_tax.'</span>';
 							}?>
 						<div class="productpageprice jumbotron">
@@ -397,7 +397,7 @@ if ($error){ ?>
 						<ul class="row side_prd_list">
 							<?php foreach ($related_products as $related_product){
 								$tax_message = '';
-								if(($config_tax && !$tax_exempt) xor !$related_product['tax_class_id']){
+								if($config_tax && !$tax_exempt && $related_product['tax_class_id']){
 									$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
 								}
 								$item['rating'] = ($related_product['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png') . "' class='rating' alt='" . $related_product['stars'] . "' width='64' height='12' />" : '';

@@ -7,7 +7,7 @@ if ($products) {
 	$config_tax = $this->config->get('config_tax');
     foreach ($products as $product) {
 		$tax_message = '';
-		if (($config_tax && !$tax_exempt) xor !$product['tax_class_id']){
+		if ($config_tax && !$tax_exempt && $product['tax_class_id']){
 			$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
 		}
         $item = array();
