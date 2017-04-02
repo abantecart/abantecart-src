@@ -181,4 +181,8 @@
 		<key>error_nothing_to_do</key>
 		<value><![CDATA[Error: Establecer idioma de origen y método de traducción]]></value>
 	</definition>
+	<definition>
+		<key>text_translate_override_existing</key>
+		<value><![CDATA[Nota: Todas las descripciones existentes en la lengua de destino se reemplazarán con nueva traducción. Puede desactivar imperiosa de <a href="%s">Sistema-&gt; Preferencias-&gt; Detalles tienda</a> .]]></value>
+	</definition>
 </definitions>

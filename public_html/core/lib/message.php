@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -183,7 +183,9 @@ final class AMessage{
 	 * @return bool
 	 */
 	public function markAsRead($msg_id){
-		$this->db->query("UPDATE " . $this->db->table("messages") . " SET viewed = viewed + 1 WHERE `msg_id` = '" . $this->db->escape($msg_id) . "'");
+		$this->db->query("UPDATE " . $this->db->table("messages") . " 
+		SET viewed = viewed + 1, date_modified = date_modified   
+		WHERE `msg_id` = '" . $this->db->escape($msg_id) . "'");
 		return true;
 	}
 
@@ -194,7 +196,9 @@ final class AMessage{
 	public function markAsUnRead($msg_id){
 		$msg_info = $this->getMessage($msg_id);
 		if ($msg_info['viewed']){
-			$this->db->query("UPDATE " . $this->db->table("messages") . " SET viewed = 0 WHERE `msg_id` = '" . $this->db->escape($msg_id) . "'");
+			$this->db->query("UPDATE " . $this->db->table("messages") . " 
+			SET viewed = 0, date_modified = date_modified   
+			WHERE `msg_id` = '" . $this->db->escape($msg_id) . "'");
 			return true;
 		} else{
 			return false;
@@ -248,7 +252,7 @@ final class AMessage{
 		}
 
 		// need to find message with same id and language. If language not set - find for all
-		// if lanuguage_code is empty it mean that banner shows for all insterface languages
+		// if language_code is empty it mean that banner shows for all interface languages
 		$sql = "SELECT *
 		         FROM " . $this->db->table("ant_messages") . " 
 		         WHERE id = '" . $this->db->escape($data['message_id']) . "'
@@ -258,6 +262,7 @@ final class AMessage{
 
 		$exists = array ();
 		$viewed = 0;
+		$last_view = null;
 		if ($result->num_rows){
 			foreach ($result->rows as $row){
 				$exists[] = "'" . $row['id'] . "'";
@@ -327,7 +332,7 @@ final class AMessage{
 			return null;
 		}
 		$sql = "UPDATE  " . $this->db->table("ant_messages") . " 
-				SET viewed = viewed+1 , viewed_date = NOW() 
+				SET viewed = viewed+1 , viewed_date = NOW(), date_modified = date_modified 
 				WHERE id = '" . $this->db->escape($message_id) . "'
 					AND language_code = '" . $this->db->escape($language_code) . "'";
 		$this->db->query($sql);

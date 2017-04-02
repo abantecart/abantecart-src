@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -757,6 +757,9 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$object_id = $this->request->get['object_id'];
 		$keyword = $this->request->get['keyword'];
 		$language_id = $this->request->get['language_id'];
+		if(!$language_id){
+			$language_id = $this->language->getContentLanguageID();
+		}
 		$limit = (int)$this->request->get['limit'];
 
 		$rm = new AResourceManager();
@@ -798,7 +801,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		if (!empty($this->request->get['sort'])) {
 			$filter_data['sort'] = $this->request->get['sort'];		
 		} else {
-			$filter_data['sort'] = 'sort_order';		
+			$filter_data['sort'] = 'sort_order';
 		}
 		
 		if (!empty($this->request->get['order'])) {

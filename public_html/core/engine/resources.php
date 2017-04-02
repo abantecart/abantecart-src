@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -264,7 +264,7 @@ class AResource{
 			$result = $resource[$language_id];
 		} else if (!empty($resource)){
 			reset($resource);
-			list($key, $result) = each($resource);
+			list(, $result) = each($resource);
 		}
 
 		return $result;
@@ -306,7 +306,6 @@ class AResource{
 				if (!$rsrc_info['resource_path']){
 					$origin_path = '';
 				}
-
 				break;
 			default :
 				//this is non image type return original
@@ -345,6 +344,7 @@ class AResource{
 			if (!check_resize_image($origin_path, $new_image, $width, $height, $this->config->get('config_image_quality'))){
 				$err = new AError('Resize image error. File: ' . $origin_path);
 				$err->toLog()->toDebug()->toMessages();
+				return null;
 			}
 			//do retina version
 			if ($this->config->get('config_retina_enable')){
@@ -352,6 +352,7 @@ class AResource{
 				if (!check_resize_image($origin_path, $new_image2x, $width * 2, $height * 2, $this->config->get('config_image_quality'))){
 					$err = new AError('Resize image error. File: ' . $origin_path);
 					$err->toLog()->toDebug()->toMessages();
+					return null;
 				}
 			}
 			//hook here to affect this image
@@ -368,7 +369,7 @@ class AResource{
 	/**
 	 * @param string $resource_path (hashed resource path from database)
 	 * @param string $mode full (with http and domain) or relative (from store url up)
-	 * @return array
+	 * @return string
 	 */
 	public function buildResourceURL($resource_path, $mode = 'full'){
 
@@ -764,12 +765,14 @@ class AResource{
 				//when need to show default image
 				if ($noimage){
 					$thumb_url = $this->getResizedImageURL(array ('resource_id' => 0), $width, $height);
+
 					$output[$object_id] = array (
 							'origin'      => 'internal',
 							'title'       => '',
 							'description' => '',
 							'width'       => $width,
 							'height'      => $height,
+							'thumb_url'     => $thumb_url,
 							'thumb_html'  => $this->html->buildResourceImage(
 									array (
 											'url'    => $thumb_url,
@@ -777,6 +780,8 @@ class AResource{
 											'height' => $height,
 											'attr'   => 'alt=""'))
 					);
+
+
 				} else{
 					$output[$object_id] = array ();
 				}

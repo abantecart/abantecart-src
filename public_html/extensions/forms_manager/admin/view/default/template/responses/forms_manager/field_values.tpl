@@ -1,6 +1,6 @@
 <div class="row">
 
-	<div class="col-md-4 panel panel-default">
+	<div class="col-md-6 panel panel-default">
 		<div class="panel-heading">
 			<h3 class="panel-title"><?php echo $field_data['field_name']; ?></h3>
 		</div>
@@ -82,7 +82,7 @@
 	</div>
 <?php if($new_value_row){?>
 	<?php echo $update_field_values_form['open']; ?>
-	<div class="col-md-8 tab-content">
+	<div class="col-md-6 tab-content">
 		<div class="panel-heading">
 			<h3 class="panel-title"><?php echo $text_field_values; ?></h3>
 		</div>

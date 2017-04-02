@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -48,6 +48,14 @@ class ModelReportPurchased extends Model {
 			$implode[] = " DATE_FORMAT(o.date_added,'%Y-%m-%d') <= DATE_FORMAT('" . $this->db->escape($date_end) . "','%Y-%m-%d') ";
 		}
 
+		if (!empty($data['filter']['price_filter'])) {
+			if($data['filter']['price_filter'] == 'only_free'){
+				$implode[] = " op.price = 0 ";
+			}elseif($data['filter']['price_filter'] == 'not_free'){
+				$implode[] = " op.price > 0 ";
+			}
+		}
+
 		$sql = "SELECT op.name, op.model, SUM(op.quantity) AS quantity, SUM(op.total + op.tax) AS total
 				FROM `" . $this->db->table("orders") . "` o
 				LEFT JOIN " . $this->db->table("order_products") . " op ON (op.order_id = o.order_id)
@@ -73,6 +81,14 @@ class ModelReportPurchased extends Model {
 		if (!empty($data['filter']['date_end'])) {
 			$date_end = dateDisplay2ISO($data['filter']['date_end'],$this->language->get('date_format_short'));
 			$implode[] = " DATE_FORMAT(o.date_added,'%Y-%m-%d') <= DATE_FORMAT('" . $this->db->escape($date_end) . "','%Y-%m-%d') ";
+		}
+
+		if (!empty($data['filter']['price_filter'])) {
+			if($data['filter']['price_filter'] == 'only_free'){
+				$implode[] = " op.price = 0 ";
+			}elseif($data['filter']['price_filter'] == 'not_free'){
+				$implode[] = " op.price > 0 ";
+			}
 		}
 
       	$query = $this->db->query("SELECT op.*

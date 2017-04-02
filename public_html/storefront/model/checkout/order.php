@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -222,6 +222,7 @@ class ModelCheckoutOrder extends Model{
 								product_id = '" . (int)$product['product_id'] . "',
 								name = '" . $this->db->escape($product['name']) . "',
 								model = '" . $this->db->escape($product['model']) . "',
+								sku = '" . $this->db->escape($product['sku']) . "',
 								price = '" . (float)$product['price'] . "',
 								total = '" . (float)$product['total'] . "',
 								tax = '" . (float)$product['tax'] . "',
@@ -236,6 +237,7 @@ class ModelCheckoutOrder extends Model{
 										order_product_id = '" . (int)$order_product_id . "',
 										product_option_value_id = '" . (int)$option['product_option_value_id'] . "',
 										name = '" . $this->db->escape($option['name']) . "',
+										sku = '" . $this->db->escape($option['sku']) . "',
 										`value` = '" . $this->db->escape($option['value']) . "',
 										price = '" . (float)$product['price'] . "',
 										prefix = '" . $this->db->escape($option['prefix']) . "',
@@ -263,32 +265,48 @@ class ModelCheckoutOrder extends Model{
 			);
 		}
 
-		//save IM settings for guest checkout
-		if (!$data['customer_id']){
-			$protocols = $this->im->getProtocols();
-			$p = array ();
-			foreach ($protocols as $protocol){
-				$p[] = $this->db->escape($protocol);
-			}
+		//save IM URI of order
+		$this->saveIMOrderData($order_id, $data);
+		return $order_id;
+	}
 
-			$sql = "SELECT DISTINCT `type_id`, `name` as protocol
-					FROM " . $this->db->table('order_data_types') . "
-					WHERE `name` IN ('" . implode("', '", $p) . "')";
-			$result = $this->db->query($sql);
-			foreach ($result->rows as $row){
-				if (has_value($data[$row['protocol']])){
-					$type_id = (int)$row['type_id'];
-					$im_data = serialize(array ('uri' => $data[$row['protocol']], 'status' => $this->config->get('config_im_guest_' . $row['protocol'] . '_status')));
-					$sql = "REPLACE INTO " . $this->db->table('order_data') . "
-							(`order_id`, `type_id`, `data`, `date_added`)
-							VALUES (" . (int)$order_id . ", " . (int)$type_id . ", '" . $this->db->escape($im_data) . "', NOW() )";
-					$this->db->query($sql);
-				}
-			}
-
+	protected function saveIMOrderData($order_id, $data){
+		$protocols = $this->im->getProtocols();
+		$p = array ();
+		foreach ($protocols as $protocol){
+			$p[] = $this->db->escape($protocol);
 		}
 
-		return $order_id;
+		$sql = "SELECT DISTINCT `type_id`, `name` as protocol
+				FROM " . $this->db->table('order_data_types') . "
+				WHERE `name` IN ('" . implode("', '", $p) . "')";
+		$result = $this->db->query($sql);
+		if(!$result->num_rows){
+			return null;
+		}
+
+		foreach ($result->rows as $row){
+			$type_id = (int)$row['type_id'];
+			if($data['customer_id']){
+				$uri = $this->im->getCustomerURI($row['protocol'], $data['customer_id']);
+			}else{
+				$uri = $data[$row['protocol']];
+			}
+			if ($uri){
+				$im_data = serialize(
+						array (
+								'uri' => $uri,
+								'status' => $this->config->get('config_im_guest_' . $row['protocol'] . '_status')
+						)
+				);
+
+				$sql = "REPLACE INTO " . $this->db->table('order_data') . "
+						(`order_id`, `type_id`, `data`, `date_added`)
+						VALUES (" . (int)$order_id . ", " . (int)$type_id . ", '" . $this->db->escape($im_data) . "', NOW() )";
+
+				$this->db->query($sql);
+			}
+		}
 	}
 
 	/**

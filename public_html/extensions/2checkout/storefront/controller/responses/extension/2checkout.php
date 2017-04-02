@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -44,6 +44,7 @@ class ControllerResponsesExtension2Checkout extends AController{
 		}
 
 		$this->data['sid'] = $this->config->get('2checkout_account');
+		$this->data['currency_code'] = $order_info['currency'];
 		$this->data['total'] = $this->currency->format($order_info['total'], $order_info['currency'], $order_info['value'], false);
 		$this->data['cart_order_id'] = $this->session->data['order_id'];
 		$this->data['order_number'] = $this->session->data['order_id'];
@@ -107,7 +108,12 @@ class ControllerResponsesExtension2Checkout extends AController{
 
 	public function callback(){
 		if ($this->request->is_GET()){
-			$this->redirect($this->html->getNonSecureURL('index/home'));
+			redirect($this->html->getNonSecureURL('index/home'));
+		}
+		$post = $this->request->post;
+		// hash check
+		if (!md5($post['sale_id'] . $this->config->get('2checkout_account') . $post['invoice_id'] . $this->config->get('2checkout_secret')) == strtolower($post['md5_hash'])){
+			exit;
 		}
 
 		$this->load->model('checkout/order');
@@ -117,15 +123,7 @@ class ControllerResponsesExtension2Checkout extends AController{
 		if (!$order_info){
 			return null;
 		}
-
-		$post = $this->request->post;
-
 		$this->load->model('extension/2checkout');
-		// hash check
-		if (!md5($post['sale_id'] . $this->config->get('2checkout_account') . $post['invoice_id'] . $this->config->get('2checkout_secret')) == strtolower($post['md5_hash'])){
-			exit;
-		}
-
 		if ($post['message_type'] == 'ORDER_CREATED'){
 			$this->model_checkout_order->confirm((int)$post['vendor_order_id'], $this->config->get('2checkout_order_status_id'));
 		} elseif ($post['message_type'] == 'REFUND_ISSUED'){
@@ -138,7 +136,7 @@ class ControllerResponsesExtension2Checkout extends AController{
 			$order_status_id = $this->model_extension_2checkout->getOrderStatusIdByName('complete');
 			$this->model_checkout_order->update((int)$post['vendor_order_id'], $order_status_id, 'Status changed by 2Checkout INS');
 		} else{
-			$this->redirect($this->html->getSecureURL('checkout/confirm'));
+			redirect($this->html->getSecureURL('checkout/confirm'));
 		}
 	}
 }

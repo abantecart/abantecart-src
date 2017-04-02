@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -53,101 +53,102 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 			$this->session->data['redirect'] = $this->html->getSecureURL('checkout/shipping');
 			redirect($this->html->getSecureURL('account/login'));
 		}
-
-		if ($this->request->is_POST() && $this->_validate()){
-			$this->session->data['guest']['firstname'] = trim($this->request->post['firstname']);
-			$this->session->data['guest']['lastname'] = trim($this->request->post['lastname']);
-			$this->session->data['guest']['email'] = trim($this->request->post['email']);
-			$this->session->data['guest']['telephone'] = trim($this->request->post['telephone']);
-			$this->session->data['guest']['fax'] = trim($this->request->post['fax']);
-			$this->session->data['guest']['company'] = trim($this->request->post['company']);
-			$this->session->data['guest']['address_1'] = trim($this->request->post['address_1']);
-			$this->session->data['guest']['address_2'] = trim($this->request->post['address_2']);
-			$this->session->data['guest']['zone_id'] = (int)$this->request->post['zone_id'];
-			$this->session->data['guest']['postcode'] = trim($this->request->post['postcode']);
-			$this->session->data['guest']['city'] = trim($this->request->post['city']);
-			$this->session->data['guest']['country_id'] = (int)$this->request->post['country_id'];
+		$_post =& $this->request->post;
+		$_session =& $this->session->data;
+		if ($this->request->is_POST() && $this->_validate($_post)){
+			$_session['guest']['firstname'] = trim($_post['firstname']);
+			$_session['guest']['lastname'] = trim($_post['lastname']);
+			$_session['guest']['email'] = trim($_post['email']);
+			$_session['guest']['telephone'] = trim($_post['telephone']);
+			$_session['guest']['fax'] = trim($_post['fax']);
+			$_session['guest']['company'] = trim($_post['company']);
+			$_session['guest']['address_1'] = trim($_post['address_1']);
+			$_session['guest']['address_2'] = trim($_post['address_2']);
+			$_session['guest']['zone_id'] = (int)$_post['zone_id'];
+			$_session['guest']['postcode'] = trim($_post['postcode']);
+			$_session['guest']['city'] = trim($_post['city']);
+			$_session['guest']['country_id'] = (int)$_post['country_id'];
 
 			//IM addresses
 			$protocols = $this->im->getProtocols();
 			foreach($protocols as $protocol){
-				if(has_value($this->request->post[$protocol]) && !has_value($this->session->data['guest'][$protocol])){
-					$this->session->data['guest'][$protocol] = $this->request->post[$protocol];
+				if(has_value($_post[$protocol]) && !has_value($_session['guest'][$protocol])){
+					$_session['guest'][$protocol] = $_post[$protocol];
 				}
 			}
 
-			$this->tax->setZone($this->request->post['country_id'], $this->request->post['zone_id']);
+			$this->tax->setZone($_post['country_id'], $_post['zone_id']);
 
 			$this->loadModel('localisation/country');
-			$country_info = $this->model_localisation_country->getCountry($this->request->post['country_id']);
+			$country_info = $this->model_localisation_country->getCountry($_post['country_id']);
 
 			if ($country_info){
-				$this->session->data['guest']['country'] = $country_info['name'];
-				$this->session->data['guest']['iso_code_2'] = $country_info['iso_code_2'];
-				$this->session->data['guest']['iso_code_3'] = $country_info['iso_code_3'];
-				$this->session->data['guest']['address_format'] = $country_info['address_format'];
+				$_session['guest']['country'] = $country_info['name'];
+				$_session['guest']['iso_code_2'] = $country_info['iso_code_2'];
+				$_session['guest']['iso_code_3'] = $country_info['iso_code_3'];
+				$_session['guest']['address_format'] = $country_info['address_format'];
 			} else{
-				$this->session->data['guest']['country'] = '';
-				$this->session->data['guest']['iso_code_2'] = '';
-				$this->session->data['guest']['iso_code_3'] = '';
-				$this->session->data['guest']['address_format'] = '';
+				$_session['guest']['country'] = '';
+				$_session['guest']['iso_code_2'] = '';
+				$_session['guest']['iso_code_3'] = '';
+				$_session['guest']['address_format'] = '';
 			}
 
 			$this->loadModel('localisation/zone');
 
-			$zone_info = $this->model_localisation_zone->getZone($this->request->post['zone_id']);
+			$zone_info = $this->model_localisation_zone->getZone($_post['zone_id']);
 
 			if ($zone_info){
-				$this->session->data['guest']['zone'] = $zone_info['name'];
-				$this->session->data['guest']['zone_code'] = $zone_info['code'];
+				$_session['guest']['zone'] = $zone_info['name'];
+				$_session['guest']['zone_code'] = $zone_info['code'];
 			} else{
-				$this->session->data['guest']['zone'] = '';
-				$this->session->data['guest']['zone_code'] = '';
+				$_session['guest']['zone'] = '';
+				$_session['guest']['zone_code'] = '';
 			}
 
-			if (isset($this->request->post['shipping_indicator'])){
-				$this->session->data['guest']['shipping']['firstname'] = $this->request->post['shipping_firstname'];
-				$this->session->data['guest']['shipping']['lastname'] = $this->request->post['shipping_lastname'];
-				$this->session->data['guest']['shipping']['company'] = $this->request->post['shipping_company'];
-				$this->session->data['guest']['shipping']['address_1'] = $this->request->post['shipping_address_1'];
-				$this->session->data['guest']['shipping']['address_2'] = $this->request->post['shipping_address_2'];
-				$this->session->data['guest']['shipping']['zone_id'] = $this->request->post['shipping_zone_id'];
-				$this->session->data['guest']['shipping']['postcode'] = $this->request->post['shipping_postcode'];
-				$this->session->data['guest']['shipping']['city'] = $this->request->post['shipping_city'];
-				$this->session->data['guest']['shipping']['country_id'] = $this->request->post['shipping_country_id'];
+			if (isset($_post['shipping_indicator'])){
+				$_session['guest']['shipping']['firstname'] = $_post['shipping_firstname'];
+				$_session['guest']['shipping']['lastname'] = $_post['shipping_lastname'];
+				$_session['guest']['shipping']['company'] = $_post['shipping_company'];
+				$_session['guest']['shipping']['address_1'] = $_post['shipping_address_1'];
+				$_session['guest']['shipping']['address_2'] = $_post['shipping_address_2'];
+				$_session['guest']['shipping']['zone_id'] = $_post['shipping_zone_id'];
+				$_session['guest']['shipping']['postcode'] = $_post['shipping_postcode'];
+				$_session['guest']['shipping']['city'] = $_post['shipping_city'];
+				$_session['guest']['shipping']['country_id'] = $_post['shipping_country_id'];
 
-				$shipping_country_info = $this->model_localisation_country->getCountry($this->request->post['shipping_country_id']);
+				$shipping_country_info = $this->model_localisation_country->getCountry($_post['shipping_country_id']);
 
 				if ($shipping_country_info){
-					$this->session->data['guest']['shipping']['country'] = $shipping_country_info['name'];
-					$this->session->data['guest']['shipping']['iso_code_2'] = $shipping_country_info['iso_code_2'];
-					$this->session->data['guest']['shipping']['iso_code_3'] = $shipping_country_info['iso_code_3'];
-					$this->session->data['guest']['shipping']['address_format'] = $shipping_country_info['address_format'];
+					$_session['guest']['shipping']['country'] = $shipping_country_info['name'];
+					$_session['guest']['shipping']['iso_code_2'] = $shipping_country_info['iso_code_2'];
+					$_session['guest']['shipping']['iso_code_3'] = $shipping_country_info['iso_code_3'];
+					$_session['guest']['shipping']['address_format'] = $shipping_country_info['address_format'];
 				} else{
-					$this->session->data['guest']['shipping']['country'] = '';
-					$this->session->data['guest']['shipping']['iso_code_2'] = '';
-					$this->session->data['guest']['shipping']['iso_code_3'] = '';
-					$this->session->data['guest']['shipping']['address_format'] = '';
+					$_session['guest']['shipping']['country'] = '';
+					$_session['guest']['shipping']['iso_code_2'] = '';
+					$_session['guest']['shipping']['iso_code_3'] = '';
+					$_session['guest']['shipping']['address_format'] = '';
 				}
 
-				$shipping_zone_info = $this->model_localisation_zone->getZone($this->request->post['shipping_zone_id']);
+				$shipping_zone_info = $this->model_localisation_zone->getZone($_post['shipping_zone_id']);
 
 				if ($zone_info){
-					$this->session->data['guest']['shipping']['zone'] = $shipping_zone_info['name'];
-					$this->session->data['guest']['shipping']['zone_code'] = $shipping_zone_info['code'];
+					$_session['guest']['shipping']['zone'] = $shipping_zone_info['name'];
+					$_session['guest']['shipping']['zone_code'] = $shipping_zone_info['code'];
 				} else{
-					$this->session->data['guest']['shipping']['zone'] = '';
-					$this->session->data['guest']['shipping']['zone_code'] = '';
+					$_session['guest']['shipping']['zone'] = '';
+					$_session['guest']['shipping']['zone_code'] = '';
 				}
 
 			} else{
-				unset($this->session->data['guest']['shipping']);
+				unset($_session['guest']['shipping']);
 			}
 
-			unset($this->session->data['shipping_methods']);
-			unset($this->session->data['shipping_method']);
-			unset($this->session->data['payment_methods']);
-			unset($this->session->data['payment_method']);
+			unset($_session['shipping_methods']);
+			unset($_session['shipping_method']);
+			unset($_session['payment_methods']);
+			unset($_session['payment_method']);
 
 			$this->extensions->hk_ProcessData($this);
 			redirect($this->html->getSecureURL('checkout/guest_step_2'));
@@ -174,38 +175,21 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 						'separator' => $this->language->get('text_separator')
 				));
 
-		$this->view->assign('error_warning', $this->error['warning']);
-		$this->view->assign('error_firstname', $this->error['firstname']);
-		$this->view->assign('error_lastname', $this->error['lastname']);
-		$this->view->assign('error_email', $this->error['email']);
-		$this->view->assign('error_telephone', $this->error['telephone']);
-		$this->view->assign('error_address_1', $this->error['address_1']);
-		$this->view->assign('error_city', $this->error['city']);
-		$this->view->assign('error_postcode', $this->error['postcode']);
-		$this->view->assign('error_country', $this->error['country']);
-		$this->view->assign('error_zone', $this->error['zone']);
-		$this->view->assign('error_shipping_firstname', $this->error['shipping_firstname']);
-		$this->view->assign('error_shipping_lastname', $this->error['shipping_lastname']);
-		$this->view->assign('error_shipping_address_1', $this->error['shipping_address_1']);
-		$this->view->assign('error_shipping_city', $this->error['shipping_city']);
-		$this->view->assign('error_shipping_postcode', $this->error['shipping_postcode']);
-		$this->view->assign('error_shipping_country', $this->error['shipping_country']);
-		$this->view->assign('error_shipping_zone', $this->error['shipping_zone']);
-
-		//$this->view->assign('action', $this->html->getSecureURL('checkout/guest_step_1'));
-
 		$form = new AForm();
 		$form->setForm(array ('form_name' => 'guestFrm'));
 		$this->data['form']['form_open'] = $form->getFieldHtml(
 				array (
-						'type'   => 'form',
-						'name'   => 'guestFrm',
-						'action' => $this->html->getSecureURL('checkout/guest_step_1')));
+                    'type'   => 'form',
+                    'name'   => 'guestFrm',
+                    'action' => $this->html->getSecureURL('checkout/guest_step_1'),
+                    'csrf' => true
+                )
+        );
 
-		if (isset($this->request->post['firstname'])){
-			$firstname = $this->request->post['firstname'];
-		} elseif (isset($this->session->data['guest']['firstname'])){
-			$firstname = $this->session->data['guest']['firstname'];
+		if (isset($_post['firstname'])){
+			$firstname = $_post['firstname'];
+		} elseif (isset($_session['guest']['firstname'])){
+			$firstname = $_session['guest']['firstname'];
 		} else{
 			$firstname = '';
 		}
@@ -217,10 +201,10 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 				'required' => true));
 
 
-		if (isset($this->request->post['lastname'])){
-			$lastname = $this->request->post['lastname'];
-		} elseif (isset($this->session->data['guest']['lastname'])){
-			$lastname = $this->session->data['guest']['lastname'];
+		if (isset($_post['lastname'])){
+			$lastname = $_post['lastname'];
+		} elseif (isset($_session['guest']['lastname'])){
+			$lastname = $_session['guest']['lastname'];
 		} else{
 			$lastname = '';
 		}
@@ -230,10 +214,10 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 						'name'     => 'lastname',
 						'value'    => $lastname,
 						'required' => true));
-		if (isset($this->request->post['email'])){
-			$email = $this->request->post['email'];
-		} elseif (isset($this->session->data['guest']['email'])){
-			$email = $this->session->data['guest']['email'];
+		if (isset($_post['email'])){
+			$email = $_post['email'];
+		} elseif (isset($_session['guest']['email'])){
+			$email = $_session['guest']['email'];
 		} else{
 			$email = '';
 		}
@@ -244,10 +228,10 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 						'name'     => 'email',
 						'value'    => $email,
 						'required' => true));
-		if (isset($this->request->post['telephone'])){
-			$telephone = $this->request->post['telephone'];
-		} elseif (isset($this->session->data['guest']['telephone'])){
-			$telephone = $this->session->data['guest']['telephone'];
+		if (isset($_post['telephone'])){
+			$telephone = $_post['telephone'];
+		} elseif (isset($_session['guest']['telephone'])){
+			$telephone = $_session['guest']['telephone'];
 		} else{
 			$telephone = '';
 		}
@@ -257,10 +241,10 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 						'name'  => 'telephone',
 						'value' => $telephone
 				));
-		if (isset($this->request->post['fax'])){
-			$fax = $this->request->post['fax'];
-		} elseif (isset($this->session->data['guest']['fax'])){
-			$fax = $this->session->data['guest']['fax'];
+		if (isset($_post['fax'])){
+			$fax = $_post['fax'];
+		} elseif (isset($_session['guest']['fax'])){
+			$fax = $_session['guest']['fax'];
 		} else{
 			$fax = '';
 		}
@@ -279,10 +263,10 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 					continue;
 				}
 
-				if (isset($this->request->post[$protocol])) {
-					$uri = $this->request->post[$protocol];
-				} elseif (isset($this->session->data['guest'][$protocol])) {
-					$uri = $this->session->data['guest'][$protocol];
+				if (isset($_post[$protocol])) {
+					$uri = $_post[$protocol];
+				} elseif (isset($_session['guest'][$protocol])) {
+					$uri = $_session['guest'][$protocol];
 				} else {
 					$uri = '';
 				}
@@ -294,10 +278,10 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		}
 
 
-		if (isset($this->request->post['company'])){
-			$company = $this->request->post['company'];
-		} elseif (isset($this->session->data['guest']['company'])){
-			$company = $this->session->data['guest']['company'];
+		if (isset($_post['company'])){
+			$company = $_post['company'];
+		} elseif (isset($_session['guest']['company'])){
+			$company = $_session['guest']['company'];
 		} else{
 			$company = '';
 		}
@@ -308,10 +292,10 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 						'name'     => 'company',
 						'value'    => $company,
 						'required' => false));
-		if (isset($this->request->post['address_1'])){
-			$address_1 = $this->request->post['address_1'];
-		} elseif (isset($this->session->data['guest']['address_1'])){
-			$address_1 = $this->session->data['guest']['address_1'];
+		if (isset($_post['address_1'])){
+			$address_1 = $_post['address_1'];
+		} elseif (isset($_session['guest']['address_1'])){
+			$address_1 = $_session['guest']['address_1'];
 		} else{
 			$address_1 = '';
 		}
@@ -323,10 +307,10 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 						'required' => true));
 
 
-		if (isset($this->request->post['address_2'])){
-			$address_2 = $this->request->post['address_2'];
-		} elseif (isset($this->session->data['guest']['address_2'])){
-			$address_2 = $this->session->data['guest']['address_2'];
+		if (isset($_post['address_2'])){
+			$address_2 = $_post['address_2'];
+		} elseif (isset($_session['guest']['address_2'])){
+			$address_2 = $_session['guest']['address_2'];
 		} else{
 			$address_2 = '';
 		}
@@ -337,10 +321,10 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 						'value'    => $address_2,
 						'required' => false));
 
-		if (isset($this->request->post['city'])){
-			$city = $this->request->post['city'];
-		} elseif (isset($this->session->data['guest']['city'])){
-			$city = $this->session->data['guest']['city'];
+		if (isset($_post['city'])){
+			$city = $_post['city'];
+		} elseif (isset($_session['guest']['city'])){
+			$city = $_session['guest']['city'];
 		} else{
 			$city = '';
 		}
@@ -353,10 +337,10 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 						'value'    => $city,
 						'required' => true));
 
-		if (isset($this->request->post['zone_id'])){
-			$zone_id = $this->request->post['zone_id'];
-		} elseif (isset($this->session->data['guest']['zone_id'])){
-			$zone_id = $this->session->data['guest']['zone_id'];
+		if (isset($_post['zone_id'])){
+			$zone_id = $_post['zone_id'];
+		} elseif (isset($_session['guest']['zone_id'])){
+			$zone_id = $_session['guest']['zone_id'];
 		} else{
 			$zone_id = 'FALSE';
 		}
@@ -368,10 +352,10 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 						'name'     => 'zone_id',
 						'required' => true));
 
-		if (isset($this->request->post['postcode'])){
-			$postcode = $this->request->post['postcode'];
-		} elseif (isset($this->session->data['guest']['postcode'])){
-			$postcode = $this->session->data['guest']['postcode'];
+		if (isset($_post['postcode'])){
+			$postcode = $_post['postcode'];
+		} elseif (isset($_session['guest']['postcode'])){
+			$postcode = $_session['guest']['postcode'];
 		} else{
 			$postcode = '';
 		}
@@ -384,10 +368,10 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 						'required' => true));
 
 
-		if (isset($this->request->post['country_id'])){
-			$country_id = $this->request->post['country_id'];
-		} elseif (isset($this->session->data['guest']['country_id'])){
-			$country_id = $this->session->data['guest']['country_id'];
+		if (isset($_post['country_id'])){
+			$country_id = $_post['country_id'];
+		} elseif (isset($_session['guest']['country_id'])){
+			$country_id = $_session['guest']['country_id'];
 		} else{
 			$country_id = $this->config->get('config_country_id');
 		}
@@ -411,114 +395,114 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 						'type'       => 'checkbox',
 						'name'       => 'shipping_indicator',
 						'value'      => 1,
-						'checked'    => (isset($this->request->post['shipping_indicator'])
-								? (bool)$this->request->post['shipping_indicator']
+						'checked'    => (isset($_post['shipping_indicator'])
+								? (bool)$_post['shipping_indicator']
 								: false),
 						'label_text' => $this->language->get('text_indicator'),
 				));
 
-		if (isset($this->request->post['shipping_firstname'])){
-			$shipping_firstname = $this->request->post['shipping_firstname'];
-		} elseif (isset($this->session->data['guest']['shipping']['firstname'])){
-			$shipping_firstname = $this->session->data['guest']['shipping']['firstname'];
+		if (isset($_post['shipping_firstname'])){
+			$shipping_firstname = $_post['shipping_firstname'];
+		} elseif (isset($_session['guest']['shipping']['firstname'])){
+			$shipping_firstname = $_session['guest']['shipping']['firstname'];
 		} else{
 			$shipping_firstname = '';
 		}
-		$this->data['form']['fields']['shipping']['firstname'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['shipping_firstname'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'shipping_firstname',
 						'value'    => $shipping_firstname,
 						'required' => true));
-		if (isset($this->request->post['shipping_lastname'])){
-			$shipping_lastname = $this->request->post['shipping_lastname'];
-		} elseif (isset($this->session->data['guest']['shipping']['lastname'])){
-			$shipping_lastname = $this->session->data['guest']['shipping']['lastname'];
+		if (isset($_post['shipping_lastname'])){
+			$shipping_lastname = $_post['shipping_lastname'];
+		} elseif (isset($_session['guest']['shipping']['lastname'])){
+			$shipping_lastname = $_session['guest']['shipping']['lastname'];
 		} else{
 			$shipping_lastname = '';
 		}
-		$this->data['form']['fields']['shipping']['lastname'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['shipping_lastname'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'shipping_lastname',
 						'value'    => $shipping_lastname,
 						'required' => true));
-		if (isset($this->request->post['shipping_company'])){
-			$shipping_company = $this->request->post['shipping_company'];
-		} elseif (isset($this->session->data['guest']['shipping']['company'])){
-			$shipping_company = $this->session->data['guest']['shipping']['company'];
+		if (isset($_post['shipping_company'])){
+			$shipping_company = $_post['shipping_company'];
+		} elseif (isset($_session['guest']['shipping']['company'])){
+			$shipping_company = $_session['guest']['shipping']['company'];
 		} else{
 			$shipping_company = '';
 		}
-		$this->data['form']['fields']['shipping']['company'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['shipping_company'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'shipping_company',
 						'value'    => $shipping_company,
 						'required' => false));
-		if (isset($this->request->post['shipping_address_1'])){
-			$shipping_address_1 = $this->request->post['shipping_address_1'];
-		} elseif (isset($this->session->data['guest']['shipping']['address_1'])){
-			$shipping_address_1 = $this->session->data['guest']['shipping']['address_1'];
+		if (isset($_post['shipping_address_1'])){
+			$shipping_address_1 = $_post['shipping_address_1'];
+		} elseif (isset($_session['guest']['shipping']['address_1'])){
+			$shipping_address_1 = $_session['guest']['shipping']['address_1'];
 		} else{
 			$shipping_address_1 = '';
 		}
-		$this->data['form']['fields']['shipping']['address_1'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['shipping_address_1'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'shipping_address_1',
 						'value'    => $shipping_address_1,
 						'required' => true));
-		if (isset($this->request->post['shipping_address_2'])){
-			$shipping_address_2 = $this->request->post['shipping_address_2'];
-		} elseif (isset($this->session->data['guest']['shipping']['address_2'])){
-			$shipping_address_2 = $this->session->data['guest']['shipping']['address_2'];
+		if (isset($_post['shipping_address_2'])){
+			$shipping_address_2 = $_post['shipping_address_2'];
+		} elseif (isset($_session['guest']['shipping']['address_2'])){
+			$shipping_address_2 = $_session['guest']['shipping']['address_2'];
 		} else{
 			$shipping_address_2 = '';
 		}
-		$this->data['form']['fields']['shipping']['address_2'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['shipping_address_2'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'shipping_address_2',
 						'value'    => $shipping_address_2,
 						'required' => false));
 
-		if (isset($this->request->post['shipping_city'])){
-			$shipping_city = $this->request->post['shipping_city'];
-		} elseif (isset($this->session->data['guest']['shipping']['city'])){
-			$shipping_city = $this->session->data['guest']['shipping']['city'];
+		if (isset($_post['shipping_city'])){
+			$shipping_city = $_post['shipping_city'];
+		} elseif (isset($_session['guest']['shipping']['city'])){
+			$shipping_city = $_session['guest']['shipping']['city'];
 		} else{
 			$shipping_city = '';
 		}
-		$this->data['form']['fields']['shipping']['city'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['shipping_city'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'shipping_city',
 						'value'    => $shipping_city,
 						'required' => true));
 
-		if (isset($this->request->post['shipping_zone_id'])){
-			$shipping_zone_id = $this->request->post['shipping_zone_id'];
-		} elseif (isset($this->session->data['guest']['shipping']['zone_id'])){
-			$shipping_zone_id = $this->session->data['guest']['shipping']['zone_id'];
+		if (isset($_post['shipping_zone_id'])){
+			$shipping_zone_id = $_post['shipping_zone_id'];
+		} elseif (isset($_session['guest']['shipping']['zone_id'])){
+			$shipping_zone_id = $_session['guest']['shipping']['zone_id'];
 		} else{
 			$shipping_zone_id = 'FALSE';
 		}
 		$this->view->assign('shipping_zone_id', $shipping_zone_id);
-		$this->data['form']['fields']['shipping']['zone'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['shipping_zone'] = $form->getFieldHtml(
 				array (
 						'type'     => 'selectbox',
 						'name'     => 'shipping_zone_id',
 						'required' => true));
 
-		if (isset($this->request->post['shipping_postcode'])){
-			$shipping_postcode = $this->request->post['shipping_postcode'];
-		} elseif (isset($this->session->data['guest']['shipping']['postcode'])){
-			$shipping_postcode = $this->session->data['guest']['shipping']['postcode'];
+		if (isset($_post['shipping_postcode'])){
+			$shipping_postcode = $_post['shipping_postcode'];
+		} elseif (isset($_session['guest']['shipping']['postcode'])){
+			$shipping_postcode = $_session['guest']['shipping']['postcode'];
 		} else{
 			$shipping_postcode = '';
 		}
-		$this->data['form']['fields']['shipping']['postcode'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['shipping_postcode'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'shipping_postcode',
@@ -529,14 +513,14 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		foreach ($countries as $item){
 			$options[$item['country_id']] = $item['name'];
 		}
-		if (isset($this->request->post['shipping_country_id'])){
-			$shipping_country_id = $this->request->post['shipping_country_id'];
-		} elseif (isset($this->session->data['guest']['shipping']['country_id'])){
-			$shipping_country_id = $this->session->data['guest']['shipping']['country_id'];
+		if (isset($_post['shipping_country_id'])){
+			$shipping_country_id = $_post['shipping_country_id'];
+		} elseif (isset($_session['guest']['shipping']['country_id'])){
+			$shipping_country_id = $_session['guest']['shipping']['country_id'];
 		} else{
 			$shipping_country_id = $this->config->get('config_country_id');
 		}
-		$this->data['form']['fields']['shipping']['country'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['shipping_country'] = $form->getFieldHtml(
 				array (
 						'type'     => 'selectbox',
 						'name'     => 'shipping_country_id',
@@ -544,9 +528,9 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 						'value'    => $shipping_country_id,
 						'required' => true));
 
-		if (isset($this->request->post['shipping_indicator'])){
+		if (isset($_post['shipping_indicator'])){
 			$this->view->assign('shipping_addr', true);
-		} elseif (isset($this->session->data['guest']['shipping'])){
+		} elseif (isset($_session['guest']['shipping'])){
 			$this->view->assign('shipping_addr', true);
 		} else{
 			$this->view->assign('shipping_addr', false);
@@ -555,25 +539,6 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		$this->view->assign('shipping', $this->cart->hasShipping());
 		$this->loadModel('localisation/country');
 		$this->view->assign('countries', $this->model_localisation_country->getCountries());
-
-		//TODO: REMOVE THIS IN 1.3!!!
-		// backward compatibility code
-		$deprecated = $this->data['form']['fields'];
-		foreach($deprecated as $section=>$fields){
-			foreach ($fields as $name=>$fld){
-				if(in_array($name, array('country','zone'))){
-					$name .= '_id';
-				}
-
-				if($section=='shipping'){
-					$name = 'shipping_'.$name;
-				}
-
-				$this->data['form'][$name] = $fld;
-			}
-		}
-		//end of trick
-
 
 		$this->view->assign('back', $this->html->getSecureURL($cart_rt));
 
@@ -590,6 +555,26 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 						'type' => 'submit',
 						'name' => $this->language->get('button_continue')));
 
+		//fill error messages.
+		foreach($this->data['form']['fields'] as $section=>$fields){
+			foreach ($fields as $key => $text){
+				$this->data['error_'.$key] = (string)$this->error[$key];
+			}
+		}
+
+		//TODO: REMOVE THIS IN 2.0!!!
+		// backward compatibility code
+		$deprecated = $this->data['form']['fields'];
+		foreach($deprecated as $section=>$fields){
+			foreach ($fields as $name=>$fld){
+				if(in_array($name, array('country','zone'))){
+					$name .= '_id';
+				}
+				$this->data['form'][$name] = $fld;
+			}
+		}
+		//end of trick
+
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/checkout/guest_step_1.tpl');
 
@@ -597,68 +582,73 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-	private function _validate(){
-		if ((mb_strlen($this->request->post['firstname']) < 3) || (mb_strlen($this->request->post['firstname']) > 32)){
+	private function _validate($data){
+        if(!$this->csrftoken->isTokenValid()){
+            $this->error['warning'] = $this->language->get('error_unknown');
+            return false;
+        }
+
+		if ((mb_strlen($data['firstname']) < 3) || (mb_strlen($data['firstname']) > 32)){
 			$this->error['firstname'] = $this->language->get('error_firstname');
 		}
 
-		if ((mb_strlen($this->request->post['lastname']) < 3) || (mb_strlen($this->request->post['lastname']) > 32)){
+		if ((mb_strlen($data['lastname']) < 3) || (mb_strlen($data['lastname']) > 32)){
 			$this->error['lastname'] = $this->language->get('error_lastname');
 		}
 
-		if (!preg_match(EMAIL_REGEX_PATTERN, $this->request->post['email'])){
+		if (!preg_match(EMAIL_REGEX_PATTERN, $data['email'])){
 			$this->error['email'] = $this->language->get('error_email');
 		}
 
-		if (mb_strlen($this->request->post['telephone']) > 32){
+		if (mb_strlen($data['telephone']) > 32){
 			$this->error['telephone'] = $this->language->get('error_telephone');
 		}
 
-		if ((mb_strlen($this->request->post['address_1']) < 3) || (mb_strlen($this->request->post['address_1']) > 128)){
+		if ((mb_strlen($data['address_1']) < 3) || (mb_strlen($data['address_1']) > 128)){
 			$this->error['address_1'] = $this->language->get('error_address_1');
 		}
 
-		if ((mb_strlen($this->request->post['city']) < 3) || (mb_strlen($this->request->post['city']) > 128)){
+		if ((mb_strlen($data['city']) < 3) || (mb_strlen($data['city']) > 128)){
 			$this->error['city'] = $this->language->get('error_city');
 		}
-		if ((mb_strlen($this->request->post['postcode']) < 3) || (mb_strlen($this->request->post['postcode']) > 10)){
+		if ((mb_strlen($data['postcode']) < 3) || (mb_strlen($data['postcode']) > 10)){
 			$this->error['postcode'] = $this->language->get('error_postcode');
 		}
 
-		if ($this->request->post['country_id'] == 'FALSE'){
+		if ($data['country_id'] == 'FALSE'){
 			$this->error['country'] = $this->language->get('error_country');
 		}
 
-		if ($this->request->post['zone_id'] == 'FALSE'){
+		if ($data['zone_id'] == 'FALSE'){
 			$this->error['zone'] = $this->language->get('error_zone');
 		}
 
-		if (isset($this->request->post['shipping_indicator'])){
+		if ($data['shipping_indicator']){
 
-			if ((mb_strlen($this->request->post['shipping_firstname']) < 3) || (mb_strlen($this->request->post['shipping_firstname']) > 32)){
+			if ((mb_strlen($data['shipping_firstname']) < 3) || (mb_strlen($data['shipping_firstname']) > 32)){
 				$this->error['shipping_firstname'] = $this->language->get('error_firstname');
 			}
 
-			if ((mb_strlen($this->request->post['shipping_lastname']) < 3) || (mb_strlen($this->request->post['shipping_lastname']) > 32)){
+			if ((mb_strlen($data['shipping_lastname']) < 3) || (mb_strlen($data['shipping_lastname']) > 32)){
 				$this->error['shipping_lastname'] = $this->language->get('error_lastname');
 			}
 
-			if ((mb_strlen($this->request->post['shipping_address_1']) < 3) || (mb_strlen($this->request->post['shipping_address_1']) > 128)){
+			if ((mb_strlen($data['shipping_address_1']) < 3) || (mb_strlen($data['shipping_address_1']) > 128)){
 				$this->error['shipping_address_1'] = $this->language->get('error_address_1');
 			}
 
-			if ((mb_strlen($this->request->post['shipping_city']) < 3) || (mb_strlen($this->request->post['shipping_city']) > 128)){
+			if ((mb_strlen($data['shipping_city']) < 3) || (mb_strlen($data['shipping_city']) > 128)){
 				$this->error['shipping_city'] = $this->language->get('error_city');
 			}
-			if ((mb_strlen($this->request->post['shipping_postcode']) < 3) || (mb_strlen($this->request->post['shipping_postcode']) > 10)){
+			if ((mb_strlen($data['shipping_postcode']) < 3) || (mb_strlen($data['shipping_postcode']) > 10)){
 				$this->error['shipping_postcode'] = $this->language->get('error_postcode');
 			}
 
-			if ($this->request->post['shipping_country_id'] == 'FALSE'){
+			if ($data['shipping_country_id'] == 'FALSE'){
 				$this->error['shipping_country'] = $this->language->get('error_country');
 			}
 
-			if ($this->request->post['shipping_zone_id'] == 'FALSE'){
+			if ($data['shipping_zone_id'] == 'FALSE'){
 				$this->error['shipping_zone'] = $this->language->get('error_zone');
 			}
 

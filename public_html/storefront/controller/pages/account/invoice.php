@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -71,34 +71,14 @@ class ControllerPagesAccountInvoice extends AController{
 			}
 		}
 
-		$this->view->assign('error', $this->error);
-
-		if (!$this->customer->isLogged() && !$guest){
-			$this->session->data['redirect'] = $this->html->getSecureURL('account/invoice', '&order_id=' . $order_id);
-			$this->getForm();
-			return null;
-		}
-
-		if (!$order_id && $this->customer->isLogged()){
-			$this->redirect($this->html->getSecureURL('account/history'));
-		}
-
-		//get info for registered customers
-		if (!$order_info){
-			$order_info = $this->model_account_order->getOrder($order_id);
-		}
-
 		$this->document->setTitle($this->language->get('heading_title'));
-
 		$this->document->resetBreadcrumbs();
-
 		$this->document->addBreadcrumb(
 				array (
 						'href'      => $this->html->getHomeURL(),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
-
 		$this->document->addBreadcrumb(
 				array (
 						'href'      => $this->html->getSecureURL('account/account'),
@@ -119,6 +99,27 @@ class ControllerPagesAccountInvoice extends AController{
 				'text'      => $this->language->get('text_invoice'),
 				'separator' => $this->language->get('text_separator')
 		));
+
+
+
+		$this->view->assign('error', $this->error);
+
+		if (!$this->customer->isLogged() && !$guest){
+			$this->session->data['redirect'] = $this->html->getSecureURL('account/invoice', '&order_id=' . $order_id);
+			$this->getForm();
+			return null;
+		}
+
+		if (!$order_id && $this->customer->isLogged()){
+			redirect($this->html->getSecureURL('account/history'));
+		}
+
+		//get info for registered customers
+		if (!$order_info){
+			$order_info = $this->model_account_order->getOrder($order_id);
+		}
+
+
 
 		$this->data['success'] = '';
 		if (isset($this->session->data['success'])){
@@ -262,7 +263,7 @@ class ControllerPagesAccountInvoice extends AController{
 					       'icon'  => 'fa fa-print',
 					       'style' => 'button'));
 
-			//button for order cancelation
+			//button for order cancellation
 			if ($this->config->get('config_customer_cancelation_order_status_id')){
 				$order_cancel_ids = unserialize($this->config->get('config_customer_cancelation_order_status_id'));
 				if (in_array($order_info['order_status_id'], $order_cancel_ids)){
@@ -317,7 +318,7 @@ class ControllerPagesAccountInvoice extends AController{
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-	private function getForm(){
+	protected function getForm(){
 		$this->document->resetBreadcrumbs();
 
 		$this->document->addBreadcrumb(array (
@@ -345,12 +346,13 @@ class ControllerPagesAccountInvoice extends AController{
 
 		$this->data['form']['form_open'] = $form->getFieldHtml(
 				array (
-						'type'   => 'form',
-						'name'   => 'CheckOrderFrm',
-						'action' => $this->html->getSecureURL('account/invoice')
+                    'type'   => 'form',
+                    'name'   => 'CheckOrderFrm',
+                    'action' => $this->html->getSecureURL('account/invoice'),
+                    'csrf' => true,
 				));
 
-		$order_id = (int)$this->request->post['order_id'] ? (int)$this->request->post['order_id'] : '';
+		$order_id = (int)$this->request->post_or_get('order_id') ? (int)$this->request->post_or_get('order_id') : '';
 		$this->data['form']['order_id'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
@@ -412,12 +414,12 @@ class ControllerPagesAccountInvoice extends AController{
 				if ($order_id){
 					$this->session->data['redirect'] = $this->html->getSecureURL('account/invoice', '&order_id=' . $order_id);
 				}
-				$this->redirect($this->html->getSecureURL('account/login'));
+				redirect($this->html->getSecureURL('account/login'));
 			}
 			$order_info = $this->model_account_order->getOrder($order_id, '', 'view');
 			//compare emails
 			if ($order_info['email'] != $email){
-				$this->redirect($this->html->getSecureURL('account/login'));
+				redirect($this->html->getSecureURL('account/login'));
 			}
 			$guest = true;
 		} else{
@@ -425,23 +427,23 @@ class ControllerPagesAccountInvoice extends AController{
 		}
 
 		if (!$order_id && !$guest){
-			$this->redirect($this->html->getSecureURL('account/invoice'));
+			redirect($this->html->getSecureURL('account/invoice'));
 		}
 
 		if (!$customer_id && !$guest){
-			$this->redirect($this->html->getSecureURL('account/login'));
+			redirect($this->html->getSecureURL('account/login'));
 		}
 
 		if (!$order_info){
-			$this->redirect($this->html->getSecureURL('account/invoice'));
+			redirect($this->html->getSecureURL('account/invoice'));
 		}
-		//is cancelation enabled at all
+		//is cancellation enabled at all
 		if ($this->config->get('config_customer_cancelation_order_status_id')){
 			$order_cancel_ids = unserialize($this->config->get('config_customer_cancelation_order_status_id'));
 		}
-		//is cancelation allowed for current order status
+		//is cancellation allowed for current order status
 		if (!$order_cancel_ids || !in_array($order_info['order_status_id'], $order_cancel_ids)){
-			$this->redirect($this->html->getSecureURL('account/invoice'));
+			redirect($this->html->getSecureURL('account/invoice'));
 		}
 
 		//now do change
@@ -449,7 +451,7 @@ class ControllerPagesAccountInvoice extends AController{
 		$new_order_status_id = $this->order_status->getStatusByTextId('canceled_by_customer');
 		if ($new_order_status_id){
 			$this->loadModel('checkout/order');
-			$this->model_checkout_order->update($order_id, $new_order_status_id, 'Request an Order cancellation from Customer', true);
+			$this->model_checkout_order->update($order_id, $new_order_status_id, $this->language->get('text_request_cancellation_from_customer'), true);
 			$this->session->data['success'] = $this->language->get('text_order_cancelation_success');
 
 			$this->messages->saveNotice(
@@ -476,22 +478,25 @@ class ControllerPagesAccountInvoice extends AController{
 			$url = $this->html->getSecureURL('account/invoice', '&ot=' . $this->request->get['ot']);
 		}
 
-		$this->redirect($url);
+		redirect($url);
 	}
 
-	private function _validate(){
+	protected function _validate(){
 
-		if (!(int)$this->request->post['order_id']){
-			$this->error['order_id'] = $this->language->get('error_order_id');
-		}
+        if (!$this->csrftoken->isTokenValid()) {
+            $this->error['warning'] = $this->language->get('error_unknown');
+        } else {
+            if (!(int)$this->request->post['order_id']){
+                $this->error['order_id'] = $this->language->get('error_order_id');
+            }
 
-		if (mb_strlen($this->request->post['email']) > 96 || !preg_match(EMAIL_REGEX_PATTERN, $this->request->post['email'])){
-			$this->error['email'] = $this->language->get('error_email');
-		}
+            if (mb_strlen($this->request->post['email']) > 96 || !preg_match(EMAIL_REGEX_PATTERN, $this->request->post['email'])){
+                $this->error['email'] = $this->language->get('error_email');
+            }
 
-		$this->extensions->hk_ValidateData($this);
+            $this->extensions->hk_ValidateData($this);
+        }
 
 		return !$this->error ? true : false;
-
 	}
 }

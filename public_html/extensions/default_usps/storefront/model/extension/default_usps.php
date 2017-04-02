@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -216,13 +216,10 @@ class ModelExtensionDefaultUsps extends Model {
 
 
 		$curl = curl_init();
-
-		curl_setopt($curl, CURLOPT_URL, 'http://production.shippingapis.com/ShippingAPI.dll?' . $request);
+		curl_setopt($curl, CURLOPT_URL, 'https://secure.shippingapis.com/ShippingAPI.dll?' . $request);
 		curl_setopt($curl, CURLOPT_HEADER, 0);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-
 		$result = curl_exec($curl);
-
 		curl_close($curl);
 
 		// strip reg, trade and ** out 01-02-2011

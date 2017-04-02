@@ -25,8 +25,7 @@
 	<div class="registerbox form-horizontal">
 		<fieldset>
 		<?php
-			foreach ($form['fields']['general'] as $field_name=>$field) {
-		?>
+		foreach ($form['fields']['general'] as $field_name=>$field) { ?>
 			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
 				<label class="control-label col-sm-4 col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
 				<div class="input-group col-sm-4 col-md-4">
@@ -36,10 +35,7 @@
 			</div>		
 		<?php
 			}
-		?>	
-		
-		<?php echo $this->getHookVar('guest_details_attributes'); ?>
-	
+		echo $this->getHookVar('guest_details_attributes'); ?>
 		</fieldset>
 	</div>	
 
@@ -47,10 +43,16 @@
 	<div class="registerbox form-horizontal">
 		<fieldset>
 		<?php
-
+			$field_list = array('company' => 'company',
+								'address_1' => 'address_1',
+								'address_2' => 'address_2',
+								'city' => 'city',
+								'zone' => 'zone_id',
+								'postcode' => 'postcode',
+								'country' => 'country_id',
+								);
 			
-			foreach ($form['fields']['address'] as $field_name=>$field) {
-		?>
+			foreach ($form['fields']['address'] as $field_name=>$field) {?>
 			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
 				<label class="control-label col-sm-4 col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
 				<div class="input-group col-sm-4 col-md-4">
@@ -60,9 +62,7 @@
 			</div>		
 		<?php
 			}
-		?>	
-	
-			<?php echo $this->getHookVar('address_entry_section'); ?>
+			echo $this->getHookVar('address_entry_section'); ?>
 
 			<div class="form-group">
 				<label class="control-label col-sm-4 col-md-4"></label>
@@ -79,25 +79,17 @@
 		<div class="registerbox form-horizontal">
 		<fieldset>
 		<?php
-			$field_list = array('firstname' => 'shipping_firstname',
-								'lastname' => 'shipping_lastname',
-								'company' => 'shipping_company', 
-								'address_1' => 'shipping_address_1', 
-								'address_2' => 'shipping_address_2', 
-								'city' => 'shipping_city',
-								'postcode' => 'shipping_postcode',
-								'country' => 'shipping_country', 
-								'zone' => 'shipping_zone',
-								);
-			
 			foreach ($form['fields']['shipping'] as $field_name=>$field) {
-		?>
-			<div class="form-group <?php if (${'error_'.$field_id}) echo 'has-error'; ?>">
-				<label class="control-label col-sm-4 col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
+				$entry_text = str_replace('shipping_','', $field_name);
+				?>
+			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
+				<label class="control-label col-sm-4 col-md-4"><?php echo ${'entry_'.$entry_text}; ?></label>
 				<div class="input-group col-sm-4 col-md-4">
-					<?php echo $field;	?>
+					<?php
+				   		echo $field;
+				   	?>
 				</div>
-				<span class="help-block"><?php echo ${'error_'.$field_id}; ?></span>
+				<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
 			</div>		
 		<?php
 			}
@@ -109,7 +101,7 @@
       
 	<div class="form-group">
 	    <div class="col-md-12 mt20">
-	    	<button class="btn btn-orange pull-right" title="<?php echo $form['continue']->name ?>" type="submit">
+	    	<button class="btn btn-orange pull-right lock-on-click" title="<?php echo $form['continue']->name ?>" type="submit">
 	    	    <i class="fa fa-arrow-right"></i>
 	    	    <?php echo $form['continue']->name ?>
 	    	</button>

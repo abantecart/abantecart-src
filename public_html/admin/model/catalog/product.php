@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -1553,7 +1553,7 @@ class ModelCatalogProduct extends Model{
 					'sku'                    => $data['sku'][$opt_val_id],
 					'quantity'               => $data['quantity'][$opt_val_id],
 					'subtract'               => $data['subtract'][$opt_val_id],
-					'price'                  => preg_replace('/[^0-9\.\-]/', '', $data['price'][$opt_val_id]),
+					'price'                  => preformatFloat($data['price'][$opt_val_id], $this->language->get('decimal_point')),
 					'prefix'                 => $data['prefix'][$opt_val_id],
 					'sort_order'             => $data['sort_order'][$opt_val_id],
 					'weight'                 => $data['weight'][$opt_val_id],
@@ -1943,6 +1943,7 @@ class ModelCatalogProduct extends Model{
 			}
 
 			$sort_data = array (
+                    'product_id' => 'p.product_id',
 					'name'       => 'pd.name',
 					'model'      => 'p.model',
 					'quantity'   => 'p.quantity',
@@ -1954,7 +1955,8 @@ class ModelCatalogProduct extends Model{
 			if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)){
 				$sql .= " ORDER BY " . $sort_data[$data['sort']];
 			} else{
-				$sql .= " ORDER BY pd.name";
+                //for faster SQL default to ID based order
+				$sql .= " ORDER BY p.product_id";
 			}
 
 			if (isset($data['order']) && ($data['order'] == 'DESC')){

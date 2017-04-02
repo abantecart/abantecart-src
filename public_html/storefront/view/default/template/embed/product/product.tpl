@@ -1,6 +1,7 @@
-<?php echo $head; ?>
-
-<?php if ($error) { ?>
+<?php echo $head;
+$tax_exempt = $this->customer->isTaxExempt();
+$config_tax = $this->config->get('config_tax');
+if ($error) { ?>
 	<div class="alert alert-error alert-danger">
 		<button type="button" class="close" data-dismiss="alert">&times;</button>
 		<strong><?php echo is_array($error) ? implode('<br>', $error) : $error; ?></strong>
@@ -67,15 +68,19 @@
 						<div class="productprice">
 							<?php
 
-							if ($display_price) { ?>
+							if ($display_price) {
+								$tax_message = '';
+								if($config_tax && !$tax_exempt && $tax_class_id){
+									$tax_message = '&nbsp;&nbsp;<span class="productpricesmall">'.$price_with_tax.'</span>';
+								}?>
 								<div class="productpageprice jumbotron">
 									<?php if ($special) { ?>
 										<div class="productfilneprice">
-											<span class="spiral"></span><?php echo $special; ?></div>
+											<span class="spiral"></span><?php echo $special.$tax_message; ?></div>
 										<span class="productpageoldprice"><?php echo $price; ?></span>
 									<?php } else { ?>
 										<span class="productfilneprice"></span><span
-												class="spiral"></span><?php echo $price; ?>
+												class="spiral"></span><?php echo $price.$tax_message; ?>
 									<?php } ?>
 								</div>
 							<?php }
@@ -173,6 +178,7 @@
 										<ul class="productpagecart">
 											<li><?php if(!$this->getHookVar('product_add_to_cart_html')) { ?>
 												<a href="#" onclick="$(this).closest('form').submit(); return false;" class="cart">
+													<i class="fa fa-cart-plus fa-fw"></i>
 													<?php echo $button_add_to_cart; ?>
 												</a>
 												<?php } else { ?>
@@ -184,11 +190,17 @@
 										<?php } ?>
 										<?php } else { ?>
 											<ul class="productpagecart call_to_order">
-												<li><a href="#" class="call_to_order"><i class="fa fa-phone"></i>&nbsp;&nbsp;<?php echo $text_call_to_order; ?></a></li>
+												<li>
+													<a href="#" class="call_to_order">
+														<i class="fa fa-phone fa-fw"></i>&nbsp;&nbsp;
+														<?php echo $text_call_to_order; ?>
+													</a>
+												</li>
 											</ul>
 										<?php } ?>										
 										<a class="productprint btn btn-large" href="javascript:window.print();">
-											<i class="fa fa-print"></i> <?php echo $button_print; ?>
+											<i class="fa fa-print fa-fw"></i>
+											<?php echo $button_print; ?>
 										</a>
 										<?php echo $this->getHookVar('buttons'); ?>
 									</div>
@@ -205,10 +217,12 @@
 									<?php if ($is_customer) { ?>
 									<div class="wishlist">
 										<a class="wishlist_remove btn btn-large" href="#" onclick="wishlist_remove(); return false;" <?php echo $nowhislist; ?>>
-											<i class="fa fa-trash-o"></i> <?php echo $button_remove_wishlist; ?>
+											<i class="fa fa-trash-o fa-fw"></i>
+											<?php echo $button_remove_wishlist; ?>
 										</a>
 										<a class="wishlist_add btn btn-large" href="#" onclick="wishlist_add(); return false;" <?php echo $whislist; ?>>
-											<i class="fa fa-plus-square"></i> <?php echo $button_add_wishlist; ?>
+											<i class="fa fa-plus-square fa-fw"></i>
+											<?php echo $button_add_wishlist; ?>
 										</a>
 									</div>
 									<?php } ?>
@@ -352,27 +366,30 @@
 				<?php if ($related_products) { ?>
 					<div class="tab-pane" id="relatedproducts">
 						<ul class="row side_prd_list">
-						<?php foreach ($related_products as $related_product) {
-								$item['rating'] = ($related_product['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png') . "' alt='" . $related_product['stars'] . "' width='64' height='12' />" : '';
-								if (!$display_price) {
-									$related_product['price'] = $related_product['special'] = '';
-								}
-							?>
-								<li class="col-md-3 col-sm-4 col-xs-6 related_product">
-									<a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
-									<a class="productname"
-									   href="<?php echo $related_product['href']; ?>"><?php echo $related_product['name']; ?></a>
-									<span class="procategory"><?php echo $item['rating'] ?></span>
-
-									<div class="price">
-										<?php if ($related_product['special']) { ?>
-											<span class="pricenew"><?php echo $related_product['special'] ?></span>
-											<span class="priceold"><?php echo $related_product['price'] ?></span>
-										<?php } else { ?>
-											<span class="oneprice"><?php echo $related_product['price'] ?></span>
-										<?php } ?>
-									</div>
-								</li>
+						<?php
+						foreach ($related_products as $related_product) {
+							$item['rating'] = ($related_product['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png') . "' alt='" . $related_product['stars'] . "' width='64' height='12' />" : '';
+							if (!$display_price) {
+								$related_product['price'] = $related_product['special'] = '';
+							}
+							$tax_message = '';
+							if($config_tax && !$tax_exempt && $related_product['tax_class_id']){
+								$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
+							} ?>
+							<li class="col-md-3 col-sm-4 col-xs-6 related_product">
+								<a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
+								<a class="productname"
+								   href="<?php echo $related_product['href']; ?>"><?php echo $related_product['name']; ?></a>
+								<span class="procategory"><?php echo $item['rating'] ?></span>
+								<div class="price">
+									<?php if ($related_product['special']) { ?>
+										<span class="pricenew"><?php echo $related_product['special'] . $tax_message ?></span>
+										<span class="priceold"><?php echo $related_product['price'] ?></span>
+									<?php } else { ?>
+										<span class="oneprice"><?php echo $related_product['price'] . $tax_message ?></span>
+									<?php } ?>
+								</div>
+							</li>
 						<?php } ?>
 						</ul>
 					</div>
@@ -567,6 +584,7 @@
             	var text = jqXHR.statusText + ": " + jqXHR.responseText;
 				$('#review .alert').remove();
 				$('#review_title').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
+	            try { resetLockBtn(); } catch (e){}
 			},
 			success: function (data) {
 				if (data.error) {
@@ -582,6 +600,7 @@
 					$('input[name=\'captcha\']').val('');
 				}
 				$('img#captcha_img').attr('src', $('img#captcha_img').attr('src') + '&' + Math.random());
+				try { resetLockBtn(); } catch (e){}
 			}
 		});
 	}

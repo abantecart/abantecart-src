@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -533,8 +533,9 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$package_info['package_type'] = (string)$config->type;
 		$package_info['package_priority'] = (string)$config->priority;
 		$package_info['package_version'] = (string)$config->version;
-		$package_info['package_content'] = '';
+		$package_info['package_content'] = array();
 		if ((string)$config->package_content->extensions) {
+			$package_info['package_content']['extensions'] = array();
 			foreach ($config->package_content->extensions->extension as $item) {
 				if ((string)$item) {
 					$package_info['package_content']['extensions'][ ] = (string)$item;
@@ -544,6 +545,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 		}
 
 		if ((string)$config->package_content->core) {
+            $package_info['package_content']['core'] = array();
 			foreach ($config->package_content->core->files->file as $item) {
 				if ((string)$item) {
 					$package_info['package_content']['core'][ ] = (string)$item;
@@ -560,7 +562,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 
 		}
 
-		//check cart version compability
+		//check cart version compatibility
 		if (!isset($package_info['confirm_version_incompatibility'])) {
 			if (!$this->_check_cart_version($config)) {
 				if($this->_isCorePackage()){
@@ -741,11 +743,20 @@ class ControllerPagesToolPackageInstaller extends AController {
 		}
 		// license agreement
 		else {
-			if(file_exists($package_info['tmp_dir'] . $package_dirname . "/license.txt")){
-				$this->data['agreement_text'] = file_get_contents($package_info['tmp_dir'] . $package_dirname . "/license.txt");
+			$license_filepath = $package_info['tmp_dir'] . $package_dirname . "/license.txt";
+
+			if(file_exists($license_filepath)){
+				$agreement_text = file_get_contents($license_filepath);
+				//detect encoding of file
+				$is_utf8 = mb_detect_encoding($agreement_text, 'UTF-8', true);
+				if(!$is_utf8){
+					$agreement_text = 'Oops. Something goes wrong. Try to continue or check error log for details.';
+					$err = new AError('Incorrect character set encoding of file '.$license_filepath.' has been detected.');
+					$err->toLog()->toMessages();
+				}
 			}
-			$this->data['agreement_text'] = htmlentities($this->data['agreement_text'], ENT_QUOTES, 'UTF-8');
-			$this->data['agreement_text'] = nl2br($this->data['agreement_text']);
+			$agreement_text = htmlentities($agreement_text, ENT_QUOTES, 'UTF-8');
+			$this->data['agreement_text'] = nl2br($agreement_text);
 
 			$template = 'pages/tool/package_installer_agreement.tpl';
 

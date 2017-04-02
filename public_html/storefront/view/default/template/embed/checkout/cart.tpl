@@ -1,6 +1,6 @@
 <?php echo $head; ?>
 <h1 class="heading1">
-	<span class="maintext"><i class="fa fa-shopping-cart"></i> <?php echo $heading_title; ?></span>
+	<span class="maintext"><i class="fa fa-shopping-cart fa-fw"></i> <?php echo $heading_title; ?></span>
 	<?php if ($weight) { ?>
 		<span class="subtext">(<?php echo $weight; ?>)</span>
 	<?php } ?>
@@ -70,7 +70,7 @@ echo $form['form_open'];
 			<?php echo $this->getHookVar('pre_top_cart_buttons'); ?>
 			<?php if ($form['checkout']) { ?>
 				<a href="#" onclick="save_and_checkout('<?php echo $checkout_rt; ?>'); return false;" id="cart_checkout1" class="btn btn-orange pull-right" title="<?php echo $button_checkout; ?>">
-					<i class="fa fa-shopping-cart"></i>
+					<i class="fa fa-shopping-cart fa-fw"></i>
 					<?php echo $button_checkout; ?>
 				</a>
 			<?php } ?>
@@ -130,7 +130,7 @@ echo $form['form_open'];
 								</div>																			
 								
 								<div class="form-group">
-									<label class="checkbox col-sm-4"><?php echo $text_estimate_postcode; ?></label>
+									<label class="control-label col-sm-4"><?php echo $text_estimate_postcode; ?></label>
 						    		<div class="input-group col-sm-6">
 						    		<?php echo $form_estimate['postcode']; ?>
 						    		<span class="input-group-btn">
@@ -182,7 +182,7 @@ echo $form['form_open'];
 
 	    	<?php if ($form['checkout']) { ?>
 	    		<a href="#" onclick="save_and_checkout('<?php echo $checkout_rt; ?>'); return false;" id="cart_checkout2" class="btn btn-orange pull-right" title="<?php echo $button_checkout; ?>">
-	    			<i class="fa fa-shopping-cart"></i>
+	    			<i class="fa fa-shopping-cart fa-fw"></i>
 	    			<?php echo $button_checkout; ?>
 	    		</a>
 	    	<?php } ?>

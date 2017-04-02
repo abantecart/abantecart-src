@@ -16,11 +16,12 @@ final class APDOMySQL{
 
 	public function __construct($hostname, $username, $password, $database, $new_link = false, $port = "3306"){
 		try{
-			$this->connection = new PDO("mysql:host=" . $hostname . ";port=" . $port . ";dbname=" . $database, $username, $password, array (PDO::ATTR_PERSISTENT => true));
-		} catch(AException $e){
-			$err = new AError('Cannot establish database connection to ' . $database.' using ' . $username . '@' . $hostname);
+			$this->connection = new PDO("mysql:host=" . $hostname . ";port=" . $port . ";dbname=" . $database,
+					$username, $password, array (PDO::ATTR_PERSISTENT => true));
+		} catch (AException $e){
+			$err = new AError('Cannot establish database connection to ' . $database . ' using ' . $username . '@' . $hostname);
 			$err->toLog();
-            throw new AException(AC_ERR_MYSQL, 'Cannot establish database connection. Check your database setting in configuration file.');
+			throw new AException(AC_ERR_MYSQL,'Cannot establish database connection. Check your database connection settings.');
 		}
 		$this->registry = Registry::getInstance();
 
@@ -38,15 +39,15 @@ final class APDOMySQL{
 	}
 
 	public function bindParam($parameter, $variable, $data_type = PDO::PARAM_STR, $length = 0){
-		if ($length){
+		if ($length) {
 			$this->statement->bindParam($parameter, $variable, $data_type, $length);
-		} else{
+		} else {
 			$this->statement->bindParam($parameter, $variable, $data_type);
 		}
 	}
 
 	public function query($sql, $noexcept = false, $params = array ()){
-		if (!$noexcept){
+		if (!$noexcept) {
 			$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 		}
@@ -55,11 +56,11 @@ final class APDOMySQL{
 		$result = false;
 
 		$time_start = microtime(true);
-		try {
-			if ($this->statement && $this->statement->execute($params)){
+		try{
+			if ($this->statement && $this->statement->execute($params)) {
 				$data = array ();
-				if ($this->statement->columnCount()){
-					while ($row = $this->statement->fetch(PDO::FETCH_ASSOC)){
+				if ($this->statement->columnCount()) {
+					while ($row = $this->statement->fetch(PDO::FETCH_ASSOC)) {
 						$data[] = $row;
 					}
 
@@ -69,9 +70,9 @@ final class APDOMySQL{
 					$result->num_rows = $this->statement->rowCount();
 				}
 			}
-		} catch(PDOException $e) {
-			$this->error = 'SQL Error: ' . $e->getMessage() . '<br />Error No: ' . $e->getCode() . '<br />SQL:' . $sql;	
-			if ($noexcept){
+		} catch (PDOException $e){
+			$this->error = 'SQL Error: ' . $e->getMessage() . '<br />Error No: ' . $e->getCode() . '<br />SQL:' . $sql;
+			if ($noexcept) {
 				return false;
 			} else {
 				throw new AException(AC_ERR_MYSQL, $this->error);
@@ -81,16 +82,16 @@ final class APDOMySQL{
 		$time_exec = microtime(true) - $time_start;
 
 		// to avoid debug class init while setting was not yet loaded
-		if ($this->registry->get('config')){
-			if ($this->registry->get('config')->has('config_debug')){
+		if ($this->registry->get('config')) {
+			if ($this->registry->get('config')->has('config_debug')) {
 				$backtrace = debug_backtrace();
 				ADebug::set_query($sql, $time_exec, $backtrace[2]);
 			}
 		}
 
-		if ($result){
+		if ($result) {
 			return $result;
-		} else{
+		} else {
 			$result = new stdClass();
 			$result->row = array ();
 			$result->rows = array ();
@@ -101,10 +102,10 @@ final class APDOMySQL{
 
 	public function escape($value){
 
-		if (is_array($value)){
-			$dump = var_export($value,true);
-		    $backtrace = debug_backtrace();
-		    $dump .= ' (file: '.$backtrace[1]['file'] .' line '.$backtrace[1]['line'].')';
+		if (is_array($value)) {
+			$dump = var_export($value, true);
+			$backtrace = debug_backtrace();
+			$dump .= ' (file: ' . $backtrace[1]['file'] . ' line ' . $backtrace[1]['line'] . ')';
 			$message = 'aMySQLi class error: Try to escape non-string value: ' . $dump;
 			$error = new AError($message);
 			$error->toLog()->toDebug()->toMessages();
@@ -117,9 +118,9 @@ final class APDOMySQL{
 	}
 
 	public function countAffected(){
-		if ($this->statement){
+		if ($this->statement) {
 			return $this->statement->rowCount();
-		} else{
+		} else {
 			return 0;
 		}
 	}
@@ -133,7 +134,7 @@ final class APDOMySQL{
 	}
 
 	public function getTextDBError(){
-		return array(
+		return array (
 				'error_text' => '',
 				'errno'      => ''
 		);

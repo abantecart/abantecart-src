@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -25,6 +25,20 @@ class ControllerResponsesExtensionDefaultCashflows extends AController{
 	public function main(){
 		$this->loadLanguage('default_cashflows/default_cashflows');
 
+        $data['action'] = $this->html->getSecureURL('extension/default_cashflows/send');
+
+        //build submit form
+        $form = new AForm();
+        $form->setForm(array( 'form_name' => 'cashflows' ));
+        $data['form_open'] = $form->getFieldHtml(
+            array(
+                'type' => 'form',
+                'name' => 'cashflows',
+                'attr' => 'class = "form-horizontal validate-creditcard"',
+                'csrf' => true
+            )
+        );
+
 		$data['text_credit_card'] = $this->language->get('text_credit_card');
 		$data['text_start_date'] = $this->language->get('text_start_date');
 		$data['text_issue'] = $this->language->get('text_issue');
@@ -39,14 +53,14 @@ class ControllerResponsesExtensionDefaultCashflows extends AController{
 		$data['button_confirm'] = $this->language->get('button_confirm');
 		$data['button_back'] = $this->language->get('button_back');
 
-		$data['cc_owner'] = HtmlElementFactory::create(array (
+		$data['cc_owner'] = $form->getFieldHtml(array (
 				'type'  => 'input',
 				'name'  => 'cc_owner',
 				'value' => $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'],
 				'style' => 'input-medium'
 		));
 
-		$data['cc_number'] = HtmlElementFactory::create(array (
+		$data['cc_number'] = $form->getFieldHtml(array (
 				'type'  => 'input',
 				'name'  => 'cc_number',
 				'value' => '',
@@ -79,26 +93,26 @@ class ControllerResponsesExtensionDefaultCashflows extends AController{
 		for ($i = $today['year']; $i < $today['year'] + 11; $i++){
 			$years[strftime('%Y', mktime(0, 0, 0, 1, 1, $i))] = strftime('%Y', mktime(0, 0, 0, 1, 1, $i));
 		}
-		$data['cc_expire_date_year'] = HtmlElementFactory::create(array ('type'    => 'selectbox',
+		$data['cc_expire_date_year'] = $form->getFieldHtml(array ('type'    => 'selectbox',
 		                                                                 'name'    => 'cc_expire_date_year',
 		                                                                 'value'   => sprintf('%02d', date('Y') + 1),
 		                                                                 'options' => $years,
 		                                                                 'style'   => 'short input-small'));
 
-		$data['cc_start_date_year'] = HtmlElementFactory::create(array ('type'    => 'selectbox',
+		$data['cc_start_date_year'] = $form->getFieldHtml(array ('type'    => 'selectbox',
 		                                                                'name'    => 'cc_start_date_year',
 		                                                                'value'   => sprintf('%02d', date('Y') + 1),
 		                                                                'options' => $years,
 		                                                                'style'   => 'short input-small'));
 
-		$data['cc_cvv2'] = HtmlElementFactory::create(array ('type'  => 'input',
+		$data['cc_cvv2'] = $form->getFieldHtml(array ('type'  => 'input',
 		                                                     'name'  => 'cc_cvv2',
 		                                                     'value' => '',
 		                                                     'style' => 'short',
 		                                                     'attr'  => ' size="3" maxlength="4" '
 		));
 
-		$data['cc_issue'] = HtmlElementFactory::create(array ('type'  => 'input',
+		$data['cc_issue'] = $form->getFieldHtml(array ('type'  => 'input',
 		                                                      'name'  => 'cc_issue',
 		                                                      'value' => '',
 		                                                      'style' => 'short',
@@ -134,8 +148,17 @@ class ControllerResponsesExtensionDefaultCashflows extends AController{
 	}
 
 	public function send(){
-		$this->loadLanguage('default_cashflows/default_cashflows');
+        $json = array();
+        $data = array();
 
+        if(!$this->csrftoken->isTokenValid()){
+            $json['error'] = $this->language->get('error_unknown');
+            $this->load->library('json');
+            $this->response->setOutput(AJson::encode($json));
+            return;
+        }
+
+		$this->loadLanguage('default_cashflows/default_cashflows');
 		$this->load->model('checkout/order');
 
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
@@ -163,7 +186,6 @@ class ControllerResponsesExtensionDefaultCashflows extends AController{
 		);
 
 		$curl = curl_init('https://secure.cashflows.com/gateway/remote');
-
 		curl_setopt($curl, CURLOPT_PORT, 443);
 		curl_setopt($curl, CURLOPT_HEADER, 0);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
@@ -172,11 +194,9 @@ class ControllerResponsesExtensionDefaultCashflows extends AController{
 		curl_setopt($curl, CURLOPT_FRESH_CONNECT, 1);
 		curl_setopt($curl, CURLOPT_POST, 1);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($payment_data));
-
 		$response = curl_exec($curl);
-
 		curl_close($curl);
-		$json = array();
+
 		if ($response){
 			$data = explode('|', $response);
 

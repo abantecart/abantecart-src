@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -30,6 +30,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN){
 class ModelSaleOrder extends Model{
 	/**
 	 * @param array $data
+	 * @return int
 	 */
 	public function addOrder($data){
 		//encrypt order data
@@ -45,6 +46,8 @@ class ModelSaleOrder extends Model{
 								lastname = '" . $this->db->escape($data['lastname']) . "',
 								telephone = '" . $this->db->escape($data['telephone']) . "',
 								email = '" . $this->db->escape($data['email']) . "',
+								customer_id = '" . (int)$data['customer_id'] . "',
+								customer_group_id = '" . (int)$data['customer_group_id'] . "',
 								shipping_firstname = '" . $this->db->escape($data['shipping_firstname']) . "',
 								shipping_lastname = '" . $this->db->escape($data['shipping_lastname']) . "',
 								shipping_company = '" . $this->db->escape($data['shipping_company']) . "',
@@ -55,6 +58,7 @@ class ModelSaleOrder extends Model{
 								shipping_zone_id = '" . (int)$data['shipping_zone_id'] . "',
 								shipping_country = '" . $this->db->escape($data['shipping_country']) . "',
 								shipping_country_id = '" . (int)$data['shipping_country_id'] . "',
+								payment_method = '" . $this->db->escape($data['payment_method']) . "',
 								payment_firstname = '" . $this->db->escape($data['payment_firstname']) . "',
 								payment_lastname = '" . $this->db->escape($data['payment_lastname']) . "',
 								payment_company = '" . $this->db->escape($data['payment_company']) . "',
@@ -66,9 +70,16 @@ class ModelSaleOrder extends Model{
 								payment_zone_id = '" . (int)$data['payment_zone_id'] . "',
 								payment_country = '" . $this->db->escape($data['payment_country']) . "',
 								payment_country_id = '" . (int)$data['payment_country_id'] . "',
+								value = '" . (float)$data['value'] . "',
+								currency_id = '" . (int)$data['currency_id'] . "',
+								currency = '" . $this->db->escape($data['currency']) . "',
+								language_id = '" . (int)$data['language_id'] . "',
+								order_status_id = '" . (int)$data['order_status_id'] . "',
 								ip = '" . $this->db->escape('0.0.0.0') . "',
 								total = '" . $this->db->escape(preformatFloat($data['total'], $this->language->get('decimal_point'))) . "'" . $key_sql . ",
-								date_modified = NOW()");
+								date_added = NOW(),
+								date_modified = NOW()"
+		);
 
 		$order_id = $this->db->getLastId();
 
@@ -85,12 +96,14 @@ class ModelSaleOrder extends Model{
 										product_id = '" . (int)$product['product_id'] . "',
 										name = '" . $this->db->escape($product_query->row['name']) . "',
 										model = '" . $this->db->escape($product_query->row['model']) . "',
+										sku = '" . $this->db->escape($product_query->row['sku']) . "',
 										price = '" . $this->db->escape(preformatFloat($product['price'], $this->language->get('decimal_point'))) . "',
 										total = '" . $this->db->escape(preformatFloat($product['total'], $this->language->get('decimal_point'))) . "',
 										quantity = '" . $this->db->escape($product['quantity']) . "'");
 				}
 			}
 		}
+		return $order_id;
 	}
 
 	/**
@@ -232,6 +245,7 @@ class ModelSaleOrder extends Model{
 								product_id = '" . (int)$product['product_id'] . "',
 								name = '" . $this->db->escape($product_query->row['name']) . "',
 								model = '" . $this->db->escape($product_query->row['model']) . "',
+								sku = '" . $this->db->escape($product_query->row['sku']) . "',
 								price = '" . $this->db->escape((preformatFloat($product['price'], $this->language->get('decimal_point')) / $order['value'])) . "',
 								total = '" . $this->db->escape((preformatFloat($product['total'], $this->language->get('decimal_point')) / $order['value'])) . "',
 								quantity = '" . $this->db->escape($product['quantity']) . "'");
@@ -341,6 +355,7 @@ class ModelSaleOrder extends Model{
 								product_id = '" . (int)$product_id . "',
 								name = '" . $this->db->escape($product_query->row['name']) . "',
 								model = '" . $this->db->escape($product_query->row['model']) . "',
+								sku = '" . $this->db->escape($product_query->row['sku']) . "',
 								price = '" . $this->db->escape((preformatFloat($product['price'], $this->language->get('decimal_point')) / $order_info['value'])) . "',
 								total = '" . $this->db->escape((preformatFloat($product['total'], $this->language->get('decimal_point')) / $order_info['value'])) . "',
 								quantity = '" . (int)$product['quantity'] . "'");
@@ -439,6 +454,7 @@ class ModelSaleOrder extends Model{
 											`order_product_id`,
 											`product_option_value_id`,
 											`name`,
+											`sku`,
 											`value`,
 											`price`,
 											`prefix`)
@@ -446,6 +462,7 @@ class ModelSaleOrder extends Model{
 												'" . (int)$order_product_id . "',
 												'" . (int)$value . "',
 												'" . $this->db->escape($option_value_info[$arr_key]['option_name']) . "',
+												'" . $this->db->escape($option_value_info[$arr_key]['sku']) . "',
 												'" . $this->db->escape($option_value_info[$arr_key]['option_value_name']) . "',
 												'" . $this->db->escape($option_value_info[$arr_key]['price']) . "',
 												'" . $this->db->escape($option_value_info[$arr_key]['prefix']) . "')";
@@ -665,16 +682,26 @@ class ModelSaleOrder extends Model{
 				$invoice_url = $order_query->row['store_url'] . 'index.php?rt=account/invoice&order_id=' . $order_id;
 				//disable email protocol to prevent duplicates emails
 				$this->im->removeProtocol('email');
-				$message_arr = array (
-						0 => array ('message' => sprintf($language->get('im_order_update_text_to_customer'),
-								$invoice_url,
-								$order_id,
-								html_entity_decode($order_query->row['store_url'] . 'index.php?rt=account/account')),
-						)
-				);
+
 				if($order_query->row['customer_id']){
+					$message_arr = array (
+							0 => array (
+									'message' => sprintf($language->get('im_order_update_text_to_customer'),
+														$invoice_url,
+														$order_id,
+														html_entity_decode($order_query->row['store_url'] . 'index.php?rt=account/account')),
+							)
+					);
 					$this->im->sendToCustomer($order_query->row['customer_id'], 'order_update', $message_arr);
 				}else{
+					$message_arr = array (
+							0 => array (
+									'message' => sprintf($language->get('im_order_update_text_to_guest'),
+														$invoice_url,
+														$order_id,
+														html_entity_decode($invoice_url)),
+							)
+					);
 					$this->im->sendToGuest($order_id, $message_arr);
 				}
 				//turn email-protocol back
@@ -797,43 +824,59 @@ class ModelSaleOrder extends Model{
 				$order_data['payment_method_data'] = $order_row['payment_method_data'];
 			}
 
-			$protocols = $this->im->getProtocols();
-			if (!$order_data['customer_id']){
-				$p = array ();
-				foreach ($protocols as $protocol){
-					$p[] = $this->db->escape($protocol);
-				}
-				$sql = "SELECT od.*, odt.name as type_name
-						FROM " . $this->db->table('order_data') . " od
-						LEFT JOIN " . $this->db->table('order_data_types') . " odt ON odt.type_id = od.type_id
-						WHERE od.order_id = " . (int)$order_data['order_id'] . "
-								AND od.type_id IN (
-											SELECT DISTINCT `type_id`
-											FROM " . $this->db->table('order_data_types') . "
-											WHERE `name` IN ('" . implode("', '", $p) . "')) ";
-				$result = $this->db->query($sql);
-
-				foreach ($result->rows as $row){
-					if ($row['type_name'] == 'email'){
-						continue;
-					}
-					$order_data['im'][$row['type_name']] = unserialize($row['data']);
-				}
-
-			} else{
-				foreach ($protocols as $protocol){
-					if ($protocol == 'email'){
-						continue;
-					}
-					$uri = $this->im->getCustomerURI($protocol, $order_data['customer_id'], $order_id);
-					$order_data['im'][$protocol] = array ('uri' => $uri);
-				}
-			}
+			$order_data['im'] = $this->getImFromOrderData((int)$order_id, (int)$order_data['customer_id']);
 
 			return $order_data;
 		} else{
 			return false;
 		}
+	}
+
+	/**
+	 * @param int $order_id
+	 * @param int $customer_id
+	 * @return array
+	 */
+	public function getImFromOrderData($order_id, $customer_id){
+		$order_id = (int)$order_id;
+		if(!$order_id){
+			return array();
+		}
+		$protocols = $this->im->getProtocols();
+		if(!$protocols){
+			return array();
+		}
+		$output = $p = array ();
+		foreach ($protocols as $protocol){
+			$p[] = $this->db->escape($protocol);
+		}
+		$sql = "SELECT od.*, odt.name as type_name
+				FROM " . $this->db->table('order_data') . " od
+				LEFT JOIN " . $this->db->table('order_data_types') . " odt ON odt.type_id = od.type_id
+				WHERE od.order_id = " . (int)$order_id . "
+						AND od.type_id IN (
+									SELECT DISTINCT `type_id`
+									FROM " . $this->db->table('order_data_types') . "
+									WHERE `name` IN ('" . implode("', '", $p) . "')) ";
+		$result = $this->db->query($sql);
+		foreach ($result->rows as $row){
+			if ($row['type_name'] == 'email'){
+				continue;
+			}
+			$output[$row['type_name']] = unserialize($row['data']);
+		}
+
+		if( $customer_id ){
+			foreach ($protocols as $protocol){
+				if ($protocol == 'email' || $output[$protocol]){
+					continue;
+				}
+				$uri = $this->im->getCustomerURI($protocol, $customer_id, $order_id);
+				$output[$protocol] = array ('uri' => $uri);
+			}
+		}
+
+		return $output;
 	}
 
 	/**

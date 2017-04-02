@@ -46,13 +46,21 @@
 
 <?php 
 	//Generic PHP processed Javascript section
+
+if(is_file(DIR_TEMPLATE.'default/javascript/tinymce/langs/'.$language_locale.'.js')){
+	$mce_lang_code = $language_locale;
+} elseif(is_file(DIR_TEMPLATE.'default/javascript/tinymce/langs/'.substr($language_locale,0,2).'.js')){
+	$mce_lang_code = substr($language_locale, 0, 2);
+}else{
+	$mce_lang_code = 'en';
+}
 ?>
 <script type="text/javascript">
 //define tinymce config
 var mcei = {
 	theme: "modern",
 	skin: "lightgray",
-	language: "<?php echo $language_code; ?>",
+	language: "<?php echo $mce_lang_code; ?>",
 	formats: {
 		alignleft: [{
 			selector: "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li",
@@ -98,6 +106,8 @@ var mcei = {
 	toolbar4: "",
 	selector: '',
 	valid_elements : '*[*]',
+	valid_children : "+body[style]",
+	extended_valid_elements:'script[language|type|src]',
 	invalid_elements : "...",
 	tabfocus_elements: "content-html,save-post",
 	body_class: "content post-type-post post-status-auto-draft post-format-standard locale-en-gb",

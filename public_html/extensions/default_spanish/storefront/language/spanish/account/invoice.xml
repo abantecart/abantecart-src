@@ -136,4 +136,8 @@
 		<key>text_mobile_phone</key>
 		<value><![CDATA[Teléfono móvil:]]></value>
 	</definition>
+	<definition>
+		<key>text_request_cancellation_from_customer</key>
+		<value><![CDATA[Solicitar una cancelación de pedido de cliente]]></value>
+	</definition>
 </definitions>

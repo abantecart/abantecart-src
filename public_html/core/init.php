@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -62,7 +62,7 @@ define('DIR_VENDORS', DIR_CORE . '/vendors/');
 define('SEO_URL_SEPARATOR', '-');
 
 // EMAIL REGEXP PATTERN
-define('EMAIL_REGEX_PATTERN','/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,16}$/i');
+define('EMAIL_REGEX_PATTERN','/^[A-Z0-9._%-]+@[A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,16}$/i');
 
 // Error Reporting
 error_reporting(E_ALL);
@@ -267,6 +267,7 @@ try {
 	require_once(DIR_CORE . 'lib/listing.php');
 	require_once(DIR_CORE . 'lib/task_manager.php');
 	require_once(DIR_CORE . 'lib/im.php');
+    require_once(DIR_CORE . 'lib/csrf_token.php');
 
 //Admin manager classes
 	if (IS_ADMIN === true) {
@@ -324,6 +325,9 @@ try {
 	if($config->has('current_store_id')){
 		$registry->get('session')->data['current_store_id'] = $config->get('current_store_id');
 	}
+
+// CSRF Token Class
+    $registry->set('csrftoken', new CSRFToken());
 
 // Set up HTTP and HTTPS based automatic and based on config
 	if (IS_ADMIN === true) {

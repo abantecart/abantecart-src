@@ -1,6 +1,6 @@
 <h4 class="heading4"><?php echo $text_credit_card; ?>:</h4>
 
-<form id="authorizenet" class="form-horizontal validate-creditcard">
+<?php echo $form_open; ?>
 
 <?php echo $this->getHookVar('payment_table_pre'); ?>
 
@@ -95,7 +95,7 @@ jQuery(document).ready(function() {
 	function confirmSubmit() {		
 		$.ajax({
 			type: 'POST',
-			url: '<?php echo $this->html->getURL('extension/default_authorizenet_aim/send'); ?>',
+			url: '<?php echo $action ?>',
 			data: $('#authorizenet :input'),
 			dataType: 'json',		
 			beforeSend: function() {

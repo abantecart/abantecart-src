@@ -1,8 +1,16 @@
 <div class="thumbnails list-inline">
 	<?php
 	if ($products) {
+		$tax_exempt = $this->customer->isTaxExempt();
+		$config_tax = $this->config->get('config_tax');
 		$icount = 0;
 		foreach ($products as $product) {
+			$tax_message = '';
+
+			if ($config_tax && !$tax_exempt && $product['tax_class_id']) {
+					$tax_message = '&nbsp;&nbsp;' . $price_with_tax;
+			}
+
 			$item = array();
 			$item['image'] = $product['thumb']['thumb_html'];
 			$item['title'] = $product['name'];
@@ -38,10 +46,10 @@
 				</div>
 				<div class="thumbnail">
 					<?php if ($product['special']) { ?>
-						<span class="sale tooltip-test"><?php echo $text_sale_label; ?></span>
+						<span class="sale"></span>
 					<?php } ?>
 					<?php if ($product['new_product']) { ?>
-						<span class="new tooltip-test"><?php echo $text_new_label; ?></span>
+						<span class="new"></span>
 					<?php } ?>
 					<a href="<?php echo $item['info_url'] ?>"><?php echo $item['image'] ?></a>
 
@@ -55,26 +63,30 @@
 					<div class="blurb"><?php echo $product['blurb'] ?></div>
 					<?php if ($display_price) { ?>
 						<div class="pricetag jumbotron">
-							<span class="spiral"></span>
 							<?php if($product['call_to_order']){ ?>
 							<a data-id="<?php echo $product['product_id'] ?>" href="#"
-								class="btn call_to_order"><?php echo $text_call_to_order?>&nbsp;&nbsp;
-								<i class="fa fa-phone"></i>
+								class="btn call_to_order"
+							   title="<?php echo $text_call_to_order ?>"
+							>&nbsp;
+								<i class="fa fa-phone fa-fw"></i>
 							</a>
 							<?php } else if ($product['track_stock'] && !$product['in_stock']) { ?>
 								<span class="nostock"><?php echo $product['no_stock_text']; ?></span>
 							<?php } else { ?>
 							<a data-id="<?php echo $product['product_id'] ?>"
 								href="<?php echo $item['buy_url'] ?>"
-							   class="productcart"><?php echo $button_add_to_cart ?>
+							   class="productcart"
+							   title="<?php echo $button_add_to_cart ?>"
+							>
+								<i class="fa fa-cart-plus fa-fw"></i>
 							</a>
 							<?php } ?>
 							<div class="price">
 								<?php if ($product['special']) { ?>
-									<div class="pricenew"><?php echo $product['special'] ?></div>
-									<div class="priceold"><?php echo $product['price'] ?></div>
+									<div class="pricenew"><?php echo $product['special'] . $tax_message; ?></div>
+									<div class="priceold"><?php echo $product['price']; ?></div>
 								<?php } else { ?>
-									<div class="oneprice"><?php echo $product['price'] ?></div>
+									<div class="oneprice"><?php echo $product['price'] . $tax_message; ?></div>
 								<?php } ?>
 							</div>
 						</div>

@@ -11,7 +11,7 @@
 	<div class="btn-group tooltips content_language" data-original-title="<?php echo $cur_lang['name']; ?>">
 	    <button class="btn btn-default btn-xs dropdown-toggle tp-icon" data-toggle="dropdown">
 			  <?php if($cur_lang['image']){  ?>
-			  <img src="<?php echo $cur_lang['image']; ?>" title="<?php echo $cur_lang['name']; ?>" />
+			  <img style="width: 16px; height: 11px;" src="<?php echo $cur_lang['image']; ?>" title="<?php echo $cur_lang['name']; ?>" />
 			  <?php } else { ?>
 			  <i class="fa fa-language"></i>
 			  <?php } ?>
@@ -23,9 +23,9 @@
 	    		<ul class="dropdown-list dropdown-list-sm">
 	    			<?php foreach ($languages as $language) { ?>
 	    				<li>
-	    					<a onClick="selectLangauge(event, '<?php echo $language['code']; ?>');">
+	    					<a onClick="selectLanguage(event, '<?php echo $language['code']; ?>');">
 	    						<?php if ($language['image']) { ?>
-	    							<img src="<?php echo $language['image']; ?>"
+	    							<img style="width: 16px; height: 11px;" src="<?php echo $language['image']; ?>"
 	    								 title="<?php echo $language['name']; ?>"/>
 	    						<?php
 	    						} else {
@@ -45,8 +45,8 @@
 	</div>
 <?php } ?>
 <script type="text/javascript">
-if(typeof selectLangauge != 'function'){
-    function selectLangauge(event, lang_code) {
+if(typeof selectLanguage != 'function'){
+    function selectLanguage(event, lang_code) {
     	var $form = $(event.target).closest('form');
     	$form.find("input[name='content_language_code']").attr('value', lang_code);
     	$form.submit();

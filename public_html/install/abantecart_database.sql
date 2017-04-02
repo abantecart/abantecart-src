@@ -680,7 +680,7 @@ CREATE TABLE `ac_customers` (
   `status` int(1) NOT NULL,
   `approved` int(1) NOT NULL DEFAULT '0',
   `customer_group_id` int(11) NOT NULL,
-  `ip` varchar(15) COLLATE utf8_general_ci NOT NULL DEFAULT '0',
+  `ip` varchar(50) COLLATE utf8_general_ci NOT NULL DEFAULT '0',
   `data` text DEFAULT null,
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -1068,7 +1068,7 @@ CREATE TABLE `ac_orders` (
   `coupon_id` int(11) NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `ip` varchar(15) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `ip` varchar(50) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `payment_method_data` text COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`order_id`, `customer_id`, `order_status_id`)
 
@@ -1189,11 +1189,12 @@ CREATE TABLE `ac_order_options` (
   `order_id` int(11) NOT NULL,
   `order_product_id` int(11) NOT NULL,
   `product_option_value_id` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(255) COLLATE utf8_general_ci NOT NULL,
-  `value` text COLLATE utf8_general_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `sku` varchar(64) NOT NULL DEFAULT '',
+  `value` text NOT NULL,
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `prefix` char(1) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `settings` longtext COLLATE utf8_general_ci,
+  `prefix` char(1) NOT NULL DEFAULT '',
+  `settings` longtext,
   PRIMARY KEY (`order_option_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
@@ -1209,8 +1210,9 @@ CREATE TABLE `ac_order_products` (
   `order_product_id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
-  `name` varchar(255) COLLATE utf8_general_ci NOT NULL,
-  `model` varchar(24) COLLATE utf8_general_ci NOT NULL,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `model` varchar(24) NOT NULL DEFAULT '',
+  `sku` varchar(64) NOT NULL DEFAULT '',
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `total` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `tax` decimal(15,4) NOT NULL DEFAULT '0.0000',
@@ -1336,6 +1338,7 @@ CREATE TABLE `ac_products` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 CREATE INDEX `ac_products_idx` ON `ac_products` (`stock_status_id`,  `manufacturer_id`, `weight_class_id`, `length_class_id`);
+CREATE INDEX `ac_products_status_idx` ON `ac_products` (`product_id`, `status`, `date_available`);
 
 
 --
@@ -1354,6 +1357,7 @@ CREATE TABLE `ac_product_descriptions` (
   KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+CREATE INDEX `ac_product_descriptions_name_idx` ON `ac_product_descriptions` (`product_id`, `name`);
 
 --
 -- DDL for table `product_discounts`
@@ -1603,6 +1607,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('details','translate_src_lang_code','en'),
 ('details','translate_override_existing',0),
 ('details','warn_lang_text_missing',0),
+('details','config_duplicate_contact_us_to_message',1),
 -- general
 ('general','config_admin_limit',20),
 ('general','config_catalog_limit',20),
@@ -1936,7 +1941,7 @@ CREATE TABLE `ac_users` (
   `lastname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `email` varchar(96) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `status` int(1) NOT NULL,
-  `ip` varchar(15) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `ip` varchar(50) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `last_login` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -10081,7 +10086,8 @@ INSERT INTO `ac_page_descriptions` (`page_id`, `language_id`, `name`, `title`, `
 (4, 1, 'Login Page', '', '', '', '', '', now() ),
 (5, 1, 'Default Product Page', '', '', '', '', '', now() ),
 (10, 1, 'Maintenance Page', '', '', '', '', '', now() ),
-(11, 1, 'Customer Account Pages', '', '', '', '', '', now() );
+(11, 1, 'Customer Account Pages', '', '', '', '', '', now() ),
+(12, 1, 'Cart Page', '', '', '', '', '', now() );
 
 --
 -- DDL for table `contents`
@@ -10669,7 +10675,7 @@ INSERT INTO `ac_fields`
 (field_id, form_id, field_name, element_type, sort_order, attributes,settings, required, regexp_pattern, status)
 VALUES
 (11,2,'first_name','I',1,'','','Y','/^.{3,100}$/u',1),
-(12,2,'email','I',2,'','','Y','/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\\.[A-Z]{2,16}$/i',1),
+(12,2,'email','I',2,'','','Y','/^[A-Z0-9._%-]+@[A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,16}$/i',1),
 (13,2,'enquiry','T',3,'cols="50" rows="8"','','Y','/^.{3,1000}$/su',1),
 (14,2,'captcha','K',4,'','','Y','',1);
 
@@ -12013,7 +12019,7 @@ VALUES  (20, NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (21,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (22,'1.2.9','1');
+VALUES  (22,'2.0.0a','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (23,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
@@ -12050,6 +12056,8 @@ CREATE TABLE `ac_resource_library` (
   PRIMARY KEY (`resource_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=100000;
 
+CREATE INDEX `ac_resource_library_idx` ON `ac_resource_library` ( `resource_id`, `type_id`);
+
 --
 -- DDL for table `ac_resource_descriptions`
 --
@@ -12068,7 +12076,8 @@ CREATE TABLE `ac_resource_descriptions` (
   PRIMARY KEY (`resource_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
 
-
+CREATE INDEX `ac_resource_descriptions_name_idx` ON `ac_resource_descriptions` ( `resource_id`, `name`);
+CREATE INDEX `ac_resource_descriptions_title_idx` ON `ac_resource_descriptions` ( `resource_id`, `title`);
 
 #storefront menu icons
 INSERT INTO `ac_resource_library` ( `resource_id`, `type_id`, `date_added`)
@@ -12294,6 +12303,7 @@ CREATE TABLE `ac_resource_map` (
 	PRIMARY KEY ( `resource_id`, `object_name`, `object_id` )
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+CREATE INDEX `ac_resource_map_sorting_idx` ON `ac_resource_map` ( `resource_id`, `sort_order`);
 
 INSERT INTO `ac_resource_map` ( `resource_id`, `object_name`, `object_id`, `default`, `sort_order`, `date_added`)
 VALUES

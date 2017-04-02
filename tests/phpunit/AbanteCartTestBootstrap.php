@@ -1,6 +1,7 @@
 <?php
 
-class AbanteCartTest extends PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+class AbanteCartTest extends TestCase {
 	protected $registry;
 	public function __construct() {
 

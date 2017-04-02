@@ -5,7 +5,7 @@
     <value><![CDATA[Дом]]></value>
   </definition>
   <definition>
-    <key>text_index_special_menu</key>
+    <key>text_product_special_menu</key>
     <value><![CDATA[Pаспродажа]]></value>
   </definition>  
   <definition>
@@ -19,6 +19,10 @@
   <definition>
     <key>text_account_account_menu</key>
     <value><![CDATA[Аккаунт]]></value>
+  </definition>
+  <definition>
+    <key>text_account_invoice_menu</key>
+    <value><![CDATA[Посмотреть заказ]]></value>
   </definition>
   <definition>
     <key>text_checkout_cart_menu</key>

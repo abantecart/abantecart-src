@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -47,9 +47,11 @@ $xml = simplexml_load_file(DIR_EXT.'default_spanish/menu.xml');
 
 $routes = array(
 			'text_index_home_menu'=>'index/home',
+			'text_product_special_menu'=>'product/special',
 			'text_account_login_menu'=>'account/login',
 			'text_account_logout_menu'=>'account/logout',
 			'text_account_account_menu'=>'account/account',
+			'text_account_invoice_menu'=>'account/invoice',
 			'text_checkout_cart_menu'=>'checkout/cart',
 			'text_checkout_shipping_menu'=>'checkout/shipping'
 );

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -31,14 +31,18 @@ class ControllerPagesAccountCreate extends AController{
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		if ($this->customer->isLogged()){
-			$this->redirect($this->html->getSecureURL('account/account'));
+			redirect($this->html->getSecureURL('account/account'));
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
 		$this->loadModel('account/customer');
 		$request_data = $this->request->post;
 		if ($this->request->is_POST()){
-			$this->errors = array_merge($this->errors, $this->model_account_customer->validateRegistrationData($request_data));
+            if($this->csrftoken->isTokenValid()){
+                $this->errors = array_merge($this->errors, $this->model_account_customer->validateRegistrationData($request_data));
+            } else {
+                $this->error['warning'] = $this->language->get('error_unknown');
+            }
 			if (!$this->errors){
 				//if allow login as email, need to set loginname = email
 				if (!$this->config->get('prevent_email_as_login')){
@@ -55,7 +59,7 @@ class ControllerPagesAccountCreate extends AController{
 					if (!$this->config->get('config_customer_email_activation')){						
 						//send welcome email
 						$this->model_account_customer->sendWelcomeEmail($this->request->post['email'], true);	
-						//login customer after create account is approvement and email activation are disabled in settings
+						//login customer after create account is approving and email activation are disabled in settings
 						$this->customer->login($request_data['loginname'], $request_data['password']);
 					} else{
 						//send activation email request and wait for confirmation
@@ -82,8 +86,8 @@ class ControllerPagesAccountCreate extends AController{
 					$redirect_url = $this->session->data['redirect'];
 				}
 
-				$this->redirect($redirect_url);
-			}else{
+				redirect($redirect_url);
+			} else {
 				if(!$this->errors['warning']){
 					$this->errors['warning'] = implode('<br>',$this->errors);
 				}
@@ -118,8 +122,11 @@ class ControllerPagesAccountCreate extends AController{
 				array (
 						'type'   => 'form',
 		                'name'   => 'AccountFrm',
-		                'action' => $this->html->getSecureURL('account/create')));
-
+		                'action' => $this->html->getSecureURL('account/create'),
+                        'csrf' => true
+                )
+        );
+		/** TODO: move this field into password section  */
 		if ($this->config->get('prevent_email_as_login')){ // require login name
 			$this->data['form']['fields']['general']['loginname'] = $form->getFieldHtml(
 					array (
@@ -356,7 +363,7 @@ class ControllerPagesAccountCreate extends AController{
 		}
 
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-		$this->redirect($this->html->getSecureURL('account/success'));
+		redirect($this->html->getSecureURL('account/success'));
 	}	
 
 }

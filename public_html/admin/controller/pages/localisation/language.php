@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -347,6 +347,14 @@ class ControllerPagesLocalisationLanguage extends AController {
 		));
 
 		if(isset($this->request->get['language_id']) && sizeof($this->language->getAvailableLanguages())>1){
+
+			if($this->config->get('translate_override_existing')){
+				$this->data['override_text_note'] = sprintf(
+						$this->language->get('text_translate_override_existing'),
+						$this->html->getSecureURL('setting/setting/details')
+						);
+			}
+
 			$form2 = new AForm();
 			$form2->setForm(array(
 				'form_name' => 'languageLoadFrm',
@@ -398,7 +406,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 			$this->data['form']['abort_task_url'] = $this->html->getSecureURL('r/localisation/language_description/abort');
 
 			//check for incomplete tasks
-			$task_name = 'translation';
+			$task_name = 'description_translation';
 			$tm = new ATaskManager();
 			$incomplete = $tm->getTasks(array(
 					'filter' => array(
@@ -412,7 +420,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 					if ($incm_task['starter'] != $this->user->getId()){
 						continue;
 					}
-					//rename task to prevent colission with new
+					//rename task to prevent collision with new
 					if($incm_task['name']==$task_name){
 						$tm->updateTask($incm_task['task_id'],array('name' => $task_name.'_'.date('YmdHis')));
 					}

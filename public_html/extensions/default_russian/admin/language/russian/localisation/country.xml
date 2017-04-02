@@ -50,7 +50,17 @@
   </definition>
   <definition>
     <key>entry_address_format</key>
-    <value><![CDATA[Формат адреса:<br /><span class="help">Имя = {firstname}<br />Фамилия = {lastname}<br />Компания = {company}<br />Адрес 1 = {address_1}<br />адрес 2 = {address_2}<br />Город = {city}<br />Почтовый код = {postcode}<br />Регион = {zone}<br />Код региона = {zone_code}<br />Страна = {country}</span>]]></value>
+    <value><![CDATA[Формат адреса:<br /><span class="help">
+    Имя = {firstname}<br />
+    Фамилия = {lastname}<br />
+    Компания = {company}<br />
+    Адрес 1 = {address_1}<br />
+    адрес 2 = {address_2}<br />
+    Город = {city}<br />
+    Почтовый код = {postcode}<br />
+    Регион = {zone}<br />
+    Код региона = {zone_code}<br />
+    Страна = {country}</span>]]></value>
   </definition>
   <definition>
     <key>error_permission</key>

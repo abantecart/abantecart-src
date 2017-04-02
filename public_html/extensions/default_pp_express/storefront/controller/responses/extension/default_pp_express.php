@@ -5,10 +5,10 @@ $Id$
 AbanteCart, Ideal OpenSource Ecommerce Solution
 http://www.AbanteCart.com
 
-Copyright © 2011-2016 Belavier Commerce LLC
+Copyright © 2011-2017 Belavier Commerce LLC
 
 This source file is subject to Open Software License (OSL 3.0)
-Lincence details is bundled with this package in the file LICENSE.txt.
+License details is bundled with this package in the file LICENSE.txt.
 It is also available at this URL:
 <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -45,12 +45,14 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 						'text' => $this->language->get('button_back'),
 						'href' => $back_url
 				));
+
 		$this->data['button_confirm'] = $this->html->buildElement(
 				array (
 						'type'  => 'submit',
 						'name'  => $this->language->get('button_confirm'),
 						'style' => 'button',
-						'href'  => $this->html->getSecureURL('r/extension/default_pp_express/confirm')
+						'href'  => $this->html->getSecureURL('r/extension/default_pp_express/confirm',
+								'&csrfinstance='.$this->csrftoken->setInstance().'&csrftoken='. $this->csrftoken->setToken())
 				));
 
 		$this->view->batchAssign($this->data);
@@ -58,6 +60,9 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 	}
 
 	public function confirm(){
+		if(!$this->csrftoken->isTokenValid()){
+			exit('Forbidden: invalid csrf-token');
+		}
 
 		$this->loadLanguage('default_pp_express/default_pp_express');
 
@@ -70,7 +75,7 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 		}
 		if (!has_value($this->session->data['pp_express_checkout']['token']) || !has_value($this->session->data['pp_express_checkout']['PayerID'])){
 			$this->session->data['pp_express_checkout_error'] = $this->language->get('service_error');
-			$this->redirect($this->html->getSecureURL('extension/default_pp_express/error'));
+			redirect($this->html->getSecureURL('extension/default_pp_express/error'));
 		}
 
 		$this->load->model('checkout/order');
@@ -130,7 +135,7 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 			$warning = new AWarning('PayPal Express Checkout Error: ' . $ec_details['L_LONGMESSAGE0'] . '. Test mode = ' . $this->config->get('default_pp_express_test') . '.');
 			$warning->toLog()->toDebug()->toMessages();
 			$this->session->data['pp_express_checkout_error'] = $this->language->get('service_error');
-			$this->redirect($this->html->getSecureURL('extension/default_pp_express/error'));
+			redirect($this->html->getSecureURL('extension/default_pp_express/error'));
 		} else{
 
 			if ($ec_details['PAYMENTINFO_0_PAYMENTSTATUS'] == 'Completed'){
@@ -143,7 +148,7 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 			$this->model_checkout_order->updatePaymentMethodData($this->session->data['order_id'], $ec_details);
 
 			unset($this->session->data['pp_express_checkout']);
-			$this->redirect($this->html->getSecureURL('checkout/success'));
+			redirect($this->html->getSecureURL('checkout/success'));
 
 		}
 
@@ -153,10 +158,10 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 		$this->loadLanguage('default_pp_express/default_pp_express');
 		if ($this->cart->hasProducts() && $this->cart->hasStock() && ($amount = $this->cart->getFinalTotal())){
 
-			//do not allow redirecting to paypal side for nonlogged users when guest-checkout is disabled
+			//do not allow redirecting to paypal side for non-logged users when guest-checkout is disabled
 			if (!$this->config->get('config_guest_checkout') && !$this->customer->isLogged()){
 				$this->session->data['redirect'] = $this->html->getCatalogURL('r/extension/default_pp_express/set_pp');
-				$this->redirect($this->html->getSecureURL('account/login'));
+				redirect($this->html->getSecureURL('account/login'));
 				return null;
 			}
 
@@ -257,20 +262,20 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 
 			if (isset($ec_settings['TOKEN'])){
 				if (!$this->config->get('default_pp_express_test')){
-					$this->redirect('https://www.paypal.com/webscr?cmd=_express-checkout&token=' . urlencode($ec_settings['TOKEN']));// . '&useraction=commit');
+					redirect('https://www.paypal.com/webscr?cmd=_express-checkout&token=' . urlencode($ec_settings['TOKEN']));// . '&useraction=commit');
 				} else{
-					$this->redirect('https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&token=' . urlencode($ec_settings['TOKEN']));// . '&useraction=commit');
+					redirect('https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&token=' . urlencode($ec_settings['TOKEN']));// . '&useraction=commit');
 				}
 			} else{
 
 				$warning = new AWarning('PayPal Express Checkout Error: ' . $ec_settings['L_LONGMESSAGE0'] . '. Test mode = ' . $this->config->get('default_pp_express_test') . '.');
 				$warning->toLog()->toDebug();
 				$this->session->data['pp_express_checkout_error'] = $this->language->get('service_error');
-				$this->redirect($this->html->getSecureURL('extension/default_pp_express/error'));
+				redirect($this->html->getSecureURL('extension/default_pp_express/error'));
 			}
 
 		} else{
-			$this->redirect($this->html->getSecureURL('checkout/cart'));
+			redirect($this->html->getSecureURL('checkout/cart'));
 		}
 
 	}
@@ -385,7 +390,7 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 				}
 
 				$this->session->data['payment_address_id'] = $this->session->data['shipping_address_id'];
-				$this->redirect($this->html->getSecureURL('checkout/confirm'));
+				redirect($this->html->getSecureURL('checkout/confirm'));
 			} else{
 
 				$country_id = $this->model_extension_default_pp_express->getCountryIdByCode2($ec_details['SHIPTOCOUNTRYCODE']);
@@ -414,9 +419,9 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 				$this->tax->setZone($country_id, $zone_id);
 
 				if ($this->request->get['to_confirm'] == 1){
-					$this->redirect($this->html->getSecureURL('checkout/guest_step_3'));
+					redirect($this->html->getSecureURL('checkout/guest_step_3'));
 				} else{
-					$this->redirect($this->html->getSecureURL('checkout/guest_step_2'));
+					redirect($this->html->getSecureURL('checkout/guest_step_2'));
 				}
 			}
 

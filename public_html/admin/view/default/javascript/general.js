@@ -1,12 +1,10 @@
 jQuery(window).load(function() {
-   
    // Page Preloader
    $('#status').fadeOut();
    $('#preloader').delay(100).fadeOut(function(){
       $('body').delay(100);
    });
-   
-   ajust_content_height();
+   adjust_content_height();
 });
 
 
@@ -46,13 +44,13 @@ jQuery(document).ready(function() {
             sub.slideUp(200, function(){
                parent.removeClass('nav-active');
                $('.mainpanel').css({height: ''});
-               ajust_content_height();
+               adjust_content_height();
             });
          } else {
             closeVisibleSubMenu();
             parent.addClass('nav-active');
             sub.slideDown(200, function(){
-               ajust_content_height();
+               adjust_content_height();
             });
          }
       }
@@ -69,12 +67,12 @@ jQuery(document).ready(function() {
             sub.slideUp(200, function(){
                parent.removeClass('nav-active');
                $('.mainpanel').css({height: ''});
-               ajust_content_height();
+               adjust_content_height();
             });
          } else {
             parent.addClass('nav-active');
             sub.slideDown(200, function(){
-               ajust_content_height();
+               adjust_content_height();
             });
          }
       }
@@ -147,7 +145,7 @@ jQuery(document).ready(function() {
 		   else {
 		      body.addClass('leftpanel-show');
 		   }
-		   ajust_content_height();         
+		   adjust_content_height();
 		}
 		//trigger an event at the end
    		body.trigger('leftpanelChanged');
@@ -252,45 +250,45 @@ jQuery(document).ready(function() {
 		if(jQuery.cookie('sticky-header')) {
 			$.removeCookie("sticky-header");
 	   		$('body').removeClass('stickyheader');			
-	   		$('.sticky_header').removeClass('panel_frozen');
-	   		$('.sticky_header').removeClass('fa-toggle-on');
-	   		$('.sticky_header').addClass('fa-toggle-off');
+	   		$('.sticky_header').removeClass('panel_frozen')
+                .removeClass('fa-toggle-on')
+                .addClass('fa-toggle-off');
 		} else {
 	   		$('body').addClass('stickyheader');
 	   		$.cookie("sticky-header", 1);	
-	   		$('.sticky_header').addClass('panel_frozen');
-	   		$('.sticky_header').addClass('fa-toggle-on');
-	   		$('.sticky_header').removeClass('fa-toggle-off');
+	   		$('.sticky_header').addClass('panel_frozen')
+                .addClass('fa-toggle-on')
+                .removeClass('fa-toggle-off');
 		}
 	});
 	
 	if(jQuery.cookie('sticky-header')) {
 		$('body').addClass('stickyheader');
-		$('.sticky_header').addClass('panel_frozen');
-   		$('.sticky_header').addClass('fa-toggle-on');
-   		$('.sticky_header').removeClass('fa-toggle-off');
+		$('.sticky_header').addClass('panel_frozen')
+            .addClass('fa-toggle-on')
+            .removeClass('fa-toggle-off');
 	}  
    
 	$('.sticky_left').click(function(){
 		if(jQuery.cookie('sticky-leftpanel')) {
 			$.removeCookie("sticky-leftpanel");
 	   		$('.leftpanel').removeClass('sticky-leftpanel');		
-	   		$('.sticky_left').removeClass('panel_frozen');
-	   		$('.sticky_left').removeClass('fa-toggle-on');
-	   		$('.sticky_left').addClass('fa-toggle-off');
+	   		$('.sticky_left').removeClass('panel_frozen')
+                .removeClass('fa-toggle-on')
+                .addClass('fa-toggle-off');
 		} else {
 	   		$('.leftpanel').addClass('sticky-leftpanel');
 	   		$.cookie("sticky-leftpanel", 1);	
-	   		$('.sticky_left').addClass('panel_frozen');
-	   		$('.sticky_left').addClass('fa-toggle-on');
-	   		$('.sticky_left').removeClass('fa-toggle-off');
+	   		$('.sticky_left').addClass('panel_frozen')
+                .addClass('fa-toggle-on')
+                .removeClass('fa-toggle-off');
 		}
 	});
 	if(jQuery.cookie('sticky-leftpanel')) {
 		$('.leftpanel').addClass('sticky-leftpanel');
-		$('.sticky_left').addClass('panel_frozen');
-  		$('.sticky_left').addClass('fa-toggle-on');
-   		$('.sticky_left').removeClass('fa-toggle-off');
+		$('.sticky_left').addClass('panel_frozen')
+            .addClass('fa-toggle-on')
+            .removeClass('fa-toggle-off');
 	}   
    
 	if(jQuery.cookie('leftpanel-collapsed')) {
@@ -299,7 +297,7 @@ jQuery(document).ready(function() {
 	}      
 	if($('body').hasClass('leftpanel-collapsed')) {
 		$('.nav-bracket .children').css({display: ''});
-		//need to triiger leftpanel resize evend to perform other adjustments 
+		//need to trigger leftpanel resize event to perform other adjustments
    		$('body').trigger('leftpanelChanged');
 	}      
 	$('.dropdown-menu').find('form').click(function (e) {
@@ -307,7 +305,7 @@ jQuery(document).ready(function() {
 	});
 
 	//adjust main content height 	
-	ajust_content_height();
+	adjust_content_height();
 
 	//edit mode
     $docW = parseInt($(document).width());
@@ -352,8 +350,8 @@ jQuery(document).ready(function() {
     	}
 	});
 
-	//check if ads bloking is enabled in user browser
-	var div = $('<div>').attr('class', 'afs_ads').text('&nbsp;');
+	//check if ads blocking is enabled in user browser
+	var div = $('<div>').attr('class', 'afs_ads').html('&nbsp;');
 	var add = $('body').prepend(div);       
     setTimeout(function(){
         if(!$(".afs_ads").is(':visible')) {
@@ -366,7 +364,7 @@ jQuery(document).ready(function() {
 });
 
 //-----------------------------------------------
-// Add events. Function can be reloaded after AJAX responce
+// Add events. Function can be reloaded after AJAX response
 // Important. To reduce unnessasary load, pass specific selector to be binded
 //-----------------------------------------------
 var bindCustomEvents  = function(elm){
@@ -428,8 +426,8 @@ var buildTooltips = function(objects, options) {
 	});
 }
 
-function ajust_content_height() {
-   // Adjust contentpanel height
+function adjust_content_height() {
+   // Adjust content panel height
    var docHeight = $(document).height() - $('#footer').height();
    var extra = $('.headerbar').height() + $('.pageheader').height();
    var leftHeight = $('.leftpanel').height();
@@ -656,8 +654,8 @@ function html2visual(text) {
 }
 
 function visual2html(text) {
-    var output = '';
-    output = text.replace(new RegExp('(<!--n-->)','g'), '\r\n');
+    var output = text.replace(/\n/g, "");
+    output = output.replace(new RegExp('<!--n-->','g'), '\r\n');
     output = output.replace(new RegExp('<!--t-->','g'), '\t');
     return output;
 }
@@ -686,6 +684,10 @@ var defaultTaskMessages = {
 
 $(document).on('click', ".task_run", function () {
     task_fail = false;
+    run_task_url = $(this).attr('data-run-task-url');
+    complete_task_url = $(this).attr('data-complete-task-url');
+    abort_task_url = $(this).attr('data-abort-task-url');
+
     var modal =
         '<div id="task_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
         '<div class="modal-dialog">' +
@@ -697,18 +699,26 @@ $(document).on('click', ".task_run", function () {
         '<div class="modal-body panel-body panel-body-nopadding"></div>' +
         '</div></div></div>';
     $("body").first().after(modal);
-    var options = {"backdrop": "static", 'show': true};
-    $('#task_modal').modal(options);
+    $('#task_modal').modal({"backdrop": "static", 'show': true});
     $('#task_modal').on('hidden.bs.modal', function(e){
+        if($.xhrPool != null){
             $.xhrPool.abortAll();
         }
-    );
+    });
 
-    $('#task_modal .modal-body').html('Building Task...');
+    var progress_html = '<div class="progress_description">Initialization...</div>' +
+        '<div class="progress">' +
+               '<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="width: 1%;">1%</div></div>'
+               +'<div class="progress-info"></div>';
 
-    run_task_url = $(this).attr('data-run-task-url');
-    complete_task_url = $(this).attr('data-complete-task-url');
-    abort_task_url = $(this).attr('data-abort-task-url');
+    if(abort_task_url && abort_task_url.length > 0){
+        progress_html += '<div class="center abort_button">' +
+                            '<a class="abort btn btn-danger" title="Interrupt Task" ><i class="fa fa-times-circle-o"></i> Abort</a>' +
+                '</div>';
+    }
+    progress_html += '</div>';
+    $('#task_modal .modal-body').html(progress_html);
+    progress_html = null;
 
     //do the trick before form serialization
     if(tinyMCE) {
@@ -724,25 +734,12 @@ $(document).on('click', ".task_run", function () {
         cache:false,
         success: runTaskUI,
         global: false,
-        error: function (xhr, ajaxOptions, thrownError) {
-            try{
-                var err = $.parseJSON(xhr.responseText);
-                if (err.hasOwnProperty("error_text")) {
-                    runTaskShowError(err.error_text);
-                }else{
-                    runTaskShowError('Error occurred. See error log for details.');
-                }
-            }catch(e){
-                runTaskShowError('Error occurred. See error log for details.');
-            }
-        }
+        error: taskRunError
     });
-
-
     return false;
 });
 
-/**/
+
 var runTaskUI = function (data) {
     if (data.hasOwnProperty("error") && data.error == true) {
         runTaskShowError('Creation of new task failed! Please check error log for details. \n' + data.error_text);
@@ -755,22 +752,12 @@ var runTaskStepsUI = function (task_details) {
     if (task_details.status != '1') {
         runTaskShowError('Cannot run task "' + task_details.name + '" steps because task is not yet "scheduled". Current status - ' + task_details.status);
     } else {
-        var html = '<div class="progress">' +
-                            '<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="width: 1%;">1%</div>' +
-                    '</div>'
-            +'<div class="progress-info"></div>';
-
-        if(abort_task_url && abort_task_url.length > 0){
-            html += '<div class="center abort_button">' +
-                                '<a class="abort btn btn-danger" title="Interrupt Task" ><i class="fa fa-times-circle-o"></i> Abort</a>' +
-                    '</div>';
-        }
-        html += '</div>';
-
-        $('#task_modal .modal-body').html(html);
         //then run sequental ajax calls
-        //note: all that calls must be asynchronous to be interruptable!
+        //note: all that calls must be asynchronous to be interruptible!
         var ajaxes = {};
+        console.log(task_details.steps);
+        var total_steps_count = Object.keys(task_details.steps).length;
+        var num = 1;
         for(var k in task_details.steps){
             var step = task_details.steps[k];
             var senddata = {
@@ -793,6 +780,7 @@ var runTaskStepsUI = function (task_details) {
                 type:'GET',
                 timeout: timeout,
                 url: task_details.url,
+                title: 'Execution of Step ' + num + ' of '+total_steps_count,
                 data: senddata,
                 dataType: 'json',
             };
@@ -804,7 +792,7 @@ var runTaskStepsUI = function (task_details) {
             else{
                 ajaxes[k]['interrupt_on_step_fault'] = false;
             }
-
+            num++;
         }
         do_seqAjax(ajaxes, 3);
 
@@ -828,7 +816,7 @@ var runTaskStepsUI = function (task_details) {
                         $('#task_modal .modal-body').html(task_complete_text);
                         task_complete_text = '';
                     },
-                    error: processError
+                    error: taskRunError
                 });
             });
         }
@@ -839,6 +827,8 @@ var runTaskStepsUI = function (task_details) {
 var runTaskComplete = function (task_id) {
     var collapse_btn = '<a class="pull-right details-button collapsed" data-toggle="collapse" href="#tsk_result_details" aria-expanded="false" aria-controls="tsk_result_details"></a>';
     var collapse_pnl = '<div class="collapse panel-collapse task_result_message" role="tabpanel" id="tsk_result_details" aria-expanded="false"></div>';
+
+    $('div.progress_description').html('Completing...');
 
     if(task_fail){
         // add result message
@@ -873,38 +863,30 @@ var runTaskComplete = function (task_id) {
                     $('#task_modal .abort_button').remove();
                 }
             },
-            error: processError
+            error: taskRunError,
+            complete: function(){
+                $('div.progress_description').html('');
+            }
         });
     }
     $('#task_modal').data('bs.modal').options.backdrop = true;
 }
 
-var processError = function(xhr, ajaxOptions, thrownError){
+var taskRunError = function (jqXHR, textStatus, errorThrown) {
     var error_txt = '';
     try { //when server response is json formatted string
-        var err = $.parseJSON(xhr.responseText);
+        var err = $.parseJSON(jqXHR.responseText);
         if (err.hasOwnProperty("error_text")) {
             runTaskShowError(err.error_text);
         } else {
-            if(xhr.status==200){
-                error_txt = '('+xhr.responseText+')';
-            }else{
-                error_txt = 'HTTP-status:' + xhr.status;
-            }
-            error_txt = 'Connection error occurred. ' + error_txt;
+            error_txt = getErrorTextByXHR(jqXHR);
             runTaskShowError(error_txt);
         }
     } catch (e) {
-        if(xhr.status==200){
-            error_txt = '('+xhr.responseText+')';
-        }else{
-            error_txt = 'HTTP-status:' + xhr.status;
-        }
-        error_txt = 'Connection error occurred. ' + error_txt;
+        error_txt = getErrorTextByXHR(jqXHR);
         runTaskShowError(error_txt);
     }
 }
-
 
 var runTaskShowError = function (error_text) {
     $('#task_modal .modal-body').html('<div class="alert alert-danger" role="alert">' + error_text + '</div>');
@@ -963,10 +945,12 @@ function do_seqAjax(ajaxes, attempts_count){
                 cache: false,
                 beforeSend: function(jqXHR) {
                     $.xhrPool.push(jqXHR);
+                    $('div.progress_description').html(ajaxes[current_key].title);
                 },
                 success: function (data, textStatus, xhr) {
                     var prc = Math.round((current+1) * 100 / steps_cnt);
                     $('div.progress-bar').css('width', prc + '%').html(prc + '%');
+
                     //task.php returns array of messages. so when one step called - take first
                     var result_text = data[0] ? data[0] : '';
                     if(!result_text && data.error_text.length>0){
@@ -989,20 +973,10 @@ function do_seqAjax(ajaxes, attempts_count){
                         if (err.hasOwnProperty("error_text")) {
                             error_txt = err.error_text;
                         } else {
-                            if(xhr.status==200){
-                                error_txt = '('+xhr.responseText+')';
-                            }else{
-                                error_txt = 'HTTP-status:' + xhr.status;
-                            }
-                            error_txt = 'Connection error occurred. ' + error_txt;
+                            error_txt = getErrorTextByXHR(xhr);
                         }
                     } catch (e) {
-                        if(xhr.status==200){
-                            error_txt = '('+xhr.responseText+')';
-                        }else{
-                            error_txt = 'HTTP-status:' + xhr.status;
-                        }
-                        error_txt = 'Connection error occurred. ' + error_txt;
+                        error_txt = getErrorTextByXHR(xhr);
                     }
 
                     if(!error_txt && status === 'timeout'){
@@ -1050,6 +1024,18 @@ function do_seqAjax(ajaxes, attempts_count){
         //first run
         do_ajax();
 }
+
+var getErrorTextByXHR = function(xhr){
+    var error_txt = ''
+    if(xhr.status==200){
+        error_txt = '('+xhr.responseText+')';
+    }else{
+        error_txt = 'HTTP-status:' + xhr.status;
+    }
+    console.log(xhr);
+    return 'Connection error occurred. ' + error_txt;
+}
+// end of task js
 
 
 var getUrlParameter = function (sParam) {
@@ -1132,10 +1118,8 @@ var loadAndShowData = function (url, $elem) {
     });
 }
 		
-//function adds Resource LIbrary Button into WYSIWYG editor
-
-
-function openTextEditRLModal(editor, cursorPosition){
+//function adds Resource Library Button into WYSIWYG editor
+function openTextEditRLModal(editor, cursorPosition, baseUrl){
 	modalscope.mode = 'single';
 	mediaDialog('image', 'list_library');
 	sideDialog('image', 'add');
@@ -1149,7 +1133,7 @@ function openTextEditRLModal(editor, cursorPosition){
 			var insert_html='';
 			if( item.resource_path != undefined && item.resource_path.length>0 ){
 				var type_name = item.type_name;
-				insert_html = 'resources/'+type_name+'/'+item.resource_path;
+				insert_html = baseUrl + 'resources/'+type_name+'/'+item.resource_path;
 				if(type_name=='image'){
                     var alt='';
                     if(item['title'].length>0){
@@ -1185,7 +1169,7 @@ function openTextEditRLModal(editor, cursorPosition){
 	});
 }
 
-//Jquery extention with textarea management
+//Jquery extension with textarea management
 jQuery.fn.extend({
 	setCursorPosition: function(position){
 		if(this.length == 0) return this;

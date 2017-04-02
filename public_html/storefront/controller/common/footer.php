@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -41,12 +41,6 @@ class ControllerCommonFooter extends AController {
     	$this->data['cart'] =  $this->html->getSecureURL('checkout/cart');
 		$this->data['checkout'] =  $this->html->getSecureURL('checkout/shipping');
 
-		if ($this->config->get('config_google_analytics_code')) {
-			$this->data['google_analytics'] =  $this->config->get('config_google_analytics_code');
-		} else {
-			$this->data['google_analytics'] =  '';
-		}
-
 		$children = $this->getChildren();
 		foreach($children as $child){
 			 if($child['block_txt_id']=='donate'){
@@ -59,7 +53,15 @@ class ControllerCommonFooter extends AController {
 		
 		$this->data['text_project_label'] = $this->language->get('text_powered_by') . ' ' . project_base();
 
-		$this->view->assign('scripts_bottom', $this->document->getScriptsBottom());
+        //backwards compatibility for templates prior 1.2.10
+        $this->view->assign('scripts_bottom', $this->document->getScriptsBottom());
+        if ($this->config->get('config_google_analytics_code')) {
+            $this->data['google_analytics'] =  $this->config->get('config_google_analytics_code');
+        } else {
+            $this->data['google_analytics'] =  '';
+        }
+        //Eof backwards compatibility
+
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('common/footer.tpl');
 

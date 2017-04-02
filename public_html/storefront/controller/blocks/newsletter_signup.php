@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -31,10 +31,14 @@ class ControllerBlocksNewsLetterSignUp extends AController {
 		$this->loadLanguage('blocks/newsletter_signup');
 
 		$form  =  new AForm();
-		$this->data['form_open'] = $form->getFieldHtml( array( 'type' => 'form',
-															   'name' => 'subscribeFrm',
-															   'method' => 'get',
-															   'action' => $this->html->getSecureURL('account/subscriber','',true)));
+		$this->data['form_open'] = $form->getFieldHtml(
+		    array( 'type' => 'form',
+                'name' => 'subscribeFrm',
+                'method' => 'get',
+                'action' => $this->html->getSecureURL('account/subscriber','',true),
+                'csrf' => true
+            )
+        );
 		$this->data['heading_title'] = $this->language->get('heading_title');
 		$this->data['text_signup'] = $this->language->get('text_signup');
 		$this->data['text_sign_in'] = $this->language->get('text_sign_in');

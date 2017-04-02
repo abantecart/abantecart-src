@@ -5,10 +5,10 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
-  Lincence details is bundled with this package in the file LICENSE.txt.
+  Licence details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -102,20 +102,6 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController{
 					'option'   => $option_data,
 					'weight'   => $product['weight']
 			);
-		}
-		//check for virtual product such as gift certificate
-		$cart_data = $this->customer->getCustomerCart();
-		if (isset($cart_data['virtual'])){
-			foreach ($cart_data['virtual'] as $virtual){
-				$this->data['products'][] = array (
-						'name'     => 'Virtual Product',
-						'model'    => '',
-						'price'    => $this->currency->format($virtual['amount'], $order_info['currency'], $order_info['value'], false),
-						'quantity' => $virtual['quantity'],
-						'option'   => array (),
-						'weight'   => 0
-				);
-			}
 		}
 
 		$this->data['discount_amount_cart'] = 0;

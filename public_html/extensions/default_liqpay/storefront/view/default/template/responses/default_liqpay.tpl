@@ -1,4 +1,4 @@
-<form id="checkout" role="form" action="https://www.liqpay.com/api/checkout" method="post">
+<?php echo $form['form_open']; ?>
 <?php //NOTE: do not use enctype="multipart/form-data" for form tag here!
 foreach($form['fields'] as $field){
 	echo $field;

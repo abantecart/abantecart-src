@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -380,6 +380,13 @@ class AConfigManager{
 				'zone_field_name' => 'config_zone_id',
 				'zone_value'      => $data['config_zone_id'],
 				'submit_mode'     => 'id'
+		));
+
+		$fields['duplicate_contact_us'] = $form->getFieldHtml($props[] = array (
+				'type'  => 'checkbox',
+				'name'  => 'config_duplicate_contact_us_to_message',
+				'value' => $data['config_duplicate_contact_us_to_message'],
+				'style' => 'btn_switch',
 		));
 
 		$fields['language'] = $form->getFieldHtml($props[] = array (

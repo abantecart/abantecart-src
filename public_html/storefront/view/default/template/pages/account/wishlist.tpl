@@ -54,12 +54,14 @@
 					<?php if ($display_price) { ?>
 						<?php if($product['call_to_order']){ ?>
 							<a data-id="<?php echo $product['product_id'] ?>" href="#"
-								   class="btn call_to_order"><?php echo $text_call_to_order?>&nbsp;&nbsp;<i class="fa fa-phone"></i></a>
+								   class="btn call_to_order" title="<?php echo $text_call_to_order?>">
+								<i class="fa fa-phone fa-fw"></i>
+							</a>
 						<?php } else if ($product['track_stock'] && !$product['in_stock']) { ?>
 							<span class="nostock"><?php echo $product['no_stock_text']; ?></span>
 						<?php } else { ?>
 							<a href="<?php echo $product['add']; ?>" class="btn btn-sm btn-primary">
-								<i class="fa fa-shopping-cart fa-fw"></i>
+								<i class="fa fa-cart-plus fa-fw"></i>
 							</a>
 						<?php } ?>
 					<?php } ?>
@@ -78,7 +80,7 @@
 				<?php echo $button_continue; ?>
 			</a>
 			<a href="<?php echo $cart; ?>" class="btn btn-orange">
-				<i class="fa fa-shopping-cart"></i>
+				<i class="fa fa-shopping-cart fa-fw"></i>
 				<?php echo $button_cart; ?>
 			</a>
 			<?php echo $this->getHookVar('bottom_wishlist_buttons'); ?>

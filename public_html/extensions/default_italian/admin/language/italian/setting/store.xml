@@ -64,16 +64,16 @@
     <definition>
         <key>entry_status</key>
         <value>
-            <![CDATA[Stato del negozio<br /><span class="help">Impostare lo stato del negozio. Se su NO esso vi dirigerà nel negozio. Utilizzare la modalità di manutenzione per impostare temporaneamente un messagio di manutenzione del negozio.</span]]></value>
+            <![CDATA[Stato del negozio<br /><span class="help">Impostare lo stato del negozio. Se su NO esso vi dirigerà nel negozio. Utilizzare la modalità di manutenzione per impostare temporaneamente un messagio di manutenzione del negozio.</span>]]></value>
     </definition>
     <definition>
         <key>entry_alias</key>
-        <value><![CDATA[Alias Nome<br /><span class="help">Conservare nome Alias. Se vuoto si baserà un nome abbreviato.</span]]></value>
+        <value><![CDATA[Alias Nome<br /><span class="help">Conservare nome Alias. Se vuoto si baserà un nome abbreviato.</span>]]></value>
     </definition>
     <definition>
         <key>entry_status</key>
         <value>
-            <![CDATA[Stato del negozio<br /><span class="help">Conservare lo stato del negozio. Se su NO vi dirigerà sul negozio. Utilizzare la modalità di impostazione di manutenzione per impostare un messaggio temporaneo di manutenzione del negozio.</span]]></value>
+            <![CDATA[Stato del negozio<br /><span class="help">Conservare lo stato del negozio. Se su NO vi dirigerà sul negozio. Utilizzare la modalità di impostazione di manutenzione per impostare un messaggio temporaneo di manutenzione del negozio.</span>]]></value>
     </definition>
     <definition>
         <key>button_add_store</key>

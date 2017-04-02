@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -677,7 +677,7 @@ class APackageManager{
 					// running php install script if it exists
 					if (isset($config->upgrade->trigger)){
 						$file = $this->session->data['package_info']['tmp_dir'] . $package_dirname . '/code/extensions/' . $extension_id . '/' . (string)$config->upgrade->trigger;
-						$file = !file_exists($file) ? DIR_EXT . $extension_id . '/' . (string)$config->upgrade->sql : $file;
+						$file = !file_exists($file) ? DIR_EXT . $extension_id . '/' . (string)$config->upgrade->trigger : $file;
 						if (file_exists($file)){
 							/** @noinspection PhpIncludeInspection */
 							include($file);

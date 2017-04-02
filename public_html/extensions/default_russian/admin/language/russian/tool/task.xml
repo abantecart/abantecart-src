@@ -72,4 +72,16 @@
 		<key>text_completed</key>
 		<value><![CDATA[ Завершенное ]]></value>
 	</definition>
+	<definition>
+		<key>text_task_not_found</key>
+		<value><![CDATA[Задание не найдено.]]></value>
+	</definition>
+	<definition>
+		<key>text_empty_task</key>
+		<value><![CDATA[Задача не содержит шаги. Удалена.]]></value>
+	</definition>
+	<definition>
+		<key>text_forbidden_to_restart</key>
+		<value><![CDATA[Перезапуск запрещен!]]></value>
+	</definition>
 </definitions>

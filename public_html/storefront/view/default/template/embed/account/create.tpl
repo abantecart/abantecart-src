@@ -27,8 +27,9 @@
 	<div class="registerbox form-horizontal">
 		<fieldset>
 		<?php
-
 			foreach ($form['fields']['general'] as $field_name=>$field) {
+				//todo: remove this in the next major release
+				if($field_name == 'loginname'){ continue;}
 		?>
 			<div class="form-group <?php echo ${'error_'.$field_name} ? 'has-error' : ''; ?>">
 				<label class="control-label col-sm-4"><?php echo ${'entry_'.$field_name}; ?></label>
@@ -63,9 +64,16 @@
 		</fieldset>
 	</div>
 	
-	<h4 class="heading4 "><?php echo $text_your_password; ?></h4>
+	<h4 class="heading4 "><?php echo $text_login_details; ?></h4>
 	<div class="registerbox form-horizontal">
 		<fieldset>
+			<div class="form-group <?php if ($error_loginname) echo 'has-error'; ?>">
+				<label class="col-sm-4 control-label"><?php echo $entry_loginname; ?></label>
+				<div class="input-group col-sm-4">
+					<?php echo $form['fields']['general']['loginname']; ?>
+				</div>
+				<span class="help-block"><?php echo $error_loginname; ?></span>
+			</div>
 			<div class="form-group <?php if ($error_password) echo 'has-error'; ?>">
 				<label class="col-sm-4 control-label"><?php echo $entry_password; ?></label>
 				<div class="input-group col-sm-4">
@@ -117,7 +125,7 @@
 		<div class="col-md-12">
 	<?php if ($text_agree) { ?>
 			<label class="col-md-6 mt10 mb10">
-				<?php echo $text_agree; ?><a href="<?php echo $text_agree_href; ?>" onclick="openModalRemote('#privacyPolicyModal','<?php echo $text_agree_href; ?>'); return false;"><b><?php echo $text_agree_href_text; ?></b></a>
+				<?php echo $text_agree; ?>&nbsp;<a href="<?php echo $text_agree_href; ?>" onclick="openModalRemote('#privacyPolicyModal','<?php echo $text_agree_href; ?>'); return false;"><b><?php echo $text_agree_href_text; ?></b></a>
 
 				<?php echo $form['agree']; ?>
 			</label>

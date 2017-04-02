@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -65,7 +65,10 @@ class ControllerTaskLocalisationLanguage extends AController{
 		$dst_language_id = $step_settings['language_id'];
 		$src_language_id = $step_settings['src_language_id'];
 
-		$pkeys = $this->language->getTranslatableFields($table_name);
+		$pkeys = $this->language->getPrimaryKeys($table_name);
+		$pkeys = array_merge($pkeys,array_keys($step_settings['table']['indexes']));
+		$pkeys = array_unique($pkeys);
+
 		$specific_sql = '';
 		foreach ($pkeys as $pk){
 			if ($pk == 'language_id'){
@@ -105,11 +108,11 @@ class ControllerTaskLocalisationLanguage extends AController{
 			$this->_return_error('Some errors during step run. See log for details.');
 		}
 
-		$this->response->setOutput(AJson::encode(array ('result' => $step_result, 'message' => $translate_result)));
+		$this->response->setOutput(AJson::encode(array ('result' => true, 'message' => $translate_result)));
 	}
 
 	private function _return_error($error_text){
-		$this->response->setOutput(AJson::encode(array ('result' => false, 'message' => $error_text)));
+		$this->response->setOutput(AJson::encode(array ('result' => false, 'error_text' => $error_text)));
 	}
 
 }

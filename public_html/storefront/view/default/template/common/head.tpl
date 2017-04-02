@@ -31,7 +31,7 @@
 
 <?php 
 /* 
-	Set $faster_browser_rendering == true; for loafing tuning. For better rendering minify and include inline css.
+	Set $faster_browser_rendering == true; for loading tuning. For better rendering minify and include inline css.
     Note: This will increase page size, but will improve HTML rendering. 
     As alternative, you can merge all CSS files in to one singe file and minify 
     Example: <link href=".../stylesheet/all.min.css" rel="stylesheet" type='text/css' />
@@ -47,14 +47,12 @@ if($faster_browser_rendering == true) {
 	<style><?php echo $this->LoadMinifyCSS('/stylesheet/flexslider.css'); ?></style>
 	<style><?php echo $this->LoadMinifyCSS('/stylesheet/onebyone.css'); ?></style>
 	<style><?php echo $this->LoadMinifyCSS('/stylesheet/font-awesome.min.css'); ?></style>
-	<style><?php echo $this->LoadMinifyCSS('/stylesheet/fonts.google.css'); ?></style>
-	<style><?php echo $this->LoadMinifyCSS('/stylesheet/style.css'); ?></style>	
+	<style><?php echo $this->LoadMinifyCSS('/stylesheet/style.css'); ?></style>
 <?php } else { ?>
 	<link href="<?php echo $this->templateResource('/stylesheet/bootstrap.min.css'); ?>" rel="stylesheet" type='text/css' />
 	<link href="<?php echo $this->templateResource('/stylesheet/flexslider.css'); ?>" rel="stylesheet" type='text/css' />
 	<link href="<?php echo $this->templateResource('/stylesheet/onebyone.css'); ?>" rel="stylesheet" type='text/css' />
 	<link href="<?php echo $this->templateResource('/stylesheet/font-awesome.min.css'); ?>" rel="stylesheet" type='text/css' />
-	<link href="<?php echo $this->templateResource('/stylesheet/fonts.google.css'); ?>" rel="stylesheet" type='text/css' />
 	<link href="<?php echo $this->templateResource('/stylesheet/style.css'); ?>" rel="stylesheet" type='text/css' />
 <?php } ?>
 
@@ -135,10 +133,10 @@ if($faster_browser_rendering == true) {
         }
         if(item.attr('data-id')){
 	        if( update_cart(item.attr('data-id')) == true ) {
-		        var alert_msg = '<div class="added_to_cart pull-right">'
+		        var alert_msg = '<div class="quick_basket">'
 				        + '<a href="<?php echo $cart_url ?>" title="<?php echo $text_add_cart_confirm; ?>">'
-				        + '<i class="fa fa-check"></i></a></div>';
-		        item.closest('.thumbnail .pricetag').prepend(alert_msg);
+				        + '<i class="fa fa-shopping-cart fa-fw"></i></a></div>';
+				item.closest('.thumbnail .pricetag').addClass('added_to_cart').prepend(alert_msg);
 	        }
         }
     return false;
@@ -155,23 +153,16 @@ $(document).on('click','a.call_to_order',function(){
 <?php 
 //search block form function ?>
 function search_submit () {
-
     var url = '<?php echo $search_url;?>';
-
 	var filter_keyword = $('#filter_keyword').val();
-
 	if (filter_keyword) {
 	    url += '&keyword=' + encodeURIComponent(filter_keyword);
 	}
-
 	var filter_category_id = $('#filter_category_id').attr('value');
-
 	if (filter_category_id) {
 	    url += '&category_id=' + filter_category_id;
 	}
-
 	location = url;
-
 	return false;
 }
 </script>

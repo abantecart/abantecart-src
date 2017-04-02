@@ -1,64 +1,67 @@
 <?xml version="1.0"?>
 <definitions>
-  <definition>
-    <key>heading_title</key>
-    <value><![CDATA[Menu]]></value>
-  </definition>
-  <definition>
-    <key>text_success</key>
-    <value><![CDATA[Success: You have modified menu!]]></value>
-  </definition>
-
-  <definition>
-    <key>entry_item_id</key>
-    <value><![CDATA[Unique ID]]></value>
-  </definition>
-  <definition>
-    <key>entry_item_icon</key>
-    <value><![CDATA[Icon]]></value>
-  </definition>
-  <definition>
-    <key>entry_item_text</key>
-    <value><![CDATA[Text]]></value>
-  </definition>
-  <definition>
-    <key>entry_item_url</key>
-    <value><![CDATA[Link<br /><span class="help">For external links add http:// or https:// in the beginning</span>]]></value>
-  </definition>
-  <definition>
-    <key>entry_parent_id</key>
-    <value><![CDATA[Parent]]></value>
-  </definition>
-  <definition>
-    <key>entry_sort_order</key>
-    <value><![CDATA[Sort Order]]></value>
-  </definition>
-  <definition>
-    <key>entry_link_category</key>
-    <value><![CDATA[Link to Category]]></value>
-  </definition>
-  <definition>
-    <key>entry_link_page</key>
-    <value><![CDATA[Link to Page]]></value>
-  </definition>
-  <definition>
-    <key>text_link</key>
-    <value><![CDATA[Link]]></value>
-  </definition>
-  <definition>
-    <key>text_select_parent_id</key>
-    <value><![CDATA[- Root Menu -]]></value>
-  </definition>
-  <definition>
-    <key>error_empty</key>
-    <value><![CDATA[Field cannot be Empty!]]></value>
-  </definition>
-  <definition>
-    <key>error_non_unique</key>
-    <value><![CDATA[Item ID not unique!]]></value>
-  </definition>
-  <definition>
-    <key>error_non_ascii</key>
-    <value><![CDATA[Only alphanumeric characters allowed for menu ID field!]]></value>
-  </definition>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Menu]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Success: You have modified menu!]]></value>
+	</definition>
+	<definition>
+		<key>entry_item_id</key>
+		<value><![CDATA[Unique ID]]></value>
+	</definition>
+	<definition>
+		<key>entry_item_icon</key>
+		<value><![CDATA[Icon]]></value>
+	</definition>
+	<definition>
+		<key>entry_item_text</key>
+		<value><![CDATA[Text]]></value>
+	</definition>
+	<definition>
+		<key>entry_item_url</key>
+		<value><![CDATA[Link<br /><span class="help">For external links add http:// or https:// in the beginning</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_parent_id</key>
+		<value><![CDATA[Parent]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Sort Order]]></value>
+	</definition>
+	<definition>
+		<key>entry_link_type</key>
+		<value><![CDATA[Link Type]]></value>
+	</definition>
+	<definition>
+		<key>text_select_parent_id</key>
+		<value><![CDATA[- Root Menu -]]></value>
+	</definition>
+	<definition>
+		<key>error_empty</key>
+		<value><![CDATA[Field cannot be Empty!]]></value>
+	</definition>
+	<definition>
+		<key>error_non_unique</key>
+		<value><![CDATA[Item ID not unique!]]></value>
+	</definition>
+	<definition>
+		<key>error_non_ascii</key>
+		<value><![CDATA[Only alphanumeric characters allowed for menu ID field!]]></value>
+	</definition>
+	<definition>
+		<key>text_category_link_type</key>
+		<value><![CDATA[Category Page]]></value>
+	</definition>
+	<definition>
+		<key>text_content_link_type</key>
+		<value><![CDATA[Content Page]]></value>
+	</definition>
+	<definition>
+		<key>text_custom_link_type</key>
+		<value><![CDATA[Custom Link or URL]]></value>
+	</definition>
 </definitions>

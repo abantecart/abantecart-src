@@ -15,9 +15,9 @@
 	<definition>
 		<key>2checkout_note</key>
 		<value><![CDATA[
-With this extension you can use 2Checkout payment system to accept payments from your customers.<br> 
+With this extension you can use 2Checkout payment system to accept payments from your customers.<br>
 <b>Sign up free today!  Use promo code ABANTECART2CO for a waiver of your application service fee (a savings of $10.99) and start selling online today! </b> Visit <a href="https://www.2checkout.com/signup/">www.2checkout.com</a>, complete the application, and then enter the code into the promo code field to take advantage of this special offer today!
-<br> Once register login to get account credentials to configure this extension 
+<br> Once register login to get account credentials to configure this extension
 <br>Don't forget to setup INS URL here <a href="https://www.2checkout.com/va/notifications/">https://www.2checkout.com/va/notifications/</a>.
 <br><br>Your INS URL is <h4>#storefront#rt=extension/2checkout/callback</h4>
 <br><br>Also setup Approved URL here <a href="https://www.2checkout.com/va/acct/detail_company_info">https://www.2checkout.com/va/acct/detail_company_info</a> and choose "Header return".
@@ -31,7 +31,7 @@ With this extension you can use 2Checkout payment system to accept payments from
 	<definition>
 		<key>2checkout_secret</key>
 		<value>
-			<![CDATA[Secret Word:<br /><span class="help">The secret word to confirm transactions with (must be the same as defined on the merchat account configuration page.</span>]]></value>
+			<![CDATA[Secret Word:<br /><span class="help">The secret word to confirm transactions with (must be the same as defined on the merchant account configuration page.</span>]]></value>
 	</definition>
 	<definition>
 		<key>2checkout_test</key>

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -471,7 +471,7 @@ class AIM{
 		$order_id = (int)$order_id ? (int)$order_id : (int)$this->session->data['order_id'];
 
 		//for registered customers - get address from database
-		if ($customer_id){
+		if ($customer_id && !$order_id){
 			$sql = "SELECT *
 					FROM " . $this->db->table('customers') . "
 					WHERE customer_id=" . $customer_id;

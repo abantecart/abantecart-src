@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -280,7 +280,10 @@ class ControllerPagesAccountAddress extends AController{
 				array (
 						'type'   => 'form',
 						'name'   => 'AddressFrm',
-						'action' => $action));
+						'action' => $action,
+                        'csrf' => true,
+                )
+        );
 
 
 		if (isset($this->request->post['firstname'])){
@@ -458,7 +461,11 @@ class ControllerPagesAccountAddress extends AController{
 
 		$this->extensions->hk_ValidateData($this);
 
-		if (!$this->error){
+        if (!$this->csrftoken->isTokenValid()) {
+            $this->error['warning'] = $this->language->get('error_unknown');
+        }
+
+        if (!$this->error){
 			return true;
 		} else{
 			return false;

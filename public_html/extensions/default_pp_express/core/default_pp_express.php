@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -263,7 +263,7 @@ class ExtensionDefaultPPExpress extends Extension {
 				if ( strpos($that->config->get('default_pp_express_custom_logo'), 'http')===0 ) {
 					$custom_logo = $that->config->get('default_pp_express_custom_logo');
 				} else {
-					$custom_logo = HTTPS_SERVER . $that->config->get('default_pp_express_custom_logo');
+					$custom_logo = HTTPS_SERVER . 'resources/' . $that->config->get('default_pp_express_custom_logo');
 				}
 
 				$payment_data['LOGOIMG'] = $custom_logo;
@@ -472,7 +472,7 @@ class ExtensionDefaultPPExpress extends Extension {
 				if ( strpos($that->config->get('default_pp_express_custom_logo'), 'http')===0 ) {
 					$custom_logo = $that->config->get('default_pp_express_custom_logo');
 				} else {
-					$custom_logo = HTTPS_SERVER . $that->config->get('default_pp_express_custom_logo');
+					$custom_logo = HTTPS_SERVER . 'resources/' . $that->config->get('default_pp_express_custom_logo');
 				}
 
 				$payment_data['LOGOIMG'] = $custom_logo;

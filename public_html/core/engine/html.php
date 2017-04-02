@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -213,10 +213,13 @@ class AHtml extends AController{
 		}
 
 		$suburl = $this->buildURL($rt, $params);
-		//#PR Add session
-		if (isset($session->data['token']) && $session->data['token']){
-			$suburl .= '&token=' . $this->registry->get('session')->data['token'];
-		}
+
+        if(IS_ADMIN === true || (defined('IS_API') && IS_API === true)) {
+            //Add session token for admin and API
+            if (isset($session->data['token']) && $session->data['token']){
+                $suburl .= '&token=' . $this->registry->get('session')->data['token'];
+            }
+        }
 
 		//add token for embed mode with forbidden 3d-party cookies
 		if ($session->data['session_mode'] == 'embed_token'){
@@ -396,7 +399,7 @@ class AHtml extends AController{
 	 * @param string $keyword
 	 * @return string
 	 */
-	public function isSEOkeywordExists($query, $keyword = ''){
+	public function isSEOKeywordExists($query, $keyword = ''){
 		if (!$keyword){
 			return '';
 		}
@@ -1167,6 +1170,7 @@ class TextareaHtmlElement extends HtmlElement{
  * @property string $required
  * @property string $style
  * @property string $placeholder
+ * @property string $base_url - need for inserting pictures into html for emails
  * @property bool $multilingual
  */
 class TextEditorHtmlElement extends HtmlElement{
@@ -1183,7 +1187,8 @@ class TextEditorHtmlElement extends HtmlElement{
 						'attr'        => $this->attr,
 						'required'    => $this->required,
 						'style'       => $this->style,
-						'placeholder' => $this->placeholder
+						'placeholder' => $this->placeholder,
+						'base_url'    => $this->base_url
 				)
 		);
 		if (is_object($this->language)){
@@ -1555,11 +1560,14 @@ class ButtonHtmlElement extends HtmlElement{
  * @property string $attr
  * @property string $method
  * @property string $style
+ * @property string $enctype
+ * @property bool $csrf
  */
 class FormHtmlElement extends HtmlElement{
 
 	public function getHtml(){
 		$this->method = empty($this->method) ? 'post' : $this->method;
+		$this->enctype = empty($this->enctype) ? 'multipart/form-data' : $this->enctype;
 		$this->view->batchAssign(
 				array (
 						'id'     => $this->name,
@@ -1568,10 +1576,25 @@ class FormHtmlElement extends HtmlElement{
 						'method' => $this->method,
 						'attr'   => $this->attr,
 						'style'  => $this->style,
+						'enctype' => $this->enctype
 				)
 		);
+		//add CSRF token
+		if ($this->csrf === true) {
+			$csrftoken = $this->registry->get('csrftoken');
+			$this->view->batchAssign(
+					array (
+							'csrfinstance' => $csrftoken->setInstance(),
+							'csrftoken'    => $csrftoken->setToken()
+					)
+			);
+		}
 
-		return $this->view->fetch('form/form_open.tpl');
+        if (IS_ADMIN === true){
+            return $this->view->fetch('form/form_open.tpl');
+        } else {
+            return $this->view->fetch('form/form_open.tpl') . $this->view->fetch('form/form_csrf.tpl');
+        }
 	}
 }
 
@@ -1629,6 +1652,7 @@ class RatingHtmlElement extends HtmlElement{
  * @property string $attr
  * @property bool $required
  * @property string $placeholder
+ * @property Registry $registry
  */
 class CaptchaHtmlElement extends HtmlElement{
 
@@ -1637,7 +1661,7 @@ class CaptchaHtmlElement extends HtmlElement{
 				array (
 						'name'        => $this->name,
 						'id'          => $this->element_id,
-					//TODO: remove deprecated attribute aform_field_type
+						//TODO: remove deprecated attribute aform_field_type
 						'attr'        => 'aform_field_type="captcha" ' . $this->attr . ' data-aform-field-type="captcha"',
 						'style'       => $this->style,
 						'required'    => $this->required,
@@ -1658,7 +1682,6 @@ class CaptchaHtmlElement extends HtmlElement{
  * @property string $recaptcha_site_key
  */
 class ReCaptchaHtmlElement extends HtmlElement{
-
 	public function getHtml(){
 		$this->view->batchAssign(
 				array (

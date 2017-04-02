@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -70,15 +70,19 @@ class ControllerResponsesExtensionDefaultLiqPay extends AController{
 
 		$form = new AForm();
 		$form->setForm(array('form_name' => 'checkout'));
-		$data['form']['form_open'] = $form->getFieldHtml(array('type'   => 'form',
-															   'name'   => 'checkout',
-															   'action' => 'https://www.liqpay.com/api/checkout'
+		$data['form']['form_open'] = $form->getFieldHtml(
+		    array(
+		        'type'   => 'form',
+                'name'   => 'checkout',
+                'action' => 'https://www.liqpay.com/api/checkout'
 		));
 
 		foreach($params as $k=>$val){
-			$data['form']['fields'][$k] = $form->getFieldHtml(array('type'  => 'hidden',
-																	'name'  => $k,
-																	'value' => $val
+			$data['form']['fields'][$k] = $form->getFieldHtml(
+			    array(
+			        'type'  => 'hidden',
+                    'name'  => $k,
+                    'value' => $val
 			));
 		}
 

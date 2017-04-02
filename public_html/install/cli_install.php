@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -25,16 +25,16 @@
  * cd install
  *
  *    php cli_install.php install 
- *                               --db_hostname localhost
- *                                --db_username root
- *                                --db_password pass
- *                                --db_database abantecart
- *                                --db_driver mysqli
- *                                --db_port 3306
- *                                --username admin
- *                                --password admin
- *                                --email youremail@example.com
- *                               --http_server http://localhost/abantecart
+ *                               --db_hostname=localhost
+ *                                --db_username=root
+ *                                --db_password=pass
+ *                                --db_database=abantecart
+ *                                --db_driver=mysqli
+ *                                --db_port=3306
+ *                                --username=admin
+ *                                --password=admin
+ *                                --email=youremail@example.com
+ *                               --http_server=http://localhost/abantecart
  */
 
 ini_set('register_argc_argv', 1);

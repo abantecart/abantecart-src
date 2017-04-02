@@ -89,7 +89,7 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 		if ( $this->request->is_POST() && $this->_validate() ) {
 			$this->model_setting_setting->editSetting('default_ups', $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect($this->html->getSecureURL('extension/default_ups'));
+			redirect($this->html->getSecureURL('extension/default_ups'));
 		}
 
 		if (isset($this->error['warning'])) {
@@ -287,7 +287,6 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 		    'type' => 'input',
 		    'name' => 'default_ups_state',
 		    'value' => $this->data['default_ups_state'],
-			'required' => true,
 			'attr' => ' maxlength="2" '
 	    ));
 		$this->data['form']['fields']['country'] = $form->getFieldHtml(array(
@@ -676,10 +675,6 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 
 		if (!$this->request->post['default_ups_city']) {
 			$this->error['city'] = $this->language->get('error_city');
-		}
-
-		if (!$this->request->post['default_ups_state']) {
-			$this->error['state'] = $this->language->get('error_state');
 		}
 
 		if (!$this->request->post['default_ups_country']) {

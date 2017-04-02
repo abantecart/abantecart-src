@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -995,9 +995,6 @@ class ModelSaleCustomer extends Model {
 
 		// send email to customer
 		$customer_info = $this->getCustomer($customer_id);
-
-		$this->log->write(var_Export($customer_info, true));
-
 		if ($customer_info && !$customer_info[ 'approved' ]) {
 
 			$this->load->language('mail/customer');

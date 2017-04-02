@@ -7,7 +7,13 @@
 		<ul class="side_prd_list">
 <?php
 if ($products) {
+	$tax_exempt = $this->customer->isTaxExempt();
+	$config_tax = $this->config->get('config_tax');
     foreach ($products as $product) {
+		$tax_message = '';
+		if ($config_tax && !$tax_exempt  && $product['tax_class_id']){
+			$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
+		}
         $item = array();
         $item['image'] = $product['thumb']['thumb_url'];
         $item['title'] = $product['name'];
@@ -34,10 +40,10 @@ if ($products) {
 		<?php if ($display_price) { ?> 
 	                <span class="price">
 			        <?php  if ($product['special']) { ?>
-			            <span class="pricenew"><?php echo $product['special']?></span>
+			            <span class="pricenew"><?php echo $product['special'] . $tax_message?></span>
 			        	<span class="priceold"><?php echo $product['price']?></span>
 			        <?php } else { ?>
-			            <span class="oneprice"><?php echo $product['price']?></span>
+			            <span class="oneprice"><?php echo $product['price'] . $tax_message?></span>
 			  		<?php } ?>
 	                </span>
   		<?php } ?>

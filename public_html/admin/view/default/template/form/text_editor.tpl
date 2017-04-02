@@ -225,7 +225,7 @@ $wrapper_id = randomWord(6);
 				editor = tinyMCE.activeEditor;
 				cursorPosition = null;
 			}
-			openTextEditRLModal(editor,cursorPosition);
+			openTextEditRLModal(editor,cursorPosition,'<?php echo $base_url?>');
 			return false;
 		});
 	});

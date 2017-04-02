@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,22 +17,23 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')) {
+	header('Location: static_pages/');
 }
-final class MySQL {
-    /**
-     * @var resource
-     */
-    protected $connection;
-    /**
-     * @var Registry
-     */
-    private $registry;
-    /**
-     * @var string
-     */
-    public $error;
+
+final class MySQL{
+	/**
+	 * @var resource
+	 */
+	protected $connection;
+	/**
+	 * @var Registry
+	 */
+	private $registry;
+	/**
+	 * @var string
+	 */
+	public $error;
 
 	/**
 	 * @param string $hostname
@@ -42,124 +43,123 @@ final class MySQL {
 	 * @param bool $new_link
 	 * @throws AException
 	 */
-    public function __construct($hostname, $username, $password, $database, $new_link=false) {
+	public function __construct($hostname, $username, $password, $database, $new_link = false){
 		$connection = mysql_connect($hostname, $username, $password, $new_link);
 		if (!$connection) {
-			$err = new AError('Cannot establish database connection to ' . $database.' using ' . $username . '@' . $hostname);
+			$err = new AError('Cannot establish database connection to ' . $database . ' using ' . $username . '@' . $hostname);
 			$err->toLog();
-            throw new AException(AC_ERR_MYSQL, 'Cannot establish database connection. Check your database setting in configuration file.');
-    	}
+			throw new AException(AC_ERR_MYSQL,'Cannot establish database connection. Check your database connection settings.');
+		}
 
-    	if (!mysql_select_db($database, $connection)) {
-      		throw new AException(AC_ERR_MYSQL, 'Error: Could not connect to database ' . $database);
-    	}
-		
-		mysql_query("SET NAMES 'utf8'",$connection);
+		if (!mysql_select_db($database, $connection)) {
+			throw new AException(AC_ERR_MYSQL, 'Error: Could not connect to database ' . $database);
+		}
+
+		mysql_query("SET NAMES 'utf8'", $connection);
 		mysql_query("SET CHARACTER SET utf8", $connection);
 		mysql_query("SET CHARACTER_SET_CONNECTION=utf8", $connection);
 		mysql_query("SET SQL_MODE = ''", $connection);
 		mysql_query("SET session wait_timeout=60;", $connection);
 		mysql_query("SET SESSION SQL_BIG_SELECTS=1;", $connection);
 
-
-        $this->registry = Registry::getInstance();
+		$this->registry = Registry::getInstance();
 		$this->connection = $connection;
-  	}
+	}
 
-    /**
-     * @param string $sql
-     * @param bool $noexcept
-     * @return bool|stdClass
-     * @throws AException
-     */
-    public function query($sql, $noexcept = false) {
+	/**
+	 * @param string $sql
+	 * @param bool $noexcept
+	 * @return bool|stdClass
+	 * @throws AException
+	 */
+	public function query($sql, $noexcept = false){
 		//echo $this->database_name;
-        $time_start = microtime(true);
-        $resource = mysql_query($sql, $this->connection);
-        $time_exec = microtime(true) - $time_start;
+		$time_start = microtime(true);
+		$resource = mysql_query($sql, $this->connection);
+		$time_exec = microtime(true) - $time_start;
 
-        // to avoid debug class init while setting was not yet loaded
-		if($this->registry->get('config')){
-			if ( $this->registry->get('config')->has('config_debug') ) {
+		// to avoid debug class init while setting was not yet loaded
+		if ($this->registry->get('config')) {
+			if ($this->registry->get('config')->has('config_debug')) {
 				$backtrace = debug_backtrace();
-				ADebug::set_query($sql, $time_exec, $backtrace[2] );
+				ADebug::set_query($sql, $time_exec, $backtrace[2]);
 			}
 		}
 		if ($resource) {
 			if (is_resource($resource)) {
 				$i = 0;
-    	
-				$data = array();
-		
+
+				$data = array ();
+
 				while ($result = mysql_fetch_assoc($resource)) {
 					$data[$i] = $result;
-    	
+
 					$i++;
 				}
-				
+
 				mysql_free_result($resource);
-				
+
 				$query = new stdClass();
-				$query->row = isset($data[0]) ? $data[0] : array();
+				$query->row = isset($data[0]) ? $data[0] : array ();
 				$query->rows = $data;
 				$query->num_rows = $i;
-				
+
 				unset($data);
 
-				return $query;	
-    		} else {
-				return TRUE;
+				return $query;
+			} else {
+				return true;
 			}
 		} else {
-			if($noexcept){
+			if ($noexcept) {
 				$this->error = 'AbanteCart Error: ' . mysql_error($this->connection) . '<br />Error No: ' . mysql_errno($this->connection) . '<br />' . $sql;
-				return FALSE;
-			}else{
-				throw new AException(AC_ERR_MYSQL, 'Error: ' . mysql_error($this->connection) . '<br />Error No: ' . mysql_errno($this->connection) . '<br />' . $sql);
+				return false;
+			} else {
+				throw new AException(AC_ERR_MYSQL,'Error: ' . mysql_error($this->connection) . '<br />Error No: ' . mysql_errno($this->connection) . '<br />' . $sql);
 			}
-    	}
-  	}
+		}
+	}
 
-    /**
-     * @param string $value
-     * @return string
-     */
-    public function escape($value) {
+	/**
+	 * @param string $value
+	 * @return string
+	 */
+	public function escape($value){
 
-	    if(is_array($value)){
-		    $dump = var_export($value,true);
-            $backtrace = debug_backtrace();
-            $dump .= ' (file: '.$backtrace[1]['file'] .' line '.$backtrace[1]['line'].')';
-		    $message = 'MySQL class error: Try to escape non-string value: '.$dump;
-		    $error = new AError($message);
-		    $error->toLog()->toDebug()->toMessages();
-		    return false;
-	    }
+		if (is_array($value)) {
+			$dump = var_export($value, true);
+			$backtrace = debug_backtrace();
+			$dump .= ' (file: ' . $backtrace[1]['file'] . ' line ' . $backtrace[1]['line'] . ')';
+			$message = 'MySQL class error: Try to escape non-string value: ' . $dump;
+			$error = new AError($message);
+			$error->toLog()->toDebug()->toMessages();
+			return false;
+		}
 		return mysql_real_escape_string((string)$value, $this->connection);
 	}
 
-    /**
-     * @return int
-     */
-    public function countAffected() {
-    	return mysql_affected_rows($this->connection);
-  	}
+	/**
+	 * @return int
+	 */
+	public function countAffected(){
+		return mysql_affected_rows($this->connection);
+	}
 
-    /**
-     * @return int
-     */
-    public function getLastId() {
-    	return mysql_insert_id($this->connection);
-  	}
+	/**
+	 * @return int
+	 */
+	public function getLastId(){
+		return mysql_insert_id($this->connection);
+	}
 
-    public function __destruct() {
-		if(is_resource($this->connection)){
+	public function __destruct(){
+		if (is_resource($this->connection)) {
 			mysql_close($this->connection);
 		}
 	}
 
 	public function getDBError(){
-		return array(
+		return array (
 				'error_text' => mysql_error($this->connection),
 				'errno'      => mysql_errno($this->connection)
 		);

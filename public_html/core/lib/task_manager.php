@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -247,7 +247,8 @@ class ATaskManager{
 		if (!$result){
             //write to AbanteCart log
             $error_msg = 'Task_id: ' . $task_id . ' : step_id: ' . $step_id . ' - Failed. ' . $response_message;
-            $this->log->write($error_msg);
+
+            $this->log->write($error_msg."\n step details:\n".var_export($step_details, true) );
             //write to task log
 			$this->toLog($error_msg, 0);
 		}else{
@@ -666,7 +667,7 @@ class ATaskManager{
 		$sql = "SELECT *
 				FROM " . $this->db->table('tasks') . " t
 				LEFT JOIN " . $this->db->table('task_details') . " td ON td.task_id = t.task_id
-				WHERE t.task_name = '" . $task_name . "'";
+				WHERE t.name = '" . $task_name . "'";
 		$result = $this->db->query($sql);
 		$output = $result->row;
 		if ($output){
@@ -689,16 +690,24 @@ class ATaskManager{
 		if (!$task_id){
 			return array ();
 		}
-
-		$sql = "SELECT *
+		$output = array ();
+		try{
+			$sql = "SELECT *
 				FROM " . $this->db->table('task_steps') . "
 				WHERE task_id = " . $task_id . "
 				ORDER BY sort_order";
-		$result = $this->db->query($sql);
-		$output = array ();
-		foreach ($result->rows as $row){
-			$row['settings'] = $row['settings'] ? unserialize($row['settings']) : '';
-			$output[(string)$row['step_id']] = $row;
+			$result = $this->db->query($sql);
+			$memory_limit = getMemoryLimitInBytes();
+			foreach ($result->rows as $row){
+				$used = memory_get_usage();
+				if($memory_limit - $used <= 204800){
+					$this->log->write('Error: Task Manager Memory overflow! To Get all Steps of Task you should to increase memory_limit_size in your php.ini');
+				}
+				$row['settings'] = $row['settings'] ? unserialize($row['settings']) : '';
+				$output[(string)$row['step_id']] = $row;
+			}
+		}catch(AException $e){
+			$this->log->write('Error: Task Manager Memory overflow! To Get all Steps of Task you should to increase memory_limit_size in your php.ini');
 		}
 		return $output;
 	}

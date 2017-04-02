@@ -34,8 +34,12 @@
 		<value><![CDATA[Your Password]]></value>
 	</definition>
 	<definition>
+		<key>text_login_details</key>
+		<value><![CDATA[Login Details]]></value>
+	</definition>
+	<definition>
 		<key>text_agree</key>
-		<value><![CDATA[I have read and agree to the ]]></value>
+		<value><![CDATA[I have read and agree to the]]></value>
 	</definition>
 	<definition>
 		<key>entry_loginname</key>
@@ -76,7 +80,7 @@
 	<definition>
 		<key>entry_postcode</key>
 		<value><![CDATA[ZIP Code:]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>entry_city</key>
 		<value><![CDATA[City:]]></value>
@@ -123,11 +127,11 @@
 	</definition>
 	<definition>
 		<key>error_email</key>
-		<value><![CDATA[E-Mail Address does not appear to be valid!]]></value>
+		<value><![CDATA[Email Address does not appear to be valid!]]></value>
 	</definition>
 	<definition>
 		<key>error_email_exists</key>
-		<value><![CDATA[EMail Address is Already Exists!]]></value>
+		<value><![CDATA[Email Address is Already Exists!]]></value>
 	</definition>
 	<definition>
 		<key>error_password</key>
@@ -188,7 +192,7 @@
 	<definition>
 		<key>text_new_customer</key>
 		<value><![CDATA[New customer registration approval is pending]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_pending_customer_approval</key>
 		<value><![CDATA[Customer %s has registered with new account. Action of approval is required! Click to view #admin#rt=sale/customer/update&customer_id=%s]]></value>

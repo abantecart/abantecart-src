@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -34,23 +34,43 @@ class ControllerResponsesExtensionDefaultRealex extends AController{
 
 		$this->loadLanguage('default_realex/default_realex');
 
+        $data['action'] = $this->html->getSecureURL('extension/default_realex/send');
+
+        //build submit form
+        $form = new AForm();
+        $form->setForm(array( 'form_name' => 'realex' ));
+        $data['form_open'] = $form->getFieldHtml(
+            array(
+                'type' => 'form',
+                'name' => 'realex',
+                'attr' => 'class = "form-horizontal validate-creditcard"',
+                'csrf' => true
+            )
+        );
+
 		$data['text_credit_card'] = $this->language->get('text_credit_card');
 		$data['text_wait'] = $this->language->get('text_wait');
 
 		$data['entry_cc_owner'] = $this->language->get('entry_cc_owner');
-		$data['cc_owner'] = HtmlElementFactory::create(array (
+		$data['cc_owner'] = $form->getFieldHtml(
+		    array (
 				'type'        => 'input',
 				'name'        => 'cc_owner',
 				'placeholder' => $this->language->get('entry_cc_owner'),
-				'value'       => ''));
+				'value'       => ''
+            )
+        );
 
 		$data['entry_cc_number'] = $this->language->get('entry_cc_number');
-		$data['cc_number'] = HtmlElementFactory::create(array (
+		$data['cc_number'] = $form->getFieldHtml(
+		    array (
 				'type'        => 'input',
 				'name'        => 'cc_number',
 				'attr'        => 'autocomplete="off"',
 				'placeholder' => $this->language->get('entry_cc_number'),
-				'value'       => ''));
+				'value'       => ''
+            )
+        );
 
 		$data['entry_cc_expire_date'] = $this->language->get('entry_cc_expire_date');
 
@@ -58,12 +78,15 @@ class ControllerResponsesExtensionDefaultRealex extends AController{
 		$data['entry_cc_cvv2_short'] = $this->language->get('entry_cc_cvv2_short');
 		$data['cc_cvv2_help_url'] = $this->html->getURL('r/extension/default_realex/cvv2_help');
 
-		$data['cc_cvv2'] = HtmlElementFactory::create(array ('type'  => 'input',
-		                                                     'name'  => 'cc_cvv2',
-		                                                     'value' => '',
-		                                                     'style' => 'short',
-		                                                     'attr'  => ' autocomplete="off" ',
-		));
+		$data['cc_cvv2'] = $form->getFieldHtml(
+		    array (
+		        'type'  => 'input',
+                'name'  => 'cc_cvv2',
+                'value' => '',
+                'style' => 'short',
+                'attr'  => ' autocomplete="off" ',
+		    )
+        );
 
 		$data['button_confirm'] = $this->language->get('button_confirm');
 		$data['button_back'] = $this->language->get('button_back');
@@ -73,24 +96,30 @@ class ControllerResponsesExtensionDefaultRealex extends AController{
 		for ($i = 1; $i <= 12; $i++){
 			$months[sprintf('%02d', $i)] = sprintf('%02d - ', $i) . strftime('%B', mktime(0, 0, 0, $i, 1, 2000));
 		}
-		$data['cc_expire_date_month'] = HtmlElementFactory::create(
-				array ('type'    => 'selectbox',
-				       'name'    => 'cc_expire_date_month',
-				       'value'   => sprintf('%02d', date('m')),
-				       'options' => $months,
-				       'style'   => 'input-medium short'
-				));
+		$data['cc_expire_date_month'] = $form->getFieldHtml(
+            array (
+                'type'    => 'selectbox',
+                'name'    => 'cc_expire_date_month',
+                'value'   => sprintf('%02d', date('m')),
+                'options' => $months,
+                'style'   => 'input-medium short'
+            )
+        );
 
 		$today = getdate();
 		$years = array ();
 		for ($i = $today['year']; $i < $today['year'] + 11; $i++){
 			$years[strftime('%Y', mktime(0, 0, 0, 1, 1, $i))] = strftime('%Y', mktime(0, 0, 0, 1, 1, $i));
 		}
-		$data['cc_expire_date_year'] = HtmlElementFactory::create(array ('type'    => 'selectbox',
-		                                                                 'name'    => 'cc_expire_date_year',
-		                                                                 'value'   => sprintf('%02d', date('Y') + 1),
-		                                                                 'options' => $years,
-		                                                                 'style'   => 'short'));
+		$data['cc_expire_date_year'] = $form->getFieldHtml(
+		    array (
+		        'type'    => 'selectbox',
+                'name'    => 'cc_expire_date_year',
+                'value'   => sprintf('%02d', date('Y') + 1),
+                'options' => $years,
+                'style'   => 'short'
+            )
+        );
 
 		$conf_cc_list = unserialize($this->config->get('default_realex_creditcard_selection'));
 		$card_types = array ('');
@@ -101,12 +130,14 @@ class ControllerResponsesExtensionDefaultRealex extends AController{
 		}
 
 		$data['entry_cc_type'] = $this->language->get('entry_cc_type');
-		$data['cc_type'] = HtmlElementFactory::create(array (
+		$data['cc_type'] = $form->getFieldHtml(
+		    array (
 				'type'    => 'selectbox',
 				'name'    => 'cc_type',
 				'value'   => '',
 				'options' => $card_types,
-		));
+		    )
+        );
 
 		if ($this->request->get['rt'] == 'checkout/guest_step_3'){
 			$back_url = $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit', true);
@@ -114,23 +145,25 @@ class ControllerResponsesExtensionDefaultRealex extends AController{
 			$back_url = $this->html->getSecureURL('checkout/payment', '&mode=edit', true);
 		}
 		$data['back'] = $this->html->buildElement(
-				array (
-						'type'  => 'button',
-						'name'  => 'back',
-						'text'  => $this->language->get('button_back'),
-						'style' => 'button',
-						'href'  => $back_url,
-						'icon'  => 'icon-arrow-left'
-				));
+            array (
+                    'type'  => 'button',
+                    'name'  => 'back',
+                    'text'  => $this->language->get('button_back'),
+                    'style' => 'button',
+                    'href'  => $back_url,
+                    'icon'  => 'icon-arrow-left'
+            )
+        );
 
 		$data['submit'] = $this->html->buildElement(
-				array (
-						'type'  => 'button',
-						'name'  => 'realex_button',
-						'text'  => $this->language->get('button_confirm'),
-						'style' => 'button btn-orange pull-right',
-						'icon'  => 'icon-ok icon-white'
-				));
+            array (
+                    'type'  => 'button',
+                    'name'  => 'realex_button',
+                    'text'  => $this->language->get('button_confirm'),
+                    'style' => 'button btn-orange pull-right',
+                    'icon'  => 'icon-ok icon-white'
+            )
+        );
 
 		$this->view->batchAssign($data);
 
@@ -255,6 +288,14 @@ class ControllerResponsesExtensionDefaultRealex extends AController{
 	public function send(){
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+        $json = array();
+        if(!$this->csrftoken->isTokenValid()){
+            $json['error'] = $this->language->get('error_unknown');
+            $this->load->library('json');
+            $this->response->setOutput(AJson::encode($json));
+            return;
+        }
 
 		//validate input
 		$post = $this->request->post;

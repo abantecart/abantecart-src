@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -428,7 +428,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 				'value' => dateISO2Display($this->data['end_date']),
 				'default' => '',
 				'dateformat' => format4Datepicker($this->language->get('date_format_short')),
-				'highlight' => 'pased',
+				'highlight' => 'past',
 				'style' => 'small-field'));
 
 		$this->data['form']['text']['date_end'] = $this->language->get('entry_banner_date_end');

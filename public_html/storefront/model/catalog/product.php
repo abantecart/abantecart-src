@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -224,70 +224,94 @@ class ModelCatalogProduct extends Model{
 	 * @param int $limit
 	 * @return array
 	 */
-	public function getProductsByCategoryId($category_id, $sort = 'p.sort_order', $order = 'ASC', $start = 0, $limit = 20){
-		$sql = "SELECT *,
-						p.product_id,
-						" . $this->_sql_final_price_string() . ",
-						pd.name AS name, 
-						pd.blurb,
-						m.name AS manufacturer,
-						ss.name AS stock,
-						" . $this->_sql_avg_rating_string() . ",
-						" . $this->_sql_review_count_string() . "
-		" . $this->_sql_join_string() . "
-		LEFT JOIN " . $this->db->table("products_to_categories") . " p2c
-			ON (p.product_id = p2c.product_id)
-		WHERE p.status = '1' AND p.date_available <= NOW()
-				AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
-				AND p2c.category_id = '" . (int)$category_id . "'";
+	public function getProductsByCategoryId($category_id, $sort = 'p.sort_order', $order = 'ASC', $start = 0, $limit = 20)
+    {
+        $store_id = (int)$this->config->get('config_store_id');
+        $language_id = (int)$this->config->get('storefront_language_id');
+        $cache_key = 'product.listing.products_category.'.(int)$category_id.'.store_'.$store_id.'_sort_'.$sort.'_order_'.$order.'_start_'.$start.'_limit_'.$limit.'_lang_'.$language_id;
+        $cache = $this->cache->pull($cache_key);
+        if ($cache === false) {
 
-		$sort_data = array (
-				'pd.name'       => 'LCASE(pd.name)',
-				'p.sort_order'  => 'p.sort_order',
-				'p.price'       => 'final_price',
-				'special'       => 'final_price',
-				'rating'        => 'rating',
-				'date_modified' => 'p.date_modified',
-				'review'        => 'review'
-		);
+            $sql = "SELECT *,
+                            p.product_id,
+                            " . $this->_sql_final_price_string() . ",
+                            pd.name AS name, 
+                            pd.blurb,
+                            m.name AS manufacturer,
+                            ss.name AS stock,
+                            " . $this->_sql_avg_rating_string() . ",
+                            " . $this->_sql_review_count_string() . "
+            " . $this->_sql_join_string() . "
+            LEFT JOIN " . $this->db->table("products_to_categories") . " p2c
+                ON (p.product_id = p2c.product_id)
+            WHERE p.status = '1' AND p.date_available <= NOW()
+                    AND p2s.store_id = '" . $store_id . "'
+                    AND p2c.category_id = '" . (int)$category_id . "'";
 
-		if (isset($sort) && in_array($sort, array_keys($sort_data))){
-			$sql .= " ORDER BY " . $sort_data[$sort];
-		} else{
-			$sql .= " ORDER BY p.sort_order";
-		}
+            $sort_data = array(
+                'pd.name' => 'LCASE(pd.name)',
+                'p.sort_order' => 'p.sort_order',
+                'p.price' => 'final_price',
+                'special' => 'final_price',
+                'rating' => 'rating',
+                'date_modified' => 'p.date_modified',
+                'review' => 'review'
+            );
 
-		if ($order == 'DESC'){
-			$sql .= " DESC";
-		} else{
-			$sql .= " ASC";
-		}
+            if (isset($sort) && in_array($sort, array_keys($sort_data))) {
+                $sql .= " ORDER BY " . $sort_data[$sort];
+            } else {
+                $sql .= " ORDER BY p.sort_order";
+            }
 
-		if ($start < 0){
-			$start = 0;
-		}
+            if ($order == 'DESC') {
+                $sql .= " DESC";
+            } else {
+                $sql .= " ASC";
+            }
 
-		$sql .= " LIMIT " . (int)$start . "," . (int)$limit;
-		$query = $this->db->query($sql);
+            if ($start < 0) {
+                $start = 0;
+            }
 
-		return $query->rows;
-	}
+            $sql .= " LIMIT " . (int)$start . "," . (int)$limit;
+            $query = $this->db->query($sql);
+
+            $cache = $query->rows;
+            $this->cache->push($cache_key, $cache);
+        }
+
+        return $cache;
+    }
 
 	/**
 	 * @param int $category_id
 	 * @return int
 	 */
 	public function getTotalProductsByCategoryId($category_id = 0){
-		$query = $this->db->query("SELECT COUNT(*) AS total
+        $store_id = (int)$this->config->get('config_store_id');
+
+        $cache_key = 'product.listing.products_by_category.'.(int)$category_id.'.store_'.$store_id;
+        $cache = $this->cache->pull($cache_key);
+        if ($cache === false) {
+		    $query = $this->db->query("SELECT COUNT(*) AS total
 									FROM " . $this->db->table("products_to_categories") . " p2c
 									LEFT JOIN " . $this->db->table("products") . " p ON (p2c.product_id = p.product_id)
 									LEFT JOIN " . $this->db->table("products_to_stores") . " p2s ON (p.product_id = p2s.product_id)
-									WHERE p.status = '1' AND p.date_available <= NOW()
-										AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
-										AND p2c.category_id = '" . (int)$category_id . "'");
+									WHERE 
+									    p2c.category_id = '" . (int)$category_id . "'
+									    AND p.status = '1'
+									    AND p.date_available <= NOW()
+										AND p2s.store_id = '" . $store_id . "'"
+            );
 
-		return $query->row['total'];
+            $cache = $query->row['total'];
+            $this->cache->push($cache_key, $cache);
+        }
+
+        return $cache;
 	}
+
 
 	/**
 	 * @param int $manufacturer_id
@@ -851,6 +875,7 @@ class ModelCatalogProduct extends Model{
 	}
 
 	/**
+	 * Update view count. Do not update modification date. See lat
 	 * @param int $product_id
 	 * @return null
 	 */
@@ -858,8 +883,10 @@ class ModelCatalogProduct extends Model{
 		if (empty($product_id)){
 			return false;
 		}
+
 		$this->db->query("UPDATE " . $this->db->table("products") . "
-						  SET viewed = viewed + 1
+						  SET viewed = viewed + 1,
+						      date_modified = date_modified 
 						  WHERE product_id = '" . (int)$product_id . "'");
 		return true;
 	}
@@ -943,6 +970,26 @@ class ModelCatalogProduct extends Model{
 
 		return $result;
 	}
+
+    /**
+     * Quick check if there are any options for the product
+     *
+     * @param int $product_id
+     * @return boolean
+     */
+    public function hasAnyOptions($product_id){
+        if (!(int)$product_id) {
+            return null;
+        }
+        $query = $this->db->query(
+            "SELECT count(*) as total FROM " . $this->db->table("product_options") . " WHERE product_id = '" . (int)$product_id . "'"
+        );
+        if($query->row['total'] > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 	/**
 	 * @param int $product_id
@@ -1290,7 +1337,10 @@ class ModelCatalogProduct extends Model{
 
 	public function getProductsAllInfo($products = array ()){
 		if (!$products) return false;
-
+		foreach($products as &$id){
+			$id = (int)$id;
+		}
+		
 		//special prices
 		if ($this->customer->isLogged()){
 			$customer_group_id = (int)$this->customer->getCustomerGroupId();

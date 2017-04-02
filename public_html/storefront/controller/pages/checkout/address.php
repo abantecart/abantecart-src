@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -82,39 +82,38 @@ class ControllerPagesCheckoutAddress extends AController{
 				));
 
 		$this->loadModel('account/address');
+        if ($this->request->is_POST() &&  $this->csrftoken->isTokenValid()){
+            if (isset($this->request->post['address_id'])){
+                $this->session->data['shipping_address_id'] = $this->request->post['address_id'];
 
-		if ($this->request->is_POST() && isset($this->request->post['address_id'])){
-			$this->session->data['shipping_address_id'] = $this->request->post['address_id'];
+                unset($this->session->data['shipping_methods']);
+                unset($this->session->data['shipping_method']);
 
-			unset($this->session->data['shipping_methods']);
-			unset($this->session->data['shipping_method']);
+                if ($this->cart->hasShipping()){
+                    $address_info = $this->model_account_address->getAddress($this->request->post['address_id']);
 
-			if ($this->cart->hasShipping()){
-				$address_info = $this->model_account_address->getAddress($this->request->post['address_id']);
+                    if ($address_info){
+                        $this->tax->setZone($address_info['country_id'], $address_info['zone_id']);
+                    }
+                }
+                unset($this->session->data['shipping_methods'], $this->session->data['shipping_method']);
+                $this->extensions->hk_ProcessData($this);
+                $this->redirect($this->html->getSecureURL('checkout/shipping'));
+            }
 
-				if ($address_info){
-					$this->tax->setZone($address_info['country_id'], $address_info['zone_id']);
-				}
-			}
-			unset($this->session->data['shipping_methods'], $this->session->data['shipping_method']);
-			$this->extensions->hk_ProcessData($this);
-			$this->redirect($this->html->getSecureURL('checkout/shipping'));
-		}
+            $this->error = $this->model_account_address->validateAddressData($this->request->post);
+            if (!$this->error){
+                $this->session->data['shipping_address_id'] = $this->model_account_address->addAddress($this->request->post);
 
-		if ($this->request->is_POST()){
-			$this->error = $this->model_account_address->validateAddressData($this->request->post);
-			if (!$this->error){
-				$this->session->data['shipping_address_id'] = $this->model_account_address->addAddress($this->request->post);
+                unset($this->session->data['shipping_methods'], $this->session->data['shipping_method']);
 
-				unset($this->session->data['shipping_methods'], $this->session->data['shipping_method']);
-
-				if ($this->cart->hasShipping()){
-					$this->tax->setZone($this->request->post['country_id'], $this->request->post['zone_id']);
-				}
-				$this->extensions->hk_ProcessData($this);
-				$this->redirect($this->html->getSecureURL('checkout/shipping'));
-			}
-		}
+                if ($this->cart->hasShipping()){
+                    $this->tax->setZone($this->request->post['country_id'], $this->request->post['zone_id']);
+                }
+                $this->extensions->hk_ProcessData($this);
+                $this->redirect($this->html->getSecureURL('checkout/shipping'));
+            }
+        }
 
 		$this->_getForm('shipping');
 
@@ -185,26 +184,26 @@ class ControllerPagesCheckoutAddress extends AController{
 
 		$this->loadModel('account/address');
 
-		if ($this->request->is_POST() && isset($this->request->post['address_id'])){
-			$this->session->data['payment_address_id'] = $this->request->post['address_id'];
+        if ($this->request->is_POST() &&  $this->csrftoken->isTokenValid()) {
+            if (isset($this->request->post['address_id'])){
+                $this->session->data['payment_address_id'] = $this->request->post['address_id'];
 
-			unset($this->session->data['payment_methods']);
-			unset($this->session->data['payment_method']);
-			$this->extensions->hk_ProcessData($this);
-			$this->redirect($this->html->getSecureURL('checkout/payment'));
-		}
+                unset($this->session->data['payment_methods']);
+                unset($this->session->data['payment_method']);
+                $this->extensions->hk_ProcessData($this);
+                $this->redirect($this->html->getSecureURL('checkout/payment'));
+            }
 
-		if ($this->request->is_POST()){
-			$this->error = $this->model_account_address->validateAddressData($this->request->post);
-			if (!$this->error){
-				$this->session->data['payment_address_id'] = $this->model_account_address->addAddress($this->request->post);
+            $this->error = $this->model_account_address->validateAddressData($this->request->post);
+            if (!$this->error){
+                $this->session->data['payment_address_id'] = $this->model_account_address->addAddress($this->request->post);
 
-				unset($this->session->data['payment_methods']);
-				unset($this->session->data['payment_method']);
-				$this->extensions->hk_ProcessData($this);
-				$this->redirect($this->html->getSecureURL('checkout/payment'));
-			}
-		}
+                unset($this->session->data['payment_methods']);
+                unset($this->session->data['payment_method']);
+                $this->extensions->hk_ProcessData($this);
+                $this->redirect($this->html->getSecureURL('checkout/payment'));
+            }
+        }
 
 		$this->_getForm('payment');
 
@@ -228,10 +227,12 @@ class ControllerPagesCheckoutAddress extends AController{
 		$form->setForm(array ('form_name' => 'address_1'));
 		$this->data['form0']['form_open'] = $form->getFieldHtml(
 				array (
-						'type'   => 'form',
-						'name'   => 'address_1',
-						'action' => $this->html->getSecureURL('checkout/address/' . $type
-						)));
+                    'type'   => 'form',
+                    'name'   => 'address_1',
+                    'action' => $this->html->getSecureURL('checkout/address/' . $type),
+                    'csrf' => true
+                )
+        );
 
 		$addresses = array ();
 		$results = $this->model_account_address->getAddresses();
@@ -263,9 +264,12 @@ class ControllerPagesCheckoutAddress extends AController{
 		$form->setForm(array ('form_name' => 'Address2Frm'));
 		$this->data['form']['form_open'] = $form->getFieldHtml(
 				array (
-						'type'   => 'form',
-						'name'   => 'Address2Frm',
-						'action' => $this->html->getSecureURL('checkout/address/' . $type)));
+                    'type'   => 'form',
+                    'name'   => 'Address2Frm',
+                    'action' => $this->html->getSecureURL('checkout/address/' . $type),
+                    'csrf' => true
+                )
+        );
 
 		$this->data['form']['firstname'] = $form->getFieldHtml(array (
 				'type'     => 'input',

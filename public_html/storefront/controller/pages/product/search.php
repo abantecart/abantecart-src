@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -247,9 +247,9 @@ class ControllerPagesProductSearch extends AController {
 								$special = $this->currency->format($this->tax->calculate($special, $result['tax_class_id'], $this->config->get('config_tax')));
 							}					
 						}
-						
-						$options = $this->model_catalog_product->getProductOptions($result['product_id']);
-						if ($options) {
+
+                        $options = $this->model_catalog_product->getProductOptions($result['product_id']);
+                        if ($options) {
 							$add = $this->html->getSEOURL('product/product','&product_id=' . $result['product_id'], '&encode');
 						} else {
 	                        if($this->config->get('config_cart_ajax')){
@@ -272,7 +272,7 @@ class ControllerPagesProductSearch extends AController {
 				    			$in_stock = true;
 			    			}
 						}
-						
+
 						$products[] = array(
 							'product_id' => $result['product_id'],
 	            			'name'    => $result['name'],
@@ -282,8 +282,9 @@ class ControllerPagesProductSearch extends AController {
 							'stars'   => sprintf($this->language->get('text_stars'), $rating),
 	            			'thumb'   => $thumbnail,
 	            			'price'   => $price,
+                            'raw_price' => $result['price'],
 							'call_to_order'=> $result['call_to_order'],
-	            			'options' => $options,
+                            'options' => $options,
 							'special' => $special,
 							'href'    => $this->html->getSEOURL('product/product','&keyword=' . $request['keyword'] . $url . '&product_id=' . $result['product_id'], '&encode'),
 							'add'	  => $add,
@@ -292,6 +293,7 @@ class ControllerPagesProductSearch extends AController {
 							'in_stock'		=> $in_stock,
 							'no_stock_text' => $no_stock_text,
 							'total_quantity'=> $total_quantity,
+							'tax_class_id'  => $result['tax_class_id']
 	          			);
 	        		}
 				}
@@ -388,15 +390,15 @@ class ControllerPagesProductSearch extends AController {
 				);
 
                 $this->data['sorts'] = $sorts;
-				$options = array();
+                $sort_options = array();
 				foreach($sorts as $item){
-					$options[$item['value']] = $item['text'];
+                    $sort_options[$item['value']] = $item['text'];
 				}
 
 				$sorting = $this->html->buildElement( array (
 												 'type' => 'selectbox',
 		                                         'name' => 'sort',
-			                                     'options'=> $options,
+			                                     'options'=> $sort_options,
 			                                     'value'=> $sort.'-'.$order
 		                                         ) );
 

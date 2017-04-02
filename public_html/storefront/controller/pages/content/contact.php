@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -85,6 +85,15 @@ class ControllerPagesContentContact extends AController{
 			//allow to change email data from extensions
 			$this->extensions->hk_ProcessData($this, 'sf_contact_us_mail');
 
+			$text_body = strip_tags(html_entity_decode($this->data['mail_plain_text'], ENT_QUOTES, 'UTF-8'));
+			if($this->config->get('config_duplicate_contact_us_to_message')){
+				$this->messages->saveNotice(
+						sprintf($this->language->get('entry_duplicate_message_subject'),$post_data['first_name'], $post_data['email']),
+						$text_body,
+						false
+				);
+			}
+
 			$view = new AView($this->registry,0);
 			$view->batchAssign($this->data['mail_template_data']);
 			$html_body = $view->fetch($this->data['mail_template']);
@@ -95,7 +104,7 @@ class ControllerPagesContentContact extends AController{
 			$mail->setSender($post_data['first_name']);
 			$mail->setSubject($subject);
 			$mail->setHtml($html_body);
-			$mail->setText(strip_tags(html_entity_decode($this->data['mail_plain_text'], ENT_QUOTES, 'UTF-8')));
+			$mail->setText($text_body);
 			$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_logo'), $store_logo);
 			$mail->send();
 
@@ -119,7 +128,7 @@ class ControllerPagesContentContact extends AController{
 			$this->im->send('customer_contact', $message_arr);
 
 			$this->extensions->hk_ProcessData($this);
-			$this->redirect($success_url);
+			redirect($success_url);
 		}
 
 		if ($this->request->is_POST()){

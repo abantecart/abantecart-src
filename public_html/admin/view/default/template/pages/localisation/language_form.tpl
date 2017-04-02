@@ -100,10 +100,13 @@
 		</div>
 			<?php }  ?><!-- <div class="fieldset"> -->
 		<div role="alert" class="alert alert-warning fade in">
-		      <strong><?php echo $load_language_note; ?></strong>
+			<i class="fa fa fa-exclamation-triangle fa-fw"></i> <strong><?php echo $load_language_note; ?></strong>
 		</div>
+		<?php if($override_text_note){ ?>
+			<div class="info alert alert-warning"><i class="fa fa fa-exclamation-triangle fa-fw"></i> <?php echo $override_text_note; ?></div>
+		<?php } ?>
 	</div>
-	
+
 	<div class="panel-footer col-xs-12">
 		<div class="text-center">
 		  <button class="btn btn-primary task_run"
@@ -130,6 +133,20 @@
 			}
 		});
 	}
+
+	//Language locale
+	$('#languageFrm_locale').on('focus', function () {
+		if ($(this).val().length > 0) {
+			return null;
+		}
+		var code = $('#languageFrm_code').val().toLowerCase();
+		var upper_code = code.toUpperCase();
+		if (code.length == 0) {
+			return null;
+		}
+		var locale = code+'_'+upper_code+'.UTF-8,'+code+'_'+upper_code+','+code+'-'+code+','+$('#languageFrm_name').val().toLowerCase().replace('default_', '');
+		$(this).val(locale);
+	});
 
 	$(document).on('click', 'a.restart_task', function(){
 		$('#incomplete_tasks_modal').modal('hide');

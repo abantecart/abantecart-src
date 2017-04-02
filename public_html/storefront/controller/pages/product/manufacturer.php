@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -158,9 +158,7 @@ class ControllerPagesProductManufacturer extends AController {
 						}						
 					}
 					
-					$options = $products_info[$result['product_id']]['options'];
-					
-					if ($options) {
+					if ($products_info[$result['product_id']]['options']) {
 						$add = $this->html->getSEOURL('product/product', '&product_id=' . $result['product_id'], '&encode');
 					} else {
                         if($this->config->get('config_cart_ajax')){
@@ -193,8 +191,9 @@ class ControllerPagesProductManufacturer extends AController {
 						'stars'   => sprintf($this->language->get('text_stars'), $rating),            			
 						'thumb'   => $thumbnail,
             			'price'   => $price,
+                        'raw_price'     => $result['price'],
 						'call_to_order'=> $result['call_to_order'],
-            			'options' => $options,
+            			'options' => $products_info[$result['product_id']]['options'],
 						'special' => $special,
 						'href'    => $this->html->getSEOURL('product/product','&manufacturer_id=' . $request['manufacturer_id'] . '&product_id=' . $result['product_id'], '&encode'),
 						'add'	  => $add,
@@ -203,6 +202,7 @@ class ControllerPagesProductManufacturer extends AController {
 						'in_stock'		=> $in_stock,
 						'no_stock_text' => $no_stock_text,
 						'total_quantity'=> $total_quantity,
+						'tax_class_id'  => $result['tax_class_id']
           			);
         		}
 				$this->data['products'] = $products;
@@ -280,13 +280,13 @@ class ControllerPagesProductManufacturer extends AController {
 					'value' => 'date_modified-ASC',
 					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $request['manufacturer_id'] . '&sort=date_modified&order=ASC', '&encode')
 				);
-				$options = array();
+                $sort_options = array();
 				foreach($sorts as $item){
-					$options[$item['value']] = $item['text'];
+                    $sort_options[$item['value']] = $item['text'];
 				}
 				$sorting = $this->html->buildSelectbox( array (
 													 'name' => 'sort',
-													 'options'=> $options,
+													 'options'=> $sort_options,
 													 'value'=> $sort.'-'.$order
 													 ) );
 				$this->view->assign( 'sorting', $sorting );

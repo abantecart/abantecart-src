@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -32,20 +32,28 @@ class ModelCatalogCategory extends Model {
 	 * @return array
 	 */
 	public function getCategory($category_id) {
-		$language_id = (int)$this->config->get('storefront_language_id');
-		$query = $this->db->query("SELECT DISTINCT *,
+        $store_id = (int)$this->config->get('config_store_id');
+        $language_id = (int)$this->config->get('storefront_language_id');
+
+        $cache_key = 'product.listing.category.'.(int)$category_id.'.store_'.$store_id.'_lang_'.$language_id;
+        $cache = $this->cache->pull($cache_key);
+        if ($cache === false) {
+		    $query = $this->db->query("SELECT DISTINCT *,
 										(SELECT COUNT(p2c.product_id) as cnt
 										 FROM ".$this->db->table('products_to_categories')." p2c
-										 INNER JOIN " . $this->db->table('products')." p ON p.product_id = p2c.product_id
-										 WHERE p.status = '1' AND p2c.category_id = c.category_id) as products_count
+										 INNER JOIN " . $this->db->table('products')." p ON p.product_id = p2c.product_id AND p.status = '1'
+										 WHERE  p2c.category_id = c.category_id) as products_count
 									FROM " . $this->db->table("categories") . " c
 									LEFT JOIN " . $this->db->table("category_descriptions") . " cd ON (c.category_id = cd.category_id AND cd.language_id = '" . $language_id . "')
 									LEFT JOIN " . $this->db->table("categories_to_stores") . " c2s ON (c.category_id = c2s.category_id)
 									WHERE c.category_id = '" . (int)$category_id . "'
-										AND c2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
+										AND c2s.store_id = '" . $store_id . "'
 										AND c.status = '1'");
-		
-		return $query->row;
+            $cache = $query->row;
+            $this->cache->push($cache_key, $cache);
+        }
+
+        return $cache;
 	}
 
 	/**
@@ -56,15 +64,11 @@ class ModelCatalogCategory extends Model {
 	public function getCategories($parent_id = 0, $limit = 0) {
 		$language_id = (int)$this->config->get('storefront_language_id');
 		$store_id = (int)$this->config->get('config_store_id');
-		$cache_key = 'category.list.'. $parent_id.'.'.$limit.'.store_'.$store_id.'_lang_'.$language_id;
+		$cache_key = 'category.list.'. $parent_id.'.store_'.$store_id.'_limit_'.$limit.'_lang_'.$language_id;
 		$cache = $this->cache->pull($cache_key);
 
 		if($cache === false){
-			$query = $this->db->query("SELECT *, 
-										(	SELECT count(*)
-						  					FROM ".$this->db->table('products_to_categories')." p2c
-						  					INNER JOIN " . $this->db->table('products')." p ON p.product_id = p2c.product_id
-						  					WHERE p2c.category_id = c.category_id AND p.status = '1') as product_count
+			$query = $this->db->query("SELECT *
 										FROM " . $this->db->table("categories") . " c
 										LEFT JOIN " . $this->db->table("category_descriptions") . " cd ON (c.category_id = cd.category_id AND cd.language_id = '" . $language_id . "')
 										LEFT JOIN " . $this->db->table("categories_to_stores") . " c2s ON (c.category_id = c2s.category_id)
@@ -72,7 +76,28 @@ class ModelCatalogCategory extends Model {
 										     c2s.store_id = '" . $store_id . "' AND c.status = '1'
 										ORDER BY c.sort_order, LCASE(cd.name)
 										".((int)$limit ? "LIMIT ".(int)$limit : '')." ");
-			$cache =  $query->rows;
+			$cache = $query->rows;
+            //optimized selection of product counts.
+            $category_ids = array();
+            foreach($cache as $row) {
+                $category_ids[] = $row['category_id'];
+            }
+            if(count($category_ids)) {
+                $query = $this->db->query("SELECT p2c.category_id as category_id, count(*) as product_count
+						  			    FROM ".$this->db->table('products_to_categories')." p2c
+						  				INNER JOIN " . $this->db->table('products')." p ON p.product_id = p2c.product_id
+						  				WHERE p2c.category_id in (" . implode(",", $category_ids) . ") AND p.status = '1' GROUP BY p2c.category_id
+						  			  ");
+
+                foreach($query->rows as $row) {
+                    foreach($cache as $i => $categ) {
+                        if($row['category_id'] == $categ['category_id']) {
+                            $cache[$i]['product_count'] = $row['product_count'];
+                        }
+                    }
+                }
+            }
+
 			$this->cache->push($cache_key, $cache);
 		}
 		return $cache;
@@ -323,8 +348,8 @@ class ModelCatalogCategory extends Model {
 				LEFT JOIN " . $this->db->table('manufacturers') . " m ON p.manufacturer_id = m.manufacturer_id
 				WHERE p.product_id IN (SELECT DISTINCT p2c.product_id
 									   FROM " . $this->db->table('products_to_categories') . " p2c
-									   INNER JOIN " . $this->db->table('products') . " p ON p.product_id = p2c.product_id
-									   WHERE p.status = '1' AND p2c.category_id IN (" . implode(', ', $categories) . "));";
+									   INNER JOIN " . $this->db->table('products') . " p ON p.product_id = p2c.product_id AND p.status = '1'
+									   WHERE p2c.category_id IN (" . implode(', ', $categories) . "));";
 			$query = $this->db->query($sql);
 			$output = $query->rows;
 		}else{

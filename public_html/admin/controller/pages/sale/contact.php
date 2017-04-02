@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -272,12 +272,15 @@ class ControllerPagesSaleContact extends AController {
 			));
 		}
 
+		$this->loadModel('setting/store');
+
 		$this->data['form']['fields']['message'] = $form->getFieldHtml(array(
 				'type' => ($this->data['protocol']=='email' ? 'texteditor' : 'textarea'),
 				'name' => 'message',
 				'value' => $this->data['message'],
 				'style' => 'ml_ckeditor',
-				'required' => true
+				'required' => true,
+				'base_url' => $this->model_setting_store->getStoreURL($this->data['store_id'])
 		));
 
 		//if email address given

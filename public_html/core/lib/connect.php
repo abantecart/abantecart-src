@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -357,7 +357,7 @@ final class AConnect{
 		if (!$this->curl_options){
 			$this->curl_options = Array (
 					CURLOPT_CONNECTTIMEOUT => $this->timeout,  //wait for connect
-					CURLOPT_TIMEOUT        => $this->timeout,  // timeout for open connection
+					CURLOPT_TIMEOUT        => !$headers_only ? $this->timeout : 1,  // timeout for open connection
 					CURLOPT_HTTPHEADER     => array ('Expect:'),
 					CURLOPT_MAXREDIRS      => 4,
 					CURLOPT_RETURNTRANSFER => true,

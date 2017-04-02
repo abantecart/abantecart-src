@@ -1,7 +1,7 @@
 <h4 class="heading4"><?php echo $text_credit_card; ?>:</h4>
 
-<form id="paypal" class="form-horizontal validate-creditcard">
-<?php echo $this->getHookVar('payment_table_pre'); ?>
+<?php echo $form_open; ?>
+	<?php echo $this->getHookVar('payment_table_pre'); ?>
 	<div class="form-group ">
 	    <label class="col-sm-4 control-label"><?php echo $entry_cc_owner; ?></label>
 	    <div class="col-sm-7 input-group">
@@ -85,7 +85,7 @@ jQuery(document).ready(function() {
 	function confirmSubmit() {		
 		$.ajax({
 			type: 'POST',
-			url: '<?php echo $this->html->getURL('extension/default_pp_pro/send'); ?>',
+			url: '<?php echo $action; ?>',
 			data: $('#paypal :input'),
 			dataType: 'json',		
 			beforeSend: function() {

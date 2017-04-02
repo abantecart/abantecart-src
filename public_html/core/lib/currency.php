@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -154,19 +154,18 @@ final class ACurrency{
 	/**
 	 * Format total number part and/or currency symbol based on original price and quantity
 	 * @param float $price
-	 * @param float $qtty
+	 * @param float $qty
 	 * @param string $currency
 	 * @param string $crr_value
-	 * @param bool $format
 	 * @return string
 	 */
-	public function format_total($price, $qtty, $currency = '', $crr_value = '', $format = true){
-		if(!is_numeric($price) || !is_numeric($qtty)) {
+	public function format_total($price, $qty, $currency = '', $crr_value = ''){
+		if(!is_numeric($price) || !is_numeric($qty)) {
 			return '';
 		}
 
-		$total = $this->format_number($price, $currency, $crr_value) * $qtty;
-		return $this->wrap_dysplay_format($total, $currency);;		
+		$total = $this->format_number($price, $currency, $crr_value) * $qty;
+		return $this->wrap_display_format($total, $currency);
 	}
 	
 	/**
@@ -175,7 +174,7 @@ final class ACurrency{
 	 * @param string $currency
 	 * @param string $crr_value
 	 * @param bool $format
-	 * @return string
+	 * @return string|float
 	 */
 	public function format($number, $currency = '', $crr_value = '', $format = true){
 		if (empty ($currency)){
@@ -193,9 +192,9 @@ final class ACurrency{
 		}
 
 		$decimal_place = (int)$this->currencies[$currency]['decimal_place'];
-		$formatted_number = '';
+
 		if ($format){
-			$formatted_number = $this->wrap_dysplay_format(round(abs($value), $decimal_place), $currency);
+			$formatted_number = $this->wrap_display_format(round(abs($value), $decimal_place), $currency);
 		} else{
 			$formatted_number = number_format(round(abs($value), $decimal_place), $decimal_place, '.', '');
 		}
@@ -208,14 +207,23 @@ final class ACurrency{
 	}
 
 	/**
-	 * Format number part and/or currency symbol
-	 * @param float $number
+	 * @deprecated since 1.2.10
+	 * @param $number
 	 * @param string $currency
-	 * @param string $crr_value
-	 * @param bool $format
 	 * @return string
 	 */
 	public function wrap_dysplay_format($number, $currency = ''){
+		return $this->wrap_display_format($number, $currency);
+	}
+
+	/**
+	 * Format number part and/or currency symbol
+	 * @param float $number
+	 * @param string $currency
+	 * @return string
+	 * @internal param bool $format
+	 */
+	public function wrap_display_format($number, $currency = ''){
 		if (empty ($currency)){
 			$currency = $this->code;
 		}

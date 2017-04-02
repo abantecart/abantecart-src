@@ -397,7 +397,10 @@ h1 a:hover, h2 a:hover, h3  a:hover {
 .headermenu .btn-group {
 	margin-bottom: 0;
 }
-
+.headermenu #language_form ul.dropdown-list img{
+	width: 16px;
+	height: 11px;
+}
 .dropdown-list li {
    padding: 10px;
    overflow: hidden;
@@ -3316,7 +3319,7 @@ body.stickyheader .sticky_left {
 }
 
 #task_modal .modal-body .progress-info{
-    padding: 5px;
+    padding: 10px 20px 5px 10px;
 }
 #task_modal .modal-body div.progress, #task_modal .modal-body div.progress-bar{
    height: 31px;
@@ -3331,28 +3334,26 @@ body.stickyheader .sticky_left {
     padding: 5px;
 }
 #task_modal .modal-body div.task_result_message{
-    overflow-y: auto;
     max-height: 450px;
-    border: 1px dashed;
+    padding-top: 20px;
 }
 #task_modal .modal-body div.task_result_message div{
     margin-top: 2px;
     padding: 5px;
 }
+#task_modal .modal-body a.details-button {
+    text-decoration: none;
+}
 #task_modal .modal-body a.details-button:after {
-    font-family: "FontAwesome";
+    font-family: FontAwesome;
     content: "\f066";
     font-size: 20px;
     font-weight: 400;
     position: relative;
-    height: 25px;
-    right: 5px;
-    bottom: 5px;
-    text-decoration: none;
 }
 #task_modal .modal-body a.details-button.collapsed:after {
+    font-family: FontAwesome;
     content: "\f065";
-    text-decoration: none;
 }
 
 .input-group-cell{

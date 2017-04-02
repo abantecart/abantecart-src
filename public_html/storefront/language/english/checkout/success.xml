@@ -44,4 +44,16 @@
 		<key>text_success</key>
 		<value><![CDATA[Success]]></value>
 	</definition>
+	<definition>
+		<key>text_message_failed_order</key>
+		<value><![CDATA[Oops! We have experienced some issue with your transaction. Your order will be verified manually by administrator.]]></value>
+	</definition>
+	<definition>
+		<key>text_title_failed_order_to_admin</key>
+		<value><![CDATA[Failed order #%s]]></value>
+	</definition>
+	<definition>
+		<key>text_message_failed_order_to_admin</key>
+		<value><![CDATA[Failed or missing response from payment verification. Manual verification is required!]]></value>
+	</definition>
 </definitions>

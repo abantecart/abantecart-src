@@ -10,7 +10,7 @@
 	</definition>
 	<definition>
 		<key>text_total</key>
-		<value><![CDATA[Учитывать в заказе]]></value>
+		<value><![CDATA[Итоги заказов]]></value>
 	</definition>
 	<definition>
 		<key>text_success</key>

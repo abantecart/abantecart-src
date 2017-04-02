@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -75,9 +75,12 @@ class ControllerPagesAccountPassword extends AController{
 		$form->setForm(array ('form_name' => 'PasswordFrm'));
 		$form_open = $form->getFieldHtml(
 				array (
-						'type'   => 'form',
-						'name'   => 'PasswordFrm',
-						'action' => $this->html->getSecureURL('account/password')));
+                    'type'   => 'form',
+                    'name'   => 'PasswordFrm',
+                    'action' => $this->html->getSecureURL('account/password'),
+                    'csrf' => true
+                )
+        );
 		$this->view->assign('form_open', $form_open);
 
 		$current_password = $form->getFieldHtml(
@@ -127,6 +130,11 @@ class ControllerPagesAccountPassword extends AController{
 
 	private function _validate(){
 		$post = $this->request->post;
+        if(!$this->csrftoken->isTokenValid()){
+            $this->error['warning'] = $this->language->get('error_unknown');
+            return false;
+        }
+
 		if (empty($post['current_password'])
 				|| !$this->customer->login($this->customer->getLoginName(), $post['current_password'])
 		){

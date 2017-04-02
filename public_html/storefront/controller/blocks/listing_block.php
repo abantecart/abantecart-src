@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -138,7 +138,8 @@ class ControllerBlocksListingBlock extends AController {
 								'image'   		=> $result['image'],
 								'href'    		=> $this->html->getSEOURL('product/product', '&product_id=' . $result['product_id'], '&encode'),
 								'add'    		=> $add_to_cart,
-								'item_name'		=> 'product'
+								'item_name'		=> 'product',
+								'tax_class_id'  => $result['tax_class_id']
 			);
 		}
 		$data_source= array(

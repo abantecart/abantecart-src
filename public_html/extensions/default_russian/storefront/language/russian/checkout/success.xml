@@ -44,4 +44,16 @@
 			<p>Пожалуйста, направляйте все вопросы <a href="%s">владелецу магазина</a>.</p>
 			<p>Спасибо за покупку!</p>]]></value>
 	</definition>
+	<definition>
+		<key>text_message_failed_order</key>
+		<value><![CDATA[К сожалению! Мы испытали некоторые проблемы с вашей сделки. Ваш заказ будет проверен вручную администратором.]]></value>
+	</definition>
+	<definition>
+		<key>text_title_failed_order_to_admin</key>
+		<value><![CDATA[Ошибка порядок # %s]]></value>
+	</definition>
+	<definition>
+		<key>text_message_failed_order_to_admin</key>
+		<value><![CDATA[Сбой или отсутствует ответ от подтверждения оплаты. Ручная проверка требуется!]]></value>
+	</definition>
 </definitions>

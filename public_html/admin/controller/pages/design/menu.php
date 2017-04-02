@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -24,7 +24,15 @@ if(!defined('DIR_CORE') || !IS_ADMIN){
 class ControllerPagesDesignMenu extends AController{
 	public $data = array();
 	public $error = array();
-	private $columns = array('item_id', 'item_icon', 'item_icon_rl_id', 'item_text', 'item_url', 'parent_id', 'sort_order');
+	private $columns = array(
+			'item_id',
+			'item_icon',
+			'item_icon_rl_id',
+			'item_text',
+			'item_url',
+			'parent_id',
+			'sort_order'
+	);
 	/**
 	 * @var AMenu_Storefront
 	 */
@@ -157,13 +165,12 @@ class ControllerPagesDesignMenu extends AController{
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
-
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->menu = new AMenu_Storefront();
 		$language_id = $this->language->getContentLanguageID();
 
-		if($this->request->is_POST() && $this->_validateForm()){
+		if($this->request->is_POST() && $this->_validateForm($this->request->post)){
 			$post = $this->request->post;
 			$languages = $this->language->getAvailableLanguages();
 			foreach($languages as $l){
@@ -174,9 +181,9 @@ class ControllerPagesDesignMenu extends AController{
 			}
 
 			$post['item_icon'] = html_entity_decode($post['item_icon'], ENT_COMPAT, 'UTF-8');
-			$textid = preformatTextID($post['item_id']);
+			$text_id = preformatTextID($post['item_id']);
 			$result = $this->menu->insertMenuItem(array(
-					'item_id'         => $textid,
+					'item_id'         => $text_id,
 					'item_icon'       => $post['item_icon'],
 					'item_icon_rl_id' => $post['item_icon_resource_id'],
 					'item_text'       => $post['item_text'],
@@ -190,7 +197,7 @@ class ControllerPagesDesignMenu extends AController{
 				$this->error['warning'] = $result;
 			} else{
 				$this->session->data['success'] = $this->language->get('text_success');
-				$this->redirect($this->html->getSecureURL('design/menu/update', '&item_id=' . $textid));
+				redirect($this->html->getSecureURL('design/menu/update', '&item_id=' . $text_id));
 			}
 		}
 
@@ -214,7 +221,7 @@ class ControllerPagesDesignMenu extends AController{
 			unset($this->session->data['success']);
 		}
 
-		if(($this->request->is_POST()) && $this->_validateForm()){
+		if(($this->request->is_POST()) && $this->_validateForm($this->request->post)){
 			$post = $this->request->post;
 			if(isset ($post['item_icon'])){
 				$post['item_icon'] = html_entity_decode($post['item_icon'], ENT_COMPAT, 'UTF-8');
@@ -249,11 +256,10 @@ class ControllerPagesDesignMenu extends AController{
 
 				// set condition for updating row
 				$this->menu->updateMenuItem($item_id, $update_item);
-
 			}
 
 			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect($this->html->getSecureURL('design/menu/update', '&item_id=' . $item_id));
+			redirect($this->html->getSecureURL('design/menu/update', '&item_id=' . $item_id));
 		}
 
 		$this->_getForm();
@@ -315,7 +321,7 @@ class ControllerPagesDesignMenu extends AController{
 			$this->data['action'] = $this->html->getSecureURL('design/menu/insert');
 			$this->data['heading_title'] = $this->language->get('text_insert') . '&nbsp;' . $this->language->get('heading_title');
 			$this->data['update'] = '';
-			$form = new AForm ('ST');
+			$form = new AForm ('HT');
 		} else{
 			//get menu item details
 			$this->data = array_merge($this->data, $this->menu->getMenuItem($item_id));
@@ -371,14 +377,67 @@ class ControllerPagesDesignMenu extends AController{
 						'style'    => 'large-field',
 						'multilingual' => true,
 				));
+
+		$this->data['link_types'] = array(
+									'category' => $this->language->get('text_category_link_type'),
+									'content' => $this->language->get('text_content_link_type'),
+									'custom' => $this->language->get('text_custom_link_type'));
+
+		$this->data['link_type'] = $this->html->buildElement(
+				array(
+						'type'    => 'selectbox',
+						'name'    => 'link_type',
+						'options' => $this->data['link_types'],
+						'value'   => '',
+						'style'   => 'no-save short-field',
+		));
+
 		$this->data['form']['fields']['item_url'] = $form->getFieldHtml(
 				array(
 						'type'     => 'input',
 						'name'     => 'item_url',
 						'value'    => $this->data['item_url'],
 						'style'    => 'large-field',
+						'required' => true,
 						'help_url' => $this->gen_help_url('item_url'),
 				));
+
+		$this->loadModel('catalog/category');
+		$categories = $this->model_catalog_category->getCategories(0);
+		$options = array('' => $this->language->get('text_select'));
+		foreach($categories as $c){
+			if(!$c['status']){
+				continue;
+			}
+			$options[$c['category_id']] = $c['name'];
+		}
+		$this->data['link_category'] = $this->html->buildElement(
+				array(
+						'type'    => 'selectbox',
+						'name'    => 'menu_categories',
+						'options' => $options,
+						'style'   => 'no-save short-field',
+				));
+
+		$acm = new AContentManager();
+		$results = $acm->getContents();
+		$options = array('' => $this->language->get('text_select'));
+		foreach($results as $c){
+			if(!$c['status']){
+				continue;
+			}
+			$options[$c['content_id']] = $c['title'];
+		}
+
+		$this->data['link_content'] = $this->html->buildElement(
+				array(
+						'type'    => 'selectbox',
+						'name'    => 'menu_information',
+						'options' => $options,
+						'style'   => 'no-save short-field',
+				)
+		);
+
 		$this->data['form']['fields']['parent_id'] = $form->getFieldHtml(
 				array(
 						'type'    => 'selectbox',
@@ -415,49 +474,6 @@ class ControllerPagesDesignMenu extends AController{
 		);
 		$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
 
-		$this->loadModel('catalog/category');
-		$categories = $this->model_catalog_category->getCategories(0);
-		$options = array('' => $this->language->get('text_select'));
-		foreach($categories as $c){
-			if(!$c['status']){
-				continue;
-			}
-			$options[$c['category_id']] = $c['name'];
-		}
-		$this->data['form']['fields']['link_category'] = $this->html->buildElement(
-				array(
-						'type'    => 'selectbox',
-						'name'    => 'menu_categories',
-						'options' => $options,
-						'style'   => 'no-save large-field',
-				));
-
-		$acm = new AContentManager();
-		$results = $acm->getContents();
-		$options = array('' => $this->language->get('text_select'));
-		foreach($results as $c){
-			if(!$c['status']){
-				continue;
-			}
-			$options[$c['content_id']] = $c['title'];
-		}
-
-		$this->data['form']['fields']['link_page'] = $this->html->buildElement(
-				array(
-						'type'    => 'selectbox',
-						'name'    => 'menu_information',
-						'options' => $options,
-						'style'   => 'no-save large-field',
-				));
-
-		$this->data['button_link'] = $this->html->buildElement(
-				array(
-						'type' => 'button',
-						'name' => 'submit',
-						'text' => $this->language->get('text_link')
-				));
-
-
 		$this->view->batchAssign($this->language->getASet());
 		$this->view->batchAssign($this->data);
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
@@ -465,7 +481,7 @@ class ControllerPagesDesignMenu extends AController{
 		$this->processTemplate('pages/design/menu_form.tpl');
 	}
 
-	private function _buildMenuTree( $parent = '', $level = 0 ) {
+	protected function _buildMenuTree( $parent = '', $level = 0 ) {
 		if ( empty($this->menu_items[$parent]) ) return array();
 		$lang_id = (int)$this->language->getContentLanguageID();
 		foreach ( $this->menu_items[$parent] as $item ) {
@@ -476,14 +492,13 @@ class ControllerPagesDesignMenu extends AController{
 			);
 			$this->_buildMenuTree( $item['item_id'], $level+1 );
 		}
+		return true;
 	}
 
-	private function _validateForm(){
+	protected function _validateForm($post){
 		if(!$this->user->canModify('design/menu')){
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
-
-		$post = $this->request->post;
 
 		if(!empty($post['item_id'])){
 			$ids = $this->menu->getItemIds();
@@ -499,6 +514,9 @@ class ControllerPagesDesignMenu extends AController{
 
 		if(empty ($post['item_text'][$this->language->getContentLanguageID()])){
 			$this->error['item_text'] = $this->language->get('error_empty');
+		}
+		if(empty ($post['item_url'])){
+			$this->error['item_url'] = $this->language->get('error_empty');
 		}
 
 		$this->extensions->hk_ValidateData($this);

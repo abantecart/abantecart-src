@@ -1,6 +1,7 @@
 <h4 class="heading4"><?php echo $text_credit_card; ?>:</h4>
 
-<form id="cashflows" class="form-horizontal validate-creditcard">
+<?php echo $form_open; ?>
+
 <?php echo $this->getHookVar('payment_table_pre'); ?>
 	<div class="form-group form-inline">
 	    <label class="col-sm-4 control-label"><?php echo $entry_cc_number; ?></label>
@@ -82,7 +83,7 @@ jQuery(document).ready(function() {
 	function confirmSubmit() {
 		$.ajax({
 			type: 'POST',
-			url: '<?php echo $this->html->getURL('extension/default_cashflows/send');?>',
+			url: '<?php echo $action ?>',
 			data: $('#cashflows :input'),
 			dataType: 'json',		
 			beforeSend: function() {

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -757,10 +757,11 @@ class ALanguageManager extends Alanguage{
 	 * @param string $src_text
 	 * @param string $dest_lang_code - two-letters language code (ISO 639-1)
 	 * @param string $translate_method (optional)
+	 * @param string $mode - can be 'safe' to return source string as translation
 	 * @return null
 	 * @throws AException
 	 */
-	public function translate($source_lang_code, $src_text, $dest_lang_code, $translate_method = ''){
+	public function translate($source_lang_code, $src_text, $dest_lang_code, $translate_method = '', $mode = 'safe'){
 		$this->registry->get('extensions')->hk_InitData($this, __FUNCTION__);
 
 		if (empty($source_lang_code) || empty($src_text) || empty($dest_lang_code)){
@@ -770,6 +771,7 @@ class ALanguageManager extends Alanguage{
 		if (empty($translate_method)){
 			$translate_method = $this->registry->get('config')->get('translate_method');
 		}
+		$result_txt = '';
 		$extensions = $this->registry->get('extensions')->getEnabledExtensions();
 		if (in_array($translate_method, $extensions)){
 			$ex_class = DIR_EXT . $translate_method . '/core/translator.php';
@@ -782,14 +784,16 @@ class ALanguageManager extends Alanguage{
 
 			$translate_driver = new translator($this->registry->get('config'));
 			$result_txt = $translate_driver->translate($source_lang_code, $src_text, $dest_lang_code);
-			//extension driver cannot respond the source text!
-			if (!$result_txt || $result_txt == $src_text){
-				$result_txt = null;
+			//fail over to default 'copy_source_text' method
+			if (!$result_txt && $mode == 'safe'){
+				$result_txt = $src_text;
 			}
 			ADebug::checkpoint("ALanguageManager: Translated text:" . $src_text . " from " . $source_lang_code . " to " . $dest_lang_code);
 		} else{
 			//fail over to default 'copy_source_text' method
-			$result_txt = (string)$src_text;
+			if($mode == 'safe' || $translate_method == 'copy_source_text'){
+				$result_txt = (string)$src_text;
+			}
 		}
 		$this->registry->get('extensions')->hk_UpdateData($this, __FUNCTION__);
 		return $result_txt;

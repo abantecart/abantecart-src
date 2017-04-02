@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -44,7 +44,7 @@ class ModelLocalisationStockStatus extends Model {
 	public function editStockStatus($stock_status_id, $data) {
 		foreach ($data['stock_status'] as $language_id => $value) {
 
-			$this->language->updateDescriptions('stock_statuses',
+			$this->language->replaceDescriptions('stock_statuses',
 												 array( 'stock_status_id' => (int)$stock_status_id,
 														'language_id' => (int)$language_id ),
 												 array($language_id => array(

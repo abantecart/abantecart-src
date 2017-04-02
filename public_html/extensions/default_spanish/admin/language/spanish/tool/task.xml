@@ -72,4 +72,16 @@
 		<key>text_completed</key>
 		<value><![CDATA[ Terminado ]]></value>
 	</definition>
+	<definition>
+		<key>text_task_not_found</key>
+		<value><![CDATA[Tarea no encontrado.]]></value>
+	</definition>
+	<definition>
+		<key>text_empty_task</key>
+		<value><![CDATA[Tarea no contiene pasos. Remoto.]]></value>
+	</definition>
+	<definition>
+		<key>text_forbidden_to_restart</key>
+		<value><![CDATA[Prohibida Para reiniciar!]]></value>
+	</definition>
 </definitions>

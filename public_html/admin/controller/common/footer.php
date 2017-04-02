@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -41,7 +41,7 @@ class ControllerCommonFooter extends AController {
 		$this->view->assign('recent_customers', $this->language->get('recent_customers'));
 
 		$this->view->assign('text_footer_left', sprintf($this->language->get('text_footer_left'), date('Y')));
-		$this->view->assign('text_footer', sprintf($this->language->get('text_footer'),date('Y')).VERSION);
+		$this->view->assign('text_footer', sprintf($this->language->get('text_footer'),date('Y')).' '.VERSION);
 		
 		if (!$this->user->isLogged() || !isset($this->request->get['token']) || !isset($this->session->data['token']) || ($this->request->get['token'] != $this->session->data['token'])) {
 			$this->view->assign('logged', '');

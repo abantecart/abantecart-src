@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -42,6 +42,7 @@ class ControllerPagesAccountLogout extends AController {
 			unset($this->session->data['merchant']);
             unset($this->session->data['used_balance']);
             unset($this->session->data['used_balance_full']);
+            unset($this->session->data['csrftoken']);
 
 		    if($this->config->get('config_tax_store')){
 				$country_id = $this->config->get('config_country_id');

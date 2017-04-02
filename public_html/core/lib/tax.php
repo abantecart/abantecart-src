@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -27,17 +27,19 @@ if (!defined('DIR_CORE')){
  * @property AConfig $config
  * @property ACache $cache
  * @property ADB $db
+ * @property ACustomer $customer
  */
-final class ATax{
-	private $taxes = array ();
+class ATax{
+	protected $taxes = array ();
 	/**
 	 * @var Registry
 	 */
-	private $registry;
+	protected $registry;
 	/**
 	 * @var ASession or customer's data
 	 */
-	private $customer_data;
+	protected $customer_data;
+	protected $customer_group_id;
 
 	/**
 	 * @param $registry Registry
@@ -65,6 +67,12 @@ final class ATax{
 			}
 		}
 		$this->setZone($country_id, $zone_id);
+
+		//if guest or registered customer non-exemption and tax rate without exemption mark
+		$this->customer_group_id = (int)$this->customer->getCustomerGroupId();
+		if(!$this->customer_group_id){
+			$this->customer_group_id = $this->config->get('config_customer_group_id');
+		}
 	}
 
 	public function __get($key){
@@ -88,6 +96,7 @@ final class ATax{
 		$this->taxes = array ();
 		foreach ($results as $result){
 			$this->taxes[$result['tax_class_id']][] = array (
+					'tax_class_id'        => $result['tax_class_id'],
 					'rate'                => $result['rate'],
 					'rate_prefix'         => $result['rate_prefix'],
 					'threshold_condition' => $result['threshold_condition'],
@@ -168,12 +177,19 @@ final class ATax{
 	 * @return float
 	 */
 	public function calculate($value, $tax_class_id, $calculate = true){
-		if (($calculate) && (isset($this->taxes[$tax_class_id]))){
+		if (!$this->customer->isTaxExempt() && ($calculate) && (isset($this->taxes[$tax_class_id]))){
 			return $value + $this->calcTotalTaxAmount($value, $tax_class_id);
 		} else{
 			//skip calculation
 			return $value;
 		}
+	}
+
+	protected function _is_tax_rate_exempt($tax_rate_info,$customer_group_id){
+		if(in_array($customer_group_id, (array)$tax_rate_info['tax_exempt_groups'])){
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -200,7 +216,10 @@ final class ATax{
 	 */
 	public function calcTaxAmount($amount, $tax_rate = array ()){
 		$tax_amount = 0.0;
-		if (!empty($tax_rate) && isset($tax_rate['rate'])){
+		if (!$this->customer->isTaxExempt()
+				&& !$this->_is_tax_rate_exempt($tax_rate,$this->customer_group_id)
+				&& !empty($tax_rate)
+				&& isset($tax_rate['rate'])){
 			//Validate tax class rules if condition present and see if applicable
 			if ($tax_rate['threshold_condition'] && is_numeric($tax_rate['threshold'])){
 				if (!$this->_compare($amount, $tax_rate['threshold'], $tax_rate['threshold_condition'])){

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -68,6 +68,7 @@ class ControllerApiProductCategory extends AControllerAPI {
 			                                     $this->config->get('config_image_category_width'),
 			                                     $this->config->get('config_image_category_height'));
 		//typo fix with backwards compatibility
+		//TODO: remove this in the future
 		$category_info['thumbnail'] = $category_info['tumbnail'] = $thumbnail['thumb_url'];
 
 		//Process data for category 

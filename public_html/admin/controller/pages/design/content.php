@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -425,7 +425,7 @@ class ControllerPagesDesignContent extends AController {
 		$store_values = $store_selected = array();
 		$store_values[0] = $this->language->get('text_default');
 
-		$stores = $this->acm->getContentStores($content_id);
+		$stores = $this->acm->getContentStores();
 
 		foreach ($stores as $store_id => $store) {
 			$store_values[$store_id] = trim(current($store));

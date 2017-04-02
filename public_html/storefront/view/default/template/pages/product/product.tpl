@@ -1,4 +1,9 @@
-<?php if ($error){ ?>
+<?php
+$tax_exempt = $this->customer->isTaxExempt();
+$config_tax = $this->config->get('config_tax');
+$tax_message = '';
+
+if ($error){ ?>
 	<div class="alert alert-error alert-danger">
 		<button type="button" class="close" data-dismiss="alert">&times;</button>
 		<strong><?php echo is_array($error) ? implode('<br>', $error) : $error; ?></strong>
@@ -9,26 +14,22 @@
 	<div class="row">
 		<!-- Left Image-->
 		<div class="col-md-6 text-center">
-
 			<ul class="thumbnails mainimage smallimage">
 				<?php if (sizeof($images) > 1){
-					foreach ($images as $image){ ?>
-						<li class="producthtumb">
-							<?php
-							if ($image['origin'] != 'external'){
-								?>
+					$add_w = $this->config->get('config_image_additional_width');
+					$add_h = $this->config->get('config_image_additional_height');
+					foreach ($images as $image){
+						?><li class="producthtumb"><?php
+							if ($image['origin'] != 'external'){?>
 								<a href="<?php echo $image['main_url']; ?>"
-								   data-standard="<?php echo $image['thumb2_url']; ?>">
-									<img src="<?php echo $image['thumb_url']; ?>" alt="<?php echo $image['title']; ?>"
-									     title="<?php echo $image['title']; ?>"/>
-								</a>
-							<?php } ?>
-						</li>
-						<?php
-					}
+								   data-standard="<?php echo $image['thumb2_url']; ?>"
+								><img style="width: <?php echo $add_w; ?>px; height: <?php echo $add_h; ?>px;"
+										src="<?php echo $image['thumb_url']; ?>" alt="<?php echo $image['title']; ?>"
+										title="<?php echo $image['title']; ?>"/></a>
+							<?php }
+						?></li><?php	}
 				} ?>
 			</ul>
-
 			<div class="hidden-xs hidden-sm mainimage bigimage easyzoom easyzoom--overlay easyzoom--with-thumbnails">
 				<?php if (sizeof($images) > 0){
 					//NOTE: ZOOM is not supported for embeded image tags
@@ -44,8 +45,7 @@
 						?>
 						<a class="local_image" href="<?php echo $image_url; ?>" target="_blank"
 						   title="<?php echo $image_main['title']; ?>">
-							<img width="<?php echo $this->config->get('config_image_thumb_width'); ?>"
-							     height="<?php echo $this->config->get('config_image_thumb_height'); ?>"
+							<img style="width: <?php echo $this->config->get('config_image_thumb_width'); ?>px;	height: <?php echo $this->config->get('config_image_thumb_height'); ?>px;"
 							     src="<?php echo $thumb_url; ?>"
 							     alt="<?php echo $image['title']; ?>"
 							     title="<?php echo $image['title']; ?>"/>
@@ -68,8 +68,7 @@
 						$thumb_url = $image_main['thumb_url'];
 						?>
 						<a class="local_image">
-							<img width="<?php echo $this->config->get('config_image_thumb_width'); ?>"
-							     height="<?php echo $this->config->get('config_image_thumb_height'); ?>"
+							<img style="width: <?php echo $this->config->get('config_image_thumb_width'); ?>px;	height: <?php echo $this->config->get('config_image_thumb_height'); ?>px;"
 							     src="<?php echo $thumb_url; ?>"
 							     alt="<?php echo $image['title']; ?>"
 							     title="<?php echo $image['title']; ?>"/>
@@ -88,18 +87,25 @@
 
 					<div class="productprice">
 						<?php
-
-						if ($display_price){ ?>
-							<div class="productpageprice jumbotron">
-								<?php if ($special){ ?>
-									<div class="productfilneprice">
-										<span class="spiral"></span><?php echo $special; ?></div>
-									<span class="productpageoldprice"><?php echo $price; ?></span>
-								<?php } else{ ?>
-									<span class="productfilneprice"></span><span
-											class="spiral"></span><?php echo $price; ?>
-								<?php } ?>
-							</div>
+						if ($display_price){
+							$tax_message = '';
+							if($config_tax && !$tax_exempt && $tax_class_id){
+								$tax_message = '&nbsp;&nbsp;<span class="productpricesmall">'.$price_with_tax.'</span>';
+							}?>
+						<div class="productpageprice jumbotron">
+							<?php if ($special){ ?>
+								<div class="productfilneprice">
+									<?php echo $special . $tax_message; ?>
+								</div>
+								<span class="productpageoldprice">
+									<?php echo $price; ?>
+								</span>
+							<?php } else { ?>
+								<div class="productfilneprice">
+									<?php echo $price . $tax_message; ?>
+								</div>
+							<?php } ?>
+						</div>
 						<?php }
 
 						if ($average){ ?>
@@ -169,8 +175,9 @@
 									</div>
 
 									<div class="form-group mt20 mb10 total-price-holder">
-										<label class="control-label"><?php echo $text_total_price; ?>
-											<span class="total-price"></span>
+										<label class="control-label">
+											<?php echo $text_total_price; ?>&nbsp;&nbsp;
+											<span class="total-price"></span><?php echo $tax_message; ?>
 										</label>
 									</div>
 									<?php }?>
@@ -195,6 +202,7 @@
 										<ul class="productpagecart">
 											<li><?php if(!$this->getHookVar('product_add_to_cart_html')) { ?>
 												<a href="#" onclick="$(this).closest('form').submit(); return false;" class="cart">
+													<i class="fa fa-cart-plus fa-fw"></i>
 													<?php echo $button_add_to_cart; ?>
 												</a>
 												<?php } else { ?>
@@ -205,11 +213,17 @@
 										<?php } ?>
 										<?php } else { ?>
 											<ul class="productpagecart call_to_order">
-												<li><a href="#" class="call_to_order"><i class="fa fa-phone"></i>&nbsp;&nbsp;<?php echo $text_call_to_order; ?></a></li>
+												<li>
+													<a href="#" class="call_to_order">
+														<i class="fa fa-phone fa-fw"></i>&nbsp;&nbsp;
+														<?php echo $text_call_to_order; ?>
+													</a>
+												</li>
 											</ul>
 										<?php } ?>										
 										<a class="productprint btn btn-large" href="javascript:window.print();">
-											<i class="fa fa-print"></i> <?php echo $button_print; ?>
+											<i class="fa fa-print fa-fw"></i>
+											<?php echo $button_print; ?>
 										</a>
 										<?php echo $this->getHookVar('buttons'); ?>
 									</div>
@@ -226,10 +240,12 @@
 									<?php if ($is_customer) { ?>
 									<div class="wishlist">
 										<a class="wishlist_remove btn btn-large" href="#" onclick="wishlist_remove(); return false;" <?php echo $nowhislist; ?>>
-											<i class="fa fa-trash-o"></i> <?php echo $button_remove_wishlist; ?>
+											<i class="fa fa-trash-o fa-fw"></i>
+											<?php echo $button_remove_wishlist; ?>
 										</a>
 										<a class="wishlist_add btn btn-large" href="#" onclick="wishlist_add(); return false;" <?php echo $whislist; ?>>
-											<i class="fa fa-plus-square"></i> <?php echo $button_add_wishlist; ?>
+											<i class="fa fa-plus-square fa-fw"></i>
+											<?php echo $button_add_wishlist; ?>
 										</a>
 									</div>
 									<?php } ?>
@@ -380,11 +396,14 @@
 					<div class="tab-pane" id="relatedproducts">
 						<ul class="row side_prd_list">
 							<?php foreach ($related_products as $related_product){
+								$tax_message = '';
+								if($config_tax && !$tax_exempt && $related_product['tax_class_id']){
+									$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
+								}
 								$item['rating'] = ($related_product['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png') . "' class='rating' alt='" . $related_product['stars'] . "' width='64' height='12' />" : '';
 								if (!$display_price){
 									$related_product['price'] = $related_product['special'] = '';
-								}
-								?>
+								}?>
 								<li class="col-md-3 col-sm-5 col-xs-6 related_product">
 									<a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
 									<a class="productname" title="<?php echo $related_product['name']; ?>"
@@ -393,10 +412,10 @@
 
 									<div class="price">
 										<?php if ($related_product['special']){ ?>
-											<span class="pricenew"><?php echo $related_product['special'] ?></span>
+											<span class="pricenew"><?php echo $related_product['special'] . $tax_message ?></span>
 											<span class="priceold"><?php echo $related_product['price'] ?></span>
 										<?php } else{ ?>
-											<span class="oneprice"><?php echo $related_product['price'] ?></span>
+											<span class="oneprice"><?php echo $related_product['price'] . $tax_message ?></span>
 										<?php } ?>
 									</div>
 								</li>
@@ -441,15 +460,6 @@
 	$(window).load(function () {
 
 		start_easyzoom();
-
-		//if have product options, load select option images
-		var $select = $('input[name^=\'option\'], select[name^=\'option\']');
-		if ($select.length) {
-			//if no images for options are present, main product images will be used.
-			//if at least one image is present in the option, main images will be replaced.
-			load_option_images($select.val(), '<?php echo $product_id; ?>');
-		}
-
 		display_total_price();
 
 		$('#current_reviews .pagination a').on('click', function () {
@@ -530,7 +540,7 @@
 						html1 = '<a class="html_with_image">';
 						html1 += main_image.main_html + '</a>';
 					} else {
-						html1 = '<a class="local_image" href="' + main_image.main_url + '">';
+						html1 = '<a style="width:' + main_image.thumb_width + 'px; height:' + main_image.thumb_height + 'px;" class="local_image" href="' + main_image.main_url + '">';
 						html1 += '<img style="width:' + main_image.thumb_width + 'px; height:' + main_image.thumb_height + 'px;" src="' + main_image.thumb_url + '" />';
 						html1 += '<i class="fa fa-arrows  hidden-xs hidden-sm"></i></a>';
 					}
@@ -555,7 +565,7 @@
 					$(this).html(html1)
 				});
 				$('ul.smallimage').each(function () {
-					$(this).html(html2)
+					$(this).html(html2);
 				});
 				start_easyzoom();
 			}

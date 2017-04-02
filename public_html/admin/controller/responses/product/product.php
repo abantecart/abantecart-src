@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -1219,9 +1219,9 @@ class ControllerResponsesProductProduct extends AController{
 				}
 
 				if (!in_array($attribute['element_type'], $html_multivalue_elements)){
-					$option_name = 'attributes[' . $this->data['download_id'] . '][' . $attribute['attribute_id'] . ']';
+					$option_name = 'attributes[' . (int)$this->data['download_id'] . '][' . $attribute['attribute_id'] . ']';
 				} else{
-					$option_name = 'attributes[' . $this->data['download_id'] . '][' . $attribute['attribute_id'] . '][' . $attribute['attribute_value_id'] . ']';
+					$option_name = 'attributes[' . (int)$this->data['download_id'] . '][' . $attribute['attribute_id'] . '][' . $attribute['attribute_value_id'] . ']';
 				}
 
 				$disabled = '';

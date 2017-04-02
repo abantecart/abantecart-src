@@ -7,7 +7,7 @@
   <definition>
     <key>text_country</key>
     <value><![CDATA[Country]]></value>
-  </definition>	
+  </definition>
   <definition>
     <key>text_success</key>
     <value><![CDATA[Correcto: Ha modificado los paises!]]></value>
@@ -65,7 +65,7 @@ Codigo Postal = {postcode}<br />
 Zona = {zone}<br />
 Codigo Zona = {zone_code}<br />
 Pais = {country}<br /><br />
-SI LO DESEA PUEDE ORDENAR<br /> 
+SI LO DESEA PUEDE ORDENAR<br />
 DIFERENTE,O ELIMINAR
 EL DATO QUE NO NECESITE</span>]]></value>
   </definition>

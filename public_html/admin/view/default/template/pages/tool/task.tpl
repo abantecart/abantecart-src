@@ -23,10 +23,17 @@
 			$(this).click(function(){
 				$.ajax({
 					url: URL,
-					type:'POST'
+					type:'POST',
+					success: function(data){
+					    if(data.result == true) {
+                            success_alert(<?php js_echo($text_task_started); ?>, true);
+                        }
+					},
+					complete: function(){
+						$('#tasks_grid').trigger("reloadGrid");
+					}
 				});
-				success_alert(<?php js_echo($text_task_started); ?>, true);
-				$('#tasks_grid').trigger("reloadGrid");
+
 				return false;
 			})
 		});

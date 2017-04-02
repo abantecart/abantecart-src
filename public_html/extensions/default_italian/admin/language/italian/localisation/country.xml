@@ -49,7 +49,7 @@
 		<value><![CDATA[Codice ISO (3):]]></value>
 	</definition>
 	<definition>
-		<key>entry_address_format</key>
+    <key>entry_address_format</key>
 		<value><![CDATA[Indirizzo:<br /><span class="help">
 Nome = {firstname}<br />
 Cognome = {lastname}<br />
@@ -61,7 +61,7 @@ C.A.P. = {postcode}<br />
 Zona = {zone}<br />
 Codice Zone  = {zone_code}<br />
 Nazione = {country}</span>]]></value>
-	</definition>
+  </definition>
 	<definition>
 		<key>error_permission</key>
 		<value><![CDATA[ATTENZIONE: Non hai l'autorizzazione per modificare le nazioni!]]></value>

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -43,8 +43,7 @@ class ControllerResponsesCommonCommon extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 		$seo_key = SEOEncode($this->request->get['seo_name'],
 							$this->request->get['object_key_name'],
-							(int)$this->request->get['id'],
-							(int)$this->language->getContentLanguageID());
+							(int)$this->request->get['id']);
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);

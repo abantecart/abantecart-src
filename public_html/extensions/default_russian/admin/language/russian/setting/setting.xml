@@ -102,7 +102,7 @@
 	</definition>
 	<definition>
 		<key>entry_meta_description</key>
-		<value><![CDATA[Описание Мета-тегов:<br /><span class="help">Описание мата-тега главной страницы витрины</span>]]></value>
+		<value><![CDATA[Описание Мета-тегов:<br /><span class="help">Описание мeта-тега главной страницы витрины</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_meta_keywords</key>
@@ -908,5 +908,9 @@
 	<definition>
 		<key>entry_task_api_key</key>
 		<value><![CDATA[Ключ API Заданий:<br/><span class="help">Этот секретный ключ позволяет запускать запланированные задания из браузера через /task.php файл. Если не указан то задания не запустятся через браузер.<br/>Примечание: Этот ключ не требуется для запуска заданий из коммандной строки.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_duplicate_contact_us</key>
+		<value><![CDATA[Дублировать запросы через Контакты-форму мгновенными уведомлениями]]></value>
 	</definition>
 </definitions>

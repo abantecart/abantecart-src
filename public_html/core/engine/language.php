@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -113,7 +113,7 @@ class ALanguage{
 	/* Maim Language API methods */
 
 	// NOTE; Template language variables do not use ->get and loaded automatically in controller class.
-	//		 There is no way to get acccess to used definitions and not possible to validate missing values  
+	//		 There is no way to get access to used definitions and not possible to validate missing values
 
 	/**
 	 * Get single language definition
@@ -281,15 +281,17 @@ class ALanguage{
 	 */
 	public function getClientBrowserLanguage(){
 		$request = $this->registry->get('request');
-		if (isset($request->server['HTTP_ACCEPT_LANGUAGE']) && ($request->server['HTTP_ACCEPT_LANGUAGE'])){
-			$parse = explode(';', $request->server['HTTP_ACCEPT_LANGUAGE']);
+		$browser_langs = (string)$request->server['HTTP_ACCEPT_LANGUAGE'];
+
+		if ($browser_langs){
+			$parse = explode(';', $browser_langs);
 			$browser_languages = array_map('trim', explode(',', $parse[0]));
 			if ($browser_languages){
 				foreach ($browser_languages as $browser_language){
 					$browser_language = trim($browser_language);
-					$browser_language = preg_replace('[^a-zA-Z\-\_]', '', $browser_language);
+					$browser_language = preg_replace('/[^a-zA-Z\-\_]/', '', $browser_language);
 					//validate and ignore browser data if causing warnings
-					if (!$browser_language || @preg_match("/" . $browser_language . "/i", '') === false){
+					if (!$browser_language){
 						continue;
 					}
 					foreach ($this->getActiveLanguages() as $key => $value){
@@ -393,11 +395,13 @@ class ALanguage{
 		if ($language_id){
 			$session->data['content_language'] = $this->_get_language_code($language_id);
 			$session->data['content_language_id'] = $language_id;
-			return null;
+			return true;
 		} else if ($language_code){
 			$session->data['content_language_id'] = $this->_get_language_id($language_code);
 			$session->data['content_language'] = $language_code;
-			return null;
+			return true;
+		}else{
+			return false;
 		}
 	}
 
@@ -562,7 +566,6 @@ class ALanguage{
 			ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' ' . $filename . ' no cache, so loading');
 
 			//try to get text data from db
-			$_ = array ();
 			$_ = $this->_load_from_db($this->language_details['language_id'], $filename, $this->is_admin);
 			
 			if (empty($_)){
@@ -571,7 +574,7 @@ class ALanguage{
 				$this->_save_to_db($filename, $_);
 			} else {
 				//We have something in database, look for missing or new values.
-				//Do this silently in case language file is misssing, Not a big problem
+				//Do this silently in case language file is missing, Not a big problem
 				$xml_vals = $this->_load_from_xml($filename, $directory, 'silent');
 				if (count($xml_vals) > count($_)){
 					//we have missing value in language XML. Probably newly added
@@ -691,16 +694,18 @@ class ALanguage{
 				$lang_array[$language['language_key']] = trim($language['language_value'], "\t\n\r\0\x0B");
 			}
 		}
-		return $lang_array ? $lang_array : false;
+		return $lang_array ? $lang_array : array();
 	}
 
 	/**
 	 * @param $filename
-	 * @param  array $lang_defns
-	 * @return bool|void
+	 * @param  array $definitions
+	 * @return bool
 	 */
-	protected function _save_to_db($filename, $lang_defns){
-		if (!$lang_defns) return false;
+	protected function _save_to_db($filename, $definitions){
+		if (!$definitions){
+			return false;
+		}
 
 		$block = str_replace('/', '_', $filename);
 		ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' ' . $block . ' saving to database');
@@ -708,7 +713,7 @@ class ALanguage{
 		$sql = "INSERT INTO " . $this->db->table("language_definitions") . " ";
 		$sql .= "(language_id,block,section,language_key,language_value,date_added) VALUES ";
 		$values = array ();
-		foreach ($lang_defns as $k => $v){
+		foreach ($definitions as $k => $v){
 			//preventing duplication sql-error by unique index
 			$check_array = array (
 					'language_id'    => (int)$this->language_details['language_id'],
@@ -732,7 +737,7 @@ class ALanguage{
 			$sql = $sql . implode(', ', $values);
 			$this->db->query($sql);
 		}
-		return null;
+		return true;
 	}
 
 	/**

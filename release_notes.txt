@@ -1,3 +1,45 @@
+AbanteCart version 1.2.10
+
+Core:
+- Update to Bootstrap v3.3.7
+- Upgrade to Fontawesome 4.7.0
+- Added support for NGINX web server (nginx.conf.txt)
+- Added csrf token security with backward compatibility
+- Improvement for faster handling with super large products database
+- Large size AImage resizing stability improvement
+- added column sku to order_products and order_options tables
+- Task UI and stability improvements
+- Stability improvement of cache file driver. Added renaming for folder before deleting (locking for write)
+- AMessage improvement. Now update of view-count will not change 'modified' date
+- Add automatic registration of user and customer IDs in mysql session.
+- 2017 Copyright update
+
+Control Panel:
+
+- improvement of language_manager and restart of tasks
+- Fix for loading of missing definitions process (error_text fix)
+- Product options handling improvement
+- Illegal string offset 'extensions' warning fix
+- package installer improved. Added charset detection for license.txt
+- Fix of switching to another languages when maintenance mode is enabled
+
+Storefront:
+- Storefront enhanced csrf token security
+- CSS updates and UI improvements in default template
+- Added SKU to Google Analytics ecommerce tracking
+- Added ability to show text message "Inc tax" for products with tax included.
+
+API:
+- Improve add to cart (products bulk add and cart clear)
+
+Extensions:
+- Updated payment extension to handle csrf token security
+
+Various code and feature improvements as well as bug fixes
+
+
+------------------------------------------------------------
+
 AbanteCart version 1.2.9
 
 Core:
