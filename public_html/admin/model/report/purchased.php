@@ -58,7 +58,8 @@ class ModelReportPurchased extends Model {
 
 		$sql = "SELECT op.name, op.model, SUM(op.quantity) AS quantity, SUM(op.total + op.tax) AS total
 				FROM `" . $this->db->table("orders") . "` o
-				LEFT JOIN " . $this->db->table("order_products") . " op ON (op.order_id = o.order_id)
+				LEFT JOIN " . $this->db->table("order_products") . " op 
+					ON (op.order_id = o.order_id)
 				WHERE ".implode(' AND ',$implode)."
 				GROUP BY model
 				ORDER BY total DESC
@@ -91,11 +92,11 @@ class ModelReportPurchased extends Model {
 			}
 		}
 
-      	$query = $this->db->query("SELECT op.*
-      	                            FROM " . $this->db->table("order_products") . " op
-      	                            LEFT JOIN " . $this->db->table("orders") . " o ON (op.order_id = o.order_id)
-      	                            WHERE ".implode(' AND ',$implode)."
-      	                            GROUP BY op.model");
+		$query = $this->db->query("SELECT op.*
+									FROM " . $this->db->table("order_products") . " op
+									LEFT JOIN " . $this->db->table("orders") . " o 
+										ON (op.order_id = o.order_id)
+									WHERE ".implode(' AND ',$implode));
 		return (int)$query->num_rows;
 	}
 }
