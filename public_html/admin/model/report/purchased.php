@@ -56,13 +56,23 @@ class ModelReportPurchased extends Model {
 			}
 		}
 
-		$sql = "SELECT op.name, op.model, SUM(op.quantity) AS quantity, SUM(op.total + op.tax) AS total
+		if($data['subsql_filter']){
+			$implode[] = $data['subsql_filter'];
+		}
+
+		if(!isset($data['sort']) || !$data['sort']){
+			$data['sort'] = 'quantity';
+		}
+		if(!isset($data['order']) || !$data['order']){
+			$data['order'] = 'DESC';
+		}
+		$sql = "SELECT op.product_id, op.name, op.model, SUM(op.quantity) AS quantity, SUM(op.total + op.tax) AS total
 				FROM `" . $this->db->table("orders") . "` o
 				LEFT JOIN " . $this->db->table("order_products") . " op 
 					ON (op.order_id = o.order_id)
 				WHERE ".implode(' AND ',$implode)."
-				GROUP BY model
-				ORDER BY total DESC
+				GROUP BY op.product_id, op.name, op.model
+				ORDER BY ".$data['sort']." ".$data['order'].", op.model DESC
 				LIMIT " . (int)$start . "," . (int)$limit;
 		$query = $this->db->query($sql);
 		return $query->rows;
@@ -92,11 +102,13 @@ class ModelReportPurchased extends Model {
 			}
 		}
 
-		$query = $this->db->query("SELECT op.*
-									FROM " . $this->db->table("order_products") . " op
-									LEFT JOIN " . $this->db->table("orders") . " o 
+		$sql = "SELECT COUNT(DISTINCT op.product_id) as total
+				FROM `" . $this->db->table("orders") . "` o
+				LEFT JOIN " . $this->db->table("order_products") . " op 
 										ON (op.order_id = o.order_id)
-									WHERE ".implode(' AND ',$implode));
-		return (int)$query->num_rows;
+				WHERE ".implode(' AND ',$implode);
+
+		$result = $this->db->query($sql);
+		return (int)$result->row['total'];
 	}
 }
