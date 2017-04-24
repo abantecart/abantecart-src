@@ -18,7 +18,7 @@
 	</definition>
 	<definition>
 		<key>entry_default_directory</key>
-		<value><![CDATA[Resource directory<br/><span class="help">Directory locating resource for this type. If changed, existing resources will not be acceccible and will need to be copied to new directory!</span>]]></value>
+		<value><![CDATA[Resource directory<br/><span class="help">Directory locating resource for this type. If changed, existing resources will not be accessible and will need to be copied to new directory!</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_default_icon</key>
@@ -39,19 +39,19 @@
 	</definition>
 	<definition>
 		<key>error_type_name</key>
-		<value><![CDATA[Error: Resource type name needs to be between 2 and 40 charcters]]></value>
+		<value><![CDATA[Error: Resource type name needs to be between 2 and 40 characters]]></value>
 	</definition>
 	<definition>
 		<key>error_default_directory</key>
-		<value><![CDATA[Error: Resource type directory needs to be between 2 and 64 charcters]]></value>
+		<value><![CDATA[Error: Resource type directory needs to be between 2 and 64 characters]]></value>
 	</definition>
 	<definition>
 		<key>error_default_icon</key>
-		<value><![CDATA[Error: Resource type icon needs to be between 2 and 64 charcters]]></value>
+		<value><![CDATA[Error: Resource type icon needs to be between 2 and 64 characters]]></value>
 	</definition>
 	<definition>
 		<key>error_file_types</key>
-		<value><![CDATA[Error: Resource type file extenions regex needs to be between 2 and 40 charcters]]></value>
+		<value><![CDATA[Error: Resource type file extensions regex needs to be between 2 and 40 characters]]></value>
 	</definition>
 
 </definitions>
