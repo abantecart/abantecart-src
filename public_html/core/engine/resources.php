@@ -491,6 +491,7 @@ class AResource{
 				}
 
 				$direct_url = $http_path . $this->getTypeDir() . $result['resource_path'];
+				$res_full_path = '';
 				if ($this->getType() == 'image'){
 					$res_full_path = DIR_RESOURCE . $this->getTypeDir() . $result['resource_path'];
 					if ($sizes['main']){
@@ -547,8 +548,11 @@ class AResource{
 					);
 				}
 
-				$resources[$k] = array ('origin'       => $origin,
+				$resources[$k] = array (
+										'origin'       => $origin,
 										'direct_url'   => $direct_url,
+										//set full path to original file only for images (see above)
+										'resource_path'=> $res_full_path,
 										'main_url'     => $main_url,
 										'main_width'   => $sizes['main']['width'],
 										'main_height'  => $sizes['main']['height'],
