@@ -220,8 +220,9 @@ class AImage{
 		}
 
 		$scale = min($width / $this->info['width'], $height / $this->info['height']);
+		//if no need resize - return true
 		if ($scale == 1 && $this->info['mime'] != 'image/png') {
-			return false;
+			return true;
 		}
 
 		$new_width = (int)round($this->info['width'] * $scale, 0);

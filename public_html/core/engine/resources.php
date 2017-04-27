@@ -352,7 +352,6 @@ class AResource{
 				if (!check_resize_image($origin_path, $new_image2x, $width * 2, $height * 2, $this->config->get('config_image_quality'))){
 					$err = new AError('Resize image error. File: ' . $origin_path);
 					$err->toLog()->toDebug()->toMessages();
-					return null;
 				}
 			}
 			//hook here to affect this image
