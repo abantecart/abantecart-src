@@ -28,10 +28,10 @@ RewriteEngine on
 # To emulate Retina mode on your NON-Retina display, add HTTP_IS_RETINA cookie in your browser
 RewriteCond %{HTTP_COOKIE} HTTP_IS_RETINA [NC]
 RewriteCond %{REQUEST_FILENAME} !@2x
-RewriteRule ^(.*)\.(gif|jpg|png)$ $1@2x.$2
+RewriteRule ^(.*)\.(gif|jpg|jpeg|png)$ $1@2x.$2
 # if @2x isn't available fulfill the original request
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)@2x\.(gif|jpg|png)$ $1.$2
+RewriteRule ^(.*)@2x\.(gif|jpg|jpeg|png)$ $1.$2
 
 # SEO URL Settings
 RewriteBase /
