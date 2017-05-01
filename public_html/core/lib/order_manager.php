@@ -313,7 +313,7 @@ class AOrderManager extends AOrder{
 			//set shift back if new list is missing some total compare to old list.
 			$j = $i - $shift;
 			$t_new = $total_data[$j];
-			if ($t_new['id'] != $t_old['key']){
+            if (str_replace('_', '', $t_new['id']) != str_replace('_', '', $t_old['key'])){
 				// need to set text value to 0 for removed new total
 				$zero_text_val = $this->currency->format(0, $order_info['currency'], $order_info['value'], true);
 				$upd_total['totals'][$t_old['order_total_id']] = $zero_text_val;
