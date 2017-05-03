@@ -129,12 +129,12 @@ class ModelToolUpdater extends Model{
 					continue;
 				}
 				//skip old or current versions
-				if (versionCompare($installed[$key], $version, '>=')){
+				if (version_compare($installed[$key], $version, '>=')){
 					continue;
 				}
 				//if we have 2 or more versions for cart version
 				if(!isset($output[$key][$version])
-					|| versionCompare($installed[$key], $version, '<')){
+					|| version_compare($installed[$key], $version, '<')){
 					$version_info['version'] = $version;
 					$output[$key] = $version_info;
 				}
