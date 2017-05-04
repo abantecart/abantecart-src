@@ -1746,19 +1746,20 @@ class ALayoutManager{
 			}
 
 			// block manipulation
-			foreach ($layout->blocks->block as $block){
-				if (!$block->block_txt_id){
-					$error_text = 'Error: cannot process block because block_txt_id is empty.';
-					$error = new AError ($error_text);
-					$error->toLog()->toDebug();
-					$this->errors = 1;
-					continue;
+			if($layout->blocks->block) {
+				foreach ($layout->blocks->block as $block) {
+					if (!$block->block_txt_id) {
+						$error_text = 'Error: cannot process block because block_txt_id is empty.';
+						$error = new AError ($error_text);
+						$error->toLog()->toDebug();
+						$this->errors = 1;
+						continue;
+					}
+					$layout->layout_id = $layout_id;
+					//start recursion on all blocks
+					$this->_processBlock($layout, $block);
 				}
-				$layout->layout_id = $layout_id;
-				//start recursion on all blocks
-				$this->_processBlock($layout, $block);
 			}
-
 		} //end of layout manipulation
 		return true;
 	}
