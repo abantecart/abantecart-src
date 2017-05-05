@@ -8,7 +8,7 @@
   Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
-  Lincence details is bundled with this package in the file LICENSE.txt.
+  License details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -28,14 +28,14 @@ class ControllerPagesExtensionDefaultUsps extends AController{
 			'default_usps_user_id',
 			'default_usps_password',
 			'default_usps_postcode',
-			'default_usps_domestic_0',
-			'default_usps_domestic_1',
-			'default_usps_domestic_2',
-			'default_usps_domestic_3',
-			'default_usps_domestic_4',
-			'default_usps_domestic_5',
-			'default_usps_domestic_6',
-			'default_usps_domestic_7',
+			'default_usps_domestic_00',
+			'default_usps_domestic_01',
+			'default_usps_domestic_02',
+			'default_usps_domestic_03',
+			'default_usps_domestic_04',
+			'default_usps_domestic_05',
+			'default_usps_domestic_06',
+			'default_usps_domestic_07',
 			'default_usps_domestic_12',
 			'default_usps_domestic_13',
 			'default_usps_domestic_16',
@@ -143,7 +143,6 @@ class ControllerPagesExtensionDefaultUsps extends AController{
 				'VARIABLE'       => $this->language->get('text_variable'),
 		);
 
-
 		$this->load->model('localisation/weight_class');
 		$results = $this->model_localisation_weight_class->getWeightClasses();
 		$weight_classes = array();
@@ -223,6 +222,7 @@ class ControllerPagesExtensionDefaultUsps extends AController{
 		$options = array();
 		foreach($domestic as $i){
 			$title = 'domestic_' . $i;
+			$i = sprintf('%02d',$i);
 			$name = 'default_usps_domestic_' . $i;
 			$this->data['form']['fields']['domestic'][$title] = $form->getFieldHtml(array(
 					'type'  => 'checkbox',
@@ -232,7 +232,6 @@ class ControllerPagesExtensionDefaultUsps extends AController{
 			));
 			$options[$title] = $this->language->get('text_' . $title);
 		}
-
 
 		$this->data['form']['fields']['free_domestic_method'] = $form->getFieldHtml(array(
 				'type'    => 'selectbox',
@@ -359,7 +358,6 @@ class ControllerPagesExtensionDefaultUsps extends AController{
 				'name'  => 'default_usps_sort_order',
 				'value' => $this->data['default_usps_sort_order'],
 		));
-
 
 		//load tabs controller
 
