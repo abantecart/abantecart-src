@@ -182,7 +182,7 @@
 	</definition>
 	<definition>
 		<key>entry_user_id</key>
-		<value><![CDATA[User ID:]]></value>
+		<value><![CDATA[User ID:<span class="help">USPS should email you the user id and password. If not contact USPS to confirm your USPS User ID. You should call USPS to activate your account on the production servers.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_password</key>
