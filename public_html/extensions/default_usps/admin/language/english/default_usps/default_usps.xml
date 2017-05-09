@@ -182,7 +182,7 @@
 	</definition>
 	<definition>
 		<key>entry_user_id</key>
-		<value><![CDATA[User ID:]]></value>
+		<value><![CDATA[User ID:<span class="help">USPS should email you the user id and password. If not contact USPS to confirm your USPS User ID. You should call USPS to activate your account on the production servers.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_password</key>
@@ -190,7 +190,7 @@
 	</definition>
 	<definition>
 		<key>entry_postcode</key>
-		<value><![CDATA[Zip Code:]]></value>
+		<value><![CDATA[Zip Code:<span class="help">Zip/Postal code of the starting location of your package.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_domestic</key>
@@ -202,15 +202,15 @@
 	</definition>
 	<definition>
 		<key>entry_size</key>
-		<value><![CDATA[Size:]]></value>
+		<value><![CDATA[Size:<span class="help">Select the container size that you typically use to package the products ordered from your store.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_container</key>
-		<value><![CDATA[Container:]]></value>
+		<value><![CDATA[Container:<span class="help">Select the container type that you typically use to package the products ordered from your store. USPS will only deliver packages weighing up to 70 lbs</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_machinable</key>
-		<value><![CDATA[Machinable:]]></value>
+		<value><![CDATA[Machinable:<br /><span class="help"> It is recommended that you select Yes. Specify whether it is OK to handle your shipments by machines. Enabling this option reduces the shipping costs.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_dimension</key>
@@ -218,19 +218,19 @@
 	</definition>
 	<definition>
 		<key>entry_length</key>
-		<value><![CDATA[Dimensions Length:]]></value>
+		<value><![CDATA[Dimensions Length:<br /><span class="help">Average package dimension for shipping package.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_width</key>
-		<value><![CDATA[Dimensions Width:]]></value>
+		<value><![CDATA[Dimensions Width:<br /><span class="help">Average package dimension for shipping package.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_height</key>
-		<value><![CDATA[Dimensions Height:]]></value>
+		<value><![CDATA[Dimensions Height:<br /><span class="help">Average package dimension for shipping package.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_girth</key>
-		<value><![CDATA[Girth:]]></value>
+		<value><![CDATA[Girth:<br /><span class="help">To find the girth of your package, measure the distance around the thickest part of the non-rectangular package.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_display_time</key>
@@ -246,11 +246,11 @@
 	</definition>
 	<definition>
 		<key>entry_length_class</key>
-		<value><![CDATA[Length Class:<br /><span class="help"></span>]]></value>
+		<value><![CDATA[Length Class:<br /><span class="help">The dimension or default length class of your store.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_tax</key>
-		<value><![CDATA[Tax Class:]]></value>
+		<value><![CDATA[Tax Class:<br /><span class="help">If you are required to charge tax on this item, select tax class.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_location</key>
