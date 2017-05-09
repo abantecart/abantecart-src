@@ -785,7 +785,7 @@ CREATE TABLE `ac_download_attribute_values` (
   `download_attribute_id` int(11) NOT NULL AUTO_INCREMENT,
   `attribute_id` int(11) NOT NULL,
   `download_id` int(11) NOT NULL,
-  `attribute_value_ids` text COLLATE utf8_general_ci  DEFAULT NULL,  -- serialized aray with value IDs
+  `attribute_value_ids` text COLLATE utf8_general_ci  DEFAULT NULL,  -- serialized array with value IDs
   PRIMARY KEY (`download_attribute_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
@@ -954,17 +954,19 @@ DROP TABLE IF EXISTS `ac_length_classes`;
 CREATE TABLE `ac_length_classes` (
   `length_class_id` int(11) NOT NULL AUTO_INCREMENT,
   `value` decimal(15,8) NOT NULL,
-  PRIMARY KEY (`length_class_id`)
+  `iso_code` VARCHAR(5) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`length_class_id`,`iso_code`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `length_class`
 --
-
-INSERT INTO `ac_length_classes` (`length_class_id`, `value`) VALUES
-(1, '1.00000000'),
-(2, '10.00000000'),
-(3, '0.39370000');
+INSERT INTO `ac_length_classes` (`length_class_id`, `value`, `iso_code`) VALUES
+(1, '1.00000000', 'CMET'),
+(2, '10.00000000', 'MMET'),
+(3, '0.39370000', 'INCH');
 
 --
 -- DDL for table `length_class_descriptions`
@@ -1156,7 +1158,7 @@ CREATE TABLE `ac_order_data_types` (
   PRIMARY KEY (`type_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
--- write preinstalled IM protocols for guest checkout orders
+-- write pre-installed IM protocols for guest checkout orders
 INSERT INTO `ac_order_data_types` (`language_id`, `name`, `date_added`) VALUES
 (1, 'email', NOW()),
 (1, 'sms', NOW());
@@ -2003,18 +2005,21 @@ DROP TABLE IF EXISTS `ac_weight_classes`;
 CREATE TABLE `ac_weight_classes` (
   `weight_class_id` int(11) NOT NULL AUTO_INCREMENT,
   `value` decimal(15,8) NOT NULL DEFAULT '0.00000000',
-  PRIMARY KEY (`weight_class_id`)
+  `iso_code` VARCHAR(5) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`weight_class_id`,`iso_code`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `weight_class`
 --
 
-INSERT INTO `ac_weight_classes` (`weight_class_id`, `value`) VALUES
-(1, '1.00000000'),
-(2, '1000.00000000'),
-(5, '2.20460000'),
-(6, '35.27400000');
+INSERT INTO `ac_weight_classes` (`weight_class_id`, `value`, `iso_code`) VALUES
+(1, '1.00000000', 'KILO'),
+(2, '1000.00000000', 'GRAM'),
+(5, '2.20460000', 'PUND'),
+(6, '35.27400000', 'USOU');
 
 
 --

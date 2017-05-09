@@ -82,6 +82,7 @@ class ControllerResponsesListingGridWeightClass extends AController {
 					'name' => 'value[' . $result[ 'weight_class_id' ] . ']',
 					'value' => $result[ 'value' ],
 				)),
+				$result['iso_code']
 			);
 			$i++;
 		}
@@ -182,7 +183,7 @@ class ControllerResponsesListingGridWeightClass extends AController {
 		}
 
 		//request sent from jGrid. ID is key of array
-		$allowedFields = array_merge(array( 'weight_class_description', 'value' ), (array)$this->data['allowed_fields']);
+		$allowedFields = array_merge(array( 'weight_class_description', 'value', 'iso_code' ), (array)$this->data['allowed_fields']);
 
 		foreach ($allowedFields as $f) {
 			if (isset($this->request->post[ $f ]))
@@ -214,6 +215,12 @@ class ControllerResponsesListingGridWeightClass extends AController {
 						if (!$v[ 'unit' ] || mb_strlen($v[ 'unit' ]) > 4) {
 							$this->data['error'] = $this->language->get('error_unit');
 						}
+				}
+				break;
+			case 'iso_code':
+				$iso_code = strtoupper(preg_replace('/[^a-z]/i','',$value));
+				if ((!$iso_code) || strlen($iso_code) != 4 ) {
+					$this->data['error'] = $this->language->get('error_iso_code');
 				}
 				break;
 		}

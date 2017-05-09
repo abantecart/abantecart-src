@@ -25,16 +25,16 @@ if (!defined('DIR_CORE')){
 /**
  * Class ALength
  */
-final class ALength{
-	private $lengths = array ();
+class ALength{
+	protected $lengths = array ();
 	/**
 	 * @var ADB
 	 */
-	private $db;
+	protected $db;
 	/**
 	 * @var AConfig
 	 */
-	private $config;
+	protected $config;
 
 	/**
 	 * @param $registry Registry
@@ -50,19 +50,20 @@ final class ALength{
 		if ($cache_data !== false){
 			$this->lengths = $cache_data;
 		} else{
-			$sql = "SELECT *
+			$sql = "SELECT *, mc.length_class_id
 					FROM " . $this->db->table("length_classes") . " mc
 					LEFT JOIN " . $this->db->table("length_class_descriptions") . " mcd
 						ON (mc.length_class_id = mcd.length_class_id)
 					WHERE mcd.language_id = '" . $language_id . "'";
 			$length_class_query = $this->db->query($sql);
-			foreach ($length_class_query->rows as $result){
-				$this->lengths[strtolower($result['unit'])] = array (
-						'length_class_id' => $result['length_class_id'],
-						'unit'            => $result['unit'],
-						'title'           => $result['title'],
-						'value'           => $result['value']
-				);
+			foreach ($length_class_query->rows as $row){
+				if(!$row['unit']){
+					$error = new AError('Error! Empty unit of length class ID '.$row['length_class_id']);
+					$error->code = 'Core ALength class Error';
+					$error->toLog()->toMessages();
+					continue;
+				}
+				$this->lengths[strtolower($row['unit'])] = $row;
 			}
 			$cache->push($cache_key, $this->lengths);
 		}
@@ -74,6 +75,7 @@ final class ALength{
 	 * @param string $unit_from
 	 * @param string $unit_to
 	 * @return float
+	 * TODO: replace units in parameters with iso_codes in 2.0!!!
 	 */
 	public function convert($value, $unit_from, $unit_to){
 		if ($unit_from == $unit_to || is_null($unit_to) || is_null($unit_from)){
@@ -163,5 +165,18 @@ final class ALength{
 		} else{
 			return '';
 		}
+	}
+
+	/**
+	 * @param int $length_class_id
+	 * @return bool
+	 */
+	public function getCodeById($length_class_id){
+		foreach ($this->lengths as $lng){
+			if ($lng['length_class_id'] == $length_class_id){
+				return $lng['iso_code'];
+			}
+		}
+		return false;
 	}
 }

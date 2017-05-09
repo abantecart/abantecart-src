@@ -26,75 +26,80 @@ class ControllerPagesLocalisationLengthClass extends AController {
  
 	public function main() {
 
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-    	$this->document->setTitle( $this->language->get('heading_title') );
-
-    	$this->view->assign('error_warning', $this->error['warning']);
+		$this->document->setTitle( $this->language->get('heading_title') );
+		$this->view->assign('error_warning', $this->error['warning']);
 		$this->view->assign('success', $this->session->data['success']);
 		if (isset($this->session->data['success'])) {
 			unset($this->session->data['success']);
 		}
 
 		$this->document->initBreadcrumb( array (
-       		'href'      => $this->html->getSecureURL('index/home'),
-       		'text'      => $this->language->get('text_home'),
-      		'separator' => FALSE
-   		));
-   		$this->document->addBreadcrumb( array (
-       		'href'      => $this->html->getSecureURL('localisation/length_class'),
-       		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: ',
+			'href'      => $this->html->getSecureURL('index/home'),
+			'text'      => $this->language->get('text_home'),
+			'separator' => FALSE
+		));
+		$this->document->addBreadcrumb( array (
+			'href'      => $this->html->getSecureURL('localisation/length_class'),
+			'text'      => $this->language->get('heading_title'),
+			'separator' => ' :: ',
 			'current'	=> true
-   		));
+		));
 
 		$grid_settings = array(
 			'table_id' => 'length_grid',
 			'url' => $this->html->getSecureURL('listing_grid/length_class'),
 			'editurl' => $this->html->getSecureURL('listing_grid/length_class/update'),
-            'update_field' => $this->html->getSecureURL('listing_grid/length_class/update_field'),
+			'update_field' => $this->html->getSecureURL('listing_grid/length_class/update_field'),
 			'sortname' => 'title',
 			'sortorder' => 'asc',
 			'columns_search' => false,
-            'actions' => array(
-                'edit' => array(
-                    'text' => $this->language->get('text_edit'),
-				    'href' => $this->html->getSecureURL('localisation/length_class/update', '&length_class_id=%ID%')
-                ),
-	            'save' => array(
-                    'text' => $this->language->get('button_save'),
-                ),
-                'delete' => array(
-                    'text' => $this->language->get('button_delete'),
-                )
-            ),
+			'actions' => array(
+				'edit' => array(
+					'text' => $this->language->get('text_edit'),
+					'href' => $this->html->getSecureURL('localisation/length_class/update', '&length_class_id=%ID%')
+				),
+				'save' => array(
+					'text' => $this->language->get('button_save'),
+				),
+				'delete' => array(
+					'text' => $this->language->get('button_delete'),
+				)
+			),
 		);
 
-        $grid_settings['colNames'] = array(
-            $this->language->get('column_title'),
-            $this->language->get('column_unit'),
-            $this->language->get('column_value'),
+		$grid_settings['colNames'] = array(
+			$this->language->get('column_title'),
+			$this->language->get('column_unit'),
+			$this->language->get('column_value'),
+			$this->language->get('column_iso_code'),
 		);
 		$grid_settings['colModel'] = array(
 			array(
 				'name' => 'title',
 				'index' => 'title',
-                'align' => 'left',
+				'align' => 'left',
 			),
 			array(
 				'name' => 'unit',
 				'index' => 'unit',
-                'align' => 'center',
+				'align' => 'center',
 			),
 			array(
 				'name' => 'value',
 				'index' => 'value',
-                'align' => 'center',
+				'align' => 'center',
+			),
+			array(
+				'name' => 'iso_code',
+				'index' => 'iso_code',
+				'align' => 'center',
 			),
 		);
 
-        $grid = $this->dispatch('common/listing_grid', array( $grid_settings ) );
+		$grid = $this->dispatch('common/listing_grid', array( $grid_settings ) );
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
 
 		$this->view->assign( 'insert', $this->html->getSecureURL('localisation/length_class/insert') );
@@ -103,71 +108,71 @@ class ControllerPagesLocalisationLengthClass extends AController {
 
 		$this->processTemplate('pages/localisation/length_class_list.tpl' );
 
-          //update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		  //update controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 
 	public function insert() {
 
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-    	$this->document->setTitle( $this->language->get('heading_title') );
+		$this->document->setTitle( $this->language->get('heading_title') );
 
 		if ( $this->request->is_POST() && $this->_validateForm() ) {
 			$length_class_id = $this->model_localisation_length_class->addLengthClass($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
-      		$this->redirect($this->html->getSecureURL('localisation/length_class/update', '&length_class_id=' . $length_class_id ));
+			redirect($this->html->getSecureURL('localisation/length_class/update', '&length_class_id=' . $length_class_id ));
 		}
-    	$this->_getForm();
+		$this->_getForm();
 
-        //update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-  	}
+		//update controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+	}
 
-  	public function update() {
+	public function update() {
 
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
 		  
 		$this->view->assign('success', $this->session->data['success']);
 		if (isset($this->session->data['success'])) {
 			unset($this->session->data['success']);
 		}  
 
-    	$this->document->setTitle( $this->language->get('heading_title') );
+		$this->document->setTitle( $this->language->get('heading_title') );
 
-    	if ( $this->request->is_POST() && $this->_validateForm()) {
-	  		$this->model_localisation_length_class->editLengthClass($this->request->get['length_class_id'], $this->request->post);
+		if ( $this->request->is_POST() && $this->_validateForm()) {
+			$this->model_localisation_length_class->editLengthClass($this->request->get['length_class_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect($this->html->getSecureURL('localisation/length_class/update', '&length_class_id=' . $this->request->get['length_class_id'] ));
-    	}
-    	$this->_getForm();
+			redirect($this->html->getSecureURL('localisation/length_class/update', '&length_class_id=' . $this->request->get['length_class_id'] ));
+		}
+		$this->_getForm();
 
-        //update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-  	}
+		//update controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+	}
   
-  	private function _getForm() {
+	private function _getForm() {
 
 		$this->data = array();
 		$this->data['error'] = $this->error;
 		$this->data['cancel'] = $this->html->getSecureURL('localisation/length_class');
 
-   		$this->document->initBreadcrumb( array (
-       		'href'      => $this->html->getSecureURL('index/home'),
-       		'text'      => $this->language->get('text_home'),
-      		'separator' => FALSE
-   		 ));
-   		$this->document->addBreadcrumb( array ( 
-       		'href'      => $this->html->getSecureURL('localisation/length_class'),
-       		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
-   		 ));
+		$this->document->initBreadcrumb( array (
+			'href'      => $this->html->getSecureURL('index/home'),
+			'text'      => $this->language->get('text_home'),
+			'separator' => FALSE
+		 ));
+		$this->document->addBreadcrumb( array (
+			'href'      => $this->html->getSecureURL('localisation/length_class'),
+			'text'      => $this->language->get('heading_title'),
+			'separator' => ' :: '
+		 ));
 
 		if (isset($this->request->get['length_class_id']) && $this->request->is_GET() ) {
-      		$length_class_info = $this->model_localisation_length_class->getLengthClass($this->request->get['length_class_id']);
-    	}
+			$length_class_info = $this->model_localisation_length_class->getLengthClass($this->request->get['length_class_id']);
+		}
 		
 		if (isset($this->request->post['length_class_description'])) {
 			$this->data['length_class_description'] = $this->request->post['length_class_description'];
@@ -184,6 +189,13 @@ class ControllerPagesLocalisationLengthClass extends AController {
 		} else {
 			$this->data['value'] = '';
 		}
+		if (isset($this->request->post['iso_code'])) {
+			$this->data['iso_code'] = $this->request->post['iso_code'];
+		} elseif (isset($length_class_info)) {
+			$this->data['iso_code'] = $length_class_info['iso_code'];
+		} else {
+			$this->data['iso_code'] = '';
+		}
 
 		if (!isset($this->request->get['length_class_id'])) {
 			$this->data['action'] = $this->html->getSecureURL('localisation/length_class/insert');
@@ -198,36 +210,36 @@ class ControllerPagesLocalisationLengthClass extends AController {
 		}
 		  
 		$this->document->addBreadcrumb( array (
-       		'href'      => $this->data['action'],
-       		'text'      => $this->data['heading_title'],
-      		'separator' => ' :: ',
+			'href'      => $this->data['action'],
+			'text'      => $this->data['heading_title'],
+			'separator' => ' :: ',
 			'current'	=> true
-   		 ));  
+		 ));
 
 		$form->setForm(array(
-		    'form_name' => 'editFrm',
+			'form_name' => 'editFrm',
 			'update' => $this->data['update'],
-	    ));
+		));
 
-        $this->data['form']['id'] = 'editFrm';
-        $this->data['form']['form_open'] = $form->getFieldHtml(array(
-		    'type' => 'form',
-		    'name' => 'editFrm',
+		$this->data['form']['id'] = 'editFrm';
+		$this->data['form']['form_open'] = $form->getFieldHtml(array(
+			'type' => 'form',
+			'name' => 'editFrm',
 			'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
-		    'action' => $this->data['action'],
-	    ));
-        $this->data['form']['submit'] = $form->getFieldHtml(array(
-		    'type' => 'button',
-		    'name' => 'submit',
-		    'text' => $this->language->get('button_save'),
-		    'style' => 'button1',
-	    ));
+			'action' => $this->data['action'],
+		));
+		$this->data['form']['submit'] = $form->getFieldHtml(array(
+			'type' => 'button',
+			'name' => 'submit',
+			'text' => $this->language->get('button_save'),
+			'style' => 'button1',
+		));
 		$this->data['form']['cancel'] = $form->getFieldHtml(array(
-		    'type' => 'button',
-		    'name' => 'cancel',
-		    'text' => $this->language->get('button_cancel'),
-		    'style' => 'button2',
-	    ));
+			'type' => 'button',
+			'name' => 'cancel',
+			'text' => $this->language->get('button_cancel'),
+			'style' => 'button2',
+		));
 
 		$content_language_id = $this->language->getContentLanguageID();
 
@@ -247,6 +259,14 @@ class ControllerPagesLocalisationLengthClass extends AController {
 			'style' => 'large-field',
 			'multilingual' => true,
 		));
+		$this->data['form']['fields']['iso_code'] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'iso_code',
+			'value' => $this->data['iso_code'],
+			'required' => true,
+			'attr'      => 'maxlength="4"',
+			'style' => 'tiny-field'
+		));
 		$this->data['form']['fields']['value'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'value',
@@ -257,8 +277,8 @@ class ControllerPagesLocalisationLengthClass extends AController {
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('language_id', $content_language_id);
 		$this->view->assign('help_url', $this->gen_help_url('length_status_edit') );
-        $this->processTemplate('pages/localisation/length_class_form.tpl' );
-  	}
+		$this->processTemplate('pages/localisation/length_class_form.tpl' );
+	}
 
 	private function _validateForm() {
 		if (!$this->user->canModify('localisation/length_class')) {
@@ -274,6 +294,11 @@ class ControllerPagesLocalisationLengthClass extends AController {
 				$this->error['unit'][$language_id] = $this->language->get('error_unit');
 			}
 		}
+		$iso_code = strtoupper(preg_replace('/[^a-z]/i','',$this->request->post['iso_code']));
+		if ((!$iso_code) || strlen($iso_code) != 4 ) {
+			$this->error['iso_code'] = $this->language->get('error_iso_code');
+		}
+
 		$this->extensions->hk_ValidateData( $this);
 
 		if (!$this->error) {

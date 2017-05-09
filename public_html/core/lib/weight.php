@@ -24,16 +24,16 @@ if (!defined('DIR_CORE')){
 /**
  * Class AWeight
  */
-final class AWeight{
-	private $weights = array ();
+class AWeight{
+	protected $weights = array ();
 	/**
 	 * @var ADB
 	 */
-	private $db;
+	protected $db;
 	/**
 	 * @var AConfig
 	 */
-	private $config;
+	protected $config;
 
 	/**
 	 * @param $registry Registry
@@ -48,17 +48,20 @@ final class AWeight{
 		if ($cache_data !== false){
 			$this->weights = $cache_data;
 		} else{
-			$sql = "SELECT *
+			$sql = "SELECT *, wc.weight_class_id
 					FROM " . $this->db->table("weight_classes") . " wc
 					LEFT JOIN " . $this->db->table("weight_class_descriptions") . " wcd
 						ON (wc.weight_class_id = wcd.weight_class_id)
 					WHERE wcd.language_id = '" . $language_id . "'";
 			$weight_class_query = $this->db->query($sql);
-			foreach ($weight_class_query->rows as $result){
-				$this->weights[strtolower($result['unit'])] = array ('weight_class_id' => $result['weight_class_id'],
-																	 'title'           => $result['title'],
-																	 'unit'            => $result['unit'],
-																	 'value'           => $result['value']);
+			foreach ($weight_class_query->rows as $row){
+				if(!$row['unit']){
+					$error = new AError('Error! Empty unit of weight class ID '.$row['weight_class_id']);
+					$error->code = 'Core AWeight class Error';
+					$error->toLog()->toMessages();
+					continue;
+				}
+				$this->weights[strtolower($row['unit'])] = $row;
 			}
 			$cache->push($cache_key, $this->weights);
 		}
@@ -70,6 +73,7 @@ final class AWeight{
 	 * @param string $unit_from
 	 * @param string $unit_to
 	 * @return float
+	 * TODO: replace units in parameters with iso_codes in 2.0!!!
 	 */
 	public function convert($value, $unit_from, $unit_to){
 		if ($unit_from == $unit_to){
@@ -153,5 +157,18 @@ final class AWeight{
 		} else{
 			return '';
 		}
+	}
+
+	/**
+	 * @param int $weight_class_id
+	 * @return string
+	 */
+	public function getCodeById($weight_class_id){
+		foreach ($this->weights as $wth){
+			if ($wth['weight_class_id'] == $weight_class_id){
+				return $wth['iso_code'];
+			}
+		}
+		return false;
 	}
 }
