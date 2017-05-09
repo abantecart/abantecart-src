@@ -146,8 +146,17 @@ class ControllerPagesExtensionDefaultUsps extends AController{
 		$this->load->model('localisation/weight_class');
 		$results = $this->model_localisation_weight_class->getWeightClasses();
 		$weight_classes = array();
+		$has_pounds = false;
 		foreach($results as $k => $v){
-			$weight_classes[$v['unit']] = $v['title'];
+			$weight_classes[$v['weight_class_id']] = $v['title'];
+			if($v['iso_code'] == 'PUND') {
+				$has_pounds = true;
+				$default_class = $v['weight_class_id'];
+			}
+		}
+
+		if(!$has_pounds) {
+			$this->data['error_warning'] = 'Error: USPS will not work. Please add weight class "Pounds" with ISO-code "PUND"!';
 		}
 
 		$this->load->model('localisation/tax_class');
@@ -170,6 +179,10 @@ class ControllerPagesExtensionDefaultUsps extends AController{
 			} else{
 				$this->data [$f] = $this->config->get($f);
 			}
+		}
+
+		if(!$this->data['default_usps_weight_class'] || !in_array($this->data['default_usps_weight_class'], array_keys($weight_classes))) {
+			$this->data['default_usps_weight_class'] = $default_class;
 		}
 
 		$this->data ['action'] = $this->html->getSecureURL('extension/default_usps', '&extension=default_usps');
@@ -326,15 +339,29 @@ class ControllerPagesExtensionDefaultUsps extends AController{
 				'type'    => 'selectbox',
 				'name'    => 'default_usps_weight_class',
 				'options' => $weight_classes,
-				'value'   => $this->data['default_usps_weight_class'],
+				'value'   => $this->data['default_usps_weight_class']
 		));
 
 		$this->load->model('localisation/length_class');
 		$results = $this->model_localisation_length_class->getLengthClasses();
 		$length_classes = array();
+		$default_class = '';
 		foreach($results as $k => $v){
-			$length_classes[$v['unit']] = $v['title'];
+			$length_classes[$v['length_class_id']] = $v['title'];
+			if($v['iso_code'] == 'INCH') {
+				$has_inches = true;
+				$default_class = $v['length_class_id'];
+			}
 		}
+
+		if(!$has_inches) {
+			$this->data['error_warning'] .= 'Error: USPS will not work. Please add length class "Inches" with ISO-code "INCH"!';
+		}
+
+		if(!$this->data['default_usps_length_class'] || !in_array($this->data['default_usps_length_class'], array_keys($length_classes))) {
+			$this->data['default_usps_length_class'] = $default_class;
+		}
+
 		$this->data['form']['fields']['length_class'] = $form->getFieldHtml(array(
 				'type'    => 'selectbox',
 				'name'    => 'default_usps_length_class',
