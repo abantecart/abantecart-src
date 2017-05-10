@@ -1,54 +1,36 @@
 <?xml version="1.0"?>
 <extension>
-    <id>default_flat_rate_shipping</id>
-    <version>1.0.1</version>
+	<id>default_flat_rate_shipping</id>
+	<version>1.0.1</version>
 	<type>shipping</type>
 	<category>shipping</category>
-    <cartversions>
-        <item>1.2</item>
-    </cartversions>
-    <layout></layout>
-    <priority>10</priority>
-    <settings>
-	    <item id="default_flat_rate_shipping_cost">
-            <type>input</type>
-            <default_value></default_value>
-        </item>
-	    <item id="default_flat_rate_shipping_location_id">
-            <type>selectbox</type>
+	<cartversions>
+		<item>1.2</item>
+	</cartversions>
+	<layout></layout>
+	<priority>10</priority>
+	<settings>
+		<item id="default_flat_rate_shipping_rates">
+			<type>html_template</type>
+			<template>pages/extension/default_flat_rate_shipping_rates.tpl</template>
+			<default_value></default_value>
 			<variants>
-				<item>0</item>
 				<data_source>
-                   <model_rt>localisation/location</model_rt>
-                   <method>getLocations</method>
+				   <model_rt>localisation/location</model_rt>
+				   <method>getLocations</method>
+
+				   <model_rt>localisation/tax_class</model_rt>
+				   <method>getTaxClasses</method>
 				</data_source>
-				<fields>
-					<field>location_id</field>
-					<field>name</field>
-				</fields>
 			</variants>
-        </item>
-	    <item id="default_flat_rate_shipping_tax_class_id">
-            <type>selectbox</type>
-			<variants>
-				<item>0</item>
-				<data_source>
-                   <model_rt>localisation/tax_class</model_rt>
-                   <method>getTaxClasses</method>
-				</data_source>
-				<fields>
-					<field>tax_class_id</field>
-					<field>title</field>
-				</fields>
-			</variants>
-        </item>
-    </settings>
-    <install>
-	    <sql></sql>
-	    <trigger></trigger>
+		</item>
+	</settings>
+	<install>
+		<sql></sql>
+		<trigger></trigger>
 	</install>
 	<uninstall>
-	    <sql></sql>
-	    <trigger></trigger>
+		<sql></sql>
+		<trigger></trigger>
 	</uninstall>
 </extension>
