@@ -9,9 +9,9 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td class="text-left"><?php echo $default_flat_rate_shipping_location_id_0; ?></td>
-				<td class="text-right"><input type="text"
-											class="form-control"
+				<td class="text-left col-md-5"><?php echo $default_flat_rate_shipping_location_id_0; ?></td>
+				<td class="text-right col-md-2"><input type="text"
+											class=" form-control"
 											value="<?php echo $this->config->get('default_flat_rate_shipping_default_cost'); ?>"
 											name="default_flat_rate_shipping_default_cost">
 				</td>
@@ -32,8 +32,8 @@
 		<?php
 		foreach ($options['getLocations'] as $location) { ?>
 			<tr>
-				<td class="text-left"><?php echo $location['name'].' '.($location['description'] ? '('.$location['description'].')' : ''); ?></td>
-				<td class="text-right"><input type="text"
+				<td class="text-left col-md-5"><?php echo $location['name'].' '.($location['description'] ? '('.$location['description'].')' : ''); ?></td>
+				<td class="text-right col-md-2"><input type="text"
 											class="form-control"
 											value="<?php echo $this->config->get('default_flat_rate_shipping_cost_'.$location['location_id']); ?>"
 											name="default_flat_rate_shipping_cost_<?php echo $location['location_id']; ?>">
