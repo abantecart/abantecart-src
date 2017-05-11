@@ -36,6 +36,34 @@ class ALength{
 	 */
 	protected $config;
 
+	public  $predefined_lengths = array(
+		'cm' => array(
+				'length_class_id' => 1,
+				'value' => 1.00000000,
+				'iso_code' => 'CMET',
+				'language_id' => 1,
+				'title' => 'Centimeter',
+				'unit' => 'cm'
+				),
+		'mm' => array(
+				'length_class_id' => 2,
+				'value' => 10.00000000,
+				'iso_code' => 'MMET',
+				'language_id' => 1,
+				'title' => 'Millimeter',
+				'unit' => 'mm'
+				),
+		'in' => array(
+				'length_class_id' => 3,
+				'value' => 0.39370000,
+				'iso_code' => 'INCH',
+				'language_id' => 1,
+				'title' => 'Inch',
+				'unit' => 'in'
+			)
+	);
+	public $predefined_length_ids = array();
+
 	/**
 	 * @param $registry Registry
 	 */
@@ -67,6 +95,10 @@ class ALength{
 			}
 			$cache->push($cache_key, $this->lengths);
 		}
+		foreach($this->predefined_lengths as $unit=>$length){
+			$this->predefined_length_ids[] = $length['length_class_id'];
+		}
+		$this->lengths = array_merge($this->lengths,$this->predefined_lengths);
 	}
 
 	/**

@@ -25,7 +25,6 @@ class ControllerPagesLocalisationWeightClass extends AController {
 	public $error = array();
 
 	public function main() {
-
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
@@ -209,6 +208,8 @@ class ControllerPagesLocalisationWeightClass extends AController {
 			$this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_class');
 			$this->data['update'] = $this->html->getSecureURL('listing_grid/weight_class/update_field','&id='.$this->request->get['weight_class_id']);
 			$form = new AForm('HS');
+			$a_weight = new AWeight($this->registry);
+			$is_predefined = in_array($this->request->get['weight_class_id'],$a_weight->predefined_weight_ids) ? true : false;
 		}
 
 		$this->document->addBreadcrumb( array (
@@ -266,13 +267,14 @@ class ControllerPagesLocalisationWeightClass extends AController {
 			'name' => 'iso_code',
 			'value' => $this->data['iso_code'],
 			'required' => true,
-			'attr'      => 'maxlength="4"',
+			'attr'      => 'maxlength="4" '. ($is_predefined ? 'readonly' : ''),
 			'style' => 'tiny-field'
 		));
 		$this->data['form']['fields']['value'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'value',
 			'value' => $this->data['value'],
+			'attr'  => $is_predefined ? 'readonly' : ''
 		));
 
 		$this->view->batchAssign( $this->data );
@@ -300,6 +302,17 @@ class ControllerPagesLocalisationWeightClass extends AController {
 		$iso_code = strtoupper(preg_replace('/[^a-z]/i','',$this->request->post['iso_code']));
 		if ((!$iso_code) || strlen($iso_code) != 4 ) {
 			$this->error['iso_code'] = $this->language->get('error_iso_code');
+		}
+		//check for uniqueness
+		else{
+			$weight = $this->model_localisation_weight_class->getWeightClassByCode($iso_code);
+			$weight_class_id = (int)$this->request->get['weight_class_id'];
+			if($weight){
+				if( !$weight_class_id
+						|| ($weight_class_id && $weight['weight_class_id'] != $weight_class_id) ){
+					$this->error['iso_code'] = $this->language->get('error_iso_code');
+				}
+			}
 		}
 
 		$this->extensions->hk_ValidateData( $this );

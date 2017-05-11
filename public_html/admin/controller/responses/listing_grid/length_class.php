@@ -66,10 +66,14 @@ class ControllerResponsesListingGridLengthClass extends AController {
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $total;
+		$response->userdata = new stdClass();
 
 		$results = $this->model_localisation_length_class->getLengthClasses($data);
 		$i = 0;
+		$a_length = new ALength($this->registry);
 		foreach ($results as $result) {
+			$is_predefined = in_array($result[ 'length_class_id' ],$a_length->predefined_length_ids) ? true : false;
+			$response->userdata->classes[$result[ 'length_class_id' ]] = $is_predefined ? 'disable-delete' : '';
 			$response->rows[$i]['id'] = $result['length_class_id'];
 			$response->rows[$i]['cell'] = array(
 				$this->html->buildInput(array(
@@ -80,10 +84,12 @@ class ControllerResponsesListingGridLengthClass extends AController {
 					'name'  => 'length_class_description['.$result['length_class_id'].']['.$this->session->data['content_language_id'].'][unit]',
 					'value' => $result['unit'],
 				)),
-				$this->html->buildInput(array(
-					'name'  => 'value['.$result['length_class_id'].']',
-					'value' => $result['value'],
-				)),
+					($is_predefined ? $result['value'] :
+						$this->html->buildInput(array(
+							'name'  => 'value['.$result['length_class_id'].']',
+							'value' => $result['value'],
+						))
+					),
 				$result['iso_code']
 			);
 			$i++;
@@ -224,6 +230,17 @@ class ControllerResponsesListingGridLengthClass extends AController {
 				$iso_code = strtoupper(preg_replace('/[^a-z]/i','',$value));
 				if ((!$iso_code) || strlen($iso_code) != 4 ) {
 					$err = $this->language->get('error_iso_code');
+				}
+				//check for uniqueness
+				else{
+					$length = $this->model_localisation_length_class->getLengthClassByCode($iso_code);
+					$length_class_id = (int)$this->request->get['id'];
+					if($length){
+						if( !$length_class_id
+								|| ($length_class_id && $length['length_class_id'] != $length_class_id) ){
+							$err['iso_code'] = $this->language->get('error_iso_code');
+						}
+					}
 				}
 				break;
 		}

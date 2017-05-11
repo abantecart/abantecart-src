@@ -207,6 +207,8 @@ class ControllerPagesLocalisationLengthClass extends AController {
 			$this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_class');
 			$this->data['update'] = $this->html->getSecureURL('listing_grid/length_class/update_field','&id='.$this->request->get['length_class_id']);
 			$form = new AForm('HS');
+			$a_length = new ALength($this->registry);
+			$is_predefined = in_array($this->request->get['length_class_id'],$a_length->predefined_length_ids) ? true : false;
 		}
 		  
 		$this->document->addBreadcrumb( array (
@@ -264,13 +266,14 @@ class ControllerPagesLocalisationLengthClass extends AController {
 			'name' => 'iso_code',
 			'value' => $this->data['iso_code'],
 			'required' => true,
-			'attr'      => 'maxlength="4"',
+			'attr'      => 'maxlength="4" '.($is_predefined ? 'readonly' : ''),
 			'style' => 'tiny-field'
 		));
 		$this->data['form']['fields']['value'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'value',
 			'value' => $this->data['value'],
+			'attr'  => $is_predefined ? 'readonly' : ''
 		));
 
 		$this->view->batchAssign( $this->data );
@@ -297,6 +300,17 @@ class ControllerPagesLocalisationLengthClass extends AController {
 		$iso_code = strtoupper(preg_replace('/[^a-z]/i','',$this->request->post['iso_code']));
 		if ((!$iso_code) || strlen($iso_code) != 4 ) {
 			$this->error['iso_code'] = $this->language->get('error_iso_code');
+		}
+		//check for uniqueness
+		else{
+			$length = $this->model_localisation_length_class->getLengthClassByCode($iso_code);
+			$length_class_id = (int)$this->request->get['id'];
+			if($length){
+				if( !$length_class_id
+						|| ($length_class_id && $length['length_class_id'] != $length_class_id) ){
+					$this->error['iso_code'] = $this->language->get('error_iso_code');
+				}
+			}
 		}
 
 		$this->extensions->hk_ValidateData( $this);
