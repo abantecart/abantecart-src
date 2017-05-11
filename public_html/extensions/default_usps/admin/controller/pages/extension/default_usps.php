@@ -95,7 +95,7 @@ class ControllerPagesExtensionDefaultUsps extends AController{
 		if($this->request->is_POST() && $this->_validate()){
 			$this->model_setting_setting->editSetting('default_usps', $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect($this->html->getSecureURL('extension/default_usps'));
+			redirect($this->html->getSecureURL('extension/default_usps'));
 		}
 
 		if(isset($this->error['warning'])){
@@ -143,22 +143,6 @@ class ControllerPagesExtensionDefaultUsps extends AController{
 				'VARIABLE'       => $this->language->get('text_variable'),
 		);
 
-		$this->load->model('localisation/weight_class');
-		$results = $this->model_localisation_weight_class->getWeightClasses();
-		$weight_classes = array();
-		$has_pounds = false;
-		foreach($results as $k => $v){
-			$weight_classes[$v['weight_class_id']] = $v['title'];
-			if($v['iso_code'] == 'PUND') {
-				$has_pounds = true;
-				$default_class = $v['weight_class_id'];
-			}
-		}
-
-		if(!$has_pounds) {
-			$this->data['error_warning'] = 'Error: USPS will not work. Please add weight class "Pounds" with ISO-code "PUND"!';
-		}
-
 		$this->load->model('localisation/tax_class');
 		$results = $this->model_localisation_tax_class->getTaxClasses();
 		$tax_classes = array(0 => $this->language->get('text_none'));
@@ -181,10 +165,7 @@ class ControllerPagesExtensionDefaultUsps extends AController{
 			}
 		}
 
-		if(!$this->data['default_usps_weight_class'] || !in_array($this->data['default_usps_weight_class'], array_keys($weight_classes))) {
-			$this->data['default_usps_weight_class'] = $default_class;
-		}
-
+		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 		$this->data ['action'] = $this->html->getSecureURL('extension/default_usps', '&extension=default_usps');
 		$this->data['cancel'] = $this->html->getSecureURL('extension/shipping');
 		$this->data ['heading_title'] = $this->language->get('text_additional_settings');
@@ -335,39 +316,7 @@ class ControllerPagesExtensionDefaultUsps extends AController{
 						0 => $this->language->get('text_no'),
 				),
 		));
-		$this->data['form']['fields']['weight_class'] = $form->getFieldHtml(array(
-				'type'    => 'selectbox',
-				'name'    => 'default_usps_weight_class',
-				'options' => $weight_classes,
-				'value'   => $this->data['default_usps_weight_class']
-		));
 
-		$this->load->model('localisation/length_class');
-		$results = $this->model_localisation_length_class->getLengthClasses();
-		$length_classes = array();
-		$default_class = '';
-		foreach($results as $k => $v){
-			$length_classes[$v['length_class_id']] = $v['title'];
-			if($v['iso_code'] == 'INCH') {
-				$has_inches = true;
-				$default_class = $v['length_class_id'];
-			}
-		}
-
-		if(!$has_inches) {
-			$this->data['error_warning'] .= 'Error: USPS will not work. Please add length class "Inches" with ISO-code "INCH"!';
-		}
-
-		if(!$this->data['default_usps_length_class'] || !in_array($this->data['default_usps_length_class'], array_keys($length_classes))) {
-			$this->data['default_usps_length_class'] = $default_class;
-		}
-
-		$this->data['form']['fields']['length_class'] = $form->getFieldHtml(array(
-				'type'    => 'selectbox',
-				'name'    => 'default_usps_length_class',
-				'options' => $length_classes,
-				'value'   => $this->data['default_usps_length_class'],
-		));
 		$this->data['form']['fields']['tax'] = $form->getFieldHtml(array(
 				'type'    => 'selectbox',
 				'name'    => 'default_usps_tax_class_id',

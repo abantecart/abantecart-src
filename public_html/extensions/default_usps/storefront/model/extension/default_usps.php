@@ -34,29 +34,6 @@ class ModelExtensionDefaultUsps extends Model{
 		if (!$this->config->get('default_usps_status')) {
 			return false;
 		}
-		//check is pounds default weight class
-		$sql = "SELECT *
-				FROM " . $this->db->table("weight_classes") . "
-				WHERE weight_class_id = '" . (int)$this->config->get('default_usps_weight_class') . "'
-						AND iso_code = 'PUND'";
-		$result = $this->db->query($sql);
-		if (!$result->num_rows) {
-			$error = new AError('USPS shipping disabled. Please set Pounds (ISO-code "PUND") as default USPS weight class! ');
-			$error->toLog()->toMessages();
-			return false;
-		}
-
-		//check is pounds default weight class
-		$sql = "SELECT *
-				FROM " . $this->db->table("length_classes") . "
-				WHERE length_class_id = '" . (int)$this->config->get('default_usps_length_class') . "'
-						AND iso_code = 'INCH'";
-		$result = $this->db->query($sql);
-		if (!$result->num_rows) {
-			$error = new AError('USPS shipping disabled. Please set Inches (ISO-code "INCH") as default USPS length class! ');
-			$error->toLog()->toMessages();
-			return false;
-		}
 
 		$this->load->model('localisation/country');
 		if (!$this->config->get('default_usps_location_id')) {
@@ -92,8 +69,10 @@ class ModelExtensionDefaultUsps extends Model{
 		$quote_data = array ();
 
 		//build array with cost for shipping
-		$generic_product_ids = $free_shipping_ids = $shipping_price_ids = array (); // ids of products without special shipping cost
-		$shipping_price_cost = 0; // total shipping cost of product with fixed shipping price
+		// ids of products without special shipping cost
+		$generic_product_ids = $free_shipping_ids = $shipping_price_ids = array ();
+		// total shipping cost of product with fixed shipping price
+		$shipping_price_cost = 0;
 		$cart_products = $this->cart->getProducts();
 		foreach ($cart_products as $product) {
 			//(exclude free shipping products)
@@ -108,8 +87,7 @@ class ModelExtensionDefaultUsps extends Model{
 			$generic_product_ids[] = $product['product_id'];
 		}
 		//convert fixed prices to USD
-		$shipping_price_cost = $this->currency->convert($shipping_price_cost, $this->config->get('config_currency'),
-				'USD');
+		$shipping_price_cost = $this->currency->convert($shipping_price_cost, $this->config->get('config_currency'),'USD');
 
 		if ($generic_product_ids) {
 			$api_weight_product_ids = array_diff($generic_product_ids, $shipping_price_ids);
@@ -153,12 +131,13 @@ class ModelExtensionDefaultUsps extends Model{
 		if ($api_weight_product_ids) {
 			//do trick to get int instead unit name
 			//TODO: change this in 2.0
-			$cart_weight_class_id = $this->weight->getClassID($this->config->get('config_weight_class_id'));
+			$cart_weight_class_id = $this->weight->getClassIDByUnit($this->config->get('config_weight_class'));
+			$cart_weight = $this->cart->getWeight($api_weight_product_ids);
 			$weight = $this->weight->convertByID(
 			//get weight non-free shipping products only
-					$this->cart->getWeight($api_weight_product_ids),
+					$cart_weight,
 					$cart_weight_class_id,
-					(int)$this->config->get('default_usps_weight_class_id')
+					$this->weight->getClassIDByCode('PUND')
 			);
 			$weight = ($weight < 0.001 ? 0.001 : $weight);
 		}
@@ -194,8 +173,7 @@ class ModelExtensionDefaultUsps extends Model{
 			$xml = '<RateV4Request USERID="' . $this->config->get('default_usps_user_id') . '" PASSWORD="' . $this->config->get('default_usps_password') . '">';
 			$xml .= '	<Package ID="1">';
 			$xml .= '		<Service>ALL</Service>';
-			$xml .= '		<ZipOrigination>' . substr($this->config->get('default_usps_postcode'), 0,
-							5) . '</ZipOrigination>';
+			$xml .= '		<ZipOrigination>' . substr($this->config->get('default_usps_postcode'),0,5) . '</ZipOrigination>';
 			$xml .= '		<ZipDestination>' . substr($postcode, 0, 5) . '</ZipDestination>';
 			$xml .= '		<Pounds>' . $pounds . '</Pounds>';
 			$xml .= '		<Ounces>' . $ounces . '</Ounces>';
@@ -424,9 +402,10 @@ class ModelExtensionDefaultUsps extends Model{
 			$title = $this->language->get('text_title');
 			if ($this->config->get('default_usps_display_weight')) {
 				$title .= ' (' . $this->language->get('text_weight')
-						. ' ' . $this->weight->format($weight,
-								$this->config->get('default_usps_weight_class_id')) . ')';
+						. ' ' . $this->weight->formatByID($cart_weight,
+								$this->weight->getClassIDByUnit($this->config->get('config_weight_class'))) . ')';
 			}
+
 			$method_data = array (
 					'id'         => 'default_usps',
 					'title'      => $title,
