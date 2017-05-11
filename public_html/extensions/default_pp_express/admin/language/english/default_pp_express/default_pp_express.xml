@@ -5,10 +5,6 @@
 		<value><![CDATA[PayPal Express Checkout]]></value>
 	</definition>
 	<definition>
-		<key>text_success</key>
-		<value><![CDATA[Success: You have modified PayPal account details!]]></value>
-	</definition>
-	<definition>
 		<key>default_pp_express_custom_logo</key>
 		<value><![CDATA[Add Company Logo:<span class="help">Enter path or URL to your company logo file. The logo may be a JPG, PNG, or GIF up to 190 pixels wide by 60 pixels high. This logo will appear as the header of your checkout page.</span>]]></value>
 	</definition>

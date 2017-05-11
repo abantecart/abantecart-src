@@ -5,10 +5,6 @@
 		<value><![CDATA[PayPal Salida Exprés]]></value>
 	</definition>
 	<definition>
-		<key>text_success</key>
-		<value><![CDATA[Exito: Se ha modificado datos de la cuenta de PayPal!]]></value>
-	</definition>
-	<definition>
 		<key>default_pp_express_custom_logo</key>
 		<value><![CDATA[Añadir Logotipo de la empresa: <span class="help"> Introduce ruta o URL de su archivo de logotipo de la empresa. El logotipo puede ser un archivo JPG, PNG o GIF hasta 190 píxeles de ancho por 60 píxeles de alto. Este logotipo aparecerá como encabezado de la página de pago.</span>]]></value>
 	</definition>
