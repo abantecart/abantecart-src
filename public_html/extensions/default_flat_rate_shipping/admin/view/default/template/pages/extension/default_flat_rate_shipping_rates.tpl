@@ -1,5 +1,5 @@
 <div class="table-responsive">
-	<table class="table table-striped table-bordered table-hover">
+	<table class="table table-striped table-bordered table-hover mb0">
 		<thead>
 		<tr>
 			<td class="text-left"><?php echo $default_flat_rate_shipping_location_id; ?></td>
