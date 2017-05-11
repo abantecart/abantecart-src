@@ -19,7 +19,7 @@
 					<select class="form-control aselect"
 							name="default_flat_rate_shipping_default_tax_class_id"
 							id="editSettings_default_flat_rate_shipping_default_tax_class_id">
-							<option value="0" data-orgvalue="false"> ---None---</option>
+							<option value="0" data-orgvalue="false"> <?php echo $text_none; ?></option>
 							<?php foreach($options['getTaxClasses'] as $tax_class){?>
 							<option value="<?php echo $tax_class['tax_class_id']?>"
 									<?php echo $tax_class['tax_class_id'] == $this->config->get('default_flat_rate_shipping_default_tax_class_id')
@@ -42,7 +42,7 @@
 					<select class="form-control aselect"
 							name="default_flat_rate_shipping_tax_class_id_<?php echo $location['location_id']; ?>"
 							id="editSettings_default_flat_rate_shipping_tax_class_id">
-							<option value="0" data-orgvalue="false"> ---None---</option>
+							<option value="0" data-orgvalue="false"> <?php echo $text_none; ?></option>
 							<?php foreach($options['getTaxClasses'] as $tax_class){?>
 							<option value="<?php echo $tax_class['tax_class_id']?>"
 									<?php echo $tax_class['tax_class_id'] == $this->config->get('default_flat_rate_shipping_tax_class_id_'.$location['location_id'])
