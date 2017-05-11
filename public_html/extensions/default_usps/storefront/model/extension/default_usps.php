@@ -357,6 +357,9 @@ class ModelExtensionDefaultUsps extends Model{
 						$id = $service->getAttribute('ID');
 						if (in_array($id, $allowed) && $this->config->get('default_usps_international_' . $id)) {
 							$title = $service->getElementsByTagName('SvcDescription')->item(0)->nodeValue;
+							if(!$title){
+								continue;
+							}
 							if ($this->config->get('default_usps_display_time')) {
 								$title .= ' (' . $this->language->get('text_eta') . ' ' . $service->getElementsByTagName('SvcCommitments')->item(0)->nodeValue . ')';
 							}
