@@ -38,7 +38,7 @@
 	</definition>
 	<definition>
 		<key>entry_value</key>
-		<value><![CDATA[Value:<br /><span class="help">Set to 1.00000 if this is your default length.</span>]]></value>
+		<value><![CDATA[Value:]]></value>
 	</definition>
 	<definition>
 		<key>error_permission</key>
