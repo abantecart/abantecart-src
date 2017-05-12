@@ -183,7 +183,15 @@ class ModelLocalisationWeightClass extends Model {
 									FROM " . $this->db->table("weight_class_descriptions") . " 
 									WHERE unit = '" . $this->db->escape($unit) . "'
 										AND language_id = '" . $language_id . "'");
-		return $query->row;
+		if($query->num_rows) {
+			return $query->row;
+		}else{
+			//TODO: remove this in 2.0
+			$query = $this->db->query("SELECT *
+									FROM " . $this->db->table("weight_class_descriptions") . " 
+									WHERE unit = '" . $this->db->escape($unit) . "'");
+			return $query->row;
+		}
 	}
 
 	/**

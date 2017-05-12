@@ -200,8 +200,17 @@ class AWeight{
 		if (isset($this->weights[$weight_unit])){
 			return $this->weights[$weight_unit]['weight_class_id'];
 		} else{
-			return '';
+			//TODO: remove this in 2.0
+			//if language was switched try to find weight by unit
+			$sql = "SELECT weight_class_id
+					FROM " . $this->db->table("weight_class_descriptions") . "
+					WHERE unit = '" . $this->db->escape($weight_unit) . "'";
+			$result = $this->db->query($sql);
+			if($result->row['weight_class_id']){
+				return $result->row['weight_class_id'];
+			}
 		}
+		return '';
 	}
 
 	/**

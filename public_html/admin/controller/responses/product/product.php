@@ -781,10 +781,15 @@ class ControllerResponsesProductProduct extends AController{
 		$prd_weight_info = $this->model_localisation_weight_class->getWeightClass($prd_info['weight_class_id']);
 		$wht_options[$prd_weight_info['unit']] = $prd_weight_info['title'];
 
+		if($selected_unit && $selected_unit != '%'){
+			$a_weight = new AWeight($this->registry);
+			$option_weight_class_id = $a_weight->getClassIDByUnit($selected_unit);
+		}
+
 		if (empty($selected_unit)){
 			//no weight yet, use product weight unit as default 
 			$selected_unit = trim($prd_weight_info['unit']);
-		} else if ($selected_unit != trim($prd_weight_info['unit']) && $selected_unit != '%'){
+		} else if ($option_weight_class_id != trim($prd_info['weight_class_id']) && $selected_unit != '%'){
 			//main product type has changed. Show what weight unit we have in option
 			$weight_info = $this->model_localisation_weight_class->getWeightClassDescriptionByUnit($selected_unit);
 			$wht_options[$selected_unit] = $weight_info['title'];
