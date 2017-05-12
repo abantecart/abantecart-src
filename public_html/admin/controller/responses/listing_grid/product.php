@@ -23,7 +23,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerResponsesListingGridProduct extends AController {
 	public $data = array();
 	public function main() {
-
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -31,7 +30,7 @@ class ControllerResponsesListingGridProduct extends AController {
 		$this->loadModel('catalog/product');
 		$this->loadModel('tool/image');
 
-		//Clean up parametres if needed
+		//Clean up parameters if needed
 		if (isset($this->request->get['keyword']) && $this->request->get['keyword'] == $this->language->get('filter_product')) {
 			unset($this->request->get['keyword']);
 		}
@@ -80,7 +79,6 @@ class ControllerResponsesListingGridProduct extends AController {
 				$response->userdata->classes[ $result['product_id'] ] = 'warning';
 			}
 
-
 			if($result['call_to_order']>0){
 				$price = $this->language->get('text_call_to_order');
 			}else{
@@ -122,7 +120,6 @@ class ControllerResponsesListingGridProduct extends AController {
 	}
 
 	public function update() {
-
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -147,7 +144,6 @@ class ControllerResponsesListingGridProduct extends AController {
 							$error = new AError('');
 							return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 						}
-
 						$this->model_catalog_product->deleteProduct($id);
 					}
 				break;
@@ -157,7 +153,6 @@ class ControllerResponsesListingGridProduct extends AController {
 				if (!empty($ids))
 					foreach ($ids as $id) {
 						foreach ($allowedFields as $f) {
-
 							if ($f == 'status' && !isset($this->request->post['status'][ $id ]))
 								$this->request->post['status'][ $id ] = 0;
 
@@ -171,7 +166,6 @@ class ControllerResponsesListingGridProduct extends AController {
 							}
 						}
 					}
-
 				break;
 			case 'relate':
 				$ids = explode(',', $this->request->post['id']);
@@ -216,10 +210,10 @@ class ControllerResponsesListingGridProduct extends AController {
 					$error = new AError('');
 					return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 				}
-                if($key=='date_available'){
-                    $value = dateDisplay2ISO($value);
-                }
-                $data = array( $key => $value );
+				if($key=='date_available'){
+					$value = dateDisplay2ISO($value);
+				}
+				$data = array( $key => $value );
 				$this->model_catalog_product->updateProduct($product_id, $data);
 				$this->model_catalog_product->updateProductLinks($product_id, $data);
 			}
@@ -335,7 +329,7 @@ class ControllerResponsesListingGridProduct extends AController {
 				if (isset($value['name']) && ((mb_strlen($value['name']) < 1) || (mb_strlen($value['name']) > 255))) {
 					$this->data['error'] = $this->language->get('error_name');
 				}
-				break;				
+				break;
 			case 'model' :
 				if (mb_strlen($value) > 64) {
 					$this->data['error'] = $this->language->get('error_model');
@@ -348,7 +342,7 @@ class ControllerResponsesListingGridProduct extends AController {
 			case 'width'  :
 			case 'height' :
 			case 'weight' :
-				$v =  preformatFloat(abs($value), $this->language->get('decimal_point'));
+				$v =  abs(preformatFloat($value, $this->language->get('decimal_point')));
 				if($v>=1000){
 					$this->data['error'] = $this->language->get('error_measure_value');
 				}
