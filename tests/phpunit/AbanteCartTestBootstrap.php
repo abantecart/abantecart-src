@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 class AbanteCartTest extends TestCase {
 	protected $registry;
 	public function __construct() {
-
+		parent::__construct();
 		$GLOBALS[ 'error_descriptions' ] = 'Abantecart PhpUnit test';
 
 		$dirname = dirname(__FILE__);
