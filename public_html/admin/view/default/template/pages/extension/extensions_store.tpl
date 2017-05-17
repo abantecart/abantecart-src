@@ -106,7 +106,6 @@
 					$item['title'] = $product['cell']['name'];
 					$item['extension_id'] = $product['cell']['model'];
 
-					//$item['rating'] = "<img src='" . $this->templateResource('/image/stars_' . (int)$product['cell']['rating'] . '.png') . "' alt='" . (int)$product['cell']['stars'] . "' />";
 					$item['rating'] = str_repeat('<i class="fa fa-star"> </i>',(int)$product['cell']['rating']);
 					if((int)$product['cell']['rating']<5){
 						$item['rating'] .= str_repeat('<i class="fa fa-star-o"> </i>',(5-(int)$product['cell']['rating']));
