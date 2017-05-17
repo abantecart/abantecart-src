@@ -3381,3 +3381,10 @@ body.stickyheader .sticky_left {
 img.extension-summary-icon{
 	width: 57px;
 }
+
+.stars{
+	cursor: default;
+}
+.stars>i{
+	margin-right: 3px;
+}
