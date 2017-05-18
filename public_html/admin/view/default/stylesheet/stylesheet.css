@@ -3385,6 +3385,9 @@ img.extension-summary-icon{
 .stars{
 	cursor: default;
 }
-.stars>i{
-	margin-right: 3px;
+.fa-star, .fa-star-o{
+	margin-right: 2px;
+}
+.fa-star::before, .fa-star-o::before{
+	color: gold;
 }
