@@ -64,8 +64,9 @@ class ControllerPagesCatalogProduct extends AController {
 			'url' => $this->html->getSecureURL('listing_grid/product','&category='.(int)$this->request->get['category']),
 			'editurl' => $this->html->getSecureURL('listing_grid/product/update'),
 			'update_field' => $this->html->getSecureURL('listing_grid/product/update_field'),
-			'sortname' => 'product_id',
-			'sortorder' => 'asc',
+			//NOTE: set default sorting by date_modified, but column not present in the grid
+			'sortname' => 'date_modified',
+			'sortorder' => 'desc',
 			'actions' => array(
 				'edit' => array(
 					'text' => $this->language->get('text_edit'),
