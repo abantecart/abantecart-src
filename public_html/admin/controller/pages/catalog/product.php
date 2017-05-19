@@ -179,7 +179,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'form_name' => 'product_grid_search',
 		));
 
-		//get search filter from cookie if requeted
+		//get search filter from cookie if required
 		$search_params = array();
 		if($this->request->get['saved_list']) {
 			$grid_search_form = json_decode(html_entity_decode($this->request->cookie['grid_search_form']));
@@ -243,13 +243,14 @@ class ControllerPagesCatalogProduct extends AController {
 			$search_params['category'] = $this->request->get['category'];
 		}
 
-		$grid_search_form['fields']['category'] = $form->getFieldHtml(array(
-			'type' => 'selectbox',
-			'name' => 'category',
-			'options' => $this->data['categories'],
-			'style' =>'chosen',
-			'value' => $search_params['category'],
-			'placeholder' => $this->language->get('text_select_category'),
+		$grid_search_form['fields']['category'] = $form->getFieldHtml(
+				array(
+					'type' => 'selectbox',
+					'name' => 'category',
+					'options' => $this->data['categories'],
+					'style' =>'chosen',
+					'value' => $search_params['category'],
+					'placeholder' => $this->language->get('text_select_category'),
 		));
 		$grid_search_form['fields']['status'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
@@ -298,7 +299,7 @@ class ControllerPagesCatalogProduct extends AController {
 			$this->model_catalog_product->updateProductLinks($product_id, $product_data);
 			$this->extensions->hk_ProcessData($this,'product_insert');
 			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect($this->html->getSecureURL('catalog/product/update', '&product_id='.$product_id));
+			redirect($this->html->getSecureURL('catalog/product/update', '&product_id='.$product_id));
 		}
 		$this->_getForm();
 
@@ -307,7 +308,6 @@ class ControllerPagesCatalogProduct extends AController {
 	}
 
 	public function update() {
-
 		$args = func_get_args();
 
 		//init controller data
@@ -331,17 +331,14 @@ class ControllerPagesCatalogProduct extends AController {
 			$this->model_catalog_product->updateProductLinks($product_id, $product_data);
 			$this->extensions->hk_ProcessData($this,'product_update');
 			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect($this->html->getSecureURL('catalog/product/update', '&product_id='.$product_id));
+			redirect($this->html->getSecureURL('catalog/product/update', '&product_id='.$product_id));
 		}
-
 		$this->_getForm($args);
-
 		//update controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 
 	public function copy() {
-
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
@@ -351,10 +348,12 @@ class ControllerPagesCatalogProduct extends AController {
 			$this->extensions->hk_ProcessData($this,'product_copy');
 			if ( $this->data['new_product'] ) {
 				$this->session->data['success'] = sprintf($this->language->get('text_success_copy'), $this->data['new_product']['name']);
-				$this->redirect($this->html->getSecureURL('catalog/product/update', '&product_id='.$this->data['new_product']['id']));
-			} else {			
+				redirect($this->html->getSecureURL(
+						'catalog/product/update',
+						'&product_id='.$this->data['new_product']['id']));
+			} else {
 				$this->session->data['success'] = $this->language->get('text_error_copy');
-				$this->redirect($this->html->getSecureURL('catalog/product'));
+				redirect($this->html->getSecureURL('catalog/product'));
 			}
 		}
 
@@ -363,15 +362,14 @@ class ControllerPagesCatalogProduct extends AController {
 	}
 
 	private function _getForm($args = array()) {
-
 		$viewport_mode = isset($args[0]['viewport_mode']) ? $args[0]['viewport_mode'] : '';
-
-		if (isset($this->request->get['product_id']) && $this->request->is_GET()) {
+		$content_language_id = $this->language->getContentLanguageID();
+		if (isset($this->request->get['product_id'])) {
 			$product_id = $this->request->get['product_id'];
 			$product_info = $this->model_catalog_product->getProduct($product_id);
 			$product_info['featured'] = $product_info['featured'] ? 1 : 0;
 		}
-		
+
 		$this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($product_id);
 		$this->data['error'] = $this->error;
 		$this->data['cancel'] = $this->html->getSecureURL('catalog/product');
@@ -383,8 +381,15 @@ class ControllerPagesCatalogProduct extends AController {
 		 ));
 		$this->document->addBreadcrumb( array (
 			'href'      => $this->html->getSecureURL('catalog/product'),
+			'text'      => $this->language->get('heading_title'),
+			'separator' => FALSE
+		 ));
+		$this->document->addBreadcrumb( array (
+			'href'      => $this->html->getSecureURL('catalog/product'),
 			'text' =>
-			($product_id ? $this->language->get('text_edit') .'&nbsp;'. $this->language->get('text_product') . ' - ' . $this->data['product_description'][$this->session->data['content_language_id']]['name'] : $this->language->get('text_insert')),
+			($product_id
+					? $this->language->get('text_edit') .'&nbsp;'. $this->language->get('text_product') . ' - ' . $this->data['product_description'][$content_language_id]['name']
+					: $this->language->get('text_insert')),
 			'separator' => ' :: ',
 			'current' => true,
 		 ));
@@ -495,7 +500,7 @@ class ControllerPagesCatalogProduct extends AController {
 		if (isset($this->request->post['product_description'])) {
 			$this->data['product_description'] = $this->request->post['product_description'];
 		} elseif (isset($product_info)) {
-			$this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($product_id,$this->session->data['content_language_id']);
+			$this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($product_id,$content_language_id);
 		} else {
 			$this->data['product_description'] = array();
 		}
@@ -511,7 +516,7 @@ class ControllerPagesCatalogProduct extends AController {
 		if (isset($this->request->post['product_tags'])) {
 			$this->data['product_tags'] = $this->request->post['product_tags'];
 		} elseif (isset($product_info)) {
-			$this->data['product_tags'] = $this->model_catalog_product->getProductTags($product_id, $this->session->data['content_language_id']);
+			$this->data['product_tags'] = $this->model_catalog_product->getProductTags($product_id, $content_language_id);
 		} else {
 			$this->data['product_tags'] = '';
 		}
@@ -560,7 +565,6 @@ class ControllerPagesCatalogProduct extends AController {
 		if ( $this->data['minimum'] == '' ) $this->data['minimum'] = 1;
 		if ( $this->data['sort_order'] == '' ) $this->data['sort_order'] = 1;
 
-
 		$this->data['active'] = 'details';
 		if (!isset($product_id)) {
 			$this->data['action'] = $this->html->getSecureURL('catalog/product/insert');
@@ -594,12 +598,14 @@ class ControllerPagesCatalogProduct extends AController {
 			'action' => $this->data['action'],
 			'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
 		));
+
 		$this->data['form']['submit'] = $form->getFieldHtml(array(
 			'type' => 'button',
 			'name' => 'submit',
 			'text' => $this->language->get('button_save'),
 			'style' => 'button1',
 		));
+
 		$this->data['form']['cancel'] = $form->getFieldHtml(array(
 			'type' => 'button',
 			'name' => 'cancel',
@@ -613,6 +619,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'value' => $this->data['status'],
 			'style'  => 'btn_switch btn-group-sm',
 		));
+
 		$this->data['form']['fields']['general']['featured'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
 			'name' => 'featured',
@@ -634,6 +641,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'value' => $this->data['product_description']['blurb'],
 			'multilingual' => true,
 		));
+
 		if( $viewport_mode != 'modal' ){
 			$this->data['form']['fields']['general']['description'] = $form->getFieldHtml(array (
 					'type'         => 'texteditor',
@@ -642,23 +650,27 @@ class ControllerPagesCatalogProduct extends AController {
 					'multilingual' => true,
 			));
 		}
+
 		$this->data['form']['fields']['general']['meta_keywords'] = $form->getFieldHtml(array(
 			'type' => 'textarea',
 			'name' => 'product_description[meta_keywords]',
 			'value' => $this->data['product_description']['meta_keywords'],
-			'multilingual' => true,		
+			'multilingual' => true,
 		));
+
 		$this->data['form']['fields']['general']['meta_description'] = $form->getFieldHtml(array(
 			'type' => 'textarea',
 			'name' => 'product_description[meta_description]',
 			'value' => $this->data['product_description']['meta_description'],
-			'multilingual' => true,		
+			'multilingual' => true,
 		));
+
 		$this->data['form']['fields']['general']['tags'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'product_tags',
 			'value' => $this->data['product_tags'],
 		));
+
 		$this->data['form']['fields']['general']['category'] = $form->getFieldHtml(array(
 			'type' => 'checkboxgroup',
 			'name' => 'product_category[]',
@@ -667,6 +679,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'style' => 'chosen',
 			'placeholder' => $this->language->get('text_select_category'),
 		));
+
 		$this->data['form']['fields']['general']['store'] = $form->getFieldHtml(array(
 			'type' => 'checkboxgroup',
 			'name' => 'product_store[]',
@@ -730,6 +743,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'help_url' => $this->gen_help_url('product_inventory'),
 			'style' => 'medium-field'
 		));
+
 		$this->data['form']['fields']['data']['quantity'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'quantity',
@@ -737,18 +751,21 @@ class ControllerPagesCatalogProduct extends AController {
 			'style' => 'col-xs-1 small-field',
 			'help_url' => $this->gen_help_url('product_inventory'),
 		));
+
 		$this->data['form']['fields']['data']['minimum'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'minimum',
 			'value' => (int)$this->data['minimum'],
 			'style' => 'small-field',
 		));
+
 		$this->data['form']['fields']['data']['maximum'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'maximum',
 			'value' => (int)$this->data['maximum'],
 			'style' => 'small-field',
 		));
+
 		$this->data['form']['fields']['data']['stock_status'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'stock_status_id',
@@ -763,6 +780,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'name' => 'sku',
 			'value' => $this->data['sku'],
 		));
+
 		$this->data['form']['fields']['data']['location'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'location',
@@ -785,7 +803,7 @@ class ControllerPagesCatalogProduct extends AController {
 					'value' => $this->data['keyword'],
 					'help_url' => $this->gen_help_url('seo_keyword'),
 					'attr' => ' gen-value="'.SEOEncode($this->data['product_description']['name']).'" ',
-					'multilingual' => true,		
+					'multilingual' => true,
 				));
 		$this->data['form']['fields']['data']['date_available'] = $form->getFieldHtml(array(
 			'type' => 'date',
@@ -878,7 +896,6 @@ class ControllerPagesCatalogProduct extends AController {
 			$this->data['weight_classes'][0] = $this->language->get('text_none');
 		}
 
-
 		$this->data['form']['fields']['data']['weight'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'weight',
@@ -886,6 +903,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'attr' => ' autocomplete="false"',
 			'style' => 'tiny-field',
 		));
+
 		$this->data['form']['fields']['data']['weight_class'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'weight_class_id',
@@ -902,7 +920,7 @@ class ControllerPagesCatalogProduct extends AController {
 		$this->data['text_clone'] = $this->language->get('text_clone');
 		$this->data['clone_url'] = $this->html->getSecureURL('catalog/product/copy', '&product_id='.$this->request->get['product_id']);
 		$this->data['form_language_switch'] = $this->html->getContentLanguageSwitcher();
-		$this->data['language_id'] = $this->session->data['content_language_id'];
+		$this->data['language_id'] = $content_language_id;
 		$this->data['language_code'] = $this->session->data['language'];
 		$this->data['help_url'] = $this->gen_help_url('product_edit');
 		$saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
@@ -932,7 +950,7 @@ class ControllerPagesCatalogProduct extends AController {
 		$this->processTemplate($tpl);
 	}
 
-	private function _validateForm() {
+	protected function _validateForm() {
 		if (!$this->user->canModify('catalog/product')) {
 			$this->error['warning'] = $this->language->get_error('error_permission');
 		}
@@ -945,7 +963,10 @@ class ControllerPagesCatalogProduct extends AController {
 			$this->error['model'] = $this->language->get_error('error_model');
 		}
 
-		if (($error_text = $this->html->isSEOkeywordExists('product_id='.$this->request->get['product_id'], $this->request->post['keyword']))) {
+		if (($error_text = $this->html->isSEOkeywordExists(
+				'product_id='.$this->request->get['product_id'],
+				$this->request->post['keyword']))
+		) {
 			$this->error['keyword'] = $error_text;
 		}
 
@@ -956,7 +977,7 @@ class ControllerPagesCatalogProduct extends AController {
 			}
 		}
 
-		$this->extensions->hk_ValidateData($this,__FUNCTION__);
+		$this->extensions->hk_ValidateData($this, __FUNCTION__);
 
 		if (!$this->error) {
 			return TRUE;
@@ -968,12 +989,12 @@ class ControllerPagesCatalogProduct extends AController {
 		}
 	}
 
-	private function _validateCopy() {
+	protected function _validateCopy() {
 		if (!$this->user->canModify('catalog/product')) {
 			$this->error['warning'] = $this->language->get_error('error_permission');
 		}
 
-		$this->extensions->hk_ValidateData($this,__FUNCTION__);
+		$this->extensions->hk_ValidateData($this, __FUNCTION__);
 
 		if (!$this->error) {
 			return TRUE;
@@ -982,11 +1003,10 @@ class ControllerPagesCatalogProduct extends AController {
 		}
 	}
 
-	private function _prepareData($data=array()){
+	protected function _prepareData($data = array()){
 		if(isset($data['date_available'])){
 			$data['date_available'] = dateDisplay2ISO($data['date_available']);
 		}
 		return $data;
 	}
 }
-
