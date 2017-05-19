@@ -44,7 +44,7 @@ class ControllerResponsesListingGridContent extends AController{
 		$filter_grid = new AFilter($filter_data);
 		$filter_array = $filter_grid->getFilterData();
 		if ($this->request->post['nodeid']){
-			list($void, $parent_id) = explode('_', $this->request->post['nodeid']);
+			list(,$parent_id) = explode('_', $this->request->post['nodeid']);
 			$filter_array['parent_id'] = $parent_id;
 			if ($filter_array['subsql_filter']){
 				$filter_array['subsql_filter'] .= " AND i.parent_content_id='" . (int)$filter_array['parent_id'] . "' ";
@@ -55,8 +55,18 @@ class ControllerResponsesListingGridContent extends AController{
 		} else{
 			//Add custom params
 			$filter_array['parent_id'] = $new_level = 0;
-			if ($this->config->get('config_show_tree_data')){
-				if ($filter_array['subsql_filter']){
+			//sign to search by title in all levels of contents
+			$need_filter = false;
+			if(has_value($this->request->post['filters'])){
+				$this->load->library('json');
+				$searchData = AJson::decode(htmlspecialchars_decode($this->request->post['filters']), true);
+				if($searchData['rules']){
+					$need_filter = true;
+				}
+			}
+
+			if ($this->config->get('config_show_tree_data') && !$need_filter ){
+				if ($filter_array['subsql_filter'] ){
 					$filter_array['subsql_filter'] .= " AND i.parent_content_id='0' ";
 				} else{
 					$filter_array['subsql_filter'] = " i.parent_content_id='0' ";
@@ -71,7 +81,7 @@ class ControllerResponsesListingGridContent extends AController{
 		$response->page = $filter_grid->getParam('page');
 		$response->total = $filter_grid->calcTotalPages($total);
 		$response->records = $total;
-		$response->userdata = (object)array ('');
+		$response->userdata = new stdClass();
 		$results = $this->acm->getContents($filter_array);
 		$results = !$results ? array () : $results;
 		$i = 0;
