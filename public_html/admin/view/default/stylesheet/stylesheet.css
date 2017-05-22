@@ -3391,3 +3391,7 @@ img.extension-summary-icon{
 .fa-star::before, .fa-star-o::before{
 	color: gold;
 }
+
+.ext_store span.review{
+	white-space: nowrap;
+}

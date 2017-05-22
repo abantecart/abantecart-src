@@ -1,6 +1,6 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
-<div id="content" class="tab-content">
+<div id="content" class="tab-content ext_store">
 	<div class="panel-heading">
 		<?php if(!$mp_connected) { ?>
 		<div class="btn-group">
