@@ -333,15 +333,17 @@ class ControllerPagesCheckoutGuestStep2 extends AController{
 		$shipping = isset($this->request->post['shipping_method']) ? $this->request->post['shipping_method'] : $this->session->data['shipping_method']['id'];
 		if ($this->data['shipping_methods']){
 			foreach ($this->data['shipping_methods'] as $k => $v){
-				foreach ($v['quote'] as $key => $val){
-					$this->data['shipping_methods'][$k]['quote'][$key]['radio'] = $form->getFieldHtml(array (
-							'type'    => 'radio',
-							'id'      => $val['id'],
-							'name'    => 'shipping_method',
-							'options' => array ($val['id'] => ''),
-							'value'   => ($shipping == $val['id'] ? true : false)
-					));
-				}
+                if ($v['quote'] && is_array($v['quote'])) {
+                    foreach ($v['quote'] as $key => $val) {
+                        $this->data['shipping_methods'][$k]['quote'][$key]['radio'] = $form->getFieldHtml(array(
+                            'type' => 'radio',
+                            'id' => $val['id'],
+                            'name' => 'shipping_method',
+                            'options' => array($val['id'] => ''),
+                            'value' => ($shipping == $val['id'] ? true : false)
+                        ));
+                    }
+                }
 			}
 		} else{
 			$this->data['shipping_methods'] = array ();
