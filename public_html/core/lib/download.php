@@ -78,8 +78,10 @@ final class ADownload{
 
 		$result = $this->db->query("SELECT d.*, dd.*, ptd.*
 									FROM " . $this->db->table('downloads') . " d
-									RIGHT JOIN " . $this->db->table('products_to_downloads') . " ptd ON ptd.download_id = d.download_id
-									LEFT JOIN " . $this->db->table('download_descriptions') . " dd ON d.download_id = dd.download_id AND dd.language_id = '" . $language_id . "'
+									RIGHT JOIN " . $this->db->table('products_to_downloads') . " ptd 
+										ON ptd.download_id = d.download_id
+									LEFT JOIN " . $this->db->table('download_descriptions') . " dd 
+										ON d.download_id = dd.download_id AND dd.language_id = '" . $language_id . "'
 									WHERE ptd.product_id='" . (int)$product_id . "'
 										AND d.activate='before_order'
 										AND d.status>0");
@@ -124,8 +126,10 @@ final class ADownload{
 
 		$result = $this->db->query("SELECT dd.*, d.*, od.*
 									FROM " . $this->db->table('order_downloads') . " od
-									LEFT JOIN " . $this->db->table('downloads') . " d ON od.download_id = d.download_id
-									LEFT JOIN " . $this->db->table('download_descriptions') . " dd ON d.download_id = dd.download_id AND dd.language_id = '" . $language_id . "'
+									LEFT JOIN " . $this->db->table('downloads') . " d 
+										ON od.download_id = d.download_id
+									LEFT JOIN " . $this->db->table('download_descriptions') . " dd 
+										ON d.download_id = dd.download_id AND dd.language_id = '" . $language_id . "'
 									WHERE od.order_download_id='" . (int)$order_download_id . "'");
 		return $result->row;
 	}
@@ -141,13 +145,14 @@ final class ADownload{
 		}
 		$query = $this->db->query(
 				"SELECT dd.*, d.*, p2d.*
-					 FROM " . $this->db->table("products_to_downloads") . " p2d
-					 INNER JOIN " . $this->db->table("downloads") . " d ON (p2d.download_id = d.download_id)
-					 LEFT JOIN " . $this->db->table("download_descriptions") . " dd
-						ON (d.download_id = dd.download_id
-								AND dd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
-					 WHERE p2d.product_id = '" . (int)$product_id . "'
-					 		AND d.status=1 AND d.activate<>'before_order' ");
+				FROM " . $this->db->table("products_to_downloads") . " p2d
+				INNER JOIN " . $this->db->table("downloads") . " d 
+					ON (p2d.download_id = d.download_id)
+				LEFT JOIN " . $this->db->table("download_descriptions") . " dd
+					ON (d.download_id = dd.download_id
+						AND dd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
+				WHERE p2d.product_id = '" . (int)$product_id . "'
+					AND d.status=1 AND d.activate<>'before_order' ");
 		return $query->rows;
 	}
 
@@ -161,7 +166,7 @@ final class ADownload{
 	 */
 	public function addUpdateOrderDownload($order_product_id, $order_id, $download = array ()){
 		if (!(int)$order_product_id || !(int)$order_id || !(int)$download['download_id']){
-			return false;
+			return array();
 		}
 
 		if ($download['activate'] != 'order_status'){
@@ -175,7 +180,7 @@ final class ADownload{
 		//check if we have download yet
 		$check = $this->db->query("SELECT od.order_download_id
 									FROM " . $this->db->table('order_downloads') . " od
-									WHERE 	od.order_id='" . (int)$order_id . "'
+									WHERE od.order_id='" . (int)$order_id . "'
 											AND od.order_product_id='" . (int)$order_product_id . "' 
 											AND od.download_id='" . (int)$download['download_id'] . "'");
 		if ($check->num_rows){
@@ -289,7 +294,7 @@ final class ADownload{
 			$result = $this->db->query("SELECT dav.attribute_id, dav.attribute_value_ids as value
 										  FROM " . $this->db->table('download_attribute_values') . " dav
 										  LEFT JOIN " . $this->db->table('global_attributes') . " ga
-										        ON ga.attribute_id = dav.attribute_id
+												ON ga.attribute_id = dav.attribute_id
 										  WHERE dav.attribute_id IN (" . implode(',', $ids) . ") AND dav.download_id = '" . $download_id . "'
 										  ORDER BY ga.sort_order ASC");
 
@@ -396,11 +401,11 @@ final class ADownload{
 														 download_percent,
 														 `time`)
 						VALUES (" . $order_download_history_id . ",
-								'" . $download_info['order_download_id'] . "',
-								'" . $download_info['order_id'] . "',
-								'" . $download_info['order_product_id'] . "',
-								'" . $download_info['filename'] . "',
-								'" . $download_info['mask'] . "',
+								'" . (int)$download_info['order_download_id'] . "',
+								'" . (int)$download_info['order_id'] . "',
+								'" . (int)$download_info['order_product_id'] . "',
+								'" . $this->db->escape($download_info['filename']) . "',
+								'" . $this->db->escape($download_info['mask']) . "',
 								'" . $download_info['download_id'] . "',
 								'" . $prc . "',
 								NOW())
