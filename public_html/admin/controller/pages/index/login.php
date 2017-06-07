@@ -135,26 +135,22 @@ class ControllerPagesIndexLogin extends AController {
 				$this->view->assign('redirect', $this->html->getSecureURL( $route , $url));
 			}
 		} else {
-			
 			$this->view->assign('redirect', '' );
 		}
 
 		$this->view->batchAssign( $this->data );
-		
 		$this->processTemplate('pages/index/login.tpl' );
-
 		//update controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
-		
+
 	private function _validate() {
 		if (isset($this->request->post['username']) && isset($this->request->post['password']) && !$this->user->login($this->request->post['username'], $this->request->post['password'])) {
 			$this->error['warning'] = $this->language->get('error_login');
 		}
-		
 		if (!$this->error) {
 			return TRUE;
-		} else {		
+		} else {
 			$this->messages->saveNotice($this->language->get('error_login_message').$this->request->getRemoteIP(),$this->language->get('error_login_message_text').$this->request->post['username']);
 			return FALSE;
 		}
