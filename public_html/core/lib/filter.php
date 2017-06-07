@@ -292,6 +292,8 @@ final class AGrid{
 						case 'cn' :
 							$str = "LOWER(" . $str . ")";
 							$rule['data'] = mb_strtolower($rule['data']);
+							//search encoded
+							$rule['data'] = htmlentities($rule['data'],ENT_QUOTES,"UTF-8");
 							$str .= " LIKE '%" . $this->db->escape($rule['data']) . "%' ";
 							break;
 						default:
