@@ -216,7 +216,7 @@ class ControllerPagesCheckoutShipping extends AController{
 		$shipping = $this->session->data['shipping_method']['id'];
 		if ($this->data['shipping_methods']){
 			foreach ($this->data['shipping_methods'] as $k => $v){
-				if ($v['quote']){
+				if ($v['quote'] && is_array($v['quote'])){
 					foreach ($v['quote'] as $key => $val){
 						//check if we have only one method and select by default if was selected before
 						$selected = false;
