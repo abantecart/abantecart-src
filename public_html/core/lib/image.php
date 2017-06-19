@@ -48,6 +48,7 @@ class AImage{
 	 * @throws AException
 	 */
 	public function __construct($filename){
+		ini_set("gd.jpeg_ignore_warning", 1);
 		if (!file_exists($filename)) {
 			$error = new AError('Error: Cannot load image ' . $filename . ' . File does not exist.');
 			$error->toLog();
