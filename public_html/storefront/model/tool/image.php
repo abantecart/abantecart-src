@@ -66,17 +66,13 @@ class ModelToolImage extends Model{
 			$new_image = $new_image2x;
 		}
 
-		$https = $this->request->server['HTTPS'];
-		if ($https == 'on' || $https == '1'){
-			$http_path = HTTPS_IMAGE;
-		} else{
-			$http_path = HTTP_IMAGE;
-		}
 		//when need to get abs path of result
 		if ($mode == 'path'){
 			$http_path = DIR_IMAGE;
+		}else{
+			//use auto-path without protocol (AUTOSERVER)
+			$http_path = HTTPS_IMAGE;
 		}
-
 		return $http_path . $new_image;
 	}
 }
