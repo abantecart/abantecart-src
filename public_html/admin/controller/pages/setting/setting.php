@@ -52,7 +52,7 @@ class ControllerPagesSettingSetting extends AController {
 		$get = (array)$this->request->get;
 
 		if ($this->request->is_POST() && $this->_validate($get['active'])) {
-			foreach( array('config_logo', 'config_icon') as $n){
+			foreach( array('config_logo', 'config_mail_logo', 'config_icon') as $n){
 				if (has_value($post[$n])) {
 					$post[$n] = html_entity_decode($post[$n], ENT_COMPAT, 'UTF-8');
 				} else if(!$post[$n] && isset($post[$n.'_resource_id'])) {
