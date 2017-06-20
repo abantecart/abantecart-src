@@ -458,7 +458,20 @@ class ModelCheckoutOrder extends Model{
 		$this->data['mail_template_data']['order_id'] = $order_id;
 		$this->data['mail_template_data']['customer_id'] = $order_row['customer_id'];
 		$this->data['mail_template_data']['date_added'] = dateISO2Display($order_row['date_added'], $language->get('date_format_short'));
-		$this->data['mail_template_data']['logo'] = 'cid:' . md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
+
+		$config_mail_logo = $this->config->get('config_mail_logo');
+		if(is_numeric($config_mail_logo)) {
+			$r = new AResource('image');
+			$resource_info = $r->getResource($config_mail_logo);
+			if($resource_info) {
+				$this->data['mail_template_data']['logo_html'] = html_entity_decode($resource_info['resource_code'], ENT_QUOTES, 'UTF-8');
+			}
+		}else{
+			$this->data['mail_template_data']['logo_uri'] = 'cid:'
+					. md5(pathinfo($config_mail_logo,PATHINFO_FILENAME))
+					. '.' . pathinfo($config_mail_logo, PATHINFO_EXTENSION);
+		}
+
 		$this->data['mail_template_data']['store_name'] = $order_row['store_name'];
 		$this->data['mail_template_data']['address'] = nl2br($this->config->get('config_address'));
 		$this->data['mail_template_data']['telephone'] = $this->config->get('config_telephone');
@@ -608,9 +621,11 @@ class ModelCheckoutOrder extends Model{
 		$mail->setSubject($subject);
 		$mail->setHtml($html_body);
 		$mail->setText($this->data['mail_plain_text']);
-		$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_logo'),
-				md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME))
-				. '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION));
+		if(!is_numeric($this->config->get('config_mail_logo'))) {
+			$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_mail_logo'),
+					md5(pathinfo($this->config->get('config_mail_logo'), PATHINFO_FILENAME))
+					. '.' . pathinfo($this->config->get('config_mail_logo'), PATHINFO_EXTENSION));
+		}
 		$mail->send();
 
 		//send alert email for merchant

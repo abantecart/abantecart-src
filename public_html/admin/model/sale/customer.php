@@ -40,21 +40,21 @@ class ModelSaleCustomer extends Model {
 			$key_sql = ", key_id = '" . (int)$data['key_id'] . "'";
 		}
 		$salt_key = genToken(8);
-      	$this->db->query("INSERT INTO " . $this->db->table("customers") . "
-      	                SET loginname = '" . $this->db->escape($data['loginname']) . "',
-      	                	firstname = '" . $this->db->escape($data['firstname']) . "',
-      	                    lastname = '" . $this->db->escape($data['lastname']) . "',
-      	                    email = '" . $this->db->escape($data['email']) . "',
-      	                    telephone = '" . $this->db->escape($data['telephone']) . "',
-      	                    fax = '" . $this->db->escape($data['fax']) . "',
-      	                    newsletter = '" . (int)$data['newsletter'] . "',
-      	                    customer_group_id = '" . (int)$data['customer_group_id'] . "',
+		$this->db->query("INSERT INTO " . $this->db->table("customers") . "
+						SET loginname = '" . $this->db->escape($data['loginname']) . "',
+							firstname = '" . $this->db->escape($data['firstname']) . "',
+							lastname = '" . $this->db->escape($data['lastname']) . "',
+							email = '" . $this->db->escape($data['email']) . "',
+							telephone = '" . $this->db->escape($data['telephone']) . "',
+							fax = '" . $this->db->escape($data['fax']) . "',
+							newsletter = '" . (int)$data['newsletter'] . "',
+							customer_group_id = '" . (int)$data['customer_group_id'] . "',
 							salt = '" . $this->db->escape($salt_key) . "', 
 							password = '" . $this->db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password'])))) . "',
-      	                    status = '" . (int)$data['status'] . "',
-      	                    approved = '" . (int)$data['approved'] . "'"
-      	                    .$key_sql . ",
-      	                    date_added = NOW()");
+							status = '" . (int)$data['status'] . "',
+							approved = '" . (int)$data['approved'] . "'"
+							.$key_sql . ",
+							date_added = NOW()");
 		$customer_id = $this->db->getLastId();
 
 		//enable notification setting for newsletter via email
@@ -63,7 +63,7 @@ class ModelSaleCustomer extends Model {
 		}
 
 		$this->editCustomerNotifications($customer_id, $data);
-      	return $customer_id;
+		return $customer_id;
 	}
 
 	/**
@@ -93,10 +93,8 @@ class ModelSaleCustomer extends Model {
 								country_id = '" . (int)$address['country_id'] . "'"
 								.$key_sql . ",
 								zone_id = '" . (int)$address['zone_id'] . "'");
-
 		return (int)$this->db->getLastId();
 	}
-
 
 	/**
 	 * @param int $customer_id
@@ -124,14 +122,14 @@ class ModelSaleCustomer extends Model {
 							approved = '" . (int)$data['approved'] . "'
 						WHERE customer_id = '" . (int)$customer_id . "'");
 	
-      	if ($data['password']) {
-	     	$salt_key = genToken(8);
-        	$this->db->query("UPDATE " . $this->db->table("customers") . "
-      	                		SET
-									salt = '" . $this->db->escape($salt_key) . "', 
-									password = '" . $this->db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password'])))) . "'
-        	                  WHERE customer_id = '" . (int)$customer_id . "'");
-      	}
+		if ($data['password']) {
+			$salt_key = genToken(8);
+			$this->db->query("UPDATE " . $this->db->table("customers") . "
+							SET
+								salt = '" . $this->db->escape($salt_key) . "', 
+								password = '" . $this->db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password'])))) . "'
+							WHERE customer_id = '" . (int)$customer_id . "'");
+		}
 
 		if(isset($data['newsletter'])){
 			//enable notification setting for newsletter via email
@@ -160,7 +158,7 @@ class ModelSaleCustomer extends Model {
 		}
 		$this->db->query("INSERT INTO " . $this->db->table("addresses"). "
 						  SET   address_id = '" . (int)$address_id . "',
-						  		customer_id = '" . (int)$customer_id . "',
+								customer_id = '" . (int)$customer_id . "',
 								firstname = '" . $this->db->escape($address['firstname']) . "',
 								lastname = '" . $this->db->escape($address['lastname']) . "',
 								company = '" . $this->db->escape($address['company']) . "',
@@ -183,8 +181,8 @@ class ModelSaleCustomer extends Model {
 		if(!(int)$customer_id || !(int)$address_id ){
 			return false;
 		}
-
-		$this->db->query("DELETE FROM " . $this->db->table("addresses") . " WHERE customer_id = '" . (int)$customer_id . "' AND address_id = '".(int)$address_id."'");
+		$this->db->query("DELETE FROM " . $this->db->table("addresses") . " 
+						WHERE customer_id = '" . (int)$customer_id . "' AND address_id = '".(int)$address_id."'");
 		return true;
 	}
 
@@ -226,22 +224,22 @@ class ModelSaleCustomer extends Model {
 				$query_key = $this->db->query(
 									"SELECT key_id
 									 FROM " . $this->db->table("customers") . "
-							         WHERE customer_id = '" . (int)$customer_id . "'");
-				$key_id = $query_key->rows[0]['key_id'];		
+									 WHERE customer_id = '" . (int)$customer_id . "'");
+				$key_id = $query_key->rows[0]['key_id'];
 				$value = $this->dcrypt->encrypt_field($value, $key_id);
 			}
 			$this->db->query("UPDATE " . $this->db->table("customers") . "
 							  SET ".$field." = '" . $this->db->escape($value) . "'
 							  WHERE customer_id = '" . (int)$customer_id . "'");
 
-      	if ($field == 'password') {
-      		$salt_key = genToken(8);
-        	$this->db->query("UPDATE " . $this->db->table("customers") . "
-        	                  SET 
+		if ($field == 'password') {
+			$salt_key = genToken(8);
+			$this->db->query("UPDATE " . $this->db->table("customers") . "
+							SET 
 								salt = '" . $this->db->escape($salt_key) . "', 
 								password = '" . $this->db->escape(sha1($salt_key.sha1($salt_key.sha1($value)))) . "'
-        	                  WHERE customer_id = '" . (int)$customer_id . "'");
-      	}
+							WHERE customer_id = '" . (int)$customer_id . "'");
+		}
 		if($field == 'newsletter'){
 			$this->saveCustomerNotificationSettings($customer_id, array('newsletter'=>array('email'=>(int)$value)));
 		}
@@ -277,7 +275,6 @@ class ModelSaleCustomer extends Model {
 		foreach($diff as $k){
 			unset($data[$k]);
 		}
-
 
 		$key_sql = '';
 		if ( $this->dcrypt->active ) {
@@ -343,11 +340,11 @@ class ModelSaleCustomer extends Model {
 	 * @param string $default_address_id
 	 */
 	public function setDefaultAddress($customer_id, $default_address_id) {
-      	if ($customer_id && $default_address_id) {
-        	$this->db->query("UPDATE " . $this->db->table("customers") . "
-        	                  SET address_id = '" . (int)$default_address_id . "'
-        	                  WHERE customer_id = '" . (int)$customer_id . "'");
-      	}
+		if ($customer_id && $default_address_id) {
+			$this->db->query("UPDATE " . $this->db->table("customers") . "
+							  SET address_id = '" . (int)$default_address_id . "'
+							  WHERE customer_id = '" . (int)$customer_id . "'");
+		}
 	}
 
 	/**
@@ -363,7 +360,7 @@ class ModelSaleCustomer extends Model {
 				//check key_id to use
 				$query_key = $this->db->query( "SELECT key_id
 												FROM " . $this->db->table("addresses") . "
-							  					WHERE customer_id = '" . (int)$address_id . "'");
+												WHERE customer_id = '" . (int)$address_id . "'");
 				$key_id = $query_key->rows[0]['key_id'];
 				$value = $this->dcrypt->encrypt_field($value, $key_id);
 			}
@@ -381,14 +378,12 @@ class ModelSaleCustomer extends Model {
 		$query = $this->db->query("SELECT *
 									FROM " . $this->db->table("addresses") . "
 									WHERE customer_id = '" . (int)$customer_id . "'");
-	
+
 		foreach ($query->rows as $result) {
 			$result = $this->dcrypt->decrypt_data($result, 'addresses');
-			
 			$this->load->model('localisation/country');
 			$this->load->model('localisation/zone');
-			
-			$country_row = $this->model_localisation_country->getCountry($result['country_id']);						
+			$country_row = $this->model_localisation_country->getCountry($result['country_id']);
 			if ( $country_row ) {
 				$country = $country_row['name'];
 				$iso_code_2 = $country_row['iso_code_2'];
@@ -397,19 +392,19 @@ class ModelSaleCustomer extends Model {
 			} else {
 				$country = '';
 				$iso_code_2 = '';
-				$iso_code_3 = '';	
+				$iso_code_3 = '';
 				$address_format = '';
 			}
-			
-			$zone_row = $this->model_localisation_zone->getZone($result['zone_id']);			
+
+			$zone_row = $this->model_localisation_zone->getZone($result['zone_id']);
 			if ( $zone_row ) {
 				$zone = $zone_row['name'];
 				$code = $zone_row['code'];
 			} else {
 				$zone = '';
 				$code = '';
-			}		
-		
+			}
+
 			$address_data[$result['address_id']] = array(
 				'address_id'     => $result['address_id'],
 				'firstname'      => $result['firstname'],
@@ -423,13 +418,12 @@ class ModelSaleCustomer extends Model {
 				'zone'           => $zone,
 				'zone_code'      => $code,
 				'country_id'     => $result['country_id'],
-				'country'        => $country,	
+				'country'        => $country,
 				'iso_code_2'     => $iso_code_2,
 				'iso_code_3'     => $iso_code_3,
 				'address_format' => $address_format
 			);
-		}		
-		
+		}
 		return $address_data;
 	}
 
@@ -478,16 +472,16 @@ class ModelSaleCustomer extends Model {
 			$sql = "SELECT COUNT(*) as total ";
 		} else {
 			$sql = "SELECT c.customer_id,
-			  	c.firstname,
-  				c.lastname,
-  				c.loginname,
-  				c.email,
-  				c.sms,
-  				c.status,
-  				c.approved,
-  				c.customer_group_id,
-  				c.date_added,
-  				c.date_modified,
+				c.firstname,
+				c.lastname,
+				c.loginname,
+				c.email,
+				c.sms,
+				c.status,
+				c.approved,
+				c.customer_group_id,
+				c.date_added,
+				c.date_modified,
 				CONCAT(c.firstname, ' ', c.lastname) AS name,
 				cg.name AS customer_group
 				";
@@ -515,7 +509,7 @@ class ModelSaleCustomer extends Model {
 		if (has_value($filter['name_email'])) {
 			$implode[] = "CONCAT(c.firstname, ' ', c.lastname, ' ', c.email) LIKE '%" . $this->db->escape($filter['name_email']) . "%' collate utf8_general_ci";
 		}
-	    //more specific login, last and first name search
+		//more specific login, last and first name search
 		if (has_value($filter['loginname'])) {
 			$implode[] = "LOWER(c.loginname) = LOWER('" .$this->db->escape($filter['loginname']) . "') collate utf8_general_ci";
 		}
@@ -582,16 +576,14 @@ class ModelSaleCustomer extends Model {
 			$implode[] =  "c.store_id = " . (int)$store_id;
 		}
 
-		if(($filter['all_subscribers'] || $filter['only_subscribers'])
-				&& $filter['newsletter_protocol']){
+		if(($filter['all_subscribers'] || $filter['only_subscribers']) && $filter['newsletter_protocol']){
 			$sql .= "RIGHT JOIN ".$this->db->table('customer_notifications')." cn
 					ON (cn.customer_id = c.customer_id
 						AND cn.sendpoint='newsletter'
 						AND cn.status=1
 						AND cn.protocol = '".$this->db->escape($filter['newsletter_protocol'])."') ";
-
 		}
-		
+
 		if ($implode) {
 			$sql .= " WHERE " . implode(" AND ", $implode);
 		}
@@ -601,7 +593,7 @@ class ModelSaleCustomer extends Model {
 			$query = $this->db->query($sql);
 			return $query->row['total'];
 		}
-					
+
 		$sort_data = array(
 				'name'              => 'name',
 				'loginname'         => 'c.loginname',
@@ -613,15 +605,12 @@ class ModelSaleCustomer extends Model {
 				'approved'          => 'c.approved',
 				'date_added'        => 'c.date_added',
 				'orders_count'      => 'orders_count'
-		);	
-
+		);
 
 		//Total calculation for encrypted mode
 		// NOTE: Performance slowdown might be noticed or larger search results	
 		if ( $mode != 'total_only' ) {
-
 			$sql .= " ORDER BY ".($sort_data[ $data['sort'] ] ? $sort_data[ $data['sort'] ] : 'name');
-
 			if (isset($data['order']) && (strtoupper($data['order']) == 'DESC')) {
 				$sql .= " DESC";
 			} else {
@@ -631,15 +620,13 @@ class ModelSaleCustomer extends Model {
 			if (isset($data['start']) || isset($data['limit'])) {
 				if ($data['start'] < 0) {
 					$data['start'] = 0;
-				}			
-	
+				}
 				if ($data['limit'] < 1) {
 					$data['limit'] = 20;
-				}	
-				
+				}
 				$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
-			}			
-		}	
+			}
+		}
 
 		$query = $this->db->query($sql);
 		$result_rows = $query->rows;
@@ -653,7 +640,7 @@ class ModelSaleCustomer extends Model {
 			if (has_value($filter['sms'])) {
 				$result_rows = $this->_filter_by_encrypted_field($result_rows, 'sms', $filter['sms']);
 			}
-		}		
+		}
 
 		if ($mode == 'total_only') {
 			//we get here only if in data encryption mode
@@ -663,8 +650,8 @@ class ModelSaleCustomer extends Model {
 		for ($i = 0; $i < count($result_rows); $i++) {
 			$result_rows[$i] = $this->dcrypt->decrypt_data($result_rows[$i], 'customers');	
 		}
-		
-		return $result_rows;	
+
+		return $result_rows;
 	}
 
 	/**
@@ -690,7 +677,7 @@ class ModelSaleCustomer extends Model {
 			if ( !(strpos (strtolower($f_value), strtolower($value)) === false) ) {
 				$result_rows[] = $result;
 			}
-		}	
+		}
 		return $result_rows;
 	}
 
@@ -700,7 +687,7 @@ class ModelSaleCustomer extends Model {
 	public function approve($customer_id) {
 		$this->db->query("UPDATE " . $this->db->table("customers") . "
 						  SET approved = '1'
-						        WHERE customer_id = '" . (int)$customer_id . "'");
+								WHERE customer_id = '" . (int)$customer_id . "'");
 	}
 
 	/**
@@ -711,16 +698,14 @@ class ModelSaleCustomer extends Model {
 		if( has_value($this->session->data['current_store_id']) ) {
 			$store_based = " AND store_id = " . (int)$this->session->data['current_store_id'];
 		}
-
 		$query = $this->db->query("SELECT *
 									FROM " . $this->db->table("customers") . "
 									WHERE newsletter = '1' " . $store_based . "
 									ORDER BY firstname, lastname, email");
-	
 		$result_rows = array();
 		foreach ($query->rows as $row) {
-			$result_rows[] = $this->dcrypt->decrypt_data($row, 'customers');	
-		}		
+			$result_rows[] = $this->dcrypt->decrypt_data($row, 'customers');
+		}
 		return $result_rows;
 	}
 
@@ -738,16 +723,15 @@ class ModelSaleCustomer extends Model {
 			$query = $this->db->query("SELECT *
 									   FROM " . $this->db->table("customers") . "
 									   WHERE LCASE(CONCAT(firstname, ' ', lastname)) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%'
-									        OR LCASE(email) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%' " . $store_based . "
+											OR LCASE(email) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%' " . $store_based . "
 									   ORDER BY firstname, lastname, email");
-	
 			$result_rows = array();
 			foreach ($query->rows as $row) {
-				$result_rows[] = $this->dcrypt->decrypt_data($row, 'customers');	
-			}		
+				$result_rows[] = $this->dcrypt->decrypt_data($row, 'customers');
+			}
 			return $result_rows;
 		} else {
-			return array();	
+			return array();
 		}
 	}
 	/**
@@ -806,7 +790,6 @@ class ModelSaleCustomer extends Model {
 			$result_rows[] = $this->dcrypt->decrypt_data($row, 'customers');
 		}
 		return $result_rows;
-
 	}
 
 	/**
@@ -817,11 +800,10 @@ class ModelSaleCustomer extends Model {
 		$query = $this->db->query("SELECT *
 									FROM " . $this->db->table("addresses") . "
 									WHERE customer_id = '" . (int)$customer_id . "'");
-	
 		$result_rows = array();
 		foreach ($query->rows as $row) {
-			$result_rows[] = $this->dcrypt->decrypt_data($row, 'addresses');	
-		}		
+			$result_rows[] = $this->dcrypt->decrypt_data($row, 'addresses');
+		}
 		return $result_rows;
 	}
 
@@ -839,24 +821,23 @@ class ModelSaleCustomer extends Model {
 		if ( has_value($customer_id) ) {
 			$not_current_customer = "AND customer_id <> '$customer_id'";
 		}
-      	$query = $this->db->query("SELECT COUNT(*) AS total
-      	                           FROM " . $this->db->table("customers") . "
-      	                           WHERE LOWER(`loginname`) = LOWER('" . $loginname . "') " . $not_current_customer);
-      	if ($query->row['total'] > 0) {
-      		return false;
-      	} else {
-      		return true;
-      	}                           
+		$query = $this->db->query("SELECT COUNT(*) AS total
+								   FROM " . $this->db->table("customers") . "
+								   WHERE LOWER(`loginname`) = LOWER('" . $loginname . "') " . $not_current_customer);
+		if ($query->row['total'] > 0) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	/**
 	 * @return int
 	 */
 	public function getTotalCustomersAwaitingApproval() {
-      	$query = $this->db->query("SELECT COUNT(*) AS total
-      	                           FROM " . $this->db->table("customers") . "
-      	                           WHERE approved = '0'");
-
+		$query = $this->db->query("SELECT COUNT(*) AS total
+								   FROM " . $this->db->table("customers") . "
+								   WHERE approved = '0'");
 		return $query->row['total'];
 	}
 
@@ -865,10 +846,9 @@ class ModelSaleCustomer extends Model {
 	 * @return int
 	 */
 	public function getTotalAddressesByCustomerId($customer_id) {
-      	$query = $this->db->query("SELECT COUNT(*) AS total
-      	                            FROM " . $this->db->table("addresses") . "
-      	                            WHERE customer_id = '" . (int)$customer_id . "'");
-		
+		$query = $this->db->query("SELECT COUNT(*) AS total
+									FROM " . $this->db->table("addresses") . "
+									WHERE customer_id = '" . (int)$customer_id . "'");
 		return $query->row['total'];
 	}
 
@@ -880,7 +860,6 @@ class ModelSaleCustomer extends Model {
 		$query = $this->db->query("SELECT COUNT(*) AS total
 									FROM " . $this->db->table("addresses") . "
 									WHERE country_id = '" . (int)$country_id . "'");
-		
 		return (int)$query->row['total'];
 	}
 
@@ -892,7 +871,6 @@ class ModelSaleCustomer extends Model {
 		$query = $this->db->query("SELECT COUNT(*) AS total
 									FROM " . $this->db->table("addresses") . "
 									WHERE zone_id = '" . (int)$zone_id . "'");
-		
 		return (int)$query->row['total'];
 	}
 
@@ -904,7 +882,6 @@ class ModelSaleCustomer extends Model {
 		$query = $this->db->query("SELECT COUNT(*) AS total
 								   FROM " . $this->db->table("customers") . "
 								   WHERE customer_group_id = '" . (int)$customer_group_id . "'");
-		
 		return (int)$query->row['total'];
 	}
 
@@ -996,40 +973,45 @@ class ModelSaleCustomer extends Model {
 		// send email to customer
 		$customer_info = $this->getCustomer($customer_id);
 		if ($customer_info && !$customer_info[ 'approved' ]) {
-
 			$this->load->language('mail/customer');
 			$this->load->model('setting/store');
-
 			$store_info = $this->model_setting_store->getStore($customer_info['store_id']);
-
 			if ($store_info) {
-				$store_name = $store_info[ 'store_name' ];
-				$store_url = $store_info[ 'config_url' ] . 'index.php?rt=account/login';
-				$store_logo_file = DIR_RESOURCE . $store_info['config_logo'];
-				$store_logo = md5(pathinfo($store_info['config_logo'], PATHINFO_FILENAME)) . '.' . pathinfo($store_info['config_logo'], PATHINFO_EXTENSION);
+				$store_info['store_url'] = $store_info['config_url'] . 'index.php?rt=account/login';
 			} else {
-				$store_name = $this->config->get('store_name');
-				$store_url = $this->config->get('config_url') . 'index.php?rt=account/login';
-				$store_logo = md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
-				$store_logo_file = DIR_RESOURCE . $this->config->get('config_logo');
+				$store_info = array (
+						'store_name'       => $this->config->get('store_name'),
+						'store_url'        => $this->config->get('config_url') . 'index.php?rt=account/login',
+						'config_mail_logo' => $this->config->get('config_mail_logo')
+				);
 			}
 
 			//build plain text email
-			$this->data['mail_plain_text'] = sprintf($this->language->get('text_welcome'), $store_name) . "\n\n";
+			$this->data['mail_plain_text'] = sprintf($this->language->get('text_welcome'),	$store_info['store_name']) . "\n\n";
 			$this->data['mail_plain_text'] .= $this->language->get('text_login') . "\n";
-			$this->data['mail_plain_text'] .= $store_url . "\n\n";
+			$this->data['mail_plain_text'] .= $store_info['store_url'] . "\n\n";
 			$this->data['mail_plain_text'] .= $this->language->get('text_services') . "\n\n";
 			$this->data['mail_plain_text'] .= $this->language->get('text_thanks') . "\n";
-			$this->data['mail_plain_text'] .= $store_name;
+			$this->data['mail_plain_text'] .= $store_info['store_name'];
 
 			//build HTML message with the template
-			$this->data['mail_template_data']['text_welcome'] = sprintf($this->language->get('text_welcome'), $store_name) . "\n\n";
+			$this->data['mail_template_data']['text_welcome'] = sprintf($this->language->get('text_welcome'),$store_info['store_name']) . "\n\n";
 			$this->data['mail_template_data']['text_login'] = $this->language->get('text_login');
-			$this->data['mail_template_data']['text_login_later'] = '<a href="' . $store_url . '">' . $store_url . '</a>';
+			$this->data['mail_template_data']['text_login_later'] = '<a href="' . $store_info['store_url'] . '">' . $store_info['store_url'] . '</a>';
 			$this->data['mail_template_data']['text_services'] = $this->language->get('text_services');
-			$this->data['mail_template_data']['logo'] = 'cid:' . $store_logo;
-			$this->data['mail_template_data']['store_name'] = $store_name;
-			$this->data['mail_template_data']['store_url'] = $store_url;
+			if (is_numeric($store_info['config_mail_logo'])) {
+				$r = new AResource('image');
+				$resource_info = $r->getResource($store_info['config_mail_logo']);
+				if ($resource_info) {
+					$this->data['mail_template_data']['logo_html'] = html_entity_decode($resource_info['resource_code'],ENT_QUOTES, 'UTF-8');
+				}
+			} else {
+				$this->data['mail_template_data']['logo_uri'] = 'cid:'
+						. md5(pathinfo($store_info['config_mail_logo'], PATHINFO_FILENAME))
+						. '.' . pathinfo($store_info['config_mail_logo'], PATHINFO_EXTENSION);
+			}
+			$this->data['mail_template_data']['store_name'] = $store_info[ 'store_name' ];
+			$this->data['mail_template_data']['store_url'] = $store_info[ 'store_url' ];
 			$this->data['mail_template_data']['text_thanks'] = $this->language->get('text_thanks');
 			$this->data['mail_template_data']['text_project_label'] = project_base();
 
@@ -1038,18 +1020,22 @@ class ModelSaleCustomer extends Model {
 			//allow to change email data from extensions
 			$this->extensions->hk_ProcessData($this, 'cp_customer_approve_mail');
 
-			$view = new AView($this->registry,0);
+			$view = new AView($this->registry, 0);
 			$view->batchAssign($this->data['mail_template_data']);
 			$html_body = $view->fetch($this->data['mail_template']);
 
 			$mail = new AMail($this->config);
-			$mail->setTo($customer_info[ 'email' ]);
+			$mail->setTo($customer_info['email']);
 			$mail->setFrom($this->config->get('store_main_email'));
-			$mail->setSender($store_name);
-			$mail->setSubject(sprintf($this->language->get('text_subject'), $store_name));
+			$mail->setSender($store_info[ 'store_name' ]);
+			$mail->setSubject(sprintf($this->language->get('text_subject'), $store_info[ 'store_name' ]));
 			$mail->setText(html_entity_decode($this->data['mail_plain_text'], ENT_QUOTES, 'UTF-8'));
 			$mail->setHtml($html_body);
-			$mail->addAttachment($store_logo_file, $store_logo);
+			if (!is_numeric($store_info['config_mail_logo'])) {
+				$mail->addAttachment(DIR_RESOURCE . $store_info['config_mail_logo'],
+						md5(pathinfo($store_info['config_mail_logo'], PATHINFO_FILENAME))
+						. '.' . pathinfo($store_info['config_mail_logo'], PATHINFO_EXTENSION));
+			}
 			$mail->send();
 		}
 	}

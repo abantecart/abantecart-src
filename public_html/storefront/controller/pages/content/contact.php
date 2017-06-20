@@ -49,9 +49,18 @@ class ControllerPagesContentContact extends AController{
 
 			$subject = sprintf($this->language->get('email_subject'), $post_data['name']);
 			$this->data['mail_template_data']['subject'] = $subject;
-
-			$store_logo = md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
-			$this->data['mail_template_data']['logo'] = 'cid:' . $store_logo;
+			$config_mail_logo = $this->config->get('config_mail_logo');
+			if(is_numeric($config_mail_logo)){
+				$r = new AResource('image');
+				$resource_info = $r->getResource($config_mail_logo);
+				if($resource_info) {
+					$this->data['mail_template_data']['logo_html'] = html_entity_decode($resource_info['resource_code'], ENT_QUOTES, 'UTF-8');
+				}
+			}else {
+				$store_logo = md5(pathinfo($config_mail_logo, PATHINFO_FILENAME))
+						. '.' . pathinfo($config_mail_logo, PATHINFO_EXTENSION);
+				$this->data['mail_template_data']['logo_uri'] = 'cid:' . $store_logo;
+			}
 			$this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
 			$this->data['mail_template_data']['store_url'] = $this->config->get('config_url');
 			$this->data['mail_template_data']['text_project_label'] = project_base();
@@ -105,7 +114,9 @@ class ControllerPagesContentContact extends AController{
 			$mail->setSubject($subject);
 			$mail->setHtml($html_body);
 			$mail->setText($text_body);
-			$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_logo'), $store_logo);
+			if(!is_numeric($config_mail_logo)) {
+				$mail->addAttachment(DIR_RESOURCE . $config_mail_logo, $store_logo);
+			}
 			$mail->send();
 
 			//get success_page

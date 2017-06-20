@@ -217,6 +217,12 @@ class ControllerPagesDesignTemplate extends AController{
 				//we save resource ID vs resource path
 				$post['config_logo'] = $post['config_logo_resource_id'];
 			}
+			if (has_value($post['config_mail_logo'])){
+				$post['config_mail_logo'] = html_entity_decode($post['config_mail_logo'], ENT_COMPAT, 'UTF-8');
+			} else if (!$post['config_mail_logo'] && isset($post['config_mail_logo_resource_id'])){
+				//we save resource ID vs resource path
+				$post['config_mail_logo'] = $post['config_mail_logo_resource_id'];
+			}
 			if (has_value($post['config_icon'])){
 				$post['config_icon'] = html_entity_decode($post['config_icon'], ENT_COMPAT, 'UTF-8');
 			} else if (!$post['config_icon'] && isset($post['config_icon_resource_id'])){

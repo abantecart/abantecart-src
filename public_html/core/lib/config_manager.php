@@ -925,6 +925,7 @@ class AConfigManager{
 			$fieldset = array (
 					'storefront_width',
 					'config_logo',
+					'config_mail_logo',
 					'config_icon',
 					'config_image_thumb_width',
 					'config_image_thumb_height',
@@ -969,6 +970,22 @@ class AConfigManager{
 						'type'          => 'resource',
 						'name'          => 'config_logo',
 						'resource_path' => htmlspecialchars($data['config_logo'], ENT_COMPAT, 'UTF-8'),
+						'rl_type'       => 'image'
+				));
+			}
+			//see if we have resource id or path
+			if (is_numeric($data['config_mail_logo'])){
+				$fields['mail_logo'] = $form->getFieldHtml($props[] = array (
+						'type'        => 'resource',
+						'name'        => 'config_mail_logo',
+						'resource_id' => $data['config_mail_logo'],
+						'rl_type'     => 'image'
+				));
+			} else{
+				$fields['mail_logo'] = $form->getFieldHtml($props[] = array (
+						'type'          => 'resource',
+						'name'          => 'config_mail_logo',
+						'resource_path' => htmlspecialchars($data['config_mail_logo'], ENT_COMPAT, 'UTF-8'),
 						'rl_type'       => 'image'
 				));
 			}

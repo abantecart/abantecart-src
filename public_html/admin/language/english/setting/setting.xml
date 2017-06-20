@@ -290,6 +290,10 @@
 		<value><![CDATA[Store Logo:]]></value>
 	</definition>
 	<definition>
+		<key>entry_mail_logo</key>
+		<value><![CDATA[Email Logo:]]></value>
+	</definition>
+	<definition>
 		<key>entry_icon</key>
 		<value>
 			<![CDATA[Icon:<br /><span class="help">The icon can be a PNG or ICON type that is 16px x 16px.</span>]]></value>
