@@ -957,8 +957,8 @@ class ModelAccountCustomer extends Model {
 		$mail->setSubject($data['subject']);
 		$mail->setText(html_entity_decode($data['txt_body'], ENT_QUOTES, 'UTF-8'));
 
-		if(!is_numeric($this->config->get('config_logo'))) {
-			$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_logo'));
+		if(!is_numeric($this->config->get('config_mail_logo'))) {
+			$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_mail_logo'));
 		}
 		$mail->setHtml($data['html_body']);
 		$mail->send();
