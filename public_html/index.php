@@ -81,15 +81,6 @@ if (!defined('IS_ADMIN') || !IS_ADMIN ) { // storefront load
 	
 	// User
 	$registry->set('user', new AUser($registry));
-	//check for cookie for storefront on admin-side. If absent - create to allow admin view storefront in maintenance mode.
-	if($registry->get('config')->get('config_maintenance') && $registry->get('user')->isLogged()
-		//do not start storefront session during extension install process
-		//TODO: need to redo in 2.0
-		&& strpos($registry->get('request')->get['rt'], 'tool/package_installer') === false
-	){
-		$user_id = $registry->get('user')->getId();
-		startStorefrontSession($user_id);
-	}
 }// end admin load
 
 // Currency
@@ -102,6 +93,11 @@ $router->processRoute(ROUTE);
 
 // Output
 $registry->get('response')->output();
+
+if( IS_ADMIN === true && $registry->get('config')->get('config_maintenance') && $registry->get('user')->isLogged() ) {
+	$user_id = $registry->get('user')->getId();
+	startStorefrontSession($user_id);
+}
 
 //Show cache stats if debugging
 if($registry->get('config')->get('config_debug')){
