@@ -34,7 +34,7 @@ class ModelToolImage extends Model{
 
 		$info = pathinfo($filename);
 		$extension = $info['extension'];
-		if ($extension == 'ico'){
+		if (in_array($extension, array('ico','svg','svgz'))){
 			$new_image = $filename;
 		} else{
 			$new_image = 'thumbnails/' . substr($filename, 0, strrpos($filename, '.')) . '-' . $width . 'x' . $height . '.' . $extension;

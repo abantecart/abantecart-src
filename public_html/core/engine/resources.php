@@ -285,7 +285,7 @@ class AResource{
 		$origin_path = DIR_RESOURCE . $this->type_dir . $rsrc_info['resource_path'];
 		$info = pathinfo($origin_path);
 		$extension = $info['extension'];
-		if ($extension == 'ico'){
+		if (in_array($extension, array('ico','svg','svgz'))){
 			// returns ico-file as original
 			return $this->buildResourceURL($rsrc_info['resource_path'], 'full');
 		}
