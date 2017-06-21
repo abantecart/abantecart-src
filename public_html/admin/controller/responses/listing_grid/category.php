@@ -40,7 +40,10 @@ class ControllerResponsesListingGridCategory extends AController{
 		$filter_data = $filter->getFilterData();
 		//Add custom params
 		//set parent to null to make search work by all category tree
-		$filter_data['parent_id'] = (isset($this->request->get['parent_id']) ? $this->request->get['parent_id'] : null);
+
+		$filter_data['parent_id'] = !isset($this->request->get['parent_id']) ? 0 : $this->request->get['parent_id'];
+		$filter_data['parent_id'] = $filter_data['parent_id'] === 'null' ? null : $filter_data['parent_id'];
+
 		$new_level = 0;
 		//get all leave categories 
 		$leaf_nodes = $this->model_catalog_category->getLeafCategories();

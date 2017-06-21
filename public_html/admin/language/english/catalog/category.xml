@@ -105,6 +105,10 @@
 		<value><![CDATA[- All Categories -]]></value>
 	</definition>
 	<definition>
+		<key>text_top_level</key>
+		<value><![CDATA[- Top Level -]]></value>
+	</definition>
+	<definition>
 		<key>text_select_parent</key>
 		<value><![CDATA[- Select Parent -]]></value>
 	</definition>

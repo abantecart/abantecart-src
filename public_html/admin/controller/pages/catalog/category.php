@@ -164,7 +164,10 @@ class ControllerPagesCatalogCategory extends AController {
 		}
 
 		$results = $this->model_catalog_category->getCategories(0);
-		$parents = array(0 => $this->language->get('text_select_parent'));
+		$parents = array(
+				'null' => $this->language->get('text_select_all'),
+				0 => $this->language->get('text_top_level')
+		);
 		foreach ($results as $c) {
 			$parents[$c['category_id']] = $c['name'];
 		}
@@ -202,12 +205,13 @@ class ControllerPagesCatalogCategory extends AController {
 				'text' => $this->language->get('button_reset'),
 				'style' => 'button2',
 		));
+
 		$grid_search_form['fields']['parent_id'] = $form->getFieldHtml(array(
 				'type' => 'selectbox',
 				'name' => 'parent_id',
 				'options' => $parents,
 				'style' => 'chosen',
-				'value' => $search_params['parent_id'],
+				'value' => $search_params['parent_id']==null ? 0 : $search_params['parent_id'],
 				'placeholder' => $this->language->get('text_select_parent')
 		));
 
@@ -234,7 +238,6 @@ class ControllerPagesCatalogCategory extends AController {
 	}
 
 	public function insert() {
-
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 		$this->document->setTitle($this->language->get('heading_title'));
