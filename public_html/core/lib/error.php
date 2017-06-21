@@ -106,16 +106,18 @@ class AError{
 	}
 
 	/**
-	 * add error message to messages     *
+	 * add error message to messages
+	 * @param string $subject
 	 * @return AError
 	 */
-	public function toMessages(){
+	public function toMessages($subject = ''){
 		if (is_object($this->registry) && $this->registry->has('messages')){
 			/**
 			 * @var $messages AMessage
 			 */
 			$messages = $this->registry->get('messages');
-			$messages->saveError($this->error_descriptions[$this->code], $this->msg);
+			$title = $subject ? $subject : $this->error_descriptions[$this->code];
+			$messages->saveError($title, $this->msg);
 		}
 		return $this;
 	}

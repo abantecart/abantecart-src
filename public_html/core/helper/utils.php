@@ -1182,7 +1182,7 @@ function check_resize_image($orig_image, $new_image, $width, $height, $quality){
 				$indexFile = DIR_IMAGE . $path . '/index.php';
 				$result = mkdir(DIR_IMAGE . $path, 0775) && file_put_contents($indexFile, "<?php die('Restricted Access!'); ?>");
 				if (!$result) {
-					$error = new AError('Cannot to create directory ' . DIR_IMAGE . $path . '. Please check permissions for ' . DIR_IMAGE);
+					$error = new AWarning('Cannot to create directory ' . DIR_IMAGE . $path . '. Please check permissions for ' . DIR_IMAGE);
 					$error->toLog();
 				}
 			}

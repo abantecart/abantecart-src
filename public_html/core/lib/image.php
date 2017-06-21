@@ -50,7 +50,7 @@ class AImage{
 	public function __construct($filename){
 		ini_set("gd.jpeg_ignore_warning", 1);
 		if (!file_exists($filename)) {
-			$error = new AError('Error: Cannot load image ' . $filename . ' . File does not exist.');
+			$error = new AWarning('Error: Cannot load image ' . $filename . ' . File does not exist.');
 			$error->toLog();
 			return false;
 		}
@@ -68,7 +68,7 @@ class AImage{
 			$this->registry = Registry::getInstance();
 			$this->image = $this->get_gd_resource($filename);
 		} catch (AException $e){
-			$error = new AError('Error: Cannot load image ' . $filename.'. '.$e->getMessage());
+			$error = new AWarning('Error: Cannot load image ' . $filename.'. '.$e->getMessage());
 			$error->toLog();
 			return false;
 		}

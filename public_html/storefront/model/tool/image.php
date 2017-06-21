@@ -40,7 +40,6 @@ class ModelToolImage extends Model{
 		$orig_image_filepath = is_file(DIR_IMAGE . $filename) ? DIR_IMAGE . $filename : '';
 		$orig_image_filepath = $orig_image_filepath == '' && is_file(DIR_RESOURCE . 'image/' . $filename) ? DIR_RESOURCE . 'image/' . $filename : $orig_image_filepath;
 
-
 		$info = pathinfo($filename);
 		$extension = $info['extension'];
 
@@ -48,17 +47,16 @@ class ModelToolImage extends Model{
 		$new_image = 'thumbnails/' . substr($alias, 0, strrpos($alias, '.')) . '-' . $width . 'x' . $height . '.' . $extension;
 
 		if(!check_resize_image($orig_image_filepath, $new_image, $width, $height, $this->config->get('config_image_quality'))) {
-			$err= new AError('Resize image error. File: '.$orig_image_filepath);
-			$err->toLog()->toDebug()->toMessages();
+			$err= new AWarning('Resize image error. File: '.$orig_image_filepath.'. Try to increase memory limit for PHP or decrease image size.');
+			$err->toLog()->toDebug()->toMessages('Resize image error');
 		}
 
 		if ($this->config->get('config_retina_enable')){
 			//retina variant
 			$new_image2x = 'thumbnails/' . substr($alias, 0, strrpos($alias, '.')) . '-' . $width . 'x' . $height . '@2x.' . $extension;
-
 			if(!check_resize_image($orig_image_filepath, $new_image2x, $width*2, $height*2, $this->config->get('config_image_quality'))) {
-				$err= new AError('Resize image error. File: '.$orig_image_filepath);
-				$err->toLog()->toDebug()->toMessages();
+				$err= new AWarning('Resize image error. File: '.$orig_image_filepath.'. Try to increase memory limit for PHP or decrease image size.');
+				$err->toLog()->toDebug()->toMessages('Resize image error');
 			}
 		}
 

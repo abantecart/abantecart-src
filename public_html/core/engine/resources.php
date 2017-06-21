@@ -81,7 +81,7 @@ class AResource{
 		if (!$this->type_id){
 			$backtrace = debug_backtrace();
 			$message = "Error: Incorrect or missing resource type." . $backtrace[0]['file'] . ":" . $backtrace[0]['line'];
-			$error = new AError ($message);
+			$error = new AWarning($message);
 			$error->toLog()->toDebug();
 		}
 

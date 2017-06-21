@@ -47,15 +47,17 @@ class AWarning extends AError{
 
 	/**
 	 * add warning message to messages
+	 * @param string $subject
 	 * @return ADebug
 	 */
-	public function toMessages(){
+	public function toMessages($subject=''){
 		if (is_object($this->registry) && $this->registry->has('messages')){
 			/**
 			 * @var $messages AMessage
 			 */
 			$messages = $this->registry->get('messages');
-			$messages->saveWarning($this->error_descriptions[$this->code], $this->msg);
+			$title = $subject ? $subject : $this->error_descriptions[$this->code];
+			$messages->saveWarning($title, $this->msg, false);
 		}
 		return $this;
 	}
