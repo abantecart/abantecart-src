@@ -168,10 +168,10 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 
 		//check is data valid
 		$valid_data = $this->_validateForm($this->request->post);
-        $valid_data['customer_id'] = $this->request->get['customer_id'];
+		$valid_data['customer_id'] = $this->request->get['customer_id'];
 
 		if(!$this->error){
-            $this->model_sale_customer_transaction->addCustomerTransaction($valid_data);
+			$this->model_sale_customer_transaction->addCustomerTransaction($valid_data);
 			$result['result'] = true;
 			$result['result_text'] = $this->language->get('text_transaction_success');
 			$balance = $this->model_sale_customer_transaction->getBalance($this->request->get['customer_id']);
@@ -212,11 +212,11 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 		$transaction_id = (int)$this->request->get['customer_transaction_id'];
 		$this->data['customer_transaction_id'] = $transaction_id;
 
-        if($transaction_id){
-            $info = $this->model_sale_customer_transaction->getCustomerTransaction($this->request->get['customer_transaction_id']);
+		if($transaction_id){
+			$info = $this->model_sale_customer_transaction->getCustomerTransaction($this->request->get['customer_transaction_id']);
 			$this->data['text_title'] = $this->language->get('popup_title_info');
 			$readonly = true;
-        }else{
+		}else{
 			$this->data['text_title'] = $this->language->get('popup_title_insert');
 			$readonly = false;
 		}
@@ -228,9 +228,11 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 				'form_name' => 'transaction_form',
 			));
 			$this->data['form']['form_open'] = $form->getFieldHtml(array(
-			    'type' => 'form',
-			    'name' => 'tFrm',
-			    'action' => $this->html->getSecureURL('listing_grid/customer_transaction/addtransaction','&customer_id='.$this->request->get['customer_id']),
+				'type' => 'form',
+				'name' => 'tFrm',
+				'action' => $this->html->getSecureURL(
+													'listing_grid/customer_transaction/addtransaction',
+													'&customer_id='.$this->request->get['customer_id']),
 				'attr' => 'data-confirm-exit="true" class="form-horizontal"',
 			));
 
@@ -277,6 +279,7 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 			$this->data['form']['fields']['other_type'] = $form->getFieldHtml(array(
 																			'type' => 'input',
 																			'name' => 'transaction_type[1]',
+																			'placeholder' => $this->language->get('text_other_type_placeholder'),
 																			'value' => (!in_array($info['transaction_type'],$types)? $info['transaction_type'] :''),
 																			'attr' => ($readonly ? 'disabled="disabled"' : '')
 																	));
