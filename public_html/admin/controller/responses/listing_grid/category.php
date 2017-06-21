@@ -39,7 +39,8 @@ class ControllerResponsesListingGridCategory extends AController{
 		$filter = new AFilter(array ('method' => 'post', 'grid_filter_params' => $grid_filter_params));
 		$filter_data = $filter->getFilterData();
 		//Add custom params
-		$filter_data['parent_id'] = (isset($this->request->get['parent_id']) ? $this->request->get['parent_id'] : 0);
+		//set parent to null to make search work by all category tree
+		$filter_data['parent_id'] = (isset($this->request->get['parent_id']) ? $this->request->get['parent_id'] : null);
 		$new_level = 0;
 		//get all leave categories 
 		$leaf_nodes = $this->model_catalog_category->getLeafCategories();
@@ -60,6 +61,7 @@ class ControllerResponsesListingGridCategory extends AController{
 		$response->total = $filter->calcTotalPages($total);
 		$response->records = $total;
 		$response->userdata = new stdClass();
+
 		$results = $this->model_catalog_category->getCategoriesData($filter_data);
 
 		//build thumbnails list
