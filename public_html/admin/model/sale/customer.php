@@ -987,7 +987,8 @@ class ModelSaleCustomer extends Model {
 			}
 
 			//build plain text email
-			$this->data['mail_plain_text'] = sprintf($this->language->get('text_welcome'),	$store_info['store_name']) . "\n\n";
+			$this->data['mail_plain_text'] = sprintf($this->language->get('text_welcome'),
+							$store_info['store_name']) . "\n\n";
 			$this->data['mail_plain_text'] .= $this->language->get('text_login') . "\n";
 			$this->data['mail_plain_text'] .= $store_info['store_url'] . "\n\n";
 			$this->data['mail_plain_text'] .= $this->language->get('text_services') . "\n\n";
@@ -995,20 +996,24 @@ class ModelSaleCustomer extends Model {
 			$this->data['mail_plain_text'] .= $store_info['store_name'];
 
 			//build HTML message with the template
-			$this->data['mail_template_data']['text_welcome'] = sprintf($this->language->get('text_welcome'),$store_info['store_name']) . "\n\n";
+			$this->data['mail_template_data']['text_welcome'] = sprintf($this->language->get('text_welcome'),
+							$store_info['store_name']) . "\n\n";
 			$this->data['mail_template_data']['text_login'] = $this->language->get('text_login');
 			$this->data['mail_template_data']['text_login_later'] = '<a href="' . $store_info['store_url'] . '">' . $store_info['store_url'] . '</a>';
 			$this->data['mail_template_data']['text_services'] = $this->language->get('text_services');
-			if (is_numeric($store_info['config_mail_logo'])) {
-				$r = new AResource('image');
-				$resource_info = $r->getResource($store_info['config_mail_logo']);
-				if ($resource_info) {
-					$this->data['mail_template_data']['logo_html'] = html_entity_decode($resource_info['resource_code'],ENT_QUOTES, 'UTF-8');
+			if($store_info['config_mail_logo']){
+				if (is_numeric($store_info['config_mail_logo'])) {
+					$r = new AResource('image');
+					$resource_info = $r->getResource($store_info['config_mail_logo']);
+					if ($resource_info) {
+						$this->data['mail_template_data']['logo_html'] = html_entity_decode($resource_info['resource_code'],
+								ENT_QUOTES, 'UTF-8');
+					}
+				} else {
+					$this->data['mail_template_data']['logo_uri'] = 'cid:'
+							. md5(pathinfo($store_info['config_mail_logo'], PATHINFO_FILENAME))
+							. '.' . pathinfo($store_info['config_mail_logo'], PATHINFO_EXTENSION);
 				}
-			} else {
-				$this->data['mail_template_data']['logo_uri'] = 'cid:'
-						. md5(pathinfo($store_info['config_mail_logo'], PATHINFO_FILENAME))
-						. '.' . pathinfo($store_info['config_mail_logo'], PATHINFO_EXTENSION);
 			}
 			$this->data['mail_template_data']['store_name'] = $store_info[ 'store_name' ];
 			$this->data['mail_template_data']['store_url'] = $store_info[ 'store_url' ];
@@ -1031,7 +1036,7 @@ class ModelSaleCustomer extends Model {
 			$mail->setSubject(sprintf($this->language->get('text_subject'), $store_info[ 'store_name' ]));
 			$mail->setText(html_entity_decode($this->data['mail_plain_text'], ENT_QUOTES, 'UTF-8'));
 			$mail->setHtml($html_body);
-			if (!is_numeric($store_info['config_mail_logo'])) {
+			if (is_file(DIR_RESOURCE . $store_info['config_mail_logo'])) {
 				$mail->addAttachment(DIR_RESOURCE . $store_info['config_mail_logo'],
 						md5(pathinfo($store_info['config_mail_logo'], PATHINFO_FILENAME))
 						. '.' . pathinfo($store_info['config_mail_logo'], PATHINFO_EXTENSION));

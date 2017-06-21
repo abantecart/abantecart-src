@@ -853,16 +853,18 @@ class ModelAccountCustomer extends Model {
 		}
 
 		$config_mail_logo = $this->config->get('config_mail_logo');
-		if(is_numeric($config_mail_logo)) {
-			$r = new AResource('image');
-			$resource_info = $r->getResource($config_mail_logo);
-			if($resource_info) {
-				$this->data['mail_template_data']['logo_html'] = html_entity_decode($resource_info['resource_code'], ENT_QUOTES, 'UTF-8');
+		if($config_mail_logo) {
+			if (is_numeric($config_mail_logo)) {
+				$r = new AResource('image');
+				$resource_info = $r->getResource($config_mail_logo);
+				if ($resource_info) {
+					$this->data['mail_template_data']['logo_html'] = html_entity_decode($resource_info['resource_code'], ENT_QUOTES, 'UTF-8');
+				}
+			} else {
+				$this->data['mail_template_data']['logo_uri'] = 'cid:'
+						. md5(pathinfo($config_mail_logo, PATHINFO_FILENAME))
+						. '.' . pathinfo($config_mail_logo, PATHINFO_EXTENSION);
 			}
-		}else{
-			$this->data['mail_template_data']['logo_uri'] = 'cid:'
-					. md5(pathinfo($config_mail_logo,PATHINFO_FILENAME))
-					. '.' . pathinfo($config_mail_logo, PATHINFO_EXTENSION);
 		}
 		$this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
 		$this->data['mail_template_data']['store_url'] = $this->config->get('config_url');
@@ -916,16 +918,19 @@ class ModelAccountCustomer extends Model {
 		$this->data['mail_template_data']['text_activate'] = sprintf($this->language->get('text_activate'), '<a href="' . $activate_url . '">' . $activate_url . '</a>');
 
 		$config_mail_logo = $this->config->get('config_mail_logo');
-		if(is_numeric($config_mail_logo)) {
-			$r = new AResource('image');
-			$resource_info = $r->getResource($config_mail_logo);
-			if($resource_info) {
-				$this->data['mail_template_data']['logo_html'] = html_entity_decode($resource_info['resource_code'], ENT_QUOTES, 'UTF-8');
+		if($config_mail_logo) {
+			if (is_numeric($config_mail_logo)) {
+				$r = new AResource('image');
+				$resource_info = $r->getResource($config_mail_logo);
+				if ($resource_info) {
+					$this->data['mail_template_data']['logo_html'] = html_entity_decode($resource_info['resource_code'],
+							ENT_QUOTES, 'UTF-8');
+				}
+			} else {
+				$this->data['mail_template_data']['logo_uri'] = 'cid:'
+						. md5(pathinfo($config_mail_logo, PATHINFO_FILENAME))
+						. '.' . pathinfo($config_mail_logo, PATHINFO_EXTENSION);
 			}
-		}else{
-			$this->data['mail_template_data']['logo_uri'] = 'cid:'
-					. md5(pathinfo($config_mail_logo,PATHINFO_FILENAME))
-					. '.' . pathinfo($config_mail_logo, PATHINFO_EXTENSION);
 		}
 
 		$this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
@@ -957,8 +962,10 @@ class ModelAccountCustomer extends Model {
 		$mail->setSubject($data['subject']);
 		$mail->setText(html_entity_decode($data['txt_body'], ENT_QUOTES, 'UTF-8'));
 
-		if(!is_numeric($this->config->get('config_mail_logo'))) {
-			$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_mail_logo'));
+		if(is_file(DIR_RESOURCE . $this->config->get('config_mail_logo'))) {
+			$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_mail_logo'),
+								md5(pathinfo($this->config->get('config_mail_logo'), PATHINFO_FILENAME))
+								. '.' . pathinfo($this->config->get('config_mail_logo'), PATHINFO_EXTENSION));
 		}
 		$mail->setHtml($data['html_body']);
 		$mail->send();
