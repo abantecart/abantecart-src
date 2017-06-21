@@ -206,20 +206,22 @@ class ModelExtensionDefaultFedex extends Model {
 			$total_volume = $total_weight = $total_price = 0;
 			$products_values = array();
 
+			$length_class_id = $this->length->getClassID('in');
 			if ($products) {
 				//build accumulative package volume based on all products we have
 				foreach ($products as $product) {
-
-					$product_weight = $this->weight->convert($product['weight'], $this->config->get('config_weight_class'), 'lb');
+					$product_weight = $this->weight->convert(
+														$this->cart->getWeight( array($product['product_id']) ),
+														$this->config->get('config_weight_class'),
+														'lb');
 					$product_weight = ($product_weight < 0.1 ? 0.1 : $product_weight);
 					$total_weight += $product_weight * $product['quantity'];
 
-					$product_length = $this->length->convert($product['length'], $this->config->get('config_length_class'), 'in');
-					$product_width = $this->length->convert($product['width'], $this->config->get('config_length_class'), 'in');
-					$product_height = $this->length->convert($product['height'], $this->config->get('config_length_class'), 'in');
+					$product_width = $this->length->convertByID($product['length'], $product['length_class'], $length_class_id);
+					$product_length = $this->length->convertByID($product['width'], $product['length_class'], $length_class_id);
+					$product_height = $this->length->convertByID($product['height'], $product['length_class'], $length_class_id);
 
 					$total_volume += $product_length * $product_width * $product_height * $product['quantity'] * 0.00057870;
-
 					$total_price += $product['total'];
 				}
 
@@ -232,7 +234,13 @@ class ModelExtensionDefaultFedex extends Model {
 				);
 				$request['ClientDetail'] = array('AccountNumber' => $fedex_account, 'MeterNumber' => $fedex_meter_id);
 				$request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Request v9 using PHP ***');
-				$request['Version'] = array('ServiceId' => 'crs', 'Major' => '9', 'Intermediate' => '0', 'Minor' => '0');
+				$request['Version'] = array(
+											'ServiceId' => 'crs',
+											'Major' => '9',
+											'Intermediate' => '0',
+											'Minor' => '0'
+				);
+
 				$request['ReturnTransitAndCommit'] = true;
 				// valid values REGULAR_PICKUP, REQUEST_COURIER, ...
 				$request['RequestedShipment']['DropoffType'] = 'REGULAR_PICKUP';
@@ -241,7 +249,7 @@ class ModelExtensionDefaultFedex extends Model {
 				//$request['RequestedShipment']['ServiceType'] = 'GROUND_HOME_DELIVERY';
 				// valid values FEDEX_BOX, FEDEX_PAK, FEDEX_TUBE, YOUR_PACKAGING, ...
 				$request['RequestedShipment']['PackagingType'] = 'YOUR_PACKAGING';
-				$request['RequestedShipment']['TotalInsuredValue'] = array('Ammount'=> $total_price,'Currency'=>'USD');
+				$request['RequestedShipment']['TotalInsuredValue'] = array('Amount'=> $total_price,'Currency'=>'USD');
 				// $request['RequestedShipment']['TotalWeight'] = array('Weight'=> $total_weight,'Units'=>'LB');
 				$request['RequestedShipment']['Shipper'] = array('Address' => array(
 					'StreetLines' => array($fedex_addr), // Origin details
