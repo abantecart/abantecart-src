@@ -47,7 +47,13 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 	var text_select_items = <?php js_echo($text_select_items); ?>;
 	var _table_id = '<?php echo $data['table_id'] ?>';
 	var table_id = '#<?php echo $data['table_id'] ?>';
-	var jq_names = [<?php echo "'" . implode("','", $data['colNames']) . "'"?>];
+	var jq_names = [<?php
+		foreach($data['colNames'] as $col_name){
+			js_echo($col_name);
+			echo ',';
+		}
+		//echo "'" . implode("','", $data['colNames']) . "'"
+		?>];
 	var jq_model = [<?php
 	$i = 1;
 	foreach ($data['colModel'] as $m) {
