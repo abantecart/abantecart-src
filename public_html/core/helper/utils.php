@@ -996,6 +996,8 @@ function is_valid_url( $validate_url ) {
 
 /**
  * Get valid URL path considering *.php
+ * @param string $url
+ * @return string
  */
 function get_url_path( $url ) {
 	$url_path1 = parse_url($url,PHP_URL_PATH);
