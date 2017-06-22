@@ -982,13 +982,14 @@ class ModelSaleCustomer extends Model {
 				$store_info = array (
 						'store_name'       => $this->config->get('store_name'),
 						'store_url'        => $this->config->get('config_url') . 'index.php?rt=account/login',
-						'config_mail_logo' => $this->config->get('config_mail_logo')
+						'config_mail_logo' => $this->config->get('config_mail_logo'),
+						'config_logo'      => $this->config->get('config_logo')
 				);
 			}
+			$store_info['config_mail_logo'] = !$store_info['config_mail_logo'] ?  $store_info['config_logo'] : $store_info['config_mail_logo'];
 
 			//build plain text email
-			$this->data['mail_plain_text'] = sprintf($this->language->get('text_welcome'),
-							$store_info['store_name']) . "\n\n";
+			$this->data['mail_plain_text'] = sprintf($this->language->get('text_welcome'), $store_info['store_name']) . "\n\n";
 			$this->data['mail_plain_text'] .= $this->language->get('text_login') . "\n";
 			$this->data['mail_plain_text'] .= $store_info['store_url'] . "\n\n";
 			$this->data['mail_plain_text'] .= $this->language->get('text_services') . "\n\n";
@@ -996,8 +997,7 @@ class ModelSaleCustomer extends Model {
 			$this->data['mail_plain_text'] .= $store_info['store_name'];
 
 			//build HTML message with the template
-			$this->data['mail_template_data']['text_welcome'] = sprintf($this->language->get('text_welcome'),
-							$store_info['store_name']) . "\n\n";
+			$this->data['mail_template_data']['text_welcome'] = sprintf($this->language->get('text_welcome'), $store_info['store_name']) . "\n\n";
 			$this->data['mail_template_data']['text_login'] = $this->language->get('text_login');
 			$this->data['mail_template_data']['text_login_later'] = '<a href="' . $store_info['store_url'] . '">' . $store_info['store_url'] . '</a>';
 			$this->data['mail_template_data']['text_services'] = $this->language->get('text_services');
@@ -1015,6 +1015,13 @@ class ModelSaleCustomer extends Model {
 							. '.' . pathinfo($store_info['config_mail_logo'], PATHINFO_EXTENSION);
 				}
 			}
+			//backward compatibility. TODO: remove this in 2.0
+			if($this->data['mail_template_data']['logo_uri']){
+				$this->data['mail_template_data']['logo'] = $this->data['mail_template_data']['logo_uri'];
+			}else{
+				$this->data['mail_template_data']['logo'] = $store_info['config_mail_logo'];
+			}
+
 			$this->data['mail_template_data']['store_name'] = $store_info[ 'store_name' ];
 			$this->data['mail_template_data']['store_url'] = $store_info[ 'store_url' ];
 			$this->data['mail_template_data']['text_thanks'] = $this->language->get('text_thanks');

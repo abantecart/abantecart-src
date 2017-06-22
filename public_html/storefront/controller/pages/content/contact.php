@@ -50,6 +50,7 @@ class ControllerPagesContentContact extends AController{
 			$subject = sprintf($this->language->get('email_subject'), $post_data['name']);
 			$this->data['mail_template_data']['subject'] = $subject;
 			$config_mail_logo = $this->config->get('config_mail_logo');
+			$config_mail_logo = !$config_mail_logo ? $this->config->get('config_logo') : $config_mail_logo;
 			if($config_mail_logo) {
 				if (is_numeric($config_mail_logo)) {
 					$r = new AResource('image');
@@ -64,6 +65,13 @@ class ControllerPagesContentContact extends AController{
 					$this->data['mail_template_data']['logo_uri'] = 'cid:' . $store_logo;
 				}
 			}
+			//backward compatibility. TODO: remove this in 2.0
+			if($this->data['mail_template_data']['logo_uri']){
+				$this->data['mail_template_data']['logo'] = $this->data['mail_template_data']['logo_uri'];
+			}else{
+				$this->data['mail_template_data']['logo'] = $config_mail_logo;
+			}
+
 			$this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
 			$this->data['mail_template_data']['store_url'] = $this->config->get('config_url');
 			$this->data['mail_template_data']['text_project_label'] = project_base();

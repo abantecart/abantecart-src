@@ -460,6 +460,7 @@ class ModelCheckoutOrder extends Model{
 		$this->data['mail_template_data']['date_added'] = dateISO2Display($order_row['date_added'], $language->get('date_format_short'));
 
 		$config_mail_logo = $this->config->get('config_mail_logo');
+		$config_mail_logo = !$config_mail_logo ? $this->config->get('config_logo') : $config_mail_logo;
 		if($config_mail_logo) {
 			if (is_numeric($config_mail_logo)) {
 				$r = new AResource('image');
@@ -474,6 +475,13 @@ class ModelCheckoutOrder extends Model{
 						. '.' . pathinfo($config_mail_logo, PATHINFO_EXTENSION);
 			}
 		}
+		//backward compatibility. TODO: remove this in 2.0
+		if($this->data['mail_template_data']['logo_uri']){
+			$this->data['mail_template_data']['logo'] = $this->data['mail_template_data']['logo_uri'];
+		}else{
+			$this->data['mail_template_data']['logo'] = $config_mail_logo;
+		}
+
 		$this->data['mail_template_data']['store_name'] = $order_row['store_name'];
 		$this->data['mail_template_data']['address'] = nl2br($this->config->get('config_address'));
 		$this->data['mail_template_data']['telephone'] = $this->config->get('config_telephone');
@@ -623,10 +631,10 @@ class ModelCheckoutOrder extends Model{
 		$mail->setSubject($subject);
 		$mail->setHtml($html_body);
 		$mail->setText($this->data['mail_plain_text']);
-		if(is_file(DIR_RESOURCE . $this->config->get('config_mail_logo'))) {
-			$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_mail_logo'),
-					md5(pathinfo($this->config->get('config_mail_logo'), PATHINFO_FILENAME))
-					. '.' . pathinfo($this->config->get('config_mail_logo'), PATHINFO_EXTENSION));
+		if(is_file(DIR_RESOURCE . $config_mail_logo)) {
+			$mail->addAttachment(DIR_RESOURCE . $config_mail_logo,
+					md5(pathinfo($config_mail_logo, PATHINFO_FILENAME))
+					. '.' . pathinfo($config_mail_logo, PATHINFO_EXTENSION));
 		}
 		$mail->send();
 
