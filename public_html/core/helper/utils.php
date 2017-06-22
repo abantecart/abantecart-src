@@ -696,8 +696,8 @@ function is_assoc($test_array) {
  * @return string
  */
 function project_base() {
-	$base = 'PGEgaHJlZj0iaHR0cDovL3d3dy5hYmFudGVjYXJ0LmNvbSIgb25jbGljaz0id2luZG93Lm9wZW4odGhpcy5ocmVm';
-	$base .= 'KTtyZXR1cm4gZmFsc2U7IiB0aXRsZT0iSWRlYWwgT3BlblNvdXJjZSBFLWNvbW1lcmNlIFNvbHV0aW9uIj5BYmFudGVDYXJ0PC9hPg==';
+	$base = 'PGEgaHJlZj0iaHR0cDovL3d3dy5hYmFudGVjYXJ0LmNvbSIgdGFyZ2V0PSJfYWJhbnRlY2FydCI';
+	$base .= 'gdGl0bGU9IklkZWFsIE9wZW5Tb3VyY2UgRS1jb21tZXJjZSBTb2x1dGlvbiI+QWJhbnRlQ2FydDwvYT4=';
 	return base64_decode($base);
 }
 
