@@ -179,6 +179,10 @@ class ControllerPagesCatalogCategory extends AController {
 			if($grid_search_form->table_id == $grid_settings['table_id']) {
 				parse_str($grid_search_form->params, $search_params);
 			}
+			$grid_params = json_decode(html_entity_decode($this->request->cookie['grid_params']));
+			if($grid_params->postData->nodeid){
+				$search_params['parent_id'] = $grid_params->postData->nodeid;
+			}
 		}
 
 		$form = new AForm();
@@ -711,7 +715,7 @@ class ControllerPagesCatalogCategory extends AController {
 		$layout_form = $this->dispatch('common/page_layout', array($layout));
 		$this->data['layoutform'] = $layout_form->dispatchGetOutput();
 		
-		//build pages and available layouts for clonning
+		//build pages and available layouts for cloning
 		$this->data['pages'] = $layout->getAllPages();
 		$av_layouts = array( "0" => $this->language->get('text_select_copy_layout'));
 		foreach($this->data['pages'] as $page){
