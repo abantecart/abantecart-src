@@ -18,7 +18,7 @@
 	</definition>
 	<definition>
 		<key>default_royal_mail_1st_class_standard_rates</key>
-		<value><![CDATA[First Class Standard Post Rates (for GB only)]]></value>
+		<value><![CDATA[First Class Standard Post Rates (for GB only):<br /><span class="help">Example: .1:1.58,.25:1.96,.5:2.48 Weight:Cost,Weight:Cost, etc. In this example 0.1 pounds = $1.58. Where Pound is your Weight class set in the Royal Mail settings and $ is Store Base currency. Store Weight class will be ignored.</span>]]></value>
 	</definition>
 	<definition>
 		<key>default_royal_mail_1st_class_standard_compensation_rates</key>
@@ -94,7 +94,7 @@
 	</definition>
 	<definition>
 		<key>default_royal_mail_international_signed_in_countries_rates</key>
-		<value><![CDATA[International Signed Rates for Countries From List]]></value>
+		<value><![CDATA[International Signed Rates for Countries From List:<br /><span class="help">Example: .1:1.58,.25:1.96,.5:2.48 Weight:Cost,Weight:Cost, etc. In this example 0.1 pounds = $1.58. Where Pound is your Weight class set in the Royal Mail settings and $ is Store Base currency. Store Weight class will be ignored.</span>]]></value>
 	</definition>
 	<definition>
 		<key>default_royal_mail_international_signed_in_countries_c_rates</key>
@@ -102,7 +102,7 @@
 	</definition>
 	<definition>
 		<key>default_royal_mail_international_signed_not_in_countries_rates</key>
-		<value><![CDATA[International Signed Rates for Other Countries]]></value>
+		<value><![CDATA[International Signed Rates for Other Countries:<br /><span class="help">Example: .1:1.58,.25:1.96,.5:2.48 Weight:Cost,Weight:Cost, etc. In this example 0.1 pounds = $1.58. Where Pound is your Weight class set in the Royal Mail settings and $ is Store Base currency. Store Weight class will be ignored.</span>]]></value>
 	</definition>
 	<definition>
 		<key>default_royal_mail_international_signed_not_in_countries_c_rates</key>
@@ -173,7 +173,7 @@
 	</definition>
 	<definition>
 		<key>default_royal_mail_weight_class</key>
-		<value><![CDATA[Weight Class:]]></value>
+		<value><![CDATA[Weight Class:<br /><span class="help">Your rates weight class. Store weight class will be ignored</span>]]></value>
 	</definition>
 	<definition>
 		<key>default_royal_mail_tax</key>

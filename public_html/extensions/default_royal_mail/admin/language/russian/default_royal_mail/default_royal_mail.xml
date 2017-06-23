@@ -1,24 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <definitions>
-  <definition>
-    <key>default_royal_mail_name</key>
-    <value><![CDATA[Royal Mail]]></value>
-  </definition>
-  <definition>
-    <key>text_shipping</key>
-    <value><![CDATA[Доставка]]></value>
-  </definition>
-  <definition>
-    <key>text_success</key>
-    <value><![CDATA[Успешно: Вы изменили Royal Mail!]]></value>
-  </definition>
+	<definition>
+		<key>default_royal_mail_name</key>
+		<value><![CDATA[Royal Mail]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Shipping]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Success: You have modified Royal Mail shipping!]]></value>
+	</definition>
 	<definition>
 		<key>default_royal_mail_1st_class_standard</key>
 		<value><![CDATA[First Class Standard Post (for GB only)]]></value>
 	</definition>
 	<definition>
 		<key>default_royal_mail_1st_class_standard_rates</key>
-		<value><![CDATA[First Class Standard Post Rates (for GB only)]]></value>
+		<value><![CDATA[First Class Standard Post Rates (for GB only):<br /><span class="help">Example: .1:1.58,.25:1.96,.5:2.48 Weight:Cost,Weight:Cost, etc. In this example 0.1 pounds = $1.58. Where Pound is your Weight class set in the Royal Mail settings and $ is Store Base currency. Store Weight class will be ignored.</span>]]></value>
 	</definition>
 	<definition>
 		<key>default_royal_mail_1st_class_standard_compensation_rates</key>
@@ -94,7 +94,7 @@
 	</definition>
 	<definition>
 		<key>default_royal_mail_international_signed_in_countries_rates</key>
-		<value><![CDATA[International Signed Rates for Countries From List]]></value>
+		<value><![CDATA[International Signed Rates for Countries From List:<br /><span class="help">Example: .1:1.58,.25:1.96,.5:2.48 Weight:Cost,Weight:Cost, etc. In this example 0.1 pounds = $1.58. Where Pound is your Weight class set in the Royal Mail settings and $ is Store Base currency. Store Weight class will be ignored.</span>]]></value>
 	</definition>
 	<definition>
 		<key>default_royal_mail_international_signed_in_countries_c_rates</key>
@@ -102,7 +102,7 @@
 	</definition>
 	<definition>
 		<key>default_royal_mail_international_signed_not_in_countries_rates</key>
-		<value><![CDATA[International Signed Rates for Other Countries]]></value>
+		<value><![CDATA[International Signed Rates for Other Countries:<br /><span class="help">Example: .1:1.58,.25:1.96,.5:2.48 Weight:Cost,Weight:Cost, etc. In this example 0.1 pounds = $1.58. Where Pound is your Weight class set in the Royal Mail settings and $ is Store Base currency. Store Weight class will be ignored.</span>]]></value>
 	</definition>
 	<definition>
 		<key>default_royal_mail_international_signed_not_in_countries_c_rates</key>
@@ -152,44 +152,96 @@
 		<key>default_royal_mail_surface_rates</key>
 		<value><![CDATA[Surface Rates]]></value>
 	</definition>
-  <definition>
-    <key>default_royal_mail_service</key>
-    <value><![CDATA[Услуги:]]></value>
-  </definition>
-  <definition>
-    <key>default_royal_mail_display_weight</key>
-    <value><![CDATA[Отображать Вес доставки:<br /><span class="help">Вы хотите, чтобы отображать вес груза? (Например, поставки Вес: 2,7674 кг в)</span>]]></value>
-  </definition>
-  <definition>
-    <key>default_royal_mail_display_insurance</key>
-    <value><![CDATA[Показать страхование:<br /><span class="help">Вы хотите, чтобы отобразить страхование груза? (Например застраховано ДО £500)</span>]]></value>
-  </definition>
-  <definition>
-    <key>default_royal_mail_display_time</key>
-    <value><![CDATA[Отображение времени поставки: <br /> <span class="help">Вы хотите, чтобы отобразить время доставки? (Например, В течение от 3 ​​до 5 дней)</span>]]></value>
-  </definition>
-  <definition>
-    <key>default_royal_mail_weight_class</key>
-    <value><![CDATA[Единица веса:]]></value>
-  </definition>
-  <definition>
-    <key>default_royal_mail_tax</key>
-    <value><![CDATA[Налоговый класс:]]></value>
-  </definition>
-  <definition>
-    <key>default_royal_mail_tax_0</key>
-    <value><![CDATA[--- Не учитывать ---]]></value>
-  </definition>
-  <definition>
-    <key>default_royal_mail_location_id</key>
-    <value><![CDATA[Географическая зона:]]></value>
-  </definition>
-  <definition>
-    <key>default_royal_mail_location_id_0</key>
-    <value><![CDATA[Все местоположения]]></value>
-  </definition>
-  <definition>
-    <key>error_permission</key>
-    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение Royal Mail!]]></value>
-  </definition>
+	<definition>
+		<key>default_royal_mail_service</key>
+		<value><![CDATA[Services:]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_display_weight</key>
+		<value>
+			<![CDATA[Display Delivery Weight:<br /><span class="help">Do you want to display the shipping weight? (e.g. Delivery Weight : 2.7674 Kg's)</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_display_insurance</key>
+		<value>
+			<![CDATA[Display Insurance:<br /><span class="help">Do you want to display the shipping insurance? (e.g. Insured upto &pound;500)</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_display_time</key>
+		<value>
+			<![CDATA[Display Delivery Time:<br /><span class="help">Do you want to display the shipping time? (e.g. Ships within 3 to 5 days)</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_weight_class</key>
+		<value><![CDATA[Weight Class:<br /><span class="help">Your rates weight class. Store weight class will be ignored</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_tax</key>
+		<value><![CDATA[Tax Class:]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_tax_0</key>
+		<value><![CDATA[---None---]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_location_id</key>
+		<value><![CDATA[Location:]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_location_id_0</key>
+		<value><![CDATA[All Locations]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Warning: You do not have permission to modify Royal Mail shipping!]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_free_gb</key>
+		<value><![CDATA[Shipping method for free shipping (GB only)<span class="help">Please select what method will chosen for case when cart contains only products with free shipping</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_free_gb_1st_class_standard</key>
+		<value><![CDATA[First Class Standard Post]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_free_gb_1st_class_recorded</key>
+		<value><![CDATA[First Class Recorded Post]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_free_gb_2nd_class_standard</key>
+		<value><![CDATA[Second Class Standard Post]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_free_gb_2nd_class_recorded</key>
+		<value><![CDATA[Second Class Recorded Post]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_free_gb_standard_parcels</key>
+		<value><![CDATA[Standard Parcels]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_free_gb_surface</key>
+		<value><![CDATA[Surface]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_free</key>
+		<value>
+			<![CDATA[International Shipping Method for free shipping <span class="help">Please select what method will chosen for case when cart contains only products with free shipping</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_free_airmail</key>
+		<value><![CDATA[Airmail]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_free_international_signed</key>
+		<value><![CDATA[International Signed]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_free_airsure</key>
+		<value><![CDATA[Airsure]]></value>
+	</definition>
+	<definition>
+		<key>default_royal_mail_free_surface</key>
+		<value><![CDATA[Surface]]></value>
+	</definition>
 </definitions>
