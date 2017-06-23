@@ -18,7 +18,7 @@
   </definition>
   <definition>
     <key>entry_rate</key>
-    <value><![CDATA[Rates:<br /><span class="help">Example: 5:10.00,7:12.00 Weight:Cost,Weight:Cost, etc..</span>]]></value>
+    <value><![CDATA[Rates:<br /><span class="help">Example: 5:10.00,7:12.00 Weight:Cost,Weight:Cost, etc. In this example 5 pounds = $10.00. Where Pound is your Store Weight class and $ is Store Base currency. You can change both in the Store Settings</span>]]></value>
   </definition>
   <definition>
     <key>entry_status</key>
