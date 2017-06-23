@@ -91,6 +91,7 @@ if($faster_browser_rendering == true) {
 <?php } ?>
 
 <script type="text/javascript">
+	var baseUrl = '<?php echo $base; ?>';
 <?php if($retina){?>
 	if((window.devicePixelRatio===undefined?1:window.devicePixelRatio)>1) {
 		document.cookie = 'HTTP_IS_RETINA=1;path=/';
