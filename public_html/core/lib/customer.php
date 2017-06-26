@@ -176,7 +176,7 @@ class ACustomer{
 		$registry->get('model_tool_online_now')->setOnline($ip, $customer_id, $url, $referer);
 		//call hooks
 		$this->extensions->hk_ProcessData($this, 'constructor', $customer_id);
-	}
+		}
 
 	/**
 	 * @param string $loginname
@@ -206,10 +206,10 @@ class ACustomer{
 											)
 											AND status = '1'" . $approved_only);
 		if ($customer_data->num_rows){
+
             $this->_customer_init($customer_data->row);
 			$this->session->data['customer_id'] = $this->customer_id;
-
-            //load customer saved cart and merge with session cart before login
+			//load customer saved cart and merge with session cart before login
 			$cart = $this->getCustomerCart();
 			$this->mergeCustomerCart($cart);
 			//save merged cart
@@ -266,6 +266,8 @@ class ACustomer{
         $this->customer_group_id = (int)$data['customer_group_id'];
         $this->customer_group_name = $data['name'];
         $this->customer_tax_exempt = $data['tax_exempt'];
+	    //save this sign to use in ATax lib
+        $this->session->data['customer_tax_exempt'] = $data['tax_exempt'];
         $this->address_id = (int)$data['address_id'];
 
         $this->db->query("SET @CUSTOMER_ID = '" . (int)$this->customer_id . "'");
