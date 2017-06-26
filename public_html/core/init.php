@@ -496,7 +496,7 @@ try {
 	$hook->hk_InitEnd();
 
 //load order status class
-	$registry->set('order_status',new AOrderStatus());
+	$registry->set('order_status',new AOrderStatus($registry));
 
 //IM
 	if(IS_ADMIN===true){
