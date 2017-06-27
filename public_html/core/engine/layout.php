@@ -187,7 +187,8 @@ class ALayout{
 								AND template_id = '" . $this->tmpl_id . "' ";
 
 				} else{ //write to log this stuff. it's abnormal situation
-					$message = "Error: Error in data of page with controller: '" . $controller . "'. Please check for key_value present where key_param was set";
+					$message = "Error: Error in data of page with controller: '" . $controller . "'. Please check for key_value present where key_param was set.\n";
+					$message .= "Requested URL: ".$this->request->server['REQUEST_SCHEME'].'://'.$this->request->server['HTTP_HOST'].$this->request->server['REQUEST_URI'];
 					$this->messages->saveError('Error', $message);
 					$error = new AError ($message);
 					$error->toLog()->toDebug();
