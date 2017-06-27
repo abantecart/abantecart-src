@@ -33,20 +33,15 @@ class ControllerPagesContentContact extends AController{
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
-
 		$this->document->setTitle($this->language->get('heading_title'));
-
 		$this->form = new AForm('ContactUsFrm');
 		$this->form->loadFromDb('ContactUsFrm');
 		$form = $this->form->getForm();
 
 		if ($this->request->is_POST() && $this->_validate()){
-
 			$post_data = $this->request->post;
-
 			// move all uploaded files to their directories
 			$file_paths = $this->form->processFileUploads($this->request->files);
-
 			$subject = sprintf($this->language->get('email_subject'), $post_data['name']);
 			$this->data['mail_template_data']['subject'] = $subject;
 			$config_mail_logo = $this->config->get('config_mail_logo');
@@ -142,12 +137,12 @@ class ControllerPagesContentContact extends AController{
 			//notify admin
 			$this->loadLanguage('common/im');
 			$message_arr = array(
-			    1 => array('message' =>  sprintf(
-			    	$this->language->get('im_customer_contact_admin_text'),
-			    	$post_data['email'],
-			    	$post_data['first_name']
-			    	)
-			    )
+				1 => array('message' =>  sprintf(
+					$this->language->get('im_customer_contact_admin_text'),
+					$post_data['email'],
+					$post_data['first_name']
+					)
+				)
 			);
 			$this->im->send('customer_contact', $message_arr);
 
@@ -162,22 +157,22 @@ class ControllerPagesContentContact extends AController{
 		}
 
 		$this->document->resetBreadcrumbs();
-
 		$this->document->addBreadcrumb(
 				array (
 						'href'      => $this->html->getHomeURL(),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
-
 		$this->document->addBreadcrumb(
 				array (
 						'href'      => $this->html->getURL('content/contact'),
 						'text'      => $this->language->get('heading_title'),
 						'separator' => $this->language->get('text_separator')
 				));
-
-		$this->view->assign('form_output', $this->form->getFormHtml());
+		//if no fields - show nothing
+		if($this->form->getFields()) {
+			$this->view->assign('form_output', $this->form->getFormHtml());
+		}
 
 		$this->view->assign('action', $this->html->getURL('content/contact'));
 		$this->view->assign('store', $this->config->get('store_name'));
@@ -195,18 +190,14 @@ class ControllerPagesContentContact extends AController{
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
-
 		$this->document->setTitle($this->language->get('heading_title'));
-
 		$this->document->resetBreadcrumbs();
-
 		$this->document->addBreadcrumb(
 				array (
 						'href'      => $this->html->getHomeURL(),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
-
 		$this->document->addBreadcrumb(
 				array (
 						'href'      => $this->html->getURL('content/contact'),
