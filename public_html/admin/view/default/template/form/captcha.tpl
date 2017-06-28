@@ -4,4 +4,4 @@
 	<span class="input-group-addon required">*</span>
 <?php endif; ?>
 </div>
-<img src="<?php echo $captcha_url ?>" srcset="<?php echo $captcha_url ?> 2x" />
+<img src="<?php echo $captcha_url ?>" />
