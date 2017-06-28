@@ -70,7 +70,7 @@ class ControllerBlocksMenu extends AController {
 			}
 			//process relative url such as ../blog/index.php
 			elseif( preg_match ( "/^\.\.\//i", $item ['item_url'] ) ){
-				$href = ltrim($item ['item_url'],'../');
+				$href = str_replace('../','',$item ['item_url']);
 			}else {
 				$href = $this->html->getSecureURL( $item ['item_url'] );
 			}
