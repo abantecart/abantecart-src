@@ -43,8 +43,12 @@ class ControllerResponsesListingGridCategory extends AController{
 
 		$filter_data['parent_id'] = !isset($this->request->get['parent_id']) ? 0 : $this->request->get['parent_id'];
 		//NOTE: search by all categories when parent_id not set or zero (top level)
+
 		if($filter_data['subsql_filter']) {
-			$filter_data['parent_id'] = ($filter_data['parent_id'] === 'null' || $filter_data['parent_id'] < 1) ? null : $filter_data['parent_id'];
+			$filter_data['parent_id'] = ($filter_data['parent_id'] == 'null' || $filter_data['parent_id'] < 1) ? null : $filter_data['parent_id'];
+		}
+		if($filter_data['parent_id'] === null || $filter_data['parent_id'] === 'null'){
+			unset($filter_data['parent_id']);
 		}
 		$new_level = 0;
 		//get all leave categories 
