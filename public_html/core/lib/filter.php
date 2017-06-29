@@ -272,35 +272,35 @@ final class AGrid{
 					//support table name extension in fields
 					if (strpos($field_name, '.')){
 						$parts = explode('.', $field_name);
-						$str = $parts[0] . '.`' . $parts[1] . '`';
+						$colname = $parts[0] . '.`' . $parts[1] . '`';
 					} else{
-						$str = '`' . $field_name . '`';
+						$colname = '`' . $field_name . '`';
 					}
 
 					switch($rule['op']){
 						case 'eq' :
-							$str .= " = '" . $this->db->escape($rule['data']) . "' ";
+							$str = $colname. " = '" . $this->db->escape($rule['data']) . "' ";
 							break;
 						case 'ne' :
-							$str .= " != '" . $this->db->escape($rule['data']) . "' ";
+							$str = $colname. " != '" . $this->db->escape($rule['data']) . "' ";
 							break;
 						case 'bw' :
-							$str = "LOWER(" . $str . ")";
+							$str = "LOWER(" . $colname . ")";
 							$rule['data'] = mb_strtolower($rule['data']);
 							$str .= " LIKE '" . $this->db->escape($rule['data']) . "%' ";
 							break;
 						case 'cn' :
-							$str = "( LOWER(" . $str . ")";
+							$str = "( LOWER(" . $colname . ")";
 							$rule['data'] = mb_strtolower($rule['data']);
 							//search encoded
 							$needle = htmlspecialchars($rule['data'],ENT_QUOTES,"UTF-8");
 							$str .= " LIKE '%" . $this->db->escape($needle) . "%') ";
 							//todo: remove this in 2.0.
-							$str .= " OR ( LOWER(" . $str . ")";
+							$str .= " OR ( LOWER(" . $colname . ")";
 							$str .= " LIKE '%" . $this->db->escape($rule['data']) . "%') ";
 							break;
 						default:
-							$str .= " = '" . $this->db->escape($rule['data']) . "' ";
+							$str = $colname. " = '" . $this->db->escape($rule['data']) . "' ";
 					}
 					$search_param[] = $str;
 				}
