@@ -364,13 +364,13 @@ final class ADownload{
 		$mask = basename($download_info['mask']);
 		$mask = mb_convert_encoding($mask, 'UTF-8', 'UTF-8');
 		$mask = preg_replace('/[^0-9A-z_\.\-]/', '',$mask);
-		if(!$mask){
+		//is mask filename contains only non-latin chars
+		if(pathinfo($mask, PATHINFO_FILENAME) == '' || !$mask){
 			$mask = basename($file);
 		}
 
 		$mime = getMimeType($file);
 		$encoding = 'binary';
-
 		if (!headers_sent()){
 			if (file_exists($file)){
 				$file_handler = fopen($file, "rb");
