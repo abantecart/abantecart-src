@@ -299,7 +299,7 @@ class ExtensionsApi{
 			if (!empty($this->missing_extensions))
 				foreach ($this->missing_extensions as $ext){
 					$warning = new AWarning($ext . ' directory is missing');
-					$warning->toMessages();
+					$warning->toLog();
 				}
 
 			//check if we have extensions in dir that has no record in db

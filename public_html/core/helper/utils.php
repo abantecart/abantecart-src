@@ -499,10 +499,10 @@ function getExtensionConfigXml($extension_txt_id) {
 	if($ext_configs === false){
 		$err_text = 'Error: cannot to load config.xml of extension '.$extension_txt_id.'.';
 		$error = new AError($err_text);
-		$error->toLog()->toDebug()->toMessages();
+		$error->toLog()->toDebug();
 		foreach(libxml_get_errors() as $error) {
 			$err = new AError($error->message);
-			$err->toLog()->toDebug()->toMessages();
+			$err->toLog()->toDebug();
 		}
 		return false;
 	}
@@ -553,7 +553,7 @@ function getExtensionConfigXml($extension_txt_id) {
 				if($additional_config === false){
 					foreach(libxml_get_errors() as $error) {
 						$err = new AError($error->message);
-						$err->toLog()->toDebug()->toMessages();
+						$err->toLog()->toDebug();
 					}
 				}
 				// loop by all settings items
@@ -1152,7 +1152,7 @@ function get_image_size($filename){
 	}
 	if($filename){
 		$error = new  AError('Error: Cannot get image size of file ' . $filename.'. File not found or it\'s not an image!');
-		$error->toLog()->toMessages()->toDebug();
+		$error->toLog()->toDebug();
 	}
 	return array();
 }

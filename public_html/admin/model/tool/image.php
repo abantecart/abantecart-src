@@ -40,7 +40,7 @@ class ModelToolImage extends Model{
 			$new_image = 'thumbnails/' . substr($filename, 0, strrpos($filename, '.')) . '-' . $width . 'x' . $height . '.' . $extension;
 			if (!check_resize_image($orig_image_filepath, $new_image, $width, $height, $this->config->get('config_image_quality'))){
 				$err= new AWarning('Resize image error. File: '.$orig_image_filepath.'. Try to increase memory limit for PHP or decrease image size.');
-				$err->toLog()->toDebug()->toMessages('Resize image error');
+				$err->toLog()->toDebug();
 				return false;
 			}
 		}

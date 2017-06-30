@@ -188,7 +188,7 @@ final class PostgreSQL{
 			$dump .= ' (file: ' . $backtrace[1]['file'] . ' line ' . $backtrace[1]['line'] . ')';
 			$message = 'PostreSQL class error: Try to escape non-string value: ' . $dump;
 			$error = new AError($message);
-			$error->toLog()->toDebug()->toMessages();
+			$error->toLog()->toDebug();
 			return false;
 		}
 		return pg_escape_string($this->connection, (string)$value);

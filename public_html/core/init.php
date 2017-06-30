@@ -467,7 +467,7 @@ try {
 
 	if (!$is_valid) {
 		$error = new AError ('Template ' . $template . ' is not found - roll back to default');
-		$error->toMessages()->toLog()->toDebug();
+		$error->toLog()->toDebug();
 		$template = 'default';
 	}
 

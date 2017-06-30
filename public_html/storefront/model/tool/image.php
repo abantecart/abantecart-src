@@ -48,7 +48,7 @@ class ModelToolImage extends Model{
 
 		if(!check_resize_image($orig_image_filepath, $new_image, $width, $height, $this->config->get('config_image_quality'))) {
 			$err= new AWarning('Resize image error. File: '.$orig_image_filepath.'. Try to increase memory limit for PHP or decrease image size.');
-			$err->toLog()->toDebug()->toMessages('Resize image error');
+			$err->toLog()->toDebug();
 		}
 
 		if ($this->config->get('config_retina_enable')){
@@ -56,7 +56,7 @@ class ModelToolImage extends Model{
 			$new_image2x = 'thumbnails/' . substr($alias, 0, strrpos($alias, '.')) . '-' . $width . 'x' . $height . '@2x.' . $extension;
 			if(!check_resize_image($orig_image_filepath, $new_image2x, $width*2, $height*2, $this->config->get('config_image_quality'))) {
 				$err= new AWarning('Resize image error. File: '.$orig_image_filepath.'. Try to increase memory limit for PHP or decrease image size.');
-				$err->toLog()->toDebug()->toMessages('Resize image error');
+				$err->toLog()->toDebug();
 			}
 		}
 

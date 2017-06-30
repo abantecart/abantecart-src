@@ -283,7 +283,7 @@ class AImage{
 			$GLOBALS['error_descriptions']['img'] = 'Image Resize error '.$resource_id;
 			$warning = new AWarning($message, 'img');
 			$warning->code = 'img';
-			$warning->toLog()->toDebug()->toMessages();
+			$warning->toLog()->toDebug();
 			return false;
 		}
 

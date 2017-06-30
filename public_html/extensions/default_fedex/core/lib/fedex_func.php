@@ -41,7 +41,7 @@ function printFault($exception, $client) {
 function writeToLog($client) {
 	if (!$logfile = fopen(TRANSACTIONS_LOG_FILE, "a")) {
 		$error = new AError("Cannot open " . TRANSACTIONS_LOG_FILE . " file.\n");
-		$error->toLog()->toMessages()->toDebug();
+		$error->toLog()->toDebug();
 		exit(1);
 	}
 

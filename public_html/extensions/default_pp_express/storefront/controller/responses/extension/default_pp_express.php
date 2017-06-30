@@ -133,7 +133,7 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 
 		if ($ec_details['ACK'] != 'Success'){
 			$warning = new AWarning('PayPal Express Checkout Error: ' . $ec_details['L_LONGMESSAGE0'] . '. Test mode = ' . $this->config->get('default_pp_express_test') . '.');
-			$warning->toLog()->toDebug()->toMessages();
+			$warning->toLog()->toDebug();
 			$this->session->data['pp_express_checkout_error'] = $this->language->get('service_error');
 			redirect($this->html->getSecureURL('extension/default_pp_express/error'));
 		} else{

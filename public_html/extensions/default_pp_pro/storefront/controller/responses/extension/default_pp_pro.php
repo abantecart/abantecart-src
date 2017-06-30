@@ -320,7 +320,7 @@ class ControllerResponsesExtensionDefaultPPPro extends AController{
 		if (!$response){
 			$json['error'] = 'Cannot establish a connection to the server';
 			$err = new AError('Paypal Pro Error: DoDirectPayment failed: ' . curl_error($curl) . '(' . curl_errno($curl) . ')');
-			$err->toLog()->toMessages()->toDebug();
+			$err->toLog()->toDebug();
 		} else{
 
 			$response_data = array ();

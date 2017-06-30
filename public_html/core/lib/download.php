@@ -350,7 +350,7 @@ final class ADownload{
 		if (!$download_info || !$this->isFileAvailable($download_info['filename'])){
 			$error_text = 'Unable to download file ' . DIR_RESOURCE . $download_info['filename'] . '! File is unavailable. Please check permissions.';
 			$err = new AError($error_text);
-			$err->toMessages()->toDebug()->toLog();
+			$err->toDebug()->toLog();
 			return false;
 		}
 		if ($download_info['remaining_count'] != '' && $download_info['remaining_count'] < 1){
@@ -601,7 +601,7 @@ final class ADownload{
 		$download_info['filename'] = trim($download_info['filename']);
 		if (!$this->isFileAvailable($download_info['filename'])){
 			$err = new AError('Error: file "' . $download_info['filename'] . '" (download_id = ' . $download_info['order_id'] . ') of order #' . $download_info['order_id'] . ' is unavailable for download!');
-			$err->toLog()->toDebug()->toMessages();
+			$err->toLog()->toDebug();
 			$text_status = $this->language->get('text_unavailable');
 		}
 
