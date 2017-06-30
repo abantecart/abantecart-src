@@ -23,15 +23,13 @@ if (!defined('DIR_CORE')){
 
 class ControllerPagesAccountDownload extends AController{
 	public $data = array ();
-
 	public function main(){
-
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		//if disabled downloads redirect to
 		if (!$this->config->get('config_download')){
-			$this->redirect($this->html->getSecureURL('account/account'));
+			redirect($this->html->getSecureURL('account/account'));
 		}
 		// when guest checkout downloads
 		$this->loadModel('account/customer');
@@ -46,7 +44,7 @@ class ControllerPagesAccountDownload extends AController{
 
 		if (!$this->customer->isLogged() && !$guest){
 			$this->session->data['redirect'] = $this->html->getSecureURL('account/download');
-			$this->redirect($this->html->getSecureURL('account/login'));
+			redirect($this->html->getSecureURL('account/login'));
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -76,13 +74,11 @@ class ControllerPagesAccountDownload extends AController{
 		}
 
 		if ($this->config->get('config_download')){
-
 			if (isset($this->request->get['page'])){
 				$page = $this->request->get['page'];
 			} else{
 				$page = 1;
 			}
-
 			$downloads = array ();
 			//get only enabled, not expired, which have remaining count > 0 and available
 			if ($guest){
@@ -115,17 +111,14 @@ class ControllerPagesAccountDownload extends AController{
 
 			foreach ($customer_downloads as $download_info){
 				$text_status = $this->download->getTextStatusForOrderDownload($download_info);
-
 				$size = filesize(DIR_RESOURCE . $download_info['filename']);
 				$i = 0;
-
 				while (($size / 1024) > 1){
 					$size = $size / 1024;
 					$i++;
 				}
 
 				$download_text = $download_button = '';
-
 				if (!$text_status){
 					$download_button = $this->html->buildElement(
 							array ('type'  => 'button',
@@ -214,7 +207,7 @@ class ControllerPagesAccountDownload extends AController{
 		$order_download_id = (int)$this->request->get['order_download_id'];
 
 		if (!$this->config->get('config_download')){
-			$this->redirect($this->html->getSecureURL('account/account'));
+			redirect($this->html->getSecureURL('account/account'));
 		}
 
 		$can_access = false;
@@ -264,7 +257,7 @@ class ControllerPagesAccountDownload extends AController{
 		}
 
 		$this->session->data['warning'] = $this->language->get('error_download_not_exists');
-		$this->redirect($this->html->getSecureURL('account/download'));
+		redirect($this->html->getSecureURL('account/download'));
 	}
 
 }

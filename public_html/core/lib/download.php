@@ -362,6 +362,12 @@ final class ADownload{
 
 		$file = DIR_RESOURCE . $download_info['filename'];
 		$mask = basename($download_info['mask']);
+		$mask = mb_convert_encoding($mask, 'UTF-8', 'UTF-8');
+		$mask = preg_replace('/[^0-9A-z_\.\-]/', '',$mask);
+		if(!$mask){
+			$mask = basename($file);
+		}
+
 		$mime = getMimeType($file);
 		$encoding = 'binary';
 
@@ -374,7 +380,7 @@ final class ADownload{
 				header('Content-Description: File Transfer');
 				header('Content-Type: ' . $mime);
 				header('Content-Transfer-Encoding: ' . $encoding);
-				header('Content-Disposition: attachment; filename=' . ($mask ? $mask : basename($file)));
+				header('Content-Disposition: attachment; filename=' . $mask);
 				header('Content-Length: ' . $filesize);
 				ob_end_clean();
 				$bytes_sent = 0;
