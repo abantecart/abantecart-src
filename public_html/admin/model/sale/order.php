@@ -316,11 +316,12 @@ class ModelSaleOrder extends Model{
 
 				if ($exists->num_rows){
 					//update order quantity
-					$this->db->query("UPDATE " . $this->db->table("order_products") . "
-										  SET price = '" . $this->db->escape((preformatFloat($product['price'], $this->language->get('decimal_point')) / $order_info['value'])) . "',
-										  	  total = '" . $this->db->escape((preformatFloat($product['total'], $this->language->get('decimal_point')) / $order_info['value'])) . "',
-											  quantity = '" . $this->db->escape($product['quantity']) . "'
-										  WHERE order_id = '" . (int)$order_id . "' AND order_product_id = '" . (int)$order_product_id . "'");
+					$sql = "UPDATE " . $this->db->table("order_products") . "
+							SET price = '" . $this->db->escape((preformatFloat($product['price'], $this->language->get('decimal_point')) / $order_info['value'])) . "',
+								total = '" . $this->db->escape((preformatFloat($product['total'], $this->language->get('decimal_point')) / $order_info['value'])) . "',
+								quantity = '" . $this->db->escape($product['quantity']) . "'
+							WHERE order_id = '" . (int)$order_id . "' AND order_product_id = '" . (int)$order_product_id . "'";
+					$this->db->query($sql);
 					//update stock quantity
 
 					$old_qnt = $exists->row['quantity'];
@@ -334,23 +335,24 @@ class ModelSaleOrder extends Model{
 							$new_qnt = $stock_qnt + $qnt_diff;
 						}
 						if ($product_info['subtract']){
-							$this->db->query("UPDATE " . $this->db->table("products") . "
-											  SET quantity = '" . $new_qnt . "'
-											  WHERE product_id = '" . (int)$product_id . "' AND subtract = 1");
+							$sql = "UPDATE " . $this->db->table("products") . "
+									SET quantity = '" . $new_qnt . "'
+									WHERE product_id = '" . (int)$product_id . "' AND subtract = 1";
+							$this->db->query( $sql );
 						}
 					}
 
 				} else{
 					// add new product into order
-					$product_query = $this->db->query(
-							"SELECT *, p.product_id
-							 FROM " . $this->db->table("products") . " p
-							 LEFT JOIN " . $this->db->table("product_descriptions") . " pd
-							    ON (p.product_id = pd.product_id AND pd.language_id=" . $this->language->getContentLanguageID() . ")
-							 WHERE p.product_id='" . (int)$product_id . "'");
+					$sql  = "SELECT *, p.product_id
+							FROM " . $this->db->table("products") . " p
+							LEFT JOIN " . $this->db->table("product_descriptions") . " pd
+								ON (p.product_id = pd.product_id AND pd.language_id=" . $this->language->getContentLanguageID() . ")
+							WHERE p.product_id='" . (int)$product_id . "'";
+					$this->log->write($sql);
+					$product_query = $this->db->query( $sql );
 
-					$this->db->query(
-							"INSERT INTO " . $this->db->table("order_products") . "
+					$sql = "INSERT INTO " . $this->db->table("order_products") . "
 							SET order_id = '" . (int)$order_id . "',
 								product_id = '" . (int)$product_id . "',
 								name = '" . $this->db->escape($product_query->row['name']) . "',
@@ -358,7 +360,8 @@ class ModelSaleOrder extends Model{
 								sku = '" . $this->db->escape($product_query->row['sku']) . "',
 								price = '" . $this->db->escape((preformatFloat($product['price'], $this->language->get('decimal_point')) / $order_info['value'])) . "',
 								total = '" . $this->db->escape((preformatFloat($product['total'], $this->language->get('decimal_point')) / $order_info['value'])) . "',
-								quantity = '" . (int)$product['quantity'] . "'");
+								quantity = '" . (int)$product['quantity'] . "'";
+					$this->db->query( $sql );
 					$order_product_id = $this->db->getLastId();
 
 					//update stock quantity
@@ -550,7 +553,7 @@ class ModelSaleOrder extends Model{
 		$text = $this->currency->format($total, $order_info['currency'], $order_info['value']);
 
 		$sql = "UPDATE " . $this->db->table('order_totals') . "
-		        SET `value`='" . $subtotal . "', `text` = '" . $text . "'
+		        SET `value`='" . $total . "', `text` = '" . $text . "'
 				WHERE order_id=" . $order_id . " AND type='total'";
 		$this->db->query($sql);
 

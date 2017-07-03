@@ -1290,6 +1290,7 @@ class SelectboxHtmlElement extends HtmlElement{
  * @property string $style
  * @property string $placeholder
  * @property array $options
+ * @property string $filter_params - some additional parameters
  * @property string $ajax_url
  * @property string|array $option_attr
  * @property string $help_url
@@ -1314,6 +1315,7 @@ class MultiSelectboxHtmlElement extends HtmlElement{
 						'required'    => $this->required,
 						'style'       => $this->style,
 						'placeholder' => $this->placeholder,
+						'filter_params' => $this->filter_params,
 				)
 		);
 		if (!empty($this->help_url)){
