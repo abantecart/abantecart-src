@@ -113,7 +113,7 @@ final class AConfig{
 		}
 		if (!$cache->setCacheStorageDriver($cache_driver)){
 			$error = new AError ('Cache storage driver ' . $cache_driver . ' can not be loaded!');
-			$error->toLog()->toDebug();
+			$error->toLog()->toDebug()->toMessages();
 		}
 
 		// Load default store settings
