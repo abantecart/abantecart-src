@@ -10336,6 +10336,7 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
 (26, 3, 'blocks/search.tpl', now() ),
 (26, 6, 'blocks/search.tpl', now() ),
 (27, 1, 'blocks/menu_top.tpl', now() ),
+(27, 2, 'blocks/menu.tpl', now()),
 (27, 8, 'blocks/menu_bottom.tpl', now() ),
 (27, 3, 'blocks/menu.tpl', now() ),
 (27, 6, 'blocks/menu.tpl', now() ),
