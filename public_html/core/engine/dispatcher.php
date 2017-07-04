@@ -227,7 +227,6 @@ final class ADispatcher{
 			$url = $this->request->server['REQUEST_URI'];
 			$error = new AError('Error: URL: ' . $url . ' Could not load controller ' . $this->controller . '! Call stack: ' . $function_stack . '', AC_ERR_CLASS_CLASS_NOT_EXIST);
 			$error->toLog()->toDebug();
-			$error->toMessages();
 			return null;
 		} else if (empty($this->file) && empty($this->class) || empty($this->method)){
 			$warning_txt = 'ADispatch: skipping unavailable controller …';

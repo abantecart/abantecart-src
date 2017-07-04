@@ -6,8 +6,15 @@
 <body>
 <table style="font-family: Verdana,sans-serif; font-size: 11px; color: #374953; width: 600px;">
 	<tr>
-		<td class="align_left"><a href="<?php echo $store_url; ?>" title="<?php echo $store_name; ?>"><img
-						src="<?php echo $logo; ?>" alt="<?php echo $store_name; ?>" style="border: none;"></a></td>
+		<td class="align_left">
+			<a href="<?php echo $store_url; ?>" title="<?php echo $store_name; ?>">
+				<?php if($logo_uri){ ?>
+					<img src="<?php echo $logo_uri; ?>" alt="<?php echo $store_name; ?>" style="border: none;">
+			<?php }elseif($logo_html){
+					echo $logo_html;
+				 } ?>
+			</a>
+		</td>
 	</tr>
 	<tr>
 		<td>&nbsp;</td>

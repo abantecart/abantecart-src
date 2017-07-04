@@ -467,7 +467,7 @@ try {
 
 	if (!$is_valid) {
 		$error = new AError ('Template ' . $template . ' is not found - roll back to default');
-		$error->toMessages()->toLog()->toDebug();
+		$error->toLog()->toDebug();
 		$template = 'default';
 	}
 
@@ -496,7 +496,7 @@ try {
 	$hook->hk_InitEnd();
 
 //load order status class
-	$registry->set('order_status',new AOrderStatus());
+	$registry->set('order_status',new AOrderStatus($registry));
 
 //IM
 	if(IS_ADMIN===true){

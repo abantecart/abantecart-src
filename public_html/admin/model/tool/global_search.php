@@ -420,7 +420,7 @@ class ModelToolGlobalSearch extends Model {
 
 			case 'languages' :
 				$sql = "SELECT l.language_definition_id, l.language_key as title, CONCAT_WS('  ',l.language_key,l.language_value) as text, language_id
-						FROM " . $this->db->table("language_definitions") . " l						
+						FROM " . $this->db->table("language_definitions") . " l
 						WHERE ( LOWER(l.language_value) like '%" . $needle . "%'
 								OR LOWER(l.language_value) like '%" . $needle2 . "%'
 								OR l.language_key like '%" . str_replace(' ','_',$needle) . "%'
@@ -638,6 +638,7 @@ class ModelToolGlobalSearch extends Model {
 						//remove all text between span tags
 						$regex = '/<span(.*)span>/';
 						$row['title'] = str_replace(array("	","  ","\n"),"",strip_tags(preg_replace($regex, '', $row['title'])));
+						$row['text'] = !$row['text'] ? $row['title']: $row['text'];
 						$row['text'] = str_replace(array("	","  ","\n"),"",strip_tags(preg_replace($regex, '', $row['text'])));
 						$result[$row['setting_id']] = $row;
 					}
@@ -710,6 +711,7 @@ class ModelToolGlobalSearch extends Model {
 		}
 		foreach ($result as &$row) {
 			$row['controller'] = $this->results_controllers[$search_category]['page'];
+
 			//shorten text for suggestion
 			if ($mode != 'listing') {
 				$dec_text = htmlentities($row['text'], ENT_QUOTES);

@@ -782,10 +782,9 @@ class ModelAccountCustomer extends Model {
 	}
 
 	public function getTotalTransactions() {
-      	$query = $this->db->query("SELECT COUNT(*) AS total
+		$query = $this->db->query("SELECT COUNT(*) AS total
 								   FROM `" . $this->db->table("customer_transactions") . "`
 								   WHERE customer_id = '" . (int)$this->customer->getId() . "'" );
-		
 		return (int)$query->row['total'];
 	}
 	
@@ -795,27 +794,27 @@ class ModelAccountCustomer extends Model {
 		}
 		
 		$query = $this->db->query("SELECT 
-											t.customer_transaction_id,
-											t.order_id,
-											t.section,
-											t.credit,
-											t.debit,
-											t.transaction_type,
-											t.description,
-											t.date_added
-									FROM `" . $this->db->table("customer_transactions") . "` t
-									WHERE customer_id = '" . (int)$this->customer->getId() . "'
-									ORDER BY t.date_added DESC
-									LIMIT " . (int)$start . "," . (int)$limit);
-	
+										t.customer_transaction_id,
+										t.order_id,
+										t.section,
+										t.credit,
+										t.debit,
+										t.transaction_type,
+										t.description,
+										t.date_added
+								FROM `" . $this->db->table("customer_transactions") . "` t
+								WHERE customer_id = '" . (int)$this->customer->getId() . "'
+								ORDER BY t.date_added DESC
+								LIMIT " . (int)$start . "," . (int)$limit);
 		return $query->rows;
 	}
 
 	public function getSubscribersCustomerGroupId() {
-		$query = $this->db->query("SELECT customer_group_id
-								   FROM `" . $this->db->table("customer_groups") . "`
-								   WHERE `name` = 'Newsletter Subscribers'
-								   LIMIT 0,1");
+		$query = $this->db->query(
+								"SELECT customer_group_id
+								FROM `" . $this->db->table("customer_groups") . "`
+								WHERE `name` = 'Newsletter Subscribers'
+								LIMIT 0,1");
 		$result = !$query->row['customer_group_id'] ? (int)$this->config->get('config_customer_group_id') :  $query->row['customer_group_id'];
 		return $result;
 	}
@@ -828,7 +827,6 @@ class ModelAccountCustomer extends Model {
 		$login_url = $this->html->getSecureURL('account/login');
 		$this->language->load('mail/account_create');
 		$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
-		$store_logo = md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
 
 		$this->data['mail_plain_text'] = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
 		if($activated){
@@ -854,7 +852,28 @@ class ModelAccountCustomer extends Model {
 			$this->data['mail_template_data']['text_login_later'] = '<a href="' . $login_url . '">' . $login_url . '</a>';
 		}
 
-		$this->data['mail_template_data']['logo'] = 'cid:' . $store_logo;
+		$config_mail_logo = $this->config->get('config_mail_logo');
+		$config_mail_logo = !$config_mail_logo ? $this->config->get('config_logo') : $config_mail_logo;
+		if($config_mail_logo) {
+			if (is_numeric($config_mail_logo)) {
+				$r = new AResource('image');
+				$resource_info = $r->getResource($config_mail_logo);
+				if ($resource_info) {
+					$this->data['mail_template_data']['logo_html'] = html_entity_decode($resource_info['resource_code'], ENT_QUOTES, 'UTF-8');
+				}
+			} else {
+				$this->data['mail_template_data']['logo_uri'] = 'cid:'
+						. md5(pathinfo($config_mail_logo, PATHINFO_FILENAME))
+						. '.' . pathinfo($config_mail_logo, PATHINFO_EXTENSION);
+			}
+		}
+		//backward compatibility. TODO: remove this in 2.0
+		if($this->data['mail_template_data']['logo_uri']){
+			$this->data['mail_template_data']['logo'] = $this->data['mail_template_data']['logo_uri'];
+		}else{
+			$this->data['mail_template_data']['logo'] = $this->config->get('config_mail_logo');
+		}
+
 		$this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
 		$this->data['mail_template_data']['store_url'] = $this->config->get('config_url');
 		$this->data['mail_template_data']['text_project_label'] = project_base();
@@ -872,7 +891,7 @@ class ModelAccountCustomer extends Model {
 										'subject' => $subject,
 										'txt_body' => $this->data['mail_plain_text'],
 										'html_body' => $html_body,
-										'store_logo' => $store_logo)
+										'config_mail_logo' => $config_mail_logo)
 		);
 		return true;
 	}
@@ -882,13 +901,13 @@ class ModelAccountCustomer extends Model {
 			return null;
 		}
 		$customer_data  = $this->getCustomer($customer_id);
-			
-		//encrypt token and data			
-		$enc = new AEncryption($this->config->get('encryption_key'));	
+
+		//encrypt token and data
+		$enc = new AEncryption($this->config->get('encryption_key'));
 		$code = genToken();
 		//store activation code
 		$customer_data['data']['email_activation'] = $code;
-		$this->updateOtherData($customer_id, $customer_data['data']);			
+		$this->updateOtherData($customer_id, $customer_data['data']);
 
 		$ac = $enc->encrypt($customer_id.'::'.$code);
 		$activate_url = $this->html->getSecureURL('account/login', '&ac='.$ac);
@@ -896,7 +915,6 @@ class ModelAccountCustomer extends Model {
 		//build welcome email
 		$this->language->load('mail/account_create');
 		$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
-		$store_logo = md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
 
 		$this->data['mail_plain_text'] = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
 		$this->data['mail_plain_text'] .= sprintf(strip_tags($this->language->get('text_activate')), "\n". $activate_url . "\n") . "\n";
@@ -907,11 +925,34 @@ class ModelAccountCustomer extends Model {
 		$this->data['mail_template_data']['text_welcome'] = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
 		$this->data['mail_template_data']['text_thanks'] = $this->language->get('text_thanks');
 		$this->data['mail_template_data']['text_activate'] = sprintf($this->language->get('text_activate'), '<a href="' . $activate_url . '">' . $activate_url . '</a>');
-		$this->data['mail_template_data']['logo'] = 'cid:' . $store_logo;
+
+		$config_mail_logo = $this->config->get('config_mail_logo');
+		$config_mail_logo = !$config_mail_logo ? $this->config->get('config_logo') : $config_mail_logo;
+		if($config_mail_logo) {
+			if (is_numeric($config_mail_logo)) {
+				$r = new AResource('image');
+				$resource_info = $r->getResource($config_mail_logo);
+				if ($resource_info) {
+					$this->data['mail_template_data']['logo_html'] = html_entity_decode($resource_info['resource_code'],
+							ENT_QUOTES, 'UTF-8');
+				}
+			} else {
+				$this->data['mail_template_data']['logo_uri'] = 'cid:'
+						. md5(pathinfo($config_mail_logo, PATHINFO_FILENAME))
+						. '.' . pathinfo($config_mail_logo, PATHINFO_EXTENSION);
+			}
+		}
+
+		//backward compatibility. TODO: remove this in 2.0
+		if($this->data['mail_template_data']['logo_uri']){
+			$this->data['mail_template_data']['logo'] = $this->data['mail_template_data']['logo_uri'];
+		}else{
+			$this->data['mail_template_data']['logo'] = $config_mail_logo;
+		}
+
 		$this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
 		$this->data['mail_template_data']['store_url'] = $this->config->get('config_url');
 		$this->data['mail_template_data']['text_project_label'] = project_base();
-
 		$this->data['mail_template'] = 'mail/account_create.tpl';
 
 		//allow to change email data from extensions
@@ -926,22 +967,26 @@ class ModelAccountCustomer extends Model {
 								'subject' => $subject,
 								'txt_body' => $this->data['mail_plain_text'],
 								'html_body' => $html_body,
-								'store_logo' => $store_logo)
+								'config_mail_logo' => $config_mail_logo)
 		);
 		return true;
 	}
 
-
-	private function _send_email($email, $data) {
+	protected function _send_email($email, $data) {
 		$mail = new AMail($this->config);
 		$mail->setTo($email);
 		$mail->setFrom($this->config->get('store_main_email'));
 		$mail->setSender($this->config->get('store_name'));
 		$mail->setSubject($data['subject']);
 		$mail->setText(html_entity_decode($data['txt_body'], ENT_QUOTES, 'UTF-8'));
-		$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_logo'), $data['store_logo']);
+
+		if(is_file(DIR_RESOURCE . $data['config_mail_logo'])) {
+			$mail->addAttachment(DIR_RESOURCE . $data['config_mail_logo'],
+								md5(pathinfo($data['config_mail_logo'], PATHINFO_FILENAME))
+								. '.' . pathinfo($data['config_mail_logo'], PATHINFO_EXTENSION));
+		}
 		$mail->setHtml($data['html_body']);
-		$mail->send();	
+		$mail->send();
 	}
 
 	public function parseOrderToken($ot){
@@ -965,8 +1010,6 @@ class ModelAccountCustomer extends Model {
 		if ($order_info['email'] != $email){
 			return array();
 		}
-
 		return array($order_id,$email);
 	}
-	
 }

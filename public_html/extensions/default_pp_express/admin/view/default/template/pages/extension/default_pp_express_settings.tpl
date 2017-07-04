@@ -72,7 +72,7 @@ echo $tabs;
 
 	<div class="panel-body panel-body-nopadding">
 		<div class="row">
-			<div class="col-sm-3 mt10"><img src="<?php echo HTTP_EXT . 'default_pp_express/image/express_checkout_logo_u2452_normal.png'; ?>"/></div>
+			<div class="col-sm-3 mt10"><img src="<?php echo HTTPS_EXT . 'default_pp_express/image/express_checkout_logo_u2452_normal.png'; ?>"/></div>
 			<div class="col-sm-6"><?php echo $text_signup_account_note; ?></div>
 			<div class="col-sm-3 mt10"><a class="btn btn-primary"
 			                         target="_blank"
@@ -246,7 +246,7 @@ echo $tabs;
 		<?php } ?>
 		</div>
 		<div class="col-md-4 col-xs-12">
-			<img src="<?php echo HTTP_EXT . 'default_pp_standart/image/customize_help.png'; ?>" width="250" />
+			<img src="<?php echo HTTPS_EXT . 'default_pp_standart/image/customize_help.png'; ?>" width="250" />
 		</div>
 	</div>
 

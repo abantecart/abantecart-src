@@ -57,12 +57,17 @@ class ControllerResponsesProductProduct extends AController{
 			}
 		} else if (isset($post['term'])){
 			$filter = array ('limit'               => 20,
-			                 'content_language_id' => $this->language->getContentLanguageID(),
-			                 'filter'              => array (
-					                 'keyword' => $post['term'],
-					                 'match'   => 'all',
-					                 'exclude' => array('product_id' => $exclude)
-			                 ));
+							 'content_language_id' => $this->language->getContentLanguageID(),
+							 'filter'              => array (
+									 'keyword' => $post['term'],
+									 'match'   => 'all',
+									 'exclude' => array('product_id' => $exclude)
+							 ));
+			//if need to show only available products
+			if($this->request->post['filter']=='enabled_only'){
+				$filter['filter']['status'] = 1;
+				$filter['subsql_filter'] = 'date_available<=NOW()';
+			}
 			$products = $this->model_catalog_product->getProducts($filter);
 
 			$product_ids = array ();
@@ -121,7 +126,7 @@ class ControllerResponsesProductProduct extends AController{
 			$error = new AError('');
 			return $error->toJSONResponse('NO_PERMISSIONS_402',
 					array ('error_text'  => sprintf($this->language->get('error_permission_modify'), 'product/product'),
-					       'reset_value' => true
+						   'reset_value' => true
 					));
 		}
 
@@ -292,7 +297,7 @@ class ControllerResponsesProductProduct extends AController{
 			$error = new AError('');
 			return $error->toJSONResponse('NO_PERMISSIONS_402',
 					array ('error_text'  => sprintf($this->language->get('error_permission_modify'), 'product/product'),
-					       'reset_value' => true
+						   'reset_value' => true
 					));
 		}
 		//needs to validate attribute properties
@@ -530,7 +535,7 @@ class ControllerResponsesProductProduct extends AController{
 			$error = new AError('');
 			return $error->toJSONResponse('NO_PERMISSIONS_402',
 					array ('error_text'  => sprintf($this->language->get('error_permission_modify'), 'product/product'),
-					       'reset_value' => true
+						   'reset_value' => true
 					));
 		}
 
@@ -550,7 +555,7 @@ class ControllerResponsesProductProduct extends AController{
 			$error = new AError('');
 			return $error->toJSONResponse('NO_PERMISSIONS_402',
 					array ('error_text'  => sprintf($this->language->get('error_permission_modify'), 'product/product'),
-					       'reset_value' => true
+						   'reset_value' => true
 					));
 		}
 
@@ -781,6 +786,7 @@ class ControllerResponsesProductProduct extends AController{
 		$prd_weight_info = $this->model_localisation_weight_class->getWeightClass($prd_info['weight_class_id']);
 		$wht_options[$prd_weight_info['unit']] = $prd_weight_info['title'];
 
+		$option_weight_class_id = '';
 		if($selected_unit && $selected_unit != '%'){
 			$a_weight = new AWeight($this->registry);
 			$option_weight_class_id = $a_weight->getClassIDByUnit($selected_unit);
@@ -836,7 +842,7 @@ class ControllerResponsesProductProduct extends AController{
 			$error = new AError('');
 			return $error->toJSONResponse('NO_PERMISSIONS_402',
 					array ('error_text'  => sprintf($this->language->get('error_permission_modify'), 'product/product'),
-					       'reset_value' => true
+						   'reset_value' => true
 					));
 		}
 
@@ -871,8 +877,8 @@ class ControllerResponsesProductProduct extends AController{
 			}
 
 			$this->data['output'] = array ('download_id' => $download_id,
-			                               'success'     => true,
-			                               'result_text' => $this->language->get('text_success'));
+										   'success'     => true,
+										   'result_text' => $this->language->get('text_success'));
 
 		} else{
 			$error = new AError('');
@@ -1072,7 +1078,7 @@ class ControllerResponsesProductProduct extends AController{
 					continue;
 				}
 				$this->data['map_list'][] = array ('href' => $this->html->getSecureURL('catalog/product_files', '&product_id=' . $map_id . '&download_id=' . $this->data['download_id'], true),
-				                                   'text' => $map_name);
+												   'text' => $map_name);
 			}
 			if (!sizeof($this->data['map_list'])){
 				$this->data['already_shared'] = false;
@@ -1119,10 +1125,10 @@ class ControllerResponsesProductProduct extends AController{
 				'name'     => 'activate',
 				'value'    => $file_data['activate'],
 				'options'  => array (''             => $this->language->get('text_select'),
-				                     'before_order' => $this->language->get('text_before_order'),
-				                     'immediately'  => $this->language->get('text_immediately'),
-				                     'order_status' => $this->language->get('text_on_order_status'),
-				                     'manually'     => $this->language->get('text_manually'),),
+									 'before_order' => $this->language->get('text_before_order'),
+									 'immediately'  => $this->language->get('text_immediately'),
+									 'order_status' => $this->language->get('text_on_order_status'),
+									 'manually'     => $this->language->get('text_manually'),),
 				'required' => true,
 				'style'    => 'download_activate no-save'
 		));

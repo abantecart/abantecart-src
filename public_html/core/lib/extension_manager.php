@@ -1,22 +1,5 @@
 <?php
-/*------------------------------------------------------------------------------
-  $Id$
-
-  AbanteCart, Ideal OpenSource Ecommerce Solution
-  http://www.AbanteCart.com
-
-  Copyright  2011-2017 Belavier Commerce LLC
-
-  This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
-  It is also available at this URL:
-  <http://www.opensource.org/licenses/OSL-3.0>
-
- UPGRADE NOTE:
-   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-   versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.
-------------------------------------------------------------------------------*/
+/*incompatibility*/
 if (!defined('DIR_CORE')){
 	header('Location: static_pages/');
 }
@@ -83,7 +66,7 @@ class AExtensionManager{
 	 */
 	public function add($data){
 		if (is_array($data)){
-			// check colision
+			// check collision
 			$data['type'] = $data['type'] == 'extension' ? 'extensions' : $data['type'];
 			$type = ($data['type'] ? $data['type'] : 'extensions');
 			$key = $data['key'];
@@ -96,6 +79,7 @@ class AExtensionManager{
 		} else{
 			$key = $data;
 			$type = 'extensions';
+			$category = $status = $priority = $version= $license_key = '';
 		}
 		$sql = "SELECT extension_id FROM " . $this->db->table("extensions") . " WHERE `key`= '" . $this->db->escape($key) . "'";
 		$res = $this->db->query($sql);
@@ -126,7 +110,9 @@ class AExtensionManager{
 	public function getParentsExtensionTextId($extension_txt_id){
 		$info = $this->extensions->getExtensionInfo($extension_txt_id);
 		$extension_id = (int)$info['extension_id'];
-		if (!$extension_id) return false;
+		if (!$extension_id){
+			return array();
+		}
 
 		$result = $this->db->query("SELECT e.key, ed.extension_parent_id, e.status
 										FROM " . $this->db->table("extension_dependencies") . " ed
@@ -191,10 +177,13 @@ class AExtensionManager{
 		$info = $this->extensions->getExtensionInfo($extension_txt_id);
 		$extension_id = $info ? (int)$info['extension_id'] : 0;
 
-		if (!$extension_id && !$extension_parent_id) return false;
+		if (!$extension_id && !$extension_parent_id){
+			return false;
+		}
 
 		$sql = "DELETE FROM " . $this->db->table("extension_dependencies") . " 
 				WHERE ";
+		$where = array();
 		if ($extension_id){
 			$where[] = "extension_id = '" . $extension_id . "'";
 		}
@@ -210,7 +199,7 @@ class AExtensionManager{
 	}
 
 	/**
-	 * Save extention settings into database
+	 * Save extension settings into database
 	 * @param string $extension_txt_id
 	 * @param array $data
 	 * @return bool
@@ -287,7 +276,7 @@ class AExtensionManager{
 							}
 						}
 					} else{
-						// if all fine with required fields - check childen
+						// if all fine with required fields - check children
 						$parents = $this->getParentsExtensionTextId($extension_txt_id);
 						$enabled = $this->extensions->getEnabledExtensions();
 						foreach ($parents as $parent){
@@ -380,7 +369,7 @@ class AExtensionManager{
 	 * extension install actions, db queries, copying files etc
 	 *
 	 * @param string $name
-	 * @param DomNode $config
+	 * @param DomNode| DOMElement $config
 	 * @return bool|null
 	 */
 	public function install($name, $config){
@@ -388,8 +377,6 @@ class AExtensionManager{
 		$ext = new ExtensionUtils($name);
 		// gets extension_id for install.php
 		$extension_info = $this->getExtensionsList(array ('search' => $name));
-		$extension_id = $extension_info->row['extension_id'];
-
 		$validate = $this->validateCoreVersion($extension_info->row['key'], $config);
 		$errors = $ext->getError();
 
@@ -629,7 +616,7 @@ class AExtensionManager{
 	}
 
 	/**
-	 *  is dependendants installed?
+	 *  is dependants installed?
 	 * @param string $extension_txt_id
 	 * @return bool
 	 */
@@ -711,7 +698,7 @@ class AExtensionManager{
 			}
 		}
 
-		$error_text = '<b>%s</b> extension cannot be installed. AbanteCart version incompability. ';
+		$error_text = '<b>%s</b> extension cannot be installed. AbanteCart version incompatibility. ';
 		$error_text .= sizeof($cart_versions) > 1 ? 'Versions <b>%s</b> are required.' : 'Version <b>%s</b> is required.';
 		$this->errors[] = sprintf($error_text, $extension_txt_id, implode(', ', $cart_versions));
 		return false;

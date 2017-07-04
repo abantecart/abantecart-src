@@ -178,11 +178,11 @@ class ModelExtensionDefaultUps extends Model {
 
 		if(strlen($this->config->get('default_ups_country'))!=2){
 			$error = new AError('UPS error: Wrong Country Code!');
-			$error->toLog()->toMessages();
+			$error->toLog();
 		}
 		if(strlen($this->config->get('default_ups_state'))!=2){
 			$error = new AError('UPS error: Wrong State Code!');
-			$error->toLog()->toMessages();
+			$error->toLog();
 		}
 
 

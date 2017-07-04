@@ -279,7 +279,11 @@
 	</definition>
 	<definition>
 		<key>entry_other_type</key>
-		<value><![CDATA[Other Custom Transaction Type: ]]></value>
+		<value><![CDATA[Add New Custom Transaction Type: ]]></value>
+	</definition>
+	<definition>
+		<key>text_other_type_placeholder</key>
+		<value><![CDATA[type new name here ]]></value>
 	</definition>
 	<definition>
 		<key>text_option_other_type</key>

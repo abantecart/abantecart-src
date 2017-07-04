@@ -48,7 +48,7 @@ echo $tabs;
 		
 	<div class="panel-body panel-body-nopadding">
 		<div class="row">
-			<div class="col-sm-3 mt10"><img src="<?php echo HTTP_EXT . 'default_pp_pro/image/all_in_one_solution_logo_u2645_normal.gif'; ?>"/></div>
+			<div class="col-sm-3 mt10"><img src="<?php echo HTTPS_EXT . 'default_pp_pro/image/all_in_one_solution_logo_u2645_normal.gif'; ?>"/></div>
 			<div class="col-sm-6"><?php echo $text_signup_account_note; ?></div>
 			<div class="col-sm-3 mt10"><a class="btn btn-primary"
 			                         target="_blank"

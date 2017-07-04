@@ -164,7 +164,10 @@ class ControllerPagesCatalogCategory extends AController {
 		}
 
 		$results = $this->model_catalog_category->getCategories(0);
-		$parents = array(0 => $this->language->get('text_select_parent'));
+		$parents = array(
+				'null' => $this->language->get('text_select_all'),
+				0 => $this->language->get('text_top_level')
+		);
 		foreach ($results as $c) {
 			$parents[$c['category_id']] = $c['name'];
 		}
@@ -175,6 +178,10 @@ class ControllerPagesCatalogCategory extends AController {
 			$grid_search_form = json_decode(html_entity_decode($this->request->cookie['grid_search_form']));
 			if($grid_search_form->table_id == $grid_settings['table_id']) {
 				parse_str($grid_search_form->params, $search_params);
+			}
+			$grid_params = json_decode(html_entity_decode($this->request->cookie['grid_params']));
+			if($grid_params->postData->nodeid){
+				$search_params['parent_id'] = $grid_params->postData->nodeid;
 			}
 		}
 
@@ -202,12 +209,13 @@ class ControllerPagesCatalogCategory extends AController {
 				'text' => $this->language->get('button_reset'),
 				'style' => 'button2',
 		));
+
 		$grid_search_form['fields']['parent_id'] = $form->getFieldHtml(array(
 				'type' => 'selectbox',
 				'name' => 'parent_id',
 				'options' => $parents,
 				'style' => 'chosen',
-				'value' => $search_params['parent_id'],
+				'value' => $search_params['parent_id']==null ? 0 : $search_params['parent_id'],
 				'placeholder' => $this->language->get('text_select_parent')
 		));
 
@@ -234,7 +242,6 @@ class ControllerPagesCatalogCategory extends AController {
 	}
 
 	public function insert() {
-
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -708,7 +715,7 @@ class ControllerPagesCatalogCategory extends AController {
 		$layout_form = $this->dispatch('common/page_layout', array($layout));
 		$this->data['layoutform'] = $layout_form->dispatchGetOutput();
 		
-		//build pages and available layouts for clonning
+		//build pages and available layouts for cloning
 		$this->data['pages'] = $layout->getAllPages();
 		$av_layouts = array( "0" => $this->language->get('text_select_copy_layout'));
 		foreach($this->data['pages'] as $page){

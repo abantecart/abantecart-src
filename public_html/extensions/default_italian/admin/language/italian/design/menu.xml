@@ -23,7 +23,7 @@
 	<definition>
 		<key>entry_item_url</key>
 		<value>
-			<![CDATA[Link<br /><span class="help">Per utilizzare link esterni aggiungere prima http:// o https://</span>]]></value>
+			<![CDATA[Link<br /><span class="help">Per i collegamenti esterni aggiungere http: // o https: // all'inizio. Puoi anche utilizzare un URL relativo, ad esempio ../subfolder/index.php</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_parent_id</key>

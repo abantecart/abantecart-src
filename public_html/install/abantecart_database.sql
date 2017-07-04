@@ -1665,6 +1665,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 
 ('appearance','storefront_width','100%'),
 ('appearance','config_logo','image/18/73/3.png'),
+('appearance','config_mail_logo','image/18/73/3.png'),
 ('appearance','config_icon','image/18/73/4.png'),
 ('appearance','config_image_thumb_width',380),
 ('appearance','config_image_thumb_height',380),
@@ -12287,7 +12288,7 @@ CREATE TABLE `ac_resource_types` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 INSERT INTO `ac_resource_types` (`type_id`, `type_name`, `default_icon`, `default_directory`, `file_types`, `access_type`) VALUES
-(1, 'image', 'icon_resource_image.png', 'image/', '/.+(jpe?g|gif|png|ico)$/i', 0),
+(1, 'image', 'icon_resource_image.png', 'image/', '/.+(jpe?g|gif|png|ico|svg|svgz)$/i', 0),
 (2, 'audio', 'icon_resource_audio.png', 'audio/', '/.+(mp3|wav)$/i', 0),
 (3, 'video', 'icon_resource_video.png', 'video/', '/.+(avi|mpg|mov|flv)$/i', 0),
 (4, 'pdf', 'icon_resource_pdf.png', 'pdf_document/', '/.+(pdf)$/i', 0),

@@ -3255,6 +3255,11 @@ paypal pro styles
 		float: right;
 	}
 }
+@media(min-width: 1200px) and (max-width: 1280px){
+	#customernav div.menu_text, #customernav ul li a {
+	    width: 180px;
+	}
+}
 
 /* iPads (portrait and landscape) ----------- */
 @media (min-width: 768px) and (max-width: 1200px) {

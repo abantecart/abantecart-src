@@ -167,7 +167,7 @@ class ALanguage{
 					. "Line: " . $backtrace[0]['line'] . "\n"
 					. "Args: " . var_export($backtrace[0]['args'], true) . "\n";
 			$e = new AError($log_message);
-			$e->toDebug()->toLog()->toMessages();
+			$e->toDebug()->toLog();
 			$result = "Not described error happened.";
 			if (IS_ADMIN === true){
 				$result .= "Check log for details. Code [" . $ts . "]";
@@ -351,7 +351,7 @@ class ALanguage{
 		if (!isset($languages[$lang_code])){
 			$lang_code = key($languages);
 			$error = new AError('Error! Default language with code "' . $lang_code . '" is not available or disabled. Loading ' . $languages[$lang_code]['name'] . ' language to keep system operating. Check your settings for default language.');
-			$error->toLog()->toDebug()->toMessages();
+			$error->toLog()->toDebug();
 		}
 
 		if (!isset($session->data['language']) || $session->data['language'] != $lang_code){
@@ -557,7 +557,7 @@ class ALanguage{
 			$block_name = str_replace('.', '_', $block_name);
 			if (preg_match("/[\W]+/", $block_name)){
 				$error = new AError('Error! Trying to load language with invalid path: "' . $filename . '"!');
-				$error->toLog()->toDebug()->toMessages();
+				$error->toLog()->toDebug();
 				return array ();
 			}
 

@@ -113,7 +113,7 @@ final class AConfig{
 		}
 		if (!$cache->setCacheStorageDriver($cache_driver)){
 			$error = new AError ('Cache storage driver ' . $cache_driver . ' can not be loaded!');
-			$error->toMessages()->toLog()->toDebug();
+			$error->toLog()->toDebug()->toMessages();
 		}
 
 		// Load default store settings
@@ -208,7 +208,7 @@ final class AConfig{
 				$this->cnfg['current_store_id'] = $this->cnfg['config_store_id'];
 			} else{
 				$warning = new AWarning('Warning: Accessing store with non-configured or unknown domain ( ' . $url . ' ).' . "\n" . ' Check setting of your store domain URL in System Settings . Loading default store configuration for now.');
-				$warning->toLog()->toMessages();
+				$warning->toLog();
 				//set config url to current domain
 				$this->cnfg['config_url'] = 'http://' . REAL_HOST . get_url_path($_SERVER['PHP_SELF']);
 			}

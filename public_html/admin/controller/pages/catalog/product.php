@@ -348,6 +348,9 @@ class ControllerPagesCatalogProduct extends AController {
 			$this->extensions->hk_ProcessData($this,'product_copy');
 			if ( $this->data['new_product'] ) {
 				$this->session->data['success'] = sprintf($this->language->get('text_success_copy'), $this->data['new_product']['name']);
+				if($this->data['new_product']['layout_clone']){
+					$this->session->data['success'] .= ' '.$this->language->get('text_success_copy_layout');
+				}
 				redirect($this->html->getSecureURL(
 						'catalog/product/update',
 						'&product_id='.$this->data['new_product']['id']));

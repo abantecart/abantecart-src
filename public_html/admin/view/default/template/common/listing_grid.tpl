@@ -47,7 +47,13 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 	var text_select_items = <?php js_echo($text_select_items); ?>;
 	var _table_id = '<?php echo $data['table_id'] ?>';
 	var table_id = '#<?php echo $data['table_id'] ?>';
-	var jq_names = [<?php echo "'" . implode("','", $data['colNames']) . "'"?>];
+	var jq_names = [<?php
+		foreach($data['colNames'] as $col_name){
+			js_echo($col_name);
+			echo ',';
+		}
+		//echo "'" . implode("','", $data['colNames']) . "'"
+		?>];
 	var jq_model = [<?php
 	$i = 1;
 	foreach ($data['colModel'] as $m) {
@@ -178,6 +184,10 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 			<?php } ?>
 		},
 		loadComplete:function (data) {
+			if(!gridFirstLoad){
+				save_grid_search_form_parameters();
+			}
+
 			gridFirstLoad = false;
 
 			if(data!=undefined){
@@ -506,11 +516,13 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 						grid.jqGrid('setGridParam', {selrow: gridInfo.selrow});
 						grid.jqGrid('setGridParam', {page: gridInfo.page});
 						grid.jqGrid('setGridParam', {rowNum: gridInfo.rowNum});
+						//purge nodeid (tree leaf expand parameter)
+						gridInfo.postData.nodeid = '';
 						grid.jqGrid('setGridParam', {postData: gridInfo.postData});
 						grid.jqGrid('setGridParam', {search: gridInfo.search});
 
 						//do we have external search form?
-						search_data = $.parseJSON($.cookie("grid_search_form"));
+						var search_data = $.parseJSON($.cookie("grid_search_form"));
 						if (search_data != null && search_data.table_id == _table_id) {
 							var $form = $(table_id + '_search');
 							var new_url = '<?php echo $data["url"] ?>&' + $form.serialize();
@@ -538,7 +550,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 							refreshstate: "current"
 						});
 
-<?php    if ($data['hidden_head']) { ?>
+<?php	if ($data['hidden_head']) { ?>
 	$('.ui-jqgrid-hdiv').hide();
 <?php }
 
@@ -564,10 +576,7 @@ if ($custom_buttons) {
 		var params = $(this).serialize();
 		var new_url = '<?php echo $data["url"] ?>&' + params;
 		//save search request
-		var searchInfo = new Object();
-		searchInfo.params = params;
-		searchInfo.table_id = _table_id;
-		$.cookie("grid_search_form", JSON.stringify(searchInfo));
+		save_grid_search_form_parameters();
 		$(table_id)
 			.jqGrid('setGridParam', {url:new_url, page:1})
 			.trigger("reloadGrid",[{current:true}]);
@@ -717,6 +726,14 @@ if ($custom_buttons) {
 		$.cookie("grid_params", JSON.stringify(gridInfo));
 	}
 
+	function save_grid_search_form_parameters(){
+		var params = $(table_id + '_search').serialize();
+		var searchInfo = new Object();
+		searchInfo.params = params;
+		searchInfo.table_id = _table_id;
+		$.cookie("grid_search_form", JSON.stringify(searchInfo));
+	}
+
 	//resize jqgrid
 	var resize_the_grid = function() {
 		// Get width of parent contentpanel
@@ -763,7 +780,6 @@ if ($custom_buttons) {
 	<?php if ($data['multiselect'] == 'true') { ?>
 		index--;
 		<?php }?>
-		//index = (index < 0) ? 0 : index;
 		var align = '';
 		if (!jq_model[index]) {
 			align = 'middle';

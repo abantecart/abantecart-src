@@ -254,7 +254,7 @@
 	</definition>
 	<definition>
 		<key>entry_add_product</key>
-		<value><![CDATA[Add Product:]]></value>
+		<value><![CDATA[Add Available Product:]]></value>
 	</definition>
 	<definition>
 		<key>error_permission</key>

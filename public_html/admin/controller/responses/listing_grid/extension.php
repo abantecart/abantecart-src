@@ -176,7 +176,7 @@ class ControllerResponsesListingGridExtension extends AController{
 					));
 				}
 
-				$icon_ext_img_url = HTTPS_CATALOG . 'extensions/' . $extension . '/image/icon.png';
+				$icon_ext_img_url = HTTPS_EXT . $extension . '/image/icon.png';
 				$icon_ext_dir = DIR_EXT . $extension . '/image/icon.png';
 				$icon = (is_file($icon_ext_dir) ? $icon_ext_img_url : RDIR_TEMPLATE . 'image/default_extension.png');
 				if (!$this->config->has($extension . '_status')){
@@ -234,7 +234,6 @@ class ControllerResponsesListingGridExtension extends AController{
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($this->data['response']));
-
 	}
 
 	public function update(){
@@ -277,7 +276,6 @@ class ControllerResponsesListingGridExtension extends AController{
 					       'reset_value' => true
 					));
 		}
-
 	}
 
 	public function license(){

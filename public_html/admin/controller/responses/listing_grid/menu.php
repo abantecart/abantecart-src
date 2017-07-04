@@ -26,9 +26,7 @@ class ControllerResponsesListingGridMenu extends AController {
 	 * @var AMenu_Storefront
 	 */
 	protected $menu;
-
 	public function main() {
-
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -100,7 +98,7 @@ class ControllerResponsesListingGridMenu extends AController {
 				$resource = $ar->getResource($result[ 'item_icon_rl_id' ]);
 				if($resource['resource_path'] || !$resource['resource_code']) {
 					$thumb = $ar->getResourceThumb($result['item_icon_rl_id'],$w, $h);
-					$icon = '<img src="' . $thumb . '" alt="" style="width: '.$w.'px; height: '.$h.'px;"/>';
+					$icon = $thumb ? '<img src="' . $thumb . '" alt="" style="width: '.$w.'px; height: '.$h.'px;"/>' : '';
 				}elseif($resource['resource_code']){
 					$icon = '<i class="fa fa-code fa-2x"></i>';
 				}
@@ -121,7 +119,6 @@ class ControllerResponsesListingGridMenu extends AController {
 				);
 				$i++;
 			}
-
 		} else {
 			$total_pages = 0;
 		}
@@ -139,7 +136,6 @@ class ControllerResponsesListingGridMenu extends AController {
 	}
 
 	public function update() {
-
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -154,14 +150,12 @@ class ControllerResponsesListingGridMenu extends AController {
 
 		$menu = new AMenu_Storefront();
 		$item_keys = array( 'item_text', 'item_url', 'parent_id', 'sort_order' );
-
 		switch ($this->request->post[ 'oper' ]) {
 			case 'del':
 				$ids = explode(',', $this->request->post[ 'id' ]);
 				if (!empty($ids)) {
 					$all_menu_ids = $menu->getItemIds();
 					foreach ($ids as $item_id) {
-
 						if (in_array($item_id, $all_menu_ids)) {
 							$menu->deleteMenuItem($item_id);
 						}
@@ -195,9 +189,7 @@ class ControllerResponsesListingGridMenu extends AController {
 					}
 				}
 				break;
-
 			default:
-
 		}
 
 		//update controller data
@@ -245,9 +237,7 @@ class ControllerResponsesListingGridMenu extends AController {
 			}
 		}
 
-
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
-
 }

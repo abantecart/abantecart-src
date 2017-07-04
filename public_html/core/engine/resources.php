@@ -81,7 +81,7 @@ class AResource{
 		if (!$this->type_id){
 			$backtrace = debug_backtrace();
 			$message = "Error: Incorrect or missing resource type." . $backtrace[0]['file'] . ":" . $backtrace[0]['line'];
-			$error = new AError ($message);
+			$error = new AWarning($message);
 			$error->toLog()->toDebug();
 		}
 
@@ -285,7 +285,7 @@ class AResource{
 		$origin_path = DIR_RESOURCE . $this->type_dir . $rsrc_info['resource_path'];
 		$info = pathinfo($origin_path);
 		$extension = $info['extension'];
-		if ($extension == 'ico'){
+		if (in_array($extension, array('ico','svg','svgz'))){
 			// returns ico-file as original
 			return $this->buildResourceURL($rsrc_info['resource_path'], 'full');
 		}
@@ -343,7 +343,7 @@ class AResource{
 			$new_image = $sub_path . '.' . $extension;
 			if (!check_resize_image($origin_path, $new_image, $width, $height, $this->config->get('config_image_quality'))){
 				$warning = new AWarning('Resize image error. File: ' . $origin_path);
-				$warning->toLog()->toDebug()->toMessages();
+				$warning->toLog()->toDebug();
 				return null;
 			}
 			//do retina version
@@ -351,7 +351,7 @@ class AResource{
 				$new_image2x = $sub_path . '@2x.' . $extension;
 				if (!check_resize_image($origin_path, $new_image2x, $width * 2, $height * 2, $this->config->get('config_image_quality'))){
 					$warning = new AWarning('Resize image error. File: ' . $origin_path);
-					$warning->toLog()->toDebug()->toMessages();
+					$warning->toLog()->toDebug();
 				}
 			}
 			//hook here to affect this image

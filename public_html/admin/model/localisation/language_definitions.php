@@ -39,13 +39,14 @@ class ModelLocalisationLanguageDefinitions extends Model {
 				|| empty($update_data['block'])
 		) {
 
-			$message = 'Tring to write new language definition but data is wrong.
+			$message = 'Trying to write new language definition but data is wrong.
 			   language_key: ' . $update_data['language_key'] . ',
 			   language_value: ' . $update_data['language_value'] . ',
 			   block: ' . $update_data['block'] . ',
 			   section: ' . (int)$update_data['section'] . ',
 			   language_id: ' . (int)$update_data['language_id'] . '.';
-			$this->messages->saveWarning('New language definition adding error.', $message);
+			$warning = new AWarning($message);
+			$warning->toLog()->toDebug();
 			return false;
 		}
 		unset($update_data['language_definition_id']);

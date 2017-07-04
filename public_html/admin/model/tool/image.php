@@ -34,13 +34,13 @@ class ModelToolImage extends Model{
 
 		$info = pathinfo($filename);
 		$extension = $info['extension'];
-		if ($extension == 'ico'){
+		if (in_array($extension, array('ico','svg','svgz'))){
 			$new_image = $filename;
 		} else{
 			$new_image = 'thumbnails/' . substr($filename, 0, strrpos($filename, '.')) . '-' . $width . 'x' . $height . '.' . $extension;
 			if (!check_resize_image($orig_image_filepath, $new_image, $width, $height, $this->config->get('config_image_quality'))){
-				$err = new AError('Image Resize Error: file "' . $filename . '" does not exists or new filename is empty!' . var_export($orig_image_filepath, true));
-				$err->toLog()->toDebug()->toMessages();
+				$err= new AWarning('Resize image error. File: '.$orig_image_filepath.'. Try to increase memory limit for PHP or decrease image size.');
+				$err->toLog()->toDebug();
 				return false;
 			}
 		}

@@ -1001,3 +1001,9 @@ tr.jqgrow td[aria-describedby="extension_grid_icon"] img{
 	white-space: nowrap;
 	display: block;
 }
+
+.ui-jqgrid-btable td>.alert-info{
+	display: grid;
+	margin-top: 10px;
+}
+

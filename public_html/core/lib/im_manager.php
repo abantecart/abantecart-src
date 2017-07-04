@@ -83,7 +83,7 @@ class AIMManager extends AIM{
 			$this->admin_sendpoints[$name] = $data_array;
 		} else{
 			$error = new AError('Admin SendPoint ' . $name . ' cannot be added to the list.');
-			$error->toLog()->toMessages();
+			$error->toLog();
 			return false;
 		}
 		return true;
@@ -115,7 +115,7 @@ class AIMManager extends AIM{
 		//check sendpoint
 		if (!in_array($sendpoint, array_keys($sendpoints_list))){
 			$error = new AError('IM error: Invalid SendPoint ' . $sendpoint . ' was used in IM class. Nothing sent.');
-			$error->toLog()->toMessages();
+			$error->toLog();
 			return false;
 		}
 		$sendpoint_data = $sendpoints_list[$sendpoint];
