@@ -22,13 +22,15 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 
 class ModelReportCustomer extends Model {
-
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array|int
+	 */
 	public function getOnlineCustomers($data = array(), $mode = 'default') {
-
 		if ($mode == 'total_only') {
 			$total_sql = 'SELECT co.ip, co.customer_id as total';
-		}
-		else {
+		} else {
 			$total_sql = "SELECT	c.status, 
 									co.ip, co.customer_id, 
 									CONCAT(c.firstname, ' ', c.lastname) as customer, 
@@ -48,7 +50,7 @@ class ModelReportCustomer extends Model {
 			$sql .= " WHERE " . $where;
 		}
 
-		//If for total, we done bulding the query
+		//If for total, we done building the query
 		if ($mode == 'total_only') {
 			$query = $this->db->query($sql);
 			$total = 0;
@@ -62,21 +64,22 @@ class ModelReportCustomer extends Model {
 		}
 
 		$sort_data = array(
-		    'ip' => 'co.ip',
-		    'url' => 'co.url',
-		    'date_added ' => 'co.date_added '
+			'customer' => 'customer',
+			'ip' => 'co.ip',
+			'url' => 'co.url',
+			'date_added ' => 'co.date_added '
 		);
 
 		if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)) {
-		    $sql .= " ORDER BY " . $sort_data[$data['sort']];
+			$sql .= " ORDER BY " . $sort_data[$data['sort']];
 		} else {
-		    $sql .= " ORDER BY co.date_added";
+			$sql .= " ORDER BY co.date_added";
 		}
 
 		if (isset($data['order']) && ($data['order'] == 'DESC')) {
-		    $sql .= " DESC";
+			$sql .= " DESC";
 		} else {
-		    $sql .= " ASC";
+			$sql .= " ASC";
 		}
 
 		if (isset($data['start']) || isset($data['limit'])) {
@@ -88,22 +91,28 @@ class ModelReportCustomer extends Model {
 			}
 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 		}
-		
+
 		$query = $this->db->query($sql);
 		return $query->rows;
 	}
-	
+
+	/**
+	 * @param array $data
+	 * @return int
+	 */
 	public function getTotalOnlineCustomers($data = array()) {
 		return $this->getOnlineCustomers($data, 'total_only');
 	}
 
-
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return mixed
+	 */
 	public function getCustomerOrders($data = array(), $mode = 'default') {
-
 		if ($mode == 'total_only') {
 			$total_sql = 'SELECT COUNT(DISTINCT o.customer_id) as total';
-		}
-		else {
+		} else {
 			$total_sql = "SELECT 	o.customer_id, 
 									CONCAT(o.firstname, ' ', o.lastname) AS customer, 
 									COALESCE(cg.name, 'N/A') AS customer_group, 
@@ -136,21 +145,21 @@ class ModelReportCustomer extends Model {
 		if (!empty($filter['date_end'])) {
 			$date_end = dateDisplay2ISO($filter['date_end'],$this->language->get('date_format_short'));
 			$implode[] = " DATE_FORMAT(o.date_added,'%Y-%m-%d') <= DATE_FORMAT('" . $this->db->escape($date_end) . "','%Y-%m-%d') ";
-		}	
-		//fillter for first and last name 
+		}
+		//filter for first and last name
 		if (has_value($filter['customer'])) {
 			$implode[] = "CONCAT(o.firstname, ' ', o.lastname) LIKE '%" . $this->db->escape($filter['customer']) . "%' collate utf8_general_ci";
 		}
-		
+
 		if ($implode) {
 			$where .= implode(" AND ", $implode);
 		}
-		
+
 		if ($where) {
 			$sql .= " WHERE " . $where;
 		}
 
-		//If for total, we done bulding the query
+		//If for total, we done building the query
 		if ($mode == 'total_only') {
 
 			$query = $this->db->query($sql);
@@ -160,22 +169,22 @@ class ModelReportCustomer extends Model {
 		$sql .= " GROUP BY o.customer_id ";
 
 		$sort_data = array(
-		    'customer_group' => 'cg.name',
-		    'orders' => 'COUNT(o.order_id)',
-		    'products ' => 'SUM(op.quantity)',
-		    'total' => 'SUM(o.total)'
+			'customer_group' => 'cg.name',
+			'orders' => 'COUNT(o.order_id)',
+			'products ' => 'SUM(op.quantity)',
+			'total' => 'SUM(o.total)'
 		);
 
 		if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)) {
-		    $sql .= " ORDER BY " . $sort_data[$data['sort']];
+			$sql .= " ORDER BY " . $sort_data[$data['sort']];
 		} else {
-		    $sql .= " ORDER BY c.customer_id";
+			$sql .= " ORDER BY c.customer_id";
 		}
 
 		if (isset($data['order']) && ($data['order'] == 'DESC')) {
-		    $sql .= " DESC";
+			$sql .= " DESC";
 		} else {
-		    $sql .= " ASC";
+			$sql .= " ASC";
 		}
 
 		if (isset($data['start']) || isset($data['limit'])) {
@@ -191,16 +200,23 @@ class ModelReportCustomer extends Model {
 		return $query->rows;
 	}
 
+	/**
+	 * @param array $data
+	 * @return int
+	 */
 	public function getTotalCustomerOrders($data = array()) {
 		return $this->getCustomerOrders($data, 'total_only');
 	}
 
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array
+	 */
 	public function getCustomerTransactions($data = array(), $mode = 'default') {
-	
 		if ($mode == 'total_only') {
 			$total_sql = 'SELECT COUNT(DISTINCT c.customer_id) as total';
-		}
-		else {
+		} else {
 			$total_sql = "SELECT 	ct.customer_transaction_id,
 									c.customer_id,
 									CONCAT(c.firstname, ' ', c.lastname) AS customer,
@@ -233,7 +249,7 @@ class ModelReportCustomer extends Model {
 			$date_end = dateDisplay2ISO($filter['date_end'],$this->language->get('date_format_short'));
 			$implode[] = " DATE_FORMAT(ct.date_added,'%Y-%m-%d') <= DATE_FORMAT('" . $this->db->escape($date_end) . "','%Y-%m-%d') ";
 		}	
-		//fillter for first and last name 
+		//filter for first and last name
 		if (has_value($filter['customer'])) {
 			$implode[] = "CONCAT(c.firstname, ' ', c.lastname) LIKE '%" . $this->db->escape($filter['customer']) . "%' collate utf8_general_ci";
 		}
@@ -250,31 +266,29 @@ class ModelReportCustomer extends Model {
 			$sql .= " WHERE " . $where;
 		}
 
-		//If for total, we done bulding the query
+		//If for total, we done building the query
 		if ($mode == 'total_only') {
 			$query = $this->db->query($sql);
 			return $query->row['total'];
 		}
-		
-		//$sql .= " GROUP BY c.customer_id ";
 
 		$sort_data = array(
-		    'transaction_type' => 'ct.transaction_type',
-		    'debit' => 'ct.debit',
-		    'credit' => 'ct.credit',
-		    'date_added' => 'ct.date_added'
+			'transaction_type' => 'ct.transaction_type',
+			'debit' => 'ct.debit',
+			'credit' => 'ct.credit',
+			'date_added' => 'ct.date_added'
 		);
 
 		if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)) {
-		    $sql .= " ORDER BY " . $sort_data[$data['sort']];
+			$sql .= " ORDER BY " . $sort_data[$data['sort']];
 		} else {
-		    $sql .= " ORDER BY ct.date_added";
+			$sql .= " ORDER BY ct.date_added";
 		}
 
 		if (isset($data['order']) && ($data['order'] == 'DESC')) {
-		    $sql .= " DESC";
+			$sql .= " DESC";
 		} else {
-		    $sql .= " ASC";
+			$sql .= " ASC";
 		}
 
 		if (isset($data['start']) || isset($data['limit'])) {
@@ -291,71 +305,84 @@ class ModelReportCustomer extends Model {
 		return $query->rows;
 	}
 
+	/**
+	 * @param array $data
+	 * @return mixed
+	 */
 	public function getTotalCustomerTransactions($data = array()) {
 		return $this->getCustomerTransactions($data, 'total_only');
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getCustomersCountByDay() {
 		$customer_data = array();
-
 		for ($i = 0; $i < 24; $i++) {
 			$customer_data[$i] = array(
 				'hour'  => $i,
 				'total' => 0
 			);
 		}
-
-		$query = $this->db->query("SELECT COUNT(*) AS total, HOUR(date_added) AS hour FROM `" . $this->db->table("customers") . "` WHERE DATE(date_added) = DATE(NOW()) GROUP BY HOUR(date_added) ORDER BY date_added ASC");
-
+		$query = $this->db->query(
+				"SELECT COUNT(*) AS total, HOUR(date_added) AS hour 
+				FROM `" . $this->db->table("customers") . "` 
+				WHERE DATE(date_added) = DATE(NOW()) 
+				GROUP BY HOUR(date_added) 
+				ORDER BY date_added ASC");
 		foreach ($query->rows as $result) {
 			$customer_data[$result['hour']] = array(
 				'hour'  => $result['hour'],
 				'total' => $result['total']
 			);
 		}
-
 		return $customer_data;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getCustomersCountByWeek() {
 		$customer_data = array();
-
 		$date_start = strtotime('-' . date('w') . ' days');
-
 		for ($i = 0; $i < 7; $i++) {
 			$date = date('Y-m-d', $date_start + ($i * 86400));
-
 			$order_data[date('w', strtotime($date))] = array(
 				'day'   => date('D', strtotime($date)),
 				'total' => 0
 			);
 		}
-
-		$query = $this->db->query("SELECT COUNT(*) AS total, date_added FROM `" . $this->db->table("customers") . "` WHERE DATE(date_added) >= DATE('" . $this->db->escape(date('Y-m-d', $date_start)) . "') GROUP BY DAYNAME(date_added)");
-
+		$query = $this->db->query(
+				"SELECT COUNT(*) AS total, date_added 
+				FROM `" . $this->db->table("customers") . "` 
+				WHERE DATE(date_added) >= DATE('" . $this->db->escape(date('Y-m-d', $date_start)) . "') 
+				GROUP BY DAYNAME(date_added)");
 		foreach ($query->rows as $result) {
 			$customer_data[date('w', strtotime($result['date_added']))] = array(
 				'day'   => date('D', strtotime($result['date_added'])),
 				'total' => $result['total']
 			);
 		}
-
 		return $customer_data;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getCustomersCountByMonth() {
 		$customer_data = array();
-
 		for ($i = 1; $i <= date('t'); $i++) {
 			$date = date('Y') . '-' . date('m') . '-' . $i;
-
 			$customer_data[date('j', strtotime($date))] = array(
 				'day'   => date('d', strtotime($date)),
 				'total' => 0
 			);
 		}
-
-		$query = $this->db->query("SELECT COUNT(*) AS total, date_added FROM `" . $this->db->table("customers") . "` WHERE DATE(date_added) >= '" . $this->db->escape(date('Y') . '-' . date('m') . '-1') . "' GROUP BY DATE(date_added)");
+		$query = $this->db->query(
+				"SELECT COUNT(*) AS total, date_added 
+				FROM `" . $this->db->table("customers") . "` 
+				WHERE DATE(date_added) >= '" . $this->db->escape(date('Y') . '-' . date('m') . '-1') . "' 
+				GROUP BY DATE(date_added)");
 
 		foreach ($query->rows as $result) {
 			$customer_data[date('j', strtotime($result['date_added']))] = array(
@@ -363,30 +390,31 @@ class ModelReportCustomer extends Model {
 				'total' => $result['total']
 			);
 		}
-
 		return $customer_data;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getCustomersCountByYear() {
 		$customer_data = array();
-
 		for ($i = 1; $i <= 12; $i++) {
 			$customer_data[$i] = array(
 				'month' => date('M', mktime(0, 0, 0, $i)),
 				'total' => 0
 			);
 		}
-
-		$query = $this->db->query("SELECT COUNT(*) AS total, date_added FROM `" . $this->db->table("customers") . "` WHERE YEAR(date_added) = YEAR(NOW()) GROUP BY MONTH(date_added)");
-
+		$query = $this->db->query(
+				"SELECT COUNT(*) AS total, date_added 
+				FROM `" . $this->db->table("customers") . "` 
+				WHERE YEAR(date_added) = YEAR(NOW()) 
+				GROUP BY MONTH(date_added)");
 		foreach ($query->rows as $result) {
 			$customer_data[date('n', strtotime($result['date_added']))] = array(
 				'month' => date('M', strtotime($result['date_added'])),
 				'total' => $result['total']
 			);
 		}
-
 		return $customer_data;
 	}
-		
 }
