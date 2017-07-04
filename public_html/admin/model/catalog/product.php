@@ -1027,11 +1027,12 @@ class ModelCatalogProduct extends Model{
 		$this->cache->remove('product');
 
 		//clone layout for the product if present
-		$this->_clone_product_layout($product_id, $new_product_id);
+		$layout_clone_result = $this->_clone_product_layout($product_id, $new_product_id);
 
 		return array (
 				'name' => $data['name'],
-				'id' => $new_product_id
+				'id' => $new_product_id,
+				'layout_clone' => $layout_clone_result
 		);
 	}
 

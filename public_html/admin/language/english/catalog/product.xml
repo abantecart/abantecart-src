@@ -8,10 +8,10 @@
 		<key>text_product</key>
 		<value><![CDATA[Product]]></value>
 	</definition>
-    <definition>
-        <key>tab_media</key>
-        <value><![CDATA[Media]]></value>
-    </definition>
+	<definition>
+		<key>tab_media</key>
+		<value><![CDATA[Media]]></value>
+	</definition>
 	<definition>
 		<key>tab_shipping</key>
 		<value><![CDATA[Shipping]]></value>
@@ -40,11 +40,15 @@
 		<key>text_success</key>
 		<value><![CDATA[Success: You have modified products!]]></value>
 	</definition>
-    <definition>
+	<definition>
 		<key>text_success_copy</key>
 		<value><![CDATA[Success: You have successfully clone product <b>%s</b>!]]></value>
 	</definition>
-    <definition>
+	<definition>
+		<key>text_success_copy_layout</key>
+		<value><![CDATA[ Note: Custom product layout has been cloned too.]]></value>
+	</definition>
+	<definition>
 		<key>text_error_copy</key>
 		<value><![CDATA[Cloning has failed! Original product is not available]]></value>
 	</definition>
@@ -134,7 +138,8 @@
 	</definition>
 	<definition>
 		<key>entry_keyword</key>
-		<value><![CDATA[SEO Keyword:<br/><span class="help">SEO key that will show in URL for this product. You can generate key from product name</span>]]></value>
+		<value>
+			<![CDATA[SEO Keyword:<br/><span class="help">SEO key that will show in URL for this product. You can generate key from product name</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_model</key>
@@ -158,15 +163,18 @@
 	</definition>
 	<definition>
 		<key>entry_ship_individually</key>
-		<value><![CDATA[Ship Product Individually:<br/><span class="help">Product will be shipped in a separate package and additional shipping cost will be added to the order with multiple items. If enabled, Fixed Shipping Price needs to be set.</span>]]></value>
+		<value>
+			<![CDATA[Ship Product Individually:<br/><span class="help">Product will be shipped in a separate package and additional shipping cost will be added to the order with multiple items. If enabled, Fixed Shipping Price needs to be set.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_shipping_price</key>
-		<value><![CDATA[Fixed Shipping Price:<br/><span class="help">Master setting with fixed shipping price for this product.</span>]]></value>
+		<value>
+			<![CDATA[Fixed Shipping Price:<br/><span class="help">Master setting with fixed shipping price for this product.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_free_shipping</key>
-		<value><![CDATA[Free Shipping:<br/><span class="help">Master setting to enable free shipping for this product.</span>]]></value>
+		<value>
+			<![CDATA[Free Shipping:<br/><span class="help">Master setting to enable free shipping for this product.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_date_available</key>
@@ -186,7 +194,8 @@
 	</definition>
 	<definition>
 		<key>entry_maximum</key>
-		<value><![CDATA[Maximum Quantity:<br/><span class="help">Set a limit on quantaty that can be selected per each order. 0 = no limit</span>]]></value>
+		<value>
+			<![CDATA[Maximum Quantity:<br/><span class="help">Set a limit on quantaty that can be selected per each order. 0 = no limit</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_stock_status</key>
@@ -215,7 +224,8 @@
 	</definition>
 	<definition>
 		<key>entry_subtract</key>
-		<value><![CDATA[Track Stock:<br/><span class="help">Set YES if need to track stock quantity for this product. If options are used check subtract setting for each option value</span>]]></value>
+		<value>
+			<![CDATA[Track Stock:<br/><span class="help">Set YES if need to track stock quantity for this product. If options are used check subtract setting for each option value</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_weight_class</key>
@@ -397,11 +407,11 @@
 		<key>text_select_product</key>
 		<value><![CDATA[- Select Product -]]></value>
 	</definition>
-    <definition>
+	<definition>
 		<key>text_option_name</key>
 		<value><![CDATA[Option Name]]></value>
 	</definition>
-    <definition>
+	<definition>
 		<key>text_group_option</key>
 		<value><![CDATA[Group Option]]></value>
 	</definition>
@@ -409,11 +419,11 @@
 		<key>text_option_type</key>
 		<value><![CDATA[Option Type]]></value>
 	</definition>
-    <definition>
+	<definition>
 		<key>text_option_values</key>
 		<value><![CDATA[Option Values]]></value>
 	</definition>
-    <definition>
+	<definition>
 		<key>text_no_option_values</key>
 		<value><![CDATA[No Option Values]]></value>
 	</definition>
@@ -477,74 +487,75 @@
 		<key>text_add_new_option</key>
 		<value><![CDATA[- Add New Option -]]></value>
 	</definition>
-    <definition>
-        <key>entry_required</key>
-        <value><![CDATA[Required:]]></value>
-    </definition>
-    <definition>
-        <key>entry_element_type</key>
-        <value><![CDATA[Element Type:]]></value>
-    </definition>
-    <definition>
-        <key>entry_element_values</key>
-        <value><![CDATA[Element Values:]]></value>
-    </definition>
 	<definition>
-        <key>text_expand</key>
-        <value><![CDATA[+ expand]]></value>
-    </definition>
+		<key>entry_required</key>
+		<value><![CDATA[Required:]]></value>
+	</definition>
 	<definition>
-        <key>text_hide</key>
-        <value><![CDATA[- hide]]></value>
-    </definition>
+		<key>entry_element_type</key>
+		<value><![CDATA[Element Type:]]></value>
+	</definition>
+	<definition>
+		<key>entry_element_values</key>
+		<value><![CDATA[Element Values:]]></value>
+	</definition>
+	<definition>
+		<key>text_expand</key>
+		<value><![CDATA[+ expand]]></value>
+	</definition>
+	<definition>
+		<key>text_hide</key>
+		<value><![CDATA[- hide]]></value>
+	</definition>
 	<definition>
 		<key>entry_option_placeholder</key>
 		<value><![CDATA[Placeholder:]]></value>
 	</definition>
 	<definition>
-        <key>entry_regexp_pattern</key>
-        <value><![CDATA[Regular Expression Pattern:]]></value>
-    </definition>
+		<key>entry_regexp_pattern</key>
+		<value><![CDATA[Regular Expression Pattern:]]></value>
+	</definition>
 	<definition>
-        <key>entry_error_text</key>
-        <value><![CDATA[Error Message about invalid Value:]]></value>
-    </definition>
+		<key>entry_error_text</key>
+		<value><![CDATA[Error Message about invalid Value:]]></value>
+	</definition>
 	<definition>
-        <key>text_product_condition</key>
-        <value><![CDATA[Product Condition:]]></value>
-    </definition>
+		<key>text_product_condition</key>
+		<value><![CDATA[Product Condition:]]></value>
+	</definition>
 	<definition>
-        <key>text_product_available</key>
-        <value><![CDATA[Available]]></value>
-    </definition>
+		<key>text_product_available</key>
+		<value><![CDATA[Available]]></value>
+	</definition>
 	<definition>
-        <key>text_product_disabled</key>
-        <value><![CDATA[Disabled]]></value>
-    </definition>
+		<key>text_product_disabled</key>
+		<value><![CDATA[Disabled]]></value>
+	</definition>
 	<definition>
-        <key>text_product_unavailable</key>
-        <value><![CDATA[Unavailable]]></value>
-    </definition>
+		<key>text_product_unavailable</key>
+		<value><![CDATA[Unavailable]]></value>
+	</definition>
 	<definition>
-        <key>text_product_out_of_stock</key>
-        <value><![CDATA[Out of Stock]]></value>
-    </definition>
+		<key>text_product_out_of_stock</key>
+		<value><![CDATA[Out of Stock]]></value>
+	</definition>
 	<definition>
-        <key>text_product_in_stock</key>
-        <value><![CDATA[In Stock]]></value>
-    </definition>
+		<key>text_product_in_stock</key>
+		<value><![CDATA[In Stock]]></value>
+	</definition>
 	<definition>
-        <key>text_product_option_out_of_stock</key>
-        <value><![CDATA[Product Option(s) Out of Stock]]></value>
-    </definition>
+		<key>text_product_option_out_of_stock</key>
+		<value><![CDATA[Product Option(s) Out of Stock]]></value>
+	</definition>
 	<definition>
-        <key>text_call_to_order</key>
-        <value><![CDATA[Call To Order]]></value>
-    </definition>
+		<key>text_call_to_order</key>
+		<value><![CDATA[Call To Order]]></value>
+	</definition>
 	<definition>
-        <key>entry_call_to_order</key>
-        <value><![CDATA[Block Product From Ordering:<br /><span class="help">This will put product to display mode only with no ability to order. Contact us for order message will be displayed.</span>]]></value>
-    </definition>
+		<key>entry_call_to_order</key>
+		<value>
+			<![CDATA[Block Product From Ordering:<br /><span class="help">This will put product to display mode only with no ability to order. Contact us for order message will be displayed.</span>]]></value>
+	</definition>
 	<definition>
 		<key>text_new_option</key>
 		<value><![CDATA[New Option]]></value>
