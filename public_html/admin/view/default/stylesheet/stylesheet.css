@@ -1324,6 +1324,10 @@ p {
 .rl-content .edit_resource_form .form-group {
 	margin-bottom: 2px;
 }
+.rl-content .edit_resource_form img{
+	max-height: 90px;
+	width: auto;
+}
 #rl_edit_container .ellipsis {
 	max-width: 260px;
 	white-space:nowrap;
@@ -1424,6 +1428,10 @@ p {
 .thumbnail .rl_large_icon i {
 	text-align: center;
 	font-size: 7em;
+}
+
+a.resource_edit .img-responsive{
+	max-height: 100px;
 }
 
 /* locked screen */
