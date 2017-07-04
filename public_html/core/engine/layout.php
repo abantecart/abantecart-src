@@ -190,7 +190,6 @@ class ALayout{
 					$message = "Error: Error in data of page with controller: '" . $controller . "'. Please check for key_value present where key_param was set.\n";
 					$message .= "Requested URL: ".$this->request->server['REQUEST_SCHEME'].'://'.$this->request->server['HTTP_HOST'].$this->request->server['REQUEST_URI']."\n";
 					$message .= "Referer URL: ".$this->request->server['HTTP_REFERER'];
-					$this->messages->saveError('Error', $message);
 					$error = new AError ($message);
 					$error->toLog()->toDebug();
 				}
