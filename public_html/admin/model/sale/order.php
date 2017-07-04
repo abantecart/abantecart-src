@@ -349,7 +349,6 @@ class ModelSaleOrder extends Model{
 							LEFT JOIN " . $this->db->table("product_descriptions") . " pd
 								ON (p.product_id = pd.product_id AND pd.language_id=" . $this->language->getContentLanguageID() . ")
 							WHERE p.product_id='" . (int)$product_id . "'";
-					$this->log->write($sql);
 					$product_query = $this->db->query( $sql );
 
 					$sql = "INSERT INTO " . $this->db->table("order_products") . "
