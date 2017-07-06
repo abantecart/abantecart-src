@@ -200,7 +200,7 @@
 	<definition>
 		<key>entry_stock_status</key>
 		<value>
-			<![CDATA[Out Of Stock Status:<br/><span class="help">Status shown when a product is out of stock</span>]]></value>
+			<![CDATA[Out Of Stock Status:<br/><span class="help">Text shown when a product is out of stock</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_status</key>
