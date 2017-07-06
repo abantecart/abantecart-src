@@ -282,8 +282,8 @@ class AHtml extends AController{
 			$params .= '&' . EMBED_TOKEN_NAME . '=' . session_id();
 		}
 		$suburl = '?' . ($rt ? 'rt=' . $rt : '') . $params;
-
-		$http = $ssl ? HTTPS_SERVER : HTTP_SERVER;
+		$config = $this->registry->get('config');
+		$http = $ssl ? $config->get('config_ssl_url') : $config->get('config_url');
 
 		$url = $http . INDEX_FILE . $this->url_encode($suburl, $encode);
 		return $url;
