@@ -190,7 +190,7 @@
 	</definition>
 	<definition>
 		<key>entry_stock_status</key>
-		<value><![CDATA[Статус Нет на складе: <br/> <span class="help">Статус отображается, когда товар не в наличии</span>]]></value>
+		<value><![CDATA[Статус на складе: <br/><span class="help">Текст отображения наличия товара на складе</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_status</key>
@@ -202,7 +202,7 @@
 	</definition>
 	<definition>
 		<key>entry_cost</key>
-		<value><![CDATA[Стоимость: <br/> <span class="help">Оптовая стоимость, используемая для отчетности по прибыли</span>]]></value>
+		<value><![CDATA[Стоимость:<br/><span class="help">Оптовая стоимость, используемая для отчетности по прибыли</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_price</key>

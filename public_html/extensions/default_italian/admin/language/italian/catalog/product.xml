@@ -190,7 +190,7 @@
 	</definition>
 	<definition>
 		<key>entry_stock_status</key>
-		<value><![CDATA[Fuori dello stato degli stock:<br/><span class="help">Lo stato mostrato quando un prodotto è esaurito.</span>]]></value>
+		<value><![CDATA[Fuori stock: <br/><span class="help">Testo visualizzato quando un prodotto è esaurito</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_status</key>

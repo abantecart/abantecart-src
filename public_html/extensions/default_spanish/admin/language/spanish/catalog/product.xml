@@ -210,7 +210,7 @@
 	</definition>
 	<definition>
 		<key>entry_stock_status</key>
-		<value><![CDATA[Estado almacen:]]></value>
+		<value><![CDATA[Estado de almacen:<br/><span class="help">Texto mostrado cuando un producto no está disponible</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_status</key>
