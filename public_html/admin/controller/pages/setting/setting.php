@@ -29,13 +29,13 @@ class ControllerPagesSettingSetting extends AController {
 	public $groups = array();
 	public $data = array();
 
-    /**
-     * @param Registry $registry
-     * @param int $instance_id
-     * @param string $controller
-     * @param string $parent_controller
-     */
-    public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
+	/**
+	 * @param Registry $registry
+	 * @param int $instance_id
+	 * @param string $controller
+	 * @param string $parent_controller
+	 */
+	public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
 		parent::__construct($registry, $instance_id, $controller, $parent_controller);
 		//load available groups for settings
 		$this->groups = $this->config->groups;
@@ -51,7 +51,7 @@ class ControllerPagesSettingSetting extends AController {
 		$post = (array)$this->request->post;
 		$get = (array)$this->request->get;
 
-		if ($this->request->is_POST() && $this->_validate($get['active'])) {
+		if ($this->request->is_POST() && $this->_validate($get['active'], $get['store_id'])) {
 			foreach( array('config_logo', 'config_mail_logo', 'config_icon') as $n){
 				if (has_value($post[$n])) {
 					$post[$n] = html_entity_decode($post[$n], ENT_COMPAT, 'UTF-8');
@@ -82,10 +82,10 @@ class ControllerPagesSettingSetting extends AController {
 			}
 
 			$this->session->data['success'] = $this->language->get('text_success');
-            if(has_value($post['config_maintenance']) && $post['config_maintenance']){
-                //mark storefront session as merchant session
-                startStorefrontSession($this->user->getId());
-            }
+			if(has_value($post['config_maintenance']) && $post['config_maintenance']){
+				//mark storefront session as merchant session
+				startStorefrontSession($this->user->getId());
+			}
 			$redirect_url = $this->html->getSecureURL('setting/setting',
 					'&active=' . $get['active'] . '&store_id=' . (int)$get['store_id']);
 			redirect($redirect_url);
@@ -103,9 +103,9 @@ class ControllerPagesSettingSetting extends AController {
 		if (isset($get['active']) && strpos($get['active'], '-') !== false) {
 			$get['active'] = substr($get['active'], 0, strpos($get['active'], '-'));
 		}
-		$this->data['active'] = isset($get['active']) && in_array($get['active'], $this->data['groups']) ?
-			$get['active'] : $this->data['groups'][0];
-
+		$this->data['active'] = isset($get['active']) && in_array($get['active'], $this->data['groups'])
+								? $get['active']
+								: $this->data['groups'][0];
 
 		$this->data['token'] = $this->session->data['token'];
 		$this->data['error'] = $this->error;
@@ -165,7 +165,6 @@ class ControllerPagesSettingSetting extends AController {
 		//activate quick start guide button
 		$this->loadLanguage('common/quick_start');
 		$this->data['quick_start_url'] = $this->html->getSecureURL('setting/setting_quick_form/quick_start');
-		
 		$group = $this->data['active'];
 
 		if($this->data['active']=='appearance'){
@@ -212,7 +211,6 @@ class ControllerPagesSettingSetting extends AController {
 			$this->view->assign('attention', $this->language->get('text_im_settings_attention'));
 			$this->processTemplate('pages/setting/setting_im.tpl');
 		}else{
-
 			$this->processTemplate('pages/setting/setting.tpl');
 		}
 
@@ -224,9 +222,7 @@ class ControllerPagesSettingSetting extends AController {
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
-
 		$this->document->setTitle($this->language->get('heading_title'));
-
 		$this->view->assign('error_warning', $this->session->data['warning']);
 		if (isset($this->session->data['warning'])) {
 			unset($this->session->data['warning']);
@@ -322,7 +318,6 @@ class ControllerPagesSettingSetting extends AController {
 			$stores[$result['store_id']] = $result['alias'];
 		}
 
-
 		//load tabs controller
 		$this->data['active'] = 'all';
 		$tabs_obj = $this->dispatch('pages/setting/setting_tabs', array( $this->data ) );
@@ -349,10 +344,9 @@ class ControllerPagesSettingSetting extends AController {
 		//activate quick start guide button
 		$this->loadLanguage('common/quick_start');
 		$this->data['quick_start_url'] = $this->html->getSecureURL('setting/setting_quick_form/quick_start');
-		
+
 		$this->view->batchAssign($this->data);
 		$this->view->assign('help_url', $this->gen_help_url('setting_listing'));
-
 		$this->processTemplate('pages/setting/setting_list.tpl');
 
 		//update controller data
@@ -444,14 +438,14 @@ class ControllerPagesSettingSetting extends AController {
 
 		//need resource script on every page for quick start
 		$resources_scripts = $this->dispatch(
-		    'responses/common/resource_library/get_resources_scripts',
-		    array(
-		    	'object_name' => 'store',
-		    	'object_id' => (int)$this->data['store_id'],
-		    	'types' => array('image'),
-		    	'onload' => true,
-		    	'mode' => 'single'
-		    )
+			'responses/common/resource_library/get_resources_scripts',
+			array(
+				'object_name' => 'store',
+				'object_id' => (int)$this->data['store_id'],
+				'types' => array('image'),
+				'onload' => true,
+				'mode' => 'single'
+			)
 		);
 		$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
 
@@ -503,43 +497,43 @@ class ControllerPagesSettingSetting extends AController {
 		}
 	}
 
-    /**
-     * @param AForm $form
-     * @param array $data
-     * @return array
-     */
-    private function _build_details($form, $data) {
+	/**
+	 * @param AForm $form
+	 * @param array $data
+	 * @return array
+	 */
+	private function _build_details($form, $data) {
 		$ret_data = array();
 		$ret_data['form_language_switch'] = $this->html->getContentLanguageSwitcher();
 		$ret_data['form'] = array('fields' => $this->conf_mngr->getFormFields('details', $form, $data));
 		return $ret_data;
 	}
 
-    /**
-     * @param AForm $form
-     * @param $data
-     * @return array
-     */
-    private function _build_general($form, $data) {
+	/**
+	 * @param AForm $form
+	 * @param $data
+	 * @return array
+	 */
+	private function _build_general($form, $data) {
 		$ret_data = array();
 		$ret_data['form'] = array('fields' => $this->conf_mngr->getFormFields('general', $form, $data));
 		return $ret_data;
 	}
-    /**
-     * @param AForm $form
-     * @param $data
-     * @return array
-     */
+	/**
+	 * @param AForm $form
+	 * @param $data
+	 * @return array
+	 */
 	private function _build_checkout($form, $data) {
 		$ret_data = array();
 		$ret_data['form'] = array('fields' => $this->conf_mngr->getFormFields('checkout', $form, $data));
 		return $ret_data;
 	}
-    /**
-     * @param AForm $form
-     * @param $data
-     * @return array
-     */
+	/**
+	 * @param AForm $form
+	 * @param $data
+	 * @return array
+	 */
 	private function _build_appearance($form, $data) {
 		$ret_data = array();
 
@@ -547,42 +541,42 @@ class ControllerPagesSettingSetting extends AController {
 
 		return $ret_data;
 	}
-    /**
-     * @param AForm $form
-     * @param $data
-     * @return array
-     */
+	/**
+	 * @param AForm $form
+	 * @param $data
+	 * @return array
+	 */
 	private function _build_mail($form, $data) {
 		$ret_data = array();
 		$ret_data['form'] = array('fields' => $this->conf_mngr->getFormFields('mail', $form, $data));
 		return $ret_data;
 	}
-    /**
-     * @param AForm $form
-     * @param $data
-     * @return array
-     */
+	/**
+	 * @param AForm $form
+	 * @param $data
+	 * @return array
+	 */
 	private function _build_im($form, $data) {
 		$ret_data = array();
 		$ret_data['form'] = array('fields' => $this->conf_mngr->getFormFields('im', $form, $data));
 		return $ret_data;
 	}
-    /**
-     * @param AForm $form
-     * @param $data
-     * @return array
-     */
+	/**
+	 * @param AForm $form
+	 * @param $data
+	 * @return array
+	 */
 	private function _build_api($form, $data) {
 		$ret_data = array();
 		$ret_data['form'] = array('fields' => $this->conf_mngr->getFormFields('api', $form, $data));
 		return $ret_data;
 	}
 
-    /**
-     * @param AForm $form
-     * @param $data
-     * @return array
-     */
+	/**
+	 * @param AForm $form
+	 * @param $data
+	 * @return array
+	 */
 	private function _build_system($form, $data) {
 		$ret_data = array();
 
@@ -622,18 +616,18 @@ class ControllerPagesSettingSetting extends AController {
 		return $ret_data;
 	}
 
-    /**
-     * @param string $group
-     * @return bool
-     */
-    private function _validate($group) {
+	/**
+	 * @param string $group
+	 * @return bool
+	 */
+	private function _validate($group, $store_id = 0) {
 		if (!$this->user->canModify('setting/setting')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
 		$this->load->library('config_manager');
 		$config_mngr = new AConfigManager();
-		$result = $config_mngr->validate($group, $this->request->post);
+		$result = $config_mngr->validate($group, $this->request->post, $store_id);
 		$this->error = $result['error'];
 		$this->request->post = $result['validated']; // for changed data saving
 

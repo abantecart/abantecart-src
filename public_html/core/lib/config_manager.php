@@ -116,7 +116,7 @@ class AConfigManager{
 		return $this->getTemplates($section);
 	}
 
-	public function validate($group, $fields = array ()){
+	public function validate($group, $fields = array (), $store_id = 0){
 		if (empty($group) || !is_array($fields)){
 			return false;
 		}
@@ -131,12 +131,40 @@ class AConfigManager{
 					if ($field_name == 'config_title' && !$field_value){
 						$error['title'] = $this->language->get('error_title');
 					}
-					if ($field_name == 'config_url' && !$field_value){
+					//URLS validation
+					if($field_name == 'config_url' && $field_value){
+						$config_url = $field_value;
+					}
+					if($field_name == 'config_ssl_url' && $field_value){
+						$config_ssl_url = $field_value;
+					}
+					if ($field_name == 'config_url' && (!$field_value || !preg_match("/^(http|https):\/\//", $field_value))){
 						$error['url'] = $this->language->get('error_url');
 					}
-					if ($field_name == 'config_ssl_url' && !$field_value && $this->request->get['config_ssl']){
+					if ($field_name == 'config_ssl_url' && $field_value && !preg_match("/^(http|https):\/\//", $field_value)){
 						$error['ssl_url'] = $this->language->get('error_ssl_url');
 					}
+					//when quicksave only ssl_url
+					elseif ($field_name == 'config_ssl_url' && $field_value && !has_value($fields['config_url'])){
+						$saved_settings = $this->model_setting_setting->getSetting($group, $store_id);
+						$config_url = $saved_settings['config_url'];
+						$config_ssl_url = $field_value;
+					}
+					//when quicksave only url
+					elseif ($field_name == 'config_url' && $field_value && !has_value($fields['config_ssl_url'])){
+						$saved_settings = $this->model_setting_setting->getSetting($group, $store_id);
+						$config_ssl_url = $saved_settings['config_ssl_url'];
+						$config_url = $field_value;
+					}
+					//When store url is secure but ssl_url not - show error
+					if(!$error['url']
+							&& !$error['ssl_url']
+							&& preg_match("/^(https):\/\//", $config_url)
+							&& preg_match("/^(http):\/\//", $config_ssl_url)
+					){
+						$error['ssl_url'] = $this->language->get('error_ssl_url');
+					}
+
 					if (sizeof($fields) > 1){
 						if (mb_strlen($fields['config_owner']) < 2 || mb_strlen($fields['config_owner']) > 64){
 							$error['owner'] = $this->language->get('error_owner');
@@ -268,12 +296,12 @@ class AConfigManager{
 				'required' => true,
 				'style'    => 'large-field',
 		));
-		$fields['ssl'] = $form->getFieldHtml($props[] = array (
+		/*$fields['ssl'] = $form->getFieldHtml($props[] = array (
 				'type'  => 'checkbox',
 				'name'  => 'config_ssl',
 				'value' => $data['config_ssl'],
 				'style' => 'btn_switch',
-		));
+		));*/
 		$fields['ssl_url'] = $form->getFieldHtml($props[] = array (
 				'type'     => 'input',
 				'name'     => 'config_ssl_url',

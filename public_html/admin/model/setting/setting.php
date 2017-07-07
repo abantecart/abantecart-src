@@ -201,6 +201,14 @@ class ModelSettingSetting extends Model {
 				}
 			}
 		}
+
+		if(has_value($data['config_url'])){
+			$url_protocol = preg_match("/^(https):\/\//", $data['config_url']) ? 'https' : 'http';
+		}
+		if(has_value($data['config_ssl_url'])){
+			$ssl_url_protocol = preg_match("/^(https):\/\//", $data['config_ssl_url']) ? 'https' : 'http';
+		}
+
 		//need to add slash at the end because browsers do it too automatically
 		if(has_value($data['config_url']) && substr($data['config_url'],-1)!='/'){
 			$data['config_url'] .= '/';
@@ -208,6 +216,27 @@ class ModelSettingSetting extends Model {
 		if(has_value($data['config_ssl_url']) && substr($data['config_ssl_url'],-1)!='/'){
 			$data['config_ssl_url'] .= '/';
 		}
+		//need to set ssl_mode setting to use it in AHtml class for building correct URLs
+		if(!has_value($data['config_url']) XOR !has_value($data['config_ssl_url'])) {
+			$saved_settings = $this->getSetting($group, $store_id);
+			if (!has_value($data['config_url']) && has_value($data['config_ssl_url'])) {
+				$url_protocol = preg_match("/^(https):\/\//", $saved_settings['config_url']) ? 'https' : 'http';
+			}
+			if (has_value($data['config_url']) && !has_value($data['config_ssl_url'])) {
+				$ssl_url_protocol = preg_match("/^(https):\/\//",  $saved_settings['config_ssl_url']) ? 'https' : 'http';
+			}
+		}
+
+		if($url_protocol && $ssl_url_protocol){
+			if( $ssl_url_protocol == 'https' && $url_protocol == 'http'){
+				$data['config_ssl'] = 1;
+			}elseif($ssl_url_protocol == 'https' && $url_protocol == 'https'){
+				$data['config_ssl'] = 2;
+			}else{
+				$data['config_ssl'] = 0;
+			}
+		}
+
 
 		foreach ($data as $key => $value) {
 			if($key=='one_field'){ continue; } //is'a sign for displaying one setting for quick edit form. ignore it!

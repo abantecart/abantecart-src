@@ -711,7 +711,7 @@
 	</definition>
 	<definition>
 		<key>error_url</key>
-		<value><![CDATA[Store URL required!]]></value>
+		<value><![CDATA[Valid Store URL required!]]></value>
 	</definition>
 	<definition>
 		<key>error_title</key>
@@ -859,7 +859,7 @@
 	</definition>
 	<definition>
 		<key>error_ssl_url</key>
-		<value><![CDATA[Secure URL required!]]></value>
+		<value><![CDATA[Valid Secure URL required!]]></value>
 	</definition>
 	<definition>
 		<key>entry_customer_email_activation</key>

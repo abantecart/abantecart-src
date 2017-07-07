@@ -138,13 +138,13 @@ class AHtml extends AController{
 		//for embed mode get home link with getURL
 		if ($this->registry->get('config')->get('embed_mode') == true){
 			return $this->getURL('index/home'); 
-		} else {	
+		} else {
 			//get config_url first 
 			$home_url = $this->registry->get('config')->get('config_url');
 			if (!$home_url){
 				$home_url = defined('HTTP_SERVER') ? HTTP_SERVER : 'http://' . REAL_HOST . get_url_path($_SERVER['PHP_SELF']);
 			}
-			return $home_url;	
+			return $home_url;
 		}
 	}
 
@@ -214,12 +214,12 @@ class AHtml extends AController{
 
 		$suburl = $this->buildURL($rt, $params);
 
-        if(IS_ADMIN === true || (defined('IS_API') && IS_API === true)) {
-            //Add session token for admin and API
-            if (isset($session->data['token']) && $session->data['token']){
-                $suburl .= '&token=' . $this->registry->get('session')->data['token'];
-            }
-        }
+		if(IS_ADMIN === true || (defined('IS_API') && IS_API === true)) {
+			//Add session token for admin and API
+			if (isset($session->data['token']) && $session->data['token']){
+				$suburl .= '&token=' . $this->registry->get('session')->data['token'];
+			}
+		}
 
 		//add token for embed mode with forbidden 3d-party cookies
 		if ($session->data['session_mode'] == 'embed_token'){
@@ -282,8 +282,11 @@ class AHtml extends AController{
 			$params .= '&' . EMBED_TOKEN_NAME . '=' . session_id();
 		}
 		$suburl = '?' . ($rt ? 'rt=' . $rt : '') . $params;
-		$config = $this->registry->get('config');
-		$http = $ssl ? $config->get('config_ssl_url') : $config->get('config_url');
+
+		if($this->registry->get('config')->get('config_ssl')==2){
+			$ssl = true;
+		}
+		$http = $ssl ? HTTPS_SERVER : HTTP_SERVER;
 
 		$url = $http . INDEX_FILE . $this->url_encode($suburl, $encode);
 		return $url;
@@ -326,7 +329,6 @@ class AHtml extends AController{
 
 	/**
 	 * URI encrypt parameters in URI
-	 *
 	 * @param $uri
 	 * @internal param array $filter_params - array of vars to filter
 	 * @return string - url without unwanted filter parameters
@@ -1592,11 +1594,11 @@ class FormHtmlElement extends HtmlElement{
 			);
 		}
 
-        if (IS_ADMIN === true){
-            return $this->view->fetch('form/form_open.tpl');
-        } else {
-            return $this->view->fetch('form/form_open.tpl') . $this->view->fetch('form/form_csrf.tpl');
-        }
+		if (IS_ADMIN === true){
+			return $this->view->fetch('form/form_open.tpl');
+		} else {
+			return $this->view->fetch('form/form_open.tpl') . $this->view->fetch('form/form_csrf.tpl');
+		}
 	}
 }
 
