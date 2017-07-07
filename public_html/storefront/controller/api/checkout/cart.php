@@ -22,169 +22,155 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class ControllerApiCheckoutCart extends AControllerAPI {
 	public $data = array();
-    public $error = array();
+	public $error = array();
 
 	public function post() {
-        $request = $this->rest->getRequestParams();
-        
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		$request = $this->rest->getRequestParams();
+		if (!$this->customer->isLoggedWithToken( $request['token'] )) {
+			$this->rest->setResponseData( array( 'error' => 'Not logged in or Login attempt failed!' ) );
+			$this->rest->sendResponse(401);
+			return null;
+        }
+
+		$this->extensions->hk_InitData($this,__FUNCTION__);
 		$this->loadModel('catalog/product');
 		$product_id = $request['product_id'];
 
-        //check if we add single or multiple products to cart
-        if (isset($request['quantity']) || is_array($request['products'])) {
-		    if (isset($request['product_id']) && !is_array($request['quantity'])) {
-                //add single product
-                $this->_add_to_cart($request);
-		    } else if(isset($request['product_id']) && is_array($request['quantity'])) {
-                //update quantities for products
-		    	foreach ($request['quantity'] as $key => $value) {
-	        		$this->cart->update($key, $value);
-		    	}
-		    } else if(is_array($request['products'])) {
-                //add bulk products
-                foreach ($request['products'] as $i => $product) {
-                    $this->_add_to_cart($product);
-                }
-            }
-		    
-		    unset($this->session->data['shipping_methods']);
-		    unset($this->session->data['shipping_method']);
-		    unset($this->session->data['payment_methods']);
-		    unset($this->session->data['payment_method']);
-      	}
+		//check if we add single or multiple products to cart
+		if (isset($request['quantity']) || is_array($request['products'])) {
+			if (isset($request['product_id']) && !is_array($request['quantity'])) {
+				//add single product
+				$this->_add_to_cart($request);
+			} else if(isset($request['product_id']) && is_array($request['quantity'])) {
+				//update quantities for products
+				foreach ($request['quantity'] as $key => $value) {
+					$this->cart->update($key, $value);
+				}
+			} else if(is_array($request['products'])) {
+				//add bulk products
+				foreach ($request['products'] as $i => $product) {
+					$this->_add_to_cart($product);
+				}
+			}
+
+			unset($this->session->data['shipping_methods']);
+			unset($this->session->data['shipping_method']);
+			unset($this->session->data['payment_methods']);
+			unset($this->session->data['payment_method']);
+		}
 
 		//request to remove
-      	if (isset($request['remove']) && is_array($request['remove']) ) {
-	        foreach (array_keys($request['remove']) as $key) {
- 	        	if($key) {
-     	      		$this->cart->remove($key);
-     	      	}
-		    }
-        } else if($request['remove_all']) {
-            $this->cart->clear();
-        }
+		if (isset($request['remove']) && is_array($request['remove']) ) {
+			foreach (array_keys($request['remove']) as $key) {
+				if($key) {
+					$this->cart->remove($key);
+				}
+			}
+		} else if($request['remove_all']) {
+			$this->cart->clear();
+		}
 
-        $this->_prepare_cart_data();
+		$this->_prepare_cart_data();
 
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->rest->setResponseData( $this->data );
 		$this->rest->sendResponse(200);
-
 	}
 
 	public function delete() {
-	    $request = $this->rest->getRequestParams();
-      	
-      	$count = 0;
-      	if (isset($request['remove']) && is_array($request['remove'])) {
-	        foreach (array_keys($request['remove']) as $key) {
-	        	if($key) {
-            		$this->cart->remove($key);
-            		$count++;	        	
-	        	}
-		    }
-      	} else if($request['remove_all']) {
-            $this->cart->clear();
-        }
-
+		$request = $this->rest->getRequestParams();
+		$count = 0;
+		if (isset($request['remove']) && is_array($request['remove'])) {
+			foreach (array_keys($request['remove']) as $key) {
+				if($key) {
+					$this->cart->remove($key);
+					$count++;
+				}
+			}
+		} else if($request['remove_all']) {
+			$this->cart->clear();
+		}
 		$this->rest->setResponseData( array('success' => "$count removed" ) );
 		$this->rest->sendResponse(200);	
 		return null;
-	}	
-	
-	public function put() {
-        $request = $this->rest->getRequestParams();
-        $product_ids = $request['product_ids'];
-        if($request){
-
-        }
-        $this->rest->setResponseData( array('success' => "$count added to cart" ) );
-        $this->rest->sendResponse(200);
-        return null;
 	}
 
-    private function _add_to_cart($product){
-        if (isset($product['option'])) {
-            $options = $product['option'];
-        } else {
-            $options = array();
-        }
-        if ( $errors = $this->model_catalog_product->validateProductOptions($product['product_id'], $options)) {
-            $this->rest->setResponseData( array('error' => implode(' ',$errors)) );
-            $this->rest->sendResponse(206);
-        }
-        $this->cart->add($product['product_id'], $product['quantity'], $options);
-    }
+	public function put() {
+		return $this->post();
+	}
+
+	private function _add_to_cart($product){
+		if (isset($product['option'])) {
+			$options = $product['option'];
+		} else {
+			$options = array();
+		}
+		if ( $errors = $this->model_catalog_product->validateProductOptions($product['product_id'], $options)) {
+			$this->rest->setResponseData( array('error' => implode(' ',$errors)) );
+			$this->rest->sendResponse(206);
+		}
+		$this->cart->add($product['product_id'], $product['quantity'], $options);
+	}
 
 	private function _prepare_cart_data(){
+		if ($this->cart->hasProducts()) {
+			$this->loadModel('tool/image');
+			$products = array();
+			$cart_products = $this->cart->getProducts();
 
-        if ($this->cart->hasProducts()) {
+			$product_ids = array();
+			foreach($cart_products as $result){
+				$product_ids[] = (int)$result['product_id'];
+			}
 
-            $this->loadModel('tool/image');
+			$resource = new AResource('image');
+			$thumbnails = $resource->getMainThumbList(
+				'products',
+				$product_ids,
+				$this->config->get('config_image_cart_width'),
+				$this->config->get('config_image_cart_height')
+			);
 
-            $products = array();
-            $cart_products = $this->cart->getProducts();
+			if (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout')) {
+				$this->data['error_warning'] = $this->language->get('error_stock');
+			}
 
-            $product_ids = array();
-            foreach($cart_products as $result){
-                $product_ids[] = (int)$result['product_id'];
-            }
+			foreach ($cart_products as $result) {
+				$option_data = array();
+				$thumbnail = $thumbnails[ $result['product_id'] ];
+				foreach ($result['option'] as $option) {
+					$option_data[] = array(
+						'name'  => $option['name'],
+						'value' => $option['value']
+					);
+				}
 
-            $resource = new AResource('image');
-            $thumbnails = $resource->getMainThumbList(
-                'products',
-                $product_ids,
-                $this->config->get('config_image_cart_width'),
-                $this->config->get('config_image_cart_height')
-            );
-
-            if (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout')) {
-                $this->data['error_warning'] = $this->language->get('error_stock');
-            }
-
-            foreach ($cart_products as $result) {
-                $option_data = array();
-                $thumbnail = $thumbnails[ $result['product_id'] ];
-
-                foreach ($result['option'] as $option) {
-                    $option_data[] = array(
-                        'name'  => $option['name'],
-                        'value' => $option['value']
-                    );
-                }
-
-                $price_with_tax = $this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'));
-                $products[] = array(
-                    'key'      => $result['key'],
-                    'name'     => $result['name'],
-                    'model'    => $result['model'],
-                    'thumb'    => $thumbnail['thumb_url'],
-                    'option'   => $option_data,
-                    'quantity' => $result['quantity'],
-                    'stock'    => $result['stock'],
-                    'price'    => $this->currency->format($price_with_tax),
-                    'total'    => $this->currency->format_total($price_with_tax, $result['quantity'])
-                );
-            }
-            $this->data['products'] =  $products ;
-
-            if ($this->config->get('config_cart_weight')) {
-                $this->data['weight'] = $this->weight->format($this->cart->getWeight(), $this->config->get('config_weight_class'));
-            } else {
-                $this->data['weight'] = FALSE;
-            }
-
-            $display_totals = $this->cart->buildTotalDisplay();
-            $this->data['totals'] = $display_totals['total_data'];
-
-        } else {
-            //empty cart content
-            $this->data['products'] = array();
-            $this->data['totals'] = 0;
-        }
-
-    }
-
+				$price_with_tax = $this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'));
+				$products[] = array(
+					'key'      => $result['key'],
+					'name'     => $result['name'],
+					'model'    => $result['model'],
+					'thumb'    => $thumbnail['thumb_url'],
+					'option'   => $option_data,
+					'quantity' => $result['quantity'],
+					'stock'    => $result['stock'],
+					'price'    => $this->currency->format($price_with_tax),
+					'total'    => $this->currency->format_total($price_with_tax, $result['quantity'])
+				);
+			}
+			$this->data['products'] =  $products ;
+			if ($this->config->get('config_cart_weight')) {
+				$this->data['weight'] = $this->weight->format($this->cart->getWeight(), $this->config->get('config_weight_class'));
+			} else {
+				$this->data['weight'] = FALSE;
+			}
+			$display_totals = $this->cart->buildTotalDisplay();
+			$this->data['totals'] = $display_totals['total_data'];
+		} else {
+			//empty cart content
+			$this->data['products'] = array();
+			$this->data['totals'] = 0;
+		}
+	}
 }
