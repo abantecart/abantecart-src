@@ -23,48 +23,47 @@ if ( !defined ( 'DIR_CORE' )) {
 
 class ModelExtensionDefaultStorePickup extends Model {
 	function getQuote($address) {
-		$this->load->language('default_store_pickup/default_store_pickup');
-		
+		//create new instance of language for case when model called from admin-side
+		$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+		$language->load('default_store_pickup/default_store_pickup');
+
 		if ($this->config->get('default_store_pickup_status')) {
-      		$query = $this->db->query("SELECT *
+			$query = $this->db->query("SELECT *
 										FROM " . $this->db->table("zones_to_locations") . "
 										WHERE location_id = '" . (int)$this->config->get('default_store_pickup_location_id') . "'
 											AND country_id = '" . (int)$address['country_id'] . "'
 											AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
-		
-      		if (!$this->config->get('default_store_pickup_location_id')) {
-        		$status = TRUE;
-      		} elseif ($query->num_rows) {
-        		$status = TRUE;
-      		} else {
-        		$status = FALSE;
-      		}
+
+			if (!$this->config->get('default_store_pickup_location_id')) {
+				$status = TRUE;
+			} elseif ($query->num_rows) {
+				$status = TRUE;
+			} else {
+				$status = FALSE;
+			}
 		} else {
 			$status = FALSE;
 		}
-		
+
 		$method_data = array();
-	
 		if ($status) {
 			$quote_data = array();
-			
-      		$quote_data['default_store_pickup'] = array(
-        		'id'           => 'default_store_pickup.default_store_pickup',
-        		'title'        => $this->language->get('text_description'),
-        		'cost'         => 0.00,
-        		'tax_class_id' => 0,
+			$quote_data['default_store_pickup'] = array(
+				'id'           => 'default_store_pickup.default_store_pickup',
+				'title'        => $this->language->get('text_description'),
+				'cost'         => 0.00,
+				'tax_class_id' => 0,
 				'text'         => $this->language->get('text_free')
-      		);
+			);
 
-      		$method_data = array(
-        		'id'         => 'default_store_pickup',
-        		'title'      => $this->language->get('text_title'),
-        		'quote'      => $quote_data,
+			$method_data = array(
+				'id'         => 'default_store_pickup',
+				'title'      => $this->language->get('text_title'),
+				'quote'      => $quote_data,
 				'sort_order' => $this->config->get('default_store_pickup_sort_order'),
-        		'error'      => FALSE
-      		);
+				'error'      => FALSE
+			);
 		}
-	
 		return $method_data;
 	}
 }

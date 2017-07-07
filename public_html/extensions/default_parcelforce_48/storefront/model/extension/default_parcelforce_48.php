@@ -27,7 +27,9 @@ if (!defined('DIR_CORE')) {
  */
 class ModelExtensionDefaultParcelforce48 extends Model {
 	function getQuote($address) {
-		$this->load->language('default_parcelforce_48/default_parcelforce_48');
+		//create new instance of language for case when model called from admin-side
+		$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+		$language->load('default_parcelforce_48/default_parcelforce_48');
 		if ($this->config->get('default_parcelforce_48_status')) {
 			if (!$this->config->get('default_parcelforce_48_location_id')) {
 				$status = TRUE;
@@ -105,7 +107,7 @@ class ModelExtensionDefaultParcelforce48 extends Model {
 				} else {
 					//all products are marked free for shipping
 					$quote_data[$key]['cost'] = 0.0;
-					$quote_data[$key]['text'] = $this->language->get('text_free');
+					$quote_data[$key]['text'] = $language->get('text_free');
 				}
 			}
 		} else if ($new_quote_data) {
@@ -113,7 +115,7 @@ class ModelExtensionDefaultParcelforce48 extends Model {
 		}
 
 		//for case when only products with fixed shipping price are in the cart
-		$title = $this->language->get('text_title');
+		$title = $language->get('text_title');
 		if(!$basic_products && $special_ship_products){
 			$quote_data = array('default_parcelforce_48' => array(
 								'id'           => 'default_parcelforce_48.default_parcelforce_48',
@@ -130,7 +132,7 @@ class ModelExtensionDefaultParcelforce48 extends Model {
 													'title'        => $title,
 													'cost'         => 0,
 													'tax_class_id' => 0,
-													'text'         => $this->language->get('text_free')
+													'text'         => $language->get('text_free')
 			));
 		}
 
@@ -138,19 +140,17 @@ class ModelExtensionDefaultParcelforce48 extends Model {
 		if ($quote_data) {
 			$method_data = array(
 					'id' => 'default_parcelforce_48',
-					'title' => $this->language->get('text_title'),
+					'title' => $language->get('text_title'),
 					'quote' => $quote_data,
 					'sort_order' => $this->config->get('default_parcelforce_48_sort_order'),
 					'error' => FALSE
 			);
 		}
-
-
 		return $method_data;
 	}
 
 	private function _processRate($weight, $sub_total) {
-
+		$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
 		$rates = explode(',', $this->config->get('default_parcelforce_48_rate'));
 		$cost = 0.0;
 		foreach ($rates as $rate) {
@@ -177,19 +177,18 @@ class ModelExtensionDefaultParcelforce48 extends Model {
 			}
 		}
 
-
-		$text = $this->language->get('text_description');
+		$text = $language->get('text_description');
 
 		if ($this->config->get('default_parcelforce_48_display_weight')) {
-			$text .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+			$text .= ' (' . $language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
 		}
 
 		if ($this->config->get('default_parcelforce_48_display_insurance') && (float)$compensation) {
-			$text .= ' (' . $this->language->get('text_insurance') . ' ' . $this->currency->format($compensation) . ')';
+			$text .= ' (' . $language->get('text_insurance') . ' ' . $this->currency->format($compensation) . ')';
 		}
 
 		if ($this->config->get('default_parcelforce_48_display_time')) {
-			$text .= ' (' . $this->language->get('text_time') . ')';
+			$text .= ' (' . $language->get('text_time') . ')';
 		}
 
 		$quote_data['default_parcelforce_48'] = array(

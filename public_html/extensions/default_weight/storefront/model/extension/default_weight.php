@@ -27,7 +27,9 @@ if (!defined('DIR_CORE')) {
  */
 class ModelExtensionDefaultWeight extends Model{
 	public function getQuote($address){
-		$this->load->language('default_weight/default_weight');
+		//create new instance of language for case when model called from admin-side
+		$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+		$language->load('default_weight/default_weight');
 		$quote_data = array ();
 		if ($this->config->get('default_weight_status')) {
 			$query = $this->db->query("SELECT * FROM " . $this->db->table("locations") . " ORDER BY name");
@@ -97,7 +99,7 @@ class ModelExtensionDefaultWeight extends Model{
 					if ((string)$cost != '') {
 						$quote_data['default_weight_' . $result['location_id']] = array (
 								'id'           => 'default_weight.default_weight_' . $result['location_id'],
-								'title'        => $result['name'] . '  (' . $this->language->get('text_weight') . ' ' . $this->weight->format($this->cart->getWeight(),
+								'title'        => $result['name'] . '  (' . $language->get('text_weight') . ' ' . $this->weight->format($this->cart->getWeight(),
 												$this->config->get('config_weight_class')) . ')',
 								'cost'         => $this->tax->calculate($cost,
 										$this->config->get('default_weight_tax_class_id'),
@@ -111,13 +113,13 @@ class ModelExtensionDefaultWeight extends Model{
 					if ($this->cart->areAllFreeShipping()) {
 						$quote_data['default_weight_' . $result['location_id']] = array (
 								'id'           => 'default_weight.default_weight_' . $result['location_id'],
-								'title'        => $result['name'] . '  (' . $this->language->get('text_weight') . ' ' . $this->weight->format($this->cart->getWeight(),
+								'title'        => $result['name'] . '  (' . $language->get('text_weight') . ' ' . $this->weight->format($this->cart->getWeight(),
 												$this->config->get('config_weight_class')) . ')',
 								'cost'         => $this->tax->calculate($cost,
 										$this->config->get('default_weight_tax_class_id'),
 										$this->config->get('config_tax')),
 								'tax_class_id' => $this->config->get('default_weight_tax_class_id'),
-								'text'         => $this->language->get('text_free')
+								'text'         => $language->get('text_free')
 						);
 					}
 				}
@@ -129,7 +131,7 @@ class ModelExtensionDefaultWeight extends Model{
 		if ($quote_data) {
 			$method_data = array (
 					'id'         => 'default_weight.default_weight',
-					'title'      => $this->language->get('text_title'),
+					'title'      => $language->get('text_title'),
 					'quote'      => $quote_data,
 					'sort_order' => $this->config->get('default_weight_sort_order'),
 					'error'      => false

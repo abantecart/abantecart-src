@@ -8,7 +8,7 @@
   Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
-  Lincence details is bundled with this package in the file LICENSE.txt.
+  License details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -31,10 +31,11 @@ class ModelExtensionDefaultFedex extends Model {
 	function getQuote($address) {
 		ini_set("soap.wsdl_cache_enabled", "0");
 
-		$this->load->language('default_fedex/default_fedex');
-		
+		//create new instance of language for case when model called from admin-side
+		$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+		$language->load('default_fedex/default_fedex');
+
 		if ($this->config->get('default_fedex_status')) {
-		
 			if (!$this->config->get('default_fedex_location_id')) {
 				$status = TRUE;
 			} else {
@@ -64,11 +65,13 @@ class ModelExtensionDefaultFedex extends Model {
 							'title'      => 'Fedex',
 							'quote'      => null,
 							'sort_order' => $this->config->get('default_fedex_sort_order'),
-							'error'      => $this->language->get('fedex_error_empty_postcode')
+							'error'      => $language->get('fedex_error_empty_postcode')
 						);
 		}
 
 		$products = $this->cart->basicShippingProducts();
+		$error_msg = '';
+		$quote_data = array();
 		if($products){
 			$quote_data = $this->_processRequest($address, $products);
 			$error_msg =  $quote_data['error_msg'];
@@ -114,7 +117,7 @@ class ModelExtensionDefaultFedex extends Model {
 			}
 		}
 
-		//for case when only products with fixed shippig price are in the cart
+		//for case when only products with fixed shipping price are in the cart
 		if(!$products && $special_ship_products){
 			$quote_data = array('default_fedex' => array(
 								'id'           => 'default_fedex.default_fedex',
@@ -132,12 +135,12 @@ class ModelExtensionDefaultFedex extends Model {
 													'title'        => 'Fedex',
 													'cost'         => 0,
 													'tax_class_id' => 0,
-													'text'         => $this->language->get('text_free')
+													'text'         => $language->get('text_free')
 			));
 		}
 
 		if($quote_data || $error_msg){
-			$title = $this->language->get('text_title');
+			$title = $language->get('text_title');
 			$method_data = array(
 				'id'         => 'default_fedex',
 				'title'      => $title,
@@ -150,9 +153,12 @@ class ModelExtensionDefaultFedex extends Model {
 	}
 
 	private function _processRequest($address, $products){
+		$quote_data = array();
+		$error_msg = '';
+		//create new instance of language for case when model called from admin-side
+		$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+		$language->load('default_fedex/default_fedex');
 		require_once(DIR_EXT . 'default_fedex/core/lib/fedex_func.php');
-
-		$this->load->language('default_fedex/default_fedex');
 
 		if($this->config->get('default_fedex_test')){
 			$path_to_wsdl = DIR_EXT . 'default_fedex/core/lib/RateService_v9_test.wsdl';
@@ -194,9 +200,7 @@ class ModelExtensionDefaultFedex extends Model {
 			}
 
 			//Recipient Info
-
 			$shipping_address = $address;
-
 			$ground_quote = 0;
 			$first_overnight_quote = 0;
 			$priority_overnight_quote = 0;
@@ -204,7 +208,6 @@ class ModelExtensionDefaultFedex extends Model {
 			$two_day_quote = 0;
 			$express_saver_quote = 0;
 			$total_volume = $total_weight = $total_price = 0;
-			$products_values = array();
 
 			$length_class_id = $this->length->getClassID('in');
 			if ($products) {
@@ -289,9 +292,7 @@ class ModelExtensionDefaultFedex extends Model {
 					}
 
 					$response = $client->getRates($request);
-
 					if ($response->HighestSeverity != 'FAILURE' && $response->HighestSeverity != 'ERROR' ){
-
 						if ( count(	$response->RateReplyDetails ) > 1 ){
 							foreach ($response->RateReplyDetails as $rateReply){
 								if(is_object($rateReply->RatedShipmentDetails)) {
@@ -340,7 +341,7 @@ class ModelExtensionDefaultFedex extends Model {
 						if( $response->HighestSeverity == 'WARNING' && $response->Notifications->Code == '556' ) {
 							//There are no valid services available.
 							// possibly incorrect address
-							$error_msg = $this->language->get('fedex_error_no_service');
+							$error_msg = $language->get('fedex_error_no_service');
 						}
 					} else {
 						$error_msg = $this->getNotifications($response->Notifications);
@@ -351,7 +352,7 @@ class ModelExtensionDefaultFedex extends Model {
 					$error_text .= "Code:".$exception->faultcode."\n";
 					$error_text .= "String:".$exception->faultstring."\n";
 					$error_text .= $client;
-					$this->message->saveError('fedex extension soap error', $error_text);
+					$this->messages->saveError('fedex extension soap error', $error_text);
 					$this->log->write($error_text);
 				}
 			}
@@ -426,7 +427,7 @@ class ModelExtensionDefaultFedex extends Model {
 		return array('quote_data'=>$quote_data, 'error_msg'=>$error_msg);
 	}
 
-	function getNotifications($notes){
+	public function getNotifications($notes){
 		$strNotes = "";
 		foreach($notes as $noteKey => $note){
 			if(is_string($note) && $noteKey == 'Message'){

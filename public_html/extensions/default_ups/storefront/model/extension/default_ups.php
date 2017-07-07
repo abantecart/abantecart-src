@@ -27,8 +27,12 @@ if ( !defined ( 'DIR_CORE' )) {
  * @property ALength $length
  */
 class ModelExtensionDefaultUps extends Model {
+	protected $lang;
 	function getQuote($address) {
-		$this->load->language('default_ups/default_ups');
+		//create new instance of language for case when model called from admin-side
+		$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+		$language->load('default_ups/default_ups');
+		$this->lang = $language;
 		if ($this->config->get('default_ups_status')) {
 			if (!$this->config->get('default_ups_location_id')) {
 				$status = TRUE;
@@ -134,7 +138,7 @@ class ModelExtensionDefaultUps extends Model {
 			}
 		}
 
-		$title = $this->language->get('text_title');
+		$title = $language->get('text_title');
 		//for case when only products with fixed shipping price are in the cart
 		if(!$basic_products && $special_ship_products){
 			$quote_data = array('default_ups' => array(
@@ -152,12 +156,12 @@ class ModelExtensionDefaultUps extends Model {
 													'title'        => $title,
 													'cost'         => 0,
 													'tax_class_id' => 0,
-													'text'         => $this->language->get('text_free')
+													'text'         => $language->get('text_free')
 			));
 		}
 
 		if ($this->config->get('default_ups_display_weight')) {
-			$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+			$title .= ' (' . $language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
 		}
 
 		$method_data = array(
@@ -173,7 +177,7 @@ class ModelExtensionDefaultUps extends Model {
 
 	private function _buildRequest($address, $weight,$length,$width,$height){
 		//set hardcoded inches because of API error
-		$length_code = 'IN';//strtoupper( $this->length->getUnit($this->config->get('default_ups_length_class') ) );
+		$length_code = 'IN';
 		$weight_code = strtoupper( $this->length->getUnit($this->config->get('default_ups_weight') ) );
 
 		if(strlen($this->config->get('default_ups_country'))!=2){
@@ -282,7 +286,10 @@ class ModelExtensionDefaultUps extends Model {
 	}
 
 	private function _processRequest($request=''){
-
+		/**
+		 * @var ALanguage $language
+		 */
+		$language = $this->lang;
 		if (!$this->config->get('default_ups_test')) {
 			$url = 'https://www.ups.com/ups.app/xml/Rate';
 		} else {
@@ -292,72 +299,72 @@ class ModelExtensionDefaultUps extends Model {
 		$service_code = array(
 			// US Origin
 			'US' => array(
-				'01' => $this->language->get('text_us_origin_01'),
-				'02' => $this->language->get('text_us_origin_02'),
-				'03' => $this->language->get('text_us_origin_03'),
-				'07' => $this->language->get('text_us_origin_07'),
-				'08' => $this->language->get('text_us_origin_08'),
-				'11' => $this->language->get('text_us_origin_11'),
-				'12' => $this->language->get('text_us_origin_12'),
-				'13' => $this->language->get('text_us_origin_13'),
-				'14' => $this->language->get('text_us_origin_14'),
-				'54' => $this->language->get('text_us_origin_54'),
-				'59' => $this->language->get('text_us_origin_59'),
-				'65' => $this->language->get('text_us_origin_65')
+				'01' => $language->get('text_us_origin_01'),
+				'02' => $language->get('text_us_origin_02'),
+				'03' => $language->get('text_us_origin_03'),
+				'07' => $language->get('text_us_origin_07'),
+				'08' => $language->get('text_us_origin_08'),
+				'11' => $language->get('text_us_origin_11'),
+				'12' => $language->get('text_us_origin_12'),
+				'13' => $language->get('text_us_origin_13'),
+				'14' => $language->get('text_us_origin_14'),
+				'54' => $language->get('text_us_origin_54'),
+				'59' => $language->get('text_us_origin_59'),
+				'65' => $language->get('text_us_origin_65')
 			),
 			// Canada Origin
 			'CA' => array(
-				'01' => $this->language->get('text_ca_origin_01'),
-				'02' => $this->language->get('text_ca_origin_02'),
-				'07' => $this->language->get('text_ca_origin_07'),
-				'08' => $this->language->get('text_ca_origin_08'),
-				'11' => $this->language->get('text_ca_origin_11'),
-				'12' => $this->language->get('text_ca_origin_12'),
-				'13' => $this->language->get('text_ca_origin_13'),
-				'14' => $this->language->get('text_ca_origin_14'),
-				'54' => $this->language->get('text_ca_origin_54'),
-				'65' => $this->language->get('text_ca_origin_65')
+				'01' => $language->get('text_ca_origin_01'),
+				'02' => $language->get('text_ca_origin_02'),
+				'07' => $language->get('text_ca_origin_07'),
+				'08' => $language->get('text_ca_origin_08'),
+				'11' => $language->get('text_ca_origin_11'),
+				'12' => $language->get('text_ca_origin_12'),
+				'13' => $language->get('text_ca_origin_13'),
+				'14' => $language->get('text_ca_origin_14'),
+				'54' => $language->get('text_ca_origin_54'),
+				'65' => $language->get('text_ca_origin_65')
 			),
 			// European Union Origin
 			'EU' => array(
-				'07' => $this->language->get('text_eu_origin_07'),
-				'08' => $this->language->get('text_eu_origin_08'),
-				'11' => $this->language->get('text_eu_origin_11'),
-				'54' => $this->language->get('text_eu_origin_54'),
-				'65' => $this->language->get('text_eu_origin_65'),
+				'07' => $language->get('text_eu_origin_07'),
+				'08' => $language->get('text_eu_origin_08'),
+				'11' => $language->get('text_eu_origin_11'),
+				'54' => $language->get('text_eu_origin_54'),
+				'65' => $language->get('text_eu_origin_65'),
 				// next five services Poland domestic only
-				'82' => $this->language->get('text_eu_origin_82'),
-				'83' => $this->language->get('text_eu_origin_83'),
-				'84' => $this->language->get('text_eu_origin_84'),
-				'85' => $this->language->get('text_eu_origin_85'),
-				'86' => $this->language->get('text_eu_origin_86')
+				'82' => $language->get('text_eu_origin_82'),
+				'83' => $language->get('text_eu_origin_83'),
+				'84' => $language->get('text_eu_origin_84'),
+				'85' => $language->get('text_eu_origin_85'),
+				'86' => $language->get('text_eu_origin_86')
 			),
 			// Puerto Rico Origin
 			'PR' => array(
-				'01' => $this->language->get('text_eu_origin_01'),
-				'02' => $this->language->get('text_eu_origin_02'),
-				'03' => $this->language->get('text_eu_origin_03'),
-				'07' => $this->language->get('text_ca_origin_07'),
-				'08' => $this->language->get('text_ca_origin_08'),
-				'14' => $this->language->get('text_eu_origin_14'),
-				'54' => $this->language->get('text_other_origin_54'),
-				'65' => $this->language->get('text_other_origin_65')
+				'01' => $language->get('text_eu_origin_01'),
+				'02' => $language->get('text_eu_origin_02'),
+				'03' => $language->get('text_eu_origin_03'),
+				'07' => $language->get('text_ca_origin_07'),
+				'08' => $language->get('text_ca_origin_08'),
+				'14' => $language->get('text_eu_origin_14'),
+				'54' => $language->get('text_other_origin_54'),
+				'65' => $language->get('text_other_origin_65')
 			),
 			// Mexico Origin
 			'MX' => array(
-				'07' => $this->language->get('text_mx_origin_07'),
-				'08' => $this->language->get('text_mx_origin_08'),
-				'54' => $this->language->get('text_mx_origin_54'),
-				'65' => $this->language->get('text_mx_origin_65')
+				'07' => $language->get('text_mx_origin_07'),
+				'08' => $language->get('text_mx_origin_08'),
+				'54' => $language->get('text_mx_origin_54'),
+				'65' => $language->get('text_mx_origin_65')
 			),
 			// All other origins
 			'other' => array(
 				// service code 7 seems to be gone after January 2, 2007
-				'07' => $this->language->get('text_other_origin_07'),
-				'08' => $this->language->get('text_other_origin_08'),
-				'11' => $this->language->get('text_other_origin_11'),
-				'54' => $this->language->get('text_other_origin_54'),
-				'65' => $this->language->get('text_other_origin_65')
+				'07' => $language->get('text_other_origin_07'),
+				'08' => $language->get('text_other_origin_08'),
+				'11' => $language->get('text_other_origin_11'),
+				'54' => $language->get('text_other_origin_54'),
+				'65' => $language->get('text_other_origin_65')
 			)
 		);
 

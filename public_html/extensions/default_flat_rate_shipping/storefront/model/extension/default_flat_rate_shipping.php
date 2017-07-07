@@ -23,7 +23,9 @@ if ( !defined ( 'DIR_CORE' )) {
 
 class ModelExtensionDefaultFlatRateShipping extends Model {
 	function getQuote($address) {
-		$this->load->language('default_flat_rate_shipping/default_flat_rate_shipping');
+		//create new instance of language for case when model called from admin-side
+		$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+		$language->load('default_flat_rate_shipping/default_flat_rate_shipping');
 		$status = false;
 		$method_data = array();
 
@@ -71,7 +73,7 @@ class ModelExtensionDefaultFlatRateShipping extends Model {
 		if ( count($this->cart->basicShippingProducts()) > 0 ) {
 			$quote_data['default_flat_rate_shipping'] = array(
 				'id'           => 'default_flat_rate_shipping.default_flat_rate_shipping',
-				'title'        => $this->language->get('text_description'),
+				'title'        => $language->get('text_description'),
 				'cost'         => $cost,
 				'tax_class_id' => (int)$tax_class_id,
 				'text'         => $this->currency->format($this->tax->calculate($cost,
@@ -106,12 +108,12 @@ class ModelExtensionDefaultFlatRateShipping extends Model {
 									)
 									);
 					} else {
-						$quote_data['default_flat_rate_shipping']['text'] = $this->language->get('text_free');
+						$quote_data['default_flat_rate_shipping']['text'] = $language->get('text_free');
 					}
 			} else {
 				$quote_data['default_flat_rate_shipping'] = array(
 					'id'           => 'default_flat_rate_shipping.default_flat_rate_shipping',
-					'title'        => $this->language->get('text_description'),
+					'title'        => $language->get('text_description'),
 					'cost'         => $fixed_cost,
 					'tax_class_id' => $tax_class_id,
 					'text'         => '',
@@ -124,7 +126,7 @@ class ModelExtensionDefaultFlatRateShipping extends Model {
 																				)
 																			);
 				} else {
-					$quote_data['default_flat_rate_shipping']['text'] = $this->language->get('text_free');
+					$quote_data['default_flat_rate_shipping']['text'] = $language->get('text_free');
 				}
 			}
 		}
@@ -132,7 +134,7 @@ class ModelExtensionDefaultFlatRateShipping extends Model {
 		if ($quote_data){
 			$method_data = array(
 					'id'         => 'default_flat_rate_shipping',
-					'title'      => $this->language->get('text_title'),
+					'title'      => $language->get('text_title'),
 					'quote'      => $quote_data,
 					'sort_order' => $this->config->get('default_flat_rate_shipping_sort_order'),
 					'error'      => false

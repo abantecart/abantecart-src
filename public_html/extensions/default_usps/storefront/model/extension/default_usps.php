@@ -28,7 +28,9 @@ if (!defined('DIR_CORE')) {
  */
 class ModelExtensionDefaultUsps extends Model{
 	public function getQuote($address){
-		$this->load->language('default_usps/default_usps');
+		//create new instance of language for case when model called from admin-side
+		$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+		$language->load('default_usps/default_usps');
 		$country = array ();
 		$weight = 0.001;
 		if (!$this->config->get('default_usps_status')) {
@@ -97,7 +99,7 @@ class ModelExtensionDefaultUsps extends Model{
 				$quote_data = array (
 						'default_usps' => array (
 								'id'           => 'default_usps.default_usps',
-								'title'        => $this->language->get('text_title'),
+								'title'        => $language->get('text_title'),
 								'cost'         => $this->currency->convert(
 														$cost,
 														'USD',
@@ -117,7 +119,7 @@ class ModelExtensionDefaultUsps extends Model{
 				);
 				$method_data = array (
 						'id'         => 'default_usps',
-						'title'      => $this->language->get('text_title'),
+						'title'      => $language->get('text_title'),
 						'quote'      => $quote_data,
 						'sort_order' => $this->config->get('default_usps_sort_order'),
 						'error'      => ''
@@ -151,17 +153,17 @@ class ModelExtensionDefaultUsps extends Model{
 			$quote_data = array (
 					'default_usps' => array (
 							'id'           => 'default_usps.default_usps',
-							'title'        => $this->language->get('text_' . ($address['iso_code_2'] == 'US'
+							'title'        => $language->get('text_' . ($address['iso_code_2'] == 'US'
 											? $this->config->get('default_usps_free_domestic_method')
 											: $this->config->get('default_usps_free_international_method'))),
 							'cost'         => 0.0,
 							'tax_class_id' => $this->config->get('default_usps_tax_class_id'),
-							'text'         => $this->language->get('text_free')
+							'text'         => $language->get('text_free')
 					)
 			);
 			$method_data = array (
 					'id'         => 'default_usps',
-					'title'      => $this->language->get('text_title'),
+					'title'      => $language->get('text_title'),
 					'quote'      => $quote_data,
 					'sort_order' => $this->config->get('default_usps_sort_order'),
 					'error'      => ''
@@ -334,7 +336,7 @@ class ModelExtensionDefaultUsps extends Model{
 						$error = $package->getElementsByTagName('Error')->item(0);
 						$method_data = array (
 								'id'         => 'default_usps',
-								'title'      => $this->language->get('text_title'),
+								'title'      => $language->get('text_title'),
 								'quote'      => $quote_data,
 								'sort_order' => $this->config->get('default_usps_sort_order'),
 								'error'      => $error->getElementsByTagName('Description')->item(0)->nodeValue
@@ -361,7 +363,7 @@ class ModelExtensionDefaultUsps extends Model{
 								continue;
 							}
 							if ($this->config->get('default_usps_display_time')) {
-								$title .= ' (' . $this->language->get('text_eta') . ' ' . $service->getElementsByTagName('SvcCommitments')->item(0)->nodeValue . ')';
+								$title .= ' (' . $language->get('text_eta') . ' ' . $service->getElementsByTagName('SvcCommitments')->item(0)->nodeValue . ')';
 							}
 							$cost = $service->getElementsByTagName('Postage')->item(0)->nodeValue;
 							if ($generic_product_ids) {
@@ -393,7 +395,7 @@ class ModelExtensionDefaultUsps extends Model{
 				 */
 				$method_data = array (
 						'id'         => 'default_usps',
-						'title'      => $this->language->get('text_title'),
+						'title'      => $language->get('text_title'),
 						'quote'      => $quote_data,
 						'sort_order' => $this->config->get('default_usps_sort_order'),
 						'error'      => $error->getElementsByTagName('Description')->item(0)->nodeValue
@@ -402,9 +404,9 @@ class ModelExtensionDefaultUsps extends Model{
 		}
 
 		if ($quote_data) {
-			$title = $this->language->get('text_title');
+			$title = $language->get('text_title');
 			if ($this->config->get('default_usps_display_weight')) {
-				$title .= ' (' . $this->language->get('text_weight')
+				$title .= ' (' . $language->get('text_weight')
 						. ' ' . $this->weight->formatByID($cart_weight,
 								$this->weight->getClassIDByUnit($this->config->get('config_weight_class'))) . ')';
 			}
