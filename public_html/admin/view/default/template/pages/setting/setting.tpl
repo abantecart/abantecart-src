@@ -214,8 +214,15 @@ jQuery(function () {
 			if(!value){ return null; }
 			if(value.search(/^(https)/i)>=0){
 				switch_protocol($(this).attr('name').replace('config_',''), 'https','silent');
-			}else{
+			}else if(value.search(/^(http)/i)>=0){
 				switch_protocol($(this).attr('name').replace('config_',''), 'http','silent');
+			}
+		}).on('blur', function(){
+			var value = $(this).val();
+			if(!value){ return null; }
+			if(value.search(/^(http|https):\/\//i)<0){
+				var protocol = $('#protocol_ssl_url_hidden').val();
+				$(this).val(protocol+'://'+value);
 			}
 		});
 	});
