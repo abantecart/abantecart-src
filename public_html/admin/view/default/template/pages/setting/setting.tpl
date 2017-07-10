@@ -221,7 +221,8 @@ jQuery(function () {
 			var value = $(this).val();
 			if(!value){ return null; }
 			if(value.search(/^(http|https):\/\//i)<0){
-				var protocol = $('#protocol_ssl_url_hidden').val();
+				var pre = $(this).attr('name').replace('config_','');
+				var protocol = $('#protocol_'+pre+'_hidden').val();
 				$(this).val(protocol+'://'+value);
 			}
 		});
