@@ -125,7 +125,7 @@ try {
 	        session_set_cookie_params(0,
 	                $path,
 	                null,
-	                (defined('HTTPS') && HTTPS),
+	                false,
 	                true);
 	        unset($path);
 	        session_name(SESSION_ID);
