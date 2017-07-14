@@ -38,9 +38,9 @@ class AData{
 	/**
 	 * @var AMessage
 	 */
+    public $csvDelimiters = array (',', ';', '\t', '|');
 	protected $message;
 	protected $db;
-	protected $csvDelimiters = array (',', ';', '\t');
 	protected $status_arr = array ();
 	protected $run_mode;
 	protected $nested_array = array ();

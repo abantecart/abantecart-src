@@ -2518,6 +2518,24 @@ body.stickyheader .sticky_left {
 .panel .table > tbody > tr > th {
 	vertical-align: middle;
 }
+.import-table > thead td {
+    text-align: center;
+}
+.import-table > tbody td {
+    text-align: center;
+}
+.import-table td > div,
+.import-table td .form-group {
+    max-width: 300px;
+    margin: auto;
+}
+.import-table td .input-group {
+    width: 100%;
+    margin: auto;
+}
+.import-table td .form-group.field_updater {
+    width: 30px;
+}
 
 
 /***** Retina Resolution Logo  *****/

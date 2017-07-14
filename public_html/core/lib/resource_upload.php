@@ -245,7 +245,7 @@ class ResourceUploadHandler{
 					$result = move_uploaded_file($uploaded_file, $file_path);
 					if ($result === false){
 						$file->error = 'Failed! Check error log for details.';
-						$error_text = 'Error! Tried to move uploaded file from ' . $uploaded_file . ' to ' . $file_path;
+						$error_text = 'Error! Unable to move uploaded file from ' . $uploaded_file . ' to ' . $file_path;
 					}
 				}
 			} else{

@@ -51,6 +51,8 @@
 
 		<label class="h4 heading"><?php echo $text_load_file; ?></label>
 
+		<p> <br /><?php echo $text_load_file_notes; ?> <br /> <br /></p>
+
 		<div class="form-group">
 			<label class="control-label col-sm-4 col-xs-12"><?php echo $text_file_field; ?></label>
 			<div class="input-group afield col-sm-6">

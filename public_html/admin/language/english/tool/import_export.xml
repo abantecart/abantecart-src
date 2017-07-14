@@ -5,8 +5,16 @@
 		<value><![CDATA[Import & Export]]></value>
 	</definition>
 	<definition>
+		<key>import_wizard_title</key>
+		<value><![CDATA[Import Data Wizard]]></value>
+	</definition>
+	<definition>
 		<key>tab_import</key>
 		<value><![CDATA[Import]]></value>
+	</definition>
+	<definition>
+		<key>tab_import_wizard</key>
+		<value><![CDATA[Import Wizard]]></value>
 	</definition>
 	<definition>
 		<key>tab_export</key>
@@ -30,7 +38,15 @@
 	</definition>
 	<definition>
 		<key>text_load_file</key>
-		<value><![CDATA[Load File]]></value>
+		<value><![CDATA[Upload Import File]]></value>
+	</definition>
+	<definition>
+		<key>text_load_file_notes</key>
+		<value><![CDATA[You can upload CSV, Text or XML file to import data. For data structure, you can follow proprietary format (see export) or free format. <br/> For data with the free format, you will need to map data elements manualy. Only product and categories supported for free format import. ]]></value>
+	</definition>
+	<definition>
+		<key>text_import_wizard_notes</key>
+		<value><![CDATA[Select a destination table and corresponding database field to each provided import data column. If no field is selected, input column data will be ignored. <br/> <b>Note:</b> Language and store specific data values will be assigned to current content store & language selected]]></value>
 	</definition>
 	<definition>
 		<key>text_load</key>
@@ -69,8 +85,24 @@
 		<value><![CDATA[Run in a test mode <br><span class="help">It is recommended to run data import in a test mode first to see if any issues are present.</span>]]></value>
 	</definition>
 	<definition>
+		<key>text_import_file_col</key>
+		<value><![CDATA[Import File Column]]></value>
+	</definition>
+	<definition>
+		<key>text_import_file_data</key>
+		<value><![CDATA[Import Data Sample]]></value>
+	</definition>
+	<definition>
+		<key>text_destination_col</key>
+		<value><![CDATA[Select destination table]]></value>
+	</definition>
+	<definition>
+		<key>text_import_update_on</key>
+		<value><![CDATA[Update if exists]]></value>
+	</definition>
+	<definition>
 		<key>error_file_format</key>
-		<value><![CDATA[Wrong file format!]]></value>
+		<value><![CDATA[Unsupported import file format!]]></value>
 	</definition>
 	<definition>
 		<key>error_xml_import</key>
@@ -123,5 +155,13 @@
 	<definition>
 		<key>text_sort_by</key>
 		<value><![CDATA[Sort by: ]]></value>
+	</definition>
+	<definition>
+		<key>error_table_selection</key>
+		<value><![CDATA[No import destination table or fields selected!]]></value>
+	</definition>
+	<definition>
+		<key>error_required_selection</key>
+		<value><![CDATA[Missing required data field for destination table!]]></value>
 	</definition>
 </definitions>
