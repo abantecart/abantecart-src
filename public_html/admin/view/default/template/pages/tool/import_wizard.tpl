@@ -125,8 +125,11 @@
 
 	<div class="panel-footer col-xs-12">
 		<div class="text-center">
-			<button class="btn btn-primary lock-on-click">
-				<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
+			<button class="btn btn-primary task_run"
+					data-run-task-url="<?php echo $form['build_task_url'] ?>"
+					data-complete-task-url="<?php echo $form['complete_task_url'] ?>"
+					data-abort-task-url="<?php echo $form['abort_task_url'] ?>">
+				<i class="fa fa-paper-plane-o"></i> <?php echo $form['submit']->text; ?>
 			</button>
 			<button class="btn btn-default" type="reset">
 				<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>

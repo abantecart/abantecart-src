@@ -30,27 +30,27 @@ class ControllerPagesToolImportExport extends AController{
 	 * @var AData
 	 */
 	private $handler;
-    /**
-     * @var array()
-     */
-    private $tables;
+	/**
+	 * @var array()
+	 */
+	private $tables;
 
-    public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
-        parent::__construct($registry, $instance_id, $controller, $parent_controller);
-        if ($this->session->data['import']) {
-            $this->tabs = array_merge(array('import_wizard'), $this->tabs);
-        }
-        $this->handler = new AData();
-        $this->tables = $this->_get_tables_cols();
-    }
+	public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
+		parent::__construct($registry, $instance_id, $controller, $parent_controller);
+		if ($this->session->data['import']) {
+			$this->tabs = array_merge(array('import_wizard'), $this->tabs);
+		}
+		$this->handler = new AData();
+		$this->tables = $this->_get_tables_cols();
+	}
 
-    public function main(){
+	public function main(){
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-        if ($this->request->get['active'] == 'import_wizard' && $this->session->data['import']) {
-            $this->redirect($this->html->getSecureURL('tool/import_export/import_wizard'));
-        }
+		if ($this->request->get['active'] == 'import_wizard' && $this->session->data['import']) {
+			redirect($this->html->getSecureURL('tool/import_export/import_wizard'));
+		}
 
 		$this->loadLanguage('tool/import_export');
 		$this->document->setTitle($this->language->get('import_export_title'));
@@ -66,9 +66,9 @@ class ControllerPagesToolImportExport extends AController{
 		}
 		$this->data['active'] = isset($this->request->get['active']) && in_array($this->request->get['active'], $this->data['tabs']) ?
 				$this->request->get['active'] : $this->data['tabs'][0];
-        if (!$this->data['active']) {
-            $this->data['active'] = 'import';
-        }
+		if (!$this->data['active']) {
+			$this->data['active'] = 'import';
+		}
 
 		foreach($this->data['tabs'] as $tab){
 			$this->data['tab_' . $tab] = $this->language->get('tab_' . $tab);
@@ -88,9 +88,9 @@ class ControllerPagesToolImportExport extends AController{
 
 		$this->view->assign('help_url', $this->gen_help_url($this->data['active']));
 
-        $this->getForm();
+		$this->getForm();
 
-        if (isset($this->session->data['error'])) {
+		if (isset($this->session->data['error'])) {
 			$this->data['error_warning'] = $this->session->data['error'];
 			unset($this->session->data['error']);
 		} else{
@@ -100,7 +100,7 @@ class ControllerPagesToolImportExport extends AController{
 
 		$this->view->batchAssign($this->data);
 
-        $this->processTemplate("pages/tool/{$this->data['active']}.tpl");
+		$this->processTemplate("pages/tool/{$this->data['active']}.tpl");
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -298,272 +298,258 @@ class ControllerPagesToolImportExport extends AController{
 		return $children;
 	}
 
-    public function import_wizard(){
-        //init controller data
-        $this->extensions->hk_InitData($this, __FUNCTION__);
+	public function import_wizard(){
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $import_data = $this->session->data['import'];
-        if(empty($import_data)) {
-            $this->session->data['error'] = $this->language->get('error_data_corrupted');
-            return $this->main();
-        }
+		$import_data = $this->session->data['import'];
+		if(empty($import_data)) {
+			$this->session->data['error'] = $this->language->get('error_data_corrupted');
+			return $this->main();
+		}
 
-        $this->handler = new AData();
+		$this->handler = new AData();
 
-        $this->data['post'] = $this->request->post;
-        if($this->request->is_POST() && $this->validateWizardRequest($this->data['post'])){
-            //all good to load import task
+		$this->data['post'] = $this->request->post;
+		if($this->request->is_POST() && $this->validateWizardRequest($this->data['post'])){
+			//all good to load import task
 
 
 
 
 //exit;
-        }
-
-        $this->loadLanguage('tool/import_export');
-        $this->document->setTitle($this->language->get('import_wizard_title'));
-        $this->data['title'] = $this->language->get('import_wizard_title');
-
-        $this->data['tabs'] = $this->tabs;
-        $this->data['active'] = 'import_wizard';
-        foreach($this->data['tabs'] as $tab){
-            $this->data['tab_' . $tab] = $this->language->get('tab_' . $tab);
-            $this->data['link_' . $tab] = $this->html->getSecureURL('p/tool/import_export', '&active=' . $tab);
-        }
-
-        $this->document->initBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('index/home'),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false
-        ));
-        $this->document->addBreadcrumb(array(
-            'href'    => $this->html->getSecureURL('tool/import_export'),
-            'text'    => $this->language->get('import_export_title'),
-            'current' => true
-        ));
-
-        $this->getForm();
-        $form = new AForm('ST');
-
-        $form->setForm(array(
-            'form_name' => 'importWizardFrm'
-        ));
-        $this->data['form']['id'] = 'importWizardFrmFrm';
-
-        $this->data['form_open'] = $form->getFieldHtml(array(
-            'type'   => 'form',
-            'name'   => 'importWizardFrmFrm',
-            'action' => $this->html->getSecureURL('tool/import_export/import_wizard'),
-            'attr'   => 'class="aform form-horizontal"',
-        ));
-        $this->data['form']['submit'] = $form->getFieldHtml(array(
-            'type'  => 'button',
-            'name'  => 'submit',
-            'text'  => $this->language->get('button_continue'),
-            'style' => 'button1',
-        ));
-        $this->data['form']['cancel'] = $form->getFieldHtml(array(
-            'type'  => 'button',
-            'name'  => 'cancel',
-            'text'  => $this->language->get('button_cancel'),
-            'style' => 'button2',
-        ));
-
-        $this->view->assign('help_url', $this->gen_help_url($this->data['active']));
-
-        if (isset($this->session->data['error'])) {
-            $this->data['error_warning'] = $this->session->data['error'];
-            unset($this->session->data['error']);
-        } else{
-            $this->data['error_warning'] = $this->error;
-        }
-        $this->data['success'] = $this->success;
-
-        //get sample row
-        if($import_data['file_type'] == 'csv') {
-            ini_set('auto_detect_line_endings', true);
-            if ($fh = fopen($import_data['file'], 'r')) {
-                $this->data['cols'] = fgetcsv($fh, 0, $import_data['delimiter']);
-                $this->data['data'] = fgetcsv($fh, 0, $import_data['delimiter']);
-            }
-        } elseif ($import_data['file_type'] == 'xml') {
-            //need to develop
+		}
 
 
+		$this->loadLanguage('tool/import_export');
+		$this->document->setTitle($this->language->get('import_wizard_title'));
+		$this->data['title'] = $this->language->get('import_wizard_title');
 
-        }
+		$this->data['tabs'] = $this->tabs;
+		$this->data['active'] = 'import_wizard';
+		foreach($this->data['tabs'] as $tab){
+			$this->data['tab_' . $tab] = $this->language->get('tab_' . $tab);
+			$this->data['link_' . $tab] = $this->html->getSecureURL('p/tool/import_export', '&active=' . $tab);
+		}
 
-        $this->data['tables'] = $this->tables;
+		$this->document->initBreadcrumb(array(
+			'href'      => $this->html->getSecureURL('index/home'),
+			'text'      => $this->language->get('text_home'),
+			'separator' => false
+		));
+		$this->document->addBreadcrumb(array(
+			'href'    => $this->html->getSecureURL('tool/import_export'),
+			'text'    => $this->language->get('import_export_title'),
+			'current' => true
+		));
 
-        $this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
-        $this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
+		$this->getForm();
+		$form = new AForm('ST');
 
-        $this->view->batchAssign($this->data);
+		$form->setForm(array(
+			'form_name' => 'importWizardFrm'
+		));
+		$this->data['form']['id'] = 'importWizardFrmFrm';
 
-        $this->processTemplate("pages/tool/import_wizard.tpl");
+		$this->data['form_open'] = $form->getFieldHtml(array(
+			'type'   => 'form',
+			'name'   => 'importWizardFrmFrm',
+			'action' => $this->html->getSecureURL('tool/import_export/import_wizard'),
+			'attr'   => 'class="aform form-horizontal"',
+		));
+		$this->data['form']['submit'] = $form->getFieldHtml(array(
+			'type'  => 'button',
+			'name'  => 'submit',
+			'text'  => $this->language->get('button_continue'),
+			'style' => 'button1',
+		));
+		$this->data['form']['cancel'] = $form->getFieldHtml(array(
+			'type'  => 'button',
+			'name'  => 'cancel',
+			'text'  => $this->language->get('button_cancel'),
+			'style' => 'button2',
+		));
+		//urls for creating and running task
+		$this->data['form']['build_task_url'] = $this->html->getSecureURL('r/tool/import_process/buildTask');
+		$this->data['form']['complete_task_url'] = $this->html->getSecureURL('r/tool/import_process/complete');
+		$this->data['form']['abort_task_url'] = $this->html->getSecureURL('r/tool/import_process/abort');
 
-        //update controller data
-        $this->extensions->hk_UpdateData($this, __FUNCTION__);
-    }
+		$this->view->assign('help_url', $this->gen_help_url($this->data['active']));
 
-    public function import(){
-        //init controller data
-        $this->extensions->hk_InitData($this, __FUNCTION__);
+		if (isset($this->session->data['error'])) {
+			$this->data['error_warning'] = $this->session->data['error'];
+			unset($this->session->data['error']);
+		} else{
+			$this->data['error_warning'] = $this->error;
+		}
+		$this->data['success'] = $this->success;
 
-        $import_data = $this->session->data['import'];
-        if(empty($import_data)) {
-            $this->session->data['error'] = $this->language->get('error_data_corrupted');
-            return $this->main();
-        }
+		//get sample row
+		if($import_data['file_type'] == 'csv') {
+			ini_set('auto_detect_line_endings', true);
+			if ($fh = fopen($import_data['file'], 'r')) {
+				$this->data['cols'] = fgetcsv($fh, 0, $import_data['delimiter']);
+				$this->data['data'] = fgetcsv($fh, 0, $import_data['delimiter']);
+			}
+		} elseif ($import_data['file_type'] == 'xml') {
+			//need to develop
 
-        if($import_data['file_type'] == 'csv'){
-            #TODO: Need to add test for the file in case of 'application/octet-stream'
-            $csv_array = $this->handler->CSV2ArrayFromFile($import_data['file'], $import_data['delimiter_id']);
-            $this->data['results'] = $this->handler->importData($csv_array, $import_data['run_mode']);
-            $this->cache->remove('*');
-        } elseif($import_data['file_type'] == 'xml'){
-            $xml_array = $this->handler->XML2ArrayFromFile($import_data['file']);
-            $this->data['results'] = $this->handler->importData($xml_array, $import_data['run_mode']);
-            $this->cache->remove('*');
-        } else{
-            $this->session->data['error'] = $this->language->get('error_file_format');
-        }
 
-        if (!$this->data['results']) {
-            $this->session->data['error'] = $this->language->get('error_data_corrupted');
-        } else {
-            $this->data['text_updated'] = $this->language->get('text_updated');
-            $this->data['count_updated'] = isset($this->data['results']['update']) ? count($this->data['results']['update']) : 0;
-            $this->data['text_created'] = $this->language->get('text_created');
-            $this->data['count_created'] = isset($this->data['results']['insert']) ? count($this->data['results']['insert']) : 0;
-            $this->data['text_errors'] = $this->language->get('text_errors');
-            $this->data['count_errors'] = isset($this->data['results']['error']) ? count($this->data['results']['error']) : 0;
-            $this->data['text_some_errors'] = $this->language->get('text_some_errors');
-            $this->data['text_loaded'] = $this->language->get('text_import_loaded');
-            $this->data['count_loaded'] = $this->data['count_updated'] + $this->data['count_created'] + $this->data['count_errors'];
-            $this->data['text_show_details'] = $this->language->get('text_show_details');
 
-            if(isset($this->data['results']['sql'])){
-                $this->data['text_test_completed'] = $this->language->get('text_test_completed');
-                $this->data['count_test_sqls'] = count($this->data['results']['sql']);
-            }
-            $this->success = $this->language->get('text_import_loaded') . '0';
-        }
+		}
 
-        //cleanup
-        @unlink($import_data['file']);
-        unset($this->session->data['import']);
+		$this->data['tables'] = $this->tables;
 
-        $this->main();
-    }
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
+		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 
-    private function _get_tables_cols() {
-        return array(
-            'products' => array(
-                'columns' => array(
-                    'products.status' => array(
-                        'title' => 'Product Status (1 or 0)',
-                        'default' => 1,
-                    ),
-                    'products.sku' => array(
-                        'title' => 'Product SKU (up to 64 chars)',
-                        'update' => true,
-                    ),
-                    'products.model' => array(
-                        'title' => 'Product Model (up to 64 chars)',
-                        'update' => true,
-                    ),
-                    'product_descriptions.name' => array(
-                        'title' => 'Product Name (up to 255 chars)',
-                        'required' => true,
-                        'update' => true,
-                    ),
-                    'product_descriptions.blurb' => array(
-                        'title' => 'Product Short Description',
-                        'default' => ''
-                    ),
-                    'product_descriptions.description' => array(
-                        'title' => 'Product Long Description',
-                        'default' => ''
-                    ),
-                    'product_descriptions.meta_keywords' => array(
-                        'title' => 'Product Long Description',
-                        'default' => ''
-                    ),
-                    'product_descriptions.meta_description' => array(
-                        'title' => 'Product Long Description',
-                        'default' => ''
-                    ),
+		$this->view->batchAssign($this->data);
 
-                )
-            ),
-            'categories' => array(
-                'columns' => array(
-                    'categories.status' => array(
-                        'title' => 'Category Status',
-                        'default' => 1,
-                    ),
-                    'categories.sort_order' => array(
-                        'title' => 'Category Sorting (Number)',
-                        'default' => 0,
-                    ),
-                    'category_descriptions.parent' => array(
-                        'title' => 'Category Parent Name',
-                        'default' => '',
-                    ),
-                    'category_descriptions.name' => array(
-                        'title' => 'Category Name',
-                        'update' => true,
-                        'required' => true,
-                    ),
-                    'category_descriptions.description' => array(
-                        'title' => 'Category Description',
-                        'default' => ''
-                    ),
-                    'category_descriptions.meta_keywords' => array(
-                        'title' => 'Category Meta Keywords',
-                        'default' => ''
-                    ),
-                    'category_descriptions.meta_description' => array(
-                        'title' => 'Category Medta Description',
-                        'default' => ''
-                    ),
-                ),
-            ),
-            'manufacturers' => array(
-                'columns' => array(
-                    'manufacturers.sort_order' => array(
-                        'title' => 'Manufacturers Sorting (Number)',
-                        'default' => 0
-                    ),
-                    'manufacturers.name' => array(
-                        'title' => 'Manufacturers Name (up to 64 chars)',
-                        'update' => true,
-                        'required' => true,
-                    ),
-                ),
-            ),
-        );
-    }
+		$this->processTemplate("pages/tool/import_wizard.tpl");
 
-    private function validateWizardRequest($post) {
-        $tbl_data = $this->_get_tables_cols();
-        if(!$post['table']
-            || !isset($tbl_data[$post['table']])
-            || empty($post[$post['table']."_fields"])
-            || !is_array($post[$post['table']."_fields"])
-        )
-        {
-            $this->error = $this->language->get('error_table_selection');
-            return false;
-        }
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+	}
 
-        foreach ($tbl_data[$post['table']]['columns'] as $id => $data ) {
-            if($data['required'] && !in_array($id, $post[$post['table']."_fields"])) {
-                $this->error = $this->language->get('error_required_selection');
-                return false;
-            }
-        }
-        return true;
-    }
+	public function import(){
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$import_data = $this->session->data['import'];
+		if(empty($import_data)) {
+			$this->session->data['error'] = $this->language->get('error_data_corrupted');
+			return $this->main();
+		}
+
+		if($import_data['file_type'] == 'csv'){
+			#TODO: Need to add test for the file in case of 'application/octet-stream'
+			$csv_array = $this->handler->CSV2ArrayFromFile($import_data['file'], $import_data['delimiter_id']);
+			$this->data['results'] = $this->handler->importData($csv_array, $import_data['run_mode']);
+			$this->cache->remove('*');
+		} elseif($import_data['file_type'] == 'xml'){
+			$xml_array = $this->handler->XML2ArrayFromFile($import_data['file']);
+			$this->data['results'] = $this->handler->importData($xml_array, $import_data['run_mode']);
+			$this->cache->remove('*');
+		} else{
+			$this->session->data['error'] = $this->language->get('error_file_format');
+		}
+
+		if (!$this->data['results']) {
+			$this->session->data['error'] = $this->language->get('error_data_corrupted');
+		} else {
+			$this->data['text_updated'] = $this->language->get('text_updated');
+			$this->data['count_updated'] = isset($this->data['results']['update']) ? count($this->data['results']['update']) : 0;
+			$this->data['text_created'] = $this->language->get('text_created');
+			$this->data['count_created'] = isset($this->data['results']['insert']) ? count($this->data['results']['insert']) : 0;
+			$this->data['text_errors'] = $this->language->get('text_errors');
+			$this->data['count_errors'] = isset($this->data['results']['error']) ? count($this->data['results']['error']) : 0;
+			$this->data['text_some_errors'] = $this->language->get('text_some_errors');
+			$this->data['text_loaded'] = $this->language->get('text_import_loaded');
+			$this->data['count_loaded'] = $this->data['count_updated'] + $this->data['count_created'] + $this->data['count_errors'];
+			$this->data['text_show_details'] = $this->language->get('text_show_details');
+
+			if(isset($this->data['results']['sql'])){
+				$this->data['text_test_completed'] = $this->language->get('text_test_completed');
+				$this->data['count_test_sqls'] = count($this->data['results']['sql']);
+			}
+			$this->success = $this->language->get('text_import_loaded') . '0';
+		}
+
+		//cleanup
+		@unlink($import_data['file']);
+		unset($this->session->data['import']);
+
+		$this->main();
+	}
+
+	private function _get_tables_cols() {
+		return array(
+			'products' => array(
+				'columns' => array(
+					'products.status' => array(
+						'title' => 'Product Status (1 or 0)',
+						'default' => 1,
+					),
+					'products.sku' => array(
+						'title' => 'Product SKU (up to 64 chars)',
+						'update' => true,
+					),
+					'products.model' => array(
+						'title' => 'Product Model (up to 64 chars)',
+						'update' => true,
+					),
+					'product_descriptions.name' => array(
+						'title' => 'Product Name (up to 255 chars)',
+						'required' => true,
+						'update' => true,
+					),
+					'product_descriptions.blurb' => array(
+						'title' => 'Product Short Description',
+						'default' => ''
+					),
+					'product_descriptions.description' => array(
+						'title' => 'Product Long Description',
+						'default' => ''
+					),
+					'product_descriptions.meta_keywords' => array(
+						'title' => 'Product Long Description',
+						'default' => ''
+					),
+					'product_descriptions.meta_description' => array(
+						'title' => 'Product Long Description',
+						'default' => ''
+					),
+
+				)
+			),
+			'categories' => array(
+				'columns' => array(
+					'categories.status' => array(
+						'title' => 'Category Status',
+						'default' => 1,
+					),
+					'categories.sort_order' => array(
+						'title' => 'Category Sorting (Number)',
+						'default' => 0,
+					),
+					'category_descriptions.parent' => array(
+						'title' => 'Category Parent Name',
+						'default' => '',
+					),
+					'category_descriptions.name' => array(
+						'title' => 'Category Name',
+						'update' => true,
+						'required' => true,
+					),
+					'category_descriptions.description' => array(
+						'title' => 'Category Description',
+						'default' => ''
+					),
+					'category_descriptions.meta_keywords' => array(
+						'title' => 'Category Meta Keywords',
+						'default' => ''
+					),
+					'category_descriptions.meta_description' => array(
+						'title' => 'Category Medta Description',
+						'default' => ''
+					),
+				),
+			),
+			'manufacturers' => array(
+				'columns' => array(
+					'manufacturers.sort_order' => array(
+						'title' => 'Manufacturers Sorting (Number)',
+						'default' => 0
+					),
+					'manufacturers.name' => array(
+						'title' => 'Manufacturers Name (up to 64 chars)',
+						'update' => true,
+						'required' => true,
+					),
+				),
+			),
+		);
+	}
+
+
 }
