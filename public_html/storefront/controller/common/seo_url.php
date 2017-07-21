@@ -28,7 +28,6 @@ class ControllerCommonSeoUrl extends AController {
 
 		if (isset($this->request->get['_route_'])) {
 			$parts = explode('/', $this->request->get['_route_']);
-
 			//Possible area for improvement. Only need to check last node in the path
 			foreach ($parts as $part) {
 				$query = $this->db->query("SELECT query
@@ -75,6 +74,15 @@ class ControllerCommonSeoUrl extends AController {
 			}
 			$this->extensions->hk_ProcessData($this,'seo_url');
 			if (isset($this->request->get['rt'])) {
+				//build canonical seo-url
+				if(sizeof($parts)>1){
+					$this->document->addLink(
+						array(
+								'href' => (HTTPS === true ? HTTPS_SERVER : HTTP_SERVER) . end($parts),
+								'rel'  => 'canonical'
+						)
+					);
+				}
 				$rt = $this->request->get['rt'];
 				//remove pages prefix from rt for use in new generated urls
 				if(substr($this->request->get['rt'],0,6) == 'pages/'){

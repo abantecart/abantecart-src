@@ -166,10 +166,6 @@ class ControllerPagesProductProduct extends AController{
 		$this->document->setTitle($product_info['name']);
 		$this->document->setKeywords($product_info['meta_keywords']);
 		$this->document->setDescription($product_info['meta_description']);
-		$this->document->addLink(array(
-				'href' => $this->html->getSEOURL('product/product', '&product_id=' . $product_id, '&encode'),
-				'rel'  => 'canonical'
-		));
 
 		$this->data['heading_title'] = $product_info['name'];
 		$this->data['minimum'] = $product_info['minimum'];
