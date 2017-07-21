@@ -525,7 +525,7 @@ h1 a:hover, h2 a:hover, h3  a:hover {
 
 .gen-list li .name {
 	font-size: 13px;
-   font-family: 'LatoBold','Lucida Grande', 'Lucida Sans Unicode', Helvetica, sans-serif;
+   font-family: 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, sans-serif;
    line-height: 21px;
    display: block;
 }
@@ -998,7 +998,6 @@ form .form-group:last-child {
 	font-size: 13px;
 	text-transform: uppercase;
 	color: #333;
-	font-family: 'LatoBold';
 	margin-bottom: 15px;
 	margin-top: 0;
 }
@@ -1994,7 +1993,7 @@ a.resource_edit .img-responsive{
    text-transform: uppercase;
    font-size: 12px;
    color: #666;
-   font-family: 'LatoBold', sans-serif;
+   font-family: sans-serif;
 }
 
 .headerbar .topnav > ul > li > a:hover,
@@ -2190,7 +2189,6 @@ a.resource_edit .img-responsive{
     font-size: 12px;
     color: #333;
     text-transform: uppercase;
-    font-family: 'LatoBold';
 }
 
 .media-details .table {
