@@ -499,15 +499,18 @@ class AIMManager extends AIM{
 		}
 
 		$sql = "SELECT *
-				FROM " . $this->db->table('user_notifications') . "
-				WHERE user_id=" . $user_id . "
-					AND store_id = '" . $store_id . "'
-					AND sendpoint = '" . $this->db->escape($sendpoint) . "'";
+				FROM " . $this->db->table('user_notifications') . " un
+				LEFT JOIN " . $this->db->table('users') . " u
+					ON u.user_id = un.user_id
+				WHERE u.status = 1
+					AND un.user_id=" . $user_id . "
+					AND un.store_id = '" . $store_id . "'
+					AND un.sendpoint = '" . $this->db->escape($sendpoint) . "'";
 		if ($section != ''){
-			$sql .= " AND section = '" . ($section == 'admin' ? 1 : 0) . "'";
+			$sql .= " AND un.section = '" . ($section == 'admin' ? 1 : 0) . "'";
 		}
 
-		$sql .= "ORDER BY `protocol`";
+		$sql .= "ORDER BY un.protocol";
 		$result = $this->db->query($sql);
 
 		$output = array ();
