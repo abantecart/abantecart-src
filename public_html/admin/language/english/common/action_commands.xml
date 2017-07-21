@@ -2,7 +2,7 @@
 <definitions>
     <definition>
         <key>text_possible_commands</key>
-        <value><![CDATA[Bellow are possible Commands. You can speek more details after command keyword. Example, "open page messages" or "insert product"]]></value>
+        <value><![CDATA[Bellow are possible Commands. You can speak more details after command keyword. Example, "open page messages" or "insert product"]]></value>
     </definition>
     <definition>
         <key>text_multiple_result_found</key>
@@ -12,47 +12,38 @@
         <key>text_action_confirm</key>
         <value><![CDATA[Please confirm your request:]]></value>
     </definition>
-
     <definition>
         <key>command_open</key>
-        <value><![CDATA[open,open page, open menu]]></value>
+        <value><![CDATA[open, open page, open menu]]></value>
     </definition>
-
     <definition>
         <key>command_find</key>
         <value><![CDATA[locate, find, search, search for, search 4]]></value>
     </definition>
-
     <definition>
         <key>command_clear_cache</key>
         <value><![CDATA[clear cache, cache clear, clear all cache]]></value>
     </definition>
-
     <definition>
         <key>command_view_log</key>
         <value><![CDATA[view log, log view, inspect log, see log, view error log, view errors]]></value>
     </definition>
-
     <definition>
         <key>command_clear_log</key>
         <value><![CDATA[clear log, log clear, delete log, log delete]]></value>
     </definition>
-
     <definition>
         <key>command_view_order</key>
         <value><![CDATA[view order, order number, open order, show order, open order number, view order number, show order number, order #]]></value>
     </definition>
-
     <definition>
         <key>command_view_product</key>
         <value><![CDATA[view product, product number, open product, show product, open product number, view product number, show product number, product #]]></value>
     </definition>
-
     <definition>
         <key>command_create_new</key>
-        <value><![CDATA[insert, create, add, new, insert new,create new, add new]]></value>
+        <value><![CDATA[insert, create, add, new, insert new, create new, add new]]></value>
     </definition>
-
     <definition>
         <key>category</key>
         <value><![CDATA[category]]></value>
@@ -133,5 +124,4 @@
         <key>tax</key>
         <value><![CDATA[tax]]></value>
     </definition>
-
 </definitions>
