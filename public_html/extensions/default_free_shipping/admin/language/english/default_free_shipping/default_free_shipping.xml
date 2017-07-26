@@ -14,7 +14,7 @@
   </definition>
   <definition>
     <key>default_free_shipping_total</key>
-    <value><![CDATA[Total:<br /><span class="help">Sub-Total amount needed before the free shipping module becomes available.</span>]]></value>
+    <value><![CDATA[Total:<br /><span class="help">Sub-Total amount needed before the free shipping module becomes available. Without currency symbol.</span>]]></value>
   </definition>
   <definition>
     <key>default_free_shipping_location_id</key>
