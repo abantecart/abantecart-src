@@ -501,17 +501,17 @@ class ATaskManager{
 				FROM " . $this->db->table('task_details') . "
 				WHERE task_id = " . $task_id;
 		$result = $this->db->query($sql);
-		if ($result->num_rows){
+		if ($result->num_rows) {
 			foreach ($result->row as $k => $ov){
 				if (!has_value($data[$k])){
 					$data[$k] = $ov;
 				}
 			}
 			$sql = "UPDATE " . $this->db->table('task_details') . "
-					SET created_by = '" . $this->db->escape($data['created_by']) . "',
-						settings = '" . $this->db->escape($data['settings']) . "'
+					SET settings = '" . $this->db->escape($data['settings']) . "'
 					WHERE task_id = " . $task_id;
-		} else{
+		} else {
+            $data['created_by'] = isset($data['created_by']) ? $data['created_by'] : 1;
 			$sql = "INSERT INTO " . $this->db->table('task_details') . "
 					(task_id, created_by, settings, date_modified)
 					 VALUES (   '" . $task_id . "',

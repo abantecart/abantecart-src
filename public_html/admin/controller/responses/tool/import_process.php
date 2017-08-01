@@ -33,36 +33,44 @@ class ControllerResponsesToolImportProcess extends AController {
 	public $data = array();
 	public $errors = array();
 
-	public function buildTask(){
+    public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
+        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+
+        $this->loadLanguage('tool/import_export');
+    }
+
+    public function buildTask(){
 		$this->data['output'] = array();
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-		if ($this->request->is_POST() && $this->_validate($this->request->post)) {
+		if ($this->request->is_POST() && $this->_validate()) {
+            $imp_data = array_merge($this->session->data['import_map'], $this->session->data['import']);
+
 			$this->loadModel('tool/import_process');
-			$task_details = $this->model_tool_import_process->createTask('import_wizard_'.date('Ymd-H:i:s'), $this->request->post);
+			$task_details = $this->model_tool_import_process->createTask('import_wizard_'.date('Ymd-H:i:s'), $imp_data);
 			$task_api_key = $this->config->get('task_api_key');
 
-			if(!$task_details){
+			if (!$task_details) {
 				$this->errors = array_merge($this->errors,$this->model_tool_import_process->errors);
 				$error = new AError("File Import Error: \n ".implode(' ', $this->errors));
 				return $error->toJSONResponse('APP_ERROR_402',
 										array( 'error_text' => implode(' ', $this->errors),
 												'reset_value' => true
 										));
-			}elseif(!$task_api_key){
+			} elseif (!$task_api_key){
 				$error = new AError('files import error');
 				return $error->toJSONResponse('APP_ERROR_402',
 										array( 'error_text' => 'Please set up Task API Key in the settings!',
 											   'reset_value' => true
 										));
-			}else{
+			} else {
 				$task_details['task_api_key'] = $task_api_key;
 				$task_details['url'] = HTTPS_SERVER.'task.php';
 				$this->data['output']['task_details'] = $task_details;
 			}
 
-		}else{
+		} else {
 			$error = new AError(implode('<br>', $this->errors));
 			return $error->toJSONResponse('VALIDATION_ERROR_406',
 									array( 'error_text' => implode('<br>', $this->errors),
@@ -84,7 +92,7 @@ class ControllerResponsesToolImportProcess extends AController {
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$task_id = (int)$this->request->post['task_id'];
-		if(!$task_id){
+		if (!$task_id) {
 			return null;
 		}
 
@@ -92,10 +100,10 @@ class ControllerResponsesToolImportProcess extends AController {
 		$tm = new ATaskManager();
 		$task_info = $tm->getTaskById($task_id);
 		$task_result = $task_info['last_result'];
-		if($task_result){
+		if ($task_result) {
 			$tm->deleteTask($task_id);
 			$result_text = sprintf($this->language->get('text_success_import'),$task_info['settings']['processed']);
-		}else{
+		} else {
 			$result_text = $this->language->get('text_task_failed');
 		}
 
@@ -109,44 +117,6 @@ class ControllerResponsesToolImportProcess extends AController {
 													'result_text' => $result_text ))
 		);
 	}
-
-	public function abort(){
-		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
-
-		$task_id = (int)$this->request->post['task_id'];
-		if(!$task_id){
-			return null;
-		}
-
-		//check task result
-		$tm = new ATaskManager();
-		$task_info = $tm->getTaskById($task_id);
-
-		if($task_info){
-			$tm->deleteTask($task_id);
-			$result_text = $this->language->get('text_success_abort');
-		}else{
-			$error_text = 'Task #'.$task_id.' not found!';
-			$error = new AError($error_text);
-			return $error->toJSONResponse('APP_ERROR_402',
-						array( 'error_text' => $error_text,
-								'reset_value' => true
-						));
-		}
-
-
-		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-
-		$this->load->library('json');
-		$this->response->addJSONHeader();
-		$this->response->setOutput( AJson::encode(array(
-													'result' => true,
-													'result_text' => $result_text ))
-		);
-	}
-
 
 	public function restartTask(){
 		$this->data['output'] = array();
@@ -170,7 +140,7 @@ class ControllerResponsesToolImportProcess extends AController {
 			}
 
 			$task_details = $tm->getTaskById($task_id);
-			if(!$task_details || !$task_details['steps']){
+			if (!$task_details || !$task_details['steps']) {
 				//remove task when it does not contain steps
 				if(!$task_details['steps']){
 					$tm->deleteTask($task_id);
@@ -181,13 +151,13 @@ class ControllerResponsesToolImportProcess extends AController {
 										array( 'error_text' => $error_text,
 												'reset_value' => true
 										));
-			}elseif(!$task_api_key){
+			} elseif (!$task_api_key) {
 				$error = new AError('files backup error');
 				return $error->toJSONResponse('APP_ERROR_402',
 										array( 'error_text' => 'Please set up Task API Key in the settings!',
 											   'reset_value' => true
 										));
-			}else{
+			} else {
 				$task_details['task_api_key'] = $task_api_key;
 				$task_details['url'] = HTTPS_SERVER . 'task.php';
 				//change task status
@@ -195,13 +165,13 @@ class ControllerResponsesToolImportProcess extends AController {
 				$tm->updateTask($task_id, array('status' => $tm::STATUS_READY));
 			}
 
-			foreach ($etas as $step_id => $eta){
+			foreach ($etas as $step_id => $eta) {
 				$task_details['steps'][$step_id]['eta'] = $eta;
 			}
 
 			$this->data['output']['task_details'] = $task_details;
 
-		}else{
+		} else {
 			$error = new AError(implode('<br>', $this->errors));
 			return $error->toJSONResponse('VALIDATION_ERROR_406',
 									array( 'error_text' => 'Unknown task ID.',
@@ -242,12 +212,12 @@ class ControllerResponsesToolImportProcess extends AController {
 			}
 			//define incomplete tasks by last time run
 			$max_exec_time = (int)$incm_task['max_execution_time'];
-			if(!$max_exec_time){
+			if (!$max_exec_time) {
 				//if no limitations for execution time for task - think it's 2 hours
 				//$max_exec_time = 7200;
 				$max_exec_time = 7200;
 			}
-			if( time() - dateISO2Int($incm_task['last_time_run']) > $max_exec_time ){
+			if (time() - dateISO2Int($incm_task['last_time_run']) > $max_exec_time ) {
 
 				//get some info about task, for ex message-text and subject
 				$steps = $tm->getTaskSteps($incm_task['task_id']);
@@ -284,111 +254,19 @@ class ControllerResponsesToolImportProcess extends AController {
 
 	}
 
-	private function _validate($post) {
-return true;
+
+	private function _validate() {
 		if (!$this->user->canModify('sale/contact')) {
 			$this->errors['warning'] = $this->language->get('error_permission');
-		}
-		$tbl_data = $this->_get_tables_cols();
-		if(!$post['table']
-			|| !isset($tbl_data[$post['table']])
-			|| empty($post[$post['table']."_fields"])
-			|| !is_array($post[$post['table']."_fields"])
-		)
-		{
-			$this->errors = $this->language->get('error_table_selection');
-			return false;
+            return false;
 		}
 
-		foreach ($tbl_data[$post['table']]['columns'] as $id => $data ) {
-			if($data['required'] && !in_array($id, $post[$post['table']."_fields"])) {
-				$this->errors = $this->language->get('error_required_selection');
-				return false;
-			}
-		}
+        if (!$this->session->data['import_map'] || !$this->session->data['import']) {
+            $this->errors['warning'] = $this->language->get('error_data_corrupted');
+            return false;
+        }
+
 		return true;
 	}
-
-	public function getRecipientsCount(){
-		$this->loadModel('sale/customer');
-		$this->loadModel('sale/order');
-
-		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
-
-		$recipient = $this->request->post['recipient'];
-		$protocol = $this->request->post['protocol'];
-
-		$db_filter = array('status' => 1, 'approved' => 1);
-		if($protocol == 'sms'){
-			$db_filter['filter']['only_with_mobile_phones'] = 1;
-		}
-
-		$newsletter_db_filter = $db_filter;
-		$newsletter_db_filter['filter']['newsletter_protocol'] = $protocol;
-
-		$count = 0;
-		$emails = array ();
-
-		switch($recipient){
-			case 'all_subscribers':
-				$count = $this->model_sale_customer->getTotalAllSubscribers($newsletter_db_filter);
-				break;
-			case 'only_subscribers':
-				$count = $this->model_sale_customer->getTotalOnlyNewsletterSubscribers($newsletter_db_filter);
-				break;
-			case 'only_customers':
-				$count = $this->model_sale_customer->getTotalOnlyCustomers($db_filter);
-				break;
-			case 'ordered':
-				$products = $this->request->post['products'];
-				if (is_array($products)){
-					foreach ($products as $product_id){
-						$results = $this->model_sale_customer->getCustomersByProduct($product_id);
-						foreach ($results as $result){
-							$emails[] = trim($result[$protocol]);
-						}
-						//for guests
-						$results = $this->model_sale_order->getGuestOrdersWithProduct($product_id);
-						foreach ($results as $result){
-							if($protocol == 'email'){
-								$emails[] = trim($result[$protocol]);
-							}elseif($protocol == 'sms'){
-								$order_id = (int)$result['order_id'];
-								if (!$order_id){
-									continue;
-								}
-								$uri = $this->im->getCustomerURI('sms', 0, $order_id);
-								if ($uri){
-									$emails[] = $uri;
-								}
-							}
-						}
-					}
-				}
-				$count = sizeof(array_unique($emails));
-				break;
-		}
-
-		if($count){
-			$text = sprintf($this->language->get('text_attention_recipients_count'), $count);
-		}else{
-			$text = $this->language->get('error_'.$protocol.'_no_recipients');
-		}
-
-		$this->data['output'] = array(
-				'count' => (int)$count,
-				'text'  => $text
-		);
-
-
-		//update controller data
-    	$this->extensions->hk_UpdateData($this,__FUNCTION__);
-
-		$this->load->library('json');
-		$this->response->addJSONHeader();
-		$this->response->setOutput( AJson::encode($this->data['output']) );
-	}
-
 
 }

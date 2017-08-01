@@ -41,7 +41,8 @@ class ControllerPagesToolImportExport extends AController{
 			$this->tabs = array_merge(array('import_wizard'), $this->tabs);
 		}
 		$this->handler = new AData();
-		$this->tables = $this->_get_tables_cols();
+        $this->loadModel('tool/import_process');
+        $this->tables = $this->model_tool_import_process->importTableCols();
 	}
 
 	public function main(){
@@ -309,17 +310,22 @@ class ControllerPagesToolImportExport extends AController{
 		}
 
 		$this->handler = new AData();
+        $this->data['map'] = $this->request->post ? $this->request->post : $this->session->data['import_map'];
+		if($this->request->is_POST() && $this->validateWizardRequest($this->data['map'])){
+			//all good get count and confirm the import
+            $this->session->data['import_map'] = $this->data['map'];
+            $this->data['request_count'] = (int)$import_data['request_count'];
+            $this->data['import_ready'] = true;
 
-		$this->data['post'] = $this->request->post;
-		if($this->request->is_POST() && $this->validateWizardRequest($this->data['post'])){
-			//all good to load import task
+            //urls for creating and running task
+            $this->data['form']['build_task_url'] = $this->html->getSecureURL('r/tool/import_process/buildTask');
+            $this->data['form']['complete_task_url'] = $this->html->getSecureURL('r/tool/import_process/complete');
+            $this->data['form']['abort_task_url'] = $this->html->getSecureURL('r/tool/import_process/abort');
+            $this->data['back_url'] = $this->html->getSecureURL('tool/import_export/import_wizard');
 
-
-
-
-//exit;
-		}
-
+		} else if($this->data['map'] && $this->validateWizardRequest($this->data['map']) ) {
+            $this->data['import_ready'] = false;
+        }
 
 		$this->loadLanguage('tool/import_export');
 		$this->document->setTitle($this->language->get('import_wizard_title'));
@@ -369,10 +375,6 @@ class ControllerPagesToolImportExport extends AController{
 			'text'  => $this->language->get('button_cancel'),
 			'style' => 'button2',
 		));
-		//urls for creating and running task
-		$this->data['form']['build_task_url'] = $this->html->getSecureURL('r/tool/import_process/buildTask');
-		$this->data['form']['complete_task_url'] = $this->html->getSecureURL('r/tool/import_process/complete');
-		$this->data['form']['abort_task_url'] = $this->html->getSecureURL('r/tool/import_process/abort');
 
 		$this->view->assign('help_url', $this->gen_help_url($this->data['active']));
 
@@ -391,11 +393,8 @@ class ControllerPagesToolImportExport extends AController{
 				$this->data['cols'] = fgetcsv($fh, 0, $import_data['delimiter']);
 				$this->data['data'] = fgetcsv($fh, 0, $import_data['delimiter']);
 			}
-		} elseif ($import_data['file_type'] == 'xml') {
-			//need to develop
-
-
-
+		} else {
+			//unsupported type
 		}
 
 		$this->data['tables'] = $this->tables;
@@ -462,94 +461,23 @@ class ControllerPagesToolImportExport extends AController{
 		$this->main();
 	}
 
-	private function _get_tables_cols() {
-		return array(
-			'products' => array(
-				'columns' => array(
-					'products.status' => array(
-						'title' => 'Product Status (1 or 0)',
-						'default' => 1,
-					),
-					'products.sku' => array(
-						'title' => 'Product SKU (up to 64 chars)',
-						'update' => true,
-					),
-					'products.model' => array(
-						'title' => 'Product Model (up to 64 chars)',
-						'update' => true,
-					),
-					'product_descriptions.name' => array(
-						'title' => 'Product Name (up to 255 chars)',
-						'required' => true,
-						'update' => true,
-					),
-					'product_descriptions.blurb' => array(
-						'title' => 'Product Short Description',
-						'default' => ''
-					),
-					'product_descriptions.description' => array(
-						'title' => 'Product Long Description',
-						'default' => ''
-					),
-					'product_descriptions.meta_keywords' => array(
-						'title' => 'Product Long Description',
-						'default' => ''
-					),
-					'product_descriptions.meta_description' => array(
-						'title' => 'Product Long Description',
-						'default' => ''
-					),
+    private function validateWizardRequest($post) {
+        if(!$post['table']
+            || !isset($this->tables[$post['table']])
+            || empty($post[$post['table']."_fields"])
+            || !is_array($post[$post['table']."_fields"])
+        )
+        {
+            $this->error = $this->language->get('error_table_selection');
+            return false;
+        }
 
-				)
-			),
-			'categories' => array(
-				'columns' => array(
-					'categories.status' => array(
-						'title' => 'Category Status',
-						'default' => 1,
-					),
-					'categories.sort_order' => array(
-						'title' => 'Category Sorting (Number)',
-						'default' => 0,
-					),
-					'category_descriptions.parent' => array(
-						'title' => 'Category Parent Name',
-						'default' => '',
-					),
-					'category_descriptions.name' => array(
-						'title' => 'Category Name',
-						'update' => true,
-						'required' => true,
-					),
-					'category_descriptions.description' => array(
-						'title' => 'Category Description',
-						'default' => ''
-					),
-					'category_descriptions.meta_keywords' => array(
-						'title' => 'Category Meta Keywords',
-						'default' => ''
-					),
-					'category_descriptions.meta_description' => array(
-						'title' => 'Category Medta Description',
-						'default' => ''
-					),
-				),
-			),
-			'manufacturers' => array(
-				'columns' => array(
-					'manufacturers.sort_order' => array(
-						'title' => 'Manufacturers Sorting (Number)',
-						'default' => 0
-					),
-					'manufacturers.name' => array(
-						'title' => 'Manufacturers Name (up to 64 chars)',
-						'update' => true,
-						'required' => true,
-					),
-				),
-			),
-		);
-	}
-
-
+        foreach ($this->tables[$post['table']]['columns'] as $id => $data ) {
+            if($data['required'] && !in_array($id, $post[$post['table']."_fields"])) {
+                $this->error = sprintf($this->language->get('error_required_selection'), $id);
+                return false;
+            }
+        }
+        return true;
+    }
 }

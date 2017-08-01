@@ -24,8 +24,9 @@ if (!defined('DIR_CORE') || !IS_ADMIN){
 class ControllerTaskToolImportProcess extends AController{
 	public $data = array();
 	private $processed_count = 0;
+
 	public function processRows(){
-		list($task_id,$step_id,) = func_get_args();
+		list($task_id, $step_id, $details) = func_get_args();
 		$this->load->library('json');
 		//for aborting process
 		ignore_user_abort(false);
@@ -34,9 +35,8 @@ class ControllerTaskToolImportProcess extends AController{
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-
 		$this->processed_count = 0;
-		$result = $this->_process($task_id,$step_id);
+		$result = $this->_process($task_id, $step_id);
 		if(!$this->processed_count){
 			$result = false;
 		}
@@ -47,12 +47,11 @@ class ControllerTaskToolImportProcess extends AController{
 		if($result){
 			$output['message'] = $this->processed_count . ' rows processed.';
 		}else{
-			$output['error_text'] = $this->processed_count . ' rows processed.';
+			$output['error_text'] = $this->processed_count . ' rows processed with error.';
 		}
 
 		$this->response->setOutput(AJson::encode( $output ));
 	}
-
 
 	private function _process($task_id, $step_id){
 
@@ -63,85 +62,94 @@ class ControllerTaskToolImportProcess extends AController{
 
 		$tm = new ATaskManager();
 		$task_info = $tm->getTaskById($task_id);
-		$processed = (int)$task_info['settings']['processed'];
-		$task_steps = $tm->getTaskSteps($task_id);
-		$step_info = array();
-		foreach($task_steps as $task_step){
-			if($task_step['step_id'] == $step_id){
-				$step_info = $task_step;
-				if($task_step['sort_order']==1){
-					$tm->updateTask($task_id, array('last_time_run' => date('Y-m-d H:i:s')));
-				}
-				break;
-			}
-		}
+        //get setting with import details
+        $import_details = $task_info['settings']['import_data'];
+        $processed = (int)$task_info['settings']['processed'];
+        $step_info = $tm->getTaskStep($task_id, $step_id);
+        if(!$step_info['settings'] ){
+            $error_text = "Cannot run task #{$task_id} step #{$step_id}. Can not locate settings for the step.";
+            $this->_return_error($error_text);
+        }
+        //record the start
+        $tm->updateStep($step_id, array('last_time_run' => date('Y-m-d H:i:s')));
 
-		if(!$step_info){
-			$error_text = 'Cannot run task step. Looks like task #'.$task_id.' does not contain step #'.$step_id;
-			$this->_return_error($error_text);
-		}
+        $return = array();
+        $start = $step_info['start'];
+        $stop = $step_info['stop'];
+        $filename = $import_details['file'];
+        $type = $import_details['table'];
+        $delimeter = $import_details['delimiter'];
 
-		$tm->updateStep($step_id, array('last_time_run' => date('Y-m-d H:i:s')));
+        $step_result = false;
+        //read records from source file
+        $records = $this->readFileSeek($filename, $start, ($stop-$start));
+        if(count($records)) {
+            //process column names
+            $columns = str_getcsv($records[0], $delimeter, '"');
+            //skip header and process each record
+            array_shift($records);
+            $this->loadModel('tool/import_process');
+            foreach ($records as $index => $row) {
+                $vals = array();
+                $rowData = str_getcsv($row, $delimeter, '"');
+                //check if we match row data count to header
+                if (count($rowData) != count($columns)) {
+                    //incomplete row. Exit
+                    $return[] = "Error: incomplete data in row number: {$index} with: {$rowData[0]}";
+                    continue;
+                }
+                for ($i = 0; $i < count($columns); $i++) {
+                    $vals[$columns[$i]] = $rowData[$i];
+                }
+                //main driver to process data and import
+                $method = "process_{$type}_record";
+                $result = $this->model_tool_import_process->$method($task_id, $vals, $import_details);
+                if ($result) {
+                    $this->processed_count++;
+                }
+            }
+            $tm->updateTaskDetails($task_id,
+                array(
+                    'settings'   => array(
+                        'step_id'           => $step_id,
+                        'total_rows_count'  => $task_info['settings']['total_rows_count'],
+                        'processed'         => $this->processed_count
+                    )
+                )
+            );
+            $step_result = true;
+            $tm->updateStep($step_id, array('last_result' => $step_result));
+            //all done, clear cache
+            $this->cache->remove('*');
+        }
 
-		if(!$step_info['settings'] ){
-			$error_text = 'Cannot run task step #'.$step_id.'. Unknown settings for it.';
-			$this->_return_error($error_text);
-		}
-
-		$step_settings =  $step_info['settings'];
-		$cnt = 0;
-		$step_result = true;
-
-		//get rows for process
-		$rows = array();/// get file rows base on $step_settings['rows_count'] and $step_settings['rows_from']
-
-		//remove step if no rows
-		/*if(!$rows){
-			$tm->deleteStep($step_id);
-			if(sizeof($task_steps)==1){
-				$tm->deleteTask($task_id);
-			}
-			return true;
-		}*/
-		foreach($rows as $row){
-			// do something with rows here
-			$result = $this->_do_row($row);
-
-			if($result){
-				$this->processed_count ++;
-
-				//update task details to show them at the end
-				$processed++;
-				$tm->updateTaskDetails($task_id,
-						array(
-								//set 1 as "admin"
-								'created_by' => 1,
-								'settings'   => array(
-													'total_rows_count' => $task_info['settings']['total_rows_count'],
-													'processed'        => $processed
-													)
-				));
-			}else{
-				$step_result = false;
-			}
-			$cnt++;
-		}
-
-		$tm->updateStep($step_id, array('last_result' => $step_result));
-
-		if(!$step_result){
-			$this->_return_error('Some errors during step run.');
-		}
-		return $step_result;
+        return $step_result;
 	}
 
-	//process one row of file
-	protected function _do_row($row){
+    protected function readFileSeek($source, $linenum = 1, $range = 1){
+        $buffer = array();
+        $fh = fopen($source, 'r');
+        $lineNo = 0;
+        $startLine = $linenum;
+        $endLine = $linenum + $range;
+        while ($line = fgets($fh)) {
+            //always return first line with header
+            if($lineNo++ == 0) {
+                $buffer[] = $line;
+                continue;
+            }
 
+            if ($lineNo >= $startLine) {
+                $buffer[] = $line;
+            }
+            if ($lineNo == $endLine) {
+                break;
+            }
+        }
+        fclose($fh);
+        return $buffer;
+    }
 
-
-		return true;
-}
 	private function _return_error($error_text){
 		$error = new AError($error_text);
 		$error->toLog()->toDebug();
@@ -150,6 +158,5 @@ class ControllerTaskToolImportProcess extends AController{
 				       'reset_value' => true
 				));
 	}
-
 
 }

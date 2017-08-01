@@ -53,6 +53,10 @@
 
 		<p><br /><?php echo $text_import_wizard_notes; ?> <br /><br /></p>
 
+		<?php if ( $import_ready ) { ?>
+		<div class="alert alert-info"><?php echo sprintf($text_records_to_be_loaded, $request_count); ?></div>
+		<?php } ?>
+
 		<table class="table table-striped table-bordered import-table">
 			<thead>
 				<td class="col-md-3"><b><?php echo $text_import_file_col; ?></b></td>
@@ -60,12 +64,12 @@
 				<td class="col-md-4">
 					<div class="form-group">
 						<div class="input-group">
-							<select class="form-control" name="table">
-								<option name=""><?php echo $text_destination_col; ?></option>
+							<select class="form-control" name="table" <?php if($import_ready) echo " disabled "; ?>>
+								<option value=""><?php echo $text_destination_col; ?></option>
 								<?php
 								foreach($tables as $tname => $tcols) {
 								?>
-								<option value="<?php echo $tname ?>" <?php if($tname == $post['table']) echo "selected"; ?>>
+								<option value="<?php echo $tname ?>" <?php if($tname == $map['table']) echo " selected "; ?>>
 								&nbsp;&nbsp;<?php echo $tname ?>
 								</option>
 								<?php
@@ -92,17 +96,23 @@
 						<div class="form-group">
 							<div class="input-group">
 								<select class="form-control" name="<?php echo $table_name; ?>_fields[<?php echo $i ?>]"  disabled="disabled">
-									<option name=""> - - </option>
+									<option value=""> - - </option>
 									<?php
 									foreach($tbl_data["columns"] as $cname => $det) {
 										$selected = '';
-										if($cname == $post[$table_name."_fields"][$i]) {
+										if($cname == $map[$table_name."_fields"][$i]) {
 											$selected = 'selected';
 										}
-										echo "<option value=\"$cname\" data-update=\"{$det["update"]}\" $selected>{$det["title"]}</option>";
+										echo "<option value=\"$cname\" data-split=\"{$det["split"]}\" data-update=\"{$det["update"]}\" $selected>{$det["title"]}</option>";
 									}
 									?>
 								</select>
+							</div>
+						</div>
+						<div class="form-group field_splitter hidden">
+							<div class="input-group">
+								<label class="control-label"><?php echo $text_import_split; ?></label>
+								<input type="text" size="5" name="split_col[<?php echo $i ?>]" value="<?php echo $map['split_col'][$i]; ?>"  disabled="disabled">
 							</div>
 						</div>
 					</div>
@@ -111,7 +121,7 @@
 				<td class="col-md-2 update-field">
 					<div class="form-group field_updater hidden">
 						<div class="input-group">
-							<input type="checkbox" name="update_col[<?php echo $i ?>]" <?php if($post['update_col'][$i]) { echo 'checked="checked"'; } ?>>
+							<input type="checkbox" name="update_col[<?php echo $i ?>]" <?php if($map['update_col'][$i]) { echo 'checked="checked"'; } ?>>
 						</div>
 					</div>
 				</td>
@@ -125,15 +135,26 @@
 
 	<div class="panel-footer col-xs-12">
 		<div class="text-center">
+			<?php if($import_ready) { ?>
 			<button class="btn btn-primary task_run"
 					data-run-task-url="<?php echo $form['build_task_url'] ?>"
 					data-complete-task-url="<?php echo $form['complete_task_url'] ?>"
-					data-abort-task-url="<?php echo $form['abort_task_url'] ?>">
+					data-abort-task-url="<?php echo $form['abort_task_url'] ?>"
+                    data-task-title="<?php echo $text_import_task_title ?>">
+				<i class="fa fa-paper-plane-o"></i> <?php echo $text_load; ?>
+			</button>
+			<a href="<?php echo $back_url; ?>" class="btn btn-default" title="<?php echo $button_back; ?>">
+				<i class="fa fa-arrow-left"></i>
+				<?php echo $button_back ?>
+			</a>
+			<?php } else { ?>
+			<button class="btn btn-primary lock-on-click"
 				<i class="fa fa-paper-plane-o"></i> <?php echo $form['submit']->text; ?>
 			</button>
 			<button class="btn btn-default" type="reset">
 				<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
 			</button>
+			<?php } ?>
 		</div>
 	</div>
 
@@ -160,13 +181,18 @@
 	<?php foreach ($tables as $table_name => $tbl_data) { ?>
 	$('select[name^=\'<?php echo $table_name; ?>_fields\']').change(function () {
 		var $elm = $(this);
-		updateCheckbox($elm);
+		updateFields($elm);
 	});
 	<?php } ?>
 
+    //allow only one update by field
+    $(".field_updater input:checkbox").on('click', function() {
+        $(".field_updater input:checkbox").not(this).prop('checked', false);
+    });
+
 	$('#show_results').click(function () {
 		$('#test_results').slideToggle();
-	})
+	});
 
 	$('#show_errors').click(function () {
 		$('#error_results').slideToggle();
@@ -178,24 +204,44 @@
 		}
 		//first remove all others.
 		$('.table-field .field_selector').addClass('hidden');
-		$('.table-field .field_selector').attr('disabled','disabled');
 		$('.update-field .field_updater').addClass('hidden');
+		$('.table-field input').attr('disabled','disabled');
 		//now show selected table
 		$('.table-field .' + table_name + '_field').removeClass('hidden');
 		//check update
 		$('.table-field .' + table_name + '_field select').each( function () {
 			$elm = $(this);
+			<?php if(!$import_ready) { ?>
 			$elm.removeAttr('disabled');
-			updateCheckbox($elm);
+			<?php } ?>
+			updateFields($elm);
 		});
 	};
 
-	var updateCheckbox = function ($elm) {
+	var updateFields = function ($elm) {
 		$selected = $elm.find("option:selected");
+		var $update = $elm.closest('tr').find('.update-field');
 		if($selected.data('update')){
-			var $update = $elm.closest('tr').find('.update-field');
 			$update.find('.field_updater').removeClass('hidden');
+			<?php if($import_ready) { ?>
+				$update.find('.field_updater input').attr("disabled", true);
+			<?php } ?>
+
+		} else {
+			$update.find('.field_updater').addClass('hidden');
+			$update.find('.field_updater input').removeAttr('checked');
+		}
+		var $split = $elm.parents('.field_selector').find('.field_splitter');
+		if($selected.data('split') == '1'){
+			<?php if(!$import_ready) { ?>
+				$split.find('input').removeAttr('disabled');
+			<?php } ?>
+			$split.removeClass('hidden');
+		} else {
+			<?php if(!$import_ready) { ?>
+				$split.find('input').attr("disabled", true);
+			<?php } ?>
+			$split.addClass('hidden');
 		}
 	};
-
 </script>

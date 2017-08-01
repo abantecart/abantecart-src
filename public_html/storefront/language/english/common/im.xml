@@ -26,7 +26,7 @@
 	</definition>
 	<definition>
 		<key>im_sendpoint_name_order_update_note</key>
-		<value><![CDATA[ Select if like to receive notifications about your orders' updates.]]></value>
+		<value><![CDATA[ Select to receive notifications about your orders' updates.]]></value>
 	</definition>
 	<definition>
 		<key>im_order_update_text_to_admin</key>
@@ -54,7 +54,7 @@
 	</definition>
 	<definition>
 		<key>im_sendpoint_name_customer_account_update_note</key>
-		<value><![CDATA[ Select if like to receive notifications about your account updates.]]></value>
+		<value><![CDATA[ Select to receive notifications about your account updates.]]></value>
 	</definition>
 	<definition>
 		<key>im_customer_account_update_text_to_customer</key>
@@ -82,7 +82,7 @@
 	</definition>
 	<definition>
 		<key>im_sendpoint_name_newsletter_note</key>
-		<value><![CDATA[ Select if like to receive notifications about our products and service updates.]]></value>
+		<value><![CDATA[ Select to receive notifications about our products and service updates.]]></value>
 	</definition>
 	<definition>
 		<key>im_product_review_text_to_admin</key>

@@ -674,10 +674,14 @@ var defaultTaskMessages = {
 
 
 $(document).on('click', ".task_run", function () {
-	task_fail = false;
-	run_task_url = $(this).attr('data-run-task-url');
-	complete_task_url = $(this).attr('data-complete-task-url');
-	abort_task_url = $(this).attr('data-abort-task-url');
+	var task_fail = false;
+	var run_task_url = $(this).attr('data-run-task-url');
+	var complete_task_url = $(this).attr('data-complete-task-url');
+	var abort_task_url = $(this).attr('data-abort-task-url');
+	var task_title = $(this).attr('data-task-title');
+	if(!task_title) {
+		task_title = 'Task Processing';
+	}
 
 	var modal =
 		'<div id="task_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
@@ -685,7 +689,7 @@ $(document).on('click', ".task_run", function () {
 		'<div class="modal-content">' +
 		'<div class="modal-header">' +
 		'<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' +
-		'<h4 class="modal-title">Task Run</h4>'+
+		'<h4 class="modal-title">'+task_title+'</h4>'+
 		'</div>' +
 		'<div class="modal-body panel-body panel-body-nopadding"></div>' +
 		'</div></div></div>';
@@ -704,7 +708,7 @@ $(document).on('click', ".task_run", function () {
 
 	if(abort_task_url && abort_task_url.length > 0){
 		progress_html += '<div class="center abort_button">' +
-							'<a class="abort btn btn-danger" title="Interrupt Task" ><i class="fa fa-times-circle-o"></i> Abort</a>' +
+							'<a class="btn btn-default abort" title="Interrupt Task" ><i class="fa fa-times-circle-o fa-fw"></i> Stop</a>' +
 				'</div>';
 	}
 	progress_html += '</div>';

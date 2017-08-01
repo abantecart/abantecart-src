@@ -49,6 +49,14 @@
 		<value><![CDATA[Select a destination table and corresponding database field to each provided import data column. If no field is selected, input column data will be ignored. <br/> <b>Note:</b> Language and store specific data values will be assigned to current content store & language selected]]></value>
 	</definition>
 	<definition>
+		<key>text_records_to_be_loaded</key>
+		<value><![CDATA[There will be %s records loaded and processed in this import!]]></value>
+	</definition>
+	<definition>
+		<key>text_import_task_title</key>
+		<value><![CDATA[Running Import Process]]></value>
+	</definition>
+	<definition>
 		<key>text_load</key>
 		<value><![CDATA[Load]]></value>
 	</definition>
@@ -99,6 +107,10 @@
 	<definition>
 		<key>text_import_update_on</key>
 		<value><![CDATA[Update if exists]]></value>
+	</definition>
+	<definition>
+		<key>text_import_split</key>
+		<value><![CDATA[Split data by]]></value>
 	</definition>
 	<definition>
 		<key>error_file_format</key>
@@ -162,6 +174,6 @@
 	</definition>
 	<definition>
 		<key>error_required_selection</key>
-		<value><![CDATA[Missing required data field for destination table!]]></value>
+		<value><![CDATA[Missing required data field '%s' for destination table!]]></value>
 	</definition>
 </definitions>

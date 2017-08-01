@@ -28,7 +28,7 @@ class ControllerPagesToolImportUpload extends AController {
     /**
      * @var array()
      */
-    public $file_types = array('text/csv', 'application/vnd.ms-excel', 'text/plain', 'application/octet-stream', 'text/xml');
+    public $file_types = array('text/csv', 'application/vnd.ms-excel', 'text/plain', 'application/octet-stream');
     /**
      * @var AData
      */
@@ -63,6 +63,7 @@ class ControllerPagesToolImportUpload extends AController {
         }
 
         $this->session->data['import'] = $file_data;
+        unset($this->session->data['import_map']);
         //internal import format, we can load tasks
         if( $file_data['format'] == 'internal') {
             $this->redirect($this->html->getSecureURL('tool/import_export/import'));
@@ -85,8 +86,6 @@ class ControllerPagesToolImportUpload extends AController {
         if(in_array($file['type'], array('text/csv', 'application/vnd.ms-excel', 'text/plain', 'application/octet-stream'))){
             #NOTE: 'application/octet-stream' is a solution for Windows OS sending unknown file type
             $res['file_type'] = 'csv';
-        } elseif($file['type'] == 'text/xml'){
-            $res['file_type'] = 'xml';
         } else{
             return array('error' => $this->language->get('error_file_format'));
         }
@@ -122,15 +121,14 @@ class ControllerPagesToolImportUpload extends AController {
             } else {
                 return array('error' => $this->language->get('error_data_corrupted'));
             }
+
+            $res['request_count'] = -1; //deduct header
+            while(!feof($fh)){
+                fgets($fh);
+                $res['request_count']++;
+            }
+
             fclose($fh);
-        } else {
-            //get xml structure.
-
-
-
-            // Finish!!!
-
-
         }
 
         return $res;
