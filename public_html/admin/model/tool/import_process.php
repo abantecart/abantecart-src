@@ -430,7 +430,12 @@ class ModelToolImportProcess extends Model{
             //now load values. Pick longest data array
             $option_vals = $data[$i]['product_option_values'];
             $counts = array_map('count', $option_vals);
-            $key = array_flip($counts)[max($counts)];
+            //find largest key by count
+            $flipped = array_flip($counts);
+            if (!is_array($flipped) || empty($flipped)) {
+                return;
+            }
+            $key = $flipped[max($counts)];
             for ($j = 0; $j < count($option_vals[$key]); $j++) {
                 //add options value
                 $opt_val_data = array();
@@ -455,7 +460,6 @@ class ModelToolImportProcess extends Model{
                 $this->model_catalog_product->addProductOptionValueAndDescription($product_id, $p_option_id, $opt_val_data);
             }
         }
-
         return true;
     }
 
