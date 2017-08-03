@@ -24,10 +24,15 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 /**
  * Class ModelToolImportProcess
  * @property ModelToolImportProcess $model_tool_import_process
+ * @property ModelCatalogProduct $model_catalog_product
+ * @property ModelCatalogManufacturer $model_catalog_manufacturer
  */
 class ModelToolImportProcess extends Model{
 	public $errors = array ();
 	private $eta = array ();
+	/**
+	 * @var ALog
+	 */
 	private $imp_log = null;
 
 	/**
@@ -188,7 +193,7 @@ class ModelToolImportProcess extends Model{
 		}
 		$product = $this->_filter_array($data['products']);
 		$product_desc = $this->_filter_array($data['product_descriptions']);
-		$manuf = $this->_filter_array($data['manufacturers']);
+		$manufacturers = $this->_filter_array($data['manufacturers']);
 
 		//check if row is complete and uniform
 		if (!$product_desc['name'] && !$product['sku'] && !$product['model']) {
@@ -204,7 +209,7 @@ class ModelToolImportProcess extends Model{
 			$unique_field_index = key($settings['update_col']);
 			if ($unique_field_index) {
 				$unique_field = $settings['products_fields'][$unique_field_index];
-				$lookup_value = $this->getValuefromDataMap($unique_field, $record, $settings['products_fields'], $settings['import_col']);
+				$lookup_value = $this->getValueFromDataMap($unique_field, $record, $settings['products_fields'], $settings['import_col']);
 				$product_id = $this->getProductByField($unique_field, $lookup_value, $language_id, $store_id);
 				if ($product_id) {
 					//we have product, update
@@ -221,8 +226,8 @@ class ModelToolImportProcess extends Model{
 
 		// import brand if needed
 		$manufacturer_id = 0;
-		if ($manuf['manufacturer']) {
-			$manufacturer_id = $this->_process_manufacturer($manuf['manufacturer'], 0, $store_id);
+		if ($manufacturers['manufacturer']) {
+			$manufacturer_id = $this->_process_manufacturer($manufacturers['manufacturer'], 0, $store_id);
 		}
 
 		// import or update product
@@ -295,21 +300,21 @@ class ModelToolImportProcess extends Model{
 
 		$category = $this->_filter_array($data['categories']);
 		//check if we have split tree or an array
-		$categ_desc = $this->_filter_array($data['category_descriptions']);
-		$categ_tree = $categ_desc['name'];
+		$category_desc = $this->_filter_array($data['category_descriptions']);
+		$category_tree = $category_desc['name'];
 		if(count($data['category_descriptions']['name']) > 1) {
-			$categ_tree = $data['category_descriptions']['name'];
+			$category_tree = $data['category_descriptions']['name'];
 		}
 		//Get actual category name
-		$categ_desc['name'] = end($categ_tree);
+		$category_desc['name'] = end($category_tree);
 
-		$stree = implode(' -> ', $categ_tree);
-		$this->toLog("Processing record for category { $stree } .");
+		$s_tree = implode(' -> ', $category_tree);
+		$this->toLog("Processing record for category { $s_tree } .");
 		//process all categories
-		$categories = $this->_process_categories(array('category' => array($categ_tree)), $language_id, $store_id);
+		$categories = $this->_process_categories(array('category' => array($category_tree)), $language_id, $store_id);
 		//we will have always one category
 		$category_id = $categories[0]['category_id'];
-		$pcategory_id = $categories[0]['parent_id'];
+		$parent_category_id = $categories[0]['parent_id'];
 
 		if ($category_id) {
 			//update category
@@ -317,12 +322,12 @@ class ModelToolImportProcess extends Model{
 				$category_id,
 				array_merge(
 					$category,
-					array('parent_id'   => $pcategory_id),
-					array('category_description' => array($language_id => $categ_desc)),
+					array('parent_id'   => $parent_category_id),
+					array('category_description' => array($language_id => $category_desc)),
 					array('category_store'  => array ($store_id))
 				)
 			);
-			$this->toLog("Updated category '{$categ_desc['name']}' with ID {$category_id}.");
+			$this->toLog("Updated category '{$category_desc['name']}' with ID {$category_id}.");
 			$status = true;
 		} else {
 			$default_arr = array(
@@ -336,16 +341,16 @@ class ModelToolImportProcess extends Model{
 			$category_id = $this->model_catalog_category->addCategory(
 				array_merge(
 					$category,
-					array('parent_id'   => $pcategory_id),
-					array('category_description' => array($language_id => $categ_desc)),
+					array('parent_id'   => $parent_category_id),
+					array('category_description' => array($language_id => $category_desc)),
 					array('category_store'  => array ($store_id))
 				)
 			);
 			if ($category_id) {
-				$this->toLog("Created category '{$categ_desc['name']}' with ID {$category_id}.");
+				$this->toLog("Created category '{$category_desc['name']}' with ID {$category_id}.");
 				$status = true;
 			} else {
-				$this->toLog("Error: Failed to create category '{$categ_desc['name']}'.");
+				$this->toLog("Error: Failed to create category '{$category_desc['name']}'.");
 				return false;
 			}
 		}
@@ -378,10 +383,10 @@ class ModelToolImportProcess extends Model{
 		return $status;
 	}
 
-	private function _addUpdateOptions($product_id, $data = array (), $language_id, $store_id){
+	protected function _addUpdateOptions($product_id, $data = array (), $language_id, $store_id){
 		if (!is_array($data) || empty($data)) {
 			//no option details
-			return;
+			return false;
 		}
 
 		$this->toLog("Creating product option for product ID {$product_id}.");
@@ -419,7 +424,7 @@ class ModelToolImportProcess extends Model{
 				$this->toLog("Created product option '{$data[$i]['name']}' with ID {$p_option_id}.");
 			} else {
 				$this->toLog("Error: Failed to create product option '{$data[$i]['name']}'.");
-				return;
+				return false;
 			}
 
 			//now load values. Pick longest data array
@@ -428,7 +433,7 @@ class ModelToolImportProcess extends Model{
 			//find largest key by count
 			$flipped = array_flip($counts);
 			if (!is_array($flipped) || empty($flipped)) {
-				return;
+				return false;
 			}
 			$key = $flipped[max($counts)];
 			for ($j = 0; $j < count($option_vals[$key]); $j++) {
@@ -451,7 +456,6 @@ class ModelToolImportProcess extends Model{
 						$opt_val_data[$k] = $option_vals[$key][$j];
 					}
 				}
-
 				$this->model_catalog_product->addProductOptionValueAndDescription($product_id, $p_option_id, $opt_val_data);
 			}
 		}
@@ -626,10 +630,10 @@ class ModelToolImportProcess extends Model{
 		}
 	}
 
-	private function _process_manufacturer($mname, $sort_order, $store_id) {
+	protected function _process_manufacturer($manufacturer_name, $sort_order, $store_id) {
 		$manufacturer_id = null;
 		$sql = $this->db->query("SELECT manufacturer_id from " . $this->db->table("manufacturers")
-			. " WHERE LCASE(name) = '" . $this->db->escape(mb_strtolower($mname)) . "' limit 1");
+			. " WHERE LCASE(name) = '" . $this->db->escape(mb_strtolower($manufacturer_name)) . "' limit 1");
 		$manufacturer_id = $sql->row['manufacturer_id'];
 		if (!$manufacturer_id) {
 			//create category
@@ -637,14 +641,14 @@ class ModelToolImportProcess extends Model{
 			$manufacturer_id = $this->model_catalog_manufacturer->addManufacturer(
 				array (
 					'sort_order'         => $sort_order,
-					'name'               => $mname,
+					'name'               => $manufacturer_name,
 					'manufacturer_store' => array ($store_id)
 				)
 			);
 			if ($manufacturer_id) {
-				$this->toLog("Created manufacturer '{$mname}' with ID {$manufacturer_id}.");
+				$this->toLog("Created manufacturer '{$manufacturer_name}' with ID {$manufacturer_id}.");
 			} else {
-				$this->toLog("Error: Failed to create manufacturer '{$mname}'.");
+				$this->toLog("Error: Failed to create manufacturer '{$manufacturer_name}'.");
 			}
 		}
 		return $manufacturer_id;
@@ -696,11 +700,11 @@ class ModelToolImportProcess extends Model{
 		return $ret;
 	}
 
-	private function _get_category($cname, $language_id, $store_id, $parent_id){
+	private function _get_category($category_name, $language_id, $store_id, $parent_id){
 		$sql = "SELECT cd.category_id from " . $this->db->table("category_descriptions") . " cd
 			  INNER JOIN " . $this->db->table("categories_to_stores") . " c2s ON (cd.category_id = c2s.category_id) 
 			  WHERE language_id = " . (int)$language_id . " AND  c2s.store_id = " . (int)$store_id . "
-					AND LCASE(name) = '" . $this->db->escape(mb_strtolower($cname)) . "'";
+					AND LCASE(name) = '" . $this->db->escape(mb_strtolower($category_name)) . "'";
 		$res = $this->db->query($sql);
 		if ($res->num_rows == 1) {
 			return $res->row['category_id'];
@@ -714,22 +718,22 @@ class ModelToolImportProcess extends Model{
 		}
 	}
 
-	private function _save_category($cname, $language_id, $store_id, $pid = 0) {
+	protected function _save_category($category_name, $language_id, $store_id, $pid = 0) {
 		$category_id = $this->model_catalog_category->addCategory(
 			array (
 				'parent_id'            => $pid,
 				'sort_order'           => 0,
 				'status'               => 1,
 				'category_description' => array (
-					$language_id => array ('name' => $cname)
+					$language_id => array ('name' => $category_name)
 				),
 				'category_store'       => array ($store_id)
 			)
 		);
 		if ($category_id) {
-			$this->toLog("Created category '{$cname}' with ID {$category_id}.");
+			$this->toLog("Created category '{$category_name}' with ID {$category_id}.");
 		} else {
-			$this->toLog("Error: Failed to create category '{$cname}'.");
+			$this->toLog("Error: Failed to create category '{$category_name}'.");
 		}
 		return $category_id;
 	}
@@ -737,8 +741,10 @@ class ModelToolImportProcess extends Model{
 	/**
 	 * Map data from record based on the settings
 	 * @param array $record
-	 * @param array $settings
-	 * @return int
+	 * @param $import_col
+	 * @param $fields
+	 * @param $split_col
+	 * @return array
 	 */
 	protected function buildDataMap($record, $import_col, $fields, $split_col){
 		$ret = array();
@@ -762,8 +768,8 @@ class ModelToolImportProcess extends Model{
 					if ($keys[0] == 'name') {
 						$op_array[++$op_index]['name'] = $field_val;
 					} else {
-						$tmpindex = ($op_index >= 0) ? $op_index : 0;
-						$op_array[$tmpindex][$keys[0]] = $field_val;
+						$tmp_index = ($op_index >= 0) ? $op_index : 0;
+						$op_array[$tmp_index][$keys[0]] = $field_val;
 					}
 				} else {
 					for($i = 0; $i < count($keys)-1; $i++) {
@@ -773,8 +779,8 @@ class ModelToolImportProcess extends Model{
 							$arr = array($keys[$i] => $arr);
 						}
 					}
-					$tmpindex = ($op_index >= 0) ? $op_index : 0;
-					$op_array[$tmpindex] = array_merge_recursive($op_array[$tmpindex], $arr);
+					$tmp_index = ($op_index >= 0) ? $op_index : 0;
+					$op_array[$tmp_index] = array_merge_recursive($op_array[$tmp_index], $arr);
 				}
 			} else {
 				foreach ($keys as $key) {
@@ -802,6 +808,10 @@ class ModelToolImportProcess extends Model{
 
 	private function _filter_array($arr = array()) {
 		$ret = array();
+		if(!$arr || !is_array($arr)){
+			return $ret;
+		}
+
 		foreach ($arr as $key => $val) {
 			//get only first element of data array
 			$ret[$key] = reset($val);
@@ -813,10 +823,11 @@ class ModelToolImportProcess extends Model{
 	 * Get a value from the record based on the setting key
 	 * @param string $key
 	 * @param array $record
-	 * @param array $settings
-	 * @return int
+	 * @param $fields
+	 * @param $columns
+	 * @return mixed
 	 */
-	protected function getValuefromDataMap($key, $record, $fields, $columns){
+	protected function getValueFromDataMap($key, $record, $fields, $columns){
 		$index = array_search($key, $fields);
 		if($index !== false) {
 			return $record[$columns[$index]];
@@ -832,6 +843,7 @@ class ModelToolImportProcess extends Model{
 			return null;
 		}
 		$this->imp_log->write($message);
+		return true;
 	}
 
 	/**
@@ -866,7 +878,7 @@ class ModelToolImportProcess extends Model{
 						'title' => 'Long Description',
 					),
 					'product_descriptions.meta_keywords' => array(
-						'title' => 'Meta Kewords',
+						'title' => 'Meta Keywords',
 					),
 					'product_descriptions.meta_description' => array(
 						'title' => 'Meta Description',
@@ -970,7 +982,7 @@ class ModelToolImportProcess extends Model{
 						'title' => 'Option value weight (numeric)',
 					),
 					'product_options.product_option_values.sort_order' => array(
-						'title' => 'Option value sort otrder (1 or 0)',
+						'title' => 'Option value sort order (1 or 0)',
 					),
 				)
 			),
@@ -994,7 +1006,7 @@ class ModelToolImportProcess extends Model{
 						'title' => 'Meta Keywords',
 					),
 					'category_descriptions.meta_description' => array(
-						'title' => 'Medta Description',
+						'title' => 'Meta Description',
 					),
 					'images.image' =>  array(
 						'title' => "Image URL or List of URLs",
@@ -1020,4 +1032,111 @@ class ModelToolImportProcess extends Model{
 			),
 		);
 	}
+}
+
+
+
+
+/**
+ * TODO: remove this wrapper when minimal php version requirement become above 5.5
+ * */
+if (!function_exists('array_column')) {
+	/**
+	 * Returns the values from a single column of the input array, identified by
+	 * the $columnKey.
+	 *
+	 * Optionally, you may provide an $indexKey to index the values in the returned
+	 * array by the values from the $indexKey column in the input array.
+	 *
+	 * @param array $input A multi-dimensional array (record set) from which to pull
+	 *                     a column of values.
+	 * @param mixed $columnKey The column of values to return. This value may be the
+	 *                         integer key of the column you wish to retrieve, or it
+	 *                         may be the string key name for an associative array.
+	 * @param mixed $indexKey (Optional.) The column to use as the index/keys for
+	 *                        the returned array. This value may be the integer key
+	 *                        of the column, or it may be the string key name.
+	 * @return array
+	 */
+	function array_column($input = null, $columnKey = null, $indexKey = null){
+		// Using func_get_args() in order to check for proper number of
+		// parameters and trigger errors exactly as the built-in array_column()
+		// does in PHP 5.5.
+		$argc = func_num_args();
+		$params = func_get_args();
+
+		if ($argc < 2) {
+			trigger_error("array_column() expects at least 2 parameters, {$argc} given", E_USER_WARNING);
+			return null;
+		}
+
+		if (!is_array($params[0])) {
+			trigger_error(
+					'array_column() expects parameter 1 to be array, ' . gettype($params[0]) . ' given',
+					E_USER_WARNING
+			);
+			return null;
+		}
+
+		if (!is_int($params[1])
+				&& !is_float($params[1])
+				&& !is_string($params[1])
+				&& $params[1] !== null
+				&& !(is_object($params[1]) && method_exists($params[1], '__toString'))
+		) {
+			trigger_error('array_column(): The column key should be either a string or an integer', E_USER_WARNING);
+			return false;
+		}
+
+		if (isset($params[2])
+				&& !is_int($params[2])
+				&& !is_float($params[2])
+				&& !is_string($params[2])
+				&& !(is_object($params[2]) && method_exists($params[2], '__toString'))
+		) {
+			trigger_error('array_column(): The index key should be either a string or an integer', E_USER_WARNING);
+			return false;
+		}
+
+		$paramsInput = $params[0];
+		$paramsColumnKey = ($params[1] !== null) ? (string)$params[1] : null;
+
+		$paramsIndexKey = null;
+		if (isset($params[2])) {
+			if (is_float($params[2]) || is_int($params[2])) {
+				$paramsIndexKey = (int)$params[2];
+			} else {
+				$paramsIndexKey = (string)$params[2];
+			}
+		}
+
+		$resultArray = array ();
+		foreach ($paramsInput as $row) {
+			$key = $value = null;
+			$keySet = $valueSet = false;
+
+			if ($paramsIndexKey !== null && array_key_exists($paramsIndexKey, $row)) {
+				$keySet = true;
+				$key = (string)$row[$paramsIndexKey];
+			}
+
+			if ($paramsColumnKey === null) {
+				$valueSet = true;
+				$value = $row;
+			} elseif (is_array($row) && array_key_exists($paramsColumnKey, $row)) {
+				$valueSet = true;
+				$value = $row[$paramsColumnKey];
+			}
+
+			if ($valueSet) {
+				if ($keySet) {
+					$resultArray[$key] = $value;
+				} else {
+					$resultArray[] = $value;
+				}
+			}
+		}
+		return $resultArray;
+	}
+
 }

@@ -33,19 +33,19 @@ class ControllerResponsesToolImportProcess extends AController {
 	public $data = array();
 	public $errors = array();
 
-    public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
-        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+	public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
+		parent::__construct($registry, $instance_id, $controller, $parent_controller);
 
-        $this->loadLanguage('tool/import_export');
-    }
+		$this->loadLanguage('tool/import_export');
+	}
 
-    public function buildTask(){
+	public function buildTask(){
 		$this->data['output'] = array();
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		if ($this->request->is_POST() && $this->_validate()) {
-            $imp_data = array_merge($this->session->data['import_map'], $this->session->data['import']);
+			$imp_data = array_merge($this->session->data['import_map'], $this->session->data['import']);
 
 			$this->loadModel('tool/import_process');
 			$task_details = $this->model_tool_import_process->createTask('import_wizard_'.date('Ymd-H:i:s'), $imp_data);
@@ -79,7 +79,7 @@ class ControllerResponsesToolImportProcess extends AController {
 		}
 
 		//update controller data
-    	$this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
@@ -90,6 +90,7 @@ class ControllerResponsesToolImportProcess extends AController {
 	public function complete(){
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->loadLanguage('tool/import_export');
 
 		$task_id = (int)$this->request->post['task_id'];
 		if (!$task_id) {
@@ -108,7 +109,7 @@ class ControllerResponsesToolImportProcess extends AController {
 		}
 
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
@@ -180,7 +181,7 @@ class ControllerResponsesToolImportProcess extends AController {
 		}
 
 		//update controller data
-    	$this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
@@ -258,13 +259,13 @@ class ControllerResponsesToolImportProcess extends AController {
 	private function _validate() {
 		if (!$this->user->canModify('sale/contact')) {
 			$this->errors['warning'] = $this->language->get('error_permission');
-            return false;
+			return false;
 		}
 
-        if (!$this->session->data['import_map'] || !$this->session->data['import']) {
-            $this->errors['warning'] = $this->language->get('error_data_corrupted');
-            return false;
-        }
+		if (!$this->session->data['import_map'] || !$this->session->data['import']) {
+			$this->errors['warning'] = $this->language->get('error_data_corrupted');
+			return false;
+		}
 
 		return true;
 	}

@@ -2,22 +2,22 @@
 
 <?php if ( isset($results) ) { ?>
 
-<?php if ( isset($results['sql']) ): ?>
+<?php if ( isset($results['sql']) && $results['sql'] ){ ?>
 <div class="success alert alert-success">
 	<?php echo $text_test_completed . $count_test_sqls; ?>.&nbsp;
 	<a id="show_results" href="javascript:void(0);"><b><?php echo $text_show_details; ?></b></a>
 </div>
 <div id="test_results" style="margin:20px; width: 800px; display: none;">
-	<?php foreach($results['sql'] as $msg): ?>
+	<?php foreach($results['sql'] as $msg){ ?>
 	<p><?php echo $msg; ?></p>
-	<?php endforeach; ?>
+	<?php } ?>
 </div>
-<?php endif; ?>
+<?php } ?>
 
 <?php if ( !empty($results) ) { ?>
 <div class="success alert alert-success"><?php echo $text_loaded . $count_loaded . '. ' . $text_updated . $count_updated . '. ' . $text_created . $count_created . '. ' . $text_errors . $count_errors; ?></div>
 <?php } ?>
-<?php if ( is_array($results['error']) ): ?>
+<?php if ( is_array($results['error']) ){ ?>
 <div class="warning alert alert-error alert-danger">
 	<?php echo $text_some_errors; ?> <a id="show_errors" href="javascript:void(0);"><b><?php echo $text_show_details; ?></b></a>
 </div>
@@ -26,8 +26,8 @@
 	<div class="warning alert alert-error alert-danger"><?php echo $val; ?></div>
 	<?php } ?>
 </div>
-<?php endif; ?>
-<?php } ?>
+<?php }
+} ?>
 
 <ul class="nav nav-tabs nav-justified nav-profile">
 	<?php foreach($tabs as $tab){ ?>

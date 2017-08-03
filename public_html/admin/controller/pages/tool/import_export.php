@@ -20,6 +20,11 @@
 if(!defined('DIR_CORE')){
 	header('Location: static_pages/');
 }
+
+/**
+ * Class ControllerPagesToolImportExport
+ * @property ModelToolImportProcess $model_tool_import_process
+ */
 class ControllerPagesToolImportExport extends AController{
 
 	public $tabs = array('import', 'export');
@@ -41,8 +46,8 @@ class ControllerPagesToolImportExport extends AController{
 			$this->tabs = array_merge(array('import_wizard'), $this->tabs);
 		}
 		$this->handler = new AData();
-        $this->loadModel('tool/import_process');
-        $this->tables = $this->model_tool_import_process->importTableCols();
+		$this->loadModel('tool/import_process');
+		$this->tables = $this->model_tool_import_process->importTableCols();
 	}
 
 	public function main(){
@@ -227,7 +232,12 @@ class ControllerPagesToolImportExport extends AController{
 
 	}
 
-	private function _build_table_fields($form, $data){
+	/**
+	 * @param AForm $form
+	 * @param array $data
+	 * @return array
+	 */
+	protected function _build_table_fields($form, $data){
 		$result = array();
 
 		foreach($data as $table_name => $val){
@@ -267,13 +277,16 @@ class ControllerPagesToolImportExport extends AController{
 		return $result;
 	}
 
+	/**
+	 * @param AForm $form
+	 * @param array $data
+	 * @param string $name
+	 * @return array
+	 */
 	private function _get_table_children($form, $data, $name){
-
 		$children = array();
-
 		foreach($data as $key => $val){
 			$new_name = $name . '[' . $key . ']';
-
 			$children[$key]['name'] = $new_name;
 			$children[$key]['field'] = $form->getFieldHtml(array(
 					'type'  => 'checkbox',
@@ -286,7 +299,6 @@ class ControllerPagesToolImportExport extends AController{
 				$new_name .= '[tables]';
 				$children = array_merge($children, $this->_get_table_children($form, $val['children'], $new_name));
 			}
-
 		}
 		return $children;
 	}
@@ -303,32 +315,32 @@ class ControllerPagesToolImportExport extends AController{
 
 		$this->handler = new AData();
 
-        $this->data['map'] = $this->request->post ? $this->request->post : $this->session->data['import_map'];
-        if($this->request->post['serialized_map']) {
-            $this->data['map'] = unserialize(base64_decode($this->request->post['serialized_map']));
-        }
+		$this->data['map'] = $this->request->post ? $this->request->post : $this->session->data['import_map'];
+		if($this->request->post['serialized_map']) {
+			$this->data['map'] = unserialize(base64_decode($this->request->post['serialized_map']));
+		}
 		if($this->request->is_POST() && $this->validateWizardRequest($this->data['map'])){
 			//all good get count and confirm the import
-            $this->session->data['import_map'] = $this->data['map'];
-            //present mapping for export
-            $this->data['serialized_map'] = $this->html->buildElement(array (
-                'type'  => 'textarea',
-                'name'  => 'serialized_map',
-                'value' => base64_encode(serialize($this->data['map'])),
-                'attr'  => 'rows="20" cols="300" readonly',
-            ));
-            $this->data['request_count'] = (int)$import_data['request_count'];
-            $this->data['import_ready'] = true;
+			$this->session->data['import_map'] = $this->data['map'];
+			//present mapping for export
+			$this->data['serialized_map'] = $this->html->buildElement(array (
+				'type'  => 'textarea',
+				'name'  => 'serialized_map',
+				'value' => base64_encode(serialize($this->data['map'])),
+				'attr'  => 'rows="20" cols="300" readonly',
+			));
+			$this->data['request_count'] = (int)$import_data['request_count'];
+			$this->data['import_ready'] = true;
 
-            //urls for creating and running task
-            $this->data['form']['build_task_url'] = $this->html->getSecureURL('r/tool/import_process/buildTask');
-            $this->data['form']['complete_task_url'] = $this->html->getSecureURL('r/tool/import_process/complete');
-            $this->data['form']['abort_task_url'] = $this->html->getSecureURL('r/tool/import_process/abort');
-            $this->data['back_url'] = $this->html->getSecureURL('tool/import_export/import_wizard');
+			//urls for creating and running task
+			$this->data['form']['build_task_url'] = $this->html->getSecureURL('r/tool/import_process/buildTask');
+			$this->data['form']['complete_task_url'] = $this->html->getSecureURL('r/tool/import_process/complete');
+			$this->data['form']['abort_task_url'] = $this->html->getSecureURL('r/tool/import_process/abort');
+			$this->data['back_url'] = $this->html->getSecureURL('tool/import_export/import_wizard');
 
 		} else if($this->data['map'] && $this->validateWizardRequest($this->data['map']) ) {
-            $this->data['import_ready'] = false;
-        }
+			$this->data['import_ready'] = false;
+		}
 
 		$this->loadLanguage('tool/import_export');
 		$this->document->setTitle($this->language->get('import_wizard_title'));
@@ -379,12 +391,12 @@ class ControllerPagesToolImportExport extends AController{
 			'style' => 'button2',
 		));
 
-        $this->data['form']['serialized_map'] = $form->getFieldHtml(array (
-            'type'  => 'textarea',
-            'name'  => 'serialized_map',
-            'value' => '',
-            'attr'  => 'rows="20" cols="300"',
-        ));
+		$this->data['form']['serialized_map'] = $form->getFieldHtml(array (
+			'type'  => 'textarea',
+			'name'  => 'serialized_map',
+			'value' => '',
+			'attr'  => 'rows="20" cols="300"',
+		));
 
 
 		$this->view->assign('help_url', $this->gen_help_url($this->data['active']));
@@ -472,23 +484,23 @@ class ControllerPagesToolImportExport extends AController{
 		$this->main();
 	}
 
-    private function validateWizardRequest($post) {
-        if(!$post['table']
-            || !isset($this->tables[$post['table']])
-            || empty($post[$post['table']."_fields"])
-            || !is_array($post[$post['table']."_fields"])
-        )
-        {
-            $this->error = $this->language->get('error_table_selection');
-            return false;
-        }
+	private function validateWizardRequest($post) {
+		if(!$post['table']
+			|| !isset($this->tables[$post['table']])
+			|| empty($post[$post['table']."_fields"])
+			|| !is_array($post[$post['table']."_fields"])
+		)
+		{
+			$this->error = $this->language->get('error_table_selection');
+			return false;
+		}
 
-        foreach ($this->tables[$post['table']]['columns'] as $id => $data ) {
-            if($data['required'] && !in_array($id, $post[$post['table']."_fields"])) {
-                $this->error = sprintf($this->language->get('error_required_selection'), $id);
-                return false;
-            }
-        }
-        return true;
-    }
+		foreach ($this->tables[$post['table']]['columns'] as $id => $data ) {
+			if($data['required'] && !in_array($id, $post[$post['table']."_fields"])) {
+				$this->error = sprintf($this->language->get('error_required_selection'), $id);
+				return false;
+			}
+		}
+		return true;
+	}
 }

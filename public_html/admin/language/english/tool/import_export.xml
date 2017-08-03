@@ -200,4 +200,8 @@
 		<key>error_empty_request</key>
 		<value><![CDATA[Empty request.]]></value>
 	</definition>
+	<definition>
+		<key>text_success_import</key>
+		<value><![CDATA[Data has been imported successfully.]]></value>
+	</definition>
 </definitions>

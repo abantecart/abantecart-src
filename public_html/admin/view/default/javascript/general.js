@@ -674,10 +674,10 @@ var defaultTaskMessages = {
 
 
 $(document).on('click', ".task_run", function () {
-	var task_fail = false;
-	var run_task_url = $(this).attr('data-run-task-url');
-	var complete_task_url = $(this).attr('data-complete-task-url');
-	var abort_task_url = $(this).attr('data-abort-task-url');
+	task_fail = false;
+	run_task_url = $(this).attr('data-run-task-url');
+	complete_task_url = $(this).attr('data-complete-task-url');
+	abort_task_url = $(this).attr('data-abort-task-url');
 	var task_title = $(this).attr('data-task-title');
 	if(!task_title) {
 		task_title = 'Task Processing';

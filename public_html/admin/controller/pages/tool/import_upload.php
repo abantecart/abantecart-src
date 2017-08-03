@@ -64,6 +64,8 @@ class ControllerPagesToolImportUpload extends AController {
 
 		$this->session->data['import'] = $file_data;
 		unset($this->session->data['import_map']);
+
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 		//internal import format, we can load tasks
 		if( $file_data['format'] == 'internal') {
 			redirect($this->html->getSecureURL('tool/import_export/import'));
@@ -92,6 +94,8 @@ class ControllerPagesToolImportUpload extends AController {
 		$res['file'] = DIR_DATA . 'import_' . basename($file['tmp_name']) . ".txt";
 		$result = move_uploaded_file($file['tmp_name'], $res['file']);
 		if ($result === false){
+			//remove trunk
+			unlink($file['tmp_name']);
 			$error_text = 'Error! Unable to move uploaded file to ' . $res['file'];
 			return array('error' => $error_text);
 		}
