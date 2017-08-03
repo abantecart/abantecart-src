@@ -192,4 +192,12 @@
 		<key>error_required_selection</key>
 		<value><![CDATA[Missing required data field '%s' for destination table!]]></value>
 	</definition>
+	<definition>
+		<key>error_tmp_dir_non_writable</key>
+		<value><![CDATA[Temporary Directory %s is not writable! Please change permissions to proceed.]]></value>
+	</definition>
+	<definition>
+		<key>error_empty_request</key>
+		<value><![CDATA[Empty request.]]></value>
+	</definition>
 </definitions>
