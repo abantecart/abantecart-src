@@ -113,6 +113,22 @@
 		<value><![CDATA[Split data by]]></value>
 	</definition>
 	<definition>
+		<key>title_export_map</key>
+		<value><![CDATA[Select, copy and save this mapping for future use.]]></value>
+	</definition>
+	<definition>
+		<key>text_export_map</key>
+		<value><![CDATA[Export mapping]]></value>
+	</definition>
+	<definition>
+		<key>title_load_map</key>
+		<value><![CDATA[Post to the field below pre-saved mapping data]]></value>
+	</definition>
+	<definition>
+		<key>text_load_map</key>
+		<value><![CDATA[Load mapping]]></value>
+	</definition>
+	<definition>
 		<key>error_file_format</key>
 		<value><![CDATA[Unsupported import file format!]]></value>
 	</definition>

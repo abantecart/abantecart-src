@@ -61,14 +61,14 @@ unset($_GET['s']);
 //detect run mode
 $command_line = false;
 $step_result = null;
-if (php_sapi_name() == "cli"){
+if (php_sapi_name() == "cli") {
 	//command line
 	echo "Running command line \n";
 	$command_line = true;
 	$mode = 'cli';
 	$task_id = $argv[1];
 	$step_id = $argv[2];
-}else{
+} else {
 
 	// add to settings API et task_api_key
 	$task_api_key = $config->get('task_api_key');
@@ -84,18 +84,17 @@ if(!$mode && !$command_line){
 	$mode = 'html';
 }
 
-
 ADebug::checkpoint('init end');
 
 // Currency
 $registry->set('currency', new ACurrency($registry));
 
 //ok... let's start tasks
-if($command_line){
+if ($command_line) {
 	$tm_mode = 'cli';
-}elseif($mode == 'json'){
+} else if ($mode == 'json') {
 	$tm_mode = 'json';
-}else{
+} else {
 	$tm_mode = 'html';
 }
 // unlock session for repeat of request
@@ -108,21 +107,18 @@ if($tm_mode == 'json'){
 
 //if task_id is not presents
 //start all scheduled tasks one by one
-if($mode && !$task_id){
+if ($mode && !$task_id) {
 	//try to remove execution time limitation (can not work on some hosts!)
 	ini_set("max_execution_time", "0");
 	$tm->runTasks();
-}
-//when start only task step
-elseif ($mode && $task_id && $step_id){
+} else if ($mode && $task_id && $step_id) {
+	//when start only task step
 	if($tm->canStepRun($task_id, $step_id)){
 		$step_details = $tm->getTaskStep($task_id, $step_id);
 		$step_result = $tm->runStep($step_details);
 	}
-}
-//when start whole task
-elseif ($mode && $task_id && !$step_id){
-
+} else if ($mode && $task_id && !$step_id) {
+	//when start whole task
 	$tm->updateTask($task_id, array(
 			'status' => $tm::STATUS_READY,
 			'start_time' => date('Y-m-d H:i:s'))
@@ -147,15 +143,15 @@ if($command_line){
 }
 
 ob_flush();
-if($command_line){
+if ($command_line) {
 	echo $run_log_text;
 	exit;
-}elseif($mode == 'ajax'){
+} else if ($mode == 'ajax') {
 	$registry->get('load')->library('json');
-	if(!headers_sent()){
+	if (!headers_sent()) {
 		header('Content-Type: application/json;');
 	}
-	if($step_result === false){
+	if ($step_result === false) {
 		//set response to null to prevent silent output
 		$registry->set('response', null);
 		//use AError class to send fail-response in ajax-mode
@@ -168,7 +164,7 @@ if($command_line){
 	}
 	echo AJson::encode($run_log);
 	exit;
-}elseif($mode == 'html' && $command_line !== true && $step_id){
+} else if ($mode == 'html' && $command_line !== true && $step_id) {
 	echo $run_log_text;
 	exit;
 }

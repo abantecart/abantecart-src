@@ -370,9 +370,6 @@ class ModelToolImportProcess extends Model{
 
         $manufacturer = $this->_filter_array($data['manufacturers']);
 
-        echo_array($settings);
-        echo_array($manufacturer);
-
         $manufacturer_id = $this->_process_manufacturer($manufacturer['name'], $manufacturer['sort_order'], $store_id);
         if ($manufacturer_id) {
             $status = true;
@@ -900,6 +897,9 @@ class ModelToolImportProcess extends Model{
                     'products.shipping_price' => array(
                         'title' => 'Fixed shipping price (In default currency)',
                     ),
+                    'products.tax_class_id' => array(
+                        'title' => 'Tax Class ID (Number, See tax settings)',
+                    ),
                     'products.weight' => array(
                         'title' => 'Product Weight',
                     ),
@@ -926,6 +926,9 @@ class ModelToolImportProcess extends Model{
                     ),
                     'products.call_to_order' => array(
                         'title' => 'Order only by calling (1 or 0)',
+                    ),
+                    'products.date_available' => array(
+                        'title' => 'Date Available (YYYY-MM-DD format)',
                     ),
                     'categories.category' => array(
                         'title' => 'Category Name or Tree',

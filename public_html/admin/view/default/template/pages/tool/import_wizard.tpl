@@ -141,22 +141,56 @@
 					data-complete-task-url="<?php echo $form['complete_task_url'] ?>"
 					data-abort-task-url="<?php echo $form['abort_task_url'] ?>"
                     data-task-title="<?php echo $text_import_task_title ?>">
-				<i class="fa fa-paper-plane-o"></i> <?php echo $text_load; ?>
+				<i class="fa fa-paper-plane-o fa-fw"></i> <?php echo $text_load; ?>
 			</button>
+			<a href="#" class="btn btn-default export_map" data-toggle="modal" data-target="#export_map_modal">
+				<i class="fa fa-code fa-fw"></i> <?php echo $text_export_map; ?>
+			</a>
 			<a href="<?php echo $back_url; ?>" class="btn btn-default" title="<?php echo $button_back; ?>">
-				<i class="fa fa-arrow-left"></i>
+				<i class="fa fa-arrow-left fa-fw"></i>
 				<?php echo $button_back ?>
 			</a>
 			<?php } else { ?>
 			<button class="btn btn-primary lock-on-click"
-				<i class="fa fa-paper-plane-o"></i> <?php echo $form['submit']->text; ?>
+				<i class="fa fa-paper-plane-o fa-fw"></i> <?php echo $form['submit']->text; ?>
 			</button>
+			<a href="#" class="btn btn-default export_map" data-toggle="modal" data-target="#load_map_modal">
+				<i class="fa fa-code fa-fw"></i> <?php echo $text_load_map; ?>
+			</a>
 			<button class="btn btn-default" type="reset">
 				<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
 			</button>
 			<?php } ?>
 		</div>
 	</div>
+
+	<?php
+	if ($import_ready) {
+		echo $this->html->buildElement(
+		array(
+		'type' => 'modal',
+		'id' => 'export_map_modal',
+		'modal_type' => 'lg',
+		'title' => $title_export_map,
+		'content' => $serialized_map,
+		));
+	} else {
+		echo $this->html->buildElement(
+		array(
+		'type' => 'modal',
+		'id' => 'load_map_modal',
+		'modal_type' => 'lg',
+		'title' => $title_load_map,
+		'content' => $form['serialized_map'] . '
+		<br /><center>
+			<button class="btn btn-primary lock-on-click"
+			<i class="fa fa-paper-plane-o fa-fw"></i>'. $form['submit']->text . '
+			</button>
+		</center>
+		',
+		));
+	}
+	?>
 
 	</form>
 

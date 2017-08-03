@@ -169,14 +169,6 @@ class ControllerPagesToolImportExport extends AController{
 						'options' => array(',', ';', 'TAB', '|')
 				));
 
-				$options['text']['test_mode'] = $this->language->get('text_test_mode');
-				$options['item']['test_mode'] = $form->getFieldHtml(array(
-						'type'  => 'checkbox',
-						'name'  => 'test_mode',
-						'value' => 'test',
-						'style' => '',
-				));
-
 				$this->data['options'] = $options;
 
 				break;
@@ -310,10 +302,21 @@ class ControllerPagesToolImportExport extends AController{
 		}
 
 		$this->handler = new AData();
+
         $this->data['map'] = $this->request->post ? $this->request->post : $this->session->data['import_map'];
+        if($this->request->post['serialized_map']) {
+            $this->data['map'] = unserialize(base64_decode($this->request->post['serialized_map']));
+        }
 		if($this->request->is_POST() && $this->validateWizardRequest($this->data['map'])){
 			//all good get count and confirm the import
             $this->session->data['import_map'] = $this->data['map'];
+            //present mapping for export
+            $this->data['serialized_map'] = $this->html->buildElement(array (
+                'type'  => 'textarea',
+                'name'  => 'serialized_map',
+                'value' => base64_encode(serialize($this->data['map'])),
+                'attr'  => 'rows="20" cols="300" readonly',
+            ));
             $this->data['request_count'] = (int)$import_data['request_count'];
             $this->data['import_ready'] = true;
 
@@ -375,6 +378,14 @@ class ControllerPagesToolImportExport extends AController{
 			'text'  => $this->language->get('button_cancel'),
 			'style' => 'button2',
 		));
+
+        $this->data['form']['serialized_map'] = $form->getFieldHtml(array (
+            'type'  => 'textarea',
+            'name'  => 'serialized_map',
+            'value' => '',
+            'attr'  => 'rows="20" cols="300"',
+        ));
+
 
 		$this->view->assign('help_url', $this->gen_help_url($this->data['active']));
 
