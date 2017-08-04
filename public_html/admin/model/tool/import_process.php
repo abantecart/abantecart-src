@@ -943,6 +943,7 @@ class ModelToolImportProcess extends Model{
 					'categories.category' => array(
 						'title' => 'Category Name or Tree',
 						'split' => 1,
+                        'multivalue' => 1,
 					),
 					'manufacturers.manufacturer' => array(
 						'title' => 'Manufacturer name',
@@ -950,39 +951,51 @@ class ModelToolImportProcess extends Model{
 					'images.image' =>  array(
 						'title' => "Image URL or List of URLs",
 						'split' => 1,
+                        'multivalue' => 1,
 					),
 					'product_options.sort_order' => array(
 						'title' => 'Option sorting order (numeric)',
+                        'multivalue' => 1,
 					),
 					'product_options.status' => array(
 						'title' => 'Option status (1 or 0)',
+                        'multivalue' => 1,
 					),
 					'product_options.required' => array(
 						'title' => 'Option Required (1 or 0)',
+                        'multivalue' => 1,
 					),
 					'product_options.name' => array(
 						'title' => 'Option name (up to 255 chars)',
+                        'multivalue' => 1,
 					),
 					'product_options.product_option_values.name' => array(
 						'title' => 'Option value name (up to 255 chars)',
+                        'multivalue' => 1,
 					),
 					'product_options.product_option_values.sku' => array(
 						'title' => 'Option value sku (up to 255 chars)',
+                        'multivalue' => 1,
 					),
 					'product_options.product_option_values.quantity' => array(
 						'title' => 'Option value quantity',
+                        'multivalue' => 1,
 					),
 					'product_options.product_option_values.price' => array(
 						'title' => 'Option value price',
+                        'multivalue' => 1,
 					),
 					'product_options.product_option_values.default' => array(
 						'title' => 'Option value default selection (1 or 0)',
+                        'multivalue' => 1,
 					),
 					'product_options.product_option_values.weight' => array(
 						'title' => 'Option value weight (numeric)',
+                        'multivalue' => 1,
 					),
 					'product_options.product_option_values.sort_order' => array(
 						'title' => 'Option value sort order (1 or 0)',
+                        'multivalue' => 1,
 					),
 				)
 			),
@@ -998,6 +1011,7 @@ class ModelToolImportProcess extends Model{
 						'title' => 'Category Name or Tree',
 						'required' => true,
 						'split' => 1,
+                        'multivalue' => 1,
 					),
 					'category_descriptions.description' => array(
 						'title' => 'Description',
@@ -1011,6 +1025,7 @@ class ModelToolImportProcess extends Model{
 					'images.image' =>  array(
 						'title' => "Image URL or List of URLs",
 						'split' => 1,
+                        'multivalue' => 1,
 					),
 				),
 			),
@@ -1027,6 +1042,7 @@ class ModelToolImportProcess extends Model{
 					'images.image' =>  array(
 						'title' => "Image URL or List of URLs",
 						'split' => 1,
+                        'multivalue' => 1,
 					),
 				),
 			),

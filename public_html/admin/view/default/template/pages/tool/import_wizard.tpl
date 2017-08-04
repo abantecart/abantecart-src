@@ -7,11 +7,6 @@
 	<?php echo $text_test_completed . $count_test_sqls; ?>.&nbsp;
 	<a id="show_results" href="javascript:void(0);"><b><?php echo $text_show_details; ?></b></a>
 </div>
-<div id="test_results" style="margin:20px; width: 800px; display: none;">
-	<?php foreach($results['sql'] as $msg){ ?>
-	<p><?php echo $msg; ?></p>
-	<?php } ?>
-</div>
 <?php } ?>
 
 <?php if ( !empty($results) ) { ?>
@@ -41,6 +36,13 @@
 
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
+			<a class="btn btn-default lock-on-click tooltips" href="<?php echo $reset_url; ?>" title="<?php echo $button_reset; ?>">
+				<i class="fa fa-refresh fa-fw"></i>
+			</a>
+
+			<a href="#" class="btn btn-default export_map tooltips" data-toggle="modal" data-target="#load_map_modal" title="<?php echo $text_load_map; ?>">
+				<i class="fa fa-code fa-fw"></i>
+			</a>
 		</div>
 
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
@@ -103,7 +105,14 @@
 										if($cname == $map[$table_name."_fields"][$i]) {
 											$selected = 'selected';
 										}
-										echo "<option value=\"$cname\" data-split=\"{$det["split"]}\" data-update=\"{$det["update"]}\" $selected>{$det["title"]}</option>";
+										if(strtolower($col) == $cname || strtolower(str_replace(" ", ".", $col)) == $cname) {
+											$selected = 'selected';
+										}
+										$sel_title = $det["title"];
+										if($det["required"]) {
+											$sel_title = "{$sel_title} *required";
+										}
+										echo "<option value=\"$cname\" data-mvalue=\"{$det["multivalue"]}\" data-split=\"{$det["split"]}\" data-update=\"{$det["update"]}\" $selected>{$sel_title}</option>";
 									}
 									?>
 								</select>
@@ -157,9 +166,9 @@
 			<a href="#" class="btn btn-default export_map" data-toggle="modal" data-target="#load_map_modal">
 				<i class="fa fa-code fa-fw"></i> <?php echo $text_load_map; ?>
 			</a>
-			<button class="btn btn-default" type="reset">
+			<a href="<?php echo $reset_url; ?>" class="btn btn-default">
 				<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
-			</button>
+			</a>
 			<?php } ?>
 		</div>
 	</div>
@@ -215,7 +224,7 @@
 	<?php foreach ($tables as $table_name => $tbl_data) { ?>
 	$('select[name^=\'<?php echo $table_name; ?>_fields\']').change(function () {
 		var $elm = $(this);
-		updateFields($elm);
+		updateFields($elm, '<?php echo $table_name; ?>');
 	});
 	<?php } ?>
 
@@ -248,11 +257,11 @@
 			<?php if(!$import_ready) { ?>
 			$elm.removeAttr('disabled');
 			<?php } ?>
-			updateFields($elm);
+			updateFields($elm, table_name);
 		});
 	};
 
-	var updateFields = function ($elm) {
+	var updateFields = function ($elm, table_name) {
 		$selected = $elm.find("option:selected");
 		var $update = $elm.closest('tr').find('.update-field');
 		if($selected.data('update')){
@@ -266,7 +275,7 @@
 			$update.find('.field_updater input').removeAttr('checked');
 		}
 		var $split = $elm.parents('.field_selector').find('.field_splitter');
-		if($selected.data('split') == '1'){
+		if ($selected.data('split') == '1') {
 			<?php if(!$import_ready) { ?>
 				$split.find('input').removeAttr('disabled');
 			<?php } ?>
@@ -277,5 +286,26 @@
 			<?php } ?>
 			$split.addClass('hidden');
 		}
+		//hide from other select for single value fields
+		if ($selected.data('multivalue') != '1') {
+			updateSelected(table_name);
+		}
+
+	};
+
+	var updateSelected = function (table_name) {
+		$('.table-field .' + table_name + '_field select option').removeAttr('disabled');
+		$('.table-field .' + table_name + '_field select option:selected').each(function() {
+			$selected = $(this);
+			if ($selected.val() && $selected.data('mvalue') != '1') {
+				$('.table-field .' + table_name + '_field select').each( function () {
+					$option = $(this).find('option[value="'+$selected.val()+'"]');
+					if ($option.length) {
+						$option.attr('disabled','disabled');
+					}
+				});
+			}
+
+		});
 	};
 </script>

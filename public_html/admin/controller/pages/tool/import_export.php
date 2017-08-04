@@ -303,6 +303,14 @@ class ControllerPagesToolImportExport extends AController{
 		return $children;
 	}
 
+    public function reset() {
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+
+        unset($this->session->data['import']);
+
+        redirect($this->html->getSecureURL('tool/import_export', '&active=import'));
+    }
+
 	public function import_wizard(){
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
@@ -399,7 +407,7 @@ class ControllerPagesToolImportExport extends AController{
 		));
 
 
-		$this->view->assign('help_url', $this->gen_help_url($this->data['active']));
+        $this->data['reset_url'] = $this->html->getSecureURL('p/tool/import_export/reset');
 
 		if (isset($this->session->data['error'])) {
 			$this->data['error_warning'] = $this->session->data['error'];
@@ -421,11 +429,11 @@ class ControllerPagesToolImportExport extends AController{
 		}
 
 		$this->data['tables'] = $this->tables;
+		$this->view->batchAssign($this->data);
 
+		$this->view->assign('help_url', $this->gen_help_url($this->data['active']));
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
-
-		$this->view->batchAssign($this->data);
 
 		$this->processTemplate("pages/tool/import_wizard.tpl");
 
