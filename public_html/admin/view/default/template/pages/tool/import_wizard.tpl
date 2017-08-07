@@ -299,6 +299,10 @@
 			$selected = $(this);
 			if ($selected.val() && $selected.data('mvalue') != '1') {
 				$('.table-field .' + table_name + '_field select').each( function () {
+					//skip same element from disabling
+					if($(this).is($selected.closest('select'))){
+						return;
+					}
 					$option = $(this).find('option[value="'+$selected.val()+'"]');
 					if ($option.length) {
 						$option.attr('disabled','disabled');
