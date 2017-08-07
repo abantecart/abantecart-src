@@ -42,7 +42,7 @@
 	</definition>
 	<definition>
 		<key>text_file_field</key>
-		<value><![CDATA[Файл для импорта:<br><span class="help">Поддерживаемые форматы для импорта файлов: XML, CSV, TXT</span>]]></value>
+		<value><![CDATA[Файл для импорта:<br><span class="help">Поддерживаемые форматы для импорта файлов: CSV, TXT</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_id_range_from</key>

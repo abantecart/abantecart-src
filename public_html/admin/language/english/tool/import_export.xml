@@ -66,7 +66,7 @@
 	</definition>
 	<definition>
 		<key>text_file_field</key>
-		<value><![CDATA[File to import:<br><span class="help">Supported formats for import files: XML, CSV, TXT</span>]]></value>
+		<value><![CDATA[File to import:<br><span class="help">Supported formats for import files: CSV, TXT</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_id_range_from</key>

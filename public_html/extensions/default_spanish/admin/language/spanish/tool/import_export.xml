@@ -42,7 +42,7 @@
 	</definition>
 	<definition>
 		<key>text_file_field</key>
-		<value><![CDATA[Archivo para importar:<br><span class="help">Los formatos soportados para la importación de archivos: XML, CSV, TXT</span>]]></value>
+		<value><![CDATA[Archivo para importar:<br><span class="help">Los formatos soportados para la importación de archivos: CSV, TXT</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_id_range_from</key>
