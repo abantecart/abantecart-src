@@ -227,7 +227,7 @@ class ControllerPagesProductProduct extends AController{
 				array(
 						'type' => 'input',
 						'name' => 'captcha',
-						'attr' => ''));		
+						'attr' => ''));
 		}
 		$this->data['review_button'] = HtmlElementFactory::create(
 				array(
@@ -383,6 +383,11 @@ class ControllerPagesProductProduct extends AController{
 			$preset_value = $default_value;
 			$opt_stock_message = '';
 			foreach($option['option_value'] as $option_value){
+				if($option['element_type'] == 'B'){
+					$default_value = html_entity_decode($option_value['name']);
+					$option['name'] = '';
+					$option['required'] = false;
+				}
 				$default_value = $option_value['default'] && !$default_value ? $option_value['product_option_value_id'] : $default_value;
 
 				// for case when trying to add to cart without required options. we get option-array back inside _GET
@@ -464,6 +469,7 @@ class ControllerPagesProductProduct extends AController{
 						'regexp_pattern' => $option['regexp_pattern'],
 						'error_text'     => $option['error_text']
 				);
+
 				if($option['element_type'] == 'C'){
 					if(!in_array($value, array('0', '1'))){
 						$option_data['label_text'] = $value;

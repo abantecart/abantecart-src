@@ -53,6 +53,7 @@ if (!defined('DIR_CORE')){
  * @method ZonesHtmlElement buildZones(array $data)
  * @method PaginationHtmlElement buildPagination(array $data)
  * @method ModalHtmlElement buildModal(array $data)
+ * @method LabelHtmlElement buildLabel(array $data)
  */
 class AHtml extends AController{
 	/**
@@ -701,6 +702,11 @@ class HtmlElementFactory{
 					'type'   => 'zones',
 					'method' => 'buildZones',
 					'class'  => 'ZonesHtmlElement'
+			),
+			'B' => array (
+					'type'   => 'label',
+					'method' => 'buildLabel',
+					'class'  => 'LabelHtmlElement'
 			),
 
 	);
@@ -2446,4 +2452,40 @@ class ModalHtmlElement extends HtmlElement{
 		return $return;
 	}
 
+}
+
+/**
+ * Class LabelHtmlElement
+ * NOTE: only for storefront
+ * @property string $element_id
+ * @property string $name
+ * @property string $text
+ * @property string $value
+ * @property string $style
+ * @property string $attr
+ */
+class LabelHtmlElement extends HtmlElement{
+	/**
+	 * @return string
+	 */
+	public function getHtml(){
+		if(IS_ADMIN === true){
+			ADebug::error('labelHtmlElement','You cannot to build Label-field from Admin-side!');
+			return null;
+		}
+
+		$this->view->batchAssign(
+				array (
+						'name'           => $this->name,
+						'id'             => $this->element_id,
+						'text'          => str_replace('"', '&quot;', ($this->text ? $this->text : $this->value)),
+						'attr'           => $this->attr,
+						'style'          => $this->style
+				)
+		);
+		if (!empty($this->help_url)){
+			$this->view->assign('help_url', $this->help_url);
+		}
+		return $this->view->fetch('form/label.tpl');
+	}
 }

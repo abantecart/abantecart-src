@@ -225,6 +225,7 @@ class ControllerPagesAccountInvoice extends AController{
 
 				$products[] = array (
 						'id'        => $product['product_id'],
+						'order_product_id'        => $product['order_product_id'],
 						'thumbnail' => $thumbnail,
 						'name'      => $product['name'],
 						'model'     => $product['model'],

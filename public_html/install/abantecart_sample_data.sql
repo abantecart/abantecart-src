@@ -762,46 +762,47 @@ INSERT INTO `ac_product_discounts` VALUES (3,81,1,4,0,50.0000,'0000-00-00','0000
 -- Dumping data for table `product_option_descriptions`
 --
 
-INSERT INTO `ac_product_option_descriptions` VALUES (318,1,53,'Color','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (315,1,54,'Shade','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (319,1,56,'Color','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (304,1,57,'Color','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (305,1,59,'Color','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (306,1,55,'Color','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (307,1,60,'Color','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (308,1,61,'Color','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (316,1,63,'Fragrance Size','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (314,1,64,'Fragrance Size','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (317,1,69,'Size','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (320,1,78,'Fragrance Size','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (321,1,80,'Fragrance Size','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (322,1,84,'Size','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (323,1,85,'Fragrance Size','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (324,1,89,'Fragrance Size','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (326,1,90,'Fragrance Size','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (327,1,99,'Color','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (328,1,100,'Color','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (329,1,101,'Size','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (330,1,102,'Size','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (331,1,104,'Size','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (332,1,104,'Gift Wrapping','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (335,1,105,'Fragrance Type','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (336,1,105,'Gift Wrapping','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (337,1,105,'Size','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (338,1,106,'Choose Scent','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (339,1,106,'Gift Wrapping','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (340,1,109,'Gift Wrapping','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (341,1,110,'Size','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (342,1,115,'Select Size (EURO)','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (344,1,116,'UK size','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (345,1,116,'Colour','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (346,1,117,'Color&amp;Size','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (347,1,118,'Colour','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (348,1,119,'Size','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (349,1,120,'Size','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (350,1,121,'Colour','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (351,1,121,'Size','','');
-INSERT INTO `ac_product_option_descriptions` VALUES (352,1,122,'Size EU','','');
+INSERT INTO `ac_product_option_descriptions` (product_option_id, language_id, product_id, name, option_placeholder, error_text)
+VALUES (318,1,53,'Color','',''),
+(315,1,54,'Shade','',''),
+(319,1,56,'Color','',''),
+(304,1,57,'Color','',''),
+(305,1,59,'Color','',''),
+(306,1,55,'Color','',''),
+(307,1,60,'Color','',''),
+(308,1,61,'Color','',''),
+(316,1,63,'Fragrance Size','',''),
+(314,1,64,'Fragrance Size','',''),
+(317,1,69,'Size','',''),
+(320,1,78,'Fragrance Size','',''),
+(321,1,80,'Fragrance Size','',''),
+(322,1,84,'Size','',''),
+(323,1,85,'Fragrance Size','',''),
+(324,1,89,'Fragrance Size','',''),
+(326,1,90,'Fragrance Size','',''),
+(327,1,99,'Color','',''),
+(328,1,100,'Color','',''),
+(329,1,101,'Size','',''),
+(330,1,102,'Size','',''),
+(331,1,104,'Size','',''),
+(332,1,104,'Gift Wrapping','',''),
+(335,1,105,'Fragrance Type','',''),
+(336,1,105,'Gift Wrapping','',''),
+(337,1,105,'Size','',''),
+(338,1,106,'Choose Scent','',''),
+(339,1,106,'Gift Wrapping','',''),
+(340,1,109,'Gift Wrapping','',''),
+(341,1,110,'Size','',''),
+(342,1,115,'Select Size (EURO)','',''),
+(344,1,116,'UK size','',''),
+(345,1,116,'Colour','',''),
+(346,1,117,'Color&amp;Size','',''),
+(347,1,118,'Colour','',''),
+(348,1,119,'Size','',''),
+(349,1,120,'Size','',''),
+(350,1,121,'Colour','',''),
+(351,1,121,'Size','',''),
+(352,1,122,'Size EU','','');
 
 --
 -- Dumping data for table `product_option_value_descriptions`

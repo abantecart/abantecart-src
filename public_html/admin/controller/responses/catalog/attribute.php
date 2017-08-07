@@ -22,11 +22,9 @@ if (!defined('DIR_CORE') || !IS_ADMIN){
 }
 
 class ControllerResponsesCatalogAttribute extends AController{
-	private $error = array ();
+
 	public $data = array ();
-
 	public function get_attribute_type(){
-
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -59,7 +57,7 @@ class ControllerResponsesCatalogAttribute extends AController{
 		$element_types = array ('' => $this->language->get('text_select'));
 		foreach ($results as $key => $type){
 			// allowed field types
-			if (in_array($key, array ('I', 'T', 'S', 'M', 'R', 'C', 'G', 'H', 'U'))){
+			if (in_array($key, array ('I', 'T', 'S', 'M', 'R', 'C', 'G', 'H', 'U', 'B'))){
 				$element_types[$key] = $type['type'];
 			}
 		}
@@ -107,7 +105,7 @@ class ControllerResponsesCatalogAttribute extends AController{
 				'style' => 'large-field',
 		));
 		$this->data['children'] = array ();
-		//Build atribute values part of the form
+		//Build attribute values part of the form
 		if ($this->request->get['attribute_id']){
 
 			$this->data['child_count'] = $attribute_manager->totalChildren($this->request->get['attribute_id']);
@@ -254,7 +252,7 @@ class ControllerResponsesCatalogAttribute extends AController{
 						'style'   => 'btn_switch',
 				));
 
-		//Build atribute values part of the form
+		//Build attribute values part of the form
 		if ($this->request->get['attribute_id']){
 
 			$this->data['child_count'] = $attribute_manager->totalChildren($this->request->get['attribute_id']);

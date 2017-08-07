@@ -3200,6 +3200,13 @@ paypal pro styles
 	max-width: 100%;
 }
 
+.product_option_label{
+	background-color: lightgrey;
+	color: black;
+	overflow: hidden;
+	padding: 10px;
+}
+
 /* Responsive Section */
 @media (min-width: 1200px) {
 	.cart-info .estimate{
