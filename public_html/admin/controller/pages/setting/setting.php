@@ -159,7 +159,7 @@ class ControllerPagesSettingSetting extends AController {
 		$this->data['cancel'] = $this->html->getSecureURL('setting/setting');
 		$this->data['action'] = $this->html->getSecureURL('setting/setting');
 
-		require_once(DIR_CORE.'lib/config_manager.php');
+		$this->load->library('config_manager');
 		$this->conf_mngr = new AConfigManager();
 
 		//activate quick start guide button
@@ -618,6 +618,7 @@ class ControllerPagesSettingSetting extends AController {
 
 	/**
 	 * @param string $group
+	 * @param int $store_id
 	 * @return bool
 	 */
 	private function _validate($group, $store_id = 0) {
