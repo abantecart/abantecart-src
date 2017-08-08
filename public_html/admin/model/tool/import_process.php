@@ -789,6 +789,7 @@ class ModelToolImportProcess extends Model{
 						//check if we need to split the record data from list of values
 						if(isset($split_col) && !empty($split_col[$index])) {
 							$field_val = explode($split_col[$index], $field_val);
+                            $field_val = array_map('trim', $field_val);
 						}
 						$arr[$key][] = $field_val;
 					} else {
