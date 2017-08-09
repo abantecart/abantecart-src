@@ -383,13 +383,7 @@ class ControllerPagesProductProduct extends AController{
 			$preset_value = $default_value;
 			$opt_stock_message = '';
 			foreach($option['option_value'] as $option_value){
-				if($option['element_type'] == 'B'){
-					$default_value = html_entity_decode($option_value['name']);
-					$option['name'] = '';
-					$option['required'] = false;
-				}
 				$default_value = $option_value['default'] && !$default_value ? $option_value['product_option_value_id'] : $default_value;
-
 				// for case when trying to add to cart without required options. we get option-array back inside _GET
 				if(has_value($request['option'][$option['product_option_id']])){
 					$default_value = $request['option'][$option['product_option_id']];
@@ -433,13 +427,26 @@ class ControllerPagesProductProduct extends AController{
 					}
 				}
 				$values[$option_value['product_option_value_id']] = $option_value['name'] . ' ' . $price . ' ' . $opt_stock_message;
+				if($option['element_type'] == 'B'){
+					$default_value = $option_value['name'];
+					if($price || $opt_stock_message){
+						$default_value .= '</br>';
+					}
+					if($price){
+						$default_value .= $price.' ';
+					}
+					if($opt_stock_message){
+						$default_value .= $opt_stock_message;
+					}
+					$option['required'] = false;
+				}
 			}
 
 			//if not values are build, nothing to show
 			if(count($values)){
 				$value = '';
 				//add price to option name if it is not element with options
-				if(!in_array($option['element_type'], $elements_with_options)){
+				if(!in_array($option['element_type'], $elements_with_options) && $option['element_type']!='B'){
 					$option['name'] .= ' <small>' . $price . '</small>';
 					if($opt_stock_message){
 						$option['name'] .= '<br />' . $opt_stock_message;
