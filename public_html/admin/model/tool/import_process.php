@@ -702,7 +702,7 @@ class ModelToolImportProcess extends Model{
 
 	private function _get_category($category_name, $language_id, $store_id, $parent_id){
 		$sql = "SELECT cd.category_id from " . $this->db->table("category_descriptions") . " cd
-			  INNER JOIN " . $this->db->table("categories_to_stores") . " c2s ON (cd.category_id = c2s.category_id) 
+			  INNER JOIN " . $this->db->table("categories_to_stores") . " c2s ON (cd.category_id = c2s.category_id)
 			  WHERE language_id = " . (int)$language_id . " AND  c2s.store_id = " . (int)$store_id . "
 					AND LCASE(name) = '" . $this->db->escape(mb_strtolower($category_name)) . "'";
 		$res = $this->db->query($sql);
@@ -890,7 +890,7 @@ class ModelToolImportProcess extends Model{
 					),
 					'product_descriptions.meta_description' => array(
 						'title' => 'Meta Description',
-                        'alias' => 'meda descrition'
+                        'alias' => 'meta description'
 					),
 					'products.keyword' => array(
 						'title' => 'SEO URL',
@@ -906,11 +906,11 @@ class ModelToolImportProcess extends Model{
 					),
 					'products.minimum' => array(
 						'title' => 'Minimum Order Quantity',
-                        'alias' => 'minimum quantaty'
+                        'alias' => 'minimum quantity'
 					),
 					'products.maximum' => array(
 						'title' => 'Maximum Order Quantity',
-                        'alias' => 'maximum quantaty'
+                        'alias' => 'maximum quantity'
 					),
 					'products.price' => array(
 						'title' => 'Product price (In default currency)',
@@ -938,7 +938,7 @@ class ModelToolImportProcess extends Model{
                     ),
 					'products.weight' => array(
 						'title' => 'Product Weight',
-                        'alias' => 'weitgh'
+                        'alias' => 'weight'
 					),
 					'products.length' => array(
 						'title' => 'Product Length',
@@ -950,7 +950,7 @@ class ModelToolImportProcess extends Model{
 					),
 					'products.height' => array(
 						'title' => 'Product Height',
-                        'alias' => 'heigth'
+                        'alias' => 'height'
 					),
 					'products.subtract' => array(
 						'title' => 'Track Stock Setting (1 or 0)',
@@ -1025,7 +1025,7 @@ class ModelToolImportProcess extends Model{
 					'product_options.product_option_values.quantity' => array(
 						'title' => 'Option value quantity',
                         'multivalue' => 1,
-                        'alias' => 'option value quantaty'
+                        'alias' => 'option value quantity'
 					),
 					'product_options.product_option_values.price' => array(
 						'title' => 'Option value price',
@@ -1035,7 +1035,7 @@ class ModelToolImportProcess extends Model{
 					'product_options.product_option_values.default' => array(
 						'title' => 'Option value default selection (1 or 0)',
                         'multivalue' => 1,
-                        'alias' => 'option value default.'
+                        'alias' => 'option value default'
 					),
 					'product_options.product_option_values.weight' => array(
 						'title' => 'Option value weight (numeric)',
