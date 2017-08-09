@@ -97,10 +97,11 @@ class ModelToolImportProcess extends Model{
 				array (
 						'created_by' => $this->user->getId(),
 						'settings'   => array (
-							'import_data'   => $data,
-							'total_rows_count' => $total_rows_count,
-							'processed'        => 0
-						)
+												'import_data'      => $data,
+												'total_rows_count' => $total_rows_count,
+												'success_count'    => 0,
+												'failed_count'     => 0
+											)
 				)
 		);
 
@@ -188,6 +189,7 @@ class ModelToolImportProcess extends Model{
 
 		//data mapping
 		$data = $this->buildDataMap($record, $settings['import_col'], $settings['products_fields'], $settings['split_col']);
+
 		if(empty($data)){
 			return $this->toLog("Error: Unable to build products import data map.");
 		}
@@ -506,19 +508,19 @@ class ModelToolImportProcess extends Model{
 					mkdir(DIR_RESOURCE . 'image/', 0777);
 				}
 				if (!$this->writeToFile($file, $target)) {
-					$this->toLog("Error: Cannot create " . $objects[$object_txt_id] . " " . $data['title'] . " ( " . $source . " )  file " . $target . " in resource/image folder ");
+					$this->toLog("Error: Cannot create " . $objects[$object_txt_id] . " " . $image_basename . " ( " . $source . " )  file " . $target . " in resource/image folder ");
 					continue;
 				}
 				$resource = array (
 					'language_id'   => $language_id,
-					'name'          => $image_basename,
-					'title'         => '',
+					'name'          => array(),
+					'title'         => $image_basename,
 					'description'   => '',
 					'resource_path' => $image_basename,
 					'resource_code' => ''
 				);
 				foreach ($language_list as $lang) {
-					$resource['name'][$lang['language_id']] = $data['title'];
+					$resource['name'][$lang['language_id']] = $resource['title'];
 				}
 				$resource_id = $rm->addResource($resource);
 				if ($resource_id) {
@@ -789,7 +791,7 @@ class ModelToolImportProcess extends Model{
 						//check if we need to split the record data from list of values
 						if(isset($split_col) && !empty($split_col[$index])) {
 							$field_val = explode($split_col[$index], $field_val);
-                            $field_val = array_map('trim', $field_val);
+							$field_val = array_map('trim', $field_val);
 						}
 						$arr[$key][] = $field_val;
 					} else {
@@ -858,194 +860,194 @@ class ModelToolImportProcess extends Model{
 				'columns' => array(
 					'products.status' => array(
 						'title' => 'Status (1 or 0)',
-                        'alias' => 'status'
+						'alias' => 'status'
 					),
 					'products.sku' => array(
 						'title' => 'SKU (up to 64 chars)',
 						'update' => true,
-                        'alias' => 'sku'
+						'alias' => 'sku'
 					),
 					'products.model' => array(
 						'title' => 'Model (up to 64 chars)',
 						'update' => true,
-                        'alias' => 'model'
+						'alias' => 'model'
 					),
 					'product_descriptions.name' => array(
 						'title' => 'Name (up to 255 chars)',
 						'required' => true,
 						'update' => true,
-                        'alias' => 'name'
+						'alias' => 'name'
 					),
 					'product_descriptions.blurb' => array(
 						'title' => 'Short Description',
-                        'alias' => 'blurb'
+						'alias' => 'blurb'
 					),
 					'product_descriptions.description' => array(
 						'title' => 'Long Description',
-                        'alias' => 'description'
+						'alias' => 'description'
 					),
 					'product_descriptions.meta_keywords' => array(
 						'title' => 'Meta Keywords',
-                        'alias' => 'meta keywords'
+						'alias' => 'meta keywords'
 					),
 					'product_descriptions.meta_description' => array(
 						'title' => 'Meta Description',
-                        'alias' => 'meta description'
+						'alias' => 'meta description'
 					),
 					'products.keyword' => array(
 						'title' => 'SEO URL',
-                        'alias' => 'seo url'
+						'alias' => 'seo url'
 					),
 					'products.location' => array(
 						'title' => 'Location (Text up to 128 chars)',
-                        'alias' => 'warehouse'
+						'alias' => 'warehouse'
 					),
 					'products.quantity' => array(
 						'title' => 'Quantity',
-                        'alias' => 'stock'
+						'alias' => 'stock'
 					),
 					'products.minimum' => array(
 						'title' => 'Minimum Order Quantity',
-                        'alias' => 'minimum quantity'
+						'alias' => 'minimum quantity'
 					),
 					'products.maximum' => array(
 						'title' => 'Maximum Order Quantity',
-                        'alias' => 'maximum quantity'
+						'alias' => 'maximum quantity'
 					),
 					'products.price' => array(
 						'title' => 'Product price (In default currency)',
-                        'alias' => 'price'
+						'alias' => 'price'
 					),
 					'products.cost' => array(
 						'title' => 'Product Cost (In default currency)',
-                        'alias' => 'cost'
+						'alias' => 'cost'
 					),
 					'products.shipping_price' => array(
 						'title' => 'Fixed shipping price (In default currency)',
-                        'alias' => 'shipping price'
+						'alias' => 'shipping price'
 					),
 					'products.tax_class_id' => array(
 						'title' => 'Tax Class ID (Number, See tax settings)',
-                        'alias' => 'tax id'
+						'alias' => 'tax id'
 					),
-                    'products.weight_class_id' => array(
-                        'title' => 'Weight Class ID (Number, See weight settings)',
-                        'alias' => 'weight id'
-                    ),
-                    'products.length_class_id' => array(
-                        'title' => 'Length Class ID (Number, See length settings)',
-                        'alias' => 'length id'
-                    ),
+					'products.weight_class_id' => array(
+						'title' => 'Weight Class ID (Number, See weight settings)',
+						'alias' => 'weight id'
+					),
+					'products.length_class_id' => array(
+						'title' => 'Length Class ID (Number, See length settings)',
+						'alias' => 'length id'
+					),
 					'products.weight' => array(
 						'title' => 'Product Weight',
-                        'alias' => 'weight'
+						'alias' => 'weight'
 					),
 					'products.length' => array(
 						'title' => 'Product Length',
-                        'alias' => 'length'
+						'alias' => 'length'
 					),
 					'products.width' => array(
 						'title' => 'Product Width',
-                        'alias' => 'width'
+						'alias' => 'width'
 					),
 					'products.height' => array(
 						'title' => 'Product Height',
-                        'alias' => 'height'
+						'alias' => 'height'
 					),
 					'products.subtract' => array(
 						'title' => 'Track Stock Setting (1 or 0)',
-                        'alias' => 'track stock'
+						'alias' => 'track stock'
 					),
 					'products.free_shipping' => array(
 						'title' => 'Free shipping (1 or 0)',
-                        'alias' => 'free shipping'
+						'alias' => 'free shipping'
 					),
 					'products.shipping' => array(
 						'title' => 'Enable Shipping (1 or 0)',
-                        'alias' => 'requires shipping'
+						'alias' => 'requires shipping'
 					),
 					'products.sort_order' => array(
 						'title' => 'Sorting Order',
-                        'alias' => 'sort order'
+						'alias' => 'sort order'
 					),
 					'products.call_to_order' => array(
 						'title' => 'Order only by calling (1 or 0)',
-                        'alias' => 'call to order'
+						'alias' => 'call to order'
 					),
 					'products.date_available' => array(
 						'title' => 'Date Available (YYYY-MM-DD format)',
-                        'alias' => 'date available'
+						'alias' => 'date available'
 					),
 					'categories.category' => array(
 						'title' => 'Category Name or Tree',
 						'split' => 1,
-                        'multivalue' => 1,
-                        'alias' => 'category'
+						'multivalue' => 1,
+						'alias' => 'category'
 					),
 					'manufacturers.manufacturer' => array(
 						'title' => 'Manufacturer name',
-                        'alias' => 'manufacturer name'
+						'alias' => 'manufacturer name'
 					),
 					'images.image' =>  array(
 						'title' => "Image URL or List of URLs",
 						'split' => 1,
-                        'multivalue' => 1,
-                        'alias' => 'image url'
+						'multivalue' => 1,
+						'alias' => 'image url'
 					),
-                    'product_options.name' => array(
-                        'title' => 'Option name (up to 255 chars)',
-                        'multivalue' => 1,
-                        'alias' => 'option name'
-                    ),
+					'product_options.name' => array(
+						'title' => 'Option name (up to 255 chars)',
+						'multivalue' => 1,
+						'alias' => 'option name'
+					),
 					'product_options.sort_order' => array(
 						'title' => 'Option sorting order (numeric)',
-                        'multivalue' => 1,
-                        'alias' => 'option sort order'
+						'multivalue' => 1,
+						'alias' => 'option sort order'
 					),
 					'product_options.status' => array(
 						'title' => 'Option status (1 or 0)',
-                        'multivalue' => 1,
-                        'alias' => 'option status'
+						'multivalue' => 1,
+						'alias' => 'option status'
 					),
 					'product_options.required' => array(
 						'title' => 'Option Required (1 or 0)',
-                        'multivalue' => 1,
-                        'alias' => 'option required'
+						'multivalue' => 1,
+						'alias' => 'option required'
 					),
 					'product_options.product_option_values.name' => array(
 						'title' => 'Option value name (up to 255 chars)',
-                        'multivalue' => 1,
-                        'alias' => 'option value name'
+						'multivalue' => 1,
+						'alias' => 'option value name'
 					),
 					'product_options.product_option_values.sku' => array(
 						'title' => 'Option value sku (up to 255 chars)',
-                        'multivalue' => 1,
-                        'alias' => 'option value sku'
+						'multivalue' => 1,
+						'alias' => 'option value sku'
 					),
 					'product_options.product_option_values.quantity' => array(
 						'title' => 'Option value quantity',
-                        'multivalue' => 1,
-                        'alias' => 'option value quantity'
+						'multivalue' => 1,
+						'alias' => 'option value quantity'
 					),
 					'product_options.product_option_values.price' => array(
 						'title' => 'Option value price',
-                        'multivalue' => 1,
-                        'alias' => 'option value price'
+						'multivalue' => 1,
+						'alias' => 'option value price'
 					),
 					'product_options.product_option_values.default' => array(
 						'title' => 'Option value default selection (1 or 0)',
-                        'multivalue' => 1,
-                        'alias' => 'option value default'
+						'multivalue' => 1,
+						'alias' => 'option value default'
 					),
 					'product_options.product_option_values.weight' => array(
 						'title' => 'Option value weight (numeric)',
-                        'multivalue' => 1,
-                        'alias' => 'option value weight'
+						'multivalue' => 1,
+						'alias' => 'option value weight'
 					),
 					'product_options.product_option_values.sort_order' => array(
 						'title' => 'Option value sort order (1 or 0)',
-                        'multivalue' => 1,
-                        'alias' => 'option value sort order'
+						'multivalue' => 1,
+						'alias' => 'option value sort order'
 					),
 				)
 			),
@@ -1053,36 +1055,36 @@ class ModelToolImportProcess extends Model{
 				'columns' => array(
 					'categories.status' => array(
 						'title' => 'Status (0 or 1)',
-                        'alias' => 'status'
+						'alias' => 'status'
 					),
 					'categories.sort_order' => array(
 						'title' => 'Sorting Order(Number)',
-                        'alias' => 'sort order'
+						'alias' => 'sort order'
 					),
 					'category_descriptions.name' => array(
 						'title' => 'Category Name or Tree',
 						'required' => true,
 						'split' => 1,
-                        'multivalue' => 1,
-                        'alias' => 'name'
+						'multivalue' => 1,
+						'alias' => 'name'
 					),
 					'category_descriptions.description' => array(
 						'title' => 'Description',
-                        'alias' => 'description'
+						'alias' => 'description'
 					),
 					'category_descriptions.meta_keywords' => array(
 						'title' => 'Meta Keywords',
-                        'alias' => 'meta keywords'
+						'alias' => 'meta keywords'
 					),
 					'category_descriptions.meta_description' => array(
 						'title' => 'Meta Description',
-                        'alias' => 'meta description'
+						'alias' => 'meta description'
 					),
 					'images.image' =>  array(
 						'title' => "Image URL or List of URLs",
 						'split' => 1,
-                        'multivalue' => 1,
-                        'alias' => 'image'
+						'multivalue' => 1,
+						'alias' => 'image'
 					),
 				),
 			),
@@ -1091,18 +1093,18 @@ class ModelToolImportProcess extends Model{
 					'manufacturers.sort_order' => array(
 						'title' => 'Sorting Order (Number)',
 						'default' => 0,
-                        'alias' => 'sort order'
+						'alias' => 'sort order'
 					),
 					'manufacturers.name' => array(
 						'title' => 'Name (up to 64 chars)',
 						'required' => true,
-                        'alias' => 'name'
+						'alias' => 'name'
 					),
 					'images.image' =>  array(
 						'title' => "Image URL or List of URLs",
 						'split' => 1,
-                        'multivalue' => 1,
-                        'alias' => 'image'
+						'multivalue' => 1,
+						'alias' => 'image'
 					),
 				),
 			),
