@@ -105,7 +105,12 @@
 										if($cname == $map[$table_name."_fields"][$i]) {
 											$selected = 'selected';
 										}
-										if(strtolower($col) == $cname || strtolower(str_replace(" ", ".", $col)) == $cname) {
+										//see if we can match colums based on the name
+										$col_name = trim(preg_replace('/[0-9]+/', '', $col));
+										if(	strtolower($col_name) == $cname
+											|| strtolower(preg_replace('/\s+/', '.', $col_name)) == $cname
+											|| strtolower($col_name) == $det['alias']
+										) {
 											$selected = 'selected';
 										}
 										$sel_title = $det["title"];
@@ -288,28 +293,26 @@
 		}
 		//hide from other select for single value fields
 		if ($selected.data('multivalue') != '1') {
-			updateSelected(table_name);
+			checkSelected(table_name, $elm);
 		}
 
 	};
 
-	var updateSelected = function (table_name) {
-		$('.table-field .' + table_name + '_field select option').removeAttr('disabled');
+	var checkSelected = function (table_name, $elm) {
+		$orig_sel = $elm.find("option:selected");
+		$elm.closest('.form-group').removeClass("has-error");
 		$('.table-field .' + table_name + '_field select option:selected').each(function() {
 			$selected = $(this);
-			if ($selected.val() && $selected.data('mvalue') != '1') {
-				$('.table-field .' + table_name + '_field select').each( function () {
-					//skip same element from disabling
-					if($(this).is($selected.closest('select'))){
-						return;
-					}
-					$option = $(this).find('option[value="'+$selected.val()+'"]');
-					if ($option.length) {
-						$option.attr('disabled','disabled');
-					}
-				});
+			if($elm.is($selected.closest('select'))){
+				//skip same element
+				return;
 			}
-
+			if ($selected.val() && $selected.data('mvalue') != '1') {
+				if($selected.val() == $orig_sel.val()) {
+					$elm.closest('.form-group').addClass("has-error");
+				}
+			}
 		});
 	};
+
 </script>
