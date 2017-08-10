@@ -204,4 +204,8 @@
 		<key>text_success_import</key>
 		<value><![CDATA[Data has been imported successfully.]]></value>
 	</definition>
+	<definition>
+		<key>text_success_abort</key>
+		<value><![CDATA[Task interrupted successfully.]]></value>
+	</definition>
 </definitions>

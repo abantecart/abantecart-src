@@ -255,6 +255,42 @@ class ControllerResponsesToolImportProcess extends AController {
 
 	}
 
+	public function abort(){
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
+
+		$task_id = (int)$this->request->post['task_id'];
+		if(!$task_id){
+			return null;
+		}
+
+		//check task result
+		$tm = new ATaskManager();
+		$task_info = $tm->getTaskById($task_id);
+
+		if($task_info){
+			$tm->deleteTask($task_id);
+			$result_text = $this->language->get('text_success_abort');
+		}else{
+			$error_text = 'Task #'.$task_id.' not found!';
+			$error = new AError($error_text);
+			return $error->toJSONResponse('APP_ERROR_402',
+						array( 'error_text' => $error_text,
+								'reset_value' => true
+						));
+		}
+
+
+		//update controller data
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->addJSONHeader();
+		$this->response->setOutput( AJson::encode(array(
+													'result' => true,
+													'result_text' => $result_text ))
+		);
+	}
 
 	private function _validate() {
 		if (!$this->user->canModify('sale/contact')) {
