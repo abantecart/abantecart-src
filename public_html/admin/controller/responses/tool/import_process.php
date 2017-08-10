@@ -57,13 +57,15 @@ class ControllerResponsesToolImportProcess extends AController {
 				return $error->toJSONResponse('APP_ERROR_402',
 										array( 'error_text' => implode(' ', $this->errors),
 												'reset_value' => true
-										));
+										)
+				);
 			} elseif (!$task_api_key){
 				$error = new AError('files import error');
 				return $error->toJSONResponse('APP_ERROR_402',
 										array( 'error_text' => 'Please set up Task API Key in the settings!',
 											   'reset_value' => true
-										));
+										)
+				);
 			} else {
 				$task_details['task_api_key'] = $task_api_key;
 				$task_details['url'] = HTTPS_SERVER.'task.php';
@@ -75,7 +77,8 @@ class ControllerResponsesToolImportProcess extends AController {
 			return $error->toJSONResponse('VALIDATION_ERROR_406',
 									array( 'error_text' => implode('<br>', $this->errors),
 											'reset_value' => true
-									));
+									)
+			);
 		}
 
 		//update controller data
@@ -107,9 +110,11 @@ class ControllerResponsesToolImportProcess extends AController {
 		} else {
 			$result_text = $this->language->get('text_task_failed');
 		}
+		$log_file = $task_info['settings']['logfile'];
+		$result_text .= '<br>'.sprintf($this->language->get('text_see_log'), $this->html->getSecureURL('tool/error_log', '&filename='.$log_file), $log_file);
 
 		//update controller data
-		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
@@ -129,7 +134,6 @@ class ControllerResponsesToolImportProcess extends AController {
 		$etas = array();
 		if ($task_id) {
 			$tm= new ATaskManager();
-
 			$steps = $tm->getTaskSteps($task_id);
 			foreach($steps as $step){
 				if(!$step['settings']['to']){
@@ -165,13 +169,10 @@ class ControllerResponsesToolImportProcess extends AController {
 				$task_details['status'] = $tm::STATUS_READY;
 				$tm->updateTask($task_id, array('status' => $tm::STATUS_READY));
 			}
-
 			foreach ($etas as $step_id => $eta) {
 				$task_details['steps'][$step_id]['eta'] = $eta;
 			}
-
 			$this->data['output']['task_details'] = $task_details;
-
 		} else {
 			$error = new AError(implode('<br>', $this->errors));
 			return $error->toJSONResponse('VALIDATION_ERROR_406',
@@ -182,77 +183,9 @@ class ControllerResponsesToolImportProcess extends AController {
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
-
 		$this->load->library('json');
 		$this->response->addJSONHeader();
 		$this->response->setOutput( AJson::encode($this->data['output']) );
-
-	}
-
-
-	public function incomplete(){
-		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
-		$this->loadModel('user/user');
-		$this->data = $this->language->getASet('sale/contact');
-
-		$tm = new ATaskManager();
-		$incomplete = $tm->getTasks(array(
-				'filter' => array(
-						'name' => 'send_now'
-				)
-		));
-
-		$k = 0;
-		foreach($incomplete as $incm_task){
-			//show all incomplete tasks for Top Administrator user group
-			if($this->user->getUserGroupId() != 1){
-				if ($incm_task['starter'] != $this->user->getId()){
-					continue;
-				}
-			}
-			//define incomplete tasks by last time run
-			$max_exec_time = (int)$incm_task['max_execution_time'];
-			if (!$max_exec_time) {
-				//if no limitations for execution time for task - think it's 2 hours
-				//$max_exec_time = 7200;
-				$max_exec_time = 7200;
-			}
-			if (time() - dateISO2Int($incm_task['last_time_run']) > $max_exec_time ) {
-
-				//get some info about task, for ex message-text and subject
-				$steps = $tm->getTaskSteps($incm_task['task_id']);
-				if(!$steps){
-					$tm->deleteTask($incm_task['task_id']);
-				}
-				$user_info = $this->model_user_user->getUser($incm_task['starter']);
-				$incm_task['starter_name'] = $user_info['username']. ' '.$user_info['firstname']. ' '.$user_info['lastname'];
-				$step = current($steps);
-				$step_settings = $step['settings'];
-				if($step_settings['subject']){
-					$incm_task['subject'] = $step_settings['subject'];
-				}
-				$incm_task['message'] = mb_substr($step_settings['message'],0, 300);
-				$incm_task['date_added'] = dateISO2Display($incm_task['date_added'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));
-				$incm_task['last_time_run'] = dateISO2Display($incm_task['last_time_run'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));
-				$incm_task['sent'] = sprintf($this->language->get('text_sent'),$incm_task['settings']['sent'], $incm_task['settings']['recipients_count']);
-
-				$this->data['tasks'][$k] = $incm_task;
-			}
-
-			$k++;
-		}
-
-		$this->data['restart_task_url'] = $this->html->getSecureURL('r/sale/contact/restartTask');
-		$this->data['complete_task_url'] = $this->html->getSecureURL('r/sale/contact/complete');
-		$this->data['abort_task_url'] = $this->html->getSecureURL('r/sale/contact/abort');
-
-		$this->view->batchAssign($this->data);
-		$this->processTemplate('responses/sale/contact_incomplete.tpl');
-		//update controller data
-		$this->extensions->hk_UpdateData($this,__FUNCTION__);
-
-
 	}
 
 	public function abort(){
@@ -280,9 +213,8 @@ class ControllerResponsesToolImportProcess extends AController {
 						));
 		}
 
-
 		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
@@ -292,7 +224,7 @@ class ControllerResponsesToolImportProcess extends AController {
 		);
 	}
 
-	private function _validate() {
+	protected function _validate() {
 		if (!$this->user->canModify('sale/contact')) {
 			$this->errors['warning'] = $this->language->get('error_permission');
 			return false;

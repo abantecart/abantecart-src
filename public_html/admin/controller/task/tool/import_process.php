@@ -41,8 +41,8 @@ class ControllerTaskToolImportProcess extends AController{
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->success_count = 0;
+		$this->failed_count = 0;
 		$result = $this->_process($task_id, $step_id);
-
 		if(!$this->success_count){
 			$result = false;
 		}
@@ -73,7 +73,6 @@ class ControllerTaskToolImportProcess extends AController{
 		$task_info = $tm->getTaskById($task_id);
 		//get setting with import details
 		$import_details = $task_info['settings']['import_data'];
-		$this->success_count = (int)$task_info['settings']['success_count'];
 		$step_info = $tm->getTaskStep($task_id, $step_id);
 		if(!$step_info['settings'] ){
 			$error_text = "Cannot run task #{$task_id} step #{$step_id}. Can not locate settings for the step.";
@@ -114,8 +113,12 @@ class ControllerTaskToolImportProcess extends AController{
 					$vals[$columns[$i]] = $rowData[$i];
 				}
 				//main driver to process data and import
-				$method = "process_{$type}_record";
-				$result = $this->model_tool_import_process->$method($task_id, $vals, $import_details);
+				$method = "process_".$type."_record";
+				try{
+					$result = $this->model_tool_import_process->$method($task_id, $vals, $import_details);
+				}catch(AException $e){
+					$result = false;
+				}
 				if ($result) {
 					$this->success_count++;
 				}else{
@@ -127,10 +130,11 @@ class ControllerTaskToolImportProcess extends AController{
 			$tm->updateTaskDetails($task_id,
 				array(
 					'settings'   => array(
-						'step_id'           => $step_id,
+						'logfile'           => $type.'_import_'.$task_id.'.txt',
+						'import_data'       => $task_info['settings']['import_data'],
 						'total_rows_count'  => $task_info['settings']['total_rows_count'],
-						'success_count'     => $this->success_count,
-						'failed_count'      => $this->failed_count
+						'success_count'     => (int)$task_info['settings']['success_count'] + $this->success_count,
+						'failed_count'      => (int)$task_info['settings']['failed_count'] + $this->failed_count
 					)
 				)
 			);
@@ -145,8 +149,15 @@ class ControllerTaskToolImportProcess extends AController{
 	}
 
 	protected function readFileSeek($source, $line_num = 1, $range = 1){
+		if(!$source){
+			return array();
+		}
 		$buffer = array();
 		$fh = fopen($source, 'r');
+		if(!$fh){
+			return array();
+		}
+
 		$lineNo = 0;
 		$startLine = $line_num;
 		$endLine = $line_num + $range;

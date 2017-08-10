@@ -68,9 +68,9 @@ class ModelToolImportProcess extends Model{
 		$task_controller = 'task/tool/import_process/processRows';
 
 		//numbers of rows per task step
-		$divider = 20;
+		$divider = 10;
 		//timeout in seconds for one row
-		$time_per_send = 4;
+		$time_per_send = 6;
 
 		$tm = new ATaskManager();
 		//create new task
@@ -106,7 +106,7 @@ class ModelToolImportProcess extends Model{
 		);
 
 		$sort_order =1;
-		$k = 0;
+		$k = 1;
 		while ($k < $total_rows_count){
 			//create task step
 			$step_id = $tm->addStep(array (
@@ -115,7 +115,7 @@ class ModelToolImportProcess extends Model{
 				'status'             => 1,
 				'last_time_run'      => '0000-00-00 00:00:00',
 				'last_result'        => '0',
-				'max_execution_time' => ($divider * 2),
+				'max_execution_time' => ($divider * $time_per_send * 2),
 				'controller'         => $task_controller,
 				'settings'           => array (
 					'start'     => $k,
@@ -128,7 +128,7 @@ class ModelToolImportProcess extends Model{
 				return false;
 			} else {
 				// get eta in seconds
-				$this->eta[$step_id] = $divider * 2;
+				$this->eta[$step_id] = ($divider * $time_per_send * 2);
 			}
 
 			$sort_order++;
@@ -163,22 +163,16 @@ class ModelToolImportProcess extends Model{
 	public function process_categories_record($task_id, $data, $settings){
 		$language_id = $this->session->data['content_language_id'];
 		$store_id = $this->session->data['current_store_id'];
-
 		$this->load->model('catalog/category');
-
 		$this->imp_log = new ALog(DIR_LOGS . "categories_import_{$task_id}.txt");
-
 		return $this->addUpdateCategory($data, $settings, $language_id, $store_id);
 	}
 
 	public function process_manufacturers_record($task_id, $data, $settings){
 		$language_id = $this->session->data['content_language_id'];
 		$store_id = $this->session->data['current_store_id'];
-
 		$this->load->model('catalog/manufacturer');
-
 		$this->imp_log = new ALog(DIR_LOGS . "manufacturers_import_{$task_id}.txt");
-
 		return $this->addUpdateManufacture($data, $settings, $language_id, $store_id);
 	}
 
@@ -283,10 +277,10 @@ class ModelToolImportProcess extends Model{
 
 		//process images
 		$this->_migrateImages($data['images'], 'products', $product_id, $language_id);
+
 		//process options
 		$this->_addUpdateOptions($product_id, $data['product_options'], $language_id, $store_id);
 		//process SEO URL
-
 		return $status;
 	}
 
@@ -482,10 +476,10 @@ class ModelToolImportProcess extends Model{
 		$rm = new AResourceManager();
 		$rm->setType('image');
 
+		$c = new AConnect();
 		//IMAGE PROCESSING
 		$data['image'] = (array)$data['image'];
 		foreach ($data['image'] as $source) {
-
 			if (empty($source)) {
 				continue;
 			} else if (is_array($source)) {
@@ -494,11 +488,12 @@ class ModelToolImportProcess extends Model{
 				continue;
 			}
 			// check is image exists
-			$src_exists = @getimagesize($source);
-			if ($src_exists) {
+			$headers = $c->getDataHeaders($source);
+			//note that size can be -1 as unknown
+			if ($headers['download_content_length'] != 0) {
 				$image_basename = trim(basename($source));
 				$target = DIR_RESOURCE . 'image/' . $image_basename;
-
+				$this->toLog("TRY TO DOWNLOAD: ". $source );
 				if (($file = $this->downloadFile($source)) === false) {
 					$this->toLog("Error: Image " . $source . " cannot be downloaded.");
 					continue;
@@ -524,6 +519,7 @@ class ModelToolImportProcess extends Model{
 				}
 				$resource_id = $rm->addResource($resource);
 				if ($resource_id) {
+					$this->toLog("Map into RL: ". $image_basename ." ". $resource_id );
 					$rm->mapResource($object_txt_id, $object_id, $resource_id);
 				} else {
 					$this->toLog("Error: Image resource can not be created. " . $this->db->error);
