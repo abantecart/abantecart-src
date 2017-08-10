@@ -15,7 +15,7 @@
 <?php
 echo $resources_scripts;
 echo $extension_summary;
-echo $tabs;
+
 ?>
 <div id="content" class="panel panel-default">
 
@@ -45,14 +45,11 @@ echo $tabs;
 				<?php echo $this->getHookVar('extension_toolbar_buttons'); ?>
 			</div>
 		</div>
-		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
 	</div>
-		
-</div>
 
-<div class="tab-content">
 	<?php  echo $form['form_open']; ?>
-	<div class="panel-body panel-body-nopadding">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 
 		<label class="h4 heading"><?php echo $this->config->get('cardconnect_test_mode') ? $text_api_credentials_sandbox : $text_api_credentials; ?></label>
 		<?php foreach ($settings as $name => $field) {
@@ -110,39 +107,34 @@ echo $tabs;
 			</div>
 		</div>
 
+		<label class="h4 heading"><?php echo $text_optional_settings; ?></label>
+		<?php foreach ($settings as $name=> $field) {
+			if ( in_array($name, $exclude_settings)) {
+				continue;
+			}
 
-	</div>
-	
-	<div class="panel-body panel-body-nopadding">
-			<label class="h4 heading"><?php echo $text_optional_settings; ?></label>
-			<?php foreach ($settings as $name=> $field) {
-					if ( in_array($name, $exclude_settings)) {
-						continue;
-					}
-
-					if (is_integer($field['note']) || $field['value']->type == 'hidden') {
-						echo $field['value'];
-						continue;
-					}
-					//Logic to calculate fields width
-					$widthcasses = "col-sm-7";
-					if($name=='default_pp_standart_cartbordercolor'){
-						$widthcasses = "col-sm-2";
-					}
-					$widthcasses .= " col-xs-12";
-					?>
-					<div class="form-group <?php if (!empty($error[$name])) {echo "has-error";} ?>">
-						<label class="control-label col-sm-4 col-xs-12" for="<?php echo $field['value']->element_id; ?>"><?php echo $field['note']; ?></label>
-						<div class="input-group afield <?php echo $widthcasses; ?>">
-						<?php
-							echo $field['value']; ?>
-						</div>
-						<?php if (!empty($error[$name])) { ?>
-							<span class="help-block field_err"><?php echo $error[$name]; ?></span>
-						<?php } ?>
-					</div>
-
-		<?php } ?><!-- <div class="fieldset"> -->
+			if (is_integer($field['note']) || $field['value']->type == 'hidden') {
+				echo $field['value'];
+				continue;
+			}
+			//Logic to calculate fields width
+			$widthcasses = "col-sm-7";
+			if($name=='default_pp_standart_cartbordercolor'){
+				$widthcasses = "col-sm-2";
+			}
+			$widthcasses .= " col-xs-12";
+			?>
+			<div class="form-group <?php if (!empty($error[$name])) {echo "has-error";} ?>">
+				<label class="control-label col-sm-4 col-xs-12" for="<?php echo $field['value']->element_id; ?>"><?php echo $field['note']; ?></label>
+				<div class="input-group afield <?php echo $widthcasses; ?>">
+				<?php
+					echo $field['value']; ?>
+				</div>
+				<?php if (!empty($error[$name])) { ?>
+					<span class="help-block field_err"><?php echo $error[$name]; ?></span>
+				<?php } ?>
+			</div>
+		<?php } ?>
 
 	</div>
 
@@ -163,6 +155,7 @@ echo $tabs;
 	    <?php } ?>
 		</div>
 	</div>
+
 	</form>
 </div>
 
