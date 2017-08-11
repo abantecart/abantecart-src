@@ -51,6 +51,7 @@ class ModelToolImportProcess extends Model{
 		}
 		//get file details
 		$total_rows_count = 0;
+		ini_set("auto_detect_line_endings", true);
 		$handle = fopen($data['file'] , "r");
 		if(is_resource($handle)) {
 			while (!feof($handle)) {
@@ -175,7 +176,6 @@ class ModelToolImportProcess extends Model{
 		$this->imp_log = new ALog(DIR_LOGS . "manufacturers_import_{$task_id}.txt");
 		return $this->addUpdateManufacture($data, $settings, $language_id, $store_id);
 	}
-
 
 	protected function addUpdateProduct($record, $settings, $language_id, $store_id){
 		$status = false;

@@ -66,9 +66,9 @@ class ControllerPagesToolImportUpload extends AController {
 		unset($this->session->data['import_map']);
 
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
-		//internal import format, we can load tasks
+		//internal import format
 		if( $file_data['format'] == 'internal') {
-			redirect($this->html->getSecureURL('tool/import_export/import'));
+			redirect($this->html->getSecureURL('tool/import_export/internal_import'));
 		} else {
 			redirect($this->html->getSecureURL('tool/import_export/import_wizard'));
 		}
@@ -119,11 +119,9 @@ class ControllerPagesToolImportUpload extends AController {
 				if($count_dots == count($cols)){
 					$res['format'] = 'internal';
 				}
-
 			} else {
 				return array('error' => $this->language->get('error_data_corrupted'));
 			}
-
 			$res['request_count'] = -1; //deduct header
 			while(!feof($fh)){
 				fgets($fh);

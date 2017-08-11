@@ -303,13 +303,11 @@ class ControllerPagesToolImportExport extends AController{
 		return $children;
 	}
 
-    public function reset() {
-        $this->extensions->hk_InitData($this, __FUNCTION__);
-
-        unset($this->session->data['import']);
-
-        redirect($this->html->getSecureURL('tool/import_export', '&active=import'));
-    }
+	public function reset() {
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+		unset($this->session->data['import']);
+		redirect($this->html->getSecureURL('tool/import_export', '&active=import'));
+	}
 
 	public function import_wizard(){
 		//init controller data
@@ -320,6 +318,7 @@ class ControllerPagesToolImportExport extends AController{
 			$this->session->data['error'] = $this->language->get('error_data_corrupted');
 			return $this->main();
 		}
+		$this->data['file_format'] = $this->request->get['file_format'] == 'internal' ? 'internal' : 'external';
 
 		$this->handler = new AData();
 
@@ -398,7 +397,6 @@ class ControllerPagesToolImportExport extends AController{
 			'text'  => $this->language->get('button_cancel'),
 			'style' => 'button2',
 		));
-
 		$this->data['form']['serialized_map'] = $form->getFieldHtml(array (
 			'type'  => 'textarea',
 			'name'  => 'serialized_map',
@@ -406,8 +404,7 @@ class ControllerPagesToolImportExport extends AController{
 			'attr'  => 'rows="20" cols="300"',
 		));
 
-
-        $this->data['reset_url'] = $this->html->getSecureURL('p/tool/import_export/reset');
+		$this->data['reset_url'] = $this->html->getSecureURL('p/tool/import_export/reset');
 
 		if (isset($this->session->data['error'])) {
 			$this->data['error_warning'] = $this->session->data['error'];
@@ -441,6 +438,108 @@ class ControllerPagesToolImportExport extends AController{
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
+	public function internal_import(){
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$import_data = $this->session->data['import'];
+		if(empty($import_data)) {
+			$this->session->data['error'] = $this->language->get('error_data_corrupted');
+			return $this->main();
+		}
+
+		$this->loadLanguage('tool/import_export');
+		$this->document->setTitle($this->language->get('import_wizard_title'));
+		$this->data['title'] = $this->language->get('import_wizard_title');
+
+		$this->data['tabs'] = $this->tabs;
+		$this->data['active'] = 'import_wizard';
+		foreach($this->data['tabs'] as $tab){
+			$this->data['tab_' . $tab] = $this->language->get('tab_' . $tab);
+			$this->data['link_' . $tab] = $this->html->getSecureURL('p/tool/import_export', '&active=' . $tab);
+		}
+
+		$this->document->initBreadcrumb(array(
+			'href'      => $this->html->getSecureURL('index/home'),
+			'text'      => $this->language->get('text_home'),
+			'separator' => false
+		));
+		$this->document->addBreadcrumb(array(
+			'href'    => $this->html->getSecureURL('tool/import_export'),
+			'text'    => $this->language->get('import_export_title'),
+			'current' => true
+		));
+
+		$this->getForm();
+		$form = new AForm('ST');
+
+		$form->setForm(array(
+			'form_name' => 'internalImportFrm'
+		));
+		$this->data['form']['id'] = 'internalImportFrm';
+
+		$this->data['form_open'] = $form->getFieldHtml(array(
+			'type'   => 'form',
+			'name'   => 'internalImport',
+			'action' => $this->html->getSecureURL('tool/import_export/internal_import'),
+			'attr'   => 'class="aform form-horizontal"',
+		));
+		$this->data['form']['submit'] = $form->getFieldHtml(array(
+			'type'  => 'button',
+			'name'  => 'submit',
+			'text'  => $this->language->get('button_continue'),
+			'style' => 'button1',
+		));
+		$this->data['form']['cancel'] = $form->getFieldHtml(array(
+			'type'  => 'button',
+			'name'  => 'cancel',
+			'text'  => $this->language->get('button_cancel'),
+			'style' => 'button2',
+		));
+		//urls for creating and running task
+		$this->data['form']['build_task_url'] = $this->html->getSecureURL('r/tool/import_process/buildTask');
+		$this->data['form']['complete_task_url'] = $this->html->getSecureURL('r/tool/import_process/complete');
+		$this->data['form']['abort_task_url'] = $this->html->getSecureURL('r/tool/import_process/abort');
+		$this->data['back_url'] = $this->html->getSecureURL('tool/import_export/import_wizard');
+
+		$this->data['reset_url'] = $this->html->getSecureURL('p/tool/import_export/reset');
+
+		if (isset($this->session->data['error'])) {
+			$this->data['error_warning'] = $this->session->data['error'];
+			unset($this->session->data['error']);
+		} else{
+			$this->data['error_warning'] = $this->error;
+		}
+		$this->data['success'] = $this->success;
+
+		//get sample row
+		if($import_data['file_type'] == 'csv') {
+			ini_set('auto_detect_line_endings', true);
+			if ($fh = fopen($import_data['file'], 'r')) {
+				$this->data['cols'] = fgetcsv($fh, 0, $import_data['delimiter']);
+				$this->data['data'] = fgetcsv($fh, 0, $import_data['delimiter']);
+			}
+		} else {
+			//unsupported type
+		}
+
+		$this->data['request_count'] = $import_data['request_count'];
+		$this->view->batchAssign($this->data);
+
+		$this->view->assign('help_url', $this->gen_help_url($this->data['active']));
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
+		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
+
+		$this->processTemplate("pages/tool/internal_import.tpl");
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+	}
+
+
+	/**
+	 * Internal load format
+	 */
 	public function import(){
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
@@ -451,22 +550,22 @@ class ControllerPagesToolImportExport extends AController{
 			return $this->main();
 		}
 
-		if($import_data['file_type'] == 'csv'){
-			#TODO: Need to add test for the file in case of 'application/octet-stream'
-			$csv_array = $this->handler->CSV2ArrayFromFile($import_data['file'], $import_data['delimiter_id']);
-			$this->data['results'] = $this->handler->importData($csv_array, $import_data['run_mode']);
-			$this->cache->remove('*');
-		} elseif($import_data['file_type'] == 'xml'){
-			$xml_array = $this->handler->XML2ArrayFromFile($import_data['file']);
-			$this->data['results'] = $this->handler->importData($xml_array, $import_data['run_mode']);
-			$this->cache->remove('*');
-		} else{
+		if($import_data['file_type'] != 'csv'){
+//$csv_array = $this->handler->CSV2ArrayFromFile($import_data['file'], $import_data['delimiter_id']);
+//$this->data['results'] = $this->handler->importData($csv_array);
 			$this->session->data['error'] = $this->language->get('error_file_format');
+			$this->main();
+			return null;
 		}
 
 		if (!$this->data['results']) {
 			$this->session->data['error'] = $this->language->get('error_data_corrupted');
-		} else {
+			$this->main();
+			return null;
+		}
+
+		/*
+		else {
 			$this->data['text_updated'] = $this->language->get('text_updated');
 			$this->data['count_updated'] = isset($this->data['results']['update']) ? count($this->data['results']['update']) : 0;
 			$this->data['text_created'] = $this->language->get('text_created');
@@ -488,17 +587,16 @@ class ControllerPagesToolImportExport extends AController{
 		//cleanup
 		@unlink($import_data['file']);
 		unset($this->session->data['import']);
-
-		$this->main();
+		*/
+		//$this->main();
 	}
 
-	private function validateWizardRequest($post) {
+	protected function validateWizardRequest($post) {
 		if(!$post['table']
 			|| !isset($this->tables[$post['table']])
 			|| empty($post[$post['table']."_fields"])
 			|| !is_array($post[$post['table']."_fields"])
-		)
-		{
+		){
 			$this->error = $this->language->get('error_table_selection');
 			return false;
 		}

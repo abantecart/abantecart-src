@@ -73,6 +73,7 @@ class ControllerTaskToolImportProcess extends AController{
 		$task_info = $tm->getTaskById($task_id);
 		//get setting with import details
 		$import_details = $task_info['settings']['import_data'];
+		$file_format = $import_details['format'];
 		$step_info = $tm->getTaskStep($task_id, $step_id);
 		if(!$step_info['settings'] ){
 			$error_text = "Cannot run task #{$task_id} step #{$step_id}. Can not locate settings for the step.";
@@ -99,6 +100,7 @@ class ControllerTaskToolImportProcess extends AController{
 			array_shift($records);
 			$this->loadModel('tool/import_process');
 			$step_failed_count = 0;
+			$a_data = new AData();
 			foreach ($records as $index => $row) {
 				$vals = array();
 				$rowData = str_getcsv($row, $delimiter, '"');
@@ -112,12 +114,19 @@ class ControllerTaskToolImportProcess extends AController{
 				for ($i = 0; $i < count($columns); $i++) {
 					$vals[$columns[$i]] = $rowData[$i];
 				}
-				//main driver to process data and import
-				$method = "process_".$type."_record";
-				try{
-					$result = $this->model_tool_import_process->$method($task_id, $vals, $import_details);
-				}catch(AException $e){
+
+				if($file_format == 'internal'){
+					//$results = $a_data->importData($vals);
+					//$result = true;
 					$result = false;
+				}else {
+					//main driver to process data and import
+					$method = "process_" . $type . "_record";
+					try{
+						$result = $this->model_tool_import_process->$method($task_id, $vals, $import_details);
+					} catch (AException $e){
+						$result = false;
+					}
 				}
 				if ($result) {
 					$this->success_count++;

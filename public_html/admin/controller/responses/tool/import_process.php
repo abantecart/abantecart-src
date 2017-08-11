@@ -43,9 +43,14 @@ class ControllerResponsesToolImportProcess extends AController {
 		$this->data['output'] = array();
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
+		$file_format = $this->session->data['import']['format'];
 
 		if ($this->request->is_POST() && $this->_validate()) {
-			$imp_data = array_merge($this->session->data['import_map'], $this->session->data['import']);
+			if($file_format == 'internal'){
+				$imp_data = $this->session->data['import'];
+			}else{
+				$imp_data = array_merge($this->session->data['import_map'], $this->session->data['import']);
+			}
 
 			$this->loadModel('tool/import_process');
 			$task_details = $this->model_tool_import_process->createTask('import_wizard_'.date('Ymd-H:i:s'), $imp_data);
@@ -230,7 +235,9 @@ class ControllerResponsesToolImportProcess extends AController {
 			return false;
 		}
 
-		if (!$this->session->data['import_map'] || !$this->session->data['import']) {
+		if (
+			($this->session->data['import']['format'] != 'internal' && !$this->session->data['import_map'])
+				|| !$this->session->data['import']) {
 			$this->errors['warning'] = $this->language->get('error_data_corrupted');
 			return false;
 		}
