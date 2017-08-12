@@ -91,35 +91,38 @@ class ControllerTaskToolImportProcess extends AController{
 
 		$step_result = false;
 		//read records from source file
-		$records = $this->readFileSeek($filename, $start, ($stop-$start));
+		$records = $this->readFileSeek($filename, $delimiter, '"', $start, ($stop-$start));
 
 		if(count($records)) {
+
 			//process column names
-			$columns = str_getcsv($records[0], $delimiter, '"');
+			$columns = $records[0];
 			//skip header and process each record
 			array_shift($records);
 			$this->loadModel('tool/import_process');
 			$step_failed_count = 0;
-			$a_data = new AData();
-			foreach ($records as $index => $row) {
-				$vals = array();
-				$rowData = str_getcsv($row, $delimiter, '"');
-				//check if we match row data count to header
-				if (count($rowData) != count($columns)) {
-					//incomplete row. Exit
-					$return[] = "Error: incomplete data in row number: {$index} with: {$rowData[0]}";
-					$step_failed_count++;
-					continue;
-				}
-				for ($i = 0; $i < count($columns); $i++) {
-					$vals[$columns[$i]] = $rowData[$i];
-				}
 
-				if($file_format == 'internal'){
-					//$results = $a_data->importData($vals);
-					//$result = true;
-					$result = false;
-				}else {
+			if($file_format == 'internal'){
+				//something wrong here
+				//$a_data = new AData();
+				//$results = $a_data->importData(array('tables' => $records));
+
+				//$result = true;
+				$result = false;
+			}else {
+				foreach ($records as $index => $rowData) {
+					$vals = array ();
+					//check if we match row data count to header
+					if (count($rowData) != count($columns)) {
+						//incomplete row. Exit
+						$return[] = "Error: incomplete data in row number: {$index} with: {$rowData[0]}";
+						$step_failed_count++;
+						continue;
+					}
+
+					for ($i = 0; $i < count($columns); $i++) {
+						$vals[$columns[$i]] = $rowData[$i];
+					}
 					//main driver to process data and import
 					$method = "process_" . $type . "_record";
 					try{
@@ -127,14 +130,14 @@ class ControllerTaskToolImportProcess extends AController{
 					} catch (AException $e){
 						$result = false;
 					}
-				}
-				if ($result) {
-					$this->success_count++;
-				}else{
-					$step_failed_count++;
+
+					if ($result) {
+						$this->success_count++;
+					} else {
+						$step_failed_count++;
+					}
 				}
 			}
-
 			$this->failed_count = $this->failed_count + $step_failed_count;
 			$tm->updateTaskDetails($task_id,
 				array(
@@ -157,32 +160,31 @@ class ControllerTaskToolImportProcess extends AController{
 		return $step_result;
 	}
 
-	protected function readFileSeek($source, $line_num = 1, $range = 1){
+
+	protected function readFileSeek($source, $delimiter, $enclosure = '"', $line_num = 1, $range = 1){
 		if(!$source){
 			return array();
 		}
-		$buffer = array();
+
 		$fh = fopen($source, 'r');
-		if(!$fh){
+		if(!$fh || !is_resource($fh)){
 			return array();
 		}
 
 		$lineNo = 0;
 		$startLine = $line_num;
 		$endLine = $line_num + $range;
-		while ($line = fgets($fh)) {
-			//always return first line with header
-			if($lineNo++ == 0) {
-				$buffer[] = $line;
-				continue;
-			}
+		//always return first line with header
+		$buffer = array(0 => fgetcsv($fh, 0, $delimiter, $enclosure));
 
+		while (($data = fgetcsv($fh, 0, $delimiter, $enclosure)) !== FALSE) {
 			if ($lineNo >= $startLine) {
-				$buffer[] = $line;
+				$buffer[] = $data;
 			}
 			if ($lineNo == $endLine) {
 				break;
 			}
+			$lineNo++;
 		}
 		fclose($fh);
 		return $buffer;
