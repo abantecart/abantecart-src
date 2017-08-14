@@ -42,7 +42,7 @@
   </definition>
   <definition>
     <key>cardconnect_site</key>
-    <value><![CDATA[Site Name]]></value>
+    <value><![CDATA[Domain portion to API:<br /><span class="help">This value should not be changed, unless different specified by cardConnent.</span>]]></value>
   </definition>
   <definition>
     <key>cardconnect_connection_success</key>

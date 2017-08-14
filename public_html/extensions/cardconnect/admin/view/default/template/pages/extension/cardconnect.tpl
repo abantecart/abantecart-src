@@ -179,7 +179,7 @@ echo $this->html->buildElement(
 	$("#<?php echo $extension['id']; ?>_test").attr('reload_on_save', 'true');
 
 	$('#test_connection').click(function() {
-		if($('#editSettings_cardconnect_status').attr('data-orgvalue')!='1'){
+		if ($('#editSettings_cardconnect_status').attr('data-orgvalue') != '1') {
 			error_alert('<?php echo $error_turn_extension_on; ?>');
 			return false;
 		}
@@ -190,12 +190,16 @@ echo $this->html->buildElement(
 			beforeSend: function() {
 				$('#test_connection').button('loading');
 			},
-			success: function( response ) {
-				if ( !response ) {
+			success: function(response) {
+				if (!response) {
 					error_alert( '<?php echo $error_turn_extension_on; ?>' );
 					return false;
 				}
-				info_alert( response['message'] );
+				if (response['error']) {
+					error_alert(response['message']);
+				} else {
+					info_alert(response['message']);
+				}
 				$('#test_connection').button('reset');
 			},
 			error: function(){

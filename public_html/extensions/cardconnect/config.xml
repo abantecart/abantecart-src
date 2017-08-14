@@ -12,7 +12,7 @@
 	<settings>
 		<item id="cardconnect_site">
 			<type required="true">input</type>
-			<default_value></default_value>
+			<default_value>fts.cardconnect.com</default_value>
 		</item>
 		<item id="cardconnect_merchant_id">
 			<type required="true">input</type>

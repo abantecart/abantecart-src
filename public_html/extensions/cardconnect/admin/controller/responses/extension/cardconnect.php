@@ -19,13 +19,12 @@ class ControllerResponsesExtensionCardConnect extends AController {
 		$response = $client->settlementStatus($this->config->get('cardconnect_merchant_id'), date("md", mktime(0,0,0,date('d')-1,date('m'),date('Y'))));
 
 		if ( empty($response) ) {
-			$json['message'] = "Connection to CardConnect server can not be established.\nCheck your server configuration or contact your hosting provider.";
+			$json['message'] = "Connection to CardConnect server can not be established. Check your server configuration or contact your hosting provider.";
 			$json['error'] = true;
 		} elseif ( is_array($response) ) {
 			$json['message'] = $this->language->get('cardconnect_connection_success');
-			$json['error'] = false;
+			$json['success'] = false;
 		} else {
-
 			$json['message'] = 'CardConnect Error: Please check your API Credentials and try again.' . "\n" . 'Also please note that Test mode is ' . $test_mode .'!';
 			$json['error'] = true;
 		}
