@@ -112,7 +112,7 @@
 					}
 
 					$item['price'] = $product['cell']['price'];
-					if ( substr( $product['cell']['price'],1) == '0.00' ) {
+					if ( substr( $product['cell']['price'], 1) === '0.00' ) {
 						$item['price'] = 'FREE';
 					}
 

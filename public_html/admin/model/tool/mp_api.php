@@ -153,7 +153,7 @@ class ModelToolMPAPI extends Model {
 			));				
 		}
 		//Load purchased extensions if requested
-		if( $params['purchased_only'] ){
+		if ($params['purchased_only']) {
 			$get_params['purchased_only'] = $params['purchased_only'];	
 			$get_params['rt'] = 'a/product/filter';
 			$output['products'] = $this->send( $connect, $get_params);			
@@ -175,8 +175,8 @@ class ModelToolMPAPI extends Model {
 		//prepare extensions for listing
 		//Check if extension is installed or requires updating based on versions
 		
-		if($output['products']['rows']){
-			foreach($output['products']['rows'] as &$product){
+		if ($output['products']['rows']) {
+			foreach ($output['products']['rows'] as &$product) {
 				$info = $product['cell'];
 				$info['rating'] = (int)$info['rating'];
 				$info['description'] = substr(
@@ -185,13 +185,18 @@ class ModelToolMPAPI extends Model {
 					344
 				).'...';
 
-				$info['price'] = $info['price']>0 ? $this->currency->format($info['price'],'USD',1) : $this->language->get('text_free');
+                //do not use currency class for format, as it can be manipulated by user
+                if ($info['price'] > 0 ) {
+                    $info['price'] = "$".number_format($info['price'], 2, '.', ',');
+                } else {
+                    $info['price'] = $this->language->get('text_free');
+                }
 
 				$product['cell'] = $info;
 			}
 		}
 
-		if(!$output['categories'] && !$output['products']  ){
+		if (!$output['categories'] && !$output['products']) {
 			$output = array();
 		}
 		return $output;
@@ -203,7 +208,7 @@ class ModelToolMPAPI extends Model {
 	 * @return mixed
 	 */
 	private function send( $connect, $params=array()){
-		if(!is_object($connect)){
+		if (!is_object($connect)) {
 			return false;
 		}
 
@@ -214,7 +219,7 @@ class ModelToolMPAPI extends Model {
 
 		// place your affiliate id here
 		define('MP_AFFILIATE_ID','');
-		if(MP_AFFILIATE_ID){
+		if (MP_AFFILIATE_ID) {
 			$GET['aff_id'] = MP_AFFILIATE_ID;
 		}
 
