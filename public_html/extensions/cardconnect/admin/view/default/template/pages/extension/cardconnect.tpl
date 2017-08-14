@@ -183,6 +183,7 @@ echo $this->html->buildElement(
 			error_alert('<?php echo $error_turn_extension_on; ?>');
 			return false;
 		}
+		console.log('<?php echo $test_connection_url; ?>');
 		$.ajax({
 			url: '<?php echo $test_connection_url; ?>',
 			type: 'GET',
@@ -198,7 +199,7 @@ echo $this->html->buildElement(
 				if (response['error']) {
 					error_alert(response['message']);
 				} else {
-					info_alert(response['message']);
+					success_alert(response['message']);
 				}
 				$('#test_connection').button('reset');
 			},

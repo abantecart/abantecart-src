@@ -216,7 +216,6 @@ class ControllerResponsesExtensionCardConnect extends AController{
 		$cardname = html_entity_decode($post['cc_owner'], ENT_QUOTES, 'UTF-8');
 		$cardtype = $post['cc_type'];
 
-
 		$pd = array (
 				'currency'        => $currency,
 				'order_id'        => $order_id,

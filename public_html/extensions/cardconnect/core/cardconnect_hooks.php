@@ -12,21 +12,6 @@ class ExtensionCardconnect extends Extension {
 		return $this->baseObject->config->get('cardconnect_status');
 	}
 
-	//Hook to extension edit in the admin
-	public function onControllerPagesExtensionExtensions_UpdateData() {
-		if (!$this->_is_enabled()){
-			return null;
-		}
-		$that = $this->baseObject;
-		$current_ext_id = $that->request->get['extension'];
-		if ( IS_ADMIN && $current_ext_id == 'cardconnect' && $this->baseObject_method == 'edit' ) {
-			$html = '<a class="btn btn-white tooltips" target="_blank" href="https://www.cardconnect.com" title="Visit cardconnect">
-						<i class="fa fa-external-link fa-lg"></i>
-					</a>';
-			$that->view->addHookVar('extension_toolbar_buttons', $html);
-		}
-	}
-
 	//Hook to enable payment details tab in admin
 	public function onControllerPagesSaleOrderTabs_UpdateData() {
 		if (!$this->_is_enabled()){
@@ -123,7 +108,7 @@ class ExtensionCardconnect extends Extension {
 		$view->assign('order_id', $order_id);
 		$view->assign('test_mode', $this->r_data['cardconnect_test_mode']);
 		$port = $that->config->get('cardconnect_test_mode') ? 6443 : 8443;
-		$view->assign('external_url', 'https://'.$that->config->get('cardconnect_site').'.cardconnect.com:'.$port.'/ui/findauth.jsf');
+		$view->assign('external_url', 'https://'.$that->config->get('cardconnect_site').':'.$port.'/ui/findauth.jsf');
 		$view->assign('void_url', $that->html->getSecureURL('r/extension/cardconnect/void'));
 		$view->assign('capture_url', $that->html->getSecureURL('r/extension/cardconnect/capture'));
 		$view->assign('refund_url', $that->html->getSecureURL('r/extension/cardconnect/refund'));

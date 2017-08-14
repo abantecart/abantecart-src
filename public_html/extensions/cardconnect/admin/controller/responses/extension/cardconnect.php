@@ -12,9 +12,8 @@ class ControllerResponsesExtensionCardConnect extends AController {
 	public function test() {
 		$this->loadLanguage('cardconnect/cardconnect');
 		$port = $this->config->get('cardconnect_test_mode') ? 6443 : 8443;
-		$api_endpoint  = 'https://' . $this->config->get('cardconnect_site') . '.cardconnect.com:'.$port.'/cardconnect/rest/';
+		$api_endpoint  = 'https://' . $this->config->get('cardconnect_site') . ':'.$port.'/cardconnect/rest/';
 		require_once DIR_EXT.'cardconnect/core/lib/CardConnectRestClient.php';
-
 		$client = new CardConnectRestClient($api_endpoint, $this->config->get('cardconnect_username'), $this->config->get('cardconnect_password'));
 		$response = $client->settlementStatus($this->config->get('cardconnect_merchant_id'), date("md", mktime(0,0,0,date('d')-1,date('m'),date('Y'))));
 

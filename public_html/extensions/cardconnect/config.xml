@@ -138,8 +138,8 @@
 	</settings>
 	<note>true</note>
 	<custom_settings_template>pages/extension/cardconnect.tpl</custom_settings_template>
-	<help_file><![CDATA[help.txt]]></help_file>
-	<help_link><![CDATA[https://cardconnect.com/docs]]></help_link>
+	<help_file><![CDATA[help.html]]></help_file>
+	<help_link><![CDATA[https://www.cardconnect.com/partner/abantecart]]></help_link>
 	<install>
 		<sql>install.sql</sql>
 		<trigger>install.php</trigger>
