@@ -162,19 +162,15 @@ class ControllerResponsesExtensionCardConnect extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 		if (has_value($this->request->post['order_id']) ) {
 			$order_id = $this->request->post['order_id'];
-			$amount = (float)$this->request->post['amount'];
 			$this->loadModel('extension/cardconnect');
 			$cardconnect_order = $this->model_extension_cardconnect->getCardconnectOrder($order_id);
 			//get current order
 			$ch_data = $this->model_extension_cardconnect->getCardconnectCharge($cardconnect_order['retref']);
-			$remainder = $cardconnect_order['total'] - $ch_data['refunded'];
 			//validate if captured
-			if($ch_data['captured'] && $remainder >= $amount) {
+			if (!$ch_data['captured']) {
 				//refund with full amount
-				$ch_data['amount'] = number_format($cardconnect_order['total']*100, 2);
-				$refund = $this->model_extension_cardconnect->refundCardConnect($cardconnect_order['retref'], $ch_data['amount']);
-
-				if($refund['amount']) {
+				$void = $this->model_extension_cardconnect->voidCardConnect($cardconnect_order['retref'], $ch_data['amount']);
+				if ($void['authcode'] == 'REVERS') {
 					$json['msg'] = $this->language->get('text_voided');
 					// update main order status
 					$this->loadModel('sale/order');
@@ -190,15 +186,14 @@ class ControllerResponsesExtensionCardConnect extends AController {
 							$cardconnect_order['retref'],
 							$amount * -1,
 							$refund['resptext']);
-				}else{
+				} else {
 					$json['error'] = true;
-					$json['msg'] = $this->language->get('error_unable_to_capture');
+                    $json['msg'] = $this->language->get('error_unable_to_void');
 				}
 			} else {
 				$json['error'] = true;
 				$json['msg'] = $this->language->get('error_unable_to_void');
 			}
-
 
 		} else {
 			$json['error'] = true;

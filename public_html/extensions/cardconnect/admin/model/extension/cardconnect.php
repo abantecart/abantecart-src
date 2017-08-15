@@ -134,4 +134,20 @@ class ModelExtensionCardConnect extends Model {
 		$this->_log('API Response:  '."\n".var_export($response, true));
 		return $response;
 	}
+
+    public function voidCardConnect($ch_id) {
+
+        if (!has_value($ch_id)) {
+            return array();
+        }
+        $this->_log('Voiding transaction # '.$ch_id);
+        $response = $this->client->voidTransaction(
+            array(
+                "merchid" => $this->config->get('cardconnect_merchant_id'),
+                "retref"  => $ch_id,
+            )
+        );
+        $this->_log('API Response:  '."\n".var_export($response, true));
+        return $response;
+    }
 }
