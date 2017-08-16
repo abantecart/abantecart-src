@@ -22,7 +22,7 @@
   </definition>
   <definition>
     <key>cardconnect_logging</key>
-    <value><![CDATA[Logging]]></value>
+    <value><![CDATA[Logging:<br /><span class="help">Log file is located in system/logs/cardconnect.txt file</span>]]></value>
   </definition>
   <definition>
     <key>cardconnect_test</key>

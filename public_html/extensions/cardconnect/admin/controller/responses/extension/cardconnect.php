@@ -111,9 +111,7 @@ class ControllerResponsesExtensionCardConnect extends AController {
 			$ch_data['amount_refunded'] = number_format($ch_data['refunded'], 2);
 			$remainder = $ch_data['amount'] - $ch_data['refunded'];
 			//validate if captured
-
-
-
+            
 			if($ch_data['captured'] && $remainder >= $amount) {
 				$refund = $this->model_extension_cardconnect->refundcardconnect($cardconnect_order['retref'], $amount);
 				if($refund['amount']) {

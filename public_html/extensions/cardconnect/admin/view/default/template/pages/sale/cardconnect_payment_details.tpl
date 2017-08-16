@@ -28,7 +28,7 @@
 					<?php if ($cardconnect_order['captured']) { ?>
 						<span><i class="fa fa-check-square-o fa-fw"></i> <?php echo $text_yes.' ('.$cardconnect_order['captured_formatted'].')'; ?></span>
 					<?php } else { ?>
-						<?php if (!$cardconnect_order['void_status']) { ?>
+						<?php if ($cardconnect_order['settlement_status'] != 'Voided') { ?>
 							<div class="form-group form-inline">
 								<div class="input-group">
 									<input type="text" id="capture_amount" class="form-control"
@@ -46,7 +46,7 @@
 					<?php } ?>
 				</td>
 			</tr>
-			<?php if (!$cardconnect_order['captured']) { ?>
+			<?php if (!$cardconnect_order['captured'] && $cardconnect_order['settlement_status'] != 'Voided') { ?>
 				<tr>
 					<td><?php echo $text_void_status; ?></td>
 					<td id="void_status"><?php if ($cardconnect_order['void_status'] == 1) { ?>

@@ -6,7 +6,7 @@
 		<div class="form-group form-inline control-group">
 			<span class="subtext"><?php echo $entry_billing_address; ?>: <?php echo $payment_address; ?>...</span>
 			<div class="col-sm-2 input-group controls">
-				<a href="<?php echo $edit_address; ?>" target="_new_mp_window" class="btn btn-default btn-sm">
+				<a href="<?php echo $edit_address; ?>" class="btn btn-default btn-sm">
 					<i class="fa fa-edit fa-fw"></i>
 					<?php echo $entry_edit; ?>
 				</a>
@@ -69,7 +69,7 @@
 			<div class="form-group form-inline control-group">
 				<span class="subtext"><?php echo $entry_billing_address; ?>: <?php echo $payment_address; ?>...</span>
 				<div class="col-sm-2 input-group controls">
-					<a href="<?php echo $edit_address; ?>" target="_new_mp_window" class="btn btn-default btn-sm">
+					<a href="<?php echo $edit_address; ?>" class="btn btn-default btn-sm">
 						<i class="fa fa-edit fa-fw"></i>
 						<?php echo $entry_edit; ?>
 					</a>

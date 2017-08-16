@@ -23,7 +23,7 @@ class ModelExtensionCardConnect extends Model {
 
 		$this->logging = $this->config->get('cardconnect_logging');
 		if($this->logging){
-			$this->log = new ALog(DIR_LOGS.'cardconnect.log');
+			$this->log = new ALog(DIR_LOGS.'cardconnect.txt');
 		}
 		$port = $this->config->get('cardconnect_test_mode') ? 6443 : 8443;
 		$api_endpoint  = 'https://' . $this->config->get('cardconnect_site') . ':'.$port.'/cardconnect/rest/';
@@ -88,7 +88,7 @@ class ModelExtensionCardConnect extends Model {
 		}
 
 		$this->_log('Order ID: ' . $order_info['order_id']);
-		$accttype = $account = $expiry = $cvv2 = $profile_id = $capture = $bankaba = '';
+		$account = $expiry = $cvv2 = $profile_id = $capture = $bankaba = '';
 		$existing_card = false;
 
 		$customer_id = (int)$this->customer->getId();
@@ -101,11 +101,12 @@ class ModelExtensionCardConnect extends Model {
 		if (!isset($pd['method']) || $pd['method'] == 'card') {
 			$this->_log('Method is card');
 
-			if (isset($pd['save_cc'])
+			if (isset($pd['save_cc']) && $pd['save_cc']
 					&& $this->config->get('cardconnect_save_cards_limit')
 					&& $customer_id) {
 
-				if(!$profile_id){
+                //create profile if now yet created
+				if (!$profile_id) {
 					$this->_log('Try to create new profile for customer ID: ' . $customer_id);
 					$profile_id = $this->createProfile(
 							array(
@@ -128,12 +129,10 @@ class ModelExtensionCardConnect extends Model {
 			}
 
 			if ($existing_card) {
-				$accttype = $existing_card['type'];
 				$account = $existing_card['token'];
 				$expiry = $existing_card['expiry'];
 				$cvv2 = '';
 			} else {
-				$accttype = $pd['cc_type'];
 				$account = $pd['cc_number'];
 				$expiry = $pd['cc_expire_month'] . $pd['cc_expire_year'];
 				$cvv2 = $pd['cc_cvv2'];
@@ -160,7 +159,6 @@ class ModelExtensionCardConnect extends Model {
 
 		$data = array(
 			'merchid'    => $this->config->get('cardconnect_merchant_id'),
-			//'accttype'   => $accttype,
 			'account'    => $account,
 			'expiry'     => $expiry,
 			'cvv2'       => $cvv2,
@@ -203,17 +201,18 @@ class ModelExtensionCardConnect extends Model {
 			$this->addTransaction($cardconnect_order_id, $type, $status, $order_info);
 
 			if (isset($response_data['profileid'])
-                    && isset($pd['save_cc'])
+                    && isset($pd['save_cc']) && $pd['save_cc']
 					&& $this->config->get('cardconnect_save_cards_limit')
 					&& $this->customer->isLogged()
 			) {
 				$this->_log('Saving card');
-				$this->addCard( $this->customer->getId(),
-								$response_data['profileid'],
-								$response_data['token'],
-								$pd['card_type'],
-								$response_data['account'],
-								$expiry);
+				$this->addCard(
+				    $this->customer->getId(),
+                    $response_data['profileid'],
+                    $response_data['token'],
+                    substr($response_data['account'], -4),
+                    $expiry
+                );
 			}
 
 			$this->_log('Success');
@@ -221,21 +220,21 @@ class ModelExtensionCardConnect extends Model {
 			$response['success'] = $this->html->getSecureURL('checkout/success', '', true);
 			//auto complete the order in settled mode
 			$this->model_checkout_order->confirm(
-					$pd['order_id'],
-					$order_status_id
+                $pd['order_id'],
+                $order_status_id
 			);
 		    $this->_log('Confirm Status ID: '.$order_status_id);
 		} else {
 			$this->_log($response_data['resptext']);
 			$response['error'] = $response_data['resptext'];
 			$this->model_checkout_order->confirm(
-												$pd['order_id'],
-												$this->config->get('cardconnect_status_decline')
+                $pd['order_id'],
+                $this->config->get('cardconnect_status_decline')
 			);
 			$this->model_checkout_order->addHistory(
-							$pd['order_id'],
-							$this->config->get('cardconnect_status_decline'),
-							$response_data['resptext']
+                $pd['order_id'],
+                $this->config->get('cardconnect_status_decline'),
+                $response_data['resptext']
 			);
 		}
 		return $response;
@@ -279,7 +278,7 @@ class ModelExtensionCardConnect extends Model {
 		return $query->rows;
 	}
 
-    public function addCard($customer_id, $profileid, $token, $type, $account, $expiry) {
+    public function addCard($customer_id, $profileid, $token, $account, $expiry, $type = '') {
         $sql = "REPLACE INTO " . $this->db->table('cardconnect_cards') ."
                 SET `customer_id` = '" . (int)$customer_id . "', 
                     `profileid` = '" . $this->db->escape($profileid) . "', 

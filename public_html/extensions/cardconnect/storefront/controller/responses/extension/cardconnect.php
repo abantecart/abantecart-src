@@ -86,7 +86,7 @@ class ControllerResponsesExtensionCardConnect extends AController{
 				if (is_array($this->data['cards'])) {
 					foreach ($this->data['cards'] as $c_card) {
 							//use card token (hash from cardconnect-server)
-							$cc_list[$c_card['token']] = $c_card['type'] . ' ' . $c_card['account'] . ' ' . $c_card['expiry'];
+							$cc_list[$c_card['token']] = 'XXX' . $c_card['account'] . ' Exp:' . $c_card['expiry'];
 					}
 					if (count($cc_list)) {
 						$this->data['saved_cc_list'] = HtmlElementFactory::create(array (
@@ -209,13 +209,11 @@ class ControllerResponsesExtensionCardConnect extends AController{
 		$cvv2 = preg_replace('/[^0-9]/', '', $post['cc_cvv2']);
 		// Card owner name
 		$cardname = html_entity_decode($post['cc_owner'], ENT_QUOTES, 'UTF-8');
-		$cardtype = $post['cc_type'];
 
 		$pd = array (
 				'currency'        => $currency,
 				'order_id'        => $order_id,
 				'cc_number'       => $cardnumber,
-				'cc_type'         => $cardtype,
 				'cc_expire_month' => $post['cc_expire_date_month'],
 				'cc_expire_year'  => substr($post['cc_expire_date_year'], -2),
 				'cc_owner'        => $cardname,

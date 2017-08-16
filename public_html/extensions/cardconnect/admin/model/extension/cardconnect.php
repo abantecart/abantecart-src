@@ -21,7 +21,7 @@ class ModelExtensionCardConnect extends Model {
 
 		$this->logging = $this->config->get('cardconnect_logging');
 		if($this->logging){
-			$this->log = new ALog(DIR_LOGS.'cardconnect.log');
+			$this->log = new ALog(DIR_LOGS.'cardconnect.txt');
 		}
 		$port = $this->config->get('cardconnect_test_mode') ? 6443 : 8443;
 		$api_endpoint  = 'https://' . $this->config->get('cardconnect_site') . ':'.$port.'/cardconnect/rest/';
