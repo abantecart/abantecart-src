@@ -30,12 +30,14 @@
 					<?php echo $text_delete_saved_credit_card; ?>
 				</a>
 			</div>
+			<?php if ($save_cc) { ?>
 			<div class="col-sm-1 input-group">
 				<a id="new_card" class="btn btn-info btn-sm" title="<?php echo $text_new_credit_card; ?>">
 					<i class="fa fa-plus fa-fw"></i>
 					<?php echo $text_new_credit_card; ?>
 				</a>
 			</div>
+			<?php } ?>
 		</div>
 
 		<div class="form-group action-buttons text-center">
@@ -43,8 +45,7 @@
 				<i class="fa fa-arrow-left"></i>
 				<?php echo $back->text ?>
 			</a>
-			<button id="<?php echo $submit->name ?>" class="btn btn-orange" title="<?php echo $submit->text ?>"
-					type="submit">
+			<button id="<?php echo $submit->name ?>" class="btn btn-orange" title="<?php echo $submit->text ?>" type="submit">
 				<i class="fa fa-check"></i>
 				<?php echo $submit->text; ?>
 			</button>
@@ -95,8 +96,7 @@
 							<a data-toggle="tooltip"
 							   data-original-title="<?php echo $entry_cc_save_details; ?>"><?php echo $entry_cc_save; ?></a>
 						</label>
-						<input type="checkbox" value="0" id="save_cc" name="save_cc"
-							   style="position: relative; margin-left: 0;">
+						<input type="checkbox" value="0" id="save_cc" name="save_cc" style="position: relative; margin-left: 0;">
 					</div>
 				<?php } ?>
 				<span class="help-block"></span>

@@ -90,7 +90,7 @@
   </definition>
   <definition>
     <key>cardconnect_save_cards_limit</key>
-    <value><![CDATA[Can save credit cards: <br/><span class="help">Set maximum number of credit cards to be saved by customers (up to 100). If set to 0 or blank saving of cards will not be allowed. Security note: Customer credit card details are saved on CardConnect secure servers to ensure maximum data security measures. No credit card details will be saved on your site.</span>]]></value>
+    <value><![CDATA[Max credit cards saved: <br/><span class="help">Set maximum number of credit cards to be saved by customers (up to 100). If set to 0 or blank saving of cards will not be allowed. Security note: Customer credit card details are saved on CardConnect secure servers to ensure maximum data security measures. No credit card details will be saved on your site.</span>]]></value>
   </definition>
   <definition>
     <key>text_column_date_added</key>

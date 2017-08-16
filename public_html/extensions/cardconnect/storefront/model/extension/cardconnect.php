@@ -165,7 +165,7 @@ class ModelExtensionCardConnect extends Model {
 			'expiry'     => $expiry,
 			'cvv2'       => $cvv2,
 			//amount in cents!!!
-			'amount'     => round(floatval($order_info['total'])*100, 2, PHP_ROUND_HALF_DOWN),
+			'amount'     => round(floatval($order_info['total']) * 100, 2, PHP_ROUND_HALF_DOWN),
 			'currency'   => $order_info['currency'],
 			'orderid'    => $order_info['order_id'],
 			'name'       => $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'],
@@ -203,12 +203,12 @@ class ModelExtensionCardConnect extends Model {
 			$this->addTransaction($cardconnect_order_id, $type, $status, $order_info);
 
 			if (isset($response_data['profileid'])
+                    && isset($pd['save_cc'])
 					&& $this->config->get('cardconnect_save_cards_limit')
 					&& $this->customer->isLogged()
 			) {
 				$this->_log('Saving card');
-				$this->addCard($cardconnect_order_id,
-								$this->customer->getId(),
+				$this->addCard( $this->customer->getId(),
 								$response_data['profileid'],
 								$response_data['token'],
 								$pd['card_type'],
@@ -256,19 +256,19 @@ class ModelExtensionCardConnect extends Model {
 		return $years;
 	}
 
-		public function getCard($token, $customer_id) {
-			$query = $this->db->query(
-					"SELECT * 
-					FROM " . $this->db->table('cardconnect_cards') ."  
-					WHERE `token` = '" . $this->db->escape($token) . "' 
-						AND `customer_id` = '" . (int)$customer_id . "'");
+    public function getCard($token, $customer_id) {
+        $query = $this->db->query(
+                "SELECT * 
+                FROM " . $this->db->table('cardconnect_cards') ."  
+                WHERE `token` = '" . $this->db->escape($token) . "' 
+                    AND `customer_id` = '" . (int)$customer_id . "'");
 
-			if ($query->num_rows) {
-				return $query->row;
-			} else {
-				return false;
-			}
-		}
+        if ($query->num_rows) {
+            return $query->row;
+        } else {
+            return false;
+        }
+    }
 
 	public function getCards($customer_id) {
 		$query = $this->db->query(
@@ -279,19 +279,18 @@ class ModelExtensionCardConnect extends Model {
 		return $query->rows;
 	}
 
-		public function addCard($cardconnect_order_id, $customer_id, $profileid, $token, $type, $account, $expiry) {
-			$sql = "REPLACE INTO " . $this->db->table('cardconnect_cards') ."
-					SET `cardconnect_order_id` = '" . (int)$cardconnect_order_id . "', 
-						`customer_id` = '" . (int)$customer_id . "', 
-						`profileid` = '" . $this->db->escape($profileid) . "', 
-						`token` = '" . $this->db->escape($token) . "', 
-						`type` = '" . $this->db->escape($type) . "', 
-						`account` = '" . $this->db->escape($account) . "', 
-						`expiry` = '" . $this->db->escape($expiry) . "', 
-						`date_added` = NOW()";
-			$this->_log($sql);
-			$this->db->query( $sql );
-		}
+    public function addCard($customer_id, $profileid, $token, $type, $account, $expiry) {
+        $sql = "REPLACE INTO " . $this->db->table('cardconnect_cards') ."
+                SET `customer_id` = '" . (int)$customer_id . "', 
+                    `profileid` = '" . $this->db->escape($profileid) . "', 
+                    `token` = '" . $this->db->escape($token) . "', 
+                    `type` = '" . $this->db->escape($type) . "', 
+                    `account` = '" . $this->db->escape($account) . "', 
+                    `expiry` = '" . $this->db->escape($expiry) . "', 
+                    `date_added` = NOW()";
+        $this->_log($sql);
+        $this->db->query( $sql );
+    }
 
 	/**
 	 * @param string $card_token

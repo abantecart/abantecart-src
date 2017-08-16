@@ -70,28 +70,23 @@ class ControllerResponsesExtensionCardConnect extends AController{
 				)
 		);
 
-		if ($this->customer->isLogged() && $this->config->get('cardconnect_store_cards')) {
+		if ($this->customer->isLogged() && $this->config->get('cardconnect_save_cards_limit') > 0) {
 			$this->data['store_cards'] = true;
 			$this->data['cards'] = $this->model_extension_cardconnect->getCards($this->customer->getId());
 		} else {
 			$this->data['store_cards'] = false;
-			$this->data['cards'] = array ();
+			$this->data['cards'] = array();
 		}
 
-		if ($this->config->get('cardconnect_save_cards_limit')) {
+		if ($this->data['store_cards']) {
 			//if customer see if we have cardconnect customer object created for credit card saving
 			if ($this->customer->getId()) {
 				//load credit cards list
-				$cc_list = array ();
-
-				$cust_ccs = $this->model_extension_cardconnect->getCards($this->customer->getId());
-
-				if (is_array($cust_ccs)) {
-					foreach ($cust_ccs as $c_card) {
-
+				$cc_list = array();
+				if (is_array($this->data['cards'])) {
+					foreach ($this->data['cards'] as $c_card) {
 							//use card token (hash from cardconnect-server)
 							$cc_list[$c_card['token']] = $c_card['type'] . ' ' . $c_card['account'] . ' ' . $c_card['expiry'];
-
 					}
 					if (count($cc_list)) {
 						$this->data['saved_cc_list'] = HtmlElementFactory::create(array (
@@ -102,16 +97,16 @@ class ControllerResponsesExtensionCardConnect extends AController{
 						));
 					}
 				}
-			}
-			//build credit card selector
-			//option to save creditcard if limit is not reached
-			if (count($cust_ccs) < $this->config->get('cardconnect_save_cards_limit')) {
-				$this->data['save_cc'] = HtmlElementFactory::create(array (
-						'type'    => 'checkbox',
-						'name'    => 'save_cc',
-						'value'   => '1',
-						'checked' => false
-				));
+                //build credit card selector
+                //option to save creditcard if limit is not reached
+                if (count($cc_list) < $this->config->get('cardconnect_save_cards_limit')) {
+                    $this->data['save_cc'] = HtmlElementFactory::create(array (
+                        'type'    => 'checkbox',
+                        'name'    => 'save_cc',
+                        'value'   => '1',
+                        'checked' => false
+                    ));
+                }
 			}
 		}
 

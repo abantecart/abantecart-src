@@ -166,7 +166,7 @@ class ControllerPagesExtensionCardConnectSettings extends AController {
 		$this->data['form']['fields']['cardconnect_save_cards_limit'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'cardconnect_save_cards_limit',
-			'value' => $this->data['cardconnect_save_cards_limit']?$this->data['cardconnect_save_cards_limit']:5,
+			'value' => $this->data['cardconnect_save_cards_limit'] ? $this->data['cardconnect_save_cards_limit'] : 5,
 		));
 
 		$settlement = array(

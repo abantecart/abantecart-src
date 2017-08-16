@@ -1,7 +1,6 @@
 
 CREATE TABLE IF NOT EXISTS `ac_cardconnect_cards` (
   `cardconnect_card_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `cardconnect_order_id` INT(11) NOT NULL DEFAULT '0',
   `customer_id` INT(11) NOT NULL DEFAULT '0',
   `profileid` VARCHAR(16) NOT NULL DEFAULT '',
   `token` VARCHAR(19) NOT NULL DEFAULT '',
