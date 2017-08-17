@@ -83,19 +83,21 @@ class ModelExtensionCardConnect extends Model {
 
 		$order_info = $this->model_checkout_order->getOrder($pd['order_id']);
 		if(!$order_info) {
-			$this->_log('Order ID ' . $order_info['order_id'].' not found');
+			$this->_log('Order ID ' . $pd['order_id'].' not found');
 			return array('error' => 'Order not found');
 		}
 
-		$this->_log('Order ID: ' . $order_info['order_id']);
 		$account = $expiry = $cvv2 = $profile_id = $capture = $bankaba = '';
 		$existing_card = false;
 
 		$customer_id = (int)$this->customer->getId();
-		if($customer_id) {
-			$this->_log('Find profile for customer ID: ' . $customer_id);
+		if ($customer_id) {
 			$profile_id = $this->getProfileID($customer_id);
-			$this->_log('Got profile id : ' . $profile_id);
+            if ($profile_id) {
+                $this->_log("Located profile ID {$profile_id} for customer ID {$customer_id}");
+            } else {
+                $this->_log("No profile located for customer ID {$customer_id}");
+            }
 		}
 
 		if (!isset($pd['method']) || $pd['method'] == 'card') {
@@ -107,7 +109,6 @@ class ModelExtensionCardConnect extends Model {
 
                 //create profile if now yet created
 				if (!$profile_id) {
-					$this->_log('Try to create new profile for customer ID: ' . $customer_id);
 					$profile_id = $this->createProfile(
 							array(
 								'customer_id'=> $customer_id,
@@ -123,6 +124,11 @@ class ModelExtensionCardConnect extends Model {
 								'cc_postcode' => $order_info['payment_postcode']
 							)
 					);
+                    if ($profile_id) {
+                        $this->_log("Created new profile ID {$profile_id} for customer ID {$customer_id}");
+                    } else {
+                        $this->_log("Failed to create profile for customer ID {$customer_id}");
+                    }
 				}
 			} else if ($pd['use_saved_cc'] && $customer_id) {
 				$existing_card = $this->getCard($pd['use_saved_cc'], $customer_id);
@@ -162,9 +168,8 @@ class ModelExtensionCardConnect extends Model {
 			'account'    => $account,
 			'expiry'     => $expiry,
 			'cvv2'       => $cvv2,
-			//amount in cents!!!
-			'amount'     => round(floatval($order_info['total']) * 100, 2, PHP_ROUND_HALF_DOWN),
-			'currency'   => $order_info['currency'],
+			'amount'     => $pd['amount'],
+			'currency'   => $pd['currency'],
 			'orderid'    => $order_info['order_id'],
 			'name'       => $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'],
 			'address'    => $order_info['payment_address_1'],
@@ -182,14 +187,14 @@ class ModelExtensionCardConnect extends Model {
 			'frontendid' => $order_info['order_id']
 		);
 
-		$this->_log('Try to '.($capture == 'Y' ? 'capture' : 'authorize').'  transaction. Request data: '.var_export($data, true));
+		$this->_log('CardConnect '.($capture == 'Y' ? 'capture' : 'authorize').' transaction. Request: '.var_export($data, true));
 		try{
 			$response_data = $this->client->authorizeTransaction($data);
 		}catch(AException $e){
 			$this->_log('CardConnect Rest Library Error! '.$e->getMessage());
 		}
 
-		$this->_log('Response data: '.var_export($response_data, true));
+		$this->_log('CardConnect response: ' . var_export($response_data, true));
 
 	    if (isset($response_data['respstat']) && $response_data['respstat'] == 'A') {
 			$this->load->model('checkout/order');
@@ -205,7 +210,7 @@ class ModelExtensionCardConnect extends Model {
 					&& $this->config->get('cardconnect_save_cards_limit')
 					&& $this->customer->isLogged()
 			) {
-				$this->_log('Saving card');
+				$this->_log('Saving card reference.');
 				$this->addCard(
 				    $this->customer->getId(),
                     $response_data['profileid'],
@@ -215,27 +220,26 @@ class ModelExtensionCardConnect extends Model {
                 );
 			}
 
-			$this->_log('Success');
-			$response['paid'] = true;
-			$response['success'] = $this->html->getSecureURL('checkout/success', '', true);
 			//auto complete the order in settled mode
 			$this->model_checkout_order->confirm(
                 $pd['order_id'],
                 $order_status_id
 			);
-		    $this->_log('Confirm Status ID: '.$order_status_id);
+		    $this->_log("Update order {$pd['order_id']} with Status ID: {$order_status_id}");
+
+            $response['paid'] = true;
+            $response['success'] = $this->html->getSecureURL('checkout/success', '', true);
+
 		} else {
-			$this->_log($response_data['resptext']);
-			$response['error'] = $response_data['resptext'];
-			$this->model_checkout_order->confirm(
-                $pd['order_id'],
-                $this->config->get('cardconnect_status_decline')
-			);
+            //stay in status incomplete, as order not yet paid
 			$this->model_checkout_order->addHistory(
                 $pd['order_id'],
-                $this->config->get('cardconnect_status_decline'),
-                $response_data['resptext']
+                0,
+                "Payment status: {$response_data['resptext']}, Transaction Number: {$response_data['retref']}"
 			);
+            $this->_log("Update order {$pd['order_id']} with: {$response_data['resptext']}");
+
+            $response['error'] = $response_data['resptext'];
 		}
 		return $response;
 	}

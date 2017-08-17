@@ -209,8 +209,11 @@ class ControllerResponsesExtensionCardConnect extends AController{
 		$cvv2 = preg_replace('/[^0-9]/', '', $post['cc_cvv2']);
 		// Card owner name
 		$cardname = html_entity_decode($post['cc_owner'], ENT_QUOTES, 'UTF-8');
+        // order amount without decimal delimiter
+        $amount = round($this->currency->convert($this->cart->getFinalTotal(), $this->config->get('config_currency'), $currency), 2) * 100;
 
 		$pd = array (
+                'amount'          => $amount,
 				'currency'        => $currency,
 				'order_id'        => $order_id,
 				'cc_number'       => $cardnumber,
@@ -223,10 +226,7 @@ class ControllerResponsesExtensionCardConnect extends AController{
 				'method'          => 'card'
 		);
 
-		ADebug::checkpoint('cardconnect Payment: Order ID ' . $order_id);
-		// order amount without decimal delimiter
-		$amount = round($this->currency->convert($this->cart->getFinalTotal(), $this->config->get('config_currency'), $currency), 2) * 100;
-		$pd['amount'] = $amount;
+		ADebug::checkpoint('cardconnect payment: Start processing order ID ' . $order_id);
 
 		$p_result = $this->model_extension_cardconnect->processPayment($pd);
 

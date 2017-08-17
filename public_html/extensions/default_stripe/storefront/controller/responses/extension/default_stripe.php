@@ -223,7 +223,7 @@ class ControllerResponsesExtensionDefaultStripe extends AController{
 		// card expire date mmyy
 		$cardissue = $post['cc_issue'];
 
-		ADebug::checkpoint('Stripe Payment: Order ID ' . $order_id);
+		ADebug::checkpoint('Stripe Payment: Start processing order ID ' . $order_id);
 
 		$pd = array (
 				'amount'          => $amount,

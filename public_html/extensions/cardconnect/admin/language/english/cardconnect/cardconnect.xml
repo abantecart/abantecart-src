@@ -193,12 +193,12 @@
     <value><![CDATA[Please enter positive amount]]></value>
   </definition>
   <definition>
-    <key>error_unable_to_capture</key>
-    <value><![CDATA[Unable to capture, refresh transaction details and check capture amount]]></value>
-  </definition>
-  <definition>
     <key>error_unable_to_void</key>
     <value><![CDATA[Unable to void transaction, refresh and check transaction details]]></value>
+  </definition>
+  <definition>
+    <key>error_unable_to_capture</key>
+    <value><![CDATA[Unable to capture, refresh transaction details and check capture amount]]></value>
   </definition>
   <definition>
     <key>error_unable_to_refund</key>
