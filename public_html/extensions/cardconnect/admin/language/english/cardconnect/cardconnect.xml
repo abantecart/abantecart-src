@@ -126,15 +126,15 @@
   </definition>
   <definition>
     <key>text_capture_status</key>
-    <value><![CDATA[Payment was captured]]></value>
+    <value><![CDATA[Payment captured]]></value>
   </definition>
   <definition>
     <key>text_void_status</key>
-    <value><![CDATA[Payment was voided]]></value>
+    <value><![CDATA[Payment voided]]></value>
   </definition>
   <definition>
     <key>text_refund_status</key>
-    <value><![CDATA[Payment was refunded]]></value>
+    <value><![CDATA[Payment refunded]]></value>
   </definition>
   <definition>
     <key>text_capture_amount</key>

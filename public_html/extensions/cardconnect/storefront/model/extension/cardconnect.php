@@ -176,7 +176,7 @@ class ModelExtensionCardConnect extends Model {
 			'city'       => $order_info['payment_city'],
 			'region'     => $order_info['payment_zone'],
 			'country'    => $order_info['payment_iso_code_2'],
-			'postal'     => (int)$order_info['payment_postcode'],
+			'postal'     => $order_info['payment_postcode'],
 			'email'      => $order_info['email'],
 			'phone'      => $order_info['telephone'],
 			'ecomind'    => 'E',
