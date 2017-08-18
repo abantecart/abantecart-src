@@ -211,8 +211,6 @@ class ControllerResponsesExtensionCardConnect extends AController{
 		$cardname = html_entity_decode($post['cc_owner'], ENT_QUOTES, 'UTF-8');
         // order amount without decimal delimiter
         $amount = round($this->currency->convert($this->cart->getFinalTotal(), $this->config->get('config_currency'), $currency), 2) * 100;
-echo_array($this->cart->getFinalTotal(), $amount);
-        exit;
 		$pd = array (
                 'amount'          => $amount,
 				'currency'        => $currency,

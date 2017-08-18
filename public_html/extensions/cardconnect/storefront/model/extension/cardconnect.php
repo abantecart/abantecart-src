@@ -22,17 +22,17 @@ class ModelExtensionCardConnect extends Model {
 		parent::__construct($registry);
 
 		$this->logging = $this->config->get('cardconnect_logging');
-		if($this->logging){
+		if ($this->logging) {
 			$this->log = new ALog(DIR_LOGS.'cardconnect.txt');
 		}
 		$port = $this->config->get('cardconnect_test_mode') ? 6443 : 8443;
 		$api_endpoint  = 'https://' . $this->config->get('cardconnect_site') . ':'.$port.'/cardconnect/rest/';
-		try{
+		try {
 			require_once DIR_EXT . 'cardconnect/core/lib/CardConnectRestClient.php';
 			$this->client = new CardConnectRestClient( $api_endpoint,
 														$this->config->get('cardconnect_username'),
 														$this->config->get('cardconnect_password'));
-		}catch(AException $e){
+		} catch(AException $e) {
 			$registry->get('log')->write($e->getMessage());
 		}
 	}
@@ -190,7 +190,7 @@ class ModelExtensionCardConnect extends Model {
 		$this->_log('CardConnect '.($capture == 'Y' ? 'capture' : 'authorize').' transaction. Request: '.var_export($data, true));
 		try{
 			$response_data = $this->client->authorizeTransaction($data);
-		}catch(AException $e){
+		} catch(AException $e) {
 			$this->_log('CardConnect Rest Library Error! '.$e->getMessage());
 		}
 

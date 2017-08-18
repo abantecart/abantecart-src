@@ -69,7 +69,6 @@ class ExtensionCardconnect extends Extension {
 		$view = new AView($registry, 0);
 		//get remote charge data
 		$ch_data = $that->model_extension_cardconnect->getCardconnectCharge($this->r_data['retref']);
-
 		if (!$ch_data) {
 			$view->assign('error_warning', "Some error happened!. Check the error log for more details.");
 		} else {
@@ -116,12 +115,12 @@ class ExtensionCardconnect extends Extension {
 		$view->assign('refund', $refunds);
 		$view->batchAssign($that->language->getASet('cardconnect/cardconnect'));
 		$that->document->addStyle(
-							array(
-								'href' => $that->view->templateResource('/stylesheet/cardconnect.css'),
-								'rel' => 'stylesheet',
-								'media' => 'screen'
-							)
-					);
+            array(
+                'href' => $that->view->templateResource('/stylesheet/cardconnect.css'),
+                'rel' => 'stylesheet',
+                'media' => 'screen'
+            )
+        );
 		$that->view->addHookVar('extension_payment_details', $view->fetch('pages/sale/cardconnect_payment_details.tpl'));
 	}
 
