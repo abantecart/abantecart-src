@@ -73,11 +73,8 @@ class ExtensionCardconnect extends Extension {
 			$view->assign('error_warning', "Some error happened!. Check the error log for more details.");
 		} else {
 			$ch_data['settlement_status'] = $ch_data['setlstat'];
-			$ch_data['amount'] = number_format($this->r_data['total'], 2);
-			$ch_data['amount_refunded'] = number_format($ch_data['refunded'], 2);
 			$ch_data['refunded_formatted'] = $that->currency->format($ch_data['refunded'], strtoupper($ch_data['currency_code']), 1);
-
-			$ch_data['amount_formatted'] = $that->currency->format($ch_data['amount'], strtoupper($ch_data['currency_code']), 1);
+			$ch_data['authorized_formatted'] = $that->currency->format($ch_data['authorized'], strtoupper($ch_data['currency_code']), 1);
 			$ch_data['captured_formatted'] = $that->currency->format($ch_data['captured'], strtoupper($ch_data['currency_code']), 1);
 
 			//check a void status.
@@ -178,95 +175,6 @@ class ExtensionCardconnect extends Extension {
 		}
 	}
 
-/*
-	public function onControllerPagesCatalogProduct_UpdateData(){
-		if (!$this->_is_enabled()){
-			return null;
-		}
-		$that = $this->baseObject;
-		if(IS_ADMIN !== true){
-			return;
-		}
-
-		if(!in_array($this->baseObject_method, array('update'))){
-			return;
-		}
-
-		$product_id = (int)$that->request->get['product_id'];
-		$product_info = $that->view->getData('product_info');
-
-		//add switcher to donation product
-		$data = $that->view->getData('form');
-return;
-		$that->load->language('cardconnect/cardconnect');
-		$that->load->model('extension/cardconnect');
-		$cardconnect_plan = $that->model_extension_cardconnect->getProductSubscription($product_id);
-		$cardconnect_plan_alive = false;
-
-		//get available plans and check if plan is selected
-		$that->loadModel('extension/cardconnect');
-		$all_cardconnect_plans = $that->model_extension_cardconnect->getcardconnectPlans();
-
-		$plans_list = array();
-		$plans_list[0] = 'Select cardconnect plan for this product! ????';
-		foreach($all_cardconnect_plans->data as $plan) {
-			$plans_list[$plan['id']] = $plan['name'];
-			//check if existing plan is still alive in cardconnect.
-			if($plan['id'] == $cardconnect_plan){
-				$cardconnect_plan_alive = true;
-			}
-		}
-		unset($all_cardconnect_plans);
-		if(!$cardconnect_plan_alive) {
-			$cardconnect_plan = '';
-		}
-		if($that->config->get('cardconnect_test_mode')) {
-			$external_url = 'https://dashboard.cardconnect.com/test/plans/';
-		} else {
-			$external_url = 'https://dashboard.cardconnect.com/plans/';
-		}
-		if($cardconnect_plan) {
-			$external_url = $external_url.$cardconnect_plan;
-		}
-		$append_html = '<span class="input-group-addon"><span class="help_element"><a href="'.$external_url.'" target="new"><i class="fa fa-cc-cardconnect fa-lg"></i></a></span></span>';
-
-		$href = $that->html->getSecureURL('catalog/product/' . $this->baseObject_method, ($product_id ? '&product_id=' . $product_id : ''));
-		$js = '<script type="application/javascript">
-			$("#cardconnect_plan").on("change", function(){
-				var that = $(this);
-				var old_value = that.find("option[data-orgvalue=true]").attr("value");
-				if(old_value == $(this).val()){
-					return false; 
-				} else {
-					that.attr("disabled", "disabled");   
-				}
-
-				var action = \'' . $href . '\' + \'&cardconnect_plan=\' + $(this).val();
-				location = action;
-			});
-		</script>';
-
-		$cardconnect_plan = $that->html->buildElement(
-					array(
-						'type' => 'selectbox',
-						'name' => 'cardconnect_plan',
-						'options' => $plans_list,
-						'value' => $cardconnect_plan,
-						'style' => 'medium-field',
-					)
-		).$append_html.$js;
-
-		//push switch after status
-		$data['fields']['general'] = array_slice($data['fields']['general'], 0, 1, true) +
-				array (
-						"cardconnect_plan" => $cardconnect_plan
-				) +
-				array_slice($data['fields']['general'], 1, count($data['fields']['general']) - 1, true);
-
-		$that->view->assign('form', $data);
-
-	}
-*/
 	public function onControllerPagesCheckoutConfirm_InitData(){
 		if (!$this->_is_enabled()){
 			return null;

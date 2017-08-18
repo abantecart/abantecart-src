@@ -47,11 +47,12 @@ class ControllerResponsesExtensionCardConnect extends AController {
 			$cardconnect_order = $this->model_extension_cardconnect->getCardconnectOrder($order_id);
 			//get current order
 			$ch_data = $this->model_extension_cardconnect->getCardConnectCharge($cardconnect_order['retref']);
-			$ch_data['amount'] = number_format($cardconnect_order['total'], 2);
 			//validate if captured
-			if($ch_data['amount'] >= $amount) {
+			if ($ch_data['amount'] >= $amount) {
 				$capture = $this->model_extension_cardconnect->captureCardconnect($cardconnect_order['retref'], $amount);
-				if($capture['amount']) {
+                echo_array($capture);
+
+				if ($capture['amount']) {
 					// update main order status
 					$this->loadModel('sale/order');
 					$this->model_sale_order->addOrderHistory($order_id, array(
@@ -62,13 +63,13 @@ class ControllerResponsesExtensionCardConnect extends AController {
 					));
 					$this->model_extension_cardconnect->addTransaction(
 							$cardconnect_order['cardconnect_order_id'],
-							'payment',
+							'capture',
 							$capture['retref'],
 							$capture['amount'],
 							$capture['setlstat']
 					);
 					$json['msg'] = $this->language->get('text_captured_order');
-				}else{
+				} else {
 					$json['error'] = true;
 					$json['msg'] = $this->language->get('error_unable_to_capture');
 				}
@@ -107,11 +108,9 @@ class ControllerResponsesExtensionCardConnect extends AController {
 
 			//get current order
 			$ch_data = $this->model_extension_cardconnect->getcardconnectCharge($cardconnect_order['retref']);
-			$ch_data['amount'] = number_format($cardconnect_order['total'], 2);
-			$ch_data['amount_refunded'] = number_format($ch_data['refunded'], 2);
 			$remainder = $ch_data['amount'] - $ch_data['refunded'];
+
 			//validate if captured
-            
 			if($ch_data['captured'] && $remainder >= $amount) {
 				$refund = $this->model_extension_cardconnect->refundcardconnect($cardconnect_order['retref'], $amount);
 				if($refund['amount']) {
@@ -180,10 +179,10 @@ class ControllerResponsesExtensionCardConnect extends AController {
 					));
 					$this->model_extension_cardconnect->addTransaction(
 							$cardconnect_order['cardconnect_order_id'],
-							'refund',
+							'void',
 							$cardconnect_order['retref'],
-							$amount * -1,
-							$refund['resptext']);
+                            $ch_data['amount'] * -1,
+                            $void['resptext']);
 				} else {
 					$json['error'] = true;
                     $json['msg'] = $this->language->get('error_unable_to_void');

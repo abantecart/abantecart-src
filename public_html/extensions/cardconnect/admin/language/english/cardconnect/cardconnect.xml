@@ -149,7 +149,7 @@
     <value><![CDATA[CardConnect Charge ID]]></value>
   </definition>
   <definition>
-    <key>text_order_total</key>
+    <key>text_authorized_ammount</key>
     <value><![CDATA[Total amount authorized]]></value>
   </definition>
   <definition>

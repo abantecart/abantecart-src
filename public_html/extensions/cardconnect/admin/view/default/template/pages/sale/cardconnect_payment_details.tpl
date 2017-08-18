@@ -19,33 +19,31 @@
 				</td>
 			</tr>
 			<tr>
-				<td><?php echo $text_order_total; ?></td>
-				<td><?php echo $cardconnect_order['amount_formatted']; ?></td>
+				<td><?php echo $text_authorized_ammount; ?></td>
+				<td><?php echo $cardconnect_order['authorized_formatted']; ?></td>
 			</tr>
+			<?php if ($cardconnect_order['settlement_status'] != 'Voided') { ?>
 			<tr>
 				<td><?php echo $text_capture_status; ?></td>
 				<td id="capture_status">
-					<?php if ($cardconnect_order['captured']) { ?>
+					<?php if ($cardconnect_order['captured'] || $cardconnect_order['settlement_status'] == 'Queued for Capture') { ?>
 						<span><i class="fa fa-check-square-o fa-fw"></i> <?php echo $text_yes.' ('.$cardconnect_order['captured_formatted'].')'; ?></span>
 					<?php } else { ?>
-						<?php if ($cardconnect_order['settlement_status'] != 'Voided') { ?>
-							<div class="form-group form-inline">
-								<div class="input-group">
-									<input type="text" id="capture_amount" class="form-control"
-										   value="<?php echo $cardconnect_order['amount']; ?>"
-										   placeholder="<?php echo $text_capture_amount; ?>"/>
-								</div>
-								<div class="input-group">
-									<a class="button btn btn-primary"
-									   id="button_capture"><?php echo $button_capture; ?></a>
-								</div>
+						<div class="form-group form-inline">
+							<div class="input-group">
+								<input type="text" id="capture_amount" class="form-control"
+									   value="<?php echo $cardconnect_order['amount']; ?>"
+									   placeholder="<?php echo $text_capture_amount; ?>"/>
 							</div>
-						<?php } else { ?>
-							<span><i class="fa fa-square-o fa-fw"></i> <?php echo $text_no; ?></span>
-						<?php } ?>
+							<div class="input-group">
+								<a class="button btn btn-primary"
+								   id="button_capture"><?php echo $button_capture; ?></a>
+							</div>
+						</div>
 					<?php } ?>
 				</td>
 			</tr>
+			<?php } ?>
 			<?php if (!$cardconnect_order['captured'] && $cardconnect_order['settlement_status'] != 'Voided') { ?>
 				<tr>
 					<td><?php echo $text_void_status; ?></td>
@@ -65,7 +63,8 @@
 			<?php if ($cardconnect_order['captured']) { ?>
 				<tr>
 					<td><?php echo $text_refund_status; ?></td>
-					<td id="refund_status"><?php if ($cardconnect_order['refunded']) { ?>
+					<td id="refund_status">
+						<?php if ($cardconnect_order['refunded']) { ?>
 							<span><i class="fa fa-check-square-o fa-fw"></i> <?php echo $text_yes.' ('.$cardconnect_order['refunded_formatted'].')'; ?></span>
 						<?php } else { ?>
 							<?php if ($cardconnect_order['balance'] > 0 && !$cardconnect_order['void_status']) { ?>
@@ -84,11 +83,12 @@
 					</td>
 				</tr>
 			<?php } ?>
-
+			<?php if ($cardconnect_order['refunded']) { ?>
 			<tr>
 				<td><b><?php echo $text_balance; ?></b></td>
 				<td><b><?php echo $cardconnect_order['balance_formatted']; ?></b></td>
 			</tr>
+			<?php } ?>
 		</table>
 	<?php } ?>
 
