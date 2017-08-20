@@ -50,8 +50,6 @@ class ControllerResponsesExtensionCardConnect extends AController {
 			//validate if captured
 			if ($ch_data['amount'] >= $amount) {
 				$capture = $this->model_extension_cardconnect->captureCardconnect($cardconnect_order['retref'], $amount);
-                echo_array($capture);
-
 				if ($capture['amount']) {
 					// update main order status
 					$this->loadModel('sale/order');
@@ -157,6 +155,8 @@ class ControllerResponsesExtensionCardConnect extends AController {
 	public function void() {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+        $this->loadLanguage('cardconnect/cardconnect');
 		if (has_value($this->request->post['order_id']) ) {
 			$order_id = $this->request->post['order_id'];
 			$this->loadModel('extension/cardconnect');

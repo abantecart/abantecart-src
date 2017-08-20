@@ -69,12 +69,17 @@ class ExtensionCardconnect extends Extension {
 		$view = new AView($registry, 0);
 		//get remote charge data
 		$ch_data = $that->model_extension_cardconnect->getCardconnectCharge($this->r_data['retref']);
+        echo_array($ch_data);
 		if (!$ch_data) {
 			$view->assign('error_warning', "Some error happened!. Check the error log for more details.");
 		} else {
 			$ch_data['settlement_status'] = $ch_data['setlstat'];
 			$ch_data['refunded_formatted'] = $that->currency->format($ch_data['refunded'], strtoupper($ch_data['currency_code']), 1);
-			$ch_data['authorized_formatted'] = $that->currency->format($ch_data['authorized'], strtoupper($ch_data['currency_code']), 1);
+            if ($ch_data['authorized'] > 0) {
+                $ch_data['authorized_formatted'] = $that->currency->format($ch_data['authorized'], strtoupper($ch_data['currency_code']), 1);
+            } else {
+                $ch_data['authorized_formatted'] = $that->currency->format($ch_data['amount'], strtoupper($ch_data['currency_code']), 1);
+            }
 			$ch_data['captured_formatted'] = $that->currency->format($ch_data['captured'], strtoupper($ch_data['currency_code']), 1);
 
 			//check a void status.
