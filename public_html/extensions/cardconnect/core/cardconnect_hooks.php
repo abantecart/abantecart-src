@@ -69,7 +69,6 @@ class ExtensionCardconnect extends Extension {
 		$view = new AView($registry, 0);
 		//get remote charge data
 		$ch_data = $that->model_extension_cardconnect->getCardconnectCharge($this->r_data['retref']);
-        echo_array($ch_data);
 		if (!$ch_data) {
 			$view->assign('error_warning', "Some error happened!. Check the error log for more details.");
 		} else {
