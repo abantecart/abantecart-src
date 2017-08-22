@@ -25,7 +25,7 @@ if (!defined('DIR_CORE')){
  * Class AData
  * @property ModelToolTableRelationships $model_tool_table_relationships
  * @property ALanguageManager $language
- * @property ALoad $load
+ * @property ALoader $load
  * @property AConfig $config
  * @property ADataEncryption $dcrypt
  * @property ADB $db
@@ -35,10 +35,10 @@ class AData{
 	 * @var Registry
 	 */
 	protected $registry;
-	/**
-	 * @var AMessage
-	 */
     public $csvDelimiters = array (',', ';', '\t', '|');
+	/**
+	* @var AMessage
+	*/
 	protected $message;
 	protected $db;
 	protected $status_arr = array ();
@@ -107,7 +107,6 @@ class AData{
 				$result_arr['tables'][$idx]['error'] = "Incorrectly configured input array. $table_name cannot be found";
 			}
 		}
-
 		return $result_arr;
 	}
 
@@ -131,9 +130,9 @@ class AData{
 					continue;
 				}
 			} else{
-				$this->_status2array('error', 'Incorrect structure of main Array node. Only table nodes are expected');
+				$this->_status2array('error', 'Incorrect structure of main Array node. Only table nodes are expected'."\n"
+						.var_export($data_array, true));
 			}
-
 		}
 		return $this->status_arr;
 	}
@@ -162,11 +161,13 @@ class AData{
 
 	/**
 	 * Specific CSV format from file
-	 * @param $file
+	 * @param string $file
 	 * @param $delimIndex
+	 * @param int $start_row
+	 * @param int $offset
 	 * @return array
 	 */
-	public function CSV2ArrayFromFile($file, $delimIndex){
+	public function CSV2ArrayFromFile($file, $delimIndex, $start_row=0, $offset = 0){
 		$results = array ();
 		if (isset($this->csvDelimiters[$delimIndex])){
 			if ($this->csvDelimiters[$delimIndex] == '\t'){
@@ -178,7 +179,7 @@ class AData{
 			$delimiter = ',';
 		}
 
-		$results['tables'][] = $this->_csv_file2array($file, $delimiter);
+		$results['tables'][] = $this->_csv_file2array($file, $delimiter, '"', '"', $start_row, $offset);
 		return $results;
 	}
 
@@ -376,50 +377,58 @@ class AData{
 	 * @param string $delimiter
 	 * @param string $enclose
 	 * @param string $escape
+	 * @param int $start
+	 * @param int $offset
 	 * @return array|bool
 	 */
-	protected function _csv_file2array($file, $delimiter = ',', $enclose = '"', $escape = '"'){
+	protected function _csv_file2array($file, $delimiter = ',', $enclose = '"', $escape = '"', $start=0, $offset=0){
 		ini_set('auto_detect_line_endings', true);
 
 		$data = array ();
 
 		$row = 0;
-		$cols = 0;
+		$processed_rows = 0;
 		$titles = array ();
 
 		if ($handle = fopen($file, 'r')){
-			while (($rowData = fgetcsv($handle, 0, $delimiter)) !== false){
-				if (!$cols){
-					$cols = count($rowData);
+			//get titles of columns
+			$first_row = fgetcsv($handle, 0, $delimiter);
+			$cols = count($first_row);
+			for ($i = 0; $i < $cols; $i++){
+				$titles[$i] = str_replace($escape . $enclose, $enclose, $first_row[$i]);
+			}
+
+			while (!feof($handle)){
+				//skip
+				if($row < $start){
+					fgetcsv($handle, 0, $delimiter);
+					$row++;
+					continue;
+				}
+				//interrupt
+				if($offset && $processed_rows > $offset){
+					break;
 				}
 
+				$rowData = fgetcsv($handle, 0, $delimiter);
 				$vals = array ();
 				for ($i = 0; $i < $cols; $i++){
 					$rowData[$i] = str_replace($escape . $enclose, $enclose, $rowData[$i]);
-					if ($row == 0){
-						$titles[$i] = $rowData[$i];
-						continue;
-					}
 					$vals[$titles[$i]] = $rowData[$i];
 				}
 
 				$data[] = $vals;
+				$processed_rows++;
 				$row++;
 			}
 			fclose($handle);
-
-			$data = array_slice($data, 1);
-
 			$this->nested_array = $this->_build_nested($data);
 
 			$this->_filter_empty($this->nested_array);
-
 			for ($i; $i > 0; $i--){
 				$this->_filter_empty($this->nested_array);
 			}
-
 			return $this->nested_array;
-
 		} else{
 			$this->processError('CSV Import Error', 'Error: Can`t open imported file.');
 			return false;

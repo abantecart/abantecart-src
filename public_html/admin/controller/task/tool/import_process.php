@@ -58,7 +58,6 @@ class ControllerTaskToolImportProcess extends AController{
 		}else{
 			$output['error_text'] = $this->failed_count . ' rows processed with error.';
 		}
-
 		$this->response->setOutput(AJson::encode( $output ));
 	}
 
@@ -90,26 +89,37 @@ class ControllerTaskToolImportProcess extends AController{
 		$delimiter = $import_details['delimiter'];
 
 		$step_result = false;
+		$step_failed_count = 0;
+
 		//read records from source file
-		$records = $this->readFileSeek($filename, $delimiter, '"', $start, ($stop-$start));
+		if($file_format == 'internal'){
+			$a_data = new AData();
+			//import each row separately
+			for ($i = $start; $i < $stop; $i++) {
+				$csv_array = $a_data->CSV2ArrayFromFile($filename, array_search($delimiter, $a_data->csvDelimiters), $i, 1);
+				if($csv_array) {
+					$results = $a_data->importData($csv_array);
+				}else{
+					$results= array('error' => true);
+				}
 
-		if(count($records)) {
+				if (isset($results['error'])) {
+					$step_failed_count++;
+				} else {
+					$this->success_count++;
+				}
+			}
+		}else {
+			// new import process
+			$records = $this->readFileSeek($filename, $delimiter, '"', $start, ($stop - $start));
+			if (count($records)) {
+				//process column names
+				$columns = $records[0];
+				//skip header and process each record
+				array_shift($records);
+				$this->loadModel('tool/import_process');
+				$step_failed_count = 0;
 
-			//process column names
-			$columns = $records[0];
-			//skip header and process each record
-			array_shift($records);
-			$this->loadModel('tool/import_process');
-			$step_failed_count = 0;
-
-			if($file_format == 'internal'){
-				//something wrong here
-				//$a_data = new AData();
-				//$results = $a_data->importData(array('tables' => $records));
-
-				//$result = true;
-				$result = false;
-			}else {
 				foreach ($records as $index => $rowData) {
 					$vals = array ();
 					//check if we match row data count to header
@@ -123,6 +133,7 @@ class ControllerTaskToolImportProcess extends AController{
 					for ($i = 0; $i < count($columns); $i++) {
 						$vals[$columns[$i]] = $rowData[$i];
 					}
+
 					//main driver to process data and import
 					$method = "process_" . $type . "_record";
 					try{
@@ -137,29 +148,31 @@ class ControllerTaskToolImportProcess extends AController{
 						$step_failed_count++;
 					}
 				}
+			}else{
+				//if nothing to todo
+				return false;
 			}
-			$this->failed_count = $this->failed_count + $step_failed_count;
-			$tm->updateTaskDetails($task_id,
-				array(
-					'settings'   => array(
-						'logfile'           => $type.'_import_'.$task_id.'.txt',
-						'import_data'       => $task_info['settings']['import_data'],
-						'total_rows_count'  => $task_info['settings']['total_rows_count'],
-						'success_count'     => (int)$task_info['settings']['success_count'] + $this->success_count,
-						'failed_count'      => (int)$task_info['settings']['failed_count'] + $this->failed_count
-					)
-				)
-			);
-			//sends always true as result
-			$step_result = true;
-			$tm->updateStep($step_id, array('last_result' => $step_result));
-			//all done, clear cache
-			$this->cache->remove('*');
 		}
 
+		//update task details
+		$this->failed_count = $this->failed_count + $step_failed_count;
+		$task_settings = $task_info['settings'];
+		if($file_format == 'internal'){
+			unset($task_settings['logfile']);
+		}else {
+			$task_settings['logfile'] = $type . '_import_' . $task_id . '.txt';
+		}
+		$task_settings['success_count'] = (int)$task_info['settings']['success_count'] + $this->success_count;
+		$task_settings['failed_count'] = (int)$task_info['settings']['failed_count'] + $this->failed_count;
+
+		$tm->updateTaskDetails( $task_id, array('settings' => $task_settings ));
+		//sends always true as result
+		$step_result = true;
+		$tm->updateStep($step_id, array ('last_result' => $step_result));
+		//all done, clear cache
+		$this->cache->remove('*');
 		return $step_result;
 	}
-
 
 	protected function readFileSeek($source, $delimiter, $enclosure = '"', $line_num = 1, $range = 1){
 		if(!$source){

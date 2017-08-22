@@ -118,6 +118,7 @@ class ControllerPagesToolImportUpload extends AController {
 				}
 				if($count_dots == count($cols)){
 					$res['format'] = 'internal';
+					list($res['table'],) = explode('.',$cols[0]);
 				}
 			} else {
 				return array('error' => $this->language->get('error_data_corrupted'));

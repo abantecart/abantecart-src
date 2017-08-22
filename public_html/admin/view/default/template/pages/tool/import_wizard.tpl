@@ -83,9 +83,7 @@
 				</td>
 				<td class="col-md-2"><b><?php echo $text_import_update_on; ?></b></td>
 			</thead>
-		<?php
-			foreach($cols as $i => $col) {
-		?>
+	<?php	foreach($cols as $i => $col) { ?>
 			<tr>
 				<td class="col-md-3">
 					<?php echo $col ?>

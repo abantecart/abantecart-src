@@ -415,6 +415,7 @@ class ControllerPagesToolImportExport extends AController{
 		$this->data['success'] = $this->success;
 
 		//get sample row
+		$this->data['cols'] = $this->data['data'] = array();
 		if($import_data['file_type'] == 'csv') {
 			ini_set('auto_detect_line_endings', true);
 			if ($fh = fopen($import_data['file'], 'r')) {
@@ -513,6 +514,7 @@ class ControllerPagesToolImportExport extends AController{
 		$this->data['success'] = $this->success;
 
 		//get sample row
+		$this->data['cols'] = $this->data['data'] = array();
 		if($import_data['file_type'] == 'csv') {
 			ini_set('auto_detect_line_endings', true);
 			if ($fh = fopen($import_data['file'], 'r')) {
@@ -551,8 +553,6 @@ class ControllerPagesToolImportExport extends AController{
 		}
 
 		if($import_data['file_type'] != 'csv'){
-//$csv_array = $this->handler->CSV2ArrayFromFile($import_data['file'], $import_data['delimiter_id']);
-//$this->data['results'] = $this->handler->importData($csv_array);
 			$this->session->data['error'] = $this->language->get('error_file_format');
 			$this->main();
 			return null;
@@ -564,31 +564,6 @@ class ControllerPagesToolImportExport extends AController{
 			return null;
 		}
 
-		/*
-		else {
-			$this->data['text_updated'] = $this->language->get('text_updated');
-			$this->data['count_updated'] = isset($this->data['results']['update']) ? count($this->data['results']['update']) : 0;
-			$this->data['text_created'] = $this->language->get('text_created');
-			$this->data['count_created'] = isset($this->data['results']['insert']) ? count($this->data['results']['insert']) : 0;
-			$this->data['text_errors'] = $this->language->get('text_errors');
-			$this->data['count_errors'] = isset($this->data['results']['error']) ? count($this->data['results']['error']) : 0;
-			$this->data['text_some_errors'] = $this->language->get('text_some_errors');
-			$this->data['text_loaded'] = $this->language->get('text_import_loaded');
-			$this->data['count_loaded'] = $this->data['count_updated'] + $this->data['count_created'] + $this->data['count_errors'];
-			$this->data['text_show_details'] = $this->language->get('text_show_details');
-
-			if(isset($this->data['results']['sql'])){
-				$this->data['text_test_completed'] = $this->language->get('text_test_completed');
-				$this->data['count_test_sqls'] = count($this->data['results']['sql']);
-			}
-			$this->success = $this->language->get('text_import_loaded') . '0';
-		}
-
-		//cleanup
-		@unlink($import_data['file']);
-		unset($this->session->data['import']);
-		*/
-		//$this->main();
 	}
 
 	protected function validateWizardRequest($post) {

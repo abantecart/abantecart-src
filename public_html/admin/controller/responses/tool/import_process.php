@@ -116,8 +116,10 @@ class ControllerResponsesToolImportProcess extends AController {
 			$result_text = $this->language->get('text_task_failed');
 		}
 		$log_file = $task_info['settings']['logfile'];
-		$result_text .= '<br>'.sprintf($this->language->get('text_see_log'), $this->html->getSecureURL('tool/error_log', '&filename='.$log_file), $log_file);
-
+		if(is_file(DIR_LOGS.$log_file)) {
+			$result_text .= '<br>' . sprintf($this->language->get('text_see_log'),
+							$this->html->getSecureURL('tool/error_log', '&filename=' . $log_file), $log_file);
+		}
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
