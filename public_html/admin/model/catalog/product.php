@@ -1231,6 +1231,8 @@ class ModelCatalogProduct extends Model{
 		$this->db->query("DELETE FROM " . $this->db->table("products_to_stores") . " WHERE product_id = '" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("url_aliases") . " WHERE query = 'product_id=" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("product_tags") . " WHERE product_id='" . (int)$product_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("products_featured") . " WHERE product_id='" . (int)$product_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("product_specials") . " WHERE product_id='" . (int)$product_id . "'");
 
 		$lm = new ALayoutManager();
 		$lm->deletePageLayout('pages/product/product', 'product_id', (int)$product_id);
