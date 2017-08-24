@@ -130,8 +130,7 @@ class AData{
 					continue;
 				}
 			} else{
-				$this->_status2array('error', 'Incorrect structure of main Array node. Only table nodes are expected'."\n"
-						.var_export($data_array, true));
+				$this->_status2array('error', 'Incorrect structure of main Array node. Only table nodes are expected');
 			}
 		}
 		return $this->status_arr;
@@ -386,31 +385,34 @@ class AData{
 
 		$data = array ();
 
-		$row = 0;
-		$processed_rows = 0;
-		$titles = array ();
 
-		if ($handle = fopen($file, 'r')){
+		$titles = array ();
+		$handle = fopen($file,'r');
+
+		if ($handle){
 			//get titles of columns
 			$first_row = fgetcsv($handle, 0, $delimiter);
 			$cols = count($first_row);
 			for ($i = 0; $i < $cols; $i++){
 				$titles[$i] = str_replace($escape . $enclose, $enclose, $first_row[$i]);
 			}
-
-			while (!feof($handle)){
+			$row = 0;
+			$processed_rows = 0;
+			while (($rowData = fgetcsv($handle, 0, $delimiter)) !== false){
 				//skip
 				if($row < $start){
-					fgetcsv($handle, 0, $delimiter);
 					$row++;
 					continue;
 				}
 				//interrupt
-				if($offset && $processed_rows > $offset){
+				if($offset && $processed_rows >= $offset){
 					break;
 				}
 
-				$rowData = fgetcsv($handle, 0, $delimiter);
+				if( !$rowData ) {
+					continue;
+				}
+
 				$vals = array ();
 				for ($i = 0; $i < $cols; $i++){
 					$rowData[$i] = str_replace($escape . $enclose, $enclose, $rowData[$i]);
@@ -422,6 +424,11 @@ class AData{
 				$row++;
 			}
 			fclose($handle);
+
+			if(!$data){
+				return array();
+			}
+
 			$this->nested_array = $this->_build_nested($data);
 
 			$this->_filter_empty($this->nested_array);
@@ -442,7 +449,6 @@ class AData{
 	 */
 	protected function _build_nested($flat_array){
 		$md_array = array ();
-
 		foreach ($flat_array as $row){
 			$row_array = array ();
 			$scope_srt = '';
@@ -510,7 +516,6 @@ class AData{
 			//finished main row
 			$md_array['rows'][] = $row_array;
 		}
-
 		return $md_array;
 	}
 

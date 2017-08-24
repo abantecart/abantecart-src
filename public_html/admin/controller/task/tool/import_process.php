@@ -96,11 +96,11 @@ class ControllerTaskToolImportProcess extends AController{
 			$a_data = new AData();
 			//import each row separately
 			for ($i = $start; $i < $stop; $i++) {
-				$csv_array = $a_data->CSV2ArrayFromFile($filename, array_search($delimiter, $a_data->csvDelimiters), $i, 1);
-				if($csv_array) {
+				$csv_array = $a_data->CSV2ArrayFromFile($filename, array_search($delimiter, $a_data->csvDelimiters),$i,1);
+				if ($csv_array) {
 					$results = $a_data->importData($csv_array);
-				}else{
-					$results= array('error' => true);
+				} else {
+					$results = array ('error' => true);
 				}
 
 				if (isset($results['error'])) {
@@ -109,7 +109,7 @@ class ControllerTaskToolImportProcess extends AController{
 					$this->success_count++;
 				}
 			}
-		}else {
+		} else {
 			// new import process
 			$records = $this->readFileSeek($filename, $delimiter, '"', $start, ($stop - $start));
 			if (count($records)) {

@@ -35,7 +35,6 @@ class ControllerResponsesToolImportProcess extends AController {
 
 	public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
 		parent::__construct($registry, $instance_id, $controller, $parent_controller);
-
 		$this->loadLanguage('tool/import_export');
 	}
 
@@ -92,7 +91,6 @@ class ControllerResponsesToolImportProcess extends AController {
 		$this->load->library('json');
 		$this->response->addJSONHeader();
 		$this->response->setOutput( AJson::encode($this->data['output']) );
-
 	}
 
 	public function complete(){

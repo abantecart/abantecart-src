@@ -50,12 +50,11 @@ class ModelToolImportProcess extends Model{
 			$this->errors[] = 'Missing required data to build a task.';
 		}
 		//get file details
-		$total_rows_count = 0;
+		$total_rows_count = -1;
 		ini_set("auto_detect_line_endings", true);
 		$handle = fopen($data['file'] , "r");
 		if(is_resource($handle)) {
-			while (!feof($handle)) {
-				$line = fgets($handle);
+			while (fgetcsv($handle, 0, $data['delimiter']) !== false) {
 				$total_rows_count++;
 			}
 			unset($line);
@@ -107,22 +106,26 @@ class ModelToolImportProcess extends Model{
 		);
 
 		$sort_order =1;
-		$k = 1;
+		$k = 0;
 		while ($k < $total_rows_count){
 			//create task step
-			$step_id = $tm->addStep(array (
-				'task_id'            => $task_id,
-				'sort_order'         => $sort_order,
-				'status'             => 1,
-				'last_time_run'      => '0000-00-00 00:00:00',
-				'last_result'        => '0',
-				'max_execution_time' => ($divider * $time_per_send * 2),
-				'controller'         => $task_controller,
-				'settings'           => array (
-					'start'     => $k,
-					'stop'      => $k + $divider
-				)
-			));
+			$stop = $k + $divider;
+			$stop = $stop > $total_rows_count ? $total_rows_count : $stop;
+			$step_id = $tm->addStep(
+					array (
+						'task_id'            => $task_id,
+						'sort_order'         => $sort_order,
+						'status'             => 1,
+						'last_time_run'      => '0000-00-00 00:00:00',
+						'last_result'        => '0',
+						'max_execution_time' => ($divider * $time_per_send * 2),
+						'controller'         => $task_controller,
+						'settings'           => array (
+													'start'     => $k,
+													'stop'      => $stop
+						)
+					)
+			);
 
 			if (!$step_id) {
 				$this->errors = array_merge($this->errors, $tm->errors);
