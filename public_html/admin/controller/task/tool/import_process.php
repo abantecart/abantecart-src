@@ -94,6 +94,7 @@ class ControllerTaskToolImportProcess extends AController{
 		//read records from source file
 		if($file_format == 'internal'){
 			$a_data = new AData();
+			$a_data->setLogFile(DIR_LOGS."import_".$task_id.".txt");
 			//import each row separately
 			for ($i = $start; $i < $stop; $i++) {
 				$csv_array = $a_data->CSV2ArrayFromFile($filename, array_search($delimiter, $a_data->csvDelimiters),$i,1);
@@ -125,7 +126,7 @@ class ControllerTaskToolImportProcess extends AController{
 					//check if we match row data count to header
 					if (count($rowData) != count($columns)) {
 						//incomplete row. Exit
-						$return[] = "Error: incomplete data in row number: {$index} with: {$rowData[0]}";
+						$return[] = "Error: incomplete data in row number: ".$index." with: ".$rowData[0];
 						$step_failed_count++;
 						continue;
 					}
@@ -158,7 +159,7 @@ class ControllerTaskToolImportProcess extends AController{
 		$this->failed_count = $this->failed_count + $step_failed_count;
 		$task_settings = $task_info['settings'];
 		if($file_format == 'internal'){
-			unset($task_settings['logfile']);
+			$task_settings['logfile'] = "import_".$task_id.".txt";
 		}else {
 			$task_settings['logfile'] = $type . '_import_' . $task_id . '.txt';
 		}
