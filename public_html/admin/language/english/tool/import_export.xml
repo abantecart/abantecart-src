@@ -212,4 +212,12 @@
 		<key>text_success_abort</key>
 		<value><![CDATA[Task interrupted successfully.]]></value>
 	</definition>
+	<definition>
+		<key>button_schedule_import</key>
+		<value><![CDATA[Schedule Import]]></value>
+	</definition>
+	<definition>
+		<key>text_success_scheduled</key>
+		<value><![CDATA[Success: You have successfully created scheduled import task! <a href="%s">See details</a>]]></value>
+</definition>
 </definitions>

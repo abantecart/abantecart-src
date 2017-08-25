@@ -76,6 +76,9 @@
 					data-task-title="<?php echo $text_import_task_title ?>">
 				<i class="fa fa-paper-plane-o fa-fw"></i> <?php echo $text_load; ?>
 			</button>
+			<button class="btn btn-primary">
+				<i class="fa fa-clock-o fa-fw"></i> <?php echo $form['schedule']->text; ?>
+			</button>
 			<a href="<?php echo $back_url; ?>" class="btn btn-default" title="<?php echo $button_back; ?>">
 				<i class="fa fa-arrow-left fa-fw"></i>
 				<?php echo $button_back ?>

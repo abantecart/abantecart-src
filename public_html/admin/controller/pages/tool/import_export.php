@@ -344,9 +344,15 @@ class ControllerPagesToolImportExport extends AController{
 			$this->data['form']['complete_task_url'] = $this->html->getSecureURL('r/tool/import_process/complete');
 			$this->data['form']['abort_task_url'] = $this->html->getSecureURL('r/tool/import_process/abort');
 			$this->data['back_url'] = $this->html->getSecureURL('tool/import_export/import_wizard');
+			$this->data['form']['schedule_url'] = $this->html->getSecureURL('tool/import_export/schedule_import');
 
 		} else if($this->data['map'] && $this->validateWizardRequest($this->data['map']) ) {
 			$this->data['import_ready'] = false;
+		}
+
+		if (isset($this->session->data['success'])) {
+			$this->success = $this->session->data['success'];
+			unset($this->session->data['success']);
 		}
 
 		$this->loadLanguage('tool/import_export');
@@ -450,6 +456,12 @@ class ControllerPagesToolImportExport extends AController{
 		}
 
 		$this->loadLanguage('tool/import_export');
+
+		if (isset($this->session->data['success'])) {
+			$this->success = $this->session->data['success'];
+			unset($this->session->data['success']);
+		}
+
 		$this->document->setTitle($this->language->get('import_wizard_title'));
 		$this->data['title'] = $this->language->get('import_wizard_title');
 
@@ -482,7 +494,7 @@ class ControllerPagesToolImportExport extends AController{
 		$this->data['form_open'] = $form->getFieldHtml(array(
 			'type'   => 'form',
 			'name'   => 'internalImport',
-			'action' => $this->html->getSecureURL('tool/import_export/internal_import'),
+			'action' => $this->html->getSecureURL('tool/import_export/schedule_import'),
 			'attr'   => 'class="aform form-horizontal"',
 		));
 		$this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -490,6 +502,11 @@ class ControllerPagesToolImportExport extends AController{
 			'name'  => 'submit',
 			'text'  => $this->language->get('button_continue'),
 			'style' => 'button1',
+		));
+		$this->data['form']['schedule'] = $form->getFieldHtml(
+				array('type' => 'button',
+						'name' => 'import_schedule',
+						'text' => $this->language->get('button_schedule_import')
 		));
 		$this->data['form']['cancel'] = $form->getFieldHtml(array(
 			'type'  => 'button',
@@ -538,6 +555,48 @@ class ControllerPagesToolImportExport extends AController{
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
+	public function schedule_import(){
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$file_format = $this->session->data['import']['format'];
+		if($file_format == 'internal'){
+			$imp_data = $this->session->data['import'];
+		}else{
+			$imp_data = array_merge($this->session->data['import_map'], $this->session->data['import']);
+		}
+
+		if(!$imp_data){
+			redirect($this->html->getSecureURL('tool/import_export'));
+		}
+
+		$this->loadLanguage('tool/import_export');
+		if ($this->_validate_task()) {
+			$this->loadModel('tool/import_process');
+			$task_details = $this->model_tool_import_process->createTask('import_wizard_' . date('Ymd-H:i:s'), $imp_data);
+			if (!$task_details) {
+				$this->session->data['error'] = implode('<br>', $this->model_tool_import_process->errors);
+			} else {
+				$this->session->data['success'] = sprintf($this->language->get('text_success_scheduled'),
+																			  $this->html->getSecureURL('tool/task'));
+			}
+			redirect($this->html->getSecureURL('tool/import_export/'.($file_format=='internal' ? 'internal_import' : 'import_wizard')));
+		}
+	}
+
+	protected function _validate_task() {
+		if (!$this->user->canModify('sale/contact')) {
+			$this->error = $this->language->get('error_permission');
+		}
+
+		if ( ($this->session->data['import']['format'] != 'internal' && !$this->session->data['import_map'])
+				|| !$this->session->data['import']) {
+			$this->error = $this->language->get('error_data_corrupted');
+		}
+
+		$this->extensions->hk_ValidateData($this);
+		return $this->error ? false : true;
+	}
 
 	/**
 	 * Internal load format
