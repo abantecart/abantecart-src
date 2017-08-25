@@ -116,7 +116,16 @@ class ControllerPagesToolImportUpload extends AController {
 						$count_dots++;
 					}
 				}
-				if($count_dots == count($cols)){
+
+				//try to detect file format basing on column names
+				$cols_count = count($cols);
+				$exclude_col_names = array('action');
+				foreach($exclude_col_names as $exclude_col_name){
+					if(in_array($exclude_col_name, $cols)){
+						$cols_count--;
+					}
+				}
+				if($count_dots == $cols_count){
 					$res['format'] = 'internal';
 					list($res['table'],) = explode('.',$cols[0]);
 				}

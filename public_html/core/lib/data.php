@@ -35,7 +35,11 @@ class AData{
 	 * @var Registry
 	 */
 	protected $registry;
-    public $csvDelimiters = array (',', ';', '\t', '|');
+	/**
+	 * NOTE: use double quotes here for special chars like tab!
+	 * @var array
+	 */
+	public $csvDelimiters = array (",", ";", "\t", "|");
 	/**
 	* @var AMessage
 	*/
@@ -44,7 +48,8 @@ class AData{
 	protected $status_arr = array ();
 	protected $run_mode;
 	protected $nested_array = array ();
-	protected $actions = array ('insert', 'update', 'update_or_insert', 'delete');
+	protected $actions = array ( 'insert', 'update', 'update_or_insert', 'delete' );
+	protected $sections = array();
 
 	public function __construct(){
 		if (!IS_ADMIN){
