@@ -529,7 +529,7 @@ class ModelToolImportProcess extends Model{
 					continue;
 				}
 			} else {
-				$this->toLog("Error: Image {$source} does not exists for {$object_txt_id} with ID {$object_id}. ");
+				$this->toLog("Error: Image ".$source." does not exists for ".$object_txt_id." with ID ".$object_id.". ");
 			}
 		}
 

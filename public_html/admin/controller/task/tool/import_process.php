@@ -75,7 +75,7 @@ class ControllerTaskToolImportProcess extends AController{
 		$file_format = $import_details['format'];
 		$step_info = $tm->getTaskStep($task_id, $step_id);
 		if(!$step_info['settings'] ){
-			$error_text = "Cannot run task #{$task_id} step #{$step_id}. Can not locate settings for the step.";
+			$error_text = "Cannot run task #".$task_id." step #".$step_id.". Can not locate settings for the step.";
 			$this->_return_error($error_text);
 		}
 		//record the start
@@ -168,11 +168,11 @@ class ControllerTaskToolImportProcess extends AController{
 
 		$tm->updateTaskDetails( $task_id, array('settings' => $task_settings ));
 		//sends always true as result
-		$step_result = true;
-		$tm->updateStep($step_id, array ('last_result' => $step_result));
+		$tm->updateStep($step_id, array ('last_result' => $this->failed_count ? false : true));
 		//all done, clear cache
 		$this->cache->remove('*');
-		return $step_result;
+		//return always true fo import process only. we think one failed row cannot block task
+		return true;
 	}
 
 	protected function readFileSeek($source, $delimiter, $enclosure = '"', $line_num = 1, $range = 1){
@@ -190,7 +190,6 @@ class ControllerTaskToolImportProcess extends AController{
 		$endLine = $line_num + $range;
 		//always return first line with header
 		$buffer = array(0 => fgetcsv($fh, 0, $delimiter, $enclosure));
-
 		while (($data = fgetcsv($fh, 0, $delimiter, $enclosure)) !== FALSE) {
 			if ($lineNo >= $startLine) {
 				$buffer[] = $data;

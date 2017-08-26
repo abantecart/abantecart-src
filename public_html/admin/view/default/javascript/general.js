@@ -825,45 +825,43 @@ var runTaskComplete = function (task_id) {
 
 	$('div.progress_description').html('Completing...');
 
+	var className, message, completeText;
 	if(task_fail){
-		// add result message
-		$('#task_modal div.progress-info').addClass('alert-danger').append(defaultTaskMessages.task_failed + collapse_btn + collapse_pnl);
-		$('#tsk_result_details').html(task_fail_text + task_complete_text);
-		task_fail_text = task_complete_text = '';
-		//remove abort button
-		if($('#task_modal .abort_button').length > 0) {
-			$('#task_modal .abort_button').remove();
-		}
-	} else {
-		$.ajax({
-			type: "POST",
-			async: false,
-			url: complete_task_url,
-			data: {task_id: task_id },
-			datatype: 'json',
-			global: false,
-			success: function (data) {
-				var message = '';
-				if(data.result_text){
-					message = defaultTaskMessages.task_success + '<br>'+data.result_text
-				}else{
-					message = defaultTaskMessages.task_success;
-				}
-				// add result message
-				$('#task_modal div.progress-info').addClass('alert-success').append(message + collapse_btn + collapse_pnl);
-				$('#tsk_result_details').html(task_complete_text);
-				task_complete_text = '';
-				//remove abort button
-				if($('#task_modal .abort_button').length > 0) {
-					$('#task_modal .abort_button').remove();
-				}
-			},
-			error: taskRunError,
-			complete: function(){
-				$('div.progress_description').html('');
-			}
-		});
+		className = 'alert-danger';
+		message = defaultTaskMessages.task_failed;
+		completeText = task_fail_text + task_complete_text;
+	}else{
+		className = 'alert-success';
+		message = defaultTaskMessages.task_success;
+		completeText = task_complete_text;
 	}
+
+	$.ajax({
+		type: "POST",
+		async: false,
+		url: complete_task_url,
+		data: {task_id: task_id },
+		datatype: 'json',
+		global: false,
+		success: function (data) {
+			if(data.result_text){
+				message += '<br>'+data.result_text
+			}
+			// add result message
+			$('#task_modal div.progress-info').addClass(className).append(message + collapse_btn + collapse_pnl);
+			$('#tsk_result_details').html(completeText);
+			task_fail_text = task_complete_text = '';
+			//remove abort button
+			if($('#task_modal .abort_button').length > 0) {
+				$('#task_modal .abort_button').remove();
+			}
+		},
+		error: taskRunError,
+		complete: function(){
+			$('div.progress_description').html('');
+		}
+	});
+
 	$('#task_modal').data('bs.modal').options.backdrop = true;
 }
 

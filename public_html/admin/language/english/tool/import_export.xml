@@ -201,8 +201,8 @@
 		<value><![CDATA[Empty request.]]></value>
 	</definition>
 	<definition>
-		<key>text_success_import</key>
-		<value><![CDATA[Data has been imported successfully.]]></value>
+		<key>text_complete_import</key>
+		<value><![CDATA[Import Process has been completed. %s row(s) processed.]]></value>
 	</definition>
 	<definition>
 		<key>text_see_log</key>

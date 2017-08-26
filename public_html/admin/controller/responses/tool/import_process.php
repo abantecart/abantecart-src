@@ -109,10 +109,9 @@ class ControllerResponsesToolImportProcess extends AController {
 		$task_result = $task_info['last_result'];
 		if ($task_result) {
 			$tm->deleteTask($task_id);
-			$result_text = sprintf($this->language->get('text_success_import'),$task_info['settings']['processed']);
-		} else {
-			$result_text = $this->language->get('text_task_failed');
+			$result_text = sprintf($this->language->get('text_complete_import'),(int)$task_info['settings']['success_count']);
 		}
+
 		$log_file = $task_info['settings']['logfile'];
 		if(is_file(DIR_LOGS.$log_file)) {
 			$result_text .= '<br>' . sprintf($this->language->get('text_see_log'),
