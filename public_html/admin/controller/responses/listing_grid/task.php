@@ -159,10 +159,10 @@ class ControllerResponsesListingGridTask extends AController {
 		//check status
 		if(!in_array($task['status'],
 							 array(
-							         $tm::STATUS_RUNNING,
-									 $tm::STATUS_FAILED,
-									 $tm::STATUS_COMPLETED,
-									 $tm::STATUS_INCOMPLETE))
+									$tm::STATUS_RUNNING,
+									$tm::STATUS_FAILED,
+									$tm::STATUS_COMPLETED,
+									$tm::STATUS_INCOMPLETE))
 		){
 			$err = new AError('Task runtime error');
 			return $err->toJSONResponse(
@@ -185,7 +185,7 @@ class ControllerResponsesListingGridTask extends AController {
 		//if task with standalone steps - remove successful steps from task before restart
 		if(!$restart_all){
 			foreach($task['steps'] as &$step){
-				if($step['last_result']==1){
+				if($step['last_result'] == 0 && $step['last_time_run'] != '0000-00-00 00:00:00'){
 					$tm->deleteStep($step['step_id']);
 					unset($step);
 				}
@@ -202,9 +202,10 @@ class ControllerResponsesListingGridTask extends AController {
 											));
 		$this->_run_task($task_id);
 
-
+		$this->data['output'] = '{}';
 		//update controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->response->setOutput($this->data['output']);
 	}
 
 	public function run(){
@@ -228,9 +229,10 @@ class ControllerResponsesListingGridTask extends AController {
 		}else{
 			$this->response->setOutput(AJson::encode(array('result'=> false)));
 		}
-
+		$this->data['output'] = '{}';
 		//update controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->response->setOutput($this->data['output']);
 	}
 
 	// run task in separate process
