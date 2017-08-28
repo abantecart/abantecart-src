@@ -22,15 +22,12 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 
 class ControllerPagesToolTask extends AController {
-    public $data;
-	
+	public $data;
 	public function main() {
-		
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
-				
+
 		$this->document->setTitle ( $this->language->get ( 'heading_title' ) );
-		
 		$this->document->initBreadcrumb ();
 		$this->document->addBreadcrumb ( array (
 												'href' => $this->html->getSecureURL ( 'index/home' ), 
@@ -41,7 +38,7 @@ class ControllerPagesToolTask extends AController {
 												'text' => $this->language->get ( 'heading_title' ), 
 												'separator' => ' :: ',
 												'current' => true) );
-		
+
 		$grid_settings = array (
 								//id of grid
 								'table_id' => 'tasks_grid',
@@ -64,6 +61,10 @@ class ControllerPagesToolTask extends AController {
 											'text' => $this->language->get('text_restart'),
 											'href' => $this->html->getSecureURL('listing_grid/task/restart', '&task_id=%ID%')
 										),
+										'continue' => array(
+											'text' => $this->language->get('button_continue'),
+											'href' => $this->html->getSecureURL('listing_grid/task/restart', '&continue=1&task_id=%ID%')
+										),
 										'delete' => array(
 											'text' => $this->language->get('button_delete'),
 											'href' => $this->html->getSecureURL('tool/task/delete', '&task_id=%ID%')
@@ -71,7 +72,7 @@ class ControllerPagesToolTask extends AController {
 								'columns_search' => true,
 								'sortable' => true,
 								'grid_ready' => 'grid_ready();');
-		
+
 		$grid_settings ['colNames'] = array (
 											$this->language->get ( 'column_id' ),
 											$this->language->get ( 'column_name' ),
@@ -113,8 +114,9 @@ class ControllerPagesToolTask extends AController {
 													'width' => 150,
 													'align' => 'center',
 													'sortable' => true,
-													'search' => false) );
-		
+													'search' => false)
+		);
+
 		$grid = $this->dispatch ( 'common/listing_grid', array ( $grid_settings ) );
 		$this->view->assign ( 'listing_grid', $grid->dispatchGetOutput () );
 		$this->view->assign('help_url', $this->gen_help_url() );
@@ -133,7 +135,7 @@ class ControllerPagesToolTask extends AController {
 
 		$this->view->batchAssign (  $this->language->getASet () );
 		$this->processTemplate ( 'pages/tool/task.tpl' );
-		
+
 		//update controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
@@ -149,7 +151,6 @@ class ControllerPagesToolTask extends AController {
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
-		$this->redirect($this->html->getSecureURL('tool/task'));
+		redirect($this->html->getSecureURL('tool/task'));
 	}
-
 }

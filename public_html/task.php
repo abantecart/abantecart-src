@@ -68,6 +68,7 @@ if (php_sapi_name() == "cli") {
 	$mode = 'cli';
 	$task_id = $argv[1];
 	$step_id = $argv[2];
+	$run_mode = $argv[3];
 } else {
 
 	// add to settings API et task_api_key
@@ -78,6 +79,7 @@ if (php_sapi_name() == "cli") {
 	$mode = (string)$_GET['mode'];
 	$task_id = (int)$_GET['task_id'];
 	$step_id = (int)$_GET['step_id'];
+	$run_mode = $_GET['run_mode'];
 }
 
 if(!$mode && !$command_line){
@@ -116,6 +118,9 @@ if ($mode && !$task_id) {
 	if($tm->canStepRun($task_id, $step_id)){
 		$step_details = $tm->getTaskStep($task_id, $step_id);
 		$step_result = $tm->runStep($step_details);
+		if($tm->isLastStep($task_id, $step_id)){
+			$tm->detectAndSetTaskStatus($task_id);
+		}
 	}
 } else if ($mode && $task_id && !$step_id) {
 	//when start whole task
@@ -124,9 +129,11 @@ if ($mode && !$task_id) {
 			'start_time' => date('Y-m-d H:i:s'))
 	);
 
-	$task_details = $tm->getTaskById($task_id);
-	foreach($task_details['steps'] as $step){
-		$tm->updateStep($step['step_id'], array('status'=> $tm::STATUS_READY));
+	if($run_mode != 'continue') {
+		$task_details = $tm->getTaskById($task_id);
+		foreach ($task_details['steps'] as $step) {
+			$tm->updateStep($step['step_id'], array ('status' => $tm::STATUS_READY));
+		}
 	}
 
 	//run all steps of task and change it's status after

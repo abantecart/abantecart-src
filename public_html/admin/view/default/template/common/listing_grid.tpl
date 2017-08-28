@@ -282,6 +282,9 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 					case 'restart':
 						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-repeat fa-lg"></i>';
 						break;
+					case 'continue':
+						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-forward fa-lg"></i>';
+						break;
 					case 'run':
 						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-play fa-lg"></i>';
 						break;
@@ -320,7 +323,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 					$html_children = '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" role="menu"><h5 class="title">'.htmlentities($text_select_from_list,ENT_QUOTES,'UTF-8').'</h5><ul class="dropdown-list grid-dropdown">';
 					foreach($action['children'] as $child){
 						$li_class = '';
-						$href = has_value($child['href']) ? $child['href'] : '#';				
+						$href = has_value($child['href']) ? $child['href'] : '#';
 						//for viewport mode
 						if($child['vhref']){
 							$href = 'data-toggle="modal" data-target="#viewport_modal" href="'.$child['vhref'].'" data-fullmode-href="'.$href.'"';

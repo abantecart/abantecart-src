@@ -950,6 +950,7 @@ tr.jqgrow td[aria-describedby="extension_grid_icon"] img{
 .disable-edit .grid_action_edit,
 .disable-view .grid_action_view,
 .disable-restart .grid_action_restart,
+.disable-continue .grid_action_continue,
 .disable-save .grid_action_save,
 .disable-run .grid_action_run,
 .disable-install .grid_action_install,
