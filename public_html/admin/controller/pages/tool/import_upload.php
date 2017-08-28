@@ -134,7 +134,7 @@ class ControllerPagesToolImportUpload extends AController {
 			}
 			$res['request_count'] = -1; //deduct header
 			while(!feof($fh)){
-				fgets($fh);
+				fgetcsv($fh);
 				$res['request_count']++;
 			}
 			fclose($fh);
