@@ -145,6 +145,9 @@ class ControllerPagesToolImportUpload extends AController {
 	protected function validateRequest() {
 		$file = $this->request->files['imported_file'];
 		$this->errors = array();
+		if (!is_dir(DIR_DATA)){
+			mkdir(DIR_DATA, 0755, true);
+		}
 		if (!is_writable(DIR_DATA)) {
 			$this->errors['error'] = sprintf($this->language->get('error_tmp_dir_non_writable'), DIR_DATA);
 		} elseif (!in_array($file['type'], $this->file_types)) {
