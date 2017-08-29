@@ -165,29 +165,27 @@ final class AConfig{
 		*/
 		$config_url = preg_replace("(^https?://)", "", $this->cnfg['config_url']);
 		$config_url = preg_replace("(^://)", "", $config_url);
-		if (
-				!(is_int(strpos($config_url, $url))) &&
-				!(is_int(strpos($url, $config_url)))
-		){
+		if (	!(is_int(strpos($config_url, $url))) &&
+				!(is_int(strpos($url, $config_url))) ){
 			// if requested url not a default store URL - do check other stores.
 			$cache_key = 'settings.store.' . md5('http://' . $url);
 			$store_settings = $cache->pull($cache_key);
 
 			if (empty($store_settings)){
 				$sql = "SELECT se.`key`, se.`value`, st.store_id
-		   			  FROM " . $db->table('settings') . " se
-		   			  RIGHT JOIN " . $db->table('stores') . " st ON se.store_id = st.store_id
-		   			  WHERE se.store_id = (SELECT DISTINCT store_id FROM " . $db->table('settings') . "
-		   			                       WHERE `group`='details'
-		   			                       AND
-		   			                       ( (`key` = 'config_url' AND (`value` LIKE '%" . $db->escape($url) . "'))
-		   			                       XOR
-		   			                       (`key` = 'config_ssl_url' AND (`value` LIKE '%" . $db->escape($url) . "')) )
-		                                   LIMIT 0,1)
-		   					AND st.status = 1
-		   					AND TRIM(se.`group`) NOT IN
-	                                                (SELECT TRIM(`key`) as `key`
-	                                                FROM " . $db->table("extensions") . ")";
+					  FROM " . $db->table('settings') . " se
+					  RIGHT JOIN " . $db->table('stores') . " st ON se.store_id = st.store_id
+					  WHERE se.store_id = (SELECT DISTINCT store_id FROM " . $db->table('settings') . "
+										   WHERE `group`='details'
+										   AND
+										   ( (`key` = 'config_url' AND (`value` LIKE '%" . $db->escape($url) . "'))
+										   XOR
+										   (`key` = 'config_ssl_url' AND (`value` LIKE '%" . $db->escape($url) . "')) )
+										   LIMIT 0,1)
+							AND st.status = 1
+							AND TRIM(se.`group`) NOT IN
+													(SELECT TRIM(`key`) as `key`
+													FROM " . $db->table("extensions") . ")";
 				$query = $db->query($sql);
 				$store_settings = $query->rows;
 			}
@@ -207,8 +205,10 @@ final class AConfig{
 				$this->cnfg['config_store_id'] = $store_settings[0]['store_id'];
 				$this->cnfg['current_store_id'] = $this->cnfg['config_store_id'];
 			} else{
-				$warning = new AWarning('Warning: Accessing store with non-configured or unknown domain ( ' . $url . ' ).' . "\n" . ' Check setting of your store domain URL in System Settings . Loading default store configuration for now.');
-				$warning->toLog();
+				if(php_sapi_name() != 'cli') {
+					$warning = new AWarning('Warning: Accessing store with non-configured or unknown domain ( ' . $url . ' ).' . "\n" . ' Check setting of your store domain URL in System Settings . Loading default store configuration for now.');
+					$warning->toLog();
+				}
 				//set config url to current domain
 				$this->cnfg['config_url'] = 'http://' . REAL_HOST . get_url_path($_SERVER['PHP_SELF']);
 			}
@@ -256,7 +256,6 @@ final class AConfig{
 					LEFT JOIN " . $db->table('extensions') . " e ON se.`group` = e.`key`
 					WHERE se.store_id='" . (int)$this->cnfg['config_store_id'] . "' AND e.extension_id IS NOT NULL
 					ORDER BY se.store_id ASC, se.group ASC";
-
 			$query = $db->query($sql);
 			foreach ($query->rows as $row){
 				//skip settings for non-active template except status (needed for extensions list in admin)
@@ -279,7 +278,6 @@ final class AConfig{
 		foreach ($settings as $setting){
 			$this->cnfg[$setting['key']] = $setting['value'];
 		}
-
 	}
 
 	private function _reload_settings($store_id = 0){
@@ -287,7 +285,8 @@ final class AConfig{
 		$db = $this->registry->get('db');
 		$sql = "SELECT se.`key`, se.`value`, st.store_id
 					FROM " . $db->table('settings') . " se
-					RIGHT JOIN " . $db->table('stores') . " st ON se.store_id = st.store_id
+					RIGHT JOIN " . $db->table('stores') . " st 
+							ON se.store_id = st.store_id
 					WHERE se.store_id = " . (int)$store_id . " AND st.status = 1
 					AND se.`group` NOT IN (SELECT `key` FROM " . $db->table("extensions") . ");";
 		$query = $db->query($sql);
