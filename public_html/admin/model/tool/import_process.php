@@ -393,7 +393,7 @@ class ModelToolImportProcess extends Model{
 		$this->load->model('catalog/product');
 		$options = $this->model_catalog_product->getProductOptions($product_id);
 		if ($options) {
-			//delete all options if exists
+			//delete all options if exist
 			foreach ($options as $option) {
 				$this->model_catalog_product->deleteProductOption($product_id, $option['product_option_id']);
 			}
@@ -402,10 +402,10 @@ class ModelToolImportProcess extends Model{
 		//add new options for each option
 		for ($i = 0; $i < count($data); $i++) {
 			//create new option
-			if(!$data[$i]['name'] && !is_array($data['product_option_values'])) {
-				$this->toLog("Error: Missing option name or values for product ID '{$product_id}'.");
-				continue;
-			}
+            if(!$data[$i]['name'] && !is_array($data[$i]['product_option_values'])) {
+                $this->toLog("Error: Missing option name or values for product ID '{$product_id}'.");
+                continue;
+            }
 
 			$opt_data = array (
 				'option_name'        => $data[$i]['name'],
@@ -428,14 +428,9 @@ class ModelToolImportProcess extends Model{
 
 			//now load values. Pick longest data array
 			$option_vals = $data[$i]['product_option_values'];
+            //find largest key by count
 			$counts = array_map('count', $option_vals);
-			//find largest key by count
-			$flipped = array_flip($counts);
-			if (!is_array($flipped) || empty($flipped)) {
-				return false;
-			}
-			$key = $flipped[max($counts)];
-			for ($j = 0; $j < count($option_vals[$key]); $j++) {
+			for ($j = 0; $j < max($counts); $j++) {
 				//add options value
 				$opt_val_data = array();
 				$opt_keys = array(  'name' => '',
@@ -451,8 +446,8 @@ class ModelToolImportProcess extends Model{
 				);
 				foreach ($opt_keys as $k => $v) {
 					$opt_val_data[$k] = $v;
-					if(isset($option_vals[$key][$j])){
-						$opt_val_data[$k] = $option_vals[$key][$j];
+					if(isset($option_vals[$k][$j])){
+						$opt_val_data[$k] = $option_vals[$k][$j];
 					}
 				}
 				$this->model_catalog_product->addProductOptionValueAndDescription($product_id, $p_option_id, $opt_val_data);

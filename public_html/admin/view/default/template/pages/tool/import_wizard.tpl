@@ -69,14 +69,16 @@
 							<select class="form-control" name="table" <?php if($import_ready) echo " disabled "; ?>>
 								<option value=""><?php echo $text_destination_col; ?></option>
 								<?php
+								if(is_array($tables)) {
 								foreach($tables as $tname => $tcols) {
 								?>
 								<option value="<?php echo $tname ?>" <?php if($tname == $map['table']) echo " selected "; ?>>
 								&nbsp;&nbsp;<?php echo $tname ?>
 								</option>
 								<?php
-							}
-						?>
+									}
+								}
+								?>
 							</select>
 						</div>
 					</div>
