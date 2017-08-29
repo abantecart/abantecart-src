@@ -68,7 +68,7 @@
 	</definition>
 	<definition>
 		<key>entry_iso_code</key>
-		<value><![CDATA[:]]></value>
+		<value><![CDATA[ISO-code:]]></value>
 	</definition>
 	<definition>
 		<key>column_iso_code</key>
