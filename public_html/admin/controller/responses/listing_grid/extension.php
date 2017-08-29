@@ -132,7 +132,7 @@ class ControllerResponsesListingGridExtension extends AController{
 
 		foreach ($rows as $row){
 			$extension = $row['key'];
-			$response->rows[$i]['id'] = $extension . '_' . (int)$row['store_id'];
+			$response->rows[$i]['id'] = str_replace(' ','-',$row['key']) . '_' . (int)$row['store_id'];
 			$id = $response->rows[$i]['id'];
 
 			$response->userdata->extension_id[$id] = $extension;
