@@ -102,7 +102,10 @@ final class ASession{
 		}
 
 		//check if session can not be started. Try one more time with new generated session ID
-		$is_session_ok = session_start();
+		$is_session_ok = false;
+		if (!headers_sent()){
+			$is_session_ok = session_start();
+		}
 		if (!$is_session_ok){
 			//auto generating session id and try to start session again
 			$final_session_id = $this->_prepare_session_id();

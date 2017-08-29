@@ -34,8 +34,6 @@ final class AMySQLi{
 	 * @var string
 	 */
 	public $error;
-	private $credentials = array();
-	protected $reconnect_count = 0;
 
 	/**
 	 * @param string $hostname
@@ -46,14 +44,6 @@ final class AMySQLi{
 	 * @throws AException
 	 */
 	public function __construct($hostname, $username, $password, $database, $new_link = false){
-		$this->credentials = array(
-				'hostname' => $hostname,
-				'username' => $username,
-				'password' => $password,
-				'database' => $database,
-				'new_link' => $new_link
-				);
-
 		$connection = new mysqli($hostname, $username, $password, $database);
 		if ($connection->connect_error) {
 			$err = new AError('Cannot establish database connection to ' . $database . ' using ' . $username . '@' . $hostname);
@@ -112,11 +102,6 @@ final class AMySQLi{
 				return true;
 			}
 		} else {
-			//if mysql connection timeout - try to reconnect
-			if(mysqli_errno($this->connection) == 2006 && $this->reconnect_count == 0){
-				$this->_reconnect();
-				return $this->query($sql, $noexcept);
-			}
 			$this->error = 'SQL Error: ' . mysqli_error($this->connection) . '<br />Error No: ' . mysqli_errno($this->connection) . '<br />SQL: ' . $sql;
 			if ($noexcept) {
 				return false;
@@ -137,19 +122,11 @@ final class AMySQLi{
 			$dump .= ' (file: ' . $backtrace[1]['file'] . ' line ' . $backtrace[1]['line'] . ')';
 			$message = 'aMySQLi class error: Try to escape non-string value: ' . $dump;
 			$error = new AError($message);
-			$error->toLog()->toDebug();
+			$error->toLog()->toDebug()->toMessages();
 			return false;
 		}
-		$output = $this->connection->real_escape_string((string)$value);
-
-		//if mysql connection timeout - try to reconnect
-		if($output === false && mysqli_errno($this->connection) == 2006 && $this->reconnect_count == 0){
-			$this->reconnect_count++;
-			$this->_reconnect();
 			return $this->connection->real_escape_string((string)$value);
 		}
-		return $output;
-	}
 
 	/**
 	 * @return int
@@ -174,17 +151,5 @@ final class AMySQLi{
 				'error_text' => mysqli_error($this->connection),
 				'errno'      => mysqli_errno($this->connection)
 		);
-	}
-
-	private function _reconnect(){
-		$this->registry->get('log')->write('Connection to Mysql lost, try to reconnect.');
-		$this->reconnect_count++;
-		$this->__construct(
-				$this->credentials['hostname'],
-				$this->credentials['username'],
-				$this->credentials['password'],
-				$this->credentials['database'],
-				$this->credentials['new_link']
-				);
 	}
 }
