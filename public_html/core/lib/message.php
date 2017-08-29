@@ -256,7 +256,7 @@ class AMessage{
 	 */
 	public function saveANTMessage($data = array ()){
 		if (!$data || !$data['message_id']){
-			return null;
+			return false;
 		}
 
 		// need to find message with same id and language. If language not set - find for all
@@ -304,13 +304,15 @@ class AMessage{
 						'" . $this->db->escape($data['html']) . "',
 						'" . $this->db->escape($data['url']) . "',
 						'" . $this->db->escape($data['language_code']) . "')";
-		$this->db->query($sql);
+		$this->db->query($sql, true);
+		return true;
 	}
 
 	/**
 	 * @return array
 	 */
 	public function getANTMessage(){
+		$output = '';
 		// delete expired banners first
 		$this->db->query("DELETE FROM " . $this->db->table("ant_messages") . " 
 							WHERE end_date < CURRENT_TIMESTAMP");
@@ -363,25 +365,12 @@ class AMessage{
 		}
 
 		$output['total'] = $total;
-		//let last couple of messages for each type
+		//get last 9 messages
 		$result = $this->db->query(
 				"(SELECT msg_id, title, message, status, viewed, date_modified
 				FROM " . $this->db->table('messages') . "
-					WHERE UPPER(status)='E'
-					ORDER BY date_modified DESC
-					LIMIT 0,3)
-				UNION
-					(SELECT msg_id, title, message, status, viewed, date_modified
-					FROM " . $this->db->table('messages') . "
-					WHERE UPPER(status)='W'
-					ORDER BY date_modified DESC
-					LIMIT 0,3)
-				UNION
-					(SELECT msg_id, title, message, status, viewed, date_modified
-					FROM " . $this->db->table('messages') . "
-					WHERE UPPER(status)='N'
-					ORDER BY date_modified DESC
-					LIMIT 0,3)");
+				ORDER BY date_modified DESC
+				LIMIT 0,9)");
 		$output['shortlist'] = $result->rows;
 		return $output;
 	}
