@@ -29,11 +29,11 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
  */
 class ModelToolImportProcess extends Model{
 	public $errors = array ();
-	private $eta = array ();
+	protected $eta = array ();
 	/**
 	 * @var ALog
 	 */
-	private $imp_log = null;
+	protected $imp_log = null;
 
 	/**
 	 * @param string $task_name
@@ -136,7 +136,7 @@ class ModelToolImportProcess extends Model{
 			}
 
 			$sort_order++;
-			$k += $divider;
+			$k += $divider+1;
 		}
 
 		$task_details = $tm->getTaskById($task_id);
@@ -462,7 +462,7 @@ class ModelToolImportProcess extends Model{
 	}
 
 	//add from URL download
-	private function _migrateImages($data = array (), $object_txt_id = '', $object_id = 0, $language_id){
+	protected function _migrateImages($data = array (), $object_txt_id = '', $object_id = 0, $language_id){
 		$objects = array (
 			'products'      => 'Product',
 			'categories'    => 'Category',
@@ -536,7 +536,7 @@ class ModelToolImportProcess extends Model{
 		return true;
 	}
 
-	private function _get($uri){
+	protected function _get($uri){
 		$ch = curl_init();
 
 		curl_setopt($ch, CURLOPT_URL, $uri);
@@ -555,7 +555,7 @@ class ModelToolImportProcess extends Model{
 		return $response;
 	}
 
-	private function downloadFile($path){
+	protected function downloadFile($path){
 		$file = $this->_get($path);
 		if ($file->http_code == 200) {
 			return $file;
@@ -564,7 +564,7 @@ class ModelToolImportProcess extends Model{
 
 	}
 
-	private function writeToFile($data, $file){
+	protected function writeToFile($data, $file){
 		if (is_dir($file)) {
 			return null;
 		}
@@ -655,7 +655,7 @@ class ModelToolImportProcess extends Model{
 		return $manufacturer_id;
 	}
 
-	private function _process_categories($data, $language_id, $store_id) {
+	protected function _process_categories($data, $language_id, $store_id) {
 		if(!is_array($data['category'])) {
 			return array();
 		}
@@ -701,7 +701,7 @@ class ModelToolImportProcess extends Model{
 		return $ret;
 	}
 
-	private function _get_category($category_name, $language_id, $store_id, $parent_id){
+	protected function _get_category($category_name, $language_id, $store_id, $parent_id){
 		$sql = "SELECT cd.category_id from " . $this->db->table("category_descriptions") . " cd
 			  INNER JOIN " . $this->db->table("categories_to_stores") . " c2s ON (cd.category_id = c2s.category_id)
 			  WHERE language_id = " . (int)$language_id . " AND  c2s.store_id = " . (int)$store_id . "
@@ -808,7 +808,7 @@ class ModelToolImportProcess extends Model{
 		return $ret;
 	}
 
-	private function _filter_array($arr = array()) {
+	protected function _filter_array($arr = array()) {
 		$ret = array();
 		if(!$arr || !is_array($arr)){
 			return $ret;
