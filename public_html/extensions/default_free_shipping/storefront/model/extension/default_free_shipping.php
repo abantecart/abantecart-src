@@ -25,6 +25,7 @@ class ModelExtensionDefaultFreeShipping extends Model {
 	function getQuote($address) {
 		//create new instance of language for case when model called from admin-side
 		$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+		$language->load($language->language_details['filename']);
 		$language->load('default_free_shipping/default_free_shipping');
 
 		if ($this->config->get('default_free_shipping_status')) {
