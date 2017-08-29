@@ -393,7 +393,7 @@ class ModelToolImportProcess extends Model{
 		$this->load->model('catalog/product');
 		$options = $this->model_catalog_product->getProductOptions($product_id);
 		if ($options) {
-			//delete all options if exists
+			//delete all options if exist
 			foreach ($options as $option) {
 				$this->model_catalog_product->deleteProductOption($product_id, $option['product_option_id']);
 			}
@@ -402,10 +402,10 @@ class ModelToolImportProcess extends Model{
 		//add new options for each option
 		for ($i = 0; $i < count($data); $i++) {
 			//create new option
-			if(!$data[$i]['name'] && !is_array($data['product_option_values'])) {
-				$this->toLog("Error: Missing option name or values for product ID '{$product_id}'.");
-				continue;
-			}
+            if(!$data[$i]['name'] && !is_array($data[$i]['product_option_values'])) {
+                $this->toLog("Error: Missing option name or values for product ID '{$product_id}'.");
+                continue;
+            }
 
 			$opt_data = array (
 				'option_name'        => $data[$i]['name'],
@@ -455,6 +455,7 @@ class ModelToolImportProcess extends Model{
 						$opt_val_data[$k] = $option_vals[$key][$j];
 					}
 				}
+				echo_array($opt_val_data); exit;
 				$this->model_catalog_product->addProductOptionValueAndDescription($product_id, $p_option_id, $opt_val_data);
 			}
 		}
