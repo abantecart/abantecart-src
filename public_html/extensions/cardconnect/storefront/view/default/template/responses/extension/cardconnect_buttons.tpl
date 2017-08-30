@@ -86,9 +86,13 @@
 			</div>
 			<div class="form-group form-inline control-group">
 				<label class="col-sm-4 control-label"><?php echo $entry_cc_number; ?></label>
-				<div class="col-sm-4 input-group controls">
-					<input type="text" autocomplete="off" class="form-control " placeholder="Card Number:"
-						   id="cc_number" name="cc_number">
+				<div class="col-sm-5 input-group controls">
+				<iframe id="tokenframe"
+							name="tokenframe"
+							src="https://fts.cardconnect.com:6443/itoke/ajax-tokenizer.html?invalidinputevent=true&css=input{border:1px solid rgb(204, 204, 204); width: 150px; padding: 6px 12px; height: 20px; font-size: 14px; line-height: 1.42857143; color: rgb(85, 85, 85); background-color: rgb(255, 255, 255); } body{margin: 0;}%2Eerror{color:%20red;}"
+							frameborder="0" scrolling="no" width="100%"
+							height="35"></iframe>
+					<input type="hidden" name="cc_token" id="cc_token">
 				</div>
 				<?php if ($save_cc) { ?>
 					<div class="input-group col-sm-2 ml10">
@@ -168,6 +172,14 @@
 
 	<script type="text/javascript"><!--
 		jQuery(document).ready(function () {
+			window.addEventListener('message', function(event) {
+			var token = JSON.parse(event.data);
+
+
+			var mytoken = $('#cc_token');
+			mytoken.val(token.message);
+			}, false);
+
 			var submitSent = false;
 			$('#new_card').click(function () {
 				$('.saved_cards').remove();
@@ -204,7 +216,7 @@
 				if (submitSent !== true) {
 					submitSent = true;
 					var $form = $(this);
-					if (!$.aCCValidator.validate($form)) {
+					if (!$.aCCValidator.validate($form) || $('#cc_token').val().length<1) {
 						submitSent = false;
 						return false;
 					} else {

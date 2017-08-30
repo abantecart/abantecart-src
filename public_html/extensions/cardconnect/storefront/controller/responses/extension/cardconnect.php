@@ -97,16 +97,16 @@ class ControllerResponsesExtensionCardConnect extends AController{
 						));
 					}
 				}
-                //build credit card selector
-                //option to save creditcard if limit is not reached
-                if (count($cc_list) < $this->config->get('cardconnect_save_cards_limit')) {
-                    $this->data['save_cc'] = HtmlElementFactory::create(array (
-                        'type'    => 'checkbox',
-                        'name'    => 'save_cc',
-                        'value'   => '1',
-                        'checked' => false
-                    ));
-                }
+				//build credit card selector
+				//option to save creditcard if limit is not reached
+				if (count($cc_list) < $this->config->get('cardconnect_save_cards_limit')) {
+					$this->data['save_cc'] = HtmlElementFactory::create(array (
+						'type'    => 'checkbox',
+						'name'    => 'save_cc',
+						'value'   => '1',
+						'checked' => false
+					));
+				}
 			}
 		}
 
@@ -176,7 +176,7 @@ class ControllerResponsesExtensionCardConnect extends AController{
 		$post = $this->request->post;
 		//check if saved cc mode is used
 		if (!$post['use_saved_cc']) {
-			if (empty($post['cc_number'])) {
+			if (empty($post['cc_token'])) {
 				$json['error'] = $this->language->get('error_incorrect_number');
 			}
 
@@ -205,14 +205,14 @@ class ControllerResponsesExtensionCardConnect extends AController{
 		$order_id = $this->session->data['order_id'];
 		// currency code
 		$currency = $this->currency->getCode();
-		$cardnumber = preg_replace('/[^0-9]/', '', $post['cc_number']);
+		$cardnumber = preg_replace('/[^0-9]/', '', $post['cc_token']);
 		$cvv2 = preg_replace('/[^0-9]/', '', $post['cc_cvv2']);
 		// Card owner name
 		$cardname = html_entity_decode($post['cc_owner'], ENT_QUOTES, 'UTF-8');
-        // order amount without decimal delimiter
-        $amount = round($this->currency->convert($this->cart->getFinalTotal(), $this->config->get('config_currency'), $currency), 2) * 100;
+		// order amount without decimal delimiter
+		$amount = round($this->currency->convert($this->cart->getFinalTotal(), $this->config->get('config_currency'), $currency), 2) * 100;
 		$pd = array (
-                'amount'          => $amount,
+				'amount'          => $amount,
 				'currency'        => $currency,
 				'order_id'        => $order_id,
 				'cc_number'       => $cardnumber,
