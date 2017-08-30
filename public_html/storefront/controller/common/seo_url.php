@@ -22,10 +22,8 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class ControllerCommonSeoUrl extends AController {
 	public function main() {
-
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
 		if (isset($this->request->get['_route_'])) {
 			$parts = explode('/', $this->request->get['_route_']);
 			//Possible area for improvement. Only need to check last node in the path
@@ -34,30 +32,29 @@ class ControllerCommonSeoUrl extends AController {
 											FROM " . $this->db->table('url_aliases') . "
 											WHERE keyword = '" . $this->db->escape($part) . "'");
 				//Add caching of the result.
-				
 				if ($query->num_rows) {
 					//Note: query is a field containing area=id to identify location
 					$url = explode('=', $query->row['query']);
-					
+
 					if ($url[0] == 'product_id') {
 						$this->request->get['product_id'] = $url[1];
 					}
-					
+
 					if ($url[0] == 'category_id') {
 						if (!isset($this->request->get['path'])) {
 							$this->request->get['path'] = $url[1];
 						} else {
 							$this->request->get['path'] .= '_' . $url[1];
 						}
-					}	
-					
+					}
+
 					if ($url[0] == 'manufacturer_id') {
 						$this->request->get['manufacturer_id'] = $url[1];
 					}
-					
+
 					if ($url[0] == 'content_id') {
 						$this->request->get['content_id'] = $url[1];
-					}	
+					}
 				} else {
 					$this->request->get['rt'] = 'pages/error/not_found';
 				}
@@ -83,20 +80,55 @@ class ControllerCommonSeoUrl extends AController {
 						)
 					);
 				}
+				// build canonical url
 				$rt = $this->request->get['rt'];
 				//remove pages prefix from rt for use in new generated urls
 				if(substr($this->request->get['rt'],0,6) == 'pages/'){
 					$this->request->get['rt'] = substr($this->request->get['rt'],6);
 				}
 				unset($this->request->get['_route_']);
+
+				$this->_add_canonical_url('url');
 				//Update router with new RT 
 				$this->router->resetController($rt);
 				return $this->dispatch($rt,$this->request->get);
 			}
+		}else{
+			if($this->config->get('enable_seo_url')){
+				$this->_add_canonical_url('seo');
+			}
+		}
+		//init controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+	}
 
+	protected function _add_canonical_url( $mode = 'seo' ){
+		$method = $mode == 'seo' ? 'getSecureSEOURL' : 'getSecureURL';
+		$get = $this->request->get;
+		if (isset($get['product_id'])) {
+			$url = $this->html->{$method}('product/product','&product_id='.$get['product_id'], true);
+			unset($get['product_id'],$get['rt']);
+		} elseif (isset($get['path'])) {
+			$url = $this->html->{$method}('product/category','&path='.$get['path'], true);
+			unset($get['path'],$get['rt']);
+		} elseif (isset($get['manufacturer_id'])) {
+			$url = $this->html->{$method}('product/manufacturer','&manufacturer_id='.$get['manufacturer_id'], true);
+			unset($get['manufacturer_id'],$get['rt']);
+		} elseif (isset($get['content_id'])) {
+			$url = $this->html->{$method}('content/content','&content_id='.$get['content_id'], true);
+			unset($get['content_id'],$get['rt']);
 		}
 
-        //init controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		if($url){
+			if($get){
+				$url .= '&amp;'.http_build_query($get, '', '&amp;');
+			}
+			$this->document->addLink(
+								array(
+										'rel'  => 'canonical',
+										'href' => $url
+								)
+							);
+		}
 	}
 }
