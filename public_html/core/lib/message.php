@@ -369,7 +369,7 @@ class AMessage{
 		$result = $this->db->query(
 				"(SELECT msg_id, title, message, status, viewed, date_modified
 				FROM " . $this->db->table('messages') . "
-				WHERE viewed>'1'
+				WHERE viewed<'1'
 				ORDER BY date_modified DESC
 				LIMIT 0,9)");
 		$output['shortlist'] = $result->rows;
