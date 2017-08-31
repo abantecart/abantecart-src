@@ -244,7 +244,7 @@ class CardConnectRestClient {
 					$response = $pest->delete("/$endpoint", $request);
 					break;
 			}
-		} catch (Exception $e) {
+		} catch (Pest_Exception $e) {
 			// SOF customization
 			// this 'echo' causes problems since it invalidates the JSON response.  Use it for debugging only!
 			//
