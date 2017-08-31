@@ -117,7 +117,12 @@
 	<?php if($test_mode) { ?>
 	$(".tab-content").addClass('status_test');
 	<?php } ?>
-
+	$(document).ready(function(){
+		$('#capture_amount, #refund_amount').on('keyup', function () {
+			var v = $(this).val();
+			$(this).val(v.replace(/[^0-9\.]/i, ''));
+		});
+	});
 	$("#button_void").click(function () {
 		if (confirm('<?php echo $text_confirm_void; ?>')) {
 			$.ajax({

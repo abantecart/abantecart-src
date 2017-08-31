@@ -39,16 +39,9 @@ class ControllerResponsesExtensionCardConnect extends AController {
 
 		$this->loadLanguage('cardconnect/cardconnect');
 		$json = array();
-
-		if (has_value($this->request->post['order_id']) && $this->request->post['amount'] > 0) {
+		$amount = $this->_preformat_amount( $this->request->post['amount'] );
+		if ( has_value($this->request->post['order_id']) && $amount ) {
 			$order_id = $this->request->post['order_id'];
-			$decimal_point = $this->language->get('decimal_point');
-			if(is_int(strpos($this->request->post['amount'],'.'))){
-				$decimal_point = '.';
-			}
-			$decimal_point = !$decimal_point ? '.' : $decimal_point;
-			$amount = preformatFloat($this->request->post['amount'], $decimal_point);
-
 			$this->loadModel('extension/cardconnect');
 			$cardconnect_order = $this->model_extension_cardconnect->getCardconnectOrder($order_id);
 			//get current order
@@ -81,7 +74,7 @@ class ControllerResponsesExtensionCardConnect extends AController {
 				$json['error'] = true;
 				$json['msg'] = $this->language->get('error_unable_to_capture');
 			}
-		} else if ($this->request->post['amount'] <= 0) {
+		} else if ($this->request->post['amount'] <= 0 || $amount) {
 			$json['error'] = true;
 			$json['msg'] = $this->language->get('error_missing_amount');
 		} else {
@@ -95,26 +88,18 @@ class ControllerResponsesExtensionCardConnect extends AController {
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($json));
 	}
-	
+
 	public function refund() {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->loadLanguage('cardconnect/cardconnect');
 		$json = array();
-
-		if (has_value($this->request->post['order_id']) && $this->request->post['amount'] > 0) {
+		$amount = $this->_preformat_amount( $this->request->post['amount'] );
+		if (has_value($this->request->post['order_id']) && $amount) {
 			$order_id = $this->request->post['order_id'];
-			$decimal_point = $this->language->get('decimal_point');
-			if(is_int(strpos($this->request->post['amount'],'.'))){
-				$decimal_point = '.';
-			}
-			$decimal_point = !$decimal_point ? '.' : $decimal_point;
-			$amount = preformatFloat($this->request->post['amount'], $decimal_point);
-
 			$this->loadModel('extension/cardconnect');
 			$cardconnect_order = $this->model_extension_cardconnect->getCardconnectOrder($order_id);
-
 			//get current order
 			$ch_data = $this->model_extension_cardconnect->getcardconnectCharge($cardconnect_order['retref']);
 			$remainder = $ch_data['amount'] - $ch_data['refunded'];
@@ -147,7 +132,7 @@ class ControllerResponsesExtensionCardConnect extends AController {
 				$json['msg'] = $this->language->get('error_unable_to_refund');
 			}
 
-		} else if ($this->request->post['amount'] <= 0) {
+		} else if ($this->request->post['amount'] <= 0 || !$amount) {
 			$json['error'] = true;
 			$json['msg'] = $this->language->get('error_missing_amount');
 		} else {
@@ -162,6 +147,13 @@ class ControllerResponsesExtensionCardConnect extends AController {
 		$this->response->setOutput(AJson::encode($json));
 	}
 
+	protected function _preformat_amount($amount){
+		if(!$amount){
+			return false;
+		}
+		$amount = str_replace(' ', '', $amount);
+		return preg_match('/^\d+\.?\d*$/',$amount) ? $amount : false;
+	}
 
 	public function void() {
 		//init controller data

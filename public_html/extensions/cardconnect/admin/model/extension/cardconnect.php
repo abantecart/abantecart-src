@@ -68,7 +68,7 @@ class ModelExtensionCardConnect extends Model {
 		$query = $this->db->query(
 				"SELECT SUM(`amount`) AS total 
 				FROM " . $this->db->table('cardconnect_order_transactions') ." 
-				WHERE `retref` = '" . (int)$ch_id . "' AND (`type` = 'payment')");
+				WHERE `retref` = '" . (int)$ch_id . "' AND (`type` = 'payment' || `type` = 'capture')");
 		return (float)$query->row['total'];
 	}
 	public function getAuthorizedAmount($ch_id) {
