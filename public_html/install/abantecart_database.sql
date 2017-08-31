@@ -1807,7 +1807,7 @@ CREATE TABLE `ac_stock_statuses` (
 INSERT INTO `ac_stock_statuses` (`stock_status_id`, `language_id`, `name`) VALUES
 (1, 1, 'In Stock'),
 (2, 1, 'Out Of Stock'),
-(3, 1, 'Pre-Order');
+(3, 1, 'Contact us to order');
 
 --
 -- DDL for table `stores`
