@@ -242,12 +242,14 @@
 							$form.find('.action-buttons').show();
 							$form.before('<div class="alert alert-danger"><i class="fa fa-bug fa-fw"></i> <?php echo $error_unknown; ?></div>');
 							submitSent = false;
+							$('#cc_token').val('');
 						} else {
 							if (data.error) {
 								$('.wait').remove();
 								$form.find('.action-buttons').show();
 								$form.before('<div class="alert alert-warning"><i class="fa fa-exclamation fa-fw"></i> ' + data.error + '</div>');
 								submitSent = false;
+								$('#cc_token').val('');
 							}
 							if (data.success) {
 								location = data.success;
