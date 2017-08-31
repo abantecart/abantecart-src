@@ -54,7 +54,8 @@ class ATax{
 			$this->customer_data =& $c_data;
 		}
 
-		if (isset($this->customer_data['country_id']) && isset($this->customer_data['zone_id'])){
+
+		if ($this->customer_data['country_id'] && $this->customer_data['zone_id']){
 			$country_id = $this->customer_data['country_id'];
 			$zone_id = $this->customer_data['zone_id'];
 		} else{
