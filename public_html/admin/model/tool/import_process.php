@@ -158,7 +158,6 @@ class ModelToolImportProcess extends Model{
 	public function process_products_record($task_id, $data, $settings){
 		$language_id = $this->session->data['content_language_id'];
 		$store_id = $this->session->data['current_store_id'];
-
 		$this->load->model('catalog/product');
 		$this->imp_log = new ALog(DIR_LOGS . "products_import_{$task_id}.txt");
 		return $this->addUpdateProduct($data, $settings, $language_id, $store_id);
@@ -405,6 +404,7 @@ class ModelToolImportProcess extends Model{
             if (!is_array($data[$i]) || !array_filter($data[$i]) || !$data[$i]['name']) {
                 continue;
             }
+
 			$opt_data = array (
 				'option_name'        => $data[$i]['name'],
 				'element_type'       => 'S',

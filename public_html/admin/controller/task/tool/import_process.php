@@ -116,6 +116,7 @@ class ControllerTaskToolImportProcess extends AController{
 			if (count($records)) {
 				//process column names
 				$columns = $records[0];
+
 				//skip header and process each record
 				array_shift($records);
 				$this->loadModel('tool/import_process');
@@ -124,6 +125,7 @@ class ControllerTaskToolImportProcess extends AController{
 				foreach ($records as $index => $rowData) {
 					$vals = array ();
 					//check if we match row data count to header
+
 					if (count($rowData) != count($columns)) {
 						//incomplete row. Exit
 						$return[] = "Error: incomplete data in row number: ".$index." with: ".$rowData[0];
@@ -149,7 +151,7 @@ class ControllerTaskToolImportProcess extends AController{
 						$step_failed_count++;
 					}
 				}
-			}else{
+			} else {
 				//if nothing to todo
 				return false;
 			}
@@ -180,6 +182,7 @@ class ControllerTaskToolImportProcess extends AController{
 			return array();
 		}
 
+        ini_set('auto_detect_line_endings', true);
 		$fh = fopen($source, 'r');
 		if(!$fh || !is_resource($fh)){
 			return array();
