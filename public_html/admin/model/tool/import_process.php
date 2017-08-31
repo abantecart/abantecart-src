@@ -158,7 +158,6 @@ class ModelToolImportProcess extends Model{
 	public function process_products_record($task_id, $data, $settings){
 		$language_id = $this->session->data['content_language_id'];
 		$store_id = $this->session->data['current_store_id'];
-
 		$this->load->model('catalog/product');
 		$this->imp_log = new ALog(DIR_LOGS . "products_import_{$task_id}.txt");
 		return $this->addUpdateProduct($data, $settings, $language_id, $store_id);
@@ -401,9 +400,8 @@ class ModelToolImportProcess extends Model{
 
 		//add new options for each option
 		for ($i = 0; $i < count($data); $i++) {
-			//create new option
-            if(!$data[$i]['name'] && !is_array($data[$i]['product_option_values'])) {
-                $this->toLog("Error: Missing option name or values for product ID '{$product_id}'.");
+            //skip empty arrays
+            if (!is_array($data[$i]) || !array_filter($data[$i]) || !$data[$i]['name']) {
                 continue;
             }
 
@@ -428,33 +426,53 @@ class ModelToolImportProcess extends Model{
 
 			//now load values. Pick longest data array
 			$option_vals = $data[$i]['product_option_values'];
+
             //find largest key by count
 			$counts = array_map('count', $option_vals);
-			for ($j = 0; $j < max($counts); $j++) {
-				//add options value
-				$opt_val_data = array();
-				$opt_keys = array(  'name' => '',
-									'sku' => '',
-									'quantity' => 0,
-									'sort_order' => 0,
-									'subtract' => 0,
-									'prefix' => '$',
-									'weight' => 0,
-									'weight_type' => 'lbs',
-									'default' => 0,
-									'price' => 0
-				);
-				foreach ($opt_keys as $k => $v) {
-					$opt_val_data[$k] = $v;
-					if(isset($option_vals[$k][$j])){
-						$opt_val_data[$k] = $option_vals[$k][$j];
-					}
-				}
-				$this->model_catalog_product->addProductOptionValueAndDescription($product_id, $p_option_id, $opt_val_data);
-			}
+            if (max($counts) == 1) {
+                //single option value case
+                $this->_save_option_value($product_id, $p_option_id, $option_vals);
+            } else {
+                for ($j = 0; $j < max($counts); $j++) {
+                    //build flat associative array options value
+                    $opt_val_data = array();
+                    foreach (array_keys($option_vals) as $key) {
+                        $opt_val_data[$key] = $option_vals[$key][$j];
+                    }
+                    $this->_save_option_value($product_id, $p_option_id, $opt_val_data);
+                }
+            }
 		}
 		return true;
 	}
+
+	protected function _save_option_value($product_id, $p_option_id, $data) {
+        if(empty($data) || !array_filter($data)) {
+            //skip empty data
+            return false;
+        }
+
+        $opt_val_data = array();
+        $opt_keys = array(  'name' => '',
+            'sku' => '',
+            'quantity' => 0,
+            'sort_order' => 0,
+            'subtract' => 0,
+            'prefix' => '$',
+            'weight' => 0,
+            'weight_type' => 'lbs',
+            'default' => 0,
+            'price' => 0
+        );
+        foreach ($opt_keys as $k => $v) {
+            $opt_val_data[$k] = $v;
+            if(isset($data[$k])){
+                $opt_val_data[$k] = $data[$k];
+            }
+        }
+
+        return $this->model_catalog_product->addProductOptionValueAndDescription($product_id, $p_option_id, $opt_val_data);
+    }
 
 	//add from URL download
 	protected function _migrateImages($data = array (), $object_txt_id = '', $object_id = 0, $language_id){
