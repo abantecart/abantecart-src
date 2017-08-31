@@ -42,7 +42,13 @@ class ControllerResponsesExtensionCardConnect extends AController {
 
 		if (has_value($this->request->post['order_id']) && $this->request->post['amount'] > 0) {
 			$order_id = $this->request->post['order_id'];
-			$amount = preformatFloat($this->request->post['amount'], $this->language->get('decimal_point'));
+			$decimal_point = $this->language->get('decimal_point');
+			if(is_int(strpos($this->request->post['amount'],'.'))){
+				$decimal_point = '.';
+			}
+			$decimal_point = !$decimal_point ? '.' : $decimal_point;
+			$amount = preformatFloat($this->request->post['amount'], $decimal_point);
+
 			$this->loadModel('extension/cardconnect');
 			$cardconnect_order = $this->model_extension_cardconnect->getCardconnectOrder($order_id);
 			//get current order
@@ -99,7 +105,12 @@ class ControllerResponsesExtensionCardConnect extends AController {
 
 		if (has_value($this->request->post['order_id']) && $this->request->post['amount'] > 0) {
 			$order_id = $this->request->post['order_id'];
-			$amount = preformatFloat($this->request->post['amount'], $this->language->get('decimal_point'));
+			$decimal_point = $this->language->get('decimal_point');
+			if(is_int(strpos($this->request->post['amount'],'.'))){
+				$decimal_point = '.';
+			}
+			$decimal_point = !$decimal_point ? '.' : $decimal_point;
+			$amount = preformatFloat($this->request->post['amount'], $decimal_point);
 
 			$this->loadModel('extension/cardconnect');
 			$cardconnect_order = $this->model_extension_cardconnect->getCardconnectOrder($order_id);
