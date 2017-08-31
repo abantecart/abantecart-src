@@ -249,7 +249,9 @@ class CardConnectRestClient {
 			// this 'echo' causes problems since it invalidates the JSON response.  Use it for debugging only!
 			//
 			$registry = Registry::getInstance();
-			$registry->get('log')->write("CardConnect: Caught exception when sending request : " .  $e->getMessage().' code: '.$e->getCode().' File: '.$e->getFile().':'.$e->getLine());
+			$registry->get('log')->write("CardConnect: Caught exception when sending request : " .  $e->getMessage().' 
+			code: '.$e->getCode().' File: '.$e->getFile().':'.$e->getLine()."
+			endpoint: ".$endpoint.", send-method:".$operation.", request Data: ".var_export($request, true));
 		}
 		return $response;
 	}
