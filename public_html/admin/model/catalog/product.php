@@ -248,6 +248,9 @@ class ModelCatalogProduct extends Model{
 	 * @param array $data
 	 */
 	public function updateProduct($product_id, $data){
+
+        $language_id = (int)$this->language->getContentLanguageID();
+
 		$fields = array (
 				"model",
 				"sku",
@@ -299,6 +302,7 @@ class ModelCatalogProduct extends Model{
 		}
 
 		if (!empty($data['product_description'])){
+
 			foreach ($data['product_description'] as $field => $value){
 
 				$fields = array ('name', 'description', 'meta_keywords', 'meta_description', 'blurb');
@@ -312,7 +316,7 @@ class ModelCatalogProduct extends Model{
 				if (!empty($update)){
 					$this->language->replaceDescriptions('product_descriptions',
 							array ('product_id' => (int)$product_id),
-							array ((int)$this->language->getContentLanguageID() => $update));
+							array ($language_id => $update));
 				}
 			}
 		}
@@ -325,17 +329,16 @@ class ModelCatalogProduct extends Model{
 			if ($data['keyword']){
 				$this->language->replaceDescriptions('url_aliases',
 						array ('query' => "product_id=" . (int)$product_id),
-						array ((int)$this->language->getContentLanguageID() => array ('keyword' => $data['keyword'])));
+						array ($language_id => array ('keyword' => $data['keyword'])));
 			} else{
 				$this->db->query("DELETE
 								FROM " . $this->db->table("url_aliases") . " 
 								WHERE query = 'product_id=" . (int)$product_id . "'
-									AND language_id = '" . (int)$this->language->getContentLanguageID() . "'");
+									AND language_id = '" . $language_id . "'");
 			}
 		}
 
 		if (isset($data['product_tags'])){
-			$language_id = $this->language->getContentLanguageID();
 			$tags = explode(',', $data['product_tags']);
 
 			foreach ($tags as &$tag){
@@ -344,7 +347,7 @@ class ModelCatalogProduct extends Model{
 
 			$this->language->replaceMultipleDescriptions('product_tags',
 					array ('product_id' => (int)$product_id),
-					array ((int)$language_id => array ('tag' => array_unique($tags))));
+					array ($language_id => array ('tag' => array_unique($tags))));
 		}
 
 		$this->_touch_product($product_id);
