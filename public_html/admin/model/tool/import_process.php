@@ -233,14 +233,16 @@ class ModelToolImportProcess extends Model{
 			$product,
 			array (
 			'manufacturer_id'     => $manufacturer_id,
-			'product_description' => array (
-					$language_id => $product_desc
-				),
-			)
+            )
 		);
 
 		$this->load->model('catalog/product');
 		if ($new_product) {
+
+            $product_data['product_description'] = array (
+                $language_id => $product_desc
+            );
+
 			//apply default settings for new products only
 			$default_arr = array(
 				'status' => 1,
@@ -265,6 +267,8 @@ class ModelToolImportProcess extends Model{
 			}
 
 		} else {
+            //flat array for description (specific for update)
+            $product_data['product_description'] = $product_desc;
 			$this->model_catalog_product->updateProduct($product_id, $product_data);
 			$this->toLog("Updated product '{$product_desc['name']}' with ID {$product_id}.");
 			$status = true;
