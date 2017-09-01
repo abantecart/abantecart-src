@@ -51,6 +51,9 @@ class ControllerResponsesToolImportProcess extends AController {
 				$imp_data = array_merge($this->session->data['import_map'], $this->session->data['import']);
 			}
 
+			$imp_data['store_id'] = $this->session->data['current_store_id'];
+			$imp_data['language_id'] = $this->language->getContentLanguageID();
+
 			$this->loadModel('tool/import_process');
 			$task_details = $this->model_tool_import_process->createTask('import_wizard_'.date('Ymd-H:i:s'), $imp_data);
 			$task_api_key = $this->config->get('task_api_key');

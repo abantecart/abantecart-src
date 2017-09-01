@@ -156,24 +156,24 @@ class ModelToolImportProcess extends Model{
 	}
 
 	public function process_products_record($task_id, $data, $settings){
-		$language_id = $this->session->data['content_language_id'];
-		$store_id = $this->session->data['current_store_id'];
+		$language_id = $settings['language_id'] ? $settings['language_id'] : $this->language->getContentLanguageID();
+		$store_id = $settings['store_id'] ? $settings['store_id'] : $this->session->data['current_store_id'];
 		$this->load->model('catalog/product');
 		$this->imp_log = new ALog(DIR_LOGS . "products_import_{$task_id}.txt");
 		return $this->addUpdateProduct($data, $settings, $language_id, $store_id);
 	}
 
 	public function process_categories_record($task_id, $data, $settings){
-		$language_id = $this->session->data['content_language_id'];
-		$store_id = $this->session->data['current_store_id'];
+		$language_id = $settings['language_id'] ? $settings['language_id'] : $this->language->getContentLanguageID();
+		$store_id = $settings['store_id'] ? $settings['store_id'] : $this->session->data['current_store_id'];
 		$this->load->model('catalog/category');
 		$this->imp_log = new ALog(DIR_LOGS . "categories_import_{$task_id}.txt");
 		return $this->addUpdateCategory($data, $settings, $language_id, $store_id);
 	}
 
 	public function process_manufacturers_record($task_id, $data, $settings){
-		$language_id = $this->session->data['content_language_id'];
-		$store_id = $this->session->data['current_store_id'];
+		$language_id = $settings['language_id'] ? $settings['language_id'] : $this->language->getContentLanguageID();
+		$store_id = $settings['store_id'] ? $settings['store_id'] : $this->session->data['current_store_id'];
 		$this->load->model('catalog/manufacturer');
 		$this->imp_log = new ALog(DIR_LOGS . "manufacturers_import_{$task_id}.txt");
 		return $this->addUpdateManufacture($data, $settings, $language_id, $store_id);
@@ -260,10 +260,10 @@ class ModelToolImportProcess extends Model{
 
 			$product_id = $this->model_catalog_product->addProduct($product_data);
 			if ($product_id) {
-				$this->toLog("Created product '{$product_desc['name']}' with ID {$product_id}.");
+				$this->toLog("Created product '".$product_desc['name']."' with ID ".$product_id);
 				$status = true;
 			} else {
-				$this->toLog("Error: Failed to create product '{$product_desc['name']}'.");
+				$this->toLog("Error: Failed to create product '".$product_desc['name']."'.");
 			}
 
 		} else {

@@ -575,12 +575,16 @@ class ControllerPagesToolImportExport extends AController{
 		$this->loadLanguage('tool/import_export');
 		if ($this->_validate_task()) {
 			$this->loadModel('tool/import_process');
+
+			$imp_data['store_id'] = $this->session->data['current_store_id'];
+			$imp_data['language_id'] = $this->language->getContentLanguageID();
+
 			$task_details = $this->model_tool_import_process->createTask('import_wizard_' . date('Ymd-H:i:s'), $imp_data);
 			if (!$task_details) {
 				$this->session->data['error'] = implode('<br>', $this->model_tool_import_process->errors);
 			} else {
 				$this->session->data['success'] = sprintf($this->language->get('text_success_scheduled'),
-																			  $this->html->getSecureURL('tool/task'));
+														 $this->html->getSecureURL('tool/task'));
 			}
 			redirect($this->html->getSecureURL('tool/import_export/'.($file_format=='internal' ? 'internal_import' : 'import_wizard')));
 		}
