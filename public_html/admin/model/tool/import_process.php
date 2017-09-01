@@ -282,7 +282,7 @@ class ModelToolImportProcess extends Model{
 
 		//process options
 		$this->_addUpdateOptions($product_id, $data['product_options'], $language_id, $store_id, $product_data['weight_class_id']);
-        
+
 		return $status;
 	}
 
@@ -412,9 +412,9 @@ class ModelToolImportProcess extends Model{
 				'error_text'         => '',
 				'option_placeholder' => '',
 			);
-			$opt_data['required'] = $data[$i]['required'] ? $data[$i]['required'] : 0;
-			$opt_data['sort_order'] = $data[$i]['sort_order'] ? $data[$i]['sort_order'] : 0;
-			$opt_data['status'] = $data[$i]['status'] ? $data[$i]['status'] : 1;
+			$opt_data['required'] = isset($data[$i]['required']) ? $data[$i]['required'] : 0;
+			$opt_data['sort_order'] = isset($data[$i]['sort_order']) ? $data[$i]['sort_order'] : 0;
+			$opt_data['status'] = isset($data[$i]['status']) ? $data[$i]['status'] : 1;
 
 			$p_option_id = $this->model_catalog_product->addProductOption($product_id, $opt_data);
 			if ($p_option_id) {
