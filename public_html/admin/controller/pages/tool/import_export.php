@@ -53,7 +53,6 @@ class ControllerPagesToolImportExport extends AController{
 	public function main(){
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
-
 		if ($this->request->get['active'] == 'import_wizard' && $this->session->data['import']) {
 			redirect($this->html->getSecureURL('tool/import_export/import_wizard'));
 		}
@@ -71,7 +70,8 @@ class ControllerPagesToolImportExport extends AController{
 			$this->request->get['active'] = substr($this->request->get['active'], 0, strpos($this->request->get['active'], '-'));
 		}
 		$this->data['active'] = isset($this->request->get['active']) && in_array($this->request->get['active'], $this->data['tabs']) ?
-				$this->request->get['active'] : $this->data['tabs'][0];
+				$this->request->get['active'] : 'import';
+
 		if (!$this->data['active']) {
 			$this->data['active'] = 'import';
 		}
@@ -428,8 +428,6 @@ class ControllerPagesToolImportExport extends AController{
 				$this->data['cols'] = fgetcsv($fh, 0, $import_data['delimiter']);
 				$this->data['data'] = fgetcsv($fh, 0, $import_data['delimiter']);
 			}
-		} else {
-			//unsupported type
 		}
 
 		$this->data['tables'] = $this->tables;
@@ -599,7 +597,7 @@ class ControllerPagesToolImportExport extends AController{
 	}
 
 	/**
-	 * Internal load format
+	 * Import router method
 	 */
 	public function import(){
 		//init controller data
@@ -622,7 +620,6 @@ class ControllerPagesToolImportExport extends AController{
 			$this->main();
 			return null;
 		}
-
 	}
 
 	protected function validateWizardRequest($post) {
