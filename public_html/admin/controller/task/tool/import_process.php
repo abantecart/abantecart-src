@@ -96,7 +96,7 @@ class ControllerTaskToolImportProcess extends AController{
 			$a_data = new AData();
 			$a_data->setLogFile(DIR_LOGS."import_".$task_id.".txt");
 			//import each row separately
-			for ($i = $start; $i < $stop; $i++) {
+			for ($i = $start; $i <= $stop; $i++) {
 				$csv_array = $a_data->CSV2ArrayFromFile($filename, array_search($delimiter, $a_data->csvDelimiters),$i,1);
 				if ($csv_array) {
 					$results = $a_data->importData($csv_array);
@@ -133,7 +133,7 @@ class ControllerTaskToolImportProcess extends AController{
 						continue;
 					}
 
-					for ($i = 0; $i < count($columns); $i++) {
+					for ($i = 0; $i <= count($columns); $i++) {
 						$vals[$columns[$i]] = $rowData[$i];
 					}
 
