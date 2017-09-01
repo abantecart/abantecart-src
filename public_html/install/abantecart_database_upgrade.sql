@@ -1,6 +1,13 @@
 
-#ALTER TABLE `ac_weight_classes`
-#ADD COLUMN `iso_code` VARCHAR(5) NOT NULL AFTER `value`;
-#ADD UNIQUE INDEX `iso_code_UNIQUE` (`iso_code` ASC);
-#todo: add the same for length_classes!
+ALTER TABLE ac_weight_classes ADD COLUMN `iso_code` VARCHAR(5) NOT NULL AFTER `value`;
+UPDATE ac_weight_classes SET iso_code = 'KILO' WHERE weight_class_id = 1;
+UPDATE ac_weight_classes SET iso_code = 'GRAM' WHERE weight_class_id = 2;
+UPDATE ac_weight_classes SET iso_code = 'PUND' WHERE weight_class_id = 5;
+UPDATE ac_weight_classes SET iso_code = 'USOU' WHERE weight_class_id = 6;
+
+
+ALTER TABLE ac_length_classes ADD COLUMN `iso_code` VARCHAR(5) NOT NULL AFTER `value`;
+UPDATE ac_length_classes SET iso_code = 'CMET' WHERE length_class_id = 1;
+UPDATE ac_length_classes SET iso_code = 'MMET' WHERE length_class_id = 2;
+UPDATE ac_length_classes SET iso_code = 'INCH' WHERE length_class_id = 3;
 
