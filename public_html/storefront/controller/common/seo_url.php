@@ -87,6 +87,7 @@ class ControllerCommonSeoUrl extends AController {
 					$this->request->get['rt'] = substr($this->request->get['rt'],6);
 				}
 				unset($this->request->get['_route_']);
+				$this->_add_canonical_url('url');
 				//Update router with new RT
 				$this->router->resetController($rt);
 				return $this->dispatch($rt,$this->request->get);
