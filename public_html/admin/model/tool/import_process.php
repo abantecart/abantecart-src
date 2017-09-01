@@ -249,7 +249,7 @@ class ModelToolImportProcess extends Model{
 				'shipping' => 1,
 				'call_to_order' => 0,
 				'sort_order' => 0,
-				'weight_class_id' => 6,
+				'weight_class_id' => 5,
 				'length_class_id' => 3,
 			);
 			foreach ($default_arr as $key => $val ) {
@@ -281,7 +281,7 @@ class ModelToolImportProcess extends Model{
 		$this->_migrateImages($data['images'], 'products', $product_id, $language_id);
 
 		//process options
-		$this->_addUpdateOptions($product_id, $data['product_options'], $language_id, $store_id);
+		$this->_addUpdateOptions($product_id, $data['product_options'], $language_id, $store_id, $product_data['weight_class_id']);
 		//process SEO URL
 		return $status;
 	}
@@ -381,7 +381,7 @@ class ModelToolImportProcess extends Model{
 		return $status;
 	}
 
-	protected function _addUpdateOptions($product_id, $data = array (), $language_id, $store_id){
+	protected function _addUpdateOptions($product_id, $data = array (), $weight_class_id, $language_id, $store_id){
 		if (!is_array($data) || empty($data)) {
 			//no option details
 			return false;
@@ -431,7 +431,7 @@ class ModelToolImportProcess extends Model{
 			$counts = array_map('count', $option_vals);
             if (max($counts) == 1) {
                 //single option value case
-                $this->_save_option_value($product_id, $p_option_id, $option_vals);
+                $this->_save_option_value($product_id, $weight_class_id, $p_option_id, $option_vals);
             } else {
                 for ($j = 0; $j < max($counts); $j++) {
                     //build flat associative array options value
@@ -439,14 +439,14 @@ class ModelToolImportProcess extends Model{
                     foreach (array_keys($option_vals) as $key) {
                         $opt_val_data[$key] = $option_vals[$key][$j];
                     }
-                    $this->_save_option_value($product_id, $p_option_id, $opt_val_data);
+                    $this->_save_option_value($product_id, $weight_class_id, $p_option_id, $opt_val_data);
                 }
             }
 		}
 		return true;
 	}
 
-	protected function _save_option_value($product_id, $p_option_id, $data) {
+	protected function _save_option_value($product_id, $weight_class_id, $p_option_id, $data) {
         if(empty($data) || !array_filter($data)) {
             //skip empty data
             return false;
@@ -473,6 +473,12 @@ class ModelToolImportProcess extends Model{
         //enable stock taking if quantity specified
         if ($opt_val_data['quantity'] > 0) {
             $opt_val_data['subtract'] = 1;
+        }
+
+        $this->load->model('localisation/weight_class');
+        $prd_weight_info = $this->model_localisation_weight_class->getWeightClass($weight_class_id);
+        if ($prd_weight_info['unit']) {
+            $opt_val_data['weight_type'] = $prd_weight_info['unit'];
         }
 
         return $this->model_catalog_product->addProductOptionValueAndDescription($product_id, $p_option_id, $opt_val_data);
