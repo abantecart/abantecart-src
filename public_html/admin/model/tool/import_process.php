@@ -470,6 +470,10 @@ class ModelToolImportProcess extends Model{
                 $opt_val_data[$k] = $data[$k];
             }
         }
+        //enable stock taking if quantity specified
+        if ($opt_val_data['quantity'] > 0) {
+            $opt_val_data['subtract'] = 1;
+        }
 
         return $this->model_catalog_product->addProductOptionValueAndDescription($product_id, $p_option_id, $opt_val_data);
     }
