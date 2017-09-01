@@ -79,9 +79,8 @@
 			<button class="btn btn-primary">
 				<i class="fa fa-clock-o fa-fw"></i> <?php echo $form['schedule']->text; ?>
 			</button>
-			<a href="<?php echo $back_url; ?>" class="btn btn-default" title="<?php echo $button_back; ?>">
-				<i class="fa fa-arrow-left fa-fw"></i>
-				<?php echo $button_back ?>
+			<a href="<?php echo $reset_url; ?>" class="btn btn-default">
+				<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
 			</a>
 		</div>
 	</div>

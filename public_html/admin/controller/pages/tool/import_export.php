@@ -314,6 +314,10 @@ class ControllerPagesToolImportExport extends AController{
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$import_data = $this->session->data['import'];
+		if( $import_data['format'] == 'internal' ){
+			redirect($this->html->getSecureURL('tool/import_export/internal_import'));
+		}
+
 		if(empty($import_data)) {
 			$this->session->data['error'] = $this->language->get('error_data_corrupted');
 			return $this->main();
