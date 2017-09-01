@@ -282,7 +282,7 @@ class ModelToolImportProcess extends Model{
 
 		//process options
 		$this->_addUpdateOptions($product_id, $data['product_options'], $language_id, $store_id, $product_data['weight_class_id']);
-		//process SEO URL
+        
 		return $status;
 	}
 
