@@ -73,14 +73,9 @@ class ControllerCommonSeoUrl extends AController {
 			if (isset($this->request->get['rt'])) {
 				//build canonical seo-url
 				if(sizeof($parts)>1){
-					$this->document->addLink(
-						array(
-								'href' => (HTTPS === true ? HTTPS_SERVER : HTTP_SERVER) . end($parts),
-								'rel'  => 'canonical'
-						)
-					);
+					$this->_add_canonical_url('url', (HTTPS === true ? HTTPS_SERVER : HTTP_SERVER) . end($parts));
 				}
-				// build canonical url
+
 				$rt = $this->request->get['rt'];
 				//remove pages prefix from rt for use in new generated urls
 				if(substr($this->request->get['rt'],0,6) == 'pages/'){
@@ -102,27 +97,22 @@ class ControllerCommonSeoUrl extends AController {
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 
-	protected function _add_canonical_url( $mode = 'seo' ){
-		$method = $mode == 'seo' ? 'getSecureSEOURL' : 'getSecureURL';
-		$get = $this->request->get;
-		if (isset($get['product_id'])) {
-			$url = $this->html->{$method}('product/product','&product_id='.$get['product_id'], true);
-			unset($get['product_id'],$get['rt']);
-		} elseif (isset($get['path'])) {
-			$url = $this->html->{$method}('product/category','&path='.$get['path'], true);
-			unset($get['path'],$get['rt']);
-		} elseif (isset($get['manufacturer_id'])) {
-			$url = $this->html->{$method}('product/manufacturer','&manufacturer_id='.$get['manufacturer_id'], true);
-			unset($get['manufacturer_id'],$get['rt']);
-		} elseif (isset($get['content_id'])) {
-			$url = $this->html->{$method}('content/content','&content_id='.$get['content_id'], true);
-			unset($get['content_id'],$get['rt']);
+	protected function _add_canonical_url( $mode = 'seo', $url = '' ){
+		if(!$url) {
+			$method = $mode == 'seo' ? 'getSecureSEOURL' : 'getSecureURL';
+			$get = $this->request->get;
+			if (isset($get['product_id'])) {
+				$url = $this->html->{$method}('product/product', '&product_id=' . $get['product_id']);
+			} elseif (isset($get['path'])) {
+				$url = $this->html->{$method}('product/category', '&path=' . $get['path']);
+			} elseif (isset($get['manufacturer_id'])) {
+				$url = $this->html->{$method}('product/manufacturer', '&manufacturer_id=' . $get['manufacturer_id']);
+			} elseif (isset($get['content_id'])) {
+				$url = $this->html->{$method}('content/content', '&content_id=' . $get['content_id']);
+			}
 		}
 
 		if($url){
-			if($get){
-				$url .= '&amp;'.http_build_query($get, '', '&amp;');
-			}
 			$this->document->addLink(
 								array(
 										'rel'  => 'canonical',
