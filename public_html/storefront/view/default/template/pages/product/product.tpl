@@ -194,7 +194,7 @@ if ($error){ ?>
 
 									<div class="mt20 ">
 										<?php if(!$product_info['call_to_order']){ ?>
-										<?php if ($track_stock && !$in_stock) { ?>
+										<?php if (!$can_buy) { ?>
 										<ul class="productpagecart">
 											<li><span class="nostock"><?php echo $stock; ?></span></li>
 										</ul>
