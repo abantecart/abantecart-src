@@ -1,3 +1,58 @@
+AbanteCart version 1.2.11
+
+New features:
+- New option type "Label" for dysplay only purpose
+- New import wizard with automatic and manual data mapping
+- CardConnect PCI Complinet payment integration
+
+Core:
+- added new product option type "Label" for dysplay only purpose
+- minor improvement of core/lib/config.php related to cli-mode
+- Added URL into error text when wrong key_param-key_value pair
+- ahtml class fix related to https as plain store url
+- added jpeg warning ignoring via ini_set into AImage class
+- improved ExtensionsAPI class and extension settings page controller
+- added iso_codes for weight and length classes
+- AResource class minor improvement
+- message-info controller minor fix related to hooks-call
+- image url fix related to api-controllers. Now all urls will be without protocol (with // at the begin)
+
+
+Control Panel:
+- New import Wizard with automatic and manual data mapping
+- import/export. added button for schedule task
+- import/export. added logging for import with internal formatted file
+- import/export. import improvments with hep of tasks.
+- model/catalog/product fix related to product deletion
+- default weights and length classes now predefined and cannot be deleted
+- ALayoutManager minor improvement
+- updater changes related to extension versions comparison
+- Empty result set fix for listing grids
+- report of purchased products improvement
+- minor fix of lib/order
+
+Storefront:
+- minor fix of model/account/order
+- google analytics JavaScript improvement
+- contact-us controller minor fix
+
+Extensions:
+- New payment extension CardConnect
+- banner manager JavaScript fix related to seo url upgrade
+- Fix for MarketPlace price dysplay
+- Royal Mail missing definitions
+- Parcelforce notes update
+- Weight Based shipping text update
+- USPS add help notes
+- UPS and Fedex text corrections
+
+
+Various bug fixes and improvements
+
+
+------------------------------------------------------------
+
+
 AbanteCart version 1.2.10
 
 Core:
