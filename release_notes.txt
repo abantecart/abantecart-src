@@ -1,12 +1,12 @@
 AbanteCart version 1.2.11
 
 New features:
-- New option type "Label" for dysplay only purpose
+- New option type "Label" for display only purpose
 - New import wizard with automatic and manual data mapping
 - CardConnect PCI Complinet payment integration
 
 Core:
-- added new product option type "Label" for dysplay only purpose
+- added new product option type "Label" for display only purpose
 - minor improvement of core/lib/config.php related to cli-mode
 - Added URL into error text when wrong key_param-key_value pair
 - ahtml class fix related to https as plain store url
@@ -39,7 +39,7 @@ Storefront:
 Extensions:
 - New payment extension CardConnect
 - banner manager JavaScript fix related to seo url upgrade
-- Fix for MarketPlace price dysplay
+- Fix for MarketPlace price display
 - Royal Mail missing definitions
 - Parcelforce notes update
 - Weight Based shipping text update
@@ -920,7 +920,7 @@ Core:
 - AMail attachment headers bug fix
 - core/lib/currency.php refactored. some checks of variables and phpdoc comments added.
 - internationalization of SEO-keyword usage bug fix.
-- 2 settings added to control coupon and shipping estimate blocks dysplay (default_html5 only)
+- 2 settings added to control coupon and shipping estimate blocks display (default_html5 only)
 - applying discount (core promotion) bug fix (related to calculation of total quantity of product in the cart)
 - table url_aliases (with SEO keywords) now have additional unique index to prevent duplicates
 - phpdoc comments added into Alanguage and Extension classes
