@@ -172,13 +172,13 @@
 
 	<script type="text/javascript"><!--
 		jQuery(document).ready(function () {
-			window.addEventListener('message', function(event) {
-			var token = JSON.parse(event.data);
-
-
-			var mytoken = $('#cc_token');
-			mytoken.val(token.message);
-			}, false);
+			window.addEventListener('message',
+									function(event) {
+											var token = JSON.parse(event.data);
+											var mytoken = $('#cc_token');
+											mytoken.val(token.message);
+											},
+									false);
 
 			var submitSent = false;
 			$('#new_card').click(function () {
@@ -213,7 +213,6 @@
 			//validate submit
 			$('#cardconnect').submit(function (event) {
 				event.preventDefault();
-
 				if (submitSent !== true) {
 					submitSent = true;
 					var $form = $(this);
@@ -243,13 +242,16 @@
 							$form.find('.action-buttons').show();
 							$form.before('<div class="alert alert-danger"><i class="fa fa-bug fa-fw"></i> <?php echo $error_unknown; ?></div>');
 							submitSent = false;
-							$('#cc_token').val('');
+							//clear cvv if something wrong(for next try)
+							$('#cc_cvv2').val('');
 						} else {
 							if (data.error) {
 								$('.wait').remove();
 								$form.find('.action-buttons').show();
 								$form.before('<div class="alert alert-warning"><i class="fa fa-exclamation fa-fw"></i> ' + data.error + '</div>');
 								submitSent = false;
+								//clear cvv if something wrong(for next try)
+								$('#cc_cvv2').val('');
 							}
 							if (data.success) {
 								location = data.success;
@@ -261,6 +263,8 @@
 						$form.find('.action-buttons').show();
 						$form.before('<div class="alert alert-danger"><i class="fa fa-exclamation fa-fw"></i> ' + textStatus + ' ' + errorThrown + '</div>');
 						submitSent = false;
+						//clear cvv if something wrong(for next try)
+						$('#cc_cvv2').val('');
 					}
 				});
 			}
