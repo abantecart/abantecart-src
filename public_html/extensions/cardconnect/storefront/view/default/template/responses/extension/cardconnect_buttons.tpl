@@ -244,6 +244,7 @@
 							submitSent = false;
 							//clear cvv if something wrong(for next try)
 							$('#cc_cvv2').val('');
+							$.aCCValidator.checkCVV($('#cc_cvv2'));
 						} else {
 							if (data.error) {
 								$('.wait').remove();
@@ -252,6 +253,7 @@
 								submitSent = false;
 								//clear cvv if something wrong(for next try)
 								$('#cc_cvv2').val('');
+								$.aCCValidator.checkCVV($('#cc_cvv2'));
 							}
 							if (data.success) {
 								location = data.success;
@@ -265,6 +267,7 @@
 						submitSent = false;
 						//clear cvv if something wrong(for next try)
 						$('#cc_cvv2').val('');
+						$.aCCValidator.checkCVV($('#cc_cvv2'));
 					}
 				});
 			}
