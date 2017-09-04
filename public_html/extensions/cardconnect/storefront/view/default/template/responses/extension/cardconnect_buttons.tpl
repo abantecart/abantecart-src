@@ -213,6 +213,7 @@
 			//validate submit
 			$('#cardconnect').submit(function (event) {
 				event.preventDefault();
+
 				if (submitSent !== true) {
 					submitSent = true;
 					var $form = $(this);
@@ -249,7 +250,6 @@
 								$form.find('.action-buttons').show();
 								$form.before('<div class="alert alert-warning"><i class="fa fa-exclamation fa-fw"></i> ' + data.error + '</div>');
 								submitSent = false;
-								$('#cc_token').val('');
 							}
 							if (data.success) {
 								location = data.success;
