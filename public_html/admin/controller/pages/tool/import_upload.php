@@ -81,7 +81,7 @@ class ControllerPagesToolImportUpload extends AController {
 		$res = array();
 		$res['run_mode'] = isset($post['test_mode']) ? $post['test_mode'] : 'commit';
 		$res['delimiter_id'] = $post['options']['delimiter'];
-		$res['delimiter'] = $this->handler->csvDelimiters[$post['options']['delimiter']];
+		$res['delimiter'] = $this->handler->csvDelimiters[$res['delimiter_id']];
 
 		if(in_array($file['type'], array('text/csv', 'application/vnd.ms-excel', 'text/plain', 'application/octet-stream'))){
 			#NOTE: 'application/octet-stream' is a solution for Windows OS sending unknown file type

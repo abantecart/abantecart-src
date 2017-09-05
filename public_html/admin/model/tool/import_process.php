@@ -1087,6 +1087,10 @@ class ModelToolImportProcess extends Model{
 						'title' => 'Sorting Order(Number)',
 						'alias' => 'sort order'
 					),
+                    'categories.keyword' => array(
+                        'title' => 'SEO URL',
+                        'alias' => 'seo url'
+                    ),
 					'category_descriptions.name' => array(
 						'title' => 'Category Name or Tree',
 						'required' => true,
@@ -1121,6 +1125,10 @@ class ModelToolImportProcess extends Model{
 						'default' => 0,
 						'alias' => 'sort order'
 					),
+                    'manufacturers.keyword' => array(
+                        'title' => 'SEO URL',
+                        'alias' => 'seo url'
+                    ),
 					'manufacturers.name' => array(
 						'title' => 'Name (up to 64 chars)',
 						'required' => true,

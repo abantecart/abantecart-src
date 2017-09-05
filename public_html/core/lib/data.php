@@ -39,7 +39,7 @@ class AData{
 	 * NOTE: use double quotes here for special chars like tab!
 	 * @var array
 	 */
-	public $csvDelimiters = array (",", ";", "\t", "|");
+	public $csvDelimiters = array(",", ";", "\t", "|");
 	/**
 	* @var AMessage
 	*/
@@ -48,10 +48,10 @@ class AData{
 	 * @var ADB
 	 */
 	protected $db;
-	protected $status_arr = array ();
+	protected $status_arr = array();
 	protected $run_mode;
-	protected $nested_array = array ();
-	protected $actions = array ( 'insert', 'update', 'update_or_insert', 'delete' );
+	protected $nested_array = array();
+	protected $actions = array('insert', 'update', 'update_or_insert', 'delete');
 	protected $sections = array();
 	/**
 	 * @var ALog
