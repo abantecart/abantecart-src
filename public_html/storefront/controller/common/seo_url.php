@@ -71,11 +71,6 @@ class ControllerCommonSeoUrl extends AController {
 			}
 			$this->extensions->hk_ProcessData($this,'seo_url');
 			if (isset($this->request->get['rt'])) {
-				//build canonical seo-url
-				if(sizeof($parts)>1){
-					$this->_add_canonical_url('url', (HTTPS === true ? HTTPS_SERVER : HTTP_SERVER) . end($parts));
-				}
-
 				$rt = $this->request->get['rt'];
 				//remove pages prefix from rt for use in new generated urls
 				if(substr($this->request->get['rt'],0,6) == 'pages/'){
@@ -90,9 +85,11 @@ class ControllerCommonSeoUrl extends AController {
 		}else{
 			if($this->config->get('enable_seo_url')){
 				$this->_add_canonical_url('seo');
+			}else{
+				$this->_add_canonical_url('url');
 			}
 		}
-		$this->_add_canonical_url('url');
+
 		//init controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
