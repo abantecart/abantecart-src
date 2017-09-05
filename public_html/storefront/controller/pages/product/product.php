@@ -360,6 +360,7 @@ class ControllerPagesProductProduct extends AController{
 		}
 		foreach($product_options as $option){
 			$values = array();
+			$disabled_values = array();
 			$name = $price = '';
 			$default_value = $cart_product_info['options'][$option['product_option_id']];
 			if($option['element_type'] == 'R'){
@@ -368,6 +369,7 @@ class ControllerPagesProductProduct extends AController{
 			$preset_value = $default_value;
 			$opt_stock_message = '';
 			foreach($option['option_value'] as $option_value){
+
 				$default_value = $option_value['default'] && !$default_value ? $option_value['product_option_value_id'] : $default_value;
 				// for case when trying to add to cart without required options. we get option-array back inside _GET
 				if(has_value($request['option'][$option['product_option_id']])){
@@ -404,7 +406,12 @@ class ControllerPagesProductProduct extends AController{
 				if($option_value['subtract']){
 					if($option_value['quantity'] <= 0){
 						//show out of stock message
-						$opt_stock_message = $product_info['stock_status'];
+						if( $this->config->get('config_stock_checkout') ){
+							$opt_stock_message = $product_info['stock_status'];
+						}else{
+							$opt_stock_message = $this->language->get('text_out_of_stock');
+							$disabled_values[] = $option_value['product_option_value_id'];
+						}
 					} else{
 						if($this->config->get('config_stock_display')){
 							$opt_stock_message = $option_value['quantity'] . " " . $this->language->get('text_instock');
@@ -456,6 +463,7 @@ class ControllerPagesProductProduct extends AController{
 						'name'           => !in_array($option['element_type'], HtmlElementFactory::getMultivalueElements()) ? 'option[' . $option['product_option_id'] . ']' : 'option[' . $option['product_option_id'] . '][]',
 						'value'          => $value,
 						'options'        => $values,
+						'disabled_options'=> $disabled_values,
 						'required'       => $option['required'],
 						'placeholder'    => $option['option_placeholder'],
 						'regexp_pattern' => $option['regexp_pattern'],
