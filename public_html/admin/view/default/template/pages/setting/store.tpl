@@ -119,6 +119,14 @@
 		value = (value == 'http' ? '<i class="fa fa-globe"></i>&nbsp;&nbsp;' : '<i class="fa fa-lock"></i>&nbsp;&nbsp;') + value;
 		elm.html(value + '&nbsp;<span class="caret"></span>');
 	}
+	function changeProtocolInUrl(protocol, url){
+		if(url.search(/^(https?|http):\/\//)>=0) {
+			var newurl = url.trim();
+			newurl = newurl.replace(/^(https?|http):\/\//, protocol + '://');
+			return newurl;
+		}
+		return url;
+	}
 
 	$(document).ready(function(){
 		$('#storeFrm_config_ssl_url, #storeFrm_config_url').on('keyup', function(){
