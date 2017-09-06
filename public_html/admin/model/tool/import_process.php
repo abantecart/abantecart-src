@@ -545,13 +545,14 @@ class ModelToolImportProcess extends Model{
             $resource = array (
                 'language_id'   => $language_id,
                 'name'          => array(),
-                'title'         => $title,
+                'title'         => array(),
                 'description'   => '',
                 'resource_path' => $image_basename,
                 'resource_code' => ''
             );
             foreach ($language_list as $lang) {
-                $resource['name'][$lang['language_id']] = $resource['title'];
+                $resource['name'][$lang['language_id']] = $title;
+                $resource['title'][$lang['language_id']] = $title;
             }
             $resource_id = $rm->addResource($resource);
             if ($resource_id) {

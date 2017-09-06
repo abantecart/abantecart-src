@@ -1113,7 +1113,7 @@ class AData{
 		$language_list = $this->language->getAvailableLanguages();
 		$resource = array ('language_id'   => $this->config->get('storefront_language_id'),
 						   'name'          => array (),
-						   'title'         => '',
+						   'title'         => array (),
 						   'description'   => '',
 						   'resource_path' => $image_basename,
 						   'resource_code' => $code);
