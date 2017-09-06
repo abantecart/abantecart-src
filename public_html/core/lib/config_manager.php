@@ -526,7 +526,7 @@ class AConfigManager{
 		$fields = array ();
 		//general section
 		$this->load->model('localisation/stock_status');
-		$stock_statuses = array ();
+		$stock_statuses = array ( '0' => $this->language->get('text_none') );
 		$results = $this->model_localisation_stock_status->getStockStatuses();
 		foreach ($results as $item){
 			$stock_statuses[$item['stock_status_id']] = $item['name'];

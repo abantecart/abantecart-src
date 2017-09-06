@@ -419,7 +419,7 @@ class ControllerPagesCatalogProduct extends AController {
 		}
 
 		$this->loadModel('localisation/stock_status');
-		$this->data['stock_statuses'] = array();
+		$this->data['stock_statuses'] = array( '0' => $this->language->get('text_none') );
 		$results = $this->model_localisation_stock_status->getStockStatuses();
 		foreach( $results as $r ) {
 			$this->data['stock_statuses'][ $r['stock_status_id'] ] = $r['name'];
@@ -466,6 +466,7 @@ class ControllerPagesCatalogProduct extends AController {
 						'subtract',
 						'sort_order',
 						'stock_status_id',
+						'stock_checkout',
 						'price',
 						'cost',
 						'status',
@@ -530,7 +531,7 @@ class ControllerPagesCatalogProduct extends AController {
 			$this->data['preview'] = $this->model_tool_image->resize('no_image.jpg', 100, 100);
 		}
 
-		if ($this->data['stock_status_id'] == '') {
+		if ( !has_value($this->data['stock_status_id']) ) {
 			$this->data['stock_status_id'] = $this->config->get('config_stock_status_id');
 		}
 		if (isset($this->request->post['date_available'])) {
@@ -769,10 +770,17 @@ class ControllerPagesCatalogProduct extends AController {
 			'style' => 'small-field',
 		));
 
+		$this->data['form']['fields']['data']['stock_checkout'] = $form->getFieldHtml(array (
+						'type'  => 'checkbox',
+						'name'  => 'stock_checkout',
+						'value' => (has_value($this->data['stock_checkout']) ? (int)$this->data['stock_checkout'] : $this->config->get('config_stock_checkout') ) ,
+						'style' => 'btn_switch',
+		));
+
 		$this->data['form']['fields']['data']['stock_status'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'stock_status_id',
-			'value' => $this->data['stock_status_id'],
+			'value' => (has_value($this->data['stock_status_id']) ? (int)$this->data['stock_status_id'] : $this->config->get('config_stock_status_id') ),
 			'options' => $this->data['stock_statuses'],
 			'help_url' => $this->gen_help_url('product_inventory'),
 			'style' => 'small-field',

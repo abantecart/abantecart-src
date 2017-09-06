@@ -268,7 +268,7 @@
 	<definition>
 		<key>entry_stock_display</key>
 		<value>
-			<![CDATA[Display Stock:<br /><span class="help">Display stock quantity on the product page.</span>]]></value>
+			<![CDATA[Display Stock Quantity:<br /><span class="help">Display stock quantity on the product page.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_nostock_autodisable</key>

@@ -194,13 +194,15 @@
 	</definition>
 	<definition>
 		<key>entry_maximum</key>
-		<value>
-			<![CDATA[Maximum Quantity:<br/><span class="help">Set a limit on quantaty that can be selected per each order. 0 = no limit</span>]]></value>
+		<value><![CDATA[Maximum Quantity:<br/><span class="help">Set a limit on quantity that can be selected per each order. 0 = no limit</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_stock_status</key>
-		<value>
-			<![CDATA[Out Of Stock Status:<br/><span class="help">Text shown when a product is out of stock</span>]]></value>
+		<value><![CDATA[Pre-Order Stock Status:<br/><span class="help">Text shown when a product is out of stock and purchase allowed</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_stock_checkout</key>
+		<value><![CDATA[Stock Checkout:<br /><span class="help">Allow customers to still checkout if the products they are ordering are not in stock.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_status</key>
@@ -329,7 +331,7 @@
 	</definition>
 	<definition>
 		<key>error_model</key>
-		<value><![CDATA[Product Model must be less than 64 characters! Remomended 5-25 characters]]></value>
+		<value><![CDATA[Product Model must be less than 64 characters! Recommended 5-25 characters]]></value>
 	</definition>
 	<definition>
 		<key>error_required_data</key>

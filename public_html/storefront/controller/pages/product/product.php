@@ -338,6 +338,10 @@ class ControllerPagesProductProduct extends AController{
 		$this->data['product_id'] = $product_id;
 		$this->data['average'] = $average;
 
+		if($product_info['stock_checkout'] === '' || !has_value($product_info['stock_checkout'])){
+			$product_info['stock_checkout'] = $this->config->get('config_stock_checkout');
+		}
+
 		$resource = new AResource('image');
 		$thumbnail = $resource->getMainThumb('manufacturers',
 				$product_info['manufacturer_id'],
@@ -406,7 +410,7 @@ class ControllerPagesProductProduct extends AController{
 				if($option_value['subtract']){
 					if($option_value['quantity'] <= 0){
 						//show out of stock message
-						if( $this->config->get('config_stock_checkout') ){
+						if( $product_info['stock_checkout'] ){
 							$opt_stock_message = $product_info['stock_status'];
 						}else{
 							$opt_stock_message = $this->language->get('text_out_of_stock');
@@ -414,9 +418,14 @@ class ControllerPagesProductProduct extends AController{
 						}
 					} else{
 						if($this->config->get('config_stock_display')){
-							$opt_stock_message = $option_value['quantity'] . " " . $this->language->get('text_instock');
+							if( $option_value['quantity'] > 0 ){
+								$opt_stock_message = $option_value['quantity'] . " ";
+							}
+							$opt_stock_message .= $this->language->get('text_instock');
 						}
 					}
+				}else{
+					$opt_stock_message = $this->language->get('text_instock');
 				}
 				$values[$option_value['product_option_value_id']] = $option_value['name'] . ' ' . $price . ' ' . $opt_stock_message;
 				if($option['element_type'] == 'B'){
@@ -492,18 +501,23 @@ class ControllerPagesProductProduct extends AController{
 			$this->data['track_stock'] = true;
 			$this->data['can_buy'] = true;
 			//out of stock if no quantity and no stock checkout is disabled
-			if($total_quantity <= 0 && !$this->config->get('config_stock_checkout')){
+			if($total_quantity <= 0 && !$product_info['stock_checkout']){
 				$this->data['can_buy'] = false;
 				$this->data['in_stock'] = false;
 				//show out of stock message
 				$this->data['stock'] = $this->language->get('text_out_of_stock');
 			} else{
+				$this->data['can_buy'] = true;
 				$this->data['in_stock'] = true;
 				$this->data['stock'] = '';
-				if($this->config->get('config_stock_display') && $product_info['quantity']){
+				if( $this->config->get('config_stock_display') && $product_info['quantity'] > 0 ){
 					$this->data['stock'] = $product_info['quantity'].' ';
 				}
-				$this->data['stock'] .= $this->language->get('text_instock');
+				if($product_info['quantity'] <=0 ) {
+					$this->data['stock'] = $product_info['stock_status'];
+				}else{
+					$this->data['stock'] .= $this->language->get('text_instock');
+				}
 			}
 
 			//check if we need to disable product for no stock
@@ -522,12 +536,15 @@ class ControllerPagesProductProduct extends AController{
 			}
 		}else{
 			$this->data['can_buy'] = true;
+			if($product_info['quantity'] <=0 ) {
+				$this->data['stock'] = $product_info['stock_status'];
+			}
 		}
 
 		// main product image
-		$sizes = array('main'  => array('width'  => $this->config->get('config_image_popup_width'),
+		$sizes = array( 'main' => array('width'  => $this->config->get('config_image_popup_width'),
 										'height' => $this->config->get('config_image_popup_height')),
-					   'thumb' => array('width'  => $this->config->get('config_image_thumb_width'),
+						'thumb' => array('width'  => $this->config->get('config_image_thumb_width'),
 										'height' => $this->config->get('config_image_thumb_height')));
 		$this->data['image_main'] = $resource->getResourceAllObjects('products', $product_id, $sizes, 1, false);
 		if($this->data['image_main']){

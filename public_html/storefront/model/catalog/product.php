@@ -36,6 +36,7 @@ class ModelCatalogProduct extends Model{
 						pd.name AS name,
 						m.name AS manufacturer,
 						ss.name AS stock_status,
+						stock_checkout,
 						lcd.unit as length_class_name, " .
 				$this->_sql_avg_rating_string() . ", " .
 				$this->_sql_final_price_string() . " " .

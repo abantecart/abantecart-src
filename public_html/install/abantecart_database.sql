@@ -1310,6 +1310,7 @@ CREATE TABLE `ac_products` (
   `sku` varchar(64) COLLATE utf8_general_ci NOT NULL,
   `location` varchar(128) COLLATE utf8_general_ci NOT NULL,
   `quantity` int(4) NOT NULL DEFAULT '0',
+  `stock_checkout` INT(1) NULL DEFAULT '0',
   `stock_status_id` int(11) NOT NULL,
   `manufacturer_id` int(11) NOT NULL,
   `shipping` int(1) NOT NULL DEFAULT '1',
@@ -1619,7 +1620,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('general','config_special_limit',4),
 ('general','config_stock_display',1),
 ('general','config_nostock_autodisable',0),
-('general','config_stock_status_id',5),
+('general','config_stock_status_id',0),
 ('general','enable_reviews',1),
 ('general','config_download',1),
 ('general','config_help_links',1),
@@ -1805,9 +1806,7 @@ CREATE TABLE `ac_stock_statuses` (
 --
 
 INSERT INTO `ac_stock_statuses` (`stock_status_id`, `language_id`, `name`) VALUES
-(1, 1, 'In Stock'),
-(2, 1, 'Out Of Stock'),
-(3, 1, 'Contact us to order');
+(1, 1, 'Pre-Order');
 
 --
 -- DDL for table `stores`
