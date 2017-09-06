@@ -21,6 +21,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerCommonSeoUrl extends AController {
+	protected $is_set_canonical = false;
 	public function main() {
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
@@ -71,6 +72,11 @@ class ControllerCommonSeoUrl extends AController {
 			}
 			$this->extensions->hk_ProcessData($this,'seo_url');
 			if (isset($this->request->get['rt'])) {
+				//build canonical seo-url
+				if($this->config->get('enable_seo_url') && sizeof($parts)>1){
+					$this->_add_canonical_url('url', (HTTPS === true ? HTTPS_SERVER : HTTP_SERVER) . end($parts));
+				}
+
 				$rt = $this->request->get['rt'];
 				//remove pages prefix from rt for use in new generated urls
 				if(substr($this->request->get['rt'],0,6) == 'pages/'){
@@ -95,6 +101,9 @@ class ControllerCommonSeoUrl extends AController {
 	}
 
 	protected function _add_canonical_url( $mode = 'seo', $url = '' ){
+		if($this->is_set_canonical){
+			return false;
+		}
 		if(!$url) {
 			$method = $mode == 'seo' ? 'getSecureSEOURL' : 'getSecureURL';
 			$get = $this->request->get;
@@ -116,6 +125,9 @@ class ControllerCommonSeoUrl extends AController {
 										'href' => $url
 								)
 							);
+			$this->is_set_canonical = true;
+			return true;
 		}
+		return false;
 	}
 }
