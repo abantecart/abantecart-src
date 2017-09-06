@@ -282,7 +282,7 @@ class ModelToolImportProcess extends Model{
 		}
 
 		//process images
-		$this->_migrateImages($data['images'], 'products', $product_id, $language_id);
+		$this->_migrateImages($data['images'], 'products', $product_id, $product_desc['name'], $language_id);
 
 		//process options
 		$this->_addUpdateOptions($product_id, $data['product_options'], $language_id, $store_id, $product_data['weight_class_id']);
@@ -358,7 +358,7 @@ class ModelToolImportProcess extends Model{
 		}
 
 		//process images
-		$this->_migrateImages($data['images'], 'categories', $category_id, $language_id);
+		$this->_migrateImages($data['images'], 'categories', $category_id, $category_desc['name'], $language_id);
 
 		return $status;
 	}
@@ -379,7 +379,7 @@ class ModelToolImportProcess extends Model{
 		if ($manufacturer_id) {
 			$status = true;
 			//process images
-			$this->_migrateImages($data['images'], 'manufacturers', $manufacturer_id, $language_id);
+			$this->_migrateImages($data['images'], 'manufacturers', $manufacturer_id, $manufacturer['name'], $language_id);
 		}
 
 		return $status;
@@ -489,7 +489,7 @@ class ModelToolImportProcess extends Model{
     }
 
 	//add from URL download
-	protected function _migrateImages($data = array (), $object_txt_id = '', $object_id = 0, $language_id){
+	protected function _migrateImages($data = array (), $object_txt_id = '', $object_id = 0, $title = '', $language_id){
 		$objects = array (
 			'products'      => 'Product',
 			'categories'    => 'Category',
@@ -497,16 +497,14 @@ class ModelToolImportProcess extends Model{
 		);
 
 		if (!in_array($object_txt_id, array_keys($objects)) || !$data || !is_array($data)) {
-			$this->toLog("Error: Missing images data array for object {$object_txt_id}.");
+			$this->toLog("Error: Missing images data array for {$object_txt_id}.");
 			return false;
 		}
 
 		$language_list = $this->language->getAvailableLanguages();
-
 		$rm = new AResourceManager();
 		$rm->setType('image');
 
-		$c = new AConnect();
 		//IMAGE PROCESSING
 		$data['image'] = (array)$data['image'];
 		foreach ($data['image'] as $source) {
@@ -514,97 +512,58 @@ class ModelToolImportProcess extends Model{
 				continue;
 			} else if (is_array($source)) {
 				//we have an array from list of values. Run again
-				$this->_migrateImages(array ('image' => $source), $object_txt_id, $object_id, $language_id);
+				$this->_migrateImages(array ('image' => $source), $object_txt_id, $object_id, $title, $language_id);
 				continue;
 			}
-			// check is image exists
-			$headers = $c->getDataHeaders($source);
-			//note that size can be -1 as unknown
-			if ($headers['download_content_length'] != 0) {
-				$image_basename = trim(basename($source));
-				$target = DIR_RESOURCE . 'image/' . $image_basename;
-				$this->toLog("TRY TO DOWNLOAD: ". $source );
-				if (($file = $this->downloadFile($source)) === false) {
-					$this->toLog("Error: Image " . $source . " cannot be downloaded.");
-					continue;
-				}
+			//check if image is absolute path or remote URL
+            $host = parse_url($source, PHP_URL_HOST);
+            $image_basename = basename($source);
+            $target = DIR_RESOURCE . $rm->getTypeDir() . '/' . $image_basename;
+            if (!is_dir(DIR_RESOURCE . $rm->getTypeDir())){
+                @mkdir(DIR_RESOURCE . $rm->getTypeDir(), 0777);
+            }
 
-				if (!is_dir(DIR_RESOURCE . 'image/')) {
-					mkdir(DIR_RESOURCE . 'image/', 0777);
-				}
-				if (!$this->writeToFile($file, $target)) {
-					$this->toLog("Error: Cannot create " . $objects[$object_txt_id] . " " . $image_basename . " ( " . $source . " )  file " . $target . " in resource/image folder ");
-					continue;
-				}
-				$resource = array (
-					'language_id'   => $language_id,
-					'name'          => array(),
-					'title'         => $image_basename,
-					'description'   => '',
-					'resource_path' => $image_basename,
-					'resource_code' => ''
-				);
-				foreach ($language_list as $lang) {
-					$resource['name'][$lang['language_id']] = $resource['title'];
-				}
-				$resource_id = $rm->addResource($resource);
-				if ($resource_id) {
-					$this->toLog("Map into RL: ". $image_basename ." ". $resource_id );
-					$rm->mapResource($object_txt_id, $object_id, $resource_id);
-				} else {
-					$this->toLog("Error: Image resource can not be created. " . $this->db->error);
-					continue;
-				}
-			} else {
-				$this->toLog("Error: Image ".$source." does not exists for ".$object_txt_id." with ID ".$object_id.". ");
-			}
+            if ($host === NULL ) {
+                //this is a path to file
+                if (!copy($source, $target)){
+                    $this->toLog("Error: Unable to copy file {$source} to {$target}");
+                    continue;
+                }
+            } else {
+                //this is URL to image. Download first
+                $fl = new AFile();
+                if (($file = $fl->downloadFile($source)) === false) {
+                    $this->toLog("Error: Unable to download file from {$source} ");
+                }
+                if (!$fl->writeDownloadToFile($file, $target)){
+                    $this->toLog("Error: Unable to save downloaded file to ".$target);
+                    continue;
+                }
+            }
+
+            //save resource
+            $resource = array (
+                'language_id'   => $language_id,
+                'name'          => array(),
+                'title'         => $title,
+                'description'   => '',
+                'resource_path' => $image_basename,
+                'resource_code' => ''
+            );
+            foreach ($language_list as $lang) {
+                $resource['name'][$lang['language_id']] = $resource['title'];
+            }
+            $resource_id = $rm->addResource($resource);
+            if ($resource_id) {
+                $this->toLog("Map image resource : ". $image_basename ." ". $resource_id );
+                $rm->mapResource($object_txt_id, $object_id, $resource_id);
+            } else {
+                $this->toLog("Error: Image resource can not be created. " . $this->db->error);
+                continue;
+            }
 		}
 
 		return true;
-	}
-
-	protected function _get($uri){
-		$ch = curl_init();
-
-		curl_setopt($ch, CURLOPT_URL, $uri);
-		curl_setopt($ch, CURLOPT_HEADER, 0);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-		$response = new stdClass();
-
-		$response->body = curl_exec($ch);
-		$response->http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		$response->content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
-		$response->content_length = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
-
-		curl_close($ch);
-
-		return $response;
-	}
-
-	protected function downloadFile($path){
-		$file = $this->_get($path);
-		if ($file->http_code == 200) {
-			return $file;
-		}
-		return false;
-
-	}
-
-	protected function writeToFile($data, $file){
-		if (is_dir($file)) {
-			return null;
-		}
-		if (function_exists("file_put_contents")) {
-			$bytes = @file_put_contents($file, $data->body);
-			return $bytes == $data->content_length;
-		}
-
-		$handle = @fopen($file, 'w+');
-		$bytes = fwrite($handle, $data->body);
-		@fclose($handle);
-
-		return $bytes == $data->content_length;
 	}
 
 	public  function getProductByField($field, $value, $language_id, $store_id) {
@@ -1015,7 +974,7 @@ class ModelToolImportProcess extends Model{
 						'alias' => 'manufacturer name'
 					),
 					'images.image' =>  array(
-						'title' => "Image URL or List of URLs",
+						'title' => "Image or List of URLs/Paths",
 						'split' => 1,
 						'multivalue' => 1,
 						'alias' => 'image url'
@@ -1111,7 +1070,7 @@ class ModelToolImportProcess extends Model{
 						'alias' => 'meta description'
 					),
 					'images.image' =>  array(
-						'title' => "Image URL or List of URLs",
+						'title' => "Image or List of URLs/Paths",
 						'split' => 1,
 						'multivalue' => 1,
 						'alias' => 'image'
@@ -1135,7 +1094,7 @@ class ModelToolImportProcess extends Model{
 						'alias' => 'name'
 					),
 					'images.image' =>  array(
-						'title' => "Image URL or List of URLs",
+						'title' => "Image or List of URLs/Paths",
 						'split' => 1,
 						'multivalue' => 1,
 						'alias' => 'image'
