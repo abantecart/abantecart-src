@@ -26,6 +26,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
  * @property ModelToolImportProcess $model_tool_import_process
  * @property ModelCatalogProduct $model_catalog_product
  * @property ModelCatalogManufacturer $model_catalog_manufacturer
+ * @property ModelLocalisationWeightClass $model_localisation_weight_class
  */
 class ModelToolImportProcess extends Model{
 	public $errors = array ();
@@ -233,15 +234,15 @@ class ModelToolImportProcess extends Model{
 			$product,
 			array (
 			'manufacturer_id'     => $manufacturer_id,
-            )
+			)
 		);
 
 		$this->load->model('catalog/product');
 		if ($new_product) {
 
-            $product_data['product_description'] = array (
-                $language_id => $product_desc
-            );
+			$product_data['product_description'] = array (
+				$language_id => $product_desc
+			);
 
 			//apply default settings for new products only
 			$default_arr = array(
@@ -267,8 +268,8 @@ class ModelToolImportProcess extends Model{
 			}
 
 		} else {
-            //flat array for description (specific for update)
-            $product_data['product_description'] = $product_desc;
+			//flat array for description (specific for update)
+			$product_data['product_description'] = $product_desc;
 			$this->model_catalog_product->updateProduct($product_id, $product_data);
 			$this->toLog("Updated product '{$product_desc['name']}' with ID {$product_id}.");
 			$status = true;
@@ -404,10 +405,10 @@ class ModelToolImportProcess extends Model{
 
 		//add new options for each option
 		for ($i = 0; $i < count($data); $i++) {
-            //skip empty arrays
-            if (!is_array($data[$i]) || !array_filter($data[$i]) || !$data[$i]['name']) {
-                continue;
-            }
+			//skip empty arrays
+			if (!is_array($data[$i]) || !array_filter($data[$i]) || !$data[$i]['name']) {
+				continue;
+			}
 
 			$opt_data = array (
 				'option_name'        => $data[$i]['name'],
@@ -431,62 +432,62 @@ class ModelToolImportProcess extends Model{
 			//now load values. Pick longest data array
 			$option_vals = $data[$i]['product_option_values'];
 
-            //find largest key by count
+			//find largest key by count
 			$counts = array_map('count', $option_vals);
-            if (max($counts) == 1) {
-                //single option value case
-                $this->_save_option_value($product_id, $weight_class_id, $p_option_id, $option_vals);
-            } else {
-                for ($j = 0; $j < max($counts); $j++) {
-                    //build flat associative array options value
-                    $opt_val_data = array();
-                    foreach (array_keys($option_vals) as $key) {
-                        $opt_val_data[$key] = $option_vals[$key][$j];
-                    }
-                    $this->_save_option_value($product_id, $weight_class_id, $p_option_id, $opt_val_data);
-                }
-            }
+			if (max($counts) == 1) {
+				//single option value case
+				$this->_save_option_value($product_id, $weight_class_id, $p_option_id, $option_vals);
+			} else {
+				for ($j = 0; $j < max($counts); $j++) {
+					//build flat associative array options value
+					$opt_val_data = array();
+					foreach (array_keys($option_vals) as $key) {
+						$opt_val_data[$key] = $option_vals[$key][$j];
+					}
+					$this->_save_option_value($product_id, $weight_class_id, $p_option_id, $opt_val_data);
+				}
+			}
 		}
 		return true;
 	}
 
 	protected function _save_option_value($product_id, $weight_class_id, $p_option_id, $data) {
-        if(empty($data) || !array_filter($data)) {
-            //skip empty data
-            return false;
-        }
+		if(empty($data) || !array_filter($data)) {
+			//skip empty data
+			return false;
+		}
 
-        $opt_val_data = array();
-        $opt_keys = array(  'name' => '',
-            'sku' => '',
-            'quantity' => 0,
-            'sort_order' => 0,
-            'subtract' => 0,
-            'prefix' => '$',
-            'weight' => 0,
-            'weight_type' => 'lbs',
-            'default' => 0,
-            'price' => 0
-        );
-        foreach ($opt_keys as $k => $v) {
-            $opt_val_data[$k] = $v;
-            if(isset($data[$k])){
-                $opt_val_data[$k] = $data[$k];
-            }
-        }
-        //enable stock taking if quantity specified
-        if ($opt_val_data['quantity'] > 0) {
-            $opt_val_data['subtract'] = 1;
-        }
+		$opt_val_data = array();
+		$opt_keys = array(  'name' => '',
+			'sku' => '',
+			'quantity' => 0,
+			'sort_order' => 0,
+			'subtract' => 0,
+			'prefix' => '$',
+			'weight' => 0,
+			'weight_type' => 'lbs',
+			'default' => 0,
+			'price' => 0
+		);
+		foreach ($opt_keys as $k => $v) {
+			$opt_val_data[$k] = $v;
+			if(isset($data[$k])){
+				$opt_val_data[$k] = $data[$k];
+			}
+		}
+		//enable stock taking if quantity specified
+		if ($opt_val_data['quantity'] > 0) {
+			$opt_val_data['subtract'] = 1;
+		}
 
-        $this->load->model('localisation/weight_class');
-        $prd_weight_info = $this->model_localisation_weight_class->getWeightClass($weight_class_id);
-        if ($prd_weight_info['unit']) {
-            $opt_val_data['weight_type'] = $prd_weight_info['unit'];
-        }
+		$this->load->model('localisation/weight_class');
+		$prd_weight_info = $this->model_localisation_weight_class->getWeightClass($weight_class_id);
+		if ($prd_weight_info['unit']) {
+			$opt_val_data['weight_type'] = $prd_weight_info['unit'];
+		}
 
-        return $this->model_catalog_product->addProductOptionValueAndDescription($product_id, $p_option_id, $opt_val_data);
-    }
+		return $this->model_catalog_product->addProductOptionValueAndDescription($product_id, $p_option_id, $opt_val_data);
+	}
 
 	//add from URL download
 	protected function _migrateImages($data = array (), $object_txt_id = '', $object_id = 0, $title = '', $language_id){
@@ -516,52 +517,53 @@ class ModelToolImportProcess extends Model{
 				continue;
 			}
 			//check if image is absolute path or remote URL
-            $host = parse_url($source, PHP_URL_HOST);
-            $image_basename = basename($source);
-            $target = DIR_RESOURCE . $rm->getTypeDir() . '/' . $image_basename;
-            if (!is_dir(DIR_RESOURCE . $rm->getTypeDir())){
-                @mkdir(DIR_RESOURCE . $rm->getTypeDir(), 0777);
-            }
+			$host = parse_url($source, PHP_URL_HOST);
+			$image_basename = basename($source);
+			$target = DIR_RESOURCE . $rm->getTypeDir() . '/' . $image_basename;
+			if (!is_dir(DIR_RESOURCE . $rm->getTypeDir())){
+				@mkdir(DIR_RESOURCE . $rm->getTypeDir(), 0777);
+			}
 
-            if ($host === NULL ) {
-                //this is a path to file
-                if (!copy($source, $target)){
-                    $this->toLog("Error: Unable to copy file {$source} to {$target}");
-                    continue;
-                }
-            } else {
-                //this is URL to image. Download first
-                $fl = new AFile();
-                if (($file = $fl->downloadFile($source)) === false) {
-                    $this->toLog("Error: Unable to download file from {$source} ");
-                }
-                if (!$fl->writeDownloadToFile($file, $target)){
-                    $this->toLog("Error: Unable to save downloaded file to ".$target);
-                    continue;
-                }
-            }
+			if ($host === NULL ) {
+				//this is a path to file
+				if (!copy($source, $target)){
+					$this->toLog("Error: Unable to copy file {$source} to {$target}");
+					continue;
+				}
+			} else {
+				//this is URL to image. Download first
+				$fl = new AFile();
+				if (($file = $fl->downloadFile($source)) === false) {
+					$this->toLog("Error: Unable to download file from {$source} ");
+					continue;
+				}
+				if (!$fl->writeDownloadToFile($file, $target)){
+					$this->toLog("Error: Unable to save downloaded file to ".$target);
+					continue;
+				}
+			}
 
-            //save resource
-            $resource = array (
-                'language_id'   => $language_id,
-                'name'          => array(),
-                'title'         => array(),
-                'description'   => '',
-                'resource_path' => $image_basename,
-                'resource_code' => ''
-            );
-            foreach ($language_list as $lang) {
-                $resource['name'][$lang['language_id']] = $title;
-                $resource['title'][$lang['language_id']] = $title;
-            }
-            $resource_id = $rm->addResource($resource);
-            if ($resource_id) {
-                $this->toLog("Map image resource : ". $image_basename ." ". $resource_id );
-                $rm->mapResource($object_txt_id, $object_id, $resource_id);
-            } else {
-                $this->toLog("Error: Image resource can not be created. " . $this->db->error);
-                continue;
-            }
+			//save resource
+			$resource = array (
+				'language_id'   => $language_id,
+				'name'          => array(),
+				'title'         => array(),
+				'description'   => '',
+				'resource_path' => $image_basename,
+				'resource_code' => ''
+			);
+			foreach ($language_list as $lang) {
+				$resource['name'][$lang['language_id']] = $title;
+				$resource['title'][$lang['language_id']] = $title;
+			}
+			$resource_id = $rm->addResource($resource);
+			if ($resource_id) {
+				$this->toLog("Map image resource : ". $image_basename ." ". $resource_id );
+				$rm->mapResource($object_txt_id, $object_id, $resource_id);
+			} else {
+				$this->toLog("Error: Image resource can not be created. " . $this->db->error);
+				continue;
+			}
 		}
 
 		return true;
@@ -1047,10 +1049,10 @@ class ModelToolImportProcess extends Model{
 						'title' => 'Sorting Order(Number)',
 						'alias' => 'sort order'
 					),
-                    'categories.keyword' => array(
-                        'title' => 'SEO URL',
-                        'alias' => 'seo url'
-                    ),
+					'categories.keyword' => array(
+						'title' => 'SEO URL',
+						'alias' => 'seo url'
+					),
 					'category_descriptions.name' => array(
 						'title' => 'Category Name or Tree',
 						'required' => true,
@@ -1085,10 +1087,10 @@ class ModelToolImportProcess extends Model{
 						'default' => 0,
 						'alias' => 'sort order'
 					),
-                    'manufacturers.keyword' => array(
-                        'title' => 'SEO URL',
-                        'alias' => 'seo url'
-                    ),
+					'manufacturers.keyword' => array(
+						'title' => 'SEO URL',
+						'alias' => 'seo url'
+					),
 					'manufacturers.name' => array(
 						'title' => 'Name (up to 64 chars)',
 						'required' => true,
