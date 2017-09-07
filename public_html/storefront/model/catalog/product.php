@@ -175,6 +175,7 @@ class ModelCatalogProduct extends Model{
 						p.sku,
 						p.location,
 						p.quantity,
+						p.stock_checkout,
 						p.stock_status_id,
 						p.manufacturer_id,
 						p.shipping,
