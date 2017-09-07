@@ -540,6 +540,7 @@ class ABackup{
 			//skip backup, cache and logs
 			if (is_int(strpos($real_path, $this->slash.'backup'))
 					|| is_int(strpos($real_path, $this->slash.'cache'))
+					|| is_int(strpos($real_path, $this->slash.'thumbnails'))
 					|| is_int(strpos($real_path, $this->slash.'logs'))){
 				continue;
 			}
