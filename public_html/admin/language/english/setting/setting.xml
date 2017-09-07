@@ -278,12 +278,12 @@
 	<definition>
 		<key>entry_stock_checkout</key>
 		<value>
-			<![CDATA[Stock Checkout:<br /><span class="help">Allow customers to still checkout if the products they are ordering are not in stock.</span>]]></value>
+			<![CDATA[Default Stock Checkout:<br /><span class="help">Set default setting Stock Checkout for new products.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_stock_status</key>
 		<value>
-			<![CDATA[Stock Status:<br /><span class="help">Default setting for out of stock status message for product. Used on product edit page.</span>]]></value>
+			<![CDATA[Default Pre-Order Stock Status:<br /><span class="help">Default setting for Pre-order status message for product. Used on product edit page.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_logo</key>
@@ -925,7 +925,7 @@
 	<definition>
 		<key>entry_expire_order_days</key>
 		<value>
-			<![CDATA[Incomplete Order Expiration:<br /><br /><span class="help">This value controls time interval in days before incomplete orders will be deleted. Empty value means that no orders will be to deleted.</span>]]></value>
+			<![CDATA[Incomplete Order Expiration:<br /><span class="help">This value controls time interval in days before incomplete orders will be deleted. Empty value means that no orders will be to deleted.</span>]]></value>
 	</definition>
 	<definition>
 		<key>error_expire_order_days</key>
