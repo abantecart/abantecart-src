@@ -73,7 +73,7 @@ class ControllerCommonSeoUrl extends AController {
 			$this->extensions->hk_ProcessData($this,'seo_url');
 			if (isset($this->request->get['rt'])) {
 				//build canonical seo-url
-				if($this->config->get('enable_seo_url') && sizeof($parts)>1){
+				if(sizeof($parts)>1){
 					$this->_add_canonical_url('url', (HTTPS === true ? HTTPS_SERVER : HTTP_SERVER) . end($parts));
 				}
 
@@ -83,17 +83,13 @@ class ControllerCommonSeoUrl extends AController {
 					$this->request->get['rt'] = substr($this->request->get['rt'],6);
 				}
 				unset($this->request->get['_route_']);
-				$this->_add_canonical_url('url');
+				$this->_add_canonical_url('seo');
 				//Update router with new RT
 				$this->router->resetController($rt);
 				return $this->dispatch($rt,$this->request->get);
 			}
 		}else{
-			if($this->config->get('enable_seo_url')){
 				$this->_add_canonical_url('seo');
-			}else{
-				$this->_add_canonical_url('url');
-			}
 		}
 
 		//init controller data
@@ -101,7 +97,7 @@ class ControllerCommonSeoUrl extends AController {
 	}
 
 	protected function _add_canonical_url( $mode = 'seo', $url = '' ){
-		if($this->is_set_canonical){
+		if($this->is_set_canonical || !$this->config->get('enable_seo_url')){
 			return false;
 		}
 		if(!$url) {
