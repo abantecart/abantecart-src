@@ -766,7 +766,7 @@ function compressTarGZ($tar_filename, $tar_dir, $compress_level = 5){
 				gzip($tar, $compress_level);
 				unlink($tar);
 			}
-		}catch (Exception $e){
+		}catch (PharException $e){
 			$error = new AError( 'Tar GZ compressing error: '. $e->getMessage() );
 			$error->toLog()->toDebug();
 			$exit_code =1;
