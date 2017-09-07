@@ -30,7 +30,7 @@ ob_start();
 $root_path = dirname(__FILE__);
 
 // Windows IIS Compatibility  
-if (stristr(PHP_OS, 'WIN')){
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 	define('IS_WINDOWS', true);
 	$root_path = str_replace('\\', '/', $root_path);
 }
