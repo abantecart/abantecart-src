@@ -799,6 +799,10 @@ class HtmlElementFactory{
 /**
  * @abstract
  * Class HtmlElement
+ * @property mixed $value
+ * @property array $options
+ * @property array $disabled_options
+ * @property bool $required
  */
 abstract class HtmlElement{
 	/**
@@ -885,6 +889,7 @@ abstract class HtmlElement{
 	}
 
 	protected function _validate_options(){
+		$this->disabled_options = (array)$this->disabled_options;
 		//check case when all options are disabled
 		$all_disabled = true;
 		foreach( $this->options as $id=>$text ){
