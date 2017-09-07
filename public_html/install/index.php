@@ -36,6 +36,8 @@ if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] 
 	define('HTTPS', true);
 } elseif (isset($_SERVER['HTTP_HOST']) && (strpos($_SERVER['HTTP_HOST'], ':443') !== false)) {
 	define('HTTPS', true);
+}else{
+	define('HTTPS', false);
 }
 
 // HTTP
