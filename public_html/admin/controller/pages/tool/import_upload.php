@@ -132,7 +132,7 @@ class ControllerPagesToolImportUpload extends AController {
 			} else {
 				return array('error' => $this->language->get('error_data_corrupted'));
 			}
-			$res['request_count'] = -1; //deduct header
+			$res['request_count'] = 0;
 			while(!feof($fh)){
 				fgetcsv($fh);
 				$res['request_count']++;
