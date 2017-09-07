@@ -510,7 +510,7 @@ class ControllerPagesProductProduct extends AController{
 				$this->data['can_buy'] = true;
 				$this->data['in_stock'] = true;
 				$this->data['stock'] = '';
-				if( $this->config->get('config_stock_display') && $product_info['quantity'] > 0 ){
+				if( $this->config->get('config_stock_display') && $product_info['quantity'] > 0 && $product_info['subtract']){
 					$this->data['stock'] = $product_info['quantity'].' ';
 				}
 				if($product_info['quantity'] <=0 ) {
@@ -569,7 +569,6 @@ class ControllerPagesProductProduct extends AController{
 						   'thumb' => array('width'  => $this->config->get('config_image_related_width'),
 											'height' => $this->config->get('config_image_related_height')));
 			$image = $resource->getResourceAllObjects('products', $result['product_id'], $sizes, 1);
-
 
 			if($this->config->get('enable_reviews')){
 				$rating = $this->model_catalog_review->getAverageRating($result['product_id']);
