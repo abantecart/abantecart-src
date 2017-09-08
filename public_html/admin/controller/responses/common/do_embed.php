@@ -131,6 +131,7 @@ class ControllerResponsesCommonDoEmbed extends AController {
 		if(sizeof($product_stores) == 1){
 			$remote_store_url = $product_stores[0]['store_url'];
 		}
+		$remote_store_url = str_replace( array( 'http://', 'https://' ), '//', $remote_store_url);
 
 		$this->data['sf_js_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/js';
 		$this->data['sf_base_url'] = $remote_store_url;
