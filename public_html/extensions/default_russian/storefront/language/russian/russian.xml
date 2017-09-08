@@ -336,4 +336,8 @@
 		<key>text_back_on_top</key>
 		<value><![CDATA[Вернуться к началу]]></value>
 	</definition>
+	<definition>
+		<key>text_out_of_stock</key>
+		<value><![CDATA[Нет в наличии]]></value>
+	</definition>
 </definitions>

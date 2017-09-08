@@ -212,13 +212,14 @@ class ControllerPagesProductCategory extends AController {
 					//check for stock status, availability and config
 					$track_stock = false;
 					$in_stock = false;
-					$no_stock_text = $result['stock'];
+					$no_stock_text = $this->language->get('text_out_of_stock');
 					$total_quantity = 0;
+					$stock_checkout = $result['stock_checkout'] === '' ?  $this->config->get('config_stock_checkout') : $result['stock_checkout'];
 					if ( $stock_info[$result['product_id']]['subtract'] ) {
 						$track_stock = true;
 						$total_quantity = $stock_info[$result['product_id']]['quantity'];
 						//we have stock or out of stock checkout is allowed
-						if ($total_quantity > 0 || $this->config->get('config_stock_checkout')) {
+						if ($total_quantity > 0 || $stock_checkout) {
 							$in_stock = true;
 						}
 					}

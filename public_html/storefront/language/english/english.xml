@@ -333,4 +333,8 @@
 		<key>text_back_on_top</key>
 		<value><![CDATA[Back to top]]></value>
 	</definition>
+	<definition>
+		<key>text_out_of_stock</key>
+		<value><![CDATA[Out of Stock]]></value>
+	</definition>
 </definitions>

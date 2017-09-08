@@ -21,28 +21,25 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerBlocksBestSeller extends AController {
-
 	public $data;
-
 	public function main() {
-
 		//disable cache when login display price setting is off or enabled showing of prices with taxes
 		if( ($this->config->get('config_customer_price') && !$this->config->get('config_tax'))
 			&&	$this->html_cache()	){
 			return null;
 		}
 
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-      	$this->data['heading_title'] = $this->language->get('heading_title', 'blocks/bestseller');
-		
+		$this->data['heading_title'] = $this->language->get('heading_title', 'blocks/bestseller');
+
 		$this->loadModel('catalog/product');
 		$this->loadModel('catalog/review');
 		$this->loadModel('tool/image');
 
 		$this->data['button_add_to_cart'] = $this->language->get('button_add_to_cart');
-		
+
 		$this->data['products'] = array();
 
 		$results = $this->model_catalog_product->getBestSellerProducts($this->config->get('config_bestseller_limit'));
@@ -76,7 +73,7 @@ class ControllerBlocksBestSeller extends AController {
 				$special = $products_info[$result['product_id']]['special'];
 				if ($special) {
 					$special = $this->currency->format($this->tax->calculate($special, $result['tax_class_id'], $this->config->get('config_tax')));
-				}						
+				}
 			}
 
 			$options = $products_info[$result['product_id']]['options'];
@@ -84,27 +81,28 @@ class ControllerBlocksBestSeller extends AController {
 			if ($options) {
 				$add = $this->html->getSEOURL('product/product', '&product_id=' . $result['product_id'], '&encode');
 			} else {
-                if($this->config->get('config_cart_ajax')){
-                    $add = '#';
-                }else{
-                    $add = $this->html->getSecureURL('checkout/cart', '&product_id=' . $result['product_id'], '&encode');
-                }
+				if($this->config->get('config_cart_ajax')){
+					$add = '#';
+				}else{
+					$add = $this->html->getSecureURL('checkout/cart', '&product_id=' . $result['product_id'], '&encode');
+				}
 			}
 
 			//check for stock status, availability and config
 			$track_stock = false;
 			$in_stock = false;
-			$no_stock_text = $result['stock'];
+			$no_stock_text = $this->language->get('text_out_of_stock');
 			$total_quantity = 0;
+			$stock_checkout = $result['stock_checkout'] === '' ?  $this->config->get('config_stock_checkout') : $result['stock_checkout'];
 			if ( $stock_info[$result['product_id']]['subtract'] ) {
 				$track_stock = true;
-    			$total_quantity = $stock_info[$result['product_id']]['quantity'];
-    			//we have stock or out of stock checkout is allowed
-    			if ($total_quantity > 0 || $this->config->get('config_stock_checkout')) {
-	    			$in_stock = true;
-    			}
+				$total_quantity = $stock_info[$result['product_id']]['quantity'];
+				//we have stock or out of stock checkout is allowed
+				if ($total_quantity > 0 || $stock_checkout) {
+					$in_stock = true;
+				}
 			}
-			
+
 			$this->data['products'][] = array(
 				'product_id'    => $result['product_id'],
 				'name'    		=> $result['name'],
@@ -138,9 +136,9 @@ class ControllerBlocksBestSeller extends AController {
 		// framed needs to show frames for generic block.
 		//If tpl used by listing block framed was set by listing block settings
 		$this->data['block_framed'] = true;
-        $this->view->batchAssign($this->data);
-        $this->processTemplate();
-        //init controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->view->batchAssign($this->data);
+		$this->processTemplate();
+		//init controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 }
