@@ -898,7 +898,8 @@ abstract class HtmlElement{
 				break;
 			}
 		}
-		if($all_disabled){
+		//if all disabled and options presents (for select-chosen element or empty)
+		if($all_disabled && $this->options){
 			if(in_array($this->data['type'], array('selectbox', 'multiselectbox' ))) {
 				$this->options = array ('' => '------') + $this->options;
 			}
@@ -1273,7 +1274,9 @@ class SelectboxHtmlElement extends HtmlElement{
 	 */
 	public function getHtml(){
 
-		if (!is_array($this->value)) $this->value = array ($this->value => (string)$this->value);
+		if (!is_array($this->value)){
+			$this->value = array ($this->value => (string)$this->value);
+		}
 
 		$this->options = !$this->options ? array () : (array)$this->options;
 		foreach ($this->options as &$opt){
@@ -2521,7 +2524,7 @@ class LabelHtmlElement extends HtmlElement{
 	 */
 	public function getHtml(){
 		if(IS_ADMIN === true){
-			ADebug::error('labelHtmlElement','You cannot to build Label-field from Admin-side!');
+			ADebug::error('labelHtmlElement', E_USER_ERROR, 'You cannot to build Label-field from Admin-side!');
 			return null;
 		}
 
