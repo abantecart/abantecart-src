@@ -1355,7 +1355,9 @@ class MultiSelectboxHtmlElement extends HtmlElement{
 	 */
 	public function getHtml(){
 
-		if (!is_array($this->value)) $this->value = array ($this->value => $this->value);
+		if (!is_array($this->value)){
+			$this->value = array ($this->value => $this->value);
+		}
 		$this->_validate_options();
 		$this->view->batchAssign(
 				array (
@@ -2218,10 +2220,12 @@ class ZonesHtmlElement extends HtmlElement{
 	}
 
 	public function getHtml(){
-		if ($this->value && !is_array($this->value)){
-			$this->value = array ($this->value => (string)$this->value);
-		} else{
-			$this->value = array ();
+		if (!is_array($this->value)){
+			if(!$this->value){
+				$this->value = array();
+			}else {
+				$this->value = array ($this->value => (string)$this->value);
+			}
 		}
 
 		$this->zone_name = !$this->zone_name ? '' : urlencode($this->zone_name);
