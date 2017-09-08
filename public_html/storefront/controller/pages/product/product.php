@@ -429,15 +429,14 @@ class ControllerPagesProductProduct extends AController{
 				}
 				$values[$option_value['product_option_value_id']] = $option_value['name'] . ' ' . $price . ' ' . $opt_stock_message;
 				if($option['element_type'] == 'B'){
-					$default_value = $option_value['name'];
-					if($price || $opt_stock_message){
+					$name = $default_value = preg_replace( "/\r|\n/", " ", $option_value['name']);
+					if($price){
 						$default_value .= '</br>';
+						$name .= ' ';
 					}
 					if($price){
 						$default_value .= $price.' ';
-					}
-					if($opt_stock_message){
-						$default_value .= $opt_stock_message;
+						$name .= $price;
 					}
 					$option['required'] = false;
 				}
@@ -453,6 +452,8 @@ class ControllerPagesProductProduct extends AController{
 						$option['name'] .= '<br />' . $opt_stock_message;
 					}
 					$value = $default_value ? $default_value : $name;
+				}elseif( $option['element_type'] == 'B' ){
+					$value = $name;
 				}
 
 				//set default selection is nothing selected
