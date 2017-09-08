@@ -419,14 +419,12 @@ class ControllerPagesProductProduct extends AController{
 					} else{
 						if($this->config->get('config_stock_display')){
 							if( $option_value['quantity'] > 0 ){
-								$opt_stock_message = $option_value['quantity'] . " ";
+								$opt_stock_message = $option_value['quantity'] . " ". $this->language->get('text_instock');
 							}
-							$opt_stock_message .= $this->language->get('text_instock');
 						}
 					}
-				}else{
-					$opt_stock_message = $this->language->get('text_instock');
 				}
+
 				$values[$option_value['product_option_value_id']] = $option_value['name'] . ' ' . $price . ' ' . $opt_stock_message;
 				if($option['element_type'] == 'B'){
 					$name = $default_value = preg_replace( "/\r|\n/", " ", $option_value['name']);
