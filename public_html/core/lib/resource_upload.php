@@ -277,8 +277,9 @@ class ResourceUploadHandler{
 		}
 
 		if ($error_text){
+			//todo: add this into abc sys-log in the future
 			$error = new AError($error_text);
-			$error->toLog();
+			$error->toDebug();
 		}
 
 		return $file;
