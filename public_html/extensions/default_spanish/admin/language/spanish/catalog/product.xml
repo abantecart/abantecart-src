@@ -624,4 +624,12 @@
 		<key>text_success_relation_set</key>
 		<value><![CDATA[Las relaciones de los productos seleccionados se estableció con éxito!]]></value>
 	</definition>
+	<definition>
+		<key>text_success_copy_layout</key>
+		<value><![CDATA[Nota: La distribución de productos personalizada también se ha clonado.]]></value>
+	</definition>
+	<definition>
+		<key>entry_stock_checkout</key>
+		<value><![CDATA[Stock Checkout: <br/><span class="help">Permita que los clientes continúen comprando si los productos que están pidiendo no están en stock.</span>]]></value>
+	</definition>
 </definitions>

@@ -931,4 +931,8 @@ imagen</span>]]></value>
 		<key>entry_duplicate_contact_us</key>
 		<value><![CDATA[Duplicar contacto Las consultas a los mensajes]]></value>
 	</definition>
+	<definition>
+		<key>entry_mail_logo</key>
+		<value><![CDATA[Logotipo de correo electrónico:]]></value>
+	</definition>
 </definitions>

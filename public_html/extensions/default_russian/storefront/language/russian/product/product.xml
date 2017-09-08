@@ -86,8 +86,7 @@
 	</definition>
 	<definition>
 		<key>text_success</key>
-		<value>
-			<![CDATA[Спасибо за ваш отзыв. Он поступил администратору для проверки на спам и вскоре будет опубликован.]]></value>
+		<value><![CDATA[Спасибо за ваш отзыв. Он поступил администратору для проверки на спам и вскоре будет опубликован.]]></value>
 	</definition>
 	<definition>
 		<key>text_wait</key>
@@ -169,20 +168,24 @@
 		<key>text_login_view_price</key>
 		<value><![CDATA[Пожалуйста, войдите или зарегистрируйтесь, чтобы увидеть цену или заказать.]]></value>
 	</definition>
-    <definition>
-        <key>tab_downloads</key>
-        <value><![CDATA[Загрузки]]></value>
-    </definition>
+	<definition>
+		<key>tab_downloads</key>
+		<value><![CDATA[Загрузки]]></value>
+	</definition>
 	<definition>
 		<key>text_start_download</key>
 		<value><![CDATA[Скачать]]></value>
 	</definition>
 	<definition>
 		<key>text_new_review</key>
-		<value><![CDATA[Product review approval is pending]]></value>
-	</definition>	
+		<value><![CDATA[Ожидание одобрения отзыва продукта]]></value>
+	</definition>
 	<definition>
 		<key>text_pending_review_approval</key>
-		<value><![CDATA[Review for product id %s is posted. Action of approval is required! Click to view #admin#rt=catalog/review/update&review_id=%s]]></value>
-	</definition>	
+		<value><![CDATA[Отзыв о продукте № %s сохранен. Требуется одобрение. Кликните чтобы просмотреть #admin#rt=catalog/review/update&review_id=%s]]></value>
+	</definition>
+	<definition>
+		<key>text_out_of_stock</key>
+		<value><![CDATA[Нет на складе]]></value>
+	</definition>
 </definitions>

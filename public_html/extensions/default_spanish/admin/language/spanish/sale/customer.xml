@@ -368,4 +368,8 @@
 		<key>text_never</key>
 		<value><![CDATA[Nunca]]></value>
 	</definition>
+	<definition>
+		<key>text_other_type_placeholder</key>
+		<value><![CDATA[escriba el nuevo nombre aquí]]></value>
+	</definition>
 </definitions>

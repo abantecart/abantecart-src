@@ -124,4 +124,100 @@
 		<key>error_file_empty</key>
 		<value><![CDATA[Archivo está vacío.]]></value>
 	</definition>
+	<definition>
+		<key>import_wizard_title</key>
+		<value><![CDATA[Asistente para importar datos]]></value>
+	</definition>
+	<definition>
+		<key>tab_import_wizard</key>
+		<value><![CDATA[Asistente de importación]]></value>
+	</definition>
+	<definition>
+		<key>text_load_file_notes</key>
+		<value><![CDATA[Puede cargar CSV o archivo de texto para importar datos. Para la estructura de datos, puede seguir el formato propietario (ver exportación) o formato libre. <br/> Para datos con formato libre, deberá mapear los elementos de datos manualmente. Sólo se admiten productos y categorías para la importación gratuita de formatos.]]></value>
+	</definition>
+	<definition>
+		<key>text_import_wizard_notes</key>
+		<value><![CDATA[Seleccione una tabla de destino y un campo de base de datos correspondiente a cada columna de datos de importación proporcionada. Si no se selecciona ningún campo, los datos de la columna de entrada se ignorarán. <br/><b>Nota:</b> Los valores de idioma y de datos específicos del almacén se asignarán al almacén de contenido actual y al idioma seleccionado]]></value>
+	</definition>
+	<definition>
+		<key>text_records_to_be_loaded</key>
+		<value><![CDATA[Habrá %s registros cargados y procesados ​​en esta importación!]]></value>
+	</definition>
+	<definition>
+		<key>text_import_task_title</key>
+		<value><![CDATA[Ejecución del proceso de importación]]></value>
+	</definition>
+	<definition>
+		<key>text_import_file_col</key>
+		<value><![CDATA[Importar columna de archivo]]></value>
+	</definition>
+	<definition>
+		<key>text_import_file_data</key>
+		<value><![CDATA[Muestra de datos de importación]]></value>
+	</definition>
+	<definition>
+		<key>text_destination_col</key>
+		<value><![CDATA[Seleccionar tabla de destino]]></value>
+	</definition>
+	<definition>
+		<key>text_import_update_on</key>
+		<value><![CDATA[Actualizar si existe]]></value>
+	</definition>
+	<definition>
+		<key>text_import_split</key>
+		<value><![CDATA[Dividir datos por]]></value>
+	</definition>
+	<definition>
+		<key>title_export_map</key>
+		<value><![CDATA[Seleccione, copie y guarde esta asignación para su uso futuro.]]></value>
+	</definition>
+	<definition>
+		<key>text_export_map</key>
+		<value><![CDATA[Cartografía de exportación]]></value>
+	</definition>
+	<definition>
+		<key>title_load_map</key>
+		<value><![CDATA[Publicar en el campo debajo de los datos de asignación guardados previamente]]></value>
+	</definition>
+	<definition>
+		<key>text_load_map</key>
+		<value><![CDATA[Cartografía de carga]]></value>
+	</definition>
+	<definition>
+		<key>error_table_selection</key>
+		<value><![CDATA[¡Ninguna tabla de destino de importación o campos seleccionados!]]></value>
+	</definition>
+	<definition>
+		<key>error_required_selection</key>
+		<value><![CDATA[Falta el campo de datos obligatorio &#39;%s&#39; para la tabla de destino.]]></value>
+	</definition>
+	<definition>
+		<key>error_tmp_dir_non_writable</key>
+		<value><![CDATA[¡El Directorio Temporal %s no puede escribirse! Por favor, cambie los permisos para continuar.]]></value>
+	</definition>
+	<definition>
+		<key>error_empty_request</key>
+		<value><![CDATA[Solicitud vacía.]]></value>
+	</definition>
+	<definition>
+		<key>text_complete_import</key>
+		<value><![CDATA[Se ha completado el proceso de importación. %s fila (s) procesada (s).]]></value>
+	</definition>
+	<definition>
+		<key>text_see_log</key>
+		<value><![CDATA[Para más detalles vea <a href="%s" target="_new">el archivo de registro %s</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_success_abort</key>
+		<value><![CDATA[Tarea interrumpida correctamente.]]></value>
+	</definition>
+	<definition>
+		<key>button_schedule_import</key>
+		<value><![CDATA[Importación de horarios]]></value>
+	</definition>
+	<definition>
+		<key>text_success_scheduled</key>
+		<value><![CDATA[Éxito: ha creado correctamente la tarea de importación programada. <a href="%s">Ver detalles</a>]]></value>
+	</definition>
 </definitions>
