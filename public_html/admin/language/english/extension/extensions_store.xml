@@ -179,7 +179,7 @@
 	<definition>
 		<key>text_no_purchase_or_not_connected</key>
 		<value>
-			<![CDATA[You have no purchases for this store or this store was diconnected from the Marketplace.]]></value>
+			<![CDATA[You have no purchases for this store or this store was disconnected from the Marketplace.]]></value>
 	</definition>
 	<definition>
 		<key>text_no_extensions_loaded</key>
