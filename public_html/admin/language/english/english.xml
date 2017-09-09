@@ -749,4 +749,8 @@
 		<key>text_back_to_list</key>
 		<value><![CDATA[Back to listing]]></value>
 	</definition>
+	<definition>
+		<key>text_help_link</key>
+		<value><![CDATA[<a href="http://www.abantecart.com/contact-us" target="_abantecart">Need help?</a>]]></value>
+	</definition>
 </definitions>
