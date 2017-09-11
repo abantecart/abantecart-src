@@ -771,10 +771,15 @@ class ControllerPagesCatalogProduct extends AController {
 		));
 
 		$this->data['form']['fields']['data']['stock_checkout'] = $form->getFieldHtml(array (
-						'type'  => 'checkbox',
-						'name'  => 'stock_checkout',
-						'value' => (has_value($this->data['stock_checkout']) ? (int)$this->data['stock_checkout'] : $this->config->get('config_stock_checkout') ) ,
-						'style' => 'btn_switch',
+            'type'  => 'selectbox',
+            'name'  => 'stock_checkout',
+            'value' => (has_value($this->data['stock_checkout']) ? $this->data['stock_checkout'] : '' ),
+            'options' => array (
+                '' => $this->language->get('text_default'),
+                0  => $this->language->get('text_no'),
+                1  => $this->language->get('text_yes'),
+            ),
+            'style' => 'small-field',
 		));
 
 		$this->data['form']['fields']['data']['stock_status'] = $form->getFieldHtml(array(

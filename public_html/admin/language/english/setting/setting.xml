@@ -278,7 +278,7 @@
 	<definition>
 		<key>entry_stock_checkout</key>
 		<value>
-			<![CDATA[Default Stock Checkout:<br /><span class="help">Set default setting Stock Checkout for new products.</span>]]></value>
+			<![CDATA[Default Stock Checkout:<br /><span class="help">Set default setting to allow customers checkout even if the products are out of stock</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_stock_status</key>

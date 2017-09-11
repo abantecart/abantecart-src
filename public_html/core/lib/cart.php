@@ -220,10 +220,9 @@ class ACart{
 			return array ();
 		}
 
-		if($product_query['stock_checkout'] === '' || !has_value($product_query['stock_checkout'])) {
+        $stock_checkout = $product_query['stock_checkout'];
+		if (!has_value($stock_checkout)) {
 			$stock_checkout = $this->config->get('config_stock_checkout');
-		}else{
-			$stock_checkout = $product_query['stock_checkout'];
 		}
 
 		$option_price = 0;

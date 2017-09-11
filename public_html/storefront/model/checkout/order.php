@@ -339,7 +339,7 @@ class ModelCheckoutOrder extends Model{
 		$order_row = $this->dcrypt->decrypt_data($order_query->row, 'orders');
 		$update = array ();
 
-		//update order status
+        //update order status
 		$update[] = "order_status_id = '" . (int)$order_status_id . "'";
 		$sql = "UPDATE `" . $this->db->table("orders") . "`
 			    SET " . implode(", ", $update) . "
@@ -358,39 +358,24 @@ class ModelCheckoutOrder extends Model{
 		$order_product_query = $this->db->query("SELECT *
 												 FROM " . $this->db->table("order_products") . "
 												 WHERE order_id = '" . (int)$order_id . "'");
-		//update products inventory
 		// load language for IM
 		$language = new ALanguage($this->registry);
 		$language->load('common/im');
 
-		foreach ($order_product_query->rows as $product){
-			$this->db->query("UPDATE " . $this->db->table("products") . "
-							  SET quantity = (quantity - " . (int)$product['quantity'] . ")
-							  WHERE product_id = '" . (int)$product['product_id'] . "' AND subtract = 1");
-
-			//check quantity and send notification when 0 or less
-			$sql = "SELECT quantity
-			        FROM " . $this->db->table("products") . "
-					WHERE product_id = '" . (int)$product['product_id'] . "' AND subtract = 1";
-			$res = $this->db->query($sql);
-			if ($res->num_rows && $res->row['quantity'] <= 0){
-				//notify admin with out of stock
-				$message_arr = array (
-						1 => array ('message' => sprintf($language->get('im_product_out_of_stock_admin_text'), $product['product_id']))
-				);
-				$this->im->send('product_out_of_stock', $message_arr);
-			}
-
-			$order_option_query = $this->db->query("SELECT *
+        //update products inventory
+		foreach ($order_product_query->rows as $product) {
+            $order_option_query = $this->db->query("SELECT *
 													FROM " . $this->db->table("order_options") . "
 													WHERE order_id = '" . (int)$order_id . "'
 															AND order_product_id = '" . (int)$product['order_product_id'] . "'");
-
+            //update options stock
+            $stock_updated = false;
 			foreach ($order_option_query->rows as $option){
 				$this->db->query("UPDATE " . $this->db->table("product_option_values") . "
 								  SET quantity = (quantity - " . (int)$product['quantity'] . ")
 								  WHERE product_option_value_id = '" . (int)$option['product_option_value_id'] . "'
 								        AND subtract = 1");
+                $stock_updated = true;
 				$sql = "SELECT quantity
 				        FROM " . $this->db->table("product_option_values") . "
 						WHERE product_option_value_id = '" . (int)$option['product_option_value_id'] . "'
@@ -404,6 +389,25 @@ class ModelCheckoutOrder extends Model{
 					$this->im->send('product_out_of_stock', $message_arr);
 				}
 			}
+
+			if (!$stock_updated) {
+                $this->db->query("UPDATE " . $this->db->table("products") . "
+							  SET quantity = (quantity - " . (int)$product['quantity'] . ")
+							  WHERE product_id = '" . (int)$product['product_id'] . "' AND subtract = 1");
+
+                //check quantity and send notification when 0 or less
+                $sql = "SELECT quantity
+			        FROM " . $this->db->table("products") . "
+					WHERE product_id = '" . (int)$product['product_id'] . "' AND subtract = 1";
+                $res = $this->db->query($sql);
+                if ($res->num_rows && $res->row['quantity'] <= 0){
+                    //notify admin with out of stock
+                    $message_arr = array (
+                        1 => array ('message' => sprintf($language->get('im_product_out_of_stock_admin_text'), $product['product_id']))
+                    );
+                    $this->im->send('product_out_of_stock', $message_arr);
+                }
+            }
 		}
 
 		//clean product cache as stock might have changed.

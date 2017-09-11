@@ -338,7 +338,7 @@ class ControllerPagesProductProduct extends AController{
 		$this->data['product_id'] = $product_id;
 		$this->data['average'] = $average;
 
-		if($product_info['stock_checkout'] === '' || !has_value($product_info['stock_checkout'])){
+		if(!has_value($product_info['stock_checkout'])){
 			$product_info['stock_checkout'] = $this->config->get('config_stock_checkout');
 		}
 
@@ -381,58 +381,57 @@ class ControllerPagesProductProduct extends AController{
 				}
 
 				$name = $option_value['name'];
-				//check if we disable options based on out of stock setting
-				if($option_value['subtract'] && $this->config->get('config_nostock_autodisable') && $option_value['quantity'] <= 0){
+				//check if we disable option based on stock settings
+				if ($option_value['subtract'] && $this->config->get('config_nostock_autodisable') && $option_value['quantity'] <= 0) {
 					continue;
 				}
 
+                //Stock and status
+                $opt_stock_message = '';
+                //if options has stock traking and not allowed to be purchased out of stock
+                if ($option_value['subtract'] && !$product_info['stock_checkout']) {
+                    if ($option_value['quantity'] <= 0) {
+                        $opt_stock_message = $this->language->get('text_out_of_stock');
+                        $disabled_values[] = $option_value['product_option_value_id'];
+                    } else {
+                        if ($this->config->get('config_stock_display')) {
+                            if( $option_value['quantity'] > 0 ){
+                                $opt_stock_message = $option_value['quantity'] . " ". $this->language->get('text_instock');
+                                $opt_stock_message = "({$opt_stock_message})";
+                            }
+                        }
+                    }
+                }
+
 				//Apply option price modifier
-				if($option_value['prefix'] == '%'){
+				if ($option_value['prefix'] == '%') {
 					$price = $this->tax->calculate(
-							($product_price * $option_value['price'] / 100),
-							$product_info['tax_class_id'],
-							(bool)$this->config->get('config_tax'));
-					if($price != 0){
+                        ($product_price * $option_value['price'] / 100),
+                        $product_info['tax_class_id'],
+                        (bool)$this->config->get('config_tax')
+                    );
+					if ($price != 0) {
 						$price = $this->currency->format($price);
-					} else{
+					} else {
 						$price = '';
 					}
-				} else{
+				} else {
 					$price = $this->tax->calculate($option_value['price'], $product_info['tax_class_id'], (bool)$this->config->get('config_tax'));
-					if($price != 0){
+					if ($price != 0) {
 						$price = $this->currency->format($price);
-					} else{
+					} else {
 						$price = '';
-					}
-				}
-				//Check stock and status
-				$opt_stock_message = '';
-				if($option_value['subtract']){
-					if($option_value['quantity'] <= 0){
-						//show out of stock message
-						if( $product_info['stock_checkout'] ){
-							$opt_stock_message = $product_info['stock_status'];
-						}else{
-							$opt_stock_message = $this->language->get('text_out_of_stock');
-							$disabled_values[] = $option_value['product_option_value_id'];
-						}
-					} else{
-						if($this->config->get('config_stock_display')){
-							if( $option_value['quantity'] > 0 ){
-								$opt_stock_message = $option_value['quantity'] . " ". $this->language->get('text_instock');
-							}
-						}
 					}
 				}
 
 				$values[$option_value['product_option_value_id']] = $option_value['name'] . ' ' . $price . ' ' . $opt_stock_message;
-				if($option['element_type'] == 'B'){
+				if ($option['element_type'] == 'B') {
 					$name = $default_value = preg_replace( "/\r|\n/", " ", $option_value['name']);
-					if($price){
+					if ($price) {
 						$default_value .= '</br>';
 						$name .= ' ';
 					}
-					if($price){
+					if ($price) {
 						$default_value .= $price.' ';
 						$name .= $price;
 					}
@@ -441,28 +440,28 @@ class ControllerPagesProductProduct extends AController{
 			}
 
 			//if not values are build, nothing to show
-			if(count($values)){
+			if (count($values)) {
 				$value = '';
 				//add price to option name if it is not element with options
-				if(!in_array($option['element_type'], $elements_with_options) && $option['element_type']!='B'){
+				if (!in_array($option['element_type'], $elements_with_options) && $option['element_type']!='B') {
 					$option['name'] .= ' <small>' . $price . '</small>';
 					if($opt_stock_message){
 						$option['name'] .= '<br />' . $opt_stock_message;
 					}
 					$value = $default_value ? $default_value : $name;
-				}elseif( $option['element_type'] == 'B' ){
+				} else if ( $option['element_type'] == 'B' ) {
 					$value = $name;
 				}
 
 				//set default selection is nothing selected
-				if(!has_value($value)){
+				if (!has_value($value)) {
 					if(has_value($default_value)){
 						$value = $default_value;
 					}
 				}
 
 				//for checkbox with empty value
-				if($value == '' && $option['element_type'] == 'C'){
+				if ($value == '' && $option['element_type'] == 'C') {
 					$value = 1;
 				}
 
@@ -478,7 +477,7 @@ class ControllerPagesProductProduct extends AController{
 						'error_text'     => $option['error_text']
 				);
 
-				if($option['element_type'] == 'C'){
+				if ($option['element_type'] == 'C') {
 					if(!in_array($value, array('0', '1'))){
 						$option_data['label_text'] = $value;
 					}

@@ -202,7 +202,7 @@
 	</definition>
 	<definition>
 		<key>entry_stock_checkout</key>
-		<value><![CDATA[Stock Checkout:<br /><span class="help">Allow customers to still checkout if the products they are ordering are not in stock.</span>]]></value>
+		<value><![CDATA[Stock Checkout:<br /><span class="help">Allow customers to checkout even if the products are out of stock.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_status</key>

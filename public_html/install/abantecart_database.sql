@@ -1310,7 +1310,7 @@ CREATE TABLE `ac_products` (
   `sku` varchar(64) COLLATE utf8_general_ci NOT NULL,
   `location` varchar(128) COLLATE utf8_general_ci NOT NULL,
   `quantity` int(4) NOT NULL DEFAULT '0',
-  `stock_checkout` INT(1) NULL DEFAULT '0',
+  `stock_checkout` CHAR(1) NULL DEFAULT '',
   `stock_status_id` int(11) NOT NULL,
   `manufacturer_id` int(11) NOT NULL,
   `shipping` int(1) NOT NULL DEFAULT '1',
