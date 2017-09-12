@@ -411,7 +411,7 @@ class ControllerPagesExtensionExtensions extends AController {
 					// if options need to extract from db
 					$data['template'] = $item['template'];
 					$data['options'] = $item['options'];
-					if (is_array($item['data_source'])) {
+					if (is_array($item['data_source']) && $item['data_source']) {
 						foreach($item['data_source']['model_rt'] as $k=>$model_rt) {
 							//force to load models even before extension is enabled
 							$this->loadModel($model_rt, 'force');
