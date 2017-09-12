@@ -93,6 +93,7 @@ class ACart{
 		$this->attribute = new AAttribute('product_option');
 		$this->customer = $registry->get('customer');
 		$this->session = $registry->get('session');
+		$this->language = $registry->get('language');
 
 		//if nothing is passed (default) use session array. Customer session, can function on storefront only
 		if ($c_data == null){
