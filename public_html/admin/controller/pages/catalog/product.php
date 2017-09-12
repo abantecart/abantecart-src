@@ -371,6 +371,7 @@ class ControllerPagesCatalogProduct extends AController {
 			$product_id = $this->request->get['product_id'];
 			$product_info = $this->model_catalog_product->getProduct($product_id);
 			$product_info['featured'] = $product_info['featured'] ? 1 : 0;
+			$product_info['has_track_options'] = $this->model_catalog_product->hasTrackOptions($product_id);
 		}
 
 		$this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($product_id);
@@ -745,7 +746,8 @@ class ControllerPagesCatalogProduct extends AController {
 				0 => $this->language->get('text_no'),
 			),
 			'help_url' => $this->gen_help_url('product_inventory'),
-			'style' => 'medium-field'
+			'style' => 'medium-field',
+			'disabled'=> ($product_info['has_track_options'] ? true : false)
 		));
 
 		$this->data['form']['fields']['data']['quantity'] = $form->getFieldHtml(array(
@@ -754,6 +756,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'value' => (int)$this->data['quantity'],
 			'style' => 'col-xs-1 small-field',
 			'help_url' => $this->gen_help_url('product_inventory'),
+			'attr'=> ($product_info['has_track_options'] ? 'disabled' : '')
 		));
 
 		$this->data['form']['fields']['data']['minimum'] = $form->getFieldHtml(array(

@@ -2269,4 +2269,18 @@ class ModelCatalogProduct extends Model{
 		$this->cache->remove('product');
 		return true;
 	}
+
+	/**
+	 * @param int $product_id
+	 * @return bool
+	 */
+	public function hasTrackOptions($product_id){
+		$sql = "SELECT *
+				FROM ".$this->db->table('product_option_values')." pov
+				INNER JOIN ".$this->db->table('product_options')." po
+					ON (pov.product_option_id = po.product_option_id AND po.status = 1) 
+				WHERE pov.product_id=".(int)$product_id." AND pov.subtract = 1";
+		$result = $this->db->query($sql);
+		return ($result->num_rows ? true : false);
+	}
 }
