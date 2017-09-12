@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
  * Class AbanteCartTest
  * @property ACustomer $customer
  */
-class AbanteCartTest extends TestCase {
+class AbanteCartTest extends PHPUnit_Framework_TestCase {
 	protected $registry;
 	public function __construct() {
 		parent::__construct();
