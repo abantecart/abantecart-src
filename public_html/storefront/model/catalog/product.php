@@ -141,30 +141,33 @@ class ModelCatalogProduct extends Model{
 		if (!(int)$product_id){
 			return 0;
 		}
-		//check main product
-		$query = $this->db->query("SELECT quantity
-									FROM " . $this->db->table("products") . " p
-									WHERE p.product_id = '" . (int)$product_id . "'");
-
-		$total_quantity = (int)$query->row['quantity'];
+		$total_quantity = 0;
 		//check product option values
 		$query = $this->db->query("SELECT pov.quantity AS quantity
 									FROM " . $this->db->table("product_options") . " po
 									LEFT JOIN " . $this->db->table("product_option_values") . " pov
 										ON (po.product_option_id = pov.product_option_id)
 									WHERE po.product_id = '" . (int)$product_id . "' AND po.status = 1");
-		$notrack_qnt = 0;
-		foreach ($query->rows as $row){
-			//if tracking of stock disabled - set quantity
-			if(!$row['subtract']) {
-				$notrack_qnt += 10000000;
-				continue;
+		if($query->num_rows) {
+			$notrack_qnt = 0;
+			foreach ($query->rows as $row) {
+				//if tracking of stock disabled - set quantity as big
+				if (!$row['subtract']) {
+					$notrack_qnt += 10000000;
+					continue;
+				}
+				$total_quantity += $row['quantity'] < 0 ? 0 : $row['quantity'];
 			}
-			$total_quantity += $row['quantity'];
-		}
-		//if some of option value have subtract NO - think product is available
-		if($total_quantity<=0 && $notrack_qnt){
-			$total_quantity = $notrack_qnt;
+			//if some of option value have subtract NO - think product is available
+			if ($total_quantity == 0 && $notrack_qnt) {
+				$total_quantity = $notrack_qnt;
+			}
+		}else {
+			//get product quantity without options
+			$query = $this->db->query("SELECT quantity
+										FROM " . $this->db->table("products") . " p
+										WHERE p.product_id = '" . (int)$product_id . "'");
+			$total_quantity = (int)$query->row['quantity'];
 		}
 		return $total_quantity;
 	}
