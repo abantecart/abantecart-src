@@ -386,30 +386,30 @@ class ControllerPagesProductProduct extends AController{
 					continue;
 				}
 
-                //Stock and status
-                $opt_stock_message = '';
-                //if options has stock traking and not allowed to be purchased out of stock
-                if ($option_value['subtract'] && !$product_info['stock_checkout']) {
-                    if ($option_value['quantity'] <= 0) {
-                        $opt_stock_message = $this->language->get('text_out_of_stock');
-                        $disabled_values[] = $option_value['product_option_value_id'];
-                    } else {
-                        if ($this->config->get('config_stock_display')) {
-                            if( $option_value['quantity'] > 0 ){
-                                $opt_stock_message = $option_value['quantity'] . " ". $this->language->get('text_instock');
-                                $opt_stock_message = "({$opt_stock_message})";
-                            }
-                        }
-                    }
-                }
+				//Stock and status
+				$opt_stock_message = '';
+				//if options has stock tracking and not allowed to be purchased out of stock
+				if ($option_value['subtract'] && !$product_info['stock_checkout']) {
+					if ($option_value['quantity'] <= 0) {
+						$opt_stock_message = $this->language->get('text_out_of_stock');
+						$disabled_values[] = $option_value['product_option_value_id'];
+					} else {
+						if ($this->config->get('config_stock_display')) {
+							if( $option_value['quantity'] > 0 ){
+								$opt_stock_message = $option_value['quantity'] . " ". $this->language->get('text_instock');
+								$opt_stock_message = "({$opt_stock_message})";
+							}
+						}
+					}
+				}
 
 				//Apply option price modifier
 				if ($option_value['prefix'] == '%') {
 					$price = $this->tax->calculate(
-                        ($product_price * $option_value['price'] / 100),
-                        $product_info['tax_class_id'],
-                        (bool)$this->config->get('config_tax')
-                    );
+						($product_price * $option_value['price'] / 100),
+						$product_info['tax_class_id'],
+						(bool)$this->config->get('config_tax')
+					);
 					if ($price != 0) {
 						$price = $this->currency->format($price);
 					} else {

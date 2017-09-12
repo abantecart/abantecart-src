@@ -153,8 +153,18 @@ class ModelCatalogProduct extends Model{
 									LEFT JOIN " . $this->db->table("product_option_values") . " pov
 										ON (po.product_option_id = pov.product_option_id)
 									WHERE po.product_id = '" . (int)$product_id . "' AND po.status = 1");
+		$notrack_qnt = 0;
 		foreach ($query->rows as $row){
+			//if tracking of stock disabled - set quantity
+			if(!$row['subtract']) {
+				$notrack_qnt += 10000000;
+				continue;
+			}
 			$total_quantity += $row['quantity'];
+		}
+		//if some of option value have subtract NO - think product is available
+		if($total_quantity<=0 && $notrack_qnt){
+			$total_quantity = $notrack_qnt;
 		}
 		return $total_quantity;
 	}
