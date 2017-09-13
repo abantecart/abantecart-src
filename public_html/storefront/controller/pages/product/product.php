@@ -391,7 +391,8 @@ class ControllerPagesProductProduct extends AController{
 				//if options has stock tracking and not allowed to be purchased out of stock
 				if ($option_value['subtract'] && !$product_info['stock_checkout']) {
 					if ($option_value['quantity'] <= 0) {
-						$opt_stock_message = $this->language->get('text_out_of_stock');
+                        //show out of stock message
+                        $opt_stock_message = $this->language->get('text_out_of_stock');
 						$disabled_values[] = $option_value['product_option_value_id'];
 					} else {
 						if ($this->config->get('config_stock_display')) {
@@ -401,7 +402,11 @@ class ControllerPagesProductProduct extends AController{
 							}
 						}
 					}
-				}
+				} else if ($option_value['subtract'] && $product_info['stock_checkout']) {
+                    if ($option_value['quantity'] <= 0) {
+                        $opt_stock_message = "({$product_info['stock_status']})";
+                    }
+                }
 
 				//Apply option price modifier
 				if ($option_value['prefix'] == '%') {

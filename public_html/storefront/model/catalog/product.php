@@ -35,6 +35,7 @@ class ModelCatalogProduct extends Model{
 				"SELECT DISTINCT *,
 						pd.name AS name,
 						m.name AS manufacturer,
+						ss.name AS stock_status,
 						stock_checkout,
 						lcd.unit as length_class_name, " .
 				$this->_sql_avg_rating_string() . ", " .
@@ -252,9 +253,10 @@ class ModelCatalogProduct extends Model{
 							pd.name AS name, 
 							pd.blurb,
 							m.name AS manufacturer,
+							ss.name AS stock,
 							" . $this->_sql_avg_rating_string() . ",
 							" . $this->_sql_review_count_string() . "
-			" . $this->_sql_join_string() . "
+			                " . $this->_sql_join_string() . "
 			LEFT JOIN " . $this->db->table("products_to_categories") . " p2c
 				ON (p.product_id = p2c.product_id)
 			WHERE p.status = '1' AND p.date_available <= NOW()
@@ -345,9 +347,10 @@ class ModelCatalogProduct extends Model{
 						pd.name AS name, 
 						pd.blurb,
 						m.name AS manufacturer,
+						ss.name AS stock,
 						" . $this->_sql_avg_rating_string() . ",
 						" . $this->_sql_review_count_string() . "
-		" . $this->_sql_join_string() . "
+		                " . $this->_sql_join_string() . "
 		WHERE p.status = '1' AND p.date_available <= NOW()
 			AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
 			AND m.manufacturer_id = '" . (int)$manufacturer_id . "'";
@@ -412,9 +415,10 @@ class ModelCatalogProduct extends Model{
 							" . $this->_sql_final_price_string() . ",
 							pd.name AS name, 
 							m.name AS manufacturer,
+							ss.name AS stock,
 							" . $this->_sql_avg_rating_string() . ",
 							" . $this->_sql_review_count_string() . "
-					" . $this->_sql_join_string() . "
+					        " . $this->_sql_join_string() . "
 					LEFT JOIN " . $this->db->table("product_tags") . " pt 
 						ON (p.product_id = pt.product_id AND pt.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
 					WHERE p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
@@ -504,9 +508,10 @@ class ModelCatalogProduct extends Model{
 							pd.name AS name, 
 							pd.blurb,
 							m.name AS manufacturer,
+							ss.name AS stock,
 							" . $this->_sql_avg_rating_string() . ",
 							" . $this->_sql_review_count_string() . "
-			" . $this->_sql_join_string() . "
+			                " . $this->_sql_join_string() . "
 			LEFT JOIN " . $this->db->table("product_tags") . " pt 
 				ON (p.product_id = pt.product_id)
 			WHERE p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' ";
@@ -741,6 +746,7 @@ class ModelCatalogProduct extends Model{
 			$sql = "SELECT *,
 					pd.name AS name,
 					m.name AS manufacturer,
+					ss.name AS stock,
 					pd.blurb,
 					" . $this->_sql_avg_rating_string() . ",
 					" . $this->_sql_review_count_string() . "
@@ -771,9 +777,10 @@ class ModelCatalogProduct extends Model{
 		$sql = "SELECT *,
 						pd.name AS name,
 						m.name AS manufacturer,
+						ss.name AS stock,
 						" . $this->_sql_avg_rating_string() . ",
 						" . $this->_sql_review_count_string() . "
-				" . $this->_sql_join_string() . "
+				        " . $this->_sql_join_string() . "
 				WHERE p.status = '1'
 						AND p.date_available <= NOW()
 						AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
@@ -797,7 +804,7 @@ class ModelCatalogProduct extends Model{
 		$cache_key = 'product.featured.' . $limit . '.store_' . $store_id . '_lang_' . $language_id;
 		$product_data = $this->cache->pull($cache_key);
 		if ($product_data === false){
-			$sql = "SELECT f.*, pd.*, p.*
+            $sql = "SELECT f.*, pd.*, ss.name AS stock, p.*
 					FROM " . $this->db->table("products_featured") . " f
 					LEFT JOIN " . $this->db->table("products") . " p
 						ON (f.product_id = p.product_id)
@@ -805,6 +812,8 @@ class ModelCatalogProduct extends Model{
 						ON (f.product_id = pd.product_id AND pd.language_id = '" . $language_id . "')
 					LEFT JOIN " . $this->db->table("products_to_stores") . " p2s 
 						ON (p.product_id = p2s.product_id)
+					LEFT JOIN " . $this->db->table("stock_statuses") . " ss 
+					    ON (p.stock_status_id = ss.stock_status_id AND ss.language_id = '" . $language_id . "')
 					WHERE p2s.store_id = '" . $store_id . "'
 						AND p.status='1'
 						AND p.date_available <= NOW()
@@ -856,12 +865,14 @@ class ModelCatalogProduct extends Model{
 				}
 
 				if ($products){
-					$sql = "SELECT pd.*, p.*
+                    $sql = "SELECT pd.*, ss.name AS stock, p.*
 							FROM " . $this->db->table("products") . " p
 							LEFT JOIN " . $this->db->table("product_descriptions") . " pd
 								ON (p.product_id = pd.product_id AND pd.language_id = '" . $language_id . "')
 							LEFT JOIN " . $this->db->table("products_to_stores") . " p2s
 								ON (p.product_id = p2s.product_id)
+							LEFT JOIN " . $this->db->table("stock_statuses") . " ss
+                                ON (p.stock_status_id = ss.stock_status_id AND ss.language_id = '" . $language_id . "')
 							WHERE p.product_id IN (" . implode(', ', $products) . ")
 								AND p.status = '1' AND p.date_available <= NOW()
 								AND p2s.store_id = '" . $store_id . "'";
@@ -1271,6 +1282,7 @@ class ModelCatalogProduct extends Model{
 					"SELECT DISTINCT *,
 							pd.name AS name,
 							m.name AS manufacturer,
+							ss.name AS stock,
 							" . $this->_sql_avg_rating_string() . ", " .
 					$this->_sql_review_count_string() .
 					$this->_sql_join_string() . "
@@ -1346,7 +1358,10 @@ class ModelCatalogProduct extends Model{
 					ON (p.product_id = pd.product_id
 							AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
 				LEFT JOIN " . $this->db->table("products_to_stores") . " p2s ON (p.product_id = p2s.product_id)
-				LEFT JOIN " . $this->db->table("manufacturers") . " m ON (p.manufacturer_id = m.manufacturer_id)";
+				LEFT JOIN " . $this->db->table("manufacturers") . " m ON (p.manufacturer_id = m.manufacturer_id)
+                LEFT JOIN " . $this->db->table("stock_statuses") . " ss
+						ON (p.stock_status_id = ss.stock_status_id
+                            AND ss.language_id = '" . (int)$this->config->get('storefront_language_id') . "')";
 	}
 
 	public function getProductsAllInfo($products = array ()){
@@ -1504,9 +1519,10 @@ class ModelCatalogProduct extends Model{
 								" . $this->_sql_final_price_string() . ",
 								pd.name AS name,
 								m.name AS manufacturer,
+								ss.name AS stock,
 								" . $this->_sql_avg_rating_string() . ",
 								" . $this->_sql_review_count_string() . "
-						" . $this->_sql_join_string();
+						        " . $this->_sql_join_string();
 			}
 
 			if (isset($filter['category_id']) && !is_null($filter['category_id'])){
