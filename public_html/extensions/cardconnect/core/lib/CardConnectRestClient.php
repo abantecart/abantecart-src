@@ -251,7 +251,8 @@ class CardConnectRestClient {
 			$registry = Registry::getInstance();
 			$registry->get('log')->write("CardConnect: Caught exception when sending request : " .  $e->getMessage().' 
 			code: '.$e->getCode().' File: '.$e->getFile().':'.$e->getLine()."
-			endpoint: ".$endpoint.", send-method:".$operation.", request Data: ".var_export($request, true));
+			endpoint: ".$endpoint.", send-method:".$operation.", request Data: ".var_export($request, true).', response: '. var_export($pest->last_response, true));
+
 		}
 		return $response;
 	}

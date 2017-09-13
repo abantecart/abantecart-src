@@ -77,7 +77,7 @@ class ModelExtensionCardConnect extends Model {
 	}
 
 	public function processPayment($pd) {
-		$response = '';
+		$response = array();
 		$this->load->model('checkout/order');
 		$this->load->language('cardconnect/cardconnect');
 
@@ -93,11 +93,11 @@ class ModelExtensionCardConnect extends Model {
 		$customer_id = (int)$this->customer->getId();
 		if ($customer_id) {
 			$profile_id = $this->getProfileID($customer_id);
-            if ($profile_id) {
-                $this->_log("Located profile ID {$profile_id} for customer ID {$customer_id}");
-            } else {
-                $this->_log("No profile located for customer ID {$customer_id}");
-            }
+			if ($profile_id) {
+				$this->_log("Located profile ID {$profile_id} for customer ID {$customer_id}");
+			} else {
+				$this->_log("No profile located for customer ID {$customer_id}");
+			}
 		}
 
 		if (!isset($pd['method']) || $pd['method'] == 'card') {
@@ -107,7 +107,7 @@ class ModelExtensionCardConnect extends Model {
 					&& $this->config->get('cardconnect_save_cards_limit')
 					&& $customer_id) {
 
-                //create profile if now yet created
+				//create profile if now yet created
 				if (!$profile_id) {
 					$profile_id = $this->createProfile(
 							array(
@@ -124,11 +124,11 @@ class ModelExtensionCardConnect extends Model {
 								'cc_postcode' => $order_info['payment_postcode']
 							)
 					);
-                    if ($profile_id) {
-                        $this->_log("Created new profile ID {$profile_id} for customer ID {$customer_id}");
-                    } else {
-                        $this->_log("Failed to create profile for customer ID {$customer_id}");
-                    }
+					if ($profile_id) {
+						$this->_log("Created new profile ID {$profile_id} for customer ID {$customer_id}");
+					} else {
+						$this->_log("Failed to create profile for customer ID {$customer_id}");
+					}
 				}
 			} else if ($pd['use_saved_cc'] && $customer_id) {
 				$existing_card = $this->getCard($pd['use_saved_cc'], $customer_id);
@@ -196,7 +196,7 @@ class ModelExtensionCardConnect extends Model {
 
 		$this->_log('CardConnect response: ' . var_export($response_data, true));
 
-	    if (isset($response_data['respstat']) && $response_data['respstat'] == 'A') {
+		if (isset($response_data['respstat']) && $response_data['respstat'] == 'A') {
 			$this->load->model('checkout/order');
 			$payment_method = 'card';
 
@@ -206,40 +206,40 @@ class ModelExtensionCardConnect extends Model {
 			$this->addTransaction($cardconnect_order_id, $type, $status, $order_info);
 
 			if (isset($response_data['profileid'])
-                    && isset($pd['save_cc']) && $pd['save_cc']
+					&& isset($pd['save_cc']) && $pd['save_cc']
 					&& $this->config->get('cardconnect_save_cards_limit')
 					&& $this->customer->isLogged()
 			) {
 				$this->_log('Saving card reference.');
 				$this->addCard(
-				    $this->customer->getId(),
-                    $response_data['profileid'],
-                    $response_data['token'],
-                    substr($response_data['account'], -4),
-                    $expiry
-                );
+					$this->customer->getId(),
+					$response_data['profileid'],
+					$response_data['token'],
+					substr($response_data['account'], -4),
+					$expiry
+				);
 			}
 
 			//auto complete the order in settled mode
 			$this->model_checkout_order->confirm(
-                $pd['order_id'],
-                $order_status_id
+				$pd['order_id'],
+				$order_status_id
 			);
-		    $this->_log("Update order {$pd['order_id']} with Status ID: {$order_status_id}");
+			$this->_log("Update order {$pd['order_id']} with Status ID: {$order_status_id}");
 
-            $response['paid'] = true;
-            $response['success'] = $this->html->getSecureURL('checkout/success', '', true);
+			$response['paid'] = true;
+			$response['success'] = $this->html->getSecureURL('checkout/success', '', true);
 
 		} else {
-            //stay in status incomplete, as order not yet paid
+			//stay in status incomplete, as order not yet paid
 			$this->model_checkout_order->addHistory(
-                $pd['order_id'],
-                0,
-                "Payment status: {$response_data['resptext']}, Transaction Number: {$response_data['retref']}"
+				$pd['order_id'],
+				0,
+				"Payment status: {$response_data['resptext']}, Transaction Number: {$response_data['retref']}"
 			);
-            $this->_log("Update order {$pd['order_id']} with: {$response_data['resptext']}");
+			$this->_log("Update order {$pd['order_id']} with: {$response_data['resptext']}");
 
-            $response['error'] = $response_data['resptext'];
+			$response['error'] = $response_data['resptext'];
 		}
 		return $response;
 	}
@@ -259,19 +259,19 @@ class ModelExtensionCardConnect extends Model {
 		return $years;
 	}
 
-    public function getCard($token, $customer_id) {
-        $query = $this->db->query(
-                "SELECT * 
-                FROM " . $this->db->table('cardconnect_cards') ."  
-                WHERE `token` = '" . $this->db->escape($token) . "' 
-                    AND `customer_id` = '" . (int)$customer_id . "'");
+	public function getCard($token, $customer_id) {
+		$query = $this->db->query(
+				"SELECT * 
+				FROM " . $this->db->table('cardconnect_cards') ."  
+				WHERE `token` = '" . $this->db->escape($token) . "' 
+					AND `customer_id` = '" . (int)$customer_id . "'");
 
-        if ($query->num_rows) {
-            return $query->row;
-        } else {
-            return false;
-        }
-    }
+		if ($query->num_rows) {
+			return $query->row;
+		} else {
+			return false;
+		}
+	}
 
 	public function getCards($customer_id) {
 		$query = $this->db->query(
@@ -282,18 +282,18 @@ class ModelExtensionCardConnect extends Model {
 		return $query->rows;
 	}
 
-    public function addCard($customer_id, $profileid, $token, $account, $expiry, $type = '') {
-        $sql = "REPLACE INTO " . $this->db->table('cardconnect_cards') ."
-                SET `customer_id` = '" . (int)$customer_id . "', 
-                    `profileid` = '" . $this->db->escape($profileid) . "', 
-                    `token` = '" . $this->db->escape($token) . "', 
-                    `type` = '" . $this->db->escape($type) . "', 
-                    `account` = '" . $this->db->escape($account) . "', 
-                    `expiry` = '" . $this->db->escape($expiry) . "', 
-                    `date_added` = NOW()";
-        $this->_log($sql);
-        $this->db->query( $sql );
-    }
+	public function addCard($customer_id, $profileid, $token, $account, $expiry, $type = '') {
+		$sql = "REPLACE INTO " . $this->db->table('cardconnect_cards') ."
+				SET `customer_id` = '" . (int)$customer_id . "', 
+					`profileid` = '" . $this->db->escape($profileid) . "', 
+					`token` = '" . $this->db->escape($token) . "', 
+					`type` = '" . $this->db->escape($type) . "', 
+					`account` = '" . $this->db->escape($account) . "', 
+					`expiry` = '" . $this->db->escape($expiry) . "', 
+					`date_added` = NOW()";
+		$this->_log($sql);
+		$this->db->query( $sql );
+	}
 
 	/**
 	 * @param string $card_token
