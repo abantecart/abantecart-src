@@ -1332,7 +1332,7 @@ class ModelCatalogProduct extends Model{
 
 	protected function _sql_final_price_string(){
 		//special prices
-		if ($this->customer->isLogged()){
+		if (is_object($this->customer) && $this->customer->isLogged()){
 			$customer_group_id = (int)$this->customer->getCustomerGroupId();
 		} else{
 			$customer_group_id = (int)$this->config->get('config_customer_group_id');
@@ -1371,7 +1371,7 @@ class ModelCatalogProduct extends Model{
 		}
 		
 		//special prices
-		if ($this->customer->isLogged()){
+		if (is_object($this->customer) && $this->customer->isLogged()){
 			$customer_group_id = (int)$this->customer->getCustomerGroupId();
 		} else{
 			$customer_group_id = (int)$this->config->get('config_customer_group_id');

@@ -10,6 +10,7 @@ class ControllerPagesExtensionDefaultStripeSettings extends AController {
 		'default_stripe_sk_live',
 		'default_stripe_sk_test',
 		'default_stripe_settlement',
+		'default_stripe_published_key'
 	);
 	
 	public function main() {
@@ -22,16 +23,17 @@ class ControllerPagesExtensionDefaultStripeSettings extends AController {
 		$this->document->addStyle(
 			array(
 			'href' => $this->view->templateResource('/stylesheet/stripe.css'),
-                                         'rel' => 'stylesheet',
-                                         'media' => 'screen',
-                                )
-        );
+										 'rel' => 'stylesheet',
+										 'media' => 'screen',
+								)
+		);
 
-		//did we get code from strype connect 
+		//did we get code from stripe connect
 		if( $this->request->get['access_token'] ) {
 			//need to save stripe access_token and set live mode
 			$settings = array(
 				'default_stripe_access_token' => $this->request->get['access_token'],
+				'default_stripe_published_key' => $this->request->get['pub_key'],
 				'default_stripe_test_mode' => 1
 			);
 			if( $this->request->get['livemode'] ) {
@@ -40,17 +42,17 @@ class ControllerPagesExtensionDefaultStripeSettings extends AController {
 			
 			$this->model_setting_setting->editSetting('default_stripe', $settings);
 			$this->session->data['success'] = $this->language->get('text_connect_success');
-			$this->redirect($this->html->getSecureURL('extension/default_stripe_settings'));
+			redirect($this->html->getSecureURL('extension/default_stripe_settings'));
 		} else if($this->request->get['disconnect']) {
-			$this->model_setting_setting->editSetting('default_stripe', array('default_stripe_access_token' => '' ));		
+			$this->model_setting_setting->editSetting('default_stripe', array('default_stripe_access_token' => '' ));
 			$this->session->data['success'] = $this->language->get('text_disconnect_success');
-			$this->redirect($this->html->getSecureURL('extension/default_stripe_settings'));
+			redirect($this->html->getSecureURL('extension/default_stripe_settings'));
 		}
 
 		if ( $this->request->is_POST() && $this->_validate() ) {
 			$this->model_setting_setting->editSetting('default_stripe', $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect($this->html->getSecureURL('extension/default_stripe_settings'));
+			redirect($this->html->getSecureURL('extension/default_stripe_settings'));
 		}
 
 		if (isset($this->error['warning'])) {
@@ -69,27 +71,27 @@ class ControllerPagesExtensionDefaultStripeSettings extends AController {
 				$this->data['error'][$f] = $this->error[$f];
 			}
 		}
-		//error with strype connect?
+		//error with stripe connect?
 		if($this->request->get['error']) {
 			$this->data['error'][$this->request->get['error']] = $this->request->get['error_dec'];
 		}
 
-  		$this->document->initBreadcrumb( array (
-       		'href'      => $this->html->getSecureURL('index/home'),
-       		'text'      => $this->language->get('text_home'),
-      		'separator' => FALSE
-   		 ));
-   		$this->document->addBreadcrumb( array ( 
-       		'href'      => $this->html->getSecureURL('extension/extensions/payment'),
-       		'text'      => $this->language->get('text_payment'),
-      		'separator' => ' :: '
-   		 ));
-   		$this->document->addBreadcrumb( array ( 
-       		'href'      => $this->html->getSecureURL('payment/default_stripe'),
-       		'text'      => $this->language->get('default_stripe_name'),
-      		'separator' => ' :: ',
-		    'current' => true
-   		 ));
+		$this->document->initBreadcrumb( array (
+			'href'      => $this->html->getSecureURL('index/home'),
+			'text'      => $this->language->get('text_home'),
+			'separator' => FALSE
+		 ));
+		$this->document->addBreadcrumb( array (
+			'href'      => $this->html->getSecureURL('extension/extensions/payment'),
+			'text'      => $this->language->get('text_payment'),
+			'separator' => ' :: '
+		 ));
+		$this->document->addBreadcrumb( array (
+			'href'      => $this->html->getSecureURL('payment/default_stripe'),
+			'text'      => $this->language->get('default_stripe_name'),
+			'separator' => ' :: ',
+			'current' => true
+		 ));
 
 		foreach ( $this->fields as $f ) {
 			if (isset ( $this->request->post [$f] )) {
@@ -101,7 +103,8 @@ class ControllerPagesExtensionDefaultStripeSettings extends AController {
 
 		//if skip connect is selected or API keys are set up
 		if( $this->request->get['skip_connect'] || 
-			( !$this->data['default_stripe_access_token'] && ( $this->data['default_stripe_sk_test'] || $this->data['default_stripe_sk_live'] ))
+			( !$this->data['default_stripe_access_token']
+					&& ( $this->data['default_stripe_sk_test'] || $this->data['default_stripe_sk_live'] ))
 			) {
 			$this->data['skip_connect'] = true;
 		}
@@ -116,13 +119,13 @@ class ControllerPagesExtensionDefaultStripeSettings extends AController {
 		$this->data['connect_url'] .= '?clid=ca_5XtCjhqt1xB4wy8bMvr3QVlbtJg2coIs'; 
 		$this->data['connect_url'] .= '&ret='.$url;
 
-		//see if we are connected yet to strype
+		//see if we are connected yet to stripe
 		$stripe_code = $this->config->get('default_stripe_access_token');
 		if ($stripe_code) {
-			//validate the tocken
+			//validate the token
 			$this->data['connected'] = true;
 		} else {
-		    $this->data['skip_url'] = $this->html->getSecureURL ( 'extension/default_stripe_settings', '&extension=default_stripe&skip_connect=true' );
+			$this->data['skip_url'] = $this->html->getSecureURL ( 'extension/default_stripe_settings', '&extension=default_stripe&skip_connect=true' );
 		}
 		$form = new AForm('HT');
 		$form->setForm ( array (
@@ -144,35 +147,42 @@ class ControllerPagesExtensionDefaultStripeSettings extends AController {
 		//stripe related settings
 		$this->data['test_mode'] = $this->data['default_stripe_test_mode'];
 		$this->data['form']['fields']['default_stripe_test_mode'] = $form->getFieldHtml(array(
-		    'type' => 'checkbox',
-		    'name' => 'default_stripe_test_mode',
-		    'value' => $this->data['default_stripe_test_mode'],
+			'type' => 'checkbox',
+			'name' => 'default_stripe_test_mode',
+			'value' => $this->data['default_stripe_test_mode'],
 			'style'  => 'btn_switch',
-	    ));
+		));
 
 		$this->data['form']['fields']['default_stripe_sk_test'] = $form->getFieldHtml(array(
-		    'type' => 'input',
-		    'name' => 'default_stripe_sk_test',
-		    'value' => $this->data['default_stripe_sk_test'],
+			'type' => 'input',
+			'name' => 'default_stripe_sk_test',
+			'value' => $this->data['default_stripe_sk_test'],
 			'required' => true,
-	    ));
+		));
 		$this->data['form']['fields']['default_stripe_sk_live'] = $form->getFieldHtml(array(
-		    'type' => 'input',
-		    'name' => 'default_stripe_sk_live',
-		    'value' => $this->data['default_stripe_sk_live'],
+			'type' => 'input',
+			'name' => 'default_stripe_sk_live',
+			'value' => $this->data['default_stripe_sk_live'],
 			'required' => true,
-	    ));
+		));
 
 		$settlement = array(
 			'auto' => $this->language->get('default_stripe_settlement_auto'),
 			'delayed' => $this->language->get('default_stripe_settlement_delayed'),
 		);
 		$this->data['form']['fields']['default_stripe_settlement'] = $form->getFieldHtml(array(
-		    'type' => 'selectbox',
-		    'name' => 'default_stripe_settlement',
+			'type' => 'selectbox',
+			'name' => 'default_stripe_settlement',
 			'options' => $settlement,
-		    'value' => $this->data['default_stripe_settlement'],
-	    ));
+			'value' => $this->data['default_stripe_settlement'],
+		));
+		$this->data['form']['fields']['default_stripe_published_key'] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'default_stripe_published_key',
+			'required' => true,
+			'value' => $this->data['default_stripe_published_key'],
+			'placeholder' => 'pk_*************'
+		));
 
 		//load tabs controller
 		$this->data['groups'][] = 'additional_settings';
@@ -190,14 +200,13 @@ class ControllerPagesExtensionDefaultStripeSettings extends AController {
 		$this->view->batchAssign( $this->data );
 		$this->view->batchAssign( $this->language->getASet() );
 		$this->processTemplate('pages/extension/default_stripe_settings.tpl');
-
 	}
-	
+
 	private function _validate() {
 		if (!$this->user->canModify('default_stripe/default_stripe')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
-		
+
 		if($this->request->get['skip_connect']){
 			if (!$this->request->post['default_stripe_sk_live']) {
 				$this->error['default_stripe_sk_live'] = $this->language->get('error_default_stripe_sk_live');
@@ -206,11 +215,11 @@ class ControllerPagesExtensionDefaultStripeSettings extends AController {
 				$this->error['default_stripe_sk_test'] = $this->language->get('error_default_stripe_sk_test');
 			}
 		}
-				
+
 		if (!$this->error) {
 			return TRUE;
 		} else {
 			return FALSE;
-		}	
+		}
 	}
 }

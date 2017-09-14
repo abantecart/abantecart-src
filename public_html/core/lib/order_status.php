@@ -66,7 +66,7 @@ class AOrderStatus{
 		$order_statuses = $this->cache->pull($cache_key);
 		if($order_statuses === false) {
 			$order_statuses = $this->db->query("SELECT * FROM " . $this->db->table('order_statuses'));
-			foreach ($order_statuses as $s) {
+			foreach ($order_statuses->rows as $s) {
 				if (!isset($this->statuses[$s['order_status_id']])) {
 					$this->statuses[$s['order_status_id']] = $s['status_text_id'];
 				}

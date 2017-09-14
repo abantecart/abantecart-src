@@ -21,22 +21,6 @@
 		<value><![CDATA[Card Number:]]></value>
 	</definition>
 	<definition>
-		<key>entry_cc_expire_date</key>
-		<value><![CDATA[Card Expiry Date:]]></value>
-	</definition>
-	<definition>
-		<key>entry_cc_cvv2</key>
-		<value><![CDATA[Card Security Code]]></value>
-	</definition>
-	<definition>
-		<key>entry_cc_cvv2_short</key>
-		<value><![CDATA[(CVV2 ?)]]></value>
-	</definition>
-	<definition>
-		<key>entry_what_cvv2</key>
-		<value><![CDATA[What is CVV2?]]></value>
-	</definition>
-	<definition>
 		<key>entry_cc_type</key>
 		<value><![CDATA[Card Type]]></value>
 	</definition>
@@ -46,9 +30,8 @@
 	</definition>
 	<definition>
 		<key>entry_cc_save_details</key>
-		<value><![CDATA[Credit Card details will be securely saved by Stipe]]></value>
+		<value><![CDATA[Credit Card details will be securely saved by Stripe]]></value>
 	</definition>
-
 	<definition>
 		<key>entry_billing_address</key>
 		<value><![CDATA[for billing Address]]></value>
@@ -69,26 +52,16 @@
 		<key>text_new_credit_card</key>
 		<value><![CDATA[New card]]></value>
 	</definition>
-
-	<definition>
-		<key>error_incorrect_number</key>
-		<value><![CDATA[Invalid Credit Card Number]]></value>
-	</definition>
 	<definition>
 		<key>error_incorrect_name</key>
 		<value><![CDATA[Invalid Card Owner Name]]></value>
 	</definition>
 	<definition>
-		<key>error_incorrect_expiration</key>
-		<value><![CDATA[Invalid Card Expiration Date]]></value>
-	</definition>
-	<definition>
-		<key>error_incorrect_cvv</key>
-		<value><![CDATA[Invalid Card CVV]]></value>
-	</definition>
-	<definition>
 		<key>error_system</key>
 		<value><![CDATA[Apologies, we have encounter system error. Please try again or contact site administrator!]]></value>
 	</definition>
-	
+	<definition>
+		<key>default_stripe_ssl_off_error</key>
+		<value><![CDATA[Secure connection cannot be established!]]></value>
+	</definition>
 </definitions>
