@@ -62,8 +62,9 @@
 					};
 					stripe.createToken(card, extraDetails).then(function(result){
 						if (result.error) {
-							alert( result.error.message );
 							resetLockBtn();
+							alert( result.error.message );
+							submitSent = false;
 						} else {
 							$('#cc_token').val(result.token.id);
 							confirmSubmit($form, '<?php echo $action; ?>');

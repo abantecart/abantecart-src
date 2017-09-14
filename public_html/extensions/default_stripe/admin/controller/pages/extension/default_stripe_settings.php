@@ -1,10 +1,10 @@
 <?php
 class ControllerPagesExtensionDefaultStripeSettings extends AController {
-	private $error = array();
+	public $error = array();
 	public $data = array();
-	private $errors = array('default_stripe_sk_live','default_stripe_sk_test');
+	public $errors = array('default_stripe_sk_live','default_stripe_sk_test');
 
-	private $fields = array(
+	protected $fields = array(
 		'default_stripe_access_token',
 		'default_stripe_test_mode',
 		'default_stripe_sk_live',
@@ -12,7 +12,7 @@ class ControllerPagesExtensionDefaultStripeSettings extends AController {
 		'default_stripe_settlement',
 		'default_stripe_published_key'
 	);
-	
+
 	public function main() {
 
 		$this->request->get['extension'] = 'default_stripe';
@@ -32,14 +32,14 @@ class ControllerPagesExtensionDefaultStripeSettings extends AController {
 		if( $this->request->get['access_token'] ) {
 			//need to save stripe access_token and set live mode
 			$settings = array(
-				'default_stripe_access_token' => $this->request->get['access_token'],
-				'default_stripe_published_key' => $this->request->get['pub_key'],
-				'default_stripe_test_mode' => 1
+							'default_stripe_access_token' => $this->request->get['access_token'],
+							'default_stripe_published_key' => $this->request->get['pub_key'],
+							'default_stripe_test_mode' => 1
 			);
 			if( $this->request->get['livemode'] ) {
 				$settings['default_stripe_test_mode'] = 0;
 			}
-			
+
 			$this->model_setting_setting->editSetting('default_stripe', $settings);
 			$this->session->data['success'] = $this->language->get('text_connect_success');
 			redirect($this->html->getSecureURL('extension/default_stripe_settings'));
@@ -202,7 +202,7 @@ class ControllerPagesExtensionDefaultStripeSettings extends AController {
 		$this->processTemplate('pages/extension/default_stripe_settings.tpl');
 	}
 
-	private function _validate() {
+	protected function _validate() {
 		if (!$this->user->canModify('default_stripe/default_stripe')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
