@@ -78,7 +78,6 @@ final class AEncryption{
 			}
 		} else{
             list($encrypted_data, $iv) = explode('::', $enc_str, 2);
-            echo "{$encrypted_data}-{$iv}";
             $str = openssl_decrypt($encrypted_data, 'aes-256-cbc', $this->key, 0, $iv);
 		}
 		return trim($str);
