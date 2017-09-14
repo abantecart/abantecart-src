@@ -1,5 +1,5 @@
 <?php if (HTTPS !== true) { ?>
-	<div class="alert alert-warning"><?php echo $this->language->get('default_stripe_ssl_off_error');?></div>
+	<div class="alert alert-warning"><?php echo $default_stripe_ssl_off_error; ?></div>
 <?php } else { ?>
 	<div class="enter_card">
 		<?php echo $form_open; ?>
