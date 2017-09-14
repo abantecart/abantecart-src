@@ -83,6 +83,10 @@
 		<value><![CDATA[Settlement type:<br /><span class="help">If set to 'auto', then the transaction will be included in today's settlement. If set to 'delayed', then the transaction will be authorised but not settled(captured). You must manually capture transactions within 7 days of authorisation</span>]]></value>
 	</definition>
 	<definition>
+		<key>default_stripe_published_key</key>
+		<value><![CDATA[Published Key:]]></value>
+	</definition>
+	<definition>
 		<key>default_stripe_status_success_settled</key>
 		<value><![CDATA[Success & settled:<br /><span class="help">Select main order status you want to set in responce to payment processor status</span>]]></value>
 	</definition>
