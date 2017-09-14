@@ -68,7 +68,6 @@ class ControllerPagesAccountForgotten extends AController {
                     $link = $this->html->getSecureURL('account/forgotten/reset', '&rtoken=' . $rtoken);
                     $this->registry->get('config')->set('embed_mode', $embed_mode);
 
-
                     $subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
                     $message  = sprintf($this->language->get('text_greeting'), $this->config->get('store_name')) . "\n\n";
                     $message .= $this->language->get('text_password') . "\n\n";

@@ -40,8 +40,8 @@ final class AEncryption{
 		}
 
 		$enc_str = '';
-		if (!$this->_check_mcrypt()){
-			//non-mcrypt basic encryption
+		if (!$this->_check_openssl()){
+			//non openssl basic encryption
 			for ($i = 0; $i < strlen($str); $i++){
 				$char = substr($str, $i, 1);
 				$keychar = substr($this->key, ($i % strlen($this->key)) - 1, 1);
@@ -50,8 +50,8 @@ final class AEncryption{
 			}
 			$enc_str = base64_encode($enc_str);
 		} else{
-			$hash = hash('sha256', $this->key, true);
-			$enc_str = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $hash, $str, MCRYPT_MODE_ECB));
+            $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+            $enc_str = base64_encode(openssl_encrypt($str, 'aes-256-cbc', $this->key, 0, $iv) . '::' . $iv);
 		}
 		return str_replace('==', '', strtr($enc_str, '+/', '-_'));
 	}
@@ -68,8 +68,8 @@ final class AEncryption{
 
 		$str = '';
 		$enc_str = base64_decode(strtr($enc_str, '-_', '+/') . '==');
-		if (!$this->_check_mcrypt()){
-			//non-mcrypt basic decryption
+		if (!$this->_check_openssl()){
+			//non openssl basic decryption
 			for ($i = 0; $i < strlen($enc_str); $i++){
 				$char = substr($enc_str, $i, 1);
 				$keychar = substr($this->key, ($i % strlen($this->key)) - 1, 1);
@@ -77,16 +77,16 @@ final class AEncryption{
 				$str .= $char;
 			}
 		} else{
-			$hash = hash('sha256', $this->key, true);
-			$str = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $hash, $enc_str, MCRYPT_MODE_ECB);
+            list($encrypted_data, $iv) = explode('::', $enc_str, 2);
+            echo "{$encrypted_data}-{$iv}";
+            $str = openssl_decrypt($encrypted_data, 'aes-256-cbc', $this->key, 0, $iv);
 		}
-
 		return trim($str);
 	}
 
-	private function _check_mcrypt(){
-		if (!function_exists('mcrypt_encrypt')){
-			$error_text = 'MCrypt php-library did not load. It is recommended to enable PHP mcrypt for system to function properly.';
+	private function _check_openssl(){
+		if (!function_exists('openssl_encrypt')){
+			$error_text = 'openssl php-library did not load. It is recommended to enable PHP openssl for system to function properly.';
 			$registry = Registry::getInstance();
 			$log = $registry->get('log');
 			if (!is_object($log) || !method_exists($log, 'write')){

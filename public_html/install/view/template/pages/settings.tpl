@@ -129,10 +129,10 @@ echo $header;
 									<td align="center"><?php echo (extension_loaded('mbstring') && function_exists('mb_internal_encoding')) ? $img_good : $img_bad; ?></td>
 								</tr>
 								<tr>
-									<td>MCRYPT:</td>
-									<td><?php echo extension_loaded('mcrypt') ? 'On' : 'Off'; ?></td>
+									<td>OpenSSL:</td>
+									<td><?php echo extension_loaded('openssl') ? 'On' : 'Off'; ?></td>
 									<td>On</td>
-									<td align="center"><?php echo extension_loaded('mcrypt') ? $img_good : $img_bad; ?></td>
+									<td align="center"><?php echo extension_loaded('openssl') ? $img_good : $img_bad; ?></td>
 								</tr>
 								</tbody>
 							</table>
