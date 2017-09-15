@@ -94,10 +94,13 @@ class ModelExtensionDefaultStripe extends Model {
 		} catch(Stripe_CardError $e) {
 			// card errors
 			$body = $e->getJsonBody();
-			$response['error'] = $body['error']['message'];
-			$response['code'] = $body['error']['code'];
+			$response = array(
+					'error' => $body['error']['message'],
+					'code'  => $body['error']['code']
+			);
 			return $response;
 		} catch (Stripe_InvalidRequestError $e) {
+			$response = array();
 			// Invalid parameters were supplied to Stripe's API
 			$body = $e->getJsonBody();
 			$msg = new AMessage();
@@ -108,6 +111,7 @@ class ModelExtensionDefaultStripe extends Model {
 			$response['error'] = $this->language->get('error_system');
 			return $response;
 		} catch (Stripe_AuthenticationError $e) {
+			$response = array();
 			// Authentication with Stripe's API failed
 			$body = $e->getJsonBody();
 			$msg = new AMessage();
@@ -118,6 +122,7 @@ class ModelExtensionDefaultStripe extends Model {
 			$response['error'] = $this->language->get('error_system');
 			return $response;
 		} catch (Stripe_ApiConnectionError $e) {
+			$response = array();
 			// Network communication with Stripe failed
 			$body = $e->getJsonBody();
 			$msg = new AMessage();
@@ -128,6 +133,7 @@ class ModelExtensionDefaultStripe extends Model {
 			$response['error'] = $this->language->get('error_system');
 			return $response;
 		} catch (Stripe_Error $e) {
+			$response = array();
 			// Display a very generic error to the user, and maybe send
 			$body = $e->getJsonBody();
 			$msg = new AMessage();
@@ -138,6 +144,7 @@ class ModelExtensionDefaultStripe extends Model {
 			$response['error'] = $this->language->get('error_system');
 			return $response;
 		} catch (Exception $e) {
+			$response = array();
 			// Something else happened, completely unrelated to Stripe
 			$msg = new AMessage();
 			$msg->saveError(
@@ -153,6 +160,7 @@ class ModelExtensionDefaultStripe extends Model {
 
 		//we still have no result. something unexpected happen
 		if (empty($response)) {
+			$response = array();
 			$response['error'] = $this->language->get('error_system');
 			return $response;
 		}

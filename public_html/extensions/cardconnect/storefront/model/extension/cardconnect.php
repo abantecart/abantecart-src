@@ -192,6 +192,7 @@ class ModelExtensionCardConnect extends Model {
 			$response_data = $this->client->authorizeTransaction($data);
 		} catch(AException $e) {
 			$this->_log('CardConnect Rest Library Error! '.$e->getMessage());
+			$response_data = array();
 		}
 
 		$this->_log('CardConnect response: ' . var_export($response_data, true));
