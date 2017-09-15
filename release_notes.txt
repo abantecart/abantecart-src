@@ -1,9 +1,9 @@
 AbanteCart version 1.2.11
 
 New features:
-- New option type "Label" for display only purpose
 - New import wizard with automatic and manual data mapping
 - CardConnect PCI Compliant payment integration
+- New option type "Label" for display only purpose
 
 Core:
 - added new product option type "Label" for display only purpose
@@ -16,36 +16,37 @@ Core:
 - AResource class minor improvement
 - message-info controller minor fix related to hooks-call
 - image url fix related to api-controllers. Now all urls will be without protocol (with // at the begin)
-
+- Depricate Mcrypt and replace with OpenSSL
+- minor fix of order class
 
 Control Panel:
 - New import Wizard with automatic and manual data mapping
-- import/export. added button for schedule task
-- import/export. added logging for import with internal formatted file
-- import/export. import improvements with hep of tasks.
+- import/export improvements using tasks.
+- import/export added schedule task
+- import/export added logging for import with internal formatted file
 - model/catalog/product fix related to product deletion
 - default weights and length classes now predefined and cannot be deleted
 - ALayoutManager minor improvement
 - updater changes related to extension versions comparison
 - Empty result set fix for listing grids
 - report of purchased products improvement
-- minor fix of lib/order
+- Initial install wizard modal fix
 
 Storefront:
-- minor fix of model/account/order
-- google analytics JavaScript improvement
-- contact-us controller minor fix
+- Update to stock handling on products and options
+- Google analytics JavaScript improvement
+- New option type "Label" for display only purpose
 
 Extensions:
-- New payment extension CardConnect
-- banner manager JavaScript fix related to seo url upgrade
+- CardConnect new PCI validated payment
+- Update Stripe for PCI validation
+- Banner manager JavaScript fix related to seo url upgrade
 - Fix for MarketPlace price display
 - Royal Mail missing definitions
 - Parcelforce notes update
 - Weight Based shipping text update
 - USPS add help notes
 - UPS and Fedex text corrections
-
 
 Various bug fixes and improvements
 
