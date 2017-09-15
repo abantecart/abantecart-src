@@ -28,6 +28,7 @@ class ModelTotalLowOrderFee extends Model {
 		if ($this->config->get('low_order_fee_status') && $this->cart->getSubTotal() && ($this->cart->getSubTotal() < $this->config->get('low_order_fee_total'))) {
 			//create new instance of language for case when model called from admin-side
 			$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+			$language->load($language->language_details['directory']);
 			$language->load('total/low_order_fee');
 			$this->load->model('localisation/currency');
 

@@ -118,6 +118,7 @@ class ModelAccountCustomer extends Model {
 
 		if(!$data['approved']){
 			$language = new ALanguage($this->registry);
+			$language->load($language->language_details['directory']);
 			$language->load('account/create');
 
 			if($data['subscriber']){
@@ -146,6 +147,7 @@ class ModelAccountCustomer extends Model {
 		
 		//notify admin
 		$language = new ALanguage($this->registry);
+		$language->load($language->language_details['directory']);
 		$language->load('common/im');
 		if($data['subscriber']){
 			$lang_key = 'im_new_subscriber_text_to_admin';
@@ -177,6 +179,7 @@ class ModelAccountCustomer extends Model {
 		}
 
 		$language = new ALanguage($this->registry);
+		$language->load($language->language_details['directory']);
 		$language->load('common/im');
 
     	//update login only if needed
@@ -366,6 +369,7 @@ class ModelAccountCustomer extends Model {
 		$customer_id = $result->row['customer_id'];
 		if($customer_id){
 			$language = new ALanguage($this->registry);
+			$language->load($language->language_details['directory']);
 			$language->load('common/im');
 			$message_arr = array(
 			    0 => array('message' =>  $language->get('im_customer_account_update_password_to_customer'))

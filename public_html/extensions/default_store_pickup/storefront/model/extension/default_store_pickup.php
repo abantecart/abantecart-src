@@ -25,6 +25,7 @@ class ModelExtensionDefaultStorePickup extends Model {
 	function getQuote($address) {
 		//create new instance of language for case when model called from admin-side
 		$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+		$language->load($language->language_details['directory']);
 		$language->load('default_store_pickup/default_store_pickup');
 
 		if ($this->config->get('default_store_pickup_status')) {

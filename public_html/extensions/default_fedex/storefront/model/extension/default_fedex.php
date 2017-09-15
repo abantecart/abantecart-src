@@ -33,6 +33,7 @@ class ModelExtensionDefaultFedex extends Model {
 
 		//create new instance of language for case when model called from admin-side
 		$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+		$language->load($language->language_details['directory']);
 		$language->load('default_fedex/default_fedex');
 
 		if ($this->config->get('default_fedex_status')) {
@@ -157,6 +158,7 @@ class ModelExtensionDefaultFedex extends Model {
 		$error_msg = '';
 		//create new instance of language for case when model called from admin-side
 		$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+		$language->load($language->language_details['directory']);
 		$language->load('default_fedex/default_fedex');
 		require_once(DIR_EXT . 'default_fedex/core/lib/fedex_func.php');
 

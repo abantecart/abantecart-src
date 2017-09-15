@@ -29,6 +29,7 @@ class ModelExtensionDefaultParcelforce48 extends Model {
 	function getQuote($address) {
 		//create new instance of language for case when model called from admin-side
 		$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+		$language->load($language->language_details['directory']);
 		$language->load('default_parcelforce_48/default_parcelforce_48');
 		if ($this->config->get('default_parcelforce_48_status')) {
 			if (!$this->config->get('default_parcelforce_48_location_id')) {
@@ -151,6 +152,7 @@ class ModelExtensionDefaultParcelforce48 extends Model {
 
 	private function _processRate($weight, $sub_total) {
 		$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+		$language->load($language->language_details['directory']);
 		$rates = explode(',', $this->config->get('default_parcelforce_48_rate'));
 		$cost = 0.0;
 		foreach ($rates as $rate) {

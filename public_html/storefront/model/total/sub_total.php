@@ -25,6 +25,7 @@ class ModelTotalSubTotal extends Model {
 		if ($this->config->get('sub_total_status')) {
 			//create new instance of language for case when model called from admin-side
 			$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+			$language->load($language->language_details['directory']);
 			$language->load('total/sub_total');
 
 			//currency based recalculation for all products to avoid fractional loss

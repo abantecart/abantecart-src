@@ -38,6 +38,7 @@ class ModelCatalogReview extends Model {
 		$review_id = $this->db->getLastId();
 		//notify administrator of pending review approval
 		$language = new ALanguage($this->registry);
+		$language->load($language->language_details['directory']);
 		$language->load('product/product');
 
 		$msg_text = sprintf($language->get('text_pending_review_approval'), $product_id, $review_id);

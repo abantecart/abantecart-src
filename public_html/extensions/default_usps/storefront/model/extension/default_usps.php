@@ -30,6 +30,7 @@ class ModelExtensionDefaultUsps extends Model{
 	public function getQuote($address){
 		//create new instance of language for case when model called from admin-side
 		$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+		$language->load($language->language_details['directory']);
 		$language->load('default_usps/default_usps');
 		$country = array ();
 		$weight = 0.001;

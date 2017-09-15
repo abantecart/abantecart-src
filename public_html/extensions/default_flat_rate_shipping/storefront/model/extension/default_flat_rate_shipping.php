@@ -25,6 +25,7 @@ class ModelExtensionDefaultFlatRateShipping extends Model {
 	function getQuote($address) {
 		//create new instance of language for case when model called from admin-side
 		$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+		$language->load($language->language_details['directory']);
 		$language->load('default_flat_rate_shipping/default_flat_rate_shipping');
 		$status = false;
 		$method_data = array();

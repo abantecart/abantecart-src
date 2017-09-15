@@ -25,6 +25,7 @@ class ModelExtensionDefaultPerItemShipping extends Model {
 	public function getQuote($address) {
 		//create new instance of language for case when model called from admin-side
 		$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+		$language->load($language->language_details['directory']);
 		$language->load('default_per_item_shipping/default_per_item_shipping');
 
 		if ($this->config->get('default_per_item_shipping_status')) {
@@ -75,6 +76,7 @@ class ModelExtensionDefaultPerItemShipping extends Model {
 
 		$quote_data = array();
 		$cost_text = $language->get('text_free');
+
 		if ($cost) {
 			$cost_text = $this->currency->format(
 				$this->tax->calculate(	$cost, 

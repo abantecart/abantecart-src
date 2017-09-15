@@ -360,6 +360,7 @@ class ModelCheckoutOrder extends Model{
 												 WHERE order_id = '" . (int)$order_id . "'");
 		// load language for IM
 		$language = new ALanguage($this->registry);
+		$language->load($language->language_details['directory']);
 		$language->load('common/im');
 
         //update products inventory
@@ -706,6 +707,7 @@ class ModelCheckoutOrder extends Model{
 		$msg->saveNotice($language->get('text_new_order') . $order_id, $msg_text);
 
 		$language = new ALanguage($this->registry);
+		$language->load($language->language_details['directory']);
 		$language->load('common/im');
 		$message_arr = array (
 				1 => array ('message' => sprintf($language->get('im_new_order_text_to_admin'), $order_id))
@@ -763,6 +765,7 @@ class ModelCheckoutOrder extends Model{
 														AND language_id = '" . (int)$order_row['language_id'] . "'");
 
 			$language_im = new ALanguage($this->registry);
+			$language->load($language->language_details['directory']);
 			$language_im->load('common/im');
 			$status_name = '';
 			if ($order_status_query->row['name']){
