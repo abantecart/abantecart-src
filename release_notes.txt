@@ -47,6 +47,7 @@ Extensions:
 - Weight Based shipping text update
 - USPS add help notes
 - UPS and Fedex text corrections
+- Discontinue WorldPay support
 
 Various bug fixes and improvements
 
