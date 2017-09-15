@@ -91,20 +91,16 @@
 							$form.find('.action-buttons').show();
 							$form.before('<div class="alert alert-danger"><i class="fa fa-bug fa-fw"></i> <?php echo $error_unknown; ?></div>');
 							submitSent = false;
-							try {
-								resetLockBtn();
-							} catch (e) {
-							}
+							try { resetLockBtn(); } catch (e) {}
 						} else {
 							if (data.error) {
 								$('.wait').remove();
 								$form.find('.action-buttons').show();
 								$form.before('<div class="alert alert-warning"><i class="fa fa-exclamation fa-fw"></i> ' + data.error + '</div>');
 								submitSent = false;
-								try {
-									resetLockBtn();
-								} catch (e) {
-								}
+								$form.find('input[name=csrfinstance]').val(data.csrfinstance);
+								$form.find('input[name=csrftoken]').val(data.csrftoken);
+								try { resetLockBtn(); } catch (e) {}
 							}
 							if (data.success) {
 								location = data.success;
