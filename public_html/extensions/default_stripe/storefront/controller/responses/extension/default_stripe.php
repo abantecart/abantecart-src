@@ -8,11 +8,12 @@ if (!defined('DIR_CORE')){
  * @property ModelExtensionDefaultStripe $model_extension_default_stripe
  */
 class ControllerResponsesExtensionDefaultStripe extends AController{
+	public $data = array();
 	public function main(){
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 		$this->loadLanguage('default_stripe/default_stripe');
-		$data['action'] = $this->html->getSecureURL('extension/default_stripe/send');
+		$this->data['action'] = $this->html->getSecureURL('extension/default_stripe/send');
 		//build submit form
 		$form = new AForm();
 		$form->setForm(
@@ -21,7 +22,7 @@ class ControllerResponsesExtensionDefaultStripe extends AController{
 				)
 		);
 
-		$data['form_open'] = $form->getFieldHtml(
+		$this->data['form_open'] = $form->getFieldHtml(
 			array(
 				'type' => 'form',
 				'name' => 'stripe',
@@ -33,15 +34,15 @@ class ControllerResponsesExtensionDefaultStripe extends AController{
 		//need an order details
 		$this->loadModel('checkout/order');
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-		$data['payment_address'] = $order_info['payment_address_1'] . " " . $order_info['payment_address_2'];
-		$data['edit_address'] = $this->html->getSecureURL('checkout/address/payment');
+		$this->data['payment_address'] = $order_info['payment_address_1'] . " " . $order_info['payment_address_2'];
+		$this->data['edit_address'] = $this->html->getSecureURL('checkout/address/payment');
 
-		$data['text_credit_card'] = $this->language->get('text_credit_card');
-		$data['text_wait'] = $this->language->get('text_wait');
+		$this->data['text_credit_card'] = $this->language->get('text_credit_card');
+		$this->data['text_wait'] = $this->language->get('text_wait');
 
 
-		$data['entry_cc_owner'] = $this->language->get('entry_cc_owner');
-		$data['cc_owner'] = $form->getFieldHtml(
+		$this->data['entry_cc_owner'] = $this->language->get('entry_cc_owner');
+		$this->data['cc_owner'] = $form->getFieldHtml(
 			array (
 				'type'        => 'input',
 				'name'        => 'cc_owner',
@@ -50,15 +51,15 @@ class ControllerResponsesExtensionDefaultStripe extends AController{
 			)
 		);
 
-		$data['button_confirm'] = $this->language->get('button_confirm');
-		$data['button_back'] = $this->language->get('button_back');
+		$this->data['button_confirm'] = $this->language->get('button_confirm');
+		$this->data['button_back'] = $this->language->get('button_back');
 
 		if ($this->request->get['rt'] == 'checkout/guest_step_3'){
 			$back_url = $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit', true);
 		} else{
 			$back_url = $this->html->getSecureURL('checkout/payment', '&mode=edit', true);
 		}
-		$data['back'] = $this->html->buildElement(
+		$this->data['back'] = $this->html->buildElement(
 			array (
 					'type'  => 'button',
 					'name'  => 'back',
@@ -69,7 +70,7 @@ class ControllerResponsesExtensionDefaultStripe extends AController{
 			)
 		);
 
-		$data['submit'] = $this->html->buildElement(
+		$this->data['submit'] = $this->html->buildElement(
 			array (
 					'type'  => 'button',
 					'name'  => 'stripe_button',
@@ -78,8 +79,8 @@ class ControllerResponsesExtensionDefaultStripe extends AController{
 					'icon'  => 'icon-ok icon-white'
 			)
 		);
-
-		$this->view->batchAssign($data);
+		$this->data['default_stripe_ssl_off_error'] = $this->language->get('default_stripe_ssl_off_error');
+		$this->view->batchAssign($this->data);
 
 		//init controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -173,21 +174,21 @@ class ControllerResponsesExtensionDefaultStripe extends AController{
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->data['text_note'] = $this->language->get('text_note');
-		$data['order_id'] = $this->session->data['order_id'];
+		$this->data['order_id'] = $this->session->data['order_id'];
 		//list of required fields for payment 
-		$data['required_fields'] = array(
+		$this->data['required_fields'] = array(
 			'name' => 'cc_owner',
 			'credit_card_number' => 'cc_number', 
 			'credit_card_cvv2' => 'cc_cvv2',
 			'credit_card_expiration_month' => 'cc_expire_date_month',
 			'credit_card_expiration_year' => 'cc_expire_date_year'
 		);
-				
-		$data['process_rt'] = 'default_stripe/api_confirm';
+
+		$this->data['process_rt'] = 'default_stripe/api_confirm';
 
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($data));
+		$this->response->setOutput(AJson::encode($this->data));
 	}
 
 	public function api_confirm() {

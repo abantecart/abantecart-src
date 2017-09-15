@@ -1,5 +1,5 @@
 <?php if (HTTPS !== true) { ?>
-	<div class="alert alert-warning"><?php echo $this->language->get('default_stripe_ssl_off_error');?></div>
+	<div class="alert alert-warning"><?php echo $default_stripe_ssl_off_error; ?></div>
 <?php } else { ?>
 	<div class="enter_card">
 		<?php echo $form_open; ?>
@@ -62,8 +62,9 @@
 					};
 					stripe.createToken(card, extraDetails).then(function(result){
 						if (result.error) {
-							alert( result.error.message );
 							resetLockBtn();
+							alert( result.error.message );
+							submitSent = false;
 						} else {
 							$('#cc_token').val(result.token.id);
 							confirmSubmit($form, '<?php echo $action; ?>');
