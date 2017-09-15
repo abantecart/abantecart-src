@@ -24,9 +24,9 @@ if(!defined('DIR_CORE')){
 class ControllerPagesProductProduct extends AController{
 
 	public $data = array();
-	private $routes = array();
+	protected $routes = array();
 
-	private function _init(){
+	protected function _init(){
 		//is this an embed mode
 		if($this->config->get('embed_mode') == true){
 			$this->routes['cart_rt'] = 'r/checkout/cart/embed';
@@ -280,9 +280,7 @@ class ControllerPagesProductProduct extends AController{
 		}
 
 		$product_discounts = $promotion->getProductDiscounts($product_id);
-
 		$discounts = array();
-
 		foreach($product_discounts as $discount){
 			$discounts[] = array(
 					'quantity' => $discount['quantity'],
@@ -391,8 +389,8 @@ class ControllerPagesProductProduct extends AController{
 				//if options has stock tracking and not allowed to be purchased out of stock
 				if ($option_value['subtract'] && !$product_info['stock_checkout']) {
 					if ($option_value['quantity'] <= 0) {
-                        //show out of stock message
-                        $opt_stock_message = $this->language->get('text_out_of_stock');
+						//show out of stock message
+						$opt_stock_message = $this->language->get('text_out_of_stock');
 						$disabled_values[] = $option_value['product_option_value_id'];
 					} else {
 						if ($this->config->get('config_stock_display')) {
@@ -403,10 +401,10 @@ class ControllerPagesProductProduct extends AController{
 						}
 					}
 				} else if ($option_value['subtract'] && $product_info['stock_checkout']) {
-                    if ($option_value['quantity'] <= 0) {
-                        $opt_stock_message = "({$product_info['stock_status']})";
-                    }
-                }
+					if ($option_value['quantity'] <= 0) {
+						$opt_stock_message = "({$product_info['stock_status']})";
+					}
+				}
 
 				//Apply option price modifier
 				if ($option_value['prefix'] == '%') {
@@ -430,6 +428,11 @@ class ControllerPagesProductProduct extends AController{
 				}
 
 				$values[$option_value['product_option_value_id']] = $option_value['name'] . ' ' . $price . ' ' . $opt_stock_message;
+				//disable stock tracking for product if some of option have subtract
+				if( $option_value['subtract'] ){
+					$product_info['subtract'] = false;
+				}
+
 				if ($option['element_type'] == 'B') {
 					$name = $default_value = preg_replace( "/\r|\n/", " ", $option_value['name']);
 					if ($price) {
@@ -495,6 +498,7 @@ class ControllerPagesProductProduct extends AController{
 				);
 			}
 		}
+
 		$this->data['options'] = $options;
 
 		//handle stock messages
@@ -513,7 +517,7 @@ class ControllerPagesProductProduct extends AController{
 				$this->data['can_buy'] = true;
 				$this->data['in_stock'] = true;
 				$this->data['stock'] = '';
-				if( $this->config->get('config_stock_display') && $product_info['quantity'] > 0 && $product_info['subtract']){
+				if( $this->config->get('config_stock_display') && $product_info['quantity'] > 0 && $product_info['subtract'] ){
 					$this->data['stock'] = $product_info['quantity'].' ';
 				}
 				if($product_info['quantity'] <=0 ) {
@@ -524,7 +528,7 @@ class ControllerPagesProductProduct extends AController{
 			}
 
 			//check if we need to disable product for no stock
-			if($this->config->get('config_nostock_autodisable') && $total_quantity <= 0){
+			if( $this->config->get('config_nostock_autodisable') && $total_quantity <= 0 ){
 				//set available data
 				$pd_identifiers = "ID: " . $product_id;
 				$pd_identifiers .= (empty($product_info['model']) ? '' : " Model: " . $product_info['model']);
@@ -684,7 +688,7 @@ class ControllerPagesProductProduct extends AController{
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-	private function _product_not_found($product_id){
+	protected function _product_not_found($product_id){
 		$this->_init();
 		$url = $this->_build_url_params();
 		$this->document->addBreadcrumb(array(
@@ -710,7 +714,7 @@ class ControllerPagesProductProduct extends AController{
 		$this->processTemplate();
 	}
 
-	private function _build_url_params(){
+	protected function _build_url_params(){
 		$url = '';
 		if(isset($request['path'])){
 			$url .= '&path=' . $request['path'];
