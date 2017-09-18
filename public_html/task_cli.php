@@ -53,7 +53,7 @@ $_GET['s'] = ADMIN_PATH;
 require_once(DIR_ROOT . '/core/init.php');
 // not needed anymore
 unset($_GET['s']);
-// Currency for processes that reiqure currency
+// Currency for processes that require currency
 $registry->set('currency', new ACurrency($registry));
 
 //process command
