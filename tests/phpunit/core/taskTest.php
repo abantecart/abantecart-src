@@ -38,11 +38,11 @@ class TaskTest extends AbanteCartTest{
 		exec('php '.DIR_ROOT.'/task_cli.php run --task_id='.$task_id, $output);
 		list($step_id1, $step_id2) = array_keys($this->task_details['steps']);
 		$expected = array(
-							"Running command line",
+							"Running: Task ID ".$task_id.":",
 							"Task_id: ".$task_id." state - running.",
 							"Task_id: ".$task_id." : step_id: ".$step_id1.". 122 tables dumped.",
 							"Task_id: ".$task_id." : step_id: ".$step_id2.". ( compressing )",
-							"Task_id: ".$task_id." state - finished."
+							"Finished running: Task ID ".$task_id.":"
 		);
 
 		$this->assertEquals($expected, $output);
@@ -53,8 +53,8 @@ class TaskTest extends AbanteCartTest{
 		exec('php '.DIR_ROOT.'/task_cli.php run --task_id='.$task_id.' --step_id='.$step_id1, $output);
 
 		$expected = array(
-							"Running command line",
-							"Task_id: ".$task_id." : step_id: ".$step_id1.". 122 tables dumped."
+							"Running: Task ID ".$task_id.":",
+							"Finished running: Task ID ".$task_id." Step ID ".$step_id1.":"
 		);
 
 		$this->assertEquals($expected, $output);
