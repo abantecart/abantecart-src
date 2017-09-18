@@ -39,9 +39,6 @@ class TaskTest extends AbanteCartTest{
 		list($step_id1, $step_id2) = array_keys($this->task_details['steps']);
 		$expected = array(
 							"Running: Task ID ".$task_id.":",
-							"Task_id: ".$task_id." state - running.",
-							"Task_id: ".$task_id." : step_id: ".$step_id1.". 122 tables dumped.",
-							"Task_id: ".$task_id." : step_id: ".$step_id2.". ( compressing )",
 							"Finished running: Task ID ".$task_id.":"
 		);
 
@@ -52,8 +49,8 @@ class TaskTest extends AbanteCartTest{
 		list($step_id1, $step_id2) = array_keys($this->task_details['steps']);
 		exec('php '.DIR_ROOT.'/task_cli.php run --task_id='.$task_id.' --step_id='.$step_id1, $output);
 
-		$expected = array(
-							"Running: Task ID ".$task_id.":",
+		$expected = array(  "Force starting step!",
+							"Running: Task ID ".$task_id." Step ID ".$step_id1.":",
 							"Finished running: Task ID ".$task_id." Step ID ".$step_id1.":"
 		);
 
