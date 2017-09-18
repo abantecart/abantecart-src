@@ -17,6 +17,7 @@ Core:
 - message-info controller minor fix related to hooks-call
 - image url fix related to api-controllers. Now all urls will be without protocol (with // at the begin)
 - Depricate Mcrypt and replace with OpenSSL
+- Added CLI interface to run tasks
 - minor fix of order class
 
 Control Panel:
