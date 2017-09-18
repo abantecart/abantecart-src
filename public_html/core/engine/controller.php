@@ -204,7 +204,9 @@ abstract class AController{
 				'template'      => $this->config->get('config_storefront_template'),
 				'store_id'      => $this->config->get('config_store_id'),
 				'language_id'   => $this->language->getLanguageID(),
-				'currency_code' => $this->currency->getCode()
+				'currency_code' => $this->currency->getCode(),
+				//in case with shared ssl-domain
+				'https'         => (HTTPS === true ? 1 : 0)
 		);
 		if (!$controller){
 			$controller = $this->controller;

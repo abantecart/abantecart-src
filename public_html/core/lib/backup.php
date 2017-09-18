@@ -540,6 +540,7 @@ class ABackup{
 			//skip backup, cache and logs
 			if (is_int(strpos($real_path, $this->slash.'backup'))
 					|| is_int(strpos($real_path, $this->slash.'cache'))
+					|| is_int(strpos($real_path, $this->slash.'thumbnails'))
 					|| is_int(strpos($real_path, $this->slash.'logs'))){
 				continue;
 			}
@@ -561,6 +562,9 @@ class ABackup{
 	private function _add_empty_index_file($dir){
 		//if empty directory - creates new empty file to prevent
 		// excluding directory during tar.gz compression via PharData class
+		if(IS_WINDOWS === true){
+			$dir = str_replace("\\",'/',$dir);
+		}
 		$fi = new FilesystemIterator($dir, FilesystemIterator::SKIP_DOTS);
 		$files_count = iterator_count($fi);
 		if(!$files_count){

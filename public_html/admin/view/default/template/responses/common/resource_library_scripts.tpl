@@ -226,7 +226,7 @@ var loadMedia = function (type, wrapper) {
 					src = '<div class="html rl_large_icon"><i class="fa fa-code fa-lg"></i></div>';
 				} else {
 					<?php // variable t needs to prevent browser caching in case of replacement of file of resource?>
-					src = '<img class="img-responsive" src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
+					src = '<img onerror="imgError(this);" class="img-responsive" src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
 				}
 				
 				html += '<div class="col-md-1 col-sm-2 col-xs-6 reslibrary_block">';
@@ -318,7 +318,7 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 					src = item['thumbnail_url']
 				} else {
 					<?php // variable t needs to prevent browser caching in case of replacement of file of resource?>
-					src = '<img class="img-responsive" src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
+					src = '<img onerror="imgError(this);" class="img-responsive" src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
 				}
 
 				html += '<div class="resource_single col-sm-6 col-xs-12 text-center">';

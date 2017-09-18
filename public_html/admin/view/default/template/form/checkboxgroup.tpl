@@ -7,10 +7,11 @@
 			$check_id = preg_replace('/[^a-zA-Z0-9_]/', '', $id . $v);?>
 			<label for="<?php echo $check_id ?>" class="col-sm-12">
 				<div class="afield acheckbox <?php echo(in_array($v, $value) ? 'checked' : '') ?> pull-left">
-		                <input id="<?php echo $check_id ?>" type="checkbox"
-		                       value="<?php echo $v ?>" class="scrollbox <?php echo($style ? $style : ''); ?>"
-		                       name="<?php echo $name ?>" <?php echo(in_array($v, $value) ? ' checked="checked" ' : '') ?> <?php echo $attr; ?>
-		                       data-orgvalue="<?php echo(in_array($v, $value) ? 'true' : 'false') ?>" />
+					<input id="<?php echo $check_id ?>" type="checkbox"
+							value="<?php echo $v ?>" class="scrollbox <?php echo($style ? $style : ''); ?>"
+							name="<?php echo $name ?>" <?php echo(in_array($v, $value) ? ' checked="checked" ' : '') ?> <?php echo $attr; ?>
+							<?php echo (in_array($v, (array)$disabled_options) ? ' disabled="disabled" ':''); ?>
+							data-orgvalue="<?php echo(in_array($v, $value) ? 'true' : 'false') ?>" />
 				</div><div class="form-inline">&nbsp;<?php echo $text ?></div>
 			</label>
 <?php } ?>

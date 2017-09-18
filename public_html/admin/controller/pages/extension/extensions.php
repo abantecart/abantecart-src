@@ -32,7 +32,7 @@ class ControllerPagesExtensionExtensions extends AController {
 
 	public function main() {
 
-		$ext_type_to_categ = array(
+		$ext_type_to_category = array(
 			'extensions' => 0,
 			'payment' => 73,
 			'shipping' => 73,
@@ -44,7 +44,7 @@ class ControllerPagesExtensionExtensions extends AController {
 			'marketing' => 65
 		);
 
-		if (!in_array($this->session->data['extension_filter'], array_keys($ext_type_to_categ))) {
+		if (!in_array($this->session->data['extension_filter'], array_keys($ext_type_to_category))) {
 			$this->session->data['extension_filter'] = 'extensions';
 		}
 		unset($this->session->data['package_info']);
@@ -142,7 +142,6 @@ class ControllerPagesExtensionExtensions extends AController {
 		}
 		$grid_settings['colNames'][] = $this->language->get('column_status');
 
-
 		$grid_settings['colModel'] = array(
 			array('name' => 'icon',
 				'index' => 'icon',
@@ -171,17 +170,19 @@ class ControllerPagesExtensionExtensions extends AController {
 				'align' => 'center',
 				'search' => false));
 		if (!$this->config->get('config_store_id')) {
-			$grid_settings['colModel'][] = array('name' => 'store_name',
-				'index' => 'store_name',
-				'width' => 70,
+			$grid_settings['colModel'][] = array(
+					'name' => 'store_name',
+					'index' => 'store_name',
+					'width' => 70,
+					'align' => 'center',
+					'search' => false);
+		}
+		$grid_settings['colModel'][] = array(
+				'name' => 'status',
+				'index' => 'status',
+				'width' => 120,
 				'align' => 'center',
 				'search' => false);
-		}
-		$grid_settings['colModel'][] = array('name' => 'status',
-			'index' => 'status',
-			'width' => 120,
-			'align' => 'center',
-			'search' => false);
 
 		$grid = $this->dispatch('common/listing_grid', array($grid_settings));
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
@@ -189,14 +190,14 @@ class ControllerPagesExtensionExtensions extends AController {
 		$this->loadLanguage('extension/extensions_store');
 		$this->view->batchAssign($this->language->getASet('extension/extensions_store'));
 
-		$return_url = base64_encode($this->html->getSecureURL('tool/extensions_store/connect'));		
+		$return_url = base64_encode($this->html->getSecureURL('tool/extensions_store/connect'));
 		$mp_params = '?rt=account/authenticate&return_url='.$return_url;
 		$mp_params .= '&store_id='.UNIQUE_ID;
 		$mp_params .= '&store_url='.HTTP_SERVER;
 		$mp_params .= '&store_version='.VERSION;
 		$this->view->assign('amp_connect_url', $this->model_tool_mp_api->getMPURL().$mp_params);
 		$this->view->assign('amp_disconnect_url', $this->html->getSecureURL('tool/extensions_store/disconnect'));
-		
+
 		$this->data['btn_extensions_store'] = $this->html->buildElement(
 																	array(
 																		'type' => 'button',
@@ -213,14 +214,14 @@ class ControllerPagesExtensionExtensions extends AController {
 		} else if( $this->session->data['extension_filter'] == 'language') {
 			$this->data['setting_url'] = $this->html->getSecureURL('localisation/language');
 		}
-		
-		$mp_categ_id = $ext_type_to_categ[$this->data['extension_type']];
-		if ($mp_categ_id) {
-			$this->data['more_extensions_url'] = $this->html->getSecureURL('extension/extensions_store', '&category_id='.$mp_categ_id);		
+
+		$mp_category_id = $ext_type_to_category[$this->data['extension_type']];
+		if ($mp_category_id) {
+			$this->data['more_extensions_url'] = $this->html->getSecureURL('extension/extensions_store', '&category_id='.$mp_category_id);
 		} else {
-			$this->data['more_extensions_url'] = $this->html->getSecureURL('extension/extensions_store');		
+			$this->data['more_extensions_url'] = $this->html->getSecureURL('extension/extensions_store');
 		}
-		
+
 		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 		$this->view->assign('extension_edit_url', $this->html->getSecureURL('listing_grid/extension/license')) ;
 		$this->view->assign('help_url', $this->gen_help_url('extension_listing'));
@@ -267,16 +268,25 @@ class ControllerPagesExtensionExtensions extends AController {
 		$extension = $this->request->get['extension'];
 
 		if(!$extension){
-			$this->redirect($this->html->getSecureURL('extension/extensions'));
+			redirect($this->html->getSecureURL('extension/extensions'));
 		}
 
 		$this->document->resetBreadcrumbs();
-		$this->document->addBreadcrumb(array('href' => $this->html->getSecureURL('index/home'),
-			'text' => $this->language->get('text_home'),
-			'separator' => FALSE));
-		$this->document->addBreadcrumb(array('href' => $this->html->getSecureURL('extension/extensions/' . $this->session->data['extension_filter']),
-			'text' => $this->language->get('heading_title'),
-			'separator' => ' :: '));
+		$this->document->addBreadcrumb(
+				array(
+						'href' => $this->html->getSecureURL('index/home'),
+						'text' => $this->language->get('text_home'),
+						'separator' => FALSE
+				)
+		);
+
+		$this->document->addBreadcrumb(
+				array(
+						'href' => $this->html->getSecureURL('extension/extensions/' . $this->session->data['extension_filter']),
+						'text' => $this->language->get('heading_title'),
+						'separator' => ' :: '
+				)
+		);
 
 		$this->loadLanguage('extension/extensions');
 		$this->loadLanguage($extension . '/' . $extension);
@@ -290,13 +300,10 @@ class ControllerPagesExtensionExtensions extends AController {
 		$settings = $ext->getSettings();
 
 		$this->data['extension_info'] = $this->extensions->getExtensionInfo($extension);
-
 		if (!$this->data['extension_info']) { // if extension is not installed yet - redirect to list
-			$this->redirect($this->html->getSecureURL('extension/extensions'));
+			redirect($this->html->getSecureURL('extension/extensions'));
 		}
-
 		$this->data['extension_info']['id'] = $extension;
-
 		$this->data['form_store_switch'] = $this->html->getStoreSwitcher();
 		/** build aform with settings**/
 
@@ -318,13 +325,11 @@ class ControllerPagesExtensionExtensions extends AController {
 		);
 
 		$result = array('resource_field_list' => array());
-
 		foreach ($settings as $item) {
 			$data = array();
 			if ($item['name'] == $extension . '_status') {
 				$data['attr'] = ' reload_on_save="true"';
-				$status = $item['value'];
-				//set sign for confirmation modal about dependendants for disable action
+				//set sign for confirmation modal about dependants for disable action
 				if($item['value']==1){
 					$children = $this->extension_manager->getChildrenExtensions($extension);
 					if ($children) {
@@ -336,7 +341,6 @@ class ControllerPagesExtensionExtensions extends AController {
 						}
 					}
 				}
-
 			}
 			$data['name'] = $item['name'];
 			$data['type'] = $item['type'];
@@ -407,24 +411,35 @@ class ControllerPagesExtensionExtensions extends AController {
 					// if options need to extract from db
 					$data['template'] = $item['template'];
 					$data['options'] = $item['options'];
-					if ($item['model_rt'] != '') {
-						//force to load models even before extension is enabled
-						$this->loadModel($item['model_rt'], 'force');
-						$model = $this->{'model_' . str_replace("/", "_", $item['model_rt'])};
-						$method_name = $item['method'];
-						if (method_exists($model, $method_name)) {
-							$data['options'][$method_name] = call_user_func(array($model, $method_name));
+					if (is_array($item['data_source']) && $item['data_source']) {
+						foreach($item['data_source']['model_rt'] as $k=>$model_rt) {
+							//force to load models even before extension is enabled
+							$this->loadModel($model_rt, 'force');
+							$model = $this->{'model_' . str_replace("/", "_", $model_rt)};
+							$method_name = $item['data_source']['method'][$k];
+							if (method_exists($model, $method_name)) {
+								$data['options'][$method_name] = call_user_func(array ($model, $method_name));
+							}
+						}
+					}else {
+						//TODO: remove it in 2.0
+						if ($item['model_rt'] != '') {
+							//force to load models even before extension is enabled
+							$this->loadModel($item['model_rt'], 'force');
+							$model = $this->{'model_' . str_replace("/", "_", $item['model_rt'])};
+							$method_name = $item['method'];
+							if (method_exists($model, $method_name)) {
+								$data['options'][$method_name] = call_user_func(array ($model, $method_name));
+							}
 						}
 					}
-
-				    break;				    
+					break;
 				case 'checkbox':
 					$data['style'] = "btn_switch";
 					if ($item['name'] == $extension . '_status') {
 						$data['style'] .= " status_switch";
 					}
 					break;
-
 				case 'resource':
 					$item['resource_type'] = (string)$item['resource_type'];
 					$data['rl_types'] = array($item['resource_type']);
@@ -437,7 +452,8 @@ class ControllerPagesExtensionExtensions extends AController {
 					}
 
 					if (!$result['rl_scripts']) {
-						$scripts = $this->dispatch('responses/common/resource_library/get_resources_scripts',
+						$scripts = $this->dispatch(
+												'responses/common/resource_library/get_resources_scripts',
 												array(
 													'object_name' => '',
 													'object_id' => '',
@@ -451,19 +467,18 @@ class ControllerPagesExtensionExtensions extends AController {
 				default:
 			}
 			$html = '';
-			//if template process diffrently
+			//if template process differently
 			if ( has_value((string)$data['template']) ) {
 		    	//build path to template directory.
 				$dir_template = DIR_EXT.$extension.DIR_EXT_ADMIN.DIR_EXT_TEMPLATE.$this->config->get('admin_template')."/template/".$data['template'];
 				//validate template and report issue
 				if (!file_exists( $dir_template )) {
-            		$warning = new AWarning(sprintf($this->language->get('error_could_not_load_override')
-            								, $dir_template, $extension));
-            		$warning->toLog()->toDebug();
+					$warning = new AWarning(sprintf($this->language->get('error_could_not_load_override'), $dir_template, $extension));
+					$warning->toLog()->toDebug();
 				} else {
 					$this->view->batchAssign($data);
-					$html = $this->view->fetch($dir_template);				
-				}			
+					$html = $this->view->fetch($dir_template);
+				}
 			} else {
 				$html = $form->getFieldHtml($data);
 			}
@@ -484,7 +499,7 @@ class ControllerPagesExtensionExtensions extends AController {
 			$this->extension_manager->editSetting($extension, $ext->getDefaultSettings());
 			$this->cache->remove('settings');
 			$this->session->data['success'] = $this->language->get('text_restore_success');
-			$this->redirect($this->data['target_url']);
+			redirect($this->data['target_url']);
 		}
 
 		//check if we save settings with the post
@@ -500,7 +515,7 @@ class ControllerPagesExtensionExtensions extends AController {
 			$this->extension_manager->editSetting($extension, $save_data);
 			$this->cache->remove('settings');
 			$this->session->data['success'] = $this->language->get('text_save_success');
-			$this->redirect($this->data['target_url']);
+			redirect($this->data['target_url']);
 		}
 
 		$conflict_resources = $ext->validateResources();
@@ -512,12 +527,12 @@ class ControllerPagesExtensionExtensions extends AController {
 		}
 
 		$this->document->setTitle($this->language->get($extension . '_name'));
-
-		$this->document->addBreadcrumb(array(
-			'href' => $this->data['target_url'],
-			'text' => $this->language->get($extension . '_name'),
-			'separator' => ' :: ',
-			'current' => true
+		$this->document->addBreadcrumb(
+				array(
+					'href' => $this->data['target_url'],
+					'text' => $this->language->get($extension . '_name'),
+					'separator' => ' :: ',
+					'current' => true
 		));
 
 		$this->data['heading_title'] = $this->language->get($extension . '_name');
@@ -602,10 +617,13 @@ class ControllerPagesExtensionExtensions extends AController {
 		//if extension is missing - do redirect on extensions list with alert!
 		if (in_array($extension, $missing_extensions)) {
 			$this->session->data['error'] = sprintf($this->language->get('text_missing_extension'),$extension);
-			$this->redirect($this->html->getSecureURL('extension/extensions'));
+			redirect($this->html->getSecureURL('extension/extensions'));
 		}
 
 		$this->data['extension_info']['note'] = $ext->getConfig('note') ? $this->html->convertLinks($this->language->get($extension . '_note')) : '';
+		/**
+		 * @var DOMElement $ext
+		 */
 		$config = $ext->getConfig();
 		if (!empty($config->preview->item)) {
 			foreach ($config->preview->item as $item) {
@@ -655,7 +673,7 @@ class ControllerPagesExtensionExtensions extends AController {
 				}else{
 					$status =  $this->language->get('text_not_installed').' ('.$this->language->get('text_disabled').')';
 				}
-
+				$class = '';
 				if (in_array($id, $db_extensions)) {
 					if (in_array($id, $missing_extensions)) {
 						$class = 'warning';
@@ -671,7 +689,6 @@ class ControllerPagesExtensionExtensions extends AController {
 							)
 						);
 					} else {
-
 						if (!$this->config->has($id . '_status')) {
 							$actions['install'] = $this->html->buildElement(
 															array(
@@ -769,19 +786,19 @@ class ControllerPagesExtensionExtensions extends AController {
 		$template = 'pages/extension/extensions_edit.tpl';
 		//#PR set custom templates for extension settings page.  
 		if ( has_value( (string)$config->custom_settings_template ) ) {
-		    //build path to template directory.
+			//build path to template directory.
 			$dir_template = DIR_EXT . $extension . DIR_EXT_ADMIN . DIR_EXT_TEMPLATE . $this->config->get('admin_template') . "/template/";
 			$dir_template .= (string)$config->custom_settings_template;
 			//validate template and report issue
 			if (!file_exists( $dir_template )) {
-            	$warning = new AWarning(sprintf($this->language->get('error_could_not_load_override'), $dir_template, $extension));
-            	$warning->toLog()->toDebug();
+				$warning = new AWarning(sprintf($this->language->get('error_could_not_load_override'), $dir_template, $extension));
+				$warning->toLog()->toDebug();
 			} else {
 				$template = $dir_template;
-			}			
+			}
 		}
 
-		//load tabs controller for addtional settings
+		//load tabs controller for additional settings
 		if($this->data['add_sett']){
 			$this->data['groups'][] = 'additional_settings';
 			$this->data['link_additional_settings'] = $this->data['add_sett']->href.'&extension='.$extension;
@@ -839,12 +856,12 @@ class ControllerPagesExtensionExtensions extends AController {
 
 		if (!$this->user->canModify('extension/extensions')) {
 			$this->session->data['error'] = $this->language->get('error_permission');
-			$this->redirect($this->html->getSecureURL('extension/extensions/' . $this->session->data['extension_filter']));
+			redirect($this->html->getSecureURL('extension/extensions/' . $this->session->data['extension_filter']));
 		} else {
 			$validate = $this->extension_manager->validate($this->request->get['extension']);
 			if (!$validate) {
 				$this->session->data['error'] = implode('<br>', $this->extension_manager->errors);
-				$this->redirect($this->html->getSecureURL('extension/extensions/' . $this->session->data['extension_filter']));
+				redirect($this->html->getSecureURL('extension/extensions/' . $this->session->data['extension_filter']));
 			}
 			$config = getExtensionConfigXml($this->request->get['extension']);
 			if ($config === false) {
@@ -854,7 +871,7 @@ class ControllerPagesExtensionExtensions extends AController {
 			} else {
 				$this->extension_manager->install($this->request->get['extension'], $config);
 			}
-			$this->redirect($this->html->getSecureURL('extension/extensions/edit', '&extension=' . $this->request->get['extension']));
+			redirect($this->html->getSecureURL('extension/extensions/edit', '&extension=' . $this->request->get['extension']));
 		}
 	}
 
@@ -865,11 +882,11 @@ class ControllerPagesExtensionExtensions extends AController {
 
 		if (!$this->user->canModify('extension/extensions')) {
 			$this->session->data['error'] = $this->language->get('error_permission');
-			$this->redirect($this->html->getSecureURL('extension/extensions/' . $this->session->data['extension_filter']));
+			redirect($this->html->getSecureURL('extension/extensions/' . $this->session->data['extension_filter']));
 		} else {
 			$ext = new ExtensionUtils($this->request->get['extension']);
 			$this->extension_manager->uninstall($this->request->get['extension'], $ext->getConfig());
-			$this->redirect($this->html->getSecureURL('extension/extensions/' . $this->session->data['extension_filter']));
+			redirect($this->html->getSecureURL('extension/extensions/' . $this->session->data['extension_filter']));
 		}
 
 		//update controller data
@@ -877,20 +894,19 @@ class ControllerPagesExtensionExtensions extends AController {
 	}
 
 	public function delete() {
-
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		if (!$this->user->canModify('extension/extensions')) {
 			$this->session->data['error'] = $this->language->get('error_permission');
-			$this->redirect($this->html->getSecureURL('extension/extensions/' . $this->session->data['extension_filter']));
+			redirect($this->html->getSecureURL('extension/extensions/' . $this->session->data['extension_filter']));
 		} else {
 			//extensions that has record in DB but missing files
 			$missing_extensions = $this->extensions->getMissingExtensions();
 
 			if ((!in_array($this->request->get['extension'], $missing_extensions)) && $this->config->has($this->request->get['extension'] . '_status')) {
 				$this->session->data['error'] = $this->language->get('error_uninstall');
-				$this->redirect($this->html->getSecureURL('extension/extensions/' . $this->session->data['extension_filter']));
+				redirect($this->html->getSecureURL('extension/extensions/' . $this->session->data['extension_filter']));
 			}
 			$ext = new ExtensionUtils($this->request->get['extension']);
 			if (in_array($this->request->get['extension'], $missing_extensions)) {
@@ -898,12 +914,10 @@ class ControllerPagesExtensionExtensions extends AController {
 			}
 
 			$this->extension_manager->delete($this->request->get['extension']);
-			$this->redirect($this->html->getSecureURL('extension/extensions/' . $this->session->data['extension_filter']));
+			redirect($this->html->getSecureURL('extension/extensions/' . $this->session->data['extension_filter']));
 		}
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-
 	}
-
 }

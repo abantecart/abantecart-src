@@ -128,8 +128,8 @@ class AContentManager{
 		}
 		$language_id = (int)$this->language->getContentLanguageID();
 
-		//Delete store and instert back again with the same ID.
-		//Area for improvment 
+		//Delete store and insert back again with the same ID.
+		//Area for improvement
 		$sql = "DELETE FROM " . $this->db->table("contents") . " 
 					WHERE content_id='" . $content_id . "'; ";
 		$this->db->query($sql);
@@ -232,7 +232,7 @@ class AContentManager{
 				$value = (array)$value;
 				$tmp = array ();
 				foreach ($value as $k => $v){
-					list($void, $parent_id) = explode('_', $v);
+					list(, $parent_id) = explode('_', $v);
 					if ($parent_id == $content_id){
 						continue;
 					}
@@ -359,7 +359,7 @@ class AContentManager{
 	 * @param string $mode
 	 * @param int $store_id
 	 * @param bool $parent_only
-	 * @return array
+	 * @return array|int
 	 */
 	public function getContents($data = array (), $mode = 'default', $store_id = 0, $parent_only = false){
 		if ($parent_only){
@@ -367,7 +367,8 @@ class AContentManager{
 				$data["subsql_filter"] .= ' AND ';
 			}
 			$data["subsql_filter"] .= "i.content_id IN (SELECT parent_content_id
-															FROM " . $this->db->table("contents") . " WHERE parent_content_id> 0)";
+														FROM " . $this->db->table("contents") . " 
+														WHERE parent_content_id> 0)";
 			$data['sort'] = 'i.parent_content_id, i.sort_order';
 		}
 
@@ -376,7 +377,7 @@ class AContentManager{
 		if ($data['store_id']){
 			$store_id = (int)$data['store_id'];
 		} else{
-			$store_id = (int)$this->config->get('config_store_id');
+			$store_id = $store_id!== null ? $store_id : (int)$this->config->get('config_store_id');
 		}
 
 		if ($mode == 'total_only'){
@@ -417,7 +418,7 @@ class AContentManager{
 			$sql .= " AND i.parent_content_id = '" . (int)$filter['parent_id'] . "'";
 		}
 
-		//If for total, we done bulding the query
+		//If for total, we done building the query
 		if ($mode == 'total_only'){
 			$query = $this->db->query($sql);
 			return $query->row['total'];
@@ -475,9 +476,7 @@ class AContentManager{
 		} else{
 			$output = $query->rows;
 		}
-
 		return $output;
-
 	}
 
 	/**
@@ -522,10 +521,8 @@ class AContentManager{
 	public function getContentsForSelect($parent_only = false, $without_top = false, $store_id = 0){
 
 		$all = $parent_only
-				?
-				$this->getParentContents(array (), $store_id)
-				:
-				$this->getContents(array (), '', $store_id, false);
+				?	$this->getParentContents(array (), $store_id)
+				:	$this->getContents(array (), '', $store_id, false);
 		if (!$without_top){
 			return array_merge(array ('0_0' => $this->language->get('text_top_level')), $this->buildContentTree($all, 0, 1));
 		} else{
@@ -574,5 +571,4 @@ class AContentManager{
 		}
 		return $output;
 	}
-
 }

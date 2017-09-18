@@ -145,7 +145,7 @@
 		<value><![CDATA[У Вас нет покупок для этого магазина или этот магазин был отключен от Marketplace.]]></value>
 	</definition>
 	<definition>
-		<key>text_no_extenions_loaded</key>
+		<key>text_no_extensions_loaded</key>
 		<value><![CDATA[Нет доступных расширений. Проверьте ваш выбор или попробуйте снова.]]></value>
 	</definition>
 	<definition>
@@ -191,5 +191,9 @@
 	<definition>
 		<key>text_search</key>
 		<value><![CDATA[искать]]></value>
+	</definition>
+	<definition>
+		<key>text_no_extensions_loaded</key>
+		<value><![CDATA[Нет расширений. Проверьте свой выбор или повторите попытку.]]></value>
 	</definition>
 </definitions>

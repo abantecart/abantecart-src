@@ -17,26 +17,30 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if ( !defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')) {
+	header('Location: static_pages/');
 }
 
-$controllers = array(
-    'storefront' => array(),
-    'admin' => array( ),
+$controllers = array (
+		'storefront' => array (),
+		'admin'      => array (),
 );
 
-$models = array(
-    'storefront' => array( 'extension/default_flat_rate_shipping' ),
-    'admin' => array( ),
+$models = array (
+		'storefront' => array ('extension/default_flat_rate_shipping'),
+		'admin'      => array (),
 );
 
-$languages = array(
-    'storefront' => array(
-	    'default_flat_rate_shipping/default_flat_rate_shipping'),
-    'admin' => array(
-        'default_flat_rate_shipping/default_flat_rate_shipping'));
+$languages = array (
+		'storefront' => array (
+				'default_flat_rate_shipping/default_flat_rate_shipping'
+		),
+		'admin'      => array (
+				'default_flat_rate_shipping/default_flat_rate_shipping'
+		)
+);
 
-$templates = array(
-    'storefront' => array(),
-    'admin' => array());
+$templates = array (
+		'storefront' => array (),
+		'admin'      => array ('pages/extension/default_flat_rate_shipping_rates.tpl')
+);

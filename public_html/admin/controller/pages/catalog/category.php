@@ -27,10 +27,16 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerPagesCatalogCategory extends AController {
 	public $error = array();
 	public $data = array();
-	private $fields = array('category_description', 'status', 'parent_id', 'category_store', 'keyword', 'sort_order');
+	public $fields = array(
+			'category_description',
+			'status',
+			'parent_id',
+			'category_store',
+			'keyword',
+			'sort_order'
+	);
 
 	public function main() {
-
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -68,26 +74,25 @@ class ControllerPagesCatalogCategory extends AController {
 								'text' => $this->language->get('text_edit'),
 								'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
 								'children' => array_merge(array(
-							                'quickview' => array(
-										                'text' => $this->language->get('text_quick_view'),
-										                'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
-								                        //quick view port URL
-										                'vhref' => $this->html->getSecureURL('r/common/viewport/modal','&viewport_rt=catalog/category/update&category_id=%ID%'),
-						                                ),
-							                'general' => array(
-										                'text' => $this->language->get('tab_general'),
-										                'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
-						                                ),
-							                'data' => array(
-										                'text' => $this->language->get('tab_data'),
-										                'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%').'#data',
-						                                ),
-							                'layout' => array(
-										                'text' => $this->language->get('tab_layout'),
-										                'href' => $this->html->getSecureURL('catalog/category/edit_layout', '&category_id=%ID%'),
-						                                ),
+											'quickview' => array(
+														'text' => $this->language->get('text_quick_view'),
+														'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
+														//quick view port URL
+														'vhref' => $this->html->getSecureURL('r/common/viewport/modal','&viewport_rt=catalog/category/update&category_id=%ID%'),
+														),
+											'general' => array(
+														'text' => $this->language->get('tab_general'),
+														'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
+														),
+											'data' => array(
+														'text' => $this->language->get('tab_data'),
+														'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%').'#data',
+														),
+											'layout' => array(
+														'text' => $this->language->get('tab_layout'),
+														'href' => $this->html->getSecureURL('catalog/category/edit_layout', '&category_id=%ID%'),
+														),
 								),(array)$this->data['grid_edit_expand'])
-
 						),
 						'save' => array(
 								'text' => $this->language->get('button_save'),
@@ -159,19 +164,26 @@ class ControllerPagesCatalogCategory extends AController {
 		}
 
 		$results = $this->model_catalog_category->getCategories(0);
-		$parents = array(0 => $this->language->get('text_select_parent'));
+		$parents = array(
+				'null' => $this->language->get('text_select_all'),
+				0 => $this->language->get('text_top_level')
+		);
 		foreach ($results as $c) {
 			$parents[$c['category_id']] = $c['name'];
 		}
 
-        //get search filter from cookie if requeted\
-        $search_params = array();
-        if($this->request->get['saved_list']) {
-            $grid_search_form = json_decode(html_entity_decode($this->request->cookie['grid_search_form']));
-            if($grid_search_form->table_id == $grid_settings['table_id']) {
-                parse_str($grid_search_form->params, $search_params);
-            }
-        }
+		//get search filter from cookie if required
+		$search_params = array();
+		if($this->request->get['saved_list']) {
+			$grid_search_form = json_decode(html_entity_decode($this->request->cookie['grid_search_form']));
+			if($grid_search_form->table_id == $grid_settings['table_id']) {
+				parse_str($grid_search_form->params, $search_params);
+			}
+			$grid_params = json_decode(html_entity_decode($this->request->cookie['grid_params']));
+			if($grid_params->postData->nodeid){
+				$search_params['parent_id'] = $grid_params->postData->nodeid;
+			}
+		}
 
 		$form = new AForm();
 		$form->setForm(array(
@@ -197,12 +209,13 @@ class ControllerPagesCatalogCategory extends AController {
 				'text' => $this->language->get('button_reset'),
 				'style' => 'button2',
 		));
+
 		$grid_search_form['fields']['parent_id'] = $form->getFieldHtml(array(
 				'type' => 'selectbox',
 				'name' => 'parent_id',
 				'options' => $parents,
 				'style' => 'chosen',
-                'value' => $search_params['parent_id'],
+				'value' => $search_params['parent_id']==null ? 0 : $search_params['parent_id'],
 				'placeholder' => $this->language->get('text_select_parent')
 		));
 
@@ -226,14 +239,11 @@ class ControllerPagesCatalogCategory extends AController {
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-
 	}
 
 	public function insert() {
-
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
-
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->view->assign('error_warning', $this->error['warning']);
@@ -253,8 +263,9 @@ class ControllerPagesCatalogCategory extends AController {
 			}
 
 			$category_id = $this->model_catalog_category->addCategory($this->request->post);
+			$this->extensions->hk_ProcessData($this, 'insert');
 			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect($this->html->getSecureURL('catalog/category/update', '&category_id=' . $category_id));
+			redirect($this->html->getSecureURL('catalog/category/update', '&category_id=' . $category_id));
 		}
 		$this->_getForm();
 
@@ -263,9 +274,7 @@ class ControllerPagesCatalogCategory extends AController {
 	}
 
 	public function update() {
-
 		$args = func_get_args();
-
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -283,9 +292,9 @@ class ControllerPagesCatalogCategory extends AController {
 		if ($this->request->is_POST() && $this->_validateForm()) {
 			$this->model_catalog_category->editCategory($this->request->get['category_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect($this->html->getSecureURL('catalog/category/update', '&category_id=' . $this->request->get['category_id']));
+			$this->extensions->hk_ProcessData($this, 'update');
+			redirect($this->html->getSecureURL('catalog/category/update', '&category_id=' . $this->request->get['category_id']));
 		}
-
 
 		$this->_getForm($args);
 
@@ -310,6 +319,8 @@ class ControllerPagesCatalogCategory extends AController {
 			$category_id = $this->request->get['category_id'];
 			$this->data['category_id'] = $category_id;
 			unset($categories[$category_id]);
+		}else{
+			$category_id = 0;
 		}
 
 		$this->document->initBreadcrumb(array(
@@ -317,6 +328,7 @@ class ControllerPagesCatalogCategory extends AController {
 				'text' => $this->language->get('text_home'),
 				'separator' => FALSE
 		));
+
 		$this->document->addBreadcrumb(array(
 				'href' => $this->html->getSecureURL('catalog/category'),
 				'text' => $this->language->get('heading_title'),
@@ -389,7 +401,8 @@ class ControllerPagesCatalogCategory extends AController {
 						'text' => $this->data['heading_title'],
 						'separator' => ' :: ',
 						'current' => true
-				));
+				)
+		);
 
 		$form->setForm(
 				array('form_name' => 'editFrm',
@@ -403,12 +416,14 @@ class ControllerPagesCatalogCategory extends AController {
 						'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
 						'action' => $this->data['action'],
 				));
+
 		$this->data['form']['submit'] = $form->getFieldHtml(
 				array('type' => 'button',
 						'name' => 'submit',
 						'text' => $this->language->get('button_save'),
 						'style' => 'button1',
 				));
+
 		$this->data['form']['cancel'] = $form->getFieldHtml(
 				array('type' => 'button',
 						'name' => 'cancel',
@@ -422,6 +437,7 @@ class ControllerPagesCatalogCategory extends AController {
 						'value' => $this->data['status'],
 						'style' => 'btn_switch',
 				));
+
 		$this->data['form']['fields']['general']['parent_category'] = $form->getFieldHtml(
 				array('type' => 'selectbox',
 						'name' => 'parent_id',
@@ -445,7 +461,7 @@ class ControllerPagesCatalogCategory extends AController {
 						'name' => 'category_description[' . $content_language_id . '][description]',
 						'value' => $this->data['category_description'][$content_language_id]['description'],
 						'style' => 'xl-field',
-						'multilingual' => true,	
+						'multilingual' => true,
 				));
 		}		
 		$this->data['form']['fields']['data']['meta_keywords'] = $form->getFieldHtml(
@@ -507,7 +523,6 @@ class ControllerPagesCatalogCategory extends AController {
 			$this->data['embed_url'] = $this->html->getSecureURL( 'common/do_embed/categories', '&category_id='.$category_id );
 		}
 
-
 		$this->view->batchAssign($this->data);
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('language_id', $content_language_id);
@@ -527,17 +542,16 @@ class ControllerPagesCatalogCategory extends AController {
 
 		$this->view->assign('current_url', $this->html->currentURL());
 
-        $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
-        if($saved_list_data->table_id == 'category_grid') {
-            $this->view->assign('list_url', $this->html->getSecureURL('catalog/category', '&saved_list=category_grid'));
-        }
+		$saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
+		if($saved_list_data->table_id == 'category_grid') {
+			$this->view->assign('list_url', $this->html->getSecureURL('catalog/category', '&saved_list=category_grid'));
+		}
 
 		if($viewport_mode == 'modal'){
 			$tpl = 'responses/viewport/modal/catalog/category_form.tpl';
 		}else{
 			$tpl = 'pages/catalog/category_form.tpl';
 		}
-
 		$this->processTemplate($tpl);
 	}
 
@@ -579,7 +593,7 @@ class ControllerPagesCatalogCategory extends AController {
 		$page_url = $this->html->getSecureURL('catalog/category/edit_layout', '&category_id=' . $category_id);
 		//note: category can not be ID of 0.
 		if (!has_value($category_id)) {
-			$this->redirect($this->html->getSecureURL('catalog/category'));
+			redirect($this->html->getSecureURL('catalog/category'));
 		}
 
 		//init controller data
@@ -593,15 +607,15 @@ class ControllerPagesCatalogCategory extends AController {
 			$this->data['category_description'] = $this->model_catalog_category->getCategoryDescriptions($category_id);
 		}
 
-	    // Alert messages
-	    if (isset($this->session->data['warning'])) {
-	      $this->data['error_warning'] = $this->session->data['warning'];
-	      unset($this->session->data['warning']);
-	    }
-	    if (isset($this->session->data['success'])) {
-	      $this->data['success'] = $this->session->data['success'];
-	      unset($this->session->data['success']);
-	    }
+		// Alert messages
+		if (isset($this->session->data['warning'])) {
+		  $this->data['error_warning'] = $this->session->data['warning'];
+		  unset($this->session->data['warning']);
+		}
+		if (isset($this->session->data['success'])) {
+		  $this->data['success'] = $this->session->data['success'];
+		  unset($this->session->data['success']);
+		}
 
 		$this->data['heading_title'] = $this->language->get('text_edit') . ' ' . $this->language->get('text_category') . ' - ' . $this->data['category_description'][$this->language->getContentLanguageID()]['name'];
 
@@ -644,14 +658,14 @@ class ControllerPagesCatalogCategory extends AController {
 			$tmpl_id = $this->request->get['tmpl_id'];
 		} else {
 			$tmpl_id = $this->config->get('config_storefront_template');
-		}			
-	    $params = array(
-	      'category_id' => $category_id,
-	      'page_id' => $page_id,
-	      'layout_id' => $layout_id,
-	      'tmpl_id' => $tmpl_id,
-	    );	
-	    $url = '&'.$this->html->buildURI($params);
+		}
+		$params = array(
+					'category_id' => $category_id,
+					'page_id' => $page_id,
+					'layout_id' => $layout_id,
+					'tmpl_id' => $tmpl_id,
+		);
+		$url = '&'.$this->html->buildURI($params);
 
 		// get templates
 		$this->data['templates'] = array();
@@ -668,39 +682,40 @@ class ControllerPagesCatalogCategory extends AController {
 		}
 
 		$action = $this->html->getSecureURL('catalog/category/save_layout');
-	    // Layout form data
-	    $form = new AForm('HT');
-	    $form->setForm(array(
-	      'form_name' => 'layout_form',
-	    ));
-	
-	    $this->data['form_begin'] = $form->getFieldHtml(array(
-	      'type' => 'form',
-	      'name' => 'layout_form',
-	      'attr' => 'data-confirm-exit="true"',
-	      'action' => $action
-	    ));
-	
-	    $this->data['hidden_fields'] = '';
-	    foreach ($params as $name => $value) {
-	      $this->data[$name] = $value;
-	      $this->data['hidden_fields'] .= $form->getFieldHtml(array(
-	        'type' => 'hidden',
-	        'name' => $name,
-	        'value' => $value
-	      ));
-	    }
-	
-	    $this->data['page_url'] = $page_url;
-	    $this->data['current_url'] = $this->html->getSecureURL('catalog/category/edit_layout', $url);
+		// Layout form data
+		$form = new AForm('HT');
+		$form->setForm(array(
+		  'form_name' => 'layout_form',
+		));
+
+		$this->data['form_begin'] = $form->getFieldHtml(array(
+		  'type' => 'form',
+		  'name' => 'layout_form',
+		  'attr' => 'data-confirm-exit="true"',
+		  'action' => $action
+		));
+
+		$this->data['hidden_fields'] = '';
+		foreach ($params as $name => $value) {
+			$this->data[$name] = $value;
+			$this->data['hidden_fields'] .= $form->getFieldHtml(
+											array(
+												'type' => 'hidden',
+												'name' => $name,
+												'value' => $value
+			));
+		}
+
+		$this->data['page_url'] = $page_url;
+		$this->data['current_url'] = $this->html->getSecureURL('catalog/category/edit_layout', $url);
 	
 		// insert external form of layout
 		$layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
 	
-	    $layoutform = $this->dispatch('common/page_layout', array($layout));
-	    $this->data['layoutform'] = $layoutform->dispatchGetOutput();
+		$layout_form = $this->dispatch('common/page_layout', array($layout));
+		$this->data['layoutform'] = $layout_form->dispatchGetOutput();
 		
-		//build pages and available layouts for clonning
+		//build pages and available layouts for cloning
 		$this->data['pages'] = $layout->getAllPages();
 		$av_layouts = array( "0" => $this->language->get('text_select_copy_layout'));
 		foreach($this->data['pages'] as $page){
@@ -711,19 +726,18 @@ class ControllerPagesCatalogCategory extends AController {
 
 		$form = new AForm('HT');
 		$form->setForm(array(
-		    'form_name' => 'cp_layout_frm',
-	    ));
-	    
+			'form_name' => 'cp_layout_frm',
+		));
+
 		$this->data['cp_layout_select'] = $form->getFieldHtml(array('type' => 'selectbox',
 													'name' => 'layout_change',
 													'value' => '',
 													'options' => $av_layouts ));
 
 		$this->data['cp_layout_frm'] = $form->getFieldHtml(array('type' => 'form',
-		                                        'name' => 'cp_layout_frm',
-		                                        'attr' => 'class="aform form-inline"',
-			                                    'action' => $action));
-		
+												'name' => 'cp_layout_frm',
+												'attr' => 'class="aform form-inline"',
+												'action' => $action));
 		$this->view->batchAssign($this->data);
 
 		$this->processTemplate('pages/catalog/category_layout.tpl');
@@ -732,8 +746,8 @@ class ControllerPagesCatalogCategory extends AController {
 	}
 
 	public function save_layout() {
-		if (($this->request->is_GET())) {
-			$this->redirect($this->html->getSecureURL('catalog/category'));
+		if ($this->request->is_GET()) {
+			redirect($this->html->getSecureURL('catalog/category'));
 		}
 
 		$page_controller = 'pages/product/category';
@@ -744,8 +758,8 @@ class ControllerPagesCatalogCategory extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 		$this->loadLanguage('catalog/category');
 
-		if (!has_value($category_id)) {
-			$this->redirect($this->html->getSecureURL('catalog/category'));
+		if (!$category_id) {
+			redirect($this->html->getSecureURL('catalog/category'));
 		}
 
 		// need to know unique page existing
@@ -779,19 +793,20 @@ class ControllerPagesCatalogCategory extends AController {
 
 		//create new instance with specific template/page/layout data
 		$layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
-		if (has_value($post_data['layout_change'])) {	
+		if (has_value($post_data['layout_change'])) {
 			//update layout request. Clone source layout
 			$layout->clonePageLayout($post_data['layout_change'], $layout_id, $post_data['layout_name']);
 			$this->session->data[ 'success' ] = $this->language->get('text_success_layout');
 		} else {
 			//save new layout
-      		$layout_data = $layout->prepareInput($post_data);
-      		if ($layout_data) {
-      			$layout->savePageLayout($layout_data);
-      			$this->session->data[ 'success' ] = $this->language->get('text_success_layout');
-      		} 
+			$layout_data = $layout->prepareInput($post_data);
+			if ($layout_data) {
+				$layout->savePageLayout($layout_data);
+				$this->session->data[ 'success' ] = $this->language->get('text_success_layout');
+			}
 		}
-		$this->redirect($this->html->getSecureURL('catalog/category/edit_layout', '&category_id=' . $category_id));
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+		redirect($this->html->getSecureURL('catalog/category/edit_layout', '&category_id=' . $category_id));
 	}
 
 }

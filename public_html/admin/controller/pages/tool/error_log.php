@@ -23,37 +23,45 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 class ControllerPagesToolErrorLog extends AController {
 	public $data;
 	public function main() {
-
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->loadLanguage('tool/error_log');
-		$this->document->setTitle( $this->language->get('heading_title') );
-		$this->data['heading_title'] = $this->language->get('heading_title');
+
 		$this->data['button_clear'] = $this->language->get('button_clear');
-		$this->data['tab_general'] = $this->language->get('tab_general');
+
 		if (isset($this->session->data['success'])) {
 			$this->data['success'] = $this->session->data['success'];
 			unset($this->session->data['success']);
 		} else {
 			$this->data['success'] = '';
 		}
-		
-  		$this->document->resetBreadcrumbs();
-   		$this->document->addBreadcrumb( array ( 
-       		'href'      => $this->html->getSecureURL('index/home'),
-       		'text'      => $this->language->get('text_home'),
-      		'separator' => FALSE
-   		 ));
-   		$this->document->addBreadcrumb( array ( 
-       		'href'      => $this->html->getSecureURL('tool/error_log'),
-       		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: ',
-			'current'	=> true
-   		 ));
-		
-		$this->data['clear_url'] = $this->html->getSecureURL('tool/error_log/clearlog');
-		$file = DIR_LOGS . $this->config->get('config_error_filename');
+
+		$filename = $this->request->get['filename'];
+		if( $filename && is_file(DIR_LOGS . $filename) ){
+			$file = DIR_LOGS . $filename;
+			$this->data['clear_url'] = '';
+			$heading_title = $this->request->clean($filename);
+		}else {
+			$file = DIR_LOGS . $this->config->get('config_error_filename');
+			$this->data['clear_url'] = $this->html->getSecureURL('tool/error_log/clearlog');
+			$heading_title = $this->language->get('heading_title');
+		}
+
+		$this->document->setTitle( $heading_title );
+		$this->data['heading_title'] = $heading_title;
+		$this->document->resetBreadcrumbs();
+		$this->document->addBreadcrumb( array (
+			'href'      => $this->html->getSecureURL('index/home'),
+			'text'      => $this->language->get('text_home'),
+			'separator' => FALSE
+		));
+		$this->document->addBreadcrumb( array (
+			'href'      => $this->html->getSecureURL('tool/error_log', ($filename ? '&filename='.$filename : '')),
+			'text'      => $heading_title,
+			'separator' => ' :: ',
+			'current'   => true
+		));
 
 		if (file_exists($file)) {
 			ini_set("auto_detect_line_endings", true);
@@ -71,7 +79,7 @@ strtoupper($this->language->get('text_file_tail')).DIR_LOGS."
 				fseek($fp,-500000,SEEK_END);
 				fgets($fp);
 			}
-
+			$log = '';
 			while(!feof($fp)){
 				$log .= fgets($fp);
 			}
@@ -80,7 +88,7 @@ strtoupper($this->language->get('text_file_tail')).DIR_LOGS."
 			$log = '';
 		}
 
-		$log = htmlentities(str_replace(array('<br/>','<br />'),"\n",$log), ENT_QUOTES, 'UTF-8');	
+		$log = htmlentities(str_replace(array('<br/>','<br />'),"\n",$log), ENT_QUOTES, 'UTF-8');
 		//filter empty string
 		$lines = array_filter( explode("\n", $log), 'strlen' );
 		unset($log);
@@ -96,26 +104,31 @@ strtoupper($this->language->get('text_file_tail')).DIR_LOGS."
 
 		$this->data['log'] = $data;
 
-
 		$this->view->batchAssign( $this->data );
-        $this->processTemplate('pages/tool/error_log.tpl' );
+		$this->processTemplate('pages/tool/error_log.tpl' );
 
-        //update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		//update controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 
 	public function clearLog() {
 
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-		$file = DIR_LOGS . $this->config->get('config_error_filename');
+		$filename = $this->request->get['filename'];
+		if( $filename && is_file(DIR_LOGS . $filename) ){
+			$file = DIR_LOGS . $filename;
+		}else {
+			$file = DIR_LOGS . $this->config->get('config_error_filename');
+		}
+
 		$handle = fopen($file, 'w+');
 		fclose($handle);
 		$this->session->data['success'] = $this->language->get('text_success');
 		$this->redirect($this->html->getSecureURL('tool/error_log'));
 
-        //update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		//update controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 }

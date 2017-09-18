@@ -7,7 +7,7 @@
 	<definition>
 		<key>text_zoom</key>
 		<value><![CDATA[Moverse Ratón en la imagen para ampliar]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_discount</key>
 		<value><![CDATA[Cantidad para descuento:]]></value>
@@ -163,25 +163,29 @@
 	<definition>
 		<key>text_total_price</key>
 		<value><![CDATA[El precio total:]]></value>
-	</definition>		
+	</definition>
 	<definition>
 		<key>text_login_view_price</key>
 		<value><![CDATA[Por favor ingresa ot registrarse para ver los precios o para.]]></value>
 	</definition>
-    <definition>
-        <key>tab_downloads</key>
-        <value><![CDATA[Descargas]]></value>
-    </definition>
+	<definition>
+		<key>tab_downloads</key>
+		<value><![CDATA[Descargas]]></value>
+	</definition>
 	<definition>
 		<key>text_start_download</key>
 		<value><![CDATA[Iniciar Descarga]]></value>
 	</definition>
 	<definition>
 		<key>text_new_review</key>
-		<value><![CDATA[Product review approval is pending]]></value>
-	</definition>	
+		<value><![CDATA[La aprobación de revisión de producto está pendiente]]></value>
+	</definition>
 	<definition>
 		<key>text_pending_review_approval</key>
-		<value><![CDATA[Review for product id %s is posted. Action of approval is required! Click to view #admin#rt=catalog/review/update&review_id=%s]]></value>
-	</definition>	
+		<value><![CDATA[Se ha publicado una revisión de la ID del producto %s. ¡Se requiere una acción de aprobación! Haga clic para ver #admin#rt=catalog/review/update&review_id=%s]]></value>
+	</definition>
+	<definition>
+		<key>text_out_of_stock</key>
+		<value><![CDATA[Agotado]]></value>
+	</definition>
 </definitions>

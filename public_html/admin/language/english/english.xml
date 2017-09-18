@@ -239,7 +239,7 @@
 	<definition>
 		<key>button_message</key>
 		<value><![CDATA[Contact this customer]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>button_approve</key>
 		<value><![CDATA[Approve]]></value>
@@ -371,7 +371,7 @@
 	</definition>
 	<definition>
 		<key>error_upload_999</key>
-		<value><![CDATA[Warning: No error code avaiable!]]></value>
+		<value><![CDATA[Warning: No error code available!]]></value>
 	</definition>
 	<definition>
 		<key>text_choose_action</key>
@@ -656,7 +656,7 @@
 	<definition>
 		<key>text_select_from_lookup</key>
 		<value><![CDATA[Start typing (name, model, sku, etc.) to look up and select result]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_continue_typing</key>
 		<value><![CDATA[Continue typing ...]]></value>
@@ -748,5 +748,9 @@
 	<definition>
 		<key>text_back_to_list</key>
 		<value><![CDATA[Back to listing]]></value>
+	</definition>
+	<definition>
+		<key>text_help_link</key>
+		<value><![CDATA[<a href="http://www.abantecart.com/contact-us" target="_abantecart">Need help?</a>]]></value>
 	</definition>
 </definitions>

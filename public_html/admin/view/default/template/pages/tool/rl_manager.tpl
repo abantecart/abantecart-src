@@ -86,3 +86,13 @@
 				'modal_type' => 'lg',
 				'data_source' => 'ajax'));
 ?>
+<script type="application/javascript">
+	//open modal on page load if resource_id presents in URL parameters
+	$(window).load(function(){
+	    var resource_id = getURLVar(location, 'resource_id');
+	    if(resource_id){
+			mediaDialog('', 'list_object', resource_id);
+			sideDialog('', 'update', resource_id);
+		}
+	})
+</script>

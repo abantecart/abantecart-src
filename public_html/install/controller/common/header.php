@@ -19,21 +19,22 @@
 ------------------------------------------------------------------------------*/
 
 class ControllerCommonHeader extends AController {
+	public $data = array();
 	public function main() {
-		$template_data = array();
-        $template_data['title'] = $this->document->getTitle();
-		$template_data['description'] = $this->document->getDescription();
-		$template_data['base'] = $this->document->getBase();
-		$template_data['charset'] = $this->document->getCharset();
-		$template_data['language'] = $this->document->getLanguage();
-		$template_data['direction'] = $this->document->getDirection();
-		$template_data['links'] = $this->document->getLinks();	
-		$template_data['styles'] = $this->document->getStyles();
-		$template_data['scripts'] = $this->document->getScripts();		
-		$template_data['breadcrumbs'] = $this->document->getBreadcrumbs();
+		$this->data = array();
+        $this->data['title'] = $this->document->getTitle();
+		$this->data['description'] = $this->document->getDescription();
+		$this->data['base'] = $this->document->getBase();
+		$this->data['charset'] = $this->document->getCharset();
+		$this->data['language'] = $this->document->getLanguage();
+		$this->data['direction'] = $this->document->getDirection();
+		$this->data['links'] = $this->document->getLinks();
+		$this->data['styles'] = $this->document->getStyles();
+		$this->data['scripts'] = $this->document->getScripts();
+		$this->data['breadcrumbs'] = $this->document->getBreadcrumbs();
+		$this->data['ssl'] = HTTPS;
 
-		$this->view->batchAssign( $template_data );
-        $this->processTemplate('common/header.tpl' );
+		$this->view->batchAssign( $this->data );
+		$this->processTemplate('common/header.tpl' );
 	}
 }
-?>

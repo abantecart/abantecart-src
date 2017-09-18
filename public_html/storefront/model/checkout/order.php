@@ -339,7 +339,7 @@ class ModelCheckoutOrder extends Model{
 		$order_row = $this->dcrypt->decrypt_data($order_query->row, 'orders');
 		$update = array ();
 
-		//update order status
+        //update order status
 		$update[] = "order_status_id = '" . (int)$order_status_id . "'";
 		$sql = "UPDATE `" . $this->db->table("orders") . "`
 			    SET " . implode(", ", $update) . "
@@ -358,39 +358,25 @@ class ModelCheckoutOrder extends Model{
 		$order_product_query = $this->db->query("SELECT *
 												 FROM " . $this->db->table("order_products") . "
 												 WHERE order_id = '" . (int)$order_id . "'");
-		//update products inventory
 		// load language for IM
 		$language = new ALanguage($this->registry);
+		$language->load($language->language_details['directory']);
 		$language->load('common/im');
 
-		foreach ($order_product_query->rows as $product){
-			$this->db->query("UPDATE " . $this->db->table("products") . "
-							  SET quantity = (quantity - " . (int)$product['quantity'] . ")
-							  WHERE product_id = '" . (int)$product['product_id'] . "' AND subtract = 1");
-
-			//check quantity and send notification when 0 or less
-			$sql = "SELECT quantity
-			        FROM " . $this->db->table("products") . "
-					WHERE product_id = '" . (int)$product['product_id'] . "' AND subtract = 1";
-			$res = $this->db->query($sql);
-			if ($res->num_rows && $res->row['quantity'] <= 0){
-				//notify admin with out of stock
-				$message_arr = array (
-						1 => array ('message' => sprintf($language->get('im_product_out_of_stock_admin_text'), $product['product_id']))
-				);
-				$this->im->send('product_out_of_stock', $message_arr);
-			}
-
-			$order_option_query = $this->db->query("SELECT *
+        //update products inventory
+		foreach ($order_product_query->rows as $product) {
+            $order_option_query = $this->db->query("SELECT *
 													FROM " . $this->db->table("order_options") . "
 													WHERE order_id = '" . (int)$order_id . "'
 															AND order_product_id = '" . (int)$product['order_product_id'] . "'");
-
+            //update options stock
+            $stock_updated = false;
 			foreach ($order_option_query->rows as $option){
 				$this->db->query("UPDATE " . $this->db->table("product_option_values") . "
 								  SET quantity = (quantity - " . (int)$product['quantity'] . ")
 								  WHERE product_option_value_id = '" . (int)$option['product_option_value_id'] . "'
 								        AND subtract = 1");
+                $stock_updated = true;
 				$sql = "SELECT quantity
 				        FROM " . $this->db->table("product_option_values") . "
 						WHERE product_option_value_id = '" . (int)$option['product_option_value_id'] . "'
@@ -404,6 +390,25 @@ class ModelCheckoutOrder extends Model{
 					$this->im->send('product_out_of_stock', $message_arr);
 				}
 			}
+
+			if (!$stock_updated) {
+                $this->db->query("UPDATE " . $this->db->table("products") . "
+							  SET quantity = (quantity - " . (int)$product['quantity'] . ")
+							  WHERE product_id = '" . (int)$product['product_id'] . "' AND subtract = 1");
+
+                //check quantity and send notification when 0 or less
+                $sql = "SELECT quantity
+			        FROM " . $this->db->table("products") . "
+					WHERE product_id = '" . (int)$product['product_id'] . "' AND subtract = 1";
+                $res = $this->db->query($sql);
+                if ($res->num_rows && $res->row['quantity'] <= 0){
+                    //notify admin with out of stock
+                    $message_arr = array (
+                        1 => array ('message' => sprintf($language->get('im_product_out_of_stock_admin_text'), $product['product_id']))
+                    );
+                    $this->im->send('product_out_of_stock', $message_arr);
+                }
+            }
 		}
 
 		//clean product cache as stock might have changed.
@@ -458,7 +463,30 @@ class ModelCheckoutOrder extends Model{
 		$this->data['mail_template_data']['order_id'] = $order_id;
 		$this->data['mail_template_data']['customer_id'] = $order_row['customer_id'];
 		$this->data['mail_template_data']['date_added'] = dateISO2Display($order_row['date_added'], $language->get('date_format_short'));
-		$this->data['mail_template_data']['logo'] = 'cid:' . md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
+
+		$config_mail_logo = $this->config->get('config_mail_logo');
+		$config_mail_logo = !$config_mail_logo ? $this->config->get('config_logo') : $config_mail_logo;
+		if($config_mail_logo) {
+			if (is_numeric($config_mail_logo)) {
+				$r = new AResource('image');
+				$resource_info = $r->getResource($config_mail_logo);
+				if ($resource_info) {
+					$this->data['mail_template_data']['logo_html'] = html_entity_decode($resource_info['resource_code'],
+							ENT_QUOTES, 'UTF-8');
+				}
+			} else {
+				$this->data['mail_template_data']['logo_uri'] = 'cid:'
+						. md5(pathinfo($config_mail_logo, PATHINFO_FILENAME))
+						. '.' . pathinfo($config_mail_logo, PATHINFO_EXTENSION);
+			}
+		}
+		//backward compatibility. TODO: remove this in 2.0
+		if($this->data['mail_template_data']['logo_uri']){
+			$this->data['mail_template_data']['logo'] = $this->data['mail_template_data']['logo_uri'];
+		}else{
+			$this->data['mail_template_data']['logo'] = $config_mail_logo;
+		}
+
 		$this->data['mail_template_data']['store_name'] = $order_row['store_name'];
 		$this->data['mail_template_data']['address'] = nl2br($this->config->get('config_address'));
 		$this->data['mail_template_data']['telephone'] = $this->config->get('config_telephone');
@@ -608,9 +636,11 @@ class ModelCheckoutOrder extends Model{
 		$mail->setSubject($subject);
 		$mail->setHtml($html_body);
 		$mail->setText($this->data['mail_plain_text']);
-		$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_logo'),
-				md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME))
-				. '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION));
+		if(is_file(DIR_RESOURCE . $config_mail_logo)) {
+			$mail->addAttachment(DIR_RESOURCE . $config_mail_logo,
+					md5(pathinfo($config_mail_logo, PATHINFO_FILENAME))
+					. '.' . pathinfo($config_mail_logo, PATHINFO_EXTENSION));
+		}
 		$mail->send();
 
 		//send alert email for merchant
@@ -677,6 +707,7 @@ class ModelCheckoutOrder extends Model{
 		$msg->saveNotice($language->get('text_new_order') . $order_id, $msg_text);
 
 		$language = new ALanguage($this->registry);
+		$language->load($language->language_details['directory']);
 		$language->load('common/im');
 		$message_arr = array (
 				1 => array ('message' => sprintf($language->get('im_new_order_text_to_admin'), $order_id))
@@ -734,6 +765,7 @@ class ModelCheckoutOrder extends Model{
 														AND language_id = '" . (int)$order_row['language_id'] . "'");
 
 			$language_im = new ALanguage($this->registry);
+			$language->load($language->language_details['directory']);
 			$language_im->load('common/im');
 			$status_name = '';
 			if ($order_status_query->row['name']){

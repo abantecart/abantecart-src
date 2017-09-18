@@ -23,10 +23,12 @@ if (!defined('DIR_CORE')) {
 
 class ModelExtensionDefaultPerItemShipping extends Model {
 	public function getQuote($address) {
-		$this->load->language('default_per_item_shipping/default_per_item_shipping');
+		//create new instance of language for case when model called from admin-side
+		$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+		$language->load($language->language_details['directory']);
+		$language->load('default_per_item_shipping/default_per_item_shipping');
 
 		if ($this->config->get('default_per_item_shipping_status')) {
-
 			if (!$this->config->get('default_per_item_shipping_location_id')) {
 				$status = TRUE;
 			} else {
@@ -73,8 +75,8 @@ class ModelExtensionDefaultPerItemShipping extends Model {
 		}
 
 		$quote_data = array();
+		$cost_text = $language->get('text_free');
 
-		$cost_text = $this->language->get('text_free');
 		if ($cost) {
 			$cost_text = $this->currency->format(
 				$this->tax->calculate(	$cost, 
@@ -83,23 +85,20 @@ class ModelExtensionDefaultPerItemShipping extends Model {
 										)
 				);
 		}
-
 		$quote_data['default_per_item_shipping'] = array(
 				'id' => 'default_per_item_shipping.default_per_item_shipping',
-				'title' => $this->language->get('text_description'),
+				'title' => $language->get('text_description'),
 				'cost' => $cost,
 				'tax_class_id' => $this->config->get('default_per_item_shipping_tax'),
 				'text' => $cost_text
 		);
-
 		$method_data = array(
 				'id' => 'default_per_item_shipping',
-				'title' => $this->language->get('text_title'),
+				'title' => $language->get('text_title'),
 				'quote' => $quote_data,
 				'sort_order' => $this->config->get('default_per_item_shipping_sort_order'),
 				'error' => FALSE
 		);
-
 		return $method_data;
 	}
 }

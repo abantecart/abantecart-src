@@ -525,7 +525,7 @@ h1 a:hover, h2 a:hover, h3  a:hover {
 
 .gen-list li .name {
 	font-size: 13px;
-   font-family: 'LatoBold','Lucida Grande', 'Lucida Sans Unicode', Helvetica, sans-serif;
+   font-family: 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, sans-serif;
    line-height: 21px;
    display: block;
 }
@@ -998,7 +998,6 @@ form .form-group:last-child {
 	font-size: 13px;
 	text-transform: uppercase;
 	color: #333;
-	font-family: 'LatoBold';
 	margin-bottom: 15px;
 	margin-top: 0;
 }
@@ -1324,6 +1323,10 @@ p {
 .rl-content .edit_resource_form .form-group {
 	margin-bottom: 2px;
 }
+.rl-content .edit_resource_form img{
+	max-height: 90px;
+	width: auto;
+}
 #rl_edit_container .ellipsis {
 	max-width: 260px;
 	white-space:nowrap;
@@ -1424,6 +1427,10 @@ p {
 .thumbnail .rl_large_icon i {
 	text-align: center;
 	font-size: 7em;
+}
+
+a.resource_edit .img-responsive{
+	max-height: 100px;
 }
 
 /* locked screen */
@@ -1986,7 +1993,7 @@ p {
    text-transform: uppercase;
    font-size: 12px;
    color: #666;
-   font-family: 'LatoBold', sans-serif;
+   font-family: sans-serif;
 }
 
 .headerbar .topnav > ul > li > a:hover,
@@ -2182,7 +2189,6 @@ p {
     font-size: 12px;
     color: #333;
     text-transform: uppercase;
-    font-family: 'LatoBold';
 }
 
 .media-details .table {
@@ -2328,6 +2334,9 @@ body.stickyheader .sticky_left {
    border: 3px solid #EEEEEE;
 }
 
+.mb0 {
+	margin-bottom: 0;
+}
 .mb5 {
 	margin-bottom: 5px;
 }
@@ -2506,6 +2515,24 @@ body.stickyheader .sticky_left {
 .panel .table > tbody > tr > td, 
 .panel .table > tbody > tr > th {
 	vertical-align: middle;
+}
+.import-table > thead td {
+    text-align: center;
+}
+.import-table > tbody td {
+    text-align: center;
+}
+.import-table td > div,
+.import-table td .form-group {
+    max-width: 300px;
+    margin: auto;
+}
+.import-table td .input-group {
+    width: 100%;
+    margin: auto;
+}
+.import-table td .form-group.field_updater {
+    width: 30px;
 }
 
 
@@ -3377,4 +3404,18 @@ body.stickyheader .sticky_left {
 
 img.extension-summary-icon{
 	width: 57px;
+}
+
+.stars{
+	cursor: default;
+}
+.fa-star, .fa-star-o{
+	margin-right: 2px;
+}
+.fa-star::before, .fa-star-o::before{
+	color: gold;
+}
+
+.ext_store span.review{
+	white-space: nowrap;
 }

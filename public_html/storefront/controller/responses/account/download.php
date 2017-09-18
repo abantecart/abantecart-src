@@ -31,28 +31,22 @@ class ControllerResponsesAccountDownload extends AController {
 
 		try{
 			$this->config->set('embed_mode', true);
-			$cntr = $this->dispatch('pages/account/download');
-			$html_out = $cntr->dispatchGetOutput();
-		}catch(AException $e){	}
-	
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-
+			$dd = $this->dispatch('pages/account/download');
+			$html_out = $dd->dispatchGetOutput();
+		}catch(AException $e){}
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 		$this->response->setOutput($html_out);
 	}
 
 	public function startDownload() {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
-
 		try{
 			$this->config->set('embed_mode', true);
-			$cntr = $this->dispatch('pages/account/download/startDownload');
-			$html_out = $cntr->dispatchGetOutput();
-		}catch(AException $e){	}
-
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-
+			$dd = $this->dispatch('pages/account/download/startDownload');
+			$html_out = $dd->dispatchGetOutput();
+		}catch(AException $e){}
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 		$this->response->setOutput($html_out);
 	}
-
 }

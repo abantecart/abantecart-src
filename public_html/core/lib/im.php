@@ -226,7 +226,7 @@ class AIM{
 			$this->sendpoints[$name] = $data_array;
 		} else{
 			$error = new AError('SendPoint ' . $name . ' cannot be added to the list.');
-			$error->toLog()->toMessages();
+			$error->toLog();
 			return false;
 		}
 		return true;
@@ -268,7 +268,7 @@ class AIM{
 		//check sendpoint
 		if (!in_array($sendpoint, array_keys($sendpoints_list))){
 			$error = new AError('IM error: Unrecognized SendPoint ' . $sendpoint . '. Nothing sent.');
-			$error->toLog()->toMessages();
+			$error->toLog();
 			return false;
 		}
 
@@ -506,12 +506,14 @@ class AIM{
 	private function _get_admin_im_uri($sendpoint, $protocol){
 		$section = IS_ADMIN === true ? 1 : 0;
 		$output = array ();
-		$sql = "SELECT *
-				FROM " . $this->db->table('user_notifications') . "
-				WHERE protocol='" . $this->db->escape($protocol) . "'
-					AND sendpoint = '" . $this->db->escape($sendpoint) . "'
-					AND section = '" . $section . "'
-					AND store_id = '" . (int)$this->config->get('config_store_id') . "'";
+		$sql = "SELECT un.*
+				FROM " . $this->db->table('user_notifications') . " un
+				INNER JOIN " . $this->db->table('users') . " u
+									ON (u.user_id = un.user_id AND u.status = 1)
+				WHERE un.protocol='" . $this->db->escape($protocol) . "'
+					AND un.sendpoint = '" . $this->db->escape($sendpoint) . "'
+					AND un.section = '" . $section . "'
+					AND un.store_id = '" . (int)$this->config->get('config_store_id') . "'";
 		$result = $this->db->query($sql);
 		foreach ($result->rows as $row){
 			$uri = trim($row['uri']);

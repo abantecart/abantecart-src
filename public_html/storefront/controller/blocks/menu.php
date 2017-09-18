@@ -67,7 +67,11 @@ class ControllerBlocksMenu extends AController {
 		foreach ( $this->menu_items[$parent] as $item ) {
 			if( preg_match ( "/^http/i", $item ['item_url'] ) ){
 				$href = $item ['item_url'];
-			} else {
+			}
+			//process relative url such as ../blog/index.php
+			elseif( preg_match ( "/^\.\.\//i", $item ['item_url'] ) ){
+				$href = str_replace('../','',$item ['item_url']);
+			}else {
 				$href = $this->html->getSecureURL( $item ['item_url'] );
 			}
 			$menu[] = array(

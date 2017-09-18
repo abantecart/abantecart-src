@@ -35,14 +35,11 @@ class TaskTest extends AbanteCartTest{
 
 	public function testTaskRunCLI(){
 		$task_id = $this->task_details['task_id'];
-		exec('php '.DIR_ROOT.'/task.php '.$task_id, $output);
+		exec('php '.DIR_ROOT.'/task_cli.php run --task_id='.$task_id, $output);
 		list($step_id1, $step_id2) = array_keys($this->task_details['steps']);
 		$expected = array(
-							"Running command line",
-							"Task_id: ".$task_id." state - running.",
-							"Task_id: ".$task_id." : step_id: ".$step_id1.". 122 tables dumped.",
-							"Task_id: ".$task_id." : step_id: ".$step_id2.". ( compressing )",
-							"Task_id: ".$task_id." state - finished."
+							"Running: Task ID ".$task_id.":",
+							"Finished running: Task ID ".$task_id.":"
 		);
 
 		$this->assertEquals($expected, $output);
@@ -50,11 +47,11 @@ class TaskTest extends AbanteCartTest{
 	public function testTaskStepRunCLI(){
 		$task_id = $this->task_details['task_id'];
 		list($step_id1, $step_id2) = array_keys($this->task_details['steps']);
-		exec('php '.DIR_ROOT.'/task.php '.$task_id.' '.$step_id1, $output);
+		exec('php '.DIR_ROOT.'/task_cli.php run --task_id='.$task_id.' --step_id='.$step_id1, $output);
 
-		$expected = array(
-							"Running command line",
-							"Task_id: ".$task_id." : step_id: ".$step_id1.". 122 tables dumped."
+		$expected = array(  "Force starting step!",
+							"Running: Task ID ".$task_id." Step ID ".$step_id1.":",
+							"Finished running: Task ID ".$task_id." Step ID ".$step_id1.":"
 		);
 
 		$this->assertEquals($expected, $output);

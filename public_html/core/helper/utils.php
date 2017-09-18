@@ -499,10 +499,10 @@ function getExtensionConfigXml($extension_txt_id) {
 	if($ext_configs === false){
 		$err_text = 'Error: cannot to load config.xml of extension '.$extension_txt_id.'.';
 		$error = new AError($err_text);
-		$error->toLog()->toDebug()->toMessages();
+		$error->toLog()->toDebug();
 		foreach(libxml_get_errors() as $error) {
 			$err = new AError($error->message);
-			$err->toLog()->toDebug()->toMessages();
+			$err->toLog()->toDebug();
 		}
 		return false;
 	}
@@ -553,7 +553,7 @@ function getExtensionConfigXml($extension_txt_id) {
 				if($additional_config === false){
 					foreach(libxml_get_errors() as $error) {
 						$err = new AError($error->message);
-						$err->toLog()->toDebug()->toMessages();
+						$err->toLog()->toDebug();
 					}
 				}
 				// loop by all settings items
@@ -696,8 +696,8 @@ function is_assoc($test_array) {
  * @return string
  */
 function project_base() {
-	$base = 'PGEgaHJlZj0iaHR0cDovL3d3dy5hYmFudGVjYXJ0LmNvbSIgb25jbGljaz0id2luZG93Lm9wZW4odGhpcy5ocmVm';
-	$base .= 'KTtyZXR1cm4gZmFsc2U7IiB0aXRsZT0iSWRlYWwgT3BlblNvdXJjZSBFLWNvbW1lcmNlIFNvbHV0aW9uIj5BYmFudGVDYXJ0PC9hPg==';
+	$base = 'PGEgaHJlZj0iaHR0cDovL3d3dy5hYmFudGVjYXJ0LmNvbSIgdGFyZ2V0PSJfYmxhbmsiIHRpdGxlPSJJZ';
+	$base .= 'GVhbCBPcGVuU291cmNlIEUtY29tbWVyY2UgU29sdXRpb24iPkFiYW50ZUNhcnQ8L2E+';
 	return base64_decode($base);
 }
 
@@ -766,7 +766,7 @@ function compressTarGZ($tar_filename, $tar_dir, $compress_level = 5){
 				gzip($tar, $compress_level);
 				unlink($tar);
 			}
-		}catch (Exception $e){
+		}catch (PharException $e){
 			$error = new AError( 'Tar GZ compressing error: '. $e->getMessage() );
 			$error->toLog()->toDebug();
 			$exit_code =1;
@@ -996,6 +996,8 @@ function is_valid_url( $validate_url ) {
 
 /**
  * Get valid URL path considering *.php
+ * @param string $url
+ * @return string
  */
 function get_url_path( $url ) {
 	$url_path1 = parse_url($url,PHP_URL_PATH);
@@ -1150,7 +1152,7 @@ function get_image_size($filename){
 	}
 	if($filename){
 		$error = new  AError('Error: Cannot get image size of file ' . $filename.'. File not found or it\'s not an image!');
-		$error->toLog()->toMessages()->toDebug();
+		$error->toLog()->toDebug();
 	}
 	return array();
 }
@@ -1182,7 +1184,7 @@ function check_resize_image($orig_image, $new_image, $width, $height, $quality){
 				$indexFile = DIR_IMAGE . $path . '/index.php';
 				$result = mkdir(DIR_IMAGE . $path, 0775) && file_put_contents($indexFile, "<?php die('Restricted Access!'); ?>");
 				if (!$result) {
-					$error = new AError('Cannot to create directory ' . DIR_IMAGE . $path . '. Please check permissions for ' . DIR_IMAGE);
+					$error = new AWarning('Cannot to create directory ' . DIR_IMAGE . $path . '. Please check permissions for ' . DIR_IMAGE);
 					$error->toLog();
 				}
 			}

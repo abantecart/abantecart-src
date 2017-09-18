@@ -73,11 +73,11 @@ require_once(DIR_CORE . '/lib/warning.php');
 
 //define rt - route for application controller
 if($_GET['rt']) {
-	define('ROUTE', $_GET['rt']);	
+	define('ROUTE', $_GET['rt']);
 } else if($_POST['rt']){
-	define('ROUTE', $_POST['rt']);	
+	define('ROUTE', $_POST['rt']);
 } else {
-	define('ROUTE', 'index/home');	
+	define('ROUTE', 'index/home');
 }
 
 //detect API call
@@ -120,24 +120,22 @@ try {
 
 	// Process Global data if Register Globals enabled
 	if (ini_get('register_globals')) {
+			$path = dirname($_SERVER['PHP_SELF']);
+			session_set_cookie_params(0,
+					$path,
+					null,
+					false,
+					true);
+			unset($path);
+			session_name(SESSION_ID);
+			session_start();
 
-	        $path = dirname($_SERVER['PHP_SELF']);
-	        session_set_cookie_params(0,
-	                $path,
-	                null,
-	                (defined('HTTPS') && HTTPS),
-	                true);
-	        unset($path);
-	        session_name(SESSION_ID);
-	        session_start();
-	
-	        $globals = array( $_REQUEST, $_SESSION, $_SERVER, $_FILES );
-	
-	        foreach ($globals as $global) {
-	                foreach (array_keys($global) as $key) {
-	                        unset($$key);
-	                }
-	        }
+			$globals = array( $_REQUEST, $_SESSION, $_SERVER, $_FILES );
+			foreach ($globals as $global) {
+					foreach (array_keys($global) as $key) {
+							unset($$key);
+					}
+			}
 	}
 
 // Magic Quotes
@@ -150,7 +148,6 @@ try {
 			} else {
 				$data = stripslashes($data);
 			}
-
 			return $data;
 		}
 
@@ -177,7 +174,6 @@ try {
 
 	if (!isset($_SERVER['REQUEST_URI'])) {
 		$_SERVER['REQUEST_URI'] = substr($_SERVER['PHP_SELF'], 1);
-
 		if (isset($_SERVER['QUERY_STRING'])) {
 			$_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
 		}
@@ -267,7 +263,7 @@ try {
 	require_once(DIR_CORE . 'lib/listing.php');
 	require_once(DIR_CORE . 'lib/task_manager.php');
 	require_once(DIR_CORE . 'lib/im.php');
-    require_once(DIR_CORE . 'lib/csrf_token.php');
+	require_once(DIR_CORE . 'lib/csrf_token.php');
 
 //Admin manager classes
 	if (IS_ADMIN === true) {
@@ -319,7 +315,7 @@ try {
 // Config
 	$config = new AConfig($registry);
 	$registry->set('config', $config);
-	
+
 // Session
 	$registry->set('session', new ASession(SESSION_ID) );
 	if($config->has('current_store_id')){
@@ -327,7 +323,7 @@ try {
 	}
 
 // CSRF Token Class
-    $registry->set('csrftoken', new CSRFToken());
+	$registry->set('csrftoken', new CSRFToken());
 
 // Set up HTTP and HTTPS based automatic and based on config
 	if (IS_ADMIN === true) {
@@ -351,17 +347,17 @@ try {
 			define('HTTPS_SERVER', HTTP_SERVER);
 			define('HTTPS_CATALOG', HTTP_CATALOG);
 			define('HTTPS_EXT', HTTP_EXT);
-		}		
-	
+		}
+
 		//Admin specific loads
 		$registry->set('extension_manager', new AExtensionManager());
 
 		//Now we have session, reload config for store if provided or set in session 
-	    $session = $registry->get('session');
-	    if (has_value($request->get['store_id']) || has_value($session->data['current_store_id']) ) {
+		$session = $registry->get('session');
+		if (has_value($request->get['store_id']) || has_value($session->data['current_store_id']) ) {
 			$config = new AConfig($registry);
 			$registry->set('config', $config);
-	    }
+		}
 	} else {
 		// Storefront HTTP
 		$store_url = $config->get('config_url');
@@ -423,7 +419,6 @@ try {
 		$extensions->loadAvailableExtensions();
 	} else {
 		$extensions->loadEnabledExtensions();
-	
 	}
 	$registry->set('extensions', $extensions);
 
@@ -467,7 +462,7 @@ try {
 
 	if (!$is_valid) {
 		$error = new AError ('Template ' . $template . ' is not found - roll back to default');
-		$error->toMessages()->toLog()->toDebug();
+		$error->toLog()->toDebug();
 		$template = 'default';
 	}
 
@@ -496,7 +491,7 @@ try {
 	$hook->hk_InitEnd();
 
 //load order status class
-	$registry->set('order_status',new AOrderStatus());
+	$registry->set('order_status',new AOrderStatus($registry));
 
 //IM
 	if(IS_ADMIN===true){

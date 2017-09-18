@@ -60,10 +60,10 @@
 		<key>default_pp_pro_transaction_0</key>
 		<value><![CDATA[Sale]]></value>
 	</definition>
-	<definition>	
+	<definition>
 		<key>default_pp_pro_creditcard_types</key>
 		<value><![CDATA[Tipos de tarjetas de crédito:<br /><span class="help">Consulte con PayPal qué tarjetas de crédito su poder para aceptar para su país y seleccionar de la lista.</span>]]></value>
-	</definition>		
+	</definition>
 	<definition>
 		<key>default_pp_pro_order_status_id</key>
 		<value><![CDATA[Estado del pedido:]]></value>
@@ -150,7 +150,7 @@
 	</definition>
 	<definition>
 		<key>text_api_credentials_note_sandbox</key>
-		<value><![CDATA[To test transactions, please provide your Sandbox PayPal API credentials.]]></value>
+		<value><![CDATA[To test transactions, please provide your Sandbox PayPal Pro API credentials.]]></value>
 	</definition>
 	<definition>
 		<key>button_get_api_credentials_sandbox</key>

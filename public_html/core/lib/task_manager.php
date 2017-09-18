@@ -94,6 +94,7 @@ class ATaskManager{
 			$task_settings = unserialize($task['settings']);
 
 			$this->_run_steps($task['task_id'], $task_settings);
+			$this->detectAndSetTaskStatus($task['task_id']);
 			$this->toLog('Task_id: ' . $task['task_id'] . ' state - finished.');
 		}
 	}
@@ -121,7 +122,8 @@ class ATaskManager{
 			return false;
 		}
 		$task_settings = unserialize($task['settings']);
-		$task_result = $this->_run_steps($task['task_id'], $task_settings);
+		$task_result = $this->_run_steps($task_id, $task_settings);
+		$this->detectAndSetTaskStatus($task_id);
 		$this->toLog('Task_id: ' . $task_id . ' state - finished.');
 		return $task_result;
 	}
@@ -232,7 +234,7 @@ class ATaskManager{
 				$response_message = isset($response['error_text']) ? $response['error_text'] : '';
 			}
 		} catch(AException $e){
-            $this->log->write($e);
+			$this->log->write($e);
 			$result = false;
 		}
 
@@ -245,30 +247,43 @@ class ATaskManager{
 		);
 
 		if (!$result){
-            //write to AbanteCart log
-            $error_msg = 'Task_id: ' . $task_id . ' : step_id: ' . $step_id . ' - Failed. ' . $response_message;
-
-            $this->log->write($error_msg."\n step details:\n".var_export($step_details, true) );
-            //write to task log
+			//write to AbanteCart log
+			$error_msg = 'Task_id: ' . $task_id . ' : step_id: ' . $step_id . ' - Failed. ' . $response_message;
+			$this->log->write($error_msg."\n step details:\n".var_export($step_details, true) );
+			//write to task log
 			$this->toLog($error_msg, 0);
 		}else{
-            //write to task log
+			//write to task log
 			$this->toLog('Task_id: ' . $task_id . ' : step_id: ' . $step_id . '. ' . $response_message, 1);
 		}
-
-		//set task status
-		if($this->isLastStep($task_id, $step_id)){
-			if($result){
-				$task_status = self::STATUS_COMPLETED;
-			}else{
-				$task_status = self::STATUS_FAILED;
-			}
-		}else{
-			$task_status = self::STATUS_INCOMPLETE;
-		}
-		$this->updateTask($task_id, array('status' => $task_status));
-
 		return $result;
+	}
+
+	public function detectAndSetTaskStatus($task_id){
+		$all_steps = $this->getTaskSteps($task_id);
+		$completed_cnt = 0;
+		$task_status = 0;
+		foreach($all_steps as $step){
+			if(!$step['status']){ continue;}
+			//if one step failed - task failed
+			if($step['status'] == self::STATUS_FAILED){
+				$task_status = self::STATUS_FAILED;
+				break;
+			}
+			if($step['status'] == self::STATUS_COMPLETED){
+				$completed_cnt++;
+			}
+		}
+
+		if( !$task_status ) {
+			if ($completed_cnt == sizeof($all_steps)) {
+				$task_status = self::STATUS_COMPLETED;
+			} else {
+				$task_status = self::STATUS_INCOMPLETE;
+			}
+		}
+
+		$this->updateTask($task_id, array('status' => $task_status));
 	}
 
 	/**
@@ -315,6 +330,8 @@ class ATaskManager{
 
 		return $task_result;
 	}
+
+
 
 	/**
 	 * @param int $task_id
@@ -501,17 +518,17 @@ class ATaskManager{
 				FROM " . $this->db->table('task_details') . "
 				WHERE task_id = " . $task_id;
 		$result = $this->db->query($sql);
-		if ($result->num_rows){
+		if ($result->num_rows) {
 			foreach ($result->row as $k => $ov){
 				if (!has_value($data[$k])){
 					$data[$k] = $ov;
 				}
 			}
 			$sql = "UPDATE " . $this->db->table('task_details') . "
-					SET created_by = '" . $this->db->escape($data['created_by']) . "',
-						settings = '" . $this->db->escape($data['settings']) . "'
+					SET settings = '" . $this->db->escape($data['settings']) . "'
 					WHERE task_id = " . $task_id;
-		} else{
+		} else {
+			$data['created_by'] = isset($data['created_by']) ? $data['created_by'] : 1;
 			$sql = "INSERT INTO " . $this->db->table('task_details') . "
 					(task_id, created_by, settings, date_modified)
 					 VALUES (   '" . $task_id . "',

@@ -58,12 +58,14 @@ class ModelTotalHandling extends Model {
 			$conf_hndl_subtotal = !$conf_hndl_subtotal ? (float)$this->config->get('handling_total') : $conf_hndl_subtotal;
 
 			if ($pre_total < $conf_hndl_subtotal && $conf_hndl_fee>0) {
-
-				$this->load->language('total/handling');
+				//create new instance of language for case when model called from admin-side
+				$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+				$language->load($language->language_details['directory']);
+				$language->load('total/handling');
 				$this->load->model('localisation/currency');
 				$total_data[] = array(
 					'id'         => 'handling',
-					'title'      => $this->language->get('text_handling'),
+					'title'      => $language->get('text_handling'),
 					'text'       => $this->currency->format($conf_hndl_fee),
 					'value'      => $conf_hndl_fee,
 					'sort_order' => $this->config->get('handling_sort_order'),
@@ -78,7 +80,6 @@ class ModelTotalHandling extends Model {
 						$taxes[$conf_hndl_tax_id]['tax'] += $this->tax->calcTotalTaxAmount($conf_hndl_fee, $conf_hndl_tax_id);
 					}
 				}
-
 				$total += $conf_hndl_fee;
 			}
 		}

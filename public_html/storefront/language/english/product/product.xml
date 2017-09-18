@@ -41,6 +41,10 @@
 		<value><![CDATA[In Stock]]></value>
 	</definition>
 	<definition>
+		<key>text_out_of_stock</key>
+		<value><![CDATA[Out of Stock]]></value>
+	</definition>
+	<definition>
 		<key>text_order_quantity</key>
 		<value><![CDATA[Order Quantity]]></value>
 	</definition>

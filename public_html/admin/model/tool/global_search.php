@@ -114,7 +114,7 @@ class ModelToolGlobalSearch extends Model {
 	public function __construct($registry) {
 		parent::__construct($registry);
 
-		$text_data = $this->language->getASet('common/action_commands');	
+		$text_data = $this->language->getASet('common/action_commands');
 		$keys = preg_grep("/^command.*/", array_keys($text_data));
 		foreach($keys as $key) {
 			$this->commands[$key] = $text_data[$key];
@@ -178,7 +178,7 @@ class ModelToolGlobalSearch extends Model {
 
 			case 'languages' :
 				$sql = "SELECT count(*) as total
-						FROM " . $this->db->table("language_definitions") . " l						
+						FROM " . $this->db->table("language_definitions") . " l
 						WHERE (LOWER(l.language_value) like '%" . $needle . "%'
 								OR LOWER(l.language_value) like '%" . $needle2 . "%'
 								OR LOWER(l.language_key) like '%" . $needle . "%'
@@ -199,14 +199,14 @@ class ModelToolGlobalSearch extends Model {
 						FROM " . $this->db->table("product_descriptions") . " pd1
 						WHERE ( LOWER(pd1.name) like '%" . $needle . "%' OR LOWER(pd1.name) like '%" . $needle2 . "%' )
 							AND pd1.language_id	IN (" . (implode(",", $search_languages)) . ")
-						UNION					
+						UNION
 						SELECT DISTINCT a.product_id
 						FROM " . $this->db->table("product_option_value_descriptions") . " a
 						LEFT JOIN " . $this->db->table("product_descriptions") . " b 
 							ON (b.product_id = a.product_id AND b.language_id	IN (" . (implode(",", $search_languages)) . "))
 						WHERE ( LOWER(a.name) like '%" . $needle . "%' OR LOWER(a.name) like '%" . $needle2 . "%' )
 							AND a.language_id IN (" . (implode(",", $search_languages)) . ")
-						UNION 						
+						UNION
 						SELECT DISTINCT a.product_id
 						FROM " . $this->db->table("product_tags") . " a
 						LEFT JOIN " . $this->db->table("product_descriptions") . " b 
@@ -349,7 +349,7 @@ class ModelToolGlobalSearch extends Model {
 							(LOWER(`name`) like '%" . $needle . "%')
 							OR (LOWER(`title`) like '%" . $needle . "%')
 							OR (LOWER(`description`) like '%" . $needle . "%')
-							OR (LOWER(`content`) like '%" . $needle . "%')						
+							OR (LOWER(`content`) like '%" . $needle . "%')
 						";
 				$result = $this->db->query($sql);
 				$output = $result->row ['total'];
@@ -420,7 +420,7 @@ class ModelToolGlobalSearch extends Model {
 
 			case 'languages' :
 				$sql = "SELECT l.language_definition_id, l.language_key as title, CONCAT_WS('  ',l.language_key,l.language_value) as text, language_id
-						FROM " . $this->db->table("language_definitions") . " l						
+						FROM " . $this->db->table("language_definitions") . " l
 						WHERE ( LOWER(l.language_value) like '%" . $needle . "%'
 								OR LOWER(l.language_value) like '%" . $needle2 . "%'
 								OR l.language_key like '%" . str_replace(' ','_',$needle) . "%'
@@ -604,7 +604,7 @@ class ModelToolGlobalSearch extends Model {
 								OR s.`key` like '%" . str_replace(' ','_',$needle) . "%' ";
 				}
 
-				$sql .= " ) AND s.`key` NOT IN ('encryption_key')
+				$sql .= " ) AND s.`key` NOT IN ('encryption_key', 'config_ssl')
 							AND s.`store_id` ='".( int )$current_store_id."'
 						UNION
 						SELECT s.setting_id,
@@ -638,6 +638,7 @@ class ModelToolGlobalSearch extends Model {
 						//remove all text between span tags
 						$regex = '/<span(.*)span>/';
 						$row['title'] = str_replace(array("	","  ","\n"),"",strip_tags(preg_replace($regex, '', $row['title'])));
+						$row['text'] = !$row['text'] ? $row['title']: $row['text'];
 						$row['text'] = str_replace(array("	","  ","\n"),"",strip_tags(preg_replace($regex, '', $row['text'])));
 						$result[$row['setting_id']] = $row;
 					}
@@ -658,9 +659,9 @@ class ModelToolGlobalSearch extends Model {
 
 			case "extensions" :
 				$sql = "SELECT DISTINCT `key` as extension, `key` as title, `key` as text
-						FROM " . $this->db->table("extensions") . " e						
+						FROM " . $this->db->table("extensions") . " e
 						WHERE ( LOWER(`key`) like '%" . $needle . "%'
-								OR LOWER(`key`) like '%" . str_replace(' ','_',$needle) . "%'	)
+								OR LOWER(`key`) like '%" . str_replace(' ','_',$needle) . "%' )
 									AND `type` <> 'total'
 						LIMIT " . $offset . "," . $rows_count;
 				$result = $this->db->query($sql);
@@ -710,6 +711,7 @@ class ModelToolGlobalSearch extends Model {
 		}
 		foreach ($result as &$row) {
 			$row['controller'] = $this->results_controllers[$search_category]['page'];
+
 			//shorten text for suggestion
 			if ($mode != 'listing') {
 				$dec_text = htmlentities($row['text'], ENT_QUOTES);
@@ -835,7 +837,7 @@ class ModelToolGlobalSearch extends Model {
 					'text' => $result['command']." ".$command['title']." ".$result['request'],
 					'title' => $result['command']." ".$command['title']." ".$result['request'],
 					'url' => $command['url']
-				);						
+				);
 			}
 		}
 		return $ret;

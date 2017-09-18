@@ -238,7 +238,6 @@ class APackageManager{
 					                                         'user'        => $this->user->getUsername()));
 				} else{
 					$this->error .= " Error: Cannot upgrade file : '" . $core_filename . "\n";
-					$this->messages->saveNotice('Error', $this->error);
 					$error = new AError ($this->error);
 					$error->toLog()->toDebug();
 				}
@@ -282,7 +281,6 @@ class APackageManager{
 					                                         'user'        => $this->user->getUsername()));
 				} else{
 					$this->error .= " Error: Cannot upgrade file : '" . $core_filename . "\n";
-					$this->messages->saveNotice('Error', $this->error);
 					$error = new AError ($this->error);
 					$error->toLog()->toDebug();
 				}

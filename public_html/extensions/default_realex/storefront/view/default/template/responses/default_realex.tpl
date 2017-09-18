@@ -89,13 +89,14 @@
 					try { resetLockBtn(); } catch (e) {}
 					return false;
 				} else {
-					confirmSubmit();
+					var $form = $(this);
+					confirmSubmit($form);
 					return false;
 				}
 			}
 		});
 
-		function confirmSubmit() {
+		function confirmSubmit($form) {
 			$.ajax({
 				type: 'POST',
 				url: '<?php echo $action ?>',
@@ -112,10 +113,7 @@
 						$('#realex .action-buttons').show();
 						$('#realex').before('<div class="alert alert-danger"><i class="fa fa-bug"></i> <?php echo $error_unknown; ?></div>');
 						submitSent = false;
-						try {
-							resetLockBtn();
-						} catch (e) {
-						}
+						try { resetLockBtn(); } catch (e) {}
 					} else {
 						//if 3d required
 						if (data.ACSURL) {
@@ -128,9 +126,9 @@
 							$('#realex').after(dhtml);
 							$('#3dauth').submit();
 							submitSent = false;
-							try {
-								resetLockBtn();
-							} catch (e) {
+							$form.find('input[name=csrfinstance]').val(data.csrfinstance);
+							$form.find('input[name=csrftoken]').val(data.csrftoken);
+							try { resetLockBtn(); } catch (e) {
 							}
 						}
 
@@ -139,10 +137,9 @@
 							$('#realex .action-buttons').show();
 							$('#realex').before('<div class="alert alert-warning"><i class="fa fa-exclamation"></i> ' + data.error + '</div>');
 							submitSent = false;
-							try {
-								resetLockBtn();
-							} catch (e) {
-							}
+							$form.find('input[name=csrfinstance]').val(data.csrfinstance);
+							$form.find('input[name=csrftoken]').val(data.csrftoken);
+							try { resetLockBtn(); } catch (e) {	}
 						}
 						if (data.success) {
 							location = data.success;
@@ -154,10 +151,9 @@
 					$('#realex .action-buttons').show();
 					$('#realex').before('<div class="alert alert-danger"><i class="fa fa-exclamation"></i> ' + textStatus + ' ' + errorThrown + '</div>');
 					submitSent = false;
-					try {
-						resetLockBtn();
-					} catch (e) {
-					}
+					$form.find('input[name=csrfinstance]').val(data.csrfinstance);
+					$form.find('input[name=csrftoken]').val(data.csrftoken);
+					try { resetLockBtn(); } catch (e) {	}
 				}
 			});
 		}

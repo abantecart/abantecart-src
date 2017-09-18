@@ -145,7 +145,7 @@
 		<value><![CDATA[No tiene compras para esta tienda o esta tienda se desconectan del Marketplace.]]></value>
 	</definition>
 	<definition>
-		<key>text_no_extenions_loaded</key>
+		<key>text_no_extensions_loaded</key>
 		<value><![CDATA[No hay extensiones disponibles. Compruebe su selección o intente de nuevo.]]></value>
 	</definition>
 	<definition>
@@ -191,5 +191,9 @@
 	<definition>
 		<key>text_search</key>
 		<value><![CDATA[buscar]]></value>
+	</definition>
+	<definition>
+		<key>text_no_extensions_loaded</key>
+		<value><![CDATA[No hay extensiones disponibles. Revise su selección o vuelva a intentarlo.]]></value>
 	</definition>
 </definitions>

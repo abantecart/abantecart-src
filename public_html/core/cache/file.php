@@ -122,12 +122,13 @@ class ACacheDriverFile extends ACacheDriver{
 		$fileopen = @fopen($path, "wb");
 		if ($fileopen){
 			$len = strlen($data);
-			@fwrite($fileopen, $data, $len);
-			$saved = true;
+			if (@fwrite($fileopen, $data, $len) !== false) {
+				$saved = true;
+			}
 		}
+		@fclose($fileopen);
 
-		// Data integrity check
-		if ($saved && ($data == file_get_contents($path))){
+		if ($saved){
 			return true;
 		} else {
 			//something happen and data was not saved completely, need to remove file and fail.

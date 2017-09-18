@@ -31,23 +31,20 @@ class ControllerBlocksSpecial extends AController {
 			return null;
 		}
 
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->loadLanguage('blocks/special');
 
 		$this->data['heading_title'] = $this->language->get('heading_title', 'blocks/special');
-		
+
 		$this->loadModel('catalog/product');
 		$this->loadModel('catalog/review');
 		$this->loadModel('tool/seo_url');
 		$this->loadModel('tool/image');
 		$promotion = new APromotion();
-		
 		$this->data['button_add_to_cart'] = $this->language->get('button_add_to_cart');
-		
 		$this->data['products'] = array();
-
 		$results = $promotion->getSpecialProducts(
 				array(
 						'sort'       => 'pd.name',
@@ -61,18 +58,18 @@ class ControllerBlocksSpecial extends AController {
 		foreach($results as $result){
 			$product_ids[] = (int)$result['product_id'];
 		}
-        //get thumbnails by one pass
-        $resource = new AResource('image');
-        $thumbnails = $resource->getMainThumbList(
-                'products',
-                $product_ids,
-                $this->config->get('config_image_product_width'),
-                $this->config->get('config_image_product_height')
-        );
+		//get thumbnails by one pass
+		$resource = new AResource('image');
+		$thumbnails = $resource->getMainThumbList(
+				'products',
+				$product_ids,
+				$this->config->get('config_image_product_width'),
+				$this->config->get('config_image_product_height')
+		);
 		$stock_info = $this->model_catalog_product->getProductsStockInfo($product_ids);
 		foreach ($results as $result) {
 			$thumbnail = $thumbnails[ $result['product_id'] ];
-           	$special = FALSE;
+			$special = FALSE;
 			$discount = $result['discount_price'];
 			if ($discount) {
 				$price = $discount;
@@ -81,36 +78,35 @@ class ControllerBlocksSpecial extends AController {
 				$special = $promotion->getProductSpecial($result['product_id']);
 				if ($special) {
 					$special = $this->currency->format($this->tax->calculate($special, $result['tax_class_id'], $this->config->get('config_tax')));
-				}						
+				}
 			}
 			$price = $this->currency->format($this->tax->calculate($price, $result['tax_class_id'], $this->config->get('config_tax')));
-			
 			$options = $this->model_catalog_product->getProductOptions($result['product_id']);
-			
 			if ($options) {
 				$add = $this->html->getSEOURL('product/product','&product_id=' . $result['product_id'],'&encode');
 			} else {
-                if($this->config->get('config_cart_ajax')){
-                    $add = '#';
-                }else{
-                    $add = $this->html->getSecureURL('checkout/cart', '&product_id=' . $result['product_id'], '&encode');
-                }
+				if($this->config->get('config_cart_ajax')){
+					$add = '#';
+				}else{
+					$add = $this->html->getSecureURL('checkout/cart', '&product_id=' . $result['product_id'], '&encode');
+				}
 			}
 
 			//check for stock status, availability and config
 			$track_stock = false;
 			$in_stock = false;
-			$no_stock_text = $result['stock'];
+			$no_stock_text = $this->language->get('text_out_of_stock');
 			$total_quantity = 0;
+			$stock_checkout = $result['stock_checkout'] === '' ?  $this->config->get('config_stock_checkout') : $result['stock_checkout'];
 			if ( $stock_info[$result['product_id']]['subtract'] ) {
 				$track_stock = true;
-    			$total_quantity = $stock_info[$result['product_id']]['quantity'];
-    			//we have stock or out of stock checkout is allowed
-    			if ($total_quantity > 0 || $this->config->get('config_stock_checkout')) {
-	    			$in_stock = true;
-    			}
+				$total_quantity = $stock_info[$result['product_id']]['quantity'];
+				//we have stock or out of stock checkout is allowed
+				if ($total_quantity > 0 || $stock_checkout) {
+					$in_stock = true;
+				}
 			}
-			
+
 			$this->data['products'][] = array(
 							'product_id'    => $result['product_id'],
 							'name'    		=> $result['name'],
@@ -145,10 +141,10 @@ class ControllerBlocksSpecial extends AController {
 		// framed needs to show frames for generic block.
 		//If tpl used by listing block framed was set by listing block settings
 		$this->data['block_framed'] = true;
-        $this->view->batchAssign($this->data);
+		$this->view->batchAssign($this->data);
 		$this->processTemplate();
 
-        //init controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 }

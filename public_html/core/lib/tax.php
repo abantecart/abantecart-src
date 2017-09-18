@@ -39,7 +39,6 @@ class ATax{
 	 * @var ASession or customer's data
 	 */
 	protected $customer_data;
-	protected $customer_group_id;
 
 	/**
 	 * @param $registry Registry
@@ -55,7 +54,8 @@ class ATax{
 			$this->customer_data =& $c_data;
 		}
 
-		if (isset($this->customer_data['country_id']) && isset($this->customer_data['zone_id'])){
+
+		if ($this->customer_data['country_id'] && $this->customer_data['zone_id']){
 			$country_id = $this->customer_data['country_id'];
 			$zone_id = $this->customer_data['zone_id'];
 		} else{
@@ -69,9 +69,8 @@ class ATax{
 		$this->setZone($country_id, $zone_id);
 
 		//if guest or registered customer non-exemption and tax rate without exemption mark
-		$this->customer_group_id = (int)$this->customer->getCustomerGroupId();
-		if(!$this->customer_group_id){
-			$this->customer_group_id = $this->config->get('config_customer_group_id');
+		if(!$this->customer_data['customer_group_id']){
+			$this->customer_data['customer_group_id'] = $this->config->get('config_customer_group_id');
 		}
 	}
 
@@ -106,7 +105,6 @@ class ATax{
 					'priority'            => $result['priority']
 			);
 		}
-
 		$this->customer_data['country_id'] = $country_id;
 		$this->customer_data['zone_id'] = $zone_id;
 	}
@@ -177,7 +175,7 @@ class ATax{
 	 * @return float
 	 */
 	public function calculate($value, $tax_class_id, $calculate = true){
-		if (!$this->customer->isTaxExempt() && ($calculate) && (isset($this->taxes[$tax_class_id]))){
+		if (!$this->customer_data['tax_exempt'] && ($calculate) && (isset($this->taxes[$tax_class_id]))){
 			return $value + $this->calcTotalTaxAmount($value, $tax_class_id);
 		} else{
 			//skip calculation
@@ -185,8 +183,11 @@ class ATax{
 		}
 	}
 
-	protected function _is_tax_rate_exempt($tax_rate_info,$customer_group_id){
-		if(in_array($customer_group_id, (array)$tax_rate_info['tax_exempt_groups'])){
+	protected function _is_tax_rate_exempt($tax_rate_info, $customer_group_id){
+		//check customer group tax exempt sign
+		if($this->customer_data['customer_tax_exempt']){
+			return true;
+		}else if(in_array($customer_group_id, (array)$tax_rate_info['tax_exempt_groups'])){
 			return true;
 		}
 		return false;
@@ -216,8 +217,8 @@ class ATax{
 	 */
 	public function calcTaxAmount($amount, $tax_rate = array ()){
 		$tax_amount = 0.0;
-		if (!$this->customer->isTaxExempt()
-				&& !$this->_is_tax_rate_exempt($tax_rate,$this->customer_group_id)
+		if (!$this->customer_data['tax_exempt']
+				&& !$this->_is_tax_rate_exempt($tax_rate, $this->customer_data['customer_group_id'])
 				&& !empty($tax_rate)
 				&& isset($tax_rate['rate'])){
 			//Validate tax class rules if condition present and see if applicable

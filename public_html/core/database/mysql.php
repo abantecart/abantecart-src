@@ -132,7 +132,7 @@ final class MySQL{
 			$dump .= ' (file: ' . $backtrace[1]['file'] . ' line ' . $backtrace[1]['line'] . ')';
 			$message = 'MySQL class error: Try to escape non-string value: ' . $dump;
 			$error = new AError($message);
-			$error->toLog()->toDebug()->toMessages();
+			$error->toLog()->toDebug();
 			return false;
 		}
 		return mysql_real_escape_string((string)$value, $this->connection);

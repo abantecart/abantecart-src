@@ -71,7 +71,7 @@
 								<i class="fa fa-phone fa-fw"></i>
 							</a>
 							<?php } else if ($product['track_stock'] && !$product['in_stock']) { ?>
-								<span class="nostock"><?php echo $product['no_stock_text']; ?></span>
+								<span class="nostock"><?php echo $text_out_of_stock; ?></span>
 							<?php } else { ?>
 							<a data-id="<?php echo $product['product_id'] ?>"
 								href="<?php echo $item['buy_url'] ?>"

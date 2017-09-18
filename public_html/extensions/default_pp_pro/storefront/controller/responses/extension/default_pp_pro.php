@@ -27,36 +27,35 @@ if (!defined('DIR_CORE')){
  * @property ModelExtensionDefaultPPPro $model_extension_default_pp_pro
  */
 class ControllerResponsesExtensionDefaultPPPro extends AController{
-	private $data = array ();
-
+	public $data = array ();
 	public function main(){
 		$this->loadLanguage('default_pp_pro/default_pp_pro');
 		$this->load->model('checkout/order');
 		$this->load->model('extension/default_pp_pro');
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 
-        $data['action'] = $this->html->getSecureURL('extension/default_pp_pro/send');
+		$data['action'] = $this->html->getSecureURL('extension/default_pp_pro/send');
 
-        //build submit form
-        $form = new AForm();
-        $form->setForm(array( 'form_name' => 'paypal' ));
-        $data['form_open'] = $form->getFieldHtml(
-            array(
-                'type' => 'form',
-                'name' => 'paypal',
-                'attr' => 'class = "form-horizontal validate-creditcard"',
-                'csrf' => true
-            )
-        );
+		//build submit form
+		$form = new AForm();
+		$form->setForm(array( 'form_name' => 'paypal' ));
+		$data['form_open'] = $form->getFieldHtml(
+			array(
+				'type' => 'form',
+				'name' => 'paypal',
+				'attr' => 'class = "form-horizontal validate-creditcard"',
+				'csrf' => true
+			)
+		);
 
-        $data['cc_owner'] = $form->getFieldHtml(
-            array (
+		$data['cc_owner'] = $form->getFieldHtml(
+			array (
 				'type'  => 'input',
 				'name'  => 'cc_owner',
 				'value' => $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'],
 				'style' => 'input-medium'
-		    )
-        );
+			)
+		);
 
 		//load accepted card types
 		$cardtypes = $this->model_extension_default_pp_pro->getCreditCardTypes();
@@ -68,39 +67,39 @@ class ControllerResponsesExtensionDefaultPPPro extends AController{
 			}
 		}
 		$data['accepted_cards'] = $options;
-
 		$data['cc_type'] = $form->getFieldHtml(
-            array ('type'    => 'selectbox',
-                   'name'    => 'cc_type',
-                   'value'   => '',
-                   'options' => $options,
-                   'style'   => 'input-medium'
-            )
-        );
+									array (
+											'type'    => 'selectbox',
+											'name'    => 'cc_type',
+											'value'   => '',
+											'options' => $options,
+											'style'   => 'input-medium'
+			)
+		);
 
 		$data['cc_number'] = $form->getFieldHtml(
-		    array (
+			array (
 				'type'  => 'input',
 				'name'  => 'cc_number',
 				'value' => '',
 				'style' => 'input-medium',
 				'attr'  => 'autocomplete="off"'
-		    )
-        );
+			)
+		);
 
 		$months = array ();
 		for ($i = 1; $i <= 12; $i++){
 			$months[sprintf('%02d', $i)] = strftime('%B', mktime(0, 0, 0, $i, 1, 2000));
 		}
 		$data['cc_expire_date_month'] = $form->getFieldHtml(
-            array (
-                'type'    => 'selectbox',
-                   'name'    => 'cc_expire_date_month',
-                   'value'   => sprintf('%02d', date('m')),
-                   'options' => $months,
-                   'style'   => 'short input-small'
-            )
-        );
+													array (
+														'type'    => 'selectbox',
+														'name'    => 'cc_expire_date_month',
+														'value'   => sprintf('%02d', date('m')),
+														'options' => $months,
+														'style'   => 'short input-small'
+													)
+		);
 
 		$today = getdate();
 		$years = array ();
@@ -108,56 +107,56 @@ class ControllerResponsesExtensionDefaultPPPro extends AController{
 			$years[strftime('%Y', mktime(0, 0, 0, 1, 1, $i))] = strftime('%Y', mktime(0, 0, 0, 1, 1, $i));
 		}
 		$data['cc_expire_date_year'] = $form->getFieldHtml(
-		    array (
-		        'type'    => 'selectbox',
-                'name'    => 'cc_expire_date_year',
-                'value'   => sprintf('%02d', date('Y') + 1),
-                'options' => $years,
-                'style'   => 'short input-small'
-            )
-        );
+			array (
+				'type'    => 'selectbox',
+				'name'    => 'cc_expire_date_year',
+				'value'   => sprintf('%02d', date('Y') + 1),
+				'options' => $years,
+				'style'   => 'short input-small'
+			)
+		);
 		$data['cc_start_date_month'] = $form->getFieldHtml(
-            array (
-                'type'    => 'selectbox',
-                'name'    => 'cc_start_date_month',
-                'value'   => sprintf('%02d', date('m')),
-                'options' => $months,
-                'style'   => 'short input-small'
-            )
-        );
+			array (
+				'type'    => 'selectbox',
+				'name'    => 'cc_start_date_month',
+				'value'   => sprintf('%02d', date('m')),
+				'options' => $months,
+				'style'   => 'short input-small'
+			)
+		);
 
 		$years = array ();
 		for ($i = $today['year'] - 10; $i < $today['year'] + 2; $i++){
 			$years[strftime('%Y', mktime(0, 0, 0, 1, 1, $i))] = strftime('%Y', mktime(0, 0, 0, 1, 1, $i));
 		}
 		$data['cc_start_date_year'] = $form->getFieldHtml(
-		    array (
-		        'type'    => 'selectbox',
-                'name'    => 'cc_start_date_year',
-                'value'   => sprintf('%02d', date('Y')),
-                'options' => $years,
-                'style'   => 'short input-small'
-            )
-        );
+			array (
+				'type'    => 'selectbox',
+				'name'    => 'cc_start_date_year',
+				'value'   => sprintf('%02d', date('Y')),
+				'options' => $years,
+				'style'   => 'short input-small'
+			)
+		);
 
 		$data['cc_cvv2'] = $form->getFieldHtml(
-		    array (
-		        'type'  => 'input',
-                'name'  => 'cc_cvv2',
-                'value' => '',
-                'style' => 'short',
-                'attr'  => ' size="3" maxlength="4" autocomplete="off"'
-		    )
-        );
+			array (
+				'type'  => 'input',
+				'name'  => 'cc_cvv2',
+				'value' => '',
+				'style' => 'short',
+				'attr'  => ' size="3" maxlength="4" autocomplete="off"'
+			)
+		);
 		$data['cc_issue'] = $form->getFieldHtml(
-		    array (
-		        'type'  => 'input',
-                'name'  => 'cc_issue',
-                'value' => '',
-                'style' => 'short',
-                'attr'  => ' size="1" maxlength="2" autocomplete="off"'
-		    )
-        );
+			array (
+				'type'  => 'input',
+				'name'  => 'cc_issue',
+				'value' => '',
+				'style' => 'short',
+				'attr'  => ' size="1" maxlength="2" autocomplete="off"'
+			)
+		);
 
 		if ($this->request->get['rt'] == 'checkout/guest_step_3'){
 			$back_url = $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit', true);
@@ -166,23 +165,23 @@ class ControllerResponsesExtensionDefaultPPPro extends AController{
 		}
 
 		$data['back'] = $this->html->buildElement(
-            array (
-                    'type'  => 'button',
-                    'name'  => 'back',
-                    'text'  => $this->language->get('button_back'),
-                    'style' => 'button',
-                    'href'  => $back_url
-            )
-        );
+			array (
+					'type'  => 'button',
+					'name'  => 'back',
+					'text'  => $this->language->get('button_back'),
+					'style' => 'button',
+					'href'  => $back_url
+			)
+		);
 
 		$data['submit'] = $this->html->buildElement(
-            array (
-                    'type'  => 'button',
-                    'name'  => 'paypal_button',
-                    'text'  => $this->language->get('button_confirm'),
-                    'style' => 'button btn-orange',
-            )
-        );
+			array (
+					'type'  => 'button',
+					'name'  => 'paypal_button',
+					'text'  => $this->language->get('button_confirm'),
+					'style' => 'button btn-orange',
+			)
+		);
 
 		//load creditcard input validation
 		$this->document->addScriptBottom($this->view->templateResource('/javascript/credit_card_validation.js'));
@@ -192,14 +191,14 @@ class ControllerResponsesExtensionDefaultPPPro extends AController{
 	}
 
 	public function send(){
-        $json = array ();
+		$json = array ();
 
-        if(!$this->csrftoken->isTokenValid()){
-            $json['error'] = $this->language->get('error_unknown');
-            $this->load->library('json');
-            $this->response->setOutput(AJson::encode($json));
-            return;
-        }
+		if(!$this->csrftoken->isTokenValid()){
+			$json['error'] = $this->language->get('error_unknown');
+			$this->load->library('json');
+			$this->response->setOutput(AJson::encode($json));
+			return;
+		}
 
 		if (!$this->config->get('default_pp_pro_test')){
 			$api_endpoint = 'https://api-3t.paypal.com/nvp';
@@ -214,7 +213,6 @@ class ControllerResponsesExtensionDefaultPPPro extends AController{
 		}
 
 		$this->load->model('checkout/order');
-
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 
 		$order_total = $this->currency->format($order_info['total'], $order_info['currency'], '', false);
@@ -283,10 +281,8 @@ class ControllerResponsesExtensionDefaultPPPro extends AController{
 
 		//items list
 		//check amounts
-		$calc_total = $this->data['items_total']
-				+ $this->data['shipping_total']
-				+ $this->data['tax_total']
-				+ $this->data['handling_total'];
+		$calc_total = $this->data['items_total'] + $this->data['shipping_total']
+						+ $this->data['tax_total'] + $this->data['handling_total'];
 
 		if (($calc_total - $order_total) !== 0.0){
 			$skip_item_list = true;
@@ -320,7 +316,7 @@ class ControllerResponsesExtensionDefaultPPPro extends AController{
 		if (!$response){
 			$json['error'] = 'Cannot establish a connection to the server';
 			$err = new AError('Paypal Pro Error: DoDirectPayment failed: ' . curl_error($curl) . '(' . curl_errno($curl) . ')');
-			$err->toLog()->toMessages()->toDebug();
+			$err->toLog()->toDebug();
 		} else{
 
 			$response_data = array ();
@@ -330,7 +326,6 @@ class ControllerResponsesExtensionDefaultPPPro extends AController{
 				$this->model_checkout_order->confirm($this->session->data['order_id'], $this->config->get('config_order_status_id'));
 
 				$message = '';
-
 				if (isset($response_data['AVSCODE'])){
 					$message .= 'AVSCODE: ' . $response_data['AVSCODE'] . "\n";
 				}
@@ -355,11 +350,18 @@ class ControllerResponsesExtensionDefaultPPPro extends AController{
 			}
 		}
 		curl_close($curl);
+		if (isset($json['error'])) {
+			if ($json['error']) {
+				$csrftoken = $this->registry->get('csrftoken');
+				$json['csrfinstance'] = $csrftoken->setInstance();
+				$json['csrftoken'] = $csrftoken->setToken();
+			}
+		}
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($json));
 	}
 
-	private function _get_products_data($order_info){
+	protected function _get_products_data($order_info){
 
 		$this->load->library('encryption');
 		$encryption = new AEncryption($this->config->get('encryption_key'));
@@ -448,10 +450,8 @@ class ControllerResponsesExtensionDefaultPPPro extends AController{
 			}
 		}
 
-		$calc_total = $this->data['items_total']
-				+ $this->data['shipping_total']
-				+ $this->data['tax_total']
-				+ $this->data['handling_total'];
+		$calc_total = $this->data['items_total'] + $this->data['shipping_total']
+						+ $this->data['tax_total'] + $this->data['handling_total'];
 
 		if (($calc_total - $order_info['order_total']) !== 0.0){
 			foreach ($totals['total_data'] as $total){
@@ -499,9 +499,9 @@ class ControllerResponsesExtensionDefaultPPPro extends AController{
 		$order_info = $this->model_checkout_order->getOrder($order_id);
 
 		if ($order_info && $this->request->post['payment_status'] == 'Refunded'){
-			$result = $this->db->query("SELECT * from " . $this->db->table('order_statuses') . " WHERE order_status_id=11");
-			if ($result->num_rows){
-				$this->model_checkout_order->update($order_id, 11);
+			$order_status_id = $this->order_status->getStatusByTextId('refunded');
+			if ($order_status_id){
+				$this->model_checkout_order->update($order_id, $order_status_id);
 			}
 		}
 	}

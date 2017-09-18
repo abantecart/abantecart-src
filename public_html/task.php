@@ -30,7 +30,7 @@ ob_start();
 $root_path = dirname(__FILE__);
 
 // Windows IIS Compatibility  
-if (stristr(PHP_OS, 'WIN')){
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 	define('IS_WINDOWS', true);
 	$root_path = str_replace('\\', '/', $root_path);
 }
@@ -58,44 +58,29 @@ require_once(DIR_ROOT . '/core/init.php');
 // not needed anymore
 unset($_GET['s']);
 
-//detect run mode
-$command_line = false;
 $step_result = null;
-if (php_sapi_name() == "cli"){
-	//command line
-	echo "Running command line \n";
-	$command_line = true;
-	$mode = 'cli';
-	$task_id = $argv[1];
-	$step_id = $argv[2];
-}else{
-
-	// add to settings API et task_api_key
-	$task_api_key = $config->get('task_api_key');
-	if(!$task_api_key || $task_api_key != (string)$_GET['task_api_key']){
-		exit('Authorize to access.');
-	}
-	$mode = (string)$_GET['mode'];
-	$task_id = (int)$_GET['task_id'];
-	$step_id = (int)$_GET['step_id'];
+// add to settings API et task_api_key
+$task_api_key = $config->get('task_api_key');
+if(!$task_api_key || $task_api_key != (string)$_GET['task_api_key']){
+	exit('Authorize to access.');
 }
+$mode = (string)$_GET['mode'];
+$task_id = (int)$_GET['task_id'];
+$step_id = (int)$_GET['step_id'];
+$run_mode = $_GET['run_mode'];
 
-if(!$mode && !$command_line){
+if(!$mode ){
 	$mode = 'html';
 }
-
 
 ADebug::checkpoint('init end');
 
 // Currency
 $registry->set('currency', new ACurrency($registry));
 
-//ok... let's start tasks
-if($command_line){
-	$tm_mode = 'cli';
-}elseif($mode == 'json'){
+if ($mode == 'json') {
 	$tm_mode = 'json';
-}else{
+} else {
 	$tm_mode = 'html';
 }
 // unlock session for repeat of request
@@ -108,29 +93,31 @@ if($tm_mode == 'json'){
 
 //if task_id is not presents
 //start all scheduled tasks one by one
-if($mode && !$task_id){
+if ($mode && !$task_id) {
 	//try to remove execution time limitation (can not work on some hosts!)
 	ini_set("max_execution_time", "0");
 	$tm->runTasks();
-}
-//when start only task step
-elseif ($mode && $task_id && $step_id){
+} else if ($mode && $task_id && $step_id) {
+	//when start only task step
 	if($tm->canStepRun($task_id, $step_id)){
 		$step_details = $tm->getTaskStep($task_id, $step_id);
 		$step_result = $tm->runStep($step_details);
+		if($tm->isLastStep($task_id, $step_id)){
+			$tm->detectAndSetTaskStatus($task_id);
+		}
 	}
-}
-//when start whole task
-elseif ($mode && $task_id && !$step_id){
-
+} else if ($mode && $task_id && !$step_id) {
+	//when start whole task
 	$tm->updateTask($task_id, array(
 			'status' => $tm::STATUS_READY,
 			'start_time' => date('Y-m-d H:i:s'))
 	);
 
-	$task_details = $tm->getTaskById($task_id);
-	foreach($task_details['steps'] as $step){
-		$tm->updateStep($step['step_id'], array('status'=> $tm::STATUS_READY));
+	if($run_mode != 'continue') {
+		$task_details = $tm->getTaskById($task_id);
+		foreach ($task_details['steps'] as $step) {
+			$tm->updateStep($step['step_id'], array ('status' => $tm::STATUS_READY));
+		}
 	}
 
 	//run all steps of task and change it's status after
@@ -140,22 +127,17 @@ elseif ($mode && $task_id && !$step_id){
 
 //get log for each task ans steps
 $run_log = $tm->getRunLog();
-if($command_line){
-	$run_log_text = implode("\n", $run_log);
-}elseif($mode=='html'){
+if ($mode=='html') {
 	$run_log_text = nl2br(implode("<br/>", $run_log));
 }
 
 ob_flush();
-if($command_line){
-	echo $run_log_text;
-	exit;
-}elseif($mode == 'ajax'){
+if ($mode == 'ajax') {
 	$registry->get('load')->library('json');
-	if(!headers_sent()){
+	if (!headers_sent()) {
 		header('Content-Type: application/json;');
 	}
-	if($step_result === false){
+	if ($step_result === false) {
 		//set response to null to prevent silent output
 		$registry->set('response', null);
 		//use AError class to send fail-response in ajax-mode
@@ -168,13 +150,13 @@ if($command_line){
 	}
 	echo AJson::encode($run_log);
 	exit;
-}elseif($mode == 'html' && $command_line !== true && $step_id){
+} else if ($mode == 'html' &&  $step_id) {
 	echo $run_log_text;
 	exit;
 }
 
 //add html to run task in browser with ajax calls (for task step split run)
-if( $command_line !== true && $mode!='ajax' && !$step_id) {
+if( $mode!='ajax' && !$step_id) {
 	$registry->get('load')->library('json');
 ?>
 <!DOCTYPE html>
@@ -199,19 +181,19 @@ if( $command_line !== true && $mode!='ajax' && !$step_id) {
 
 	@keyframes ellipsis {
 	  to {
-	    width: 1.25em;
+		width: 1.25em;
 	  }
 	}
 
 	@-webkit-keyframes ellipsis {
 	  to {
-	    width: 1.25em;
+		width: 1.25em;
 	  }
 	}
 </style>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"
-        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-        crossorigin="anonymous"></script>
+		integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+		crossorigin="anonymous"></script>
 <script defer type="text/javascript">
 	/*
 	 task run via ajax
@@ -227,188 +209,188 @@ if( $command_line !== true && $mode!='ajax' && !$step_id) {
 	var task_complete_text = task_fail_text = '';
 
 	var defaultTaskMessages = {
-	    task_failed: 'Task Failed',
-	    task_success: 'Task was completed',
-	    task_abort: 'Task was aborted',
-	    complete: 'Complete',
-	    step: 'Step',
-	    failed: 'failed',
-	    success: 'success',
-	    processing_step: 'processing_step'
+		task_failed: 'Task Failed',
+		task_success: 'Task was completed',
+		task_abort: 'Task was aborted',
+		complete: 'Complete',
+		step: 'Step',
+		failed: 'failed',
+		success: 'success',
+		processing_step: 'processing_step'
 	};
 
 
 	var runTaskUI = function (data) {
-	    if (data.hasOwnProperty("error") && data.error == true) {
-	        runTaskShowError('Creation of new task failed! Please check error log for details. \n' + data.error_text);
-	    } else {
-		    $('body').append('<div class="loading">Running</div>');
-	        runTaskStepsUI(data.task_details);
-	    }
+		if (data.hasOwnProperty("error") && data.error == true) {
+			runTaskShowError('Creation of new task failed! Please check error log for details. \n' + data.error_text);
+		} else {
+			$('body').append('<div class="loading">Running</div>');
+			runTaskStepsUI(data.task_details);
+		}
 	}
 
 
 	function runTaskStepsUI(task_details) {
-	    if (task_details.status != '1') {
-	        runTaskShowError('Cannot to run steps of task "' + task_details.name + '" because status of task is not "ready". Current status - ' + task_details.status);
-	    } else {
-	        //then run sequential ajax calls
-	        //note: all that calls must be asynchronous to be interruptible!
-	        var ajaxes = {};
-	        for(var k in task_details.steps){
-	            var step = task_details.steps[k];
-	            var senddata = {
+		if (task_details.status != '1') {
+			runTaskShowError('Cannot to run steps of task "' + task_details.name + '" because status of task is not "ready". Current status - ' + task_details.status);
+		} else {
+			//then run sequential ajax calls
+			//note: all that calls must be asynchronous to be interruptible!
+			var ajaxes = {};
+			for(var k in task_details.steps){
+				var step = task_details.steps[k];
+				var senddata = {
 					mode: 'html',
-	                task_api_key: '<?php echo $task_api_key; ?>',
+					task_api_key: '<?php echo $task_api_key; ?>',
 					task_id: task_details.task_id,
 					step_id: step.step_id
-	            };
+				};
 
-	            if(step.hasOwnProperty('eta')){
-	                senddata['eta'] = step.eta;
-	            }
-	            ajaxes[k] = {
-	                task_id: task_details.task_id,
-	                type:'GET',
-	                url: base_url,
-	                data: senddata,
-	                dataType: 'html',
-	            };
+				if(step.hasOwnProperty('eta')){
+					senddata['eta'] = step.eta;
+				}
+				ajaxes[k] = {
+					task_id: task_details.task_id,
+					type:'GET',
+					url: base_url,
+					data: senddata,
+					dataType: 'html',
+				};
 
-	            if (step.hasOwnProperty("settings") && step.settings!=null
-	                && step.settings.hasOwnProperty("interrupt_on_step_fault")
-	                && step.settings.interrupt_on_step_fault == true) {
-	                ajaxes[k]['interrupt_on_step_fault'] = true;	            }
-	            else{
-	                ajaxes[k]['interrupt_on_step_fault'] = false;
-	            }
-	        }
+				if (step.hasOwnProperty("settings") && step.settings!=null
+					&& step.settings.hasOwnProperty("interrupt_on_step_fault")
+					&& step.settings.interrupt_on_step_fault == true) {
+					ajaxes[k]['interrupt_on_step_fault'] = true;	            }
+				else{
+					ajaxes[k]['interrupt_on_step_fault'] = false;
+				}
+			}
 
-	        do_seqAjax(ajaxes, 3);
-	    }
+			do_seqAjax(ajaxes, 3);
+		}
 	};
 
 	function do_seqAjax(ajaxes, attempts_count){
 
-	       $.xhrPool = [];
-	       $.xhrPool.abortAll = function() {
-	           $(this).each(function(i, jqXHR) {   //  cycle through list of recorded connection
-	               jqXHR.abort();  //  aborts connection
-	               $.xhrPool.splice(i, 1); //  removes from list by index
-	           });
-	       };
+		   $.xhrPool = [];
+		   $.xhrPool.abortAll = function() {
+			   $(this).each(function(i, jqXHR) {   //  cycle through list of recorded connection
+				   jqXHR.abort();  //  aborts connection
+				   $.xhrPool.splice(i, 1); //  removes from list by index
+			   });
+		   };
 
-	        var current = 0,
-	            current_key,
-	            keys = [];
-	        for(var k in ajaxes){
-	            keys.push(k);
-	        }
-	        var steps_cnt = keys.length;
-	        var attempts = attempts_count || 3;// set attempts count for fail ajax call (for repeating request)
-	        var kill = false;
+			var current = 0,
+				current_key,
+				keys = [];
+			for(var k in ajaxes){
+				keys.push(k);
+			}
+			var steps_cnt = keys.length;
+			var attempts = attempts_count || 3;// set attempts count for fail ajax call (for repeating request)
+			var kill = false;
 
-	        //declare your function to run AJAX requests
-	        var do_ajax = function() {
+			//declare your function to run AJAX requests
+			var do_ajax = function() {
 
-		        //interrupt recursion when:
-                //kill task
-                // task complete
+				//interrupt recursion when:
+				//kill task
+				// task complete
 
-                if (kill || current >= steps_cnt) {
-	                $('body').append('Run Complete');
-	                $('div.loading').remove();
-                    return;
-                }
+				if (kill || current >= steps_cnt) {
+					$('body').append('Run Complete');
+					$('div.loading').remove();
+					return;
+				}
 
-	            if (current >= steps_cnt) {
-	                return;
-	            }
-	            current_key = keys[current];
-	            //make the AJAX request with the given data from the `ajaxes` array of objects
-	            ajaxes[current_key].data['t'] = new Date().getTime();
+				if (current >= steps_cnt) {
+					return;
+				}
+				current_key = keys[current];
+				//make the AJAX request with the given data from the `ajaxes` array of objects
+				ajaxes[current_key].data['t'] = new Date().getTime();
 
-	            $.ajax({
-	                type: ajaxes[current_key].type,
-	                url: ajaxes[current_key].url,
-	                data: ajaxes[current_key].data,
-	                dataType: ajaxes[current_key].dataType,
-	                global: false,
-	                cache: false,
-	                beforeSend: function(jqXHR) {
-	                    $.xhrPool.push(jqXHR);
-	                },
-	                success: function (data, textStatus, xhr) {
-		                $('body').append(data);
-	                    attempts = 3;
-	                    current++;
-	                },
-	                error: function (xhr, status, error) {
-	                    var error_txt='';
-	                    try { //when server response is json formatted string
-	                        var err = $.parseJSON(xhr.responseText);
-	                        if (err.hasOwnProperty("error_text")) {
-	                            error_txt = err.error_text;
-	                        } else {
-	                            if(xhr.status==200){
-	                                error_txt = '('+xhr.responseText+')';
-	                            }else{
-	                                error_txt = 'HTTP-status:' + xhr.status;
-	                            }
-	                            error_txt = 'Connection error occurred. ' + error_txt;
-	                        }
-	                    } catch (e) {
-	                        if(xhr.status==200){
-	                            error_txt = '('+xhr.responseText+')';
-	                        }else{
-	                            error_txt = 'HTTP-status:' + xhr.status;
-	                        }
-	                        error_txt = 'Connection error occurred. ' + error_txt;
-	                    }
+				$.ajax({
+					type: ajaxes[current_key].type,
+					url: ajaxes[current_key].url,
+					data: ajaxes[current_key].data,
+					dataType: ajaxes[current_key].dataType,
+					global: false,
+					cache: false,
+					beforeSend: function(jqXHR) {
+						$.xhrPool.push(jqXHR);
+					},
+					success: function (data, textStatus, xhr) {
+						$('body').append(data);
+						attempts = 3;
+						current++;
+					},
+					error: function (xhr, status, error) {
+						var error_txt='';
+						try { //when server response is json formatted string
+							var err = $.parseJSON(xhr.responseText);
+							if (err.hasOwnProperty("error_text")) {
+								error_txt = err.error_text;
+							} else {
+								if(xhr.status==200){
+									error_txt = '('+xhr.responseText+')';
+								}else{
+									error_txt = 'HTTP-status:' + xhr.status;
+								}
+								error_txt = 'Connection error occurred. ' + error_txt;
+							}
+						} catch (e) {
+							if(xhr.status==200){
+								error_txt = '('+xhr.responseText+')';
+							}else{
+								error_txt = 'HTTP-status:' + xhr.status;
+							}
+							error_txt = 'Connection error occurred. ' + error_txt;
+						}
 
-	                    //so.. if all attempts of this step are failed
-	                    if (attempts == 0) {
-	                        task_complete_text += '<div class="alert-danger">'
-	                            + defaultTaskMessages.step + ' '
-	                            + (current+1) + ' - '
-	                            + defaultTaskMessages.failed
-	                            +'. ('+ error_txt +')</div>';
-	                        //check interruption of task on step failure
-	                        if(ajaxes[current_key].interrupt_on_step_fault){
-	                            kill=true;
-	                            task_fail = true;
-	                            xhr.abort();
-	                        }else{
-	                            task_fail = true;
-	                            attempts = 3;
-	                        }
-	                        current++;
-	                    }else {
-	                        attempts--;
-	                    }
-	                },
-	                complete: function(jqXHR, text_status){
+						//so.. if all attempts of this step are failed
+						if (attempts == 0) {
+							task_complete_text += '<div class="alert-danger">'
+								+ defaultTaskMessages.step + ' '
+								+ (current+1) + ' - '
+								+ defaultTaskMessages.failed
+								+'. ('+ error_txt +')</div>';
+							//check interruption of task on step failure
+							if(ajaxes[current_key].interrupt_on_step_fault){
+								kill=true;
+								task_fail = true;
+								xhr.abort();
+							}else{
+								task_fail = true;
+								attempts = 3;
+							}
+							current++;
+						}else {
+							attempts--;
+						}
+					},
+					complete: function(jqXHR, text_status){
 
-	                    //  get index for current connection completed
-	                    var i = $.xhrPool.indexOf(jqXHR);
-	                    //  removes from list by index
-	                    if (i > -1){
-	                        $.xhrPool.splice(i, 1);
-	                    }
-	                    if(text_status!='abort') {
-	                        do_ajax();
-	                    }
-	                }
-	            });
-	        }
+						//  get index for current connection completed
+						var i = $.xhrPool.indexOf(jqXHR);
+						//  removes from list by index
+						if (i > -1){
+							$.xhrPool.splice(i, 1);
+						}
+						if(text_status!='abort') {
+							do_ajax();
+						}
+					}
+				});
+			}
 
-	        //first run
-	        do_ajax();
+			//first run
+			do_ajax();
 	}
 
 
 	function runTaskShowError(error_text) {
-	    document.write('<div class="alert alert-danger" role="alert">' + error_text + '</div>');
+		document.write('<div class="alert alert-danger" role="alert">' + error_text + '</div>');
 	}
 
 </script>

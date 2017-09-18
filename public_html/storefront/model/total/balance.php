@@ -25,9 +25,12 @@ class ModelTotalBalance extends Model {
 
 		if ($this->config->get('balance_status')) {
 			if((float)$cust_data['used_balance']){
+				//create new instance of language for case when model called from admin-side
+				$language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+				$language->load($language->language_details['filename']);
 				$total_data[] = array(
 					'id'         => 'balance',
-					'title'      => $this->language->get('text_balance_checkout'),
+					'title'      => $language->get('text_balance_checkout'),
 					'text'       => '-'.$this->currency->format($cust_data['used_balance']),
 					'value'      => - $this->session->data['used_balance'],
 					'sort_order' => 999,

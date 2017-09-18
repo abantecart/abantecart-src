@@ -125,7 +125,11 @@
 		<value><![CDATA[ Diseño ]]></value>
 	</definition>
 	<definition>
-        <key>tab_image</key>
-        <value><![CDATA[Imágenes]]></value>
-    </definition>
+		<key>tab_image</key>
+		<value><![CDATA[Imágenes]]></value>
+	</definition>
+	<definition>
+		<key>text_top_level</key>
+		<value><![CDATA[- Nivel superior -]]></value>
+	</definition>
 </definitions>

@@ -1,4 +1,4 @@
-<?php   
+<?php
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -23,15 +23,15 @@ if (! defined ( 'DIR_CORE' )) {
 class ControllerCommonHead extends AController {
 	public function main() {
 
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		//run system check to make sure system is stable to run the request
 		//for storefront log messages. nothing is shown to users
 		run_system_check($this->registry, 'log');
 
 		$this->loadLanguage('common/header');
-		
+
 		$this->view->assign('title', $this->document->getTitle());
 		$this->view->assign('keywords', $this->document->getKeywords());
 		$this->view->assign('description', $this->document->getDescription());
@@ -43,17 +43,17 @@ class ControllerCommonHead extends AController {
 		if(!$retina){
 			$this->request->deleteCookie('HTTP_IS_RETINA');
 		}
-		
+
 		if (HTTPS === true) {
 			$this->view->assign('base', HTTPS_SERVER);
-		    $this->view->assign('ssl', 1);
+			$this->view->assign('ssl', 1);
 		} else {
 			$this->view->assign('base', HTTP_SERVER);
 		}
-		
+
 		$icon_rl = $this->config->get('config_icon');
 		//see if we have a resource ID or path
-		if($icon_rl){		
+		if($icon_rl){
 			if (is_numeric($icon_rl)) {
 				$resource = new AResource('image');
 				$image_data = $resource->getResource( $icon_rl );
@@ -62,8 +62,7 @@ class ControllerCommonHead extends AController {
 				} else {
 					$icon_rl = $image_data['resource_code'];
 				}
-			} else	
-			if(!is_file(DIR_RESOURCE.$icon_rl)){
+			} else if(!is_file(DIR_RESOURCE.$icon_rl)){
 				$this->messages->saveWarning('Check favicon.','Warning: please check favicon in your store settings. Current path is "'.DIR_RESOURCE.$icon_rl.'" but file does not exists.');
 				$icon_rl ='';
 			}
@@ -72,28 +71,23 @@ class ControllerCommonHead extends AController {
 		$this->view->assign('icon', $icon_rl);
 		$this->view->assign('lang', $this->language->get('code'));
 		$this->view->assign('direction', $this->language->get('direction'));
-		$this->view->assign('links', $this->document->getLinks());	
+		$this->view->assign('links', $this->document->getLinks());
 		$this->view->assign('styles', $this->document->getStyles());
-		$this->view->assign('scripts', $this->document->getScripts());		
+		$this->view->assign('scripts', $this->document->getScripts());
 		$this->view->assign('breadcrumbs', $this->document->getBreadcrumbs());
-		
+
 		$this->view->assign('store', $this->config->get('store_name'));
 		$this->view->assign('cart_url', $this->html->getSecureURL('checkout/cart'));
-        $this->view->assign('cart_ajax', (int) $this->config->get('config_cart_ajax'));
-        //URL should be automatic for CORS
-        $this->view->assign('cart_ajax_url', $this->html->getURL('r/product/product/addToCart'));
-        $this->view->assign('search_url', $this->html->getNonSecureURL('product/search'));
-
-        $this->view->assign('call_to_order_url', $this->html->getURL('content/contact'));
-
+		$this->view->assign('cart_ajax', (int) $this->config->get('config_cart_ajax'));
+		//URL should be automatic for CORS
+		$this->view->assign('cart_ajax_url', $this->html->getURL('r/product/product/addToCart'));
+		$this->view->assign('search_url', $this->html->getNonSecureURL('product/search'));
+		$this->view->assign('call_to_order_url', $this->html->getURL('content/contact'));
 		//load template debug resources if needed
 		$this->view->assign('template_debug_mode', $this->config->get('storefront_template_debug'));
 
 		$this->processTemplate('common/head.tpl');
- 
-        //init controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-
-	}	
-	
+		//init controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+	}
 }

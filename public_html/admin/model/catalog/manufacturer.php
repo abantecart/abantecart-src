@@ -41,11 +41,12 @@ class ModelCatalogManufacturer extends Model {
 		
 		if ( $data['keyword'] && !is_array($data['keyword']) ) {
 			$seo_keys = array (
-						$language_id => array (
-								'keyword' => SEOEncode($data['keyword'],'manufacturer_id', $manufacturer_id)
-						));
+                $language_id => array (
+                    'keyword' => SEOEncode($data['keyword'],'manufacturer_id', $manufacturer_id)
+                )
+            );
 
-		}else if( is_array($data['keyword']) ){
+		} else if ( is_array($data['keyword']) ) {
 			$all_languages = $this->language->getAvailableLanguages();
 			$all_ids = array();
 			foreach($all_languages as $l){
@@ -56,14 +57,15 @@ class ModelCatalogManufacturer extends Model {
 					continue;
 				}
 				$seo_keys[(int)$lang_id ]  = array(
-											'keyword' => SEOEncode($seo_key,'manufacturer_id', $manufacturer_id)
+                    'keyword' => SEOEncode($seo_key,'manufacturer_id', $manufacturer_id)
 				);
 			}
-		}else{
+		} else {
 			$seo_keys = array (
-					$language_id => array (
-							'keyword' => SEOEncode($data['name'],'manufacturer_id', $manufacturer_id)
-					));
+                $language_id => array (
+                        'keyword' => SEOEncode($data['name'],'manufacturer_id', $manufacturer_id)
+                )
+            );
 		}
 
 

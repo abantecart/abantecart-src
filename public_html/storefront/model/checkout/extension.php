@@ -33,7 +33,7 @@ class ModelCheckoutExtension extends Model {
 		if($output !== false){
 			return $output;
 		}
-
+		$output = array();
 		$query = $this->db->query("SELECT e.*, s.value as status
 									FROM " . $this->db->table("extensions") . " e
 									LEFT JOIN " . $this->db->table("settings") . " s
@@ -54,16 +54,16 @@ class ModelCheckoutExtension extends Model {
 		$this->cache->push($cache_key,$output);
 		return $output;
 	}
-	
+
 	public function getExtensionsByPosition($type, $position) {
 		$extension_data = array();
-		
 		$query = $this->db->query("SELECT e.*, s.value as status
 									FROM " . $this->db->table("extensions") . " e
-									LEFT JOIN " . $this->db->table("settings") . " s ON ( TRIM(s.`group`) = TRIM(e.`key`) AND TRIM(s.`key`) = CONCAT(TRIM(e.`key`),'_status') )
+									LEFT JOIN " . $this->db->table("settings") . " s 
+										ON ( TRIM(s.`group`) = TRIM(e.`key`) AND TRIM(s.`key`) = CONCAT(TRIM(e.`key`),'_status') )
 									WHERE e.`type` = '" . $this->db->escape($type) . "'
-										AND s.`value`='1' AND s.store_id = '".$this->config->get('config_store_id')."'");
-		
+										AND s.`value`='1' 
+										AND s.store_id = '".$this->config->get('config_store_id')."'");
 		foreach ($query->rows as $result) {
 			if ($this->config->get($result['key'] . '_status') && ($this->config->get($result['key'] . '_position') == $position)) {
 				$extension_data[] = array(
@@ -74,14 +74,11 @@ class ModelCheckoutExtension extends Model {
 		}
 		
 		$sort_order = array(); 
-	  
 		foreach ($extension_data as $key => $value) {
-      		$sort_order[$key] = $value['sort_order'];
-    	}
-
-    	array_multisort($sort_order, SORT_ASC, $extension_data);
-
-    	return $extension_data;
+			$sort_order[$key] = $value['sort_order'];
+		}
+		array_multisort($sort_order, SORT_ASC, $extension_data);
+		return $extension_data;
 	}
 
 
@@ -114,16 +111,13 @@ class ModelCheckoutExtension extends Model {
 		if ( !has_value( $rl_image ) ) {
 			return array();
 		} 
-		
 		$resource = new AResource('image');
 		if (is_numeric($rl_image)) {
-		    // consider this is a pure image resource ID 
-		    $image_data = $resource->getResource( $rl_image );
+			// consider this is a pure image resource ID
+			$image_data = $resource->getResource( $rl_image );
 		} else {
-		    $image_data = $resource->getResource( $resource->getIdFromHexPath(str_replace('image/', '', $rl_image)) );
+			$image_data = $resource->getResource( $resource->getIdFromHexPath(str_replace('image/', '', $rl_image)) );
 		}
-	
 		return $image_data;
 	}
-
 }

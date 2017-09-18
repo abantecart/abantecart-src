@@ -25,9 +25,9 @@
 					url: URL,
 					type:'POST',
 					success: function(data){
-					    if(data.result == true) {
-                            success_alert(<?php js_echo($text_task_started); ?>, true);
-                        }
+						if(data.result == true) {
+							success_alert(<?php js_echo($text_task_started); ?>, true);
+						}
 					},
 					complete: function(){
 						$('#tasks_grid').trigger("reloadGrid");
@@ -38,9 +38,13 @@
 			})
 		});
 
-		$('.grid_action_restart').each(function(){
+		$('.grid_action_restart, .grid_action_continue').each(function(){
 			var task_id = $(this).parents('tr').attr('id');
 			var URL = '<?php echo $restart_task_url?>' + '&task_id=' + task_id;
+			if($(this).hasClass('grid_action_continue')){
+				URL += '&continue=1';
+			}
+
 			$(this).click(function(){
 				$.ajax({
 					url: URL,

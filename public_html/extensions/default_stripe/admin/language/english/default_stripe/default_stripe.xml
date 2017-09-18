@@ -26,7 +26,7 @@
 	</definition>
 	<definition>
 		<key>default_stripe_save_cards_limit</key>
-		<value><![CDATA[Can save credit cards:<br /><span class="help">Set maximum number of credit cards to be saved by customers (up to 100). If set to 0 or blank saving of cards will not be allowed. Security note: Customer credit card details are saved on stripe secure servers to ensure maximum data security measures. No credit card details will be saved on your site.</span>]]></value>
+		<value><![CDATA[Max credit cards saved:<br /><span class="help">Set maximum number of credit cards to be saved by customers (up to 100). If set to 0 or blank saving of cards will not be allowed. Security note: Customer credit card details are saved on stripe secure servers to ensure maximum data security measures. No credit card details will be saved on your site.</span>]]></value>
 	</definition>
 
 	<definition>
@@ -81,6 +81,10 @@
 	<definition>
 		<key>default_stripe_settlement</key>
 		<value><![CDATA[Settlement type:<br /><span class="help">If set to 'auto', then the transaction will be included in today's settlement. If set to 'delayed', then the transaction will be authorised but not settled(captured). You must manually capture transactions within 7 days of authorisation</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_stripe_published_key</key>
+		<value><![CDATA[Published Key:]]></value>
 	</definition>
 	<definition>
 		<key>default_stripe_status_success_settled</key>

@@ -33,9 +33,11 @@
 		<input type="hidden" name="redirect" value="<?php echo $redirect; ?>" />
 		 <?php } ?>
 		</form>
-		
-		 <a href="<?php echo $forgot_password ?>"><?php echo $entry_forgot_password ?></a>
 
-    </div><!-- lockedpanel -->
+		<div class="form-group">
+			<a href="<?php echo $forgot_password ?>"><?php echo $entry_forgot_password ?></a>
+			<?php echo $text_help_link ?>
+		</div>
+    </div>
   
 </section>

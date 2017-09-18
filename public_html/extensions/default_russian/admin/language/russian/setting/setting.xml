@@ -913,4 +913,8 @@
 		<key>entry_duplicate_contact_us</key>
 		<value><![CDATA[Дублировать запросы через Контакты-форму мгновенными уведомлениями]]></value>
 	</definition>
+	<definition>
+		<key>entry_mail_logo</key>
+		<value><![CDATA[Логотип в email-письме:]]></value>
+	</definition>
 </definitions>

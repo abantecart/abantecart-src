@@ -58,7 +58,7 @@ $(document).ready(function () {
 	    url: '<?php echo $ajax_url; ?>',
 	    dataType: 'json',
 		jsonTermKey: "term",
-		data: {'exclude': $("#<?php echo $id ?>").chosen().val()},
+		data: {'exclude': $("#<?php echo $id ?>").chosen().val(), 'filter': '<?php echo $filter_params; ?>'},
 		keepTypingMsg: "<?php echo $text_continue_typing; ?>",
 		lookingForMsg: "<?php echo $text_looking_for; ?>"   
 	}, function (data) {

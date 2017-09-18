@@ -83,7 +83,7 @@ class AIMManager extends AIM{
 			$this->admin_sendpoints[$name] = $data_array;
 		} else{
 			$error = new AError('Admin SendPoint ' . $name . ' cannot be added to the list.');
-			$error->toLog()->toMessages();
+			$error->toLog();
 			return false;
 		}
 		return true;
@@ -115,7 +115,7 @@ class AIMManager extends AIM{
 		//check sendpoint
 		if (!in_array($sendpoint, array_keys($sendpoints_list))){
 			$error = new AError('IM error: Invalid SendPoint ' . $sendpoint . ' was used in IM class. Nothing sent.');
-			$error->toLog()->toMessages();
+			$error->toLog();
 			return false;
 		}
 		$sendpoint_data = $sendpoints_list[$sendpoint];
@@ -499,15 +499,17 @@ class AIMManager extends AIM{
 		}
 
 		$sql = "SELECT *
-				FROM " . $this->db->table('user_notifications') . "
-				WHERE user_id=" . $user_id . "
-					AND store_id = '" . $store_id . "'
-					AND sendpoint = '" . $this->db->escape($sendpoint) . "'";
+				FROM " . $this->db->table('user_notifications') . " un
+				INNER JOIN " . $this->db->table('users') . " u
+					ON (u.user_id = un.user_id AND u.status = 1)
+				WHERE un.user_id=" . $user_id . "
+					AND un.store_id = '" . $store_id . "'
+					AND un.sendpoint = '" . $this->db->escape($sendpoint) . "'";
 		if ($section != ''){
-			$sql .= " AND section = '" . ($section == 'admin' ? 1 : 0) . "'";
+			$sql .= " AND un.section = '" . ($section == 'admin' ? 1 : 0) . "'";
 		}
 
-		$sql .= "ORDER BY `protocol`";
+		$sql .= "ORDER BY un.protocol";
 		$result = $this->db->query($sql);
 
 		$output = array ();

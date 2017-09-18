@@ -218,7 +218,6 @@ class APromotion{
 	public function getProductSpecial($product_id){
 		$product_id = (int)$product_id;
 		$customer_group_id = (int)$this->customer_group_id;
-
 		$cache_key = 'product.special.' . (int)$product_id . '.' . $customer_group_id;
 		$output = $this->cache->pull($cache_key);
 		if ($output !== false){

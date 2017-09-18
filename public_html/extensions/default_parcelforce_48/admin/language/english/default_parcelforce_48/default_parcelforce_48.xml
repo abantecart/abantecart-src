@@ -14,7 +14,7 @@
   </definition>
   <definition>
     <key>default_parcelforce_48_rate</key>
-    <value><![CDATA[Parcelforce 48 Rates:<br /><span class="help">Enter values upto 5,2 decimal places. (12345.67) Example: .1:1,.25:1.27 - Weights less than or equal to 0.1Kg would cost 1.00, Weights less than or equal to 0.25g but more than 0.1Kg will cost 1.27. Do not enter KG or symbols.</span>]]></value>
+    <value><![CDATA[Parcelforce 48 Rates:<br /><span class="help">Example: 0:0,10:15.99,12:19.99, - Weights less than or equal to 10 pounds would cost $15.99, Weights less than 12 pounds but more than 10 pounds will cost $19.99. Where Pound is your Store Weight class and $ is Store Base currency. You can change both in the Store Settings. Do not enter KG or any symbols. Enter values upto 5,2 decimal places. (12345.67) </span>]]></value>
   </definition>
   <definition>
     <key>default_parcelforce_48_display_weight</key>

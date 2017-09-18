@@ -785,7 +785,7 @@ CREATE TABLE `ac_download_attribute_values` (
   `download_attribute_id` int(11) NOT NULL AUTO_INCREMENT,
   `attribute_id` int(11) NOT NULL,
   `download_id` int(11) NOT NULL,
-  `attribute_value_ids` text COLLATE utf8_general_ci  DEFAULT NULL,  -- serialized aray with value IDs
+  `attribute_value_ids` text COLLATE utf8_general_ci  DEFAULT NULL,  -- serialized array with value IDs
   PRIMARY KEY (`download_attribute_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
@@ -954,17 +954,19 @@ DROP TABLE IF EXISTS `ac_length_classes`;
 CREATE TABLE `ac_length_classes` (
   `length_class_id` int(11) NOT NULL AUTO_INCREMENT,
   `value` decimal(15,8) NOT NULL,
-  PRIMARY KEY (`length_class_id`)
+  `iso_code` VARCHAR(5) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`length_class_id`,`iso_code`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `length_class`
 --
-
-INSERT INTO `ac_length_classes` (`length_class_id`, `value`) VALUES
-(1, '1.00000000'),
-(2, '10.00000000'),
-(3, '0.39370000');
+INSERT INTO `ac_length_classes` (`length_class_id`, `value`, `iso_code`) VALUES
+(1, '1.00000000', 'CMET'),
+(2, '10.00000000', 'MMET'),
+(3, '0.39370000', 'INCH');
 
 --
 -- DDL for table `length_class_descriptions`
@@ -1156,7 +1158,7 @@ CREATE TABLE `ac_order_data_types` (
   PRIMARY KEY (`type_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
--- write preinstalled IM protocols for guest checkout orders
+-- write pre-installed IM protocols for guest checkout orders
 INSERT INTO `ac_order_data_types` (`language_id`, `name`, `date_added`) VALUES
 (1, 'email', NOW()),
 (1, 'sms', NOW());
@@ -1308,6 +1310,7 @@ CREATE TABLE `ac_products` (
   `sku` varchar(64) COLLATE utf8_general_ci NOT NULL,
   `location` varchar(128) COLLATE utf8_general_ci NOT NULL,
   `quantity` int(4) NOT NULL DEFAULT '0',
+  `stock_checkout` CHAR(1) NULL DEFAULT '',
   `stock_status_id` int(11) NOT NULL,
   `manufacturer_id` int(11) NOT NULL,
   `shipping` int(1) NOT NULL DEFAULT '1',
@@ -1617,7 +1620,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('general','config_special_limit',4),
 ('general','config_stock_display',1),
 ('general','config_nostock_autodisable',0),
-('general','config_stock_status_id',5),
+('general','config_stock_status_id',0),
 ('general','enable_reviews',1),
 ('general','config_download',1),
 ('general','config_help_links',1),
@@ -1663,6 +1666,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 
 ('appearance','storefront_width','100%'),
 ('appearance','config_logo','image/18/73/3.png'),
+('appearance','config_mail_logo','image/18/73/3.png'),
 ('appearance','config_icon','image/18/73/4.png'),
 ('appearance','config_image_thumb_width',380),
 ('appearance','config_image_thumb_height',380),
@@ -1802,9 +1806,7 @@ CREATE TABLE `ac_stock_statuses` (
 --
 
 INSERT INTO `ac_stock_statuses` (`stock_status_id`, `language_id`, `name`) VALUES
-(1, 1, 'In Stock'),
-(2, 1, 'Out Of Stock'),
-(3, 1, 'Pre-Order');
+(1, 1, 'Pre-Order');
 
 --
 -- DDL for table `stores`
@@ -2003,18 +2005,21 @@ DROP TABLE IF EXISTS `ac_weight_classes`;
 CREATE TABLE `ac_weight_classes` (
   `weight_class_id` int(11) NOT NULL AUTO_INCREMENT,
   `value` decimal(15,8) NOT NULL DEFAULT '0.00000000',
-  PRIMARY KEY (`weight_class_id`)
+  `iso_code` VARCHAR(5) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`weight_class_id`,`iso_code`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- Dumping data for table `weight_class`
 --
 
-INSERT INTO `ac_weight_classes` (`weight_class_id`, `value`) VALUES
-(1, '1.00000000'),
-(2, '1000.00000000'),
-(5, '2.20460000'),
-(6, '35.27400000');
+INSERT INTO `ac_weight_classes` (`weight_class_id`, `value`, `iso_code`) VALUES
+(1, '1.00000000', 'KILO'),
+(2, '1000.00000000', 'GRAM'),
+(5, '2.20460000', 'PUND'),
+(6, '35.27400000', 'USOU');
 
 
 --
@@ -10331,6 +10336,7 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
 (26, 3, 'blocks/search.tpl', now() ),
 (26, 6, 'blocks/search.tpl', now() ),
 (27, 1, 'blocks/menu_top.tpl', now() ),
+(27, 2, 'blocks/menu.tpl', now()),
 (27, 8, 'blocks/menu_bottom.tpl', now() ),
 (27, 3, 'blocks/menu.tpl', now() ),
 (27, 6, 'blocks/menu.tpl', now() ),
@@ -10369,7 +10375,7 @@ INSERT INTO `ac_layouts` (`layout_id`, `template_id`, `layout_type`, `layout_nam
 (14, 'default', 1, 'Default Product Page',  now()),
 (15, 'default', 1, 'Checkout Pages', now()),
 (16, 'default', 1, 'Product Listing Page', now()),
-(17, 'default', 1, 'Maintanance Page', now()),
+(17, 'default', 1, 'Maintenance Page', now()),
 (18, 'default', 1, 'Customer Account Pages', now()),
 (19, 'default', 1, 'Cart Page', now());
 
@@ -12019,7 +12025,7 @@ VALUES  (20, NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (21,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (22,'2.0.0a','1');
+VALUES  (22,'1.2.11','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (23,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
@@ -12281,7 +12287,7 @@ CREATE TABLE `ac_resource_types` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 INSERT INTO `ac_resource_types` (`type_id`, `type_name`, `default_icon`, `default_directory`, `file_types`, `access_type`) VALUES
-(1, 'image', 'icon_resource_image.png', 'image/', '/.+(jpe?g|gif|png|ico)$/i', 0),
+(1, 'image', 'icon_resource_image.png', 'image/', '/.+(jpe?g|gif|png|ico|svg|svgz)$/i', 0),
 (2, 'audio', 'icon_resource_audio.png', 'audio/', '/.+(mp3|wav)$/i', 0),
 (3, 'video', 'icon_resource_video.png', 'video/', '/.+(avi|mpg|mov|flv)$/i', 0),
 (4, 'pdf', 'icon_resource_pdf.png', 'pdf_document/', '/.+(pdf)$/i', 0),

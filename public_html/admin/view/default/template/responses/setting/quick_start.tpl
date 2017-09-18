@@ -50,7 +50,7 @@
 	  		<?php echo $payments_selection; ?>
 	  		<?php echo $shipping_selection; ?>
 	  		<?php echo $language_selection; ?>
-	  		<?php echo $more_extentions; ?>
+	  		<?php echo $more_extensions; ?>
 	  	<br /><br />
 		<div class="form-group text-center">
 			<label><?php echo $quick_start_last_footer; ?></label>

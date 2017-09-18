@@ -3200,6 +3200,16 @@ paypal pro styles
 	max-width: 100%;
 }
 
+.product_option_label{
+	background-color: #f5f5f5;
+	color: black;
+	overflow: hidden;
+	padding: 10px;
+	border: 1px solid #d7d8da;
+	font-weight: 400;
+	width: 100%;
+}
+
 /* Responsive Section */
 @media (min-width: 1200px) {
 	.cart-info .estimate{
@@ -3253,6 +3263,11 @@ paypal pro styles
 	}
 	.cart-info .estimate{
 		float: right;
+	}
+}
+@media(min-width: 1200px) and (max-width: 1280px){
+	#customernav div.menu_text, #customernav ul li a {
+	    width: 180px;
 	}
 }
 

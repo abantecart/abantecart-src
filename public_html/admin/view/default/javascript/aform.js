@@ -828,7 +828,7 @@ var spanHelp2Toggles = function(){
     			$i.attr('data-container', 'body');
     			$i.attr('data-toggle', 'popover');
     			$i.attr('data-content', content);
-    			$i.popover({trigger: 'hover', placement: 'auto'});
+    			$i.popover({trigger: 'hover', html: true, placement: 'auto'});
     		}
     	});
 }

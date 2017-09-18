@@ -25,19 +25,19 @@ class ControllerResponsesExtensionDefaultCashflows extends AController{
 	public function main(){
 		$this->loadLanguage('default_cashflows/default_cashflows');
 
-        $data['action'] = $this->html->getSecureURL('extension/default_cashflows/send');
+		$data['action'] = $this->html->getSecureURL('extension/default_cashflows/send');
 
-        //build submit form
-        $form = new AForm();
-        $form->setForm(array( 'form_name' => 'cashflows' ));
-        $data['form_open'] = $form->getFieldHtml(
-            array(
-                'type' => 'form',
-                'name' => 'cashflows',
-                'attr' => 'class = "form-horizontal validate-creditcard"',
-                'csrf' => true
-            )
-        );
+		//build submit form
+		$form = new AForm();
+		$form->setForm(array( 'form_name' => 'cashflows' ));
+		$data['form_open'] = $form->getFieldHtml(
+			array(
+				'type' => 'form',
+				'name' => 'cashflows',
+				'attr' => 'class = "form-horizontal validate-creditcard"',
+				'csrf' => true
+			)
+		);
 
 		$data['text_credit_card'] = $this->language->get('text_credit_card');
 		$data['text_start_date'] = $this->language->get('text_start_date');
@@ -53,6 +53,8 @@ class ControllerResponsesExtensionDefaultCashflows extends AController{
 		$data['button_confirm'] = $this->language->get('button_confirm');
 		$data['button_back'] = $this->language->get('button_back');
 
+		$this->loadModel('checkout/order');
+		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 		$data['cc_owner'] = $form->getFieldHtml(array (
 				'type'  => 'input',
 				'name'  => 'cc_owner',
@@ -74,18 +76,18 @@ class ControllerResponsesExtensionDefaultCashflows extends AController{
 
 		$data['cc_expire_date_month'] = $this->html->buildElement(
 				array ('type'    => 'selectbox',
-				       'name'    => 'cc_expire_date_month',
-				       'value'   => sprintf('%02d', date('m')),
-				       'options' => $months,
-				       'style'   => 'short input-small'
+					   'name'    => 'cc_expire_date_month',
+					   'value'   => sprintf('%02d', date('m')),
+					   'options' => $months,
+					   'style'   => 'short input-small'
 				));
 
 		$data['cc_start_date_month'] = $this->html->buildElement(
 				array ('type'    => 'selectbox',
-				       'name'    => 'cc_start_date_month',
-				       'value'   => sprintf('%02d', date('m')),
-				       'options' => $months,
-				       'style'   => 'short input-small'
+					   'name'    => 'cc_start_date_month',
+					   'value'   => sprintf('%02d', date('m')),
+					   'options' => $months,
+					   'style'   => 'short input-small'
 				));
 
 		$today = getdate();
@@ -93,31 +95,41 @@ class ControllerResponsesExtensionDefaultCashflows extends AController{
 		for ($i = $today['year']; $i < $today['year'] + 11; $i++){
 			$years[strftime('%Y', mktime(0, 0, 0, 1, 1, $i))] = strftime('%Y', mktime(0, 0, 0, 1, 1, $i));
 		}
-		$data['cc_expire_date_year'] = $form->getFieldHtml(array ('type'    => 'selectbox',
-		                                                                 'name'    => 'cc_expire_date_year',
-		                                                                 'value'   => sprintf('%02d', date('Y') + 1),
-		                                                                 'options' => $years,
-		                                                                 'style'   => 'short input-small'));
+		$data['cc_expire_date_year'] = $form->getFieldHtml(
+												array (
+														'type'    => 'selectbox',
+														'name'    => 'cc_expire_date_year',
+														'value'   => sprintf('%02d', date('Y') + 1),
+														'options' => $years,
+														'style'   => 'short input-small'
+												));
 
-		$data['cc_start_date_year'] = $form->getFieldHtml(array ('type'    => 'selectbox',
-		                                                                'name'    => 'cc_start_date_year',
-		                                                                'value'   => sprintf('%02d', date('Y') + 1),
-		                                                                'options' => $years,
-		                                                                'style'   => 'short input-small'));
+		$data['cc_start_date_year'] = $form->getFieldHtml(
+												array (
+														'type'    => 'selectbox',
+														'name'    => 'cc_start_date_year',
+														'value'   => sprintf('%02d', date('Y') + 1),
+														'options' => $years,
+														'style'   => 'short input-small'
+												));
 
-		$data['cc_cvv2'] = $form->getFieldHtml(array ('type'  => 'input',
-		                                                     'name'  => 'cc_cvv2',
-		                                                     'value' => '',
-		                                                     'style' => 'short',
-		                                                     'attr'  => ' size="3" maxlength="4" '
-		));
+		$data['cc_cvv2'] = $form->getFieldHtml(
+												array (
+														'type'  => 'input',
+														'name'  => 'cc_cvv2',
+														'value' => '',
+														'style' => 'short',
+														'attr'  => ' size="3" maxlength="4" '
+												));
 
-		$data['cc_issue'] = $form->getFieldHtml(array ('type'  => 'input',
-		                                                      'name'  => 'cc_issue',
-		                                                      'value' => '',
-		                                                      'style' => 'short',
-		                                                      'attr'  => ' size="1" maxlength="2" '
-		));
+		$data['cc_issue'] = $form->getFieldHtml(
+												array (
+														'type'  => 'input',
+														'name'  => 'cc_issue',
+														'value' => '',
+														'style' => 'short',
+														'attr'  => ' size="1" maxlength="2" '
+												));
 
 		if ($this->request->get['rt'] == 'checkout/guest_step_3'){
 			$back_url = $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit', true);
@@ -126,20 +138,20 @@ class ControllerResponsesExtensionDefaultCashflows extends AController{
 		}
 
 		$data['back'] = $this->html->buildElement(
-				array (
-						'type'  => 'button',
-						'name'  => 'back',
-						'text'  => $this->language->get('button_back'),
-						'style' => 'button',
-						'href'  => $back_url));
+												array (
+														'type'  => 'button',
+														'name'  => 'back',
+														'text'  => $this->language->get('button_back'),
+														'style' => 'button',
+														'href'  => $back_url));
 
 		$data['submit'] = $this->html->buildElement(
-				array (
-						'type'  => 'button',
-						'name'  => 'pp_button',
-						'text'  => $this->language->get('button_confirm'),
-						'style' => 'button btn-orange',
-				));
+												array (
+														'type'  => 'button',
+														'name'  => 'pp_button',
+														'text'  => $this->language->get('button_confirm'),
+														'style' => 'button btn-orange',
+												));
 
 		$this->view->batchAssign($data);
 		//load creditcard input validation
@@ -148,19 +160,18 @@ class ControllerResponsesExtensionDefaultCashflows extends AController{
 	}
 
 	public function send(){
-        $json = array();
-        $data = array();
+		$json = array();
+		$data = array();
 
-        if(!$this->csrftoken->isTokenValid()){
-            $json['error'] = $this->language->get('error_unknown');
-            $this->load->library('json');
-            $this->response->setOutput(AJson::encode($json));
-            return;
-        }
+		if(!$this->csrftoken->isTokenValid()){
+			$json['error'] = $this->language->get('error_unknown');
+			$this->load->library('json');
+			$this->response->setOutput(AJson::encode($json));
+			return;
+		}
 
 		$this->loadLanguage('default_cashflows/default_cashflows');
 		$this->load->model('checkout/order');
-
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 
 		$payment_data = array (
@@ -229,6 +240,13 @@ class ControllerResponsesExtensionDefaultCashflows extends AController{
 			}
 		}
 
+		if (isset($json['error'])) {
+			if ($json['error']) {
+				$csrftoken = $this->registry->get('csrftoken');
+				$json['csrfinstance'] = $csrftoken->setInstance();
+				$json['csrftoken'] = $csrftoken->setToken();
+			}
+		}
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($json));
 	}

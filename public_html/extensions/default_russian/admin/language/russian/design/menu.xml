@@ -22,7 +22,7 @@
 	</definition>
 	<definition>
 		<key>entry_item_url</key>
-		<value><![CDATA[Ссылка<br /><span class="help">Для внешних ссылок добавите http:// или https:// в начале</span>]]></value>
+		<value><![CDATA[Ссылка<br /><span class="help">Для внешних ссылок добавите http:// или https:// в начале. Вы также можете использовать относительные ссылки такие как ../subfolder/index.php</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_parent_id</key>

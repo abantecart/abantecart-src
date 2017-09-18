@@ -131,7 +131,7 @@ class ControllerResponsesCommonDoEmbed extends AController {
 		if(sizeof($product_stores) == 1){
 			$remote_store_url = $product_stores[0]['store_url'];
 		}
-
+		$remote_store_url = $this->_prepare_url($remote_store_url);
 		$this->data['sf_js_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/js';
 		$this->data['sf_base_url'] = $remote_store_url;
 		$this->data['help_url'] = $this->gen_help_url('embed');
@@ -290,6 +290,8 @@ class ControllerResponsesCommonDoEmbed extends AController {
 		));
 
 		$this->data['category_id'] = $this->request->get['category_id'];
+
+		$remote_store_url = $this->_prepare_url($remote_store_url);
 		$this->data['sf_js_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/js';
 		$this->data['sf_base_url'] = $remote_store_url;
 		$this->data['help_url'] = $this->gen_help_url('embed');
@@ -423,6 +425,7 @@ class ControllerResponsesCommonDoEmbed extends AController {
 		));
 
 		$this->data['manufacturer_id'] = $this->request->get['manufacturer_id'];
+		$remote_store_url = $this->_prepare_url($remote_store_url);
 		$this->data['sf_js_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/js';
 		$this->data['sf_base_url'] = $remote_store_url;
 		$this->data['help_url'] = $this->gen_help_url('embed');
@@ -436,5 +439,9 @@ class ControllerResponsesCommonDoEmbed extends AController {
 		$this->view->batchAssign($this->language->getASet('common/do_embed'));
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('responses/embed/do_embed_manufacturer_modal.tpl');
+	}
+
+	protected function _prepare_url($url){
+		return str_replace( array( 'http://', 'https://' ), '//', $url);
 	}
 }

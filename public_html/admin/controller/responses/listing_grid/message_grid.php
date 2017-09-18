@@ -149,10 +149,9 @@ class ControllerResponsesListingGridMessageGrid extends AController {
 			$this->view->assign('readonly', $this->request->get['readonly']);
 			$this->view->batchAssign($this->language->getASet('tool/message_manager'));
 			$this->view->batchAssign($this->data);
-			$this->processTemplate('responses/tool/message_info.tpl');
-
 			//update controller data
 			$this->extensions->hk_UpdateData($this, __FUNCTION__);
+			$this->processTemplate('responses/tool/message_info.tpl');
 		}
 	}
 

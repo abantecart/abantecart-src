@@ -59,7 +59,7 @@ class AOrderManager extends AOrder{
 	 * @throws AException
 	 * @return array
 	 * NOTE: Admin only method to recalculate existing order totals.
-	 * Considiration: This section needs to be simplified with SF process call.
+	 * Consideration: This section needs to be simplified with SF process call.
 	 */
 	public function recalcTotals($skip_totals = array (), $new_totals = array ()){
 		if (!IS_ADMIN){ // forbid for non admin calls
@@ -129,15 +129,15 @@ class AOrderManager extends AOrder{
 			}
 		}
 
-		//build customer data befor cart loading
+		//build customer data before cart loading
 		$customer_data['current_store_id'] = $order_info['store_id'];
 		$customer_data['country_id'] = $order_info['shipping_country_id'];
 		$customer_data['zone_id'] = $order_info['shipping_zone_id'];
 		$customer_data['customer_id'] = $order_info['customer_id'];
-		//need to include customer_group_id to culculate promotions
+		//need to include customer_group_id to calculate promotions
 		$customer_data['customer_group_id'] = $order_info['customer_group_id'];
 		if ($customer_data['customer_group_id']){
-			//get csutomer data to pull taxexemption
+			//get customer data to pull tax exemption
 			$cust_info = $customer_gr_mdl->getCustomerGroup($customer_data['customer_group_id']);
 			$customer_data['tax_exempt'] = $cust_info['tax_exempt'];
 		}
@@ -189,7 +189,7 @@ class AOrderManager extends AOrder{
 				'address_format' => $order_info['payment_address_format'],
 		);
 
-		//add cart to registery before woring with sippments and payments
+		//add cart to registry before working with shipments and payments
 		$this->registry->set('cart', new ACart($this->registry, $customer_data));
 		// Tax
 		$this->registry->set('tax', new ATax($this->registry, $customer_data));
@@ -214,7 +214,7 @@ class AOrderManager extends AOrder{
 		 */
 		$sf_ext_mdl = $this->load->model('checkout/extension', 'storefront');
 
-		//recalc shipping onnly if we know the shipping methond key
+		//recalc shipping only if we know the shipping method key
 		if ($order_info['shipping_method_key']){
 			//Load weight/length classes
 			$this->registry->set('weight', new AWeight($this->registry));
@@ -255,7 +255,7 @@ class AOrderManager extends AOrder{
 			$calc_order[$value['key']] = (int)$this->config->get($value['key'] . '_calculation_order');
 		}
 
-		//need to perfom action of calculation totals one by one and build array by reference 
+		//need to perform action of calculation totals one by one and build array by reference
 		array_multisort($calc_order, SORT_ASC, $total_extns);
 		foreach ($total_extns as $extn){
 			$include = false;
@@ -313,7 +313,7 @@ class AOrderManager extends AOrder{
 			//set shift back if new list is missing some total compare to old list.
 			$j = $i - $shift;
 			$t_new = $total_data[$j];
-			if ($t_new['id'] != $t_old['key']){
+            if (str_replace('_', '', $t_new['id']) != str_replace('_', '', $t_old['key'])){
 				// need to set text value to 0 for removed new total
 				$zero_text_val = $this->currency->format(0, $order_info['currency'], $order_info['value'], true);
 				$upd_total['totals'][$t_old['order_total_id']] = $zero_text_val;
@@ -324,7 +324,7 @@ class AOrderManager extends AOrder{
 		}
 
 		//check if this is a shared key total, correct totals to match on the title. 
-		//This will NOT work on multilingual sites if order originaly placed in diff language
+		//This will NOT work on multilingual sites if order originally placed in diff language
 		foreach ($total2ids as $key => $t2i){
 			if (sizeof($t2i) > 1){
 				foreach ($original_totals as $t_old){

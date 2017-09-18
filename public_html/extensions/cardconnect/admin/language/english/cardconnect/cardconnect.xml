@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>cardconnect_name</key>
+    <value><![CDATA[CardConnect]]></value>
+  </definition>
+  <definition>
+    <key>cardconnect_note</key>
+    <value><![CDATA[To obtain API Credentials please visit https://cardconnect.com/signup/developer]]></value>
+  </definition>
+  <definition>
+    <key>cardconnect_merchant_id</key>
+    <value><![CDATA[Merchant ID]]></value>
+  </definition>
+  <definition>
+    <key>cardconnect_username</key>
+    <value><![CDATA[API Username]]></value>
+  </definition>
+  <definition>
+    <key>cardconnect_password</key>
+    <value><![CDATA[API Password]]></value>
+  </definition>
+  <definition>
+    <key>cardconnect_logging</key>
+    <value><![CDATA[Logging:<br /><span class="help">Log file is located in system/logs/cardconnect.txt file</span>]]></value>
+  </definition>
+  <definition>
+    <key>cardconnect_test</key>
+    <value><![CDATA[Test]]></value>
+  </definition>
+  <definition>
+    <key>cardconnect_test_connection</key>
+    <value><![CDATA[Test Connection]]></value>
+  </definition>
+  <definition>
+    <key>cardconnect_get_test_api_credentials</key>
+    <value><![CDATA[Get Test API Credentials]]></value>
+  </definition>
+  <definition>
+    <key>cardconnect_test_mode</key>
+    <value><![CDATA[Test Mode]]></value>
+  </definition>
+  <definition>
+    <key>cardconnect_site</key>
+    <value><![CDATA[Domain portion to API:<br /><span class="help">This value should not be changed, unless different specified by cardConnent.</span>]]></value>
+  </definition>
+  <definition>
+    <key>cardconnect_connection_success</key>
+    <value><![CDATA[Connection is successful and API Credentials are configured correctly.]]></value>
+  </definition>
+  <definition>
+    <key>cardconnect_location_id_0</key>
+    <value><![CDATA[All Locations]]></value>
+  </definition>
+  <definition>
+    <key>cardconnect_location_id</key>
+    <value><![CDATA[Location]]></value>
+  </definition>
+  <definition>
+    <key>cardconnect_status_refund</key>
+    <value><![CDATA[Refunded:<br /><span class="help">Order status you want to be set if payment is refunded in admin/order]]></value>
+  </definition>
+  <definition>
+    <key>cardconnect_status_decline</key>
+    <value><![CDATA[Decline:<br /><span class="help">Order status you want to record in history in response to payment processor status. Main order status is not affected. Order will not be placed only after payment is a success.</span>]]></value>
+  </definition>
+  <definition>
+    <key>cardconnect_status_success_unsettled</key>
+    <value><![CDATA[Success & not settled:<br /><span class="help">Select main order status you want to set in response to payment processor status</span>]]></value>
+  </definition>
+  <definition>
+    <key>cardconnect_status_success_settled</key>
+    <value><![CDATA[Success & settled:<br /><span class="help">Select main order status you want to set in response to payment processor status</span>]]></value>
+  </definition>
+  <definition>
+    <key>cardconnect_status_void</key>
+    <value><![CDATA[Voided:<br /><span class="help">Order status you want to be set if payment is voided in admin/order.</span>]]></value>
+  </definition>
+  <definition>
+    <key>cardconnect_settlement_payment</key>
+    <value><![CDATA[Auto (authorize and capture)]]></value>
+  </definition>
+  <definition>
+    <key>cardconnect_settlement_auth</key>
+    <value><![CDATA[Delayed (authorize only)]]></value>
+  </definition>
+  <definition>
+    <key>cardconnect_settlement</key>
+    <value><![CDATA[Settlement type:<br /><span class="help">If set to "auto", then the transaction will be included in today's settlement. If set to 'delayed', then the transaction will be authorised but not settled(captured). You must manually capture transactions within 7 days of authorisation</span>]]></value>
+  </definition>
+  <definition>
+    <key>cardconnect_save_cards_limit</key>
+    <value><![CDATA[Max credit cards saved: <br/><span class="help">Set maximum number of credit cards to be saved by customers (up to 100). If set to 0 or blank saving of cards will not be allowed. Security note: Customer credit card details are saved on CardConnect secure servers to ensure maximum data security measures. No credit card details will be saved on your site.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_column_date_added</key>
+    <value><![CDATA[Transaction Date]]></value>
+  </definition>
+  <definition>
+    <key>text_column_amount</key>
+    <value><![CDATA[Amount]]></value>
+  </definition>
+  <definition>
+    <key>text_captured_ok</key>
+    <value><![CDATA[Funds were captured successfully]]></value>
+  </definition>
+  <definition>
+    <key>text_captured_order</key>
+    <value><![CDATA[Capture was successful, order status updated to success - settled]]></value>
+  </definition>
+  <definition>
+    <key>text_refunded_ok</key>
+    <value><![CDATA[Refund was processed successfully]]></value>
+  </definition>
+  <definition>
+    <key>text_refund_order</key>
+    <value><![CDATA[Refund was successful, order status updated to refunded]]></value>
+  </definition>
+  <definition>
+    <key>text_voided</key>
+    <value><![CDATA[Void was successful, order status updated to voided]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_info</key>
+    <value><![CDATA[Payment Details]]></value>
+  </definition>
+  <definition>
+    <key>text_capture_status</key>
+    <value><![CDATA[Payment captured]]></value>
+  </definition>
+  <definition>
+    <key>text_void_status</key>
+    <value><![CDATA[Payment voided]]></value>
+  </definition>
+  <definition>
+    <key>text_refund_status</key>
+    <value><![CDATA[Payment refunded]]></value>
+  </definition>
+  <definition>
+    <key>text_capture_amount</key>
+    <value><![CDATA[Capture Amount]]></value>
+  </definition>
+  <definition>
+    <key>text_refund_amount</key>
+    <value><![CDATA[Refund Amount]]></value>
+  </definition>
+  <definition>
+    <key>text_order_ref</key>
+    <value><![CDATA[CardConnect Charge ID]]></value>
+  </definition>
+  <definition>
+    <key>text_authorized_ammount</key>
+    <value><![CDATA[Total amount authorized]]></value>
+  </definition>
+  <definition>
+    <key>text_balance</key>
+    <value><![CDATA[Balance amount]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[Refund Transactions]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_void</key>
+    <value><![CDATA[Please confirm you want to void the payment?]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_capture</key>
+    <value><![CDATA[Please confirm you want to capture the payment?]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_refund</key>
+    <value><![CDATA[Please confirm you want to refund the payment?]]></value>
+  </definition>
+  <definition>
+    <key>button_refund</key>
+    <value><![CDATA[Refund]]></value>
+  </definition>
+  <definition>
+    <key>button_void</key>
+    <value><![CDATA[Void]]></value>
+  </definition>
+  <definition>
+    <key>button_capture</key>
+    <value><![CDATA[Capture]]></value>
+  </definition>
+  <definition>
+    <key>error_system</key>
+    <value><![CDATA[Internal error. Check error log or input parameters!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_amount</key>
+    <value><![CDATA[Please enter positive amount]]></value>
+  </definition>
+  <definition>
+    <key>error_unable_to_void</key>
+    <value><![CDATA[Unable to void transaction, refresh and check transaction details]]></value>
+  </definition>
+  <definition>
+    <key>error_unable_to_capture</key>
+    <value><![CDATA[Unable to capture, refresh transaction details and check capture amount]]></value>
+  </definition>
+  <definition>
+    <key>error_unable_to_refund</key>
+    <value><![CDATA[Unable to refund, refresh transaction details and check refund amount]]></value>
+  </definition>
+  <definition>
+    <key>text_settlement_status</key>
+    <value><![CDATA[Current Settlement Status]]></value>
+  </definition>
+</definitions>

@@ -33,7 +33,7 @@ if (!function_exists('simplexml_load_file')) {
 $root_path = dirname(__FILE__);
 
 // Windows IIS Compatibility  
-if (stristr(PHP_OS, 'WIN')) {
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 	define('IS_WINDOWS', true);
 	$root_path = str_replace('\\', '/', $root_path);
 }
@@ -81,11 +81,6 @@ if (!defined('IS_ADMIN') || !IS_ADMIN ) { // storefront load
 	
 	// User
 	$registry->set('user', new AUser($registry));
-	//check for cookie for storefront on admin-side. If absent - create to allow admin view storefront in maintenance mode.
-	if($registry->get('config')->get('config_maintenance') && $registry->get('user')->isLogged()){
-		$user_id = $registry->get('user')->getId();
-		startStorefrontSession($user_id);
-	}
 }// end admin load
 
 // Currency
@@ -98,6 +93,11 @@ $router->processRoute(ROUTE);
 
 // Output
 $registry->get('response')->output();
+
+if( IS_ADMIN === true && $registry->get('config')->get('config_maintenance') && $registry->get('user')->isLogged() ) {
+	$user_id = $registry->get('user')->getId();
+	startStorefrontSession($user_id);
+}
 
 //Show cache stats if debugging
 if($registry->get('config')->get('config_debug')){

@@ -470,11 +470,11 @@
 	</definition>
 	<definition>
 		<key>entry_stock_subtract</key>
-		<value><![CDATA[Restar stock:<br /><span class="help">Restar la cantidad del stock cuando un pedido es procesado.</span>]]></value>
+		<value><![CDATA[Predeterminado Stock Checkout:<br /><span class="help">Establecer configuración predeterminada Stock Checkout para nuevos productos.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_stock_status</key>
-		<value><![CDATA[Estado del stock:<br /><span class="help">Ajuste por defecto de mensaje que indica que la situación del stock de producto. Se utiliza en la página del producto de edición.</span>]]></value>
+		<value><![CDATA[Estado de stock Pre-Order:<br /><span class="help">Ajuste predeterminado para el mensaje de estado de Pre-pedido para el producto. Se utiliza en la página de edición del producto.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_logo</key>
@@ -930,5 +930,9 @@ imagen</span>]]></value>
 	<definition>
 		<key>entry_duplicate_contact_us</key>
 		<value><![CDATA[Duplicar contacto Las consultas a los mensajes]]></value>
+	</definition>
+	<definition>
+		<key>entry_mail_logo</key>
+		<value><![CDATA[Logotipo de correo electrónico:]]></value>
 	</definition>
 </definitions>

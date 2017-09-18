@@ -26,12 +26,10 @@ if (!defined('DIR_CORE')){
  * Class ACart
  * @property ModelCatalogProduct $model_catalog_product
  * @property ATax $tax
- * @property ASession $session
  * @property ADB $db
  * @property AWeight $weight
  * @property AConfig $config
  * @property ALoader $load
- * @property ALanguage $language
  * @property ModelCheckoutExtension $model_checkout_extension
  * @property ADownload $download
  */
@@ -41,8 +39,12 @@ class ACart{
 	 */
 	protected $registry;
 	/**
-	 * @var array
+	 * @var ASession
 	 */
+	protected $session;	/**
+	 * @var ALanguage
+	 */
+	protected $language;
 	protected $cart_data = array ();
 	/**
 	 * @var array
@@ -61,7 +63,7 @@ class ACart{
 	 */
 	protected $total_value;
 	/**
-	 * @var array
+	 * @var float
 	 */
 	protected $final_total;
 	/**
@@ -91,6 +93,7 @@ class ACart{
 		$this->attribute = new AAttribute('product_option');
 		$this->customer = $registry->get('customer');
 		$this->session = $registry->get('session');
+		$this->language = $registry->get('language');
 
 		//if nothing is passed (default) use session array. Customer session, can function on storefront only
 		if ($c_data == null){
@@ -199,6 +202,7 @@ class ACart{
 	 * @return array
 	 */
 	public function buildProductDetails($product_id, $quantity = 0, $options = array ()){
+
 		if (!has_value($product_id) || !is_numeric($product_id) || $quantity == 0){
 			return array ();
 		}
@@ -216,6 +220,12 @@ class ACart{
 		if (count($product_query) <= 0 || $product_query['call_to_order']){
 			return array ();
 		}
+
+        $stock_checkout = $product_query['stock_checkout'];
+		if (!has_value($stock_checkout)) {
+			$stock_checkout = $this->config->get('config_stock_checkout');
+		}
+
 		$option_price = 0;
 		$option_data = array ();
 		$groups = array ();
@@ -258,37 +268,39 @@ class ACart{
 					$groups[] = $option_value_query['group_id'];
 				}
 				$option_data[] = array ('product_option_value_id' => $option_value_query['product_option_value_id'],
-				                        'product_option_id'       => $product_option_id,
-				                        'name'                    => $option_query['name'],
-				                        'element_type'            => $element_type,
-				                        'settings'                => $option_query['settings'],
-				                        'value'                   => $option_value_query['name'],
-				                        'prefix'                  => $option_value_query['prefix'],
-				                        'price'                   => $option_value_query['price'],
-				                        'sku'                     => $option_value_query['sku'],
-				                        'inventory_quantity'      => ($option_value_query['subtract'] ? (int)$option_value_query['quantity'] : 1000000),
-				                        'weight'                  => $option_value_query['weight'],
-				                        'weight_type'             => $option_value_query['weight_type']
-						);
+										'product_option_id'       => $product_option_id,
+										'name'                    => $option_query['name'],
+										'element_type'            => $element_type,
+										'settings'                => $option_query['settings'],
+										'value'                   => $option_value_query['name'],
+										'prefix'                  => $option_value_query['prefix'],
+										'price'                   => $option_value_query['price'],
+										'sku'                     => $option_value_query['sku'],
+										'inventory_quantity'      => ($option_value_query['subtract'] ? (int)$option_value_query['quantity'] : 1000000),
+										'weight'                  => $option_value_query['weight'],
+										'weight_type'             => $option_value_query['weight_type']
+				);
 
 				//check if need to track stock and we have it
-				if ($option_value_query['subtract'] && $option_value_query['quantity'] < $quantity){
+				if ($option_value_query['subtract']
+						&& $option_value_query['quantity'] < $quantity
+						&& !$stock_checkout
+				){
 					$stock = false;
 				}
 				$op_stock_trackable += $option_value_query['subtract'];
 				unset($option_value_query);
-
 			} else if ($option_value_queries){
 				foreach ($option_value_queries as $item){
 					$option_data[] = array ('product_option_value_id' => $item['product_option_value_id'],
-					                        'name'                    => $option_query['name'],
-					                        'value'                   => $item['name'],
-					                        'prefix'                  => $item['prefix'],
-					                        'price'                   => $item['price'],
-					                        'sku'                     => $item['sku'],
-					                        'inventory_quantity'      => ($item['subtract'] ? (int)$item['quantity'] : 1000000),
-					                        'weight'                  => $item['weight'],
-					                        'weight_type'             => $item['weight_type']);
+											'name'                    => $option_query['name'],
+											'value'                   => $item['name'],
+											'prefix'                  => $item['prefix'],
+											'price'                   => $item['price'],
+											'sku'                     => $item['sku'],
+											'inventory_quantity'      => ($item['subtract'] ? (int)$item['quantity'] : 1000000),
+											'weight'                  => $item['weight'],
+											'weight_type'             => $item['weight_type']);
 					//check if need to track stock and we have it
 					if ($item['subtract'] && $item['quantity'] < $quantity){
 						$stock = false;
@@ -342,7 +354,10 @@ class ACart{
 		$download_data = $this->download->getProductOrderDownloads($product_id);
 
 		//check if we need to check main product stock. Do only if no stock trackable options selected
-		if (!$op_stock_trackable && $product_query['subtract'] && $product_query['quantity'] < $quantity){
+		if (!$op_stock_trackable
+				&& $product_query['subtract']
+				&& $product_query['quantity'] < $quantity
+				&& !$product_query['stock_checkout']){
 			$stock = false;
 		}
 
@@ -403,7 +418,7 @@ class ACart{
 			$this->customer->saveCustomerCart();
 		}
 
-		#reload data for the cart
+		//reload data for the cart
 		$this->getProducts(true);
 	}
 
@@ -460,7 +475,7 @@ class ACart{
 			$this->customer->saveCustomerCart();
 		}
 
-		#reload data for the cart
+		//reload data for the cart
 		$this->getProducts(true);
 	}
 
@@ -477,7 +492,6 @@ class ACart{
 			if ($this->customer && ($this->customer->isLogged() || $this->customer->isUnauthCustomer())){
 				$this->customer->saveCustomerCart();
 			}
-
 		}
 	}
 
@@ -592,7 +606,7 @@ class ACart{
 	 * @void
 	 */
 	public function setMaxQty(){
-		# If set 0 there is no minimum
+		// If set 0 there is no minimum
 		$products = $this->getProducts();
 		foreach ($products as $product){
 			if ($product['maximum'] > 0){
@@ -611,7 +625,7 @@ class ACart{
 	 * @return float
 	 */
 	public function getSubTotal($recalculate = false){
-		#check if value already set
+		//check if value already set
 		if (has_value($this->sub_total) && !$recalculate){
 			return $this->sub_total;
 		}
@@ -621,7 +635,6 @@ class ACart{
 		foreach ($products as $product){
 			$this->sub_total += $product['total'];
 		}
-
 		return $this->sub_total;
 	}
 
@@ -640,7 +653,7 @@ class ACart{
 	 * @return array
 	 */
 	public function getAppliedTaxes($recalculate = false){
-		#check if value already set
+		//check if value already set
 		if (has_value($this->taxes) && !$recalculate){
 			return $this->taxes;
 		}
@@ -676,7 +689,6 @@ class ACart{
 			//round
 			$this->taxes[$tax_id]['tax'] = round($this->taxes[$tax_id]['tax'], $decimal_place);
 		}
-		
 		return $this->taxes;
 	}
 
@@ -688,7 +700,7 @@ class ACart{
 	 * @return float
 	 */
 	public function getTotal($recalculate = false){
-		#check if value already set
+		//check if value already set
 		if (has_value($this->total_value) && !$recalculate){
 			return $this->total_value;
 		}
@@ -697,7 +709,6 @@ class ACart{
 		foreach ($products as $product){
 			$this->total_value += $product['total'] + $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']);
 		}
-
 		return $this->total_value;
 	}
 
@@ -705,10 +716,10 @@ class ACart{
 	 * Get Total amount for current built cart with all totals, taxes and applied promotions
 	 * To force recalculate pass argument as TRUE
 	 * @param bool $recalculate
-	 * @return int
+	 * @return float
 	 */
 	public function getFinalTotal($recalculate = false){
-		#check if value already set
+		//check if value already set
 		if (has_value($this->total_data) && has_value($this->final_total) && !$recalculate){
 			return $this->final_total;
 		}
@@ -719,10 +730,10 @@ class ACart{
 		$calc_order = array ();
 		$total = 0.0;
 
-        //if cart is empty, nothing to do.
-        if(!$this->getProducts()) {
-            return $total;
-        }
+		//if cart is empty, nothing to do.
+		if(!$this->getProducts()) {
+			return $total;
+		}
 
 		$taxes = $this->getAppliedTaxes($recalculate);
 		//force storefront load (if called from admin)
@@ -730,9 +741,7 @@ class ACart{
 		 * @var $sf_checkout_mdl ModelCheckoutExtension
 		 */
 		$sf_checkout_mdl = $this->load->model('checkout/extension', 'storefront');
-
 		$total_extns = $sf_checkout_mdl->getExtensions('total');
-
 		foreach ($total_extns as $value){
 			$calc_order[$value['key']] = (int)$this->config->get($value['key'] . '_calculation_order');
 		}
@@ -764,7 +773,7 @@ class ACart{
 	 * @return mixed
 	 */
 	public function getFinalTotalData($recalculate = false){
-		#check if value already set
+		//check if value already set
 		if (has_value($this->total_data) && has_value($this->final_total) && !$recalculate){
 			return $this->total_data;
 		}
@@ -785,7 +794,7 @@ class ACart{
 		$taxes = $this->getAppliedTaxes($recalculate);
 		$total = $this->getFinalTotal($recalculate);
 		$total_data = $this->getFinalTotalData();
-		#sort data for view			  
+		//sort data for view
 		$sort_order = array ();
 		foreach ($total_data as $key => $value){
 			$sort_order[$key] = $value['sort_order'];
@@ -851,7 +860,6 @@ class ACart{
 				$stock = false;
 			}
 		}
-
 		return $stock;
 	}
 
@@ -868,7 +876,6 @@ class ACart{
 				break;
 			}
 		}
-
 		return $shipping;
 	}
 
@@ -885,7 +892,6 @@ class ACart{
 				break;
 			}
 		}
-
 		return $download;
 	}
 }

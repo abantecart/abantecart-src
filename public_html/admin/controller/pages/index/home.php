@@ -24,9 +24,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 
 class ControllerPagesIndexHome extends AController {
 	public $data = array();
-
 	public function main() {
-
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
@@ -34,38 +32,31 @@ class ControllerPagesIndexHome extends AController {
 		$this->loadLanguage('common/home');
 
 		$this->document->setTitle( $this->language->get('heading_title','common/home' ));
-
-		
 		$this->document->resetBreadcrumbs();
-
 		$this->document->addBreadcrumb( array (
 			'href'      => $this->html->getSecureURL('index/home'),
 			'text'      => $this->language->get('text_home'),
 			'separator' => FALSE,
 			'current' => true,
 		 ));
-		
+
 		$this->view->assign('token', $this->session->data['token']);
-		
+
 		$this->loadModel('sale/order');
 		$this->view->assign('total_sale', $this->currency->format($this->model_sale_order->getTotalSales(), $this->config->get('config_currency')));
 		$this->view->assign('total_sale_year', $this->currency->format($this->model_sale_order->getTotalSalesByYear(date('Y')), $this->config->get('config_currency')));
 		$this->view->assign('total_order', $this->model_sale_order->getTotalOrders());
-		
+
 		$this->loadModel('sale/customer');
 		$this->view->assign('total_customer', $this->model_sale_customer->getTotalCustomers());
 		$this->view->assign('total_customer_approval', $this->model_sale_customer->getTotalCustomersAwaitingApproval());
-		
+
 		$this->loadModel('catalog/product');
 		$this->view->assign('total_product', $this->model_catalog_product->getTotalProducts());
-		
 		$this->loadModel('catalog/review');
-		
 		$this->view->assign('total_review', $this->model_catalog_review->getTotalReviews());
 		$this->view->assign('total_review_approval', $this->model_catalog_review->getTotalReviewsAwaitingApproval());
-		
 		$this->view->assign('shortcut_heading', $this->language->get('text_dashboard'));
-		
 		$this->view->assign('shortcut', array(
 			array(
 				'href' => $this->html->getSecureURL('catalog/category'),
@@ -135,7 +126,7 @@ class ControllerPagesIndexHome extends AController {
 			'order' => 'DESC',
 			'start' => 0,
 			'limit' => 10
-		);		
+		);
 		$top_customers = $this->model_sale_customer->getCustomers($filter, 'quick');
 		foreach( $top_customers as $indx => $customer) {
 			$action = array();
@@ -148,7 +139,7 @@ class ControllerPagesIndexHome extends AController {
 		$this->view->assign('customers', $top_customers);
 		$this->view->assign('customers_url', $this->html->getSecureURL('sale/customer'));
 
-		$orders = array();		
+		$orders = array();
 		$filter = array(
 			'sort'  => 'o.date_added',
 			'order' => 'DESC',
@@ -157,16 +148,15 @@ class ControllerPagesIndexHome extends AController {
 		);
 		$this->view->assign('orders_url',  $this->html->getSecureURL('sale/order'));
 		$this->view->assign('orders_text', $this->language->get('text_order'));
-		
-		$results = $this->model_sale_order->getOrders($filter);
 
+		$results = $this->model_sale_order->getOrders($filter);
 		foreach ($results as $result) {
 			$action = array();
 			$action[] = array(
 				'text' => $this->language->get('text_edit'),
 				'href' => $this->html->getSecureURL('sale/order/details', '&order_id=' . $result['order_id'])
 			);
-					
+
 			$orders[] = array(
 				'order_id'   => $result['order_id'],
 				'name'       => $result['name'],
@@ -180,10 +170,9 @@ class ControllerPagesIndexHome extends AController {
 
 		if ($this->config->get('config_currency_auto')) {
 			$this->loadModel('localisation/currency');
-		
 			$this->model_localisation_currency->updateCurrencies();
 		}
-		
+
 		$this->view->assign('chart_url', $this->html->getSecureURL('index/chart') );
 
 		//check at least one enabled payment extension
@@ -204,22 +193,26 @@ class ControllerPagesIndexHome extends AController {
 		}
 
 		//check quick start guide based on no last_login and if it is not yet completed
-		if( !$this->user->getLastLogin() && $this->session->data['quick_start_step'] != 'finished') {
+		if( !$this->user->getLastLogin()
+			&& $this->session->data['quick_start_step'] != 'finished'
+			//show it for first administrator only
+			&& $this->user->getId() < 2
+		) {
 			$store_id = !isset($this->session->data['current_store_id']) ? 0 : $this->session->data['current_store_id'];
 			$resources_scripts = $this->dispatch(
-			    'responses/common/resource_library/get_resources_scripts',
-			    array(
-			    	'object_name' => 'store',
-			    	'object_id' => (int)$store_id,
-			    	'types' => array('image'),
-			    	'onload' => true,
-			    	'mode' => 'single'
-			    )
+				'responses/common/resource_library/get_resources_scripts',
+				array(
+					'object_name' => 'store',
+					'object_id' => (int)$store_id,
+					'types' => array('image'),
+					'onload' => true,
+					'mode' => 'single'
+				)
 			);
 			$this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());
 			$this->view->assign('quick_start_url', $this->html->getSecureURL('setting/setting_quick_form/quick_start'));
 		}
-		
+
 		$this->processTemplate('pages/index/home.tpl' );
 
 		//update controller data

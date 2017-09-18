@@ -1,10 +1,13 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-class AbanteCartTest extends TestCase {
+/**
+ * Class AbanteCartTest
+ * @property ACustomer $customer
+ */
+class AbanteCartTest extends PHPUnit\Framework\TestCase {
 	protected $registry;
 	public function __construct() {
-
+		parent::__construct();
 		$GLOBALS[ 'error_descriptions' ] = 'Abantecart PhpUnit test';
 
 		$dirname = dirname(__FILE__);
@@ -80,8 +83,6 @@ class AbanteCartTest extends TestCase {
 	}
 
 	public function loadConfiguration($path) {
-
-
 		// Configuration
 		if (file_exists($path) && filesize($path)) {
 			require_once($path);
@@ -94,29 +95,24 @@ class AbanteCartTest extends TestCase {
 			throw new Exception('AbanteCart has to be installed first!');
 		}
 	}
-	
+
 	public function customerLogin($user,$password,$override=false) {
-		$logged = $this->customer->login($user,$password,$override);		
-				
+		$logged = $this->customer->login($user,$password,$override);
 		if (!$logged) {
-			throw new Exception('Could not login customer');	
-		}		
-	}
-	
-	public function customerLogout() {		
-		if ($this->customer->isLogged()) {		
-			$this->customer->logout();		
+			throw new Exception('Could not login customer');
 		}
 	}
-	
+
+	public function customerLogout() {
+		if ($this->customer->isLogged()) {
+			$this->customer->logout();
+		}
+	}
 
 	public function getOutput() {
-		
 		$class = new ReflectionClass("Response");
 		$property = $class->getProperty("output");
 		$property->setAccessible(true);
 		return $property->getValue($this->response);
-		
-	}	
-
+	}
 }

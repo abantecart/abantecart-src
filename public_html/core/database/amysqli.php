@@ -125,8 +125,8 @@ final class AMySQLi{
 			$error->toLog()->toDebug()->toMessages();
 			return false;
 		}
-		return $this->connection->real_escape_string((string)$value);
-	}
+			return $this->connection->real_escape_string((string)$value);
+		}
 
 	/**
 	 * @return int

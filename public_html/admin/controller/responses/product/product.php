@@ -57,12 +57,17 @@ class ControllerResponsesProductProduct extends AController{
 			}
 		} else if (isset($post['term'])){
 			$filter = array ('limit'               => 20,
-			                 'content_language_id' => $this->language->getContentLanguageID(),
-			                 'filter'              => array (
-					                 'keyword' => $post['term'],
-					                 'match'   => 'all',
-					                 'exclude' => array('product_id' => $exclude)
-			                 ));
+							 'content_language_id' => $this->language->getContentLanguageID(),
+							 'filter'              => array (
+									 'keyword' => $post['term'],
+									 'match'   => 'all',
+									 'exclude' => array('product_id' => $exclude)
+							 ));
+			//if need to show only available products
+			if($this->request->post['filter']=='enabled_only'){
+				$filter['filter']['status'] = 1;
+				$filter['subsql_filter'] = 'date_available<=NOW()';
+			}
 			$products = $this->model_catalog_product->getProducts($filter);
 
 			$product_ids = array ();
@@ -78,28 +83,28 @@ class ControllerResponsesProductProduct extends AController{
 					$this->config->get('config_image_grid_height')
 			);
 
-			foreach ($products as $pdata){
-				$thumbnail = $thumbnails[$pdata['product_id']];
+			foreach ($products as $product_data){
+				$thumbnail = $thumbnails[$product_data['product_id']];
 
 				if ($get['currency_code']){
-					$price = round($this->currency->convert($pdata['price'],
+					$price = round($this->currency->convert($product_data['price'],
 							$this->config->get('config_currency'),
 							$get['currency_code']), 2);
 				} else{
-					$price = $pdata['price'];
+					$price = $product_data['price'];
 				}
 
-				$frmt_price = $this->currency->format($pdata['price'], ($get['currency_code']
+				$formatted_price = $this->currency->format($product_data['price'], ($get['currency_code']
 						? $get['currency_code']
 						: $this->config->get('config_currency')));
 
 				$products_data[] = array (
 						'image'      => $thumbnail['thumb_html'],
-						'id'         => $pdata['product_id'],
-						'name'       => $pdata['name'] . ' - ' . $frmt_price,
+						'id'         => $product_data['product_id'],
+						'name'       => $product_data['name'] . ' - ' . $formatted_price,
 						'price'      => $price,
-						'meta'       => $pdata['model'],
-						'sort_order' => (int)$pdata['sort_order'],
+						'meta'       => $product_data['model'],
+						'sort_order' => (int)$product_data['sort_order'],
 				);
 			}
 		}
@@ -121,7 +126,7 @@ class ControllerResponsesProductProduct extends AController{
 			$error = new AError('');
 			return $error->toJSONResponse('NO_PERMISSIONS_402',
 					array ('error_text'  => sprintf($this->language->get('error_permission_modify'), 'product/product'),
-					       'reset_value' => true
+						   'reset_value' => true
 					));
 		}
 
@@ -292,7 +297,7 @@ class ControllerResponsesProductProduct extends AController{
 			$error = new AError('');
 			return $error->toJSONResponse('NO_PERMISSIONS_402',
 					array ('error_text'  => sprintf($this->language->get('error_permission_modify'), 'product/product'),
-					       'reset_value' => true
+						   'reset_value' => true
 					));
 		}
 		//needs to validate attribute properties
@@ -530,7 +535,7 @@ class ControllerResponsesProductProduct extends AController{
 			$error = new AError('');
 			return $error->toJSONResponse('NO_PERMISSIONS_402',
 					array ('error_text'  => sprintf($this->language->get('error_permission_modify'), 'product/product'),
-					       'reset_value' => true
+						   'reset_value' => true
 					));
 		}
 
@@ -550,7 +555,7 @@ class ControllerResponsesProductProduct extends AController{
 			$error = new AError('');
 			return $error->toJSONResponse('NO_PERMISSIONS_402',
 					array ('error_text'  => sprintf($this->language->get('error_permission_modify'), 'product/product'),
-					       'reset_value' => true
+						   'reset_value' => true
 					));
 		}
 
@@ -560,7 +565,7 @@ class ControllerResponsesProductProduct extends AController{
 		$option_info = $this->model_catalog_product->getProductOption($this->request->get['product_id'], $this->request->get['option_id']);
 
 		//remove html-code from textarea product option
-		if ($option_info['element_type'] == 'T'){
+		if (in_array($option_info['element_type'], array('T','B')) ){
 			foreach ($this->request->post['name'] as &$v){
 				$v = strip_tags(html_entity_decode($v, ENT_QUOTES, 'UTF-8'));
 				$v = str_replace('\r\n', "\n", $v);
@@ -686,7 +691,7 @@ class ControllerResponsesProductProduct extends AController{
 			} else{
 
 				$arr = array (
-						'type'  => $this->data['option_data']['element_type'] == 'T' ? 'textarea' : 'input',
+						'type'  => in_array($this->data['option_data']['element_type'], array('T','B')) ? 'textarea' : 'input',
 						'name'  => 'name[' . $product_option_value_id . ']',
 						'value' => $this->data['name']
 				);
@@ -781,10 +786,16 @@ class ControllerResponsesProductProduct extends AController{
 		$prd_weight_info = $this->model_localisation_weight_class->getWeightClass($prd_info['weight_class_id']);
 		$wht_options[$prd_weight_info['unit']] = $prd_weight_info['title'];
 
+		$option_weight_class_id = '';
+		if($selected_unit && $selected_unit != '%'){
+			$a_weight = new AWeight($this->registry);
+			$option_weight_class_id = $a_weight->getClassIDByUnit($selected_unit);
+		}
+
 		if (empty($selected_unit)){
 			//no weight yet, use product weight unit as default 
 			$selected_unit = trim($prd_weight_info['unit']);
-		} else if ($selected_unit != trim($prd_weight_info['unit']) && $selected_unit != '%'){
+		} else if ($option_weight_class_id != trim($prd_info['weight_class_id']) && $selected_unit != '%'){
 			//main product type has changed. Show what weight unit we have in option
 			$weight_info = $this->model_localisation_weight_class->getWeightClassDescriptionByUnit($selected_unit);
 			$wht_options[$selected_unit] = $weight_info['title'];
@@ -831,7 +842,7 @@ class ControllerResponsesProductProduct extends AController{
 			$error = new AError('');
 			return $error->toJSONResponse('NO_PERMISSIONS_402',
 					array ('error_text'  => sprintf($this->language->get('error_permission_modify'), 'product/product'),
-					       'reset_value' => true
+						   'reset_value' => true
 					));
 		}
 
@@ -866,8 +877,8 @@ class ControllerResponsesProductProduct extends AController{
 			}
 
 			$this->data['output'] = array ('download_id' => $download_id,
-			                               'success'     => true,
-			                               'result_text' => $this->language->get('text_success'));
+										   'success'     => true,
+										   'result_text' => $this->language->get('text_success'));
 
 		} else{
 			$error = new AError('');
@@ -1067,7 +1078,7 @@ class ControllerResponsesProductProduct extends AController{
 					continue;
 				}
 				$this->data['map_list'][] = array ('href' => $this->html->getSecureURL('catalog/product_files', '&product_id=' . $map_id . '&download_id=' . $this->data['download_id'], true),
-				                                   'text' => $map_name);
+												   'text' => $map_name);
 			}
 			if (!sizeof($this->data['map_list'])){
 				$this->data['already_shared'] = false;
@@ -1114,10 +1125,10 @@ class ControllerResponsesProductProduct extends AController{
 				'name'     => 'activate',
 				'value'    => $file_data['activate'],
 				'options'  => array (''             => $this->language->get('text_select'),
-				                     'before_order' => $this->language->get('text_before_order'),
-				                     'immediately'  => $this->language->get('text_immediately'),
-				                     'order_status' => $this->language->get('text_on_order_status'),
-				                     'manually'     => $this->language->get('text_manually'),),
+									 'before_order' => $this->language->get('text_before_order'),
+									 'immediately'  => $this->language->get('text_immediately'),
+									 'order_status' => $this->language->get('text_on_order_status'),
+									 'manually'     => $this->language->get('text_manually'),),
 				'required' => true,
 				'style'    => 'download_activate no-save'
 		));

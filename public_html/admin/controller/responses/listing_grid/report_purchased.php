@@ -22,39 +22,42 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ControllerResponsesListingGridReportPurchased extends AController {
 	public $data = array();
-    public function main() {
+	public function main() {
 
-	    //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->loadLanguage('report/purchased');
 		$this->loadModel('report/purchased');
 
-	    //Prepare filter config
-	    $grid_filter_params =  array_merge(array('date_start', 'date_end'), (array)$this->data['grid_filter_params']);
+		//Prepare filter config
+		$filter_params =  array_merge(array('date_start', 'date_end'), (array)$this->data['grid_filter_params']);
+		$grid_filter_params = array( 'name', 'model' );
 
-	    if(!$this->request->get['date_start']){
-		    $this->request->get['date_start'] = dateInt2Display(strtotime('-30 day'));
-	    }
-	    if(!$this->request->get['date_end']){
-		    $this->request->get['date_end'] = dateInt2Display(time());
-	    }
+		if(!$this->request->get['date_start']){
+			$this->request->get['date_start'] = dateInt2Display(strtotime('-30 day'));
+		}
+		if(!$this->request->get['date_end']){
+			$this->request->get['date_end'] = dateInt2Display(time());
+		}
 
-        $filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $grid_filter_params ));
-        $filter_grid = new AFilter(array( 'method' => 'post' ));
-        $data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
+		$filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $filter_params ));
+		$filter_grid = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ) );
+		$data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
 
 		$total = $this->model_report_purchased->getTotalOrderedProducts($data);
 
-	    $response = new stdClass();
-		$response->page = $filter_grid->getParam('page');;
-		$response->total = $filter_grid->calcTotalPages($total);;
+		$response = new stdClass();
+		$response->userdata = new stdClass();
+		$response->userdata->classes = array();
+		$response->page = $filter_grid->getParam('page');
+		$response->total = $filter_grid->calcTotalPages($total);
 		$response->records = $total;
 
-	    $results = $this->model_report_purchased->getProductPurchasedReport($data );
-	    $i = 0;
+		$results = $this->model_report_purchased->getProductPurchasedReport($data );
+		$i = 0;
 		foreach ($results as $result) {
-            $response->rows[$i]['id'] = $i;
+			$response->rows[$i]['id'] = $i;
 			$response->rows[$i]['cell'] = array(
 				$result['name'],
 				$result['model'],
@@ -64,11 +67,11 @@ class ControllerResponsesListingGridReportPurchased extends AController {
 			$i++;
 		}
 
-	    $this->data['response'] = $response;
+		$this->data['response'] = $response;
 
-        //update controller data
-        $this->extensions->hk_UpdateData($this, __FUNCTION__);
-	    $this->load->library('json');
-        $this->response->setOutput(AJson::encode($this->data['response']));
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+		$this->load->library('json');
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 }

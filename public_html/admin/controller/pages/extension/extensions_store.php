@@ -57,7 +57,7 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 		if (isset($this->session->data[ 'error' ])) {
 			$this->data[ 'error_warning' ] .= $this->session->data[ 'error' ];
 			unset($this->session->data[ 'error' ]);
-		}else{
+		} else {
 			$this->data[ 'error_warning' ] = '';
 		}
 
@@ -72,21 +72,21 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 			$this->view->assign('mp_connected', true);
 			$this->data['my_extensions'] = $this->html->getSecureURL('extension/extensions_store', '&purchased_only=1');
 		}
-		if($request_data['purchased_only']){
+		if ($request_data['purchased_only']) {
 			$this->data['my_extensions_shown'] = true;
 		}
 
-		if(!has_value($request_data['sidx'])){
+		if (!has_value($request_data['sidx']) ){
 			$request_data['sidx'] = 'date_modified';
 		}
-		if(!has_value($request_data['sord'])){
+		if (!has_value($request_data['sord'])) {
 			$request_data['sord'] = 'desc';
 		}
-		if(has_value($request_data['limit'])){
+		if (has_value($request_data['limit'])) {
 			$request_data['rows'] = $request_data['limit'];
 		}
 		$token_param = "";
-		if(has_value($mp_token)){
+		if (has_value($mp_token)) {
 			$request_data['mp_token'] = $mp_token;
 			$token_param = "&mp_token=".$mp_token;
 		}

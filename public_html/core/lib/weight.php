@@ -24,17 +24,54 @@ if (!defined('DIR_CORE')){
 /**
  * Class AWeight
  */
-final class AWeight{
-	private $weights = array ();
+class AWeight{
+	protected $weights = array ();
 	/**
 	 * @var ADB
 	 */
-	private $db;
+	protected $db;
 	/**
 	 * @var AConfig
 	 */
-	private $config;
+	protected $config;
+	// TODO: need to changes this in 2.0. Key must be iso-code instead unit name!
+	public $predefined_weights = array(
+			'kg' => array(
+			            'weight_class_id' => 1,
+			            'value' => 0.02800000,
+			            'iso_code' => 'KILO',
+			            'language_id' => 1,
+			            'title' => 'Kilogram',
+			            'unit' => 'kg'
+			        ),
+		    'g' => array(
+		            'weight_class_id' => 2,
+		            'value' => 28.00000000,
+		            'iso_code' => 'GRAM',
+		            'language_id' => 1,
+		            'title' => 'Gram',
+		            'unit' => 'g'
+		        ),
 
+		    'lb' => array(
+		            'weight_class_id' => 5,
+		            'value' => 0.06250000,
+		            'iso_code' => 'PUND',
+		            'language_id' => 1,
+		            'title' => 'Pound',
+		            'unit' => 'lb'
+		        ),
+		    'oz' => array(
+		            'weight_class_id' => 6,
+		            'value' => 1.00000000,
+		            'iso_code' => 'USOU',
+		            'language_id' => 1,
+		            'title' => 'Ounce',
+		            'unit' => 'oz'
+		        )
+			);
+	public $predefined_weight_ids = array();
+	protected $language_id;
 	/**
 	 * @param $registry Registry
 	 */
@@ -42,26 +79,35 @@ final class AWeight{
 		$this->db = $registry->get('db');
 		$this->config = $registry->get('config');
 		$cache = $registry->get('cache');
-		$language_id = (int)$registry->get('language')->getLanguageID();
-		$cache_key = 'localization.weight_classes.lang_' . $language_id;
+		$this->language_id = (int)$registry->get('language')->getLanguageID();
+		$cache_key = 'localization.weight_classes.lang_' . $this->language_id;
 		$cache_data = $cache->pull($cache_key);
 		if ($cache_data !== false){
 			$this->weights = $cache_data;
 		} else{
-			$sql = "SELECT *
+			$sql = "SELECT *, wc.weight_class_id
 					FROM " . $this->db->table("weight_classes") . " wc
 					LEFT JOIN " . $this->db->table("weight_class_descriptions") . " wcd
 						ON (wc.weight_class_id = wcd.weight_class_id)
-					WHERE wcd.language_id = '" . $language_id . "'";
+					WHERE wcd.language_id = '" . $this->language_id . "'";
 			$weight_class_query = $this->db->query($sql);
-			foreach ($weight_class_query->rows as $result){
-				$this->weights[strtolower($result['unit'])] = array ('weight_class_id' => $result['weight_class_id'],
-																	 'title'           => $result['title'],
-																	 'unit'            => $result['unit'],
-																	 'value'           => $result['value']);
+			foreach ($weight_class_query->rows as $row){
+				if(!$row['unit']){
+					$error = new AError('Error! Empty unit of weight class ID '.$row['weight_class_id']);
+					$error->code = 'Core AWeight class Error';
+					$error->toLog()->toMessages();
+					continue;
+				}
+				$this->weights[strtolower($row['unit'])] = $row;
 			}
 			$cache->push($cache_key, $this->weights);
 		}
+
+		foreach($this->predefined_weights as $unit=>$weight){
+			$this->predefined_weight_ids[] = $weight['weight_class_id'];
+		}
+
+		$this->weights = array_merge($this->weights,$this->predefined_weights);
 	}
 
 	/**
@@ -70,6 +116,7 @@ final class AWeight{
 	 * @param string $unit_from
 	 * @param string $unit_to
 	 * @return float
+	 * TODO: replace units in parameters with iso_codes in 2.0!!!
 	 */
 	public function convert($value, $unit_from, $unit_to){
 		if ($unit_from == $unit_to){
@@ -133,12 +180,14 @@ final class AWeight{
 	 */
 
 	public function getUnit($weight_class_id){
+		$language_id = $this->language_id;
+		$output = array();
 		foreach ($this->weights as $wth){
 			if ($wth['weight_class_id'] == $weight_class_id){
-				return $wth['unit'];
+				$output[$wth['language_id']] = $wth['unit'];
 			}
 		}
-		return '';
+		return has_value($output[$language_id]) ? $output[$language_id] : (string)current($output);
 	}
 
 	/**
@@ -147,11 +196,55 @@ final class AWeight{
 	 * @return string|int
 	 */
 
-	public function getClassID($weight_unit){
+	public function getClassIDByUnit($weight_unit){
 		if (isset($this->weights[$weight_unit])){
 			return $this->weights[$weight_unit]['weight_class_id'];
 		} else{
-			return '';
+			//TODO: remove this in 2.0
+			//if language was switched try to find weight by unit
+			$sql = "SELECT weight_class_id
+					FROM " . $this->db->table("weight_class_descriptions") . "
+					WHERE unit = '" . $this->db->escape($weight_unit) . "'";
+			$result = $this->db->query($sql);
+			if($result->row['weight_class_id']){
+				return $result->row['weight_class_id'];
+			}
 		}
+		return '';
+	}
+
+	/**
+	 * @param string $iso_code
+	 * @return int|false
+	 */
+	public function getClassIDByCode($iso_code){
+		foreach($this->weights as $w){
+			if(strtolower($w['iso_code']) == strtolower($iso_code)) {
+				return $w['weight_class_id'];
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @deprecated since 1.2.11
+	 * @param string $weight_unit
+	 * @return int|string
+	 */
+	public function getClassID($weight_unit){
+		return $this->getClassIDByUnit($weight_unit);
+	}
+
+	/**
+	 * @param int $weight_class_id
+	 * @return string
+	 */
+	public function getCodeById($weight_class_id){
+		foreach ($this->weights as $wth){
+			if ($wth['weight_class_id'] == $weight_class_id){
+				return $wth['iso_code'];
+			}
+		}
+		return false;
 	}
 }

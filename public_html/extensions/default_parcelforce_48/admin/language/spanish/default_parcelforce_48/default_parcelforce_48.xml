@@ -14,7 +14,7 @@
   </definition>
   <definition>
     <key>default_parcelforce_48_rate</key>
-    <value><![CDATA[Parcelforce 48 Rates:<br /><span class="help">Entre los valores hasta que 5,2 decimales. (12.345,67) Ejemplo: .1:1, .25:1.27 - Pesos menos que o igual a 0,1 kg costar�a 1,00, pesa menos que o igual a 0.25g, pero m�s de 0,1 kg cuesta 1,27. No entre KG o s�mbolos.</span>]]></value>
+    <value><![CDATA[Parcelforce 48 Rates:<br /><span class="help">Ejemplo: 0:0,10:15,99,12:19,99, - Pesos menores o iguales a 10 libras costarían $ 15,99, Pesos menos de 12 libras, pero más de 10 libras costará $ 19,99. Donde Pound es tu tienda La clase Weight y $ es la moneda base de la tienda. Puede cambiar ambos en la configuración de tienda. No ingrese KG ni símbolos. Introduzca valores hasta 5,2 decimales. (12345.67)</span>]]></value>
   </definition>
   <definition>
     <key>default_parcelforce_48_display_weight</key>

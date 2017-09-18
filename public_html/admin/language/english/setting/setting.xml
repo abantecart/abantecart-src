@@ -268,7 +268,7 @@
 	<definition>
 		<key>entry_stock_display</key>
 		<value>
-			<![CDATA[Display Stock:<br /><span class="help">Display stock quantity on the product page.</span>]]></value>
+			<![CDATA[Display Stock Quantity:<br /><span class="help">Display stock quantity on the product page.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_nostock_autodisable</key>
@@ -278,16 +278,20 @@
 	<definition>
 		<key>entry_stock_checkout</key>
 		<value>
-			<![CDATA[Stock Checkout:<br /><span class="help">Allow customers to still checkout if the products they are ordering are not in stock.</span>]]></value>
+			<![CDATA[Default Stock Checkout:<br /><span class="help">Set default setting to allow customers checkout even if the products are out of stock</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_stock_status</key>
 		<value>
-			<![CDATA[Stock Status:<br /><span class="help">Default setting for out of stock status message for product. Used on product edit page.</span>]]></value>
+			<![CDATA[Default Pre-Order Stock Status:<br /><span class="help">Default setting for Pre-order status message for product. Used on product edit page.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_logo</key>
 		<value><![CDATA[Store Logo:]]></value>
+	</definition>
+	<definition>
+		<key>entry_mail_logo</key>
+		<value><![CDATA[Email Logo:]]></value>
 	</definition>
 	<definition>
 		<key>entry_icon</key>
@@ -707,7 +711,7 @@
 	</definition>
 	<definition>
 		<key>error_url</key>
-		<value><![CDATA[Store URL required!]]></value>
+		<value><![CDATA[Valid Store URL required!]]></value>
 	</definition>
 	<definition>
 		<key>error_title</key>
@@ -855,7 +859,7 @@
 	</definition>
 	<definition>
 		<key>error_ssl_url</key>
-		<value><![CDATA[Secure URL required!]]></value>
+		<value><![CDATA[Valid Secure URL required!]]></value>
 	</definition>
 	<definition>
 		<key>entry_customer_email_activation</key>
@@ -921,7 +925,7 @@
 	<definition>
 		<key>entry_expire_order_days</key>
 		<value>
-			<![CDATA[Incomplete Order Expiration:<br /><br /><span class="help">This value controls time interval in days before incomplete orders will be deleted. Empty value means that no orders will be to deleted.</span>]]></value>
+			<![CDATA[Incomplete Order Expiration:<br /><span class="help">This value controls time interval in days before incomplete orders will be deleted. Empty value means that no orders will be to deleted.</span>]]></value>
 	</definition>
 	<definition>
 		<key>error_expire_order_days</key>

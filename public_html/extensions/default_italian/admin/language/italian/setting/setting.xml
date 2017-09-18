@@ -250,11 +250,11 @@
 	</definition>
 	<definition>
 		<key>entry_stock_checkout</key>
-		<value><![CDATA[Acquista in Stock:<br /><span class="help">Permetti ai clienti di acquistare anche se le scorte sono finite.</span>]]></value>
+		<value><![CDATA[Casella di riserva predefinita:<br /><span class="help">Impostare l'impostazione predefinita Stock Checkout per nuovi prodotti.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_stock_status</key>
-		<value><![CDATA[Stato dello Stock:<br /><span class="help">Per Impostazione predefinita viene inviato un messaggio sullo stato dei prodotti dello. Usato nella pagina di modifica del prodotto.</span>]]></value>
+		<value><![CDATA[Stato di riserva predefinito predefinito:<br /><span class="help">Impostazione predefinita per il messaggio di stato di pre-ordine per il prodotto. Usato sulla pagina di modifica del prodotto.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_logo</key>

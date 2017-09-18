@@ -364,4 +364,8 @@
 		<key>text_never</key>
 		<value><![CDATA[Никогда]]></value>
 	</definition>
+	<definition>
+		<key>text_other_type_placeholder</key>
+		<value><![CDATA[введите новое имя здесь]]></value>
+	</definition>
 </definitions>

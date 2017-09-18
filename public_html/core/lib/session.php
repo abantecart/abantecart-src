@@ -80,7 +80,7 @@ final class ASession{
 					0,
 					$path,
 					null,
-					(defined('HTTPS') && HTTPS),
+					false,
 					true);
 			session_name($session_name);
 			// for shared ssl domain set session id of non-secure domain
@@ -88,7 +88,7 @@ final class ASession{
 				if ($this->registry->get('config')->get('config_shared_session') && isset($_GET['session_id'])){
 					header('P3P: CP="CAO COR CURa ADMa DEVa OUR IND ONL COM DEM PRE"');
 					session_id($_GET['session_id']);
-					setcookie($session_name, $_GET['session_id'], 0, $path, null, (defined('HTTPS') && HTTPS), true);
+					setcookie($session_name, $_GET['session_id'], 0, $path, null, false, true);
 				}
 			}
 
@@ -96,18 +96,21 @@ final class ASession{
 				//check and reset session if it is not valid
 				$final_session_id = $this->_prepare_session_id($_GET[EMBED_TOKEN_NAME]);
 				session_id($final_session_id);
-				setcookie($session_name, $final_session_id, 0, $path, null, (defined('HTTPS') && HTTPS));
+				setcookie($session_name, $final_session_id, 0, $path, null, false);
 				$session_mode = 'embed_token';
 			}
 		}
 
 		//check if session can not be started. Try one more time with new generated session ID
-		$is_session_ok = session_start();
+		$is_session_ok = false;
+		if (!headers_sent()){
+			$is_session_ok = session_start();
+		}
 		if (!$is_session_ok){
 			//auto generating session id and try to start session again
 			$final_session_id = $this->_prepare_session_id();
 			session_id($final_session_id);
-			setcookie($session_name, $final_session_id, 0, $path, null, (defined('HTTPS') && HTTPS));
+			setcookie($session_name, $final_session_id, 0, $path, null, false);
 			session_start();
 		}
 

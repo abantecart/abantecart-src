@@ -135,7 +135,6 @@ class ControllerResponsesExtensionDefaultPpPro extends AController {
 					'CURRENCYCODE'		=> $order_info['currency'],
 					'COMPLETETYPE'		=> 'Complete'
 				);
-				//echo_array($capture_data);exit;
 
 				$curl = curl_init($api_endpoint);
 

@@ -177,7 +177,7 @@
 		<value><![CDATA[Non ci sono acquisti per questo negozio o esso è stato disconnesso dal Marketplace.]]></value>
 	</definition>
 	<definition>
-		<key>text_no_extenions_loaded</key>
+		<key>text_no_extensions_loaded</key>
 		<value><![CDATA[Non ci sono estensioni disponibili. Controllare la selezione o riprovare..]]></value>
 	</definition>
 	<definition>

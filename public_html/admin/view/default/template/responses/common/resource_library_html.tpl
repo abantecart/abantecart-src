@@ -5,10 +5,10 @@
 	    <a class="minimize" href="">−</a>
 	  </div>
 	  <h3 class="panel-title"><a class="tab_<?php echo $type['type_name']; ?>" id="tab_<?php echo $type['type_name']; ?>"><?php echo ${'text_type_'.$type['type_name']}; ?></a></h3>
-	</div>	
+	</div>
 	<div class="panel-body panel-body-nopadding" id="type_<?php echo $type['type_name']; ?>" style="display:none">
 		<div class="row reslibrary type_blocks">
-		<?php //resource library list insearted here  ?>
+		<?php //resource library list inserted here  ?>
 		</div>
 	</div>
 </div>

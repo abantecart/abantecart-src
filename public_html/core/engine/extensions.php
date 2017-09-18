@@ -299,7 +299,7 @@ class ExtensionsApi{
 			if (!empty($this->missing_extensions))
 				foreach ($this->missing_extensions as $ext){
 					$warning = new AWarning($ext . ' directory is missing');
-					$warning->toMessages();
+					$warning->toLog();
 				}
 
 			//check if we have extensions in dir that has no record in db
@@ -548,6 +548,9 @@ class ExtensionsApi{
 			$filename = DIR_EXT . $extension . '/admin/language/english/' . $extension . '/' . $extension . '.xml';
 		}
 		if (file_exists($filename)){
+			/**
+			 * @var DOMNode $xml
+			 */
 			$xml = simplexml_load_file($filename);
 			if ($xml && $xml->definition){
 				foreach ($xml->definition as $def){
@@ -710,7 +713,7 @@ class ExtensionsApi{
 			){
 				
 				//priority for extension execution is set in the <priority> tag of extension configuration
-				//order for prioriry is already set here
+				//order for priority is already set here
 				$enabled_extensions[] = $ext;
 
 				$controllers = $languages = $models = $templates = array (
@@ -1091,7 +1094,7 @@ class ExtensionUtils{
 	 */
 	protected $name;
 	/**
-	 * @var SimpleXmlElement
+	 * @var SimpleXmlElement|DOMNode
 	 */
 	protected $config;
 	/**
@@ -1229,8 +1232,12 @@ class ExtensionUtils{
 						'value'         => $value,
 						'type'          => (string)$item->type,
 						'resource_type' => (string)$item->resource_type,
+						//to use few datasources inside the same form-element such as html_template
+						'data_source'   => (array)$item->variants->data_source,
+						//TODO: remove it in 2.0
 						'model_rt'      => (string)$item->variants->data_source->model_rt,
 						'method'        => (string)$item->variants->data_source->method,
+						//end of remove
 						'field1'        => (string)$item->variants->fields->field[0],
 						'field2'        => (string)$item->variants->fields->field[1],
 						'template'      => (string)$item->template,
@@ -1327,7 +1334,7 @@ class ExtensionUtils{
 			if (function_exists('settingsValidation')){
 				$result = call_user_func('settingsValidation', $data);
 				if (!isset($result['result']) || !isset($result['errors']) || !is_array($result['errors'])){
-					return array ('result' => false, 'errors' => array ('pattern' => 'Error: Cannot to validate data by validate.php file. Function returns incorrect formated data.'));
+					return array ('result' => false, 'errors' => array ('pattern' => 'Error: Cannot to validate data by validate.php file. Function returns incorrect formatted data.'));
 				}
 				return $result;
 			}

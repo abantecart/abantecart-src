@@ -8,7 +8,7 @@
   Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
-  Lincence details is bundled with this package in the file LICENSE.txt.
+  License details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -21,6 +21,9 @@ if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
 
+/**
+ * Class ControllerResponsesExtensionDefaultAuthorizeNetAim
+ */
 class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 	public function main() {
 
@@ -29,52 +32,52 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 
 		$this->loadLanguage('default_authorizenet_aim/default_authorizenet_aim');
 
-        $data['action'] = $this->html->getSecureURL('extension/default_authorizenet_aim/send');
+		$data['action'] = $this->html->getSecureURL('extension/default_authorizenet_aim/send');
 
-        //build submit form
-        $form = new AForm();
-        $form->setForm(array( 'form_name' => 'authorizenet' ));
-        $data['form_open'] = $form->getFieldHtml(
-            array(
-                'type' => 'form',
-                'name' => 'authorizenet',
-                'attr' => 'class = "form-horizontal validate-creditcard"',
-                'csrf' => true
-            )
-        );
+		//build submit form
+		$form = new AForm();
+		$form->setForm(array( 'form_name' => 'authorizenet' ));
+		$data['form_open'] = $form->getFieldHtml(
+			array(
+				'type' => 'form',
+				'name' => 'authorizenet',
+				'attr' => 'class = "form-horizontal validate-creditcard"',
+				'csrf' => true
+			)
+		);
 
 		$data['text_credit_card'] = $this->language->get('text_credit_card');
 		$data['text_wait'] = $this->language->get('text_wait');
 		$data['entry_cc_owner'] = $this->language->get('entry_cc_owner');
 		$data['cc_owner'] = $form->getFieldHtml(
-		    array(
-		        'type' => 'input',
-                'name' => 'cc_owner',
-                'value' => ''
-            )
-        );
+			array(
+				'type' => 'input',
+				'name' => 'cc_owner',
+				'value' => ''
+			)
+		);
 		$data['entry_cc_number'] = $this->language->get('entry_cc_number');
 		$data['cc_number'] = $form->getFieldHtml(
-		    array(
-		        'type' => 'input',
-                'name' => 'cc_number',
-                'attr' => 'autocomplete="off"',
-                'value' => ''
-            )
-        );
+			array(
+				'type' => 'input',
+				'name' => 'cc_number',
+				'attr' => 'autocomplete="off"',
+				'value' => ''
+			)
+		);
 		$data['entry_cc_expire_date'] = $this->language->get('entry_cc_expire_date');
 		$data['entry_cc_cvv2'] = $this->language->get('entry_cc_cvv2');
 		$data['entry_cc_cvv2_short'] = $this->language->get('entry_cc_cvv2_short');
 		$data['cc_cvv2_help_url'] = $this->html->getURL('r/extension/default_authorizenet_aim/cvv2_help');
 		$data['cc_cvv2'] = $form->getFieldHtml(
-		    array(
-		        'type' => 'input',
-                'name' => 'cc_cvv2',
-                'value' => '',
-                'style' => 'short input-mini',
-                'attr' => ' size="3" autocomplete="off"'
-            )
-        );
+			array(
+				'type' => 'input',
+				'name' => 'cc_cvv2',
+				'value' => '',
+				'style' => 'short input-mini',
+				'attr' => ' size="3" autocomplete="off"'
+			)
+		);
 		$data['button_confirm'] = $this->language->get('button_confirm');
 		$data['button_back'] = $this->language->get('button_back');
 
@@ -84,13 +87,13 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 		}
 		$data['cc_expire_date_month'] = $form->getFieldHtml(
 			array(
-			    'type' => 'selectbox',
-                'name' => 'cc_expire_date_month',
-                'value' => sprintf('%02d', date('m')),
-                'options' => $months,
-                'style' => 'short input-small'
+				'type' => 'selectbox',
+				'name' => 'cc_expire_date_month',
+				'value' => sprintf('%02d', date('m')),
+				'options' => $months,
+				'style' => 'short input-small'
 			)
-        );
+		);
 
 		$today = getdate();
 		$years = array();
@@ -99,13 +102,13 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 		}
 		$data['cc_expire_date_year'] = $form->getFieldHtml(
 			array(
-			    'type' => 'selectbox',
-			    'name' => 'cc_expire_date_year',
-			    'value' => sprintf('%02d', date('Y') + 1),
-			    'options' => $years,
-			    'style' => 'short input-small' 
+				'type' => 'selectbox',
+				'name' => 'cc_expire_date_year',
+				'value' => sprintf('%02d', date('Y') + 1),
+				'options' => $years,
+				'style' => 'short input-small'
 			)
-        );
+		);
 
 		if ($this->request->get['rt'] == 'checkout/guest_step_3') {
 			$back_url = $this->html->getSecureURL('checkout/guest_step_2','&mode=edit',true);
@@ -116,17 +119,17 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 		$data['back'] = $this->html->buildElement(
 				array(
 					'type' => 'button',
-			        'name' => 'back',
-			        'text' => $this->language->get('button_back'),
-			        'style' => 'button',
-			        'href' => $back_url
+					'name' => 'back',
+					'text' => $this->language->get('button_back'),
+					'style' => 'button',
+					'href' => $back_url
 		));
 		$data['submit'] = $this->html->buildElement(
 				array( 'type' => 'button',
-                          'name' => 'authorizenet_button',
-                          'text' => $this->language->get('button_confirm'),
-                          'style' => 'button'
-                 ));
+						  'name' => 'authorizenet_button',
+						  'text' => $this->language->get('button_confirm'),
+						  'style' => 'button'
+				 ));
 		$this->view->batchAssign($data);
 
 		//init controller data
@@ -145,27 +148,27 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 
 		$data['entry_cc_owner'] = $this->language->get('entry_cc_owner');
 		$data['cc_owner'] = array( 'type' => 'input',
-		                             'name' => 'cc_owner',
-		                             'required' => true,
-		                             'value' => '' );
+									 'name' => 'cc_owner',
+									 'required' => true,
+									 'value' => '' );
 
 		$data['entry_cc_number'] = $this->language->get('entry_cc_number');
 		$data['cc_number'] = array( 'type' => 'input',
-		                              'name' => 'cc_number',
-		                              'required' => true,
-		                              'value' => '' );
-		                              
+									  'name' => 'cc_number',
+									  'required' => true,
+									  'value' => '' );
+
 		$data['entry_cc_expire_date'] = $this->language->get('entry_cc_expire_date');
 		$data['entry_cc_cvv2'] = $this->language->get('entry_cc_cvv2');
 		$data['entry_cc_cvv2_short'] = $this->language->get('entry_cc_cvv2_short');
 		$data['cc_cvv2_help_url'] = $this->html->getURL('r/extension/default_authorizenet_aim/cvv2_help');
 
 		$data['cc_cvv2'] = array( 'type' => 'input',
-		                            'name' => 'cc_cvv2',
-		                            'value' => '',
-		                            'style' => 'short input-small',
-		                            'required' => true,
-		                            'attr' => ' size="3"');
+									'name' => 'cc_cvv2',
+									'value' => '',
+									'style' => 'short input-small',
+									'required' => true,
+									'attr' => ' size="3"');
 		$data['button_confirm'] = $this->language->get('button_confirm');
 		$data['button_back'] = $this->language->get('button_back');
 
@@ -175,11 +178,11 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 		}
 		$data['cc_expire_date_month'] =
 			array( 'type' => 'selectbox',
-			     'name' => 'cc_expire_date_month',
-			     'value' => sprintf('%02d', date('m')),
-			     'options' => $months,
-			     'required' => true,
-			     'style' => 'short input-small'
+				 'name' => 'cc_expire_date_month',
+				 'value' => sprintf('%02d', date('m')),
+				 'options' => $months,
+				 'required' => true,
+				 'style' => 'short input-small'
 			);
 
 		$today = getdate();
@@ -188,64 +191,37 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 			$years[ strftime('%Y', mktime(0, 0, 0, 1, 1, $i)) ] = strftime('%Y', mktime(0, 0, 0, 1, 1, $i));
 		}
 		$data['cc_expire_date_year'] = array( 'type' => 'selectbox',
-		                                        'name' => 'cc_expire_date_year',
-		                                        'value' => sprintf('%02d', date('Y') + 1),
-		                                        'options' => $years,
-		                                        'required' => true,
-		                                        'style' => 'short input-small' );
+												'name' => 'cc_expire_date_year',
+												'value' => sprintf('%02d', date('Y') + 1),
+												'options' => $years,
+												'required' => true,
+												'style' => 'short input-small' );
 
 		$data['process_rt'] = 'default_authorizenet_aim/send';
-				
+
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($data));
 	}
 
 
 	public function send() {
-        $json = array();
-        $data = array();
+		$json = array();
+		$data = array();
 
-        if(!$this->csrftoken->isTokenValid()){
-            $json['error'] = $this->language->get('error_unknown');
-            $this->load->library('json');
-            $this->response->setOutput(AJson::encode($json));
-            return;
-        }
-
+		if(!$this->csrftoken->isTokenValid()){
+			$json['error'] = $this->language->get('error_unknown');
+			$this->load->library('json');
+			$this->response->setOutput(AJson::encode($json));
+			return;
+		}
+		$url = '';
 		if ($this->config->get('default_authorizenet_aim_mode') == 'live') {
 			$url = 'https://secure.authorize.net/gateway/transact.dll';
 		} elseif ($this->config->get('default_authorizenet_aim_mode') == 'test') {
 			$url = 'https://test.authorize.net/gateway/transact.dll';
 		}
 
-		if ( $this->config->get('store_credit_cards_status') ) {
-			if ( has_value($this->session->data['stored_credit_card']) ) {
-
-				foreach ( $this->session->data['stored_credit_card'] as $key => $val ) {
-					$this->request->post[$key] = $val;
-				}
-				unset($this->session->data['stored_credit_card']);
-			}
-
-			if ( $this->request->post['credit_card_save'] ) {
-
-				$data = array(
-					'card_nickname' => $this->request->post['cc_nickname'],
-					'card_owner' => $this->request->post['cc_owner'],
-					'card_number' => $this->request->post['cc_number'],
-					'cc_start_date_month' => isset($this->request->post['cc_start_date_month']) ? $this->request->post['cc_start_date_month'] : date('m'),
-					'cc_start_date_year' => isset($this->request->post['cc_start_date_year']) ? $this->request->post['cc_start_date_year'] : date('Y'),
-					'cc_expire_date_month' => $this->request->post['cc_expire_date_month'],
-					'cc_expire_date_year' => $this->request->post['cc_expire_date_year'],
-				);
-
-				$this->loadModel('extension/store_credit_cards');
-				$this->model_extension_store_credit_cards->addCard($data);
-			}
-		}
-
 		$this->load->model('checkout/order');
-
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 
 		$data['x_login'] = $this->config->get('default_authorizenet_aim_login');
@@ -270,8 +246,7 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 		$data['x_amount'] = $this->currency->format($order_info['total'], $order_info['currency'], 1.00000, FALSE);
 		$data['x_currency_code'] = $this->currency->getCode();
 		$data['x_method'] = 'CC';
-		$data['x_type'] = ($this->config->get('default_authorizenet_aim_method') == 'capture') ? 'AUTH_CAPTURE'
-				: 'AUTH_ONLY';
+		$data['x_type'] = ($this->config->get('default_authorizenet_aim_method') == 'capture') ? 'AUTH_CAPTURE' : 'AUTH_ONLY';
 		$data['x_card_num'] = str_replace(' ', '', $this->request->post['cc_number']);
 		$data['x_exp_date'] = $this->request->post['cc_expire_date_month'] . $this->request->post['cc_expire_date_year'];
 		$data['x_card_code'] = $this->request->post['cc_cvv2'];
@@ -291,39 +266,33 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 		curl_setopt($curl, CURLOPT_FRESH_CONNECT, 1);
 		curl_setopt($curl, CURLOPT_POST, 1);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
-
 		$response = curl_exec($curl);
-
 		curl_close($curl);
 
 		$i = 1;
-
 		$response_data = array();
-
 		$results = explode(',', $response);
-
 		foreach ($results as $result) {
 			$response_data[ $i ] = trim($result, '"');
-
 			$i++;
 		}
 
-		//build responce message for records
+		//build response message for records
 		$message = '';
 		if (has_value($response_data['5'])) {
-		    $message .= 'Authorization Code: ' . $response_data['5'] . "\n";
+			$message .= 'Authorization Code: ' . $response_data['5'] . "\n";
 		}
 		if (has_value($response_data['6'])) {
-		    $message .= 'AVS Response: ' . $response_data['6'] . "\n";
+			$message .= 'AVS Response: ' . $response_data['6'] . "\n";
 		}
 		if (has_value($response_data['7'])) {
-		    $message .= 'Transaction ID: ' . $response_data['7'] . "\n";
+			$message .= 'Transaction ID: ' . $response_data['7'] . "\n";
 		}
 		if (has_value($response_data['39'])) {
-		    $message .= 'Card Code Response: ' . $response_data['39'] . "\n";
+			$message .= 'Card Code Response: ' . $response_data['39'] . "\n";
 		}
 		if (has_value($response_data['40'])) {
-		    $message .= 'Cardholder Authentication Verification Response: ' . $response_data['40'] . "\n";
+			$message .= 'Cardholder Authentication Verification Response: ' . $response_data['40'] . "\n";
 		}
 
 		/*
@@ -333,7 +302,7 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 			 1 = Approved
 			 2 = Declined
 			 3 = Error
-			 4 = Held for Review		
+			 4 = Held for Review
 		*/
 
 		if ($response_data[ 1 ] == '1') {
@@ -351,18 +320,18 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 			$decline_limit = $this->config->get('default_authorizenet_aim_decline_limit');
 			if (has_value($decline_limit) && $this->session->data['decline_count'] > $decline_limit) {
 
-				$json['error'] = $this->language->get('warning_suspicious');				
+				$json['error'] = $this->language->get('warning_suspicious');
 				$this->loadModel('account/customer');
 				$customer_id = $this->customer->getId();
 				$this->model_account_customer->editStatus($customer_id, 0);
-				
+
 				$link = $this->html->getSecureURL('sale/customer/update', '&s=' . ADMIN_PATH .'&customer_id='.$customer_id);
 				$msg = new AMessage();
 				//send message with unique title to prevent grouping message
 				$msg->saveNotice(
 								 $this->language->get('warning_suspicious_to_admin') . '. Customer ID: ' . $customer_id, 
 								 sprintf($this->language->get('warning_suspicious_to_admin_body'), $link)
-								);				
+								);
 			} else {
 				$json['error'] = $this->language->get("warning_declined");
 				//record this decline to history
@@ -374,7 +343,7 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 				);
 			} 
 		} else if ($response_data[ 1 ] == '4') {
-			//special case of sucess payment in review stage. Create order with pending status
+			//special case of success payment in review stage. Create order with pending status
 			$new_order_status_id = $this->order_status->getStatusByTextId('pending');
 			$this->model_checkout_order->confirm($this->session->data['order_id'], $new_order_status_id);
 			$this->model_checkout_order->update($this->session->data['order_id'], $new_order_status_id, $message, FALSE);
@@ -390,6 +359,13 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 			);
 		}
 
+		if (isset($json['error'])) {
+			if ($json['error']) {
+				$csrftoken = $this->registry->get('csrftoken');
+				$json['csrfinstance'] = $csrftoken->setInstance();
+				$json['csrftoken'] = $csrftoken->setToken();
+			}
+		}
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($json));
 	}
@@ -399,14 +375,11 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->loadLanguage('default_authorizenet_aim/default_authorizenet_aim');
-
 		$image = '<img src="' . $this->view->templateResource('/image/securitycode.jpg') . '" alt="' . $this->language->get('entry_what_cvv2') . '" />';
-
 		$this->view->assign('description', $image );
 
 		//init controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
-
 		$this->processTemplate('responses/content/content.tpl' );
 	}
 }

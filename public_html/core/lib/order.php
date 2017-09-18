@@ -94,7 +94,7 @@ class AOrder{
 		//get order details for specific status. NOTE: Customer ID need to be set in customer class
 		$this->order_data = $this->model_account_order->getOrder($this->order_id, $order_status_id);
 		$this->extensions->hk_ProcessData($this,'load_order_data');
-		$output = $this->data + $this->order_data;
+		$output = (array)$this->data + (array)$this->order_data;
 		return $output;
 	}
 

@@ -752,7 +752,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 				if(!$is_utf8){
 					$agreement_text = 'Oops. Something goes wrong. Try to continue or check error log for details.';
 					$err = new AError('Incorrect character set encoding of file '.$license_filepath.' has been detected.');
-					$err->toLog()->toMessages();
+					$err->toLog();
 				}
 			}
 			$agreement_text = htmlentities($agreement_text, ENT_QUOTES, 'UTF-8');

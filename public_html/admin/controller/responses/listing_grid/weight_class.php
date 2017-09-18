@@ -20,6 +20,11 @@
 if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
+
+/**
+ * Class ControllerResponsesListingGridWeightClass
+ * @property AWeight $weight
+ */
 class ControllerResponsesListingGridWeightClass extends AController {
 	public $data = array();
 	public function main() {
@@ -64,10 +69,14 @@ class ControllerResponsesListingGridWeightClass extends AController {
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $total;
+		$response->userdata = new stdClass();
 
 		$results = $this->model_localisation_weight_class->getWeightClasses($data);
 		$i = 0;
+		$a_weight = new AWeight(Registry::getInstance());
 		foreach ($results as $result) {
+			$is_predefined = in_array($result[ 'weight_class_id' ],$a_weight->predefined_weight_ids) ? true : false;
+			$response->userdata->classes[$result[ 'weight_class_id' ]] = $is_predefined ? 'disable-delete' : '';
 			$response->rows[ $i ][ 'id' ] = $result[ 'weight_class_id' ];
 			$response->rows[ $i ][ 'cell' ] = array(
 				$this->html->buildInput(array(
@@ -78,10 +87,13 @@ class ControllerResponsesListingGridWeightClass extends AController {
 					'name' => 'weight_class_description[' . $result[ 'weight_class_id' ] . '][' . $this->session->data[ 'content_language_id' ] . '][unit]',
 					'value' => $result[ 'unit' ],
 				)),
-				$this->html->buildInput(array(
+				(!$is_predefined
+				? $this->html->buildInput(array(
 					'name' => 'value[' . $result[ 'weight_class_id' ] . ']',
 					'value' => $result[ 'value' ],
-				)),
+				))
+				: $result[ 'value' ]),
+				$result['iso_code']
 			);
 			$i++;
 		}
@@ -182,7 +194,7 @@ class ControllerResponsesListingGridWeightClass extends AController {
 		}
 
 		//request sent from jGrid. ID is key of array
-		$allowedFields = array_merge(array( 'weight_class_description', 'value' ), (array)$this->data['allowed_fields']);
+		$allowedFields = array_merge(array( 'weight_class_description', 'value', 'iso_code' ), (array)$this->data['allowed_fields']);
 
 		foreach ($allowedFields as $f) {
 			if (isset($this->request->post[ $f ]))
@@ -214,6 +226,23 @@ class ControllerResponsesListingGridWeightClass extends AController {
 						if (!$v[ 'unit' ] || mb_strlen($v[ 'unit' ]) > 4) {
 							$this->data['error'] = $this->language->get('error_unit');
 						}
+				}
+				break;
+			case 'iso_code':
+				$iso_code = strtoupper(preg_replace('/[^a-z]/i','',$value));
+				if ((!$iso_code) || strlen($iso_code) != 4 ) {
+					$this->data['error'] = $this->language->get('error_iso_code');
+				}
+				//check for uniqueness
+				else{
+					$weight = $this->model_localisation_weight_class->getWeightClassByCode($iso_code);
+					$weight_class_id = (int)$this->request->get['id'];
+					if($weight){
+						if( !$weight_class_id
+								|| ($weight_class_id && $weight['weight_class_id'] != $weight_class_id) ){
+							$this->data['error'] = $this->language->get('error_iso_code');
+						}
+					}
 				}
 				break;
 		}

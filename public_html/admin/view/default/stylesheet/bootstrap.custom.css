@@ -176,7 +176,6 @@ h4, .h4 {
    border: 2px solid #999;
    color: #999;
    text-transform: uppercase;
-   font-family: 'LatoBold';
    font-size: 12px;
 }
 
@@ -191,7 +190,6 @@ h4, .h4 {
    border: 2px solid #428BCA;
    color: #428BCA;
    text-transform: uppercase;
-   font-family: 'LatoBold';
    font-size: 12px;
 }
 
@@ -206,7 +204,6 @@ h4, .h4 {
    border: 2px solid #1CAF9A;
    color: #1CAF9A;
    text-transform: uppercase;
-   font-family: 'LatoBold';
    font-size: 12px;
 }
 
@@ -221,7 +218,6 @@ h4, .h4 {
    border: 2px solid #F0AD4E;
    color: #F0AD4E;
    text-transform: uppercase;
-   font-family: 'LatoBold';
    font-size: 12px;
 }
 
@@ -236,7 +232,6 @@ h4, .h4 {
    border: 2px solid #D9534F;
    color: #D9534F;
    text-transform: uppercase;
-   font-family: 'LatoBold';
    font-size: 12px;
 }
 
@@ -251,7 +246,6 @@ h4, .h4 {
    border: 2px solid #5BC0DE;
    color: #5BC0DE;
    text-transform: uppercase;
-   font-family: 'LatoBold';
    font-size: 12px;
 }
 
@@ -280,7 +274,6 @@ h4, .h4 {
    border: 2px solid #333;
    color: #333;
    font-size: 12px;
-   font-family: 'LatoBold';
    text-transform: uppercase;
 }
 
@@ -310,7 +303,6 @@ h4, .h4 {
    color: #f38108;
    text-transform: uppercase;
    font-size: 12px;
-   font-family: 'LatoBold';
 }
 
 .btn-orange-alt:hover,
@@ -339,7 +331,6 @@ h4, .h4 {
    color: #0390fd;
    text-transform: uppercase;
    font-size: 12px;
-   font-family: 'LatoBold';
 }
 
 .btn-lightblue-alt:hover,
@@ -496,12 +487,10 @@ h4, .h4 {
 .panel-title {
    font-size: 18px;
    color: #111;
-   /*font-family: 'LatoBold'; */
 }
 
 .panel-title-alt {
    font-size: 13px;
-   font-family: 'LatoBold';
    text-transform: uppercase;
    margin: 0;
 }
@@ -601,7 +590,6 @@ h4, .h4 {
 .panel-alt .panel-title {
    font-size: 13px;
    text-transform: uppercase;
-   font-family: 'LatoBold';
 }
 
 .panel-alt .panel-heading p {
@@ -817,7 +805,6 @@ h4, .h4 {
 }
 
 .alert .alert-link {
-   font-family: 'LatoBold';
    font-weight: normal;
 }
 
@@ -946,9 +933,7 @@ h4, .h4 {
    border-bottom: 0;
 }
 
-.nav .dropdown > a {
-   font-family: 'LatoBold';  
-}
+
 
 .nav .dropdown-menu {
    margin-top: -2px;
@@ -977,7 +962,6 @@ h4, .h4 {
    border: 0;
    background: none;
    color: #333;
-   font-family: 'LatoBold';
 }
 
 .panel-group .panel-heading {
@@ -986,7 +970,6 @@ h4, .h4 {
 
 .panel-group .panel-title {
    font-size: 14px;
-   font-family: 'LatoBold';
 }
 
 .panel-group .panel-title a {
@@ -1135,7 +1118,6 @@ h4, .h4 {
 .media-heading {
    color: #333;
    font-size: 14px;
-   font-family: 'LatoBold';
    margin: 0;
 }
 
@@ -1158,7 +1140,6 @@ small.media-desc {
 
 .table th {
 	font-weight: normal;
-	font-family: 'LatoBold';
 }
 
 .table thead > tr > th {
