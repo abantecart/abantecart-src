@@ -89,13 +89,14 @@
 					try { resetLockBtn(); } catch (e) {}
 					return false;
 				} else {
-					confirmSubmit();
+					var $form = $(this);
+					confirmSubmit($form);
 					return false;
 				}
 			}
 		});
 
-		function confirmSubmit() {
+		function confirmSubmit($form) {
 			$.ajax({
 				type: 'POST',
 				url: '<?php echo $action ?>',
@@ -112,9 +113,7 @@
 						$('#realex .action-buttons').show();
 						$('#realex').before('<div class="alert alert-danger"><i class="fa fa-bug"></i> <?php echo $error_unknown; ?></div>');
 						submitSent = false;
-						try {
-							resetLockBtn();
-						} catch (e) {
+						try { resetLockBtn(); } catch (e) {
 						}
 					} else {
 						//if 3d required
@@ -128,9 +127,8 @@
 							$('#realex').after(dhtml);
 							$('#3dauth').submit();
 							submitSent = false;
-							try {
-								resetLockBtn();
-							} catch (e) {
+
+							try { resetLockBtn(); } catch (e) {
 							}
 						}
 
