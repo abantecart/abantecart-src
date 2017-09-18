@@ -122,6 +122,11 @@ class ControllerResponsesExtensionDefaultStripe extends AController{
 		}
 
 		if (isset($json['error'])){
+			if($json['error']){
+				$csrftoken = $this->registry->get('csrftoken');
+				$json[ 'csrfinstance' ] = $csrftoken->setInstance();
+				$json[ 'csrftoken' ]   = $csrftoken->setToken();
+			}
 			$this->load->library('json');
 			$this->response->setOutput(AJson::encode($json));
 			return null;
@@ -165,6 +170,13 @@ class ControllerResponsesExtensionDefaultStripe extends AController{
 		//init controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
+		if (isset($json['error'])) {
+			if ($json['error']) {
+				$csrftoken = $this->registry->get('csrftoken');
+				$json['csrfinstance'] = $csrftoken->setInstance();
+				$json['csrftoken'] = $csrftoken->setToken();
+			}
+		}
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($json));
 	}
