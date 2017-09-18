@@ -414,6 +414,9 @@ class ControllerResponsesExtensionDefaultRealex extends AController{
 				){
 					if ($this->config->get('default_realex_liability_shift') != 1){
 						$json['error'] = $this->language->get('error_3d_enroll');
+						$csrftoken = $this->registry->get('csrftoken');
+						$json['csrfinstance'] = $csrftoken->setInstance();
+						$json['csrftoken'] = $csrftoken->setToken();
 						$this->load->library('json');
 						$this->response->setOutput(AJson::encode($json));
 						return null;
@@ -431,6 +434,9 @@ class ControllerResponsesExtensionDefaultRealex extends AController{
 				if (isset($verify_3ds->result) && $verify_3ds->result >= 500 && $verify_3ds->result < 600){
 					if ($this->config->get('realex_remote_liability') != 1){
 						$json['error'] = (string)$verify_3ds->message;
+						$csrftoken = $this->registry->get('csrftoken');
+						$json['csrfinstance'] = $csrftoken->setInstance();
+						$json['csrftoken'] = $csrftoken->setToken();
 						$this->load->library('json');
 						$this->response->setOutput(AJson::encode($json));
 						return null;
