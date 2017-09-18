@@ -51,15 +51,15 @@ class ModelExtensionDefaultStorePickup extends Model {
 			$quote_data = array();
 			$quote_data['default_store_pickup'] = array(
 				'id'           => 'default_store_pickup.default_store_pickup',
-				'title'        => $this->language->get('text_description'),
+				'title'        => $language->get('text_description'),
 				'cost'         => 0.00,
 				'tax_class_id' => 0,
-				'text'         => $this->language->get('text_free')
+				'text'         => $language->get('text_free')
 			);
 
 			$method_data = array(
 				'id'         => 'default_store_pickup',
-				'title'      => $this->language->get('text_title'),
+				'title'      => $language->get('text_title'),
 				'quote'      => $quote_data,
 				'sort_order' => $this->config->get('default_store_pickup_sort_order'),
 				'error'      => FALSE
