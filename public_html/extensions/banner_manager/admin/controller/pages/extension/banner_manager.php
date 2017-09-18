@@ -132,7 +132,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 		} else {
 			$this->data ['success'] = '';
 		}
-		
+
 		$this->data['banner_types'] = array(
 			array(
 				'href' => $this->html->getSecureURL('extension/banner_manager/insert', '&banner_type=1'),
@@ -143,7 +143,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 				'href' => $this->html->getSecureURL('extension/banner_manager/insert', '&banner_type=2'),
 				'text' => $this->language->get('text_text_banner'),
 				'icon' => '<i class="fa fa-file-text-o fa-fw"></i>'
-			),		
+			),
 		);
 		$this->data['text_type'] = $this->language->get('column_banner_type');
 		$this->data['insert'] = $this->html->getSecureURL('extension/banner_manager/insert');
@@ -176,7 +176,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 			$banner_id = $this->model_extension_banner_manager->addBanner($this->request->post);
 
 			$this->session->data ['success'] = $this->language->get('text_banner_success');
-			$this->redirect($this->html->getSecureURL('extension/banner_manager/edit', '&banner_id=' . $banner_id));
+			redirect($this->html->getSecureURL('extension/banner_manager/edit', '&banner_id=' . $banner_id));
 		}
 
 		foreach ($this->request->post as $k => $v) {
@@ -208,7 +208,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 			$this->model_extension_banner_manager->editBanner($banner_id, $this->request->post);
 
 			$this->session->data ['success'] = $this->language->get('text_banner_success');
-			$this->redirect($this->html->getSecureURL('extension/banner_manager/edit', '&banner_id=' . $banner_id));
+			redirect($this->html->getSecureURL('extension/banner_manager/edit', '&banner_id=' . $banner_id));
 		}
 
 		$this->data['error'] = $this->error;
@@ -234,7 +234,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 		$this->model_extension_banner_manager->deleteBanner($banner_id);
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-		$this->redirect($this->html->getSecureURL('extension/banner_manager'));
+		redirect($this->html->getSecureURL('extension/banner_manager'));
 	}
 
 	private function _getForm() {
@@ -266,8 +266,8 @@ class ControllerPagesExtensionBannerManager extends AController {
 				$banner_type = $this->request->get['banner_type'];
 			} elseif ($this->request->post['banner_type']) {
 				$banner_type = $this->request->post['banner_type'];
-			}	
-					
+			}
+
 			$this->data ['action'] = $this->html->getSecureURL('extension/banner_manager/insert');
 			$this->data ['form_title'] = $this->language->get('text_create');
 			$this->data ['update'] = '';
@@ -284,7 +284,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 							'href' => $this->html->getSecureUrl('extension/banner_manager_stat/details', '&banner_id=' . $this->request->get ['banner_id']),
 							'text' => $this->language->get('text_view_stat')
 					));
-					
+
 			$banner_type = $this->data['banner_type'];
 		} 
 
@@ -292,12 +292,12 @@ class ControllerPagesExtensionBannerManager extends AController {
 			$this->data['banner_types'] = array(
 				'text' => $this->language->get('text_graphic_banner'),
 				'icon' => '<i class="fa fa-file-image-o fa-fw"></i>'
-			);		
+			);
 		} else {
 			$this->data['banner_types'] = array(
 				'text' => $this->language->get('text_text_banner'),
 				'icon' => '<i class="fa fa-file-text-o fa-fw"></i>'
-			);				
+			);
 		}
 
 		$this->document->addBreadcrumb(
@@ -405,10 +405,11 @@ class ControllerPagesExtensionBannerManager extends AController {
 			$this->data['form']['text']['url'] = $this->language->get('entry_banner_url');
 
 			$this->data['form']['fields']['blank'] = $form->getFieldHtml(
-					array ('type'  => 'checkbox',
-					       'name'  => 'blank',
-					       'value' => $this->data['blank'],
-					       'style' => 'btn_switch'
+					array (
+							'type'  => 'checkbox',
+							'name'  => 'blank',
+							'value' => $this->data['blank'],
+							'style' => 'btn_switch'
 					));
 			$this->data['form']['text']['blank'] = $this->language->get('entry_banner_blank');
 		}
@@ -432,9 +433,8 @@ class ControllerPagesExtensionBannerManager extends AController {
 				'style' => 'small-field'));
 
 		$this->data['form']['text']['date_end'] = $this->language->get('entry_banner_date_end');
-
 		$this->data['banner_id'] = $this->request->get['banner_id'] ? $this->request->get['banner_id'] : '-1';
-		
+
 		if ($banner_type == 1) {
 			$this->data['form']['fields']['meta'] = $form->getFieldHtml(array(  
 				'type' => 'textarea',
@@ -453,7 +453,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 							'types' => array('image'),
 					)
 			);
-	
+
 			$this->view->assign('current_url', $this->html->currentURL());
 			$this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());
 			$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&object_name=banners&type=image'));
@@ -522,7 +522,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 	}
 
 	// Prepare data before passing to model
-	private function _prepareData() {
+	protected function _prepareData() {
 		if (isset($this->request->post['start_date']) && $this->request->post['start_date']) {
 			$this->request->post['start_date'] = dateDisplay2ISO($this->request->post['start_date']);
 		}
@@ -625,7 +625,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 			}
 
 			$this->session->data ['success'] = $this->language->get('text_banner_success');
-			$this->redirect($this->html->getSecureURL('extension/banner_manager/edit_block', '&custom_block_id=' . $custom_block_id));
+			redirect($this->html->getSecureURL('extension/banner_manager/edit_block', '&custom_block_id=' . $custom_block_id));
 		}
 
 		foreach ($this->request->post as $k => $v) {
@@ -694,7 +694,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 		$this->data['block_id'] = $block['block_id'];
 		$custom_block_id = (int)$this->request->get['custom_block_id'];
 		if (!$custom_block_id) {
-			$this->redirect($this->html->getSecureURL('extension/banner_manager/insert_block'));
+			redirect($this->html->getSecureURL('extension/banner_manager/insert_block'));
 		}
 
 		$tabs = array(
@@ -708,7 +708,8 @@ class ControllerPagesExtensionBannerManager extends AController {
 		);
 		$obj = $this->dispatch('responses/common/tabs',
 				array(
-					'extension/banner_manager/edit_block', //parent controller. Use customer group to use for other extensions that will add tabs via their hooks
+					//parent controller. Use customer group to use for other extensions that will add tabs via their hooks
+					'extension/banner_manager/edit_block',
 					array('tabs'=>$tabs))
 					);
 
@@ -747,11 +748,12 @@ class ControllerPagesExtensionBannerManager extends AController {
 			} else {
 				//delete the list as nothing provided
 				$listing_manager = new AListingManager($custom_block_id);
-				$listing_manager->deleteCustomListing();			
+				$listing_manager->deleteCustomListing();
 			}
-			
+
 			$this->session->data ['success'] = $this->language->get('text_banner_success');
-			$this->redirect($this->html->getSecureURL('extension/banner_manager/edit_block', '&custom_block_id=' . $custom_block_id));
+			$this->cache->remove('banner');
+			redirect($this->html->getSecureURL('extension/banner_manager/edit_block', '&custom_block_id=' . $custom_block_id));
 		}
 
 		$this->_getBlockForm();
@@ -961,7 +963,6 @@ class ControllerPagesExtensionBannerManager extends AController {
 					$this->data['block_wrappers'][$tpl] = $tpl;
 				}
 			}
-
 		}
 
 		ksort($this->data['block_wrappers']);
@@ -1018,14 +1019,15 @@ class ControllerPagesExtensionBannerManager extends AController {
 		//load only prior saved products
 		$this->data['banners'] = array();
 
-		$this->data['form']['fields']['listed_banners'] = $form->getFieldHtml( array(
-		        'type' => 'multiselectbox',
-		        'name' => 'block_banners[]',
-		        'value' => $ids,
-		        'options' => $options_list,
-		        'style' => 'no-save chosen',
-		        'ajax_url' => $this->html->getSecureURL('listing_grid/banner_manager/banners'),
-		        'placeholder' => $this->language->get('text_select_from_lookup'),
+		$this->data['form']['fields']['listed_banners'] = $form->getFieldHtml(
+				array(
+					'type' => 'multiselectbox',
+					'name' => 'block_banners[]',
+					'value' => $ids,
+					'options' => $options_list,
+					'style' => 'no-save chosen',
+					'ajax_url' => $this->html->getSecureURL('listing_grid/banner_manager/banners'),
+					'placeholder' => $this->language->get('text_select_from_lookup'),
 		));
 
 		$this->view->batchAssign($this->language->getASet());
