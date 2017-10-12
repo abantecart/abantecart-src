@@ -176,6 +176,9 @@ class ControllerPagesDesignContent extends AController {
 	}
 
 	public function update() {
+		if(!$this->request->get['content_id']){
+			redirect($this->html->getSecureURL('design/content/insert'));
+		}
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 		$this->document->setTitle($this->language->get('update_title'));
@@ -250,7 +253,7 @@ class ControllerPagesDesignContent extends AController {
 		$this->data['error'] = $this->error;
 		$this->data['language_id'] = $this->config->get('storefront_language_id');
 		$content_info = array();
-		if (has_value($content_id) && $this->request->is_GET()) {
+		if ($content_id && $this->request->is_GET()) {
 			$content_info = $this->acm->getContent($content_id);
 		}
 
@@ -267,7 +270,7 @@ class ControllerPagesDesignContent extends AController {
 					'separator' => ' :: '
 		));
 
-		if (has_value($content_id)) {
+		if ($content_id) {
 			$this->document->addBreadcrumb(
 					array(
 						'href' => $this->html->getSecureURL('design/content/update', '&content_id=' . $content_id),
@@ -311,7 +314,7 @@ class ControllerPagesDesignContent extends AController {
 			$this->data['parent_content_id'][] = $this->request->get['parent_content_id'];
 		}
 
-		if (!has_value($content_id)) {
+		if (!$content_id) {
 			$this->data['action'] = $this->html->getSecureURL('design/content/insert');
 			$this->data['form_title'] = $this->language->get('insert_title');
 			$this->data['update'] = '';
