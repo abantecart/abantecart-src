@@ -23,7 +23,7 @@
 */
 
 if (!defined('DIR_CORE') || !IS_ADMIN) {
-    header ('Location: static_pages/');
+    header('Location: static_pages/');
 }
 
 class ControllerPagesCatalogProductTabs extends AController
@@ -35,9 +35,9 @@ class ControllerPagesCatalogProductTabs extends AController
         /* Load input arguments for gid settings */
         $this->data = func_get_arg(0);
         if (!is_array($this->data)) {
-            throw new AException (AC_ERR_LOAD, 'Error: Could not create tabs. Tab definition is not array.');
+            throw new AException(AC_ERR_LOAD, 'Error: Could not create tabs. Tab definition is not array.');
         }
-        //init controller data */
+        /* init controller data */
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('catalog/product');
@@ -65,8 +65,8 @@ class ControllerPagesCatalogProductTabs extends AController
         );
 
         $this->data['link_relations'] = $this->html->getSecureURL(
-        'catalog/product_relations',
-        '&product_id='.$product_id
+            'catalog/product_relations',
+            '&product_id='.$product_id
         );
 
         $this->data['link_promotions'] = $this->html->getSecureURL(
@@ -84,9 +84,9 @@ class ControllerPagesCatalogProductTabs extends AController
             '&product_id='.$product_id
         );
 
-        $this->view->batchAssign( $this->data );
+        $this->view->batchAssign($this->data);
         $this->processTemplate('pages/catalog/product_tabs.tpl');
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        }
+    }
 }
