@@ -47,11 +47,11 @@ class ControllerPagesCatalogReview extends AController
         'href' => $this->html->getSecureURL('index/home'),
         'text' => $this->language->get('text_home')
         ));
-        $this->document->addBreadcrumb( array (
-        'href' => $this->html->getSecureURL('catalog/review'),
-        'text' => $this->language->get('heading_title'),
-        'separator' => '::',
-        'current' => true
+        $this->document->addBreadcrumb(array(
+            'href' => $this->html->getSecureURL('catalog/review'),
+            'text' => $this->language->get('heading_title'),
+            'separator' => '::',
+            'current' => true
         ));
 
         $grid_settings = array(
@@ -163,7 +163,7 @@ class ControllerPagesCatalogReview extends AController
         $this->view->assign('search_form', $grid_search_form);
         $this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
         $this->document->setTitle($this->language->get('heading_title'));
-        $this->view->assign( 'insert', $this->html->getSecureURL('catalog/review/insert'));
+        $this->view->assign('insert', $this->html->getSecureURL('catalog/review/insert'));
         $this->view->assign('help_url', $this->gen_help_url('review_listing'));
         $this->processTemplate('pages/catalog/review_list.tpl');
         /* update controller data */
@@ -176,12 +176,12 @@ class ControllerPagesCatalogReview extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->document->setTitle($this->language->get('heading_title'));
 
-        if ($this->request->is_POST() && $this->_validateForm()) {
+        if ($this->request->is_POST() && $this->validateForm()) {
             $review_id = $this->model_catalog_review->addReview($this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('catalog/review/update','&review_id='.$review_id));
+            $this->redirect($this->html->getSecureURL('catalog/review/update', '&review_id='.$review_id));
         }
-        $this->_getForm();
+        $this->getForm();
         /* update controller data */
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
@@ -193,7 +193,7 @@ class ControllerPagesCatalogReview extends AController
 
         $this->document->setTitle($this->language->get('heading_title'));
 
-        if ($this->request->is_POST() && $this->_validateForm()) {
+        if ($this->request->is_POST() && $this->validateForm()) {
             $this->model_catalog_review->editReview($this->request->get['review_id'], $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
             $this->redirect($this->html->getSecureURL(
@@ -201,13 +201,13 @@ class ControllerPagesCatalogReview extends AController
                 '&review_id='.$this->request->get['review_id']
             ));
         }
-        $this->_getForm();
+        $this->getForm();
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
 
-    private function _getForm()
+    private function getForm()
     {
         if (isset($this->error['warning'])) {
             $this->data['error_warning'] = $this->error['warning'];
@@ -233,7 +233,7 @@ class ControllerPagesCatalogReview extends AController
         $review_id = (int)$this->request->get['review_id'];
 
         if ($review_id && $this->request->is_GET()) {
-            $review_info = $this->model_catalog_review->getReview( $review_id );
+            $review_info = $this->model_catalog_review->getReview($review_id);
         }
         foreach ($this->fields as $field) {
             if (isset($this->request->post[$field])) {
@@ -273,9 +273,15 @@ class ControllerPagesCatalogReview extends AController
             $this->data['update'] = '';
             $form = new AForm('ST');
         } else {
-            $this->data['action'] = $this->html->getSecureURL('catalog/review/update', '&review_id=' . $review_id );
-            $this->data['heading_title'] = $this->language->get('text_edit') .' '. $this->language->get('text_review');
-            $this->data['update'] = $this->html->getSecureURL('listing_grid/review/update_field','&id='.$review_id );
+            $this->data['action'] = $this->html->getSecureURL('catalog/review/update', '&review_id='.$review_id);
+            $this->data['heading_title'] = $this->language->get(
+                'text_edit'
+            ).'&nbsp;'.$this->language->get('text_review');
+
+            $this->data['update'] = $this->html->getSecureURL(
+                'listing_grid/review/update_field',
+                '&id='.$review_id
+            );
             $form = new AForm('HS');
         }
 
@@ -359,15 +365,15 @@ class ControllerPagesCatalogReview extends AController
         ));
 
         $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
-        if($saved_list_data->table_id == 'review_grid') {
+        if ($saved_list_data->table_id == 'review_grid') {
             $this->data['list_url'] = $this->html->getSecureURL('catalog/review', '&saved_list=review_grid');
         }
         $this->view->assign('help_url', $this->gen_help_url('review_edit'));
-        $this->view->batchAssign( $this->data );
+        $this->view->batchAssign($this->data);
         $this->processTemplate('pages/catalog/review_form.tpl');
     }
 
-    private function _validateForm()
+    private function validateForm()
     {
         if (!$this->user->canModify('catalog/review')) {
             $this->error['warning'] = $this->language->get('error_permission');
@@ -375,13 +381,13 @@ class ControllerPagesCatalogReview extends AController
         if (!$this->request->post['product_id']) {
             $this->error['product'] = $this->language->get('error_product');
         }
-        if ( mb_strlen($this->request->post['author']) < 2 || mb_strlen( $this->request->post['author']) > 64) {
+        if (mb_strlen($this->request->post['author']) < 2 || mb_strlen( $this->request->post['author']) > 64) {
             $this->error['author'] = $this->language->get('error_author');
         }
-        if (mb_strlen($this->request->post['text']) < 25  || mb_strlen( $this->request->post['text']) > 1000 ) {
+        if (mb_strlen($this->request->post['text']) < 25  || mb_strlen( $this->request->post['text']) > 1000) {
             $this->error['text'] = $this->language->get('error_text');
         }
-        if ( mb_strlen($this->request->post['text']) < 25 || mb_strlen( $this->request->post['text']) > 1000 ) {
+        if (mb_strlen($this->request->post['text']) < 25 || mb_strlen( $this->request->post['text']) > 1000) {
             $this->error['text'] = $this->language->get('error_text');
         }
         if (!isset($this->request->post['rating'])) {
