@@ -142,7 +142,6 @@ class ControllerResponsesCatalogProductSpecialForm extends AController {
 								'value' => 'special'
 						));
 
-		;
 		$this->data['form']['submit'] = $form->getFieldHtml(array(
 				'type' => 'button',
 				'name' => 'submit',
