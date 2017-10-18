@@ -8,7 +8,7 @@
 	<div class="panel-body panel-body-nopadding">
 		<?php
 		foreach ($form['fields'] as $name => $field) {
-			//Logic to calculate fileds width
+			//Logic to calculate fields width
 			$widthclasses = "col-sm-6";
 			if (is_int(stripos($field->style, 'large-field'))) {
 				$widthclasses = "col-sm-7";
@@ -78,6 +78,10 @@
 			type: 'POST',
 			data: $('#tFrm').serializeArray(),
 			dataType: 'json',
+			beforeSend:
+				function() {
+					$('.alert').remove();
+				},
 			success: function (data) {
 				if (data.result == true) {
 					<?php

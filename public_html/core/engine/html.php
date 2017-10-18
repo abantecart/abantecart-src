@@ -1655,12 +1655,7 @@ class FormHtmlElement extends HtmlElement{
 					)
 			);
 		}
-
-		if (IS_ADMIN === true){
-			return $this->view->fetch('form/form_open.tpl');
-		} else {
-			return $this->view->fetch('form/form_open.tpl') . $this->view->fetch('form/form_csrf.tpl');
-		}
+		return $this->view->fetch('form/form_open.tpl') . $this->view->fetch('form/form_csrf.tpl');
 	}
 }
 

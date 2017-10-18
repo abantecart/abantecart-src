@@ -15,7 +15,7 @@ jQuery(document).ready(function() {
 	if (!route) {
 		$('#menu_dashboard').addClass('active').addClass('nav-active');
 	} else {
-		part = route.split('/');
+		var part = route.split('/');
 		url = part[0];
 		if (part[1]) {
 			url += '/' + part[1];
@@ -25,7 +25,7 @@ jQuery(document).ready(function() {
 		}
 		var link = $('#menu_box a[href*=\'' + url + '&\']');
 		if (link.length == 0) {
-			var link = $('#menu_box a[href*=\'' + part[0] + '/' + part[1] + '&\']');
+			link = $('#menu_box a[href*=\'' + part[0] + '/' + part[1] + '&\']');
 		}
 		if (link.length) {
 			link.parents('li').addClass('active').addClass('nav-active');
@@ -301,7 +301,7 @@ jQuery(document).ready(function() {
 	adjust_content_height();
 
 	//edit mode
-	$docW = parseInt($(document).width());
+	var $docW = parseInt($(document).width());
 	$('.postit_icon').click(function () {
 		pos = $(this).siblings('.postit_notes').offset();
 		width = $(this).siblings('.postit_notes').width();
@@ -358,7 +358,7 @@ jQuery(document).ready(function() {
 
 //-----------------------------------------------
 // Add events. Function can be reloaded after AJAX response
-// Important. To reduce unnessasary load, pass specific selector to be binded
+// Important. To reduce unnessasary load, pass specific selector to be bound
 //-----------------------------------------------
 var bindCustomEvents  = function(elm){
     var $obj;
@@ -390,7 +390,7 @@ var bindCustomEvents  = function(elm){
 	});
 	//set visual status
 	statusMarker($obj);
-}
+};
 
 //mark page with status off
 var statusMarker = function($obj) {
@@ -407,7 +407,7 @@ var statusMarker = function($obj) {
 			$input.closest('.panel-body').removeClass('status_off');
 		}
 	}
-}
+};
 
 // Add tooltips to all elements in the selector. In case text does not fit
 var buildTooltips = function(objects, options) {
@@ -417,7 +417,7 @@ var buildTooltips = function(objects, options) {
 		elem.attr('data-original-title', elem.text())
 		elem.tooltip({ container: 'body'});
 	});
-}
+};
 
 function adjust_content_height() {
 	// Adjust content panel height
@@ -515,7 +515,7 @@ function notice(text, autohide, elm, type, icon) {
 		animate: {
 			enter: 'animated fadeInLeft',
 			exit: 'animated fadeOutLeft'
-		}	
+		}
 	});
 	return growl;
 }
@@ -557,7 +557,7 @@ $(document).ajaxError(function (e, jqXHR, settings, exception) {
 			return false;
 		}
 		error_alert(text, autohide);
-	}
+	};
 
 	if(!jqXHR.hasOwnProperty('responseText') ) {
 		return false;
@@ -568,12 +568,17 @@ $(document).ajaxError(function (e, jqXHR, settings, exception) {
 		if (err.hasOwnProperty("error_title") || err.hasOwnProperty("error_text")) {
 			var errors = err.error_text;
 			var errlist = typeof errors === 'string' ? [errors] : errors;
-			//show alert for every error in the array of responce
+			//show alert for every error in the array of response
 			for (var k in errlist) {
 				if (errlist[k].length > 0) {
 					//show error and prepend the title of the error
 					gl_error_alert(err.error_title+' '+errlist[k], false);
 				}
+			}
+			var sent_params = $.parseParams(settings.data);
+			if(err.csrftoken ){
+				$(document).find('[value='+sent_params.csrftoken+']').val(err['csrftoken']);
+				$(document).find('[value='+sent_params.csrfinstance+']').val(err['csrfinstance']);
 			}
 		}
 	} catch (e) {
@@ -591,7 +596,7 @@ function goTo(url, params) {
 }
 
 function addBlock(name) {
-	block = $('[name=\'' + name + '\']').first()
+	var block = $('[name=\'' + name + '\']').first()
 		.clone();
 	$('[name=\'' + name + '\']').last()
 		.closest('.section')
@@ -603,7 +608,7 @@ function addBlock(name) {
 }
 
 function checkAll(fldName, checked) {
-	$field = $('input[name*=\'' + fldName + '\']');
+	var $field = $('input[name*=\'' + fldName + '\']');
 	if (checked) {
 		$field.attr('checked', 'checked').parents('.afield').addClass($.aform.defaults.checkedClass);
 	} else {
@@ -741,7 +746,7 @@ var runTaskUI = function (data) {
 	} else {
 		runTaskStepsUI(data.task_details);
 	}
-}
+};
 
 var runTaskStepsUI = function (task_details) {
 	if (task_details.status != '1') {
@@ -750,7 +755,6 @@ var runTaskStepsUI = function (task_details) {
 		//then run sequental ajax calls
 		//note: all that calls must be asynchronous to be interruptible!
 		var ajaxes = {};
-		console.log(task_details.steps);
 		var total_steps_count = Object.keys(task_details.steps).length;
 		var num = 1;
 		for(var k in task_details.steps){
@@ -816,7 +820,7 @@ var runTaskStepsUI = function (task_details) {
 			});
 		}
 	}
-}
+};
 
 /* run post-trigger */
 var runTaskComplete = function (task_id) {
@@ -863,7 +867,7 @@ var runTaskComplete = function (task_id) {
 	});
 
 	$('#task_modal').data('bs.modal').options.backdrop = true;
-}
+};
 
 var taskRunError = function (jqXHR, textStatus, errorThrown) {
 	var error_txt = '';
@@ -879,11 +883,11 @@ var taskRunError = function (jqXHR, textStatus, errorThrown) {
 		error_txt = getErrorTextByXHR(jqXHR);
 		runTaskShowError(error_txt);
 	}
-}
+};
 
 var runTaskShowError = function (error_text) {
 	$('#task_modal .modal-body').html('<div class="alert alert-danger" role="alert">' + error_text + '</div>');
-}
+};
 
 /**
  * function for sequental ajax calls, one by one
@@ -892,7 +896,6 @@ var runTaskShowError = function (error_text) {
  */
 
 function do_seqAjax(ajaxes, attempts_count){
-
 	$.xhrPool = [];
 	$.xhrPool.abortAll = function () {
 		$(this).each(function (i, jqXHR) {   //  cycle through list of recorded connection
@@ -908,7 +911,8 @@ function do_seqAjax(ajaxes, attempts_count){
 			keys.push(k);
 		}
 		var steps_cnt = keys.length;
-		var attempts = attempts_count || 3;// set attempts count for fail ajax call (for repeating request)
+		// set attempts count for fail ajax call (for repeating request)
+		var attempts = attempts_count || 3;
 		var kill = false;
 
 		//declare your function to run AJAX requests
@@ -1026,7 +1030,7 @@ var getErrorTextByXHR = function(xhr){
 	}
 	console.log(xhr);
 	return 'Connection error occurred. ' + error_txt;
-}
+};
 // end of task js
 
 
@@ -1039,7 +1043,7 @@ var getUrlParameter = function (sParam) {
 			return sParameterName[1];
 		}
 	}
-}
+};
 
 var searchSectionIcon = function(section) {
 	switch(section) {
@@ -1086,7 +1090,7 @@ var searchSectionIcon = function(section) {
 			return '<i class="fa fa-info-circle fa-fw"></i> ';
 			break;
 	}
-}
+};
 
 var updateANT = function (url) {
 	$.ajax({
@@ -1097,7 +1101,7 @@ var updateANT = function (url) {
 			$('.ant_window').find('span.badge').remove();
 		}
 	});
-}
+};
 
 var loadAndShowData = function (url, $elem) {
 	$.ajax({
@@ -1107,14 +1111,14 @@ var loadAndShowData = function (url, $elem) {
 			$elem.html(data);
 		}
 	});
-}
+};
 
 function imgError(image) {
 	image.onerror = "";
 	image.src = "image/broken_image.jpg";
 	image.title = "image not found or broken";
 	return true;
-}
+};
 
 //function adds Resource Library Button into WYSIWYG editor
 function openTextEditRLModal(editor, cursorPosition, baseUrl){
@@ -1163,9 +1167,9 @@ function openTextEditRLModal(editor, cursorPosition, baseUrl){
 				}
 			}
 
-			});
+		});
 	});
-}
+};
 
 //Jquery extension with textarea management
 jQuery.fn.extend({
@@ -1173,7 +1177,6 @@ jQuery.fn.extend({
 		if(this.length == 0) return this;
 		return $(this).setSelection(position, position);
 	},
-
 	setSelection: function(selectionStart, selectionEnd) {
 		if(this.length == 0) return this;
 		input = this[0];
@@ -1189,12 +1192,10 @@ jQuery.fn.extend({
 		}
 		return this;
 	},
-
 	focusEnd: function(){
 		this.setCursorPosition(this.val().length);
 		return this;
 	},
-
 	getCursorPosition: function() {
 		var el = $(this).get(0);
 		var pos = 0;
@@ -1209,7 +1210,6 @@ jQuery.fn.extend({
 		}
 		return pos;
 	},
-
 	insertAtCursor: function (myValue) {
 		return this.each(function (i) {
 			if (document.selection) {
@@ -1238,3 +1238,25 @@ jQuery.fn.extend({
 		});
 	}
 });
+
+/**
+ * $.parseParams - parse query string parameters into an object.
+ */
+(function($) {
+	var re = /([^&=]+)=?([^&]*)/g;
+	var decodeRE = /\+/g;  // Regex for replacing addition symbol with a space
+	var decode = function (str) {return decodeURIComponent( str.replace(decodeRE, " ") );};
+	$.parseParams = function(query) {
+		var params = {}, e;
+		while ( e = re.exec(query) ) {
+			var k = decode( e[1] ), v = decode( e[2] );
+			if (k.substring(k.length - 2) === '[]') {
+				k = k.substring(0, k.length - 2);
+				(params[k] || (params[k] = [])).push(v);
+			}else{
+				params[k] = v;
+			}
+		}
+		return params;
+	};
+})(jQuery);
