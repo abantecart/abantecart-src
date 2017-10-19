@@ -884,6 +884,7 @@ var formOnExit = function(){
 				$target.closest("button").click();
 				return;
 			}
+			$(this).prop('disabled', true);
 			$(this).button('loading');
 		});
 	});
@@ -892,6 +893,7 @@ var formOnExit = function(){
 function resetLockBtn(){
 	$('.lock-on-click').each(function () {
 		$(this).button('reset');
+		$(this).prop('disabled', false);
 	});
 }
 //------------------------------------------------------------------------------
