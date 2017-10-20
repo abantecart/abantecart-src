@@ -879,7 +879,6 @@ var formOnExit = function(){
 			// stop the propagation and trigger the "click" event on the button.
 			var $target = $( event.target );
 			if ( !$target.is("button") ) {
-				event.preventDefault();
 				event.stopPropagation();
 				$target.closest("button").click();
 				return;
