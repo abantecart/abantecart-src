@@ -135,7 +135,9 @@ final class MySQL{
 			$error->toLog()->toDebug();
 			return false;
 		}
-		return mysql_real_escape_string((string)$value, $this->connection);
+		$output = mysql_real_escape_string((string)$value, $this->connection);
+		$output = str_replace('%','\%',$output);
+		return $output;
 	}
 
 	/**
