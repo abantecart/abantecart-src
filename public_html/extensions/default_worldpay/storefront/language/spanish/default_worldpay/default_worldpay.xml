@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Gracias por comprar en %s .... ]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Tarjeta de Crédito / Tarjeta de Débito (WorldPay)]]></value>
+  </definition>
+  <definition>
+    <key>text_response</key>
+    <value><![CDATA[Respuesta de WorldPay:]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[... su pago ha sido realizado correctamente.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_wait</key>
+    <value><![CDATA[<b><span style="color: #FF0000">Por favor, espere...</span></b> mientras procesamos su compra.<br>Si no es redirigido automáticamente en 10 segundos, haga click <a href="%s">aquí</a>.]]></value>
+  </definition>
+  <definition>
+    <key>text_failure</key>
+    <value><![CDATA[... su pago ha sido cancelado!]]></value>
+  </definition>
+  <definition>
+    <key>text_failure_wait</key>
+    <value><![CDATA[<b><span style="color: #FF0000">Por favor, espere...</span></b><br>Si no es redirigido automáticamente, haga click <a href="%s">aquí</a>.]]></value>
+  </definition>
+</definitions>
