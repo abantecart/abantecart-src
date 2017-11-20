@@ -24,7 +24,7 @@
 		</div>
 		<div class="form-group form-inline">
 			<label class="col-sm-4 control-label"><?php echo $entry_cc_number; ?></label>
-			<div id="card-element" class="col-sm-7 input-group field" style="border: 1px solid #ccc; padding: 2px"></div>
+			<div id="card-element" class="col-sm-7 col-xs-6 input-group field" style="min-width:240px; border: 1px solid #ccc; padding: 2px"></div>
 		</div>
 		<input type="hidden" name="cc_token" id="cc_token">
 		<?php echo $this->getHookVar('payment_table_post'); ?>
