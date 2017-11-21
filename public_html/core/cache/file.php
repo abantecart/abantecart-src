@@ -124,9 +124,11 @@ class ACacheDriverFile extends ACacheDriver{
 			$len = strlen($data);
 			if (@fwrite($fileopen, $data, $len) !== false) {
 				$saved = true;
+				//update modification time
+				touch($path);
 			}
+			@fclose($fileopen);
 		}
-		@fclose($fileopen);
 
 		if ($saved){
 			return true;
@@ -172,13 +174,13 @@ class ACacheDriverFile extends ACacheDriver{
 
 		if (trim($group) == '*'){
 			$dirs = $this->_get_directories($this->path);
-    		for ($i = 0, $n = count($dirs); $i < $n; $i++){
-   				$return |= $this->_delete_directory($dirs[$i]);
-    		}
+			for ($i = 0, $n = count($dirs); $i < $n; $i++){
+				$return |= $this->_delete_directory($dirs[$i]);
+			}
 		} else if($group) {
 			if (is_dir($this->path . $group)){
-			    $return = $this->_delete_directory($this->path . $group);
-			}		
+				$return = $this->_delete_directory($this->path . $group);
+			}
 		}
 
 		return $return;
