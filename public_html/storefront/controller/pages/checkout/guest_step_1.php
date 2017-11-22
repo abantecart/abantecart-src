@@ -587,6 +587,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
             $this->error['warning'] = $this->language->get('error_unknown');
             return false;
         }
+		$data = array_map('trim',$data);
 
 		if ((mb_strlen($data['firstname']) < 3) || (mb_strlen($data['firstname']) > 32)){
 			$this->error['firstname'] = $this->language->get('error_firstname');
