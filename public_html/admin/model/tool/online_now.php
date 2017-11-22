@@ -51,10 +51,10 @@ class ModelToolOnlineNow extends Model {
 
 		$where = array();
 		if (isset($data['filter_ip']) && !is_null($data['filter_ip'])) {
-		        $where[] = "cn.ip LIKE '" . $this->db->escape($data['filter_ip']) . "'";
+		        $where[] = "cn.ip LIKE '" . $this->db->escape($data['filter_ip'],true) . "'";
 		}
 		if (isset($data['filter_customer']) && !is_null($data['filter_customer'])) {
-		        $where[] = "cn.customer_id > 0 AND CONCAT(c.firstname, ' ', c.lastname) LIKE '" . $this->db->escape($data['filter_customer']) . "'";
+		        $where[] = "cn.customer_id > 0 AND CONCAT(c.firstname, ' ', c.lastname) LIKE '" . $this->db->escape($data['filter_customer'],true) . "'";
 		}
 		if ($where) {
 		        $sql .= " WHERE " . implode(" AND ", $where);
@@ -64,7 +64,7 @@ class ModelToolOnlineNow extends Model {
 			$sql .= ($where ? " AND " : 'WHERE ').$data['subsql_filter'];
 		}
 
-		//If for total, we done bulding the query
+		//If for total, we done building the query
 		if ($mode == 'total_only') {
 		    $query = $this->db->query($sql);
 		    return $query->row['total'];

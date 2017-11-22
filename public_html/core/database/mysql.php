@@ -122,9 +122,10 @@ final class MySQL{
 
 	/**
 	 * @param string $value
+	 * @param bool $with_special_chars
 	 * @return string
 	 */
-	public function escape($value){
+	public function escape($value, $with_special_chars = false){
 
 		if (is_array($value)) {
 			$dump = var_export($value, true);
@@ -136,7 +137,9 @@ final class MySQL{
 			return false;
 		}
 		$output = mysql_real_escape_string((string)$value, $this->connection);
-		$output = str_replace('%','\%',$output);
+		if($with_special_chars) {
+			$output = str_replace('%', '\%', $output);
+		}
 		return $output;
 	}
 

@@ -49,7 +49,7 @@ class ControllerResponsesListingGridReportCustomer extends AController{
 		$filter_params = $filter_grid->getFilterData();
 		$filters = AJson::decode(html_entity_decode($this->request->post['filters']), true);
 		if($filters['rules'][0]['field'] == 'customer'){
-			$filter_params['subsql_filter'] .= " OR LOWER(c.`firstname`) LIKE '%".$this->db->escape($filters['rules'][0]['data'])."%'";
+			$filter_params['subsql_filter'] .= " OR LOWER(c.`firstname`) LIKE '%".$this->db->escape($filters['rules'][0]['data'],true)."%'";
 		}
 
 		$total = $this->model_report_customer->getTotalOnlineCustomers($filter_params);

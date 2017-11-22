@@ -503,32 +503,32 @@ class ModelSaleCustomer extends Model {
 		$filter = (isset($data['filter']) ? $data['filter'] : array());
 
 		if (has_value($filter['name'])) {
-			$implode[] = "CONCAT(c.firstname, ' ', c.lastname) LIKE '%" . $this->db->escape($filter['name']) . "%' collate utf8_general_ci";
+			$implode[] = "CONCAT(c.firstname, ' ', c.lastname) LIKE '%" . $this->db->escape($filter['name'],true) . "%' collate utf8_general_ci";
 		}
 
 		if (has_value($filter['name_email'])) {
-			$implode[] = "CONCAT(c.firstname, ' ', c.lastname, ' ', c.email) LIKE '%" . $this->db->escape($filter['name_email']) . "%' collate utf8_general_ci";
+			$implode[] = "CONCAT(c.firstname, ' ', c.lastname, ' ', c.email) LIKE '%" . $this->db->escape($filter['name_email'],true) . "%' collate utf8_general_ci";
 		}
 		//more specific login, last and first name search
 		if (has_value($filter['loginname'])) {
 			$implode[] = "LOWER(c.loginname) = LOWER('" .$this->db->escape($filter['loginname']) . "') collate utf8_general_ci";
 		}
 		if (has_value($filter['firstname'])) {
-			$implode[] = "LOWER(c.firstname) LIKE LOWER('" .$this->db->escape($filter['firstname']) . "%') collate utf8_general_ci";
+			$implode[] = "LOWER(c.firstname) LIKE LOWER('" .$this->db->escape($filter['firstname'],true) . "%') collate utf8_general_ci";
 		}
 		if (has_value($filter['lastname'])) {
-			$implode[] = "LOWER(c.lastname) LIKE LOWER('" .$this->db->escape($filter['lastname']) . "%') collate utf8_general_ci";
+			$implode[] = "LOWER(c.lastname) LIKE LOWER('" .$this->db->escape($filter['lastname'],true) . "%') collate utf8_general_ci";
 		}
 		//select differently if encrypted
 		if ( !$this->dcrypt->active ) {
 			if (has_value($filter['email'])) {
-				$implode[] = "c.email LIKE '%" . $this->db->escape($filter['email']) . "%' collate utf8_general_ci";
+				$implode[] = "c.email LIKE '%" . $this->db->escape($filter['email'],true) . "%' collate utf8_general_ci";
 			}
 			if (has_value($filter['telephone'])) {
-				$implode[] = "c.telephone LIKE '%" . $this->db->escape($filter['telephone']) . "%' collate utf8_general_ci";
+				$implode[] = "c.telephone LIKE '%" . $this->db->escape($filter['telephone'],true) . "%' collate utf8_general_ci";
 			}
 			if (has_value($filter['sms'])) {
-				$implode[] = "c.sms LIKE '%" . $this->db->escape($filter['sms']) . "%' collate utf8_general_ci";
+				$implode[] = "c.sms LIKE '%" . $this->db->escape($filter['sms'],true) . "%' collate utf8_general_ci";
 			}
 		}
 		
@@ -722,8 +722,8 @@ class ModelSaleCustomer extends Model {
 		if ($keyword) {
 			$query = $this->db->query("SELECT *
 									   FROM " . $this->db->table("customers") . "
-									   WHERE LCASE(CONCAT(firstname, ' ', lastname)) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%'
-											OR LCASE(email) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%' " . $store_based . "
+									   WHERE LCASE(CONCAT(firstname, ' ', lastname)) LIKE '%" . $this->db->escape(strtolower($keyword),true) . "%'
+											OR LCASE(email) LIKE '%" . $this->db->escape(strtolower($keyword),true) . "%' " . $store_based . "
 									   ORDER BY firstname, lastname, email");
 			$result_rows = array();
 			foreach ($query->rows as $row) {
@@ -751,7 +751,7 @@ class ModelSaleCustomer extends Model {
 				   FROM " . $this->db->table("customers") . "
 				   WHERE ";
 			foreach($emails as $email){
-				$where[] = "LCASE(email) LIKE '%" . $this->db->escape(strtolower($email)) . "%'";
+				$where[] = "LCASE(email) LIKE '%" . $this->db->escape(strtolower($email),true) . "%'";
 			}
 			$sql .= implode(' OR ', $where) . $store_based;
 			$sql .= "ORDER BY firstname, lastname, email";

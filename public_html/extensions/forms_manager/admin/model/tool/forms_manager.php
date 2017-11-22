@@ -77,21 +77,21 @@ class ModelToolFormsManager extends Model {
 					$sql .= " AND (";
 					foreach ($keywords as $k => $keyword) {
 						$sql .= $k > 0 ? " OR" : "";
-						$sql .= " (LCASE(fd.description) LIKE '%" . $this->db->escape(mb_strtolower($keyword)) . "%'";
-						$sql .= " OR LCASE(f.form_name) LIKE '%" . $this->db->escape(mb_strtolower($keyword)) . "%')";
+						$sql .= " (LCASE(fd.description) LIKE '%" . $this->db->escape(mb_strtolower($keyword),true) . "%'";
+						$sql .= " OR LCASE(f.form_name) LIKE '%" . $this->db->escape(mb_strtolower($keyword),true) . "%')";
 					}
 					$sql .= " )";
 				} else if ($match == 'all') {
 					$sql .= " AND (";
 					foreach ($keywords as $k => $keyword) {
 						$sql .= $k > 0 ? " AND" : "";
-						$sql .= " (LCASE(fd.description) LIKE '%" . $this->db->escape(mb_strtolower($keyword)) . "%'";
-						$sql .= " OR LCASE(f.form_name) LIKE '%" . $this->db->escape(mb_strtolower($keyword)) . "%')";
+						$sql .= " (LCASE(fd.description) LIKE '%" . $this->db->escape(mb_strtolower($keyword),true) . "%'";
+						$sql .= " OR LCASE(f.form_name) LIKE '%" . $this->db->escape(mb_strtolower($keyword),true) . "%')";
 					}
 					$sql .= " )";
 				} else if ($match == 'exact') {
-					$sql .= " AND (LCASE(fd.description) LIKE '%" . $this->db->escape(mb_strtolower($filter['keyword'])) . "%'";
-					$sql .= " OR LCASE(f.form_name) LIKE '%" . $this->db->escape(mb_strtolower($filter['keyword'])) . "%')";
+					$sql .= " AND (LCASE(fd.description) LIKE '%" . $this->db->escape(mb_strtolower($filter['keyword']),true) . "%'";
+					$sql .= " OR LCASE(f.form_name) LIKE '%" . $this->db->escape(mb_strtolower($filter['keyword']),true) . "%')";
 				}
 			}
 

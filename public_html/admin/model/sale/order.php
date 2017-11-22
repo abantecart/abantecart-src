@@ -942,7 +942,7 @@ class ModelSaleOrder extends Model{
 		}
 
 		if (has_value($data['filter_name'])){
-			$sql .= " AND CONCAT(o.firstname, ' ', o.lastname) LIKE '%" . $this->db->escape($data['filter_name']) . "%' collate utf8_general_ci";
+			$sql .= " AND CONCAT(o.firstname, ' ', o.lastname) LIKE '%" . $this->db->escape($data['filter_name'],true) . "%' collate utf8_general_ci";
 		}
 
 		if (has_value($data['filter_date_added'])){

@@ -650,8 +650,8 @@ class AResourceManager extends AResource{
 
 		if (!empty($data['keyword'])) {
 			$where .= ($where ? " AND" : ' WHERE ');
-			$where .= " ( LCASE(rd.name) LIKE '%" . $this->db->escape(strtolower($data['keyword'])) . "%'";
-			$where .= " OR LCASE(rd.title) LIKE '%" . $this->db->escape(strtolower($data['keyword'])) . "%' )";
+			$where .= " ( LCASE(rd.name) LIKE '%" . $this->db->escape(strtolower($data['keyword']),true) . "%'";
+			$where .= " OR LCASE(rd.title) LIKE '%" . $this->db->escape(strtolower($data['keyword']),true) . "%' )";
 		}
 
 		if (!empty($data['type_id'])) {

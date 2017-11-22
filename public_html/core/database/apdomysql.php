@@ -100,7 +100,7 @@ final class APDOMySQL{
 		}
 	}
 
-	public function escape($value){
+	public function escape($value, $with_special_chars = false){
 
 		if (is_array($value)) {
 			$dump = var_export($value, true);

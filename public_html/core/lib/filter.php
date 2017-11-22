@@ -287,17 +287,17 @@ final class AGrid{
 						case 'bw' :
 							$str = "LOWER(" . $colname . ")";
 							$rule['data'] = mb_strtolower($rule['data']);
-							$str .= " LIKE '" . $this->db->escape($rule['data']) . "%' ";
+							$str .= " LIKE '" . $this->db->escape($rule['data'],true) . "%' ";
 							break;
 						case 'cn' :
 							$str = "( LOWER(" . $colname . ")";
 							$rule['data'] = mb_strtolower($rule['data']);
 							//search encoded
 							$needle = htmlspecialchars($rule['data'],ENT_QUOTES,"UTF-8");
-							$str .= " LIKE '%" . $this->db->escape($needle) . "%') ";
+							$str .= " LIKE '%" . $this->db->escape($needle,true) . "%') ";
 							//todo: remove this in 2.0.
 							$str .= " OR ( LOWER(" . $colname . ")";
-							$str .= " LIKE '%" . $this->db->escape($rule['data']) . "%') ";
+							$str .= " LIKE '%" . $this->db->escape($rule['data'],true) . "%') ";
 							break;
 						default:
 							$str = $colname. " = '" . $this->db->escape($rule['data']) . "' ";

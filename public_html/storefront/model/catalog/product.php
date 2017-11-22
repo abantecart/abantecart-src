@@ -524,17 +524,17 @@ class ModelCatalogProduct extends Model{
 			}
 
 			if (!$description){
-				$sql .= " AND (LCASE(pd.name) LIKE '%" . $this->db->escape(mb_strtolower($keyword)) . "%' OR " . implode(' OR ', $tags_str);
+				$sql .= " AND (LCASE(pd.name) LIKE '%" . $this->db->escape(mb_strtolower($keyword),true) . "%' OR " . implode(' OR ', $tags_str);
 			} else{
-				$sql .= " AND (LCASE(pd.name) LIKE '%" . $this->db->escape(mb_strtolower($keyword)) . "%'
+				$sql .= " AND (LCASE(pd.name) LIKE '%" . $this->db->escape(mb_strtolower($keyword),true) . "%'
 								OR " . implode(' OR ', $tags_str) . "
-								OR LCASE(pd.description) LIKE '%" . $this->db->escape(mb_strtolower($keyword)) . "%'";
+								OR LCASE(pd.description) LIKE '%" . $this->db->escape(mb_strtolower($keyword),true) . "%'";
 			}
 
 			if (!$model){
 				$sql .= ")";
 			} else{
-				$sql .= " OR LCASE(p.model) LIKE '%" . $this->db->escape(mb_strtolower($keyword)) . "%')";
+				$sql .= " OR LCASE(p.model) LIKE '%" . $this->db->escape(mb_strtolower($keyword),true) . "%')";
 			}
 
 			if ($category_id){
@@ -624,15 +624,15 @@ class ModelCatalogProduct extends Model{
 			}
 
 			if (!$description){
-				$sql .= " AND (LCASE(pd.name) LIKE '%" . $this->db->escape(mb_strtolower($keyword)) . "%' OR " . implode(' OR ', $tags_str);
+				$sql .= " AND (LCASE(pd.name) LIKE '%" . $this->db->escape(mb_strtolower($keyword),true) . "%' OR " . implode(' OR ', $tags_str);
 			} else{
-				$sql .= " AND (LCASE(pd.name) LIKE '%" . $this->db->escape(mb_strtolower($keyword)) . "%' OR " . implode(' OR ', $tags_str) . " OR LCASE(pd.description) LIKE '%" . $this->db->escape(mb_strtolower($keyword)) . "%'";
+				$sql .= " AND (LCASE(pd.name) LIKE '%" . $this->db->escape(mb_strtolower($keyword),true) . "%' OR " . implode(' OR ', $tags_str) . " OR LCASE(pd.description) LIKE '%" . $this->db->escape(mb_strtolower($keyword),true) . "%'";
 			}
 
 			if (!$model){
 				$sql .= ")";
 			} else{
-				$sql .= " OR LCASE(p.model) LIKE '%" . $this->db->escape(mb_strtolower($keyword)) . "%')";
+				$sql .= " OR LCASE(p.model) LIKE '%" . $this->db->escape(mb_strtolower($keyword),true) . "%')";
 			}
 
 			if ($category_id){
@@ -1546,25 +1546,28 @@ class ModelCatalogProduct extends Model{
 				if ($match == 'any'){
 					$sql .= " AND (";
 					foreach ($keywords as $k => $keyword){
+						$kw = $this->db->escape(strtolower($keyword), true);
 						$sql .= $k > 0 ? " OR" : "";
-						$sql .= " (LCASE(pd.name) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%'";
-						$sql .= " OR LCASE(p.model) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%'";
-						$sql .= " OR LCASE(p.sku) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%')";
+						$sql .= " (LCASE(pd.name) LIKE '%" . $kw . "%'";
+						$sql .= " OR LCASE(p.model) LIKE '%" . $kw . "%'";
+						$sql .= " OR LCASE(p.sku) LIKE '%" . $kw . "%')";
 					}
 					$sql .= " )";
 				} else if ($match == 'all'){
 					$sql .= " AND (";
 					foreach ($keywords as $k => $keyword){
+						$kw = $this->db->escape(strtolower($keyword), true);
 						$sql .= $k > 0 ? " AND" : "";
-						$sql .= " (LCASE(pd.name) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%'";
-						$sql .= " OR LCASE(p.model) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%'";
-						$sql .= " OR LCASE(p.sku) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%')";
+						$sql .= " (LCASE(pd.name) LIKE '%" . $kw . "%'";
+						$sql .= " OR LCASE(p.model) LIKE '%" . $kw . "%'";
+						$sql .= " OR LCASE(p.sku) LIKE '%" . $kw . "%')";
 					}
 					$sql .= " )";
 				} else if ($match == 'exact'){
-					$sql .= " AND (LCASE(pd.name) LIKE '%" . $this->db->escape(strtolower($filter['keyword'])) . "%'";
-					$sql .= " OR LCASE(p.model) LIKE '%" . $this->db->escape(strtolower($filter['keyword'])) . "%'";
-					$sql .= " OR LCASE(p.sku) LIKE '%" . $this->db->escape(strtolower($filter['keyword'])) . "%')";
+					$kw = $this->db->escape(strtolower($filter['keyword']), true);
+					$sql .= " AND (LCASE(pd.name) LIKE '%" . $kw . "%'";
+					$sql .= " OR LCASE(p.model) LIKE '%" . $kw . "%'";
+					$sql .= " OR LCASE(p.sku) LIKE '%" . $kw . "%')";
 				}
 			}
 

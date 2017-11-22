@@ -198,7 +198,7 @@ class ControllerResponsesListingGridManufacturer extends AController {
 		if (isset($this->request->post['term'])) {
 			$filter = array('limit' => 20,
 							'language_id' => $this->language->getContentLanguageID(),
-							'subsql_filter' => "m.name LIKE '%".$this->request->post['term']."%'"
+							'subsql_filter' => "m.name LIKE '%".$this->db->escape($this->request->post['term'],true)."%'"
 							);
 			$results = $this->model_catalog_manufacturer->getManufacturers($filter);
 

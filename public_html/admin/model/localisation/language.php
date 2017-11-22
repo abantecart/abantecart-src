@@ -120,7 +120,7 @@ class ModelLocalisationLanguage extends Model{
 			}
 
 			if (isset($filter['name']) && !is_null($filter['name'])){
-				$sql .= " AND `name` LIKE '%" . $this->db->escape($filter['name']) . "%' ";
+				$sql .= " AND `name` LIKE '%" . $this->db->escape($filter['name'],true) . "%' ";
 			}
 
 			if (!empty($data['subsql_filter'])){

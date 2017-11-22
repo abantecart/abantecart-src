@@ -479,10 +479,10 @@ class ExtensionsApi{
 				}
 			}
 			if ($keys){
-				$sql .= " AND (e.`key` LIKE '%" . $this->db->escape($data['search']) . "%' ";
+				$sql .= " AND (e.`key` LIKE '%" . $this->db->escape($data['search'],true) . "%' ";
 				$sql .= " OR  e.`key` IN ('" . implode("','", $keys) . "')) ";
 			} else{
-				$sql .= " AND e.`key` LIKE '%" . $this->db->escape($data['search']) . "%' ";
+				$sql .= " AND e.`key` LIKE '%" . $this->db->escape($data['search'],true) . "%' ";
 			}
 		}
 		if (has_value($data['category'])){
