@@ -60,7 +60,7 @@ class ControllerResponsesExtensionDefaultPPPro extends AController{
 		//load accepted card types
 		$cardtypes = $this->model_extension_default_pp_pro->getCreditCardTypes();
 		$cards = unserialize($this->config->get('default_pp_pro_creditcard_types'));
-		$options = array ('');
+		$options = array (''=> $this->language->get('entry_cc_type'));
 		foreach ($cards as $card){
 			if ($card && isset($cardtypes[$card])){
 				$options[$card] = $cardtypes[$card];
