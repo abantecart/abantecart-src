@@ -1866,6 +1866,17 @@ class ModelCatalogProduct extends Model{
 				$sql = "SELECT COUNT(*) as total ";
 			} else{
 				$sql = "SELECT *, p.product_id ";
+				$sql .= ", (SELECT 
+								CASE WHEN SUM(COALESCE(ppov.subtract,0))>0
+								 THEN SUM(COALESCE(ppov.quantity,0))
+								ELSE pp.quantity END as quantity
+                            FROM " . $this->db->table("products") . " pp
+                            LEFT JOIN " . $this->db->table("product_options") . " ppo
+                                ON ppo.product_id = pp.product_id
+                            LEFT JOIN  " . $this->db->table("product_option_values") . " ppov
+                                ON (ppo.product_option_id = ppov.product_option_id)
+                            WHERE pp.product_id = p.product_id
+                            GROUP BY pp.product_id) as quantity ";
 			}
 			$sql .= " FROM " . $this->db->table("products") . " p
 						LEFT JOIN " . $this->db->table("product_descriptions") . " pd
@@ -1958,7 +1969,7 @@ class ModelCatalogProduct extends Model{
 					'product_id' => 'p.product_id',
 					'name'       => 'pd.name',
 					'model'      => 'p.model',
-					'quantity'   => 'p.quantity',
+					'quantity'   => 'quantity',
 					'price'      => 'p.price',
 					'status'     => 'p.status',
 					'sort_order' => 'p.sort_order',

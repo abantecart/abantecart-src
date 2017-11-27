@@ -1178,7 +1178,11 @@ class ModelCatalogProduct extends Model{
 		}
 
 		$query = $this->db->query(
-				"SELECT *, COALESCE(povd.name,povd2.name) as name
+				"SELECT *,
+		                COALESCE(povd.product_id,povd2.product_id) as product_id,
+		                COALESCE(povd.language_id,povd2.language_id) as language_id,
+		                COALESCE(povd.product_option_value_id,povd2.product_option_value_id) as product_option_value_id,
+		                COALESCE(povd.name,povd2.name) as name
 				FROM " . $this->db->table("product_option_values") . " pov
 				LEFT JOIN " . $this->db->table("product_option_value_descriptions") . " povd
 						ON (pov.product_option_value_id = povd.product_option_value_id

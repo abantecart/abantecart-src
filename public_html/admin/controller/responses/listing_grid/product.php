@@ -100,10 +100,7 @@ class ControllerResponsesListingGridProduct extends AController {
 					'value' => $result['model'],
 				)),
 				$price,
-				$this->html->buildInput(array(
-					'name' => 'quantity[' . $result['product_id'] . ']',
-					'value' => $result['quantity'],
-				)),
+				(int)$result['quantity'],
 				$this->html->buildCheckbox(array(
 					'name' => 'status[' . $result['product_id'] . ']',
 					'value' => $result['status'],
