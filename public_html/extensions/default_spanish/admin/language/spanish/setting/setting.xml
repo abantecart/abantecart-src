@@ -350,7 +350,7 @@
 	</definition>
 	<definition>
 		<key>entry_currency_auto</key>
-		<value><![CDATA[Actualizacion automatica de divisas:<br /><span class="help">Actualiza automaticamente el cambio entre divisas. Servidor de Yahoo se utiliza.</span>]]></value>
+		<value><![CDATA[Actualizacion automatica de divisas:<br /><span class="help">Actualiza automaticamente el cambio entre divisas.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_weight_class</key>

@@ -149,7 +149,7 @@
 	<definition>
 		<key>entry_currency_auto</key>
 		<value>
-			<![CDATA[Auto Update Currency:<br /><span class="help">Set your store to automatically update currencies daily. Yahoo server is used.</span>]]></value>
+			<![CDATA[Auto Update Currency:<br /><span class="help">Set your store to automatically update currencies daily.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_weight_class</key>
