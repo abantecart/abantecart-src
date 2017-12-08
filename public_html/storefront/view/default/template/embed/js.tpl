@@ -1,4 +1,4 @@
-//set global sign of allowed 3dparty cookies as true by default. This value might be overridden by test cookie js
+//set global sign of allowed 3d party cookies as true by default. This value might be overridden by test cookie js
 var abc_cookie_allowed = true; 
 var abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
 var abc_token_value = '';
@@ -41,7 +41,7 @@ var init = function() {
 				main();
 			},
 			function($){
-				//one more attemt to load local library		
+				//one more attempt to load local library
 				script_loader("<?php echo $this->templateResource("/javascript/jquery-1.11.0.min.js"); ?>");
 				checkReady(function($){
 					jQuery = window.jQuery.noConflict(true);

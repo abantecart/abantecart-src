@@ -39,7 +39,7 @@ if($product['rating']){?>
 if($product['quantity'] && !($product['track_stock'] && !$product['in_stock']) && !$product['call_to_order']){?>
 	html ='';
 	if($('<?php echo $target;?> .abantecart_quantity')){
-		html = '<span class="abantecart_quantity_text"><?php echo $text_qty;?></span>&nbsp;<input type="text" size="3" class="abantecart_quantity_field" placeholder="<?php echo $text_qty;?>" value="<?php echo $product['quantity']->value?>" id="product_quantity" name="<?php echo $product['quantity']->name?>"></div>';
+		html = '<span class="abantecart_quantity_text"><?php js_echo($text_qty);?></span>&nbsp;<input type="text" size="3" class="abantecart_quantity_field" placeholder="<?php js_echo($text_qty);?>" value="<?php echo $product['quantity']->value?>" id="product_quantity" name="<?php echo $product['quantity']->name?>"></div>';
 		$('#<?php echo $target;?> .abantecart_quantity').html(html);
 	}
 <?php }
@@ -50,7 +50,7 @@ if($product['button_addtocart']){?>
 		<?php if($product['call_to_order'] || ($product['track_stock'] && !$product['in_stock']) ) { ?>
 		html ='';
 		<?php }else{ ?>
-		html ='<button <?php echo $product['button_addtocart']->attr; ?> title="<?php echo $product['button_addtocart']->text; ?>" class="abantecart_button" id="<?php echo $product['button_addtocart']->id; ?>" type="button"><?php echo $product['button_addtocart']->text; ?></button>';
+		html ='<button <?php echo $product['button_addtocart']->attr; ?> title="<?php js_echo($product['button_addtocart']->text); ?>" class="abantecart_button" id="<?php echo $product['button_addtocart']->id; ?>" type="button"><?php js_echo($product['button_addtocart']->text); ?></button>';
 	<?php } ?>
 
 		$('#<?php echo $target;?> .abantecart_addtocart').html(html);
@@ -59,7 +59,7 @@ if($product['button_addtocart']){?>
 
 if($product['blurb']){?>
 	if($('#<?php echo $target;?> .abantecart_blurb')){
-		$('#<?php echo $target;?> .abantecart_blurb').html('<?php echo $product['blurb']?>');
+		$('#<?php echo $target;?> .abantecart_blurb').html('<?php js_echo($product['blurb'])?>');
 	}
 <?php }
 echo $this->getHookVar('embed_product_js');
