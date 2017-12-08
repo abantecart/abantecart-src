@@ -142,7 +142,7 @@
 	</definition>
 	<definition>
 		<key>entry_currency_auto</key>
-		<value><![CDATA[Aggiornamento automatico della valuta:<br /><span class="help">Imposta il tuo negozio per l'aggiornamento quotidiano automatico delle valute. Viene utilizzato il server di Yahoo.</span>]]></value>
+		<value><![CDATA[Aggiornamento automatico della valuta:<br /><span class="help">Imposta il tuo negozio per l'aggiornamento quotidiano automatico delle valute.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_weight_class</key>
