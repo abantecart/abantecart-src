@@ -477,7 +477,7 @@ class APromotion{
 												AND c.status = '1'");
 		$coupon_product_data = array ();
 		if ($coupon_query->num_rows){
-			if ($coupon_query->row['total'] >= $this->cart->getSubTotal()){
+			if ($coupon_query->row['total'] > $this->cart->getSubTotal()){
 				$status = false;
 			}
 			$coupon_redeem_query = $this->db->query("SELECT COUNT(*) AS total
