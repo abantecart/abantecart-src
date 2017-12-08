@@ -534,7 +534,8 @@ class ControllerPagesProductProduct extends AController{
 				$pd_identifiers .= (empty($product_info['model']) ? '' : " Model: " . $product_info['model']);
 				$pd_identifiers .= (empty($product_info['sku']) ? '' : " SKU: " . $product_info['sku']);
 				$message_ttl = sprintf($this->language->get('notice_out_of_stock_ttl'), $product_info['name']);
-				$message_txt = sprintf($this->language->get('notice_out_of_stock_body'), $product_info['name'], $pd_identifiers);
+				$product_url = '#admin#rt=catalog/product/update&product_id='.$product_id;
+				$message_txt = sprintf($this->language->get('notice_out_of_stock_body'), $product_info['name'], $pd_identifiers, $product_url);
 				//record to message box
 				$msg = new AMessage();
 				$msg->saveNotice($message_ttl, $message_txt);

@@ -182,7 +182,7 @@
 	</definition>
 	<definition>
 		<key>notice_out_of_stock_body</key>
-		<value><![CDATA[Producto "%s", habet nulla seu negative stirpe attigit, Numerabis main productum sive omnia bene. ut a praecessi of <br> autodisable occasum, uber (%s) disabled car erat!]]></value>
+		<value><![CDATA[Producto "%s", habet nulla seu negative stirpe attigit, Numerabis main productum sive omnia bene. ut a praecessi of <br> autodisable occasum, uber (%s) disabled car erat! <br> Para más detalles, visite %s]]></value>
 	</definition>
 	<definition>
 		<key>no_payment_required</key>

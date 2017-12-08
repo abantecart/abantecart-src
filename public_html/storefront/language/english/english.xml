@@ -179,7 +179,7 @@
 	<definition>
 		<key>notice_out_of_stock_body</key>
 		<value>
-			<![CDATA[Product "%s" has reached zero or negative stock count for main product or all options. <br> As a result of autodisable setting, product (%s) was auto disabled!]]></value>
+			<![CDATA[Product "%s" has reached zero or negative stock count for main product or all options. <br> As a result of autodisable setting, product (%s) was auto disabled!<br> For more details visit %s]]></value>
 	</definition>
 	<definition>
 		<key>no_payment_required</key>
