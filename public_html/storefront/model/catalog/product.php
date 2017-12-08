@@ -144,7 +144,7 @@ class ModelCatalogProduct extends Model{
 		}
 		$total_quantity = 0;
 		//check product option values
-		$query = $this->db->query("SELECT pov.quantity AS quantity
+		$query = $this->db->query("SELECT pov.quantity AS quantity, pov.subtract
 									FROM " . $this->db->table("product_options") . " po
 									LEFT JOIN " . $this->db->table("product_option_values") . " pov
 										ON (po.product_option_id = pov.product_option_id)
