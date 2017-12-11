@@ -52,6 +52,11 @@ class ControllerPagesSettingSetting extends AController {
 		$get = (array)$this->request->get;
 
 		if ($this->request->is_POST() && $this->_validate($get['active'], $get['store_id'])) {
+			//do not touch password when it ten stars
+			if(isset($post['config_smtp_password']) && $post['config_smtp_password'] == str_repeat('*',10) ){
+				unset($post['config_smtp_password']);
+			}
+
 			foreach( array('config_logo', 'config_mail_logo', 'config_icon') as $n){
 				if (has_value($post[$n])) {
 					$post[$n] = html_entity_decode($post[$n], ENT_COMPAT, 'UTF-8');
@@ -86,7 +91,8 @@ class ControllerPagesSettingSetting extends AController {
 				//mark storefront session as merchant session
 				startStorefrontSession($this->user->getId());
 			}
-			$redirect_url = $this->html->getSecureURL('setting/setting',
+			$redirect_url = $this->html->getSecureURL(
+					'setting/setting',
 					'&active=' . $get['active'] . '&store_id=' . (int)$get['store_id']);
 			redirect($redirect_url);
 		}

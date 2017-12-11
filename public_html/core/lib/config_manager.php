@@ -249,7 +249,9 @@ class AConfigManager{
 				case 'mail':
 
 					if (($fields['config_mail_protocol'] == 'smtp')
-							&& (($field_name == 'config_smtp_host' && !$field_value) || ($field_name == 'config_smtp_port' && !$field_value) || ($field_name == 'config_smtp_timeout' && !$field_value))
+							&& (($field_name == 'config_smtp_host' && !$field_value)
+									|| ($field_name == 'config_smtp_port' && !$field_value)
+									|| ($field_name == 'config_smtp_timeout' && !$field_value))
 					){
 						$error['mail'] = $this->language->get('error_mail');
 					}
@@ -296,12 +298,6 @@ class AConfigManager{
 				'required' => true,
 				'style'    => 'large-field',
 		));
-		/*$fields['ssl'] = $form->getFieldHtml($props[] = array (
-				'type'  => 'checkbox',
-				'name'  => 'config_ssl',
-				'value' => $data['config_ssl'],
-				'style' => 'btn_switch',
-		));*/
 		$fields['ssl_url'] = $form->getFieldHtml($props[] = array (
 				'type'     => 'input',
 				'name'     => 'config_ssl_url',
@@ -1235,9 +1231,11 @@ class AConfigManager{
 				'value' => $data['config_smtp_username'],
 		));
 		$fields['smtp_password'] = $form->getFieldHtml($props[] = array (
-				'type'  => 'input',
+				'type'  => 'password',
 				'name'  => 'config_smtp_password',
+				//set five stars as value for non-required password and then do not save it in controller
 				'value' => $data['config_smtp_password'],
+
 		));
 		$fields['smtp_port'] = $form->getFieldHtml($props[] = array (
 				'type'     => 'input',
