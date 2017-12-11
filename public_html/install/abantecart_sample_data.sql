@@ -11,6 +11,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_cod', 'defa
 INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_cod', 'default_cod_location_id', '0');
 INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_cod', 'default_cod_autoselect', '1');
 
+INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_flat_rate_shipping', 'default_flat_rate_shipping_default_status', '1');
 INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_flat_rate_shipping', 'default_flat_rate_shipping_default_cost', '2');
 INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_flat_rate_shipping', 'default_flat_rate_shipping_cost_1', '2');
 INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_flat_rate_shipping', 'default_flat_rate_shipping_tax_class_id_1', '0');

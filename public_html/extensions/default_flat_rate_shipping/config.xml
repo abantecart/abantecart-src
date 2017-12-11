@@ -18,7 +18,6 @@
 				<data_source>
 				   <model_rt>localisation/location</model_rt>
 				   <method>getLocations</method>
-
 				   <model_rt>localisation/tax_class</model_rt>
 				   <method>getTaxClasses</method>
 				</data_source>

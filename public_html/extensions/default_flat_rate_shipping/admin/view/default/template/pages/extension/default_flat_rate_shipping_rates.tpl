@@ -48,11 +48,12 @@
 		foreach ($options['getLocations'] as $location) { ?>
 			<tr>
 				<td class="text-left col-md-5"><?php echo $location['name'].' '.($location['description'] ? '('.$location['description'].')' : ''); ?></td>
-				<td class="text-left col-md-2"><?php echo $this->html->buildElement(
+				<td class="text-left col-md-2"><?php
+					echo $this->html->buildElement(
 										array(
 													'type' => 'selectbox',
 													'name' => 'default_flat_rate_shipping_status_'. $location['location_id'],
-													'value' => $this->config->get('default_flat_rate_shipping_status_'.$location['location_id']),
+													'value' => (int)$this->config->get('default_flat_rate_shipping_status_'.$location['location_id']),
 													'placeholder' => $this->language->get('text_select_status'),
 													'options' => array(
 																		1 => $this->language->get('text_enabled'),
