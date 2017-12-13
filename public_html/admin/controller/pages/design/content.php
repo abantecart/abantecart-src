@@ -293,6 +293,8 @@ class ControllerPagesDesignContent extends AController {
 		$allowedFields = array(
 				'status',
 				'description',
+				'meta_keywords',
+				'meta_description',
 				'title',
 				'content',
 				'parent_content_id',
@@ -411,6 +413,21 @@ class ControllerPagesDesignContent extends AController {
 					'value' => $this->data['description'],
 					'multilingual' => true,
 		));
+
+		$this->data['form']['fields']['meta_keywords'] = $form->getFieldHtml(array(
+			'type' => 'textarea',
+			'name' => 'meta_keywords',
+			'value' => $this->data['meta_keywords'],
+			'multilingual' => true,
+		));
+
+		$this->data['form']['fields']['meta_description'] = $form->getFieldHtml(array(
+			'type' => 'textarea',
+			'name' => 'meta_description',
+			'value' => $this->data['meta_description'],
+			'multilingual' => true,
+		));
+
 		$this->data['form']['fields']['content'] = $form->getFieldHtml(
 				array(
 					'type' => 'texteditor',

@@ -10127,6 +10127,8 @@ CREATE TABLE `ac_content_descriptions` (
   `name` varchar(255) NOT NULL COMMENT 'translatable',
   `title` varchar(255) NOT NULL COMMENT 'translatable',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
+  `meta_keywords` varchar(255) NOT NULL COMMENT 'translatable',
+  `meta_description` varchar(255) NOT NULL COMMENT 'translatable',
   `content` longtext NOT NULL COMMENT 'translatable', -- Contain the page details if custom content
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

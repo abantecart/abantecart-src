@@ -102,6 +102,8 @@ class AContentManager{
 					array ('content_id' => (int)$content_id),
 					array (( int )$language['language_id'] => array ('title'       => $data ['title'],
 					                                                 'description' => $data ['description'],
+					                                                 'meta_description' => $data ['meta_description'],
+					                                                 'meta_keywords' => $data ['meta_keywords'],
 					                                                 'content'     => $data ['content']
 					)));
 		}
@@ -143,9 +145,13 @@ class AContentManager{
 			$this->db->query($sql);
 		}
 
-		$update = array ('title'       => $data ['title'],
-		                 'description' => $data ['description'],
-		                 'content'     => $data ['content']);
+		$update = array (
+				'title'       => $data ['title'],
+				'description' => $data ['description'],
+				'meta_keywords' => $data ['meta_keywords'],
+				'meta_description' => $data ['meta_description'],
+				'content'     => $data ['content']
+		);
 
 		$this->language->replaceDescriptions('content_descriptions',
 				array ('content_id' => (int)$content_id),
@@ -207,6 +213,8 @@ class AContentManager{
 				break;
 			case 'title' :
 			case 'description' :
+			case 'meta_description' :
+			case 'meta_keywords' :
 			case 'content' :
 				$this->language->replaceDescriptions('content_descriptions',
 						array ('content_id' => (int)$content_id),

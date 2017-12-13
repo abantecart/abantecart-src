@@ -1,4 +1,7 @@
 ALTER TABLE `ac_products` ADD COLUMN `stock_checkout` CHAR(1) DEFAULT '' AFTER `quantity`;
+ALTER TABLE `ac_content_descriptions`
+ADD COLUMN   `meta_keywords` varchar(255) NOT NULL COMMENT 'translatable',
+ADD COLUMN   `meta_description` varchar(255) NOT NULL COMMENT 'translatable' AFTER `description`;
 
 ALTER TABLE `ac_weight_classes` ADD COLUMN `iso_code` VARCHAR(5) NOT NULL AFTER `value`;
 UPDATE `ac_weight_classes` SET iso_code = 'KILO' WHERE weight_class_id = 1;
