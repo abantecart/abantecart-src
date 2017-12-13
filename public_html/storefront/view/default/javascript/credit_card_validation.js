@@ -161,8 +161,9 @@
                         failed = true;
                     }
                 }
+
                 if ($field.attr('name') == o.cc_field_type) {
-                    if (!$field.val() || $field.val() == 'notfound') {
+                    if (!$.aCCValidator.checkType($field)) {
                         failed = true;
                     }
                 }
@@ -284,6 +285,21 @@
                 return true;
             }
         }
+        $.aCCValidator.checkType = function ($el, mode) {
+            var $ig = $el.closest('.input-group');
+            if (mode == 'reset') {
+                $ig.removeClass(o.error_class);
+                $ig.removeClass(o.success_class);
+                return false;
+            }
+            if (!$el.val() || $el.val()=='notfound') {
+                show_error($el, '.input-group', 'no_icon');
+                return false;
+            } else {
+                show_success($el, '.input-group', 'no_icon');
+                return true;
+            }
+        }
 
         select_cctype = function ($el, cc_type) {
             var $cct = $el.closest('form').find('#cc_type');
@@ -354,7 +370,7 @@
         }
 
         lookupCreditCardType = function (cardnumber) {
-            //look for matching cc type bakwards
+            //look for matching cc type backwards
             for (i = o.cards.length - 1; i >= 0; i--) {
                 prefix_arr = o.cards[i].prefixes.split(",");
                 //Check if number begins with prefix
@@ -371,7 +387,7 @@
 
         CheckDigits = function (cardnumber) {
             var card_rec;
-            //look for matching cc type bakwards
+            //look for matching cc type backwards
             for (i = o.cards.length - 1; i >= 0; i--) {
                 prefix_arr = o.cards[i].prefixes.split(",");
                 //Check if number begins with prefix
@@ -491,6 +507,22 @@ jQuery(document).ready(function () {
                 $('form.validate-creditcard').submit();
             } else {
                 $.aCCValidator.checkCVV($(this), 'reset');
+            }
+        }
+    });
+    $('form.validate-creditcard #cc_type, form.validate-creditcard [name="cc_type"]').bind({
+        change: function () {
+            $.aCCValidator.checkType($(this), 'reset');
+        },
+        blur: function () {
+            $.aCCValidator.checkType($(this));
+        },
+        keyup: function (e) {
+            if (e.keyCode == 13) {
+                //enter pressed. validate all data
+                $('form.validate-creditcard').submit();
+            } else {
+                $.aCCValidator.checkType($(this), 'reset');
             }
         }
     });
