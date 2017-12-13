@@ -4125,6 +4125,9 @@ paypal pro styles
 		box-shadow: none;
 	}
 
+	.headerdetails ul.topcart {
+		width: 250px;
+	}
 	.headerdetails ul.topcartopen {
 		width: 250px;
 	}
