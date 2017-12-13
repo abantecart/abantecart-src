@@ -26,7 +26,7 @@
   </definition>
   <definition>
     <key>entry_cc_type</key>
-    <value><![CDATA[Tipo de tarjeta:]]></value>
+    <value><![CDATA[seleccionar tipo de tarjeta]]></value>
   </definition>
   <definition>
     <key>entry_cc_number</key>
