@@ -683,8 +683,7 @@ h1 a:hover, h2 a:hover, h3  a:hover {
 }
 
 .nav-bracket > li.nav-active > a:hover {
-	background-image: url(../image/minus.png);
-    background-repeat: no-repeat;
+	background: url('../image/minus.png') no-repeat;
 }
 
 .nav-bracket > li.nav-active > a:focus {
@@ -3418,4 +3417,8 @@ img.extension-summary-icon{
 
 .ext_store span.review{
 	white-space: nowrap;
+}
+
+.primary_content_actions .btn-group{
+	margin-bottom: 3px;
 }
