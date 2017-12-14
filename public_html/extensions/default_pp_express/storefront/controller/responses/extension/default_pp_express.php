@@ -52,7 +52,8 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 						'name'  => $this->language->get('button_confirm'),
 						'style' => 'button',
 						'href'  => $this->html->getSecureURL('r/extension/default_pp_express/confirm',
-								'&csrfinstance='.$this->csrftoken->setInstance().'&csrftoken='. $this->csrftoken->setToken())
+								'&csrfinstance='.$this->csrftoken->setInstance()
+								.'&csrftoken='. $this->csrftoken->setToken())
 				));
 
 		$this->view->batchAssign($this->data);
@@ -327,8 +328,17 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 			curl_close($curl);
 
 			$ec_details = $this->_parse_http_query($response);
+
 			ADebug::variable('Paypal Express Debug Log Received callback:', var_export($ec_details, true));
 
+			if($ec_details['SHIPTONAME']){
+				list($shp_first_name,$shp_last_name) = explode(' ',$ec_details['SHIPTONAME']);
+				$different_shipping_address = true;
+			}else{
+				$shp_first_name = $ec_details['FIRSTNAME'];
+				$shp_last_name = $ec_details['LASTNAME'];
+				$different_shipping_address = true;
+			}
 			$this->loadModel('extension/default_pp_express');
 
 			if ($this->customer->isLogged()){
@@ -343,8 +353,8 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 				$this->tax->setZone($country_id, $zone_id);
 
 				$pp_shipping_data = array (
-						'firstname'  => $ec_details['FIRSTNAME'],
-						'lastname'   => $ec_details['LASTNAME'],
+						'firstname'  => $shp_first_name,
+						'lastname'   => $shp_last_name,
 						'address_1'  => $ec_details['SHIPTOSTREET'],
 						'address_2'  => has_value($ec_details['SHIPTOSTREET2']) ? $ec_details['SHIPTOSTREET2'] : '',
 						'city'       => $ec_details['SHIPTOCITY'],
@@ -415,6 +425,21 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 				$this->session->data['guest']['country_id'] = $country_id;
 				$this->session->data['guest']['zone'] = $ec_details['SHIPTOSTATE'];
 				$this->session->data['guest']['zone_id'] = $zone_id;
+
+				if( $different_shipping_address ){
+					$this->session->data['guest']['shipping'] = array(
+							'firstname' => $shp_first_name,
+							'lastname'  => $shp_last_name,
+							'email' => $ec_details['EMAIL'],
+							'address_1' => $ec_details['SHIPTOSTREET'],
+							'address_2' => has_value($ec_details['SHIPTOSTREET2']) ? $ec_details['SHIPTOSTREET2'] : '',
+							'postcode' => $ec_details['SHIPTOZIP'],
+							'city' => $ec_details['SHIPTOCITY'],
+							'country' => $country,
+							'country_id' => $country_id,
+							'zone' => $ec_details['SHIPTOSTATE'],
+							'zone_id' => $zone_id);
+				}
 
 				$this->tax->setZone($country_id, $zone_id);
 
