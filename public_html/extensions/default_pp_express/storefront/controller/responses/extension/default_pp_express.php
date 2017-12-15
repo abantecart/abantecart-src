@@ -397,6 +397,54 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 
 				if (!has_value($this->session->data['shipping_address_id'])){
 					$this->session->data['shipping_address_id'] = $this->model_extension_default_pp_express->addShippingAddress($pp_shipping_data);
+
+					$this->loadModel('checkout/extension');
+					if (!isset($this->session->data['shipping_methods']) || !$this->config->get('config_shipping_session')){
+						$quote_data = array ();
+						$results = $this->model_checkout_extension->getExtensions('shipping');
+						foreach ($results as $result){
+							$this->loadModel('extension/' . $result['key']);
+							/** @noinspection PhpUndefinedMethodInspection */
+							$quote = $this->{'model_extension_' . $result['key']}->getQuote($pp_shipping_data);
+							if ($quote){
+								$quote_data[$result['key']] = array (
+										'title'      => $quote['title'],
+										'quote'      => $quote['quote'],
+										'sort_order' => $quote['sort_order'],
+										'error'      => $quote['error']
+								);
+							}
+						}
+
+						$sort_order = array ();
+						foreach ($quote_data as $key => $value){
+							$sort_order[$key] = $value['sort_order'];
+						}
+
+						array_multisort($sort_order, SORT_ASC, $quote_data);
+						$this->session->data['shipping_methods'] = $quote_data;
+					}
+
+					//# If only 1 shipping and it is set to be defaulted
+					if (count($this->session->data['shipping_methods']) == 1){
+						//set only method
+						$only_method = $this->session->data['shipping_methods'];
+						foreach ($only_method as $key => $value){
+							$method_name = $key;
+							#Check config if we allowed to set this shipping and skip the step
+							$ext_config = $this->model_checkout_extension->getSettings($method_name);
+							$autoselect = $ext_config[$method_name . "_autoselect"];
+							if ($autoselect){
+								if (sizeof($only_method[$method_name]['quote']) == 1){
+									$this->session->data['shipping_method'] = current($only_method[$method_name]['quote']);
+									break;
+								}
+							}
+						}
+					}
+
+
+
 				}
 
 				$this->session->data['payment_address_id'] = $this->session->data['shipping_address_id'];
