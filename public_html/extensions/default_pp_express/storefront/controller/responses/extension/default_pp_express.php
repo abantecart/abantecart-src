@@ -131,6 +131,7 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 		$ec_details = $this->_parse_http_query($response);
 
 		ADebug::variable('Paypal Express Debug Log Received_confirm:', var_export($ec_details, true));
+		#$this->log->write( var_export($ec_details, true) );
 
 		if ($ec_details['ACK'] != 'Success'){
 			$warning = new AWarning('PayPal Express Checkout Error: ' . $ec_details['L_LONGMESSAGE0'] . '. Test mode = ' . $this->config->get('default_pp_express_test') . '.');
@@ -138,12 +139,11 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 			$this->session->data['pp_express_checkout_error'] = $this->language->get('service_error');
 			redirect($this->html->getSecureURL('extension/default_pp_express/error'));
 		} else{
-
 			if ($ec_details['PAYMENTINFO_0_PAYMENTSTATUS'] == 'Completed'){
 				$this->model_checkout_order->confirm($this->session->data['order_id'], $this->config->get('default_pp_express_order_status_id'));
 			} else{
 				//set order to Pending status
-				$this->model_checkout_order->confirm($this->session->data['order_id'], 1);
+				$this->model_checkout_order->confirm($this->session->data['order_id'], $this->order_status->getStatusByTextId('pending'));
 			}
 
 			$this->model_checkout_order->updatePaymentMethodData($this->session->data['order_id'], $ec_details);
@@ -199,14 +199,13 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 					'CANCELURL'                      => (has_value($this->request->get['redirect_to']) ? $this->request->get['redirect_to'] : $this->request->server['HTTP_REFERER']),
 					'LOCALECODE'                     => $locale[1]
 			);
-
+			$skip_item_list = false;
 			if (($this->data['items_total'] - $order_total) !== 0.0){
 				$payment_data['L_PAYMENTREQUEST_0_ITEMAMT'] = $order_total;
 				$skip_item_list = true;
 			}
 			if (!$skip_item_list){
 				foreach ($products_data as $key => $product){
-
 					$payment_data['L_PAYMENTREQUEST_0_NAME' . $key] = $product['name'];
 					$payment_data['L_PAYMENTREQUEST_0_AMT' . $key] = (float)$product['price'];
 					$payment_data['L_PAYMENTREQUEST_0_NUMBER' . $key] = $product['model'];
@@ -284,13 +283,13 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 	public function callback(){
 
 		if (has_value($this->request->get['token']) && has_value($this->request->get['PayerID'])){
-
+			$session =& $this->session->data;
 			$this->loadLanguage('default_pp_express/default_pp_express');
-			$this->session->data['pp_express_checkout']['token'] = $this->request->get['token'];
-			$this->session->data['pp_express_checkout']['PayerID'] = $this->request->get['PayerID'];
-			$this->session->data['pp_express_checkout']['currency'] = $this->currency->getCode();
+			$session['pp_express_checkout']['token'] = $this->request->get['token'];
+			$session['pp_express_checkout']['PayerID'] = $this->request->get['PayerID'];
+			$session['pp_express_checkout']['currency'] = $this->currency->getCode();
 
-			$this->session->data['payment_method'] = array (
+			$session['payment_method'] = array (
 					'id'         => 'default_pp_express',
 					'title'      => $this->language->get('text_title'),
 					'sort_order' => $this->config->get('default_pp_express_sort_order')
@@ -308,7 +307,7 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 					'USER'      => html_entity_decode($this->config->get('default_pp_express_username'), ENT_QUOTES, 'UTF-8'),
 					'PWD'       => html_entity_decode($this->config->get('default_pp_express_password'), ENT_QUOTES, 'UTF-8'),
 					'SIGNATURE' => html_entity_decode($this->config->get('default_pp_express_signature'), ENT_QUOTES, 'UTF-8'),
-					'TOKEN'     => $this->session->data['pp_express_checkout']['token']
+					'TOKEN'     => $session['pp_express_checkout']['token']
 			);
 			ADebug::variable('Paypal Express Debug Log sent callback:', var_export($payment_data, true));
 
@@ -333,11 +332,11 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 
 			if($ec_details['SHIPTONAME']){
 				list($shp_first_name,$shp_last_name) = explode(' ',$ec_details['SHIPTONAME']);
-				$different_shipping_address = true;
+				$new_shipping_address = true;
 			}else{
 				$shp_first_name = $ec_details['FIRSTNAME'];
 				$shp_last_name = $ec_details['LASTNAME'];
-				$different_shipping_address = true;
+				$new_shipping_address = false;
 			}
 			$this->loadModel('extension/default_pp_express');
 
@@ -388,18 +387,18 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 
 						$check_str = strtolower(str_replace(' ', '', implode('', $check_arr)));
 						if ($pp_str == $check_str){
-							$this->session->data['shipping_address_id'] = $addr['address_id'];
+							$session['shipping_address_id'] = $addr['address_id'];
 							break;
 						}
 
 					}
 				}
 
-				if (!has_value($this->session->data['shipping_address_id'])){
-					$this->session->data['shipping_address_id'] = $this->model_extension_default_pp_express->addShippingAddress($pp_shipping_data);
+				if ( $new_shipping_address ){
+					$session['shipping_address_id'] = $this->model_extension_default_pp_express->addShippingAddress($pp_shipping_data);
 
 					$this->loadModel('checkout/extension');
-					if (!isset($this->session->data['shipping_methods']) || !$this->config->get('config_shipping_session')){
+					if (!isset($session['shipping_methods']) || !$this->config->get('config_shipping_session')){
 						$quote_data = array ();
 						$results = $this->model_checkout_extension->getExtensions('shipping');
 						foreach ($results as $result){
@@ -422,13 +421,13 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 						}
 
 						array_multisort($sort_order, SORT_ASC, $quote_data);
-						$this->session->data['shipping_methods'] = $quote_data;
+						$session['shipping_methods'] = $quote_data;
 					}
 
 					//# If only 1 shipping and it is set to be defaulted
-					if (count($this->session->data['shipping_methods']) == 1){
+					if (count($session['shipping_methods']) == 1){
 						//set only method
-						$only_method = $this->session->data['shipping_methods'];
+						$only_method = $session['shipping_methods'];
 						foreach ($only_method as $key => $value){
 							$method_name = $key;
 							#Check config if we allowed to set this shipping and skip the step
@@ -436,18 +435,18 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 							$autoselect = $ext_config[$method_name . "_autoselect"];
 							if ($autoselect){
 								if (sizeof($only_method[$method_name]['quote']) == 1){
-									$this->session->data['shipping_method'] = current($only_method[$method_name]['quote']);
+									$session['shipping_method'] = current($only_method[$method_name]['quote']);
 									break;
 								}
 							}
 						}
 					}
 
-
-
 				}
 
-				$this->session->data['payment_address_id'] = $this->session->data['shipping_address_id'];
+				if(!$session['payment_address_id']) {
+					$session['payment_address_id'] = $session['shipping_address_id'];
+				}
 				redirect($this->html->getSecureURL('checkout/confirm'));
 			} else{
 
@@ -462,32 +461,35 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 					$zone_id = $this->model_extension_default_pp_express->getZoneIdByName($country_id, $ec_details['SHIPTOSTATE']);
 				}
 
-				$this->session->data['guest']['firstname'] = $ec_details['FIRSTNAME'];
-				$this->session->data['guest']['lastname'] = $ec_details['LASTNAME'];
-				$this->session->data['guest']['email'] = $ec_details['EMAIL'];
-				$this->session->data['guest']['address_1'] = $ec_details['SHIPTOSTREET'];
-				$this->session->data['guest']['address_2'] = has_value($ec_details['SHIPTOSTREET2']) ? $ec_details['SHIPTOSTREET2'] : '';
-				$this->session->data['guest']['postcode'] = $ec_details['SHIPTOZIP'];
-				$this->session->data['guest']['city'] = $ec_details['SHIPTOCITY'];
-				$this->session->data['guest']['country'] = $country;
-				$this->session->data['guest']['country_id'] = $country_id;
-				$this->session->data['guest']['zone'] = $ec_details['SHIPTOSTATE'];
-				$this->session->data['guest']['zone_id'] = $zone_id;
+				//leave payment address
+				$session_guest =& $session['guest'];
+				$session_guest['firstname'] = $session_guest['firstname'] ? $session_guest['firstname'] : $ec_details['FIRSTNAME'];
+				$session_guest['lastname'] = $session_guest['lastname'] ? $session_guest['lastname'] : $ec_details['LASTNAME'];
+				$session_guest['email'] = $session_guest['email'] ? $session_guest['email'] : $ec_details['EMAIL'];
+				$session_guest['address_1'] = $session_guest['address_1'] ? $session_guest['address_1'] :$ec_details['SHIPTOSTREET'];
+				$session_guest['address_2'] = $session_guest['address_2']
+												? $session_guest['address_2']
+												: (has_value($ec_details['SHIPTOSTREET2']) ? $ec_details['SHIPTOSTREET2'] : '');
+				$session_guest['postcode'] = $session_guest['postcode'] ? $session_guest['postcode'] : $ec_details['SHIPTOZIP'];
+				$session_guest['city'] = $session_guest['city'] ? $session_guest['city'] : $ec_details['SHIPTOCITY'];
+				$session_guest['country'] = $session_guest['country'] ? $session_guest['country'] : $country;
+				$session_guest['country_id'] = $session_guest['country_id'] ? $session_guest['country_id'] : $country_id;
+				$session_guest['zone'] = $session_guest['zone'] ? $session_guest['zone'] : $ec_details['SHIPTOSTATE'];
+				$session_guest['zone_id'] = $session_guest['zone_id'] ? $session_guest['zone_id'] : $zone_id;
 
-				if( $different_shipping_address ){
-					$this->session->data['guest']['shipping'] = array(
-							'firstname' => $shp_first_name,
-							'lastname'  => $shp_last_name,
-							'email' => $ec_details['EMAIL'],
-							'address_1' => $ec_details['SHIPTOSTREET'],
-							'address_2' => has_value($ec_details['SHIPTOSTREET2']) ? $ec_details['SHIPTOSTREET2'] : '',
-							'postcode' => $ec_details['SHIPTOZIP'],
-							'city' => $ec_details['SHIPTOCITY'],
-							'country' => $country,
-							'country_id' => $country_id,
-							'zone' => $ec_details['SHIPTOSTATE'],
-							'zone_id' => $zone_id);
-				}
+				$session_guest['shipping'] = array (
+						'firstname'  => $shp_first_name,
+						'lastname'   => $shp_last_name,
+						'email'      => $ec_details['EMAIL'],
+						'address_1'  => $ec_details['SHIPTOSTREET'],
+						'address_2'  => has_value($ec_details['SHIPTOSTREET2']) ? $ec_details['SHIPTOSTREET2'] : '',
+						'postcode'   => $ec_details['SHIPTOZIP'],
+						'city'       => $ec_details['SHIPTOCITY'],
+						'country'    => $country,
+						'country_id' => $country_id,
+						'zone'       => $ec_details['SHIPTOSTATE'],
+						'zone_id'    => $zone_id
+				);
 
 				$this->tax->setZone($country_id, $zone_id);
 
