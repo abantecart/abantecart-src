@@ -119,6 +119,9 @@ class ACacheDriverFile extends ACacheDriver{
 		$saved = false;
 
 		$data = $this->security_code . $data;
+		if(!is_dir(dirname($path))){
+		    mkdir(dirname($path));
+        }
 		$fileopen = @fopen($path, "wb");
 		if ($fileopen){
 			$len = strlen($data);
@@ -372,9 +375,11 @@ class ACacheDriverFile extends ACacheDriver{
 		}
 		//rename folder to prevent recreation by other process
 		$new_path = $path.'_trash';
+		$renamed = false;
 		if(!is_dir($new_path)){
 			if(rename($path, $new_path)){
 				$path = $new_path;
+				$renamed = true;
 			}
 		}
 
@@ -410,14 +415,16 @@ class ACacheDriverFile extends ACacheDriver{
 				return false;
 			}
 		}
-
-		if (@rmdir($path)){
-			$ret = true;
-		} else {
-			$err_text = sprintf('Error: Cannot delete cache directory: %s! No permissions to delete.', $path);
-			$error = new AError($err_text);
-			$error->toLog()->toDebug();
-			$ret = false;
+		$ret = true;
+		if($renamed) {
+			if (@rmdir($path)) {
+				$ret = true;
+			} else {
+				$err_text = sprintf('Error: Cannot delete cache directory: %s! No permissions to delete.', $path);
+				$error = new AError($err_text);
+				$error->toLog()->toDebug();
+				$ret = false;
+			}
 		}
 		return $ret;
 	}

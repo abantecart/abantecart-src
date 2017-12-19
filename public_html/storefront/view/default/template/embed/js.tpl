@@ -42,7 +42,7 @@ var init = function() {
 			},
 			function($){
 				//one more attempt to load local library
-				script_loader("<?php echo $this->templateResource("/javascript/jquery-1.11.0.min.js"); ?>");
+				script_loader("<?php echo $this->templateResource("/javascript/jquery-1.12.4.min.js"); ?>");
 				checkReady(function($){
 					jQuery = window.jQuery.noConflict(true);
 					main();

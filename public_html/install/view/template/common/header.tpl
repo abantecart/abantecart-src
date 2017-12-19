@@ -11,7 +11,7 @@
         src="<?php echo $ssl ? 'https' : 'http'?>://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script type="text/javascript">
 if (typeof jQuery == 'undefined') {
-   var include = '<script type="text/javascript" src="view/javascript/jquery-1.11.0.min.js">';
+   var include = '<script type="text/javascript" src="view/javascript/jquery-1.12.4.min.js">';
    document.write(include);
 }
 </script>
