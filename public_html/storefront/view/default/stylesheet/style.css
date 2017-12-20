@@ -1537,7 +1537,7 @@ ul.rate li.off {
 .productpageoldprice {
 	font-size: 16px;
 	text-decoration: line-through;;
-	margin-left: 0
+	margin-left: 5px;
 }
 .productpricesmall {
 	font-size: 16px;
