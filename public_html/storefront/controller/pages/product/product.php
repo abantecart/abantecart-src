@@ -716,6 +716,7 @@ class ControllerPagesProductProduct extends AController{
 	}
 
 	protected function _build_url_params(){
+		$request = $this->request->get;
 		$url = '';
 		if(isset($request['path'])){
 			$url .= '&path=' . $request['path'];
