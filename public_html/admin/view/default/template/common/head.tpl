@@ -19,7 +19,7 @@
 <?php } ?>
 
 <script type="text/javascript"
-        src="<?php echo $ssl ? 'https' : 'http'?>://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        src="<?php echo $ssl ? 'https' : 'http'?>://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
     if (typeof jQuery == 'undefined') {
         var include = '<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-1.12.4.min.js"><\/script>';

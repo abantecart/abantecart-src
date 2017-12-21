@@ -17,7 +17,7 @@ var init = function() {
 	
 	/******** Load jQuery if not yet loaded (note: supported jquery >= 10 ) *********/
 	if ( window.jQuery === undefined ) {
-		script_loader("//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js");
+		script_loader("//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js");
 		// Poll for jQuery to come into existence
 		var scounter = 0;
 		var checkReady = function(callback, second) {
