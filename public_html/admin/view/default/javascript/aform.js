@@ -871,8 +871,12 @@ var formOnExit = function(){
 
 	//put submitted or clicked button to loading state
 	$('.lock-on-click').each(function () {
-		$btn = $(this);
-		$btn.attr('data-loading-text',"<i class='fa fa-refresh fa-spin fa-fw'></i>");
+		var $btn = $(this);
+		var spinner = "<i class='fa fa-refresh fa-spin fa-fw'></i>";
+		if( $btn.attr('data-loading-text') == spinner ){
+			return false;
+		}
+		$btn.attr('data-loading-text',spinner);
 		$btn.on('click', function (event) {
 			//chrome submit fix
 			//If we detect child was clicked, and not the actual button,
@@ -883,7 +887,6 @@ var formOnExit = function(){
 				$target.closest("button").click();
 				return;
 			}
-			$(this).prop('disabled', true);
 			$(this).button('loading');
 		});
 	});
