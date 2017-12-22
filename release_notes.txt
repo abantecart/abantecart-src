@@ -1,3 +1,28 @@
+AbanteCart version 1.2.12
+
+This release comes with minor improvements and bug fixes.
+
+Core:
+- jQuery update
+- AResponse fix related to compression and embed-js
+- cache file driver minor fix
+
+Control Panel:
+- fixed quantity field in products grid. Now calculation based on option quantity
+
+Storefront:
+- localization/country model improvement
+- minor improvement of guest_step_1 page post-data values validation
+- product page tpl js-improvement
+
+Extensions:
+- banktransfer minor js-fix
+- worldpay fix contribution
+- paypal standart improvements
+
+Other bug fixes and improvements
+
+
 AbanteCart version 1.2.11
 
 New features:
