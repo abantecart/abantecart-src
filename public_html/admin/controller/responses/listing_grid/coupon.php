@@ -45,7 +45,7 @@ class ControllerResponsesListingGridCoupon extends AController {
 		$response->total = $total_pages;
 		$response->records = $total;
 
-	    $results = $this->model_sale_coupon->getCoupons(array());
+	    $results = $this->model_sale_coupon->getCoupons(array('content_language_id' => $this->language->getContentLanguageID()));
 	    $i = 0;
 		$now = time();
 		foreach ($results as $result) {

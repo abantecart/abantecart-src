@@ -151,6 +151,12 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 
 
 	public function addTransaction(){
+		sleep(10);
+		if(!$this->csrftoken->isTokenValid()){
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+					array( 'error_text'  => 'Unknown error' ));
+		}
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -180,9 +186,11 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 		}else{
 			$error = new AError('');
 			return $error->toJSONResponse('VALIDATION_ERROR_406',
-				array( 'error_text' => $this->error,
-						'reset_value' => true
-				));
+					array ('error_text'  => $this->error,
+					       'csrfinstance' => $this->csrftoken->setInstance(),
+					       'csrftoken'    => $this->csrftoken->setToken(),
+					       'reset_value' => true
+					));
 		}
 
 		//update controller data
@@ -221,8 +229,6 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 			$readonly = false;
 		}
 
-
-
 			$form = new AForm();
 			$form->setForm(array(
 				'form_name' => 'transaction_form',
@@ -234,6 +240,7 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 													'listing_grid/customer_transaction/addtransaction',
 													'&customer_id='.$this->request->get['customer_id']),
 				'attr' => 'data-confirm-exit="true" class="form-horizontal"',
+				'csrf' => true
 			));
 
 			$this->data['form']['submit'] = $form->getFieldHtml(array(

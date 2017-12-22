@@ -295,6 +295,7 @@ class ACustomer{
 	 */
 	public function logout(){
 		unset($this->session->data['customer_id']);
+		unset($this->session->data['customer_group_id']);
 
 		$this->customer_id = '';
 		$this->loginname = '';

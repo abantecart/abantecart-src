@@ -365,4 +365,8 @@
 		<key>text_total_order</key>
 		<value><![CDATA[Total Orders:]]></value>
 	</definition>
+	<definition>
+		<key>text_register_date</key>
+		<value><![CDATA[Register Date:]]></value>
+	</definition>
 </definitions>

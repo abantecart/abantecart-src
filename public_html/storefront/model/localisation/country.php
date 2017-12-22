@@ -54,26 +54,25 @@ class ModelLocalisationCountry extends Model {
 			    						FROM " . $this->db->table("countries") . " c
 			    						LEFT JOIN " . $this->db->table("country_descriptions") . " cd 
 			    							ON (c.country_id = cd.country_id AND cd.language_id = '" . (int)$language_id . "') 
-			    						WHERE c.status = '1'	
+			    						WHERE c.status = '1'
 			    						ORDER BY cd.name ASC");
-			    		
 			} else {
 			    //merge text for missing country translations. 
-			    $query = $this->db->query("SELECT *, COALESCE( cd1.name,cd2.name) as name
+			    $query = $this->db->query("SELECT *, 
+												COALESCE( cd1.language_id,cd2.language_id) as language_id,
+												COALESCE( cd1.country_id,cd2.country_id) as country_id,
+												COALESCE( cd1.name,cd2.name) as name
 			    		FROM " . $this->db->table("countries") . " c
 			    		LEFT JOIN " . $this->db->table("country_descriptions") . " cd1
 			    			ON (c.country_id = cd1.country_id AND cd1.language_id = '" . (int)$language_id . "')
 			    		LEFT JOIN " . $this->db->table("country_descriptions") . " cd2
 			    			ON (c.country_id = cd2.country_id AND cd2.language_id = '" . (int)$default_language_id . "')
 			    		WHERE c.status = '1'
-			    		ORDER BY cd1.name,cd2.name ASC");	
+			    		ORDER BY cd1.name,cd2.name ASC");
 			}
-	
 			$country_data = $query->rows;
-		
 			$this->cache->push($cache_key, $country_data);
 		}
-
 		return (array)$country_data;
 	}
 }

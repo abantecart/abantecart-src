@@ -142,7 +142,7 @@
 	</definition>
 	<definition>
 		<key>entry_currency_auto</key>
-		<value><![CDATA[Автоматическое обновление Валют:<br /><span class="help">Включите автоматическое обновления валюты ежедневно. Используется Yahoo сервер.</span>]]></value>
+		<value><![CDATA[Автоматическое обновление Валют:<br /><span class="help">Включите автоматическое обновления валюты ежедневно.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_weight_class</key>

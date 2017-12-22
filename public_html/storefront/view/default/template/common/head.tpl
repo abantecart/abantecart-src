@@ -79,10 +79,10 @@ a[href]:after {
 <?php 
 if($faster_browser_rendering == true) {
 ?>
-	<script type="text/javascript"><?php echo $this->PreloadJS('/javascript/jquery-1.11.0.min.js'); ?></script>
+	<script type="text/javascript"><?php echo $this->PreloadJS('/javascript/jquery-1.12.4.min.js'); ?></script>
 	<script type="text/javascript"><?php echo $this->PreloadJS('/javascript/jquery-migrate-1.2.1.min.js'); ?></script>
 <?php } else { ?>
-	<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-1.11.0.min.js'); ?>"></script>
+	<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-1.12.4.min.js'); ?>"></script>
 	<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-migrate-1.2.1.min.js');?>"></script>
 <?php } ?>
 

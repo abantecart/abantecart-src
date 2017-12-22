@@ -186,8 +186,12 @@ class ControllerResponsesCheckoutCart extends AController {
 			$this->tax->setZone($this->request->post['country_id'], $this->request->post['zone_id']);
 		}
 
+		$clear_shipping = false;
 		if ( $this->request->post[ 'shipping_method' ] ) {
 			$shipping = explode('.', $this->request->post[ 'shipping_method' ]);
+			if(!$this->session->data[ 'shipping_method' ]){
+				$clear_shipping = true;
+			}
 			$this->session->data[ 'shipping_method' ] = $this->session->data[ 'shipping_methods' ][ $shipping[ 0 ] ][ 'quote' ][ $shipping[ 1 ] ];
 		}else{
             unset($this->session->data[ 'shipping_address_id' ]);
@@ -200,6 +204,11 @@ class ControllerResponsesCheckoutCart extends AController {
  	  	$this->data = $output;
   		//init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+        //if shipping was not set before calculation - clear it from session
+        if($clear_shipping){
+	        unset($this->session->data[ 'shipping_method' ]);
+        }
 
 		$this->response->setOutput(AJson::encode($this->data));
 	}

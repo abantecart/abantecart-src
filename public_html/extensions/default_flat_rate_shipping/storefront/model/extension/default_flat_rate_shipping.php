@@ -33,28 +33,31 @@ class ModelExtensionDefaultFlatRateShipping extends Model {
 		if ($this->config->get('default_flat_rate_shipping_status')) {
 			$default_cost = $this->config->get('default_flat_rate_shipping_default_cost');
 			$default_tax_class_id = (int)$this->config->get('default_flat_rate_shipping_default_tax_class_id');
+			$default_status = $this->config->get('default_flat_rate_shipping_default_status');
 			//get location_id
 			$sql = "SELECT location_id
 					FROM " . $this->db->table('zones_to_locations')."
 					WHERE country_id = '" . (int)$address['country_id'] . "'
 						AND (zone_id = '" . (int)$address['zone_id'] . "')";
 			$result = $this->db->query($sql);
-			$location_id = (int)$result->row['location_id'];
-
-			if ($location_id) {
-				$cost = $this->config->get('default_flat_rate_shipping_cost_'.$location_id);
-				if($cost !== '' && $cost !== null ) {
-					$tax_class_id = $this->config->get('default_flat_rate_shipping_tax_class_id_' . $location_id);
+			$customer_location_id = (int)$result->row['location_id'];
+			if ($customer_location_id) {
+				$cost = $this->config->get('default_flat_rate_shipping_cost_'.$customer_location_id);
+				$location_status = $this->config->get('default_flat_rate_shipping_status_'.$customer_location_id);
+				if( !$location_status && !$default_status ){
+					$status = false;
+				}elseif($location_status && $cost ) {
+					$tax_class_id = $this->config->get('default_flat_rate_shipping_tax_class_id_' . $customer_location_id);
 					$status = true;
 				}else{
 					//if cost not set - use default cost
-					$location_id = 0;
-					$status = false;
+					$customer_location_id = 0;
+					$status = $default_status;
 				}
 			}
 			//if cost not set or unknown location - try use default settings
-			if(!$location_id) {
-				if ($default_cost === '' || $default_cost === null) {
+			if(!$customer_location_id) {
+				if (empty($default_cost) || !$default_status) {
 					$status = false;
 				} //use default settings for other locations
 				else {

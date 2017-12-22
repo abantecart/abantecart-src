@@ -1,4 +1,4 @@
-//set global sign of allowed 3dparty cookies as true by default. This value might be overridden by test cookie js
+//set global sign of allowed 3d party cookies as true by default. This value might be overridden by test cookie js
 var abc_cookie_allowed = true; 
 var abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
 var abc_token_value = '';
@@ -17,7 +17,7 @@ var init = function() {
 	
 	/******** Load jQuery if not yet loaded (note: supported jquery >= 10 ) *********/
 	if ( window.jQuery === undefined ) {
-		script_loader("//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js");
+		script_loader("//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js");
 		// Poll for jQuery to come into existence
 		var scounter = 0;
 		var checkReady = function(callback, second) {
@@ -41,8 +41,8 @@ var init = function() {
 				main();
 			},
 			function($){
-				//one more attemt to load local library		
-				script_loader("<?php echo $this->templateResource("/javascript/jquery-1.11.0.min.js"); ?>");
+				//one more attempt to load local library
+				script_loader("<?php echo $this->templateResource("/javascript/jquery-1.12.4.min.js"); ?>");
 				checkReady(function($){
 					jQuery = window.jQuery.noConflict(true);
 					main();

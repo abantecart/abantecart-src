@@ -100,7 +100,7 @@ final class APDOMySQL{
 		}
 	}
 
-	public function escape($value){
+	public function escape($value, $with_special_chars = false){
 
 		if (is_array($value)) {
 			$dump = var_export($value, true);
@@ -112,8 +112,8 @@ final class APDOMySQL{
 			return false;
 		}
 
-		$search = array ("\\", "\0", "\n", "\r", "\x1a", "'", '"');
-		$replace = array ("\\\\", "\\0", "\\n", "\\r", "\Z", "\'", '\"');
+		$search = array ("\\", "\0", "\n", "\r", "\x1a", "'", '"', "%");
+		$replace = array ("\\\\", "\\0", "\\n", "\\r", "\Z", "\'", '\"',"\%");
 		return str_replace($search, $replace, $value);
 	}
 

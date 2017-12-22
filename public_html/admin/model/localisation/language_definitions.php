@@ -240,11 +240,11 @@ class ModelLocalisationLanguageDefinitions extends Model {
 			}
 
 			if (isset($filter['language_key']) && !is_null($filter['language_key'])) {
-				$sql .= " AND `language_key` LIKE '%" . $this->db->escape($filter['language_key']) . "%' ";
+				$sql .= " AND `language_key` LIKE '%" . $this->db->escape($filter['language_key'],true) . "%' ";
 			}
 
 			if (isset($filter['name']) && !is_null($filter['name'])) {
-				$sql .= " AND LOWER(l.name) LIKE '%" . $this->db->escape(mb_strtolower($filter['name'])) . "%' ";
+				$sql .= " AND LOWER(l.name) LIKE '%" . $this->db->escape(mb_strtolower($filter['name']),true) . "%' ";
 			}
 
 			//If for total, we done building the query

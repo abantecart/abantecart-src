@@ -194,12 +194,15 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController{
 		$order_info = $this->model_checkout_order->getOrder($order_id);
 		$suspect = false;
 		$message = '';
-		if ($order_info){
-			// check seller email and save message if not equal
-			if ($this->request->post['receiver_email'] != $this->config->get('default_pp_standart_email')){
-
+		if ($order_info) {
+			$order_total = round($order_info['total']*$order_info['value'],2);
+			$currency_code = strtoupper($order_info['currency']);
+			// check seller email and order amount and save message if not equal
+			if($this->request->post['receiver_email'] != $this->config->get('default_pp_standart_email')
+				|| $order_total != round($this->request->post['mc_gross'],2)
+				|| $currency_code != strtoupper($this->request->post['mc_currency'])
+			){
 				$this->load->language('default_pp_standart/default_pp_standart');
-
 				$message .= $this->language->get('text_suspect');
 				$params = array (
 						'payment_status',

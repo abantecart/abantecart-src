@@ -178,7 +178,7 @@
 	</definition>
 	<definition>
 		<key>notice_out_of_stock_body</key>
-		<value><![CDATA[Il prodotto "%s" è esaurito. <br> Per impostazione predefinita il prodotto (%s) è stato disabilitato!]]></value>
+		<value><![CDATA[Il prodotto "%s" è esaurito. <br> Per impostazione predefinita il prodotto (%s) è stato disabilitato! <br> Per maggiori dettagli visita %s]]></value>
 	</definition>
 	<definition>
 		<key>no_payment_required</key>

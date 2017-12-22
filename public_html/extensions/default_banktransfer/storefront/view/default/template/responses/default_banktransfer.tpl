@@ -15,15 +15,15 @@
      <i class="fa fa-arrow-left"></i>
     <?php echo $button_back; ?>
 </a>
-<?php if (!$minimum_notmet) { ?>	
-<a id="checkout" class="btn ml10 pull-right btn-orange lock-on-click">
+<?php if (!$minimum_notmet) { ?>
+<a id="checkout" class="checkout_btn btn ml10 pull-right btn-orange lock-on-click">
     <i class="fa fa-ok fa-white"></i>
     <?php echo $button_confirm; ?>
 </a>
 <?php } ?>
 
 <script type="text/javascript">
-$('#checkout').click(function() {
+$('.checkout_btn').click(function() {
 	$('body').css('cursor','wait');
 	$.ajax({ 
 		type: 'GET',

@@ -660,7 +660,6 @@ h1 a:hover, h2 a:hover, h3  a:hover {
 }
 
 .nav-bracket > li.nav-parent > a:focus {
-   background-color: none;
    color: #EEEEEE;
    -moz-box-shadow: none;
    -webkit-box-shadow: none;
@@ -675,16 +674,15 @@ h1 a:hover, h2 a:hover, h3  a:hover {
 }
 
 .nav-bracket > li.nav-active > a {
-   background-color: #fff;
-	color: #064770;
+   color: #064770;
 	-moz-box-shadow: 0 3px 0 rgba(0,0,0,0.2);
 	-webkit-box-shadow: 0 3px 0 rgba(0,0,0,0.2);
 	box-shadow: 0 3px 0 rgba(0,0,0,0.2);
+	background: white url(../image/minus.png) no-repeat 96% center;
 }
 
 .nav-bracket > li.nav-active > a:hover {
-	background-image: url(../image/minus.png);
-    background-repeat: no-repeat;
+	background: white url(../image/minus.png) no-repeat 96% center;
 }
 
 .nav-bracket > li.nav-active > a:focus {
@@ -705,8 +703,8 @@ h1 a:hover, h2 a:hover, h3  a:hover {
 }
 
 .nav-bracket > li.nav-parent.active > a {
-   background-image: url(../image/plus.png); 
-    background-repeat: no-repeat;   
+   background-image: url(../image/plus.png);
+   background-repeat: no-repeat;
 }
 
 
@@ -3418,4 +3416,8 @@ img.extension-summary-icon{
 
 .ext_store span.review{
 	white-space: nowrap;
+}
+
+.primary_content_actions .btn-group{
+	margin-bottom: 3px;
 }

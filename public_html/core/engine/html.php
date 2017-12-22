@@ -1144,12 +1144,18 @@ class PasswordHtmlElement extends HtmlElement{
 
 		if (!isset($this->default)) $this->default = '';
 		if ($this->value == '' && !empty($this->default)) $this->value = $this->default;
+		if ( !$this->required && $this->value ){
+			$value = str_repeat('*',10);
+		}else{
+			$value = '';
+		}
 
 		$this->view->batchAssign(
 				array (
 						'name'           => $this->name,
 						'id'             => $this->element_id,
 						'type'           => 'password',
+						'value'          => $value,
 						'has_value'      => ($this->value) ? 'Y' : 'N',
 						'attr'           => $this->attr,
 						'required'       => $this->required,
@@ -1655,12 +1661,7 @@ class FormHtmlElement extends HtmlElement{
 					)
 			);
 		}
-
-		if (IS_ADMIN === true){
-			return $this->view->fetch('form/form_open.tpl');
-		} else {
-			return $this->view->fetch('form/form_open.tpl') . $this->view->fetch('form/form_csrf.tpl');
-		}
+		return $this->view->fetch('form/form_open.tpl') . $this->view->fetch('form/form_csrf.tpl');
 	}
 }
 

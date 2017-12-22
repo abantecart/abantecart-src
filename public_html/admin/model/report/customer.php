@@ -148,7 +148,7 @@ class ModelReportCustomer extends Model {
 		}
 		//filter for first and last name
 		if (has_value($filter['customer'])) {
-			$implode[] = "CONCAT(o.firstname, ' ', o.lastname) LIKE '%" . $this->db->escape($filter['customer']) . "%' collate utf8_general_ci";
+			$implode[] = "CONCAT(o.firstname, ' ', o.lastname) LIKE '%" . $this->db->escape($filter['customer'],true) . "%' collate utf8_general_ci";
 		}
 
 		if ($implode) {
@@ -251,7 +251,7 @@ class ModelReportCustomer extends Model {
 		}	
 		//filter for first and last name
 		if (has_value($filter['customer'])) {
-			$implode[] = "CONCAT(c.firstname, ' ', c.lastname) LIKE '%" . $this->db->escape($filter['customer']) . "%' collate utf8_general_ci";
+			$implode[] = "CONCAT(c.firstname, ' ', c.lastname) LIKE '%" . $this->db->escape($filter['customer'],true) . "%' collate utf8_general_ci";
 		}
 		
 		if ($implode) {

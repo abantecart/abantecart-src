@@ -113,9 +113,10 @@ final class AMySQLi{
 
 	/**
 	 * @param string $value
+	 * @param bool $with_special_chars
 	 * @return string
 	 */
-	public function escape($value){
+	public function escape($value, $with_special_chars = false){
 		if (is_array($value)) {
 			$dump = var_export($value, true);
 			$backtrace = debug_backtrace();
@@ -125,8 +126,12 @@ final class AMySQLi{
 			$error->toLog()->toDebug()->toMessages();
 			return false;
 		}
-			return $this->connection->real_escape_string((string)$value);
+		$output = $this->connection->real_escape_string((string)$value);
+		if($with_special_chars) {
+			$output = str_replace('%', '\%', $output);
 		}
+		return $output;
+	}
 
 	/**
 	 * @return int

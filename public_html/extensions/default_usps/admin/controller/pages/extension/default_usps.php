@@ -28,14 +28,14 @@ class ControllerPagesExtensionDefaultUsps extends AController{
 			'default_usps_user_id',
 			'default_usps_password',
 			'default_usps_postcode',
-			'default_usps_domestic_00',
-			'default_usps_domestic_01',
-			'default_usps_domestic_02',
-			'default_usps_domestic_03',
-			'default_usps_domestic_04',
-			'default_usps_domestic_05',
-			'default_usps_domestic_06',
-			'default_usps_domestic_07',
+			'default_usps_domestic_0',
+			'default_usps_domestic_1',
+			'default_usps_domestic_2',
+			'default_usps_domestic_3',
+			'default_usps_domestic_4',
+			'default_usps_domestic_5',
+			'default_usps_domestic_6',
+			'default_usps_domestic_7',
 			'default_usps_domestic_12',
 			'default_usps_domestic_13',
 			'default_usps_domestic_16',
@@ -216,7 +216,6 @@ class ControllerPagesExtensionDefaultUsps extends AController{
 		$options = array();
 		foreach($domestic as $i){
 			$title = 'domestic_' . $i;
-			$i = sprintf('%02d',$i);
 			$name = 'default_usps_domestic_' . $i;
 			$this->data['form']['fields']['domestic'][$title] = $form->getFieldHtml(array(
 					'type'  => 'checkbox',

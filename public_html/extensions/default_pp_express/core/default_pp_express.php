@@ -317,7 +317,7 @@ class ExtensionDefaultPPExpress extends Extension {
 		if ( $that->request->get['mode'] == 'edit' ) {
 			unset($that->session->data['pp_express_checkout']);
 		}
-		// if coupon code was submited
+		// if coupon code was submitted
 		if ( has_value($that->request->post['coupon'] )){
 			$promotion = new APromotion();
 			$coupon = $promotion->getCouponData($that->request->post['coupon']);

@@ -274,6 +274,10 @@ class ModelExtensionDefaultUsps extends Model{
 					 */
 					$package = $rate_response->getElementsByTagName('Package')->item(0);
 					/**
+					 * @var $error DOMElement
+					 */
+					$error = $package->getElementsByTagName('Error')->item(0);
+					/**
 					 * @var  DOMElement $postages
 					 */
 					$postages = $package->getElementsByTagName('Postage');
@@ -331,10 +335,7 @@ class ModelExtensionDefaultUsps extends Model{
 							}
 						}
 					} else {
-						/**
-						 * @var $error DOMElement
-						 */
-						$error = $package->getElementsByTagName('Error')->item(0);
+
 						$method_data = array (
 								'id'         => 'default_usps',
 								'title'      => $language->get('text_title'),

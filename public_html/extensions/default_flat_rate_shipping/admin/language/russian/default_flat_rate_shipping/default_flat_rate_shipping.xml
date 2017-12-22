@@ -13,6 +13,10 @@
     <value><![CDATA[Успешно: Вы изменили Фиксированную стоимость доставки!]]></value>
   </definition>
   <definition>
+    <key>default_flat_rate_shipping_status</key>
+    <value><![CDATA[Статус:]]></value>
+  </definition>
+  <definition>
     <key>default_flat_rate_shipping_cost</key>
     <value><![CDATA[Стоимость:]]></value>
   </definition>

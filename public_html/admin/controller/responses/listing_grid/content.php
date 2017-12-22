@@ -144,7 +144,7 @@ class ControllerResponsesListingGridContent extends AController{
 				if (!empty($ids))
 					foreach ($ids as $id){
 						if (is_int(strpos($id, '_'))){
-							list($parent_content_id, $content_id) = explode('_', $id);
+							list(, $content_id) = explode('_', $id);
 						} else{
 							$content_id = $id;
 						}
@@ -169,6 +169,7 @@ class ControllerResponsesListingGridContent extends AController{
 					//resort required. 
 					if ($this->request->post['resort'] == 'yes'){
 						//get only ids we need
+						$array = array();
 						foreach ($ids as $id){
 							$array[$id] = $this->request->post['sort_order'][$id];
 						}
@@ -213,7 +214,7 @@ class ControllerResponsesListingGridContent extends AController{
 					       'reset_value' => true
 					));
 		}
-		$allowedFields = array_merge(array ('title', 'description', 'keyword', 'store_id', 'sort_order', 'status', 'parent_content_id'), (array)$this->data['allowed_fields']);
+		$allowedFields = array_merge(array ('title', 'description', 'keyword', 'meta_description', 'meta_keywords', 'store_id', 'sort_order', 'status', 'parent_content_id'), (array)$this->data['allowed_fields']);
 
 		if (isset($this->request->get['id'])){
 			//request sent from edit form. ID in url
@@ -221,6 +222,7 @@ class ControllerResponsesListingGridContent extends AController{
 				if (!in_array($field, $allowedFields)){
 					continue;
 				}
+				$parent_content_id = null;
 				if ($field == 'keyword'){
 					if ($err = $this->html->isSEOkeywordExists('content_id=' . $this->request->get['id'], $value)){
 						$error = new AError('');
@@ -229,7 +231,7 @@ class ControllerResponsesListingGridContent extends AController{
 				}
 				if ($field == 'sort_order'){
 					// NOTE: grid quicksave ids are not the same as id from form quick save request!
-					list($void, $parent_content_id) = explode('_', key($value));
+					list(, $parent_content_id) = explode('_', key($value));
 					$value = current($value);
 				}
 

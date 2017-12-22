@@ -1235,6 +1235,10 @@ a.compare>img{
 #popularbrands img.internal {
 	height: 56px;
 }
+#popularbrands .image>a {
+	height: 56px;
+	display: block;
+}
 
 .clearfix, .clr_both {
 	float: none;
@@ -1537,7 +1541,7 @@ ul.rate li.off {
 .productpageoldprice {
 	font-size: 16px;
 	text-decoration: line-through;;
-	margin-left: 0
+	margin-left: 5px;
 }
 .productpricesmall {
 	font-size: 16px;
@@ -3785,7 +3789,7 @@ paypal pro styles
 	}
 
 	.cart-info.product-list table tr td:nth-child(3), .cart-info.product-list table tr th:nth-child(3),
-	.cart-info.product-list table tr td:nth-child(5), .cart-info.product-list table tr th:nth-child(5){
+	.cart-info.product-list table tr td:nth-child(6), .cart-info.product-list table tr th:nth-child(6){
 		display: none !important;
 		visibility: hidden !important;
 	}
@@ -4125,6 +4129,9 @@ paypal pro styles
 		box-shadow: none;
 	}
 
+	.headerdetails ul.topcart {
+		width: 250px;
+	}
 	.headerdetails ul.topcartopen {
 		width: 250px;
 	}
@@ -4237,7 +4244,7 @@ paypal pro styles
 
 	.cart-info.product-list table tr td:nth-child(1), .cart-info.product-list table tr th:nth-child(1),
 	.cart-info.product-list table tr td:nth-child(3), .cart-info.product-list table tr th:nth-child(3),
-	.cart-info.product-list table tr td:nth-child(5), .cart-info.product-list table tr th:nth-child(5),
+	.cart-info.product-list table tr td:nth-child(6), .cart-info.product-list table tr th:nth-child(6),
 	.invoice_products.table tr td:nth-child(2), .invoice_products.table tr th:nth-child(2),
 	.invoice_products.table tr td:nth-child(3), .invoice_products.table tr th:nth-child(3) {
 		display: none !important;

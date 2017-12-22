@@ -423,6 +423,7 @@ class ControllerPagesSaleCoupon extends AController {
             'value' => $this->data['coupon_description'][$cont_lang_id]['name'],
             'required' => true,
             'style' => 'large-field',
+            'multilingual' => true,
         ));
         $this->data['form']['fields']['description'] = $form->getFieldHtml(array(
             'type' => 'textarea',
@@ -430,6 +431,7 @@ class ControllerPagesSaleCoupon extends AController {
             'value' => $this->data['coupon_description'][$cont_lang_id]['description'],
             'required' => true,
             'style' => 'large-field',
+            'multilingual' => true,
         ));
         $this->data['form']['fields']['code'] = $form->getFieldHtml(array(
             'type' => 'input',

@@ -192,12 +192,12 @@ class ModelLocalisationCurrency extends Model {
 	 *
 	 * @throws AException
 	 */
+
 	public function updateCurrencies() {
-		if (extension_loaded('curl')) {
 			$this->load->model('setting/setting');
 			$settings = $this->model_setting_setting->getSetting('details', 0);
+			$api_key = isset($settings['alphavantage_api_key']) && $settings['alphavantage_api_key'] ? $settings['alphavantage_api_key'] : 'P6WGY9G9LB22GMBJ';
 			$base_currency_code = $settings['config_currency'];
-			$data = array();
 
 			$query = $this->db->query("SELECT *
 									   FROM " . $this->db->table("currencies") . " 
@@ -205,31 +205,27 @@ class ModelLocalisationCurrency extends Model {
 									        AND date_modified > '" . date(strtotime('-1 day')) . "'");
 
 			foreach ($query->rows as $result) {
-				$data[ ] = $base_currency_code . $result[ 'code' ] . '=X';
-			}
+				$url = 'https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency='.$base_currency_code.'&to_currency='.$result['code'].'&apikey='.$api_key;
+				$connect = new AConnect(true);
+				$json = $connect->getData($url);
 
-			$url = 'http://download.finance.yahoo.com/d/quotes.csv?s=' . implode(',', $data) . '&f=sl1&e=.csv';
-			$connect = new AConnect(true);
-			$content = $connect->getData($url);
-			$lines = explode("\n", trim($content));
-
-			foreach ($lines as $line) {
-				$currency = substr($line, 4, 3);
-				$value = substr($line, 11, 6);
-				if ((float)$value) {
-					$sql = "UPDATE " . $this->db->table("currencies") . " 
-							SET value = '" . (float)$value . "', date_modified = NOW()
-							WHERE code = '" . $this->db->escape($currency) . "'";
-					$this->db->query($sql);
+				if (!isset($json["Error Message"])) {
+					$value = (float) $json["Realtime Currency Exchange Rate"]["5. Exchange Rate"];
+					$this->db->query(
+							"UPDATE " . $this->db->table("currencies") . " 
+							SET value = '" . $value . "', 
+								date_modified = NOW() 
+							WHERE code = '" . $this->db->escape($result['code']) . "'");
 				}
 			}
+
 			$sql = "UPDATE " . $this->db->table("currencies") . " 
 							  SET value = '1.00000',
 							      date_modified = NOW()
 							  WHERE code = '" . $this->db->escape($base_currency_code) . "'";
 			$this->db->query($sql);
 			$this->cache->remove('localization');
-		}
+
 	}
 
 	/**

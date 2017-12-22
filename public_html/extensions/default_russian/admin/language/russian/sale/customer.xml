@@ -368,4 +368,8 @@
 		<key>text_other_type_placeholder</key>
 		<value><![CDATA[введите новое имя здесь]]></value>
 	</definition>
+	<definition>
+		<key>text_register_date</key>
+		<value><![CDATA[Дата регистрации:]]></value>
+	</definition>
 </definitions>

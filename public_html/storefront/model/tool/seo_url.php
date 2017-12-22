@@ -123,7 +123,7 @@ class ModelToolSeoUrl extends Model {
 				$aliases = array ();
 				$sql = "SELECT query, keyword
 					FROM " . $this->db->table('url_aliases') . "
-					WHERE `query` LIKE '" . $this->db->escape($param_key) . "=%'
+					WHERE `query` LIKE '" . $this->db->escape($param_key, true) . "=%'
 						AND language_id='" . $language_id . "'";
 				$result = $this->db->query($sql);
 

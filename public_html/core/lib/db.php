@@ -91,8 +91,8 @@ final class ADB{
 		return $this->driver->query($sql, $noexcept);
 	}
 
-	public function escape($value){
-		return $this->driver->escape($value);
+	public function escape($value, $with_special_chars = false){
+		return $this->driver->escape($value, $with_special_chars);
 	}
 
 	/**

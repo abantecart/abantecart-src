@@ -280,4 +280,8 @@
 		<key>entry_free_international_method</key>
 		<value><![CDATA[Option for free shipping of international parcels  <span class="help">Please select what method will chosen for case when cart contains only products with free shipping</span>]]></value>
 	</definition>
+	<definition>
+		<key>default_usps_debug</key>
+		<value><![CDATA[Debug Logging Status]]></value>
+	</definition>
 </definitions>

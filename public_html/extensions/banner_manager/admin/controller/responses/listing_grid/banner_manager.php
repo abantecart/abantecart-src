@@ -411,10 +411,10 @@ class ControllerResponsesListingGridBannerManager extends AController {
 			$rm = new AResourceManager();
 			$rm->setType('image');
 
-			$filter = array( 'subsql_filter' => "b.target_url LIKE '%".$this->db->escape($this->request->post['term'])."%'
-												OR bd.name LIKE '%".$this->db->escape($this->request->post['term'])."%'
-												OR bd.description LIKE '%".$this->db->escape($this->request->post['term'])."%'
-												OR bd.meta LIKE '%".$this->db->escape($this->request->post['term'])."%'",
+			$filter = array( 'subsql_filter' => "b.target_url LIKE '%".$this->db->escape($this->request->post['term'],true)."%'
+												OR bd.name LIKE '%".$this->db->escape($this->request->post['term'],true)."%'
+												OR bd.description LIKE '%".$this->db->escape($this->request->post['term'],true)."%'
+												OR bd.meta LIKE '%".$this->db->escape($this->request->post['term'],true)."%'",
 							'limit' => 20 );
 			$banners = $this->model_extension_banner_manager->getBanners($filter);
 

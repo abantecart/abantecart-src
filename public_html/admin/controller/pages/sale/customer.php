@@ -380,6 +380,10 @@ class ControllerPagesSaleCustomer extends AController{
 				$date = $this->language->get('text_never');
 			}
 			$this->data['last_login'] = $this->language->get('text_last_login').' '.$date;
+			if($customer_info['date_added'] && !in_array($customer_info['date_added'], array('0000-00-00 00:00:00', '1970-01-01 00:00:00'))){
+				$date =  dateISO2Display($customer_info['date_added'],$this->language->get('date_format_short').' '.$this->language->get('time_format'));
+				$this->data['register_date'] = $this->language->get('text_register_date').' '.$date;
+			}
 		}
 
 		foreach ($this->data['addresses'] as &$a){

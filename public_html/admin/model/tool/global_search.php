@@ -148,8 +148,8 @@ class ModelToolGlobalSearch extends Model {
 	public function getTotal($search_category, $keyword) {
 
 		// two variants of needles for search: with and without html-entities
-		$needle = $this->db->escape(mb_strtolower(htmlentities($keyword, ENT_QUOTES)));
-		$needle2 = $this->db->escape(mb_strtolower($keyword));
+		$needle = $this->db->escape(mb_strtolower(htmlentities($keyword, ENT_QUOTES)),true);
+		$needle2 = $this->db->escape(mb_strtolower($keyword),true);
 
 		$language_id = (int)$this->config->get('storefront_language_id');
 

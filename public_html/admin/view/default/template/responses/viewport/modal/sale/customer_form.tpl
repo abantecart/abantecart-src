@@ -35,6 +35,9 @@
 			</div>	
 					
 			<div class="btn-group mr10 toolbar">
+				<?php if($register_date){?>
+				<a class="btn btn-white disabled"><?php echo $register_date; ?></a>
+				<?php } ?>
 				<a class="btn btn-white disabled"><?php echo $last_login; ?></a>
 				<a class="btn btn-white disabled"><?php echo $balance; ?></a>
 				<a target="_blank"

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>default_worldpay_name</key>
+		<value><![CDATA[WorldPay]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Оплата]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Успешно: Вы изменили детали WorldPay аккаунта!]]></value>
+	</definition>
+	<definition>
+		<key>text_successful</key>
+		<value><![CDATA[Включено - Всегда успешно]]></value>
+	</definition>
+	<definition>
+		<key>text_declined</key>
+		<value><![CDATA[Включено - Всегда Отклонено]]></value>
+	</definition>
+	<definition>
+		<key>text_off</key>
+		<value><![CDATA[От]]></value>
+	</definition>
+	<definition>
+		<key>default_worldpay_merchant</key>
+		<value><![CDATA[ID продавца:]]></value>
+	</definition>
+	<definition>
+		<key>default_worldpay_password</key>
+		<value>
+			<![CDATA[Пароль ответа платежной системы:<br /><span class="help">Должен быть указан в панели управления WordPay.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_worldpay_test</key>
+		<value><![CDATA[Тестовый режим:]]></value>
+	</definition>
+	<definition>
+		<key>default_worldpay_test_0</key>
+		<value><![CDATA[От]]></value>
+	</definition>
+	<definition>
+		<key>default_worldpay_test_100</key>
+		<value><![CDATA[Включено - Всегда Успешно]]></value>
+	</definition>
+	<definition>
+		<key>default_worldpay_test_101</key>
+		<value><![CDATA[Включено - Всегда Отклонено]]></value>
+	</definition>
+	<definition>
+		<key>default_worldpay_order_status_id</key>
+		<value><![CDATA[Статус заказа:]]></value>
+	</definition>
+	<definition>
+		<key>default_worldpay_location_id</key>
+		<value><![CDATA[Географическая зона:]]></value>
+	</definition>
+	<definition>
+		<key>default_worldpay_location_id_0</key>
+		<value><![CDATA[Все местоположения]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Предупреждение: Вы не имеете прав на изменение WorldPay!]]></value>
+	</definition>
+	<definition>
+		<key>error_merchant</key>
+		<value><![CDATA[ID продавца обязательно!]]></value>
+	</definition>
+	<definition>
+		<key>error_password</key>
+		<value><![CDATA[Требуется пароль!]]></value>
+	</definition>
+</definitions>

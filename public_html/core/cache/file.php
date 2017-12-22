@@ -119,14 +119,19 @@ class ACacheDriverFile extends ACacheDriver{
 		$saved = false;
 
 		$data = $this->security_code . $data;
+		if(!is_dir(dirname($path))){
+		    mkdir(dirname($path));
+        }
 		$fileopen = @fopen($path, "wb");
 		if ($fileopen){
 			$len = strlen($data);
 			if (@fwrite($fileopen, $data, $len) !== false) {
 				$saved = true;
+				//update modification time
+				touch($path);
 			}
+			@fclose($fileopen);
 		}
-		@fclose($fileopen);
 
 		if ($saved){
 			return true;
@@ -172,13 +177,13 @@ class ACacheDriverFile extends ACacheDriver{
 
 		if (trim($group) == '*'){
 			$dirs = $this->_get_directories($this->path);
-    		for ($i = 0, $n = count($dirs); $i < $n; $i++){
-   				$return |= $this->_delete_directory($dirs[$i]);
-    		}
+			for ($i = 0, $n = count($dirs); $i < $n; $i++){
+				$return |= $this->_delete_directory($dirs[$i]);
+			}
 		} else if($group) {
 			if (is_dir($this->path . $group)){
-			    $return = $this->_delete_directory($this->path . $group);
-			}		
+				$return = $this->_delete_directory($this->path . $group);
+			}
 		}
 
 		return $return;
@@ -370,9 +375,11 @@ class ACacheDriverFile extends ACacheDriver{
 		}
 		//rename folder to prevent recreation by other process
 		$new_path = $path.'_trash';
+		$renamed = false;
 		if(!is_dir($new_path)){
 			if(rename($path, $new_path)){
 				$path = $new_path;
+				$renamed = true;
 			}
 		}
 
@@ -408,14 +415,16 @@ class ACacheDriverFile extends ACacheDriver{
 				return false;
 			}
 		}
-
-		if (@rmdir($path)){
-			$ret = true;
-		} else {
-			$err_text = sprintf('Error: Cannot delete cache directory: %s! No permissions to delete.', $path);
-			$error = new AError($err_text);
-			$error->toLog()->toDebug();
-			$ret = false;
+		$ret = true;
+		if($renamed) {
+			if (@rmdir($path)) {
+				$ret = true;
+			} else {
+				$err_text = sprintf('Error: Cannot delete cache directory: %s! No permissions to delete.', $path);
+				$error = new AError($err_text);
+				$error->toLog()->toDebug();
+				$ret = false;
+			}
 		}
 		return $ret;
 	}

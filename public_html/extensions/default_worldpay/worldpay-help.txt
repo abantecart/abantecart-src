@@ -1,0 +1,13 @@
+Worldpay Help
+
+Load the two files
+resultY.html
+resultC.html
+into the WorldPay Business Manager, Setup,  Payment pages, File Management.
+These files are not used directly but their presence seems to be necessary to make the response templates default_worldpay_success.tpl
+and default_worldpay_failure.tpl work.  Otherwise you get callback failure messages.
+
+You need to set up in WorldPay Business Manager Setup, for Payment Response URL:  <wpdisplay item=MC_callback>
+also the Payment Response Password and the MD5 secret as in the Admin page,
+and Signature fields:    
+currency:amount:testMode:instId     

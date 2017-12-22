@@ -54,6 +54,8 @@ class ControllerPagesContentContent extends AController {
 		$content_info = $this->model_catalog_content->getContent($content_id);
 		if ($content_info) {
 	  		$this->document->setTitle( $content_info['title'] );
+			$this->document->setKeywords($content_info['meta_keywords']);
+			$this->document->setDescription($content_info['meta_description']);
 
       		$this->document->addBreadcrumb( array ( 
         		'href'      => $this->html->getSEOURL('content/content', '&content_id=' . $request['content_id'], true),

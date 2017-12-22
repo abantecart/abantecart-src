@@ -372,4 +372,8 @@
 		<key>text_other_type_placeholder</key>
 		<value><![CDATA[escriba el nuevo nombre aquí]]></value>
 	</definition>
+	<definition>
+		<key>text_register_date</key>
+		<value><![CDATA[Fecha de registro:]]></value>
+	</definition>
 </definitions>

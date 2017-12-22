@@ -20,12 +20,12 @@
 				<div class="row">
 				    <?php echo $this->getHookVar('cart_top_pre_buttons_hook'); ?>
 
-					<div class="col-sm-6 text-center">
+					<div class="col-sm-6 col-xs-6 text-center">
 					    <a class="btn btn-default" href="<?php echo $view; ?>" title="<?php echo $text_view;?>">
 							<i class="fa fa-shopping-cart fa-fw"></i>
 						</a>
 					</div>
-					<div class="col-sm-6 text-center">
+					<div class="col-sm-6 col-xs-6  text-center">
 				    	<a class="btn btn-primary" href="<?php echo $checkout; ?>" title="<?php echo $text_checkout; ?>">
 							<i class="fa fa-money fa-fw"></i>
 						</a>
