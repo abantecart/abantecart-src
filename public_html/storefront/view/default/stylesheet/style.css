@@ -1235,6 +1235,10 @@ a.compare>img{
 #popularbrands img.internal {
 	height: 56px;
 }
+#popularbrands .image>a {
+	height: 56px;
+	display: block;
+}
 
 .clearfix, .clr_both {
 	float: none;
