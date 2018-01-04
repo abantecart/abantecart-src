@@ -183,14 +183,13 @@ class ModelExtensionCardConnect extends Model {
 			'tokenize'   => 'Y',
 			'profile'    => $profile_id,
 			'capture'    => $capture,
-			'bankaba'    => $bankaba,
-			'frontendid' => $order_info['order_id']
+			'bankaba'    => $bankaba
 		);
 
 		$this->_log('CardConnect '.($capture == 'Y' ? 'capture' : 'authorize').' transaction. Request: '.var_export($data, true));
 		try{
 			$response_data = $this->client->authorizeTransaction($data);
-		} catch(AException $e) {
+		} catch(Pest_Exception $e) {
 			$this->_log('CardConnect Rest Library Error! '.$e->getMessage());
 			$response_data = array();
 		}
@@ -236,11 +235,12 @@ class ModelExtensionCardConnect extends Model {
 			$this->model_checkout_order->addHistory(
 				$pd['order_id'],
 				0,
-				"Payment status: {$response_data['resptext']}, Transaction Number: {$response_data['retref']}"
+				"Payment status: ".(isset($response_data['resptext']) ? $response_data['resptext'] : 'unknown').", 
+				Transaction Number: ".(isset($response_data['retref']) ? $response_data['retref'] : 'unknown')
 			);
-			$this->_log("Update order {$pd['order_id']} with: {$response_data['resptext']}");
+			$this->_log("Update order {$pd['order_id']} with: ".(isset($response_data['resptext']) ? $response_data['resptext'] : 'unknown'));
 
-			$response['error'] = $response_data['resptext'];
+			$response['error'] = (isset($response_data['resptext']) ? $response_data['resptext'] : 'Transaction declined!');
 		}
 		return $response;
 	}

@@ -11,11 +11,19 @@ class ControllerResponsesExtensionCardConnect extends AController {
 
 	public function test() {
 		$this->loadLanguage('cardconnect/cardconnect');
+		$test_mode = $this->config->get('cardconnect_test_mode') ? 'ON' : 'OFF';
 		$port = $this->config->get('cardconnect_test_mode') ? 6443 : 8443;
 		$api_endpoint  = 'https://' . $this->config->get('cardconnect_site') . ':'.$port.'/cardconnect/rest/';
-		require_once DIR_EXT.'cardconnect/core/lib/CardConnectRestClient.php';
-		$client = new CardConnectRestClient($api_endpoint, $this->config->get('cardconnect_username'), $this->config->get('cardconnect_password'));
-		$response = $client->settlementStatus($this->config->get('cardconnect_merchant_id'), date("md", mktime(0,0,0,date('d')-1,date('m'),date('Y'))));
+		$merchid = $this->config->get('cardconnect_merchant_id');
+		require_once DIR_EXT . 'cardconnect/core/lib/pest/PestJSON.php';
+		$pest = new PestJSON($api_endpoint);
+		$pest->throw_exceptions = false;
+		try{
+			$pest->setupAuth($this->config->get('cardconnect_username'), $this->config->get('cardconnect_password'));
+			$response = $pest->put($api_endpoint."auth", array('merchid' =>$merchid));
+		}catch(Pest_Exception $e){
+			$response = null;
+		}
 
 		if ( empty($response) ) {
 			$json['message'] = "Connection to CardConnect server can not be established. Check your server configuration or contact your hosting provider.";
