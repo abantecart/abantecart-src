@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension>
 	<id>cardconnect</id>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<type>payment</type>
-	<category>Payment &amp;amp; Shipping</category>
+	<category>Payment</category>
 	<cartversions>
 		<item>1.2</item>
 	</cartversions>
