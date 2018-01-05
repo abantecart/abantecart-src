@@ -88,7 +88,7 @@
 				<label class="col-sm-4 control-label"><?php echo $entry_cc_number; ?></label>
 				<div class="col-sm-5 input-group controls">
 				<?php
-				$port = $this->config->get('cardconnect_test') ? 6443 : 8443;
+				$port = $this->config->get('cardconnect_test_mode') ? 6443 : 8443;
 				?>
 				<iframe id="tokenframe"
 							name="tokenframe"
