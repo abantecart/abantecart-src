@@ -1,5 +1,5 @@
 <?php
-/*------------------------------------------------------------------------------
+/*----suppresses--------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
@@ -34,6 +34,10 @@ require_once(DIR_CORE . '/lib/exceptions/exception.php');
  * @return null
  */
 function ac_error_handler($errno, $errstr, $errfile, $errline){
+	if ( error_reporting() == 0 ) {
+		// Error reporting is currently turned off or suppressed with @
+		return null;
+	}
 
 	if (class_exists('Registry')){
 		$registry = Registry::getInstance();
