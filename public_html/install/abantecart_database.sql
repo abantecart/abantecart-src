@@ -1829,10 +1829,10 @@ DROP TABLE IF EXISTS `ac_store_descriptions`;
 CREATE TABLE `ac_store_descriptions` (
   `store_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `description` longtext NOT NULL COMMENT 'translatable',
-  `title` longtext NOT NULL COMMENT 'translatable',
-  `meta_description` longtext NOT NULL COMMENT 'translatable',
-  `meta_keywords` longtext NOT NULL COMMENT 'translatable',
+  `description` longtext NULL DEFAULT '' COMMENT 'translatable',
+  `title` longtext NULL DEFAULT '' COMMENT 'translatable',
+  `meta_description` longtext NULL DEFAULT '' COMMENT 'translatable',
+  `meta_keywords` longtext NULL DEFAULT '' COMMENT 'translatable',
   PRIMARY KEY (`store_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
