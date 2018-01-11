@@ -174,20 +174,20 @@ class ControllerPagesProductProduct extends AController{
 
 		if($this->config->get('enable_reviews')){
 			$average = $this->model_catalog_review->getAverageRating($product_id);
+			$this->data['rating_element'] = HtmlElementFactory::create(
+								array (
+										'type'    => 'rating',
+										'name'    => 'rating',
+										'value'   => '',
+										'options' => array (1 => 1, 2, 3, 4, 5),
+										'pack'    => true,
+								));
 		} else{
 			$average = false;
 		}
 
 		$this->data['review_status'] = $this->config->get('enable_reviews');
 		$this->data['text_stars'] = sprintf($this->language->get('text_stars'), $average);
-		$this->data['rating_element'] = HtmlElementFactory::create(
-				array(
-						'type'    => 'rating',
-						'name'    => 'rating',
-						'value'   => '',
-						'options' => array(1 => 1, 2, 3, 4, 5),
-						'pack'    => true,
-				));
 		$this->data['review_name'] = HtmlElementFactory::create(
 				array(
 						'type' => 'input',
