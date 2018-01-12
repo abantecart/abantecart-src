@@ -62,7 +62,7 @@
 					};
 					stripe.createToken(card, extraDetails).then(function(result){
 						if (result.error) {
-							resetLockBtn();
+							try{ resetLockBtn(); }catch(e){}
 							alert( result.error.message );
 							submitSent = false;
 						} else {
