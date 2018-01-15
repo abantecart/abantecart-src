@@ -91,7 +91,7 @@ class ACacheDriverFile extends ACacheDriver{
 
 		if ($check_expire === false || ($check_expire === true && $this->_checkExpire($key, $group) === true)){
 			if (file_exists($path)){
-				$data = file_get_contents($path);
+				$data = @file_get_contents($path);
 				if ($data){
 					// Remove security code line
 					$data = str_replace($this->security_code, '', $data);
@@ -122,6 +122,7 @@ class ACacheDriverFile extends ACacheDriver{
 		if(!is_dir(dirname($path))){
 		    mkdir(dirname($path));
         }
+        @touch($path);
 		$fileopen = @fopen($path, "wb");
 		if ($fileopen){
 			$len = strlen($data);
@@ -331,7 +332,9 @@ class ACacheDriverFile extends ACacheDriver{
 		if (!is_dir($dir)){
 			// Make sure the index file is there
 			$indexFile = $dir . '/index.php';
-			@mkdir($dir) && file_put_contents($indexFile, "<?php die('Restricted Access!'); ?>");
+			if(mkdir($dir,0777,true)) {
+				file_put_contents($indexFile, "<?php die('Restricted Access!'); ?>");
+			}
 		}
 
 		// Double check that folder now exists
