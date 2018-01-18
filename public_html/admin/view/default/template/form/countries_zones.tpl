@@ -1,3 +1,4 @@
+<?php $value = (array)$value; ?>
 <select name="<?php echo $name ?>" id="<?php echo $id ?>" class="form-control aselect <?php echo $style; ?>" data-placeholder="<?php echo $placeholder ?>" <?php echo $attr ?>>
 	<?php foreach ( $options as $v => $text ) { ?>
 		<option value="<?php echo $v ?>"

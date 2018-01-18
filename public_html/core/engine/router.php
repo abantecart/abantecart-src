@@ -246,6 +246,7 @@ final class ARouter{
 		}
 		//process path and try to locate the controller
 		foreach ($path_nodes as $path_node){
+			$path_node = trim($path_node);
 			$path_build .= $path_node;
 			if (is_dir($dir_app . $path_build)){
 				$path_build .= '/';
@@ -254,7 +255,7 @@ final class ARouter{
 			}
 
 			if (is_file($dir_app . $path_build . '.php')){
-				//Controller found. Save informaion and return TRUE
+				//Controller found. Save information and return TRUE
 				//Set controller and method for future use
 				$this->controller = $type . '/' . $path_build;
 				//Last part is the method of function to call
