@@ -21,6 +21,12 @@ if (!defined('DIR_CORE')){
 	header('Location: static_pages/');
 }
 
+/**
+ * Class AdminCommands
+ * @property ALanguageManager $language
+ * @property ALoader $load
+ * @property AHtml $html
+  */
 class AdminCommands{
 	protected $registry;
 	public $errors = 0;
@@ -53,8 +59,6 @@ class AdminCommands{
 			throw new AException (AC_ERR_LOAD, 'Error: permission denied to access class AdminCommands');
 		}
 		$this->registry = Registry::getInstance();
-
-		$result = array ();
 		$text_data = $this->language->getASet('common/action_commands');
 		$keys = preg_grep("/^command.*/", array_keys($text_data));
 		foreach ($keys as $key){
@@ -76,7 +80,7 @@ class AdminCommands{
 		if (!$keyword){
 			return array ();
 		}
-
+		$result = array();
 		//search for possible commands
 		foreach ($this->commands as $key => $command){
 			$variations = explode(',', $command);
@@ -94,7 +98,7 @@ class AdminCommands{
 					$result['command'] = $test;
 					$result['key'] = $key;
 					$result['request'] = $matches[1];
-					//no breack. Take last matching command
+					//no break. Take last matching command
 				}
 			}
 		}
@@ -106,7 +110,7 @@ class AdminCommands{
 			//call method to perform action on the request in the command
 			$function = "_" . $result['key'];
 			if (method_exists($this, $function)){
-				//fillter duplicates and empty
+				//filter duplicates and empty
 				$result['found_actions'] = $this->_filter_result($this->$function($result['request']));
 			} else{
 				//no right method to process found
@@ -179,20 +183,14 @@ class AdminCommands{
 
 	private function _command_view_log($request){
 		$result = array ();
-		$request = trim($request);
-
 		$result[0]["url"] = $this->html->getSecureURL('tool/error_log');
-
 		return $result;
 	}
 
 	private function _command_clear_log($request){
 		$result = array ();
-		$request = trim($request);
-
 		$result[0]["url"] = $this->html->getSecureURL('tool/error_log/clearlog');
 		$result[0]["confirmation"] = true;
-
 		return $result;
 	}
 

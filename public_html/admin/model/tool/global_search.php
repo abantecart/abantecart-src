@@ -827,11 +827,11 @@ class ModelToolGlobalSearch extends Model {
 		$result = $commands_obj->getCommands($keyword);
 
 		if($mode == 'total'){
-			return count($result['found_actions']);
+			return ($result && isset($result['found_actions']) ? count($result['found_actions']) : 0);
 		}
 
 		$ret = array();
-		if($result['found_actions']) {
+		if(isset($result['found_actions'])) {
 			foreach($result['found_actions'] as $command) {
 				$ret[] = array(
 					'text' => $result['command']." ".$command['title']." ".$result['request'],
