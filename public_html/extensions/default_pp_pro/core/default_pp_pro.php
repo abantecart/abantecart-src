@@ -39,13 +39,13 @@ class ExtensionDefaultPpPro extends Extension {
 
 		$that = $this->baseObject;
 		$current_ext_id = $that->request->get['extension'];
-	    if ( IS_ADMIN && $current_ext_id == 'default_pp_pro' && $this->baseObject_method == 'edit' ) {
-	    	$html = '<a class="btn btn-white tooltips"
+		if ( IS_ADMIN && $current_ext_id == 'default_pp_pro' && $this->baseObject_method == 'edit' ) {
+			$html = '<a class="btn btn-white tooltips"
 						target="_blank"
 						href="https://www.paypal.com/us/webapps/mpp/referral/paypal-payments-pro?partner_id=V5VQZUVNK5RT6"
 						title="Visit Paypal"><i class="fa fa-external-link fa-lg"></i></a>';
 
-	    	$that->view->addHookVar('extension_toolbar_buttons', $html);
+			$that->view->addHookVar('extension_toolbar_buttons', $html);
 		}
 	}
 
@@ -54,28 +54,29 @@ class ExtensionDefaultPpPro extends Extension {
 	public function onControllerPagesSaleOrderTabs_UpdateData() {
 		$that = $this->baseObject;
 		$order_id = $that->data['order_id'];
+		$order_info = $that->model_sale_order->getOrder($order_id);
 		//are we logged in and in admin?
-	    if ( IS_ADMIN && $that->user->isLogged() ) {
-			if($that->data['payment_method_key'] != 'default_pp_pro') {
-	    		return null;			
+		if ( IS_ADMIN && $that->user->isLogged() ) {
+			if($order_info['payment_method_key'] != 'default_pp_pro') {
+				return null;
 			} 
-	    	//check if tab is not yet enabled.
-	    	if ( in_array('payment_details', $that->data['groups'])) {
-	    		return null;
-	    	}
+			//check if tab is not yet enabled.
+			if ( in_array('payment_details', $that->data['groups'])) {
+				return null;
+			}
 
-	    	$that->data['groups'][] = 'payment_details';
-	    	$that->data['link_payment_details'] = $that->html->getSecureURL('sale/order/payment_details', '&order_id=' . $order_id.'&extension=default_pp_pro');
+			$that->data['groups'][] = 'payment_details';
+			$that->data['link_payment_details'] = $that->html->getSecureURL('sale/order/payment_details', '&order_id=' . $order_id.'&extension=default_pp_pro');
 			//reload main view data with updated tab
 			$that->view->batchAssign( $that->data );
-	    }
+		}
 	}
 
 	//Hook to payment details page to show information
 	public function onControllerPagesSaleOrder_UpdateData() {
 		$that = $this->baseObject;
 		//are we logged to admin and correct method called?
-	    if ( IS_ADMIN && $that->user->isLogged() && $this->baseObject_method == 'payment_details' && has_value($that->data['order_info']['payment_method_data']) ) {
+		if ( IS_ADMIN && $that->user->isLogged() && $this->baseObject_method == 'payment_details' && has_value($that->data['order_info']['payment_method_data']) ) {
 
 			$payment_method_data = unserialize($that->data['order_info']['payment_method_data']);
 
