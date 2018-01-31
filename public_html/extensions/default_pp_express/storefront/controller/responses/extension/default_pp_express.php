@@ -488,7 +488,8 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController{
 						'country'    => $country,
 						'country_id' => $country_id,
 						'zone'       => $ec_details['SHIPTOSTATE'],
-						'zone_id'    => $zone_id
+						'zone_id'    => $zone_id,
+						'iso_code_2' => $ec_details['SHIPTOCOUNTRYCODE']
 				);
 
 				$this->tax->setZone($country_id, $zone_id);
