@@ -5995,7 +5995,20 @@ INSERT INTO `ac_zones` (`zone_id`, `country_id`, `code`, `status`, `sort_order`)
 (3951,240,'',1,0),
 (3952,240,'',1,0),
 (3953,240,'',1,0),
-(3954,240,'',1,0);
+(3954,240,'',1,0),
+(3955,190,'MR',1,0),
+(3956,190,'DR',1,0),
+(3957,190,'CR',1,0),
+(3958,190,'SV',1,0),
+(3959,190,'CV',1,0),
+(3960,190,'LS',1,0),
+(3961,190,'SS',1,0),
+(3962,190,'LC',1,0),
+(3963,190,'CS',1,0),
+(3964,190,'UC',1,0),
+(3965,190,'GZ',1,0),
+(3966,190,'CK',1,0),
+(3967,188,'SG',1,0);
 
 
 DROP TABLE IF EXISTS `ac_zone_descriptions`;
@@ -9941,7 +9954,20 @@ INSERT INTO `ac_zone_descriptions` (`zone_id`, `language_id`,`name`) VALUES
 (3951,1,'Down'),
 (3952,1,'Fermanagh'),
 (3953,1,'Derry'),
-(3954,1,'Tyrone');
+(3954,1,'Tyrone'),
+(3955,1,'Mura'),
+(3956,1,'Drava'),
+(3957,1,'Carinthia'),
+(3958,1,'Savinja'),
+(3959,1,'Central Sava'),
+(3960,1,'Lower Sava'),
+(3961,1,'Southeast Slovenia'),
+(3962,1,'Littoral–Inner Carniola'),
+(3963,1,'Central Slovenia'),
+(3964,1,'Upper Carniola'),
+(3965,1,'Gorizia'),
+(3966,1,'Coastal–Karst'),
+(3967,1,'Singapore');
 
 
 --
