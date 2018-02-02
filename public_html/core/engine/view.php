@@ -566,9 +566,9 @@ class AView{
 		//look into extensions first
 		$res_arr = $this->_extensions_resource_map($filename);
 		//get first exact template extension resource or default template resource otherwise.
-		if (count($res_arr['original'])){
+		if ( isset($res_arr['original'][0]) ){
 			return $res_arr['original'][0];
-		} else if (count($res_arr['default'])){
+		} else if ( isset($res_arr['default'][0]) ){
 			return $res_arr['default'][0];
 		}
 

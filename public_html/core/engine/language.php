@@ -63,7 +63,7 @@ class ALanguage{
 		} else{
 			$this->is_admin = (int)$section;
 		}
-		$root_path = defined(INSTALL) ? DIR_ABANTECART : DIR_ROOT . '/';
+		$root_path = defined('INSTALL') ? DIR_ABANTECART : DIR_ROOT . '/';
 		if ($this->is_admin){
 			$this->language_path = $root_path . 'admin/language/';
 		} else{
