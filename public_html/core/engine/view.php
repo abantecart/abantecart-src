@@ -368,9 +368,9 @@ class AView{
 		$http_path = '';
 		$res_arr = $this->_extensions_resource_map($filename);
 		//get first exact template extension resource or default template resource otherwise.
-		if (count($res_arr['original'])){
+		if (isset($res_arr['original'][0])){
 			$output = $res_arr['original'][0];
-		} else if (count($res_arr['default'])){
+		} else if (isset($res_arr['default'][0])){
 			$output = $res_arr['default'][0];
 		} else{
 			//no extension found, use resource from core templates
