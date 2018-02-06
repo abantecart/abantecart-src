@@ -11,7 +11,7 @@
 
 	<div class="panel-body panel-body-nopadding">
 		<div class="error-log">
-		<?php if( count($log) ) { ?>
+		<?php if( $log ) { ?>
 			<table class="table table-striped">
 			<?php
 				foreach($log as $line){ ?>
