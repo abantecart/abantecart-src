@@ -99,10 +99,10 @@ final class ARequest{
 				$key = $this->clean($key);
 				$data[ $key ] = $this->clean($value);
 				//check route and forbid if it's wrong
-                if($key == 'rt' && !preg_match("/[^A-Za-z0-9_/]/", $data[ $key ])){
-                    http_response_code(403);
-                    exit('Forbidden');
-                }
+				if($key == 'rt' && preg_match('/[^A-Za-z0-9_\/]/', $data[ $key ]) === false){
+					http_response_code(403);
+					exit('Forbidden');
+				}
 			}
 		} else{
 			$data = htmlspecialchars($data, ENT_COMPAT, 'UTF-8');
