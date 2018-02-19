@@ -96,7 +96,13 @@ final class ARequest{
 		if (is_array($data)){
 			foreach ($data as $key => $value){
 				unset($data[$key]);
-				$data[$this->clean($key)] = $this->clean($value);
+				$key = $this->clean($key);
+				$data[ $key ] = $this->clean($value);
+				//check route and forbid if it's wrong
+                if($key == 'rt' && !preg_match("/[^A-Za-z0-9_/]/", $data[ $key ])){
+                    http_response_code(403);
+                    exit('Forbidden');
+                }
 			}
 		} else{
 			$data = htmlspecialchars($data, ENT_COMPAT, 'UTF-8');
