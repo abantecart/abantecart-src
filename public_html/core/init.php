@@ -300,6 +300,7 @@ try {
 	$response = new AResponse();
 	$response->addHeader('Content-Type: text/html; charset=utf-8');
 	$response->addHeader('X-Frame-Options: SAMEORIGIN;');
+	$response->addHeader('X-Content-Type-Options: nosniff');
 	$registry->set('response', $response);
 	unset($response);
 
