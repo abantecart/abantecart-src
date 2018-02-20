@@ -18,55 +18,55 @@
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+    header ( 'Location: static_pages/' );
 }
 class ControllerResponsesErrorAjaxError extends AController {
 
-	public function main() {
-		//build default error responce
-		$this->loadLanguage('error/error');					
-		$error = new AError ( '' );
-		$err_data = array(
-			'error_title' => $this->language->get('heading_title'),
-			'error_text' => $this->language->get('text_error')
-		);
-		return $error->toJSONResponse('ERROR_400', $err_data );			
-	}
+    public function main() {
+        //build default error response
+        $this->loadLanguage('error/error');
+        $error = new AError ( '' );
+        $err_data = array(
+            'error_title' => $this->language->get('heading_title'),
+            'error_text' => $this->language->get('text_error')
+        );
+        return $error->toJSONResponse('ERROR_400', $err_data );
+    }
 
     public function permission() {
-		//build permission error responce
-		$this->loadLanguage('error/permission');					
-		$error = new AError ( '' );
-		$err_data = array(
-			'error_title' => $this->language->get('heading_title'),
-			'error_text' => $this->language->get('text_permission'),
-			'show_dialog' => true,			
-		);
-		return $error->toJSONResponse('NO_PERMISSIONS_402', $err_data );	
-	}
+        //build permission error response
+        $this->loadLanguage('error/permission');
+        $error = new AError ( '' );
+        $err_data = array(
+            'error_title' => $this->language->get('heading_title'),
+            'error_text' => $this->language->get('text_permission'),
+            'show_dialog' => true,
+        );
+        return $error->toJSONResponse('NO_PERMISSIONS_402', $err_data );
+    }
 
-	public function login() {
-		//build login error responce
-		$this->loadLanguage('error/login');						
-		$error = new AError ( '' );
-		$err_data = array(
-			'error_title' => $this->language->get('heading_title'),
-			'error_text' => $this->language->get('text_login'),
-			'show_dialog' => true,
-			'reload_page' => true,			
-		);
-		return $error->toJSONResponse('LOGIN_FAILED_401', $err_data );	
-	}
+    public function login() {
+        //build login error response
+        $this->loadLanguage('error/login');
+        $error = new AError ( '' );
+        $err_data = array(
+            'error_title' => $this->language->get('heading_title'),
+            'error_text' => $this->language->get('text_login'),
+            'show_dialog' => true,
+            'reload_page' => true,
+        );
+        return $error->toJSONResponse('LOGIN_FAILED_401', $err_data );
+    }
 
-	public function not_found() {
-		//build not_found responce
-		$this->loadLanguage('error/not_found');						
-		$error = new AError ( '' );
-		$err_data = array(
-			'error_title' => $this->language->get('heading_title'),
-			'error_text' => $this->language->get('text_not_found')
-		);
-		return $error->toJSONResponse('NOT_FOUND_404', $err_data );	
-	}
+    public function not_found() {
+        //build not_found response
+        $this->loadLanguage('error/not_found');
+        $error = new AError ( '' );
+        $err_data = array(
+            'error_title' => $this->language->get('heading_title'),
+            'error_text' => $this->language->get('text_not_found')
+        );
+        return $error->toJSONResponse('NOT_FOUND_404', $err_data );
+    }
 
 }
