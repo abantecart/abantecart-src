@@ -87,14 +87,16 @@ class ModelLocalisationLanguage extends Model{
 	 * @return array
 	 */
 	public function getLanguage($language_id){
-		$query = $this->db->query("SELECT DISTINCT * FROM " . $this->db->table("languages") . " WHERE language_id = '" . (int)$language_id . "'");
+		$query = $this->db->query("SELECT DISTINCT * 
+                                   FROM " . $this->db->table("languages") . " 
+                                   WHERE language_id = '" . (int)$language_id . "'");
 		$result = $query->row;
 		if (!$result['image']){
 			if (file_exists(DIR_ROOT . '/admin/language/' . $result['directory'] . '/flag.png')){
-				$result['image'] = HTTP_ABANTECART . 'admin/language/' . $result['directory'] . '/flag.png';
+				$result['image'] = AUTO_SERVER . 'admin/language/' . $result['directory'] . '/flag.png';
 			}
 		} else{
-			$result['image'] = HTTP_ABANTECART . $result['image'];
+			$result['image'] = AUTO_SERVER . $result['image'];
 		}
 		return $query->row;
 	}

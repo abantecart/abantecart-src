@@ -264,7 +264,7 @@ class AResource{
 			$result = $resource[$language_id];
 		} else if (!empty($resource)){
 			reset($resource);
-			list(, $result) = each($resource);
+			$result = current($resource);
 		}
 
 		return $result;

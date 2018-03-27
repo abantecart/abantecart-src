@@ -77,7 +77,7 @@ final class AFilter{
 		);
 
 		//Validate fields that are allowed and build expected filter parameters
-		if (sizeof($filter_conf['filter_params'])){
+		if (sizeof((array)$filter_conf['filter_params'])){
 
 			//support table name extension in fields
 			//check if we have associative array
