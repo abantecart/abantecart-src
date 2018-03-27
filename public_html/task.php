@@ -37,6 +37,7 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 
 define('DIR_ROOT', $root_path);
 define('DIR_CORE', DIR_ROOT . '/core/');
+define('RDIR_TEMPLATE',  'admin/view/default/');
 
 require_once(DIR_ROOT . '/system/config.php');
 
