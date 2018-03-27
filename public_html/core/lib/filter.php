@@ -59,7 +59,7 @@ final class AFilter{
 		$this->data['_search'] = $this->request->{$this->method}['_search'];
 		$this->data['filters'] = $this->request->{$this->method}['filters'];
 		//If this data is provided in the input override values of the request.
-		if (sizeof($filter_conf['input_params'])){
+		if ( $filter_conf['input_params'] ){
 			foreach ($filter_conf['input_params'] as $k => $v){
 				if (has_value($v)){
 					$this->data[$k] = $v;

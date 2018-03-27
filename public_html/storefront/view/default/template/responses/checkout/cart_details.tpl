@@ -1,5 +1,5 @@
 <?php
-$total_items = sizeof($products);
+$total_items = sizeof((array)$products);
 //To remove limit set $cart_view_limit = $total_items;
 //To enable scroll for all products look for #top_cart_product_list .products in styles.css
 $cart_view_limit = 5;

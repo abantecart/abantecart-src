@@ -49,7 +49,7 @@
 									<td><label for="shipping_shipping_method<?php echo $quote['id']; ?>"
 									           title="<?php echo has_value($quote['description']) ? $quote['description'] : ''; ?>"
 									           style="cursor: pointer;">
-											<?php $icon = $shipping_method['icon'];
+											<?php $icon = (array)$shipping_method['icon'];
 											if (sizeof($icon)){ ?>
 												<?php if (is_file(DIR_RESOURCE . $icon['image'])){ ?>
 													<span class="shipping_icon mr10"><img
@@ -101,7 +101,7 @@
 									<td width="1"><?php echo $payment_method['radio']; ?></td>
 									<td><label for="guest_payment_method<?php echo $payment_method['id']; ?>"
 									           style="cursor: pointer;">
-											<?php $icon = $payment_method['icon'];
+											<?php $icon = (array)$payment_method['icon'];
 											if (sizeof($icon)){ ?>
 												<?php if (is_file(DIR_RESOURCE . $icon['image'])){ ?>
 													<span class="payment_icon mr10"><img

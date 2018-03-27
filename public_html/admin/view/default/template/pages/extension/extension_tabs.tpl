@@ -1,4 +1,4 @@
-<?php if(sizeof($groups)>1){ ?>
+<?php if(sizeof((array)$groups)>1){ ?>
 <ul class="nav nav-tabs nav-justified nav-profile">
 	<?php foreach($groups as $group){?>
 		<li <?php echo ( $active == $group ? 'class="active"' : '' ) ?>>

@@ -16,7 +16,7 @@
 		<th ><?php echo $text_transaction_description; ?></th>
 	</tr>
 	</thead>
-	<?php if( sizeof($transactions) ) { foreach ($transactions as $trn) { ?>
+	<?php if( sizeof((array)$transactions) ) { foreach ($transactions as $trn) { ?>
 		<tr>
 			<td><?php echo $trn['customer_transaction_id']; ?></td>
 			<td><?php echo $trn['date_added']; ?></td>
@@ -29,7 +29,7 @@
 	</table>
 
 	<?php
-	if ( sizeof($transactions) <=0 ) {
+	if ( sizeof((array)$transactions) <=0 ) {
 	?>
 		<div><?php echo $text_error; ?></div>
 	<?php	

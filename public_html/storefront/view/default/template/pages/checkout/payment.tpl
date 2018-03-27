@@ -87,7 +87,7 @@
 							<td style="width:1px;"><?php echo $payment_method['radio']; ?></td>
 							<td><label for="payment_payment_method<?php echo $payment_method['id']; ?>"
 							           style="cursor: pointer;">
-									<?php $icon = $payment_method['icon'];
+									<?php $icon = (array)$payment_method['icon'];
 									if (sizeof($icon)){ ?>
 										<?php if (is_file(DIR_RESOURCE . $icon['image'])){ ?>
 											<span class="payment_icon mr10"><img

@@ -42,7 +42,7 @@
 		<?php } ?>
 		</tbody>
 
-		<?php if( sizeof($transactions) ) { foreach ($transactions as $trn) { ?>
+		<?php if( sizeof((array)$transactions) ) { foreach ($transactions as $trn) { ?>
 		<tr>
 			<td><?php echo $trn['customer_transaction_id']; ?></td>
 			<td><?php echo $trn['date_added']; ?></td>

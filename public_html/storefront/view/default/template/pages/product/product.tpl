@@ -15,7 +15,7 @@ if ($error){ ?>
 		<!-- Left Image-->
 		<div class="col-md-6 text-center">
 			<ul class="thumbnails mainimage smallimage">
-				<?php if (sizeof($images) > 1){
+				<?php if (sizeof((array)$images) > 1){
 					$add_w = $this->config->get('config_image_additional_width');
 					$add_h = $this->config->get('config_image_additional_height');
 					foreach ($images as $image){
@@ -31,7 +31,7 @@ if ($error){ ?>
 				} ?>
 			</ul>
 			<div class="hidden-xs hidden-sm mainimage bigimage easyzoom easyzoom--overlay easyzoom--with-thumbnails">
-				<?php if (sizeof($images) > 0){
+				<?php if (sizeof((array)$images) > 0){
 					//NOTE: ZOOM is not supported for embed image tags
 					if ($image_main['origin'] == 'external'){
 						?>
@@ -55,7 +55,7 @@ if ($error){ ?>
 			</div>
 			<!-- for mobile devices-->
 			<div class="mainimage bigimage hidden-lg hidden-md">
-				<?php if (sizeof($images) > 0){
+				<?php if (sizeof((array)$images) > 0){
 					//NOTE: ZOOM is not supported for embed image tags
 					if ($image_main['origin'] == 'external'){
 						?>
@@ -279,8 +279,7 @@ if ($error){ ?>
 					<li><a href="#producttag"><?php echo $text_tags; ?></a></li>
 				<?php } ?>
 				<?php if ($related_products){ ?>
-					<li><a href="#relatedproducts"><?php echo $tab_related; ?> (<?php echo sizeof($related_products); ?>
-							)</a></li>
+					<li><a href="#relatedproducts"><?php echo $tab_related; ?> (<?php echo sizeof((array)$related_products); ?>)</a></li>
 				<?php } ?>
 				<?php if ($downloads){ ?>
 					<li><a href="#productdownloads"><?php echo $tab_downloads; ?></a></li>

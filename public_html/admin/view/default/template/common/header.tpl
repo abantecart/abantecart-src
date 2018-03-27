@@ -269,7 +269,7 @@ echo $this->html->buildElement(
 	<script type="text/javascript">
         $(document).ready(function () {
 
-			<?php if (sizeof($breadcrumbs) <= 1 && $ant) { ?>
+			<?php if (sizeof((array)$breadcrumbs) <= 1 && $ant) { ?>
             //register ant shown in dashboard
             updateANT('<?php echo $mark_read_url; ?>');
 			<?php } ?>

@@ -1,4 +1,4 @@
-<?php if ( sizeof($currencies) > 1) { ?>
+<?php if ( sizeof((array)$currencies) > 1) { ?>
 <ul class="nav language pull-left">
   <li class="dropdown hover">
 <?php foreach ($currencies as $currency) { ?>  

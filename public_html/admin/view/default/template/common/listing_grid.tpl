@@ -7,7 +7,7 @@
 		<div class="multiactions <?php echo $data['multiaction_class']; ?>" id="<?php echo $data['table_id'] ?>_multiactions" align="right">
 			<select id="<?php echo $data['table_id'] ?>_selected_action" name="<?php echo $data['table_id'] ?>_action">
 			<?php
-				if (sizeof($multiaction_options) > 1) { ?>
+				if (sizeof((array)$multiaction_options) > 1) { ?>
 					<option value=""><?php echo $text_choose_action; ?></option>
 				<?php
 				}
@@ -56,7 +56,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 		?>];
 	var jq_model = [<?php
 	$i = 1;
-	foreach ($data['colModel'] as $m) {
+	foreach ((array)$data['colModel'] as $m) {
 		$col = array('resizable: false', 'title: false', 'searchoptions: { sopt:[\'cn\'] }');
 		foreach ($m as $k => $v) {
 			if (is_string($v)) {
@@ -68,7 +68,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 			}
 		}
 		echo "{" . implode(',', $col) . "}";
-		if ($i < sizeof($data['colModel'])) {
+		if ($i < sizeof((array)$data['colModel'])) {
 			echo ',';
 			$i++;
 		}
@@ -257,7 +257,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 
 				$html_string .= "actions_urls['".$type."'] = '".$href."';\n";
 				$html_string .= ' actions += \'';
-				$has_children = sizeof($action['children']);
+				$has_children = sizeof((array)$action['children']);
 				$html_btn = '<a class="btn btn-xs btn_grid tooltips grid_action_' . $type . '" title="' . htmlentities($action['text'],ENT_QUOTES,'UTF-8') . '" data-action-type="'.$type.'"';
 				if($has_children){
 					$html_btn .= ' data-toggle="dropdown" aria-expanded="false"';

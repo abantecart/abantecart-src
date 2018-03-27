@@ -14,7 +14,7 @@ if ($error) { ?>
 			<!-- Left Image-->
 			<div class="col-md-6 col-sm-6 text-center">
 			<ul class="thumbnails mainimage smallimage">
-			<?php if (sizeof($images) > 1) {
+			<?php if (sizeof((array)$images) > 1) {
 			    foreach ($images as $image) { ?>
 			    <li class="producthtumb">
 			        <?php
@@ -31,12 +31,12 @@ if ($error) { ?>
 			</ul>
 
 			<div class="mainimage bigimage easyzoom easyzoom--overlay easyzoom--with-thumbnails">
-			<?php if (sizeof($images) > 0) {
+			<?php if (sizeof((array)$images) > 0) {
 				//NOTE: ZOOM is not supported for embeded image tags
 				if ($image_main['origin'] == 'external') {
 				?>
 				    <a class="html_with_image">
-				    <?php echo $image_main['main_html'];	?>								
+				    <?php echo $image_main['main_html'];	?>
 				    </a>
 				<?php
 				} else {

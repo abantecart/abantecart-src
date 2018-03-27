@@ -100,7 +100,7 @@ echo $tabs;
 						 id="image"/>
 				</a>
 			</div>
-			<?php if (sizeof($extension_info['preview']) > 1) { ?>
+			<?php if (sizeof((array)$extension_info['preview']) > 1) { ?>
 				<div class="additional_images row">
 					<?php for ($i = 1; $i < sizeof($extension_info['preview']); $i++) { ?>
 						<div class="col-sm-2">

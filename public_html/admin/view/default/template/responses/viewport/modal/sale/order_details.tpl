@@ -185,7 +185,7 @@
 		<tbody id="totals">
 		<?php $order_total_row = 0;
 		$count = 0;
-		$total = sizeof($totals); ?>
+		$total = sizeof((array)$totals); ?>
 		<?php foreach ($totals as $total_row) { ?>
 			<tr>
 				<td colspan="3" class="right">

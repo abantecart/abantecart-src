@@ -6,7 +6,7 @@
 <div id="content" class="panel panel-default">
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left form-inline">
-		<?php if(sizeof($options->options)){?>
+		<?php if(sizeof((array)$options->options)){?>
 			<div class="form-group">
 				<div class="input-group input-group-sm">
 					<label><?php echo $tab_option; ?></label>
