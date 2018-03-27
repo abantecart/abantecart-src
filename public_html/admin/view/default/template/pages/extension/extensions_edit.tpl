@@ -100,9 +100,9 @@ echo $tabs;
 						 id="image"/>
 				</a>
 			</div>
-			<?php if (count($extension_info['preview']) > 1) { ?>
+			<?php if (sizeof($extension_info['preview']) > 1) { ?>
 				<div class="additional_images row">
-					<?php for ($i = 1; $i < count($extension_info['preview']); $i++) { ?>
+					<?php for ($i = 1; $i < sizeof($extension_info['preview']); $i++) { ?>
 						<div class="col-sm-2">
 							<a href="<?php echo $extension_info['preview'][$i]; ?>" data-gallery
 							   title="<?php echo $heading_title; ?>">

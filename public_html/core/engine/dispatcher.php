@@ -233,7 +233,7 @@ final class ADispatcher
                 $function_stack = 'Parent Controller: '.$parent_controller->rt().' | ';
             }
 
-            for ($i = 1; $i < count($backtrace); $i++) {
+            for ($i = 1; $i < sizeof($backtrace); $i++) {
                 $function_stack .= ' < '.$backtrace[$i]['function'];
             }
             $url = $this->request->server['REQUEST_URI'];

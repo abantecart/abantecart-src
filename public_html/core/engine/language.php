@@ -576,7 +576,7 @@ class ALanguage{
 				//We have something in database, look for missing or new values.
 				//Do this silently in case language file is missing, Not a big problem
 				$xml_vals = $this->_load_from_xml($filename, $directory, 'silent');
-				if (count($xml_vals) > count($_)){
+				if (sizeof($xml_vals) > sizeof($_)){
 					//we have missing value in language XML. Probably newly added
 					foreach ($xml_vals as $key => $value){
 						//missing value for $key
@@ -667,7 +667,7 @@ class ALanguage{
 	 * @return bool
 	 */
 	protected function _is_loaded($block){
-		if (isset ($this->entries[$block]) && count($this->entries[$block]) > 0){
+		if (isset ($this->entries[$block]) && sizeof($this->entries[$block]) > 0){
 			return true;
 		}
 		return false;

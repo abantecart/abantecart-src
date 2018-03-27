@@ -88,7 +88,7 @@
 							<td><label for="payment_payment_method<?php echo $payment_method['id']; ?>"
 							           style="cursor: pointer;">
 									<?php $icon = $payment_method['icon'];
-									if (count($icon)){ ?>
+									if (sizeof($icon)){ ?>
 										<?php if (is_file(DIR_RESOURCE . $icon['image'])){ ?>
 											<span class="payment_icon mr10"><img
 														src="resources/<?php echo $icon['image']; ?>"

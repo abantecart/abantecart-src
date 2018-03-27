@@ -1111,7 +1111,7 @@ class InputHtmlElement extends HtmlElement{
 				)
 		);
 		if (is_object($this->language)
-				&& count($this->language->getActiveLanguages()) > 1
+				&& sizeof($this->language->getActiveLanguages()) > 1
 		){
 			$this->view->assign('multilingual', $this->multilingual);
 		}
@@ -1201,7 +1201,7 @@ class TextareaHtmlElement extends HtmlElement{
 						'label_text'  => $this->label_text
 				)
 		);
-		if (is_object($this->language) && count($this->language->getActiveLanguages()) > 1){
+		if (is_object($this->language) && sizeof($this->language->getActiveLanguages()) > 1){
 			$this->view->assign('multilingual', $this->multilingual);
 		}
 		if (!empty($this->help_url)){
@@ -1242,7 +1242,7 @@ class TextEditorHtmlElement extends HtmlElement{
 				)
 		);
 		if (is_object($this->language)){
-			if (count($this->language->getActiveLanguages()) > 1){
+			if (sizeof($this->language->getActiveLanguages()) > 1){
 				$this->view->assign('multilingual', $this->multilingual);
 			}
 			$text = array ();

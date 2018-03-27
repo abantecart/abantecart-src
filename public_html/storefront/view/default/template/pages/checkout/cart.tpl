@@ -12,7 +12,7 @@
 	</div>
 <?php } ?>
 
-<?php if (count($error_warning) > 0) {
+<?php if (sizeof($error_warning) > 0) {
 	foreach ($error_warning as $error) {
 		?>
 		<div class="alert alert-error alert-danger">

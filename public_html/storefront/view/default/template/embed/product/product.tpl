@@ -256,7 +256,7 @@ if ($error) { ?>
 					<li><a href="#producttag"><?php echo $text_tags; ?></a></li>
 				<?php } ?>
 				<?php if ($related_products) { ?>
-					<li><a href="#relatedproducts"><?php echo $tab_related; ?> (<?php echo count($related_products); ?>)</a></li>
+					<li><a href="#relatedproducts"><?php echo $tab_related; ?> (<?php echo sizeof($related_products); ?>)</a></li>
 				<?php } ?>
 				<?php if ($downloads) { ?>
 					<li><a href="#productdownloads"><?php echo $tab_downloads; ?></a></li>

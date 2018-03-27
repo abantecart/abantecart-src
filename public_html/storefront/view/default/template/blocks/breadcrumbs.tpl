@@ -1,4 +1,4 @@
-<?php if ($breadcrumbs && count($breadcrumbs) > 1) {?>
+<?php if ($breadcrumbs && sizeof($breadcrumbs) > 1) {?>
 <section class="breadcrumbs">
 <h4 class="hidden">&nbsp;</h4>
 	<ul class="breadcrumb">

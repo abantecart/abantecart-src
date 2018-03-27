@@ -7,6 +7,6 @@
 				$nonempty = true;
 			}
 		}
-		if ($nonempty && $k < count($children_blocks) ) { ?>
+		if ($nonempty && $k < sizeof($children_blocks) ) { ?>
 			<div class="sep"></div>
 <?php }} ?>

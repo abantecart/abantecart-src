@@ -64,7 +64,7 @@
 									       title="<?php echo has_value($quote['description']) ? $quote['description'] : ''; ?>"
 									       style="cursor: pointer;">
 										<?php $icon = $shipping_method['icon'];
-										if (count($icon)){ ?>
+										if (sizeof($icon)){ ?>
 											<?php if (is_file(DIR_RESOURCE . $icon['image'])){ ?>
 												<span class="shipping_icon mr10"><img
 															src="resources/<?php echo $icon['image']; ?>"

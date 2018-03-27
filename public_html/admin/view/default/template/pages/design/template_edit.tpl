@@ -11,7 +11,7 @@
 					<?php echo $current_template; ?>
 					<span class="caret"></span>
 				</button>
-				<?php if (is_array($templates) && count($templates) > 0) { ?>
+				<?php if (is_array($templates) && sizeof($templates) > 0) { ?>
 				<ul class="dropdown-menu">
 					<?php foreach ($templates as $tmpl) { ?>
 						<?php 

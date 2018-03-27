@@ -253,7 +253,7 @@ echo $this->html->buildElement(
 			<?php } ?>
 		</h2>
 
-		<?php if ($breadcrumbs && count($breadcrumbs) > 1){ ?>
+		<?php if ($breadcrumbs && sizeof($breadcrumbs) > 1){ ?>
 			<div class="breadcrumb-wrapper">
 				<ol class="breadcrumb">
 					<?php echo $breadcrumbs_html; ?>
@@ -269,7 +269,7 @@ echo $this->html->buildElement(
 	<script type="text/javascript">
         $(document).ready(function () {
 
-			<?php if (count($breadcrumbs) <= 1 && $ant) { ?>
+			<?php if (sizeof($breadcrumbs) <= 1 && $ant) { ?>
             //register ant shown in dashboard
             updateANT('<?php echo $mark_read_url; ?>');
 			<?php } ?>
