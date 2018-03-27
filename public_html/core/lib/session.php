@@ -118,8 +118,6 @@ final class ASession{
 	}
 
 	public function clear(){
-		session_name($this->ses_name);
-		session_start();
 		session_unset();
 		session_destroy();
 		$_SESSION = array ();
