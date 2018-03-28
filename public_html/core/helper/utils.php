@@ -180,7 +180,7 @@ function getUniqueSeoKeyword($seo_key, $object_key_name='', $object_id=0){
 
 		$i=0;
 		while(in_array($seo_key,$keywords) && $i<20){
-			$seo_key = $seo_key.'_'.($object_id?$object_id:$i);
+			$seo_key = $seo_key.SEO_URL_SEPARATOR.($object_id?$object_id:$i);
 			$i++;
 		}
 	}
