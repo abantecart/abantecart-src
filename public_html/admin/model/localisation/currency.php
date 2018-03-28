@@ -208,15 +208,21 @@ class ModelLocalisationCurrency extends Model {
 				$url = 'https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency='.$base_currency_code.'&to_currency='.$result['code'].'&apikey='.$api_key;
 				$connect = new AConnect(true);
 				$json = $connect->getData($url);
+				if(!$json){
+				    continue;
+                }
 
-				if (!isset($json["Error Message"])) {
+				if ( isset($json["Realtime Currency Exchange Rate"]["5. Exchange Rate"]) ) {
 					$value = (float) $json["Realtime Currency Exchange Rate"]["5. Exchange Rate"];
 					$this->db->query(
 							"UPDATE " . $this->db->table("currencies") . " 
 							SET value = '" . $value . "', 
 								date_modified = NOW() 
 							WHERE code = '" . $this->db->escape($result['code']) . "'");
-				}
+				}elseif( isset($json['Information']) ){
+				    $this->log->write( 'Currency Auto Updater Info: '.$json['Information'] );
+                }
+                usleep(500);
 			}
 
 			$sql = "UPDATE " . $this->db->table("currencies") . " 
