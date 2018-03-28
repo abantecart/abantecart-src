@@ -29,25 +29,25 @@ class UtilsTest extends AbanteCartTest{
 		);
 
 		$result = getUniqueSeoKeyword('phpunit', 'product', 10001);
-		$this->assertEquals($result, 'phpunit_10001');
+		$this->assertEquals($result, 'phpunit-10001');
 
 		$this->db->query(
 				"INSERT INTO " . $this->db->table("url_aliases") . "
 					(`keyword`, `query`)
-				 VALUES ('phpunit_10001', 'product_id=10001')"
+				 VALUES ('phpunit-10001', 'product_id=10001')"
 		);
 
 		$result = getUniqueSeoKeyword('phpunit', 'manufacturer', 100);
-		$this->assertEquals($result, 'phpunit_100');
+		$this->assertEquals($result, 'phpunit-100');
 
 		$this->db->query(
 				"INSERT INTO " . $this->db->table("url_aliases") . "
 					(`keyword`, `query`)
-				 VALUES ('phpunit_100', 'product_id=100')"
+				 VALUES ('phpunit-100', 'product_id=100')"
 		);
 
 		$result = getUniqueSeoKeyword('phpunit', 'manufacturer', 10001);
-		$this->assertEquals($result, 'phpunit_10001_10001');
+		$this->assertEquals($result, 'phpunit-10001-10001');
 		//$this->assertTrue(false);
 	}
 }
