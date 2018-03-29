@@ -42,11 +42,11 @@
 	</definition>
 	<definition>
 		<key>im_new_customer_text_to_admin</key>
-		<value><![CDATA[ New Customer #%s has been registered!]]></value>
+		<value><![CDATA[ New Customer #%s %s has been registered!]]></value>
 	</definition>
 	<definition>
 		<key>im_new_subscriber_text_to_admin</key>
-		<value><![CDATA[ New Subscriber #%s has been registered!]]></value>
+		<value><![CDATA[ New Subscriber #%s %s has been registered!]]></value>
 	</definition>
 	<definition>
 		<key>im_sendpoint_name_customer_account_update</key>

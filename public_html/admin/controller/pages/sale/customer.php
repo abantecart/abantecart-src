@@ -110,8 +110,8 @@ class ControllerPagesSaleCustomer extends AController{
 				'url'          => $this->html->getSecureURL('listing_grid/customer'),
 				'editurl'      => $this->html->getSecureURL('listing_grid/customer/update'),
 				'update_field' => $this->html->getSecureURL('listing_grid/customer/update_field'),
-				'sortname'     => 'name',
-				'sortorder'    => 'asc',
+				'sortname'     => 'date_added',
+				'sortorder'    => 'desc',
 				'multiselect'  => 'true',
 				// actions
 				'actions'      => array (
@@ -160,14 +160,20 @@ class ControllerPagesSaleCustomer extends AController{
 		}
 
 		$grid_settings['colNames'] = array (
+				$this->language->get('column_id'),
 				$this->language->get('column_name'),
 				$this->language->get('column_email'),
 				$this->language->get('column_group'),
 				$this->language->get('column_status'),
 				$this->language->get('column_approved'),
 				$this->language->get('text_order'),
+				$this->language->get('column_date_added'),
 		);
 		$grid_settings['colModel'] = array (
+				array ('name'  => 'customer_id',
+				       'index' => 'customer_id',
+				       'width' => 25,
+				       'align' => 'center',),
 				array ('name'  => 'name',
 				       'index' => 'name',
 				       'width' => 160,
@@ -188,12 +194,17 @@ class ControllerPagesSaleCustomer extends AController{
 				       'search' => false),
 				array ('name'   => 'approved',
 				       'index'  => 'approved',
-				       'width'  => 110,
+				       'width'  => 50,
 				       'align'  => 'center',
 				       'search' => false),
 				array ('name'   => 'orders',
 				       'index'  => 'orders_count',
 				       'width'  => 70,
+				       'align'  => 'center',
+				       'search' => false),
+				array ('name'   => 'date_added',
+				       'index'  => 'date_added',
+				       'width'  => 80,
 				       'align'  => 'center',
 				       'search' => false),
 		);

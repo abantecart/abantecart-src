@@ -155,7 +155,7 @@ class ModelAccountCustomer extends Model {
 			$lang_key = 'im_new_customer_text_to_admin';
 		}
 		$message_arr = array (
-							1 => array ('message' => sprintf($language->get($lang_key), $customer_id)
+							1 => array ('message' => sprintf($language->get($lang_key), $customer_id, $data['firstname'] . ' ' . $data['lastname'])
 							)
 					);
 		$this->im->send('new_customer', $message_arr);

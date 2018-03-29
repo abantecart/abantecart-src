@@ -58,7 +58,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 			$data['filter']['approved'] = $this->request->get['approved'];
 		}
 
-		$allowedFields = array_merge(array ('name', 'email'), (array)$this->data['allowed_fields']);
+		$allowedFields = array_merge(array ('customer_id','name', 'email'), (array)$this->data['allowed_fields']);
 
 		if ( isset($this->request->post[ '_search' ]) && $this->request->post[ '_search' ] == 'true') {
 			$searchData = AJson::decode(htmlspecialchars_decode($this->request->post[ 'filters' ]), true);
@@ -113,6 +113,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 			}
 			$response->rows[ $i ][ 'id' ] = $result[ 'customer_id' ];
 			$response->rows[ $i ][ 'cell' ] = array(
+				$result[ 'customer_id' ],
 				$result[ 'name' ],
 				'<a href="'.$this->html->getSecureURL('sale/contact','&email[]='.$result[ 'email' ]).'">'.$result[ 'email' ].'</a>',
 				$result[ 'customer_group' ],
@@ -136,6 +137,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 					'target' => '_blank'
 				))
 				: 0),
+                $result['date_added']
 			);
 			$i++;
 		}

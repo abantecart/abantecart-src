@@ -505,6 +505,9 @@ class ModelSaleCustomer extends Model {
 		if (has_value($filter['name'])) {
 			$implode[] = "CONCAT(c.firstname, ' ', c.lastname) LIKE '%" . $this->db->escape($filter['name'],true) . "%' collate utf8_general_ci";
 		}
+		if (has_value($filter['customer_id'])) {
+			$implode[] = "c.customer_id = ".(int)$filter['customer_id'];
+		}
 
 		if (has_value($filter['name_email'])) {
 			$implode[] = "CONCAT(c.firstname, ' ', c.lastname, ' ', c.email) LIKE '%" . $this->db->escape($filter['name_email'],true) . "%' collate utf8_general_ci";
@@ -595,6 +598,7 @@ class ModelSaleCustomer extends Model {
 		}
 
 		$sort_data = array(
+				'customer_id'       => 'c.customer_id',
 				'name'              => 'name',
 				'loginname'         => 'c.loginname',
 				'lastname'          => 'c.lastname',
