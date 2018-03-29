@@ -2150,8 +2150,8 @@ class ModelCatalogProduct extends Model{
 			$output[] = $this->language->get('text_product_unavailable');
 		}
 
-		//check is stock track enabled and product quantity more than 0
-		if ($result->row['base_subtract'] && $result->row['base_quantity'] <= 0){
+		//check is stock track for whole product(not options) enabled and product quantity more than 0
+		if ($result->row['base_subtract'] && $result->row['base_quantity'] <= 0 && !$this->hasTrackOptions($product_id) && !$result->row['option_name']){
 			$output[] = $this->language->get('text_product_out_of_stock');
 		}
 		$out_of_stock = false;
