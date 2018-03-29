@@ -33,6 +33,8 @@ $root_path = dirname(__FILE__);
 if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 	define('IS_WINDOWS', true);
 	$root_path = str_replace('\\', '/', $root_path);
+}else{
+    define('IS_WINDOWS', false);
 }
 
 define('DIR_ROOT', $root_path);
