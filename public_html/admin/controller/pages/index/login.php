@@ -116,6 +116,11 @@ class ControllerPagesIndexLogin extends AController {
 			}
 		}
 
+		//non-secure check
+        if( HTTPS !== true && $this->config->get('config_ssl_url') ){
+		    $this->error['warning'] .= sprintf($this->language->get('error_login_secure'),'https://' . REAL_HOST . HTTP_DIR_NAME . '/?s='.ADMIN_PATH);
+        }
+
 		$this->view->assign('error_warning', $this->error['warning']);
 		$this->view->assign('forgot_password', $this->html->getSecureURL('index/forgot_password'));
 

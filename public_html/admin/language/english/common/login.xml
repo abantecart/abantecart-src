@@ -44,4 +44,8 @@
     <key>error_login_message_text</key>
     <value><![CDATA[Given user login: ]]></value>
   </definition>
+  <definition>
+    <key>error_login_secure</key>
+    <value><![CDATA[You are trying to login in non-secure unsafe mode! Please switch to secure <a href="%s">HTTPS</a> to proceed ]]></value>
+  </definition>
 </definitions>
