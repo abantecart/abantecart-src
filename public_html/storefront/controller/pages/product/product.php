@@ -502,8 +502,9 @@ class ControllerPagesProductProduct extends AController{
 		$this->data['options'] = $options;
 
 		//handle stock messages
-		// if track stock is off. no messages needed. 
+		// if track stock is off. no messages needed.
 		if($this->model_catalog_product->isStockTrackable($product_id)){
+		    //NOTE: total quantity can be integer and true(in case stock-track is off)
 			$total_quantity = $this->model_catalog_product->hasAnyStock($product_id);
 			$this->data['track_stock'] = true;
 			$this->data['can_buy'] = true;
@@ -517,10 +518,11 @@ class ControllerPagesProductProduct extends AController{
 				$this->data['can_buy'] = true;
 				$this->data['in_stock'] = true;
 				$this->data['stock'] = '';
-				if( $this->config->get('config_stock_display') && $product_info['quantity'] > 0 && $product_info['subtract'] ){
-					$this->data['stock'] = $product_info['quantity'].' ';
+				if( $this->config->get('config_stock_display') && $total_quantity > 0 ){
+                    //if not tracked - show nothing
+					$this->data['stock'] = $total_quantity!==true ? $total_quantity.' ' : '';
 				}
-				if($product_info['quantity'] <=0 ) {
+				if($total_quantity <=0 ) {
 					$this->data['stock'] = $product_info['stock_status'];
 				}else{
 					$this->data['stock'] .= $this->language->get('text_instock');
