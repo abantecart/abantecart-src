@@ -122,7 +122,7 @@ class ALayoutManager{
 
 		//preload all layouts for this page and template
 		//NOTE: layout_type: 0 Default, 1 Active layout, 2 draft layout, 3 template layout
-		$this->layouts = $this->getLayouts();
+		$this->layouts = (array)$this->getLayouts();
 		//locate layout for the page instance. If not specified for this instance fist active layout is used 
 		foreach ($this->layouts as $layout){
 			if (!empty ($layout_id)){
