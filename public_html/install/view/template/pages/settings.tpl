@@ -134,6 +134,12 @@ echo $header;
 									<td>On</td>
 									<td align="center"><?php echo extension_loaded('openssl') ? $img_good : $img_bad; ?></td>
 								</tr>
+								<tr>
+									<td>PHAR:</td>
+									<td><?php echo extension_loaded('phar') ? 'On' : 'Off'; ?></td>
+									<td>On</td>
+									<td align="center"><?php echo extension_loaded('phar') ? $img_good : $img_bad; ?></td>
+								</tr>
 								</tbody>
 							</table>
 						</div>
