@@ -514,7 +514,7 @@ class ControllerPagesCheckoutCart extends AController{
 	public function reapplyBalance(){
 		$session =& $this->session->data;
 		unset($session['used_balance'], $this->request->get['balance'], $session['used_balance_full']);
-		$balance = $this->currency->convert($this->customer->getBalance(), $this->config->get('config_currency'), $session['currency']);
+		$balance = $this->customer->getBalance();
 		$order_totals = $this->cart->buildTotalDisplay(true);
 		$order_total = $order_totals['total'];
 		if ($session['used_balance']){
