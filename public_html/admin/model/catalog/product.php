@@ -1639,7 +1639,7 @@ class ModelCatalogProduct extends Model{
 
 		//get children (grouped options) data
 		$child_option_values = unserialize($result['grouped_attribute_data']);
-		if (count($child_option_values) && is_array($child_option_values)){
+		if (is_array($child_option_values) && sizeof($child_option_values) ){
 			$result['children_options'] = array ();
 			foreach ($child_option_values as $child_value){
 				$result['children_options'][$child_value['attr_id']] = (int)$child_value['attr_v_id'];
