@@ -443,7 +443,8 @@ class ControllerPagesCheckoutPayment extends AController{
             unset($this->session->data['used_balance'], $this->request->get['balance'], $this->session->data['used_balance_full']);
         }
         if ($action == 'apply' || $action == 'reapply'){
-            $balance = $this->currency->convert($this->customer->getBalance(), $this->config->get('config_currency'), $this->session->data['currency']);
+            //get customer balance in general currency
+            $balance = $this->customer->getBalance();
             $order_totals = $this->cart->buildTotalDisplay(true);
             $order_total = $order_totals['total'];
             if ($this->session->data['used_balance']){
@@ -459,7 +460,6 @@ class ControllerPagesCheckoutPayment extends AController{
                 if ($balance >= $order_total){
                     $this->session->data['used_balance'] = $order_total;
                     $this->session->data['used_balance_full'] = true;
-
                 } else{ //partial pay
                     $this->session->data['used_balance'] = $balance;
                     $this->session->data['used_balance_full'] = false;
