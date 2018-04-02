@@ -24,10 +24,10 @@ class ModelSettingExtension extends Model {
 	/*
 	* Get enabled payment extensions. Used in configuration for shipping extensions
 	*/
-	public function getEnabledPayments() {
+	public function getPayments() {
 		$query = $this->db->query("SELECT *
 								   FROM " . $this->db->table("extensions") . "
-								   WHERE `type` = 'payment' and status = 1");
+								   WHERE `type` = 'payment'");
 		return $query->rows;
 	}
 
