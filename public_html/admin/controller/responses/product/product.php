@@ -587,7 +587,7 @@ class ControllerResponsesProductProduct extends AController{
 	 */
 	private function _option_value_form($form){
 		$this->data['option_attribute'] = $this->attribute_manager->getAttributeByProductOptionId($this->request->get['option_id']);
-		$this->data['option_attribute']['values'] = '';
+		$this->data['option_attribute']['values'] = array();
 
 		$this->data['option_attribute']['type'] = 'input';
 		$product_option_value_id = $this->request->get['product_option_value_id'];
