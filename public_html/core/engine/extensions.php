@@ -398,7 +398,7 @@ class ExtensionsApi{
 			}
 		}
 
-		$sql = "SELECT * FROM " . DB_PREFIX . "extensions
+		$sql = "SELECT * FROM " . $this->db->table("extensions") . "
 				" . ($key ? "WHERE `key` = '" . $this->db->escape($key) . "'" : '');
 		$query = $this->db->query($sql);
 		$extension_data = array ();
@@ -462,7 +462,7 @@ class ExtensionsApi{
 				LEFT JOIN " . $this->db->table("settings") . " s
 					ON ( s.`group` = e.`key` AND s.`key` = CONCAT(e.`key`,'_status') )
 				LEFT JOIN " . $this->db->table("stores") . " st ON st.store_id = s.store_id
-				WHERE e.`type` ";
+				WHERE e.key<>'' AND  e.`type` ";
 
 		if (has_value($data['filter']) && $data['filter'] != 'extensions'){
 			$sql .= " = '" . $this->db->escape($data['filter']) . "'";
@@ -523,6 +523,9 @@ class ExtensionsApi{
 		if (has_value($data['sort_order']) && $data['sort_order'][0] == 'name'){
 			if ($result->rows){
 				foreach ($result->rows as &$row){
+				    if( trim($row['key']) == '' ){
+				        unset($row);
+                    }
 					$names[] = mb_strtolower(trim($this->getExtensionName($row['key'])));
 					$row['name'] = trim($this->getExtensionName($row['key']));
 				}
