@@ -50,7 +50,7 @@
 	if ($coupon_status){
 		echo $coupon_form;
 	}
-	if ($balance_value){ ?>
+	if ($balance_value && $apply_balance_button){ ?>
 		<h4 class="heading4"><?php echo $text_balance; ?></h4>
 		<div class="registerbox">
 			<table class="table table-striped table-bordered">
