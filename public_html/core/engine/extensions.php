@@ -295,7 +295,9 @@ class ExtensionsApi{
 			//get extensions from db
 			$query = $this->getExtensionsList();
 			foreach ($query->rows as $result){
-				$this->db_extensions[] = $result['key'];
+			    if(trim($result['key'])) {
+                    $this->db_extensions[] = $result['key'];
+                }
 			}
 
 			//check if we have extensions that has record in db, but missing files
