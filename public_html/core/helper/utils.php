@@ -494,7 +494,7 @@ function getExtensionConfigXml($extension_txt_id) {
 	/**
 	 * @var $ext_configs SimpleXMLElement|false
 	 */
-	$ext_configs = simplexml_load_file($filename);
+	$ext_configs = @simplexml_load_file($filename);
 
 	if($ext_configs === false){
 		$err_text = 'Error: cannot to load config.xml of extension '.$extension_txt_id.'.';
@@ -548,7 +548,7 @@ function getExtensionConfigXml($extension_txt_id) {
 	foreach($xml_files as $place=>$files){
 		foreach($files as $filename){
 			if ( file_exists($filename) ) {
-				$additional_config = simplexml_load_file($filename);
+				$additional_config = @simplexml_load_file($filename);
 				//if error - writes all
 				if($additional_config === false){
 					foreach(libxml_get_errors() as $error) {

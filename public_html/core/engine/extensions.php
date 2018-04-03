@@ -278,7 +278,12 @@ class ExtensionsApi{
 			foreach ($extensions as $ext){
 				//skip other directory not containing extensions 
 				if (is_file($ext . '/config.xml')){
-					$this->extensions_dir[] = str_replace(DIR_EXT, '', $ext);
+				    $ext_text_id = basename($ext);
+				    $xml = @simplexml_load_file($ext . '/config.xml');
+				    //be sure that extension dirname equal extension-text-id in config.xml
+                    if( $xml !== false && (string)$xml->id == $ext_text_id) {
+                        $this->extensions_dir[] = $ext_text_id;
+                    }
 				}
 			}
 		}
