@@ -294,4 +294,37 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController{
 			$this->model_checkout_order->updatePaymentMethodData($this->session->data['order_id'], $response);
 		}
 	}
+
+	public function  pending_payment()
+    {
+        $this->addChild('common/head', 'head', 'common/head.tpl');
+        $this->addChild('common/footer', 'footer', 'common/footer.tpl');
+        $this->document->setTitle('waiting for payment');
+        $this->view->assign('text_message', 'waiting for payment confirmation');
+        $this->view->assign('text_redirecting', 'redirecting');
+        $this->view->assign('test_url', $this->html->getSecureURL('r/extension/default_pp_standart/is_confirmed'));
+        $this->view->assign('success_url', $this->html->getSecureURL('checkout/success'));
+        $this->processTemplate('responses/pending_ipn.tpl');
+    }
+
+    public function is_confirmed()
+    {
+        $order_id = (int)$this->session->data['order_id'];
+        if ( ! $order_id ) {
+            $result = true;
+        }else {
+            $this->loadModel( 'checkout/order' );
+            $order_info = $this->model_checkout_order->getOrder( $order_id );
+            //do nothing if order confirmed or it's not created with paypal standart
+            if ( (int)$order_info['order_status_id'] != 0 || $order_info['payment_method_key'] != 'default_pp_standart' ) {
+                $result = true;
+            } else {
+                $result = false;
+            }
+        }
+
+        $this->load->library('json');
+        $this->response->addJSONHeader();
+        $this->response->setOutput(AJson::encode(array('result'=>$result)));
+    }
 }

@@ -17,33 +17,41 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if ( !defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if ( ! defined( 'DIR_CORE' ) ) {
+    header( 'Location: static_pages/' );
+}
+
+if ( ! class_exists( 'ExtensionDefaultPpStandart' ) ) {
+    require_once( DIR_EXT.'default_pp_standart/core/default_pp_standart_hooks.php' );
 }
 
 $controllers = array(
     'storefront' => array(
-		'pages/extension/default_pp_standart',
-		'responses/extension/default_pp_standart'
-	),
-    'admin' => array( ),
+        'responses/extension/default_pp_standart',
+    ),
+    'admin'      => array(),
 );
 
 $models = array(
     'storefront' => array( 'extension/default_pp_standart' ),
-    'admin' => array( ),
+    'admin'      => array(),
 );
 
 $languages = array(
     'storefront' => array(
-	    'default_pp_standart/default_pp_standart'),
-    'admin' => array(
-        'default_pp_standart/default_pp_standart'));
+        'default_pp_standart/default_pp_standart',
+    ),
+    'admin'      => array(
+        'default_pp_standart/default_pp_standart',
+    ),
+);
 
 $templates = array(
     'storefront' => array(
-	    'responses/default_pp_standart.tpl' ),
-    'admin' => array(
-		'pages/extension/default_pp_standart_settings.tpl'
-	)
+        'responses/default_pp_standart.tpl',
+        'responses/pending_ipn.tpl',
+    ),
+    'admin'      => array(
+        'pages/extension/default_pp_standart_settings.tpl',
+    ),
 );
