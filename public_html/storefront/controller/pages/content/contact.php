@@ -42,7 +42,7 @@ class ControllerPagesContentContact extends AController{
 			$post_data = $this->request->post;
 			// move all uploaded files to their directories
 			$file_paths = $this->form->processFileUploads($this->request->files);
-			$subject = sprintf($this->language->get('email_subject'), $post_data['name']);
+			$subject = $this->config->get('store_name').' '. sprintf($this->language->get('email_subject'), strip_tags($post_data['first_name']));
 			$this->data['mail_template_data']['subject'] = $subject;
 			$config_mail_logo = $this->config->get('config_mail_logo');
 			$config_mail_logo = !$config_mail_logo ? $this->config->get('config_logo') : $config_mail_logo;

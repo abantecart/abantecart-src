@@ -42,7 +42,7 @@
 	</definition>
 	<definition>
 		<key>email_subject</key>
-		<value><![CDATA[Enquiry %s]]></value>
+		<value><![CDATA[Enquiry from %s]]></value>
 	</definition>
 	<definition>
 		<key>error_name</key>
