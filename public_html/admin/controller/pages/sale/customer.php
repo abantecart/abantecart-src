@@ -605,9 +605,7 @@ class ControllerPagesSaleCustomer extends AController{
 		$this->view->assign('help_url', $this->gen_help_url('customer_edit'));
 		$this->loadModel('sale/customer_transaction');
 		$balance = $this->model_sale_customer_transaction->getBalance($customer_id);
-		$currency = $this->currency->getCurrency($this->config->get('config_currency'));
-
-		$this->data['balance'] = $this->language->get('text_balance') . ' ' . $currency['symbol_left'] . round($balance, 2) . $currency['symbol_right'];
+		$this->data['balance'] = $this->language->get('text_balance') . ' ' . $this->currency->format($balance,$this->config->get('config_currency'));
 		$this->view->batchAssign($this->data);
 
 		if ($viewport_mode == 'modal'){
@@ -823,9 +821,7 @@ class ControllerPagesSaleCustomer extends AController{
 		$this->view->assign('help_url', $this->gen_help_url('customer_edit'));
 		$this->loadModel('sale/customer_transaction');
 		$balance = $this->model_sale_customer_transaction->getBalance($customer_id);
-		$currency = $this->currency->getCurrency($this->config->get('config_currency'));
-
-		$this->data['balance'] = $this->language->get('text_balance') . ' ' . $currency['symbol_left'] . round($balance, 2) . $currency['symbol_right'];
+		$this->data['balance'] = $this->language->get('text_balance') . ' ' . $this->currency->format($balance,$this->config->get('config_currency'));
 
 		//note: Only allow to delete or change if not default
 		if (!$current_address['default']){

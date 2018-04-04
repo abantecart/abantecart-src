@@ -181,8 +181,7 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 			$result['result'] = true;
 			$result['result_text'] = $this->language->get('text_transaction_success');
 			$balance = $this->model_sale_customer_transaction->getBalance($this->request->get['customer_id']);
-			$currency = $this->currency->getCurrency($this->config->get('config_currency'));
-			$result['balance'] = $this->language->get('text_balance') . ' ' . $currency['symbol_left'] . round($balance, 2) . $currency['symbol_right'];
+			$result['balance'] = $this->language->get('text_balance') . ' ' . $this->currency->format($balance,$this->config->get('config_currency'));
 		}else{
 			$error = new AError('');
 			return $error->toJSONResponse('VALIDATION_ERROR_406',

@@ -201,11 +201,7 @@ class ControllerPagesSaleCustomerTransaction extends AController{
 																	'&customer_id=' . $customer_id));
 
 		$balance = $this->model_sale_customer_transaction->getBalance($customer_id);
-		$currency = $this->currency->getCurrency($this->config->get('config_currency'));
-		$this->data['balance'] = $this->language->get('text_balance') . ' '
-													. $currency['symbol_left']
-													. round($balance, 2)
-													. $currency['symbol_right'];
+		$this->data['balance'] = $this->language->get('text_balance') . ' '. $this->currency->format($balance,$this->config->get('config_currency'));
 
 		$form = new AForm('HT');
 		$form->setForm(array (
@@ -221,11 +217,7 @@ class ControllerPagesSaleCustomerTransaction extends AController{
 
 		$this->view->assign('help_url', $this->gen_help_url('customer_transactions_listing'));
 		$balance = $this->model_sale_customer_transaction->getBalance($customer_id);
-		$currency = $this->currency->getCurrency($this->config->get('config_currency'));
-		$this->data['balance'] = $this->language->get('text_balance') . ' '
-								. $currency['symbol_left']
-								. round($balance, 2)
-								. $currency['symbol_right'];
+		$this->data['balance'] = $this->language->get('text_balance') . ' '. $this->currency->format($balance,$this->config->get('config_currency'));
 
 		$this->load->model('setting/store');
 		if (!$this->model_setting_store->isDefaultStore()) {
