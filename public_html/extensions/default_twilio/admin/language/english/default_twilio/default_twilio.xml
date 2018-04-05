@@ -30,6 +30,11 @@
 			<![CDATA[Sender (Twilio) Phone: <span class="help">Phone number of sender in international format (ex. +14158675309)</span>]]></value>
 	</definition>
 	<definition>
+		<key>default_twilio_send_to</key>
+		<value>
+			<![CDATA[Send test SMS to: ]]></value>
+	</definition>
+	<definition>
 		<key>default_twilio_test_0</key>
 		<value><![CDATA[No]]></value>
 	</definition>

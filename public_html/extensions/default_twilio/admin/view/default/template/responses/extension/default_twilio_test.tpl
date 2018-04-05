@@ -1,12 +1,27 @@
+<div class="col-sm-12">
+	<div class="row col-sm-2 mt5">
 <?php
-echo $this->html->buildElement( array(
-	'type' => 'button',
-	'name' => 'test_connection',
-	'title' => $text_test,
-	'text' => $text_test,
-	'style' => 'btn btn-info'
-)); ?>
-
+echo $this->language->get('default_twilio_send_to'); ?>
+	</div><div class="row col-sm-3 input-group afield">
+	<?php
+	echo $this->html->buildElement( array(
+		'type' => 'input',
+		'name' => 'to',
+		'value' => '+15005550006',
+		'style' => 'col-sm-2'
+	));
+?><span class="input-group-btn">
+<?php
+	echo $this->html->buildElement( array(
+		'type' => 'button',
+		'name' => 'test_connection',
+		'title' => $text_test,
+		'text' => $text_test,
+		'style' => 'btn btn-info'
+	)); ?>
+		</span>
+	</div>
+</div>
 <script type="text/javascript">
 
 	<?php if ( $this->config->get('default_twilio_test')){ ?>
@@ -23,6 +38,7 @@ echo $this->html->buildElement( array(
 			url: '<?php echo $this->html->getSecureUrl('r/extension/default_twilio/test'); ?>',
 			type: 'GET',
 			dataType: 'json',
+			data: {'to': $('#to').val()},
 			beforeSend: function() {
 				$('#test_connection').button('loading');
 			},
