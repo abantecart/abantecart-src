@@ -35,7 +35,15 @@ class ControllerResponsesExtensionDefaultStripe extends AController{
 		$this->loadModel('checkout/order');
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 		$this->data['payment_address'] = $order_info['payment_address_1'] . " " . $order_info['payment_address_2'];
+
 		$this->data['edit_address'] = $this->html->getSecureURL('checkout/address/payment');
+        //data for token
+        $this->data['address_1'] = $order_info['payment_address_1'];
+        $this->data['address_2'] = $order_info['payment_address_2'];
+        $this->data['address_city'] = $order_info['payment_city'];
+        $this->data['address_postcode'] = $order_info['payment_postcode'];
+        $this->data['address_country_code'] = $order_info['payment_iso_code_2'];
+        $this->data['address_zone_code'] = $order_info['payment_zone_code'];
 
 		$this->data['text_credit_card'] = $this->language->get('text_credit_card');
 		$this->data['text_wait'] = $this->language->get('text_wait');
