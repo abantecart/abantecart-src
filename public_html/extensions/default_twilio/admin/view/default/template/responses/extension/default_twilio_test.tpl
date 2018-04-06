@@ -1,14 +1,14 @@
-<div class="col-sm-12">
-	<div class="row col-sm-2 mt5">
+<div class="col-xs-12">
+	<div class="row col-xs-4 mt5">
 <?php
 echo $this->language->get('default_twilio_send_to'); ?>
-	</div><div class="row col-sm-3 input-group afield">
+	</div><div class="row col-xs-7 input-group afield">
 	<?php
 	echo $this->html->buildElement( array(
 		'type' => 'input',
 		'name' => 'to',
 		'value' => '+15005550006',
-		'style' => 'col-sm-2'
+		'style' => 'col-xs-5'
 	));
 ?><span class="input-group-btn">
 <?php
