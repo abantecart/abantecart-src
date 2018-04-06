@@ -74,7 +74,7 @@ class ModelExtensionDefaultStripe extends Model
 
             if ( $order_info['shipping_method'] ) {
                 $shipping_name = $order_info['shipping_firstname'] ? $order_info['shipping_firstname'] : $order_info['firstname'];
-                $shipping_name .= ' '.$order_info['shipping_lastname'] ? $order_info['shipping_lastname'] : $order_info['lastname'];
+                $shipping_name .= '  '.($order_info['shipping_lastname'] ? $order_info['shipping_lastname'] : $order_info['lastname']);
                 $charge_data['shipping'] = array(
                     'name'    => $shipping_name,
                     'phone'   => $order_info['telephone'],
@@ -96,9 +96,9 @@ class ModelExtensionDefaultStripe extends Model
             }
 
             ADebug::variable( 'Processing stripe payment request: ', $charge_data );
-            $response = Stripe_Charge::create( $charge_data );
+            $response = \Stripe\Charge::create( $charge_data );
 
-        } catch ( Stripe_CardError $e ) {
+        } catch ( \Stripe\Error\Card $e ) {
             // card errors
             $body = $e->getJsonBody();
             $response = array(
@@ -107,7 +107,7 @@ class ModelExtensionDefaultStripe extends Model
             );
 
             return $response;
-        } catch ( Stripe_InvalidRequestError $e ) {
+        } catch ( \Stripe\Error\InvalidRequest $e ) {
             $response = array();
             // Invalid parameters were supplied to Stripe's API
             $body = $e->getJsonBody();
@@ -116,10 +116,10 @@ class ModelExtensionDefaultStripe extends Model
                 'Stripe payment failed with invalid parameters!',
                 'Stripe payment failed. '.$body['error']['message']
             );
-            $response['error'] = $this->language->get( 'error_system' );
+            $response['error'] = $this->language->get( 'error_system' ).' ('.$e->getMessage().')';
 
             return $response;
-        } catch ( Stripe_AuthenticationError $e ) {
+        } catch ( \Stripe\Error\Authentication $e ) {
             $response = array();
             // Authentication with Stripe's API failed
             $body = $e->getJsonBody();
@@ -128,10 +128,10 @@ class ModelExtensionDefaultStripe extends Model
                 'Stripe payment failed to authenticate!',
                 'Stripe payment failed to authenticate to the server. '.$body['error']['message']
             );
-            $response['error'] = $this->language->get( 'error_system' );
+            $response['error'] = $this->language->get( 'error_system' ).' ('.$e->getMessage().')';
 
             return $response;
-        } catch ( Stripe_ApiConnectionError $e ) {
+        } catch ( \Stripe\Error\ApiConnection $e ) {
             $response = array();
             // Network communication with Stripe failed
             $body = $e->getJsonBody();
@@ -140,10 +140,10 @@ class ModelExtensionDefaultStripe extends Model
                 'Stripe payment connection has failed!',
                 'Stripe payment failed connecting to the server. '.$body['error']['message']
             );
-            $response['error'] = $this->language->get( 'error_system' );
+            $response['error'] = $this->language->get( 'error_system' ).' ('.$e->getMessage().')';
 
             return $response;
-        } catch ( Stripe_Error $e ) {
+        } catch ( \Stripe\Error\Base $e ) {
             $response = array();
             // Display a very generic error to the user, and maybe send
             $body = $e->getJsonBody();
@@ -152,16 +152,16 @@ class ModelExtensionDefaultStripe extends Model
                 'Stripe payment has failed!',
                 'Stripe processing failed. '.$body['error']['message']
             );
-            $response['error'] = $this->language->get( 'error_system' );
+            $response['error'] = $this->language->get( 'error_system' ).' ('.$e->getMessage().')';
 
             return $response;
-        } catch ( Exception $e ) {
+        } catch ( \Exception $e ) {
             $response = array();
             // Something else happened, completely unrelated to Stripe
             $msg = new AMessage();
             $msg->saveError(
                 'Unexpected error in stripe payment!',
-                'Stripe processing failed. '.$e->getMessage()."(".$e->getCode().")"
+                'Stripe processing failed. '.$e->getMessage()." (".$e->getCode().")"
             );
             $response['error'] = $this->language->get( 'error_system' );
             //log in AException
