@@ -39,6 +39,10 @@ final class AUser{
 	private $firstname;
 	private $lastname;
 	private $last_login;
+    /**
+     * @var ASession
+     */
+	private $session;
 
 	/**
 	 * @var array
@@ -56,7 +60,7 @@ final class AUser{
 		if (isset($this->session->data['user_id'])){
 			$user_query = $this->db->query("SELECT * 
 											FROM " . $this->db->table("users") . " 
-											WHERE user_id = '" . (int)$this->session->data['user_id'] . "'");
+											WHERE status = 1 AND user_id = '" . (int)$this->session->data['user_id'] . "'");
 			if ($user_query->num_rows){
 				$this->user_id = (int)$user_query->row['user_id'];
 				$this->user_group_id = (int)$user_query->row['user_group_id'];
