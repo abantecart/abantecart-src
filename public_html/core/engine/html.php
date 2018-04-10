@@ -1489,7 +1489,7 @@ class CheckboxGroupHtmlElement extends HtmlElement{
 
 		$option_keys = array_keys( $this->options );
 		foreach($this->value as $value) {
-            if ( ! in_array( $value,  $option_keys) ) {
+            if ( $value && !in_array( $value,  $option_keys) ) {
                 $this->options += array( $value  => 'unknown' );
             }
         }
