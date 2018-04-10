@@ -545,7 +545,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 		foreach ($result as $k => $r) {
 			if (!empty($r->error)){
-				$result[$k]->error_text = $this->language->get('error_'.$r->error);
+				$result[$k]->error_text = $r->error;
 				continue;
 			}
 			$data = array(
