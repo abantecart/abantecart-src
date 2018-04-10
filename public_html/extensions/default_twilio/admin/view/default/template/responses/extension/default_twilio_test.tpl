@@ -8,7 +8,7 @@ echo $this->language->get('default_twilio_send_to'); ?>
 		'type' => 'input',
 		'name' => 'to',
 		'value' => '+15005550006',
-		'style' => 'col-xs-5'
+		'style' => 'col-xs-5 no-save'
 	));
 ?><span class="input-group-btn">
 <?php
