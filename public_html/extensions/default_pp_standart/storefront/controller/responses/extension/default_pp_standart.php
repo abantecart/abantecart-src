@@ -270,10 +270,15 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
         } elseif ( strcmp( $response, 'VERIFIED' ) == 0 || $this->request->post['payment_status'] == 'Completed' ) {
             $args['order_status_id'] = $this->config->get( 'default_pp_standart_order_status_id' );
             if($method == 'update'){
-                $args['message'] = '';
+                $args['message'] = 'Changed by Paypal IPN';
+                $this->messages->saveNotice('Order #'.$order_id.' has been changed by paypal IPN request.', 'See #admin#rt=sale/order/history&order_id='.$order_id.' for details');
             }
         } else {
             $args['order_status_id'] = $this->config->get( 'config_order_status_id' );
+            if($method == 'update'){
+                $args['message'] = 'Changed by Paypal IPN';
+                $this->messages->saveNotice('Order #'.$order_id.' has been changed by paypal IPN request.', 'See #admin#rt=sale/order/history&order_id='.$order_id.' for details');
+            }
         }
         //call confirm or update method of model
         call_user_func_array(array($this->model_checkout_order, $method),$args);
