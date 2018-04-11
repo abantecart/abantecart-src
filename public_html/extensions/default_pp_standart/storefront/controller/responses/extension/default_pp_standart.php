@@ -61,7 +61,6 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
         $this->data['lc'] = $this->session->data['language'];
 
         if ( has_value( $this->config->get( 'default_pp_standart_custom_logo' ) ) ) {
-
             if ( strpos( $this->config->get( 'default_pp_standart_custom_logo' ), 'http' ) === 0 ) {
                 $this->data['logoimg'] = $this->config->get( 'default_pp_standart_custom_logo' );
             } else {
@@ -199,6 +198,14 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
         if ( ! $order_info ) {
             return false;
         }
+        $method = $order_info['order_status_id'] ? 'update' : 'confirm';
+        if( $this->request->post['payment_status'] != 'Reversed'
+            && $order_info['order_status_id'] != $this->order_status->getStatusByTextId('failed')
+            && $method == 'update'
+        ){
+            return null;
+        }
+
         if ( ! extension_loaded( 'curl' ) ) {
             $this->log->write( 'Paypal Standart: CURL php-extension needs to be installed!' );
             return false;
@@ -261,17 +268,23 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
         $response = curl_exec( $ch );
         curl_close( $ch );
 
-        $method = $order_info['order_status_id'] ? 'update' : 'confirm';
+
         $args = array('order_id' => $order_id);
         if ( $suspect === true ) {
             // set pending status for all suspected orders
             $args['order_status_id'] = 1;
             $args['message'] = $message;
+        } elseif ( $this->request->post['payment_status'] == 'Reversed' ) {
+            $args['order_status_id'] = $this->order_status->getStatusByTextId('reversed');
+            if($method == 'update'){
+                $args['message'] = 'Changed by Paypal IPN';
+                $this->messages->saveNotice('Order #'.$order_id.' has been reversed by Paypal IPN request.', 'See #admin#rt=sale/order/history&order_id='.$order_id.' for details');
+            }
         } elseif ( strcmp( $response, 'VERIFIED' ) == 0 || $this->request->post['payment_status'] == 'Completed' ) {
             $args['order_status_id'] = $this->config->get( 'default_pp_standart_order_status_id' );
             if($method == 'update'){
                 $args['message'] = 'Changed by Paypal IPN';
-                $this->messages->saveNotice('Order #'.$order_id.' has been changed by paypal IPN request.', 'See #admin#rt=sale/order/history&order_id='.$order_id.' for details');
+                $this->messages->saveNotice('Order #'.$order_id.' has been changed by Paypal IPN request.', 'See #admin#rt=sale/order/history&order_id='.$order_id.' for details');
             }
         } else {
             $args['order_status_id'] = $this->config->get( 'config_order_status_id' );
