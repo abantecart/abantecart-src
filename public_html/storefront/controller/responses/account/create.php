@@ -17,27 +17,46 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if ( ! defined( 'DIR_CORE' ) ) {
+    header( 'Location: static_pages/' );
 }
 
-class ControllerResponsesAccountCreate extends AController {
-	private $error = array();
-	public $data = array();
+class ControllerResponsesAccountCreate extends AController
+{
+    private $error = array();
+    public $data = array();
 
-	public function main() {
-		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
+    public function main()
+    {
+        //init controller data
+        $this->extensions->hk_InitData( $this, __FUNCTION__ );
 
-		try{
-			$this->config->set('embed_mode', true);
-			$cntr = $this->dispatch('pages/account/create');
-			$html_out = $cntr->dispatchGetOutput();
-		}catch(AException $e){	}
-	
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+        try {
+            $this->config->set( 'embed_mode', true );
+            $cntr = $this->dispatch( 'pages/account/create' );
+            $html_out = $cntr->dispatchGetOutput();
+        } catch ( AException $e ) {
+        }
 
-		$this->response->setOutput($html_out);
-	}	
+        $this->extensions->hk_UpdateData( $this, __FUNCTION__ );
+
+        $this->response->setOutput( $html_out );
+    }
+
+    public function resend()
+    {
+        //init controller data
+        $this->extensions->hk_InitData( $this, __FUNCTION__ );
+
+        try {
+            $this->config->set( 'embed_mode', true );
+            $cntr = $this->dispatch( 'pages/account/resend' );
+            $html_out = $cntr->dispatchGetOutput();
+        } catch ( AException $e ) {}
+
+        $this->extensions->hk_UpdateData( $this, __FUNCTION__ );
+
+        $this->response->setOutput( $html_out );
+    }
 
 }
