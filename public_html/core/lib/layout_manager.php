@@ -1358,10 +1358,12 @@ class ALayoutManager{
 			return array ();
 		}
 
-		$sql = "SELECT DISTINCT l.*
+		$sql = "SELECT DISTINCT l.*, pl.page_id
 				FROM  " . $this->db->table('layouts') . " l
 				INNER JOIN " . $this->db->table('block_layouts') . " bl
-					ON (bl.layout_id = l.layout_id AND " . ($custom_block_id ? "bl.custom_block_id = " . $custom_block_id : "bl.block_id=" . $block_id) . ")";
+					ON (bl.layout_id = l.layout_id AND " . ($custom_block_id ? "bl.custom_block_id = " . $custom_block_id : "bl.block_id=" . $block_id) . ")
+				LEFT JOIN 	" . $this->db->table('pages_layouts') . " pl
+				    ON l.layout_id = pl.layout_id ";
 
 		$result = $this->db->query($sql);
 		return $result->rows;
