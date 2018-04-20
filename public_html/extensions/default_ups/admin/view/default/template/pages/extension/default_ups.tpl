@@ -49,7 +49,7 @@ echo $tabs;?>
 			<?php }else if($name=='dimensions'){ ?>
 				<div id="<?php echo $name; ?>"  class="form-group input-group afield <?php echo $widthcasses; ?>">
 					<?php foreach($field as $k=>$fld){	?>
-						<div class="form-group input-group afield col-sm-2 col-xs-12">
+						<div class="form-group input-group afield col-sm-4 col-xs-12">
 							<?php echo $fld; ?>
 						</div>
 					<?php } ?>
