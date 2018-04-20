@@ -915,7 +915,7 @@ abstract class HtmlElement{
 				$url .= $query_string;
 				$this->registry->get('messages')->saveWarning(
 						'Form Field #'.$this->element_id.' Issue',
-						'Abnormal situation. All options of required field "'.$this->data['name'].'" are disabled. URL: '.$url);
+						'Abnormal situation. All options of required field "'.$this->data['name'].'" are disabled. URL: <a href="'.$url.'">'.$url."</a>");
 			}
 		}
 	}
