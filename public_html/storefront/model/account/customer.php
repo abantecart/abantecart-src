@@ -479,6 +479,22 @@ class ModelAccountCustomer extends Model
     }
 
     /**
+     * Detect type of login configured and select customer
+     *
+     * @param string $login
+     *
+     * @return array
+     */
+    public function getCustomerByLogin( $login )
+    {
+        if ($this->config->get('prevent_email_as_login')) {
+            return $this->getCustomerByLoginname( $login );
+        } else {
+            return $this->getCustomerByEmail( $login );
+        }
+    }
+
+    /**
      * @param string $email
      *
      * @return array
@@ -584,10 +600,10 @@ class ModelAccountCustomer extends Model
     {
         $this->error = array();
         //If captcha enabled, validate
-        if ( $this->config->get( 'config_account_create_captcha' ) ) {
-            if ( $this->config->get( 'config_recaptcha_secret_key' ) ) {
+        if ( $this->config->get('config_account_create_captcha') ) {
+            if ( $this->config->get('config_recaptcha_secret_key') ) {
                 require_once DIR_VENDORS.'/google_recaptcha/autoload.php';
-                $recaptcha = new \ReCaptcha\ReCaptcha( $this->config->get( 'config_recaptcha_secret_key' ) );
+                $recaptcha = new \ReCaptcha\ReCaptcha( $this->config->get('config_recaptcha_secret_key') );
                 $resp = $recaptcha->verify( $data['g-recaptcha-response'],
                     $this->request->getRemoteIP() );
                 if ( ! $resp->isSuccess() && $resp->getErrorCodes() ) {

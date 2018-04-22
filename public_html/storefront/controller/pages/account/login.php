@@ -244,7 +244,7 @@ class ControllerPagesAccountLogin extends AController
             if ( $this->config->get( 'config_customer_email_activation' ) ) {
                 //check if account is not confirmed in the email.
                 $this->loadModel( 'account/customer' );
-                $customer_info = $this->model_account_customer->getCustomerByLoginname( $loginname );
+                $customer_info = $this->model_account_customer->getCustomerByLogin($loginname);
                 if ( $customer_info
                     && ! $customer_info['status']
                     && isset( $customer_info['data']['email_activation'] )
@@ -260,15 +260,15 @@ class ControllerPagesAccountLogin extends AController
             }
             $this->error['message'] .= $this->language->get( 'error_login' );
         } else {
-            $this->loadModel( 'account/address' );
+            $this->loadModel('account/address');
             $address = $this->model_account_address->getAddress( $this->customer->getAddressId() );
 
             $this->session->data['country_id'] = $address['country_id'];
             $this->session->data['zone_id'] = $address['zone_id'];
 
             //check if existing customer has loginname = email. Redirect if not allowed
-            if ( $this->config->get( 'prevent_email_as_login' ) && $this->customer->isLoginnameAsEmail() ) {
-                redirect( $this->html->getSecureURL( 'account/edit' ) );
+            if ( $this->config->get('prevent_email_as_login') && $this->customer->isLoginnameAsEmail() ) {
+                redirect( $this->html->getSecureURL('account/edit') );
             }
         }
 
