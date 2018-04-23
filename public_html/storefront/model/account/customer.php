@@ -505,7 +505,11 @@ class ModelAccountCustomer extends Model
         $query = $this->db->query( "SELECT *
                                     FROM ".$this->db->table( "customers" )."
                                     WHERE LOWER(`email`) = LOWER('".$this->db->escape( $email )."')" );
-        return $query->row;
+        $output = $this->dcrypt->decrypt_data( $query->row, 'customers' );
+        if ( $output['data'] ) {
+            $output['data'] = unserialize( $output['data'] );
+        }
+        return $output;
     }
 
     /**
