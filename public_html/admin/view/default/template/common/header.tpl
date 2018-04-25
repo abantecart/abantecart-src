@@ -299,7 +299,7 @@ echo $this->html->buildElement(
                         dataobj[row.category].items = [];
                     }
                     //if controller present need to open modal
-                    var onclick = 'onClick="window.open(\'' + row.page + '\');"';
+                    var onclick = 'onClick="window.open(&apos;' + row.page + '&apos;);"';
                     if (row.controller) {
                         onclick = ' data-toggle="modal" data-target="#message_modal"' + 'href="' + row.controller + '" ';
                     }
@@ -308,14 +308,14 @@ echo $this->html->buildElement(
                 });
                 var results = [];
                 var search_action = '<?php echo $search_action ?>&search=' + $('#global_search_chosen input').val();
-                var onclick = 'onClick="window.open(\'' + search_action + '\');"';
+                var onclick = 'onClick="window.open(&apos;' + search_action + '&apos;);"';
                 results.push({
                     value: 0,
                     text: '<div class="text-center"><a ' + onclick + ' class="btn btn-deafult"><?php echo $search_everywhere; ?></a></div>'
                 });
                 $.each(dataobj, function (category, datacat) {
                     var url = search_action + '#' + category;
-                    var onclick = 'onClick="window.open(\'' + url + '\');"';
+                    var onclick = 'onClick="window.open(&apos;' + url + '&apos;);"';
                     var header = '<span class="h5">' + searchSectionIcon(category) + datacat.name + '</span>';
                     //show more result only if there are more records
                     if (datacat.items.length == 3) {
