@@ -67,6 +67,7 @@
 	<h4 class="heading4 "><?php echo $text_login_details; ?></h4>
 	<div class="registerbox form-horizontal">
 		<fieldset>
+			<?php if (isset($form['fields']['general']['loginname'])) { ?>
 			<div class="form-group <?php if ($error_loginname) echo 'has-error'; ?>">
 				<label class="col-sm-4 control-label"><?php echo $entry_loginname; ?></label>
 				<div class="input-group col-sm-4">
@@ -74,6 +75,7 @@
 				</div>
 				<span class="help-block"><?php echo $error_loginname; ?></span>
 			</div>
+			<?php } ?>
 			<div class="form-group <?php if ($error_password) echo 'has-error'; ?>">
 				<label class="col-sm-4 control-label"><?php echo $entry_password; ?></label>
 				<div class="input-group col-sm-4">
