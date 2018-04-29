@@ -16,7 +16,7 @@
 				<div class="panel-body panel-body-nopadding">
 					<p>Neowize is a third-party plugin that provide insights and analytics for eCommerce sites. <br />
 						For more information about NeoWize, <a href="http://www.neowize.com/" target="_blank">click here</a>.
-						For terms of use, <a href="http://www.neowize.com/wp-content/uploads/2016/07/NeoWize-Terms-Of-Use.pdf" target="_blank">click here</a>.</p>
+						For terms of use, <a href="http://www.neowize.com/terms-of-use/" target="_blank">click here</a>.</p>
 					
 					<div class="center">
 						<a class="btn btn-default" data-dismiss="modal" href="">
