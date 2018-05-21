@@ -10,7 +10,7 @@
 	</definition>
 	<definition>
 		<key>date_format_short</key>
-		<value><![CDATA[d/m/Y]]></value>
+		<value><![CDATA[m/d/Y]]></value>
 	</definition>
 	<definition>
 		<key>date_format_long</key>
