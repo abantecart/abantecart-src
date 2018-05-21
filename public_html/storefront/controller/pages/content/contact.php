@@ -77,7 +77,7 @@ class ControllerPagesContentContact extends AController{
 			$form_fields = $this->form->getFields();
 			$this->data['mail_template_data']['form_fields'] = array ();
 			foreach ($form_fields as $field_name => $field_info){
-				if (has_value($post_data[$field_name]) && !in_array($field_name, array ('first_name', 'email', 'enquiry', 'captcha'))){
+				if (has_value($post_data[$field_name]) && !in_array($field_name, array ('enquiry', 'captcha'))){
 					$field_details = $this->form->getField($field_name);
 					$this->data['mail_plain_text'] .= "\r\n" . rtrim($field_details['name'], ':') . ":\t" . $post_data[$field_name];
 					$this->data['mail_template_data']['form_fields'][rtrim($field_details['name'], ':')] = $post_data[$field_name];
