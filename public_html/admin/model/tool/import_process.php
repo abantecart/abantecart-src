@@ -194,7 +194,6 @@ class ModelToolImportProcess extends Model
 
         //data mapping
         $data = $this->buildDataMap($record, $settings['import_col'], $settings['products_fields'], $settings['split_col']);
-        var_dump([$data]);
 
         if (empty($data)) {
             return $this->toLog("Error: Unable to build products import data map.");
