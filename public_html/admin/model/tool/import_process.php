@@ -214,7 +214,7 @@ class ModelToolImportProcess extends Model
         $product_id = 0;
         if ($settings['update_col']) {
             $unique_field_index = key($settings['update_col']);
-            if ($unique_field_index) {
+            if (is_numeric($unique_field_index)) {
                 $unique_field = $settings['products_fields'][$unique_field_index];
                 $lookup_value = $this->getValueFromDataMap($unique_field, $record, $settings['products_fields'], $settings['import_col']);
                 $product_id = $this->getProductByField($unique_field, $lookup_value, $language_id, $store_id);
