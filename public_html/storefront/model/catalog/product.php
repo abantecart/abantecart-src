@@ -752,6 +752,7 @@ class ModelCatalogProduct extends Model{
 					m.name AS manufacturer,
 					ss.name AS stock,
 					pd.blurb,
+					" . $this->_sql_final_price_string() . ",
 					" . $this->_sql_avg_rating_string() . ",
 					" . $this->_sql_review_count_string() . "
 					" . $this->_sql_join_string() . "

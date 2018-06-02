@@ -38,7 +38,7 @@ class ControllerApiProductLatest extends AControllerAPI {
 
 		$response = new stdClass();
 		$response->page = $filter->getParam('page');
-		$response->total = $total_pages;
+		$response->total = sizeof($results);
 		$response->records = $filters['limit'];
 		$response->limit = $filters['limit'];
 		$response->sidx = $filters['sort'];
