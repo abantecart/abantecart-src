@@ -44,7 +44,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
         $this->load->model( 'checkout/order' );
         $order_info = $this->model_checkout_order->getOrder( $this->session->data['order_id'] );
 
-        $this->data['business'] = $this->config->get( 'default_pp_standart_email' );
+        $this->data['business'] = trim($this->config->get( 'default_pp_standart_email' ));
         $this->data['item_name'] = html_entity_decode( $this->config->get( 'store_name' ), ENT_QUOTES, 'UTF-8' );
         $this->data['currency_code'] = $order_info['currency'];
         $this->data['amount'] = $this->currency->format( $order_info['total'], $order_info['currency'], $order_info['value'], false );
