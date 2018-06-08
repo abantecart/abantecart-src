@@ -244,17 +244,9 @@ final class ACurrency{
      * @return float|bool
      */
     public function convert($value, $code_from, $code_to){
-        if (isset($this->currencies[$code_from])){
-            $from = $this->currencies[$code_from]['value'];
-        } else{
-            $from = 0;
-        }
-
-        if (isset($this->currencies[$code_to])){
-            $to = $this->currencies[$code_to]['value'];
-        } else{
-            $to = 0;
-        }
+        $from = isset($this->currencies[$code_from]['value']) ? $this->currencies[$code_from]['value'] : 0;
+        $to = isset($this->currencies[$code_to]['value']) ? $this->currencies[$code_to]['value'] : 0;
+        $to_decimal = isset($this->currencies[$code_to]['decimal_place']) ? $this->currencies[$code_to]['decimal_place'] : 2;
 
         $error = false;
         if (!$to){
@@ -273,8 +265,7 @@ final class ACurrency{
         if ($error){
             return false;
         }
-
-        return $value * ($to / $from);
+        return round($value * ($to / $from), $to_decimal) ;
     }
 
     public function getCurrencies(){
