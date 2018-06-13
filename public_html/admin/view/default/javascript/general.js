@@ -358,7 +358,7 @@ jQuery(document).ready(function() {
 
 //-----------------------------------------------
 // Add events. Function can be reloaded after AJAX response
-// Important. To reduce unnessasary load, pass specific selector to be bound
+// Important. To reduce unnessasary load, pass specific selector to be binded
 //-----------------------------------------------
 var bindCustomEvents  = function(elm){
     var $obj;
@@ -964,6 +964,8 @@ function do_seqAjax(ajaxes, attempts_count){
 				},
 				error: function (xhr, status, error) {
 					var error_txt='';
+					var network_statuses = [0, 404, 407, 409,410, 500,502,503,504,598,599];
+
 					try { //when server response is json formatted string
 						var err = $.parseJSON(xhr.responseText);
 						if (err.hasOwnProperty("error_text")) {
@@ -972,6 +974,9 @@ function do_seqAjax(ajaxes, attempts_count){
 							error_txt = getErrorTextByXHR(xhr);
 						}
 					} catch (e) {
+							if( network_statuses.indexOf(xhr.status) == undefined ) {
+								attempts = 0;
+							}
 						error_txt = getErrorTextByXHR(xhr);
 					}
 
