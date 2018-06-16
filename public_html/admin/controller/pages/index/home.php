@@ -193,7 +193,7 @@ class ControllerPagesIndexHome extends AController {
 		}
 
 		//check quick start guide based on no last_login and if it is not yet completed
-		if( !$this->user->getLastLogin()
+		if( 1 == 1 || !$this->user->getLastLogin()
 			&& $this->session->data['quick_start_step'] != 'finished'
 			//show it for first administrator only
 			&& $this->user->getId() < 2

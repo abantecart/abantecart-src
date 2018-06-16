@@ -73,7 +73,9 @@ class AError
             if ( $k >= $trace_limit ) {
                 break;
             }
-            $this->msg .= "\t#".$k." ".$b['file'].' on line '.$b['line']."\n";
+            $file = isset($b['file']) ? $b['file'] : '';
+            $line = isset($b['line']) ? $b['line'] : '';
+            $this->msg .= "\t#".$k." ".$file.' on line '.$line."\n";
         }
 
         if ( class_exists( 'Registry' ) ) {
