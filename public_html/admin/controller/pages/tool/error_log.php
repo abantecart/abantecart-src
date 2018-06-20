@@ -88,11 +88,12 @@ strtoupper($this->language->get('text_file_tail')).DIR_LOGS."
 			$log = '';
 		}
 
-		$log = htmlentities(str_replace(array('<br/>','<br />'),"\n",$log), ENT_QUOTES, 'UTF-8');
+		$log = htmlentities(str_replace(array('<br/>','<br />'),"\n",$log), ENT_QUOTES | ENT_IGNORE, 'UTF-8');
 		//filter empty string
 		$lines = array_filter( explode("\n", $log), 'strlen' );
 		unset($log);
 		$k=0;
+		$data = array();
 		foreach($lines as $line){
 			if( preg_match( '(^\d{4}-\d{2}-\d{2} \d{1,2}:\d{2}:\d{2})', $line, $match) ){
 				$k++;
