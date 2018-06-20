@@ -522,6 +522,8 @@ class ModelToolImportProcess extends Model
         $language_list = $this->language->getAvailableLanguages();
         $rm = new AResourceManager();
         $rm->setType('image');
+        //delete existing resources
+        $rm->unmapAndDeleteResources($object_txt_id, $object_id, 'image');
 
         //IMAGE PROCESSING
         $data['image'] = (array)$data['image'];

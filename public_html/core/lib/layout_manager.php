@@ -139,7 +139,7 @@ class ALayoutManager{
 		}
 
 		//if not layout set, use default (layout_type=0) layout 
-		if (count($this->active_layout) == 0){
+		if (sizeof($this->active_layout) == 0){
 			$this->active_layout = $this->getLayouts(0);
 			if (count($this->active_layout) == 0){
 				$message_text = 'No template layout found for page_id/controller ' . $this->page_id . '::' . $this->page ['controller'] . '!';
