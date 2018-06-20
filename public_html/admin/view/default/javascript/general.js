@@ -974,7 +974,7 @@ function do_seqAjax(ajaxes, attempts_count){
 							error_txt = getErrorTextByXHR(xhr);
 						}
 					} catch (e) {
-							if( network_statuses.indexOf(xhr.status) == undefined ) {
+							if( network_statuses.indexOf(xhr.status) == -1 ) {
 								attempts = 0;
 							}
 						error_txt = getErrorTextByXHR(xhr);
