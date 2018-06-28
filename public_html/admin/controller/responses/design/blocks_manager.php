@@ -171,7 +171,7 @@ class ControllerResponsesDesignBlocksManager extends AController {
 			//get details from language for static blocks from storefront
 			$alang = new ALanguage($this->registry, $this->language->getContentLanguageCode(), 0);
 			$alang->load($this->data['controller'], 'silent');
-			$this->data['title'] = $alang->get('heading_title');
+			$this->data['title'] = $alang->get('heading_title','', true);
 			$this->data['title'] = $this->data['title'] == 'heading_title' ? $this->data['block_txt_id'] : $this->data['title'];
 		}
 
