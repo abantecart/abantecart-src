@@ -65,6 +65,10 @@
 		<value><![CDATA[Status]]></value>
 	</definition>
 	<definition>
+		<key>entry_also_mapped_to</key>
+		<value><![CDATA[Shared With]]></value>
+	</definition>
+	<definition>
 		<key>entry_file_push_to_customers</key>
 		<value><![CDATA[Push to customers]]></value>
 	</definition>
