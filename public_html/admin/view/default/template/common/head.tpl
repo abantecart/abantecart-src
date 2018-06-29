@@ -215,18 +215,14 @@ var wrapConfirmDelete = function(){
 $(document).on('change', wrapConfirmDelete);
 
 //periodical updater of new message notifier
-var noticecount = 3;
 var notifier_updater = function () {
-	if(noticecount <= 0) {
-		return;
-	}
+
 	$.ajax({
 		url: '<?php echo $notifier_updater_url?>',
 		success: buildNotifier,
 		complete: function() {
 		  // Schedule the next request when the current one's complete
-		  noticecount--;
-		  setTimeout(notifier_updater, 600000);
+		  setTimeout(notifier_updater, 60000);
 		}
 	});
 }
