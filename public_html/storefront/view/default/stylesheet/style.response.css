@@ -441,7 +441,6 @@ section.row {
 	color: #fff;
 	padding: 8px;
 	max-width: 195px;
-	min-width: 112px;
 	font-size: 13px;
 	text-transform: uppercase;
 	border: none;
@@ -467,6 +466,15 @@ ul.productpagecart .nostock {
 	color: #fff;
 	padding: 8px;
 	font-size: 16px;
+}
+
+.thumbnail .nostock {
+	background: #ccc;
+	color: #fff;
+	float: right;
+	padding: 8px;
+	font-size: 13px;
+	text-transform: uppercase;
 }
 
 .thumbnails>li.span3 {
