@@ -1915,6 +1915,11 @@ paypal pro styles
 	max-width: 100%;
 }
 
+img.rating{
+	border: none !important;
+	padding: 0;
+}
+
 /* Responsive Section */
 @media (min-width: 1200px) {
 	.cart-info .estimate{
