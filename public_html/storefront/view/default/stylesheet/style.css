@@ -3424,6 +3424,10 @@ paypal pro styles
 	#customernav {
 		display: none;
 	}
+
+	.payment_confirmation {
+		margin-top: 20px;
+	}
 }
 
 
