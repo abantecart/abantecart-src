@@ -408,7 +408,7 @@ class ControllerResponsesEmbedJS extends AController {
 			$qnt = $qnt==0 ? 1 : $qnt;
 			$this->cart->add($this->request->get['product_id'], $qnt);
 		}
-
+        $this->_set_js_http_headers();
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
