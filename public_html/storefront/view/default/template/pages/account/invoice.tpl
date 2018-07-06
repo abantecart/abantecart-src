@@ -135,15 +135,15 @@
 	<?php } ?>
 
 	<div class="form-group">
-		<div class="mt20 mb40">
-		    <a href="<?php echo $continue; ?>" class="btn btn-default mr10" title="<?php echo $button_continue->text ?>">
+		<div class="mb40">
+		    <a href="<?php echo $continue; ?>" class="btn btn-default mr10 mb20" title="<?php echo $button_continue->text ?>">
 		    	<i class="<?php echo $button_continue->{'icon'}; ?>"></i>
 		    	<?php echo $button_continue->text ?>
 		    </a>
 		    <?php echo $this->getHookVar('hk_additional_buttons'); ?>
 
 			<?php if ($button_order_cancel) { ?>
-		    <a href="" class="btn btn-default mr10 mt20 pull-right" data-toggle="modal" data-target="#cancelationModal"
+		    <a href="" class="btn btn-default mr10 mb10 pull-right" data-toggle="modal" data-target="#cancelationModal"
 		       title="<?php echo $button_order_cancel->text ?>">
 		    	<i class="<?php echo $button_order_cancel->{'icon'}; ?>"></i>
 		    	<?php echo $button_order_cancel->text ?>
@@ -166,7 +166,7 @@
 
 			<?php } ?>
 
-		    <a href="javascript:window.print();" class="btn btn-orange mr10 mt5 pull-right"
+		    <a href="javascript:window.print();" class="btn btn-orange mr10 mb10 pull-right"
 		       title="<?php echo $button_print->text ?>">
 		    	<i class="<?php echo $button_print->{'icon'}; ?>"></i>
 		    	<?php echo $button_print->text ?>
