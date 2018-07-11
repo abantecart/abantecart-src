@@ -318,6 +318,10 @@
 		<value><![CDATA[Error: Please fill debit or credit value for customer transaction.]]></value>
 	</definition>
 	<definition>
+		<key>error_incorrect_debit_credit</key>
+		<value><![CDATA[Error: debit or credit value cannot be greater than 99999999999.9999]]></value>
+	</definition>
+	<definition>
 		<key>text_transaction_success</key>
 		<value><![CDATA[Success: You have modified transaction!]]></value>
 	</definition>
