@@ -47,10 +47,15 @@ class ControllerApiProductProduct extends AControllerAPI
         }
         //Add and edit data based on the more details
         $this->loadModel('tool/seo_url');
-        $keyword = $this->model_tool_seo_url->getSEOKeyword('product', 'product_id', $product_id, $this->config->get('storefront_language_id'));
+        $keyword = $this->model_tool_seo_url->getSEOKeyword(
+            'product',
+            'product_id',
+            $product_id,
+            $this->config->get('storefront_language_id')
+        );
         if ($keyword) {
-            $url = defined('HTTP_SERVER') ? HTTP_SERVER : 'http://' . REAL_HOST . get_url_path($_SERVER['PHP_SELF']);
-            $product_info['seo_url'] = $url . '/' . $keyword;
+            $url = defined('HTTP_SERVER') ? HTTP_SERVER : 'http://'.REAL_HOST.get_url_path($_SERVER['PHP_SELF']);
+            $product_info['seo_url'] = $url.'/'.$keyword;
         }
 
         //load resource library
@@ -76,7 +81,7 @@ class ControllerApiProductProduct extends AControllerAPI
                     $product_info['tax_class_id'],
                     $this->config->get('config_tax')));
 
-                $special = $this->model_catalog_product->getProductSpecial($product_id);
+                $special = $promotion->getProductSpecial($product_id);
 
                 if ($special) {
                     $product_price = $special;
@@ -93,7 +98,13 @@ class ControllerApiProductProduct extends AControllerAPI
                 foreach ($product_discounts as $discount) {
                     $discounts[] = array(
                         'quantity' => $discount['quantity'],
-                        'price'    => $this->currency->format($this->tax->calculate($discount['price'], $product_info['tax_class_id'], $this->config->get('config_tax'))),
+                        'price'    => $this->currency->format(
+                            $this->tax->calculate(
+                                $discount['price'],
+                                $product_info['tax_class_id'],
+                                $this->config->get('config_tax')
+                            )
+                        ),
                     );
                 }
             }
@@ -129,7 +140,7 @@ class ControllerApiProductProduct extends AControllerAPI
         if ($this->config->get('enable_reviews')) {
             $average = $this->model_catalog_review->getAverageRating($product_id);
             $product_info['text_stars'] = sprintf($this->language->get('text_stars'), $average);
-            $product_info['stars'] = sprintf($this->language->get('text_stars'), $rating);
+            $product_info['stars'] = sprintf($this->language->get('text_stars'), $average);
             $product_info['average'] = $average;
         }
 
