@@ -1,0 +1,16 @@
+<center><b>AvaTax AbanteCart Quick Setup Manual</b></center>
+<br />
+<p>Before you can start using AvaTax in AbanteCart, you need to have account with Avalara and company setup <a href="https://www.avalara.com/integrations/abantecart/" target="_avalara">https://www.avalara.com/integrations/abantecart/</a>
+<br/>
+Once your account activated please set up in AvaTax Admin Console your <a href="https://help.avalara.com/000_Avalara_AvaTax/Add_Nexus_Jurisdictions" target="_blank">nexus jurisdictions</a> to tell AvaTax when and where to calculate and report taxes for your company. You initially add nexus jurisdictions when you <a href="https://help.avalara.com/000_Avalara_AvaTax/Set_up_Your_Avalara_AvaTax_Account" target="_blank">configure your company tax profile</a>.<br />
+<br/></p>
+<br/>
+Our manual page  <a href="https://abantecartextensions.com/docs/avatax" target="_manual">https://abantecartextensions.com/docs/avatax</a>
+<br/><br/>
+Get support for registered users via our support system <a target="_support" href="https://wehearyou2.com/clientarea/client/login/" >https://wehearyou2.com/clientarea/client/login/</a>
+<br/><br/>
+Forgot to register when you installed your extension? <a target="_support" href="https://wehearyou2.com/clientarea/reg/?type=extension"> Click here.</a>
+
+
+
+

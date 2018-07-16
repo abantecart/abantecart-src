@@ -1,0 +1,10 @@
+{ "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/avadev/AvaTax-Calc-REST-PHP"
+        }
+    ],
+    "require": {
+        "avalara/avatax": "*"
+    }
+}
