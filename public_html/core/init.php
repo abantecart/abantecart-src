@@ -322,7 +322,7 @@ try {
 // Session
 	$registry->set('session', new ASession(SESSION_ID) );
 	if($config->has('current_store_id')){
-		$registry->get('session')->data['current_store_id'] = $config->get('current_store_id');
+		$registry->get('session')->data['current_store_id'] = (int)$request->get['store_id'] ?: $config->get('current_store_id');
 	}
 
 // CSRF Token Class

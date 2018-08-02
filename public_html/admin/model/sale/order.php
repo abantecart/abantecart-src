@@ -889,8 +889,8 @@ class ModelSaleOrder extends Model{
 	public function getOrders($data = array (), $mode = 'default'){
 		$language_id = $this->language->getLanguageID();
 
-		if ($data['store_id']){
-			$store_id = (int)$data['store_id'];
+		if (array_key_exists('store_id', $data['store_id'])){
+			$store_id = $data['store_id'];
 		} else{
 			$store_id = (int)$this->config->get('config_store_id');
 		}
@@ -949,8 +949,8 @@ class ModelSaleOrder extends Model{
 			$sql .= " AND DATE(o.date_added) = DATE('" . $this->db->escape($data['filter_date_added']) . "')";
 		}
 
-		if (has_value($store_id)){
-			$sql .= " AND o.store_id = '" . $store_id . "'";
+		if ($store_id !== null){
+			$sql .= " AND o.store_id = '" . (int)$store_id . "'";
 		}
 
 		if (has_value($data['filter_total'])){

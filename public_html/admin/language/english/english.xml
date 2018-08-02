@@ -534,6 +534,10 @@
 		<value><![CDATA[All]]></value>
 	</definition>
 	<definition>
+		<key>text_all_stores</key>
+		<value><![CDATA[All Stores]]></value>
+	</definition>
+	<definition>
 		<key>text_create_new_block</key>
 		<value><![CDATA[ Create New Block ]]></value>
 	</definition>

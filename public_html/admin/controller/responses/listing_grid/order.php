@@ -51,11 +51,16 @@ class ControllerResponsesListingGridOrder extends AController {
 		}
 
 		$data = array(
-			'sort' => $sidx,
+		    'sort' => $sidx,
 			'order' => $sord,
 			'start' => ($page - 1) * $limit,
 			'limit' => $limit,
 		);
+		if(isset($this->request->get['store_id'])){
+		    $data['store_id'] = $this->request->get['store_id'];
+		    $data['store_id'] = $data['store_id'] != 'all' ? (int)$data['store_id'] : 'all';
+        }
+
 		if (isset($this->request->get[ 'status' ]) && $this->request->get[ 'status' ] != ''){
 			$data[ 'filter_order_status_id' ] = $this->request->get[ 'status' ];
 		}
