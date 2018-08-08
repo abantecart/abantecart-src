@@ -11,7 +11,7 @@
 		<div class="col-md-12">
 			<div class="text-center">
 				<a href="https://buy.avalara.com/signup?partner=abantecart&CampaignID=7010b0000013ZLp&" target="_ext_help">
-					<img width="900px" src="http://www.abantecart.com/images/partners/avatax-trial-750x400.jpg" /></a>
+					<img width="900px" src="admin/view/default/image/avatax-trial-750x400.jpg" /></a>
 			</div>
 
 			<div class="text-center">

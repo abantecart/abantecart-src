@@ -10,7 +10,9 @@
 	<div class="panel-body panel-body-nopadding">
 		<div class="col-md-12">
 			<div class="text-center">
-				<a href="https://cardconnect.com/partner/abantecart" target="_ext_help"><img src="http://www.abantecart.com/images/partners/CardConnect728x90.png"></a>
+				<a href="https://cardconnect.com/partner/abantecart" target="_ext_help">
+					<img width="900px" src="admin/view/default/image/CardConnect728x90.png" />
+				</a>
 			</div>
 			<p>
 				<label><b>Single Source Solution</b></label>
