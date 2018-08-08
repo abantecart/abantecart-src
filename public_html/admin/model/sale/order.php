@@ -889,7 +889,7 @@ class ModelSaleOrder extends Model{
 	public function getOrders($data = array (), $mode = 'default'){
 		$language_id = $this->language->getLanguageID();
 
-		if (array_key_exists('store_id', $data['store_id'])){
+		if (array_key_exists('store_id', $data)){
 			$store_id = $data['store_id'];
 		} else{
 			$store_id = (int)$this->config->get('config_store_id');
