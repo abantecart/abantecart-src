@@ -76,7 +76,7 @@ class ModelLocalisationCountry extends Model
             $this->cache->remove('localization');
         }
 
-        if (count($data['country_name'])) {
+        if ($data['country_name']) {
             foreach ($data['country_name'] as $language_id => $value) {
                 $this->language->replaceDescriptions('country_descriptions',
                     array('country_id' => (int)$country_id),

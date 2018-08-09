@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,16 +17,13 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE') || !IS_ADMIN) {
-    header('Location: static_pages/');
-}
 
 /**
  * Class ModelToolImportProcess
  *
- * @property ModelToolImportProcess       $model_tool_import_process
- * @property ModelCatalogProduct          $model_catalog_product
- * @property ModelCatalogManufacturer     $model_catalog_manufacturer
+ * @property ModelToolImportProcess $model_tool_import_process
+ * @property ModelCatalogProduct $model_catalog_product
+ * @property ModelCatalogManufacturer $model_catalog_manufacturer
  * @property ModelLocalisationWeightClass $model_localisation_weight_class
  */
 class ModelToolImportProcess extends Model
@@ -40,7 +37,7 @@ class ModelToolImportProcess extends Model
 
     /**
      * @param string $task_name
-     * @param array  $data
+     * @param array $data
      *
      * @return array|bool
      */
@@ -193,7 +190,12 @@ class ModelToolImportProcess extends Model
         $record = array_map('trim', $record);
 
         //data mapping
-        $data = $this->buildDataMap($record, $settings['import_col'], $settings['products_fields'], $settings['split_col']);
+        $data = $this->buildDataMap(
+            $record,
+            $settings['import_col'],
+            $settings['products_fields'],
+            $settings['split_col']
+        );
 
         if (empty($data)) {
             return $this->toLog("Error: Unable to build products import data map.");
@@ -216,7 +218,12 @@ class ModelToolImportProcess extends Model
             $unique_field_index = key($settings['update_col']);
             if (is_numeric($unique_field_index)) {
                 $unique_field = $settings['products_fields'][$unique_field_index];
-                $lookup_value = $this->getValueFromDataMap($unique_field, $record, $settings['products_fields'], $settings['import_col']);
+                $lookup_value = $this->getValueFromDataMap(
+                    $unique_field,
+                    $record,
+                    $settings['products_fields'],
+                    $settings['import_col']
+                );
                 $product_id = $this->getProductByField($unique_field, $lookup_value, $language_id, $store_id);
                 if ($product_id) {
                     //we have product, update
@@ -267,7 +274,7 @@ class ModelToolImportProcess extends Model
             }
             try {
                 $product_id = $this->model_catalog_product->addProduct($product_data);
-            } catch(Exception $e){
+            } catch (Exception $e) {
                 $this->toLog("Error: Failed to create product. ".$e->getMessage());
             }
             if ($product_id) {
@@ -286,7 +293,7 @@ class ModelToolImportProcess extends Model
         }
 
         $product_links = array(
-            'product_store'    => array($store_id)
+            'product_store' => array($store_id),
         );
         if (count($categories)) {
             $product_links['product_category'] = array_column($categories, 'category_id');
@@ -297,7 +304,13 @@ class ModelToolImportProcess extends Model
         $this->_migrateImages($data['images'], 'products', $product_id, $product_desc['name'], $language_id);
 
         //process options
-        $this->_addUpdateOptions($product_id, $data['product_options'], $language_id, $store_id, $product_data['weight_class_id']);
+        $this->_addUpdateOptions(
+            $product_id,
+            $data['product_options'],
+            $language_id,
+            $store_id,
+            $product_data['weight_class_id']
+        );
 
         return $status;
     }
@@ -305,10 +318,15 @@ class ModelToolImportProcess extends Model
     protected function addUpdateCategory($record, $settings, $language_id, $store_id)
     {
         $this->load->model('catalog/category');
-        $status = false;
+
         $record = array_map('trim', $record);
         //data mapping
-        $data = $this->buildDataMap($record, $settings['import_col'], $settings['categories_fields'], $settings['split_col']);
+        $data = $this->buildDataMap(
+            $record,
+            $settings['import_col'],
+            $settings['categories_fields'],
+            $settings['split_col']
+        );
         if (empty($data)) {
             return $this->toLog("Error: Unable to build categories import data map.");
         }
@@ -382,7 +400,12 @@ class ModelToolImportProcess extends Model
         $status = false;
         $record = array_map('trim', $record);
         //data mapping
-        $data = $this->buildDataMap($record, $settings['import_col'], $settings['manufacturers_fields'], $settings['split_col']);
+        $data = $this->buildDataMap(
+            $record,
+            $settings['import_col'],
+            $settings['manufacturers_fields'],
+            $settings['split_col']
+        );
         if (empty($data)) {
             return $this->toLog("Error: Unable to build manufacturers import data map.");
         }
@@ -393,7 +416,13 @@ class ModelToolImportProcess extends Model
         if ($manufacturer_id) {
             $status = true;
             //process images
-            $this->_migrateImages($data['images'], 'manufacturers', $manufacturer_id, $manufacturer['name'], $language_id);
+            $this->_migrateImages(
+                $data['images'],
+                'manufacturers',
+                $manufacturer_id,
+                $manufacturer['name'],
+                $language_id
+            );
         }
 
         return $status;
@@ -447,7 +476,7 @@ class ModelToolImportProcess extends Model
             $option_vals = $data[$i]['product_option_values'];
 
             //find largest key by count
-            $counts = array_map('count', $option_vals);
+            $counts = @array_map('count', $option_vals);
             if (max($counts) == 1) {
                 //single option value case
                 $this->_save_option_value($product_id, $weight_class_id, $p_option_id, $option_vals);
@@ -502,7 +531,8 @@ class ModelToolImportProcess extends Model
             $opt_val_data['weight_type'] = $prd_weight_info['unit'];
         }
 
-        return $this->model_catalog_product->addProductOptionValueAndDescription($product_id, $p_option_id, $opt_val_data);
+        return $this->model_catalog_product->addProductOptionValueAndDescription($product_id, $p_option_id,
+            $opt_val_data);
     }
 
     //add from URL download
@@ -611,10 +641,15 @@ class ModelToolImportProcess extends Model
         if ($name) {
             $query = $this->db->query(
                 "SELECT p.product_id as product_id
-				FROM ".$this->db->table("products")." p
-				LEFT JOIN ".$this->db->table("product_descriptions")." pd ON (p.product_id = pd.product_id AND pd.language_id = '".(int)$language_id."')
-				LEFT JOIN ".$this->db->table("products_to_stores")." p2s ON (p.product_id = p2s.product_id)
-				WHERE LCASE(pd.name) = '".$this->db->escape(mb_strtolower($name))."' AND p2s.store_id = '".(int)$store_id."' limit 1");
+                FROM ".$this->db->table("products")." p
+                LEFT JOIN ".$this->db->table("product_descriptions")." pd 
+                    ON (p.product_id = pd.product_id AND pd.language_id = '".(int)$language_id."')
+                LEFT JOIN ".$this->db->table("products_to_stores")." p2s 
+                    ON (p.product_id = p2s.product_id)
+                WHERE LCASE(pd.name) = '".$this->db->escape(mb_strtolower($name))."' 
+                        AND p2s.store_id = '".(int)$store_id."' 
+                LIMIT 1"
+            );
             return $query->row['product_id'];
         } else {
             return null;
@@ -626,9 +661,13 @@ class ModelToolImportProcess extends Model
         if ($model) {
             $query = $this->db->query(
                 "SELECT p.product_id as product_id
-					 FROM ".$this->db->table("products")." p
-				LEFT JOIN ".$this->db->table("products_to_stores")." p2s ON (p.product_id = p2s.product_id)
-				WHERE LCASE(p.model) = '".$this->db->escape(mb_strtolower($model))."' AND p2s.store_id = '".(int)$store_id."' limit 1");
+                FROM ".$this->db->table("products")." p
+                LEFT JOIN ".$this->db->table("products_to_stores")." p2s 
+                    ON (p.product_id = p2s.product_id)
+                WHERE LCASE(p.model) = '".$this->db->escape(mb_strtolower($model))."' 
+                    AND p2s.store_id = '".(int)$store_id."' 
+                LIMIT 1"
+            );
             return $query->row['product_id'];
         } else {
             return null;
@@ -640,9 +679,13 @@ class ModelToolImportProcess extends Model
         if ($sku) {
             $query = $this->db->query(
                 "SELECT p.product_id as product_id
-				FROM ".$this->db->table("products")." p
-				LEFT JOIN ".$this->db->table("products_to_stores")." p2s ON (p.product_id = p2s.product_id)
-				WHERE LCASE(p.sku) = '".$this->db->escape(mb_strtolower($sku))."' AND p2s.store_id = ".(int)$store_id." limit 1");
+                FROM ".$this->db->table("products")." p
+                LEFT JOIN ".$this->db->table("products_to_stores")." p2s 
+                    ON (p.product_id = p2s.product_id)
+                WHERE LCASE(p.sku) = '".$this->db->escape(mb_strtolower($sku))."' 
+                    AND p2s.store_id = ".(int)$store_id." 
+                LIMIT 1"
+            );
             return $query->row['product_id'];
         } else {
             return null;
@@ -652,8 +695,12 @@ class ModelToolImportProcess extends Model
     protected function _process_manufacturer($manufacturer_name, $sort_order, $store_id)
     {
         $manufacturer_id = null;
-        $sql = $this->db->query("SELECT manufacturer_id from ".$this->db->table("manufacturers")
-            ." WHERE LCASE(name) = '".$this->db->escape(mb_strtolower($manufacturer_name))."' limit 1");
+        $sql = $this->db->query(
+            "SELECT manufacturer_id 
+             FROM ".$this->db->table("manufacturers")." 
+             WHERE LCASE(name) = '".$this->db->escape(mb_strtolower($manufacturer_name))."' 
+             LIMIT 1"
+        );
         $manufacturer_id = $sql->row['manufacturer_id'];
         if (!$manufacturer_id) {
             //create category
@@ -723,19 +770,25 @@ class ModelToolImportProcess extends Model
 
     protected function _get_category($category_name, $language_id, $store_id, $parent_id)
     {
-        $sql = "SELECT cd.category_id from ".$this->db->table("category_descriptions")." cd
-			  INNER JOIN ".$this->db->table("categories_to_stores")." c2s ON (cd.category_id = c2s.category_id)
-			  WHERE language_id = ".(int)$language_id." AND  c2s.store_id = ".(int)$store_id."
-					AND LCASE(name) = '".$this->db->escape(mb_strtolower($category_name))."'";
+        $sql = "SELECT cd.category_id 
+                FROM ".$this->db->table("category_descriptions")." cd
+                INNER JOIN ".$this->db->table("categories_to_stores")." c2s 
+                    ON (cd.category_id = c2s.category_id)
+                WHERE language_id = ".(int)$language_id." 
+                    AND c2s.store_id = ".(int)$store_id."
+                    AND LCASE(name) = '".$this->db->escape(mb_strtolower($category_name))."'";
         $res = $this->db->query($sql);
         if ($res->num_rows == 1) {
             return $res->row['category_id'];
         } else {
             if ($res->num_rows > 1) {
                 //we have categories with same names, locate based on parent.
-                $cids = array_column($res->rows, 'category_id');
-                $sql2 = "SELECT category_id from ".$this->db->table("categories")."
-				WHERE category_id in(".implode(', ', $cids).") AND parent_id = $parent_id ORDER BY parent_id DESC ";
+                $cIds = array_column($res->rows, 'category_id');
+                $sql2 = "SELECT category_id 
+                        FROM ".$this->db->table("categories")."
+                        WHERE category_id IN (".implode(', ', $cIds).") 
+                            AND parent_id = ".(int)$parent_id." 
+                        ORDER BY parent_id DESC ";
                 $res2 = $this->db->query($sql2);
                 return $res2->row['category_id'];
             }
@@ -853,7 +906,7 @@ class ModelToolImportProcess extends Model
      * Get a value from the record based on the setting key
      *
      * @param string $key
-     * @param array  $record
+     * @param array $record
      * @param        $fields
      * @param        $columns
      *
@@ -1089,41 +1142,41 @@ class ModelToolImportProcess extends Model
             'categories'    => array(
                 'columns' => array(
                     'categories.status'                      => array(
-                        'title' => 'Status (0 or 1)',
-                        'alias' => 'status',
+                                            'title' => 'Status (0 or 1)',
+                                            'alias' => 'status',
                     ),
                     'categories.sort_order'                  => array(
-                        'title' => 'Sorting Order(Number)',
-                        'alias' => 'sort order',
+                                            'title' => 'Sorting Order(Number)',
+                                            'alias' => 'sort order',
                     ),
                     'categories.keyword'                     => array(
-                        'title' => 'SEO URL',
-                        'alias' => 'seo url',
+                                            'title' => 'SEO URL',
+                                            'alias' => 'seo url',
                     ),
                     'category_descriptions.name'             => array(
-                        'title'      => 'Category Name or Tree',
-                        'required'   => true,
-                        'split'      => 1,
-                        'multivalue' => 1,
-                        'alias'      => 'name',
+                                            'title'      => 'Category Name or Tree',
+                                            'required'   => true,
+                                            'split'      => 1,
+                                            'multivalue' => 1,
+                                            'alias'      => 'name',
                     ),
                     'category_descriptions.description'      => array(
-                        'title' => 'Description',
-                        'alias' => 'description',
+                                            'title' => 'Description',
+                                            'alias' => 'description',
                     ),
                     'category_descriptions.meta_keywords'    => array(
-                        'title' => 'Meta Keywords',
-                        'alias' => 'meta keywords',
+                                            'title' => 'Meta Keywords',
+                                            'alias' => 'meta keywords',
                     ),
                     'category_descriptions.meta_description' => array(
-                        'title' => 'Meta Description',
-                        'alias' => 'meta description',
+                                            'title' => 'Meta Description',
+                                            'alias' => 'meta description',
                     ),
                     'images.image'                           => array(
-                        'title'      => "Image or List of URLs/Paths",
-                        'split'      => 1,
-                        'multivalue' => 1,
-                        'alias'      => 'image',
+                                            'title'      => "Image or List of URLs/Paths",
+                                            'split'      => 1,
+                                            'multivalue' => 1,
+                                            'alias'      => 'image',
                     ),
                 ),
             ),
@@ -1166,12 +1219,12 @@ if (!function_exists('array_column')) {
      * Optionally, you may provide an $indexKey to index the values in the returned
      * array by the values from the $indexKey column in the input array.
      *
-     * @param array $input     A multi-dimensional array (record set) from which to pull
+     * @param array $input A multi-dimensional array (record set) from which to pull
      *                         a column of values.
      * @param mixed $columnKey The column of values to return. This value may be the
      *                         integer key of the column you wish to retrieve, or it
      *                         may be the string key name for an associative array.
-     * @param mixed $indexKey  (Optional.) The column to use as the index/keys for
+     * @param mixed $indexKey (Optional.) The column to use as the index/keys for
      *                         the returned array. This value may be the integer key
      *                         of the column, or it may be the string key name.
      *
