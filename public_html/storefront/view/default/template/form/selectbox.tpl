@@ -3,7 +3,7 @@
 		data-placeholder="<?php echo $placeholder ?>" <?php echo $attr ?>
 		<?php echo $disabled ? ' disabled="disabled" ' : ''; ?>>
 	<?php
-	if(!current($value) && $placeholder){ ?>
+	if(!current((array)$value) && $placeholder){ ?>
 		<option value=""><?php echo $placeholder; ?></option>
 	<?php
 	}
