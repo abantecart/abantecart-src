@@ -442,9 +442,9 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->data['object_id'] = $this->request->get['object_id'];
 		$this->data['object_title'] = $this->request->get['object_title'];
 		if ($this->data['object_title']) {
-			$this->data['object_title'] = mb_substr($this->data['object_title'], 0, 60);
+			$this->data['object_title'] = mb_substr($this->data['object_title'], 0, 45);
 		} else {
-			$this->data['object_title'] = mb_substr($this->_getObjectTitle($this->data['object_name'], $this->data['object_id']), 0, 60);
+			$this->data['object_title'] = mb_substr($this->_getObjectTitle($this->data['object_name'], $this->data['object_id']), 0, 45);
 		}
 	
 		//search form
