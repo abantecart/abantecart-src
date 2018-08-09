@@ -177,9 +177,11 @@
 		jQuery(document).ready(function () {
 			window.addEventListener('message',
 									function(event) {
-											var token = JSON.parse(event.data);
-											var mytoken = $('#cc_token');
-											mytoken.val(token.message);
+											try {
+												var token = JSON.parse(event.data);
+												var mytoken = $('#cc_token');
+												mytoken.val(token.message);
+											}catch(e){}
 											},
 									false);
 
