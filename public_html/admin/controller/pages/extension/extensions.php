@@ -34,7 +34,6 @@ class ControllerPagesExtensionExtensions extends AController
 
     public function main()
     {
-
         $ext_type_to_category = array(
             'extensions'   => 0,
             'payment'      => 73,
@@ -45,6 +44,7 @@ class ControllerPagesExtensionExtensions extends AController
             'usability'    => 76,
             'utilities'    => 72,
             'marketing'    => 65,
+            'tax'          => 89,
         );
 
         if (!in_array($this->session->data['extension_filter'], array_keys($ext_type_to_category))) {
@@ -287,6 +287,12 @@ class ControllerPagesExtensionExtensions extends AController
     public function language()
     {
         $this->session->data['extension_filter'] = 'language';
+        $this->main();
+    }
+
+    public function tax()
+    {
+        $this->session->data['extension_filter'] = 'tax';
         $this->main();
     }
 

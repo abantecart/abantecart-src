@@ -11133,9 +11133,10 @@ VALUES  (10,'extensions',31),
         (10,'payment',33),
         (10,'templates',34),
         (10,'languages',35),
-        (10,'total',36),
-        (10,'add_extension',37),
-        (10,'extensions_stores',38);
+        (10,'taxes',36),
+        (10,'total',37),
+        (10,'add_extension',38),
+        (10,'extensions_stores',39);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (11,'text_extensions',31),
@@ -11143,9 +11144,10 @@ VALUES  (11,'text_extensions',31),
         (11,'text_payment',33),
         (11,'text_templates',34),
         (11,'text_language',35),
-        (11,'text_total',36),
-        (11,'text_add_extension',37),
-        (11,'text_extensions_store',38);
+        (11,'text_taxes',36),
+        (11,'text_total',37),
+        (11,'text_add_extension',38),
+        (11,'text_extensions_store',39);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (12,'extension/extensions/extensions',31),
@@ -11153,9 +11155,10 @@ VALUES  (12,'extension/extensions/extensions',31),
         (12,'extension/extensions/payment',33),
         (12,'extension/extensions/template',34),
         (12,'extension/extensions/language',35),
-        (12,'extension/total',36),
-        (12,'tool/package_installer',37),
-        (12,'extension/extensions_store',38);
+        (12,'extension/extensions/tax',36),
+        (12,'extension/total',37),
+        (12,'tool/package_installer',38),
+        (12,'extension/extensions_store',39);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (13,'extension',31),
@@ -11166,6 +11169,7 @@ VALUES  (13,'extension',31),
         (13,'extension',36),
         (13,'extension',37),
         (13,'extension',38);
+        (13,'extension',39);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
 VALUES  (14,1,31),
@@ -11176,6 +11180,7 @@ VALUES  (14,1,31),
         (14,6,36),
         (14,7,37),
         (14,8,38);
+        (14,9,39);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (15,'core',31),
@@ -11184,16 +11189,18 @@ VALUES  (15,'core',31),
         (15,'core',34),
         (15,'core',35),
         (15,'core',36);
+        (15,'core',37);
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (40,'213',31),
         (40,'214',32),
-        (40,'215',33),
+        (40,'260',33),
         (40,'216',34),
         (40,'217',35),
-        (40,'218',36),
-        (40,'219',37),
-        (40,'220',38);
+        (40,'215',36),
+        (40,'218',37),
+        (40,'219',38),
+        (40,'220',39);
 
 
 --
@@ -12233,7 +12240,7 @@ VALUES
   ( 212,1,'Icon Attributes', '', '', '', '<i class="fa fa-ticket"></i>&nbsp;', NOW() ),
   ( 213,1,'Icon Extensions', '', '', '', '<i class="fa fa-th"></i>&nbsp;', NOW() ),
   ( 214,1,'Icon Shipping', '', '', '', '<i class="fa fa-truck"></i>&nbsp;', NOW() ),
-  ( 215,1,'Icon Payment', '', '', '', '<i class="fa fa-university"></i>&nbsp;', NOW() ),
+  ( 215,1,'Icon Building', '', '', '', '<i class="fa fa-university"></i>&nbsp;', NOW() ),
   ( 216,1,'Icon Templates', '', '', '', '<i class="fa fa-outdent"></i>&nbsp;', NOW() ),
   ( 217,1,'Icon Languages', '', '', '', '<i class="fa fa-language"></i>&nbsp;', NOW() ),
   ( 218,1,'Icon Total', '', '', '', '<i class="fa fa-sign-in"></i>&nbsp;', NOW() ),
