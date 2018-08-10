@@ -17,9 +17,6 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE') || !IS_ADMIN) {
-    header('Location: static_pages/');
-}
 
 class ControllerResponsesListingGridCustomerTransaction extends AController
 {
@@ -184,7 +181,15 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
         $this->loadModel('sale/customer_transaction');
 
         //check is data valid
-        $valid_data = $this->validateForm($this->request->post);
+        $post = $this->request->post;
+        if($post['credit']){
+            $post['credit'] = preformatFloat($post['credit']);
+        }
+        if($post['debit']){
+            $post['debit'] = preformatFloat($post['debit']);
+        }
+
+        $valid_data = $this->validateForm($post);
         $valid_data['customer_id'] = $this->request->get['customer_id'];
 
         if (!$this->error) {
