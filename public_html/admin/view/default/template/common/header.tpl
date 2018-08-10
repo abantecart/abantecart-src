@@ -1,5 +1,5 @@
 <?php if ($logged){ ?>
-<script src="//marketplace.abantecart.com/?rt=r/embed/js/e" type="text/javascript"></script>
+<script src="//marketplace.abantecart.com/?rt=r/embed/mpjs" type="text/javascript"></script>
 <div style="display:none;" class="embed abantecart-widget-container"
 	 data-language="<?php echo $this->language->getLanguageCode()?>"
 	 data-page="<?php echo $this->request->get['rt']?>"
