@@ -466,4 +466,8 @@
 		<key>text_server_time</key>
 		<value><![CDATA[Server Time]]></value>
 	</definition>
+	<definition>
+		<key>text_taxes</key>
+		<value><![CDATA[Taxes]]></value>
+	</definition>
 </definitions>

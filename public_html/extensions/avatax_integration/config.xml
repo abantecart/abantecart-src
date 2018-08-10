@@ -2,8 +2,8 @@
 <extension>
 	<id>avatax_integration</id>
 	<version>1.0.0</version>
-	<type>extensions</type>
-	<category>extensions</category>
+	<type>tax</type>
+	<category>tax</category>
 	<cartversions>
 		<item>1.2</item>
 	</cartversions>

@@ -472,4 +472,8 @@
 		<key>text_server_time</key>
 		<value><![CDATA[Tiempo de Servidor]]></value>
 	</definition>
+	<definition>
+		<key>text_taxes</key>
+		<value><![CDATA[Contribución]]></value>
+	</definition>
 </definitions>

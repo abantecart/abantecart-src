@@ -59,13 +59,17 @@
   <definition>
     <key>text_welcome</key>
     <value><![CDATA[Добро пожаловать]]></value>
-  </definition>  
+  </definition>
   <definition>
     <key>text_not</key>
     <value><![CDATA[Не]]></value>
-  </definition>  
+  </definition>
   <definition>
     <key>text_login_or_register</key>
     <value><![CDATA[Войти или зарегистрироваться]]></value>
-  </definition>  
+  </definition>
+  <definition>
+		<key>text_taxes</key>
+		<value><![CDATA[Налоги]]></value>
+	</definition>
 </definitions>
