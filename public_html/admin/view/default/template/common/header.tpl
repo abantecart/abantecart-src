@@ -1,4 +1,11 @@
 <?php if ($logged){ ?>
+<script src="//marketplace.abantecart.com/?rt=r/embed/js/e" type="text/javascript"></script>
+<div style="display:none;" class="embed abantecart-widget-container"
+	 data-language="<?php echo $this->language->getLanguageCode()?>"
+	 data-page="<?php echo $this->request->get['rt']?>"
+	 data-store-id="<?php echo UNIQUE_ID ?>">
+	<div class="embed abantecart_container"></div>
+</div>
 	<div class="leftpanel">
 
 		<div class="logopanel">
