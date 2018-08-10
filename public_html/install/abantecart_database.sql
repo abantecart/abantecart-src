@@ -11168,7 +11168,7 @@ VALUES  (13,'extension',31),
         (13,'extension',35),
         (13,'extension',36),
         (13,'extension',37),
-        (13,'extension',38);
+        (13,'extension',38),
         (13,'extension',39);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
@@ -11179,7 +11179,7 @@ VALUES  (14,1,31),
         (14,5,35),
         (14,6,36),
         (14,7,37),
-        (14,8,38);
+        (14,8,38),
         (14,9,39);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
@@ -11188,7 +11188,7 @@ VALUES  (15,'core',31),
         (15,'core',33),
         (15,'core',34),
         (15,'core',35),
-        (15,'core',36);
+        (15,'core',36),
         (15,'core',37);
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
@@ -11201,7 +11201,6 @@ VALUES  (40,'213',31),
         (40,'218',37),
         (40,'219',38),
         (40,'220',39);
-
 
 --
 -- SUBMENU SALE
