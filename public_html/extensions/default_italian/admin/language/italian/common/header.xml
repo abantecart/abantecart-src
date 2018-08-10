@@ -460,4 +460,8 @@
 		<key>text_server_time</key>
 		<value><![CDATA[Orario del server]]></value>
 	</definition>
+	<definition>
+		<key>text_taxes</key>
+		<value><![CDATA[Contributo]]></value>
+	</definition>
 </definitions>
