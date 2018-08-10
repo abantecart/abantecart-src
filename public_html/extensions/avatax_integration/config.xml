@@ -121,11 +121,11 @@
 	</settings>
 	<custom_settings_template>pages/extension/avatax_integration_settings.tpl</custom_settings_template>
 	<install>
-		 <sql>install.sql</sql>
+		<sql>install.sql</sql>
 		<trigger>install.php</trigger>
 	</install>
 	<uninstall>
-		 <sql>uninstall.sql</sql>
+		<sql>uninstall.sql</sql>
 		<trigger>uninstall.php</trigger>
 	</uninstall>
 	<note>true</note>

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -18,47 +18,47 @@
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 
-require DIR_EXTENSIONS . 'avatax_integration/core/vendor/autoload.php';
+require DIR_EXTENSIONS.'avatax_integration/core/vendor/autoload.php';
 
-if (!IS_ADMIN || !defined('DIR_CORE')) {
-	header('Location: static_pages/');
-}
+class ControllerResponsesExtensionAvataxIntegration extends AController
+{
 
-class ControllerResponsesExtensionAvataxIntegration extends AController{
+    public $data = array();
 
-	public $data = array ();
+    public function test()
+    {
+        //need to run connection check
+        // Header Level Elements
+        // Required Header Level Elements
+        $this->loadLanguage('avatax_integration/avatax_integration');
+        $serviceURL = $this->registry->get('config')->get('avatax_integration_service_url');
+        $accountNumber = $this->registry->get('config')->get('avatax_integration_account_number');
+        $licenseKey = $this->registry->get('config')->get('avatax_integration_license_key');
+        if (!empty($serviceURL) && !empty($accountNumber) && !empty($licenseKey)) {
+            $taxSvc = new AvaTax\TaxServiceRest($serviceURL, $accountNumber, $licenseKey);
 
-	public function test(){
-		//need to run connection check
-		// Header Level Elements
-		// Required Header Level Elements
-		$this->loadLanguage('avatax_integration/avatax_integration');
-		$serviceURL = $this->registry->get('config')->get('avatax_integration_service_url');
-		$accountNumber = $this->registry->get('config')->get('avatax_integration_account_number');
-		$licenseKey = $this->registry->get('config')->get('avatax_integration_license_key');
-		if (!empty($serviceURL) && !empty($accountNumber) && !empty($licenseKey)) {
-			$taxSvc = new AvaTax\TaxServiceRest($serviceURL, $accountNumber, $licenseKey);
+            $geoTaxResult = $taxSvc->ping("");
+            $json = array();
+            if ($geoTaxResult->getResultCode() != AvaTax\SeverityLevel::$Success) {
+                $warning = new AWarning('PingTest Result: '.$geoTaxResult->getResultCode().'.');
+                $warning->toLog()->toDebug();
+                $allMessages = "";
+                foreach ($geoTaxResult->getMessages() as $message) {
+                    $allMessages .= $message->getSummary()."\n";
+                }
+                $json['message'] = "Connection to Avatax server can not be established.\n"
+                    .$allMessages
+                    ."\nCheck your server configuration or contact your hosting provider.";
+                $json['error'] = true;
+            } else {
+                $json['message'] = $this->language->get('text_connection_success');
+                $json['error'] = false;
+            }
 
-			$geoTaxResult = $taxSvc->ping("");
-			$json = array ();
-			if ($geoTaxResult->getResultCode() != AvaTax\SeverityLevel::$Success) {
-				$warning = new AWarning('PingTest Result: ' . $geoTaxResult->getResultCode() . '.');
-				$warning->toLog()->toDebug();
-				$allMessages = "";
-				foreach ($geoTaxResult->getMessages() as $message) {
-					$allMessages .= $message->getSummary() . "\n";
-				}
-				$json['message'] = "Connection to Avatax server can not be established.\n" . $allMessages . "\nCheck your server configuration or contact your hosting provider.";
-				$json['error'] = true;
-			} else {
-				$json['message'] = $this->language->get('text_connection_success');
-				$json['error'] = false;
-			}
+            $this->load->library('json');
+            $this->response->setOutput(AJson::encode($json));
+        }
 
-			$this->load->library('json');
-			$this->response->setOutput(AJson::encode($json));
-		}
-
-	}
+    }
 
 }

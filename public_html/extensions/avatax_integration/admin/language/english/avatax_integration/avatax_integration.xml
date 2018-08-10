@@ -6,7 +6,7 @@
 	</definition>
 	<definition>
 		<key>avatax_integration_note</key>
-		<value><![CDATA[If you have standard tax enabled, it will function together with Avatax and you might need to disable standard taxes. Check System -> Localization -> <a target="_new" href="#admin#rt=localisation/tax_class">Tax Class</a> ]]></value>
+		<value><![CDATA[If you have standard tax enabled, it will function together with Avatax and you might need to disable standard taxes. Check System -> Localization -> <a target="_new" href="#admin#rt=localisation/tax_class">Tax Class</a><br>Also don't forget to enable extension <a href="#admin#rt=total/avatax_integration_total">Avatax Integration Total</a><br>Important! Avatax Integration Total calculation order in extension totals must be after subtotal. Subtotal calculation should precede this extension total calculation. Check this in extensions total settings.]]></value>
 	</definition>
 	<definition>
 		<key>avatax_integration_account_number</key>

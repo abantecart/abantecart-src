@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,37 +17,35 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE')) {
-	header('Location: static_pages/');
-}
 
-class ModelTotalAvataxIntegrationTotal extends Model{
-	public function getTotal(&$total_data, &$total, &$taxes, &$cust_data){
+class ModelTotalAvataxIntegrationTotal extends Model
+{
+    public function getTotal(&$total_data, &$total, &$taxes, &$cust_data)
+    {
 
-		if ( !$this->config->get('avatax_integration_status')
-			||
-			!$this->config->get('avatax_integration_total_status') ) {
-			return null;
-		}
+        if (!$this->config->get('avatax_integration_status')
+            || !$this->config->get('avatax_integration_total_status')) {
+            return null;
+        }
 
-		if ($this->request->get_or_post('order_id')) {
-			$cust_data['order_id'] = $this->request->get_or_post('order_id');
-		}
+        if ($this->request->get_or_post('order_id')) {
+            $cust_data['order_id'] = $this->request->get_or_post('order_id');
+        }
 
-			$avataxExtension = new ExtensionAvataxIntegration();
-			$tax_amount = $avataxExtension->getTax($this, $cust_data, false, $total_data);
+        $avataxExtension = new ExtensionAvataxIntegration();
+        $tax_amount = $avataxExtension->getTax($this, $cust_data, false, $total_data);
 
-			if ($tax_amount >= 0) {
-				$total_data[] = array (
-						'id'         => 'avatax_integration_total',
-						'title'      => $this->config->get('avatax_integration_tax_name'),
-						'text'       => $this->currency->format($tax_amount, $cust_data['currency']),
-						'value'      => $tax_amount,
-						'sort_order' => $this->config->get('avatax_integration_total_sort_order'),
-						'total_type' => $this->config->get('avatax_integration_total_total_type')
-				);
+        if ($tax_amount >= 0) {
+            $total_data[] = array(
+                'id'         => 'avatax_integration_total',
+                'title'      => $this->config->get('avatax_integration_tax_name'),
+                'text'       => $this->currency->format($tax_amount, $cust_data['currency']),
+                'value'      => $tax_amount,
+                'sort_order' => $this->config->get('avatax_integration_total_sort_order'),
+                'total_type' => $this->config->get('avatax_integration_total_total_type'),
+            );
 
-				$total += $tax_amount;
-			}
-	}
+            $total += $tax_amount;
+        }
+    }
 }

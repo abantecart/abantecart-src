@@ -19,43 +19,43 @@
 ------------------------------------------------------------------------------*/
 
 if (!defined('DIR_CORE')) {
-	header('Location: static_pages/');
+    header('Location: static_pages/');
 }
 if (!class_exists('ExtensionAvataxIntegration')) {
-	include('core/avatax_integration.php');
+    include('core/avatax_integration.php');
 }
 
-$controllers = array (
-		'storefront' => array ('responses/extension/avatax_integration'),
-		'admin'      => array (
-				'responses/extension/avatax_integration',
-				'pages/catalog/avatax_integration',
-				'pages/total/avatax_integration_total',
-				'pages/sale/avatax_customer_data'
-		)
+$controllers = array(
+    'storefront' => array('responses/extension/avatax_integration'),
+    'admin'      => array(
+        'responses/extension/avatax_integration',
+        'pages/catalog/avatax_integration',
+        'pages/total/avatax_integration_total',
+        'pages/sale/avatax_customer_data',
+    ),
 );
 
-$models = array (
-		'storefront' => array (
-				'extension/avatax_integration',
-				'total/avatax_integration_total'
-		),
-		'admin'      => array ('extension/avatax_integration')
+$models = array(
+    'storefront' => array(
+        'extension/avatax_integration',
+        'total/avatax_integration_total',
+    ),
+    'admin'      => array('extension/avatax_integration'),
 );
 
-$templates = array (
-		'storefront' => array ('pages/account/tax_exempt_edit.tpl'),
-		'admin'      => array (
-							'pages/extension/avatax_integration_settings.tpl',
-							'pages/extension/avatax_integration_shipping_taxcodes.tpl',
-							'pages/avatax_integration/tabs.tpl',
-							'pages/avatax_integration/avatax_integration_form.tpl',
-							'pages/sale/avatax_customer_form.tpl'
-		)
+$templates = array(
+    'storefront' => array('pages/account/tax_exempt_edit.tpl'),
+    'admin'      => array(
+        'pages/extension/avatax_integration_settings.tpl',
+        'pages/extension/avatax_integration_shipping_taxcodes.tpl',
+        'pages/avatax_integration/tabs.tpl',
+        'pages/avatax_integration/avatax_integration_form.tpl',
+        'pages/sale/avatax_customer_form.tpl',
+    ),
 );
 
-$languages = array (
-		'storefront' => array ('english/avatax_integration/avatax_integration'),
-		'admin'      => array (	'english/avatax_integration/avatax_integration'	)
+$languages = array(
+    'storefront' => array('english/avatax_integration/avatax_integration'),
+    'admin'      => array('english/avatax_integration/avatax_integration'),
 );
 
