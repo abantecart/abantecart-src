@@ -1,11 +1,13 @@
 <?php if ($logged){ ?>
-<script src="//marketplace.abantecart.com/?rt=r/embed/mpjs" type="text/javascript"></script>
-<div style="display:none;" class="embed abantecart-widget-container"
-	 data-language="<?php echo $this->language->getLanguageCode()?>"
-	 data-page="<?php echo $this->request->get['rt']?>"
-	 data-store-id="<?php echo UNIQUE_ID ?>">
-	<div class="embed abantecart_container"></div>
-</div>
+	<script src="//marketplace.abantecart.com/?rt=r/embed/mpjs" type="text/javascript"></script>
+	<div style="display:none;" class="embed abantecart-widget-container"
+		 data-language="<?php echo $this->language->getLanguageCode(); ?>"
+		 data-page="<?php echo $this->request->get['rt']; ?>"
+		 data-country-id="<?php echo $this->config->get('config_country_id'); ?>"
+		 data-zone-id="<?php echo $this->config->get('config_zone_id'); ?>"
+		 data-store-id="<?php echo UNIQUE_ID; ?>">
+		<div class="embed abantecart_container"></div>
+	</div>
 	<div class="leftpanel">
 
 		<div class="logopanel">
