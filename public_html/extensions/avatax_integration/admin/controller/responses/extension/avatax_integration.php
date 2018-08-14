@@ -34,31 +34,37 @@ class ControllerResponsesExtensionAvataxIntegration extends AController
         $serviceURL = $this->registry->get('config')->get('avatax_integration_service_url');
         $accountNumber = $this->registry->get('config')->get('avatax_integration_account_number');
         $licenseKey = $this->registry->get('config')->get('avatax_integration_license_key');
+
+        $json = array('message' => "Connection to Avatax server can not be established.\n"
+                            ."\nCheck your server configuration or contact your hosting provider.",
+                      'error' => true
+        );
+
         if (!empty($serviceURL) && !empty($accountNumber) && !empty($licenseKey)) {
-            $taxSvc = new AvaTax\TaxServiceRest($serviceURL, $accountNumber, $licenseKey);
-
-            $geoTaxResult = $taxSvc->ping("");
-            $json = array();
-            if ($geoTaxResult->getResultCode() != AvaTax\SeverityLevel::$Success) {
-                $warning = new AWarning('PingTest Result: '.$geoTaxResult->getResultCode().'.');
-                $warning->toLog()->toDebug();
-                $allMessages = "";
-                foreach ($geoTaxResult->getMessages() as $message) {
-                    $allMessages .= $message->getSummary()."\n";
+            try{
+                $taxSvc = new AvaTax\TaxServiceRest($serviceURL, $accountNumber, $licenseKey);
+                $geoTaxResult = $taxSvc->ping("");
+                if ($geoTaxResult->getResultCode() != AvaTax\SeverityLevel::$Success) {
+                    $warning = new AWarning('PingTest Result: '.$geoTaxResult->getResultCode().'.');
+                    $warning->toLog()->toDebug();
+                    $allMessages = "";
+                    foreach ($geoTaxResult->getMessages() as $message) {
+                        $allMessages .= $message->getSummary()."\n";
+                    }
+                    $json['message'] = "Connection to Avatax server can not be established.\n"
+                        .$allMessages
+                        ."\nCheck your server configuration or contact your hosting provider.";
+                    $json['error'] = true;
+                } else {
+                    $json['message'] = $this->language->get('text_connection_success');
+                    $json['error'] = false;
                 }
-                $json['message'] = "Connection to Avatax server can not be established.\n"
-                    .$allMessages
-                    ."\nCheck your server configuration or contact your hosting provider.";
-                $json['error'] = true;
-            } else {
-                $json['message'] = $this->language->get('text_connection_success');
-                $json['error'] = false;
-            }
+            }catch(Exception $e){}
 
-            $this->load->library('json');
-            $this->response->setOutput(AJson::encode($json));
         }
 
+        $this->load->library('json');
+        $this->response->setOutput(AJson::encode($json));
     }
 
 }
