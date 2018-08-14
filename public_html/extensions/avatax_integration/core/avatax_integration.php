@@ -435,12 +435,8 @@ class ExtensionAvataxIntegration extends Extension
         $temp = $that->model_localisation_zone->getZone($config->get('config_zone_id'));
         $originZone = $temp['code'];
         //Order data
-        if (version_compare(VERSION, '1.2.11', '<')) {
-            require_once DIR_EXT.'avatax_integration/core/lib/order.php';
-            $order = new AOrderAvatax($this->registry);
-        } else {
-            $order = new AOrder($this->registry);
-        }
+        $order = new AOrder($this->registry);
+
         if (IS_ADMIN) {
             $load->model('sale/order');
             $order_data = $that->model_sale_order->getOrder($order_id);
@@ -474,8 +470,9 @@ class ExtensionAvataxIntegration extends Extension
             $getTaxRequest->setCompanyCode($config->get('avatax_integration_company_code'));
             $getTaxRequest->setClient('AbanteCart');
 
-            $customer_settings =
-                $that->model_extension_avatax_integration->getCustomerSettings($cust_data['customer_id']);
+            $customer_settings = $that->model_extension_avatax_integration->getCustomerSettings(
+                $cust_data['customer_id']
+            );
             if ($order_id) {
                 $getTaxRequest->setDocDate($date);
                 $getTaxRequest->setDocCode($order_id.'-'.date("His", strtotime($order_data['date_added'])));
@@ -500,7 +497,7 @@ class ExtensionAvataxIntegration extends Extension
 
             if (is_array($customer_settings)) {
                 //if approved
-                if ($customer_settings['exemption_number']) {
+                if ($customer_settings['exemption_number'] && $customer_settings['status'] == 1 ) {
                     $getTaxRequest->setCustomerUsageType($customer_settings['entity_use_code']);
                     $getTaxRequest->setExemptionNo($customer_settings['exemption_number']);
                 }
