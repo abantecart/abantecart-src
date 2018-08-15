@@ -8,7 +8,7 @@
 
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left col-xs-12">
-		<?php if(sizeof($features_select->options)){?>
+		<?php if(sizeof((array)$features_select->options)){?>
 			<div class="form-group">
 				<div class="input-group input-group-sm">
 					<label><?php echo $entry_feature; ?></label>
