@@ -573,9 +573,9 @@ class ControllerResponsesSettingSettingQuickForm extends AController
         $steps = array(
             'details'    => '',
             'offer1'     => 'details',
-            'general'    => 'offer1',
+            'general'    => 'details',
             'offer2'     => 'general',
-            'checkout'   => 'offer2',
+            'checkout'   => 'general',
             'appearance' => 'checkout',
             'mail'       => 'appearance',
             'finished'   => 'mail',
