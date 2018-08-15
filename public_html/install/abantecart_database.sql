@@ -1698,7 +1698,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('mail', 'config_smtp_username', ''),
 ('mail', 'config_smtp_password', ''),
 ('mail', 'config_smtp_port', '25'),
-('mail', 'config_smtp_timeout', '5'),
+('mail', 'config_smtp_timeout', '10'),
 ('mail', 'config_alert_mail', '0'),
 
 
