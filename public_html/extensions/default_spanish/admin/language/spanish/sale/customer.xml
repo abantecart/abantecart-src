@@ -376,4 +376,12 @@
 		<key>text_register_date</key>
 		<value><![CDATA[Fecha de registro:]]></value>
 	</definition>
+	<definition>
+		<key>column_id</key>
+		<value><![CDATA[CARNÉ DE IDENTIDAD]]></value>
+	</definition>
+	<definition>
+		<key>error_incorrect_debit_credit</key>
+		<value><![CDATA[Error: el valor de débito o crédito no puede ser mayor que 99999999999.9999]]></value>
+	</definition>
 </definitions>

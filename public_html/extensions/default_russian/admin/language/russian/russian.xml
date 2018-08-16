@@ -752,4 +752,8 @@
 		<key>text_help_link</key>
 		<value><![CDATA[<a href="http://www.abantecart.com/contact-us" target="_abantecart">Нужна помощь?</a>]]></value>
 	</definition>
+	<definition>
+		<key>text_all_stores</key>
+		<value><![CDATA[Все магазины]]></value>
+	</definition>
 </definitions>

@@ -372,4 +372,12 @@
 		<key>text_register_date</key>
 		<value><![CDATA[Дата регистрации:]]></value>
 	</definition>
+	<definition>
+		<key>column_id</key>
+		<value><![CDATA[Я БЫ]]></value>
+	</definition>
+	<definition>
+		<key>error_incorrect_debit_credit</key>
+		<value><![CDATA[Ошибка: дебетовое или кредитное значение не может превышать 99999999999.9999]]></value>
+	</definition>
 </definitions>

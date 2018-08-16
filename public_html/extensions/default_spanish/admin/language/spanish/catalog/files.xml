@@ -260,4 +260,8 @@
 		<key>text_shared_with</key>
 		<value><![CDATA[Compartido con:]]></value>
 	</definition>
+	<definition>
+		<key>entry_also_mapped_to</key>
+		<value><![CDATA[Compartido con]]></value>
+	</definition>
 </definitions>

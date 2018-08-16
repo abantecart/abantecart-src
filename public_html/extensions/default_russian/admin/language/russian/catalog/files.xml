@@ -26,8 +26,7 @@
 	</definition>
 	<definition>
 		<key>entry_mask</key>
-		<value>
-			<![CDATA[Маска файла <span class="help">Имя файла выдаваемое покупателю при сохранении файла на диск</span>]]></value>
+		<value><![CDATA[Маска файла <span class="help">Имя файла выдаваемое покупателю при сохранении файла на диск</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_file_full_path</key>
@@ -35,8 +34,7 @@
 	</definition>
 	<definition>
 		<key>entry_file_max_downloads</key>
-		<value>
-			<![CDATA[Макс. количество закачек <span class="help">Количество закачек, позволяемых покупателю</span>]]></value>
+		<value><![CDATA[Макс. количество закачек <span class="help">Количество закачек, позволяемых покупателю</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_file_sort_order</key>
@@ -84,8 +82,7 @@
 	</definition>
 	<definition>
 		<key>entry_activate</key>
-		<value>
-			<![CDATA[Активавировать<span class="help">Загрузка будет доаступна по выбранному событию.<br>Пример: Немедленно. Загрузка активируется сразу после размещения заказа, независимо от его статуса.</span>]]></value>
+		<value><![CDATA[Активавировать<span class="help">Загрузка будет доаступна по выбранному событию.<br>Пример: Немедленно. Загрузка активируется сразу после размещения заказа, независимо от его статуса.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_sort_order</key>
@@ -93,8 +90,7 @@
 	</definition>
 	<definition>
 		<key>entry_expire_days</key>
-		<value>
-			<![CDATA[Количество дней до истечения<span class="help">Количество дней с момента покупки</span>]]></value>
+		<value><![CDATA[Количество дней до истечения<span class="help">Количество дней с момента покупки</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_before_order</key>
@@ -206,8 +202,7 @@
 	</definition>
 	<definition>
 		<key>text_no_download_attributes_yet</key>
-		<value>
-			<![CDATA[ Здесь пока нет атрибутов. <a href="%s" target="_blank">Нажмите здесь чтоб добавить</a>]]></value>
+		<value><![CDATA[ Здесь пока нет атрибутов. <a href="%s" target="_blank">Нажмите здесь чтоб добавить</a>]]></value>
 	</definition>
 	<definition>
 		<key>text_confirm_push</key>
@@ -251,8 +246,7 @@
 	</definition>
 	<definition>
 		<key>error_downloads_disabled</key>
-		<value>
-			<![CDATA[Внимание: Загрузки выключены в настройках магазина. <a href="#admin#rt=setting/setting&active=general" target="new">Изменить</a>!]]></value>
+		<value><![CDATA[Внимание: Загрузки выключены в настройках магазина. <a href="#admin#rt=setting/setting&active=general" target="new">Изменить</a>!]]></value>
 	</definition>
 	<definition>
 		<key>error_permission</key>
@@ -265,5 +259,9 @@
 	<definition>
 		<key>text_shared_with</key>
 		<value><![CDATA[Поделиться с:]]></value>
+	</definition>
+	<definition>
+		<key>entry_also_mapped_to</key>
+		<value><![CDATA[Также связано с]]></value>
 	</definition>
 </definitions>

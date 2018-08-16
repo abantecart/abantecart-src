@@ -460,4 +460,8 @@
 		<key>text_server_time</key>
 		<value><![CDATA[Время сервера]]></value>
 	</definition>
+	<definition>
+		<key>text_taxes</key>
+		<value><![CDATA[Налоги]]></value>
+	</definition>
 </definitions>
