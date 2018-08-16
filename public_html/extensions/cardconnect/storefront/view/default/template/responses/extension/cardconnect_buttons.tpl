@@ -8,7 +8,7 @@
 			<div class="col-sm-2 input-group controls">
 				<a href="<?php echo $edit_address; ?>" class="btn btn-default btn-sm">
 					<i class="fa fa-edit fa-fw"></i>
-					<?php echo $entry_edit; ?>
+                    <?php echo $entry_edit; ?>
 				</a>
 			</div>
 		</div>
@@ -16,38 +16,39 @@
 		<div class="form-group form-inline control-group">
 			<div class="col-sm-3 input-group">
 				<select class="form-control input-medium short" id="use_saved_cc" name="use_saved_cc">
-					<?php
-					foreach ($saved_cc_list->options as $v => $option) {
-						echo "<option value='$v'>$option</option>";
-					}
-					?>
+                    <?php
+                    foreach ($saved_cc_list->options as $v => $option) {
+                        echo "<option value='$v'>$option</option>";
+                    }
+                    ?>
 				</select>
 			</div>
 			<div class="col-sm-1 input-group controls">
 				<a id="delete_card" class="btn btn-default btn-sm"
 				   title="<?php echo $text_delete_saved_credit_card; ?>">
 					<i class="fa fa-trash-o fa-fw"></i>
-					<?php echo $text_delete_saved_credit_card; ?>
+                    <?php echo $text_delete_saved_credit_card; ?>
 				</a>
 			</div>
-			<?php if ($save_cc) { ?>
-			<div class="col-sm-1 input-group">
-				<a id="new_card" class="btn btn-info btn-sm" title="<?php echo $text_new_credit_card; ?>">
-					<i class="fa fa-plus fa-fw"></i>
-					<?php echo $text_new_credit_card; ?>
-				</a>
-			</div>
-			<?php } ?>
+            <?php if ($save_cc) { ?>
+				<div class="col-sm-1 input-group">
+					<a id="new_card" class="btn btn-info btn-sm" title="<?php echo $text_new_credit_card; ?>">
+						<i class="fa fa-plus fa-fw"></i>
+                        <?php echo $text_new_credit_card; ?>
+					</a>
+				</div>
+            <?php } ?>
 		</div>
 
 		<div class="form-group action-buttons text-center">
 			<a id="<?php echo $back->name ?>" href="<?php echo $back->href; ?>" class="btn btn-default mr10">
 				<i class="fa fa-arrow-left"></i>
-				<?php echo $back->text ?>
+                <?php echo $back->text ?>
 			</a>
-			<button id="<?php echo $submit->name ?>" class="btn btn-orange" title="<?php echo $submit->text ?>" type="submit">
+			<button id="<?php echo $submit->name ?>" class="btn btn-orange" title="<?php echo $submit->text ?>"
+					type="submit">
 				<i class="fa fa-check"></i>
-				<?php echo $submit->text; ?>
+                <?php echo $submit->text; ?>
 			</button>
 		</div>
 
@@ -56,22 +57,22 @@
 </div>
 
 <div class="enter_card" style="display:none;">
-	<?php } else { ?>
+    <?php } else { ?>
 
 	<div class="enter_card">
-		<?php } ?>
+        <?php } ?>
 
 		<form id="cardconnect" class="validate-creditcard">
 			<h4 class="heading4"><?php echo $text_credit_card; ?></h4>
 
-			<?php echo $this->getHookVar('payment_table_pre'); ?>
+            <?php echo $this->getHookVar('payment_table_pre'); ?>
 
 			<div class="form-group form-inline control-group">
 				<span class="subtext"><?php echo $entry_billing_address; ?>: <?php echo $payment_address; ?>...</span>
 				<div class="col-sm-2 input-group controls">
 					<a href="<?php echo $edit_address; ?>" class="btn btn-default btn-sm">
 						<i class="fa fa-edit fa-fw"></i>
-						<?php echo $entry_edit; ?>
+                        <?php echo $entry_edit; ?>
 					</a>
 				</div>
 			</div>
@@ -87,25 +88,26 @@
 			<div class="form-group form-inline control-group">
 				<label class="col-sm-4 control-label"><?php echo $entry_cc_number; ?></label>
 				<div class="col-sm-5 input-group controls">
-				<?php
-				$port = $this->config->get('cardconnect_test_mode') ? 6443 : 8443;
-				?>
-				<iframe id="tokenframe"
+                    <?php
+                    $port = $this->config->get('cardconnect_test_mode') ? 6443 : 8443;
+                    ?>
+					<iframe id="tokenframe"
 							name="tokenframe"
-							src="https://fts.cardconnect.com:<?php echo $port?>/itoke/ajax-tokenizer.html?invalidinputevent=true&css=input{border:1px solid rgb(204, 204, 204); width: 150px; padding: 6px 12px; height: 20px; font-size: 14px; line-height: 1.42857143; color: rgb(85, 85, 85); background-color: rgb(255, 255, 255); } body{margin: 0;}%2Eerror{color:%20red;}"
+							src="https://fts.cardconnect.com:<?php echo $port ?>/itoke/ajax-tokenizer.html?invalidinputevent=true&css=input{border:1px solid rgb(204, 204, 204); width: 150px; padding: 6px 12px; height: 20px; font-size: 14px; line-height: 1.42857143; color: rgb(85, 85, 85); background-color: rgb(255, 255, 255); } body{margin: 0;}%2Eerror{color:%20red;}"
 							frameborder="0" scrolling="no" width="100%"
 							height="35"></iframe>
 					<input type="hidden" name="cc_token" id="cc_token">
 				</div>
-				<?php if ($save_cc) { ?>
+                <?php if ($save_cc) { ?>
 					<div class="input-group col-sm-2 ml10">
 						<label>
 							<a data-toggle="tooltip"
 							   data-original-title="<?php echo $entry_cc_save_details; ?>"><?php echo $entry_cc_save; ?></a>
 						</label>
-						<input type="checkbox" value="0" id="save_cc" name="save_cc" style="position: relative; margin-left: 0;">
+						<input type="checkbox" value="0" id="save_cc" name="save_cc"
+							   style="position: relative; margin-left: 0;">
 					</div>
-				<?php } ?>
+                <?php } ?>
 				<span class="help-block"></span>
 			</div>
 			<div class="form-group form-inline control-group">
@@ -113,21 +115,21 @@
 				<div class="col-sm-3 input-group controls">
 					<select data-placeholder="" class="form-control input-medium short" id="cc_expire_date_month"
 							name="cc_expire_date_month">
-						<?php
-						foreach ($cc_expire_date_month->options as $v => $option) {
-							echo "<option value='$v'>$option</option>";
-						}
-						?>
+                        <?php
+                        foreach ($cc_expire_date_month->options as $v => $option) {
+                            echo "<option value='$v'>$option</option>";
+                        }
+                        ?>
 					</select>
 				</div>
 				<div class="col-sm-2 input-group controls">
 					<select data-placeholder="" class="form-control short" id="cc_expire_date_year"
 							name="cc_expire_date_year">
-						<?php
-						foreach ($cc_expire_date_year->options as $v => $option) {
-							echo "<option value='$v'>$option</option>";
-						}
-						?>
+                        <?php
+                        foreach ($cc_expire_date_year->options as $v => $option) {
+                            echo "<option value='$v'>$option</option>";
+                        }
+                        ?>
 					</select>
 				</div>
 				<span class="help-block"></span>
@@ -143,13 +145,13 @@
 				<span class="help-block"></span>
 			</div>
 
-			<?php echo $this->getHookVar('payment_table_post'); ?>
+            <?php echo $this->getHookVar('payment_table_post'); ?>
 
 			<div class="form-group action-buttons text-center">
 				<button id="<?php echo $submit->name ?>" class="btn btn-orange" title="<?php echo $submit->text ?>"
 						type="submit">
 					<i class="fa fa-check"></i>
-					<?php echo $submit->text; ?>
+                    <?php echo $submit->text; ?>
 				</button>
 			</div>
 		</form>
@@ -176,14 +178,15 @@
 	<script type="text/javascript"><!--
 		jQuery(document).ready(function () {
 			window.addEventListener('message',
-									function(event) {
-											try {
-												var token = JSON.parse(event.data);
-												var mytoken = $('#cc_token');
-												mytoken.val(token.message);
-											}catch(e){}
-											},
-									false);
+				function (event) {
+					try {
+						var token = JSON.parse(event.data);
+						var mytoken = $('#cc_token');
+						mytoken.val(token.message);
+					} catch (e) {
+					}
+				},
+				false);
 
 			var submitSent = false;
 			$('#new_card').click(function () {
@@ -194,7 +197,7 @@
 
 			$('#delete_card').click(function () {
 				var $form = $('#cardconnect_saved_cc');
-				confirmSubmit($form, 'index.php?rt=<?php echo $cardconnect_rt; ?>/delete_card');
+				confirmSubmit($form, '<?php echo $delete_card_url; ?>');
 			});
 
 			$('#enter_card').hover(function () {
@@ -212,7 +215,7 @@
 			$('#cardconnect_saved_cc').submit(function (event) {
 				event.preventDefault();
 				var $form = $(this);
-				confirmSubmit($form, 'index.php?rt=<?php echo $cardconnect_rt; ?>/send');
+				confirmSubmit($form, '<?php echo $action; ?>');
 			});
 
 			//validate submit
@@ -221,11 +224,11 @@
 				if (submitSent !== true) {
 					submitSent = true;
 					var $form = $(this);
-					if (!$.aCCValidator.validate($form) || $('#cc_token').val().length<1) {
+					if (!$.aCCValidator.validate($form) || $('#cc_token').val().length < 1) {
 						submitSent = false;
 						return false;
 					} else {
-						confirmSubmit($form, 'index.php?rt=<?php echo $cardconnect_rt; ?>/send');
+						confirmSubmit($form, '<?php echo $action; ?>');
 					}
 				}
 			});
