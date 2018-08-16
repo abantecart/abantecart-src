@@ -372,20 +372,42 @@ class ControllerResponsesSettingSettingQuickForm extends AController
             $this->session->data['quick_start_step'] = 'details';
         }
         $section = $this->session->data['quick_start_step'];
-        $template = 'responses/setting/quick_start.tpl';
+        //if offers - try to get data first
+        $offer_response  = array();
         if (in_array($section, array('offer1', 'offer2'))) {
-            $this->_getOfferButtons($section);
-            $this->data['quick_start_note'] =  '';
-            $template = "responses/setting/{$section}.tpl";
+            $this->load->model('tool/mp_api');
             $params = array(
                 'language' => $this->language->getLanguageCode(),
                 'countryId' =>  $this->config->get('config_country_id'),
                 'zoneId'    => $this->config->get('config_zone_id'),
                 'storeId'   => UNIQUE_ID
             );
-            $this->load->model('tool/mp_api');
-            $this->data[$section.'_url'] = $this->model_tool_mp_api->getMPURL()
-                                            . '?rt=embed/mpjs/'.$section.'&'.http_build_query($params);
+            $url = $this->model_tool_mp_api->getMPURL(). '?rt=embed/mpjs/'.$section.'&'.http_build_query($params);
+            $connect  = new AConnect();
+            $offer_response = $connect->getResponse($url);
+            $this->load->library('json');
+            $offer_response = AJson::decode($offer_response, true);
+            if($offer_response){
+                $this->data['title'] = $offer_response['title'];
+                $this->data['html'] = $offer_response['html'];
+            }else{
+                //skip step if no data
+                $section = $this->_next_step($section);
+                $this->session->data['quick_start_step'] = $section;
+            }
+        }
+
+
+        $template = 'responses/setting/quick_start.tpl';
+        if (in_array($section, array('offer1', 'offer2'))) {
+            $this->getOfferButtons($section);
+            $this->data['quick_start_note'] =  '';
+            $template = "responses/setting/{$section}.tpl";
+            if($offer_response){
+                $this->data['title'] = $offer_response['title'];
+                $this->data['html'] = $offer_response['html'];
+            }
+
         } elseif ($section == 'finished') {
             $this->data['payments_selection'] = $this->html->convertLinks($this->language->get('payments_selection'));
             $this->data['shipping_selection'] = $this->html->convertLinks($this->language->get('shipping_selection'));
@@ -415,7 +437,7 @@ class ControllerResponsesSettingSettingQuickForm extends AController
             } else {
                 $data = $this->model_setting_setting->getSetting($section, $this->data['store_id']);
             }
-            $this->_getQuickStartForm($section, $data);
+            $this->getQuickStartForm($section, $data);
 
             if ($section == 'details') {
                 //welcome message for the first step
@@ -442,7 +464,7 @@ class ControllerResponsesSettingSettingQuickForm extends AController
         $this->processTemplate($template);
     }
 
-    protected function _getOfferButtons($step)
+    protected function getOfferButtons($step)
     {
         $this->data['action'] = $this->html->getSecureURL(
                                                     'setting/setting_quick_form/quick_start_save_next',
@@ -477,7 +499,7 @@ class ControllerResponsesSettingSettingQuickForm extends AController
 
     }
 
-    protected function _getQuickStartForm($section, $settings_data)
+    protected function getQuickStartForm($section, $settings_data)
     {
         if ($settings_data['tmpl_id']) {
             //template settings

@@ -2,32 +2,13 @@
 
 <div id="offer2_title" class="modal-header">
 	<button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
-	<h4 class="modal-title"></h4>
+	<h4 class="modal-title"><?php echo $title; ?></h4>
 </div>
 
 <div id="setting_form" class="tab-content">
 	<?php echo $form['form_open']; ?>
 	<div id="offer2_content" class="panel-body panel-body-nopadding">
-		<script type="application/javascript">
-			try{
-				$(document).ready(function(){
-					$.get('<?php echo $offer2_url?>', function(data){
-						if(data.length<1){
-							$('#offer2_next').click();
-							return false;
-						}
-						$('#offer2_content').html(data.html);
-						$('#offer2_title h4').html(data.title);
-					}, 'JSON'
-					).error(function() {
-						$('#offer2_next').click();
-					});
-				});
-			}catch (e) {
-				//go to next step
-				$('#offer2_next').click();
-			}
-		</script>
+		<?php echo $html; ?>
 	</div>
 	<div class="panel-footer">
 		<div class="row">
