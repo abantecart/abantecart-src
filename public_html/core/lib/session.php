@@ -124,8 +124,8 @@ final class ASession
 
     public function clear()
     {
-        session_unset();
-        session_destroy();
+        @session_unset();
+        @session_destroy();
         $_SESSION = array();
     }
 
