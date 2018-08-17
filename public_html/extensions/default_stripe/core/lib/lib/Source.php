@@ -5,23 +5,23 @@ namespace Stripe;
 /**
  * Class Source
  *
- * @property string $id
- * @property string $object
- * @property int $amount
- * @property string $client_secret
- * @property mixed $code_verification
- * @property int $created
- * @property string $currency
- * @property string $flow
- * @property bool $livemode
+ * @property string       $id
+ * @property string       $object
+ * @property int          $amount
+ * @property string       $client_secret
+ * @property mixed        $code_verification
+ * @property int          $created
+ * @property string       $currency
+ * @property string       $flow
+ * @property bool         $livemode
  * @property StripeObject $metadata
- * @property mixed $owner
- * @property mixed $receiver
- * @property mixed $redirect
- * @property string $statement_descriptor
- * @property string $status
- * @property string $type
- * @property string $usage
+ * @property mixed        $owner
+ * @property mixed        $receiver
+ * @property mixed        $redirect
+ * @property string       $statement_descriptor
+ * @property string       $status
+ * @property string       $type
+ * @property string       $usage
  *
  * @package Stripe
  */
@@ -32,7 +32,7 @@ class Source extends ApiResource
     use ApiOperations\Update;
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return Source The detached source.
@@ -45,7 +45,7 @@ class Source extends ApiResource
         if (!$id) {
             $class = get_class($this);
             $msg = "Could not determine which URL to request: $class instance "
-             . "has invalid ID: $id";
+                ."has invalid ID: $id";
             throw new Error\InvalidRequest($msg, null);
         }
 
@@ -60,13 +60,13 @@ class Source extends ApiResource
             return $this;
         } else {
             $message = "This source object does not appear to be currently attached "
-               . "to a customer object.";
+                ."to a customer object.";
             throw new Error\Api($message);
         }
     }
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return Source The detached source.
@@ -79,14 +79,14 @@ class Source extends ApiResource
     }
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return Collection The list of source transactions.
      */
     public function sourceTransactions($params = null, $options = null)
     {
-        $url = $this->instanceUrl() . '/source_transactions';
+        $url = $this->instanceUrl().'/source_transactions';
         list($response, $opts) = $this->_request('get', $url, $params, $options);
         $obj = Util\Util::convertToStripeObject($response, $opts);
         $obj->setLastResponse($response);
@@ -94,14 +94,14 @@ class Source extends ApiResource
     }
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return Source The verified source.
      */
     public function verify($params = null, $options = null)
     {
-        $url = $this->instanceUrl() . '/verify';
+        $url = $this->instanceUrl().'/verify';
         list($response, $opts) = $this->_request('post', $url, $params, $options);
         $this->refreshFrom($response, $opts);
         return $this;

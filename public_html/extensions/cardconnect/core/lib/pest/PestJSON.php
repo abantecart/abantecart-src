@@ -38,8 +38,9 @@ class PestJSON extends Pest
      * Perform an HTTP POST
      *
      * @param string $url
-     * @param array $data
-     * @param array $headers
+     * @param array  $data
+     * @param array  $headers
+     *
      * @return string
      */
     public function post($url, $data, $headers = array())
@@ -51,8 +52,9 @@ class PestJSON extends Pest
      * Perform HTTP PUT
      *
      * @param string $url
-     * @param array $data
-     * @param array $headers
+     * @param array  $data
+     * @param array  $headers
+     *
      * @return string
      */
     public function put($url, $data, $headers = array())
@@ -64,6 +66,7 @@ class PestJSON extends Pest
      * JSON encode with error checking
      *
      * @param mixed $data
+     *
      * @return string
      * @throws Pest_Json_Encode
      */
@@ -73,7 +76,7 @@ class PestJSON extends Pest
 
         if ($ret === false && $this->throwJsonExceptions) {
             throw new Pest_Json_Encode(
-                'Encoding error: ' . $this->getLastJsonErrorMessage(),
+                'Encoding error: '.$this->getLastJsonErrorMessage(),
                 $this->getLastJsonErrorCode()
             );
         }
@@ -85,17 +88,18 @@ class PestJSON extends Pest
      * Decode a JSON string with error checking
      *
      * @param string $data
-     * @param bool $asArray
+     * @param bool   $asArray
+     *
      * @throws Pest_Json_Decode
      * @return mixed
      */
-    public function jsonDecode($data, $asArray=true)
+    public function jsonDecode($data, $asArray = true)
     {
         $ret = json_decode($data, $asArray);
 
         if ($ret === null && $this->hasJsonDecodeFailed() && $this->throwJsonExceptions) {
             throw new Pest_Json_Decode(
-                'Decoding error: ' . $this->getLastJsonErrorMessage(),
+                'Decoding error: '.$this->getLastJsonErrorMessage(),
                 $this->getLastJsonErrorCode()
             );
         }
@@ -117,7 +121,7 @@ class PestJSON extends Pest
 
         // Use the newer JSON error message function if it exists
         if (function_exists('json_last_error_msg')) {
-            return(json_last_error_msg());
+            return (json_last_error_msg());
         }
 
         $lastError = json_last_error();
@@ -146,9 +150,9 @@ class PestJSON extends Pest
         }
     }
 
-
     /**
      * Get last JSON error code
+     *
      * @return int|null
      */
     public function getLastJsonErrorCode()
@@ -163,6 +167,7 @@ class PestJSON extends Pest
 
     /**
      * Check if decoding failed
+     *
      * @return bool
      */
     private function hasJsonDecodeFailed()
@@ -177,7 +182,9 @@ class PestJSON extends Pest
 
     /**
      * Process body
+     *
      * @param string $body
+     *
      * @return mixed|string
      */
     public function processBody($body)
@@ -188,8 +195,9 @@ class PestJSON extends Pest
     /**
      * Prepare request
      *
-     * @param array $opts
+     * @param array  $opts
      * @param string $url
+     *
      * @return resource
      */
     protected function prepRequest($opts, $url)
@@ -202,9 +210,13 @@ class PestJSON extends Pest
 
 // JSON Errors
 /* decode */
+
 class Pest_Json_Decode extends Pest_ClientError
-{}
+{
+}
 
 /* encode */
+
 class Pest_Json_Encode extends Pest_ClientError
-{}
+{
+}

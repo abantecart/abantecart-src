@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -17,37 +17,43 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if ( !defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')) {
+    header('Location: static_pages/');
 }
 
-class ControllerResponsesExtensionDefaultUpsSave extends AController {
-	private $required_fields = array(
-			'default_ups_key',
-			'default_ups_username',
-			'default_ups_password',
-			'default_ups_city',
-			'default_ups_state',
-			'default_ups_country',
-            'default_ups_weight_code',
-            'default_ups_weight_class',
-            'default_ups_length_class',
-            'default_ups_length',
-            'default_ups_height',
-            'default_ups_width',
-		);
-    public function main(){}
-    public function update() {
+class ControllerResponsesExtensionDefaultUpsSave extends AController
+{
+    private $required_fields = array(
+        'default_ups_key',
+        'default_ups_username',
+        'default_ups_password',
+        'default_ups_city',
+        'default_ups_state',
+        'default_ups_country',
+        'default_ups_weight_code',
+        'default_ups_weight_class',
+        'default_ups_length_class',
+        'default_ups_length',
+        'default_ups_height',
+        'default_ups_width',
+    );
+
+    public function main()
+    {
+    }
+
+    public function update()
+    {
 
         $this->loadLanguage('extension/extensions');
 
         if (!$this->user->canModify('extension/extensions')) {
-            $this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'extension/extensions') );
+            $this->response->setOutput(sprintf($this->language->get('error_permission_modify'), 'extension/extensions'));
             return null;
         }
-        foreach($this->required_fields as $fld){
-            if( isset( $this->request->post[$fld] ) && trim($this->request->post[$fld])==''){
-                $this->response->setOutput( sprintf($this->language->get('error_required_field'), 'extension/extensions') );
+        foreach ($this->required_fields as $fld) {
+            if (isset($this->request->post[$fld]) && trim($this->request->post[$fld]) == '') {
+                $this->response->setOutput(sprintf($this->language->get('error_required_field'), 'extension/extensions'));
                 return null;
             }
         }
@@ -56,9 +62,8 @@ class ControllerResponsesExtensionDefaultUpsSave extends AController {
         $store_id = is_null($store_id) ? $this->config->get('config_store_id') : $store_id;
         $this->request->post['store_id'] = $store_id;
 
-
-        if(isset($this->request->post['default_ups_weight_code']) && !in_array($this->request->post['default_ups_weight_code'], array('lb','kgs'))){
-            $this->response->setOutput( 'Error: kgs or lb only!' );
+        if (isset($this->request->post['default_ups_weight_code']) && !in_array($this->request->post['default_ups_weight_code'], array('lb', 'kgs'))) {
+            $this->response->setOutput('Error: kgs or lb only!');
             return null;
         }
         $this->extension_manager->editSetting('default_ups', $this->request->post);

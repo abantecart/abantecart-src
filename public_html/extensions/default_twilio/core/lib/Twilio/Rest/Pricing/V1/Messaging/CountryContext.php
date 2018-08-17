@@ -13,29 +13,33 @@ use Twilio\InstanceContext;
 use Twilio\Values;
 use Twilio\Version;
 
-class CountryContext extends InstanceContext {
+class CountryContext extends InstanceContext
+{
     /**
      * Initialize the CountryContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $isoCountry The iso_country
-     * @return \Twilio\Rest\Pricing\V1\Messaging\CountryContext 
+     *
+     * @param \Twilio\Version $version    Version that contains the resource
+     * @param string          $isoCountry The iso_country
+     *
+     * @return \Twilio\Rest\Pricing\V1\Messaging\CountryContext
      */
-    public function __construct(Version $version, $isoCountry) {
+    public function __construct(Version $version, $isoCountry)
+    {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('isoCountry' => $isoCountry, );
+        $this->solution = array('isoCountry' => $isoCountry,);
 
-        $this->uri = '/Messaging/Countries/' . rawurlencode($isoCountry) . '';
+        $this->uri = '/Messaging/Countries/'.rawurlencode($isoCountry).'';
     }
 
     /**
      * Fetch a CountryInstance
-     * 
+     *
      * @return CountryInstance Fetched CountryInstance
      */
-    public function fetch() {
+    public function fetch()
+    {
         $params = Values::of(array());
 
         $payload = $this->version->fetch(
@@ -49,14 +53,15 @@ class CountryContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Pricing.V1.CountryContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Pricing.V1.CountryContext '.implode(' ', $context).']';
     }
 }

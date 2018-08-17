@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,109 +17,115 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' )) {
-		header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')) {
+    header('Location: static_pages/');
 }
 
-class ModelToolFormsManager extends Model {
+class ModelToolFormsManager extends Model
+{
 
-	public $error = array();
+    public $error = array();
 
-	public function getFormFullInfo($form_id) {
-		$result = array();
+    public function getFormFullInfo($form_id)
+    {
+        $result = array();
 
-		if ( $form_id ) {
-			$result = $this->getForm($form_id);
-			if ( !empty($result) ) {
+        if ($form_id) {
+            $result = $this->getForm($form_id);
+            if (!empty($result)) {
 
-				$result['fields'] = $this->getFields($form_id);
-			}
-		}
+                $result['fields'] = $this->getFields($form_id);
+            }
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	public function getForm($form_id) {
+    public function getForm($form_id)
+    {
 
-		if ($form_id) {
-			$q = 'SELECT f.*, fd.language_id, fd.description
-				FROM ' . $this->db->table("forms") . ' f
-				LEFT JOIN ' . $this->db->table("form_descriptions") . ' fd
+        if ($form_id) {
+            $q = 'SELECT f.*, fd.language_id, fd.description
+				FROM '.$this->db->table("forms").' f
+				LEFT JOIN '.$this->db->table("form_descriptions").' fd
 				ON f.form_id = fd.form_id
-				WHERE f.form_id = "' . (int)$form_id .  '"
-				AND fd.language_id = "' . (int)$this->config->get('storefront_language_id') . '"';
+				WHERE f.form_id = "'.(int)$form_id.'"
+				AND fd.language_id = "'.(int)$this->config->get('storefront_language_id').'"';
 
-			$results = $this->db->query($q);
+            $results = $this->db->query($q);
 
-			return $results->row;
-		}
-		return array();
-	}
+            return $results->row;
+        }
+        return array();
+    }
 
-	public function getFields($form_id) {
+    public function getFields($form_id)
+    {
 
-		$fields = array();
+        $fields = array();
 
-		$query = $this->db->query("
+        $query = $this->db->query("
             SELECT f.*, fd.name, fd.description
-            FROM " . $this->db->table("fields") . " f
-                LEFT JOIN " . $this->db->table("field_descriptions") . " fd ON ( f.field_id = fd.field_id AND fd.language_id = '" . (int)$this->config->get('storefront_language_id') . "' )
-            WHERE f.form_id = '" . (int) $form_id . "'
+            FROM ".$this->db->table("fields")." f
+                LEFT JOIN ".$this->db->table("field_descriptions")." fd ON ( f.field_id = fd.field_id AND fd.language_id = '".(int)$this->config->get('storefront_language_id')."' )
+            WHERE f.form_id = '".(int)$form_id."'
                 AND f.status = 1
             ORDER BY f.sort_order"
-		);
+        );
 
-		if ( $query->num_rows ) {
-			foreach ( $query->rows as $row ) {
+        if ($query->num_rows) {
+            foreach ($query->rows as $row) {
 
-				if ( has_value($row['settings']) ) {
-					$row['settings'] = unserialize($row['settings']);
-				}
+                if (has_value($row['settings'])) {
+                    $row['settings'] = unserialize($row['settings']);
+                }
 
-				$fields[ $row['field_id'] ] = $row;
-				$query = $this->db->query("
+                $fields[$row['field_id']] = $row;
+                $query = $this->db->query("
 					SELECT *
-					FROM " . $this->db->table("field_values") . "
-					WHERE field_id = '" . $row['field_id'] . "'
-						AND language_id = '" . (int)$this->config->get('storefront_language_id') . "'"
-				);
-				if ( $query->num_rows ) {
-					$fields[ $row['field_id'] ]['values'] = $query->rows;
-				}
-			}
-		}
-		return $fields;
-	}
+					FROM ".$this->db->table("field_values")."
+					WHERE field_id = '".$row['field_id']."'
+						AND language_id = '".(int)$this->config->get('storefront_language_id')."'"
+                );
+                if ($query->num_rows) {
+                    $fields[$row['field_id']]['values'] = $query->rows;
+                }
+            }
+        }
+        return $fields;
+    }
 
-	public function getRequiredFields($form_id) {
+    public function getRequiredFields($form_id)
+    {
 
-		$query = $this->db->query("
+        $query = $this->db->query("
             SELECT field_id, field_name
-            FROM " . $this->db->table("fields") . "
-            	WHERE form_id = '" . (int) $form_id . "'
+            FROM ".$this->db->table("fields")."
+            	WHERE form_id = '".(int)$form_id."'
                 AND status = 1
                 AND required = 'Y'
             ORDER BY sort_order"
-		);
+        );
 
-		if ( $query->num_rows ) {
-			return $query->rows;
-		}
-		return array();
-	}
+        if ($query->num_rows) {
+            return $query->rows;
+        }
+        return array();
+    }
 
-	public function getFieldTypes($form_id) {
-		$query = $this->db->query(
-			'SELECT field_id, field_name, element_type FROM ' . $this->db->table("fields") . '
-				WHERE form_id = "' . (int) $form_id . '"
+    public function getFieldTypes($form_id)
+    {
+        $query = $this->db->query(
+            'SELECT field_id, field_name, element_type FROM '.$this->db->table("fields").'
+				WHERE form_id = "'.(int)$form_id.'"
 				AND status = 1
 			ORDER BY sort_order'
-		);
+        );
 
-		if ( $query->num_rows ) {
-			return $query->rows;
-		}
-		return array();
-	}
+        if ($query->num_rows) {
+            return $query->rows;
+        }
+        return array();
+    }
 
 }

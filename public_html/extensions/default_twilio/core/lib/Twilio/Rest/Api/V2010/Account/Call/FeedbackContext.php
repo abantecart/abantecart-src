@@ -15,37 +15,44 @@ use Twilio\Serialize;
 use Twilio\Values;
 use Twilio\Version;
 
-class FeedbackContext extends InstanceContext {
+class FeedbackContext extends InstanceContext
+{
     /**
      * Initialize the FeedbackContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $accountSid The account_sid
-     * @param string $callSid The call sid that uniquely identifies the call
-     * @return \Twilio\Rest\Api\V2010\Account\Call\FeedbackContext 
+     *
+     * @param \Twilio\Version $version    Version that contains the resource
+     * @param string          $accountSid The account_sid
+     * @param string          $callSid    The call sid that uniquely identifies the call
+     *
+     * @return \Twilio\Rest\Api\V2010\Account\Call\FeedbackContext
      */
-    public function __construct(Version $version, $accountSid, $callSid) {
+    public function __construct(Version $version, $accountSid, $callSid)
+    {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('accountSid' => $accountSid, 'callSid' => $callSid, );
+        $this->solution = array('accountSid' => $accountSid, 'callSid' => $callSid,);
 
-        $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/Calls/' . rawurlencode($callSid) . '/Feedback.json';
+        $this->uri = '/Accounts/'.rawurlencode($accountSid).'/Calls/'.rawurlencode($callSid).'/Feedback.json';
     }
 
     /**
      * Create a new FeedbackInstance
-     * 
-     * @param integer $qualityScore The quality_score
-     * @param array|Options $options Optional Arguments
+     *
+     * @param integer       $qualityScore The quality_score
+     * @param array|Options $options      Optional Arguments
+     *
      * @return FeedbackInstance Newly created FeedbackInstance
      */
-    public function create($qualityScore, $options = array()) {
+    public function create($qualityScore, $options = array())
+    {
         $options = new Values($options);
 
         $data = Values::of(array(
             'QualityScore' => $qualityScore,
-            'Issue' => Serialize::map($options['issue'], function($e) { return $e; }),
+            'Issue'        => Serialize::map($options['issue'], function ($e) {
+                return $e;
+            }),
         ));
 
         $payload = $this->version->create(
@@ -65,10 +72,11 @@ class FeedbackContext extends InstanceContext {
 
     /**
      * Fetch a FeedbackInstance
-     * 
+     *
      * @return FeedbackInstance Fetched FeedbackInstance
      */
-    public function fetch() {
+    public function fetch()
+    {
         $params = Values::of(array());
 
         $payload = $this->version->fetch(
@@ -87,17 +95,21 @@ class FeedbackContext extends InstanceContext {
 
     /**
      * Update the FeedbackInstance
-     * 
-     * @param integer $qualityScore An integer from 1 to 5
-     * @param array|Options $options Optional Arguments
+     *
+     * @param integer       $qualityScore An integer from 1 to 5
+     * @param array|Options $options      Optional Arguments
+     *
      * @return FeedbackInstance Updated FeedbackInstance
      */
-    public function update($qualityScore, $options = array()) {
+    public function update($qualityScore, $options = array())
+    {
         $options = new Values($options);
 
         $data = Values::of(array(
             'QualityScore' => $qualityScore,
-            'Issue' => Serialize::map($options['issue'], function($e) { return $e; }),
+            'Issue'        => Serialize::map($options['issue'], function ($e) {
+                return $e;
+            }),
         ));
 
         $payload = $this->version->update(
@@ -117,14 +129,15 @@ class FeedbackContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Api.V2010.FeedbackContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Api.V2010.FeedbackContext '.implode(' ', $context).']';
     }
 }

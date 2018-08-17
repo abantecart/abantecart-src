@@ -553,8 +553,8 @@ class ControllerPagesExtensionExtensions extends AController
         if ($this->request->is_POST() && $this->_validateSettings($extension, $store_id)) {
 
             $save_data = $this->request->post;
-            foreach($save_data as $k=>&$v){
-                if(is_string($v)){
+            foreach ($save_data as $k => &$v) {
+                if (is_string($v)) {
                     $v = trim($v);
                 }
             }
@@ -896,7 +896,7 @@ class ControllerPagesExtensionExtensions extends AController
 
     /**
      * @param string $extension
-     * @param int $store_id
+     * @param int    $store_id
      *
      * @return bool
      */
@@ -988,7 +988,8 @@ class ControllerPagesExtensionExtensions extends AController
             $missing_extensions = $this->extensions->getMissingExtensions();
 
             if ((!in_array($this->request->get['extension'], $missing_extensions))
-                && $this->config->has($this->request->get['extension'].'_status')) {
+                && $this->config->has($this->request->get['extension'].'_status')
+            ) {
                 $this->session->data['error'] = $this->language->get('error_uninstall');
                 redirect($this->html->getSecureURL('extension/extensions/'.$this->session->data['extension_filter']));
             }

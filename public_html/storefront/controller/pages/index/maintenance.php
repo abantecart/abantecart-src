@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,33 +17,35 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')) {
+    header('Location: static_pages/');
 }
-class ControllerPagesIndexMaintenance extends AController {
-	public $data;
 
-	public function main() {
+class ControllerPagesIndexMaintenance extends AController
+{
+    public $data;
+
+    public function main()
+    {
 
         //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->document->setTitle( $this->language->get('heading_title') );
-        
-        
+        $this->document->setTitle($this->language->get('heading_title'));
+
         $this->data['language'] = $this->language->get('code');
         $this->data['direction'] = $this->language->get('direction');
-        
+
         $this->data['title'] = $this->language->get('heading_title');
-                
+
         $this->document->resetBreadcrumbs();
 
-        $this->document->addBreadcrumb( array ( 
+        $this->document->addBreadcrumb(array(
             'href'      => ($this->html->getURL('index/maintenance')),
             'text'      => $this->language->get('text_maintenance'),
-            'separator' => FALSE
-         )); 
-        
+            'separator' => false,
+        ));
+
         $this->data['breadcrumbs'] = $this->document->getBreadcrumbs();
         $this->data['message'] = $this->language->get('text_message');
         $this->view->batchAssign($this->data);
@@ -51,7 +53,7 @@ class ControllerPagesIndexMaintenance extends AController {
         $this->processTemplate('pages/index/maintenance.tpl');
 
         //init controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
     }
 }

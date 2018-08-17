@@ -1,11 +1,12 @@
-<?php  
+<?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -18,17 +19,20 @@
    needs please refer to http://www.AbanteCart.com for more information.  
 ------------------------------------------------------------------------------*/
 
-class ControllerCommonContentBottom extends AController {
-	public function main() {
+class ControllerCommonContentBottom extends AController
+{
+    public function main()
+    {
 
         //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$this->processTemplate('common/content_bottom.tpl');
+        $this->processTemplate('common/content_bottom.tpl');
 
         //init controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-	}
+    }
 }
+
 ?>

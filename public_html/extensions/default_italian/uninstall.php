@@ -9,8 +9,8 @@
 
 ------------------------------------------------------------------------------*/
 
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')) {
+    header('Location: static_pages/');
 }
 
 $language_id = $this->db->query("SELECT language_id FROM ".DB_PREFIX."languages WHERE code='it'");

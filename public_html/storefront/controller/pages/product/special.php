@@ -133,7 +133,7 @@ class ControllerPagesProductSpecial extends AController
                 $discount = $promotion->getProductDiscount($result['product_id']);
                 if ($discount) {
                     $price = $this->currency->format(
-                        $this->tax->calculate($discount, $result['tax_class_id'],$this->config->get('config_tax'))
+                        $this->tax->calculate($discount, $result['tax_class_id'], $this->config->get('config_tax'))
                     );
                 } else {
                     $price = $this->currency->format(
@@ -146,7 +146,7 @@ class ControllerPagesProductSpecial extends AController
                     $special = $promotion->getProductSpecial($result['product_id']);
                     if ($special) {
                         $special = $this->currency->format(
-                            $this->tax->calculate($special, $result['tax_class_id'],$this->config->get('config_tax'))
+                            $this->tax->calculate($special, $result['tax_class_id'], $this->config->get('config_tax'))
                         );
                     }
                 }
@@ -172,8 +172,8 @@ class ControllerPagesProductSpecial extends AController
                 $no_stock_text = $this->language->get('text_out_of_stock');
                 $total_quantity = 0;
                 $stock_checkout = $result['stock_checkout'] === ''
-                                    ? $this->config->get('config_stock_checkout')
-                                    : $result['stock_checkout'];
+                    ? $this->config->get('config_stock_checkout')
+                    : $result['stock_checkout'];
                 if ($stock_info[$result['product_id']]['subtract']) {
                     $track_stock = true;
                     $total_quantity = $stock_info[$result['product_id']]['quantity'];
@@ -196,10 +196,10 @@ class ControllerPagesProductSpecial extends AController
                     'special'        => $special,
                     'thumb'          => $thumbnail,
                     'href'           => $this->html->getSEOURL(
-                                            'product/product',
-                                            '&product_id='.$result['product_id'],
-                                            '&encode'
-                                        ),
+                        'product/product',
+                        '&product_id='.$result['product_id'],
+                        '&encode'
+                    ),
                     'add'            => $add,
                     'description'    => html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
                     'blurb'          => $result['blurb'],
@@ -288,23 +288,23 @@ class ControllerPagesProductSpecial extends AController
 
             $this->data['sorts'] = $sorts;
             $pagination_url = $this->html->getURL(
-                                    'product/special',
-                                    '&sort='.$sorting_href.'&page={page}'.'&limit='.$limit,
-                                    '&encode'
+                'product/special',
+                '&sort='.$sorting_href.'&page={page}'.'&limit='.$limit,
+                '&encode'
             );
 
             $this->data['pagination_bootstrap'] = $this->html->buildElement(
-                                    array(
-                                        'type'       => 'Pagination',
-                                        'name'       => 'pagination',
-                                        'text'       => $this->language->get('text_pagination'),
-                                        'text_limit' => $this->language->get('text_per_page'),
-                                        'total'      => $product_total,
-                                        'page'       => $page,
-                                        'limit'      => $limit,
-                                        'url'        => $pagination_url,
-                                        'style'      => 'pagination',
-                                    )
+                array(
+                    'type'       => 'Pagination',
+                    'name'       => 'pagination',
+                    'text'       => $this->language->get('text_pagination'),
+                    'text_limit' => $this->language->get('text_per_page'),
+                    'total'      => $product_total,
+                    'page'       => $page,
+                    'limit'      => $limit,
+                    'url'        => $pagination_url,
+                    'style'      => 'pagination',
+                )
             );
 
             $this->data['sort'] = $sort;
@@ -315,12 +315,12 @@ class ControllerPagesProductSpecial extends AController
         } else {
             $this->view->assign('text_error', $this->language->get('text_empty'));
             $continue = $this->html->buildElement(
-                                array(
-                                    'type'  => 'button',
-                                    'name'  => 'continue_button',
-                                    'text'  => $this->language->get('button_continue'),
-                                    'style' => 'button',
-                                ));
+                array(
+                    'type'  => 'button',
+                    'name'  => 'continue_button',
+                    'text'  => $this->language->get('button_continue'),
+                    'style' => 'button',
+                ));
             $this->view->assign('button_continue', $continue);
             $this->view->assign('continue', $this->html->getHomeURL());
             $this->view->setTemplate('pages/error/not_found.tpl');

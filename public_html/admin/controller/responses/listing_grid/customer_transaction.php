@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -128,12 +129,11 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
 
         if (!$output['credit'] && !$output['debit']) {
             $this->error[] = $this->language->get('error_empty_debit_credit');
-        }else {
-            if ($output['credit']>99999999999.9999 || $output['debit']>99999999999.9999 ) {
+        } else {
+            if ($output['credit'] > 99999999999.9999 || $output['debit'] > 99999999999.9999) {
                 $this->error[] = $this->language->get('error_incorrect_debit_credit');
             }
         }
-
 
         if ($data['transaction_type'][1]) {
             $output['transaction_type'] = trim($data['transaction_type'][1]);
@@ -171,9 +171,9 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
             return $error->toJSONResponse('NO_PERMISSIONS_402',
                 array(
                     'error_text'  => sprintf($this->language->get('error_permission_modify'),
-                                            'listing_grid/customer_transaction'
-                                            ),
-                     'reset_value' => true,
+                        'listing_grid/customer_transaction'
+                    ),
+                    'reset_value' => true,
                 ));
         }
 
@@ -182,10 +182,10 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
 
         //check is data valid
         $post = $this->request->post;
-        if($post['credit']){
+        if ($post['credit']) {
             $post['credit'] = preformatFloat($post['credit']);
         }
-        if($post['debit']){
+        if ($post['debit']) {
             $post['debit'] = preformatFloat($post['debit']);
         }
 
@@ -232,8 +232,8 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
             return $error->toJSONResponse('NO_PERMISSIONS_402',
                 array(
                     'error_text'  => sprintf(
-                                            $this->language->get('error_permission_access'),
-                                            'listing_grid/customer_transaction'),
+                        $this->language->get('error_permission_access'),
+                        'listing_grid/customer_transaction'),
                     'reset_value' => true,
                 ));
         }
@@ -342,8 +342,8 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
                 'type'  => 'input',
                 'name'  => 'date_added',
                 'value' => dateISO2Display($info['date_added'],
-                                            $this->language->get('date_format_short')
-                                                .' '.$this->language->get('time_format')
+                    $this->language->get('date_format_short')
+                    .' '.$this->language->get('time_format')
                 ),
                 'attr'  => 'disabled="disabled"',
             ));
@@ -351,8 +351,8 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
                 'type'  => 'input',
                 'name'  => 'date_modified',
                 'value' => dateISO2Display($info['date_modified'],
-                                            $this->language->get('date_format_short')
-                                                .' '.$this->language->get('time_format')
+                    $this->language->get('date_format_short')
+                    .' '.$this->language->get('time_format')
                 ),
                 'attr'  => 'disabled="disabled"',
             ));

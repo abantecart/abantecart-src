@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,51 +17,56 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')) {
+    header('Location: static_pages/');
 }
-class ControllerPagesIndexHome extends AController {
 
-	/**
-	 * Check if HTML Cache is enabled for the method
-	 * @return array - array of data keys to be used for cache key building  
-	 */	
-	public static function main_cache_keys(){
-		return array();
-	}
+class ControllerPagesIndexHome extends AController
+{
 
-	public function main() {
+    /**
+     * Check if HTML Cache is enabled for the method
+     *
+     * @return array - array of data keys to be used for cache key building
+     */
+    public static function main_cache_keys()
+    {
+        return array();
+    }
 
-		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
+    public function main()
+    {
 
-		$language_id = $this->config->get('storefront_language_id');
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$this->document->setTitle( $this->config->get('config_title_'.$language_id) );
-		$this->document->setDescription( $this->config->get('config_meta_description_'.$language_id) );
-		$this->document->setKeywords( $this->config->get('config_meta_keywords_'.$language_id) );
+        $language_id = $this->config->get('storefront_language_id');
 
-		$this->view->assign('heading_title', sprintf($this->language->get('heading_title'), $this->config->get('store_name')) );
+        $this->document->setTitle($this->config->get('config_title_'.$language_id));
+        $this->document->setDescription($this->config->get('config_meta_description_'.$language_id));
+        $this->document->setKeywords($this->config->get('config_meta_keywords_'.$language_id));
 
-		$this->loadModel('setting/store');
+        $this->view->assign('heading_title', sprintf($this->language->get('heading_title'), $this->config->get('store_name')));
 
-		if (!$this->config->get('config_store_id')) {
-			$this->view->assign('welcome', html_entity_decode($this->config->get('config_description_' .$language_id ), ENT_QUOTES, 'UTF-8') );
-		} else {
-			$store_info = $this->model_setting_store->getStore($this->config->get('config_store_id'));
+        $this->loadModel('setting/store');
 
-			if ($store_info) {
-				$this->view->assign('welcome', html_entity_decode($store_info['description'], ENT_QUOTES, 'UTF-8') );
-			} else {
-				$this->view->assign('welcome', '');
-			}
-		}
+        if (!$this->config->get('config_store_id')) {
+            $this->view->assign('welcome', html_entity_decode($this->config->get('config_description_'.$language_id), ENT_QUOTES, 'UTF-8'));
+        } else {
+            $store_info = $this->model_setting_store->getStore($this->config->get('config_store_id'));
 
-		$this->view->assign('special', $this->html->getNonSecureURL('product/special') );
+            if ($store_info) {
+                $this->view->assign('welcome', html_entity_decode($store_info['description'], ENT_QUOTES, 'UTF-8'));
+            } else {
+                $this->view->assign('welcome', '');
+            }
+        }
 
-		$this->processTemplate();
+        $this->view->assign('special', $this->html->getNonSecureURL('product/special'));
 
-		//init controller data
-		$this->extensions->hk_UpdateData($this,__FUNCTION__);
-	}
+        $this->processTemplate();
+
+        //init controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
 }

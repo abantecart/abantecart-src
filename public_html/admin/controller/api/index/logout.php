@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,31 +17,37 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+    header('Location: static_pages/');
 }
-class ControllerApiIndexLogout extends AControllerAPI {
 
-	public function post() {
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-		$this->_do_logout();
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-	}
+class ControllerApiIndexLogout extends AControllerAPI
+{
 
-	public function get() {
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-		$this->_do_logout();
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-	}
+    public function post()
+    {
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+        $this->_do_logout();
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
 
-	private function _do_logout () {
-		$request_data = $this->rest->getRequestParams();
-		
-		$this->user->logout();
-		unset($this->session->data['token']);
-			
-		$this->rest->setResponseData( array( 'status' => 1, 'success' => 'Logged out', ) );	
-		$this->rest->sendResponse(200);	
-	}
-}  
+    public function get()
+    {
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+        $this->_do_logout();
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
+
+    private function _do_logout()
+    {
+        $request_data = $this->rest->getRequestParams();
+
+        $this->user->logout();
+        unset($this->session->data['token']);
+
+        $this->rest->setResponseData(array('status' => 1, 'success' => 'Logged out',));
+        $this->rest->sendResponse(200);
+    }
+}
+
 ?>

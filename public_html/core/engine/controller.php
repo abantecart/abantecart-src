@@ -23,85 +23,85 @@ if (!defined('DIR_CORE')) {
 /** @noinspection PhpUndefinedClassInspection */
 
 /**
- * @property ModelToolUpdater $model_tool_updater
- * @property ModelSettingStore $model_setting_store
- * @property ModelCatalogCategory $model_catalog_category
- * @property ModelCatalogDownload $model_catalog_download
- * @property ModelCatalogProduct $model_catalog_product
- * @property ModelCatalogManufacturer $model_catalog_manufacturer
- * @property ModelLocalisationStockStatus $model_localisation_stock_status
- * @property ModelLocalisationTaxClass $model_localisation_tax_class
- * @property ModelLocalisationWeightClass $model_localisation_weight_class
- * @property ModelLocalisationLengthClass $model_localisation_length_class
- * @property ModelToolImage $model_tool_image
- * @property ModelSaleCustomerGroup $model_sale_customer_group
- * @property ModelCatalogReview $model_catalog_review
- * @property ModelSettingExtension $model_setting_extension
- * @property ModelUserUserGroup $model_user_user_group
- * @property ModelSettingSetting $model_setting_setting
- * @property ModelUserUser $model_user_user
- * @property ModelSaleOrder $model_sale_order
- * @property ModelSaleCustomer $model_sale_customer
- * @property ModelSaleCustomerTransaction $model_sale_customer_transaction
- * @property ModelLocalisationCurrency $model_localisation_currency
- * @property ModelLocalisationCountry $model_localisation_country
- * @property ModelLocalisationZone $model_localisation_zone
- * @property ModelLocalisationLocation $model_localisation_location
- * @property ModelLocalisationLanguage $model_localisation_language
+ * @property ModelToolUpdater                     $model_tool_updater
+ * @property ModelSettingStore                    $model_setting_store
+ * @property ModelCatalogCategory                 $model_catalog_category
+ * @property ModelCatalogDownload                 $model_catalog_download
+ * @property ModelCatalogProduct                  $model_catalog_product
+ * @property ModelCatalogManufacturer             $model_catalog_manufacturer
+ * @property ModelLocalisationStockStatus         $model_localisation_stock_status
+ * @property ModelLocalisationTaxClass            $model_localisation_tax_class
+ * @property ModelLocalisationWeightClass         $model_localisation_weight_class
+ * @property ModelLocalisationLengthClass         $model_localisation_length_class
+ * @property ModelToolImage                       $model_tool_image
+ * @property ModelSaleCustomerGroup               $model_sale_customer_group
+ * @property ModelCatalogReview                   $model_catalog_review
+ * @property ModelSettingExtension                $model_setting_extension
+ * @property ModelUserUserGroup                   $model_user_user_group
+ * @property ModelSettingSetting                  $model_setting_setting
+ * @property ModelUserUser                        $model_user_user
+ * @property ModelSaleOrder                       $model_sale_order
+ * @property ModelSaleCustomer                    $model_sale_customer
+ * @property ModelSaleCustomerTransaction         $model_sale_customer_transaction
+ * @property ModelLocalisationCurrency            $model_localisation_currency
+ * @property ModelLocalisationCountry             $model_localisation_country
+ * @property ModelLocalisationZone                $model_localisation_zone
+ * @property ModelLocalisationLocation            $model_localisation_location
+ * @property ModelLocalisationLanguage            $model_localisation_language
  * @property ModelLocalisationLanguageDefinitions $model_localisation_language_definitions
- * @property ModelLocalisationOrderStatus $model_localisation_order_status
- * @property ModelReportViewed $model_report_viewed
- * @property ModelSaleCoupon $model_sale_coupon
- * @property ModelSaleContact $model_sale_contact
- * @property ModelToolBackup $model_tool_backup
- * @property ModelToolGlobalSearch $model_tool_global_search
- * @property ModelToolMigration $model_tool_migration
- * @property ModelToolDatasetManager $model_tool_dataset_manager
- * @property ModelToolInstallUpgradeHistory $model_tool_install_upgrade_history
- * @property ModelToolMessageManager $model_tool_message_manager
- * @property ModelReportPurchased $model_report_purchased
- * @property ModelReportSale $model_report_sale
- * @property ModelToolPackageInstaller $model_tool_package_installer
- * @property ModelToolSeoUrl $model_tool_seo_url
- * @property ModelCheckoutExtension $model_checkout_extension
- * @property ModelToolTableRelationships $model_tool_table_relationships
- * @property ModelAccountOrder $model_account_order
- * @property ModelAccountAddress $model_account_address
- * @property ModelCheckoutOrder $model_checkout_order
- * @property ModelToolBackup $model_tools_backup
- * @property ModelAccountCustomer $model_account_customer
- * @property ModelCatalogContent $model_catalog_content
- * @property ModelToolDatasetsManager $model_tool_datasets_manager
- * @property AConfig $config
- * @property ADB $db
- * @property ACache $cache
- * @property ALanguageManager $language
- * @property AResource $resource
- * @property AView $view
- * @property ALoader $load
- * @property ARouter $router
- * @property AHtml $html
- * @property ARequest $request
- * @property AResponse $response
- * @property ASession $session
- * @property ExtensionsApi $extensions
- * @property AExtensionManager $extension_manager
- * @property ALayout $layout
- * @property ACurrency $currency
- * @property ACart $cart
- * @property ATax $tax
- * @property AUser $user
- * @property ALog $log
- * @property AMessage $messages
- * @property ACustomer $customer
- * @property ADocument $document
- * @property ADispatcher $dispatcher
- * @property ADataEncryption $dcrypt
- * @property ModelToolFileUploads $model_tool_file_uploads
- * @property ADownload $download
- * @property AOrderStatus $order_status
- * @property AIMManager $im
- * @property CSRFToken $csrftoken
+ * @property ModelLocalisationOrderStatus         $model_localisation_order_status
+ * @property ModelReportViewed                    $model_report_viewed
+ * @property ModelSaleCoupon                      $model_sale_coupon
+ * @property ModelSaleContact                     $model_sale_contact
+ * @property ModelToolBackup                      $model_tool_backup
+ * @property ModelToolGlobalSearch                $model_tool_global_search
+ * @property ModelToolMigration                   $model_tool_migration
+ * @property ModelToolDatasetManager              $model_tool_dataset_manager
+ * @property ModelToolInstallUpgradeHistory       $model_tool_install_upgrade_history
+ * @property ModelToolMessageManager              $model_tool_message_manager
+ * @property ModelReportPurchased                 $model_report_purchased
+ * @property ModelReportSale                      $model_report_sale
+ * @property ModelToolPackageInstaller            $model_tool_package_installer
+ * @property ModelToolSeoUrl                      $model_tool_seo_url
+ * @property ModelCheckoutExtension               $model_checkout_extension
+ * @property ModelToolTableRelationships          $model_tool_table_relationships
+ * @property ModelAccountOrder                    $model_account_order
+ * @property ModelAccountAddress                  $model_account_address
+ * @property ModelCheckoutOrder                   $model_checkout_order
+ * @property ModelToolBackup                      $model_tools_backup
+ * @property ModelAccountCustomer                 $model_account_customer
+ * @property ModelCatalogContent                  $model_catalog_content
+ * @property ModelToolDatasetsManager             $model_tool_datasets_manager
+ * @property AConfig                              $config
+ * @property ADB                                  $db
+ * @property ACache                               $cache
+ * @property ALanguageManager                     $language
+ * @property AResource                            $resource
+ * @property AView                                $view
+ * @property ALoader                              $load
+ * @property ARouter                              $router
+ * @property AHtml                                $html
+ * @property ARequest                             $request
+ * @property AResponse                            $response
+ * @property ASession                             $session
+ * @property ExtensionsApi                        $extensions
+ * @property AExtensionManager                    $extension_manager
+ * @property ALayout                              $layout
+ * @property ACurrency                            $currency
+ * @property ACart                                $cart
+ * @property ATax                                 $tax
+ * @property AUser                                $user
+ * @property ALog                                 $log
+ * @property AMessage                             $messages
+ * @property ACustomer                            $customer
+ * @property ADocument                            $document
+ * @property ADispatcher                          $dispatcher
+ * @property ADataEncryption                      $dcrypt
+ * @property ModelToolFileUploads                 $model_tool_file_uploads
+ * @property ADownload                            $download
+ * @property AOrderStatus                         $order_status
+ * @property AIMManager                           $im
+ * @property CSRFToken                            $csrftoken
  */
 abstract class AController
 {
@@ -118,9 +118,9 @@ abstract class AController
     protected $html_cache_key;
 
     /**
-     * @param $registry Registry
-     * @param int $instance_id
-     * @param string $controller
+     * @param                    $registry Registry
+     * @param int                $instance_id
+     * @param string             $controller
      * @param string|AController $parent_controller
      */
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
@@ -206,12 +206,12 @@ abstract class AController
         $param_string = md5($this->cache->paramsToString($cache_params));
         //build HTML cache path
         $cache_state_vars = array(
-            'template'          => $this->config->get('config_storefront_template'),
-            'store_id'          => $this->config->get('config_store_id'),
-            'language_id'       => $this->language->getLanguageID(),
-            'currency_code'     => $this->currency->getCode(),
+            'template'      => $this->config->get('config_storefront_template'),
+            'store_id'      => $this->config->get('config_store_id'),
+            'language_id'   => $this->language->getLanguageID(),
+            'currency_code' => $this->currency->getCode(),
             //in case with shared ssl-domain
-            'https'             => (HTTPS === true ? 1 : 0),
+            'https'         => (HTTPS === true ? 1 : 0),
         );
         if (is_object($this->customer)) {
             $cache_state_vars['customer_group_id'] = $this->customer->getCustomerGroupId();
@@ -222,8 +222,8 @@ abstract class AController
         }
         //NOTE: Blocks are cached based on unique instanced ID
         $this->html_cache_key = 'html_cache.'.
-                                str_replace('/', '.', $controller)
-                                .".".implode('.', $cache_state_vars)."_".$this->instance_id;
+            str_replace('/', '.', $controller)
+            .".".implode('.', $cache_state_vars)."_".$this->instance_id;
         //add specific params to the key
         if ($param_string) {
             $this->html_cache_key .= "_".$param_string;
@@ -423,7 +423,8 @@ abstract class AController
             if ($this->config->get('storefront_template_debug')) {
                 // storefront enabling
                 if (!IS_ADMIN && !isset($this->session->data['tmpl_debug'])
-                    && isset($this->request->get['tmpl_debug'])) {
+                    && isset($this->request->get['tmpl_debug'])
+                ) {
                     $this->session->data['tmpl_debug'] = isset($this->request->get['tmpl_debug']);
                 }
 
@@ -436,7 +437,8 @@ abstract class AController
                     $excluded_blocks = array('common/head');
 
                     if (!empty($this->instance_id) && (string)$this->instance_id != '0'
-                        && !in_array($block_details['controller'], $excluded_blocks)) {
+                        && !in_array($block_details['controller'], $excluded_blocks)
+                    ) {
                         if (!empty($this->parent_controller)) {
                             //build block template file path based on primary template used
                             //template path is based on parent block 'template_dir'

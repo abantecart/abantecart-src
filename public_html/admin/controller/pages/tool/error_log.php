@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,119 +17,124 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+    header('Location: static_pages/');
 }
-class ControllerPagesToolErrorLog extends AController {
-	public $data;
-	public function main() {
-		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-		$this->loadLanguage('tool/error_log');
+class ControllerPagesToolErrorLog extends AController
+{
+    public $data;
 
-		$this->data['button_clear'] = $this->language->get('button_clear');
+    public function main()
+    {
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-		if (isset($this->session->data['success'])) {
-			$this->data['success'] = $this->session->data['success'];
-			unset($this->session->data['success']);
-		} else {
-			$this->data['success'] = '';
-		}
+        $this->loadLanguage('tool/error_log');
 
-		$filename = $this->request->get['filename'];
-		if( $filename && is_file(DIR_LOGS . $filename) ){
-			$file = DIR_LOGS . $filename;
-			$this->data['clear_url'] = '';
-			$heading_title = $this->request->clean($filename);
-		}else {
-			$file = DIR_LOGS . $this->config->get('config_error_filename');
-			$this->data['clear_url'] = $this->html->getSecureURL('tool/error_log/clearlog');
-			$heading_title = $this->language->get('heading_title');
-		}
+        $this->data['button_clear'] = $this->language->get('button_clear');
 
-		$this->document->setTitle( $heading_title );
-		$this->data['heading_title'] = $heading_title;
-		$this->document->resetBreadcrumbs();
-		$this->document->addBreadcrumb( array (
-			'href'      => $this->html->getSecureURL('index/home'),
-			'text'      => $this->language->get('text_home'),
-			'separator' => FALSE
-		));
-		$this->document->addBreadcrumb( array (
-			'href'      => $this->html->getSecureURL('tool/error_log', ($filename ? '&filename='.$filename : '')),
-			'text'      => $heading_title,
-			'separator' => ' :: ',
-			'current'   => true
-		));
+        if (isset($this->session->data['success'])) {
+            $this->data['success'] = $this->session->data['success'];
+            unset($this->session->data['success']);
+        } else {
+            $this->data['success'] = '';
+        }
 
-		if (file_exists($file)) {
-			ini_set("auto_detect_line_endings", true);
+        $filename = $this->request->get['filename'];
+        if ($filename && is_file(DIR_LOGS.$filename)) {
+            $file = DIR_LOGS.$filename;
+            $this->data['clear_url'] = '';
+            $heading_title = $this->request->clean($filename);
+        } else {
+            $file = DIR_LOGS.$this->config->get('config_error_filename');
+            $this->data['clear_url'] = $this->html->getSecureURL('tool/error_log/clearlog');
+            $heading_title = $this->language->get('heading_title');
+        }
 
-			$fp = fopen($file,'r');
+        $this->document->setTitle($heading_title);
+        $this->data['heading_title'] = $heading_title;
+        $this->document->resetBreadcrumbs();
+        $this->document->addBreadcrumb(array(
+            'href'      => $this->html->getSecureURL('index/home'),
+            'text'      => $this->language->get('text_home'),
+            'separator' => false,
+        ));
+        $this->document->addBreadcrumb(array(
+            'href'      => $this->html->getSecureURL('tool/error_log', ($filename ? '&filename='.$filename : '')),
+            'text'      => $heading_title,
+            'separator' => ' :: ',
+            'current'   => true,
+        ));
 
-			// check filesize
-			$filesize = filesize($file);
-			if($filesize>500000){
+        if (file_exists($file)) {
+            ini_set("auto_detect_line_endings", true);
 
-				$this->data['log'] = "\n\n\n\n###############################################################################################\n\n".
-strtoupper($this->language->get('text_file_tail')).DIR_LOGS."
+            $fp = fopen($file, 'r');
+
+            // check filesize
+            $filesize = filesize($file);
+            if ($filesize > 500000) {
+
+                $this->data['log'] = "\n\n\n\n###############################################################################################\n\n".
+                    strtoupper($this->language->get('text_file_tail')).DIR_LOGS."
 
 ###############################################################################################\n\n\n\n";
-				fseek($fp,-500000,SEEK_END);
-				fgets($fp);
-			}
-			$log = '';
-			while(!feof($fp)){
-				$log .= fgets($fp);
-			}
-			fclose($fp);
-		} else {
-			$log = '';
-		}
+                fseek($fp, -500000, SEEK_END);
+                fgets($fp);
+            }
+            $log = '';
+            while (!feof($fp)) {
+                $log .= fgets($fp);
+            }
+            fclose($fp);
+        } else {
+            $log = '';
+        }
 
-		$log = htmlentities(str_replace(array('<br/>','<br />'),"\n",$log), ENT_QUOTES | ENT_IGNORE, 'UTF-8');
-		//filter empty string
-		$lines = array_filter( explode("\n", $log), 'strlen' );
-		unset($log);
-		$k=0;
-		$data = array();
-		foreach($lines as $line){
-			if( preg_match( '(^\d{4}-\d{2}-\d{2} \d{1,2}:\d{2}:\d{2})', $line, $match) ){
-				$k++;
-				$data[$k] = str_replace($match[0], '<b>'.$match[0].'</b>', $line);
-			}else{
-				$data[$k] .= '<br>'.$line;
-			}
-		}
+        $log = htmlentities(str_replace(array('<br/>', '<br />'), "\n", $log), ENT_QUOTES | ENT_IGNORE, 'UTF-8');
+        //filter empty string
+        $lines = array_filter(explode("\n", $log), 'strlen');
+        unset($log);
+        $k = 0;
+        $data = array();
+        foreach ($lines as $line) {
+            if (preg_match('(^\d{4}-\d{2}-\d{2} \d{1,2}:\d{2}:\d{2})', $line, $match)) {
+                $k++;
+                $data[$k] = str_replace($match[0], '<b>'.$match[0].'</b>', $line);
+            } else {
+                $data[$k] .= '<br>'.$line;
+            }
+        }
 
-		$this->data['log'] = $data;
+        $this->data['log'] = $data;
 
-		$this->view->batchAssign( $this->data );
-		$this->processTemplate('pages/tool/error_log.tpl' );
+        $this->view->batchAssign($this->data);
+        $this->processTemplate('pages/tool/error_log.tpl');
 
-		//update controller data
-		$this->extensions->hk_UpdateData($this,__FUNCTION__);
-	}
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
 
-	public function clearLog() {
+    public function clearLog()
+    {
 
-		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$filename = $this->request->get['filename'];
-		if( $filename && is_file(DIR_LOGS . $filename) ){
-			$file = DIR_LOGS . $filename;
-		}else {
-			$file = DIR_LOGS . $this->config->get('config_error_filename');
-		}
+        $filename = $this->request->get['filename'];
+        if ($filename && is_file(DIR_LOGS.$filename)) {
+            $file = DIR_LOGS.$filename;
+        } else {
+            $file = DIR_LOGS.$this->config->get('config_error_filename');
+        }
 
-		$handle = fopen($file, 'w+');
-		fclose($handle);
-		$this->session->data['success'] = $this->language->get('text_success');
-		$this->redirect($this->html->getSecureURL('tool/error_log'));
+        $handle = fopen($file, 'w+');
+        fclose($handle);
+        $this->session->data['success'] = $this->language->get('text_success');
+        $this->redirect($this->html->getSecureURL('tool/error_log'));
 
-		//update controller data
-		$this->extensions->hk_UpdateData($this,__FUNCTION__);
-	}
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
 }

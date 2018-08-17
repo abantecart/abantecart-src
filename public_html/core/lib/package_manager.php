@@ -20,15 +20,15 @@
 
 /**
  * @property  AExtensionManager $extension_manager
- * @property  AMessage $messages
- * @property  ALoader $load
- * @property  ASession $session
- * @property  ExtensionsApi $extensions
- * @property  AUser $user
- * @property  ALanguageManager $language
- * @property  ALog $log
- * @property  ACache $cache
- * @property  ADB $db
+ * @property  AMessage          $messages
+ * @property  ALoader           $load
+ * @property  ASession          $session
+ * @property  ExtensionsApi     $extensions
+ * @property  AUser             $user
+ * @property  ALanguageManager  $language
+ * @property  ALog              $log
+ * @property  ACache            $cache
+ * @property  ADB               $db
  */
 class APackageManager
 {
@@ -66,9 +66,9 @@ class APackageManager
     }
 
     /**
-     * @param string $url
+     * @param string  $url
      * @param boolean $save
-     * @param string $new_file_name
+     * @param string  $new_file_name
      *
      * @return boolean|array
      */
@@ -129,14 +129,14 @@ class APackageManager
         }
         if (!file_exists($dst_dir) || !is_dir($dst_dir)) {
             $this->error = 'Error: Cannot unpack file "'.$tar_filename.'" because destination directory "'
-                            .$dst_dir.'" does not exists.';
+                .$dst_dir.'" does not exists.';
             $error = new AError ($this->error);
             $error->toLog()->toDebug();
             return false;
         }
         if (!is_writable($dst_dir)) {
             $this->error = 'Error: Cannot unpack file "'.$tar_filename.'" because destination directory "'
-                            .$dst_dir.'" have no write permission.';
+                .$dst_dir.'" have no write permission.';
             $error = new AError ($this->error);
             $error->toLog()->toDebug();
             return false;
@@ -291,8 +291,8 @@ class APackageManager
                 }
 
                 $result = rename($this->session->data['package_info']['tmp_dir']
-                                    .$this->session->data['package_info']['package_dir'].'/code/'.$core_filename,
-                                DIR_ROOT.'/'.$core_filename
+                    .$this->session->data['package_info']['package_dir'].'/code/'.$core_filename,
+                    DIR_ROOT.'/'.$core_filename
                 );
                 if ($result) {
                     // for index.php do not set 777 permissions because hosting providers will ban it
@@ -360,8 +360,8 @@ class APackageManager
             $ftp_port = $this->session->data['package_info']['ftp_port'];
             $ftp_host = $this->session->data['package_info']['ftp_host'];
             $dir = $this->session->data['package_info']['ftp_path']
-                    .$this->session->data['package_info']['dst_dir']
-                    .$dir;
+                .$this->session->data['package_info']['dst_dir']
+                .$dir;
 
             $fconnect = ftp_connect($ftp_host, $ftp_port);
             ftp_login($fconnect, $ftp_user, $ftp_password);
@@ -413,7 +413,7 @@ class APackageManager
      * @param string $ftp_password
      * @param string $ftp_host
      * @param string $ftp_path
-     * @param int $ftp_port
+     * @param int    $ftp_port
      *
      * @return bool
      */
@@ -528,8 +528,8 @@ class APackageManager
     /**
      * Function for moving directory or file via ftp-connection
      *
-     * @param $fconnect
-     * @param string $local local path to file or directory
+     * @param        $fconnect
+     * @param string $local       local path to file or directory
      * @param string $remote_file remote file  or directory name
      * @param string $remote_dir
      *
@@ -611,8 +611,8 @@ class APackageManager
      * method for moving directory via ftp connection
      *
      * @param resource $conn_id
-     * @param string $src_dir
-     * @param string $dst_dir
+     * @param string   $src_dir
+     * @param string   $dst_dir
      */
     private function ftp_put_dir($conn_id, $src_dir, $dst_dir)
     {
@@ -642,7 +642,7 @@ class APackageManager
 
     /**
      * @param resource $conn
-     * @param string $dir
+     * @param string   $dir
      *
      * @return bool
      */

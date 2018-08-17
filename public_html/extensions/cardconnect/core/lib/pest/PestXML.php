@@ -23,22 +23,26 @@ class PestXML extends Pest
 {
     /**
      * Process error
+     *
      * @param string $body
+     *
      * @return string
      */
     public function processError($body)
     {
         try {
             $xml = $this->processBody($body);
-            if (!$xml)
+            if (!$xml) {
                 return $body;
+            }
 
             $error = $xml->xpath('//error');
 
-            if ($error && $error[0])
+            if ($error && $error[0]) {
                 return strval($error[0]);
-            else
+            } else {
                 return $body;
+            }
         } catch (PestXML_Exception $e) {
             return $body;
         }
@@ -48,15 +52,18 @@ class PestXML extends Pest
      * Process body
      *
      * @todo This should always return a SimpleXMLElement
+     *
      * @param string $body
+     *
      * @return null|SimpleXMLElement|string
      * @throws PestXML_Exception
      */
     public function processBody($body)
     {
         libxml_use_internal_errors(true);
-        if (empty($body) || preg_match('/^\s+$/', $body))
+        if (empty($body) || preg_match('/^\s+$/', $body)) {
             return null;
+        }
 
         $xml = simplexml_load_string($body);
 
@@ -65,8 +72,9 @@ class PestXML extends Pest
             $xml_errors = libxml_get_errors();
             libxml_clear_errors();
             if (!empty($xml_errors)) {
-                foreach ($xml_errors as $xml_err)
-                    $err .= "\n    - " . $xml_err->message;
+                foreach ($xml_errors as $xml_err) {
+                    $err .= "\n    - ".$xml_err->message;
+                }
                 $err .= "\nThe response was:\n";
                 $err .= $body;
                 throw new PestXML_Exception($err);
@@ -78,4 +86,5 @@ class PestXML extends Pest
 }
 
 class PestXML_Exception extends Pest_Exception
-{}
+{
+}

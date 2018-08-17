@@ -5,7 +5,7 @@
 
 /**
  * Data wrapper used internally to pass arguments within {@link AddressServiceRest#validate}. End users should not need to use this class.
- * 
+ *
  * <pre>
  * <b>Example:</b>
  * $svc = new AddressServiceRest($url, $account, $license);
@@ -30,17 +30,24 @@ namespace AvaTax;
 
 class ValidateRequest
 {
-	private $Address; //The address to validate
-	public function __construct($address = null)
-	{
-		$this->setAddress($address);
-	}
+    private $Address; //The address to validate
 
-	public function setAddress(&$value) { $this->Address = $value; return $this; }
+    public function __construct($address = null)
+    {
+        $this->setAddress($address);
+    }
 
-	public function getAddress() { return $this->Address; }
+    public function setAddress(&$value)
+    {
+        $this->Address = $value;
+        return $this;
+    }
 
-	
+    public function getAddress()
+    {
+        return $this->Address;
+    }
+
 }
 
 ?>

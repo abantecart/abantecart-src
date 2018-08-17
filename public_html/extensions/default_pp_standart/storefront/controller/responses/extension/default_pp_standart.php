@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Licence details is bundled with this package in the file LICENSE.txt.
@@ -347,7 +347,8 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController
             $order_info = $this->model_checkout_order->getOrder($order_id);
             //do nothing if order confirmed or it's not created with paypal standart
             if ((int)$order_info['order_status_id'] != 0
-                || $order_info['payment_method_key'] != 'default_pp_standart') {
+                || $order_info['payment_method_key'] != 'default_pp_standart'
+            ) {
                 $result = true;
             } else {
                 $result = false;

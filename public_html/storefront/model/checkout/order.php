@@ -22,7 +22,7 @@
  * Class ModelCheckoutOrder
  *
  * @property  ModelLocalisationCountry $model_localisation_country
- * @property  ModelLocalisationZone $model_localisation_zone
+ * @property  ModelLocalisationZone    $model_localisation_zone
  */
 class ModelCheckoutOrder extends Model
 {
@@ -95,7 +95,7 @@ class ModelCheckoutOrder extends Model
 
     /**
      * @param array $data
-     * @param int $set_order_id
+     * @param int   $set_order_id
      *
      * @return mixed
      */
@@ -108,7 +108,7 @@ class ModelCheckoutOrder extends Model
     }
 
     /**
-     * @param array $data
+     * @param array      $data
      * @param int|string $set_order_id
      *
      * @return bool|int
@@ -309,7 +309,7 @@ class ModelCheckoutOrder extends Model
                 $im_data = serialize(
                     array(
                         'uri'    => $uri,
-                        'status' => $this->config->get('config_im_guest_'.$row['protocol'].'_status')
+                        'status' => $this->config->get('config_im_guest_'.$row['protocol'].'_status'),
                     )
                 );
 
@@ -323,8 +323,8 @@ class ModelCheckoutOrder extends Model
     }
 
     /**
-     * @param int $order_id
-     * @param int $order_status_id
+     * @param int    $order_id
+     * @param int    $order_status_id
      * @param string $comment
      */
     public function confirm($order_id, $order_status_id, $comment = '')
@@ -333,8 +333,8 @@ class ModelCheckoutOrder extends Model
     }
 
     /**
-     * @param int $order_id
-     * @param int $order_status_id
+     * @param int    $order_id
+     * @param int    $order_status_id
      * @param string $comment
      *
      * @return bool
@@ -404,8 +404,8 @@ class ModelCheckoutOrder extends Model
                     $message_arr = array(
                         1 => array(
                             'message' => sprintf($language->get('im_product_out_of_stock_admin_text'),
-                                $product['product_id'])
-                        )
+                                $product['product_id']),
+                        ),
                     );
                     $this->im->send('product_out_of_stock', $message_arr);
                 }
@@ -426,8 +426,8 @@ class ModelCheckoutOrder extends Model
                     $message_arr = array(
                         1 => array(
                             'message' => sprintf($language->get('im_product_out_of_stock_admin_text'),
-                                $product['product_id'])
-                        )
+                                $product['product_id']),
+                        ),
                     );
                     $this->im->send('product_out_of_stock', $message_arr);
                 }
@@ -455,13 +455,13 @@ class ModelCheckoutOrder extends Model
 
         // HTML Mail
         $this->data['mail_template_data']['title'] = sprintf(
-                                        $language->get('text_subject'),
-                                        html_entity_decode($order_row['store_name'], ENT_QUOTES, 'UTF-8'),
-                                        $order_id
+            $language->get('text_subject'),
+            html_entity_decode($order_row['store_name'], ENT_QUOTES, 'UTF-8'),
+            $order_id
         );
         $this->data['mail_template_data']['text_greeting'] = sprintf(
-                                        $language->get('text_greeting'),
-                                        html_entity_decode($order_row['store_name'], ENT_QUOTES, 'UTF-8')
+            $language->get('text_greeting'),
+            html_entity_decode($order_row['store_name'], ENT_QUOTES, 'UTF-8')
         );
         $this->data['mail_template_data']['text_order_detail'] = $language->get('text_order_detail');
         $this->data['mail_template_data']['text_order_id'] = $language->get('text_order_id');
@@ -503,8 +503,8 @@ class ModelCheckoutOrder extends Model
                 $resource_info = $r->getResource($config_mail_logo);
                 if ($resource_info) {
                     $this->data['mail_template_data']['logo_html'] = html_entity_decode(
-                                                                        $resource_info['resource_code'],
-                                                                        ENT_QUOTES, 'UTF-8'
+                        $resource_info['resource_code'],
+                        ENT_QUOTES, 'UTF-8'
                     );
                 }
             } else {
@@ -532,11 +532,11 @@ class ModelCheckoutOrder extends Model
             $enc = new AEncryption($this->config->get('encryption_key'));
             $order_token = $enc->encrypt($order_id.'::'.$order_row['email']);
             $this->data['mail_template_data']['invoice'] = $order_row['store_url']
-                                        .'index.php?rt=account/invoice&ot='.$order_token."\n\n";
+                .'index.php?rt=account/invoice&ot='.$order_token."\n\n";
         }//give link on order for registered customers
         elseif ($order_row['customer_id']) {
             $this->data['mail_template_data']['invoice'] = $order_row['store_url']
-                                        .'index.php?rt=account/invoice&order_id='.$order_id;
+                .'index.php?rt=account/invoice&order_id='.$order_id;
         }
 
         $this->data['mail_template_data']['firstname'] = $order_row['firstname'];
@@ -546,8 +546,8 @@ class ModelCheckoutOrder extends Model
         $this->data['mail_template_data']['customer_email'] = $order_row['email'];
         $this->data['mail_template_data']['customer_telephone'] = $order_row['telephone'];
         $this->data['mail_template_data']['customer_mobile_phone'] = $this->im->getCustomerURI(
-                                                                        'sms',
-                                                                        (int)$order_row['customer_id'], $order_id
+            'sms',
+            (int)$order_row['customer_id'], $order_id
         );
         $this->data['mail_template_data']['customer_fax'] = $order_row['fax'];
         $this->data['mail_template_data']['customer_ip'] = $order_row['ip'];
@@ -762,9 +762,9 @@ class ModelCheckoutOrder extends Model
     }
 
     /**
-     * @param int $order_id
-     * @param int $order_status_id
-     * @param string $comment
+     * @param int        $order_id
+     * @param int        $order_status_id
+     * @param string     $comment
      * @param bool|false $notify
      *
      * @return mixed
@@ -775,10 +775,10 @@ class ModelCheckoutOrder extends Model
     }
 
     /**
-     * @param int $order_id
-     * @param int $order_status_id
+     * @param int    $order_id
+     * @param int    $order_status_id
      * @param string $comment
-     * @param bool $notify
+     * @param bool   $notify
      *
      * @throws AException
      */
@@ -828,7 +828,7 @@ class ModelCheckoutOrder extends Model
                         $language_im->get('im_order_update_text_to_customer'),
                         $order_id,
                         $status_name
-                    )
+                    ),
                 ),
                 1 => array(
                     'message' => sprintf($language_im->get('im_order_update_text_to_admin'), $order_id, $status_name),
@@ -883,8 +883,8 @@ class ModelCheckoutOrder extends Model
     }
 
     /**
-     * @param int $order_id
-     * @param int $order_status_id
+     * @param int    $order_id
+     * @param int    $order_status_id
      * @param string $comment
      *
      * @return null
@@ -902,7 +902,7 @@ class ModelCheckoutOrder extends Model
     }
 
     /**
-     * @param int $order_id
+     * @param int          $order_id
      * @param string|array $data
      *
      * @return bool|stdClass

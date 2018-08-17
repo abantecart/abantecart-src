@@ -11,24 +11,28 @@ namespace Twilio\Rest\Accounts\V1\Credential;
 
 use Twilio\Page;
 
-class AwsPage extends Page {
-    public function __construct($version, $response, $solution) {
+class AwsPage extends Page
+{
+    public function __construct($version, $response, $solution)
+    {
         parent::__construct($version, $response);
 
         // Path Solution
         $this->solution = $solution;
     }
 
-    public function buildInstance(array $payload) {
+    public function buildInstance(array $payload)
+    {
         return new AwsInstance($this->version, $payload);
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         return '[Twilio.Accounts.V1.AwsPage]';
     }
 }

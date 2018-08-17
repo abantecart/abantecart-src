@@ -1,9 +1,8 @@
 <?php
 
-
 namespace Twilio\Exceptions;
 
-
-class TwimlException extends TwilioException {
+class TwimlException extends TwilioException
+{
 
 }

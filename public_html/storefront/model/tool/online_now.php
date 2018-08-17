@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,28 +17,30 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE')){
-	header('Location: static_pages/');
+if (!defined('DIR_CORE')) {
+    header('Location: static_pages/');
 }
 
-class ModelToolOnlineNow extends Model{
-	/**
-	 * @param string $ip
-	 * @param int $customer_id
-	 * @param string $url
-	 * @param string $referer
-	 */
-	public function setOnline($ip, $customer_id, $url, $referer){
-		//delete old records
-		$this->db->query("DELETE FROM `" . $this->db->table("online_customers") . "`
+class ModelToolOnlineNow extends Model
+{
+    /**
+     * @param string $ip
+     * @param int    $customer_id
+     * @param string $url
+     * @param string $referer
+     */
+    public function setOnline($ip, $customer_id, $url, $referer)
+    {
+        //delete old records
+        $this->db->query("DELETE FROM `".$this->db->table("online_customers")."`
                 		  WHERE `date_added`< (NOW() - INTERVAL 1 HOUR)");
 
-		//insert new record
-		$this->db->query("REPLACE INTO `" . $this->db->table("online_customers") . "`
-                        SET `ip` = '" . $this->db->escape($ip) . "',
-                            `customer_id` = '" . (int)$customer_id . "',
-                            `url` = '" . $this->db->escape($url) . "',
-                            `referer` = '" . $this->db->escape($referer) . "',
+        //insert new record
+        $this->db->query("REPLACE INTO `".$this->db->table("online_customers")."`
+                        SET `ip` = '".$this->db->escape($ip)."',
+                            `customer_id` = '".(int)$customer_id."',
+                            `url` = '".$this->db->escape($url)."',
+                            `referer` = '".$this->db->escape($referer)."',
                             `date_added` = NOW()");
-	}
+    }
 }

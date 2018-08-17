@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -24,7 +25,8 @@ class ModelTotalAvataxIntegrationTotal extends Model
     {
 
         if (!$this->config->get('avatax_integration_status')
-            || !$this->config->get('avatax_integration_total_status')) {
+            || !$this->config->get('avatax_integration_total_status')
+        ) {
             return null;
         }
 

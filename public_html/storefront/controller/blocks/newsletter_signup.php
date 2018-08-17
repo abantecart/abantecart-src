@@ -1,11 +1,11 @@
-<?php  
+<?php
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,36 +17,41 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')) {
+    header('Location: static_pages/');
 }
-class ControllerBlocksNewsLetterSignUp extends AController {
-	public $data=array();
-	public function main() {
 
-		if($this->html_cache()){
-			return;
-		}
-		
-		$this->loadLanguage('blocks/newsletter_signup');
+class ControllerBlocksNewsLetterSignUp extends AController
+{
+    public $data = array();
 
-		$form  =  new AForm();
-		$this->data['form_open'] = $form->getFieldHtml(
-		    array( 'type' => 'form',
-                'name' => 'subscribeFrm',
+    public function main()
+    {
+
+        if ($this->html_cache()) {
+            return;
+        }
+
+        $this->loadLanguage('blocks/newsletter_signup');
+
+        $form = new AForm();
+        $this->data['form_open'] = $form->getFieldHtml(
+            array(
+                'type'   => 'form',
+                'name'   => 'subscribeFrm',
                 'method' => 'get',
-                'action' => $this->html->getSecureURL('account/subscriber','',true),
-                'csrf' => true
+                'action' => $this->html->getSecureURL('account/subscriber', '', true),
+                'csrf'   => true,
             )
         );
-		$this->data['heading_title'] = $this->language->get('heading_title');
-		$this->data['text_signup'] = $this->language->get('text_signup');
-		$this->data['text_sign_in'] = $this->language->get('text_sign_in');
-		$this->data['text_subscribe'] = $this->language->get('text_subscribe');
+        $this->data['heading_title'] = $this->language->get('heading_title');
+        $this->data['text_signup'] = $this->language->get('text_signup');
+        $this->data['text_sign_in'] = $this->language->get('text_sign_in');
+        $this->data['text_subscribe'] = $this->language->get('text_subscribe');
 
-		$this->data['form_fields']['rt'] = 'account/subscriber';
+        $this->data['form_fields']['rt'] = 'account/subscriber';
 
-		$this->view->batchAssign($this->data);
-		$this->processTemplate();
-	}
+        $this->view->batchAssign($this->data);
+        $this->processTemplate();
+    }
 }

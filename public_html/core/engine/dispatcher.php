@@ -21,9 +21,9 @@
 /**
  * Class ADispatcher
  *
- * @property ARequest $request
- * @property AResponse $response
- * @property AView $view
+ * @property ARequest      $request
+ * @property AResponse     $response
+ * @property AView         $view
  * @property ExtensionsApi $extensions
  */
 final class ADispatcher
@@ -59,7 +59,7 @@ final class ADispatcher
 
     /**
      * @param string $rt
-     * @param array $args
+     * @param array  $args
      */
     public function __construct($rt, $args = array())
     {
@@ -276,10 +276,10 @@ final class ADispatcher
         $controller = null;
         if (class_exists($this->class)) {
             $controller = new $this->class(
-                                    $this->registry,
-                                    $this->args["instance_id"],
-                                    $this->controller,
-                                    $parent_controller
+                $this->registry,
+                $this->args["instance_id"],
+                $this->controller,
+                $parent_controller
             );
             $controller->dispatcher = $this;
         } else {

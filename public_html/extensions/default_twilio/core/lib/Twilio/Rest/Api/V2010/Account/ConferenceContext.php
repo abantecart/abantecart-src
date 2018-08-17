@@ -20,32 +20,36 @@ use Twilio\Version;
  * @property \Twilio\Rest\Api\V2010\Account\Conference\ParticipantList participants
  * @method \Twilio\Rest\Api\V2010\Account\Conference\ParticipantContext participants(string $callSid)
  */
-class ConferenceContext extends InstanceContext {
+class ConferenceContext extends InstanceContext
+{
     protected $_participants = null;
 
     /**
      * Initialize the ConferenceContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $accountSid The account_sid
-     * @param string $sid Fetch by unique conference Sid
-     * @return \Twilio\Rest\Api\V2010\Account\ConferenceContext 
+     *
+     * @param \Twilio\Version $version    Version that contains the resource
+     * @param string          $accountSid The account_sid
+     * @param string          $sid        Fetch by unique conference Sid
+     *
+     * @return \Twilio\Rest\Api\V2010\Account\ConferenceContext
      */
-    public function __construct(Version $version, $accountSid, $sid) {
+    public function __construct(Version $version, $accountSid, $sid)
+    {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('accountSid' => $accountSid, 'sid' => $sid, );
+        $this->solution = array('accountSid' => $accountSid, 'sid' => $sid,);
 
-        $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/Conferences/' . rawurlencode($sid) . '.json';
+        $this->uri = '/Accounts/'.rawurlencode($accountSid).'/Conferences/'.rawurlencode($sid).'.json';
     }
 
     /**
      * Fetch a ConferenceInstance
-     * 
+     *
      * @return ConferenceInstance Fetched ConferenceInstance
      */
-    public function fetch() {
+    public function fetch()
+    {
         $params = Values::of(array());
 
         $payload = $this->version->fetch(
@@ -64,16 +68,18 @@ class ConferenceContext extends InstanceContext {
 
     /**
      * Update the ConferenceInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
+     *
      * @return ConferenceInstance Updated ConferenceInstance
      */
-    public function update($options = array()) {
+    public function update($options = array())
+    {
         $options = new Values($options);
 
         $data = Values::of(array(
-            'Status' => $options['status'],
-            'AnnounceUrl' => $options['announceUrl'],
+            'Status'         => $options['status'],
+            'AnnounceUrl'    => $options['announceUrl'],
             'AnnounceMethod' => $options['announceMethod'],
         ));
 
@@ -94,10 +100,11 @@ class ConferenceContext extends InstanceContext {
 
     /**
      * Access the participants
-     * 
-     * @return \Twilio\Rest\Api\V2010\Account\Conference\ParticipantList 
+     *
+     * @return \Twilio\Rest\Api\V2010\Account\Conference\ParticipantList
      */
-    protected function getParticipants() {
+    protected function getParticipants()
+    {
         if (!$this->_participants) {
             $this->_participants = new ParticipantList(
                 $this->version,
@@ -111,29 +118,33 @@ class ConferenceContext extends InstanceContext {
 
     /**
      * Magic getter to lazy load subresources
-     * 
+     *
      * @param string $name Subresource to return
+     *
      * @return \Twilio\ListResource The requested subresource
      * @throws \Twilio\Exceptions\TwilioException For unknown subresources
      */
-    public function __get($name) {
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+    public function __get($name)
+    {
+        if (property_exists($this, '_'.$name)) {
+            $method = 'get'.ucfirst($name);
             return $this->$method();
         }
 
-        throw new TwilioException('Unknown subresource ' . $name);
+        throw new TwilioException('Unknown subresource '.$name);
     }
 
     /**
      * Magic caller to get resource contexts
-     * 
-     * @param string $name Resource to return
-     * @param array $arguments Context parameters
+     *
+     * @param string $name      Resource to return
+     * @param array  $arguments Context parameters
+     *
      * @return \Twilio\InstanceContext The requested resource context
      * @throws \Twilio\Exceptions\TwilioException For unknown resource
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         $property = $this->$name;
         if (method_exists($property, 'getContext')) {
             return call_user_func_array(array($property, 'getContext'), $arguments);
@@ -144,14 +155,15 @@ class ConferenceContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Api.V2010.ConferenceContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Api.V2010.ConferenceContext '.implode(' ', $context).']';
     }
 }

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,69 +17,72 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+    header('Location: static_pages/');
 }
-class ControllerResponsesListingGridReportViewed extends AController {
-	public $data = array();
 
-    public function main() {
+class ControllerResponsesListingGridReportViewed extends AController
+{
+    public $data = array();
 
-	    //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+    public function main()
+    {
 
-		$this->loadLanguage('report/viewed');
-		$this->loadModel('report/viewed');
-	    $this->loadModel('catalog/product');
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$page = $this->request->post['page']; // get the requested page
-		$limit = $this->request->post['rows']; // get how many rows we want to have into the grid
-		$sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
-		$sord = $this->request->post['sord']; // get the direction
+        $this->loadLanguage('report/viewed');
+        $this->loadModel('report/viewed');
+        $this->loadModel('catalog/product');
 
-	    $data = array(
-			'sort'  => $sidx,
-			'order' => $sord,
-			'start' => ($page - 1) * $limit,
-			'limit' => $limit
-		);
+        $page = $this->request->post['page']; // get the requested page
+        $limit = $this->request->post['rows']; // get how many rows we want to have into the grid
+        $sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
+        $sord = $this->request->post['sord']; // get the direction
 
-		$total = $this->model_catalog_product->getTotalProducts($data);
-	    if( $total > 0 ) {
-			$total_pages = ceil($total/$limit);
-		} else {
-			$total_pages = 0;
-		}
+        $data = array(
+            'sort'  => $sidx,
+            'order' => $sord,
+            'start' => ($page - 1) * $limit,
+            'limit' => $limit,
+        );
 
-	    if($page > $total_pages){
+        $total = $this->model_catalog_product->getTotalProducts($data);
+        if ($total > 0) {
+            $total_pages = ceil($total / $limit);
+        } else {
+            $total_pages = 0;
+        }
+
+        if ($page > $total_pages) {
             $page = $total_pages;
             $data['start'] = ($page - 1) * $limit;
         }
 
-	    $response = new stdClass();
-		$response->page = $page;
-		$response->total = $total_pages;
-		$response->records = $total;
+        $response = new stdClass();
+        $response->page = $page;
+        $response->total = $total_pages;
+        $response->records = $total;
 
-	    $results = $this->model_report_viewed->getProductViewedReport($data['start'],$data['limit']);
-	    $i = 0;
-		foreach ($results as $result) {
+        $results = $this->model_report_viewed->getProductViewedReport($data['start'], $data['limit']);
+        $i = 0;
+        foreach ($results as $result) {
             $response->rows[$i]['id'] = $i;
-			$response->rows[$i]['cell'] = array(
-				$result['product_id'],
-				$result['name'],
-				$result['model'],
-				$result['viewed'],
+            $response->rows[$i]['cell'] = array(
+                $result['product_id'],
+                $result['name'],
+                $result['model'],
+                $result['viewed'],
                 $result['percent'],
-			);
-			$i++;
-		}
-	    $this->data['response'] = $response;
+            );
+            $i++;
+        }
+        $this->data['response'] = $response;
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
         $this->load->library('json');
         $this->response->setOutput(AJson::encode($this->data['response']));
-	}
+    }
 
 }

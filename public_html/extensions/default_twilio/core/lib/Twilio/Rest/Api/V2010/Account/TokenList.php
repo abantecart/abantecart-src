@@ -14,33 +14,38 @@ use Twilio\Options;
 use Twilio\Values;
 use Twilio\Version;
 
-class TokenList extends ListResource {
+class TokenList extends ListResource
+{
     /**
      * Construct the TokenList
-     * 
-     * @param Version $version Version that contains the resource
-     * @param string $accountSid The unique sid that identifies this account
-     * @return \Twilio\Rest\Api\V2010\Account\TokenList 
+     *
+     * @param Version $version    Version that contains the resource
+     * @param string  $accountSid The unique sid that identifies this account
+     *
+     * @return \Twilio\Rest\Api\V2010\Account\TokenList
      */
-    public function __construct(Version $version, $accountSid) {
+    public function __construct(Version $version, $accountSid)
+    {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('accountSid' => $accountSid, );
+        $this->solution = array('accountSid' => $accountSid,);
 
-        $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/Tokens.json';
+        $this->uri = '/Accounts/'.rawurlencode($accountSid).'/Tokens.json';
     }
 
     /**
      * Create a new TokenInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
+     *
      * @return TokenInstance Newly created TokenInstance
      */
-    public function create($options = array()) {
+    public function create($options = array())
+    {
         $options = new Values($options);
 
-        $data = Values::of(array('Ttl' => $options['ttl'], ));
+        $data = Values::of(array('Ttl' => $options['ttl'],));
 
         $payload = $this->version->create(
             'POST',
@@ -54,10 +59,11 @@ class TokenList extends ListResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         return '[Twilio.Api.V2010.TokenList]';
     }
 }

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -43,14 +43,14 @@ class ControllerPagesSaleCustomerGroup extends AController
         $this->document->initBreadcrumb(array(
             'href'      => $this->html->getSecureURL('index/home'),
             'text'      => $this->language->get('text_home'),
-      		'separator' => false
+            'separator' => false,
         ));
 
         $this->document->addBreadcrumb(array(
             'href'      => $this->html->getSecureURL('sale/customer_group'),
             'text'      => $this->language->get('breadcrumb_title'),
             'separator' => ' :: ',
-			'current'   => true
+            'current'   => true,
         ));
 
         $grid_settings = array(
@@ -66,11 +66,11 @@ class ControllerPagesSaleCustomerGroup extends AController
             'actions'     => array(
                 'edit'   => array(
                     'text' => $this->language->get('text_edit'),
-				    'href' => $this->html->getSecureURL('sale/customer_group/update', '&customer_group_id=%ID%')
+                    'href' => $this->html->getSecureURL('sale/customer_group/update', '&customer_group_id=%ID%'),
                 ),
                 'delete' => array(
                     'text' => $this->language->get('button_delete'),
-                )
+                ),
             ),
         );
 
@@ -90,7 +90,7 @@ class ControllerPagesSaleCustomerGroup extends AController
                 'index'  => 'tax_exempt',
                 'width'  => 100,
                 'align'  => 'center',
-			    'search' => false
+                'search' => false,
             ),
         );
 
@@ -173,12 +173,12 @@ class ControllerPagesSaleCustomerGroup extends AController
         $this->document->initBreadcrumb(array(
             'href'      => $this->html->getSecureURL('index/home'),
             'text'      => $this->language->get('text_home'),
-            'separator' => false
+            'separator' => false,
         ));
         $this->document->addBreadcrumb(array(
             'href'      => $this->html->getSecureURL('sale/customer_group'),
             'text'      => $this->language->get('breadcrumb_title'),
-            'separator' => ' :: '
+            'separator' => ' :: ',
         ));
 
         $this->data['cancel'] = $this->html->getSecureURL('sale/customer_group');
@@ -217,7 +217,7 @@ class ControllerPagesSaleCustomerGroup extends AController
             'href'      => $this->data['action'],
             'text'      => $this->data['heading_title'],
             'separator' => ' :: ',
-            'current'   => true
+            'current'   => true,
         ));
 
         $tabs['general'] = array(
@@ -226,13 +226,13 @@ class ControllerPagesSaleCustomerGroup extends AController
             'href'       => $this->html->getSecureURL('sale/customer_group/update',
                 '&customer_group_id='.$this->request->get['customer_group_id'], true),
             'active'     => true,
-            'sort_order' => 0
+            'sort_order' => 0,
         );
 
         $obj = $this->dispatch('responses/common/tabs', array(
                 'sale/customer_group',
                 //parent controller. Use customer group to use for other extensions that will add tabs via their hooks
-                array('tabs' => $tabs)
+                array('tabs' => $tabs),
             )
         );
         $this->data['tabs'] = $obj->dispatchGetOutput();

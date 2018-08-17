@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -257,8 +257,8 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController
         $data['x_currency_code'] = $this->currency->getCode();
         $data['x_method'] = 'CC';
         $data['x_type'] = $this->config->get('default_authorizenet_aim_method') == 'capture'
-                          ? 'AUTH_CAPTURE'
-                          : 'AUTH_ONLY';
+            ? 'AUTH_CAPTURE'
+            : 'AUTH_ONLY';
         $data['x_card_num'] = str_replace(' ', '', $this->request->post['cc_number']);
         $data['x_exp_date'] = $this->request->post['cc_expire_date_month'].$this->request->post['cc_expire_date_year'];
         $data['x_card_code'] = $this->request->post['cc_cvv2'];
@@ -329,7 +329,8 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController
         if ($response_data[1] == '1') {
             if (strtoupper($response_data[38]) != strtoupper(md5($this->config->get('default_authorizenet_aim_hash')
                     .$this->config->get('default_authorizenet_aim_login').$response_data[6]
-                    .$this->currency->format($order_info['total'], $order_info['currency'], 1.00000, false)))) {
+                    .$this->currency->format($order_info['total'], $order_info['currency'], 1.00000, false)))
+            ) {
                 $this->model_checkout_order->confirm($this->session->data['order_id'],
                     $this->config->get('config_order_status_id'));
                 $this->model_checkout_order->update($this->session->data['order_id'],

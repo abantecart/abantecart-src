@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,22 +17,24 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+    header('Location: static_pages/');
 }
-class ControllerPagesToolExportUpload extends AController {
 
-	public function main()
-	{
-		$this->extensions->hk_InitData($this,__FUNCTION__);
+class ControllerPagesToolExportUpload extends AController
+{
+
+    public function main()
+    {
+        $this->extensions->hk_InitData($this, __FUNCTION__);
         $redirect = $this->html->getSecureURL('tool/import_export', '&active=export');
 
-        if ( !$this->request->is_POST() || !$this->user->canModify('tool/import_export') ) {
+        if (!$this->request->is_POST() || !$this->user->canModify('tool/import_export')) {
             $this->redirect($redirect);
             return $this->dispatch('error/permission');
         }
 
-        if ( empty($this->request->post['data']) ) {
+        if (empty($this->request->post['data'])) {
             $this->session->data['error'] = 'Data for export is empty!';
             $this->redirect($redirect);
         }
@@ -42,9 +44,9 @@ class ControllerPagesToolExportUpload extends AController {
         $this->data = new AData();
         $array_new = $this->data->exportData($request);
 
-        if ( !empty($request) ) {
-            if ( empty($this->request->post['options']['file_name']) ) {
-                $fileName = 'data_export_' . date('mdY_His');
+        if (!empty($request)) {
+            if (empty($this->request->post['options']['file_name'])) {
+                $fileName = 'data_export_'.date('mdY_His');
             } else {
                 $fileName = $this->request->post['options']['file_name'];
             }
@@ -66,7 +68,7 @@ class ControllerPagesToolExportUpload extends AController {
                 case 'xml':
 
                     $fileName .= '.xml';
-                    $result = $this->data->array2XML( $array_new );
+                    $result = $this->data->array2XML($array_new);
 
                     break;
 
@@ -75,22 +77,23 @@ class ControllerPagesToolExportUpload extends AController {
             }
 
             if (!headers_sent()) {
-                if ( $result ) {
+                if ($result) {
                     header('Pragma: public');
                     header('Expires: 0');
                     header('Content-Description: File Transfer');
                     header('Content-Type: application/octet-stream');
-                    header('Content-Disposition: attachment; filename="' . $fileName . '"');
+                    header('Content-Disposition: attachment; filename="'.$fileName.'"');
                     header('Content-Transfer-Encoding: binary');
 
-                    print($result);exit; // popup window with file upload dialog
+                    print($result);
+                    exit; // popup window with file upload dialog
 
                 } else {
                     $this->session->data['error'] = 'Error during export! Please check errors report.';
                 }
 
                 //update controller data
-                $this->extensions->hk_UpdateData($this,__FUNCTION__);
+                $this->extensions->hk_UpdateData($this, __FUNCTION__);
                 $this->redirect($redirect);
                 return null;
             } else {
@@ -102,30 +105,31 @@ class ControllerPagesToolExportUpload extends AController {
             return null;
         }
 
-	}
+    }
 
-	private function validateRequest($post) {
+    private function validateRequest($post)
+    {
 
-		$results = array();
+        $results = array();
 
-		foreach ( $post as $key => $val ) {
-			if ( (bool) $val['is_checked'] || (isset($val['tables']) && !empty($val['tables'])) ) {
+        foreach ($post as $key => $val) {
+            if ((bool)$val['is_checked'] || (isset($val['tables']) && !empty($val['tables']))) {
 
-				if ( $val['start_id'] != '' ) {
-					$val['start_id'] = (int) $val['start_id'];
-				} else {
-					$val['start_id'] = 0;
-				}
+                if ($val['start_id'] != '') {
+                    $val['start_id'] = (int)$val['start_id'];
+                } else {
+                    $val['start_id'] = 0;
+                }
 
-				if ( $val['end_id'] != '' ) {
-					$val['end_id'] = (int) $val['end_id'];
-				}
-				$results[$key] = $val;
-			}
-			unset($val);
-		}
+                if ($val['end_id'] != '') {
+                    $val['end_id'] = (int)$val['end_id'];
+                }
+                $results[$key] = $val;
+            }
+            unset($val);
+        }
 
-		return $results;
-	}
-	
+        return $results;
+    }
+
 }

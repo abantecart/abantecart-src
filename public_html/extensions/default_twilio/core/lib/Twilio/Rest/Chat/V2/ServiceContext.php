@@ -22,15 +22,16 @@ use Twilio\Version;
 
 /**
  * @property \Twilio\Rest\Chat\V2\Service\ChannelList channels
- * @property \Twilio\Rest\Chat\V2\Service\RoleList roles
- * @property \Twilio\Rest\Chat\V2\Service\UserList users
+ * @property \Twilio\Rest\Chat\V2\Service\RoleList    roles
+ * @property \Twilio\Rest\Chat\V2\Service\UserList    users
  * @property \Twilio\Rest\Chat\V2\Service\BindingList bindings
  * @method \Twilio\Rest\Chat\V2\Service\ChannelContext channels(string $sid)
  * @method \Twilio\Rest\Chat\V2\Service\RoleContext roles(string $sid)
  * @method \Twilio\Rest\Chat\V2\Service\UserContext users(string $sid)
  * @method \Twilio\Rest\Chat\V2\Service\BindingContext bindings(string $sid)
  */
-class ServiceContext extends InstanceContext {
+class ServiceContext extends InstanceContext
+{
     protected $_channels = null;
     protected $_roles = null;
     protected $_users = null;
@@ -38,26 +39,29 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Initialize the ServiceContext
-     * 
+     *
      * @param \Twilio\Version $version Version that contains the resource
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Chat\V2\ServiceContext 
+     * @param string          $sid     The sid
+     *
+     * @return \Twilio\Rest\Chat\V2\ServiceContext
      */
-    public function __construct(Version $version, $sid) {
+    public function __construct(Version $version, $sid)
+    {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('sid' => $sid, );
+        $this->solution = array('sid' => $sid,);
 
-        $this->uri = '/Services/' . rawurlencode($sid) . '';
+        $this->uri = '/Services/'.rawurlencode($sid).'';
     }
 
     /**
      * Fetch a ServiceInstance
-     * 
+     *
      * @return ServiceInstance Fetched ServiceInstance
      */
-    public function fetch() {
+    public function fetch()
+    {
         $params = Values::of(array());
 
         $payload = $this->version->fetch(
@@ -71,54 +75,59 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Deletes the ServiceInstance
-     * 
+     *
      * @return boolean True if delete succeeds, false otherwise
      */
-    public function delete() {
+    public function delete()
+    {
         return $this->version->delete('delete', $this->uri);
     }
 
     /**
      * Update the ServiceInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
+     *
      * @return ServiceInstance Updated ServiceInstance
      */
-    public function update($options = array()) {
+    public function update($options = array())
+    {
         $options = new Values($options);
 
         $data = Values::of(array(
-            'FriendlyName' => $options['friendlyName'],
-            'DefaultServiceRoleSid' => $options['defaultServiceRoleSid'],
-            'DefaultChannelRoleSid' => $options['defaultChannelRoleSid'],
-            'DefaultChannelCreatorRoleSid' => $options['defaultChannelCreatorRoleSid'],
-            'ReadStatusEnabled' => Serialize::booleanToString($options['readStatusEnabled']),
-            'ReachabilityEnabled' => Serialize::booleanToString($options['reachabilityEnabled']),
-            'TypingIndicatorTimeout' => $options['typingIndicatorTimeout'],
-            'ConsumptionReportInterval' => $options['consumptionReportInterval'],
-            'Notifications.NewMessage.Enabled' => Serialize::booleanToString($options['notificationsNewMessageEnabled']),
-            'Notifications.NewMessage.Template' => $options['notificationsNewMessageTemplate'],
-            'Notifications.NewMessage.Sound' => $options['notificationsNewMessageSound'],
+            'FriendlyName'                               => $options['friendlyName'],
+            'DefaultServiceRoleSid'                      => $options['defaultServiceRoleSid'],
+            'DefaultChannelRoleSid'                      => $options['defaultChannelRoleSid'],
+            'DefaultChannelCreatorRoleSid'               => $options['defaultChannelCreatorRoleSid'],
+            'ReadStatusEnabled'                          => Serialize::booleanToString($options['readStatusEnabled']),
+            'ReachabilityEnabled'                        => Serialize::booleanToString($options['reachabilityEnabled']),
+            'TypingIndicatorTimeout'                     => $options['typingIndicatorTimeout'],
+            'ConsumptionReportInterval'                  => $options['consumptionReportInterval'],
+            'Notifications.NewMessage.Enabled'           => Serialize::booleanToString($options['notificationsNewMessageEnabled']),
+            'Notifications.NewMessage.Template'          => $options['notificationsNewMessageTemplate'],
+            'Notifications.NewMessage.Sound'             => $options['notificationsNewMessageSound'],
             'Notifications.NewMessage.BadgeCountEnabled' => Serialize::booleanToString($options['notificationsNewMessageBadgeCountEnabled']),
-            'Notifications.AddedToChannel.Enabled' => Serialize::booleanToString($options['notificationsAddedToChannelEnabled']),
-            'Notifications.AddedToChannel.Template' => $options['notificationsAddedToChannelTemplate'],
-            'Notifications.AddedToChannel.Sound' => $options['notificationsAddedToChannelSound'],
-            'Notifications.RemovedFromChannel.Enabled' => Serialize::booleanToString($options['notificationsRemovedFromChannelEnabled']),
-            'Notifications.RemovedFromChannel.Template' => $options['notificationsRemovedFromChannelTemplate'],
-            'Notifications.RemovedFromChannel.Sound' => $options['notificationsRemovedFromChannelSound'],
-            'Notifications.InvitedToChannel.Enabled' => Serialize::booleanToString($options['notificationsInvitedToChannelEnabled']),
-            'Notifications.InvitedToChannel.Template' => $options['notificationsInvitedToChannelTemplate'],
-            'Notifications.InvitedToChannel.Sound' => $options['notificationsInvitedToChannelSound'],
-            'PreWebhookUrl' => $options['preWebhookUrl'],
-            'PostWebhookUrl' => $options['postWebhookUrl'],
-            'WebhookMethod' => $options['webhookMethod'],
-            'WebhookFilters' => Serialize::map($options['webhookFilters'], function($e) { return $e; }),
-            'Limits.ChannelMembers' => $options['limitsChannelMembers'],
-            'Limits.UserChannels' => $options['limitsUserChannels'],
-            'Media.CompatibilityMessage' => $options['mediaCompatibilityMessage'],
-            'PreWebhookRetryCount' => $options['preWebhookRetryCount'],
-            'PostWebhookRetryCount' => $options['postWebhookRetryCount'],
-            'Notifications.LogEnabled' => Serialize::booleanToString($options['notificationsLogEnabled']),
+            'Notifications.AddedToChannel.Enabled'       => Serialize::booleanToString($options['notificationsAddedToChannelEnabled']),
+            'Notifications.AddedToChannel.Template'      => $options['notificationsAddedToChannelTemplate'],
+            'Notifications.AddedToChannel.Sound'         => $options['notificationsAddedToChannelSound'],
+            'Notifications.RemovedFromChannel.Enabled'   => Serialize::booleanToString($options['notificationsRemovedFromChannelEnabled']),
+            'Notifications.RemovedFromChannel.Template'  => $options['notificationsRemovedFromChannelTemplate'],
+            'Notifications.RemovedFromChannel.Sound'     => $options['notificationsRemovedFromChannelSound'],
+            'Notifications.InvitedToChannel.Enabled'     => Serialize::booleanToString($options['notificationsInvitedToChannelEnabled']),
+            'Notifications.InvitedToChannel.Template'    => $options['notificationsInvitedToChannelTemplate'],
+            'Notifications.InvitedToChannel.Sound'       => $options['notificationsInvitedToChannelSound'],
+            'PreWebhookUrl'                              => $options['preWebhookUrl'],
+            'PostWebhookUrl'                             => $options['postWebhookUrl'],
+            'WebhookMethod'                              => $options['webhookMethod'],
+            'WebhookFilters'                             => Serialize::map($options['webhookFilters'], function ($e) {
+                return $e;
+            }),
+            'Limits.ChannelMembers'                      => $options['limitsChannelMembers'],
+            'Limits.UserChannels'                        => $options['limitsUserChannels'],
+            'Media.CompatibilityMessage'                 => $options['mediaCompatibilityMessage'],
+            'PreWebhookRetryCount'                       => $options['preWebhookRetryCount'],
+            'PostWebhookRetryCount'                      => $options['postWebhookRetryCount'],
+            'Notifications.LogEnabled'                   => Serialize::booleanToString($options['notificationsLogEnabled']),
         ));
 
         $payload = $this->version->update(
@@ -133,10 +142,11 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Access the channels
-     * 
-     * @return \Twilio\Rest\Chat\V2\Service\ChannelList 
+     *
+     * @return \Twilio\Rest\Chat\V2\Service\ChannelList
      */
-    protected function getChannels() {
+    protected function getChannels()
+    {
         if (!$this->_channels) {
             $this->_channels = new ChannelList($this->version, $this->solution['sid']);
         }
@@ -146,10 +156,11 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Access the roles
-     * 
-     * @return \Twilio\Rest\Chat\V2\Service\RoleList 
+     *
+     * @return \Twilio\Rest\Chat\V2\Service\RoleList
      */
-    protected function getRoles() {
+    protected function getRoles()
+    {
         if (!$this->_roles) {
             $this->_roles = new RoleList($this->version, $this->solution['sid']);
         }
@@ -159,10 +170,11 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Access the users
-     * 
-     * @return \Twilio\Rest\Chat\V2\Service\UserList 
+     *
+     * @return \Twilio\Rest\Chat\V2\Service\UserList
      */
-    protected function getUsers() {
+    protected function getUsers()
+    {
         if (!$this->_users) {
             $this->_users = new UserList($this->version, $this->solution['sid']);
         }
@@ -172,10 +184,11 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Access the bindings
-     * 
-     * @return \Twilio\Rest\Chat\V2\Service\BindingList 
+     *
+     * @return \Twilio\Rest\Chat\V2\Service\BindingList
      */
-    protected function getBindings() {
+    protected function getBindings()
+    {
         if (!$this->_bindings) {
             $this->_bindings = new BindingList($this->version, $this->solution['sid']);
         }
@@ -185,29 +198,33 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Magic getter to lazy load subresources
-     * 
+     *
      * @param string $name Subresource to return
+     *
      * @return \Twilio\ListResource The requested subresource
      * @throws \Twilio\Exceptions\TwilioException For unknown subresources
      */
-    public function __get($name) {
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+    public function __get($name)
+    {
+        if (property_exists($this, '_'.$name)) {
+            $method = 'get'.ucfirst($name);
             return $this->$method();
         }
 
-        throw new TwilioException('Unknown subresource ' . $name);
+        throw new TwilioException('Unknown subresource '.$name);
     }
 
     /**
      * Magic caller to get resource contexts
-     * 
-     * @param string $name Resource to return
-     * @param array $arguments Context parameters
+     *
+     * @param string $name      Resource to return
+     * @param array  $arguments Context parameters
+     *
      * @return \Twilio\InstanceContext The requested resource context
      * @throws \Twilio\Exceptions\TwilioException For unknown resource
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         $property = $this->$name;
         if (method_exists($property, 'getContext')) {
             return call_user_func_array(array($property, 'getContext'), $arguments);
@@ -218,14 +235,15 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Chat.V2.ServiceContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Chat.V2.ServiceContext '.implode(' ', $context).']';
     }
 }

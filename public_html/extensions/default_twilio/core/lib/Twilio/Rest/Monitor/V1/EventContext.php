@@ -13,29 +13,33 @@ use Twilio\InstanceContext;
 use Twilio\Values;
 use Twilio\Version;
 
-class EventContext extends InstanceContext {
+class EventContext extends InstanceContext
+{
     /**
      * Initialize the EventContext
-     * 
+     *
      * @param \Twilio\Version $version Version that contains the resource
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Monitor\V1\EventContext 
+     * @param string          $sid     The sid
+     *
+     * @return \Twilio\Rest\Monitor\V1\EventContext
      */
-    public function __construct(Version $version, $sid) {
+    public function __construct(Version $version, $sid)
+    {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('sid' => $sid, );
+        $this->solution = array('sid' => $sid,);
 
-        $this->uri = '/Events/' . rawurlencode($sid) . '';
+        $this->uri = '/Events/'.rawurlencode($sid).'';
     }
 
     /**
      * Fetch a EventInstance
-     * 
+     *
      * @return EventInstance Fetched EventInstance
      */
-    public function fetch() {
+    public function fetch()
+    {
         $params = Values::of(array());
 
         $payload = $this->version->fetch(
@@ -49,14 +53,15 @@ class EventContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Monitor.V1.EventContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Monitor.V1.EventContext '.implode(' ', $context).']';
     }
 }

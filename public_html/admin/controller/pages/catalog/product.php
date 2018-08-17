@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -820,8 +820,8 @@ class ControllerPagesCatalogProduct extends AController
             'type'     => 'selectbox',
             'name'     => 'stock_status_id',
             'value'    => (has_value($this->data['stock_status_id'])
-                            ? (int)$this->data['stock_status_id']
-                            : $this->config->get('config_stock_status_id')
+                ? (int)$this->data['stock_status_id']
+                : $this->config->get('config_stock_status_id')
             ),
             'options'  => $this->data['stock_statuses'],
             'help_url' => $this->gen_help_url('product_inventory'),
@@ -938,7 +938,8 @@ class ControllerPagesCatalogProduct extends AController
         ));
 
         if ($product_id && $this->data['shipping'] && (!(float)$this->data['weight'] || !$this->data['weight_class_id'])
-            && !(float)$this->data['shipping_price']) {
+            && !(float)$this->data['shipping_price']
+        ) {
             if (!$this->data['weight_class_id']) {
                 $this->data['error']['weight_class'] = $this->language->get('error_weight_class');
             }

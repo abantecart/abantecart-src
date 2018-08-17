@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -52,7 +52,7 @@ final class AConfig
     /**
      * add data to config.
      *
-     * @param $key - access key
+     * @param $key   - access key
      * @param $value - data to store in config
      *
      * @return void
@@ -282,7 +282,8 @@ final class AConfig
             foreach ($query->rows as $row) {
                 //skip settings for non-active template except status (needed for extensions list in admin)
                 if ($row['extension_type'] == 'template' && $tmpl_id != $row['group']
-                    && $row['key'] != $row['extension_txt_id'].'_status') {
+                    && $row['key'] != $row['extension_txt_id'].'_status'
+                ) {
                     continue;
                 }
                 $settings[] = $row;

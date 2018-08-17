@@ -17,35 +17,39 @@ use Twilio\Version;
 
 /**
  * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
- * 
+ *
  * @property \Twilio\Rest\Studio\V1\Flow\EngagementList engagements
  * @method \Twilio\Rest\Studio\V1\Flow\EngagementContext engagements(string $sid)
  */
-class FlowContext extends InstanceContext {
+class FlowContext extends InstanceContext
+{
     protected $_engagements = null;
 
     /**
      * Initialize the FlowContext
-     * 
+     *
      * @param \Twilio\Version $version Version that contains the resource
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Studio\V1\FlowContext 
+     * @param string          $sid     The sid
+     *
+     * @return \Twilio\Rest\Studio\V1\FlowContext
      */
-    public function __construct(Version $version, $sid) {
+    public function __construct(Version $version, $sid)
+    {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('sid' => $sid, );
+        $this->solution = array('sid' => $sid,);
 
-        $this->uri = '/Flows/' . rawurlencode($sid) . '';
+        $this->uri = '/Flows/'.rawurlencode($sid).'';
     }
 
     /**
      * Fetch a FlowInstance
-     * 
+     *
      * @return FlowInstance Fetched FlowInstance
      */
-    public function fetch() {
+    public function fetch()
+    {
         $params = Values::of(array());
 
         $payload = $this->version->fetch(
@@ -59,19 +63,21 @@ class FlowContext extends InstanceContext {
 
     /**
      * Deletes the FlowInstance
-     * 
+     *
      * @return boolean True if delete succeeds, false otherwise
      */
-    public function delete() {
+    public function delete()
+    {
         return $this->version->delete('delete', $this->uri);
     }
 
     /**
      * Access the engagements
-     * 
-     * @return \Twilio\Rest\Studio\V1\Flow\EngagementList 
+     *
+     * @return \Twilio\Rest\Studio\V1\Flow\EngagementList
      */
-    protected function getEngagements() {
+    protected function getEngagements()
+    {
         if (!$this->_engagements) {
             $this->_engagements = new EngagementList($this->version, $this->solution['sid']);
         }
@@ -81,29 +87,33 @@ class FlowContext extends InstanceContext {
 
     /**
      * Magic getter to lazy load subresources
-     * 
+     *
      * @param string $name Subresource to return
+     *
      * @return \Twilio\ListResource The requested subresource
      * @throws \Twilio\Exceptions\TwilioException For unknown subresources
      */
-    public function __get($name) {
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+    public function __get($name)
+    {
+        if (property_exists($this, '_'.$name)) {
+            $method = 'get'.ucfirst($name);
             return $this->$method();
         }
 
-        throw new TwilioException('Unknown subresource ' . $name);
+        throw new TwilioException('Unknown subresource '.$name);
     }
 
     /**
      * Magic caller to get resource contexts
-     * 
-     * @param string $name Resource to return
-     * @param array $arguments Context parameters
+     *
+     * @param string $name      Resource to return
+     * @param array  $arguments Context parameters
+     *
      * @return \Twilio\InstanceContext The requested resource context
      * @throws \Twilio\Exceptions\TwilioException For unknown resource
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         $property = $this->$name;
         if (method_exists($property, 'getContext')) {
             return call_user_func_array(array($property, 'getContext'), $arguments);
@@ -114,14 +124,15 @@ class FlowContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Studio.V1.FlowContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Studio.V1.FlowContext '.implode(' ', $context).']';
     }
 }

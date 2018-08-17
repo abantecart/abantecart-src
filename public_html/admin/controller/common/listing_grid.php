@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -21,10 +21,12 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
 
-class ControllerCommonListingGrid extends AController {
+class ControllerCommonListingGrid extends AController
+{
     public $data; // array for template
 
-    public function main() {
+    public function main()
+    {
         //Load input arguments for gid settings
         $this->data = func_get_arg(0);
         if (!is_array($this->data)) {
@@ -35,15 +37,15 @@ class ControllerCommonListingGrid extends AController {
         //Do not load scripts multiple times
         if (!$this->registry->has('jqgrid_script')) {
             $locale = $this->session->data['language'];
-            if (!file_exists(DIR_ROOT . '/' . RDIR_TEMPLATE . 'javascript/jqgrid/js/i18n/grid.locale-' . $locale . '.js')) {
+            if (!file_exists(DIR_ROOT.'/'.RDIR_TEMPLATE.'javascript/jqgrid/js/i18n/grid.locale-'.$locale.'.js')) {
                 $locale = 'en';
             }
-            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/i18n/grid.locale-' . $locale . '.js');
+            $this->document->addScript(RDIR_TEMPLATE.'javascript/jqgrid/js/i18n/grid.locale-'.$locale.'.js');
 
-            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/minified/jquery.jqGrid.min.js');
-            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/jquery.grid.fluid.js');
-            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/jquery.ba-bbq.min.js');
-            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/grid.history.js');
+            $this->document->addScript(RDIR_TEMPLATE.'javascript/jqgrid/js/minified/jquery.jqGrid.min.js');
+            $this->document->addScript(RDIR_TEMPLATE.'javascript/jqgrid/plugins/jquery.grid.fluid.js');
+            $this->document->addScript(RDIR_TEMPLATE.'javascript/jqgrid/plugins/jquery.ba-bbq.min.js');
+            $this->document->addScript(RDIR_TEMPLATE.'javascript/jqgrid/plugins/grid.history.js');
 
             //set flag to not include scripts/css twice
             $this->registry->set('jqgrid_script', true);
@@ -53,9 +55,11 @@ class ControllerCommonListingGrid extends AController {
         $this->data['rowNum'] = empty($this->data['rowNum']) ? (int)$this->config->get('config_admin_limit') : $this->data['rowNum'];
         $this->data['rowNum'] = !$this->data['rowNum'] ? 10 : $this->data['rowNum'];
         if (empty($this->data['rowList'])) {
-            $this->data['rowList'] = array($this->data['rowNum'],
+            $this->data['rowList'] = array(
+                $this->data['rowNum'],
                 $this->data['rowNum'] + 20,
-                $this->data['rowNum'] + 40);
+                $this->data['rowNum'] + 40,
+            );
         }
 
         $this->data['multiselect'] = empty($this->data['multiselect']) ? "true" : $this->data['multiselect'];
@@ -86,21 +90,21 @@ class ControllerCommonListingGrid extends AController {
         if (!empty($this->data['actions'])) {
             $this->data['colNames'][] = $this->language->get('column_action');
             $this->data['colModel'][] = array(
-                'name' => 'action',
-                'index' => 'action',
-                'align' => 'center',
+                'name'     => 'action',
+                'index'    => 'action',
+                'align'    => 'center',
                 'sortable' => false,
-                'search' => false,
+                'search'   => false,
             );
         }
 
-		//check for reserved column name
-		// name "parent" broke expanding of grid tree
-		foreach($this->data['colModel'] as $col){
-			if($col['name']=='parent'){
-				throw new AException (AC_ERR_LOAD, 'Error: Could not create grid. Grid column model contains reserved column name ("'.$col['index'].'").');
-			}
-		}
+        //check for reserved column name
+        // name "parent" broke expanding of grid tree
+        foreach ($this->data['colModel'] as $col) {
+            if ($col['name'] == 'parent') {
+                throw new AException (AC_ERR_LOAD, 'Error: Could not create grid. Grid column model contains reserved column name ("'.$col['index'].'").');
+            }
+        }
 
         $this->view->assign('data', $this->data);
 

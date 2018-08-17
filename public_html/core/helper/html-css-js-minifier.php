@@ -1,20 +1,24 @@
 <?php
 /**
-	PHP Function to Minify HTML, CSS and JavaScript
+ * PHP Function to Minify HTML, CSS and JavaScript
  * @param string $input
+ *
  * @return string
  */
 // HTML Minifier
-function minify_html($input) {
-    if(trim($input) === "") return $input;
+function minify_html($input)
+{
+    if (trim($input) === "") {
+        return $input;
+    }
     // Remove extra white-space(s) between HTML attribute(s)
-    $input = preg_replace_callback('#<([^\/\s<>!]+)(?:\s+([^<>]*?)\s*|\s*)(\/?)>#s', function($matches) {
-        return '<' . $matches[1] . preg_replace('#([^\s=]+)(\=([\'"]?)(.*?)\3)?(\s+|$)#s', ' $1$2', $matches[2]) . $matches[3] . '>';
+    $input = preg_replace_callback('#<([^\/\s<>!]+)(?:\s+([^<>]*?)\s*|\s*)(\/?)>#s', function ($matches) {
+        return '<'.$matches[1].preg_replace('#([^\s=]+)(\=([\'"]?)(.*?)\3)?(\s+|$)#s', ' $1$2', $matches[2]).$matches[3].'>';
     }, str_replace("\r", "", $input));
     // Minify inline CSS declaration(s)
-    if(strpos($input, ' style=') !== false) {
-        $input = preg_replace_callback('#<([^<]+?)\s+style=([\'"])(.*?)\2(?=[\/\s>])#s', function($matches) {
-            return '<' . $matches[1] . ' style=' . $matches[2] . minify_css($matches[3]) . $matches[2];
+    if (strpos($input, ' style=') !== false) {
+        $input = preg_replace_callback('#<([^<]+?)\s+style=([\'"])(.*?)\2(?=[\/\s>])#s', function ($matches) {
+            return '<'.$matches[1].' style='.$matches[2].minify_css($matches[3]).$matches[2];
         }, $input);
     }
     return preg_replace(
@@ -34,7 +38,7 @@ function minify_html($input) {
             '#(&nbsp;)&nbsp;(?![<\s])#', // clean up ...
             '#(?<=\>)(&nbsp;)(?=\<)#', // --ibid
             // Remove HTML comment(s) except IE comment(s)
-            '#\s*<!--(?!\[if\s).*?-->\s*|(?<!\>)\n+(?=\<[^!])#s'
+            '#\s*<!--(?!\[if\s).*?-->\s*|(?<!\>)\n+(?=\<[^!])#s',
         ),
         array(
             '<$1$2</$1>',
@@ -46,18 +50,23 @@ function minify_html($input) {
             '<$1$2',
             '$1 ',
             '$1',
-            ""
+            "",
         ),
-    $input);
+        $input);
 }
 
 /**
  * CSS Minifier => http://ideone.com/Q5USEF + improvement(s)
+ *
  * @param string $input
+ *
  * @return string
  */
-function minify_css($input) {
-    if(trim($input) === "") return $input;
+function minify_css($input)
+{
+    if (trim($input) === "") {
+        return $input;
+    }
     return preg_replace(
         array(
             // Remove comment(s)
@@ -80,7 +89,7 @@ function minify_css($input) {
             // Replace `(border|outline):none` with `(border|outline):0`
             '#(?<=[\{;])(border|outline):none(?=[;\}\!])#',
             // Remove empty selector(s)
-            '#(\/\*(?>.*?\*\/))|(^|[\{\}])(?:[^\s\{\}]+)\{\}#s'
+            '#(\/\*(?>.*?\*\/))|(^|[\{\}])(?:[^\s\{\}]+)\{\}#s',
         ),
         array(
             '$1',
@@ -93,18 +102,23 @@ function minify_css($input) {
             '$1$2$4$5',
             '$1$2$3',
             '$1:0',
-            '$1$2'
+            '$1$2',
         ),
-    $input);
+        $input);
 }
 
 /**
  * JavaScript Minifier
+ *
  * @param string $input
+ *
  * @return string
  */
-function minify_js($input) {
-    if(trim($input) === "") return $input;
+function minify_js($input)
+{
+    if (trim($input) === "") {
+        return $input;
+    }
     return preg_replace(
         array(
             // Remove comment(s)
@@ -116,14 +130,14 @@ function minify_js($input) {
             // Minify object attribute(s) except JSON attribute(s). From `{'foo':'bar'}` to `{foo:'bar'}`
             '#([\{,])([\'])(\d+|[a-z_][a-z0-9_]*)\2(?=\:)#i',
             // --ibid. From `foo['bar']` to `foo.bar`
-            '#([a-z0-9_\)\]])\[([\'"])([a-z_][a-z0-9_]*)\2\]#i'
+            '#([a-z0-9_\)\]])\[([\'"])([a-z_][a-z0-9_]*)\2\]#i',
         ),
         array(
             '$1',
             '$1$2',
             '}',
             '$1$3',
-            '$1.$3'
+            '$1.$3',
         ),
-    $input);
+        $input);
 }

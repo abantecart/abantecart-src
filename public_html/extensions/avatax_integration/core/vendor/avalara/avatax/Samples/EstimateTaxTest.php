@@ -7,7 +7,7 @@ include 'configuration.php';
 $serviceURL = $configuration['serviceURL'];
 $accountNumber = $configuration['accountNumber'];
 $licenseKey = $configuration['licenseKey'];
-	
+
 $taxSvc = new AvaTax\TaxServiceRest($serviceURL, $accountNumber, $licenseKey);
 
 // Required Request Parameters
@@ -19,19 +19,15 @@ $estimateTaxRequest = new AvaTax\EstimateTaxRequest($latitude, $longitude, $sale
 $geoTaxResult = $taxSvc->estimateTax($estimateTaxRequest);
 
 //Print Results
-echo 'EstimateTaxTest Result: ' . $geoTaxResult->getResultCode()."\n";
-if($geoTaxResult->getResultCode() != AvaTax\SeverityLevel::$Success)	// call failed
-{	
-	foreach($geoTaxResult->getMessages() as $message)
-	{
-		echo $message->getSeverity() . ": " . $message->getSummary()."\n";
-	}
-}
-else
+echo 'EstimateTaxTest Result: '.$geoTaxResult->getResultCode()."\n";
+if ($geoTaxResult->getResultCode() != AvaTax\SeverityLevel::$Success)    // call failed
 {
-	foreach($geoTaxResult->getTaxDetails() as $taxDetail)
-	{
-		echo "    " . "Jurisdiction: " . $taxDetail->getJurisName() . " Tax: " . $taxDetail->getTax();
-	}
-}	
+    foreach ($geoTaxResult->getMessages() as $message) {
+        echo $message->getSeverity().": ".$message->getSummary()."\n";
+    }
+} else {
+    foreach ($geoTaxResult->getTaxDetails() as $taxDetail) {
+        echo "    "."Jurisdiction: ".$taxDetail->getJurisName()." Tax: ".$taxDetail->getTax();
+    }
+}
 ?>

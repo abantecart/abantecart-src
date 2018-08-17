@@ -17,70 +17,74 @@ use Twilio\Version;
 
 /**
  * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
- * 
- * @property string sid
- * @property string accountSid
- * @property string serviceSid
- * @property string credentialSid
+ *
+ * @property string    sid
+ * @property string    accountSid
+ * @property string    serviceSid
+ * @property string    credentialSid
  * @property \DateTime dateCreated
  * @property \DateTime dateUpdated
- * @property string notificationProtocolVersion
- * @property string endpoint
- * @property string identity
- * @property string bindingType
- * @property string address
- * @property string tags
- * @property string url
- * @property array links
+ * @property string    notificationProtocolVersion
+ * @property string    endpoint
+ * @property string    identity
+ * @property string    bindingType
+ * @property string    address
+ * @property string    tags
+ * @property string    url
+ * @property array     links
  */
-class UserBindingInstance extends InstanceResource {
+class UserBindingInstance extends InstanceResource
+{
     /**
      * Initialize the UserBindingInstance
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param mixed[] $payload The response payload
-     * @param string $serviceSid The service_sid
-     * @param string $identity The identity
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Notify\V1\Service\User\UserBindingInstance 
+     *
+     * @param \Twilio\Version $version    Version that contains the resource
+     * @param mixed[]         $payload    The response payload
+     * @param string          $serviceSid The service_sid
+     * @param string          $identity   The identity
+     * @param string          $sid        The sid
+     *
+     * @return \Twilio\Rest\Notify\V1\Service\User\UserBindingInstance
      */
-    public function __construct(Version $version, array $payload, $serviceSid, $identity, $sid = null) {
+    public function __construct(Version $version, array $payload, $serviceSid, $identity, $sid = null)
+    {
         parent::__construct($version);
 
         // Marshaled Properties
         $this->properties = array(
-            'sid' => Values::array_get($payload, 'sid'),
-            'accountSid' => Values::array_get($payload, 'account_sid'),
-            'serviceSid' => Values::array_get($payload, 'service_sid'),
-            'credentialSid' => Values::array_get($payload, 'credential_sid'),
-            'dateCreated' => Deserialize::dateTime(Values::array_get($payload, 'date_created')),
-            'dateUpdated' => Deserialize::dateTime(Values::array_get($payload, 'date_updated')),
+            'sid'                         => Values::array_get($payload, 'sid'),
+            'accountSid'                  => Values::array_get($payload, 'account_sid'),
+            'serviceSid'                  => Values::array_get($payload, 'service_sid'),
+            'credentialSid'               => Values::array_get($payload, 'credential_sid'),
+            'dateCreated'                 => Deserialize::dateTime(Values::array_get($payload, 'date_created')),
+            'dateUpdated'                 => Deserialize::dateTime(Values::array_get($payload, 'date_updated')),
             'notificationProtocolVersion' => Values::array_get($payload, 'notification_protocol_version'),
-            'endpoint' => Values::array_get($payload, 'endpoint'),
-            'identity' => Values::array_get($payload, 'identity'),
-            'bindingType' => Values::array_get($payload, 'binding_type'),
-            'address' => Values::array_get($payload, 'address'),
-            'tags' => Values::array_get($payload, 'tags'),
-            'url' => Values::array_get($payload, 'url'),
-            'links' => Values::array_get($payload, 'links'),
+            'endpoint'                    => Values::array_get($payload, 'endpoint'),
+            'identity'                    => Values::array_get($payload, 'identity'),
+            'bindingType'                 => Values::array_get($payload, 'binding_type'),
+            'address'                     => Values::array_get($payload, 'address'),
+            'tags'                        => Values::array_get($payload, 'tags'),
+            'url'                         => Values::array_get($payload, 'url'),
+            'links'                       => Values::array_get($payload, 'links'),
         );
 
         $this->solution = array(
             'serviceSid' => $serviceSid,
-            'identity' => $identity,
-            'sid' => $sid ?: $this->properties['sid'],
+            'identity'   => $identity,
+            'sid'        => $sid ?: $this->properties['sid'],
         );
     }
 
     /**
      * Generate an instance context for the instance, the context is capable of
      * performing various actions.  All instance actions are proxied to the context
-     * 
+     *
      * @return \Twilio\Rest\Notify\V1\Service\User\UserBindingContext Context for
      *                                                                this
      *                                                                UserBindingInstance
      */
-    protected function proxy() {
+    protected function proxy()
+    {
         if (!$this->context) {
             $this->context = new UserBindingContext(
                 $this->version,
@@ -95,52 +99,57 @@ class UserBindingInstance extends InstanceResource {
 
     /**
      * Fetch a UserBindingInstance
-     * 
+     *
      * @return UserBindingInstance Fetched UserBindingInstance
      */
-    public function fetch() {
+    public function fetch()
+    {
         return $this->proxy()->fetch();
     }
 
     /**
      * Deletes the UserBindingInstance
-     * 
+     *
      * @return boolean True if delete succeeds, false otherwise
      */
-    public function delete() {
+    public function delete()
+    {
         return $this->proxy()->delete();
     }
 
     /**
      * Magic getter to access properties
-     * 
+     *
      * @param string $name Property to access
+     *
      * @return mixed The requested property
      * @throws TwilioException For unknown properties
      */
-    public function __get($name) {
+    public function __get($name)
+    {
         if (array_key_exists($name, $this->properties)) {
             return $this->properties[$name];
         }
 
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+        if (property_exists($this, '_'.$name)) {
+            $method = 'get'.ucfirst($name);
             return $this->$method();
         }
 
-        throw new TwilioException('Unknown property: ' . $name);
+        throw new TwilioException('Unknown property: '.$name);
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Notify.V1.UserBindingInstance ' . implode(' ', $context) . ']';
+        return '[Twilio.Notify.V1.UserBindingInstance '.implode(' ', $context).']';
     }
 }

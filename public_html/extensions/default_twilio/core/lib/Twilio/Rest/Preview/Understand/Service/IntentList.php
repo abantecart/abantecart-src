@@ -17,21 +17,24 @@ use Twilio\Version;
 /**
  * PLEASE NOTE that this class contains preview products that are subject to change. Use them with caution. If you currently do not have developer preview access, please contact help@twilio.com.
  */
-class IntentList extends ListResource {
+class IntentList extends ListResource
+{
     /**
      * Construct the IntentList
-     * 
-     * @param Version $version Version that contains the resource
-     * @param string $serviceSid The service_sid
-     * @return \Twilio\Rest\Preview\Understand\Service\IntentList 
+     *
+     * @param Version $version    Version that contains the resource
+     * @param string  $serviceSid The service_sid
+     *
+     * @return \Twilio\Rest\Preview\Understand\Service\IntentList
      */
-    public function __construct(Version $version, $serviceSid) {
+    public function __construct(Version $version, $serviceSid)
+    {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('serviceSid' => $serviceSid, );
+        $this->solution = array('serviceSid' => $serviceSid,);
 
-        $this->uri = '/Services/' . rawurlencode($serviceSid) . '/Intents';
+        $this->uri = '/Services/'.rawurlencode($serviceSid).'/Intents';
     }
 
     /**
@@ -41,18 +44,20 @@ class IntentList extends ListResource {
      * is reached.
      * The results are returned as a generator, so this operation is memory
      * efficient.
-     * 
-     * @param int $limit Upper limit for the number of records to return. stream()
-     *                   guarantees to never return more than limit.  Default is no
-     *                   limit
+     *
+     * @param int   $limit    Upper limit for the number of records to return. stream()
+     *                        guarantees to never return more than limit.  Default is no
+     *                        limit
      * @param mixed $pageSize Number of records to fetch per request, when not set
      *                        will use the default value of 50 records.  If no
      *                        page_size is defined but a limit is defined, stream()
      *                        will attempt to read the limit with the most
      *                        efficient page size, i.e. min(limit, 1000)
+     *
      * @return \Twilio\Stream stream of results
      */
-    public function stream($limit = null, $pageSize = null) {
+    public function stream($limit = null, $pageSize = null)
+    {
         $limits = $this->version->readLimits($limit, $pageSize);
 
         $page = $this->page($limits['pageSize']);
@@ -64,35 +69,39 @@ class IntentList extends ListResource {
      * Reads IntentInstance records from the API as a list.
      * Unlike stream(), this operation is eager and will load `limit` records into
      * memory before returning.
-     * 
-     * @param int $limit Upper limit for the number of records to return. read()
-     *                   guarantees to never return more than limit.  Default is no
-     *                   limit
+     *
+     * @param int   $limit    Upper limit for the number of records to return. read()
+     *                        guarantees to never return more than limit.  Default is no
+     *                        limit
      * @param mixed $pageSize Number of records to fetch per request, when not set
      *                        will use the default value of 50 records.  If no
      *                        page_size is defined but a limit is defined, read()
      *                        will attempt to read the limit with the most
      *                        efficient page size, i.e. min(limit, 1000)
+     *
      * @return IntentInstance[] Array of results
      */
-    public function read($limit = null, $pageSize = null) {
+    public function read($limit = null, $pageSize = null)
+    {
         return iterator_to_array($this->stream($limit, $pageSize), false);
     }
 
     /**
      * Retrieve a single page of IntentInstance records from the API.
      * Request is executed immediately
-     * 
-     * @param mixed $pageSize Number of records to return, defaults to 50
-     * @param string $pageToken PageToken provided by the API
-     * @param mixed $pageNumber Page Number, this value is simply for client state
+     *
+     * @param mixed  $pageSize   Number of records to return, defaults to 50
+     * @param string $pageToken  PageToken provided by the API
+     * @param mixed  $pageNumber Page Number, this value is simply for client state
+     *
      * @return \Twilio\Page Page of IntentInstance
      */
-    public function page($pageSize = Values::NONE, $pageToken = Values::NONE, $pageNumber = Values::NONE) {
+    public function page($pageSize = Values::NONE, $pageToken = Values::NONE, $pageNumber = Values::NONE)
+    {
         $params = Values::of(array(
             'PageToken' => $pageToken,
-            'Page' => $pageNumber,
-            'PageSize' => $pageSize,
+            'Page'      => $pageNumber,
+            'PageSize'  => $pageSize,
         ));
 
         $response = $this->version->page(
@@ -107,11 +116,13 @@ class IntentList extends ListResource {
     /**
      * Retrieve a specific page of IntentInstance records from the API.
      * Request is executed immediately
-     * 
+     *
      * @param string $targetUrl API-generated URL for the requested results page
+     *
      * @return \Twilio\Page Page of IntentInstance
      */
-    public function getPage($targetUrl) {
+    public function getPage($targetUrl)
+    {
         $response = $this->version->getDomain()->getClient()->request(
             'GET',
             $targetUrl
@@ -122,15 +133,17 @@ class IntentList extends ListResource {
 
     /**
      * Create a new IntentInstance
-     * 
-     * @param string $uniqueName The unique_name
-     * @param array|Options $options Optional Arguments
+     *
+     * @param string        $uniqueName The unique_name
+     * @param array|Options $options    Optional Arguments
+     *
      * @return IntentInstance Newly created IntentInstance
      */
-    public function create($uniqueName, $options = array()) {
+    public function create($uniqueName, $options = array())
+    {
         $options = new Values($options);
 
-        $data = Values::of(array('UniqueName' => $uniqueName, 'FriendlyName' => $options['friendlyName'], ));
+        $data = Values::of(array('UniqueName' => $uniqueName, 'FriendlyName' => $options['friendlyName'],));
 
         $payload = $this->version->create(
             'POST',
@@ -144,20 +157,23 @@ class IntentList extends ListResource {
 
     /**
      * Constructs a IntentContext
-     * 
+     *
      * @param string $sid The sid
-     * @return \Twilio\Rest\Preview\Understand\Service\IntentContext 
+     *
+     * @return \Twilio\Rest\Preview\Understand\Service\IntentContext
      */
-    public function getContext($sid) {
+    public function getContext($sid)
+    {
         return new IntentContext($this->version, $this->solution['serviceSid'], $sid);
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         return '[Twilio.Preview.Understand.IntentList]';
     }
 }

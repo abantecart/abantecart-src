@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -72,7 +72,7 @@ class ModelCatalogDownload extends Model
     }
 
     /**
-     * @param int $download_id
+     * @param int   $download_id
      * @param array $data
      *
      * @return bool
@@ -209,7 +209,7 @@ class ModelCatalogDownload extends Model
     }
 
     /**
-     * @param int $download_id
+     * @param int   $download_id
      *
      * @param array $exclude_products
      *
@@ -230,7 +230,7 @@ class ModelCatalogDownload extends Model
                                            AND pd.language_id = '".$this->language->getContentLanguageID()."')
                                       WHERE ptd.download_id = '".(int)$download_id."'");
         foreach ($result->rows as $row) {
-            if(!in_array($row['product_id'],$exclude_products)) {
+            if (!in_array($row['product_id'], $exclude_products)) {
                 $output[$row['product_id']] = $row['name'];
             }
         }
@@ -307,7 +307,7 @@ class ModelCatalogDownload extends Model
     }
 
     /**
-     * @param int $product_id
+     * @param int   $product_id
      * @param array $data
      *
      * @return array
@@ -330,15 +330,15 @@ class ModelCatalogDownload extends Model
         $sql .= " ORDER BY d.sort_order ASC";
         $query = $this->db->query($sql);
 
-        foreach($query->rows as &$row){
-            $row['map_list'] = $this->getDownloadMapList($row['download_id'],array($row['product_id']));
+        foreach ($query->rows as &$row) {
+            $row['map_list'] = $this->getDownloadMapList($row['download_id'], array($row['product_id']));
         }
 
         return $query->rows;
     }
 
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $mode
      *
      * @return array
@@ -446,7 +446,7 @@ class ModelCatalogDownload extends Model
     }
 
     /**
-     * @param int $download_id
+     * @param int   $download_id
      * @param array $data
      */
     public function addDownloadAttributeValues($download_id, $data)
@@ -470,7 +470,7 @@ class ModelCatalogDownload extends Model
     }
 
     /**
-     * @param int $download_id
+     * @param int   $download_id
      * @param array $data
      */
     public function editDownloadAttributes($download_id, $data)
@@ -542,7 +542,7 @@ class ModelCatalogDownload extends Model
     }
 
     /**
-     * @param int $order_download_id
+     * @param int   $order_download_id
      * @param array $data
      *
      * @return bool
@@ -583,7 +583,7 @@ class ModelCatalogDownload extends Model
     }
 
     /**
-     * @param $product_id
+     * @param            $product_id
      * @param int|string $download_id (optional)
      *
      * @return array
@@ -611,7 +611,7 @@ class ModelCatalogDownload extends Model
     }
 
     /**
-     * @param int $product_id
+     * @param int        $product_id
      * @param int|string $download_id
      *
      * @return int

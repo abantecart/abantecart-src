@@ -162,9 +162,9 @@ class ModelToolMPAPI extends Model
                 $category['href'] = $this->html->getSecureURL(
                     'extension/extensions_store',
                     '&category_id='.$category['category_id']
-                        .'&sidx='.$get_params['sidx']
-                        .'&sord='.$get_params['sord']
-                        .'&limit='.$get_params['limit']
+                    .'&sidx='.$get_params['sidx']
+                    .'&sord='.$get_params['sord']
+                    .'&limit='.$get_params['limit']
                 );
                 $category['active'] = $category['category_id'] == $params['category_id'] ? true : false;
             }
@@ -174,10 +174,10 @@ class ModelToolMPAPI extends Model
                 'category_id' => '',
                 'name'        => $this->language->get('text_all_categories'),
                 'href'        => $this->html->getSecureURL(
-                                            'extension/extensions_store',
-                                            '&sidx='.$get_params['sidx']
-                                                .'&sord='.$get_params['sord']
-                                                .'&limit='.$get_params['limit']
+                    'extension/extensions_store',
+                    '&sidx='.$get_params['sidx']
+                    .'&sord='.$get_params['sord']
+                    .'&limit='.$get_params['limit']
                 ),
                 'active'      => $params['category_id'] ? false : true,
             ));
@@ -234,7 +234,7 @@ class ModelToolMPAPI extends Model
 
     /**
      * @param AConnect $connect
-     * @param array $params - plain associative array
+     * @param array    $params - plain associative array
      *
      * @return mixed
      */

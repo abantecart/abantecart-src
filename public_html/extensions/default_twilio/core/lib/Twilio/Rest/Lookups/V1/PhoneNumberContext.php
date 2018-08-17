@@ -15,36 +15,45 @@ use Twilio\Serialize;
 use Twilio\Values;
 use Twilio\Version;
 
-class PhoneNumberContext extends InstanceContext {
+class PhoneNumberContext extends InstanceContext
+{
     /**
      * Initialize the PhoneNumberContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $phoneNumber The phone_number
-     * @return \Twilio\Rest\Lookups\V1\PhoneNumberContext 
+     *
+     * @param \Twilio\Version $version     Version that contains the resource
+     * @param string          $phoneNumber The phone_number
+     *
+     * @return \Twilio\Rest\Lookups\V1\PhoneNumberContext
      */
-    public function __construct(Version $version, $phoneNumber) {
+    public function __construct(Version $version, $phoneNumber)
+    {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('phoneNumber' => $phoneNumber, );
+        $this->solution = array('phoneNumber' => $phoneNumber,);
 
-        $this->uri = '/PhoneNumbers/' . rawurlencode($phoneNumber) . '';
+        $this->uri = '/PhoneNumbers/'.rawurlencode($phoneNumber).'';
     }
 
     /**
      * Fetch a PhoneNumberInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
+     *
      * @return PhoneNumberInstance Fetched PhoneNumberInstance
      */
-    public function fetch($options = array()) {
+    public function fetch($options = array())
+    {
         $options = new Values($options);
 
         $params = Values::of(array(
             'CountryCode' => $options['countryCode'],
-            'Type' => Serialize::map($options['type'], function($e) { return $e; }),
-            'AddOns' => Serialize::map($options['addOns'], function($e) { return $e; }),
+            'Type'        => Serialize::map($options['type'], function ($e) {
+                return $e;
+            }),
+            'AddOns'      => Serialize::map($options['addOns'], function ($e) {
+                return $e;
+            }),
         ));
 
         $params = array_merge($params, Serialize::prefixedCollapsibleMap($options['addOnsData'], 'AddOns'));
@@ -59,14 +68,15 @@ class PhoneNumberContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Lookups.V1.PhoneNumberContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Lookups.V1.PhoneNumberContext '.implode(' ', $context).']';
     }
 }

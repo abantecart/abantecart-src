@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -143,8 +144,8 @@ class ControllerPagesLocalisationOrderStatus extends AController
 
         if ($this->request->is_POST() && $this->validateForm()) {
             $this->model_localisation_order_status->editOrderStatus(
-                                                    $this->request->get['order_status_id'],
-                                                    $this->request->post
+                $this->request->get['order_status_id'],
+                $this->request->post
             );
             $this->session->data['success'] = $this->language->get('text_success');
             redirect(
@@ -197,13 +198,13 @@ class ControllerPagesLocalisationOrderStatus extends AController
             $is_base = false;
         } else {
             $this->data['action'] = $this->html->getSecureURL(
-                                            'localisation/order_status/update',
-                                            '&order_status_id='.$order_status_id
+                'localisation/order_status/update',
+                '&order_status_id='.$order_status_id
             );
             $this->data['heading_title'] = $this->language->get('text_edit').' '.$this->language->get('text_status');
             $this->data['update'] = $this->html->getSecureURL(
-                                            'listing_grid/order_status/update_field',
-                                            '&id='.$order_status_id
+                'listing_grid/order_status/update_field',
+                '&id='.$order_status_id
             );
             $form = new AForm('HS');
             $is_base = in_array($order_status_id, array_keys($this->order_status->getBaseStatuses()));
@@ -273,11 +274,10 @@ class ControllerPagesLocalisationOrderStatus extends AController
             $this->error['warning'] = $this->language->get('error_permission');
         }
 
-
         if (mb_strlen($this->request->post['name']) < 3 || mb_strlen($this->request->post['name']) > 32) {
             $this->error['name'] = $this->language->get('error_name');
         }
-        if(array_key_exists('status_text_id', $this->request->post)) {
+        if (array_key_exists('status_text_id', $this->request->post)) {
             if (mb_strlen($this->request->post['status_text_id']) < 3
                 || mb_strlen($this->request->post['status_text_id']) > 32
                 || in_array($this->request->post['status_text_id'], $this->order_status->getStatuses())

@@ -37,29 +37,30 @@ class ExtensionAvataxIntegration extends Extension
         $this->registry = Registry::getInstance();
         $this->controller = $this->baseObject;
         $this->exemptGroups = array(
-                        ''  => '-----Please Select-----',
-                        'A' => 'A. Federal government (United States)',
-                        'B' => 'B. State government (United States)',
-                        'C' => 'C. Tribe / Status Indian / Indian Band (United States & Canada)',
-                        'D' => 'D. Foreign diplomat (United States & Canada)',
-                        'E' => 'E. Charitable or benevolent org (United States & Canada)',
-                        'F' => 'F. Religious org (United States & Canada)',
-                        'G' => 'G. Resale (United States & Canada)',
-                        'H' => 'H. Commercial agricultural production (United States & Canada)',
-                        'I' => 'I. Industrial production / manufacturer (United States & Canada)',
-                        'J' => 'J. Direct pay permit (United States)',
-                        'K' => 'K. Direct mail (United States)',
-                        'L' => 'L. Other (United States & Canada)',
-                        'M' => 'M. Educational Organization',
-                        'N' => 'N. Local government (United States)',
-                        //'O' => 'Not Used',
-                        'P' => 'P. Commercial aquaculture (Canada)',
-                        'Q' => 'Q. Commercial Fishery (Canada)',
-                        'R' => 'R. Non-resident (Canada)',
-                    );
+            ''  => '-----Please Select-----',
+            'A' => 'A. Federal government (United States)',
+            'B' => 'B. State government (United States)',
+            'C' => 'C. Tribe / Status Indian / Indian Band (United States & Canada)',
+            'D' => 'D. Foreign diplomat (United States & Canada)',
+            'E' => 'E. Charitable or benevolent org (United States & Canada)',
+            'F' => 'F. Religious org (United States & Canada)',
+            'G' => 'G. Resale (United States & Canada)',
+            'H' => 'H. Commercial agricultural production (United States & Canada)',
+            'I' => 'I. Industrial production / manufacturer (United States & Canada)',
+            'J' => 'J. Direct pay permit (United States)',
+            'K' => 'K. Direct mail (United States)',
+            'L' => 'L. Other (United States & Canada)',
+            'M' => 'M. Educational Organization',
+            'N' => 'N. Local government (United States)',
+            //'O' => 'Not Used',
+            'P' => 'P. Commercial aquaculture (Canada)',
+            'Q' => 'Q. Commercial Fishery (Canada)',
+            'R' => 'R. Non-resident (Canada)',
+        );
     }
 
-    protected function isEnabled(){
+    protected function isEnabled()
+    {
         return $this->registry->get('config')->get('avatax_integration_status');
     }
 
@@ -83,11 +84,11 @@ class ExtensionAvataxIntegration extends Extension
         $this->data = array();
         $this->data['tabs'][] = array(
             'href'   => $that->html->getSecureURL(
-                                            'catalog/avatax_integration',
-                                            '&product_id='.$that->request->get['product_id']
+                'catalog/avatax_integration',
+                '&product_id='.$that->request->get['product_id']
             ),
             'text'   => $that->language->get('avatax_integration_name'),
-            'active' => ($that->data['active'] == 'avatax_integration')
+            'active' => ($that->data['active'] == 'avatax_integration'),
         );
 
         $view = new AView(Registry::getInstance(), 0);
@@ -152,8 +153,8 @@ class ExtensionAvataxIntegration extends Extension
         $this->data = array();
         $this->data['tabs'][] = array(
             'href'   => $that->html->getSecureURL(
-                                        'catalog/avatax_integration',
-                                        '&product_id='.$that->request->get['product_id']),
+                'catalog/avatax_integration',
+                '&product_id='.$that->request->get['product_id']),
             'text'   => $that->language->get('avatax_integration_name'),
             'active' => ($that->data['active'] == 'avatax_integration'),
         );
@@ -171,7 +172,8 @@ class ExtensionAvataxIntegration extends Extension
             $that->load->model('sale/order');
             $order = $that->model_sale_order->getOrder($order_id);
             if ($order['order_status_id'] == $that->config->get('avatax_integration_status_success_settled')
-                || $order['order_status_id'] == $that->config->get('avatax_integration_status_cancel_settled')) {
+                || $order['order_status_id'] == $that->config->get('avatax_integration_status_cancel_settled')
+            ) {
                 $that->view->addHookVar('order_details',
                     '<div class="alert alert-danger" role="alert">'
                     .'Avatax is already calculated and documented. Edits to this order will not be reflected on Avatax!'
@@ -341,8 +343,8 @@ class ExtensionAvataxIntegration extends Extension
                 $address_info['address_id'] = 'guest';
             } else {
                 $address_id = $that->session->data['shipping_address_id']
-                            ? $that->session->data['shipping_address_id']
-                            : $that->session->data['payment_address_id'];
+                    ? $that->session->data['shipping_address_id']
+                    : $that->session->data['payment_address_id'];
                 $address_info = array('address_id' => $address_id);
             }
             $res = $this->validate_address($address_info);
@@ -377,10 +379,10 @@ class ExtensionAvataxIntegration extends Extension
     }
 
     /**
-     * @param $that
-     * @param $cust_data
+     * @param      $that
+     * @param      $cust_data
      * @param bool $commit
-     * @param int $total_data
+     * @param int  $total_data
      * @param bool $return
      *
      * @return int
@@ -497,7 +499,7 @@ class ExtensionAvataxIntegration extends Extension
 
             if (is_array($customer_settings)) {
                 //if approved
-                if ($customer_settings['exemption_number'] && $customer_settings['status'] == 1 ) {
+                if ($customer_settings['exemption_number'] && $customer_settings['status'] == 1) {
                     $getTaxRequest->setCustomerUsageType($customer_settings['entity_use_code']);
                     $getTaxRequest->setExemptionNo($customer_settings['exemption_number']);
                 }
@@ -536,7 +538,8 @@ class ExtensionAvataxIntegration extends Extension
             $address2->setAddressCode("2");
 
             if (isset($order_data['shipping_postcode']) && !empty($order_data['shipping_postcode'])
-                && $config->get('config_tax_customer') == 0) {
+                && $config->get('config_tax_customer') == 0
+            ) {
                 $address2->setLine1($order_data['shipping_address_1']);
                 $address2->setLine2($order_data['shipping_address_2']);
                 $address2->setCity($order_data['shipping_city']);
@@ -544,7 +547,8 @@ class ExtensionAvataxIntegration extends Extension
                 $address2->setCountry($order_data['shipping_iso_code_2']);
                 $address2->setPostalCode($order_data['shipping_postcode']);
             } elseif (isset($order_data['payment_postcode']) && !empty($order_data['payment_postcode'])
-                && $config->get('config_tax_customer') == 1) {
+                && $config->get('config_tax_customer') == 1
+            ) {
                 $address2->setLine1($order_data['payment_address_1']);
                 $address2->setLine2($order_data['payment_address_2']);
                 $address2->setCity($order_data['payment_city']);
@@ -781,8 +785,8 @@ class ExtensionAvataxIntegration extends Extension
                 $activateTotalArray =
                     array(
                         'avatax_integration_total' => array(
-                            'avatax_integration_total_status' => $avatax_integration_total_status
-                        )
+                            'avatax_integration_total_status' => $avatax_integration_total_status,
+                        ),
                     );
                 foreach ($activateTotalArray as $group => $values) {
                     $that->model_setting_setting->editSetting($group, $values);
@@ -980,7 +984,7 @@ class ExtensionAvataxIntegration extends Extension
                     'type'    => 'selectbox',
                     'name'    => 'entity_use_code',
                     'value'   => $customer_settings['entity_use_code'],
-                    'options' => $this->exemptGroups
+                    'options' => $this->exemptGroups,
                 ));
             }
         }
@@ -1005,9 +1009,11 @@ class ExtensionAvataxIntegration extends Extension
         $that->loadLanguage('avatax_integration/avatax_integration');
 
         if ($that->request->is_POST() && $that->data['customer_id']
-            && $that->request->post['exemption_number'] && !$that->errors) {
+            && $that->request->post['exemption_number']
+            && !$that->errors
+        ) {
             $customer_id = $that->data['customer_id'];
-            $customer_settings = $that->model_extension_avatax_integration->getCustomerSettings( $customer_id );
+            $customer_settings = $that->model_extension_avatax_integration->getCustomerSettings($customer_id);
             if (in_array($customer_settings['status'], array(0, 2))) {
                 $that->model_extension_avatax_integration->setCustomerSettings(
                     $customer_id,
@@ -1042,7 +1048,7 @@ class ExtensionAvataxIntegration extends Extension
             'type'    => 'selectbox',
             'name'    => 'entity_use_code',
             'value'   => $that->request->post['entity_use_code'],
-            'options' => $this->exemptGroups
+            'options' => $this->exemptGroups,
         ));
 
         $view = new AView($this->registry, 0);

@@ -94,7 +94,7 @@ class ModelLocalisationCountry extends Model
             FROM ".$this->db->table("countries")." c
             LEFT JOIN ".$this->db->table("country_descriptions")." cd
                 ON (c.country_id = cd1.country_id "
-                    .($language_id ? "AND cd1.language_id = '".(int)$language_id."'" : '').")
+            .($language_id ? "AND cd1.language_id = '".(int)$language_id."'" : '').")
             WHERE c.iso_code_2 = '".$this->db->escape($code)."' AND status = '1'
             ORDER BY language_id"
         );

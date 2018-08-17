@@ -22,8 +22,8 @@
  * Class AFilter
  *
  * @property ARequest $request
- * @property ADB $db
- * @property AHtml $html
+ * @property ADB      $db
+ * @property AHtml    $html
  * @property ASession $session
  */
 final class AFilter
@@ -93,8 +93,8 @@ final class AFilter
             $fl_str = array();
             foreach ($keys_arr as $kk => $filter) {
                 $value = isset($this->request->{$this->method}[$filter])
-                        ? $this->request->{$this->method}[$filter]
-                        : false;
+                    ? $this->request->{$this->method}[$filter]
+                    : false;
                 //set null as non-set value. 0 - is value!!!
                 if ($value === '' || $value === false || $value === array()) {
                     $value = null;
@@ -210,9 +210,9 @@ final class AFilter
 /**
  * Class AGrid
  *
- * @property ALoader $load
+ * @property ALoader  $load
  * @property ARequest $request
- * @property ADB $db
+ * @property ADB      $db
  */
 final class AGrid
 {
@@ -226,7 +226,7 @@ final class AGrid
 
     /**
      * @param string $method
-     * @param array $data
+     * @param array  $data
      */
     public function __construct($method, $data)
     {
@@ -259,7 +259,7 @@ final class AGrid
 
     /**
      * @param string $adv_filter_str
-     * @param array $allowedFields
+     * @param array  $allowedFields
      *
      * @return string
      * @throws AException

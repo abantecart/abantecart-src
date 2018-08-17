@@ -12,104 +12,121 @@ namespace Twilio\Rest\Api\V2010\Account;
 use Twilio\Options;
 use Twilio\Values;
 
-abstract class OutgoingCallerIdOptions {
+abstract class OutgoingCallerIdOptions
+{
     /**
      * @param string $friendlyName A human readable description of the caller ID
+     *
      * @return UpdateOutgoingCallerIdOptions Options builder
      */
-    public static function update($friendlyName = Values::NONE) {
+    public static function update($friendlyName = Values::NONE)
+    {
         return new UpdateOutgoingCallerIdOptions($friendlyName);
     }
 
     /**
-     * @param string $phoneNumber Filter by phone number
+     * @param string $phoneNumber  Filter by phone number
      * @param string $friendlyName Filter by friendly name
+     *
      * @return ReadOutgoingCallerIdOptions Options builder
      */
-    public static function read($phoneNumber = Values::NONE, $friendlyName = Values::NONE) {
+    public static function read($phoneNumber = Values::NONE, $friendlyName = Values::NONE)
+    {
         return new ReadOutgoingCallerIdOptions($phoneNumber, $friendlyName);
     }
 }
 
-class UpdateOutgoingCallerIdOptions extends Options {
+class UpdateOutgoingCallerIdOptions extends Options
+{
     /**
      * @param string $friendlyName A human readable description of the caller ID
      */
-    public function __construct($friendlyName = Values::NONE) {
+    public function __construct($friendlyName = Values::NONE)
+    {
         $this->options['friendlyName'] = $friendlyName;
     }
 
     /**
      * A human readable description of the caller ID
-     * 
+     *
      * @param string $friendlyName A human readable description of the caller ID
+     *
      * @return $this Fluent Builder
      */
-    public function setFriendlyName($friendlyName) {
+    public function setFriendlyName($friendlyName)
+    {
         $this->options['friendlyName'] = $friendlyName;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $options = array();
         foreach ($this->options as $key => $value) {
             if ($value != Values::NONE) {
                 $options[] = "$key=$value";
             }
         }
-        return '[Twilio.Api.V2010.UpdateOutgoingCallerIdOptions ' . implode(' ', $options) . ']';
+        return '[Twilio.Api.V2010.UpdateOutgoingCallerIdOptions '.implode(' ', $options).']';
     }
 }
 
-class ReadOutgoingCallerIdOptions extends Options {
+class ReadOutgoingCallerIdOptions extends Options
+{
     /**
-     * @param string $phoneNumber Filter by phone number
+     * @param string $phoneNumber  Filter by phone number
      * @param string $friendlyName Filter by friendly name
      */
-    public function __construct($phoneNumber = Values::NONE, $friendlyName = Values::NONE) {
+    public function __construct($phoneNumber = Values::NONE, $friendlyName = Values::NONE)
+    {
         $this->options['phoneNumber'] = $phoneNumber;
         $this->options['friendlyName'] = $friendlyName;
     }
 
     /**
      * Only show the caller id resource that exactly matches this phone number
-     * 
+     *
      * @param string $phoneNumber Filter by phone number
+     *
      * @return $this Fluent Builder
      */
-    public function setPhoneNumber($phoneNumber) {
+    public function setPhoneNumber($phoneNumber)
+    {
         $this->options['phoneNumber'] = $phoneNumber;
         return $this;
     }
 
     /**
      * Only show the caller id resource that exactly matches this name
-     * 
+     *
      * @param string $friendlyName Filter by friendly name
+     *
      * @return $this Fluent Builder
      */
-    public function setFriendlyName($friendlyName) {
+    public function setFriendlyName($friendlyName)
+    {
         $this->options['friendlyName'] = $friendlyName;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $options = array();
         foreach ($this->options as $key => $value) {
             if ($value != Values::NONE) {
                 $options[] = "$key=$value";
             }
         }
-        return '[Twilio.Api.V2010.ReadOutgoingCallerIdOptions ' . implode(' ', $options) . ']';
+        return '[Twilio.Api.V2010.ReadOutgoingCallerIdOptions '.implode(' ', $options).']';
     }
 }

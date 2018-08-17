@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -91,10 +91,12 @@ final class ACurrency
             );
 
         } elseif (isset($this->session->data['currency'])
-            && array_key_exists($this->session->data['currency'], $this->currencies)) {
+            && array_key_exists($this->session->data['currency'], $this->currencies)
+        ) {
             $this->set($this->session->data['currency']);
         } elseif (isset($this->request->cookie['currency'])
-            && array_key_exists($this->request->cookie['currency'], $this->currencies)) {
+            && array_key_exists($this->request->cookie['currency'], $this->currencies)
+        ) {
             if (IS_ADMIN === true) {
                 $this->set($this->config->get('config_currency'));
             } else {
@@ -103,7 +105,8 @@ final class ACurrency
         } else {
             // need to know about currency switch. Check if currency was set but not in list of available currencies
             if (isset($currencyCode) || isset($this->session->data['currency'])
-                || isset($this->request->cookie['currency'])) {
+                || isset($this->request->cookie['currency'])
+            ) {
                 $this->is_switched = true;
             }
             $this->set($this->config->get('config_currency'));
@@ -154,7 +157,7 @@ final class ACurrency
     /**
      * Format only number part (digit based)
      *
-     * @param float $number
+     * @param float  $number
      * @param string $currency
      * @param string $crr_value
      *
@@ -168,8 +171,8 @@ final class ACurrency
     /**
      * Format total number part and/or currency symbol based on original price and quantity
      *
-     * @param float $price
-     * @param float $qty
+     * @param float  $price
+     * @param float  $qty
      * @param string $currency
      * @param string $crr_value
      *
@@ -188,10 +191,10 @@ final class ACurrency
     /**
      * Format number part and/or currency symbol
      *
-     * @param float $number
+     * @param float  $number
      * @param string $currency
      * @param string $crr_value
-     * @param bool $format
+     * @param bool   $format
      *
      * @return string|float
      */
@@ -229,7 +232,7 @@ final class ACurrency
     /**
      * @deprecated since 1.2.10
      *
-     * @param $number
+     * @param        $number
      * @param string $currency
      *
      * @return string
@@ -242,7 +245,7 @@ final class ACurrency
     /**
      * Format number part and/or currency symbol
      *
-     * @param float $number
+     * @param float  $number
      * @param string $currency
      *
      * @return string
@@ -264,7 +267,7 @@ final class ACurrency
     }
 
     /**
-     * @param float $value
+     * @param float  $value
      * @param string $code_from
      * @param string $code_to
      *
@@ -275,8 +278,8 @@ final class ACurrency
         $from = isset($this->currencies[$code_from]['value']) ? $this->currencies[$code_from]['value'] : 0;
         $to = isset($this->currencies[$code_to]['value']) ? $this->currencies[$code_to]['value'] : 0;
         $to_decimal = isset($this->currencies[$code_to]['decimal_place'])
-                    ? (int)$this->currencies[$code_to]['decimal_place']
-                    : 2;
+            ? (int)$this->currencies[$code_to]['decimal_place']
+            : 2;
 
         $error = false;
         if (!$to) {

@@ -16,30 +16,34 @@ use Twilio\Version;
 /**
  * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
  */
-class AlphaSenderContext extends InstanceContext {
+class AlphaSenderContext extends InstanceContext
+{
     /**
      * Initialize the AlphaSenderContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $serviceSid The service_sid
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Messaging\V1\Service\AlphaSenderContext 
+     *
+     * @param \Twilio\Version $version    Version that contains the resource
+     * @param string          $serviceSid The service_sid
+     * @param string          $sid        The sid
+     *
+     * @return \Twilio\Rest\Messaging\V1\Service\AlphaSenderContext
      */
-    public function __construct(Version $version, $serviceSid, $sid) {
+    public function __construct(Version $version, $serviceSid, $sid)
+    {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('serviceSid' => $serviceSid, 'sid' => $sid, );
+        $this->solution = array('serviceSid' => $serviceSid, 'sid' => $sid,);
 
-        $this->uri = '/Services/' . rawurlencode($serviceSid) . '/AlphaSenders/' . rawurlencode($sid) . '';
+        $this->uri = '/Services/'.rawurlencode($serviceSid).'/AlphaSenders/'.rawurlencode($sid).'';
     }
 
     /**
      * Fetch a AlphaSenderInstance
-     * 
+     *
      * @return AlphaSenderInstance Fetched AlphaSenderInstance
      */
-    public function fetch() {
+    public function fetch()
+    {
         $params = Values::of(array());
 
         $payload = $this->version->fetch(
@@ -58,23 +62,25 @@ class AlphaSenderContext extends InstanceContext {
 
     /**
      * Deletes the AlphaSenderInstance
-     * 
+     *
      * @return boolean True if delete succeeds, false otherwise
      */
-    public function delete() {
+    public function delete()
+    {
         return $this->version->delete('delete', $this->uri);
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Messaging.V1.AlphaSenderContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Messaging.V1.AlphaSenderContext '.implode(' ', $context).']';
     }
 }

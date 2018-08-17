@@ -33,18 +33,21 @@ class ReCaptcha
 {
     /**
      * Version of this client library.
+     *
      * @const string
      */
     const VERSION = 'php_1.1.2';
 
     /**
      * Shared secret for the site.
+     *
      * @var type string
      */
     private $secret;
 
     /**
      * Method used to communicate with service. Defaults to POST request.
+     *
      * @var RequestMethod
      */
     private $requestMethod;
@@ -52,7 +55,7 @@ class ReCaptcha
     /**
      * Create a configured instance to use the reCAPTCHA service.
      *
-     * @param string $secret shared secret between site and reCAPTCHA server.
+     * @param string        $secret        shared secret between site and reCAPTCHA server.
      * @param RequestMethod $requestMethod method used to send the request. Defaults to POST.
      */
     public function __construct($secret, RequestMethod $requestMethod = null)
@@ -80,6 +83,7 @@ class ReCaptcha
      *
      * @param string $response The value of 'g-recaptcha-response' in the submitted form.
      * @param string $remoteIp The end user's IP address.
+     *
      * @return Response Response from the service.
      */
     public function verify($response, $remoteIp = null)

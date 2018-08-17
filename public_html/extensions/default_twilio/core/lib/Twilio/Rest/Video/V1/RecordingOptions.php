@@ -12,29 +12,34 @@ namespace Twilio\Rest\Video\V1;
 use Twilio\Options;
 use Twilio\Values;
 
-abstract class RecordingOptions {
+abstract class RecordingOptions
+{
     /**
-     * @param string $status The status
-     * @param string $sourceSid The source_sid
-     * @param string $groupingSid The grouping_sid
-     * @param \DateTime $dateCreatedAfter The date_created_after
+     * @param string    $status            The status
+     * @param string    $sourceSid         The source_sid
+     * @param string    $groupingSid       The grouping_sid
+     * @param \DateTime $dateCreatedAfter  The date_created_after
      * @param \DateTime $dateCreatedBefore The date_created_before
+     *
      * @return ReadRecordingOptions Options builder
      */
-    public static function read($status = Values::NONE, $sourceSid = Values::NONE, $groupingSid = Values::NONE, $dateCreatedAfter = Values::NONE, $dateCreatedBefore = Values::NONE) {
+    public static function read($status = Values::NONE, $sourceSid = Values::NONE, $groupingSid = Values::NONE, $dateCreatedAfter = Values::NONE, $dateCreatedBefore = Values::NONE)
+    {
         return new ReadRecordingOptions($status, $sourceSid, $groupingSid, $dateCreatedAfter, $dateCreatedBefore);
     }
 }
 
-class ReadRecordingOptions extends Options {
+class ReadRecordingOptions extends Options
+{
     /**
-     * @param string $status The status
-     * @param string $sourceSid The source_sid
-     * @param string $groupingSid The grouping_sid
-     * @param \DateTime $dateCreatedAfter The date_created_after
+     * @param string    $status            The status
+     * @param string    $sourceSid         The source_sid
+     * @param string    $groupingSid       The grouping_sid
+     * @param \DateTime $dateCreatedAfter  The date_created_after
      * @param \DateTime $dateCreatedBefore The date_created_before
      */
-    public function __construct($status = Values::NONE, $sourceSid = Values::NONE, $groupingSid = Values::NONE, $dateCreatedAfter = Values::NONE, $dateCreatedBefore = Values::NONE) {
+    public function __construct($status = Values::NONE, $sourceSid = Values::NONE, $groupingSid = Values::NONE, $dateCreatedAfter = Values::NONE, $dateCreatedBefore = Values::NONE)
+    {
         $this->options['status'] = $status;
         $this->options['sourceSid'] = $sourceSid;
         $this->options['groupingSid'] = $groupingSid;
@@ -44,71 +49,82 @@ class ReadRecordingOptions extends Options {
 
     /**
      * The status
-     * 
+     *
      * @param string $status The status
+     *
      * @return $this Fluent Builder
      */
-    public function setStatus($status) {
+    public function setStatus($status)
+    {
         $this->options['status'] = $status;
         return $this;
     }
 
     /**
      * The source_sid
-     * 
+     *
      * @param string $sourceSid The source_sid
+     *
      * @return $this Fluent Builder
      */
-    public function setSourceSid($sourceSid) {
+    public function setSourceSid($sourceSid)
+    {
         $this->options['sourceSid'] = $sourceSid;
         return $this;
     }
 
     /**
      * The grouping_sid
-     * 
+     *
      * @param string $groupingSid The grouping_sid
+     *
      * @return $this Fluent Builder
      */
-    public function setGroupingSid($groupingSid) {
+    public function setGroupingSid($groupingSid)
+    {
         $this->options['groupingSid'] = $groupingSid;
         return $this;
     }
 
     /**
      * The date_created_after
-     * 
+     *
      * @param \DateTime $dateCreatedAfter The date_created_after
+     *
      * @return $this Fluent Builder
      */
-    public function setDateCreatedAfter($dateCreatedAfter) {
+    public function setDateCreatedAfter($dateCreatedAfter)
+    {
         $this->options['dateCreatedAfter'] = $dateCreatedAfter;
         return $this;
     }
 
     /**
      * The date_created_before
-     * 
+     *
      * @param \DateTime $dateCreatedBefore The date_created_before
+     *
      * @return $this Fluent Builder
      */
-    public function setDateCreatedBefore($dateCreatedBefore) {
+    public function setDateCreatedBefore($dateCreatedBefore)
+    {
         $this->options['dateCreatedBefore'] = $dateCreatedBefore;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $options = array();
         foreach ($this->options as $key => $value) {
             if ($value != Values::NONE) {
                 $options[] = "$key=$value";
             }
         }
-        return '[Twilio.Video.V1.ReadRecordingOptions ' . implode(' ', $options) . ']';
+        return '[Twilio.Video.V1.ReadRecordingOptions '.implode(' ', $options).']';
     }
 }

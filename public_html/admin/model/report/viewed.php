@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,55 +17,60 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+    header('Location: static_pages/');
 }
-class ModelReportViewed extends Model {
-	public function getProductViewedReport($start = 0, $limit = 20) {
-		$total = 0;
 
-		$product_data = array();
-		
-		$query = $this->db->query("SELECT SUM(viewed) AS total FROM " . $this->db->table("products") . " ");
+class ModelReportViewed extends Model
+{
+    public function getProductViewedReport($start = 0, $limit = 20)
+    {
+        $total = 0;
 
-		$total = $query->row['total'];
+        $product_data = array();
 
-		if ($start < 0) {
-			$start = 0;
-		}
-		
-		if ($limit < 1) {
-			$limit = 20;
-		}
+        $query = $this->db->query("SELECT SUM(viewed) AS total FROM ".$this->db->table("products")." ");
 
-		$sql = "SELECT p.product_id, p.model, p.viewed, pd.name
-				FROM " . $this->db->table("products") . " p
-				LEFT JOIN " . $this->db->table("product_descriptions") . " pd ON (p.product_id = pd.product_id AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
-				ORDER BY viewed DESC LIMIT " . (int)$start . "," . (int)$limit;
+        $total = $query->row['total'];
 
-		$query = $this->db->query($sql);
-		
-		foreach ($query->rows as $result) {
-			if ($result['viewed']) {
-				$percent = round(($result['viewed'] / $total) * 100, 2) . '%';
-			} else {
-				$percent = '0%';
-			}
-			
-			$product_data[] = array(
-				'product_id'   => $result['product_id'],
-				'name'    => $result['name'],
-				'model'   => $result['model'],
-				'viewed'  => $result['viewed'],
-				'percent' => $percent
-			);
-		}
-		
-		return $product_data;
-	}	
-	
-	public function reset($start = 0, $limit = 20) {
-		$this->db->query("UPDATE " . $this->db->table("products") . " SET viewed = '0'");
-	}
+        if ($start < 0) {
+            $start = 0;
+        }
+
+        if ($limit < 1) {
+            $limit = 20;
+        }
+
+        $sql = "SELECT p.product_id, p.model, p.viewed, pd.name
+				FROM ".$this->db->table("products")." p
+				LEFT JOIN ".$this->db->table("product_descriptions")." pd ON (p.product_id = pd.product_id AND pd.language_id = '".(int)$this->config->get('storefront_language_id')."')
+				ORDER BY viewed DESC LIMIT ".(int)$start.",".(int)$limit;
+
+        $query = $this->db->query($sql);
+
+        foreach ($query->rows as $result) {
+            if ($result['viewed']) {
+                $percent = round(($result['viewed'] / $total) * 100, 2).'%';
+            } else {
+                $percent = '0%';
+            }
+
+            $product_data[] = array(
+                'product_id' => $result['product_id'],
+                'name'       => $result['name'],
+                'model'      => $result['model'],
+                'viewed'     => $result['viewed'],
+                'percent'    => $percent,
+            );
+        }
+
+        return $product_data;
+    }
+
+    public function reset($start = 0, $limit = 20)
+    {
+        $this->db->query("UPDATE ".$this->db->table("products")." SET viewed = '0'");
+    }
 }
+
 ?>

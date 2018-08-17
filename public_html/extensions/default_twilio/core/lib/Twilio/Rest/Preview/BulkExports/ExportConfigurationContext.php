@@ -18,29 +18,33 @@ use Twilio\Version;
 /**
  * PLEASE NOTE that this class contains preview products that are subject to change. Use them with caution. If you currently do not have developer preview access, please contact help@twilio.com.
  */
-class ExportConfigurationContext extends InstanceContext {
+class ExportConfigurationContext extends InstanceContext
+{
     /**
      * Initialize the ExportConfigurationContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $resourceType The resource_type
-     * @return \Twilio\Rest\Preview\BulkExports\ExportConfigurationContext 
+     *
+     * @param \Twilio\Version $version      Version that contains the resource
+     * @param string          $resourceType The resource_type
+     *
+     * @return \Twilio\Rest\Preview\BulkExports\ExportConfigurationContext
      */
-    public function __construct(Version $version, $resourceType) {
+    public function __construct(Version $version, $resourceType)
+    {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('resourceType' => $resourceType, );
+        $this->solution = array('resourceType' => $resourceType,);
 
-        $this->uri = '/Exports/' . rawurlencode($resourceType) . '/Configuration';
+        $this->uri = '/Exports/'.rawurlencode($resourceType).'/Configuration';
     }
 
     /**
      * Fetch a ExportConfigurationInstance
-     * 
+     *
      * @return ExportConfigurationInstance Fetched ExportConfigurationInstance
      */
-    public function fetch() {
+    public function fetch()
+    {
         $params = Values::of(array());
 
         $payload = $this->version->fetch(
@@ -54,16 +58,18 @@ class ExportConfigurationContext extends InstanceContext {
 
     /**
      * Update the ExportConfigurationInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
+     *
      * @return ExportConfigurationInstance Updated ExportConfigurationInstance
      */
-    public function update($options = array()) {
+    public function update($options = array())
+    {
         $options = new Values($options);
 
         $data = Values::of(array(
-            'Enabled' => Serialize::booleanToString($options['enabled']),
-            'WebhookUrl' => $options['webhookUrl'],
+            'Enabled'       => Serialize::booleanToString($options['enabled']),
+            'WebhookUrl'    => $options['webhookUrl'],
             'WebhookMethod' => $options['webhookMethod'],
         ));
 
@@ -79,14 +85,15 @@ class ExportConfigurationContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Preview.BulkExports.ExportConfigurationContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Preview.BulkExports.ExportConfigurationContext '.implode(' ', $context).']';
     }
 }

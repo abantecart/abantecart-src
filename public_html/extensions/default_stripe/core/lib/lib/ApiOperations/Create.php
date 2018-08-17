@@ -10,7 +10,7 @@ namespace Stripe\ApiOperations;
 trait Create
 {
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return \Stripe\ApiResource The created resource.

@@ -22,7 +22,7 @@
  * Class ControllerPagesCatalogProductFeatures
  *
  * @property ModelProductFeaturesProductFeatures $model_avatax_integration_avatax_integration
- * @property ModelExtensionAvataxIntegration $model_extension_avatax_integration
+ * @property ModelExtensionAvataxIntegration     $model_extension_avatax_integration
  */
 class ControllerPagesSaleAvataxCustomerData extends AController
 {
@@ -112,17 +112,17 @@ class ControllerPagesSaleAvataxCustomerData extends AController
         $this->data['customer_id'] = $customer_id;
         $this->data['action'] = $this->html->getSecureURL('sale/avatax_customer_data', '&customer_id='.$customer_id);
         $this->data['heading_title'] = $this->language->get('text_edit')
-                                        .$this->language->get('text_customer')
-                                        .' - '
-                                        .$customer_info['firstname']
-                                        .' '.$customer_info['lastname'];
+            .$this->language->get('text_customer')
+            .' - '
+            .$customer_info['firstname']
+            .' '.$customer_info['lastname'];
         $form = new AForm('ST');
 
         $this->document->addBreadcrumb(array(
             'href'      => $this->data['action'],
             'text'      => $this->data['heading_title'],
             'separator' => ' :: ',
-            'current'   => true
+            'current'   => true,
         ));
         $this->data['tabs'][] = array(
             'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id='.$customer_id),
@@ -136,7 +136,7 @@ class ControllerPagesSaleAvataxCustomerData extends AController
             $this->data['tabs']['general'] = array(
                 'href'   => $this->html->getSecureURL('sale/avatax_customer_data', '&customer_id='.$customer_id),
                 'text'   => $this->language->get('avatax_integration_name'),
-                'active' => true
+                'active' => true,
             );
         }
 
@@ -150,17 +150,17 @@ class ControllerPagesSaleAvataxCustomerData extends AController
             'type'   => 'form',
             'name'   => 'cgFrm',
             'attr'   => 'data-confirm-exit="true" class="form-horizontal"',
-            'action' => $this->data['action']
+            'action' => $this->data['action'],
         ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
             'type' => 'button',
             'name' => 'submit',
-            'text' => $this->language->get('button_save')
+            'text' => $this->language->get('button_save'),
         ));
         $this->data['form']['reset'] = $form->getFieldHtml(array(
             'type' => 'button',
             'name' => 'reset',
-            'text' => $this->language->get('button_reset')
+            'text' => $this->language->get('button_reset'),
         ));
 
         $this->loadModel('extension/avatax_integration');

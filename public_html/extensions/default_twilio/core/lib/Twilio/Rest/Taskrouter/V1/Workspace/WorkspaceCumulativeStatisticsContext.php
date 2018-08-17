@@ -15,38 +15,43 @@ use Twilio\Serialize;
 use Twilio\Values;
 use Twilio\Version;
 
-class WorkspaceCumulativeStatisticsContext extends InstanceContext {
+class WorkspaceCumulativeStatisticsContext extends InstanceContext
+{
     /**
      * Initialize the WorkspaceCumulativeStatisticsContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $workspaceSid The workspace_sid
-     * @return \Twilio\Rest\Taskrouter\V1\Workspace\WorkspaceCumulativeStatisticsContext 
+     *
+     * @param \Twilio\Version $version      Version that contains the resource
+     * @param string          $workspaceSid The workspace_sid
+     *
+     * @return \Twilio\Rest\Taskrouter\V1\Workspace\WorkspaceCumulativeStatisticsContext
      */
-    public function __construct(Version $version, $workspaceSid) {
+    public function __construct(Version $version, $workspaceSid)
+    {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('workspaceSid' => $workspaceSid, );
+        $this->solution = array('workspaceSid' => $workspaceSid,);
 
-        $this->uri = '/Workspaces/' . rawurlencode($workspaceSid) . '/CumulativeStatistics';
+        $this->uri = '/Workspaces/'.rawurlencode($workspaceSid).'/CumulativeStatistics';
     }
 
     /**
      * Fetch a WorkspaceCumulativeStatisticsInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
+     *
      * @return WorkspaceCumulativeStatisticsInstance Fetched
      *                                               WorkspaceCumulativeStatisticsInstance
      */
-    public function fetch($options = array()) {
+    public function fetch($options = array())
+    {
         $options = new Values($options);
 
         $params = Values::of(array(
-            'EndDate' => Serialize::iso8601DateTime($options['endDate']),
-            'Minutes' => $options['minutes'],
-            'StartDate' => Serialize::iso8601DateTime($options['startDate']),
-            'TaskChannel' => $options['taskChannel'],
+            'EndDate'         => Serialize::iso8601DateTime($options['endDate']),
+            'Minutes'         => $options['minutes'],
+            'StartDate'       => Serialize::iso8601DateTime($options['startDate']),
+            'TaskChannel'     => $options['taskChannel'],
             'SplitByWaitTime' => $options['splitByWaitTime'],
         ));
 
@@ -65,14 +70,15 @@ class WorkspaceCumulativeStatisticsContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Taskrouter.V1.WorkspaceCumulativeStatisticsContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Taskrouter.V1.WorkspaceCumulativeStatisticsContext '.implode(' ', $context).']';
     }
 }

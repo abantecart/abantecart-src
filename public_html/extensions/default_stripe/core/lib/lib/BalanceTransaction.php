@@ -7,15 +7,15 @@ namespace Stripe;
  *
  * @property string $id
  * @property string $object
- * @property int $amount
- * @property int $available_on
- * @property int $created
+ * @property int    $amount
+ * @property int    $available_on
+ * @property int    $created
  * @property string $currency
  * @property string $description
- * @property float $exchange_rate
- * @property int $fee
- * @property mixed $fee_details
- * @property int $net
+ * @property float  $exchange_rate
+ * @property int    $fee
+ * @property mixed  $fee_details
+ * @property int    $net
  * @property string $source
  * @property string $status
  * @property string $type

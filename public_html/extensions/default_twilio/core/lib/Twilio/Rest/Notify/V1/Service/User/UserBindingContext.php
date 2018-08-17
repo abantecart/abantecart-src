@@ -16,31 +16,35 @@ use Twilio\Version;
 /**
  * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
  */
-class UserBindingContext extends InstanceContext {
+class UserBindingContext extends InstanceContext
+{
     /**
      * Initialize the UserBindingContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $serviceSid The service_sid
-     * @param string $identity The identity
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Notify\V1\Service\User\UserBindingContext 
+     *
+     * @param \Twilio\Version $version    Version that contains the resource
+     * @param string          $serviceSid The service_sid
+     * @param string          $identity   The identity
+     * @param string          $sid        The sid
+     *
+     * @return \Twilio\Rest\Notify\V1\Service\User\UserBindingContext
      */
-    public function __construct(Version $version, $serviceSid, $identity, $sid) {
+    public function __construct(Version $version, $serviceSid, $identity, $sid)
+    {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('serviceSid' => $serviceSid, 'identity' => $identity, 'sid' => $sid, );
+        $this->solution = array('serviceSid' => $serviceSid, 'identity' => $identity, 'sid' => $sid,);
 
-        $this->uri = '/Services/' . rawurlencode($serviceSid) . '/Users/' . rawurlencode($identity) . '/Bindings/' . rawurlencode($sid) . '';
+        $this->uri = '/Services/'.rawurlencode($serviceSid).'/Users/'.rawurlencode($identity).'/Bindings/'.rawurlencode($sid).'';
     }
 
     /**
      * Fetch a UserBindingInstance
-     * 
+     *
      * @return UserBindingInstance Fetched UserBindingInstance
      */
-    public function fetch() {
+    public function fetch()
+    {
         $params = Values::of(array());
 
         $payload = $this->version->fetch(
@@ -60,23 +64,25 @@ class UserBindingContext extends InstanceContext {
 
     /**
      * Deletes the UserBindingInstance
-     * 
+     *
      * @return boolean True if delete succeeds, false otherwise
      */
-    public function delete() {
+    public function delete()
+    {
         return $this->version->delete('delete', $this->uri);
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Notify.V1.UserBindingContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Notify.V1.UserBindingContext '.implode(' ', $context).']';
     }
 }

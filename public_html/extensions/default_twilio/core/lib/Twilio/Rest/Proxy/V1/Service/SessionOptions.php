@@ -15,101 +15,117 @@ use Twilio\Values;
 /**
  * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
  */
-abstract class SessionOptions {
+abstract class SessionOptions
+{
     /**
      * @param string $uniqueName A unique, developer assigned name of this Session.
-     * @param string $status The Status of this Session
+     * @param string $status     The Status of this Session
+     *
      * @return ReadSessionOptions Options builder
      */
-    public static function read($uniqueName = Values::NONE, $status = Values::NONE) {
+    public static function read($uniqueName = Values::NONE, $status = Values::NONE)
+    {
         return new ReadSessionOptions($uniqueName, $status);
     }
 
     /**
-     * @param string $uniqueName A unique, developer assigned name of this Session.
-     * @param \DateTime $dateExpiry The date this Session was expiry
-     * @param integer $ttl TTL for a Session, in seconds.
-     * @param string $mode The Mode of this Session
-     * @param string $status The Status of this Session
-     * @param array $participants A list of phone numbers to add to this Session.
+     * @param string    $uniqueName   A unique, developer assigned name of this Session.
+     * @param \DateTime $dateExpiry   The date this Session was expiry
+     * @param integer   $ttl          TTL for a Session, in seconds.
+     * @param string    $mode         The Mode of this Session
+     * @param string    $status       The Status of this Session
+     * @param array     $participants A list of phone numbers to add to this Session.
+     *
      * @return CreateSessionOptions Options builder
      */
-    public static function create($uniqueName = Values::NONE, $dateExpiry = Values::NONE, $ttl = Values::NONE, $mode = Values::NONE, $status = Values::NONE, $participants = Values::NONE) {
+    public static function create($uniqueName = Values::NONE, $dateExpiry = Values::NONE, $ttl = Values::NONE, $mode = Values::NONE, $status = Values::NONE, $participants = Values::NONE)
+    {
         return new CreateSessionOptions($uniqueName, $dateExpiry, $ttl, $mode, $status, $participants);
     }
 
     /**
-     * @param string $uniqueName A unique, developer assigned name of this Session.
-     * @param \DateTime $dateExpiry The date this Session was expiry
-     * @param integer $ttl TTL for a Session, in seconds.
-     * @param string $mode The Mode of this Session
-     * @param string $status The Status of this Session
-     * @param array $participants A list of phone numbers to add to this Session.
+     * @param string    $uniqueName   A unique, developer assigned name of this Session.
+     * @param \DateTime $dateExpiry   The date this Session was expiry
+     * @param integer   $ttl          TTL for a Session, in seconds.
+     * @param string    $mode         The Mode of this Session
+     * @param string    $status       The Status of this Session
+     * @param array     $participants A list of phone numbers to add to this Session.
+     *
      * @return UpdateSessionOptions Options builder
      */
-    public static function update($uniqueName = Values::NONE, $dateExpiry = Values::NONE, $ttl = Values::NONE, $mode = Values::NONE, $status = Values::NONE, $participants = Values::NONE) {
+    public static function update($uniqueName = Values::NONE, $dateExpiry = Values::NONE, $ttl = Values::NONE, $mode = Values::NONE, $status = Values::NONE, $participants = Values::NONE)
+    {
         return new UpdateSessionOptions($uniqueName, $dateExpiry, $ttl, $mode, $status, $participants);
     }
 }
 
-class ReadSessionOptions extends Options {
+class ReadSessionOptions extends Options
+{
     /**
      * @param string $uniqueName A unique, developer assigned name of this Session.
-     * @param string $status The Status of this Session
+     * @param string $status     The Status of this Session
      */
-    public function __construct($uniqueName = Values::NONE, $status = Values::NONE) {
+    public function __construct($uniqueName = Values::NONE, $status = Values::NONE)
+    {
         $this->options['uniqueName'] = $uniqueName;
         $this->options['status'] = $status;
     }
 
     /**
      * Provides a unique and addressable name to be assigned to this Session, assigned by the developer, to be optionally used in addition to SID.
-     * 
+     *
      * @param string $uniqueName A unique, developer assigned name of this Session.
+     *
      * @return $this Fluent Builder
      */
-    public function setUniqueName($uniqueName) {
+    public function setUniqueName($uniqueName)
+    {
         $this->options['uniqueName'] = $uniqueName;
         return $this;
     }
 
     /**
      * The Status of this Session. One of `in-progress`, `closed`, `failed`, `unknown` or `completed`.
-     * 
+     *
      * @param string $status The Status of this Session
+     *
      * @return $this Fluent Builder
      */
-    public function setStatus($status) {
+    public function setStatus($status)
+    {
         $this->options['status'] = $status;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $options = array();
         foreach ($this->options as $key => $value) {
             if ($value != Values::NONE) {
                 $options[] = "$key=$value";
             }
         }
-        return '[Twilio.Proxy.V1.ReadSessionOptions ' . implode(' ', $options) . ']';
+        return '[Twilio.Proxy.V1.ReadSessionOptions '.implode(' ', $options).']';
     }
 }
 
-class CreateSessionOptions extends Options {
+class CreateSessionOptions extends Options
+{
     /**
-     * @param string $uniqueName A unique, developer assigned name of this Session.
-     * @param \DateTime $dateExpiry The date this Session was expiry
-     * @param integer $ttl TTL for a Session, in seconds.
-     * @param string $mode The Mode of this Session
-     * @param string $status The Status of this Session
-     * @param array $participants A list of phone numbers to add to this Session.
+     * @param string    $uniqueName   A unique, developer assigned name of this Session.
+     * @param \DateTime $dateExpiry   The date this Session was expiry
+     * @param integer   $ttl          TTL for a Session, in seconds.
+     * @param string    $mode         The Mode of this Session
+     * @param string    $status       The Status of this Session
+     * @param array     $participants A list of phone numbers to add to this Session.
      */
-    public function __construct($uniqueName = Values::NONE, $dateExpiry = Values::NONE, $ttl = Values::NONE, $mode = Values::NONE, $status = Values::NONE, $participants = Values::NONE) {
+    public function __construct($uniqueName = Values::NONE, $dateExpiry = Values::NONE, $ttl = Values::NONE, $mode = Values::NONE, $status = Values::NONE, $participants = Values::NONE)
+    {
         $this->options['uniqueName'] = $uniqueName;
         $this->options['dateExpiry'] = $dateExpiry;
         $this->options['ttl'] = $ttl;
@@ -120,96 +136,111 @@ class CreateSessionOptions extends Options {
 
     /**
      * Provides a unique and addressable name to be assigned to this Session, assigned by the developer, to be optionally used in addition to SID.
-     * 
+     *
      * @param string $uniqueName A unique, developer assigned name of this Session.
+     *
      * @return $this Fluent Builder
      */
-    public function setUniqueName($uniqueName) {
+    public function setUniqueName($uniqueName)
+    {
         $this->options['uniqueName'] = $uniqueName;
         return $this;
     }
 
     /**
      * The date that this Session was expiry, given in ISO 8601 format.
-     * 
+     *
      * @param \DateTime $dateExpiry The date this Session was expiry
+     *
      * @return $this Fluent Builder
      */
-    public function setDateExpiry($dateExpiry) {
+    public function setDateExpiry($dateExpiry)
+    {
         $this->options['dateExpiry'] = $dateExpiry;
         return $this;
     }
 
     /**
      * The Time to Live for a Session, in seconds.
-     * 
+     *
      * @param integer $ttl TTL for a Session, in seconds.
+     *
      * @return $this Fluent Builder
      */
-    public function setTtl($ttl) {
+    public function setTtl($ttl)
+    {
         $this->options['ttl'] = $ttl;
         return $this;
     }
 
     /**
      * The Mode of this Session. One of `message-only`, `voice-only` or `voice-and-message`.
-     * 
+     *
      * @param string $mode The Mode of this Session
+     *
      * @return $this Fluent Builder
      */
-    public function setMode($mode) {
+    public function setMode($mode)
+    {
         $this->options['mode'] = $mode;
         return $this;
     }
 
     /**
      * The Status of this Session. One of `in-progress`, `closed`, `failed`, `unknown` or `completed`.
-     * 
+     *
      * @param string $status The Status of this Session
+     *
      * @return $this Fluent Builder
      */
-    public function setStatus($status) {
+    public function setStatus($status)
+    {
         $this->options['status'] = $status;
         return $this;
     }
 
     /**
      * A list of phone numbers to add to this Session.
-     * 
+     *
      * @param array $participants A list of phone numbers to add to this Session.
+     *
      * @return $this Fluent Builder
      */
-    public function setParticipants($participants) {
+    public function setParticipants($participants)
+    {
         $this->options['participants'] = $participants;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $options = array();
         foreach ($this->options as $key => $value) {
             if ($value != Values::NONE) {
                 $options[] = "$key=$value";
             }
         }
-        return '[Twilio.Proxy.V1.CreateSessionOptions ' . implode(' ', $options) . ']';
+        return '[Twilio.Proxy.V1.CreateSessionOptions '.implode(' ', $options).']';
     }
 }
 
-class UpdateSessionOptions extends Options {
+class UpdateSessionOptions extends Options
+{
     /**
-     * @param string $uniqueName A unique, developer assigned name of this Session.
-     * @param \DateTime $dateExpiry The date this Session was expiry
-     * @param integer $ttl TTL for a Session, in seconds.
-     * @param string $mode The Mode of this Session
-     * @param string $status The Status of this Session
-     * @param array $participants A list of phone numbers to add to this Session.
+     * @param string    $uniqueName   A unique, developer assigned name of this Session.
+     * @param \DateTime $dateExpiry   The date this Session was expiry
+     * @param integer   $ttl          TTL for a Session, in seconds.
+     * @param string    $mode         The Mode of this Session
+     * @param string    $status       The Status of this Session
+     * @param array     $participants A list of phone numbers to add to this Session.
      */
-    public function __construct($uniqueName = Values::NONE, $dateExpiry = Values::NONE, $ttl = Values::NONE, $mode = Values::NONE, $status = Values::NONE, $participants = Values::NONE) {
+    public function __construct($uniqueName = Values::NONE, $dateExpiry = Values::NONE, $ttl = Values::NONE, $mode = Values::NONE, $status = Values::NONE, $participants = Values::NONE)
+    {
         $this->options['uniqueName'] = $uniqueName;
         $this->options['dateExpiry'] = $dateExpiry;
         $this->options['ttl'] = $ttl;
@@ -220,82 +251,95 @@ class UpdateSessionOptions extends Options {
 
     /**
      * Provides a unique and addressable name to be assigned to this Session, assigned by the developer, to be optionally used in addition to SID.
-     * 
+     *
      * @param string $uniqueName A unique, developer assigned name of this Session.
+     *
      * @return $this Fluent Builder
      */
-    public function setUniqueName($uniqueName) {
+    public function setUniqueName($uniqueName)
+    {
         $this->options['uniqueName'] = $uniqueName;
         return $this;
     }
 
     /**
      * The date that this Session was expiry, given in ISO 8601 format.
-     * 
+     *
      * @param \DateTime $dateExpiry The date this Session was expiry
+     *
      * @return $this Fluent Builder
      */
-    public function setDateExpiry($dateExpiry) {
+    public function setDateExpiry($dateExpiry)
+    {
         $this->options['dateExpiry'] = $dateExpiry;
         return $this;
     }
 
     /**
      * The Time to Live for a Session, in seconds.
-     * 
+     *
      * @param integer $ttl TTL for a Session, in seconds.
+     *
      * @return $this Fluent Builder
      */
-    public function setTtl($ttl) {
+    public function setTtl($ttl)
+    {
         $this->options['ttl'] = $ttl;
         return $this;
     }
 
     /**
      * The Mode of this Session. One of `message-only`, `voice-only` or `voice-and-message`.
-     * 
+     *
      * @param string $mode The Mode of this Session
+     *
      * @return $this Fluent Builder
      */
-    public function setMode($mode) {
+    public function setMode($mode)
+    {
         $this->options['mode'] = $mode;
         return $this;
     }
 
     /**
      * The Status of this Session. One of `in-progress`, `closed`, `failed`, `unknown` or `completed`.
-     * 
+     *
      * @param string $status The Status of this Session
+     *
      * @return $this Fluent Builder
      */
-    public function setStatus($status) {
+    public function setStatus($status)
+    {
         $this->options['status'] = $status;
         return $this;
     }
 
     /**
      * A list of phone numbers to add to this Session.
-     * 
+     *
      * @param array $participants A list of phone numbers to add to this Session.
+     *
      * @return $this Fluent Builder
      */
-    public function setParticipants($participants) {
+    public function setParticipants($participants)
+    {
         $this->options['participants'] = $participants;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $options = array();
         foreach ($this->options as $key => $value) {
             if ($value != Values::NONE) {
                 $options[] = "$key=$value";
             }
         }
-        return '[Twilio.Proxy.V1.UpdateSessionOptions ' . implode(' ', $options) . ']';
+        return '[Twilio.Proxy.V1.UpdateSessionOptions '.implode(' ', $options).']';
     }
 }

@@ -34,7 +34,9 @@ class Curl
 
     /**
      * @see http://php.net/curl_init
+     *
      * @param string $url
+     *
      * @return resource cURL handle
      */
     public function init($url = null)
@@ -44,8 +46,10 @@ class Curl
 
     /**
      * @see http://php.net/curl_setopt_array
+     *
      * @param resource $ch
-     * @param array $options
+     * @param array    $options
+     *
      * @return bool
      */
     public function setoptArray($ch, array $options)
@@ -55,7 +59,9 @@ class Curl
 
     /**
      * @see http://php.net/curl_exec
+     *
      * @param resource $ch
+     *
      * @return mixed
      */
     public function exec($ch)
@@ -65,6 +71,7 @@ class Curl
 
     /**
      * @see http://php.net/curl_close
+     *
      * @param resource $ch
      */
     public function close($ch)

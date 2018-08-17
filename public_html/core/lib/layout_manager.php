@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -22,14 +22,14 @@ if (!defined('DIR_CORE')) {
 }
 
 /**
- * @property ACache $cache
- * @property ASession $session
- * @property ADB $db
- * @property AConfig $config
- * @property ALog $log
- * @property AMessage $message
+ * @property ACache           $cache
+ * @property ASession         $session
+ * @property ADB              $db
+ * @property AConfig          $config
+ * @property ALog             $log
+ * @property AMessage         $message
  * @property ALanguageManager $language
- * @property ExtensionsApi $extensions
+ * @property ExtensionsApi    $extensions
  */
 class ALayoutManager
 {
@@ -150,8 +150,8 @@ class ALayoutManager
                 $message_text = 'No template layout found for page_id/controller '
                     .$this->page_id.'::'.$this->page ['controller'].'!';
                 $message_text .= ' Requested data: template: '.$tmpl_id
-                                    .', page_id: '.$page_id
-                                    .', layout_id: '.$layout_id;
+                    .', page_id: '.$page_id
+                    .', layout_id: '.$layout_id;
                 $message_text .= '  '.genExecTrace('full');
                 throw new AException (AC_ERR_LOAD_LAYOUT, $message_text);
             }
@@ -180,7 +180,7 @@ class ALayoutManager
 
     /**
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function __set($key, $value)
     {
@@ -422,7 +422,7 @@ class ALayoutManager
     }
 
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $mode
      *
      * @return array|int
@@ -634,7 +634,7 @@ class ALayoutManager
 
     /**
      * @param array $blocks
-     * @param int $total_blocks
+     * @param int   $total_blocks
      *
      * @return array
      */
@@ -658,7 +658,7 @@ class ALayoutManager
 
     /**
      * @param array $blocks_arr
-     * @param int $position
+     * @param int   $position
      *
      * @return int
      */
@@ -868,7 +868,7 @@ class ALayoutManager
     /**
      * Function to clone layout linked to the page
      *
-     * @param $src_layout_id
+     * @param        $src_layout_id
      * @param string $dest_layout_id
      * @param string $layout_name
      *
@@ -958,7 +958,7 @@ class ALayoutManager
     }
 
     /**
-     * @param $data array
+     * @param     $data array
      * @param int $instance_id
      *
      * @return int
@@ -1044,7 +1044,7 @@ class ALayoutManager
     }
 
     /**
-     * @param $data array
+     * @param     $data array
      * @param int $layout_id
      *
      * @return int
@@ -1153,7 +1153,7 @@ class ALayoutManager
     }
 
     /**
-     * @param $data array
+     * @param     $data array
      * @param int $page_id
      *
      * @return int
@@ -1224,7 +1224,7 @@ class ALayoutManager
 
     /**
      * @param array $data
-     * @param int $block_id
+     * @param int   $block_id
      *
      * @return int
      * @throws AException
@@ -1363,8 +1363,8 @@ class ALayoutManager
     }
 
     /**
-     * @param int $block_id
-     * @param int $custom_block_id
+     * @param int   $block_id
+     * @param int   $custom_block_id
      * @param array $description
      *
      * @return bool|int
@@ -1567,7 +1567,7 @@ class ALayoutManager
 
     /**
      * @param string $block_txt_id
-     * @param int $block_id
+     * @param int    $block_id
      *
      * @return bool
      */
@@ -1936,7 +1936,7 @@ class ALayoutManager
     }
 
     /**
-     * @param int $layout_id
+     * @param int    $layout_id
      * @param object $page
      *
      * @return bool
@@ -2008,7 +2008,7 @@ class ALayoutManager
     /**
      * @param object $layout
      * @param object $block
-     * @param int $parent_instance_id
+     * @param int    $parent_instance_id
      *
      * @return bool
      */
@@ -2304,9 +2304,9 @@ class ALayoutManager
     }
 
     /**
-     * @param int $layout_id
+     * @param int    $layout_id
      * @param object $block
-     * @param int $parent_instance_id
+     * @param int    $parent_instance_id
      *
      * @return bool
      */
@@ -2442,7 +2442,7 @@ class ALayoutManager
 
     /**
      * @param object $block
-     * @param int $layout_id
+     * @param int    $layout_id
      *
      * @return bool
      */
@@ -2489,7 +2489,7 @@ class ALayoutManager
 
     /**
      * @param object $block
-     * @param int $layout_id
+     * @param int    $layout_id
      *
      * @return bool
      */

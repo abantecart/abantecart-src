@@ -20,6 +20,7 @@ if (!defined('CURL_SSLVERSION_TLSv1')) {
 if (!defined('CURL_SSLVERSION_TLSv1_2')) {
     define('CURL_SSLVERSION_TLSv1_2', 6);
 }
+
 // @codingStandardsIgnoreEnd
 
 class CurlClient implements ClientInterface
@@ -62,8 +63,8 @@ class CurlClient implements ClientInterface
     {
         $curlVersion = curl_version();
         $this->userAgentInfo = [
-            'httplib' =>  'curl ' . $curlVersion['version'],
-            'ssllib' => $curlVersion['ssl_version'],
+            'httplib' => 'curl '.$curlVersion['version'],
+            'ssllib'  => $curlVersion['ssl_version'],
         ];
     }
 
@@ -87,13 +88,13 @@ class CurlClient implements ClientInterface
 
     public function setTimeout($seconds)
     {
-        $this->timeout = (int) max($seconds, 0);
+        $this->timeout = (int)max($seconds, 0);
         return $this;
     }
 
     public function setConnectTimeout($seconds)
     {
-        $this->connectTimeout = (int) max($seconds, 0);
+        $this->connectTimeout = (int)max($seconds, 0);
         return $this;
     }
 
@@ -151,7 +152,7 @@ class CurlClient implements ClientInterface
         // add an Idempotency-Key header
         if (($method == 'post') && (Stripe::$maxNetworkRetries > 0)) {
             if (!isset($headers['Idempotency-Key'])) {
-                array_push($headers, 'Idempotency-Key: ' . $this->randomGenerator->uuid());
+                array_push($headers, 'Idempotency-Key: '.$this->randomGenerator->uuid());
             }
         }
 
@@ -239,9 +240,10 @@ class CurlClient implements ClientInterface
 
     /**
      * @param string $url
-     * @param int $errno
+     * @param int    $errno
      * @param string $message
-     * @param int $numRetries
+     * @param int    $numRetries
+     *
      * @throws Error\ApiConnection
      */
     private function handleCurlError($url, $errno, $message, $numRetries)
@@ -251,20 +253,20 @@ class CurlClient implements ClientInterface
             case CURLE_COULDNT_RESOLVE_HOST:
             case CURLE_OPERATION_TIMEOUTED:
                 $msg = "Could not connect to Stripe ($url).  Please check your "
-                 . "internet connection and try again.  If this problem persists, "
-                 . "you should check Stripe's service status at "
-                 . "https://twitter.com/stripestatus, or";
+                    ."internet connection and try again.  If this problem persists, "
+                    ."you should check Stripe's service status at "
+                    ."https://twitter.com/stripestatus, or";
                 break;
             case CURLE_SSL_CACERT:
             case CURLE_SSL_PEER_CERTIFICATE:
                 $msg = "Could not verify Stripe's SSL certificate.  Please make sure "
-                 . "that your network is not intercepting certificates.  "
-                 . "(Try going to $url in your browser.)  "
-                 . "If this problem persists,";
+                    ."that your network is not intercepting certificates.  "
+                    ."(Try going to $url in your browser.)  "
+                    ."If this problem persists,";
                 break;
             default:
                 $msg = "Unexpected error communicating with Stripe.  "
-                 . "If this problem persists,";
+                    ."If this problem persists,";
         }
         $msg .= " let us know at support@stripe.com.";
 
@@ -281,9 +283,11 @@ class CurlClient implements ClientInterface
      * Checks if an error is a problem that we should retry on. This includes both
      * socket errors that may represent an intermittent problem and some special
      * HTTP statuses.
+     *
      * @param int $errno
      * @param int $rcode
      * @param int $numRetries
+     *
      * @return bool
      */
     private function shouldRetry($errno, $rcode, $numRetries)

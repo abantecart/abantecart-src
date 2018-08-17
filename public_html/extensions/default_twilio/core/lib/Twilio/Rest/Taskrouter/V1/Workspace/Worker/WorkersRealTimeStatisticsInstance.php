@@ -16,44 +16,48 @@ use Twilio\Values;
 use Twilio\Version;
 
 /**
- * @property string accountSid
- * @property array activityStatistics
+ * @property string  accountSid
+ * @property array   activityStatistics
  * @property integer totalWorkers
- * @property string workspaceSid
- * @property string url
+ * @property string  workspaceSid
+ * @property string  url
  */
-class WorkersRealTimeStatisticsInstance extends InstanceResource {
+class WorkersRealTimeStatisticsInstance extends InstanceResource
+{
     /**
      * Initialize the WorkersRealTimeStatisticsInstance
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param mixed[] $payload The response payload
-     * @param string $workspaceSid The workspace_sid
-     * @return \Twilio\Rest\Taskrouter\V1\Workspace\Worker\WorkersRealTimeStatisticsInstance 
+     *
+     * @param \Twilio\Version $version      Version that contains the resource
+     * @param mixed[]         $payload      The response payload
+     * @param string          $workspaceSid The workspace_sid
+     *
+     * @return \Twilio\Rest\Taskrouter\V1\Workspace\Worker\WorkersRealTimeStatisticsInstance
      */
-    public function __construct(Version $version, array $payload, $workspaceSid) {
+    public function __construct(Version $version, array $payload, $workspaceSid)
+    {
         parent::__construct($version);
 
         // Marshaled Properties
         $this->properties = array(
-            'accountSid' => Values::array_get($payload, 'account_sid'),
+            'accountSid'         => Values::array_get($payload, 'account_sid'),
             'activityStatistics' => Values::array_get($payload, 'activity_statistics'),
-            'totalWorkers' => Values::array_get($payload, 'total_workers'),
-            'workspaceSid' => Values::array_get($payload, 'workspace_sid'),
-            'url' => Values::array_get($payload, 'url'),
+            'totalWorkers'       => Values::array_get($payload, 'total_workers'),
+            'workspaceSid'       => Values::array_get($payload, 'workspace_sid'),
+            'url'                => Values::array_get($payload, 'url'),
         );
 
-        $this->solution = array('workspaceSid' => $workspaceSid, );
+        $this->solution = array('workspaceSid' => $workspaceSid,);
     }
 
     /**
      * Generate an instance context for the instance, the context is capable of
      * performing various actions.  All instance actions are proxied to the context
-     * 
+     *
      * @return \Twilio\Rest\Taskrouter\V1\Workspace\Worker\WorkersRealTimeStatisticsContext Context for this
      *                                                                                      WorkersRealTimeStatisticsInstance
      */
-    protected function proxy() {
+    protected function proxy()
+    {
         if (!$this->context) {
             $this->context = new WorkersRealTimeStatisticsContext(
                 $this->version,
@@ -66,45 +70,50 @@ class WorkersRealTimeStatisticsInstance extends InstanceResource {
 
     /**
      * Fetch a WorkersRealTimeStatisticsInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
+     *
      * @return WorkersRealTimeStatisticsInstance Fetched
      *                                           WorkersRealTimeStatisticsInstance
      */
-    public function fetch($options = array()) {
+    public function fetch($options = array())
+    {
         return $this->proxy()->fetch($options);
     }
 
     /**
      * Magic getter to access properties
-     * 
+     *
      * @param string $name Property to access
+     *
      * @return mixed The requested property
      * @throws TwilioException For unknown properties
      */
-    public function __get($name) {
+    public function __get($name)
+    {
         if (array_key_exists($name, $this->properties)) {
             return $this->properties[$name];
         }
 
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+        if (property_exists($this, '_'.$name)) {
+            $method = 'get'.ucfirst($name);
             return $this->$method();
         }
 
-        throw new TwilioException('Unknown property: ' . $name);
+        throw new TwilioException('Unknown property: '.$name);
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Taskrouter.V1.WorkersRealTimeStatisticsInstance ' . implode(' ', $context) . ']';
+        return '[Twilio.Taskrouter.V1.WorkersRealTimeStatisticsInstance '.implode(' ', $context).']';
     }
 }

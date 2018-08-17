@@ -22,12 +22,12 @@
  * Class to handle access to global attributes
  *
  * @property ALanguageManager $language
- * @property ADB $db
- * @property ACache $cache
- * @property AConfig $config
- * @property ARequest $request
- * @property ASession $session
- * @property ALoader $load
+ * @property ADB              $db
+ * @property ACache           $cache
+ * @property AConfig          $config
+ * @property ARequest         $request
+ * @property ASession         $session
+ * @property ALoader          $load
  */
 class AAttribute
 {
@@ -48,7 +48,7 @@ class AAttribute
 
     /**
      * @param string $attribute_type
-     * @param int $language_id
+     * @param int    $language_id
      */
     public function __construct($attribute_type = '', $language_id = 0)
     {
@@ -72,8 +72,8 @@ class AAttribute
     }
 
     /**
-     * @param  string $key - key to save data in registry
-     * @param  mixed $value - key to save data in registry
+     * @param  string $key   - key to save data in registry
+     * @param  mixed  $value - key to save data in registry
      *
      */
     public function __set($key, $value)
@@ -118,7 +118,7 @@ class AAttribute
     /**
      * load all the attributes for specified type
      *
-     * @param $attribute_type_id
+     * @param     $attribute_type_id
      * @param int $language_id
      *
      * @return bool
@@ -168,7 +168,7 @@ class AAttribute
     /**
      * Get details about given group for attributes
      *
-     * @param $group_id
+     * @param     $group_id
      * @param int $language_id
      *
      * @return array
@@ -281,8 +281,8 @@ class AAttribute
     /**
      * load all the attributes for specified type
      *
-     * @param $attribute_type
-     * @param int $language_id - Language id. default 0 (english)
+     * @param     $attribute_type
+     * @param int $language_id         - Language id. default 0 (english)
      * @param int $attribute_parent_id - Parent attribute ID if any. Default 0 (parent)
      *
      * @return array
@@ -348,8 +348,8 @@ class AAttribute
     }
 
     /**
-     * @param $attribute_id - load all the attribute values and descriptions for specified attribute id
-     * @param int $language_id - Language id. default 0 (english)
+     * @param     $attribute_id - load all the attribute values and descriptions for specified attribute id
+     * @param int $language_id  - Language id. default 0 (english)
      *
      * @return array
      */
@@ -452,12 +452,12 @@ class AAttribute
                     $this->request->files[$attribute_info['attribute_id']]['name']
                 );
                 $file_data = array(
-                    'name' => $file_path_info['name'],
-                    'path' => $file_path_info['path'],
-                    'type' => $this->request->files[$attribute_info['attribute_id']]['type'],
+                    'name'     => $file_path_info['name'],
+                    'path'     => $file_path_info['path'],
+                    'type'     => $this->request->files[$attribute_info['attribute_id']]['type'],
                     'tmp_name' => $this->request->files[$attribute_info['attribute_id']]['tmp_name'],
-                    'error' => $this->request->files[$attribute_info['attribute_id']]['error'],
-                    'size' => $this->request->files[$attribute_info['attribute_id']]['size'],
+                    'error'    => $this->request->files[$attribute_info['attribute_id']]['error'],
+                    'size'     => $this->request->files[$attribute_info['attribute_id']]['size'],
                 );
 
                 $file_errors = $fm->validateFileOption($attribute_info['settings'], $file_data);

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -18,133 +18,142 @@
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE') || !IS_ADMIN) {
-	header('Location: static_pages/');
+    header('Location: static_pages/');
 }
-class ControllerResponsesListingGridCustomerGroup extends AController {
-	public $data = array();
-	public function main() {
 
-		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
+class ControllerResponsesListingGridCustomerGroup extends AController
+{
+    public $data = array();
 
-		$this->loadLanguage('sale/customer_group');
-		$this->loadModel('sale/customer_group');
+    public function main()
+    {
 
-		//Prepare filter config
-		$grid_filter_params = array_merge(array ('name', 'tax_exempt'), (array)$this->data['grid_filter_params']);
-		$filter = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ));
-		$total = $this->model_sale_customer_group->getTotalCustomerGroups($filter->getFilterData());
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$response = new stdClass();
-		$response->page = $filter->getParam('page');
-		$response->total = $filter->calcTotalPages($total);
-		$response->records = $total;
-		$results = $this->model_sale_customer_group->getCustomerGroups($filter->getFilterData());
+        $this->loadLanguage('sale/customer_group');
+        $this->loadModel('sale/customer_group');
 
-		$i = 0;		
-		$yesno = array(
-			1 => $this->language->get('text_yes'),
-			0 => $this->language->get('text_no'),
-		);
-		
-		foreach ($results as $result) {
+        //Prepare filter config
+        $grid_filter_params = array_merge(array('name', 'tax_exempt'), (array)$this->data['grid_filter_params']);
+        $filter = new AFilter(array('method' => 'post', 'grid_filter_params' => $grid_filter_params));
+        $total = $this->model_sale_customer_group->getTotalCustomerGroups($filter->getFilterData());
 
-			$response->rows[ $i ]['id'] = $result['customer_group_id'];
-			$response->rows[ $i ]['cell'] = array(
-				$result['name'] . (($result['customer_group_id'] == $this->config->get('config_customer_group_id')) ? $this->language->get('text_default') : NULL),
-				$yesno[(int)$result['tax_exempt']] 
-			);
-			$i++;
-		}
-		$this->data['response'] = $response;
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+        $response = new stdClass();
+        $response->page = $filter->getParam('page');
+        $response->total = $filter->calcTotalPages($total);
+        $response->records = $total;
+        $results = $this->model_sale_customer_group->getCustomerGroups($filter->getFilterData());
 
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($this->data['response']));
-	}
+        $i = 0;
+        $yesno = array(
+            1 => $this->language->get('text_yes'),
+            0 => $this->language->get('text_no'),
+        );
 
-	public function update() {
+        foreach ($results as $result) {
 
-		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
+            $response->rows[$i]['id'] = $result['customer_group_id'];
+            $response->rows[$i]['cell'] = array(
+                $result['name'].(($result['customer_group_id'] == $this->config->get('config_customer_group_id')) ? $this->language->get('text_default') : null),
+                $yesno[(int)$result['tax_exempt']],
+            );
+            $i++;
+        }
+        $this->data['response'] = $response;
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-		if (!$this->user->canModify('listing_grid/customer_group')) {
-			$error = new AError('');
-			return $error->toJSONResponse('NO_PERMISSIONS_402',
-				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/customer_group'),
-					'reset_value' => true
-				));
-		}
+        $this->load->library('json');
+        $this->response->setOutput(AJson::encode($this->data['response']));
+    }
 
-		$this->loadLanguage('sale/customer_group');
-		$this->loadModel('sale/customer_group');
-		$this->loadModel('setting/store');
-		$this->loadModel('sale/customer');
+    public function update()
+    {
 
-		switch ($this->request->post['oper']) {
-			case 'del':
-				$ids = explode(',', $this->request->post['id']);
-				if (!empty($ids))
-					foreach ($ids as $id) {
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-						if ($this->config->get('config_customer_group_id') == $id) {
-							$this->response->setOutput($this->language->get('error_default'));
-							return null;
-						}
+        if (!$this->user->canModify('listing_grid/customer_group')) {
+            $error = new AError('');
+            return $error->toJSONResponse('NO_PERMISSIONS_402',
+                array(
+                    'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/customer_group'),
+                    'reset_value' => true,
+                ));
+        }
 
-						$store_total = $this->model_setting_store->getTotalStoresByCustomerGroupId($id);
-						if ($store_total) {
-							$this->response->setOutput(sprintf($this->language->get('error_store'), $store_total));
-							return null;
-						}
+        $this->loadLanguage('sale/customer_group');
+        $this->loadModel('sale/customer_group');
+        $this->loadModel('setting/store');
+        $this->loadModel('sale/customer');
 
-						$customer_total = $this->model_sale_customer->getTotalCustomersByCustomerGroupId($id);
-						if ($customer_total) {
-							$this->response->setOutput(sprintf($this->language->get('error_customer'), $customer_total));
-							return null;
-						}
+        switch ($this->request->post['oper']) {
+            case 'del':
+                $ids = explode(',', $this->request->post['id']);
+                if (!empty($ids)) {
+                    foreach ($ids as $id) {
 
-						$this->model_sale_customer_group->deleteCustomerGroup($id);
-					}
-				break;
-			case 'save':
-				break;
+                        if ($this->config->get('config_customer_group_id') == $id) {
+                            $this->response->setOutput($this->language->get('error_default'));
+                            return null;
+                        }
 
-			default:
-		}
+                        $store_total = $this->model_setting_store->getTotalStoresByCustomerGroupId($id);
+                        if ($store_total) {
+                            $this->response->setOutput(sprintf($this->language->get('error_store'), $store_total));
+                            return null;
+                        }
 
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-	}
+                        $customer_total = $this->model_sale_customer->getTotalCustomersByCustomerGroupId($id);
+                        if ($customer_total) {
+                            $this->response->setOutput(sprintf($this->language->get('error_customer'), $customer_total));
+                            return null;
+                        }
 
-	/**
-	 * update only one field
-	 *
-	 * @return void
-	 */
-	public function update_field() {
+                        $this->model_sale_customer_group->deleteCustomerGroup($id);
+                    }
+                }
+                break;
+            case 'save':
+                break;
 
-		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
+            default:
+        }
 
-		if (!$this->user->canModify('listing_grid/customer_group')) {
-			$error = new AError('');
-			return $error->toJSONResponse('NO_PERMISSIONS_402',
-				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/customer_group'),
-					'reset_value' => true
-				));
-		}
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
 
-		$this->loadLanguage('sale/customer_group');
-		$this->loadModel('sale/customer_group');
+    /**
+     * update only one field
+     *
+     * @return void
+     */
+    public function update_field()
+    {
 
-		if (isset($this->request->get['id'])) {
-			$this->model_sale_customer_group->editCustomerGroup($this->request->get['id'], $this->request->post);
-		}
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-	}
+        if (!$this->user->canModify('listing_grid/customer_group')) {
+            $error = new AError('');
+            return $error->toJSONResponse('NO_PERMISSIONS_402',
+                array(
+                    'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/customer_group'),
+                    'reset_value' => true,
+                ));
+        }
+
+        $this->loadLanguage('sale/customer_group');
+        $this->loadModel('sale/customer_group');
+
+        if (isset($this->request->get['id'])) {
+            $this->model_sale_customer_group->editCustomerGroup($this->request->get['id'], $this->request->post);
+        }
+
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
 
 }

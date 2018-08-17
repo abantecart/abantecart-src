@@ -5,34 +5,34 @@ namespace Stripe;
 /**
  * Class Account
  *
- * @property string $id
- * @property string $object
- * @property string $business_logo
- * @property string $business_name
- * @property string $business_primary_color
- * @property string $business_url
- * @property bool $charges_enabled
- * @property string $country
- * @property int $created
- * @property bool $debit_negative_balances
- * @property mixed $decline_charge_on
- * @property string $default_currency
- * @property bool $details_submitted
- * @property string $display_name
- * @property string $email
- * @property mixed $external_accounts
- * @property mixed $legal_entity
+ * @property string       $id
+ * @property string       $object
+ * @property string       $business_logo
+ * @property string       $business_name
+ * @property string       $business_primary_color
+ * @property string       $business_url
+ * @property bool         $charges_enabled
+ * @property string       $country
+ * @property int          $created
+ * @property bool         $debit_negative_balances
+ * @property mixed        $decline_charge_on
+ * @property string       $default_currency
+ * @property bool         $details_submitted
+ * @property string       $display_name
+ * @property string       $email
+ * @property mixed        $external_accounts
+ * @property mixed        $legal_entity
  * @property StripeObject $metadata
- * @property mixed $payout_schedule
- * @property string $payout_statement_descriptor
- * @property bool $payouts_enabled
- * @property string $product_description
- * @property string $statement_descriptor
- * @property string $support_email
- * @property string $support_phone
- * @property string $timezone
- * @property mixed $tos_acceptance
- * @property mixed $verification
+ * @property mixed        $payout_schedule
+ * @property string       $payout_statement_descriptor
+ * @property bool         $payouts_enabled
+ * @property string       $product_description
+ * @property string       $statement_descriptor
+ * @property string       $support_email
+ * @property string       $support_phone
+ * @property string       $timezone
+ * @property mixed        $tos_acceptance
+ * @property mixed        $verification
  *
  * @package Stripe
  */
@@ -73,7 +73,7 @@ class Account extends ApiResource
 
     /**
      * @param array|string|null $id The ID of the account to retrieve, or an
-     *     options array containing an `id` key.
+     *                              options array containing an `id` key.
      * @param array|string|null $opts
      *
      * @return Account
@@ -88,21 +88,21 @@ class Account extends ApiResource
     }
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return Account The rejected account.
      */
     public function reject($params = null, $opts = null)
     {
-        $url = $this->instanceUrl() . '/reject';
+        $url = $this->instanceUrl().'/reject';
         list($response, $opts) = $this->_request('post', $url, $params, $opts);
         $this->refreshFrom($response, $opts);
         return $this;
     }
 
     /**
-     * @param array|null $clientId
+     * @param array|null        $clientId
      * @param array|string|null $opts
      *
      * @return StripeObject Object containing the response from the API.
@@ -110,15 +110,15 @@ class Account extends ApiResource
     public function deauthorize($clientId = null, $opts = null)
     {
         $params = [
-            'client_id' => $clientId,
+            'client_id'      => $clientId,
             'stripe_user_id' => $this->id,
         ];
         OAuth::deauthorize($params, $opts);
     }
 
     /**
-     * @param array|null $id The ID of the account on which to create the external account.
-     * @param array|null $params
+     * @param array|null        $id The ID of the account on which to create the external account.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return BankAccount|Card
@@ -129,9 +129,9 @@ class Account extends ApiResource
     }
 
     /**
-     * @param array|null $id The ID of the account to which the external account belongs.
-     * @param array|null $externalAccountId The ID of the external account to retrieve.
-     * @param array|null $params
+     * @param array|null        $id                The ID of the account to which the external account belongs.
+     * @param array|null        $externalAccountId The ID of the external account to retrieve.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return BankAccount|Card
@@ -142,9 +142,9 @@ class Account extends ApiResource
     }
 
     /**
-     * @param array|null $id The ID of the account to which the external account belongs.
-     * @param array|null $externalAccountId The ID of the external account to update.
-     * @param array|null $params
+     * @param array|null        $id                The ID of the account to which the external account belongs.
+     * @param array|null        $externalAccountId The ID of the external account to update.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return BankAccount|Card
@@ -155,9 +155,9 @@ class Account extends ApiResource
     }
 
     /**
-     * @param array|null $id The ID of the account to which the external account belongs.
-     * @param array|null $externalAccountId The ID of the external account to delete.
-     * @param array|null $params
+     * @param array|null        $id                The ID of the account to which the external account belongs.
+     * @param array|null        $externalAccountId The ID of the external account to delete.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return BankAccount|Card
@@ -168,8 +168,8 @@ class Account extends ApiResource
     }
 
     /**
-     * @param array|null $id The ID of the account on which to retrieve the external accounts.
-     * @param array|null $params
+     * @param array|null        $id The ID of the account on which to retrieve the external accounts.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return BankAccount|Card
@@ -180,8 +180,8 @@ class Account extends ApiResource
     }
 
     /**
-     * @param array|null $id The ID of the account on which to create the login link.
-     * @param array|null $params
+     * @param array|null        $id The ID of the account on which to create the login link.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return LoginLink

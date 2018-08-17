@@ -22,12 +22,12 @@
  * Class ModelAccountOrder
  *
  * @property ModelLocalisationCountry $model_localisation_country
- * @property ModelLocalisationZone $model_localisation_zone
+ * @property ModelLocalisationZone    $model_localisation_zone
  */
 class ModelAccountOrder extends Model
 {
     /**
-     * @param int $order_id
+     * @param int    $order_id
      * @param string $order_status_id
      * @param string $mode
      *

@@ -206,7 +206,7 @@ class ExtensionCollection
  *
  * long description.
  *
- * @property ADb $db
+ * @property ADb    $db
  * @property ACache $cache
  * @method hk_InitData(object $baseObject, string $baseObjectMethod)
  * @method hk_UpdateData(object $baseObject, string $baseObjectMethod)
@@ -449,11 +449,11 @@ class ExtensionsApi
     /**
      * Load extensions list from database
      *
-     * @param array $data
-     *  key - search extensions by key and name
-     *  category - search extensions by category
-     *  page - page number ( limit should be defined also )
-     *  limit - number of rows in page ( page should be defined also )
+     * @param array  $data
+     *                     key - search extensions by key and name
+     *                     category - search extensions by category
+     *                     page - page number ( limit should be defined also )
+     *                     limit - number of rows in page ( page should be defined also )
      * @param string $mode - can be "force" to prevent cache load
      *
      * @return bool|stdClass object array of extensions
@@ -588,11 +588,11 @@ class ExtensionsApi
         }
         $name = '';
         $filename = DIR_EXT
-                    .$extension
-                    .'/admin/language/'
-                    .$this->registry->get('language')->language_details['directory']
-                    .'/'.$extension
-                    .'/'.$extension.'.xml';
+            .$extension
+            .'/admin/language/'
+            .$this->registry->get('language')->language_details['directory']
+            .'/'.$extension
+            .'/'.$extension.'.xml';
         if (!file_exists($filename)) {
             $filename = DIR_EXT.$extension.'/admin/language/english/'.$extension.'/'.$extension.'.xml';
         }
@@ -828,8 +828,8 @@ class ExtensionsApi
     /**
      * check if language file exists in extension resource
      *
-     * @param string $route
-     * @param string $language_name
+     * @param string   $route
+     * @param string   $language_name
      * @param int|bool $section
      *
      * @return array|bool
@@ -841,9 +841,9 @@ class ExtensionsApi
         }
 
         $file = ($section ? DIR_EXT_ADMIN : DIR_EXT_STORE)
-                .'language/'
-                .$language_name
-                .'/'.$route.'.xml';
+            .'language/'
+            .$language_name
+            .'/'.$route.'.xml';
 
         //include language file from first matching extension
         foreach ($this->extensions_dir as $ext) {
@@ -862,9 +862,9 @@ class ExtensionsApi
      * check if resource ( model, language, template ) is an extension resource
      *
      * @param  $resource_type - resource type - M, L, T  ( model, language, template )
-     * @param  $route - resource route to check
-     * @param  $ext_status - extension mode for resource route to check (enabled and all)
-     * @param  $mode - mode to force storefront
+     * @param  $route         - resource route to check
+     * @param  $ext_status    - extension mode for resource route to check (enabled and all)
+     * @param  $mode          - mode to force storefront
      *
      * @return array|bool - false if not found, array with extension name and file name if found
      */
@@ -895,15 +895,15 @@ class ExtensionsApi
                     WHERE code='".$this->registry->get('session')->data['language']."'"
                 );
                 $file = $ext_section
-                        .'language/'
-                        .$query->row['directory']
-                        .'/'.$route.'.xml';
+                    .'language/'
+                    .$query->row['directory']
+                    .'/'.$route.'.xml';
                 $source = $this->extension_languages;
                 break;
             case 'T' :
                 $tmpl_id = IS_ADMIN
-                            ? $this->registry->get('config')->get('admin_template')
-                            : $this->registry->get('config')->get('config_storefront_template');
+                    ? $this->registry->get('config')->get('admin_template')
+                    : $this->registry->get('config')->get('config_storefront_template');
                 $file = $ext_section.DIR_EXT_TEMPLATE.$tmpl_id.'/template/'.$route;
                 $source = $this->extension_templates;
                 break;
@@ -933,7 +933,8 @@ class ExtensionsApi
             $f = DIR_EXT.$ext.$file;
             if ($ext_status == 'all'
                 || (is_array($source[$ext][$section])
-                    && in_array($route, $source[$ext][$section]))) {
+                    && in_array($route, $source[$ext][$section]))
+            ) {
                 if (is_file($f)) {
                     return array(
                         'file'      => $f,
@@ -987,8 +988,8 @@ class ExtensionsApi
         $ext_section = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE);
 
         $tmpl_id = IS_ADMIN
-                    ? $this->registry->get('config')->get('admin_template')
-                    : $this->registry->get('config')->get('config_storefront_template');
+            ? $this->registry->get('config')->get('admin_template')
+            : $this->registry->get('config')->get('config_storefront_template');
         $file = $ext_section.DIR_EXT_TEMPLATE.$tmpl_id.'/template/'.$route;
         $source = $this->extension_templates;
 
@@ -1047,8 +1048,8 @@ class ExtensionsApi
             foreach ($this->enabled_extensions as $ext) {
                 $file = DIR_EXT.$ext.(IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE).'controller/'.$path_build.'.php';
                 $ext_controllers = is_array($this->extension_controllers[$ext][$section])
-                                    ? $this->extension_controllers[$ext][$section]
-                                    : array();
+                    ? $this->extension_controllers[$ext][$section]
+                    : array();
                 if (in_array($path_build, $ext_controllers) && is_file($file)) {
                     //remove current node
                     array_shift($path_nodes);
@@ -1116,7 +1117,7 @@ class ExtensionsApi
 
     /**
      * @param string $method (hk_[function] calls)
-     * @param array $args
+     * @param array  $args
      *
      * @return mixed|null
      */
@@ -1130,7 +1131,7 @@ class ExtensionsApi
 
     /**
      * @param string $method
-     * @param array $args
+     * @param array  $args
      *
      * @return mixed|null
      */
@@ -1225,7 +1226,7 @@ class ExtensionUtils
 
     /**
      * @param string $ext
-     * @param int $store_id
+     * @param int    $store_id
      */
     public function __construct($ext, $store_id = 0)
     {
@@ -1350,8 +1351,8 @@ class ExtensionUtils
                 $true_item_id = (string)$item['id'];
                 $value_key = substr($item['id'], -2);
                 $item['id'] = $value_key == '[]'
-                                ? substr($true_item_id, 0, strlen($true_item_id) - 2)
-                                : $true_item_id;
+                    ? substr($true_item_id, 0, strlen($true_item_id) - 2)
+                    : $true_item_id;
 
                 $value = $settings[(string)$item['id']];
                 if (is_serialized($value)) {
@@ -1474,8 +1475,8 @@ class ExtensionUtils
                     return array(
                         'result' => false,
                         'errors' => array(
-                                'pattern' => 'Error: Cannot to validate data by validate.php file. '
-                                            .'Function returns incorrect formatted data.'
+                            'pattern' => 'Error: Cannot to validate data by validate.php file. '
+                                .'Function returns incorrect formatted data.',
                         ),
                     );
                 }
@@ -1542,7 +1543,7 @@ class ExtensionUtils
                     $value = (string)$item->default_value;
                 } else {
                     $value = $this->registry->get('html')->convertLinks(
-                        htmlentities((string)$item->default_value,ENT_QUOTES, 'UTF-8')
+                        htmlentities((string)$item->default_value, ENT_QUOTES, 'UTF-8')
                     );
                 }
 

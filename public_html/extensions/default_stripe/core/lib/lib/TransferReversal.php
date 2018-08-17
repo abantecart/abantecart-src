@@ -5,14 +5,14 @@ namespace Stripe;
 /**
  * Class TransferReversal
  *
- * @property string $id
- * @property string $object
- * @property int $amount
- * @property string $balance_transaction
- * @property int $created
- * @property string $currency
+ * @property string       $id
+ * @property string       $object
+ * @property int          $amount
+ * @property string       $balance_transaction
+ * @property int          $created
+ * @property string       $currency
  * @property StripeObject $metadata
- * @property string $transfer
+ * @property string       $transfer
  *
  * @package Stripe
  */
@@ -31,7 +31,7 @@ class TransferReversal extends ApiResource
         $transfer = $this['transfer'];
         if (!$id) {
             throw new Error\InvalidRequest(
-                "Could not determine which URL to request: " .
+                "Could not determine which URL to request: ".
                 "class instance has invalid ID: $id",
                 null
             );

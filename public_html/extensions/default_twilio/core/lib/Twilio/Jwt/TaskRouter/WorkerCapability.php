@@ -1,25 +1,26 @@
 <?php
 
-
 namespace Twilio\Jwt\TaskRouter;
 
 /**
  * Twilio TaskRouter Worker Capability assigner
  *
- * @author Justin Witz <justin.witz@twilio.com>
+ * @author   Justin Witz <justin.witz@twilio.com>
  * @license  http://creativecommons.org/licenses/MIT/ MIT
  */
-class WorkerCapability extends CapabilityToken {
+class WorkerCapability extends CapabilityToken
+{
     private $tasksUrl;
     private $workerReservationsUrl;
     private $activityUrl;
 
-    public function __construct($accountSid, $authToken, $workspaceSid, $workerSid, $overrideBaseUrl = null, $overrideBaseWSUrl = null) {
+    public function __construct($accountSid, $authToken, $workspaceSid, $workerSid, $overrideBaseUrl = null, $overrideBaseWSUrl = null)
+    {
         parent::__construct($accountSid, $authToken, $workspaceSid, $workerSid, null, $overrideBaseUrl, $overrideBaseWSUrl);
 
-        $this->tasksUrl = $this->baseUrl . '/Tasks/**';
-        $this->activityUrl = $this->baseUrl . '/Activities';
-        $this->workerReservationsUrl = $this->resourceUrl . '/Reservations/**';
+        $this->tasksUrl = $this->baseUrl.'/Tasks/**';
+        $this->activityUrl = $this->baseUrl.'/Activities';
+        $this->workerReservationsUrl = $this->resourceUrl.'/Reservations/**';
 
         //add permissions to fetch the list of activities, tasks, and worker reservations
         $this->allow($this->activityUrl, "GET", null, null);
@@ -27,18 +28,21 @@ class WorkerCapability extends CapabilityToken {
         $this->allow($this->workerReservationsUrl, "GET", null, null);
     }
 
-    protected function setupResource() {
-        $this->resourceUrl = $this->baseUrl . '/Workers/' . $this->channelId;
+    protected function setupResource()
+    {
+        $this->resourceUrl = $this->baseUrl.'/Workers/'.$this->channelId;
     }
 
-    public function allowActivityUpdates() {
+    public function allowActivityUpdates()
+    {
         $method = 'POST';
         $queryFilter = array();
         $postFilter = array("ActivitySid" => $this->required);
         $this->allow($this->resourceUrl, $method, $queryFilter, $postFilter);
     }
 
-    public function allowReservationUpdates() {
+    public function allowReservationUpdates()
+    {
         $method = 'POST';
         $queryFilter = array();
         $postFilter = array();

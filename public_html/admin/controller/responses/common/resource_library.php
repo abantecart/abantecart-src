@@ -75,7 +75,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $this->data['rl_get_preview'] = $this->html->getSecureURL('common/resource_library/get_resource_preview');
 
         $this->data['rl_update_resource'] = $this->html->getSecureURL(
-                                                        'common/resource_library/update_resource_details'
+            'common/resource_library/update_resource_details'
         );
 
         $this->data['rl_update_sort_order'] = $this->html->getSecureURL('common/resource_library/update_sort_order');
@@ -87,8 +87,8 @@ class ControllerResponsesCommonResourceLibrary extends AController
             '&mode='.$this->data['mode'].'&type='.$this->request->get['type'].'&object_name='
             .$this->request->get['object_name'].'&object_id='.$this->request->get['object_id']);
         $this->data['rl_replace'] = $this->html->getSecureURL(
-                                                'common/resource_library/replace',
-                                                '&resource_id='.$this->data['resource_id']
+            'common/resource_library/replace',
+            '&resource_id='.$this->data['resource_id']
         );
         $this->data['type'] = $this->request->get['type'];
 
@@ -252,9 +252,9 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $this->data['image_height'] = $this->config->get('config_image_grid_height');
 
         $params = '&mode='.$this->request->get['mode']
-                .'&type='.$this->request->get['type']
-                .'&object_name='.$this->request->get['object_name']
-                .'&object_id='.$this->request->get['object_id'];
+            .'&type='.$this->request->get['type']
+            .'&object_name='.$this->request->get['object_name']
+            .'&object_id='.$this->request->get['object_id'];
         $this->data['rl_add_code'] = $this->html->getSecureURL('common/resource_library/add_code', $params);
         $this->data['rl_get_info'] = $this->html->getSecureURL('common/resource_library/get_resource_details');
         $this->data['rl_upload'] = $this->html->getSecureURL('common/resource_library/upload', $params);
@@ -419,9 +419,9 @@ class ControllerResponsesCommonResourceLibrary extends AController
             $result[$key]['url'] = $rm->buildResourceURL($item['resource_path'], 'full');
             $result[$key]['relative_url'] = $rm->buildResourceURL($item['resource_path'], 'relative');
             $result[$key]['mapped_to_current'] = $rm->isMapped(
-                                                        $item['resource_id'],
-                                                        $this->data['object_name'],
-                                                        $this->data['object_id']
+                $item['resource_id'],
+                $this->data['object_name'],
+                $this->data['object_id']
             );
         }
 
@@ -476,16 +476,16 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $this->data['type'] = $this->request->get['type'];
         if (($this->data['type'] == 'undefined' || empty($this->data['type']))
             && $this->request->post_or_get('resource_id')
-        ){
+        ) {
             $info = $rm->getResource(
-                        $this->request->post_or_get('resource_id'),
-                        $this->language->getContentLanguageID()
+                $this->request->post_or_get('resource_id'),
+                $this->language->getContentLanguageID()
             );
             $this->data['type'] = $info['type_name'];
         } elseif ($this->data['type'] == 'undefined' || empty($this->data['type'])) {
             $this->data['type'] = is_array($this->data['types'])
-                                    ? (string)$this->data['types'][0]['type_name']
-                                    : $this->data['types'];
+                ? (string)$this->data['types'][0]['type_name']
+                : $this->data['types'];
         }
 
         $this->data['object_name'] = $this->data['name'] = (string)$this->request->get['object_name'];
@@ -495,10 +495,10 @@ class ControllerResponsesCommonResourceLibrary extends AController
             $this->data['object_title'] = mb_substr($this->data['object_title'], 0, 45);
         } else {
             $this->data['object_title'] = mb_substr(
-                                                    $this->_getObjectTitle($this->data['object_name'],
-                                                    $this->data['object_id']),
-                                                    0,
-                                                    45
+                $this->_getObjectTitle($this->data['object_name'],
+                    $this->data['object_id']),
+                0,
+                45
             );
         }
 
@@ -576,9 +576,9 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $upload_handler = new ResourceUploadHandler(
             array(
                 'script_url'        => $this->html->getSecureURL(
-                                                            'common/resource_library/delete',
-                                                            '&type='.$this->request->get['type']
-                                       ),
+                    'common/resource_library/delete',
+                    '&type='.$this->request->get['type']
+                ),
                 'max_file_size'     => (int)$this->config->get('config_upload_max_size') * 1024,
                 'upload_dir'        => $rm->getTypeDir(),
                 'upload_url'        => '',
@@ -704,8 +704,8 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $upload_handler = new ResourceUploadHandler(
             array(
                 'script_url'        => $this->html->getSecureURL(
-                                                'common/resource_library/delete',
-                                                '&type='.$this->request->get['type']
+                    'common/resource_library/delete',
+                    '&type='.$this->request->get['type']
                 ),
                 'max_file_size'     => (int)$this->config->get('config_upload_max_size') * 1024,
                 'upload_dir'        => $rm->getTypeDir(),
@@ -747,7 +747,8 @@ class ControllerResponsesCommonResourceLibrary extends AController
             $resource_path = $rm->buildResourcePath($resource_id, $r->name);
 
             if (!rename(DIR_RESOURCE.$info['type_name'].'/'.$r->name,
-                DIR_RESOURCE.$info['type_name'].'/'.$resource_path)) {
+                DIR_RESOURCE.$info['type_name'].'/'.$resource_path)
+            ) {
                 $message = sprintf($this->language->get('error_cannot_move'), $r->name);
                 $error = new AError ($message);
                 $error->toLog()->toDebug();
@@ -759,7 +760,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
             if ($info['resource_path']
                 && is_file(DIR_RESOURCE.$info['type_name'].'/'.$info['resource_path'])
                 && $info['resource_path'] != $resource_path
-            ){
+            ) {
                 unlink(DIR_RESOURCE.$info['type_name'].'/'.$info['resource_path']);
             }
         }
@@ -1339,10 +1340,10 @@ class ControllerResponsesCommonResourceLibrary extends AController
     {
         /**
          * @var string $object_name - name of RL-object for assistance of resources, for ex. products, categories, etc
-         * @var int $object_id - id of object
-         * @var array $types - array with RL-types (image, audio,video,archive etc)
-         * @var bool $onload - sign of call function after js-script load
-         * @var string $mode - mode of RL
+         * @var int    $object_id   - id of object
+         * @var array  $types       - array with RL-types (image, audio,video,archive etc)
+         * @var bool   $onload      - sign of call function after js-script load
+         * @var string $mode        - mode of RL
          */
         list($object_name, $object_id, $types, $onload, $mode, $page, $limit, $sort, $order) = func_get_args();
 
@@ -1398,7 +1399,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
 
     /**
      * @param string $object_name
-     * @param int $object_id
+     * @param int    $object_id
      *
      * @return string
      */

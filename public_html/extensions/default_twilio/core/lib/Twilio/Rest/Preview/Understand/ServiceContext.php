@@ -22,17 +22,18 @@ use Twilio\Version;
 
 /**
  * PLEASE NOTE that this class contains preview products that are subject to change. Use them with caution. If you currently do not have developer preview access, please contact help@twilio.com.
- * 
- * @property \Twilio\Rest\Preview\Understand\Service\FieldTypeList fieldTypes
- * @property \Twilio\Rest\Preview\Understand\Service\IntentList intents
+ *
+ * @property \Twilio\Rest\Preview\Understand\Service\FieldTypeList  fieldTypes
+ * @property \Twilio\Rest\Preview\Understand\Service\IntentList     intents
  * @property \Twilio\Rest\Preview\Understand\Service\ModelBuildList modelBuilds
- * @property \Twilio\Rest\Preview\Understand\Service\QueryList queries
+ * @property \Twilio\Rest\Preview\Understand\Service\QueryList      queries
  * @method \Twilio\Rest\Preview\Understand\Service\FieldTypeContext fieldTypes(string $sid)
  * @method \Twilio\Rest\Preview\Understand\Service\IntentContext intents(string $sid)
  * @method \Twilio\Rest\Preview\Understand\Service\ModelBuildContext modelBuilds(string $sid)
  * @method \Twilio\Rest\Preview\Understand\Service\QueryContext queries(string $sid)
  */
-class ServiceContext extends InstanceContext {
+class ServiceContext extends InstanceContext
+{
     protected $_fieldTypes = null;
     protected $_intents = null;
     protected $_modelBuilds = null;
@@ -40,26 +41,29 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Initialize the ServiceContext
-     * 
+     *
      * @param \Twilio\Version $version Version that contains the resource
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Preview\Understand\ServiceContext 
+     * @param string          $sid     The sid
+     *
+     * @return \Twilio\Rest\Preview\Understand\ServiceContext
      */
-    public function __construct(Version $version, $sid) {
+    public function __construct(Version $version, $sid)
+    {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('sid' => $sid, );
+        $this->solution = array('sid' => $sid,);
 
-        $this->uri = '/Services/' . rawurlencode($sid) . '';
+        $this->uri = '/Services/'.rawurlencode($sid).'';
     }
 
     /**
      * Fetch a ServiceInstance
-     * 
+     *
      * @return ServiceInstance Fetched ServiceInstance
      */
-    public function fetch() {
+    public function fetch()
+    {
         $params = Values::of(array());
 
         $payload = $this->version->fetch(
@@ -73,18 +77,20 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Update the ServiceInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
+     *
      * @return ServiceInstance Updated ServiceInstance
      */
-    public function update($options = array()) {
+    public function update($options = array())
+    {
         $options = new Values($options);
 
         $data = Values::of(array(
             'FriendlyName' => $options['friendlyName'],
-            'LogQueries' => Serialize::booleanToString($options['logQueries']),
-            'Ttl' => $options['ttl'],
-            'UniqueName' => $options['uniqueName'],
+            'LogQueries'   => Serialize::booleanToString($options['logQueries']),
+            'Ttl'          => $options['ttl'],
+            'UniqueName'   => $options['uniqueName'],
         ));
 
         $payload = $this->version->update(
@@ -99,19 +105,21 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Deletes the ServiceInstance
-     * 
+     *
      * @return boolean True if delete succeeds, false otherwise
      */
-    public function delete() {
+    public function delete()
+    {
         return $this->version->delete('delete', $this->uri);
     }
 
     /**
      * Access the fieldTypes
-     * 
-     * @return \Twilio\Rest\Preview\Understand\Service\FieldTypeList 
+     *
+     * @return \Twilio\Rest\Preview\Understand\Service\FieldTypeList
      */
-    protected function getFieldTypes() {
+    protected function getFieldTypes()
+    {
         if (!$this->_fieldTypes) {
             $this->_fieldTypes = new FieldTypeList($this->version, $this->solution['sid']);
         }
@@ -121,10 +129,11 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Access the intents
-     * 
-     * @return \Twilio\Rest\Preview\Understand\Service\IntentList 
+     *
+     * @return \Twilio\Rest\Preview\Understand\Service\IntentList
      */
-    protected function getIntents() {
+    protected function getIntents()
+    {
         if (!$this->_intents) {
             $this->_intents = new IntentList($this->version, $this->solution['sid']);
         }
@@ -134,10 +143,11 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Access the modelBuilds
-     * 
-     * @return \Twilio\Rest\Preview\Understand\Service\ModelBuildList 
+     *
+     * @return \Twilio\Rest\Preview\Understand\Service\ModelBuildList
      */
-    protected function getModelBuilds() {
+    protected function getModelBuilds()
+    {
         if (!$this->_modelBuilds) {
             $this->_modelBuilds = new ModelBuildList($this->version, $this->solution['sid']);
         }
@@ -147,10 +157,11 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Access the queries
-     * 
-     * @return \Twilio\Rest\Preview\Understand\Service\QueryList 
+     *
+     * @return \Twilio\Rest\Preview\Understand\Service\QueryList
      */
-    protected function getQueries() {
+    protected function getQueries()
+    {
         if (!$this->_queries) {
             $this->_queries = new QueryList($this->version, $this->solution['sid']);
         }
@@ -160,29 +171,33 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Magic getter to lazy load subresources
-     * 
+     *
      * @param string $name Subresource to return
+     *
      * @return \Twilio\ListResource The requested subresource
      * @throws \Twilio\Exceptions\TwilioException For unknown subresources
      */
-    public function __get($name) {
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+    public function __get($name)
+    {
+        if (property_exists($this, '_'.$name)) {
+            $method = 'get'.ucfirst($name);
             return $this->$method();
         }
 
-        throw new TwilioException('Unknown subresource ' . $name);
+        throw new TwilioException('Unknown subresource '.$name);
     }
 
     /**
      * Magic caller to get resource contexts
-     * 
-     * @param string $name Resource to return
-     * @param array $arguments Context parameters
+     *
+     * @param string $name      Resource to return
+     * @param array  $arguments Context parameters
+     *
      * @return \Twilio\InstanceContext The requested resource context
      * @throws \Twilio\Exceptions\TwilioException For unknown resource
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         $property = $this->$name;
         if (method_exists($property, 'getContext')) {
             return call_user_func_array(array($property, 'getContext'), $arguments);
@@ -193,14 +208,15 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Preview.Understand.ServiceContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Preview.Understand.ServiceContext '.implode(' ', $context).']';
     }
 }

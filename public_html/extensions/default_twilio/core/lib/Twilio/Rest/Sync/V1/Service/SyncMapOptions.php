@@ -15,104 +15,121 @@ use Twilio\Values;
 /**
  * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
  */
-abstract class SyncMapOptions {
+abstract class SyncMapOptions
+{
     /**
-     * @param string $uniqueName The unique_name
-     * @param integer $ttl The ttl
+     * @param string  $uniqueName The unique_name
+     * @param integer $ttl        The ttl
+     *
      * @return CreateSyncMapOptions Options builder
      */
-    public static function create($uniqueName = Values::NONE, $ttl = Values::NONE) {
+    public static function create($uniqueName = Values::NONE, $ttl = Values::NONE)
+    {
         return new CreateSyncMapOptions($uniqueName, $ttl);
     }
 
     /**
      * @param integer $ttl The ttl
+     *
      * @return UpdateSyncMapOptions Options builder
      */
-    public static function update($ttl = Values::NONE) {
+    public static function update($ttl = Values::NONE)
+    {
         return new UpdateSyncMapOptions($ttl);
     }
 }
 
-class CreateSyncMapOptions extends Options {
+class CreateSyncMapOptions extends Options
+{
     /**
-     * @param string $uniqueName The unique_name
-     * @param integer $ttl The ttl
+     * @param string  $uniqueName The unique_name
+     * @param integer $ttl        The ttl
      */
-    public function __construct($uniqueName = Values::NONE, $ttl = Values::NONE) {
+    public function __construct($uniqueName = Values::NONE, $ttl = Values::NONE)
+    {
         $this->options['uniqueName'] = $uniqueName;
         $this->options['ttl'] = $ttl;
     }
 
     /**
      * The unique_name
-     * 
+     *
      * @param string $uniqueName The unique_name
+     *
      * @return $this Fluent Builder
      */
-    public function setUniqueName($uniqueName) {
+    public function setUniqueName($uniqueName)
+    {
         $this->options['uniqueName'] = $uniqueName;
         return $this;
     }
 
     /**
      * The ttl
-     * 
+     *
      * @param integer $ttl The ttl
+     *
      * @return $this Fluent Builder
      */
-    public function setTtl($ttl) {
+    public function setTtl($ttl)
+    {
         $this->options['ttl'] = $ttl;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $options = array();
         foreach ($this->options as $key => $value) {
             if ($value != Values::NONE) {
                 $options[] = "$key=$value";
             }
         }
-        return '[Twilio.Sync.V1.CreateSyncMapOptions ' . implode(' ', $options) . ']';
+        return '[Twilio.Sync.V1.CreateSyncMapOptions '.implode(' ', $options).']';
     }
 }
 
-class UpdateSyncMapOptions extends Options {
+class UpdateSyncMapOptions extends Options
+{
     /**
      * @param integer $ttl The ttl
      */
-    public function __construct($ttl = Values::NONE) {
+    public function __construct($ttl = Values::NONE)
+    {
         $this->options['ttl'] = $ttl;
     }
 
     /**
      * The ttl
-     * 
+     *
      * @param integer $ttl The ttl
+     *
      * @return $this Fluent Builder
      */
-    public function setTtl($ttl) {
+    public function setTtl($ttl)
+    {
         $this->options['ttl'] = $ttl;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $options = array();
         foreach ($this->options as $key => $value) {
             if ($value != Values::NONE) {
                 $options[] = "$key=$value";
             }
         }
-        return '[Twilio.Sync.V1.UpdateSyncMapOptions ' . implode(' ', $options) . ']';
+        return '[Twilio.Sync.V1.UpdateSyncMapOptions '.implode(' ', $options).']';
     }
 }

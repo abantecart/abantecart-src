@@ -12,35 +12,42 @@ namespace Twilio\Rest\Chat\V2\Service;
 use Twilio\Options;
 use Twilio\Values;
 
-abstract class UserOptions {
+abstract class UserOptions
+{
     /**
-     * @param string $roleSid The role_sid
-     * @param string $attributes The attributes
+     * @param string $roleSid      The role_sid
+     * @param string $attributes   The attributes
      * @param string $friendlyName The friendly_name
+     *
      * @return CreateUserOptions Options builder
      */
-    public static function create($roleSid = Values::NONE, $attributes = Values::NONE, $friendlyName = Values::NONE) {
+    public static function create($roleSid = Values::NONE, $attributes = Values::NONE, $friendlyName = Values::NONE)
+    {
         return new CreateUserOptions($roleSid, $attributes, $friendlyName);
     }
 
     /**
-     * @param string $roleSid The role_sid
-     * @param string $attributes The attributes
+     * @param string $roleSid      The role_sid
+     * @param string $attributes   The attributes
      * @param string $friendlyName The friendly_name
+     *
      * @return UpdateUserOptions Options builder
      */
-    public static function update($roleSid = Values::NONE, $attributes = Values::NONE, $friendlyName = Values::NONE) {
+    public static function update($roleSid = Values::NONE, $attributes = Values::NONE, $friendlyName = Values::NONE)
+    {
         return new UpdateUserOptions($roleSid, $attributes, $friendlyName);
     }
 }
 
-class CreateUserOptions extends Options {
+class CreateUserOptions extends Options
+{
     /**
-     * @param string $roleSid The role_sid
-     * @param string $attributes The attributes
+     * @param string $roleSid      The role_sid
+     * @param string $attributes   The attributes
      * @param string $friendlyName The friendly_name
      */
-    public function __construct($roleSid = Values::NONE, $attributes = Values::NONE, $friendlyName = Values::NONE) {
+    public function __construct($roleSid = Values::NONE, $attributes = Values::NONE, $friendlyName = Values::NONE)
+    {
         $this->options['roleSid'] = $roleSid;
         $this->options['attributes'] = $attributes;
         $this->options['friendlyName'] = $friendlyName;
@@ -48,60 +55,69 @@ class CreateUserOptions extends Options {
 
     /**
      * The role_sid
-     * 
+     *
      * @param string $roleSid The role_sid
+     *
      * @return $this Fluent Builder
      */
-    public function setRoleSid($roleSid) {
+    public function setRoleSid($roleSid)
+    {
         $this->options['roleSid'] = $roleSid;
         return $this;
     }
 
     /**
      * The attributes
-     * 
+     *
      * @param string $attributes The attributes
+     *
      * @return $this Fluent Builder
      */
-    public function setAttributes($attributes) {
+    public function setAttributes($attributes)
+    {
         $this->options['attributes'] = $attributes;
         return $this;
     }
 
     /**
      * The friendly_name
-     * 
+     *
      * @param string $friendlyName The friendly_name
+     *
      * @return $this Fluent Builder
      */
-    public function setFriendlyName($friendlyName) {
+    public function setFriendlyName($friendlyName)
+    {
         $this->options['friendlyName'] = $friendlyName;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $options = array();
         foreach ($this->options as $key => $value) {
             if ($value != Values::NONE) {
                 $options[] = "$key=$value";
             }
         }
-        return '[Twilio.Chat.V2.CreateUserOptions ' . implode(' ', $options) . ']';
+        return '[Twilio.Chat.V2.CreateUserOptions '.implode(' ', $options).']';
     }
 }
 
-class UpdateUserOptions extends Options {
+class UpdateUserOptions extends Options
+{
     /**
-     * @param string $roleSid The role_sid
-     * @param string $attributes The attributes
+     * @param string $roleSid      The role_sid
+     * @param string $attributes   The attributes
      * @param string $friendlyName The friendly_name
      */
-    public function __construct($roleSid = Values::NONE, $attributes = Values::NONE, $friendlyName = Values::NONE) {
+    public function __construct($roleSid = Values::NONE, $attributes = Values::NONE, $friendlyName = Values::NONE)
+    {
         $this->options['roleSid'] = $roleSid;
         $this->options['attributes'] = $attributes;
         $this->options['friendlyName'] = $friendlyName;
@@ -109,49 +125,56 @@ class UpdateUserOptions extends Options {
 
     /**
      * The role_sid
-     * 
+     *
      * @param string $roleSid The role_sid
+     *
      * @return $this Fluent Builder
      */
-    public function setRoleSid($roleSid) {
+    public function setRoleSid($roleSid)
+    {
         $this->options['roleSid'] = $roleSid;
         return $this;
     }
 
     /**
      * The attributes
-     * 
+     *
      * @param string $attributes The attributes
+     *
      * @return $this Fluent Builder
      */
-    public function setAttributes($attributes) {
+    public function setAttributes($attributes)
+    {
         $this->options['attributes'] = $attributes;
         return $this;
     }
 
     /**
      * The friendly_name
-     * 
+     *
      * @param string $friendlyName The friendly_name
+     *
      * @return $this Fluent Builder
      */
-    public function setFriendlyName($friendlyName) {
+    public function setFriendlyName($friendlyName)
+    {
         $this->options['friendlyName'] = $friendlyName;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $options = array();
         foreach ($this->options as $key => $value) {
             if ($value != Values::NONE) {
                 $options[] = "$key=$value";
             }
         }
-        return '[Twilio.Chat.V2.UpdateUserOptions ' . implode(' ', $options) . ']';
+        return '[Twilio.Chat.V2.UpdateUserOptions '.implode(' ', $options).']';
     }
 }

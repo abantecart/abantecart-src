@@ -21,25 +21,29 @@ use Twilio\Version;
  * @method \Twilio\Rest\Preview\Marketplace\AvailableAddOnContext availableAddOns(string $sid)
  * @method \Twilio\Rest\Preview\Marketplace\InstalledAddOnContext installedAddOns(string $sid)
  */
-class Marketplace extends Version {
+class Marketplace extends Version
+{
     protected $_availableAddOns = null;
     protected $_installedAddOns = null;
 
     /**
      * Construct the Marketplace version of Preview
-     * 
+     *
      * @param \Twilio\Domain $domain Domain that contains the version
+     *
      * @return \Twilio\Rest\Preview\Marketplace Marketplace version of Preview
      */
-    public function __construct(Domain $domain) {
+    public function __construct(Domain $domain)
+    {
         parent::__construct($domain);
         $this->version = 'marketplace';
     }
 
     /**
-     * @return \Twilio\Rest\Preview\Marketplace\AvailableAddOnList 
+     * @return \Twilio\Rest\Preview\Marketplace\AvailableAddOnList
      */
-    protected function getAvailableAddOns() {
+    protected function getAvailableAddOns()
+    {
         if (!$this->_availableAddOns) {
             $this->_availableAddOns = new AvailableAddOnList($this);
         }
@@ -47,9 +51,10 @@ class Marketplace extends Version {
     }
 
     /**
-     * @return \Twilio\Rest\Preview\Marketplace\InstalledAddOnList 
+     * @return \Twilio\Rest\Preview\Marketplace\InstalledAddOnList
      */
-    protected function getInstalledAddOns() {
+    protected function getInstalledAddOns()
+    {
         if (!$this->_installedAddOns) {
             $this->_installedAddOns = new InstalledAddOnList($this);
         }
@@ -58,29 +63,33 @@ class Marketplace extends Version {
 
     /**
      * Magic getter to lazy load root resources
-     * 
+     *
      * @param string $name Resource to return
+     *
      * @return \Twilio\ListResource The requested resource
      * @throws \Twilio\Exceptions\TwilioException For unknown resource
      */
-    public function __get($name) {
-        $method = 'get' . ucfirst($name);
+    public function __get($name)
+    {
+        $method = 'get'.ucfirst($name);
         if (method_exists($this, $method)) {
             return $this->$method();
         }
 
-        throw new TwilioException('Unknown resource ' . $name);
+        throw new TwilioException('Unknown resource '.$name);
     }
 
     /**
      * Magic caller to get resource contexts
-     * 
-     * @param string $name Resource to return
-     * @param array $arguments Context parameters
+     *
+     * @param string $name      Resource to return
+     * @param array  $arguments Context parameters
+     *
      * @return \Twilio\InstanceContext The requested resource context
      * @throws \Twilio\Exceptions\TwilioException For unknown resource
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         $property = $this->$name;
         if (method_exists($property, 'getContext')) {
             return call_user_func_array(array($property, 'getContext'), $arguments);
@@ -91,10 +100,11 @@ class Marketplace extends Version {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         return '[Twilio.Preview.Marketplace]';
     }
 }

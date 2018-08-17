@@ -1,11 +1,11 @@
-<?php 
+<?php
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,24 +17,27 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')) {
+    header('Location: static_pages/');
 }
-class ControllerResponsesCommonCaptcha extends AController {
-	private $error = array(); 
-	    
-  	public function main() {
+
+class ControllerResponsesCommonCaptcha extends AController
+{
+    private $error = array();
+
+    public function main()
+    {
 
         //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$this->load->library('captcha');
-		$captcha = new Captcha();
-		$this->session->data['captcha'] = $captcha->getCode();
+        $this->load->library('captcha');
+        $captcha = new Captcha();
+        $this->session->data['captcha'] = $captcha->getCode();
 
         //init controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-		$captcha->showImage();
-	}
+        $captcha->showImage();
+    }
 }

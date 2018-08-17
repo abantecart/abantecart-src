@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -18,29 +18,32 @@
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 
-if(!class_exists('ExtensionDefaultRealex')){
-	include('core/default_realex.php');
+if (!class_exists('ExtensionDefaultRealex')) {
+    include('core/default_realex.php');
 }
 
 $controllers = array(
     'storefront' => array('responses/extension/default_realex'),
-    'admin' => array('responses/extension/default_realex'),
+    'admin'      => array('responses/extension/default_realex'),
 );
 
 $models = array(
-    'storefront' => array( 'extension/default_realex' ),
-    'admin' => array( 'extension/default_realex' ),
+    'storefront' => array('extension/default_realex'),
+    'admin'      => array('extension/default_realex'),
 );
 
 $languages = array(
     'storefront' => array(
-	    'default_realex/default_realex'),
-    'admin' => array(
-        'default_realex/default_realex')
+        'default_realex/default_realex',
+    ),
+    'admin'      => array(
+        'default_realex/default_realex',
+    ),
 );
 
 $templates = array(
     'storefront' => array(
-	'responses/default_realex.tpl' ),
-    'admin' => array()
+        'responses/default_realex.tpl',
+    ),
+    'admin'      => array(),
 );

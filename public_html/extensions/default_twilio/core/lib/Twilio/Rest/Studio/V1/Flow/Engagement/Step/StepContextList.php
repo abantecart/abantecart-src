@@ -15,33 +15,37 @@ use Twilio\Version;
 /**
  * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
  */
-class StepContextList extends ListResource {
+class StepContextList extends ListResource
+{
     /**
      * Construct the StepContextList
-     * 
-     * @param Version $version Version that contains the resource
-     * @param string $flowSid The flow_sid
-     * @param string $engagementSid The engagement_sid
-     * @param string $stepSid The step_sid
-     * @return \Twilio\Rest\Studio\V1\Flow\Engagement\Step\StepContextList 
+     *
+     * @param Version $version       Version that contains the resource
+     * @param string  $flowSid       The flow_sid
+     * @param string  $engagementSid The engagement_sid
+     * @param string  $stepSid       The step_sid
+     *
+     * @return \Twilio\Rest\Studio\V1\Flow\Engagement\Step\StepContextList
      */
-    public function __construct(Version $version, $flowSid, $engagementSid, $stepSid) {
+    public function __construct(Version $version, $flowSid, $engagementSid, $stepSid)
+    {
         parent::__construct($version);
 
         // Path Solution
         $this->solution = array(
-            'flowSid' => $flowSid,
+            'flowSid'       => $flowSid,
             'engagementSid' => $engagementSid,
-            'stepSid' => $stepSid,
+            'stepSid'       => $stepSid,
         );
     }
 
     /**
      * Constructs a StepContextContext
-     * 
-     * @return \Twilio\Rest\Studio\V1\Flow\Engagement\Step\StepContextContext 
+     *
+     * @return \Twilio\Rest\Studio\V1\Flow\Engagement\Step\StepContextContext
      */
-    public function getContext() {
+    public function getContext()
+    {
         return new StepContextContext(
             $this->version,
             $this->solution['flowSid'],
@@ -52,10 +56,11 @@ class StepContextList extends ListResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         return '[Twilio.Studio.V1.StepContextList]';
     }
 }

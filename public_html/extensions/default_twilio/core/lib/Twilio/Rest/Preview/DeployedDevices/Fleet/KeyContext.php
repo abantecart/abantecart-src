@@ -17,30 +17,34 @@ use Twilio\Version;
 /**
  * PLEASE NOTE that this class contains preview products that are subject to change. Use them with caution. If you currently do not have developer preview access, please contact help@twilio.com.
  */
-class KeyContext extends InstanceContext {
+class KeyContext extends InstanceContext
+{
     /**
      * Initialize the KeyContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $fleetSid The fleet_sid
-     * @param string $sid A string that uniquely identifies the Key.
-     * @return \Twilio\Rest\Preview\DeployedDevices\Fleet\KeyContext 
+     *
+     * @param \Twilio\Version $version  Version that contains the resource
+     * @param string          $fleetSid The fleet_sid
+     * @param string          $sid      A string that uniquely identifies the Key.
+     *
+     * @return \Twilio\Rest\Preview\DeployedDevices\Fleet\KeyContext
      */
-    public function __construct(Version $version, $fleetSid, $sid) {
+    public function __construct(Version $version, $fleetSid, $sid)
+    {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('fleetSid' => $fleetSid, 'sid' => $sid, );
+        $this->solution = array('fleetSid' => $fleetSid, 'sid' => $sid,);
 
-        $this->uri = '/Fleets/' . rawurlencode($fleetSid) . '/Keys/' . rawurlencode($sid) . '';
+        $this->uri = '/Fleets/'.rawurlencode($fleetSid).'/Keys/'.rawurlencode($sid).'';
     }
 
     /**
      * Fetch a KeyInstance
-     * 
+     *
      * @return KeyInstance Fetched KeyInstance
      */
-    public function fetch() {
+    public function fetch()
+    {
         $params = Values::of(array());
 
         $payload = $this->version->fetch(
@@ -59,25 +63,28 @@ class KeyContext extends InstanceContext {
 
     /**
      * Deletes the KeyInstance
-     * 
+     *
      * @return boolean True if delete succeeds, false otherwise
      */
-    public function delete() {
+    public function delete()
+    {
         return $this->version->delete('delete', $this->uri);
     }
 
     /**
      * Update the KeyInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
+     *
      * @return KeyInstance Updated KeyInstance
      */
-    public function update($options = array()) {
+    public function update($options = array())
+    {
         $options = new Values($options);
 
         $data = Values::of(array(
             'FriendlyName' => $options['friendlyName'],
-            'DeviceSid' => $options['deviceSid'],
+            'DeviceSid'    => $options['deviceSid'],
         ));
 
         $payload = $this->version->update(
@@ -97,14 +104,15 @@ class KeyContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Preview.DeployedDevices.KeyContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Preview.DeployedDevices.KeyContext '.implode(' ', $context).']';
     }
 }

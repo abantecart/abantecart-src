@@ -7,18 +7,18 @@ namespace Stripe;
  *
  * @package Stripe
  *
- * @property string $id
- * @property string $object
- * @property int $amount
- * @property int $created
- * @property string $currency
- * @property string $interval
- * @property int $interval_count
- * @property bool $livemode
+ * @property string       $id
+ * @property string       $object
+ * @property int          $amount
+ * @property int          $created
+ * @property string       $currency
+ * @property string       $interval
+ * @property int          $interval_count
+ * @property bool         $livemode
  * @property StripeObject $metadata
- * @property string $nickname
- * @property string $product
- * @property int $trial_period_days
+ * @property string       $nickname
+ * @property string       $product
+ * @property int          $trial_period_days
  */
 class Plan extends ApiResource
 {

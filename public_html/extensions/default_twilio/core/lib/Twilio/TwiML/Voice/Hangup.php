@@ -11,11 +11,13 @@ namespace Twilio\TwiML\Voice;
 
 use Twilio\TwiML\TwiML;
 
-class Hangup extends TwiML {
+class Hangup extends TwiML
+{
     /**
      * Hangup constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct('Hangup');
     }
 }

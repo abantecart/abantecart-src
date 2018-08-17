@@ -35,13 +35,14 @@ class ControllerResponsesExtensionAvataxIntegration extends AController
         $accountNumber = $this->registry->get('config')->get('avatax_integration_account_number');
         $licenseKey = $this->registry->get('config')->get('avatax_integration_license_key');
 
-        $json = array('message' => "Connection to Avatax server can not be established.\n"
-                            ."\nCheck your server configuration or contact your hosting provider.",
-                      'error' => true
+        $json = array(
+            'message' => "Connection to Avatax server can not be established.\n"
+                ."\nCheck your server configuration or contact your hosting provider.",
+            'error'   => true,
         );
 
         if (!empty($serviceURL) && !empty($accountNumber) && !empty($licenseKey)) {
-            try{
+            try {
                 $taxSvc = new AvaTax\TaxServiceRest($serviceURL, $accountNumber, $licenseKey);
                 $geoTaxResult = $taxSvc->ping("");
                 if ($geoTaxResult->getResultCode() != AvaTax\SeverityLevel::$Success) {
@@ -59,7 +60,8 @@ class ControllerResponsesExtensionAvataxIntegration extends AController
                     $json['message'] = $this->language->get('text_connection_success');
                     $json['error'] = false;
                 }
-            }catch(Exception $e){}
+            } catch (Exception $e) {
+            }
 
         }
 

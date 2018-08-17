@@ -17,54 +17,58 @@ use Twilio\Version;
 
 /**
  * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
- * 
- * @property string sid
- * @property string accountSid
- * @property string friendlyName
- * @property string status
- * @property integer version
+ *
+ * @property string    sid
+ * @property string    accountSid
+ * @property string    friendlyName
+ * @property string    status
+ * @property integer   version
  * @property \DateTime dateCreated
  * @property \DateTime dateUpdated
- * @property string url
- * @property array links
+ * @property string    url
+ * @property array     links
  */
-class FlowInstance extends InstanceResource {
+class FlowInstance extends InstanceResource
+{
     protected $_engagements = null;
 
     /**
      * Initialize the FlowInstance
-     * 
+     *
      * @param \Twilio\Version $version Version that contains the resource
-     * @param mixed[] $payload The response payload
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Studio\V1\FlowInstance 
+     * @param mixed[]         $payload The response payload
+     * @param string          $sid     The sid
+     *
+     * @return \Twilio\Rest\Studio\V1\FlowInstance
      */
-    public function __construct(Version $version, array $payload, $sid = null) {
+    public function __construct(Version $version, array $payload, $sid = null)
+    {
         parent::__construct($version);
 
         // Marshaled Properties
         $this->properties = array(
-            'sid' => Values::array_get($payload, 'sid'),
-            'accountSid' => Values::array_get($payload, 'account_sid'),
+            'sid'          => Values::array_get($payload, 'sid'),
+            'accountSid'   => Values::array_get($payload, 'account_sid'),
             'friendlyName' => Values::array_get($payload, 'friendly_name'),
-            'status' => Values::array_get($payload, 'status'),
-            'version' => Values::array_get($payload, 'version'),
-            'dateCreated' => Deserialize::dateTime(Values::array_get($payload, 'date_created')),
-            'dateUpdated' => Deserialize::dateTime(Values::array_get($payload, 'date_updated')),
-            'url' => Values::array_get($payload, 'url'),
-            'links' => Values::array_get($payload, 'links'),
+            'status'       => Values::array_get($payload, 'status'),
+            'version'      => Values::array_get($payload, 'version'),
+            'dateCreated'  => Deserialize::dateTime(Values::array_get($payload, 'date_created')),
+            'dateUpdated'  => Deserialize::dateTime(Values::array_get($payload, 'date_updated')),
+            'url'          => Values::array_get($payload, 'url'),
+            'links'        => Values::array_get($payload, 'links'),
         );
 
-        $this->solution = array('sid' => $sid ?: $this->properties['sid'], );
+        $this->solution = array('sid' => $sid ?: $this->properties['sid'],);
     }
 
     /**
      * Generate an instance context for the instance, the context is capable of
      * performing various actions.  All instance actions are proxied to the context
-     * 
+     *
      * @return \Twilio\Rest\Studio\V1\FlowContext Context for this FlowInstance
      */
-    protected function proxy() {
+    protected function proxy()
+    {
         if (!$this->context) {
             $this->context = new FlowContext($this->version, $this->solution['sid']);
         }
@@ -74,61 +78,67 @@ class FlowInstance extends InstanceResource {
 
     /**
      * Fetch a FlowInstance
-     * 
+     *
      * @return FlowInstance Fetched FlowInstance
      */
-    public function fetch() {
+    public function fetch()
+    {
         return $this->proxy()->fetch();
     }
 
     /**
      * Deletes the FlowInstance
-     * 
+     *
      * @return boolean True if delete succeeds, false otherwise
      */
-    public function delete() {
+    public function delete()
+    {
         return $this->proxy()->delete();
     }
 
     /**
      * Access the engagements
-     * 
-     * @return \Twilio\Rest\Studio\V1\Flow\EngagementList 
+     *
+     * @return \Twilio\Rest\Studio\V1\Flow\EngagementList
      */
-    protected function getEngagements() {
+    protected function getEngagements()
+    {
         return $this->proxy()->engagements;
     }
 
     /**
      * Magic getter to access properties
-     * 
+     *
      * @param string $name Property to access
+     *
      * @return mixed The requested property
      * @throws TwilioException For unknown properties
      */
-    public function __get($name) {
+    public function __get($name)
+    {
         if (array_key_exists($name, $this->properties)) {
             return $this->properties[$name];
         }
 
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+        if (property_exists($this, '_'.$name)) {
+            $method = 'get'.ucfirst($name);
             return $this->$method();
         }
 
-        throw new TwilioException('Unknown property: ' . $name);
+        throw new TwilioException('Unknown property: '.$name);
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Studio.V1.FlowInstance ' . implode(' ', $context) . ']';
+        return '[Twilio.Studio.V1.FlowInstance '.implode(' ', $context).']';
     }
 }

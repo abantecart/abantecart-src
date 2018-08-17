@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -49,7 +50,7 @@ class ModelLocalisationZone extends Model
     }
 
     /**
-     * @param int $zone_id
+     * @param int   $zone_id
      * @param array $data
      */
     public function editZone($zone_id, $data)
@@ -139,7 +140,7 @@ class ModelLocalisationZone extends Model
     }
 
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $mode
      *
      * @return array

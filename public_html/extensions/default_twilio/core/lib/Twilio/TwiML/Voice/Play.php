@@ -11,34 +11,40 @@ namespace Twilio\TwiML\Voice;
 
 use Twilio\TwiML\TwiML;
 
-class Play extends TwiML {
+class Play extends TwiML
+{
     /**
      * Play constructor.
-     * 
-     * @param url $url Media URL
+     *
+     * @param url   $url        Media URL
      * @param array $attributes Optional attributes
      */
-    public function __construct($url = null, $attributes = array()) {
+    public function __construct($url = null, $attributes = array())
+    {
         parent::__construct('Play', $url, $attributes);
     }
 
     /**
      * Add Loop attribute.
-     * 
+     *
      * @param integer $loop Times to loop media
+     *
      * @return TwiML $this.
      */
-    public function setLoop($loop) {
+    public function setLoop($loop)
+    {
         return $this->setAttribute('loop', $loop);
     }
 
     /**
      * Add Digits attribute.
-     * 
+     *
      * @param string $digits Play DTMF tones for digits
+     *
      * @return TwiML $this.
      */
-    public function setDigits($digits) {
+    public function setDigits($digits)
+    {
         return $this->setAttribute('digits', $digits);
     }
 }

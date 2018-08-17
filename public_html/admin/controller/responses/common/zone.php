@@ -1,11 +1,11 @@
-<?php 
+<?php
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,110 +17,113 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+    header('Location: static_pages/');
 }
-class ControllerResponsesCommonZone extends AController {
-	private $error = array(); 
-	    
-  	public function main() {
 
-          //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+class ControllerResponsesCommonZone extends AController
+{
+    private $error = array();
 
-       	$this->loadModel('localisation/zone');
+    public function main()
+    {
 
-		if(isset( $this->request->get['country_id'] )){
-			$results = $this->model_localisation_zone->getZonesByCountryId($this->request->get['country_id']);
-		}elseif( $this->request->get['location_id'] ){
-			$results = $this->model_localisation_zone->getZonesByLocationId( $this->request->get['location_id'] );
-		}
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$json = array('options' => array());
+        $this->loadModel('localisation/zone');
+
+        if (isset($this->request->get['country_id'])) {
+            $results = $this->model_localisation_zone->getZonesByCountryId($this->request->get['country_id']);
+        } elseif ($this->request->get['location_id']) {
+            $results = $this->model_localisation_zone->getZonesByLocationId($this->request->get['location_id']);
+        }
+
+        $json = array('options' => array());
 
         $selected_name = '';
-        if ( !empty($this->request->get['type']) ) {
+        if (!empty($this->request->get['type'])) {
             $json['type'] = $this->request->get['type'];
         } else {
-	        if(!$results){
-		       $json['options']['0']['value'] = array($this->language->get('text_none'));
-	        }
+            if (!$results) {
+                $json['options']['0']['value'] = array($this->language->get('text_none'));
+            }
         }
 
-		if (!$this->request->get['zone_id']) {
-		  		$json['options'][0] = array( 'value' => $this->language->get('text_none'), 'selected' => TRUE );
-		} else {
-				$json['options'][0]['value'] = $this->language->get('text_none');
-		}
+        if (!$this->request->get['zone_id']) {
+            $json['options'][0] = array('value' => $this->language->get('text_none'), 'selected' => true);
+        } else {
+            $json['options'][0]['value'] = $this->language->get('text_none');
+        }
 
-		// options for zones
-      	foreach ($results as $result) {
-        	$selected = FALSE;
-	    	if ( (isset($this->request->get['zone_name']) && ($this->request->get['zone_name'] == $result['name']))
-				||
-				(isset($this->request->get['zone_id']) && ($this->request->get['zone_id'] == $result['zone_id'])) 	) {
-	      		$selected = TRUE;
+        // options for zones
+        foreach ($results as $result) {
+            $selected = false;
+            if ((isset($this->request->get['zone_name']) && ($this->request->get['zone_name'] == $result['name']))
+                || (isset($this->request->get['zone_id']) && ($this->request->get['zone_id'] == $result['zone_id']))
+            ) {
+                $selected = true;
                 $selected_name = $result['name'];
-	    	}
+            }
 
-	    	$json['options'][$result['zone_id']]['value'] = $result['name'];
-	    	if ( $selected )
-			{
-	    		$json['options'][$result['zone_id']]['selected'] = $selected;
-			}
-    	}
-
-		if (!$results) {
-			if (!$this->request->get['zone_id']) {
-		  		$json['options'][0] = array('value' => $this->language->get('text_none'), 'selected' => TRUE);
-			} else {
-				$json['options'][0]['value'] = $this->language->get('text_none');
-			}
-		}
-
-        if ( !empty($this->request->get['type']) ) {
-		    $json['type'] = $this->request->get['type'];
-		    $json['selected_name'] = $selected_name;
+            $json['options'][$result['zone_id']]['value'] = $result['name'];
+            if ($selected) {
+                $json['options'][$result['zone_id']]['selected'] = $selected;
+            }
         }
-		$this->load->library('json');
-		$this->response->addJSONHeader();
-		$this->response->setOutput(AJson::encode($json), $this->config->get('config_compression'));
+
+        if (!$results) {
+            if (!$this->request->get['zone_id']) {
+                $json['options'][0] = array('value' => $this->language->get('text_none'), 'selected' => true);
+            } else {
+                $json['options'][0]['value'] = $this->language->get('text_none');
+            }
+        }
+
+        if (!empty($this->request->get['type'])) {
+            $json['type'] = $this->request->get['type'];
+            $json['selected_name'] = $selected_name;
+        }
+        $this->load->library('json');
+        $this->response->addJSONHeader();
+        $this->response->setOutput(AJson::encode($json), $this->config->get('config_compression'));
 
         //update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-  	}
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
 
-	public function names() {
-		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
+    public function names()
+    {
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$stdout = '<option value="FALSE">' . $this->language->get('text_select') . '</option>';
+        $stdout = '<option value="FALSE">'.$this->language->get('text_select').'</option>';
 
-		$this->loadModel('localisation/zone');
+        $this->loadModel('localisation/zone');
 
-		$country_id = $this->model_localisation_zone->getCountryIdByName($this->request->get['country_name']);
-		$results = $this->model_localisation_zone->getZonesByCountryId($country_id);
+        $country_id = $this->model_localisation_zone->getCountryIdByName($this->request->get['country_name']);
+        $results = $this->model_localisation_zone->getZonesByCountryId($country_id);
 
-		foreach ($results as $result) {
-			$stdout .= '<option value="' . $result['name'] . '"';
-			if (isset($this->request->get['zone_name']) && ($this->request->get['zone_name'] == $result['name'])) {
-				$stdout .= ' selected="selected"';
-			}
-			$stdout .= '>' . $result['name'] . '</option>';
-		}
+        foreach ($results as $result) {
+            $stdout .= '<option value="'.$result['name'].'"';
+            if (isset($this->request->get['zone_name']) && ($this->request->get['zone_name'] == $result['name'])) {
+                $stdout .= ' selected="selected"';
+            }
+            $stdout .= '>'.$result['name'].'</option>';
+        }
 
-		if (!$results) {
-			if (!$this->request->get['zone_name']) {
-				$stdout .= '<option value="0" selected="selected">' . $this->language->get('text_none') . '</option>';
-			} else {
-				$stdout .= '<option value="0">' . $this->language->get('text_none') . '</option>';
-			}
-		}
+        if (!$results) {
+            if (!$this->request->get['zone_name']) {
+                $stdout .= '<option value="0" selected="selected">'.$this->language->get('text_none').'</option>';
+            } else {
+                $stdout .= '<option value="0">'.$this->language->get('text_none').'</option>';
+            }
+        }
 
-		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$this->response->setOutput($stdout, $this->config->get('config_compression'));
-	}
+        $this->response->setOutput($stdout, $this->config->get('config_compression'));
+    }
 
 }

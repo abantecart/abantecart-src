@@ -19,34 +19,38 @@ use Twilio\Version;
 
 /**
  * PLEASE NOTE that this class contains preview products that are subject to change. Use them with caution. If you currently do not have developer preview access, please contact help@twilio.com.
- * 
+ *
  * @property \Twilio\Rest\Preview\HostedNumbers\AuthorizationDocument\DependentHostedNumberOrderList dependentHostedNumberOrders
  */
-class AuthorizationDocumentContext extends InstanceContext {
+class AuthorizationDocumentContext extends InstanceContext
+{
     protected $_dependentHostedNumberOrders = null;
 
     /**
      * Initialize the AuthorizationDocumentContext
-     * 
+     *
      * @param \Twilio\Version $version Version that contains the resource
-     * @param string $sid AuthorizationDocument sid.
-     * @return \Twilio\Rest\Preview\HostedNumbers\AuthorizationDocumentContext 
+     * @param string          $sid     AuthorizationDocument sid.
+     *
+     * @return \Twilio\Rest\Preview\HostedNumbers\AuthorizationDocumentContext
      */
-    public function __construct(Version $version, $sid) {
+    public function __construct(Version $version, $sid)
+    {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('sid' => $sid, );
+        $this->solution = array('sid' => $sid,);
 
-        $this->uri = '/AuthorizationDocuments/' . rawurlencode($sid) . '';
+        $this->uri = '/AuthorizationDocuments/'.rawurlencode($sid).'';
     }
 
     /**
      * Fetch a AuthorizationDocumentInstance
-     * 
+     *
      * @return AuthorizationDocumentInstance Fetched AuthorizationDocumentInstance
      */
-    public function fetch() {
+    public function fetch()
+    {
         $params = Values::of(array());
 
         $payload = $this->version->fetch(
@@ -60,19 +64,25 @@ class AuthorizationDocumentContext extends InstanceContext {
 
     /**
      * Update the AuthorizationDocumentInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
+     *
      * @return AuthorizationDocumentInstance Updated AuthorizationDocumentInstance
      */
-    public function update($options = array()) {
+    public function update($options = array())
+    {
         $options = new Values($options);
 
         $data = Values::of(array(
-            'HostedNumberOrderSids' => Serialize::map($options['hostedNumberOrderSids'], function($e) { return $e; }),
-            'AddressSid' => $options['addressSid'],
-            'Email' => $options['email'],
-            'CcEmails' => Serialize::map($options['ccEmails'], function($e) { return $e; }),
-            'Status' => $options['status'],
+            'HostedNumberOrderSids' => Serialize::map($options['hostedNumberOrderSids'], function ($e) {
+                return $e;
+            }),
+            'AddressSid'            => $options['addressSid'],
+            'Email'                 => $options['email'],
+            'CcEmails'              => Serialize::map($options['ccEmails'], function ($e) {
+                return $e;
+            }),
+            'Status'                => $options['status'],
         ));
 
         $payload = $this->version->update(
@@ -87,10 +97,11 @@ class AuthorizationDocumentContext extends InstanceContext {
 
     /**
      * Access the dependentHostedNumberOrders
-     * 
-     * @return \Twilio\Rest\Preview\HostedNumbers\AuthorizationDocument\DependentHostedNumberOrderList 
+     *
+     * @return \Twilio\Rest\Preview\HostedNumbers\AuthorizationDocument\DependentHostedNumberOrderList
      */
-    protected function getDependentHostedNumberOrders() {
+    protected function getDependentHostedNumberOrders()
+    {
         if (!$this->_dependentHostedNumberOrders) {
             $this->_dependentHostedNumberOrders = new DependentHostedNumberOrderList(
                 $this->version,
@@ -103,29 +114,33 @@ class AuthorizationDocumentContext extends InstanceContext {
 
     /**
      * Magic getter to lazy load subresources
-     * 
+     *
      * @param string $name Subresource to return
+     *
      * @return \Twilio\ListResource The requested subresource
      * @throws \Twilio\Exceptions\TwilioException For unknown subresources
      */
-    public function __get($name) {
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+    public function __get($name)
+    {
+        if (property_exists($this, '_'.$name)) {
+            $method = 'get'.ucfirst($name);
             return $this->$method();
         }
 
-        throw new TwilioException('Unknown subresource ' . $name);
+        throw new TwilioException('Unknown subresource '.$name);
     }
 
     /**
      * Magic caller to get resource contexts
-     * 
-     * @param string $name Resource to return
-     * @param array $arguments Context parameters
+     *
+     * @param string $name      Resource to return
+     * @param array  $arguments Context parameters
+     *
      * @return \Twilio\InstanceContext The requested resource context
      * @throws \Twilio\Exceptions\TwilioException For unknown resource
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         $property = $this->$name;
         if (method_exists($property, 'getContext')) {
             return call_user_func_array(array($property, 'getContext'), $arguments);
@@ -136,14 +151,15 @@ class AuthorizationDocumentContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Preview.HostedNumbers.AuthorizationDocumentContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Preview.HostedNumbers.AuthorizationDocumentContext '.implode(' ', $context).']';
     }
 }

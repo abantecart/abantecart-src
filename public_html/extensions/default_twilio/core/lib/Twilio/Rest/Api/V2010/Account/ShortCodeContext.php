@@ -14,30 +14,34 @@ use Twilio\Options;
 use Twilio\Values;
 use Twilio\Version;
 
-class ShortCodeContext extends InstanceContext {
+class ShortCodeContext extends InstanceContext
+{
     /**
      * Initialize the ShortCodeContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $accountSid The account_sid
-     * @param string $sid Fetch by unique short-code Sid
-     * @return \Twilio\Rest\Api\V2010\Account\ShortCodeContext 
+     *
+     * @param \Twilio\Version $version    Version that contains the resource
+     * @param string          $accountSid The account_sid
+     * @param string          $sid        Fetch by unique short-code Sid
+     *
+     * @return \Twilio\Rest\Api\V2010\Account\ShortCodeContext
      */
-    public function __construct(Version $version, $accountSid, $sid) {
+    public function __construct(Version $version, $accountSid, $sid)
+    {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('accountSid' => $accountSid, 'sid' => $sid, );
+        $this->solution = array('accountSid' => $accountSid, 'sid' => $sid,);
 
-        $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/SMS/ShortCodes/' . rawurlencode($sid) . '.json';
+        $this->uri = '/Accounts/'.rawurlencode($accountSid).'/SMS/ShortCodes/'.rawurlencode($sid).'.json';
     }
 
     /**
      * Fetch a ShortCodeInstance
-     * 
+     *
      * @return ShortCodeInstance Fetched ShortCodeInstance
      */
-    public function fetch() {
+    public function fetch()
+    {
         $params = Values::of(array());
 
         $payload = $this->version->fetch(
@@ -56,19 +60,21 @@ class ShortCodeContext extends InstanceContext {
 
     /**
      * Update the ShortCodeInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
+     *
      * @return ShortCodeInstance Updated ShortCodeInstance
      */
-    public function update($options = array()) {
+    public function update($options = array())
+    {
         $options = new Values($options);
 
         $data = Values::of(array(
-            'FriendlyName' => $options['friendlyName'],
-            'ApiVersion' => $options['apiVersion'],
-            'SmsUrl' => $options['smsUrl'],
-            'SmsMethod' => $options['smsMethod'],
-            'SmsFallbackUrl' => $options['smsFallbackUrl'],
+            'FriendlyName'      => $options['friendlyName'],
+            'ApiVersion'        => $options['apiVersion'],
+            'SmsUrl'            => $options['smsUrl'],
+            'SmsMethod'         => $options['smsMethod'],
+            'SmsFallbackUrl'    => $options['smsFallbackUrl'],
             'SmsFallbackMethod' => $options['smsFallbackMethod'],
         ));
 
@@ -89,14 +95,15 @@ class ShortCodeContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Api.V2010.ShortCodeContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Api.V2010.ShortCodeContext '.implode(' ', $context).']';
     }
 }

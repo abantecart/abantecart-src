@@ -7,7 +7,7 @@ include 'configuration.php';
 $serviceURL = $configuration['serviceURL'];
 $accountNumber = $configuration['accountNumber'];
 $licenseKey = $configuration['licenseKey'];
-	
+
 $addressSvc = new AvaTax\AddressServiceRest($serviceURL, $accountNumber, $licenseKey);
 $address = new AvaTax\Address();
 
@@ -27,23 +27,20 @@ $validateRequest->setAddress($address);
 $validateResult = $addressSvc->Validate($validateRequest);
 
 //Print Results
-echo 'ValidateAddressTest Result: ' . $validateResult->getResultCode() . "\n";
-if($validateResult->getResultCode() != AvaTax\SeverityLevel::$Success)	// call failed
-{	
-	foreach($validateResult->getMessages() as $message)
-	{
-		echo $message->getSeverity() . ": " . $message->getSummary()."\n";
-	}
-}
-else
+echo 'ValidateAddressTest Result: '.$validateResult->getResultCode()."\n";
+if ($validateResult->getResultCode() != AvaTax\SeverityLevel::$Success)    // call failed
 {
-	echo $validateResult->getValidAddress()->getLine1()
-	                    . " " 
-	                    . $validateResult->getValidAddress()->getCity()
-	                    . ", "
-	                    . $validateResult->getValidAddress()->getRegion()
-	                    . " " 
-	                    . $validateResult->getValidAddress()->getPostalCode() . "\n";
-	
+    foreach ($validateResult->getMessages() as $message) {
+        echo $message->getSeverity().": ".$message->getSummary()."\n";
+    }
+} else {
+    echo $validateResult->getValidAddress()->getLine1()
+        ." "
+        .$validateResult->getValidAddress()->getCity()
+        .", "
+        .$validateResult->getValidAddress()->getRegion()
+        ." "
+        .$validateResult->getValidAddress()->getPostalCode()."\n";
+
 }
 ?>

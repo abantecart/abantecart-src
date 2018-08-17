@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -124,7 +125,7 @@ class ControllerPagesLocalisationLengthClass extends AController
             $length_class_id = $this->model_localisation_length_class->addLengthClass($this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
             redirect(
-                $this->html->getSecureURL('localisation/length_class/update','&length_class_id='.$length_class_id)
+                $this->html->getSecureURL('localisation/length_class/update', '&length_class_id='.$length_class_id)
             );
         }
         $this->getForm();
@@ -179,7 +180,7 @@ class ControllerPagesLocalisationLengthClass extends AController
 
         if (isset($this->request->get['length_class_id']) && $this->request->is_GET()) {
             $length_class_info = $this->model_localisation_length_class->getLengthClass(
-                                                        $this->request->get['length_class_id']
+                $this->request->get['length_class_id']
             );
         }
 
@@ -188,7 +189,7 @@ class ControllerPagesLocalisationLengthClass extends AController
         } elseif (isset($this->request->get['length_class_id'])) {
             $this->data['length_class_description'] =
                 $this->model_localisation_length_class->getLengthClassDescriptions(
-                                                        $this->request->get['length_class_id']
+                    $this->request->get['length_class_id']
                 );
         } else {
             $this->data['length_class_description'] = array();
@@ -219,8 +220,8 @@ class ControllerPagesLocalisationLengthClass extends AController
                 '&length_class_id='.$this->request->get['length_class_id']);
             $this->data['heading_title'] = $this->language->get('text_edit').$this->language->get('text_class');
             $this->data['update'] = $this->html->getSecureURL(
-                                                    'listing_grid/length_class/update_field',
-                                                    '&id='.$this->request->get['length_class_id']
+                'listing_grid/length_class/update_field',
+                '&id='.$this->request->get['length_class_id']
             );
             $form = new AForm('HS');
             $a_length = new ALength($this->registry);
@@ -326,7 +327,8 @@ class ControllerPagesLocalisationLengthClass extends AController
 
             if ($length) {
                 if (!$length_class_id
-                    || ($length_class_id && $length['length_class_id'] != $length_class_id)) {
+                    || ($length_class_id && $length['length_class_id'] != $length_class_id)
+                ) {
                     $this->error['iso_code'] = $this->language->get('error_iso_code');
                     $this->error['iso_code'] .= $length_class_id.' -- '.$length['length_class_id'];
                 }

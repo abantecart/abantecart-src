@@ -11,13 +11,15 @@ namespace Twilio\TwiML\Voice;
 
 use Twilio\TwiML\TwiML;
 
-class Sim extends TwiML {
+class Sim extends TwiML
+{
     /**
      * Sim constructor.
-     * 
+     *
      * @param sid $simSid SIM SID
      */
-    public function __construct($simSid) {
+    public function __construct($simSid)
+    {
         parent::__construct('Sim', $simSid);
     }
 }

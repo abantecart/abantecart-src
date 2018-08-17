@@ -22,7 +22,7 @@
  * Class ControllerCommonHeader
  *
  * @property ModelToolOnlineNow $model_tool_online_now
- * @property ModelToolMPAPI $model_tool_mp_api
+ * @property ModelToolMPAPI     $model_tool_mp_api
  *
  */
 class ControllerCommonHeader extends AController
@@ -70,7 +70,8 @@ class ControllerCommonHeader extends AController
         if (!$this->user->isLogged()
             || !isset($this->request->get['token'])
             || !isset($this->session->data['token'])
-            || ($this->request->get['token'] != $this->session->data['token'])) {
+            || ($this->request->get['token'] != $this->session->data['token'])
+        ) {
             $this->view->assign('logged', '');
             $this->view->assign('home', $this->html->getSecureURL('index/login', '', true));
         } else {
@@ -177,8 +178,8 @@ class ControllerCommonHeader extends AController
         //backwards compatibility from 1.2.1. Can remove this check in the future.
         if (!defined('ENCRYPTION_KEY')) {
             $cm_body = "To be compatible with v".VERSION
-                        ." add below line to configuration file: <br>\n"
-                        .DIR_ROOT.'/system/config.php';
+                ." add below line to configuration file: <br>\n"
+                .DIR_ROOT.'/system/config.php';
             $cm_body .= "<br>\n"."define('ENCRYPTION_KEY', '".$this->config->get('encryption_key')."');\n";;
             $this->messages->saveWarning('Compatibility warning for v'.VERSION, $cm_body);
         }
@@ -196,14 +197,14 @@ class ControllerCommonHeader extends AController
                 'order_status' => 'confirmed',
                 'date_start'   => dateISO2Display(date('Y-m-d', time()), $this->language->get('date_format_short')),
                 'date_end'     => dateISO2Display(date('Y-m-d', time()), $this->language->get('date_format_short')),
-            )
+            ),
         );
 
         $today_orders = $this->model_report_sale->getSaleReportSummary($data);
         $today_order_count = $today_orders['orders'];
         $today_sales_amount = $this->currency->format(
-                                            $today_orders['total_amount'],
-                                            $this->config->get('config_currency')
+            $today_orders['total_amount'],
+            $this->config->get('config_currency')
         );
         $this->view->assign('today_order_count', $today_order_count);
         $this->view->assign('today_sales_amount', $today_sales_amount);

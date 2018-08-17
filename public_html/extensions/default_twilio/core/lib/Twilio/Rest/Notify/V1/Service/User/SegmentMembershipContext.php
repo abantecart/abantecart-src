@@ -16,44 +16,49 @@ use Twilio\Version;
 /**
  * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
  */
-class SegmentMembershipContext extends InstanceContext {
+class SegmentMembershipContext extends InstanceContext
+{
     /**
      * Initialize the SegmentMembershipContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $serviceSid The service_sid
-     * @param string $identity The identity
-     * @param string $segment The segment
-     * @return \Twilio\Rest\Notify\V1\Service\User\SegmentMembershipContext 
+     *
+     * @param \Twilio\Version $version    Version that contains the resource
+     * @param string          $serviceSid The service_sid
+     * @param string          $identity   The identity
+     * @param string          $segment    The segment
+     *
+     * @return \Twilio\Rest\Notify\V1\Service\User\SegmentMembershipContext
      */
-    public function __construct(Version $version, $serviceSid, $identity, $segment) {
+    public function __construct(Version $version, $serviceSid, $identity, $segment)
+    {
         parent::__construct($version);
 
         // Path Solution
         $this->solution = array(
             'serviceSid' => $serviceSid,
-            'identity' => $identity,
-            'segment' => $segment,
+            'identity'   => $identity,
+            'segment'    => $segment,
         );
 
-        $this->uri = '/Services/' . rawurlencode($serviceSid) . '/Users/' . rawurlencode($identity) . '/SegmentMemberships/' . rawurlencode($segment) . '';
+        $this->uri = '/Services/'.rawurlencode($serviceSid).'/Users/'.rawurlencode($identity).'/SegmentMemberships/'.rawurlencode($segment).'';
     }
 
     /**
      * Deletes the SegmentMembershipInstance
-     * 
+     *
      * @return boolean True if delete succeeds, false otherwise
      */
-    public function delete() {
+    public function delete()
+    {
         return $this->version->delete('delete', $this->uri);
     }
 
     /**
      * Fetch a SegmentMembershipInstance
-     * 
+     *
      * @return SegmentMembershipInstance Fetched SegmentMembershipInstance
      */
-    public function fetch() {
+    public function fetch()
+    {
         $params = Values::of(array());
 
         $payload = $this->version->fetch(
@@ -73,14 +78,15 @@ class SegmentMembershipContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Notify.V1.SegmentMembershipContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Notify.V1.SegmentMembershipContext '.implode(' ', $context).']';
     }
 }

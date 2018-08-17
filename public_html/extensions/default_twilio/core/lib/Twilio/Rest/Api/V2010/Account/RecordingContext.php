@@ -18,37 +18,41 @@ use Twilio\Version;
 
 /**
  * @property \Twilio\Rest\Api\V2010\Account\Recording\TranscriptionList transcriptions
- * @property \Twilio\Rest\Api\V2010\Account\Recording\AddOnResultList addOnResults
+ * @property \Twilio\Rest\Api\V2010\Account\Recording\AddOnResultList   addOnResults
  * @method \Twilio\Rest\Api\V2010\Account\Recording\TranscriptionContext transcriptions(string $sid)
  * @method \Twilio\Rest\Api\V2010\Account\Recording\AddOnResultContext addOnResults(string $sid)
  */
-class RecordingContext extends InstanceContext {
+class RecordingContext extends InstanceContext
+{
     protected $_transcriptions = null;
     protected $_addOnResults = null;
 
     /**
      * Initialize the RecordingContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $accountSid The account_sid
-     * @param string $sid Fetch by unique recording Sid
-     * @return \Twilio\Rest\Api\V2010\Account\RecordingContext 
+     *
+     * @param \Twilio\Version $version    Version that contains the resource
+     * @param string          $accountSid The account_sid
+     * @param string          $sid        Fetch by unique recording Sid
+     *
+     * @return \Twilio\Rest\Api\V2010\Account\RecordingContext
      */
-    public function __construct(Version $version, $accountSid, $sid) {
+    public function __construct(Version $version, $accountSid, $sid)
+    {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('accountSid' => $accountSid, 'sid' => $sid, );
+        $this->solution = array('accountSid' => $accountSid, 'sid' => $sid,);
 
-        $this->uri = '/Accounts/' . rawurlencode($accountSid) . '/Recordings/' . rawurlencode($sid) . '.json';
+        $this->uri = '/Accounts/'.rawurlencode($accountSid).'/Recordings/'.rawurlencode($sid).'.json';
     }
 
     /**
      * Fetch a RecordingInstance
-     * 
+     *
      * @return RecordingInstance Fetched RecordingInstance
      */
-    public function fetch() {
+    public function fetch()
+    {
         $params = Values::of(array());
 
         $payload = $this->version->fetch(
@@ -67,19 +71,21 @@ class RecordingContext extends InstanceContext {
 
     /**
      * Deletes the RecordingInstance
-     * 
+     *
      * @return boolean True if delete succeeds, false otherwise
      */
-    public function delete() {
+    public function delete()
+    {
         return $this->version->delete('delete', $this->uri);
     }
 
     /**
      * Access the transcriptions
-     * 
-     * @return \Twilio\Rest\Api\V2010\Account\Recording\TranscriptionList 
+     *
+     * @return \Twilio\Rest\Api\V2010\Account\Recording\TranscriptionList
      */
-    protected function getTranscriptions() {
+    protected function getTranscriptions()
+    {
         if (!$this->_transcriptions) {
             $this->_transcriptions = new TranscriptionList(
                 $this->version,
@@ -93,10 +99,11 @@ class RecordingContext extends InstanceContext {
 
     /**
      * Access the addOnResults
-     * 
-     * @return \Twilio\Rest\Api\V2010\Account\Recording\AddOnResultList 
+     *
+     * @return \Twilio\Rest\Api\V2010\Account\Recording\AddOnResultList
      */
-    protected function getAddOnResults() {
+    protected function getAddOnResults()
+    {
         if (!$this->_addOnResults) {
             $this->_addOnResults = new AddOnResultList(
                 $this->version,
@@ -110,29 +117,33 @@ class RecordingContext extends InstanceContext {
 
     /**
      * Magic getter to lazy load subresources
-     * 
+     *
      * @param string $name Subresource to return
+     *
      * @return \Twilio\ListResource The requested subresource
      * @throws \Twilio\Exceptions\TwilioException For unknown subresources
      */
-    public function __get($name) {
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+    public function __get($name)
+    {
+        if (property_exists($this, '_'.$name)) {
+            $method = 'get'.ucfirst($name);
             return $this->$method();
         }
 
-        throw new TwilioException('Unknown subresource ' . $name);
+        throw new TwilioException('Unknown subresource '.$name);
     }
 
     /**
      * Magic caller to get resource contexts
-     * 
-     * @param string $name Resource to return
-     * @param array $arguments Context parameters
+     *
+     * @param string $name      Resource to return
+     * @param array  $arguments Context parameters
+     *
      * @return \Twilio\InstanceContext The requested resource context
      * @throws \Twilio\Exceptions\TwilioException For unknown resource
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         $property = $this->$name;
         if (method_exists($property, 'getContext')) {
             return call_user_func_array(array($property, 'getContext'), $arguments);
@@ -143,14 +154,15 @@ class RecordingContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Api.V2010.RecordingContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Api.V2010.RecordingContext '.implode(' ', $context).']';
     }
 }

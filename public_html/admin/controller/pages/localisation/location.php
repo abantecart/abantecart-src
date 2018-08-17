@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -20,11 +20,14 @@
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
-class ControllerPagesLocalisationLocation extends AController {
+
+class ControllerPagesLocalisationLocation extends AController
+{
     public $data = array();
     public $error = array();
 
-    public function main() {
+    public function main()
+    {
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -38,45 +41,45 @@ class ControllerPagesLocalisationLocation extends AController {
         }
 
         $this->document->initBreadcrumb(array(
-            'href' => $this->html->getSecureURL('index/home'),
-            'text' => $this->language->get('text_home'),
-            'separator' => FALSE
+            'href'      => $this->html->getSecureURL('index/home'),
+            'text'      => $this->language->get('text_home'),
+            'separator' => false,
         ));
         $this->document->addBreadcrumb(array(
-            'href' => $this->html->getSecureURL('localisation/location'),
-            'text' => $this->language->get('heading_title'),
+            'href'      => $this->html->getSecureURL('localisation/location'),
+            'text'      => $this->language->get('heading_title'),
             'separator' => ' :: ',
-			'current'	=> true
+            'current'   => true,
         ));
 
         $grid_settings = array(
-            'table_id' => 'location_grid',
-            'url' => $this->html->getSecureURL('listing_grid/location'),
-            'editurl' => $this->html->getSecureURL('listing_grid/location/update'),
+            'table_id'     => 'location_grid',
+            'url'          => $this->html->getSecureURL('listing_grid/location'),
+            'editurl'      => $this->html->getSecureURL('listing_grid/location/update'),
             'update_field' => $this->html->getSecureURL('listing_grid/location/update_field'),
-            'sortname' => 'name',
-            'sortorder' => 'asc',
-            'actions' => array(
-                'edit' => array(
-                    'text' => $this->language->get('text_edit'),
-                    'href' => $this->html->getSecureURL('localisation/location/update', '&location_id=%ID%'),
+            'sortname'     => 'name',
+            'sortorder'    => 'asc',
+            'actions'      => array(
+                'edit'   => array(
+                    'text'     => $this->language->get('text_edit'),
+                    'href'     => $this->html->getSecureURL('localisation/location/update', '&location_id=%ID%'),
                     'children' => array_merge(array(
-                            'details' => array(
-                                            'text' => $this->language->get('tab_details'),
-                                            'href' => $this->html->getSecureURL('localisation/location/update', '&location_id=%ID%'),
-                                            ),
-                            'locations' => array(
-                                            'text' => $this->language->get('tab_locations'),
-                                            'href' => $this->html->getSecureURL('localisation/location/locations', '&location_id=%ID%'),
-                                            )
-                    ),(array)$this->data['grid_edit_expand'])
+                        'details'   => array(
+                            'text' => $this->language->get('tab_details'),
+                            'href' => $this->html->getSecureURL('localisation/location/update', '&location_id=%ID%'),
+                        ),
+                        'locations' => array(
+                            'text' => $this->language->get('tab_locations'),
+                            'href' => $this->html->getSecureURL('localisation/location/locations', '&location_id=%ID%'),
+                        ),
+                    ), (array)$this->data['grid_edit_expand']),
                 ),
-                'save' => array(
+                'save'   => array(
                     'text' => $this->language->get('button_save'),
                 ),
                 'delete' => array(
                     'text' => $this->language->get('button_delete'),
-                )
+                ),
             ),
         );
 
@@ -85,7 +88,7 @@ class ControllerPagesLocalisationLocation extends AController {
         );
         $grid_settings['colModel'] = array(
             array(
-                'name' => 'name',
+                'name'  => 'name',
                 'index' => 'name',
                 'width' => 600,
                 'align' => 'left',
@@ -104,17 +107,18 @@ class ControllerPagesLocalisationLocation extends AController {
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    public function insert() {
+    public function insert()
+    {
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->document->setTitle($this->language->get('heading_title'));
 
-        if ( $this->request->is_POST() && $this->_validateForm() ) {
+        if ($this->request->is_POST() && $this->_validateForm()) {
             $location_id = $this->model_localisation_location->addLocation($this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('localisation/location/locations', '&location_id=' . $location_id));
+            $this->redirect($this->html->getSecureURL('localisation/location/locations', '&location_id='.$location_id));
         }
         $this->_getForm();
 
@@ -122,7 +126,8 @@ class ControllerPagesLocalisationLocation extends AController {
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    public function update() {
+    public function update()
+    {
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -135,10 +140,10 @@ class ControllerPagesLocalisationLocation extends AController {
 
         $this->document->setTitle($this->language->get('heading_title'));
 
-        if ( $this->request->is_POST() && $this->_validateForm() ) {
+        if ($this->request->is_POST() && $this->_validateForm()) {
             $this->model_localisation_location->editLocation($this->request->get['location_id'], $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('localisation/location/locations', '&location_id=' . $this->request->get['location_id']));
+            $this->redirect($this->html->getSecureURL('localisation/location/locations', '&location_id='.$this->request->get['location_id']));
         }
         $this->_getForm();
 
@@ -146,7 +151,8 @@ class ControllerPagesLocalisationLocation extends AController {
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    public function locations() {
+    public function locations()
+    {
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -161,54 +167,52 @@ class ControllerPagesLocalisationLocation extends AController {
 
         $this->document->setTitle($this->language->get('heading_title'));
 
-		$location_id = $this->request->get['location_id'];
-		$this->data['location_id'] = $location_id;
+        $location_id = $this->request->get['location_id'];
+        $this->data['location_id'] = $location_id;
 
         $location_info = $this->model_localisation_location->getLocation($location_id);
 
         $this->document->initBreadcrumb(array(
-            'href' => $this->html->getSecureURL('index/home'),
-            'text' => $this->language->get('text_home'),
-            'separator' => FALSE
+            'href'      => $this->html->getSecureURL('index/home'),
+            'text'      => $this->language->get('text_home'),
+            'separator' => false,
         ));
         $this->document->addBreadcrumb(array(
-            'href' => $this->html->getSecureURL('localisation/location'),
-            'text' => $this->language->get('heading_title'),
-            'separator' => ' :: '
-        ));
-        $this->document->addBreadcrumb(array(
-            'href' => $this->html->getSecureURL('localisation/location/update', '&location_id=' . $location_id),
-            'text' => $this->language->get('text_edit') . ' ' . $this->language->get('text_location') . ' - ' . $location_info['name'],
+            'href'      => $this->html->getSecureURL('localisation/location'),
+            'text'      => $this->language->get('heading_title'),
             'separator' => ' :: ',
-	        'current' => true
+        ));
+        $this->document->addBreadcrumb(array(
+            'href'      => $this->html->getSecureURL('localisation/location/update', '&location_id='.$location_id),
+            'text'      => $this->language->get('text_edit').' '.$this->language->get('text_location').' - '.$location_info['name'],
+            'separator' => ' :: ',
+            'current'   => true,
         ));
 
-
-        $this->data['heading_title'] = $this->language->get('text_edit') . ' ' . $this->language->get('text_location') . ' - ' . $location_info['name'];
+        $this->data['heading_title'] = $this->language->get('text_edit').' '.$this->language->get('text_location').' - '.$location_info['name'];
         $this->data['error'] = $this->error;
-        $this->data['insert_location'] = $this->html->getSecureURL('localisation/location/insert_locations', '&location_id=' . $location_id);
-        $this->data['delete_location'] = $this->html->getSecureURL('localisation/location/delete_locations', '&location_id=' . $location_id . '&zone_to_location_id=%ID%');
-        $this->data['edit_location'] = $this->html->getSecureURL('localisation/location/update_locations', '&location_id=' . $location_id . '&zone_to_location_id=%ID%');
+        $this->data['insert_location'] = $this->html->getSecureURL('localisation/location/insert_locations', '&location_id='.$location_id);
+        $this->data['delete_location'] = $this->html->getSecureURL('localisation/location/delete_locations', '&location_id='.$location_id.'&zone_to_location_id=%ID%');
+        $this->data['edit_location'] = $this->html->getSecureURL('localisation/location/update_locations', '&location_id='.$location_id.'&zone_to_location_id=%ID%');
 
-        $this->data['locations'] = $this->html->getSecureURL('localisation/location/locations', '&location_id=' . $location_id);
-        $this->data['details'] = $this->html->getSecureURL('localisation/location/update', '&location_id=' . $location_id);
+        $this->data['locations'] = $this->html->getSecureURL('localisation/location/locations', '&location_id='.$location_id);
+        $this->data['details'] = $this->html->getSecureURL('localisation/location/update', '&location_id='.$location_id);
 
         $this->_initTabs('locations');
 
-
         // setting up grid
         $grid_settings = array(
-            'table_id' => 'location_zones_grid',
-            'url' => $this->html->getSecureURL('listing_grid/location_zones', '&location_id=' . $location_id),
-            'editurl' => $this->html->getSecureURL('listing_grid/location_zones/update', '&location_id=' . $location_id),
-            'update_field' => $this->html->getSecureURL('listing_grid/location_zones/update_field', '&location_id=' . $location_id),
-            'sortname' => 'country_id',
-            'sortorder' => 'asc',
+            'table_id'       => 'location_zones_grid',
+            'url'            => $this->html->getSecureURL('listing_grid/location_zones', '&location_id='.$location_id),
+            'editurl'        => $this->html->getSecureURL('listing_grid/location_zones/update', '&location_id='.$location_id),
+            'update_field'   => $this->html->getSecureURL('listing_grid/location_zones/update_field', '&location_id='.$location_id),
+            'sortname'       => 'country_id',
+            'sortorder'      => 'asc',
             'columns_search' => false,
-            'actions' => array(
+            'actions'        => array(
                 'delete' => array(
                     'text' => $this->language->get('button_delete'),
-                )
+                ),
             ),
         );
 
@@ -219,29 +223,29 @@ class ControllerPagesLocalisationLocation extends AController {
         );
         $grid_settings['colModel'] = array(
             array(
-                'name' => 'country_id',
+                'name'  => 'country_id',
                 'index' => 'country_id',
                 'width' => 120,
                 'align' => 'left',
             ),
             array(
-                'name' => 'name',
+                'name'  => 'name',
                 'index' => 'name',
                 'width' => 250,
                 'align' => 'left',
             ),
             array(
-                'name' => 'date_added',
-                'index' => 'date_added',
-                'width' => 130,
-                'align' => 'center',
+                'name'   => 'date_added',
+                'index'  => 'date_added',
+                'width'  => 130,
+                'align'  => 'center',
                 'search' => false,
             ),
         );
         $grid = $this->dispatch('common/listing_grid', array($grid_settings));
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
 
-		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
+        $this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->view->assign('help_url', $this->gen_help_url('location_listing'));
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/localisation/location_data_list.tpl');
@@ -250,14 +254,15 @@ class ControllerPagesLocalisationLocation extends AController {
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    public function insert_locations() {
+    public function insert_locations()
+    {
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->document->setTitle($this->language->get('heading_title'));
 
-        if ( $this->request->is_POST() ) {
+        if ($this->request->is_POST()) {
 
             $result = $this->model_localisation_location->getZoneToLocations(array('location_id' => $this->request->get['location_id']));
             $exists = array();
@@ -268,7 +273,7 @@ class ControllerPagesLocalisationLocation extends AController {
             $this->request->post['zone_id'] = array_diff((array)$this->request->post['zone_id'], $exists);
             $zone_to_location_id = $this->model_localisation_location->addLocationZone($this->request->get['location_id'], $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('localisation/location/locations', '&location_id=' . $this->request->get['location_id'] . '&zone_to_location_id=' . $zone_to_location_id));
+            $this->redirect($this->html->getSecureURL('localisation/location/locations', '&location_id='.$this->request->get['location_id'].'&zone_to_location_id='.$zone_to_location_id));
         }
         $this->_getLocationsForm();
 
@@ -276,7 +281,8 @@ class ControllerPagesLocalisationLocation extends AController {
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    public function update_locations() {
+    public function update_locations()
+    {
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -288,10 +294,10 @@ class ControllerPagesLocalisationLocation extends AController {
 
         $this->document->setTitle($this->language->get('heading_title'));
 
-        if ( $this->request->is_POST() ) {
+        if ($this->request->is_POST()) {
             $this->model_localisation_location->editLocationZone($this->request->get['zone_to_location_id'], $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('localisation/location/locations', '&location_id=' . $this->request->get['location_id'] . '&zone_to_location_id=' . $this->request->get['zone_to_location_id']));
+            $this->redirect($this->html->getSecureURL('localisation/location/locations', '&location_id='.$this->request->get['location_id'].'&zone_to_location_id='.$this->request->get['zone_to_location_id']));
         }
         $this->_getLocationsForm();
 
@@ -299,49 +305,51 @@ class ControllerPagesLocalisationLocation extends AController {
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    public function delete_locations() {
+    public function delete_locations()
+    {
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->model_localisation_location->deleteLocationZone($this->request->get['zone_to_location_id']);
         $this->session->data['success'] = $this->language->get('text_success');
-        $this->redirect($this->html->getSecureURL('localisation/location/locations', '&location_id=' . $this->request->get['location_id']));
+        $this->redirect($this->html->getSecureURL('localisation/location/locations', '&location_id='.$this->request->get['location_id']));
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function _getLocationsForm() {
+    private function _getLocationsForm()
+    {
         $this->data = array();
         $this->data['error'] = $this->error;
 
-		$location_id = $this->request->get['location_id'];
-		$this->data['location_id'] = $location_id;
-        $this->data['cancel'] = $this->html->getSecureURL('localisation/location/locations', '&location_id=' . $location_id);
+        $location_id = $this->request->get['location_id'];
+        $this->data['location_id'] = $location_id;
+        $this->data['cancel'] = $this->html->getSecureURL('localisation/location/locations', '&location_id='.$location_id);
 
-        $_info = $this->model_localisation_location->getLocation( $location_id );
-        $this->data['heading_title'] = $this->language->get('text_edit') . ' ' . $this->language->get('text_location') . ' - ' . $_info['name'];
+        $_info = $this->model_localisation_location->getLocation($location_id);
+        $this->data['heading_title'] = $this->language->get('text_edit').' '.$this->language->get('text_location').' - '.$_info['name'];
 
         $this->document->initBreadcrumb(array(
-            'href' => $this->html->getSecureURL('index/home'),
-            'text' => $this->language->get('text_home'),
-            'separator' => FALSE
+            'href'      => $this->html->getSecureURL('index/home'),
+            'text'      => $this->language->get('text_home'),
+            'separator' => false,
         ));
         $this->document->addBreadcrumb(array(
-            'href' => $this->html->getSecureURL('localisation/location'),
-            'text' => $this->language->get('heading_title'),
-            'separator' => ' :: '
+            'href'      => $this->html->getSecureURL('localisation/location'),
+            'text'      => $this->language->get('heading_title'),
+            'separator' => ' :: ',
         ));
         $this->document->addBreadcrumb(array(
-            'href' => $this->html->getSecureURL('localisation/location/update', '&location_id=' . $location_id),
-            'text' => $this->language->get('text_edit') . ' ' . $this->language->get('text_location') . ' - ' . $_info['name'],
-            'separator' => ' :: '
+            'href'      => $this->html->getSecureURL('localisation/location/update', '&location_id='.$location_id),
+            'text'      => $this->language->get('text_edit').' '.$this->language->get('text_location').' - '.$_info['name'],
+            'separator' => ' :: ',
         ));
         $this->document->addBreadcrumb(array(
-            'href' => $this->html->getSecureURL('localisation/location/locations', '&location_id=' . $location_id),
-            'text' => $this->language->get('tab_locations'),
-            'separator' => ' :: '
+            'href'      => $this->html->getSecureURL('localisation/location/locations', '&location_id='.$location_id),
+            'text'      => $this->language->get('tab_locations'),
+            'separator' => ' :: ',
         ));
 
         if (isset($this->request->get['zone_to_location_id']) && $this->request->is_GET()) {
@@ -380,65 +388,63 @@ class ControllerPagesLocalisationLocation extends AController {
             $this->data['zones'][$c['zone_id']] = $c['name'];
         }
 
-
-		$this->_initTabs('locations');
-        $this->data['locations'] = $this->html->getSecureURL('localisation/location/locations', '&location_id=' . $location_id);
-        $this->data['details'] = $this->html->getSecureURL('localisation/location/update', '&location_id=' . $location_id);
+        $this->_initTabs('locations');
+        $this->data['locations'] = $this->html->getSecureURL('localisation/location/locations', '&location_id='.$location_id);
+        $this->data['details'] = $this->html->getSecureURL('localisation/location/update', '&location_id='.$location_id);
         $this->data['common_zone'] = $this->html->getSecureURL('common/zone');
 
-
-        $this->data['action'] = $this->html->getSecureURL('localisation/location/insert_locations', '&location_id=' . $location_id);
-        $this->data['form_title'] = $this->language->get('text_insert') . ' ' . $this->language->get('text_location_zone');
+        $this->data['action'] = $this->html->getSecureURL('localisation/location/insert_locations', '&location_id='.$location_id);
+        $this->data['form_title'] = $this->language->get('text_insert').' '.$this->language->get('text_location_zone');
         $this->data['update'] = '';
         $form = new AForm('ST');
 
         $this->document->addBreadcrumb(array(
-            'href' => $this->data['action'],
-            'text' => $this->data['form_title'],
+            'href'      => $this->data['action'],
+            'text'      => $this->data['form_title'],
             'separator' => ' :: ',
-			'current'	=> true
+            'current'   => true,
         ));
 
         $form->setForm(array(
             'form_name' => 'cgFrm',
-            'update' => $this->data['update'],
+            'update'    => $this->data['update'],
         ));
 
         $this->data['form']['id'] = 'cgFrm';
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
-            'type' => 'form',
-            'name' => 'cgFrm',
+            'type'   => 'form',
+            'name'   => 'cgFrm',
             'action' => $this->data['action'],
-		    'attr' => 'class="aform form-horizontal"'
+            'attr'   => 'class="aform form-horizontal"',
         ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
-            'type' => 'button',
-            'name' => 'submit',
-            'text' => $this->language->get('button_save'),
+            'type'  => 'button',
+            'name'  => 'submit',
+            'text'  => $this->language->get('button_save'),
             'style' => 'button1',
         ));
         $this->data['form']['cancel'] = $form->getFieldHtml(array(
-            'type' => 'button',
-            'name' => 'cancel',
-            'text' => $this->language->get('button_cancel'),
+            'type'  => 'button',
+            'name'  => 'cancel',
+            'text'  => $this->language->get('button_cancel'),
             'style' => 'button2',
         ));
 
         $this->data['form']['fields']['country'] = $form->getFieldHtml(array(
-            'type' => 'selectbox',
-            'name' => 'country_id',
-            'value' => ($this->data['country_id'] ? $this->data['country_id'] : $this->config->get('config_country_id')),
+            'type'    => 'selectbox',
+            'name'    => 'country_id',
+            'value'   => ($this->data['country_id'] ? $this->data['country_id'] : $this->config->get('config_country_id')),
             'options' => $this->data['countries'],
         ));
 
         $this->data['form']['fields']['zone'] = $form->getFieldHtml(
             array(
-                'type' => 'checkboxgroup',
-                'name' => 'zone_id[]',
-                'value' => '',
-                'options' => $this->data['zones'],
+                'type'      => 'checkboxgroup',
+                'name'      => 'zone_id[]',
+                'value'     => '',
+                'options'   => $this->data['zones'],
                 'scrollbox' => true,
-                'style' => 'medium-field'
+                'style'     => 'medium-field',
             ));
 
         $this->view->assign('help_url', $this->gen_help_url('location_edit'));
@@ -446,22 +452,23 @@ class ControllerPagesLocalisationLocation extends AController {
         $this->processTemplate('pages/localisation/location_form.tpl');
     }
 
-    private function _getForm() {
+    private function _getForm()
+    {
         $this->data = array();
         $this->data['error'] = $this->error;
         $this->data['cancel'] = $this->html->getSecureURL('localisation/location');
 
         $this->document->initBreadcrumb(array(
-            'href' => $this->html->getSecureURL('index/home'),
-            'text' => $this->language->get('text_home'),
-            'separator' => FALSE
+            'href'      => $this->html->getSecureURL('index/home'),
+            'text'      => $this->language->get('text_home'),
+            'separator' => false,
         ));
 
-		$location_id = (int)$this->request->get['location_id'];
-		$this->data['location_id'] = $location_id;
+        $location_id = (int)$this->request->get['location_id'];
+        $this->data['location_id'] = $location_id;
 
-        if ( $location_id && $this->request->is_GET() ) {
-            $location_info = $this->model_localisation_location->getLocation( $location_id );
+        if ($location_id && $this->request->is_GET()) {
+            $location_info = $this->model_localisation_location->getLocation($location_id);
         }
 
         $fields = array('name', 'description');
@@ -475,67 +482,66 @@ class ControllerPagesLocalisationLocation extends AController {
             }
         }
 
-		$this->_initTabs('details');
-        if ( !$location_id ) {
+        $this->_initTabs('details');
+        if (!$location_id) {
             $this->data['action'] = $this->html->getSecureURL('localisation/location/insert');
-            $this->data['heading_title'] = $this->language->get('text_insert') . $this->language->get('text_location');
+            $this->data['heading_title'] = $this->language->get('text_insert').$this->language->get('text_location');
             $this->data['update'] = '';
             $form = new AForm('ST');
         } else {
-            $this->data['locations'] = $this->html->getSecureURL('localisation/location/locations', '&location_id=' . $location_id);
-            $this->data['action'] = $this->html->getSecureURL('localisation/location/update', '&location_id=' . $location_id);
-            $this->data['heading_title'] = $this->language->get('text_edit') . ' ' . $this->language->get('text_location') . ' - ' . $this->data['name'];
-            $this->data['update'] = $this->html->getSecureURL('listing_grid/location/update_field', '&id=' . $location_id);
+            $this->data['locations'] = $this->html->getSecureURL('localisation/location/locations', '&location_id='.$location_id);
+            $this->data['action'] = $this->html->getSecureURL('localisation/location/update', '&location_id='.$location_id);
+            $this->data['heading_title'] = $this->language->get('text_edit').' '.$this->language->get('text_location').' - '.$this->data['name'];
+            $this->data['update'] = $this->html->getSecureURL('listing_grid/location/update_field', '&id='.$location_id);
             $form = new AForm('HS');
         }
         $this->data['details'] = $this->data['action'];
 
-
         $this->document->addBreadcrumb(array(
-            'href' => $this->html->getSecureURL('localisation/location'),
-            'text' => $this->data['heading_title'],
+            'href'      => $this->html->getSecureURL('localisation/location'),
+            'text'      => $this->data['heading_title'],
             'separator' => ' :: ',
-			'current'  => true
+            'current'   => true,
         ));
 
         $form->setForm(array(
             'form_name' => 'cgFrm',
-            'update' => $this->data['update'],
+            'update'    => $this->data['update'],
         ));
 
         $this->data['form']['id'] = 'cgFrm';
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
-		    'type' => 'form',
-		    'name' => 'cgFrm',
-			'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
-		    'action' => $this->data['action'],
-	    ));
+            'type'   => 'form',
+            'name'   => 'cgFrm',
+            'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
+            'action' => $this->data['action'],
+        ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
-            'type' => 'button',
-            'name' => 'submit',
-            'text' => $this->language->get('button_save'),
+            'type'  => 'button',
+            'name'  => 'submit',
+            'text'  => $this->language->get('button_save'),
             'style' => 'button1',
         ));
         $this->data['form']['cancel'] = $form->getFieldHtml(array(
-            'type' => 'button',
-            'name' => 'cancel',
-            'text' => $this->language->get('button_cancel'),
+            'type'  => 'button',
+            'name'  => 'cancel',
+            'text'  => $this->language->get('button_cancel'),
             'style' => 'button2',
         ));
 
         $this->data['form']['fields']['name'] = $form->getFieldHtml(array(
-            'type' => 'input',
-            'name' => 'name',
-            'value' => $this->data['name'],
+            'type'     => 'input',
+            'name'     => 'name',
+            'value'    => $this->data['name'],
             'required' => true,
             'help_url' => $this->gen_help_url('name'),
         ));
         $this->data['form']['fields']['description'] = $form->getFieldHtml(array(
-            'type' => 'input',
-            'name' => 'description',
-            'value' => $this->data['description'],
+            'type'     => 'input',
+            'name'     => 'description',
+            'value'    => $this->data['description'],
             'required' => true,
-            'style' => 'large-field',
+            'style'    => 'large-field',
             'help_url' => $this->gen_help_url('description'),
         ));
         $this->view->assign('help_url', $this->gen_help_url('location_edit'));
@@ -543,49 +549,51 @@ class ControllerPagesLocalisationLocation extends AController {
         $this->processTemplate('pages/localisation/location_form.tpl');
     }
 
-    private function _validateForm() {
+    private function _validateForm()
+    {
         if (!$this->user->canModify('localisation/location')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
 
-        if ( mb_strlen( $this->request->post['name'] ) < 2 || mb_strlen($this->request->post['name']) > 32 ) {
+        if (mb_strlen($this->request->post['name']) < 2 || mb_strlen($this->request->post['name']) > 32) {
             $this->error['name'] = $this->language->get('error_name');
         }
 
-        if ( mb_strlen( $this->request->post['description'] ) < 2 || mb_strlen($this->request->post['description']) > 255 ) {
+        if (mb_strlen($this->request->post['description']) < 2 || mb_strlen($this->request->post['description']) > 255) {
             $this->error['description'] = $this->language->get('error_description');
         }
 
-		$this->extensions->hk_ValidateData( $this );
+        $this->extensions->hk_ValidateData($this);
 
         if (!$this->error) {
-            return TRUE;
+            return true;
         } else {
-            return FALSE;
+            return false;
         }
     }
 
+    private function _initTabs($active = null)
+    {
 
+        if (!has_value($this->request->get['location_id'])) {
+            $this->data['tabs'] = array();
+        } else {
+            $location_id = (int)$this->request->get['location_id'];
+        }
 
-	private function _initTabs($active = null) {
+        $this->data['tabs'] = array(
+            'details' => array(
+                'href' => $this->html->getSecureURL('localisation/location/update', '&location_id='.$location_id),
+                'text' => $this->language->get('tab_details'),
+            ),
 
-		if( !has_value($this->request->get['location_id']) ) {
-			$this->data['tabs'] = array();
-		}else{
-			$location_id = (int)$this->request->get['location_id'];
-		}
+            'locations' => array(
+                'href' => $this->html->getSecureURL('localisation/location/locations', '&location_id='.$location_id),
+                'text' => $this->language->get('tab_locations'),
+            ),
+        );
 
-		$this->data['tabs'] = array(
-								'details' => array(
-													'href' => $this->html->getSecureURL('localisation/location/update', '&location_id=' . $location_id),
-													'text' => $this->language->get('tab_details')),
-
-								'locations' => array(
-													'href' => $this->html->getSecureURL('localisation/location/locations', '&location_id=' . $location_id),
-													'text' => $this->language->get('tab_locations')));
-
-
-        if ( in_array($active, array_keys($this->data['tabs'])) ) {
+        if (in_array($active, array_keys($this->data['tabs']))) {
             $this->data['tabs'][$active]['active'] = 1;
         } else {
             $this->data['tabs']['details']['active'] = 1;

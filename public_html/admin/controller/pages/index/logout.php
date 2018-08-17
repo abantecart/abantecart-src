@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,22 +17,25 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+    header('Location: static_pages/');
 }
-class ControllerPagesIndexLogout extends AController {
-	public function main() {
 
-		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
+class ControllerPagesIndexLogout extends AController
+{
+    public function main()
+    {
 
-		$this->user->logout();
- 
-		unset($this->session->data['token'], $this->session->data['system_check_last_time']);
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-		//update controller data
-		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+        $this->user->logout();
 
-		$this->redirect($this->html->getSecureURL('index/login'));
-	}
+        unset($this->session->data['token'], $this->session->data['system_check_last_time']);
+
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+        $this->redirect($this->html->getSecureURL('index/login'));
+    }
 }  

@@ -5,10 +5,10 @@ namespace Stripe;
 /**
  * Class BitcoinReceiver
  *
- * @package Stripe
+ * @package    Stripe
  *
  * @deprecated Bitcoin receivers are deprecated. Please use the sources API instead.
- * @link https://stripe.com/docs/sources/bitcoin
+ * @link       https://stripe.com/docs/sources/bitcoin
  */
 class BitcoinReceiver extends ApiResource
 {

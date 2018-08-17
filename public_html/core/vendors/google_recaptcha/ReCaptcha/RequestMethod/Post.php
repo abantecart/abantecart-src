@@ -36,6 +36,7 @@ class Post implements RequestMethod
 {
     /**
      * URL to which requests are POSTed.
+     *
      * @const string
      */
     const SITE_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
@@ -44,6 +45,7 @@ class Post implements RequestMethod
      * Submit the POST request with the specified parameters.
      *
      * @param RequestParameters $params Request parameters
+     *
      * @return string Body of the reCAPTCHA response
      */
     public function submit(RequestParameters $params)
@@ -55,13 +57,13 @@ class Post implements RequestMethod
         $peer_key = version_compare(PHP_VERSION, '5.6.0', '<') ? 'CN_name' : 'peer_name';
         $options = array(
             'http' => array(
-                'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-                'method' => 'POST',
-                'content' => $params->toQueryString(),
+                'header'      => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method'      => 'POST',
+                'content'     => $params->toQueryString(),
                 // Force the peer to validate (not needed in 5.6.0+, but still works
                 'verify_peer' => true,
                 // Force the peer validation to use www.google.com
-                $peer_key => 'www.google.com',
+                $peer_key     => 'www.google.com',
             ),
         );
         $context = stream_context_create($options);

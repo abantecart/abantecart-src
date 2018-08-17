@@ -10,9 +10,9 @@ namespace Stripe\ApiOperations;
 trait NestedResource
 {
     /**
-     * @param string $method
-     * @param string $url
-     * @param array|null $params
+     * @param string            $method
+     * @param string            $url
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return \Stripe\StripeObject
@@ -28,15 +28,15 @@ trait NestedResource
     }
 
     /**
-     * @param string $id
-     * @param string $nestedPath
+     * @param string      $id
+     * @param string      $nestedPath
      * @param string|null $nestedId
      *
      * @return string
      */
     protected static function _nestedResourceUrl($id, $nestedPath, $nestedId = null)
     {
-        $url = static::resourceUrl($id) . $nestedPath;
+        $url = static::resourceUrl($id).$nestedPath;
         if ($nestedId !== null) {
             $url .= "/$nestedId";
         }
@@ -44,9 +44,9 @@ trait NestedResource
     }
 
     /**
-     * @param string $id
-     * @param string $nestedPath
-     * @param array|null $params
+     * @param string            $id
+     * @param string            $nestedPath
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return \Stripe\StripeObject
@@ -58,9 +58,9 @@ trait NestedResource
     }
 
     /**
-     * @param string $id
-     * @param string $nestedPath
-     * @param array|null $params
+     * @param string            $id
+     * @param string            $nestedPath
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return \Stripe\StripeObject
@@ -72,9 +72,9 @@ trait NestedResource
     }
 
     /**
-     * @param string $id
-     * @param string $nestedPath
-     * @param array|null $params
+     * @param string            $id
+     * @param string            $nestedPath
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return \Stripe\StripeObject
@@ -86,9 +86,9 @@ trait NestedResource
     }
 
     /**
-     * @param string $id
-     * @param string $nestedPath
-     * @param array|null $params
+     * @param string            $id
+     * @param string            $nestedPath
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return \Stripe\StripeObject
@@ -100,9 +100,9 @@ trait NestedResource
     }
 
     /**
-     * @param string $id
-     * @param string $nestedPath
-     * @param array|null $params
+     * @param string            $id
+     * @param string            $nestedPath
+     * @param array|null        $params
      * @param array|string|null $options
      *
      * @return \Stripe\StripeObject

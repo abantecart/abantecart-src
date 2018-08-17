@@ -9,7 +9,7 @@ class ComposerAutoloaderInit0494e7f9841cf6238755ade1f336fa9c
     public static function loadClassLoader($class)
     {
         if ('Composer\Autoload\ClassLoader' === $class) {
-            require __DIR__ . '/ClassLoader.php';
+            require __DIR__.'/ClassLoader.php';
         }
     }
 
@@ -23,17 +23,17 @@ class ComposerAutoloaderInit0494e7f9841cf6238755ade1f336fa9c
         self::$loader = $loader = new \Composer\Autoload\ClassLoader();
         spl_autoload_unregister(array('ComposerAutoloaderInit0494e7f9841cf6238755ade1f336fa9c', 'loadClassLoader'));
 
-        $map = require __DIR__ . '/autoload_namespaces.php';
+        $map = require __DIR__.'/autoload_namespaces.php';
         foreach ($map as $namespace => $path) {
             $loader->set($namespace, $path);
         }
 
-        $map = require __DIR__ . '/autoload_psr4.php';
+        $map = require __DIR__.'/autoload_psr4.php';
         foreach ($map as $namespace => $path) {
             $loader->setPsr4($namespace, $path);
         }
 
-        $classMap = require __DIR__ . '/autoload_classmap.php';
+        $classMap = require __DIR__.'/autoload_classmap.php';
         if ($classMap) {
             $loader->addClassMap($classMap);
         }

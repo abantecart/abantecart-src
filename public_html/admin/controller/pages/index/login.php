@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -55,7 +55,8 @@ class ControllerPagesIndexLogin extends AController
                 true; // sign to run ajax-request to check for updates. see common/head for details
             //login is successful redirect to originally requested page
             if (isset($this->request->post['redirect'])
-                && !preg_match("/rt=index\/login/i", $this->request->post['redirect'])) {
+                && !preg_match("/rt=index\/login/i", $this->request->post['redirect'])
+            ) {
                 $redirect = $this->html->filterQueryParams($this->request->post['redirect'], array('token'));
                 $redirect .= "&token=".$this->session->data['token'];
                 redirect($redirect);
@@ -68,7 +69,8 @@ class ControllerPagesIndexLogin extends AController
             (isset($this->session->data['token']) && !isset($this->request->get['token']))
             || ((isset($this->request->get['token'])
                 && (isset($this->session->data['token'])
-                    && ($this->request->get['token'] != $this->session->data['token']))))) {
+                    && ($this->request->get['token'] != $this->session->data['token']))))
+        ) {
             $this->error['warning'] = $this->language->get('error_token');
         }
 
@@ -125,7 +127,7 @@ class ControllerPagesIndexLogin extends AController
         //non-secure check
         if (HTTPS !== true
             && $this->config->get('config_ssl_url')
-            && is_int(strpos($this->config->get('config_ssl_url'),'https://'))
+            && is_int(strpos($this->config->get('config_ssl_url'), 'https://'))
         ) {
             $this->error['warning'] .= sprintf(
                 $this->language->get('error_login_secure'),
@@ -165,7 +167,8 @@ class ControllerPagesIndexLogin extends AController
     private function _validate()
     {
         if (isset($this->request->post['username']) && isset($this->request->post['password'])
-            && !$this->user->login($this->request->post['username'], $this->request->post['password'])) {
+            && !$this->user->login($this->request->post['username'], $this->request->post['password'])
+        ) {
             $this->error['warning'] = $this->language->get('error_login');
         }
         if (!$this->error) {

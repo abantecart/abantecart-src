@@ -7,7 +7,7 @@ include 'configuration.php';
 $serviceURL = $configuration['serviceURL'];
 $accountNumber = $configuration['accountNumber'];
 $licenseKey = $configuration['licenseKey'];
-	
+
 $taxSvc = new AvaTax\TaxServiceRest($serviceURL, $accountNumber, $licenseKey);
 $getTaxRequest = new AvaTax\GetTaxRequest();
 
@@ -21,7 +21,7 @@ $getTaxRequest->setCompanyCode("APITrialCompany");
 $getTaxRequest->setClient("AvaTaxSample");
 $getTaxRequest->setDocCode("INV001");
 $getTaxRequest->setDetailLevel(AvaTax\DetailLevel::$Tax);
-$getTaxRequest->setCommit(FALSE);
+$getTaxRequest->setCommit(false);
 $getTaxRequest->setDocType(AvaTax\DocumentType::$SalesInvoice);
 
 // Situational Request Parameters
@@ -133,24 +133,19 @@ $getTaxRequest->setLines($lines);
 $getTaxResult = $taxSvc->getTax($getTaxRequest);
 
 //Print Results
-echo 'GetTaxTest Result: ' . $getTaxResult->getResultCode() . "\n";
-if($getTaxResult->getResultCode() != AvaTax\SeverityLevel::$Success)	// call failed
-{	
-	foreach($getTaxResult->getMessages() as $message)
-	{
-		echo $message->getSeverity() . ": ".$message->getSummary() . "\n";
-	}
-}
-else
+echo 'GetTaxTest Result: '.$getTaxResult->getResultCode()."\n";
+if ($getTaxResult->getResultCode() != AvaTax\SeverityLevel::$Success)    // call failed
 {
-	echo "Document Code: " . $getTaxResult->getDocCode() . " Total Tax: " . $getTaxResult->getTotalTax() . "\n";
-	foreach($getTaxResult->getTaxLines() as $taxLine)
-	{
-		echo "    " . "Line Number: " . $taxLine->getLineNo() . " Line Tax: " . $taxLine->getTax() . "\n";
-		foreach($taxLine->getTaxDetails() as $taxDetail)
-		{
-			echo "        " . "Jurisdiction: " . $taxDetail->getJurisName() . " Tax: " . $taxDetail->getTax() . "\n";
-		}
-	}
-}	
+    foreach ($getTaxResult->getMessages() as $message) {
+        echo $message->getSeverity().": ".$message->getSummary()."\n";
+    }
+} else {
+    echo "Document Code: ".$getTaxResult->getDocCode()." Total Tax: ".$getTaxResult->getTotalTax()."\n";
+    foreach ($getTaxResult->getTaxLines() as $taxLine) {
+        echo "    "."Line Number: ".$taxLine->getLineNo()." Line Tax: ".$taxLine->getTax()."\n";
+        foreach ($taxLine->getTaxDetails() as $taxDetail) {
+            echo "        "."Jurisdiction: ".$taxDetail->getJurisName()." Tax: ".$taxDetail->getTax()."\n";
+        }
+    }
+}
 ?>

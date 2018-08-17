@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -18,196 +18,209 @@
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE') || !IS_ADMIN) {
-	header('Location: static_pages/');
+    header('Location: static_pages/');
 }
-class ControllerResponsesListingGridLanguage extends AController {
-	public $data = array();
-	public function main() {
 
-		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
+class ControllerResponsesListingGridLanguage extends AController
+{
+    public $data = array();
 
-		$this->loadLanguage('localisation/language');
-		$this->loadModel('localisation/language');
+    public function main()
+    {
 
-		//Prepare filter config
-		$filter_params = array_merge(array ('name', 'status'), (array)$this->data['filter_params']);
-		$grid_filter_params = array_merge(array ('name', 'code', 'sort_order'), (array)$this->data['grid_filter_params']);
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $filter_params ));
-		$filter_grid = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ));
+        $this->loadLanguage('localisation/language');
+        $this->loadModel('localisation/language');
 
-		$total = $this->model_localisation_language->getTotalLanguages(array_merge($filter_form->getFilterData(),
-			$filter_grid->getFilterData()));
-		$response = new stdClass();
-		$response->page = $filter_grid->getParam('page');
-		$response->total = $filter_grid->calcTotalPages($total);
-		$response->records = $total;
-		$results = $this->model_localisation_language->getLanguages(array_merge($filter_form->getFilterData(),
-			$filter_grid->getFilterData()));
-		$i = 0;
-		foreach ($results as $result) {
+        //Prepare filter config
+        $filter_params = array_merge(array('name', 'status'), (array)$this->data['filter_params']);
+        $grid_filter_params = array_merge(array('name', 'code', 'sort_order'), (array)$this->data['grid_filter_params']);
 
-			$response->rows[ $i ][ 'id' ] = $result[ 'language_id' ];
-			$response->rows[ $i ][ 'cell' ] = array(
-				$this->html->buildInput(array(
-					'name' => 'name[' . $result[ 'language_id' ] . ']',
-					'value' => $result[ 'name' ],
-				)),
-				$this->html->buildInput(array(
-					'name' => 'code[' . $result[ 'language_id' ] . ']',
-					'value' => $result[ 'code' ],
-				)),
-				$this->html->buildInput(array(
-					'name' => 'sort_order[' . $result[ 'language_id' ] . ']',
-					'value' => $result[ 'sort_order' ],
-				)),
-				$this->html->buildCheckbox(array(
-					'name' => 'status[' . $result[ 'language_id' ] . ']',
-					'value' => $result[ 'status' ],
-					'style' => 'btn_switch',
-				)),
-			);
-			$i++;
-		}
-		$this->data['response'] = $response;
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+        $filter_form = new AFilter(array('method' => 'get', 'filter_params' => $filter_params));
+        $filter_grid = new AFilter(array('method' => 'post', 'grid_filter_params' => $grid_filter_params));
 
-		$this->load->library('json');
-		$this->response->addJSONHeader();
-		$this->response->setOutput(AJson::encode($this->data['response']));
-	}
+        $total = $this->model_localisation_language->getTotalLanguages(array_merge($filter_form->getFilterData(),
+            $filter_grid->getFilterData()));
+        $response = new stdClass();
+        $response->page = $filter_grid->getParam('page');
+        $response->total = $filter_grid->calcTotalPages($total);
+        $response->records = $total;
+        $results = $this->model_localisation_language->getLanguages(array_merge($filter_form->getFilterData(),
+            $filter_grid->getFilterData()));
+        $i = 0;
+        foreach ($results as $result) {
 
-	public function update() {
+            $response->rows[$i]['id'] = $result['language_id'];
+            $response->rows[$i]['cell'] = array(
+                $this->html->buildInput(array(
+                    'name'  => 'name['.$result['language_id'].']',
+                    'value' => $result['name'],
+                )),
+                $this->html->buildInput(array(
+                    'name'  => 'code['.$result['language_id'].']',
+                    'value' => $result['code'],
+                )),
+                $this->html->buildInput(array(
+                    'name'  => 'sort_order['.$result['language_id'].']',
+                    'value' => $result['sort_order'],
+                )),
+                $this->html->buildCheckbox(array(
+                    'name'  => 'status['.$result['language_id'].']',
+                    'value' => $result['status'],
+                    'style' => 'btn_switch',
+                )),
+            );
+            $i++;
+        }
+        $this->data['response'] = $response;
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
+        $this->load->library('json');
+        $this->response->addJSONHeader();
+        $this->response->setOutput(AJson::encode($this->data['response']));
+    }
 
-		if (!$this->user->canModify('listing_grid/language')) {
-			$error = new AError('');
-			return $error->toJSONResponse('NO_PERMISSIONS_402',
-				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/language'),
-					'reset_value' => true
-				));
-		}
+    public function update()
+    {
 
-		$this->loadLanguage('localisation/language');
-		$this->loadModel('localisation/language');
-		$this->loadModel('setting/store');
-		$this->loadModel('sale/order');
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-		switch ($this->request->post[ 'oper' ]) {
-			case 'del':
-				$ids = explode(',', $this->request->post[ 'id' ]);
-				if (!empty($ids))
-					foreach ($ids as $id) {
-						$language_info = $this->model_localisation_language->getLanguage($id);
+        if (!$this->user->canModify('listing_grid/language')) {
+            $error = new AError('');
+            return $error->toJSONResponse('NO_PERMISSIONS_402',
+                array(
+                    'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/language'),
+                    'reset_value' => true,
+                ));
+        }
 
-						if ($language_info) {
-							if ($this->config->get('config_storefront_language') == $language_info[ 'code' ]) {
-								$this->response->setOutput($this->language->get('error_default'));
-								return null;
-							}
+        $this->loadLanguage('localisation/language');
+        $this->loadModel('localisation/language');
+        $this->loadModel('setting/store');
+        $this->loadModel('sale/order');
 
-							if ($this->config->get('admin_language') == $language_info[ 'code' ]) {
-								$this->response->setOutput($this->language->get('error_admin'));
-								return null;
-							}
+        switch ($this->request->post['oper']) {
+            case 'del':
+                $ids = explode(',', $this->request->post['id']);
+                if (!empty($ids)) {
+                    foreach ($ids as $id) {
+                        $language_info = $this->model_localisation_language->getLanguage($id);
 
-							$store_total = $this->model_setting_store->getTotalStoresByLanguage($language_info[ 'code' ]);
+                        if ($language_info) {
+                            if ($this->config->get('config_storefront_language') == $language_info['code']) {
+                                $this->response->setOutput($this->language->get('error_default'));
+                                return null;
+                            }
 
-							if ($store_total) {
-								$this->response->setOutput(sprintf($this->language->get('error_store'), $store_total));
-								return null;
-							}
-						}
+                            if ($this->config->get('admin_language') == $language_info['code']) {
+                                $this->response->setOutput($this->language->get('error_admin'));
+                                return null;
+                            }
 
-						$order_total = $this->model_sale_order->getTotalOrdersByLanguageId($id);
+                            $store_total = $this->model_setting_store->getTotalStoresByLanguage($language_info['code']);
 
-						if ($order_total) {
-							$this->response->setOutput(sprintf($this->language->get('error_order'), $order_total));
-							return null;
-						}
-						$this->model_localisation_language->deleteLanguage($id);
-					}
-				break;
-			case 'save':
-				$ids = explode(',', $this->request->post[ 'id' ]);
-				if (!empty($ids))
-					//resort required. 
-					if(  $this->request->post['resort'] == 'yes' ) {
-						//get only ids we need
-						foreach($ids as $id){
-							$array[$id] = $this->request->post['sort_order'][$id];
-						}
-						$new_sort = build_sort_order($ids, min($array), max($array), $this->request->post['sort_direction']);
-	 					$this->request->post['sort_order'] = $new_sort;
-					}
-					foreach ($ids as $id) {
-						$data = array(
-							'name' => $this->request->post[ 'name' ][ $id ],
-							'code' => $this->request->post[ 'code' ][ $id ],
-							'sort_order' => $this->request->post[ 'sort_order' ][ $id ],
-							'status' => $this->request->post[ 'status' ][ $id ],
-						);
-						$this->model_localisation_language->editLanguage($id, $data);
-					}
-				break;
+                            if ($store_total) {
+                                $this->response->setOutput(sprintf($this->language->get('error_store'), $store_total));
+                                return null;
+                            }
+                        }
 
-			default:
-				//print_r($this->request->post);
+                        $order_total = $this->model_sale_order->getTotalOrdersByLanguageId($id);
 
-		}
+                        if ($order_total) {
+                            $this->response->setOutput(sprintf($this->language->get('error_order'), $order_total));
+                            return null;
+                        }
+                        $this->model_localisation_language->deleteLanguage($id);
+                    }
+                }
+                break;
+            case 'save':
+                $ids = explode(',', $this->request->post['id']);
+                if (!empty($ids)) //resort required. 
+                {
+                    if ($this->request->post['resort'] == 'yes') {
+                        //get only ids we need
+                        foreach ($ids as $id) {
+                            $array[$id] = $this->request->post['sort_order'][$id];
+                        }
+                        $new_sort = build_sort_order($ids, min($array), max($array), $this->request->post['sort_direction']);
+                        $this->request->post['sort_order'] = $new_sort;
+                    }
+                }
+                foreach ($ids as $id) {
+                    $data = array(
+                        'name'       => $this->request->post['name'][$id],
+                        'code'       => $this->request->post['code'][$id],
+                        'sort_order' => $this->request->post['sort_order'][$id],
+                        'status'     => $this->request->post['status'][$id],
+                    );
+                    $this->model_localisation_language->editLanguage($id, $data);
+                }
+                break;
 
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-	}
+            default:
+                //print_r($this->request->post);
 
-	/**
-	 * update only one field
-	 *
-	 * @return void
-	 */
-	public function update_field() {
+        }
 
-		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
 
-		if (!$this->user->canModify('listing_grid/language')) {
-			$error = new AError('');
-			return $error->toJSONResponse('NO_PERMISSIONS_402',
-				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/language'),
-					'reset_value' => true
-				));
-		}
+    /**
+     * update only one field
+     *
+     * @return void
+     */
+    public function update_field()
+    {
 
-		$this->loadLanguage('localisation/language');
-		$this->loadModel('localisation/language');
-		$allowedFields = array_merge(array ('name', 'code', 'sort_order', 'status', 'locale','directory'), (array)$this->data['allowed_fields']);
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-		if (isset($this->request->get[ 'id' ])) {
-			//request sent from edit form. ID in url
-			foreach ($this->request->post as $key => $value) {
-				if (!in_array($key, $allowedFields)) continue;
-				$data = array( $key => $value );
-				$this->model_localisation_language->editLanguage($this->request->get[ 'id' ], $data);
-			}
-			return null;
-		}
+        if (!$this->user->canModify('listing_grid/language')) {
+            $error = new AError('');
+            return $error->toJSONResponse('NO_PERMISSIONS_402',
+                array(
+                    'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/language'),
+                    'reset_value' => true,
+                ));
+        }
 
-		//request sent from jGrid. ID is key of array
-		foreach ($this->request->post as $key => $value) {
-			if (!in_array($key, $allowedFields)) continue;
-			foreach ($value as $k => $v) {
-				$data = array( $key => $v );
-				$this->model_localisation_language->editLanguage($k, $data);
-			}
-		}
+        $this->loadLanguage('localisation/language');
+        $this->loadModel('localisation/language');
+        $allowedFields = array_merge(array('name', 'code', 'sort_order', 'status', 'locale', 'directory'), (array)$this->data['allowed_fields']);
 
+        if (isset($this->request->get['id'])) {
+            //request sent from edit form. ID in url
+            foreach ($this->request->post as $key => $value) {
+                if (!in_array($key, $allowedFields)) {
+                    continue;
+                }
+                $data = array($key => $value);
+                $this->model_localisation_language->editLanguage($this->request->get['id'], $data);
+            }
+            return null;
+        }
 
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-	}
+        //request sent from jGrid. ID is key of array
+        foreach ($this->request->post as $key => $value) {
+            if (!in_array($key, $allowedFields)) {
+                continue;
+            }
+            foreach ($value as $k => $v) {
+                $data = array($key => $v);
+                $this->model_localisation_language->editLanguage($k, $data);
+            }
+        }
+
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
 
 }

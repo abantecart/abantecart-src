@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -18,109 +18,114 @@
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE') || !IS_ADMIN) {
-	header('Location: static_pages/');
+    header('Location: static_pages/');
 }
-class ControllerResponsesListingGridLocationZones extends AController {
-	public $data = array();
-	public function main() {
 
-		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
+class ControllerResponsesListingGridLocationZones extends AController
+{
+    public $data = array();
 
-		$this->loadLanguage('localisation/zone');
-		$this->loadModel('localisation/zone');
+    public function main()
+    {
 
-		$page = $this->request->post[ 'page' ]; // get the requested page
-		$limit = $this->request->post[ 'rows' ]; // get how many rows we want to have into the grid
-		$sidx = $this->request->post[ 'sidx' ]; // get index row - i.e. user click to sort
-		$sord = $this->request->post[ 'sord' ]; // get the direction
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$this->loadModel('localisation/location');
-		$this->loadModel('localisation/zone');
-		$this->loadModel('localisation/country');
+        $this->loadLanguage('localisation/zone');
+        $this->loadModel('localisation/zone');
 
-		$data = array(
-			'location_id' => $this->request->get[ 'location_id' ],
-			'sort' => $sidx,
-			'order' => strtoupper($sord),
-			'start' => ($page - 1) * $limit,
-			'limit' => $limit
-		);
+        $page = $this->request->post['page']; // get the requested page
+        $limit = $this->request->post['rows']; // get how many rows we want to have into the grid
+        $sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
+        $sord = $this->request->post['sord']; // get the direction
 
-		$zone_to_locations = $this->model_localisation_location->getZoneToLocations($data);
+        $this->loadModel('localisation/location');
+        $this->loadModel('localisation/zone');
+        $this->loadModel('localisation/country');
 
-		$total = $this->model_localisation_location->getTotalZoneToLocationsByLocationID($this->request->get[ 'location_id' ]);
+        $data = array(
+            'location_id' => $this->request->get['location_id'],
+            'sort'        => $sidx,
+            'order'       => strtoupper($sord),
+            'start'       => ($page - 1) * $limit,
+            'limit'       => $limit,
+        );
 
-		if ($total > 0) {
-			$total_pages = ceil($total / $limit);
-		} else {
-			$total_pages = 0;
-		}
+        $zone_to_locations = $this->model_localisation_location->getZoneToLocations($data);
 
-		if($page > $total_pages){
-			$page = $total_pages;
-			$data['start'] = ($page - 1) * $limit;
-		}
+        $total = $this->model_localisation_location->getTotalZoneToLocationsByLocationID($this->request->get['location_id']);
 
-		$response = new stdClass();
-		$response->page = $page;
-		$response->total = $total_pages;
-		$response->records = $total;
+        if ($total > 0) {
+            $total_pages = ceil($total / $limit);
+        } else {
+            $total_pages = 0;
+        }
 
-		$i = 0;
-		foreach ($zone_to_locations as $result) {
+        if ($page > $total_pages) {
+            $page = $total_pages;
+            $data['start'] = ($page - 1) * $limit;
+        }
 
-			$response->rows[ $i ][ 'id' ] = $result[ 'zone_to_location_id' ];
-			$response->rows[ $i ][ 'cell' ] = array(
-				$result[ 'country_name' ],
-				$result[ 'name' ],
-				dateISO2Display($result[ 'date_added' ], $this->language->get('date_format_short'))
-			);
-			$i++;
-		}
-		$this->data['response'] = $response;
+        $response = new stdClass();
+        $response->page = $page;
+        $response->total = $total_pages;
+        $response->records = $total;
 
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+        $i = 0;
+        foreach ($zone_to_locations as $result) {
 
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($this->data['response']));
-	}
+            $response->rows[$i]['id'] = $result['zone_to_location_id'];
+            $response->rows[$i]['cell'] = array(
+                $result['country_name'],
+                $result['name'],
+                dateISO2Display($result['date_added'], $this->language->get('date_format_short')),
+            );
+            $i++;
+        }
+        $this->data['response'] = $response;
 
-	public function update() {
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
+        $this->load->library('json');
+        $this->response->setOutput(AJson::encode($this->data['response']));
+    }
 
-		if (!$this->user->canModify('listing_grid/location_zones')) {
-			$error = new AError('');
-			return $error->toJSONResponse('NO_PERMISSIONS_402',
-				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/location_zones'),
-					'reset_value' => true
-				));
-		}
+    public function update()
+    {
 
-		$this->loadModel('localisation/zone');
-		$this->loadLanguage('localisation/zone');
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
+        if (!$this->user->canModify('listing_grid/location_zones')) {
+            $error = new AError('');
+            return $error->toJSONResponse('NO_PERMISSIONS_402',
+                array(
+                    'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/location_zones'),
+                    'reset_value' => true,
+                ));
+        }
 
-		switch ($this->request->post[ 'oper' ]) {
-			case 'del':
-				$this->loadModel('localisation/location');
+        $this->loadModel('localisation/zone');
+        $this->loadLanguage('localisation/zone');
 
-				$ids = explode(',', $this->request->post[ 'id' ]);
-				if (!empty($ids))
-					foreach ($ids as $id) {
-						$this->model_localisation_location->deleteLocationZone($id);
-					}
-				break;
+        switch ($this->request->post['oper']) {
+            case 'del':
+                $this->loadModel('localisation/location');
 
-			default:
+                $ids = explode(',', $this->request->post['id']);
+                if (!empty($ids)) {
+                    foreach ($ids as $id) {
+                        $this->model_localisation_location->deleteLocationZone($id);
+                    }
+                }
+                break;
 
+            default:
 
-		}
+        }
 
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-	}
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
 }

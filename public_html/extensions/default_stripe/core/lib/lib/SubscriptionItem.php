@@ -5,13 +5,13 @@ namespace Stripe;
 /**
  * Class SubscriptionItem
  *
- * @property string $id
- * @property string $object
- * @property int $created
+ * @property string       $id
+ * @property string       $object
+ * @property int          $created
  * @property StripeObject $metadata
- * @property Plan $plan
- * @property int $quantity
- * @property string $subscription
+ * @property Plan         $plan
+ * @property int          $quantity
+ * @property string       $subscription
  *
  * @package Stripe
  */

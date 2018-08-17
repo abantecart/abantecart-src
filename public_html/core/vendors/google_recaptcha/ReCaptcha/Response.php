@@ -33,12 +33,14 @@ class Response
 {
     /**
      * Succes or failure.
+     *
      * @var boolean
      */
     private $success = false;
 
     /**
      * Error code strings.
+     *
      * @var array
      */
     private $errorCodes = array();
@@ -47,6 +49,7 @@ class Response
      * Build the response from the expected JSON returned by the service.
      *
      * @param string $json
+     *
      * @return \ReCaptcha\Response
      */
     public static function fromJson($json)
@@ -72,7 +75,7 @@ class Response
      * Constructor.
      *
      * @param boolean $success
-     * @param array $errorCodes
+     * @param array   $errorCodes
      */
     public function __construct($success, array $errorCodes = array())
     {

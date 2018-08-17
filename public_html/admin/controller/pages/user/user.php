@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -474,7 +475,8 @@ class ControllerPagesUserUser extends AController
         }
 
         if (mb_strlen($this->request->post['email']) > 96
-            || !preg_match(EMAIL_REGEX_PATTERN, $this->request->post['email'])) {
+            || !preg_match(EMAIL_REGEX_PATTERN, $this->request->post['email'])
+        ) {
             $this->error['email'] = $this->language->get('error_email');
         }
 
@@ -494,7 +496,8 @@ class ControllerPagesUserUser extends AController
                 if ( //cannot to change group for yourself
                     $this->request->get['id'] == $this->user->getId()
                     //or current user is not admin
-                    || $this->user->getUserGroupId() != 1) {
+                    || $this->user->getUserGroupId() != 1
+                ) {
                     $this->error['user_group'] = $this->language->get('error_user_group');
                 }
             }

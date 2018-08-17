@@ -15,40 +15,45 @@ use Twilio\Serialize;
 use Twilio\Values;
 use Twilio\Version;
 
-class WorkersStatisticsContext extends InstanceContext {
+class WorkersStatisticsContext extends InstanceContext
+{
     /**
      * Initialize the WorkersStatisticsContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $workspaceSid The workspace_sid
-     * @return \Twilio\Rest\Taskrouter\V1\Workspace\Worker\WorkersStatisticsContext 
+     *
+     * @param \Twilio\Version $version      Version that contains the resource
+     * @param string          $workspaceSid The workspace_sid
+     *
+     * @return \Twilio\Rest\Taskrouter\V1\Workspace\Worker\WorkersStatisticsContext
      */
-    public function __construct(Version $version, $workspaceSid) {
+    public function __construct(Version $version, $workspaceSid)
+    {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('workspaceSid' => $workspaceSid, );
+        $this->solution = array('workspaceSid' => $workspaceSid,);
 
-        $this->uri = '/Workspaces/' . rawurlencode($workspaceSid) . '/Workers/Statistics';
+        $this->uri = '/Workspaces/'.rawurlencode($workspaceSid).'/Workers/Statistics';
     }
 
     /**
      * Fetch a WorkersStatisticsInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
+     *
      * @return WorkersStatisticsInstance Fetched WorkersStatisticsInstance
      */
-    public function fetch($options = array()) {
+    public function fetch($options = array())
+    {
         $options = new Values($options);
 
         $params = Values::of(array(
-            'Minutes' => $options['minutes'],
-            'StartDate' => Serialize::iso8601DateTime($options['startDate']),
-            'EndDate' => Serialize::iso8601DateTime($options['endDate']),
-            'TaskQueueSid' => $options['taskQueueSid'],
+            'Minutes'       => $options['minutes'],
+            'StartDate'     => Serialize::iso8601DateTime($options['startDate']),
+            'EndDate'       => Serialize::iso8601DateTime($options['endDate']),
+            'TaskQueueSid'  => $options['taskQueueSid'],
             'TaskQueueName' => $options['taskQueueName'],
-            'FriendlyName' => $options['friendlyName'],
-            'TaskChannel' => $options['taskChannel'],
+            'FriendlyName'  => $options['friendlyName'],
+            'TaskChannel'   => $options['taskChannel'],
         ));
 
         $payload = $this->version->fetch(
@@ -62,14 +67,15 @@ class WorkersStatisticsContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Taskrouter.V1.WorkersStatisticsContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Taskrouter.V1.WorkersStatisticsContext '.implode(' ', $context).']';
     }
 }

@@ -10,19 +10,19 @@ final class DefaultTwilio
     public function __construct()
     {
         $this->registry = Registry::getInstance();
-        $this->registry->get( 'language' )->load( 'default_twilio/default_twilio' );
-        $this->config = $this->registry->get( 'config' );
+        $this->registry->get('language')->load('default_twilio/default_twilio');
+        $this->config = $this->registry->get('config');
         try {
-            require_once( DIR_EXT.'default_twilio/core/lib/Services/Twilio.php' );
-            require_once( DIR_EXT.'default_twilio/core/lib/Twilio/autoload.php' );
-            $AccountSid = $this->config->get( 'default_twilio_username' );
-            $AuthToken = $this->config->get( 'default_twilio_token' );
+            require_once(DIR_EXT.'default_twilio/core/lib/Services/Twilio.php');
+            require_once(DIR_EXT.'default_twilio/core/lib/Twilio/autoload.php');
+            $AccountSid = $this->config->get('default_twilio_username');
+            $AuthToken = $this->config->get('default_twilio_token');
 
-            $this->sender = new \Twilio\Rest\Client( $AccountSid, $AuthToken );
+            $this->sender = new \Twilio\Rest\Client($AccountSid, $AuthToken);
 
-        } catch ( Exception $e ) {
-            if ( $this->config->get( 'default_twilio_logging' ) ) {
-                $this->registry->get( 'log' )->write( 'Twilio error: '.$e->getMessage().'. Error Code:'.$e->getCode() );
+        } catch (Exception $e) {
+            if ($this->config->get('default_twilio_logging')) {
+                $this->registry->get('log')->write('Twilio error: '.$e->getMessage().'. Error Code:'.$e->getCode());
             }
         }
     }
@@ -34,7 +34,7 @@ final class DefaultTwilio
 
     public function getProtocolTitle()
     {
-        return $this->registry->get( 'language' )->get( 'default_twilio_protocol_title' );
+        return $this->registry->get('language')->get('default_twilio_protocol_title');
     }
 
     public function getName()
@@ -42,21 +42,21 @@ final class DefaultTwilio
         return 'Twilio';
     }
 
-    public function send( $to, $text )
+    public function send($to, $text)
     {
-        if ( ! $to || ! $text ) {
+        if (!$to || !$text) {
             return null;
         }
-        $to = '+'.ltrim( $to, '+' );
-        $text = strip_tags( $text );
-        $text = html_entity_decode( $text, ENT_QUOTES, 'UTF-8' );
+        $to = '+'.ltrim($to, '+');
+        $text = strip_tags($text);
+        $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
         try {
-            if ( $this->config->get( 'default_twilio_test' ) ) {
+            if ($this->config->get('default_twilio_test')) {
                 //sandbox number without errors from api
                 $from = '+15005550006';
             } else {
-                $from = $this->config->get( 'default_twilio_sender_phone' );
-                $from = '+'.ltrim( $from, '+' );
+                $from = $this->config->get('default_twilio_sender_phone');
+                $from = '+'.ltrim($from, '+');
             }
             $this->sender->messages->create(
                 $to,
@@ -66,9 +66,9 @@ final class DefaultTwilio
                 )
             );
             $result = true;
-        } catch ( Exception $e ) {
-            if ( $this->config->get( 'default_twilio_logging' ) ) {
-                $this->registry->get( 'log' )->write( 'Twilio error: '.$e->getMessage().'. Error Code:'.$e->getCode() );
+        } catch (Exception $e) {
+            if ($this->config->get('default_twilio_logging')) {
+                $this->registry->get('log')->write('Twilio error: '.$e->getMessage().'. Error Code:'.$e->getCode());
             }
             $result = false;
         }
@@ -76,35 +76,35 @@ final class DefaultTwilio
         return $result;
     }
 
-    public function sendFew( $to, $text )
+    public function sendFew($to, $text)
     {
-        foreach ( $to as $uri ) {
-            $this->send( $uri, $text );
+        foreach ($to as $uri) {
+            $this->send($uri, $text);
         }
     }
 
-    public function validateURI( $uri )
+    public function validateURI($uri)
     {
         $this->errors = array();
-        $uri = trim( $uri );
-        $uri = trim( $uri, ',' );
+        $uri = trim($uri);
+        $uri = trim($uri, ',');
 
-        $uris = explode( ',', $uri );
-        foreach ( $uris as $u ) {
-            $u = trim( $u );
-            if ( ! $u ) {
+        $uris = explode(',', $uri);
+        foreach ($uris as $u) {
+            $u = trim($u);
+            if (!$u) {
                 continue;
             }
-            $u = preg_replace( '/[^0-9\+]/', '', $u );
-            if ( $u[0] != '+' ) {
+            $u = preg_replace('/[^0-9\+]/', '', $u);
+            if ($u[0] != '+') {
                 $u = '+'.$u;
             }
-            if ( ! preg_match( '/^\+[1-9]{1}[0-9]{3,14}$/', $u ) ) {
+            if (!preg_match('/^\+[1-9]{1}[0-9]{3,14}$/', $u)) {
                 $this->errors[] = 'Mobile number '.$u.' is not valid!';
             }
         }
 
-        if ( $this->errors ) {
+        if ($this->errors) {
             return false;
         } else {
             return true;
@@ -119,16 +119,16 @@ final class DefaultTwilio
      *
      * @return object
      */
-    public function getURIField( $form, $value = '' )
+    public function getURIField($form, $value = '')
     {
-        $this->registry->get( 'language' )->load( 'default_twilio/default_twilio' );
+        $this->registry->get('language')->load('default_twilio/default_twilio');
 
         return $form->getFieldHtml(
             array(
                 'type'       => 'phone',
                 'name'       => 'sms',
                 'value'      => $value,
-                'label_text' => $this->registry->get( 'language' )->get( 'entry_sms' ),
-            ) );
+                'label_text' => $this->registry->get('language')->get('entry_sms'),
+            ));
     }
 }

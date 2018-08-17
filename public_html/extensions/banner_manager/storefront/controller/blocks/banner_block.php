@@ -1,11 +1,11 @@
-<?php  
+<?php
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,84 +17,89 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')) {
+    header('Location: static_pages/');
 }
 /** @noinspection PhpUndefinedClassInspection */
+
 /**
  * Class ControllerBlocksBannerBlock
+ *
  * @property ModelExtensionBannerManager $model_extension_banner_manager
  */
-class ControllerBlocksBannerBlock extends AController {
-	
-	public function main() {
+class ControllerBlocksBannerBlock extends AController
+{
 
-		//load JS to register clicks before html-cache
-		$this->document->addScriptBottom($this->view->templateResource('/javascript/banner_manager.js'));
+    public function main()
+    {
 
-		if($this->html_cache()){
-			return;
-		}
+        //load JS to register clicks before html-cache
+        $this->document->addScriptBottom($this->view->templateResource('/javascript/banner_manager.js'));
+
+        if ($this->html_cache()) {
+            return;
+        }
 
         //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-		
-		$instance_id = func_get_arg(0);
-		$block_data = $this->getBlockContent($instance_id);
-		$this->view->assign('block_framed',$block_data['block_framed']);
-		$this->view->assign('content',$block_data['content']);
-    	$this->view->assign('heading_title', $block_data['title'] );
-    	$this->view->assign('stat_url', $this->html->getURL('r/extension/banner_manager') );
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-		if($block_data['content']){
-			// need to set wrapper for non products listing blocks
-			if($this->view->isTemplateExists($block_data['block_wrapper'])){
-				$this->view->setTemplate( $block_data['block_wrapper'] );
-			}
-			$this->processTemplate();
-		}
+        $instance_id = func_get_arg(0);
+        $block_data = $this->getBlockContent($instance_id);
+        $this->view->assign('block_framed', $block_data['block_framed']);
+        $this->view->assign('content', $block_data['content']);
+        $this->view->assign('heading_title', $block_data['title']);
+        $this->view->assign('stat_url', $this->html->getURL('r/extension/banner_manager'));
+
+        if ($block_data['content']) {
+            // need to set wrapper for non products listing blocks
+            if ($this->view->isTemplateExists($block_data['block_wrapper'])) {
+                $this->view->setTemplate($block_data['block_wrapper']);
+            }
+            $this->processTemplate();
+        }
         //init controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-  	}
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
 
-	protected function getBlockContent($instance_id) {
-		$block_info = $this->layout->getBlockDetails($instance_id);
-		$custom_block_id = $block_info['custom_block_id'];
-		$descriptions = $this->layout->getBlockDescriptions($custom_block_id);
-		if($descriptions[$this->config->get('storefront_language_id')]){
-			$key = $this->config->get('storefront_language_id');
-		}else{
-			$key = $descriptions ? key($descriptions) : null;
-		}
+    protected function getBlockContent($instance_id)
+    {
+        $block_info = $this->layout->getBlockDetails($instance_id);
+        $custom_block_id = $block_info['custom_block_id'];
+        $descriptions = $this->layout->getBlockDescriptions($custom_block_id);
+        if ($descriptions[$this->config->get('storefront_language_id')]) {
+            $key = $this->config->get('storefront_language_id');
+        } else {
+            $key = $descriptions ? key($descriptions) : null;
+        }
 
-		$this->loadModel('extension/banner_manager');
-		$results = $this->model_extension_banner_manager->getBanners($custom_block_id);
-		$banners = array();
-		if($results){
-			$rl = new AResource('image');
-			foreach($results as $row){
-				if($row['banner_type']==1){ // if graphic type
-					/**
-					 * @var array
-					 */
-					$row['images'] = $rl->getResourceAllObjects('banners',$row['banner_id']);
-					//add click registration wrapper to each URL
-					//NOTE: You can remove below line to use tracking javascript instead. Javascript tracks HTML banner clicks
-					$row['target_url'] = $this->html->getURL('r/extension/banner_manager/click', '&banner_id='.$row['banner_id'], true);
-					
-				} else {
-					$row['description'] = html_entity_decode($row['description']);
-				}
-				$banners[] = $row;
-			}
-		}
-		$output = array(
-			'title' => ( $key ? $descriptions[$key]['title'] : '' ),
-			'content' => $banners,
-			'block_wrapper' => ( $key ? $descriptions[$key]['block_wrapper'] : 0 ),
-			'block_framed' => ( $key ? (int)$descriptions[$key]['block_framed'] : 0 ),
-		);
+        $this->loadModel('extension/banner_manager');
+        $results = $this->model_extension_banner_manager->getBanners($custom_block_id);
+        $banners = array();
+        if ($results) {
+            $rl = new AResource('image');
+            foreach ($results as $row) {
+                if ($row['banner_type'] == 1) { // if graphic type
+                    /**
+                     * @var array
+                     */
+                    $row['images'] = $rl->getResourceAllObjects('banners', $row['banner_id']);
+                    //add click registration wrapper to each URL
+                    //NOTE: You can remove below line to use tracking javascript instead. Javascript tracks HTML banner clicks
+                    $row['target_url'] = $this->html->getURL('r/extension/banner_manager/click', '&banner_id='.$row['banner_id'], true);
 
-		return $output;
-	}
+                } else {
+                    $row['description'] = html_entity_decode($row['description']);
+                }
+                $banners[] = $row;
+            }
+        }
+        $output = array(
+            'title'         => ($key ? $descriptions[$key]['title'] : ''),
+            'content'       => $banners,
+            'block_wrapper' => ($key ? $descriptions[$key]['block_wrapper'] : 0),
+            'block_framed'  => ($key ? (int)$descriptions[$key]['block_framed'] : 0),
+        );
+
+        return $output;
+    }
 }

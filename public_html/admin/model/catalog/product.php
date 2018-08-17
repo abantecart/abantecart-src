@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,7 +23,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 /**
  * @property ModelCatalogDownload $model_catalog_download
- * @property ALanguageManager $language
+ * @property ALanguageManager     $language
  */
 class ModelCatalogProduct extends Model
 {
@@ -51,9 +51,9 @@ class ModelCatalogProduct extends Model
                                 ship_individually = '".(int)$data['ship_individually']."',
                                 free_shipping = '".(int)$data['free_shipping']."',
                                 shipping_price = '".preformatFloat(
-                                                                $data['shipping_price'],
-                                                                $this->language->get('decimal_point')
-                                                                    )."',
+                $data['shipping_price'],
+                $this->language->get('decimal_point')
+            )."',
                                 price = '".preformatFloat($data['price'], $this->language->get('decimal_point'))."',
                                 cost = '".preformatFloat($data['cost'], $this->language->get('decimal_point'))."',
                                 weight = '".preformatFloat($data['weight'], $this->language->get('decimal_point'))."',
@@ -202,7 +202,7 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param int $product_id
+     * @param int   $product_id
      * @param array $data
      *
      * @return int
@@ -231,7 +231,7 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param int $product_id
+     * @param int   $product_id
      * @param array $data
      *
      * @return int
@@ -260,7 +260,7 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param int $product_id
+     * @param int   $product_id
      * @param array $data
      */
     public function updateProduct($product_id, $data)
@@ -375,7 +375,7 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param int $product_discount_id
+     * @param int   $product_discount_id
      * @param array $data
      */
     public function updateProductDiscount($product_discount_id, $data)
@@ -405,7 +405,7 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param int $product_special_id
+     * @param int   $product_special_id
      * @param array $data
      */
     public function updateProductSpecial($product_special_id, $data)
@@ -435,7 +435,7 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param int $product_id
+     * @param int   $product_id
      * @param array $data
      *
      * @return bool
@@ -521,7 +521,7 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param int $product_id
+     * @param int   $product_id
      * @param array $data
      *
      * @return int
@@ -659,8 +659,8 @@ class ModelCatalogProduct extends Model
     //Add new product option value and value descriptions for all global attributes languages or current language
 
     /**
-     * @param int $product_id
-     * @param int $option_id
+     * @param int   $product_id
+     * @param int   $option_id
      * @param array $data
      *
      * @return int|null
@@ -752,10 +752,10 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param int $product_id
-     * @param int $pd_opt_val_id
-     * @param string $name
-     * @param int $language_id
+     * @param int         $product_id
+     * @param int         $pd_opt_val_id
+     * @param string      $name
+     * @param int         $language_id
      * @param null|string $grp_attr_names
      *
      * @return int|null
@@ -787,10 +787,10 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param int $product_id
-     * @param int $pd_opt_val_id
-     * @param string $name
-     * @param int $language_id
+     * @param int         $product_id
+     * @param int         $pd_opt_val_id
+     * @param string      $name
+     * @param int         $language_id
      * @param null|string $grp_attr_names
      *
      * @return null|int
@@ -843,10 +843,10 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param int $product_id
-     * @param int $option_id
-     * @param int $attribute_value_id
-     * @param int $pd_opt_val_id
+     * @param int   $product_id
+     * @param int   $option_id
+     * @param int   $attribute_value_id
+     * @param int   $pd_opt_val_id
      * @param array $data
      *
      * @return int|false
@@ -857,7 +857,7 @@ class ModelCatalogProduct extends Model
             return false;
         }
         $this->db->query(
-                        "INSERT INTO ".$this->db->table("product_option_values")."
+            "INSERT INTO ".$this->db->table("product_option_values")."
                         SET product_option_id = '".(int)$option_id."',
                             product_id = '".(int)$product_id."',
                             group_id = '".(int)$pd_opt_val_id."',
@@ -878,8 +878,8 @@ class ModelCatalogProduct extends Model
     /**
      *  Update singe product option value
      *
-     * @param int $pd_opt_val_id
-     * @param int $attribute_value_id
+     * @param int   $pd_opt_val_id
+     * @param int   $attribute_value_id
      * @param array $data
      *
      * @return null|int
@@ -914,10 +914,10 @@ class ModelCatalogProduct extends Model
     /**
      *    Update product option value and value descriptions for set language
      *
-     * @param int $product_id
-     * @param int $pd_opt_val_id
+     * @param int   $product_id
+     * @param int   $pd_opt_val_id
      * @param array $data
-     * @param int $language_id
+     * @param int   $language_id
      *
      * @throws AException
      */
@@ -1153,7 +1153,7 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param int $product_id
+     * @param int   $product_id
      * @param array $data
      *
      * @throws AException
@@ -1222,14 +1222,14 @@ class ModelCatalogProduct extends Model
                                                 quantity = '".(int)$pd_opt_vals['quantity']."',
                                                 subtract = '".(int)$pd_opt_vals['subtract']."',
                                                 price = '".preformatFloat($pd_opt_vals['price'],
-                                                         $this->language->get('decimal_point'))."',
+                                $this->language->get('decimal_point'))."',
                                                 weight = '".(float)$pd_opt_vals['weight']."',
                                                 weight_type = '".$this->db->escape($pd_opt_vals['weight_type'])."',
                                                 prefix = '".$this->db->escape($pd_opt_vals['prefix'])."',
                                                 attribute_value_id = '"
-                                                            .$this->db->escape($pd_opt_vals['attribute_value_id'])."',
+                            .$this->db->escape($pd_opt_vals['attribute_value_id'])."',
                                                 grouped_attribute_data = '"
-                                                            .$this->db->escape($pd_opt_vals['grouped_attribute_data'])."',
+                            .$this->db->escape($pd_opt_vals['grouped_attribute_data'])."',
                                                 group_id = '".$this->db->escape($pd_opt_vals['group_id'])."',
                                                 sort_order = '".(int)$pd_opt_vals['sort_order']."',
                                                 `default` = '".(int)$pd_opt_vals['default']."'");
@@ -1489,7 +1489,7 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param int $product_id
+     * @param int  $product_id
      * @param bool $act
      */
     public function setFeatured($product_id, $act = true)
@@ -1556,7 +1556,7 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param $category_id
+     * @param        $category_id
      * @param string $mode
      *
      * @return array|int
@@ -1685,7 +1685,7 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param int $product_option_id
+     * @param int   $product_option_id
      * @param array $data
      */
     public function updateProductOption($product_option_id, $data)
@@ -1762,8 +1762,8 @@ class ModelCatalogProduct extends Model
     /**
      *    Main function to be called to update option values.
      *
-     * @param int $product_id
-     * @param int $option_id
+     * @param int   $product_id
+     * @param int   $option_id
      * @param array $data
      *
      * @return null
@@ -1785,9 +1785,9 @@ class ModelCatalogProduct extends Model
                 'quantity'               => $data['quantity'][$opt_val_id],
                 'subtract'               => $data['subtract'][$opt_val_id],
                 'price'                  => preformatFloat(
-                                                        $data['price'][$opt_val_id],
-                                                        $this->language->get('decimal_point')
-                                            ),
+                    $data['price'][$opt_val_id],
+                    $this->language->get('decimal_point')
+                ),
                 'prefix'                 => $data['prefix'][$opt_val_id],
                 'sort_order'             => $data['sort_order'][$opt_val_id],
                 'weight'                 => $data['weight'][$opt_val_id],
@@ -2087,7 +2087,7 @@ class ModelCatalogProduct extends Model
     }
 
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $mode
      *
      * @return array|int
@@ -2198,14 +2198,14 @@ class ModelCatalogProduct extends Model
                             if ($match == 'begin') {
                                 $sql .= " AND (LCASE(pd.name) LIKE '"
                                     .$this->db->escape(
-                                                        mb_strtolower($filter['keyword'])
-                                                        , true)."%'";
+                                        mb_strtolower($filter['keyword'])
+                                        , true)."%'";
                                 $sql .= " OR LCASE(p.model) LIKE '".$this->db->escape(
-                                                                                    mb_strtolower($filter['keyword']),
-                                                                                    true)."%'";
+                                        mb_strtolower($filter['keyword']),
+                                        true)."%'";
                                 $sql .= " OR LCASE(p.sku) LIKE '".$this->db->escape(
-                                                                                    mb_strtolower($filter['keyword']),
-                                                                                    true)."%')";
+                                        mb_strtolower($filter['keyword']),
+                                        true)."%')";
                             }
                         }
                     }
@@ -2430,7 +2430,8 @@ class ModelCatalogProduct extends Model
 
         //check is stock track for whole product(not options) enabled and product quantity more than 0
         if ($result->row['base_subtract'] && $result->row['base_quantity'] <= 0 && !$this->hasTrackOptions($product_id)
-            && !$result->row['option_name']) {
+            && !$result->row['option_name']
+        ) {
             $output[] = $this->language->get('text_product_out_of_stock');
         }
         $out_of_stock = false;

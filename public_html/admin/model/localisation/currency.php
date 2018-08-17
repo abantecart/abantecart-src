@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,8 +17,8 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if ( ! defined( 'DIR_CORE' ) || ! IS_ADMIN ) {
-    header( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+    header('Location: static_pages/');
 }
 
 /**
@@ -33,9 +33,9 @@ class ModelLocalisationCurrency extends Model
      *
      * @return int
      */
-    public function addCurrency( $data )
+    public function addCurrency($data)
     {
-        $this->db->query( "INSERT INTO ".$this->db->table( "currencies" )." 
+        $this->db->query("INSERT INTO ".$this->db->table("currencies")." 
                             (`title`,
                              `code`,
                              `symbol_left`,
@@ -44,16 +44,16 @@ class ModelLocalisationCurrency extends Model
                              `value`,
                              `status`,
                              `date_modified`)
-                          VALUES ('".$this->db->escape( $data['title'] )."',
-                                  '".$this->db->escape( $data['code'] )."',
-                                  '".$this->db->escape( $data['symbol_left'] )."',
-                                  '".$this->db->escape( $data['symbol_right'] )."',
-                                  '".$this->db->escape( $data['decimal_place'] )."',
-                                  '".$this->db->escape( $data['value'] )."',
+                          VALUES ('".$this->db->escape($data['title'])."',
+                                  '".$this->db->escape($data['code'])."',
+                                  '".$this->db->escape($data['symbol_left'])."',
+                                  '".$this->db->escape($data['symbol_right'])."',
+                                  '".$this->db->escape($data['decimal_place'])."',
+                                  '".$this->db->escape($data['value'])."',
                                   '".(int)$data['status']."',
-                                  NOW())" );
+                                  NOW())");
 
-        $this->cache->remove( 'localization' );
+        $this->cache->remove('localization');
 
         return $this->db->getLastId();
     }
@@ -64,34 +64,34 @@ class ModelLocalisationCurrency extends Model
      *
      * @return bool
      */
-    public function editCurrency( $currency_id, $data )
+    public function editCurrency($currency_id, $data)
     {
         // prevent disabling the only enabled currency in cart
-        if ( isset( $data['status'] ) && ! $data['status'] ) {
+        if (isset($data['status']) && !$data['status']) {
             $enabled = array();
             $all = $this->getCurrencies();
-            foreach ( $all as $c ) {
-                if ( $c['status'] && $c['currency_id'] != $currency_id ) {
+            foreach ($all as $c) {
+                if ($c['status'] && $c['currency_id'] != $currency_id) {
                     $enabled[] = $c;
                 }
             }
-            if ( ! $enabled ) {
+            if (!$enabled) {
                 return false;
             }
         }
 
-        $fields = array( 'title', 'code', 'symbol_left', 'symbol_right', 'decimal_place', 'value', 'status', );
-        $update = array( 'date_modified = NOW()' );
-        foreach ( $fields as $f ) {
-            if ( isset( $data[$f] ) ) {
-                $update[] = $f." = '".$this->db->escape( $data[$f] )."'";
+        $fields = array('title', 'code', 'symbol_left', 'symbol_right', 'decimal_place', 'value', 'status',);
+        $update = array('date_modified = NOW()');
+        foreach ($fields as $f) {
+            if (isset($data[$f])) {
+                $update[] = $f." = '".$this->db->escape($data[$f])."'";
             }
         }
-        if ( ! empty( $update ) ) {
-            $this->db->query( "UPDATE ".$this->db->table( "currencies" )." 
-                              SET ".implode( ',', $update )."
-                              WHERE currency_id = '".(int)$currency_id."'" );
-            $this->cache->remove( 'localization' );
+        if (!empty($update)) {
+            $this->db->query("UPDATE ".$this->db->table("currencies")." 
+                              SET ".implode(',', $update)."
+                              WHERE currency_id = '".(int)$currency_id."'");
+            $this->cache->remove('localization');
         }
 
         return true;
@@ -102,15 +102,15 @@ class ModelLocalisationCurrency extends Model
      *
      * @return bool
      */
-    public function deleteCurrency( $currency_id )
+    public function deleteCurrency($currency_id)
     {
         // prevent deleting all currencies
-        if ( $this->getTotalCurrencies() < 2 ) {
+        if ($this->getTotalCurrencies() < 2) {
             return false;
         }
-        $this->db->query( "DELETE FROM ".$this->db->table( "currencies" )." 
-                           WHERE currency_id = '".(int)$currency_id."'" );
-        $this->cache->remove( 'localization' );
+        $this->db->query("DELETE FROM ".$this->db->table("currencies")." 
+                           WHERE currency_id = '".(int)$currency_id."'");
+        $this->cache->remove('localization');
 
         return true;
     }
@@ -120,11 +120,11 @@ class ModelLocalisationCurrency extends Model
      *
      * @return array
      */
-    public function getCurrency( $currency_id )
+    public function getCurrency($currency_id)
     {
-        $query = $this->db->query( "SELECT DISTINCT *
-                                   FROM ".$this->db->table( "currencies" )." 
-                                   WHERE currency_id = '".(int)$currency_id."'" );
+        $query = $this->db->query("SELECT DISTINCT *
+                                   FROM ".$this->db->table("currencies")." 
+                                   WHERE currency_id = '".(int)$currency_id."'");
 
         return $query->row;
     }
@@ -134,10 +134,10 @@ class ModelLocalisationCurrency extends Model
      *
      * @return array
      */
-    public function getCurrencies( $data = array() )
+    public function getCurrencies($data = array())
     {
-        if ( $data ) {
-            $sql = "SELECT * FROM ".$this->db->table( "currencies" )." ";
+        if ($data) {
+            $sql = "SELECT * FROM ".$this->db->table("currencies")." ";
 
             $sort_data = array(
                 'title',
@@ -147,42 +147,42 @@ class ModelLocalisationCurrency extends Model
                 'date_modified',
             );
 
-            if ( isset( $data['sort'] ) && in_array( $data['sort'], $sort_data ) ) {
+            if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
                 $sql .= " ORDER BY ".$data['sort'];
             } else {
                 $sql .= " ORDER BY title";
             }
 
-            if ( isset( $data['order'] ) && ( $data['order'] == 'DESC' ) ) {
+            if (isset($data['order']) && ($data['order'] == 'DESC')) {
                 $sql .= " DESC";
             } else {
                 $sql .= " ASC";
             }
 
-            if ( isset( $data['start'] ) || isset( $data['limit'] ) ) {
-                if ( $data['start'] < 0 ) {
+            if (isset($data['start']) || isset($data['limit'])) {
+                if ($data['start'] < 0) {
                     $data['start'] = 0;
                 }
 
-                if ( $data['limit'] < 1 ) {
+                if ($data['limit'] < 1) {
                     $data['limit'] = 20;
                 }
 
                 $sql .= " LIMIT ".(int)$data['start'].",".(int)$data['limit'];
             }
 
-            $query = $this->db->query( $sql );
+            $query = $this->db->query($sql);
 
             return $query->rows;
         } else {
-            $currency_data = $this->cache->pull( 'localization.currency' );
+            $currency_data = $this->cache->pull('localization.currency');
 
-            if ( $currency_data === false ) {
-                $query = $this->db->query( "SELECT *
-                                            FROM ".$this->db->table( "currencies" )." 
-                                            ORDER BY title ASC" );
+            if ($currency_data === false) {
+                $query = $this->db->query("SELECT *
+                                            FROM ".$this->db->table("currencies")." 
+                                            ORDER BY title ASC");
 
-                foreach ( $query->rows as $result ) {
+                foreach ($query->rows as $result) {
                     $currency_data[$result['code']] = array(
                         'currency_id'   => $result['currency_id'],
                         'title'         => $result['title'],
@@ -196,7 +196,7 @@ class ModelLocalisationCurrency extends Model
                     );
                 }
 
-                $this->cache->push( 'localization.currency', $currency_data );
+                $this->cache->push('localization.currency', $currency_data);
             }
 
             return $currency_data;
@@ -211,48 +211,48 @@ class ModelLocalisationCurrency extends Model
 
     public function updateCurrencies()
     {
-        $this->load->model( 'setting/setting' );
-        $settings = $this->model_setting_setting->getSetting( 'details', 0 );
-        $api_key = isset( $settings['alphavantage_api_key'] ) && $settings['alphavantage_api_key'] ? $settings['alphavantage_api_key'] : 'P6WGY9G9LB22GMBJ';
+        $this->load->model('setting/setting');
+        $settings = $this->model_setting_setting->getSetting('details', 0);
+        $api_key = isset($settings['alphavantage_api_key']) && $settings['alphavantage_api_key'] ? $settings['alphavantage_api_key'] : 'P6WGY9G9LB22GMBJ';
         $base_currency_code = $settings['config_currency'];
 
-        $query = $this->db->query( "SELECT *
-                                    FROM ".$this->db->table( "currencies" )." 
-                                    WHERE code != '".$this->db->escape( $base_currency_code )."'
-                                        AND date_modified > '".date( strtotime( '-1 day' ) )."'" );
+        $query = $this->db->query("SELECT *
+                                    FROM ".$this->db->table("currencies")." 
+                                    WHERE code != '".$this->db->escape($base_currency_code)."'
+                                        AND date_modified > '".date(strtotime('-1 day'))."'");
 
-        foreach ( $query->rows as $result ) {
+        foreach ($query->rows as $result) {
             $url = 'https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency='.$base_currency_code.'&to_currency='.$result['code'].'&apikey='.$api_key;
-            $connect = new AConnect( true );
-            $json = $connect->getData( $url );
-            if ( ! $json ) {
+            $connect = new AConnect(true);
+            $json = $connect->getData($url);
+            if (!$json) {
                 $msg = 'Currency Auto Updater Warning: Currency rate code '.$result['code'].' not updated.';
-                $error = new AError( $msg );
+                $error = new AError($msg);
                 $error->toLog()->toMessages();
                 continue;
             }
 
-            if ( isset( $json["Realtime Currency Exchange Rate"]["5. Exchange Rate"] ) ) {
+            if (isset($json["Realtime Currency Exchange Rate"]["5. Exchange Rate"])) {
                 $value = (float)$json["Realtime Currency Exchange Rate"]["5. Exchange Rate"];
                 $this->db->query(
-                    "UPDATE ".$this->db->table( "currencies" )." 
+                    "UPDATE ".$this->db->table("currencies")." 
                             SET value = '".$value."', 
                                 date_modified = NOW() 
-                            WHERE code = '".$this->db->escape( $result['code'] )."'" );
-            } elseif ( isset( $json['Information'] ) ) {
+                            WHERE code = '".$this->db->escape($result['code'])."'");
+            } elseif (isset($json['Information'])) {
                 $msg = 'Currency Auto Updater Info: '.$json['Information'];
-                $error = new AError( $msg );
+                $error = new AError($msg);
                 $error->toLog()->toMessages();
             }
-            usleep( 500 );
+            usleep(500);
         }
 
-        $sql = "UPDATE ".$this->db->table( "currencies" )." 
+        $sql = "UPDATE ".$this->db->table("currencies")." 
                               SET value = '1.00000',
                                   date_modified = NOW()
-                              WHERE code = '".$this->db->escape( $base_currency_code )."'";
-        $this->db->query( $sql );
-        $this->cache->remove( 'localization' );
+                              WHERE code = '".$this->db->escape($base_currency_code)."'";
+        $this->db->query($sql);
+        $this->cache->remove('localization');
 
     }
 
@@ -261,22 +261,22 @@ class ModelLocalisationCurrency extends Model
      *
      * @return bool
      */
-    public function switchConfigCurrency( $new_currency_code )
+    public function switchConfigCurrency($new_currency_code)
     {
-        $new_currency_code = mb_strtoupper( trim( $new_currency_code ) );
+        $new_currency_code = mb_strtoupper(trim($new_currency_code));
         $all_currencies = $this->getCurrencies();
         $new_currency = $all_currencies[$new_currency_code];
-        if ( ! $new_currency_code || ! $new_currency ) {
+        if (!$new_currency_code || !$new_currency) {
             return false;
         }
         $scale = 1 / $new_currency['value'];
-        foreach ( $all_currencies as $code => $currency ) {
-            if ( $code == $new_currency_code ) {
+        foreach ($all_currencies as $code => $currency) {
+            if ($code == $new_currency_code) {
                 $new_value = 1.00000;
             } else {
                 $new_value = $currency['value'] * $scale;
             }
-            $this->editCurrency( $currency['currency_id'], array( 'value' => $new_value ) );
+            $this->editCurrency($currency['currency_id'], array('value' => $new_value));
         }
 
         return true;
@@ -287,7 +287,7 @@ class ModelLocalisationCurrency extends Model
      */
     public function getTotalCurrencies()
     {
-        $query = $this->db->query( "SELECT COUNT(*) AS total FROM ".$this->db->table( "currencies" ).";" );
+        $query = $this->db->query("SELECT COUNT(*) AS total FROM ".$this->db->table("currencies").";");
 
         return $query->row['total'];
     }

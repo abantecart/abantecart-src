@@ -16,32 +16,37 @@ use Twilio\Version;
 /**
  * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
  */
-class SegmentMembershipList extends ListResource {
+class SegmentMembershipList extends ListResource
+{
     /**
      * Construct the SegmentMembershipList
-     * 
-     * @param Version $version Version that contains the resource
-     * @param string $serviceSid The service_sid
-     * @param string $identity The identity
-     * @return \Twilio\Rest\Notify\V1\Service\User\SegmentMembershipList 
+     *
+     * @param Version $version    Version that contains the resource
+     * @param string  $serviceSid The service_sid
+     * @param string  $identity   The identity
+     *
+     * @return \Twilio\Rest\Notify\V1\Service\User\SegmentMembershipList
      */
-    public function __construct(Version $version, $serviceSid, $identity) {
+    public function __construct(Version $version, $serviceSid, $identity)
+    {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('serviceSid' => $serviceSid, 'identity' => $identity, );
+        $this->solution = array('serviceSid' => $serviceSid, 'identity' => $identity,);
 
-        $this->uri = '/Services/' . rawurlencode($serviceSid) . '/Users/' . rawurlencode($identity) . '/SegmentMemberships';
+        $this->uri = '/Services/'.rawurlencode($serviceSid).'/Users/'.rawurlencode($identity).'/SegmentMemberships';
     }
 
     /**
      * Create a new SegmentMembershipInstance
-     * 
+     *
      * @param string $segment The segment
+     *
      * @return SegmentMembershipInstance Newly created SegmentMembershipInstance
      */
-    public function create($segment) {
-        $data = Values::of(array('Segment' => $segment, ));
+    public function create($segment)
+    {
+        $data = Values::of(array('Segment' => $segment,));
 
         $payload = $this->version->create(
             'POST',
@@ -60,11 +65,13 @@ class SegmentMembershipList extends ListResource {
 
     /**
      * Constructs a SegmentMembershipContext
-     * 
+     *
      * @param string $segment The segment
-     * @return \Twilio\Rest\Notify\V1\Service\User\SegmentMembershipContext 
+     *
+     * @return \Twilio\Rest\Notify\V1\Service\User\SegmentMembershipContext
      */
-    public function getContext($segment) {
+    public function getContext($segment)
+    {
         return new SegmentMembershipContext(
             $this->version,
             $this->solution['serviceSid'],
@@ -75,10 +82,11 @@ class SegmentMembershipList extends ListResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         return '[Twilio.Notify.V1.SegmentMembershipList]';
     }
 }

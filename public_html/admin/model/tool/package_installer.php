@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -21,10 +21,12 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
 
-class ModelToolPackageInstaller extends Model {
+class ModelToolPackageInstaller extends Model
+{
     public $error = '';
 
-    public function downloadPackage() {
+    public function downloadPackage()
+    {
 
         $this->load->language('tool/package_installer');
         if (!isset($this->session->data['package_info'])) {
@@ -32,14 +34,14 @@ class ModelToolPackageInstaller extends Model {
             return false;
         }
         if (!is_writable($this->session->data['package_info']['tmp_dir'])) {
-            $this->error = $this->language->get('error_dir_permission') . $this->session->data['package_info']['tmp_dir'];
+            $this->error = $this->language->get('error_dir_permission').$this->session->data['package_info']['tmp_dir'];
             return false;
         }
         if ($this->request->get['start'] == 1) {
             $pmanager = new APackageManager();
             $result = $pmanager->getRemoteFile($this->session->data['package_info']['package_url'],
                 true,
-                $this->session->data['package_info']['tmp_dir'] . $this->session->data['package_info']['package_name']);
+                $this->session->data['package_info']['tmp_dir'].$this->session->data['package_info']['package_name']);
             if (!$result) {
                 $percents = $pmanager->error;
             } else {
@@ -49,7 +51,7 @@ class ModelToolPackageInstaller extends Model {
         } elseif (isset($this->session->data['curl_handler'])) {
             return curl_getinfo($this->session->data['curl_handler'], CURLINFO_SIZE_DOWNLOAD);
         } else {
-            $percents = floor(filesize($this->session->data['package_info']['tmp_dir'] . $this->session->data['package_info']['package_name']) * 100 / $this->session->data['package_info']['package_size']);
+            $percents = floor(filesize($this->session->data['package_info']['tmp_dir'].$this->session->data['package_info']['package_name']) * 100 / $this->session->data['package_info']['package_size']);
         }
         return $percents;
     }

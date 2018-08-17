@@ -16,35 +16,39 @@ use Twilio\Version;
 /**
  * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
  */
-class StepContextContext extends InstanceContext {
+class StepContextContext extends InstanceContext
+{
     /**
      * Initialize the StepContextContext
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param string $flowSid The flow_sid
-     * @param string $engagementSid The engagement_sid
-     * @param string $stepSid The step_sid
-     * @return \Twilio\Rest\Studio\V1\Flow\Engagement\Step\StepContextContext 
+     *
+     * @param \Twilio\Version $version       Version that contains the resource
+     * @param string          $flowSid       The flow_sid
+     * @param string          $engagementSid The engagement_sid
+     * @param string          $stepSid       The step_sid
+     *
+     * @return \Twilio\Rest\Studio\V1\Flow\Engagement\Step\StepContextContext
      */
-    public function __construct(Version $version, $flowSid, $engagementSid, $stepSid) {
+    public function __construct(Version $version, $flowSid, $engagementSid, $stepSid)
+    {
         parent::__construct($version);
 
         // Path Solution
         $this->solution = array(
-            'flowSid' => $flowSid,
+            'flowSid'       => $flowSid,
             'engagementSid' => $engagementSid,
-            'stepSid' => $stepSid,
+            'stepSid'       => $stepSid,
         );
 
-        $this->uri = '/Flows/' . rawurlencode($flowSid) . '/Engagements/' . rawurlencode($engagementSid) . '/Steps/' . rawurlencode($stepSid) . '/Context';
+        $this->uri = '/Flows/'.rawurlencode($flowSid).'/Engagements/'.rawurlencode($engagementSid).'/Steps/'.rawurlencode($stepSid).'/Context';
     }
 
     /**
      * Fetch a StepContextInstance
-     * 
+     *
      * @return StepContextInstance Fetched StepContextInstance
      */
-    public function fetch() {
+    public function fetch()
+    {
         $params = Values::of(array());
 
         $payload = $this->version->fetch(
@@ -64,14 +68,15 @@ class StepContextContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Studio.V1.StepContextContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Studio.V1.StepContextContext '.implode(' ', $context).']';
     }
 }

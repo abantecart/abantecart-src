@@ -1,10 +1,9 @@
 <?php
 
-
 namespace Twilio\Jwt\Grants;
 
-
-interface Grant {
+interface Grant
+{
     /**
      * Returns the grant type
      *

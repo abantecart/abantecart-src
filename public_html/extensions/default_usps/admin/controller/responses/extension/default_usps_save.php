@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -17,27 +17,29 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if ( !defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')) {
+    header('Location: static_pages/');
 }
 
-class ControllerResponsesExtensionDefaultUspsSave extends AController {
-	private $required_fields = array(
-			'default_usps_user_id',
-			'default_usps_postcode'
-		);
+class ControllerResponsesExtensionDefaultUspsSave extends AController
+{
+    private $required_fields = array(
+        'default_usps_user_id',
+        'default_usps_postcode',
+    );
 
-    public function update() {
+    public function update()
+    {
 
         $this->loadLanguage('extension/extensions');
 
         if (!$this->user->canModify('extension/extensions')) {
-            $this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'extension/extensions') );
+            $this->response->setOutput(sprintf($this->language->get('error_permission_modify'), 'extension/extensions'));
             return null;
         }
-        foreach($this->required_fields as $fld){
-            if( isset( $this->request->post[$fld] ) && trim($this->request->post[$fld])==''){
-                $this->response->setOutput( sprintf($this->language->get('error_required_field'), 'extension/extensions') );
+        foreach ($this->required_fields as $fld) {
+            if (isset($this->request->post[$fld]) && trim($this->request->post[$fld]) == '') {
+                $this->response->setOutput(sprintf($this->language->get('error_required_field'), 'extension/extensions'));
                 return null;
             }
         }

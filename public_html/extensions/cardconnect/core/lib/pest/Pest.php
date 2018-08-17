@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Pest is a REST client for PHP.
  *
@@ -16,8 +17,8 @@ class Pest
         CURLOPT_RETURNTRANSFER => true, // return result instead of echoing
         CURLOPT_SSL_VERIFYPEER => false, // stop cURL from verifying the peer's certificate
         CURLOPT_FOLLOWLOCATION => false, // follow redirects, Location: headers
-        CURLOPT_MAXREDIRS => 10, // but dont redirect more than 10 times
-        CURLOPT_HTTPHEADER => array()
+        CURLOPT_MAXREDIRS      => 10, // but dont redirect more than 10 times
+        CURLOPT_HTTPHEADER     => array(),
     );
 
     /**
@@ -45,10 +46,11 @@ class Pest
      */
     public $throw_exceptions = true;
 
-
     /**
      * Class constructor
+     *
      * @param string $base_url
+     *
      * @throws Exception
      */
     public function __construct($base_url)
@@ -77,16 +79,17 @@ class Pest
      *
      * @param string $user
      * @param string $pass
-     * @param string $auth  Can be 'basic' or 'digest'
+     * @param string $auth Can be 'basic' or 'digest'
      */
     public function setupAuth($user, $pass, $auth = 'basic')
     {
-        $this->curl_opts[CURLOPT_HTTPAUTH] = constant('CURLAUTH_' . strtoupper($auth));
-        $this->curl_opts[CURLOPT_USERPWD] = $user . ":" . $pass;
+        $this->curl_opts[CURLOPT_HTTPAUTH] = constant('CURLAUTH_'.strtoupper($auth));
+        $this->curl_opts[CURLOPT_USERPWD] = $user.":".$pass;
     }
 
     /**
      * Set cookies for this session
+     *
      * @param array $cookies
      *
      * @see http://curl.haxx.se/docs/manpage.html
@@ -98,11 +101,9 @@ class Pest
             return;
         }
         $cookie_list = array();
-        foreach ($cookies as $cookie_name => $cookie_value)
-        {
+        foreach ($cookies as $cookie_name => $cookie_value) {
             $cookie = urlencode($cookie_name);
-            if (isset($cookie_value))
-            {
+            if (isset($cookie_value)) {
                 $cookie .= '=';
                 $cookie .= urlencode($cookie_value);
             }
@@ -113,18 +114,19 @@ class Pest
 
     /**
      * Setup proxy
+     *
      * @param string $host
-     * @param int $port
+     * @param int    $port
      * @param string $user Optional.
      * @param string $pass Optional.
      */
-    public function setupProxy($host, $port, $user = NULL, $pass = NULL)
+    public function setupProxy($host, $port, $user = null, $pass = null)
     {
         $this->curl_opts[CURLOPT_PROXYTYPE] = 'HTTP';
         $this->curl_opts[CURLOPT_PROXY] = $host;
         $this->curl_opts[CURLOPT_PROXYPORT] = $port;
         if ($user && $pass) {
-            $this->curl_opts[CURLOPT_PROXYUSERPWD] = $user . ":" . $pass;
+            $this->curl_opts[CURLOPT_PROXYUSERPWD] = $user.":".$pass;
         }
     }
 
@@ -132,22 +134,23 @@ class Pest
      * Perform HTTP GET request
      *
      * @param string $url
-     * @param array $data
-     * @param array $headers
+     * @param array  $data
+     * @param array  $headers
+     *
      * @return string
      */
-    public function get($url, $data = array(), $headers=array())
+    public function get($url, $data = array(), $headers = array())
     {
         if (!empty($data)) {
             $pos = strpos($url, '?');
             if ($pos !== false) {
                 $url = substr($url, 0, $pos);
             }
-            $url .= '?' . http_build_query($data);
+            $url .= '?'.http_build_query($data);
         }
 
         $curl_opts = $this->curl_opts;
-        
+
         $curl_opts[CURLOPT_HTTPHEADER] = $this->prepHeaders($headers);
 
         $curl = $this->prepRequest($curl_opts, $url);
@@ -160,15 +163,16 @@ class Pest
     /**
      * Prepare request
      *
-     * @param array $opts
+     * @param array  $opts
      * @param string $url
+     *
      * @return resource
      * @throws Pest_Curl_Init
      */
     protected function prepRequest($opts, $url)
     {
         if (strncmp($url, $this->base_url, strlen($this->base_url)) != 0) {
-            $url = rtrim($this->base_url, '/') . '/' . ltrim($url, '/');
+            $url = rtrim($this->base_url, '/').'/'.ltrim($url, '/');
         }
 
         $curl = curl_init($url);
@@ -176,40 +180,45 @@ class Pest
             throw new Pest_Curl_Init($this->processError(curl_error($curl), 'curl'));
         }
 
-        foreach ($opts as $opt => $val)
+        foreach ($opts as $opt => $val) {
             curl_setopt($curl, $opt, $val);
+        }
 
         $this->last_request = array(
-            'url' => $url
+            'url' => $url,
         );
 
-        if (isset($opts[CURLOPT_CUSTOMREQUEST]))
+        if (isset($opts[CURLOPT_CUSTOMREQUEST])) {
             $this->last_request['method'] = $opts[CURLOPT_CUSTOMREQUEST];
-        else
+        } else {
             $this->last_request['method'] = 'GET';
+        }
 
-        if (isset($opts[CURLOPT_POSTFIELDS]))
+        if (isset($opts[CURLOPT_POSTFIELDS])) {
             $this->last_request['data'] = $opts[CURLOPT_POSTFIELDS];
+        }
 
         return $curl;
     }
-    
+
     /**
      * Determines if a given array is numerically indexed or not
      *
      * @param array $array
+     *
      * @return boolean
      */
     protected function _isNumericallyIndexedArray($array)
     {
         return !(bool)count(array_filter(array_keys($array), 'is_string'));
     }
-    
+
     /**
      * Flatten headers from an associative array to a numerically indexed array of "Name: Value"
      * style entries like CURLOPT_HTTPHEADER expects. Numerically indexed arrays are not modified.
      *
      * @param array $headers
+     *
      * @return array
      */
     protected function prepHeaders($headers)
@@ -217,18 +226,20 @@ class Pest
         if ($this->_isNumericallyIndexedArray($headers)) {
             return $headers;
         }
-        
+
         $flattened = array();
         foreach ($headers as $name => $value) {
-             $flattened[] = $name . ': ' . $value;
+            $flattened[] = $name.': '.$value;
         }
-        
+
         return $flattened;
     }
 
     /**
      * Process error
+     *
      * @param string $body
+     *
      * @return string
      */
     protected function processError($body)
@@ -242,7 +253,9 @@ class Pest
 
     /**
      * Do CURL request
+     *
      * @param resource $curl
+     *
      * @return mixed
      * @throws Pest_Curl_Exec
      * @throws Pest_Curl_Meta
@@ -287,14 +300,16 @@ class Pest
      */
     protected function checkLastResponseForError()
     {
-        if (!$this->throw_exceptions)
+        if (!$this->throw_exceptions) {
             return;
+        }
 
         $meta = $this->last_response['meta'];
         $body = $this->last_response['body'];
 
-        if ($meta === false)
+        if ($meta === false) {
             return;
+        }
 
         switch ($meta['http_code']) {
             case 400:
@@ -327,10 +342,11 @@ class Pest
                 throw new Pest_InvalidRecord($this->processError($body));
                 break;
             default:
-                if ($meta['http_code'] >= 400 && $meta['http_code'] <= 499)
+                if ($meta['http_code'] >= 400 && $meta['http_code'] <= 499) {
                     throw new Pest_ClientError($this->processError($body));
-                elseif ($meta['http_code'] >= 500 && $meta['http_code'] <= 599)
-                    throw new Pest_ServerError($this->processError($body)); elseif (!isset($meta['http_code']) || $meta['http_code'] >= 600) {
+                } elseif ($meta['http_code'] >= 500 && $meta['http_code'] <= 599) {
+                    throw new Pest_ServerError($this->processError($body));
+                } elseif (!isset($meta['http_code']) || $meta['http_code'] >= 600) {
                     throw new Pest_UnknownResponse($this->processError($body));
                 }
         }
@@ -338,7 +354,9 @@ class Pest
 
     /**
      * Process body
+     *
      * @param string $body
+     *
      * @return string
      */
     protected function processBody($body)
@@ -351,7 +369,9 @@ class Pest
 
     /**
      * Perform HTTP HEAD request
+     *
      * @param string $url
+     *
      * @return string
      */
     public function head($url)
@@ -371,8 +391,9 @@ class Pest
      * Perform HTTP POST request
      *
      * @param string $url
-     * @param array $data
-     * @param array $headers
+     * @param array  $data
+     * @param array  $headers
+     *
      * @return string
      */
     public function post($url, $data, $headers = array())
@@ -381,7 +402,9 @@ class Pest
 
         $curl_opts = $this->curl_opts;
         $curl_opts[CURLOPT_CUSTOMREQUEST] = 'POST';
-        if (!is_array($data)) $headers[] = 'Content-Length: ' . strlen($data);
+        if (!is_array($data)) {
+            $headers[] = 'Content-Length: '.strlen($data);
+        }
         $curl_opts[CURLOPT_HTTPHEADER] = $this->prepHeaders($headers);
         $curl_opts[CURLOPT_POSTFIELDS] = $data;
 
@@ -395,7 +418,9 @@ class Pest
 
     /**
      * Prepare data
+     *
      * @param array $data
+     *
      * @return array|string
      */
     public function prepData($data)
@@ -420,8 +445,9 @@ class Pest
      * Perform HTTP PUT request
      *
      * @param string $url
-     * @param array $data
-     * @param array $headers
+     * @param array  $data
+     * @param array  $headers
+     *
      * @return string
      */
     public function put($url, $data, $headers = array())
@@ -430,7 +456,9 @@ class Pest
 
         $curl_opts = $this->curl_opts;
         $curl_opts[CURLOPT_CUSTOMREQUEST] = 'PUT';
-        if (!is_array($data)) $headers[] = 'Content-Length: ' . strlen($data);
+        if (!is_array($data)) {
+            $headers[] = 'Content-Length: '.strlen($data);
+        }
         $curl_opts[CURLOPT_HTTPHEADER] = $this->prepHeaders($headers);
         $curl_opts[CURLOPT_POSTFIELDS] = $data;
 
@@ -446,8 +474,9 @@ class Pest
      * Perform HTTP PATCH request
      *
      * @param string $url
-     * @param array $data
-     * @param array $headers
+     * @param array  $data
+     * @param array  $headers
+     *
      * @return string
      */
     public function patch($url, $data, $headers = array())
@@ -456,7 +485,7 @@ class Pest
 
         $curl_opts = $this->curl_opts;
         $curl_opts[CURLOPT_CUSTOMREQUEST] = 'PATCH';
-        $headers[] = 'Content-Length: ' . strlen($data);
+        $headers[] = 'Content-Length: '.strlen($data);
         $curl_opts[CURLOPT_HTTPHEADER] = $this->prepHeaders($headers);
         $curl_opts[CURLOPT_POSTFIELDS] = $data;
 
@@ -472,10 +501,11 @@ class Pest
      * Perform HTTP DELETE request
      *
      * @param string $url
-     * @param array $headers
+     * @param array  $headers
+     *
      * @return string
      */
-    public function delete($url, $headers=array())
+    public function delete($url, $headers = array())
     {
         $curl_opts = $this->curl_opts;
         $curl_opts[CURLOPT_CUSTOMREQUEST] = 'DELETE';
@@ -515,20 +545,23 @@ class Pest
      * and not negation or empty() should be used.
      *
      * @param string $header
+     *
      * @return string
      */
     public function lastHeader($header)
     {
         if (empty($this->last_headers[strtolower($header)])) {
-            return NULL;
+            return null;
         }
         return $this->last_headers[strtolower($header)];
     }
 
     /**
      * Handle header
+     *
      * @param $ch
      * @param $str
+     *
      * @return int
      */
     private function handle_header($ch, $str)
@@ -541,49 +574,89 @@ class Pest
 }
 
 class Pest_Exception extends Exception
-{}
+{
+}
+
 class Pest_UnknownResponse extends Pest_Exception
-{}
+{
+}
 
 // HTTP Errors
 /* 401-499 */
+
 class Pest_ClientError extends Pest_Exception
-{}
+{
+}
+
 /* 400 */
+
 class Pest_BadRequest extends Pest_ClientError
-{}
+{
+}
+
 /* 401 */
+
 class Pest_Unauthorized extends Pest_ClientError
-{}
+{
+}
+
 /* 403 */
+
 class Pest_Forbidden extends Pest_ClientError
-{}
+{
+}
+
 /* 404 */
+
 class Pest_NotFound extends Pest_ClientError
-{}
+{
+}
+
 /* 405 */
+
 class Pest_MethodNotAllowed extends Pest_ClientError
-{}
+{
+}
+
 /* 409 */
+
 class Pest_Conflict extends Pest_ClientError
-{}
+{
+}
+
 /* 410 */
+
 class Pest_Gone extends Pest_ClientError
-{}
+{
+}
+
 /* 422 */
+
 class Pest_InvalidRecord extends Pest_ClientError
-{}
+{
+}
+
 /* 500-599 */
+
 class Pest_ServerError extends Pest_ClientError
-{}
+{
+}
 
 // CURL Errors
 /* init */
+
 class Pest_Curl_Init extends Pest_Exception
-{}
+{
+}
+
 /* meta */
+
 class Pest_Curl_Meta extends Pest_Exception
-{}
+{
+}
+
 /* exec */
+
 class Pest_Curl_Exec extends Pest_Exception
-{}
+{
+}

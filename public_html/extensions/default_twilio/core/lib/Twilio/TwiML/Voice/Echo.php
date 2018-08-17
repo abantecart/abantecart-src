@@ -11,11 +11,13 @@ namespace Twilio\TwiML\Voice;
 
 use Twilio\TwiML\TwiML;
 
-class Echo_ extends TwiML {
+class Echo_ extends TwiML
+{
     /**
      * Echo constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct('Echo');
     }
 }

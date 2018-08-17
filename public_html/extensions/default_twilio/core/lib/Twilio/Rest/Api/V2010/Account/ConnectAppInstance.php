@@ -28,45 +28,49 @@ use Twilio\Version;
  * @property string sid
  * @property string uri
  */
-class ConnectAppInstance extends InstanceResource {
+class ConnectAppInstance extends InstanceResource
+{
     /**
      * Initialize the ConnectAppInstance
-     * 
-     * @param \Twilio\Version $version Version that contains the resource
-     * @param mixed[] $payload The response payload
-     * @param string $accountSid The unique sid that identifies this account
-     * @param string $sid Fetch by unique connect-app Sid
-     * @return \Twilio\Rest\Api\V2010\Account\ConnectAppInstance 
+     *
+     * @param \Twilio\Version $version    Version that contains the resource
+     * @param mixed[]         $payload    The response payload
+     * @param string          $accountSid The unique sid that identifies this account
+     * @param string          $sid        Fetch by unique connect-app Sid
+     *
+     * @return \Twilio\Rest\Api\V2010\Account\ConnectAppInstance
      */
-    public function __construct(Version $version, array $payload, $accountSid, $sid = null) {
+    public function __construct(Version $version, array $payload, $accountSid, $sid = null)
+    {
         parent::__construct($version);
 
         // Marshaled Properties
         $this->properties = array(
-            'accountSid' => Values::array_get($payload, 'account_sid'),
-            'authorizeRedirectUrl' => Values::array_get($payload, 'authorize_redirect_url'),
-            'companyName' => Values::array_get($payload, 'company_name'),
+            'accountSid'                => Values::array_get($payload, 'account_sid'),
+            'authorizeRedirectUrl'      => Values::array_get($payload, 'authorize_redirect_url'),
+            'companyName'               => Values::array_get($payload, 'company_name'),
             'deauthorizeCallbackMethod' => Values::array_get($payload, 'deauthorize_callback_method'),
-            'deauthorizeCallbackUrl' => Values::array_get($payload, 'deauthorize_callback_url'),
-            'description' => Values::array_get($payload, 'description'),
-            'friendlyName' => Values::array_get($payload, 'friendly_name'),
-            'homepageUrl' => Values::array_get($payload, 'homepage_url'),
-            'permissions' => Values::array_get($payload, 'permissions'),
-            'sid' => Values::array_get($payload, 'sid'),
-            'uri' => Values::array_get($payload, 'uri'),
+            'deauthorizeCallbackUrl'    => Values::array_get($payload, 'deauthorize_callback_url'),
+            'description'               => Values::array_get($payload, 'description'),
+            'friendlyName'              => Values::array_get($payload, 'friendly_name'),
+            'homepageUrl'               => Values::array_get($payload, 'homepage_url'),
+            'permissions'               => Values::array_get($payload, 'permissions'),
+            'sid'                       => Values::array_get($payload, 'sid'),
+            'uri'                       => Values::array_get($payload, 'uri'),
         );
 
-        $this->solution = array('accountSid' => $accountSid, 'sid' => $sid ?: $this->properties['sid'], );
+        $this->solution = array('accountSid' => $accountSid, 'sid' => $sid ?: $this->properties['sid'],);
     }
 
     /**
      * Generate an instance context for the instance, the context is capable of
      * performing various actions.  All instance actions are proxied to the context
-     * 
+     *
      * @return \Twilio\Rest\Api\V2010\Account\ConnectAppContext Context for this
      *                                                          ConnectAppInstance
      */
-    protected function proxy() {
+    protected function proxy()
+    {
         if (!$this->context) {
             $this->context = new ConnectAppContext(
                 $this->version,
@@ -80,53 +84,59 @@ class ConnectAppInstance extends InstanceResource {
 
     /**
      * Fetch a ConnectAppInstance
-     * 
+     *
      * @return ConnectAppInstance Fetched ConnectAppInstance
      */
-    public function fetch() {
+    public function fetch()
+    {
         return $this->proxy()->fetch();
     }
 
     /**
      * Update the ConnectAppInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
+     *
      * @return ConnectAppInstance Updated ConnectAppInstance
      */
-    public function update($options = array()) {
+    public function update($options = array())
+    {
         return $this->proxy()->update($options);
     }
 
     /**
      * Magic getter to access properties
-     * 
+     *
      * @param string $name Property to access
+     *
      * @return mixed The requested property
      * @throws TwilioException For unknown properties
      */
-    public function __get($name) {
+    public function __get($name)
+    {
         if (array_key_exists($name, $this->properties)) {
             return $this->properties[$name];
         }
 
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+        if (property_exists($this, '_'.$name)) {
+            $method = 'get'.ucfirst($name);
             return $this->$method();
         }
 
-        throw new TwilioException('Unknown property: ' . $name);
+        throw new TwilioException('Unknown property: '.$name);
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Api.V2010.ConnectAppInstance ' . implode(' ', $context) . ']';
+        return '[Twilio.Api.V2010.ConnectAppInstance '.implode(' ', $context).']';
     }
 }

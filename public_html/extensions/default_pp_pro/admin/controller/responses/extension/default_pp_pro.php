@@ -5,7 +5,7 @@
    AbanteCart, Ideal OpenSource Ecommerce Solution
    http://www.AbanteCart.com
 
-   Copyright © 2011-2017 Belavier Commerce LLC
+   Copyright © 2011-2018 Belavier Commerce LLC
 
    This source file is subject to Open Software License (OSL 3.0)
    Lincence details is bundled with this package in the file LICENSE.txt.
@@ -17,319 +17,321 @@
 	versions in the future. If you wish to customize AbanteCart for your
 	needs please refer to http://www.AbanteCart.com for more information.
  ------------------------------------------------------------------------------*/
-if ( !IS_ADMIN || !defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!IS_ADMIN || !defined('DIR_CORE')) {
+    header('Location: static_pages/');
 }
 
 /**
  * Class ControllerResponsesExtensionDefaultPpPro
+ *
  * @property ModelExtensionDefaultPPPro $model_extension_default_pp_pro
  */
-class ControllerResponsesExtensionDefaultPpPro extends AController {
+class ControllerResponsesExtensionDefaultPpPro extends AController
+{
 
-	public $data = array();
+    public $data = array();
 
-	public function test() {
+    public function test()
+    {
 
-		$this->loadLanguage('default_pp_pro/default_pp_pro');
+        $this->loadLanguage('default_pp_pro/default_pp_pro');
+
+        $this->loadModel('setting/setting');
+        $cfg = $this->model_setting_setting->getSetting('default_pp_pro', (int)$this->session->data['current_store_id']);
+
+        if (!$cfg['default_pp_pro_test']) {
+            $api_endpoint = 'https://api-3t.paypal.com/nvp';
+        } else {
+            $api_endpoint = 'https://api-3t.sandbox.paypal.com/nvp';
+        }
+
+        $payment_data = array(
+            'METHOD'                         => 'SetExpressCheckout',
+            'VERSION'                        => '98.0',
+            'USER'                           => html_entity_decode($cfg['default_pp_pro_username'], ENT_QUOTES, 'UTF-8'),
+            'PWD'                            => html_entity_decode($cfg['default_pp_pro_password'], ENT_QUOTES, 'UTF-8'),
+            'SIGNATURE'                      => html_entity_decode($cfg['default_pp_pro_signature'], ENT_QUOTES, 'UTF-8'),
+            'PAYMENTREQUEST_0_PAYMENTACTION' => 'Sale',
+            'PAYMENTREQUEST_0_AMT'           => '10.00',
+            'PAYMENTREQUEST_0_CURRENCYCODE'  => 'USD',
+            'RETURNURL'                      => $this->html->getCatalogURL('r/extension/default_pp_pro/callback'),
+            'CANCELURL'                      => $this->html->getSecureURL('extension/extensions/edit', '&extension=default_pp_pro'),
+        );
 
-		$this->loadModel('setting/setting');
-		$cfg = $this->model_setting_setting->getSetting('default_pp_pro',(int)$this->session->data['current_store_id']);
+        $curl = curl_init($api_endpoint);
 
-		if (!$cfg['default_pp_pro_test']) {
-			$api_endpoint = 'https://api-3t.paypal.com/nvp';
-		} else {
-			$api_endpoint = 'https://api-3t.sandbox.paypal.com/nvp';
-		}
+        curl_setopt($curl, CURLOPT_PORT, 443);
+        curl_setopt($curl, CURLOPT_HEADER, 0);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
+        curl_setopt($curl, CURLOPT_FRESH_CONNECT, 1);
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($payment_data));
 
-		$payment_data = array(
-			'METHOD'         => 'SetExpressCheckout',
-			'VERSION'        => '98.0',
-			'USER'           => html_entity_decode($cfg['default_pp_pro_username'], ENT_QUOTES, 'UTF-8'),
-			'PWD'            => html_entity_decode($cfg['default_pp_pro_password'], ENT_QUOTES, 'UTF-8'),
-			'SIGNATURE'      => html_entity_decode($cfg['default_pp_pro_signature'], ENT_QUOTES, 'UTF-8'),
-			'PAYMENTREQUEST_0_PAYMENTACTION'  => 'Sale',
-			'PAYMENTREQUEST_0_AMT'            => '10.00',
-			'PAYMENTREQUEST_0_CURRENCYCODE'   => 'USD',
-			'RETURNURL'		 => $this->html->getCatalogURL('r/extension/default_pp_pro/callback'),
-			'CANCELURL'		 => $this->html->getSecureURL('extension/extensions/edit', '&extension=default_pp_pro'),
-		);
+        $response = curl_exec($curl);
+        $curl_error = curl_error($curl);
 
-		$curl = curl_init($api_endpoint);
+        curl_close($curl);
 
-		curl_setopt($curl, CURLOPT_PORT, 443);
-		curl_setopt($curl, CURLOPT_HEADER, 0);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
-		curl_setopt($curl, CURLOPT_FRESH_CONNECT, 1);
-		curl_setopt($curl, CURLOPT_POST, 1);
-		curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($payment_data));
+        $ec_settings = $this->_parse_http_query($response);
 
-		$response = curl_exec($curl);
-		$curl_error = curl_error($curl);
+        $json = array();
 
-		curl_close($curl);
+        if (empty($response)) {
+            $warning = new AWarning('CURL Error: '.$curl_error.'. Test mode = '.$cfg['default_pp_pro_test'].'.');
+            $warning->toLog()->toDebug();
+            $json['message'] = "Connection to PayPal server can not be established.\n".$curl_error.".\nCheck your server configuration or contact your hosting provider.";
+            $json['error'] = true;
 
-		$ec_settings = $this->_parse_http_query($response);
+        } elseif (isset($ec_settings['TOKEN'])) {
+            $json['message'] = $this->language->get('text_connection_success');
+            $json['error'] = false;
+        } else {
+            $warning = new AWarning('PayPal Error: '.$ec_settings['L_LONGMESSAGE0'].'. Test mode = '.$cfg['default_pp_pro_test'].'.');
+            $warning->toLog()->toDebug();
+            $test_mode = $cfg['default_pp_pro_test'] ? 'ON' : 'OFF';
+            $json['message'] = 'PayPal Error: '.$ec_settings['L_LONGMESSAGE0'].".\n".'Please check your API Credentials and try again.'."\n".'Also please note that Test mode is '.$test_mode.'!';
+            $json['error'] = true;
+        }
 
-		$json = array();
+        $this->load->library('json');
+        $this->response->setOutput(AJson::encode($json));
 
-		if ( empty($response) ) {
-			$warning = new AWarning('CURL Error: ' . $curl_error . '. Test mode = ' . $cfg['default_pp_pro_test'] .'.');
-			$warning->toLog()->toDebug();
-			$json['message'] = "Connection to PayPal server can not be established.\n" . $curl_error .".\nCheck your server configuration or contact your hosting provider.";
-			$json['error'] = true;
+    }
 
+    public function callback()
+    {
 
-		} elseif ( isset($ec_settings['TOKEN']) ) {
-			$json['message'] = $this->language->get('text_connection_success');
-			$json['error'] = false;
-		} else {
-			$warning = new AWarning('PayPal Error: ' . $ec_settings['L_LONGMESSAGE0'] . '. Test mode = ' . $cfg['default_pp_pro_test'] .'.');
-			$warning->toLog()->toDebug();
-			$test_mode = $cfg['default_pp_pro_test'] ? 'ON' : 'OFF';
-			$json['message'] = 'PayPal Error: ' . $ec_settings['L_LONGMESSAGE0'] . ".\n" . 'Please check your API Credentials and try again.' . "\n" . 'Also please note that Test mode is ' . $test_mode .'!';
-			$json['error'] = true;
-		}
+    }
 
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($json));
+    public function capture()
+    {
 
-	}
+        $json = array();
 
-	public function callback() {
+        if (has_value($this->request->get['order_id'])) {
 
-	}
+            $this->loadModel('sale/order');
+            $order_info = $this->model_sale_order->getOrder($this->request->get['order_id']);
 
-	public function capture() {
+            $this->loadLanguage('default_pp_pro/default_pp_pro');
 
-		$json = array();
+            if (has_value($order_info['payment_method_data'])) {
 
-		if ( has_value($this->request->get['order_id']) ) {
+                if ($this->config->get('default_pp_pro_test')) {
+                    $api_endpoint = 'https://api-3t.sandbox.paypal.com/nvp';
+                } else {
+                    $api_endpoint = 'https://api-3t.paypal.com/nvp';
+                }
 
-			$this->loadModel('sale/order');
-			$order_info = $this->model_sale_order->getOrder($this->request->get['order_id']);
+                $payment_method_data = unserialize($order_info['payment_method_data']);
+                $already_captured = has_value($payment_method_data['captured_amount']) ? (float)$payment_method_data['captured_amount'] : 0;
 
-			$this->loadLanguage('default_pp_pro/default_pp_pro');
+                $capture_data = array(
+                    'METHOD'          => 'DoCapture',
+                    'VERSION'         => '98.0',
+                    'USER'            => html_entity_decode($this->config->get('default_pp_pro_username'), ENT_QUOTES, 'UTF-8'),
+                    'PWD'             => html_entity_decode($this->config->get('default_pp_pro_password'), ENT_QUOTES, 'UTF-8'),
+                    'SIGNATURE'       => html_entity_decode($this->config->get('default_pp_pro_signature'), ENT_QUOTES, 'UTF-8'),
+                    'AUTHORIZATIONID' => $payment_method_data['TRANSACTIONID'],
+                    'AMT'             => $payment_method_data['AMT'],
+                    'CURRENCYCODE'    => $order_info['currency'],
+                    'COMPLETETYPE'    => 'Complete',
+                );
 
-			if ( has_value($order_info['payment_method_data']) ) {
+                $curl = curl_init($api_endpoint);
 
-				if ( $this->config->get('default_pp_pro_test') ) {
-					$api_endpoint = 'https://api-3t.sandbox.paypal.com/nvp';
-				} else {
-					$api_endpoint = 'https://api-3t.paypal.com/nvp';
-				}
+                curl_setopt($curl, CURLOPT_PORT, 443);
+                curl_setopt($curl, CURLOPT_HEADER, 0);
+                curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
+                curl_setopt($curl, CURLOPT_FRESH_CONNECT, 1);
+                curl_setopt($curl, CURLOPT_POST, 1);
+                curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($capture_data));
 
-				$payment_method_data = unserialize($order_info['payment_method_data']);
-				$already_captured = has_value($payment_method_data['captured_amount']) ? (float) $payment_method_data['captured_amount'] : 0;
+                $response = curl_exec($curl);
 
-				$capture_data = array(
-					'METHOD'			=> 'DoCapture',
-					'VERSION'			=> '98.0',
-					'USER'				=> html_entity_decode($this->config->get('default_pp_pro_username'), ENT_QUOTES, 'UTF-8'),
-					'PWD'				=> html_entity_decode($this->config->get('default_pp_pro_password'), ENT_QUOTES, 'UTF-8'),
-					'SIGNATURE'			=> html_entity_decode($this->config->get('default_pp_pro_signature'), ENT_QUOTES, 'UTF-8'),
-					'AUTHORIZATIONID'	=> $payment_method_data['TRANSACTIONID'],
-					'AMT'				=> $payment_method_data['AMT'],
-					'CURRENCYCODE'		=> $order_info['currency'],
-					'COMPLETETYPE'		=> 'Complete'
-				);
+                $curl_error = curl_error($curl);
 
-				$curl = curl_init($api_endpoint);
+                curl_close($curl);
 
-				curl_setopt($curl, CURLOPT_PORT, 443);
-				curl_setopt($curl, CURLOPT_HEADER, 0);
-				curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
-				curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-				curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
-				curl_setopt($curl, CURLOPT_FRESH_CONNECT, 1);
-				curl_setopt($curl, CURLOPT_POST, 1);
-				curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($capture_data));
+                $result = $this->_parse_http_query($response);
 
-				$response = curl_exec($curl);
+                if ($result['ACK'] != 'Success') {
+                    $this->session->data['error'] = $result['L_LONGMESSAGE0'];
+                } else {
 
-				$curl_error = curl_error($curl);
+                    $this->loadModel('extension/default_pp_pro');
 
-				curl_close($curl);
+                    $payment_method_data['captured_amount'] = $already_captured + (float)$result['AMT'];
+                    $payment_method_data['captured_transaction_id'] = $result['TRANSACTIONID'];
 
-				$result = $this->_parse_http_query($response);
+                    $payment_method_data['PAYMENTINFO_0_PAYMENTSTATUS'] = 'Completed';
+                    unset($payment_method_data['PAYMENTINFO_0_PENDINGREASON']);
 
-				if ( $result['ACK'] != 'Success' ) {
-					$this->session->data['error'] = $result['L_LONGMESSAGE0'];
-				} else {
+                    $this->model_extension_default_pp_pro->updatePaymentMethodData($this->request->get['order_id'], $payment_method_data);
+                    $this->model_extension_default_pp_pro->addOrderHistory(array(
+                        'order_id'        => $this->request->get['order_id'],
+                        'order_status_id' => $order_info['order_status_id'],
+                        'notify'          => 0,
+                        'comment'         => $this->currency->format($result['AMT'], $order_info['currency'], $order_info['value']).' captured.',
+                    ));
 
-					$this->loadModel('extension/default_pp_pro');
+                    $this->session->data['success'] = $this->language->get('text_capture_success');
 
-					$payment_method_data['captured_amount'] = $already_captured + (float) $result['AMT'];
-					$payment_method_data['captured_transaction_id'] = $result['TRANSACTIONID'];
+                }
 
-					$payment_method_data['PAYMENTINFO_0_PAYMENTSTATUS'] = 'Completed';
-					unset($payment_method_data['PAYMENTINFO_0_PENDINGREASON']);
+            } else {
+                // no payment method data, funds can not be captured
+                $this->session->data['error'] = $this->language->get('error_no_payment_method_data');
+            }
+        } else {
+            // no order_id
+            $this->session->data['error'] = $this->language->get('error_no_order_id');
+        }
 
-					$this->model_extension_default_pp_pro->updatePaymentMethodData($this->request->get['order_id'], $payment_method_data);
-					$this->model_extension_default_pp_pro->addOrderHistory(array(
-						'order_id' => $this->request->get['order_id'],
-						'order_status_id' => $order_info['order_status_id'],
-						'notify' => 0,
-						'comment' => $this->currency->format($result['AMT'], $order_info['currency'], $order_info['value']) . ' captured.'
-					));
+        $json['href'] = $this->html->getSecureURL('sale/order/payment_details', '&order_id='.(int)$this->request->get['order_id'].'&extension=default_pp_pro');
+        $this->load->library('json');
+        $this->response->setOutput(AJson::encode($json));
+
+    }
 
-					$this->session->data['success'] = $this->language->get('text_capture_success');
+    public function refund()
+    {
 
-				}
+        $this->loadLanguage('default_pp_pro/default_pp_pro');
 
+        $json = array();
+
+        if (has_value($this->request->get['order_id'])) {
 
-			} else {
-				// no payment method data, funds can not be captured
-				$this->session->data['error'] = $this->language->get('error_no_payment_method_data');
-			}
-		} else {
-			// no order_id
-			$this->session->data['error'] = $this->language->get('error_no_order_id');
-		}
+            $amount = (float)$this->request->get['amount'];
+
+            if ($amount > 0) {
 
-		$json['href'] = $this->html->getSecureURL('sale/order/payment_details', '&order_id=' . (int) $this->request->get['order_id'].'&extension=default_pp_pro');
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($json));
+                $this->loadModel('sale/order');
+                $order_info = $this->model_sale_order->getOrder($this->request->get['order_id']);
+
+                if (has_value($order_info['payment_method_data'])) {
+
+                    if ($this->config->get('default_pp_pro_test')) {
+                        $api_endpoint = 'https://api-3t.sandbox.paypal.com/nvp';
+                    } else {
+                        $api_endpoint = 'https://api-3t.paypal.com/nvp';
+                    }
 
-	}
+                    $payment_method_data = unserialize($order_info['payment_method_data']);
+
+                    $already_refunded = has_value($payment_method_data['refunded_amount']) ? (float)$payment_method_data['refunded_amount'] : 0;
 
-	public function refund() {
+                    if ($this->request->get['refund_captured']) {
+                        $payment_amount = (float)$payment_method_data['captured_amount'];
+                        $trasaction_id = $payment_method_data['captured_transaction_id'];
+                    } else {
+                        $payment_amount = (float)$payment_method_data['AMT'];
+                        $trasaction_id = $payment_method_data['TRANSACTIONID'];
+                    }
 
-		$this->loadLanguage('default_pp_pro/default_pp_pro');
+                    if ($amount > $payment_amount) {
+                        // Amount limit exceeded
+                        $this->session->data['error'] = $this->language->get('error_amount_exceeded');
 
-		$json = array();
+                    } else {
 
-		if ( has_value($this->request->get['order_id']) ) {
+                        $capture_data = array(
+                            'METHOD'        => 'RefundTransaction',
+                            'VERSION'       => '98.0',
+                            'USER'          => html_entity_decode($this->config->get('default_pp_pro_username'), ENT_QUOTES, 'UTF-8'),
+                            'PWD'           => html_entity_decode($this->config->get('default_pp_pro_password'), ENT_QUOTES, 'UTF-8'),
+                            'SIGNATURE'     => html_entity_decode($this->config->get('default_pp_pro_signature'), ENT_QUOTES, 'UTF-8'),
+                            'TRANSACTIONID' => $trasaction_id,
+                        );
 
-			$amount = (float) $this->request->get['amount'];
+                        if ($amount == $payment_amount) {
+                            $capture_data['REFUNDTYPE'] = 'Full';
+                        } else {
+                            $capture_data['REFUNDTYPE'] = 'Partial';
+                            $capture_data['AMT'] = $amount;
+                        }
 
-			if ( $amount > 0 ) {
+                        $curl = curl_init($api_endpoint);
 
-				$this->loadModel('sale/order');
-				$order_info = $this->model_sale_order->getOrder($this->request->get['order_id']);
+                        curl_setopt($curl, CURLOPT_PORT, 443);
+                        curl_setopt($curl, CURLOPT_HEADER, 0);
+                        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+                        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+                        curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
+                        curl_setopt($curl, CURLOPT_FRESH_CONNECT, 1);
+                        curl_setopt($curl, CURLOPT_POST, 1);
+                        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($capture_data));
 
-				if ( has_value($order_info['payment_method_data']) ) {
+                        $response = curl_exec($curl);
 
-					if ( $this->config->get('default_pp_pro_test') ) {
-						$api_endpoint = 'https://api-3t.sandbox.paypal.com/nvp';
-					} else {
-						$api_endpoint = 'https://api-3t.paypal.com/nvp';
-					}
+                        $curl_error = curl_error($curl);
 
-					$payment_method_data = unserialize($order_info['payment_method_data']);
+                        curl_close($curl);
 
-					$already_refunded = has_value($payment_method_data['refunded_amount']) ? (float) $payment_method_data['refunded_amount'] : 0;
+                        $result = $this->_parse_http_query($response);
 
-					if ( $this->request->get['refund_captured'] ) {
-						$payment_amount = (float) $payment_method_data['captured_amount'];
-						$trasaction_id = $payment_method_data['captured_transaction_id'];
-					} else {
-						$payment_amount = (float) $payment_method_data['AMT'];
-						$trasaction_id = $payment_method_data['TRANSACTIONID'];
-					}
+                        if ($result['ACK'] != 'Success') {
+                            $this->session->data['error'] = $result['L_LONGMESSAGE0'];
+                        } else {
+                            // update order_totals
+                            $this->loadModel('extension/default_pp_pro');
+                            $this->model_extension_default_pp_pro->processRefund(array(
+                                'order_id' => $this->request->get['order_id'],
+                                'amount'   => $amount,
+                                'currency' => $order_info['currency'],
+                            ));
 
-					if ( $amount > $payment_amount ) {
-						// Amount limit exceeded
-						$this->session->data['error'] = $this->language->get('error_amount_exceeded');
+                            $payment_method_data['refunded_amount'] = $already_refunded + (float)$result['GROSSREFUNDAMT'];
 
-					} else {
+                            $this->model_extension_default_pp_pro->updatePaymentMethodData($this->request->get['order_id'], $payment_method_data);
+                            $this->model_extension_default_pp_pro->addOrderHistory(array(
+                                'order_id'        => $this->request->get['order_id'],
+                                'order_status_id' => $order_info['order_status_id'],
+                                'notify'          => 0,
+                                'comment'         => $this->currency->format($result['GROSSREFUNDAMT'], $order_info['currency'], $order_info['value']).' refunded.',
+                            ));
 
-						$capture_data = array(
-							'METHOD'			=> 'RefundTransaction',
-							'VERSION'			=> '98.0',
-							'USER'				=> html_entity_decode($this->config->get('default_pp_pro_username'), ENT_QUOTES, 'UTF-8'),
-							'PWD'				=> html_entity_decode($this->config->get('default_pp_pro_password'), ENT_QUOTES, 'UTF-8'),
-							'SIGNATURE'			=> html_entity_decode($this->config->get('default_pp_pro_signature'), ENT_QUOTES, 'UTF-8'),
-							'TRANSACTIONID'		=> $trasaction_id,
-						);
+                            $this->session->data['success'] = $this->language->get('text_refund_success');
+                        }
+                    }
 
-						if ( $amount == $payment_amount ) {
-							$capture_data['REFUNDTYPE'] = 'Full';
-						} else {
-							$capture_data['REFUNDTYPE'] = 'Partial';
-							$capture_data['AMT'] = $amount;
-						}
+                } else {
+                    // no payment method data, funds can not be captured
+                    $this->session->data['error'] = $this->language->get('error_no_payment_method_data');
+                }
 
+            } else {
+                // no amount
+                $this->session->data['error'] = $this->language->get('error_empty_amount');
+            }
 
+        } else {
+            // no order_id
+            $this->session->data['error'] = $this->language->get('error_no_order_id');
+        }
 
-						$curl = curl_init($api_endpoint);
+        $json['href'] = $this->html->getSecureURL('sale/order/payment_details', '&order_id='.(int)$this->request->get['order_id'].'&extension=default_pp_pro');
 
-						curl_setopt($curl, CURLOPT_PORT, 443);
-						curl_setopt($curl, CURLOPT_HEADER, 0);
-						curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
-						curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-						curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
-						curl_setopt($curl, CURLOPT_FRESH_CONNECT, 1);
-						curl_setopt($curl, CURLOPT_POST, 1);
-						curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($capture_data));
+        $this->load->library('json');
+        $this->response->setOutput(AJson::encode($json));
+    }
 
-						$response = curl_exec($curl);
+    private function _parse_http_query($query)
+    {
 
-						$curl_error = curl_error($curl);
+        $parts = explode('&', $query);
 
-						curl_close($curl);
+        $results = array();
+        foreach ($parts as $part) {
+            $item = explode('=', $part);
+            $results[$item[0]] = urldecode($item[1]);
+        }
 
-						$result = $this->_parse_http_query($response);
-
-						if ( $result['ACK'] != 'Success' ) {
-							$this->session->data['error'] = $result['L_LONGMESSAGE0'];
-						} else {
-							// update order_totals
-							$this->loadModel('extension/default_pp_pro');
-							$this->model_extension_default_pp_pro->processRefund(array(
-								'order_id' => $this->request->get['order_id'],
-								'amount' => $amount,
-								'currency' => $order_info['currency']
-							));
-
-							$payment_method_data['refunded_amount'] = $already_refunded + (float) $result['GROSSREFUNDAMT'];
-
-							$this->model_extension_default_pp_pro->updatePaymentMethodData($this->request->get['order_id'], $payment_method_data);
-							$this->model_extension_default_pp_pro->addOrderHistory(array(
-								'order_id' => $this->request->get['order_id'],
-								'order_status_id' => $order_info['order_status_id'],
-								'notify' => 0,
-								'comment' => $this->currency->format($result['GROSSREFUNDAMT'], $order_info['currency'], $order_info['value']) . ' refunded.'
-							));
-
-							$this->session->data['success'] = $this->language->get('text_refund_success');
-						}
-					}
-
-				} else {
-					// no payment method data, funds can not be captured
-					$this->session->data['error'] = $this->language->get('error_no_payment_method_data');
-				}
-
-
-			} else {
-				// no amount
-				$this->session->data['error'] = $this->language->get('error_empty_amount');
-			}
-
-		} else {
-			// no order_id
-			$this->session->data['error'] = $this->language->get('error_no_order_id');
-		}
-
-		$json['href'] = $this->html->getSecureURL('sale/order/payment_details', '&order_id=' . (int) $this->request->get['order_id'].'&extension=default_pp_pro');
-
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($json));
-	}
-
-	private function _parse_http_query($query) {
-
-		$parts = explode('&', $query);
-
-		$results = array();
-		foreach ( $parts as $part ) {
-			$item = explode('=', $part);
-			$results[$item[0]] = urldecode($item[1]);
-		}
-
-		return $results;
-	}
+        return $results;
+    }
 }

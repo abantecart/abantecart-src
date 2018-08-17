@@ -8,8 +8,9 @@
 
 namespace AvaTax;
 
-interface JsonSerializable {
+interface JsonSerializable
+{
 
-	public function jsonSerialize();
+    public function jsonSerialize();
 
 }

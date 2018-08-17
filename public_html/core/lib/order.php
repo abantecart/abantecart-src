@@ -21,19 +21,19 @@
 /**
  * Class AOrder
  *
- * @property ACart $cart
- * @property AConfig $config
- * @property ATax $tax
- * @property ACurrency $currency
- * @property ARequest $request
- * @property ALoader $load
- * @property ASession $session
- * @property ExtensionsAPI $extensions
- * @property ModelAccountOrder $model_account_order
- * @property ModelAccountAddress $model_account_address
+ * @property ACart                  $cart
+ * @property AConfig                $config
+ * @property ATax                   $tax
+ * @property ACurrency              $currency
+ * @property ARequest               $request
+ * @property ALoader                $load
+ * @property ASession               $session
+ * @property ExtensionsAPI          $extensions
+ * @property ModelAccountOrder      $model_account_order
+ * @property ModelAccountAddress    $model_account_address
  * @property ModelCheckoutExtension $model_checkout_extension
- * @property ModelCheckoutOrder $model_checkout_order
- * @property AIM $im
+ * @property ModelCheckoutOrder     $model_checkout_order
+ * @property AIM                    $im
  *
  */
 class AOrder

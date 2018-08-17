@@ -5,22 +5,22 @@ namespace Stripe;
 /**
  * Class Customer
  *
- * @property string $id
- * @property string $object
- * @property int $account_balance
- * @property string $business_vat_id
- * @property string $created
- * @property string $currency
- * @property string $default_source
- * @property bool $delinquent
- * @property string $description
- * @property mixed $discount
- * @property string $email
- * @property bool $livemode
+ * @property string       $id
+ * @property string       $object
+ * @property int          $account_balance
+ * @property string       $business_vat_id
+ * @property string       $created
+ * @property string       $currency
+ * @property string       $default_source
+ * @property bool         $delinquent
+ * @property string       $description
+ * @property mixed        $discount
+ * @property string       $email
+ * @property bool         $livemode
  * @property StripeObject $metadata
- * @property mixed $shipping
- * @property Collection $sources
- * @property Collection $subscriptions
+ * @property mixed        $shipping
+ * @property Collection   $sources
+ * @property Collection   $subscriptions
  *
  * @package Stripe
  */
@@ -105,7 +105,7 @@ class Customer extends ApiResource
      */
     public function updateSubscription($params = null)
     {
-        $url = $this->instanceUrl() . '/subscription';
+        $url = $this->instanceUrl().'/subscription';
         list($response, $opts) = $this->_request('post', $url, $params);
         $this->refreshFrom(['subscription' => $response], $opts, true);
         return $this->subscription;
@@ -118,7 +118,7 @@ class Customer extends ApiResource
      */
     public function cancelSubscription($params = null)
     {
-        $url = $this->instanceUrl() . '/subscription';
+        $url = $this->instanceUrl().'/subscription';
         list($response, $opts) = $this->_request('delete', $url, $params);
         $this->refreshFrom(['subscription' => $response], $opts, true);
         return $this->subscription;
@@ -129,14 +129,14 @@ class Customer extends ApiResource
      */
     public function deleteDiscount()
     {
-        $url = $this->instanceUrl() . '/discount';
+        $url = $this->instanceUrl().'/discount';
         list($response, $opts) = $this->_request('delete', $url);
         $this->refreshFrom(['discount' => null], $opts, true);
     }
 
     /**
-     * @param array|null $id The ID of the customer on which to create the source.
-     * @param array|null $params
+     * @param array|null        $id The ID of the customer on which to create the source.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return ApiResource
@@ -147,9 +147,9 @@ class Customer extends ApiResource
     }
 
     /**
-     * @param array|null $id The ID of the customer to which the source belongs.
-     * @param array|null $sourceId The ID of the source to retrieve.
-     * @param array|null $params
+     * @param array|null        $id       The ID of the customer to which the source belongs.
+     * @param array|null        $sourceId The ID of the source to retrieve.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return ApiResource
@@ -160,9 +160,9 @@ class Customer extends ApiResource
     }
 
     /**
-     * @param array|null $id The ID of the customer to which the source belongs.
-     * @param array|null $sourceId The ID of the source to update.
-     * @param array|null $params
+     * @param array|null        $id       The ID of the customer to which the source belongs.
+     * @param array|null        $sourceId The ID of the source to update.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return ApiResource
@@ -173,9 +173,9 @@ class Customer extends ApiResource
     }
 
     /**
-     * @param array|null $id The ID of the customer to which the source belongs.
-     * @param array|null $sourceId The ID of the source to delete.
-     * @param array|null $params
+     * @param array|null        $id       The ID of the customer to which the source belongs.
+     * @param array|null        $sourceId The ID of the source to delete.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return ApiResource
@@ -186,8 +186,8 @@ class Customer extends ApiResource
     }
 
     /**
-     * @param array|null $id The ID of the customer on which to retrieve the sources.
-     * @param array|null $params
+     * @param array|null        $id The ID of the customer on which to retrieve the sources.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return ApiResource

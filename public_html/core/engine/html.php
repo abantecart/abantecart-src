@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -72,7 +72,7 @@ class AHtml extends AController
 
     /**
      * @param Registry $registry
-     * @param array $args
+     * @param array    $args
      */
     public function __construct($registry, $args = array())
     {
@@ -182,7 +182,7 @@ class AHtml extends AController
      * @param string $rt
      * @param string $params
      * @param string $encode
-     * @param bool $nonsecure - force to be non secure
+     * @param bool   $nonsecure - force to be non secure
      *
      * @return string
      */
@@ -300,7 +300,7 @@ class AHtml extends AController
      * @param string $rt
      * @param string $params
      * @param string $encode
-     * @param bool $ssl
+     * @param bool   $ssl
      *
      * @return string
      */
@@ -325,7 +325,7 @@ class AHtml extends AController
      * encode URL for & to be &amp
      *
      * @param string $url
-     * @param bool $encode
+     * @param bool   $encode
      *
      * @return string
      */
@@ -382,7 +382,7 @@ class AHtml extends AController
     /**
      * Build URI from array provided
      *
-     * @param $params_arr array - data array to process
+     * @param $params_arr    array - data array to process
      * @param $filter_params array - array of vars to filter
      *
      * @return string - url without unwanted filter parameters
@@ -400,7 +400,7 @@ class AHtml extends AController
     /**
      * Filter query parameters from url.
      *
-     * @param $url string - url to process
+     * @param $url           string - url to process
      * @param $filter_params string|array - single var or array of vars
      *
      * @return string - url without unwanted filter query parameters
@@ -432,7 +432,7 @@ class AHtml extends AController
      * @param $url - url to process
      * @param $remove_vars
      *
-     * @internal param array|string $vars - single var or array of vars
+     * @internal   param array|string $vars - single var or array of vars
      * @return string - url without unwanted get parameters
      */
     public function removeQueryVar($url, $remove_vars)
@@ -472,14 +472,14 @@ class AHtml extends AController
      * create html code based on passed data
      *
      * @param  $data - array with element data
-     *  sample
-     *  $data = array(
-     *   'type' => 'input' //(hidden, textarea, selectbox, file...)
-     *   'name' => 'input name'
-     *   'value' => 'input value' // could be array for select
-     *   'style' => 'my-form'
-     *   'form' => 'form id' // needed for unique element ID     *
-     *  );
+     *               sample
+     *               $data = array(
+     *               'type' => 'input' //(hidden, textarea, selectbox, file...)
+     *               'name' => 'input name'
+     *               'value' => 'input value' // could be array for select
+     *               'style' => 'my-form'
+     *               'form' => 'form id' // needed for unique element ID     *
+     *               );
      *
      * @return object
      * @throws AException
@@ -613,10 +613,10 @@ class AHtml extends AController
     }
 
     /**
-     * @param $html - text that might contain internal links #admin# or #storefront#
-     *           $mode  - 'href' create complete a tag or default just replace URL
-     * @param string $type - can be 'message' to convert url into <a> tag or empty
-     * @param bool $for_admin - force mode for converting links to admin side from storefront scope (see AIM-class etc)
+     * @param        $html      - text that might contain internal links #admin# or #storefront#
+     *                          $mode  - 'href' create complete a tag or default just replace URL
+     * @param string $type      - can be 'message' to convert url into <a> tag or empty
+     * @param bool   $for_admin - force mode for converting links to admin side from storefront scope (see AIM-class etc)
      *
      * @return string - html code with parsed internal URLs
      */
@@ -899,7 +899,7 @@ class HtmlElementFactory
  * @property mixed $value
  * @property array $options
  * @property array $disabled_options
- * @property bool $required
+ * @property bool  $required
  */
 abstract class HtmlElement
 {
@@ -1062,15 +1062,15 @@ class HiddenHtmlElement extends HtmlElement
  *
  * @property string $element_id
  * @property string $name
- * @property array $values
- * @property array $postvars
+ * @property array  $values
+ * @property array  $postvars
  * @property string $content_url
  * @property string $edit_url
  * @property string $form
  * @property string $multivalue_hidden_id
  * @property string $return_to
  * @property string $with_sorting
- * @property array $text
+ * @property array  $text
  */
 class MultivalueListHtmlElement extends HtmlElement
 {
@@ -1116,11 +1116,11 @@ class MultivalueListHtmlElement extends HtmlElement
  * @property string $form
  * @property string $return_to
  * @property string $no_save
- * @property array $text
- * @property int $popup_height
- * @property int $popup_width
- * @property array $js
- * @property array $postvars
+ * @property array  $text
+ * @property int    $popup_height
+ * @property int    $popup_width
+ * @property array  $js
+ * @property array  $postvars
  */
 class MultivalueHtmlElement extends HtmlElement
 {
@@ -1207,7 +1207,7 @@ class SubmitHtmlElement extends HtmlElement
  * @property string $regexp_pattern
  * @property string $error_text
  * @property string $help_url
- * @property bool $multilingual
+ * @property bool   $multilingual
  */
 class InputHtmlElement extends HtmlElement
 {
@@ -1317,7 +1317,7 @@ class PasswordHtmlElement extends HtmlElement
  * @property string $style
  * @property string $placeholder
  * @property string $label_text
- * @property bool $multilingual
+ * @property bool   $multilingual
  * @property string $help_url
  */
 class TextareaHtmlElement extends HtmlElement
@@ -1361,7 +1361,7 @@ class TextareaHtmlElement extends HtmlElement
  * @property string $style
  * @property string $placeholder
  * @property string $base_url - need for inserting pictures into html for emails
- * @property bool $multilingual
+ * @property bool   $multilingual
  */
 class TextEditorHtmlElement extends HtmlElement
 {
@@ -1410,9 +1410,9 @@ class TextEditorHtmlElement extends HtmlElement
  * @property string $required
  * @property string $style
  * @property string $placeholder
- * @property array $options
- * @property array $disabled_options
- * @property bool $disabled
+ * @property array  $options
+ * @property array  $disabled_options
+ * @property bool   $disabled
  * @property string $ajax_url
  * @property string $search_mode
  * @property string $help_url
@@ -1488,20 +1488,20 @@ class SelectboxHtmlElement extends HtmlElement
 /**
  * Class MultiSelectboxHtmlElement
  *
- * @property string $element_id
- * @property array|mixed $value
- * @property string $name
- * @property string $attr
- * @property string $required
- * @property string $style
- * @property string $placeholder
- * @property array $options
- * @property array $disabled_options
- * @property string $filter_params - some additional parameters
- * @property string $ajax_url
+ * @property string       $element_id
+ * @property array|mixed  $value
+ * @property string       $name
+ * @property string       $attr
+ * @property string       $required
+ * @property string       $style
+ * @property string       $placeholder
+ * @property array        $options
+ * @property array        $disabled_options
+ * @property string       $filter_params - some additional parameters
+ * @property string       $ajax_url
  * @property string|array $option_attr
- * @property string $help_url
- * @property bool $disabled
+ * @property string       $help_url
+ * @property bool         $disabled
  */
 class MultiSelectboxHtmlElement extends HtmlElement
 {
@@ -1560,14 +1560,14 @@ class MultiSelectboxHtmlElement extends HtmlElement
  * Class CheckboxHtmlElement
  *
  * @property string|int $value
- * @property bool $checked
- * @property string $element_id
- * @property string $name
- * @property string $attr
- * @property string $required
- * @property string $style
- * @property string $label_text
- * @property string $help_url
+ * @property bool       $checked
+ * @property string     $element_id
+ * @property string     $name
+ * @property string     $attr
+ * @property string     $required
+ * @property string     $style
+ * @property string     $label_text
+ * @property string     $help_url
  */
 class CheckboxHtmlElement extends HtmlElement
 {
@@ -1625,16 +1625,16 @@ class CheckboxHtmlElement extends HtmlElement
  * Class CheckboxGroupHtmlElement
  *
  * @property string|int $value
- * @property array $options
- * @property array $disabled_options
- * @property string $element_id
- * @property string $name
- * @property string $attr
- * @property string $required
- * @property string $style
- * @property bool $scrollbox
- * @property string $help_url
- * @property string $placeholder
+ * @property array      $options
+ * @property array      $disabled_options
+ * @property string     $element_id
+ * @property string     $name
+ * @property string     $attr
+ * @property string     $required
+ * @property string     $style
+ * @property bool       $scrollbox
+ * @property string     $help_url
+ * @property string     $placeholder
  */
 class CheckboxGroupHtmlElement extends HtmlElement
 {
@@ -1728,9 +1728,9 @@ class FileHtmlElement extends HtmlElement
  * @property string $attr
  * @property string $required
  * @property string $style
- * @property array $options
- * @property array $disabled_options
- * @property array $disabled
+ * @property array  $options
+ * @property array  $disabled_options
+ * @property array  $disabled
  * @property string $help_url
  */
 class RadioHtmlElement extends HtmlElement
@@ -1809,7 +1809,7 @@ class ButtonHtmlElement extends HtmlElement
  * @property string $method
  * @property string $style
  * @property string $enctype
- * @property bool $csrf
+ * @property bool   $csrf
  */
 class FormHtmlElement extends HtmlElement
 {
@@ -1849,8 +1849,8 @@ class FormHtmlElement extends HtmlElement
  * @property string $element_id
  * @property string $name
  * @property string $value
- * @property array $options
- * @property bool $required
+ * @property array  $options
+ * @property bool   $required
  */
 class RatingHtmlElement extends HtmlElement
 {
@@ -1896,12 +1896,12 @@ class RatingHtmlElement extends HtmlElement
 /**
  * Class CaptchaHtmlElement
  *
- * @property string $element_id
- * @property string $name
- * @property string $style
- * @property string $attr
- * @property bool $required
- * @property string $placeholder
+ * @property string   $element_id
+ * @property string   $name
+ * @property string   $style
+ * @property string   $attr
+ * @property bool     $required
+ * @property string   $placeholder
  * @property Registry $registry
  */
 class CaptchaHtmlElement extends HtmlElement
@@ -1959,7 +1959,7 @@ class ReCaptchaHtmlElement extends HtmlElement
  * @property string $value
  * @property string $style
  * @property string $attr
- * @property bool $required
+ * @property bool   $required
  * @property string $placeholder
  */
 class PasswordsetHtmlElement extends HtmlElement
@@ -1990,10 +1990,10 @@ class PasswordsetHtmlElement extends HtmlElement
  * @property string $element_id
  * @property string $name
  * @property string $resource_path
- * @property int $resource_id
+ * @property int    $resource_id
  * @property string $object_name
  * @property string $object_id
- * @property bool $hide - sign to hide image preview
+ * @property bool   $hide    - sign to hide image preview
  * @property string $placeholder
  */
 class ResourceHtmlElement extends HtmlElement
@@ -2045,8 +2045,8 @@ class ResourceHtmlElement extends HtmlElement
 /**
  * Class ResourceImageHtmlElement
  *
- * @property int $width
- * @property int $height
+ * @property int    $width
+ * @property int    $height
  * @property string $attr
  * @property string $url
  */
@@ -2082,7 +2082,7 @@ class ResourceImageHtmlElement extends HtmlElement
  * @property string $default
  * @property string $style
  * @property string $attr
- * @property bool $required
+ * @property bool   $required
  * @property string $dateformat
  * @property string $highlight
  */
@@ -2159,7 +2159,7 @@ class DateHtmlElement extends HtmlElement
  * @property string $default
  * @property string $style
  * @property string $attr
- * @property bool $required
+ * @property bool   $required
  * @property string $placeholder
  * @property string $regexp_pattern
  * @property string $error_text
@@ -2211,7 +2211,7 @@ class EmailHtmlElement extends HtmlElement
  * @property string $default
  * @property string $style
  * @property string $attr
- * @property bool $required
+ * @property bool   $required
  * @property string $placeholder
  * @property string $regexp_pattern
  * @property string $error_text
@@ -2264,7 +2264,7 @@ class NumberHtmlElement extends HtmlElement
  * @property string $default
  * @property string $style
  * @property string $attr
- * @property bool $required
+ * @property bool   $required
  * @property string $placeholder
  * @property string $regexp_pattern
  * @property string $error_text
@@ -2350,10 +2350,10 @@ class IPaddressHtmlElement extends HtmlElement
  * @property string $element_id
  * @property string $name
  * @property string $value
- * @property array $options
+ * @property array  $options
  * @property string $style
  * @property string $attr
- * @property bool $required
+ * @property bool   $required
  * @property string $placeholder
  * @property string $help_url
  */
@@ -2400,24 +2400,24 @@ class CountriesHtmlElement extends HtmlElement
 /**
  * Class ZonesHtmlElement
  *
- * @property string $element_id
- * @property string $name
- * @property string $value
- * @property string $submit_mode
- * @property int|array $default_value
- * @property string $zone_field_name
- * @property string $default_zone_field_name
- * @property string $default_zone_name
- * @property array $default_zone_value
- * @property string $zone_name
- * @property array $options
- * @property array $zone_options
+ * @property string           $element_id
+ * @property string           $name
+ * @property string           $value
+ * @property string           $submit_mode
+ * @property int|array        $default_value
+ * @property string           $zone_field_name
+ * @property string           $default_zone_field_name
+ * @property string           $default_zone_name
+ * @property array            $default_zone_value
+ * @property string           $zone_name
+ * @property array            $options
+ * @property array            $zone_options
  * @property array|string|int $zone_value
- * @property string $style
- * @property string $attr
- * @property bool $required
- * @property string $placeholder
- * @property string $help_url
+ * @property string           $style
+ * @property string           $attr
+ * @property bool             $required
+ * @property string           $placeholder
+ * @property string           $help_url
  */
 class ZonesHtmlElement extends HtmlElement
 {

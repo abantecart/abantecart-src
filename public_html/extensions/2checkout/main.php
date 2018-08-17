@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -18,26 +18,31 @@
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE')) {
-	header('Location: static_pages/');
+    header('Location: static_pages/');
 }
 
 $controllers = array(
-	'storefront' => array('responses/extension/2checkout'),
-	'admin' => array(),
+    'storefront' => array('responses/extension/2checkout'),
+    'admin'      => array(),
 );
 
 $models = array(
-	'storefront' => array('extension/2checkout'),
-	'admin' => array(),
+    'storefront' => array('extension/2checkout'),
+    'admin'      => array(),
 );
 
 $languages = array(
-	'storefront' => array(
-		'2checkout/2checkout'),
-	'admin' => array(
-		'2checkout/2checkout'));
+    'storefront' => array(
+        '2checkout/2checkout',
+    ),
+    'admin'      => array(
+        '2checkout/2checkout',
+    ),
+);
 
 $templates = array(
-	'storefront' => array(
-		'responses/2checkout.tpl'),
-	'admin' => array());
+    'storefront' => array(
+        'responses/2checkout.tpl',
+    ),
+    'admin'      => array(),
+);

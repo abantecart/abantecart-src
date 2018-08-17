@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -18,8 +18,8 @@
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')) {
+    header('Location: static_pages/');
 }
 
 //before install validate it is unique
@@ -33,10 +33,10 @@ $lng_status = 0; // Status on installation of extension
 
 $query = $this->db->query("SELECT language_id FROM ".$this->db->table('languages')." WHERE code='".$lng_code."'");
 if ($query->row['language_id']) {
-	$this->session->data['error'] = "Error: Language with ".$lng_code." code is already installed! Can not install duplicate languages! Uninstall this extension before attempting again.";
-	$error = new AError ($this->session->data['error']);
-	$error->toLog()->toDebug();
-	return false;
+    $this->session->data['error'] = "Error: Language with ".$lng_code." code is already installed! Can not install duplicate languages! Uninstall this extension before attempting again.";
+    $error = new AError ($this->session->data['error']);
+    $error->toLog()->toDebug();
+    return false;
 }
 
 $this->db->query("INSERT INTO ".$this->db->table('languages')." (`name`,`code`,`locale`,`image`,`directory`,`filename`,`sort_order`, `status`)
@@ -46,23 +46,23 @@ $new_language_id = $this->db->getLastId();
 $xml = simplexml_load_file(DIR_EXT.'default_spanish/menu.xml');
 
 $routes = array(
-			'text_index_home_menu'=>'index/home',
-			'text_product_special_menu'=>'product/special',
-			'text_account_login_menu'=>'account/login',
-			'text_account_logout_menu'=>'account/logout',
-			'text_account_account_menu'=>'account/account',
-			'text_account_invoice_menu'=>'account/invoice',
-			'text_checkout_cart_menu'=>'checkout/cart',
-			'text_checkout_shipping_menu'=>'checkout/shipping'
+    'text_index_home_menu'        => 'index/home',
+    'text_product_special_menu'   => 'product/special',
+    'text_account_login_menu'     => 'account/login',
+    'text_account_logout_menu'    => 'account/logout',
+    'text_account_account_menu'   => 'account/account',
+    'text_account_invoice_menu'   => 'account/invoice',
+    'text_checkout_cart_menu'     => 'checkout/cart',
+    'text_checkout_shipping_menu' => 'checkout/shipping',
 );
 
-if($xml){
-	foreach($xml->definition as $item){
-		$translates[$routes[(string)$item->key]] = (string)$item->value;
-	}
+if ($xml) {
+    foreach ($xml->definition as $item) {
+        $translates[$routes[(string)$item->key]] = (string)$item->value;
+    }
 
-	$storefront_menu = new AMenu_Storefront();
-	$storefront_menu->addLanguage($new_language_id,$translates);
+    $storefront_menu = new AMenu_Storefront();
+    $storefront_menu->addLanguage($new_language_id, $translates);
 }
 
 //Load core content
@@ -310,7 +310,6 @@ $this->db->query("INSERT INTO ".$this->db->table('country_descriptions')."
 (239, ".$new_language_id.",'Zimbabue'),
 (240, ".$new_language_id.",'Irlanda del Norte');
 ");
-
 
 $this->db->query("INSERT INTO ".$this->db->table('zone_descriptions')."
 (`zone_id`,`language_id`, `name`) VALUES

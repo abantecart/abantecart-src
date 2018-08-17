@@ -5,19 +5,19 @@ namespace Stripe;
 /**
  * Class ApplicationFee
  *
- * @property string $id
- * @property string $object
- * @property string $account
- * @property int $amount
- * @property int $amount_refunded
- * @property string $application
- * @property string $balance_transaction
- * @property string $charge
- * @property int $created
- * @property string $currency
- * @property bool $livemode
- * @property string $originating_transaction
- * @property bool $refunded
+ * @property string     $id
+ * @property string     $object
+ * @property string     $account
+ * @property int        $amount
+ * @property int        $amount_refunded
+ * @property string     $application
+ * @property string     $balance_transaction
+ * @property string     $charge
+ * @property int        $created
+ * @property string     $currency
+ * @property bool       $livemode
+ * @property string     $originating_transaction
+ * @property bool       $refunded
  * @property Collection $refunds
  *
  * @package Stripe
@@ -42,7 +42,7 @@ class ApplicationFee extends ApiResource
     }
 
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return ApplicationFee The refunded application fee.
@@ -55,8 +55,8 @@ class ApplicationFee extends ApiResource
     }
 
     /**
-     * @param array|null $id The ID of the application fee on which to create the refund.
-     * @param array|null $params
+     * @param array|null        $id The ID of the application fee on which to create the refund.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return ApplicationFeeRefund
@@ -67,9 +67,9 @@ class ApplicationFee extends ApiResource
     }
 
     /**
-     * @param array|null $id The ID of the application fee to which the refund belongs.
-     * @param array|null $refundId The ID of the refund to retrieve.
-     * @param array|null $params
+     * @param array|null        $id       The ID of the application fee to which the refund belongs.
+     * @param array|null        $refundId The ID of the refund to retrieve.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return ApplicationFeeRefund
@@ -80,9 +80,9 @@ class ApplicationFee extends ApiResource
     }
 
     /**
-     * @param array|null $id The ID of the application fee to which the refund belongs.
-     * @param array|null $refundId The ID of the refund to update.
-     * @param array|null $params
+     * @param array|null        $id       The ID of the application fee to which the refund belongs.
+     * @param array|null        $refundId The ID of the refund to update.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return ApplicationFeeRefund
@@ -93,8 +93,8 @@ class ApplicationFee extends ApiResource
     }
 
     /**
-     * @param array|null $id The ID of the application fee on which to retrieve the refunds.
-     * @param array|null $params
+     * @param array|null        $id The ID of the application fee on which to retrieve the refunds.
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return ApplicationFeeRefund

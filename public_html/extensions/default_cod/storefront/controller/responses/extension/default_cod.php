@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -19,57 +19,65 @@
    needs please refer to http://www.AbanteCart.com for more information.  
 ------------------------------------------------------------------------------*/
 
-class ControllerResponsesExtensionDefaultCod extends AController{
-	public function main(){
+class ControllerResponsesExtensionDefaultCod extends AController
+{
+    public function main()
+    {
 
-		$item = $this->html->buildElement(
-				array ('type'  => 'button',
-				       'name'  => 'back',
-				       'style' => 'button',
-				       'text'  => $this->language->get('button_back')));
-		$this->view->assign('button_back', $item);
+        $item = $this->html->buildElement(
+            array(
+                'type'  => 'button',
+                'name'  => 'back',
+                'style' => 'button',
+                'text'  => $this->language->get('button_back'),
+            ));
+        $this->view->assign('button_back', $item);
 
-		$item = $this->html->buildElement(
-				array (
-						'type'  => 'button',
-				       'name'  => 'checkout',
-				       'style' => 'button btn-primary',
-				       'text'  => $this->language->get('button_confirm')));
-		$this->view->assign('button_confirm', $item);
+        $item = $this->html->buildElement(
+            array(
+                'type'  => 'button',
+                'name'  => 'checkout',
+                'style' => 'button btn-primary',
+                'text'  => $this->language->get('button_confirm'),
+            ));
+        $this->view->assign('button_confirm', $item);
 
-		$this->view->assign('continue', $this->html->getSecureURL('checkout/success'));
+        $this->view->assign('continue', $this->html->getSecureURL('checkout/success'));
 
-		if ($this->request->get['rt'] == 'checkout/guest_step_3'){
-			$this->view->assign('back', $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit', true));
-		} else{
-			$this->view->assign('back', $this->html->getSecureURL('checkout/payment', '&mode=edit', true));
-		}
+        if ($this->request->get['rt'] == 'checkout/guest_step_3') {
+            $this->view->assign('back', $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit', true));
+        } else {
+            $this->view->assign('back', $this->html->getSecureURL('checkout/payment', '&mode=edit', true));
+        }
 
-		$this->processTemplate('responses/default_cod.tpl');
-	}
+        $this->processTemplate('responses/default_cod.tpl');
+    }
 
-	public function api(){
-		$data = array ();
+    public function api()
+    {
+        $data = array();
 
-		$data['text_note'] = $this->language->get('text_note');
-		$data['process_rt'] = 'default_cod/api_confirm';
+        $data['text_note'] = $this->language->get('text_note');
+        $data['process_rt'] = 'default_cod/api_confirm';
 
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($data));
-	}
+        $this->load->library('json');
+        $this->response->setOutput(AJson::encode($data));
+    }
 
-	public function api_confirm(){
-		$data = array ();
+    public function api_confirm()
+    {
+        $data = array();
 
-		$this->confirm();
-		$data['success'] = 'completed';
+        $this->confirm();
+        $data['success'] = 'completed';
 
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($data));
-	}
+        $this->load->library('json');
+        $this->response->setOutput(AJson::encode($data));
+    }
 
-	public function confirm(){
-		$this->load->model('checkout/order');
-		$this->model_checkout_order->confirm($this->session->data['order_id'], $this->config->get('default_cod_order_status_id'));
-	}
+    public function confirm()
+    {
+        $this->load->model('checkout/order');
+        $this->model_checkout_order->confirm($this->session->data['order_id'], $this->config->get('default_cod_order_status_id'));
+    }
 }

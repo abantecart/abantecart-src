@@ -18,39 +18,44 @@ use Twilio\Version;
 /**
  * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
  */
-class SyncMapItemList extends ListResource {
+class SyncMapItemList extends ListResource
+{
     /**
      * Construct the SyncMapItemList
-     * 
-     * @param Version $version Version that contains the resource
-     * @param string $serviceSid The service_sid
-     * @param string $mapSid The map_sid
-     * @return \Twilio\Rest\Sync\V1\Service\SyncMap\SyncMapItemList 
+     *
+     * @param Version $version    Version that contains the resource
+     * @param string  $serviceSid The service_sid
+     * @param string  $mapSid     The map_sid
+     *
+     * @return \Twilio\Rest\Sync\V1\Service\SyncMap\SyncMapItemList
      */
-    public function __construct(Version $version, $serviceSid, $mapSid) {
+    public function __construct(Version $version, $serviceSid, $mapSid)
+    {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('serviceSid' => $serviceSid, 'mapSid' => $mapSid, );
+        $this->solution = array('serviceSid' => $serviceSid, 'mapSid' => $mapSid,);
 
-        $this->uri = '/Services/' . rawurlencode($serviceSid) . '/Maps/' . rawurlencode($mapSid) . '/Items';
+        $this->uri = '/Services/'.rawurlencode($serviceSid).'/Maps/'.rawurlencode($mapSid).'/Items';
     }
 
     /**
      * Create a new SyncMapItemInstance
-     * 
-     * @param string $key The key
-     * @param array $data The data
+     *
+     * @param string        $key     The key
+     * @param array         $data    The data
      * @param array|Options $options Optional Arguments
+     *
      * @return SyncMapItemInstance Newly created SyncMapItemInstance
      */
-    public function create($key, $data, $options = array()) {
+    public function create($key, $data, $options = array())
+    {
         $options = new Values($options);
 
         $data = Values::of(array(
-            'Key' => $key,
+            'Key'  => $key,
             'Data' => Serialize::jsonObject($data),
-            'Ttl' => $options['ttl'],
+            'Ttl'  => $options['ttl'],
         ));
 
         $payload = $this->version->create(
@@ -75,19 +80,21 @@ class SyncMapItemList extends ListResource {
      * is reached.
      * The results are returned as a generator, so this operation is memory
      * efficient.
-     * 
-     * @param array|Options $options Optional Arguments
-     * @param int $limit Upper limit for the number of records to return. stream()
-     *                   guarantees to never return more than limit.  Default is no
-     *                   limit
-     * @param mixed $pageSize Number of records to fetch per request, when not set
-     *                        will use the default value of 50 records.  If no
-     *                        page_size is defined but a limit is defined, stream()
-     *                        will attempt to read the limit with the most
-     *                        efficient page size, i.e. min(limit, 1000)
+     *
+     * @param array|Options $options  Optional Arguments
+     * @param int           $limit    Upper limit for the number of records to return. stream()
+     *                                guarantees to never return more than limit.  Default is no
+     *                                limit
+     * @param mixed         $pageSize Number of records to fetch per request, when not set
+     *                                will use the default value of 50 records.  If no
+     *                                page_size is defined but a limit is defined, stream()
+     *                                will attempt to read the limit with the most
+     *                                efficient page size, i.e. min(limit, 1000)
+     *
      * @return \Twilio\Stream stream of results
      */
-    public function stream($options = array(), $limit = null, $pageSize = null) {
+    public function stream($options = array(), $limit = null, $pageSize = null)
+    {
         $limits = $this->version->readLimits($limit, $pageSize);
 
         $page = $this->page($options, $limits['pageSize']);
@@ -99,41 +106,45 @@ class SyncMapItemList extends ListResource {
      * Reads SyncMapItemInstance records from the API as a list.
      * Unlike stream(), this operation is eager and will load `limit` records into
      * memory before returning.
-     * 
-     * @param array|Options $options Optional Arguments
-     * @param int $limit Upper limit for the number of records to return. read()
-     *                   guarantees to never return more than limit.  Default is no
-     *                   limit
-     * @param mixed $pageSize Number of records to fetch per request, when not set
-     *                        will use the default value of 50 records.  If no
-     *                        page_size is defined but a limit is defined, read()
-     *                        will attempt to read the limit with the most
-     *                        efficient page size, i.e. min(limit, 1000)
+     *
+     * @param array|Options $options  Optional Arguments
+     * @param int           $limit    Upper limit for the number of records to return. read()
+     *                                guarantees to never return more than limit.  Default is no
+     *                                limit
+     * @param mixed         $pageSize Number of records to fetch per request, when not set
+     *                                will use the default value of 50 records.  If no
+     *                                page_size is defined but a limit is defined, read()
+     *                                will attempt to read the limit with the most
+     *                                efficient page size, i.e. min(limit, 1000)
+     *
      * @return SyncMapItemInstance[] Array of results
      */
-    public function read($options = array(), $limit = null, $pageSize = null) {
+    public function read($options = array(), $limit = null, $pageSize = null)
+    {
         return iterator_to_array($this->stream($options, $limit, $pageSize), false);
     }
 
     /**
      * Retrieve a single page of SyncMapItemInstance records from the API.
      * Request is executed immediately
-     * 
-     * @param array|Options $options Optional Arguments
-     * @param mixed $pageSize Number of records to return, defaults to 50
-     * @param string $pageToken PageToken provided by the API
-     * @param mixed $pageNumber Page Number, this value is simply for client state
+     *
+     * @param array|Options $options    Optional Arguments
+     * @param mixed         $pageSize   Number of records to return, defaults to 50
+     * @param string        $pageToken  PageToken provided by the API
+     * @param mixed         $pageNumber Page Number, this value is simply for client state
+     *
      * @return \Twilio\Page Page of SyncMapItemInstance
      */
-    public function page($options = array(), $pageSize = Values::NONE, $pageToken = Values::NONE, $pageNumber = Values::NONE) {
+    public function page($options = array(), $pageSize = Values::NONE, $pageToken = Values::NONE, $pageNumber = Values::NONE)
+    {
         $options = new Values($options);
         $params = Values::of(array(
-            'Order' => $options['order'],
-            'From' => $options['from'],
-            'Bounds' => $options['bounds'],
+            'Order'     => $options['order'],
+            'From'      => $options['from'],
+            'Bounds'    => $options['bounds'],
             'PageToken' => $pageToken,
-            'Page' => $pageNumber,
-            'PageSize' => $pageSize,
+            'Page'      => $pageNumber,
+            'PageSize'  => $pageSize,
         ));
 
         $response = $this->version->page(
@@ -148,11 +159,13 @@ class SyncMapItemList extends ListResource {
     /**
      * Retrieve a specific page of SyncMapItemInstance records from the API.
      * Request is executed immediately
-     * 
+     *
      * @param string $targetUrl API-generated URL for the requested results page
+     *
      * @return \Twilio\Page Page of SyncMapItemInstance
      */
-    public function getPage($targetUrl) {
+    public function getPage($targetUrl)
+    {
         $response = $this->version->getDomain()->getClient()->request(
             'GET',
             $targetUrl
@@ -163,11 +176,13 @@ class SyncMapItemList extends ListResource {
 
     /**
      * Constructs a SyncMapItemContext
-     * 
+     *
      * @param string $key The key
-     * @return \Twilio\Rest\Sync\V1\Service\SyncMap\SyncMapItemContext 
+     *
+     * @return \Twilio\Rest\Sync\V1\Service\SyncMap\SyncMapItemContext
      */
-    public function getContext($key) {
+    public function getContext($key)
+    {
         return new SyncMapItemContext(
             $this->version,
             $this->solution['serviceSid'],
@@ -178,10 +193,11 @@ class SyncMapItemList extends ListResource {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         return '[Twilio.Sync.V1.SyncMapItemList]';
     }
 }

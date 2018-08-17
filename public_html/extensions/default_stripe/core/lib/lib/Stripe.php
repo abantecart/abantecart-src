@@ -84,7 +84,7 @@ class Stripe
 
     /**
      * @param Util\LoggerInterface $logger The logger to which the library
-     *   will produce messages.
+     *                                     will produce messages.
      */
     public static function setLogger($logger)
     {
@@ -133,7 +133,7 @@ class Stripe
      */
     private static function getDefaultCABundlePath()
     {
-        return realpath(dirname(__FILE__) . '/../data/ca-certificates.crt');
+        return realpath(dirname(__FILE__).'/../data/ca-certificates.crt');
     }
 
     /**
@@ -179,7 +179,7 @@ class Stripe
 
     /**
      * @param string $accountId The Stripe account ID to set for connected
-     *   account requests.
+     *                          account requests.
      */
     public static function setAccountId($accountId)
     {
@@ -195,9 +195,9 @@ class Stripe
     }
 
     /**
-     * @param string $appName The application's name
+     * @param string $appName    The application's name
      * @param string $appVersion The application's version
-     * @param string $appUrl The application's URL
+     * @param string $appUrl     The application's URL
      */
     public static function setAppInfo($appName, $appVersion = null, $appUrl = null)
     {

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -18,27 +18,32 @@
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 
-if(!class_exists('ExtensionDefaultAuthorizenetAim')){
-	include('core/default_authorizenet_aim.php');
+if (!class_exists('ExtensionDefaultAuthorizenetAim')) {
+    include('core/default_authorizenet_aim.php');
 }
 
 $controllers = array(
     'storefront' => array('responses/extension/default_authorizenet_aim'),
-    'admin' => array( ),
+    'admin'      => array(),
 );
 
 $models = array(
-    'storefront' => array( 'extension/default_authorizenet_aim' ),
-    'admin' => array( ),
+    'storefront' => array('extension/default_authorizenet_aim'),
+    'admin'      => array(),
 );
 
 $languages = array(
     'storefront' => array(
-	    'default_authorizenet_aim/default_authorizenet_aim'),
-    'admin' => array(
-        'default_authorizenet_aim/default_authorizenet_aim'));
+        'default_authorizenet_aim/default_authorizenet_aim',
+    ),
+    'admin'      => array(
+        'default_authorizenet_aim/default_authorizenet_aim',
+    ),
+);
 
 $templates = array(
     'storefront' => array(
-	    'responses/default_authorizenet_aim.tpl' ),
-    'admin' => array());
+        'responses/default_authorizenet_aim.tpl',
+    ),
+    'admin'      => array(),
+);

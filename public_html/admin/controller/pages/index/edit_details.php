@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,154 +17,157 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+    header('Location: static_pages/');
 }
-class ControllerPagesIndexEditDetails extends AController {
 
-	public $data = array();
-	public $error = array();
+class ControllerPagesIndexEditDetails extends AController
+{
 
-	public function main() {
+    public $data = array();
+    public $error = array();
 
-		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
+    public function main()
+    {
 
-		$this->loadModel('user/user');
-		$this->loadLanguage('user/user');
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$this->document->setTitle( $this->language->get('text_edit_details') );
+        $this->loadModel('user/user');
+        $this->loadLanguage('user/user');
 
-		$this->document->addBreadcrumb( array (
-			'href'      => $this->html->getSecureURL('index/home'),
-			'text'      => $this->language->get('text_home'),
-			'separator' => FALSE
-		 ));
+        $this->document->setTitle($this->language->get('text_edit_details'));
 
-		$this->document->addBreadcrumb( array (
-			'href'      => $this->html->getSecureURL('index/edit_details'),
-			'text'      => $this->language->get('text_edit_details'),
-			'separator' => ' :: ',
-			'current' => true,
-		));
-		
-		$this->view->assign('success', $this->session->data['success']);
-		if (isset($this->session->data['success'])) {
-			unset($this->session->data['success']);
-		}
+        $this->document->addBreadcrumb(array(
+            'href'      => $this->html->getSecureURL('index/home'),
+            'text'      => $this->language->get('text_home'),
+            'separator' => false,
+        ));
 
-		if ($this->request->is_POST() && $this->_validate()) {
-			$this->model_user_user->editUser($this->user->getId(), $this->request->post);
-			$this->session->data['success'] = $this->language->get('text_success_details');
-			$this->redirect( $this->html->getSecureURL('index/edit_details') );
-		}
+        $this->document->addBreadcrumb(array(
+            'href'      => $this->html->getSecureURL('index/edit_details'),
+            'text'      => $this->language->get('text_edit_details'),
+            'separator' => ' :: ',
+            'current'   => true,
+        ));
 
-		if ($this->request->is_POST() && $this->_validate()) {
-			$this->redirect($this->html->getSecureURL('index/edit_details'));
-		}
+        $this->view->assign('success', $this->session->data['success']);
+        if (isset($this->session->data['success'])) {
+            unset($this->session->data['success']);
+        }
 
-		$this->data['login'] =  $this->html->getSecureURL('index/login');
+        if ($this->request->is_POST() && $this->_validate()) {
+            $this->model_user_user->editUser($this->user->getId(), $this->request->post);
+            $this->session->data['success'] = $this->language->get('text_success_details');
+            $this->redirect($this->html->getSecureURL('index/edit_details'));
+        }
 
-		$this->data['error'] = $this->error;
+        if ($this->request->is_POST() && $this->_validate()) {
+            $this->redirect($this->html->getSecureURL('index/edit_details'));
+        }
 
+        $this->data['login'] = $this->html->getSecureURL('index/login');
 
-		$user_info = $this->model_user_user->getUser( $this->user->getId() );
+        $this->data['error'] = $this->error;
 
-		$fields = array('firstname', 'lastname', 'email');
-		foreach ( $fields as $f ) {
-			if (isset ( $this->request->post [$f] )) {
-				$this->data [$f] = $this->request->post [$f];
-			} else {
-				$this->data[$f] = $user_info[$f];
-			}
-		}
+        $user_info = $this->model_user_user->getUser($this->user->getId());
 
-		$this->data['action'] = $this->html->getSecureURL('index/edit_details');
-		$this->data['update'] = $this->html->getSecureURL('listing_grid/user/update_field','&id='.$this->user->getId() );
-		$form = new AForm('HS');
+        $fields = array('firstname', 'lastname', 'email');
+        foreach ($fields as $f) {
+            if (isset ($this->request->post [$f])) {
+                $this->data [$f] = $this->request->post [$f];
+            } else {
+                $this->data[$f] = $user_info[$f];
+            }
+        }
 
-		$form->setForm(
-			array(
-				'form_name' => 'editFrm',
-				'update' => $this->data['update'],
-			)
-		);
+        $this->data['action'] = $this->html->getSecureURL('index/edit_details');
+        $this->data['update'] = $this->html->getSecureURL('listing_grid/user/update_field', '&id='.$this->user->getId());
+        $form = new AForm('HS');
 
-		$this->data['form']['id'] = 'editFrm';
-		$this->data['form']['form_open'] = $form->getFieldHtml(
-			array(
-				'type' => 'form',
-				'name' => 'editFrm',
-				'attr' => 'data-confirm-exit="true"',
-				'action' => $this->data['action'],
-			)
-		);
-		$this->data['form']['submit'] = $form->getFieldHtml(
-			array(
-				'type' => 'button',
-				'name' => 'submit',
-				'text' => $this->language->get('button_save'),
-				'style' => 'button3',
-			)
-		);
+        $form->setForm(
+            array(
+                'form_name' => 'editFrm',
+                'update'    => $this->data['update'],
+            )
+        );
 
-		foreach ( $fields as $f ) {
-			$this->data['form']['fields'][$f] = $form->getFieldHtml(
-				array(
-					'type' => 'input',
-					'name' => $f,
-					'value' => $this->data[$f],
-					'required' => true,
-				)
-			);
-		}
+        $this->data['form']['id'] = 'editFrm';
+        $this->data['form']['form_open'] = $form->getFieldHtml(
+            array(
+                'type'   => 'form',
+                'name'   => 'editFrm',
+                'attr'   => 'data-confirm-exit="true"',
+                'action' => $this->data['action'],
+            )
+        );
+        $this->data['form']['submit'] = $form->getFieldHtml(
+            array(
+                'type'  => 'button',
+                'name'  => 'submit',
+                'text'  => $this->language->get('button_save'),
+                'style' => 'button3',
+            )
+        );
 
-		$this->data['form']['fields']['password'] = $form->getFieldHtml(
-			array(
-				'type' => 'passwordset',
-				'name' => 'password',
-				'value' => $this->data['password'],
-			)
-		);
+        foreach ($fields as $f) {
+            $this->data['form']['fields'][$f] = $form->getFieldHtml(
+                array(
+                    'type'     => 'input',
+                    'name'     => $f,
+                    'value'    => $this->data[$f],
+                    'required' => true,
+                )
+            );
+        }
 
-		$this->view->batchAssign( $this->data );
+        $this->data['form']['fields']['password'] = $form->getFieldHtml(
+            array(
+                'type'  => 'passwordset',
+                'name'  => 'password',
+                'value' => $this->data['password'],
+            )
+        );
 
-		$this->processTemplate('pages/index/edit_details.tpl' );
+        $this->view->batchAssign($this->data);
 
-		//update controller data
-		$this->extensions->hk_UpdateData($this,__FUNCTION__);
-	}
+        $this->processTemplate('pages/index/edit_details.tpl');
 
-	private function _validate() {
-		if ( mb_strlen($this->request->post['firstname']) < 2 || mb_strlen($this->request->post['firstname']) > 32 ) {
-			$this->error['firstname'] = $this->language->get('error_firstname');
-		}
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
 
-		if ( mb_strlen($this->request->post['lastname']) < 2 || mb_strlen($this->request->post['lastname']) > 32 ) {
-			$this->error['lastname'] = $this->language->get('error_lastname');
-		}
+    private function _validate()
+    {
+        if (mb_strlen($this->request->post['firstname']) < 2 || mb_strlen($this->request->post['firstname']) > 32) {
+            $this->error['firstname'] = $this->language->get('error_firstname');
+        }
 
-		if ( !empty($this->request->post['password']) ) {
-			if ( mb_strlen($this->request->post['password']) < 4 ) {
-				$this->error['password'] = $this->language->get('error_password');
-			}
+        if (mb_strlen($this->request->post['lastname']) < 2 || mb_strlen($this->request->post['lastname']) > 32) {
+            $this->error['lastname'] = $this->language->get('error_lastname');
+        }
 
-			if (!$this->error['password'] && $this->request->post['password'] != $this->request->post['password_confirm']) {
-				$this->error['password'] = $this->language->get('error_confirm');
-			}
-		}
+        if (!empty($this->request->post['password'])) {
+            if (mb_strlen($this->request->post['password']) < 4) {
+                $this->error['password'] = $this->language->get('error_password');
+            }
 
-		if (!preg_match(EMAIL_REGEX_PATTERN, $this->request->post['email'])) {
-			$this->error['email'] = $this->language->get('error_email');
-		}
+            if (!$this->error['password'] && $this->request->post['password'] != $this->request->post['password_confirm']) {
+                $this->error['password'] = $this->language->get('error_confirm');
+            }
+        }
 
-		$this->extensions->hk_ValidateData($this);
+        if (!preg_match(EMAIL_REGEX_PATTERN, $this->request->post['email'])) {
+            $this->error['email'] = $this->language->get('error_email');
+        }
 
-		if (!$this->error) {
-			return TRUE;
-		} else {
-			return FALSE;
-		}
-	}
+        $this->extensions->hk_ValidateData($this);
+
+        if (!$this->error) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }

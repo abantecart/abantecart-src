@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -331,11 +331,11 @@ class ModelExtensionDefaultFedex extends Model
                         foreach ($response->RateReplyDetails as $rateReply) {
                             if (is_object($rateReply->RatedShipmentDetails)) {
                                 $rate = number_format(
-                                        $rateReply->RatedShipmentDetails->ShipmentRateDetail->TotalNetCharge->Amount,
-                                        2,
-                                        ".",
-                                        ","
-                                    );
+                                    $rateReply->RatedShipmentDetails->ShipmentRateDetail->TotalNetCharge->Amount,
+                                    2,
+                                    ".",
+                                    ","
+                                );
                             } else {
                                 $rate =
                                     number_format(
@@ -393,7 +393,8 @@ class ModelExtensionDefaultFedex extends Model
                         }
 
                         if ($rateReply->ServiceType == 'FEDEX_GROUND'
-                            || $rateReply->ServiceType == 'GROUND_HOME_DELIVERY') {
+                            || $rateReply->ServiceType == 'GROUND_HOME_DELIVERY'
+                        ) {
                             $ground_quote = $rate;
                         } else {
                             if ($rateReply->ServiceType == 'FIRST_OVERNIGHT') {
@@ -495,7 +496,7 @@ class ModelExtensionDefaultFedex extends Model
                 'cost'         => $this->currency->convert($express_saver_quote, 'USD', $this->currency->getCode()),
                 'tax_class_id' => 0,
                 'text'         => $this->currency->format(
-                                        $this->currency->convert($express_saver_quote, 'USD', $this->currency->getCode()))
+                    $this->currency->convert($express_saver_quote, 'USD', $this->currency->getCode())),
             );
         }
 
@@ -507,8 +508,8 @@ class ModelExtensionDefaultFedex extends Model
                 'cost'         => $this->currency->convert($ground_quote, 'USD', $this->currency->getCode()),
                 'tax_class_id' => 0,
                 'text'         => $this->currency->format(
-                                        $this->currency->convert($ground_quote, 'USD',$this->currency->getCode())
-                                  )
+                    $this->currency->convert($ground_quote, 'USD', $this->currency->getCode())
+                ),
             );
         }
 

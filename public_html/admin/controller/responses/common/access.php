@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -18,76 +18,82 @@
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE') || !IS_ADMIN) {
-	header('Location: static_pages/');
+    header('Location: static_pages/');
 }
-class ControllerResponsesCommonAccess extends AController {
 
-	public function login() {
+class ControllerResponsesCommonAccess extends AController
+{
 
-		if (isset($this->request->get[ 'rt' ]) && !isset($this->request->get[ 'token' ])) {
-			$route = '';
+    public function login()
+    {
 
-			$part = explode('/', $this->request->get[ 'rt' ]);
+        if (isset($this->request->get['rt']) && !isset($this->request->get['token'])) {
+            $route = '';
 
-			if (isset($part[ 0 ])) {
-				$route .= $part[ 0 ];
-			}
+            $part = explode('/', $this->request->get['rt']);
 
-			if (isset($part[ 1 ])) {
-				$route .= '/' . $part[ 1 ];
-			}
+            if (isset($part[0])) {
+                $route .= $part[0];
+            }
 
-			$ignore = array(
-				'common/access',
-				'common/captcha',
-				'error/ajaxerror/login',
-				'error/ajaxerror/not_found',
-				'error/ajaxerror/permission',
-			);
+            if (isset($part[1])) {
+                $route .= '/'.$part[1];
+            }
 
-			if (!in_array($route, $ignore)) {
-				if (!isset($this->request->get[ 'token' ]) || !isset($this->session->data[ 'token' ]) || ($this->request->get[ 'token' ] != $this->session->data[ 'token' ])) {
-					return $this->dispatch('responses/error/ajaxerror/login');
-				}
-			}
-		} else {
-			if (!isset($this->request->get[ 'token' ]) || !isset($this->session->data[ 'token' ]) || ($this->request->get[ 'token' ] != $this->session->data[ 'token' ])) {
-				return $this->dispatch('responses/error/ajaxerror/login');
-			}
-		}
-	}
+            $ignore = array(
+                'common/access',
+                'common/captcha',
+                'error/ajaxerror/login',
+                'error/ajaxerror/not_found',
+                'error/ajaxerror/permission',
+            );
 
-	public function permission() {
-		if ($this->extensions->isExtensionController($this->request->get[ 'rt' ])){ return null; }
-		if (isset($this->request->get[ 'rt' ])) {
-			$route = '';
-			$rt = $this->request->get[ 'rt' ];
-			if(in_array(substr($rt,0,2),array('p/','r/'))){
-				$rt = substr($rt,2);
-			}
-			$part = explode('/', $rt);
+            if (!in_array($route, $ignore)) {
+                if (!isset($this->request->get['token']) || !isset($this->session->data['token']) || ($this->request->get['token'] != $this->session->data['token'])) {
+                    return $this->dispatch('responses/error/ajaxerror/login');
+                }
+            }
+        } else {
+            if (!isset($this->request->get['token']) || !isset($this->session->data['token']) || ($this->request->get['token'] != $this->session->data['token'])) {
+                return $this->dispatch('responses/error/ajaxerror/login');
+            }
+        }
+    }
 
-			if (isset($part[ 0 ])) {
-				$route .= $part[ 0 ];
-			}
+    public function permission()
+    {
+        if ($this->extensions->isExtensionController($this->request->get['rt'])) {
+            return null;
+        }
+        if (isset($this->request->get['rt'])) {
+            $route = '';
+            $rt = $this->request->get['rt'];
+            if (in_array(substr($rt, 0, 2), array('p/', 'r/'))) {
+                $rt = substr($rt, 2);
+            }
+            $part = explode('/', $rt);
 
-			if (isset($part[ 1 ])) {
-				$route .= '/' . $part[ 1 ];
-			}
+            if (isset($part[0])) {
+                $route .= $part[0];
+            }
 
-			$ignore = array(
-				'common/access',
-				'common/captcha',
-				'error/ajaxerror/login',
-				'error/ajaxerror/not_found',
-				'error/ajaxerror/permission',
-			);
+            if (isset($part[1])) {
+                $route .= '/'.$part[1];
+            }
 
-			if (!in_array($route, $ignore)) {
-				if (!$this->user->canAccess($route)) {
-					return $this->dispatch('responses/error/ajaxerror/permission');
-				}
-			}
-		}
-	}
+            $ignore = array(
+                'common/access',
+                'common/captcha',
+                'error/ajaxerror/login',
+                'error/ajaxerror/not_found',
+                'error/ajaxerror/permission',
+            );
+
+            if (!in_array($route, $ignore)) {
+                if (!$this->user->canAccess($route)) {
+                    return $this->dispatch('responses/error/ajaxerror/permission');
+                }
+            }
+        }
+    }
 }

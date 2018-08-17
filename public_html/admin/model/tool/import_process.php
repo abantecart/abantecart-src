@@ -21,9 +21,9 @@
 /**
  * Class ModelToolImportProcess
  *
- * @property ModelToolImportProcess $model_tool_import_process
- * @property ModelCatalogProduct $model_catalog_product
- * @property ModelCatalogManufacturer $model_catalog_manufacturer
+ * @property ModelToolImportProcess       $model_tool_import_process
+ * @property ModelCatalogProduct          $model_catalog_product
+ * @property ModelCatalogManufacturer     $model_catalog_manufacturer
  * @property ModelLocalisationWeightClass $model_localisation_weight_class
  */
 class ModelToolImportProcess extends Model
@@ -37,7 +37,7 @@ class ModelToolImportProcess extends Model
 
     /**
      * @param string $task_name
-     * @param array $data
+     * @param array  $data
      *
      * @return array|bool
      */
@@ -906,7 +906,7 @@ class ModelToolImportProcess extends Model
      * Get a value from the record based on the setting key
      *
      * @param string $key
-     * @param array $record
+     * @param array  $record
      * @param        $fields
      * @param        $columns
      *
@@ -1142,41 +1142,41 @@ class ModelToolImportProcess extends Model
             'categories'    => array(
                 'columns' => array(
                     'categories.status'                      => array(
-                                            'title' => 'Status (0 or 1)',
-                                            'alias' => 'status',
+                        'title' => 'Status (0 or 1)',
+                        'alias' => 'status',
                     ),
                     'categories.sort_order'                  => array(
-                                            'title' => 'Sorting Order(Number)',
-                                            'alias' => 'sort order',
+                        'title' => 'Sorting Order(Number)',
+                        'alias' => 'sort order',
                     ),
                     'categories.keyword'                     => array(
-                                            'title' => 'SEO URL',
-                                            'alias' => 'seo url',
+                        'title' => 'SEO URL',
+                        'alias' => 'seo url',
                     ),
                     'category_descriptions.name'             => array(
-                                            'title'      => 'Category Name or Tree',
-                                            'required'   => true,
-                                            'split'      => 1,
-                                            'multivalue' => 1,
-                                            'alias'      => 'name',
+                        'title'      => 'Category Name or Tree',
+                        'required'   => true,
+                        'split'      => 1,
+                        'multivalue' => 1,
+                        'alias'      => 'name',
                     ),
                     'category_descriptions.description'      => array(
-                                            'title' => 'Description',
-                                            'alias' => 'description',
+                        'title' => 'Description',
+                        'alias' => 'description',
                     ),
                     'category_descriptions.meta_keywords'    => array(
-                                            'title' => 'Meta Keywords',
-                                            'alias' => 'meta keywords',
+                        'title' => 'Meta Keywords',
+                        'alias' => 'meta keywords',
                     ),
                     'category_descriptions.meta_description' => array(
-                                            'title' => 'Meta Description',
-                                            'alias' => 'meta description',
+                        'title' => 'Meta Description',
+                        'alias' => 'meta description',
                     ),
                     'images.image'                           => array(
-                                            'title'      => "Image or List of URLs/Paths",
-                                            'split'      => 1,
-                                            'multivalue' => 1,
-                                            'alias'      => 'image',
+                        'title'      => "Image or List of URLs/Paths",
+                        'split'      => 1,
+                        'multivalue' => 1,
+                        'alias'      => 'image',
                     ),
                 ),
             ),
@@ -1219,12 +1219,12 @@ if (!function_exists('array_column')) {
      * Optionally, you may provide an $indexKey to index the values in the returned
      * array by the values from the $indexKey column in the input array.
      *
-     * @param array $input A multi-dimensional array (record set) from which to pull
+     * @param array $input     A multi-dimensional array (record set) from which to pull
      *                         a column of values.
      * @param mixed $columnKey The column of values to return. This value may be the
      *                         integer key of the column you wish to retrieve, or it
      *                         may be the string key name for an associative array.
-     * @param mixed $indexKey (Optional.) The column to use as the index/keys for
+     * @param mixed $indexKey  (Optional.) The column to use as the index/keys for
      *                         the returned array. This value may be the integer key
      *                         of the column, or it may be the string key name.
      *

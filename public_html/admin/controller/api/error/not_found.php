@@ -1,11 +1,11 @@
-<?php  
+<?php
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,14 +17,17 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')) {
+    header('Location: static_pages/');
 }
-class ControllerApiErrorNotFound extends AControllerAPI {
-	
-	public function main() {
-		$this->rest->setResponseData( array( 'error' => 'Requested Route was not found!' ) );	
-		$this->rest->sendResponse(401);
-		return null;
-	}	
+
+class ControllerApiErrorNotFound extends AControllerAPI
+{
+
+    public function main()
+    {
+        $this->rest->setResponseData(array('error' => 'Requested Route was not found!'));
+        $this->rest->sendResponse(401);
+        return null;
+    }
 }

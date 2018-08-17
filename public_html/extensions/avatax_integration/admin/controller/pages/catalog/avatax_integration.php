@@ -18,12 +18,11 @@
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 
-
 /**
  * Class ControllerPagesCatalogProductFeatures
  *
  * @property ModelExtensionAvataxIntegration $model_extension_avatax_integration
- * @property AAttribute_Manager $attribute_manager
+ * @property AAttribute_Manager              $attribute_manager
  */
 class ControllerPagesCatalogAvataxIntegration extends AController
 {
@@ -79,17 +78,17 @@ class ControllerPagesCatalogAvataxIntegration extends AController
             'href'      => $this->html->getSecureURL('catalog/product/update',
                 '&product_id='.$this->request->get['product_id']),
             'text'      => $this->language->get('text_edit')
-                            .'&nbsp;'
-                            .$this->language->get('text_product')
-                            .' - '
-                            .$this->data['product_description'][$this->session->data['content_language_id']]['name'],
+                .'&nbsp;'
+                .$this->language->get('text_product')
+                .' - '
+                .$this->data['product_description'][$this->session->data['content_language_id']]['name'],
             'separator' => ' :: ',
         ));
         $this->document->addBreadcrumb(array(
             'href'      => $this->html->getSecureURL(
-                                            'catalog/avatax_integration',
-                                            '&product_id='.$this->request->get['product_id']
-                            ),
+                'catalog/avatax_integration',
+                '&product_id='.$this->request->get['product_id']
+            ),
             'text'      => $this->language->get('avatax_integration_name'),
             'separator' => ' :: ',
             'current'   => true,
@@ -104,7 +103,7 @@ class ControllerPagesCatalogAvataxIntegration extends AController
         unset($tabs_obj);
 
         $this->data['avatax_integration'] = $this->model_extension_avatax_integration->getProductTaxCode(
-                                                            $this->request->get['product_id']
+            $this->request->get['product_id']
         );
 
         $form = new AForm('HT');

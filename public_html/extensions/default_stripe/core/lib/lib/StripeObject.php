@@ -117,7 +117,7 @@ class StripeObject implements \ArrayAccess, \Countable, \JsonSerializable
     {
         if (static::getPermanentAttributes()->includes($k)) {
             throw new \InvalidArgumentException(
-                "Cannot set $k on this object. HINT: you can't set: " .
+                "Cannot set $k on this object. HINT: you can't set: ".
                 join(', ', static::getPermanentAttributes()->toArray())
             );
         }
@@ -153,21 +153,23 @@ class StripeObject implements \ArrayAccess, \Countable, \JsonSerializable
         $nullval = null;
         if (!empty($this->_values) && array_key_exists($k, $this->_values)) {
             return $this->_values[$k];
-        } else if (!empty($this->_transientValues) && $this->_transientValues->includes($k)) {
-            $class = get_class($this);
-            $attrs = join(', ', array_keys($this->_values));
-            $message = "Stripe Notice: Undefined property of $class instance: $k. "
-                    . "HINT: The $k attribute was set in the past, however. "
-                    . "It was then wiped when refreshing the object "
-                    . "with the result returned by Stripe's API, "
-                    . "probably as a result of a save(). The attributes currently "
-                    . "available on this object are: $attrs";
-            Stripe::getLogger()->error($message);
-            return $nullval;
         } else {
-            $class = get_class($this);
-            Stripe::getLogger()->error("Stripe Notice: Undefined property of $class instance: $k");
-            return $nullval;
+            if (!empty($this->_transientValues) && $this->_transientValues->includes($k)) {
+                $class = get_class($this);
+                $attrs = join(', ', array_keys($this->_values));
+                $message = "Stripe Notice: Undefined property of $class instance: $k. "
+                    ."HINT: The $k attribute was set in the past, however. "
+                    ."It was then wiped when refreshing the object "
+                    ."with the result returned by Stripe's API, "
+                    ."probably as a result of a save(). The attributes currently "
+                    ."available on this object are: $attrs";
+                Stripe::getLogger()->error($message);
+                return $nullval;
+            } else {
+                $class = get_class($this);
+                Stripe::getLogger()->error("Stripe Notice: Undefined property of $class instance: $k");
+                return $nullval;
+            }
         }
     }
 
@@ -217,7 +219,7 @@ class StripeObject implements \ArrayAccess, \Countable, \JsonSerializable
     /**
      * This unfortunately needs to be public to be used in Util\Util
      *
-     * @param array $values
+     * @param array                                 $values
      * @param null|string|array|Util\RequestOptions $opts
      *
      * @return StripeObject The object constructed from the given values.
@@ -232,9 +234,9 @@ class StripeObject implements \ArrayAccess, \Countable, \JsonSerializable
     /**
      * Refreshes this object using the provided values.
      *
-     * @param array $values
+     * @param array                                 $values
      * @param null|string|array|Util\RequestOptions $opts
-     * @param boolean $partial Defaults to false.
+     * @param boolean                               $partial Defaults to false.
      */
     public function refreshFrom($values, $opts, $partial = false)
     {
@@ -269,9 +271,9 @@ class StripeObject implements \ArrayAccess, \Countable, \JsonSerializable
     /**
      * Mass assigns attributes on the model.
      *
-     * @param array $values
+     * @param array                                 $values
      * @param null|string|array|Util\RequestOptions $opts
-     * @param boolean $dirty Defaults to true.
+     * @param boolean                               $dirty Defaults to true.
      */
     public function updateAttributes($values, $opts = null, $dirty = true)
     {
@@ -334,7 +336,6 @@ class StripeObject implements \ArrayAccess, \Countable, \JsonSerializable
         return $updateParams;
     }
 
-
     public function serializeParamsValue($value, $original, $unsaved, $force, $key = null)
     {
         // The logic here is that essentially any object embedded in another
@@ -368,8 +369,8 @@ class StripeObject implements \ArrayAccess, \Countable, \JsonSerializable
                 return $value;
             } else {
                 throw new \InvalidArgumentException(
-                    "Cannot save property `$key` containing an API resource of type " .
-                    get_class($value) . ". It doesn't appear to be persisted and is " .
+                    "Cannot save property `$key` containing an API resource of type ".
+                    get_class($value).". It doesn't appear to be persisted and is ".
                     "not marked as `saveWithParent`."
                 );
             }
@@ -412,7 +413,7 @@ class StripeObject implements \ArrayAccess, \Countable, \JsonSerializable
     public function __toString()
     {
         $class = get_class($this);
-        return $class . ' JSON: ' . $this->__toJSON();
+        return $class.' JSON: '.$this->__toJSON();
     }
 
     public function __toArray($recursive = false)
@@ -483,7 +484,7 @@ class StripeObject implements \ArrayAccess, \Countable, \JsonSerializable
             $values = $obj->_values;
         } else {
             throw new \InvalidArgumentException(
-                "empty_values got got unexpected object type: " . get_class($obj)
+                "empty_values got got unexpected object type: ".get_class($obj)
             );
         }
         $update = array_fill_keys(array_keys($values), "");

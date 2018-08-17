@@ -21,41 +21,45 @@ use Twilio\Version;
 
 /**
  * PLEASE NOTE that this class contains preview products that are subject to change. Use them with caution. If you currently do not have developer preview access, please contact help@twilio.com.
- * 
+ *
  * @property \Twilio\Rest\Preview\Sync\Service\DocumentList documents
  * @property \Twilio\Rest\Preview\Sync\Service\SyncListList syncLists
- * @property \Twilio\Rest\Preview\Sync\Service\SyncMapList syncMaps
+ * @property \Twilio\Rest\Preview\Sync\Service\SyncMapList  syncMaps
  * @method \Twilio\Rest\Preview\Sync\Service\DocumentContext documents(string $sid)
  * @method \Twilio\Rest\Preview\Sync\Service\SyncListContext syncLists(string $sid)
  * @method \Twilio\Rest\Preview\Sync\Service\SyncMapContext syncMaps(string $sid)
  */
-class ServiceContext extends InstanceContext {
+class ServiceContext extends InstanceContext
+{
     protected $_documents = null;
     protected $_syncLists = null;
     protected $_syncMaps = null;
 
     /**
      * Initialize the ServiceContext
-     * 
+     *
      * @param \Twilio\Version $version Version that contains the resource
-     * @param string $sid The sid
-     * @return \Twilio\Rest\Preview\Sync\ServiceContext 
+     * @param string          $sid     The sid
+     *
+     * @return \Twilio\Rest\Preview\Sync\ServiceContext
      */
-    public function __construct(Version $version, $sid) {
+    public function __construct(Version $version, $sid)
+    {
         parent::__construct($version);
 
         // Path Solution
-        $this->solution = array('sid' => $sid, );
+        $this->solution = array('sid' => $sid,);
 
-        $this->uri = '/Services/' . rawurlencode($sid) . '';
+        $this->uri = '/Services/'.rawurlencode($sid).'';
     }
 
     /**
      * Fetch a ServiceInstance
-     * 
+     *
      * @return ServiceInstance Fetched ServiceInstance
      */
-    public function fetch() {
+    public function fetch()
+    {
         $params = Values::of(array());
 
         $payload = $this->version->fetch(
@@ -69,27 +73,30 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Deletes the ServiceInstance
-     * 
+     *
      * @return boolean True if delete succeeds, false otherwise
      */
-    public function delete() {
+    public function delete()
+    {
         return $this->version->delete('delete', $this->uri);
     }
 
     /**
      * Update the ServiceInstance
-     * 
+     *
      * @param array|Options $options Optional Arguments
+     *
      * @return ServiceInstance Updated ServiceInstance
      */
-    public function update($options = array()) {
+    public function update($options = array())
+    {
         $options = new Values($options);
 
         $data = Values::of(array(
-            'WebhookUrl' => $options['webhookUrl'],
-            'FriendlyName' => $options['friendlyName'],
+            'WebhookUrl'                  => $options['webhookUrl'],
+            'FriendlyName'                => $options['friendlyName'],
             'ReachabilityWebhooksEnabled' => Serialize::booleanToString($options['reachabilityWebhooksEnabled']),
-            'AclEnabled' => Serialize::booleanToString($options['aclEnabled']),
+            'AclEnabled'                  => Serialize::booleanToString($options['aclEnabled']),
         ));
 
         $payload = $this->version->update(
@@ -104,10 +111,11 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Access the documents
-     * 
-     * @return \Twilio\Rest\Preview\Sync\Service\DocumentList 
+     *
+     * @return \Twilio\Rest\Preview\Sync\Service\DocumentList
      */
-    protected function getDocuments() {
+    protected function getDocuments()
+    {
         if (!$this->_documents) {
             $this->_documents = new DocumentList($this->version, $this->solution['sid']);
         }
@@ -117,10 +125,11 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Access the syncLists
-     * 
-     * @return \Twilio\Rest\Preview\Sync\Service\SyncListList 
+     *
+     * @return \Twilio\Rest\Preview\Sync\Service\SyncListList
      */
-    protected function getSyncLists() {
+    protected function getSyncLists()
+    {
         if (!$this->_syncLists) {
             $this->_syncLists = new SyncListList($this->version, $this->solution['sid']);
         }
@@ -130,10 +139,11 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Access the syncMaps
-     * 
-     * @return \Twilio\Rest\Preview\Sync\Service\SyncMapList 
+     *
+     * @return \Twilio\Rest\Preview\Sync\Service\SyncMapList
      */
-    protected function getSyncMaps() {
+    protected function getSyncMaps()
+    {
         if (!$this->_syncMaps) {
             $this->_syncMaps = new SyncMapList($this->version, $this->solution['sid']);
         }
@@ -143,29 +153,33 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Magic getter to lazy load subresources
-     * 
+     *
      * @param string $name Subresource to return
+     *
      * @return \Twilio\ListResource The requested subresource
      * @throws \Twilio\Exceptions\TwilioException For unknown subresources
      */
-    public function __get($name) {
-        if (property_exists($this, '_' . $name)) {
-            $method = 'get' . ucfirst($name);
+    public function __get($name)
+    {
+        if (property_exists($this, '_'.$name)) {
+            $method = 'get'.ucfirst($name);
             return $this->$method();
         }
 
-        throw new TwilioException('Unknown subresource ' . $name);
+        throw new TwilioException('Unknown subresource '.$name);
     }
 
     /**
      * Magic caller to get resource contexts
-     * 
-     * @param string $name Resource to return
-     * @param array $arguments Context parameters
+     *
+     * @param string $name      Resource to return
+     * @param array  $arguments Context parameters
+     *
      * @return \Twilio\InstanceContext The requested resource context
      * @throws \Twilio\Exceptions\TwilioException For unknown resource
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         $property = $this->$name;
         if (method_exists($property, 'getContext')) {
             return call_user_func_array(array($property, 'getContext'), $arguments);
@@ -176,14 +190,15 @@ class ServiceContext extends InstanceContext {
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $context = array();
         foreach ($this->solution as $key => $value) {
             $context[] = "$key=$value";
         }
-        return '[Twilio.Preview.Sync.ServiceContext ' . implode(' ', $context) . ']';
+        return '[Twilio.Preview.Sync.ServiceContext '.implode(' ', $context).']';
     }
 }

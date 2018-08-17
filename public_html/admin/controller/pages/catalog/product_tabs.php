@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,12 +17,16 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.  
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+    header('Location: static_pages/');
 }
-class ControllerPagesCatalogProductTabs extends AController {
-	public $data = array();
-  	public function main() {
+
+class ControllerPagesCatalogProductTabs extends AController
+{
+    public $data = array();
+
+    public function main()
+    {
 
         //Load input arguments for gid settings
         $this->data = func_get_arg(0);
@@ -30,25 +34,25 @@ class ControllerPagesCatalogProductTabs extends AController {
             throw new AException (AC_ERR_LOAD, 'Error: Could not create tabs. Tab definition is not array.');
         }
         //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$this->loadLanguage('catalog/product');
-		$product_id = $this->request->get['product_id'];
-		$product_id = !$product_id && $this->data['product_id'] ? $this->data['product_id'] : $product_id;
+        $this->loadLanguage('catalog/product');
+        $product_id = $this->request->get['product_id'];
+        $product_id = !$product_id && $this->data['product_id'] ? $this->data['product_id'] : $product_id;
 
-        $this->data['link_general'] = $this->html->getSecureURL('catalog/product/update', '&product_id=' . $product_id );
-        $this->data['link_images'] = $this->html->getSecureURL('catalog/product_images', '&product_id=' . $product_id );
-        $this->data['link_options'] = $this->html->getSecureURL('catalog/product_options', '&product_id=' . $product_id );
-        $this->data['link_files'] = $this->html->getSecureURL('catalog/product_files', '&product_id=' . $product_id );
-        $this->data['link_relations'] = $this->html->getSecureURL('catalog/product_relations', '&product_id=' . $product_id );
-        $this->data['link_promotions'] = $this->html->getSecureURL('catalog/product_promotions', '&product_id=' . $product_id );
-        $this->data['link_extensions'] = $this->html->getSecureURL('catalog/product_extensions', '&product_id=' . $product_id );
-        $this->data['link_layout'] = $this->html->getSecureURL('catalog/product_layout', '&product_id=' . $product_id );
+        $this->data['link_general'] = $this->html->getSecureURL('catalog/product/update', '&product_id='.$product_id);
+        $this->data['link_images'] = $this->html->getSecureURL('catalog/product_images', '&product_id='.$product_id);
+        $this->data['link_options'] = $this->html->getSecureURL('catalog/product_options', '&product_id='.$product_id);
+        $this->data['link_files'] = $this->html->getSecureURL('catalog/product_files', '&product_id='.$product_id);
+        $this->data['link_relations'] = $this->html->getSecureURL('catalog/product_relations', '&product_id='.$product_id);
+        $this->data['link_promotions'] = $this->html->getSecureURL('catalog/product_promotions', '&product_id='.$product_id);
+        $this->data['link_extensions'] = $this->html->getSecureURL('catalog/product_extensions', '&product_id='.$product_id);
+        $this->data['link_layout'] = $this->html->getSecureURL('catalog/product_layout', '&product_id='.$product_id);
 
-		$this->view->batchAssign( $this->data );
-		$this->processTemplate('pages/catalog/product_tabs.tpl');
+        $this->view->batchAssign($this->data);
+        $this->processTemplate('pages/catalog/product_tabs.tpl');
 
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-	}
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
 }
 

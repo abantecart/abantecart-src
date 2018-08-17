@@ -15,144 +15,167 @@ use Twilio\Values;
 /**
  * PLEASE NOTE that this class contains preview products that are subject to change. Use them with caution. If you currently do not have developer preview access, please contact help@twilio.com.
  */
-abstract class ParticipantOptions {
+abstract class ParticipantOptions
+{
     /**
-     * @param string $identifier The Participant's contact identifier, normally a
-     *                           phone number.
+     * @param string $identifier      The Participant's contact identifier, normally a
+     *                                phone number.
      * @param string $participantType The Type of this Participant
+     *
      * @return ReadParticipantOptions Options builder
      */
-    public static function read($identifier = Values::NONE, $participantType = Values::NONE) {
+    public static function read($identifier = Values::NONE, $participantType = Values::NONE)
+    {
         return new ReadParticipantOptions($identifier, $participantType);
     }
 
     /**
-     * @param string $friendlyName A human readable description of this resource
+     * @param string $friendlyName    A human readable description of this resource
      * @param string $participantType The Type of this Participant
+     *
      * @return CreateParticipantOptions Options builder
      */
-    public static function create($friendlyName = Values::NONE, $participantType = Values::NONE) {
+    public static function create($friendlyName = Values::NONE, $participantType = Values::NONE)
+    {
         return new CreateParticipantOptions($friendlyName, $participantType);
     }
 
     /**
      * @param string $participantType The Type of this Participant
-     * @param string $identifier The Participant's contact identifier, normally a
-     *                           phone number.
-     * @param string $friendlyName A human readable description of this resource
+     * @param string $identifier      The Participant's contact identifier, normally a
+     *                                phone number.
+     * @param string $friendlyName    A human readable description of this resource
+     *
      * @return UpdateParticipantOptions Options builder
      */
-    public static function update($participantType = Values::NONE, $identifier = Values::NONE, $friendlyName = Values::NONE) {
+    public static function update($participantType = Values::NONE, $identifier = Values::NONE, $friendlyName = Values::NONE)
+    {
         return new UpdateParticipantOptions($participantType, $identifier, $friendlyName);
     }
 }
 
-class ReadParticipantOptions extends Options {
+class ReadParticipantOptions extends Options
+{
     /**
-     * @param string $identifier The Participant's contact identifier, normally a
-     *                           phone number.
+     * @param string $identifier      The Participant's contact identifier, normally a
+     *                                phone number.
      * @param string $participantType The Type of this Participant
      */
-    public function __construct($identifier = Values::NONE, $participantType = Values::NONE) {
+    public function __construct($identifier = Values::NONE, $participantType = Values::NONE)
+    {
         $this->options['identifier'] = $identifier;
         $this->options['participantType'] = $participantType;
     }
 
     /**
      * The Participant's contact identifier, normally a phone number.
-     * 
+     *
      * @param string $identifier The Participant's contact identifier, normally a
      *                           phone number.
+     *
      * @return $this Fluent Builder
      */
-    public function setIdentifier($identifier) {
+    public function setIdentifier($identifier)
+    {
         $this->options['identifier'] = $identifier;
         return $this;
     }
 
     /**
      * The Type of this Participant. One of `sms`, `voice` or `phone`.
-     * 
+     *
      * @param string $participantType The Type of this Participant
+     *
      * @return $this Fluent Builder
      */
-    public function setParticipantType($participantType) {
+    public function setParticipantType($participantType)
+    {
         $this->options['participantType'] = $participantType;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $options = array();
         foreach ($this->options as $key => $value) {
             if ($value != Values::NONE) {
                 $options[] = "$key=$value";
             }
         }
-        return '[Twilio.Preview.Proxy.ReadParticipantOptions ' . implode(' ', $options) . ']';
+        return '[Twilio.Preview.Proxy.ReadParticipantOptions '.implode(' ', $options).']';
     }
 }
 
-class CreateParticipantOptions extends Options {
+class CreateParticipantOptions extends Options
+{
     /**
-     * @param string $friendlyName A human readable description of this resource
+     * @param string $friendlyName    A human readable description of this resource
      * @param string $participantType The Type of this Participant
      */
-    public function __construct($friendlyName = Values::NONE, $participantType = Values::NONE) {
+    public function __construct($friendlyName = Values::NONE, $participantType = Values::NONE)
+    {
         $this->options['friendlyName'] = $friendlyName;
         $this->options['participantType'] = $participantType;
     }
 
     /**
      * A human readable description of this resource, up to 64 characters.
-     * 
+     *
      * @param string $friendlyName A human readable description of this resource
+     *
      * @return $this Fluent Builder
      */
-    public function setFriendlyName($friendlyName) {
+    public function setFriendlyName($friendlyName)
+    {
         $this->options['friendlyName'] = $friendlyName;
         return $this;
     }
 
     /**
      * The Type of this Participant. One of `sms`, `voice` or `phone`.
-     * 
+     *
      * @param string $participantType The Type of this Participant
+     *
      * @return $this Fluent Builder
      */
-    public function setParticipantType($participantType) {
+    public function setParticipantType($participantType)
+    {
         $this->options['participantType'] = $participantType;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $options = array();
         foreach ($this->options as $key => $value) {
             if ($value != Values::NONE) {
                 $options[] = "$key=$value";
             }
         }
-        return '[Twilio.Preview.Proxy.CreateParticipantOptions ' . implode(' ', $options) . ']';
+        return '[Twilio.Preview.Proxy.CreateParticipantOptions '.implode(' ', $options).']';
     }
 }
 
-class UpdateParticipantOptions extends Options {
+class UpdateParticipantOptions extends Options
+{
     /**
      * @param string $participantType The Type of this Participant
-     * @param string $identifier The Participant's contact identifier, normally a
-     *                           phone number.
-     * @param string $friendlyName A human readable description of this resource
+     * @param string $identifier      The Participant's contact identifier, normally a
+     *                                phone number.
+     * @param string $friendlyName    A human readable description of this resource
      */
-    public function __construct($participantType = Values::NONE, $identifier = Values::NONE, $friendlyName = Values::NONE) {
+    public function __construct($participantType = Values::NONE, $identifier = Values::NONE, $friendlyName = Values::NONE)
+    {
         $this->options['participantType'] = $participantType;
         $this->options['identifier'] = $identifier;
         $this->options['friendlyName'] = $friendlyName;
@@ -160,50 +183,57 @@ class UpdateParticipantOptions extends Options {
 
     /**
      * The Type of this Participant. One of `sms`, `voice` or `phone`.
-     * 
+     *
      * @param string $participantType The Type of this Participant
+     *
      * @return $this Fluent Builder
      */
-    public function setParticipantType($participantType) {
+    public function setParticipantType($participantType)
+    {
         $this->options['participantType'] = $participantType;
         return $this;
     }
 
     /**
      * The Participant's contact identifier, normally a phone number.
-     * 
+     *
      * @param string $identifier The Participant's contact identifier, normally a
      *                           phone number.
+     *
      * @return $this Fluent Builder
      */
-    public function setIdentifier($identifier) {
+    public function setIdentifier($identifier)
+    {
         $this->options['identifier'] = $identifier;
         return $this;
     }
 
     /**
      * A human readable description of this resource, up to 64 characters.
-     * 
+     *
      * @param string $friendlyName A human readable description of this resource
+     *
      * @return $this Fluent Builder
      */
-    public function setFriendlyName($friendlyName) {
+    public function setFriendlyName($friendlyName)
+    {
         $this->options['friendlyName'] = $friendlyName;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $options = array();
         foreach ($this->options as $key => $value) {
             if ($value != Values::NONE) {
                 $options[] = "$key=$value";
             }
         }
-        return '[Twilio.Preview.Proxy.UpdateParticipantOptions ' . implode(' ', $options) . ']';
+        return '[Twilio.Preview.Proxy.UpdateParticipantOptions '.implode(' ', $options).']';
     }
 }

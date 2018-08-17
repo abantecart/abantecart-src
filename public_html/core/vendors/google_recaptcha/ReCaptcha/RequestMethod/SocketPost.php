@@ -38,6 +38,7 @@ class SocketPost implements RequestMethod
 {
     /**
      * reCAPTCHA service host.
+     *
      * @const string
      */
     const RECAPTCHA_HOST = 'www.google.com';
@@ -59,6 +60,7 @@ class SocketPost implements RequestMethod
 
     /**
      * Socket to the reCAPTCHA service
+     *
      * @var Socket
      */
     private $socket;
@@ -81,6 +83,7 @@ class SocketPost implements RequestMethod
      * Submit the POST request with the specified parameters.
      *
      * @param RequestParameters $params Request parameters
+     *
      * @return string Body of the reCAPTCHA response
      */
     public function submit(RequestParameters $params)
@@ -88,18 +91,18 @@ class SocketPost implements RequestMethod
         $errno = 0;
         $errstr = '';
 
-        if (false === $this->socket->fsockopen('ssl://' . self::RECAPTCHA_HOST, 443, $errno, $errstr, 30)) {
+        if (false === $this->socket->fsockopen('ssl://'.self::RECAPTCHA_HOST, 443, $errno, $errstr, 30)) {
             return self::BAD_REQUEST;
         }
 
         $content = $params->toQueryString();
 
-        $request = "POST " . self::SITE_VERIFY_PATH . " HTTP/1.1\r\n";
-        $request .= "Host: " . self::RECAPTCHA_HOST . "\r\n";
+        $request = "POST ".self::SITE_VERIFY_PATH." HTTP/1.1\r\n";
+        $request .= "Host: ".self::RECAPTCHA_HOST."\r\n";
         $request .= "Content-Type: application/x-www-form-urlencoded\r\n";
-        $request .= "Content-length: " . strlen($content) . "\r\n";
+        $request .= "Content-length: ".strlen($content)."\r\n";
         $request .= "Connection: close\r\n\r\n";
-        $request .= $content . "\r\n\r\n";
+        $request .= $content."\r\n\r\n";
 
         $this->socket->fwrite($request);
         $response = '';

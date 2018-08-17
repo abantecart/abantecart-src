@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -18,49 +18,53 @@
    needs please refer to http://www.AbanteCart.com for more information.  
 ------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE') || !IS_ADMIN) {
-	header('Location: static_pages/');
+    header('Location: static_pages/');
 }
-class ControllerResponsesCommonActionCommands extends AController {
-	private $error = array();
-	public $commands = array();
 
-	//main method to load commands 
-	public function main() {
-		$result = array();
-		
-		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
+class ControllerResponsesCommonActionCommands extends AController
+{
+    private $error = array();
+    public $commands = array();
 
-		//load all commands from languages. 
-		$term = $this->request->get['term'];
-		if ( !$term ) {			
-			$this->extensions->hk_UpdateData($this, __FUNCTION__);
-			return $this->_no_match();
-		}
-		
-		$comds_obj = new AdminCommands();
-		$this->commands = $comds_obj->commands;
-		$result = $comds_obj->getCommands($term);
-		
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-		if ( !$result ) {			
-			return $this->_no_match();
-		}
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($result));		
-	}
+    //main method to load commands 
+    public function main()
+    {
+        $result = array();
 
-	private function _no_match() {
-		$result = array();
-		$result['message'] = $this->language->get('text_possible_commands');
-		//load all possible commands from language definitions.		
-		foreach($this->commands as $command){
-			$result['commands'][] = $command;
-		}
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($result));
-		return null;
-	}
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+
+        //load all commands from languages. 
+        $term = $this->request->get['term'];
+        if (!$term) {
+            $this->extensions->hk_UpdateData($this, __FUNCTION__);
+            return $this->_no_match();
+        }
+
+        $comds_obj = new AdminCommands();
+        $this->commands = $comds_obj->commands;
+        $result = $comds_obj->getCommands($term);
+
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        if (!$result) {
+            return $this->_no_match();
+        }
+        $this->load->library('json');
+        $this->response->setOutput(AJson::encode($result));
+    }
+
+    private function _no_match()
+    {
+        $result = array();
+        $result['message'] = $this->language->get('text_possible_commands');
+        //load all possible commands from language definitions.		
+        foreach ($this->commands as $command) {
+            $result['commands'][] = $command;
+        }
+        $this->load->library('json');
+        $this->response->setOutput(AJson::encode($result));
+        return null;
+    }
 }
 
 ?>

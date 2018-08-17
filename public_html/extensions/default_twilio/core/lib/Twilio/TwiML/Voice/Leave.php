@@ -11,11 +11,13 @@ namespace Twilio\TwiML\Voice;
 
 use Twilio\TwiML\TwiML;
 
-class Leave extends TwiML {
+class Leave extends TwiML
+{
     /**
      * Leave constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct('Leave');
     }
 }

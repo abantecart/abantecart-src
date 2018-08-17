@@ -17,23 +17,25 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE')){
-	header('Location: static_pages/');
+if (!defined('DIR_CORE')) {
+    header('Location: static_pages/');
 }
 
-class ControllerBlocksBreadcrumbs extends AController{
-	public $data = array ();
+class ControllerBlocksBreadcrumbs extends AController
+{
+    public $data = array();
 
-	public function main(){
-		//init controller data
-		$this->extensions->hk_InitData($this,__FUNCTION__);
+    public function main()
+    {
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$this->data['breadcrumbs'] = $this->document->getBreadcrumbs();
-		$this->data['text_home'] = $this->language->get('text_home');
-		$this->view->batchAssign($this->data);
-		$this->processTemplate();
+        $this->data['breadcrumbs'] = $this->document->getBreadcrumbs();
+        $this->data['text_home'] = $this->language->get('text_home');
+        $this->view->batchAssign($this->data);
+        $this->processTemplate();
 
-		//init controller data
-		$this->extensions->hk_UpdateData($this,__FUNCTION__);
-	}
+        //init controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
 }

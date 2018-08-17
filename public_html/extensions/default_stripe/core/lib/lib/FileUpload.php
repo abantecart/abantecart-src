@@ -7,9 +7,9 @@ namespace Stripe;
  *
  * @property string $id
  * @property string $object
- * @property int $created
+ * @property int    $created
  * @property string $purpose
- * @property int $size
+ * @property int    $size
  * @property string $type
  *
  * @package Stripe

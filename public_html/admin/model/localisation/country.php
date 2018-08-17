@@ -55,7 +55,7 @@ class ModelLocalisationCountry extends Model
 
     /**
      * @param int $country_id
-     * @param $data
+     * @param     $data
      */
     public function editCountry($country_id, $data)
     {
@@ -146,7 +146,7 @@ class ModelLocalisationCountry extends Model
     }
 
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $mode
      *
      * @return array|int

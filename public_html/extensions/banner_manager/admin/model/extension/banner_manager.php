@@ -20,8 +20,8 @@
 /**
  * Class ModelExtensionBannerManager
  */
-/** @noinspection PhpUndefinedClassInspection */
 
+/** @noinspection PhpUndefinedClassInspection */
 class ModelExtensionBannerManager extends Model
 {
     /**
@@ -136,7 +136,7 @@ class ModelExtensionBannerManager extends Model
     }
 
     /**
-     * @param int $banner_id
+     * @param int   $banner_id
      * @param array $data
      *
      * @return bool
@@ -220,7 +220,7 @@ class ModelExtensionBannerManager extends Model
     }
 
     /**
-     * @param array $filter
+     * @param array  $filter
      * @param string $mode
      *
      * @return array
@@ -295,7 +295,7 @@ class ModelExtensionBannerManager extends Model
     }
 
     /**
-     * @param array $filter
+     * @param array  $filter
      * @param string $mode
      *
      * @return int|array
@@ -362,7 +362,7 @@ class ModelExtensionBannerManager extends Model
     }
 
     /**
-     * @param int $banner_id
+     * @param int   $banner_id
      * @param array $data
      *
      * @return bool

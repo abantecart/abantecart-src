@@ -10,7 +10,7 @@ namespace Stripe\ApiOperations;
 trait All
 {
     /**
-     * @param array|null $params
+     * @param array|null        $params
      * @param array|string|null $opts
      *
      * @return \Stripe\Collection of ApiResources

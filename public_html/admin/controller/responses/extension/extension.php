@@ -5,7 +5,7 @@ $Id$
 AbanteCart, Ideal OpenSource Ecommerce Solution
 http://www.AbanteCart.com
 
-Copyright © 2011-2017 Belavier Commerce LLC
+Copyright © 2011-2018 Belavier Commerce LLC
 
 This source file is subject to Open Software License (OSL 3.0)
 License details is bundled with this package in the file LICENSE.txt.
@@ -17,40 +17,44 @@ Do not edit or add to this file if you wish to upgrade AbanteCart to newer
 versions in the future. If you wish to customize AbanteCart for your
 needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN) {
+    header('Location: static_pages/');
 }
-class ControllerResponsesExtensionExtension extends AController {
-	public $data = array();
 
-	public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
-		parent::__construct($registry, $instance_id, $controller, $parent_controller);
-		$this->attribute_manager = new AAttribute_Manager();
-		$this->loadLanguage('extension/extensions');
-	}
+class ControllerResponsesExtensionExtension extends AController
+{
+    public $data = array();
 
-	public function help() {
+    public function __construct($registry, $instance_id, $controller, $parent_controller = '')
+    {
+        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+        $this->attribute_manager = new AAttribute_Manager();
+        $this->loadLanguage('extension/extensions');
+    }
 
-		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
+    public function help()
+    {
 
-		$extension = $this->request->get['extension'];
-		$ext = new ExtensionUtils($extension);
-		$help_file_path = DIR_EXT . $extension . '/' . str_replace('..', '', $ext->getConfig('help_file'));
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$this->data['content'] = array();
-		$this->data['title'] = $this->language->get('text_help');
-		if ( file_exists($help_file_path) && is_file($help_file_path) ) {
-			$this->data['content'] = file_get_contents($help_file_path);
-		} else {
-			$this->data['content'] = $this->language->get('error_no_help_file');
-		}
-		$this->data['content'] = $this->html->convertLinks($this->data['content']);
+        $extension = $this->request->get['extension'];
+        $ext = new ExtensionUtils($extension);
+        $help_file_path = DIR_EXT.$extension.'/'.str_replace('..', '', $ext->getConfig('help_file'));
 
-		$this->view->batchAssign($this->data);
-		$this->response->setOutput($this->view->fetch('responses/extension/howto.tpl'));
+        $this->data['content'] = array();
+        $this->data['title'] = $this->language->get('text_help');
+        if (file_exists($help_file_path) && is_file($help_file_path)) {
+            $this->data['content'] = file_get_contents($help_file_path);
+        } else {
+            $this->data['content'] = $this->language->get('error_no_help_file');
+        }
+        $this->data['content'] = $this->html->convertLinks($this->data['content']);
 
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-	}	
+        $this->view->batchAssign($this->data);
+        $this->response->setOutput($this->view->fetch('responses/extension/howto.tpl'));
+
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
 }

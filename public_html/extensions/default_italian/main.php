@@ -9,25 +9,26 @@
 
 ------------------------------------------------------------------------------*/
 
-if ( !defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')) {
+    header('Location: static_pages/');
 }
-
 
 $controllers = array(
     'storefront' => array(),
-    'admin' => array(),
+    'admin'      => array(),
 );
 
 $models = array(
     'storefront' => array(),
-    'admin' => array( ),
+    'admin'      => array(),
 );
 
 $languages = array(
     'storefront' => array(),
-    'admin' => array( ));
+    'admin'      => array(),
+);
 
 $templates = array(
     'storefront' => array(),
-    'admin' => array());
+    'admin'      => array(),
+);

@@ -44,8 +44,8 @@ class ApiRequestor
     }
 
     /**
-     * @param string $method
-     * @param string $url
+     * @param string     $method
+     * @param string     $url
      * @param array|null $params
      * @param array|null $headers
      *
@@ -57,7 +57,7 @@ class ApiRequestor
         $params = $params ?: [];
         $headers = $headers ?: [];
         list($rbody, $rcode, $rheaders, $myApiKey) =
-        $this->_requestRaw($method, $url, $params, $headers);
+            $this->_requestRaw($method, $url, $params, $headers);
         $json = $this->_interpretResponse($rbody, $rcode, $rheaders);
         $resp = new ApiResponse($rbody, $rcode, $rheaders, $json);
         return [$resp, $myApiKey];
@@ -65,9 +65,9 @@ class ApiRequestor
 
     /**
      * @param string $rbody A JSON string.
-     * @param int $rcode
-     * @param array $rheaders
-     * @param array $resp
+     * @param int    $rcode
+     * @param array  $rheaders
+     * @param array  $resp
      *
      * @throws Error\InvalidRequest if the error is caused by the user.
      * @throws Error\Idempotency if the error is caused by an idempotency key.
@@ -85,7 +85,7 @@ class ApiRequestor
     {
         if (!is_array($resp) || !isset($resp['error'])) {
             $msg = "Invalid response object from API: $rbody "
-              . "(HTTP response code was $rcode)";
+                ."(HTTP response code was $rcode)";
             throw new Error\Api($msg, $rcode, $rbody, $resp, $rheaders);
         }
 
@@ -120,7 +120,7 @@ class ApiRequestor
                     return new Error\Idempotency($msg, $rcode, $rbody, $resp, $rheaders);
                 }
 
-                // intentional fall-through
+            // intentional fall-through
             case 404:
                 return new Error\InvalidRequest($msg, $param, $rcode, $rbody, $resp, $rheaders);
             case 401:
@@ -163,10 +163,10 @@ class ApiRequestor
         if ($appInfo !== null) {
             $string = $appInfo['name'];
             if ($appInfo['version'] !== null) {
-                $string .= '/' . $appInfo['version'];
+                $string .= '/'.$appInfo['version'];
             }
             if ($appInfo['url'] !== null) {
-                $string .= ' (' . $appInfo['url'] . ')';
+                $string .= ' ('.$appInfo['url'].')';
             }
             return $string;
         } else {
@@ -176,7 +176,7 @@ class ApiRequestor
 
     private static function _defaultHeaders($apiKey, $clientInfo = null)
     {
-        $uaString = 'Stripe/v1 PhpBindings/' . Stripe::VERSION;
+        $uaString = 'Stripe/v1 PhpBindings/'.Stripe::VERSION;
 
         $langVersion = phpversion();
         $uname = php_uname();
@@ -184,23 +184,23 @@ class ApiRequestor
         $appInfo = Stripe::getAppInfo();
         $ua = [
             'bindings_version' => Stripe::VERSION,
-            'lang' => 'php',
-            'lang_version' => $langVersion,
-            'publisher' => 'stripe',
-            'uname' => $uname,
+            'lang'             => 'php',
+            'lang_version'     => $langVersion,
+            'publisher'        => 'stripe',
+            'uname'            => $uname,
         ];
         if ($clientInfo) {
             $ua = array_merge($clientInfo, $ua);
         }
         if ($appInfo !== null) {
-            $uaString .= ' ' . self::_formatAppInfo($appInfo);
+            $uaString .= ' '.self::_formatAppInfo($appInfo);
             $ua['application'] = $appInfo;
         }
 
         $defaultHeaders = [
             'X-Stripe-Client-User-Agent' => json_encode($ua),
-            'User-Agent' => $uaString,
-            'Authorization' => 'Bearer ' . $apiKey,
+            'User-Agent'                 => $uaString,
+            'Authorization'              => 'Bearer '.$apiKey,
         ];
         return $defaultHeaders;
     }
@@ -214,9 +214,9 @@ class ApiRequestor
 
         if (!$myApiKey) {
             $msg = 'No API key provided.  (HINT: set your API key using '
-              . '"Stripe::setApiKey(<API-KEY>)".  You can generate API keys from '
-              . 'the Stripe web interface.  See https://stripe.com/api for '
-              . 'details, or email support@stripe.com if you have any questions.';
+                .'"Stripe::setApiKey(<API-KEY>)".  You can generate API keys from '
+                .'the Stripe web interface.  See https://stripe.com/api for '
+                .'details, or email support@stripe.com if you have any questions.';
             throw new Error\Authentication($msg);
         }
 
@@ -260,7 +260,7 @@ class ApiRequestor
         $rawHeaders = [];
 
         foreach ($combinedHeaders as $header => $value) {
-            $rawHeaders[] = $header . ': ' . $value;
+            $rawHeaders[] = $header.': '.$value;
         }
 
         list($rbody, $rcode, $rheaders) = $this->httpClient()->request(
@@ -302,7 +302,7 @@ class ApiRequestor
         $jsonError = json_last_error();
         if ($resp === null && $jsonError !== JSON_ERROR_NONE) {
             $msg = "Invalid response body from API: $rbody "
-              . "(HTTP response code was $rcode, json_last_error() was $jsonError)";
+                ."(HTTP response code was $rcode, json_last_error() was $jsonError)";
             throw new Error\Api($msg, $rcode, $rbody);
         }
 

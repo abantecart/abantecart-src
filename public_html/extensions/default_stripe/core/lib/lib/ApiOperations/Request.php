@@ -18,17 +18,17 @@ trait Request
     {
         if ($params && !is_array($params)) {
             $message = "You must pass an array as the first argument to Stripe API "
-               . "method calls.  (HINT: an example call to create a charge "
-               . "would be: \"Stripe\\Charge::create(['amount' => 100, "
-               . "'currency' => 'usd', 'source' => 'tok_1234'])\")";
+                ."method calls.  (HINT: an example call to create a charge "
+                ."would be: \"Stripe\\Charge::create(['amount' => 100, "
+                ."'currency' => 'usd', 'source' => 'tok_1234'])\")";
             throw new \Stripe\Error\Api($message);
         }
     }
 
     /**
-     * @param string $method HTTP method ('get', 'post', etc.)
-     * @param string $url URL for the request
-     * @param array $params list of parameters for the request
+     * @param string            $method HTTP method ('get', 'post', etc.)
+     * @param string            $url    URL for the request
+     * @param array             $params list of parameters for the request
      * @param array|string|null $options
      *
      * @return array tuple containing (the JSON response, $options)
@@ -42,9 +42,9 @@ trait Request
     }
 
     /**
-     * @param string $method HTTP method ('get', 'post', etc.)
-     * @param string $url URL for the request
-     * @param array $params list of parameters for the request
+     * @param string            $method HTTP method ('get', 'post', etc.)
+     * @param string            $url    URL for the request
+     * @param array             $params list of parameters for the request
      * @param array|string|null $options
      *
      * @return array tuple containing (the JSON response, $options)

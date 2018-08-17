@@ -6,5 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'AvaTax' => array($vendorDir . '/avalara/avatax/src'),
+    'AvaTax' => array($vendorDir.'/avalara/avatax/src'),
 );

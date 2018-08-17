@@ -1,10 +1,9 @@
 <?php
 
-
 namespace Twilio\Jwt\Grants;
 
-
-class ChatGrant implements Grant {
+class ChatGrant implements Grant
+{
     private $serviceSid;
     private $endpointId;
     private $deploymentRoleSid;
@@ -15,7 +14,8 @@ class ChatGrant implements Grant {
      *
      * @return string the service sid
      */
-    public function getServiceSid() {
+    public function getServiceSid()
+    {
         return $this->serviceSid;
     }
 
@@ -26,7 +26,8 @@ class ChatGrant implements Grant {
      *
      * @return $this updated grant
      */
-    public function setServiceSid($serviceSid) {
+    public function setServiceSid($serviceSid)
+    {
         $this->serviceSid = $serviceSid;
         return $this;
     }
@@ -36,7 +37,8 @@ class ChatGrant implements Grant {
      *
      * @return string the endpoint id
      */
-    public function getEndpointId() {
+    public function getEndpointId()
+    {
         return $this->endpointId;
     }
 
@@ -47,7 +49,8 @@ class ChatGrant implements Grant {
      *
      * @return $this updated grant
      */
-    public function setEndpointId($endpointId) {
+    public function setEndpointId($endpointId)
+    {
         $this->endpointId = $endpointId;
         return $this;
     }
@@ -57,7 +60,8 @@ class ChatGrant implements Grant {
      *
      * @return string the deployment role sid
      */
-    public function getDeploymentRoleSid() {
+    public function getDeploymentRoleSid()
+    {
         return $this->deploymentRoleSid;
     }
 
@@ -68,7 +72,8 @@ class ChatGrant implements Grant {
      *
      * @return $this updated grant
      */
-    public function setDeploymentRoleSid($deploymentRoleSid) {
+    public function setDeploymentRoleSid($deploymentRoleSid)
+    {
         $this->deploymentRoleSid = $deploymentRoleSid;
         return $this;
     }
@@ -78,7 +83,8 @@ class ChatGrant implements Grant {
      *
      * @return string the push credential sid
      */
-    public function getPushCredentialSid() {
+    public function getPushCredentialSid()
+    {
         return $this->pushCredentialSid;
     }
 
@@ -89,7 +95,8 @@ class ChatGrant implements Grant {
      *
      * @return $this updated grant
      */
-    public function setPushCredentialSid($pushCredentialSid) {
+    public function setPushCredentialSid($pushCredentialSid)
+    {
         $this->pushCredentialSid = $pushCredentialSid;
         return $this;
     }
@@ -99,7 +106,8 @@ class ChatGrant implements Grant {
      *
      * @return string type of the grant
      */
-    public function getGrantKey() {
+    public function getGrantKey()
+    {
         return "chat";
     }
 
@@ -108,7 +116,8 @@ class ChatGrant implements Grant {
      *
      * @return array data of the grant
      */
-    public function getPayload() {
+    public function getPayload()
+    {
         $payload = array();
         if ($this->serviceSid) {
             $payload['service_sid'] = $this->serviceSid;

@@ -15,25 +15,30 @@ use Twilio\Values;
 /**
  * PLEASE NOTE that this class contains beta products that are subject to change. Use them with caution.
  */
-abstract class UsageRecordOptions {
+abstract class UsageRecordOptions
+{
     /**
-     * @param \DateTime $end The end
-     * @param \DateTime $start The start
-     * @param string $granularity The granularity
+     * @param \DateTime $end         The end
+     * @param \DateTime $start       The start
+     * @param string    $granularity The granularity
+     *
      * @return ReadUsageRecordOptions Options builder
      */
-    public static function read($end = Values::NONE, $start = Values::NONE, $granularity = Values::NONE) {
+    public static function read($end = Values::NONE, $start = Values::NONE, $granularity = Values::NONE)
+    {
         return new ReadUsageRecordOptions($end, $start, $granularity);
     }
 }
 
-class ReadUsageRecordOptions extends Options {
+class ReadUsageRecordOptions extends Options
+{
     /**
-     * @param \DateTime $end The end
-     * @param \DateTime $start The start
-     * @param string $granularity The granularity
+     * @param \DateTime $end         The end
+     * @param \DateTime $start       The start
+     * @param string    $granularity The granularity
      */
-    public function __construct($end = Values::NONE, $start = Values::NONE, $granularity = Values::NONE) {
+    public function __construct($end = Values::NONE, $start = Values::NONE, $granularity = Values::NONE)
+    {
         $this->options['end'] = $end;
         $this->options['start'] = $start;
         $this->options['granularity'] = $granularity;
@@ -41,49 +46,56 @@ class ReadUsageRecordOptions extends Options {
 
     /**
      * The end
-     * 
+     *
      * @param \DateTime $end The end
+     *
      * @return $this Fluent Builder
      */
-    public function setEnd($end) {
+    public function setEnd($end)
+    {
         $this->options['end'] = $end;
         return $this;
     }
 
     /**
      * The start
-     * 
+     *
      * @param \DateTime $start The start
+     *
      * @return $this Fluent Builder
      */
-    public function setStart($start) {
+    public function setStart($start)
+    {
         $this->options['start'] = $start;
         return $this;
     }
 
     /**
      * The granularity
-     * 
+     *
      * @param string $granularity The granularity
+     *
      * @return $this Fluent Builder
      */
-    public function setGranularity($granularity) {
+    public function setGranularity($granularity)
+    {
         $this->options['granularity'] = $granularity;
         return $this;
     }
 
     /**
      * Provide a friendly representation
-     * 
+     *
      * @return string Machine friendly representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $options = array();
         foreach ($this->options as $key => $value) {
             if ($value != Values::NONE) {
                 $options[] = "$key=$value";
             }
         }
-        return '[Twilio.Wireless.V1.ReadUsageRecordOptions ' . implode(' ', $options) . ']';
+        return '[Twilio.Wireless.V1.ReadUsageRecordOptions '.implode(' ', $options).']';
     }
 }

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -17,105 +17,112 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE')){
-	header('Location: static_pages/');
+if (!defined('DIR_CORE')) {
+    header('Location: static_pages/');
 }
 
-require_once(DIR_CORE . '/lib/exceptions/exception_codes.php');
-require_once(DIR_CORE . '/lib/exceptions/exception.php');
+require_once(DIR_CORE.'/lib/exceptions/exception_codes.php');
+require_once(DIR_CORE.'/lib/exceptions/exception.php');
 
 /**
  * called for php errors
  *
- * @param int $errno
+ * @param int    $errno
  * @param string $errstr
  * @param string $errfile
  * @param string $errline
+ *
  * @return null
  */
-function ac_error_handler($errno, $errstr, $errfile, $errline){
-	if ( error_reporting() == 0 ) {
-		// Error reporting is currently turned off or suppressed with @
-		return null;
-	}
+function ac_error_handler($errno, $errstr, $errfile, $errline)
+{
+    if (error_reporting() == 0) {
+        // Error reporting is currently turned off or suppressed with @
+        return null;
+    }
 
-	if (class_exists('Registry')){
-		$registry = Registry::getInstance();
-		if ($registry->get('force_skip_errors')){
-			return null;
-		}
-	}
+    if (class_exists('Registry')) {
+        $registry = Registry::getInstance();
+        if ($registry->get('force_skip_errors')) {
+            return null;
+        }
+    }
 
-	//skip notice
-	if ($errno == E_NOTICE)
-		return null;
+    //skip notice
+    if ($errno == E_NOTICE) {
+        return null;
+    }
 
-	try{
-		throw new AException($errno, $errstr, $errfile, $errline);
-	} catch(AException $e){
-		ac_exception_handler($e);
-	}
+    try {
+        throw new AException($errno, $errstr, $errfile, $errline);
+    } catch (AException $e) {
+        ac_exception_handler($e);
+    }
 }
 
 /**
  * called for caught exceptions
+ *
  * @param  AException $e
+ *
  * @return null
  */
-function ac_exception_handler($e){
-	if (class_exists('Registry')){
-		$registry = Registry::getInstance();
-		if ($registry->get('force_skip_errors')){
-			return null;
-		}
-	}
+function ac_exception_handler($e)
+{
+    if (class_exists('Registry')) {
+        $registry = Registry::getInstance();
+        if ($registry->get('force_skip_errors')) {
+            return null;
+        }
+    }
 
-	//fix for default PHP handler call in third party PHP libraries
-	if (!method_exists($e, 'logError')){
-		$e = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
-	}
+    //fix for default PHP handler call in third party PHP libraries
+    if (!method_exists($e, 'logError')) {
+        $e = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
+    }
 
-	if (class_exists('Registry')){
-		$registry = Registry::getInstance();
-		$config = $registry->get('config');
-		if (!$config || (!$config->has('config_error_log') && !$config->has('config_error_display'))){
-			//we have no config or both settings are missing. 
-			$e->logError();
-			$e->displayError();
-		} else{
-			if ($config->has('config_error_log') && $config->get('config_error_log')){
-				$e->logError();
-			}
-			if ($config->has('config_error_display') && $config->get('config_error_display')){
-				$e->displayError();
-			}
-		}
-		//do we have fatal error and need to end?
-		if ($e->errorCode() >= 10000 && !defined('INSTALL')){
-			$e->showErrorPage();
-		} else{
-			//nothing critical
-			return null;
-		}
-	}
+    if (class_exists('Registry')) {
+        $registry = Registry::getInstance();
+        $config = $registry->get('config');
+        if (!$config || (!$config->has('config_error_log') && !$config->has('config_error_display'))) {
+            //we have no config or both settings are missing. 
+            $e->logError();
+            $e->displayError();
+        } else {
+            if ($config->has('config_error_log') && $config->get('config_error_log')) {
+                $e->logError();
+            }
+            if ($config->has('config_error_display') && $config->get('config_error_display')) {
+                $e->displayError();
+            }
+        }
+        //do we have fatal error and need to end?
+        if ($e->errorCode() >= 10000 && !defined('INSTALL')) {
+            $e->showErrorPage();
+        } else {
+            //nothing critical
+            return null;
+        }
+    }
 
-	//no registry, something totaly wrong
-	$e->logError();
-	$e->displayError();
-	$e->showErrorPage();
+    //no registry, something totaly wrong
+    $e->logError();
+    $e->displayError();
+    $e->showErrorPage();
 }
 
 /**
  * called on application shutdown
  * check if shutdown was caused by error and write it to log
  */
-function ac_shutdown_handler(){
-	$error = error_get_last();
-	if (!is_array($error) || !in_array($error['type'], array (E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR))){
-		return null;
-	}
-	$exception = new AException($error['type'], $error['message'], $error['file'], $error['line']);
-	$exception->logError();
+function ac_shutdown_handler()
+{
+    $error = error_get_last();
+    if (!is_array($error) || !in_array($error['type'], array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR))) {
+        return null;
+    }
+    $exception = new AException($error['type'], $error['message'], $error['file'], $error['line']);
+    $exception->logError();
 }
 
 set_error_handler('ac_error_handler');

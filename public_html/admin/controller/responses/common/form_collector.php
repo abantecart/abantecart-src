@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2017 Belavier Commerce LLC
+  Copyright © 2011-2018 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -20,6 +20,7 @@
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
+
 class ControllerResponsesCommonFormCollector extends AController
 {
     private $error = array();
@@ -30,9 +31,9 @@ class ControllerResponsesCommonFormCollector extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $form_id = func_get_arg(0);
         $target = func_get_arg(1);
-		if(func_num_args()>2){
-        	$success_script = func_get_arg(2);
-		}
+        if (func_num_args() > 2) {
+            $success_script = func_get_arg(2);
+        }
 
         $this->view->assign('form_id', $form_id);
         $this->view->assign('target', $target);

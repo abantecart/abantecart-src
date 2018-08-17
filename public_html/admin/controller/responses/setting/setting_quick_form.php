@@ -49,16 +49,16 @@ class ControllerResponsesSettingSettingQuickForm extends AController
         $this->data['group'] = $setting[0];
         $this->data['setting_key'] = $setting[1];
         $this->data['store_id'] = !isset($this->session->data['current_store_id'])
-                                 ? $setting[2]
-                                 : $this->session->data['current_store_id'];
+            ? $setting[2]
+            : $this->session->data['current_store_id'];
         $this->request->get['active'] = $this->data['group'].'-'.$this->data['setting_key'].'-'.$this->data['store_id'];
         //for multilingual settings
         foreach (array('config_description', 'config_title', 'config_meta_description', 'config_meta_keywords') as $n) {
             if (is_int(strpos($this->data['setting_key'], $n))) {
                 $this->data['setting_key'] = substr(
-                                                $this->data['setting_key'],
-                                                0,
-                                                strrpos($this->data['setting_key'], '_')
+                    $this->data['setting_key'],
+                    0,
+                    strrpos($this->data['setting_key'], '_')
                 );
                 $this->request->get['active'] = $this->data['group'].'-'.$setting[1].'-'.$this->data['store_id'];
                 break;
@@ -70,9 +70,9 @@ class ControllerResponsesSettingSettingQuickForm extends AController
         if ($this->request->is_POST()) {
             if ($this->validateForm($this->data['group'])) {
                 $this->model_setting_setting->editSetting(
-                                                $this->data['group'],
-                                                $this->request->post,
-                                                $this->data['store_id']
+                    $this->data['group'],
+                    $this->request->post,
+                    $this->data['store_id']
                 );
                 $output['result_text'] = $this->language->get('text_success');
 
@@ -109,9 +109,9 @@ class ControllerResponsesSettingSettingQuickForm extends AController
         }
 
         $this->data['action'] = $this->html->getSecureURL(
-                                            'setting/setting_quick_form',
-                                            '&target='.$this->request->get['target']
-                                                .'&active='.$this->request->get['active']
+            'setting/setting_quick_form',
+            '&target='.$this->request->get['target']
+            .'&active='.$this->request->get['active']
         );
         $this->data['heading_title'] = $this->language->get('text_edit').' '.$this->language->get('text_setting');
         $form = new AForm('HT');
@@ -125,36 +125,36 @@ class ControllerResponsesSettingSettingQuickForm extends AController
         $this->data['form']['id'] = 'qsFrm';
         $this->data['form']['form_open'] = $form->getFieldHtml(
             array(
-            'type'   => 'form',
-            'name'   => 'qsFrm',
-            'action' => $this->data['action'],
-            'attr'   => 'class="aform form-horizontal"',
-        ));
+                'type'   => 'form',
+                'name'   => 'qsFrm',
+                'action' => $this->data['action'],
+                'attr'   => 'class="aform form-horizontal"',
+            ));
         $this->data['form']['submit'] = $form->getFieldHtml(
             array(
-            'type'  => 'button',
-            'name'  => 'submit',
-            'text'  => $this->language->get('button_save'),
-            'style' => 'button1',
-        ));
+                'type'  => 'button',
+                'name'  => 'submit',
+                'text'  => $this->language->get('button_save'),
+                'style' => 'button1',
+            ));
         $this->data['form']['cancel'] = $form->getFieldHtml(
             array(
-            'type'  => 'button',
-            'name'  => 'cancel',
-            'text'  => $this->language->get('button_cancel'),
-            'style' => 'button2',
-        ));
+                'type'  => 'button',
+                'name'  => 'cancel',
+                'text'  => $this->language->get('button_cancel'),
+                'style' => 'button2',
+            ));
 
         $this->load->library('config_manager');
         $conf_mngr = new AConfigManager();
         $data = $this->model_setting_setting->getSetting($this->data['group'], $this->data['store_id']);
 
         $this->data['form']['fields'] = $conf_mngr->getFormField(
-                                                $this->data['setting_key'],
-                                                $form,
-                                                $data,
-                                                $this->data['store_id'],
-                                                $this->data['group']
+            $this->data['setting_key'],
+            $form,
+            $data,
+            $this->data['store_id'],
+            $this->data['group']
         );
 
         //replace wysiwyg text editor to textarea inside modal-mode!
@@ -164,7 +164,7 @@ class ControllerResponsesSettingSettingQuickForm extends AController
             }
 
             $ext_url = $this->html->getSecureURL('setting/setting', '&active='.$this->data['group'])
-                    .'#'.$field->element_id;
+                .'#'.$field->element_id;
             $label_text = sprintf($this->language->get('text_texteditor_extended_mode'), $ext_url);
 
             $field = $form->getFieldHtml(
@@ -243,32 +243,32 @@ class ControllerResponsesSettingSettingQuickForm extends AController
 
                 if ($group == 'appearance') {
                     $section = $this->request->get['tmpl_id'] == 'default'
-                                ? 'appearance'
-                                : $this->request->get['tmpl_id'];
+                        ? 'appearance'
+                        : $this->request->get['tmpl_id'];
                     if (has_value($this->request->post['config_logo'])) {
                         $this->request->post['config_logo'] = html_entity_decode(
-                                                                    $this->request->post['config_logo'],
-                                                                    ENT_COMPAT,
-                                                                    'UTF-8'
+                            $this->request->post['config_logo'],
+                            ENT_COMPAT,
+                            'UTF-8'
                         );
                     } elseif (!$this->request->post['config_logo']
-                                && isset($this->request->post['config_logo_resource_id'])
+                        && isset($this->request->post['config_logo_resource_id'])
                     ) {
-                            //we save resource ID vs resource path
-                            $this->request->post['config_logo'] = $this->request->post['config_logo_resource_id'];
-                        }
+                        //we save resource ID vs resource path
+                        $this->request->post['config_logo'] = $this->request->post['config_logo_resource_id'];
+                    }
 
                     if (has_value($this->request->post['config_icon'])) {
                         $this->request->post['config_icon'] = html_entity_decode(
-                                                                    $this->request->post['config_icon'],
-                                                                    ENT_COMPAT,
-                                                                    'UTF-8'
+                            $this->request->post['config_icon'],
+                            ENT_COMPAT,
+                            'UTF-8'
                         );
                     } elseif (!$this->request->post['config_icon']
-                            && isset($this->request->post['config_icon_resource_id'])
+                        && isset($this->request->post['config_icon_resource_id'])
                     ) {
-                            //we save resource ID vs resource path
-                            $this->request->post['config_icon'] = $this->request->post['config_icon_resource_id'];
+                        //we save resource ID vs resource path
+                        $this->request->post['config_icon'] = $this->request->post['config_icon_resource_id'];
                     }
                     $this->model_setting_setting->editSetting($section, $this->request->post, $store_id);
                 } else {
@@ -313,8 +313,8 @@ class ControllerResponsesSettingSettingQuickForm extends AController
 
         //quick start guide can be for different stores
         $this->data['store_id'] = !isset($this->session->data['current_store_id'])
-                                ? 0
-                                : $this->session->data['current_store_id'];
+            ? 0
+            : $this->session->data['current_store_id'];
         $this->data['title'] = $this->language->get('text_quick_start');
         $this->data['heading_title'] = $this->language->get('text_quick_start');
 
@@ -373,37 +373,36 @@ class ControllerResponsesSettingSettingQuickForm extends AController
         }
         $section = $this->session->data['quick_start_step'];
         //if offers - try to get data first
-        $offer_response  = array();
+        $offer_response = array();
         if (in_array($section, array('offer1', 'offer2'))) {
             $this->load->model('tool/mp_api');
             $params = array(
-                'language' => $this->language->getLanguageCode(),
-                'countryId' =>  $this->config->get('config_country_id'),
+                'language'  => $this->language->getLanguageCode(),
+                'countryId' => $this->config->get('config_country_id'),
                 'zoneId'    => $this->config->get('config_zone_id'),
-                'storeId'   => UNIQUE_ID
+                'storeId'   => UNIQUE_ID,
             );
-            $url = $this->model_tool_mp_api->getMPURL(). '?rt=embed/mpjs/'.$section.'&'.http_build_query($params);
-            $connect  = new AConnect();
+            $url = $this->model_tool_mp_api->getMPURL().'?rt=embed/mpjs/'.$section.'&'.http_build_query($params);
+            $connect = new AConnect();
             $offer_response = $connect->getResponse($url);
             $this->load->library('json');
             $offer_response = AJson::decode($offer_response, true);
-            if($offer_response){
+            if ($offer_response) {
                 $this->data['title'] = $offer_response['title'];
                 $this->data['html'] = $offer_response['html'];
-            }else{
+            } else {
                 //skip step if no data
                 $section = $this->_next_step($section);
                 $this->session->data['quick_start_step'] = $section;
             }
         }
 
-
         $template = 'responses/setting/quick_start.tpl';
         if (in_array($section, array('offer1', 'offer2'))) {
             $this->getOfferButtons($section);
-            $this->data['quick_start_note'] =  '';
+            $this->data['quick_start_note'] = '';
             $template = "responses/setting/{$section}.tpl";
-            if($offer_response){
+            if ($offer_response) {
                 $this->data['title'] = $offer_response['title'];
                 $this->data['html'] = $offer_response['html'];
             }
@@ -415,8 +414,8 @@ class ControllerResponsesSettingSettingQuickForm extends AController
             $this->data['more_extensions'] = $this->html->convertLinks($this->language->get('more_extensions'));
             $this->data['quick_start_note'] = $this->language->get('text_quick_start_note');
             $this->data['quick_start_last_footer'] .= sprintf(
-                                                    $this->language->get('text_quick_start_last_footer'),
-                                                    $this->html->getSecureURL('setting/setting/all'));
+                $this->language->get('text_quick_start_last_footer'),
+                $this->html->getSecureURL('setting/setting/all'));
             $this->data['competed'] = true;
         } else {
             $data = array();
@@ -428,8 +427,8 @@ class ControllerResponsesSettingSettingQuickForm extends AController
 
                 //extract settings for template or default
                 $data = $this->model_setting_setting->getSetting(
-                                                    $this->data['current_tmpl_id'],
-                                                    $this->data['store_id']
+                    $this->data['current_tmpl_id'],
+                    $this->data['store_id']
                 );
 
                 //need to set template to be edited
@@ -467,8 +466,8 @@ class ControllerResponsesSettingSettingQuickForm extends AController
     protected function getOfferButtons($step)
     {
         $this->data['action'] = $this->html->getSecureURL(
-                                                    'setting/setting_quick_form/quick_start_save_next',
-                                                    '&active='.$step.'&store_id='.$this->data['store_id']
+            'setting/setting_quick_form/quick_start_save_next',
+            '&active='.$step.'&store_id='.$this->data['store_id']
         );
         $this->view->assign('language_code', $this->session->data['language']);
         $form = new AForm('HS');
@@ -579,13 +578,13 @@ class ControllerResponsesSettingSettingQuickForm extends AController
     protected function _next_step($current_step)
     {
         $steps = array(
-            'details'     => 'offer1',
-            'offer1'      => 'general',
-            'general'     => 'offer2',
-            'offer2'      => 'checkout',
-            'checkout'    => 'appearance',
-            'appearance'  => 'mail',
-            'mail'        => '',
+            'details'    => 'offer1',
+            'offer1'     => 'general',
+            'general'    => 'offer2',
+            'offer2'     => 'checkout',
+            'checkout'   => 'appearance',
+            'appearance' => 'mail',
+            'mail'       => '',
         );
         return $steps[$current_step];
     }

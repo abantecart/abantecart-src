@@ -145,9 +145,9 @@ function is_multi($array)
  * Function convert input text to alpha numeric string for SEO URL use
  * if optional parameter object_key_name (product, category, content etc) given function will return unique SEO keyword
  *
- * @param $string_value
+ * @param        $string_value
  * @param string $object_key_name
- * @param int $object_id
+ * @param int    $object_id
  *
  * @return string
  */
@@ -166,9 +166,9 @@ function SEOEncode($string_value, $object_key_name = '', $object_id = 0)
 }
 
 /**
- * @param $seo_key
+ * @param        $seo_key
  * @param string $object_key_name
- * @param int $object_id
+ * @param int    $object_id
  *
  * @return string
  */
@@ -278,7 +278,7 @@ function getTextUploadError($error)
     switch ($error) {
         case UPLOAD_ERR_INI_SIZE:
             $error_txt = 'The uploaded file exceeds the upload_max_filesize directive in php.ini (now '
-                        .ini_get('upload_max_filesize').')';
+                .ini_get('upload_max_filesize').')';
             break;
         case UPLOAD_ERR_FORM_SIZE:
             $error_txt = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
@@ -668,8 +668,8 @@ function getExtensionConfigXml($extension_txt_id)
  * NOTE: do not try to save into session any data after this function call!
  * Also function returns false on POST-requests!
  *
- * @param $user_id int - control panel user_id
- * @param array $data data for writing into new session storage
+ * @param       $user_id int - control panel user_id
+ * @param array $data    data for writing into new session storage
  *
  * @return bool
  */
@@ -697,9 +697,9 @@ function startStorefrontSession($user_id, $data = array())
 /**
  * Function to built array with sort_order equally incremented
  *
- * @param array $array to build sort order for
- * @param int $min - minimal sort order number (start)
- * @param int $max - maximum sort order number (end)
+ * @param array  $array to build sort order for
+ * @param int    $min   - minimal sort order number (start)
+ * @param int    $max   - maximum sort order number (end)
  * @param string $sort_direction
  *
  * @return array with sort order added.
@@ -787,10 +787,10 @@ function is_html($test_string)
 /**
  * Get either a Gravatar URL or complete image tag for a specified email address.
  *
- * @param string $email The email address
- * @param int|string $s Size in pixels, defaults to 80px [ 1 - 2048 ]
- * @param string $d Default image set to use [ 404 | mm | identicon | monsterid | wavatar ]
- * @param string $r Maximum rating (inclusive) [ g | pg | r | x ]
+ * @param string     $email The email address
+ * @param int|string $s     Size in pixels, defaults to 80px [ 1 - 2048 ]
+ * @param string     $d     Default image set to use [ 404 | mm | identicon | monsterid | wavatar ]
+ * @param string     $r     Maximum rating (inclusive) [ g | pg | r | x ]
  *
  * @return String containing either just a URL or a complete image tag
  */
@@ -864,8 +864,8 @@ function compressTarGZ($tar_filename, $tar_dir, $compress_level = 5)
 }
 
 /**
- * @param string $src
- * @param int $level
+ * @param string      $src
+ * @param int         $level
  * @param string|bool $dst
  *
  * @return bool
@@ -910,7 +910,7 @@ function randomWord($length = 4)
 {
     $new_code_length = 0;
     $new_code = '';
-    $a = $b =0;
+    $a = $b = 0;
     while ($new_code_length < $length) {
         $x = 1;
         $y = 3;
@@ -1238,7 +1238,7 @@ function echo_html2view($html)
 /**
  * Function to show readable file size
  *
- * @param $bytes
+ * @param     $bytes
  * @param int $decimals
  *
  * @return string
@@ -1279,10 +1279,10 @@ function get_image_size($filename)
  * NOTE: Resource Library handles resize by itself
  *
  * @param string $orig_image (full path)
- * @param string $new_image (relative path start from DIR_IMAGE)
- * @param int $width
- * @param int $height
- * @param int $quality
+ * @param string $new_image  (relative path start from DIR_IMAGE)
+ * @param int    $width
+ * @param int    $height
+ * @param int    $quality
  *
  * @return string / path to new image
  * @throws AException
