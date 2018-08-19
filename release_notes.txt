@@ -1,3 +1,47 @@
+AbanteCart version 1.2.13
+
+This release comes with improvements, bug fixes and default extension updates.
+
+Core:
+- Testing with PHP 7.2 and warnings resolution
+- ARouter fix related to \0 at the end of route and further improvement
+- cache file driver minor fix
+- sql fix in store_description table
+- improved error handling in response controllers when not found
+- Fix for duplicating images on import
+- PHP files reformating to PSR
+
+Control Panel:
+- TinyMCE updated to v4.7.10
+- improve SQL error handling in product creation
+- Added save to store ID in case of missing category
+- extension settings saving improvement
+- task modal js-fix related to attempts on fail requests
+
+Storefront:
+- minor fix of product-controller related to "rating" html-field
+- Add activation link resend option
+- Add CSS class to BODY tag to identify pages.
+
+Extensions:
+- PayPal Standard and Express Improvment
+- Avatax integration
+- Fixes in CardConnect
+- Stripe payment update
+- Twilio update
+- Neowize terms and conditions link update
+- Update for encryption extension
+
+API:
+- Add SEO data returned to API
+- Fix for latest product API and currency conversion rounding (rare case)
+
+Number of improvments and bug fixes reported on the forum and github.
+
+
+------------------------------------------------------------
+
+
 AbanteCart version 1.2.12
 
 This release comes with minor improvements and bug fixes.
@@ -21,6 +65,9 @@ Extensions:
 - paypal standart improvements
 
 Other bug fixes and improvements
+
+
+------------------------------------------------------------
 
 
 AbanteCart version 1.2.11
