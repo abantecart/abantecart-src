@@ -17,9 +17,6 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE')) {
-    header('Location: static_pages/');
-}
 
 /**
  * Class ModelExtensionDefaultParcelforce48
@@ -28,21 +25,26 @@ if (!defined('DIR_CORE')) {
  */
 class ModelExtensionDefaultParcelforce48 extends Model
 {
+
     function getQuote($address)
     {
         //create new instance of language for case when model called from admin-side
         $language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
+
         $language->load($language->language_details['directory']);
         $language->load('default_parcelforce_48/default_parcelforce_48');
+
         if ($this->config->get('default_parcelforce_48_status')) {
             if (!$this->config->get('default_parcelforce_48_location_id')) {
                 $status = true;
             } else {
-                $query = $this->db->query("SELECT *
-											FROM ".$this->db->table('zones_to_locations')."
-											WHERE location_id = '".(int)$this->config->get('default_parcelforce_48_location_id')."'
-												AND country_id = '".(int)$address['country_id']."'
-												AND (zone_id = '".(int)$address['zone_id']."' OR zone_id = '0')");
+                $query = $this->db->query(
+                    "SELECT *
+                    FROM ".$this->db->table('zones_to_locations')."
+                    WHERE location_id = '".(int)$this->config->get('default_parcelforce_48_location_id')."'
+                        AND country_id = '".(int)$address['country_id']."'
+                        AND (zone_id = '".(int)$address['zone_id']."' OR zone_id = '0')"
+                );
                 if ($query->num_rows) {
                     $status = true;
                 } else {
@@ -65,29 +67,42 @@ class ModelExtensionDefaultParcelforce48 extends Model
         }
         $weight = 0.0;
         if ($product_ids) {
-            $weight = $this->weight->convert($this->cart->getWeight($product_ids), $this->config->get('config_weight_class'), 'kgs');
+            $weight = $this->weight->convert(
+                $this->cart->getWeight($product_ids),
+                $this->config->get('config_weight_class'),
+                'kgs'
+            );
         }
 
         $sub_total = $this->cart->getSubTotal();
         $all_free_shipping = $this->cart->areAllFreeShipping();
-        $quote_data = $this->_processRate($weight, $sub_total);
+        $quote_data = $this->processRate($weight, $sub_total);
 
         //check if free or fixed shipping
         $total_fixed_cost = 0;
         $new_quote_data = array();
         $special_ship_products = $this->cart->specialShippingProducts();
         foreach ($special_ship_products as $product) {
-            $weight = $this->weight->convert($this->cart->getWeight(array($product['product_id'])), $this->config->get('config_weight_class'), 'kgs');
+            $weight = $this->weight->convert(
+                $this->cart->getWeight(
+                    array($product['product_id'])),
+                    $this->config->get('config_weight_class'),
+                    'kgs'
+            );
             if ($product['shipping_price'] > 0) {
                 $fixed_cost = $product['shipping_price'];
                 //If ship individually count every quantity
                 if ($product['ship_individually']) {
                     $fixed_cost = $fixed_cost * $product['quantity'];
                 }
-                $fixed_cost = $this->currency->convert($fixed_cost, $this->config->get('config_currency'), $this->currency->getCode());
+                $fixed_cost = $this->currency->convert(
+                    $fixed_cost,
+                    $this->config->get('config_currency'),
+                    $this->currency->getCode()
+                );
                 $total_fixed_cost += $fixed_cost;
             } else {
-                $new_quote_data = $this->_processRate($weight, $sub_total);
+                $new_quote_data = $this->processRate($weight, $sub_total);
             }
         }
 
@@ -104,7 +119,11 @@ class ModelExtensionDefaultParcelforce48 extends Model
                 if (!$all_free_shipping) {
                     $quote_data[$key]['text'] = $this->currency->format(
                         $this->tax->calculate(
-                            $this->currency->convert($quote_data[$key]['cost'], $this->config->get('config_currency'), $this->currency->getCode()),
+                            $this->currency->convert(
+                                    $quote_data[$key]['cost'],
+                                    $this->config->get('config_currency'),
+                                    $this->currency->getCode()
+                            ),
                             $this->config->get('default_parcelforce_48_tax'), $this->config->get('config_tax')
                         )
                     );
@@ -158,10 +177,11 @@ class ModelExtensionDefaultParcelforce48 extends Model
         return $method_data;
     }
 
-    private function _processRate($weight, $sub_total)
+    private function processRate($weight, $sub_total)
     {
         $language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
         $language->load($language->language_details['directory']);
+        $language->load('default_parcelforce_48/default_parcelforce_48');
         $rates = explode(',', $this->config->get('default_parcelforce_48_rate'));
         $cost = 0.0;
         foreach ($rates as $rate) {
@@ -191,7 +211,12 @@ class ModelExtensionDefaultParcelforce48 extends Model
         $text = $language->get('text_description');
 
         if ($this->config->get('default_parcelforce_48_display_weight')) {
-            $text .= ' ('.$language->get('text_weight').' '.$this->weight->format($weight, $this->config->get('config_weight_class')).')';
+            $text .= ' ('.$language->get('text_weight')
+                        .' '
+                        .$this->weight->format(
+                                $weight,
+                                $this->config->get('config_weight_class'))
+                        .')';
         }
 
         if ($this->config->get('default_parcelforce_48_display_insurance') && (float)$compensation) {
@@ -207,7 +232,13 @@ class ModelExtensionDefaultParcelforce48 extends Model
             'title'        => $text,
             'cost'         => $cost,
             'tax_class_id' => $this->config->get('default_parcelforce_48_tax'),
-            'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('default_parcelforce_48_tax'), $this->config->get('config_tax'))),
+            'text'         => $this->currency->format(
+                                    $this->tax->calculate(
+                                            $cost,
+                                            $this->config->get('default_parcelforce_48_tax'),
+                                            $this->config->get('config_tax')
+                                    )
+                                ),
         );
 
         return $quote_data;
