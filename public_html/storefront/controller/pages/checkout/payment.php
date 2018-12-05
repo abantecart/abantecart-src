@@ -481,7 +481,7 @@ class ControllerPagesCheckoutPayment extends AController
                 }
             }
             //if balance enough to cover order amount
-            if ($this->session->data['used_balance_full']) {
+            if ($order_total['total'] == 0 && $this->session->data['used_balance_full']) {
                 $this->session->data['payment_method'] = array(
                     'id'    => 'no_payment_required',
                     'title' => $this->language->get('no_payment_required'),
