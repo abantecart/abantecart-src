@@ -25,7 +25,6 @@ class ControllerPagesProductCategory extends AController
     public function __construct(Registry $registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
-        $this->loadLanguage('product/category');
         $this->data['sorts'] = array(
             'p.sort_order-ASC'   => $this->language->get('text_default'),
             'pd.name-ASC'        => $this->language->get('text_sorting_name_asc'),
@@ -144,12 +143,6 @@ class ControllerPagesProductCategory extends AController
                 $sort = 'pd.'.$sort;
             } elseif (in_array($sort, array('sort_order', 'price'))) {
                 $sort = 'p.'.$sort;
-            }
-
-            $url = '&sort='.$sorting_href;
-
-            if (isset($request['order'])) {
-                $url .= '&order='.$request['order'];
             }
 
             $this->loadModel('catalog/product');

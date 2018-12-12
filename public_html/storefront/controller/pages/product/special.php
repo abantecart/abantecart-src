@@ -17,14 +17,30 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE')) {
-    header('Location: static_pages/');
-}
 
+/**
+ * Class ControllerPagesProductSpecial
+ */
 class ControllerPagesProductSpecial extends AController
 {
 
     public $data = array();
+
+    public function __construct(Registry $registry, $instance_id, $controller, $parent_controller = '')
+    {
+        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+        $this->data['sorts'] = array(
+            'p.sort_order-ASC'   => $this->language->get('text_default'),
+            'pd.name-ASC'        => $this->language->get('text_sorting_name_asc'),
+            'pd.name-DESC'       => $this->language->get('text_sorting_name_desc'),
+            'p.price-ASC'        => $this->language->get('text_sorting_price_asc'),
+            'p.price-DESC'       => $this->language->get('text_sorting_price_desc'),
+            'rating-DESC'        => $this->language->get('text_sorting_rating_desc'),
+            'rating-ASC'         => $this->language->get('text_sorting_rating_asc'),
+            'date_modified-DESC' => $this->language->get('text_sorting_date_desc'),
+            'date_modified-ASC'  => $this->language->get('text_sorting_date_asc'),
+        );
+    }
 
     /**
      * Check if HTML Cache is enabled for the method
@@ -76,11 +92,11 @@ class ControllerPagesProductSpecial extends AController
             $limit = $this->config->get('config_catalog_limit');
         }
 
-        if (isset($request['sort'])) {
-            $sorting_href = $request['sort'];
-        } else {
+        $sorting_href = $request['sort'];
+        if (!$sorting_href || !isset($this->data['sorts'][$request['sort']])) {
             $sorting_href = $this->config->get('config_product_default_sort_order');
         }
+
         list($sort, $order) = explode("-", $sorting_href);
         if ($sort == 'name') {
             $sort = 'pd.'.$sort;
@@ -220,73 +236,22 @@ class ControllerPagesProductSpecial extends AController
             }
             $this->data['display_price'] = $display_price;
 
-            $sorts = array();
-            $sorts[] = array(
-                'text'  => $this->language->get('text_default'),
-                'value' => 'p.sort_order-ASC',
-                'href'  => $this->html->getURL('product/special', $url.'&sort=p.sort_order&order=ASC', '&encode'),
-            );
-
-            $sorts[] = array(
-                'text'  => $this->language->get('text_sorting_name_asc'),
-                'value' => 'pd.name-ASC',
-                'href'  => $this->html->getURL('product/special', $url.'&sort=pd.name&order=ASC', '&encode'),
-            );
-
-            $sorts[] = array(
-                'text'  => $this->language->get('text_sorting_name_desc'),
-                'value' => 'pd.name-DESC',
-                'href'  => $this->html->getURL('product/special', $url.'&sort=pd.name&order=DESC', '&encode'),
-            );
-
-            $sorts[] = array(
-                'text'  => $this->language->get('text_sorting_price_asc'),
-                'value' => 'ps.price-ASC',
-                'href'  => $this->html->getURL('product/special', $url.'&sort=price&order=ASC', '&encode'),
-            );
-
-            $sorts[] = array(
-                'text'  => $this->language->get('text_sorting_price_desc'),
-                'value' => 'ps.price-DESC',
-                'href'  => $this->html->getURL('product/special', $url.'&sort=price&order=DESC', '&encode'),
-            );
-            $sorts[] = array(
-                'text'  => $this->language->get('text_sorting_rating_desc'),
-                'value' => 'rating-DESC',
-                'href'  => $this->html->getURL('product/special', $url.'&sort=rating&order=DESC', '&encode'),
-            );
-            $sorts[] = array(
-                'text'  => $this->language->get('text_sorting_rating_asc'),
-                'value' => 'rating-ASC',
-                'href'  => $this->html->getURL('product/special', $url.'&sort=rating&order=ASC', '&encode'),
-            );
-            $sorts[] = array(
-                'text'  => $this->language->get('text_sorting_date_desc'),
-                'value' => 'date_modified-DESC',
-                'href'  => $this->html->getSEOURL('product/special', $url.'&sort=date_modified&order=DESC', '&encode'),
-            );
-            $sorts[] = array(
-                'text'  => $this->language->get('text_sorting_date_asc'),
-                'value' => 'date_modified-ASC',
-                'href'  => $this->html->getSEOURL('product/special', $url.'&sort=date_modified&order=ASC', '&encode'),
-            );
             $sort_options = array();
-            foreach ($sorts as $item) {
-                $sort_options[$item['value']] = $item['text'];
+            foreach ($this->data['sorts'] as $item => $text) {
+                $sort_options[$item] = $text;
             }
             $sorting = $this->html->buildElement(
                 array(
                     'type'    => 'selectbox',
                     'name'    => 'sort',
                     'options' => $sort_options,
-                    'value'   => $sort.'-'.$order,
+                    'value'   => $sorting_href,
                 )
             );
 
             $this->view->assign('sorting', $sorting);
             $this->view->assign('url', $this->html->getURL('product/special'));
 
-            $this->data['sorts'] = $sorts;
             $pagination_url = $this->html->getURL(
                 'product/special',
                 '&sort='.$sorting_href.'&page={page}'.'&limit='.$limit,
