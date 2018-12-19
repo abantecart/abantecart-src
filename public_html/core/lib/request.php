@@ -222,11 +222,18 @@ final class ARequest
 
     public function getRemoteIP()
     {
-        if (!empty($this->server['HTTP_CLIENT_IP'])) {
+
+        if(isset($_SERVER["HTTP_CF_CONNECTING_IP"]))
+        { //if user behind cloudflare proxy
+            $ip = $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+        }elseif(!empty($this->server['HTTP_CLIENT_IP']))
+        {
             $ip = $this->server['HTTP_CLIENT_IP'];
-        } elseif (!empty($this->server['HTTP_X_FORWARDED_FOR'])) {
+        }elseif(!empty($this->server['HTTP_X_FORWARDED_FOR']))
+        {
             $ip = $this->server['HTTP_X_FORWARDED_FOR'];
-        } else {
+        }else
+        {
             $ip = $this->server['REMOTE_ADDR'];
         }
         return $ip;
