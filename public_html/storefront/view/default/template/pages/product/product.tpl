@@ -522,9 +522,15 @@ if ($error){ ?>
 	}
 
 	function load_option_images(attribute_value_id, product_id) {
+		var data = {
+			attribute_value_id: attribute_value_id,
+			product_id: product_id,
+		};
+
 		$.ajax({
 			type: 'POST',
-			url: '<?php echo $option_resources_url; ?>&attribute_value_id=' + attribute_value_id + '&product_id=' + product_id,
+			url: '<?php echo $option_resources_url; ?>',
+			data: data,
 			dataType: 'json',
 			success: function (data) {
 				if (data.length == 0) {
