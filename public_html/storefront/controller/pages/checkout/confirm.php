@@ -212,6 +212,9 @@ class ControllerPagesCheckoutConfirm extends AController
             $product_id = $this->data['products'][$i]['product_id'];
             $opts = $this->data['products'][$i]['option'];
             $options = array();
+
+            $thumbnail = $thumbnails[$product_id];
+
             foreach ($opts as $option) {
                 //hide hidden options
                 if ($option['element_type'] == 'H') {
@@ -237,11 +240,31 @@ class ControllerPagesCheckoutConfirm extends AController
                     'value' => $value,
                     'title' => $title,
                 );
+                // product image by option value
+                $mSizes = array(
+                    'main'  =>
+                        array(
+                            'width' => $this->config->get('config_image_cart_width'),
+                            'height' => $this->config->get('config_image_cart_height')
+                        ),
+                    'thumb' => array(
+                        'width' =>  $this->config->get('config_image_cart_width'),
+                        'height' => $this->config->get('config_image_cart_height')
+                    ),
+                );
+                $main_image =
+                    $resource->getResourceAllObjects('product_option_value', $option['product_option_value_id'], $mSizes, 1, false);
+                if (!empty($main_image)) {
+                    $thumbnail['origin'] = $main_image['origin'];
+                    $thumbnail['title'] = $main_image['title'];
+                    $thumbnail['description'] = $main_image['description'];
+                    $thumbnail['thumb_html'] = $main_image['thumb_html'];
+                    $thumbnail['thumb_url'] = $main_image['thumb_url'];
+                }
             }
 
             $this->data['products'][$i]['option'] = $options;
 
-            $thumbnail = $thumbnails[$product_id];
             $tax = $this->tax->calcTotalTaxAmount($this->data['products'][$i]['total'], $this->data['products'][$i]['tax_class_id']);
             $price = $this->data['products'][$i]['price'];
             $qty = $this->data['products'][$i]['quantity'];
