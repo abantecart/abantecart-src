@@ -1,8 +1,8 @@
-<title><?php echo $title; ?></title>
 <meta charset="UTF-8">
 <!--[if IE]>
 	<meta http-equiv="x-ua-compatible" content="IE=Edge" />
 <![endif]-->
+<title><?php echo $title; ?></title>
 <?php if ($keywords) { ?>
 <meta name="keywords" content="<?php echo $keywords; ?>" />
 <?php } ?>
