@@ -1,17 +1,11 @@
 <?php
 
-use net\authorize\api\constants\ANetEnvironment;
 use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\contract\v1\ANetApiResponseType;
-use net\authorize\api\contract\v1\CreateCustomerPaymentProfileRequest;
-use net\authorize\api\contract\v1\CreateCustomerProfileRequest;
 use net\authorize\api\contract\v1\CreateTransactionRequest;
 use net\authorize\api\contract\v1\CustomerAddressType;
 use net\authorize\api\contract\v1\CustomerDataType;
-use net\authorize\api\contract\v1\CustomerPaymentProfileType;
 use net\authorize\api\contract\v1\CustomerProfilePaymentType;
-use net\authorize\api\contract\v1\CustomerProfileType;
-use net\authorize\api\contract\v1\DeleteCustomerPaymentProfileRequest;
 use net\authorize\api\contract\v1\MerchantAuthenticationType;
 use net\authorize\api\contract\v1\OpaqueDataType;
 use net\authorize\api\contract\v1\OrderType;
@@ -21,10 +15,7 @@ use net\authorize\api\contract\v1\SettingType;
 use net\authorize\api\contract\v1\TransactionRequestType;
 use net\authorize\api\contract\v1\TransactionResponseType;
 use net\authorize\api\controller as AnetController;
-use net\authorize\api\controller\CreateCustomerPaymentProfileController;
-use net\authorize\api\controller\CreateCustomerProfileController;
 use net\authorize\api\controller\CreateTransactionController;
-use net\authorize\api\controller\DeleteCustomerPaymentProfileController;
 
 /**
  * Class ModelExtensionAuthorizeNet
@@ -103,7 +94,6 @@ class ModelExtensionDefaultAuthorizeNet extends Model
         $order_info = $this->model_checkout_order->getOrder($pd['order_id']);
 
         try {
-            $customer_authorizenet_id = $this->getAuthorizeNetCustomerID($this->customer->getId());
 
             //grab price from order total
             $amount = round($order_info['total'], 2);
@@ -203,7 +193,6 @@ class ModelExtensionDefaultAuthorizeNet extends Model
             );
 
             //finalize order only if payment is a success
-            $this->recordOrder($order_info);
             $this->model_checkout_order->confirm($pd['order_id'],
                 $this->config->get('default_authorizenet_status_success_settled'));
             if ($order_info['shipping_method'] == 'Pickup From Store') {
@@ -359,7 +348,6 @@ class ModelExtensionDefaultAuthorizeNet extends Model
      * @param array $payment_data
      *
      * @return array|ANetApiResponseType
-     * @throws AException
      */
     protected function chargeCustomerProfile(
         $customer_authorizenet_id,
@@ -476,22 +464,6 @@ class ModelExtensionDefaultAuthorizeNet extends Model
         }
 
         return $output;
-    }
-
-    //record order with authorizenet database
-    public function recordOrder($order_info)
-    {
-        $transaction_id = $order_info['transaction_id'];
-        $test_mode = $this->config->get('default_authorizenet_test_mode') ? 1 : 0;
-        $this->db->query("INSERT INTO `".$this->db->table("authorizenet_orders")."`
-                            SET `order_id` = '".(int)$order_info['order_id']."', 
-                                `charge_id` = '".(int)$transaction_id."',
-                                `charge_id_previous` = '".(int)$transaction_id."',
-                                `authorizenet_test_mode` = '".(int)$test_mode."',
-                                `date_added` = now()
-                            ");
-
-        return $this->db->getLastId();
     }
 
 }

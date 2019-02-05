@@ -4,9 +4,7 @@ require_once 'vendor/autoload.php';
 
 $controllers = array(
     'storefront' => array('responses/extension/default_authorizenet'),
-    'admin'      => array(
-        'responses/extension/default_authorizenet'
-    ),
+    'admin' => array(),
 );
 
 $models = array(

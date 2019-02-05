@@ -69,12 +69,4 @@
 	</settings>
 	<help_file><![CDATA[help.txt]]></help_file>
 	<help_link><![CDATA[https://support.authorize.net/authkb/index?page=home&resellerId=34073]]></help_link>
-	<install>
-		<sql>install.sql</sql>
-		<trigger>install.php</trigger>
-	</install>
-	<uninstall>
-		<sql>uninstall.sql</sql>
-		<trigger>uninstall.php</trigger>
-	</uninstall>
 </extension>

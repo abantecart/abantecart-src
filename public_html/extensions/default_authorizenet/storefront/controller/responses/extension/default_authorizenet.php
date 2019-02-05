@@ -159,51 +159,6 @@ class ControllerResponsesExtensionDefaultAuthorizeNet extends AController
             'icon'  => 'icon-ok icon-white',
         ));
 
-        $this->loadModel('extension/default_authorizenet');
-        $cust_ccs = array();
-        if ($this->config->get('default_authorizenet_save_cards_limit') != 0) {
-            //if customer see if we have authorizenet customer object created for credit card saving
-            if ($this->customer->getId() > 0){
-                $customer_authorizenet_id = $this
-                    ->model_extension_default_authorizenet
-                    ->getAuthorizeNetCustomerID($this->customer->getId());
-
-                //load credit cards list
-                if ($customer_authorizenet_id) {
-                    try {
-                        $cc_list = $this->model_extension_default_authorizenet->getAuthorizeNetCustomerCCs(
-                            $customer_authorizenet_id,
-                            $this->customer->getId(),
-                            $order_info
-                        );
-                        if ($cc_list) {
-                            $data['saved_cc_list'] = HtmlElementFactory::create(array(
-                                'type'    => 'selectbox',
-                                'name'    => 'use_saved_cc',
-                                'value'   => '',
-                                'options' => $cc_list,
-                            ));
-                        }
-                    }catch(AException $e){
-
-                    }
-
-                }
-            }
-            //build credit card selector
-            //option to save creditcard if limit is not reached
-            if ($this->customer->isLogged()
-                && count($cust_ccs) < $this->config->get('default_authorizenet_save_cards_limit')
-            ) {
-                $data['save_cc'] = HtmlElementFactory::create(array(
-                    'type'    => 'checkbox',
-                    'name'    => 'save_cc',
-                    'value'   => '0',
-                    'checked' => false,
-                ));
-            }
-        }
-
         return $data;
     }
 
@@ -284,8 +239,6 @@ class ControllerResponsesExtensionDefaultAuthorizeNet extends AController
             'order_id'           => $order_id,
             'cc_owner_firstname' => $card_firstname,
             'cc_owner_lastname'  => $card_lastname,
-            'save_cc'            => $post['save_cc'],
-            'use_saved_cc'       => $post['use_saved_cc'],
             'dataDescriptor'     => $post['dataDescriptor'],
             'dataValue'          => $post['dataValue'],
         );

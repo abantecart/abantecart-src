@@ -31,16 +31,24 @@ class ExtensionDefaultAuthorizeNet extends Extension
     public function onControllerPagesSaleOrderSummary_UpdateData()
     {
         $that = $this->baseObject;
-        $that->loadModel('extension/default_authorizenet');
-        $order = $that->model_extension_default_authorizenet->getAuthorizeNetOrder($that->request->get['order_id']);
-        if ( ! $order || IS_ADMIN !== true) {
+        if ( IS_ADMIN !== true) {
             return null;
         }
+        $order_info = $that->model_sale_order->getOrder($that->request->get['order_id']);
+        if($order_info['payment_method_key'] != 'default_authorizenet'){
+            return null;
+        }
+        $method_info = unserialize($order_info['payment_method_data']);
+
         $view_order_details = $that->view->getData('order');
-        $view_order_details['payment_method'] = $view_order_details['payment_method']
-            .'<br>'
-            .($order['charge_id'] ? 'Transaction ID: '.$order['charge_id'] : '');
-        $that->view->assign('order', $view_order_details);
+        if($method_info) {
+            $view_order_details['payment_method'] = $view_order_details['payment_method']
+                .'<br>'
+                .($method_info['authorizenet_transaction_id']
+                    ? 'Transaction ID: '.$method_info['authorizenet_transaction_id'].'('.$method_info['cc_type'].')'
+                    : '');
+            $that->view->assign('order', $view_order_details);
+        }
     }
 
     //Hook to enable payment details tab in admin
@@ -184,13 +192,4 @@ class ExtensionDefaultAuthorizeNet extends Extension
         }
     }
 
-    protected function loadAuthorizenetOrderData($order_id, $that)
-    {
-        //data already loaded, return
-        if ($this->r_data) {
-            return null;
-        }
-        //load local authorizenet data
-        $this->r_data = $that->model_extension_default_authorizenet->getauthorizenetOrder($order_id);
-    }
 }
