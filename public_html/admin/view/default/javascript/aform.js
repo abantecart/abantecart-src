@@ -322,7 +322,7 @@
 			});
 		}
 
-		function flip_aswitch(elem, value){
+		function flip_aswitch(elem, value) {
 			var $el = $(elem);
 			//change input field state
 			var $field = $el.parent('.afield');
@@ -334,33 +334,16 @@
 					$el.val(value);
 				}
 			} else {
-				if($el.val() == '1') {
+				if ($el.val() == '1') {
 					$el.val('0');
 				} else {
 					$el.val('1');
 				}
 			}
-			//reset off button
-			if ( $el.val() == 1) {
-				$field.find('.btn').removeClass('btn-off');
-			} else {
-				$field.find('.btn-default').addClass('btn-off');
-			}
-			//toggle buttons
-			$field.find('.btn').toggleClass('active');
-			if ($field.find('.btn-primary').size() > 0) {
-				$field.find('.btn').toggleClass('btn-primary');
-			}
-			if ($field.find('.btn-danger').size() > 0) {
-				$field.find('.btn').toggleClass('btn-danger');
-			}
-			if ($field.find('.btn-success').size() > 0) {
-				$field.find('.btn').toggleClass('btn-success');
-			}
-			if ($field.find('.btn-info').size() > 0) {
-				$field.find('.btn').toggleClass('btn-info');
-			}
-			$field.find('.btn').toggleClass('btn-default');
+
+			//flip the switch
+			$field.find('.btn-on ').toggleClass('hidden');
+			$field.find('.btn-off ').toggleClass('hidden');
 
 			//do custom action for status field
 			statusMarker($el.parent('.input-group'));
