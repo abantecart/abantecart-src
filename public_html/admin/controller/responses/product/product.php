@@ -592,6 +592,14 @@ class ControllerResponsesProductProduct extends AController
         }
 
         $this->model_catalog_product->updateProductOptionValues($this->request->get['product_id'], $this->request->get['option_id'], $this->request->post);
+
+        foreach($this->request->post['stock_location'] as $product_option_value_id=>$stock_locations) {
+            $result = $this->model_catalog_product->updateProductStockLocations(
+                $stock_locations,
+                $this->request->get['product_id'],
+                $product_option_value_id);
+        }
+
         $this->session->data['success'] = $this->language->get('text_success_option');
 
         //update controller data
@@ -832,6 +840,12 @@ class ControllerResponsesProductProduct extends AController
             'value'   => $selected_unit,
             'options' => $wht_options,
         ));
+
+        $dd = new ADispatcher(
+            'responses/product/product/stockLocations',
+            array($product_id = (int)$this->request->get['product_id'],$product_option_value_id)
+        );
+        $this->data['form']['fields']['stock_locations'] = $dd->dispatchGetOutput('responses/product/product/stockLocations');
 
         $resources_html = $this->dispatch('responses/common/resource_library/get_resources_html');
         $this->data['resources_html'] = $resources_html->dispatchGetOutput();
@@ -1657,6 +1671,95 @@ class ControllerResponsesProductProduct extends AController
 
         $this->view->batchAssign($this->data);
         $this->processTemplate('responses/product/product_form.tpl');
+    }
+
+
+    public function stockLocations($product_id = 0, $product_option_value_id = null)
+    {
+
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+
+        $product_id = $product_id ? (int)$product_id : $this->request->get['product_id'];
+        $product_option_value_id = $product_option_value_id ? (int)$product_option_value_id : $this->request->get['product_option_value_id'];
+        $this->data['product_option_value_id'] = $product_option_value_id;
+        if(!$product_option_value_id){
+            $this->data['save_url'] = $this->html->getSecureURL('listing_grid/product/update_field', '&id='.$product_id);
+        }
+
+        $this->loadLanguage('catalog/product');
+        $this->loadModel('catalog/product');
+        $locations = $this->model_catalog_product->getProductStockLocations($product_id, $product_option_value_id);
+
+        foreach($locations as $row){
+            $location_id = $row['location_id'];
+            $this->data['locations'][$location_id] =
+                array(
+                    'name' => $row['name'].' '.$row['description'],
+                    'quantity' =>
+                            $this->html->buildElement(
+                                array(
+                                    'type' => 'input',
+                                    'name' =>
+                                        'stock_location'.($product_option_value_id ? "[".$product_option_value_id."]":"").'['.$location_id.'][quantity]',
+
+                                    'value'=> $row['quantity']
+                                )
+                            ),
+                    'sort_order' =>
+                            $this->html->buildElement(
+                                array(
+                                    'type' => 'input',
+                                    'name' => 'stock_location'.($product_option_value_id ? "[".$product_option_value_id."]":"").'['.$location_id.'][sort_order]',
+                                    'value'=> $row['sort_order']
+                                )
+                            )
+                );
+        }
+
+        $this->loadModel('localisation/location');
+
+        $all_locations = $this->model_localisation_location->getLocations();
+        $options = array($this->language->get('text_select'));
+        foreach($all_locations as $row) {
+            $options[ $row['location_id'] ] = $row['name'].' '.$row['description'];
+        }
+
+        $this->data['all_locations'] =
+            array(
+                'location_list' =>  $this->html->buildElement(
+                                                array(
+                                                    'type' => 'selectbox',
+                                                    'name' => 'location_list',
+                                                    'options'=> $options,
+                                                    'disabled_options' => array_keys((array)$this->data['locations']),
+                                                    'style' => 'static_field'
+                                                )
+                                            ),
+                'quantity' => $this->html->buildElement(
+                            array(
+                                'type' => 'input',
+                                'name' => 'stock_location'.($product_option_value_id ? "[".$product_option_value_id."]":"").'[0][quantity]',
+                                'value'=> '',
+                                'style' => 'stock_location_quantity static_field hidden',
+                            )
+                        ),
+                'sort_order' => $this->html->buildElement(
+                            array(
+                                'type' => 'input',
+                                'name' => 'stock_location'.($product_option_value_id ? "[".$product_option_value_id."]":"").'[0][sort_order]',
+                                'value'=> '',
+                                'style' => 'stock_location_sort_order static_field hidden',
+                            )
+                        )
+            );
+
+
+
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        $this->view->batchAssign($this->data);
+        $this->processTemplate('responses/product/product_stock_locations.tpl');
     }
 
 }

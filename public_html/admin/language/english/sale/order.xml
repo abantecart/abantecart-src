@@ -372,4 +372,8 @@
 		<key>entry_im</key>
 		<value><![CDATA[IM:]]></value>
 	</definition>
+	<definition>
+		<key>entry_stock_locations</key>
+		<value><![CDATA[Stock Locations:]]></value>
+	</definition>
 </definitions>

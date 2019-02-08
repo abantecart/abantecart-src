@@ -790,6 +790,9 @@ class ControllerPagesCatalogProduct extends AController
             'attr'     => ($product_info['has_track_options'] ? 'disabled' : ''),
         ));
 
+        $dd = new ADispatcher('responses/product/product/stockLocations', array($product_info['product_id']) );
+        $this->data['form']['fields']['data']['stock_locations'] = $dd->dispatchGetOutput('responses/product/product/stockLocations');
+
         $this->data['form']['fields']['data']['minimum'] = $form->getFieldHtml(array(
             'type'  => 'input',
             'name'  => 'minimum',

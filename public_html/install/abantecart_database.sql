@@ -12566,3 +12566,27 @@ CREATE TABLE `ac_task_steps` (
   PRIMARY KEY (`step_id`),
   KEY `task_steps_idx` (`task_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `ac_product_stock_locations`;
+CREATE TABLE `ac_product_stock_locations` (
+  `product_id` int(11) NOT NULL,
+  `product_option_value_id` int(11) DEFAULT NULL,
+  `location_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL DEFAULT '0',
+  `sort_order` int(11) NOT NULL DEFAULT '0',
+  UNIQUE KEY `ac_product_stock_locations_idx` (`product_id`,`product_option_value_id`,`location_id`),
+  KEY `ac_product_stock_locations_idx2` (`product_option_value_id`)
+);
+
+DROP TABLE IF EXISTS `ac_order_product_stock_locations`;
+CREATE TABLE `ac_order_product_stock_locations` (
+  `order_product_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `product_option_value_id` int(11) DEFAULT NULL,
+  `location_id` int(11) NOT NULL,
+  `location_name` varchar(255) NOT NULL,
+  `quantity` int(11) NOT NULL DEFAULT '0',
+  `sort_order` int(11) DEFAULT '0',
+  KEY `ac_product_options_value_idx` (`product_option_value_id`),
+  KEY `ac_product_options_value_idx2` (`order_product_id`,`product_id`,`product_option_value_id`,`location_id`)
+);

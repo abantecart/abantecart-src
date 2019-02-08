@@ -598,4 +598,12 @@
 		<key>text_success_relation_set</key>
 		<value><![CDATA[Relations of selected products was set successfully!]]></value>
 	</definition>
+	<definition>
+		<key>entry_stock_locations</key>
+		<value><![CDATA[Stock Locations:]]></value>
+	</definition>
+	<definition>
+		<key>entry_locations</key>
+		<value><![CDATA[Locations:]]></value>
+	</definition>
 </definitions>

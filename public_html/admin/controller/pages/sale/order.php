@@ -523,6 +523,19 @@ class ControllerPagesSaleOrder extends AController
                 );
             }
 
+            //append stock locations from order
+            $stock_located = $this->model_catalog_product->getOrderProductStockLocations($order_product['order_product_id']);
+            if($stock_located) {
+                $value = '';
+                foreach ($stock_located as $row) {
+                    $value .= $row['location_name'].': '.$row['quantity']."\n";
+                }
+                $option_data[] = array(
+                    'name'  => $this->language->get('entry_stock_locations'),
+                    'value' => nl2br($value)
+                );
+            }
+
             //check if this product product is still available, so we can use recalculation against the cart
             $product = $this->model_catalog_product->getProduct($order_product['product_id']);
             if (empty($product) || !$product['status'] || $product['call_to_order']) {

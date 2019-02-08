@@ -393,6 +393,14 @@ class ModelCheckoutOrder extends Model
                                   SET quantity = (quantity - ".(int)$product['quantity'].")
                                   WHERE product_option_value_id = '".(int)$option['product_option_value_id']."'
                                         AND subtract = 1");
+
+                $this->saveOrderProductStocks(
+                    $product['order_product_id'],
+                    $product['product_id'],
+                    $option['product_option_value_id'],
+                    $product['quantity']
+                );
+
                 $stock_updated = true;
                 $sql = "SELECT quantity
                         FROM ".$this->db->table("product_option_values")."
@@ -415,6 +423,12 @@ class ModelCheckoutOrder extends Model
                 $this->db->query("UPDATE ".$this->db->table("products")."
                                   SET quantity = (quantity - ".(int)$product['quantity'].")
                                   WHERE product_id = '".(int)$product['product_id']."' AND subtract = 1");
+                $this->saveOrderProductStocks(
+                    $product['order_product_id'],
+                    $product['product_id'],
+                    null,
+                    $product['quantity']
+                );
 
                 //check quantity and send notification when 0 or less
                 $sql = "SELECT quantity
@@ -942,5 +956,108 @@ class ModelCheckoutOrder extends Model
         $this->db->query("DELETE FROM `".$this->db->table("orders")."` WHERE order_id = '".$order_id."'");
 
         return true;
+    }
+
+    public function saveOrderProductStocks($order_product_id, $product_id, $product_option_value_id, $order_quantity)
+    {
+        if(!$order_quantity){
+            return false;
+        }
+        $stock_locations  = $this->getProductStockLocations($product_id, $product_option_value_id);
+
+        if(!$stock_locations){
+            return false;
+        }
+        $remains = $order_quantity;
+        $available_quantity = array_sum(array_column($stock_locations,'quantity'));
+
+        //do not save when zero stock on all locations
+        if(!$available_quantity){
+            return false;
+        }
+
+        foreach($stock_locations as $row){
+            //skip zero stock locations or non-trackable
+            if(
+                ($available_quantity && !$row['quantity'])
+                || (!$product_option_value_id && !$row['product_subtract'])
+                || ($product_option_value_id && !$row['product_option_value_subtract'])
+            ){
+                continue;
+            }
+
+            if($row['quantity']>=$remains){
+                $new_qnty = $row['quantity'] - $remains;
+                $quantity = $remains;
+                $remains = 0;
+            }else{
+                $new_qnty = 0;
+                $quantity = $row['quantity'];
+                $remains -= $row['quantity'];
+            }
+            //update stocks
+            $sql = "UPDATE ".$this->db->table("product_stock_locations")." 
+                    SET quantity = ".(int)$new_qnty."
+                    WHERE location_id= ".(int)$row['location_id']."
+                     AND product_id = ".(int)$product_id
+                        .((int)$product_option_value_id ? " AND product_option_value_id='".(int)$product_option_value_id."' " : "");
+            $this->db->query($sql);
+            //save stocks into order details
+            $this->db->query(
+                "INSERT INTO ".$this->db->table("order_product_stock_locations")."
+                    (order_product_id, product_id, product_option_value_id, location_id, location_name, quantity, sort_order)
+                VALUES( 
+                    ".(int)$order_product_id.",
+                    ".(int)$product_id.", 
+                    ".( (int)$product_option_value_id
+                       ? (int)$product_option_value_id
+                       : 'NULL' ).", 
+                    ".(int)$row['location_id'].", 
+                    '".$this->db->escape($row['location_name'])."',
+                    ".(int)$quantity.", 
+                    ".(int)$row['sort_order']."
+                );"
+            );
+
+            if(!$remains){
+                break;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * @param int $product_id
+     *
+     * @param int $product_option_value_id
+     *
+     * @return array
+     */
+    public function getProductStockLocations($product_id, $product_option_value_id = 0)
+    {
+        $sql = "SELECT psl.*,
+                        CONCAT(l.name,' ', l.description) as location_name, 
+                        p.subtract as product_subtract, 
+                        pov.subtract as product_option_value_subtract 
+                FROM ".$this->db->table('product_stock_locations')." psl
+                LEFT JOIN ".$this->db->table('products')." p
+                                    ON p.product_id = psl.product_id ";
+
+        if($product_option_value_id) {
+            $sql .= " LEFT JOIN ".$this->db->table('product_option_values')." pov
+                          ON pov.product_option_value_id = psl.product_option_value_id";
+        }
+        $sql .= " LEFT JOIN ".$this->db->table('locations')." l
+                    ON l.location_id = psl.location_id
+                WHERE psl.product_id=".(int)$product_id;
+        if($product_option_value_id){
+            $sql .= " AND psl.product_option_value_id = ".(int)$product_option_value_id;
+        }else{
+            $sql .= " AND psl.product_option_value_id IS NULL";
+        }
+        $sql .= " ORDER BY psl.sort_order ASC";
+
+        $result = $this->db->query($sql);
+        return $result->rows;
     }
 }
