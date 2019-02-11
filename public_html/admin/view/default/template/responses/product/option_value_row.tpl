@@ -51,10 +51,10 @@
 					<?php echo $entry_weight_type; ?></label>
 				<div class="input-group input-group-sm afield"><?php echo $form['fields']['weight_type']; ?></div>
 			</div>
-			<div class="pull-left col-md-3 col-xs-6">
-				<label class="control-label" for="<?php echo $form['fields']['stock_locations']->element_id; ?>">
+			<div class="pull-left col-md-12 col-sm-12 col-xs-12 ">
+				<label class="control-label " for="<?php echo $form['fields']['stock_locations']->element_id; ?>">
 					<?php echo $entry_stock_locations; ?></label>
-				<div class="input-group input-group-sm afield"><?php echo $form['fields']['stock_locations']; ?></div>
+				<div class="input-group input-group-sm afield col-sm-offset-1"><?php echo $form['fields']['stock_locations']; ?></div>
 			</div>
 			<div class="mt10 col-xs-12 col-sm-12 col-md-12">
 			<?php echo $resources_html; ?>

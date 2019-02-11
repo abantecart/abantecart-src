@@ -370,30 +370,7 @@ class ModelCatalogProduct extends Model
         }
 
         if (isset($data['stock_location'])) {
-            $this->db->query(
-                "DELETE
-                FROM ".$this->db->table("product_stock_locations")." 
-                WHERE product_id = ".(int)$product_id
-            );
-
-            foreach($data['stock_location'] as $location_id=>$location_details){
-                if(!(int)$location_id){
-                    continue;
-                }
-                $this->db->query(
-                    "INSERT INTO ".$this->db->table("product_stock_locations")."
-                        (product_id, product_option_value_id, location_id, quantity, sort_order)
-                    VALUES( 
-                        ".(int)$product_id.", 
-                        ".( (int)$location_details['product_option_value_id']
-                           ? (int)$location_details['product_option_value_id']
-                           : 'NULL' ).", 
-                        ".(int)$location_id.", 
-                        ".(int)$location_details['quantity'].", 
-                        ".(int)$location_details['sort_order']."
-                    );"
-                );
-            }
+            $this->updateProductStockLocations($data['stock_location'], (int)$product_id);
         }
 
         $this->_touch_product($product_id);
@@ -2686,6 +2663,7 @@ class ModelCatalogProduct extends Model
                 : "")
         );
 
+        $totals = array();
         foreach($locations as $location_id=>$location_details){
             if(!(int)$location_id){
                 continue;
@@ -2702,6 +2680,20 @@ class ModelCatalogProduct extends Model
                     ".(int)$location_details['quantity'].", 
                     ".(int)$location_details['sort_order']."
                 );"
+            );
+
+            $totals[] = (int)$location_details['quantity'];
+        }
+
+
+        //update_total_quantity
+        if (!$product_option_value_id) {
+            $this->db->query("UPDATE `".$this->db->table("products`")." SET quantity= '".(int)array_sum($totals)."'");
+        }elseif(array_sum($totals)){
+            $this->db->query(
+                "UPDATE `".$this->db->table("product_option_values`")." 
+                SET quantity= '".(int)array_sum($totals)."'
+                    WHERE product_option_value_id=".(int)$product_option_value_id
             );
         }
         return true;

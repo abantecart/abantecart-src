@@ -758,11 +758,19 @@ class ControllerResponsesProductProduct extends AController
             'name'  => 'sku['.$product_option_value_id.']',
             'value' => $this->data['sku'],
         ));
+        $stock_locations = null;
+        if($this->data['subtract']){
+            $stock_locations = $this->model_catalog_product->getProductStockLocations(
+                (int)$this->request->get['product_id'],
+                $product_option_value_id
+            );
+        }
         $this->data['form']['fields']['quantity'] = $form->getFieldHtml(array(
             'type'  => 'input',
             'name'  => 'quantity['.$product_option_value_id.']',
             'value' => $this->data['quantity'],
             'style' => 'small-field',
+            'attr'  => ($stock_locations && $this->data['subtract'] ? 'disabled':'')
         ));
         $this->data['form']['fields']['subtract'] = $form->getFieldHtml(array(
             'type'    => 'selectbox',
@@ -843,7 +851,7 @@ class ControllerResponsesProductProduct extends AController
 
         $dd = new ADispatcher(
             'responses/product/product/stockLocations',
-            array($product_id = (int)$this->request->get['product_id'],$product_option_value_id)
+            array((int)$this->request->get['product_id'],$product_option_value_id)
         );
         $this->data['form']['fields']['stock_locations'] = $dd->dispatchGetOutput('responses/product/product/stockLocations');
 
@@ -1683,6 +1691,7 @@ class ControllerResponsesProductProduct extends AController
         $product_id = $product_id ? (int)$product_id : $this->request->get['product_id'];
         $product_option_value_id = $product_option_value_id ? (int)$product_option_value_id : $this->request->get['product_option_value_id'];
         $this->data['product_option_value_id'] = $product_option_value_id;
+
         if(!$product_option_value_id){
             $this->data['save_url'] = $this->html->getSecureURL('listing_grid/product/update_field', '&id='.$product_id);
         }

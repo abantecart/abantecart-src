@@ -17,7 +17,7 @@
 				<a id="remove_location_row"
 				   class="remove btn btn-danger-alt"
 				   title="<?php echo $button_remove; ?>"
-					onclick="removeStockLocationRow(this);">
+					onclick="removeStockLocationRow<?php echo $product_option_value_id?>(this);">
 					<i class="fa fa-minus-circle"></i>
 				</a>
 			</td>
@@ -67,7 +67,7 @@
 			.html('<a id="remove_location_row"\n' +
 					' class="remove_location_row remove btn btn-danger-alt"\n' +
 					' title="<?php echo $button_remove; ?>"' +
-					' onclick="removeStockLocationRow(this);">\n' +
+					' onclick="removeStockLocationRow<?php echo $product_option_value_id?>(this);">\n' +
 					'<i class="fa fa-minus-circle"></i></a>');
 		row.find('input.static_field').removeClass('static_field');
 
@@ -82,7 +82,12 @@
 
 
 		wrapper.find('tbody').prepend(row);
-
+		<?php
+		if($product_option_value_id){ ?>
+		wrapper.closest('#option_values_tbl').find('input[name="quantity\[<?php echo $product_option_value_id;?>\]"]').attr('disabled','disabled');
+		<?php }else{ ?>
+		wrapper.closest('form').find('input[name="quantity"]').attr('disabled','disabled');
+		<?php } ?>
 		location_list
 			.find("option:selected[value="+location_id+"]" )
 			.attr('disabled','disabled');
@@ -91,14 +96,27 @@
 		return false;
 	}
 
-	function removeStockLocationRow(elm) {
+	function removeStockLocationRow<?php echo $product_option_value_id?>(elm) {
 		var text = $(elm).closest('tr').find('td').first().html();
 
 		$(elm)
 			.parents('table.stock_locations')
 			.find('#location_list option:contains(' + text + ')')
 			.removeAttr('disabled');
+
+		var table = $(elm).closest('table');
 		$(elm).closest('tr').remove();
+
+
+		if(table.find('tbody>tr').length === 1){
+			<?php
+			if($product_option_value_id){ ?>
+			$('input[name="quantity\[<?php echo $product_option_value_id;?>\]"]').removeAttr('disabled');
+			<?php }else{ ?>
+			table.closest('form').find('input[name="quantity"]').removeAttr('disabled');
+			<?php } ?>
+		}
+
 		return false;
 	}
 </script>
