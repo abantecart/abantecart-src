@@ -1037,9 +1037,12 @@ class ModelCheckoutOrder extends Model
     {
         $sql = "SELECT psl.*,
                         CONCAT(l.name,' ', l.description) as location_name, 
-                        p.subtract as product_subtract, 
-                        pov.subtract as product_option_value_subtract 
-                FROM ".$this->db->table('product_stock_locations')." psl
+                        p.subtract as product_subtract";
+
+        if($product_option_value_id) {
+            $sql .= ", pov.subtract as product_option_value_subtract";
+        }
+        $sql .= " FROM ".$this->db->table('product_stock_locations')." psl
                 LEFT JOIN ".$this->db->table('products')." p
                                     ON p.product_id = psl.product_id ";
 
