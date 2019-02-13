@@ -105,16 +105,16 @@ echo $this->html->buildElement(
 
 var setRLparams = function (attr_val_id) {
 	urls = {
-				resource_library: '<?php echo $rl_resource_library; ?>&object_id=' + attr_val_id,
-				resources: '<?php echo $rl_resources; ?>&object_id=' + attr_val_id,
-				resource_single: '<?php echo $rl_resource_single; ?>&object_id=' + attr_val_id,
-				map: '<?php echo $rl_map; ?>&object_id=' + attr_val_id,
-				unmap: '<?php echo $rl_unmap; ?>&object_id=' + attr_val_id,
-				del: '<?php echo $rl_delete; ?>&object_id=' + attr_val_id,
-				download: '<?php echo $rl_download; ?>&object_id=' + attr_val_id,
-				upload: '<?php echo $rl_upload; ?>&object_id=' + attr_val_id,
-				resource: '<?php echo HTTPS_DIR_RESOURCE; ?>'
-			};
+		resource_library: '<?php echo $rl_resource_library; ?>&object_id=' + attr_val_id,
+		resources: '<?php echo $rl_resources; ?>&object_id=' + attr_val_id,
+		resource_single: '<?php echo $rl_resource_single; ?>&object_id=' + attr_val_id,
+		map: '<?php echo $rl_map; ?>&object_id=' + attr_val_id,
+		unmap: '<?php echo $rl_unmap; ?>&object_id=' + attr_val_id,
+		del: '<?php echo $rl_delete; ?>&object_id=' + attr_val_id,
+		download: '<?php echo $rl_download; ?>&object_id=' + attr_val_id,
+		upload: '<?php echo $rl_upload; ?>&object_id=' + attr_val_id,
+		resource: '<?php echo HTTPS_DIR_RESOURCE; ?>'
+	};
 
 	urls.attr_val_id = attr_val_id;
 }
@@ -136,33 +136,35 @@ jQuery(function ($) {
 
 	$(document).on('change', '#new_option_form_attribute_id', function () {
 		var current_opt_attr_id = $(this).val();
-		if ( current_opt_attr_id != 'new' ) {
+		if ( current_opt_attr_id !== 'new' ) {
 			$("#option_name_block").hide();
 		} else {
 			$("#option_name_block").show();
-			$("#option_name_reset").show();		
+			$("#option_name_reset").show();
 		}
 
 	});
 
 	$("#product_form").submit(function () {
-	
-		if ($("#new_option_form_attribute_id").val() == 'new' && ( $("#new_option_form_option_name").val() == '' || $("#new_option_form_element_type").val() == ''  )) {
-			if ($("#new_option_form_option_name").val() == '') {
+
+		if ($("#new_option_form_attribute_id").val() === 'new'
+			&& ( $("#new_option_form_option_name").val() === '' || $("#new_option_form_element_type").val() === ''  )
+		){
+			if ($("#new_option_form_option_name").val() === '') {
 				$("#new_option_form_option_name").focus();
 				$("#new_option_form_option_name").closest("span").next().next().show();
 			} else {
 				$("#new_option_form_option_name").closest("span").next().next().hide();
 			}
 
-			if ($("#new_option_form_element_type").val() == '') {
+			if ($("#new_option_form_element_type").val() === '') {
 				$("#new_option_form_element_type").focus();
 				$("#new_option_form_element_type").closest("span").next().next().show();
 			} else {
 				$("#new_option_form_element_type").closest("span").next().next().hide();
 			}
 			return false;
-		} else if( $("#new_option_form_attribute_id").val() != 'new' ) {
+		} else if( $("#new_option_form_attribute_id").val() !== 'new' ) {
 			$("#new_option_form_option_name").val('');
 			$("#new_option_form_element_type").val('');
 		}
@@ -287,23 +289,24 @@ jQuery(function ($) {
 		$(new_row).attr('id', 'new' + row_id);
 
 		//find next sort order number
-		var so = $('#option_values_tbl').find("input[name^='sort_order']");
+		var so = $('#option_values_tbl>tbody>tr').find("input[name^='sort_order']");
 		if (so.length > 0) {
 			var highest = 0;
 			so.each(function () {
 				highest = Math.max(highest, Number(this.value));
 			});
-			$(new_row).find("input[name^='sort_order']").val(highest + 1);
+			new_row.find("input[name^='sort_order']").val(highest + 1);
 		} else {
-			$(new_row).find("input[name^='sort_order']").val(0);
+			new_row.find("input[name^='sort_order']").val(0);
 		}
 
-		if($('#option_values_tbl tbody').length){
+		//console.log(new_row.html); return false;
+		if($('#option_values_tbl>tbody').length){
 			//add one more row
-			$('#option_values_tbl tbody tr:last-child').after(new_row);
+			$('#option_values_tbl>tbody>tr:last-child').after(new_row);
 		} else {
 			//we insert first row
-			$('#option_values_tbl tr:last-child').after(new_row);			
+			$('#option_values_tbl>tr:last-child').after(new_row);
 		}
 		bindAform($("input, textarea, select", new_row));
 		//Mark rows to be new
@@ -370,7 +373,7 @@ jQuery(function ($) {
 		return false;
 	});
 	
-	//save option values	
+	//save option values
 	$(document).on('click','#option_values button[type="submit"]', function () {
 		//Mark rows to be deleted
 		$('#option_values_tbl .toDelete input[name^=product_option_value_id]').val('delete');

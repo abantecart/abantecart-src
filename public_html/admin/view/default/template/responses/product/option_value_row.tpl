@@ -51,20 +51,24 @@
 					<?php echo $entry_weight_type; ?></label>
 				<div class="input-group input-group-sm afield"><?php echo $form['fields']['weight_type']; ?></div>
 			</div>
+			<?php
+			//remove for new row
+			if($form['fields']['stock_locations']){?>
 			<div class="pull-left col-md-12 col-sm-12 col-xs-12 ">
 				<label class="control-label " for="<?php echo $form['fields']['stock_locations']->element_id; ?>">
 					<?php echo $entry_stock_locations; ?></label>
 				<div class="input-group input-group-sm afield col-sm-offset-1"><?php echo $form['fields']['stock_locations']; ?></div>
 			</div>
+			<?php }
+			if($resources_html){?>
 			<div class="mt10 col-xs-12 col-sm-12 col-md-12">
 			<?php echo $resources_html; ?>
 			</div>
+			<?php } ?>
 		</div>
 	</td>
 </tr>
-<?php } ?>
-
-<?php
+<?php }
 //if option type is textarea or label
 if(in_array($option_data['element_type'], array('T','B'))){
 //build modal for textarea editing
@@ -75,12 +79,12 @@ $modal_content = '<div class="add-option-modal" >
 				<div class="mt10 options_buttons" id="option_name_block">
 					<div class=" afield ">'.$this->html->buildElement(
 							array(
-									'type' => 'textarea',
-									'id' => 'option_textarea_value',
-									'name' => 'option_textarea_value',
-									'value' => $form['fields']['option_value']->value,
-									'style' => 'col-sm-12',
-									'attr' => 'row="10"'
+								'type' => 'textarea',
+								'id' => 'option_textarea_value',
+								'name' => 'option_textarea_value',
+								'value' => $form['fields']['option_value']->value,
+								'style' => 'col-sm-12',
+								'attr' => 'row="10"'
 							)).'
 					</div>
 				</div>

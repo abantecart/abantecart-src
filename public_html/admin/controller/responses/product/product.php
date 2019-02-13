@@ -615,6 +615,7 @@ class ControllerResponsesProductProduct extends AController
      */
     private function _option_value_form($form)
     {
+        $this->data['form'] = array();
         $this->data['option_attribute'] = $this->attribute_manager->getAttributeByProductOptionId($this->request->get['option_id']);
         $this->data['option_attribute']['values'] = array();
 
@@ -676,7 +677,20 @@ class ControllerResponsesProductProduct extends AController
             $this->data['row_id'] = 'new_row';
         }
 
-        $fields = array('default', 'name', 'sku', 'quantity', 'subtract', 'price', 'prefix', 'sort_order', 'weight', 'weight_type', 'attribute_value_id', 'children_options');
+        $fields = array(
+            'default',
+            'name',
+            'sku',
+            'quantity',
+            'subtract',
+            'price',
+            'prefix',
+            'sort_order',
+            'weight',
+            'weight_type',
+            'attribute_value_id',
+            'children_options'
+        );
         foreach ($fields as $f) {
             if (isset($this->request->post[$f])) {
                 $this->data[$f] = $this->request->post[$f];
@@ -704,7 +718,6 @@ class ControllerResponsesProductProduct extends AController
                         'options' => $data['values'],
                         'attr'    => '',
                     )).'<span><br class="clr_both">';
-
             }
         } else {
             if (in_array($this->data['option_attribute']['element_type'], $this->data['elements_with_options'])) {
@@ -716,7 +729,7 @@ class ControllerResponsesProductProduct extends AController
                 ));
             } else {
                 if ($this->data['option_attribute']['element_type'] == 'U') {
-                    //for file there is no option value 	
+                    //for file there is no option value
                     $this->data['form']['fields']['option_value'] = '';
                 } else {
 
@@ -849,14 +862,18 @@ class ControllerResponsesProductProduct extends AController
             'options' => $wht_options,
         ));
 
-        $dd = new ADispatcher(
-            'responses/product/product/stockLocations',
-            array((int)$this->request->get['product_id'],$product_option_value_id)
-        );
-        $this->data['form']['fields']['stock_locations'] = $dd->dispatchGetOutput('responses/product/product/stockLocations');
+        //do not show RL and stock locations for new row
+        if($product_option_value_id) {
+            $dd = new ADispatcher(
+                'responses/product/product/stockLocations',
+                array((int)$this->request->get['product_id'], $product_option_value_id)
+            );
+            $this->data['form']['fields']['stock_locations'] =
+                $dd->dispatchGetOutput('responses/product/product/stockLocations');
 
-        $resources_html = $this->dispatch('responses/common/resource_library/get_resources_html');
-        $this->data['resources_html'] = $resources_html->dispatchGetOutput();
+            $resources_html = $this->dispatch('responses/common/resource_library/get_resources_html');
+            $this->data['resources_html'] = $resources_html->dispatchGetOutput();
+        }
 
         $this->view->batchAssign($this->data);
         return $this->view->fetch('responses/product/option_value_row.tpl');
@@ -873,13 +890,19 @@ class ControllerResponsesProductProduct extends AController
         if (!$language_id) {
             $language_id = $this->language->getContentLanguageID();
         }
-        $query = $this->db->query("SELECT pov.*, povd.name as value
-									FROM `".$this->db->table('product_options')."` po
-									LEFT JOIN `".$this->db->table('product_option_values')."` pov ON po.product_option_id = pov.product_option_id
-									LEFT JOIN `".$this->db->table('product_option_value_descriptions')."` povd
-										ON ( pov.product_option_value_id = povd.product_option_value_id AND povd.language_id = '".(int)$language_id."' )
-									WHERE po.attribute_id = '".$this->db->escape($attribute_id)."'
-									ORDER BY pov.sort_order");
+        $query = $this->db->query(
+            "SELECT pov.*, povd.name as value
+            FROM `".$this->db->table('product_options')."` po
+            LEFT JOIN `".$this->db->table('product_option_values')."` pov 
+                ON po.product_option_id = pov.product_option_id
+            LEFT JOIN `".$this->db->table('product_option_value_descriptions')."` povd
+                ON ( 
+                    pov.product_option_value_id = povd.product_option_value_id 
+                        AND povd.language_id = '".(int)$language_id."' 
+                        )
+            WHERE po.attribute_id = '".$this->db->escape($attribute_id)."'
+            ORDER BY pov.sort_order"
+        );
         return $query->rows;
     }
 
