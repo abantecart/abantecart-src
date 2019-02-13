@@ -306,8 +306,10 @@ jQuery(function ($) {
 			$('#option_values_tbl>tbody>tr:last-child').after(new_row);
 		} else {
 			//we insert first row
-			$('#option_values_tbl>tr:last-child').after(new_row);
+			$('#option_values_tbl>thead').after('<tbody/>');
+			$('#option_values_tbl>tbody').append(new_row);
 		}
+
 		bindAform($("input, textarea, select", new_row));
 		//Mark rows to be new
 		$('#new' + row_id + ' input[name=default_value]').last()
