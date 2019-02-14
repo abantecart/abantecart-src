@@ -17,11 +17,8 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE') || !IS_ADMIN) {
-    header('Location: static_pages/');
-}
 
-/** @noinspection PhpUndefinedClassInspection */
+
 class ControllerResponsesProductProduct extends AController
 {
     public $error = array();
@@ -593,8 +590,8 @@ class ControllerResponsesProductProduct extends AController
 
         $this->model_catalog_product->updateProductOptionValues($this->request->get['product_id'], $this->request->get['option_id'], $this->request->post);
 
-        foreach($this->request->post['stock_location'] as $product_option_value_id=>$stock_locations) {
-            $result = $this->model_catalog_product->updateProductStockLocations(
+        foreach((array)$this->request->post['stock_location'] as $product_option_value_id => $stock_locations) {
+            $this->model_catalog_product->updateProductStockLocations(
                 $stock_locations,
                 $this->request->get['product_id'],
                 $product_option_value_id);
