@@ -39,7 +39,7 @@ if ($error){ ?>
 							<?php echo $image_main['main_html']; ?>
 						</a>
 						<?php
-					} else{
+					} else {
 						$image_url = $image_main['main_url'];
 						$thumb_url = $image_main['thumb_url'];
 						?>
@@ -47,8 +47,8 @@ if ($error){ ?>
 						   title="<?php echo $image_main['title']; ?>">
 							<img style="width: <?php echo $this->config->get('config_image_thumb_width'); ?>px;	height: <?php echo $this->config->get('config_image_thumb_height'); ?>px;"
 							     src="<?php echo $thumb_url; ?>"
-							     alt="<?php echo $image['title']; ?>"
-							     title="<?php echo $image['title']; ?>"/>
+							     alt="<?php echo $image_main['title']; ?>"
+							     title="<?php echo $image_main['title']; ?>"/>
 							<i class="fa fa-arrows hidden-xs hidden-sm"></i></a>
 					<?php }
 				} ?>
@@ -228,14 +228,14 @@ if ($error){ ?>
 										<?php echo $this->getHookVar('buttons'); ?>
 									</div>
 
-									<?php 
-										if ($in_wishlist) { 
+									<?php
+										if ($in_wishlist) {
 											$whislist = ' style="display: none;" ';
 											$nowhislist = '';
 										} else {
 											$nowhislist = ' style="display: none;" ';
 											$whislist = '';
-										} 
+										}
 									?>
 									<?php if ($is_customer) { ?>
 									<div class="wishlist">
