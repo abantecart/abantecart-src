@@ -1,9 +1,6 @@
 <?php
-if (!defined('DIR_CORE')) {
-    header('Location: static_pages/');
-}
 
-class ExtensionStripe extends Extension
+class ExtensionDefaultStripe extends Extension
 {
     protected $registry;
     protected $r_data;
