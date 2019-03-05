@@ -383,6 +383,7 @@ class ControllerResponsesExtensionDefaultPPPro extends AController
         $this->data['products'] = array();
         $this->data['items_total'] = 0.0;
         $products = $this->cart->getProducts();
+
         foreach ($products as $product) {
             $option_data = array();
 
@@ -448,7 +449,7 @@ class ControllerResponsesExtensionDefaultPPPro extends AController
                     $this->data['tax_total'] += $price;
                 } elseif (in_array($total['id'], array('shipping'))) {
                     $this->data['shipping_total'] += $price;
-                } elseif (in_array($total['id'], array('handling'))) {
+                } elseif (in_array($total['id'], array('handling', 'fee'))) {
                     $this->data['handling_total'] += $price;
                 } else {
                     $this->data['items_total'] += $price;

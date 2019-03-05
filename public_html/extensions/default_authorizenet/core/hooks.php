@@ -81,10 +81,14 @@ class ExtensionDefaultAuthorizeNet extends Extension
     public function onControllerPagesSaleOrder_UpdateData()
     {
         $that = $this->baseObject;
+
         $order_id = $that->request->get['order_id'];
         //are we logged to admin and correct method called?
         if (IS_ADMIN && $that->user->isLogged() && $this->baseObject_method == 'payment_details') {
-            //build HTML to show
+            if($that->request->get['extension'] != 'default_authorizenet'){
+                return null;
+            }
+                    //build HTML to show
             $that->loadLanguage('default_authorizenet/default_authorizenet');
             $that->loadModel('extension/default_authorizenet');
 
@@ -189,6 +193,7 @@ class ExtensionDefaultAuthorizeNet extends Extension
             $view->batchAssign($that->language->getASet('default_authorizenet/default_authorizenet'));
             $this->baseObject->view->addHookVar(
                 'extension_payment_details', $view->fetch('pages/sale/payment_details.tpl'));
+
         }
     }
 
