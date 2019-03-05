@@ -17,9 +17,6 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE') || !IS_ADMIN) {
-    header('Location: static_pages/');
-}
 
 class ControllerPagesSaleOrder extends AController
 {
@@ -264,8 +261,10 @@ class ControllerPagesSaleOrder extends AController
             //recalc totals and update
             $this->session->data['success'] = $this->language->get('text_success');
             $this->session->data['attention'] = $this->language->get('attention_check_total');
-            redirect($this->html->getSecureURL('sale/order/recalc',
-                '&order_id='.$this->request->get['order_id']));
+            redirect($this->html->getSecureURL(
+                'sale/order/recalc',
+                '&order_id='.$this->request->get['order_id'])
+            );
         }
 
         redirect($this->html->getSecureURL('sale/order'));
@@ -301,8 +300,10 @@ class ControllerPagesSaleOrder extends AController
                 $this->loadModel('catalog/download');
                 foreach ($data as $order_download_id => $item) {
                     if ($item['expire_date']) {
-                        $item['expire_date'] = dateDisplay2ISO($item['expire_date'],
-                            $this->language->get('date_format_short'));
+                        $item['expire_date'] = dateDisplay2ISO(
+                            $item['expire_date'],
+                            $this->language->get('date_format_short')
+                        );
                     } else {
                         $item['expire_date'] = '';
                     }
@@ -324,9 +325,11 @@ class ControllerPagesSaleOrder extends AController
                         }
 
                         $enc = new AEncryption($this->config->get('encryption_key'));
-                        redirect($this->html->getSecureURL('sale/order/recalc',
-                            '&order_id='.$order_id.'&skip_recalc='.$enc->encrypt(serialize($skip_recalc))
-                        )
+                        redirect(
+                            $this->html->getSecureURL(
+                                'sale/order/recalc',
+                                '&order_id='.$order_id.'&skip_recalc='.$enc->encrypt(serialize($skip_recalc))
+                            )
                         );
                     }
                 }
@@ -1305,6 +1308,9 @@ class ControllerPagesSaleOrder extends AController
 
         //NOTE: This is an empty controller to be hooked from extensions
 
+        if( $this->session->data['error'] ){
+            $this->data['error_warning'] = $this->session->data['error'];
+        }
         $this->view->batchAssign($this->data);
 
         $this->addChild('pages/sale/order_summary', 'summary_form', 'pages/sale/order_summary.tpl');
