@@ -59,8 +59,8 @@
 					var $form = $(this);
 					var extraDetails = {
 						name: $('input[name=cc_owner]').val(),
-						address_1: <?php js_echo($address_1)?>,
-						address_2: <?php js_echo($address_2)?>,
+						address_line1: <?php js_echo($address_1)?>,
+						address_line2: <?php js_echo($address_2)?>,
 						address_city: <?php js_echo($address_city)?>,
 						address_state: <?php js_echo($address_zone_code)?>,
 						address_zip: <?php js_echo($address_postcode)?>,
