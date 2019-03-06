@@ -47,6 +47,9 @@ class ControllerResponsesListingGridContent extends AController
         );
         $filter_grid = new AFilter($filter_data);
         $filter_array = $filter_grid->getFilterData();
+
+        $filter_array['store_id'] = $this->config->get('config_store_id');
+
         if ($this->request->post['nodeid']) {
             list(, $parent_id) = explode('_', $this->request->post['nodeid']);
             $filter_array['parent_id'] = $parent_id;
