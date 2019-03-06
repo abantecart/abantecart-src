@@ -80,9 +80,13 @@ class ControllerPagesContentContact extends AController
             $this->data['mail_template_data']['form_fields'] = array();
             foreach ($form_fields as $field_name => $field_info) {
                 if (has_value($post_data[$field_name]) && !in_array($field_name, array('enquiry', 'captcha'))) {
+                    $field_value = $post_data[$field_name];
+                    if(is_array($field_value)){
+                        $field_value = implode("; ",$field_value);;
+                    }
                     $field_details = $this->form->getField($field_name);
-                    $this->data['mail_plain_text'] .= "\r\n".rtrim($field_details['name'], ':').":\t".$post_data[$field_name];
-                    $this->data['mail_template_data']['form_fields'][rtrim($field_details['name'], ':')] = $post_data[$field_name];
+                    $this->data['mail_plain_text'] .= "\r\n".rtrim($field_details['name'], ':').":\t".$field_value;
+                    $this->data['mail_template_data']['form_fields'][rtrim($field_details['name'], ':')] = $field_value;
                 }
             }
 
