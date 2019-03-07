@@ -274,53 +274,5 @@ class ControllerResponsesExtensionDefaultAuthorizeNet extends AController
         $this->response->setOutput(AJson::encode($json));
     }
 
-    public function delete_card()
-    {
-        //init controller data
-        $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->loadLanguage('default_authorizenet/default_authorizenet');
-
-        //validate input
-        $post = $this->request->post;
-        $json = array();
-        if (empty($post['use_saved_cc'])) {
-            $json['error'] = $this->language->get('error_system');
-        }
-        if ( ! $this->customer->getId()) {
-            $json['error'] = $this->language->get('error_system');
-        }
-        if (isset($json['error'])) {
-            $this->load->library('json');
-            $this->response->setOutput(AJson::encode($json));
-
-            return null;
-        }
-
-        $this->loadModel('extension/default_authorizenet');
-
-        $customer_authorizenet_id = $this
-            ->model_extension_default_authorizenet
-            ->getAuthorizeNetCustomerID($this->customer->getId());
-        $deleted = $this
-            ->model_extension_default_authorizenet
-            ->deleteCreditCard(
-                $post['use_saved_cc'],
-                $customer_authorizenet_id
-            );
-
-        if ( ! $deleted) {
-            // transaction failed
-            $json['error'] = $this->language->get('error_system');
-        } else {
-            //basically reload the page
-            $json['success'] = $this->html->getSecureURL('checkout/confirm');
-        }
-
-        //init controller data
-        $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
-        $this->load->library('json');
-        $this->response->setOutput(AJson::encode($json));
-    }
 }
 
