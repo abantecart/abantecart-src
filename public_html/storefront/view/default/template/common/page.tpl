@@ -145,26 +145,26 @@ if($scripts_bottom && is_array($scripts_bottom)) {
 	<?php if($ga_data){ ?>
 		ga('require', 'ecommerce');
 		ga('ecommerce:addTransaction', {
-			'id': '<?php echo $ga_data['transaction_id'];?>',
-			'affiliation': '<?php echo $ga_data['store_name'];?>',
-			'revenue': '<?php echo $ga_data['total'];?>',
-			'shipping': '<?php echo $ga_data['shipping'];?>',
-			'tax': '<?php echo $ga_data['tax'];?>',
-			'currency': '<?php echo $ga_data['currency_code'];?>',
-			'city':  '<?php echo $ga_data['city'];?>',
-			'state':  '<?php echo $ga_data['state'];?>',
-			'country':  '<?php echo $ga_data['country'];?>'
+			'id': <?php js_echo($ga_data['transaction_id']);?>,
+			'affiliation': <?php js_echo($ga_data['store_name']);?>,
+			'revenue': <?php js_echo($ga_data['total']);?>,
+			'shipping': <?php js_echo($ga_data['shipping']);?>,
+			'tax': <?php js_echo($ga_data['tax']);?>,
+			'currency': <?php js_echo($ga_data['currency_code']);?>,
+			'city':  <?php js_echo($ga_data['city']);?>,
+			'state':  <?php js_echo($ga_data['state']);?>,
+			'country':  <?php js_echo($ga_data['country']);?>
 		});
 
 	<?php if($ga_data['items']){
 			foreach($ga_data['items'] as $item){ ?>
 				ga('ecommerce:addItem', {
-					'id': '<?php  echo $item['id']; ?>',
-					'name': '<?php  js_echo($item['name']); ?>',
-					'sku': '<?php  js_echo($item['sku']); ?>',
-					'brand': '<?php  js_echo($item['brand']); ?>',
-					'price': '<?php  echo $item['price']; ?>',
-					'quantity': '<?php  echo $item['quantity']; ?>'
+					'id': <?php js_echo($item['id']); ?>,
+					'name': <?php js_echo($item['name']); ?>,
+					'sku': <?php  js_echo($item['sku']); ?>,
+					'brand': <?php  js_echo($item['brand']); ?>,
+					'price': <?php  echo $item['price']; ?>,
+					'quantity': <?php  echo $item['quantity']; ?>
 				});
 			<?php }
 		}?>
