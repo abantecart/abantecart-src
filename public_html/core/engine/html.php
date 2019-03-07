@@ -998,7 +998,7 @@ abstract class HtmlElement
         $this->disabled_options = (array)$this->disabled_options;
         //check case when all options are disabled
         $all_disabled = true;
-        foreach ($this->options as $id => $text) {
+        foreach ((array)$this->options as $id => $text) {
             if (!in_array($id, $this->disabled_options)) {
                 $all_disabled = false;
                 break;

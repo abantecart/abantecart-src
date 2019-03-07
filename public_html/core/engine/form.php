@@ -17,9 +17,6 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE')) {
-    header('Location: static_pages/');
-}
 
 /**
  * Load form data, render output
@@ -630,7 +627,7 @@ class AForm
         foreach ($this->fields as $field) {
             // for multivalue required fields
             if (in_array($field['element_type'], HtmlElementFactory::getMultivalueElements())
-                && !sizeof($data[$field['field_name']])
+                && !$data[$field['field_name']]
                 && $field['required'] == 'Y'
             ) {
                 $errors[$field['field_name']] = $field['name'].' '.$this->language->get('text_field_required');

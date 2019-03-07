@@ -7,7 +7,7 @@
 		<option value=""><?php echo $placeholder; ?></option>
 	<?php
 	}
-	foreach ( $options as $v => $text ) { ?>
+	foreach ( (array)$options as $v => $text ) { ?>
 		<option value="<?php echo $v ?>" <?php
 		echo (in_array($v, (array)$value) ? ' selected="selected" ':'');
 		echo (in_array($v, (array)$disabled_options) ? ' disabled="disabled" ':'');	?>><?php echo $text ?></option>
