@@ -17,9 +17,6 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE') || !IS_ADMIN) {
-    header('Location: static_pages/');
-}
 
 class ControllerPagesTotalHandling extends AController
 {
@@ -189,7 +186,7 @@ class ControllerPagesTotalHandling extends AController
                 $options[$row['key']] = $row['name'];
             }
         }
-        if (!sizeof($this->data['handling_per_payment']['handling_payment'])) {
+        if (!$this->data['handling_per_payment']['handling_payment']) {
             $this->data['handling_per_payment'] = array(
                 'handling_payment'          => array(0 => ''),
                 'handling_payment_subtotal' => array(0 => ''),
