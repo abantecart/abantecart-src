@@ -232,7 +232,7 @@ class ControllerPagesDesignBlocks extends AController
                     $content = $this->request->post['block_content'];
                     break;
                 default:
-                    $this->redirect($this->html->getSecureURL('design/blocks'));
+                    redirect($this->html->getSecureURL('design/blocks'));
                     break;
             }
 
@@ -261,7 +261,7 @@ class ControllerPagesDesignBlocks extends AController
             if (strpos($this->request->post['listing_datasource'], 'custom_') !== false) {
                 $listing_manager = new AListingManager($custom_block_id);
                 if ($this->request->post['selected']) {
-                    $listing_manager->deleteCustomListing();
+                    $listing_manager->deleteCustomListing($this->config->get('config_store_id'));
                     $k = 0;
                     foreach ($this->request->post['selected'] as $id) {
                         $listing_manager->saveCustomListItem(
@@ -270,6 +270,7 @@ class ControllerPagesDesignBlocks extends AController
                                 'id'                 => $id,
                                 'limit'              => $this->request->post['limit'],
                                 'sort_order'         => (int)$k,
+                                'store_id'           => $this->config->get('config_store_id')
                             ));
                         $k++;
                     }
@@ -278,7 +279,7 @@ class ControllerPagesDesignBlocks extends AController
 
             $this->session->data ['success'] = $this->language->get('text_success');
             unset($this->session->data['custom_list_changes'][$custom_block_id], $this->session->data['layout_params']);
-            $this->redirect($this->html->getSecureURL('design/blocks/edit', '&custom_block_id='.$custom_block_id));
+            redirect($this->html->getSecureURL('design/blocks/edit', '&custom_block_id='.$custom_block_id));
         }
 
         // if we need to save new block in layout - keep parameters in session
@@ -347,12 +348,12 @@ class ControllerPagesDesignBlocks extends AController
                     // if datasource changed - drop custom list
 
                     if ($block_info['content']['listing_datasource'] != $content['listing_datasource']) {
-                        $listing_manager->deleteCustomListing();
+                        //$listing_manager->deleteCustomListing();
                     }
                     if (strpos($content['listing_datasource'], 'custom_') !== false) {
 
                         if ($this->request->post['selected']) {
-                            $listing_manager->deleteCustomListing();
+                            $listing_manager->deleteCustomListing($this->config->get('config_store_id'));
                             $k = 0;
                             foreach ($this->request->post['selected'] as $id) {
                                 $listing_manager->saveCustomListItem(
@@ -361,6 +362,7 @@ class ControllerPagesDesignBlocks extends AController
                                         'id'                 => $id,
                                         'limit'              => $this->request->post['limit'],
                                         'sort_order'         => $k,
+                                        'store_id'           => $this->config->get('config_store_id')
                                     ));
                                 $k++;
                             }
@@ -377,7 +379,7 @@ class ControllerPagesDesignBlocks extends AController
                     $content = $this->request->post['block_content'];
                     break;
                 default:
-                    $this->redirect($this->html->getSecureURL('design/blocks'));
+                    redirect($this->html->getSecureURL('design/blocks'));
                     break;
             }
 
@@ -394,7 +396,7 @@ class ControllerPagesDesignBlocks extends AController
                 ));
             $layout->editBlockStatus((int)$this->request->post['block_status'], 0, $custom_block_id);
             $this->session->data ['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('design/blocks/edit', '&custom_block_id='.$custom_block_id));
+            redirect($this->html->getSecureURL('design/blocks/edit', '&custom_block_id='.$custom_block_id));
         }
         // end of saving
 
@@ -492,7 +494,7 @@ class ControllerPagesDesignBlocks extends AController
         }
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        $this->redirect($this->html->getSecureURL('design/blocks'));
+        redirect($this->html->getSecureURL('design/blocks'));
     }
 
     private function _getHTMLForm()
@@ -936,7 +938,7 @@ class ControllerPagesDesignBlocks extends AController
         $this->view->batchAssign($this->language->getASet());
         $this->view->batchAssign($this->data);
         $this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
-
+        $this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
         $this->view->assign('language_code', $this->session->data['language']);
         $this->view->assign('help_url', $this->gen_help_url('block_edit'));
         $this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&object_name=custom_block&type=image&mode=url'));

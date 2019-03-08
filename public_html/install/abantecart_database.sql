@@ -10253,11 +10253,12 @@ CREATE TABLE `ac_custom_lists` (
   `custom_block_id` int(10) NOT NULL,
   `data_type` varchar(70) NOT NULL,
   `id` int(10) NOT NULL,
+  `store_id` int(10),
   `sort_order` int(10) NOT NULL DEFAULT 0,
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`rowid`),
-	INDEX `ac_custom_block_id_list_idx` (`custom_block_id` )
+	INDEX `ac_custom_block_id_list_idx` (`custom_block_id`, `store_id` )
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --

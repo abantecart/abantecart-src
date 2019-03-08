@@ -17,9 +17,6 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE')) {
-    header('Location: static_pages/');
-}
 
 /**
  * Class ControllerPagesToolFormsManager
@@ -48,13 +45,13 @@ class ControllerPagesToolFormsManager extends AController
                 if ($this->model_tool_forms_manager->getFormIdByName($this->request->post['form_name'])) {
 
                     $this->session->data['warning'] = $this->language->get('error_duplicate_form_name');
-                    $this->redirect($this->html->getSecureURL('tool/forms_manager'));
+                    redirect($this->html->getSecureURL('tool/forms_manager'));
                 }
                 $this->request->get['form_id'] = $this->model_tool_forms_manager->addForm($this->request->post);
             } elseif (!$this->model_tool_forms_manager->addField($this->request->get['form_id'], $this->request->post)) {
                 $this->session->data['warning'] = $this->language->get('error_duplicate_field_name');
             }
-            $this->redirect($this->html->getSecureURL('tool/forms_manager/update', '&form_id='.$this->request->get['form_id']));
+            redirect($this->html->getSecureURL('tool/forms_manager/update', '&form_id='.$this->request->get['form_id']));
             exit;
         }
 
@@ -174,7 +171,7 @@ class ControllerPagesToolFormsManager extends AController
                 $form_id = $this->model_tool_forms_manager->addForm($this->request->post);
                 $this->session->data['success'] = $this->language->get('text_success_added_form');
             }
-            $this->redirect($this->html->getSecureURL('tool/forms_manager/update', '&form_id='.$form_id));
+            redirect($this->html->getSecureURL('tool/forms_manager/update', '&form_id='.$form_id));
         }
 
         $this->view->assign('error', $this->error);
@@ -199,7 +196,7 @@ class ControllerPagesToolFormsManager extends AController
         $this->loadModel('tool/forms_manager');
         $this->model_tool_forms_manager->removeField($this->request->get['form_id'], $this->request->get['field_id']);
         $this->session->data['success'] = $this->language->get('text_field_removed');
-        $this->redirect($this->html->getSecureURL('tool/forms_manager/update', '&form_id='.$this->request->get['form_id']));
+        redirect($this->html->getSecureURL('tool/forms_manager/update', '&form_id='.$this->request->get['form_id']));
     }
 
     private function _getForm()
@@ -209,7 +206,7 @@ class ControllerPagesToolFormsManager extends AController
         if (!$this->config->get('forms_manager_default_sender_name') || !$this->config->get('forms_manager_default_sender_email')) {
             $this->data['error_warning'] = $this->html->convertLinks($this->language->get('forms_manager_error_empty_sender'));
         }
-
+        $fields = array();
         $this->data['form_data'] = $this->model_tool_forms_manager->getFormById($this->request->get['form_id']);
 
         $this->data['form_edit_title'] = isset($this->data['form_data']['description']) ? $this->data['form_data']['description'] : $this->language->get('entry_add_new_form');
@@ -489,6 +486,8 @@ class ControllerPagesToolFormsManager extends AController
         $lm = new ALayoutManager();
         $block = $lm->getBlockByTxtId('custom_form_block');
         $this->data['block_id'] = $block['block_id'];
+        $parent_instance_id = null;
+        $position = 0;
 
         if ($this->request->is_POST() && $this->_validateBlockForm()) {
             if (isset($this->session->data['layout_params'])) {
@@ -557,6 +556,7 @@ class ControllerPagesToolFormsManager extends AController
                                 'data_type'  => 'form_id',
                                 'id'         => $id,
                                 'sort_order' => (int)$info['sort_order'],
+                                'store_id'   => $this->config->get('config_store_id')
                             )
                         );
                     } else {
@@ -572,7 +572,7 @@ class ControllerPagesToolFormsManager extends AController
             }
 
             $this->session->data ['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('tool/forms_manager/edit_block', '&custom_block_id='.$custom_block_id));
+            redirect($this->html->getSecureURL('tool/forms_manager/edit_block', '&custom_block_id='.$custom_block_id));
         }
 
         foreach ($this->request->post as $k => $v) {
@@ -602,7 +602,7 @@ class ControllerPagesToolFormsManager extends AController
         $this->data['block_id'] = $block['block_id'];
         $custom_block_id = (int)$this->request->get['custom_block_id'];
         if (!$custom_block_id) {
-            $this->redirect($this->html->getSecureURL('tool/forms_manager/insert_block'));
+            redirect($this->html->getSecureURL('tool/forms_manager/insert_block'));
         }
 
         $tabs = array(
@@ -661,6 +661,7 @@ class ControllerPagesToolFormsManager extends AController
                                 'data_type'  => 'form_id',
                                 'id'         => $id,
                                 'sort_order' => (int)$info['sort_order'],
+                                'store_id'   => $this->config->get('config_store_id')
                             )
                         );
                     } else {
@@ -676,7 +677,7 @@ class ControllerPagesToolFormsManager extends AController
             }
 
             $this->session->data ['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('tool/forms_manager/edit_block', '&custom_block_id='.$custom_block_id));
+            redirect($this->html->getSecureURL('tool/forms_manager/edit_block', '&custom_block_id='.$custom_block_id));
         }
 
         $this->_getBlockForm();
@@ -738,7 +739,7 @@ class ControllerPagesToolFormsManager extends AController
 
             $this->data['form_id'] = $content['form_id'];
             $lm = new AListingManager($this->request->get ['custom_block_id']);
-            $list = $lm->getCustomList();
+            $list = $lm->getCustomList($this->config->get('config_store_id'));
             if ($list) {
                 foreach ($list as $row) {
                     $listing_data[$row['id']] = array(
@@ -908,6 +909,7 @@ class ControllerPagesToolFormsManager extends AController
             $this->error ['warning'] = $this->session->data['warning'] = 'Block with txt_id "custom_form_block" does not exists in your database!';
         }
 
+        $required = array();
         if ($this->request->post) {
             $required = array('block_name', 'block_title');
 

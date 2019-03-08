@@ -398,7 +398,7 @@ class ControllerBlocksListingBlock extends AController
             }
         } else { // for custom listings
 
-            $list = $listing->getCustomList();
+            $list = $listing->getCustomList($this->config->get('config_store_id'));
             if (!$list) {
                 return null;
             }

@@ -31,3 +31,8 @@ CREATE TABLE `ac_order_product_stock_locations` (
   KEY `ac_product_options_value_idx` (`product_option_value_id`),
   KEY `ac_product_options_value_idx2` (`order_product_id`,`product_id`,`product_option_value_id`,`location_id`)
 );
+
+ALTER TABLE `ac_custom_lists`
+CHANGE COLUMN `store_id` `store_id` INT NULL DEFAULT 0 AFTER `id`,
+DROP INDEX `ac_custom_block_id_list_idx` ,
+ADD INDEX `ac_custom_block_id_list_idx` (`custom_block_id` ASC, `id` ASC, `data_type` ASC, `store_id` ASC);

@@ -150,10 +150,16 @@ class ControllerResponsesListingGridBlocksGrid extends AController
             if (isset($this->request->post['selected']) && is_array($this->request->post['selected'])) {
                 //updating custom list of selected items
                 $listing_manager = new AListingManager($custom_block_id);
-                $listing_manager->deleteCustomListing();
+                $listing_manager->deleteCustomListing($this->config->get('config_store_id'));
                 $k = 0;
                 foreach ($this->request->post['selected'] as $id) {
-                    $listing_manager->saveCustomListItem(array('id' => $id, 'sort_order' => (int)$k));
+                    $listing_manager->saveCustomListItem(
+                        array(
+                            'id' => $id,
+                            'sort_order' => (int)$k,
+                            'store_id'           => $this->config->get('config_store_id')
+                        )
+                    );
                     $k++;
                 }
             }
@@ -332,7 +338,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController
 
             if ($content['listing_datasource'] == $listing_datasource) {
                 $lm = new AListingManager($custom_block_id);
-                $list = $lm->getCustomList();
+                $list = $lm->getCustomList($this->config->get('config_store_id'));
 
                 if ($list) {
                     foreach ($list as $row) {
