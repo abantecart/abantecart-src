@@ -637,7 +637,10 @@ class ControllerResponsesProductProduct extends AController
                     $values = $this->attribute_manager->getAttributeValues($attribute['attribute_id'], $this->language->getContentLanguageID());
 
                     foreach ($values as $v) {
-                        $this->data['option_attribute']['group'][$option_id]['values'][$v['attribute_value_id']] = addslashes(html_entity_decode($v['value'], ENT_COMPAT, 'UTF-8'));
+                        $this->data['option_attribute']['group'][$option_id]['values'][$v['attribute_value_id']] = addslashes(
+                                html_entity_decode($v['value'],
+                                ENT_COMPAT,
+                                'UTF-8'));
                     }
                 }
             }
@@ -664,12 +667,18 @@ class ControllerResponsesProductProduct extends AController
 
         }
 
-        $this->data['cancel'] = $this->html->getSecureURL('product/product/load_option', '&product_id='.$this->request->get['product_id'].'&option_id='.$this->request->get['option_id']);
+        $this->data['cancel'] = $this->html->getSecureURL(
+            'product/product/load_option',
+            '&product_id='.$this->request->get['product_id'].'&option_id='.$this->request->get['option_id']
+        );
 
         if (isset($this->request->get['product_option_value_id'])) {
             $this->data['row_id'] = 'row'.$product_option_value_id;
             $this->data['attr_val_id'] = $product_option_value_id;
-            $item_info = $this->model_catalog_product->getProductOptionValue($this->request->get['product_id'], $product_option_value_id);
+            $item_info = $this->model_catalog_product->getProductOptionValue(
+                $this->request->get['product_id'],
+                $product_option_value_id
+            );
         } else {
             $this->data['row_id'] = 'new_row';
         }

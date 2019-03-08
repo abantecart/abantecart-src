@@ -2417,6 +2417,7 @@ class ModelCatalogProduct extends Model
                 LEFT JOIN ".$this->db->table('product_option_descriptions')." pod
                     ON (pod.product_option_id = pov.product_option_id AND pod.language_id = ".$language_id.")
                 WHERE p.product_id = ".$product_id;
+
         $result = $this->db->query($sql);
 
         // id product disabled do not run other checks
@@ -2429,23 +2430,28 @@ class ModelCatalogProduct extends Model
         if (dateISO2Int($result->row['date_available']) > time()) {
             $output[] = $this->language->get('text_product_unavailable');
         }
-
+        $hasTrackOptions = $this->hasTrackOptions($product_id);
+        $out_of_stock = false;
         //check is stock track for whole product(not options) enabled and product quantity more than 0
-        if ($result->row['base_subtract'] && $result->row['base_quantity'] <= 0 && !$this->hasTrackOptions($product_id)
-            && !$result->row['option_name']
+        if ($result->row['base_subtract']
+            && $result->row['base_quantity'] <= 0
+            && !$hasTrackOptions
         ) {
             $output[] = $this->language->get('text_product_out_of_stock');
+            $out_of_stock = true;
         }
-        $out_of_stock = false;
+
         $error_txt = array();
-        foreach ($result->rows as $k => $row) {
-            if ($row['subtract'] && $row['quantity'] <= 0) {
-                $error_txt[] = $row['option_name'].' => '.$row['option_value_name'];
-                $out_of_stock = true;
+        if($hasTrackOptions) {
+            foreach ($result->rows as $k => $row) {
+                if ($row['subtract'] && $row['quantity'] <= 0) {
+                    $error_txt[] = $row['option_name'].' => '.$row['option_value_name'];
+                    $out_of_stock = true;
+                }
             }
         }
 
-        if ($out_of_stock) {
+        if ($out_of_stock && $error_txt) {
             $output[] = $this->language->get('text_product_option_out_of_stock');
             $output = array_merge($output, $error_txt);
         }

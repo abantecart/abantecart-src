@@ -77,7 +77,7 @@ class ModelCatalogProduct extends Model
             $track_status += (int)$row['subtract'];
         }
         //if no options - check whole product subtract
-        if (!$track_status && !$query->num_rows) {
+        if (!$track_status) {
             //check main product
             $query = $this->db->query("SELECT subtract
                                     FROM ".$this->db->table("products")." p
@@ -152,7 +152,7 @@ class ModelCatalogProduct extends Model
      *
      * @param int $product_id
      *
-     * @return int|true - integer as quantity, true as availability when trackstock is off
+     * @return int
      */
     public function hasAnyStock($product_id)
     {
@@ -176,10 +176,7 @@ class ModelCatalogProduct extends Model
                 }
                 $total_quantity += $row['quantity'] < 0 ? 0 : $row['quantity'];
             }
-            //if some of option value have subtract NO - think product is available
-            if ($total_quantity == 0 && $notrack_qnt) {
-                $total_quantity = true;
-            }
+
         } else {
             //get product quantity without options
             $query = $this->db->query("SELECT quantity
