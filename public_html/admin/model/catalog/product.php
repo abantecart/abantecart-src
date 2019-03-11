@@ -18,7 +18,6 @@
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 
-
 /**
  * @property ModelCatalogDownload $model_catalog_download
  * @property ALanguageManager     $language
@@ -165,12 +164,12 @@ class ModelCatalogProduct extends Model
 
         if ($data['product_tags']) {
             if (is_string($data['product_tags'])) {
-                $tags = (array)explode(',', $data['product_tags']);
+                $tags = $this->getUniqueTags($data['product_tags']);
                 $tags = array($language_id => $tags);
             } elseif (is_array($data['product_tags'])) {
                 $tags = $data['product_tags'];
                 foreach ($tags as &$taglist) {
-                    $taglist = (array)explode(',', $taglist);
+                    $taglist = $this->getUniqueTags($taglist);
                 }
                 unset($taglist);
             } else {
@@ -358,8 +357,7 @@ class ModelCatalogProduct extends Model
         }
 
         if (isset($data['product_tags'])) {
-            $tags = explode(',', $data['product_tags']);
-
+            $tags = $this->getUniqueTags($data['product_tags']);
             foreach ($tags as &$tag) {
                 $tag = $this->db->escape(trim($tag));
             }
@@ -2442,7 +2440,7 @@ class ModelCatalogProduct extends Model
         }
 
         $error_txt = array();
-        if($hasTrackOptions) {
+        if ($hasTrackOptions) {
             foreach ($result->rows as $k => $row) {
                 if ($row['subtract'] && $row['quantity'] <= 0) {
                     $error_txt[] = $row['option_name'].' => '.$row['option_value_name'];
@@ -2637,16 +2635,16 @@ class ModelCatalogProduct extends Model
      *
      * @return array
      */
-        public function getProductStockLocations($product_id, $product_option_value_id = 0)
+    public function getProductStockLocations($product_id, $product_option_value_id = 0)
     {
         $sql = "SELECT *
                 FROM ".$this->db->table('product_stock_locations')." psl
                 LEFT JOIN ".$this->db->table('locations')." l
                     ON l.location_id = psl.location_id
                 WHERE psl.product_id=".(int)$product_id;
-        if($product_option_value_id){
+        if ($product_option_value_id) {
             $sql .= " AND psl.product_option_value_id = ".(int)$product_option_value_id;
-        }else{
+        } else {
             $sql .= " AND psl.product_option_value_id IS NULL";
         }
 
@@ -2656,9 +2654,11 @@ class ModelCatalogProduct extends Model
         return $result->rows;
     }
 
-    public function updateProductStockLocations($locations, $product_id, $product_option_value_id = 0 )
+    public function updateProductStockLocations($locations, $product_id, $product_option_value_id = 0)
     {
-        if (!$locations) { return false;}
+        if (!$locations) {
+            return false;
+        }
 
         $this->db->query(
             "DELETE
@@ -2670,8 +2670,8 @@ class ModelCatalogProduct extends Model
         );
 
         $totals = array();
-        foreach($locations as $location_id=>$location_details){
-            if(!(int)$location_id){
+        foreach ($locations as $location_id => $location_details) {
+            if (!(int)$location_id) {
                 continue;
             }
             $this->db->query(
@@ -2679,9 +2679,9 @@ class ModelCatalogProduct extends Model
                     (product_id, product_option_value_id, location_id, quantity, sort_order)
                 VALUES( 
                     ".(int)$product_id.", 
-                    ".( (int)$product_option_value_id
-                       ? (int)$product_option_value_id
-                       : 'NULL' ).", 
+                    ".((int)$product_option_value_id
+                    ? (int)$product_option_value_id
+                    : 'NULL').", 
                     ".(int)$location_id.", 
                     ".(int)$location_details['quantity'].", 
                     ".(int)$location_details['sort_order']."
@@ -2691,11 +2691,10 @@ class ModelCatalogProduct extends Model
             $totals[] = (int)$location_details['quantity'];
         }
 
-
         //update_total_quantity
         if (!$product_option_value_id) {
             $this->db->query("UPDATE `".$this->db->table("products`")." SET quantity= '".(int)array_sum($totals)."'");
-        }elseif(array_sum($totals)){
+        } elseif (array_sum($totals)) {
             $this->db->query(
                 "UPDATE `".$this->db->table("product_option_values`")." 
                 SET quantity= '".(int)array_sum($totals)."'
@@ -2710,13 +2709,23 @@ class ModelCatalogProduct extends Model
      *
      * @return mixed
      */
-        public function getOrderProductStockLocations($order_product_id)
+    public function getOrderProductStockLocations($order_product_id)
     {
         $sql = "SELECT *
                 FROM ".$this->db->table('order_product_stock_locations')." 
                 WHERE order_product_id=".(int)$order_product_id;
         $result = $this->db->query($sql);
         return $result->rows;
+    }
+
+    /**
+     * @param $string
+     *
+     * @return array
+     */
+    public function getUniqueTags($string) {
+        $tags = array_map('trim', explode(',', $string));
+        return array_intersect_key($tags, array_unique(array_map('strtolower', $tags)));
     }
 
 }
