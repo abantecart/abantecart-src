@@ -228,11 +228,32 @@ class ModelSaleOrder extends Model
                     $order_product_ids[] = $item['order_product_id'];
                 }
             }
-            $this->db->query(
-                "DELETE FROM ".$this->db->table("order_products")."
-                WHERE order_id = '".(int)$order_id."' 
-                   AND order_product_id NOT IN ('".(implode("','", $order_product_ids))."')"
+            //get deleted
+            $result = $this->db->query(
+                        "SELECT 
+                            op.order_product_id, 
+                            op.product_id, 
+                            op.quantity, 
+                            oo.product_option_value_id, 
+                            pov.subtract as option_subtract, 
+                            pov.quantity as option_quantity,
+                            p.quantity as base_quantity,
+                            p.subtract as base_subtract
+                         FROM ".$this->db->table("order_products")." op
+                         LEFT JOIN ".$this->db->table("products")." p
+                            ON p.product_id = op.product_id
+                         LEFT JOIN ".$this->db->table("order_options")." oo
+                            ON oo.order_product_id = op.order_product_id
+                         LEFT JOIN ".$this->db->table("product_option_values")." pov
+                            ON pov.product_option_value_id = oo.product_option_value_id
+                         WHERE op.order_id = '".(int)$order_id."' 
+                           AND op.order_product_id NOT IN ('".(implode("','", $order_product_ids))."')"
             );
+            //then remove
+            if($result->num_rows) {
+                $this->removeOrderProducts($order_id, $result->rows);
+            }
+
 
             foreach ($data['product'] as $product) {
 
@@ -268,6 +289,36 @@ class ModelSaleOrder extends Model
                 }
             }
         }
+    }
+
+    protected function removeOrderProducts( $order_id, $data )
+    {
+        if(!$data){
+            return false;
+        }
+        //get list of order products that need to delete
+        foreach($data as $order_product){
+
+            if($order_product['base_subtract'] && !$order_product['product_option_value_id']){
+                $sql = "UPDATE ".$this->db->table('products')." 
+                        SET quantity = quantity + ".(int)$order_product['quantity']."
+                        WHERE product_id = '".$order_product['product_id']."'";
+                $this->db->query($sql);
+                $this->updateStocksInLocations($order_product['product_id'], 0, -$order_product['quantity']);
+            }elseif($order_product['option_subtract']){
+                $sql = "UPDATE ".$this->db->table('product_option_values')." 
+                        SET quantity = quantity + ".(int)$order_product['quantity']."
+                        WHERE product_option_value_id = '".$order_product['product_option_value_id']."'";
+                $this->db->query($sql);
+                $this->updateStocksInLocations($order_product['product_id'], $order_product['product_option_value_id'], -$order_product['quantity']);
+            }
+        }
+        $order_product_ids = array_column($data,'order_product_id');
+        $this->db->query(
+            "DELETE FROM ".$this->db->table("order_products")."
+             WHERE order_id = '".(int)$order_id."' 
+               AND order_product_id IN ('".(implode("','", $order_product_ids))."')"
+        );
     }
 
     /**
@@ -332,16 +383,16 @@ class ModelSaleOrder extends Model
 
                     if ($qnt_diff != 0) {
                         if ($qnt_diff < 0) {
-                            $new_qnt = $stock_qnt - abs($qnt_diff);
+                            $new_qnt = $stock_qnt + abs($qnt_diff);
                         } else {
-                            $new_qnt = $stock_qnt + $qnt_diff;
+                            $new_qnt = $stock_qnt - abs($qnt_diff);;
                         }
                         if ($product_info['subtract']) {
                             $sql = "UPDATE ".$this->db->table("products")."
                                     SET quantity = '".$new_qnt."'
                                     WHERE product_id = '".(int)$product_id."' AND subtract = 1";
                             $this->db->query($sql);
-                            $this->updateStocksInLocations($product_id, $qnt_diff);
+                            $this->updateStocksInLocations($product_id, 0, $qnt_diff);
                         }
                     }
 
@@ -374,7 +425,7 @@ class ModelSaleOrder extends Model
                     $order_product_id = $this->db->getLastId();
 
                     //update stock quantity
-                    $qnt_diff = -$product['quantity'];
+                    $qnt_diff = $product['quantity'];
                     $stock_qnt = $product_query->row['quantity'];
                     $new_qnt = $stock_qnt - (int)$product['quantity'];
 
@@ -382,7 +433,7 @@ class ModelSaleOrder extends Model
                         $this->db->query("UPDATE ".$this->db->table("products")."
                                           SET quantity = '".$new_qnt."'
                                           WHERE product_id = '".(int)$product_id."' AND subtract = 1");
-                        $this->updateStocksInLocations($product_id, $qnt_diff);
+                        $this->updateStocksInLocations($product_id, 0, $qnt_diff);
                     }
                 }
 
@@ -431,7 +482,7 @@ class ModelSaleOrder extends Model
 
                     //delete old options and then insert new
                     $sql = "DELETE FROM ".$this->db->table('order_options')."
-                                WHERE order_id = ".$order_id." AND order_product_id=".(int)$order_product_id;
+                            WHERE order_id = ".$order_id." AND order_product_id=".(int)$order_product_id;
                     if ($exclude_list) {
                         $sql .= " AND product_option_value_id NOT IN (".implode(', ', $exclude_list).")";
                     }
@@ -503,6 +554,7 @@ class ModelSaleOrder extends Model
                                                 AND subtract = 1";
 
                                     $this->db->query($sql);
+                                    $this->updateStocksInLocations($product_id, (int)$v, -$product['quantity']);
                                 }
                             }
 
@@ -513,8 +565,8 @@ class ModelSaleOrder extends Model
                                           SET quantity = (quantity - ".$product['quantity'].")
                                           WHERE product_option_value_id = '".(int)$v."'
                                                 AND subtract = 1";
-
                                     $this->db->query($sql);
+                                    $this->updateStocksInLocations($product_id, (int)$v, $product['quantity']);
                                 }
                             }
 
@@ -532,6 +584,7 @@ class ModelSaleOrder extends Model
                                           WHERE product_option_value_id = '".(int)$v."'
                                                 AND subtract = 1";
                                     $this->db->query($sql);
+                                    $this->updateStocksInLocations($product_id, (int)$v, $qnt_diff);
                                 }
                             }
                         }
@@ -573,29 +626,33 @@ class ModelSaleOrder extends Model
 
     /**
      * @param int $product_id
-     * @param int $qnt_diff - difference between new and old quantities
+     * @param int $product_option_value_id
+     * @param int $qnt_diff - difference between new and old quantities.
+     *                      if negative - decrease qnty in stock, otherwise - increase
      *
      * @return bool
      * @throws AException
      */
-    public function updateStocksInLocations($product_id, $qnt_diff)
+    public function updateStocksInLocations($product_id, $product_option_value_id, $qnt_diff)
     {
         $this->load->model('catalog/product');
-        $stockLocations = $this->model_catalog_product->getProductStockLocations($product_id);
+        $stockLocations = $this->model_catalog_product->getProductStockLocations($product_id, (int)$product_option_value_id);
         if(!$stockLocations){
             return false;
         }
         $totalStockQuantity = (int)array_sum(array_column($stockLocations, 'quantity'));
+
+        $povId = !(int)$product_option_value_id ? 'IS NULL' : " = ".(int)$product_option_value_id;
 
         $remains = abs($qnt_diff);
         foreach($stockLocations as $sl){
             //if qnt needs to increase stock quantity
             if ($qnt_diff < 0){
                 $sql = "UPDATE ".$this->db->table("product_stock_locations")." 
-                        SET quantity = quantity + ".(int)$qnt_diff."
+                        SET quantity = quantity + ".abs((int)$qnt_diff)."
                         WHERE location_id= ".(int)$sl['location_id']."
                             AND product_id = ".(int)$product_id." 
-                            AND product_option_value_id IS NULL";
+                            AND product_option_value_id ".$povId;
                 $this->db->query($sql);
                 break;
             }
@@ -608,15 +665,15 @@ class ModelSaleOrder extends Model
                             SET quantity = -".(int)$qnt_diff."
                             WHERE location_id= ".(int)$sl['location_id']."
                                 AND product_id = ".(int)$product_id." 
-                                AND product_option_value_id IS NULL";
+                                AND product_option_value_id ".$povId;
                     $this->db->query($sql);
                     break;
                 }elseif($sl['quantity']){
                     if($sl['quantity']>= $remains){
-                        $new_qnt = $remains;
+                        $new_qnt = $sl['quantity'] - $remains;
                         $remains = 0;
                     }else{
-                        $new_qnt = $sl['quantity'];
+                        $new_qnt = 0;
                         $remains = $remains - $sl['quantity'];
                     }
 
@@ -624,7 +681,7 @@ class ModelSaleOrder extends Model
                             SET quantity = ".(int)$new_qnt."
                             WHERE location_id= ".(int)$sl['location_id']."
                                 AND product_id = ".(int)$product_id." 
-                                AND product_option_value_id IS NULL";
+                                AND product_option_value_id ".$povId;
                     $this->db->query($sql);
                 }
             }
