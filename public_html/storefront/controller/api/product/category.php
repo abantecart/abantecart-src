@@ -49,6 +49,11 @@ class ControllerApiProductCategory extends AControllerAPI
                 $url = defined('HTTP_SERVER') ? HTTP_SERVER : 'http://'.REAL_HOST.get_url_path($_SERVER['PHP_SELF']);
                 $category_info['seo_url'] = $url.'/'.$keyword;
             }
+
+            if (isset($category_info['total_subcategories']) && $category_info['total_subcategories'] > 0) {
+                $category_info['subcategories'] = $this->getCategories($category_id);
+            }
+
         } else {
             $category_info['category_id'] = 0;
             $category_info['subcategories'] = $this->getCategories();
