@@ -3603,3 +3603,7 @@ img.extension-summary-icon {
 .primary_content_actions .btn-group {
 	margin-bottom: 3px;
 }
+
+td[aria-describedby="extension_grid_name"]{
+	white-space: normal !important;
+}
