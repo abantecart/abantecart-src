@@ -10089,7 +10089,7 @@ INSERT INTO `ac_pages` (`page_id`, `parent_page_id`, `controller`, `key_param`, 
 (10, 0, 'pages/index/maintenance', '', '', now() ),
 (11, 0, 'pages/account', '', '', now() ),
 (12, 0, 'pages/checkout/cart', '', '', now() ),
-(13, 0, 'pages/product/category, '', '', now() );
+(13, 0, 'pages/product/category', '', '', now() );
 
 --
 -- DDL for table `page_descriptions`
