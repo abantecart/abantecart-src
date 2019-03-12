@@ -396,13 +396,15 @@ if ($error){ ?>
 						<ul class="row side_prd_list">
 							<?php foreach ($related_products as $related_product){
 								$tax_message = '';
-								if($config_tax && !$tax_exempt && $related_product['tax_class_id']){
-									$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
-								}
 								$item['rating'] = ($related_product['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png') . "' class='rating' alt='" . $related_product['stars'] . "' width='64' height='12' />" : '';
 								if (!$display_price){
 									$related_product['price'] = $related_product['special'] = '';
-								}?>
+								} else {
+									if($config_tax && !$tax_exempt && $related_product['tax_class_id']){
+										$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
+									}
+								}
+							?>
 								<li class="col-md-3 col-sm-5 col-xs-6 related_product">
 									<a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
 									<a class="productname" title="<?php echo $related_product['name']; ?>"
@@ -586,7 +588,7 @@ if ($error){ ?>
 			data: $("#product").serialize(),
 
 			success: function (data) {
-				if (data.total) {
+				if (data && data.total) {
 					$('.total-price-holder').show();
 					$('.total-price-holder').css('visibility', 'visible');
 					$('.total-price').html(data.total);
