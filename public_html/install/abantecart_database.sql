@@ -10088,8 +10088,8 @@ INSERT INTO `ac_pages` (`page_id`, `parent_page_id`, `controller`, `key_param`, 
 (5, 0, 'pages/product/product', '', '', now()),
 (10, 0, 'pages/index/maintenance', '', '', now() ),
 (11, 0, 'pages/account', '', '', now() ),
-(12, 0, 'pages/checkout/cart', '', '', now() );
-
+(12, 0, 'pages/checkout/cart', '', '', now() ),
+(13, 0, 'pages/product/category, '', '', now() );
 
 --
 -- DDL for table `page_descriptions`
@@ -10406,7 +10406,8 @@ INSERT INTO `ac_layouts` (`layout_id`, `template_id`, `layout_type`, `layout_nam
 (16, 'default', 1, 'Product Listing Page', now()),
 (17, 'default', 1, 'Maintenance Page', now()),
 (18, 'default', 1, 'Customer Account Pages', now()),
-(19, 'default', 1, 'Cart Page', now());
+(19, 'default', 1, 'Cart Page', now()),
+(20, 'default', 1, 'Product Listing Page', now()) ;
 
 --
 -- DDL for table `pages_layouts`
@@ -10426,7 +10427,8 @@ INSERT INTO `ac_pages_layouts` (`layout_id`, `page_id`) VALUES
 (15, 3),
 (17, 10),
 (18, 11),
-(19, 12);
+(19, 12),
+(20, 13);
 
 --
 -- DDL for table `block_layouts`
@@ -10642,6 +10644,31 @@ VALUES
 (2018,	19,	25,	0,	2019,	40, 1, 	NOW(), 	NOW()),
 (2019,	19,	8, 	0,	0,		80, 1, 	NOW(), 	NOW()),
 (2020,	19,	28,	0,	2013,	20,	1,	NOW(),	NOW());
+
+-- Product Listing Page template's layouts
+INSERT INTO `ac_block_layouts`
+(`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`)
+VALUES
+(2043,	20,	1,	0,	0,	10,	1,	NOW(),	NOW()),
+(2044,	20,	2,	0,	0,	20,	1,	NOW(),	NOW()),
+(2045,	20,	3,	0,	0,	30,	1,	NOW(),	NOW()),
+(2046,	20,	4,	0,	0,	40,	1,	NOW(),	NOW()),
+(2047,	20,	5,	0,	0,	50,	1,	NOW(),	NOW()),
+(2048,	20,	6,	0,	0,	60,	1,	NOW(),	NOW()),
+(2049,	20,	7,	0,	0,	70,	1,	NOW(),	NOW()),
+(2050,	20,	8,	0,	0,	80,	1,	NOW(),	NOW()),
+(2051,	20,	25,	0,	2050,	40,	1,	NOW(),	NOW()),
+(2052,	20,	11,	0,	2050,	50,	1,	NOW(),	NOW()),
+(2053,	20,	9,	0,	2044,	10,	1,	NOW(),	NOW()),
+(2054,	20,	24,	0,	2050,	70,	1,	NOW(),	NOW()),
+(2055,	20,	21,	0,	2050,	80,	1,	NOW(),	NOW()),
+(2056,	20,	31,	0,	2043,	20,	1,	NOW(),	NOW()),
+(2057,	20,	27,	0,	2043,	30,	1,	NOW(),	NOW()),
+(2058,	20,	26,	0,	2043,	40,	1,	NOW(),	NOW()),
+(2059,	20,	14,	0,	2043,	60,	1,	NOW(),	NOW()),
+(2060,	20,	13,	0,	2043,	50,	1,	NOW(),	NOW()),
+(2061,	20,	15,	0,	2043,	70,	1,	NOW(),	NOW()),
+(2062,	20,	28,	0,	2044,	20,	1,	NOW(),	NOW());
 
 --
 -- DDL for table `forms_pages`
