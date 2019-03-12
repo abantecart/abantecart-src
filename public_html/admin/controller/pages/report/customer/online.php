@@ -88,7 +88,7 @@ class ControllerPagesReportCustomerOnline extends AController
         $grid = $this->dispatch('common/listing_grid', array($grid_settings));
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
 
-        $this->view->assign('reset', $this->html->getSecureURL('report/customer/online'));
+        $this->view->assign('reset', $this->html->getSecureURL('report/customer/online/reset'));
 
         $this->document->setTitle($this->language->get('heading_title'));
         $this->document->initBreadcrumb(array(
@@ -107,6 +107,19 @@ class ControllerPagesReportCustomerOnline extends AController
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
+
+
+    public function reset()
+    {
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+        $this->loadModel('report/customer');
+        $this->model_report_customer->clearOnlineCustomers();
+
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        redirect($this->html->getSecureURL('report/customer/online'));
     }
 }
 
