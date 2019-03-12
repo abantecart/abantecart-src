@@ -464,7 +464,8 @@ class ControllerResponsesProductProduct extends AController
 
             $this->data['remove_option'] = $this->html->getSecureURL(
                 'product/product/del_option',
-                '&product_id='.$product_id.'&option_id='.$option_id);
+                '&product_id='.$product_id.'&option_id='.$option_id
+            );
 
             $this->data['button_remove_option'] = $this->html->buildElement(array(
                 'type'  => 'button',
@@ -483,7 +484,10 @@ class ControllerResponsesProductProduct extends AController
                 'style' => 'button2',
             ));
 
-            $this->data['update_option_values'] = $this->html->getSecureURL('product/product/update_option_values', '&product_id='.$product_id.'&option_id='.$option_id);
+            $this->data['update_option_values'] = $this->html->getSecureURL(
+                'product/product/update_option_values',
+                '&product_id='.$product_id.'&option_id='.$option_id
+            );
 
             // form of option values list
             $form = new AForm('HT');
@@ -610,7 +614,7 @@ class ControllerResponsesProductProduct extends AController
      *
      * @return string
      */
-    private function _option_value_form($form)
+    protected function _option_value_form($form)
     {
         $this->data['form'] = array();
         $this->data['option_attribute'] = $this->attribute_manager->getAttributeByProductOptionId($this->request->get['option_id']);
@@ -653,6 +657,7 @@ class ControllerResponsesProductProduct extends AController
                         $this->data['option_attribute']['attribute_id'],
                         $this->language->getContentLanguageID()
                     );
+
                 } else {
                     $values = $this->getProductOptionValues(
                         $this->data['option_attribute']['attribute_id'],
@@ -897,17 +902,14 @@ class ControllerResponsesProductProduct extends AController
             $language_id = $this->language->getContentLanguageID();
         }
         $query = $this->db->query(
-            "SELECT pov.*, povd.name as value
-            FROM `".$this->db->table('product_options')."` po
+            "SELECT ga.*, gad.value, pov.product_option_value_id
+            FROM ".$this->db->table("global_attributes_values")." ga
+                LEFT JOIN ".$this->db->table("global_attributes_value_descriptions")." gad
+                ON ( ga.attribute_value_id = gad.attribute_value_id AND gad.language_id = '".(int)$language_id."' )
             LEFT JOIN `".$this->db->table('product_option_values')."` pov 
-                ON po.product_option_id = pov.product_option_id
-            LEFT JOIN `".$this->db->table('product_option_value_descriptions')."` povd
-                ON ( 
-                    pov.product_option_value_id = povd.product_option_value_id 
-                        AND povd.language_id = '".(int)$language_id."' 
-                        )
-            WHERE po.attribute_id = '".$this->db->escape($attribute_id)."'
-            ORDER BY pov.sort_order"
+                ON pov.attribute_value_id = ga.attribute_value_id
+            WHERE ga.attribute_id = '".$this->db->escape($attribute_id)."'
+            ORDER BY sort_order"
         );
         return $query->rows;
     }
