@@ -17,9 +17,6 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.  
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE')) {
-    header('Location: static_pages/');
-}
 
 /**
  * Class ModelAccountCustomer
@@ -27,6 +24,7 @@ if (!defined('DIR_CORE')) {
  * @property ModelCatalogContent $model_catalog_content
  * @property AIM                 $im
  * @property ModelAccountOrder   $model_account_order
+ * @property ACustomer $customer
  */
 class ModelAccountCustomer extends Model
 {
@@ -37,6 +35,7 @@ class ModelAccountCustomer extends Model
      * @param array $data
      *
      * @return int
+     * @throws AException
      */
     public function addCustomer($data)
     {
@@ -65,17 +64,23 @@ class ModelAccountCustomer extends Model
         }
 
         // delete subscription accounts for given email
-        $subscriber = $this->db->query("SELECT customer_id
-                                        FROM ".$this->db->table("customers")."
-                                        WHERE LOWER(`email`) = LOWER('".$this->db->escape($data['email'])."')
-                                            AND customer_group_id IN (SELECT customer_group_id
-                                                                      FROM ".$this->db->table('customer_groups')."
-                                                                      WHERE `name` = 'Newsletter Subscribers')");
+        $subscriber = $this->db->query(
+            "SELECT customer_id
+            FROM ".$this->db->table("customers")."
+            WHERE LOWER(`email`) = LOWER('".$this->db->escape($data['email'])."')
+                AND customer_group_id IN (SELECT customer_group_id
+                                          FROM ".$this->db->table('customer_groups')."
+                                          WHERE `name` = 'Newsletter Subscribers')"
+        );
         foreach ($subscriber->rows as $row) {
-            $this->db->query("DELETE FROM ".$this->db->table("customers")." 
-                                WHERE customer_id = '".(int)$row['customer_id']."'");
-            $this->db->query("DELETE FROM ".$this->db->table("addresses")." 
-                                WHERE customer_id = '".(int)$row['customer_id']."'");
+            $this->db->query(
+                "DELETE FROM ".$this->db->table("customers")." 
+                 WHERE customer_id = '".(int)$row['customer_id']."'"
+            );
+            $this->db->query(
+                "DELETE FROM ".$this->db->table("addresses")." 
+                 WHERE customer_id = '".(int)$row['customer_id']."'"
+            );
         }
 
         $salt_key = genToken(8);
@@ -173,6 +178,7 @@ class ModelAccountCustomer extends Model
      * @param array $data
      *
      * @return bool
+     * @throws AException
      */
     public function editCustomer($data)
     {
@@ -192,13 +198,14 @@ class ModelAccountCustomer extends Model
 
         //update login only if needed
         $loginname = '';
-        if (!empty($data['loginname'])) {
+        if (!empty($data['loginname']) && trim($data['loginname']) != $this->customer->getLoginName()){
             $loginname = " loginname = '".$this->db->escape($data['loginname'])."', ";
             $message_arr = array(
                 0 => array('message' => sprintf($language->get('im_customer_account_update_login_to_customer'), $data['loginname'])),
             );
             $this->im->send('customer_account_update', $message_arr);
         }
+
         //get existing data and compare
         $current_rec = $this->getCustomer((int)$this->customer->getId());
         foreach ($current_rec as $rec => $val) {
@@ -254,7 +261,8 @@ class ModelAccountCustomer extends Model
         //get all columns
         $sql = "SELECT COLUMN_NAME
                 FROM INFORMATION_SCHEMA.COLUMNS
-                WHERE TABLE_SCHEMA = '".DB_DATABASE."' AND TABLE_NAME = '".$this->db->table("customers")."'";
+                WHERE TABLE_SCHEMA = '".DB_DATABASE."' 
+                    AND TABLE_NAME = '".$this->db->table("customers")."'";
         $result = $this->db->query($sql);
         $columns = array();
         foreach ($result->rows as $row) {
@@ -327,7 +335,7 @@ class ModelAccountCustomer extends Model
         }
 
         if ($update) {
-            $sql = "DELETE FROM ".$this->db->table('customer_notifications')." 
+            $sql = "DELETE FROM ".$this->db->table('customer_notifications')."
                     WHERE customer_id = ".$customer_id;
             $this->db->query($sql);
 
@@ -364,6 +372,8 @@ class ModelAccountCustomer extends Model
     /**
      * @param string $loginname
      * @param string $password
+     *
+     * @throws AException
      */
     public function editPassword($loginname, $password)
     {
@@ -599,6 +609,7 @@ class ModelAccountCustomer extends Model
      * @param array $data
      *
      * @return array
+     * @throws AException
      */
     public function validateRegistrationData($data)
     {
@@ -775,7 +786,6 @@ class ModelAccountCustomer extends Model
                 if (!$result) {
                     $this->error[$protocol] = implode('<br>', $driver_obj->errors);
                 }
-
             }
         }
 
@@ -857,6 +867,9 @@ class ModelAccountCustomer extends Model
         return $this->error;
     }
 
+    /**
+     * @return int
+     */
     public function getTotalTransactions()
     {
         $query = $this->db->query("SELECT COUNT(*) AS total
@@ -866,6 +879,12 @@ class ModelAccountCustomer extends Model
         return (int)$query->row['total'];
     }
 
+    /**
+     * @param int $start
+     * @param int $limit
+     *
+     * @return mixed
+     */
     public function getTransactions($start = 0, $limit = 20)
     {
         if ($start < 0) {
@@ -901,6 +920,12 @@ class ModelAccountCustomer extends Model
         return $result;
     }
 
+    /**
+     * @param string $email
+     * @param bool $activated
+     *
+     * @return bool
+     */
     public function sendWelcomeEmail($email, $activated)
     {
         if (!$email) {
@@ -981,6 +1006,11 @@ class ModelAccountCustomer extends Model
         return true;
     }
 
+    /**
+     * @param int $customer_id
+     *
+     * @return bool
+     */
     public function emailActivateLink($customer_id)
     {
         if (!$customer_id) {
@@ -1060,6 +1090,10 @@ class ModelAccountCustomer extends Model
         return true;
     }
 
+    /**
+     * @param string $email
+     * @param array $data
+     */
     protected function _send_email($email, $data)
     {
         $mail = new AMail($this->config);
@@ -1078,6 +1112,12 @@ class ModelAccountCustomer extends Model
         $mail->send();
     }
 
+    /**
+     * @param string $ot - order token
+     *
+     * @return array
+     * @throws AException
+     */
     public function parseOrderToken($ot)
     {
         if (!$ot || !$this->config->get('config_guest_checkout')) {
