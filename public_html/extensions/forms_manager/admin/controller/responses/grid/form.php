@@ -17,9 +17,6 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE') || !IS_ADMIN) {
-    header('Location: static_pages/');
-}
 
 /**
  * Class ControllerResponsesGridForm
@@ -28,8 +25,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
  */
 class ControllerResponsesGridForm extends AController
 {
-    private $error = array();
-
     public function main()
     {
 
@@ -61,10 +56,7 @@ class ControllerResponsesGridForm extends AController
 
             $response->rows[$i]['id'] = $result['form_id'];
             $response->rows[$i]['cell'] = array(
-                $this->html->buildInput(array(
-                    'name'  => 'form_name['.$result['form_id'].']',
-                    'value' => $result['form_name'],
-                )),
+                $result['form_name'],
                 $this->html->buildInput(array(
                     'name'  => 'form_description['.$result['form_id'].']',
                     'value' => $result['description'],
@@ -110,7 +102,7 @@ class ControllerResponsesGridForm extends AController
                 }
                 break;
             case 'save':
-                $fields = array('form_name', 'form_description', 'form_status');
+                $fields = array('form_description', 'form_status');
                 $ids = explode(',', $this->request->post['id']);
                 if (!empty($ids)) {
                     foreach ($ids as $id) {

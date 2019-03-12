@@ -290,6 +290,7 @@ class ControllerPagesToolFormsManager extends AController
             'name'     => 'form_name',
             'value'    => isset($this->data['form_data']['form_name']) ? $this->data['form_data']['form_name'] : '',
             'required' => true,
+            'attr'     => ($this->request->get['form_id'] ? 'readonly' : ''),
             'style'    => 'large-field',
         ));
 
