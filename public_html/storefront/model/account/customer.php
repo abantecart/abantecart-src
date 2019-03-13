@@ -222,6 +222,21 @@ class ModelAccountCustomer extends Model
             $data[$f] = str_replace('  ', ' ', trim($data[$f]));
         }
 
+        if(
+            trim($data['firstname']) != $this->customer->getFirstName()
+            ||
+            trim($data['lastname']) != $this->customer->getLastName()
+            ||
+            trim($data['telephone']) != $this->customer->getTelephone()
+            ||
+            trim($data['fax']) != $this->customer->getFax()
+        ){
+            $message_arr = array(
+                0 => array('message' => $language->get('im_customer_account_update_text_to_customer')),
+            );
+            $this->im->send('customer_account_update', $message_arr);
+        }
+
         $sql = "UPDATE ".$this->db->table("customers")."
                 SET   firstname = '".$this->db->escape($data['firstname'])."',
                       lastname = '".$this->db->escape($data['lastname'])."', ".$loginname."
