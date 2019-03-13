@@ -111,6 +111,8 @@ class ControllerPagesProductSpecial extends AController
             $sort = 'p.'.$sort;
         } elseif (in_array($sort, array('price'))) {
             $sort = 'ps.'.$sort;
+        } elseif (in_array($sort, array('p.price'))) {
+            $sort = 'ps.price';
         }
 
         $this->loadModel('catalog/product');
@@ -124,7 +126,6 @@ class ControllerPagesProductSpecial extends AController
             $this->loadModel('tool/image');
 
             $this->data['button_add_to_cart'] = $this->language->get('button_add_to_cart');
-
             $results = $promotion->getProductSpecials($sort,
                 $order,
                 ($page - 1) * $limit,
