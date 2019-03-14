@@ -53,7 +53,7 @@ final class DefaultTwilio
         try {
             if ($this->config->get('default_twilio_test')) {
                 //sandbox number without errors from api
-                $from = '+15005550006';
+                $from = '15005550006';
             } else {
                 $from = $this->config->get('default_twilio_sender_phone');
                 $from = '+'.ltrim($from, '+');
