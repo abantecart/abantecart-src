@@ -944,7 +944,7 @@ CREATE TABLE `ac_language_definitions` (
   `date_added` timestamp NOT NULL default '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`language_definition_id`, `language_id`, `section`, `block`, `language_key`),
-	FULLTEXT INDEX `ac_lang_definition_idx` (`language_value` ASC)
+	INDEX `ac_lang_definition_idx` (`language_value`(500) ASC)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
@@ -1575,7 +1575,7 @@ CREATE TABLE `ac_settings` (
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
  PRIMARY KEY (`setting_id`, `store_id`, `group`, `key`),
- FULLTEXT INDEX `ac_settings_idx` (`value` ASC)
+ INDEX `ac_settings_idx` (`value`(500))
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
