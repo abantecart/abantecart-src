@@ -3878,6 +3878,7 @@ paypal pro styles
 		width: 88%;
 		float: left !important;
 	}
+
 }
 
 /* END @media (max-width: 760px) */
@@ -3886,9 +3887,15 @@ paypal pro styles
 	.header-logo {
 		background: none;
 		width: auto;
-		height: auto;	
+		height: auto;
 		line-height: normal;
 		text-align: left;
+		max-width: none;
+	}
+
+	.navbar-collapse{
+		border: none;
+		box-shadow: none;
 	}
 	.logo img {
 		background: white;
@@ -3903,6 +3910,7 @@ paypal pro styles
 	.headerdetails {
 		padding-top: 10px;
 	}
+
 	.headerdetails .block_8 {
 		float: left;
 	}
@@ -4030,22 +4038,33 @@ paypal pro styles
 	#customernav .navbar-nav{
 		margin: 0;
 	}
+
 }
 
 @media only screen and (max-width: 480px) {
 	.header-logo {
 
 		background: none;
-		width: 10px;
+		width: 100%;
 		height: auto;
 		line-height: normal;
 		text-align: left;
+		max-width: none;
+	}
+
+	.navbar-collapse{
+		border: none;
+		box-shadow: none;
 	}
 	.logo img {
 		background: white;
+		width: 100%;
+		max-width: 100%;
+		height: auto;
 	}
 	.logo {
 		padding: 0px;
+		float:left;
 	}
 
 	.payment_icon img{
