@@ -51,13 +51,8 @@ final class DefaultTwilio
         $text = strip_tags($text);
         $text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
         try {
-            if ($this->config->get('default_twilio_test')) {
-                //sandbox number without errors from api
-                $from = '15005550006';
-            } else {
-                $from = $this->config->get('default_twilio_sender_phone');
-                $from = '+'.ltrim($from, '+');
-            }
+            $from = $this->config->get('default_twilio_sender_phone');
+            $from = $from ? '+'.ltrim($from, '+') : '';
             $this->sender->messages->create(
                 $to,
                 array(

@@ -22,6 +22,10 @@
 			<type required="true">input</type>
 			<default_value></default_value>
 		</item>
+		<item id="default_twilio_sender_phone">
+			<type required="true">input</type>
+			<default_value></default_value>
+		</item>
 		<item id="default_twilio_test">
 			<type>selectbox</type>
 			<variants>
