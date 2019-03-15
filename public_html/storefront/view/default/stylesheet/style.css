@@ -4034,9 +4034,10 @@ paypal pro styles
 
 @media only screen and (max-width: 480px) {
 	.header-logo {
+
 		background: none;
-		width: auto;
-		height: auto;	
+		width: 10px;
+		height: auto;
 		line-height: normal;
 		text-align: left;
 	}
@@ -4362,6 +4363,25 @@ paypal pro styles
 	.mainimage.bigimage img {
 		max-width: 300px;
 		max-height: 300px;
+	}
+
+	.form-horizontal{
+		margin-right: 20px;
+		margin-left: 20px;
+	}
+
+	#SubscriberFrm .form-group{
+		margin-left: -40px;
+		margin-right: -40px;
+	}
+	#ContactUsFrm .form-group{
+		padding-left: 50px;
+	}
+
+	#ContactUsFrm button{
+		margin-left: 5px;
+		margin-right: 5px;
+		margin-top: 20px;
 	}
 }
 
