@@ -820,7 +820,7 @@ class AResource
                         'url'    => $thumb_url,
                         'width'  => $width,
                         'height' => $height,
-                        'attr'   => 'alt="'.$row['title'].'"',
+                        'attr'   => 'alt="'.addslashes($row['title']).'"',
                     ));
                 $output[$object_id]['thumb_url'] = $thumb_url;
             }
