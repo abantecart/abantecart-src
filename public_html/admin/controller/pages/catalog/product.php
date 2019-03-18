@@ -382,6 +382,7 @@ class ControllerPagesCatalogProduct extends AController
             $product_info = $this->model_catalog_product->getProduct($product_id);
             $product_info['featured'] = $product_info['featured'] ? 1 : 0;
             $product_info['has_track_options'] = $this->model_catalog_product->hasTrackOptions($product_id);
+            $product_info['stock_locations'] = $this->model_catalog_product->getProductStockLocations($product_id);
             if ($product_info['has_track_options']) {
                 $product_info['quantity'] = $this->model_catalog_product->hasAnyStock($product_id);
             }
@@ -778,6 +779,7 @@ class ControllerPagesCatalogProduct extends AController
             ),
             'help_url' => $this->gen_help_url('product_inventory'),
             'style'    => 'medium-field',
+            'attr'     => 'reload_on_save="true" ',
             'disabled' => ($product_info['has_track_options'] ? true : false),
         ));
 
@@ -787,8 +789,14 @@ class ControllerPagesCatalogProduct extends AController
             'value'    => (int)$this->data['quantity'],
             'style'    => 'col-xs-1 small-field',
             'help_url' => $this->gen_help_url('product_inventory'),
-            'attr'     => ($product_info['has_track_options'] ? 'disabled' : ''),
+            'attr'     => ($product_info['has_track_options'] || $product_info['stock_locations'] ? 'disabled' : ''),
         ));
+
+        if($this->data['subtract'] && !$product_info['has_track_options']) {
+            $dd = new ADispatcher('responses/product/product/stockLocations', array($product_info['product_id']));
+            $this->data['form']['fields']['data']['stock_locations'] =
+                $dd->dispatchGetOutput('responses/product/product/stockLocations');
+        }
 
         $this->data['form']['fields']['data']['minimum'] = $form->getFieldHtml(array(
             'type'  => 'input',

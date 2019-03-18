@@ -1,8 +1,6 @@
 <?php
-
-if (!class_exists('ExtensionStripe')) {
-    include('core/default_stripe.php');
-}
+require_once __DIR__.DIRECTORY_SEPARATOR.'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
+require_once __DIR__.DIRECTORY_SEPARATOR.'core'.DIRECTORY_SEPARATOR.'default_stripe.php';
 
 $controllers = array(
     'storefront' => array('responses/extension/default_stripe'),

@@ -17,9 +17,6 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE') || !IS_ADMIN) {
-    header('Location: static_pages/');
-}
 
 /**
  * @property ModelCatalogDownload $model_catalog_download
@@ -167,12 +164,12 @@ class ModelCatalogProduct extends Model
 
         if ($data['product_tags']) {
             if (is_string($data['product_tags'])) {
-                $tags = (array)explode(',', $data['product_tags']);
+                $tags = $this->getUniqueTags($data['product_tags']);
                 $tags = array($language_id => $tags);
             } elseif (is_array($data['product_tags'])) {
                 $tags = $data['product_tags'];
                 foreach ($tags as &$taglist) {
-                    $taglist = (array)explode(',', $taglist);
+                    $taglist = $this->getUniqueTags($taglist);
                 }
                 unset($taglist);
             } else {
@@ -360,8 +357,7 @@ class ModelCatalogProduct extends Model
         }
 
         if (isset($data['product_tags'])) {
-            $tags = explode(',', $data['product_tags']);
-
+            $tags = $this->getUniqueTags($data['product_tags']);
             foreach ($tags as &$tag) {
                 $tag = $this->db->escape(trim($tag));
             }
@@ -369,6 +365,10 @@ class ModelCatalogProduct extends Model
             $this->language->replaceMultipleDescriptions('product_tags',
                 array('product_id' => (int)$product_id),
                 array($language_id => array('tag' => array_unique($tags))));
+        }
+
+        if (isset($data['stock_location'])) {
+            $this->updateProductStockLocations($data['stock_location'], (int)$product_id);
         }
 
         $this->_touch_product($product_id);
@@ -2415,6 +2415,7 @@ class ModelCatalogProduct extends Model
                 LEFT JOIN ".$this->db->table('product_option_descriptions')." pod
                     ON (pod.product_option_id = pov.product_option_id AND pod.language_id = ".$language_id.")
                 WHERE p.product_id = ".$product_id;
+
         $result = $this->db->query($sql);
 
         // id product disabled do not run other checks
@@ -2427,23 +2428,28 @@ class ModelCatalogProduct extends Model
         if (dateISO2Int($result->row['date_available']) > time()) {
             $output[] = $this->language->get('text_product_unavailable');
         }
-
+        $hasTrackOptions = $this->hasTrackOptions($product_id);
+        $out_of_stock = false;
         //check is stock track for whole product(not options) enabled and product quantity more than 0
-        if ($result->row['base_subtract'] && $result->row['base_quantity'] <= 0 && !$this->hasTrackOptions($product_id)
-            && !$result->row['option_name']
+        if ($result->row['base_subtract']
+            && $result->row['base_quantity'] <= 0
+            && !$hasTrackOptions
         ) {
             $output[] = $this->language->get('text_product_out_of_stock');
+            $out_of_stock = true;
         }
-        $out_of_stock = false;
+
         $error_txt = array();
-        foreach ($result->rows as $k => $row) {
-            if ($row['subtract'] && $row['quantity'] <= 0) {
-                $error_txt[] = $row['option_name'].' => '.$row['option_value_name'];
-                $out_of_stock = true;
+        if ($hasTrackOptions) {
+            foreach ($result->rows as $k => $row) {
+                if ($row['subtract'] && $row['quantity'] <= 0) {
+                    $error_txt[] = $row['option_name'].' => '.$row['option_value_name'];
+                    $out_of_stock = true;
+                }
             }
         }
 
-        if ($out_of_stock) {
+        if ($out_of_stock && $error_txt) {
             $output[] = $this->language->get('text_product_option_out_of_stock');
             $output = array_merge($output, $error_txt);
         }
@@ -2620,6 +2626,106 @@ class ModelCatalogProduct extends Model
             $total_quantity = (int)$query->row['quantity'];
         }
         return $total_quantity;
+    }
+
+    /**
+     * @param int $product_id
+     *
+     * @param int $product_option_value_id
+     *
+     * @return array
+     */
+    public function getProductStockLocations($product_id, $product_option_value_id = 0)
+    {
+        $sql = "SELECT *
+                FROM ".$this->db->table('product_stock_locations')." psl
+                LEFT JOIN ".$this->db->table('locations')." l
+                    ON l.location_id = psl.location_id
+                WHERE psl.product_id=".(int)$product_id;
+        if ($product_option_value_id) {
+            $sql .= " AND psl.product_option_value_id = ".(int)$product_option_value_id;
+        } else {
+            $sql .= " AND psl.product_option_value_id IS NULL";
+        }
+
+        $sql .= " ORDER BY psl.sort_order";
+
+        $result = $this->db->query($sql);
+        return $result->rows;
+    }
+
+    public function updateProductStockLocations($locations, $product_id, $product_option_value_id = 0)
+    {
+        if (!$locations) {
+            return false;
+        }
+
+        $this->db->query(
+            "DELETE
+            FROM ".$this->db->table("product_stock_locations")." 
+            WHERE product_id = ".(int)$product_id
+            .((int)$product_option_value_id
+                ? " AND (product_option_value_id='".(int)$product_option_value_id."' OR product_option_value_id IS NULL)"
+                : "")
+        );
+
+        $totals = array();
+        foreach ($locations as $location_id => $location_details) {
+            if (!(int)$location_id) {
+                continue;
+            }
+            $this->db->query(
+                "INSERT INTO ".$this->db->table("product_stock_locations")."
+                    (product_id, product_option_value_id, location_id, quantity, sort_order)
+                VALUES( 
+                    ".(int)$product_id.", 
+                    ".((int)$product_option_value_id
+                    ? (int)$product_option_value_id
+                    : 'NULL').", 
+                    ".(int)$location_id.", 
+                    ".(int)$location_details['quantity'].", 
+                    ".(int)$location_details['sort_order']."
+                );"
+            );
+
+            $totals[] = (int)$location_details['quantity'];
+        }
+
+        //update_total_quantity
+        if (!$product_option_value_id) {
+            $this->db->query("UPDATE `".$this->db->table("products`")." SET quantity= '".(int)array_sum($totals)."'");
+        } elseif (array_sum($totals)) {
+            $this->db->query(
+                "UPDATE `".$this->db->table("product_option_values`")." 
+                SET quantity= '".(int)array_sum($totals)."'
+                    WHERE product_option_value_id=".(int)$product_option_value_id
+            );
+        }
+        return true;
+    }
+
+    /**
+     * @param $order_product_id
+     *
+     * @return mixed
+     */
+    public function getOrderProductStockLocations($order_product_id)
+    {
+        $sql = "SELECT *
+                FROM ".$this->db->table('order_product_stock_locations')." 
+                WHERE order_product_id=".(int)$order_product_id;
+        $result = $this->db->query($sql);
+        return $result->rows;
+    }
+
+    /**
+     * @param $string
+     *
+     * @return array
+     */
+    public function getUniqueTags($string) {
+        $tags = array_map('trim', explode(',', $string));
+        return array_intersect_key($tags, array_unique(array_map('strtolower', $tags)));
     }
 
 }

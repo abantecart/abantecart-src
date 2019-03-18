@@ -882,7 +882,7 @@ class ExtensionAvataxIntegration extends Extension
             $customerAddress = $that->model_account_address->getAddress($address_data['address_id']);
         }
 
-        if (strpos($countryISO, $customerAddress['iso_code_2']) >= 0) {
+        if (is_int(strpos($countryISO, (string)$customerAddress['iso_code_2']))) {
             // Required Request Parameters
             $address->setLine1($customerAddress['address_1']);
             $address->setCity($customerAddress['city']);

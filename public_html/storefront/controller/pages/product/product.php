@@ -17,9 +17,7 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE')) {
-    header('Location: static_pages/');
-}
+
 
 class ControllerPagesProductProduct extends AController
 {
@@ -364,6 +362,7 @@ class ControllerPagesProductProduct extends AController
         // Prepare options and values for display
         $elements_with_options = HtmlElementFactory::getElementsWithOptions();
         $options = array();
+        $option_images = array();
         $product_options = $this->model_catalog_product->getProductOptions($product_id);
 
         //get info from cart if key presents
@@ -460,6 +459,8 @@ class ControllerPagesProductProduct extends AController
                 }
             }
 
+            $option_data = array();
+
             //if not values are build, nothing to show
             if (count($values)) {
                 $value = '';
@@ -511,6 +512,51 @@ class ControllerPagesProductProduct extends AController
                     'name' => $option['name'],
                     'html' => $this->html->buildElement($option_data),  // not a string!!! it's object!
                 );
+            }
+            // main product image
+            $mSizes = array(
+                'main'  => array(
+                    'width'  => $this->config->get('config_image_popup_width'),
+                    'height' => $this->config->get('config_image_popup_height'),
+                ),
+                'thumb' => array(
+                    'width'  => $this->config->get('config_image_thumb_width'),
+                    'height' => $this->config->get('config_image_thumb_height'),
+                )
+            );
+            $option_images['main'] = $resource->getResourceAllObjects(
+                                                            'product_option_value',
+                                                            $option_data['value'],
+                                                            $mSizes,
+                                                            1,
+                                                            false
+            );
+            if (!$option_images['main']) {
+                unset($option_images['main']);
+            }
+            // additional images
+            $oSizes = array(
+                'main'   =>
+                    array(
+                        'width'  => $this->config->get('config_image_popup_width'),
+                        'height' => $this->config->get('config_image_popup_height'),
+                    ),
+                'thumb'  =>
+                    array(
+                        'width'  => $this->config->get('config_image_additional_width'),
+                        'height' => $this->config->get('config_image_additional_height'),
+                    ),
+                //product image zoom related thumbnail
+                'thumb2' =>
+                    array(
+                        'width'  => $this->config->get('config_image_thumb_width'),
+                        'height' => $this->config->get('config_image_thumb_height'),
+                    ),
+            );
+            $option_images['images'] =
+                $resource->getResourceAllObjects('product_option_value', $option_data['value'], $oSizes, 0, false);
+            if (!$option_images['images']) {
+                unset($option_images['images']);
             }
         }
 
@@ -577,9 +623,17 @@ class ControllerPagesProductProduct extends AController
                 'height' => $this->config->get('config_image_thumb_height'),
             ),
         );
-        $this->data['image_main'] = $resource->getResourceAllObjects('products', $product_id, $sizes, 1, false);
-        if ($this->data['image_main']) {
-            $this->data['image_main']['sizes'] = $sizes;
+        if (!$option_images['main']) {
+            $this->data['image_main'] = $resource->getResourceAllObjects('products', $product_id, $sizes, 1, false);
+            if ($this->data['image_main']) {
+                $this->data['image_main']['sizes'] = $sizes;
+            }
+        } else {
+            $this->data['image_main'] = $option_images['main'];
+            if ($this->data['image_main']) {
+                $this->data['image_main']['sizes'] = $sizes;
+            }
+            unset($option_images['main']);
         }
 
         // additional images
@@ -595,9 +649,13 @@ class ControllerPagesProductProduct extends AController
             'thumb2' => array(
                 'width'  => $this->config->get('config_image_thumb_width'),
                 'height' => $this->config->get('config_image_thumb_height'),
-            ),
+            )
         );
-        $this->data['images'] = $resource->getResourceAllObjects('products', $product_id, $sizes, 0, false);
+        if (!$option_images['images']) {
+            $this->data['images'] = $resource->getResourceAllObjects('products', $product_id, $sizes, 0, false);
+        } else {
+            $this->data['images'] = $option_images['images'];
+        }
 
         $products = array();
         $results = $this->model_catalog_product->getProductRelated($product_id);

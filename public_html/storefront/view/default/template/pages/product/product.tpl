@@ -39,7 +39,7 @@ if ($error){ ?>
 							<?php echo $image_main['main_html']; ?>
 						</a>
 						<?php
-					} else{
+					} else {
 						$image_url = $image_main['main_url'];
 						$thumb_url = $image_main['thumb_url'];
 						?>
@@ -47,8 +47,8 @@ if ($error){ ?>
 						   title="<?php echo $image_main['title']; ?>">
 							<img style="width: <?php echo $this->config->get('config_image_thumb_width'); ?>px;	height: <?php echo $this->config->get('config_image_thumb_height'); ?>px;"
 							     src="<?php echo $thumb_url; ?>"
-							     alt="<?php echo $image['title']; ?>"
-							     title="<?php echo $image['title']; ?>"/>
+							     alt="<?php echo $image_main['title']; ?>"
+							     title="<?php echo $image_main['title']; ?>"/>
 							<i class="fa fa-arrows hidden-xs hidden-sm"></i></a>
 					<?php }
 				} ?>
@@ -228,14 +228,14 @@ if ($error){ ?>
 										<?php echo $this->getHookVar('buttons'); ?>
 									</div>
 
-									<?php 
-										if ($in_wishlist) { 
+									<?php
+										if ($in_wishlist) {
 											$whislist = ' style="display: none;" ';
 											$nowhislist = '';
 										} else {
 											$nowhislist = ' style="display: none;" ';
 											$whislist = '';
-										} 
+										}
 									?>
 									<?php if ($is_customer) { ?>
 									<div class="wishlist">
@@ -396,13 +396,15 @@ if ($error){ ?>
 						<ul class="row side_prd_list">
 							<?php foreach ($related_products as $related_product){
 								$tax_message = '';
-								if($config_tax && !$tax_exempt && $related_product['tax_class_id']){
-									$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
-								}
 								$item['rating'] = ($related_product['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png') . "' class='rating' alt='" . $related_product['stars'] . "' width='64' height='12' />" : '';
 								if (!$display_price){
 									$related_product['price'] = $related_product['special'] = '';
-								}?>
+								} else {
+									if($config_tax && !$tax_exempt && $related_product['tax_class_id']){
+										$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
+									}
+								}
+							?>
 								<li class="col-md-3 col-sm-5 col-xs-6 related_product">
 									<a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
 									<a class="productname" title="<?php echo $related_product['name']; ?>"
@@ -522,9 +524,15 @@ if ($error){ ?>
 	}
 
 	function load_option_images(attribute_value_id, product_id) {
+		var data = {
+			attribute_value_id: attribute_value_id,
+			product_id: product_id,
+		};
+
 		$.ajax({
 			type: 'POST',
-			url: '<?php echo $option_resources_url; ?>&attribute_value_id=' + attribute_value_id + '&product_id=' + product_id,
+			url: '<?php echo $option_resources_url; ?>',
+			data: data,
 			dataType: 'json',
 			success: function (data) {
 				if (data.length == 0) {
@@ -580,7 +588,7 @@ if ($error){ ?>
 			data: $("#product").serialize(),
 
 			success: function (data) {
-				if (data.total) {
+				if (data && data.total) {
 					$('.total-price-holder').show();
 					$('.total-price-holder').css('visibility', 'visible');
 					$('.total-price').html(data.total);

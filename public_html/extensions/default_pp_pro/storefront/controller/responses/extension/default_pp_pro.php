@@ -238,8 +238,12 @@ class ControllerResponsesExtensionDefaultPPPro extends AController
             'CUSTOM'         => $order_info['order_id'],
             'INVNUM'         => '#'.$order_info['order_id'],
             'PAYMENTACTION'  => $payment_type,
-            'AMT'            => $this->currency->format($order_info['total'], $order_info['currency'],
-                $order_info['value'], false),
+            'AMT'            => $this->currency->format(
+                                        $order_info['total'],
+                                        $order_info['currency'],
+                                        $order_info['value'],
+                                        false
+            ),
             'ITEMAMT'        => (float)$this->data['items_total'],
             'TAXAMT'         => (float)$this->data['tax_total'],
             'SHIPPINGAMT'    => (float)$this->data['shipping_total'],
@@ -248,7 +252,7 @@ class ControllerResponsesExtensionDefaultPPPro extends AController
             'ACCT'           => str_replace(' ', '', $this->request->post['cc_number']),
             'CARDSTART'      => $this->request->post['cc_start_date_month'].$this->request->post['cc_start_date_year'],
             'EXPDATE'        => $this->request->post['cc_expire_date_month']
-                .$this->request->post['cc_expire_date_year'],
+                                    .$this->request->post['cc_expire_date_year'],
             'CVV2'           => $this->request->post['cc_cvv2'],
             'CARDISSUE'      => $this->request->post['cc_issue'],
             'FIRSTNAME'      => $order_info['payment_firstname'],
@@ -258,8 +262,9 @@ class ControllerResponsesExtensionDefaultPPPro extends AController
             'IPADDRESS'      => $this->request->getRemoteIP(),
             'STREET'         => $order_info['payment_address_1'],
             'CITY'           => $order_info['payment_city'],
-            'STATE'          => ($order_info['payment_iso_code_2']
-                != 'US') ? $order_info['payment_zone'] : $order_info['payment_zone_code'],
+            'STATE'          => ($order_info['payment_iso_code_2'] != 'US')
+                                ? $order_info['payment_zone']
+                                : $order_info['payment_zone_code'],
             'ZIP'            => $order_info['payment_postcode'],
             'COUNTRYCODE'    => $order_info['payment_iso_code_2'],
             'CURRENCYCODE'   => $order_info['currency'],
@@ -272,8 +277,9 @@ class ControllerResponsesExtensionDefaultPPPro extends AController
                 'SHIPTONAME'        => $order_info['shipping_firstname'].' '.$order_info['shipping_lastname'],
                 'SHIPTOSTREET'      => $order_info['shipping_address_1'],
                 'SHIPTOCITY'        => $order_info['shipping_city'],
-                'SHIPTOSTATE'       => ($order_info['shipping_iso_code_2']
-                    != 'US') ? $order_info['shipping_zone'] : $order_info['shipping_zone_code'],
+                'SHIPTOSTATE'       => ($order_info['shipping_iso_code_2'] != 'US')
+                                        ? $order_info['shipping_zone']
+                                        : $order_info['shipping_zone_code'],
                 'SHIPTOCOUNTRYCODE' => $order_info['shipping_iso_code_2'],
                 'SHIPTOZIP'         => $order_info['shipping_postcode'],
             ));
@@ -282,8 +288,9 @@ class ControllerResponsesExtensionDefaultPPPro extends AController
                 'SHIPTONAME'        => $order_info['payment_firstname'].' '.$order_info['payment_lastname'],
                 'SHIPTOSTREET'      => $order_info['payment_address_1'],
                 'SHIPTOCITY'        => $order_info['payment_city'],
-                'SHIPTOSTATE'       => ($order_info['payment_iso_code_2']
-                    != 'US') ? $order_info['payment_zone'] : $order_info['payment_zone_code'],
+                'SHIPTOSTATE'       => ($order_info['payment_iso_code_2'] != 'US')
+                                        ? $order_info['payment_zone']
+                                        : $order_info['payment_zone_code'],
                 'SHIPTOCOUNTRYCODE' => $order_info['payment_iso_code_2'],
                 'SHIPTOZIP'         => $order_info['payment_postcode'],
             ));
@@ -293,6 +300,7 @@ class ControllerResponsesExtensionDefaultPPPro extends AController
         //check amounts
         $calc_total = $this->data['items_total'] + $this->data['shipping_total']
             + $this->data['tax_total'] + $this->data['handling_total'];
+        $skip_item_list = false;
 
         if (($calc_total - $order_total) !== 0.0) {
             $skip_item_list = true;
@@ -322,7 +330,6 @@ class ControllerResponsesExtensionDefaultPPPro extends AController
         curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($payment_data));
 
         $response = curl_exec($curl);
-
         if (!$response) {
             $json['error'] = 'Cannot establish a connection to the server';
             $err = new AError('Paypal Pro Error: DoDirectPayment failed: '.curl_error($curl).'('.curl_errno($curl).')');
@@ -383,6 +390,7 @@ class ControllerResponsesExtensionDefaultPPPro extends AController
         $this->data['products'] = array();
         $this->data['items_total'] = 0.0;
         $products = $this->cart->getProducts();
+
         foreach ($products as $product) {
             $option_data = array();
 
@@ -420,8 +428,12 @@ class ControllerResponsesExtensionDefaultPPPro extends AController
                 $this->data['products'][] = array(
                     'name'     => ($virtual['name'] ? $virtual['name'] : 'Virtual Product'),
                     'model'    => '',
-                    'price'    => $this->currency->format($virtual['amount'], $order_info['currency'],
-                        $order_info['value'], false),
+                    'price'    => $this->currency->format(
+                        $virtual['amount'],
+                        $order_info['currency'],
+                        $order_info['value'],
+                        false
+                    ),
                     'quantity' => ($virtual['quantity'] ? $virtual['quantity'] : 1),
                     'option'   => array(),
                     'weight'   => 0,
@@ -438,17 +450,18 @@ class ControllerResponsesExtensionDefaultPPPro extends AController
             if (in_array($total['id'], array('subtotal', 'total'))) {
                 continue;
             }
+
             if (in_array($total['id'], array('promotion', 'coupon'))) {
                 $total['value'] = $total['value'] < 0 ? $total['value'] * -1 : $total['value'];
                 $this->data['discount_amount_cart'] += $total['value'];
             } else {
                 $price = $this->currency->format($total['value'], $order_info['currency'], $order_info['value'], false);
 
-                if (in_array($total['id'], array('tax'))) {
+                if (in_array($total['total_type'], array('tax'))) {
                     $this->data['tax_total'] += $price;
-                } elseif (in_array($total['id'], array('shipping'))) {
+                } elseif (in_array($total['total_type'], array('shipping'))) {
                     $this->data['shipping_total'] += $price;
-                } elseif (in_array($total['id'], array('handling'))) {
+                } elseif (in_array($total['total_type'], array('handling', 'fee'))) {
                     $this->data['handling_total'] += $price;
                 } else {
                     $this->data['items_total'] += $price;
@@ -466,8 +479,10 @@ class ControllerResponsesExtensionDefaultPPPro extends AController
             }
         }
 
-        $calc_total = $this->data['items_total'] + $this->data['shipping_total']
-            + $this->data['tax_total'] + $this->data['handling_total'];
+        $calc_total = $this->data['items_total']
+            + $this->data['shipping_total']
+            + $this->data['tax_total']
+            + $this->data['handling_total'];
 
         if (($calc_total - $order_info['order_total']) !== 0.0) {
             foreach ($totals['total_data'] as $total) {

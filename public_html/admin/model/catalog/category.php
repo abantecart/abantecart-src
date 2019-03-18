@@ -218,7 +218,7 @@ class ModelCatalogCategory extends Model
      *
      * @return array
      */
-    public function getCategories($parent_id, $store_id = null)
+    public function getCategories($parent_id = null, $store_id = null)
     {
         $language_id = $this->language->getContentLanguageID();
         $cache_key = 'category.'.$parent_id.'.store_'.$store_id.'_lang_'.$language_id;

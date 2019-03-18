@@ -79,8 +79,8 @@ class ControllerResponsesProductProduct extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $product_id = (int)$this->request->get['product_id'];
-        $attribute_value_id = (int)$this->request->get['attribute_value_id'];
+        $product_id = (int)$this->request->post['product_id'];
+        $attribute_value_id = (int)$this->request->post['attribute_value_id'];
         $output = array();
         if ($attribute_value_id && is_int($attribute_value_id)) {
             $resource = new AResource('image');
@@ -130,14 +130,7 @@ class ControllerResponsesProductProduct extends AController
 
             //no image? return main product images
             if (!count($output) && $product_id) {
-                $output['main'] = $resource->getResourceAllObjects('products', $product_id, $msizes, 1, false);
-                if (!$output['main']) {
-                    unset($output['main']);
-                }
-                $output['images'] = $resource->getResourceAllObjects('products', $product_id, $osizes, 0, false);
-                if (!$output['images']) {
-                    unset($output['images']);
-                }
+                $output = [];
             }
 
         }
@@ -234,6 +227,27 @@ class ControllerResponsesProductProduct extends AController
                     'value' => $value,
                     'title' => $title,
                 );
+                // product image by option value
+                $mSizes = array(
+                    'main'  =>
+                        array(
+                            'width' => $this->config->get('config_image_cart_width'),
+                            'height' => $this->config->get('config_image_cart_height')
+                        ),
+                    'thumb' => array(
+                        'width' =>  $this->config->get('config_image_cart_width'),
+                        'height' => $this->config->get('config_image_cart_height')
+                    ),
+                );
+                $main_image =
+                    $resource->getResourceAllObjects('product_option_value', $option['product_option_value_id'], $mSizes, 1, false);
+                if (!empty($main_image)) {
+                    $thumbnail['origin'] = $main_image['origin'];
+                    $thumbnail['title'] = $main_image['title'];
+                    $thumbnail['description'] = $main_image['description'];
+                    $thumbnail['thumb_html'] = $main_image['thumb_html'];
+                    $thumbnail['thumb_url'] = $main_image['thumb_url'];
+                }
             }
 
             $qty += $result['quantity'];

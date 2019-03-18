@@ -540,7 +540,7 @@ if ($error) { ?>
 			data: $("#product").serialize(),
 
 			success: function (data) {
-				if (data.total) {
+				if (data && data.total) {
 					$('.total-price-holder').show();
 					$('.total-price-holder').css('visibility', 'visible');
 					$('.total-price').html(data.total);

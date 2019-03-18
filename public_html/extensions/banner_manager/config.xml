@@ -1,27 +1,27 @@
 <?xml version="1.0"?>
 <extension>
-    <id>banner_manager</id>
-    <version>1.0.1</version>
+	<id>banner_manager</id>
+	<version>1.0.1</version>
 	<type>extensions</type>
 	<category>extensions</category>
-    <cartversions>
-    <item>1.2</item>
-   </cartversions>
-    <layout></layout>
-    <priority>10</priority>
-    <settings></settings>
-    <preview>
-	    <item>preview.png</item>
-    </preview>
-    <help_file><![CDATA[help.txt]]></help_file>
-    <additional_settings><![CDATA[extension/banner_manager]]></additional_settings>
-	<note>true</note>    
-    <install>
-	    <sql>install.sql</sql>
-	    <trigger>install.php</trigger>
+	<cartversions>
+		<item>1.2</item>
+	</cartversions>
+	<layout></layout>
+	<priority>10</priority>
+	<settings></settings>
+	<preview>
+		<item>preview.png</item>
+	</preview>
+	<help_file><![CDATA[help.txt]]></help_file>
+	<additional_settings><![CDATA[extension/banner_manager]]></additional_settings>
+	<note>true</note>
+	<install>
+		<sql>install.sql</sql>
+		<trigger>install.php</trigger>
 	</install>
 	<uninstall>
-	    <sql>uninstall.sql</sql>
-	    <trigger>uninstall.php</trigger>
+		<sql>uninstall.sql</sql>
+		<trigger>uninstall.php</trigger>
 	</uninstall>
 </extension>

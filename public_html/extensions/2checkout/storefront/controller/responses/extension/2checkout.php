@@ -88,7 +88,12 @@ class ControllerResponsesExtension2Checkout extends AController
                 'name'        => $product['name'],
                 'description' => $product['name'],
                 'quantity'    => $product['quantity'],
-                'price'       => $this->currency->format($product['price'], $order_info['currency'], $order_info['value'], false),
+                'price'       => $this->currency->format(
+                    $product['price'],
+                    $order_info['currency'],
+                    $order_info['value'],
+                    false
+                ),
             );
         }
 
@@ -115,7 +120,12 @@ class ControllerResponsesExtension2Checkout extends AController
         }
         $post = $this->request->post;
         // hash check
-        if (!md5($post['sale_id'].$this->config->get('2checkout_account').$post['invoice_id'].$this->config->get('2checkout_secret')) == strtolower($post['md5_hash'])) {
+        if (!md5(
+            $post['sale_id']
+            .$this->config->get('2checkout_account')
+            .$post['invoice_id']
+            .$this->config->get('2checkout_secret')) == strtolower($post['md5_hash'])
+        ){
             exit;
         }
 
@@ -128,18 +138,68 @@ class ControllerResponsesExtension2Checkout extends AController
         }
         $this->load->model('extension/2checkout');
         if ($post['message_type'] == 'ORDER_CREATED') {
-            $this->model_checkout_order->confirm((int)$post['vendor_order_id'], $this->config->get('2checkout_order_status_id'));
+            $this->model_checkout_order->confirm(
+                (int)$post['vendor_order_id'],
+                $this->config->get('2checkout_order_status_id')
+            );
         } elseif ($post['message_type'] == 'REFUND_ISSUED') {
             $order_status_id = $this->model_extension_2checkout->getOrderStatusIdByName('failed');
-            $this->model_checkout_order->update((int)$post['vendor_order_id'], $order_status_id, 'Status changed by 2Checkout INS');
+            $this->model_checkout_order->update(
+                (int)$post['vendor_order_id'],
+                $order_status_id,
+                'Status changed by 2Checkout INS'
+            );
         } elseif ($post['message_type'] == 'FRAUD_STATUS_CHANGED' && $post['fraud_status'] == 'pass') {
             $order_status_id = $this->model_extension_2checkout->getOrderStatusIdByName('processing');
-            $this->model_checkout_order->update((int)$post['vendor_order_id'], $order_status_id, 'Status changed by 2Checkout INS');
+            $this->model_checkout_order->update(
+                (int)$post['vendor_order_id'],
+                $order_status_id,
+                'Status changed by 2Checkout INS'
+            );
         } elseif ($post['message_type'] == 'SHIP_STATUS_CHANGED' && $post['ship_status'] == 'shipped') {
             $order_status_id = $this->model_extension_2checkout->getOrderStatusIdByName('complete');
-            $this->model_checkout_order->update((int)$post['vendor_order_id'], $order_status_id, 'Status changed by 2Checkout INS');
+            $this->model_checkout_order->update(
+                (int)$post['vendor_order_id'],
+                $order_status_id,
+                'Status changed by 2Checkout INS'
+            );
         } else {
             redirect($this->html->getSecureURL('checkout/confirm'));
         }
+    }
+
+    public function pending_payment()
+    {
+        $this->addChild('common/head', 'head', 'common/head.tpl');
+        $this->addChild('common/footer', 'footer', 'common/footer.tpl');
+        $this->document->setTitle('waiting for payment');
+        $this->view->assign('text_message', 'waiting for payment confirmation');
+        $this->view->assign('text_redirecting', 'redirecting');
+        $this->view->assign('test_url', $this->html->getSecureURL('r/extension/2checkout/is_confirmed'));
+        $this->view->assign('success_url', $this->html->getSecureURL('checkout/success'));
+        $this->processTemplate('responses/pending_ipn.tpl');
+    }
+
+    public function is_confirmed()
+    {
+        $order_id = (int)$this->session->data['order_id'];
+        if (!$order_id) {
+            $result = true;
+        } else {
+            $this->loadModel('checkout/order');
+            $order_info = $this->model_checkout_order->getOrder($order_id);
+            //do nothing if order confirmed or it's not created with paypal standart
+            if ((int)$order_info['order_status_id'] != 0
+                || $order_info['payment_method_key'] != '2checkout'
+            ) {
+                $result = true;
+            } else {
+                $result = false;
+            }
+        }
+
+        $this->load->library('json');
+        $this->response->addJSONHeader();
+        $this->response->setOutput(AJson::encode(array('result' => $result)));
     }
 }

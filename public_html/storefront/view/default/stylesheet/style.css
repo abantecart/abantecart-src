@@ -272,11 +272,15 @@ section.row {
 }
 
 .header-logo {
-	width: 300px;
 	background-color: #fff;
 	text-align: center;
-	height: 72px;
-	line-height: 72px
+	line-height: 72px;
+	max-width: 300px;
+	max-height: 72px;
+}
+.header-logo img {
+	max-width: 100%;
+	max-height: 100%;
 }
 
 #topnav select {
@@ -3874,6 +3878,7 @@ paypal pro styles
 		width: 88%;
 		float: left !important;
 	}
+
 }
 
 /* END @media (max-width: 760px) */
@@ -3882,9 +3887,15 @@ paypal pro styles
 	.header-logo {
 		background: none;
 		width: auto;
-		height: auto;	
+		height: auto;
 		line-height: normal;
 		text-align: left;
+		max-width: none;
+	}
+
+	.navbar-collapse{
+		border: none;
+		box-shadow: none;
 	}
 	.logo img {
 		background: white;
@@ -3899,6 +3910,7 @@ paypal pro styles
 	.headerdetails {
 		padding-top: 10px;
 	}
+
 	.headerdetails .block_8 {
 		float: left;
 	}
@@ -4026,21 +4038,33 @@ paypal pro styles
 	#customernav .navbar-nav{
 		margin: 0;
 	}
+
 }
 
 @media only screen and (max-width: 480px) {
 	.header-logo {
+
 		background: none;
-		width: auto;
-		height: auto;	
+		width: 100%;
+		height: auto;
 		line-height: normal;
 		text-align: left;
+		max-width: none;
+	}
+
+	.navbar-collapse{
+		border: none;
+		box-shadow: none;
 	}
 	.logo img {
 		background: white;
+		width: 100%;
+		max-width: 100%;
+		height: auto;
 	}
 	.logo {
 		padding: 0px;
+		float:left;
 	}
 
 	.payment_icon img{
@@ -4358,6 +4382,25 @@ paypal pro styles
 	.mainimage.bigimage img {
 		max-width: 300px;
 		max-height: 300px;
+	}
+
+	.form-horizontal{
+		margin-right: 20px;
+		margin-left: 20px;
+	}
+
+	#SubscriberFrm .form-group{
+		margin-left: -40px;
+		margin-right: -40px;
+	}
+	#ContactUsFrm .form-group{
+		padding-left: 50px;
+	}
+
+	#ContactUsFrm button{
+		margin-left: 5px;
+		margin-right: 5px;
+		margin-top: 20px;
 	}
 }
 

@@ -18,10 +18,6 @@
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 
-if (!defined('DIR_CORE')) {
-    header('Location: static_pages/');
-}
-
 /**
  * Class ExtensionDefaultPpPro
  */
@@ -55,6 +51,9 @@ class ExtensionDefaultPpPro extends Extension
     //Hook to enable payment details tab in admin
     public function onControllerPagesSaleOrderTabs_UpdateData()
     {
+        /**
+         * @var $that ControllerPagesSaleOrderTabs
+         */
         $that = $this->baseObject;
         $order_id = $that->data['order_id'];
         $order_info = $that->model_sale_order->getOrder($order_id);
@@ -78,6 +77,9 @@ class ExtensionDefaultPpPro extends Extension
     //Hook to payment details page to show information
     public function onControllerPagesSaleOrder_UpdateData()
     {
+        /**
+         * @var $that ControllerPagesSaleOrder
+         */
         $that = $this->baseObject;
         //are we logged to admin and correct method called?
         if (IS_ADMIN && $that->user->isLogged() && $this->baseObject_method == 'payment_details' && has_value($that->data['order_info']['payment_method_data'])) {
@@ -103,6 +105,7 @@ class ExtensionDefaultPpPro extends Extension
                     $tpl_data = $this->_get_refund_form($data, $payment_method_data);
                 }
 
+
                 $view = new AView($this->registry, 0);
                 $view->batchAssign($that->language->getASet('default_pp_pro/default_pp_pro'));
                 $view->batchAssign($tpl_data);
@@ -116,9 +119,13 @@ class ExtensionDefaultPpPro extends Extension
      * @param array $payment_method_data
      *
      * @return array
+     * @throws AException
      */
     private function _get_capture_form($data = array(), $payment_method_data = array())
     {
+        /**
+         * @var $that ControllerPagesSaleOrder
+         */
         $that = $this->baseObject;
 
         $captured_amount = has_value($payment_method_data['captured_amount']) ? (float)$payment_method_data['captured_amount'] : 0;
@@ -160,12 +167,16 @@ class ExtensionDefaultPpPro extends Extension
     /**
      * @param array $data
      * @param array $payment_method_data
-     * @param int   $not_refunded
+     * @param int $not_refunded
      *
      * @return array
+     * @throws AException
      */
     private function _get_refund_form($data = array(), $payment_method_data = array(), $not_refunded = 0)
     {
+        /**
+         * @var $that ControllerPagesSaleOrder
+         */
         $that = $this->baseObject;
         $refunded_amount = has_value($payment_method_data['refunded_amount']) ? (float)$payment_method_data['refunded_amount'] : 0;
 
@@ -181,7 +192,7 @@ class ExtensionDefaultPpPro extends Extension
 
         if ((float)$refunded_amount > 0) {
             $data['payment_status'] = $that->language->get('text_partially_refunded');
-            $data['refunded_amount'] = $that->currency->format($refunded_amount, $that->data['currency']['code'], $that->data['order_info']['value']);
+            $data['refunded_amount'] = $that->currency->format($refunded_amount, $that->data['order_info']['currency'],1);
         }
 
         if ((float)$refunded_amount < $not_refunded) {

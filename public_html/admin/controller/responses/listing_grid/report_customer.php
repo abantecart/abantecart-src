@@ -37,6 +37,7 @@ class ControllerResponsesListingGridReportCustomer extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadModel('report/customer');
+        $this->loadLanguage('report/customer/online');
         $this->load->library('json');
 
         //Prepare filter config
@@ -65,6 +66,11 @@ class ControllerResponsesListingGridReportCustomer extends AController
         $results = $this->model_report_customer->getOnlineCustomers($filter_params);
         $i = 0;
         foreach ($results as $result) {
+            $url = $result['url'];
+            if( $result['referer'] && $result['url'] != $result['referer'] ){
+                $url .= '<br>'.$this->language->get('text_referer').'<br>'.$result['referer'];
+            }
+
             $response->rows[$i]['id'] = $result['customer_id'];
             //mark inactive customers.
             if ($result['status'] != 1) {
@@ -75,7 +81,7 @@ class ControllerResponsesListingGridReportCustomer extends AController
                 $result['ip'],
                 dateISO2Display($result['date_added'],
                     $this->language->get('date_format_short').' '.$this->language->get('time_format')),
-                $result['url'],
+                $url,
             );
             $i++;
         }

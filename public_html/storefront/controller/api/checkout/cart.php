@@ -159,6 +159,27 @@ class ControllerApiCheckoutCart extends AControllerAPI
                         'name'  => $option['name'],
                         'value' => $option['value'],
                     );
+                    // product image by option value
+                    $mSizes = array(
+                        'main'  =>
+                            array(
+                                'width' => $this->config->get('config_image_cart_width'),
+                                'height' => $this->config->get('config_image_cart_height')
+                            ),
+                        'thumb' => array(
+                            'width' =>  $this->config->get('config_image_cart_width'),
+                            'height' => $this->config->get('config_image_cart_height')
+                        ),
+                    );
+                    $main_image =
+                        $resource->getResourceAllObjects('product_option_value', $option['product_option_value_id'], $mSizes, 1, false);
+                    if (!empty($main_image)) {
+                        $thumbnail['origin'] = $main_image['origin'];
+                        $thumbnail['title'] = $main_image['title'];
+                        $thumbnail['description'] = $main_image['description'];
+                        $thumbnail['thumb_html'] = $main_image['thumb_html'];
+                        $thumbnail['thumb_url'] = $main_image['thumb_url'];
+                    }
                 }
 
                 $price_with_tax = $this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'));

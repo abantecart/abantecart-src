@@ -906,10 +906,15 @@ h4, .h4 {
    border-radius: 0 0 2px 2px;
 }
 
+.nav-tabs > li {
+   margin-bottom: 1px;
+}
+
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
-   background-color: #fcfcfc;
+   background-color: #064770;
+   color: #fff;
    border: 0;
 }
 

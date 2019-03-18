@@ -165,7 +165,7 @@ class ControllerPagesCatalogCategory extends AController
             $grid_settings['multiaction_class'] = 'hidden';
         }
 
-        $results = $this->model_catalog_category->getCategories(0);
+        $results = $this->model_catalog_category->getCategories(0, $this->config->get('config_store_id'));
         $parents = array(
             'null' => $this->language->get('text_select_all'),
             0      => $this->language->get('text_top_level'),

@@ -268,7 +268,6 @@ class ModelInstall extends Model
             }
 
             $db->query("SET CHARACTER SET utf8;");
-            $db->query("SET @@session.sql_mode = 'MYSQL40';");
             $salt_key = genToken(8);
             $db->query(
                 "INSERT INTO `".$data['db_prefix']."users`
@@ -283,7 +282,7 @@ class ModelInstall extends Model
 
             $db->query("UPDATE `".$data['db_prefix']."settings` SET value = '".$db->escape($data['email'])."' WHERE `key` = 'store_main_email'; ");
             $db->query("UPDATE `".$data['db_prefix']."settings` SET value = '".$db->escape(HTTP_ABANTECART)."' WHERE `key` = 'config_url'; ");
-            if (HTTPS === true) {
+            if (defined('HTTPS') &&  HTTPS === true) {
                 $db->query("UPDATE `".$data['db_prefix']."settings` SET value = '".$db->escape(HTTP_ABANTECART)."' WHERE `key` = 'config_ssl_url'; ");
                 $db->query("UPDATE `".$data['db_prefix']."settings` SET value = '2' WHERE `key` = 'config_ssl'; ");
             }
@@ -377,7 +376,6 @@ class ModelInstall extends Model
                 }
             }
             $db->query("SET CHARACTER SET utf8");
-            $db->query("SET @@session.sql_mode = 'MYSQL40'");
         }
         //clear earlier created cache by AConfig and ALanguage classes in previous step
         $cache = new ACache();

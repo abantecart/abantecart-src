@@ -8,7 +8,7 @@
    Copyright © 2011-2018 Belavier Commerce LLC
 
    This source file is subject to Open Software License (OSL 3.0)
-   Lincence details is bundled with this package in the file LICENSE.txt.
+   License details is bundled with this package in the file LICENSE.txt.
    It is also available at this URL:
    <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -41,13 +41,11 @@ class ControllerResponsesExtensionDefaultTwilio extends AController
         $sender = new \Twilio\Rest\Client($AccountSid, $AuthToken);
         $to = preg_replace('/[^0-9\+]/', '', $this->request->get['to']);
 
-        if ($this->config->get('default_twilio_test')) {
-            //sandbox number without errors from api
-            $from = '+15005550006';
-        } else {
-            $from = $this->config->get('default_twilio_sender_phone');
-            $from = '+'.ltrim($from, '+');
-        }
+
+        $from = $this->config->get('default_twilio_sender_phone');
+
+        $from = $from ? '+'.ltrim($from, '+') : '';
+
         $error_message = '';
         try {
             $sender->messages->create(

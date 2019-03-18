@@ -53,3 +53,18 @@
 	
 </form>
 </div>
+ <div id="privacyPolicyModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="privacyPolicyModalLabel" aria-hidden="true">
+ 	<div class="modal-dialog">
+ 		<div class="modal-content">
+ 			<div class="modal-header">
+ 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+ 				<h3 id="privacyPolicyModalLabel"><?php echo $text_agree_href_text; ?></h3>
+ 			</div>
+ 			<div class="modal-body">
+ 			</div>
+ 			<div class="modal-footer">
+ 				<button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo $text_close; ?></button>
+ 			</div>
+ 		</div>
+ 	</div>
+ </div>

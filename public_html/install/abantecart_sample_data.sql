@@ -260,16 +260,25 @@ INSERT INTO `ac_block_descriptions` VALUES (20,11,1,'0',0,'Main Page Banner Bott
 INSERT INTO `ac_block_descriptions` VALUES (18,10,1,'0',0,'Main Page Promo','Promo','','	&lt;section class=&quot;row promo_section&quot;&gt;\r\n	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;\r\n		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-truck fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;\r\n		&lt;div class=&quot;promo_text&quot;&gt;\r\n			&lt;h2&gt;\r\n				Free shipping&lt;/h2&gt;\r\n			All over in world over $200\r\n		&lt;/div&gt;\r\n	&lt;/div&gt;\r\n	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;\r\n		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-money fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;\r\n		&lt;div class=&quot;promo_text&quot;&gt;\r\n			&lt;h2&gt;\r\n				Easy Payment&lt;/h2&gt;\r\n			Payment Gateway support&lt;/div&gt;\r\n	&lt;/div&gt;\r\n	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;\r\n		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-clock-o fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;\r\n		&lt;div class=&quot;promo_text&quot;&gt;\r\n			&lt;h2&gt;\r\n				24hrs Shipping&lt;/h2&gt;\r\n			For All US States&lt;/div&gt;\r\n	&lt;/div&gt;\r\n	&lt;div class=&quot;col-md-3 col-xs-6 promo_block&quot;&gt;\r\n		&lt;div class=&quot;promo_icon&quot;&gt;&lt;i class=&quot;fa fa-tags fa-fw&quot;&gt;&lt;/i&gt;&lt;/div&gt;\r\n		&lt;div class=&quot;promo_text&quot;&gt;\r\n			&lt;h2&gt;\r\n				Large Variety&lt;/h2&gt;\r\n			50,000+ Products&lt;/div&gt;\r\n	&lt;/div&gt;\r\n	&lt;/section&gt;','2015-06-12 09:56:24','2015-06-12 09:56:24');
 INSERT INTO `ac_block_descriptions` VALUES (16,9,1,'blocks/banner_block/one_by_one_slider_banner_block.tpl',0,'Main Page Banner Slider','Main Page Banner Slider','','a:1:{s:17:\"banner_group_name\";s:17:\"Main Page Banners\";}','2015-06-12 09:56:24','2015-06-12 09:56:24');
 
-INSERT INTO `ac_custom_lists` VALUES (1,12,'manufacturer_id',12,0,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_custom_lists` VALUES (2,12,'manufacturer_id',14,0,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_custom_lists` VALUES (3,12,'manufacturer_id',13,0,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_custom_lists` VALUES (4,12,'manufacturer_id',18,0,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_custom_lists` VALUES (5,12,'manufacturer_id',19,0,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_custom_lists` VALUES (6,12,'manufacturer_id',20,0,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_custom_lists` VALUES (7,12,'manufacturer_id',15,0,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_custom_lists` VALUES (8,12,'manufacturer_id',11,0,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_custom_lists` VALUES (9,12,'manufacturer_id',17,0,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_custom_lists` VALUES (10,12,'manufacturer_id',16,0,'2015-06-12 09:56:24','2015-06-12 09:56:24');
+INSERT INTO `ac_custom_lists`
+(`rowid`,
+  `custom_block_id`,
+  `data_type`,
+  `id`,
+  `store_id`,
+  `sort_order`,
+  `date_added`,
+  `date_modified`)
+VALUES (1,12,'manufacturer_id',12,0,0,NOW(),NOW()),
+(2,12,'manufacturer_id',14,0,0,NOW(),NOW()),
+(3,12,'manufacturer_id',13,0,0,NOW(),NOW()),
+(4,12,'manufacturer_id',18,0,0,NOW(),NOW()),
+(5,12,'manufacturer_id',19,0,0,NOW(),NOW()),
+(6,12,'manufacturer_id',20,0,0,NOW(),NOW()),
+(7,12,'manufacturer_id',15,0,0,NOW(),NOW()),
+(8,12,'manufacturer_id',11,0,0,NOW(),NOW()),
+(9,12,'manufacturer_id',17,0,0,NOW(),NOW()),
+(10,12,'manufacturer_id',16,0,0,NOW(),NOW());
 
 --
 -- Dumping data for table `customers`

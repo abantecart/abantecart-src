@@ -66,4 +66,9 @@
 		<key>text_connection_success</key>
 		<value><![CDATA[Connection is successful and API Credentials are configured correctly.]]></value>
 	</definition>
+	<definition>
+		<key>default_twilio_sender_phone</key>
+		<value>
+			<![CDATA[Sender (Twilio) Phone: <span class="help">Phone number of sender in international format (ex. +14158675309)</span>]]></value>
+	</definition>
 </definitions>

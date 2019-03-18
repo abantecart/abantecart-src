@@ -169,22 +169,29 @@ class AListing
     }
 
     /**
+     * @param int $store_id
+     *
      * @return array
      */
-    public function getCustomList()
+    public function getCustomList($store_id=0)
     {
-        if (!$this->custom_block_id) {
+        $store_id = (int)$store_id;
+        if (!(int)$this->custom_block_id) {
             return array();
         }
+
         $custom_block_id = (int)$this->custom_block_id;
-        $cache_key = 'blocks.custom.'.$custom_block_id;
+        $cache_key = 'blocks.custom.'.$custom_block_id.$store_id;
         $output = $this->cache->pull($cache_key);
+
         if ($output !== false) {
             return $output;
         }
+
         $result = $this->db->query("SELECT *
 									FROM `".$this->db->table('custom_lists')."`
 									WHERE custom_block_id = '".$custom_block_id."'
+									 AND store_id = '".$store_id."'
 									ORDER BY sort_order");
         $output = $result->rows;
         $this->cache->push($cache_key, $output);

@@ -77,7 +77,7 @@
 			dataType: 'json',
 			data: data,
 			success: function (data) {
-				if (data.total) {
+				if (data && data.total) {
 					$('#orderProductFrm_product0price').val(data.price);
 					$('#orderProductFrm_product0total').val(data.total);
 				}

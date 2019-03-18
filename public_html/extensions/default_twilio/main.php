@@ -3,7 +3,7 @@
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
-
+require_once('core/lib/default_twilio.php');
 $controllers = array(
     'storefront' => array(),
     'admin'      => array('responses/extension/default_twilio'),

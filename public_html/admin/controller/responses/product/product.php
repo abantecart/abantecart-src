@@ -17,11 +17,8 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE') || !IS_ADMIN) {
-    header('Location: static_pages/');
-}
 
-/** @noinspection PhpUndefinedClassInspection */
+
 class ControllerResponsesProductProduct extends AController
 {
     public $error = array();
@@ -467,7 +464,8 @@ class ControllerResponsesProductProduct extends AController
 
             $this->data['remove_option'] = $this->html->getSecureURL(
                 'product/product/del_option',
-                '&product_id='.$product_id.'&option_id='.$option_id);
+                '&product_id='.$product_id.'&option_id='.$option_id
+            );
 
             $this->data['button_remove_option'] = $this->html->buildElement(array(
                 'type'  => 'button',
@@ -486,7 +484,10 @@ class ControllerResponsesProductProduct extends AController
                 'style' => 'button2',
             ));
 
-            $this->data['update_option_values'] = $this->html->getSecureURL('product/product/update_option_values', '&product_id='.$product_id.'&option_id='.$option_id);
+            $this->data['update_option_values'] = $this->html->getSecureURL(
+                'product/product/update_option_values',
+                '&product_id='.$product_id.'&option_id='.$option_id
+            );
 
             // form of option values list
             $form = new AForm('HT');
@@ -585,13 +586,21 @@ class ControllerResponsesProductProduct extends AController
 
         //remove html-code from textarea product option
         if (in_array($option_info['element_type'], array('T', 'B'))) {
-            foreach ($this->request->post['name'] as &$v) {
+            foreach ((array)$this->request->post['name'] as &$v) {
                 $v = strip_tags(html_entity_decode($v, ENT_QUOTES, 'UTF-8'));
                 $v = str_replace('\r\n', "\n", $v);
             }
         }
 
         $this->model_catalog_product->updateProductOptionValues($this->request->get['product_id'], $this->request->get['option_id'], $this->request->post);
+
+        foreach((array)$this->request->post['stock_location'] as $product_option_value_id => $stock_locations) {
+            $this->model_catalog_product->updateProductStockLocations(
+                $stock_locations,
+                $this->request->get['product_id'],
+                $product_option_value_id);
+        }
+
         $this->session->data['success'] = $this->language->get('text_success_option');
 
         //update controller data
@@ -605,8 +614,9 @@ class ControllerResponsesProductProduct extends AController
      *
      * @return string
      */
-    private function _option_value_form($form)
+    protected function _option_value_form($form)
     {
+        $this->data['form'] = array();
         $this->data['option_attribute'] = $this->attribute_manager->getAttributeByProductOptionId($this->request->get['option_id']);
         $this->data['option_attribute']['values'] = array();
 
@@ -631,7 +641,10 @@ class ControllerResponsesProductProduct extends AController
                     $values = $this->attribute_manager->getAttributeValues($attribute['attribute_id'], $this->language->getContentLanguageID());
 
                     foreach ($values as $v) {
-                        $this->data['option_attribute']['group'][$option_id]['values'][$v['attribute_value_id']] = addslashes(html_entity_decode($v['value'], ENT_COMPAT, 'UTF-8'));
+                        $this->data['option_attribute']['group'][$option_id]['values'][$v['attribute_value_id']] = addslashes(
+                                html_entity_decode($v['value'],
+                                ENT_COMPAT,
+                                'UTF-8'));
                     }
                 }
             }
@@ -644,6 +657,7 @@ class ControllerResponsesProductProduct extends AController
                         $this->data['option_attribute']['attribute_id'],
                         $this->language->getContentLanguageID()
                     );
+
                 } else {
                     $values = $this->getProductOptionValues(
                         $this->data['option_attribute']['attribute_id'],
@@ -658,17 +672,36 @@ class ControllerResponsesProductProduct extends AController
 
         }
 
-        $this->data['cancel'] = $this->html->getSecureURL('product/product/load_option', '&product_id='.$this->request->get['product_id'].'&option_id='.$this->request->get['option_id']);
+        $this->data['cancel'] = $this->html->getSecureURL(
+            'product/product/load_option',
+            '&product_id='.$this->request->get['product_id'].'&option_id='.$this->request->get['option_id']
+        );
 
         if (isset($this->request->get['product_option_value_id'])) {
             $this->data['row_id'] = 'row'.$product_option_value_id;
             $this->data['attr_val_id'] = $product_option_value_id;
-            $item_info = $this->model_catalog_product->getProductOptionValue($this->request->get['product_id'], $product_option_value_id);
+            $item_info = $this->model_catalog_product->getProductOptionValue(
+                $this->request->get['product_id'],
+                $product_option_value_id
+            );
         } else {
             $this->data['row_id'] = 'new_row';
         }
 
-        $fields = array('default', 'name', 'sku', 'quantity', 'subtract', 'price', 'prefix', 'sort_order', 'weight', 'weight_type', 'attribute_value_id', 'children_options');
+        $fields = array(
+            'default',
+            'name',
+            'sku',
+            'quantity',
+            'subtract',
+            'price',
+            'prefix',
+            'sort_order',
+            'weight',
+            'weight_type',
+            'attribute_value_id',
+            'children_options'
+        );
         foreach ($fields as $f) {
             if (isset($this->request->post[$f])) {
                 $this->data[$f] = $this->request->post[$f];
@@ -696,7 +729,6 @@ class ControllerResponsesProductProduct extends AController
                         'options' => $data['values'],
                         'attr'    => '',
                     )).'<span><br class="clr_both">';
-
             }
         } else {
             if (in_array($this->data['option_attribute']['element_type'], $this->data['elements_with_options'])) {
@@ -708,7 +740,7 @@ class ControllerResponsesProductProduct extends AController
                 ));
             } else {
                 if ($this->data['option_attribute']['element_type'] == 'U') {
-                    //for file there is no option value 	
+                    //for file there is no option value
                     $this->data['form']['fields']['option_value'] = '';
                 } else {
 
@@ -750,11 +782,19 @@ class ControllerResponsesProductProduct extends AController
             'name'  => 'sku['.$product_option_value_id.']',
             'value' => $this->data['sku'],
         ));
+        $stock_locations = null;
+        if($this->data['subtract']){
+            $stock_locations = $this->model_catalog_product->getProductStockLocations(
+                (int)$this->request->get['product_id'],
+                $product_option_value_id
+            );
+        }
         $this->data['form']['fields']['quantity'] = $form->getFieldHtml(array(
             'type'  => 'input',
             'name'  => 'quantity['.$product_option_value_id.']',
             'value' => $this->data['quantity'],
             'style' => 'small-field',
+            'attr'  => ($stock_locations && $this->data['subtract'] ? 'disabled':'')
         ));
         $this->data['form']['fields']['subtract'] = $form->getFieldHtml(array(
             'type'    => 'selectbox',
@@ -833,8 +873,18 @@ class ControllerResponsesProductProduct extends AController
             'options' => $wht_options,
         ));
 
-        $resources_html = $this->dispatch('responses/common/resource_library/get_resources_html');
-        $this->data['resources_html'] = $resources_html->dispatchGetOutput();
+        //do not show RL and stock locations for new row
+        if($product_option_value_id) {
+            $dd = new ADispatcher(
+                'responses/product/product/stockLocations',
+                array((int)$this->request->get['product_id'], $product_option_value_id)
+            );
+            $this->data['form']['fields']['stock_locations'] =
+                $dd->dispatchGetOutput('responses/product/product/stockLocations');
+
+            $resources_html = $this->dispatch('responses/common/resource_library/get_resources_html');
+            $this->data['resources_html'] = $resources_html->dispatchGetOutput();
+        }
 
         $this->view->batchAssign($this->data);
         return $this->view->fetch('responses/product/option_value_row.tpl');
@@ -851,13 +901,16 @@ class ControllerResponsesProductProduct extends AController
         if (!$language_id) {
             $language_id = $this->language->getContentLanguageID();
         }
-        $query = $this->db->query("SELECT pov.*, povd.name as value
-									FROM `".$this->db->table('product_options')."` po
-									LEFT JOIN `".$this->db->table('product_option_values')."` pov ON po.product_option_id = pov.product_option_id
-									LEFT JOIN `".$this->db->table('product_option_value_descriptions')."` povd
-										ON ( pov.product_option_value_id = povd.product_option_value_id AND povd.language_id = '".(int)$language_id."' )
-									WHERE po.attribute_id = '".$this->db->escape($attribute_id)."'
-									ORDER BY pov.sort_order");
+        $query = $this->db->query(
+            "SELECT ga.*, gad.value, pov.product_option_value_id
+            FROM ".$this->db->table("global_attributes_values")." ga
+                LEFT JOIN ".$this->db->table("global_attributes_value_descriptions")." gad
+                ON ( ga.attribute_value_id = gad.attribute_value_id AND gad.language_id = '".(int)$language_id."' )
+            LEFT JOIN `".$this->db->table('product_option_values')."` pov 
+                ON pov.attribute_value_id = ga.attribute_value_id
+            WHERE ga.attribute_id = '".$this->db->escape($attribute_id)."'
+            ORDER BY sort_order"
+        );
         return $query->rows;
     }
 
@@ -1657,6 +1710,96 @@ class ControllerResponsesProductProduct extends AController
 
         $this->view->batchAssign($this->data);
         $this->processTemplate('responses/product/product_form.tpl');
+    }
+
+
+    public function stockLocations($product_id = 0, $product_option_value_id = null)
+    {
+
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+
+        $product_id = $product_id ? (int)$product_id : $this->request->get['product_id'];
+        $product_option_value_id = $product_option_value_id ? (int)$product_option_value_id : $this->request->get['product_option_value_id'];
+        $this->data['product_option_value_id'] = $product_option_value_id;
+
+        if(!$product_option_value_id){
+            $this->data['save_url'] = $this->html->getSecureURL('listing_grid/product/update_field', '&id='.$product_id);
+        }
+
+        $this->loadLanguage('catalog/product');
+        $this->loadModel('catalog/product');
+        $locations = $this->model_catalog_product->getProductStockLocations($product_id, $product_option_value_id);
+
+        foreach($locations as $row){
+            $location_id = $row['location_id'];
+            $this->data['locations'][$location_id] =
+                array(
+                    'name' => $row['name'].' '.$row['description'],
+                    'quantity' =>
+                            $this->html->buildElement(
+                                array(
+                                    'type' => 'input',
+                                    'name' =>
+                                        'stock_location'.($product_option_value_id ? "[".$product_option_value_id."]":"").'['.$location_id.'][quantity]',
+
+                                    'value'=> $row['quantity']
+                                )
+                            ),
+                    'sort_order' =>
+                            $this->html->buildElement(
+                                array(
+                                    'type' => 'input',
+                                    'name' => 'stock_location'.($product_option_value_id ? "[".$product_option_value_id."]":"").'['.$location_id.'][sort_order]',
+                                    'value'=> $row['sort_order']
+                                )
+                            )
+                );
+        }
+
+        $this->loadModel('localisation/location');
+
+        $all_locations = $this->model_localisation_location->getLocations();
+        $options = array($this->language->get('text_select'));
+        foreach($all_locations as $row) {
+            $options[ $row['location_id'] ] = $row['name'].' '.$row['description'];
+        }
+
+        $this->data['all_locations'] =
+            array(
+                'location_list' =>  $this->html->buildElement(
+                                                array(
+                                                    'type' => 'selectbox',
+                                                    'name' => 'location_list',
+                                                    'options'=> $options,
+                                                    'disabled_options' => array_keys((array)$this->data['locations']),
+                                                    'style' => 'static_field'
+                                                )
+                                            ),
+                'quantity' => $this->html->buildElement(
+                            array(
+                                'type' => 'input',
+                                'name' => 'stock_location'.($product_option_value_id ? "[".$product_option_value_id."]":"").'[0][quantity]',
+                                'value'=> '',
+                                'style' => 'stock_location_quantity static_field hidden',
+                            )
+                        ),
+                'sort_order' => $this->html->buildElement(
+                            array(
+                                'type' => 'input',
+                                'name' => 'stock_location'.($product_option_value_id ? "[".$product_option_value_id."]":"").'[0][sort_order]',
+                                'value'=> '',
+                                'style' => 'stock_location_sort_order static_field hidden',
+                            )
+                        )
+            );
+
+
+
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        $this->view->batchAssign($this->data);
+        $this->processTemplate('responses/product/product_stock_locations.tpl');
     }
 
 }

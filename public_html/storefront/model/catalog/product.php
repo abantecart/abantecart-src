@@ -77,7 +77,7 @@ class ModelCatalogProduct extends Model
             $track_status += (int)$row['subtract'];
         }
         //if no options - check whole product subtract
-        if (!$track_status && !$query->num_rows) {
+        if (!$track_status) {
             //check main product
             $query = $this->db->query("SELECT subtract
                                     FROM ".$this->db->table("products")." p
@@ -152,13 +152,14 @@ class ModelCatalogProduct extends Model
      *
      * @param int $product_id
      *
-     * @return int|true - integer as quantity, true as availability when trackstock is off
+     * @return int
      */
     public function hasAnyStock($product_id)
     {
         if (!(int)$product_id) {
             return 0;
         }
+        $trackable = false;
         $total_quantity = 0;
         //check product option values
         $query = $this->db->query("SELECT pov.quantity AS quantity, pov.subtract
@@ -167,25 +168,31 @@ class ModelCatalogProduct extends Model
 										ON (po.product_option_id = pov.product_option_id)
 									WHERE po.product_id = '".(int)$product_id."' AND po.status = 1");
         if ($query->num_rows) {
-            $notrack_qnt = 0;
             foreach ($query->rows as $row) {
                 //if tracking of stock disabled - set quantity as big
                 if (!$row['subtract']) {
-                    $notrack_qnt += 10000000;
                     continue;
+                }else{
+                    $trackable = true;
                 }
                 $total_quantity += $row['quantity'] < 0 ? 0 : $row['quantity'];
             }
             //if some of option value have subtract NO - think product is available
-            if ($total_quantity == 0 && $notrack_qnt) {
+            if ($total_quantity == 0 && !$trackable) {
                 $total_quantity = true;
             }
-        } else {
+        }
+
+        if(!$trackable) {
             //get product quantity without options
-            $query = $this->db->query("SELECT quantity
+            $query = $this->db->query("SELECT quantity, subtract
 										FROM ".$this->db->table("products")." p
 										WHERE p.product_id = '".(int)$product_id."'");
-            $total_quantity = (int)$query->row['quantity'];
+            if($query->row['subtract']) {
+                $total_quantity = (int)$query->row['quantity'];
+            }else{
+                $total_quantity = true;
+            }
         }
         return $total_quantity;
     }
