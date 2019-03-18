@@ -1,3 +1,51 @@
+AbanteCart version 1.2.14
+
+This release comes with improvements, bug fixes and default extension updates.
+
+Core:
+- Stock multi-locations support for products and options
+- Testing with PHP 7.3 and warnings resolution
+- Testing with MySQL 8.0 and warnings resolution
+- Error backtrace and handling improvement
+- Refactoring related to csrf-tokens and backward compatibility
+- Cache related bug fixes and improvements
+- Fix to get remote IP while server behind Cloudflare or proxy
+- MySQL driver improvement
+
+Control Panel:
+- improvement of scheduled tasks running
+- Added column sku into order_products and order_options tables
+- Improve product tags filtering on product create and update
+- Improved UI for switch (on/off) buttons
+- Multi-store custom block content support
+- Product tags improvement
+- Multi-store blocks handling improvement
+- Form Manager fix for checkboxgroup/multiselectbox field type
+
+Storefront:
+- Added product listing layout
+- Manufacturers listing block fix
+- Menu language related bug fix
+- added new data-sources for auto-listing block (manufacturers, featured, bestsellers,latest)
+- Show options specific image for product in the cart and after purchase
+- Set logo container to be fixed width/height
+- Embed mode JavaScriot error bug fix.
+- Google Analytics ecommerce tracking fix
+
+Extensions:
+- Depricated Authorize.net AIM payment and replaced with new one
+- Stripe API and SDK update
+- Fix for parital payment issue with PayPal payment (in case of partial store cretid)
+- Resolved issue with PayPal refund with non-default currency.
+
+API:
+- Added subcategories handling to Storefront API
+
+Long list of improvements and bug fixes reported on the forum and github.
+
+
+------------------------------------------------------------
+
 AbanteCart version 1.2.13
 
 This release comes with improvements, bug fixes and default extension updates.
@@ -24,7 +72,7 @@ Storefront:
 - Add CSS class to BODY tag to identify pages.
 
 Extensions:
-- PayPal Standard and Express Improvment
+- PayPal Standard and Express improvement
 - Avatax integration
 - Fixes in CardConnect
 - Stripe payment update
@@ -36,7 +84,7 @@ API:
 - Add SEO data returned to API
 - Fix for latest product API and currency conversion rounding (rare case)
 
-Number of improvments and bug fixes reported on the forum and github.
+Number of improvements and bug fixes reported on the forum and github.
 
 
 ------------------------------------------------------------
