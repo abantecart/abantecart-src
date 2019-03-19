@@ -584,7 +584,7 @@ class ModelSaleOrder extends Model
                                           WHERE product_option_value_id = '".(int)$v."'
                                                 AND subtract = 1";
                                     $this->db->query($sql);
-                                    $this->updateStocksInLocations($product_id, (int)$v, $qnt_diff);
+                                    $this->updateStocksInLocations($product_id, (int)$v, $qnt_diff*-1);
                                 }
                             }
                         }
