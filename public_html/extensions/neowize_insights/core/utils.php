@@ -26,7 +26,7 @@ class NeowizeUtils
 
         // first make sure that PHP_MAJOR_VERSION and PHP_MINOR_VERSION exist. if not, the php version is too old..
         if (defined('PHP_MAJOR_VERSION') && defined('PHP_MINOR_VERSION')) {
-            // must be at least version 5.3
+            // must be at least version 5.6
             if (PHP_MAJOR_VERSION > 5 || (PHP_MAJOR_VERSION == 5 && PHP_MINOR_VERSION >= 3)) {
                 return true;
             }
