@@ -20,6 +20,7 @@ final class APDOMySQL
         try {
             $this->connection = new PDO("mysql:host=".$hostname.";port=".$port.";dbname=".$database,
                 $username, $password, array(PDO::ATTR_PERSISTENT => true));
+            $this->connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
         } catch (AException $e) {
             $err = new AError('Cannot establish database connection to '.$database.' using '.$username.'@'.$hostname);
             $err->toLog();
