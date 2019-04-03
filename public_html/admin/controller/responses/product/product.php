@@ -1769,11 +1769,13 @@ class ControllerResponsesProductProduct extends AController
             array(
                 'location_list' =>  $this->html->buildElement(
                                                 array(
-                                                    'type' => 'selectbox',
-                                                    'name' => 'location_list',
-                                                    'options'=> $options,
-                                                    'disabled_options' => array_keys((array)$this->data['locations']),
-                                                    'style' => 'static_field'
+                                                    'type'        => 'selectbox',
+                                                    'name'        => 'location_list'.($product_option_value_id ? $product_option_value_id:""),
+                                                    'value'       => array(),
+                                                    'options'     => $options,
+                                                    'style'       => 'chosen static_field',
+                                                    'placeholder' => $this->language->get('text_select'),
+                                                    'disabled_options' => array_keys((array)$this->data['locations'])
                                                 )
                                             ),
                 'quantity' => $this->html->buildElement(
@@ -1782,6 +1784,7 @@ class ControllerResponsesProductProduct extends AController
                                 'name' => 'stock_location'.($product_option_value_id ? "[".$product_option_value_id."]":"").'[0][quantity]',
                                 'value'=> '',
                                 'style' => 'stock_location_quantity static_field hidden',
+                                'attr'  => 'disabled'
                             )
                         ),
                 'sort_order' => $this->html->buildElement(
@@ -1790,6 +1793,7 @@ class ControllerResponsesProductProduct extends AController
                                 'name' => 'stock_location'.($product_option_value_id ? "[".$product_option_value_id."]":"").'[0][sort_order]',
                                 'value'=> '',
                                 'style' => 'stock_location_sort_order static_field hidden',
+                                'attr'  => 'disabled'
                             )
                         )
             );

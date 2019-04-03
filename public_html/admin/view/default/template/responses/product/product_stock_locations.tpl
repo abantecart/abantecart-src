@@ -48,20 +48,19 @@
 		if (location_id < 1) {
 			return false;
 		}
-		var location_list = wrapper.find("#location_list");
+		var location_list = wrapper.find("select[name^=location_list]");
 		var name_prefix = 'stock_location<?php echo $product_option_value_id ? "[".$product_option_value_id."]" : "";?>[' + location_id + ']';
-		row
-			.find('td')
+		row.find('td')
 			.first()
 			.html(location_list.find("option:selected").text());
 
 		row.find('input.stock_location_quantity')
 			.attr('name', name_prefix + '[quantity]')
-			.removeClass('hidden');
+			.removeClass('hidden').removeAttr('disabled');
 
 		row.find('input.stock_location_sort_order')
 			.attr('name', name_prefix + '[sort_order]')
-			.removeClass('hidden');
+			.removeClass('hidden').removeAttr('disabled');
 
 		row.find('td').last()
 			.html('<a id="remove_location_row"\n' +
@@ -91,8 +90,7 @@
 		location_list
 			.find("option:selected[value="+location_id+"]" )
 			.attr('disabled','disabled');
-
-		location_list.val(0);
+		location_list.val(0).trigger("chosen:updated");
 		return false;
 	}
 

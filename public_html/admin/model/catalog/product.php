@@ -2656,10 +2656,7 @@ class ModelCatalogProduct extends Model
 
     public function updateProductStockLocations($locations, $product_id, $product_option_value_id = 0)
     {
-        if (!$locations) {
-            return false;
-        }
-
+        //remove first
         $this->db->query(
             "DELETE
             FROM ".$this->db->table("product_stock_locations")." 
@@ -2668,6 +2665,11 @@ class ModelCatalogProduct extends Model
                 ? " AND (product_option_value_id='".(int)$product_option_value_id."' OR product_option_value_id IS NULL)"
                 : "")
         );
+
+        //if no locations set - stop
+        if (!$locations) {
+            return false;
+        }
 
         $totals = array();
         foreach ($locations as $location_id => $location_details) {
@@ -2679,9 +2681,7 @@ class ModelCatalogProduct extends Model
                     (product_id, product_option_value_id, location_id, quantity, sort_order)
                 VALUES( 
                     ".(int)$product_id.", 
-                    ".((int)$product_option_value_id
-                    ? (int)$product_option_value_id
-                    : 'NULL').", 
+                    ".((int)$product_option_value_id ? (int)$product_option_value_id : 'NULL').", 
                     ".(int)$location_id.", 
                     ".(int)$location_details['quantity'].", 
                     ".(int)$location_details['sort_order']."
@@ -2693,7 +2693,10 @@ class ModelCatalogProduct extends Model
 
         //update_total_quantity
         if (!$product_option_value_id) {
-            $this->db->query("UPDATE `".$this->db->table("products`")." SET quantity= '".(int)array_sum($totals)."'");
+            $this->db->query(
+                "UPDATE `".$this->db->table("products`")." 
+                SET quantity= '".(int)array_sum($totals)."'
+                WHERE product_id = ".(int)$product_id);
         } elseif (array_sum($totals)) {
             $this->db->query(
                 "UPDATE `".$this->db->table("product_option_values`")." 
