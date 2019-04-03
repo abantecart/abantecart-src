@@ -367,9 +367,16 @@ class ModelCatalogProduct extends Model
                 array($language_id => array('tag' => array_unique($tags))));
         }
 
-        if (isset($data['stock_location'])) {
-            $this->updateProductStockLocations($data['stock_location'], (int)$product_id);
+        if($data['stock_location']) {
+            $this->updateProductStockLocations($data['stock_location'], (int)$product_id, 0);
+        }else{
+            $this->db->query(
+                "DELETE
+                FROM ".$this->db->table("product_stock_locations")." 
+                WHERE product_id = ".(int)$product_id." AND product_option_value_id IS NULL"
+            );
         }
+
 
         $this->_touch_product($product_id);
     }
@@ -2654,16 +2661,15 @@ class ModelCatalogProduct extends Model
         return $result->rows;
     }
 
-    public function updateProductStockLocations($locations, $product_id, $product_option_value_id = 0)
+    public function updateProductStockLocations($locations, $product_id, $product_option_value_id)
     {
         //remove first
         $this->db->query(
             "DELETE
             FROM ".$this->db->table("product_stock_locations")." 
-            WHERE product_id = ".(int)$product_id
-            .((int)$product_option_value_id
-                ? " AND (product_option_value_id='".(int)$product_option_value_id."' OR product_option_value_id IS NULL)"
-                : "")
+            WHERE product_id = ".(int)$product_id."
+                    AND (product_option_value_id='".(int)$product_option_value_id."')"
+
         );
 
         //if no locations set - stop

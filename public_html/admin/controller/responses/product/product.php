@@ -594,7 +594,8 @@ class ControllerResponsesProductProduct extends AController
 
         $this->model_catalog_product->updateProductOptionValues($this->request->get['product_id'], $this->request->get['option_id'], $this->request->post);
 
-        foreach((array)$this->request->post['stock_location'] as $product_option_value_id => $stock_locations) {
+        foreach((array)$this->request->post['product_option_value_id'] as $product_option_value_id) {
+            $stock_locations = $this->request->post['stock_location'][$product_option_value_id];
             $this->model_catalog_product->updateProductStockLocations(
                 $stock_locations,
                 $this->request->get['product_id'],
@@ -1770,7 +1771,8 @@ class ControllerResponsesProductProduct extends AController
                 'location_list' =>  $this->html->buildElement(
                                                 array(
                                                     'type'        => 'selectbox',
-                                                    'name'        => 'location_list'.($product_option_value_id ? $product_option_value_id:""),
+                                                    'id'          => 'location_list'.($product_option_value_id ? $product_option_value_id:""),
+                                                    'name'        => 'location_list',
                                                     'value'       => array(),
                                                     'options'     => $options,
                                                     'style'       => 'chosen static_field',

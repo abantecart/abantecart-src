@@ -43,12 +43,12 @@
 	function addStockLocationRow<?php echo $product_option_value_id?>(elm) {
 		var wrapper = $(elm).parents('table.stock_locations');
 		var row = wrapper.find('tbody>tr').last().clone();
-		var location_id = wrapper.find("#location_list option:selected").attr('value');
+		var location_id = wrapper.find("select[name=location_list] option:selected").attr('value');
 
 		if (location_id < 1) {
 			return false;
 		}
-		var location_list = wrapper.find("select[name^=location_list]");
+		var location_list = wrapper.find("select[name=location_list]");
 		var name_prefix = 'stock_location<?php echo $product_option_value_id ? "[".$product_option_value_id."]" : "";?>[' + location_id + ']';
 		row.find('td')
 			.first()
@@ -79,7 +79,6 @@
 			});
 		<?php } ?>
 
-
 		wrapper.find('tbody').prepend(row);
 		<?php
 		if($product_option_value_id){ ?>
@@ -96,15 +95,13 @@
 
 	function removeStockLocationRow<?php echo $product_option_value_id?>(elm) {
 		var text = $(elm).closest('tr').find('td').first().html();
+		var location_list = $(elm).parents('table.stock_locations').find('select[name=location_list]');
 
-		$(elm)
-			.parents('table.stock_locations')
-			.find('#location_list option:contains(' + text + ')')
-			.removeAttr('disabled');
+		location_list.find('option:contains(' + text + ')').removeAttr('disabled');
+		location_list.trigger("chosen:updated");
 
 		var table = $(elm).closest('table');
 		$(elm).closest('tr').remove();
-
 
 		if(table.find('tbody>tr').length === 1){
 			<?php
