@@ -2669,13 +2669,13 @@ class ModelCatalogProduct extends Model
             return false;
         }
 
-
-
         $totals = array();
+        $locations_exists = false;
         foreach ($locations as $location_id => $location_details) {
             if (!(int)$location_id) {
                 continue;
             }
+
             $this->db->query(
                 "INSERT INTO ".$this->db->table("product_stock_locations")."
                     (product_id, product_option_value_id, location_id, quantity, sort_order)
@@ -2688,21 +2688,24 @@ class ModelCatalogProduct extends Model
                 );"
             );
 
+            $locations_exists = true;
             $totals[] = (int)$location_details['quantity'];
         }
 
         //update_total_quantity
-        if (!$product_option_value_id) {
-            $this->db->query(
-                "UPDATE `".$this->db->table("products`")." 
-                SET quantity= '".(int)array_sum($totals)."'
-                WHERE product_id = ".(int)$product_id);
-        } elseif (array_sum($totals)) {
-            $this->db->query(
-                "UPDATE `".$this->db->table("product_option_values`")." 
-                SET quantity= '".(int)array_sum($totals)."'
+        if($locations_exists) {
+            if (!$product_option_value_id) {
+                $this->db->query(
+                    "UPDATE `".$this->db->table("products`")." 
+                    SET quantity= '".(int)array_sum($totals)."'
+                    WHERE product_id = ".(int)$product_id);
+            } elseif (array_sum($totals)) {
+                $this->db->query(
+                    "UPDATE `".$this->db->table("product_option_values`")." 
+                    SET quantity= '".(int)array_sum($totals)."'
                     WHERE product_option_value_id=".(int)$product_option_value_id
-            );
+                );
+            }
         }
         return true;
     }
