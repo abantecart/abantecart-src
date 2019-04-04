@@ -386,9 +386,9 @@ class ModelSaleOrder extends Model
 
                     if ($qnt_diff != 0) {
                         if ($qnt_diff < 0) {
-                            $new_qnt = $stock_qnt + abs($qnt_diff);
+                            $new_qnt = $stock_qnt - abs($qnt_diff);
                         } else {
-                            $new_qnt = $stock_qnt - abs($qnt_diff);;
+                            $new_qnt = $stock_qnt + abs($qnt_diff);;
                         }
                         if ($product_info['subtract']) {
                             $sql = "UPDATE ".$this->db->table("products")."
