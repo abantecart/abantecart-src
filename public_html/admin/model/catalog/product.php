@@ -2117,7 +2117,7 @@ class ModelCatalogProduct extends Model
                 $sql = "SELECT *, p.product_id ";
                 $sql .= ", (SELECT 
                                 CASE WHEN SUM(COALESCE(ppov.subtract,0))>0
-                                 THEN SUM(COALESCE(ppov.quantity,0))
+                                 THEN SUM( CASE WHEN ppov.quantity > 0 THEN ppov.quantity ELSE 0 END)
                                 ELSE pp.quantity END as quantity
                             FROM ".$this->db->table("products")." pp
                             LEFT JOIN ".$this->db->table("product_options")." ppo
