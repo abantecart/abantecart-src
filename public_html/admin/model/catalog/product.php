@@ -2123,7 +2123,7 @@ class ModelCatalogProduct extends Model
                             LEFT JOIN ".$this->db->table("product_options")." ppo
                                 ON ppo.product_id = pp.product_id
                             LEFT JOIN  ".$this->db->table("product_option_values")." ppov
-                                ON (ppo.product_option_id = ppov.product_option_id)
+                                ON (ppo.product_option_id = ppov.product_option_id AND ppov.subtract>0)
                             WHERE pp.product_id = p.product_id
                             GROUP BY pp.product_id) as quantity ";
             }
