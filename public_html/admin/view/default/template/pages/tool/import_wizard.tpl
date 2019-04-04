@@ -91,7 +91,7 @@
 					<?php echo $col ?>
 					<input type="hidden" name="import_col[<?php echo $i ?>]" value="<?php echo $col ?>">
 				</td>
-				<td class="col-md-3"><?php echo $data[$i]; ?></td>
+				<td class="col-md-3" style="word-break: break-all;"><?php echo $data[$i]; ?></td>
 				<td class="col-md-4 table-field">
 					<?php foreach ($tables as $table_name => $tbl_data) { ?>
 					<div class="field_selector <?php echo $table_name; ?>_field hidden">
