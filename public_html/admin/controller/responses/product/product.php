@@ -596,10 +596,12 @@ class ControllerResponsesProductProduct extends AController
 
         foreach((array)$this->request->post['product_option_value_id'] as $product_option_value_id) {
             $stock_locations = $this->request->post['stock_location'][$product_option_value_id];
-            $this->model_catalog_product->updateProductStockLocations(
-                $stock_locations,
-                $this->request->get['product_id'],
-                $product_option_value_id);
+            if(!is_int(strpos($product_option_value_id,'new'))){
+                $this->model_catalog_product->updateProductStockLocations(
+                    $stock_locations,
+                    $this->request->get['product_id'],
+                    $product_option_value_id);
+            }
         }
 
         $this->session->data['success'] = $this->language->get('text_success_option');

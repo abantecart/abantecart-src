@@ -382,10 +382,12 @@ class ModelCheckoutOrder extends Model
 
         //update products inventory
         foreach ($order_product_query->rows as $product) {
-            $order_option_query = $this->db->query("SELECT *
-                                                    FROM ".$this->db->table("order_options")."
-                                                    WHERE order_id = '".(int)$order_id."'
-                                                       AND order_product_id = '".(int)$product['order_product_id']."'");
+            $order_option_query = $this->db->query("SELECT op.*, pov.subtract
+                                                    FROM ".$this->db->table("order_options")." op
+                                                    LEFT JOIN ".$this->db->table("product_option_values")." pov
+                                                        ON pov.product_option_value_id = op.product_option_value_id
+                                                    WHERE op.order_id = '".(int)$order_id."'
+                                                       AND op.order_product_id = '".(int)$product['order_product_id']."'");
             //update options stock
             $stock_updated = false;
             foreach ($order_option_query->rows as $option) {
@@ -393,15 +395,16 @@ class ModelCheckoutOrder extends Model
                                   SET quantity = (quantity - ".(int)$product['quantity'].")
                                   WHERE product_option_value_id = '".(int)$option['product_option_value_id']."'
                                         AND subtract = 1");
+                if($option['subtract']) {
+                    $this->saveOrderProductStocks(
+                        $product['order_product_id'],
+                        $product['product_id'],
+                        $option['product_option_value_id'],
+                        $product['quantity']
+                    );
+                    $stock_updated = true;
+                }
 
-                $this->saveOrderProductStocks(
-                    $product['order_product_id'],
-                    $product['product_id'],
-                    $option['product_option_value_id'],
-                    $product['quantity']
-                );
-
-                $stock_updated = true;
                 $sql = "SELECT quantity
                         FROM ".$this->db->table("product_option_values")."
                         WHERE product_option_value_id = '".(int)$option['product_option_value_id']."'
@@ -1000,7 +1003,9 @@ class ModelCheckoutOrder extends Model
                     SET quantity = ".(int)$new_qnty."
                     WHERE location_id= ".(int)$row['location_id']."
                      AND product_id = ".(int)$product_id
-                        .((int)$product_option_value_id ? " AND product_option_value_id='".(int)$product_option_value_id."' " : "");
+                        .((int)$product_option_value_id
+                        ? " AND product_option_value_id='".(int)$product_option_value_id."' "
+                        : " AND product_option_value_id IS NULL");
             $this->db->query($sql);
             //save stocks into order details
             $this->db->query(
