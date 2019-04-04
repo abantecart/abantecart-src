@@ -25,6 +25,9 @@ class ControllerCommonMenu extends AController
 {
 
     public $data = array();
+    protected $permission = array();
+    protected $groupID;
+    const TOP_ADMIN_GROUP = 1;
 
     public function main()
     {
@@ -33,6 +36,17 @@ class ControllerCommonMenu extends AController
 
         $menu = new ADataset ('menu', 'admin');
         $this->data['menu_items'] = $menu->getRows();
+
+        $this->loadModel('user/user_group');
+        $this->groupID = (int)$this->user->getUserGroupId();
+        if ($this->groupID !== self::TOP_ADMIN_GROUP) {
+            $user_group = $this->model_user_user_group->getUserGroup($this->groupID);
+            $this->permissions = $user_group['permission'];
+        }
+
+        foreach ($menu_items as $item) {
+            $this->data['menu_items'][] = $item;
+        }
 
         //use to update data before render
         $this->extensions->hk_ProcessData($this);
@@ -150,6 +164,10 @@ class ControllerCommonMenu extends AController
 
                 if ($childen) {
                     $temp['children'] = $childen;
+                }
+                elseif ($this->groupID !== self::TOP_ADMIN_GROUP && !$this->permissions['access'][$rt]) {
+                    //skip top menus with no access permission
+                    continue;
                 }
 
                 $result[$item['item_id']] = $temp;
