@@ -1732,6 +1732,12 @@ class ControllerResponsesProductProduct extends AController
         $this->loadModel('catalog/product');
         $locations = $this->model_catalog_product->getProductStockLocations($product_id, $product_option_value_id);
 
+        $this->data['zero_location'] = $this->html->buildElement(
+            array(
+                'type' => 'hidden',
+                'name' => 'stock_location'.($product_option_value_id ? "[".$product_option_value_id."]":"").'[0][]',
+            )
+        );
         foreach($locations as $row){
             $location_id = $row['location_id'];
             $this->data['locations'][$location_id] =

@@ -24,7 +24,9 @@
 		</tr>
     <?php } ?>
 	<tr>
-		<td><?php echo $all_locations['location_list']; ?></td>
+		<td><?php
+			echo $zero_location;
+			echo $all_locations['location_list']; ?></td>
 		<td><?php echo $all_locations['quantity']; ?></td>
 		<td><?php echo $all_locations['sort_order']; ?></td>
 		<td>

@@ -369,14 +369,7 @@ class ModelCatalogProduct extends Model
 
         if($data['stock_location']) {
             $this->updateProductStockLocations($data['stock_location'], (int)$product_id, 0);
-        }else{
-            $this->db->query(
-                "DELETE
-                FROM ".$this->db->table("product_stock_locations")." 
-                WHERE product_id = ".(int)$product_id." AND product_option_value_id IS NULL"
-            );
         }
-
 
         $this->_touch_product($product_id);
     }
@@ -2668,14 +2661,15 @@ class ModelCatalogProduct extends Model
             "DELETE
             FROM ".$this->db->table("product_stock_locations")." 
             WHERE product_id = ".(int)$product_id."
-                    AND (product_option_value_id='".(int)$product_option_value_id."')"
-
+                    AND product_option_value_id ".( (int)$product_option_value_id ?  " = ".(int)$product_option_value_id : "IS NULL" )
         );
 
         //if no locations set - stop
         if (!$locations) {
             return false;
         }
+
+
 
         $totals = array();
         foreach ($locations as $location_id => $location_details) {
