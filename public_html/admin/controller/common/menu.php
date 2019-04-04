@@ -44,10 +44,6 @@ class ControllerCommonMenu extends AController
             $this->permissions = $user_group['permission'];
         }
 
-        foreach ($menu_items as $item) {
-            $this->data['menu_items'][] = $item;
-        }
-
         //use to update data before render
         $this->extensions->hk_ProcessData($this);
 
