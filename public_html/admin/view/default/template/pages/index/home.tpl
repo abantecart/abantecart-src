@@ -21,7 +21,9 @@
 	</div>
 </div>
 
+<?php if ($vieworder || $viewcustomer) { ?>
 <div class="row">
+	<?php if ($vieworder) { ?>
 	<div class="col-sm-6 col-lg-6">
 		<div class="panel panel-default">
 			<div class="panel-body">
@@ -75,7 +77,9 @@
 			</div>
 		</div>
 	</div>
+	<?php } ?>
 
+	<?php if ($viewcustomer) { ?>
 	<div class="col-sm-6 col-lg-6">
 		<div class="panel panel-default">
 			<div class="panel-body">
@@ -125,7 +129,9 @@
 			</div>
 		</div>
 	</div>
+	<?php } ?>
 </div>
+<?php } ?>
 
 <div class="row">
 	<div class="col-sm-5 col-lg-5">
@@ -136,9 +142,11 @@
 
 				<div class="table-responsive">
 					<table class="table">
+						<?php if ($vieworder) { ?>
 						<tr class="success">
 							<td width="80%"><?php echo $text_total_sale; ?></td>
 							<td align="right"><?php echo $total_sale; ?></td>
+						</tr>
 						<tr class="success">
 							<td><?php echo $text_total_sale_year; ?></td>
 							<td align="right"><?php echo $total_sale_year; ?></td>
@@ -151,24 +159,34 @@
 							<td><?php echo $text_total_customer; ?></td>
 							<td align="right"><?php echo $total_customer; ?></td>
 						</tr>
+						<?php } ?>
+
 						<?php
-						$status = '';
-						if ($total_customer_approval > 0){
-							$status = 'danger';
-						}
+						if ($viewcustomer) {
+							$status = '';
+							if ($total_customer_approval > 0){
+								$status = 'danger';
+							}
 						?>
 						<tr class="<?php echo $status; ?>">
 							<td><?php echo $text_total_customer_approval; ?></td>
 							<td align="right"><?php echo $total_customer_approval; ?></td>
 						</tr>
+						<?php } ?>
+
+						<?php if ($viewproduct) { ?>
 						<tr>
 							<td><?php echo $text_total_product; ?></td>
 							<td align="right"><?php echo $total_product; ?></td>
 						</tr>
+						<?php } ?>
+
+						<?php if ($viewreview) { ?>
 						<tr>
 							<td><?php echo $text_total_review; ?></td>
 							<td align="right"><?php echo $total_review; ?></td>
 						</tr>
+
 						<?php
 						$status = '';
 						if ($total_review_approval > 0){
@@ -179,33 +197,34 @@
 							<td><?php echo $text_total_review_approval; ?></td>
 							<td align="right"><?php echo $total_review_approval; ?></td>
 						</tr>
+						<?php } ?>
 					</table>
 				</div>
-
 			</div>
 		</div>
 	</div>
+
+	<?php if ($viewchart) { ?>
 	<div class="col-sm-7 col-lg-7">
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<h5 class="title"><i
-							class="fa fa-bar-chart-o fa-lg fa-fw"></i>&nbsp;&nbsp;<?php echo $text_statistics; ?>
+				<h5 class="title">
+					<i class="fa fa-bar-chart-o fa-lg fa-fw"></i>&nbsp;&nbsp;<?php echo $text_statistics; ?>
 					<span class="pull-right">
-			<?php echo $entry_range; ?>
+						<?php echo $entry_range; ?>
 						<select id="range" onchange="loadPerformanceChart(this.value)">
 							<option value="day"><?php echo $text_day; ?></option>
 							<option value="week"><?php echo $text_week; ?></option>
 							<option value="month"><?php echo $text_month; ?></option>
 							<option value="year"><?php echo $text_year; ?></option>
 						</select>
-		</span>
+					</span>
 				</h5>
-
 				<div id="report_flot"></div>
-
 			</div>
 		</div>
 	</div>
+	<?php } ?>
 </div>
 
 <?php echo $this->getHookVar('home_page_bottom'); ?>

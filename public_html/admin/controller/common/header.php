@@ -27,6 +27,8 @@
  */
 class ControllerCommonHeader extends AController
 {
+    const TOP_ADMIN_GROUP = 1;
+
     public function main()
     {
 
@@ -184,39 +186,68 @@ class ControllerCommonHeader extends AController
             $this->messages->saveWarning('Compatibility warning for v'.VERSION, $cm_body);
         }
 
+        $permission = array();
+        $this->loadModel('user/user_group');
+        $groupID = (int)$this->user->getUserGroupId();
+        if ($groupID !== self::TOP_ADMIN_GROUP) {
+            $user_group = $this->model_user_user_group->getUserGroup($groupID);
+            $permissions = $user_group['permission'];
+        }
+
         //prepare quick stats
-        $this->loadModel('tool/online_now');
-        $online_new = $this->model_tool_online_now->getTotalTodayOnline('new');
-        $online_registered = $this->model_tool_online_now->getTotalTodayOnline('registered');
-        $this->view->assign('online_new', $online_new);
-        $this->view->assign('online_registered', $online_registered);
+        if ($groupID == self::TOP_ADMIN_GROUP || $permissions['access']['sale/customer']) {
+            $this->loadModel('tool/online_now');
+            
+            $this->view->assign('viewcustomer', true);
 
-        $this->loadModel('report/sale');
-        $data = array(
-            'filter' => array(
-                'order_status' => 'confirmed',
-                'date_start'   => dateISO2Display(date('Y-m-d', time()), $this->language->get('date_format_short')),
-                'date_end'     => dateISO2Display(date('Y-m-d', time()), $this->language->get('date_format_short')),
-            ),
-        );
+            $online_new = $this->model_tool_online_now->getTotalTodayOnline('new');
+            $online_registered = $this->model_tool_online_now->getTotalTodayOnline('registered');
+            $this->view->assign('online_new', $online_new);
+            $this->view->assign('online_registered', $online_registered);
 
-        $today_orders = $this->model_report_sale->getSaleReportSummary($data);
-        $today_order_count = $today_orders['orders'];
-        $today_sales_amount = $this->currency->format(
-            $today_orders['total_amount'],
-            $this->config->get('config_currency')
-        );
-        $this->view->assign('today_order_count', $today_order_count);
-        $this->view->assign('today_sales_amount', $today_sales_amount);
+            $this->loadModel('sale/customer');
+            $filter = array('date_added' => date('Y-m-d', time()));
+            $today_customer_count = $this->model_sale_customer->getTotalCustomers(array('filter' => $filter));
+            $this->view->assign('today_customer_count', $today_customer_count);
+        } else {
+            $this->view->assign('viewcustomer', false);
+        }
 
-        $this->loadModel('sale/customer');
-        $filter = array('date_added' => date('Y-m-d', time()));
-        $today_customer_count = $this->model_sale_customer->getTotalCustomers(array('filter' => $filter));
-        $this->view->assign('today_customer_count', $today_customer_count);
+        if ($groupID == self::TOP_ADMIN_GROUP || $permissions['access']['sale/order']) {
+            $this->loadModel('report/sale');
 
-        $this->loadModel('catalog/review');
-        $today_review_count = $this->model_catalog_review->getTotalToday();
-        $this->view->assign('today_review_count', $today_review_count);
+            $this->view->assign('vieworder', true);
+
+            $data = array(
+                'filter' => array(
+                    'order_status' => 'confirmed',
+                    'date_start'   => dateISO2Display(date('Y-m-d', time()), $this->language->get('date_format_short')),
+                    'date_end'     => dateISO2Display(date('Y-m-d', time()), $this->language->get('date_format_short')),
+                ),
+            );
+
+            $today_orders = $this->model_report_sale->getSaleReportSummary($data);
+            $today_order_count = $today_orders['orders'];
+            $today_sales_amount = $this->currency->format(
+                $today_orders['total_amount'],
+                $this->config->get('config_currency')
+            );
+            $this->view->assign('today_order_count', $today_order_count);
+            $this->view->assign('today_sales_amount', $today_sales_amount);
+        } else {
+            $this->view->assign('vieworder', false);
+        }
+
+        if ($groupID == self::TOP_ADMIN_GROUP || $permissions['access']['catalog/review']) {
+            $this->loadModel('catalog/review');
+            
+            $this->view->assign('viewreview', true);
+            
+            $today_review_count = $this->model_catalog_review->getTotalToday();
+            $this->view->assign('today_review_count', $today_review_count);
+        } else {
+            $this->view->assign('viewreview', false);
+        }
 
         $this->load->model('tool/mp_api');
         $this->view->assign('mp_url', $this->model_tool_mp_api->getMPURL(false).'?rt=r/embed/mpjs');
