@@ -209,11 +209,12 @@ class ACart
      * Function can be used to get totals and other product information
      * (based on user selection) as it is before getting into cart or after
      *
-     * @param int   $product_id
-     * @param int   $quantity
+     * @param int $product_id
+     * @param int $quantity
      * @param array $options
      *
      * @return array
+     * @throws AException
      */
     public function buildProductDetails($product_id, $quantity = 0, $options = array())
     {
@@ -373,10 +374,23 @@ class ACart
         // product downloads
         $download_data = $this->download->getProductOrderDownloads($product_id);
 
+        $common_quantity = $quantity;
+        //check if this product with another option values already in the cart
+        if($this->cust_data['cart']) {
+            foreach($this->cust_data['cart'] as $cart_product){
+                if($cart_product['product_id'] != $product_id){
+                    continue;
+                }
+                if(!$op_stock_trackable){
+                    $common_quantity += $cart_product['quantity'];
+                }
+            }
+        }
+
         //check if we need to check main product stock. Do only if no stock trackable options selected
         if ((!$options || !$op_stock_trackable)
             && $product_query['subtract']
-            && $product_query['quantity'] < $quantity
+            && $product_query['quantity'] < $common_quantity
             && !$product_query['stock_checkout']
         ) {
             $stock = false;
