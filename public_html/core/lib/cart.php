@@ -374,7 +374,7 @@ class ACart
         $download_data = $this->download->getProductOrderDownloads($product_id);
 
         //check if we need to check main product stock. Do only if no stock trackable options selected
-        if (!$options
+        if ((!$options || !$op_stock_trackable)
             && $product_query['subtract']
             && $product_query['quantity'] < $quantity
             && !$product_query['stock_checkout']
