@@ -721,8 +721,14 @@ class ModelSaleOrder extends Model
                         $remains = 0;
                     }else{
                         //if last from list - set negative qnty
-                        $new_qnt = ($k+1 == count($stockLocations)) ? 0 : ($sl['quantity'] - $remains);
-                        $remains = $remains - $sl['quantity'];
+                        if( ($k+1 == count($stockLocations)) ){
+                            $new_qnt = $sl['quantity'] - $remains;
+                            $remains = 0;
+                        }else{
+                            $new_qnt = 0;
+                            $remains = $remains - $sl['quantity'];
+                        }
+
                         $qnt_diff = $remains;
                     }
 
