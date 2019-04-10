@@ -171,6 +171,7 @@ class ModelCatalogProduct extends Model
             foreach ($query->rows as $row) {
                 //if tracking of stock disabled - set quantity as big
                 if (!$row['subtract']) {
+                    $total_quantity = true;
                     continue;
                 }else{
                     $trackable = true;
