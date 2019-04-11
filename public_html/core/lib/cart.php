@@ -377,12 +377,13 @@ class ACart
         $common_quantity = $quantity;
         //check if this product with another option values already in the cart
         if($this->cust_data['cart']) {
-            foreach($this->cust_data['cart'] as $cart_product){
-                if($cart_product['product_id'] != $product_id){
+            foreach($this->cust_data['cart'] as $key => $cart_product){
+                list($pId,) = explode(':',$key);
+                if($product_id != $pId || $key == $product_id.':'.md5(serialize($options))){
                     continue;
                 }
                 if(!$op_stock_trackable){
-                    $common_quantity += $cart_product['quantity'];
+                    $common_quantity += $cart_product['qty'];
                 }
             }
         }
