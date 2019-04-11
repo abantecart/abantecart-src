@@ -128,9 +128,12 @@ class ControllerCommonMenu extends AController
                 }
                 $children = $this->_getChildItems($item['item_id'], $menu_items);
                 $rt = '';
+                $http_rt = false;
                 $menu_link = '';
                 if (preg_match("/(http|https):/", $item['item_url'])) {
                     $menu_link = $item['item_url'];
+                    $rt = $item['item_url'];
+                    $http_rt = true;
                 } else {
                     if ($item['item_url']) {
                         //rt based link, need to save rt 
@@ -155,17 +158,29 @@ class ControllerCommonMenu extends AController
                     $temp['rt'] = $rt;
                 }
 
+                $controller_rt = $this->getControllerRt($rt);
                 if ($children) {
                     $temp['children'] = $children;
-                }
-                elseif ($this->groupID !== self::TOP_ADMIN_GROUP && !$this->permissions['access'][$rt]) {
+                } elseif ($this->groupID !== self::TOP_ADMIN_GROUP
+                        && !$http_rt
+                        && !$this->permissions['access'][$controller_rt]
+                ) {
                     //skip top menus with no access permission
                     continue;
                 }
-
                 $result[$item['item_id']] = $temp;
             }
         }
+
         return $result;
+    }
+
+    protected function getControllerRt($rt){
+        if (preg_match("/(http|https):/", $rt)){
+            return false;
+        }
+        $split = explode('/', $rt);
+
+        return $split[0].'/'.$split[1];
     }
 }
