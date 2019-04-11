@@ -379,7 +379,6 @@ class ModelSaleOrder extends Model
                             WHERE order_id = '".(int)$order_id."' AND order_product_id = '".(int)$order_product_id."'";
                     $this->db->query($sql);
                     //update stock quantity
-
                     $old_qnt = $exists->row['quantity'];
                     $stock_qnt = $product_info['quantity'];
                     $qnt_diff = $old_qnt - $product['quantity'];
@@ -395,6 +394,19 @@ class ModelSaleOrder extends Model
                                     SET quantity = '".$new_qnt."'
                                     WHERE product_id = '".(int)$product_id."' AND subtract = 1";
                             $this->db->query($sql);
+                        }
+                        //need  to check is options presents
+                        if(!$product['option']){
+                            $product_options = $this->getOrderOptions($order_id, $order_product_id);
+                            if($product_options) {
+                                foreach ($product_options as $row) {
+                                    $product['option'][$row['product_option_id']][] = $row['product_option_value_id'];
+                                    $this->updateStocksInLocations($product_id, $row['product_option_value_id'], $qnt_diff*-1, $order_product_id, $product['quantity']);
+                                }
+                            }else{
+                                $this->updateStocksInLocations($product_id, 0, $qnt_diff*-1, $order_product_id, $product['quantity']);
+                            }
+                        }else{
                             $this->updateStocksInLocations($product_id, 0, $qnt_diff*-1, $order_product_id, $product['quantity']);
                         }
                     }
@@ -548,16 +560,13 @@ class ModelSaleOrder extends Model
                         $curr_arr = has_value($curr_subtract_options[$opt_id]) ? $curr_subtract_options[$opt_id] : array();
 
                         if ($prev_arr || $curr_arr) {
-
                             //increase qnt for old option values
                             foreach ($prev_arr as $v) {
                                 if (!in_array($v, $curr_arr)) {
-
                                     $sql = "UPDATE ".$this->db->table("product_option_values")."
                                           SET quantity = (quantity + ".$product['quantity'].")
                                           WHERE product_option_value_id = '".(int)$v."'
                                                 AND subtract = 1";
-
                                     $this->db->query($sql);
                                     $this->updateStocksInLocations($product_id, (int)$v, -$product['quantity'], $order_product_id, $product['quantity']);
                                 }
