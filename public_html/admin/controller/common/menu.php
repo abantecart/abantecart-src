@@ -159,9 +159,10 @@ class ControllerCommonMenu extends AController
                 }
 
                 $controller_rt = $this->getControllerRt($rt);
+
                 if ($children) {
                     $temp['children'] = $children;
-                } elseif ($this->groupID !== self::TOP_ADMIN_GROUP
+                } elseif ($rt && $this->groupID !== self::TOP_ADMIN_GROUP
                         && !$http_rt
                         && !$this->permissions['access'][$controller_rt]
                 ) {
