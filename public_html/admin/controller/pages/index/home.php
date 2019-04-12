@@ -24,7 +24,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerPagesIndexHome extends AController
 {
     public $data = array();
-    protected $permission = array();
+    protected $permissions = array();
     protected $groupID;
     const TOP_ADMIN_GROUP = 1;
 

@@ -943,7 +943,7 @@ abstract class HtmlElement
         $this->language = $this->registry->get('language');
         $this->view = new AView($this->registry, 0);
         $this->data = $data;
-        $this->element_id = preformatTextID($data['name']);
+        $this->element_id = $data['id'] ? preformatTextID($data['id']) : preformatTextID($data['name']);
         if (isset($data['form'])) {
             $this->element_id = $data['form'].'_'.$this->element_id;
         }

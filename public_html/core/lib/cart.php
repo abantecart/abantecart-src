@@ -209,11 +209,12 @@ class ACart
      * Function can be used to get totals and other product information
      * (based on user selection) as it is before getting into cart or after
      *
-     * @param int   $product_id
-     * @param int   $quantity
+     * @param int $product_id
+     * @param int $quantity
      * @param array $options
      *
      * @return array
+     * @throws AException
      */
     public function buildProductDetails($product_id, $quantity = 0, $options = array())
     {
@@ -244,8 +245,9 @@ class ACart
         $option_price = 0;
         $option_data = array();
         $groups = array();
-        $op_stock_trackable = 0;
+        $is_some_option_stock_trackable = 0;
         //Process each option and value
+        $hasTrackOptions = $sf_product_mdl->hasTrackOptions($product_id);
         foreach ($options as $product_option_id => $product_option_value_id) {
             //skip empty values
             if ($product_option_value_id == '' || (is_array($product_option_value_id) && !$product_option_value_id)) {
@@ -304,7 +306,7 @@ class ACart
                 ) {
                     $stock = false;
                 }
-                $op_stock_trackable += $option_value_query['subtract'];
+                $is_some_option_stock_trackable += $option_value_query['subtract'];
                 unset($option_value_query);
             } else {
                 if ($option_value_queries) {
@@ -324,7 +326,7 @@ class ACart
                         if ($item['subtract'] && $item['quantity'] < $quantity) {
                             $stock = false;
                         }
-                        $op_stock_trackable += $option_value_query['subtract'];
+                        $is_some_option_stock_trackable += $option_value_query['subtract'];
                     }
                     unset($option_value_queries);
                 }
@@ -373,6 +375,22 @@ class ACart
         // product downloads
         $download_data = $this->download->getProductOrderDownloads($product_id);
 
+        $common_quantity = 0;
+        //check if this product with another option values already in the cart
+        if($this->cust_data['cart']) {
+            foreach($this->cust_data['cart'] as $key => $cart_product){
+                list($pId,) = explode(':',$key);
+                if($product_id != $pId || $key == $product_id.($options ? ':'.md5(serialize($options)) : '')){
+                    continue;
+                }
+
+                if(!$is_some_option_stock_trackable){
+                    $common_quantity += $cart_product['qty'];
+                }
+            }
+        }
+
+
         //check if we need to check main product stock. Do only if no stock trackable options selected
         if (!$options
             && $product_query['subtract']
@@ -381,6 +399,19 @@ class ACart
         ) {
             $stock = false;
         }
+
+        //case for nontrackable option values set but main stock track enabled
+        if(
+            $options
+            && $product_query['subtract']
+            && !$is_some_option_stock_trackable
+            && (!$hasTrackOptions && $common_quantity + $quantity > $product_query['quantity'] )
+            && !$product_query['stock_checkout']
+        ){
+            $stock = false;
+        }
+
+
 
         $result = array(
             'product_id'         => $product_query['product_id'],
@@ -774,6 +805,7 @@ class ACart
      * @param bool $recalculate
      *
      * @return float
+     * @throws AException
      */
     public function getFinalTotal($recalculate = false)
     {
@@ -832,6 +864,7 @@ class ACart
      * @param bool $recalculate
      *
      * @return mixed
+     * @throws AException
      */
     public function getFinalTotalData($recalculate = false)
     {
@@ -852,6 +885,7 @@ class ACart
      * @param bool $recalculate
      *
      * @return array
+     * @throws AException
      */
     public function buildTotalDisplay($recalculate = false)
     {

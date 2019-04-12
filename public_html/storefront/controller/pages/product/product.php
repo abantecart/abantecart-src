@@ -303,7 +303,6 @@ class ControllerPagesProductProduct extends AController
             }
 
             $qnt = (int)$product_info['minimum'] && $product_info['minimum'] > $qnt ? (int)$product_info['minimum'] : $qnt;
-            $qnt = (int)$product_info['maximum'] && $product_info['maximum'] < $qnt ? (int)$product_info['maximum'] : $qnt;
 
             $this->data['form']['minimum'] = $form->getFieldHtml(
                 array(

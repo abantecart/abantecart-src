@@ -178,9 +178,39 @@ class ControllerPagesCheckoutGuestStep3 extends AController
             $this->config->get('config_image_cart_height')
         );
 
+        $mSizes = array(
+            'main'  =>
+                array(
+                    'width' => $this->config->get('config_image_cart_width'),
+                    'height' => $this->config->get('config_image_cart_height')
+                ),
+            'thumb' => array(
+                'width' =>  $this->config->get('config_image_cart_width'),
+                'height' => $this->config->get('config_image_cart_height')
+            ),
+        );
+
+        foreach ($this->data['products'] as $product) {
+            if (isset($product['option']) && !empty($product['option'])) {
+                foreach ($product['option'] as $option) {
+                    $main_image =
+                        $resource->getResourceAllObjects('product_option_value', $option['product_option_value_id'], $mSizes, 1, false);
+                }
+                if (!empty($main_image)) {
+                    $thumbnails[$product['key']] = $main_image;
+                }
+            }
+        }
+
+
+
         for ($i = 0; $i < sizeof($this->data['products']); $i++) {
             $product_id = $this->data['products'][$i]['product_id'];
-            $thumbnail = $thumbnails[$product_id];
+            if ($thumbnails[$this->data['products'][$i]['key']]) {
+                $thumbnail = $thumbnails[$this->data['products'][$i]['key']];
+            } else {
+                $thumbnail = $thumbnails[$product_id];
+            }
             $tax = $this->tax->calcTotalTaxAmount($this->data['products'][$i]['total'], $this->data['products'][$i]['tax_class_id']);
             $price = $this->data['products'][$i]['price'];
             $quantity = $this->data['products'][$i]['quantity'];
