@@ -707,7 +707,7 @@ class ModelSaleOrder extends Model
                             AND product_option_value_id ".$povId;
 
                 $this->db->query($sql);
-                $stock_diffs[(int)$product_option_value_id][(int)$sl['location_id']] = $qnt_diff;
+                $stock_diffs[(int)$product_option_value_id][(int)$product_option_value_id] = $qnt_diff;
                 break;
             }
             //if needs to decrease stock quantity
@@ -725,29 +725,28 @@ class ModelSaleOrder extends Model
                     break;
                 }elseif($sl['quantity']){
                     if($sl['quantity']>= $remains){
-                        $qnt_diff = $remains;
                         $new_qnt = $sl['quantity'] - $remains;
+                        $stock_diffs[(int)$product_option_value_id][(int)$sl['location_id']] = $remains;
                         $remains = 0;
                     }else{
                         //if last from list - set negative qnty
                         if( ($k+1 == count($stockLocations)) ){
                             $new_qnt = $sl['quantity'] - $remains;
+                            $stock_diffs[(int)$product_option_value_id][(int)$sl['location_id']] = $remains;
                             $remains = 0;
                         }else{
                             $new_qnt = 0;
                             $remains = $remains - $sl['quantity'];
+                            $stock_diffs[(int)$product_option_value_id][(int)$sl['location_id']] = $sl['quantity'];
                         }
-
-                        $qnt_diff = $remains;
                     }
-
+                    $qnt_diff = $remains;
                     $sql = "UPDATE ".$this->db->table("product_stock_locations")." 
                             SET quantity = ".(int)$new_qnt."
                             WHERE location_id= ".(int)$sl['location_id']."
                                 AND product_id = ".(int)$product_id." 
                                 AND product_option_value_id ".$povId;
                     $this->db->query($sql);
-                    $stock_diffs[(int)$product_option_value_id][(int)$sl['location_id']] = $qnt_diff;
                 }
             }
         }
