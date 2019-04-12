@@ -338,6 +338,8 @@ class ModelSaleOrder extends Model
         $order_product_id = (int)$data['order_product_id'];
         $product_id = (int)$data['product_id'];
 
+        $locationStockUpdated = false;
+
         if (!$product_id || !$order_id) {
             return false;
         }
@@ -402,6 +404,7 @@ class ModelSaleOrder extends Model
                                 foreach ($product_options as $row) {
                                     $product['option'][$row['product_option_id']][] = $row['product_option_value_id'];
                                     $this->updateStocksInLocations($product_id, $row['product_option_value_id'], $qnt_diff*-1, $order_product_id, $product['quantity']);
+                                    $locationStockUpdated = true;
                                 }
                             }else{
                                 $this->updateStocksInLocations($product_id, 0, $qnt_diff*-1, $order_product_id, $product['quantity']);
@@ -598,7 +601,15 @@ class ModelSaleOrder extends Model
                                           WHERE product_option_value_id = '".(int)$v."'
                                                 AND subtract = 1";
                                     $this->db->query($sql);
-                                    $this->updateStocksInLocations($product_id, (int)$v, $qnt_diff*-1, $order_product_id, $product['quantity']);
+                                    if(!$locationStockUpdated) {
+                                        $this->updateStocksInLocations(
+                                            $product_id,
+                                            (int)$v,
+                                            $qnt_diff * -1,
+                                            $order_product_id,
+                                            $product['quantity']
+                                        );
+                                    }
                                 }
                             }
                         }
@@ -693,11 +704,15 @@ class ModelSaleOrder extends Model
         }
 
         $totalStockQuantity = (int)array_sum(array_column($stockLocations, 'quantity'));
+
         $povId = !(int)$product_option_value_id ? 'IS NULL' : " = ".(int)$product_option_value_id;
 
         $remains = abs($qnt_diff);
 
         foreach($stockLocations as $k=>$sl){
+            if(!$remains){
+                break;
+            }
              //if qnt needs to increase stock quantity
             if ($qnt_diff < 0){
                 $sql = "UPDATE ".$this->db->table("product_stock_locations")." 
