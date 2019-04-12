@@ -722,7 +722,7 @@ class ModelSaleOrder extends Model
                             AND product_option_value_id ".$povId;
 
                 $this->db->query($sql);
-                $stock_diffs[(int)$product_option_value_id][(int)$product_option_value_id] = $qnt_diff;
+                $stock_diffs[(int)$product_option_value_id][(int)$sl['location_id']] = $qnt_diff;
                 break;
             }
             //if needs to decrease stock quantity
@@ -1637,7 +1637,7 @@ class ModelSaleOrder extends Model
     /**
      * @param array $customers_ids
      *
-     * @return int
+     * @return array
      */
     public function getCountOrdersByCustomerIds($customers_ids)
     {
