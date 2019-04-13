@@ -162,7 +162,7 @@ class ControllerCommonMenu extends AController
 
                 if ($children) {
                     $temp['children'] = $children;
-                } elseif ($rt && $this->groupID !== self::TOP_ADMIN_GROUP
+                } elseif ($this->groupID !== self::TOP_ADMIN_GROUP
                         && !$http_rt
                         && !$this->permissions['access'][$controller_rt]
                 ) {
