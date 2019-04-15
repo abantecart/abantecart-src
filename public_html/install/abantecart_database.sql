@@ -6008,7 +6008,8 @@ INSERT INTO `ac_zones` (`zone_id`, `country_id`, `code`, `status`, `sort_order`)
 (3964,190,'UC',1,0),
 (3965,190,'GZ',1,0),
 (3966,190,'CK',1,0),
-(3967,188,'SG',1,0);
+(3967,188,'SG',1,0),
+(3968,168,'MTM',1,0);
 
 
 DROP TABLE IF EXISTS `ac_zone_descriptions`;
@@ -9967,7 +9968,8 @@ INSERT INTO `ac_zone_descriptions` (`zone_id`, `language_id`,`name`) VALUES
 (3964,1,'Upper Carniola'),
 (3965,1,'Gorizia'),
 (3966,1,'Coastal–Karst'),
-(3967,1,'Singapore');
+(3967,1,'Singapore'),
+(3968,1,'Metro Manila');
 
 
 --
