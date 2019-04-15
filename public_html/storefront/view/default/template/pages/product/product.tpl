@@ -560,7 +560,7 @@ if ($error){ ?>
 						var tmb_url = image.thumb_url;
 						var tmb2_url = image.thumb2_url;
 						if (image.origin != 'external') {
-							html2 += '<a href="' + img_url + '" data-standard="' + tmb2_url + '"><img style="width:' + image.thumb_width + 'px; height:' + image.thumb_height + 'px;" src="' + tmb_url + '" alt="' + image.title + '" title="' + image.title + '" /></a>';
+							html2 += '<a data-href="'+image.main_url+'" href="' + img_url + '" data-standard="' + tmb2_url + '"><img style="width:' + image.thumb_width + 'px; height:' + image.thumb_height + 'px;" src="' + tmb_url + '" alt="' + image.title + '" title="' + image.title + '" /></a>';
 						}
 						html2 += '</li>';
 					}
