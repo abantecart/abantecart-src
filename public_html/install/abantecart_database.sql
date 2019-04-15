@@ -11380,8 +11380,8 @@ VALUES  (11,'text_report_sale',91),
         (11,'banner_manager_name_stat',94);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (12,'',91),
-        (12,'',92),
+VALUES  (12,'report/sale/orders',91),
+        (12,'report/customer/online',92),
         (12,'',93),
         (12,'',221),
         (12,'extension/banner_manager_stat',94);

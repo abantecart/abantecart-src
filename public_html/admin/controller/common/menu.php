@@ -162,6 +162,9 @@ class ControllerCommonMenu extends AController
 
                 if ($children) {
                     $temp['children'] = $children;
+                } elseif (!$rt && !$children){
+                    //skip empty parents
+                    continue;
                 } elseif ($rt && $this->groupID !== self::TOP_ADMIN_GROUP
                         && !$http_rt
                         && !$this->permissions['access'][$controller_rt]
@@ -169,6 +172,7 @@ class ControllerCommonMenu extends AController
                     //skip top menus with no access permission
                     continue;
                 }
+
                 $result[$item['item_id']] = $temp;
             }
         }
