@@ -181,7 +181,7 @@ class ControllerCommonMenu extends AController
     }
 
     protected function getControllerRt($rt){
-        if (preg_match("/(http|https):/", $rt)){
+        if ( !$rt || preg_match("/(http|https):/", $rt)){
             return false;
         }
         $split = explode('/', $rt);

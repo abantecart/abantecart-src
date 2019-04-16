@@ -186,7 +186,7 @@ class ControllerCommonHeader extends AController
             $this->messages->saveWarning('Compatibility warning for v'.VERSION, $cm_body);
         }
 
-        $permission = array();
+        $permissions = array();
         $this->loadModel('user/user_group');
         $groupID = (int)$this->user->getUserGroupId();
         if ($groupID !== self::TOP_ADMIN_GROUP) {
