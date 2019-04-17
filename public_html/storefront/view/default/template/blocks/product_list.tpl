@@ -42,6 +42,7 @@
 					<div class="fixed">
 						<a class="prdocutname" href="<?php echo $item['info_url'] ?>"
 						   title="<?php echo $item['title'] ?>"><?php echo $item['title'] ?></a>
+					<?php echo $this->getHookvar('product_listing_name_'.$product['product_id']);?>
 					</div>
 				</div>
 				<div class="thumbnail">
@@ -52,15 +53,15 @@
 						<span class="new"></span>
 					<?php } ?>
 					<a href="<?php echo $item['info_url'] ?>"><?php echo $item['image'] ?></a>
-
 					<div class="shortlinks">
 						<a class="details" href="<?php echo $item['info_url'] ?>"><?php echo $button_view ?></a>
 						<?php if ($review_status) { ?>
 							<a class="compare" href="<?php echo $item['info_url'] ?>#review"><?php echo $review ?></a>
 						<?php } ?>
-						<?php echo $product['buttons'] ?>
+					<?php echo $product['buttons']; ?>
 					</div>
 					<div class="blurb"><?php echo $product['blurb'] ?></div>
+				<?php echo $this->getHookvar('product_listing_details0_'.$product['product_id']);?>
 					<?php if ($display_price) { ?>
 						<div class="pricetag jumbotron">
 							<?php if($product['call_to_order']){ ?>
@@ -89,6 +90,7 @@
 									<div class="oneprice"><?php echo $product['price'] . $tax_message; ?></div>
 								<?php } ?>
 							</div>
+						<?php echo $this->getHookvar('product_listing_details1_'.$product['product_id']);?>
 						</div>
 					<?php
 					}
