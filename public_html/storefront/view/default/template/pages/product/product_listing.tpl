@@ -83,18 +83,21 @@
 						<div class="price">
 							<?php if ($product['special']) { ?>
 								<div class="pricenew"><?php echo $product['special'] . $tax_message; ?></div>
-								<div class="priceold"><?php echo $product['price'] ?></div>
+								<div class="priceold"><?php echo $product['price']; ?></div>
 							<?php } else { ?>
 								<div class="oneprice"><?php echo $product['price'] . $tax_message; ?></div>
 							<?php } ?>
 						</div>
 						<?php echo $this->getHookvar('product_listing_details1_'.$product['product_id']);?>
 					</div>
-				<?php } ?>
+				<?php }
+				echo $this->getHookVar('product_price_hook_var_' . $product['product_id']);
+				?>
 			</div>
 		</div>
 	<?php
 	}
+
 	?>
 </div>
 
