@@ -1009,7 +1009,7 @@ abstract class HtmlElement
             if (in_array($this->data['type'], array('selectbox', 'multiselectbox'))) {
                 $this->options = array('' => '------') + $this->options;
             }
-            $this->value = 0;
+            $this->value = array(0);
             if ($this->required) {
                 $url = HTTPS_SERVER;
                 $query_string = $this->registry->get('request')->server['QUERY_STRING'];

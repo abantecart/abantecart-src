@@ -525,7 +525,7 @@ class ControllerPagesProductProduct extends AController
             );
             $option_images['main'] = $resource->getResourceAllObjects(
                                                             'product_option_value',
-                                                            $option_data['value'],
+                (is_array($option_data['value']) ? current($option_data['value']) : $option_data['value']),
                                                             $mSizes,
                                                             1,
                                                             false
