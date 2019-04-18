@@ -1071,7 +1071,7 @@ CREATE TABLE `ac_orders` (
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `ip` varchar(50) NOT NULL DEFAULT '',
-  `payment_method_data` text NOT NULL,
+  `payment_method_data` text NOT NULL DEFAULT '',
   PRIMARY KEY (`order_id`, `customer_id`, `order_status_id`)
 
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
