@@ -523,13 +523,17 @@ class ControllerPagesProductProduct extends AController
                     'height' => $this->config->get('config_image_thumb_height'),
                 )
             );
-            $option_images['main'] = $resource->getResourceAllObjects(
-                                                            'product_option_value',
-                (is_array($option_data['value']) ? current($option_data['value']) : $option_data['value']),
-                                                            $mSizes,
-                                                            1,
-                                                            false
-            );
+            $object_id = (is_array($option_data['value']) ? current($option_data['value']) : $option_data['value']);
+            if($object_id) {
+                $option_images['main'] = $resource->getResourceAllObjects(
+                    'product_option_value',
+                    $object_id,
+                    $mSizes,
+                    1,
+                    false
+                );
+            }
+
             if (!$option_images['main']) {
                 unset($option_images['main']);
             }
@@ -552,8 +556,15 @@ class ControllerPagesProductProduct extends AController
                         'height' => $this->config->get('config_image_thumb_height'),
                     ),
             );
-            $option_images['images'] =
-                $resource->getResourceAllObjects('product_option_value', $option_data['value'], $oSizes, 0, false);
+            if($object_id) {
+                $option_images['images'] = $resource->getResourceAllObjects(
+                    'product_option_value',
+                    $object_id,
+                    $oSizes,
+                    0,
+                    false
+                );
+            }
             if (!$option_images['images']) {
                 unset($option_images['images']);
             }
