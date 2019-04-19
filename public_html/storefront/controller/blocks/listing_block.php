@@ -109,6 +109,7 @@ class ControllerBlocksListingBlock extends AController
             $product_ids[] = (int)$result['product_id'];
         }
         $products_info = $this->model_catalog_product->getProductsAllInfo($product_ids);
+        $stock_info = $this->model_catalog_product->getProductsStockInfo($product_ids);
 
         foreach ($data as $result) {
             $rating = $products_info[$result['product_id']]['rating'];
@@ -130,6 +131,21 @@ class ControllerBlocksListingBlock extends AController
                 $special_price = null;
             }
 
+            //check for stock status, availability and config
+            $track_stock = false;
+            $in_stock = false;
+            $no_stock_text = $this->language->get('text_out_of_stock');
+            $total_quantity = 0;
+            $stock_checkout = $result['stock_checkout'] === '' ? $this->config->get('config_stock_checkout') : $result['stock_checkout'];
+            if ($stock_info[$result['product_id']]['subtract']) {
+                $track_stock = true;
+                $total_quantity = $this->model_catalog_product->hasAnyStock( $result['product_id'] );
+                //we have stock or out of stock checkout is allowed
+                if ($total_quantity > 0 || $stock_checkout) {
+                    $in_stock = true;
+                }
+            }
+
             $products[] = array(
                 'product_id'   => $result['product_id'],
                 'name'         => $result['name'],
@@ -144,6 +160,10 @@ class ControllerBlocksListingBlock extends AController
                 'href'         => $this->html->getSEOURL('product/product', '&product_id='.$result['product_id'], '&encode'),
                 'add'          => $add_to_cart,
                 'item_name'    => 'product',
+                'track_stock'    => $track_stock,
+                'in_stock'       => $in_stock,
+                'no_stock_text'  => $no_stock_text,
+                'total_quantity' => $total_quantity,
                 'tax_class_id' => $result['tax_class_id'],
             );
         }
