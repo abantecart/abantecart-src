@@ -206,13 +206,6 @@
 					   data-order-product-row="<?php echo $order_product_row; ?>">
 						<i class="fa fa-minus-circle"></i>
 					</a>
-					<?php if ($order_product['product_status']) { ?>
-					<a class="edit_product btn btn-xs btn-info-alt tooltips"
-					   data-original-title="<?php echo $text_edit; ?>"
-					   data-order-product-id="<?php echo $order_product['order_product_id']; ?>">
-						<i class="fa fa-pencil"></i>
-					</a>
-					<?php } ?>
 				</td>
 				<td class="left">
 					<a target="_blank" href="<?php echo $order_product['href']; ?>"><?php echo $order_product['name']; ?>

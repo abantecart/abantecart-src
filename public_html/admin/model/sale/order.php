@@ -166,6 +166,7 @@ class ModelSaleOrder extends Model
             'telephone',
             'email',
             'fax',
+            'comment',
             'shipping_firstname',
             'shipping_lastname',
             'shipping_company',
