@@ -226,7 +226,7 @@ class ControllerPagesProductManufacturer extends AController
                     $total_quantity = 0;
                     if ($stock_info[$result['product_id']]['subtract']) {
                         $track_stock = true;
-                        $total_quantity = $stock_info[$result['product_id']]['quantity'];
+                        $total_quantity = $this->model_catalog_product->hasAnyStock( $result['product_id'] );
                         //we have stock or out of stock checkout is allowed
                         if ($total_quantity > 0 || $stock_checkout) {
                             $in_stock = true;
