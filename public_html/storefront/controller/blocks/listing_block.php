@@ -154,6 +154,7 @@ class ControllerBlocksListingBlock extends AController
                 'stars'        => sprintf($this->language->get('text_stars'), $rating),
                 'price'        => $result['price'],
                 'options'      => $result['options'],
+                'call_to_order'=> $result['call_to_order'],
                 'special'      => $special_price,
                 'thumb'        => $result['image'],
                 'image'        => $result['image'],
