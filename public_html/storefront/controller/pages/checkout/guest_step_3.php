@@ -190,18 +190,18 @@ class ControllerPagesCheckoutGuestStep3 extends AController
             ),
         );
 
+
         foreach ($this->data['products'] as $product) {
             if (isset($product['option']) && !empty($product['option'])) {
                 foreach ($product['option'] as $option) {
                     $main_image =
                         $resource->getResourceAllObjects('product_option_value', $option['product_option_value_id'], $mSizes, 1, false);
-                }
-                if (!empty($main_image)) {
-                    $thumbnails[$product['key']] = $main_image;
+                    if (!empty($main_image)) {
+                        $thumbnails[$product['key']] = $main_image;
+                    }
                 }
             }
         }
-
 
 
         for ($i = 0; $i < sizeof($this->data['products']); $i++) {
