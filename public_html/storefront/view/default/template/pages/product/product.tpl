@@ -502,7 +502,10 @@ if ($error){ ?>
 			type: 'GET',
 			dataType: 'json'
 		});
+
+		$('input[name^=\'option\'], select[name^=\'option\']').change();
 	});
+
 	function start_easyzoom() {
 		// Instantiate EasyZoom instances
 		var $easyzoom = $('.easyzoom').easyZoom();
