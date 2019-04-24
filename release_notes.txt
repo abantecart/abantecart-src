@@ -1,3 +1,4 @@
+
 AbanteCart version 1.2.14
 
 This release comes with improvements, bug fixes and default extension updates.
