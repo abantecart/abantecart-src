@@ -130,7 +130,8 @@ class ControllerResponsesProductProduct extends AController
 
             //no image? return main product images
             if (!count($output) && $product_id) {
-                $output = [];
+                $output['main'] = $resource->getResourceAllObjects('products', $product_id, $msizes, 1, false);
+                $output['images'] = $resource->getResourceAllObjects('products', $product_id, $osizes, 0, false);
             }
 
         }
