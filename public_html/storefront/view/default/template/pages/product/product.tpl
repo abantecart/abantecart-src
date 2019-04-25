@@ -488,6 +488,10 @@ if ($error){ ?>
 
 		/* Process images for product options */
 		$('input[name^=\'option\'], select[name^=\'option\']').change(function () {
+			//skip not selected radio
+			if( (this.type === 'radio' || this.type === 'checkbox') && $(this).attr('checked') !== 'checked'){
+				return false;
+			}
 			load_option_images($(this).val(), '<?php echo $product_id; ?>');
 			display_total_price();
 		});
