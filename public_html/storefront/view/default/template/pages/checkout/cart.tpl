@@ -35,7 +35,15 @@ echo $form['form_open'];
 				<th class="align_right"><?php echo $column_total; ?></th>
 				<th class="align_center"><?php echo $column_remove; ?></th>
 			</tr>
-			<?php foreach ($products as $product) { ?>
+			<?php
+			$tax_exempt = $this->customer->isTaxExempt();
+			$config_tax = $this->config->get('config_tax');
+			foreach ($products as $product) {
+				$tax_message = '';
+				if($config_tax && !$tax_exempt && $product['tax_class_id']){
+					$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
+				}
+				?>
 				<tr>
 					<td class="align_center">
 						<a href="<?php echo $product['href']; ?>"><?php echo $product['thumb']['thumb_html']; ?></a>
@@ -52,7 +60,7 @@ echo $form['form_open'];
 						</div>
 					</td>
 					<td class="align_left"><?php echo $product['model']; ?></td>
-					<td class="align_right"><?php echo $product['price']; ?></td>
+					<td class="align_right"><?php echo $product['price'] . $tax_message; ?></td>
 					<td class="align_center">
 						<div class="input-group input-group-sm"><?php echo $product['quantity']; ?></div>
 					</td>
@@ -126,22 +134,20 @@ echo $form['form_open'];
 									<div class="input-group col-sm-8">
 									<?php echo $form_estimate['country_zones']; ?>
 									</div>
-								</div>																			
-								
+								</div>
 								<div class="form-group">
 									<label class="control-label col-sm-4"><?php echo $text_estimate_postcode; ?></label>
-						    		<div class="input-group col-sm-8">
-						    		<?php echo $form_estimate['postcode']; ?>
-						    		<span class="input-group-btn">
-						    			<button title="<?php echo $form_estimate['submit']->name; ?>" class="btn btn-default"
-						    				value="<?php echo $form_estimate['submit']->form ?>" type="submit">
-						    			<i class="fa fa-calculator"></i>
-						    			<?php echo $form_estimate['submit']->name; ?>
-						    			</button>
-						    		</span>
-						    		</div>
-						    	</div>	
-								
+									<div class="input-group col-sm-8">
+									<?php echo $form_estimate['postcode']; ?>
+									<span class="input-group-btn">
+										<button title="<?php echo $form_estimate['submit']->name; ?>" class="btn btn-default"
+											value="<?php echo $form_estimate['submit']->form ?>" type="submit">
+										<i class="fa fa-calculator"></i>
+										<?php echo $form_estimate['submit']->name; ?>
+										</button>
+									</span>
+									</div>
+								</div>
 								<div class="shippings-offered form-group">
 									<label class="control-label col-sm-4"><?php echo $text_estimate_shipments; ?></label>
 									<div class="shipments input-group col-sm-8">
@@ -155,7 +161,6 @@ echo $form['form_open'];
 				</table>
 			</div>
 		<?php } ?>
-
 	</div>
 <?php } ?>
 
@@ -171,7 +176,7 @@ echo $form['form_open'];
 	    		<?php } ?>
 	    		<?php */ ?>
 	    	</table>
-	    	
+
 	    	<?php echo $this->getHookVar('pre_cart_buttons'); ?>
 
 	    	<a href="<?php echo $continue; ?>" class="btn btn-default mr10  mb10" title="">
@@ -185,7 +190,7 @@ echo $form['form_open'];
 	    			<?php echo $button_checkout; ?>
 	    		</a>
 	    	<?php } ?>
-	
+
 	    	<?php echo $this->getHookVar('post_cart_buttons'); ?>
 	    </div>
 	</div>
@@ -197,7 +202,7 @@ echo $form['form_open'];
 			display_shippings();
 
 			$(document).on("change", '#estimate_country_zones', function () {
-				//zone is changed, need to reset poscode
+				//zone is changed, need to reset postcode
 				$("#estimate input[name=\'postcode\']").val('')
 				display_shippings();
 			})
@@ -210,16 +215,16 @@ echo $form['form_open'];
 				display_shippings();
 				return false;
 			});
-			
+
 		});
 
-		var save_and_checkout = function(url) { 
+		var save_and_checkout = function(url) {
 			//first update cart and then follow the next step
 			var input = $("<input>").attr("type", "hidden").attr("name", "next_step").val(url);
 			$('#cart').append($(input));
 			$('#cart').submit();
-		}		
-		
+		}
+
 		var  display_shippings = function() {
 			var postcode = encodeURIComponent($("#estimate input[name=\'postcode\']").val());
 			var country_id = encodeURIComponent($('#estimate_country').val());
@@ -256,7 +261,7 @@ echo $form['form_open'];
 
 		//load total with AJAX call
 		var display_totals = function () {
-			var shipping_method = '';
+			var shipping_method;
 			var coupon = encodeURIComponent($("#coupon input[name=\'coupon\']").val());
 			shipping_method = encodeURIComponent($('#shippings :selected').val());
 			if (shipping_method == 'undefined') {

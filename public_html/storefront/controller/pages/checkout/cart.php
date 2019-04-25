@@ -17,9 +17,6 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE')) {
-    header('Location: static_pages/');
-}
 
 /**
  * Class ControllerPagesCheckoutCart
@@ -42,7 +39,7 @@ class ControllerPagesCheckoutCart extends AController
         $cart_rt = 'checkout/cart';
         $product_rt = 'product/product';
         $checkout_rt = 'checkout/shipping';
-        //is this an embed mode	
+        //is this an embed mode
         if ($this->config->get('embed_mode') == true) {
             $cart_rt = 'r/checkout/cart/embed';
         }
@@ -319,8 +316,15 @@ class ControllerPagesCheckoutCart extends AController
                             'height' => $this->config->get('config_image_cart_height')
                         ),
                     );
-                    $main_image =
-                        $resource->getResourceAllObjects('product_option_value', $option['product_option_value_id'], $mSizes, 1, false);
+
+                    $main_image = $resource->getResourceAllObjects(
+                        'product_option_value',
+                        $option['product_option_value_id'],
+                        $mSizes,
+                        1,
+                        false
+                    );
+
                     if (!empty($main_image)) {
                         $thumbnail['origin'] = $main_image['origin'];
                         $thumbnail['title'] = $main_image['title'];
@@ -333,18 +337,18 @@ class ControllerPagesCheckoutCart extends AController
                 $price_with_tax = $this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'));
 
                 $products[] = array(
-                    'remove'     => $form->getFieldHtml(
+                    'remove'       => $form->getFieldHtml(
                         array(
-                            'type' => 'checkbox',
-                            'name' => 'remove['.$result['key'].']',
+                            'type'  => 'checkbox',
+                            'name'  => 'remove['.$result['key'].']',
                         )),
-                    'remove_url' => $this->html->getSecureURL($cart_rt, '&remove='.$result['key']),
-                    'key'        => $result['key'],
-                    'name'       => $result['name'],
-                    'model'      => $result['model'],
-                    'thumb'      => $thumbnail,
-                    'option'     => $option_data,
-                    'quantity'   => $form->getFieldHtml(
+                    'remove_url'   => $this->html->getSecureURL($cart_rt, '&remove='.$result['key']),
+                    'key'          => $result['key'],
+                    'name'         => $result['name'],
+                    'model'        => $result['model'],
+                    'thumb'        => $thumbnail,
+                    'option'       => $option_data,
+                    'quantity'     => $form->getFieldHtml(
                         array(
                             'type'  => 'input',
                             'name'  => 'quantity['.$result['key'].']',
@@ -352,10 +356,11 @@ class ControllerPagesCheckoutCart extends AController
                             'attr'  => ' size="3" ',
                             'style' => 'short',
                         )),
-                    'stock'      => $result['stock'],
-                    'price'      => $this->currency->format($price_with_tax),
-                    'total'      => $this->currency->format_total($price_with_tax, $result['quantity']),
-                    'href'       => $this->html->getSEOURL($product_rt, '&product_id='.$result['product_id'].'&key='.$result['key'], true),
+                    'stock'        => $result['stock'],
+                    'tax_class_id' => $result['tax_class_id'],
+                    'price'        => $this->currency->format($price_with_tax),
+                    'total'        => $this->currency->format_total($price_with_tax, $result['quantity']),
+                    'href'         => $this->html->getSEOURL($product_rt, '&product_id='.$result['product_id'].'&key='.$result['key'], true),
                 );
             }
 
