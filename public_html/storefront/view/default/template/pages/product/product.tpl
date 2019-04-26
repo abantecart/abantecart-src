@@ -546,8 +546,8 @@ if ($error){ ?>
 					return false;
 				}
 				var html1 = '',
-						html2 = '',
-						main_image = data.main;
+					html2 = '',
+					main_image = data.main;
 
 				if (main_image) {
 					if (main_image.origin == 'external') {
@@ -559,7 +559,7 @@ if ($error){ ?>
 						html1 += '<i class="fa fa-arrows  hidden-xs hidden-sm"></i></a>';
 					}
 				}
-				if (data.images) {
+				if (data.images.length>0) {
 					for (img in data.images) {
 						var image = data.images[img];
 						html2 += '<li class="producthtumb">';
@@ -572,8 +572,8 @@ if ($error){ ?>
 						html2 += '</li>';
 					}
 				} else {
-					html1 = orig_imgs;
-					html2 = orig_thumbs;
+					//no images - no action
+					return false;
 				}
 				$('div.bigimage').each(function () {
 					$(this).html(html1)
