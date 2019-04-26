@@ -462,7 +462,7 @@ class ControllerPagesProductProduct extends AController
 
             //if not values are build, nothing to show
             if (count($values)) {
-                $value = '';
+                $value = $attr = '';
                 //add price to option name if it is not element with options
                 if (!in_array($option['element_type'], $elements_with_options) && $option['element_type'] != 'B') {
                     $option['name'] .= ' <small>'.$price.'</small>';
@@ -484,13 +484,20 @@ class ControllerPagesProductProduct extends AController
                 }
 
                 //for checkbox with empty value
-                if ($value == '' && $option['element_type'] == 'C') {
-                    $value = 1;
+                if ($option['element_type'] == 'C') {
+                    if($value == '') {
+                        $value = 1;
+                    }
+                    $attr = key($option['option_value']);
                 }
 
                 $option_data = array(
                     'type'             => $option['html_type'],
-                    'name'             => !in_array($option['element_type'], HtmlElementFactory::getMultivalueElements()) ? 'option['.$option['product_option_id'].']' : 'option['.$option['product_option_id'].'][]',
+                    'name'             =>
+                        !in_array($option['element_type'], HtmlElementFactory::getMultivalueElements())
+                            ? 'option['.$option['product_option_id'].']'
+                            : 'option['.$option['product_option_id'].'][]',
+                    'attr'             => ' data-attribute-value-id="'.$attr.'"',
                     'value'            => $value,
                     'options'          => $values,
                     'disabled_options' => $disabled_values,
