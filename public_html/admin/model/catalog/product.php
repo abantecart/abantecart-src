@@ -2723,33 +2723,39 @@ class ModelCatalogProduct extends Model
                     ON (ps.product_id = ops.product_id 
                         AND COALESCE(ps.product_option_value_id,0) = COALESCE(ops.product_option_value_id,0)
                         AND ps.location_id = ops.location_id ) 
-                WHERE ops.order_product_id=".(int)$order_product_id;
+                WHERE ops.order_product_id=".(int)$order_product_id ."
+                ORDER BY ops.sort_order ASC, ps.sort_order ASC";
         $result = $this->db->query($sql);
 
         $product_id = 0;
         $product_option_value_id = 0;
-        $order_stocks = array();
+        $order_stocks = $sort_order = array();
         foreach($result->rows as $row){
-            $order_stocks[$row['location_id']] = $row;
+            $locId = $row['location_id'];
+            $order_stocks[$locId] = $row;
             $product_id = $row['product_id'];
             $product_option_value_id = (int)$row['product_option_value_id'];
+            $sort_order[$locId] = $row['sort_order'];
         }
         if($order_stocks) {
             $sql = "SELECT psl.*, CONCAT(l.name, ' ', l.description) as location_name
-                FROM ".$this->db->table('product_stock_locations')." psl
-                LEFT JOIN ".$this->db->table('locations')." l
-                    ON l.location_id = psl.location_id
-                WHERE psl.product_id = ".$product_id." 
-                        AND psl.product_option_value_id ".(!$product_option_value_id ? ' IS NULL '
-                    : ' = '.(int)$product_option_value_id)."
-                        AND psl.location_id NOT IN (".implode(',', array_keys($order_stocks)).")";
+                    FROM ".$this->db->table('product_stock_locations')." psl
+                    LEFT JOIN ".$this->db->table('locations')." l
+                        ON l.location_id = psl.location_id
+                    WHERE psl.product_id = ".$product_id." 
+                            AND psl.product_option_value_id ".(!$product_option_value_id ? ' IS NULL '
+                        : ' = '.(int)$product_option_value_id)."
+                            AND psl.location_id NOT IN (".implode(',', array_keys($order_stocks)).")
+                    ORDER BY psl.sort_order ASC";
             $result = $this->db->query($sql);
             foreach ($result->rows as $row) {
                 $row['available_quantity'] = $row['quantity'];
                 $row['quantity'] = 0;
                 $order_stocks[$row['location_id']] = $row;
+                $sort_order[$row['location_id']] = $row['sort_order'];
             }
         }
+        array_multisort($sort_order, SORT_ASC, $order_stocks);
         return $order_stocks;
     }
 

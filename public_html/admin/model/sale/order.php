@@ -296,17 +296,18 @@ class ModelSaleOrder extends Model
         if(!$data){
             return false;
         }
+
         //get list of order products that need to delete
         foreach($data as $order_product){
-
+            $qnt = isset($order_product['quantity']) ? (int)$order_product['quantity'] : array_sum($order_product['stock_quantity']);
             if($order_product['base_subtract'] && !$order_product['product_option_value_id']){
                 $sql = "UPDATE ".$this->db->table('products')." 
-                        SET quantity = quantity + ".(int)$order_product['quantity']."
+                        SET quantity = quantity + ".(int)$qnt."
                         WHERE product_id = '".$order_product['product_id']."'";
                 $this->db->query($sql);
             }elseif($order_product['option_subtract']){
                 $sql = "UPDATE ".$this->db->table('product_option_values')." 
-                        SET quantity = quantity + ".(int)$order_product['quantity']."
+                        SET quantity = quantity + ".(int)$qnt."
                         WHERE product_option_value_id = '".$order_product['product_option_value_id']."'";
                 $this->db->query($sql);
             }
@@ -661,8 +662,6 @@ class ModelSaleOrder extends Model
     {
         $this->load->model('catalog/product');
 
-
-
         $stock_diffs = array();
         $stockLocations = $this->model_catalog_product->getProductStockLocations($product_id, (int)$product_option_value_id);
 
@@ -764,8 +763,9 @@ class ModelSaleOrder extends Model
 
         $povId = !(int)$product_option_value_id ? 'IS NULL' : " = ".(int)$product_option_value_id;
 
-
+        $commonOrderQnty = 0;
         foreach($new_stock_quantities as $location_id => $newQnty){
+            $commonOrderQnty += (int)$newQnty;
 
             $diff = $newQnty - $order_product_info[$location_id]['order_stock_quantity'];
 
@@ -827,6 +827,11 @@ class ModelSaleOrder extends Model
         }
         $this->db->query($sql);
 
+        //update common quantity in the order products table
+        $sql = "UPDATE ". $this->db->table('order_products') ."
+                SET quantity = ".$commonOrderQnty."
+                WHERE order_product_id = ".$order_product_id;
+        $this->db->query($sql);
         $this->cache->remove('product');
         return true;
     }
@@ -852,8 +857,7 @@ class ModelSaleOrder extends Model
                         ? '= '.(int)$row['product_option_value_id']
                         : 'IS NULL')."
                 ";
-
-            $this->db->query($sql);
+        $this->db->query($sql);
         }
     }
 
