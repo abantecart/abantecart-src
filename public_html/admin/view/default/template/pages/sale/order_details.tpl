@@ -520,8 +520,9 @@
 				qty = 0;
 				$('input[name*="stock_quantity"]', v).each(
 					function(){
+						if($(this).val() == ''){ return false;}
 						var qq = parseInt($(this).val(), 10);
-						qty += qq == NaN ? 0 : qq;
+						qty += (qq == NaN || qq ==='') ? 0 : qq;
 					}
 				);
 			}
@@ -641,7 +642,7 @@
 
 	$('input[name*="quantity]"]').keyup(function () {
 		var v = $(this).val().replace(/[^0-9]/,'');
-		v = v==='' ? 0 : v;
+		//v = v==='' ? 0 : v;
 		$(this).val(v);
 	});
 	
