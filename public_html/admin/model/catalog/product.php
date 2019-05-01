@@ -2717,11 +2717,40 @@ class ModelCatalogProduct extends Model
      */
     public function getOrderProductStockLocations($order_product_id)
     {
-        $sql = "SELECT *
-                FROM ".$this->db->table('order_product_stock_locations')." 
-                WHERE order_product_id=".(int)$order_product_id;
+        $sql = "SELECT ops.*, COALESCE(ps.quantity,'absent') as available_quantity 
+                FROM ".$this->db->table('order_product_stock_locations')." ops
+                LEFT JOIN ".$this->db->table('product_stock_locations')." ps
+                    ON (ps.product_id = ops.product_id 
+                        AND COALESCE(ps.product_option_value_id,0) = COALESCE(ops.product_option_value_id,0)
+                        AND ps.location_id = ops.location_id ) 
+                WHERE ops.order_product_id=".(int)$order_product_id;
         $result = $this->db->query($sql);
-        return $result->rows;
+
+        $product_id = 0;
+        $product_option_value_id = 0;
+        $order_stocks = array();
+        foreach($result->rows as $row){
+            $order_stocks[$row['location_id']] = $row;
+            $product_id = $row['product_id'];
+            $product_option_value_id = (int)$row['product_option_value_id'];
+        }
+        if($order_stocks) {
+            $sql = "SELECT psl.*, CONCAT(l.name, ' ', l.description) as location_name
+                FROM ".$this->db->table('product_stock_locations')." psl
+                LEFT JOIN ".$this->db->table('locations')." l
+                    ON l.location_id = psl.location_id
+                WHERE psl.product_id = ".$product_id." 
+                        AND psl.product_option_value_id ".(!$product_option_value_id ? ' IS NULL '
+                    : ' = '.(int)$product_option_value_id)."
+                        AND psl.location_id NOT IN (".implode(',', array_keys($order_stocks)).")";
+            $result = $this->db->query($sql);
+            foreach ($result->rows as $row) {
+                $row['available_quantity'] = $row['quantity'];
+                $row['quantity'] = 0;
+                $order_stocks[$row['location_id']] = $row;
+            }
+        }
+        return $order_stocks;
     }
 
     /**

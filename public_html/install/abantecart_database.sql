@@ -12612,7 +12612,7 @@ CREATE TABLE `ac_product_stock_locations` (
   `sort_order` int(11) NOT NULL DEFAULT '0',
   UNIQUE KEY `ac_product_stock_locations_idx` (`product_id`,`product_option_value_id`,`location_id`),
   KEY `ac_product_stock_locations_idx2` (`product_option_value_id`)
-);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 DROP TABLE IF EXISTS `ac_order_product_stock_locations`;
 CREATE TABLE `ac_order_product_stock_locations` (
@@ -12625,4 +12625,4 @@ CREATE TABLE `ac_order_product_stock_locations` (
   `sort_order` int(11) DEFAULT '0',
   KEY `ac_product_options_value_idx` (`product_option_value_id`),
   KEY `ac_product_options_value_idx2` (`order_product_id`,`product_id`,`product_option_value_id`,`location_id`)
-);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
