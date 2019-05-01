@@ -382,7 +382,7 @@ class ModelSaleOrder extends Model
                     if(isset($product['quantity'])) {
                         $sql .= ", quantity = ".(int)$product['quantity'];
                     }
-                    $sql .= "WHERE order_id = '".(int)$order_id."' AND order_product_id = '".(int)$order_product_id."'";
+                    $sql .= " WHERE order_id = '".(int)$order_id."' AND order_product_id = '".(int)$order_product_id."'";
                     $this->db->query($sql);
                     $this->updateOrderStockLocations($order_product_id, $product['stock_quantity']);
                 } else {
