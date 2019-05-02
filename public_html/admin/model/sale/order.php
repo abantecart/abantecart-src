@@ -387,7 +387,7 @@ class ModelSaleOrder extends Model
                     }
                     $sql .= " WHERE order_id = '".(int)$order_id."' AND order_product_id = '".(int)$order_product_id."'";
                     $this->db->query($sql);
-
+                    //update stock quantity
                     if ($product_info['subtract'] && isset($product['quantity'])) {
                         $new_qnt = $product_info['quantity'] + ($exists->row['quantity'] - (int)$product['quantity']);
                         $this->db->query("UPDATE ".$this->db->table("products")."
@@ -582,6 +582,25 @@ class ModelSaleOrder extends Model
                                 }
                             }
 
+                            //if qnt changed for the same option values
+                            $intersect = array_intersect($curr_arr, $prev_arr);
+                            $qnt_diff = $exists->row['quantity'] - $product['quantity'];
+                            if ($intersect && $qnt_diff != 0) {
+                                if ($qnt_diff < 0) {
+                                    $sql_incl = "(quantity - ".abs($qnt_diff).")";
+                                } else {
+                                    $sql_incl = "(quantity + ".abs($qnt_diff).")";
+                                }
+                                foreach ($intersect as $v) {
+                                    if(!$product['stock_quantity']) {
+                                        $sql = "UPDATE ".$this->db->table("product_option_values")."
+                                          SET quantity = ".$sql_incl."
+                                          WHERE product_option_value_id = '".(int)$v."'
+                                                AND subtract = 1";
+                                        $this->db->query($sql);
+                                    }
+                                }
+                            }
                         }
                     }
                 }//end processing options
