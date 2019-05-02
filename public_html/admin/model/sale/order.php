@@ -389,6 +389,8 @@ class ModelSaleOrder extends Model
                     }
                     $sql .= " WHERE order_id = '".(int)$order_id."' AND order_product_id = '".(int)$order_product_id."'";
                     $this->db->query($sql);
+                    //update stock quantity
+                    $qnt_diff = $exists->row['quantity'] - $product['quantity'];
 
                     if ($product_info['subtract'] && isset($product['quantity'])) {
                         $new_qnt = $product_info['quantity'] + ($exists->row['quantity'] - (int)$product['quantity']);
@@ -405,7 +407,6 @@ class ModelSaleOrder extends Model
                             if($product_options) {
                                 foreach ($product_options as $row) {
                                     $product['option'][$row['product_option_id']][] = $row['product_option_value_id'];
-                                    $locationStockUpdated = true;
                                 }
                             }
                         }
