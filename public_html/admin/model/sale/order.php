@@ -340,8 +340,6 @@ class ModelSaleOrder extends Model
         $order_product_id = (int)$data['order_product_id'];
         $product_id = (int)$data['product_id'];
 
-        $locationStockUpdated = false;
-
         if (!$product_id || !$order_id) {
             return false;
         }
@@ -389,8 +387,6 @@ class ModelSaleOrder extends Model
                     }
                     $sql .= " WHERE order_id = '".(int)$order_id."' AND order_product_id = '".(int)$order_product_id."'";
                     $this->db->query($sql);
-                    //update stock quantity
-                    $qnt_diff = $exists->row['quantity'] - $product['quantity'];
 
                     if ($product_info['subtract'] && isset($product['quantity'])) {
                         $new_qnt = $product_info['quantity'] + ($exists->row['quantity'] - (int)$product['quantity']);
@@ -586,22 +582,6 @@ class ModelSaleOrder extends Model
                                 }
                             }
 
-                            //if qnt changed for the same option values
-                            $intersect = array_intersect($curr_arr, $prev_arr);
-                            if ($intersect && $qnt_diff != 0) {
-                                if ($qnt_diff < 0) {
-                                    $sql_incl = "(quantity - ".abs($qnt_diff).")";
-                                } else {
-                                    $sql_incl = "(quantity + ".abs($qnt_diff).")";
-                                }
-                                foreach ($intersect as $v) {
-                                    $sql = "UPDATE ".$this->db->table("product_option_values")."
-                                          SET quantity = ".$sql_incl."
-                                          WHERE product_option_value_id = '".(int)$v."'
-                                                AND subtract = 1";
-                                    $this->db->query($sql);
-                                }
-                            }
                         }
                     }
                 }//end processing options
@@ -754,6 +734,12 @@ class ModelSaleOrder extends Model
         }
 
         $povId = !(int)$product_option_value_id ? 'IS NULL' : " = ".(int)$product_option_value_id;
+        $this->load->model('catalog/product');
+        $locations = $this->model_catalog_product->getProductStockLocations($product_id,$product_option_value_id);
+        $stockLocations = array();
+        foreach($locations as $row){
+            $stockLocations[$row['location_id']] = $row;
+        }
 
         $commonOrderQnty = 0;
         foreach($new_stock_quantities as $location_id => $newQnty){
@@ -772,25 +758,28 @@ class ModelSaleOrder extends Model
                     WHERE location_id= ".(int)$location_id."
                         AND product_id = ".(int)$product_id." 
                         AND product_option_value_id ".$povId;
+
             $this->db->query($sql);
 
             if(isset($order_product_info[$location_id])) {
                 $sql = "UPDATE ".$this->db->table('order_product_stock_locations')."
-                        SET quantity = ".(int)$newQnty."
+                        SET quantity = ".(int)$newQnty.",
+                            sort_order = ".(int)$stockLocations[$location_id]['sort_order']."
                         WHERE order_product_id = ".(int)$order_product_id." 
                             AND product_id = ".$product_id."
                             AND product_option_value_id     ".$povId."
                             AND location_id = ".(int)$location_id;
             }else{
                 $sql = "INSERT ".$this->db->table('order_product_stock_locations')."
-                              (order_product_id, product_id, product_option_value_id, location_id, location_name, quantity)
+                              (order_product_id, product_id, product_option_value_id, location_id, location_name, quantity, sort_order)
                         VALUES (
                             ".(int)$order_product_id.",
                             ".$product_id.",
                             ".($product_option_value_id ? $product_option_value_id : 'NULL').",
                             ".(int)$location_id.",
                             (SELECT CONCAT(name,' ', description) FROM ".$this->db->table('locations')." WHERE location_id=".(int)$location_id."),
-                            ".(int)$newQnty."
+                            ".(int)$newQnty.",
+                            ".(int)$stockLocations[$location_id]['sort_order']."
                         )";
             }
 
@@ -858,6 +847,8 @@ class ModelSaleOrder extends Model
      * @param $order_product_id
      * @param $product_id
      * @param $stock_diffs
+     *
+     * @throws AException
      */
     public function updateOrderProductStockLocations($order_product_id, $product_id, $stock_diffs){
 
@@ -879,22 +870,26 @@ class ModelSaleOrder extends Model
                                 AND location_id = ".(int)$location_id;
 
                 }else{
-                    $location = $this->db->query(
-                        "SELECT name 
-                        FROM ".$this->db->table('locations')." 
-                        WHERE location_id = ".(int)$location_id
-                    );
+                    $this->load->model('catalog/product');
+                    $locations = $this->model_catalog_product->getProductStockLocations($product_id,$product_option_value_id);
+                    $stockLocations = array();
+                    foreach($locations as $row){
+                        $stockLocations[$row['location_id']] = $row;
+                    }
+
                     $povId = !(int)$product_option_value_id ? 'NULL' : (int)$product_option_value_id;
                     $sql = "INSERT INTO ".$this->db->table('order_product_stock_locations')."
-                            (order_product_id, product_id, product_option_value_id, location_id, location_name, quantity)
+                            (order_product_id, product_id, product_option_value_id, location_id, location_name, quantity, sort_order)
                             VALUES 
                             (
                             ".(int)$order_product_id.", 
                             ".(int)$product_id.", 
                             ".$povId.", 
                             ".(int)$location_id.",
-                            '".$this->db->escape($location->row['name'])."',
-                            ".(int)$diff_qnt.");";
+                            '".$this->db->escape($stockLocations[$location_id]['name'])."',
+                            ".(int)$diff_qnt.",
+                            ".$stockLocations[$location_id]['sort_order']."
+                            );";
                 }
                 $this->db->query($sql);
             }
