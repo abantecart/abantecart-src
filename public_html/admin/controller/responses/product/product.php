@@ -876,9 +876,9 @@ class ControllerResponsesProductProduct extends AController
             'options' => $wht_options,
         ));
 
-        //do not show RL and stock locations for new row and options with multivalues such as checkboxgroup and multiselect
+        //do not show RL and stock locations for new row and options with multivalue such as checkboxgroup and multiselect
         if($product_option_value_id
-            && !in_array($this->data['option_data']['element_type'], HtmlElementFactory::getMultivalueElements())
+            && !in_array($this->data['option_data']['element_type'], array('M', 'G'))
         ) {
             $dd = new ADispatcher(
                 'responses/product/product/stockLocations',
