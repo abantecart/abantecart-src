@@ -1,3 +1,24 @@
+AbanteCart version 1.2.15
+
+This is unplanned release to provide clarity and better interface for multi-location stock management.
+Release includes fixes to multi-location stock management as well
+
+Core:
+- Stock multi-locations support improvement
+- Mysql strict mode improvement (#1236)
+- Added default value for invoice_prefix
+
+Control Panel:
+- Added multi-locations support to order edit page
+
+Storefront:
+- Shopping Cart page fix related to tax incliuded in the price (#1269)
+
+Extensions:
+- PayPal express minor fix (#1267)
+
+Improvements and bug fixes reported on the forum and github.
+
 
 AbanteCart version 1.2.14
 
