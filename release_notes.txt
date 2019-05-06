@@ -13,10 +13,10 @@ Core:
 Control Panel:
 - Added multi-locations support to order edit page
 - Menu and dashboard display now reflects user permissions
-- Return to stock order erid page corrections.
+- Return to stock order edit page corrections.
 
 Storefront:
-- Shopping Cart page fix related to tax incliuded in the price (#1269)
+- Shopping Cart page fix related to tax included in the price (#1269)
 - Correction to images display for product options in shopping cart and product details pages
 
 Extensions:
