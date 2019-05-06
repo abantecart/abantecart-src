@@ -7,12 +7,17 @@ Core:
 - Stock multi-locations support improvement
 - Mysql strict mode improvement (#1236)
 - Added default value for invoice_prefix
+- Add ability to import product option images
+- Added buffering into apdomysql driver
 
 Control Panel:
 - Added multi-locations support to order edit page
+- Menu and dashboard display now reflects user permissions
+- Return to stock order erid page corrections.
 
 Storefront:
 - Shopping Cart page fix related to tax incliuded in the price (#1269)
+- Correction to images display for product options in shopping cart and product details pages
 
 Extensions:
 - PayPal express minor fix (#1267)
