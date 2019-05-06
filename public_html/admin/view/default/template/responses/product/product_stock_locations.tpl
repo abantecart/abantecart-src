@@ -3,7 +3,7 @@
 	<tr>
 		<th><?php echo $entry_locations; ?></th>
 		<th style="width: 17%"><?php echo $column_quantity; ?></th>
-		<th style="width: 15%"><?php echo $entry_priority; ?></th>
+		<th style="width: 15%"><?php echo $text_subtract_order; ?></th>
 		<th></th>
 	</tr>
 	</thead>
