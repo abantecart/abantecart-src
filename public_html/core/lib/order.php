@@ -121,15 +121,13 @@ class AOrder
 
         $this->load->model('checkout/extension');
 
-        $sort_order = array();
-
         $results = $this->model_checkout_extension->getExtensions('total');
-
+        $calculation_order = array();
         foreach ($results as $key => $value) {
-            $sort_order[$key] = $this->config->get($value['key'].'_sort_order');
+            $calculation_order[$key] = $this->config->get($value['key'].'_calculation_order');
         }
 
-        array_multisort($sort_order, SORT_ASC, $results);
+        array_multisort($calculation_order, SORT_ASC, $results);
 
         foreach ($results as $result) {
             $this->load->model('total/'.$result['key']);
