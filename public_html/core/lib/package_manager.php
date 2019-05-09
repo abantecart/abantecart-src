@@ -729,7 +729,12 @@ class APackageManager
                             .$extension_id.'/'.(string)$config->upgrade->sql;
                         $file = !file_exists($file) ? DIR_EXT.$extension_id.'/'.(string)$config->upgrade->sql : $file;
                         if (file_exists($file)) {
-                            $this->db->performSql($file);
+                            if( ! $this->db->performSql($file) ) {
+                                $this->error = 'SQL-ERROR: "'.$this->db->error.'"';
+                                $err = new AError($this->error);
+                                $err->toLog()->toDebug();
+                                return false;
+                            }
                         }
                     }
                     // running php install script if it exists
@@ -776,7 +781,10 @@ class APackageManager
         if (isset($config->upgrade->sql)) {
             $file = $package_tmpdir.$package_dirname.'/'.(string)$config->upgrade->sql;
             if (is_file($file)) {
-                $this->db->performSql($file);
+                if( ! $this->db->performSql($file) ) {
+                    $this->error = 'SQL-ERROR: "'.$this->db->error.'"';
+                    throw new AException(0,$this->error);
+                }
             }
         }
         // running php upgrade script if it exists
