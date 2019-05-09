@@ -96,11 +96,16 @@ class ControllerResponsesListingGridTotal extends AController
         if ($extensions) {
             foreach ($extensions as $extension) {
                 $this->loadLanguage($extension['language_rt']);
+                if($extension['extension_txt_id'] == 'balance') {
+                    $sort_order = 999;
+                } else{
+                    $sort_order = (int)$this->config->get($extension['extension_txt_id'].'_sort_order');
+                }
                 $items[] = array(
                     'id'                => $extension['extension_txt_id'],
                     'name'              => $this->language->get('total_name'),
                     'status'            => $this->config->get($extension['extension_txt_id'].'_status'),
-                    'sort_order'        => (int)$this->config->get($extension['extension_txt_id'].'_sort_order'),
+                    'sort_order'        => $sort_order,
                     'calculation_order' => (int)$this->config->get($extension['extension_txt_id'].'_calculation_order'),
                     'action'            => $this->html->getSecureURL($extension['config_controller']),
                 );
@@ -146,6 +151,13 @@ class ControllerResponsesListingGridTotal extends AController
 
         $i = 0;
         foreach ($results as $result) {
+            if($result['id'] == 'balance') {
+                $sort_order = 999;
+                $disable = 'disabled';
+            } else{
+                $sort_order = $result['sort_order'];
+                $disable = '';
+            }
             $response->userdata->rt[$result['id']] = $result['action'];
             $status = $this->html->buildCheckbox(array(
                 'name'  => $result['id'].'['.$result['id'].'_status]',
@@ -154,7 +166,8 @@ class ControllerResponsesListingGridTotal extends AController
             ));
             $sort = $this->html->buildInput(array(
                 'name'  => $result['id'].'['.$result['id'].'_sort_order]',
-                'value' => $result['sort_order'],
+                'value' => $sort_order,
+                'attr'  => $disable
             ));
 
             $calc = $this->html->buildInput(array(
