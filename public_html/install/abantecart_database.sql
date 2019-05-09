@@ -902,7 +902,8 @@ CREATE TABLE `ac_locations` (
 --
 
 INSERT INTO `ac_locations` (`location_id`, `name`, `description`, `date_added`) VALUES
-(1, 'USA', 'All States', now());
+(1, 'USA', 'All States', NOW()),
+(2, 'Canada','All provinces', NOW());
 
 --
 -- DDL for table `languages`

@@ -381,7 +381,7 @@ INSERT INTO `ac_downloads`
 `date_added`,
 `date_modified`)
 VALUES
-  (1,'download/18/76/4.mp3','audio-cd.mp3',50,NULL,0,'order_status',5,0,1,NOW(),NOW()),
+(1,'download/18/76/4.mp3','audio-cd.mp3',50,NULL,0,'order_status',5,0,1,NOW(),NOW()),
 (2,'download/18/76/5.mp3','sample.mp3',NULL,NULL,0,'before_order',0,0,1,NOW(),NOW()),
 (5,'download/18/79/f.pdf','size-fit-guide-print.pdf',NULL,NULL,0,'before_order',0,1,1,NOW(),NOW());
 
@@ -391,16 +391,6 @@ VALUES
 --
 
 INSERT INTO `ac_global_attributes`
-(`attribute_id`,
-`attribute_parent_id`,
-`attribute_group_id`,
-`attribute_type_id`,
-`element_type`,
-`sort_order`,
-`required`,
-`settings`,
-`status`,
-`regexp_pattern`)
 VALUES
 (1,0,0,1,'S',1,1,'',1,NULL),
 (2,0,0,1,'C',0,0,'',1,NULL),
@@ -424,12 +414,12 @@ VALUES
 (7,1,'UK Size',''),
 (8,1,'Color','');
 
+
 --
 -- Dumping data for table `global_attributes_values`
 --
 
 INSERT INTO `ac_global_attributes_values`
-(`attribute_value_id`, `attribute_id`, `sort_order`)
 VALUES
 (53,1,0),
 (52,1,0),
@@ -460,10 +450,16 @@ VALUES
 (89,8,0),
 (90,8,0),
 (91,8,0),
-(92,8,0);
+(92,8,0),
+(93,7,0),
+(94,7,0),
+(95,7,0),
+(96,7,0),
+(97,7,0),
+(98,8,0);
+
 
 INSERT INTO `ac_global_attributes_value_descriptions`
-(`attribute_value_id`, `attribute_id`, `language_id`, `value`)
 VALUES
 (53,1,1,'1 oz'),
 (52,1,1,'75ml'),
@@ -495,7 +491,13 @@ VALUES
 (89,8,1,'White'),
 (90,8,1,'Black'),
 (91,8,1,'Blue'),
-(92,8,1,'Green');
+(92,8,1,'Green'),
+(93,7,1,'XXL'),
+(94,7,1,'XL'),
+(95,7,1,'S'),
+(96,7,1,'L'),
+(97,7,1,'M'),
+(98,8,1,'Yellow');
 
 --
 -- Dumping data for table `manufacturers`
@@ -532,155 +534,219 @@ INSERT INTO `ac_manufacturers_to_stores` VALUES (20,0);
 -- Dumping data for table `order_history`
 --
 
-INSERT INTO `ac_order_history` VALUES (1,1,1,1,'','0000-00-00 00:00:00','2015-06-12 09:56:25');
-INSERT INTO `ac_order_history` VALUES (2,2,1,1,'','2013-09-07 08:02:31','2015-06-12 09:56:25');
-INSERT INTO `ac_order_history` VALUES (3,3,1,1,'','2013-09-07 08:41:25','2015-06-12 09:56:25');
-INSERT INTO `ac_order_history` VALUES (4,4,1,1,'','2013-09-07 08:51:07','2015-06-12 09:56:25');
-INSERT INTO `ac_order_history` VALUES (5,5,1,1,'','2013-09-07 09:20:22','2015-06-12 09:56:25');
-INSERT INTO `ac_order_history` VALUES (6,6,1,1,'','2013-09-07 09:21:56','2015-06-12 09:56:25');
-INSERT INTO `ac_order_history` VALUES (7,7,1,1,'','2013-09-07 09:24:11','2015-06-12 09:56:25');
-INSERT INTO `ac_order_history` VALUES (8,8,1,1,'','2013-09-07 09:36:21','2015-06-12 09:56:25');
-INSERT INTO `ac_order_history` VALUES (9,9,1,1,'','2013-09-07 09:37:20','2015-06-12 09:56:25');
-INSERT INTO `ac_order_history` VALUES (10,10,1,1,'','2013-09-07 09:39:30','2015-06-12 09:56:25');
-INSERT INTO `ac_order_history` VALUES (11,11,1,1,'','2013-09-07 09:40:03','2015-06-12 09:56:25');
-INSERT INTO `ac_order_history` VALUES (12,12,1,1,'','2012-03-15 14:04:06','2015-06-12 09:56:25');
-INSERT INTO `ac_order_history` VALUES (13,13,1,1,'','2012-03-15 14:05:40','2015-06-12 09:56:25');
+INSERT INTO `ac_order_history`
+VALUES
+(1,1,1,1,'','0000-00-00 00:00:00','2015-06-12 09:56:25'),
+(2,2,1,1,'','2013-09-07 08:02:31','2015-06-12 09:56:25'),
+(3,3,1,1,'','2013-09-07 08:41:25','2015-06-12 09:56:25'),
+(4,4,1,1,'','2013-09-07 08:51:07','2015-06-12 09:56:25'),
+(5,5,1,1,'','2013-09-07 09:20:22','2015-06-12 09:56:25'),
+(6,6,1,1,'','2013-09-07 09:21:56','2015-06-12 09:56:25'),
+(7,7,1,1,'','2013-09-07 09:24:11','2015-06-12 09:56:25'),
+(8,8,1,1,'','2013-09-07 09:36:21','2015-06-12 09:56:25'),
+(9,9,1,1,'','2013-09-07 09:37:20','2015-06-12 09:56:25'),
+(10,10,1,1,'','2013-09-07 09:39:30','2015-06-12 09:56:25'),
+(11,11,1,1,'','2013-09-07 09:40:03','2015-06-12 09:56:25'),
+(12,12,1,1,'','2012-03-15 14:04:06','2015-06-12 09:56:25'),
+(13,13,1,1,'','2012-03-15 14:05:40','2015-06-12 09:56:25'),
+(14,14,1,1,'','2019-03-18 12:13:45','2019-03-18 12:13:45'),
+(15,14,5,1,'Thank you for your order!','2019-03-18 12:14:29','2019-03-18 12:14:29'),
+(16,15,1,1,'','2019-03-18 12:21:03','2019-03-18 12:21:03'),
+(17,15,3,1,'Your order has been shipped. Tracking number is 4221736293','2019-03-18 12:26:40','2019-03-18 12:26:40'),
+(18,16,1,1,'','2019-03-18 13:39:24','2019-03-18 13:39:24'),
+(19,17,1,1,'','2019-03-19 08:33:15','2019-03-19 08:33:15'),
+(20,18,1,1,'','2019-03-21 12:10:11','2019-03-21 12:10:11'),
+(21,19,1,1,'','2019-05-06 06:05:14','2019-05-06 06:05:14'),
+(22,20,1,1,'','2019-05-06 06:20:00','2019-05-06 06:20:00');
+
 
 --
 -- Dumping data for table `order_options`
 --
-
 INSERT INTO `ac_order_options`
-		(`order_option_id`, `order_id`, `order_product_id`, `product_option_value_id`, `name`, `value`, `price`, `prefix`, `settings`)
 VALUES
- (1,1,2,588,'Memory','8GB',99.0000,'+',NULL),
- (2,2,7,684,'Color','brown',10.0000,'+',NULL),
- (3,3,9,651,'Size','33.8 oz',49.0000,'+',NULL),
- (4,3,10,650,'Size','8 oz',19.0000,'+',NULL),
- (5,3,15,646,'Color','Brown',20.0000,'-',NULL),
- (6,4,16,613,'Color','Mandarin Sky',29.5000,'+',NULL),
- (7,4,18,664,'Fragrance Size','3.4 oz',84.0000,'+',NULL),
- (8,4,19,673,'Fragrance Size','6.7 oz',92.0000,'+',NULL),
- (9,4,21,661,'Fragrance Size','150ml',45.0000,'+',NULL),
- (10,5,23,627,'Color','Jade Fever',48.0000,'+',NULL),
- (11,5,24,626,'Color','Gris Fatale',48.0000,'+',NULL),
- (12,5,25,622,'Color','Shirelle',15.0000,'+',NULL),
- (13,5,26,619,'Color','Lacewood',27.0000,'+',NULL),
- (14,5,27,657,'Color','Light Bisque',30.5000,'+',NULL),
- (15,5,30,651,'Size','33.8 oz',49.0000,'+',NULL),
- (16,6,31,666,'Size','30 ml',30.0000,'+',NULL),
- (17,7,33,649,'Fragrance Size','1.7 oz',88.0000,'+',NULL),
- (18,7,34,660,'Fragrance Size','100ml',37.0000,'+',NULL),
- (19,8,35,646,'Color','Brown',20.0000,'-',NULL),
- (20,8,36,681,'Color','beige',10.0000,'+',NULL),
- (21,12,45,721,'Size','Eau de Toilette',78.5000,'$',NULL),
- (22,12,45,1,'Gift Wrapping','1',78.5000,'$',NULL),
- (23,12,47,738,'Size','30ml',90.0000,'$',NULL),
- (24,13,49,713,'Size','1.7 oz',72.0000,'$',NULL),
- (25,13,49,1,'Gift Wrapping','1',72.0000,'$',NULL);
+(1,1,2,588,'Memory','','8GB',99.0000,'+',NULL),
+(2,2,7,684,'Color','','brown',10.0000,'+',NULL),
+(3,3,9,651,'Size','','33.8 oz',49.0000,'+',NULL),
+(4,3,10,650,'Size','','8 oz',19.0000,'+',NULL),
+(5,3,15,646,'Color','','Brown',20.0000,'-',NULL),
+(6,4,16,613,'Color','','Mandarin Sky',29.5000,'+',NULL),
+(7,4,18,664,'Fragrance Size','','3.4 oz',84.0000,'+',NULL),
+(8,4,19,673,'Fragrance Size','','6.7 oz',92.0000,'+',NULL),
+(9,4,21,661,'Fragrance Size','','150ml',45.0000,'+',NULL),
+(10,5,23,627,'Color','','Jade Fever',48.0000,'+',NULL),
+(11,5,24,626,'Color','','Gris Fatale',48.0000,'+',NULL),
+(12,5,25,622,'Color','','Shirelle',15.0000,'+',NULL),
+(13,5,26,619,'Color','','Lacewood',27.0000,'+',NULL),
+(14,5,27,657,'Color','','Light Bisque',30.5000,'+',NULL),
+(15,5,30,651,'Size','','33.8 oz',49.0000,'+',NULL),
+(16,6,31,666,'Size','','30 ml',30.0000,'+',NULL),
+(17,7,33,649,'Fragrance Size','','1.7 oz',88.0000,'+',NULL),
+(18,7,34,660,'Fragrance Size','','100ml',37.0000,'+',NULL),
+(19,8,35,646,'Color','','Brown',20.0000,'-',NULL),
+(20,8,36,681,'Color','','beige',10.0000,'+',NULL),
+(21,12,45,721,'Size','','Eau de Toilette',78.5000,'$',NULL),
+(22,12,45,1,'Gift Wrapping','','1',78.5000,'$',NULL),
+(23,12,47,738,'Size','','30ml',90.0000,'$',NULL),
+(24,13,49,713,'Size','','1.7 oz',72.0000,'$',NULL),
+(25,13,49,1,'Gift Wrapping','','1',72.0000,'$',NULL),
+(26,15,51,747,'UK size','','3 UK ',26.0000,'$',''),
+(27,15,51,754,'Colour','','black',26.0000,'$',''),
+(28,16,52,783,'Color&amp;Size','','S / Red',14.0000,'$','a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}'),
+(29,17,53,778,'Size EU','','EU XS (Asia M)',21.0000,'$',''),
+(33,18,59,752,'Colour','','white',26.0000,'$',''),
+(32,18,59,749,'UK size','','5 UK ',26.0000,'$',''),
+(34,20,61,778,'Size EU','','EU XS (Asia M)',21.0000,'$',''),
+(37,20,62,778,'Size EU','','EU XS (Asia M)',0.0000,'$',NULL);
+
 
 INSERT INTO `ac_order_products`
-(`order_product_id`, `order_id`, `product_id`, `name`, `model`, `price`, `total`, `tax`, `quantity`, `subtract`)
 VALUES
-(6,2,97,'Eye Rejuvenating Serum','GRMBC004',126.0000,126.0000,8.5000,1,0),
-(7,2,100,'Smooth silk lip pencils','GRMBC007',10.0000,40.0000,8.5000,4,0),
-(8,2,93,'Creme Precieuse Nuit 50ml','BVLG003',220.0000,220.0000,8.5000,1,0),
-(9,3,69,'Seaweed Conditioner','SCND001',49.0000,49.0000,0.0000,1,0),
-(10,3,69,'Seaweed Conditioner','SCND001',19.0000,19.0000,0.0000,1,0),
-(11,3,77,'Men+Care Active Clean Shower Tool','DMBW0014',6.0000,6.0000,0.0000,1,0),
-(12,3,98,'Shaving cream','GRMBC005',98.0000,98.0000,0.0000,1,0),
-(13,3,62,'ck one shock for him Deodorant','601232',14.0000,14.0000,0.0000,1,0),
-(14,3,66,'Total Moisture Facial Cream','556240',38.0000,38.0000,0.0000,1,0),
-(15,3,54,'L\'EXTRÊME Instant Extensions Lengthening Mascara','74144',20.0000,20.0000,0.0000,1,0),
-(16,4,57,'Delicate Oil-Free Powder Blush','117148',29.5000,29.5000,8.5000,1,0),
-(17,4,67,'Flash Bronzer Body Gel','463686',29.0000,29.0000,8.5000,1,0),
-(18,4,80,'Acqua Di Gio Pour Homme','GRM001',84.0000,84.0000,8.5000,1,0),
-(19,4,89,'Secret Obsession Perfume','CK0012',92.0000,92.0000,8.5000,1,0),
-(20,4,75,'Dove Men +Care Body Wash','DMBW0012',6.7000,6.7000,8.5000,1,0),
-(21,4,78,'ck IN2U Eau De Toilette Spray for Him','Cl0001',45.0000,45.0000,8.5000,1,0),
-(22,5,97,'Eye Rejuvenating Serum','GRMBC004',126.0000,126.0000,8.5000,1,0),
-(23,5,61,'Color Design Eye Brightening All in One 5 Shadow &amp; Liner Palette','529071',48.0000,48.0000,8.5000,1,0),
-(24,5,61,'Color Design Eye Brightening All in One 5 Shadow &amp; Liner Palette','529071',48.0000,96.0000,8.5000,2,0),
-(25,5,60,'Nail Lacquer','112423',15.0000,15.0000,8.5000,1,0),
-(26,5,55,'LE ROUGE ABSOLU Reshaping &amp; Replenishing LipColour SPF 15','tw152236',27.0000,27.0000,8.5000,1,0),
-(27,5,56,'Waterproof Protective Undereye Concealer','35190',30.5000,30.5000,8.5000,1,0),
-(28,5,51,'BeneFit Girl Meets Pearl','483857',19.0000,19.0000,8.5000,1,0),
-(29,5,93,'Creme Precieuse Nuit 50ml','BVLG003',220.0000,220.0000,8.5000,1,0),
-(30,5,69,'Seaweed Conditioner','SCND001',49.0000,49.0000,8.5000,1,0),
-(31,6,84,'Armani Code Pour Femme','GRM005',30.0000,30.0000,8.5000,1,0),
-(32,6,92,'Body Cream by Bulgari','BVLG002',57.0000,171.0000,8.5000,3,0),
-(33,7,63,'Pour Homme Eau de Toilette','374622',88.0000,88.0000,8.5000,1,0),
-(34,7,78,'ck IN2U Eau De Toilette Spray for Him','Cl0001',37.0000,74.0000,8.5000,2,0),
-(35,8,54,'L\'EXTRÊME Instant Extensions Lengthening Mascara','74144',20.0000,20.0000,0.0000,1,0),
-(36,8,100,'Smooth silk lip pencils','GRMBC007',10.0000,40.0000,0.0000,4,0),
-(37,9,94,'Night Care Crema Nera Obsidian Mineral Complex','GRMBC001',263.0000,263.0000,0.0000,1,0),
-(38,9,67,'Flash Bronzer Body Gel','463686',29.0000,29.0000,0.0000,1,0),
-(39,9,91,'Jasmin Noir Body Lotion 6.8 fl oz','BVLG001',29.0000,58.0000,0.0000,2,0),
-(40,10,72,'Brunette expressions Conditioner','PCND002',24.0000,24.0000,8.5000,1,0),
-(41,10,81,'Armani Eau de Toilette Spray ','GRM002',61.0000,61.0000,8.5000,1,0),
-(42,10,88,'ck one Summer 3.4 oz','CK0011',27.0000,27.0000,8.5000,1,0),
-(43,10,70,'Eau Parfumee au The Vert Shampoo','522823',31.0000,31.0000,8.5000,1,0),
-(44,11,51,'BeneFit Girl Meets Pearl','483857',19.0000,19.0000,0.0000,1,0),
-(45,12,105,'Bvlgari Aqua','PRF00273',78.5000,78.5000,0.0000,1,0),
-(46,12,65,'Absolue Eye Precious Cells','427847',105.0000,105.0000,8.5000,1,0),
-(47,12,110,'Flora By Gucci Eau Fraiche','PRF00278',90.0000,270.0000,8.5000,3,0),
-(48,12,95,'Skin Minerals For Men Cleansing Cream','GRMBC002',104.0000,0.0000,8.5000,0,0),
-(49,13,104,'Calvin Klein Obsession For Women EDP Spray','PRF00271',72.0000,576.0000,8.5000,8,0);
+(6,2,97,'Eye Rejuvenating Serum','GRMBC004','',126.0000,126.0000,8.5000,1,0),
+(7,2,100,'Smooth silk lip pencils','GRMBC007','',10.0000,40.0000,8.5000,4,0),
+(8,2,93,'Creme Precieuse Nuit 50ml','BVLG003','',220.0000,220.0000,8.5000,1,0),
+(9,3,69,'Seaweed Conditioner','SCND001','',49.0000,49.0000,0.0000,1,0),
+(10,3,69,'Seaweed Conditioner','SCND001','',19.0000,19.0000,0.0000,1,0),
+(11,3,77,'Men+Care Active Clean Shower Tool','DMBW0014','',6.0000,6.0000,0.0000,1,0),
+(12,3,98,'Shaving cream','GRMBC005','',98.0000,98.0000,0.0000,1,0),
+(13,3,62,'ck one shock for him Deodorant','601232','',14.0000,14.0000,0.0000,1,0),
+(14,3,66,'Total Moisture Facial Cream','556240','',38.0000,38.0000,0.0000,1,0),
+(15,3,54,'L\'EXTRÊME Instant Extensions Lengthening Mascara','74144','',20.0000,20.0000,0.0000,1,0),
+(16,4,57,'Delicate Oil-Free Powder Blush','117148','',29.5000,29.5000,8.5000,1,0),
+(17,4,67,'Flash Bronzer Body Gel','463686','',29.0000,29.0000,8.5000,1,0),
+(18,4,80,'Acqua Di Gio Pour Homme','GRM001','',84.0000,84.0000,8.5000,1,0),
+(19,4,89,'Secret Obsession Perfume','CK0012','',92.0000,92.0000,8.5000,1,0),
+(20,4,75,'Dove Men +Care Body Wash','DMBW0012','',6.7000,6.7000,8.5000,1,0),
+(21,4,78,'ck IN2U Eau De Toilette Spray for Him','Cl0001','',45.0000,45.0000,8.5000,1,0),
+(22,5,97,'Eye Rejuvenating Serum','GRMBC004','',126.0000,126.0000,8.5000,1,0),
+(23,5,61,'Color Design Eye Brightening All in One 5 Shadow &amp; Liner Palette','529071','',48.0000,48.0000,8.5000,1,0),
+(24,5,61,'Color Design Eye Brightening All in One 5 Shadow &amp; Liner Palette','529071','',48.0000,96.0000,8.5000,2,0),
+(25,5,60,'Nail Lacquer','112423','',15.0000,15.0000,8.5000,1,0),
+(26,5,55,'LE ROUGE ABSOLU Reshaping &amp; Replenishing LipColour SPF 15','tw152236','',27.0000,27.0000,8.5000,1,0),
+(27,5,56,'Waterproof Protective Undereye Concealer','35190','',30.5000,30.5000,8.5000,1,0),
+(28,5,51,'BeneFit Girl Meets Pearl','483857','',19.0000,19.0000,8.5000,1,0),
+(29,5,93,'Creme Precieuse Nuit 50ml','BVLG003','',220.0000,220.0000,8.5000,1,0),
+(30,5,69,'Seaweed Conditioner','SCND001','',49.0000,49.0000,8.5000,1,0),
+(31,6,84,'Armani Code Pour Femme','GRM005','',30.0000,30.0000,8.5000,1,0),
+(32,6,92,'Body Cream by Bulgari','BVLG002','',57.0000,171.0000,8.5000,3,0),
+(33,7,63,'Pour Homme Eau de Toilette','374622','',88.0000,88.0000,8.5000,1,0),
+(34,7,78,'ck IN2U Eau De Toilette Spray for Him','Cl0001','',37.0000,74.0000,8.5000,2,0),
+(35,8,54,'L\'EXTRÊME Instant Extensions Lengthening Mascara','74144','',20.0000,20.0000,0.0000,1,0),
+(36,8,100,'Smooth silk lip pencils','GRMBC007','',10.0000,40.0000,0.0000,4,0),
+(37,9,94,'Night Care Crema Nera Obsidian Mineral Complex','GRMBC001','',263.0000,263.0000,0.0000,1,0),
+(38,9,67,'Flash Bronzer Body Gel','463686','',29.0000,29.0000,0.0000,1,0),
+(39,9,91,'Jasmin Noir Body Lotion 6.8 fl oz','BVLG001','',29.0000,58.0000,0.0000,2,0),
+(40,10,72,'Brunette expressions Conditioner','PCND002','',24.0000,24.0000,8.5000,1,0),
+(41,10,81,'Armani Eau de Toilette Spray ','GRM002','',61.0000,61.0000,8.5000,1,0),
+(42,10,88,'ck one Summer 3.4 oz','CK0011','',27.0000,27.0000,8.5000,1,0),
+(43,10,70,'Eau Parfumee au The Vert Shampoo','522823','',31.0000,31.0000,8.5000,1,0),
+(44,11,51,'BeneFit Girl Meets Pearl','483857','',19.0000,19.0000,0.0000,1,0),
+(45,12,105,'Bvlgari Aqua','PRF00273','',78.5000,78.5000,0.0000,1,0),
+(46,12,65,'Absolue Eye Precious Cells','427847','',105.0000,105.0000,8.5000,1,0),
+(47,12,110,'Flora By Gucci Eau Fraiche','PRF00278','',90.0000,270.0000,8.5000,3,0),
+(48,12,95,'Skin Minerals For Men Cleansing Cream','GRMBC002','',104.0000,0.0000,8.5000,0,0),
+(49,13,104,'Calvin Klein Obsession For Women EDP Spray','PRF00271','',72.0000,576.0000,8.5000,8,0),
+(50,14,111,'New French With Ease (1 book + 1 mp3 CD)','','',85.0000,85.0000,7.2250,1,1),
+(51,15,116,'New Ladies High Wedge Heel Toe Thong Diamante Flip Flop Sandals','','',26.0000,26.0000,2.2100,1,1),
+(52,16,123,'Casual 3/4 Sleeve Baseball T-Shirt','LTQFX','#2738',14.0000,14.0000,1.1900,1,1),
+(53,17,122,'Mens Fine Cotton Giraffe Polo Shirts','JDSK36','',21.0000,21.0000,0.0000,1,1),
+(54,17,75,'Dove Men +Care Body Wash','DMBW0012','',6.7000,6.7000,0.0000,1,1),
+(55,17,76,'Men+Care Clean Comfort Deodorant','DMBW0013','1235B',7.2000,7.2000,0.0000,1,1),
+(59,18,116,'New Ladies High Wedge Heel Toe Thong Diamante Flip Flop Sandals','','',26.0000,26.0000,2.2100,1,1),
+(58,18,51,'BeneFit Girl Meets Pearl','483857','',19.0000,19.0000,1.6150,1,1),
+(63,19,58,'Product with stock locations','374002','',34.0000,102.0000,0.0000,3,0),
+(62,20,122,'Product with options and stock locations','JDSK36','',21.0000,42.0000,0.0000,2,0);
 
 --
 -- Dumping data for table `order_totals`
 --
 
-INSERT INTO `ac_order_totals` VALUES (1,1,'Sub-Total:','£1,583.44',1583.4400,1,'subtotal','sub_total');
-INSERT INTO `ac_order_totals` VALUES (2,1,'Flat Shipping Rate:','£2.00',2.0000,3,'shipping','shipping');
-INSERT INTO `ac_order_totals` VALUES (3,1,'Total:','£1,585.44',1585.4400,6,'total','total');
-INSERT INTO `ac_order_totals` VALUES (4,2,'Sub-Total:','$386.00',386.0000,1,'subtotal','sub_total');
-INSERT INTO `ac_order_totals` VALUES (5,2,'Retail 8.5%:','$32.81',32.8100,5,'tax','tax');
-INSERT INTO `ac_order_totals` VALUES (6,2,'Total:','$418.81',418.8100,6,'total','total');
-INSERT INTO `ac_order_totals` VALUES (7,3,'Sub-Total:','$244.00',244.0000,1,'subtotal','sub_total');
-INSERT INTO `ac_order_totals` VALUES (8,3,'Flat Shipping Rate:','$2.00',2.0000,3,'shipping','shipping');
-INSERT INTO `ac_order_totals` VALUES (9,3,'Total:','$246.00',246.0000,6,'total','total');
-INSERT INTO `ac_order_totals` VALUES (10,4,'Sub-Total:','$286.20',286.2000,1,'subtotal','sub_total');
-INSERT INTO `ac_order_totals` VALUES (11,4,'Retail 8.5%:','$24.33',24.3270,5,'tax','tax');
-INSERT INTO `ac_order_totals` VALUES (12,4,'Total:','$310.53',310.5270,6,'total','total');
-INSERT INTO `ac_order_totals` VALUES (13,5,'Sub-Total:','$630.50',630.5000,1,'subtotal','sub_total');
-INSERT INTO `ac_order_totals` VALUES (14,5,'Flat Shipping Rate:','$2.00',2.0000,3,'shipping','shipping');
-INSERT INTO `ac_order_totals` VALUES (15,5,'Retail 8.5%:','$53.59',53.5925,5,'tax','tax');
-INSERT INTO `ac_order_totals` VALUES (16,5,'Total:','$686.09',686.0925,6,'total','total');
-INSERT INTO `ac_order_totals` VALUES (17,6,'Sub-Total:','$201.00',201.0000,1,'subtotal','sub_total');
-INSERT INTO `ac_order_totals` VALUES (18,6,'Retail 8.5%:','$17.09',17.0850,5,'tax','tax');
-INSERT INTO `ac_order_totals` VALUES (19,6,'Total:','$218.09',218.0850,6,'total','total');
-INSERT INTO `ac_order_totals` VALUES (20,7,'Sub-Total:','$162.00',162.0000,1,'subtotal','sub_total');
-INSERT INTO `ac_order_totals` VALUES (21,7,'Retail 8.5%:','$13.77',13.7700,5,'tax','tax');
-INSERT INTO `ac_order_totals` VALUES (22,7,'Total:','$175.77',175.7700,6,'total','total');
-INSERT INTO `ac_order_totals` VALUES (23,8,'Sub-Total:','$60.00',60.0000,1,'subtotal','sub_total');
-INSERT INTO `ac_order_totals` VALUES (24,8,'Flat Shipping Rate:','$2.00',2.0000,3,'shipping','shipping');
-INSERT INTO `ac_order_totals` VALUES (25,8,'Total:','$62.00',62.0000,6,'total','total');
-INSERT INTO `ac_order_totals` VALUES (26,9,'Sub-Total:','$350.00',350.0000,1,'subtotal','sub_total');
-INSERT INTO `ac_order_totals` VALUES (27,9,'Flat Shipping Rate:','$2.00',2.0000,3,'shipping','shipping');
-INSERT INTO `ac_order_totals` VALUES (28,9,'Total:','$352.00',352.0000,6,'total','total');
-INSERT INTO `ac_order_totals` VALUES (29,10,'Sub-Total:','$143.00',143.0000,1,'subtotal','sub_total');
-INSERT INTO `ac_order_totals` VALUES (30,10,'Retail 8.5%:','$12.16',12.1550,5,'tax','tax');
-INSERT INTO `ac_order_totals` VALUES (31,10,'Total:','$155.16',155.1550,6,'total','total');
-INSERT INTO `ac_order_totals` VALUES (32,11,'Sub-Total:','$19.00',19.0000,1,'subtotal','sub_total');
-INSERT INTO `ac_order_totals` VALUES (33,11,'Flat Shipping Rate:','$2.00',2.0000,3,'shipping','shipping');
-INSERT INTO `ac_order_totals` VALUES (34,11,'Total:','$21.00',21.0000,6,'total','total');
-INSERT INTO `ac_order_totals` VALUES (35,12,'Sub-Total:','£289.42',453.5000,1,'subtotal','sub_total');
-INSERT INTO `ac_order_totals` VALUES (36,12,'Flat Shipping Rate:','£1.28',2.0000,3,'shipping','shipping');
-INSERT INTO `ac_order_totals` VALUES (37,12,'Retail 8.5%:','£20.34',31.8750,5,'tax','tax');
-INSERT INTO `ac_order_totals` VALUES (38,12,'Total:','£311.04',487.3750,6,'total','total');
-INSERT INTO `ac_order_totals` VALUES (39,13,'Sub-Total:','£367.60',576.0000,1,'subtotal','sub_total');
-INSERT INTO `ac_order_totals` VALUES (40,13,'Flat Shipping Rate:','£1.28',2.0000,3,'shipping','shipping');
-INSERT INTO `ac_order_totals` VALUES (41,13,'Retail 8.5%:','£31.25',48.9600,5,'tax','tax');
-INSERT INTO `ac_order_totals` VALUES (42,13,'Total:','£400.13',626.9600,6,'total','total');
+INSERT INTO `ac_order_totals`
+VALUES
+(1,1,'Sub-Total:','£1,583.44',1583.4400,1,'subtotal','sub_total'),
+(2,1,'Flat Shipping Rate:','£2.00',2.0000,3,'shipping','shipping'),
+(3,1,'Total:','£1,585.44',1585.4400,6,'total','total'),
+(4,2,'Sub-Total:','$386.00',386.0000,1,'subtotal','sub_total'),
+(5,2,'Retail 8.5%:','$32.81',32.8100,5,'tax','tax'),
+(6,2,'Total:','$418.81',418.8100,6,'total','total'),
+(7,3,'Sub-Total:','$244.00',244.0000,1,'subtotal','sub_total'),
+(8,3,'Flat Shipping Rate:','$2.00',2.0000,3,'shipping','shipping'),
+(9,3,'Total:','$246.00',246.0000,6,'total','total'),
+(10,4,'Sub-Total:','$286.20',286.2000,1,'subtotal','sub_total'),
+(11,4,'Retail 8.5%:','$24.33',24.3270,5,'tax','tax'),
+(12,4,'Total:','$310.53',310.5270,6,'total','total'),
+(13,5,'Sub-Total:','$630.50',630.5000,1,'subtotal','sub_total'),
+(14,5,'Flat Shipping Rate:','$2.00',2.0000,3,'shipping','shipping'),
+(15,5,'Retail 8.5%:','$53.59',53.5925,5,'tax','tax'),
+(16,5,'Total:','$686.09',686.0925,6,'total','total'),
+(17,6,'Sub-Total:','$201.00',201.0000,1,'subtotal','sub_total'),
+(18,6,'Retail 8.5%:','$17.09',17.0850,5,'tax','tax'),
+(19,6,'Total:','$218.09',218.0850,6,'total','total'),
+(20,7,'Sub-Total:','$162.00',162.0000,1,'subtotal','sub_total'),
+(21,7,'Retail 8.5%:','$13.77',13.7700,5,'tax','tax'),
+(22,7,'Total:','$175.77',175.7700,6,'total','total'),
+(23,8,'Sub-Total:','$60.00',60.0000,1,'subtotal','sub_total'),
+(24,8,'Flat Shipping Rate:','$2.00',2.0000,3,'shipping','shipping'),
+(25,8,'Total:','$62.00',62.0000,6,'total','total'),
+(26,9,'Sub-Total:','$350.00',350.0000,1,'subtotal','sub_total'),
+(27,9,'Flat Shipping Rate:','$2.00',2.0000,3,'shipping','shipping'),
+(28,9,'Total:','$352.00',352.0000,6,'total','total'),
+(29,10,'Sub-Total:','$143.00',143.0000,1,'subtotal','sub_total'),
+(30,10,'Retail 8.5%:','$12.16',12.1550,5,'tax','tax'),
+(31,10,'Total:','$155.16',155.1550,6,'total','total'),
+(32,11,'Sub-Total:','$19.00',19.0000,1,'subtotal','sub_total'),
+(33,11,'Flat Shipping Rate:','$2.00',2.0000,3,'shipping','shipping'),
+(34,11,'Total:','$21.00',21.0000,6,'total','total'),
+(35,12,'Sub-Total:','£289.42',453.5000,1,'subtotal','sub_total'),
+(36,12,'Flat Shipping Rate:','£1.28',2.0000,3,'shipping','shipping'),
+(37,12,'Retail 8.5%:','£20.34',31.8750,5,'tax','tax'),
+(38,12,'Total:','£311.04',487.3750,6,'total','total'),
+(39,13,'Sub-Total:','£367.60',576.0000,1,'subtotal','sub_total'),
+(40,13,'Flat Shipping Rate:','£1.28',2.0000,3,'shipping','shipping'),
+(41,13,'Retail 8.5%:','£31.25',48.9600,5,'tax','tax'),
+(42,13,'Total:','£400.13',626.9600,6,'total','total'),
+(43,14,'Sub-Total:','$85.00',85.0000,1,'subtotal','subtotal'),
+(44,14,'Flat Shipping Rate:','$2.00',2.0000,3,'shipping','shipping'),
+(45,14,'Retail 8.5%:','$7.23',7.2300,5,'tax','tax'),
+(46,14,'Total:','$94.23',94.2300,1000,'total','total'),
+(47,15,'Sub-Total:','$26.00',26.0000,1,'subtotal','subtotal'),
+(48,15,'Flat Shipping Rate:','$2.00',2.0000,3,'shipping','shipping'),
+(49,15,'Retail 8.5%:','$2.21',2.2100,5,'tax','tax'),
+(50,15,'Total:','$30.21',30.2100,1000,'total','total'),
+(51,16,'Sub-Total:','$14.00',14.0000,1,'subtotal','subtotal'),
+(52,16,'Flat Shipping Rate:','$0.00',0.0000,3,'shipping','shipping'),
+(53,16,'Retail 8.5%:','$1.19',1.1900,5,'tax','tax'),
+(54,16,'Total:','$15.19',15.1900,1000,'total','total'),
+(55,17,'Sub-Total:','$34.90',34.9000,1,'subtotal','subtotal'),
+(56,17,'Flat Shipping Rate:','$2.00',2.0000,3,'shipping','shipping'),
+(57,17,'Total:','$36.90',36.9000,1000,'total','total'),
+(64,18,'Retail 8.5%:','$3.83',3.8300,5,'tax','tax'),
+(63,18,'Flat Shipping Rate:','$2.00',2.0000,3,'shipping','shipping'),
+(62,18,'Sub-Total:','$45.00',45.0000,1,'subtotal','subtotal'),
+(65,18,'Total:','$50.83',50.8300,1000,'total','total'),
+(66,19,'Sub-Total:','$102.00',102.0000,1,'subtotal','subtotal'),
+(67,19,'Flat Shipping Rate:','$2.00',2.0000,3,'shipping','shipping'),
+(68,19,'Retail 8.5%:','$8.67',8.6700,5,'tax','tax'),
+(69,19,'Total:','$112.67',112.6700,1000,'total','total'),
+(70,20,'Sub-Total:','$42.00',42.0000,1,'subtotal','subtotal'),
+(71,20,'Flat Shipping Rate:','$2.00',2.0000,3,'shipping','shipping'),
+(72,20,'Retail 8.5%:','$3.57',3.5700,5,'tax','tax'),
+(73,20,'Total:','$47.57',47.5700,1000,'total','total');
+
+INSERT INTO `ac_order_product_stock_locations`
+VALUES
+(62,122,778,2,'Canada',2,1),
+(62,122,778,1,'USA All States',0,2),
+(63,58,NULL,2,'Canada',3,1),
+(63,58,NULL,1,'USA All States',0,2);
+
 
 --
 -- Dumping data for table `orders`
 --
 
-
-INSERT INTO `ac_orders` (
-`order_id`,
+INSERT INTO `ac_orders`
+(`order_id`,
 `invoice_id`,
 `invoice_prefix`,
 `store_id`,
@@ -706,6 +772,7 @@ INSERT INTO `ac_orders` (
 `shipping_country_id`,
 `shipping_address_format`,
 `shipping_method`,
+`shipping_method_key`,
 `payment_firstname`,
 `payment_lastname`,
 `payment_company`,
@@ -719,6 +786,7 @@ INSERT INTO `ac_orders` (
 `payment_country_id`,
 `payment_address_format`,
 `payment_method`,
+`payment_method_key`,
 `comment`,
 `total`,
 `order_status_id`,
@@ -730,28 +798,56 @@ INSERT INTO `ac_orders` (
 `date_added`,
 `date_modified`,
 `ip`,
-`payment_method_data`
-)
+`payment_method_data`)
 VALUES
-(1,0,'',0,'Your Store','http://localhost/',1,1,'fdsfdsf','czx','(092) 222-2222','','demo@abantecart.com','fdsfdsf','czx','','addresss','','testing','55555','Maryland',3643,'United States',223,'{firstname} {lastname} {company} {address_1} {address_2} {city}, {zone} {postcode} {country}','Flat Shipping Rate','fdsfdsf','czx','','addresss','','testing','55555','Maryland',3643,'United States',223,'{firstname} {lastname} {company} {address_1} {address_2} {city}, {zone} {postcode} {country}','Cash On Delivery','','1585.4400',1,1,1,'GBP','1.00000000',0,'0000-00-00 00:00:00','0000-00-00 00:00:00','127.0.0.1',''),
-(2,0,'',0,'Web Store Name','demo',11,1,'Anthony','Blair','+1 907-842-2240','','anthonyblair@abantecart.com','','','','','','','','',0,'',0,'','','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','418.8100',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
-(3,0,'',0,'Web Store Name','demo',5,1,'Gloria','Macias','+1 418-461-2440','','gloriamacias@abantecart.com','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Flat Shipping Rate','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Cash On Delivery','Please ASAP','246.0000',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
-(4,0,'',0,'Web Store Name','demo',5,1,'Gloria','Macias','+1 418-461-2440','','gloriamacias@abantecart.com','','','','','','','','',0,'',0,'','','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Cash On Delivery','','310.5270',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
-(5,0,'',0,'Web Store Name','demo',3,1,'Keely','Mccoy','+44 1324 483784 ','','keelymccoy@abantecart.com','Keely','Mccoy','','4842 Amet','','Grangemouth','','Gloucestershire',3552,'United Kingdom',222,'','Flat Shipping Rate','Keely','Mccoy','','4842 Amet','','Grangemouth','','Gloucestershire',3552,'United Kingdom',222,'','Cash On Delivery','','686.0925',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
-(6,0,'',0,'Web Store Name','demo',2,1,'Juliana','Davis','+44 1688 308321','','julidavis@abantecart.com','','','','','','','','',0,'',0,'','','Juliana','Davis','','Highlands and Islands PA75 6QE','','Isle of Mull','','Highlands',3559,'United Kingdom',222,'','Cash On Delivery','Bulgari','218.0850',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
-(7,0,'',0,'Web Store Name','demo',9,1,'Carlos','Compton','+1 867-874-22391','','carloscmpton@abantecart.com','','','','','','','','',0,'',0,'','','Carlos','Compton','','31 Capital Drive','','Hay River','','Nova Scotia',608,'Canada',38,'','Cash On Delivery','','175.7700',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
-(8,0,'',0,'Web Store Name','demo',8,1,'Bruce','Rosarini','+1 807-346-10763','','brucerosarini@abantecart.com','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','62.0000',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
-(9,0,'',0,'Web Store Name','demo',8,1,'Bruce','Rosarini','+1 807-346-10763','','brucerosarini@abantecart.com','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','352.0000',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
-(10,0,'',0,'Web Store Name','demo',12,1,'Allen','Waters','+1 540-985-59700','','allenwaters@abantecart.com','','','','','','','','',0,'',0,'','','Allen','Waters','','110 Shenandoah Avenue','','Roanoke','','Virginia',3673,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','155.1550',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
-(11,0,'',0,'Web Store Name','demo',12,1,'Allen','Waters','+1 540-985-59700','','allenwaters@abantecart.com','Allen','Waters','','110 Shenandoah Avenue','','Roanoke','','Virginia',3673,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Allen','Waters','','110 Shenandoah Avenue','','Roanoke','','Virginia',3673,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','21.0000',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
-(12,0,'',0,'Web Store Name','demo',11,1,'Anthony','Blair','+1 907-842-2240','','anthonyblair@abantecart.com','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','487.3750',2,1,3,'GBP','0.63820000',0,now(), now(),'171.98.12.12',''),
-(13,0,'',0,'Web Store Name','demo',11,1,'Anthony','Blair','+1 907-842-2240','','anthonyblair@abantecart.com','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','626.9600',1,1,3,'GBP','0.63820000',0,now(), now(),'171.98.12.12','');
+(1,0,'',0,'Your Store','demo',1,1,'fdsfdsf','czx','(092) 222-2222','','demo@abantecart.com','fdsfdsf','czx','','addresss','','testing','55555','Maryland',3643,'United States',223,'{firstname} {lastname} {company} {address_1} {address_2} {city}, {zone} {postcode} {country}','Flat Shipping Rate','','fdsfdsf','czx','','addresss','','testing','55555','Maryland',3643,'United States',223,'{firstname} {lastname} {company} {address_1} {address_2} {city}, {zone} {postcode} {country}','Cash On Delivery','','',1585.4400,1,1,1,'GBP',1.00000000,0,'0000-00-00 00:00:00','0000-00-00 00:00:00','127.0.0.1',''),
+(2,0,'',0,'Web Store Name','demo',11,1,'Anthony','Blair','+1 907-842-2240','','anthonyblair@abantecart.com','','','','','','','','',0,'',0,'','','','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','',418.8100,1,1,1,'USD',1.00000000,0,'2019-03-18 11:37:51','2019-03-18 11:37:51','109.104.166.98',''),
+(3,0,'',0,'Web Store Name','demo',5,1,'Gloria','Macias','+1 418-461-2440','','gloriamacias@abantecart.com','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Flat Shipping Rate','','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Cash On Delivery','','Please ASAP',246.0000,1,1,1,'USD',1.00000000,0,'2019-03-18 11:37:51','2019-03-18 11:37:51','109.104.166.98',''),
+(4,0,'',0,'Web Store Name','demo',5,1,'Gloria','Macias','+1 418-461-2440','','gloriamacias@abantecart.com','','','','','','','','',0,'',0,'','','','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Cash On Delivery','','',310.5270,1,1,1,'USD',1.00000000,0,'2019-03-18 11:37:51','2019-03-18 11:37:51','109.104.166.98',''),
+(5,0,'',0,'Web Store Name','demo',3,1,'Keely','Mccoy','+44 1324 483784 ','','keelymccoy@abantecart.com','Keely','Mccoy','','4842 Amet','','Grangemouth','','Gloucestershire',3552,'United Kingdom',222,'','Flat Shipping Rate','','Keely','Mccoy','','4842 Amet','','Grangemouth','','Gloucestershire',3552,'United Kingdom',222,'','Cash On Delivery','','',686.0925,1,1,1,'USD',1.00000000,0,'2019-03-18 11:37:51','2019-03-18 11:37:51','109.104.166.98',''),
+(6,0,'',0,'Web Store Name','demo',2,1,'Juliana','Davis','+44 1688 308321','','julidavis@abantecart.com','','','','','','','','',0,'',0,'','','','Juliana','Davis','','Highlands and Islands PA75 6QE','','Isle of Mull','','Highlands',3559,'United Kingdom',222,'','Cash On Delivery','','Bulgari',218.0850,1,1,1,'USD',1.00000000,0,'2019-03-18 11:37:51','2019-03-18 11:37:51','109.104.166.98',''),
+(7,0,'',0,'Web Store Name','demo',9,1,'Carlos','Compton','+1 867-874-22391','','carloscmpton@abantecart.com','','','','','','','','',0,'',0,'','','','Carlos','Compton','','31 Capital Drive','','Hay River','','Nova Scotia',608,'Canada',38,'','Cash On Delivery','','',175.7700,1,1,1,'USD',1.00000000,0,'2019-03-18 11:37:51','2019-03-18 11:37:51','109.104.166.98',''),
+(8,0,'',0,'Web Store Name','demo',8,1,'Bruce','Rosarini','+1 807-346-10763','','brucerosarini@abantecart.com','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','',62.0000,1,1,1,'USD',1.00000000,0,'2019-03-18 11:37:51','2019-03-18 11:37:51','109.104.166.98',''),
+(9,0,'',0,'Web Store Name','demo',8,1,'Bruce','Rosarini','+1 807-346-10763','','brucerosarini@abantecart.com','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','',352.0000,1,1,1,'USD',1.00000000,0,'2019-03-18 11:37:51','2019-03-18 11:37:51','109.104.166.98',''),
+(10,0,'',0,'Web Store Name','demo',12,1,'Allen','Waters','+1 540-985-59700','','allenwaters@abantecart.com','','','','','','','','',0,'',0,'','','','Allen','Waters','','110 Shenandoah Avenue','','Roanoke','','Virginia',3673,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','',155.1550,1,1,1,'USD',1.00000000,0,'2019-03-18 11:37:51','2019-03-18 11:37:51','109.104.166.98',''),
+(11,0,'',0,'Web Store Name','demo',12,1,'Allen','Waters','+1 540-985-59700','','allenwaters@abantecart.com','Allen','Waters','','110 Shenandoah Avenue','','Roanoke','','Virginia',3673,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','','Allen','Waters','','110 Shenandoah Avenue','','Roanoke','','Virginia',3673,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','',21.0000,1,1,1,'USD',1.00000000,0,'2019-03-18 11:37:51','2019-03-18 11:37:51','109.104.166.98',''),
+(12,0,'',0,'Web Store Name','demo',11,1,'Anthony','Blair','+1 907-842-2240','','anthonyblair@abantecart.com','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','',487.3750,2,1,3,'GBP',0.63820000,0,'2019-03-18 11:37:51','2019-03-18 11:37:51','171.98.12.12',''),
+(13,0,'',0,'Web Store Name','demo',11,1,'Anthony','Blair','+1 907-842-2240','','anthonyblair@abantecart.com','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','',626.9600,1,1,3,'GBP',0.63820000,0,'2019-03-18 11:37:51','2019-03-18 11:37:51','171.98.12.12',''),
+(14,0,'',0,'Web Store Name','demo',13,1,'Michael','Neal','55 555 5555 5555','','michaelj@abantecart.com','Tom','Kipling','','100 Main Str','','Shell Pile','64034-2948','Missouri',3648,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','default_flat_rate_shipping.default_flat_rate_shipping','Tom','Kipling','','100 Main Str','','Shell Pile','64034-2948','Missouri',3648,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','default_cod','',94.2300,5,1,1,'USD',1.00000000,0,'2019-03-18 12:13:24','2019-03-18 12:14:29','77.111.246.167',''),
+(15,0,'',0,'Web Store Name','demo',12,1,'Allen','Waters','(417) 280-7406','','allenwaters@abantecart.com','Allen','Waters','','110 Shenandoah Avenue','','Honohina','86565-1710','Arizona',3616,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','default_flat_rate_shipping.default_flat_rate_shipping','Allen','Waters','','110 Shenandoah Avenue','','Honohina','86565-1710','Arizona',3616,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','default_cod','',30.2100,3,1,1,'USD',1.00000000,0,'2019-03-18 12:20:54','2019-03-18 12:26:40','77.111.246.167',''),
+(16,0,'',0,'Web Store Name','demo',14,1,'Yuri','Howard','+1 (694) 373-3146','','howardinc@abantecart.com','Yuri','Howard','Eaton Stevenson Inc','22555 Jensen Ave','','Reedley','93654','California',3624,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','default_flat_rate_shipping.default_flat_rate_shipping','Yuri','Howard','Eaton Stevenson Inc','22555 Jensen Ave','','Reedley','93654','California',3624,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','default_cod','',15.1900,1,1,1,'USD',1.00000000,0,'2019-03-18 13:39:08','2019-03-18 13:39:24','85.235.65.198',''),
+(17,0,'',0,'Web Store Name','demo',15,1,'Regan','Shields','+1 (267) 125-5153','','ricuvif@abantecart.com','Regan','Shields','Day and Rivera Traders','2355 Boulevard Bastien','','Québec','QC G2B 1B3','Qu&eacute;bec',612,'Canada',38,'','Flat Shipping Rate','default_flat_rate_shipping.default_flat_rate_shipping','Regan','Shields','Day and Rivera Traders','2355 Boulevard Bastien','','Québec','QC G2B 1B3','Qu&eacute;bec',612,'Canada',38,'','Cash On Delivery','default_cod','',36.9000,5,1,1,'USD',1.00000000,0,'2019-03-19 08:32:53','2019-03-19 08:36:46','23.129.64.106',''),
+(18,0,'',0,'Web Store Name','demo',16,1,'Randall','Richards','+1 (788) 773-7896','+1 (706) 122-6856','randallri@abantecart.com','Randall','Richards','','500 N Nebraska Ave','','Tampa','33603','Florida',3630,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','default_flat_rate_shipping.default_flat_rate_shipping','Mallory','Ballard','Guzman and Morin Inc','2430 S French Ave','','Sanford','32771','Florida',3630,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','default_cod','',50.8300,1,1,1,'USD',1.00000000,0,'2019-03-21 12:10:03','2019-03-21 12:12:09','205.185.126.56',''),
+(19,0,'',0,'Web Store Name','demo',12,1,'Allen','Waters','(417) 280-7406','','allenwaters@abantecart.com','Allen','Waters','','110 Shenandoah Avenue','','Honohina','86565-1710','Arizona',3616,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','default_flat_rate_shipping.default_flat_rate_shipping','Allen','Waters','','110 Shenandoah Avenue','','Honohina','86565-1710','Arizona',3616,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','default_cod','',112.6700,3,1,1,'USD',1.00000000,0,'2019-05-06 06:05:01','2019-05-06 12:23:28','77.111.246.147',''),
+(20,0,'',0,'Web Store Name','demo',12,1,'Allen','Waters','(417) 280-7406','','allenwaters@abantecart.com','Allen','Waters','','110 Shenandoah Avenue','','Honohina','86565-1710','Arizona',3616,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','default_flat_rate_shipping.default_flat_rate_shipping','Allen','Waters','','110 Shenandoah Avenue','','Honohina','86565-1710','Arizona',3616,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','default_cod','',47.5700,1,1,1,'USD',1.00000000,0,'2019-05-06 06:19:57','2019-05-06 12:22:33','77.111.246.147','');
 
 --
 -- Dumping data for table `order_downloads_history`
 --
 
-INSERT INTO `ac_order_downloads_history` VALUES (1,0,0,0,'download/18/76/5.mp3','sample.mp3',2,100,'2015-07-08 10:36:06');
+INSERT INTO `ac_order_downloads_history`
+VALUES
+(1,0,0,0,'download/18/76/5.mp3','sample.mp3',2,100,'2015-07-08 10:36:06'),
+(2,1,14,50,'download/18/76/4.mp3','audio-cd.mp3',1,100,'2019-03-18 12:14:47'),
+(3,0,0,0,'download/18/76/5.mp3','sample.mp3',2,100,'2019-03-18 12:19:34'),
+(4,0,0,0,'download/18/79/f.pdf','size-fit-guide-print.pdf',5,100,'2019-03-18 13:21:10'),
+(5,0,0,0,'download/18/79/f.pdf','size-fit-guide-print.pdf',5,100,'2019-03-18 13:45:25'),
+(6,0,0,0,'download/18/76/5.mp3','sample.mp3',2,100,'2019-03-18 13:47:11'),
+(7,0,0,0,'download/18/79/f.pdf','size-fit-guide-print.pdf',5,100,'2019-03-19 10:17:30');
+
+INSERT INTO `ac_order_downloads`
+VALUES
+(1,14,50,'Audio CD1','download/18/76/4.mp3','audio-cd.mp3',1,1,49,0,NULL,0,'',5,'a:0:{}','2019-03-18 12:13:24','2019-03-18 12:14:47'),
+(2,16,52,'Find your fit','download/18/79/f.pdf','size-fit-guide-print.pdf',5,1,NULL,0,NULL,0,'',0,'a:0:{}','2019-03-18 13:47:47','2019-03-18 13:47:47');
+
+INSERT INTO `ac_order_data` VALUES
+(14,1,'a:2:{s:3:\"uri\";s:23:\"michaelj@abantecart.com\";s:6:\"status\";s:1:\"1\";}','2019-03-18 12:13:24','2019-03-18 12:13:24'),
+(15,1,'a:2:{s:3:\"uri\";s:26:\"allenwaters@abantecart.com\";s:6:\"status\";s:1:\"1\";}','2019-03-18 12:20:54','2019-03-18 12:20:54'),
+(16,1,'a:2:{s:3:\"uri\";s:24:\"howardinc@abantecart.com\";s:6:\"status\";s:1:\"1\";}','2019-03-18 13:39:08','2019-03-18 13:39:08'),
+(17,1,'a:2:{s:3:\"uri\";s:22:\"ricuvif@abantecart.com\";s:6:\"status\";s:1:\"1\";}','2019-03-19 08:32:53','2019-03-19 08:32:53'),
+(19,1,'a:2:{s:3:\"uri\";s:26:\"allenwaters@abantecart.com\";s:6:\"status\";s:1:\"1\";}','2019-05-06 06:05:01','2019-05-06 06:05:01'),
+(20,1,'a:2:{s:3:\"uri\";s:26:\"allenwaters@abantecart.com\";s:6:\"status\";s:1:\"1\";}','2019-05-06 06:19:57','2019-05-06 06:19:57');
+
 
 --
 -- Dumping data for table `product_descriptions`
@@ -846,9 +942,11 @@ VALUES
 -- Dumping data for table `product_discounts`
 --
 
-INSERT INTO `ac_product_discounts` VALUES (1,81,1,2,0,59.0000,'0000-00-00','0000-00-00','0000-00-00 00:00:00','2015-06-22 12:40:54');
-INSERT INTO `ac_product_discounts` VALUES (2,81,1,3,0,56.0000,'0000-00-00','0000-00-00','0000-00-00 00:00:00','2015-06-22 12:41:09');
-INSERT INTO `ac_product_discounts` VALUES (3,81,1,4,0,50.0000,'0000-00-00','0000-00-00','0000-00-00 00:00:00','2015-06-22 12:41:25');
+INSERT INTO `ac_product_discounts`
+VALUES
+(1,81,1,2,0,59.0000,'0000-00-00','0000-00-00','0000-00-00 00:00:00','2015-06-22 12:40:54'),
+(2,81,1,3,0,56.0000,'0000-00-00','0000-00-00','0000-00-00 00:00:00','2015-06-22 12:41:09'),
+(3,81,1,4,0,50.0000,'0000-00-00','0000-00-00','0000-00-00 00:00:00','2015-06-22 12:41:25');
 
 --
 -- Dumping data for table `product_option_descriptions`
@@ -901,318 +999,339 @@ VALUES (318,1,53,'Color','',''),
 -- Dumping data for table `product_option_value_descriptions`
 --
 
-
-INSERT INTO `ac_product_option_value_descriptions` VALUES (653,1,53,'Natural Ambre',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (652,1,53,'Natural Golden',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (646,1,54,'Brown','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (645,1,54,'Black','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (658,1,56,'Suede',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (657,1,56,'Light Bisque',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (656,1,56,'Ivore',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (655,1,56,'Dore',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (654,1,56,'Bronze',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (612,1,57,'Pink Pool',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (613,1,57,'Mandarin Sky',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (614,1,57,'Brilliant Berry',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (615,1,59,'Viva Glam IV',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (616,1,59,'Viva Glam II',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (617,1,59,'Viva Glam VI',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (618,1,55,'La Base',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (619,1,55,'Lacewood',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (620,1,55,'Smoky Rouge',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (621,1,55,'Tulipwood',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (622,1,60,'Shirelle',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (623,1,60,'Vintage Vamp',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (624,1,60,'Nocturnelle',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (625,1,61,'Golden Frenzy',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (626,1,61,'Gris Fatale',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (627,1,61,'Jade Fever',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (649,1,63,'1.7 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (648,1,63,'2.5 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (647,1,63,'3.4 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (644,1,64,'3.4 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (643,1,64,'1.7 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (642,1,64,'1.0 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (651,1,69,'33.8 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (650,1,69,'8 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (662,1,78,'50ml',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (661,1,78,'150ml',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (660,1,78,'100ml',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (659,1,56,'Light Buff',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (663,1,80,'1.7 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (664,1,80,'3.4 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (665,1,80,'6.7 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (666,1,84,'30 ml',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (667,1,84,'50 ml',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (668,1,84,'75 ml',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (669,1,85,'1 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (670,1,85,'1.7 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (671,1,85,'3.4 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (672,1,89,'0.04 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (673,1,89,'6.7 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (674,1,89,'1.7 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (676,1,90,'1.7 oz EDP Spray',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (677,1,90,'3.4 oz EDP Spray',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (678,1,99,'rose beige',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (679,1,99,'cranberry',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (680,1,99,'cassis',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (681,1,100,'beige',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (682,1,100,'red beige',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (683,1,100,'brique',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (684,1,100,'brown',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (685,1,100,'mauve',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (686,1,100,'red',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (687,1,101,'8.45 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (688,1,101,'15.2 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (689,1,101,'33.8 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (690,1,102,'30ml',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (691,1,102,'50ml',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (692,1,102,'75ml',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (714,1,104,'1 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (713,1,104,'1.7 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (722,1,105,'Eau de Cologne',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (721,1,105,'Eau de Toilette',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (720,1,105,'Eau de Parfum',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (719,1,105,'yes',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (723,1,105,'1 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (724,1,105,'1.7 oz',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (733,1,106,'Crystalline',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (732,1,106,'Amethyst',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (731,1,106,'Coral',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (735,1,106,'yes',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (737,1,109,'yes',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (738,1,110,'30ml',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (739,1,110,'50ml',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (740,1,110,'75ml',NULL);
-INSERT INTO `ac_product_option_value_descriptions` VALUES (741,1,115,'36','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (742,1,115,'37','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (743,1,115,'38','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (744,1,115,'39','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (745,1,115,'40','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (746,1,115,'41 -','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (747,1,116,'3 UK ','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (748,1,116,'4 UK ','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (749,1,116,'5 UK ','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (750,1,116,'6 UK ','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (751,1,116,'7 UK ','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (752,1,116,'white','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (753,1,116,'red','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (754,1,116,'black','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (755,1,117,'UK 3 / White','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"79\";s:4:\"name\";s:4:\"UK 3\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"89\";s:4:\"name\";s:5:\"White\";}i:2;a:2:{i:0;s:4:\"UK 3\";i:1;s:5:\"White\";}}');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (756,1,117,'UK 3.5 / White','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"80\";s:4:\"name\";s:6:\"UK 3.5\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"89\";s:4:\"name\";s:5:\"White\";}i:2;a:2:{i:0;s:6:\"UK 3.5\";i:1;s:5:\"White\";}}');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (757,1,117,'UK 4 / White','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"81\";s:4:\"name\";s:4:\"UK 4\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"89\";s:4:\"name\";s:5:\"White\";}i:2;a:2:{i:0;s:4:\"UK 4\";i:1;s:5:\"White\";}}');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (758,1,117,'UK 6 / White','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"85\";s:4:\"name\";s:4:\"UK 6\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"89\";s:4:\"name\";s:5:\"White\";}i:2;a:2:{i:0;s:4:\"UK 6\";i:1;s:5:\"White\";}}');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (759,1,117,'UK 3 / Red','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"79\";s:4:\"name\";s:4:\"UK 3\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"88\";s:4:\"name\";s:3:\"Red\";}i:2;a:2:{i:0;s:4:\"UK 3\";i:1;s:3:\"Red\";}}');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (760,1,117,'UK 5 / Red','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"83\";s:4:\"name\";s:4:\"UK 5\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"88\";s:4:\"name\";s:3:\"Red\";}i:2;a:2:{i:0;s:4:\"UK 5\";i:1;s:3:\"Red\";}}');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (761,1,117,'UK 7 / Red','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"86\";s:4:\"name\";s:4:\"UK 7\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"88\";s:4:\"name\";s:3:\"Red\";}i:2;a:2:{i:0;s:4:\"UK 7\";i:1;s:3:\"Red\";}}');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (762,1,117,'UK 5.5 / Blue','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"84\";s:4:\"name\";s:6:\"UK 5.5\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"91\";s:4:\"name\";s:4:\"Blue\";}i:2;a:2:{i:0;s:6:\"UK 5.5\";i:1;s:4:\"Blue\";}}');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (763,1,118,'black','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (764,1,118,'red','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (765,1,118,'green','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (766,1,118,'blue','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (767,1,118,'white','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (768,1,119,'Small','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (769,1,119,'Medium','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (770,1,119,'Large','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (771,1,119,'X-Large','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (772,1,120,'Small','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (773,1,120,'Large','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (774,1,121,'Light Blue','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (775,1,121,'White','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (776,1,121,'Small','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (777,1,121,'Medium','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (778,1,122,'EU XS (Asia M)','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (779,1,122,'EU S (Asia L)','');
-INSERT INTO `ac_product_option_value_descriptions` VALUES (780,1,122,'EU 2XL (Asia 5XL)','');
+INSERT INTO `ac_product_option_value_descriptions`
+VALUES
+(653,1,53,'Natural Ambre',NULL),
+(652,1,53,'Natural Golden',NULL),
+(646,1,54,'Brown',''),
+(645,1,54,'Black',''),
+(658,1,56,'Suede',NULL),
+(657,1,56,'Light Bisque',NULL),
+(656,1,56,'Ivore',NULL),
+(655,1,56,'Dore',NULL),
+(654,1,56,'Bronze',NULL),
+(612,1,57,'Pink Pool',NULL),
+(613,1,57,'Mandarin Sky',NULL),
+(614,1,57,'Brilliant Berry',NULL),
+(615,1,59,'Viva Glam IV',NULL),
+(616,1,59,'Viva Glam II',NULL),
+(617,1,59,'Viva Glam VI',NULL),
+(618,1,55,'La Base',NULL),
+(619,1,55,'Lacewood',NULL),
+(620,1,55,'Smoky Rouge',NULL),
+(621,1,55,'Tulipwood',NULL),
+(622,1,60,'Shirelle',NULL),
+(623,1,60,'Vintage Vamp',NULL),
+(624,1,60,'Nocturnelle',NULL),
+(625,1,61,'Golden Frenzy',NULL),
+(626,1,61,'Gris Fatale',NULL),
+(627,1,61,'Jade Fever',NULL),
+(649,1,63,'1.7 oz',NULL),
+(648,1,63,'2.5 oz',NULL),
+(647,1,63,'3.4 oz',NULL),
+(644,1,64,'3.4 oz',NULL),
+(643,1,64,'1.7 oz',NULL),
+(642,1,64,'1.0 oz',NULL),
+(651,1,69,'33.8 oz',NULL),
+(650,1,69,'8 oz',NULL),
+(662,1,78,'50ml',NULL),
+(661,1,78,'150ml',NULL),
+(660,1,78,'100ml',NULL),
+(659,1,56,'Light Buff',NULL),
+(663,1,80,'1.7 oz',NULL),
+(664,1,80,'3.4 oz',NULL),
+(665,1,80,'6.7 oz',NULL),
+(666,1,84,'30 ml',NULL),
+(667,1,84,'50 ml',NULL),
+(668,1,84,'75 ml',NULL),
+(669,1,85,'1 oz',NULL),
+(670,1,85,'1.7 oz',NULL),
+(671,1,85,'3.4 oz',NULL),
+(672,1,89,'0.04 oz',NULL),
+(673,1,89,'6.7 oz',NULL),
+(674,1,89,'1.7 oz',NULL),
+(676,1,90,'1.7 oz EDP Spray',NULL),
+(677,1,90,'3.4 oz EDP Spray',NULL),
+(678,1,99,'rose beige',NULL),
+(679,1,99,'cranberry',NULL),
+(680,1,99,'cassis',NULL),
+(681,1,100,'beige',NULL),
+(682,1,100,'red beige',NULL),
+(683,1,100,'brique',NULL),
+(684,1,100,'brown',NULL),
+(685,1,100,'mauve',NULL),
+(686,1,100,'red',NULL),
+(687,1,101,'8.45 oz',NULL),
+(688,1,101,'15.2 oz',NULL),
+(689,1,101,'33.8 oz',NULL),
+(690,1,102,'30ml',NULL),
+(691,1,102,'50ml',NULL),
+(692,1,102,'75ml',NULL),
+(714,1,104,'1 oz',NULL),
+(713,1,104,'1.7 oz',NULL),
+(722,1,105,'Eau de Cologne',NULL),
+(721,1,105,'Eau de Toilette',NULL),
+(720,1,105,'Eau de Parfum',NULL),
+(719,1,105,'yes',NULL),
+(723,1,105,'1 oz',NULL),
+(724,1,105,'1.7 oz',NULL),
+(733,1,106,'Crystalline',NULL),
+(732,1,106,'Amethyst',NULL),
+(731,1,106,'Coral',NULL),
+(735,1,106,'yes',NULL),
+(737,1,109,'yes',NULL),
+(738,1,110,'30ml',NULL),
+(739,1,110,'50ml',NULL),
+(740,1,110,'75ml',NULL),
+(741,1,115,'36',''),
+(742,1,115,'37',''),
+(743,1,115,'38',''),
+(744,1,115,'39',''),
+(745,1,115,'40',''),
+(746,1,115,'41 -',''),
+(747,1,116,'3 UK ',''),
+(748,1,116,'4 UK ',''),
+(749,1,116,'5 UK ',''),
+(750,1,116,'6 UK ',''),
+(751,1,116,'7 UK ',''),
+(752,1,116,'white',''),
+(753,1,116,'red',''),
+(754,1,116,'black',''),
+(755,1,117,'UK 3 / White','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"79\";s:4:\"name\";s:4:\"UK 3\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"89\";s:4:\"name\";s:5:\"White\";}i:2;a:2:{i:0;s:4:\"UK 3\";i:1;s:5:\"White\";}}'),
+(756,1,117,'UK 3.5 / White','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"80\";s:4:\"name\";s:6:\"UK 3.5\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"89\";s:4:\"name\";s:5:\"White\";}i:2;a:2:{i:0;s:6:\"UK 3.5\";i:1;s:5:\"White\";}}'),
+(757,1,117,'UK 4 / White','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"81\";s:4:\"name\";s:4:\"UK 4\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"89\";s:4:\"name\";s:5:\"White\";}i:2;a:2:{i:0;s:4:\"UK 4\";i:1;s:5:\"White\";}}'),
+(758,1,117,'UK 6 / White','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"85\";s:4:\"name\";s:4:\"UK 6\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"89\";s:4:\"name\";s:5:\"White\";}i:2;a:2:{i:0;s:4:\"UK 6\";i:1;s:5:\"White\";}}'),
+(759,1,117,'UK 3 / Red','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"79\";s:4:\"name\";s:4:\"UK 3\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"88\";s:4:\"name\";s:3:\"Red\";}i:2;a:2:{i:0;s:4:\"UK 3\";i:1;s:3:\"Red\";}}'),
+(760,1,117,'UK 5 / Red','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"83\";s:4:\"name\";s:4:\"UK 5\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"88\";s:4:\"name\";s:3:\"Red\";}i:2;a:2:{i:0;s:4:\"UK 5\";i:1;s:3:\"Red\";}}'),
+(761,1,117,'UK 7 / Red','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"86\";s:4:\"name\";s:4:\"UK 7\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"88\";s:4:\"name\";s:3:\"Red\";}i:2;a:2:{i:0;s:4:\"UK 7\";i:1;s:3:\"Red\";}}'),
+(762,1,117,'UK 5.5 / Blue','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"84\";s:4:\"name\";s:6:\"UK 5.5\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"91\";s:4:\"name\";s:4:\"Blue\";}i:2;a:2:{i:0;s:6:\"UK 5.5\";i:1;s:4:\"Blue\";}}'),
+(763,1,118,'black',''),
+(764,1,118,'red',''),
+(765,1,118,'green',''),
+(766,1,118,'blue',''),
+(767,1,118,'white',''),
+(768,1,119,'Small',''),
+(769,1,119,'Medium',''),
+(770,1,119,'Large',''),
+(771,1,119,'X-Large',''),
+(772,1,120,'Small',''),
+(773,1,120,'Large',''),
+(774,1,121,'Light Blue',''),
+(775,1,121,'White',''),
+(776,1,121,'Small',''),
+(777,1,121,'Medium',''),
+(778,1,122,'EU XS (Asia M)',''),
+(779,1,122,'EU S (Asia L)',''),
+(780,1,122,'EU 2XL (Asia 5XL)',''),
+(781,1,123,'XXL / Red','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"93\";s:4:\"name\";s:3:\"XXL\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"88\";s:4:\"name\";s:3:\"Red\";}i:2;a:2:{i:0;s:3:\"XXL\";i:1;s:3:\"Red\";}}'),
+(782,1,123,'XL / Red','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"94\";s:4:\"name\";s:2:\"XL\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"88\";s:4:\"name\";s:3:\"Red\";}i:2;a:2:{i:0;s:2:\"XL\";i:1;s:3:\"Red\";}}'),
+(783,1,123,'S / Red','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"95\";s:4:\"name\";s:1:\"S\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"88\";s:4:\"name\";s:3:\"Red\";}i:2;a:2:{i:0;s:1:\"S\";i:1;s:3:\"Red\";}}'),
+(784,1,123,'XXL / Blue','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"93\";s:4:\"name\";s:3:\"XXL\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"91\";s:4:\"name\";s:4:\"Blue\";}i:2;a:2:{i:0;s:3:\"XXL\";i:1;s:4:\"Blue\";}}'),
+(785,1,123,'L / Blue','a:3:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"96\";s:4:\"name\";s:1:\"L\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"91\";s:4:\"name\";s:4:\"Blue\";}i:2;a:2:{i:0;s:1:\"L\";i:1;s:4:\"Blue\";}}'),
+(786,1,123,'XXL / Yellow','a:2:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"93\";s:4:\"name\";s:3:\"XXL\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"98\";s:4:\"name\";s:6:\"Yellow\";}}'),
+(787,1,123,'L / Yellow','a:2:{i:0;a:2:{s:9:\"attr_v_id\";s:2:\"96\";s:4:\"name\";s:1:\"L\";}i:1;a:2:{s:9:\"attr_v_id\";s:2:\"98\";s:4:\"name\";s:6:\"Yellow\";}}');
 
 --
 -- Dumping data for table `product_option_values`
 --
 
-INSERT INTO `ac_product_option_values` VALUES (646,315,54,0,'',983,1,5.0000,'$',0.00000000,'lb',0,'',0,0);
-INSERT INTO `ac_product_option_values` VALUES (653,318,53,0,'',2000,1,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (652,318,53,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (645,315,54,0,'',1000,1,0.0000,'$',0.00000000,'lb',0,'',0,1);
-INSERT INTO `ac_product_option_values` VALUES (659,319,56,0,'',999,1,0.0000,'$',0.00000000,'lb',0,NULL,2,0);
-INSERT INTO `ac_product_option_values` VALUES (658,319,56,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,1,0);
-INSERT INTO `ac_product_option_values` VALUES (657,319,56,0,'',998,1,1.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (656,319,56,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (655,319,56,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (654,319,56,0,'',555,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (612,304,57,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (613,304,57,0,'',999,1,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (614,304,57,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (615,305,59,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (616,305,59,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (617,305,59,0,'',1000,1,2.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (618,306,55,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (619,306,55,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (620,306,55,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (621,306,55,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (622,307,60,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (623,307,60,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (624,307,60,0,'',0,0,1.4200,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (625,308,61,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (626,308,61,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (627,308,61,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (649,316,63,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (648,316,63,0,'',0,0,20.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (647,316,63,0,'',0,0,25.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (644,314,64,0,'',66,1,22.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (643,314,64,0,'',1000,1,10.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (642,314,64,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (651,317,69,0,'',553,1,30.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (650,317,69,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (662,320,78,0,'',59,1,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (661,320,78,0,'',887,1,16.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (660,320,78,0,'',998,1,8.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (663,321,80,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (664,321,80,0,'',0,0,25.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (665,321,80,0,'',0,0,45.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (666,322,84,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (667,322,84,0,'',1000,1,20.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (668,322,84,0,'',0,0,32.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (669,323,85,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (670,323,85,0,'',100,0,18.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (671,323,85,0,'',0,0,23.5000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (672,324,89,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (673,324,89,0,'',0,0,30.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (674,324,89,0,'',1000,1,10.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (676,326,90,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (677,326,90,0,'',556,1,15.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (678,327,99,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (679,327,99,0,'',50,1,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (680,327,99,0,'',48,1,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (681,328,100,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (682,328,100,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (683,328,100,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (684,328,100,0,'',46,1,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (685,328,100,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (686,328,100,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (687,329,101,0,'',256,0,-2.0000,'$',0.80000000,'lb',4,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (688,329,101,0,'',155,0,4.0000,'$',0.15000000,'lb',5,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (689,329,101,0,'',100,1,10.0000,'$',0.33000000,'lb',6,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (690,330,102,0,'',55,0,0.0000,'$',0.00000000,'lb',17,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (691,330,102,0,'',55,0,20.0000,'$',0.00000000,'lb',18,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (692,330,102,0,'',55,0,30.0000,'$',0.00000000,'lb',19,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (714,331,104,0,'',50,0,0.0000,'$',0.00000000,'lb',53,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (713,331,104,0,'',50,0,20.0000,'$',0.00000000,'lb',54,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (700,332,104,0,'',0,0,3.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (722,335,105,0,'',100,1,24.0000,'$',0.00000000,'lb',77,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (721,335,105,0,'',44,1,21.0000,'$',0.00000000,'lb',76,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (720,335,105,0,'',25,1,60.0000,'$',0.00000000,'lb',75,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (719,336,105,0,'',0,0,2.5000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (723,337,105,0,'',0,0,0.0000,'$',0.00000000,'lb',53,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (724,337,105,0,'',0,0,25.0000,'%',0.00000000,'lb',54,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (733,338,106,0,'',80,1,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (732,338,106,0,'',59,1,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (731,338,106,0,'',120,1,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (735,339,106,0,'',0,0,1.5000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (737,340,109,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (738,341,110,0,'',97,1,0.0000,'$',0.00000000,'lb',50,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (739,341,110,0,'',120,1,15.0000,'$',0.00000000,'lb',51,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (740,341,110,0,'',56,1,30.0000,'$',0.00000000,'lb',52,NULL,0,0);
-INSERT INTO `ac_product_option_values` VALUES (741,342,115,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'',0,0);
-INSERT INTO `ac_product_option_values` VALUES (742,342,115,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'',1,0);
-INSERT INTO `ac_product_option_values` VALUES (743,342,115,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'',2,1);
-INSERT INTO `ac_product_option_values` VALUES (744,342,115,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'',3,0);
-INSERT INTO `ac_product_option_values` VALUES (745,342,115,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'',4,0);
-INSERT INTO `ac_product_option_values` VALUES (746,342,115,0,'',9,1,0.0000,'$',0.00000000,'lb',0,'',5,0);
-INSERT INTO `ac_product_option_values` VALUES (747,344,116,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'',0,0);
-INSERT INTO `ac_product_option_values` VALUES (748,344,116,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'',1,0);
-INSERT INTO `ac_product_option_values` VALUES (749,344,116,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'',2,0);
-INSERT INTO `ac_product_option_values` VALUES (750,344,116,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'',3,0);
-INSERT INTO `ac_product_option_values` VALUES (751,344,116,0,'',0,1,0.0000,'$',0.00000000,'lb',0,'',4,0);
-INSERT INTO `ac_product_option_values` VALUES (752,345,116,0,'',3,1,0.0000,'$',0.00000000,'lb',0,'',0,0);
-INSERT INTO `ac_product_option_values` VALUES (753,345,116,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'',1,1);
-INSERT INTO `ac_product_option_values` VALUES (754,345,116,0,'',4,1,0.0000,'$',0.10000000,'lb',0,'',2,0);
-INSERT INTO `ac_product_option_values` VALUES (755,346,117,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"79\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"89\";}}',0,0);
-INSERT INTO `ac_product_option_values` VALUES (756,346,117,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"80\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"89\";}}',1,1);
-INSERT INTO `ac_product_option_values` VALUES (757,346,117,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"81\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"89\";}}',2,0);
-INSERT INTO `ac_product_option_values` VALUES (758,346,117,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"85\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"89\";}}',3,0);
-INSERT INTO `ac_product_option_values` VALUES (759,346,117,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"79\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"88\";}}',4,0);
-INSERT INTO `ac_product_option_values` VALUES (760,346,117,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"83\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"88\";}}',5,0);
-INSERT INTO `ac_product_option_values` VALUES (761,346,117,0,'',0,0,2.5000,'$',0.00000000,'lb',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"86\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"88\";}}',6,0);
-INSERT INTO `ac_product_option_values` VALUES (762,346,117,0,'',14,1,0.0000,'$',0.00000000,'lb',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"84\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"91\";}}',7,0);
-INSERT INTO `ac_product_option_values` VALUES (763,347,118,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',0,1);
-INSERT INTO `ac_product_option_values` VALUES (764,347,118,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',1,0);
-INSERT INTO `ac_product_option_values` VALUES (765,347,118,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',2,0);
-INSERT INTO `ac_product_option_values` VALUES (766,347,118,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',3,0);
-INSERT INTO `ac_product_option_values` VALUES (767,347,118,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',4,0);
-INSERT INTO `ac_product_option_values` VALUES (768,348,119,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',0,0);
-INSERT INTO `ac_product_option_values` VALUES (769,348,119,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',1,1);
-INSERT INTO `ac_product_option_values` VALUES (770,348,119,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',2,0);
-INSERT INTO `ac_product_option_values` VALUES (771,348,119,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',3,0);
-INSERT INTO `ac_product_option_values` VALUES (772,349,120,0,'',6,1,0.0000,'$',0.00000000,'g',0,'',0,0);
-INSERT INTO `ac_product_option_values` VALUES (773,349,120,0,'',8,1,1.0000,'$',0.00000000,'g',0,'',1,1);
-INSERT INTO `ac_product_option_values` VALUES (774,350,121,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',0,0);
-INSERT INTO `ac_product_option_values` VALUES (775,350,121,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',1,0);
-INSERT INTO `ac_product_option_values` VALUES (776,351,121,0,'',3,1,0.0000,'$',0.00000000,'g',0,'',0,0);
-INSERT INTO `ac_product_option_values` VALUES (777,351,121,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',1,1);
-INSERT INTO `ac_product_option_values` VALUES (778,352,122,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',0,1);
-INSERT INTO `ac_product_option_values` VALUES (779,352,122,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',1,0);
-INSERT INTO `ac_product_option_values` VALUES (780,352,122,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',2,0);
+INSERT INTO `ac_product_option_values`
+VALUES
+(646,315,54,0,'',983,1,5.0000,'$',0.00000000,'lb',0,'',0,0),
+(653,318,53,0,'',2000,1,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(652,318,53,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(645,315,54,0,'',1000,1,0.0000,'$',0.00000000,'lb',0,'',0,1),
+(659,319,56,0,'',999,1,0.0000,'$',0.00000000,'lb',0,NULL,2,0),
+(658,319,56,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,1,0),
+(657,319,56,0,'',998,1,1.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(656,319,56,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(655,319,56,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(654,319,56,0,'',555,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(612,304,57,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(613,304,57,0,'',999,1,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(614,304,57,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(615,305,59,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(616,305,59,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(617,305,59,0,'',1000,1,2.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(618,306,55,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(619,306,55,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(620,306,55,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(621,306,55,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(622,307,60,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(623,307,60,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(624,307,60,0,'',0,0,1.4200,'$',0.00000000,'lb',0,NULL,0,0),
+(625,308,61,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(626,308,61,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(627,308,61,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(649,316,63,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(648,316,63,0,'',0,0,20.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(647,316,63,0,'',0,0,25.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(644,314,64,0,'',66,1,22.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(643,314,64,0,'',1000,1,10.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(642,314,64,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(651,317,69,0,'',553,1,30.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(650,317,69,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(662,320,78,0,'',59,1,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(661,320,78,0,'',887,1,16.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(660,320,78,0,'',998,1,8.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(663,321,80,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(664,321,80,0,'',0,0,25.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(665,321,80,0,'',0,0,45.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(666,322,84,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(667,322,84,0,'',1000,1,20.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(668,322,84,0,'',0,0,32.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(669,323,85,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(670,323,85,0,'',100,0,18.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(671,323,85,0,'',0,0,23.5000,'$',0.00000000,'lb',0,NULL,0,0),
+(672,324,89,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(673,324,89,0,'',0,0,30.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(674,324,89,0,'',1000,1,10.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(676,326,90,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(677,326,90,0,'',556,1,15.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(678,327,99,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(679,327,99,0,'',50,1,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(680,327,99,0,'',48,1,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(681,328,100,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(682,328,100,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(683,328,100,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(684,328,100,0,'',46,1,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(685,328,100,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(686,328,100,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(687,329,101,0,'',256,0,-2.0000,'$',0.80000000,'lb',4,NULL,0,0),
+(688,329,101,0,'',155,0,4.0000,'$',0.15000000,'lb',5,NULL,0,0),
+(689,329,101,0,'',100,1,10.0000,'$',0.33000000,'lb',6,NULL,0,0),
+(690,330,102,0,'',55,0,0.0000,'$',0.00000000,'lb',17,NULL,0,0),
+(691,330,102,0,'',55,0,20.0000,'$',0.00000000,'lb',18,NULL,0,0),
+(692,330,102,0,'',55,0,30.0000,'$',0.00000000,'lb',19,NULL,0,0),
+(714,331,104,0,'',50,0,0.0000,'$',0.00000000,'lb',53,NULL,0,0),
+(713,331,104,0,'',50,0,20.0000,'$',0.00000000,'lb',54,NULL,0,0),
+(700,332,104,0,'',0,0,3.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(722,335,105,0,'',100,1,24.0000,'$',0.00000000,'lb',77,NULL,0,0),
+(721,335,105,0,'',44,1,21.0000,'$',0.00000000,'lb',76,NULL,0,0),
+(720,335,105,0,'',25,1,60.0000,'$',0.00000000,'lb',75,NULL,0,0),
+(719,336,105,0,'',0,0,2.5000,'$',0.00000000,'lb',0,NULL,0,0),
+(723,337,105,0,'',0,0,0.0000,'$',0.00000000,'lb',53,NULL,0,0),
+(724,337,105,0,'',0,0,25.0000,'%',0.00000000,'lb',54,NULL,0,0),
+(733,338,106,0,'',80,1,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(732,338,106,0,'',59,1,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(731,338,106,0,'',120,1,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(735,339,106,0,'',0,0,1.5000,'$',0.00000000,'lb',0,NULL,0,0),
+(737,340,109,0,'',0,0,0.0000,'$',0.00000000,'lb',0,NULL,0,0),
+(738,341,110,0,'',97,1,0.0000,'$',0.00000000,'lb',50,NULL,0,0),
+(739,341,110,0,'',120,1,15.0000,'$',0.00000000,'lb',51,NULL,0,0),
+(740,341,110,0,'',56,1,30.0000,'$',0.00000000,'lb',52,NULL,0,0),
+(741,342,115,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'',0,0),
+(742,342,115,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'',1,0),
+(743,342,115,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'',2,1),
+(744,342,115,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'',3,0),
+(745,342,115,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'',4,0),
+(746,342,115,0,'',9,1,0.0000,'$',0.00000000,'lb',0,'',5,0),
+(747,344,116,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'',0,0),
+(748,344,116,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'',1,0),
+(749,344,116,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'',2,0),
+(750,344,116,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'',3,0),
+(751,344,116,0,'',0,1,0.0000,'$',0.00000000,'lb',0,'',4,0),
+(752,345,116,0,'',2,1,0.0000,'$',0.00000000,'lb',0,'',0,0),
+(753,345,116,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'',1,1),
+(754,345,116,0,'',3,1,0.0000,'$',0.10000000,'lb',0,'',2,0),
+(755,346,117,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"79\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"89\";}}',0,0),
+(756,346,117,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"80\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"89\";}}',1,1),
+(757,346,117,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"81\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"89\";}}',2,0),
+(758,346,117,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"85\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"89\";}}',3,0),
+(759,346,117,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"79\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"88\";}}',4,0),
+(760,346,117,0,'',0,0,0.0000,'$',0.00000000,'lb',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"83\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"88\";}}',5,0),
+(761,346,117,0,'',0,0,2.5000,'$',0.00000000,'lb',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"86\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"88\";}}',6,0),
+(762,346,117,0,'',14,1,0.0000,'$',0.00000000,'lb',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"84\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"91\";}}',7,0),
+(763,347,118,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',0,1),
+(764,347,118,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',1,0),
+(765,347,118,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',2,0),
+(766,347,118,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',3,0),
+(767,347,118,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',4,0),
+(768,348,119,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',0,0),
+(769,348,119,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',1,1),
+(770,348,119,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',2,0),
+(771,348,119,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',3,0),
+(772,349,120,0,'',6,1,0.0000,'$',0.00000000,'g',0,'',0,0),
+(773,349,120,0,'',8,1,1.0000,'$',0.00000000,'g',0,'',1,1),
+(774,350,121,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',0,0),
+(775,350,121,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',1,0),
+(776,351,121,0,'',3,1,0.0000,'$',0.00000000,'g',0,'',0,0),
+(777,351,121,0,'',0,0,0.0000,'$',0.00000000,'g',0,'',1,1),
+(778,352,122,0,'',30,1,0.0000,'$',0.00000000,'g',0,'',0,1),
+(779,352,122,0,'',16,1,0.0000,'$',0.00000000,'g',0,'',1,0),
+(780,352,122,0,'',40,1,0.0000,'$',0.00000000,'g',0,'',2,0),
+(781,353,123,0,'',20,1,2.0000,'$',0.00000000,'g',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"93\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"88\";}}',0,0),
+(782,353,123,0,'',20,1,0.0000,'$',0.00000000,'g',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"94\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"88\";}}',1,0),
+(783,353,123,0,'',9,1,0.0000,'$',0.00000000,'g',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"95\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"88\";}}',2,0),
+(784,353,123,0,'',5,1,2.0000,'$',0.00000000,'g',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"93\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"91\";}}',3,0),
+(785,353,123,0,'',0,1,0.0000,'$',0.00000000,'g',0,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"96\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"91\";}}',4,0),
+(786,353,123,0,'',20,1,2.0000,'$',0.00000000,'g',98,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"93\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"98\";}}',5,0),
+(787,353,123,0,'',10,1,0.0000,'$',0.00000000,'g',98,'a:2:{i:0;a:2:{s:7:\"attr_id\";i:7;s:9:\"attr_v_id\";s:2:\"96\";}i:1;a:2:{s:7:\"attr_id\";i:8;s:9:\"attr_v_id\";s:2:\"98\";}}',6,0);
 
 --
 -- Dumping data for table `product_options`
 --
-
-INSERT INTO `ac_product_options` VALUES (315,0,54,0,0,1,'S',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (318,0,53,0,2,1,'S',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (319,0,56,0,0,1,'S',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (304,0,57,0,0,1,'S',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (305,0,59,0,0,1,'S',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (306,0,55,0,0,1,'S',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (307,0,60,0,0,1,'S',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (308,0,61,0,0,1,'S',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (316,0,63,0,0,1,'S',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (314,0,64,0,0,1,'S',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (317,0,69,0,0,1,'S',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (320,0,78,0,0,1,'S',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (321,0,80,0,0,1,'S',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (322,0,84,0,0,1,'S',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (323,0,85,0,0,1,'S',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (324,0,89,0,0,1,'S',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (326,0,90,0,0,1,'S',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (327,0,99,0,0,1,'S',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (328,0,100,0,0,1,'S',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (329,1,101,0,0,1,'S',1,'',NULL);
-INSERT INTO `ac_product_options` VALUES (330,1,102,0,0,1,'S',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (331,1,104,0,0,1,'S',1,'',NULL);
-INSERT INTO `ac_product_options` VALUES (332,2,104,0,0,1,'C',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (335,5,105,0,0,1,'G',1,'',NULL);
-INSERT INTO `ac_product_options` VALUES (336,2,105,0,5,1,'C',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (337,1,105,0,2,1,'S',1,'',NULL);
-INSERT INTO `ac_product_options` VALUES (338,0,106,0,1,1,'S',1,'',NULL);
-INSERT INTO `ac_product_options` VALUES (339,2,106,0,2,1,'C',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (340,2,109,0,0,1,'C',0,'',NULL);
-INSERT INTO `ac_product_options` VALUES (341,1,110,0,0,1,'S',1,'',NULL);
-INSERT INTO `ac_product_options` VALUES (342,0,115,0,0,1,'S',1,'','');
-INSERT INTO `ac_product_options` VALUES (344,0,116,0,0,1,'R',1,'','');
-INSERT INTO `ac_product_options` VALUES (345,0,116,0,0,1,'S',1,'','');
-INSERT INTO `ac_product_options` VALUES (346,6,117,0,0,1,'S',1,'','a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}');
-INSERT INTO `ac_product_options` VALUES (347,0,118,0,0,1,'R',1,'','');
-INSERT INTO `ac_product_options` VALUES (348,0,119,0,0,1,'S',1,'','');
-INSERT INTO `ac_product_options` VALUES (349,0,120,0,0,1,'S',1,'','');
-INSERT INTO `ac_product_options` VALUES (350,0,121,0,0,1,'S',1,'','');
-INSERT INTO `ac_product_options` VALUES (351,0,121,0,0,1,'S',1,'','');
 INSERT INTO `ac_product_options`
 VALUES
-  (352,0,122,0,0,1,'S',1,'',''),
-  (353,6,123,0,0,1,'S',0,'','a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}');
+(315,0,54,0,0,1,'S',0,'',NULL),
+(318,0,53,0,2,1,'S',0,'',NULL),
+(319,0,56,0,0,1,'S',0,'',NULL),
+(304,0,57,0,0,1,'S',0,'',NULL),
+(305,0,59,0,0,1,'S',0,'',NULL),
+(306,0,55,0,0,1,'S',0,'',NULL),
+(307,0,60,0,0,1,'S',0,'',NULL),
+(308,0,61,0,0,1,'S',0,'',NULL),
+(316,0,63,0,0,1,'S',0,'',NULL),
+(314,0,64,0,0,1,'S',0,'',NULL),
+(317,0,69,0,0,1,'S',0,'',NULL),
+(320,0,78,0,0,1,'S',0,'',NULL),
+(321,0,80,0,0,1,'S',0,'',NULL),
+(322,0,84,0,0,1,'S',0,'',NULL),
+(323,0,85,0,0,1,'S',0,'',NULL),
+(324,0,89,0,0,1,'S',0,'',NULL),
+(326,0,90,0,0,1,'S',0,'',NULL),
+(327,0,99,0,0,1,'S',0,'',NULL),
+(328,0,100,0,0,1,'S',0,'',NULL),
+(329,1,101,0,0,1,'S',1,'',NULL),
+(330,1,102,0,0,1,'S',0,'',NULL),
+(331,1,104,0,0,1,'S',1,'',NULL),
+(332,2,104,0,0,1,'C',0,'',NULL),
+(335,5,105,0,0,1,'G',1,'',NULL),
+(336,2,105,0,5,1,'C',0,'',NULL),
+(337,1,105,0,2,1,'S',1,'',NULL),
+(338,0,106,0,1,1,'S',1,'',NULL),
+(339,2,106,0,2,1,'C',0,'',NULL),
+(340,2,109,0,0,1,'C',0,'',NULL),
+(341,1,110,0,0,1,'S',1,'',NULL),
+(342,0,115,0,0,1,'S',1,'',''),
+(344,0,116,0,0,1,'R',1,'',''),
+(345,0,116,0,0,1,'S',1,'',''),
+(346,6,117,0,0,1,'S',1,'','a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}'),
+(347,0,118,0,0,1,'R',1,'',''),
+(348,0,119,0,0,1,'S',1,'',''),
+(349,0,120,0,0,1,'S',1,'',''),
+(350,0,121,0,0,1,'S',1,'',''),
+(351,0,121,0,0,1,'S',1,'',''),
+(352,0,122,0,0,1,'S',1,'',''),
+(353,6,123,0,0,1,'S',0,'','a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}');
+
+
 
 --
 -- Dumping data for table `product_specials`
 --
 
-INSERT INTO `ac_product_specials` VALUES (252,51,1,0,19.0000,'0000-00-00','0000-00-00','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_product_specials` VALUES (253,55,1,0,27.0000,'0000-00-00','0000-00-00','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_product_specials` VALUES (254,67,1,0,29.0000,'0000-00-00','0000-00-00','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_product_specials` VALUES (255,72,1,0,24.0000,'0000-00-00','0000-00-00','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_product_specials` VALUES (256,88,1,0,27.0000,'0000-00-00','0000-00-00','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_product_specials` VALUES (257,93,1,0,220.0000,'0000-00-00','0000-00-00','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_product_specials` VALUES (258,65,1,1,89.0000,'0000-00-00','0000-00-00','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_product_specials` VALUES (260,80,1,1,45.0000,'0000-00-00','0000-00-00','2015-06-12 09:56:25','2015-06-12 09:56:25');
+INSERT INTO `ac_product_specials` 
+VALUES 
+(252,51,1,0,19.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
+(253,55,1,0,27.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
+(254,67,1,0,29.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
+(255,72,1,0,24.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
+(256,88,1,0,27.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
+(257,93,1,0,220.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
+(258,65,1,1,89.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
+(260,80,1,1,45.0000,'0000-00-00','0000-00-00',NOW(),NOW());
+
 
 --
 -- Dumping data for table `product_tags`
@@ -2436,3 +2555,15 @@ INSERT INTO `ac_banner_descriptions` VALUES
 	(10,1,'Main Banner 3','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide2_bot&quot; src=&quot;storefront/view/default/image/banner_image_3.png&quot; width=&quot;600&quot; height=&quot;300&quot; /&gt; &lt;span class=&quot;txt1&quot;&gt;Feature rich with smart UI&lt;/span&gt; &lt;span class=&quot;txt2&quot;&gt;Easy &amp;amp; fun to manage&lt;/span&gt; &lt;span class=&quot;txt3&quot;&gt;Feature reach shopping cart application right out of the box. Standard features allow to set up complete eCommerce site with all the tools needed to sell products online.&lt;/span&gt; &lt;span class=&quot;txt4&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;#&quot;&gt;Install Now!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',now(), now()),
 	(9,1,'Main Banner 2','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 wp1_left slide2_bot&quot; src=&quot;storefront/view/default/image/banner_image_2.png&quot; width=&quot;600&quot; height=&quot;300&quot; /&gt; &lt;span class=&quot;txt1 blue txt_right2&quot;&gt;Highly flexible layout on any page&lt;/span&gt; &lt;span class=&quot;txt2 blue txt_right2&quot;&gt;SEO Friendly&lt;/span&gt; &lt;span class=&quot;txt2 blue txt_right2&quot;&gt;Fast Loading&lt;/span&gt; &lt;span class=&quot;txt4 txt_right2 txt4up&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;#&quot;&gt;Try Now!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',now(), now()),
 	(8,1,'Main Banner 1','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide1_bot&quot; src=&quot;storefront/view/default/image/banner_image_1.png&quot; width=&quot;600&quot; height=&quot;300&quot; /&gt; &lt;span class=&quot;txt1&quot;&gt;HTML5 Responsive Storefront to look great on&lt;/span&gt; &lt;span class=&quot;txt2&quot;&gt;ALL Screen Sizes&lt;/span&gt; &lt;span class=&quot;txt3 short&quot;&gt;Natively responsive template implemented with bootstrap library and HTML5. Will look good on most mobile devices and tablets.&lt;/span&gt; &lt;span class=&quot;txt4 txt4up&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;&quot;&gt;Try on your device!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',now(), now());
+
+
+INSERT INTO `ac_product_stock_locations`
+VALUES
+(58,NULL,1,60,2),
+(58,NULL,2,37,1),
+(122,778,2,8,1),
+(122,778,1,22,2),
+(122,779,2,4,1),
+(122,779,1,12,2),
+(122,780,2,20,1),
+(122,780,1,20,2);
