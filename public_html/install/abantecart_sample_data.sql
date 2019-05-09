@@ -24,155 +24,182 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_flat_rate_s
 -- Dumping data for table `addresses`
 --
 
-INSERT INTO `ac_addresses` VALUES (1,2,'','Juliana','Davis','9778 Golden Crescent','Apt 10','85804-7365','Humansville',223,3616);
-INSERT INTO `ac_addresses` VALUES (2,3,'','Keely','Mccoy','5071 Misty Pond Farm','Suite #101','63406-9081','Bumble Bee',223,3648);
-INSERT INTO `ac_addresses` VALUES (3,4,'BelfastCo','Zelda','Weiss','6944 Sleepy Fawn Abbey','Suite #31','86014-8121','Lawyers',223,3616);
-INSERT INTO `ac_addresses` VALUES (4,5,'','Gloria','Macias','7590 Easy Robin Hollow','','73477-3842','Sandymush',223,3660);
-INSERT INTO `ac_addresses` VALUES (5,6,'','Bernard','Horne','5607 Umber Branch Via','','86301-9785','Spook City',223,3616);
-INSERT INTO `ac_addresses` VALUES (6,7,'','James','Curtis','6500 Arapahoe Road','','80303','Boulder',223,3634);
-INSERT INTO `ac_addresses` VALUES (7,8,'','Bruce','Rosarini','61 Cumberland ST','','68624-2273','Skokie',223,3650);
-INSERT INTO `ac_addresses` VALUES (8,9,'','Carlos','Compton','31 Capital Drive','','63142-0892','Fort Misery',223,3648);
-INSERT INTO `ac_addresses` VALUES (9,10,'','Garrison','Baxter','Eddie Hoffman Highway','','64034-2948','Shell Pile',223,3648);
-INSERT INTO `ac_addresses` VALUES (10,11,'','Anthony','Blair','104 Main Street','','29181-8284','Gassaway',223,3666);
-INSERT INTO `ac_addresses` VALUES (11,12,'','Allen','Waters','110 Shenandoah Avenue','','86565-1710','Honohina',223,3616);
-INSERT INTO `ac_addresses` VALUES (12,13,'','Tom','Kipling','100 Main Str','','64034-2948','Shell Pile',223,3648);
+INSERT INTO `ac_addresses`
+VALUES
+  (1,2,'','Juliana','Davis','9778 Golden Crescent','Apt 10','85804-7365','Humansville',223,3616),
+  (2,3,'','Keely','Mccoy','5071 Misty Pond Farm','Suite #101','63406-9081','Bumble Bee',223,3648),
+  (3,4,'BelfastCo','Zelda','Weiss','6944 Sleepy Fawn Abbey','Suite #31','86014-8121','Lawyers',223,3616),
+  (4,5,'','Gloria','Macias','7590 Easy Robin Hollow','','73477-3842','Sandymush',223,3660),
+  (5,6,'','Bernard','Horne','5607 Umber Branch Via','','86301-9785','Spook City',223,3616),
+  (6,7,'','James','Curtis','6500 Arapahoe Road','','80303','Boulder',223,3634),
+  (7,8,'','Bruce','Rosarini','61 Cumberland ST','','68624-2273','Skokie',223,3650),
+  (8,9,'','Carlos','Compton','31 Capital Drive','','63142-0892','Fort Misery',223,3648),
+  (9,10,'','Garrison','Baxter','Eddie Hoffman Highway','','64034-2948','Shell Pile',223,3648),
+  (10,11,'','Anthony','Blair','104 Main Street','','29181-8284','Gassaway',223,3666),
+  (11,12,'','Allen','Waters','110 Shenandoah Avenue','','86565-1710','Honohina',223,3616),
+  (12,13,'','Tom','Kipling','100 Main Str','','64034-2948','Shell Pile',223,3648),
+  (13,14,'Eaton Stevenson Inc','Yuri','Howard','22555 Jensen Ave','','93654','Reedley',223,3624),
+  (14,15,'Day and Rivera Traders','Regan','Shields','2355 Boulevard Bastien','','QC G2B 1B3','Québec',38,612),
+  (15,16,'','Randall','Richards','500 N Nebraska Ave','','33603','Tampa',223,3630),
+  (16,16,'Guzman and Morin Inc','Mallory','Ballard','2430 S French Ave','','32771','Sanford',223,3630);
 
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `ac_categories` VALUES (46,43,0,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (47,43,0,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (38,36,0,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (40,36,0,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (41,36,0,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (42,36,0,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (43,0,2,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (44,43,0,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (45,43,0,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (39,36,0,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (36,0,1,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (37,36,0,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (48,43,0,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (49,0,3,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (50,49,0,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (51,49,0,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (52,0,98,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (53,52,0,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (54,52,0,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (58,0,4,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (59,58,0,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (60,58,0,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (61,58,0,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (62,58,0,0,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (63,58,0,1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (64,0,99,0,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_categories` VALUES (65,0,100,1,'2015-06-12 10:03:16','2015-06-12 11:30:27');
-INSERT INTO `ac_categories` VALUES (66,65,0,1,'2015-06-12 10:04:09','2015-06-12 11:28:05');
-INSERT INTO `ac_categories` VALUES (67,65,0,1,'2015-06-12 10:06:44','2015-06-12 10:06:44');
-INSERT INTO `ac_categories` VALUES (68,0,0,1,'2015-06-16 11:12:40','2015-06-16 11:12:40');
-INSERT INTO `ac_categories` VALUES (69,68,0,1,'2015-06-16 11:13:35','2015-06-16 11:13:35');
-INSERT INTO `ac_categories` VALUES (70,68,0,1,'2015-06-22 10:14:10','2015-06-22 10:14:10');
+INSERT INTO `ac_categories`
+VALUES (46,43,0,1,NOW(),NOW()),
+(47,43,0,1,NOW(),NOW()),
+(38,36,0,1,NOW(),NOW()),
+(40,36,0,1,NOW(),NOW()),
+(41,36,0,1,NOW(),NOW()),
+(42,36,0,1,NOW(),NOW()),
+(43,0,2,1,NOW(),NOW()),
+(44,43,0,1,NOW(),NOW()),
+(45,43,0,1,NOW(),NOW()),
+(39,36,0,1,NOW(),NOW()),
+(36,0,1,1,NOW(),NOW()),
+(37,36,0,1,NOW(),NOW()),
+(48,43,0,1,NOW(),NOW()),
+(49,0,3,1,NOW(),NOW()),
+(50,49,0,1,NOW(),NOW()),
+(51,49,0,1,NOW(),NOW()),
+(52,0,98,1,NOW(),NOW()),
+(53,52,0,1,NOW(),NOW()),
+(54,52,0,1,NOW(),NOW()),
+(58,0,4,1,NOW(),NOW()),
+(59,58,0,1,NOW(),NOW()),
+(60,58,0,1,NOW(),NOW()),
+(61,58,0,1,NOW(),NOW()),
+(62,58,0,0,NOW(),NOW()),
+(63,58,0,1,NOW(),NOW()),
+(64,0,99,0,NOW(),NOW()),
+(65,0,100,1,NOW(),NOW()),
+(66,65,0,1,NOW(),NOW()),
+(67,65,0,1,NOW(),NOW()),
+(68,0,0,1,NOW(),NOW()),
+(69,68,0,1,NOW(),NOW()),
+(70,68,0,1,NOW(),NOW());
+
 --
 -- Dumping data for table `categories_to_stores`
 --
 
-INSERT INTO `ac_categories_to_stores` VALUES (36,0);
-INSERT INTO `ac_categories_to_stores` VALUES (37,0);
-INSERT INTO `ac_categories_to_stores` VALUES (38,0);
-INSERT INTO `ac_categories_to_stores` VALUES (39,0);
-INSERT INTO `ac_categories_to_stores` VALUES (40,0);
-INSERT INTO `ac_categories_to_stores` VALUES (41,0);
-INSERT INTO `ac_categories_to_stores` VALUES (42,0);
-INSERT INTO `ac_categories_to_stores` VALUES (43,0);
-INSERT INTO `ac_categories_to_stores` VALUES (44,0);
-INSERT INTO `ac_categories_to_stores` VALUES (45,0);
-INSERT INTO `ac_categories_to_stores` VALUES (46,0);
-INSERT INTO `ac_categories_to_stores` VALUES (47,0);
-INSERT INTO `ac_categories_to_stores` VALUES (48,0);
-INSERT INTO `ac_categories_to_stores` VALUES (49,0);
-INSERT INTO `ac_categories_to_stores` VALUES (50,0);
-INSERT INTO `ac_categories_to_stores` VALUES (51,0);
-INSERT INTO `ac_categories_to_stores` VALUES (52,0);
-INSERT INTO `ac_categories_to_stores` VALUES (53,0);
-INSERT INTO `ac_categories_to_stores` VALUES (54,0);
-INSERT INTO `ac_categories_to_stores` VALUES (58,0);
-INSERT INTO `ac_categories_to_stores` VALUES (59,0);
-INSERT INTO `ac_categories_to_stores` VALUES (60,0);
-INSERT INTO `ac_categories_to_stores` VALUES (61,0);
-INSERT INTO `ac_categories_to_stores` VALUES (62,0);
-INSERT INTO `ac_categories_to_stores` VALUES (63,0);
-INSERT INTO `ac_categories_to_stores` VALUES (64,0);
-INSERT INTO `ac_categories_to_stores` VALUES (65,0);
-INSERT INTO `ac_categories_to_stores` VALUES (66,0);
-INSERT INTO `ac_categories_to_stores` VALUES (67,0);
-INSERT INTO `ac_categories_to_stores` VALUES (68,0);
-INSERT INTO `ac_categories_to_stores` VALUES (69,0);
-INSERT INTO `ac_categories_to_stores` VALUES (70,0);
+INSERT INTO `ac_categories_to_stores` 
+VALUES 
+(36,0),
+(37,0),
+(38,0),
+(39,0),
+(40,0),
+(41,0),
+(42,0),
+(43,0),
+(44,0),
+(45,0),
+(46,0),
+(47,0),
+(48,0),
+(49,0),
+(50,0),
+(51,0),
+(52,0),
+(53,0),
+(54,0),
+(58,0),
+(59,0),
+(60,0),
+(61,0),
+(62,0),
+(63,0),
+(64,0),
+(65,0),
+(66,0),
+(67,0),
+(68,0),
+(69,0),
+(70,0);
 
 --
 -- Dumping data for table `category_descriptions`
 --
 
-INSERT INTO `ac_category_descriptions` VALUES (43,1,'Skincare','','','&lt;p&gt;\r\n	Products from award-winning skin care brands&lt;/p&gt;\r\n');
-INSERT INTO `ac_category_descriptions` VALUES (41,1,'Lips','','','');
-INSERT INTO `ac_category_descriptions` VALUES (42,1,'Nails','','','');
-INSERT INTO `ac_category_descriptions` VALUES (38,1,'Face','','','');
-INSERT INTO `ac_category_descriptions` VALUES (39,1,'Eyes','','','');
-INSERT INTO `ac_category_descriptions` VALUES (36,1,'Makeup','Makeup','','&lt;p&gt;\r\n	All your makeup needs, from foundation to eye shadow in hundreds of different assortments and colors.&lt;/p&gt;\r\n');
-INSERT INTO `ac_category_descriptions` VALUES (40,1,'Cheeks','','','');
-INSERT INTO `ac_category_descriptions` VALUES (37,1,'Value Sets','value sets makeup','','');
-INSERT INTO `ac_category_descriptions` VALUES (44,1,'Sun','','','');
-INSERT INTO `ac_category_descriptions` VALUES (45,1,'Gift Ideas &amp; Sets','','','');
-INSERT INTO `ac_category_descriptions` VALUES (46,1,'Face','','','&lt;p&gt;\r\n	Find face skin care solutions&lt;/p&gt;\r\n');
-INSERT INTO `ac_category_descriptions` VALUES (47,1,'Eyes','','','');
-INSERT INTO `ac_category_descriptions` VALUES (48,1,'Hands &amp; Nails','','','&lt;p&gt;\r\n	Keep your hands looking fresh&lt;/p&gt;\r\n');
-INSERT INTO `ac_category_descriptions` VALUES (49,1,'Fragrance','','','&lt;p&gt;\r\n	Looking for a new scent? Check out our fragrance&lt;/p&gt;\r\n');
-INSERT INTO `ac_category_descriptions` VALUES (50,1,'Women','','','&lt;p&gt;\r\n	Fragrance for Women&lt;/p&gt;\r\n');
-INSERT INTO `ac_category_descriptions` VALUES (51,1,'Men','','','');
-INSERT INTO `ac_category_descriptions` VALUES (52,1,'Hair Care','','','&lt;p&gt;\r\n	The widest range of premium hair products&lt;/p&gt;\r\n');
-INSERT INTO `ac_category_descriptions` VALUES (53,1,'Shampoo','','','');
-INSERT INTO `ac_category_descriptions` VALUES (54,1,'Conditioner','','','');
-INSERT INTO `ac_category_descriptions` VALUES (58,1,'Men','','','');
-INSERT INTO `ac_category_descriptions` VALUES (59,1,'Fragrance Sets','','','');
-INSERT INTO `ac_category_descriptions` VALUES (60,1,'Skincare','','','');
-INSERT INTO `ac_category_descriptions` VALUES (61,1,'Pre-Shave &amp; Shaving','','','');
-INSERT INTO `ac_category_descriptions` VALUES (62,1,'Post-Shave &amp; Moisturizers','','','');
-INSERT INTO `ac_category_descriptions` VALUES (63,1,'Body &amp; Shower','','','');
-INSERT INTO `ac_category_descriptions` VALUES (64,1,'Bath &amp; Body','','','');
-INSERT INTO `ac_category_descriptions` VALUES (65,1,'Books','','','Find the Items You&amp;#39;d Like to read');
-INSERT INTO `ac_category_descriptions` VALUES (66,1,'Audio CD','','','');
-INSERT INTO `ac_category_descriptions` VALUES (67,1,'Paperback','','','');
-INSERT INTO `ac_category_descriptions` VALUES (68,1,'Apparel &amp; accessories','','','');
-INSERT INTO `ac_category_descriptions` VALUES (69,1,'Shoes','','','');
-INSERT INTO `ac_category_descriptions` VALUES (70,1,'T-shirts','','','Shop men&amp;#39;s T-shirts');
+INSERT INTO `ac_category_descriptions`
+(`category_id`,
+`language_id`,
+`name`,
+`meta_keywords`,
+`meta_description`,
+`description`)
+VALUES 
+(43,1,'Skincare','','','&lt;p&gt;\r\n	Products from award-winning skin care brands&lt;/p&gt;\r\n'),
+(41,1,'Lips','','',''),
+(42,1,'Nails','','',''),
+(38,1,'Face','','',''),
+(39,1,'Eyes','','',''),
+(36,1,'Makeup','Makeup','','&lt;p&gt;\r\n	All your makeup needs, from foundation to eye shadow in hundreds of different assortments and colors.&lt;/p&gt;\r\n'),
+(40,1,'Cheeks','','',''),
+(37,1,'Value Sets','value sets makeup','',''),
+(44,1,'Sun','','',''),
+(45,1,'Gift Ideas &amp; Sets','','',''),
+(46,1,'Face','','','&lt;p&gt;\r\n	Find face skin care solutions&lt;/p&gt;\r\n'),
+(47,1,'Eyes','','',''),
+(48,1,'Hands &amp; Nails','','','&lt;p&gt;\r\n	Keep your hands looking fresh&lt;/p&gt;\r\n'),
+(49,1,'Fragrance','','','&lt;p&gt;\r\n	Looking for a new scent? Check out our fragrance&lt;/p&gt;\r\n'),
+(50,1,'Women','','','&lt;p&gt;\r\n	Fragrance for Women&lt;/p&gt;\r\n'),
+(51,1,'Men','','',''),
+(52,1,'Hair Care','','','&lt;p&gt;\r\n	The widest range of premium hair products&lt;/p&gt;\r\n'),
+(53,1,'Shampoo','','',''),
+(54,1,'Conditioner','','',''),
+(58,1,'Men','','',''),
+(59,1,'Fragrance Sets','','',''),
+(60,1,'Skincare','','',''),
+(61,1,'Pre-Shave &amp; Shaving','','',''),
+(62,1,'Post-Shave &amp; Moisturizers','','',''),
+(63,1,'Body &amp; Shower','','',''),
+(64,1,'Bath &amp; Body','','',''),
+(65,1,'Books','','','Find the Items You&amp;#39;d Like to read'),
+(66,1,'Audio CD','','',''),
+(67,1,'Paperback','','',''),
+(68,1,'Apparel &amp; accessories','','',''),
+(69,1,'Shoes','','',''),
+(70,1,'T-shirts','','','Shop men&amp;#39;s T-shirts');
+
+
+
+INSERT INTO `ac_coupons`
+(`coupon_id`,
+`code`,
+`type`,
+`discount`,
+`logged`,
+`shipping`,
+`total`,
+`date_start`,
+`date_end`,
+`uses_total`,
+`uses_customer`,
+`status`,
+`date_added`,
+`date_modified`)
+VALUES
+(4,'2222','P',10.0000,0,0,0.0000,'2015-01-01','2019-01-01',10,'10',1,NOW(),NOW()),
+(5,'3333','P',0.0000,0,1,100.0000,'2015-01-01','2019-01-01',10,'10',1,NOW(),NOW()),
+(6,'1111','F',10.0000,0,0,10.0000,'2015-01-01','2019-01-01',10,'10',1,NOW(),NOW());
+
 
 
 --
 -- Dumping data for table `coupon_descriptions`
 --
-
-INSERT INTO `ac_coupon_descriptions` VALUES (4,1,'Coupon (-10%)','10% Discount');
-INSERT INTO `ac_coupon_descriptions` VALUES (5,1,'Coupon (Free Shipping)','Free Shipping');
-INSERT INTO `ac_coupon_descriptions` VALUES (6,1,'Coupon (-10.00)','Fixed Amount Discount');
-
---
--- Dumping data for table `coupons`
---
-
-INSERT INTO `ac_coupons`
-	(`coupon_id`,`code`,`type`,`discount`,`logged`,`shipping`,`total`,`date_start`,`date_end`,`uses_total`,`uses_customer`,`status`,`date_added`)
- VALUES
-	(  4,  '2222',  'P',  10.0000,  0,  0,  0.0000,  '2015-01-01',  '2016-01-01',  10,  '10',  1,  NOW());
-
-INSERT INTO `ac_coupons`
-(`coupon_id`,`code`,`type`,`discount`,`logged`,`shipping`,`total`,`date_start`,`date_end`,`uses_total`,`uses_customer`,`status`,`date_added`)
+INSERT INTO `ac_coupon_descriptions`
+(`coupon_id`,
+`language_id`,
+`name`,
+`description`)
 VALUES
- (5,  '3333',  'P',  0.0000,  0,  1,  100.0000,  '2015-01-01',  '2016-01-01',  10,  '10',  1,  NOW());
-
-INSERT INTO `ac_coupons`
-(`coupon_id`,`code`,`type`,`discount`,`logged`,`shipping`,`total`,`date_start`,`date_end`,`uses_total`,`uses_customer`,`status`,`date_added`)
-VALUES
- ( 6, '1111', 'F', 10.0000, 0, 0, 10.0000, '2015-01-01', '2016-01-01', 10, '10', 1, NOW());
+(4,1,'Coupon (-10%)','10% Discount'),
+(5,1,'Coupon (Free Shipping)','Free Shipping'),
+(6,1,'Coupon (-10.00)','Fixed Amount Discount');
 
 
 --
@@ -283,37 +310,81 @@ VALUES (1,12,'manufacturer_id',12,0,0,NOW(),NOW()),
 --
 -- Dumping data for table `customers`
 --
+
 INSERT INTO `ac_customers`
-(`customer_id`, `store_id`, `firstname`, `lastname`, `loginname`, `email`,`telephone`,
-	`fax`, `sms`, `password`, `cart`, `wishlist`, `newsletter`, `address_id`, `status`, `approved`, `customer_group_id`,
-	`ip`, `date_added`, `date_modified`)
-VALUES
-(2,0,'Juliana','Davis','julidavis@abantecart.com','julidavis@abantecart.com','(602) 141-7191','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,1,1,1,1,'109.104.166.98','2013-08-31 14:25:37','2015-06-12 09:56:24'),
-(3,0,'Keely','Mccoy','keelymccoy@abantecart.com','keelymccoy@abantecart.com','(602) 916-1822','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,2,1,1,1,'109.104.166.98','2013-08-31 14:39:08','2015-06-12 09:56:24'),
-(4,0,'Zelda','Weiss','zeldaweiss@abantecart.com','zeldaweiss@abantecart.com','(539) 838-9210','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,3,1,1,1,'109.104.166.138','2013-08-31 14:42:58','2015-06-12 09:56:24'),
-(5,0,'Gloria','Macias','gloriamacias@abantecart.com','gloriamacias@abantecart.com','(573) 500-2105','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,4,1,1,1,'109.104.166.98','2013-08-31 14:46:58','2015-06-12 09:56:24'),
-(6,0,'Bernard','Horne','bernardhorne@abantecart.com','bernardhorne@abantecart.com','(573) 500-2105','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,5,1,1,1,'109.104.166.138','2013-08-31 14:50:27','2015-06-12 09:56:24'),
-(7,0,'James','Curtis','jamescurtis@abantecart.com','jamescurtis@abantecart.com','(602) 916-1822','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,6,1,1,1,'109.104.166.138','2013-08-31 15:00:03','2015-06-12 09:56:24'),
-(8,0,'Bruce','Rosarini','brucerosarini@abantecart.com','brucerosarini@abantecart.com','(539) 838-9210','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,7,1,1,1,'109.104.166.98','2013-08-31 15:08:23','2015-06-12 09:56:24'),
-(9,0,'Carlos','Compton','carloscmpton@abantecart.com','carloscmpton@abantecart.com','(928) 205-0511','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,8,1,1,1,'109.104.166.98','2013-08-31 15:13:14','2015-06-12 09:56:24'),
-(10,0,'Garrison','Baxter','garrisonbaxter@abantecart.com','garrisonbaxter@abantecart.com','(803) 189-5001','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,9,1,1,1,'109.104.166.138','2013-09-01 12:51:47','2015-06-12 09:56:24'),
-(11,0,'Anthony','Blair','anthonyblair@abantecart.com','anthonyblair@abantecart.com','(402) 456-6398','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,10,1,1,1,'171.98.12.12','2013-09-01 12:54:26','2015-06-12 09:56:24'),
-(12,0,'Allen','Waters','allenwaters@abantecart.com','allenwaters@abantecart.com','(417) 280-7406','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,11,1,1,1,'109.104.166.98','2013-09-01 13:12:56','2015-06-12 09:56:24'),
-(13,0,'qqqqqq','qqqqqq','1@abantecart','1@abantecart','55 555 5555 5555','','','6b006ba67f3c172e146991a2ad46d865','a:1:{s:3:\"97.\";i:1;}',NULL,0,12,1,1,1,'109.104.166.98','2013-09-08 15:28:20','2015-06-12 09:56:24');
+(`customer_id`,
+`store_id`,
+`firstname`,
+`lastname`,
+`loginname`,
+`email`,
+`telephone`,
+`fax`,
+`sms`,
+`salt`,
+`password`,
+`cart`,
+`wishlist`,
+`newsletter`,
+`address_id`,
+`status`,
+`approved`,
+`customer_group_id`,
+`ip`,
+`data`,
+`date_added`,
+`date_modified`,
+`last_login`)
+VALUES (2,0,'Juliana','Davis','julidavis@abantecart.com','julidavis@abantecart.com','(602) 141-7191','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,1,1,1,1,'109.104.166.98',NULL,'2013-08-31 14:25:37','2015-06-12 09:56:24','0000-00-00 00:00:00'),
+(3,0,'Keely','Mccoy','keelymccoy@abantecart.com','keelymccoy@abantecart.com','(602) 916-1822','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,2,1,1,1,'109.104.166.98',NULL,'2013-08-31 14:39:08','2015-06-12 09:56:24','0000-00-00 00:00:00'),
+(4,0,'Zelda','Weiss','zeldaweiss@abantecart.com','zeldaweiss@abantecart.com','(539) 838-9210','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,3,1,1,1,'109.104.166.138',NULL,'2013-08-31 14:42:58','2015-06-12 09:56:24','0000-00-00 00:00:00'),
+(5,0,'Gloria','Macias','gloriamacias@abantecart.com','gloriamacias@abantecart.com','(573) 500-2105','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,4,1,1,1,'109.104.166.98',NULL,'2013-08-31 14:46:58','2015-06-12 09:56:24','0000-00-00 00:00:00'),
+(6,0,'Bernard','Horne','bernardhorne@abantecart.com','bernardhorne@abantecart.com','(573) 500-2105','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,5,1,1,1,'109.104.166.138',NULL,'2013-08-31 14:50:27','2015-06-12 09:56:24','0000-00-00 00:00:00'),
+(7,0,'James','Curtis','jamescurtis@abantecart.com','jamescurtis@abantecart.com','(602) 916-1822','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,6,1,1,1,'109.104.166.138',NULL,'2013-08-31 15:00:03','2015-06-12 09:56:24','0000-00-00 00:00:00'),
+(8,0,'Bruce','Rosarini','brucerosarini@abantecart.com','brucerosarini@abantecart.com','(539) 838-9210','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,7,1,1,1,'109.104.166.98',NULL,'2013-08-31 15:08:23','2015-06-12 09:56:24','0000-00-00 00:00:00'),
+(9,0,'Carlos','Compton','carloscmpton@abantecart.com','carloscmpton@abantecart.com','(928) 205-0511','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,8,1,1,1,'109.104.166.98',NULL,'2013-08-31 15:13:14','2015-06-12 09:56:24','0000-00-00 00:00:00'),
+(10,0,'Garrison','Baxter','garrisonbaxter@abantecart.com','garrisonbaxter@abantecart.com','(803) 189-5001','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,9,1,1,1,'109.104.166.138',NULL,'2013-09-01 12:51:47','2015-06-12 09:56:24','0000-00-00 00:00:00'),
+(11,0,'Anthony','Blair','anthonyblair@abantecart.com','anthonyblair@abantecart.com','(402) 456-6398','','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,10,1,1,1,'171.98.12.12',NULL,'2013-09-01 12:54:26','2015-06-12 09:56:24','0000-00-00 00:00:00'),
+(12,0,'Allen','Waters','allenwaters','allenwaters@abantecart.com','(417) 280-7406','','','vkmQqxNw','e9aa1fed0f5c85e84ef9c9e8860c2732326e790b','a:0:{}',NULL,0,11,1,1,1,'77.111.246.147',NULL,'2013-09-01 13:12:56','2019-05-06 06:20:01','2019-03-18 12:19:54'),
+(13,0,'Michael','Neal','michael','michaelj@abantecart.com','55 555 5555 5555','','','QqHpW6DV','189212083ca9de5f584e624b7a7c256af90fdcfb','a:0:{}','a:2:{i:108;i:1552911485;i:111;i:1552911579;}',1,12,1,1,1,'77.111.246.167',NULL,'2013-09-08 15:28:20','2019-03-18 12:19:39','2019-03-18 12:12:59'),
+(14,0,'Yuri','Howard','howard566','howardinc@abantecart.com','+1 (694) 373-3146','','','1IVINJ6A','9980a6c101c48ba14277e5fcc7277fed31a8eb34','a:0:{}',NULL,1,13,1,1,1,'85.235.65.198','N;','2019-03-18 13:37:18','2019-03-18 13:39:25','2019-03-18 13:37:18'),
+(15,0,'Regan','Shields','RiaGardner','ricuvif@abantecart.com','+1 (267) 125-5153','','','QaPiKdCR','30a96d6489cc8089d2f66f1b3407334cfd5a5490','a:0:{}',NULL,1,14,1,1,1,'23.129.64.106','N;','2019-03-19 08:32:50','2019-03-19 08:33:16','2019-03-19 08:32:50'),
+(16,0,'Randall','Richards','randallri','randallri@abantecart.com','+1 (788) 773-7896','','','oMSzNPSe','47de3df0f279b2edb9d4062a0c1495a738fdb5c7','a:1:{s:7:\"store_0\";a:1:{i:96;a:2:{s:3:\"qty\";i:2;s:7:\"options\";a:0:{}}}}',NULL,0,15,1,1,1,'205.185.126.56','N;','2019-03-21 12:08:29','2019-03-21 12:12:32','2019-03-21 12:08:29');
+
+
 
 --
 -- Dumping data for table `download_descriptions`
 --
 
-INSERT INTO `ac_download_descriptions` VALUES (1,1,'Audio CD1');
-INSERT INTO `ac_download_descriptions` VALUES (2,1,'audio sample mp3');
+INSERT INTO `ac_download_descriptions`
+VALUES
+  (1,1,'Audio CD1'),
+  (2,1,'audio sample mp3'),
+  (5,1,'Find your fit');
 
 --
 -- Dumping data for table `downloads`
 --
 
-INSERT INTO `ac_downloads` VALUES (1,'download/18/76/4.mp3','audio-cd.mp3',50,NULL,0,'order_status',5,0,1,'2015-06-12 10:24:20','2015-06-12 10:24:20');
-INSERT INTO `ac_downloads` VALUES (2,'download/18/76/5.mp3','sample.mp3',NULL,NULL,0,'before_order',0,0,1,'2015-06-12 10:32:17','2015-06-12 10:32:17');
+INSERT INTO `ac_downloads`
+(`download_id`,
+`filename`,
+`mask`,
+`max_downloads`,
+`expire_days`,
+`sort_order`,
+`activate`,
+`activate_order_status_id`,
+`shared`,
+`status`,
+`date_added`,
+`date_modified`)
+VALUES
+  (1,'download/18/76/4.mp3','audio-cd.mp3',50,NULL,0,'order_status',5,0,1,NOW(),NOW()),
+(2,'download/18/76/5.mp3','sample.mp3',NULL,NULL,0,'before_order',0,0,1,NOW(),NOW()),
+(5,'download/18/79/f.pdf','size-fit-guide-print.pdf',NULL,NULL,0,'before_order',0,1,1,NOW(),NOW());
+
 
 --
 -- Dumping data for table `global_attributes`
@@ -686,79 +757,90 @@ INSERT INTO `ac_order_downloads_history` VALUES (1,0,0,0,'download/18/76/5.mp3',
 -- Dumping data for table `product_descriptions`
 --
 
-INSERT INTO `ac_product_descriptions` VALUES (73,1,'Highlighting Expressions','','','&lt;p&gt;\r\n	WHAT&lt;br /&gt;\r\n	Pantene Pro-V COLOUR HAIR SOLUTIONS Highlighting Expressions™ Conditioner protects and enhances colour treated hair and infuses blonde highlights with shine. The advanced Pro-Vitamin formula restores shine to dull highlights and protects hair from daily damage. This non-colour depositing formula works for all blonde highlights.&lt;/p&gt;\r\n&lt;p&gt;\r\n	WHY&lt;br /&gt;\r\n	Pantene uncovered that oxidative colouring changes hair’s structure. Internally, the chemistry in hair colour attacks strength-giving proteins in hair and makes the fibre more porous, leading to weaker hair that fades more quickly. The surface of the hair fibres becomes uneven and the protective layer of the hair fibre disintegrates. Without the protective layer, the hair fibre is prone to micro-scarring and damage, which changes the way it interacts with light and leads to a dull appearance.&lt;/p&gt;\r\n&lt;p&gt;\r\n	HOW&lt;br /&gt;\r\n	Pantene’s non-colour depositing conditioner is designed to reinforce the structure of blonde highlighted hair and give it what it needs to reveal vibrant, glossy colour. Conditioning ingredients help revitalize and replenish highlighted hair while delivering brilliant shine and protecting from future damage. The result is healthy-looking hair rejuvenated with shimmering blonde highlights.&lt;/p&gt;\r\n&lt;p&gt;\r\n	USE&lt;br /&gt;\r\n	For rich, vibrant colour that’s shiny and healthy-looking, use with Pantene Pro-V Pantene COLOUR HAIR SOLUTIONS Highlighting Expressions™ Shampoo and Colour Nourishing Treatment.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (74,1,'Curls to straight Shampoo','','','&lt;p&gt;\r\n	YOUR HAIR’S STARTING POINT&lt;br /&gt;\r\n	Curly&lt;/p&gt;\r\n&lt;p&gt;\r\n	WHAT&lt;br /&gt;\r\n	Pantene Curly Hair Series Curls to Straight Shampoo gently removes build-up, adding softness and control to your curls. The cleansing formula helps align and smooth the hair fibers. The result is healthy-looking hair that’s protected from frizz and ready for straight styling.&lt;/p&gt;\r\n&lt;p&gt;\r\n	WHY&lt;br /&gt;\r\n	Research shows that each curly hair fibre grows in a unique pattern, twisting and turning in all directions. This unpredictable pattern makes it difficult to create and control straight styles. The curved fibres of curly hair intersect with each other more often than any other hair type, causing friction which can result in breakage. The curvature of the hair fibre also provides a large amount of volume in curly hair, which can be hard to tame.&lt;/p&gt;\r\n&lt;p&gt;\r\n	HOW&lt;br /&gt;\r\n	Pantene’s straight shampoo contains micro-smoothers that aid you in loosening and unwinding curls from their natural pattern. Curly hair is left ready for frizz controlled straight styling, and protected from styling damage.&lt;/p&gt;\r\n&lt;p&gt;\r\n	USE&lt;br /&gt;\r\n	For healthy-looking, curly hair that’s styled straight, use with Curls to Straight Conditioner and Anti-Frizz Straightening Crème.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (75,1,'Dove Men +Care Body Wash','','','&lt;p&gt;\r\n	A body and face wash developed for men\'s skin with Micromoisture technology.&lt;br /&gt;\r\n	Micromoisture activates on skin when lathering up, clinically proven to fight skin dryness.&lt;br /&gt;\r\n	Deep cleansing gel that rinses off easily. With purifying grains.&lt;br /&gt;\r\n	Dermatologist recommended.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (76,1,'Men+Care Clean Comfort Deodorant','','','&lt;p&gt;\r\n        The first scented deodorant from Dove® specifically designed with a non-irritating formula to give men the power of 48-hour protection against underarm odor with advanced ¼ moisturizer technology. The bottom line? It’s tough on odor, not on skin&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (77,1,'Men+Care Active Clean Shower Tool','tool, man','','&lt;p&gt;\r\n	Dove® Men+CareTM Active Clean Dual-Sided Shower Tool works with body wash for extra scrubbing power you can’t get from just using your hands. The mesh side delivers the perfect amount of thick cleansing lather, and the scrub side helps exfoliate for a deeper clean. Easy to grip and easy to hang. For best results, replace every 4-6 weeks.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (78,1,'ck IN2U Eau De Toilette Spray for Him','','','&lt;p&gt;\r\n	Fresh but warm; a tension that creates sexiness.Spontaneous - sexy - connectedCK IN2U him is a fresh woody oriental that penetrates with lime gin fizz and rushes into a combination of cool musks that radiate from top to bottom and leaves you wanting more.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (79,1,'ck One Gift Set','','','&lt;p&gt;\r\n	2 PC Gift Set includes 3.4 oz EDT Spray + Magnets. Ck One Cologne by Calvin Klein, Two bodies, two minds, and two souls are merged into the heat and passion of one. This erotic cologne combines man and woman with one provocative scent. This clean, refreshing fragrance has notes of bergamot, cardamom, pineapple, papaya, amber, and green tea.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (50,1,'Skinsheen Bronzer Stick','','','&lt;p&gt;\r\n	Bronzes, shapes and sculpts the face. Sheer-to-medium buildable coverage that looks naturally radiant and sunny. Stashable - and with its M·A·C Surf, Baby look – way cool. Limited edition.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (51,1,'BeneFit Girl Meets Pearl','','','&lt;p&gt;\r\n	Luxurious liquid pearl…the perfect accessory! This soft golden pink liquid pearl glides on for a breathtakingly luminous complexion. Customise your pearlessence with the easy to use twist up package … a few clicks for a subtle sheen, more clicks for a whoa! glow. Pat the luminous liquid over make up or wear alone for dewy lit from within radiance. It\'s pure pearly pleasure. Raspberry and chamomile for soothing. Light reflecting pigments for exquisite radiance. Sweet almond seed for firming and smoothing. Sesame seed oil for moisturising.Fresh red raspberry scent.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (52,1,'Benefit Bella Bamba','','','&lt;p&gt;\r\n	Amplify cheekbones and create the illusion of sculpted features with this 3D watermelon blush. Laced with shimmering gold undertones, bellabamba is taking eye popping pretty to the third dimension…you’ll never use traditional blush again! Tip: For a poreless complexion that pops, sweep bellabamba on cheeks after applying porefessional&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (53,1,'Tropiques Minerale Loose Bronzer','','','&lt;p&gt;\r\n	Precious earths, exclusively selected for their luxurious silky texture and gentle quality, are layered with mineral pigments in this lightweight powder to mimic the true color of tanned skin. Unique technology with inalterable earths ensures exquisite wear all day. Mineral blend smoothes complexion, while Aloe Vera helps protect skin from dryness.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (54,1,'L\'EXTRÊME Instant Extensions Lengthening Mascara','','','&lt;p&gt;\r\n	Extend your lashes up to 60% instantly! This exclusive Fibrestretch formula takes even the smallest natural lashes to dramatic lengths. The patented Extreme Lash brush attaches supple fibers to every eyelash for an instant lash extension effect.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (55,1,'LE ROUGE ABSOLU Reshaping &amp; Replenishing LipColour SPF 15','','','&lt;p&gt;\r\n	Smoother. Fuller. Absolutely replenished lips. This advanced lip color provides 6-hour care with continuous moisture and protective Vitamin E. Features plumping polymer and non-feathering color to define and reshape lips. Choose from an array of absolutely luxurious shades with a lustrous pearl or satin cream finish.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (56,1,'Waterproof Protective Undereye Concealer','','','&lt;p&gt;\r\n	This natural coverage concealer lets you instantly eliminate tell-tale signs of stress and fatigue. Provides complete, natural-looking coverage, evens skin tone, covers dark circles and minimizes fine lines around the eyes. The Result: A soft, matte finish&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (57,1,'Delicate Oil-Free Powder Blush','','','&lt;p&gt;\r\n	A sparkling shimmer of colour for a radiant glow. Silky soft, micro-bubble formula glides on easily and evenly. Lasts for hours. Oil-free and oil-absorbing, yet moisture-balancing. Perfect for all skin types.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (58,1,'&quot;hello flawless!&quot; custom powder foundation with SPF 15','','','&lt;p&gt;\r\n	There are degrees of cover-up…some like less, some like more! Our blendable powder formula with SPF 15 goes on beautifully sheer &amp;amp; builds easily for customized coverage. Sweep on with the accompanying brush for a sheer, natural finish or apply with the sponge for full coverage or spot cover-up. Our 6 flattering shades (2 light, 2 medium, 2 deep) make it incredibly easy to find your perfect shade. Once gals apply &quot;hello flawless!&quot; they\'ll finally have met their match q!&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (59,1,'Viva Glam Lipstick','','','&lt;p&gt;\r\n	Time to wham up the GLAM in VIVA GLAM! It\'s a gaga-glamorous look at our abiding passion: The M·A·C AIDS Fund and the VIVA GLAM program are the heart and soul of M·A·C Cosmetics. Ladies and gentlemen, we give you the sensational Cyndi Lauper and the electric Lady Gaga&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (60,1,'Nail Lacquer','','','&lt;p&gt;\r\n	Revolutionary new high gloss formula. Three long-wearing finishes - Cream, Sheer, and Frosted. Visibly different. Provides no-streak/no-chip finish. Contains conditioners and UV protection. Go hi-lacquer!&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (61,1,'Color Design Eye Brightening All in One 5 Shadow &amp; Liner Palette','','','&lt;p&gt;\r\n	Infinitely luminous. Sensationally smooth. All-in-one 5 shadow palette to brighten eyes. Lancome’s new versatile, all-in-one palette conveniently creates a full eye look for day or night. Experience the newest generation of luminosity as silky lustrous powders transparently wrap the skin, allowing a seamless layering of pure color for a silky sheen and radiant finish. Build with absolute precision and apply the shades in 5 simple steps (all over, lid, crease, highlighter and liner) to design your customized eye look. Contour, sculpt and lift in soft day colors or intensify with dramatic evening hues for smoldering smoky effects. Long wear, 8-hour formula. Color does not fade, continues to stay true&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (62,1,'ck one shock for him Deodorant','','','&lt;p&gt;\r\n	Shock Off! cK one shock for him opens with pure freshness, the heart pulses with spice and finishes with a masculine tobacco musk. Experience ck one shock, the newest fragrance from Calvin Klein with this 2.6 oz Deodorant.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (63,1,'Pour Homme Eau de Toilette','','','&lt;p&gt;\r\n	An intriguing masculine fragrance that fuses the bracing freshness of Darjeeling tea with the intensity of spice and musk. For those seeking a discreet accent to their personality.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (64,1,'Beauty Eau de Parfum','','','&lt;p&gt;\r\n	Beauty by Calvin Klein is a sophisticated and feminine fragrance presenting a new scructure to modern florals. Radiating rich and intense luminosity; Beauty leaves a complex and memorable impression. Experience the glamour and strength with the Beauty Eau de Parfum&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (65,1,'Absolue Eye Precious Cells','','','&lt;p&gt;\r\n	Smoothes – Tightens – Regenerates Radiance Exclusive innovation from Lancôme A powerful combination of unique ingredients – Reconstruction Complex and Pro-Xylane™ – has been shown to improve the condition around the stem cells, and stimulate cell regeneration to reconstruct skin to a denser quality*. Results Immediately, the eye contour appears smoother and more radiant. Day 7, signs of fatigue are minimized and the appearance of puffiness is reduced. Day 28, density is improved. Skin is soft and looks healthier. The youthful look of the eye contour is restored. Ophthalmologist – tested. Dermatologist – tested for safety.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (66,1,'Total Moisture Facial Cream','','','&lt;p&gt;\r\n	Say good-bye to dry skin and hello to “total moisture”. This facial cream provides concentrated immediate &amp;amp; long-term hydration for an ultra radiant complexion. Contains exclusive tri-radiance complex to help develop the skin’s reserves of water &amp;amp; reinforce skin’s moisture barrier for a radiantly refreshed complexion. For normal to dry skin.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (67,1,'Flash Bronzer Body Gel','','','&lt;p&gt;\r\n	Look irresistible! Discover the self-tanning results you dream of: Instant bronzed glowing body Enriched with natural caramel extract for an immediate, gorgeous, bronzed glow. Exquisitely beautiful tan The perfect balance of self-tanning ingredients helps to achieve an ideal color, providing an even, natural-looking, golden tan. Color development within 30 minutes, lasting up to 5 days. Transfer-resistant formula With an exclusive Color-Set™ complex that smoothes on without streaks, dries in 4 minutes and protects clothes against rub-off. Hydrating &amp;amp; smoothing action Leaves skin soft, smooth, and hydrated. Pure Vitamin E delivers antioxidant protection, helping to reduce signs of premature aging. Indulgent experience Delightfully scented with hints of jasmine and honey in a silky, non-greasy formula&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (68,1,'Absolute Anti-Age Spot Replenishing Unifying TreatmentSPF 15','','','&lt;p&gt;\r\n	A luxurious and comprehensive hand treatment that addresses the special needs of mature hands. Diminishes and discourages the appearance of age spots, while replenishing and protecting the skin. RESULT: Immediately, skin on hands is hydrated, soft and luminous. With continued use, skin becomes more uniform, looks firmer and youthful.Massage into hands and cuticles as needed.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (69,1,'Seaweed Conditioner','','','&lt;p&gt;\r\n	What it is:&lt;br /&gt;\r\n	A lightweight detangler made with marine seaweed and spirulina.&lt;/p&gt;\r\n&lt;p&gt;\r\n	What it does:&lt;br /&gt;\r\n	This conditioner gently detangles, nourishes, softens, and helps to manage freshly washed hair.&lt;/p&gt;\r\n&lt;p&gt;\r\n	What it is formulated WITHOUT:&lt;br /&gt;\r\n	- Parabens&lt;/p&gt;\r\n&lt;p&gt;\r\n	What else you need to know:&lt;br /&gt;\r\n	Made with marine greens for practically anyone (and ideal for frequent bathers), this conditioner is best paired with Seaweed Shampoo. It\'s also safe for use on color-treated hair.&lt;/p&gt;\r\n&lt;p&gt;\r\n	-Sea Silk Extract: Nourishes scalp; promotes healthy looking hair.&lt;br /&gt;\r\n	-Ascophyllum Nudosum (Seaweed) Extract: Moisturizes; adds elasticity, luster, softness, body; reduces flyaways.&lt;br /&gt;\r\n	-Macrocystis Pyrifera (Sea Kelp) Extract: Adds shine and manageability.&lt;br /&gt;\r\n	-Spirulina Maxima Extract: Hydrates.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (70,1,'Eau Parfumee au The Vert Shampoo','','','&lt;p&gt;\r\n	Structured around the refreshing vitality and purtiy of green tea, Bvlgari Eau the Vert Shampoo is an expression of elegance and personal indulgence. Delicately perfumed Eau Parfumée au thé vert shampoo gentle cleansing action makes it perfect for daily use.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (71,1,'Pantene Pro-V Conditioner, Classic Care','','','&lt;p&gt;\r\n	Conditions hair for healthy shine. How Can You See Healthy Hair? Pantene Complete Therapy Conditioner has a unique pro-vitamin complex that deeply infuses every strand - So you see 6 signs of health hair: Shine; Softness; Strength; Body; Less Frizz; Silkiness. Pantene Complete Therapy Conditioner: The ultimate pro-vitamin therapy provides gentle daily nourishing moisture for enhanced shine; Helps hair detangle easily; Helps prevent frizz and flyaways. Simply use and in just 10 days - and very day after - see shiny hair that\'s soft with less frizz. Best of all, healthy Pantene hair that is strong and more resistant to damage. Made in USA.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (72,1,'Brunette expressions Conditioner','','','&lt;p&gt;\r\n	YOUR HAIR’S STARTING POINT&lt;br /&gt;\r\n	Colour-Treated or Highlighted&lt;/p&gt;\r\n&lt;p&gt;\r\n	WHAT&lt;br /&gt;\r\n	Pantene Pro-V COLOUR HAIR SOLUTIONS Brunette Expressions™ Conditioner hydrates hair for rich colour that is protected from daily stress and damage. This non-colour depositing formula works for all shades of brunette hair.&lt;/p&gt;\r\n&lt;p&gt;\r\n	WHY&lt;br /&gt;\r\n	Pantene uncovered that oxidative colouring changes hair’s surface. Internally, the chemistry in hair colour attacks strength-giving proteins in hair and makes the fibre more porous, leading to weaker hair and that fades more quickly. The surface of the hair fibres then becomes uneven and the protective layer of the hair fibre disintegrates. Without the protective layer, the hair fibre is prone to micro-scarring and damage, which changes the way it interacts with light and leads to a dull appearance.&lt;/p&gt;\r\n&lt;p&gt;\r\n	HOW&lt;br /&gt;\r\n	Pantene’s advanced Pro-Vitamin formula enhances brunette colour for great intensity and radiant shine. Non-colour depositing conditioning ingredients enhance and protect colour treated hair, while helping to restore shine to coloured strands. Hair is moisturized and infused with radiant shine.&lt;/p&gt;\r\n&lt;p&gt;\r\n	USE&lt;br /&gt;\r\n	For rich, vibrant colour that’s shiny and healthy-looking, use with Pantene Pro-V Pantene COLOUR HAIR SOLUTIONS Brunette Expressions™ Shampoo and Colour Nourishing Treatment.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (80,1,'Acqua Di Gio Pour Homme','','','&lt;p&gt;\r\n	A resolutely masculine fragrance born from the sea, the sun, the earth, and the breeze of a Mediterranean island. Transparent, aromatic, and woody in nature Aqua Di Gio Pour Homme is a contemporary expression of masculinity, in an aura of marine notes, fruits, herbs, and woods.&lt;/p&gt;\r\n&lt;p&gt;\r\n	Notes:&lt;br /&gt;\r\n	Marine Notes, Mandarin, Bergamot, Neroli, Persimmon, Rosemary, Nasturtium, Jasmine, Amber, Patchouli, Cistus.&lt;br /&gt;\r\n	Style:&lt;br /&gt;\r\n	Transparent, modern, and masculine.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (81,1,'Armani Eau de Toilette Spray ','','','&lt;p&gt;\r\n	This confidently masculine embodiment of the sophisticated ease and understated elegance of Giorgio Armani fashions - is a simply tailored, yet intensely sensual combination of sparkling fresh fruits, robust spices, and rich wood notes.&lt;br /&gt;\r\n	Notes:&lt;br /&gt;\r\n	Lime, Bergamot, Mandarin, Sweet Orange, Petitgrain, Cinnamon, Clove, Nutmeg, Jasmine, Neroli, Coriander, Lavender, Oakmoss, Sandalwood, Patchouli, Vetiver, Cedar.&lt;br /&gt;\r\n	Style:&lt;br /&gt;\r\n	Fresh, masculine, and discreet.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (82,1,'Armani Code after shave balm','','','&lt;p&gt;\r\n	Splash on this refreshing balm post-shave to soothe and calm the skin. Scents skin with a hint of seductive Code.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	Ingredients&lt;br /&gt;\r\n	Alcohol, Aqua/Water/Eau, Parfum/Fragrance, PEG 8, PEG 60 Hydrogenated Castor Oil, BHT, Allantoin (Comfrey Root), Linalool, Geraniol, Alpha Isomethyl Ionone, Coumarin, Limonene, Hydroxyisohexl 3 Cyclohexene Carboxaldehyde, Hydroxycitronellal, Citronellol, Citral, Butylphenyl Methlyproprional, Hexylcinnamal&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (83,1,'Armani Code Sport','','','&lt;p&gt;\r\n	Sport. It\'s a rite of seduction. A vision of Giorgio Armani, translated into a fragrance.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	This scent opens with an explosive freshness that features spearmint, peppermint, and wild mint—surprising and unusual top notes with a stunning effect. The citrusy heart of the fragrance reveals Code Sport\'s seductive power. Notes of vetiver from Haiti reveal a woody and distinguished character, at once wet and dry. Like a crisp coating of ice, a note of hivernal prolongs the dialogue between the scent\'s cool crispness and sensual breath, giving the fragrance an almost unlimited life.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	Notes:&lt;br /&gt;\r\n	Spearmint, Peppermint, Wild Mint, Citrus, Hivernal, Hatian Vetiver, Nigerian Ginger.&lt;br /&gt;\r\n	Style:&lt;br /&gt;\r\n	Stunning. Cool. Seductive.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (84,1,'Armani Code Pour Femme','','','&lt;p&gt;\r\n	A seductive new fragrance for women, Armani Code Pour Femme is a fresh, sexy, feminine blend of zesty blood orange, ginger, and pear sorbet softened with hints of sambac jasmine, orange blossom, and lavender honey, warmed with precious woods and vanilla.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	Notes:&lt;br /&gt;\r\n	Blood Orange, Ginger, Pear Sorbet, Sambac Jasmine, Orange Blossom, Seringa Flower, Lavender Honey, Precious Woods Complex, Vanilla.&lt;br /&gt;\r\n	Style:&lt;br /&gt;\r\n	Fresh. Sexy. Feminine.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (85,1,'Forbidden euphoria Eau de Parfum Spray ','','','&lt;p&gt;\r\n	Possessing an innate confidence and sophistication, she is just starting to explore her sexuality. What she doesn\'t yet know is that she already is every man\'s fantasy.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	A younger interpretation of Euphoria, this fruity floriental scent capitalizes on a modern, fresh sexiness with a mysterious twist. Its sparkling top notes seduce the senses with a blend of forbidden fruit such as mandarin, passion fruit, and iced raspberry. The heart blooms with a hypnotic bouquet of tiger orchid and jasmine. Underneath its exotic floralcy lies a layer of addictive patchouli and a sophisticated blend of musks and cashmere woods for an everlasting impression.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	Notes:&lt;br /&gt;\r\n	Sparkling Mandarin, Peach Blossom, Iced Raspberry, Pink Peony, Tiger Orchid, Jasmine, Cashmere Woods, Patchouli Absolute, Skin Musk.&lt;br /&gt;\r\n	Style:&lt;br /&gt;\r\n	Sophisticated. Confident. Forbidden.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (86,1,'Euphoria Men Intense Eau De Toilette Spray','','','&lt;p&gt;\r\n	Launched by the design house of Calvin Klein in 2008, EUPHORIA MEN INTENSE is a men\'s fragrance that possesses a blend of Rain Water, Pepper, Ginger, Sage, Frosted Sudachi, Cedar leaf, Patchouli, Myrrh, Labdanum, Amber Solid, Vetiver&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (87,1,'MAN Eau de Toilette Spray','','','&lt;p&gt;\r\n	Man by Calvin Klein was launched in October of 2007 and proposed as a new classic for the modern Calvin Klein man, aged from 25 to 40. The name itself is programmatic and unambiguous, like an English translation of L\'Homme by Yves Saint Laurent. Simple, brief, to the point. You are going to smell the essence of masculinity if you are to take your cue from the name of the fragrance. The packaging is sleek, modernist, with an architectural sense of proportions and looks good. The fragrance was created by perfumers Jacques Cavallier and Harry Fremont from Firmenich in collaboration with consultant Ann Gottlieb. All these people are old hands at marketing successful mainstream fragrances. Man offers therefore a mainstream palatability but without coming across as depersonalized. It plays the distinctiveness card, but in a well reined in manner. The fragrance bears a typical masculine fresh aromatic, woody and spicy signature around the linear heart of the scent which itself is dark, fruity, and sweet enough to feel feminine. This rich amber-fruity accord is made even more seductive thanks to just the right amount of citrus-y counterpoint, which never clarifies the scent but on the contrary helps to deepen the dark fruity sensation.&lt;br /&gt;\r\n	&nbsp;&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (88,1,'ck one Summer 3.4 oz','','','&lt;p&gt;\r\n	It\'s a concert on a hot summer night. The stage is set and the show\'s about to start. Feel the breeze, catch the vibe, and move to the beat with the pulsating energy of this limited-edition fragrance. A unisex scent, it is fresh, clean, and easy to wear. The fragrance opens with a burst of crisp melon. In the heart notes, an invigorating blend of green citrus and the zesty herbaceous effect of verbena creates a cool, edgy freshness. A base of exotic incense and earthy oakmoss is wrapped in the light, sensuous warmth of cedarwood, musk, and peach skin. Notes:Tangerine, Water Fern, Melon, Lemon, Sea Breeze Accord, Blue Freesia, Verbena, Rhubarb, Cedarwood, Skin Musk, Incense, Peach Skin. Style:Invigorating. Crisp. Cool.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (89,1,'Secret Obsession Perfume','','','&lt;p&gt;\r\n	Calvin Klein Secret Obsession eau de parfum spray for women blends notes of forbidden fruits, exotic flowers and a sultry wood signature to create an intoxicating aroma that is provocative and addictive.Calvin Klein is one of World of Shops most popular brands, and this Calvin Klein Secret Obsession eau de parfum spray for women is a firm favourite amongst our customers for its deep, feminine aroma that is perfect for those special evenings out.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (90,1,'Obsession Night Perfume','','','&lt;p&gt;\r\n	Launched by the design house of Calvin Klein in 2005, OBSESSION NIGHT is a women\'s fragrance that possesses a blend of gardenia, tonka bean, bergamot, vanilla, sandalwood, jasmine, rose, amber, muguet and mandarin. It is recommended for evening wear.&lt;/p&gt;\r\n&lt;p&gt;\r\n	Ingredients&lt;br /&gt;\r\n	Notes: Bergamot, Bitter Orange, Mandarin, White Floral, Angelica Root, Gardenia, Rose, Muguet, Night-Blooming Jasmine, Vanilla, Tonka Bean, Amber, Labdanum, Sandalwood, Cashmere Wood&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (91,1,'Jasmin Noir Body Lotion 6.8 fl oz','','','&lt;p&gt;\r\n	A bath collection for the body, scented with the Jasmin Noir fragrance. A tribute to ultimate femininity. Seduction and personal indulgence.&lt;br /&gt;\r\n	Body Lotion Fragrance: The new emblematic creation within the Bvlgari Pour Femme Collection Jasmin Noir, perfectly embodies the luxury and prestige of Bvlgari fine jewelry.&lt;br /&gt;\r\n	Jasmin Noir is a flower of the imagination. Precious jasmine, white and immaculate, in its noire interpretation. A flower of pure mystery. A rich and delicate flower that at nightfall, reveals its intriguing sensuality. A precious floral woody fragrance with ambery accents centered around one of the true jewels of perfumery: the jasmin flower. A scent that conjures forth the bewildering seductiveness of feminity as elegant as it is profoundly sensual.&lt;br /&gt;\r\n	Jasmin Noir tells a voluptuous floral story that begins with the pure radiance of luminous light given by green and scintillating notes: Vegetal Sap and fresh Gardenia Petals. Then, tender and seductive, the Sambac Jasmine Absolute, delivers its generous and bewitching notes. Unexpectedly allied with a transparent silky almond accord, it reveals a heart that is light yet thoroughly exhilarating and marvelously addictive. The scent\'s sumptuously rich notes repose on a bed of Precious Wood and ambery undertones, bringing together the depth and mystery of Patchouli, the warmth of Tonka Bean and the comfort of silky Musks for an elegant and intimate sensuality.&lt;br /&gt;\r\n	An exquisite fragrance of incomparable prestige, Jasmin Noir captures the very essence of the jeweler.&lt;br /&gt;\r\n	Made in Italy&lt;br /&gt;\r\n	&nbsp;&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (92,1,'Body Cream by Bulgari','','','&lt;p&gt;\r\n	BVLGARI (Bulgari) by Bvlgari Body Cream 6.7 oz for Women Launched by the design house of Bvlgari in 1994, BVLGARI is classified as a refined, floral fragrance. This feminine scent possesses a blend of violet, orange blossom, and jasmine. Common spellings: Bulgari, Bvlgary, Bulgary.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (93,1,'Creme Precieuse Nuit 50ml','','','&lt;p&gt;\r\n	A luxurious, melting night cream to repair skin during sleep Features Polypeptides that boost production of collagen &amp;amp; elastin Improves skin elasticity &amp;amp; firmness Visibly reduces appearance of wrinkles, fine lines &amp;amp; brown spots Enriched with Bvlgari Gem Essence to restore radiance Skin appears smooth, energized &amp;amp; luminous in morning Perfect for all skin types&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (94,1,'Night Care Crema Nera Obsidian Mineral Complex','','','&lt;p&gt;\r\n	When it comes to body, skin or eye care, you want to look to our products and you will find the best there is. These are the most exceptional personal care products available. They meet the strictest standards for quality sourcing, environmental impact, results and safety. Our body care products truly allows you to be good to your whole body.&lt;/p&gt;\r\n&lt;p&gt;\r\n	Giorgio Armani - Cream Nera - Night Care Crema Nera Obsidian Mineral Complex3 Restoring Cream SPF 15 50ml/1.69oz A lavish, fresh &amp;amp; weightless anti-aging creamProvides shielding &amp;amp; moisturizing benefitsDeveloped with Obsidian Mineral Complex technology Formulated with iron, silicon &amp;amp; perlite to create a potent dermal restructuring system Contains Pro-XylaneTM &amp;amp; Hyaluronique Acid Targets loss of substance, sagging of features &amp;amp; deepening of wrinkles Reveals firmer, sleeker &amp;amp; plumper skin in a youthful look. With a fabulous Skincare product like this one, you\'ll be sure to enjoy the ultimate in a Skincare experience with promising results.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (95,1,'Skin Minerals For Men Cleansing Cream','','','&lt;p&gt;\r\n	Ultra-purifying skincare enriched with essential moisturizing minerals, designed to instantly moisturize / purify the skin.&lt;br /&gt;\r\n	Active Ingredients&lt;br /&gt;\r\n	- Sodium and Potassium System: to preserve cutaneous hydration.&lt;br /&gt;\r\n	- Salicylic Acid and Hamamelis Extract: to tighten the pores and tone skin.&lt;br /&gt;\r\n	High Performances: the figures.&lt;br /&gt;\r\n	Self-assessment*:&lt;br /&gt;\r\n	- leaves the skin clean 100%&lt;br /&gt;\r\n	- leaves the skin comfortable 93%&lt;br /&gt;\r\n	- leaves the skin smooth 95%&lt;br /&gt;\r\n	- skin complexion is uniform 89%&lt;br /&gt;\r\n	- skin texture is refined 80%&lt;br /&gt;\r\n	* use test: 60 men 20 -65 years old 4 weeks of self-assessment&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (96,1,'Eye master','','','&lt;p&gt;\r\n	The volcanic force of minerals concentrated in multi action skincare specifically designed to target wrinkles, bags and dark circles of the delicate eye area. To combat signs of aging and fatigue and visibly improve skin quality.&lt;br /&gt;\r\n	Active Ingredients&lt;br /&gt;\r\n	- Volcanic Complex: an innovative combination of energy charged minerals, inspired by volcanic rocks&lt;br /&gt;\r\n	- Caffeine extract: to fight puffiness&lt;br /&gt;\r\n	- Conker and butcher’s broom extracts to stimulate cutaneous blood micro-circulation&lt;br /&gt;\r\n	High Performances: the figures.&lt;br /&gt;\r\n	Proven immediate anti-puffiness action*:&lt;br /&gt;\r\n	- 15 minutes after application –19%&lt;br /&gt;\r\n	*instrumental test, 40 men, 42-65 years old&lt;br /&gt;\r\n	Self-assessment&lt;br /&gt;\r\n	- instantly revitalizes skin 77%**&lt;br /&gt;\r\n	- wrinkles appear reduced 78%***&lt;br /&gt;\r\n	- diminishes the appearance of dark circles 68%***&lt;br /&gt;\r\n	** use test, 40 men 42-65 years old, single application, self-assessment&lt;br /&gt;\r\n	*** use test, 40 men 42-65 years old, 4 weeks, self-assessment&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (97,1,'Eye Rejuvenating Serum','','','&lt;p&gt;\r\n	The first advanced rejuvenating ‘weapon’ thanks to a corrective and smoothing texture and a power amplifying applicator.&lt;br /&gt;\r\n	The alliance of the [3.R] technology combined with an intensive re-smoothing system.&lt;br /&gt;\r\n	The eye rejuvenation serum also comes in an easily portable tube that boasts a silver bevelled applicator to ensure a good delivery of the product to the eye area as well as offering a means to improve circulation and reduce puffiness and eye bags.&lt;/p&gt;\r\n&lt;p&gt;\r\n	Rarely women have been so convinced of its efficiency on skin rejuvenation:&lt;/p&gt;\r\n&lt;p&gt;\r\n	EYE CONTOUR LOOKS SMOOTHER 85%*&lt;br /&gt;\r\n	EYES LOOK YOUNGER 91%*&lt;br /&gt;\r\n	EYE PUFFINESS LOOKS SOFTENED 83%*&lt;/p&gt;\r\n&lt;p&gt;\r\n	*% of women – self assessment on 60 women after 4 weeks&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (98,1,'Shaving cream','','','&lt;p&gt;\r\n	Moisturizing, charged with minerals and enriched with ultra softening agents. Its specific formula ensures an optimal, extremely gentle shave. Even four hours after shaving, the skin remains hydrated, soft and supple.&lt;br /&gt;\r\n	Active Ingredients&lt;br /&gt;\r\n	- Sodium and Potassium System: to preserve cutaneous hydration&lt;br /&gt;\r\n	- Bisabolol: to soothe skin&lt;br /&gt;\r\n	High Performances: the figures.&lt;br /&gt;\r\n	Measurements 4 hours after shaving:&lt;br /&gt;\r\n	- skin hydration +29%*&lt;br /&gt;\r\n	- skin softness +61%**&lt;br /&gt;\r\n	- skin suppleness +18%**&lt;br /&gt;\r\n	- skin dryness -39%**&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;br /&gt;\r\n	* instrumental test, 20 men, 20-70 years old&lt;br /&gt;\r\n	** clinical scorage, 20 men, 20-70 years old&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (99,1,'Fluid shine nail polish','','','&lt;p&gt;\r\n	Luxurious color at your fingertips. Fluid shine coats nails with intense shine and long-lasting, sophisticated color. The essential accessory to any makeup wardrobe.&lt;/p&gt;\r\n&lt;p&gt;\r\n	Discover the Bronze collection 2010&lt;br /&gt;\r\n	Finish this season’s high summer look with a cranberry n°43 or blackberry n°44 nail, to echo the wet lips with intense color.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (100,1,'Smooth silk lip pencils','','','&lt;p&gt;\r\n	An incredibly soft lip pencil for subtle, precise definition. The silky texture allows for easy application and flawless results. To extend the hold of your lip color, fill lips in completely with Smooth silk lip pencil before applying your lipstick. Choose from a wide range of shades to complement every color in your lipstick wardrobe.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (101,1,'Pro-V Color Hair Solutions Color Preserve Shine Conditioner','pantene, shampoo','','&lt;p&gt;\r\n	PANTENE\'s color preserve shine shampoo and conditioner system with micro-polishers smoothes and refinishes the hair’s outer layer. So your hair reflects light and shines brilliantly. Help preserve your multi-dimensional color.&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Product Features&lt;/strong&gt;&lt;br /&gt;\r\n	Micro-polishers smooth the outer layer of hair to help Protect color and leave hair shiny&lt;br /&gt;\r\n	Lightweight moisturizers provide protection against damage&lt;br /&gt;\r\n	Designed for color-treated hair; Gentle enough for permed hair&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Ingredients&lt;/strong&gt;&lt;br /&gt;\r\n	Water, Stearyl Alcohol, Behentrimonium Methosulfate, Cetyl Alcohol, Fragrance, Bis-Aminopropyl Dimethicone, Isopropyl Alcohol, Benzyl Alcohol, Disodium EDTA, Panthenol, Panthenyl Ethyl Ether, Methylchloroisothiazolinone, Methylisothiazolinone&lt;/p&gt;\r\n&lt;p&gt;\r\n	&nbsp;&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (102,1,'Gucci Guilty','gicci, spray','','&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Notes Consist Of Mandarin, Pink Pepper, Peach, Lilac, Geranium, Amber And Patchouli&lt;/li&gt;\r\n	&lt;li&gt;\r\n		For Casual Use&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	&lt;em&gt;Gucci Guilty&lt;/em&gt; is a warm yet striking oriental floral with hedonism at its heart.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	The scent seizes the attention with a flamboyant opening born of the natural rush that is mandarin shimmering alongside an audacious fist of pink pepper.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	The middle notes are an alluring concoction of heady lilac and geranium, laced with the succulent tactility of peach - all velvet femininity with a beguiling hint of provocation.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	The patchouli that is the hallmark of Gucci fragrances here conveys a message of strength, while the voluptuousness of amber suggests deep femininity.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (103,1,'Jasmin Noir L\'Essence Eau de Parfum Spray 75ml','','','&lt;p&gt;\r\n	A carnal impression of the immaculate jasmine flower, Bvlgari Jasmin Noir L\'Essence dresses the purity of the bloom in jet black mystery.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	The fragrance is a more concentrated Eau de Parfum than the original Jasmin Noir, a blend of rare and precious ingredients that are more seductive, and more addictive than ever before. The profoundly sensual elixir captivates the senses, and enchants its wearer with its generous and bewitching touches.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	A luminous bottle that honours the heritage of Bvlgari.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (104,1,'Calvin Klein Obsession For Women EDP Spray','','','&lt;p&gt;\r\n	Citrus, vanilla and greens lowering to notes of sandalwood, spices and musk. Recommended Use daytime&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;em&gt;\'Obsession\'&lt;/em&gt; perfume was launched by the design house of Calvin Klein in 1985&lt;/p&gt;\r\n&lt;p&gt;\r\n	When you think about Calvin Klein, initially you think of his clothing line – specifically his jeans and underwear lines (not to mention the famous ad with a young Brooke Shields). But Calvin Klein’s penchant for perfume was equally as cutting edge as his foray into fashion.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (105,1,'Bvlgari Aqua','','','&lt;p&gt;\r\n	Bvlgari Aqua (Pour Homme) Eau De Toilette Spray is an enticing and fresh cologne that exudes masculinity from its unique blend of amber santolina, posidonia and mandarin.&lt;/p&gt;\r\n&lt;p&gt;\r\n	Bvlgari Aqua (Pour Homme) Eau De Toilette Spray scent lasts throughout the day without having an overpowering smell. It is subtle enough for daytime use and masculine enough for night wear.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (106,1,'Omnia Eau de Toilette 65ml','bvlgary, omnia, EDT','','&lt;p&gt;\r\n	Choose Your scent&lt;/p&gt;\r\n&lt;p&gt;\r\n	&nbsp;&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Omnia Coral:&lt;/strong&gt; Inspired by the shimmering hues of precious red coral, Omnia Coral is a radiant floral-fruity Eau de Toilette of tropical Hibiscus and juicy Pomegranate, reminiscent of Summer, the sun, resplendent nature and far-off oceans.&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Omnia Amethyst:&lt;/strong&gt; Inspired by the shimmering hues of the amethyst gemstone, this floral Eau de Toilette captures the myriad scents of Iris and Rose gardens caressed with morning dew.&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Omnia Crystalline:&lt;/strong&gt; Created from the glowing clarity and purity of crystal, Omnia Crystalline is a sparkling jewel of light, illuminating and reflecting the gentle sensuality and luminous femininity. Sparkling like a precious jewel, like the rarest of crystals, in an exquisite jewel flacon.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (107,1,'Lancome Slimissime 360 Slimming Activating Concentrate Unisex Treatment','','','&lt;ul&gt;\r\n	&lt;li&gt;\r\n		An anti-cellulite body treatment&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Features a special gel-cream texture &amp;amp; a quick-dissolving formula&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Formulated with an exclusive 360 Complex&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	An anti-cellulite body treatment. Features a special gel-cream texture &amp;amp; a quick-dissolving formula. Formulated with an exclusive 360 Complex. Helps combat presence of cellulite &amp;amp; reduce existing cellulite. Provides immediate invigorating &amp;amp; firming results. Concentrated with micro-pearl particles to illuminate skin. Creates svelte &amp;amp; re-sculpted body contours....&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (108,1,'Lancome Hypnose Doll Lashes Mascara 4-Piece Gift Set','','','&lt;p&gt;\r\n	&nbsp;Lancome Hypnose Doll Lashes Mascara 4-Piece Gift Set! Limited Edition!&lt;/p&gt;\r\n&lt;ol&gt;\r\n	&lt;li&gt;\r\n		0.22 oz full-size Hypnôse Doll Lashes Mascara in Black&lt;/li&gt;\r\n	&lt;li&gt;\r\n		0.07 oz full-size Le Crayon Khol Eyeliner in Black Ebony&lt;/li&gt;\r\n	&lt;li&gt;\r\n		0.07 oz travel-size Cils Booster XL Super Enhancing Mascara Base&lt;/li&gt;\r\n	&lt;li&gt;\r\n		1.7 fl oz travel-size Bi-Facil Double-Action Eye Makeup Remover&lt;/li&gt;\r\n&lt;/ol&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (109,1,'Lancome Visionnaire Advanced Skin Corrector','','','&lt;p&gt;\r\n	Lancôme innovates with VISIONNAIRE [LR 2412 &nbsp;4%], its ?rst&nbsp;skincare product formulated to fundamentally recreate truly&nbsp;beautiful skin.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	A Lancôme technological breakthrough has identi?ed&nbsp;a miraculous new molecule.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	The name of this molecule: LR 2412.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	A molecule that is able to “self-propel” through the layers&nbsp;of the epidermis, to set off a series of tissular micro-transformations.&nbsp;The result is that skin is visibly transformed: the texture is ?ner,&nbsp;wrinkles are erased, pigmentary and vascular irregularities are&nbsp;reduced and pores are tightened.&lt;/p&gt;\r\n&lt;p&gt;\r\n	&nbsp;&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;em&gt;Download Presentation file after order.&lt;/em&gt;&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (110,1,'Flora By Gucci Eau Fraiche','','','&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Perfect for all occasions&lt;/li&gt;\r\n	&lt;li&gt;\r\n		This item is not a tester; New and sealed&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Contains natural ingredients&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	Gucci presents the new spring version of this perfume called flora by Gucci eau fraiche in 2011. Even younger, more airy, vivid, sparkling and fresher than the original, the new fragrance is enriched with additional aromas of citruses in the top notes and aquatic and green nuances in the heart, while the base remains unchanged. The composition begins with mandarin, bergamot, kumquat, lemon and peony. The heart is made of rose petals and Osman thus with green and aquatic additions, laid on the base of sandalwood, patchouli and pink pepper.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (111,1,'New French With Ease (1 book + 1 mp3 CD)','','','This title is available in book and CD. All Assimil courses are based on intuitive assimilations[registered], an original principle that is simple yet highly effective. Assimil has taken this natural process, through which you learned to speak your own language, and adapted it to their book and audio courses. Working progressively, with natural, lively dialogues, simple text notes and exercises, you will progress steadily to a level where you are able to converse in everyday situations. The first part of the course is the passive phase: you immerse yourself in the language by reading and repeating each lesson. During the second, the active phase, you use the structures and reflexes you have already absorbed while continuing to advance and learn. In just a few months, you will be able to speak French easily, fluently and naturally.&lt;br /&gt;\r\n&amp;nbsp;\r\n&lt;ul style=&quot;color: rgb(51, 51, 51); padding: 0px; list-style-type: none; font-size: 13px; font-family: verdana, arial, helvetica, sans-serif; line-height: 19px; orphans: auto; text-align: start; text-indent: 0px;&quot;&gt;\r\n	&lt;li&gt;Audio CD: 610 pages&lt;/li&gt;\r\n	&lt;li&gt;Publisher: ASSiMiL (3 April 2008)&lt;/li&gt;\r\n	&lt;li&gt;Language: English&lt;/li&gt;\r\n	&lt;li&gt;ISBN-10: 2700570057&lt;/li&gt;\r\n	&lt;li&gt;ISBN-13: 978-2700570052&lt;/li&gt;\r\n	&lt;li&gt;Product Dimensions: 23.6 x 17.8 x 5.1 cm&lt;/li&gt;\r\n&lt;/ul&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (112,1,'The Miracle Morning: The Not-So-Obvious Secret Guaranteed to Transform Your Life','','','What if you could miraculously wake up tomorrow and any&amp;mdash;or every area of your life was transformed? What would be different? Would you be happier? Healthier? More successful? In better shape? Would you have more energy? Less Stress? More Money? Better relationships? Which of your problems would be solved?&lt;br /&gt;\r\n&amp;nbsp;\r\n&lt;ul style=&quot;color: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal;&quot;&gt;\r\n	&lt;li&gt;&lt;b style=&quot;font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;&quot;&gt;Print Length:&lt;/b&gt; 172 pages&lt;/li&gt;\r\n	&lt;li&gt;&lt;b style=&quot;font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;&quot;&gt;Page Numbers Source ISBN:&lt;/b&gt; 0979019710&lt;/li&gt;\r\n	&lt;li&gt;&lt;b style=&quot;font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;&quot;&gt;Publication Date:&lt;/b&gt; December 7, 2012&lt;/li&gt;\r\n	&lt;li&gt;&lt;b style=&quot;font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;&quot;&gt;Language:&lt;/b&gt; English&lt;/li&gt;\r\n	&lt;li&gt;&lt;b style=&quot;font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;&quot;&gt;ASIN:&lt;/b&gt; B00AKKS278&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;hr /&gt;\r\nAbout the Author\r\n&lt;p&gt;At age 20, Hal Elrod was hit head on by a drunk driver at 70 mph, was dead for 6 minutes, and doctors told his parents that if Hal ever came out of his coma, he had permanent brain damage and may never walk again. After 6 days of fighting for his life, Hal proved that we all have the ability to overcome any obstacle and create the life of our dreams. Not only did he walk, he became an ultra-marathon runner, hall of fame business achiever, international Keynote Speaker, Success Coach, husband, father, hip-hop recording artist, and multiple time #1 bestselling author of &amp;quot;The Miracle Morning: The Not-So-Obvious Secret Guaranteed To Transform Your Life... (Before 8AM)&amp;quot; and &amp;quot;Taking Life Head On: How To Love the Life You Have While You Create the Life of Your Dreams&amp;quot;&amp;mdash;two of the highest rated and most acclaimed books on Amazon.com. (Just read a few of the 200+ five-star reviews, and you&amp;rsquo;ll see why.) Hal has appeared on dozens of radio and TV shows, and he&amp;rsquo;s been featured in numerous books, including The Education of Millionaires, Cutting Edge Sales, Living College Life in the Front Row, The Author&amp;rsquo;s Guide To Building An Online Platform, The 800-Pound Gorilla of Sales and the bestselling Chicken Soup for the Soul series. To contact Hal about media appearances, speaking at your event, or if you just want to receive free training videos and resources, visit www.YoPalHal.com. To connect with Hal on Twitter, follow @HalElrod, and on Facebook at www.Facebook.com/YoPalHal.&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (113,1,'Paper Towns by John Green','','','&lt;strong&gt;Winner of the Edgar Award&lt;br /&gt;\r\nThe #1 New York Times Bestseller&lt;br /&gt;\r\nPublishers Weekly and USA Today Bestseller&lt;/strong&gt;&lt;br /&gt;\r\n&lt;br /&gt;\r\n&lt;em&gt;Millions of Copies Sold&lt;/em&gt;&lt;br /&gt;\r\n&lt;br /&gt;\r\nQuentin Jacobsen has spent a lifetime loving the magnificent Margo Roth Spiegelman from afar. So when she cracks open a window and climbs back into his life&amp;mdash;summoning him for an ingenious campaign of revenge&amp;mdash;he follows. When their all-nighter ends and a new day breaks, Margo has disappeared. But Q soon learns that there are clues&amp;mdash;and they&amp;rsquo;re for him. Embarking on an exhilarating adventure to find her, the closer Q gets, the less he sees the girl he thought he knew.&lt;br /&gt;\r\n&lt;br /&gt;\r\nOctober 2008&lt;br /&gt;\r\n352 pages&lt;br /&gt;\r\nISBN 9781101010938&lt;br /&gt;\r\nTitle: Paper Towns&lt;br /&gt;\r\nAuthor: John Green','');
-INSERT INTO `ac_product_descriptions` VALUES (114,1,'Allegiant by Veronica Roth','','','Now includes an excerpt from the upcoming Four: A Divergent Collection.&lt;br /&gt;\r\n&lt;br /&gt;\r\nWhat if your whole world was a lie? What if a single revelation&amp;mdash;like a single choice&amp;mdash;changed everything? What if love and loyalty made you do things you never expected?&lt;br /&gt;\r\nThe explosive conclusion to Veronica Roth&amp;#39;s #1 New York Times bestselling Divergent trilogy reveals the secrets of the dystopian world that has captivated millions of readers in &lt;em&gt;Divergent&lt;/em&gt; and &lt;em&gt;Insurgent&lt;/em&gt;.&lt;br /&gt;\r\n&lt;br /&gt;\r\nOctober 2013&lt;br /&gt;\r\n544 pages&lt;br /&gt;\r\nISBN 9780062209276&lt;br /&gt;\r\nTitle: Allegiant&lt;br /&gt;\r\nAuthor: Veronica Roth','');
-INSERT INTO `ac_product_descriptions` VALUES (115,1,'Fiorella Purple Peep Toes','','','Add more charm to your casual footwear collection with these purple peep toes from the house of Fiorella. Featuring a non-leather upper and lining, these slip-ons ate high on durability and style. While the wedge heels add extra inches to your silhouette, the resin sole ensures optimal traction for your feet. Team these peep toes with your casual outfits to complete your look for the day.&lt;br /&gt;\r\n&lt;br /&gt;\r\nSole Material&amp;nbsp; &lt;strong&gt;Resin Sheet&lt;/strong&gt;&lt;br /&gt;\r\nInner Lining&amp;nbsp;&amp;nbsp; &amp;nbsp;&lt;strong&gt;SYNTHETIC&lt;/strong&gt;&lt;br /&gt;\r\nClosing&amp;nbsp;&amp;nbsp; &amp;nbsp;&lt;strong&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;nbsp; &amp;nbsp; Slip On&lt;/strong&gt;&lt;br /&gt;\r\nHeel shape&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;strong&gt;Wedge&lt;/strong&gt;&lt;br /&gt;\r\nHeel height&amp;nbsp;&amp;nbsp; &amp;nbsp;&lt;strong&gt; Medium: 2.5-3.5 Inch&lt;/strong&gt;\r\n&lt;hr /&gt;&amp;nbsp;\r\n&lt;table style=&quot;margin: 0px; padding: 0px; width: 385px; color: rgb(34, 34, 34); font-family: Arial; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 18px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);&quot;&gt;\r\n	&lt;tbody style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n		&lt;tr style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n			&lt;th style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;Euro Size&lt;/th&gt;\r\n			&lt;th style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;UK Size&lt;/th&gt;\r\n			&lt;th style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;Foot Size (In Cm)&lt;/th&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr class=&quot;even&quot; style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n			&lt;td class=&quot;f-bold&quot; style=&quot;margin: 0px; padding: 7px; font-weight: bold; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;36&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;3&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;22.8-23.2&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n			&lt;td class=&quot;f-bold&quot; style=&quot;margin: 0px; padding: 7px; font-weight: bold; text-align: center; white-space: nowrap;&quot;&gt;37&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;4&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;23.4-23.7&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr class=&quot;even&quot; style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n			&lt;td class=&quot;f-bold&quot; style=&quot;margin: 0px; padding: 7px; font-weight: bold; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;38&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;5&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;24.0-24.6&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n			&lt;td class=&quot;f-bold&quot; style=&quot;margin: 0px; padding: 7px; font-weight: bold; text-align: center; white-space: nowrap;&quot;&gt;39&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;6&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;24.8-25.2&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr class=&quot;even&quot; style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n			&lt;td class=&quot;f-bold&quot; style=&quot;margin: 0px; padding: 7px; font-weight: bold; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;40&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;6.5&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;25.4-25.7&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n			&lt;td class=&quot;f-bold&quot; style=&quot;margin: 0px; padding: 7px; font-weight: bold; text-align: center; white-space: nowrap;&quot;&gt;41&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;7&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;26.0-26.4&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n	&lt;/tbody&gt;\r\n&lt;/table&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (116,1,'New Ladies High Wedge Heel Toe Thong Diamante Flip Flop Sandals','','','&lt;p&gt;The annual Summer trend for wedges is back with these classic flip flop wedge heels. The sandals have a toe thong design, diamante detailing to the front and look fab worn with a maxi dress for a classic Summer look. Available in a choice of five different colours.&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Available in 5 different colours&lt;/li&gt;\r\n	&lt;li&gt;Diamante detailing to the front&lt;/li&gt;\r\n	&lt;li&gt;Outer Material: &lt;em&gt;Synthetic&lt;/em&gt;&lt;/li&gt;\r\n	&lt;li&gt;Inner Material: &lt;em&gt;Manmade&lt;/em&gt;&lt;/li&gt;\r\n	&lt;li&gt;Heel Height: &lt;em&gt;9.5 centimetres&lt;/em&gt;&lt;/li&gt;\r\n	&lt;li&gt;Heel Type: Wedge&lt;/li&gt;\r\n	&lt;li&gt;Sandals have a toe thong design&lt;/li&gt;\r\n	&lt;li&gt;Classic flip flop wedge heels&lt;/li&gt;\r\n	&lt;li&gt;&lt;strong&gt;Perfect for the Summer!&lt;/strong&gt;&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (117,1,'Ruby Shoo Womens Jada T-Bar','','','&lt;p&gt;Ruby Shoo is made up of a small team based in north London, England, with a passion for creating unique shoes and accessories that generate smiles whenever they are worn. We simply love it when we are asked the question: &amp;quot;Where did you get your shoes?&amp;quot;&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li style=&quot;list-style-type: square; margin-left: 20px;&quot;&gt;Occasion footwear&lt;/li&gt;\r\n	&lt;li style=&quot;list-style-type: square; margin-left: 20px;&quot;&gt;Flower detail&lt;/li&gt;\r\n	&lt;li style=&quot;list-style-type: square; margin-left: 20px;&quot;&gt;Outer Material: Synthetic&lt;/li&gt;\r\n	&lt;li style=&quot;list-style-type: square; margin-left: 20px;&quot;&gt;Inner Material: Manmade&lt;/li&gt;\r\n	&lt;li style=&quot;list-style-type: square; margin-left: 20px;&quot;&gt;Sole: Manmade&lt;/li&gt;\r\n	&lt;li style=&quot;list-style-type: square; margin-left: 20px;&quot;&gt;Closure: Buckle&lt;/li&gt;\r\n	&lt;li style=&quot;list-style-type: square; margin-left: 20px;&quot;&gt;Heel Height: 9 centimetres&lt;/li&gt;\r\n	&lt;li style=&quot;list-style-type: square; margin-left: 20px;&quot;&gt;Heel Type: Stiletto&lt;/li&gt;\r\n&lt;/ul&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (118,1,'Womens high heel point toe stiletto sandals ankle strap court shoes','','','&lt;p&gt;Fashion Thirsty&amp;reg; branded products are only available exclusively through Fashion Thirsty&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;Brand New In Box&lt;/li&gt;\r\n	&lt;li&gt;Available In A Range Of Colours And Fabrics&lt;/li&gt;\r\n	&lt;li&gt;Outer Material: Synthetic&lt;/li&gt;\r\n	&lt;li&gt;Inner Material: Manmade&lt;/li&gt;\r\n	&lt;li&gt;Sole: manmade&lt;/li&gt;\r\n	&lt;li&gt;Closure: Buckle&lt;/li&gt;\r\n	&lt;li&gt;Heel Height: 4.3&lt;/li&gt;\r\n	&lt;li&gt;Heel Type: Stiletto&lt;/li&gt;\r\n	&lt;li&gt;Approx Heel Height: 4.3 Inches / 10.8 cm&lt;/li&gt;\r\n	&lt;li&gt;Approx Platform Height: 0.1 inches / 0.3 cm&lt;/li&gt;\r\n	&lt;li&gt;Ankle Strap With Buckle Fastening&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (119,1,'Fruit of the Loom T-Shirts 5 Pack - Super Premium','','','5x Fruit of the Loom T-Shirt Super Premium T&lt;br /&gt;\r\n10 Colors - Sizes: S, M, L, XL, XXL oder XXXL\r\n&lt;hr /&gt;The purchase of this 5-packs, you have the following choice:&lt;br /&gt;\r\n&amp;bull; 5 of the same color t-shirts (available in 18 colors)&lt;br /&gt;\r\n&amp;bull; 5 different colored T-shirts (given in 8 color sets available)&lt;br /&gt;\r\nYou have the freedom to choose from the adult sizes S, M, L, XL, XXL or XXXL.','');
-INSERT INTO `ac_product_descriptions` VALUES (120,1,'Jersey Cotton Striped Polo Shirt','','t-shirs, men','&lt;p&gt;Classically designed Charles Wilson polo shirts now available.&lt;br /&gt;\r\nThis premium polo collection is a result of many years experience in designing and manufacturing polo shirts.&lt;br /&gt;\r\nPart of our Jersey Stripe polo range this colourful jersey cotton polo shirt is a must have piece for any casual wardrobe.&lt;br /&gt;\r\nDesigned in the UK&lt;br /&gt;\r\n100% Cotton&lt;br /&gt;\r\nJersey Stripe Polo&lt;br /&gt;\r\nMulti-Stripe Design&lt;br /&gt;\r\nThree Button Design&lt;br /&gt;\r\nMachine Washable at 40 Degrees&lt;/p&gt;\r\n','');
-INSERT INTO `ac_product_descriptions` VALUES (121,1,'Designer Men Casual Formal Double Cuffs Grandad Band Collar Shirt Elegant Tie','','','Superb style double cuffs shirt. Made using highest quality cotton. Grandad collar. Slim Fit. Highest quality - made in Turkey. Great as casual or formal shirt.','');
-INSERT INTO `ac_product_descriptions` VALUES (122,1,'Mens Fine Cotton Giraffe Polo Shirts','','','Designed by slim fit style FOR men and women in highest qualities and workmanship to bring buyers A different outlook on life of fashion Casual Basic Slim Fit Polo Shirts\r\n&lt;ul&gt;\r\n	&lt;li&gt;100% COTTON&lt;/li&gt;\r\n	&lt;li&gt;If you buy these Polo shits, You&amp;#39;ll never regret about purchase. Because it is so nice designed shirts for your daily look.&lt;/li&gt;\r\n	&lt;li&gt;Soft Elastic Decent slim fit &amp;amp; Button placket &amp;amp; sleeve ribbing with contrast trim.&lt;/li&gt;\r\n	&lt;li&gt;Machine Wash / Hand Wash Recommended&lt;/li&gt;\r\n&lt;/ul&gt;\r\n','');
+INSERT INTO `ac_product_descriptions`
+(`product_id`,
+`language_id`,
+`name`,
+`meta_keywords`,
+`meta_description`,
+`description`,
+`blurb`)
+VALUES
+(73,1,'Highlighting Expressions','','','&lt;p&gt;\r\n	WHAT&lt;br /&gt;\r\n	Pantene Pro-V COLOUR HAIR SOLUTIONS Highlighting Expressions™ Conditioner protects and enhances colour treated hair and infuses blonde highlights with shine. The advanced Pro-Vitamin formula restores shine to dull highlights and protects hair from daily damage. This non-colour depositing formula works for all blonde highlights.&lt;/p&gt;\r\n&lt;p&gt;\r\n	WHY&lt;br /&gt;\r\n	Pantene uncovered that oxidative colouring changes hair’s structure. Internally, the chemistry in hair colour attacks strength-giving proteins in hair and makes the fibre more porous, leading to weaker hair that fades more quickly. The surface of the hair fibres becomes uneven and the protective layer of the hair fibre disintegrates. Without the protective layer, the hair fibre is prone to micro-scarring and damage, which changes the way it interacts with light and leads to a dull appearance.&lt;/p&gt;\r\n&lt;p&gt;\r\n	HOW&lt;br /&gt;\r\n	Pantene’s non-colour depositing conditioner is designed to reinforce the structure of blonde highlighted hair and give it what it needs to reveal vibrant, glossy colour. Conditioning ingredients help revitalize and replenish highlighted hair while delivering brilliant shine and protecting from future damage. The result is healthy-looking hair rejuvenated with shimmering blonde highlights.&lt;/p&gt;\r\n&lt;p&gt;\r\n	USE&lt;br /&gt;\r\n	For rich, vibrant colour that’s shiny and healthy-looking, use with Pantene Pro-V Pantene COLOUR HAIR SOLUTIONS Highlighting Expressions™ Shampoo and Colour Nourishing Treatment.&lt;/p&gt;\r\n',''),
+(74,1,'Curls to straight Shampoo','','','&lt;p&gt;\r\n	YOUR HAIR’S STARTING POINT&lt;br /&gt;\r\n	Curly&lt;/p&gt;\r\n&lt;p&gt;\r\n	WHAT&lt;br /&gt;\r\n	Pantene Curly Hair Series Curls to Straight Shampoo gently removes build-up, adding softness and control to your curls. The cleansing formula helps align and smooth the hair fibers. The result is healthy-looking hair that’s protected from frizz and ready for straight styling.&lt;/p&gt;\r\n&lt;p&gt;\r\n	WHY&lt;br /&gt;\r\n	Research shows that each curly hair fibre grows in a unique pattern, twisting and turning in all directions. This unpredictable pattern makes it difficult to create and control straight styles. The curved fibres of curly hair intersect with each other more often than any other hair type, causing friction which can result in breakage. The curvature of the hair fibre also provides a large amount of volume in curly hair, which can be hard to tame.&lt;/p&gt;\r\n&lt;p&gt;\r\n	HOW&lt;br /&gt;\r\n	Pantene’s straight shampoo contains micro-smoothers that aid you in loosening and unwinding curls from their natural pattern. Curly hair is left ready for frizz controlled straight styling, and protected from styling damage.&lt;/p&gt;\r\n&lt;p&gt;\r\n	USE&lt;br /&gt;\r\n	For healthy-looking, curly hair that’s styled straight, use with Curls to Straight Conditioner and Anti-Frizz Straightening Crème.&lt;/p&gt;\r\n',''),
+(75,1,'Dove Men +Care Body Wash','','','&lt;p&gt;\r\n	A body and face wash developed for men\'s skin with Micromoisture technology.&lt;br /&gt;\r\n	Micromoisture activates on skin when lathering up, clinically proven to fight skin dryness.&lt;br /&gt;\r\n	Deep cleansing gel that rinses off easily. With purifying grains.&lt;br /&gt;\r\n	Dermatologist recommended.&lt;/p&gt;\r\n',''),
+(76,1,'Men+Care Clean Comfort Deodorant','','','&lt;p&gt;\r\n        The first scented deodorant from Dove® specifically designed with a non-irritating formula to give men the power of 48-hour protection against underarm odor with advanced ¼ moisturizer technology. The bottom line? It’s tough on odor, not on skin&lt;/p&gt;\r\n',''),
+(77,1,'Men+Care Active Clean Shower Tool','tool, man','','&lt;p&gt;\r\n	Dove® Men+CareTM Active Clean Dual-Sided Shower Tool works with body wash for extra scrubbing power you can’t get from just using your hands. The mesh side delivers the perfect amount of thick cleansing lather, and the scrub side helps exfoliate for a deeper clean. Easy to grip and easy to hang. For best results, replace every 4-6 weeks.&lt;/p&gt;\r\n',''),
+(78,1,'ck IN2U Eau De Toilette Spray for Him','','','&lt;p&gt;\r\n	Fresh but warm; a tension that creates sexiness.Spontaneous - sexy - connectedCK IN2U him is a fresh woody oriental that penetrates with lime gin fizz and rushes into a combination of cool musks that radiate from top to bottom and leaves you wanting more.&lt;/p&gt;\r\n',''),
+(79,1,'ck One Gift Set','','','&lt;p&gt;\r\n	2 PC Gift Set includes 3.4 oz EDT Spray + Magnets. Ck One Cologne by Calvin Klein, Two bodies, two minds, and two souls are merged into the heat and passion of one. This erotic cologne combines man and woman with one provocative scent. This clean, refreshing fragrance has notes of bergamot, cardamom, pineapple, papaya, amber, and green tea.&lt;/p&gt;\r\n',''),
+(50,1,'Skinsheen Bronzer Stick','','','&lt;p&gt;\r\n	Bronzes, shapes and sculpts the face. Sheer-to-medium buildable coverage that looks naturally radiant and sunny. Stashable - and with its M·A·C Surf, Baby look – way cool. Limited edition.&lt;/p&gt;\r\n',''),
+(51,1,'BeneFit Girl Meets Pearl','','','&lt;p&gt;\r\n	Luxurious liquid pearl…the perfect accessory! This soft golden pink liquid pearl glides on for a breathtakingly luminous complexion. Customise your pearlessence with the easy to use twist up package … a few clicks for a subtle sheen, more clicks for a whoa! glow. Pat the luminous liquid over make up or wear alone for dewy lit from within radiance. It\'s pure pearly pleasure. Raspberry and chamomile for soothing. Light reflecting pigments for exquisite radiance. Sweet almond seed for firming and smoothing. Sesame seed oil for moisturising.Fresh red raspberry scent.&lt;/p&gt;\r\n',''),
+(52,1,'Benefit Bella Bamba','','','&lt;p&gt;\r\n	Amplify cheekbones and create the illusion of sculpted features with this 3D watermelon blush. Laced with shimmering gold undertones, bellabamba is taking eye popping pretty to the third dimension…you’ll never use traditional blush again! Tip: For a poreless complexion that pops, sweep bellabamba on cheeks after applying professional&lt;/p&gt;\r\n',''),
+(53,1,'Tropiques Minerale Loose Bronzer','','','&lt;p&gt;\r\n	Precious earths, exclusively selected for their luxurious silky texture and gentle quality, are layered with mineral pigments in this lightweight powder to mimic the true color of tanned skin. Unique technology with inalterable earths ensures exquisite wear all day. Mineral blend smoothes complexion, while Aloe Vera helps protect skin from dryness.&lt;/p&gt;\r\n',''),
+(54,1,'L\'EXTRÊME Instant Extensions Lengthening Mascara','','','&lt;p&gt;\r\n	Extend your lashes up to 60% instantly! This exclusive Fibrestretch formula takes even the smallest natural lashes to dramatic lengths. The patented Extreme Lash brush attaches supple fibers to every eyelash for an instant lash extension effect.&lt;/p&gt;\r\n',''),
+(55,1,'LE ROUGE ABSOLU Reshaping &amp; Replenishing LipColour SPF 15','','','&lt;p&gt;\r\n	Smoother. Fuller. Absolutely replenished lips. This advanced lip color provides 6-hour care with continuous moisture and protective Vitamin E. Features plumping polymer and non-feathering color to define and reshape lips. Choose from an array of absolutely luxurious shades with a lustrous pearl or satin cream finish.&lt;/p&gt;\r\n',''),
+(56,1,'Waterproof Protective Undereye Concealer','','','&lt;p&gt;\r\n	This natural coverage concealer lets you instantly eliminate tell-tale signs of stress and fatigue. Provides complete, natural-looking coverage, evens skin tone, covers dark circles and minimizes fine lines around the eyes. The Result: A soft, matte finish&lt;/p&gt;\r\n',''),
+(57,1,'Delicate Oil-Free Powder Blush','','','&lt;p&gt;\r\n	A sparkling shimmer of colour for a radiant glow. Silky soft, micro-bubble formula glides on easily and evenly. Lasts for hours. Oil-free and oil-absorbing, yet moisture-balancing. Perfect for all skin types.&lt;/p&gt;\r\n',''),
+(58,1,'Product with stock locations','','','&lt;p&gt;\r\n	There are degrees of cover-up…some like less, some like more! Our blendable powder formula with SPF 15 goes on beautifully sheer &amp;amp; builds easily for customized coverage. Sweep on with the accompanying brush for a sheer, natural finish or apply with the sponge for full coverage or spot cover-up. Our 6 flattering shades (2 light, 2 medium, 2 deep) make it incredibly easy to find your perfect shade. Once gals apply &quot;hello flawless!&quot; they\'ll finally have met their match q!&lt;/p&gt;\r\n',''),
+(59,1,'Viva Glam Lipstick','','','&lt;p&gt;\r\n	Time to wham up the GLAM in VIVA GLAM! It\'s a gaga-glamorous look at our abiding passion: The M·A·C AIDS Fund and the VIVA GLAM program are the heart and soul of M·A·C Cosmetics. Ladies and gentlemen, we give you the sensational Cyndi Lauper and the electric Lady Gaga&lt;/p&gt;\r\n',''),
+(60,1,'Nail Lacquer','','','&lt;p&gt;\r\n	Revolutionary new high gloss formula. Three long-wearing finishes - Cream, Sheer, and Frosted. Visibly different. Provides no-streak/no-chip finish. Contains conditioners and UV protection. Go hi-lacquer!&lt;/p&gt;\r\n',''),
+(61,1,'Color Design Eye Brightening All in One 5 Shadow &amp; Liner Palette','','','&lt;p&gt;\r\n	Infinitely luminous. Sensationally smooth. All-in-one 5 shadow palette to brighten eyes. Lancome’s new versatile, all-in-one palette conveniently creates a full eye look for day or night. Experience the newest generation of luminosity as silky lustrous powders transparently wrap the skin, allowing a seamless layering of pure color for a silky sheen and radiant finish. Build with absolute precision and apply the shades in 5 simple steps (all over, lid, crease, highlighter and liner) to design your customized eye look. Contour, sculpt and lift in soft day colors or intensify with dramatic evening hues for smoldering smoky effects. Long wear, 8-hour formula. Color does not fade, continues to stay true&lt;/p&gt;\r\n',''),
+(62,1,'ck one shock for him Deodorant','','','&lt;p&gt;\r\n	Shock Off! cK one shock for him opens with pure freshness, the heart pulses with spice and finishes with a masculine tobacco musk. Experience ck one shock, the newest fragrance from Calvin Klein with this 2.6 oz Deodorant.&lt;/p&gt;\r\n',''),
+(63,1,'Pour Homme Eau de Toilette','','','&lt;p&gt;\r\n	An intriguing masculine fragrance that fuses the bracing freshness of Darjeeling tea with the intensity of spice and musk. For those seeking a discreet accent to their personality.&lt;/p&gt;\r\n',''),
+(64,1,'Beauty Eau de Parfum','','','&lt;p&gt;\r\n	Beauty by Calvin Klein is a sophisticated and feminine fragrance presenting a new scructure to modern florals. Radiating rich and intense luminosity; Beauty leaves a complex and memorable impression. Experience the glamour and strength with the Beauty Eau de Parfum&lt;/p&gt;\r\n',''),
+(65,1,'Absolue Eye Precious Cells','','','&lt;p&gt;\r\n	Smoothes – Tightens – Regenerates Radiance Exclusive innovation from Lancôme A powerful combination of unique ingredients – Reconstruction Complex and Pro-Xylane™ – has been shown to improve the condition around the stem cells, and stimulate cell regeneration to reconstruct skin to a denser quality*. Results Immediately, the eye contour appears smoother and more radiant. Day 7, signs of fatigue are minimized and the appearance of puffiness is reduced. Day 28, density is improved. Skin is soft and looks healthier. The youthful look of the eye contour is restored. Ophthalmologist – tested. Dermatologist – tested for safety.&lt;/p&gt;\r\n',''),
+(66,1,'Total Moisture Facial Cream','','','&lt;p&gt;\r\n	Say good-bye to dry skin and hello to “total moisture”. This facial cream provides concentrated immediate &amp;amp; long-term hydration for an ultra radiant complexion. Contains exclusive tri-radiance complex to help develop the skin’s reserves of water &amp;amp; reinforce skin’s moisture barrier for a radiantly refreshed complexion. For normal to dry skin.&lt;/p&gt;\r\n',''),
+(67,1,'Flash Bronzer Body Gel','','','&lt;p&gt;\r\n	Look irresistible! Discover the self-tanning results you dream of: Instant bronzed glowing body Enriched with natural caramel extract for an immediate, gorgeous, bronzed glow. Exquisitely beautiful tan The perfect balance of self-tanning ingredients helps to achieve an ideal color, providing an even, natural-looking, golden tan. Color development within 30 minutes, lasting up to 5 days. Transfer-resistant formula With an exclusive Color-Set™ complex that smoothes on without streaks, dries in 4 minutes and protects clothes against rub-off. Hydrating &amp;amp; smoothing action Leaves skin soft, smooth, and hydrated. Pure Vitamin E delivers antioxidant protection, helping to reduce signs of premature aging. Indulgent experience Delightfully scented with hints of jasmine and honey in a silky, non-greasy formula&lt;/p&gt;\r\n',''),
+(68,1,'Absolute Anti-Age Spot Replenishing Unifying TreatmentSPF 15','','','&lt;p&gt;\r\n	A luxurious and comprehensive hand treatment that addresses the special needs of mature hands. Diminishes and discourages the appearance of age spots, while replenishing and protecting the skin. RESULT: Immediately, skin on hands is hydrated, soft and luminous. With continued use, skin becomes more uniform, looks firmer and youthful.Massage into hands and cuticles as needed.&lt;/p&gt;\r\n',''),
+(69,1,'Seaweed Conditioner','','','&lt;p&gt;\r\n	What it is:&lt;br /&gt;\r\n	A lightweight detangler made with marine seaweed and spirulina.&lt;/p&gt;\r\n&lt;p&gt;\r\n	What it does:&lt;br /&gt;\r\n	This conditioner gently detangles, nourishes, softens, and helps to manage freshly washed hair.&lt;/p&gt;\r\n&lt;p&gt;\r\n	What it is formulated WITHOUT:&lt;br /&gt;\r\n	- Parabens&lt;/p&gt;\r\n&lt;p&gt;\r\n	What else you need to know:&lt;br /&gt;\r\n	Made with marine greens for practically anyone (and ideal for frequent bathers), this conditioner is best paired with Seaweed Shampoo. It\'s also safe for use on color-treated hair.&lt;/p&gt;\r\n&lt;p&gt;\r\n	-Sea Silk Extract: Nourishes scalp; promotes healthy looking hair.&lt;br /&gt;\r\n	-Ascophyllum Nudosum (Seaweed) Extract: Moisturizes; adds elasticity, luster, softness, body; reduces flyaways.&lt;br /&gt;\r\n	-Macrocystis Pyrifera (Sea Kelp) Extract: Adds shine and manageability.&lt;br /&gt;\r\n	-Spirulina Maxima Extract: Hydrates.&lt;/p&gt;\r\n',''),
+(70,1,'Eau Parfumee au The Vert Shampoo','','','&lt;p&gt;\r\n	Structured around the refreshing vitality and purtiy of green tea, Bvlgari Eau the Vert Shampoo is an expression of elegance and personal indulgence. Delicately perfumed Eau Parfumée au thé vert shampoo gentle cleansing action makes it perfect for daily use.&lt;/p&gt;\r\n',''),
+(71,1,'Pantene Pro-V Conditioner, Classic Care','','','&lt;p&gt;\r\n	Conditions hair for healthy shine. How Can You See Healthy Hair? Pantene Complete Therapy Conditioner has a unique pro-vitamin complex that deeply infuses every strand - So you see 6 signs of health hair: Shine; Softness; Strength; Body; Less Frizz; Silkiness. Pantene Complete Therapy Conditioner: The ultimate pro-vitamin therapy provides gentle daily nourishing moisture for enhanced shine; Helps hair detangle easily; Helps prevent frizz and flyaways. Simply use and in just 10 days - and very day after - see shiny hair that\'s soft with less frizz. Best of all, healthy Pantene hair that is strong and more resistant to damage. Made in USA.&lt;/p&gt;\r\n',''),
+(72,1,'Brunette expressions Conditioner','','','&lt;p&gt;\r\n	YOUR HAIR’S STARTING POINT&lt;br /&gt;\r\n	Colour-Treated or Highlighted&lt;/p&gt;\r\n&lt;p&gt;\r\n	WHAT&lt;br /&gt;\r\n	Pantene Pro-V COLOUR HAIR SOLUTIONS Brunette Expressions™ Conditioner hydrates hair for rich colour that is protected from daily stress and damage. This non-colour depositing formula works for all shades of brunette hair.&lt;/p&gt;\r\n&lt;p&gt;\r\n	WHY&lt;br /&gt;\r\n	Pantene uncovered that oxidative colouring changes hair’s surface. Internally, the chemistry in hair colour attacks strength-giving proteins in hair and makes the fibre more porous, leading to weaker hair and that fades more quickly. The surface of the hair fibres then becomes uneven and the protective layer of the hair fibre disintegrates. Without the protective layer, the hair fibre is prone to micro-scarring and damage, which changes the way it interacts with light and leads to a dull appearance.&lt;/p&gt;\r\n&lt;p&gt;\r\n	HOW&lt;br /&gt;\r\n	Pantene’s advanced Pro-Vitamin formula enhances brunette colour for great intensity and radiant shine. Non-colour depositing conditioning ingredients enhance and protect colour treated hair, while helping to restore shine to coloured strands. Hair is moisturized and infused with radiant shine.&lt;/p&gt;\r\n&lt;p&gt;\r\n	USE&lt;br /&gt;\r\n	For rich, vibrant colour that’s shiny and healthy-looking, use with Pantene Pro-V Pantene COLOUR HAIR SOLUTIONS Brunette Expressions™ Shampoo and Colour Nourishing Treatment.&lt;/p&gt;\r\n',''),
+(80,1,'Acqua Di Gio Pour Homme','','','&lt;p&gt;\r\n	A resolutely masculine fragrance born from the sea, the sun, the earth, and the breeze of a Mediterranean island. Transparent, aromatic, and woody in nature Aqua Di Gio Pour Homme is a contemporary expression of masculinity, in an aura of marine notes, fruits, herbs, and woods.&lt;/p&gt;\r\n&lt;p&gt;\r\n	Notes:&lt;br /&gt;\r\n	Marine Notes, Mandarin, Bergamot, Neroli, Persimmon, Rosemary, Nasturtium, Jasmine, Amber, Patchouli, Cistus.&lt;br /&gt;\r\n	Style:&lt;br /&gt;\r\n	Transparent, modern, and masculine.&lt;/p&gt;\r\n',''),
+(81,1,'Armani Eau de Toilette Spray ','','','&lt;p&gt;\r\n	This confidently masculine embodiment of the sophisticated ease and understated elegance of Giorgio Armani fashions - is a simply tailored, yet intensely sensual combination of sparkling fresh fruits, robust spices, and rich wood notes.&lt;br /&gt;\r\n	Notes:&lt;br /&gt;\r\n	Lime, Bergamot, Mandarin, Sweet Orange, Petitgrain, Cinnamon, Clove, Nutmeg, Jasmine, Neroli, Coriander, Lavender, Oakmoss, Sandalwood, Patchouli, Vetiver, Cedar.&lt;br /&gt;\r\n	Style:&lt;br /&gt;\r\n	Fresh, masculine, and discreet.&lt;/p&gt;\r\n',''),
+(82,1,'Armani Code after shave balm','','','&lt;p&gt;\r\n	Splash on this refreshing balm post-shave to soothe and calm the skin. Scents skin with a hint of seductive Code.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	Ingredients&lt;br /&gt;\r\n	Alcohol, Aqua/Water/Eau, Parfum/Fragrance, PEG 8, PEG 60 Hydrogenated Castor Oil, BHT, Allantoin (Comfrey Root), Linalool, Geraniol, Alpha Isomethyl Ionone, Coumarin, Limonene, Hydroxyisohexl 3 Cyclohexene Carboxaldehyde, Hydroxycitronellal, Citronellol, Citral, Butylphenyl Methlyproprional, Hexylcinnamal&lt;/p&gt;\r\n',''),
+(83,1,'Armani Code Sport','','','&lt;p&gt;\r\n	Sport. It\'s a rite of seduction. A vision of Giorgio Armani, translated into a fragrance.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	This scent opens with an explosive freshness that features spearmint, peppermint, and wild mint—surprising and unusual top notes with a stunning effect. The citrusy heart of the fragrance reveals Code Sport\'s seductive power. Notes of vetiver from Haiti reveal a woody and distinguished character, at once wet and dry. Like a crisp coating of ice, a note of hivernal prolongs the dialogue between the scent\'s cool crispness and sensual breath, giving the fragrance an almost unlimited life.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	Notes:&lt;br /&gt;\r\n	Spearmint, Peppermint, Wild Mint, Citrus, Hivernal, Hatian Vetiver, Nigerian Ginger.&lt;br /&gt;\r\n	Style:&lt;br /&gt;\r\n	Stunning. Cool. Seductive.&lt;/p&gt;\r\n',''),
+(84,1,'Armani Code Pour Femme','','','&lt;p&gt;\r\n	A seductive new fragrance for women, Armani Code Pour Femme is a fresh, sexy, feminine blend of zesty blood orange, ginger, and pear sorbet softened with hints of sambac jasmine, orange blossom, and lavender honey, warmed with precious woods and vanilla.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	Notes:&lt;br /&gt;\r\n	Blood Orange, Ginger, Pear Sorbet, Sambac Jasmine, Orange Blossom, Seringa Flower, Lavender Honey, Precious Woods Complex, Vanilla.&lt;br /&gt;\r\n	Style:&lt;br /&gt;\r\n	Fresh. Sexy. Feminine.&lt;/p&gt;\r\n',''),
+(85,1,'Forbidden euphoria Eau de Parfum Spray ','','','&lt;p&gt;\r\n	Possessing an innate confidence and sophistication, she is just starting to explore her sexuality. What she doesn\'t yet know is that she already is every man\'s fantasy.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	A younger interpretation of Euphoria, this fruity floriental scent capitalizes on a modern, fresh sexiness with a mysterious twist. Its sparkling top notes seduce the senses with a blend of forbidden fruit such as mandarin, passion fruit, and iced raspberry. The heart blooms with a hypnotic bouquet of tiger orchid and jasmine. Underneath its exotic floralcy lies a layer of addictive patchouli and a sophisticated blend of musks and cashmere woods for an everlasting impression.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	Notes:&lt;br /&gt;\r\n	Sparkling Mandarin, Peach Blossom, Iced Raspberry, Pink Peony, Tiger Orchid, Jasmine, Cashmere Woods, Patchouli Absolute, Skin Musk.&lt;br /&gt;\r\n	Style:&lt;br /&gt;\r\n	Sophisticated. Confident. Forbidden.&lt;/p&gt;\r\n',''),
+(86,1,'Euphoria Men Intense Eau De Toilette Spray','','','&lt;p&gt;\r\n	Launched by the design house of Calvin Klein in 2008, EUPHORIA MEN INTENSE is a men\'s fragrance that possesses a blend of Rain Water, Pepper, Ginger, Sage, Frosted Sudachi, Cedar leaf, Patchouli, Myrrh, Labdanum, Amber Solid, Vetiver&lt;/p&gt;\r\n',''),
+(87,1,'MAN Eau de Toilette Spray','','','&lt;p&gt;\r\n	Man by Calvin Klein was launched in October of 2007 and proposed as a new classic for the modern Calvin Klein man, aged from 25 to 40. The name itself is programmatic and unambiguous, like an English translation of L\'Homme by Yves Saint Laurent. Simple, brief, to the point. You are going to smell the essence of masculinity if you are to take your cue from the name of the fragrance. The packaging is sleek, modernist, with an architectural sense of proportions and looks good. The fragrance was created by perfumers Jacques Cavallier and Harry Fremont from Firmenich in collaboration with consultant Ann Gottlieb. All these people are old hands at marketing successful mainstream fragrances. Man offers therefore a mainstream palatability but without coming across as depersonalized. It plays the distinctiveness card, but in a well reined in manner. The fragrance bears a typical masculine fresh aromatic, woody and spicy signature around the linear heart of the scent which itself is dark, fruity, and sweet enough to feel feminine. This rich amber-fruity accord is made even more seductive thanks to just the right amount of citrus-y counterpoint, which never clarifies the scent but on the contrary helps to deepen the dark fruity sensation.&lt;br /&gt;\r\n	&nbsp;&lt;/p&gt;\r\n',''),
+(88,1,'ck one Summer 3.4 oz','','','&lt;p&gt;\r\n	It\'s a concert on a hot summer night. The stage is set and the show\'s about to start. Feel the breeze, catch the vibe, and move to the beat with the pulsating energy of this limited-edition fragrance. A unisex scent, it is fresh, clean, and easy to wear. The fragrance opens with a burst of crisp melon. In the heart notes, an invigorating blend of green citrus and the zesty herbaceous effect of verbena creates a cool, edgy freshness. A base of exotic incense and earthy oakmoss is wrapped in the light, sensuous warmth of cedarwood, musk, and peach skin. Notes:Tangerine, Water Fern, Melon, Lemon, Sea Breeze Accord, Blue Freesia, Verbena, Rhubarb, Cedarwood, Skin Musk, Incense, Peach Skin. Style:Invigorating. Crisp. Cool.&lt;/p&gt;\r\n',''),
+(89,1,'Secret Obsession Perfume','','','&lt;p&gt;\r\n	Calvin Klein Secret Obsession eau de parfum spray for women blends notes of forbidden fruits, exotic flowers and a sultry wood signature to create an intoxicating aroma that is provocative and addictive.Calvin Klein is one of World of Shops most popular brands, and this Calvin Klein Secret Obsession eau de parfum spray for women is a firm favourite amongst our customers for its deep, feminine aroma that is perfect for those special evenings out.&lt;/p&gt;\r\n',''),
+(90,1,'Obsession Night Perfume','','','&lt;p&gt;\r\n	Launched by the design house of Calvin Klein in 2005, OBSESSION NIGHT is a women\'s fragrance that possesses a blend of gardenia, tonka bean, bergamot, vanilla, sandalwood, jasmine, rose, amber, muguet and mandarin. It is recommended for evening wear.&lt;/p&gt;\r\n&lt;p&gt;\r\n	Ingredients&lt;br /&gt;\r\n	Notes: Bergamot, Bitter Orange, Mandarin, White Floral, Angelica Root, Gardenia, Rose, Muguet, Night-Blooming Jasmine, Vanilla, Tonka Bean, Amber, Labdanum, Sandalwood, Cashmere Wood&lt;/p&gt;\r\n',''),
+(91,1,'Jasmin Noir Body Lotion 6.8 fl oz','','','&lt;p&gt;\r\n	A bath collection for the body, scented with the Jasmin Noir fragrance. A tribute to ultimate femininity. Seduction and personal indulgence.&lt;br /&gt;\r\n	Body Lotion Fragrance: The new emblematic creation within the Bvlgari Pour Femme Collection Jasmin Noir, perfectly embodies the luxury and prestige of Bvlgari fine jewelry.&lt;br /&gt;\r\n	Jasmin Noir is a flower of the imagination. Precious jasmine, white and immaculate, in its noire interpretation. A flower of pure mystery. A rich and delicate flower that at nightfall, reveals its intriguing sensuality. A precious floral woody fragrance with ambery accents centered around one of the true jewels of perfumery: the jasmin flower. A scent that conjures forth the bewildering seductiveness of feminity as elegant as it is profoundly sensual.&lt;br /&gt;\r\n	Jasmin Noir tells a voluptuous floral story that begins with the pure radiance of luminous light given by green and scintillating notes: Vegetal Sap and fresh Gardenia Petals. Then, tender and seductive, the Sambac Jasmine Absolute, delivers its generous and bewitching notes. Unexpectedly allied with a transparent silky almond accord, it reveals a heart that is light yet thoroughly exhilarating and marvelously addictive. The scent\'s sumptuously rich notes repose on a bed of Precious Wood and ambery undertones, bringing together the depth and mystery of Patchouli, the warmth of Tonka Bean and the comfort of silky Musks for an elegant and intimate sensuality.&lt;br /&gt;\r\n	An exquisite fragrance of incomparable prestige, Jasmin Noir captures the very essence of the jeweler.&lt;br /&gt;\r\n	Made in Italy&lt;br /&gt;\r\n	&nbsp;&lt;/p&gt;\r\n',''),
+(92,1,'Body Cream by Bulgari','','','&lt;p&gt;\r\n	BVLGARI (Bulgari) by Bvlgari Body Cream 6.7 oz for Women Launched by the design house of Bvlgari in 1994, BVLGARI is classified as a refined, floral fragrance. This feminine scent possesses a blend of violet, orange blossom, and jasmine. Common spellings: Bulgari, Bvlgary, Bulgary.&lt;/p&gt;\r\n',''),
+(93,1,'Creme Precieuse Nuit 50ml','','','&lt;p&gt;\r\n	A luxurious, melting night cream to repair skin during sleep Features Polypeptides that boost production of collagen &amp;amp; elastin Improves skin elasticity &amp;amp; firmness Visibly reduces appearance of wrinkles, fine lines &amp;amp; brown spots Enriched with Bvlgari Gem Essence to restore radiance Skin appears smooth, energized &amp;amp; luminous in morning Perfect for all skin types&lt;/p&gt;\r\n',''),
+(94,1,'Night Care Crema Nera Obsidian Mineral Complex','','','&lt;p&gt;\r\n	When it comes to body, skin or eye care, you want to look to our products and you will find the best there is. These are the most exceptional personal care products available. They meet the strictest standards for quality sourcing, environmental impact, results and safety. Our body care products truly allows you to be good to your whole body.&lt;/p&gt;\r\n&lt;p&gt;\r\n	Giorgio Armani - Cream Nera - Night Care Crema Nera Obsidian Mineral Complex3 Restoring Cream SPF 15 50ml/1.69oz A lavish, fresh &amp;amp; weightless anti-aging creamProvides shielding &amp;amp; moisturizing benefitsDeveloped with Obsidian Mineral Complex technology Formulated with iron, silicon &amp;amp; perlite to create a potent dermal restructuring system Contains Pro-XylaneTM &amp;amp; Hyaluronique Acid Targets loss of substance, sagging of features &amp;amp; deepening of wrinkles Reveals firmer, sleeker &amp;amp; plumper skin in a youthful look. With a fabulous Skincare product like this one, you\'ll be sure to enjoy the ultimate in a Skincare experience with promising results.&lt;/p&gt;\r\n',''),
+(95,1,'Skin Minerals For Men Cleansing Cream','','','&lt;p&gt;\r\n	Ultra-purifying skincare enriched with essential moisturizing minerals, designed to instantly moisturize / purify the skin.&lt;br /&gt;\r\n	Active Ingredients&lt;br /&gt;\r\n	- Sodium and Potassium System: to preserve cutaneous hydration.&lt;br /&gt;\r\n	- Salicylic Acid and Hamamelis Extract: to tighten the pores and tone skin.&lt;br /&gt;\r\n	High Performances: the figures.&lt;br /&gt;\r\n	Self-assessment*:&lt;br /&gt;\r\n	- leaves the skin clean 100%&lt;br /&gt;\r\n	- leaves the skin comfortable 93%&lt;br /&gt;\r\n	- leaves the skin smooth 95%&lt;br /&gt;\r\n	- skin complexion is uniform 89%&lt;br /&gt;\r\n	- skin texture is refined 80%&lt;br /&gt;\r\n	* use test: 60 men 20 -65 years old 4 weeks of self-assessment&lt;/p&gt;\r\n',''),
+(96,1,'Eye master','','','&lt;p&gt;\r\n	The volcanic force of minerals concentrated in multi action skincare specifically designed to target wrinkles, bags and dark circles of the delicate eye area. To combat signs of aging and fatigue and visibly improve skin quality.&lt;br /&gt;\r\n	Active Ingredients&lt;br /&gt;\r\n	- Volcanic Complex: an innovative combination of energy charged minerals, inspired by volcanic rocks&lt;br /&gt;\r\n	- Caffeine extract: to fight puffiness&lt;br /&gt;\r\n	- Conker and butcher’s broom extracts to stimulate cutaneous blood micro-circulation&lt;br /&gt;\r\n	High Performances: the figures.&lt;br /&gt;\r\n	Proven immediate anti-puffiness action*:&lt;br /&gt;\r\n	- 15 minutes after application –19%&lt;br /&gt;\r\n	*instrumental test, 40 men, 42-65 years old&lt;br /&gt;\r\n	Self-assessment&lt;br /&gt;\r\n	- instantly revitalizes skin 77%**&lt;br /&gt;\r\n	- wrinkles appear reduced 78%***&lt;br /&gt;\r\n	- diminishes the appearance of dark circles 68%***&lt;br /&gt;\r\n	** use test, 40 men 42-65 years old, single application, self-assessment&lt;br /&gt;\r\n	*** use test, 40 men 42-65 years old, 4 weeks, self-assessment&lt;/p&gt;\r\n',''),
+(97,1,'Eye Rejuvenating Serum','','','&lt;p&gt;\r\n	The first advanced rejuvenating ‘weapon’ thanks to a corrective and smoothing texture and a power amplifying applicator.&lt;br /&gt;\r\n	The alliance of the [3.R] technology combined with an intensive re-smoothing system.&lt;br /&gt;\r\n	The eye rejuvenation serum also comes in an easily portable tube that boasts a silver bevelled applicator to ensure a good delivery of the product to the eye area as well as offering a means to improve circulation and reduce puffiness and eye bags.&lt;/p&gt;\r\n&lt;p&gt;\r\n	Rarely women have been so convinced of its efficiency on skin rejuvenation:&lt;/p&gt;\r\n&lt;p&gt;\r\n	EYE CONTOUR LOOKS SMOOTHER 85%*&lt;br /&gt;\r\n	EYES LOOK YOUNGER 91%*&lt;br /&gt;\r\n	EYE PUFFINESS LOOKS SOFTENED 83%*&lt;/p&gt;\r\n&lt;p&gt;\r\n	*% of women – self assessment on 60 women after 4 weeks&lt;/p&gt;\r\n',''),
+(98,1,'Shaving cream','','','&lt;p&gt;\r\n	Moisturizing, charged with minerals and enriched with ultra softening agents. Its specific formula ensures an optimal, extremely gentle shave. Even four hours after shaving, the skin remains hydrated, soft and supple.&lt;br /&gt;\r\n	Active Ingredients&lt;br /&gt;\r\n	- Sodium and Potassium System: to preserve cutaneous hydration&lt;br /&gt;\r\n	- Bisabolol: to soothe skin&lt;br /&gt;\r\n	High Performances: the figures.&lt;br /&gt;\r\n	Measurements 4 hours after shaving:&lt;br /&gt;\r\n	- skin hydration +29%*&lt;br /&gt;\r\n	- skin softness +61%**&lt;br /&gt;\r\n	- skin suppleness +18%**&lt;br /&gt;\r\n	- skin dryness -39%**&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;br /&gt;\r\n	* instrumental test, 20 men, 20-70 years old&lt;br /&gt;\r\n	** clinical scorage, 20 men, 20-70 years old&lt;/p&gt;\r\n',''),
+(99,1,'Fluid shine nail polish','','','&lt;p&gt;\r\n	Luxurious color at your fingertips. Fluid shine coats nails with intense shine and long-lasting, sophisticated color. The essential accessory to any makeup wardrobe.&lt;/p&gt;\r\n&lt;p&gt;\r\n	Discover the Bronze collection 2010&lt;br /&gt;\r\n	Finish this season’s high summer look with a cranberry n°43 or blackberry n°44 nail, to echo the wet lips with intense color.&lt;/p&gt;\r\n',''),
+(100,1,'Smooth silk lip pencils','','','&lt;p&gt;\r\n	An incredibly soft lip pencil for subtle, precise definition. The silky texture allows for easy application and flawless results. To extend the hold of your lip color, fill lips in completely with Smooth silk lip pencil before applying your lipstick. Choose from a wide range of shades to complement every color in your lipstick wardrobe.&lt;/p&gt;\r\n',''),
+(101,1,'Pro-V Color Hair Solutions Color Preserve Shine Conditioner','pantene, shampoo','','&lt;p&gt;\r\n	PANTENE\'s color preserve shine shampoo and conditioner system with micro-polishers smoothes and refinishes the hair’s outer layer. So your hair reflects light and shines brilliantly. Help preserve your multi-dimensional color.&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Product Features&lt;/strong&gt;&lt;br /&gt;\r\n	Micro-polishers smooth the outer layer of hair to help Protect color and leave hair shiny&lt;br /&gt;\r\n	Lightweight moisturizers provide protection against damage&lt;br /&gt;\r\n	Designed for color-treated hair; Gentle enough for permed hair&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Ingredients&lt;/strong&gt;&lt;br /&gt;\r\n	Water, Stearyl Alcohol, Behentrimonium Methosulfate, Cetyl Alcohol, Fragrance, Bis-Aminopropyl Dimethicone, Isopropyl Alcohol, Benzyl Alcohol, Disodium EDTA, Panthenol, Panthenyl Ethyl Ether, Methylchloroisothiazolinone, Methylisothiazolinone&lt;/p&gt;\r\n&lt;p&gt;\r\n	&nbsp;&lt;/p&gt;\r\n',''),
+(102,1,'Gucci Guilty','gicci, spray','','&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Notes Consist Of Mandarin, Pink Pepper, Peach, Lilac, Geranium, Amber And Patchouli&lt;/li&gt;\r\n	&lt;li&gt;\r\n		For Casual Use&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	&lt;em&gt;Gucci Guilty&lt;/em&gt; is a warm yet striking oriental floral with hedonism at its heart.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	The scent seizes the attention with a flamboyant opening born of the natural rush that is mandarin shimmering alongside an audacious fist of pink pepper.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	The middle notes are an alluring concoction of heady lilac and geranium, laced with the succulent tactility of peach - all velvet femininity with a beguiling hint of provocation.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	The patchouli that is the hallmark of Gucci fragrances here conveys a message of strength, while the voluptuousness of amber suggests deep femininity.&lt;/p&gt;\r\n',''),
+(103,1,'Jasmin Noir L\'Essence Eau de Parfum Spray 75ml','','','&lt;p&gt;\r\n	A carnal impression of the immaculate jasmine flower, Bvlgari Jasmin Noir L\'Essence dresses the purity of the bloom in jet black mystery.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	The fragrance is a more concentrated Eau de Parfum than the original Jasmin Noir, a blend of rare and precious ingredients that are more seductive, and more addictive than ever before. The profoundly sensual elixir captivates the senses, and enchants its wearer with its generous and bewitching touches.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	A luminous bottle that honours the heritage of Bvlgari.&lt;/p&gt;\r\n',''),
+(104,1,'Calvin Klein Obsession For Women EDP Spray','','','&lt;p&gt;\r\n	Citrus, vanilla and greens lowering to notes of sandalwood, spices and musk. Recommended Use daytime&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;em&gt;\'Obsession\'&lt;/em&gt; perfume was launched by the design house of Calvin Klein in 1985&lt;/p&gt;\r\n&lt;p&gt;\r\n	When you think about Calvin Klein, initially you think of his clothing line – specifically his jeans and underwear lines (not to mention the famous ad with a young Brooke Shields). But Calvin Klein’s penchant for perfume was equally as cutting edge as his foray into fashion.&lt;/p&gt;\r\n',''),
+(105,1,'Bvlgari Aqua','','','&lt;p&gt;\r\n	Bvlgari Aqua (Pour Homme) Eau De Toilette Spray is an enticing and fresh cologne that exudes masculinity from its unique blend of amber santolina, posidonia and mandarin.&lt;/p&gt;\r\n&lt;p&gt;\r\n	Bvlgari Aqua (Pour Homme) Eau De Toilette Spray scent lasts throughout the day without having an overpowering smell. It is subtle enough for daytime use and masculine enough for night wear.&lt;/p&gt;\r\n',''),
+(106,1,'Omnia Eau de Toilette 65ml','bvlgary, omnia, EDT','','&lt;p&gt;\r\n	Choose Your scent&lt;/p&gt;\r\n&lt;p&gt;\r\n	&nbsp;&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Omnia Coral:&lt;/strong&gt; Inspired by the shimmering hues of precious red coral, Omnia Coral is a radiant floral-fruity Eau de Toilette of tropical Hibiscus and juicy Pomegranate, reminiscent of Summer, the sun, resplendent nature and far-off oceans.&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Omnia Amethyst:&lt;/strong&gt; Inspired by the shimmering hues of the amethyst gemstone, this floral Eau de Toilette captures the myriad scents of Iris and Rose gardens caressed with morning dew.&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;strong&gt;Omnia Crystalline:&lt;/strong&gt; Created from the glowing clarity and purity of crystal, Omnia Crystalline is a sparkling jewel of light, illuminating and reflecting the gentle sensuality and luminous femininity. Sparkling like a precious jewel, like the rarest of crystals, in an exquisite jewel flacon.&lt;/p&gt;\r\n',''),
+(107,1,'Lancome Slimissime 360 Slimming Activating Concentrate Unisex Treatment','','','&lt;ul&gt;\r\n	&lt;li&gt;\r\n		An anti-cellulite body treatment&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Features a special gel-cream texture &amp;amp; a quick-dissolving formula&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Formulated with an exclusive 360 Complex&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	An anti-cellulite body treatment. Features a special gel-cream texture &amp;amp; a quick-dissolving formula. Formulated with an exclusive 360 Complex. Helps combat presence of cellulite &amp;amp; reduce existing cellulite. Provides immediate invigorating &amp;amp; firming results. Concentrated with micro-pearl particles to illuminate skin. Creates svelte &amp;amp; re-sculpted body contours....&lt;/p&gt;\r\n',''),
+(108,1,'Lancome Hypnose Doll Lashes Mascara 4-Piece Gift Set','','','&lt;p&gt;\r\n	&nbsp;Lancome Hypnose Doll Lashes Mascara 4-Piece Gift Set! Limited Edition!&lt;/p&gt;\r\n&lt;ol&gt;\r\n	&lt;li&gt;\r\n		0.22 oz full-size Hypnôse Doll Lashes Mascara in Black&lt;/li&gt;\r\n	&lt;li&gt;\r\n		0.07 oz full-size Le Crayon Khol Eyeliner in Black Ebony&lt;/li&gt;\r\n	&lt;li&gt;\r\n		0.07 oz travel-size Cils Booster XL Super Enhancing Mascara Base&lt;/li&gt;\r\n	&lt;li&gt;\r\n		1.7 fl oz travel-size Bi-Facil Double-Action Eye Makeup Remover&lt;/li&gt;\r\n&lt;/ol&gt;\r\n',''),
+(109,1,'Lancome Visionnaire Advanced Skin Corrector','','','&lt;p&gt;\r\n	Lancôme innovates with VISIONNAIRE [LR 2412 &nbsp;4%], its ?rst&nbsp;skincare product formulated to fundamentally recreate truly&nbsp;beautiful skin.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	A Lancôme technological breakthrough has identi?ed&nbsp;a miraculous new molecule.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	The name of this molecule: LR 2412.&lt;br /&gt;\r\n	&lt;br /&gt;\r\n	A molecule that is able to “self-propel” through the layers&nbsp;of the epidermis, to set off a series of tissular micro-transformations.&nbsp;The result is that skin is visibly transformed: the texture is ?ner,&nbsp;wrinkles are erased, pigmentary and vascular irregularities are&nbsp;reduced and pores are tightened.&lt;/p&gt;\r\n&lt;p&gt;\r\n	&nbsp;&lt;/p&gt;\r\n&lt;p&gt;\r\n	&lt;em&gt;Download Presentation file after order.&lt;/em&gt;&lt;/p&gt;\r\n',''),
+(110,1,'Flora By Gucci Eau Fraiche','','','&lt;ul&gt;\r\n	&lt;li&gt;\r\n		Perfect for all occasions&lt;/li&gt;\r\n	&lt;li&gt;\r\n		This item is not a tester; New and sealed&lt;/li&gt;\r\n	&lt;li&gt;\r\n		Contains natural ingredients&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;\r\n	Gucci presents the new spring version of this perfume called flora by Gucci eau fraiche in 2011. Even younger, more airy, vivid, sparkling and fresher than the original, the new fragrance is enriched with additional aromas of citruses in the top notes and aquatic and green nuances in the heart, while the base remains unchanged. The composition begins with mandarin, bergamot, kumquat, lemon and peony. The heart is made of rose petals and Osman thus with green and aquatic additions, laid on the base of sandalwood, patchouli and pink pepper.&lt;/p&gt;\r\n',''),
+(111,1,'New French With Ease (1 book + 1 mp3 CD)','','','This title is available in book and CD. All Assimil courses are based on intuitive assimilations[registered], an original principle that is simple yet highly effective. Assimil has taken this natural process, through which you learned to speak your own language, and adapted it to their book and audio courses. Working progressively, with natural, lively dialogues, simple text notes and exercises, you will progress steadily to a level where you are able to converse in everyday situations. The first part of the course is the passive phase: you immerse yourself in the language by reading and repeating each lesson. During the second, the active phase, you use the structures and reflexes you have already absorbed while continuing to advance and learn. In just a few months, you will be able to speak French easily, fluently and naturally.&lt;br /&gt;\r\n&amp;nbsp;\r\n&lt;ul style=&quot;color: rgb(51, 51, 51); padding: 0px; list-style-type: none; font-size: 13px; font-family: verdana, arial, helvetica, sans-serif; line-height: 19px; orphans: auto; text-align: start; text-indent: 0px;&quot;&gt;\r\n	&lt;li&gt;Audio CD: 610 pages&lt;/li&gt;\r\n	&lt;li&gt;Publisher: ASSiMiL (3 April 2008)&lt;/li&gt;\r\n	&lt;li&gt;Language: English&lt;/li&gt;\r\n	&lt;li&gt;ISBN-10: 2700570057&lt;/li&gt;\r\n	&lt;li&gt;ISBN-13: 978-2700570052&lt;/li&gt;\r\n	&lt;li&gt;Product Dimensions: 23.6 x 17.8 x 5.1 cm&lt;/li&gt;\r\n&lt;/ul&gt;\r\n',''),
+(112,1,'The Miracle Morning: The Not-So-Obvious Secret Guaranteed to Transform Your Life','','','What if you could miraculously wake up tomorrow and any&amp;mdash;or every area of your life was transformed? What would be different? Would you be happier? Healthier? More successful? In better shape? Would you have more energy? Less Stress? More Money? Better relationships? Which of your problems would be solved?&lt;br /&gt;\r\n&amp;nbsp;\r\n&lt;ul style=&quot;color: rgb(51, 51, 51); font-family: Arial, sans-serif; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal;&quot;&gt;\r\n	&lt;li&gt;&lt;b style=&quot;font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;&quot;&gt;Print Length:&lt;/b&gt; 172 pages&lt;/li&gt;\r\n	&lt;li&gt;&lt;b style=&quot;font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;&quot;&gt;Page Numbers Source ISBN:&lt;/b&gt; 0979019710&lt;/li&gt;\r\n	&lt;li&gt;&lt;b style=&quot;font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;&quot;&gt;Publication Date:&lt;/b&gt; December 7, 2012&lt;/li&gt;\r\n	&lt;li&gt;&lt;b style=&quot;font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;&quot;&gt;Language:&lt;/b&gt; English&lt;/li&gt;\r\n	&lt;li&gt;&lt;b style=&quot;font-weight: 700; font-family: verdana, arial, helvetica, sans-serif;&quot;&gt;ASIN:&lt;/b&gt; B00AKKS278&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;hr /&gt;\r\nAbout the Author\r\n&lt;p&gt;At age 20, Hal Elrod was hit head on by a drunk driver at 70 mph, was dead for 6 minutes, and doctors told his parents that if Hal ever came out of his coma, he had permanent brain damage and may never walk again. After 6 days of fighting for his life, Hal proved that we all have the ability to overcome any obstacle and create the life of our dreams. Not only did he walk, he became an ultra-marathon runner, hall of fame business achiever, international Keynote Speaker, Success Coach, husband, father, hip-hop recording artist, and multiple time #1 bestselling author of &amp;quot;The Miracle Morning: The Not-So-Obvious Secret Guaranteed To Transform Your Life... (Before 8AM)&amp;quot; and &amp;quot;Taking Life Head On: How To Love the Life You Have While You Create the Life of Your Dreams&amp;quot;&amp;mdash;two of the highest rated and most acclaimed books on Amazon.com. (Just read a few of the 200+ five-star reviews, and you&amp;rsquo;ll see why.) Hal has appeared on dozens of radio and TV shows, and he&amp;rsquo;s been featured in numerous books, including The Education of Millionaires, Cutting Edge Sales, Living College Life in the Front Row, The Author&amp;rsquo;s Guide To Building An Online Platform, The 800-Pound Gorilla of Sales and the bestselling Chicken Soup for the Soul series. To contact Hal about media appearances, speaking at your event, or if you just want to receive free training videos and resources, visit www.YoPalHal.com. To connect with Hal on Twitter, follow @HalElrod, and on Facebook at www.Facebook.com/YoPalHal.&lt;/p&gt;\r\n',''),
+(113,1,'Paper Towns by John Green','','','&lt;strong&gt;Winner of the Edgar Award&lt;br /&gt;\r\nThe #1 New York Times Bestseller&lt;br /&gt;\r\nPublishers Weekly and USA Today Bestseller&lt;/strong&gt;&lt;br /&gt;\r\n&lt;br /&gt;\r\n&lt;em&gt;Millions of Copies Sold&lt;/em&gt;&lt;br /&gt;\r\n&lt;br /&gt;\r\nQuentin Jacobsen has spent a lifetime loving the magnificent Margo Roth Spiegelman from afar. So when she cracks open a window and climbs back into his life&amp;mdash;summoning him for an ingenious campaign of revenge&amp;mdash;he follows. When their all-nighter ends and a new day breaks, Margo has disappeared. But Q soon learns that there are clues&amp;mdash;and they&amp;rsquo;re for him. Embarking on an exhilarating adventure to find her, the closer Q gets, the less he sees the girl he thought he knew.&lt;br /&gt;\r\n&lt;br /&gt;\r\nOctober 2008&lt;br /&gt;\r\n352 pages&lt;br /&gt;\r\nISBN 9781101010938&lt;br /&gt;\r\nTitle: Paper Towns&lt;br /&gt;\r\nAuthor: John Green',''),
+(114,1,'Allegiant by Veronica Roth','','','Now includes an excerpt from the upcoming Four: A Divergent Collection.&lt;br /&gt;\r\n&lt;br /&gt;\r\nWhat if your whole world was a lie? What if a single revelation&amp;mdash;like a single choice&amp;mdash;changed everything? What if love and loyalty made you do things you never expected?&lt;br /&gt;\r\nThe explosive conclusion to Veronica Roth&amp;#39;s #1 New York Times bestselling Divergent trilogy reveals the secrets of the dystopian world that has captivated millions of readers in &lt;em&gt;Divergent&lt;/em&gt; and &lt;em&gt;Insurgent&lt;/em&gt;.&lt;br /&gt;\r\n&lt;br /&gt;\r\nOctober 2013&lt;br /&gt;\r\n544 pages&lt;br /&gt;\r\nISBN 9780062209276&lt;br /&gt;\r\nTitle: Allegiant&lt;br /&gt;\r\nAuthor: Veronica Roth',''),
+(115,1,'Fiorella Purple Peep Toes','','','Add more charm to your casual footwear collection with these purple peep toes from the house of Fiorella. Featuring a non-leather upper and lining, these slip-ons ate high on durability and style. While the wedge heels add extra inches to your silhouette, the resin sole ensures optimal traction for your feet. Team these peep toes with your casual outfits to complete your look for the day.&lt;br /&gt;\r\n&lt;br /&gt;\r\nSole Material&amp;nbsp; &lt;strong&gt;Resin Sheet&lt;/strong&gt;&lt;br /&gt;\r\nInner Lining&amp;nbsp;&amp;nbsp; &amp;nbsp;&lt;strong&gt;SYNTHETIC&lt;/strong&gt;&lt;br /&gt;\r\nClosing&amp;nbsp;&amp;nbsp; &amp;nbsp;&lt;strong&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;nbsp; &amp;nbsp; Slip On&lt;/strong&gt;&lt;br /&gt;\r\nHeel shape&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &lt;strong&gt;Wedge&lt;/strong&gt;&lt;br /&gt;\r\nHeel height&amp;nbsp;&amp;nbsp; &amp;nbsp;&lt;strong&gt; Medium: 2.5-3.5 Inch&lt;/strong&gt;\r\n&lt;hr /&gt;&amp;nbsp;\r\n&lt;table style=&quot;margin: 0px; padding: 0px; width: 385px; color: rgb(34, 34, 34); font-family: Arial; font-size: 13px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 18px; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);&quot;&gt;\r\n	&lt;tbody style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n		&lt;tr style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n			&lt;th style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;Euro Size&lt;/th&gt;\r\n			&lt;th style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;UK Size&lt;/th&gt;\r\n			&lt;th style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;Foot Size (In Cm)&lt;/th&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr class=&quot;even&quot; style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n			&lt;td class=&quot;f-bold&quot; style=&quot;margin: 0px; padding: 7px; font-weight: bold; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;36&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;3&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;22.8-23.2&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n			&lt;td class=&quot;f-bold&quot; style=&quot;margin: 0px; padding: 7px; font-weight: bold; text-align: center; white-space: nowrap;&quot;&gt;37&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;4&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;23.4-23.7&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr class=&quot;even&quot; style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n			&lt;td class=&quot;f-bold&quot; style=&quot;margin: 0px; padding: 7px; font-weight: bold; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;38&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;5&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;24.0-24.6&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n			&lt;td class=&quot;f-bold&quot; style=&quot;margin: 0px; padding: 7px; font-weight: bold; text-align: center; white-space: nowrap;&quot;&gt;39&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;6&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;24.8-25.2&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr class=&quot;even&quot; style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n			&lt;td class=&quot;f-bold&quot; style=&quot;margin: 0px; padding: 7px; font-weight: bold; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;40&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;6.5&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap; background: rgb(238, 238, 238);&quot;&gt;25.4-25.7&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n		&lt;tr style=&quot;margin: 0px; padding: 0px;&quot;&gt;\r\n			&lt;td class=&quot;f-bold&quot; style=&quot;margin: 0px; padding: 7px; font-weight: bold; text-align: center; white-space: nowrap;&quot;&gt;41&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;7&lt;/td&gt;\r\n			&lt;td style=&quot;margin: 0px; padding: 7px; text-align: center; white-space: nowrap;&quot;&gt;26.0-26.4&lt;/td&gt;\r\n		&lt;/tr&gt;\r\n	&lt;/tbody&gt;\r\n&lt;/table&gt;\r\n',''),
+(116,1,'New Ladies High Wedge Heel Toe Thong Diamante Flip Flop Sandals','','','&lt;p&gt;The annual Summer trend for wedges is back with these classic flip flop wedge heels. The sandals have a toe thong design, diamante detailing to the front and look fab worn with a maxi dress for a classic Summer look. Available in a choice of five different colours.&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li&gt;Available in 5 different colours&lt;/li&gt;\r\n	&lt;li&gt;Diamante detailing to the front&lt;/li&gt;\r\n	&lt;li&gt;Outer Material: &lt;em&gt;Synthetic&lt;/em&gt;&lt;/li&gt;\r\n	&lt;li&gt;Inner Material: &lt;em&gt;Manmade&lt;/em&gt;&lt;/li&gt;\r\n	&lt;li&gt;Heel Height: &lt;em&gt;9.5 centimetres&lt;/em&gt;&lt;/li&gt;\r\n	&lt;li&gt;Heel Type: Wedge&lt;/li&gt;\r\n	&lt;li&gt;Sandals have a toe thong design&lt;/li&gt;\r\n	&lt;li&gt;Classic flip flop wedge heels&lt;/li&gt;\r\n	&lt;li&gt;&lt;strong&gt;Perfect for the Summer!&lt;/strong&gt;&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\r\n',''),
+(117,1,'Ruby Shoo Womens Jada T-Bar','','','&lt;p&gt;Ruby Shoo is made up of a small team based in north London, England, with a passion for creating unique shoes and accessories that generate smiles whenever they are worn. We simply love it when we are asked the question: &amp;quot;Where did you get your shoes?&amp;quot;&lt;/p&gt;\r\n\r\n&lt;ul&gt;\r\n	&lt;li style=&quot;list-style-type: square; margin-left: 20px;&quot;&gt;Occasion footwear&lt;/li&gt;\r\n	&lt;li style=&quot;list-style-type: square; margin-left: 20px;&quot;&gt;Flower detail&lt;/li&gt;\r\n	&lt;li style=&quot;list-style-type: square; margin-left: 20px;&quot;&gt;Outer Material: Synthetic&lt;/li&gt;\r\n	&lt;li style=&quot;list-style-type: square; margin-left: 20px;&quot;&gt;Inner Material: Manmade&lt;/li&gt;\r\n	&lt;li style=&quot;list-style-type: square; margin-left: 20px;&quot;&gt;Sole: Manmade&lt;/li&gt;\r\n	&lt;li style=&quot;list-style-type: square; margin-left: 20px;&quot;&gt;Closure: Buckle&lt;/li&gt;\r\n	&lt;li style=&quot;list-style-type: square; margin-left: 20px;&quot;&gt;Heel Height: 9 centimetres&lt;/li&gt;\r\n	&lt;li style=&quot;list-style-type: square; margin-left: 20px;&quot;&gt;Heel Type: Stiletto&lt;/li&gt;\r\n&lt;/ul&gt;\r\n',''),
+(118,1,'Womens high heel point toe stiletto sandals ankle strap court shoes','','','&lt;p&gt;Fashion Thirsty&amp;reg; branded products are only available exclusively through Fashion Thirsty&lt;/p&gt;\r\n&lt;ul&gt;\r\n	&lt;li&gt;Brand New In Box&lt;/li&gt;\r\n	&lt;li&gt;Available In A Range Of Colours And Fabrics&lt;/li&gt;\r\n	&lt;li&gt;Outer Material: Synthetic&lt;/li&gt;\r\n	&lt;li&gt;Inner Material: Manmade&lt;/li&gt;\r\n	&lt;li&gt;Sole: manmade&lt;/li&gt;\r\n	&lt;li&gt;Closure: Buckle&lt;/li&gt;\r\n	&lt;li&gt;Heel Height: 4.3&lt;/li&gt;\r\n	&lt;li&gt;Heel Type: Stiletto&lt;/li&gt;\r\n	&lt;li&gt;Approx Heel Height: 4.3 Inches / 10.8 cm&lt;/li&gt;\r\n	&lt;li&gt;Approx Platform Height: 0.1 inches / 0.3 cm&lt;/li&gt;\r\n	&lt;li&gt;Ankle Strap With Buckle Fastening&lt;/li&gt;\r\n&lt;/ul&gt;\r\n\r\n',''),
+(119,1,'Fruit of the Loom T-Shirts 5 Pack - Super Premium','','','5x Fruit of the Loom T-Shirt Super Premium T&lt;br /&gt;\r\n10 Colors - Sizes: S, M, L, XL, XXL oder XXXL\r\n&lt;hr /&gt;The purchase of this 5-packs, you have the following choice:&lt;br /&gt;\r\n&amp;bull; 5 of the same color t-shirts (available in 18 colors)&lt;br /&gt;\r\n&amp;bull; 5 different colored T-shirts (given in 8 color sets available)&lt;br /&gt;\r\nYou have the freedom to choose from the adult sizes S, M, L, XL, XXL or XXXL.',''),
+(120,1,'Jersey Cotton Striped Polo Shirt','','t-shirs, men','&lt;p&gt;Classically designed Charles Wilson polo shirts now available.&lt;br /&gt;\r\nThis premium polo collection is a result of many years experience in designing and manufacturing polo shirts.&lt;br /&gt;\r\nPart of our Jersey Stripe polo range this colourful jersey cotton polo shirt is a must have piece for any casual wardrobe.&lt;br /&gt;\r\nDesigned in the UK&lt;br /&gt;\r\n100% Cotton&lt;br /&gt;\r\nJersey Stripe Polo&lt;br /&gt;\r\nMulti-Stripe Design&lt;br /&gt;\r\nThree Button Design&lt;br /&gt;\r\nMachine Washable at 40 Degrees&lt;/p&gt;\r\n',''),
+(121,1,'Designer Men Casual Formal Double Cuffs Grandad Band Collar Shirt Elegant Tie','','','Superb style double cuffs shirt. Made using highest quality cotton. Grandad collar. Slim Fit. Highest quality - made in Turkey. Great as casual or formal shirt.',''),
+(122,1,'Product with options and stock locations','','','Designed by slim fit style FOR men and women in highest qualities and workmanship to bring buyers A different outlook on life of fashion Casual Basic Slim Fit Polo Shirts\r\n&lt;ul&gt;\r\n	&lt;li&gt;100% COTTON&lt;/li&gt;\r\n	&lt;li&gt;If you buy these Polo shits, You&amp;#39;ll never regret about purchase. Because it is so nice designed shirts for your daily look.&lt;/li&gt;\r\n	&lt;li&gt;Soft Elastic Decent slim fit &amp;amp; Button placket &amp;amp; sleeve ribbing with contrast trim.&lt;/li&gt;\r\n	&lt;li&gt;Machine Wash / Hand Wash Recommended&lt;/li&gt;\r\n&lt;/ul&gt;\r\n',''),
+(123,1,'Casual 3/4 Sleeve Baseball T-Shirt','t-shirt','Rich Cotton Raglan T-Shirts','This classic raglan t-shirt is perfect for all occasions. Whether you are working out or hanging out, this shirt is a win for the versatility. Perfect to join your friends to watch and cheer for your favorite team in all sports: basketball, football, football, hockey or baseball.&lt;br /&gt;&lt;br /&gt;&lt;!--n--&gt;&lt;!--n--&gt;The raglan t-shirts are great options for men and women looking for a stylish look in their casual looks. For mild days bet on the 3/4 sleeve model in contrasting color. &lt;br /&gt;Made in 100% cotton fabric, features slim fit and round neckline.','');
+
 
 --
 -- Dumping data for table `product_discounts`
@@ -812,7 +894,8 @@ VALUES (318,1,53,'Color','',''),
 (349,1,120,'Size','',''),
 (350,1,121,'Colour','',''),
 (351,1,121,'Size','',''),
-(352,1,122,'Size EU','','');
+(352,1,122,'Size EU','',''),
+(353,1,123,'Color&amp;Size','','');
 
 --
 -- Dumping data for table `product_option_value_descriptions`
@@ -1113,7 +1196,10 @@ INSERT INTO `ac_product_options` VALUES (348,0,119,0,0,1,'S',1,'','');
 INSERT INTO `ac_product_options` VALUES (349,0,120,0,0,1,'S',1,'','');
 INSERT INTO `ac_product_options` VALUES (350,0,121,0,0,1,'S',1,'','');
 INSERT INTO `ac_product_options` VALUES (351,0,121,0,0,1,'S',1,'','');
-INSERT INTO `ac_product_options` VALUES (352,0,122,0,0,1,'S',1,'','');
+INSERT INTO `ac_product_options`
+VALUES
+  (352,0,122,0,0,1,'S',1,'',''),
+  (353,6,123,0,0,1,'S',0,'','a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}');
 
 --
 -- Dumping data for table `product_specials`
@@ -1184,85 +1270,116 @@ INSERT INTO `ac_product_tags` VALUES (122,'grey',1);
 --
 -- Dumping data for table `products`
 --
-
 INSERT INTO `ac_products`
-( `product_id`,`model`,  `sku`,  `location`,  `quantity`,  `stock_status_id`,  `manufacturer_id`,  `shipping`,  `ship_individually`,  `free_shipping`,
-`shipping_price`,  `price`,  `tax_class_id`,  `date_available`,  `weight`,  `weight_class_id`,  `length`,  `width`,  `height`,  `length_class_id`,  `status`,
-`viewed`,  `sort_order`,  `subtract`,  `minimum`,  `maximum`,  `cost`,  `call_to_order`,  `date_added`,  `date_modified`)
+(`product_id`,
+`model`,
+`sku`,
+`location`,
+`quantity`,
+`stock_checkout`,
+`stock_status_id`,
+`manufacturer_id`,
+`shipping`,
+`ship_individually`,
+`free_shipping`,
+`shipping_price`,
+`price`,
+`tax_class_id`,
+`date_available`,
+`weight`,
+`weight_class_id`,
+`length`,
+`width`,
+`height`,
+`length_class_id`,
+`status`,
+`viewed`,
+`sort_order`,
+`subtract`,
+`minimum`,
+`maximum`,
+`cost`,
+`call_to_order`,
+`settings`,
+`date_added`,
+`date_modified`)
 VALUES
-(68,'108681','','',1000,1,15,1,0,0,0.0000,42.0000,1,'2013-08-30',0.11,1,0.00,0.00,0.00,0,1,0,1,1,1,0,24.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(65,'427847','','',1000,1,15,1,0,0,0.0000,105.0000,1,'2013-08-30',70.00,2,0.00,0.00,0.00,0,1,21,1,0,1,0,99.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(66,'556240','','',145,1,12,1,0,0,0.0000,38.0000,1,'2013-08-30',0.40,1,0.00,0.00,0.00,0,1,4,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(67,'463686','','',0,2,15,1,0,0,0.0000,34.5000,1,'2013-08-30',0.30,1,0.00,0.00,0.00,2,1,6,1,1,1,0,22.0000,0,'2015-06-12 09:56:25','2015-06-22 13:00:31'),
-(50,'558003','','',99,1,11,1,0,0,0.0000,29.5000,1,'2013-08-29',75.00,2,0.00,0.00,0.00,0,1,8,1,0,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(51,'483857','','',98,1,12,1,0,0,0.0000,30.0000,1,'2013-08-29',0.05,1,0.00,0.00,0.00,0,1,7,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(52,'523755','','',99,1,12,1,0,0,0.0000,28.0000,0,'2013-08-29',0.80,1,0.00,0.00,0.00,0,1,3,1,1,2,0,0.0000,0,'2015-06-12 09:56:25','2015-06-22 13:06:09'),
-(53,'380440','','',1000,3,15,1,0,0,0.0000,38.5000,1,'2013-08-29',100.00,2,0.00,0.00,0.00,0,1,5,1,1,1,0,22.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(54,'74144','','',999,1,15,1,0,0,0.0000,25.0000,1,'2013-08-29',0.15,1,0.00,0.00,0.00,0,1,13,1,1,1,0,0.0000,1,'2015-06-12 09:56:25','2015-06-22 12:51:08'),
-(55,'tw152236','','',1000,1,15,1,0,0,0.0000,29.0000,1,'2013-08-29',0.08,1,0.00,0.00,0.00,0,1,6,1,1,1,0,22.0000,0,'2015-06-12 09:56:25','2015-07-08 10:47:41'),
-(56,'35190','','',1000,1,15,1,0,0,0.0000,29.5000,1,'2013-08-29',85.00,2,0.00,0.00,0.00,0,1,9,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(57,'117148','','',1000,1,15,1,0,0,0.0000,29.5000,1,'2013-08-29',0.20,1,0.00,0.00,0.00,0,1,12,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(58,'374002','','',0,2,12,1,0,0,0.0000,34.0000,1,'2013-08-29',25.00,2,0.00,0.00,0.00,0,1,3,1,1,1,0,10.0000,0,'2015-06-12 09:56:25','2015-06-22 12:58:27'),
-(59,'14.50','','',1000,1,11,1,0,0,0.0000,5.0000,1,'2013-08-29',75.00,2,0.00,0.00,0.00,0,1,2,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(60,'112423','','',1000,1,11,1,0,0,0.0000,15.0000,1,'2013-08-30',0.30,2,0.00,0.00,0.00,0,1,2,1,0,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(61,'529071','','',1000,1,15,1,0,0,0.0000,48.0000,1,'2013-08-30',0.13,2,0.00,0.00,0.00,0,1,4,1,0,1,0,29.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(62,'601232','','',1000,1,13,1,0,0,0.0000,14.0000,1,'2013-08-30',0.50,1,0.00,0.00,0.00,0,1,3,1,0,1,0,8.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(63,'374622','','',1000,1,14,1,0,0,0.0000,88.0000,1,'2013-08-30',0.75,1,0.00,0.00,0.00,0,1,3,1,0,1,0,55.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(64,'497303','','',1000,1,13,1,0,0,0.0000,50.0000,1,'2013-08-30',150.00,2,0.00,0.00,0.00,0,1,8,1,1,1,0,33.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(69,'SCND001','','',1000,1,16,1,0,0,0.0000,19.0000,1,'2013-08-30',0.25,1,0.00,0.00,0.00,0,1,6,1,0,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(70,'522823','','',1000,1,14,1,0,0,0.0000,31.0000,1,'2013-08-30',0.25,2,0.00,0.00,0.00,0,1,1,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(71,'PCND001','','',1000,1,17,1,0,0,0.0000,11.4500,1,'2013-08-30',0.30,1,0.00,0.00,0.00,0,1,2,1,1,1,0,5.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(72,'PCND002','','',1000,1,17,1,0,0,0.0000,27.0000,1,'2013-08-30',0.40,1,0.00,0.00,0.00,0,1,4,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(73,'PCND003','','',1000,1,17,1,0,0,0.0000,33.0000,1,'2013-08-30',0.40,1,0.00,0.00,0.00,0,1,1,1,1,1,0,21.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(74,'PCND004','','',10000,1,17,1,0,0,0.0000,4.0000,1,'2013-08-30',0.35,1,0.00,0.00,0.00,0,1,3,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(75,'DMBW0012','','',1000,1,18,1,0,0,0.0000,6.7000,1,'2013-08-30',0.20,1,0.00,0.00,0.00,0,1,1,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(76,'DMBW0013','1235B','',99,1,18,1,0,0,0.0000,7.2000,1,'2013-08-30',0.20,1,0.00,0.00,0.00,0,1,5,1,1,1,0,4.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(77,'DMBW0014','1234B','',1000,1,18,1,0,0,0.0000,6.0000,1,'2013-08-30',0.30,1,0.00,0.00,0.00,0,1,9,1,1,1,0,2.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(78,'Cl0001','','',1000,1,13,1,0,0,0.0000,29.0000,1,'2013-08-30',125.00,2,0.00,0.00,0.00,0,1,10,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(79,'CKGS01','','',1000,1,13,1,0,0,0.0000,36.0000,1,'2013-08-30',250.00,2,0.00,0.00,0.00,0,1,2,1,1,1,0,28.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(80,'GRM001','','',850,1,19,1,0,0,0.0000,59.0000,1,'2013-09-01',80.00,2,0.00,0.00,0.00,0,1,5,1,1,1,0,33.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(81,'GRM002','','',1000,1,19,1,0,0,0.0000,61.0000,1,'2013-09-01',150.00,2,0.00,0.00,0.00,0,1,5,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-22 12:41:31'),
-(82,'GRM003','','',1000,1,19,1,0,0,0.0000,42.0000,1,'2013-09-01',100.00,2,0.00,0.00,0.00,0,1,2,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(83,'GRM004','','',1000,1,19,1,0,0,0.0000,37.5000,1,'2013-09-01',15.00,2,0.00,0.00,0.00,0,1,2,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(84,'GRM005','','',1000,1,19,1,0,0,0.0000,30.0000,1,'2013-09-01',175.00,2,0.00,0.00,0.00,0,1,7,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(85,'Ck0010','','',1000,1,13,1,0,0,0.0000,45.0000,1,'2013-09-01',0.08,5,0.00,0.00,0.00,0,1,3,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(86,'CK0009','','',1,1,13,1,0,0,0.0000,44.1000,1,'2013-09-04',0.17,2,0.00,0.00,0.00,0,1,2,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(87,'CK0010','','',10000,1,13,1,0,0,0.0000,37.5000,1,'2013-09-04',0.20,1,0.00,0.00,0.00,0,1,1,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(88,'CK0011','','',1,1,13,1,0,0,0.0000,31.0000,1,'2013-09-04',340.00,2,0.00,0.00,0.00,0,1,1,1,1,1,0,19.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(89,'CK0012','','',1000,3,13,1,0,0,0.0000,62.0000,1,'2013-09-04',0.12,1,0.00,0.00,0.00,0,1,5,1,1,1,0,40.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(90,'CK0013','','',1000,1,13,1,0,0,0.0000,39.0000,1,'2013-09-04',0.33,2,0.00,0.00,0.00,0,1,2,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(91,'BVLG001','','',1000,1,14,1,0,0,0.0000,29.0000,1,'2013-09-04',0.16,2,0.00,0.00,0.00,0,1,2,1,1,1,0,20.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(92,'BVLG002','','',1000,1,14,1,0,0,0.0000,57.0000,1,'2013-09-04',0.40,5,0.00,0.00,0.00,0,1,7,1,1,1,0,44.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(93,'BVLG003','','',1000,1,14,1,0,0,0.0000,280.0000,1,'2013-09-04',0.30,5,0.00,0.00,0.00,0,1,8,1,1,1,0,100.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(94,'GRMBC001','','',589,1,19,1,0,0,0.0000,263.0000,1,'2013-09-04',0.15,1,0.00,0.00,0.00,0,1,3,1,1,1,0,125.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(95,'GRMBC002','','',100,3,19,1,0,0,0.0000,104.0000,1,'2013-09-04',0.15,1,0.00,0.00,0.00,0,1,5,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(96,'GRMBC003','','',100,1,19,1,0,0,0.0000,82.0000,1,'2013-09-04',80.00,2,0.00,0.00,0.00,0,1,8,1,0,2,0,67.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(97,'GRMBC004','','',1,1,19,1,0,0,0.0000,126.0000,1,'2013-09-04',20.00,2,0.00,0.00,0.00,0,1,9,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(98,'GRMBC005','','',1000,1,19,1,0,0,0.0000,98.0000,1,'2013-09-04',40.00,2,0.00,0.00,0.00,0,1,2,1,1,1,0,87.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(99,'GRMBC006','','',1000,1,19,1,0,0,0.0000,137.0000,1,'2013-09-04',0.09,6,0.00,0.00,0.00,0,1,12,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(100,'GRMBC007','','',1000,1,19,1,0,0,0.0000,10.0000,1,'2013-09-04',15.00,2,0.00,0.00,0.00,0,0,13,1,1,4,0,8.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(101,'Pro-V','','',1000,1,17,1,0,0,0.0000,8.2300,1,'2012-03-13',8.45,6,2.00,3.00,15.00,1,1,35,1,0,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(102,'PRF00269','','',1000,1,20,1,0,0,0.0000,105.0000,1,'2012-03-14',2.50,6,0.00,0.00,0.00,3,1,6,1,0,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(103,'PRF00270','','',100,1,14,1,0,0,0.0000,78.0000,1,'2012-03-14',80.00,2,0.00,0.00,0.00,3,1,4,1,0,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(104,'PRF00271','','',1000,1,13,1,0,0,0.0000,49.0000,1,'2012-03-14',0.00,5,0.00,0.00,0.00,3,1,19,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(105,'PRF00273','','',100,2,14,1,0,0,0.0000,55.0000,0,'2012-03-14',0.00,5,0.00,0.00,0.00,3,1,18,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(106,'PRF00274','','',185,1,14,1,0,0,0.0000,70.0000,1,'2012-03-14',80.00,5,0.00,0.00,0.00,3,1,8,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(107,'PRF00274','','',0,2,15,1,0,0,0.0000,66.0000,1,'2012-03-14',7.00,6,0.00,0.00,0.00,3,1,5,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(108,'PRF00268','','',420,1,15,1,0,0,0.0000,125.0000,1,'2012-03-14',2.00,6,0.00,0.00,0.00,3,1,6,1,1,2,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(109,'PRF00279','','',1,1,15,1,0,0,0.0000,84.0000,1,'2012-03-14',50.00,6,3.00,2.00,10.00,1,1,6,1,1,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(110,'PRF00278','','',1000,1,20,1,0,0,0.0000,90.0000,1,'2012-03-14',0.00,6,0.00,0.00,0.00,3,1,21,1,0,1,0,0.0000,0,'2015-06-12 09:56:25','2015-06-12 09:56:25'),
-(111,'','','',5,1,0,1,0,0,0.0000,85.0000,1,'2015-06-11',0.20,1,23.60,17.80,5.10,1,1,13,1,1,1,0,0.0000,0,'2015-06-12 10:12:48','2015-07-08 12:41:46'),
-(112,'','','',10,1,0,1,0,1,0.0000,16.2000,1,'2015-06-11',0.12,1,0.00,0.00,0.00,3,1,5,1,1,1,0,0.0000,0,'2015-06-12 11:01:46','2015-06-16 11:08:57'),
-(113,'','','',1,1,0,1,0,0,0.0000,9.9900,1,'2015-06-11',0.10,1,12.00,10.00,3.00,1,1,5,1,1,1,0,0.0000,0,'2015-06-12 11:45:22','2015-07-08 12:46:54'),
-(114,'','','',1,1,0,1,0,0,0.0000,7.9900,0,'2015-06-11',0.20,1,15.00,12.00,1.00,1,1,2,1,1,1,0,0.0000,0,'2015-06-12 12:04:56','2015-07-08 10:30:23'),
-(115,'','','',1,1,0,1,0,0,0.0000,110.0000,0,'2015-06-15',300.00,2,26.00,10.00,8.00,1,1,17,1,1,1,0,0.0000,0,'2015-06-16 11:01:53','2015-07-08 10:35:12'),
-(116,'','','',100,1,0,1,0,0,0.0000,26.0000,1,'2015-06-15',1.00,5,8.00,5.00,7.00,3,1,24,1,0,1,0,0.0000,0,'2015-06-16 12:07:12','2015-07-08 10:33:34'),
-(117,'B00OGL2XKO','','',100,1,0,1,0,1,0.0000,78.0000,1,'2015-06-17',0.50,5,7.00,4.00,3.00,3,1,24,1,1,1,0,50.0000,0,'2015-06-18 12:07:38','2015-07-08 12:41:15'),
-(118,'','','',10,1,0,1,0,0,0.0000,26.0000,1,'2015-06-21',222.00,2,5.00,5.00,4.00,3,1,8,1,0,1,0,20.0000,0,'2015-06-22 09:24:11','2015-06-22 09:53:38'),
-(119,'','','',456,1,0,1,0,0,0.0000,9.9900,1,'2015-06-21',400.00,2,0.00,0.00,0.00,3,1,5,1,1,1,0,0.0000,0,'2015-06-22 10:16:06','2015-07-08 10:31:45'),
-(120,'B00UG4NFNY','','',1,1,0,1,0,0,0.0000,6.7500,0,'2015-06-21',100.00,2,0.00,0.00,0.00,3,1,5,1,1,1,0,0.0000,0,'2015-06-22 10:37:31','2015-07-08 10:32:12'),
-(121,'','','',17,1,19,1,0,0,0.0000,32.0000,1,'2015-06-21',120.00,2,0.00,0.00,0.00,3,1,11,1,0,1,10,0.0000,0,'2015-06-22 12:00:53','2015-07-08 12:41:29'),
-(122,'JDSK36','','',155,1,0,1,0,0,0.0000,21.0000,1,'2015-06-21',140.00,2,23.00,20.00,2.00,1,1,5,1,0,1,0,0.0000,0,'2015-06-22 12:28:25','2015-07-08 10:33:00');
+(68,'108681','','',1000,'',1,15,1,0,0,0.0000,42.0000,1,'2013-08-30',0.11,1,0.00,0.00,0.00,0,1,1,1,1,1,0,24.0000,0,NULL,NOW(),NOW()),
+(65,'427847','','',1000,'',1,15,1,0,0,0.0000,105.0000,1,'2013-08-30',70.00,2,0.00,0.00,0.00,0,1,22,1,0,1,0,99.0000,0,NULL,NOW(),NOW()),
+(66,'556240','','',145,'',1,12,1,0,0,0.0000,38.0000,1,'2013-08-30',0.40,1,0.00,0.00,0.00,0,1,5,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(67,'463686','','',0,'',2,15,1,0,0,0.0000,34.5000,1,'2013-08-30',0.30,1,0.00,0.00,0.00,2,1,7,1,1,1,0,22.0000,0,NULL,NOW(),NOW()),
+(50,'558003','','',99,'',1,11,1,0,0,0.0000,29.5000,1,'2013-08-29',75.00,2,0.00,0.00,0.00,0,1,9,1,0,1,0,0.0000,0,NULL,NOW(),NOW()),
+(51,'483857','','',97,'',1,12,1,0,0,0.0000,30.0000,1,'2013-08-29',0.05,1,0.00,0.00,0.00,0,1,8,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(52,'523755','','',99,'',1,12,1,0,0,0.0000,28.0000,0,'2013-08-29',0.80,1,0.00,0.00,0.00,0,1,4,1,1,2,0,0.0000,0,NULL,NOW(),NOW()),
+(53,'380440','','',1000,'',3,15,1,0,0,0.0000,38.5000,1,'2013-08-29',100.00,2,0.00,0.00,0.00,0,1,7,1,1,1,0,22.0000,0,NULL,NOW(),NOW()),
+(54,'74144','','',999,'',1,15,1,0,0,0.0000,25.0000,1,'2013-08-29',0.15,1,0.00,0.00,0.00,0,1,14,1,1,1,0,0.0000,1,NULL,NOW(),NOW()),
+(55,'tw152236','','',1000,'',1,15,1,0,0,0.0000,29.0000,1,'2013-08-29',0.08,1,0.00,0.00,0.00,0,1,7,1,1,1,0,22.0000,0,NULL,NOW(),NOW()),
+(56,'35190','','',1000,'',1,15,1,0,0,0.0000,29.5000,1,'2013-08-29',85.00,2,0.00,0.00,0.00,0,1,10,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(57,'117148','','',1000,'',1,15,1,0,0,0.0000,29.5000,1,'2013-08-29',0.20,1,0.00,0.00,0.00,0,1,13,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(58,'374002','','',97,'',2,12,1,0,0,0.0000,34.0000,1,'2013-08-29',25.00,2,0.00,0.00,0.00,0,1,6,1,1,1,0,10.0000,0,NULL,NOW(),NOW()),
+(59,'14.50','','',1000,'',1,11,1,0,0,0.0000,5.0000,1,'2013-08-29',75.00,2,0.00,0.00,0.00,0,1,3,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(60,'112423','','',1000,'',1,11,1,0,0,0.0000,15.0000,1,'2013-08-30',0.30,2,0.00,0.00,0.00,0,1,3,1,0,1,0,0.0000,0,NULL,NOW(),NOW()),
+(61,'529071','','',1000,'',1,15,1,0,0,0.0000,48.0000,1,'2013-08-30',0.13,2,0.00,0.00,0.00,0,1,5,1,0,1,0,29.0000,0,NULL,NOW(),NOW()),
+(62,'601232','','',1000,'',1,13,1,0,0,0.0000,14.0000,1,'2013-08-30',0.50,1,0.00,0.00,0.00,0,1,5,1,0,1,0,8.0000,0,NULL,NOW(),NOW()),
+(63,'374622','','',1000,'',1,14,1,0,0,0.0000,88.0000,1,'2013-08-30',0.75,1,0.00,0.00,0.00,0,1,5,1,0,1,0,55.0000,0,NULL,NOW(),NOW()),
+(64,'497303','','',1000,'',1,13,1,0,0,0.0000,50.0000,1,'2013-08-30',150.00,2,0.00,0.00,0.00,0,1,9,1,1,1,0,33.0000,0,NULL,NOW(),NOW()),
+(69,'SCND001','','',1000,'',1,16,1,0,0,0.0000,19.0000,1,'2013-08-30',0.25,1,0.00,0.00,0.00,0,1,7,1,0,1,0,0.0000,0,NULL,NOW(),NOW()),
+(70,'522823','','',1000,'',1,14,1,0,0,0.0000,31.0000,1,'2013-08-30',0.25,2,0.00,0.00,0.00,0,1,2,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(71,'PCND001','','',1000,'',1,17,1,0,0,0.0000,11.4500,1,'2013-08-30',0.30,1,0.00,0.00,0.00,0,1,4,1,1,1,0,5.0000,0,NULL,NOW(),NOW()),
+(72,'PCND002','','',1000,'',1,17,1,0,0,0.0000,27.0000,1,'2013-08-30',0.40,1,0.00,0.00,0.00,0,1,6,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(73,'PCND003','','',1000,'',1,17,1,0,0,0.0000,33.0000,1,'2013-08-30',0.40,1,0.00,0.00,0.00,0,1,3,1,1,1,0,21.0000,0,NULL,NOW(),NOW()),
+(74,'PCND004','','',10000,'',1,17,1,0,0,0.0000,4.0000,1,'2013-08-30',0.35,1,0.00,0.00,0.00,0,1,5,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(75,'DMBW0012','','',999,'',1,18,1,0,0,0.0000,6.7000,1,'2013-08-30',0.20,1,0.00,0.00,0.00,0,1,3,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(76,'DMBW0013','1235B','',98,'',1,18,1,0,0,0.0000,7.2000,1,'2013-08-30',0.20,1,0.00,0.00,0.00,0,1,6,1,1,1,0,4.0000,0,NULL,NOW(),NOW()),
+(77,'DMBW0014','1234B','',1000,'',1,18,1,0,0,0.0000,6.0000,1,'2013-08-30',0.30,1,0.00,0.00,0.00,0,1,10,1,1,1,0,2.0000,0,NULL,NOW(),NOW()),
+(78,'Cl0001','','',1000,'',1,13,1,0,0,0.0000,29.0000,1,'2013-08-30',125.00,2,0.00,0.00,0.00,0,1,12,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(79,'CKGS01','','',1000,'',1,13,1,0,0,0.0000,36.0000,1,'2013-08-30',250.00,2,0.00,0.00,0.00,0,1,3,1,1,1,0,28.0000,0,NULL,NOW(),NOW()),
+(80,'GRM001','','',850,'',1,19,1,0,0,0.0000,59.0000,1,'2013-09-01',80.00,2,0.00,0.00,0.00,0,1,6,1,1,1,0,33.0000,0,NULL,NOW(),NOW()),
+(81,'GRM002','','',1000,'',1,19,1,0,0,0.0000,61.0000,1,'2013-09-01',150.00,2,0.00,0.00,0.00,0,1,6,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(82,'GRM003','','',1000,'',1,19,1,0,0,0.0000,42.0000,1,'2013-09-01',100.00,2,0.00,0.00,0.00,0,1,3,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(83,'GRM004','','',1000,'',1,19,1,0,0,0.0000,37.5000,1,'2013-09-01',15.00,2,0.00,0.00,0.00,0,1,3,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(84,'GRM005','','',1000,'',1,19,1,0,0,0.0000,30.0000,1,'2013-09-01',175.00,2,0.00,0.00,0.00,0,1,8,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(85,'Ck0010','','',1000,'',1,13,1,0,0,0.0000,45.0000,1,'2013-09-01',0.08,5,0.00,0.00,0.00,0,1,4,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(86,'CK0009','','',1,'',1,13,1,0,0,0.0000,44.1000,1,'2013-09-04',0.17,2,0.00,0.00,0.00,0,1,3,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(87,'CK0010','','',10000,'',1,13,1,0,0,0.0000,37.5000,1,'2013-09-04',0.20,1,0.00,0.00,0.00,0,1,2,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(88,'CK0011','','',1,'',1,13,1,0,0,0.0000,31.0000,1,'2013-09-04',340.00,2,0.00,0.00,0.00,0,1,2,1,1,1,0,19.0000,0,NULL,NOW(),NOW()),
+(89,'CK0012','','',1000,'',3,13,1,0,0,0.0000,62.0000,1,'2013-09-04',0.12,1,0.00,0.00,0.00,0,1,6,1,1,1,0,40.0000,0,NULL,NOW(),NOW()),
+(90,'CK0013','','',1000,'',1,13,1,0,0,0.0000,39.0000,1,'2013-09-04',0.33,2,0.00,0.00,0.00,0,1,3,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(91,'BVLG001','','',1000,'',1,14,1,0,0,0.0000,29.0000,1,'2013-09-04',0.16,2,0.00,0.00,0.00,0,1,3,1,1,1,0,20.0000,0,NULL,NOW(),NOW()),
+(92,'BVLG002','','',1000,'',1,14,1,0,0,0.0000,57.0000,1,'2013-09-04',0.40,5,0.00,0.00,0.00,0,1,8,1,1,1,0,44.0000,0,NULL,NOW(),NOW()),
+(93,'BVLG003','','',1000,'',1,14,1,0,0,0.0000,280.0000,1,'2013-09-04',0.30,5,0.00,0.00,0.00,0,1,9,1,1,1,0,100.0000,0,NULL,NOW(),NOW()),
+(94,'GRMBC001','','',589,'',1,19,1,0,0,0.0000,263.0000,1,'2013-09-04',0.15,1,0.00,0.00,0.00,0,1,4,1,1,1,0,125.0000,0,NULL,NOW(),NOW()),
+(95,'GRMBC002','','',100,'',3,19,1,0,0,0.0000,104.0000,1,'2013-09-04',0.15,1,0.00,0.00,0.00,0,1,6,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(96,'GRMBC003','','',100,'',1,19,1,0,0,0.0000,82.0000,1,'2013-09-04',80.00,2,0.00,0.00,0.00,0,1,10,1,0,2,0,67.0000,0,NULL,NOW(),NOW()),
+(97,'GRMBC004','','',1,'',1,19,1,0,0,0.0000,126.0000,1,'2013-09-04',20.00,2,0.00,0.00,0.00,0,1,10,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(98,'GRMBC005','','',1000,'',1,19,1,0,0,0.0000,98.0000,1,'2013-09-04',40.00,2,0.00,0.00,0.00,0,1,3,1,1,1,0,87.0000,0,NULL,NOW(),NOW()),
+(99,'GRMBC006','','',1000,'',1,19,1,0,0,0.0000,137.0000,1,'2013-09-04',0.09,6,0.00,0.00,0.00,0,1,13,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(100,'GRMBC007','','',1000,'',1,19,1,0,0,0.0000,10.0000,1,'2013-09-04',15.00,2,0.00,0.00,0.00,0,0,13,1,1,4,0,8.0000,0,NULL,NOW(),NOW()),
+(101,'Pro-V','','',1000,'',1,17,1,0,0,0.0000,8.2300,1,'2012-03-13',8.45,6,2.00,3.00,15.00,1,1,37,1,0,1,0,0.0000,0,NULL,NOW(),NOW()),
+(102,'PRF00269','','',1000,'',1,20,1,0,0,0.0000,105.0000,1,'2012-03-14',2.50,6,0.00,0.00,0.00,3,1,7,1,0,1,0,0.0000,0,NULL,NOW(),NOW()),
+(103,'PRF00270','','',100,'',1,14,1,0,0,0.0000,78.0000,1,'2012-03-14',80.00,2,0.00,0.00,0.00,3,1,5,1,0,1,0,0.0000,0,NULL,NOW(),NOW()),
+(104,'PRF00271','','',1000,'',1,13,1,0,0,0.0000,49.0000,1,'2012-03-14',0.00,5,0.00,0.00,0.00,3,1,21,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(105,'PRF00273','','',100,'',2,14,1,0,0,0.0000,55.0000,0,'2012-03-14',0.00,5,0.00,0.00,0.00,3,1,19,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(106,'PRF00274','','',185,'',1,14,1,0,0,0.0000,70.0000,1,'2012-03-14',80.00,5,0.00,0.00,0.00,3,1,9,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(107,'PRF00274','','',0,'',2,15,1,0,0,0.0000,66.0000,1,'2012-03-14',7.00,6,0.00,0.00,0.00,3,1,6,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(108,'PRF00268','','',420,'',1,15,1,0,0,0.0000,125.0000,1,'2012-03-14',2.00,6,0.00,0.00,0.00,3,1,8,1,1,2,0,0.0000,0,NULL,NOW(),NOW()),
+(109,'PRF00279','','',1,'',1,15,1,0,0,0.0000,84.0000,1,'2012-03-14',50.00,6,3.00,2.00,10.00,1,1,7,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(110,'PRF00278','','',1000,'',1,20,1,0,0,0.0000,90.0000,1,'2012-03-14',0.00,6,0.00,0.00,0.00,3,1,22,1,0,1,0,0.0000,0,NULL,NOW(),NOW()),
+(111,'','','',4,'',1,0,1,0,0,0.0000,85.0000,1,'2015-06-11',0.20,1,23.60,17.80,5.10,1,1,16,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(112,'','','',10,'',1,0,1,0,1,0.0000,16.2000,1,'2015-06-11',0.12,1,0.00,0.00,0.00,3,1,6,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(113,'','','',1,'',1,0,1,0,0,0.0000,9.9900,1,'2015-06-11',0.10,1,12.00,10.00,3.00,1,1,6,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(114,'','','',1,'',1,0,1,0,0,0.0000,7.9900,0,'2015-06-11',0.20,1,15.00,12.00,1.00,1,1,3,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(115,'','','',1,'',1,0,1,0,0,0.0000,110.0000,0,'2015-06-15',300.00,2,26.00,10.00,8.00,1,1,18,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(116,'','','',100,'',1,0,1,0,0,0.0000,26.0000,1,'2015-06-15',1.00,5,8.00,5.00,7.00,3,1,27,1,0,1,0,0.0000,0,NULL,NOW(),NOW()),
+(117,'B00OGL2XKO','','',100,'',1,0,1,0,1,0.0000,78.0000,1,'2015-06-17',0.50,5,7.00,4.00,3.00,3,1,25,1,1,1,0,50.0000,0,NULL,NOW(),NOW()),
+(118,'','','',10,'',1,0,1,0,0,0.0000,26.0000,1,'2015-06-21',222.00,2,5.00,5.00,4.00,3,1,9,1,0,1,0,20.0000,0,NULL,NOW(),NOW()),
+(119,'','','',456,'',1,0,1,0,0,0.0000,9.9900,1,'2015-06-21',400.00,2,0.00,0.00,0.00,3,1,7,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(120,'B00UG4NFNY','','',1,'',1,0,1,0,0,0.0000,6.7500,0,'2015-06-21',100.00,2,0.00,0.00,0.00,3,1,6,1,1,1,0,0.0000,0,NULL,NOW(),NOW()),
+(121,'','','',17,'',1,19,1,0,0,0.0000,32.0000,1,'2015-06-21',120.00,2,0.00,0.00,0.00,3,1,12,1,0,1,10,0.0000,0,NULL,NOW(),NOW()),
+(122,'JDSK36','','',155,'',1,0,1,0,0,0.0000,21.0000,1,'2015-06-21',140.00,2,23.00,20.00,2.00,1,1,10,1,0,1,0,0.0000,0,NULL,NOW(),NOW()),
+(123,'LTQFX','#2738','',100,'',1,19,1,0,1,0.0000,14.0000,1,'2019-03-17',150.00,2,0.00,0.00,0.00,3,1,7,1,1,1,0,11.0000,0,NULL,NOW(),NOW());
+
+
 
 --
 -- Dumping data for table `products_featured`
@@ -1296,963 +1413,1000 @@ INSERT INTO `ac_products_related` VALUES (118,116);
 -- Dumping data for table `products_to_categories`
 --
 
-INSERT INTO `ac_products_to_categories` VALUES (50,40);
-INSERT INTO `ac_products_to_categories` VALUES (51,40);
-INSERT INTO `ac_products_to_categories` VALUES (52,40);
-INSERT INTO `ac_products_to_categories` VALUES (53,36);
-INSERT INTO `ac_products_to_categories` VALUES (53,40);
-INSERT INTO `ac_products_to_categories` VALUES (54,36);
-INSERT INTO `ac_products_to_categories` VALUES (54,39);
-INSERT INTO `ac_products_to_categories` VALUES (55,41);
-INSERT INTO `ac_products_to_categories` VALUES (56,36);
-INSERT INTO `ac_products_to_categories` VALUES (56,39);
-INSERT INTO `ac_products_to_categories` VALUES (57,36);
-INSERT INTO `ac_products_to_categories` VALUES (57,38);
-INSERT INTO `ac_products_to_categories` VALUES (58,36);
-INSERT INTO `ac_products_to_categories` VALUES (58,38);
-INSERT INTO `ac_products_to_categories` VALUES (59,36);
-INSERT INTO `ac_products_to_categories` VALUES (59,41);
-INSERT INTO `ac_products_to_categories` VALUES (60,42);
-INSERT INTO `ac_products_to_categories` VALUES (61,37);
-INSERT INTO `ac_products_to_categories` VALUES (62,49);
-INSERT INTO `ac_products_to_categories` VALUES (62,51);
-INSERT INTO `ac_products_to_categories` VALUES (63,51);
-INSERT INTO `ac_products_to_categories` VALUES (64,49);
-INSERT INTO `ac_products_to_categories` VALUES (64,50);
-INSERT INTO `ac_products_to_categories` VALUES (65,43);
-INSERT INTO `ac_products_to_categories` VALUES (65,47);
-INSERT INTO `ac_products_to_categories` VALUES (66,43);
-INSERT INTO `ac_products_to_categories` VALUES (66,46);
-INSERT INTO `ac_products_to_categories` VALUES (67,43);
-INSERT INTO `ac_products_to_categories` VALUES (67,44);
-INSERT INTO `ac_products_to_categories` VALUES (68,43);
-INSERT INTO `ac_products_to_categories` VALUES (68,48);
-INSERT INTO `ac_products_to_categories` VALUES (69,52);
-INSERT INTO `ac_products_to_categories` VALUES (69,54);
-INSERT INTO `ac_products_to_categories` VALUES (69,64);
-INSERT INTO `ac_products_to_categories` VALUES (70,52);
-INSERT INTO `ac_products_to_categories` VALUES (70,53);
-INSERT INTO `ac_products_to_categories` VALUES (71,52);
-INSERT INTO `ac_products_to_categories` VALUES (71,54);
-INSERT INTO `ac_products_to_categories` VALUES (72,54);
-INSERT INTO `ac_products_to_categories` VALUES (73,54);
-INSERT INTO `ac_products_to_categories` VALUES (74,52);
-INSERT INTO `ac_products_to_categories` VALUES (74,53);
-INSERT INTO `ac_products_to_categories` VALUES (75,58);
-INSERT INTO `ac_products_to_categories` VALUES (75,63);
-INSERT INTO `ac_products_to_categories` VALUES (76,58);
-INSERT INTO `ac_products_to_categories` VALUES (76,60);
-INSERT INTO `ac_products_to_categories` VALUES (77,58);
-INSERT INTO `ac_products_to_categories` VALUES (77,60);
-INSERT INTO `ac_products_to_categories` VALUES (77,63);
-INSERT INTO `ac_products_to_categories` VALUES (78,58);
-INSERT INTO `ac_products_to_categories` VALUES (78,59);
-INSERT INTO `ac_products_to_categories` VALUES (78,62);
-INSERT INTO `ac_products_to_categories` VALUES (79,50);
-INSERT INTO `ac_products_to_categories` VALUES (79,62);
-INSERT INTO `ac_products_to_categories` VALUES (80,49);
-INSERT INTO `ac_products_to_categories` VALUES (80,51);
-INSERT INTO `ac_products_to_categories` VALUES (81,51);
-INSERT INTO `ac_products_to_categories` VALUES (82,51);
-INSERT INTO `ac_products_to_categories` VALUES (82,59);
-INSERT INTO `ac_products_to_categories` VALUES (83,51);
-INSERT INTO `ac_products_to_categories` VALUES (84,49);
-INSERT INTO `ac_products_to_categories` VALUES (84,50);
-INSERT INTO `ac_products_to_categories` VALUES (85,49);
-INSERT INTO `ac_products_to_categories` VALUES (85,50);
-INSERT INTO `ac_products_to_categories` VALUES (86,51);
-INSERT INTO `ac_products_to_categories` VALUES (86,59);
-INSERT INTO `ac_products_to_categories` VALUES (87,51);
-INSERT INTO `ac_products_to_categories` VALUES (87,59);
-INSERT INTO `ac_products_to_categories` VALUES (88,50);
-INSERT INTO `ac_products_to_categories` VALUES (89,49);
-INSERT INTO `ac_products_to_categories` VALUES (89,50);
-INSERT INTO `ac_products_to_categories` VALUES (90,50);
-INSERT INTO `ac_products_to_categories` VALUES (90,59);
-INSERT INTO `ac_products_to_categories` VALUES (91,46);
-INSERT INTO `ac_products_to_categories` VALUES (92,46);
-INSERT INTO `ac_products_to_categories` VALUES (93,43);
-INSERT INTO `ac_products_to_categories` VALUES (93,46);
-INSERT INTO `ac_products_to_categories` VALUES (94,45);
-INSERT INTO `ac_products_to_categories` VALUES (95,45);
-INSERT INTO `ac_products_to_categories` VALUES (95,60);
-INSERT INTO `ac_products_to_categories` VALUES (96,47);
-INSERT INTO `ac_products_to_categories` VALUES (96,60);
-INSERT INTO `ac_products_to_categories` VALUES (97,47);
-INSERT INTO `ac_products_to_categories` VALUES (98,61);
-INSERT INTO `ac_products_to_categories` VALUES (99,42);
-INSERT INTO `ac_products_to_categories` VALUES (100,36);
-INSERT INTO `ac_products_to_categories` VALUES (100,41);
-INSERT INTO `ac_products_to_categories` VALUES (101,54);
-INSERT INTO `ac_products_to_categories` VALUES (102,49);
-INSERT INTO `ac_products_to_categories` VALUES (102,50);
-INSERT INTO `ac_products_to_categories` VALUES (104,49);
-INSERT INTO `ac_products_to_categories` VALUES (104,50);
-INSERT INTO `ac_products_to_categories` VALUES (105,50);
-INSERT INTO `ac_products_to_categories` VALUES (106,49);
-INSERT INTO `ac_products_to_categories` VALUES (106,50);
-INSERT INTO `ac_products_to_categories` VALUES (107,45);
-INSERT INTO `ac_products_to_categories` VALUES (107,63);
-INSERT INTO `ac_products_to_categories` VALUES (108,37);
-INSERT INTO `ac_products_to_categories` VALUES (108,39);
-INSERT INTO `ac_products_to_categories` VALUES (108,41);
-INSERT INTO `ac_products_to_categories` VALUES (108,45);
-INSERT INTO `ac_products_to_categories` VALUES (109,46);
-INSERT INTO `ac_products_to_categories` VALUES (110,50);
-INSERT INTO `ac_products_to_categories` VALUES (111,65);
-INSERT INTO `ac_products_to_categories` VALUES (111,66);
-INSERT INTO `ac_products_to_categories` VALUES (112,65);
-INSERT INTO `ac_products_to_categories` VALUES (112,67);
-INSERT INTO `ac_products_to_categories` VALUES (113,65);
-INSERT INTO `ac_products_to_categories` VALUES (113,67);
-INSERT INTO `ac_products_to_categories` VALUES (114,65);
-INSERT INTO `ac_products_to_categories` VALUES (114,67);
-INSERT INTO `ac_products_to_categories` VALUES (115,68);
-INSERT INTO `ac_products_to_categories` VALUES (115,69);
-INSERT INTO `ac_products_to_categories` VALUES (116,68);
-INSERT INTO `ac_products_to_categories` VALUES (116,69);
-INSERT INTO `ac_products_to_categories` VALUES (117,68);
-INSERT INTO `ac_products_to_categories` VALUES (117,69);
-INSERT INTO `ac_products_to_categories` VALUES (118,68);
-INSERT INTO `ac_products_to_categories` VALUES (118,69);
-INSERT INTO `ac_products_to_categories` VALUES (119,68);
-INSERT INTO `ac_products_to_categories` VALUES (119,70);
-INSERT INTO `ac_products_to_categories` VALUES (120,68);
-INSERT INTO `ac_products_to_categories` VALUES (120,70);
-INSERT INTO `ac_products_to_categories` VALUES (121,68);
-INSERT INTO `ac_products_to_categories` VALUES (121,70);
-INSERT INTO `ac_products_to_categories` VALUES (122,68);
-INSERT INTO `ac_products_to_categories` VALUES (122,70);
+INSERT INTO `ac_products_to_categories`
+VALUES
+(50,40),
+(51,40),
+(52,40),
+(53,36),
+(53,40),
+(54,36),
+(54,39),
+(55,41),
+(56,36),
+(56,39),
+(57,36),
+(57,38),
+(58,36),
+(58,38),
+(59,36),
+(59,41),
+(60,42),
+(61,37),
+(62,49),
+(62,51),
+(63,51),
+(64,49),
+(64,50),
+(65,43),
+(65,47),
+(66,43),
+(66,46),
+(67,43),
+(67,44),
+(68,43),
+(68,48),
+(69,52),
+(69,54),
+(69,64),
+(70,52),
+(70,53),
+(71,52),
+(71,54),
+(72,54),
+(73,54),
+(74,52),
+(74,53),
+(75,58),
+(75,63),
+(76,58),
+(76,60),
+(77,58),
+(77,60),
+(77,63),
+(78,58),
+(78,59),
+(78,62),
+(79,50),
+(79,62),
+(80,49),
+(80,51),
+(81,51),
+(82,51),
+(82,59),
+(83,51),
+(84,49),
+(84,50),
+(85,49),
+(85,50),
+(86,51),
+(86,59),
+(87,51),
+(87,59),
+(88,50),
+(89,49),
+(89,50),
+(90,50),
+(90,59),
+(91,46),
+(92,46),
+(93,43),
+(93,46),
+(94,45),
+(95,45),
+(95,60),
+(96,47),
+(96,60),
+(97,47),
+(98,61),
+(99,42),
+(100,36),
+(100,41),
+(101,54),
+(102,49),
+(102,50),
+(104,49),
+(104,50),
+(105,50),
+(106,49),
+(106,50),
+(107,45),
+(107,63),
+(108,37),
+(108,39),
+(108,41),
+(108,45),
+(109,46),
+(110,50),
+(111,65),
+(111,66),
+(112,65),
+(112,67),
+(113,65),
+(113,67),
+(114,65),
+(114,67),
+(115,68),
+(115,69),
+(116,68),
+(116,69),
+(117,68),
+(117,69),
+(118,68),
+(118,69),
+(119,68),
+(119,70),
+(120,68),
+(120,70),
+(121,68),
+(121,70),
+(122,68),
+(122,70),
+(123,70);
 
 --
 -- Dumping data for table `products_to_downloads`
 --
 
-INSERT INTO `ac_products_to_downloads` VALUES (111,1);
-INSERT INTO `ac_products_to_downloads` VALUES (111,2);
+INSERT INTO `ac_products_to_downloads`
+VALUES
+  (111,1),
+  (111,2),
+  (123,5);
 
 --
 -- Dumping data for table `products_to_stores`
 --
 
-INSERT INTO `ac_products_to_stores` VALUES (50,0);
-INSERT INTO `ac_products_to_stores` VALUES (51,0);
-INSERT INTO `ac_products_to_stores` VALUES (52,0);
-INSERT INTO `ac_products_to_stores` VALUES (53,0);
-INSERT INTO `ac_products_to_stores` VALUES (54,0);
-INSERT INTO `ac_products_to_stores` VALUES (55,0);
-INSERT INTO `ac_products_to_stores` VALUES (56,0);
-INSERT INTO `ac_products_to_stores` VALUES (57,0);
-INSERT INTO `ac_products_to_stores` VALUES (58,0);
-INSERT INTO `ac_products_to_stores` VALUES (59,0);
-INSERT INTO `ac_products_to_stores` VALUES (60,0);
-INSERT INTO `ac_products_to_stores` VALUES (61,0);
-INSERT INTO `ac_products_to_stores` VALUES (62,0);
-INSERT INTO `ac_products_to_stores` VALUES (63,0);
-INSERT INTO `ac_products_to_stores` VALUES (64,0);
-INSERT INTO `ac_products_to_stores` VALUES (65,0);
-INSERT INTO `ac_products_to_stores` VALUES (66,0);
-INSERT INTO `ac_products_to_stores` VALUES (67,0);
-INSERT INTO `ac_products_to_stores` VALUES (68,0);
-INSERT INTO `ac_products_to_stores` VALUES (69,0);
-INSERT INTO `ac_products_to_stores` VALUES (70,0);
-INSERT INTO `ac_products_to_stores` VALUES (71,0);
-INSERT INTO `ac_products_to_stores` VALUES (72,0);
-INSERT INTO `ac_products_to_stores` VALUES (73,0);
-INSERT INTO `ac_products_to_stores` VALUES (74,0);
-INSERT INTO `ac_products_to_stores` VALUES (75,0);
-INSERT INTO `ac_products_to_stores` VALUES (76,0);
-INSERT INTO `ac_products_to_stores` VALUES (77,0);
-INSERT INTO `ac_products_to_stores` VALUES (78,0);
-INSERT INTO `ac_products_to_stores` VALUES (79,0);
-INSERT INTO `ac_products_to_stores` VALUES (80,0);
-INSERT INTO `ac_products_to_stores` VALUES (81,0);
-INSERT INTO `ac_products_to_stores` VALUES (82,0);
-INSERT INTO `ac_products_to_stores` VALUES (83,0);
-INSERT INTO `ac_products_to_stores` VALUES (84,0);
-INSERT INTO `ac_products_to_stores` VALUES (85,0);
-INSERT INTO `ac_products_to_stores` VALUES (86,0);
-INSERT INTO `ac_products_to_stores` VALUES (87,0);
-INSERT INTO `ac_products_to_stores` VALUES (88,0);
-INSERT INTO `ac_products_to_stores` VALUES (89,0);
-INSERT INTO `ac_products_to_stores` VALUES (90,0);
-INSERT INTO `ac_products_to_stores` VALUES (91,0);
-INSERT INTO `ac_products_to_stores` VALUES (92,0);
-INSERT INTO `ac_products_to_stores` VALUES (93,0);
-INSERT INTO `ac_products_to_stores` VALUES (94,0);
-INSERT INTO `ac_products_to_stores` VALUES (95,0);
-INSERT INTO `ac_products_to_stores` VALUES (96,0);
-INSERT INTO `ac_products_to_stores` VALUES (97,0);
-INSERT INTO `ac_products_to_stores` VALUES (98,0);
-INSERT INTO `ac_products_to_stores` VALUES (99,0);
-INSERT INTO `ac_products_to_stores` VALUES (100,0);
-INSERT INTO `ac_products_to_stores` VALUES (101,0);
-INSERT INTO `ac_products_to_stores` VALUES (102,0);
-INSERT INTO `ac_products_to_stores` VALUES (103,0);
-INSERT INTO `ac_products_to_stores` VALUES (104,0);
-INSERT INTO `ac_products_to_stores` VALUES (105,0);
-INSERT INTO `ac_products_to_stores` VALUES (106,0);
-INSERT INTO `ac_products_to_stores` VALUES (107,0);
-INSERT INTO `ac_products_to_stores` VALUES (108,0);
-INSERT INTO `ac_products_to_stores` VALUES (109,0);
-INSERT INTO `ac_products_to_stores` VALUES (110,0);
-INSERT INTO `ac_products_to_stores` VALUES (111,0);
-INSERT INTO `ac_products_to_stores` VALUES (112,0);
-INSERT INTO `ac_products_to_stores` VALUES (113,0);
-INSERT INTO `ac_products_to_stores` VALUES (114,0);
-INSERT INTO `ac_products_to_stores` VALUES (115,0);
-INSERT INTO `ac_products_to_stores` VALUES (116,0);
-INSERT INTO `ac_products_to_stores` VALUES (117,0);
-INSERT INTO `ac_products_to_stores` VALUES (118,0);
-INSERT INTO `ac_products_to_stores` VALUES (119,0);
-INSERT INTO `ac_products_to_stores` VALUES (120,0);
-INSERT INTO `ac_products_to_stores` VALUES (121,0);
-INSERT INTO `ac_products_to_stores` VALUES (122,0);
+INSERT INTO `ac_products_to_stores` 
+VALUES 
+(50,0),
+(51,0),
+(52,0),
+(53,0),
+(54,0),
+(55,0),
+(56,0),
+(57,0),
+(58,0),
+(59,0),
+(60,0),
+(61,0),
+(62,0),
+(63,0),
+(64,0),
+(65,0),
+(66,0),
+(67,0),
+(68,0),
+(69,0),
+(70,0),
+(71,0),
+(72,0),
+(73,0),
+(74,0),
+(75,0),
+(76,0),
+(77,0),
+(78,0),
+(79,0),
+(80,0),
+(81,0),
+(82,0),
+(83,0),
+(84,0),
+(85,0),
+(86,0),
+(87,0),
+(88,0),
+(89,0),
+(90,0),
+(91,0),
+(92,0),
+(93,0),
+(94,0),
+(95,0),
+(96,0),
+(97,0),
+(98,0),
+(99,0),
+(100,0),
+(101,0),
+(102,0),
+(103,0),
+(104,0),
+(105,0),
+(106,0),
+(107,0),
+(108,0),
+(109,0),
+(110,0),
+(111,0),
+(112,0),
+(113,0),
+(114,0),
+(115,0),
+(116,0),
+(117,0),
+(118,0),
+(119,0),
+(120,0),
+(121,0),
+(122,0),
+(123,0);
+
 
 --
 -- Dumping data for table `resource_descriptions`
 --
+INSERT INTO `ac_resource_descriptions`
+VALUES
+(100010,1,'demo_product15_1.jpg','','','18/6a/a.jpg','',NOW(),NOW()),
+(100012,1,'demo_product07.jpg','','','18/6a/c.jpg','',NOW(),NOW()),
+(100011,1,'demo_product15.jpg','','','18/6a/b.jpg','',NOW(),NOW()),
+(100007,1,'demo_product14_2.jpg','','','18/6a/7.jpg','',NOW(),NOW()),
+(100008,1,'demo_product14.jpg','','','18/6a/8.jpg','',NOW(),NOW()),
+(100009,1,'demo_product14_1.jpg','','','18/6a/9.jpg','',NOW(),NOW()),
+(100013,1,'demo_product18.jpg','','','18/6a/d.jpg','',NOW(),NOW()),
+(100014,1,'demo_product30.jpg','','','18/6a/e.jpg','',NOW(),NOW()),
+(100015,1,'demo_product30_2.jpg','','','18/6a/f.jpg','',NOW(),NOW()),
+(100016,1,'demo_product30_1.jpg','','','18/6b/0.jpg','',NOW(),NOW()),
+(100017,1,'demo_product30_3.jpg','','','18/6b/1.jpg','',NOW(),NOW()),
+(100018,1,'demo_product34.jpg','','','18/6b/2.jpg','',NOW(),NOW()),
+(100019,1,'demo_product34_2.jpg','','','18/6b/3.jpg','',NOW(),NOW()),
+(100020,1,'demo_product34_1.jpg','','','18/6b/4.jpg','',NOW(),NOW()),
+(100021,1,'demo_product32.jpg','','','18/6b/5.jpg','',NOW(),NOW()),
+(100022,1,'demo_product32.png','','','18/6b/6.png','',NOW(),NOW()),
+(100023,1,'demo_product33.jpg','','','18/6b/7.jpg','',NOW(),NOW()),
+(100024,1,'demo_product32_1.jpg','','','18/6b/8.jpg','',NOW(),NOW()),
+(100249,1,'demo_product31.png','Armani Eau de Toilette','','18/79/9.png','',NOW(),NOW()),
+(100026,1,'demo_product02.jpg','','','18/6b/a.jpg','',NOW(),NOW()),
+(100027,1,'demo_product02_2.jpg','','','18/6b/b.jpg','',NOW(),NOW()),
+(100028,1,'demo_product02_1.jpg','','','18/6b/c.jpg','',NOW(),NOW()),
+(100029,1,'demo_product02_3.jpg','','','18/6b/d.jpg','',NOW(),NOW()),
+(100030,1,'demo_product42.jpg','','','18/6b/e.jpg','',NOW(),NOW()),
+(100031,1,'demo_product22.jpg','','','18/6b/f.jpg','',NOW(),NOW()),
+(100032,1,'demo_product11_1.jpg','','','18/6c/0.jpg','',NOW(),NOW()),
+(100033,1,'demo_product11_2.jpg','','','18/6c/1.jpg','',NOW(),NOW()),
+(100034,1,'demo_product11.jpg','','','18/6c/2.jpg','',NOW(),NOW()),
+(100035,1,'demo_product43.jpg','','','18/6c/3.jpg','',NOW(),NOW()),
+(100036,1,'demo_product24.jpg','','','18/6c/4.jpg','',NOW(),NOW()),
+(100037,1,'demo_product06_6.jpg','','','18/6c/5.jpg','',NOW(),NOW()),
+(100038,1,'demo_product06_2.jpg','','','18/6c/6.jpg','',NOW(),NOW()),
+(100039,1,'demo_product06_1.jpg','','','18/6c/7.jpg','',NOW(),NOW()),
+(100040,1,'demo_product06.jpg','','','18/6c/8.jpg','',NOW(),NOW()),
+(100041,1,'demo_product06_4.jpg','','','18/6c/9.jpg','',NOW(),NOW()),
+(100042,1,'demo_product06_3.jpg','','','18/6c/a.jpg','',NOW(),NOW()),
+(100043,1,'demo_product06_5.jpg','','','18/6c/b.jpg','',NOW(),NOW()),
+(100044,1,'demo_product25_1.jpg','','','18/6c/c.jpg','',NOW(),NOW()),
+(100045,1,'demo_product25_2.jpg','','','18/6c/d.jpg','',NOW(),NOW()),
+(100046,1,'demo_product25.jpg','','','18/6c/e.jpg','',NOW(),NOW()),
+(100047,1,'demo_product20.jpg','','','18/6c/f.jpg','',NOW(),NOW()),
+(100048,1,'demo_product36.jpg','','','18/6d/0.jpg','',NOW(),NOW()),
+(100049,1,'demo_product47.png','','','18/6d/1.png','',NOW(),NOW()),
+(100050,1,'demo_product46.jpg','','','18/6d/2.jpg','',NOW(),NOW()),
+(100051,1,'demo_product46.png','','','18/6d/3.png','',NOW(),NOW()),
+(100052,1,'demo_product17.jpg','','','18/6d/4.jpg','',NOW(),NOW()),
+(100053,1,'demo_product49_1.png','','','18/6d/5.png','',NOW(),NOW()),
+(100054,1,'demo_product35_1.jpg','','','18/6d/6.jpg','',NOW(),NOW()),
+(100055,1,'demo_product35_2.jpg','','','18/6d/7.jpg','',NOW(),NOW()),
+(100056,1,'demo_product35.jpg','','','18/6d/8.jpg','',NOW(),NOW()),
+(100057,1,'demo_product23.jpg','','','18/6d/9.jpg','',NOW(),NOW()),
+(100058,1,'demo_product41.jpg','','','18/6d/a.jpg','',NOW(),NOW()),
+(100059,1,'demo_product09_4.jpg','','','18/6d/b.jpg','',NOW(),NOW()),
+(100060,1,'demo_product09_1.jpg','','','18/6d/c.jpg','',NOW(),NOW()),
+(100061,1,'demo_product09.jpg','','','18/6d/d.jpg','',NOW(),NOW()),
+(100062,1,'demo_product09_3.jpg','','','18/6d/e.jpg','',NOW(),NOW()),
+(100063,1,'demo_product09_2.jpg','','','18/6d/f.jpg','',NOW(),NOW()),
+(100064,1,'demo_product37.jpg','','','18/6e/0.jpg','',NOW(),NOW()),
+(100065,1,'demo_product26_2.jpg','','','18/6e/1.jpg','',NOW(),NOW()),
+(100066,1,'demo_product26_3.jpg','','','18/6e/2.jpg','',NOW(),NOW()),
+(100067,1,'demo_product26.jpg','','','18/6e/3.jpg','',NOW(),NOW()),
+(100068,1,'demo_product26_1.jpg','','','18/6e/4.jpg','',NOW(),NOW()),
+(100069,1,'demo_product27_1.jpg','','','18/6e/5.jpg','',NOW(),NOW()),
+(100070,1,'demo_product27.jpg','','','18/6e/6.jpg','',NOW(),NOW()),
+(100071,1,'demo_product10.jpg','','','18/6e/7.jpg','',NOW(),NOW()),
+(100072,1,'demo_product10_1.jpg','','','18/6e/8.jpg','',NOW(),NOW()),
+(100073,1,'demo_product10_2.jpg','','','18/6e/9.jpg','',NOW(),NOW()),
+(100074,1,'demo_product10_3.jpg','','','18/6e/a.jpg','',NOW(),NOW()),
+(100075,1,'demo_product44.jpg','','','18/6e/b.jpg','',NOW(),NOW()),
+(100076,1,'demo_product40_1.jpg','','','18/6e/c.jpg','',NOW(),NOW()),
+(100077,1,'demo_product40.jpg','','','18/6e/d.jpg','',NOW(),NOW()),
+(100078,1,'demo_product40_2.jpg','','','18/6e/e.jpg','',NOW(),NOW()),
+(100079,1,'demo_product21.jpg','','','18/6e/f.jpg','',NOW(),NOW()),
+(100080,1,'demo_product13_2.jpg','','','18/6f/0.jpg','',NOW(),NOW()),
+(100081,1,'demo_product13_1.jpg','','','18/6f/1.jpg','',NOW(),NOW()),
+(100082,1,'demo_product19.jpg','','','18/6f/2.jpg','',NOW(),NOW()),
+(100083,1,'demo_product39.jpg','','','18/6f/3.jpg','',NOW(),NOW()),
+(100084,1,'demo_product39_3.jpg','','','18/6f/4.jpg','',NOW(),NOW()),
+(100085,1,'demo_product39_2.jpg','','','18/6f/5.jpg','',NOW(),NOW()),
+(100086,1,'demo_product39_1.jpg','','','18/6f/6.jpg','',NOW(),NOW()),
+(100087,1,'demo_product45.png','','','18/6f/7.png','',NOW(),NOW()),
+(100088,1,'demo_product48.png','','','18/6f/8.png','',NOW(),NOW()),
+(100089,1,'demo_product01.jpg','','','18/6f/9.jpg','',NOW(),NOW()),
+(100091,1,'demo_product16_1.jpg','','','18/6f/b.jpg','',NOW(),NOW()),
+(100092,1,'demo_product16.jpg','','','18/6f/c.jpg','',NOW(),NOW()),
+(100093,1,'demo_product16_2.jpg','','','18/6f/d.jpg','',NOW(),NOW()),
+(100094,1,'demo_product03.jpg','','','18/6f/e.jpg','',NOW(),NOW()),
+(100095,1,'demo_product03_1.jpg','','','18/6f/f.jpg','',NOW(),NOW()),
+(100096,1,'demo_product03_2.jpg','','','18/70/0.jpg','',NOW(),NOW()),
+(100097,1,'demo_product08.jpg','','','18/70/1.jpg','',NOW(),NOW()),
+(100098,1,'demo_product08_2.jpg','','','18/70/2.jpg','',NOW(),NOW()),
+(100099,1,'demo_product08_3.jpg','','','18/70/3.jpg','',NOW(),NOW()),
+(100100,1,'demo_product08_1.jpg','','','18/70/4.jpg','',NOW(),NOW()),
+(100101,1,'demo_product05.jpg','','','18/70/5.jpg','',NOW(),NOW()),
+(100102,1,'demo_product29_2.jpg','','','18/70/6.jpg','',NOW(),NOW()),
+(100103,1,'demo_product29.jpg','','','18/70/7.jpg','',NOW(),NOW()),
+(100104,1,'demo_product29_1.jpg','','','18/70/8.jpg','',NOW(),NOW()),
+(100105,1,'demo_product29.jpg','','','18/70/9.jpg','',NOW(),NOW()),
+(100106,1,'demo_product29_2.jpg','','','18/70/a.jpg','',NOW(),NOW()),
+(100107,1,'demo_product29_1.jpg','','','18/70/b.jpg','',NOW(),NOW()),
+(100108,1,'demo_product28_1.jpg','','','18/70/c.jpg','',NOW(),NOW()),
+(100109,1,'demo_product28.jpg','','','18/70/d.jpg','',NOW(),NOW()),
+(100110,1,'demo_product28_2.jpg','','','18/70/e.jpg','',NOW(),NOW()),
+(100111,1,'demo_product38.jpg','','','18/70/f.jpg','',NOW(),NOW()),
+(100112,1,'demo_product12.jpg','','','18/71/0.jpg','',NOW(),NOW()),
+(100114,1,'mf_sephora_ba_logo_black.jpg','','','18/71/2.jpg','',NOW(),NOW()),
+(100115,1,'mf_Bvlgari.jpg','','','18/71/3.jpg','',NOW(),NOW()),
+(100116,1,'mf_calvin_klein.jpg','','','18/71/4.jpg','',NOW(),NOW()),
+(100117,1,'mf_benefit_logo_black.jpg','','','18/71/5.jpg','',NOW(),NOW()),
+(100118,1,'mf_mac_logo.jpg','','','18/71/6.jpg','',NOW(),NOW()),
+(100119,1,'mf_lancome_logo.gif','','','18/71/7.gif','',NOW(),NOW()),
+(100120,1,'mf_pantene_logo.jpg','','','18/71/8.jpg','',NOW(),NOW()),
+(100121,1,'mf_dove_logo.jpg','','','18/71/9.jpg','',NOW(),NOW()),
+(100122,1,'mf_armani_logo.gif','','','18/71/a.gif','',NOW(),NOW()),
+(100123,1,'demo_product_23.jpg','','','18/71/b.jpg','',NOW(),NOW()),
+(100124,1,'demo_product_04.jpg','','','18/71/c.jpg','',NOW(),NOW()),
+(100125,1,'demo_product_15.jpg','','','18/71/d.jpg','',NOW(),NOW()),
+(100126,1,'demo_product_14_2.jpg','','','18/71/e.jpg','',NOW(),NOW()),
+(100127,1,'demo_product_31.jpg','','','18/71/f.jpg','',NOW(),NOW()),
+(100128,1,'demo_product_34.jpg','','','18/72/0.jpg','',NOW(),NOW()),
+(100129,1,'demo_product_30_2.jpg','','','18/72/1.jpg','',NOW(),NOW()),
+(100130,1,'demo_product_24.jpg','','','18/72/2.jpg','',NOW(),NOW()),
+(100131,1,'demo_product_23.jpg','','','18/72/3.jpg','',NOW(),NOW()),
+(100132,1,'demo_product_05.jpg','','','18/72/4.jpg','',NOW(),NOW()),
+(100133,1,'demo_product_07.jpg','','','18/72/5.jpg','',NOW(),NOW()),
+(100134,1,'demo_product_08_3.jpg','','','18/72/6.jpg','',NOW(),NOW()),
+(100135,1,'demo_product_10_2.jpg','','','18/72/7.jpg','',NOW(),NOW()),
+(100136,1,'demo_product_47.png','','','18/72/8.png','',NOW(),NOW()),
+(100137,1,'demo_product_11_2.jpg','','','18/72/9.jpg','',NOW(),NOW()),
+(100138,1,'demo_product_40_2.jpg','','','18/72/a.jpg','',NOW(),NOW()),
+(100139,1,'demo_product_44.jpg','','','18/72/b.jpg','',NOW(),NOW()),
+(100140,1,'demo_product_29.jpg','','','18/72/c.jpg','',NOW(),NOW()),
+(100141,1,'demo_product_27.jpg','','','18/72/d.jpg','',NOW(),NOW()),
+(100142,1,'demo_product_42.jpg','','','18/72/e.jpg','',NOW(),NOW()),
+(100143,1,'demo_product_46.jpg','','','18/72/f.jpg','',NOW(),NOW()),
+(100144,1,'demo_product_18.jpg','','','18/73/0.jpg','',NOW(),NOW()),
+(100145,1,'demo_product_37.jpg','','','18/73/1.jpg','',NOW(),NOW()),
+(100146,1,'demo_product_49_1.png','','','18/73/2.png','',NOW(),NOW()),
+(100147,1,'store_logo.png','','','18/73/3.png','',NOW(),NOW()),
+(100148,1,'favicon.png','','','18/73/4.png','',NOW(),NOW()),
+(100150,1,'demo_product51.png','','','18/73/6.png','',NOW(),NOW()),
+(100153,1,'demo_mf_gucci.jpg','','','18/73/9.jpg','',NOW(),NOW()),
+(100154,1,'demo_product52_1.jpg','','','18/73/a.jpg','',NOW(),NOW()),
+(100155,1,'demo_product52_2.png','','','18/73/b.png','',NOW(),NOW()),
+(100156,1,'demo_product52_3.png','','','18/73/c.png','',NOW(),NOW()),
+(100157,1,'demo_product53_3.jpg','','','18/73/d.jpg','',NOW(),NOW()),
+(100159,1,'demo_product53_2.png','','','18/73/f.png','',NOW(),NOW()),
+(100160,1,'demo_product54_1.jpg','','','18/74/0.jpg','',NOW(),NOW()),
+(100162,1,'demo_product55_1.jpg','','','18/74/2.jpg','',NOW(),NOW()),
+(100163,1,'demo_product56_3.jpg','','','18/74/3.jpg','',NOW(),NOW()),
+(100164,1,'demo_product56_2.jpg','','','18/74/4.jpg','',NOW(),NOW()),
+(100165,1,'demo_product56_1.jpg','','','18/74/5.jpg','',NOW(),NOW()),
+(100166,1,'demo_product57_1.jpg','','','18/74/6.jpg','',NOW(),NOW()),
+(100167,1,'demo_product57_2.jpg','','','18/74/7.jpg','',NOW(),NOW()),
+(100168,1,'demo_product58_1.jpg','','','18/74/8.jpg','',NOW(),NOW()),
+(100169,1,'demo_product58_3.jpg','','','18/74/9.jpg','',NOW(),NOW()),
+(100170,1,'demo_product58_4.jpg','','','18/74/a.jpg','',NOW(),NOW()),
+(100171,1,'demo_product58_2.jpg','','','18/74/b.jpg','',NOW(),NOW()),
+(100172,1,'Visionnaire.zip','','','18/74/c.zip','',NOW(),NOW()),
+(100173,1,'demo_product59_1.jpg','','','18/74/d.jpg','',NOW(),NOW()),
+(100174,1,'demo_product60_1.jpg','','','18/74/e.jpg','',NOW(),NOW()),
+(100175,1,'demo_product60_2.jpg','','','18/74/f.jpg','',NOW(),NOW()),
+(100176,1,'demo_product60_5.jpg','','','18/75/0.jpg','',NOW(),NOW()),
+(100178,1,'abantecart video','','','','<object width=\"640\" height=\"360\"><param name=\"movie\" value=\"http://www.youtube.com/v/IQ5SLJUWbdA\"></param><param name=\"allowFullScreen\" value=\"true\"></param><param name=\"allowscriptaccess\" value=\"always\"></param><embed src=\"http://www.youtube.com/v/IQ5SLJUWbdA\" type=\"application/x-shockwave-flash\" width=\"640\" height=\"360\" allowscriptaccess=\"always\" allowfullscreen=\"true\"></embed></object>',NOW(),NOW()),
+(100188,1,'smbanner.jpg','','','18/75/c.jpg','',NOW(),NOW()),
+(100190,1,'AM_mc_vs_dc_ae_319x110.jpg','PayPal Credit Cards','PayPal logo with supported Credit Cards','18/75/e.jpg','',NOW(),NOW()),
+(100191,1,'AM_SbyPP_mc_vs_dc_ae_319x110.jpg','PayPal Secure Payments','Secure Payments by PayPal logo','18/75/f.jpg','',NOW(),NOW()),
+(100192,1,'bdg_payments_by_pp_2line_165x56.png','Payments by PayPal','Payments by PayPal Logo','18/76/0.png','',NOW(),NOW()),
+(100193,1,'pp_cc_mark_76x48.jpg','PayPal Icon','PayPal Small Icon','18/76/1.jpg','',NOW(),NOW()),
+(100194,1,'banner_fallback.jpg','Fall back banner for small screen resolutions','Fall back banner for small screen resolutions','18/76/2.jpg','',NOW(),NOW()),
+(100195,1,'audiocd1.jpg','','','18/76/3.jpg','',NOW(),NOW()),
+(100196,1,'Marketplace-and_Extension-Installation-in-AbanteCart.mp3','Audio CD 1','','18/76/4.mp3','',NOW(),NOW()),
+(100197,1,'sample.mp3','','','18/76/5.mp3','',NOW(),NOW()),
+(100198,1,'paperback1.jpg','','','18/76/6.jpg','',NOW(),NOW()),
+(100199,1,'cdaudio.png','category image','','18/76/7.png','',NOW(),NOW()),
+(100200,1,'book2.png','','','18/76/8.png','',NOW(),NOW()),
+(100201,1,'papertowns2.jpg','','','18/76/9.jpg','',NOW(),NOW()),
+(100202,1,'paper2.jpg','','','18/76/a.jpg','',NOW(),NOW()),
+(100203,1,'paper-cover_allegiant.jpg','','','18/76/b.jpg','',NOW(),NOW()),
+(100204,1,'Fiorella-Purple-Peep-Toes-1.jpg','','','18/76/c.jpg','',NOW(),NOW()),
+(100206,1,'Fiorella-Purple-Peep-Toes-2.jpg','','','18/76/e.jpg','',NOW(),NOW()),
+(100207,1,'new-ladies-black1.jpg','','','18/76/f.jpg','',NOW(),NOW()),
+(100208,1,'new-ladies-black2.jpg','','','18/77/0.jpg','',NOW(),NOW()),
+(100209,1,'new-ladies-black3.jpg','','','18/77/1.jpg','',NOW(),NOW()),
+(100210,1,'new-ladies-black4.jpg','','','18/77/2.jpg','',NOW(),NOW()),
+(100211,1,'new-ladies-red6.jpg','','','18/77/3.jpg','',NOW(),NOW()),
+(100212,1,'new-ladies-red5.jpg','','','18/77/4.jpg','',NOW(),NOW()),
+(100213,1,'new-ladies-red4.jpg','','','18/77/5.jpg','',NOW(),NOW()),
+(100214,1,'new-ladies-red3.jpg','','','18/77/6.jpg','',NOW(),NOW()),
+(100215,1,'new-ladies-red2.jpg','','','18/77/7.jpg','',NOW(),NOW()),
+(100216,1,'new-ladies-red1.jpg','','','18/77/8.jpg','',NOW(),NOW()),
+(100217,1,'new-ladies-white5.jpg','','','18/77/9.jpg','',NOW(),NOW()),
+(100218,1,'new-ladies-white4.jpg','','','18/77/a.jpg','',NOW(),NOW()),
+(100219,1,'new-ladies-white3.jpg','','','18/77/b.jpg','',NOW(),NOW()),
+(100220,1,'new-ladies-white2.jpg','','','18/77/c.jpg','',NOW(),NOW()),
+(100221,1,'new-ladies-white1.jpg','','','18/77/d.jpg','',NOW(),NOW()),
+(100222,1,'new-ladies-red6.jpg','','','18/77/e.jpg','',NOW(),NOW()),
+(100223,1,'new-ladies-red5.jpg','','','18/77/f.jpg','',NOW(),NOW()),
+(100224,1,'new-ladies-red4.jpg','','','18/78/0.jpg','',NOW(),NOW()),
+(100225,1,'new-ladies-red3.jpg','','','18/78/1.jpg','',NOW(),NOW()),
+(100226,1,'new-ladies-red2.jpg','','','18/78/2.jpg','',NOW(),NOW()),
+(100227,1,'new-ladies-red1.jpg','','','18/78/3.jpg','',NOW(),NOW()),
+(100228,1,'shoe_1.jpg','','','18/78/4.jpg','',NOW(),NOW()),
+(100229,1,'shoe_1a.jpg','','','18/78/5.jpg','',NOW(),NOW()),
+(100230,1,'shoe_1b.jpg','','','18/78/6.jpg','',NOW(),NOW()),
+(100231,1,'shoe_1c.jpg','','','18/78/7.jpg','',NOW(),NOW()),
+(100232,1,'shoe_1d.jpg','','','18/78/8.jpg','',NOW(),NOW()),
+(100233,1,'shoe_1e.jpg','','','18/78/9.jpg','',NOW(),NOW()),
+(100235,1,'shoeblack_1.jpg','','','18/78/b.jpg','',NOW(),NOW()),
+(100236,1,'shoeblack_2.jpg','','','18/78/c.jpg','',NOW(),NOW()),
+(100237,1,'shoeblack_3.jpg','','','18/78/d.jpg','',NOW(),NOW()),
+(100238,1,'shoeblack_5.jpg','','','18/78/e.jpg','',NOW(),NOW()),
+(100239,1,'shoeblack_6.jpg','','','18/78/f.jpg','',NOW(),NOW()),
+(100240,1,'shoeblack_7.jpg','','','18/79/0.jpg','',NOW(),NOW()),
+(100241,1,'t-shirt.jpg','','','18/79/1.jpg','',NOW(),NOW()),
+(100242,1,'t-shirt-2.jpg','','','18/79/2.jpg','',NOW(),NOW()),
+(100243,1,'t-shirt-3.jpg','','','18/79/3.jpg','',NOW(),NOW()),
+(100244,1,'t-shirt-3a.jpg','','','18/79/4.jpg','',NOW(),NOW()),
+(100245,1,'t-shirt-4c.jpg','','','18/79/5.jpg','',NOW(),NOW()),
+(100246,1,'t-shirt-4b.jpg','','','18/79/6.jpg','',NOW(),NOW()),
+(100247,1,'t-shirt-4a.jpg','','','18/79/7.jpg','',NOW(),NOW()),
+(100248,1,'t-shirt-4.jpg','','','18/79/8.jpg','',NOW(),NOW()),
+(100250,1,'lancome-mascara.jpg','','','18/79/a.jpg','',NOW(),NOW()),
+(100251,1,'blue.jpg','blue cotton t-shirt','','18/79/b.jpg','',NOW(),NOW()),
+(100252,1,'red.jpg','','','18/79/c.jpg','',NOW(),NOW()),
+(100253,1,'yellow.jpg','','','18/79/d.jpg','',NOW(),NOW()),
+(100255,1,'size-fit-guide-print.pdf','Fit guide','','18/79/f.pdf','',NOW(),NOW());
 
-INSERT INTO `ac_resource_descriptions` VALUES (100010,1,'demo_product15_1.jpg','','','18/6a/a.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100012,1,'demo_product07.jpg','','','18/6a/c.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100011,1,'demo_product15.jpg','','','18/6a/b.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100007,1,'demo_product14_2.jpg','','','18/6a/7.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100008,1,'demo_product14.jpg','','','18/6a/8.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100009,1,'demo_product14_1.jpg','','','18/6a/9.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100013,1,'demo_product18.jpg','','','18/6a/d.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100014,1,'demo_product30.jpg','','','18/6a/e.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100015,1,'demo_product30_2.jpg','','','18/6a/f.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100016,1,'demo_product30_1.jpg','','','18/6b/0.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100017,1,'demo_product30_3.jpg','','','18/6b/1.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100018,1,'demo_product34.jpg','','','18/6b/2.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100019,1,'demo_product34_2.jpg','','','18/6b/3.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100020,1,'demo_product34_1.jpg','','','18/6b/4.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100021,1,'demo_product32.jpg','','','18/6b/5.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100022,1,'demo_product32.png','','','18/6b/6.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100023,1,'demo_product33.jpg','','','18/6b/7.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100024,1,'demo_product32_1.jpg','','','18/6b/8.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100249,1,'demo_product31.png','Armani Eau de Toilette','','18/79/9.png','','2015-06-22 12:38:44','2015-06-22 12:39:08');
-INSERT INTO `ac_resource_descriptions` VALUES (100026,1,'demo_product02.jpg','','','18/6b/a.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100027,1,'demo_product02_2.jpg','','','18/6b/b.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100028,1,'demo_product02_1.jpg','','','18/6b/c.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100029,1,'demo_product02_3.jpg','','','18/6b/d.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100030,1,'demo_product42.jpg','','','18/6b/e.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100031,1,'demo_product22.jpg','','','18/6b/f.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100032,1,'demo_product11_1.jpg','','','18/6c/0.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100033,1,'demo_product11_2.jpg','','','18/6c/1.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100034,1,'demo_product11.jpg','','','18/6c/2.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100035,1,'demo_product43.jpg','','','18/6c/3.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100036,1,'demo_product24.jpg','','','18/6c/4.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100037,1,'demo_product06_6.jpg','','','18/6c/5.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100038,1,'demo_product06_2.jpg','','','18/6c/6.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100039,1,'demo_product06_1.jpg','','','18/6c/7.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100040,1,'demo_product06.jpg','','','18/6c/8.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100041,1,'demo_product06_4.jpg','','','18/6c/9.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100042,1,'demo_product06_3.jpg','','','18/6c/a.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100043,1,'demo_product06_5.jpg','','','18/6c/b.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100044,1,'demo_product25_1.jpg','','','18/6c/c.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100045,1,'demo_product25_2.jpg','','','18/6c/d.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100046,1,'demo_product25.jpg','','','18/6c/e.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100047,1,'demo_product20.jpg','','','18/6c/f.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100048,1,'demo_product36.jpg','','','18/6d/0.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100049,1,'demo_product47.png','','','18/6d/1.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100050,1,'demo_product46.jpg','','','18/6d/2.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100051,1,'demo_product46.png','','','18/6d/3.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100052,1,'demo_product17.jpg','','','18/6d/4.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100053,1,'demo_product49_1.png','','','18/6d/5.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100054,1,'demo_product35_1.jpg','','','18/6d/6.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100055,1,'demo_product35_2.jpg','','','18/6d/7.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100056,1,'demo_product35.jpg','','','18/6d/8.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100057,1,'demo_product23.jpg','','','18/6d/9.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100058,1,'demo_product41.jpg','','','18/6d/a.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100059,1,'demo_product09_4.jpg','','','18/6d/b.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100060,1,'demo_product09_1.jpg','','','18/6d/c.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100061,1,'demo_product09.jpg','','','18/6d/d.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100062,1,'demo_product09_3.jpg','','','18/6d/e.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100063,1,'demo_product09_2.jpg','','','18/6d/f.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100064,1,'demo_product37.jpg','','','18/6e/0.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100065,1,'demo_product26_2.jpg','','','18/6e/1.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100066,1,'demo_product26_3.jpg','','','18/6e/2.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100067,1,'demo_product26.jpg','','','18/6e/3.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100068,1,'demo_product26_1.jpg','','','18/6e/4.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100069,1,'demo_product27_1.jpg','','','18/6e/5.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100070,1,'demo_product27.jpg','','','18/6e/6.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100071,1,'demo_product10.jpg','','','18/6e/7.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100072,1,'demo_product10_1.jpg','','','18/6e/8.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100073,1,'demo_product10_2.jpg','','','18/6e/9.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100074,1,'demo_product10_3.jpg','','','18/6e/a.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100075,1,'demo_product44.jpg','','','18/6e/b.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100076,1,'demo_product40_1.jpg','','','18/6e/c.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100077,1,'demo_product40.jpg','','','18/6e/d.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100078,1,'demo_product40_2.jpg','','','18/6e/e.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100079,1,'demo_product21.jpg','','','18/6e/f.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100080,1,'demo_product13_2.jpg','','','18/6f/0.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100081,1,'demo_product13_1.jpg','','','18/6f/1.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100082,1,'demo_product19.jpg','','','18/6f/2.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100083,1,'demo_product39.jpg','','','18/6f/3.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100084,1,'demo_product39_3.jpg','','','18/6f/4.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100085,1,'demo_product39_2.jpg','','','18/6f/5.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100086,1,'demo_product39_1.jpg','','','18/6f/6.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100087,1,'demo_product45.png','','','18/6f/7.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100088,1,'demo_product48.png','','','18/6f/8.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100089,1,'demo_product01.jpg','','','18/6f/9.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100090,1,'demo_product50.jpg','','','18/6f/a.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100091,1,'demo_product16_1.jpg','','','18/6f/b.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100092,1,'demo_product16.jpg','','','18/6f/c.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100093,1,'demo_product16_2.jpg','','','18/6f/d.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100094,1,'demo_product03.jpg','','','18/6f/e.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100095,1,'demo_product03_1.jpg','','','18/6f/f.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100096,1,'demo_product03_2.jpg','','','18/70/0.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100097,1,'demo_product08.jpg','','','18/70/1.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100098,1,'demo_product08_2.jpg','','','18/70/2.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100099,1,'demo_product08_3.jpg','','','18/70/3.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100100,1,'demo_product08_1.jpg','','','18/70/4.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100101,1,'demo_product05.jpg','','','18/70/5.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100102,1,'demo_product29_2.jpg','','','18/70/6.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100103,1,'demo_product29.jpg','','','18/70/7.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100104,1,'demo_product29_1.jpg','','','18/70/8.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100105,1,'demo_product29.jpg','','','18/70/9.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100106,1,'demo_product29_2.jpg','','','18/70/a.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100107,1,'demo_product29_1.jpg','','','18/70/b.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100108,1,'demo_product28_1.jpg','','','18/70/c.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100109,1,'demo_product28.jpg','','','18/70/d.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100110,1,'demo_product28_2.jpg','','','18/70/e.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100111,1,'demo_product38.jpg','','','18/70/f.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100112,1,'demo_product12.jpg','','','18/71/0.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100113,1,'demo_product12.png','','','18/71/1.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100114,1,'mf_sephora_ba_logo_black.jpg','','','18/71/2.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100115,1,'mf_Bvlgari.jpg','','','18/71/3.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100116,1,'mf_calvin_klein.jpg','','','18/71/4.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100117,1,'mf_benefit_logo_black.jpg','','','18/71/5.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100118,1,'mf_mac_logo.jpg','','','18/71/6.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100119,1,'mf_lancome_logo.gif','','','18/71/7.gif','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100120,1,'mf_pantene_logo.jpg','','','18/71/8.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100121,1,'mf_dove_logo.jpg','','','18/71/9.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100122,1,'mf_armani_logo.gif','','','18/71/a.gif','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100123,1,'demo_product_23.jpg','','','18/71/b.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100124,1,'demo_product_04.jpg','','','18/71/c.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100125,1,'demo_product_15.jpg','','','18/71/d.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100126,1,'demo_product_14_2.jpg','','','18/71/e.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100127,1,'demo_product_31.jpg','','','18/71/f.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100128,1,'demo_product_34.jpg','','','18/72/0.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100129,1,'demo_product_30_2.jpg','','','18/72/1.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100130,1,'demo_product_24.jpg','','','18/72/2.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100131,1,'demo_product_23.jpg','','','18/72/3.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100132,1,'demo_product_05.jpg','','','18/72/4.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100133,1,'demo_product_07.jpg','','','18/72/5.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100134,1,'demo_product_08_3.jpg','','','18/72/6.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100135,1,'demo_product_10_2.jpg','','','18/72/7.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100136,1,'demo_product_47.png','','','18/72/8.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100137,1,'demo_product_11_2.jpg','','','18/72/9.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100138,1,'demo_product_40_2.jpg','','','18/72/a.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100139,1,'demo_product_44.jpg','','','18/72/b.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100140,1,'demo_product_29.jpg','','','18/72/c.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100141,1,'demo_product_27.jpg','','','18/72/d.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100142,1,'demo_product_42.jpg','','','18/72/e.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100143,1,'demo_product_46.jpg','','','18/72/f.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100144,1,'demo_product_18.jpg','','','18/73/0.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100145,1,'demo_product_37.jpg','','','18/73/1.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100146,1,'demo_product_49_1.png','','','18/73/2.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100147,1,'store_logo.png','','','18/73/3.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100148,1,'favicon.png','','','18/73/4.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100150,1,'demo_product51.png','','','18/73/6.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100153,1,'demo_mf_gucci.jpg','','','18/73/9.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100154,1,'demo_product52_1.jpg','','','18/73/a.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100155,1,'demo_product52_2.png','','','18/73/b.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100156,1,'demo_product52_3.png','','','18/73/c.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100157,1,'demo_product53_3.jpg','','','18/73/d.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100159,1,'demo_product53_2.png','','','18/73/f.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100160,1,'demo_product54_1.jpg','','','18/74/0.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100162,1,'demo_product55_1.jpg','','','18/74/2.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100163,1,'demo_product56_3.jpg','','','18/74/3.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100164,1,'demo_product56_2.jpg','','','18/74/4.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100165,1,'demo_product56_1.jpg','','','18/74/5.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100166,1,'demo_product57_1.jpg','','','18/74/6.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100167,1,'demo_product57_2.jpg','','','18/74/7.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100168,1,'demo_product58_1.jpg','','','18/74/8.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100169,1,'demo_product58_3.jpg','','','18/74/9.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100170,1,'demo_product58_4.jpg','','','18/74/a.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100171,1,'demo_product58_2.jpg','','','18/74/b.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100172,1,'Visionnaire.zip','','','18/74/c.zip','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100173,1,'demo_product59_1.jpg','','','18/74/d.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100174,1,'demo_product60_1.jpg','','','18/74/e.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100175,1,'demo_product60_2.jpg','','','18/74/f.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100176,1,'demo_product60_5.jpg','','','18/75/0.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100178,1,'abantecart video','','','','<object width=\"640\" height=\"360\"><param name=\"movie\" value=\"http://www.youtube.com/v/IQ5SLJUWbdA\"></param><param name=\"allowFullScreen\" value=\"true\"></param><param name=\"allowscriptaccess\" value=\"always\"></param><embed src=\"http://www.youtube.com/v/IQ5SLJUWbdA\" type=\"application/x-shockwave-flash\" width=\"640\" height=\"360\" allowscriptaccess=\"always\" allowfullscreen=\"true\"></embed></object>','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100188,1,'smbanner.jpg','','','18/75/c.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100190,1,'AM_mc_vs_dc_ae_319x110.jpg','PayPal Credit Cards','PayPal logo with supported Credit Cards','18/75/e.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100191,1,'AM_SbyPP_mc_vs_dc_ae_319x110.jpg','PayPal Secure Payments','Secure Payments by PayPal logo','18/75/f.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100192,1,'bdg_payments_by_pp_2line_165x56.png','Payments by PayPal','Payments by PayPal Logo','18/76/0.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100193,1,'pp_cc_mark_76x48.jpg','PayPal Icon','PayPal Small Icon','18/76/1.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100194,1,'banner_fallback.jpg','Fall back banner for small screen resolutions','Fall back banner for small screen resolutions','18/76/2.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100195,1,'audiocd1.jpg','','','18/76/3.jpg','','2015-06-12 10:14:20','2015-06-12 10:14:20');
-INSERT INTO `ac_resource_descriptions` VALUES (100196,1,'Marketplace-and_Extension-Installation-in-AbanteCart.mp3','Audio CD 1','','18/76/4.mp3','','2015-06-12 10:23:22','2015-06-12 10:23:44');
-INSERT INTO `ac_resource_descriptions` VALUES (100197,1,'sample.mp3','','','18/76/5.mp3','','2015-06-12 10:31:41','2015-06-12 10:31:41');
-INSERT INTO `ac_resource_descriptions` VALUES (100198,1,'paperback1.jpg','','','18/76/6.jpg','','2015-06-12 11:03:44','2015-06-12 11:03:44');
-INSERT INTO `ac_resource_descriptions` VALUES (100199,1,'cdaudio.png','category image','','18/76/7.png','','2015-06-12 11:27:50','2015-06-12 11:28:00');
-INSERT INTO `ac_resource_descriptions` VALUES (100200,1,'book2.png','','','18/76/8.png','','2015-06-12 11:30:19','2015-06-12 11:30:19');
-INSERT INTO `ac_resource_descriptions` VALUES (100201,1,'papertowns2.jpg','','','18/76/9.jpg','','2015-06-12 11:49:01','2015-06-12 11:49:01');
-INSERT INTO `ac_resource_descriptions` VALUES (100202,1,'paper2.jpg','','','18/76/a.jpg','','2015-06-12 11:49:25','2015-06-12 11:49:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100203,1,'paper-cover_allegiant.jpg','','','18/76/b.jpg','','2015-06-12 12:06:33','2015-06-12 12:06:33');
-INSERT INTO `ac_resource_descriptions` VALUES (100204,1,'Fiorella-Purple-Peep-Toes-1.jpg','','','18/76/c.jpg','','2015-06-16 11:31:41','2015-06-16 11:31:41');
-INSERT INTO `ac_resource_descriptions` VALUES (100206,1,'Fiorella-Purple-Peep-Toes-2.jpg','','','18/76/e.jpg','','2015-06-16 11:58:34','2015-06-16 11:58:34');
-INSERT INTO `ac_resource_descriptions` VALUES (100207,1,'new-ladies-black1.jpg','','','18/76/f.jpg','','2015-06-16 12:28:57','2015-06-16 12:28:57');
-INSERT INTO `ac_resource_descriptions` VALUES (100208,1,'new-ladies-black2.jpg','','','18/77/0.jpg','','2015-06-16 12:28:59','2015-06-16 12:28:59');
-INSERT INTO `ac_resource_descriptions` VALUES (100209,1,'new-ladies-black3.jpg','','','18/77/1.jpg','','2015-06-16 12:29:03','2015-06-16 12:29:03');
-INSERT INTO `ac_resource_descriptions` VALUES (100210,1,'new-ladies-black4.jpg','','','18/77/2.jpg','','2015-06-16 12:29:05','2015-06-16 12:29:05');
-INSERT INTO `ac_resource_descriptions` VALUES (100211,1,'new-ladies-red6.jpg','','','18/77/3.jpg','','2015-06-17 12:16:43','2015-06-17 12:16:43');
-INSERT INTO `ac_resource_descriptions` VALUES (100212,1,'new-ladies-red5.jpg','','','18/77/4.jpg','','2015-06-17 12:16:48','2015-06-17 12:16:48');
-INSERT INTO `ac_resource_descriptions` VALUES (100213,1,'new-ladies-red4.jpg','','','18/77/5.jpg','','2015-06-17 12:16:51','2015-06-17 12:16:51');
-INSERT INTO `ac_resource_descriptions` VALUES (100214,1,'new-ladies-red3.jpg','','','18/77/6.jpg','','2015-06-17 12:16:53','2015-06-17 12:16:53');
-INSERT INTO `ac_resource_descriptions` VALUES (100215,1,'new-ladies-red2.jpg','','','18/77/7.jpg','','2015-06-17 12:16:56','2015-06-17 12:16:56');
-INSERT INTO `ac_resource_descriptions` VALUES (100216,1,'new-ladies-red1.jpg','','','18/77/8.jpg','','2015-06-17 12:16:58','2015-06-17 12:16:58');
-INSERT INTO `ac_resource_descriptions` VALUES (100217,1,'new-ladies-white5.jpg','','','18/77/9.jpg','','2015-06-17 12:17:32','2015-06-17 12:17:32');
-INSERT INTO `ac_resource_descriptions` VALUES (100218,1,'new-ladies-white4.jpg','','','18/77/a.jpg','','2015-06-17 12:17:35','2015-06-17 12:17:35');
-INSERT INTO `ac_resource_descriptions` VALUES (100219,1,'new-ladies-white3.jpg','','','18/77/b.jpg','','2015-06-17 12:17:37','2015-06-17 12:17:37');
-INSERT INTO `ac_resource_descriptions` VALUES (100220,1,'new-ladies-white2.jpg','','','18/77/c.jpg','','2015-06-17 12:17:39','2015-06-17 12:17:39');
-INSERT INTO `ac_resource_descriptions` VALUES (100221,1,'new-ladies-white1.jpg','','','18/77/d.jpg','','2015-06-17 12:17:41','2015-06-17 12:17:41');
-INSERT INTO `ac_resource_descriptions` VALUES (100222,1,'new-ladies-red6.jpg','','','18/77/e.jpg','','2015-06-17 12:19:41','2015-06-17 12:19:41');
-INSERT INTO `ac_resource_descriptions` VALUES (100223,1,'new-ladies-red5.jpg','','','18/77/f.jpg','','2015-06-17 12:19:44','2015-06-17 12:19:44');
-INSERT INTO `ac_resource_descriptions` VALUES (100224,1,'new-ladies-red4.jpg','','','18/78/0.jpg','','2015-06-17 12:19:47','2015-06-17 12:19:47');
-INSERT INTO `ac_resource_descriptions` VALUES (100225,1,'new-ladies-red3.jpg','','','18/78/1.jpg','','2015-06-17 12:19:50','2015-06-17 12:19:50');
-INSERT INTO `ac_resource_descriptions` VALUES (100226,1,'new-ladies-red2.jpg','','','18/78/2.jpg','','2015-06-17 12:19:52','2015-06-17 12:19:52');
-INSERT INTO `ac_resource_descriptions` VALUES (100227,1,'new-ladies-red1.jpg','','','18/78/3.jpg','','2015-06-17 12:19:55','2015-06-17 12:19:55');
-INSERT INTO `ac_resource_descriptions` VALUES (100228,1,'shoe_1.jpg','','','18/78/4.jpg','','2015-06-18 12:31:08','2015-06-18 12:31:08');
-INSERT INTO `ac_resource_descriptions` VALUES (100229,1,'shoe_1a.jpg','','','18/78/5.jpg','','2015-06-18 12:31:11','2015-06-18 12:31:11');
-INSERT INTO `ac_resource_descriptions` VALUES (100230,1,'shoe_1b.jpg','','','18/78/6.jpg','','2015-06-18 12:31:17','2015-06-18 12:31:17');
-INSERT INTO `ac_resource_descriptions` VALUES (100231,1,'shoe_1c.jpg','','','18/78/7.jpg','','2015-06-18 12:31:21','2015-06-18 12:31:21');
-INSERT INTO `ac_resource_descriptions` VALUES (100232,1,'shoe_1d.jpg','','','18/78/8.jpg','','2015-06-18 12:31:27','2015-06-18 12:31:27');
-INSERT INTO `ac_resource_descriptions` VALUES (100233,1,'shoe_1e.jpg','','','18/78/9.jpg','','2015-06-18 12:31:37','2015-06-18 12:31:37');
-INSERT INTO `ac_resource_descriptions` VALUES (100235,1,'shoeblack_1.jpg','','','18/78/b.jpg','','2015-06-22 09:33:39','2015-06-22 09:33:39');
-INSERT INTO `ac_resource_descriptions` VALUES (100236,1,'shoeblack_2.jpg','','','18/78/c.jpg','','2015-06-22 09:34:26','2015-06-22 09:34:26');
-INSERT INTO `ac_resource_descriptions` VALUES (100237,1,'shoeblack_3.jpg','','','18/78/d.jpg','','2015-06-22 09:34:28','2015-06-22 09:34:28');
-INSERT INTO `ac_resource_descriptions` VALUES (100238,1,'shoeblack_5.jpg','','','18/78/e.jpg','','2015-06-22 09:34:30','2015-06-22 09:34:30');
-INSERT INTO `ac_resource_descriptions` VALUES (100239,1,'shoeblack_6.jpg','','','18/78/f.jpg','','2015-06-22 09:35:57','2015-06-22 09:35:57');
-INSERT INTO `ac_resource_descriptions` VALUES (100240,1,'shoeblack_7.jpg','','','18/79/0.jpg','','2015-06-22 09:35:59','2015-06-22 09:35:59');
-INSERT INTO `ac_resource_descriptions` VALUES (100241,1,'t-shirt.jpg','','','18/79/1.jpg','','2015-06-22 10:17:15','2015-06-22 10:17:15');
-INSERT INTO `ac_resource_descriptions` VALUES (100242,1,'t-shirt-2.jpg','','','18/79/2.jpg','','2015-06-22 11:28:33','2015-06-22 11:28:33');
-INSERT INTO `ac_resource_descriptions` VALUES (100243,1,'t-shirt-3.jpg','','','18/79/3.jpg','','2015-06-22 12:03:28','2015-06-22 12:03:28');
-INSERT INTO `ac_resource_descriptions` VALUES (100244,1,'t-shirt-3a.jpg','','','18/79/4.jpg','','2015-06-22 12:04:17','2015-06-22 12:04:17');
-INSERT INTO `ac_resource_descriptions` VALUES (100245,1,'t-shirt-4c.jpg','','','18/79/5.jpg','','2015-06-22 12:32:10','2015-06-22 12:32:10');
-INSERT INTO `ac_resource_descriptions` VALUES (100246,1,'t-shirt-4b.jpg','','','18/79/6.jpg','','2015-06-22 12:32:14','2015-06-22 12:32:14');
-INSERT INTO `ac_resource_descriptions` VALUES (100247,1,'t-shirt-4a.jpg','','','18/79/7.jpg','','2015-06-22 12:32:17','2015-06-22 12:32:17');
-INSERT INTO `ac_resource_descriptions` VALUES (100248,1,'t-shirt-4.jpg','','','18/79/8.jpg','','2015-06-22 12:32:21','2015-06-22 12:32:21');
-INSERT INTO `ac_resource_descriptions` VALUES (100250,1,'lancome-mascara.jpg','','','18/79/a.jpg','','2015-06-22 12:48:03','2015-06-22 12:48:03');
+
 
 --
 -- Dumping data for table `resource_library`
 --
 
-INSERT INTO `ac_resource_library` VALUES (100010,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100012,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100011,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100007,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100008,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100009,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100013,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100014,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100015,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100016,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100017,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100018,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100019,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100020,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100021,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100022,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100023,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100024,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100249,1,'2015-06-22 12:38:44','2015-06-22 12:38:44');
-INSERT INTO `ac_resource_library` VALUES (100026,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100027,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100028,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100029,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100030,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100031,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100032,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100033,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100034,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100035,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100036,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100037,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100038,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100039,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100040,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100041,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100042,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100043,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100044,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100045,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100046,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100047,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100048,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100049,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100050,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100051,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100052,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100053,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100054,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100055,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100056,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100057,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100058,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100059,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100060,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100061,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100062,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100063,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100064,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100065,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100066,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100067,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100068,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100069,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100070,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100071,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100072,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100073,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100074,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100075,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100076,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100077,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100078,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100079,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100080,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100081,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100082,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100083,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100084,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100085,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100086,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100087,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100088,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100089,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100090,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100091,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100092,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100093,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100094,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100095,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100096,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100097,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100098,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100099,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100100,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100101,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100102,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100103,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100104,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100105,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100106,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100107,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100108,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100109,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100110,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100111,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100112,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100113,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100114,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100115,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100116,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100117,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100118,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100119,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100120,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100121,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100122,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100123,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100124,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100125,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100126,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100127,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100128,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100129,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100130,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100131,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100132,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100133,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100134,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100135,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100136,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100137,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100138,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100139,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100140,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100141,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100142,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100143,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100144,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100145,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100146,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100147,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100148,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100150,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100178,3,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100153,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100154,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100155,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100156,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100157,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100159,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100160,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100162,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100163,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100164,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100165,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100166,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100167,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100168,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100169,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100170,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100171,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100172,5,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100173,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100174,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100175,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100176,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100188,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100190,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100191,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100192,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100193,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100194,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_library` VALUES (100195,1,'2015-06-12 10:14:20','2015-06-12 10:14:20');
-INSERT INTO `ac_resource_library` VALUES (100196,6,'2015-06-12 10:23:22','2015-06-12 10:23:22');
-INSERT INTO `ac_resource_library` VALUES (100197,6,'2015-06-12 10:31:41','2015-06-12 10:31:41');
-INSERT INTO `ac_resource_library` VALUES (100198,1,'2015-06-12 11:03:44','2015-06-12 11:03:44');
-INSERT INTO `ac_resource_library` VALUES (100199,1,'2015-06-12 11:27:50','2015-06-12 11:27:50');
-INSERT INTO `ac_resource_library` VALUES (100200,1,'2015-06-12 11:30:19','2015-06-12 11:30:19');
-INSERT INTO `ac_resource_library` VALUES (100201,1,'2015-06-12 11:49:01','2015-06-12 11:49:01');
-INSERT INTO `ac_resource_library` VALUES (100202,1,'2015-06-12 11:49:25','2015-06-12 11:49:25');
-INSERT INTO `ac_resource_library` VALUES (100203,1,'2015-06-12 12:06:33','2015-06-12 12:06:33');
-INSERT INTO `ac_resource_library` VALUES (100204,1,'2015-06-16 11:31:41','2015-06-16 11:31:41');
-INSERT INTO `ac_resource_library` VALUES (100206,1,'2015-06-16 11:58:34','2015-06-16 11:58:34');
-INSERT INTO `ac_resource_library` VALUES (100207,1,'2015-06-16 12:28:57','2015-06-16 12:28:57');
-INSERT INTO `ac_resource_library` VALUES (100208,1,'2015-06-16 12:28:59','2015-06-16 12:28:59');
-INSERT INTO `ac_resource_library` VALUES (100209,1,'2015-06-16 12:29:03','2015-06-16 12:29:03');
-INSERT INTO `ac_resource_library` VALUES (100210,1,'2015-06-16 12:29:05','2015-06-16 12:29:05');
-INSERT INTO `ac_resource_library` VALUES (100211,1,'2015-06-17 12:16:43','2015-06-17 12:16:43');
-INSERT INTO `ac_resource_library` VALUES (100212,1,'2015-06-17 12:16:48','2015-06-17 12:16:48');
-INSERT INTO `ac_resource_library` VALUES (100213,1,'2015-06-17 12:16:51','2015-06-17 12:16:51');
-INSERT INTO `ac_resource_library` VALUES (100214,1,'2015-06-17 12:16:53','2015-06-17 12:16:53');
-INSERT INTO `ac_resource_library` VALUES (100215,1,'2015-06-17 12:16:56','2015-06-17 12:16:56');
-INSERT INTO `ac_resource_library` VALUES (100216,1,'2015-06-17 12:16:58','2015-06-17 12:16:58');
-INSERT INTO `ac_resource_library` VALUES (100217,1,'2015-06-17 12:17:32','2015-06-17 12:17:32');
-INSERT INTO `ac_resource_library` VALUES (100218,1,'2015-06-17 12:17:35','2015-06-17 12:17:35');
-INSERT INTO `ac_resource_library` VALUES (100219,1,'2015-06-17 12:17:37','2015-06-17 12:17:37');
-INSERT INTO `ac_resource_library` VALUES (100220,1,'2015-06-17 12:17:39','2015-06-17 12:17:39');
-INSERT INTO `ac_resource_library` VALUES (100221,1,'2015-06-17 12:17:41','2015-06-17 12:17:41');
-INSERT INTO `ac_resource_library` VALUES (100222,1,'2015-06-17 12:19:41','2015-06-17 12:19:41');
-INSERT INTO `ac_resource_library` VALUES (100223,1,'2015-06-17 12:19:44','2015-06-17 12:19:44');
-INSERT INTO `ac_resource_library` VALUES (100224,1,'2015-06-17 12:19:47','2015-06-17 12:19:47');
-INSERT INTO `ac_resource_library` VALUES (100225,1,'2015-06-17 12:19:50','2015-06-17 12:19:50');
-INSERT INTO `ac_resource_library` VALUES (100226,1,'2015-06-17 12:19:52','2015-06-17 12:19:52');
-INSERT INTO `ac_resource_library` VALUES (100227,1,'2015-06-17 12:19:55','2015-06-17 12:19:55');
-INSERT INTO `ac_resource_library` VALUES (100228,1,'2015-06-18 12:31:08','2015-06-18 12:31:08');
-INSERT INTO `ac_resource_library` VALUES (100229,1,'2015-06-18 12:31:11','2015-06-18 12:31:11');
-INSERT INTO `ac_resource_library` VALUES (100230,1,'2015-06-18 12:31:17','2015-06-18 12:31:17');
-INSERT INTO `ac_resource_library` VALUES (100231,1,'2015-06-18 12:31:21','2015-06-18 12:31:21');
-INSERT INTO `ac_resource_library` VALUES (100232,1,'2015-06-18 12:31:27','2015-06-18 12:31:27');
-INSERT INTO `ac_resource_library` VALUES (100233,1,'2015-06-18 12:31:37','2015-06-18 12:31:37');
-INSERT INTO `ac_resource_library` VALUES (100235,1,'2015-06-22 09:33:39','2015-06-22 09:33:39');
-INSERT INTO `ac_resource_library` VALUES (100236,1,'2015-06-22 09:34:26','2015-06-22 09:34:26');
-INSERT INTO `ac_resource_library` VALUES (100237,1,'2015-06-22 09:34:28','2015-06-22 09:34:28');
-INSERT INTO `ac_resource_library` VALUES (100238,1,'2015-06-22 09:34:30','2015-06-22 09:34:30');
-INSERT INTO `ac_resource_library` VALUES (100239,1,'2015-06-22 09:35:57','2015-06-22 09:35:57');
-INSERT INTO `ac_resource_library` VALUES (100240,1,'2015-06-22 09:35:59','2015-06-22 09:35:59');
-INSERT INTO `ac_resource_library` VALUES (100241,1,'2015-06-22 10:17:15','2015-06-22 10:17:15');
-INSERT INTO `ac_resource_library` VALUES (100242,1,'2015-06-22 11:28:33','2015-06-22 11:28:33');
-INSERT INTO `ac_resource_library` VALUES (100243,1,'2015-06-22 12:03:28','2015-06-22 12:03:28');
-INSERT INTO `ac_resource_library` VALUES (100244,1,'2015-06-22 12:04:17','2015-06-22 12:04:17');
-INSERT INTO `ac_resource_library` VALUES (100245,1,'2015-06-22 12:32:10','2015-06-22 12:32:10');
-INSERT INTO `ac_resource_library` VALUES (100246,1,'2015-06-22 12:32:14','2015-06-22 12:32:14');
-INSERT INTO `ac_resource_library` VALUES (100247,1,'2015-06-22 12:32:17','2015-06-22 12:32:17');
-INSERT INTO `ac_resource_library` VALUES (100248,1,'2015-06-22 12:32:21','2015-06-22 12:32:21');
-INSERT INTO `ac_resource_library` VALUES (100250,1,'2015-06-22 12:48:03','2015-06-22 12:48:03');
+INSERT INTO `ac_resource_library`
+VALUES
+
+(100010,1,NOW(),NOW()),
+(100012,1,NOW(),NOW()),
+(100011,1,NOW(),NOW()),
+(100007,1,NOW(),NOW()),
+(100008,1,NOW(),NOW()),
+(100009,1,NOW(),NOW()),
+(100013,1,NOW(),NOW()),
+(100014,1,NOW(),NOW()),
+(100015,1,NOW(),NOW()),
+(100016,1,NOW(),NOW()),
+(100017,1,NOW(),NOW()),
+(100018,1,NOW(),NOW()),
+(100019,1,NOW(),NOW()),
+(100020,1,NOW(),NOW()),
+(100021,1,NOW(),NOW()),
+(100022,1,NOW(),NOW()),
+(100023,1,NOW(),NOW()),
+(100024,1,NOW(),NOW()),
+(100249,1,NOW(),NOW()),
+(100026,1,NOW(),NOW()),
+(100027,1,NOW(),NOW()),
+(100028,1,NOW(),NOW()),
+(100029,1,NOW(),NOW()),
+(100030,1,NOW(),NOW()),
+(100031,1,NOW(),NOW()),
+(100032,1,NOW(),NOW()),
+(100033,1,NOW(),NOW()),
+(100034,1,NOW(),NOW()),
+(100035,1,NOW(),NOW()),
+(100036,1,NOW(),NOW()),
+(100037,1,NOW(),NOW()),
+(100038,1,NOW(),NOW()),
+(100039,1,NOW(),NOW()),
+(100040,1,NOW(),NOW()),
+(100041,1,NOW(),NOW()),
+(100042,1,NOW(),NOW()),
+(100043,1,NOW(),NOW()),
+(100044,1,NOW(),NOW()),
+(100045,1,NOW(),NOW()),
+(100046,1,NOW(),NOW()),
+(100047,1,NOW(),NOW()),
+(100048,1,NOW(),NOW()),
+(100049,1,NOW(),NOW()),
+(100050,1,NOW(),NOW()),
+(100051,1,NOW(),NOW()),
+(100052,1,NOW(),NOW()),
+(100053,1,NOW(),NOW()),
+(100054,1,NOW(),NOW()),
+(100055,1,NOW(),NOW()),
+(100056,1,NOW(),NOW()),
+(100057,1,NOW(),NOW()),
+(100058,1,NOW(),NOW()),
+(100059,1,NOW(),NOW()),
+(100060,1,NOW(),NOW()),
+(100061,1,NOW(),NOW()),
+(100062,1,NOW(),NOW()),
+(100063,1,NOW(),NOW()),
+(100064,1,NOW(),NOW()),
+(100065,1,NOW(),NOW()),
+(100066,1,NOW(),NOW()),
+(100067,1,NOW(),NOW()),
+(100068,1,NOW(),NOW()),
+(100069,1,NOW(),NOW()),
+(100070,1,NOW(),NOW()),
+(100071,1,NOW(),NOW()),
+(100072,1,NOW(),NOW()),
+(100073,1,NOW(),NOW()),
+(100074,1,NOW(),NOW()),
+(100075,1,NOW(),NOW()),
+(100076,1,NOW(),NOW()),
+(100077,1,NOW(),NOW()),
+(100078,1,NOW(),NOW()),
+(100079,1,NOW(),NOW()),
+(100080,1,NOW(),NOW()),
+(100081,1,NOW(),NOW()),
+(100082,1,NOW(),NOW()),
+(100083,1,NOW(),NOW()),
+(100084,1,NOW(),NOW()),
+(100085,1,NOW(),NOW()),
+(100086,1,NOW(),NOW()),
+(100087,1,NOW(),NOW()),
+(100088,1,NOW(),NOW()),
+(100089,1,NOW(),NOW()),
+(100091,1,NOW(),NOW()),
+(100092,1,NOW(),NOW()),
+(100093,1,NOW(),NOW()),
+(100094,1,NOW(),NOW()),
+(100095,1,NOW(),NOW()),
+(100096,1,NOW(),NOW()),
+(100097,1,NOW(),NOW()),
+(100098,1,NOW(),NOW()),
+(100099,1,NOW(),NOW()),
+(100100,1,NOW(),NOW()),
+(100101,1,NOW(),NOW()),
+(100102,1,NOW(),NOW()),
+(100103,1,NOW(),NOW()),
+(100104,1,NOW(),NOW()),
+(100105,1,NOW(),NOW()),
+(100106,1,NOW(),NOW()),
+(100107,1,NOW(),NOW()),
+(100108,1,NOW(),NOW()),
+(100109,1,NOW(),NOW()),
+(100110,1,NOW(),NOW()),
+(100111,1,NOW(),NOW()),
+(100112,1,NOW(),NOW()),
+(100114,1,NOW(),NOW()),
+(100115,1,NOW(),NOW()),
+(100116,1,NOW(),NOW()),
+(100117,1,NOW(),NOW()),
+(100118,1,NOW(),NOW()),
+(100119,1,NOW(),NOW()),
+(100120,1,NOW(),NOW()),
+(100121,1,NOW(),NOW()),
+(100122,1,NOW(),NOW()),
+(100123,1,NOW(),NOW()),
+(100124,1,NOW(),NOW()),
+(100125,1,NOW(),NOW()),
+(100126,1,NOW(),NOW()),
+(100127,1,NOW(),NOW()),
+(100128,1,NOW(),NOW()),
+(100129,1,NOW(),NOW()),
+(100130,1,NOW(),NOW()),
+(100131,1,NOW(),NOW()),
+(100132,1,NOW(),NOW()),
+(100133,1,NOW(),NOW()),
+(100134,1,NOW(),NOW()),
+(100135,1,NOW(),NOW()),
+(100136,1,NOW(),NOW()),
+(100137,1,NOW(),NOW()),
+(100138,1,NOW(),NOW()),
+(100139,1,NOW(),NOW()),
+(100140,1,NOW(),NOW()),
+(100141,1,NOW(),NOW()),
+(100142,1,NOW(),NOW()),
+(100143,1,NOW(),NOW()),
+(100144,1,NOW(),NOW()),
+(100145,1,NOW(),NOW()),
+(100146,1,NOW(),NOW()),
+(100147,1,NOW(),NOW()),
+(100148,1,NOW(),NOW()),
+(100150,1,NOW(),NOW()),
+(100178,3,NOW(),NOW()),
+(100153,1,NOW(),NOW()),
+(100154,1,NOW(),NOW()),
+(100155,1,NOW(),NOW()),
+(100156,1,NOW(),NOW()),
+(100157,1,NOW(),NOW()),
+(100159,1,NOW(),NOW()),
+(100160,1,NOW(),NOW()),
+(100162,1,NOW(),NOW()),
+(100163,1,NOW(),NOW()),
+(100164,1,NOW(),NOW()),
+(100165,1,NOW(),NOW()),
+(100166,1,NOW(),NOW()),
+(100167,1,NOW(),NOW()),
+(100168,1,NOW(),NOW()),
+(100169,1,NOW(),NOW()),
+(100170,1,NOW(),NOW()),
+(100171,1,NOW(),NOW()),
+(100172,5,NOW(),NOW()),
+(100173,1,NOW(),NOW()),
+(100174,1,NOW(),NOW()),
+(100175,1,NOW(),NOW()),
+(100176,1,NOW(),NOW()),
+(100188,1,NOW(),NOW()),
+(100190,1,NOW(),NOW()),
+(100191,1,NOW(),NOW()),
+(100192,1,NOW(),NOW()),
+(100193,1,NOW(),NOW()),
+(100194,1,NOW(),NOW()),
+(100195,1,NOW(),NOW()),
+(100196,6,NOW(),NOW()),
+(100197,6,NOW(),NOW()),
+(100198,1,NOW(),NOW()),
+(100199,1,NOW(),NOW()),
+(100200,1,NOW(),NOW()),
+(100201,1,NOW(),NOW()),
+(100202,1,NOW(),NOW()),
+(100203,1,NOW(),NOW()),
+(100204,1,NOW(),NOW()),
+(100206,1,NOW(),NOW()),
+(100207,1,NOW(),NOW()),
+(100208,1,NOW(),NOW()),
+(100209,1,NOW(),NOW()),
+(100210,1,NOW(),NOW()),
+(100211,1,NOW(),NOW()),
+(100212,1,NOW(),NOW()),
+(100213,1,NOW(),NOW()),
+(100214,1,NOW(),NOW()),
+(100215,1,NOW(),NOW()),
+(100216,1,NOW(),NOW()),
+(100217,1,NOW(),NOW()),
+(100218,1,NOW(),NOW()),
+(100219,1,NOW(),NOW()),
+(100220,1,NOW(),NOW()),
+(100221,1,NOW(),NOW()),
+(100222,1,NOW(),NOW()),
+(100223,1,NOW(),NOW()),
+(100224,1,NOW(),NOW()),
+(100225,1,NOW(),NOW()),
+(100226,1,NOW(),NOW()),
+(100227,1,NOW(),NOW()),
+(100228,1,NOW(),NOW()),
+(100229,1,NOW(),NOW()),
+(100230,1,NOW(),NOW()),
+(100231,1,NOW(),NOW()),
+(100232,1,NOW(),NOW()),
+(100233,1,NOW(),NOW()),
+(100235,1,NOW(),NOW()),
+(100236,1,NOW(),NOW()),
+(100237,1,NOW(),NOW()),
+(100238,1,NOW(),NOW()),
+(100239,1,NOW(),NOW()),
+(100240,1,NOW(),NOW()),
+(100241,1,NOW(),NOW()),
+(100242,1,NOW(),NOW()),
+(100243,1,NOW(),NOW()),
+(100244,1,NOW(),NOW()),
+(100245,1,NOW(),NOW()),
+(100246,1,NOW(),NOW()),
+(100247,1,NOW(),NOW()),
+(100248,1,NOW(),NOW()),
+(100250,1,NOW(),NOW()),
+(100251,1,NOW(),NOW()),
+(100252,1,NOW(),NOW()),
+(100253,1,NOW(),NOW()),
+(100255,6,NOW(),NOW());
+
 
 --
 -- Dumping data for table `resource_map`
 --
-
-INSERT INTO `ac_resource_map` VALUES (100012,'products',58,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100014,'products',80,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100013,'products',68,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100015,'products',80,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100011,'products',65,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100010,'products',65,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100007,'products',64,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100008,'products',64,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100009,'products',64,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100016,'products',80,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100017,'products',80,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100018,'products',84,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100019,'products',84,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100020,'products',84,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100021,'products',83,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100022,'products',82,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100023,'products',83,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100024,'products',83,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100249,'products',81,0,1,'2015-06-22 12:38:44','2015-06-22 12:38:44');
-INSERT INTO `ac_resource_map` VALUES (100026,'products',51,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100027,'products',51,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100028,'products',51,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100029,'products',52,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100030,'products',92,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100031,'products',72,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100032,'products',61,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100033,'products',61,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100034,'products',61,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100035,'products',93,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100036,'products',74,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100037,'products',57,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100038,'products',57,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100039,'products',57,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100040,'products',57,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100041,'products',57,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100042,'products',57,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100043,'products',57,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100044,'products',75,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100045,'products',75,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100046,'products',75,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100047,'products',70,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100048,'products',86,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100049,'products',97,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100050,'products',96,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100051,'products',96,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100052,'products',67,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100053,'products',99,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100054,'products',85,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100055,'products',85,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100056,'products',85,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100057,'products',73,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100058,'products',91,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100059,'products',55,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100060,'products',55,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100061,'products',55,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100062,'products',55,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100063,'products',55,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100064,'products',87,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100065,'products',77,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100066,'products',77,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100067,'products',77,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100068,'products',77,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100069,'products',76,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100070,'products',76,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100071,'products',60,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100072,'products',60,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100073,'products',60,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100074,'products',60,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100075,'products',94,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100076,'products',90,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100077,'products',90,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100078,'products',90,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100079,'products',71,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100080,'products',63,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100081,'products',63,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100082,'products',69,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100083,'products',89,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100084,'products',89,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100085,'products',89,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100086,'products',89,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100087,'products',98,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100088,'products',95,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100089,'products',50,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100090,'products',100,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100091,'products',66,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100092,'products',66,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100093,'products',66,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100094,'products',53,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100095,'products',53,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100096,'products',53,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100097,'products',59,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100098,'products',59,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100099,'products',59,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100100,'products',59,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100101,'products',56,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100109,'products',78,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100108,'products',78,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100105,'products',79,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100106,'products',79,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100107,'products',79,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100110,'products',78,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100111,'products',88,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100112,'products',62,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100113,'products',62,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100114,'manufacturers',16,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100115,'manufacturers',14,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100116,'manufacturers',13,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100117,'manufacturers',12,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100118,'manufacturers',11,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100119,'manufacturers',15,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100120,'manufacturers',17,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100121,'manufacturers',18,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100122,'manufacturers',19,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100123,'categories',52,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100124,'categories',36,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100125,'categories',43,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100126,'categories',49,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100249,'categories',58,0,1,'2015-06-23 10:30:10','2015-06-23 10:30:10');
-INSERT INTO `ac_resource_map` VALUES (100128,'categories',50,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100129,'categories',51,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100130,'categories',53,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100131,'categories',54,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100132,'categories',38,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100133,'categories',40,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100134,'categories',41,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100135,'categories',42,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100136,'categories',39,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100137,'categories',37,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100138,'categories',59,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100139,'categories',60,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100140,'categories',61,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100141,'categories',63,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100142,'categories',46,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100143,'categories',47,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100144,'categories',44,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100145,'categories',45,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100146,'categories',48,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100150,'products',101,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100178,'products',101,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100153,'manufacturers',20,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100154,'products',102,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100155,'products',102,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100156,'products',102,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100157,'products',103,0,2,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100159,'products',103,0,3,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100160,'products',104,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100162,'products',105,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100163,'products',106,0,2,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100164,'products',106,0,2,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100165,'products',106,0,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100166,'products',107,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100167,'products',107,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100168,'products',108,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100169,'products',108,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100170,'products',108,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100171,'products',108,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100173,'products',109,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100174,'products',110,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100175,'products',110,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100176,'products',110,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100188,'banners',13,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100188,'banners',14,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100188,'banners',15,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100188,'banners',16,0,0,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100194,'banners',18,0,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_map` VALUES (100195,'products',111,0,1,'2015-06-12 10:14:20','2015-06-12 10:14:20');
-INSERT INTO `ac_resource_map` VALUES (100198,'products',112,0,1,'2015-06-12 11:03:44','2015-06-12 11:03:44');
-INSERT INTO `ac_resource_map` VALUES (100199,'categories',66,0,1,'2015-06-12 11:27:50','2015-06-12 11:27:50');
-INSERT INTO `ac_resource_map` VALUES (100200,'categories',65,0,1,'2015-06-12 11:30:19','2015-06-12 11:30:19');
-INSERT INTO `ac_resource_map` VALUES (100201,'products',113,0,1,'2015-06-12 11:49:01','2015-06-12 11:49:01');
-INSERT INTO `ac_resource_map` VALUES (100202,'products',113,0,2,'2015-06-12 11:49:26','2015-06-12 11:49:26');
-INSERT INTO `ac_resource_map` VALUES (100202,'categories',67,0,1,'2015-06-12 12:00:49','2015-06-12 12:00:49');
-INSERT INTO `ac_resource_map` VALUES (100203,'products',114,0,1,'2015-06-12 12:06:33','2015-06-12 12:06:33');
-INSERT INTO `ac_resource_map` VALUES (100204,'products',115,0,2,'2015-06-16 11:31:41','2015-06-16 11:57:19');
-INSERT INTO `ac_resource_map` VALUES (100206,'products',115,0,1,'2015-06-16 11:58:34','2015-06-16 11:58:45');
-INSERT INTO `ac_resource_map` VALUES (100207,'product_option_value',754,0,1,'2015-06-16 12:28:57','2015-06-16 12:28:57');
-INSERT INTO `ac_resource_map` VALUES (100208,'product_option_value',754,0,2,'2015-06-16 12:28:59','2015-06-16 12:28:59');
-INSERT INTO `ac_resource_map` VALUES (100209,'product_option_value',754,0,3,'2015-06-16 12:29:03','2015-06-16 12:29:03');
-INSERT INTO `ac_resource_map` VALUES (100210,'product_option_value',754,0,4,'2015-06-16 12:29:05','2015-06-16 12:29:05');
-INSERT INTO `ac_resource_map` VALUES (100211,'product_option_value',753,0,6,'2015-06-17 12:16:43','2015-06-17 12:38:18');
-INSERT INTO `ac_resource_map` VALUES (100212,'product_option_value',753,0,2,'2015-06-17 12:16:48','2015-06-17 12:16:48');
-INSERT INTO `ac_resource_map` VALUES (100213,'product_option_value',753,0,3,'2015-06-17 12:16:51','2015-06-17 12:16:51');
-INSERT INTO `ac_resource_map` VALUES (100214,'product_option_value',753,0,4,'2015-06-17 12:16:53','2015-06-17 12:16:53');
-INSERT INTO `ac_resource_map` VALUES (100215,'product_option_value',753,0,5,'2015-06-17 12:16:56','2015-06-17 12:16:56');
-INSERT INTO `ac_resource_map` VALUES (100216,'product_option_value',753,0,1,'2015-06-17 12:16:59','2015-06-17 12:38:18');
-INSERT INTO `ac_resource_map` VALUES (100217,'product_option_value',752,0,4,'2015-06-17 12:17:32','2015-06-17 12:36:01');
-INSERT INTO `ac_resource_map` VALUES (100218,'product_option_value',752,0,2,'2015-06-17 12:17:35','2015-06-17 12:17:35');
-INSERT INTO `ac_resource_map` VALUES (100219,'product_option_value',752,0,3,'2015-06-17 12:17:37','2015-06-17 12:17:37');
-INSERT INTO `ac_resource_map` VALUES (100220,'product_option_value',752,0,1,'2015-06-17 12:17:39','2015-06-17 12:36:01');
-INSERT INTO `ac_resource_map` VALUES (100221,'product_option_value',752,0,5,'2015-06-17 12:17:42','2015-06-17 12:17:42');
-INSERT INTO `ac_resource_map` VALUES (100222,'products',116,0,5,'2015-06-17 12:19:41','2015-06-17 12:22:21');
-INSERT INTO `ac_resource_map` VALUES (100223,'products',116,0,4,'2015-06-17 12:19:44','2015-06-17 12:22:21');
-INSERT INTO `ac_resource_map` VALUES (100224,'products',116,0,3,'2015-06-17 12:19:47','2015-06-17 12:19:47');
-INSERT INTO `ac_resource_map` VALUES (100225,'products',116,0,1,'2015-06-17 12:19:50','2015-06-17 12:22:21');
-INSERT INTO `ac_resource_map` VALUES (100226,'products',116,0,2,'2015-06-17 12:19:52','2015-06-17 12:22:21');
-INSERT INTO `ac_resource_map` VALUES (100227,'products',116,0,6,'2015-06-17 12:19:55','2015-06-17 12:19:55');
-INSERT INTO `ac_resource_map` VALUES (100228,'products',117,0,1,'2015-06-18 12:31:09','2015-06-18 12:31:09');
-INSERT INTO `ac_resource_map` VALUES (100229,'products',117,0,2,'2015-06-18 12:31:11','2015-06-18 12:31:11');
-INSERT INTO `ac_resource_map` VALUES (100230,'products',117,0,3,'2015-06-18 12:31:17','2015-06-18 12:31:17');
-INSERT INTO `ac_resource_map` VALUES (100231,'products',117,0,4,'2015-06-18 12:31:21','2015-06-18 12:31:21');
-INSERT INTO `ac_resource_map` VALUES (100232,'products',117,0,5,'2015-06-18 12:31:27','2015-06-18 12:31:27');
-INSERT INTO `ac_resource_map` VALUES (100233,'products',117,0,6,'2015-06-18 12:31:37','2015-06-18 12:31:37');
-INSERT INTO `ac_resource_map` VALUES (100235,'products',118,0,1,'2015-06-22 09:33:39','2015-06-22 09:33:39');
-INSERT INTO `ac_resource_map` VALUES (100236,'products',118,0,2,'2015-06-22 09:34:26','2015-06-22 09:34:26');
-INSERT INTO `ac_resource_map` VALUES (100237,'products',118,0,3,'2015-06-22 09:34:28','2015-06-22 09:34:28');
-INSERT INTO `ac_resource_map` VALUES (100238,'products',118,0,4,'2015-06-22 09:34:30','2015-06-22 09:34:30');
-INSERT INTO `ac_resource_map` VALUES (100239,'products',118,0,5,'2015-06-22 09:35:57','2015-06-22 09:35:57');
-INSERT INTO `ac_resource_map` VALUES (100240,'products',118,0,6,'2015-06-22 09:35:59','2015-06-22 09:35:59');
-INSERT INTO `ac_resource_map` VALUES (100241,'products',119,0,1,'2015-06-22 10:17:15','2015-06-22 10:17:15');
-INSERT INTO `ac_resource_map` VALUES (100242,'products',120,0,1,'2015-06-22 11:28:33','2015-06-22 11:28:33');
-INSERT INTO `ac_resource_map` VALUES (100243,'products',121,0,1,'2015-06-22 12:03:28','2015-06-22 12:03:28');
-INSERT INTO `ac_resource_map` VALUES (100244,'products',121,0,2,'2015-06-22 12:04:17','2015-06-22 12:04:17');
-INSERT INTO `ac_resource_map` VALUES (100245,'products',122,0,5,'2015-06-22 12:32:10','2015-06-22 12:32:36');
-INSERT INTO `ac_resource_map` VALUES (100246,'products',122,0,2,'2015-06-22 12:32:14','2015-06-22 12:32:14');
-INSERT INTO `ac_resource_map` VALUES (100247,'products',122,0,3,'2015-06-22 12:32:17','2015-06-22 12:32:17');
-INSERT INTO `ac_resource_map` VALUES (100248,'products',122,0,1,'2015-06-22 12:32:21','2015-06-22 12:32:36');
-INSERT INTO `ac_resource_map` VALUES (100250,'products',54,0,1,'2015-06-22 12:48:03','2015-06-22 12:48:03');
-INSERT INTO `ac_resource_map` VALUES (100244,'categories',68,0,1,'2015-06-22 13:10:13','2015-06-22 13:10:13');
-INSERT INTO `ac_resource_map` VALUES (100216,'categories',69,0,1,'2015-06-22 13:11:10','2015-06-22 13:11:10');
-INSERT INTO `ac_resource_map` VALUES (100243,'categories',70,0,1,'2015-06-22 13:11:41','2015-06-22 13:11:41');
+INSERT INTO `ac_resource_map`
+VALUES
+(100012,'products',58,0,0,NOW(),NOW()),
+(100014,'products',80,0,0,NOW(),NOW()),
+(100013,'products',68,0,0,NOW(),NOW()),
+(100015,'products',80,0,0,NOW(),NOW()),
+(100011,'products',65,0,0,NOW(),NOW()),
+(100010,'products',65,0,0,NOW(),NOW()),
+(100007,'products',64,0,0,NOW(),NOW()),
+(100008,'products',64,0,0,NOW(),NOW()),
+(100009,'products',64,0,0,NOW(),NOW()),
+(100016,'products',80,0,0,NOW(),NOW()),
+(100017,'products',80,0,0,NOW(),NOW()),
+(100018,'products',84,0,0,NOW(),NOW()),
+(100019,'products',84,0,0,NOW(),NOW()),
+(100020,'products',84,0,0,NOW(),NOW()),
+(100021,'products',83,0,0,NOW(),NOW()),
+(100022,'products',82,0,0,NOW(),NOW()),
+(100023,'products',83,0,0,NOW(),NOW()),
+(100024,'products',83,0,0,NOW(),NOW()),
+(100249,'products',81,0,1,NOW(),NOW()),
+(100026,'products',51,0,0,NOW(),NOW()),
+(100027,'products',51,0,0,NOW(),NOW()),
+(100028,'products',51,0,0,NOW(),NOW()),
+(100029,'products',52,0,0,NOW(),NOW()),
+(100030,'products',92,0,0,NOW(),NOW()),
+(100031,'products',72,0,0,NOW(),NOW()),
+(100032,'products',61,0,0,NOW(),NOW()),
+(100033,'products',61,0,0,NOW(),NOW()),
+(100034,'products',61,0,0,NOW(),NOW()),
+(100035,'products',93,0,0,NOW(),NOW()),
+(100036,'products',74,0,0,NOW(),NOW()),
+(100037,'products',57,0,0,NOW(),NOW()),
+(100038,'products',57,0,0,NOW(),NOW()),
+(100039,'products',57,0,0,NOW(),NOW()),
+(100040,'products',57,0,0,NOW(),NOW()),
+(100041,'products',57,0,0,NOW(),NOW()),
+(100042,'products',57,0,0,NOW(),NOW()),
+(100043,'products',57,0,0,NOW(),NOW()),
+(100044,'products',75,0,2,NOW(),NOW()),
+(100045,'products',75,0,1,NOW(),NOW()),
+(100046,'products',75,0,3,NOW(),NOW()),
+(100047,'products',70,0,0,NOW(),NOW()),
+(100048,'products',86,0,0,NOW(),NOW()),
+(100049,'products',97,0,0,NOW(),NOW()),
+(100050,'products',96,0,0,NOW(),NOW()),
+(100051,'products',96,0,0,NOW(),NOW()),
+(100052,'products',67,0,0,NOW(),NOW()),
+(100053,'products',99,0,0,NOW(),NOW()),
+(100054,'products',85,0,0,NOW(),NOW()),
+(100055,'products',85,0,0,NOW(),NOW()),
+(100056,'products',85,0,0,NOW(),NOW()),
+(100057,'products',73,0,0,NOW(),NOW()),
+(100058,'products',91,0,0,NOW(),NOW()),
+(100059,'products',55,0,0,NOW(),NOW()),
+(100060,'products',55,0,0,NOW(),NOW()),
+(100061,'products',55,0,0,NOW(),NOW()),
+(100062,'products',55,0,0,NOW(),NOW()),
+(100063,'products',55,0,0,NOW(),NOW()),
+(100064,'products',87,0,0,NOW(),NOW()),
+(100065,'products',77,0,0,NOW(),NOW()),
+(100066,'products',77,0,0,NOW(),NOW()),
+(100067,'products',77,0,0,NOW(),NOW()),
+(100068,'products',77,0,0,NOW(),NOW()),
+(100069,'products',76,0,2,NOW(),NOW()),
+(100070,'products',76,0,1,NOW(),NOW()),
+(100071,'products',60,0,0,NOW(),NOW()),
+(100072,'products',60,0,0,NOW(),NOW()),
+(100073,'products',60,0,0,NOW(),NOW()),
+(100074,'products',60,0,0,NOW(),NOW()),
+(100075,'products',94,0,0,NOW(),NOW()),
+(100076,'products',90,0,0,NOW(),NOW()),
+(100077,'products',90,0,0,NOW(),NOW()),
+(100078,'products',90,0,0,NOW(),NOW()),
+(100079,'products',71,0,0,NOW(),NOW()),
+(100080,'products',63,0,0,NOW(),NOW()),
+(100081,'products',63,0,0,NOW(),NOW()),
+(100082,'products',69,0,0,NOW(),NOW()),
+(100083,'products',89,0,0,NOW(),NOW()),
+(100084,'products',89,0,0,NOW(),NOW()),
+(100085,'products',89,0,0,NOW(),NOW()),
+(100086,'products',89,0,0,NOW(),NOW()),
+(100087,'products',98,0,0,NOW(),NOW()),
+(100088,'products',95,0,0,NOW(),NOW()),
+(100089,'products',50,0,0,NOW(),NOW()),
+(100091,'products',66,0,0,NOW(),NOW()),
+(100092,'products',66,0,0,NOW(),NOW()),
+(100093,'products',66,0,0,NOW(),NOW()),
+(100094,'products',53,0,0,NOW(),NOW()),
+(100095,'products',53,0,0,NOW(),NOW()),
+(100096,'products',53,0,0,NOW(),NOW()),
+(100097,'products',59,0,0,NOW(),NOW()),
+(100098,'products',59,0,0,NOW(),NOW()),
+(100099,'products',59,0,0,NOW(),NOW()),
+(100100,'products',59,0,0,NOW(),NOW()),
+(100101,'products',56,0,0,NOW(),NOW()),
+(100109,'products',78,0,0,NOW(),NOW()),
+(100108,'products',78,0,0,NOW(),NOW()),
+(100105,'products',79,0,0,NOW(),NOW()),
+(100106,'products',79,0,0,NOW(),NOW()),
+(100107,'products',79,0,0,NOW(),NOW()),
+(100110,'products',78,0,0,NOW(),NOW()),
+(100111,'products',88,0,0,NOW(),NOW()),
+(100112,'products',62,0,0,NOW(),NOW()),
+(100114,'manufacturers',16,0,0,NOW(),NOW()),
+(100115,'manufacturers',14,0,0,NOW(),NOW()),
+(100116,'manufacturers',13,0,0,NOW(),NOW()),
+(100117,'manufacturers',12,0,0,NOW(),NOW()),
+(100118,'manufacturers',11,0,0,NOW(),NOW()),
+(100119,'manufacturers',15,0,0,NOW(),NOW()),
+(100120,'manufacturers',17,0,0,NOW(),NOW()),
+(100121,'manufacturers',18,0,0,NOW(),NOW()),
+(100122,'manufacturers',19,0,0,NOW(),NOW()),
+(100123,'categories',52,0,0,NOW(),NOW()),
+(100124,'categories',36,0,0,NOW(),NOW()),
+(100125,'categories',43,0,0,NOW(),NOW()),
+(100126,'categories',49,0,0,NOW(),NOW()),
+(100249,'categories',58,0,1,NOW(),NOW()),
+(100128,'categories',50,0,0,NOW(),NOW()),
+(100129,'categories',51,0,0,NOW(),NOW()),
+(100130,'categories',53,0,0,NOW(),NOW()),
+(100131,'categories',54,0,0,NOW(),NOW()),
+(100132,'categories',38,0,0,NOW(),NOW()),
+(100133,'categories',40,0,0,NOW(),NOW()),
+(100134,'categories',41,0,0,NOW(),NOW()),
+(100135,'categories',42,0,0,NOW(),NOW()),
+(100136,'categories',39,0,0,NOW(),NOW()),
+(100137,'categories',37,0,0,NOW(),NOW()),
+(100138,'categories',59,0,0,NOW(),NOW()),
+(100139,'categories',60,0,0,NOW(),NOW()),
+(100140,'categories',61,0,0,NOW(),NOW()),
+(100141,'categories',63,0,0,NOW(),NOW()),
+(100142,'categories',46,0,0,NOW(),NOW()),
+(100143,'categories',47,0,0,NOW(),NOW()),
+(100144,'categories',44,0,0,NOW(),NOW()),
+(100145,'categories',45,0,0,NOW(),NOW()),
+(100146,'categories',48,0,0,NOW(),NOW()),
+(100150,'products',101,0,0,NOW(),NOW()),
+(100178,'products',101,0,0,NOW(),NOW()),
+(100153,'manufacturers',20,0,0,NOW(),NOW()),
+(100154,'products',102,0,0,NOW(),NOW()),
+(100155,'products',102,0,0,NOW(),NOW()),
+(100156,'products',102,0,0,NOW(),NOW()),
+(100157,'products',103,0,2,NOW(),NOW()),
+(100159,'products',103,0,3,NOW(),NOW()),
+(100160,'products',104,0,0,NOW(),NOW()),
+(100162,'products',105,0,0,NOW(),NOW()),
+(100163,'products',106,0,2,NOW(),NOW()),
+(100164,'products',106,0,2,NOW(),NOW()),
+(100165,'products',106,0,1,NOW(),NOW()),
+(100166,'products',107,0,0,NOW(),NOW()),
+(100167,'products',107,0,0,NOW(),NOW()),
+(100168,'products',108,0,0,NOW(),NOW()),
+(100169,'products',108,0,0,NOW(),NOW()),
+(100170,'products',108,0,0,NOW(),NOW()),
+(100171,'products',108,0,0,NOW(),NOW()),
+(100173,'products',109,0,0,NOW(),NOW()),
+(100174,'products',110,0,0,NOW(),NOW()),
+(100175,'products',110,0,0,NOW(),NOW()),
+(100176,'products',110,0,0,NOW(),NOW()),
+(100188,'banners',13,0,0,NOW(),NOW()),
+(100188,'banners',14,0,0,NOW(),NOW()),
+(100188,'banners',15,0,0,NOW(),NOW()),
+(100188,'banners',16,0,0,NOW(),NOW()),
+(100194,'banners',18,0,1,NOW(),NOW()),
+(100195,'products',111,0,1,NOW(),NOW()),
+(100198,'products',112,0,1,NOW(),NOW()),
+(100199,'categories',66,0,1,NOW(),NOW()),
+(100200,'categories',65,0,1,NOW(),NOW()),
+(100201,'products',113,0,1,NOW(),NOW()),
+(100202,'products',113,0,2,NOW(),NOW()),
+(100202,'categories',67,0,1,NOW(),NOW()),
+(100203,'products',114,0,1,NOW(),NOW()),
+(100204,'products',115,0,2,NOW(),NOW()),
+(100206,'products',115,0,1,NOW(),NOW()),
+(100207,'product_option_value',754,0,1,NOW(),NOW()),
+(100208,'product_option_value',754,0,2,NOW(),NOW()),
+(100209,'product_option_value',754,0,3,NOW(),NOW()),
+(100210,'product_option_value',754,0,4,NOW(),NOW()),
+(100211,'product_option_value',753,0,6,NOW(),NOW()),
+(100212,'product_option_value',753,0,2,NOW(),NOW()),
+(100213,'product_option_value',753,0,3,NOW(),NOW()),
+(100214,'product_option_value',753,0,4,NOW(),NOW()),
+(100215,'product_option_value',753,0,5,NOW(),NOW()),
+(100216,'product_option_value',753,0,1,NOW(),NOW()),
+(100217,'product_option_value',752,0,4,NOW(),NOW()),
+(100218,'product_option_value',752,0,2,NOW(),NOW()),
+(100219,'product_option_value',752,0,3,NOW(),NOW()),
+(100220,'product_option_value',752,0,1,NOW(),NOW()),
+(100221,'product_option_value',752,0,5,NOW(),NOW()),
+(100222,'products',116,0,5,NOW(),NOW()),
+(100223,'products',116,0,4,NOW(),NOW()),
+(100224,'products',116,0,3,NOW(),NOW()),
+(100225,'products',116,0,1,NOW(),NOW()),
+(100226,'products',116,0,2,NOW(),NOW()),
+(100227,'products',116,0,6,NOW(),NOW()),
+(100228,'products',117,0,1,NOW(),NOW()),
+(100229,'products',117,0,2,NOW(),NOW()),
+(100230,'products',117,0,3,NOW(),NOW()),
+(100231,'products',117,0,4,NOW(),NOW()),
+(100232,'products',117,0,5,NOW(),NOW()),
+(100233,'products',117,0,6,NOW(),NOW()),
+(100235,'products',118,0,1,NOW(),NOW()),
+(100236,'products',118,0,2,NOW(),NOW()),
+(100237,'products',118,0,3,NOW(),NOW()),
+(100238,'products',118,0,4,NOW(),NOW()),
+(100239,'products',118,0,5,NOW(),NOW()),
+(100240,'products',118,0,6,NOW(),NOW()),
+(100241,'products',119,0,1,NOW(),NOW()),
+(100242,'products',120,0,1,NOW(),NOW()),
+(100243,'products',121,0,1,NOW(),NOW()),
+(100244,'products',121,0,2,NOW(),NOW()),
+(100245,'products',122,0,5,NOW(),NOW()),
+(100246,'products',122,0,2,NOW(),NOW()),
+(100247,'products',122,0,3,NOW(),NOW()),
+(100248,'products',122,0,1,NOW(),NOW()),
+(100250,'products',54,0,1,NOW(),NOW()),
+(100244,'categories',68,0,1,NOW(),NOW()),
+(100216,'categories',69,0,1,NOW(),NOW()),
+(100243,'categories',70,0,1,NOW(),NOW()),
+(100251,'products',123,0,1,NOW(),NOW()),
+(100252,'products',123,0,2,NOW(),NOW()),
+(100253,'products',123,0,3,NOW(),NOW());
 
 --
 -- Dumping data for table `reviews`
 --
-
-INSERT INTO `ac_reviews` VALUES (63,77,6,'Bernard Horne','I thought since it was made for men that it was the perfect thing to go with the body wash. Its too small and doesn\'t lather up very well.',3,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_reviews` VALUES (62,54,2,'Juliana Davis','I\'ve been wearing all Lancome mascara\'s and I\'m just get really upset when I\'m out. I\'ve tried other Brands, but it\'s always right back to the Lancome productss. The extend L\'EXTREME is by far the best!!! Really Long and Great! ',5,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_reviews` VALUES (61,56,0,'Cassandra','Fortunately, I got this as a gift. BUT, I am willing to purchase this when I run out. This may be expensive but it is sooooo worth it! I love this concealer and I wouldn\'t even dare to use other brands. One more thing, the little tube lasts for a long time. I\'ve been using it everyday for 8 months now and I still have about 1/4 left.',5,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_reviews` VALUES (64,76,7,'James','Finally a deodorant for men that doesn\'t smell like cheap cologne. I\'ve been using this for a couple of weeks now and I can\'t say anything bad about it. To me it just smells fresh',4,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_reviews` VALUES (65,100,0,'Juli','Smooth Silk is an accurate name for this creamy lip liner. It is by far the best lip pencil I have ever encountered.',5,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_reviews` VALUES (66,100,0,'Marianne','Nice pencil! This is a smooth, long lasting pencil, wonderful shades!',4,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_reviews` VALUES (67,97,0,'Ann','Really reduces shades and swellings)',4,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_reviews` VALUES (68,99,0,'Alice','This is much darker than the picture',2,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_reviews` VALUES (69,57,0,'Jane','When it arrived, the blush had cracked and was crumbling all over, so I\'m only able to use half of it.',2,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_reviews` VALUES (70,55,0,'Kristin K.','These lipsticks are moisturizing and have good pigmentation; however, their lasting power is not as advertised! ',4,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_reviews` VALUES (71,55,0,'lara','This is quite simply good stuff. \nThe color payout is rich, the texture creamy and moist, and best of all no scent. No taste.',5,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_reviews` VALUES (72,93,0,'L. D.','I totally love it.it smells heavenly . It smells so natural and my skin just loves it. ',5,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_reviews` VALUES (73,93,0,'Walton','This creme is a bit heavy for my skin; however, as the day goes on it does not create an oily build-up. A little goes a long way, and I could see improvements in my skin tone within a week. Good product, will be purchasing again.',4,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_reviews` VALUES (74,74,0,'Stefania V','it works very well moisturing and cleaning and unlike many other healthy shampoos it doesn\'t open the hair platelets too far and therefore doesn\'t feel so dry and sticky so I can get away without using a conditioner. Great value.',4,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_reviews` VALUES (75,102,0,'Mary','This is more of a evening fragrance. I love it',4,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_reviews` VALUES (76,110,0,'Lara','Product was very reasonably priced. It will make a nice gift.',5,1,'2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_reviews` VALUES (77,111,0,'Mr. G. Thomas','I would totally recommend product for anyone keen to learn a foreign language quickly. \nHowever, you must be fully committed and be ready to dedicate your time for study every day!',5,1,'2015-06-12 10:45:59','2015-06-12 10:52:03');
-INSERT INTO `ac_reviews` VALUES (78,119,0,'F Buckley ','Good quality. Also good enough to wear out.\n\nWould order more in the future. ',5,1,'2015-06-22 10:27:59','2015-06-22 10:28:13');
-
+INSERT INTO `ac_reviews`
+VALUES
+(63,77,6,'Bernard Horne','I thought since it was made for men that it was the perfect thing to go with the body wash. Its too small and doesn\'t lather up very well.',3,1,NOW(),NOW()),
+(62,54,2,'Juliana Davis','I\'ve been wearing all Lancome mascara\'s and I\'m just get really upset when I\'m out. I\'ve tried other Brands, but it\'s always right back to the Lancome productss. The extend L\'EXTREME is by far the best!!! Really Long and Great! ',5,1,NOW(),NOW()),
+(61,56,0,'Cassandra','Fortunately, I got this as a gift. BUT, I am willing to purchase this when I run out. This may be expensive but it is sooooo worth it! I love this concealer and I wouldn\'t even dare to use other brands. One more thing, the little tube lasts for a long time. I\'ve been using it everyday for 8 months now and I still have about 1/4 left.',5,1,NOW(),NOW()),
+(64,76,7,'James','Finally a deodorant for men that doesn\'t smell like cheap cologne. I\'ve been using this for a couple of weeks now and I can\'t say anything bad about it. To me it just smells fresh',4,1,NOW(),NOW()),
+(65,100,0,'Juli','Smooth Silk is an accurate name for this creamy lip liner. It is by far the best lip pencil I have ever encountered.',5,1,NOW(),NOW()),
+(66,100,0,'Marianne','Nice pencil! This is a smooth, long lasting pencil, wonderful shades!',4,1,NOW(),NOW()),
+(67,97,0,'Ann','Really reduces shades and swellings)',4,1,NOW(),NOW()),
+(68,99,0,'Alice','This is much darker than the picture',2,1,NOW(),NOW()),
+(69,57,0,'Jane','When it arrived, the blush had cracked and was crumbling all over, so I\'m only able to use half of it.',2,1,NOW(),NOW()),
+(70,55,0,'Kristin K.','These lipsticks are moisturizing and have good pigmentation; however, their lasting power is not as advertised! ',4,1,NOW(),NOW()),
+(71,55,0,'lara','This is quite simply good stuff. \nThe color payout is rich, the texture creamy and moist, and best of all no scent. No taste.',5,1,NOW(),NOW()),
+(72,93,0,'L. D.','I totally love it.it smells heavenly . It smells so natural and my skin just loves it. ',5,1,NOW(),NOW()),
+(73,93,0,'Walton','This creme is a bit heavy for my skin; however, as the day goes on it does not create an oily build-up. A little goes a long way, and I could see improvements in my skin tone within a week. Good product, will be purchasing again.',4,1,NOW(),NOW()),
+(74,74,0,'Stefania V','it works very well moisturing and cleaning and unlike many other healthy shampoos it doesn\'t open the hair platelets too far and therefore doesn\'t feel so dry and sticky so I can get away without using a conditioner. Great value.',4,1,NOW(),NOW()),
+(75,102,0,'Mary','This is more of a evening fragrance. I love it',4,1,NOW(),NOW()),
+(76,110,0,'Lara','Product was very reasonably priced. It will make a nice gift.',5,1,NOW(),NOW()),
+(77,111,0,'Mr. G. Thomas','I would totally recommend product for anyone keen to learn a foreign language quickly. \nHowever, you must be fully committed and be ready to dedicate your time for study every day!',5,1,NOW(),NOW()),
+(78,119,0,'F Buckley ','Good quality. Also good enough to wear out.\n\nWould order more in the future. ',5,1,NOW(),NOW()),
+(79,111,13,'Eric',' I\'ve tried every other course out there and this gives you a feeling of instant gratification. The focus is on speaking.',4,0,NOW(),NOW()),
+(80,75,15,'Alex','This worked awesomely for me.  This product is perfect for my dry skin.',5,1,NOW(),NOW());
 
 --
 -- Dumping data for table `url_aliases`
 --
+INSERT INTO `ac_url_aliases`
+VALUES
+(1,'category_id=36','makeup',1),
+(2,'content_id=1','about_us',1),
+(3,'product_id=101','pro-v_color_hair_solutions_color_preserve_shine_conditioner_with_pump',1),
+(4,'product_id=102','gucci_guilty',1),
+(5,'manufacturer_id=20','gucci',1),
+(6,'product_id=103','jasmin_noir_lessence_eau_de_parfum_spray',1),
+(7,'product_id=104','calvin_klein_obsession_for_women_edp_spray',1),
+(8,'product_id=105','bvlgari_aqua_eau_de_toilette_spray',1),
+(9,'product_id=106','omnia_eau_de_toilette',1),
+(10,'product_id=107','lancome_slimissime_360_slimming_activating_concentrate_unisex_treatment',1),
+(11,'product_id=108','lancome_hypnose_doll_lashes_mascara_4-piece_gift_set',1),
+(12,'product_id=109','lancome_visionnaire_advanced_skin_corrector',1),
+(13,'product_id=110','flora_by_gucci_eau_fraiche',1),
+(14,'category_id=65','books',1),
+(15,'category_id=66','audio-cd',1),
+(16,'category_id=67','paperback',1),
+(17,'product_id=111','new-french-with-ease-1-book--1-mp3-cd',1),
+(18,'product_id=112','the-miracle-morning-the-not-so-obvious-secret-guaranteed-to-transform-your-life',1),
+(19,'product_id=113','paper-towns-by-john-green',1),
+(20,'product_id=114','allegiant-by-veronica-roth',1),
+(21,'product_id=115','fiorella-purple-peep-toes',1),
+(22,'category_id=68','apparel--accessories',1),
+(23,'category_id=69','shoes',1),
+(24,'product_id=116','new-ladies-high-wedge-heel-toe-thong-diamante-flip-flop-sandals',1),
+(25,'product_id=117','ruby-shoo-women',1),
+(26,'product_id=118','women-high-heel-point-toe-stiletto-sandals-ankle-strap-court-shoes',1),
+(27,'category_id=70','t-shirts',1),
+(28,'product_id=119','fruit-of-the-loom-t-shirts-5-pack---super-premium',1),
+(29,'product_id=120','jersey-cotton-striped-polo-shirt',1),
+(30,'product_id=121','designer-men-casual-formal-double-cuffs-grandad-band-collar-shirt-elegant-tie',1),
+(31,'product_id=122','mens-fine-cotton-giraffe-polo-shirts',1),
+(32,'product_id=123','casual-sleeve-baseball-t-shirt',1),
+(33,'category_id=39','eyes',1),
+(34,'category_id=52','hair-care',1),
+(35,'manufacturer_id=11','mac',1),
+(36,'manufacturer_id=17','pantene',1),
+(37,'manufacturer_id=16','sephora',1),
+(38,'manufacturer_id=15','lancôme',1),
+(39,'manufacturer_id=19','giorgio-armani',1),
+(40,'manufacturer_id=12','benefit',1),
+(41,'manufacturer_id=13','calvin-klein',1);
 
-INSERT INTO `ac_url_aliases` VALUES (1,'category_id=36','makeup',1);
-INSERT INTO `ac_url_aliases` VALUES (2,'content_id=1','about_us',1);
-INSERT INTO `ac_url_aliases` VALUES (3,'product_id=101','pro-v_color_hair_solutions_color_preserve_shine_conditioner_with_pump',1);
-INSERT INTO `ac_url_aliases` VALUES (4,'product_id=102','gucci_guilty',1);
-INSERT INTO `ac_url_aliases` VALUES (5,'manufacturer_id=20','gucci',1);
-INSERT INTO `ac_url_aliases` VALUES (6,'product_id=103','jasmin_noir_lessence_eau_de_parfum_spray',1);
-INSERT INTO `ac_url_aliases` VALUES (7,'product_id=104','calvin_klein_obsession_for_women_edp_spray',1);
-INSERT INTO `ac_url_aliases` VALUES (8,'product_id=105','bvlgari_aqua_eau_de_toilette_spray',1);
-INSERT INTO `ac_url_aliases` VALUES (9,'product_id=106','omnia_eau_de_toilette',1);
-INSERT INTO `ac_url_aliases` VALUES (10,'product_id=107','lancome_slimissime_360_slimming_activating_concentrate_unisex_treatment',1);
-INSERT INTO `ac_url_aliases` VALUES (11,'product_id=108','lancome_hypnose_doll_lashes_mascara_4-piece_gift_set',1);
-INSERT INTO `ac_url_aliases` VALUES (12,'product_id=109','lancome_visionnaire_advanced_skin_corrector',1);
-INSERT INTO `ac_url_aliases` VALUES (13,'product_id=110','flora_by_gucci_eau_fraiche',1);
-INSERT INTO `ac_url_aliases` VALUES (14,'category_id=65','books',1);
-INSERT INTO `ac_url_aliases` VALUES (15,'category_id=66','audio-cd',1);
-INSERT INTO `ac_url_aliases` VALUES (16,'category_id=67','paperback',1);
-INSERT INTO `ac_url_aliases` VALUES (17,'product_id=111','new-french-with-ease-1-book--1-mp3-cd',1);
-INSERT INTO `ac_url_aliases` VALUES (18,'product_id=112','the-miracle-morning-the-not-so-obvious-secret-guaranteed-to-transform-your-life',1);
-INSERT INTO `ac_url_aliases` VALUES (19,'product_id=113','paper-towns-by-john-green',1);
-INSERT INTO `ac_url_aliases` VALUES (20,'product_id=114','allegiant-by-veronica-roth',1);
-INSERT INTO `ac_url_aliases` VALUES (21,'product_id=115','fiorella-purple-peep-toes',1);
-INSERT INTO `ac_url_aliases` VALUES (22,'category_id=68','apparel--accessories',1);
-INSERT INTO `ac_url_aliases` VALUES (23,'category_id=69','shoes',1);
-INSERT INTO `ac_url_aliases` VALUES (24,'product_id=116','new-ladies-high-wedge-heel-toe-thong-diamante-flip-flop-sandals',1);
-INSERT INTO `ac_url_aliases` VALUES (25,'product_id=117','ruby-shoo-women',1);
-INSERT INTO `ac_url_aliases` VALUES (26,'product_id=118','women-high-heel-point-toe-stiletto-sandals-ankle-strap-court-shoes',1);
-INSERT INTO `ac_url_aliases` VALUES (27,'category_id=70','t-shirts',1);
-INSERT INTO `ac_url_aliases` VALUES (28,'product_id=119','fruit-of-the-loom-t-shirts-5-pack---super-premium',1);
-INSERT INTO `ac_url_aliases` VALUES (29,'product_id=120','jersey-cotton-striped-polo-shirt',1);
-INSERT INTO `ac_url_aliases` VALUES (30,'product_id=121','designer-men-casual-formal-double-cuffs-grandad-band-collar-shirt-elegant-tie',1);
-INSERT INTO `ac_url_aliases` VALUES (31,'product_id=122','mens-fine-cotton-giraffe-polo-shirts',1);
 
 --
 -- Dumping data for table `banners`
@@ -2268,8 +2422,7 @@ INSERT INTO `ac_banners` VALUES
 (11,1,2,'Main Page Banners','2013-03-10 00:00:00',NULL,0,'',4,now(), now()),
 (10,1,2,'Main Page Banners','2013-03-10 00:00:00',NULL,0,'',3,now(), now()),
 (9,1,2,'Main Page Banners','2013-03-10 00:00:00',NULL,0,'',2,now(), now()),
-(8,1,2,'Main Page Banners','2013-03-10 00:00:00',NULL,0,'',1,now(), now())
-;
+(8,1,2,'Main Page Banners','2013-03-10 00:00:00',NULL,0,'',1,now(), now());
 
 
 INSERT INTO `ac_banner_descriptions` VALUES
