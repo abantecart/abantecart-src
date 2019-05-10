@@ -1337,54 +1337,58 @@ VALUES
 -- Dumping data for table `product_tags`
 --
 
-INSERT INTO `ac_product_tags` VALUES (50,'cheeks',1);
-INSERT INTO `ac_product_tags` VALUES (50,'makeup',1);
-INSERT INTO `ac_product_tags` VALUES (51,'cheeks',1);
-INSERT INTO `ac_product_tags` VALUES (51,'makeup',1);
-INSERT INTO `ac_product_tags` VALUES (54,'eye',1);
-INSERT INTO `ac_product_tags` VALUES (54,'makeup',1);
-INSERT INTO `ac_product_tags` VALUES (77,'body',1);
-INSERT INTO `ac_product_tags` VALUES (77,'men',1);
-INSERT INTO `ac_product_tags` VALUES (77,'shower',1);
-INSERT INTO `ac_product_tags` VALUES (78,'fragrance',1);
-INSERT INTO `ac_product_tags` VALUES (78,'men',1);
-INSERT INTO `ac_product_tags` VALUES (79,'fragrance',1);
-INSERT INTO `ac_product_tags` VALUES (79,'men',1);
-INSERT INTO `ac_product_tags` VALUES (79,'unisex',1);
-INSERT INTO `ac_product_tags` VALUES (79,'women',1);
-INSERT INTO `ac_product_tags` VALUES (81,'Eau de Toilette',1);
-INSERT INTO `ac_product_tags` VALUES (85,'fragrance',1);
-INSERT INTO `ac_product_tags` VALUES (85,'women',1);
-INSERT INTO `ac_product_tags` VALUES (87,'fragrance',1);
-INSERT INTO `ac_product_tags` VALUES (89,'fragrance',1);
-INSERT INTO `ac_product_tags` VALUES (89,'woman',1);
-INSERT INTO `ac_product_tags` VALUES (95,'gift',1);
-INSERT INTO `ac_product_tags` VALUES (95,'man',1);
-INSERT INTO `ac_product_tags` VALUES (96,'man',1);
-INSERT INTO `ac_product_tags` VALUES (96,'skincare',1);
-INSERT INTO `ac_product_tags` VALUES (98,'man',1);
-INSERT INTO `ac_product_tags` VALUES (99,'nail',1);
-INSERT INTO `ac_product_tags` VALUES (99,'women',1);
-INSERT INTO `ac_product_tags` VALUES (101,'conditioner',1);
-INSERT INTO `ac_product_tags` VALUES (103,'spray',1);
-INSERT INTO `ac_product_tags` VALUES (108,'gift',1);
-INSERT INTO `ac_product_tags` VALUES (108,'pen',1);
-INSERT INTO `ac_product_tags` VALUES (108,'set',1);
-INSERT INTO `ac_product_tags` VALUES (115,'fashion',1);
-INSERT INTO `ac_product_tags` VALUES (115,'purple',1);
-INSERT INTO `ac_product_tags` VALUES (115,'shoe',1);
-INSERT INTO `ac_product_tags` VALUES (116,'fashion',1);
-INSERT INTO `ac_product_tags` VALUES (116,'shoe',1);
-INSERT INTO `ac_product_tags` VALUES (117,'fashion',1);
-INSERT INTO `ac_product_tags` VALUES (117,'shoe',1);
-INSERT INTO `ac_product_tags` VALUES (119,'fashion',1);
-INSERT INTO `ac_product_tags` VALUES (119,'t-shirt',1);
-INSERT INTO `ac_product_tags` VALUES (119,'yellow',1);
-INSERT INTO `ac_product_tags` VALUES (120,'fashion',1);
-INSERT INTO `ac_product_tags` VALUES (120,'t-shirt',1);
-INSERT INTO `ac_product_tags` VALUES (121,'fashion',1);
-INSERT INTO `ac_product_tags` VALUES (122,'fashion',1);
-INSERT INTO `ac_product_tags` VALUES (122,'grey',1);
+INSERT INTO `ac_product_tags` VALUES (50,'cheeks',1),
+(50,'makeup',1),
+(51,'cheeks',1),
+(51,'makeup',1),
+(54,'eye',1),
+(54,'makeup',1),
+(77,'body',1),
+(77,'men',1),
+(77,'shower',1),
+(78,'fragrance',1),
+(78,'men',1),
+(79,'fragrance',1),
+(79,'men',1),
+(79,'unisex',1),
+(79,'women',1),
+(81,'Eau de Toilette',1),
+(85,'fragrance',1),
+(85,'women',1),
+(87,'fragrance',1),
+(89,'fragrance',1),
+(89,'woman',1),
+(95,'gift',1),
+(95,'man',1),
+(96,'man',1),
+(96,'skincare',1),
+(98,'man',1),
+(99,'nail',1),
+(99,'women',1),
+(101,'conditioner',1),
+(103,'spray',1),
+(108,'gift',1),
+(108,'pen',1),
+(108,'set',1),
+(115,'fashion',1),
+(115,'purple',1),
+(115,'shoe',1),
+(116,'fashion',1),
+(116,'shoe',1),
+(117,'fashion',1),
+(117,'shoe',1),
+(119,'fashion',1),
+(119,'t-shirt',1),
+(119,'yellow',1),
+(120,'fashion',1),
+(120,'t-shirt',1),
+(121,'fashion',1),
+(122,'fashion',1),
+(122,'grey',1),
+(123,'red',1),
+(123,'shirt',1),
+(123,'white',1),
+(123,'yellow',1);
 
 --
 -- Dumping data for table `products`
@@ -1504,29 +1508,39 @@ VALUES
 -- Dumping data for table `products_featured`
 --
 
-INSERT INTO `ac_products_featured` VALUES (50);
-INSERT INTO `ac_products_featured` VALUES (51);
-INSERT INTO `ac_products_featured` VALUES (52);
-INSERT INTO `ac_products_featured` VALUES (53);
-INSERT INTO `ac_products_featured` VALUES (54);
-INSERT INTO `ac_products_featured` VALUES (55);
-INSERT INTO `ac_products_featured` VALUES (56);
-INSERT INTO `ac_products_featured` VALUES (57);
+INSERT INTO `ac_products_featured`
+VALUES
+(50),
+(51),
+(52),
+(53),
+(54),
+(55),
+(56),
+(57);
 
 --
 -- Dumping data for table `products_related`
 --
+INSERT INTO `ac_products_related`
+VALUES
+(71,101),
+(100,108),
+(101,71),
+(108,100),
+(115,116),
+(115,118),
+(116,115),
+(116,118),
+(118,115),
+(118,116),
+(119,123),
+(121,123),
+(122,123),
+(123,119),
+(123,121),
+(123,122);
 
-INSERT INTO `ac_products_related` VALUES (71,101);
-INSERT INTO `ac_products_related` VALUES (100,108);
-INSERT INTO `ac_products_related` VALUES (101,71);
-INSERT INTO `ac_products_related` VALUES (108,100);
-INSERT INTO `ac_products_related` VALUES (115,116);
-INSERT INTO `ac_products_related` VALUES (115,118);
-INSERT INTO `ac_products_related` VALUES (116,115);
-INSERT INTO `ac_products_related` VALUES (116,118);
-INSERT INTO `ac_products_related` VALUES (118,115);
-INSERT INTO `ac_products_related` VALUES (118,116);
 
 --
 -- Dumping data for table `products_to_categories`
@@ -2456,8 +2470,9 @@ VALUES
 --
 -- Dumping data for table `reviews`
 --
-INSERT INTO `ac_reviews`
-VALUES
+
+INSERT INTO `ac_reviews` 
+VALUES 
 (63,77,6,'Bernard Horne','I thought since it was made for men that it was the perfect thing to go with the body wash. Its too small and doesn\'t lather up very well.',3,1,NOW(),NOW()),
 (62,54,2,'Juliana Davis','I\'ve been wearing all Lancome mascara\'s and I\'m just get really upset when I\'m out. I\'ve tried other Brands, but it\'s always right back to the Lancome productss. The extend L\'EXTREME is by far the best!!! Really Long and Great! ',5,1,NOW(),NOW()),
 (61,56,0,'Cassandra','Fortunately, I got this as a gift. BUT, I am willing to purchase this when I run out. This may be expensive but it is sooooo worth it! I love this concealer and I wouldn\'t even dare to use other brands. One more thing, the little tube lasts for a long time. I\'ve been using it everyday for 8 months now and I still have about 1/4 left.',5,1,NOW(),NOW()),
