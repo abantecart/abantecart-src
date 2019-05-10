@@ -137,10 +137,13 @@ final class ADB
                     $query .= $line;
                     if (preg_match('/;\s*$/', $line)) {
                         $query = str_replace("`ac_", "`".DB_PREFIX, $query);
-                        $result = $this->_query($query);
+                        $result = $this->_query($query, true);
+                        if(!$query){
+                            continue;
+                        }
                         if (!$result) {
                             $err = $this->driver->getDBError();
-                            $this->error = $err['error_text'];
+                            $this->error = var_export($err, true);
                             return null;
                         }
                         $query = '';
@@ -148,5 +151,6 @@ final class ADB
                 }
             }
         }
+        return true;
     }
 }
