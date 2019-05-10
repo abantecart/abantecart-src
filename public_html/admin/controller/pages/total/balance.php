@@ -122,7 +122,8 @@ class ControllerPagesTotalBalance extends AController
         $this->data['form']['fields']['calculation_order'] = $form->getFieldHtml(array(
             'type'  => 'input',
             'name'  => 'balance_calculation_order',
-            'value' => $this->data['balance_calculation_order'],
+            'value' => 999,
+            'attr'  => 'readonly'
         ));
         $this->view->assign('help_url', $this->gen_help_url('edit_balance'));
         $this->view->batchAssign($this->data);

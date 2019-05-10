@@ -1761,12 +1761,12 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('tax', 'tax_total_type', 'tax'),
 
 ('balance', 'balance_status', '1'),
-('balance', 'balance_sort_order', '6'),
-('balance', 'balance_calculation_order', '6'),
+('balance', 'balance_sort_order', '999'),
+('balance', 'balance_calculation_order', '999'),
 ('balance', 'balance_total_type', 'balance'),
 
-('total', 'total_sort_order', '7'),
-('total', 'total_calculation_order', '7'),
+('total', 'total_sort_order', '1000'),
+('total', 'total_calculation_order', '1000'),
 ('total', 'total_status', '1'),
 ('total', 'total_total_type', 'total'),
 

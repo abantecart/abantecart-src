@@ -154,25 +154,32 @@ class ControllerResponsesListingGridTotal extends AController
             if($result['id'] == 'balance') {
                 $sort_order = 999;
                 $disable = 'disabled';
+            } elseif($result['id'] == 'total') {
+                $sort_order = 1000;
+                $disable = 'disabled';
             } else{
                 $sort_order = $result['sort_order'];
                 $disable = '';
             }
+
             $response->userdata->rt[$result['id']] = $result['action'];
-            $status = $this->html->buildCheckbox(array(
-                'name'  => $result['id'].'['.$result['id'].'_status]',
-                'value' => $result['status'],
-                'style' => 'btn_switch',
+            $status = $this->html->buildCheckbox(
+                array(
+                    'name'  => $result['id'].'['.$result['id'].'_status]',
+                    'value' => $result['status'],
+                    'style' => 'btn_switch',
             ));
-            $sort = $this->html->buildInput(array(
-                'name'  => $result['id'].'['.$result['id'].'_sort_order]',
-                'value' => $sort_order,
-                'attr'  => $disable
+            $sort = $this->html->buildInput(
+                array(
+                    'name'  => $result['id'].'['.$result['id'].'_sort_order]',
+                    'value' => $sort_order,
+                    'attr'  => $disable
             ));
 
-            $calc = $this->html->buildInput(array(
-                'name'  => $result['id'].'['.$result['id'].'_calculation_order]',
-                'value' => $result['calculation_order'],
+            $calc = $this->html->buildInput(
+                array(
+                    'name'  => $result['id'].'['.$result['id'].'_calculation_order]',
+                    'value' => $result['calculation_order'],
             ));
 
             $response->rows[$i]['id'] = $result['id'];
