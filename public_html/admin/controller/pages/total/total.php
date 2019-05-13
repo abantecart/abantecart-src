@@ -133,12 +133,14 @@ class ControllerPagesTotalTotal extends AController
         $this->data['form']['fields']['sort_order'] = $form->getFieldHtml(array(
             'type'  => 'input',
             'name'  => 'total_sort_order',
-            'value' => $this->data['total_sort_order'],
+            'value' => 1000,
+            'attr'  => 'readonly'
         ));
         $this->data['form']['fields']['calculation_order'] = $form->getFieldHtml(array(
             'type'  => 'input',
             'name'  => 'total_calculation_order',
-            'value' => $this->data['total_calculation_order'],
+            'value' => 1000,
+            'attr'  => 'readonly'
         ));
         $this->view->assign('help_url', $this->gen_help_url('edit_total'));
         $this->view->batchAssign($this->data);

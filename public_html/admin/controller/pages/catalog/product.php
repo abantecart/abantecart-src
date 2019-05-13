@@ -589,16 +589,16 @@ class ControllerPagesCatalogProduct extends AController
             $this->data['length_class_id'] = '';
         }
 
-        if ($this->data['status'] == '') {
+        if ($this->data['status'] === '') {
             $this->data['status'] = 1;
         }
-        if ($this->data['quantity'] == '') {
+        if ($this->data['quantity'] === '') {
             $this->data['quantity'] = 1;
         }
-        if ($this->data['minimum'] == '') {
+        if ($this->data['minimum'] === '') {
             $this->data['minimum'] = 1;
         }
-        if ($this->data['sort_order'] == '') {
+        if ($this->data['sort_order'] === '') {
             $this->data['sort_order'] = 1;
         }
 

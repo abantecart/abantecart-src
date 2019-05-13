@@ -410,15 +410,24 @@ class ControllerPagesSaleOrder extends AController
         $this->data['firstname'] = $order_info['firstname'];
         $this->data['lastname'] = $order_info['lastname'];
         $this->data['lastname'] = $order_info['lastname'];
-        $this->data['total'] = $this->currency->format($order_info['total'], $order_info['currency'],
-            $order_info['value']);
-        $this->data['date_added'] = dateISO2Display($order_info['date_added'],
-            $this->language->get('date_format_short').' '.$this->language->get('time_format'));
+        $this->data['total'] = $this->currency->format(
+            $order_info['total'],
+            $order_info['currency'],
+            $order_info['value']
+        );
+        $this->data['date_added'] = dateISO2Display(
+            $order_info['date_added'],
+            $this->language->get('date_format_short').' '.$this->language->get('time_format')
+        );
         if ($order_info['customer_id']) {
-            $this->data['customer_href'] = $this->html->getSecureURL('sale/customer/update',
-                '&customer_id='.$order_info['customer_id']);
-            $this->data['customer_vhref'] = $this->html->getSecureURL('r/common/viewport/modal',
-                '&viewport_rt=sale/customer/update&customer_id='.$order_info['customer_id']);
+            $this->data['customer_href'] = $this->html->getSecureURL(
+                'sale/customer/update',
+                '&customer_id='.$order_info['customer_id']
+            );
+            $this->data['customer_vhref'] = $this->html->getSecureURL(
+                'r/common/viewport/modal',
+                '&viewport_rt=sale/customer/update&customer_id='.$order_info['customer_id']
+            );
         }
 
         $this->loadModel('localisation/order_status');
@@ -498,8 +507,11 @@ class ControllerPagesSaleOrder extends AController
                     }
 
                     if (is_file($file)) {
-                        $value = '<a href="'.$this->html->getSecureURL('tool/files/download',
-                                '&filename='.urlencode($filename).'&order_option_id='.(int)$option['order_option_id']).'" title=" to download file" target="_blank">'.$value.'</a>';
+                        $value = '<a href="'
+                            .$this->html->getSecureURL(
+                                'tool/files/download',
+                                '&filename='.urlencode($filename).'&order_option_id='.(int)$option['order_option_id'])
+                            .'" title=" to download file" target="_blank">'.$value.'</a>';
                     } else {
                         $value = '<span title="file '.$file.' is unavailable">'.$value.'</span>';
                     }
@@ -512,7 +524,6 @@ class ControllerPagesSaleOrder extends AController
                 if ($option['element_type'] == 'T') {
                     $title = strip_tags($value);
                     $title = str_replace('\r\n', "\n", $title);
-
                     $value = str_replace('\r\n', "\n", $value);
                     if (mb_strlen($value) > 64) {
                         $value = mb_substr($value, 0, 64).'...';
@@ -523,19 +534,6 @@ class ControllerPagesSaleOrder extends AController
                     'name'  => $option['name'],
                     'value' => nl2br($value),
                     'title' => $title,
-                );
-            }
-
-            //append stock locations from order
-            $stock_located = $this->model_catalog_product->getOrderProductStockLocations($order_product['order_product_id']);
-            if($stock_located) {
-                $value = '';
-                foreach ($stock_located as $row) {
-                    $value .= $row['location_name'].': '.$row['quantity']."\n";
-                }
-                $option_data[] = array(
-                    'name'  => $this->language->get('entry_stock_locations'),
-                    'value' => nl2br($value)
                 );
             }
 
@@ -551,6 +549,22 @@ class ControllerPagesSaleOrder extends AController
                 }
             }
 
+            //append stock locations from order
+            $stock_located = $this->model_catalog_product->getOrderProductStockLocations($order_product['order_product_id']);
+            $stock_quantities = array();
+
+            if($stock_located) {
+                $stock_quantities = array();
+                foreach ($stock_located as $row) {
+                    $stock_quantities[] = array(
+                        'location_id' => $row['location_id'],
+                        'name' => $row['location_name'],
+                        'quantity' => $row['quantity'],
+                        'available' => $row['available_quantity']
+                    );
+                }
+            }
+
             $this->data['order_products'][] = array(
                 'order_product_id' => $order_product['order_product_id'],
                 'product_id'       => $order_product['product_id'],
@@ -559,12 +573,22 @@ class ControllerPagesSaleOrder extends AController
                 'model'            => $order_product['model'],
                 'option'           => $option_data,
                 'quantity'         => $order_product['quantity'],
-                'price'            => $this->currency->format($order_product['price'], $order_info['currency'],
-                    $order_info['value']),
-                'total'            => $this->currency->format_total($order_product['price'],
-                    $order_product['quantity'], $order_info['currency'], $order_info['value']),
-                'href'             => $this->html->getSecureURL('catalog/product/update',
-                    '&product_id='.$order_product['product_id']),
+                'stock_quantities' => $stock_quantities,
+                'price'            => $this->currency->format(
+                                        $order_product['price'],
+                                        $order_info['currency'],
+                                        $order_info['value']
+                ),
+                'total'            => $this->currency->format_total(
+                                        $order_product['price'],
+                                        $order_product['quantity'],
+                                        $order_info['currency'],
+                                        $order_info['value']
+                ),
+                'href'             => $this->html->getSecureURL(
+                                        'catalog/product/update',
+                                        '&product_id='.$order_product['product_id']
+                ),
             );
 
         }
@@ -690,19 +714,25 @@ class ControllerPagesSaleOrder extends AController
             'value'         => '',
             'options'       => array(),
             'style'         => 'aform_noaction chosen',
-            'ajax_url'      => $this->html->getSecureURL('r/product/product/products',
-                '&currency_code='.$this->data['currency']['code']),
+            'ajax_url'      => $this->html->getSecureURL(
+                                    'r/product/product/products',
+                                    '&currency_code='.$this->data['currency']['code']
+            ),
             'placeholder'   => $this->language->get('text_select_from_lookup'),
             'option_attr'   => array('price'),
             'filter_params' => 'enabled_only'
             // list of json-item properties that becomes html5 attributes of option tag. Ex. price will be data-price="00.000"
         ));
 
-        $this->data['add_product_url'] = $this->html->getSecureURL('r/product/product/orderProductForm',
-            '&order_id='.$order_id);
+        $this->data['add_product_url'] = $this->html->getSecureURL(
+                                            'r/product/product/orderProductForm',
+                                            '&order_id='.$order_id
+        );
         $this->data['edit_order_total'] = $this->html->getSecureURL('sale/order/recalc', '&order_id='.$order_id);
-        $this->data['delete_order_total'] = $this->html->getSecureURL('sale/order/delete_total',
-            '&order_id='.$order_id);
+        $this->data['delete_order_total'] = $this->html->getSecureURL(
+                                            'sale/order/delete_total',
+                                            '&order_id='.$order_id
+        );
 
         $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
         if ($saved_list_data->table_id == 'order_grid') {
@@ -753,8 +783,10 @@ class ControllerPagesSaleOrder extends AController
         if ($this->request->is_POST() && $this->_validateForm()) {
             $this->model_sale_order->editOrder($this->request->get['order_id'], $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            redirect($this->html->getSecureURL('sale/order/shipping',
-                '&order_id='.$this->request->get['order_id']));
+            redirect($this->html->getSecureURL(
+                'sale/order/shipping',
+                '&order_id='.$this->request->get['order_id'])
+            );
         }
 
         if (isset($this->request->get['order_id'])) {

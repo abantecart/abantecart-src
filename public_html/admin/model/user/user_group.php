@@ -173,7 +173,10 @@ class ModelUserUserGroup extends Model
 
         $controllers_list = array();
         $files_pages = glob(DIR_APP_SECTION.'controller/pages/*/*.php');
+        //NOTE: if controllers joins to group - take group as rt for permissions
+        $files_pages = array_merge($files_pages, glob(DIR_APP_SECTION.'controller/pages/*/*'));
         $files_response = glob(DIR_APP_SECTION.'controller/responses/*/*.php');
+        $files_response = array_merge($files_response, glob(DIR_APP_SECTION.'controller/responses/*'));
         $files = array_merge($files_pages, $files_response);
 
         // looking for controllers inside core
@@ -186,7 +189,9 @@ class ModelUserUserGroup extends Model
         }
         // looking for controllers inside extensions
         $files_pages = glob(DIR_EXT.'/*/admin/controller/pages/*/*.php');
+        $files_pages = array_merge($files_pages, glob(DIR_EXT.'/*/admin/controller/pages/*/*'));
         $files_response = glob(DIR_EXT.'/*/admin/controller/responses/*/*.php');
+        $files_response = array_merge($files_response, glob(DIR_EXT.'/*/admin/controller/responses/*/*'));
         $files = array_merge($files_pages, $files_response);
         foreach ($files as $file) {
             $data = explode('/', dirname($file));

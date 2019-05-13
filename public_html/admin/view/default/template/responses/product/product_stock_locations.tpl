@@ -3,7 +3,7 @@
 	<tr>
 		<th><?php echo $entry_locations; ?></th>
 		<th style="width: 17%"><?php echo $column_quantity; ?></th>
-		<th style="width: 15%"><?php echo $entry_sort_order; ?></th>
+		<th style="width: 15%"><?php echo $text_subtract_order; ?></th>
 		<th></th>
 	</tr>
 	</thead>
@@ -24,7 +24,9 @@
 		</tr>
     <?php } ?>
 	<tr>
-		<td><?php echo $all_locations['location_list']; ?></td>
+		<td><?php
+			echo $zero_location;
+			echo $all_locations['location_list']; ?></td>
 		<td><?php echo $all_locations['quantity']; ?></td>
 		<td><?php echo $all_locations['sort_order']; ?></td>
 		<td>
@@ -43,25 +45,24 @@
 	function addStockLocationRow<?php echo $product_option_value_id?>(elm) {
 		var wrapper = $(elm).parents('table.stock_locations');
 		var row = wrapper.find('tbody>tr').last().clone();
-		var location_id = wrapper.find("#location_list option:selected").attr('value');
+		var location_id = wrapper.find("select[name=location_list] option:selected").attr('value');
 
 		if (location_id < 1) {
 			return false;
 		}
-		var location_list = wrapper.find("#location_list");
+		var location_list = wrapper.find("select[name=location_list]");
 		var name_prefix = 'stock_location<?php echo $product_option_value_id ? "[".$product_option_value_id."]" : "";?>[' + location_id + ']';
-		row
-			.find('td')
+		row.find('td')
 			.first()
 			.html(location_list.find("option:selected").text());
 
 		row.find('input.stock_location_quantity')
 			.attr('name', name_prefix + '[quantity]')
-			.removeClass('hidden');
+			.removeClass('hidden').removeAttr('disabled');
 
 		row.find('input.stock_location_sort_order')
 			.attr('name', name_prefix + '[sort_order]')
-			.removeClass('hidden');
+			.removeClass('hidden').removeAttr('disabled');
 
 		row.find('td').last()
 			.html('<a id="remove_location_row"\n' +
@@ -80,7 +81,6 @@
 			});
 		<?php } ?>
 
-
 		wrapper.find('tbody').prepend(row);
 		<?php
 		if($product_option_value_id){ ?>
@@ -91,22 +91,19 @@
 		location_list
 			.find("option:selected[value="+location_id+"]" )
 			.attr('disabled','disabled');
-
-		location_list.val(0);
+		location_list.val(0).trigger("chosen:updated");
 		return false;
 	}
 
 	function removeStockLocationRow<?php echo $product_option_value_id?>(elm) {
 		var text = $(elm).closest('tr').find('td').first().html();
+		var location_list = $(elm).parents('table.stock_locations').find('select[name=location_list]');
 
-		$(elm)
-			.parents('table.stock_locations')
-			.find('#location_list option:contains(' + text + ')')
-			.removeAttr('disabled');
+		location_list.find('option:contains(' + text + ')').removeAttr('disabled');
+		location_list.trigger("chosen:updated");
 
 		var table = $(elm).closest('table');
 		$(elm).closest('tr').remove();
-
 
 		if(table.find('tbody>tr').length === 1){
 			<?php

@@ -303,7 +303,6 @@ class ControllerPagesProductProduct extends AController
             }
 
             $qnt = (int)$product_info['minimum'] && $product_info['minimum'] > $qnt ? (int)$product_info['minimum'] : $qnt;
-            $qnt = (int)$product_info['maximum'] && $product_info['maximum'] < $qnt ? (int)$product_info['maximum'] : $qnt;
 
             $this->data['form']['minimum'] = $form->getFieldHtml(
                 array(
@@ -413,7 +412,7 @@ class ControllerPagesProductProduct extends AController
                 } else {
                     if ($option_value['subtract'] && $product_info['stock_checkout']) {
                         if ($option_value['quantity'] <= 0) {
-                            $opt_stock_message = "({$product_info['stock_status']})";
+                            $opt_stock_message = $product_info['stock_status'] ? "({$product_info['stock_status']})" :'';
                         }
                     }
                 }
@@ -463,7 +462,7 @@ class ControllerPagesProductProduct extends AController
 
             //if not values are build, nothing to show
             if (count($values)) {
-                $value = '';
+                $value = $attr = '';
                 //add price to option name if it is not element with options
                 if (!in_array($option['element_type'], $elements_with_options) && $option['element_type'] != 'B') {
                     $option['name'] .= ' <small>'.$price.'</small>';
@@ -485,13 +484,20 @@ class ControllerPagesProductProduct extends AController
                 }
 
                 //for checkbox with empty value
-                if ($value == '' && $option['element_type'] == 'C') {
-                    $value = 1;
+                if ($option['element_type'] == 'C') {
+                    if($value == '') {
+                        $value = 1;
+                    }
+                    $attr = key($option['option_value']);
                 }
 
                 $option_data = array(
                     'type'             => $option['html_type'],
-                    'name'             => !in_array($option['element_type'], HtmlElementFactory::getMultivalueElements()) ? 'option['.$option['product_option_id'].']' : 'option['.$option['product_option_id'].'][]',
+                    'name'             =>
+                        !in_array($option['element_type'], HtmlElementFactory::getMultivalueElements())
+                            ? 'option['.$option['product_option_id'].']'
+                            : 'option['.$option['product_option_id'].'][]',
+                    'attr'             => ' data-attribute-value-id="'.$attr.'"',
                     'value'            => $value,
                     'options'          => $values,
                     'disabled_options' => $disabled_values,
@@ -524,13 +530,17 @@ class ControllerPagesProductProduct extends AController
                     'height' => $this->config->get('config_image_thumb_height'),
                 )
             );
-            $option_images['main'] = $resource->getResourceAllObjects(
-                                                            'product_option_value',
-                                                            $option_data['value'],
-                                                            $mSizes,
-                                                            1,
-                                                            false
-            );
+            $object_id = (is_array($option_data['value']) ? current($option_data['value']) : $option_data['value']);
+            if($object_id) {
+                $option_images['main'] = $resource->getResourceAllObjects(
+                    'product_option_value',
+                    $object_id,
+                    $mSizes,
+                    1,
+                    false
+                );
+            }
+
             if (!$option_images['main']) {
                 unset($option_images['main']);
             }
@@ -553,8 +563,15 @@ class ControllerPagesProductProduct extends AController
                         'height' => $this->config->get('config_image_thumb_height'),
                     ),
             );
-            $option_images['images'] =
-                $resource->getResourceAllObjects('product_option_value', $option_data['value'], $oSizes, 0, false);
+            if($object_id) {
+                $option_images['images'] = $resource->getResourceAllObjects(
+                    'product_option_value',
+                    $object_id,
+                    $oSizes,
+                    0,
+                    false
+                );
+            }
             if (!$option_images['images']) {
                 unset($option_images['images']);
             }

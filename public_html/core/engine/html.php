@@ -943,7 +943,7 @@ abstract class HtmlElement
         $this->language = $this->registry->get('language');
         $this->view = new AView($this->registry, 0);
         $this->data = $data;
-        $this->element_id = preformatTextID($data['name']);
+        $this->element_id = $data['id'] ? preformatTextID($data['id']) : preformatTextID($data['name']);
         if (isset($data['form'])) {
             $this->element_id = $data['form'].'_'.$this->element_id;
         }
@@ -1009,7 +1009,7 @@ abstract class HtmlElement
             if (in_array($this->data['type'], array('selectbox', 'multiselectbox'))) {
                 $this->options = array('' => '------') + $this->options;
             }
-            $this->value = 0;
+            $this->value = array(0);
             if ($this->required) {
                 $url = HTTPS_SERVER;
                 $query_string = $this->registry->get('request')->server['QUERY_STRING'];

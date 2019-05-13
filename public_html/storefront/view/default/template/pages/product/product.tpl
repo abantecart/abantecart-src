@@ -488,7 +488,13 @@ if ($error){ ?>
 
 		/* Process images for product options */
 		$('input[name^=\'option\'], select[name^=\'option\']').change(function () {
-			load_option_images($(this).val(), '<?php echo $product_id; ?>');
+			var valId = $(this).val();
+			valId = this.type === 'checkbox' && $(this).attr('data-attribute-value-id') ? $(this).attr('data-attribute-value-id') : valId;
+			//skip not selected radio
+			if( (this.type === 'radio' || this.type === 'checkbox') && $(this).prop('checked') == false){
+				return false;
+			}
+			load_option_images(valId, '<?php echo $product_id; ?>');
 			display_total_price();
 		});
 
@@ -502,7 +508,10 @@ if ($error){ ?>
 			type: 'GET',
 			dataType: 'json'
 		});
+
+		$('input[name^=\'option\'], select[name^=\'option\']').change();
 	});
+
 	function start_easyzoom() {
 		// Instantiate EasyZoom instances
 		var $easyzoom = $('.easyzoom').easyZoom();
@@ -539,8 +548,8 @@ if ($error){ ?>
 					return false;
 				}
 				var html1 = '',
-						html2 = '',
-						main_image = data.main;
+					html2 = '',
+					main_image = data.main;
 
 				if (main_image) {
 					if (main_image.origin == 'external') {
@@ -552,7 +561,7 @@ if ($error){ ?>
 						html1 += '<i class="fa fa-arrows  hidden-xs hidden-sm"></i></a>';
 					}
 				}
-				if (data.images) {
+				if (data.images.length>0) {
 					for (img in data.images) {
 						var image = data.images[img];
 						html2 += '<li class="producthtumb">';
@@ -560,13 +569,13 @@ if ($error){ ?>
 						var tmb_url = image.thumb_url;
 						var tmb2_url = image.thumb2_url;
 						if (image.origin != 'external') {
-							html2 += '<a href="' + img_url + '" data-standard="' + tmb2_url + '"><img style="width:' + image.thumb_width + 'px; height:' + image.thumb_height + 'px;" src="' + tmb_url + '" alt="' + image.title + '" title="' + image.title + '" /></a>';
+							html2 += '<a data-href="'+image.main_url+'" href="' + img_url + '" data-standard="' + tmb2_url + '"><img style="width:' + image.thumb_width + 'px; height:' + image.thumb_height + 'px;" src="' + tmb_url + '" alt="' + image.title + '" title="' + image.title + '" /></a>';
 						}
 						html2 += '</li>';
 					}
 				} else {
-					html1 = orig_imgs;
-					html2 = orig_thumbs;
+					//no images - no action
+					return false;
 				}
 				$('div.bigimage').each(function () {
 					$(this).html(html1)

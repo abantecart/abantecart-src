@@ -206,13 +206,6 @@
 					   data-order-product-row="<?php echo $order_product_row; ?>">
 						<i class="fa fa-minus-circle"></i>
 					</a>
-					<?php if ($order_product['product_status']) { ?>
-					<a class="edit_product btn btn-xs btn-info-alt tooltips"
-					   data-original-title="<?php echo $text_edit; ?>"
-					   data-order-product-id="<?php echo $order_product['order_product_id']; ?>">
-						<i class="fa fa-pencil"></i>
-					</a>
-					<?php } ?>
 				</td>
 				<td class="left">
 					<a target="_blank" href="<?php echo $order_product['href']; ?>"><?php echo $order_product['name']; ?>
@@ -233,20 +226,49 @@
 						</dl>
 					<?php } ?></td>
 				<td class="right">
+					<?php
+					$readonly = !$order_product['product_status'] ? 'readonly' : '';
+					if( !$order_product['stock_quantities'] ) { ?>
 						<input class="afield no-save" type="text"
-						<?php if (!$order_product['product_status']) { ?>
-							readonly
-						<?php } ?>
+						<?php echo  $readonly ?>
 							name="product[<?php echo $order_product_row; ?>][quantity]"
 							value="<?php echo $order_product['quantity']; ?>"
-							size="4"/></td>
-				<td><input class="no-save pull-right" type="text"
+							size="4"/>
+					<?php }else{ ?>
+						<table class="table table-striped">
+					<?php	foreach($order_product['stock_quantities'] as $item){
+						$readonly_stock = $readonly;
+						if($item['available'] == 'absent'){
+							$readonly_stock = 'disabled';
+						}
+						?>
+							<tr>
+								<td><?php echo $item['name']?> (<?php echo (int)$item['available']?>):&nbsp;</td>
+								<td>
+									<input class="afield no-save" type="text"
+									<?php echo $readonly_stock ?>
+										name="product[<?php echo $order_product_row; ?>][stock_quantity][<?php echo $item['location_id']?>]"
+										value="<?php echo $item['quantity']; ?>"
+										size="4"/>
+								</td>
+							</tr>
+						<?php } ?>
+						</table>
+					<?php }
+
+					?>
+				</td>
+				<td>
+					<input class="no-save pull-right" type="text"
 				           readonly
 						   name="product[<?php echo $order_product_row; ?>][price]"
-						   value="<?php echo $order_product['price']; ?>"/></td>
-				<td><input readonly class="no-save pull-right" type="text"
+						   value="<?php echo $order_product['price']; ?>"/>
+				</td>
+				<td>
+					<input readonly class="no-save pull-right" type="text"
 						   name="product[<?php echo $order_product_row; ?>][total]"
-						   value="<?php echo $order_product['total']; ?>"/></td>
+						   value="<?php echo $order_product['total']; ?>"/>
+				</td>
 			</tr>
 			</tbody>
 			<?php $order_product_row++ ?>
@@ -333,7 +355,7 @@
 					</a>
 				</td>
 			</tr>
-		<?php } ?>		
+		<?php } ?>
 		</tbody>
 	</table>
 
@@ -361,7 +383,7 @@
 			<a class="btn btn-default save_and_recalc" href="#">
 			<i class="fa fa-save fa-fw"></i><i class="fa fa-refresh fa-fw"></i> <?php echo $button_save.' & '.$text_recalc.' '.$text_all; ?>
 			</a>
-			<?php } ?>			
+			<?php } ?>
 			<a class="btn btn-default" href="<?php echo $cancel; ?>">
 			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $form['cancel']->text; ?>
 			</a>
@@ -458,8 +480,8 @@
 
 	function formatMoney(num, c, d, t) {
 		c = isNaN(c = Math.abs(c)) ? 2 : c,
-				d = d == undefined ? "." : d,
-				t = t == undefined ? "," : t,
+				d = d === undefined ? "." : d,
+				t = t === undefined ? "," : t,
 				s = num < 0 ? "-" : "",
 				i = parseInt(num = Math.abs(+num || 0).toFixed(c)) + "",
 				j = (j = i.length) > 3 ? j % 3 : 0;
@@ -469,7 +491,7 @@
 
 	function get_currency_str(num) {
 		var str;
-		if (currency_location == 'left') {
+		if (currency_location === 'left') {
 			str = currency_symbol + formatMoney(num, decimal_place, decimal_point, thousand_point);
 		} else {
 			str = formatMoney(num, decimal_place, decimal_point, thousand_point) + currency_symbol;
@@ -478,7 +500,7 @@
 	}
 
 	function get_currency_num(str) {
-		str = str == undefined || str.length == 0 ? '0' : str;
+		str = str === undefined || str.length === 0 ? '0' : str;
 		var final_number = str.replace(thousand_point, '');
 		final_number = final_number.replace(currency_symbol, '');
 		final_number = final_number.replace(decimal_point, '.');
@@ -494,7 +516,20 @@
 
 		//update products
 		$('#products tbody[id^="product"]').each(function (i, v) {
-			qty = $('input[name$="quantity]"]', v).val();
+			if($('input[name*="stock_quantity"]', v).length>0){
+				qty = 0;
+				$('input[name*="stock_quantity"]', v).each(
+					function(){
+						if($(this).val() == ''){ return false;}
+						var qq = parseInt($(this).val(), 10);
+						qty += (qq == NaN || qq ==='') ? 0 : qq;
+					}
+				);
+			}
+			else if($('input[name*="quantity"]',v).length > 0) {
+				qty = $('input[name*="quantity"]',v).val();
+			}
+
 			price = get_currency_num($('input[name$="price]"]', v).val());
 			total = qty * price;
 			$('input[name$="total]"]', v).val(get_currency_str(total));
@@ -504,13 +539,13 @@
 		//update first total - subtotal
 		$('#products .subtotal').val(get_currency_str(subtotal));
 
-		var total = 0;
+		total = 0;
 		$('input[name^="totals"]').each(function (i, v) {
 			//skip grand total
 			var n = get_currency_num($(v).val());
 			if (!$(v).hasClass('hidden_total') && $.isNumeric(n)) {
 				total += n;
-			}		
+			}
 		});
 		
 		//update last - total
@@ -604,5 +639,11 @@
 	function deleteTotal(order_total_id) {
 		location = '<?php echo $delete_order_total; ?>&order_total_id=' + order_total_id;
 	}
+
+	$('input[name*="quantity]"]').keyup(function () {
+		var v = $(this).val().replace(/[^0-9]/,'');
+		//v = v==='' ? 0 : v;
+		$(this).val(v);
+	});
 	
 </script>

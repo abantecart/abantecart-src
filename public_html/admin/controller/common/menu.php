@@ -17,14 +17,14 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE') || !IS_ADMIN) {
-    header('Location: static_pages/');
-}
+
 
 class ControllerCommonMenu extends AController
 {
-
     public $data = array();
+    protected $permissions = array();
+    protected $groupID;
+    const TOP_ADMIN_GROUP = 1;
 
     public function main()
     {
@@ -33,6 +33,13 @@ class ControllerCommonMenu extends AController
 
         $menu = new ADataset ('menu', 'admin');
         $this->data['menu_items'] = $menu->getRows();
+
+        $this->loadModel('user/user_group');
+        $this->groupID = (int)$this->user->getUserGroupId();
+        if ($this->groupID !== self::TOP_ADMIN_GROUP) {
+            $user_group = $this->model_user_user_group->getUserGroup($this->groupID);
+            $this->permissions = $user_group['permission'];
+        }
 
         //use to update data before render
         $this->extensions->hk_ProcessData($this);
@@ -119,11 +126,14 @@ class ControllerCommonMenu extends AController
                 if (isset($item ['language'])) {
                     $this->loadLanguage($item ['language'], 'silent');
                 }
-                $childen = $this->_getChildItems($item['item_id'], $menu_items);
+                $children = $this->_getChildItems($item['item_id'], $menu_items);
                 $rt = '';
+                $http_rt = false;
                 $menu_link = '';
                 if (preg_match("/(http|https):/", $item['item_url'])) {
                     $menu_link = $item['item_url'];
+                    $rt = $item['item_url'];
+                    $http_rt = true;
                 } else {
                     if ($item['item_url']) {
                         //rt based link, need to save rt 
@@ -132,14 +142,14 @@ class ControllerCommonMenu extends AController
                     }
                 }
 
-                $link_keyname = strpos($item ['item_url'], "http") ? "onclick" : "href";
+                $link_key_name = strpos($item ['item_url'], "http") ? "onclick" : "href";
 
                 $icon = $rm->getResource($item ['item_icon_rl_id']);
                 $icon = $icon['resource_code'] ? $icon['resource_code'] : '';
 
                 $temp = array(
                     'id'          => $item ['item_id'],
-                    $link_keyname => $menu_link,
+                    $link_key_name => $menu_link,
                     'text'        => $this->language->get($item ['item_text']),
                     'icon'        => $icon,
                 );
@@ -148,13 +158,34 @@ class ControllerCommonMenu extends AController
                     $temp['rt'] = $rt;
                 }
 
-                if ($childen) {
-                    $temp['children'] = $childen;
+                $controller_rt = $this->getControllerRt($rt);
+
+                if ($children) {
+                    $temp['children'] = $children;
+                } elseif (!$rt && !$children){
+                    //skip empty parents
+                    continue;
+                } elseif ($rt && $this->groupID !== self::TOP_ADMIN_GROUP
+                        && !$http_rt
+                        && !$this->permissions['access'][$controller_rt]
+                ) {
+                    //skip top menus with no access permission
+                    continue;
                 }
 
                 $result[$item['item_id']] = $temp;
             }
         }
+
         return $result;
+    }
+
+    protected function getControllerRt($rt){
+        if ( !$rt || preg_match("/(http|https):/", $rt)){
+            return false;
+        }
+        $split = explode('/', $rt);
+
+        return $split[0].'/'.$split[1];
     }
 }

@@ -367,8 +367,8 @@ class ModelCatalogProduct extends Model
                 array($language_id => array('tag' => array_unique($tags))));
         }
 
-        if (isset($data['stock_location'])) {
-            $this->updateProductStockLocations($data['stock_location'], (int)$product_id);
+        if($data['stock_location']) {
+            $this->updateProductStockLocations($data['stock_location'], (int)$product_id, 0);
         }
 
         $this->_touch_product($product_id);
@@ -2117,13 +2117,13 @@ class ModelCatalogProduct extends Model
                 $sql = "SELECT *, p.product_id ";
                 $sql .= ", (SELECT 
                                 CASE WHEN SUM(COALESCE(ppov.subtract,0))>0
-                                 THEN SUM(COALESCE(ppov.quantity,0))
+                                 THEN SUM( CASE WHEN ppov.quantity > 0 THEN ppov.quantity ELSE 0 END)
                                 ELSE pp.quantity END as quantity
                             FROM ".$this->db->table("products")." pp
                             LEFT JOIN ".$this->db->table("product_options")." ppo
                                 ON ppo.product_id = pp.product_id
                             LEFT JOIN  ".$this->db->table("product_option_values")." ppov
-                                ON (ppo.product_option_id = ppov.product_option_id)
+                                ON (ppo.product_option_id = ppov.product_option_id AND ppov.subtract>0)
                             WHERE pp.product_id = p.product_id
                             GROUP BY pp.product_id) as quantity ";
             }
@@ -2654,52 +2654,58 @@ class ModelCatalogProduct extends Model
         return $result->rows;
     }
 
-    public function updateProductStockLocations($locations, $product_id, $product_option_value_id = 0)
+    public function updateProductStockLocations($locations, $product_id, $product_option_value_id)
     {
+        //remove first
+        $this->db->query(
+            "DELETE
+            FROM ".$this->db->table("product_stock_locations")." 
+            WHERE product_id = ".(int)$product_id."
+                    AND product_option_value_id ".( (int)$product_option_value_id ?  " = ".(int)$product_option_value_id : "IS NULL" )
+        );
+
+        //if no locations set - stop
         if (!$locations) {
             return false;
         }
 
-        $this->db->query(
-            "DELETE
-            FROM ".$this->db->table("product_stock_locations")." 
-            WHERE product_id = ".(int)$product_id
-            .((int)$product_option_value_id
-                ? " AND (product_option_value_id='".(int)$product_option_value_id."' OR product_option_value_id IS NULL)"
-                : "")
-        );
-
         $totals = array();
+        $locations_exists = false;
         foreach ($locations as $location_id => $location_details) {
             if (!(int)$location_id) {
                 continue;
             }
+
             $this->db->query(
                 "INSERT INTO ".$this->db->table("product_stock_locations")."
                     (product_id, product_option_value_id, location_id, quantity, sort_order)
                 VALUES( 
                     ".(int)$product_id.", 
-                    ".((int)$product_option_value_id
-                    ? (int)$product_option_value_id
-                    : 'NULL').", 
+                    ".((int)$product_option_value_id ? (int)$product_option_value_id : 'NULL').", 
                     ".(int)$location_id.", 
                     ".(int)$location_details['quantity'].", 
                     ".(int)$location_details['sort_order']."
                 );"
             );
 
+            $locations_exists = true;
             $totals[] = (int)$location_details['quantity'];
         }
 
         //update_total_quantity
-        if (!$product_option_value_id) {
-            $this->db->query("UPDATE `".$this->db->table("products`")." SET quantity= '".(int)array_sum($totals)."'");
-        } elseif (array_sum($totals)) {
-            $this->db->query(
-                "UPDATE `".$this->db->table("product_option_values`")." 
-                SET quantity= '".(int)array_sum($totals)."'
+        if($locations_exists) {
+            if (!$product_option_value_id) {
+                $this->db->query(
+                    "UPDATE `".$this->db->table("products`")." 
+                    SET quantity= '".(int)array_sum($totals)."'
+                    WHERE product_id = ".(int)$product_id);
+            } elseif (array_sum($totals)) {
+                $this->db->query(
+                    "UPDATE `".$this->db->table("product_option_values`")." 
+                    SET quantity= '".(int)array_sum($totals)."'
                     WHERE product_option_value_id=".(int)$product_option_value_id
-            );
+                );
+            }
         }
         return true;
     }
@@ -2711,11 +2717,46 @@ class ModelCatalogProduct extends Model
      */
     public function getOrderProductStockLocations($order_product_id)
     {
-        $sql = "SELECT *
-                FROM ".$this->db->table('order_product_stock_locations')." 
-                WHERE order_product_id=".(int)$order_product_id;
+        $sql = "SELECT ops.*, COALESCE(ps.quantity,'absent') as available_quantity 
+                FROM ".$this->db->table('order_product_stock_locations')." ops
+                LEFT JOIN ".$this->db->table('product_stock_locations')." ps
+                    ON (ps.product_id = ops.product_id 
+                        AND COALESCE(ps.product_option_value_id,0) = COALESCE(ops.product_option_value_id,0)
+                        AND ps.location_id = ops.location_id ) 
+                WHERE ops.order_product_id=".(int)$order_product_id ."
+                ORDER BY ops.sort_order ASC, ps.sort_order ASC";
         $result = $this->db->query($sql);
-        return $result->rows;
+
+        $product_id = 0;
+        $product_option_value_id = 0;
+        $order_stocks = $sort_order = array();
+        foreach($result->rows as $row){
+            $locId = $row['location_id'];
+            $order_stocks[$locId] = $row;
+            $product_id = $row['product_id'];
+            $product_option_value_id = (int)$row['product_option_value_id'];
+            $sort_order[$locId] = $row['sort_order'];
+        }
+        if($order_stocks) {
+            $sql = "SELECT psl.*, CONCAT(l.name, ' ', l.description) as location_name
+                    FROM ".$this->db->table('product_stock_locations')." psl
+                    LEFT JOIN ".$this->db->table('locations')." l
+                        ON l.location_id = psl.location_id
+                    WHERE psl.product_id = ".$product_id." 
+                            AND psl.product_option_value_id ".(!$product_option_value_id ? ' IS NULL '
+                        : ' = '.(int)$product_option_value_id)."
+                            AND psl.location_id NOT IN (".implode(',', array_keys($order_stocks)).")
+                    ORDER BY psl.sort_order ASC";
+            $result = $this->db->query($sql);
+            foreach ($result->rows as $row) {
+                $row['available_quantity'] = $row['quantity'];
+                $row['quantity'] = 0;
+                $order_stocks[$row['location_id']] = $row;
+                $sort_order[$row['location_id']] = $row['sort_order'];
+            }
+        }
+        array_multisort($sort_order, SORT_ASC, $order_stocks);
+        return $order_stocks;
     }
 
     /**

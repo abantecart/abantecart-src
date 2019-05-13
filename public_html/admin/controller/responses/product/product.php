@@ -594,11 +594,14 @@ class ControllerResponsesProductProduct extends AController
 
         $this->model_catalog_product->updateProductOptionValues($this->request->get['product_id'], $this->request->get['option_id'], $this->request->post);
 
-        foreach((array)$this->request->post['stock_location'] as $product_option_value_id => $stock_locations) {
-            $this->model_catalog_product->updateProductStockLocations(
-                $stock_locations,
-                $this->request->get['product_id'],
-                $product_option_value_id);
+        foreach((array)$this->request->post['product_option_value_id'] as $product_option_value_id) {
+            $stock_locations = $this->request->post['stock_location'][$product_option_value_id];
+            if(!is_int(strpos($product_option_value_id,'new'))){
+                $this->model_catalog_product->updateProductStockLocations(
+                    $stock_locations,
+                    $this->request->get['product_id'],
+                    $product_option_value_id);
+            }
         }
 
         $this->session->data['success'] = $this->language->get('text_success_option');
@@ -873,8 +876,10 @@ class ControllerResponsesProductProduct extends AController
             'options' => $wht_options,
         ));
 
-        //do not show RL and stock locations for new row
-        if($product_option_value_id) {
+        //do not show RL and stock locations for new row and options with multivalue such as checkboxgroup and multiselect
+        if($product_option_value_id
+            && !in_array($this->data['option_data']['element_type'], array('M', 'G'))
+        ) {
             $dd = new ADispatcher(
                 'responses/product/product/stockLocations',
                 array((int)$this->request->get['product_id'], $product_option_value_id)
@@ -1731,6 +1736,12 @@ class ControllerResponsesProductProduct extends AController
         $this->loadModel('catalog/product');
         $locations = $this->model_catalog_product->getProductStockLocations($product_id, $product_option_value_id);
 
+        $this->data['zero_location'] = $this->html->buildElement(
+            array(
+                'type' => 'hidden',
+                'name' => 'stock_location'.($product_option_value_id ? "[".$product_option_value_id."]":"").'[0][]',
+            )
+        );
         foreach($locations as $row){
             $location_id = $row['location_id'];
             $this->data['locations'][$location_id] =
@@ -1769,11 +1780,14 @@ class ControllerResponsesProductProduct extends AController
             array(
                 'location_list' =>  $this->html->buildElement(
                                                 array(
-                                                    'type' => 'selectbox',
-                                                    'name' => 'location_list',
-                                                    'options'=> $options,
-                                                    'disabled_options' => array_keys((array)$this->data['locations']),
-                                                    'style' => 'static_field'
+                                                    'type'        => 'selectbox',
+                                                    'id'          => 'location_list'.($product_option_value_id ? $product_option_value_id:""),
+                                                    'name'        => 'location_list',
+                                                    'value'       => array(),
+                                                    'options'     => $options,
+                                                    'style'       => 'chosen static_field',
+                                                    'placeholder' => $this->language->get('text_select'),
+                                                    'disabled_options' => array_keys((array)$this->data['locations'])
                                                 )
                                             ),
                 'quantity' => $this->html->buildElement(
@@ -1782,6 +1796,7 @@ class ControllerResponsesProductProduct extends AController
                                 'name' => 'stock_location'.($product_option_value_id ? "[".$product_option_value_id."]":"").'[0][quantity]',
                                 'value'=> '',
                                 'style' => 'stock_location_quantity static_field hidden',
+                                'attr'  => 'disabled'
                             )
                         ),
                 'sort_order' => $this->html->buildElement(
@@ -1790,6 +1805,7 @@ class ControllerResponsesProductProduct extends AController
                                 'name' => 'stock_location'.($product_option_value_id ? "[".$product_option_value_id."]":"").'[0][sort_order]',
                                 'value'=> '',
                                 'style' => 'stock_location_sort_order static_field hidden',
+                                'attr'  => 'disabled'
                             )
                         )
             );

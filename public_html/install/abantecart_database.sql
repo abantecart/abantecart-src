@@ -902,7 +902,8 @@ CREATE TABLE `ac_locations` (
 --
 
 INSERT INTO `ac_locations` (`location_id`, `name`, `description`, `date_added`) VALUES
-(1, 'USA', 'All States', now());
+(1, 'USA', 'All States', NOW()),
+(2, 'Canada','All provinces', NOW());
 
 --
 -- DDL for table `languages`
@@ -1021,57 +1022,57 @@ DROP TABLE IF EXISTS `ac_orders`;
 CREATE TABLE `ac_orders` (
   `order_id` int(11) NOT NULL AUTO_INCREMENT,
   `invoice_id` int(11) NOT NULL DEFAULT '0',
-  `invoice_prefix` varchar(10) COLLATE utf8_general_ci NOT NULL,
+  `invoice_prefix` varchar(10) NOT NULL DEFAULT '',
   `store_id` int(11) NOT NULL DEFAULT '0',
-  `store_name` varchar(64) COLLATE utf8_general_ci NOT NULL,
-  `store_url` varchar(255) COLLATE utf8_general_ci NOT NULL,
+  `store_name` varchar(64) NOT NULL,
+  `store_url` varchar(255) NOT NULL,
   `customer_id` int(11) NOT NULL DEFAULT '0',
   `customer_group_id` int(11) NOT NULL DEFAULT '0',
-  `firstname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `lastname` varchar(32) COLLATE utf8_general_ci NOT NULL,
-  `telephone` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `fax` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `email` varchar(96) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `shipping_firstname` varchar(32) COLLATE utf8_general_ci NOT NULL,
-  `shipping_lastname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `shipping_company` varchar(32) COLLATE utf8_general_ci NOT NULL,
-  `shipping_address_1` varchar(128) COLLATE utf8_general_ci NOT NULL,
-  `shipping_address_2` varchar(128) COLLATE utf8_general_ci NOT NULL,
-  `shipping_city` varchar(128) COLLATE utf8_general_ci NOT NULL,
-  `shipping_postcode` varchar(10) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `shipping_zone` varchar(128) COLLATE utf8_general_ci NOT NULL,
+  `firstname` varchar(32) NOT NULL DEFAULT '',
+  `lastname` varchar(32) NOT NULL,
+  `telephone` varchar(32) NOT NULL DEFAULT '',
+  `fax` varchar(32) NOT NULL DEFAULT '',
+  `email` varchar(96) NOT NULL DEFAULT '',
+  `shipping_firstname` varchar(32) NOT NULL,
+  `shipping_lastname` varchar(32) NOT NULL DEFAULT '',
+  `shipping_company` varchar(32) NOT NULL,
+  `shipping_address_1` varchar(128) NOT NULL,
+  `shipping_address_2` varchar(128) NOT NULL,
+  `shipping_city` varchar(128) NOT NULL,
+  `shipping_postcode` varchar(10) NOT NULL DEFAULT '',
+  `shipping_zone` varchar(128) NOT NULL,
   `shipping_zone_id` int(11) NOT NULL,
-  `shipping_country` varchar(128) COLLATE utf8_general_ci NOT NULL,
+  `shipping_country` varchar(128) NOT NULL,
   `shipping_country_id` int(11) NOT NULL,
-  `shipping_address_format` text COLLATE utf8_general_ci NOT NULL,
-  `shipping_method` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `shipping_address_format` text NOT NULL,
+  `shipping_method` varchar(128) NOT NULL DEFAULT '',
   `shipping_method_key` varchar(128) NOT NULL DEFAULT '',
-  `payment_firstname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `payment_lastname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `payment_company` varchar(32) COLLATE utf8_general_ci NOT NULL,
-  `payment_address_1` varchar(128) COLLATE utf8_general_ci NOT NULL,
-  `payment_address_2` varchar(128) COLLATE utf8_general_ci NOT NULL,
-  `payment_city` varchar(128) COLLATE utf8_general_ci NOT NULL,
-  `payment_postcode` varchar(10) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `payment_zone` varchar(128) COLLATE utf8_general_ci NOT NULL,
+  `payment_firstname` varchar(32) NOT NULL DEFAULT '',
+  `payment_lastname` varchar(32) NOT NULL DEFAULT '',
+  `payment_company` varchar(32) NOT NULL,
+  `payment_address_1` varchar(128) NOT NULL,
+  `payment_address_2` varchar(128) NOT NULL,
+  `payment_city` varchar(128) NOT NULL,
+  `payment_postcode` varchar(10) NOT NULL DEFAULT '',
+  `payment_zone` varchar(128) NOT NULL,
   `payment_zone_id` int(11) NOT NULL,
-  `payment_country` varchar(128) COLLATE utf8_general_ci NOT NULL,
+  `payment_country` varchar(128) NOT NULL,
   `payment_country_id` int(11) NOT NULL,
-  `payment_address_format` text COLLATE utf8_general_ci NOT NULL,
-  `payment_method` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `payment_address_format` text NOT NULL,
+  `payment_method` varchar(128) NOT NULL DEFAULT '',
   `payment_method_key` varchar(128) NOT NULL DEFAULT '',
-  `comment` text COLLATE utf8_general_ci NOT NULL,
+  `comment` text NOT NULL,
   `total` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `order_status_id` int(11) NOT NULL DEFAULT '0',
   `language_id` int(11) NOT NULL,
   `currency_id` int(11) NOT NULL,
-  `currency` varchar(3) COLLATE utf8_general_ci NOT NULL,
+  `currency` varchar(3) NOT NULL,
   `value` decimal(15,8) NOT NULL,
   `coupon_id` int(11) NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `ip` varchar(50) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `payment_method_data` text COLLATE utf8_general_ci NOT NULL,
+  `ip` varchar(50) NOT NULL DEFAULT '',
+  `payment_method_data` text NOT NULL DEFAULT '',
   PRIMARY KEY (`order_id`, `customer_id`, `order_status_id`)
 
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -1760,12 +1761,12 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('tax', 'tax_total_type', 'tax'),
 
 ('balance', 'balance_status', '1'),
-('balance', 'balance_sort_order', '6'),
-('balance', 'balance_calculation_order', '6'),
+('balance', 'balance_sort_order', '999'),
+('balance', 'balance_calculation_order', '999'),
 ('balance', 'balance_total_type', 'balance'),
 
-('total', 'total_sort_order', '7'),
-('total', 'total_calculation_order', '7'),
+('total', 'total_sort_order', '1000'),
+('total', 'total_calculation_order', '1000'),
 ('total', 'total_status', '1'),
 ('total', 'total_total_type', 'total'),
 
@@ -2061,7 +2062,8 @@ CREATE TABLE `ac_zones` (
 -- Dumping data for table `zone`
 --
 
-INSERT INTO `ac_zones` (`zone_id`, `country_id`, `code`, `status`, `sort_order`) VALUES
+INSERT INTO `ac_zones`
+VALUES
 (1,1,'BDS',1,0),
 (2,1,'BDG',1,0),
 (3,1,'BGL',1,0),
@@ -6008,7 +6010,8 @@ INSERT INTO `ac_zones` (`zone_id`, `country_id`, `code`, `status`, `sort_order`)
 (3964,190,'UC',1,0),
 (3965,190,'GZ',1,0),
 (3966,190,'CK',1,0),
-(3967,188,'SG',1,0);
+(3967,188,'SG',1,0),
+(3968,168,'MTM',1,0);
 
 
 DROP TABLE IF EXISTS `ac_zone_descriptions`;
@@ -6020,7 +6023,8 @@ CREATE TABLE `ac_zone_descriptions` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
-INSERT INTO `ac_zone_descriptions` (`zone_id`, `language_id`,`name`) VALUES
+INSERT INTO `ac_zone_descriptions`
+VALUES
 (1,1,'Badakhshan'),
 (2,1,'Badghis'),
 (3,1,'Baghlan'),
@@ -9967,7 +9971,8 @@ INSERT INTO `ac_zone_descriptions` (`zone_id`, `language_id`,`name`) VALUES
 (3964,1,'Upper Carniola'),
 (3965,1,'Gorizia'),
 (3966,1,'Coastal–Karst'),
-(3967,1,'Singapore');
+(3967,1,'Singapore'),
+(3968,1,'Metro Manila');
 
 
 --
@@ -9990,74 +9995,87 @@ CREATE INDEX `ac_zones_to_locations_idx` ON `ac_zones_to_locations` ( `country_i
 -- Dumping data for table `ac_zones_to_locations`
 --
 
-INSERT INTO `ac_zones_to_locations` (`zone_to_location_id`, `country_id`, `zone_id`, `location_id`, `date_added`)
+INSERT INTO `ac_zones_to_locations`
 VALUES
-	(66,223,3677,1,now()),
-	(65,223,3676,1,now()),
-	(64,223,3675,1,now()),
-	(63,223,3674,1,now()),
-	(62,223,3673,1,now()),
-	(61,223,3672,1,now()),
-	(60,223,3671,1,now()),
-	(59,223,3670,1,now()),
-	(58,223,3669,1,now()),
-	(57,223,3668,1,now()),
-	(56,223,3667,1,now()),
-	(55,223,3666,1,now()),
-	(54,223,3665,1,now()),
-	(53,223,3664,1,now()),
-	(52,223,3663,1,now()),
-	(51,223,3662,1,now()),
-	(50,223,3661,1,now()),
-	(49,223,3660,1,now()),
-	(48,223,3659,1,now()),
-	(47,223,3658,1,now()),
-	(46,223,3657,1,now()),
-	(45,223,3656,1,now()),
-	(44,223,3655,1,now()),
-	(43,223,3654,1,now()),
-	(42,223,3653,1,now()),
-	(41,223,3652,1,now()),
-	(40,223,3651,1,now()),
-	(39,223,3650,1,now()),
-	(38,223,3649,1,now()),
-	(37,223,3648,1,now()),
-	(36,223,3647,1,now()),
-	(35,223,3646,1,now()),
-	(34,223,3645,1,now()),
-	(33,223,3644,1,now()),
-	(32,223,3643,1,now()),
-	(31,223,3642,1,now()),
-	(30,223,3641,1,now()),
-	(29,223,3640,1,now()),
-	(28,223,3639,1,now()),
-	(27,223,3638,1,now()),
-	(26,223,3637,1,now()),
-	(25,223,3636,1,now()),
-	(24,223,3635,1,now()),
-	(23,223,3634,1,now()),
-	(22,223,3633,1,now()),
-	(21,223,3632,1,now()),
-	(20,223,3631,1,now()),
-	(19,223,3630,1,now()),
-	(18,223,3629,1,now()),
-	(17,223,3628,1,now()),
-	(16,223,3627,1,now()),
-	(15,223,3626,1,now()),
-	(14,223,3625,1,now()),
-	(13,223,3624,1,now()),
-	(12,223,3623,1,now()),
-	(11,223,3622,1,now()),
-	(10,223,3621,1,now()),
-	(9,223,3620,1,now()),
-	(8,223,3619,1,now()),
-	(7,223,3618,1,now()),
-	(6,223,3617,1,now()),
-	(5,223,3616,1,now()),
-	(4,223,3615,1,now()),
-	(3,223,3614,1,now()),
-	(2,223,3613,1,now())
-;
+(66,223,3677,1,NOW(),NOW()),
+(65,223,3676,1,NOW(),NOW()),
+(64,223,3675,1,NOW(),NOW()),
+(63,223,3674,1,NOW(),NOW()),
+(62,223,3673,1,NOW(),NOW()),
+(61,223,3672,1,NOW(),NOW()),
+(60,223,3671,1,NOW(),NOW()),
+(59,223,3670,1,NOW(),NOW()),
+(58,223,3669,1,NOW(),NOW()),
+(57,223,3668,1,NOW(),NOW()),
+(56,223,3667,1,NOW(),NOW()),
+(55,223,3666,1,NOW(),NOW()),
+(54,223,3665,1,NOW(),NOW()),
+(53,223,3664,1,NOW(),NOW()),
+(52,223,3663,1,NOW(),NOW()),
+(51,223,3662,1,NOW(),NOW()),
+(50,223,3661,1,NOW(),NOW()),
+(49,223,3660,1,NOW(),NOW()),
+(48,223,3659,1,NOW(),NOW()),
+(47,223,3658,1,NOW(),NOW()),
+(46,223,3657,1,NOW(),NOW()),
+(45,223,3656,1,NOW(),NOW()),
+(44,223,3655,1,NOW(),NOW()),
+(43,223,3654,1,NOW(),NOW()),
+(42,223,3653,1,NOW(),NOW()),
+(41,223,3652,1,NOW(),NOW()),
+(40,223,3651,1,NOW(),NOW()),
+(39,223,3650,1,NOW(),NOW()),
+(38,223,3649,1,NOW(),NOW()),
+(37,223,3648,1,NOW(),NOW()),
+(36,223,3647,1,NOW(),NOW()),
+(35,223,3646,1,NOW(),NOW()),
+(34,223,3645,1,NOW(),NOW()),
+(33,223,3644,1,NOW(),NOW()),
+(32,223,3643,1,NOW(),NOW()),
+(31,223,3642,1,NOW(),NOW()),
+(30,223,3641,1,NOW(),NOW()),
+(29,223,3640,1,NOW(),NOW()),
+(28,223,3639,1,NOW(),NOW()),
+(27,223,3638,1,NOW(),NOW()),
+(26,223,3637,1,NOW(),NOW()),
+(25,223,3636,1,NOW(),NOW()),
+(24,223,3635,1,NOW(),NOW()),
+(23,223,3634,1,NOW(),NOW()),
+(22,223,3633,1,NOW(),NOW()),
+(21,223,3632,1,NOW(),NOW()),
+(20,223,3631,1,NOW(),NOW()),
+(19,223,3630,1,NOW(),NOW()),
+(18,223,3629,1,NOW(),NOW()),
+(17,223,3628,1,NOW(),NOW()),
+(16,223,3627,1,NOW(),NOW()),
+(15,223,3626,1,NOW(),NOW()),
+(14,223,3625,1,NOW(),NOW()),
+(13,223,3624,1,NOW(),NOW()),
+(12,223,3623,1,NOW(),NOW()),
+(11,223,3622,1,NOW(),NOW()),
+(10,223,3621,1,NOW(),NOW()),
+(9,223,3620,1,NOW(),NOW()),
+(8,223,3619,1,NOW(),NOW()),
+(7,223,3618,1,NOW(),NOW()),
+(6,223,3617,1,NOW(),NOW()),
+(5,223,3616,1,NOW(),NOW()),
+(4,223,3615,1,NOW(),NOW()),
+(3,223,3614,1,NOW(),NOW()),
+(2,223,3613,1,NOW(),NOW()),
+(67,38,602,2,NOW(),NOW()),
+(68,38,603,2,NOW(),NOW()),
+(69,38,604,2,NOW(),NOW()),
+(70,38,605,2,NOW(),NOW()),
+(71,38,606,2,NOW(),NOW()),
+(72,38,607,2,NOW(),NOW()),
+(73,38,608,2,NOW(),NOW()),
+(74,38,609,2,NOW(),NOW()),
+(75,38,610,2,NOW(),NOW()),
+(76,38,611,2,NOW(),NOW()),
+(77,38,612,2,NOW(),NOW()),
+(78,38,613,2,NOW(),NOW()),
+(79,38,614,2,NOW(),NOW());
+
 
 --
 -- DDL for table `pages`
@@ -11380,8 +11398,8 @@ VALUES  (11,'text_report_sale',91),
         (11,'banner_manager_name_stat',94);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (12,'',91),
-        (12,'',92),
+VALUES  (12,'report/sale/orders',91),
+        (12,'report/customer/online',92),
         (12,'',93),
         (12,'',221),
         (12,'extension/banner_manager_stat',94);
@@ -12093,7 +12111,7 @@ VALUES  (20, NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (21,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (22,'1.2.14','1');
+VALUES  (22,'1.2.15','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (23,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
@@ -12610,7 +12628,7 @@ CREATE TABLE `ac_product_stock_locations` (
   `sort_order` int(11) NOT NULL DEFAULT '0',
   UNIQUE KEY `ac_product_stock_locations_idx` (`product_id`,`product_option_value_id`,`location_id`),
   KEY `ac_product_stock_locations_idx2` (`product_option_value_id`)
-);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 DROP TABLE IF EXISTS `ac_order_product_stock_locations`;
 CREATE TABLE `ac_order_product_stock_locations` (
@@ -12623,4 +12641,4 @@ CREATE TABLE `ac_order_product_stock_locations` (
   `sort_order` int(11) DEFAULT '0',
   KEY `ac_product_options_value_idx` (`product_option_value_id`),
   KEY `ac_product_options_value_idx2` (`order_product_id`,`product_id`,`product_option_value_id`,`location_id`)
-);
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

@@ -14,3 +14,18 @@ $menu->insertMenuItem(
         "sort_order"      => "6",
     )
 );
+
+//changes related to user permissions
+$menu->updateMenuItem(
+    'report_sale',
+    array(
+        "item_url" => "report/sale/orders"
+    )
+);
+
+$menu->updateMenuItem(
+    'report_customer',
+    array(
+        "item_url" => "report/customer/online"
+    )
+);

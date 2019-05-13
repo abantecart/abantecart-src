@@ -17,9 +17,6 @@ Do not edit or add to this file if you wish to upgrade AbanteCart to newer
 versions in the future. If you wish to customize AbanteCart for your
 needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE')) {
-    header('Location: static_pages/');
-}
 
 /**
  * @noinspection PhpUndefinedClassInspection
@@ -530,14 +527,14 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController
                 }
 
                 $option_data[] = array(
-                    'name'  => $option['name'],
+                    'name'  => html_entity_decode($option['name'], ENT_QUOTES,'UTF-8'),
                     'value' => (mb_strlen($value) > 20 ? mb_substr($value, 0, 20).'..' : $value),
                 );
             }
             $price = $this->currency->format($product['price'], $order_info['currency'], $order_info['value'], false);
             $this->data['products'][] = array(
-                'name'        => $product['name'],
-                'model'       => $product['model'],
+                'name'        => html_entity_decode($product['name'], ENT_QUOTES,'UTF-8'),
+                'model'       => html_entity_decode($product['model'], ENT_QUOTES,'UTF-8'),
                 'price'       => $price,
                 'quantity'    => $product['quantity'],
                 'option'      => $option_data,
@@ -560,7 +557,7 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController
             } else {
                 $price = $this->currency->format($total['value'], $order_info['currency'], $order_info['value'], false);
                 $this->data['products'][] = array(
-                    'name'     => $total['title'],
+                    'name'     => html_entity_decode($total['title'], ENT_QUOTES,'UTF-8'),
                     'model'    => '',
                     'price'    => $price,
                     'quantity' => 1,

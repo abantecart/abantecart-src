@@ -96,13 +96,27 @@ class ControllerResponsesListingGridTotal extends AController
         if ($extensions) {
             foreach ($extensions as $extension) {
                 $this->loadLanguage($extension['language_rt']);
+                if($extension['extension_txt_id'] == 'balance') {
+                    $sort_order = 999;
+                    $calc_order = 999;
+                    $readonly = true;
+                } elseif($extension['extension_txt_id'] == 'total') {
+                    $sort_order = 1000;
+                    $calc_order = 1000;
+                    $readonly = true;
+                } else{
+                    $sort_order = (int)$this->config->get($extension['extension_txt_id'].'_sort_order');
+                    $calc_order = (int)$this->config->get($extension['extension_txt_id'].'_calculation_order');
+                    $readonly = false;
+                }
                 $items[] = array(
                     'id'                => $extension['extension_txt_id'],
                     'name'              => $this->language->get('total_name'),
                     'status'            => $this->config->get($extension['extension_txt_id'].'_status'),
-                    'sort_order'        => (int)$this->config->get($extension['extension_txt_id'].'_sort_order'),
-                    'calculation_order' => (int)$this->config->get($extension['extension_txt_id'].'_calculation_order'),
+                    'sort_order'        => $sort_order,
+                    'calculation_order' => $calc_order,
                     'action'            => $this->html->getSecureURL($extension['config_controller']),
+                    'readonly'          => $readonly
                 );
             }
         }
@@ -147,19 +161,24 @@ class ControllerResponsesListingGridTotal extends AController
         $i = 0;
         foreach ($results as $result) {
             $response->userdata->rt[$result['id']] = $result['action'];
-            $status = $this->html->buildCheckbox(array(
-                'name'  => $result['id'].'['.$result['id'].'_status]',
-                'value' => $result['status'],
-                'style' => 'btn_switch',
+            $status = $this->html->buildCheckbox(
+                array(
+                    'name'  => $result['id'].'['.$result['id'].'_status]',
+                    'value' => $result['status'],
+                    'style' => 'btn_switch',
             ));
-            $sort = $this->html->buildInput(array(
-                'name'  => $result['id'].'['.$result['id'].'_sort_order]',
-                'value' => $result['sort_order'],
+            $sort = $this->html->buildInput(
+                array(
+                    'name'  => $result['id'].'['.$result['id'].'_sort_order]',
+                    'value' => $result['sort_order'],
+                    'attr'  => $result['readonly'] ? 'readonly' : ''
             ));
 
-            $calc = $this->html->buildInput(array(
-                'name'  => $result['id'].'['.$result['id'].'_calculation_order]',
-                'value' => $result['calculation_order'],
+            $calc = $this->html->buildInput(
+                array(
+                    'name'  => $result['id'].'['.$result['id'].'_calculation_order]',
+                    'value' => $result['calculation_order'],
+                    'attr'  => $result['readonly'] ? 'readonly' : ''
             ));
 
             $response->rows[$i]['id'] = $result['id'];
