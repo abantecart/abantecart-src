@@ -1,0 +1,12 @@
+#!/bin/bash
+BIND=127.0.0.1:9000
+USER=www-data
+PHP_FCGI_CHILDREN=15
+PHP_FCGI_MAX_REQUESTS=1000
+
+PHP_CGI=/usr/bin/php-cgi
+PHP_CGI_NAME=`basename $PHP_CGI`
+PHP_CGI_ARGS="- USER=$USER PATH=/usr/bin PHP_FCGI_CHILDREN=$PHP_FCGI_CHILDREN PHP_FCGI_MAX_REQUESTS=$PHP_FCGI_MAX_REQUESTS $PHP_CGI -b $BIND"
+RETVAL=0
+
+start-stop-daemon --quiet --start --chuid "$USER" --exec /usr/bin/env -- $PHP_CGI_ARGS
