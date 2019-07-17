@@ -21,7 +21,7 @@
     }
     ### Retina images handler. Check cookie and looking for file with @2x at the end of name
     location ~* ^(.*)\.(jpg|jpeg|png|gif)$ {
-        set $hidpi_uri $1@2x.png;
+        set $hidpi_uri $1@2x.$2;
         if ($http_cookie !~ 'HTTP_IS_RETINA=1') {
           break;
         }
