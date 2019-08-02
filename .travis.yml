@@ -18,6 +18,8 @@ php:
   # aliased to a recent hhvm version
   #- hhvm
 
+services: mysql
+
 # optionally specify a list of environments, for example to test different RDBMS
 env:
   - DB=mysql
@@ -44,3 +46,4 @@ notifications:
     recipients:
       - dsuprunenko@abantecart.com
       - projkov@abantecart.com
+      - vdvpie22@gmail.com
