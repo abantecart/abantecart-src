@@ -854,6 +854,10 @@
 		<value><![CDATA[Google Analytics Account Number:<br /><span class="help">Add your <a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">Google Analytics Account Number</a> to enable site activity tracking. This also enables ecommerce activity tracking. You must enable ecommerce tracking in google on the profile settings page for your website</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_google_tag_manager</key>
+		<value><![CDATA[Google Tag Manager ID:<br />]]></value>
+	</definition>
+	<definition>
 		<key>entry_ssl_url</key>
 		<value><![CDATA[Secure Store URL:<br /><span class="help">Include the full SSL URL(HTTPS) to your store. Make sure to add '/' at the end. Example: https://www.yourdomain.com/path/</span>]]></value>
 	</definition>

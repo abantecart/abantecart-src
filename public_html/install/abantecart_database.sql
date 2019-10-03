@@ -1633,6 +1633,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('general','config_recaptcha_site_key',''),
 ('general','config_recaptcha_secret_key',''),
 ('general','config_google_analytics_code',''),
+('general','config_google_tag_manager_id',''),
 
 
 -- Checkout

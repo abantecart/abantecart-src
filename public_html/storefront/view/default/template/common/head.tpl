@@ -15,6 +15,16 @@
 
 <base href="<?php echo $base; ?>" />
 
+<?php
+if ($google_tag_manager) {
+    ?>
+	<!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','<?php echo trim($google_tag_manager); ?>');</script>
+	<!-- End Google Tag Manager -->
+    <?php
+}
+?>
+
 <?php if ( is_file( DIR_RESOURCE . $icon ) ) {  ?>
 <link href="resources/<?php echo $icon; ?>" type="image/png" rel="icon" />
 <?php } ?>
@@ -29,13 +39,13 @@
 <link href="<?php echo $link['href']; ?>" rel="<?php echo $link['rel']; ?>" />
 <?php } ?>
 
-<?php 
-/* 
+<?php
+/*
 	Set $faster_browser_rendering == true; for loading tuning. For better rendering minify and include inline css.
-    Note: This will increase page size, but will improve HTML rendering. 
-    As alternative, you can merge all CSS files in to one singe file and minify 
+    Note: This will increase page size, but will improve HTML rendering.
+    As alternative, you can merge all CSS files in to one singe file and minify
     Example: <link href=".../stylesheet/all.min.css" rel="stylesheet" type='text/css' />
-    
+
     Check Dan Riti's blog for more fine tuning suggestions:
     https://www.appneta.com/blog/bootstrap-pagespeed/
 */
@@ -56,7 +66,7 @@ if($faster_browser_rendering == true) {
 	<link href="<?php echo $this->templateResource('/stylesheet/style.css'); ?>" rel="stylesheet" type='text/css' />
 <?php } ?>
 
-<?php 
+<?php
 /* Basic print styles */
 ?>
 <style>
@@ -76,7 +86,7 @@ a[href]:after {
 <link rel="<?php echo $style['rel']; ?>" type="text/css" href="<?php echo $style['href']; ?>" media="<?php echo $style['media']; ?>" />
 <?php } ?>
 
-<?php 
+<?php
 if($faster_browser_rendering == true) {
 ?>
 	<script type="text/javascript"><?php echo $this->PreloadJS('/javascript/jquery-1.12.4.min.js'); ?></script>
@@ -151,7 +161,7 @@ $(document).on('click','a.call_to_order',function(){
 	return false;
 });
 
-<?php 
+<?php
 //search block form function ?>
 function search_submit () {
     var url = '<?php echo $search_url;?>';

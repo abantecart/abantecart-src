@@ -36,3 +36,6 @@ ADD COLUMN `store_id` INT NULL DEFAULT 0 AFTER `id`;
 
 ALTER TABLE `ac_product_stock_locations` CHARACTER SET utf8 COLLATE utf8_general_ci;
 ALTER TABLE `ac_order_product_stock_locations` CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
+('general','config_google_tag_manager_id','');

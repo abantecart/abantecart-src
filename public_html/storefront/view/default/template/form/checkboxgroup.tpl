@@ -1,4 +1,5 @@
-<?php foreach ( $options as $v => $text ) {
+<?php
+foreach ( $options as $v => $text ) {
     $check_id = preg_replace('/[^a-zA-Z0-9\.-_]/', '', $id . $v);
 ?>
 	<label class="" for="<?php echo $check_id ?>">
