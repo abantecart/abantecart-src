@@ -149,6 +149,7 @@ class ControllerResponsesListingGridProduct extends AController
                         }
                         $this->model_catalog_product->deleteProduct($id);
                     }
+                    $this->extensions->hk_ProcessData($this, 'product_delete');
                 }
                 break;
             case 'save':
@@ -171,6 +172,7 @@ class ControllerResponsesListingGridProduct extends AController
                             }
                         }
                     }
+                    $this->extensions->hk_ProcessData($this, 'product_update');
                 }
                 break;
             case 'relate':
@@ -225,6 +227,7 @@ class ControllerResponsesListingGridProduct extends AController
                 $this->model_catalog_product->updateProduct($product_id, $data);
                 $this->model_catalog_product->updateProductLinks($product_id, $data);
             }
+            $this->extensions->hk_ProcessData($this, 'product_update', ['product_id' => $product_id]);
             return null;
         }
 
@@ -239,6 +242,7 @@ class ControllerResponsesListingGridProduct extends AController
                         return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
                     }
                     $this->model_catalog_product->updateProduct($k, array($f => $v));
+                    $this->extensions->hk_ProcessData($this, 'product_update', ['product_id' => $k]);
                 }
             }
         }
