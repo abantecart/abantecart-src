@@ -36,8 +36,8 @@ before_script:
   - php ./public_html/install/cli_install.php install --db_host=localhost --db_user=root --db_password= --db_name=abantecart_test_build  --db_driver=amysqli  --db_prefix=abc_ --admin_path=admin  --username=admin  --password=admin  --email=dsuprunenko@abantecart.com  --http_server=http://abantecart-src.travis-ci.org/public_html --with-sample-data
 
 script:
-  - ./vendor/bin/phpunit --version
-  - ./vendor/bin/phpunit -v -c tests/phpunit/phpunit_$DB.xml
+  - phpunit --version
+  - phpunit -v -c tests/phpunit/phpunit_$DB.xml
 
 
 
