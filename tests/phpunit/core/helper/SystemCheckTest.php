@@ -13,7 +13,7 @@ class SystemCheckTest extends AbanteCartTest
         $this->original_save_path = ini_get('session.save_path');
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         ini_set('session.save_path', $this->original_save_path);
     }
