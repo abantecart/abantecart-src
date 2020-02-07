@@ -301,7 +301,9 @@ class AView
      */
     public function getOutput()
     {
-        return !empty($this->output) ? $this->output : !empty($this->template) ? $this->fetch($this->template) : '';
+        return (!empty($this->output) ? $this->output : !empty($this->template))
+                ? $this->fetch($this->template)
+                : '';
     }
 
     /**
