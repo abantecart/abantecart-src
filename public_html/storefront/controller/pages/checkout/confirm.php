@@ -97,6 +97,10 @@ class ControllerPagesCheckoutConfirm extends AController
             // preventing rebuilding order of already processed orders
             //(by "back" button via browser history from external payment page(paypal, google_checkout etc))
             redirect($this->html->getSecureURL($success_rt));
+        }elseif($order_id===null){
+            $error_text = 'Cannot to create order on confirmation page based on session data';
+            $this->log->write($error_text."\n Session Data:\n".var_export($this->session->data, true));
+            throw new AException(AC_ERR_REQUIREMENTS, $error_text);
         }
         $this->session->data['order_id'] = $order_id;
 
