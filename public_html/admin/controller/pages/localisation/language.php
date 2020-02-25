@@ -379,7 +379,7 @@ class ControllerPagesLocalisationLanguage extends AController
             ));
 
             $language_id = (int)$this->request->get['language_id'];
-            $all_languages = array();
+            $all_languages = array('' => $this->language->get('text_select'));
             foreach ($this->language->getAvailableLanguages() as $result) {
                 //skip chosen language from list to prevent recursion
                 if ($language_id == $result['language_id']) {
@@ -387,7 +387,6 @@ class ControllerPagesLocalisationLanguage extends AController
                 }
                 $all_languages[$result['language_id']] = $result['name'];
             }
-            array_unshift($all_languages, $this->language->get('text_select'));
 
             $this->data['form2']['fields']['language_selector'] = $form2->getFieldHtml(array(
                 'type'    => 'selectbox',
