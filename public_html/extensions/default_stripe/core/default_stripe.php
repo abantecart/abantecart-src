@@ -59,6 +59,17 @@ class ExtensionDefaultStripe extends Extension
             $address_country_code = $that->session->data['guest']['iso_code_2'];
             $address_zone_code = $that->session->data['guest']['zone_code'];
             $address_postcode = $that->session->data['guest']['postcode'];
+        }else{
+            $address_id = $that->session->data['quick_checkout'][$that->data['cart_key']]['payment_address_id'];
+            if($address_id){
+                $address = $that->model_account_address->getAddress($address_id);
+                $address_1 = $address['address_1'];
+                $address_2 = $address['address_2'];
+                $address_city = $address['city'];
+                $address_country_code = $address['iso_code_2'];
+                $address_zone_code = $address['zone_code'];
+                $address_postcode = $address['postcode'];
+            }
         }
 
         $that->document->addScript('https://js.stripe.com/v3');
