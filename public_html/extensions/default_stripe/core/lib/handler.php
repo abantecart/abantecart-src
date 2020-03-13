@@ -73,7 +73,7 @@ final class PaymentHandler
 
         //check if saved cc mode is used
         $errors = array();
-        if (!$data['use_saved_cc']) {
+        if (!$data['use_saved_cc'] && !$data['cc_token']) {
             if (empty($data['cc_number'])) {
                 $errors[] = $this->language->get('error_incorrect_number');
             }
@@ -109,13 +109,6 @@ final class PaymentHandler
         $currency = $this->currency->getCode();
         // order amount without decimal delimiter
         $amount = round($this->currency->convert($this->cart->getFinalTotal(), $this->config->get('config_currency'), $currency), 2) * 100;
-        $card_number = preg_replace('/[^0-9]/', '', $data['cc_number']);
-        $cvv2 = preg_replace('/[^0-9]/', '', $data['cc_cvv2']);
-        // Card owner name
-        $card_name = html_entity_decode($data['cc_owner'], ENT_QUOTES, 'UTF-8');
-        $card_type = $data['cc_type'];
-        // card expire date mm/yy
-        $card_issue = $data['cc_issue'];
 
         ADebug::checkpoint('Stripe Payment: Order ID '.$order_id);
 
@@ -123,12 +116,7 @@ final class PaymentHandler
             'amount'          => $amount,
             'currency'        => $currency,
             'order_id'        => $order_id,
-            'cc_number'       => $card_number,
-            'cc_expire_month' => $data['cc_expire_date_month'],
-            'cc_expire_year'  => $data['cc_expire_date_year'],
-            'cc_owner'        => $card_name,
-            'cc_cvv2'         => $cvv2,
-            'cc_issue'        => $card_issue,
+            'cc_token'        => $data['cc_token'],
         );
 
         $p_result = $this->model_extension_default_stripe->processPayment($pd);
