@@ -38,7 +38,10 @@ class ControllerBlocksOrderSummary extends AController
         $this->view->assign('view', $this->html->getSecureURL('checkout/cart'));
 
         $rt = $this->request->get['rt'];
-        if (strpos($rt, 'checkout') !== false && $rt != 'checkout/cart') {
+        if($rt == 'checkout/success') {
+            //do now show any info on success page
+            return;
+        }elseif (strpos($rt, 'checkout') !== false && $rt != 'checkout/cart') {
             $this->view->assign('checkout', '');
         } else {
             if ($this->cart->hasMinRequirement() && $this->cart->hasMaxRequirement()) {
