@@ -5,15 +5,11 @@
 	<type>payment</type>
 	<category>Payment</category>
 	<cartversions>
-		<item>1.2</item>
+		<item>1.2.1</item>
 	</cartversions>
 	<priority>10</priority>
 	<dependencies></dependencies>
 	<settings>
-		<item id="cardconnect_site">
-			<type required="true">input</type>
-			<default_value>fts.cardconnect.com</default_value>
-		</item>
 		<item id="cardconnect_merchant_id">
 			<type required="true">input</type>
 			<default_value></default_value>
