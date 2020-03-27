@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>email_templates</key>
+		<value><![CDATA[Email Templates]]></value>
+	</definition>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Email Templates]]></value>
+	</definition>
+	<definition>
+		<key>column_text_id</key>
+		<value><![CDATA[Email Template Text ID]]></value>
+	</definition>
+	<definition>
+		<key>column_language</key>
+		<value><![CDATA[Language]]></value>
+	</definition>
+	<definition>
+		<key>column_subject</key>
+		<value><![CDATA[Subject]]></value>
+	</definition>
+	<definition>
+		<key>button_save</key>
+		<value><![CDATA[Save]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Status: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_text_id</key>
+		<value><![CDATA[Text ID: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_language_id</key>
+		<value><![CDATA[Language: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_headers</key>
+		<value><![CDATA[Custom Headers: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_subject</key>
+		<value><![CDATA[Subject: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_html_body</key>
+		<value><![CDATA[Html Body: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_text_body</key>
+		<value><![CDATA[Text Body: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_allowed_placeholders</key>
+		<value><![CDATA[Allowed Placeholders:<br /><span class="help">Coma separated list of variable names</span>]]></value>
+	</definition>
+	<definition>
+		<key>save_complete</key>
+		<value><![CDATA[Save Complete]]></value>
+	</definition>
+	<definition>
+		<key>save_error</key>
+		<value><![CDATA[Save Error. Please see log.]]></value>
+	</definition>
+
+	<definition>
+		<key>save_error_text_id</key>
+		<value><![CDATA[Text ID is required and must be up to 254 characters! One word. Charsets: A-Z a-z and _ ]]></value>
+	</definition>
+	<definition>
+		<key>save_error_text_id_unique</key>
+		<value><![CDATA[Text ID must be unique!]]></value>
+	</definition>
+	<definition>
+		<key>save_error_text_header</key>
+		<value><![CDATA[Headers must be up to 254 characters!]]></value>
+	</definition>
+	<definition>
+		<key>save_error_text_subject</key>
+		<value><![CDATA[Subject is required and must be up to 254 characters!]]></value>
+	</definition>
+	<definition>
+		<key>save_error_html_body</key>
+		<value><![CDATA[Html Body is required!]]></value>
+	</definition>
+	<definition>
+		<key>save_error_text_body</key>
+		<value><![CDATA[Text Body is required!]]></value>
+	</definition>
+	<definition>
+		<key>save_error_language_id</key>
+		<value><![CDATA[Language is required!]]></value>
+	</definition>
+</definitions>
