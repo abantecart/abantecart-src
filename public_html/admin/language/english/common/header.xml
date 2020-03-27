@@ -470,4 +470,8 @@
 		<key>text_taxes</key>
 		<value><![CDATA[Taxes]]></value>
 	</definition>
+	<definition>
+		<key>email_templates</key>
+		<value><![CDATA[Email Templates]]></value>
+	</definition>
 </definitions>
