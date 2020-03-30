@@ -105,7 +105,9 @@ $wrapper_id = randomWord(6);
 
 <script type="application/javascript">
 	$(document).ready(function () {
-		tinymce.remove();
+        try {
+            tinymce.remove('textarea#text_editor_<?php echo $id ?>');
+        } catch (e) {}
 		//initiate editor
 		mcei.selector = 'textarea#text_editor_<?php echo $id ?>';
 
@@ -181,15 +183,15 @@ $wrapper_id = randomWord(6);
 			return false;
 		});
 
-		$('#<?php echo $wrapper_id; ?> a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+		$('#<?php echo $wrapper_id; ?>').on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
 			var newtab_id = $(e.target).attr('aria-controls'), // newly activated tab
 		        prevtab_id = $(e.relatedTarget).attr('aria-controls'); // previous active tab
 
 			var textarea, value;
 			textarea = $('#'+prevtab_id+ ' textarea');
 			
-			if(prevtab_id == 'visual_<?php echo $wrapper_id?>'){
-				value = tinyMCE.activeEditor.getContent();
+			if(prevtab_id === 'visual_<?php echo $wrapper_id?>'){
+				value = tinymce.get('text_editor_<?php echo $id ?>').getContent();
 				value = visual2html(value);
 				$('#'+newtab_id+ ' textarea')
 						.val( value )
