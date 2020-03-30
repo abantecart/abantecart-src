@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension>
 	<id>cardconnect</id>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<type>payment</type>
 	<category>Payment</category>
 	<cartversions>
-		<item>1.2.1</item>
+		<item>1.2</item>
 	</cartversions>
 	<priority>10</priority>
 	<dependencies></dependencies>
