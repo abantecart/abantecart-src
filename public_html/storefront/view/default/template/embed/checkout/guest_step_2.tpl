@@ -41,10 +41,10 @@
 							<?php if (!$shipping_method['error']) { ?>
 								<?php foreach ($shipping_method['quote'] as $quote) { ?>
 									<tr>
-										<td width="5%"><label
-													for="shipping_shipping_method<?php echo $quote['id']; ?>"><?php echo $quote['radio']; ?></label>
+										<td style="width:5%;">
+                                                <?php echo $quote['radio']; ?>
 										</td>
-										<td><label for="shipping_shipping_method<?php echo $quote['id']; ?>"
+										<td><label for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
 												   title="<?php echo has_value($quote['description']) ? $quote['description'] : ''; ?>"
 												   style="cursor: pointer;">
 												<?php $icon = (array)$shipping_method['icon'];
@@ -61,7 +61,7 @@
 												} ?>
 												<?php echo $quote['title']; ?>
 											</label></td>
-										<td class="align_right"><label for="<?php echo $quote['id']; ?>"
+										<td class="align_right"><label for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
 																	   style="cursor: pointer;"><?php echo $quote['text']; ?></label>
 										</td>
 									</tr>
