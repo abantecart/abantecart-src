@@ -112,13 +112,13 @@ class ControllerResponsesExtensionDefaultRealex extends AController
         $today = getdate();
         $years = array();
         for ($i = $today['year']; $i < $today['year'] + 11; $i++) {
-            $years[strftime('%Y', mktime(0, 0, 0, 1, 1, $i))] = strftime('%Y', mktime(0, 0, 0, 1, 1, $i));
+            $years[strftime('%y', mktime(0, 0, 0, 1, 1, $i))] = strftime('%Y', mktime(0, 0, 0, 1, 1, $i));
         }
         $data['cc_expire_date_year'] = $form->getFieldHtml(
             array(
                 'type'    => 'selectbox',
                 'name'    => 'cc_expire_date_year',
-                'value'   => sprintf('%02d', date('Y') + 1),
+                'value'   => sprintf('%02d', date('y') + 1),
                 'options' => $years,
                 'style'   => 'short',
             )
