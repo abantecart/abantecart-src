@@ -154,24 +154,40 @@ class ControllerResponsesListingGridUser extends AController
 
         $this->loadLanguage('user/user');
         $this->loadModel('user/user');
-        if (isset($this->request->get['id'])) {
+        $user_id = (int)$this->request->get['id'];
+        if ( $user_id ) {
             //request sent from edit form. ID in url
             foreach ($this->request->post as $key => $value) {
                 if ($key == 'password_confirm') {
                     continue;
-                }
-                if ($key == 'user_group_id') {
-                    $user_info = $this->model_user_user->getUser($this->request->get['id']);
+                }elseif($key == 'username'){
+                    $exists = $this->model_user_user->getUsers(
+                        array(
+                            'subsql_filter' => " `username` = '".$this->db->escape($value)."' AND user_id <> ".$user_id
+                        ),
+                        'total_only'
+                    );
+                    if($exists){
+                        $error = new AError('');
+                        return $error->toJSONResponse(
+                            'VALIDATION_ERROR_406',
+                            array(
+                                'error_text'  => $this->language->get('error_username'),
+                                'reset_value' => true,
+                            ));
+                    }
+                }elseif ($key == 'user_group_id') {
+                    $user_info = $this->model_user_user->getUser($user_id);
                     if ($user_info['user_group_id'] != $value) {
                         if ( //cannot to change group for yourself
-                            $this->request->get['id'] == $this->user->getId()
+                            $user_id == $this->user->getId()
                             //or current user is not admin
                             || $this->user->getUserGroupId() != 1
                         ) {
 
                             $error = new AError('');
                             return $error->toJSONResponse(
-                                'NO_PERMISSIONS_402',
+                                'VALIDATION_ERROR_406',
                                 array(
                                     'error_text'  => $this->language->get('error_user_group'),
                                     'reset_value' => true,

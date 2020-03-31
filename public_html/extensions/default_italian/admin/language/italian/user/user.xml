@@ -86,7 +86,7 @@
 	</definition>
 	<definition>
 		<key>error_username</key>
-		<value><![CDATA[Il nome utente deve avere da 2 a 20 caratteri!]]></value>
+		<value><![CDATA[Il nome utente deve contenere da 2 a 20 caratteri e deve essere unico!]]></value>
 	</definition>
 	<definition>
 		<key>error_password</key>
