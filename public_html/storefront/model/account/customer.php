@@ -961,31 +961,14 @@ class ModelAccountCustomer extends Model
         //build welcome email in text format
         $login_url = $this->html->getSecureURL('account/login');
         $this->language->load('mail/account_create');
-        $subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
 
-        $this->data['mail_plain_text'] = sprintf($this->language->get('text_welcome'), $this->config->get('store_name'))."\n\n";
         if ($activated) {
-            $this->data['mail_plain_text'] .= $this->language->get('text_login')."\n";
-            $this->data['mail_plain_text'] .= $login_url."\n\n";
+            $template = 'storefront_welcome_email_activated';
         } else {
-            $this->data['mail_plain_text'] .= $this->language->get('text_approval')."\n\n";
-            $this->data['mail_plain_text'] .= $login_url."\n\n";
+            $template = 'storefront_welcome_email_approval';
         }
-        $this->data['mail_plain_text'] .= $this->language->get('text_services')."\n\n";
-        $this->data['mail_plain_text'] .= $this->language->get('text_thanks')."\n";
-        $this->data['mail_plain_text'] .= $this->config->get('store_name');
 
-        //build HTML message with the template
-        $this->data['mail_template_data']['text_welcome'] = sprintf($this->language->get('text_welcome'), $this->config->get('store_name'))."\n\n";
-        $this->data['mail_template_data']['text_thanks'] = $this->language->get('text_thanks');
-        if ($activated) {
-            $this->data['mail_template_data']['text_login'] = $this->language->get('text_login');
-            $this->data['mail_template_data']['text_login_later'] = '<a href="'.$login_url.'">'.$login_url.'</a>';
-            $this->data['mail_template_data']['text_services'] = $this->language->get('text_services');
-        } else {
-            $this->data['mail_template_data']['text_approval'] = $this->language->get('text_approval');
-            $this->data['mail_template_data']['text_login_later'] = '<a href="'.$login_url.'">'.$login_url.'</a>';
-        }
+        $this->data['mail_template_data']['login_url'] = $login_url;
 
         $config_mail_logo = $this->config->get('config_mail_logo');
         $config_mail_logo = !$config_mail_logo ? $this->config->get('config_logo') : $config_mail_logo;
@@ -1013,22 +996,11 @@ class ModelAccountCustomer extends Model
         $this->data['mail_template_data']['store_url'] = $this->config->get('config_url');
         $this->data['mail_template_data']['text_project_label'] = project_base();
 
-        $this->data['mail_template'] = 'mail/account_create.tpl';
-
         //allow to change email data from extensions
         $this->extensions->hk_ProcessData($this, 'sf_account_welcome_mail');
 
-        $view = new AView($this->registry, 0);
-        $view->batchAssign($this->data['mail_template_data']);
-        $html_body = $view->fetch($this->data['mail_template']);
 
-        $this->_send_email($email, array(
-                'subject'          => $subject,
-                'txt_body'         => $this->data['mail_plain_text'],
-                'html_body'        => $html_body,
-                'config_mail_logo' => $config_mail_logo,
-            )
-        );
+        $this->_send_email($email, $template, $this->data['mail_template_data']);
 
         return true;
     }
@@ -1057,17 +1029,8 @@ class ModelAccountCustomer extends Model
 
         //build welcome email
         $this->language->load('mail/account_create');
-        $subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
 
-        $this->data['mail_plain_text'] = sprintf($this->language->get('text_welcome'), $this->config->get('store_name'))."\n\n";
-        $this->data['mail_plain_text'] .= sprintf(strip_tags($this->language->get('text_activate')), "\n".$activate_url."\n")."\n";
-        $this->data['mail_plain_text'] .= $this->language->get('text_thanks')."\n";
-        $this->data['mail_plain_text'] .= $this->config->get('store_name');
-
-        //build HTML message with the template
-        $this->data['mail_template_data']['text_welcome'] = sprintf($this->language->get('text_welcome'), $this->config->get('store_name'))."\n\n";
-        $this->data['mail_template_data']['text_thanks'] = $this->language->get('text_thanks');
-        $this->data['mail_template_data']['text_activate'] = sprintf($this->language->get('text_activate'), '<a href="'.$activate_url.'">'.$activate_url.'</a>');
+        $this->data['mail_template_data']['activate_url'] = '<a href="'.$activate_url.'">'.$activate_url.'</a>';
 
         $config_mail_logo = $this->config->get('config_mail_logo');
         $config_mail_logo = !$config_mail_logo ? $this->config->get('config_logo') : $config_mail_logo;
@@ -1096,23 +1059,13 @@ class ModelAccountCustomer extends Model
         $this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
         $this->data['mail_template_data']['store_url'] = $this->config->get('config_url');
         $this->data['mail_template_data']['text_project_label'] = project_base();
-        $this->data['mail_template'] = 'mail/account_create.tpl';
+
 
         //allow to change email data from extensions
         $this->extensions->hk_ProcessData($this, 'sf_account_activation_mail');
 
-        $view = new AView($this->registry, 0);
-        $view->batchAssign($this->data['mail_template_data']);
-        $html_body = $view->fetch($this->data['mail_template']);
 
-        $this->_send_email($customer_data['email'],
-            array(
-                'subject'          => $subject,
-                'txt_body'         => $this->data['mail_plain_text'],
-                'html_body'        => $html_body,
-                'config_mail_logo' => $config_mail_logo,
-            )
-        );
+        $this->_send_email($customer_data['email'], 'storefront_send_activate_link',$this->data['mail_template_data']);
 
         return true;
     }
@@ -1121,21 +1074,20 @@ class ModelAccountCustomer extends Model
      * @param string $email
      * @param array $data
      */
-    protected function _send_email($email, $data)
+    protected function _send_email($email, $template, $data)
     {
         $mail = new AMail($this->config);
         $mail->setTo($email);
         $mail->setFrom($this->config->get('store_main_email'));
         $mail->setSender($this->config->get('store_name'));
-        $mail->setSubject($data['subject']);
-        $mail->setText(html_entity_decode($data['txt_body'], ENT_QUOTES, 'UTF-8'));
+
+        $mail->setTemplate($template, $data);
 
         if (is_file(DIR_RESOURCE.$data['config_mail_logo'])) {
             $mail->addAttachment(DIR_RESOURCE.$data['config_mail_logo'],
                 md5(pathinfo($data['config_mail_logo'], PATHINFO_FILENAME))
                 .'.'.pathinfo($data['config_mail_logo'], PATHINFO_EXTENSION));
         }
-        $mail->setHtml($data['html_body']);
         $mail->send();
     }
 
