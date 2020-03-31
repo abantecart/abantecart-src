@@ -157,6 +157,9 @@ abstract class AController
         if ($this->request->get['embed_mode']) {
             $config = $this->registry->get('config');
             $config->set('embed_mode', true);
+        }else{
+            //defense from clickjacking
+            $this->response->addHeader('X-Frame-Options: SAMEORIGIN');
         }
     }
 
