@@ -38,14 +38,14 @@ class ModelDesignEmailTemplate extends Model
                 if (!$allowedSearchFields[$filter['field']]) {
                     continue;
                 }
-                $arWhere[] = $allowedSearchFields[$filter['field']].' LIKE \'%'.$filter['data'].'%\'';
+                $arWhere[] = $allowedSearchFields[$filter['field']].' LIKE \'%'.$db->escape($filter['data']).'%\'';
 
             }
         }
 
-        if (isset($data['store_id'])) {
-            $arWhere[] = $allowedSearchFields['store_id'].'='.$data['store_id'];
-        }
+
+        $arWhere[] = $allowedSearchFields['store_id'].'='.($data['store_id'] ?: '0');
+
 
 
         if (!empty($arWhere)) {
@@ -103,7 +103,7 @@ class ModelDesignEmailTemplate extends Model
 
         $arUpdate = [];
         foreach ($data as $key => $val) {
-            $arUpdate[] = $key.'=\''.$val.'\'';
+            $arUpdate[] = $key.'=\''.$db->escape($val).'\'';
         }
         if (empty($arUpdate)) {
             return false;
@@ -152,6 +152,10 @@ class ModelDesignEmailTemplate extends Model
         $etTableName = $db->table('email_templates');
         $keys = array_keys($data);
         $values = array_values($data);
+
+        foreach ($values as &$value) {
+            $value = $db->escape($value);
+        }
 
         $query = 'INSERT INTO '.$etTableName.' ('.implode(',', $keys).') VALUES (\''.implode('\',\'', $values).'\')';
         if ($db->query($query)) {
