@@ -418,7 +418,7 @@ class ModelCheckoutOrder extends Model
                                 $product['product_id']),
                         ),
                     );
-                    $this->im->send('product_out_of_stock', $message_arr);
+                    $this->im->send('product_out_of_stock', $message_arr, 'storefront_product_out_of_stock_admin_notify', $product);
                 }
             }
 
@@ -446,7 +446,7 @@ class ModelCheckoutOrder extends Model
                                 $product['product_id']),
                         ),
                     );
-                    $this->im->send('product_out_of_stock', $message_arr);
+                    $this->im->send('product_out_of_stock', $message_arr,  'storefront_product_out_of_stock_admin_notify', $product);
                 }
             }
         }
@@ -675,26 +675,19 @@ class ModelCheckoutOrder extends Model
 
         $view = new AView($this->registry, 0);
         $view->batchAssign($this->data['mail_template_data']);
-        $html_body = $view->fetch($this->data['mail_template']);
 
         //text email
         $this->data['mail_template'] = 'mail/order_confirm_text.tpl';
 
         //allow to change email data from extensions
         $this->extensions->hk_ProcessData($this, 'sf_order_confirm_mail_text');
-        $this->data['mail_plain_text'] = $view->fetch($this->data['mail_template']);
-        $this->data['mail_plain_text'] = html_entity_decode($this->data['mail_plain_text'], ENT_QUOTES, 'UTF-8');
-        //remove html-tags
-        $breaks = array("<br />", "<br>", "<br/>");
-        $this->data['mail_plain_text'] = str_ireplace($breaks, "\r\n", $this->data['mail_plain_text']);
+
 
         $mail = new AMail($this->config);
         $mail->setTo($order_row['email']);
         $mail->setFrom($this->config->get('store_main_email'));
         $mail->setSender($order_row['store_name']);
-        $mail->setSubject($subject);
-        $mail->setHtml($html_body);
-        $mail->setText($this->data['mail_plain_text']);
+        $mail->setTemplate('storefront_order_confirm', $this->data['mail_template_data']);
         if (is_file(DIR_RESOURCE.$config_mail_logo)) {
             $mail->addAttachment(DIR_RESOURCE.$config_mail_logo,
                 md5(pathinfo($config_mail_logo, PATHINFO_FILENAME))
@@ -711,6 +704,7 @@ class ModelCheckoutOrder extends Model
             $this->data['mail_template_data']['text_invoice'] = '';
             $this->data['mail_template_data']['text_footer'] = '';
 
+            $this->data['mail_template_data']['order_url'] = $this->html->getSecureURL('sale/order/details', '&order_id='.$order_id);
             $this->data['mail_template'] = 'mail/order_confirm.tpl';
 
             //allow to change email data from extensions
@@ -725,28 +719,9 @@ class ModelCheckoutOrder extends Model
             $this->data['mail_template'] = 'mail/order_confirm_text.tpl';
             $this->extensions->hk_ProcessData($this, 'sf_order_confirm_alert_mail_text');
 
-            $this->data['mail_plain_text'] = $view->fetch($this->data['mail_template']);
-            $this->data['mail_plain_text'] = html_entity_decode($this->data['mail_plain_text'], ENT_QUOTES, 'UTF-8');
-            //remove html-tags
-            $breaks = array("<br />", "<br>", "<br/>");
-            $this->data['mail_plain_text'] = str_ireplace($breaks, "\r\n", $this->data['mail_plain_text']);
 
-            $order_total = '';
-            foreach ($order_total_query->rows as $row) {
-                if ($row['key'] == 'total') {
-                    $order_total = $row['text'];
-                    break;
-                }
-            }
-
-            $subject = sprintf($language->get('text_subject'),
-                html_entity_decode($this->config->get('store_name'), ENT_QUOTES, 'UTF-8'),
-                $order_id.' ('.$order_total.')');
-
-            $mail->setSubject($subject);
             $mail->setTo($this->config->get('store_main_email'));
-            $mail->setHtml($html_body);
-            $mail->setText($this->data['mail_plain_text']);
+            $mail->setTemplate( 'storefront_order_confirm_admin_notify', $this->data['mail_template_data']);
             $mail->send();
 
             // Send to additional alert emails
@@ -773,7 +748,7 @@ class ModelCheckoutOrder extends Model
         $message_arr = array(
             1 => array('message' => sprintf($language->get('im_new_order_text_to_admin'), $order_id)),
         );
-        $this->im->send('new_order', $message_arr);
+        $this->im->send('new_order', $message_arr, 'storefront_order_confirm_admin_notify', $this->data['mail_template_data']);
 
         return true;
     }
@@ -839,6 +814,25 @@ class ModelCheckoutOrder extends Model
             if ($order_status_query->row['name']) {
                 $status_name = $order_status_query->row['name'];
             }
+
+            $invoiceUrl = '';
+            if ( !$order_row['customer_id'] && $this->config->get('config_guest_checkout') && $order_row['email']) {
+                $enc = new AEncryption($this->config->get('encryption_key'));
+                $order_token = $enc->encrypt($order_id.'::'.$order_row['email']);
+                if ($order_token) {
+                    $invoiceUrl = $order_row['store_url'].'index.php?rt=account/invoice&ot='.$order_token;
+                }
+            }
+
+            $data = [
+                'store_name' => $order_row['store_name'],
+                'order_id' => $order_id,
+                'order_date_added' => dateISO2Display($order_row['date_added'], $language->get('date_format_short')),
+                'order_status' => $order_status_query->num_rows ? $order_status_query->row['name'] : '',
+                'invoice' => $order_row['customer_id'] ? $order_row['store_url'].'index.php?rt=account/invoice&order_id='.$order_id : $invoiceUrl,
+                'comment' => $comment ?: ''
+            ];
+
             $message_arr = array(
                 0 => array(
                     'message' => sprintf(
@@ -851,49 +845,15 @@ class ModelCheckoutOrder extends Model
                     'message' => sprintf($language_im->get('im_order_update_text_to_admin'), $order_id, $status_name),
                 ),
             );
-            $this->im->send('order_update', $message_arr);
+            $this->im->send('order_update', $message_arr, 'admin_order_status_notify', $data);
 
             //notify via email
             if ($notify) {
-
-                $subject = sprintf($language->get('text_subject'),
-                    html_entity_decode($order_row['store_name'], ENT_QUOTES, 'UTF-8'), $order_id);
-
-                $message = $language->get('text_order').' '.$order_id."\n";
-                $message .= $language->get('text_date_added').' '.dateISO2Display($order_row['date_added'],
-                        $language->get('date_format_short'))."\n\n";
-
-                if ($order_status_query->num_rows) {
-                    $message .= $language->get('text_order_status')."\n\n";
-                    $message .= $order_status_query->row['name']."\n\n";
-                }
-
-                if ($order_row['customer_id']) {
-                    $message .= $language->get('text_invoice')."\n";
-                    $message .= $order_row['store_url'].'index.php?rt=account/invoice&order_id='.$order_id."\n\n";
-                } //give link on order page for quest
-                elseif ($this->config->get('config_guest_checkout') && $order_row['email']) {
-                    $enc = new AEncryption($this->config->get('encryption_key'));
-                    $order_token = $enc->encrypt($order_id.'::'.$order_row['email']);
-                    if ($order_token) {
-                        $message .= $language->get('text_invoice')."\n";
-                        $message .= $order_row['store_url'].'index.php?rt=account/invoice&ot='.$order_token."\n\n";
-                    }
-                }
-
-                if ($comment) {
-                    $message .= $language->get('text_comment')."\n\n";
-                    $message .= $comment."\n\n";
-                }
-
-                $message .= $language->get('text_footer');
-
                 $mail = new AMail($this->config);
                 $mail->setTo($order_row['email']);
                 $mail->setFrom($this->config->get('store_main_email'));
                 $mail->setSender($order_row['store_name']);
-                $mail->setSubject($subject);
-                $mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
+                $mail->setTemplate('admin_order_status_notify', $data);
                 $mail->send();
             }
         }
