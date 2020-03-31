@@ -169,12 +169,15 @@ class ControllerBlocksListingBlock extends AController
                 'tax_class_id' => $result['tax_class_id'],
             );
         }
-        $data_source = array(
-            'rl_object_name' => 'products',
-            'data_type'      => 'product_id',
-        );
-        //add thumbnails to list of products. 1 thumbnail per product
-        $products = $this->_prepareCustomItems($data_source, $products);
+
+        if(!current($products)['thumb']) {
+            $data_source = array(
+                        'rl_object_name' => 'products',
+                        'data_type'      => 'product_id',
+                    );
+            //add thumbnails to list of products. 1 thumbnail per product
+            $products = $this->_prepareCustomItems($data_source, $products);
+        }
         //need to override reference (see params)
         $data = $products;
 
@@ -279,6 +282,7 @@ class ControllerBlocksListingBlock extends AController
             return false;
         }
 
+        $result = [];
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $listing = new AListing($this->data['custom_block_id']);
@@ -411,12 +415,8 @@ class ControllerBlocksListingBlock extends AController
                                 break;
                             }
                         }
-                        //add thumbnails to custom list of items. 1 thumbnail per item
-                        $result = $this->_prepareCustomItems($data_source, $result);
                     }
-
                 }
-
             }
         } else { // for custom listings
 
@@ -437,9 +437,10 @@ class ControllerBlocksListingBlock extends AController
 
             // Skip if data source is vanished but still set in the listing.
             $result = array_filter($result);
-        }
 
-        if ($result) {
+
+        }
+        if ($result && !current($result)['thumb']) {
             //add thumbnails to custom list of items. 1 thumbnail per item
             $result = $this->_prepareCustomItems($data_source, $result);
         }
@@ -453,6 +454,7 @@ class ControllerBlocksListingBlock extends AController
      * @param array $result
      *
      * @return array
+     * @throws AException
      */
     private function _prepareCustomItems($data_source, $result)
     {
