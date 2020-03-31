@@ -249,23 +249,22 @@ class ModelSaleCustomerTransaction extends Model
 
                 $store_info = $this->model_setting_store->getStore((int)$this->session->data['current_store_id']);
 
-                $subject = sprintf($language->get('text_transaction_notification_subject'), $store_info['store_name']);
 
                 $url = html_entity_decode($store_info['config_url'].'index.php?rt=account/transactions', ENT_QUOTES, 'UTF-8');
 
                 $amount = $this->currency->format($data['credit'] - $data['debit']);
-                $message = sprintf($language->get('text_transaction_notification_message'),
-                        $store_info['store_name'],
-                        $amount,
-                        $store_info['store_name'])."\n\n";
-                $message .= $url."\n\n";
-                $message .= $data['description'];
+
+                $mailData = [
+                    'store_name' => $store_info['store_name'],
+                    'amount' => $amount,
+                    'transactions_url' => $url
+                ];
+
                 $mail = new AMail($this->config);
                 $mail->setTo($customer_info['email']);
                 $mail->setFrom($store_info['store_main_email']);
                 $mail->setSender($store_info['store_name']);
-                $mail->setSubject($subject);
-                $mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
+                $mail->setTemplate('admin_new_transaction_notify', $mailData);
                 $mail->send();
 
                 //notify customer

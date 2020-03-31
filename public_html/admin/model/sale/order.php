@@ -991,37 +991,23 @@ class ModelSaleOrder extends Model
                                             WHERE o.order_id = '".(int)$order_id."'");
 
             if ($order_query->num_rows) {
-                //load language specific for the order in admin section 
+                //load language specific for the order in admin section
                 $language = new ALanguage(Registry::getInstance(), $order_query->row['code'], 1);
                 $language->load($order_query->row['filename']);
                 $language->load('mail/order');
 
                 $this->load->model('setting/store');
 
-                $subject = sprintf($language->get('text_subject'), $order_query->row['store_name'], $order_id);
-
-                $message = $language->get('text_order').' '.$order_id."\n";
-                $message .= $language->get('text_date_added').' '.dateISO2Display($order_query->row['date_added'], $language->get('date_format_short'))."\n\n";
-                $message .= $language->get('text_order_status')."\n\n";
-                $message .= $order_query->row['status']."\n\n";
                 //send link to order only for registered customers
+                $invoice = '';
                 if ($order_query->row['customer_id']) {
-                    $message .= $language->get('text_invoice')."\n";
-                    $message .= html_entity_decode($order_query->row['store_url'].'index.php?rt=account/invoice&order_id='.$order_id, ENT_QUOTES, 'UTF-8')."\n\n";
+                    $invoice =  html_entity_decode($order_query->row['store_url'].'index.php?rt=account/invoice&order_id='.$order_id, ENT_QUOTES, 'UTF-8')."\n\n";
                 } //give link on order page for quest
                 elseif ($this->config->get('config_guest_checkout') && $order_query->row['email']) {
                     $enc = new AEncryption($this->config->get('encryption_key'));
                     $order_token = $enc->encrypt($order_id.'::'.$order_query->row['email']);
-                    $message .= $language->get('text_invoice')."\n";
-                    $message .= html_entity_decode($order_query->row['store_url'].'index.php?rt=account/invoice&ot='.$order_token, ENT_QUOTES, 'UTF-8')."\n\n";
+                    $invoice = html_entity_decode($order_query->row['store_url'].'index.php?rt=account/invoice&ot='.$order_token, ENT_QUOTES, 'UTF-8')."\n\n";
                 }
-
-                if ($data['comment']) {
-                    $message .= $language->get('text_comment')."\n\n";
-                    $message .= strip_tags(html_entity_decode($data['comment'], ENT_QUOTES, 'UTF-8'))."\n\n";
-                }
-
-                $message .= $language->get('text_footer');
 
                 if ($this->dcrypt->active) {
                     $customer_email = $this->dcrypt->decrypt_field($order_query->row['email'], $order_query->row['key_id']);
@@ -1029,12 +1015,20 @@ class ModelSaleOrder extends Model
                     $customer_email = $order_query->row['email'];
                 }
 
+                $mailData = [
+                    'store_name' => $order_query->row['store_name'],
+                    'order_id' => $order_id,
+                    'date_added' => dateISO2Display($order_query->row['date_added'], $language->get('date_format_short')),
+                    'order_status_name' => $order_query->row['status'],
+                    'invoice' => $invoice,
+                    'comment' => $data['comment'] ? strip_tags(html_entity_decode($data['comment'], ENT_QUOTES, 'UTF-8')) : ''
+                ];
+
                 $mail = new AMail($this->config);
                 $mail->setTo($customer_email);
                 $mail->setFrom($this->config->get('store_main_email'));
                 $mail->setSender($order_query->row['store_name']);
-                $mail->setSubject($subject);
-                $mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
+                $mail->setTemplate('admin_order_status_notify', $mailData);
                 $mail->send();
 
                 //send IMs except emails.
@@ -1322,7 +1316,7 @@ class ModelSaleOrder extends Model
 
         if (has_value($data['filter_total'])) {
             $data['filter_total'] = trim($data['filter_total']);
-            //check if compare signs are used in the request 
+            //check if compare signs are used in the request
             $compare = '';
             if (in_array(substr($data['filter_total'], 0, 2), array('>=', '<='))) {
                 $compare = substr($data['filter_total'], 0, 2);
