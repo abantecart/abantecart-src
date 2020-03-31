@@ -25,9 +25,9 @@
 			</div>
 		</div>
 
-		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
 	</div>
-	
+
 	<?php echo $form['form_open']; ?>
 	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 	<label class="h4 heading"><?php echo $form_title; ?></label>
@@ -168,17 +168,17 @@
 		<?php echo $this->getHookVar('order_details_right_post'); ?>
 	</div>
 	</div>
-	
+
 	<?php if ($comment) { ?>
 		<div class="form-group">
 			<label class="control-label col-sm-5"><?php echo $entry_comment; ?></label>
 			<div class="input-group afield col-sm-7">
 			<p class="form-control-static"><?php echo $comment; ?></p>
-			
+
 			</div>
 		</div>
 	<?php } ?>
-	
+
 	<?php echo $this->getHookVar('order_details'); ?>
 	</div>
 
@@ -221,7 +221,7 @@
 						<dl class="dl-horizontal product-options-list-sm">
 					<?php
 					foreach ($order_product['option'] as $option) { ?>
-						<dt><small title="<?php echo $option['title']?>">- <?php echo $option['name']; ?></small></dt><dd><small title="<?php echo $option['title']?>"><?php echo $option['value']; ?></small></dd>
+						<dt><small title="<?php echo $option['title']?>">- <?php echo $option['name']; ?></small></dt><dd><small class="product_option_value" title="<?php echo $option['title']?>"><?php echo $option['value']; ?></small></dd>
 					<?php }?>
 						</dl>
 					<?php } ?></td>
@@ -310,10 +310,10 @@
 									   value="<?php echo $total_row['text']; ?>"/>
 					<?php } else { ?>
 					<b class="<?php echo $total_row['type']; ?>" rel="totals[<?php echo $total_row['order_total_id']; ?>]"><?php echo $total_row['text']; ?>
-					</b>	
+					</b>
 					<input type="hidden" class="hidden_<?php echo $total_row['type']; ?>" name="totals[<?php echo $total_row['order_total_id']; ?>]" value="<?php echo $total_row['text']; ?>"/>
 					<?php } ?>
-					
+
 					<?php $count++; ?>
 				</td>
 			</tr>
@@ -328,7 +328,7 @@
 					   data-original-title="<?php echo $text_add; ?>"
 					   data-order-id="<?php echo $order_id; ?>">
 					    <i class="fa fa-plus-circle"></i>
-					    
+
 					    <?php foreach ($totals_add as $total_row) { ?>
 					    <div class="hidden <?php echo $total_row['key']; ?>">
 					    	<div class="row">
@@ -547,7 +547,7 @@
 				total += n;
 			}
 		});
-		
+
 		//update last - total
 		$('#products .total').html(get_currency_str(total));
 		$('#products .hidden_total').val(get_currency_str(total));
@@ -621,7 +621,7 @@
 		addTotal();
 	    return false;
 	});
-	
+
 	$('#orderFrm_new_total').change(function () {
 		addTotalSelect( $("#orderFrm_new_total option:selected").text() );
 	});
@@ -632,7 +632,7 @@
 	}
 
 	function addTotalSelect(key) {
-		var html = $('.add_totals .hidden.'+key).html(); 
+		var html = $('.add_totals .hidden.'+key).html();
 		$('#add_order_total form .content').html(html);
 	}
 
@@ -645,5 +645,31 @@
 		//v = v==='' ? 0 : v;
 		$(this).val(v);
 	});
-	
+
+	let copyStrippedText = function(el) {
+		let $temp = $("<input>");
+		$("body").append($temp);
+		$temp.val($(el).attr('copy_data')).select();
+		document.execCommand("copy");
+		$temp.remove();
+		$(el).attr('title', 'Copied')
+		$(el).tooltip('enable').tooltip('show')
+		setTimeout(() => {
+			$(el).attr('title', 'Copy')
+			$(el).tooltip('disable').tooltip('hide')
+		}, 1000);
+	}
+
+	$(document).ready(() => {
+		let index = 0;
+		$('.product_option_value').each(function () {
+			if ($(this).text().length < $(this).attr('title').length) {
+				 $(this).append('&nbsp;&nbsp;&nbsp;<a id="product_option_value_copy'+index+'" ' +
+						 'copy_data="'+$(this).attr('title')+'"'+
+					 ' onClick="copyStrippedText(\'#product_option_value_copy'+index+'\')" title="Copy"><i class="fa fa-copy"></i></a>')
+			}
+			index ++
+		})
+	})
+
 </script>
