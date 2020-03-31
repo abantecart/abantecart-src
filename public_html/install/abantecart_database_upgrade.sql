@@ -63,9 +63,9 @@ CREATE TABLE `ac_email_templates` (
 --
 -- Dumping data for table `ac_email_templates`
 --
-LOCK TABLES `abc_email_templates` WRITE;
+LOCK TABLES `ac_email_templates` WRITE;
 /*!40000 ALTER TABLE `abc_email_templates` DISABLE KEYS */;
-INSERT INTO `abc_email_templates` VALUES (1,1,'storefront_reset_password_link',1,'','{{store_name}} - Password reset','A password reset was requested from {{store_name}}&lt;br /&gt;\r\nTo reset your password click$
+INSERT INTO `ac_email_templates` VALUES (1,1,'storefront_reset_password_link',1,'','{{store_name}} - Password reset','A password reset was requested from {{store_name}}&lt;br /&gt;\r\nTo reset your password click$
 /*!40000 ALTER TABLE `abc_email_templates` ENABLE KEYS */;
 UNLOCK TABLES;
 
