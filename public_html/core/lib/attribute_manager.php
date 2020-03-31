@@ -111,7 +111,7 @@ class AAttribute_Manager extends AAttribute
     }
 
     /**
-     * @param int   $attribute_id
+     * @param int $attribute_id
      * @param array $data
      */
     public function updateAttribute($attribute_id, $data)
@@ -188,9 +188,11 @@ class AAttribute_Manager extends AAttribute
                 } else {
                     if ($data['attribute_value_ids'][$atr_val_id] == 'new') {
                         // New need to create
-                        $attribute_value_id = $this->addAttributeValue($attribute_id, $data['sort_orders'][$atr_val_id]);
+                        $attribute_value_id =
+                            $this->addAttributeValue($attribute_id, $data['sort_orders'][$atr_val_id]);
                         if ($attribute_value_id) {
-                            $this->addAttributeValueDescription($attribute_id, $attribute_value_id, $language_id, $value);
+                            $this->addAttributeValueDescription($attribute_id, $attribute_value_id, $language_id,
+                                $value);
                         }
                     } else {
                         //Existing need to update
@@ -266,9 +268,9 @@ class AAttribute_Manager extends AAttribute
     }
 
     /**
-     * @param int    $attribute_id
-     * @param int    $attribute_value_id
-     * @param int    $language_id
+     * @param int $attribute_id
+     * @param int $attribute_value_id
+     * @param int $language_id
      * @param string $value
      *
      * @return bool
@@ -288,9 +290,9 @@ class AAttribute_Manager extends AAttribute
     }
 
     /**
-     * @param int    $attribute_id
-     * @param int    $attribute_value_id
-     * @param int    $language_id
+     * @param int $attribute_id
+     * @param int $attribute_value_id
+     * @param int $language_id
      * @param string $value
      *
      * @return bool
@@ -350,7 +352,7 @@ class AAttribute_Manager extends AAttribute
     /**
      * @param int $group_id
      *
-     * @return mixed
+     * @void
      */
     public function deleteAttributeGroup($group_id)
     {
@@ -390,7 +392,7 @@ class AAttribute_Manager extends AAttribute
     }
 
     /**
-     * @param int   $group_id
+     * @param int $group_id
      * @param array $data
      */
     public function updateAttributeGroup($group_id, $data)
@@ -466,7 +468,8 @@ class AAttribute_Manager extends AAttribute
         $sql = "SELECT gag.*, gagd.name
 				FROM ".$this->db->table("global_attributes_groups")." gag
 				LEFT JOIN ".$this->db->table("global_attributes_groups_descriptions")." gagd
-					ON ( gag.attribute_group_id = gagd.attribute_group_id AND gagd.language_id = '".(int)$data['language_id']."' )";
+					ON ( gag.attribute_group_id = gagd.attribute_group_id AND gagd.language_id = '"
+            .(int)$data['language_id']."' )";
 
         $sort_data = array(
             'gagd.name',
@@ -506,7 +509,7 @@ class AAttribute_Manager extends AAttribute
     /**
      * @param array $data
      *
-     * @return array
+     * @return int
      */
     public function getTotalAttributeGroups($data = array())
     {
@@ -518,7 +521,8 @@ class AAttribute_Manager extends AAttribute
         $sql = "SELECT gag.*, gagd.name
 				FROM ".$this->db->table("global_attributes_groups")." gag
 				LEFT JOIN ".$this->db->table("global_attributes_groups_descriptions")." gagd
-					ON ( gag.attribute_group_id = gagd.attribute_group_id AND gagd.language_id = '".(int)$data['language_id']."' )";
+					ON ( gag.attribute_group_id = gagd.attribute_group_id AND gagd.language_id = '"
+            .(int)$data['language_id']."' )";
 
         $query = $this->db->query($sql);
         return $query->num_rows;
@@ -540,7 +544,8 @@ class AAttribute_Manager extends AAttribute
         $query = $this->db->query("SELECT ga.*, gad.name, gad.error_text, gad.placeholder
 									FROM ".$this->db->table("global_attributes")." ga
 										LEFT JOIN ".$this->db->table("global_attributes_descriptions")." gad
-										ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = '".(int)$language_id."' )
+										ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = '"
+            .(int)$language_id."' )
 									WHERE ga.attribute_id = '".(int)$attribute_id."'");
         if ($query->num_rows) {
             return $query->row;
@@ -584,7 +589,8 @@ class AAttribute_Manager extends AAttribute
         $query = $this->db->query("SELECT ga.*, gad.value
 									FROM ".$this->db->table("global_attributes_values")." ga
 										LEFT JOIN ".$this->db->table("global_attributes_value_descriptions")." gad
-										ON ( ga.attribute_value_id = gad.attribute_value_id AND gad.language_id = '".(int)$language_id."' )
+										ON ( ga.attribute_value_id = gad.attribute_value_id AND gad.language_id = '"
+            .(int)$language_id."' )
 									WHERE ga.attribute_id = '".$this->db->escape($attribute_id)."'
 									ORDER BY sort_order"
         );
@@ -611,12 +617,12 @@ class AAttribute_Manager extends AAttribute
     }
 
     /**
-     * @param array    $data
-     * @param int      $language_id
+     * @param array $data
+     * @param int $language_id
      * @param null|int $attribute_parent_id
-     * @param string   $mode
+     * @param string $mode
      *
-     * @return array
+     * @return array|int
      */
     public function getAttributes($data = array(), $language_id = 0, $attribute_parent_id = null, $mode = 'default')
     {
@@ -628,7 +634,7 @@ class AAttribute_Manager extends AAttribute
         //Prepare filter config
         $filter_params = array('attribute_parent_id', 'status');
         if (!has_value($data['attribute_type_id'])) {
-            $filter_params[] = 'attribute_type_id'; // to prevent ambigious fields in sql query
+            $filter_params[] = 'attribute_type_id'; // to prevent ambiguous fields in sql query
         }
         //Build query string based on GET params first
         $filter_form = new AFilter(array('method' => 'get', 'filter_params' => $filter_params));
@@ -712,8 +718,8 @@ class AAttribute_Manager extends AAttribute
 
     /**
      * @param array $data
-     * @param int   $language_id
-     * @param null  $attribute_parent_id
+     * @param int $language_id
+     * @param null $attribute_parent_id
      *
      * @return int
      */
