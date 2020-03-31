@@ -28,6 +28,7 @@ class ModelDesignEmailTemplate extends Model
             'text_id'  => $etTableName.'.text_id',
             'language' => $langTableName.'.name',
             'subject'  => $etTableName.'.subject',
+            'store_id' => $etTableName.'.store_id',
         ];
 
         $arWhere = [];
@@ -38,7 +39,12 @@ class ModelDesignEmailTemplate extends Model
                     continue;
                 }
                 $arWhere[] = $allowedSearchFields[$filter['field']].' LIKE \'%'.$filter['data'].'%\'';
+
             }
+        }
+
+        if (isset($data['store_id'])) {
+            $arWhere[] = $allowedSearchFields['store_id'].'='.$data['store_id'];
         }
 
 
@@ -46,7 +52,7 @@ class ModelDesignEmailTemplate extends Model
             $query .= ' WHERE '.implode(' AND ', $arWhere);
         }
 
-        $allowedSortFields = [
+            $allowedSortFields = [
             'text_id'  => $etTableName.'.text_id',
             'language' => $langTableName.'.name',
             'subject'  => $etTableName.'.subject',

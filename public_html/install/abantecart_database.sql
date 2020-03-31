@@ -12658,6 +12658,7 @@ CREATE TABLE `ac_email_templates` (
   `status` tinyint(1) NOT NULL,
   `text_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `language_id` int(11) NOT NULL,
+  `store_id` int(11) NOT NULL DEFAULT 0,
   `headers` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `subject` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `html_body` text COLLATE utf8_unicode_ci NOT NULL,

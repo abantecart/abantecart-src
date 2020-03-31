@@ -11,7 +11,9 @@ class ControllerResponsesListingGridEmailTemplates extends AController
 
         $this->loadModel('design/email_template');
 
-        $result = $this->model_design_email_template->getEmailTemplates($this->request->post);
+        $data = $this->request->post;
+        $data['store_id'] = (int)$this->config->get('config_store_id');
+        $result = $this->model_design_email_template->getEmailTemplates($data);
         $response = new stdClass();
         $response->page = $result['page'];
         $response->total = ceil($result['total']/$result['limit']);

@@ -18,7 +18,6 @@ class ControllerPagesDesignEmailTemplates extends AController
             'update_field'     => $this->html->getSecureURL('listing_grid/email_templates/update_field'),
             'sortname'         => 'text_id',
             'sortorder'        => 'asc',
-            'drag_sort_column' => 'text_id',
             'columns_search'   => true,
             'actions'          => array(
                 'edit'   => array(
@@ -88,7 +87,9 @@ class ControllerPagesDesignEmailTemplates extends AController
 
 
         if ($this->request->is_POST() && $this->validate($this->request->post)) {
-            $emailTemplate = $this->model_design_email_template->insert($this->request->post);
+            $data = $this->request->post;
+            $data['store_id'] = (int)$this->config->get('config_store_id');
+            $emailTemplate = $this->model_design_email_template->insert($data);
         }
 
         if ($this->session->data['success']) {
