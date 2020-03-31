@@ -162,15 +162,17 @@ class ModelAccountCustomer extends Model
         $language->load('common/im');
         if ($data['subscriber']) {
             $lang_key = 'im_new_subscriber_text_to_admin';
+            $templateId = 'storefront_new_subscriber_admin_notify';
         } else {
             $lang_key = 'im_new_customer_text_to_admin';
+            $templateId = 'storefront_new_customer_admin_notify';
         }
         $message_arr = array(
             1 => array(
                 'message' => sprintf($language->get($lang_key), $customer_id, $data['firstname'].' '.$data['lastname']),
             ),
         );
-        $this->im->send('new_customer', $message_arr);
+        $this->im->send('new_customer', $message_arr, $templateId, $data);
         return $customer_id;
     }
 
