@@ -103,7 +103,10 @@ class ControllerResponsesProductReview extends AController
                     'message' => sprintf($this->language->get('im_product_review_text_to_admin'), $review_id),
                 ),
             );
-            $this->im->send('product_review', $message_arr);
+            $this->im->send('product_review', $message_arr, 'storefront_product_review_admin_notify', [
+                'product_id' => $product_id,
+                'product_url' => $this->html->getSecureURL('catalog/review/update', '&review_id='.$product_id)
+            ]);
         } else {
             $json['error'] = $this->error['message'];
         }
