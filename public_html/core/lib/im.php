@@ -267,13 +267,13 @@ class AIM
      * 0 - storefront (customer) and 1 - Admin (user)
      * notes: If message is not provided, message text will be takes from languages based on checkpoint text key.
      */
-    public function send($sendpoint, $msg_details = array())
+    public function send($sendpoint, $msg_details = [], $templateTextId = '', $templateData = [])
     {
         $this->load->language('common/im');
         $customer_im_settings = array();
         if (IS_ADMIN !== true) {
             $sendpoints_list = $this->sendpoints;
-            //do have storefront sendpoint? 
+            //do have storefront sendpoint?
             if (!empty($sendpoints_list[$sendpoint][0])) {
                 $this->load->model('account/customer');
                 $customer_im_settings = $this->getCustomerNotificationSettings();
@@ -380,7 +380,7 @@ class AIM
                         if ($message && $to) {
                             //use safe call
                             try {
-                                $driver->send($to, $store_name.$message);
+                                $driver->send($to, $store_name.$message, $templateTextId, $templateData);
                             } catch (Exception $e) {
                             }
                         }
@@ -585,7 +585,7 @@ final class AMailIM
         return 'Email';
     }
 
-    public function send($to, $text)
+    public function send($to, $text, $templateTextId='', $templateData = [])
     {
         $this->load->language('common/im');
         $to = trim($to);
@@ -598,9 +598,13 @@ final class AMailIM
         $mail->setTo($to);
         $mail->setFrom($this->config->get('store_main_email'));
         $mail->setSender($this->config->get('store_name'));
-        $mail->setSubject($this->config->get('store_name').' '.$this->language->get('im_text_notification'));
-        $mail->setHtml($text);
-        $mail->setText($text);
+        if (empty($templateTextId)) {
+            $mail->setSubject($this->config->get('store_name').' '.$this->language->get('im_text_notification'));
+            $mail->setHtml($text);
+            $mail->setText($text);
+        } else {
+            $mail->setTemplate($templateTextId, $templateData, $this->language->getContentLanguageID());
+        }
         $mail->send();
         unset($mail);
 

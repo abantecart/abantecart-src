@@ -94,9 +94,9 @@ class AIMManager extends AIM
         return true;
     }
 
-    public function send($sendpoint, $text_vars = array())
+    public function send($sendpoint, $text_vars = array(), $templateTextId='', $templateData = [])
     {
-        return parent::send($sendpoint, $text_vars);
+        return parent::send($sendpoint, $text_vars, $templateTextId='', $templateData = []);
     }
 
     /**
@@ -215,6 +215,7 @@ class AIMManager extends AIM
                             try {
                                 $driver->send($to, $store_name.$message);
                             } catch (Exception $e) {
+                                $this->log->write($e->getMessage());
                             }
                         }
                     }

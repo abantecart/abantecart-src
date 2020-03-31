@@ -52,6 +52,9 @@ final class AMail
      * @var ALog
      */
     protected $log;
+    protected $storeId = 0;
+    protected $placeholders = [];
+    protected $emailTemplate;
     public $protocol = 'mail';
     protected $hostname;
     protected $username;
@@ -81,6 +84,7 @@ final class AMail
         $this->timeout = $config->get('config_smtp_timeout');
         $this->log = $registry->get('log');
         $this->messages = $registry->get('messages');
+        $this->storeId = $config->get('config_store_id') ?: 0;
     }
 
     /**
@@ -146,6 +150,73 @@ final class AMail
     public function setHtml($html)
     {
         $this->html = $html;
+    }
+
+    /**
+     * @param       $text_id
+     * @param array $placeholders
+     * @param int   $languageId
+     */
+    public function setTemplate($text_id, array $placeholders = [], $languageId = 1)
+    {
+        $text_id = trim($text_id);
+        if (empty($text_id)) {
+            $this->log->write('Email text id can\'t be empmty');
+            return;
+        }
+
+        if (!preg_match("/(^[\w]+)$/i", $text_id)) {
+            $this->log->write('Email text id "'.$text_id.'" must be in one word without spaces, underscores are allowed');
+            return;
+        }
+
+        $db = Registry::getInstance()->get('db');
+
+        $emailTemplate = $db->query('SELECT * FROM '.$db->table('email_templates').' WHERE text_id=\''.$text_id.'\' and language_id='.$languageId.'
+        and status=1 and store_id='.$this->storeId.' LIMIT 1');
+        if (empty($emailTemplate->rows)) {
+            $this->log->write('Email Template with text id "'.$text_id.'" and language_id = '.$languageId.' not found');
+            return;
+        }
+
+        $this->emailTemplate = $emailTemplate->rows[0];
+        $arAllowedPlaceholders = explode(',', $this->emailTemplate['allowed_placeholders']);
+
+        foreach ($arAllowedPlaceholders as &$placeholder) {
+            $placeholder = trim($placeholder);
+        }
+
+        foreach ($placeholders as $key => $val) {
+            if (in_array($key, $arAllowedPlaceholders, true)) {
+                $this->placeholders[$key] = $val;
+            }
+        }
+
+        $subject = html_entity_decode($this->emailTemplate['subject'], ENT_QUOTES);
+        $htmlBody = html_entity_decode($this->emailTemplate['html_body'], ENT_QUOTES);
+        $textBody = $this->emailTemplate['text_body'];
+
+        $mustache = new Mustache_Engine;
+
+        $subject = $mustache->render($subject, $this->placeholders);
+        $htmlBody = $mustache->render($htmlBody, $this->placeholders);
+        $textBody = $mustache->render($textBody, $this->placeholders);
+
+
+        $this->setSubject($subject);
+        $this->setHtml($htmlBody);
+        $this->setText($textBody);
+
+        if ($emailTemplate->headers) {
+            $headers = explode(',', $emailTemplate->headers);
+            foreach ($headers as $header) {
+                $parts = explode(':', $header);
+                if (count((array) $parts) !== 2) {
+                    continue;
+                }
+                $this->addHeader($parts[0], $parts[1]);
+            }
+        }
     }
 
     /**
