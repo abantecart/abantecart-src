@@ -49,6 +49,7 @@ if ($error) { ?>
 				       title="<?php echo $image_main['title']; ?>">
 				    	<img width="<?php echo $this->config->get('config_image_thumb_width'); ?>"
 				    	    height="<?php echo $this->config->get('config_image_thumb_height'); ?>"
+							style="height: auto"
 							src="<?php echo $thumb_url; ?>"
 							alt="<?php echo $image['title']; ?>"
 							title="<?php echo $image['title']; ?>" />
@@ -58,7 +59,7 @@ if ($error) { ?>
 				} ?>
 			</div>
 		</div>
-			
+
 			<!-- Right Details-->
 			<div class="col-md-6 col-sm-6">
 				<div class="row">
@@ -197,7 +198,7 @@ if ($error) { ?>
 													</a>
 												</li>
 											</ul>
-										<?php } ?>										
+										<?php } ?>
 										<a class="productprint btn btn-large" href="javascript:window.print();">
 											<i class="fa fa-print fa-fw"></i>
 											<?php echo $button_print; ?>
@@ -205,14 +206,14 @@ if ($error) { ?>
 										<?php echo $this->getHookVar('buttons'); ?>
 									</div>
 
-									<?php 
-										if ($in_wishlist) { 
+									<?php
+										if ($in_wishlist) {
 											$whislist = ' style="display: none;" ';
 											$nowhislist = '';
 										} else {
 											$nowhislist = ' style="display: none;" ';
 											$whislist = '';
-										} 
+										}
 									?>
 									<?php if ($is_customer) { ?>
 									<div class="wishlist">
@@ -329,8 +330,8 @@ if ($error) { ?>
 								<div class="clear form-group">
 								    <div class="form-inline col-md-6 col-md-offset-1 col-sm-6">
 								    	<?php echo $review_recaptcha; ?>
-								    </div>	
-								    <div class="form-inline col-md-5 col-sm-6">								    
+								    </div>
+								    <div class="form-inline col-md-5 col-sm-6">
 								    	<?php echo $review_button; ?>
 								    </div>
 								</div>
@@ -338,7 +339,7 @@ if ($error) { ?>
 								<div class="clear form-group">
 									<label class="control-label"><?php echo $entry_captcha; ?> <span
 							    				class="red">*</span></label>
-	
+
 							    	<div class="form-inline">
 							    		<label class="control-label col-md-3">
 							    			<img src="<?php echo $captcha_url;?>" id="captcha_img" alt=""/>
@@ -428,10 +429,10 @@ if ($error) { ?>
 
 		start_easyzoom();
 
-		//if have product options, load select option images 
-		var $select = $('input[name^=\'option\'], select[name^=\'option\']'); 
+		//if have product options, load select option images
+		var $select = $('input[name^=\'option\'], select[name^=\'option\']');
 		if ($select.length) {
-			//if no images for options are present, main product images will be used. 
+			//if no images for options are present, main product images will be used.
 			//if atleast one image is present in the option, main images will be replaced.
 			load_option_images($select.val(), '<?php echo $product_id; ?>');
 		}
@@ -454,7 +455,7 @@ if ($error) { ?>
 	$('#review_submit').click(function () {
 		review();
 	})
-	
+
 	//process clicks in review pagination
 	$('#current_reviews').on('click', '.pagination a', function () {
 		reload_review($(this).attr('href'));
@@ -474,13 +475,13 @@ if ($error) { ?>
 	function start_easyzoom() {
 		// Instantiate EasyZoom instances
 		var $easyzoom = $('.easyzoom').easyZoom();
-		
+
 		// Get an instance API
 		var api1 = $easyzoom.filter('.easyzoom--with-thumbnails').data('easyZoom');
-		//clean and reload esisting events 
+		//clean and reload esisting events
 		api1.teardown();
 		api1._init();
-		
+
 		// Setup thumbnails
 		$('.thumbnails').on('click', 'a', function(e) {
 		   var $this = $(this);
@@ -498,17 +499,17 @@ if ($error) { ?>
 			success: function (data) {
 				var html1 = '';
 				var html2 = '';
-				
+
 				if (data.main) {
 					if (data.main.origin == 'external') {
 						html1 = '<a class="html_with_image">';
-						html1 += data.main.main_html + '</a>';						
+						html1 += data.main.main_html + '</a>';
 					} else {
 				    	html1 = '<a href="' + data.main.main_url + '">';
 				    	html1 += '<img src="' + data.main.thumb_url + '" style="width:'+data.main.thumb_width+'px; height:'+data.main.thumb_height+'px;"/>';
 				    	html1 += '<i class="fa fa-arrows"></i></a>';
-				    }			
-				}				
+				    }
+				}
 				if (data.images) {
 					for (img in data.images) {
 						html2 += '<li class="producthtumb">';
@@ -674,4 +675,4 @@ if ($error) { ?>
 	}
 
 </script>
-<?php echo $footer; ?>	
+<?php echo $footer; ?>
