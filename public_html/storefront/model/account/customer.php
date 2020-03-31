@@ -11,11 +11,11 @@
   License details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
+
+ UPGRADE NOTE:
    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
    versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
+   needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 
 /**
@@ -192,6 +192,8 @@ class ModelAccountCustomer extends Model
             $key_sql = ", key_id = '".(int)$data['key_id']."'";
         }
 
+        $data['store_name'] = $this->config->get('store_name');
+
         $language = new ALanguage($this->registry);
         $language->load($language->language_details['directory']);
         $language->load('common/im');
@@ -203,7 +205,8 @@ class ModelAccountCustomer extends Model
             $message_arr = array(
                 0 => array('message' => sprintf($language->get('im_customer_account_update_login_to_customer'), $data['loginname'])),
             );
-            $this->im->send('customer_account_update', $message_arr);
+            $data['old_loginname'] = $this->customer->getLoginName();
+            $this->im->send('customer_account_update', $message_arr, 'storefront_customer_account_update', $data);
         }
 
         //get existing data and compare
@@ -213,7 +216,8 @@ class ModelAccountCustomer extends Model
                 $message_arr = array(
                     0 => array('message' => sprintf($language->get('im_customer_account_update_email_to_customer'), $data['email'])),
                 );
-                $this->im->send('customer_account_update', $message_arr);
+                $data['old_email'] = $val;
+                $this->im->send('customer_account_update', $message_arr, 'storefront_customer_account_update', $data);
             }
         }
 
@@ -234,7 +238,7 @@ class ModelAccountCustomer extends Model
             $message_arr = array(
                 0 => array('message' => $language->get('im_customer_account_update_text_to_customer')),
             );
-            $this->im->send('customer_account_update', $message_arr);
+            $this->im->send('customer_account_update', $message_arr, 'storefront_customer_account_update', $data);
         }
 
         $sql = "UPDATE ".$this->db->table("customers")."
@@ -399,7 +403,7 @@ class ModelAccountCustomer extends Model
                                 password = '".$this->db->escape(sha1($salt_key.sha1($salt_key.sha1($password))))."'
                             WHERE loginname = '".$this->db->escape($loginname)."'");
         //send IM
-        $sql = "SELECT customer_id
+        $sql = "SELECT customer_id, firstname, lastname
                 FROM ".$this->db->table("customers")."
                 WHERE loginname = '".$this->db->escape($loginname)."'";
         $result = $this->db->query($sql);
@@ -411,7 +415,13 @@ class ModelAccountCustomer extends Model
             $message_arr = array(
                 0 => array('message' => $language->get('im_customer_account_update_password_to_customer')),
             );
-            $this->im->send('customer_account_update', $message_arr);
+            $this->im->send('customer_account_update', $message_arr, 'storefront_password_reset_notify', [
+                'customer_id' => $customer_id,
+                'loginname' => $loginname,
+                'firstname' => $result->row['firstname'],
+                'lastname' => $result->row['lastname'],
+                'store_name' => $this->config->get('store_name')
+            ]);
         }
     }
 

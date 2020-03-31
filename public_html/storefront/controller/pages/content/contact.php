@@ -71,7 +71,7 @@ class ControllerPagesContentContact extends AController
 
             $this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
             $this->data['mail_template_data']['store_url'] = $this->config->get('config_url');
-            $this->data['mail_template_data']['text_project_label'] = project_base();
+            $this->data['mail_template_data']['text_project_label'] = htmlspecialchars_decode(project_base());
             $this->data['mail_template_data']['entry_enquiry'] = $this->data['mail_plain_text'] = $this->language->get('entry_enquiry');
             $this->data['mail_plain_text'] .= "\r\n".$post_data['enquiry']."\r\n";
             $this->data['mail_template_data']['enquiry'] = nl2br($post_data['enquiry']."\r\n");
@@ -87,8 +87,13 @@ class ControllerPagesContentContact extends AController
                     $field_details = $this->form->getField($field_name);
                     $this->data['mail_plain_text'] .= "\r\n".rtrim($field_details['name'], ':').":\t".$field_value;
                     $this->data['mail_template_data']['form_fields'][rtrim($field_details['name'], ':')] = $field_value;
+                    $this->data['mail_template_data']['tpl_form_fields'][] = [
+                        'name' => rtrim($field_details['name'], ':'),
+                        'value' => $field_value
+                    ];
                 }
             }
+            $this->data['mail_template_data']['first_name'] = strip_tags($post_data['first_name']);
 
             $mail = new AMail($this->config);
             if ($file_paths) {
@@ -123,9 +128,7 @@ class ControllerPagesContentContact extends AController
             $mail->setFrom($this->config->get('store_main_email'));
             $mail->setReplyTo($post_data['email']);
             $mail->setSender($post_data['first_name']);
-            $mail->setSubject($subject);
-            $mail->setHtml($html_body);
-            $mail->setText($text_body);
+            $mail->setTemplate('storefront_contact_us_mail', $this->data['mail_template_data']);
             if (is_file(DIR_RESOURCE.$config_mail_logo)) {
                 $mail->addAttachment(DIR_RESOURCE.$config_mail_logo,
                     md5(pathinfo($config_mail_logo, PATHINFO_FILENAME))
@@ -151,7 +154,7 @@ class ControllerPagesContentContact extends AController
                     ),
                 ),
             );
-            $this->im->send('customer_contact', $message_arr);
+            $this->im->send('customer_contact', $message_arr, 'storefront_contact_us_mail_admin_notify', $post_data);
 
             $this->extensions->hk_ProcessData($this);
             redirect($success_url);
