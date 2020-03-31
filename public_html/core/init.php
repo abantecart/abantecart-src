@@ -11,11 +11,11 @@
   License details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
+
+ UPGRADE NOTE:
    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
    versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
+   needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 // set default encoding for multibyte php mod
 mb_internal_encoding('UTF-8');
@@ -59,6 +59,10 @@ define('DIR_CONFIG', DIR_ROOT.'/core/config/');
 define('DIR_CACHE', DIR_ROOT.'/system/cache/');
 define('DIR_LOGS', DIR_ROOT.'/system/logs/');
 define('DIR_VENDORS', DIR_CORE.'/vendors/');
+
+require DIR_VENDORS.'/Mustache/Autoloader.php';
+Mustache_Autoloader::register();
+
 
 // SEO URL Keyword separator
 define('SEO_URL_SEPARATOR', '-');
@@ -414,7 +418,7 @@ try {
     }
     $registry->set('uri', $_SERVER['REQUEST_URI']);
 
-//main instance of data encryption 
+//main instance of data encryption
     $registry->set('dcrypt', new ADataEncryption());
 
 // Extensions api
