@@ -207,7 +207,7 @@ class ModelAccountAddress extends Model
             $this->error['zone'] = $this->language->get('error_zone');
         }
 
-        if (!$this->error) {
+        if (!$this->error && (int)$data['zone_id'] !== 0) {
             $sql = "SELECT * FROM ".$this->db->table("zones")."
 					WHERE country_id = '".(int)$data['country_id']."'
 						AND zone_id = '".(int)$data['zone_id']."';";

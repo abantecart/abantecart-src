@@ -261,6 +261,10 @@
 		<value><![CDATA[Aviso: El modo de mantenimiento está encendido.]]></value>
 	</definition>
 	<definition>
+		<key>text_act_on_behalf</key>
+		<value><![CDATA[Aviso: Modo de suplantación para el cliente: %s. Usuario: %s]]></value>
+	</definition>
+	<definition>
 		<key>text_browse</key>
 		<value><![CDATA[Seleccione Archivo]]></value>
 	</definition>

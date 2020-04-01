@@ -265,6 +265,10 @@
 		<value><![CDATA[Уведомление: Включен режим обслуживания.]]></value>
 	</definition>
 	<definition>
+		<key>text_act_on_behalf</key>
+		<value><![CDATA[Уведомление: Режим от имени покупателя: %s. Пользователь: %s]]></value>
+	</definition>
+	<definition>
 		<key>text_browse</key>
 		<value><![CDATA[Выберите Файл]]></value>
 	</definition>

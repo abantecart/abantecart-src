@@ -292,7 +292,8 @@ echo $this->html->buildElement(
                 dataType: 'json',
                 jsonTermKey: "term",
                 keepTypingMsg: "<?php echo $text_continue_typing; ?>",
-                lookingForMsg: "<?php echo $text_looking_for; ?>"
+                lookingForMsg: "<?php echo $text_looking_for; ?>",
+				minTermLength: 2
             }, function (data) {
                 if (data.response.length < 1) {
                     $("#searchform").chosen({no_results_text: "<?php echo $text_no_results; ?>"});

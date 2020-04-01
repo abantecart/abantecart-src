@@ -107,6 +107,10 @@ class ControllerCommonPage extends AController
             $this->view->assign('maintenance_warning', $this->language->get('text_maintenance_notice'));
         }
 
+        if (isset($this->session->data['merchant'])) {
+            $this->view->assign('act_on_behalf_warning', sprintf($this->language->get('text_act_on_behalf'), $this->customer->getId(), $this->session->data['merchant_username']));
+        }
+
         $this->view->assign('scripts_bottom', $this->document->getScriptsBottom());
         if ($this->config->get('config_google_analytics_code')) {
             $this->view->assign('google_analytics', $this->config->get('config_google_analytics_code'));
