@@ -1944,7 +1944,7 @@ class ReCaptchaHtmlElement extends HtmlElement
                 'id'                 => $this->element_id,
                 'attr'               => $this->attr.' data-aform-field-type="captcha"',
                 'language_code'      => $this->language_code,
-                'recaptcha_site_key' => $this->recaptcha_site_key,
+                'recaptcha_site_key' => trim($this->recaptcha_site_key),
             )
         );
         return $this->view->fetch('form/recaptcha.tpl');
