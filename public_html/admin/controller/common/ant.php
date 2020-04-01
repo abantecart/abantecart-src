@@ -30,6 +30,7 @@ class ControllerCommonANT extends AController
 
     public function main()
     {
+
         // disable for login-logout pages
         if (in_array($this->request->get['rt'], array('index/logout', 'index/login'))) {
             unset($this->session->data['ant_messages']);
@@ -42,7 +43,7 @@ class ControllerCommonANT extends AController
 
         // prevent repeats of requests or if last update older then 24hours
         if (has_value($this->session->data['ant_messages']) && (time() - $this->session->data['ant_messages']['date_modified'] < 86400)) {
-            return null;
+           return null;
         }
 
         //init controller data
@@ -70,7 +71,7 @@ class ControllerCommonANT extends AController
 
         //do connect without any http-redirects
         $connect = new AConnect (true, true);
-        $result = $connect->getResponse($url);
+        $result = $connect->getResponseSecure($url);
         $this->session->data ['ant_messages'] = array(); // prevent requests in future at this session
         // insert new messages in database
         if ($result && is_array($result)) {

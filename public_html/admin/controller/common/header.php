@@ -146,6 +146,7 @@ class ControllerCommonHeader extends AController
         }
         if ($this->user->isLogged()) {
             $ant_message = $this->messages->getANTMessage();
+            $this->messages->markViewedANT($ant_message['id'], '*');
             $this->view->assign('ant', $ant_message['html']);
             $this->view->assign(
                 'mark_read_url',
