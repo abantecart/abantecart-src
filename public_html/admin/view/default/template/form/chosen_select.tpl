@@ -65,7 +65,8 @@ $("#<?php echo $id ?>").chosen({'width':'100%','white-space':'nowrap'});
 			jsonTermKey: "term",
 			data: {'exclude': $("#<?php echo $id ?>").chosen().val(), 'filter': '<?php echo $filter_params; ?>'},
 			keepTypingMsg: "<?php echo $text_continue_typing; ?>",
-			lookingForMsg: "<?php echo $text_looking_for; ?>"
+			lookingForMsg: "<?php echo $text_looking_for; ?>",
+			minTermLength: 2
 		}, function (data) {
 			var results = [];
 			$.each(data, function (i, val) {
