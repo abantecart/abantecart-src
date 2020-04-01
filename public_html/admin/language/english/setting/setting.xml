@@ -987,4 +987,8 @@
 		<key>entry_duplicate_contact_us</key>
 		<value><![CDATA[Duplicate Contact Enquiries to Messages]]></value>
 	</definition>
+	<definition>
+		<key>entry_tax_class</key>
+		<value><![CDATA[Default Tax Class:<br/><span class="help">Default value will be taken as default value for tax class of new creating product.</span>]]></value>
+	</definition>
 </definitions>

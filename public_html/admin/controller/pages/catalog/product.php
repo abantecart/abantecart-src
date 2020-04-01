@@ -761,10 +761,11 @@ class ControllerPagesCatalogProduct extends AController
             'value' => moneyDisplayFormat($this->data['cost']),
             'style' => 'small-field',
         ));
+
         $this->data['form']['fields']['data']['tax_class'] = $form->getFieldHtml(array(
             'type'     => 'selectbox',
             'name'     => 'tax_class_id',
-            'value'    => $this->data['tax_class_id'],
+            'value'    => isset($this->data['tax_class_id']) ? $this->data['tax_class_id'] : $this->config->get('config_tax_class_id'),
             'options'  => $this->data['tax_classes'],
             'help_url' => $this->gen_help_url('tax_class'),
             'style'    => 'medium-field',

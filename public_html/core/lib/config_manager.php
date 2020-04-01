@@ -46,8 +46,8 @@ class AConfigManager
 {
     public $errors = 0;
     protected $registry;
-    private $groups = array();
-    private $templates = array();
+    protected $groups = array();
+    protected $templates = array();
 
     public function __construct()
     {
@@ -288,13 +288,14 @@ class AConfigManager
     }
 
     /**
-     * @var AForm   $form
-     *
+     * @param AForm $form
      * @param array $data
      *
      * @return array
+     * @throws AException
+     *
      */
-    private function _build_form_details($form, $data)
+    protected function _build_form_details($form, $data)
     {
 
         $language_id = $this->language->getContentLanguageID();
@@ -412,6 +413,12 @@ class AConfigManager
         foreach ($results as $v) {
             $weight_classes[$v['unit']] = $v['title'];
         }
+        $this->load->model('localisation/tax_class');
+        $results = $this->model_localisation_tax_class->getTaxClasses();
+        $tax_classes = array('' => $this->language->get('text_select'));
+        foreach ($results as $v) {
+            $tax_classes[$v['tax_class_id']] = $v['title'];
+        }
 
         $fields['country'] = $form->getFieldHtml($props[] = array(
             'type'            => 'zones',
@@ -504,13 +511,20 @@ class AConfigManager
             'options' => $weight_classes,
         ));
 
+        $fields['tax_class'] = $form->getFieldHtml($props[] = array(
+            'type'    => 'selectbox',
+            'name'    => 'config_tax_class_id',
+            'value'   => $data['config_tax_class_id'],
+            'options' => $tax_classes,
+        ));
+
         if (isset($data['one_field'])) {
             $fields = $this->_filterField($fields, $props, $data['one_field']);
         }
         return $fields;
     }
 
-    private function _filterField($fields, $props, $field_name)
+    protected function _filterField($fields, $props, $field_name)
     {
         $output = array();
         foreach ($props as $n => $properties) {
@@ -531,13 +545,13 @@ class AConfigManager
     }
 
     /**
-     * @var AForm   $form
-     *
+     * @param AForm $form
      * @param array $data
      *
      * @return array
+     * @throws AException
      */
-    private function _build_form_general($form, $data)
+    protected function _build_form_general($form, $data)
     {
         $fields = array();
         //general section
@@ -714,8 +728,9 @@ class AConfigManager
      *
      * @return array
      *
+     * @throws AException
      */
-    private function _build_form_checkout($form, $data)
+    protected function _build_form_checkout($form, $data)
     {
         $fields = array();
         //checkout section
@@ -915,7 +930,7 @@ class AConfigManager
      *
      * @return array
      */
-    private function _build_form_appearance($form, $data)
+    protected function _build_form_appearance($form, $data)
     {
         $fields = array();
 
@@ -1240,7 +1255,7 @@ class AConfigManager
      *
      * @return array
      */
-    private function _build_form_mail($form, $data)
+    protected function _build_form_mail($form, $data)
     {
         $fields = array();
         //mail section
@@ -1315,7 +1330,7 @@ class AConfigManager
      *
      * @return array
      */
-    private function _build_form_im($form, $data)
+    protected function _build_form_im($form, $data)
     {
         $fields = array();
 
@@ -1376,7 +1391,7 @@ class AConfigManager
      *
      * @return array
      */
-    private function _build_form_api($form, $data)
+    protected function _build_form_api($form, $data)
     {
         $fields = array();
         //api section
@@ -1437,7 +1452,7 @@ class AConfigManager
      *
      * @return array
      */
-    private function _build_form_system($form, $data)
+    protected function _build_form_system($form, $data)
     {
         $fields = array();
         //system section
