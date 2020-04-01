@@ -67,6 +67,10 @@ class ControllerResponsesEmbedHead extends AController
             $this->view->assign('maintenance_warning', $this->language->get('text_maintenance_notice'));
         }
 
+        if (isset($this->session->data['merchant'])) {
+            $this->view->assign('act_on_behalf_warning', sprintf($this->language->get('text_act_on_behalf'), $this->customer->getId(), $this->session->data['merchant_username']));
+        }
+
         $this->processTemplate('embed/head.tpl');
 
         //init controller data

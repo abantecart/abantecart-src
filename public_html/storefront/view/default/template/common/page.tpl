@@ -17,9 +17,18 @@ if ($google_tag_manager) {
 	<div class="alert alert-warning">
 	 	<button type="button" class="close" data-dismiss="alert">&times;</button>
  		<strong><?php echo $maintenance_warning;?></strong>
+        <?php if($act_on_behalf_warning){ ?>
+			<br/><strong><?php echo $act_on_behalf_warning;?></strong>
+        <?php } ?>
  	</div>
 <?php
 }
+	if($act_on_behalf_warning && !$maintenance_warning){ ?>
+	<div class="alert alert-warning">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<strong><?php echo $act_on_behalf_warning;?></strong>
+	</div>
+   <?php }
 echo ${$header}; ?>
 
 <?php if ( !empty( ${$header_bottom} ) ) { ?>

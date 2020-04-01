@@ -936,7 +936,9 @@ class ControllerPagesSaleCustomer extends AController
                     redirect($add_store_url);
                 }
             } else {
-                startStorefrontSession($this->user->getId(), array('customer_id' => $this->request->get['customer_id']));
+                startStorefrontSession($this->user->getId(), ['customer_id' => $this->request->get['customer_id'],
+                                                              'merchant_username' => $this->user->getUserName()
+                    ]);
                 if ($store_settings['config_ssl']) {
                     redirect($this->html->getCatalogURL('account/account', '', '', true));
                 } else {
