@@ -317,7 +317,6 @@ final class AConnect
                 }
 
                 $retBuffer = $this->_processSocket($url, $port, $save_filename, $length_only, $headers_only);
-
                 break;
             default :
                 if ($this->silent_mode) {
@@ -423,6 +422,7 @@ final class AConnect
                     }
                     curl_setopt_array($rch, $this->curl_options);
                 }
+
                 curl_setopt($rch, CURLOPT_URL, $newUrl);
                 $header = curl_exec($rch);
                 if (curl_errno($rch)) {
@@ -440,11 +440,10 @@ final class AConnect
             } while ($code && $redirect_count);
             curl_close($rch);
             if (!$redirect_count) {
-                return false;
+               return false;
             }
             $url = $newUrl;
         }
-
         $this->curl_options[CURLOPT_URL] = $url;
 
         if ($authentication) {
@@ -477,8 +476,13 @@ final class AConnect
             }
 
             if ($headers_only) {
-                $headers = curl_getinfo($curl_sock);
-                curl_close($curl_sock);
+                $header_size = curl_getinfo($curl_sock, CURLINFO_HEADER_SIZE);
+                $header = substr($response, 0, $header_size);
+                preg_match_all('/^([^:\n]*): ?(.*)$/m', $header, $hds, PREG_SET_ORDER);
+                $headers = array();
+                foreach($hds as $a){
+                    $headers[$a[1]] = $a[2];
+                }
                 return $headers;
             }
 
