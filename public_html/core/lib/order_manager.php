@@ -134,6 +134,8 @@ class AOrderManager extends AOrder
             }
         }
 
+        //override storefront session currency with order currency
+        $this->session->data['currency'] = $order_info['currency'];
         //build customer data before cart loading
         $customer_data['current_store_id'] = $order_info['store_id'];
         $customer_data['country_id'] = $order_info['shipping_country_id'];
