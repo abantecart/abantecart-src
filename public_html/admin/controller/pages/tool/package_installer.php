@@ -387,7 +387,7 @@ class ControllerPagesToolPackageInstaller extends AController
 
                 // for upgrades of core
             } else {
-                $url = "/?option=com_abantecartrepository&format=raw";
+                $url = "/index.php?option=com_abantecartrepository&format=raw";
             }
             $url .= "&mp_token=".$mp_token;
             $url .= "&store_id=".UNIQUE_ID;
@@ -399,14 +399,14 @@ class ControllerPagesToolPackageInstaller extends AController
         }
 
         $pmanager = new APackageManager();
-        $headers = $pmanager->getRemoteFileHeaders($url);
+        $headers = $pmanager->getRemoteFileHeaders($url, true);
         if (!$headers) {
             $error_text = $pmanager->error;
             $error_text = empty($error_text) ? 'Unknown error happened.' : $error_text;
             $this->session->data['error'] = $this->language->get('error_mp')." ".$error_text;
             $this->redirect($this->_get_begin_href());
         }
-        //if we have json returned, something went wrong. 
+        //if we have json returned, something went wrong.
         if (preg_match("/application\/json/", $headers['Content-Type'])) {
             $error = $pmanager->getRemoteFile($url, false);
             $error_text = $error['error'];

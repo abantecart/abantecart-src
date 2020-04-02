@@ -227,9 +227,10 @@ class AExtensionManager
      * Save extension settings into database
      *
      * @param string $extension_txt_id
-     * @param array  $data
+     * @param array $data
      *
      * @return bool
+     * @throws AException
      */
     public function editSetting($extension_txt_id, $data)
     {
@@ -407,10 +408,11 @@ class AExtensionManager
     /**
      * extension install actions, db queries, copying files etc
      *
-     * @param string              $name
-     * @param DomNode| DOMElement $config
+     * @param string $name
+     * @param DomNode| DOMElement|SimpleXMLElement $config
      *
      * @return bool|null
+     * @throws AException
      */
     public function install($name, $config)
     {
@@ -562,6 +564,7 @@ class AExtensionManager
      * @param string $extension_txt_id
      *
      * @return bool
+     * @throws AException
      */
     public function delete($extension_txt_id)
     {
