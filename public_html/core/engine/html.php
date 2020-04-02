@@ -1938,6 +1938,7 @@ class ReCaptchaHtmlElement extends HtmlElement
 {
     public function getHtml()
     {
+
         $this->view->batchAssign(
             array(
                 'name'               => $this->name,
@@ -1945,6 +1946,7 @@ class ReCaptchaHtmlElement extends HtmlElement
                 'attr'               => $this->attr.' data-aform-field-type="captcha"',
                 'language_code'      => $this->language_code,
                 'recaptcha_site_key' => trim($this->recaptcha_site_key),
+                'recaptcha_v3'       => $this->registry->get('config')->get('account_recaptcha_v3') ?: 0,
             )
         );
         return $this->view->fetch('form/recaptcha.tpl');
@@ -2536,7 +2538,7 @@ class ZonesHtmlElement extends HtmlElement
 }
 
 /*
-* Build pagination HTML element based on the template. 
+* Build pagination HTML element based on the template.
 * Supported v 1.1.5+
 */
 

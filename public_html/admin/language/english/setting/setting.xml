@@ -991,4 +991,8 @@
 		<key>entry_tax_class</key>
 		<value><![CDATA[Default Tax Class:<br/><span class="help">Default value will be taken as default value for tax class of new creating product.</span>]]></value>
 	</definition>
+	<definition>
+		<key>entry_account_recaptcha_v3</key>
+		<value><![CDATA[Enable reCaptcha v3]]></value>
+	</definition>
 </definitions>

@@ -689,6 +689,13 @@ class AConfigManager
             'style' => 'btn_switch',
         ));
 
+        $fields['account_recaptcha_v3'] = $form->getFieldHtml($props[] = array(
+            'type'  => 'checkbox',
+            'name'  => 'account_recaptcha_v3',
+            'value' => $data['account_recaptcha_v3'],
+            'style' => 'btn_switch',
+        ));
+
         $fields['recaptcha_site_key'] = $form->getFieldHtml($props[] = array(
             'type'  => 'input',
             'name'  => 'config_recaptcha_site_key',
