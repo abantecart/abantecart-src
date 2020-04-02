@@ -4,8 +4,9 @@
             <script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=<?php echo $recaptcha_site_key; ?>&hl=<?php echo $language_code; ?>"></script>
             <script>
             grecaptcha.ready(function() {
-                grecaptcha.execute('<?php echo $recaptcha_site_key; ?>', {action: ''});
-                ;
+                grecaptcha.execute('<?php echo $recaptcha_site_key; ?>', {action: 'login'}).then(function(token) {
+                       return true;
+                    });
             });
             </script>
         </div>
