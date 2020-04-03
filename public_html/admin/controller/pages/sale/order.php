@@ -88,6 +88,17 @@ class ControllerPagesSaleOrder extends AController
                         '&order_id=%ID%'
                     ),
                 ),
+                'save'   => array(
+                    'text' => $this->language->get('button_save'),
+                ),
+                'delete' => array(
+                    'text' => $this->language->get('button_delete'),
+                ),
+                'print'  => array(
+                    'text'   => $this->language->get('button_invoice'),
+                    'href'   => $this->html->getSecureURL('sale/invoice', '&order_id=%ID%'),
+                    'target' => '_invoice',
+                ),
                 'dropdown'   => array(
                     'text'     => $this->language->get('text_choose_action'),
                     'href'     => $this->html->getSecureURL('sale/order/update', '&order_id=%ID%'),
@@ -99,6 +110,11 @@ class ControllerPagesSaleOrder extends AController
                             //quick view port URL
                             'vhref' => $this->html->getSecureURL('r/common/viewport/modal',
                                 '&viewport_rt=sale/order/details&order_id=%ID%'),
+                        ),
+                        'details'   => array(
+                            'text' => $this->language->get('tab_order_details'),
+                            'href' => $this->html->getSecureURL('sale/order/details',
+                                '&order_id=%ID%'),
                         ),
                         'shipping'  => array(
                             'text' => $this->language->get('tab_shipping'),
@@ -122,17 +138,6 @@ class ControllerPagesSaleOrder extends AController
                         ),
 
                     ), (array)$this->data['grid_edit_expand']),
-                ),
-                'save'   => array(
-                    'text' => $this->language->get('button_save'),
-                ),
-                'delete' => array(
-                    'text' => $this->language->get('button_delete'),
-                ),
-                'print'  => array(
-                    'text'   => $this->language->get('button_invoice'),
-                    'href'   => $this->html->getSecureURL('sale/invoice', '&order_id=%ID%'),
-                    'target' => '_invoice',
                 ),
             ),
         );

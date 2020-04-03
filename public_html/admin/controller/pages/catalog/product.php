@@ -97,6 +97,10 @@ class ControllerPagesCatalogProduct extends AController
                             'vhref' => $this->html->getSecureURL('r/common/viewport/modal',
                                 '&viewport_rt=catalog/product/update&product_id=%ID%'),
                         ),
+                        'general'    => array(
+                            'text' => $this->language->get('tab_general'),
+                            'href' => $this->html->getSecureURL('catalog/product/update', '&product_id=%ID%'),
+                        ),
                         'media'      => array(
                             'text' => $this->language->get('tab_media'),
                             'href' => $this->html->getSecureURL('catalog/product_images', '&product_id=%ID%'),

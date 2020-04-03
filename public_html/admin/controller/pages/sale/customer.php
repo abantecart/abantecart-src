@@ -122,22 +122,6 @@ class ControllerPagesSaleCustomer extends AController
                     'text' => $this->language->get('text_edit'),
                     'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
                 ),
-                'dropdown'          => array(
-                    'text'     => $this->language->get('text_choose_action'),
-                    'href'     => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
-                    'children' => array_merge(array(
-                        'quickview'   => array(
-                            'text'  => $this->language->get('text_quick_view'),
-                            'href'  => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
-                            //quick view port URL
-                            'vhref' => $this->html->getSecureURL('r/common/viewport/modal', '&viewport_rt=sale/customer/update&customer_id=%ID%'),
-                        ),
-                        'transaction' => array(
-                            'text' => $this->language->get('tab_transactions'),
-                            'href' => $this->html->getSecureURL('sale/customer_transaction', '&customer_id=%ID%'),
-                        ),
-                    ), (array)$this->data['grid_edit_expand']),
-                ),
                 'save'          => array(
                     'text' => $this->language->get('button_save'),
                 ),
@@ -148,6 +132,26 @@ class ControllerPagesSaleCustomer extends AController
                     'text'   => $this->language->get('button_actas'),
                     'href'   => $this->html->getSecureURL('sale/customer/actonbehalf', '&customer_id=%ID%'),
                     'target' => 'new',
+                ),
+                'dropdown'          => array(
+                    'text'     => $this->language->get('text_choose_action'),
+                    'href'     => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
+                    'children' => array_merge(array(
+                        'quickview'   => array(
+                            'text'  => $this->language->get('text_quick_view'),
+                            'href'  => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
+                            //quick view port URL
+                            'vhref' => $this->html->getSecureURL('r/common/viewport/modal', '&viewport_rt=sale/customer/update&customer_id=%ID%'),
+                        ),
+                        'details'     => array(
+                            'text' => $this->language->get('tab_customer_details'),
+                            'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
+                        ),
+                        'transaction' => array(
+                            'text' => $this->language->get('tab_transactions'),
+                            'href' => $this->html->getSecureURL('sale/customer_transaction', '&customer_id=%ID%'),
+                        ),
+                    ), (array)$this->data['grid_edit_expand']),
                 ),
             ),
             'grid_ready'   => 'grid_ready();',

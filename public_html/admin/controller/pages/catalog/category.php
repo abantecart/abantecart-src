@@ -76,6 +76,12 @@ class ControllerPagesCatalogCategory extends AController
                     'text' => $this->language->get('text_edit'),
                     'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
                 ),
+                'save'   => array(
+                    'text' => $this->language->get('button_save'),
+                ),
+                'delete' => array(
+                    'text' => $this->language->get('button_delete'),
+                ),
                 'dropdown'   => array(
                     'text'     => $this->language->get('text_choose_action'),
                     'href'     => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
@@ -86,6 +92,10 @@ class ControllerPagesCatalogCategory extends AController
                             //quick view port URL
                             'vhref' => $this->html->getSecureURL('r/common/viewport/modal', '&viewport_rt=catalog/category/update&category_id=%ID%'),
                         ),
+                        'general'   => array(
+                            'text' => $this->language->get('tab_general'),
+                            'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
+                        ),
                         'data'      => array(
                             'text' => $this->language->get('tab_data'),
                             'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%').'#data',
@@ -95,12 +105,6 @@ class ControllerPagesCatalogCategory extends AController
                             'href' => $this->html->getSecureURL('catalog/category/edit_layout', '&category_id=%ID%'),
                         ),
                     ), (array)$this->data['grid_edit_expand']),
-                ),
-                'save'   => array(
-                    'text' => $this->language->get('button_save'),
-                ),
-                'delete' => array(
-                    'text' => $this->language->get('button_delete'),
                 ),
             ),
             'grid_ready'       => 'grid_ready(data);',
