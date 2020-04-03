@@ -81,13 +81,15 @@ class ControllerPagesSaleOrder extends AController
             'multiselect'  => 'true',
             // actions
             'actions'      => array(
-                'print'  => array(
-                    'text'   => $this->language->get('button_invoice'),
-                    'href'   => $this->html->getSecureURL('sale/invoice', '&order_id=%ID%'),
-                    'target' => '_invoice',
-                ),
                 'edit'   => array(
-                    'text'     => $this->language->get('text_edit'),
+                    'text' => $this->language->get('tab_order_details'),
+                    'href' => $this->html->getSecureURL(
+                        'sale/order/details',
+                        '&order_id=%ID%'
+                    ),
+                ),
+                'dropdown'   => array(
+                    'text'     => $this->language->get('text_choose_action'),
                     'href'     => $this->html->getSecureURL('sale/order/update', '&order_id=%ID%'),
                     'children' => array_merge(array(
                         'quickview' => array(
@@ -97,11 +99,6 @@ class ControllerPagesSaleOrder extends AController
                             //quick view port URL
                             'vhref' => $this->html->getSecureURL('r/common/viewport/modal',
                                 '&viewport_rt=sale/order/details&order_id=%ID%'),
-                        ),
-                        'details'   => array(
-                            'text' => $this->language->get('tab_order_details'),
-                            'href' => $this->html->getSecureURL('sale/order/details',
-                                '&order_id=%ID%'),
                         ),
                         'shipping'  => array(
                             'text' => $this->language->get('tab_shipping'),
@@ -131,6 +128,11 @@ class ControllerPagesSaleOrder extends AController
                 ),
                 'delete' => array(
                     'text' => $this->language->get('button_delete'),
+                ),
+                'print'  => array(
+                    'text'   => $this->language->get('button_invoice'),
+                    'href'   => $this->html->getSecureURL('sale/invoice', '&order_id=%ID%'),
+                    'target' => '_invoice',
                 ),
             ),
         );

@@ -263,6 +263,9 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 					$html_btn .= ' data-toggle="dropdown" aria-expanded="false"';
 				}
 				switch ($type) {
+					case 'dropdown':
+						$html_btn .= ' '.$href.' rel="%ID%"><i class="width12 fa fa-ellipsis-v fa-lg"></i>';
+						break;
 					case 'edit':
 						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-edit fa-lg"></i>';
 						break;
@@ -314,7 +317,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 				}
 
 				if($has_children){
-					$html_btn .= '<span class="caret"></span>';
+					//$html_btn .= '<span class="caret"></span>';
 				}
 				$html_btn .= '</a>';
 

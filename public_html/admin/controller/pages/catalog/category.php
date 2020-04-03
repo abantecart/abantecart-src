@@ -73,7 +73,11 @@ class ControllerPagesCatalogCategory extends AController
             'drag_sort_column' => 'sort_order',
             'actions'          => array(
                 'edit'   => array(
-                    'text'     => $this->language->get('text_edit'),
+                    'text' => $this->language->get('text_edit'),
+                    'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
+                ),
+                'dropdown'   => array(
+                    'text'     => $this->language->get('text_choose_action'),
                     'href'     => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
                     'children' => array_merge(array(
                         'quickview' => array(
@@ -81,10 +85,6 @@ class ControllerPagesCatalogCategory extends AController
                             'href'  => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
                             //quick view port URL
                             'vhref' => $this->html->getSecureURL('r/common/viewport/modal', '&viewport_rt=catalog/category/update&category_id=%ID%'),
-                        ),
-                        'general'   => array(
-                            'text' => $this->language->get('tab_general'),
-                            'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
                         ),
                         'data'      => array(
                             'text' => $this->language->get('tab_data'),

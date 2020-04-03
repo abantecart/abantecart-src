@@ -63,6 +63,10 @@ class ControllerPagesCatalogManufacturer extends AController
             'drag_sort_column' => 'sort_order',
             'actions'          => array(
                 'edit'   => array(
+                    'text' => $this->language->get('text_edit'),
+                    'href' => $this->html->getSecureURL('catalog/manufacturer/update', '&manufacturer_id=%ID%'),
+                ),
+                'dropdown'   => array(
                     'text'     => $this->language->get('text_edit'),
                     'href'     => $this->html->getSecureURL('catalog/manufacturer/update', '&manufacturer_id=%ID%'),
                     'children' => array_merge(array(

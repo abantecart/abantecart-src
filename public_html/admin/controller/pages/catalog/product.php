@@ -73,7 +73,21 @@ class ControllerPagesCatalogProduct extends AController
             'sortorder'    => 'desc',
             'actions'      => array(
                 'edit'   => array(
-                    'text'     => $this->language->get('text_edit'),
+                        'text' => $this->language->get('text_edit'),
+                        'href' => $this->html->getSecureURL('catalog/product/update', '&product_id=%ID%'),
+                ),
+                'save'   => array(
+                    'text' => $this->language->get('button_save'),
+                ),
+                'delete' => array(
+                    'text' => $this->language->get('button_delete'),
+                ),
+                'clone'  => array(
+                    'text' => $this->language->get('text_clone'),
+                    'href' => $this->html->getSecureURL('catalog/product/copy', '&product_id=%ID%'),
+                ),
+                'dropdown' => array(
+                    'text'     => $this->language->get('text_choose_action'),
                     'href'     => $this->html->getSecureURL('catalog/product/update', '&product_id=%ID%'),
                     'children' => array_merge(array(
                         'quickview'  => array(
@@ -82,10 +96,6 @@ class ControllerPagesCatalogProduct extends AController
                             //quick view port URL
                             'vhref' => $this->html->getSecureURL('r/common/viewport/modal',
                                 '&viewport_rt=catalog/product/update&product_id=%ID%'),
-                        ),
-                        'general'    => array(
-                            'text' => $this->language->get('tab_general'),
-                            'href' => $this->html->getSecureURL('catalog/product/update', '&product_id=%ID%'),
                         ),
                         'media'      => array(
                             'text' => $this->language->get('tab_media'),
@@ -114,16 +124,7 @@ class ControllerPagesCatalogProduct extends AController
 
                     ), (array)$this->data['grid_edit_expand']),
                 ),
-                'save'   => array(
-                    'text' => $this->language->get('button_save'),
-                ),
-                'delete' => array(
-                    'text' => $this->language->get('button_delete'),
-                ),
-                'clone'  => array(
-                    'text' => $this->language->get('text_clone'),
-                    'href' => $this->html->getSecureURL('catalog/product/copy', '&product_id=%ID%'),
-                ),
+
             ),
         );
 

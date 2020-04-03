@@ -484,7 +484,7 @@ h1 a:hover, h2 a:hover, h3 a:hover {
 
 /* in the grid */
 .ui-widget-content .dropdown-menu-sm:after {
-	left: 130px;
+	left: 144px;
 }
 
 .dropdown-menu-sm ul {
@@ -2548,6 +2548,9 @@ body.stickyheader .sticky_left {
 
 .width30 {
 	width: 30px;
+}
+.width12 {
+	width: 12px;
 }
 
 .inblock {

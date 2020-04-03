@@ -118,17 +118,12 @@ class ControllerPagesSaleCustomer extends AController
             'multiselect'  => 'true',
             // actions
             'actions'      => array(
-                'actonbehalfof' => array(
-                    'text'   => $this->language->get('button_actas'),
-                    'href'   => $this->html->getSecureURL('sale/customer/actonbehalf', '&customer_id=%ID%'),
-                    'target' => 'new',
+                'edit'     => array(
+                    'text' => $this->language->get('text_edit'),
+                    'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
                 ),
-                'approve'       => array(
-                    'text' => $this->language->get('button_approve'),
-                    'href' => $this->html->getSecureURL('sale/customer/approve', '&customer_id=%ID%'),
-                ),
-                'edit'          => array(
-                    'text'     => $this->language->get('text_edit'),
+                'dropdown'          => array(
+                    'text'     => $this->language->get('text_choose_action'),
                     'href'     => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
                     'children' => array_merge(array(
                         'quickview'   => array(
@@ -136,10 +131,6 @@ class ControllerPagesSaleCustomer extends AController
                             'href'  => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
                             //quick view port URL
                             'vhref' => $this->html->getSecureURL('r/common/viewport/modal', '&viewport_rt=sale/customer/update&customer_id=%ID%'),
-                        ),
-                        'details'     => array(
-                            'text' => $this->language->get('tab_customer_details'),
-                            'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
                         ),
                         'transaction' => array(
                             'text' => $this->language->get('tab_transactions'),
@@ -152,6 +143,11 @@ class ControllerPagesSaleCustomer extends AController
                 ),
                 'delete'        => array(
                     'text' => $this->language->get('button_delete'),
+                ),
+                'actonbehalfof' => array(
+                    'text'   => $this->language->get('button_actas'),
+                    'href'   => $this->html->getSecureURL('sale/customer/actonbehalf', '&customer_id=%ID%'),
+                    'target' => 'new',
                 ),
             ),
             'grid_ready'   => 'grid_ready();',

@@ -57,7 +57,7 @@
 
 	<div class="mainpanel">
 	<div class="headerbar">
-		<a class="menutoggle"><i class="fa fa-bars"></i></a>
+		<a class="menutoggle"><i class="fa fa-arrows-h"></i></a>
 		<select id="global_search" name="search" data-placeholder="<?php echo $search_everywhere; ?>"
 				class="chosen-select form-control aselect ">
 			<option></option>
@@ -211,7 +211,7 @@
 				<?php echo $this->getHookVar('headermenu_right'); ?>
 				<li>
 					<button id="right_side_view" class="btn btn-default tp-icon chat-icon">
-						<i class="fa fa-folder fa-lg"></i>
+						<i class="fa fa-bars fa-lg"></i>
 					</button>
 				</li>
 			</ul>
