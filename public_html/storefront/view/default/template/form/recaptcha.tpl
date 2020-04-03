@@ -10,6 +10,7 @@ if ($recaptcha_v3) {
 					grecaptcha.execute('<?php echo $recaptcha_site_key; ?>', {action: ''}).then((token) => {
 						$('input#g-recaptcha-response').val(token);
 					});
+					$('.grecaptcha-badge').css('bottom', '64px');
 				});
 			</script>
 		</div>
