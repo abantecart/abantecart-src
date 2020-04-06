@@ -134,9 +134,8 @@ class AOrderManager extends AOrder
             }
         }
 
-        //override storefront session currency with order currency
-        $this->session->data['currency'] = $order_info['currency'];
         //build customer data before cart loading
+        $customer_data['currency'] = $order_info['currency'];
         $customer_data['current_store_id'] = $order_info['store_id'];
         $customer_data['country_id'] = $order_info['shipping_country_id'];
         $customer_data['zone_id'] = $order_info['shipping_zone_id'];
@@ -196,6 +195,10 @@ class AOrderManager extends AOrder
             'address_format' => $order_info['payment_address_format'],
         );
 
+        //override storefront session currency with order currency
+        $this->session->data['currency'] = $order_info['currency'];
+        //reload currency
+        $this->registry->set('currency', new ACurrency($this->registry));
         //add cart to registry before working with shipments and payments
         $this->registry->set('cart', new ACart($this->registry, $customer_data));
         // Tax

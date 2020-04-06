@@ -15,7 +15,6 @@ if ($recaptcha_v3) {
 			</script>
 		</div>
 	</div>
-	</div>
     <?php
 } else {
     ?>
@@ -30,7 +29,6 @@ if ($recaptcha_v3) {
 				});
 			</script>
 		</div>
-	</div>
 	</div>
     <?php
 }
