@@ -27,6 +27,7 @@
 			<div id="card-element" class="col-sm-7 col-xs-6 input-group field" style="min-width:240px; border: 1px solid #ccc; padding: 2px"></div>
 		</div>
 		<input type="hidden" name="cc_token" id="cc_token">
+		<input type="hidden" name="pi_source" id="pi_source">
 		<?php echo $this->getHookVar('payment_table_post'); ?>
 
 		<div class="form-group action-buttons text-center">
@@ -50,101 +51,225 @@
 				$(this).tooltip('show');
 			});
 
+            //validate submit
+      			$('#stripe').submit(function (event) {
+      				event.preventDefault();
+      				if (submitSent !== true) {
+      					submitSent = true;
+      					//get card token first
+      					var $form = $(this);
+      					var handle;
+
+      					$('.alert').remove();
+      					$form.find('.action-buttons')
+      						.hide()
+      						.before(
+      							'<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin fa-fw"></i> <?php echo $text_wait; ?></div>'
+      						);
+
+      					var source_data = {
+                                            source_data: {
+                                                owner: {
+                                                    name: $('input[name=cc_owner]').val(),
+                                                    address: {
+                                                        "city": <?php js_echo($payment_city); ?>,
+                                                        "country": <?php js_echo($payment_country); ?>,
+                                                        "line1": <?php js_echo($payment_address_1); ?>,
+                                                        "line2": <?php js_echo($payment_address_2); ?>,
+                                                        "postal_code": <?php js_echo($payment_postcode); ?>,
+                                                        "state": <?php js_echo($payment_zone); ?>
+                                                    },
+                                                    email: <?php js_echo($email);?>
+                                                }
+                                            },
+                                        };
+      					<?php if($telephone){ ?>
+      					    source_data.source_data.owner.phone =  <?php js_echo($telephone); ?>;
+                        <?php } ?>
+      					handle = stripe.handleCardPayment(
+                            <?php js_echo($client_secret);?>,
+                            card,
+                            source_data
+                        );
+
+      					handle.then(function(result) {
+      					if (result.error) {
+      						//console.log(result);
+      					  // Display error.message in your UI.
+      						resetLockBtn();
+      						alert(result.error.message);
+      						$('.wait').remove();
+      						$form.find('.action-buttons').show();
+      						submitSent = false;
+      					} else {
+      						$('input[name=pi_source]').val(result.paymentIntent.source);
+      						confirmSubmit($form, '<?php echo $action; ?>');
+      					}
+      				  });
+      					return false;
+      				}
+      			});
+
+      			function confirmSubmit($form, url) {
+      				$.ajax({
+      					type: 'POST',
+      					url: url,
+      					data: $form.serialize(),
+      					dataType: 'json',
+      					success: function (data) {
+      						if (!data) {
+      							$('.wait').remove();
+      							$form.find('.action-buttons').show();
+      							$form.before('<div class="alert alert-danger"><i class="fa fa-bug fa-fw"></i> <?php echo $error_unknown; ?></div>');
+      							submitSent = false;
+      							try { resetLockBtn(); } catch (e) {}
+      						} else {
+      							if (data.error) {
+      								$('.wait').remove();
+      								$form.find('.action-buttons').show();
+      								$form.before('<div class="alert alert-warning"><i class="fa fa-exclamation fa-fw"></i> ' + data.error + '</div>');
+      								submitSent = false;
+      								$form.find('input[name=csrfinstance]').val(data.csrfinstance);
+      								$form.find('input[name=csrftoken]').val(data.csrftoken);
+      								try { resetLockBtn(); } catch (e) {}
+      							}
+      							if (data.success) {
+      								location = data.success;
+      							}
+      						}
+      					},
+      					error: function (jqXHR, textStatus, errorThrown) {
+      						$('.wait').remove();
+      						$form.find('.action-buttons').show();
+      						$form.before('<div class="alert alert-danger"><i class="fa fa-exclamation fa-fw"></i> ' + textStatus + ' ' + errorThrown + '</div>');
+      						submitSent = false;
+      						try {
+      							resetLockBtn();
+      						} catch (e) {
+      						}
+      					}
+      				});
+      			}
+
 			//validate submit
-			$('#stripe').submit(function (event) {
-				event.preventDefault();
-				if (submitSent !== true) {
-					submitSent = true;
-					//get card token first
-					var $form = $(this);
-					var extraDetails = {
-						name: $('input[name=cc_owner]').val(),
-						address_line1: <?php js_echo($address_1)?>,
-						address_line2: <?php js_echo($address_2)?>,
-						address_city: <?php js_echo($address_city)?>,
-						address_state: <?php js_echo($address_zone_code)?>,
-						address_zip: <?php js_echo($address_postcode)?>,
-						address_country: <?php js_echo($address_country_code)?>,
-					};
-					stripe.createToken(card, extraDetails).then(function(result){
-						if (result.error) {
-							try{ resetLockBtn(); }catch(e){}
-							alert( result.error.message );
-							submitSent = false;
-						} else {
-							$('#cc_token').val(result.token.id);
-							confirmSubmit($form, '<?php echo $action; ?>');
-						}
-					});
-					return false;
-				}
-			});
-
-			function confirmSubmit($form, url) {
-				$.ajax({
-					type: 'POST',
-					url: url,
-					data: $form.find(':input'),
-					dataType: 'json',
-					beforeSend: function () {
-						$('.alert').remove();
-						$form.find('.action-buttons').hide();
-						$form.find('.action-buttons').before('<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin fa-fw"></i> <?php echo $text_wait; ?></div>');
-					},
-					success: function (data) {
-						if (!data) {
-							$('.wait').remove();
-							$form.find('.action-buttons').show();
-							$form.before('<div class="alert alert-danger"><i class="fa fa-bug fa-fw"></i> <?php echo $error_unknown; ?></div>');
-							submitSent = false;
-							try { resetLockBtn(); } catch (e) {}
-						} else {
-							if (data.error) {
-								$('.wait').remove();
-								$form.find('.action-buttons').show();
-								$form.before('<div class="alert alert-warning"><i class="fa fa-exclamation fa-fw"></i> ' + data.error + '</div>');
-								submitSent = false;
-								$form.find('input[name=csrfinstance]').val(data.csrfinstance);
-								$form.find('input[name=csrftoken]').val(data.csrftoken);
-								try { resetLockBtn(); } catch (e) {}
-							}
-							if (data.success) {
-								location = data.success;
-							}
-						}
-					},
-					error: function (jqXHR, textStatus, errorThrown) {
-						$('.wait').remove();
-						$form.find('.action-buttons').show();
-						$form.before('<div class="alert alert-danger"><i class="fa fa-exclamation fa-fw"></i> ' + textStatus + ' ' + errorThrown + '</div>');
-						submitSent = false;
-						try {
-							resetLockBtn();
-						} catch (e) {
-						}
-					}
-				});
-			}
+			//$('#stripe').submit(function (event) {
+			//	event.preventDefault();
+			//	if (submitSent !== true) {
+			//		submitSent = true;
+			//		//get card token first
+			//		var $form = $(this);
+			//		var extraDetails = {
+			//			name: $('input[name=cc_owner]').val(),
+			//			address_line1: <?php //js_echo($address_1)?>//,
+			//			address_line2: <?php //js_echo($address_2)?>//,
+			//			address_city: <?php //js_echo($address_city)?>//,
+			//			address_state: <?php //js_echo($address_zone_code)?>//,
+			//			address_zip: <?php //js_echo($address_postcode)?>//,
+			//			address_country: <?php //js_echo($address_country_code)?>//,
+			//		};
+			//		stripe.createToken(card, extraDetails).then(function(result){
+			//			if (result.error) {
+			//				try{ resetLockBtn(); }catch(e){}
+			//				alert( result.error.message );
+			//				submitSent = false;
+			//			} else {
+			//				$('#cc_token').val(result.token.id);
+			//				confirmSubmit($form, '<?php //echo $action; ?>//');
+			//			}
+			//		});
+			//		return false;
+			//	}
+			//});
+            //
+			//function confirmSubmit($form, url) {
+			//	$.ajax({
+			//		type: 'POST',
+			//		url: url,
+			//		data: $form.find(':input'),
+			//		dataType: 'json',
+			//		beforeSend: function () {
+			//			$('.alert').remove();
+			//			$form.find('.action-buttons').hide();
+			//			$form.find('.action-buttons').before('<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin fa-fw"></i> <?php //echo $text_wait; ?>//</div>');
+			//		},
+			//		success: function (data) {
+			//			if (!data) {
+			//				$('.wait').remove();
+			//				$form.find('.action-buttons').show();
+			//				$form.before('<div class="alert alert-danger"><i class="fa fa-bug fa-fw"></i> <?php //echo $error_unknown; ?>//</div>');
+			//				submitSent = false;
+			//				try { resetLockBtn(); } catch (e) {}
+			//			} else {
+			//				if (data.error) {
+			//					$('.wait').remove();
+			//					$form.find('.action-buttons').show();
+			//					$form.before('<div class="alert alert-warning"><i class="fa fa-exclamation fa-fw"></i> ' + data.error + '</div>');
+			//					submitSent = false;
+			//					$form.find('input[name=csrfinstance]').val(data.csrfinstance);
+			//					$form.find('input[name=csrftoken]').val(data.csrftoken);
+			//					try { resetLockBtn(); } catch (e) {}
+			//				}
+			//				if (data.success) {
+			//					location = data.success;
+			//				}
+			//			}
+			//		},
+			//		error: function (jqXHR, textStatus, errorThrown) {
+			//			$('.wait').remove();
+			//			$form.find('.action-buttons').show();
+			//			$form.before('<div class="alert alert-danger"><i class="fa fa-exclamation fa-fw"></i> ' + textStatus + ' ' + errorThrown + '</div>');
+			//			submitSent = false;
+			//			try {
+			//				resetLockBtn();
+			//			} catch (e) {
+			//			}
+			//		}
+			//	});
+			//}
 		});
+        var stripe = Stripe(
+      			'<?php echo $this->config->get('default_stripe_published_key');?>',
+      			{
+      			  betas: ['payment_intent_beta_3']
+      			}
+      		);
+      		var elements = stripe.elements();
+      		var card = elements.create('card', {
+      			hidePostalCode: true,
+      			style: {
+      				base: {
+      					iconColor: '#666EE8',
+      					color: '#31325F',
+      					lineHeight: '40px',
+      					fontWeight: 300,
+      					fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+      					fontSize: '15px',
+      					'::placeholder': {
+      						color: '#CFD7E0',
+      					},
+      				},
+      			}
+      		});
+      		card.mount('#card-element');
 
-		var stripe = Stripe('<?php echo $this->config->get('default_stripe_published_key');?>');
-		var elements = stripe.elements();
-		var card = elements.create('card', {
-			hidePostalCode: true,
-			style: {
-				base: {
-					iconColor: '#666EE8',
-					color: '#31325F',
-					lineHeight: '40px',
-					fontWeight: 300,
-					fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-					fontSize: '15px',
-					'::placeholder': {
-						color: '#CFD7E0',
-					},
-				},
-			}
-		});
-		card.mount('#card-element');
+		//var stripe = Stripe('<?php //echo $this->config->get('default_stripe_published_key');?>//');
+		//var elements = stripe.elements();
+		//var card = elements.create('card', {
+		//	hidePostalCode: true,
+		//	style: {
+		//		base: {
+		//			iconColor: '#666EE8',
+		//			color: '#31325F',
+		//			lineHeight: '40px',
+		//			fontWeight: 300,
+		//			fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+		//			fontSize: '15px',
+		//			'::placeholder': {
+		//				color: '#CFD7E0',
+		//			},
+		//		},
+		//	}
+		//});
+		//card.mount('#card-element');
 	</script>
 <?php } ?>

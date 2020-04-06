@@ -3,26 +3,26 @@
 namespace Stripe\Terminal;
 
 /**
- * Class Location
+ * A Location represents a grouping of readers.
  *
- * @property string $id
- * @property string $object
- * @property string $display_name
- * @property string $address_city
- * @property string $address_country
- * @property string $address_line1
- * @property string $address_line2
- * @property string $address_state
- * @property string $address_postal_code
+ * Related guide: <a
+ * href="https://stripe.com/docs/terminal/readers/fleet-management#create">Fleet
+ * Management</a>.
  *
- * @package Stripe\Terminal
+ * @property string $id Unique identifier for the object.
+ * @property string $object String representing the object's type. Objects of the same type share the same value.
+ * @property \Stripe\StripeObject $address
+ * @property string $display_name The display name of the location.
+ * @property bool $livemode Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.
+ * @property \Stripe\StripeObject $metadata Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
  */
 class Location extends \Stripe\ApiResource
 {
-    const OBJECT_NAME = "terminal.location";
+    const OBJECT_NAME = 'terminal.location';
 
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Create;
+    use \Stripe\ApiOperations\Delete;
     use \Stripe\ApiOperations\Retrieve;
     use \Stripe\ApiOperations\Update;
 }

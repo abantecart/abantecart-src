@@ -173,8 +173,8 @@ class ControllerPagesExtensionDefaultStripeSettings extends AController
         ));
 
         $settlement = array(
-            'auto'    => $this->language->get('default_stripe_settlement_auto'),
-            'delayed' => $this->language->get('default_stripe_settlement_delayed'),
+            'automatic'    => $this->language->get('default_stripe_settlement_auto'),
+            'manual' => $this->language->get('default_stripe_settlement_delayed'),
         );
         $this->data['form']['fields']['default_stripe_settlement'] = $form->getFieldHtml(array(
             'type'    => 'selectbox',
