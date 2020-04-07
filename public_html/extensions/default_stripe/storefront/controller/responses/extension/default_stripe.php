@@ -152,99 +152,6 @@ class ControllerResponsesExtensionDefaultStripe extends AController
         $this->processTemplate('responses/default_stripe.tpl');
     }
 
-//    public function send()
-//    {
-//        //init controller data
-//        $this->extensions->hk_InitData($this, __FUNCTION__);
-//
-//        $json = array();
-//
-//        if (!$this->csrftoken->isTokenValid()) {
-//            $json['error'] = $this->language->get('error_unknown');
-//            $this->load->library('json');
-//            $this->response->setOutput(AJson::encode($json));
-//            return;
-//        }
-//
-//        $this->loadLanguage('default_stripe/default_stripe');
-//
-//        //validate input
-//        $post = $this->request->post;
-//
-//        //check if saved cc mode is used
-//        if (!$post['use_saved_cc']) {
-//            if (empty($post['cc_token'])) {
-//                $json['error'] = $this->language->get('error_incorrect_number');
-//            }
-//
-//            if (empty($post['cc_owner'])) {
-//                $json['error'] = $this->language->get('error_incorrect_name');
-//            }
-//
-//        }
-//
-//        if (isset($json['error'])) {
-//            if ($json['error']) {
-//                $csrftoken = $this->registry->get('csrftoken');
-//                $json['csrfinstance'] = $csrftoken->setInstance();
-//                $json['csrftoken'] = $csrftoken->setToken();
-//            }
-//            $this->load->library('json');
-//            $this->response->setOutput(AJson::encode($json));
-//            return null;
-//        }
-//
-//        $this->loadModel('checkout/order');
-//        $this->loadModel('extension/default_stripe');
-//        $this->loadLanguage('default_stripe/default_stripe');
-//        $order_id = $this->session->data['order_id'];
-//
-//        // currency code
-//        $currency = $this->currency->getCode();
-//        // order amount without decimal delimiter
-//        $amount = round($this->currency->convert($this->cart->getFinalTotal(), $this->config->get('config_currency'), $currency), 2) * 100;
-//
-//        ADebug::checkpoint('Stripe Payment: Start processing order ID '.$order_id);
-//
-//        $pd = array(
-//            'order_id' => $order_id,
-//            'amount'   => $amount,
-//            'currency' => $currency,
-//            'cc_token' => $post['cc_token'],
-//        );
-//
-//        $p_result = $this->model_extension_default_stripe->processPayment($pd);
-//
-//        ADebug::variable('Processing payment result: ', $p_result);
-//        if ($p_result['error']) {
-//            // transaction failed
-//            $json['error'] = (string)$p_result['error'];
-//            if ($p_result['code']) {
-//                $json['error'] .= ' ('.$p_result['code'].')';
-//            }
-//        } else {
-//            if ($p_result['paid']) {
-//                $json['success'] = $this->html->getSecureURL('checkout/success');
-//            } else {
-//                //Unexpected result
-//                $json['error'] = $this->language->get('error_system');
-//            }
-//        }
-//
-//        //init controller data
-//        $this->extensions->hk_UpdateData($this, __FUNCTION__);
-//
-//        if (isset($json['error'])) {
-//            if ($json['error']) {
-//                $csrftoken = $this->registry->get('csrftoken');
-//                $json['csrfinstance'] = $csrftoken->setInstance();
-//                $json['csrftoken'] = $csrftoken->setToken();
-//            }
-//        }
-//        $this->load->library('json');
-//        $this->response->setOutput(AJson::encode($json));
-//    }
-
     public function send()
     {
         $this->loadModel('checkout/order');
@@ -274,7 +181,7 @@ class ControllerResponsesExtensionDefaultStripe extends AController
                 $p_result['paid'] = true;
                 $this->load->model('checkout/order');
 
-                if ($this->config->get('default_stripe_settlement') == 'auto') {
+                if ($this->config->get('default_stripe_settlement') == 'automatic') {
                     $order_status_id = $this->config->get('stripe_status_success_settled');
                     //auto complete the order in settled mode
                     $this->model_checkout_order->confirm(
