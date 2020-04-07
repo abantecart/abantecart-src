@@ -58,6 +58,15 @@ final class AResponse
         $header_name = strtolower(trim($header_name[0]));
         $this->headers[$header_name] = $header;
     }
+    /**
+     * @param string $header
+     */
+    public function removeHeader($header)
+    {
+        $header_name = explode(":", $header);
+        $header_name = strtolower(trim($header_name[0]));
+        unset($this->headers[$header_name]);
+    }
 
     public function addJSONHeader()
     {

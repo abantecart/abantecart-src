@@ -157,9 +157,14 @@ abstract class AController
         if ($this->request->get['embed_mode']) {
             $config = $this->registry->get('config');
             $config->set('embed_mode', true);
-        }else{
+        }elseif( strpos($this->registry->get('request')->get['rt'], 'embed') === false
+        && !$this->config->get('embed_mode')
+        ){
             //defense from clickjacking
             $this->response->addHeader('X-Frame-Options: SAMEORIGIN');
+        }else{
+            //remove for embed
+            $this->response->removeHeader('X-Frame-Options: SAMEORIGIN');
         }
     }
 
