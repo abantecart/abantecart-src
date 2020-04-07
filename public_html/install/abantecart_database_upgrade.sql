@@ -47,7 +47,6 @@ CREATE TABLE `ac_email_templates` (
   `status` tinyint(1) NOT NULL,
   `text_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `language_id` int(11) NOT NULL,
-  `store_id` int(11) NOT NULL DEFAULT 0,
   `headers` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `subject` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `html_body` text COLLATE utf8_unicode_ci NOT NULL,
@@ -56,6 +55,7 @@ CREATE TABLE `ac_email_templates` (
   `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `date_deleted` timestamp NULL DEFAULT NULL,
+  `store_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_templates_text_id_idx` (`text_id`,`language_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
