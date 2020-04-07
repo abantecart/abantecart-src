@@ -272,6 +272,8 @@ class ModelCatalogProduct extends Model
         $start = 0,
         $limit = 20
     ) {
+        $start = abs((int)$start);
+        $limit = abs((int)$limit);
         $store_id = (int)$this->config->get('config_store_id');
         $language_id = (int)$this->config->get('storefront_language_id');
         $cache_key =
@@ -380,6 +382,8 @@ class ModelCatalogProduct extends Model
         $start = 0,
         $limit = 20
     ) {
+        $start = abs((int)$start);
+        $limit = abs((int)$limit);
         if (!(int)$manufacturer_id) {
             return array();
         }
@@ -461,6 +465,8 @@ class ModelCatalogProduct extends Model
         $start = 0,
         $limit = 20
     ) {
+        $start = abs((int)$start);
+        $limit = abs((int)$limit);
         if ($tag) {
             $sql = "SELECT *, p.product_id,
                             ".$this->_sql_final_price_string().",
@@ -562,6 +568,8 @@ class ModelCatalogProduct extends Model
         $start = 0,
         $limit = 20
     ) {
+        $start = abs((int)$start);
+        $limit = abs((int)$limit);
         //trim keyword
         $keyword = trim($keyword);
         if ($keyword) {
@@ -819,9 +827,11 @@ class ModelCatalogProduct extends Model
      */
     public function getLatestProducts($limit)
     {
-        $limit = (int)$limit;
-        $cache_key = 'product.latest.'.$limit
-            .'.store_'.(int)$this->config->get('config_store_id').'_lang_'.$this->config->get('storefront_language_id');
+        $limit = abs((int)$limit);
+        $cache_key = 'product.latest.'
+                    .$limit
+                    .'.store_'.(int)$this->config->get('config_store_id')
+                    .'_lang_'.$this->config->get('storefront_language_id');
         $cache = $this->cache->pull($cache_key);
 
         if ($cache === false) {
@@ -858,7 +868,7 @@ class ModelCatalogProduct extends Model
      */
     public function getPopularProducts($limit = 0)
     {
-        $limit = (int)$limit;
+        $limit = abs((int)$limit);
         $sql = "SELECT *,
                         pd.name AS name,
                         m.name AS manufacturer,
@@ -885,7 +895,7 @@ class ModelCatalogProduct extends Model
      */
     public function getFeaturedProducts($limit)
     {
-        $limit = (int)$limit;
+        $limit = abs((int)$limit);
         $language_id = (int)$this->config->get('storefront_language_id');
         $store_id = (int)$this->config->get('config_store_id');
         $cache_key = 'product.featured.'.$limit.'.store_'.$store_id.'_lang_'.$language_id;
@@ -924,7 +934,7 @@ class ModelCatalogProduct extends Model
      */
     public function getBestSellerProducts($limit)
     {
-        $limit = (int)$limit;
+        $limit = abs((int)$limit);
         $language_id = (int)$this->config->get('storefront_language_id');
         $store_id = (int)$this->config->get('config_store_id');
         $cache_key = 'product.bestseller.'.$limit.'.store_'.$store_id.'_lang_'.$language_id;
@@ -1814,7 +1824,8 @@ class ModelCatalogProduct extends Model
      */
     public function getProductSpecials($sort = 'p.sort_order', $order = 'ASC', $start = 0, $limit = 0)
     {
-        $limit = (int)$limit;
+        $start = abs((int)$start);
+        $limit = abs((int)$limit);
         $promotion = new APromotion();
         $results = $promotion->getProductSpecials($sort, $order, $start, $limit);
 

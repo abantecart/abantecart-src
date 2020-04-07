@@ -269,7 +269,8 @@ class APromotion
      */
     public function getProductSpecials($sort = 'p.sort_order', $order = 'ASC', $start = 0, $limit = 20)
     {
-
+        $start = abs((int)$start);
+        $limit = abs((int)$limit);
         $language_id = (int)$this->config->get('storefront_language_id');
         $store_id = (int)$this->config->get('config_store_id');
         $customer_group_id = (int)$this->customer_group_id;
