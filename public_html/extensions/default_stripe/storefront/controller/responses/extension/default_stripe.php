@@ -182,7 +182,7 @@ class ControllerResponsesExtensionDefaultStripe extends AController
                 $this->load->model('checkout/order');
 
                 if ($this->config->get('default_stripe_settlement') == 'automatic') {
-                    $order_status_id = $this->config->get('stripe_status_success_settled');
+                    $order_status_id = $this->config->get('default_stripe_status_success_settled');
                     //auto complete the order in settled mode
                     $this->model_checkout_order->confirm(
                         $order_id,
