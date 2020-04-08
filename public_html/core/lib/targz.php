@@ -176,7 +176,10 @@ final class Atargz
         $infos['name100'] = str_replace($racine, '', $item);
         list (, , $infos['mode8'], , $infos['uid8'], $infos['gid8'], , , , $infos['mtime12']) = stat($item);
         $infos['size12'] = is_dir($item) ? 0 : filesize($item);
-        $infos['link1'] = is_link($item) ? 2 : is_dir($item) ? 5 : 0;
+
+        $infos['link1'] = is_link($item) ? 2 : is_dir($item);
+        $infos['link1'] = $infos['link1'] === false ? 5 : 0;
+
         $infos['link100'] == 2 ? readlink($item) : "";
 
         $a = function_exists('posix_getpwuid') ? posix_getpwuid(fileowner($item)) : array('name' => 'Unknown');
