@@ -154,11 +154,13 @@ abstract class AController
         }
 
         //set embed mode if passed
-        if ($this->request->get['embed_mode']) {
-            $config = $this->registry->get('config');
-            $config->set('embed_mode', true);
-        }elseif( strpos($this->registry->get('request')->get['rt'], 'embed') === false
-        && !$this->config->get('embed_mode')
+
+        if ($this->config && $this->request && $this->request->get['embed_mode']) {
+            $this->config->set('embed_mode', true);
+        }elseif( $this->config
+                    && $this->request
+                    && strpos($this->request->get['rt'], 'embed') === false
+                    && !$this->config->get('embed_mode')
         ){
             //defense from clickjacking
             $this->response->addHeader('X-Frame-Options: SAMEORIGIN');
