@@ -154,6 +154,13 @@ class ControllerResponsesExtensionDefaultStripe extends AController
 
     public function send()
     {
+        if (!$this->csrftoken->isTokenValid()) {
+            $json['error'] = $this->language->get('error_unknown');
+            $this->load->library('json');
+            $this->response->setOutput(AJson::encode($json));
+            return;
+        }
+
         $this->loadModel('checkout/order');
         $this->loadModel('extension/default_stripe');
         $this->loadLanguage('default_stripe/default_stripe');
@@ -163,15 +170,6 @@ class ControllerResponsesExtensionDefaultStripe extends AController
 
         //validate input
         $order_id = $this->session->data['order_id'];
-
-        if (isset($json['error'])) {
-            $csrftoken = $this->registry->get('csrftoken');
-            $json['csrfinstance'] = $csrftoken->setInstance();
-            $json['csrftoken'] = $csrftoken->setToken();
-            $this->load->library('json');
-            $this->response->setOutput(AJson::encode($json));
-            return null;
-        }
 
         $p_result = array();
         try {
