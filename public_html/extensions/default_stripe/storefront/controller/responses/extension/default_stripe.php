@@ -110,7 +110,7 @@ class ControllerResponsesExtensionDefaultStripe extends AController
             array(
 
                 'payment_method_types' => array("card"),
-                'capture_method'       => $this->config->get('default_stripe_settlement'),
+                'capture_method'       => 'manual',
                 'amount'               => round(
                                                 $this->currency->convert(
                                                     $this->cart->getFinalTotal(),
@@ -137,6 +137,7 @@ class ControllerResponsesExtensionDefaultStripe extends AController
                 ),
                 'statement_descriptor' => 'Order #'.$order_info['order_id'],
                 "metadata"             => array(
+                    'integration_check' => 'accept_a_payment',
                     "order_id" => $order_info['order_id'],
                 ),
             )
@@ -183,13 +184,12 @@ class ControllerResponsesExtensionDefaultStripe extends AController
 
         $p_result = array();
         try {
-
             $pi_id = $this->session->data['stripe']['pi_id'];
-            if ($this->model_extension_default_stripe->isPaymentIntentSuccessful($pi_id)) {
+            if ( ($intent = $this->model_extension_default_stripe->getPaymentIntent($pi_id)) ) {
                 $p_result['paid'] = true;
                 $this->load->model('checkout/order');
-
                 if ($this->config->get('default_stripe_settlement') == 'automatic') {
+                    $intent->capture();
                     $order_status_id = $this->config->get('default_stripe_status_success_settled');
                     //auto complete the order in settled mode
                     $this->model_checkout_order->confirm(

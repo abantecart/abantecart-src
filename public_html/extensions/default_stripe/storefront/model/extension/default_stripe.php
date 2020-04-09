@@ -48,7 +48,6 @@ class ModelExtensionDefaultStripe extends Model
 
     public function createPaymentIntent($data)
     {
-        $this->load->model('checkout/order');
         try {
             require_once(DIR_EXT.'default_stripe/core/stripe_modules.php');
             grantStripeAccess($this->config);
@@ -338,18 +337,13 @@ class ModelExtensionDefaultStripe extends Model
         }
     }
 
-    public function isPaymentIntentSuccessful($pi_id)
+    public function getPaymentIntent($pi_id)
     {
 
         require_once(DIR_EXT.'default_stripe/core/stripe_modules.php');
         grantStripeAccess($this->config);
 
-        $intent = \Stripe\PaymentIntent::retrieve($pi_id);
-        if (in_array($intent->status, array('succeeded', 'requires_capture'))) {
-            return true;
-        }
-
-        return false;
+        return \Stripe\PaymentIntent::retrieve($pi_id);
     }
 
     /**
