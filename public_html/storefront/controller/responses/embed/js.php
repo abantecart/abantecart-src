@@ -442,4 +442,41 @@ class ControllerResponsesEmbedJS extends AController
         $this->response->addHeader('Content-Type: text/javascript; charset=UTF-8');
     }
 
+    public function collection()
+    {
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+
+        $collection_id = (int)$this->request->get['collection_id'];
+
+        if (!$collection_id) {
+            return null;
+        }
+
+        $this->data['target'] = $this->request->get['target_id'];
+        if (!$this->data['target']) {
+            return null;
+        }
+
+        $this->loadModel('catalog/collection');
+        $collection = $this->model_catalog_collection->getById($collection_id);
+
+        //can not locate collection? get out
+        if (!$collection) {
+            return null;
+        }
+
+
+        $this->data['ajax_url'] = $this->html->getCatalogURL('r/product/collection', '&collection_id='.$collection_id);
+
+        $this->view->setTemplate('embed/js_collection.tpl');
+
+        $this->view->batchAssign($this->language->getASet('product/collection'));
+        $this->view->batchAssign($this->data);
+        $this->setJsHttpHeaders();
+        $this->processTemplate();
+
+        //init controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
+
 }

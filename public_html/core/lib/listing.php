@@ -155,6 +155,17 @@ class AListing
                 'storefront_view_path' => 'product/manufacturer',
                 'items_list_url'       => 'catalog/manufacturer_listing/getManufacturers',
             ),
+            'collection'  => array(
+                'model'                => 'catalog/collection',
+                'method'               => 'getCollections',
+                'language'             => 'catalog/collections',
+                'text'                 => 'text_collection',
+                'view_path'            => 'catalog/product/update',
+                'rl_object_name'       => 'products',
+                'data_type'            => 'product_id',
+                'storefront_model'     => 'catalog/collection',
+                'storefront_method'    => 'getListingBlockProducts',
+            ),
         );
     }
 
@@ -252,7 +263,10 @@ class AListing
             $output = array($args['limit']);
         } elseif ($model == 'catalog/product' && $method == 'getLatestProducts') {
             $output = array($args['limit']);
+        } elseif ($model == 'catalog/collection' && $method == 'getListingBlockProducts') {
+            $output = array($args['collection_id'], $args['limit']);
         }
+
         return $output;
     }
 }

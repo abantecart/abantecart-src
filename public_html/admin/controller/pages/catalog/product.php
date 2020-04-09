@@ -11,11 +11,11 @@
   License details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
+
+ UPGRADE NOTE:
    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
    versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
+   needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -278,8 +278,10 @@ class ControllerPagesCatalogProduct extends AController
         $grid_settings['multiaction_options']['delete'] = $this->language->get('text_delete_selected');
         $grid_settings['multiaction_options']['save'] = $this->language->get('text_save_selected');
         $grid_settings['multiaction_options']['relate'] = $this->language->get('text_set_related');
+        $grid_settings['multiaction_options']['create_collection'] = $this->language->get('text_create_collection');
 
         $this->view->assign('relate_selected_url', $grid_settings['editurl']);
+        $this->view->assign('create_collection_url', $this->html->getSecureURL('catalog/collections/insert'));
         $this->view->assign('text_success_relation_set', $this->language->get('text_success_relation_set'));
 
         $grid = $this->dispatch('common/listing_grid', array($grid_settings));

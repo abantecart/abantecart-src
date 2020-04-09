@@ -474,4 +474,8 @@
 		<key>email_templates</key>
 		<value><![CDATA[Email Templates]]></value>
 	</definition>
+	<definition>
+		<key>text_collection</key>
+		<value><![CDATA[Collection]]></value>
+	</definition>
 </definitions>

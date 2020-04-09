@@ -44,7 +44,7 @@
 			</div>
 		</div>
 
-		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
 	</div>
 
 	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
@@ -83,6 +83,15 @@
 						alert(textStatus + ": " + errorThrown);
 					}
 				});
+			}
+
+			if ($('#product_grid_selected_action').val() == 'create_collection') {
+				//Get unique ids
+				ids = ids.filter((value, index, self) => {
+					return self.indexOf(value) === index;
+				})
+				window.open('<?php echo $create_collection_url; ?>'+'&'+$.param({products: ids}), '_blank')
+
 			}
 		});
 
