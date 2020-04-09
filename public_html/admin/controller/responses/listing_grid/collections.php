@@ -20,7 +20,7 @@ class ControllerResponsesListingGridCollections extends AController
         $result = $this->model_catalog_collection->getCollections($data);
         $response = new stdClass();
         $response->page = $result['page'];
-        $response->total = ceil($result['total']/$result['limit']);
+        $response->total = ceil($result['total'] / $result['limit']);
         $response->records = $result['total'];
         $response->userdata = new stdClass();
 
@@ -60,11 +60,10 @@ class ControllerResponsesListingGridCollections extends AController
             if (!is_array($post['status'])) {
                 return;
             }
-            foreach ((array)$post['status'] as $key=>$value) {
+            foreach ((array)$post['status'] as $key => $value) {
                 $this->model_catalog_collection->update($key, ['status' => (int)$value]);
             }
         }
-
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -97,12 +96,12 @@ class ControllerResponsesListingGridCollections extends AController
             }
         }
 
-
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    public function getFieldsByConditionObject($value){
+    public function getFieldsByConditionObject($value)
+    {
         $this->loadLanguage('catalog/collections');
 
         $cond_objects = [
@@ -113,27 +112,27 @@ class ControllerResponsesListingGridCollections extends AController
             'tags',
         ];
 
-        if (!in_array($this->request->post['condition_object'], $cond_objects)){
+        if (!in_array($this->request->post['condition_object'], $cond_objects)) {
             return null;
         }
 
         $this->form = new AForm ('HT');
-        $this->form->setForm(array (
+        $this->form->setForm(array(
             'form_name' => 'collectionsFrm',
-            'update'    => $this->html->getSecureURL('listing_grid/collections/update_field', '&id=' . $this->request->get['id'])
+            'update'    => $this->html->getSecureURL('listing_grid/collections/update_field', '&id='.$this->request->get['id']),
         ));
-        $method = 'getFieldsFor' . str_replace(' ', '', ucwords(str_replace('_', ' ', $this->request->post['condition_object'])));
+        $method = 'getFieldsFor'.str_replace(' ', '', ucwords(str_replace('_', ' ', $this->request->post['condition_object'])));
 
-        if (method_exists($this, $method)){
-            $response = call_user_func(array ($this, $method), $value);
+        if (method_exists($this, $method)) {
+            $response = call_user_func(array($this, $method), $value);
         }
-        if ($response['fields']){
+        if ($response['fields']) {
             $value = $this->request->post['condition_object'];
             $response['fields'] .= $this->form->getFieldHtml(
-                array (
+                array(
                     'type'  => 'hidden',
-                    'name'  => 'conditions[conditions][' . $this->request->post['idx'] . '][object]',
-                    'value' => $value
+                    'name'  => 'conditions[conditions]['.$this->request->post['idx'].'][object]',
+                    'value' => $value,
                 )
             );
         }
@@ -142,18 +141,19 @@ class ControllerResponsesListingGridCollections extends AController
         $this->response->setOutput(AJson::encode($response));
     }
 
-    private function getFieldsForProducts($value = ''){
+    private function getFieldsForProducts($value = '')
+    {
 
         $listing_data = [];
-        if (is_array($value['value']) && $value['value']){
+        if (is_array($value) && is_array($value['value']) && $value['value']) {
 
             $this->loadModel('catalog/product');
-            $filter = array ('subsql_filter' => 'p.product_id in (' . implode(',', $value['value']) . ')');
+            $filter = array('subsql_filter' => 'p.product_id in ('.implode(',', $value['value']).')');
 
             $results = $this->model_catalog_product->getProducts($filter);
-            if ($results){
+            if ($results) {
                 $resource = new AResource('image');
-                foreach ($results as $r){
+                foreach ($results as $r) {
                     $product_id = $r['product_id'];
                     $thumbnail = $resource->getMainThumb(
                         'products',
@@ -161,28 +161,28 @@ class ControllerResponsesListingGridCollections extends AController
                         (int)$this->config->get('config_image_grid_width'),
                         (int)$this->config->get('config_image_grid_height'),
                         true);
-                    $listing_data[$product_id]['name'] = $r['name'] . " (" . $r['model'] . ")";
+                    $listing_data[$product_id]['name'] = $r['name']." (".$r['model'].")";
                     $listing_data[$product_id]['image'] = $thumbnail['thumb_html'];
                 }
             }
         }
 
-
         $response['text'] = $this->language->get('entry_products');
         $response['fields'] = $this->form->getFieldHtml(
-            array ('type'    => 'selectbox',
-                   'name'    => 'conditions[conditions][' . $this->request->post['idx'] . '][operator]',
-                   'options' => array (
-                       'in'    => $this->language->get('text_in'),
-                       'notin' => $this->language->get('text_not_in')
-                   ),
-                   'value'   => $value['operator']
+            array(
+                'type'    => 'selectbox',
+                'name'    => 'conditions[conditions]['.$this->request->post['idx'].'][operator]',
+                'options' => array(
+                    'in'    => $this->language->get('text_in'),
+                    'notin' => $this->language->get('text_not_in'),
+                ),
+                'value'   => $value['operator'] ?: 'in',
             ));
 
         $response['fields'] .= $this->form->getFieldHtml(
-            array (
+            array(
                 'type'        => 'multiselectbox',
-                'name'        => 'conditions[conditions][' . $this->request->post['idx'] . '][value][]',
+                'name'        => 'conditions[conditions]['.$this->request->post['idx'].'][value][]',
                 'value'       => !$value ? '' : $value['value'],
                 'options'     => $listing_data,
                 'style'       => 'chosen',
@@ -193,54 +193,59 @@ class ControllerResponsesListingGridCollections extends AController
         return $response;
     }
 
-    private function getFieldsForProductPrice($value = array ()){
+    private function getFieldsForProductPrice($value = array())
+    {
 
         $response['text'] = $this->language->get('entry_product_price');
         $response['fields'] = $this->form->getFieldHtml(
-            array ('type'    => 'selectbox',
-                   'name'    => 'conditions[conditions][' . $this->request->post['idx'] . '][operator]',
-                   'options' => array (
-                       'eq'   => $this->language->get('text_equal'),
-                       'neq'  => $this->language->get('text_not_equal'),
-                       'eqlt' => $this->language->get('text_equal_or_less'),
-                       'eqgt' => $this->language->get('text_equal_or_greater'),
-                       'lt'   => $this->language->get('text_less'),
-                       'gt'   => $this->language->get('text_greater')
-                   ),
-                   'value'   => $value['operator'],
+            array(
+                'type'    => 'selectbox',
+                'name'    => 'conditions[conditions]['.$this->request->post['idx'].'][operator]',
+                'options' => array(
+                    'eq'   => $this->language->get('text_equal'),
+                    'neq'  => $this->language->get('text_not_equal'),
+                    'eqlt' => $this->language->get('text_equal_or_less'),
+                    'eqgt' => $this->language->get('text_equal_or_greater'),
+                    'lt'   => $this->language->get('text_less'),
+                    'gt'   => $this->language->get('text_greater'),
+                ),
+                'value'   => $value['operator'],
             ));
         $response['fields'] .= $this->form->getFieldHtml(
-            array ('type'  => 'input',
-                   'name'  => 'conditions[conditions][' . $this->request->post['idx'] . '][value]',
-                   'value' => !$value ? '' : $value['value'],
-                   'style' => 'small-field'
+            array(
+                'type'  => 'input',
+                'name'  => 'conditions[conditions]['.$this->request->post['idx'].'][value]',
+                'value' => !$value ? '' : $value['value'],
+                'style' => 'small-field',
             )
         );
-        $response['fields'] .= '(' . $this->config->get('config_currency') . ')';
+        $response['fields'] .= '('.$this->config->get('config_currency').')';
         return $response;
     }
 
-    private function getFieldsForCategories($value = ''){
+    private function getFieldsForCategories($value = '')
+    {
         $this->loadLanguage('catalog/collections');
         $response['text'] = $this->language->get('entry_categories');
         $response['fields'] = $this->form->getFieldHtml(
-            array ('type'    => 'selectbox',
-                   'name'    => 'conditions[conditions][' . $this->request->post['idx'] . '][operator]',
-                   'options' => array (
-                       'in'    => $this->language->get('text_in'),
-                       'notin' => $this->language->get('text_not_in')
-                   ),
-                   'value'   => !$value ? '' : $value['operator'],
+            array(
+                'type'    => 'selectbox',
+                'name'    => 'conditions[conditions]['.$this->request->post['idx'].'][operator]',
+                'options' => array(
+                    'in'    => $this->language->get('text_in'),
+                    'notin' => $this->language->get('text_not_in'),
+                ),
+                'value'   => !$value ? '' : $value['operator'],
             ));
         $this->loadModel('catalog/category');
         $results = $this->model_catalog_category->getCategories(0);
-        foreach ($results as $r){
+        foreach ($results as $r) {
             $categories[$r['category_id']] = $r['name'];
         }
 
-        $response['fields'] .= $this->form->getFieldHtml(array (
+        $response['fields'] .= $this->form->getFieldHtml(array(
             'type'        => 'checkboxgroup',
-            'name'        => 'conditions[conditions][' . $this->request->post['idx'] . '][value][]',
+            'name'        => 'conditions[conditions]['.$this->request->post['idx'].'][value][]',
             'value'       => !$value ? '' : $value['value'],
             'options'     => $categories,
             'style'       => 'chosen',
@@ -250,26 +255,28 @@ class ControllerResponsesListingGridCollections extends AController
         return $response;
     }
 
-    private function getFieldsForBrands($value = ''){
+    private function getFieldsForBrands($value = '')
+    {
 
         $response['text'] = $this->language->get('entry_brands');
         $response['fields'] = $this->form->getFieldHtml(
-            array ('type'    => 'selectbox',
-                   'name'    => 'conditions[conditions][' . $this->request->post['idx'] . '][operator]',
-                   'options' => array (
-                       'in'    => $this->language->get('text_in'),
-                       'notin' => $this->language->get('text_not_in')
-                   ),
-                   'value'   => !$value ? '' : $value['operator'],
+            array(
+                'type'    => 'selectbox',
+                'name'    => 'conditions[conditions]['.$this->request->post['idx'].'][operator]',
+                'options' => array(
+                    'in'    => $this->language->get('text_in'),
+                    'notin' => $this->language->get('text_not_in'),
+                ),
+                'value'   => !$value ? '' : $value['operator'],
             ));
         $this->loadModel('catalog/manufacturer');
         $results = $this->model_catalog_manufacturer->getManufacturers();
-        foreach ($results as $r){
+        foreach ($results as $r) {
             $manufacturers[$r['manufacturer_id']] = $r['name'];
         }
-        $response['fields'] .= $this->form->getFieldHtml(array (
+        $response['fields'] .= $this->form->getFieldHtml(array(
             'type'        => 'checkboxgroup',
-            'name'        => 'conditions[conditions][' . $this->request->post['idx'] . '][value][]',
+            'name'        => 'conditions[conditions]['.$this->request->post['idx'].'][value][]',
             'value'       => !$value ? '' : $value['value'],
             'options'     => $manufacturers,
             'style'       => 'chosen',
@@ -278,26 +285,28 @@ class ControllerResponsesListingGridCollections extends AController
         return $response;
     }
 
-    private function getFieldsForTags($value = ''){
+    private function getFieldsForTags($value = '')
+    {
 
         $response['text'] = $this->language->get('entry_tags');
         $response['fields'] = $this->form->getFieldHtml(
-            array ('type'    => 'selectbox',
-                   'name'    => 'conditions[conditions][' . $this->request->post['idx'] . '][operator]',
-                   'options' => array (
-                       'in'    => $this->language->get('text_in'),
-                       'notin' => $this->language->get('text_not_in')
-                   ),
-                   'value'   => !$value ? '' : $value['operator'],
+            array(
+                'type'    => 'selectbox',
+                'name'    => 'conditions[conditions]['.$this->request->post['idx'].'][operator]',
+                'options' => array(
+                    'in'    => $this->language->get('text_in'),
+                    'notin' => $this->language->get('text_not_in'),
+                ),
+                'value'   => !$value ? '' : $value['operator'],
             ));
         $this->loadModel('catalog/collection');
         $results = $this->model_catalog_collection->getUniqueTags();
-        foreach ($results as $r){
+        foreach ($results as $r) {
             $tags[$r['tag']] = $r['tag'];
         }
-        $response['fields'] .= $this->form->getFieldHtml(array (
+        $response['fields'] .= $this->form->getFieldHtml(array(
             'type'        => 'checkboxgroup',
-            'name'        => 'conditions[conditions][' . $this->request->post['idx'] . '][value][]',
+            'name'        => 'conditions[conditions]['.$this->request->post['idx'].'][value][]',
             'value'       => !$value ? '' : $value['value'],
             'options'     => $tags,
             'style'       => 'chosen',
