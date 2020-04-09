@@ -312,11 +312,19 @@ class ModelExtensionDefaultStripe extends Model
         try {
             require_once(DIR_EXT.'default_stripe/core/stripe_modules.php');
             grantStripeAccess($this->config);
-
-            $stripe_customer = Stripe\Customer::create(array(
-                "email"       => $customer->getEmail(),
-                "description" => "Customer ID: ".$customer->getId(),
-            ));
+            if($customer instanceof ACustomer) {
+                $stripe_customer = Stripe\Customer::create(array(
+                    "email"       => $customer->getEmail(),
+                    "description" => "Customer ID: ".$customer->getId(),
+                ));
+            }elseif( is_array($customer)){
+                $stripe_customer = Stripe\Customer::create(array(
+                    "email"       => $customer['email'],
+                    "description" => "Guest Customer: ".$customer['firstname'].' '.$customer['firstname']
+                ));
+            }else{
+                return false;
+            }
 
 
             return $stripe_customer;

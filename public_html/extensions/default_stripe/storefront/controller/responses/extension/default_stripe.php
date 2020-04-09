@@ -42,6 +42,7 @@ class ControllerResponsesExtensionDefaultStripe extends AController
 
         $this->data['edit_address'] = $this->html->getSecureURL('checkout/address/payment');
         //data for token
+
         $this->data['email'] = $order_info['email'];
         $this->data['telephone'] = $order_info['telephone'];
         $this->data['payment_address_1'] = $order_info['payment_address_1'];
@@ -95,7 +96,16 @@ class ControllerResponsesExtensionDefaultStripe extends AController
         $this->data['default_stripe_ssl_off_error'] = $this->language->get('default_stripe_ssl_off_error');
 
         $currency = $this->currency->getCode();
-        $customer_stripe_id = $this->model_extension_default_stripe->createStripeCustomer($this->customer);
+        if($this->customer->isLogged()){
+            $customer = $this->customer;
+        }else{
+            $customer = array(
+                'firstname' => $order_info['payment_firstname'],
+                'lastname' => $order_info['payment_lastname'],
+                'email'     => $order_info['email']
+            );
+        }
+        $customer_stripe_id = $this->model_extension_default_stripe->createStripeCustomer($customer);
         $paymentIntent = $this->model_extension_default_stripe->createPaymentIntent(
             array(
 
