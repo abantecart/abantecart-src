@@ -87,35 +87,35 @@ class ModelCatalogCollection extends Model
             ];
             foreach ($conditions as $condition) {
                 //Brands filter
-                if ($condition['object'] === 'brands') {
-                    $arWhere[] = $productsTable.'.manufacturer_id '.self::gerInOperator($condition['operator'], $relation['value']).
+                if ($condition['object'] === 'brands' && is_array($relation['value']) && !empty($relation['value'])) {
+                    $arWhere[] = 'manufacturer_id '.$this->gerInOperator($condition['operator'], $relation['value']).
                         ' ('.implode(',', $condition['value']).')';
                 }
                 //Category filter
-                if ($condition['object'] === 'categories') {
+                if ($condition['object'] === 'categories' && is_array($relation['value']) && !empty($relation['value']))  {
                     $arSelect[] = $p2cTable.'.category_id';
                     $arJoins[] = 'LEFT JOIN '.$p2cTable.' ON '.$p2cTable.'.product_id='.$productsTable.'.product_id';
-                    $arWhere[] = 'category_id '.self::gerInOperator($condition['operator'], $relation['value']).
+                    $arWhere[] = 'category_id '.$this->gerInOperator($condition['operator'], $relation['value']).
                         ' ('.implode(',', $condition['value']).')';
                 }
                 //Products filter
-                if ($condition['object'] === 'products') {
-                    $arWhere[] = $productsTable.'.product_id '.self::gerInOperator($condition['operator'], $relation['value']).
+                if ($condition['object'] === 'products' && is_array($relation['value']) && !empty($relation['value'])) {
+                    $arWhere[] = $productsTable.'.product_id '.$this->gerInOperator($condition['operator'], $relation['value']).
                         ' ('.implode(',', $condition['value']).')';
                 }
                 //Product price filter
-                if ($condition['object'] === 'product_price') {
-                    $arWhere[] = 'price '.self::gerEqualOperator($condition['operator'], $relation['value']).$condition['value'];
+                if ($condition['object'] === 'product_price' && (int)$condition['value'] > 0) {
+                    $arWhere[] = 'price '.$this->gerEqualOperator($condition['operator'], $relation['value']).$condition['value'];
                 }
                 //Tags filter
-                if ($condition['object'] === 'tags') {
+                if ($condition['object'] === 'tags' && is_array($relation['value']) && !empty($relation['value'])) {
                     $arSelect[] = $productsTagsTable.'.tag';
                     $arJoins[] = 'LEFT JOIN '.$productsTagsTable.' ON '.$productsTagsTable.'.product_id='.$productsTable.'.product_id'.
                         ' AND language_id='.(int)$this->config->get('storefront_language_id');
                     foreach ($condition['value'] as &$value) {
                         $value = "'".$value."'";
                     }
-                    $arWhere[] = 'tag '.self::gerInOperator($condition['operator'], $relation['value']).
+                    $arWhere[] = 'tag '.$this->gerInOperator($condition['operator'], $relation['value']).
                         ' ('.implode(',', $condition['value']).')';
                 }
             }
