@@ -226,6 +226,10 @@ class ControllerPagesDesignBlocks extends AController
                         $content['resource_type'] = $this->request->post['resource_type'];
                     }
 
+                    if ($content['listing_datasource'] == 'collection') {
+                        $content['collection_id'] = $this->request->post['collection_id'];
+                    }
+
                     $content = serialize($content);
                     break;
                 case 'html_block':
@@ -370,6 +374,9 @@ class ControllerPagesDesignBlocks extends AController
                     } else {
                         if ($content['listing_datasource'] == 'media') {
                             $content['resource_type'] = $this->request->post['resource_type'];
+                        }
+                        if ($content['listing_datasource'] == 'collection') {
+                            $content['collection_id'] = $this->request->post['collection_id'];
                         }
                         $content['limit'] = $this->request->post['limit'];
                     }

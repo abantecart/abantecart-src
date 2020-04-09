@@ -62,6 +62,7 @@ class ControllerBlocksListingBlock extends AController
                 //Only products have special listing data preparation
                 if (in_array($this->data['listing_datasource'],
                     array(
+                        'collection',
                         'custom_products',
                         'catalog_product_getPopularProducts',
                         'catalog_product_getSpecialProducts',
@@ -302,6 +303,7 @@ class ControllerBlocksListingBlock extends AController
             $route = $content['listing_datasource'];
             $limit = $content['limit'];
 
+
             // for resource library
             if ($route == 'media') {
                 if (!$content['resource_type']) {
@@ -399,6 +401,13 @@ class ControllerBlocksListingBlock extends AController
             } else {
                 // otherwise -  select list from method
                 if ($route) {
+
+                    $args = array('limit' => $limit);
+
+                    if ($route == 'collection' && $content['collection_id']) {
+                        $args['collection_id'] = $content['collection_id'];
+                    }
+
                     $this->loadModel($data_source['storefront_model']);
                     $result = call_user_func_array(array(
                         $this->{'model_'.str_replace('/', '_', $data_source['storefront_model'])},
@@ -406,7 +415,7 @@ class ControllerBlocksListingBlock extends AController
                     ),
                         $listing->getlistingArguments($data_source['storefront_model'],
                             $data_source['storefront_method'],
-                            array('limit' => $limit)));
+                            $args));
                     if ($result) {
                         $desc = $listing->getListingDataSources();
                         foreach ($desc as $d) {

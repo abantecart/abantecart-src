@@ -606,4 +606,8 @@
 		<key>entry_locations</key>
 		<value><![CDATA[Locations:]]></value>
 	</definition>
+	<definition>
+		<key>text_create_collection</key>
+		<value><![CDATA[Create Collection]]></value>
+	</definition>
 </definitions>

@@ -252,4 +252,12 @@
 		<key>error_block_not_available</key>
 		<value><![CDATA[This block will not be displayed in selected position on a storefront!]]></value>
 	</definition>
+	<definition>
+		<key>text_collection</key>
+		<value><![CDATA[Collection]]></value>
+	</definition>
+	<definition>
+		<key>entry_collection_resource_type</key>
+		<value><![CDATA[Selected Collection:]]></value>
+	</definition>
 </definitions>
