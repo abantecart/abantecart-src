@@ -465,8 +465,112 @@ class ControllerResponsesEmbedJS extends AController
             return null;
         }
 
-
         $this->data['ajax_url'] = $this->html->getCatalogURL('r/product/collection', '&collection_id='.$collection_id);
+
+        $collectionProducts = $this->model_catalog_collection->getProducts($collection['conditions'], 'date_modified', 'DESC', 0, 10000, $collection_id);
+        $resource = new AResource('image');
+
+        if (!empty($collectionProducts['items'])) {
+            $this->loadModel('catalog/review');
+            $this->loadModel('catalog/product');
+
+            $productIds = $products = [];
+
+            foreach ($collectionProducts['items'] as $result) {
+                $productIds[] = (int)$result['product_id'];
+            }
+            $productsInfo = $this->model_catalog_product->getProductsAllInfo($productIds);
+
+            $thumbnails = $resource->getMainThumbList(
+                'products',
+                $productIds,
+                $this->config->get('config_image_category_width'),
+                $this->config->get('config_image_category_height')
+            );
+            $stockInfo = $this->model_catalog_product->getProductsStockInfo($productIds);
+            foreach ($collectionProducts['items'] as $result) {
+                $thumbnail = $thumbnails[$result['product_id']];
+                $rating = $productsInfo[$result['product_id']]['rating'];
+                $special = false;
+                $discount = $productsInfo[$result['product_id']]['discount'];
+                if ($discount) {
+                    $price = $this->currency->format(
+                        $this->tax->calculate(
+                            $discount,
+                            $result['tax_class_id'],
+                            $this->config->get('config_tax'))
+                    );
+                } else {
+                    $price = $this->currency->format(
+                        $this->tax->calculate(
+                            $result['price'],
+                            $result['tax_class_id'],
+                            $this->config->get('config_tax')
+                        )
+                    );
+                    $special = $productsInfo[$result['product_id']]['special'];
+                    if ($special) {
+                        $special = $this->currency->format(
+                            $this->tax->calculate(
+                                $special,
+                                $result['tax_class_id'],
+                                $this->config->get('config_tax')
+                            )
+                        );
+                    }
+                }
+
+                //check for stock status, availability and config
+                $track_stock = false;
+                $in_stock = false;
+                $no_stock_text = $this->language->get('text_out_of_stock');
+                $total_quantity = 0;
+                $stock_checkout = $result['stock_checkout'] === ''
+                    ? $this->config->get('config_stock_checkout')
+                    : $result['stock_checkout'];
+                if ($stockInfo[$result['product_id']]['subtract']) {
+                    $track_stock = true;
+                    $total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
+                    //we have stock or out of stock checkout is allowed
+                    if ($total_quantity > 0 || $stock_checkout) {
+                        $in_stock = true;
+                    }
+                }
+
+                $rt = $this->config->get('config_embed_click_action') == 'modal' ? 'r/product/product' : 'product/product';
+                $products[] = array(
+                    'product_id'          => $result['product_id'],
+                    'name'                => $result['name'],
+                    'blurb'               => $result['blurb'],
+                    'model'               => $result['model'],
+                    'rating'              => $rating,
+                    'stars'               => sprintf($this->language->get('text_stars'), $rating),
+                    'thumb'               => $thumbnail,
+                    'price'               => $price,
+                    'raw_price'           => $result['price'],
+                    'call_to_order'       => $result['call_to_order'],
+                    'options'             => $productsInfo[$result['product_id']]['options'],
+                    'special'             => $special,
+                    'product_details_url' => $this->html->getURL($rt, '&product_id='.$result['product_id']),
+                    'description'         => html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
+                    'track_stock'         => $track_stock,
+                    'in_stock'            => $in_stock,
+                    'no_stock_text'       => $no_stock_text,
+                    'total_quantity'      => $total_quantity,
+                    'tax_class_id'        => $result['tax_class_id'],
+                );
+            }
+            $this->data['products'] = $products;
+
+            if ($this->config->get('config_customer_price')) {
+                $display_price = true;
+            } elseif ($this->customer->isLogged()) {
+                $display_price = true;
+            } else {
+                $display_price = false;
+            }
+            $this->view->assign('display_price', $display_price);
+        }
 
         $this->view->setTemplate('embed/js_collection.tpl');
 
