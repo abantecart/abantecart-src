@@ -559,7 +559,7 @@ if ($error) { ?>
 		var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
 
 		<?php if ($review_recaptcha) { ?>
-		var captcha = '&g-recaptcha-response=' + encodeURIComponent($('textarea[name=\'g-recaptcha-response\']').val());
+		var captcha = '&g-recaptcha-response=' + encodeURIComponent($('[name=\'g-recaptcha-response\']').val());
 		<?php } else { ?>
 		var captcha = '&captcha=' + encodeURIComponent($('input[name=\'captcha\']').val());
 		<?php } ?>
@@ -578,7 +578,8 @@ if ($error) { ?>
 				$('#review_button').attr('disabled', '');
 				$('.wait').remove();
 				<?php if ($review_recaptcha) { ?>
-    				grecaptcha.reset();
+                    try{ grecaptcha.reset();} catch(e){}
+                    try{ ReCaptchaCallbackV3(); } catch(e){}
     			<?php } ?>
 			},
             error: function (jqXHR, exception) {
