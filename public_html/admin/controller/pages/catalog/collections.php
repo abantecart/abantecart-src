@@ -407,6 +407,7 @@ class ControllerPagesCatalogCollections extends AController
             $this->data['condition_objects'][$obj] = $this->language->get('text_'.$obj);
         }
         array_unshift($this->data['condition_objects'], $this->language->get('text_select'));
+        $this->data['condition_object']=[];
         $this->data['condition_object']['field'] = $form->getFieldHtml(
             array(
                 'type'    => 'selectbox',
