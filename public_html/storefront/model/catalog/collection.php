@@ -87,19 +87,19 @@ class ModelCatalogCollection extends Model
             ];
             foreach ($conditions as $condition) {
                 //Brands filter
-                if ($condition['object'] === 'brands' && is_array($relation['value']) && !empty($relation['value'])) {
+                if ($condition['object'] === 'brands' && is_array($condition['value']) && !empty($condition['value'])) {
                     $arWhere[] = 'manufacturer_id '.$this->gerInOperator($condition['operator'], $relation['value']).
                         ' ('.implode(',', $condition['value']).')';
                 }
                 //Category filter
-                if ($condition['object'] === 'categories' && is_array($relation['value']) && !empty($relation['value']))  {
+                if ($condition['object'] === 'categories' && is_array($condition['value']) && !empty($condition['value']))  {
                     $arSelect[] = $p2cTable.'.category_id';
                     $arJoins[] = 'LEFT JOIN '.$p2cTable.' ON '.$p2cTable.'.product_id='.$productsTable.'.product_id';
                     $arWhere[] = 'category_id '.$this->gerInOperator($condition['operator'], $relation['value']).
                         ' ('.implode(',', $condition['value']).')';
                 }
                 //Products filter
-                if ($condition['object'] === 'products' && is_array($relation['value']) && !empty($relation['value'])) {
+                if ($condition['object'] === 'products' && is_array($condition['value']) && !empty($condition['value'])) {
                     $arWhere[] = $productsTable.'.product_id '.$this->gerInOperator($condition['operator'], $relation['value']).
                         ' ('.implode(',', $condition['value']).')';
                 }
@@ -108,7 +108,7 @@ class ModelCatalogCollection extends Model
                     $arWhere[] = 'price '.$this->gerEqualOperator($condition['operator'], $relation['value']).$condition['value'];
                 }
                 //Tags filter
-                if ($condition['object'] === 'tags' && is_array($relation['value']) && !empty($relation['value'])) {
+                if ($condition['object'] === 'tags' && is_array($condition['value']) && !empty($condition['value'])) {
                     $arSelect[] = $productsTagsTable.'.tag';
                     $arJoins[] = 'LEFT JOIN '.$productsTagsTable.' ON '.$productsTagsTable.'.product_id='.$productsTable.'.product_id'.
                         ' AND language_id='.(int)$this->config->get('storefront_language_id');
@@ -125,9 +125,12 @@ class ModelCatalogCollection extends Model
                 $query .= ' '.$arJoin;
             }
 
-            if (!empty($arWhere)) {
-                $query .= ' WHERE '.implode(($relation['if'] == 'any') ? ' OR ' : ' AND ', $arWhere);
+            if (empty($arWhere)) {
+                return $result;
             }
+
+            $query .= ' WHERE '.implode(($relation['if'] == 'any') ? ' OR ' : ' AND ', $arWhere);
+
 
             $query .= ' GROUP BY '.$productsTable.'.product_id';
 
