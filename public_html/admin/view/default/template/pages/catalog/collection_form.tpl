@@ -142,7 +142,7 @@
 			<?php if($form['show_on_storefront']){ ?>
 			<a class="btn btn-info" target="_blank"
 			href="<?php echo $form['show_on_storefront']->href; ?>">
-			<i class="fa fa-external-link-alt"></i> <?php echo $form['show_on_storefront']->text; ?>
+			<i class="fa fa-external-link"></i> <?php echo $form['show_on_storefront']->text; ?>
 			</a>
 			<?php } ?>
 		</div>

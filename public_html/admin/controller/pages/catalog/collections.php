@@ -216,6 +216,14 @@ class ControllerPagesCatalogCollections extends AController
                 }
                 $products = $this->model_catalog_collection->getProducts($collection['conditions'], 'date_modified', 'DESC', '0', 1, (int)$this->request->get['id']);
                 $this->data['products_count'] = $products['total'];
+
+                $this->data['form']['show_on_storefront'] =  new stdClass();
+                $this->data['form']['show_on_storefront']->href =  $this->html->getCatalogURL('product/collection', '&collection_id='.(int)$this->request->get['id']);
+                if ($this->data['keyword'] && (int)$this->config->get('enable_seo_url')) {
+                    $this->data['form']['show_on_storefront']->href =  $this->html->getHomeURL().'/'.$this->data['keyword'];
+                }
+
+                $this->data['form']['show_on_storefront']->text = $this->language->get('text_storefront');
             }
         }
 
@@ -225,7 +233,7 @@ class ControllerPagesCatalogCollections extends AController
                 $this->data['conditions']['conditions'][] = [
                     'object'   => 'products',
                     'value'    => $productIds,
-                    'operator' => 'in'
+                    'operator' => 'in',
                 ];
             }
         }
@@ -407,7 +415,7 @@ class ControllerPagesCatalogCollections extends AController
             $this->data['condition_objects'][$obj] = $this->language->get('text_'.$obj);
         }
         array_unshift($this->data['condition_objects'], $this->language->get('text_select'));
-        $this->data['condition_object']=[];
+        $this->data['condition_object'] = [];
         $this->data['condition_object']['field'] = $form->getFieldHtml(
             array(
                 'type'    => 'selectbox',
