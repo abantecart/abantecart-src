@@ -469,7 +469,9 @@ class ControllerResponsesEmbedJS extends AController
 
         $collectionProducts=[];
         if ($collection['conditions']) {
-            $collectionProducts = $this->model_catalog_collection->getProducts($collection['conditions'], 'date_modified', 'DESC', 0, 10000, $collection_id);
+            $sortOrder = $this->config->get('config_product_default_sort_order');
+            list ($sort, $order) = explode('-', $sortOrder);
+            $collectionProducts = $this->model_catalog_collection->getProducts($collection['conditions'], $sort ?: 'date_modified', $order ?: 'DESC', 0, 10000, $collection_id);
         }
         $resource = new AResource('image');
 

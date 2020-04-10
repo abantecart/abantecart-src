@@ -92,7 +92,7 @@ class ModelCatalogCollection extends Model
                         ' ('.implode(',', $condition['value']).')';
                 }
                 //Category filter
-                if ($condition['object'] === 'categories' && is_array($condition['value']) && !empty($condition['value']))  {
+                if ($condition['object'] === 'categories' && is_array($condition['value']) && !empty($condition['value'])) {
                     $arSelect[] = $p2cTable.'.category_id';
                     $arJoins[] = 'LEFT JOIN '.$p2cTable.' ON '.$p2cTable.'.product_id='.$productsTable.'.product_id';
                     $arWhere[] = 'category_id '.$this->gerInOperator($condition['operator'], $relation['value']).
@@ -131,13 +131,15 @@ class ModelCatalogCollection extends Model
 
             $query .= ' WHERE '.implode(($relation['if'] == 'any') ? ' OR ' : ' AND ', $arWhere);
 
-
             $query .= ' GROUP BY '.$productsTable.'.product_id';
 
             $allowedSort = array(
                 'pd.name'       => 'LCASE('.$pdTable.'.name)',
+                'name'          => 'LCASE('.$pdTable.'.name)',
                 'p.sort_order'  => $productsTable.'.sort_order',
+                'sort_order'  => $productsTable.'.sort_order',
                 'p.price'       => 'final_price',
+                'price'         => 'final_price',
                 'special'       => 'final_price',
                 'rating'        => 'rating',
                 'date_modified' => $productsTable.'.date_modified',
@@ -271,7 +273,9 @@ class ModelCatalogCollection extends Model
         }
         $collection = self::getById($collectionId);
         if ($collection && $collection['conditions']) {
-            $result = $this->getProducts($collection['conditions'], 'date_modified', 'DESC', 0, $limit, $collectionId);
+            $sortOrder = $this->config->get('config_product_default_sort_order');
+            list ($sort, $order) = explode('-', $sortOrder);
+            $result = $this->getProducts($collection['conditions'], $sort ?: 'date_modified', $order ?: 'DESC', 0, $limit, $collectionId);
             return $result['items'];
         }
     }
