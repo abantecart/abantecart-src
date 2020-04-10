@@ -239,7 +239,7 @@ class ControllerResponsesListingGridCollections extends AController
                     'lt'   => $this->language->get('text_less'),
                     'gt'   => $this->language->get('text_greater'),
                 ),
-                'value'   => $value['operator'],
+                'value'   => $value['operator'] ?: 'eq',
             ));
         $response['fields'] .= $this->form->getFieldHtml(
             array(
