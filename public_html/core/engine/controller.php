@@ -26,6 +26,7 @@ if (!defined('DIR_CORE')) {
  * @property ModelToolUpdater                     $model_tool_updater
  * @property ModelSettingStore                    $model_setting_store
  * @property ModelCatalogCategory                 $model_catalog_category
+ * @property ModelCatalogCollection               $model_catalog_collection
  * @property ModelCatalogDownload                 $model_catalog_download
  * @property ModelCatalogProduct                  $model_catalog_product
  * @property ModelCatalogManufacturer             $model_catalog_manufacturer

@@ -467,7 +467,12 @@ class ControllerResponsesEmbedJS extends AController
 
         $this->data['ajax_url'] = $this->html->getCatalogURL('r/product/collection', '&collection_id='.$collection_id);
 
-        $collectionProducts = $this->model_catalog_collection->getProducts($collection['conditions'], 'date_modified', 'DESC', 0, 10000, $collection_id);
+        $collectionProducts=[];
+        if ($collection['conditions']) {
+            $sortOrder = $this->config->get('config_product_default_sort_order');
+            list ($sort, $order) = explode('-', $sortOrder);
+            $collectionProducts = $this->model_catalog_collection->getProducts($collection['conditions'], $sort ?: 'date_modified', $order ?: 'DESC', 0, 10000, $collection_id);
+        }
         $resource = new AResource('image');
 
         if (!empty($collectionProducts['items'])) {

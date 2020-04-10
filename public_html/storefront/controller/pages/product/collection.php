@@ -75,6 +75,18 @@ class ControllerPagesProductCollection extends AController
             $this->document->setKeywords($collectionInfo['meta_keywords']);
             $this->document->setDescription($collectionInfo['meta_description']);
 
+            $this->document->addBreadcrumb(
+                array(
+                    'href'      => $this->html->getSEOURL(
+                        'product/collection',
+                        '&collection_id='.$request['collection_id'],
+                        '&encode'
+                    ),
+                    'text'      => $collectionInfo['title'],
+                    'separator' => $this->language->get('text_separator'),
+                )
+            );
+
             $this->view->assign('heading_title', $collectionInfo['title']);
             $this->view->assign('text_sort', $this->language->get('text_sort'));
 
@@ -104,7 +116,10 @@ class ControllerPagesProductCollection extends AController
             $this->loadModel('catalog/product');
 
             $start = ($page - 1) * $limit;
-            $collectionProducts = $this->model_catalog_collection->getProducts($collectionInfo['conditions'], $sort, $order, $start, $limit, $collectionId);
+            $collectionProducts = [];
+            if ($collectionInfo['conditions']) {
+                $collectionProducts = $this->model_catalog_collection->getProducts($collectionInfo['conditions'], $sort, $order, $start, $limit, $collectionId);
+            }
             $resource = new AResource('image');
 
             if (!empty($collectionProducts['items'])) {
@@ -175,8 +190,8 @@ class ControllerPagesProductCollection extends AController
                     $no_stock_text = $this->language->get('text_out_of_stock');
                     $total_quantity = 0;
                     $stock_checkout = $result['stock_checkout'] === ''
-                                    ? $this->config->get('config_stock_checkout')
-                                    : $result['stock_checkout'];
+                        ? $this->config->get('config_stock_checkout')
+                        : $result['stock_checkout'];
                     if ($stockInfo[$result['product_id']]['subtract']) {
                         $track_stock = true;
                         $total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
@@ -269,6 +284,17 @@ class ControllerPagesProductCollection extends AController
                 $this->view->assign('continue', $this->html->getHomeURL());
                 $this->view->assign('categories', array());
                 $this->data['products'] = array();
+                $this->document->addBreadcrumb(
+                    array(
+                        'href'      => $this->html->getSEOURL(
+                            'product/collection',
+                            '&collection_id='.$collectionId,
+                            '&encode'
+                        ),
+                        'text'      => $collectionInfo['title'],
+                        'separator' => $this->language->get('text_separator'),
+                    )
+                );
                 $this->view->setTemplate('pages/product/collection.tpl');
             }
 
@@ -284,23 +310,18 @@ class ControllerPagesProductCollection extends AController
                 $url .= '&order='.$request['order'];
             }
 
-            if (isset($request['page'])) {
-                $url .= '&page='.$request['page'];
-            }
 
-            if (isset($request['path'])) {
-                $this->document->addBreadcrumb(
-                    array(
+            $this->document->addBreadcrumb(
+                array(
                     'href'      => $this->html->getSEOURL(
-                                                'product/collection',
-                                                '&collection_id='.$collectionId.$url,
-                                                '&encode'
-                                            ),
+                        'product/collection',
+                        '&collection_id='.$collectionId.$url,
+                        '&encode'
+                    ),
                     'text'      => $this->language->get('text_error'),
                     'separator' => $this->language->get('text_separator'),
-                    )
-                );
-            }
+                )
+            );
 
             $this->document->setTitle($this->language->get('text_error'));
             $this->view->assign('heading_title', $this->language->get('text_error'));

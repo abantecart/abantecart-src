@@ -7,6 +7,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerResponsesListingGridCollections extends AController
 {
     public $data = [];
+    public $error = [];
 
     public function main()
     {
@@ -54,20 +55,49 @@ class ControllerResponsesListingGridCollections extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadModel('catalog/collection');
-
+        if (!$this->user->canModify('listing_grid/collections')) {
+            $error = new AError('');
+            return $error->toJSONResponse('NO_PERMISSIONS_402',
+                array(
+                    'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/collections'),
+                    'reset_value' => true,
+                ));
+        }
+        $collectionId = $this->request->get['id'];
         if ($this->request->is_POST()) {
             $post = $this->request->post;
-            if (!is_array($post['status'])) {
-                return;
-            }
-            foreach ((array)$post['status'] as $key => $value) {
-                $this->model_catalog_collection->update($key, ['status' => (int)$value]);
+            if (is_array($post['status'])) {
+                foreach ((array)$post['status'] as $key => $value) {
+                    $this->model_catalog_collection->update($key, ['status' => (int)$value]);
+                }
+            } elseif($collectionId && $this->validate($post)) {
+                $this->model_catalog_collection->update($collectionId, $post);
+            } else {
+                $error = new AError('');
+                return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $this->error));
             }
         }
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
+    }
+
+    private function validate(array $data)
+    {
+        $this->loadModel('catalog/collection');
+        $this->loadLanguage('catalog/collections');
+
+        if (isset($data['name'])) {
+            if (strlen(trim($data['name'])) === 0 || strlen(trim($data['name'])) > 254) {
+                $this->error['name'] = $this->language->get('save_error_name');
+            }
+        }
+
+        if (empty($this->error)) {
+            return true;
+        }
+        return false;
     }
 
     public function update()
@@ -209,7 +239,7 @@ class ControllerResponsesListingGridCollections extends AController
                     'lt'   => $this->language->get('text_less'),
                     'gt'   => $this->language->get('text_greater'),
                 ),
-                'value'   => $value['operator'],
+                'value'   => $value['operator'] ?: 'eq',
             ));
         $response['fields'] .= $this->form->getFieldHtml(
             array(
@@ -238,7 +268,7 @@ class ControllerResponsesListingGridCollections extends AController
                 'value'   => !$value ? '' : $value['operator'],
             ));
         $this->loadModel('catalog/category');
-        $results = $this->model_catalog_category->getCategories(0);
+        $results = $this->model_catalog_category->getCategories(0, $this->config->get('config_store_id'));
         foreach ($results as $r) {
             $categories[$r['category_id']] = $r['name'];
         }

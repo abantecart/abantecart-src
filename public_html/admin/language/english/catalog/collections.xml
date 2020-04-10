@@ -157,7 +157,7 @@
 		<value><![CDATA[-Select Tag-]]></value>
 	</definition>
 	<definition>
-		<key>text_select_tags</key>
+		<key>text_select_tag</key>
 		<value><![CDATA[-Select Tag-]]></value>
 	</definition>
 	<definition>

@@ -2,6 +2,9 @@
 	.btn.btn-primary.tooltips.add_media {
 		display: none;
 	}
+	.conditions-subform .quicksave {
+		display: none;
+	}
 </style>
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
@@ -79,7 +82,7 @@
 		<?php } ?><!-- <div class="fieldset"> -->
 	</div>
 
-	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12 conditions-subform">
 		<label class="h4 heading"><?php echo $conditions_title; ?></label>
         <?php $field = $conditions_relation['fields']['if']; ?>
 		<div class="form-group form-inline">
@@ -116,7 +119,7 @@
 		</div>
 	</div>
 
-	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12 conditions-subform">
 		<label class="h4 heading"><?php echo $condition_object['text']; ?></label>
 
 		<div class="form-group form-inline">
@@ -142,7 +145,7 @@
 			<?php if($form['show_on_storefront']){ ?>
 			<a class="btn btn-info" target="_blank"
 			href="<?php echo $form['show_on_storefront']->href; ?>">
-			<i class="fa fa-external-link-alt"></i> <?php echo $form['show_on_storefront']->text; ?>
+			<i class="fa fa-external-link"></i> <?php echo $form['show_on_storefront']->text; ?>
 			</a>
 			<?php } ?>
 		</div>
@@ -195,6 +198,8 @@
 				$('#collectionsFrm_keyword').val(data).change();
 			});
 		});
+
+		$('.common_content_actions.pull-right .btn.btn-default.dropdown-toggle.tooltips').attr('disabled', 'disabled');
 
 	});
 

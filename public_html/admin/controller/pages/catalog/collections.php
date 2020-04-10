@@ -11,11 +11,15 @@ class ControllerPagesCatalogCollections extends AController
     public $error = array();
     public $data = array();
 
+    private $isGrid = false;
+
     public function main()
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadLanguage('catalog/collections');
+
+        $this->isGrid = true;
 
         $this->buildHeader();
 
@@ -81,6 +85,7 @@ class ControllerPagesCatalogCollections extends AController
     {
         $this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
+
 
         $this->document->initBreadcrumb(
             array(
@@ -157,7 +162,8 @@ class ControllerPagesCatalogCollections extends AController
                 try {
                     $this->model_catalog_collection->update((int)$this->request->get['id'], $this->request->post);
                     $this->session->data['success'] = $this->language->get('save_complete');
-                    redirect($this->html->getSecureURL('catalog/collections/update', '&id='.$collection['id']));
+                    $this->extensions->hk_ProcessData($this, 'update');
+                    redirect($this->html->getSecureURL('catalog/collections/update', '&id='.(int)$this->request->get['id']));
                 } catch (\Exception $e) {
                     $this->log->write($e->getMessage());
                     $this->session->data['warning'] = $this->language->get('save_error');
@@ -209,6 +215,7 @@ class ControllerPagesCatalogCollections extends AController
         $this->view->assign('cancel', $this->html->getSecureURL('catalog/collections'));
 
         if ((int)$this->request->get['id']) {
+
             $collection = $this->model_catalog_collection->getById((int)$this->request->get['id']);
             if ($collection) {
                 foreach ($collection as $key => $value) {
@@ -216,6 +223,24 @@ class ControllerPagesCatalogCollections extends AController
                 }
                 $products = $this->model_catalog_collection->getProducts($collection['conditions'], 'date_modified', 'DESC', '0', 1, (int)$this->request->get['id']);
                 $this->data['products_count'] = $products['total'];
+
+                $this->data['form']['show_on_storefront'] = new stdClass();
+
+                $storeHome = $this->config->get('config_ssl_url') ?: $this->config->get('config_url');
+                if ($this->config->get('config_ssl') && !empty($this->config->get('config_ssl_url'))) {
+                    $storeHome = $this->config->get('config_ssl_url');
+                }
+
+                if (substr($storeHome, -1) == '/') {
+                    $storeHome = substr($storeHome, 0, -1);
+                }
+
+                $this->data['form']['show_on_storefront']->href = $storeHome.'/?rt=product/collection&collection_id='.(int)$this->request->get['id'];
+                if ($this->data['keyword'] && (int)$this->config->get('enable_seo_url')) {
+                    $this->data['form']['show_on_storefront']->href = $storeHome.'/'.$this->data['keyword'];
+                }
+
+                $this->data['form']['show_on_storefront']->text = $this->language->get('text_storefront');
             }
         }
 
@@ -225,7 +250,7 @@ class ControllerPagesCatalogCollections extends AController
                 $this->data['conditions']['conditions'][] = [
                     'object'   => 'products',
                     'value'    => $productIds,
-                    'operator' => 'in'
+                    'operator' => 'in',
                 ];
             }
         }
@@ -237,7 +262,15 @@ class ControllerPagesCatalogCollections extends AController
         }
 
         $form = new AForm ('ST');
-        $form->setForm(['form_name' => 'collectionsFrm']);
+        if ($collection) {
+            $this->data['action'] = $this->html->getSecureURL('catalog/collections/update', '&id='.$collection['id']);
+            $this->data['update'] = $this->html->getSecureURL('listing_grid/collections/update_field', '&id='.$collection['id']);
+            $form = new AForm ('HS');
+        }
+        $form->setForm([
+            'form_name' => 'collectionsFrm',
+            'update'    => $this->data['update'],
+        ]);
 
         $this->data['form']['id'] = 'collectionsFrm';
         $this->data['form']['form_open'] = $form->getFieldHtml(
@@ -407,7 +440,7 @@ class ControllerPagesCatalogCollections extends AController
             $this->data['condition_objects'][$obj] = $this->language->get('text_'.$obj);
         }
         array_unshift($this->data['condition_objects'], $this->language->get('text_select'));
-        $this->data['condition_object']=[];
+        $this->data['condition_object'] = [];
         $this->data['condition_object']['field'] = $form->getFieldHtml(
             array(
                 'type'    => 'selectbox',

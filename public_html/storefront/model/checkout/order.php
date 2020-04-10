@@ -596,6 +596,7 @@ class ModelCheckoutOrder extends Model
             'country'   => $order_row['shipping_country'],
         );
 
+        $this->data['mail_template_data']['shipping_data'] = $shipping_data;
         $this->data['mail_template_data']['shipping_address'] =
             $this->customer->getFormattedAddress($shipping_data, $order_row['shipping_address_format']);
         $zone_row = $this->model_localisation_zone->getZone($order_row['payment_zone_id']);
@@ -618,6 +619,7 @@ class ModelCheckoutOrder extends Model
             'country'   => $order_row['payment_country'],
         );
 
+        $this->data['mail_template_data']['payment_data'] = $payment_data;
         $this->data['mail_template_data']['payment_address'] =
             $this->customer->getFormattedAddress($payment_data, $order_row['payment_address_format']);
 
