@@ -412,7 +412,7 @@ class ModelCatalogCollection extends Model
                 if ($condition['object'] === 'tags' && is_array($condition['value']) && !empty($condition['value'])) {
                     $arSelect[] = $productsTagsTable.'.tag';
                     $arJoins[] = 'LEFT JOIN '.$productsTagsTable.' ON '.$productsTagsTable.'.product_id='.$productsTable.'.product_id'.
-                        ' AND language_id='.(int)$this->config->get('storefront_language_id');
+                        ' AND '.$productsTagsTable.'.language_id='.(int)$this->language->getContentLanguageID();
                     foreach ($condition['value'] as &$value) {
                         $value = "'".$value."'";
                     }
