@@ -6,6 +6,167 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ModelCatalogCollection extends Model
 {
+    public function insert($data)
+    {
+        $db = Registry::getInstance()->get('db');
+        $language = Registry::getInstance()->get('language');
+
+        $colTableName = $db->table('collections');
+
+        if (isset($data['condition_object'])) {
+            unset($data['condition_object']);
+        }
+
+        if (isset($data['keyword'])) {
+            $keyword = $data['keyword'];
+            unset($data['keyword']);
+        }
+
+        $descriptionData = [
+            'language_id' => $language->getContentLanguageID(),
+        ];
+        if (isset($data['title'])) {
+            $descriptionData['title'] = $data['title'];
+            unset($data['title']);
+        }
+
+        if (isset($data['meta_keywords'])) {
+            $descriptionData['meta_keywords'] = $data['meta_keywords'];
+            unset($data['meta_keywords']);
+        }
+
+        if (isset($data['meta_description'])) {
+            $descriptionData['meta_description'] = $data['meta_description'];
+            unset($data['meta_description']);
+        }
+
+        $keys = array_keys($data);
+        $values = array_values($data);
+
+        foreach ($values as &$value) {
+            if (is_array($value)) {
+                $value = json_encode($value);
+            } else {
+                $value = $db->escape($value);
+            }
+        }
+
+        $query = 'INSERT INTO '.$colTableName.' ('.implode(',', $keys).') VALUES (\''.implode('\',\'', $values).'\')';
+        $result = $db->query($query);
+        if ($result) {
+            $lastId = $db->query('SELECT LAST_INSERT_ID() as last_id;');
+            $lastId = $lastId->row['last_id'];
+
+            $descriptionData['collection_id'] = (int)$lastId;
+
+            $this->updateOrCreateDescription($descriptionData);
+
+            if ($keyword) {
+                $seo_key = SEOEncode($keyword, 'collection_id', $lastId);
+            } else {
+                //Default behavior to save SEO URL keyword from ccollection name in default language
+                /**
+                 * @var ALanguageManager
+                 */
+                $seo_key = SEOEncode($descriptionData['title'] ?: $data['name'],
+                    'collection_id',
+                    $lastId);
+            }
+            if ($seo_key) {
+                $language->replaceDescriptions('url_aliases',
+                    array('query' => "collection_id=".(int)$lastId),
+                    array((int)$language->getContentLanguageID() => array('keyword' => $seo_key)));
+            } else {
+                $db->query('DELETE
+							FROM '.$db->table("url_aliases")." 
+							WHERE query = 'collection_id=".(int)$lastId."'
+								AND language_id = '".(int)$language->getContentLanguageID()."'");
+            }
+
+            return $this->getById($lastId);
+        }
+    }
+
+    public function update($id, $data)
+    {
+        if (!(int)$id) {
+            return false;
+        }
+        $db = Registry::getInstance()->get('db');
+        $language = Registry::getInstance()->get('language');
+
+        $colTableName = $db->table('collections');
+
+        $descriptionData = [
+            'language_id'   => $language->getContentLanguageID(),
+            'collection_id' => (int)$id,
+        ];
+        if (isset($data['title'])) {
+            $descriptionData['title'] = $data['title'];
+            unset($data['title']);
+        }
+
+        if (isset($data['meta_keywords'])) {
+            $descriptionData['meta_keywords'] = $data['meta_keywords'];
+            unset($data['meta_keywords']);
+        }
+
+        if (isset($data['meta_description'])) {
+            $descriptionData['meta_description'] = $data['meta_description'];
+            unset($data['meta_description']);
+        }
+
+        if (isset($data['condition_object'])) {
+            unset($data['condition_object']);
+        }
+
+        if (isset($data['keyword'])) {
+            $keyword = $data['keyword'];
+            unset($data['keyword']);
+        }
+
+        $arUpdate = [];
+        foreach ($data as $key => $val) {
+            $arUpdate[] = $key.'=\''.(($key != 'conditions') ? $db->escape($val) : json_encode($val)).'\'';
+        }
+        if (empty($arUpdate)) {
+            return false;
+        }
+
+        $query = 'UPDATE '.$colTableName.' SET '.implode(',', $arUpdate).' WHERE id='.$id;
+        $db->query($query);
+
+        $this->updateOrCreateDescription($descriptionData);
+
+        if (isset($keyword)) {
+            $keyword = SEOEncode($keyword);
+            if ($keyword) {
+                $language->replaceDescriptions('url_aliases',
+                    ['query' => 'collection_id='.(int)$id],
+                    [(int)$language->getContentLanguageID() => array('keyword' => $keyword)]);
+            } else {
+                $db->query('DELETE
+								FROM '.$db->table('url_aliases')." 
+								WHERE query = 'collection_id=".(int)$id."'
+									AND language_id = '".(int)$language->getContentLanguageID()."'");
+            }
+
+        }
+        $this->cache->remove('collection');
+
+    }
+
+    public function delete($id)
+    {
+        if (!(int)$id) {
+            return false;
+        }
+        $db = Registry::getInstance()->get('db');
+        $colTableName = $db->table('collections');
+        $query = 'DELETE FROM '.$colTableName.' WHERE id='.$id;
+        $db->query($query);
+    }
+
     public function getCollections(array $data)
     {
         $db = Registry::getInstance()->get('db');
@@ -88,75 +249,6 @@ class ModelCatalogCollection extends Model
         ];
     }
 
-    public function update($id, $data)
-    {
-        if (!(int)$id) {
-            return false;
-        }
-        $db = Registry::getInstance()->get('db');
-        $language = Registry::getInstance()->get('language');
-
-        $colTableName = $db->table('collections');
-
-        $descriptionData = [
-            'language_id'   => $language->getContentLanguageID(),
-            'collection_id' => (int)$id,
-        ];
-        if (isset($data['title'])) {
-            $descriptionData['title'] = $data['title'];
-            unset($data['title']);
-        }
-
-        if (isset($data['meta_keywords'])) {
-            $descriptionData['meta_keywords'] = $data['meta_keywords'];
-            unset($data['meta_keywords']);
-        }
-
-        if (isset($data['meta_description'])) {
-            $descriptionData['meta_description'] = $data['meta_description'];
-            unset($data['meta_description']);
-        }
-
-        if (isset($data['condition_object'])) {
-            unset($data['condition_object']);
-        }
-
-        if (isset($data['keyword'])) {
-            $keyword = $data['keyword'];
-            unset($data['keyword']);
-        }
-
-        $arUpdate = [];
-        foreach ($data as $key => $val) {
-            $arUpdate[] = $key.'=\''.(($key != 'conditions') ? $db->escape($val) : json_encode($val)).'\'';
-        }
-        if (empty($arUpdate)) {
-            return false;
-        }
-
-        $query = 'UPDATE '.$colTableName.' SET '.implode(',', $arUpdate).' WHERE id='.$id;
-        $db->query($query);
-
-        $this->updateOrCreateDescription($descriptionData);
-
-        if (isset($keyword)) {
-            $keyword = SEOEncode($keyword);
-            if ($keyword) {
-                $language->replaceDescriptions('url_aliases',
-                    ['query' => 'collection_id='.(int)$id],
-                    [(int)$language->getContentLanguageID() => array('keyword' => $keyword)]);
-            } else {
-                $db->query('DELETE
-								FROM '.$db->table('url_aliases')." 
-								WHERE query = 'collection_id=".(int)$id."'
-									AND language_id = '".(int)$language->getContentLanguageID()."'");
-            }
-
-        }
-        $this->cache->remove('collection');
-
-    }
-
     public function updateOrCreateDescription($data)
     {
         if (!(int)$data['collection_id'] || !(int)$data['language_id']) {
@@ -231,97 +323,6 @@ class ModelCatalogCollection extends Model
         return false;
     }
 
-    public function insert($data)
-    {
-        $db = Registry::getInstance()->get('db');
-        $language = Registry::getInstance()->get('language');
-
-        $colTableName = $db->table('collections');
-
-        if (isset($data['condition_object'])) {
-            unset($data['condition_object']);
-        }
-
-        if (isset($data['keyword'])) {
-            $keyword = $data['keyword'];
-            unset($data['keyword']);
-        }
-
-        $descriptionData = [
-            'language_id'   => $language->getContentLanguageID(),
-        ];
-        if (isset($data['title'])) {
-            $descriptionData['title'] = $data['title'];
-            unset($data['title']);
-        }
-
-        if (isset($data['meta_keywords'])) {
-            $descriptionData['meta_keywords'] = $data['meta_keywords'];
-            unset($data['meta_keywords']);
-        }
-
-        if (isset($data['meta_description'])) {
-            $descriptionData['meta_description'] = $data['meta_description'];
-            unset($data['meta_description']);
-        }
-
-        $keys = array_keys($data);
-        $values = array_values($data);
-
-        foreach ($values as &$value) {
-            if (is_array($value)) {
-                $value = json_encode($value);
-            } else {
-                $value = $db->escape($value);
-            }
-        }
-
-        $query = 'INSERT INTO '.$colTableName.' ('.implode(',', $keys).') VALUES (\''.implode('\',\'', $values).'\')';
-        $result = $db->query($query);
-        if ($result) {
-            $lastId = $db->query('SELECT LAST_INSERT_ID() as last_id;');
-
-            $descriptionData['collection_id'] = (int)$lastId;
-
-            $this->updateOrCreateDescription($descriptionData);
-
-            if ($keyword) {
-                $seo_key = SEOEncode($keyword, 'collection_id', $lastId);
-            } else {
-                //Default behavior to save SEO URL keyword from category name in default language
-                /**
-                 * @var ALanguageManager
-                 */
-                $seo_key = SEOEncode($data['name'],
-                    'collection_id',
-                    $lastId);
-            }
-            if ($seo_key) {
-                $language->replaceDescriptions('url_aliases',
-                    array('query' => "collection_id=".(int)$lastId),
-                    array((int)$language->getContentLanguageID() => array('keyword' => $seo_key)));
-            } else {
-                $db->query('DELETE
-							FROM '.$db->table("url_aliases")." 
-							WHERE query = 'collection_id=".(int)$lastId."'
-								AND language_id = '".(int)$language->getContentLanguageID()."'");
-            }
-
-            return $this->getById($lastId->row['last_id']);
-        }
-    }
-
-    public function delete($id)
-    {
-        if (!(int)$id) {
-            return false;
-        }
-        $db = Registry::getInstance()->get('db');
-        $colTableName = $db->table('collections');
-        $query = 'DELETE FROM '.$colTableName.' WHERE id='.$id;
-        $db->query($query);
-    }
-
     public function getUniqueTags()
     {
         $db = Registry::getInstance()->get('db');
@@ -390,7 +391,7 @@ class ModelCatalogCollection extends Model
                         ' ('.implode(',', $condition['value']).')';
                 }
                 //Category filter
-                if ($condition['object'] === 'categories' && is_array($condition['value']) && !empty($condition['value']))  {
+                if ($condition['object'] === 'categories' && is_array($condition['value']) && !empty($condition['value'])) {
                     $arSelect[] = $p2cTable.'.category_id';
                     $arJoins[] = 'LEFT JOIN '.$p2cTable.' ON '.$p2cTable.'.product_id='.$productsTable.'.product_id';
                     $arWhere[] = 'category_id '.$this->gerInOperator($condition['operator'], $relation['value']).
