@@ -65,6 +65,7 @@ class ModelCatalogCollection extends Model
             $language = Registry::getInstance()->get('language');
 
             $productsTable = $db->table('products');
+            $p2sTable = $db->table('products_to_stores');
             $categoriesTable = $db->table('categories');
             $p2cTable = $db->table('products_to_categories');
             $productsTagsTable = $db->table('product_tags');
@@ -82,6 +83,8 @@ class ModelCatalogCollection extends Model
 
             $arWhere = [];
             $arJoins = [
+                'INNER JOIN '.$p2sTable.' ON '.$p2sTable.'.product_id='.$productsTable.'.product_id'.
+                ' AND '.$p2sTable.'.store_id='.$this->config->get('config_store_id'),
                 'LEFT JOIN '.$pdTable.' ON '.$pdTable.'.product_id='.$productsTable.'.product_id'.
                 ' AND language_id='.(int)$this->config->get('storefront_language_id'),
             ];

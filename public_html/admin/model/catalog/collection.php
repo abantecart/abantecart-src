@@ -367,6 +367,7 @@ class ModelCatalogCollection extends Model
 
             $productsTable = $db->table('products');
             $categoriesTable = $db->table('categories');
+            $p2sTable = $db->table('products_to_stores');
             $p2cTable = $db->table('products_to_categories');
             $productsTagsTable = $db->table('product_tags');
             $pdTable = $db->table('product_descriptions');
@@ -383,8 +384,10 @@ class ModelCatalogCollection extends Model
 
             $arWhere = [];
             $arJoins = [
+                'INNER JOIN '.$p2sTable.' ON '.$p2sTable.'.product_id='.$productsTable.'.product_id'.
+                ' AND '.$p2sTable.'.store_id='.$this->config->get('config_store_id'),
                 'LEFT JOIN '.$pdTable.' ON '.$pdTable.'.product_id='.$productsTable.'.product_id'.
-                ' AND language_id='.(int)$this->config->get('storefront_language_id'),
+                ' AND language_id='.(int)$this->language->getContentLanguageID(),
             ];
             foreach ($conditions as $condition) {
                 //Brands filter
@@ -430,7 +433,7 @@ class ModelCatalogCollection extends Model
                 return $result;
             }
 
-            $query .= ' WHERE '.implode(($relation['if'] == 'any') ? ' OR ' : ' AND ', $arWhere);
+            $query .= ' WHERE ('.implode(($relation['if'] == 'any') ? ' OR ' : ' AND ', $arWhere).')';
 
             $query .= ' GROUP BY '.$productsTable.'.product_id';
 

@@ -11,11 +11,15 @@ class ControllerPagesCatalogCollections extends AController
     public $error = array();
     public $data = array();
 
+    private $isGrid = false;
+
     public function main()
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadLanguage('catalog/collections');
+
+        $this->isGrid = true;
 
         $this->buildHeader();
 
@@ -80,7 +84,9 @@ class ControllerPagesCatalogCollections extends AController
     private function buildHeader()
     {
         $this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
-        $this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
+        if ($this->isGrid) {
+            $this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
+        }
 
         $this->document->initBreadcrumb(
             array(
@@ -210,6 +216,7 @@ class ControllerPagesCatalogCollections extends AController
         $this->view->assign('cancel', $this->html->getSecureURL('catalog/collections'));
 
         if ((int)$this->request->get['id']) {
+
             $collection = $this->model_catalog_collection->getById((int)$this->request->get['id']);
             if ($collection) {
                 foreach ($collection as $key => $value) {
@@ -219,9 +226,15 @@ class ControllerPagesCatalogCollections extends AController
                 $this->data['products_count'] = $products['total'];
 
                 $this->data['form']['show_on_storefront'] = new stdClass();
-                $this->data['form']['show_on_storefront']->href = $this->html->getCatalogURL('product/collection', '&collection_id='.(int)$this->request->get['id']);
+
+                $storeHome = $this->config->get('config_ssl_url') ?: $this->config->get('config_url');
+                if ($this->config->get('config_ssl') && !empty($this->config->get('config_ssl_url'))) {
+                    $storeHome = $this->config->get('config_ssl_url');
+                }
+
+                $this->data['form']['show_on_storefront']->href = $storeHome.'/?rt=product/collection&collection_id='.(int)$this->request->get['id'];
                 if ($this->data['keyword'] && (int)$this->config->get('enable_seo_url')) {
-                    $this->data['form']['show_on_storefront']->href = $this->html->getHomeURL().'/'.$this->data['keyword'];
+                    $this->data['form']['show_on_storefront']->href = $storeHome.'/'.$this->data['keyword'];
                 }
 
                 $this->data['form']['show_on_storefront']->text = $this->language->get('text_storefront');
