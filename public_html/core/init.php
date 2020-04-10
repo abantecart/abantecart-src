@@ -273,6 +273,8 @@ try {
     require_once(DIR_CORE.'lib/task_manager.php');
     require_once(DIR_CORE.'lib/im.php');
     require_once(DIR_CORE.'lib/csrf_token.php');
+    require_once(DIR_CORE.'lib/PaymentHandlerInterface.php');
+    require_once(DIR_CORE.'lib/BasePaymentHandler.php');
 
 //Admin manager classes
     if (IS_ADMIN === true) {
