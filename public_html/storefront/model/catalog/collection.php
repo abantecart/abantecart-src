@@ -26,7 +26,7 @@ class ModelCatalogCollection extends Model
         $query = 'SELECT '.implode(',', $arSelect).' FROM '.$colTableName;
         $query .= ' LEFT JOIN '.$colDesTableName.' ON '.$colDesTableName.'.collection_id = '.$colTableName.'.id 
         AND '.$colDesTableName.'.language_id = '.$language->getLanguageID();
-        $query .= ' WHERE '.$colTableName.'.id='.$id;
+        $query .= ' WHERE '.$colTableName.'.id='.$id.' AND '.$colTableName.'.status=1';
 
         $result = $db->query($query);
         if ($result) {
@@ -270,7 +270,7 @@ class ModelCatalogCollection extends Model
             return false;
         }
         $collection = self::getById($collectionId);
-        if ($collection) {
+        if ($collection && $collection['conditions']) {
             $result = $this->getProducts($collection['conditions'], 'date_modified', 'DESC', 0, $limit, $collectionId);
             return $result['items'];
         }

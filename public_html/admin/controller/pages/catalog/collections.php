@@ -157,7 +157,8 @@ class ControllerPagesCatalogCollections extends AController
                 try {
                     $this->model_catalog_collection->update((int)$this->request->get['id'], $this->request->post);
                     $this->session->data['success'] = $this->language->get('save_complete');
-                    redirect($this->html->getSecureURL('catalog/collections/update', '&id='.$collection['id']));
+                    $this->extensions->hk_ProcessData($this, 'update');
+                    redirect($this->html->getSecureURL('catalog/collections/update', '&id='.(int)$this->request->get['id']));
                 } catch (\Exception $e) {
                     $this->log->write($e->getMessage());
                     $this->session->data['warning'] = $this->language->get('save_error');
@@ -217,10 +218,10 @@ class ControllerPagesCatalogCollections extends AController
                 $products = $this->model_catalog_collection->getProducts($collection['conditions'], 'date_modified', 'DESC', '0', 1, (int)$this->request->get['id']);
                 $this->data['products_count'] = $products['total'];
 
-                $this->data['form']['show_on_storefront'] =  new stdClass();
-                $this->data['form']['show_on_storefront']->href =  $this->html->getCatalogURL('product/collection', '&collection_id='.(int)$this->request->get['id']);
+                $this->data['form']['show_on_storefront'] = new stdClass();
+                $this->data['form']['show_on_storefront']->href = $this->html->getCatalogURL('product/collection', '&collection_id='.(int)$this->request->get['id']);
                 if ($this->data['keyword'] && (int)$this->config->get('enable_seo_url')) {
-                    $this->data['form']['show_on_storefront']->href =  $this->html->getHomeURL().'/'.$this->data['keyword'];
+                    $this->data['form']['show_on_storefront']->href = $this->html->getHomeURL().'/'.$this->data['keyword'];
                 }
 
                 $this->data['form']['show_on_storefront']->text = $this->language->get('text_storefront');
@@ -245,7 +246,15 @@ class ControllerPagesCatalogCollections extends AController
         }
 
         $form = new AForm ('ST');
-        $form->setForm(['form_name' => 'collectionsFrm']);
+        if ($collection) {
+            $this->data['action'] = $this->html->getSecureURL('catalog/collections/update', '&id='.$collection['id']);
+            $this->data['update'] = $this->html->getSecureURL('listing_grid/collections/update_field', '&id='.$collection['id']);
+            $form = new AForm ('HS');
+        }
+        $form->setForm([
+            'form_name' => 'collectionsFrm',
+            'update'    => $this->data['update'],
+        ]);
 
         $this->data['form']['id'] = 'collectionsFrm';
         $this->data['form']['form_open'] = $form->getFieldHtml(

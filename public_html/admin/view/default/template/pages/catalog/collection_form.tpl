@@ -2,6 +2,9 @@
 	.btn.btn-primary.tooltips.add_media {
 		display: none;
 	}
+	.conditions-subform .quicksave {
+		display: none;
+	}
 </style>
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
@@ -79,7 +82,7 @@
 		<?php } ?><!-- <div class="fieldset"> -->
 	</div>
 
-	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12 conditions-subform">
 		<label class="h4 heading"><?php echo $conditions_title; ?></label>
         <?php $field = $conditions_relation['fields']['if']; ?>
 		<div class="form-group form-inline">
@@ -116,7 +119,7 @@
 		</div>
 	</div>
 
-	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12 conditions-subform">
 		<label class="h4 heading"><?php echo $condition_object['text']; ?></label>
 
 		<div class="form-group form-inline">

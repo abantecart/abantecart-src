@@ -104,7 +104,10 @@ class ControllerPagesProductCollection extends AController
             $this->loadModel('catalog/product');
 
             $start = ($page - 1) * $limit;
-            $collectionProducts = $this->model_catalog_collection->getProducts($collectionInfo['conditions'], $sort, $order, $start, $limit, $collectionId);
+            $collectionProducts=[];
+            if ($collectionInfo['conditions']) {
+                $collectionProducts = $this->model_catalog_collection->getProducts($collectionInfo['conditions'], $sort, $order, $start, $limit, $collectionId);
+            }
             $resource = new AResource('image');
 
             if (!empty($collectionProducts['items'])) {

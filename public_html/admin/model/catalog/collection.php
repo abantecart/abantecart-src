@@ -129,14 +129,16 @@ class ModelCatalogCollection extends Model
         foreach ($data as $key => $val) {
             $arUpdate[] = $key.'=\''.(($key != 'conditions') ? $db->escape($val) : json_encode($val)).'\'';
         }
-        if (empty($arUpdate)) {
-            return false;
+
+
+        if (!empty($arUpdate)) {
+            $query = 'UPDATE '.$colTableName.' SET '.implode(',', $arUpdate).' WHERE id='.$id;
+            $db->query($query);
         }
 
-        $query = 'UPDATE '.$colTableName.' SET '.implode(',', $arUpdate).' WHERE id='.$id;
-        $db->query($query);
-
-        $this->updateOrCreateDescription($descriptionData);
+        if (!empty($descriptionData)) {
+            $this->updateOrCreateDescription($descriptionData);
+        }
 
         if (isset($keyword)) {
             $keyword = SEOEncode($keyword);
