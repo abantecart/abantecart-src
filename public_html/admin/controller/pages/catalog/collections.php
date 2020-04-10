@@ -84,9 +84,8 @@ class ControllerPagesCatalogCollections extends AController
     private function buildHeader()
     {
         $this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
-        if ($this->isGrid) {
-            $this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
-        }
+        $this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
+
 
         $this->document->initBreadcrumb(
             array(
@@ -230,6 +229,10 @@ class ControllerPagesCatalogCollections extends AController
                 $storeHome = $this->config->get('config_ssl_url') ?: $this->config->get('config_url');
                 if ($this->config->get('config_ssl') && !empty($this->config->get('config_ssl_url'))) {
                     $storeHome = $this->config->get('config_ssl_url');
+                }
+
+                if (substr($storeHome, -1) == '/') {
+                    $storeHome = substr($storeHome, 0, -1);
                 }
 
                 $this->data['form']['show_on_storefront']->href = $storeHome.'/?rt=product/collection&collection_id='.(int)$this->request->get['id'];

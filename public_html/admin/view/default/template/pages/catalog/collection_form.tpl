@@ -199,6 +199,8 @@
 			});
 		});
 
+		$('.common_content_actions.pull-right .btn.btn-default.dropdown-toggle.tooltips').attr('disabled', 'disabled');
+
 	});
 
 
