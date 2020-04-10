@@ -268,7 +268,7 @@ class ControllerResponsesListingGridCollections extends AController
                 'value'   => !$value ? '' : $value['operator'],
             ));
         $this->loadModel('catalog/category');
-        $results = $this->model_catalog_category->getCategories(0);
+        $results = $this->model_catalog_category->getCategories(0, $this->config->get('config_store_id'));
         foreach ($results as $r) {
             $categories[$r['category_id']] = $r['name'];
         }
