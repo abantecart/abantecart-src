@@ -1,8 +1,8 @@
 (function(){
 var html = '';
 
-$('#<?php echo $target;?>.abantecart_collection').append('<style>ul.abantecart_products li { float: none;}</style><ul class="abantecart_products"></ul>');
-<?php foreach($products as $product){
+$('#<?php echo $target;?>.abantecart_collection').append('<style>ul.abantecart_products li { float: none;} .priceold { text-decoration: line-through; }</style><ul class="abantecart_products"></ul>');
+<?php foreach((array)$products as $product){
     ?>
 	if($('#<?php echo $target;?> .abantecart_collection ul')) {
 	html = '<li><a data-href="<?php echo $product['product_details_url'];?>"  data-id="<?php echo $product['product_id']; ?>" data-html="true" data-target="#abc_embed_modal" data-backdrop="static" data-keyboard="false" data-toggle="abcmodal" href="#" class="product_thumb" data-original-title="">'
