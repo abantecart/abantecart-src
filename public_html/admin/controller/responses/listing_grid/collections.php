@@ -206,7 +206,7 @@ class ControllerResponsesListingGridCollections extends AController
                     'in'    => $this->language->get('text_in'),
                     'notin' => $this->language->get('text_not_in'),
                 ),
-                'value'   => $value['operator'] ?: 'in',
+                'value'   => ($value && $value['operator']) ? $value['operator'] : 'in',
             ));
 
         $response['fields'] .= $this->form->getFieldHtml(
@@ -239,7 +239,7 @@ class ControllerResponsesListingGridCollections extends AController
                     'lt'   => $this->language->get('text_less'),
                     'gt'   => $this->language->get('text_greater'),
                 ),
-                'value'   => $value['operator'] ?: 'eq',
+                'value'   => ($value && $value['operator']) ? $value['operator'] : 'eq',
             ));
         $response['fields'] .= $this->form->getFieldHtml(
             array(

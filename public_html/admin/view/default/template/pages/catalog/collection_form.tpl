@@ -201,6 +201,12 @@
 
 		$('.common_content_actions.pull-right .btn.btn-default.dropdown-toggle.tooltips').attr('disabled', 'disabled');
 
+		$('[name^=conditions]').on('keypress',function(e) {
+			if(e.which == 13) {
+				$('#collectionsFrm').submit()
+			}
+		});
+
 	});
 
 
