@@ -15,61 +15,30 @@ if (!defined('DIR_CORE')) {
  * @property ACurrency                   $currency
  * @property ModelExtensionDefaultStripe $model_extension_default_stripe
  */
-final class PaymentHandler
+class PaymentHandler extends BasePaymentHandler
 {
+
     /**
-     * @var Registry
+     * @var string
      */
-    public $registry;
+    protected $id = 'default_stripe';
+    /**
+     * @var bool
+     */
+    protected $recurring_billing = false;
 
-    public function __construct($registry)
-    {
-        $this->registry = $registry;
-    }
-
-    public function __get($key)
-    {
-        return $this->registry->get($key);
-    }
-
-    public function __set($key, $value)
-    {
-        $this->registry->set($key, $value);
-    }
-
-    public function recurring_billing()
-    {
-        return false;
-    }
-
-    public function id()
-    {
-        return 'default_stripe';
-    }
-
-    public function is_avaialable($payment_address)
-    {
-        $this->load->model('extension/'.$this->id());
-        $details = $this->{'model_extension_'.$this->id()}->getMethod($payment_address);
-        if ($details) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function details()
+    public function details():array
     {
         return array(
-            'id'         => 'default_stripe',
+            'id'         => $this->id,
             'title'      => $this->language->get('text_title'),
-            'sort_order' => $this->config->get('default_stripe_sort_order'),
+            'sort_order' => $this->config->get($this->id.'_sort_order'),
         );
     }
 
     public function validate_payment_details($data = array())
     {
-        $this->load->language('default_stripe/default_stripe');
+        $this->load->language($this->id.'/'.$this->id);
 
         //check if saved cc mode is used
         $errors = array();
@@ -102,8 +71,8 @@ final class PaymentHandler
         $return = array();
 
         $this->load->model('checkout/order');
-        $this->load->model('extension/default_stripe');
-        $this->load->language('default_stripe/default_stripe');
+        $this->load->model('extension/'.$this->id);
+        $this->load->language($this->id.'/'.$this->id);
 
         // currency code
         $currency = $this->currency->getCode();
