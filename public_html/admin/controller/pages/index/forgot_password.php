@@ -49,7 +49,7 @@ class ControllerPagesIndexForgotPassword extends AController
             $rtoken = $enc->encrypt($this->request->post['username'].'::'.$hash);
             $link = $this->html->getSecureURL('index/forgot_password/validate', '&rtoken='.$rtoken);
 
-            //create a scratch data for future use 
+            //create a scratch data for future use
             $password_reset = new ADataset ();
             $password_reset->createDataset('admin_pass_reset', $this->request->post['username']);
             $password_reset->setDatasetProperties(array(
@@ -61,9 +61,10 @@ class ControllerPagesIndexForgotPassword extends AController
             $mail->setTo($this->request->post['email']);
             $mail->setFrom($this->config->get('store_main_email'));
             $mail->setSender($this->config->get('config_owner'));
-            $mail->setSubject(sprintf($this->language->get('reset_email_subject'), $this->config->get('store_name')));
-            $mail->setHtml(sprintf($this->language->get('reset_email_body_html'), $link, $link));
-            $mail->setText(sprintf($this->language->get('reset_email_body_text'), $link, $link));
+            $mail->setTemplate('storefront_reset_password_link', [
+                'store_name' => $this->config->get('store_name'),
+                'reset_link' => $link
+            ]);
             $mail->send();
 
             redirect($this->html->getSecureURL('index/forgot_password', '&mail=sent'));
@@ -201,9 +202,7 @@ class ControllerPagesIndexForgotPassword extends AController
             $mail->setTo($this->user_data['email']);
             $mail->setFrom($this->config->get('store_main_email'));
             $mail->setSender($this->config->get('config_owner'));
-            $mail->setSubject(sprintf($this->language->get('reset_email_subject'), $this->config->get('store_name')));
-            $mail->setHtml($this->language->get('new_password_email_body'));
-            $mail->setText($this->language->get('new_password_email_body'));
+            $mail->setTemplate('storefront_reset_password_notify', ['store_name' => $this->config->get('store_name')]);
             $mail->send();
 
             //destroy scratch data
