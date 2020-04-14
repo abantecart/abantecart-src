@@ -14,15 +14,15 @@
   </definition>
   <definition>
     <key>default_local_delivery_total</key>
-    <value><![CDATA[Total:<br /><span class="help">Sub-Total amount needed before the free shipping module becomes available. Without currency symbol.</span>]]></value>
+    <value><![CDATA[Min order amount:<br /><span class="help">Minimum sub-total amount to be met for delivery option to be available.</span>]]></value>
   </definition>
   <definition>
     <key>default_local_delivery_cost</key>
-    <value><![CDATA[Delivery Cost:]]></value>
+    <value><![CDATA[Delivery Fee:]]></value>
   </definition>
   <definition>
     <key>default_local_delivery_postal_codes</key>
-    <value><![CDATA[Postal Codes (comma separated):]]></value>
+    <value><![CDATA[Postal Codes:<br /><span class="help"> Comma separated postal codes list</span>]]></value>
   </definition>
   <definition>
     <key>error_permission</key>

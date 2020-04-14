@@ -22,7 +22,7 @@
   </definition>
   <definition>
     <key>default_local_delivery_postal_codes</key>
-    <value><![CDATA[Códigos postales (separados por comas):]]></value>
+    <value><![CDATA[Códigos postales:<br /><span class="help">separados por comas</span>]]></value>
   </definition>
   <definition>
     <key>error_permission</key>

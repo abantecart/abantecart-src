@@ -30,14 +30,17 @@ class ModelExtensionDefaultLocalDelivery extends Model
         $language->load($language->language_details['filename']);
         $language->load('default_local_delivery/default_local_delivery');
 
-        if ($this->config->get('default_local_delivery_status') && $this->config->get('default_local_delivery_postal_codes')) {
-            $codes = explode(",",$this->config->get('default_local_delivery_postal_codes'));
-            $codes = array_map('trim', $codes);
-
-            if( in_array($address['postcode'], $codes) ){
+        if ($this->config->get('default_local_delivery_status') ) {
+            if( $this->config->get('default_local_delivery_postal_codes') ){
+                $codes = explode(",",$this->config->get('default_local_delivery_postal_codes'));
+                $codes = array_map('trim', $codes);
+                if( in_array($address['postcode'], $codes) ){
+                    $status = true;
+                } else {
+                    $status = false;
+                }
+            }else{
                 $status = true;
-            } else {
-                $status = false;
             }
         } else {
             $status = false;
@@ -56,7 +59,9 @@ class ModelExtensionDefaultLocalDelivery extends Model
                 'id'           => 'default_local_delivery.default_local_delivery',
                 'title'        => $language->get('text_description'),
                 'cost'         => $this->config->get('default_local_delivery_cost'),
-                'text'         => $language->get('text_title'),
+                'text'         => (float)$this->config->get('default_local_delivery_cost')
+                                  ? $this->currency->format((float)$this->config->get('default_local_delivery_cost'))
+                                  : $language->get('text_free'),
             );
 
             $method_data = array(
