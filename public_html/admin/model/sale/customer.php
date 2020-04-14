@@ -1105,7 +1105,7 @@ class ModelSaleCustomer extends Model
             $mail->setTo($customer_info['email']);
             $mail->setFrom($this->config->get('store_main_email'));
             $mail->setSender($store_info['store_name']);
-            $mail->setTemplate('storefront_welcome_email_approval', $this->data['mail_template_data']);
+            $mail->setTemplate('storefront_welcome_email_approved', $this->data['mail_template_data']);
             if (is_file(DIR_RESOURCE.$store_info['config_mail_logo'])) {
                 $mail->addAttachment(DIR_RESOURCE.$store_info['config_mail_logo'],
                     md5(pathinfo($store_info['config_mail_logo'], PATHINFO_FILENAME))
