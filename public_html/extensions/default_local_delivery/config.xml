@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<extension>
+    <id>default_local_delivery</id>
+    <version>1.0.0</version>
+	<type>shipping</type>
+	<category>shipping</category>
+    <cartversions>
+        <item>1.2</item>
+    </cartversions>
+    <layout></layout>
+    <priority>10</priority>
+    <settings>
+        <item id="default_local_delivery_cost">
+            <type>input</type>
+            <default_value></default_value>
+        </item>
+        <item id="default_local_delivery_total">
+            <type>input</type>
+            <default_value></default_value>
+        </item>
+	    <item id="default_local_delivery_postal_codes">
+            <type>textarea</type>
+        </item>
+    </settings>
+    <install>
+	    <sql></sql>
+	    <trigger></trigger>
+	</install>
+	<uninstall>
+	    <sql></sql>
+	    <trigger></trigger>
+	</uninstall>
+</extension>
