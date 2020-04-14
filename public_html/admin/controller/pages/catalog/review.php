@@ -259,6 +259,9 @@ class ControllerPagesCatalogReview extends AController
 
         if ($review_id && $this->request->is_GET()) {
             $review_info = $this->model_catalog_review->getReview($review_id);
+            if ($review_info['customer_id']) {
+                $this->data['customerUrl'] = $this->html->getSecureURL('sale/customer/update', '&customer_id='.$review_info['customer_id']);
+            }
         }
 
         foreach ($this->fields as $field) {

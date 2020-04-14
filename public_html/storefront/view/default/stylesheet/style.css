@@ -4139,7 +4139,7 @@ paypal pro styles
 		float: none;
 	}
 
-	.headerdetails>div.pull-left {	
+	.headerdetails>div.pull-left {
 		margin-bottom: 10px;
 	}
 
@@ -4169,7 +4169,7 @@ paypal pro styles
 	}
 
 	.nav.topcart.pull-left>li.dropdown.hover.carticon {
-		width: 233px;	
+		width: 233px;
 	}
 
 	.headerstrip #topnav {
@@ -4265,7 +4265,7 @@ paypal pro styles
 		text-align: center !important;
 		margin-bottom: 10px;
 	}
-	
+
 	.table-responsive {
 		border: none;
 	}
@@ -4349,7 +4349,7 @@ paypal pro styles
 	#apply_coupon_btn{
 		margin-top: 10px;
 	}
-	
+
 	/* Hide some columns in tables for small screen */
 	.confirm_shippment_options td:nth-child(2), .confirm_shippment_options th:nth-child(2){ display: none; }
 	.confirm_payment_options td:nth-child(2), .confirm_payment_options th:nth-child(2){ display: none; }
@@ -4362,22 +4362,22 @@ paypal pro styles
 		left: -20px;
 		top: 30px
 	}
-	
+
 	#popularbrands #next {
 		right: -20px;
 		top: 30px
 	}
-	
+
 	.info_links_footer li {
 		padding: 5px;
 	}
-	
+
 	.contentpanel {
     	padding: 5px;
 	}
 	.container-fluid .col-xs-12 {
  		padding-left: 5px;
-    	padding-right: 5px;	
+    	padding-right: 5px;
 	}
 	.mainimage.bigimage img {
 		max-width: 300px;
@@ -4442,4 +4442,8 @@ paypal pro styles
 /* phone input css*/
 .intl-tel-input .country-list{
 	z-index: 4 !important;
+}
+
+span.verified_review {
+	color: #F00;
 }

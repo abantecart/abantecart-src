@@ -7,7 +7,7 @@
 	<definition>
 		<key>text_zoom</key>
 		<value><![CDATA[Move pointer over the image to zoom in]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_discount</key>
 		<value><![CDATA[Quantity Discount:]]></value>
@@ -183,9 +183,13 @@
 	<definition>
 		<key>text_new_review</key>
 		<value><![CDATA[Product review approval is pending]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_pending_review_approval</key>
 		<value><![CDATA[Review for product id %s is posted. Action of approval is required! Click to view #admin#rt=catalog/review/update&review_id=%s]]></value>
-	</definition>	
+	</definition>
+	<definition>
+		<key>text_verified_review</key>
+		<value><![CDATA[Verified Review]]></value>
+	</definition>
 </definitions>
