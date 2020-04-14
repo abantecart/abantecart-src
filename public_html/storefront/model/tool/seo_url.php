@@ -59,6 +59,10 @@ class ModelToolSeoUrl extends Model
                         $object_name = 'category';
                         $param_key = $key;
                         break;
+                    case 'collection_id':
+                        $object_name = 'collection';
+                        $param_key = $key;
+                        break;
                     case 'path':
                         $object_name = 'category';
                         $param_key = 'category_id';
