@@ -55,7 +55,7 @@ class ControllerApiProductRelated extends AControllerAPI
             );
             $image = $resource->getResourceAllObjects('products', $result['product_id'], $sizes, 1);
 
-            if ($this->config->get('enable_reviews')) {
+            if ($this->isReviewAllowed($result['product_id'])) {
                 $rating = $this->model_catalog_review->getAverageRating($result['product_id']);
             } else {
                 $rating = false;

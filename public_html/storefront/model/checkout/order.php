@@ -1030,4 +1030,47 @@ class ModelCheckoutOrder extends Model
         $result = $this->db->query($sql);
         return $result->rows;
     }
+
+    public function productIsPurchasedByCustomer($customerId, $productId) {
+        if (!(int)$customerId || !(int)$productId) {
+            return false;
+        }
+        $orderProductsTable = $this->db->table('order_products');
+        $ordersTable = $this->db->table('orders');
+
+        $sql = 'SELECT product_id FROM '.$orderProductsTable.
+            ' INNER JOIN '.$ordersTable.' ON '.$ordersTable.'.order_id='.$orderProductsTable.'.order_id AND '.
+            $ordersTable.'.customer_id='.$customerId.' AND '.$ordersTable.'.order_status_id>0'.
+            ' AND '.$ordersTable.'.store_id='.$this->config->get('config_store_id').
+            ' WHERE '.$orderProductsTable.'.product_id='.$productId.' LIMIT 1';
+        $result = $this->db->query($sql);
+        if ($result->num_rows > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public function getProductsPurchasedByCustomer($customerId, $productIds) {
+        if (!(int)$customerId || !is_array($productIds) || empty($productIds)) {
+            return [];
+        }
+
+        $orderProductsTable = $this->db->table('order_products');
+        $ordersTable = $this->db->table('orders');
+
+        $sql = 'SELECT product_id FROM '.$orderProductsTable.
+            ' INNER JOIN '.$ordersTable.' ON '.$ordersTable.'.order_id='.$orderProductsTable.'.order_id AND '.
+            $ordersTable.'.customer_id='.$customerId.' AND '.$ordersTable.'.order_status_id>0'.
+            ' AND '.$ordersTable.'.store_id='.$this->config->get('config_store_id').
+            ' WHERE '.$orderProductsTable.'.product_id IN ('.implode(',', $productIds).')';
+        $result = $this->db->query($sql);
+        if ($result->num_rows > 0) {
+            $arProducts = [];
+            foreach ($result->rows as $row) {
+                $arProducts[$row['product_id']] = true;
+            }
+            return $arProducts;
+        }
+        return [];
+    }
 }

@@ -119,11 +119,11 @@ class AConfigManager
 
     /**To be removed in v 1.3 or next major release
      *
-     * @deprecated since 1.2.4
-     *
      * @param $section
      *
      * @return array
+     * @deprecated since 1.2.4
+     *
      */
     public function getTemplatesLIst($section)
     {
@@ -641,10 +641,15 @@ class AConfigManager
             'options' => $stock_statuses,
         ));
         $fields['reviews'] = $form->getFieldHtml($props[] = array(
-            'type'  => 'checkbox',
-            'name'  => 'enable_reviews',
-            'value' => $data['enable_reviews'],
-            'style' => 'btn_switch',
+            'type'    => 'selectbox',
+            'name'    => 'enable_reviews',
+            'value'   => $data['enable_reviews'],
+            'options' => array(
+                0 => $this->language->get('text_review_disable'),
+                1 => $this->language->get('text_review_allow_all'),
+                2 => $this->language->get('text_review_allow_only_registered'),
+                3 => $this->language->get('text_review_allow_who_purchase'),
+            ),
         ));
         $fields['download'] = $form->getFieldHtml($props[] = array(
             'type'  => 'checkbox',
@@ -931,11 +936,11 @@ class AConfigManager
     }
 
     /**
-     * @var AForm   $form
-     *
      * @param array $data
      *
      * @return array
+     * @var AForm   $form
+     *
      */
     protected function _build_form_appearance($form, $data)
     {
@@ -1223,8 +1228,8 @@ class AConfigManager
     }
 
     /**
-     * @param    string $section - can be storefront or admin
-     * @param    int    $status  - template extension status
+     * @param string $section - can be storefront or admin
+     * @param int    $status  - template extension status
      *
      * @return array
      */
@@ -1256,11 +1261,11 @@ class AConfigManager
     }
 
     /**
-     * @var AForm   $form
-     *
      * @param array $data
      *
      * @return array
+     * @var AForm   $form
+     *
      */
     protected function _build_form_mail($form, $data)
     {
@@ -1331,11 +1336,11 @@ class AConfigManager
     }
 
     /**
-     * @var AForm   $form
-     *
      * @param array $data
      *
      * @return array
+     * @var AForm   $form
+     *
      */
     protected function _build_form_im($form, $data)
     {
@@ -1392,11 +1397,11 @@ class AConfigManager
     }
 
     /**
-     * @var AForm   $form
-     *
      * @param array $data
      *
      * @return array
+     * @var AForm   $form
+     *
      */
     protected function _build_form_api($form, $data)
     {
@@ -1453,11 +1458,11 @@ class AConfigManager
     // validate form fields
 
     /**
-     * @var AForm   $form
-     *
      * @param array $data
      *
      * @return array
+     * @var AForm   $form
+     *
      */
     protected function _build_form_system($form, $data)
     {
@@ -1553,7 +1558,7 @@ class AConfigManager
             )).'<br/>'.sprintf($this->language->get('text_setting_cache_drivers'), $current_cache_driver, implode(', ', $cache_drivers));;
 
         //TODO: remove setting as deprecated.
-        if($data['config_html_cache']) {
+        if ($data['config_html_cache']) {
             $fields['html_cache'] = $form->getFieldHtml($props[] = array(
                 'type'  => 'checkbox',
                 'name'  => 'config_html_cache',

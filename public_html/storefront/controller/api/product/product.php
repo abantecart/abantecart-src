@@ -137,7 +137,7 @@ class ControllerApiProductProduct extends AControllerAPI
         $product_info['options'] = $this->model_catalog_product->getProductOptions($product_id);
 
         $this->loadModel('catalog/review');
-        if ($this->config->get('enable_reviews')) {
+        if ($this->isReviewAllowed($product_id)) {
             $average = $this->model_catalog_review->getAverageRating($product_id);
             $product_info['text_stars'] = sprintf($this->language->get('text_stars'), $average);
             $product_info['stars'] = sprintf($this->language->get('text_stars'), $average);

@@ -189,7 +189,7 @@ class ControllerPagesProductProduct extends AController
             $average = false;
         }
 
-        $this->data['review_status'] = $this->config->get('enable_reviews');
+        $this->data['review_status'] = $this->isReviewAllowed($product_id);
         $this->data['text_stars'] = sprintf($this->language->get('text_stars'), $average);
         $this->data['review_name'] = HtmlElementFactory::create(
             array(
@@ -784,7 +784,7 @@ class ControllerPagesProductProduct extends AController
             }
         }
 
-        #check if product is in a wishlist 
+        #check if product is in a wishlist
         $this->data['is_customer'] = false;
         if ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) {
             $this->data['is_customer'] = true;

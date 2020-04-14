@@ -544,4 +544,31 @@ abstract class AController
         return $url;
     }
 
+    public function isReviewAllowed($productId = 0) {
+            $enableReviews = $this->config->get('enable_reviews');
+            if (!$enableReviews) {
+                return false; // Disallow for all
+            }
+
+            switch ($enableReviews) {
+                case 1: {
+                    return true; // Allow for all
+                } break;
+                case 2: { //allow only registered
+                    if ($this->customer && $this->customer->isLogged()) {
+                        return true;
+                    }
+                    return false;
+                } break;
+                case 3: { //allow who purchase
+                    $this->loadModel('checkout/order');
+                    if (!$this->customer || !$this->customer->isLogged() || !$this->customer->getId() || !(int)$productId) {
+                        return false;
+                    }
+                    return $this->model_checkout_order->productIsPurchasedByCustomer($this->customer->getId(), $productId);
+
+                } break;
+                default: return false;
+            }
+    }
 }
