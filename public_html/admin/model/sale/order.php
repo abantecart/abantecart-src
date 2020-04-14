@@ -634,6 +634,7 @@ class ModelSaleOrder extends Model
         $this->db->query($sql);
 
         $this->cache->remove('product');
+        $this->cache->remove('collection');
         return true;
     }
 
@@ -834,6 +835,7 @@ class ModelSaleOrder extends Model
                 WHERE order_product_id = ".$order_product_id;
         $this->db->query($sql);
         $this->cache->remove('product');
+        $this->cache->remove('collection');
         return true;
     }
 

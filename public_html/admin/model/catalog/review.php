@@ -38,6 +38,7 @@ class ModelCatalogReview extends Model
 							  status = '".(int)$data['status']."',
 							  date_added = NOW()");
         $this->cache->remove('product');
+        $this->cache->remove('collection');
         return $this->db->getLastId();
     }
 
@@ -60,6 +61,7 @@ class ModelCatalogReview extends Model
 						  SET ".implode(',', $update_data)."
 						  WHERE review_id = '".(int)$review_id."'");
         $this->cache->remove('product');
+        $this->cache->remove('collection');
     }
 
     /**
@@ -72,6 +74,7 @@ class ModelCatalogReview extends Model
 
         $this->db->query("DELETE FROM ".$this->db->table("reviews")." WHERE review_id = '".(int)$review_id."'");
         $this->cache->remove('product');
+        $this->cache->remove('collection');
     }
 
     /**
