@@ -195,6 +195,7 @@ class ModelCatalogProduct extends Model
             }
         }
         $this->cache->remove('product');
+        $this->cache->remove('collection');
         return $product_id;
     }
 
@@ -402,6 +403,7 @@ class ModelCatalogProduct extends Model
                                 WHERE product_discount_id = '".(int)$product_discount_id."'");
         }
         $this->cache->remove('product');
+        $this->cache->remove('collection');
     }
 
     /**
@@ -432,6 +434,7 @@ class ModelCatalogProduct extends Model
                 ." WHERE product_special_id = '".(int)$product_special_id."'");
         }
         $this->cache->remove('product');
+        $this->cache->remove('collection');
     }
 
     /**
@@ -1141,6 +1144,7 @@ class ModelCatalogProduct extends Model
             );
         }
         $this->cache->remove('product');
+        $this->cache->remove('collection');
 
         //clone layout for the product if present
         $layout_clone_result = $this->_clone_product_layout($product_id, $new_product_id);
@@ -1270,6 +1274,7 @@ class ModelCatalogProduct extends Model
             }
         }
         $this->cache->remove('product');
+        $this->cache->remove('collection');
     }
 
     /**
@@ -1413,6 +1418,7 @@ class ModelCatalogProduct extends Model
         $lm->deletePageLayout('pages/product/product', 'product_id', (int)$product_id);
 
         $this->cache->remove('product');
+        $this->cache->remove('collection');
         return true;
     }
 
@@ -1426,6 +1432,7 @@ class ModelCatalogProduct extends Model
             WHERE product_discount_id = '".(int)$product_discount_id."'"
         );
         $this->cache->remove('product');
+        $this->cache->remove('collection');
     }
 
     /**
@@ -1438,6 +1445,7 @@ class ModelCatalogProduct extends Model
             WHERE product_special_id='".(int)$product_special_id."'"
         );
         $this->cache->remove('product');
+        $this->cache->remove('collection');
     }
 
     /**
@@ -1728,6 +1736,7 @@ class ModelCatalogProduct extends Model
         }
 
         $this->cache->remove('product');
+        $this->cache->remove('collection');
     }
 
     /**
@@ -2565,6 +2574,7 @@ class ModelCatalogProduct extends Model
                 WHERE product_id ='".$product_id."'"
         );
         $this->cache->remove('product');
+        $this->cache->remove('collection');
         return true;
     }
 

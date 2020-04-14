@@ -985,6 +985,7 @@ class ModelAccountCustomer extends Model
                     .'.'.pathinfo($config_mail_logo, PATHINFO_EXTENSION);
             }
         }
+        $this->data['mail_template_data']['config_mail_logo'] = $config_mail_logo;
         //backward compatibility. TODO: remove this in 2.0
         if ($this->data['mail_template_data']['logo_uri']) {
             $this->data['mail_template_data']['logo'] = $this->data['mail_template_data']['logo_uri'];
@@ -1048,6 +1049,8 @@ class ModelAccountCustomer extends Model
                     .'.'.pathinfo($config_mail_logo, PATHINFO_EXTENSION);
             }
         }
+
+        $this->data['mail_template_data']['config_mail_logo'] = $config_mail_logo;
 
         //backward compatibility. TODO: remove this in 2.0
         if ($this->data['mail_template_data']['logo_uri']) {

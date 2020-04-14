@@ -92,6 +92,7 @@ class ModelCatalogManufacturer extends Model
         }
 
         $this->cache->remove('manufacturer');
+        $this->cache->remove('collection');
 
         return $manufacturer_id;
     }
@@ -137,6 +138,7 @@ class ModelCatalogManufacturer extends Model
         }
 
         $this->cache->remove('manufacturer');
+        $this->cache->remove('collection');
     }
 
     /**
@@ -162,6 +164,7 @@ class ModelCatalogManufacturer extends Model
             }
         }
         $this->cache->remove('manufacturer');
+        $this->cache->remove('collection');
     }
 
     /**

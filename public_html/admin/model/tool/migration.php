@@ -226,6 +226,7 @@ class ModelToolMigration extends Model
         $this->cache->remove('category_description');
         $this->cache->remove('manufacturer');
         $this->cache->remove('product');
+        $this->cache->remove('collection');
         $this->cache->remove('product_image');
         $this->cache->remove('product_option');
         $this->cache->remove('product_option_description');

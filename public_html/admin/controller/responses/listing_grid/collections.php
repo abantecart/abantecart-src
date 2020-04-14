@@ -94,6 +94,10 @@ class ControllerResponsesListingGridCollections extends AController
             }
         }
 
+        if (($error_text = $this->html->isSEOkeywordExists('collection_id='.$this->request->get['id'], $this->request->post['keyword']))) {
+            $this->error['warning'][] = $this->language->get('save_error_unique_keyword');
+        }
+
         if (empty($this->error)) {
             return true;
         }

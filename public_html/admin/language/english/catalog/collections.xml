@@ -200,4 +200,8 @@
 		<key>entry_collection_id</key>
 		<value><![CDATA[Select Collection:]]></value>
 	</definition>
+	<definition>
+		<key>save_error_unique_keyword</key>
+		<value><![CDATA[Keyword must be unique!]]></value>
+	</definition>
 </definitions>
