@@ -18,7 +18,7 @@
   </definition>
   <definition>
     <key>default_local_delivery_postal_codes</key>
-    <value><![CDATA[Список почтовых индексов (через запятую):]]></value>
+    <value><![CDATA[Список почтовых индексов: <br /><span class="help">Список индексов через запятую</span>]]></value>
   </definition>
   <definition>
     <key>default_local_delivery_cost</key>
