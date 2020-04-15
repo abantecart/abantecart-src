@@ -38,7 +38,7 @@ class ModelExtensionDefaultStripe extends Model
         if ($status) {
             $payment_data = array(
                 'id'         => 'default_stripe',
-                'title'      => $this->language->get('text_title'),
+                'title'      => $this->language->get('text_title', 'default_stripe/default_stripe'),
                 'sort_order' => $this->config->get('default_stripe_sort_order'),
             );
         }

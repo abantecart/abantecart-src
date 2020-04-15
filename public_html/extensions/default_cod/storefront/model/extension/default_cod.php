@@ -6,8 +6,13 @@ class ModelExtensionDefaultCOD extends Model
     {
         $this->load->language('default_cod/default_cod');
         if ($this->config->get('default_cod_status')) {
-            $query = $this->db->query("SELECT * FROM ".$this->db->table("zones_to_locations")." WHERE location_id = '".(int)$this->config->get('default_cod_location_id')."' AND country_id = '".(int)$address['country_id']."' AND (zone_id = '".(int)$address['zone_id']
-                ."' OR zone_id = '0')");
+            $query = $this->db->query(
+                "SELECT * 
+                 FROM ".$this->db->table("zones_to_locations")." 
+                 WHERE location_id = '".(int)$this->config->get('default_cod_location_id')."' 
+                    AND country_id = '".(int)$address['country_id']."' 
+                    AND (zone_id = '".(int)$address['zone_id']."' OR zone_id = '0')"
+            );
 
             if (!$this->config->get('default_cod_location_id')) {
                 $status = true;
@@ -25,7 +30,7 @@ class ModelExtensionDefaultCOD extends Model
         if ($status) {
             $method_data = array(
                 'id'         => 'default_cod',
-                'title'      => $this->language->get('text_title'),
+                'title'      => $this->language->get('text_title', 'default_cod/default_cod'),
                 'sort_order' => $this->config->get('default_cod_sort_order'),
             );
         }
