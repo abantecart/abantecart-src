@@ -205,6 +205,10 @@
 		<value><![CDATA[Import Process has been completed. %s row(s) processed.]]></value>
 	</definition>
 	<definition>
+		<key>text_complete_import_with_errors</key>
+		<value><![CDATA[%s row(s) with errors.]]></value>
+	</definition>
+	<definition>
 		<key>text_see_log</key>
 		<value><![CDATA[For more details see <a href="%s" target="_new">log file %s</a>]]></value>
 	</definition>

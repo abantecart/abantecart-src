@@ -120,7 +120,10 @@ class ControllerResponsesToolImportProcess extends AController
         $task_result = $task_info['last_result'];
         if ($task_result) {
             $tm->deleteTask($task_id);
-            $result_text = sprintf($this->language->get('text_complete_import'), (int)$task_info['settings']['success_count']);
+            $result_text = sprintf($this->language->get('text_complete_import'), (int)$task_info['settings']['total_rows_count']);
+            if ((int)$task_info['settings']['failed_count']) {
+                $result_text .= ' '.sprintf($this->language->get('text_complete_import_with_errors'), (int)$task_info['settings']['failed_count']);
+            }
         }
 
         $log_file = $task_info['settings']['logfile'];
