@@ -86,7 +86,6 @@ class ControllerPagesCatalogCollections extends AController
         $this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 
-
         $this->document->initBreadcrumb(
             array(
                 'href'      => $this->html->getSecureURL('index/home'),
@@ -461,7 +460,6 @@ class ControllerPagesCatalogCollections extends AController
     private function validate(array $data)
     {
         $this->loadModel('catalog/collection');
-        $this->loadLanguage('catalog/collections');
 
         if (isset($data['name'])) {
             if (strlen(trim($data['name'])) === 0 || strlen(trim($data['name'])) > 254) {
@@ -470,7 +468,8 @@ class ControllerPagesCatalogCollections extends AController
         }
 
         if (($error_text = $this->html->isSEOkeywordExists('collection_id='.$this->request->get['id'], $this->request->post['keyword']))) {
-            $this->error['warning'][] = $this->language->get('save_error_unique_keyword');
+            $this->error['warning'] = $error_text;
+            $this->error['keyword'] = $this->language->get('save_error_unique_keyword');
         }
 
         if (empty($this->error)) {
