@@ -12707,3 +12707,6 @@ CREATE TABLE `ac_collection_descriptions` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `collection_language_idx` (`collection_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+
+INSERT INTO `ac_url_aliases` (`query`, `keyword`, `language_id`) VALUES ('check_seo=1', 'check_seo_url', 1);
