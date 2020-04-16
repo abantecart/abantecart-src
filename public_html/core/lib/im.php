@@ -380,7 +380,11 @@ class AIM
                         if ($message && $to) {
                             //use safe call
                             try {
-                                $driver->send($to, $store_name.$message, $templateTextId, $templateData);
+                                if ($protocol == 'email') {
+                                    $driver->send($to, $store_name.$message, $templateTextId, $templateData);
+                                } else {
+                                    $driver->send($to, $store_name.$message);
+                                }
                             } catch (Exception $e) {
                             }
                         }
@@ -402,7 +406,11 @@ class AIM
                     if ($message && $to) {
                         //use safe call
                         try {
-                            $driver->sendFew($to, $store_name.$message);
+                            if ($protocol == 'email') {
+                                $driver->sendFew($to, $store_name.$message, $templateTextId, $templateData);
+                            } else {
+                                $driver->sendFew($to, $store_name.$message);
+                            }
                         } catch (Exception $e) {
                         }
                     }
@@ -421,7 +429,7 @@ class AIM
         $protocols = $this->protocols;
         //TODO: in the future should to create separate configurable sendpoints list for guests
         $sendpoints = $this->sendpoints;
-        if (is_callable($this->customer) && $this->customer->isLogged()) {
+        if ($this->customer && $this->customer->isLogged()) {
             $settings = $this->model_account_customer->getCustomerNotificationSettings();
         } //for guests before order creation
         elseif ($this->session->data['guest']) {
@@ -615,10 +623,10 @@ final class AMailIM
      * @param array $to
      * @param       $text
      */
-    public function sendFew($to, $text)
+    public function sendFew($to, $text, $templateTextId = '', $templateData=[])
     {
         foreach ($to as $uri) {
-            $this->send($uri, $text);
+            $this->send($uri, $text, $templateTextId, $templateData);
         }
     }
 

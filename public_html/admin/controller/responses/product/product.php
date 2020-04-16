@@ -860,7 +860,7 @@ class ControllerResponsesProductProduct extends AController
         }
 
         if (empty($selected_unit)) {
-            //no weight yet, use product weight unit as default 
+            //no weight yet, use product weight unit as default
             $selected_unit = trim($prd_weight_info['unit']);
         } else {
             if ($option_weight_class_id != trim($prd_info['weight_class_id']) && $selected_unit != '%') {
@@ -1701,11 +1701,11 @@ class ControllerResponsesProductProduct extends AController
         $this->loadModel('setting/store');
         $store_info = $this->model_setting_store->getStore($order_store_id);
         if (HTTPS === true && $store_info['config_ssl_url']) {
-            $total_calc_url = $store_info['config_ssl_url'].'index.php?rt=r/product/product/calculateTotal';
+            $total_calc_url = $store_info['config_ssl_url'].'index.php?rt=r/product/product/calculateTotal'.'&currency='.$this->currency->getCode();
         } elseif (HTTPS === true && !$store_info['config_ssl_url']) {
-            $total_calc_url = str_replace('http://', 'https://', $store_info['config_url']).'index.php?rt=r/product/product/calculateTotal';
+            $total_calc_url = str_replace('http://', 'https://', $store_info['config_url']).'index.php?rt=r/product/product/calculateTotal'.'&currency='.$this->currency->getCode();
         } else {
-            $total_calc_url = $store_info['config_url'].'index.php?rt=r/product/product/calculateTotal';
+            $total_calc_url = $store_info['config_url'].'index.php?rt=r/product/product/calculateTotal'.'&currency='.$this->currency->getCode();
         }
 
         $this->data['total_calc_url'] = $total_calc_url;

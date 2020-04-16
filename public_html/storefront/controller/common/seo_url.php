@@ -64,6 +64,10 @@ class ControllerCommonSeoUrl extends AController
                     if ($url[0] == 'collection_id') {
                         $this->request->get['collection_id'] = $url[1];
                     }
+
+                    if ($url[0] == 'check_seo') {
+                        $this->request->get['check_seo'] = $url[1];
+                    }
                 } else {
                     $this->request->get['rt'] = 'pages/error/not_found';
                 }
@@ -79,6 +83,8 @@ class ControllerCommonSeoUrl extends AController
                 $this->request->get['rt'] = 'pages/content/content';
             } elseif (isset($this->request->get['collection_id'])) {
                 $this->request->get['rt'] = 'pages/product/collection';
+            } elseif (isset($this->request->get['check_seo'])) {
+                $this->request->get['rt'] = 'pages/index/check_seo';
             }
             $this->extensions->hk_ProcessData($this, 'seo_url');
             if (isset($this->request->get['rt'])) {

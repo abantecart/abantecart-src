@@ -96,7 +96,7 @@ class AIMManager extends AIM
 
     public function send($sendpoint, $text_vars = array(), $templateTextId='', $templateData = [])
     {
-        return parent::send($sendpoint, $text_vars, $templateTextId='', $templateData = []);
+        return parent::send($sendpoint, $text_vars, $templateTextId=$templateTextId, $templateData = $templateData);
     }
 
     /**
@@ -110,7 +110,7 @@ class AIMManager extends AIM
      *
      * @return array|bool
      */
-    public function sendToCustomer($customer_id, $sendpoint, $msg_details = array())
+    public function sendToCustomer($customer_id, $sendpoint, $msg_details = array(), $templateTextId = '', $templateData = [])
     {
         if (!$customer_id) {
             return array();
@@ -213,7 +213,11 @@ class AIMManager extends AIM
                         if ($message && $to) {
                             //use safe call
                             try {
-                                $driver->send($to, $store_name.$message);
+                                if ($protocol == 'email') {
+                                    $driver->send($to, $store_name.$message, $templateTextId, $templateData);
+                                } else {
+                                    $driver->send($to, $store_name.$message);
+                                }
                             } catch (Exception $e) {
                                 $this->log->write($e->getMessage());
                             }
@@ -238,7 +242,7 @@ class AIMManager extends AIM
      *
      * @return array|bool
      */
-    public function sendToGuest($order_id, $msg_details = array())
+    public function sendToGuest($order_id, $msg_details = array(), $templateTextId = '', $templateData = [])
     {
         if (!$order_id) {
             return array();
@@ -321,7 +325,11 @@ class AIMManager extends AIM
                 if ($message && $to) {
                     //use safe call
                     try {
-                        $driver->send($to, $store_name.$message);
+                        if ($protocol == 'email') {
+                            $driver->send($to, $store_name.$message, $templateTextId, $templateData);
+                        } else {
+                            $driver->send($to, $store_name.$message);
+                        }
                     } catch (Exception $e) {
                     }
                 }
@@ -393,7 +401,7 @@ class AIMManager extends AIM
      * );
      * notes: If message is not provided, message text will be takes from languages based on checkpoint text key.
      */
-    public function sendToUser($user_id, $sendpoint, $msg_details = array())
+    public function sendToUser($user_id, $sendpoint, $msg_details = array(), $templateTextId = '', $templateData = [])
     {
         if (!$user_id) {
             return array();
@@ -491,7 +499,11 @@ class AIMManager extends AIM
                     if ($message) {
                         //use safe call
                         try {
-                            $driver->send($to, $store_name.$message);
+                            if ($protocol == 'email') {
+                                $driver->send($to, $store_name.$message, $templateTextId, $templateData);
+                            } else {
+                                $driver->send($to, $store_name.$message);
+                            }
                         } catch (Exception $e) {
                         }
                     }
