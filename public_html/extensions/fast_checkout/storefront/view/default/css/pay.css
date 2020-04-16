@@ -1,0 +1,203 @@
+html {
+	-ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+body {
+	padding: 10px;
+}
+
+#cart_details .btn {
+	padding-left: 20px;
+}
+
+#cart_details .dropdown-menu {
+	left: -130px;
+	min-width: 300px;
+}
+
+#cart_details li.divider {
+	padding: 0;
+}
+
+#cart_details .dropdown-menu > li > span {
+	clear: both;
+	color: #333;
+	display: block;
+	font-weight: 400;
+	line-height: 1.42857;
+	padding: 3px 20px;
+	white-space: nowrap;
+}
+
+#cart_details .dropdown-menu > li > a {
+	white-space: normal;
+}
+
+#cart_details .dropdown-menu .divider {
+	margin: 20px 0 0 0;
+	overflow: auto;
+}
+
+.pay-form .input-lg {
+	font-size: 16px;
+}
+
+.pay-form .left-inner-addon {
+	position: relative;
+}
+
+.pay-form .left-inner-addon input {
+	padding-left: 42px;
+}
+
+.pay-form .left-inner-addon select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-ms-appearance: none;
+	-o-appearance: none;
+	appearance: none;
+	padding-left: 38px;
+	padding-right: 25px;
+	line-height: normal;
+}
+
+.pay-form .left-inner-addon .select_arrow {
+	top: 0;
+	right: 33px;
+	position: absolute;
+	pointer-events: none;
+}
+
+.pay-form .left-inner-addon i {
+	z-index: 100;
+	position: absolute;
+	font-size: 22px;
+	padding: 12px 10px;
+	color: #337ab7;
+}
+
+.pay-form .thumbnail {
+	cursor: pointer;
+}
+
+.pay-form .thumbnail p i {
+	font-size: 30px;
+	padding: 5px 5px;
+	color: #337ab7;
+}
+
+.pay-form .thumbnail.selected {
+	background: lightblue;
+}
+
+.pay-form .thumbnail.selected:after {
+	content: "\f00c";
+	font-family: FontAwesome;
+	text-decoration: inherit;
+	position: absolute;
+	font-size: 50px;
+	color: #3c763d;
+	top: 0;
+	left: 10%;
+}
+
+.pay-form .left-inner-addon .well {
+	padding-left: 45px;
+	padding-top: 10px;
+	margin-bottom: 0;
+}
+
+.pay-form .left-inner-addon .address_edit {
+	position: absolute;
+	right: 50px;
+}
+
+.pay-form .left-inner-addon .btn {
+	font-weight: 500;
+	font-size: 18px;
+}
+
+.pay-form .left-inner-addon .btn i {
+	padding: 0;
+	position: static;
+}
+
+.pay-form .has-error .left-inner-addon i,
+.pay-form .has-error .right-inner-addon i,
+.pay-form .has-error .form-control {
+	color: #a94442;
+}
+
+.pay-form .has-success .left-inner-addon i,
+.pay-form .has-success .right-inner-addon i,
+.pay-form .has-success .form-control {
+	color: #3c763d;
+}
+
+.pay-form .right-inner-addon {
+	position: relative;
+	top: -32px;
+	right: 40px;
+	text-align: right;
+}
+
+.pay-form .right-inner-addon i {
+	position: absolute;
+	font-size: 22px;
+}
+
+.pay-form .paywith {
+	padding: 12px 12px 0 0;
+	margin: 0;
+	font-weight: bold;
+}
+
+.pay-form .table > td {
+	padding: 5px;
+}
+
+.pay-form .form-group input[type="checkbox"] {
+	display: none;
+}
+
+.pay-form .form-group input[type="checkbox"] + .btn-group > label span {
+	width: 20px;
+}
+
+.pay-form .form-group input[type="checkbox"] + .btn-group > label span:first-child {
+	display: none;
+}
+
+.pay-form .form-group input[type="checkbox"] + .btn-group > label span:last-child {
+	display: inline-block;
+}
+
+.pay-form .form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
+	display: inline-block;
+}
+
+.pay-form .form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
+	display: none;
+}
+
+.order-success .fa-check {
+	font-size: 180px;
+}
+
+.pay-form .btn {
+	font-family: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+@media only screen and (max-width: 479px) {
+	.pay-form .payment_tabs span.visible-xxs {
+		display: inline-block !important;
+	}
+}
+
+@media only screen and (min-width: 479px) {
+	.pay-form .payment_tabs span.hidden-xxs {
+		display: inline-block !important;
+	}
+}
