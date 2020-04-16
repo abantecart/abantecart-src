@@ -429,7 +429,7 @@ class AIM
         $protocols = $this->protocols;
         //TODO: in the future should to create separate configurable sendpoints list for guests
         $sendpoints = $this->sendpoints;
-        if (is_callable($this->customer) && $this->customer->isLogged()) {
+        if ($this->customer && $this->customer->isLogged()) {
             $settings = $this->model_account_customer->getCustomerNotificationSettings();
         } //for guests before order creation
         elseif ($this->session->data['guest']) {
