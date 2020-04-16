@@ -228,7 +228,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController
                 }
             }
         } else {
-            if (count($this->session->data['shipping_methods']) == 0) {
+            if (count($this->session->data['shipping_methods']) == 0 && !$this->cart->hasShipping()) {
                 //if not shipment, skip
                 $skip_step = true;
             }
