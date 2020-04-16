@@ -57,7 +57,9 @@ class ModelUserUser extends Model
                 1 => array('message' => $language->get('im_account_update_text_to_admin')),
             );
 
-            $this->im->sendToUser($user_id, 'account_update', $message_arr);
+            $this->im->sendToUser($user_id, 'account_update', $message_arr, 'storefront_customer_account_update', [
+                'store_name' => $this->config->get('store_name'),
+            ]);
         }
 
         if ($data['password']) {

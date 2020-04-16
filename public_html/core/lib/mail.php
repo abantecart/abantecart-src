@@ -171,6 +171,16 @@ final class AMail
         }
 
         $db = Registry::getInstance()->get('db');
+        /**
+         * @var ALanguageManager
+         */
+        $language = Registry::getInstance()->get('language');
+
+        if (IS_ADMIN) {
+            $languageId = $language->getContentLanguageID();
+        } else {
+            $languageId = $language->getLanguageID();
+        }
 
         $emailTemplate = $db->query('SELECT * FROM '.$db->table('email_templates').' WHERE text_id=\''.$text_id.'\' and language_id='.$languageId.'
         and status=1 and store_id='.$this->storeId.' LIMIT 1');

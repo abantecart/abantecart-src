@@ -380,7 +380,11 @@ class AIM
                         if ($message && $to) {
                             //use safe call
                             try {
-                                $driver->send($to, $store_name.$message, $templateTextId, $templateData);
+                                if ($protocol == 'email') {
+                                    $driver->send($to, $store_name.$message, $templateTextId, $templateData);
+                                } else {
+                                    $driver->send($to, $store_name.$message);
+                                }
                             } catch (Exception $e) {
                             }
                         }
@@ -402,7 +406,11 @@ class AIM
                     if ($message && $to) {
                         //use safe call
                         try {
-                            $driver->sendFew($to, $store_name.$message);
+                            if ($protocol == 'email') {
+                                $driver->sendFew($to, $store_name.$message, $templateTextId, $templateData);
+                            } else {
+                                $driver->sendFew($to, $store_name.$message);
+                            }
                         } catch (Exception $e) {
                         }
                     }
@@ -615,10 +623,10 @@ final class AMailIM
      * @param array $to
      * @param       $text
      */
-    public function sendFew($to, $text)
+    public function sendFew($to, $text, $templateTextId = '', $templateData=[])
     {
         foreach ($to as $uri) {
-            $this->send($uri, $text);
+            $this->send($uri, $text, $templateTextId, $templateData);
         }
     }
 
