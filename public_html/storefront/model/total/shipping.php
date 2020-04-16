@@ -46,7 +46,7 @@ class ModelTotalShipping extends Model
                 }
             }
 
-            $total += $ship_data['cost'];
+            $total += (float)$ship_data['cost'];
         }
     }
 }
