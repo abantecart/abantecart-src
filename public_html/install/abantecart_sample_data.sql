@@ -84,8 +84,8 @@ VALUES (46,43,0,1,NOW(),NOW()),
 -- Dumping data for table `categories_to_stores`
 --
 
-INSERT INTO `ac_categories_to_stores` 
-VALUES 
+INSERT INTO `ac_categories_to_stores`
+VALUES
 (36,0),
 (37,0),
 (38,0),
@@ -130,7 +130,7 @@ INSERT INTO `ac_category_descriptions`
 `meta_keywords`,
 `meta_description`,
 `description`)
-VALUES 
+VALUES
 (43,1,'Skincare','','','&lt;p&gt;\r\n	Products from award-winning skin care brands&lt;/p&gt;\r\n'),
 (41,1,'Lips','','',''),
 (42,1,'Nails','','',''),
@@ -1321,8 +1321,8 @@ VALUES
 -- Dumping data for table `product_specials`
 --
 
-INSERT INTO `ac_product_specials` 
-VALUES 
+INSERT INTO `ac_product_specials`
+VALUES
 (252,51,1,0,19.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
 (253,55,1,0,27.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
 (254,67,1,0,29.0000,'0000-00-00','0000-00-00',NOW(),NOW()),
@@ -1691,8 +1691,8 @@ VALUES
 -- Dumping data for table `products_to_stores`
 --
 
-INSERT INTO `ac_products_to_stores` 
-VALUES 
+INSERT INTO `ac_products_to_stores`
+VALUES
 (50,0),
 (51,0),
 (52,0),
@@ -2471,8 +2471,8 @@ VALUES
 -- Dumping data for table `reviews`
 --
 
-INSERT INTO `ac_reviews` 
-VALUES 
+INSERT INTO `ac_reviews`
+VALUES
 (63,77,6,'Bernard Horne','I thought since it was made for men that it was the perfect thing to go with the body wash. Its too small and doesn\'t lather up very well.',3,1,NOW(),NOW()),
 (62,54,2,'Juliana Davis','I\'ve been wearing all Lancome mascara\'s and I\'m just get really upset when I\'m out. I\'ve tried other Brands, but it\'s always right back to the Lancome productss. The extend L\'EXTREME is by far the best!!! Really Long and Great! ',5,1,NOW(),NOW()),
 (61,56,0,'Cassandra','Fortunately, I got this as a gift. BUT, I am willing to purchase this when I run out. This may be expensive but it is sooooo worth it! I love this concealer and I wouldn\'t even dare to use other brands. One more thing, the little tube lasts for a long time. I\'ve been using it everyday for 8 months now and I still have about 1/4 left.',5,1,NOW(),NOW()),
@@ -2498,48 +2498,49 @@ VALUES
 -- Dumping data for table `url_aliases`
 --
 INSERT INTO `ac_url_aliases`
+(`query`, `keyword`, `language_id`)
 VALUES
-(1,'category_id=36','makeup',1),
-(2,'content_id=1','about_us',1),
-(3,'product_id=101','pro-v_color_hair_solutions_color_preserve_shine_conditioner_with_pump',1),
-(4,'product_id=102','gucci_guilty',1),
-(5,'manufacturer_id=20','gucci',1),
-(6,'product_id=103','jasmin_noir_lessence_eau_de_parfum_spray',1),
-(7,'product_id=104','calvin_klein_obsession_for_women_edp_spray',1),
-(8,'product_id=105','bvlgari_aqua_eau_de_toilette_spray',1),
-(9,'product_id=106','omnia_eau_de_toilette',1),
-(10,'product_id=107','lancome_slimissime_360_slimming_activating_concentrate_unisex_treatment',1),
-(11,'product_id=108','lancome_hypnose_doll_lashes_mascara_4-piece_gift_set',1),
-(12,'product_id=109','lancome_visionnaire_advanced_skin_corrector',1),
-(13,'product_id=110','flora_by_gucci_eau_fraiche',1),
-(14,'category_id=65','books',1),
-(15,'category_id=66','audio-cd',1),
-(16,'category_id=67','paperback',1),
-(17,'product_id=111','new-french-with-ease-1-book--1-mp3-cd',1),
-(18,'product_id=112','the-miracle-morning-the-not-so-obvious-secret-guaranteed-to-transform-your-life',1),
-(19,'product_id=113','paper-towns-by-john-green',1),
-(20,'product_id=114','allegiant-by-veronica-roth',1),
-(21,'product_id=115','fiorella-purple-peep-toes',1),
-(22,'category_id=68','apparel--accessories',1),
-(23,'category_id=69','shoes',1),
-(24,'product_id=116','new-ladies-high-wedge-heel-toe-thong-diamante-flip-flop-sandals',1),
-(25,'product_id=117','ruby-shoo-women',1),
-(26,'product_id=118','women-high-heel-point-toe-stiletto-sandals-ankle-strap-court-shoes',1),
-(27,'category_id=70','t-shirts',1),
-(28,'product_id=119','fruit-of-the-loom-t-shirts-5-pack---super-premium',1),
-(29,'product_id=120','jersey-cotton-striped-polo-shirt',1),
-(30,'product_id=121','designer-men-casual-formal-double-cuffs-grandad-band-collar-shirt-elegant-tie',1),
-(31,'product_id=122','mens-fine-cotton-giraffe-polo-shirts',1),
-(32,'product_id=123','casual-sleeve-baseball-t-shirt',1),
-(33,'category_id=39','eyes',1),
-(34,'category_id=52','hair-care',1),
-(35,'manufacturer_id=11','mac',1),
-(36,'manufacturer_id=17','pantene',1),
-(37,'manufacturer_id=16','sephora',1),
-(38,'manufacturer_id=15','lancôme',1),
-(39,'manufacturer_id=19','giorgio-armani',1),
-(40,'manufacturer_id=12','benefit',1),
-(41,'manufacturer_id=13','calvin-klein',1);
+('category_id=36','makeup',1),
+('content_id=1','about_us',1),
+('product_id=101','pro-v_color_hair_solutions_color_preserve_shine_conditioner_with_pump',1),
+('product_id=102','gucci_guilty',1),
+('manufacturer_id=20','gucci',1),
+('product_id=103','jasmin_noir_lessence_eau_de_parfum_spray',1),
+('product_id=104','calvin_klein_obsession_for_women_edp_spray',1),
+('product_id=105','bvlgari_aqua_eau_de_toilette_spray',1),
+('product_id=106','omnia_eau_de_toilette',1),
+('product_id=107','lancome_slimissime_360_slimming_activating_concentrate_unisex_treatment',1),
+('product_id=108','lancome_hypnose_doll_lashes_mascara_4-piece_gift_set',1),
+('product_id=109','lancome_visionnaire_advanced_skin_corrector',1),
+('product_id=110','flora_by_gucci_eau_fraiche',1),
+('category_id=65','books',1),
+('category_id=66','audio-cd',1),
+('category_id=67','paperback',1),
+('product_id=111','new-french-with-ease-1-book--1-mp3-cd',1),
+('product_id=112','the-miracle-morning-the-not-so-obvious-secret-guaranteed-to-transform-your-life',1),
+('product_id=113','paper-towns-by-john-green',1),
+('product_id=114','allegiant-by-veronica-roth',1),
+('product_id=115','fiorella-purple-peep-toes',1),
+('category_id=68','apparel--accessories',1),
+('category_id=69','shoes',1),
+('product_id=116','new-ladies-high-wedge-heel-toe-thong-diamante-flip-flop-sandals',1),
+('product_id=117','ruby-shoo-women',1),
+('product_id=118','women-high-heel-point-toe-stiletto-sandals-ankle-strap-court-shoes',1),
+('category_id=70','t-shirts',1),
+('product_id=119','fruit-of-the-loom-t-shirts-5-pack---super-premium',1),
+('product_id=120','jersey-cotton-striped-polo-shirt',1),
+('product_id=121','designer-men-casual-formal-double-cuffs-grandad-band-collar-shirt-elegant-tie',1),
+('product_id=122','mens-fine-cotton-giraffe-polo-shirts',1),
+('product_id=123','casual-sleeve-baseball-t-shirt',1),
+('category_id=39','eyes',1),
+('category_id=52','hair-care',1),
+('manufacturer_id=11','mac',1),
+('manufacturer_id=17','pantene',1),
+('manufacturer_id=16','sephora',1),
+('manufacturer_id=15','lancôme',1),
+('manufacturer_id=19','giorgio-armani',1),
+('manufacturer_id=12','benefit',1),
+('manufacturer_id=13','calvin-klein',1);
 
 
 --
