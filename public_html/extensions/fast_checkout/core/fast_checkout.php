@@ -22,6 +22,9 @@ class ExtensionFastCheckout extends Extension
         //CORS solution for http 2 https
         header("Access-Control-Allow-Origin: ".'http://'.REAL_HOST.get_url_path($_SERVER['PHP_SELF']));
         $this->registry = Registry::getInstance();
+        if (!isset($this->registry->get('session')->data['fast_checkout'])) {
+            $this->registry->get('session')->data['fast_checkout'] = array();
+        }
     }
 
     public function onControllerCommonMaintenance_InitData()
@@ -413,14 +416,14 @@ class ExtensionFastCheckout extends Extension
     //if generic checkout process - remove sign of simple checkout
     public function onControllerPagesCheckoutConfirm_InitData()
     {
-        $this->baseObject->session->data['fast_checkout'] = false;
+        $this->baseObject->session->data['fast-checkout'] = false;
     }
 
     //forward to fast_checkout success page if checkout was simple
     public function onControllerPagesCheckoutSuccess_ProcessData()
     {
         $that =& $this->baseObject;
-        if ($that->session->data['fast_checkout']) {
+        if ($that->session->data['fast-checkout']) {
             header('Location: '.$that->html->getSecureURL('r/checkout/pay/success',
                     '&viewport=window&order_id='.$that->session->data['processed_order_id']));
             exit;

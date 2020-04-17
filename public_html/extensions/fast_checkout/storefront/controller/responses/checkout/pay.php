@@ -28,8 +28,8 @@ class ControllerResponsesCheckoutPay extends AController
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
-        //set sign that checkout is simple. See usage in hooks
-        $this->session->data['fast_checkout'] = true;
+        //set sign that checkout is fast. See usage in hooks
+        $this->session->data['fast-checkout'] = true;
 
         $this->allow_guest = $this->config->get('config_guest_checkout');
         if (in_array($this->request->get_or_post('viewport'), array('modal', 'window'))) {
@@ -80,6 +80,7 @@ class ControllerResponsesCheckoutPay extends AController
 
         //create order and save details
         $csession = &$this->session->data['fast_checkout'][$cart_key];
+
         $in_data = array_merge((array)$this->session->data, (array)$csession);
 
         if (!$in_data['guest'] && !$this->customer->getId()) {
@@ -1031,7 +1032,7 @@ class ControllerResponsesCheckoutPay extends AController
     {
         // google analytics data for js-script in success.tpl
         $order_tax = $order_total = $order_shipping = 0.0;
-        foreach ($order_data['totals'] as $total) {
+        foreach ((array)$order_data['totals'] as $total) {
             if ($total['total_type'] == 'total') {
                 $order_total += $total['value'];
             } elseif ($total['total_type'] == 'tax') {
