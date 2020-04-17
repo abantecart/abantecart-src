@@ -80,7 +80,7 @@ class ControllerResponsesCheckoutPay extends AController
 
         //create order and save details
         $csession = &$this->session->data['fast_checkout'][$cart_key];
-        $in_data = array_merge($this->session->data, $csession);
+        $in_data = array_merge((array)$this->session->data, (array)$csession);
 
         if (!$in_data['guest'] && !$this->customer->getId()) {
             redirect(
