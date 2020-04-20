@@ -2,11 +2,11 @@
 <definitions>
 	<definition>
 		<key>fast_checkout_name</key>
-		<value><![CDATA[Simple Checkout]]></value>
+		<value><![CDATA[Fast Checkout]]></value>
 	</definition>
 	<definition>
 		<key>fast_checkout_text_fast_checkout_title</key>
-		<value><![CDATA[Simple Checkout]]></value>
+		<value><![CDATA[Fast Checkout]]></value>
 	</definition>
 	<definition>
 		<key>fast_checkout_buy_now</key>

@@ -413,7 +413,7 @@ class ExtensionFastCheckout extends Extension
         $this->init_loaded = true;
     }
 
-    //if generic checkout process - remove sign of simple checkout
+    //if generic checkout process - remove sign of fast checkout
     public function onControllerPagesCheckoutConfirm_InitData()
     {
         $this->baseObject->session->data['fast-checkout'] = false;

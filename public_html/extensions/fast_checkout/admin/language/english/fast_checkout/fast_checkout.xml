@@ -2,7 +2,7 @@
 <definitions>
 	<definition>
 		<key>fast_checkout_name</key>
-		<value><![CDATA[Simple Checkout]]></value>
+		<value><![CDATA[Fast Checkout]]></value>
 	</definition>
 	<definition>
 		<key>fast_checkout_note</key>
@@ -27,7 +27,7 @@
 	</definition>
 	<definition>
 		<key>fast_checkout_hide_add_to_cart</key>
-		<value><![CDATA[Hide "Add to Cart" Button <br /><span class="help">If you need to allow only simple checkout, you can disable standard add to cart buttons</span>]]></value>
+		<value><![CDATA[Hide "Add to Cart" Button <br /><span class="help">If you need to allow only fast checkout, you can disable standard add to cart buttons</span>]]></value>
 	</definition>
 	<definition>
 		<key>fast_checkout_languages</key>

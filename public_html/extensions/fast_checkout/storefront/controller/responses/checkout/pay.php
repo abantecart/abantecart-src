@@ -295,7 +295,18 @@ class ControllerResponsesCheckoutPay extends AController
 
     protected function _build_payment_view(&$csession, $request, $get_params)
     {
+        $this->data['payment_methods'] = $this->_get_payment_methods($csession);
         $this->data['payment_method'] = $request['payment_method'];
+        if (!$this->data['payment_method']) {
+            //check autoselct payment
+            foreach ($this->data['payment_methods'] as $id => $payment) {
+                $psettings = $this->model_checkout_extension->getSettings($id);
+                if ($psettings[$id."_autoselect"]) {
+                    $this->data['payment_method']  = $id;
+                }
+            }
+        }
+
         //show selected payment form
         if ($this->data['payment_method']) {
             $rt = '';
@@ -305,7 +316,18 @@ class ControllerResponsesCheckoutPay extends AController
                 $rt = 'responses/checkout/no_payment';
             }
             $dd = new ADispatcher($rt);
-            $this->view->assign('payment_form', $dd->dispatchGetOutput());
+            //style buttons
+            $paymentHTML = preg_replace(
+                "/<a id=\"back\".*?<\/a>/s",
+                '',
+                $dd->dispatchGetOutput()
+            );
+            $paymentHTML = preg_replace(
+                "/btn-orange/",
+                "btn-primary btn-lg btn-block",
+                $paymentHTML
+            );
+            $this->view->assign('payment_form', $paymentHTML);
         }
 
         //build a form
@@ -323,7 +345,6 @@ class ControllerResponsesCheckoutPay extends AController
 
         //check if any payment is available for address or show balance if available.
         $this->data['payment_select_action'] = $payment_select_action;
-        $this->data['payment_methods'] = $this->_get_payment_methods($csession);
         $this->data['payment_available'] = $this->data['payment_methods'] ? true : false;
         if ($this->data['balance_enough'] !== true && $this->data['payment_available'] !== true) {
             $this->error['message'] = $this->data['payment_available'];
@@ -1624,7 +1645,6 @@ class ControllerResponsesCheckoutPay extends AController
 
     protected function _load_header_footer()
     {
-
         try {
             $cntr = $this->dispatch('responses/includes/head');
             $this->data['head'] = $cntr->dispatchGetOutput();

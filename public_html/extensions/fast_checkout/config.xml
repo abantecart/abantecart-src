@@ -8,9 +8,6 @@
 		<item>1.2</item>
 	</cartversions>
 	<priority>10</priority>
-	<dependencies>
-		<item prior_version="1.0.1" version="1.0.1">default_stripe</item>
-	</dependencies>
 	<settings>
 		<item id="fast_checkout_status">
 			<type>checkbox</type>

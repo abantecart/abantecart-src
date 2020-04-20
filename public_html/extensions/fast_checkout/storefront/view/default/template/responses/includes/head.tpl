@@ -36,6 +36,8 @@
             src="<?php echo $this->templateResource('/javascript/bootstrap.min.js'); ?>"></script>
     <script type="text/javascript"
             src="<?php echo $this->templateResource('/js/credit_card_validation.js'); ?>"></script>
+    <script type="text/javascript"
+            src="<?php echo $this->templateResource('/javascript/common.js'); ?>"></script>
 
     <?php foreach ($scripts as $script) { ?>
         <script type="text/javascript" src="<?php echo $script; ?>"></script>
