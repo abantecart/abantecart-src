@@ -149,6 +149,10 @@
 		<value><![CDATA[Reviews (%s)]]></value>
 	</definition>
 	<definition>
+		<key>tab_review_empty</key>
+		<value><![CDATA[Reviews]]></value>
+	</definition>
+	<definition>
 		<key>tab_related</key>
 		<value><![CDATA[Related Products]]></value>
 	</definition>
@@ -190,6 +194,6 @@
 	</definition>
 	<definition>
 		<key>text_verified_review</key>
-		<value><![CDATA[Verified Review]]></value>
+		<value><![CDATA[Verified purchase]]></value>
 	</definition>
 </definitions>

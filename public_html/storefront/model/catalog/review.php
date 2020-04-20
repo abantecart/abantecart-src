@@ -31,12 +31,30 @@ class ModelCatalogReview extends Model
      */
     public function addReview($product_id, $data)
     {
+        $verified_purchase = 0;
+        if ($this->customer && $this->customer->getId()) {
+            $customerId = $this->customer->getId();
+            $orderProductsTable = $this->db->table('order_products');
+            $ordersTable = $this->db->table('orders');
+
+            $sql = 'SELECT product_id FROM '.$orderProductsTable.
+                ' INNER JOIN '.$ordersTable.' ON '.$ordersTable.'.order_id='.$orderProductsTable.'.order_id AND '.
+                $ordersTable.'.customer_id='.$customerId.' AND '.$ordersTable.'.order_status_id>0'.
+                ' AND '.$ordersTable.'.store_id='.$this->config->get('config_store_id').
+                ' WHERE '.$orderProductsTable.'.product_id='.$product_id.' LIMIT 1';
+            $result = $this->db->query($sql);
+            if ($result->num_rows > 0) {
+                $verified_purchase = 1;
+            }
+        }
+
         $this->db->query("INSERT INTO ".$this->db->table("reviews")." 
 						  SET author = '".$this->db->escape($data['name'])."',
 						      customer_id = '".(int)$this->customer->getId()."',
 						      product_id = '".(int)$product_id."',
 						      text = '".$this->db->escape(strip_tags($data['text']))."',
 						      rating = '".(int)$data['rating']."',
+						      verified_purchase = '".$verified_purchase."',
 						      date_added = NOW()");
 
         $review_id = $this->db->getLastId();
@@ -67,6 +85,7 @@ class ModelCatalogReview extends Model
 										  r.author,
 										  r.rating,
 										  r.text,
+                                          r.verified_purchase,
 										  p.product_id,
 										  pd.name,
 										  p.price,

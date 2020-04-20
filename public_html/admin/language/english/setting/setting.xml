@@ -639,7 +639,7 @@
 	<definition>
 		<key>entry_reviews</key>
 		<value>
-			<![CDATA[Allow Reviews:<br /><span class="help">Enable/Disable new review entry and display of existing reviews</span>]]></value>
+			<![CDATA[Allow Reviews:<br /><span class="help">Restrict who can post review for the products</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_maintenance</key>
@@ -997,18 +997,23 @@
 	</definition>
 	<definition>
 		<key>text_review_disable</key>
-		<value><![CDATA[Disable]]></value>
+		<value><![CDATA[Do not allow]]></value>
 	</definition>
 	<definition>
 		<key>text_review_allow_all</key>
-		<value><![CDATA[Allow All]]></value>
+		<value><![CDATA[Any customer or visitor]]></value>
 	</definition>
 	<definition>
 		<key>text_review_allow_only_registered</key>
-		<value><![CDATA[Allow only registered]]></value>
+		<value><![CDATA[Registered Customer]]></value>
 	</definition>
 	<definition>
 		<key>text_review_allow_who_purchase</key>
-		<value><![CDATA[Allow who purchase]]></value>
+		<value><![CDATA[Customer with verified order]]></value>
+	</definition>
+	<definition>
+		<key>entry_display_reviews</key>
+		<value>
+			<![CDATA[Display Reviews:]]></value>
 	</definition>
 </definitions>

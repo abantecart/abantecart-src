@@ -1542,7 +1542,7 @@ class ModelCatalogProduct extends Model
                 $temp = $row['product_id'];
             }
             //avg-rating
-            if ($this->config->get('enable_reviews')) {
+            if ($this->config->get('display_reviews')) {
                 $sql = "SELECT product_id, AVG(rating) AS total
                         FROM ".$this->db->table("reviews")."
                         WHERE status = '1' AND product_id IN (".implode(', ', $products).")

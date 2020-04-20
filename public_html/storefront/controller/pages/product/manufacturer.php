@@ -373,7 +373,7 @@ class ControllerPagesProductManufacturer extends AController
             $this->view->setTemplate('pages/error/not_found.tpl');
         }
 
-        $this->data['review_status'] = $this->config->get('enable_reviews');
+        $this->data['review_status'] = $this->config->get('display_reviews');
 
         $this->view->batchAssign($this->data);
         $this->processTemplate();

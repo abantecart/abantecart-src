@@ -191,7 +191,7 @@ class ControllerBlocksListingBlock extends AController
             $display_price = false;
         }
         $this->view->assign('display_price', $display_price);
-        $this->view->assign('review_status', $this->config->get('enable_reviews'));
+        $this->view->assign('review_status', $this->config->get('display_reviews'));
 
         $this->view->assign('products', $products);
         $vertical_tpl = array(

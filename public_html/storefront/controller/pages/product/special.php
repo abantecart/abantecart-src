@@ -147,7 +147,7 @@ class ControllerPagesProductSpecial extends AController
             $stock_info = $this->model_catalog_product->getProductsStockInfo($product_ids);
             foreach ($results as $result) {
                 $thumbnail = $thumbnails[$result['product_id']];
-                if ($this->config->get('enable_reviews')) {
+                if ($this->config->get('display_reviews')) {
                     $rating = $this->model_catalog_review->getAverageRating($result['product_id']);
                 } else {
                     $rating = false;
@@ -282,7 +282,7 @@ class ControllerPagesProductSpecial extends AController
 
             $this->data['sort'] = $sort;
             $this->data['order'] = $order;
-            $this->data['review_status'] = $this->config->get('enable_reviews');
+            $this->data['review_status'] = $this->config->get('display_reviews');
             $this->view->batchAssign($this->data);
             $this->view->setTemplate('pages/product/special.tpl');
         } else {

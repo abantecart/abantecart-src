@@ -143,7 +143,7 @@ class ControllerBlocksLatest extends AController
         }
         $this->view->assign('block_framed', true);
         $this->view->assign('display_price', $display_price);
-        $this->view->assign('review_status', $this->config->get('enable_reviews'));
+        $this->view->assign('review_status', $this->config->get('display_reviews'));
         $this->processTemplate();
 
         //init controller data

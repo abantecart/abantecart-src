@@ -640,6 +640,12 @@ class AConfigManager
             'value'   => $data['config_stock_status_id'],
             'options' => $stock_statuses,
         ));
+        $fields['display_reviews'] = $form->getFieldHtml($props[] = array(
+            'type'    => 'checkbox',
+            'name'    => 'display_reviews',
+            'value'   => $data['display_reviews'],
+            'style'   => 'btn_switch',
+        ));
         $fields['reviews'] = $form->getFieldHtml($props[] = array(
             'type'    => 'selectbox',
             'name'    => 'enable_reviews',

@@ -46,32 +46,36 @@ class ControllerResponsesProductReview extends AController
         }
 
         $reviews = array();
-        $results = $this->model_catalog_review->getReviewsByProductId($product_id, ($page - 1) * 5, 5);
-        foreach ($results as $result) {
-            $reviews[] = array(
-                'author'     => $result['author'],
-                'rating'     => $result['rating'],
-                'text'       => str_replace("\n", '<br />', strip_tags($result['text'])),
-                'stars'      => sprintf($this->language->get('text_stars'), $result['rating']),
-                'date_added' => dateISO2Display($result['date_added'], $this->language->get('date_format_short')),
-            );
+        if ($this->config->get('display_reviews')) {
+            $results = $this->model_catalog_review->getReviewsByProductId($product_id, ($page - 1) * 5, 5);
+            foreach ($results as $result) {
+                $reviews[] = array(
+                    'author'            => $result['author'],
+                    'rating'            => $result['rating'],
+                    'verified_purchase' => $result['verified_purchase'],
+                    'text'              => str_replace("\n", '<br />', strip_tags($result['text'])),
+                    'stars'             => sprintf($this->language->get('text_stars'), $result['rating']),
+                    'date_added'        => dateISO2Display($result['date_added'], $this->language->get('date_format_short')),
+                );
+            }
+
+            $this->data['reviews'] = $reviews;
+
+            $review_total = $this->model_catalog_review->getTotalReviewsByProductId($product_id);
+
+            $this->data['pagination_bootstrap'] = HtmlElementFactory::create(array(
+                'type'       => 'Pagination',
+                'name'       => 'pagination',
+                'text'       => $this->language->get('text_pagination'),
+                'text_limit' => $this->language->get('text_per_page'),
+                'total'      => $review_total,
+                'page'       => $page,
+                'limit'      => 5,
+                'no_perpage' => true,
+                'url'        => $this->html->getURL('product/review/review', '&product_id='.$product_id.'&page={page}'),
+                'style'      => 'pagination',
+            ));
         }
-        $this->data['reviews'] = $reviews;
-
-        $review_total = $this->model_catalog_review->getTotalReviewsByProductId($product_id);
-
-        $this->data['pagination_bootstrap'] = HtmlElementFactory::create(array(
-            'type'       => 'Pagination',
-            'name'       => 'pagination',
-            'text'       => $this->language->get('text_pagination'),
-            'text_limit' => $this->language->get('text_per_page'),
-            'total'      => $review_total,
-            'page'       => $page,
-            'limit'      => 5,
-            'no_perpage' => true,
-            'url'        => $this->html->getURL('product/review/review', '&product_id='.$product_id.'&page={page}'),
-            'style'      => 'pagination',
-        ));
 
         $this->view->batchAssign($this->data);
 
@@ -104,8 +108,8 @@ class ControllerResponsesProductReview extends AController
                 ),
             );
             $this->im->send('product_review', $message_arr, 'storefront_product_review_admin_notify', [
-                'product_id' => $product_id,
-                'product_url' => $this->html->getSecureURL('catalog/review/update', '&review_id='.$product_id)
+                'product_id'  => $product_id,
+                'product_url' => $this->html->getSecureURL('catalog/review/update', '&review_id='.$product_id),
             ]);
         } else {
             $json['error'] = $this->error['message'];

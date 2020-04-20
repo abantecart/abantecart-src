@@ -355,7 +355,7 @@ class ControllerPagesProductCategory extends AController
                 $this->view->setTemplate('pages/product/category.tpl');
             }
 
-            $this->data['review_status'] = $this->config->get('enable_reviews');
+            $this->data['review_status'] = $this->config->get('display_reviews');
             $this->view->batchAssign($this->data);
         } else {
             $url = '';

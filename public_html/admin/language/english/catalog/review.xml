@@ -100,4 +100,12 @@
 		<key>text_select_category</key>
 		<value><![CDATA[- Select Category -]]></value>
 	</definition>
+	<definition>
+		<key>column_verified_purchase</key>
+		<value><![CDATA[Verified purchase]]></value>
+	</definition>
+	<definition>
+		<key>entry_verified_purchase</key>
+		<value><![CDATA[Verified purchase:]]></value>
+	</definition>
 </definitions>

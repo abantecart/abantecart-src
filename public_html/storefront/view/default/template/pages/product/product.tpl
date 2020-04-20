@@ -324,6 +324,7 @@ if ($error){ ?>
 				<?php if ($review_status){ ?>
 					<div class="tab-pane" id="review">
 						<div id="current_reviews" class="mb20"></div>
+                        <?php if ($review_form_status) { ?>
 						<div class="heading" id="review_title"><h4><?php echo $text_write; ?></h4></div>
 						<div class="content">
 							<fieldset>
@@ -377,6 +378,7 @@ if ($error){ ?>
 
 							</fieldset>
 						</div>
+                        <?php } ?>
 					</div>
 				<?php } ?>
 

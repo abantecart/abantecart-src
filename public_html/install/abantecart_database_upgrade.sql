@@ -149,3 +149,8 @@ CREATE TABLE `ac_collection_descriptions` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `ac_url_aliases` (`query`, `keyword`, `language_id`) VALUES ('check_seo=1', 'check_seo_url', 1);
+
+INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('general','display_reviews',1);
+
+ALTER TABLE `ac_reviews`
+ADD COLUMN `verified_purchase` TINYINT NOT NULL DEFAULT 0 AFTER `rating`;

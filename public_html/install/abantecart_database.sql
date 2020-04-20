@@ -1623,6 +1623,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('general','config_nostock_autodisable',0),
 ('general','config_stock_status_id',0),
 ('general','enable_reviews',1),
+('general','display_reviews',1),
 ('general','config_download',1),
 ('general','config_help_links',1),
 ('general','config_show_tree_data',1),
@@ -12710,3 +12711,6 @@ CREATE TABLE `ac_collection_descriptions` (
 
 
 INSERT INTO `ac_url_aliases` (`query`, `keyword`, `language_id`) VALUES ('check_seo=1', 'check_seo_url', 1);
+
+ALTER TABLE `ac_reviews`
+ADD COLUMN `verified_purchase` TINYINT NOT NULL DEFAULT 0 AFTER `rating`;

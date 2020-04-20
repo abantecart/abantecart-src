@@ -173,9 +173,13 @@ class ControllerPagesProductProduct extends AController
         $this->data['update_view_count_url'] = $this->html->getURL('common/view_count/product', '&product_id='.$product_id);
 
         $this->loadModel('catalog/review');
-        $this->data['tab_review'] = sprintf($this->language->get('tab_review'), $this->model_catalog_review->getTotalReviewsByProductId($product_id));
+        if ($this->config->get('display_reviews')) {
+            $this->data['tab_review'] = sprintf($this->language->get('tab_review'), $this->model_catalog_review->getTotalReviewsByProductId($product_id));
+        } else {
+            $this->data['tab_review'] = $this->language->get('tab_review_empty');
+        }
 
-        if ($this->config->get('enable_reviews')) {
+        if ($this->config->get('display_reviews')) {
             $average = $this->model_catalog_review->getAverageRating($product_id);
             $this->data['rating_element'] = HtmlElementFactory::create(
                 array(
@@ -189,7 +193,9 @@ class ControllerPagesProductProduct extends AController
             $average = false;
         }
 
-        $this->data['review_status'] = $this->isReviewAllowed($product_id);
+        $this->data['review_status'] = ($this->isReviewAllowed($product_id) || $this->config->get('display_reviews'));
+        $this->data['review_form_status'] = $this->isReviewAllowed($product_id);
+
         $this->data['text_stars'] = sprintf($this->language->get('text_stars'), $average);
         $this->data['review_name'] = HtmlElementFactory::create(
             array(
@@ -690,7 +696,7 @@ class ControllerPagesProductProduct extends AController
             );
             $image = $resource->getResourceAllObjects('products', $result['product_id'], $sizes, 1);
 
-            if ($this->config->get('enable_reviews')) {
+            if ($this->config->get('display_reviews')) {
                 $rating = $this->model_catalog_review->getAverageRating($result['product_id']);
             } else {
                 $rating = false;
