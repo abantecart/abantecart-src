@@ -1701,11 +1701,11 @@ class ControllerResponsesProductProduct extends AController
         $this->loadModel('setting/store');
         $store_info = $this->model_setting_store->getStore($order_store_id);
         if (HTTPS === true && $store_info['config_ssl_url']) {
-            $total_calc_url = $store_info['config_ssl_url'].'index.php?rt=r/product/product/calculateTotal'.'&currency='.$this->currency->getCode();
+            $total_calc_url = $store_info['config_ssl_url'].'index.php?rt=r/product/product/calculateTotal'.'&currency='.$order_info['currency'];
         } elseif (HTTPS === true && !$store_info['config_ssl_url']) {
-            $total_calc_url = str_replace('http://', 'https://', $store_info['config_url']).'index.php?rt=r/product/product/calculateTotal'.'&currency='.$this->currency->getCode();
+            $total_calc_url = str_replace('http://', 'https://', $store_info['config_url']).'index.php?rt=r/product/product/calculateTotal'.'&currency='.$order_info['currency'];
         } else {
-            $total_calc_url = $store_info['config_url'].'index.php?rt=r/product/product/calculateTotal'.'&currency='.$this->currency->getCode();
+            $total_calc_url = $store_info['config_url'].'index.php?rt=r/product/product/calculateTotal'.'&currency='.$order_info['currency'];
         }
 
         $this->data['total_calc_url'] = $total_calc_url;
