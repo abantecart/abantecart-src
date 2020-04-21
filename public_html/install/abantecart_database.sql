@@ -1554,6 +1554,7 @@ CREATE TABLE `ac_reviews` (
   `author` varchar(64) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `text` longtext COLLATE utf8_general_ci NOT NULL,
   `rating` int(1) NOT NULL,
+  `verified_purchase` TINYINT NOT NULL DEFAULT 0,
   `status` int(1) NOT NULL DEFAULT '0',
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -12711,6 +12712,3 @@ CREATE TABLE `ac_collection_descriptions` (
 
 
 INSERT INTO `ac_url_aliases` (`query`, `keyword`, `language_id`) VALUES ('check_seo=1', 'check_seo_url', 1);
-
-ALTER TABLE `ac_reviews`
-ADD COLUMN `verified_purchase` TINYINT NOT NULL DEFAULT 0 AFTER `rating`;
