@@ -6,7 +6,7 @@
 	position: relative;
 	top: -230px;
 	left: 45%;
-	color: #337ab7;
+	color: #00A1CB;
 }
 
 .modal-body {
@@ -41,4 +41,9 @@
 	text-transform: uppercase;
 	margin-right: 5px;
 	margin-left: 5px;
+}
+
+
+#pay_modal .modal-dialog {
+	width: 95%;
 }

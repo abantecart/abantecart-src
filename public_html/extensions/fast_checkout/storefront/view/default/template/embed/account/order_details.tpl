@@ -124,7 +124,6 @@
                                 <div><?php echo $text_name.' '.$download['name'];
                                     if ($download['attributes']) {
                                         ?>
-                                        <br>
                                         <div class="download-list-attributes">
                                             <?php foreach ($download['attributes'] as $name => $value) {
                                                 echo '<small>- '.$name.': '.(is_array($value) ? implode(' ',

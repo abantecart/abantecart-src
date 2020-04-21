@@ -1,7 +1,7 @@
 <?php
 /*------------------------------------------------------------------------------
 $Id$
-  
+
 This file and its content is copyright of AlgoZone Inc - ©AlgoZone Inc 2003-2016. All rights reserved.
 
 You may not, except with our express written permission, modify, distribute or commercially exploit the content. Nor may you transmit it or store it in any other website or other form of electronic retrieval system.
@@ -1179,11 +1179,15 @@ class ControllerResponsesCheckoutPay extends AController
 
         //Validate address entries
         $post = $this->request->post;
-        $this->loadModel('account/address');
-        $this->error = $this->model_account_address->validateAddressData($post);
-        if ($this->error && $this->error['warning']) {
-            //we have errors
-            $this->error['message'] = $this->error['warning'];
+        if ($this->request->is_POST()) {
+            $this->loadModel('account/address');
+            $this->error = $this->model_account_address->validateAddressData($post);
+            if ($this->error && $this->error['warning']) {
+                //we have errors
+                $this->error['message'] = $this->error['warning'];
+                return $this->_address($this->request->get['type'], $this->request->get['cart_key'], $post);
+            }
+        } else {
             return $this->_address($this->request->get['type'], $this->request->get['cart_key'], $post);
         }
 

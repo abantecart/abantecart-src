@@ -1,5 +1,4 @@
 <?php echo $login_form['form_open']; ?>
-<br>
 <div id="login_error_container">
     <?php if ($action == 'login' && $error) { ?>
         <div class="alert alert-danger" role="alert"><i class="fa fa-exclamation fa-fw"></i> <?php echo $error; ?></div>

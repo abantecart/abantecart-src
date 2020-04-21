@@ -73,7 +73,7 @@ body {
 	position: absolute;
 	font-size: 22px;
 	padding: 12px 10px;
-	color: #337ab7;
+	color: #00A1CB;
 }
 
 .pay-form .thumbnail {
@@ -83,7 +83,7 @@ body {
 .pay-form .thumbnail p i {
 	font-size: 30px;
 	padding: 5px 5px;
-	color: #337ab7;
+	color: #00A1CB;
 }
 
 .pay-form .thumbnail.selected {
@@ -200,4 +200,43 @@ body {
 	.pay-form .payment_tabs span.hidden-xxs {
 		display: inline-block !important;
 	}
+}
+
+
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+	z-index: 2;
+	color: #fff;
+	background-color: #00A1CB;
+	border-color: #00A1CB;
+}
+
+.btn-primary {
+	color: #fff;
+	background-color: #00A1CB;
+	border-color: #00A1CB;
+}
+
+.list-group-item:first-child {
+	border-top-left-radius: 1px;
+	border-top-right-radius: 1px;
+}
+.list-group-item:last-child {
+	margin-bottom: 0;
+	border-bottom-right-radius: 1px;
+	border-bottom-left-radius: 1px;
+}
+.list-group-item {
+	border-color: #d7d8da;
+}
+.pay-form .text-center{
+	padding-bottom: 15px;
+}
+.input-lg {
+	border-radius: 1px;
+}
+.shipping_address_details, .payment_address_details {
+	background-color: #eee;
+	padding: 15px;
+	min-height: 150px;
+	border: 1px solid #ddd;
 }

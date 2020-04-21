@@ -9,8 +9,8 @@
                 </h4>
             </div>
             <div class="modal-body">
-                <iframe id="pay_modal_frame" name="pay_modal_frame" width="100%" height="520px" frameBorder="0"
-                        scrolling="no" src=""></iframe>
+                <iframe id="pay_modal_frame" name="pay_modal_frame" width="100%" height="580px" frameBorder="0"
+						scrolling="yes" src=""></iframe>
                 <div class="modal_loader">
                     <div style="display: inline-block;">
                         <i class="fa fa-spinner fa-pulse fa-4x fa-fw"></i>
