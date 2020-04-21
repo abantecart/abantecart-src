@@ -418,12 +418,9 @@ class ModelCheckoutOrder extends Model
                                 $product['product_id']),
                         ),
                     );
-                    $sql = "SELECT SUM(quantity) as stock
-                        FROM ".$this->db->table("product_option_values")."
-                        WHERE product_id = '".(int)$product['product_id']."'
-                            AND subtract = 1";
-                    $stock = $this->db->query($sql);
-                    if ($stock->num_rows && $stock->row['stock'] <= 0 && $this->config->get('config_nostock_autodisable') && (int)$product['product_id']) {
+                    $this->load->model('catalog/product');
+                    $stock = $this->model_catalog_product->hasAnyStock((int)$product['product_id']);
+                    if ($stock <= 0 && $this->config->get('config_nostock_autodisable') && (int)$product['product_id']) {
                         $this->db->query('UPDATE '.$this->db->table('products').' SET status=0 WHERE product_id='.(int)$product['product_id']);
                     }
                     $this->im->send('product_out_of_stock', $message_arr, 'storefront_product_out_of_stock_admin_notify', $product);
@@ -454,7 +451,9 @@ class ModelCheckoutOrder extends Model
                                 $product['product_id']),
                         ),
                     );
-                    if ($this->config->get('config_nostock_autodisable') && (int)$product['product_id']) {
+                    $this->load->model('catalog/product');
+                    $stock = $this->model_catalog_product->hasAnyStock((int)$product['product_id']);
+                    if ($stock <= 0 && $this->config->get('config_nostock_autodisable') && (int)$product['product_id']) {
                         $this->db->query('UPDATE '.$this->db->table('products').' SET status=0 WHERE product_id='.(int)$product['product_id']);
                     }
                     $this->im->send('product_out_of_stock', $message_arr,  'storefront_product_out_of_stock_admin_notify', $product);
