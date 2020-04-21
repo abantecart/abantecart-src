@@ -227,6 +227,10 @@ class ControllerResponsesEmbedJS extends AController
             )
         );
 
+        if (!$this->config->get('display_reviews') && isset($product_info['rating'])) {
+            unset($product_info['rating']);
+        }
+
         $this->data['product'] = $product_info;
 
         $this->view->setTemplate('embed/js_product.tpl');
@@ -548,8 +552,6 @@ class ControllerResponsesEmbedJS extends AController
                     'name'                => $result['name'],
                     'blurb'               => $result['blurb'],
                     'model'               => $result['model'],
-                    'rating'              => $rating,
-                    'stars'               => sprintf($this->language->get('text_stars'), $rating),
                     'thumb'               => $thumbnail,
                     'price'               => $price,
                     'raw_price'           => $result['price'],
@@ -564,6 +566,10 @@ class ControllerResponsesEmbedJS extends AController
                     'total_quantity'      => $total_quantity,
                     'tax_class_id'        => $result['tax_class_id'],
                 );
+                if ($this->config->get('display_reviews')) {
+                    $products['rating'] = $rating;
+                    $products['stars'] = sprintf($this->language->get('text_stars'), $rating);
+                }
             }
             $this->data['products'] = $products;
 
