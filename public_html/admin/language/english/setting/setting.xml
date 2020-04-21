@@ -639,7 +639,7 @@
 	<definition>
 		<key>entry_reviews</key>
 		<value>
-			<![CDATA[Allow Reviews:<br /><span class="help">Restrict who can post review for the products</span>]]></value>
+			<![CDATA[Post Reviews:<br /><span class="help">Restrict who can post review for the products</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_maintenance</key>
