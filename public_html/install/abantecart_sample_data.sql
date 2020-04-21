@@ -2472,6 +2472,7 @@ VALUES
 --
 
 INSERT INTO `ac_reviews`
+(`review_id`, `product_id`, `customer_id`, `author`, `text`, `rating`, `status`, `date_added`, `date_modified`)
 VALUES
 (63,77,6,'Bernard Horne','I thought since it was made for men that it was the perfect thing to go with the body wash. Its too small and doesn\'t lather up very well.',3,1,NOW(),NOW()),
 (62,54,2,'Juliana Davis','I\'ve been wearing all Lancome mascara\'s and I\'m just get really upset when I\'m out. I\'ve tried other Brands, but it\'s always right back to the Lancome productss. The extend L\'EXTREME is by far the best!!! Really Long and Great! ',5,1,NOW(),NOW()),
