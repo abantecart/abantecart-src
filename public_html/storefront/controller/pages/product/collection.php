@@ -284,17 +284,7 @@ class ControllerPagesProductCollection extends AController
                 $this->view->assign('continue', $this->html->getHomeURL());
                 $this->view->assign('categories', array());
                 $this->data['products'] = array();
-                $this->document->addBreadcrumb(
-                    array(
-                        'href'      => $this->html->getSEOURL(
-                            'product/collection',
-                            '&collection_id='.$collectionId,
-                            '&encode'
-                        ),
-                        'text'      => $collectionInfo['title'],
-                        'separator' => $this->language->get('text_separator'),
-                    )
-                );
+
                 $this->view->setTemplate('pages/product/collection.tpl');
             }
 

@@ -433,9 +433,8 @@ class ModelCatalogCollection extends Model
                 return $result;
             }
 
-            $arWhere[] = $productsTable.'.status=1';
-
             $query .= ' WHERE ('.implode(($relation['if'] == 'any') ? ' OR ' : ' AND ', $arWhere).')';
+            $query .= ' AND '.$productsTable.'.status=1';
 
             $query .= ' GROUP BY '.$productsTable.'.product_id';
 
