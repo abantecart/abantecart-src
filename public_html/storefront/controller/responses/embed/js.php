@@ -547,7 +547,7 @@ class ControllerResponsesEmbedJS extends AController
                 }
 
                 $rt = $this->config->get('config_embed_click_action') == 'modal' ? 'r/product/product' : 'product/product';
-                $products[] = array(
+                $product = array(
                     'product_id'          => $result['product_id'],
                     'name'                => $result['name'],
                     'blurb'               => $result['blurb'],
@@ -567,9 +567,10 @@ class ControllerResponsesEmbedJS extends AController
                     'tax_class_id'        => $result['tax_class_id'],
                 );
                 if ($this->config->get('display_reviews')) {
-                    $products['rating'] = $rating;
-                    $products['stars'] = sprintf($this->language->get('text_stars'), $rating);
+                    $product['rating'] = $rating;
+                    $product['stars'] = sprintf($this->language->get('text_stars'), $rating);
                 }
+                $products[] = $product;
             }
             $this->data['products'] = $products;
 
