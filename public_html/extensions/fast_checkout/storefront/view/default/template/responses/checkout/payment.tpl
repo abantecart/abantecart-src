@@ -344,20 +344,45 @@ $guest_data = $this->session->data['guest'];
 <?php } ?>
 
 <script type="text/javascript">
+	getUrlParams = function(key, value) {
+		let searchParams = new URLSearchParams(window.location.search)
+		//Remove old value
+		if (searchParams.has('cart_key')) {
+			searchParams.delete('cart_key')
+		}
+		if (searchParams.has('rt')) {
+			searchParams.delete('rt')
+		}
+		if (searchParams.has('coupon_code')) {
+			searchParams.delete('coupon_code')
+		}
+		if (searchParams.has('remove_coupon')) {
+			searchParams.delete('remove_coupon')
+		}
+
+		//Set New Value
+		if (searchParams.has(key)) {
+			searchParams.set(key, value)
+		} else {
+			searchParams.append(key, value)
+		}
+		return searchParams.toString()
+	}
+
 	jQuery(document).ready(function () {
 
 		$("#payment_address_id").change(function () {
-			var url = '<?php echo $main_url ?>&payment_address_id=' + $(this).val();
+			let url = '<?php echo $main_url ?>&'+getUrlParams('payment_address_id', $(this).val());
 			pageRequest(url);
 		});
 
 		$("#shipping_address_id").change(function () {
-			var url = '<?php echo $main_url ?>&shipping_address_id=' + $(this).val();
+			let url = '<?php echo $main_url ?>&'+getUrlParams('shipping_address_id', $(this).val());
 			pageRequest(url);
 		});
 
 		$("#shipping_method").change(function () {
-			var url = '<?php echo $main_url ?>&shipping_method=' + $(this).val();
+			let url = '<?php echo $main_url ?>&'+getUrlParams('shipping_method', $(this).val());
 			pageRequest(url);
 		});
 
@@ -368,12 +393,12 @@ $guest_data = $this->session->data['guest'];
 				$.aCCValidator.show_error($(this), '.form-group');
 				return false;
 			}
-			var url = '<?php echo $main_url ?>&coupon_code=' + coupon;
+			let url = '<?php echo $main_url ?>&'+getUrlParams('coupon_code', coupon);
 			pageRequest(url);
 		});
 
 		$(".pay-form").on("click", ".btn-remove-coupon", function () {
-			var url = '<?php echo $main_url ?>&remove_coupon=true';
+			let url = '<?php echo $main_url ?>&'+getUrlParams('remove_coupon', true);
 			pageRequest(url);
 		});
 
@@ -389,7 +414,7 @@ $guest_data = $this->session->data['guest'];
 				return;
 			}
 			var payment_id = $(this).data('payment-id');
-			var url = '<?php echo $payment_select_action ?>&payment_method=' + payment_id;
+			let url = '<?php echo $main_url ?>&'+getUrlParams('payment_method', payment_id);
 			//pageRequest(url);
 			var form = $('#PayFrm');
 			$('#payment_details').remove();
@@ -499,13 +524,9 @@ $guest_data = $this->session->data['guest'];
 			}
 		});
 
-		updateShippingAddressDisplay = function () {
-			let addresses = JSON.parse(atob('<?php echo base64_encode(json_encode($all_addresses)); ?>'))
-			let shipping_address_id = $("#shipping_address_id").val()
-			let address = addresses.find((el) => el.address_id == shipping_address_id)
-
+		getAddressHtml = function(address) {
+			let html = ''
 			if (typeof address != "undefined") {
-				let html = ''
 				if (address.firstname || address.lasttname) {
 					html += address.firstname + ' ' + address.lastname + ' <br/>'
 				}
@@ -528,7 +549,17 @@ $guest_data = $this->session->data['guest'];
 					html += address.country + ' <br/>'
 				}
 
-				$('.shipping_address_details').html(html);
+			}
+			return html
+		}
+
+		updateShippingAddressDisplay = function () {
+			let addresses = JSON.parse(atob('<?php echo base64_encode(json_encode($all_addresses)); ?>'))
+			let shipping_address_id = $("#shipping_address_id").val()
+			let address = addresses.find((el) => el.address_id == shipping_address_id)
+
+			if (typeof address != "undefined") {
+				$('.shipping_address_details').html(getAddressHtml(address));
 			}
 		}
 
@@ -538,30 +569,7 @@ $guest_data = $this->session->data['guest'];
 			let address = addresses.find((el) => el.address_id == payment_address_id)
 
 			if (typeof address != "undefined") {
-				let html = ''
-				if (address.firstname || address.lasttname) {
-					html += address.firstname + ' ' + address.lastname + ' <br/>'
-				}
-				if (address.company) {
-					html += address.company + ' <br/>'
-				}
-				if (address.address_2) {
-					html += address.address_2 + ' <br/>'
-				}
-				if (address.address_1) {
-					html += address.address_1 + ' <br/>'
-				}
-				if (address.city || address.postcode) {
-					html += address.city + ' ' + address.postcode + ' <br/>'
-				}
-				if (address.zone) {
-					html += address.zone + ' <br/>'
-				}
-				if (address.country) {
-					html += address.country + ' <br/>'
-				}
-
-				$('.payment_address_details').html(html);
+				$('.payment_address_details').html(getAddressHtml(address));
 			}
 		}
 

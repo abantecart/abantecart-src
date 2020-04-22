@@ -79,10 +79,11 @@ body {
 .pay-form .thumbnail {
 	cursor: pointer;
 }
-
-.pay-form .thumbnail p i {
+.pay-form .thumbnail p i.fa-credit-card {
 	font-size: 30px;
 	padding: 5px 5px;
+}
+.pay-form .thumbnail p i {
 	color: #00A1CB;
 }
 
@@ -90,16 +91,6 @@ body {
 	background: lightblue;
 }
 
-.pay-form .thumbnail.selected:after {
-	content: "\f00c";
-	font-family: FontAwesome;
-	text-decoration: inherit;
-	position: absolute;
-	font-size: 50px;
-	color: #3c763d;
-	top: 0;
-	left: 10%;
-}
 
 .pay-form .left-inner-addon .well {
 	padding-left: 45px;
@@ -228,9 +219,6 @@ body {
 .list-group-item {
 	border-color: #d7d8da;
 }
-.pay-form .text-center{
-	padding-bottom: 15px;
-}
 .input-lg {
 	border-radius: 1px;
 }
@@ -240,3 +228,44 @@ body {
 	min-height: 150px;
 	border: 1px solid #ddd;
 }
+.payment_items {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	align-items: stretch;
+}
+
+.payment_item {
+	display: flex;
+	width: 25%;
+}
+.payment-option {
+	margin: 5px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-content: space-between;
+	justify-content: flex-end;
+	position: relative;
+}
+
+@media all and (max-width: 600px) {
+	.payment_item {
+		width: 100%;
+	}
+}
+
+@media all and (min-width: 601px) and (max-width: 1150px) {
+	.payment_item {
+		width: 50%;
+	}
+}
+
+.img-thumbnail {
+	border: none;
+}
+.thumbnail .caption {
+	min-height: 66px;
+	overflow: hidden;
+}
+

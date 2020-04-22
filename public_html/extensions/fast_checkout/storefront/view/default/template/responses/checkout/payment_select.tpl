@@ -31,7 +31,7 @@
 <?php } ?>
 
 <div class="row">
-    <div class="form-group col-xxs-12">
+    <div class="form-group col-xxs-12 payment_items">
         <?php
         if ($total_payment = count($payment_methods)) {
             foreach ($payment_methods as $id => $payment) {
@@ -40,26 +40,32 @@
                     $current = ' selected ';
                 }
                 ?>
-                <div class="col-xs-<?php echo round(12 / $total_payment) ?>">
+                <div class="payment_item">
                     <div class="thumbnail payment-option <?php echo $current; ?>" data-payment-id="<?php echo $id; ?>">
                         <?php if ($payment['icon']) {
                             $icon = $payment['icon'];
                             ?>
                             <?php if (is_file(DIR_RESOURCE.$icon['image'])) { ?>
-                                <img src="resources/<?php echo $icon['image']; ?>" title="<?php echo $icon['title']; ?>"
-                                     class="img-thumbnail"/>
+
+								<div style="height: 100px; background-image: url('resources/<?php echo $icon['image']; ?>');
+										background-position: center; background-size: contain; background-repeat: no-repeat;" >
+								</div>
                             <?php } else {
                                 if (!empty($icon['resource_code'])) { ?>
                                     <?php echo $icon['resource_code']; ?>
                                 <?php } else { ?>
-                                    <p class="text-center"><i class="fa fa-credit-card"></i></p>
+									<div style="height: 100px; background-image: url('extensions/fast_checkout/storefront/view/default/images/payment.png');
+											background-position: center; background-size: contain; background-repeat: no-repeat;" >
+									</div>
                                 <?php }
                             } ?>
                         <?php } else { ?>
-                            <p class="text-center"><i class="fa fa-credit-card"></i></p>
+                            <div style="height: 100px; background-image: url('extensions/fast_checkout/storefront/view/default/images/payment.png');
+											background-position: center; background-size: contain; background-repeat: no-repeat;" >
+                            </div>
                         <?php } ?>
                         <div class="caption">
-                            <p class="text-center"><?php echo $payment['title']; ?></p>
+                            <p class="text-center"><?php if ($id == $payment_method) {  echo '<i class="fa fa-check"></i>'; } echo $payment['title']; ?></p>
                         </div>
                     </div>
                 </div>
