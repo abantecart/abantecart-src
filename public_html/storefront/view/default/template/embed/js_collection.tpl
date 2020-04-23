@@ -20,13 +20,22 @@ if($product['price'] && $display_price){?>
 					'<div class="pricenew"><?php echo $product['special'] ?></div>';
 		<?php } else { ?>
 			html += '<div class="oneprice"><?php echo $product['price'] ?></div>'
-		<?php } ?>
+		<?php }
+		}
+?>
+
+<?php
+if($product['rating']){?>
+		html += '<?php echo '<div class="raiting"><img src="' .AUTO_SERVER. $this->templateResource('/image/stars_' . (int)$product['rating'] . '.png') . '" alt="' . $product['stars'] . '" /></div>'?>';
+<?php
+}
+?>
+
 	html += '</li>'
 		$('#<?php echo $target;?>.abantecart_collection ul').append(html);
+	}
 <?php }  ?>
 
-}
 
-<?php } ?>
 
 })();
