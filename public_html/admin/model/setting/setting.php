@@ -204,9 +204,15 @@ class ModelSettingSetting extends Model
                 foreach (array('config_description', 'config_title', 'config_meta_description', 'config_meta_keywords') as $n) {
                     $key = $n.'_'.$src_lang_id;
                     $src_text = isset($data[$key]) ? $data[$key] : $this->config->get($key);
+                    $src_text = trim($src_text);
                     foreach ($locales as $dst_lang_id => $dst_code) {
-
-                        $data[$n.'_'.$dst_lang_id] = $this->language->translate($this->config->get('translate_src_lang_code'), $src_text, $dst_code);
+                        if($src_text) {
+                            $data[$n.'_'.$dst_lang_id] = $this->language->translate(
+                                $this->config->get('translate_src_lang_code'),
+                                $src_text,
+                                $dst_code
+                            );
+                        }
                     }
                 }
             }
