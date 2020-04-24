@@ -33,7 +33,7 @@ class ExtensionDefaultLocalDelivery extends Extension
             return;
         }
 
-        if( $that->request->is_POST() ){
+        if( $that->request->is_POST() && $that->cart->hasShipping()){
             $that->loadLanguage('default_local_delivery/default_local_delivery');
             $telephone = preg_replace('/[^0-9\+]/', '', $that->request->post['telephone']);
             if(!$telephone){
@@ -46,7 +46,9 @@ class ExtensionDefaultLocalDelivery extends Extension
     public function onControllerPagesCheckoutGuestStep1_UpdateData()
     {
         $that =& $this->baseObject;
-        if( !$that->config->get('default_local_delivery_status') ) {
+        if( !$that->config->get('default_local_delivery_status')
+            ||  !$that->cart->hasShipping()
+        ) {
             return;
         }
 
@@ -60,6 +62,7 @@ class ExtensionDefaultLocalDelivery extends Extension
         $that =& $this->baseObject;
         if(!$that->config->get('default_local_delivery_status')
             || $that->session->data['shipping_method']['id'] != 'default_local_delivery.default_local_delivery'
+            || !$that->cart->hasShipping()
         ) {
             return;
         }
@@ -93,6 +96,7 @@ class ExtensionDefaultLocalDelivery extends Extension
         $that =& $this->baseObject;
         if(!$that->config->get('default_local_delivery_status')
             || $that->session->data['shipping_method']['id'] != 'default_local_delivery.default_local_delivery'
+            || !$that->cart->hasShipping()
         ) {
             return;
         }
