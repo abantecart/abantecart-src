@@ -3,10 +3,10 @@
   <layout>
     <name>Fast Checkout Page</name>
     <template_id>default</template_id>
-    <type>Default</type>
+    <type>Active</type>
     <pages>
       <page>
-        <controller>generic</controller>
+        <controller>pages/checkout/fast_checkout</controller>
         <page_descriptions>
           <page_description>
             <language>english</language>

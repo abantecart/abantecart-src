@@ -1,7 +1,7 @@
 <?php
 /*------------------------------------------------------------------------------
 $Id$
-  
+
 This file and its content is copyright of AlgoZone Inc - © AlgoZone Inc 2003-2018. All rights reserved.
 
 You may not, except with our express written permission, modify, distribute or commercially exploit the content. Nor may you transmit it or store it in any other website or other form of electronic retrieval system.
@@ -15,7 +15,7 @@ class ExtensionFastCheckout extends Extension
 {
     private $init_loaded = false;
     protected $registry;
-    protected $sc_rt = 'r/checkout/pay';
+    protected $sc_rt =  'checkout/fast_checkout';  //'r/checkout/pay';
 
     public function __construct()
     {
@@ -424,7 +424,7 @@ class ExtensionFastCheckout extends Extension
     {
         $that =& $this->baseObject;
         if ($that->session->data['fast-checkout']) {
-            header('Location: '.$that->html->getSecureURL('r/checkout/pay/success',
+            header('Location: '.$that->html->getSecureURL('checkout/fast_checkout_success',
                     '&viewport=window&order_id='.$that->session->data['processed_order_id']));
             exit;
         }

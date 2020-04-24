@@ -13,15 +13,8 @@
                 }
                 ?>
                 <?php if ($loggedin === true) { ?>
-                    <a href="#new" id="new_user" role="tab" data-toggle="tab"
-                       class="big btn <?php echo $pay_button_style; ?>">
-                        <i class="fa fa-user fa-fw"></i>&nbsp;<span
-                                class="hidden-xxs"><?php echo $customer_name; ?></span>
-                    </a>
-                    <a href="<?php echo $logout_url; ?>" id="logout_user" class="big btn btn-default">
-                        <i class="fa fa-user-times fa-fw"></i>&nbsp;<span
-                                class="hidden-xxs"><?php echo $fast_checkout_text_logout; ?></span>
-                    </a>
+
+
                 <?php } else { ?>
                     <?php if ($step == 'address') { ?>
                         <a href="#address" id="new_address" role="tab" data-toggle="tab"
@@ -222,12 +215,18 @@
                 form.submit(function (event) {
                     if (submitSent !== true) {
                         submitSent = true;
+                        console.log(validateForm($(this)))
                         if (validateForm($(this)) !== true) {
                             submitSent = false;
                             return false;
                         }
                         $(this).find('.btn-primary').button('loading');
-                        return true;
+                        //All Good send form
+						$.post(form.attr('action'), form.serialize(), function (data) {
+							loadPage()
+						})
+                        console.log(form.attr('action'))
+                        return false;
                     }
                     return false;
                 });
@@ -289,7 +288,7 @@
             }
 
             showLoading = function (modal_body) {
-                modal_body.html('<div class="modal_loader"><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i></div>');
+                modal_body.html('<div class="modal_loader" style="text-align: center"><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i></div>');
             }
 
             validateEmail = function (email) {
@@ -303,8 +302,23 @@
             }
 
             pageRequest = function (url) {
-                window.location.href = url;
+                //window.location.href = url;
+				$.get(url, {} , function (data) {
+					$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
+				})
             }
+
+			$('a.address_edit').on('click', function (event) {
+				event.preventDefault()
+				$.ajax({
+					url: $(this).attr('href'),
+					type: 'GET',
+					dataType: 'html',
+					success: function (data) {
+						$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
+					}
+				});
+			})
 
         });
     </script>

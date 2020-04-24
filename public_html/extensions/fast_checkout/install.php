@@ -9,5 +9,9 @@ $layout = new ALayoutManager('default');
 $layout->loadXml(array('file' => $file));
 
 
+$file_success = DIR_EXT . '/fast_checkout/layout_success.xml';
+$layout->loadXml(array('file' => $file_success));
+
+
 
 

@@ -405,8 +405,18 @@ $guest_data = $this->session->data['guest'];
 		$(".pay-form").on("click", ".credit-pay-btn", function () {
 			var form = $('#PayFrm');
 			form.find('input[name="account_credit"]').val(1);
+
 			$('form').unbind("submit"),
-				form.submit();
+				$.ajax({
+					url: form.attr('action'),
+					type: 'POST',
+					dataType: 'html',
+					data: form.serialize(),
+					success: function (data) {
+						$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
+					}
+				});
+				//form.submit();
 		});
 
 		$(".pay-form").on("click", ".payment-option", function () {
@@ -420,7 +430,15 @@ $guest_data = $this->session->data['guest'];
 			$('#payment_details').remove();
 			$('form').unbind("submit"),
 				form.attr('action', url);
-			form.submit();
+			$.ajax({
+				url: url,
+				type: 'GET',
+				dataType: 'html',
+				success: function (data) {
+					$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
+				}
+			});
+			//form.submit();
 		});
 
 		//load first tab
@@ -546,9 +564,11 @@ $guest_data = $this->session->data['guest'];
 					html += address.zone + ' <br/>'
 				}
 				if (address.country) {
-					html += address.country + ' <br/>'
+					html += address.country
 				}
-
+                <?php if ($address_edit_base_url) { ?>
+				html += '<div class="address_edit_link"><a href="<?php echo $address_edit_base_url; ?>'+address.address_id+'"><i class="fa fa-edit"></i></a></div>'
+                <?php } ?>
 			}
 			return html
 		}
@@ -559,7 +579,7 @@ $guest_data = $this->session->data['guest'];
 			let address = addresses.find((el) => el.address_id == shipping_address_id)
 
 			if (typeof address != "undefined") {
-				$('.shipping_address_details').html(getAddressHtml(address));
+				$('.shipping_address_details').hide().html(getAddressHtml(address)).fadeIn(1000);
 			}
 		}
 
@@ -569,12 +589,19 @@ $guest_data = $this->session->data['guest'];
 			let address = addresses.find((el) => el.address_id == payment_address_id)
 
 			if (typeof address != "undefined") {
-				$('.payment_address_details').html(getAddressHtml(address));
+				$('.payment_address_details').hide().html(getAddressHtml(address)).fadeIn(1000);
 			}
 		}
 
 		updateShippingAddressDisplay()
 		updatePaymentAddressDisplay()
+
+
+		$('#PayFrm').on('submit', function (event) {
+			alert('Handle!')
+			return false;
+
+		})
 
 
 	});
