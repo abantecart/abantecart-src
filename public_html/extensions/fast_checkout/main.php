@@ -1,7 +1,7 @@
 <?php
 /*------------------------------------------------------------------------------
 $Id$
-  
+
 This file and its content is copyright of AlgoZone Inc - ©AlgoZone Inc 2003-2016. All rights reserved.
 
 You may not, except with our express written permission, modify, distribute or commercially exploit the content. Nor may you transmit it or store it in any other website or other form of electronic retrieval system.
@@ -21,6 +21,8 @@ $controllers = array(
         'responses/includes/footer',
         'responses/account/order_details',
         'pages/account/order_details',
+        'pages/checkout/fast_checkout',
+        'pages/checkout/fast_checkout_success',
     ),
     'admin'      => array(),
 );
@@ -53,6 +55,8 @@ $templates = array(
         'embed/js_product_sc.tpl',
         'embed/product/product_sc.tpl',
         'embed/account/order_details.tpl',
+        'pages/checkout/fast_checkout.tpl',
+        'pages/checkout/fast_checkout_success.tpl',
     ),
     'admin'      => array(),
 );

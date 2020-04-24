@@ -74,6 +74,8 @@ class ControllerResponsesCheckoutPay extends AController
             }
         }
 
+        $this->data['address_edit_base_url'] = $this->html->getSecureURL('account/address/update', '&address_id=');
+
         $request = array_merge($this->request->get, $this->request->post);
         $cart_key = $this->request->post_or_get('cart_key');
         $get_params = "&cart_key=".$cart_key;
@@ -877,7 +879,8 @@ class ControllerResponsesCheckoutPay extends AController
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-        $this->_load_header_footer();
+        //$this->_load_header_footer();
+        $this->data['order_id'] = $order_id;
 
         $this->view->batchAssign($this->data);
         $this->response->setOutput($this->view->fetch('responses/checkout/success.tpl'));
@@ -1649,13 +1652,13 @@ class ControllerResponsesCheckoutPay extends AController
 
     protected function _load_header_footer()
     {
-        try {
-            $cntr = $this->dispatch('responses/includes/head');
-            $this->data['head'] = $cntr->dispatchGetOutput();
-            $cntr = $this->dispatch('responses/includes/footer');
-            $this->data['footer'] = $cntr->dispatchGetOutput();
-        } catch (\Exception $e) {
-        }
+//        try {
+//            $cntr = $this->dispatch('responses/includes/head');
+//            $this->data['head'] = $cntr->dispatchGetOutput();
+//            $cntr = $this->dispatch('responses/includes/footer');
+//            $this->data['footer'] = $cntr->dispatchGetOutput();
+//        } catch (\Exception $e) {
+//        }
     }
 
     protected function _to_log($message)
