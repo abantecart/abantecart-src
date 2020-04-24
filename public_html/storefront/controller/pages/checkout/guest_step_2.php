@@ -213,7 +213,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController
         $skip_step = false;
         $method_name = '';
         //# If only 1 shipping and 1 payment it is set to be defaulted, select and skip and redirect to checkout guest_step_3
-        if (count($this->session->data['shipping_methods']) == 1) {
+        if (count((array)$this->session->data['shipping_methods']) == 1) {
             //set only method
             $only_method = $this->session->data['shipping_methods'];
             foreach ($only_method as $method_name => $value) {
@@ -228,7 +228,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController
                 }
             }
         } else {
-            if (count($this->session->data['shipping_methods']) == 0 && !$this->cart->hasShipping()) {
+            if (count((array)$this->session->data['shipping_methods']) == 0 && !$this->cart->hasShipping()) {
                 //if not shipment, skip
                 $skip_step = true;
             }
