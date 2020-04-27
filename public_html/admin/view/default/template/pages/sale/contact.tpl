@@ -103,7 +103,7 @@
 			<button class="btn btn-primary task_run" data-run-task-url="<?php echo $form['build_task_url'] ?>"
 			        data-complete-task-url="<?php echo $form['complete_task_url'] ?>"
 			        data-abort-task-url="<?php echo $form['abort_task_url'] ?>">
-				<i class="fa fa-paper-plane-o"></i> <?php echo $form['submit']->text; ?>
+				<i class="fa fa-envelope"></i> <?php echo $form['submit']->text; ?>
 			</button>
 			<a class="btn btn-default" href="<?php echo $cancel; ?>">
 				<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
