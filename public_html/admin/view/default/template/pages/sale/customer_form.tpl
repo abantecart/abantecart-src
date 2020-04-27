@@ -73,7 +73,7 @@
 				   href="<?php echo $message->href; ?>"
 				   data-toggle="tooltip"
 				   title="<?php echo $message->text; ?>"
-				   data-original-title="<?php echo $message->text; ?>"><i class="fa fa-paper-plane-o "></i>
+				   data-original-title="<?php echo $message->text; ?>"><i class="fa fa-envelope "></i>
 				</a>
 				<a target="_blank"
 				   class="btn btn-white tooltips"

@@ -899,7 +899,6 @@ class ACart
             $sort_order[$key] = $value['sort_order'];
         }
         array_multisort($sort_order, SORT_ASC, $total_data);
-        //return result in array
         return array('total' => $total, 'total_data' => $total_data, 'taxes' => $taxes);
     }
 
