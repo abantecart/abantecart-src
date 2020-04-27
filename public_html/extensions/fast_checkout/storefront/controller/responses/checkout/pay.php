@@ -42,14 +42,13 @@ class ControllerResponsesCheckoutPay extends AController
         $this->loadModel('checkout/order');
         $this->loadLanguage('fast_checkout/fast_checkout');
 
-        //get saved order details from session
         $this->cart_key = $this->request->post_or_get('cart_key');
-        $this->cart_ses = &$this->session->data['fast_checkout'][$this->cart_key];
-
-        //update cart class
-        $cart_class_name = get_class($this->cart);
-        $cart_obj = new $cart_class_name($this->registry, $this->cart_ses);
-        $this->registry->set('cart', $cart_obj);
+        if ($this->cart_key ) {
+            $this->cart_ses = &$this->session->data['fast_checkout'][$this->cart_key];
+        } else {
+            $this->cart_ses = &$this->session->data['cart'];
+        }
+        //get saved order details from session
     }
 
     public function main()
@@ -675,10 +674,7 @@ class ControllerResponsesCheckoutPay extends AController
 
         $this->_save_google_analytics($order_data);
 
-        //clean global data.
-        if ($cart_key) {
-            $this->_clear_data($cart_key);
-        }
+        $this->_clear_data();
         $this->data['step'] = 'process';
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -898,9 +894,9 @@ class ControllerResponsesCheckoutPay extends AController
         );
     }
 
-    protected function _clear_data($cart_key)
+    protected function _clear_data()
     {
-        unset($this->session->data['fast_checkout'][$cart_key]);
+        unset($this->cart_ses);
         unset(
             $this->session->data['shipping_method'],
             $this->session->data['shipping_methods'],

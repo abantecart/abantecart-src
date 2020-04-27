@@ -55,15 +55,6 @@ class ExtensionFastCheckout extends Extension
                 $csession = &$that->session->data['fast_checkout'][$cart_key];
                 $cart_class_name = get_class($that->cart);
                 $this->registry->set('cart', new $cart_class_name($this->registry, $csession));
-            } else {
-                // we use main cart first time, generate cart key
-                if (!$cart_key) {
-                    $cart_key = randomWord(5);
-                }
-                $that->request->get['cart_key'] = $cart_key;
-                if (!isset($that->session->data['fast_checkout'][$cart_key])) {
-                    $that->session->data['fast_checkout'][$cart_key] = array();
-                }
             }
         }
     }
