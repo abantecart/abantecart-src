@@ -46,7 +46,7 @@ class ControllerResponsesCheckoutPay extends AController
         if ($this->cart_key ) {
             $this->cart_ses = &$this->session->data['fast_checkout'][$this->cart_key];
         } else {
-            $this->cart_ses = &$this->session->data['cart'];
+            $this->cart_ses = &$this->session->data;
         }
         //get saved order details from session
     }
