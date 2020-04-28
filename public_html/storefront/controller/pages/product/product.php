@@ -179,11 +179,12 @@ class ControllerPagesProductProduct extends AController
             $this->data['tab_review'] = $this->language->get('tab_review_empty');
         }
 
-        $this->data['review_status'] = ($this->isReviewAllowed($product_id) || $this->config->get('display_reviews'));
         $this->data['review_form_status'] = $this->isReviewAllowed($product_id);
+        $average = $this->config->get('display_reviews')
+                   ? $this->model_catalog_review->getAverageRating($product_id)
+                   : false;
 
-        if ($this->data['review_status']) {
-            $average = $this->model_catalog_review->getAverageRating($product_id);
+        if ($this->data['review_form_status']) {
             $this->data['rating_element'] = HtmlElementFactory::create(
                 array(
                     'type'    => 'rating',
@@ -192,8 +193,6 @@ class ControllerPagesProductProduct extends AController
                     'options' => array(1 => 1, 2, 3, 4, 5),
                     'pack'    => true,
                 ));
-        } else {
-            $average = false;
         }
 
         $this->data['text_stars'] = sprintf($this->language->get('text_stars'), $average);
