@@ -40,127 +40,127 @@ class ExtensionFastCheckout extends Extension
         //Check if we need to substidude regular cart with fast checkout cart for single product
         $cart_key = $that->request->post_or_get('cart_key');
         $product_id = $that->request->post_or_get('product_id');
-        if (!$cart_key && $product_id) {
-            //we have single product checkout
-            $cart_key = randomWord(5);
-            $that->request->get['cart_key'] = $cart_key;
-            //new custom cart
-            $ret = $this->buildCustomCart($that, $cart_key);
-            if ($ret) {
-                echo "Error: $ret"; //??????
-            }
-        } else {
-            if ($cart_key && isset($that->session->data['fast_checkout'][$cart_key]['cart'])) {
-                //custom cart already build
-                $csession = &$that->session->data['fast_checkout'][$cart_key];
-                $cart_class_name = get_class($that->cart);
-                $this->registry->set('cart', new $cart_class_name($this->registry, $csession));
-            }
-        }
+//        if (!$cart_key && $product_id) {
+//            //we have single product checkout
+//            $cart_key = randomWord(5);
+//            $that->request->get['cart_key'] = $cart_key;
+//            //new custom cart
+//            $ret = $this->buildCustomCart($that, $cart_key);
+//            if ($ret) {
+//                echo "Error: $ret"; //??????
+//            }
+//        } else {
+//            if ($cart_key && isset($that->session->data['fast_checkout'][$cart_key]['cart'])) {
+//                //custom cart already build
+//                $csession = &$that->session->data['fast_checkout'][$cart_key];
+//                $cart_class_name = get_class($that->cart);
+//                $this->registry->set('cart', new $cart_class_name($this->registry, $csession));
+//            }
+//        }
     }
 
-    private function buildCustomCart($that, $cart_key)
-    {
-        $request = $that->request->is_POST() ? $that->request->post : $that->request->get;
-        $request['quantity'] = !(int)$request['quantity'] ? 1 : (int)$request['quantity'];
-        $product_id = $that->request->post_or_get('product_id');
-        if ($product_id) {
-            //Note: Do not clean prior sessions as multiple windows can be used.
-            $that->session->data['fast_checkout'][$cart_key]['product_id'] = $product_id;
-        } else {
-            if ($that->session->data['fast_checkout'][$cart_key]) {
-                //if we already have a quick cart instance
-                $product_id = $that->session->data['fast_checkout'][$cart_key]['product_id'];
-            }
-        }
-
-        $csession = &$that->session->data['fast_checkout'][$cart_key];
-        $cart_class_name = get_class($that->cart);
-
-        //create new custom cart instance.
-        $csession['cart'] = array();
-        if (isset($request['option'])) {
-            $options = $request['option'];
-        } else {
-            $options = array();
-        }
-
-        //for FILE-attributes
-        if (has_value($that->request->files['option']['name'])) {
-
-            $fm = new AFile();
-            $that->loadModel('catalog_product');
-            $that->loadLanguage('checkout/cart');
-            foreach ($that->request->files['option']['name'] as $id => $name) {
-
-                $attribute_data = $that->model_catalog_product->getProductOption($product_id, $id);
-                $attribute_data['settings'] = unserialize($attribute_data['settings']);
-                $file_path_info = $fm->getUploadFilePath($attribute_data['settings']['directory'], $name);
-
-                $options[$id] = $file_path_info['name'];
-
-                if (!has_value($name)) {
-                    continue;
-                }
-
-                if ($attribute_data['required'] && !$that->request->files['option']['size'][$id]) {
-                    return
-                        sprintf($that->language->get('fast_checkout_error_product_option'),
-                            $that->language->get('error_required_options'));;
-                }
-
-                $file_data = array(
-                    'option_id' => $id,
-                    'name'      => $file_path_info['name'],
-                    'path'      => $file_path_info['path'],
-                    'type'      => $that->request->files['option']['type'][$id],
-                    'tmp_name'  => $that->request->files['option']['tmp_name'][$id],
-                    'error'     => $that->request->files['option']['error'][$id],
-                    'size'      => $that->request->files['option']['size'][$id],
-                );
-
-                $file_errors = $fm->validateFileOption($attribute_data['settings'], $file_data);
-
-                if (has_value($file_errors)) {
-                    return
-                        sprintf($that->language->get('fast_checkout_error_product_option'), implode('', $file_errors));
-                } else {
-                    $result = move_uploaded_file($file_data['tmp_name'], $file_path_info['path']);
-
-                    if (!$result || $that->request->files['package_file']['error']) {
-                        return
-                            sprintf($this->language->get('fast_checkout_error_product_option'),
-                                'Error: '.getTextUploadError($that->request->files['option']['error'][$id]));
-                    }
-                }
-
-                $dataset = new ADataset('file_uploads', 'admin');
-                $dataset->addRows(
-                    array(
-                        'date_added' => date("Y-m-d H:i:s", time()),
-                        'name'       => $file_path_info['name'],
-                        'type'       => $file_data['type'],
-                        'section'    => 'product_option',
-                        'section_id' => $attribute_data['attribute_id'],
-                        'path'       => $file_path_info['path'],
-                    )
-                );
-
-            }
-        }
-
-        $that->loadLanguage('checkout/cart');
-        if ($errors = $that->model_catalog_product->validateProductOptions($product_id, $options)) {
-            return
-                sprintf($that->language->get('fast_checkout_error_product_option'), implode(' ', $errors));
-        }
-        //load product to custom cart instance
-        $this->addToSessionCart($product_id, $request['quantity'], $options, $csession);
-
-        $this->registry->set('cart', new $cart_class_name($this->registry, $csession));
-        $that->cart->getProducts(true);
-
-    }
+//    private function buildCustomCart($that, $cart_key)
+//    {
+//        $request = $that->request->is_POST() ? $that->request->post : $that->request->get;
+//        $request['quantity'] = !(int)$request['quantity'] ? 1 : (int)$request['quantity'];
+//        $product_id = $that->request->post_or_get('product_id');
+//        if ($product_id) {
+//            //Note: Do not clean prior sessions as multiple windows can be used.
+//            $that->session->data['fast_checkout'][$cart_key]['product_id'] = $product_id;
+//        } else {
+//            if ($that->session->data['fast_checkout'][$cart_key]) {
+//                //if we already have a quick cart instance
+//                $product_id = $that->session->data['fast_checkout'][$cart_key]['product_id'];
+//            }
+//        }
+//
+//        $csession = &$that->session->data['fast_checkout'][$cart_key];
+//        $cart_class_name = get_class($that->cart);
+//
+//        //create new custom cart instance.
+//        $csession['cart'] = array();
+//        if (isset($request['option'])) {
+//            $options = $request['option'];
+//        } else {
+//            $options = array();
+//        }
+//
+//        //for FILE-attributes
+//        if (has_value($that->request->files['option']['name'])) {
+//
+//            $fm = new AFile();
+//            $that->loadModel('catalog_product');
+//            $that->loadLanguage('checkout/cart');
+//            foreach ($that->request->files['option']['name'] as $id => $name) {
+//
+//                $attribute_data = $that->model_catalog_product->getProductOption($product_id, $id);
+//                $attribute_data['settings'] = unserialize($attribute_data['settings']);
+//                $file_path_info = $fm->getUploadFilePath($attribute_data['settings']['directory'], $name);
+//
+//                $options[$id] = $file_path_info['name'];
+//
+//                if (!has_value($name)) {
+//                    continue;
+//                }
+//
+//                if ($attribute_data['required'] && !$that->request->files['option']['size'][$id]) {
+//                    return
+//                        sprintf($that->language->get('fast_checkout_error_product_option'),
+//                            $that->language->get('error_required_options'));;
+//                }
+//
+//                $file_data = array(
+//                    'option_id' => $id,
+//                    'name'      => $file_path_info['name'],
+//                    'path'      => $file_path_info['path'],
+//                    'type'      => $that->request->files['option']['type'][$id],
+//                    'tmp_name'  => $that->request->files['option']['tmp_name'][$id],
+//                    'error'     => $that->request->files['option']['error'][$id],
+//                    'size'      => $that->request->files['option']['size'][$id],
+//                );
+//
+//                $file_errors = $fm->validateFileOption($attribute_data['settings'], $file_data);
+//
+//                if (has_value($file_errors)) {
+//                    return
+//                        sprintf($that->language->get('fast_checkout_error_product_option'), implode('', $file_errors));
+//                } else {
+//                    $result = move_uploaded_file($file_data['tmp_name'], $file_path_info['path']);
+//
+//                    if (!$result || $that->request->files['package_file']['error']) {
+//                        return
+//                            sprintf($this->language->get('fast_checkout_error_product_option'),
+//                                'Error: '.getTextUploadError($that->request->files['option']['error'][$id]));
+//                    }
+//                }
+//
+//                $dataset = new ADataset('file_uploads', 'admin');
+//                $dataset->addRows(
+//                    array(
+//                        'date_added' => date("Y-m-d H:i:s", time()),
+//                        'name'       => $file_path_info['name'],
+//                        'type'       => $file_data['type'],
+//                        'section'    => 'product_option',
+//                        'section_id' => $attribute_data['attribute_id'],
+//                        'path'       => $file_path_info['path'],
+//                    )
+//                );
+//
+//            }
+//        }
+//
+//        $that->loadLanguage('checkout/cart');
+//        if ($errors = $that->model_catalog_product->validateProductOptions($product_id, $options)) {
+//            return
+//                sprintf($that->language->get('fast_checkout_error_product_option'), implode(' ', $errors));
+//        }
+//        //load product to custom cart instance
+//        $this->addToSessionCart($product_id, $request['quantity'], $options, $csession);
+//
+//        $this->registry->set('cart', new $cart_class_name($this->registry, $csession));
+//        $that->cart->getProducts(true);
+//
+//    }
 
     private function addToSessionCart($product_id, $qty = 1, $options = array(), &$c_data)
     {

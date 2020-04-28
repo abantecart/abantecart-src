@@ -43,12 +43,20 @@ class ControllerResponsesCheckoutPay extends AController
         $this->loadLanguage('fast_checkout/fast_checkout');
 
         $this->cart_key = $this->request->post_or_get('cart_key');
-        if ($this->cart_key ) {
-            $this->cart_ses = &$this->session->data['fast_checkout'][$this->cart_key];
-        } else {
-            $this->cart_ses = &$this->session->data;
+        if (!$this->cart_key && $this->session->data['cart_key']) {
+            $this->cart_key = $this->session->data['cart_key'];
         }
-        //get saved order details from session
+
+        if (!$this->cart_key) {
+            $this->cart_key = randomWord(5);
+            $this->session->data['cart_key'] = $this->cart_key;
+        }
+        if (!isset($this->session->data['fast_checkout'][$this->cart_key])) {
+            $this->session->data['fast_checkout'][$this->cart_key]['cart'] = $this->session->data['cart'];
+        }
+        $this->cart_ses =& $this->session->data['fast_checkout'][$this->cart_key];
+        $cart_class_name = get_class($this->cart);
+        $this->registry->set('cart', new $cart_class_name($this->registry, $this->cart_ses));
     }
 
     public function main()
@@ -158,7 +166,7 @@ class ControllerResponsesCheckoutPay extends AController
                     if (!$this->session->data['guest']['address_1']) {
                         //shipping required, show address form.
                         $this->action = 'enter';
-                        return $this->_address('payment', $this->cart_key, array());
+                        return $this->_address('payment', []);
                     } else {
                         if ($this->session->data['guest']) {
                             $tax_zone_id = $this->session->data['guest']['zone_id'];
@@ -210,7 +218,7 @@ class ControllerResponsesCheckoutPay extends AController
                 if ($this->allow_guest && !$this->session->data['guest']['shipping']) {
                     //shipping required, show address form for guest
                     $this->action = 'enter';
-                    return $this->_address('shipping', $this->cart_key, $this->session->data['guest']);
+                    return $this->_address('shipping', $this->session->data['guest']);
                 } else {
                     if ($this->allow_guest && $this->session->data['guest']) {
                         $this->cart_ses['tax_zone_id'] = $this->session->data['guest']['zone_id'];
@@ -556,7 +564,7 @@ class ControllerResponsesCheckoutPay extends AController
         $this->data['step'] = 'confirm';
 
         //payment method
-        $payment_method = $this->request->post['payment_method'];
+        $payment_method = $this->request->get_or_post('payment_method');
         if ($payment_method) {
             //get payment ext key from setting ID
             $results = $this->model_checkout_extension->getExtensions('payment');
@@ -919,8 +927,7 @@ class ControllerResponsesCheckoutPay extends AController
             $this->loadLanguage('account/login');
             $this->error['message'] = $this->language->get('error_login');
             if ($this->request->get['type']) {
-                return $this->_address($this->request->get['type'], $this->request->get['cart_key'],
-                    $this->request->post);
+                return $this->_address($this->request->get['type'], $this->request->post);
             }
         } else {
             $this->action = 'payment';
@@ -973,7 +980,7 @@ class ControllerResponsesCheckoutPay extends AController
         } else {
             $data = $this->session->data['guest']['shipping'];
         }
-        return $this->_address($this->request->get['type'], $this->request->get['cart_key'], $data);
+        return $this->_address($this->request->get['type'], $data);
     }
 
     public function address()
@@ -988,10 +995,10 @@ class ControllerResponsesCheckoutPay extends AController
             if ($this->error && $this->error['warning']) {
                 //we have errors
                 $this->error['message'] = $this->error['warning'];
-                return $this->_address($this->request->get['type'], $this->request->get['cart_key'], $post);
+                return $this->_address($this->request->get['type'], $post);
             }
         } else {
-            return $this->_address($this->request->get['type'], $this->request->get['cart_key'], $post);
+            return $this->_address($this->request->get['type'], $post);
         }
 
         //all good save guest address
@@ -1080,9 +1087,9 @@ class ControllerResponsesCheckoutPay extends AController
         return $this->main();
     }
 
-    protected function _address($type, $cart_key, $data)
+    protected function _address($type, $data)
     {
-        $params = "&cart_key=".$cart_key.'&type='.$type;
+        $params = "&cart_key=".$this->cart_key.'&type='.$type;
         $this->loadLanguage('account/address');
         $form = new AForm();
         $form->setForm(array('form_name' => 'Address2Frm'));
@@ -1193,8 +1200,6 @@ class ControllerResponsesCheckoutPay extends AController
             return null;
         }
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
-        $this->_load_header_footer();
 
         $this->view->batchAssign($this->data);
         $this->response->setOutput($this->view->fetch('responses/checkout/main.tpl'));

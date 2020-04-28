@@ -38,8 +38,6 @@ $guest_data = $this->session->data['guest'];
 		<div class="row">
 			<div class="form-group <?php if ($show_payment) {
                 echo "col-xxs-12 col-xs-6";
-            } else {
-                echo "col-xxs-12";
             } ?>">
 				<b><?php echo $fast_checkout_text_shipping_address; ?>:</b>
 				<div class="left-inner-addon">
@@ -385,6 +383,13 @@ $guest_data = $this->session->data['guest'];
 			let url = '<?php echo $main_url ?>&'+getUrlParams('shipping_method', $(this).val());
 			pageRequest(url);
 		});
+
+		$("#coupon_code").on('keyup', function (e) {
+			if (e.keyCode === 13) {
+				$(".btn-coupon").click()
+			}
+		});
+
 
 		$(".pay-form").on("click", ".btn-coupon", function () {
 			var $input = $(this).closest('.input-group').find('input');

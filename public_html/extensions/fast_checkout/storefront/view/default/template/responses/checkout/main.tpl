@@ -322,4 +322,6 @@
 
         });
     </script>
-<?php echo $footer; ?>
+<?php
+echo $footer;
+?>
