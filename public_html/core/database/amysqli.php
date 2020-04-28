@@ -107,10 +107,15 @@ final class AMySQLi
                 return true;
             }
         } else {
-            $this->error = 'SQL Error: '.mysqli_error($this->connection).'<br />Error No: '.mysqli_errno($this->connection).'<br />SQL: '.$sql;
+            $this->error = 'SQL Error: '.mysqli_error($this->connection).'<br />Error No: '.mysqli_errno($this->connection).'<br />SQL: '.$sql."\n";
             if ($noexcept) {
                 return false;
             } else {
+                $dbg = debug_backtrace();
+                $this->error .= "PHP call stack:\n";
+                foreach($dbg as $k=>$d){
+                    $this->error .= "#".$k." ".$d['file'].':'.$d['line']."\n";
+                }
                 throw new AException(AC_ERR_MYSQL, $this->error);
             }
         }

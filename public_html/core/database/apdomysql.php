@@ -14,6 +14,10 @@ final class APDOMySQL
      * @var Registry
      */
     private $registry;
+    /**
+     * @var string
+     */
+    public $error;
 
     public function __construct($hostname, $username, $password, $database, $new_link = false, $port = "3306")
     {
@@ -21,7 +25,7 @@ final class APDOMySQL
             $this->connection = new PDO("mysql:host=".$hostname.";port=".$port.";dbname=".$database,
                 $username, $password, array(PDO::ATTR_PERSISTENT => true));
             $this->connection->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
-        } catch (AException $e) {
+        } catch (Exception $e) {
             $err = new AError('Cannot establish database connection to '.$database.' using '.$username.'@'.$hostname);
             $err->toLog();
             throw new AException(AC_ERR_MYSQL, 'Cannot establish database connection. Check your database connection settings.');
@@ -81,6 +85,11 @@ final class APDOMySQL
             if ($noexcept) {
                 return false;
             } else {
+                $dbg = debug_backtrace();
+                $this->error .= "PHP call stack:\n";
+                foreach($dbg as $k=>$d){
+                    $this->error .= "#".$k." ".$d['file'].':'.$d['line']."\n";
+                }
                 throw new AException(AC_ERR_MYSQL, $this->error);
             }
         }
