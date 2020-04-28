@@ -94,19 +94,16 @@
                             </h4>
                             <p class="list-group-item-text">
                                 <?php if ($p['option'] && is_array($p['option'])) { ?>
-                            <ul>
+                            <ul class="product_option_list">
                                 <?php foreach ($p['option'] as $option) { ?>
                                     <li>
-                          <span>
+
                             <?php if ($option['title']) { ?>
                                 <span class="pull-left">
                             <small><b><?php echo $option['title'] ?></b></small>
                             </span>
                             <?php } ?>
-                            <span class="pull-right">
                                 <small><b><?php echo $option['name']; ?>:</b> <?php echo $option['value']; ?></small>
-                            </span>
-                          </span>
                                     </li>
                                 <?php } ?>
                             </ul>

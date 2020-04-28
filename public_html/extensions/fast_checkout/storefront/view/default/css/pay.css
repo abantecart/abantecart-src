@@ -277,3 +277,23 @@
 	bottom: 20px;
 	font-size: 18px;
 }
+.badge {
+	background-color: unset;
+	color: #000;
+	font-size: 14px;
+}
+ul.product_option_list, ul.product_option_list li {
+	list-style: circle;
+	list-style-position: inside;
+}
+.dropdown-menu:before {
+	right: 9px;
+	left: unset;
+}
+.dropdown-menu:after {
+	right: 10px;
+	left: unset;
+}
+.dropdown-menu {
+	 top: 110%;
+ }
