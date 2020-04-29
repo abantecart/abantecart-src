@@ -23,6 +23,7 @@
 			type: 'GET',
 			dataType: 'html',
 			success: function (data) {
+				$('#fast_checkout_summary_block').trigger('reload')
 				$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
 			}
 		});

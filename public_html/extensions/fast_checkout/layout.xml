@@ -21,6 +21,18 @@
         <controller>common/header</controller>
         <status>1</status>
         <position>10</position>
+        <block>
+          <block_txt_id>fast_checkout_cart_btn</block_txt_id>
+          <controller>blocks/fast_checkout_cart_btn</controller>
+          <templates>
+            <template>
+              <parent_block>header</parent_block>
+              <template_name>blocks/fast_checkout_cart_btn.tpl</template_name>
+            </template>
+          </templates>
+          <status>1</status>
+          <position>40</position>
+        </block>
       </block>
       <block>
         <block_txt_id>header_bottom</block_txt_id>

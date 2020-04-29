@@ -2,7 +2,8 @@
 <?php echo $header; ?>
     <div class="pay-form">
         <div class="text-center">
-            <div class="btn-group">
+            <?php if ($loggedin !== true) { ?>
+            <div class="btn-group mb10">
                 <?php
                 if ($action == 'login') {
                     $login_button_style = 'btn-primary';
@@ -12,10 +13,6 @@
                     $pay_button_style = 'btn-primary';
                 }
                 ?>
-                <?php if ($loggedin === true) { ?>
-
-
-                <?php } else { ?>
                     <?php if ($step == 'address') { ?>
                         <a href="#address" id="new_address" role="tab" data-toggle="tab"
                            class="big btn <?php echo $pay_button_style; ?>">
@@ -35,10 +32,10 @@
                         <i class="fa fa-user fa-fw"></i>&nbsp;<span
                                 class="hidden-xxs"><?php echo $fast_checkout_text_login; ?></span>
                     </a>
-                <?php } ?>
             </div>
+            <?php } ?>
         </div>
-        <div class="col-xxs-12 col-xs-8">
+        <div class="col-xxs-12 <?php if ($fast_checkout_view_mode === 'modal') { ?> col-xs-8 <?php } ?>" >
             <div class="tab-content">
                 <?php if ($step == 'address') { ?>
                     <div class="tab-pane fade in <?php if (!$action || $action == 'enter') {
@@ -70,6 +67,7 @@
                 <?php } ?>
             </div>
         </div>
+		<?php if ($fast_checkout_view_mode === 'modal') { ?>
         <div class="col-xxs-12 col-xs-4">
             <div id="cart_details">
                 <ul class="list-group">
@@ -94,19 +92,16 @@
                             </h4>
                             <p class="list-group-item-text">
                                 <?php if ($p['option'] && is_array($p['option'])) { ?>
-                            <ul>
+                            <ul class="product_option_list">
                                 <?php foreach ($p['option'] as $option) { ?>
                                     <li>
-                          <span>
+
                             <?php if ($option['title']) { ?>
                                 <span class="pull-left">
                             <small><b><?php echo $option['title'] ?></b></small>
                             </span>
                             <?php } ?>
-                            <span class="pull-right">
                                 <small><b><?php echo $option['name']; ?>:</b> <?php echo $option['value']; ?></small>
-                            </span>
-                          </span>
                                     </li>
                                 <?php } ?>
                             </ul>
@@ -132,6 +127,7 @@
                 </ul>
             </div>
         </div>
+        <?php } ?>
     </div>
 
     </div>
@@ -304,6 +300,7 @@
             pageRequest = function (url) {
                 //window.location.href = url;
 				$.get(url, {} , function (data) {
+					$('#fast_checkout_summary_block').trigger('reload')
 					$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
 				})
             }
@@ -315,6 +312,7 @@
 					type: 'GET',
 					dataType: 'html',
 					success: function (data) {
+						$('#fast_checkout_summary_block').trigger('reload')
 						$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
 					}
 				});

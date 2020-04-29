@@ -35,6 +35,8 @@ class ControllerResponsesCheckoutPay extends AController
         $this->allow_guest = $this->config->get('config_guest_checkout');
         if (in_array($this->request->get_or_post('viewport'), ['modal', 'window'])) {
             $this->session->data['fast_checkout_view_mode'] = $this->request->get_or_post('viewport');
+        } else {
+            unset($this->session->data['fast_checkout_view_mode']);
         }
 
         $this->loadModel('catalog/product');
@@ -51,7 +53,8 @@ class ControllerResponsesCheckoutPay extends AController
             $this->session->data['cart_key'] = $this->cart_key;
         }
 
-        if (!isset($this->session->data['fast_checkout'][$this->cart_key])) {
+        if (!isset($this->session->data['fast_checkout'][$this->cart_key])
+            || $this->session->data['fast_checkout'][$this->cart_key]['cart'] !== $this->session->data['cart']) {
             $this->session->data['fast_checkout'][$this->cart_key]['cart'] = $this->session->data['cart'];
         }
 
@@ -62,6 +65,14 @@ class ControllerResponsesCheckoutPay extends AController
     public function main()
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
+
+        $request = array_merge($this->request->get, $this->request->post);
+
+        //handle coupon
+        $this->_handleCoupon($request);
+
+        $get_params = '&cart_key='.$this->cart_key;
+
 
         //check the case when we have order_id in session.
         //this indicates incomplete earlier order process
@@ -91,41 +102,6 @@ class ControllerResponsesCheckoutPay extends AController
 
         $this->data['address_edit_base_url'] = $this->html->getSecureURL('account/address/update', '&address_id=');
 
-        $request = array_merge($this->request->get, $this->request->post);
-        $get_params = '&cart_key='.$this->cart_key;
-        $in_data = array_merge((array)$this->session->data, $this->session->data['fast_checkout'][$this->cart_key]);
-        if (!$in_data['guest'] && !$this->customer->getId()) {
-            redirect(
-                $this->html->getSecureURL('r/checkout/pay/address', '&cart_key='.$this->cart_key)
-            );
-        }
-
-        if (!$this->session->data['order_id']) {
-            //create order and save details
-            $order = new AOrder($this->registry);
-            $order->buildOrderData($in_data);
-            $order_id = $order->saveOrder();
-
-            if ($order_id) {
-                if ($this->customer->getId() && $request['cc_telephone']) {
-                    $this->loadModel('extension/fast_checkout');
-                    $this->model_extension_fast_checkout->updateOrderDetails($order_id,
-                        [
-                            'telephone' => $request['cc_telephone'],
-                        ]);
-                }
-                $this->session->data['order_id'] = $order_id;
-            } else {
-                $this->_to_log(sprintf($this->language->get('fast_checkout_error_unexpected_log'),
-                    var_export($in_data, true)));
-                $this->error['message'] = $this->language->get('fast_checkout_error_unexpected');
-                unset($this->session->data['order_id']);
-                return $this->main();
-            }
-        }
-
-        //handle coupon
-        $this->_handleCoupon($request);
 
         $this->data['require_telephone'] = $this->config->get('fast_checkout_require_phone_number');
         if (!$this->customer->isLogged() && $this->allow_guest) {
@@ -161,6 +137,10 @@ class ControllerResponsesCheckoutPay extends AController
                         $tax_country_id = $adr['country_id'];
                         break;
                     }
+                }
+                if (!$address_id) {
+                    $adr = current($this->data['all_addresses']);
+                    $this->session->data['fast_checkout'][$this->cart_key]['payment_address_id'] = $adr['address_id'];
                 }
             } else {
                 if ($this->allow_guest) {
@@ -215,6 +195,12 @@ class ControllerResponsesCheckoutPay extends AController
                         $this->session->data['fast_checkout'][$this->cart_key]['tax_country_id'] = $adr['country_id'];
                         break;
                     }
+                }
+                if (!$address_id) {
+                    $adr = current($this->data['all_addresses']);
+                    $this->session->data['fast_checkout'][$this->cart_key]['shipping_address_id'] = $adr['address_id'];
+                    $this->session->data['fast_checkout'][$this->cart_key]['tax_zone_id'] = $adr['zone_id'];
+                    $this->session->data['fast_checkout'][$this->cart_key]['tax_country_id'] = $adr['country_id'];
                 }
             } else {
                 if ($this->allow_guest && !$this->session->data['guest']['shipping']) {
@@ -297,9 +283,50 @@ class ControllerResponsesCheckoutPay extends AController
 
         $this->_load_header_footer();
 
+        $this->data['fast_checkout_view_mode'] = $this->session->data['fast_checkout_view_mode'];
+
+        $in_data = array_merge((array)$this->session->data, $this->session->data['fast_checkout'][$this->cart_key]);
+        if (!$in_data['guest'] && !$this->customer->getId()) {
+            redirect(
+                $this->html->getSecureURL('r/checkout/pay/address', '&cart_key='.$this->cart_key)
+            );
+        }
+
+        $this->updateOrCreateOrder($in_data, $request);
+
+
         $this->view->batchAssign($this->data);
         $this->response->setOutput($this->view->fetch('responses/checkout/main.tpl'));
         return null;
+    }
+
+    protected function updateOrCreateOrder($in_data, $request) {
+        if (!$this->session->data['order_id']) {
+            //create order and save details
+            $order = new AOrder($this->registry);
+        } else {
+            $order = new AOrder($this->registry, $this->session->data['order_id']);
+        }
+
+        $order->buildOrderData($in_data);
+        $order_id = $order->saveOrder();
+
+        if ($order_id) {
+            if ($this->customer->getId() && $request['cc_telephone']) {
+                $this->loadModel('extension/fast_checkout');
+                $this->model_extension_fast_checkout->updateOrderDetails($order_id,
+                    [
+                        'telephone' => $request['cc_telephone'],
+                    ]);
+            }
+            $this->session->data['order_id'] = $order_id;
+        } else {
+            $this->_to_log(sprintf($this->language->get('fast_checkout_error_unexpected_log'),
+                var_export($in_data, true)));
+            $this->error['message'] = $this->language->get('fast_checkout_error_unexpected');
+            unset($this->session->data['order_id']);
+            return $this->main();
+        }
     }
 
     protected function _build_payment_view($request, $get_params)
@@ -318,6 +345,11 @@ class ControllerResponsesCheckoutPay extends AController
 
         //show selected payment form
         if ($this->data['payment_method']) {
+            $this->session->data['fast_checkout'][$this->cart_key]['payment_method'] = [
+                'id'    => $this->data['payment_method'],
+                'title' => $this->data['payment_methods'][$this->data['payment_method']]['title'],
+            ];
+
             $rt = '';
             if ($this->data['payment_method'] != 'no_payment_required') {
                 $rt = 'responses/extension/'.$this->data['payment_method'];
@@ -505,6 +537,7 @@ class ControllerResponsesCheckoutPay extends AController
             return $this->main();
         }
 
+
         //validate payment details
         if ($this->customer->isLogged() && $request['account_credit']) {
             //validate account balance
@@ -524,6 +557,9 @@ class ControllerResponsesCheckoutPay extends AController
                 'id'    => 'no_payment_required',
                 'title' => $this->language->get('no_payment_required'),
             ];
+            $in_data = array_merge((array)$this->session->data, $this->session->data['fast_checkout'][$this->cart_key]);
+            $this->updateOrCreateOrder($in_data, $request);
+
         } else {
             //FUTURE: Payment handler will validate in here.
         }
@@ -907,6 +943,8 @@ class ControllerResponsesCheckoutPay extends AController
     protected function _clear_data()
     {
         unset($this->session->data['fast_checkout'][$this->cart_key]);
+        unset($this->session->data['cart']);
+        unset($this->session->data['cart_key']);
         unset(
             $this->session->data['shipping_method'],
             $this->session->data['shipping_methods'],

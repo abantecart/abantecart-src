@@ -39,13 +39,12 @@ $guest_data = $this->session->data['guest'];
 			<div class="form-group <?php if ($show_payment) {
                 echo "col-xxs-12 col-xs-6";
             } ?>">
-				<b><?php echo $fast_checkout_text_shipping_address; ?>:</b>
-				<div class="left-inner-addon">
-					<i class="fa fa-home" id="delivery_icon"></i>
                     <?php if ($guest_data['shipping']) {
                         $address = $this->customer->getFormattedAddress($guest_data['shipping'],
                             $guest_data['shipping']['address_format']);
                         ?>
+				<div class="left-inner-addon">
+					<i class="fa fa-home" id="delivery_icon"></i>
 						<a href="<?php echo $edit_address_url; ?>&type=shipping" class="address_edit"><i
 									class="fa fa-edit"></i></a>
 						<div class="well">
@@ -53,6 +52,9 @@ $guest_data = $this->session->data['guest'];
                             <?php echo $address; ?>
 						</div>
                     <?php } else { ?>
+						<div class="shipping_address_label"><?php echo $fast_checkout_text_shipping_address; ?>:</div>
+					<div class="left-inner-addon">
+						<i class="fa fa-home" id="delivery_icon"></i>
 						<select data-placeholder="" class="form-control input-lg" id="shipping_address_id"
 								name="shipping_address_id" <?php echo $readonly; ?>>
 							<option disabled><?php echo $fast_checkout_text_shipping_address; ?>:</option>
@@ -98,12 +100,11 @@ $guest_data = $this->session->data['guest'];
             if ($show_payment == true){
             if ($need_payment_address) { ?>
 			<div class="form-group col-xxs-12 col-xs-6">
-				<b><?php echo $fast_checkout_text_payment_address; ?>:</b>
-				<div class="left-inner-addon">
-					<i class="fa fa-bank"></i>
                     <?php if ($guest_data) {
                         $address = $this->customer->getFormattedAddress($guest_data, $guest_data['address_format']);
                         ?>
+				<div class="left-inner-addon">
+					<i class="fa fa-bank"></i>
 						<a href="<?php echo $edit_address_url; ?>&type=payment" class="address_edit"><i
 									class="fa fa-edit"></i></a>
 						<div class="well">
@@ -111,6 +112,9 @@ $guest_data = $this->session->data['guest'];
                             <?php echo $address; ?>
 						</div>
                     <?php } else { ?>
+						<div class="payment_address_label"><?php echo $fast_checkout_text_payment_address; ?>:</div>
+					<div class="left-inner-addon">
+						<i class="fa fa-bank"></i>
 						<select data-placeholder="" class="form-control input-lg" id="payment_address_id"
 								name="payment_address_id" <?php echo $readonly; ?>>
 							<option disabled><?php echo $fast_checkout_text_payment_address; ?>:</option>
@@ -418,6 +422,7 @@ $guest_data = $this->session->data['guest'];
 					dataType: 'html',
 					data: form.serialize(),
 					success: function (data) {
+						$('#fast_checkout_summary_block').trigger('reload')
 						$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
 					}
 				});
@@ -440,6 +445,7 @@ $guest_data = $this->session->data['guest'];
 				type: 'GET',
 				dataType: 'html',
 				success: function (data) {
+					$('#fast_checkout_summary_block').trigger('reload')
 					$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
 				}
 			});
