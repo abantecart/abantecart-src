@@ -35,6 +35,8 @@ class ControllerResponsesCheckoutPay extends AController
         $this->allow_guest = $this->config->get('config_guest_checkout');
         if (in_array($this->request->get_or_post('viewport'), ['modal', 'window'])) {
             $this->session->data['fast_checkout_view_mode'] = $this->request->get_or_post('viewport');
+        } else {
+            unset($this->session->data['fast_checkout_view_mode']);
         }
 
         $this->loadModel('catalog/product');
@@ -297,6 +299,8 @@ class ControllerResponsesCheckoutPay extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
         $this->_load_header_footer();
+
+        $this->data['fast_checkout_view_mode'] = $this->session->data['fast_checkout_view_mode'];
 
         $this->view->batchAssign($this->data);
         $this->response->setOutput($this->view->fetch('responses/checkout/main.tpl'));

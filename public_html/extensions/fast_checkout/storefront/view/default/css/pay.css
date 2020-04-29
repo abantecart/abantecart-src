@@ -269,6 +269,7 @@
 
 .tab-content {
 	border: none;
+	padding: unset;
 }
 
 .address_edit_link {
@@ -286,14 +287,24 @@ ul.product_option_list, ul.product_option_list li {
 	list-style: circle;
 	list-style-position: inside;
 }
-.dropdown-menu:before {
-	right: 9px;
-	left: unset;
+.fast_checkout_cart_btn {
+	color: #fff;
+	font-size: 22px;
+	margin-right: 40px;
 }
-.dropdown-menu:after {
-	right: 10px;
-	left: unset;
+.fast_checkout_cart_btn:hover, .fast_checkout_cart_btn:active {
+	color: #eee;
 }
-.dropdown-menu {
-	 top: 110%;
- }
+#fast_checkout_summary_block .list-group{
+	margin-top: 0;
+	margin-bottom: 0;
+}
+.shipping_address_label, .payment_address_label {
+	/*background-color: #f5f5f5;*/
+	/*border: 1px solid #d7d8da;*/
+	padding-bottom: 5px;
+	font-weight: bold;
+}
+i.fa-home {
+	font-size: 27px !important;
+}

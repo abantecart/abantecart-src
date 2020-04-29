@@ -16,10 +16,13 @@ if (!class_exists('ExtensionFastCheckout')) {
 }
 $controllers = array(
     'storefront' => array(
+        'blocks/fast_checkout_cart_btn',
+        'blocks/fast_checkout_summary',
         'responses/checkout/pay',
         'responses/includes/head',
         'responses/includes/footer',
         'responses/account/order_details',
+        'responses/checkout/fast_checkout_summary',
         'pages/account/order_details',
         'pages/checkout/fast_checkout',
         'pages/checkout/fast_checkout_success',
@@ -41,6 +44,7 @@ $templates = array(
         'pages/account/order_details.tpl',
         'blocks/product_list.tpl',
         'blocks/fast_checkout_summary.tpl',
+        'blocks/fast_checkout_cart_btn.tpl',
         'responses/checkout/payment.tpl',
         'responses/checkout/payment_select.tpl',
         'responses/checkout/payment_form.tpl',
@@ -48,6 +52,7 @@ $templates = array(
         'responses/checkout/login.tpl',
         'responses/checkout/main.tpl',
         'responses/checkout/success.tpl',
+        'responses/checkout/fast_checkout_summary.tpl',
         'responses/includes/head.tpl',
         'responses/includes/footer.tpl',
         'responses/includes/page_header.tpl',

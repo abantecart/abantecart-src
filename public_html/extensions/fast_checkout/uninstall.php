@@ -20,6 +20,6 @@ $layout_id = $query->row['layout_id'];
 $query = $this->db->query("Select page_id from ".$this->db->table('page_descriptions')." Where name = 'Fast Checkout Success Page'");
 $page_id = $query->row['page_id'];
 //
-//$layout->deletePageLayoutByID($page_id, $layout_id);
+$layout->deletePageLayoutByID($page_id, $layout_id);
 
 

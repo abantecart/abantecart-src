@@ -284,5 +284,9 @@
 		<key>fast_checkout_error_coupon</key>
 		<value><![CDATA[Coupon is invalid, expired or reached it's usage limit!]]></value>
 	</definition>
+	<definition>
+		<key>fast_checkout_back_to_cart</key>
+		<value><![CDATA[Back to Cart]]></value>
+	</definition>
 
 </definitions>

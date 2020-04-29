@@ -13,7 +13,8 @@ class ControllerPagesCheckoutFastCheckout extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->data['cart_url'] = $this->html->getSecureURL('r/checkout/pay', '&order_id='.$this->session->data['fast_checkout']['cart_key']);
+        $this->data['cart_url'] = $this->html->getSecureURL('r/checkout/pay',
+            '&order_id='.$this->session->data['fast_checkout']['cart_key'].'&viewport='.$this->request->get_or_post('viewport'));
 
         $this->view->batchAssign($this->data);
 
