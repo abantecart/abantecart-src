@@ -39,20 +39,20 @@ $guest_data = $this->session->data['guest'];
 			<div class="form-group <?php if ($show_payment) {
                 echo "col-xxs-12 col-xs-6";
             } ?>">
-                    <?php if ($guest_data['shipping']) {
-                        $address = $this->customer->getFormattedAddress($guest_data['shipping'],
-                            $guest_data['shipping']['address_format']);
-                        ?>
+                <?php if ($guest_data['shipping']) {
+                $address = $this->customer->getFormattedAddress($guest_data['shipping'],
+                    $guest_data['shipping']['address_format']);
+                ?>
 				<div class="left-inner-addon">
 					<i class="fa fa-home" id="delivery_icon"></i>
-						<a href="<?php echo $edit_address_url; ?>&type=shipping" class="address_edit"><i
-									class="fa fa-edit"></i></a>
-						<div class="well">
-							<b><?php echo $fast_checkout_text_shipping_address; ?>:</b> <br/>
-                            <?php echo $address; ?>
-						</div>
+					<a href="<?php echo $edit_address_url; ?>&type=shipping" class="address_edit"><i
+								class="fa fa-edit"></i></a>
+					<div class="well">
+						<b><?php echo $fast_checkout_text_shipping_address; ?>:</b> <br/>
+                        <?php echo $address; ?>
+					</div>
                     <?php } else { ?>
-						<div class="shipping_address_label"><?php echo $fast_checkout_text_shipping_address; ?>:</div>
+					<div class="shipping_address_label"><?php echo $fast_checkout_text_shipping_address; ?>:</div>
 					<div class="left-inner-addon">
 						<i class="fa fa-home" id="delivery_icon"></i>
 						<select data-placeholder="" class="form-control input-lg" id="shipping_address_id"
@@ -78,190 +78,239 @@ $guest_data = $this->session->data['guest'];
                             ?>
 						</select>
 						<div class="select_arrow"><i class="fa fa-angle-double-down"></i></div>
-                    <?php } ?>
-				</div>
-                <?php
-                if (count($all_addresses)) { ?>
-					<div class="shipping_address_details"></div>
+                        <?php } ?>
+					</div>
                     <?php
-                } ?>
-			</div>
+                    if (count($all_addresses)) { ?>
+						<div class="shipping_address_details"></div>
+                        <?php
+                    } ?>
+				</div>
 
-            <?php
-            $readonly = '';
-            if (count($csession['shipping_methods']) == 1) {
-                $readonly = ' readonly ';
-            }
-            ?>
+                <?php
+                $readonly = '';
+                if (count($csession['shipping_methods']) == 1) {
+                    $readonly = ' readonly ';
+                }
+                ?>
 
-            <?php } //eof if product has shipping ?>
+                <?php } //eof if product has shipping ?>
 
-            <?php
-            if ($show_payment == true){
-            if ($need_payment_address) { ?>
-			<div class="form-group col-xxs-12 col-xs-6">
-                    <?php if ($guest_data) {
-                        $address = $this->customer->getFormattedAddress($guest_data, $guest_data['address_format']);
-                        ?>
-				<div class="left-inner-addon">
-					<i class="fa fa-bank"></i>
-						<a href="<?php echo $edit_address_url; ?>&type=payment" class="address_edit"><i
-									class="fa fa-edit"></i></a>
-						<div class="well">
-							<b><?php echo $fast_checkout_text_payment_address; ?>:</b> <br/>
-                            <?php echo $address; ?>
+                <?php
+                if ($show_payment == true) {
+                    if ($need_payment_address) { ?>
+						<div class="form-group col-xxs-12 col-xs-6">
+                            <?php if ($guest_data) {
+                            $address = $this->customer->getFormattedAddress($guest_data, $guest_data['address_format']);
+                            ?>
+							<div class="left-inner-addon">
+								<i class="fa fa-bank"></i>
+								<a href="<?php echo $edit_address_url; ?>&type=payment" class="address_edit"><i
+											class="fa fa-edit"></i></a>
+								<div class="well">
+									<b><?php echo $fast_checkout_text_payment_address; ?>:</b> <br/>
+                                    <?php echo $address; ?>
+								</div>
+                                <?php } else { ?>
+								<div class="payment_address_label"><?php echo $fast_checkout_text_payment_address; ?>:</div>
+								<div class="left-inner-addon">
+									<i class="fa fa-bank"></i>
+									<select data-placeholder="" class="form-control input-lg" id="payment_address_id"
+											name="payment_address_id" <?php echo $readonly; ?>>
+										<option disabled><?php echo $fast_checkout_text_payment_address; ?>:</option>
+										<option disabled></option>
+                                        <?php
+                                        if (count($all_addresses)) {
+                                            foreach ($all_addresses as $addr) {
+                                                $current = '';
+                                                if ($addr['address_id'] == $csession['payment_address_id']) {
+                                                    $current = ' selected ';
+                                                }
+                                                $address = $this->customer->getFormattedAddress($addr, $addr['address_format']);
+                                                $lines = explode("<br />", $address);
+                                                echo '<option value="'.$addr['address_id'].'" '.$current.'>'.$lines[0].', '
+                                                    .$lines[1].'...</option>';
+                                                for ($i = 0; $i <= count($lines); $i++) {
+                                                    echo '<option disabled>&nbsp;&nbsp;&nbsp;'.$lines[$i].'</option>';
+                                                }
+                                            }
+                                        }
+                                        ?>
+									</select>
+									<div class="select_arrow"><i class="fa fa-angle-double-down"></i></div>
+                                    <?php } ?>
+								</div>
+                                <?php
+                                if (count($all_addresses)) { ?>
+									<div class="payment_address_details"></div>
+                                    <?php
+                                } ?>
+								<input name="cc_owner" type="hidden" value="<?php echo $customer_name; ?>">
+							</div>
 						</div>
                     <?php } else { ?>
-						<div class="payment_address_label"><?php echo $fast_checkout_text_payment_address; ?>:</div>
-					<div class="left-inner-addon">
-						<i class="fa fa-bank"></i>
-						<select data-placeholder="" class="form-control input-lg" id="payment_address_id"
-								name="payment_address_id" <?php echo $readonly; ?>>
-							<option disabled><?php echo $fast_checkout_text_payment_address; ?>:</option>
-							<option disabled></option>
-                            <?php
-                            if (count($all_addresses)) {
-                                foreach ($all_addresses as $addr) {
-                                    $current = '';
-                                    if ($addr['address_id'] == $csession['payment_address_id']) {
-                                        $current = ' selected ';
-                                    }
-                                    $address = $this->customer->getFormattedAddress($addr, $addr['address_format']);
-                                    $lines = explode("<br />", $address);
-                                    echo '<option value="'.$addr['address_id'].'" '.$current.'>'.$lines[0].', '
-                                        .$lines[1].'...</option>';
-                                    for ($i = 0; $i <= count($lines); $i++) {
-                                        echo '<option disabled>&nbsp;&nbsp;&nbsp;'.$lines[$i].'</option>';
-                                    }
-                                }
-                            }
-                            ?>
-						</select>
-						<div class="select_arrow"><i class="fa fa-angle-double-down"></i></div>
-                    <?php } ?>
-				</div>
-                <?php
-                if (count($all_addresses)) { ?>
-					<div class="payment_address_details"></div>
-                    <?php
+						<div class="row">
+							<div class="form-group col-xxs-12">
+								<div class="left-inner-addon">
+									<i class="fa fa-user"></i>
+									<input class="form-control input-lg" placeholder="Your Name" name="cc_owner" type="text"
+										   value="<?php echo $customer_name; ?>">
+								</div>
+							</div>
+						</div>
+                    <?php }
                 } ?>
-				<input name="cc_owner" type="hidden" value="<?php echo $customer_name; ?>">
-			</div>
-		</div>
-    <?php } else { ?>
-		<div class="row">
-			<div class="form-group col-xxs-12">
-				<div class="left-inner-addon">
-					<i class="fa fa-user"></i>
-					<input class="form-control input-lg" placeholder="Your Name" name="cc_owner" type="text"
-						   value="<?php echo $customer_name; ?>">
-				</div>
-			</div>
-		</div>
-    <?php }
-    } ?>
 
 
-        <?php
-        if ($this->cart->hasShipping()) {
-            $readonly = '';
-            if (count($csession['shipping_methods']) == 1) {
-                $readonly = ' readonly ';
-            }
-            ?>
-			<div class="row">
-				<div class="form-group col-xxs-12">
-					<div class="left-inner-addon">
-						<i class="fa fa-truck"></i>
-						<select data-placeholder="" class="form-control input-lg" id="shipping_method"
-								name="shipping_method" <?php echo $readonly; ?>>
-                            <?php
-                            if (count($csession['shipping_methods'])) {
-                                if (!$csession['shipping_method']) {
-                                    //no shipping yet selected
-                                    echo '<option value="" selected>- '.$fast_checkout_text_select_shipping_method
-                                        .' -</option>';
-                                }
-                                foreach ($csession['shipping_methods'] as $shp_key => $shmd) {
-                                    if ($shmd['error']) {
-                                        $text = $shmd['title'].': '.$shmd['error'];
-                                        echo '<option disabled title="'.$text.'">'.$text.'</option>';
-                                    } elseif (!$shmd['error'] && is_array($shmd['quote'])) {
-                                        foreach ($shmd['quote'] as $q_key => $quote) {
-                                            $current = '';
-                                            if ($quote['id'] == $csession['shipping_method']['id']) {
-                                                $current = ' selected ';
+                <?php
+                if ($this->cart->hasShipping()) {
+                    $readonly = '';
+                    if (count($csession['shipping_methods']) == 1) {
+                        $readonly = ' readonly ';
+                    }
+                    ?>
+					<div class="row">
+						<div class="registerbox">
+							<table class="table table-striped table-bordered">
+                                <?php
+                                foreach ($csession['shipping_methods'] as $shipping_method) { ?>
+									<tr>
+										<td colspan="3"><b><?php echo $shipping_method['title']; ?></b></td>
+									</tr>
+                                    <?php if (!$shipping_method['error']) { ?>
+                                        <?php foreach ($shipping_method['quote'] as $quote) { ?>
+											<tr>
+												<td style="width: 5%"><?php echo $quote['radio'];?></td>
+												<td>
+													<label for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
+														   title="<?php echo has_value($quote['description']) ? $quote['description'] : ''; ?>"
+														   style="cursor: pointer;">
+                                                        <?php $icon = (array)$shipping_method['icon'];
+                                                        if (sizeof($icon)) { ?>
+                                                            <?php if (is_file(DIR_RESOURCE.$icon['image'])) { ?>
+																<span class="shipping_icon mr10"><img style="width:<?php echo $this->config->get('config_image_grid_width'); ?>px; height:auto;"
+																			src="resources/<?php echo $icon['image']; ?>"
+																			title="<?php echo $icon['title']; ?>"/></span>
+                                                            <?php } else {
+                                                                if (!empty($icon['resource_code'])) { ?>
+																	<span class="shipping_icon mr10"><?php echo $icon['resource_code']; ?></span>
+                                                                <?php }
+                                                            }
+                                                        } ?>
+                                                        <?php echo $quote['title']; ?>
+													</label>
+												</td>
+												<td class="align_right"><label for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
+																			   style="cursor: pointer;"><?php echo $quote['text']; ?></label>
+												</td>
+											</tr>
+                                        <?php } ?>
+                                    <?php } else { ?>
+										<tr>
+											<td colspan="3">
+												<div class="alert alert-danger"><i
+															class="fa fa-exclamation"></i> <?php echo $shipping_method['error']; ?>
+												</div>
+											</td>
+										</tr>
+                                    <?php } ?>
+                                <?php } ?>
+							</table>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-xxs-12">
+							<div class="left-inner-addon">
+								<i class="fa fa-truck"></i>
+								<select data-placeholder="" class="form-control input-lg" id="shipping_method"
+										name="shipping_method" <?php echo $readonly; ?>>
+                                    <?php
+                                    if (count($csession['shipping_methods'])) {
+                                        if (!$csession['shipping_method']) {
+                                            //no shipping yet selected
+                                            echo '<option value="" selected>- '.$fast_checkout_text_select_shipping_method
+                                                .' -</option>';
+                                        }
+                                        foreach ($csession['shipping_methods'] as $shp_key => $shmd) {
+                                            if ($shmd['error']) {
+                                                $text = $shmd['title'].': '.$shmd['error'];
+                                                echo '<option disabled title="'.$text.'">'.$text.'</option>';
+                                            } elseif (!$shmd['error'] && is_array($shmd['quote'])) {
+                                                foreach ($shmd['quote'] as $q_key => $quote) {
+                                                    $current = '';
+                                                    if ($quote['id'] == $csession['shipping_method']['id']) {
+                                                        $current = ' selected ';
+                                                    }
+
+                                                    echo '<option value="'.$shp_key.'.'.$q_key.'" '.$current.'>'.
+                                                        $quote['title'].': '.$quote['text']
+                                                        .'</option>';
+                                                }
                                             }
-
-                                            echo '<option value="'.$shp_key.'.'.$q_key.'" '.$current.'>'.
-                                                $quote['title'].': '.$quote['text']
-                                                .'</option>';
                                         }
                                     }
-                                }
-                            }
-                            ?>
-						</select>
-						<div class="select_arrow"><i class="fa fa-angle-double-down"></i></div>
+                                    ?>
+								</select>
+								<div class="select_arrow"><i class="fa fa-angle-double-down"></i></div>
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
-        <?php } //eof if product has shipping ?>
+                <?php } //eof if product has shipping ?>
 
-        <?php
-        //if not all required fields are selected, do not show payment fields
-        if ($show_payment == true){
-         ?>
+                <?php
+                //if not all required fields are selected, do not show payment fields
+                if ($show_payment == true){
+                ?>
 
-		<div class="row">
-			<div class="form-group col-xxs-12">
-				<div class="left-inner-addon">
-					<i class="fa fa-envelope"></i>
-					<input class="form-control input-lg"
-						   placeholder="Your Email"
-						   id="cc_email"
-						   name="cc_email"
-						   type="text"
-						   value="<?php echo $customer_email; ?>" <?php if ($loggedin) {
-                        echo 'readonly';
-                    } ?>>
-				</div>
-			</div>
-		</div>
-
-        <?php if ($require_telephone) { ?>
-			<div class="row">
-				<div class="form-group col-xxs-12">
-					<div class="left-inner-addon">
-						<i class="fa fa-phone"></i>
-						<input id="cc_telephone"
-							   class="form-control input-lg"
-							   placeholder="<?php echo $fast_checkout_text_telephone_placeholder; ?>"
-							   name="cc_telephone"
-							   type="text"
-							   value="<?php echo $customer_telephone; ?>">
-					</div>
-				</div>
-			</div>
-        <?php } ?>
-
-        <?php if ($enabled_coupon) { ?>
-			<div class="row">
-				<div class="form-group col-xxs-12">
-					<div class="left-inner-addon">
-						<i class="fa fa-ticket"></i>
-						<div class="input-group">
-							<input id="coupon_code"
-								   class="form-control input-lg"
-								   placeholder="<?php echo $fast_checkout_text_coupon_code; ?>"
-								   name="coupon_code"
+				<div class="row">
+					<div class="form-group col-xxs-12">
+						<div class="left-inner-addon">
+							<i class="fa fa-envelope"></i>
+							<input class="form-control input-lg"
+								   placeholder="Your Email"
+								   id="cc_email"
+								   name="cc_email"
 								   type="text"
-								   value="<?php echo $csession['coupon']; ?>"
-                                <?php if ($csession['coupon']) {
-                                    echo "disabled";
-                                } ?>
-							>
-							<span class="input-group-btn">
+								   value="<?php echo $customer_email; ?>" <?php if ($loggedin) {
+                                echo 'readonly';
+                            } ?>>
+						</div>
+					</div>
+				</div>
+
+                <?php if ($require_telephone) { ?>
+					<div class="row">
+						<div class="form-group col-xxs-12">
+							<div class="left-inner-addon">
+								<i class="fa fa-phone"></i>
+								<input id="cc_telephone"
+									   class="form-control input-lg"
+									   placeholder="<?php echo $fast_checkout_text_telephone_placeholder; ?>"
+									   name="cc_telephone"
+									   type="text"
+									   value="<?php echo $customer_telephone; ?>">
+							</div>
+						</div>
+					</div>
+                <?php } ?>
+
+                <?php if ($enabled_coupon) { ?>
+					<div class="row">
+						<div class="form-group col-xxs-12">
+							<div class="left-inner-addon">
+								<i class="fa fa-ticket"></i>
+								<div class="input-group">
+									<input id="coupon_code"
+										   class="form-control input-lg"
+										   placeholder="<?php echo $fast_checkout_text_coupon_code; ?>"
+										   name="coupon_code"
+										   type="text"
+										   value="<?php echo $csession['coupon']; ?>"
+                                        <?php if ($csession['coupon']) {
+                                            echo "disabled";
+                                        } ?>
+									>
+									<span class="input-group-btn">
 						<?php if ($csession['coupon']) { ?>
 							<button class="btn btn-default btn-lg btn-remove-coupon" type="button">
 							<i class="fa fa-trash fa-fw"></i> <span
@@ -274,12 +323,12 @@ $guest_data = $this->session->data['guest'];
 						  </button>
                         <?php } ?>
 						</span>
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-        <?php } ?>
-		<input type="hidden" name="account_credit" value="0">
+                <?php } ?>
+				<input type="hidden" name="account_credit" value="0">
 	</form>
     <?php if ($loggedin && $balance_enough === true) { ?>
 		<ul class="nav nav-tabs payment_tabs" role="tablist">
@@ -346,7 +395,7 @@ $guest_data = $this->session->data['guest'];
 <?php } ?>
 
 <script type="text/javascript">
-	getUrlParams = function(key, value) {
+	getUrlParams = function (key, value) {
 		let searchParams = new URLSearchParams(window.location.search)
 		//Remove old value
 		if (searchParams.has('cart_key')) {
@@ -374,17 +423,17 @@ $guest_data = $this->session->data['guest'];
 	jQuery(document).ready(function () {
 
 		$("#payment_address_id").change(function () {
-			let url = '<?php echo $main_url ?>&'+getUrlParams('payment_address_id', $(this).val());
+			let url = '<?php echo $main_url ?>&' + getUrlParams('payment_address_id', $(this).val());
 			pageRequest(url);
 		});
 
 		$("#shipping_address_id").change(function () {
-			let url = '<?php echo $main_url ?>&'+getUrlParams('shipping_address_id', $(this).val());
+			let url = '<?php echo $main_url ?>&' + getUrlParams('shipping_address_id', $(this).val());
 			pageRequest(url);
 		});
 
 		$("#shipping_method").change(function () {
-			let url = '<?php echo $main_url ?>&'+getUrlParams('shipping_method', $(this).val());
+			let url = '<?php echo $main_url ?>&' + getUrlParams('shipping_method', $(this).val());
 			pageRequest(url);
 		});
 
@@ -402,12 +451,12 @@ $guest_data = $this->session->data['guest'];
 				$.aCCValidator.show_error($(this), '.form-group');
 				return false;
 			}
-			let url = '<?php echo $main_url ?>&'+getUrlParams('coupon_code', coupon);
+			let url = '<?php echo $main_url ?>&' + getUrlParams('coupon_code', coupon);
 			pageRequest(url);
 		});
 
 		$(".pay-form").on("click", ".btn-remove-coupon", function () {
-			let url = '<?php echo $main_url ?>&'+getUrlParams('remove_coupon', true);
+			let url = '<?php echo $main_url ?>&' + getUrlParams('remove_coupon', true);
 			pageRequest(url);
 		});
 
@@ -428,7 +477,7 @@ $guest_data = $this->session->data['guest'];
 						$('.spinner-overlay').fadeOut(500);
 					}
 				});
-				//form.submit();
+			//form.submit();
 		});
 
 		$(".pay-form").on("click", ".payment-option", function () {
@@ -436,7 +485,7 @@ $guest_data = $this->session->data['guest'];
 				return;
 			}
 			var payment_id = $(this).data('payment-id');
-			let url = '<?php echo $main_url ?>&'+getUrlParams('payment_method', payment_id);
+			let url = '<?php echo $main_url ?>&' + getUrlParams('payment_method', payment_id);
 			//pageRequest(url);
 			var form = $('#PayFrm');
 			$('#payment_details').remove();
@@ -557,7 +606,7 @@ $guest_data = $this->session->data['guest'];
 			}
 		});
 
-		getAddressHtml = function(address) {
+		getAddressHtml = function (address) {
 			let html = ''
 			if (typeof address != "undefined") {
 				if (address.firstname || address.lasttname) {
@@ -582,7 +631,7 @@ $guest_data = $this->session->data['guest'];
 					html += address.country
 				}
                 <?php if ($address_edit_base_url) { ?>
-				html += '<div class="address_edit_link"><a href="<?php echo $address_edit_base_url; ?>'+address.address_id+'"><i class="fa fa-edit"></i></a></div>'
+				html += '<div class="address_edit_link"><a href="<?php echo $address_edit_base_url; ?>' + address.address_id + '"><i class="fa fa-edit"></i></a></div>'
                 <?php } ?>
 			}
 			return html

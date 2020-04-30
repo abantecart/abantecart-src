@@ -1354,6 +1354,13 @@ class ControllerResponsesCheckoutPay extends AController
                         'sort_order' => $quote['sort_order'],
                         'error'      => $quote['error'],
                     ];
+                    $ext_setgs = $this->model_checkout_extension->getSettings($result['key']);
+                    $icon = $ext_setgs[$result['key']."_shipping_storefront_icon"];
+                    if (has_value($icon)) {
+                        $icon_data = $this->model_checkout_extension->getSettingImage($icon);
+                        $icon_data['image'] = $icon;
+                        $quote_data[$result['key']]['icon'] = $icon_data;
+                    }
                 }
             }
 
@@ -1398,6 +1405,37 @@ class ControllerResponsesCheckoutPay extends AController
                 //no shipping ever selected. User will be asked
             }
         }
+
+        $this->data['shipping_methods'] = $this->session->data['fast_checkout'][$this->cart_key]['shipping_methods'] ? $this->session->data['fast_checkout'][$this->cart_key]['shipping_methods'] : [];
+        $shipping = $this->session->data['fast_checkout'][$this->cart_key]['shipping_method']['id'];
+        if ($this->data['shipping_methods']) {
+            foreach ($this->data['shipping_methods'] as $k => $v) {
+                if ($v['quote'] && is_array($v['quote'])) {
+                    foreach ($v['quote'] as $key => $val) {
+                        //check if we have only one method and select by default if was selected before
+                        $selected = false;
+                        if (count($this->data['shipping_methods']) == 1 && count($v['quote']) == 1) {
+                            $selected = true;
+                        } else {
+                            if ($shipping == $val['id']) {
+                                $selected = true;
+                            }
+                        }
+                        $this->data['shipping_methods'][$k]['quote'][$key]['radio'] = $this->html->buildRadio(
+                            [
+                                'type'    => 'radio',
+                                'id'      => $val['id'],
+                                'name'    => 'shipping_method',
+                                'options' => [$val['id'] => ''],
+                                'value'   => $selected,
+                            ]);
+                    }
+                }
+            }
+        } else {
+            $this->data['shipping_methods'] = array();
+        }
+        $this->session->data['fast_checkout'][$this->cart_key]['shipping_methods'] = $this->data['shipping_methods'];
     }
 
     protected function _validate_order_details($request)
