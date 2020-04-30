@@ -1371,3 +1371,14 @@ function df($var, $filename = 'debug.txt') {
         . $data, FILE_APPEND
     );
 }
+
+function daysOfWeekList()
+{
+    $timestamp = strtotime('next Sunday');
+    $days = array();
+    for ($i = 0; $i < 7; $i++) {
+        $days[] = strtolower(date('l', $timestamp));
+        $timestamp = strtotime('+1 day', $timestamp);
+    }
+    return $days;
+}

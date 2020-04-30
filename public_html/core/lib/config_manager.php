@@ -358,6 +358,15 @@ class AConfigManager
             'required' => true,
             'style'    => 'large-field',
         ));
+
+        $fields['postcode'] = $form->getFieldHtml($props[] = array(
+            'type'     => 'input',
+            'name'     => 'config_postcode',
+            'value'    => $data['config_postcode'],
+            'required' => true,
+            'style'    => 'tiny-field',
+        ));
+
         $fields['address'] = $form->getFieldHtml($props[] = array(
             'type'     => 'textarea',
             'name'     => 'config_address',
@@ -365,6 +374,37 @@ class AConfigManager
             'required' => true,
             'style'    => 'large-field',
         ));
+
+        $fields['city'] = $form->getFieldHtml($props[] = array(
+            'type'     => 'input',
+            'name'     => 'config_city',
+            'value'    => $data['config_city'],
+            'required' => true,
+            'style'    => 'medium-field',
+        ));
+
+        $fields['country'] = $form->getFieldHtml($props[] = array(
+            'type'            => 'zones',
+            'name'            => 'config_country_id',
+            'value'           => $data['config_country_id'],
+            'zone_field_name' => 'config_zone_id',
+            'zone_value'      => $data['config_zone_id'],
+            'submit_mode'     => 'id',
+        ));
+
+        $fields['latitude'] = $form->getFieldHtml($props[] = array(
+            'type'     => 'input',
+            'name'     => 'config_latitude',
+            'value'    => $data['config_latitude'],
+            'style'    => 'medium-field',
+        ));
+        $fields['longitude'] = $form->getFieldHtml($props[] = array(
+            'type'     => 'input',
+            'name'     => 'config_longitude',
+            'value'    => $data['config_longitude'],
+            'style'    => 'medium-field',
+        ));
+
         $fields['email'] = $form->getFieldHtml($props[] = array(
             'type'     => 'input',
             'name'     => 'store_main_email',
@@ -384,6 +424,34 @@ class AConfigManager
             'value' => $data['config_fax'],
             'style' => 'medium-field',
         ));
+
+        $days = daysOfWeekList();
+        $h = 0;
+        $times = array('' => '--:--');
+        while($h<24){
+            $times[$h.":00"] = $h.":00";
+            $h++;
+        }
+
+        foreach($days as $day){
+            foreach(array('opens', 'closed') as $state) {
+                if( !isset($data['config_opening_'.$day.'_'.$state]) ) {
+                    $value =  $state == 'opens' ? '9:00' : '21:00';
+                }else{
+                    $value = $data['config_opening_'.$day.'_'.$state];
+                }
+
+                $fields['opening_'.$day.'_'.$state] = $form->getFieldHtml(
+                    $props[] = array(
+                        'type'  => 'selectbox',
+                        'name'  => 'config_opening_'.$day.'_'.$state,
+                        'options' => $times,
+                        'value' => $value,
+                    )
+                );
+            }
+        }
+
 
         $results = $this->language->getAvailableLanguages();
         $languages = $language_codes = array();
@@ -419,15 +487,6 @@ class AConfigManager
         foreach ($results as $v) {
             $tax_classes[$v['tax_class_id']] = $v['title'];
         }
-
-        $fields['country'] = $form->getFieldHtml($props[] = array(
-            'type'            => 'zones',
-            'name'            => 'config_country_id',
-            'value'           => $data['config_country_id'],
-            'zone_field_name' => 'config_zone_id',
-            'zone_value'      => $data['config_zone_id'],
-            'submit_mode'     => 'id',
-        ));
 
         $fields['duplicate_contact_us'] = $form->getFieldHtml($props[] = array(
             'type'  => 'checkbox',
