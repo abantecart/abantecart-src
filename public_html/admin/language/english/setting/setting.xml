@@ -1013,7 +1013,26 @@
 	</definition>
 	<definition>
 		<key>entry_display_reviews</key>
-		<value>
-			<![CDATA[Display Reviews:]]></value>
+		<value><![CDATA[Display Reviews:]]></value>
+	</definition>
+	<definition>
+		<key>entry_city</key>
+		<value><![CDATA[City:]]></value>
+	</definition>
+	<definition>
+		<key>entry_postcode</key>
+		<value><![CDATA[Postal Code:]]></value>
+	</definition>
+	<definition>
+		<key>entry_latitude</key>
+		<value><![CDATA[Latitude:]]></value>
+	</definition>
+	<definition>
+		<key>entry_longitude</key>
+		<value><![CDATA[Longitude:]]></value>
+	</definition>
+	<definition>
+		<key>entry_opening_hours</key>
+		<value><![CDATA[Opening Hours:]]></value>
 	</definition>
 </definitions>
