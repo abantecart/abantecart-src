@@ -288,5 +288,9 @@
 		<key>fast_checkout_back_to_cart</key>
 		<value><![CDATA[Back to Cart]]></value>
 	</definition>
+	<definition>
+		<key>fast_checkout_order_summary</key>
+		<value><![CDATA[Order Summary]]></value>
+	</definition>
 
 </definitions>

@@ -9,14 +9,10 @@
 <div id="fast_checkout_cart"></div>
 
 <script>
-	showLoading = function (modal_body) {
-		modal_body.html('<div class="modal_loader" style="text-align: center"><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i></div>');
-	}
-
     <?php if ($cart_url) { ?>
 	let loadPage = function () {
 		if ($('#fast_checkout_cart').html() == '') {
-			showLoading($('#fast_checkout_cart'))
+			$('.spinner-overlay').fadeIn(100);
 		}
 		$.ajax({
 			url: '<?php echo $cart_url; ?>',
@@ -25,12 +21,14 @@
 			success: function (data) {
 				$('#fast_checkout_summary_block').trigger('reload')
 				$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
+				$('.spinner-overlay').fadeOut(500)
 			}
 		});
 	}
     <?php } ?>
 
 	$(document).ready(() => {
+		$('body').append('<div class=\'spinner-overlay\'><div class="spinner"></div><div>')
 		loadPage()
 	})
 </script>
