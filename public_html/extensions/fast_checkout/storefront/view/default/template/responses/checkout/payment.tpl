@@ -437,6 +437,11 @@ $guest_data = $this->session->data['guest'];
 			pageRequest(url);
 		});
 
+		$(".registerbox input[type='radio']").change(function () {
+			let url = '<?php echo $main_url ?>&' + getUrlParams('shipping_method', $(this).val());
+			pageRequest(url);
+		});
+
 		$("#coupon_code").on('keyup', function (e) {
 			if (e.keyCode === 13) {
 				$(".btn-coupon").click()
