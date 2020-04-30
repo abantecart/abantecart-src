@@ -1426,7 +1426,7 @@ class ControllerResponsesCheckoutPay extends AController
                                 'type'    => 'radio',
                                 'id'      => $val['id'],
                                 'name'    => 'shipping_method',
-                                'options' => [$val['id'] => ''],
+                                'options' => [$val['id'] => '<i class="fa fa-check fa-2x"></i>'],
                                 'value'   => $selected,
                             ]);
                     }

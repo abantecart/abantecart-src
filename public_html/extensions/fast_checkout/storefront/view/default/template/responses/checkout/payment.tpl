@@ -180,7 +180,7 @@ $guest_data = $this->session->data['guest'];
                                     <?php if (!$shipping_method['error']) { ?>
                                         <?php foreach ($shipping_method['quote'] as $quote) { ?>
 											<tr>
-												<td style="width: 5%"><?php echo $quote['radio'];?></td>
+												<td style="width: 5%; text-align: center; vertical-align: middle;"><?php echo $quote['radio'];?></td>
 												<td>
 													<label for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
 														   title="<?php echo has_value($quote['description']) ? $quote['description'] : ''; ?>"
