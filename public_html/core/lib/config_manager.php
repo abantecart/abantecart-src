@@ -434,7 +434,7 @@ class AConfigManager
         }
 
         foreach($days as $day){
-            foreach(array('opens', 'closed') as $state) {
+            foreach(array('opens', 'closes') as $state) {
                 if( !isset($data['config_opening_'.$day.'_'.$state]) ) {
                     $value =  $state == 'opens' ? '9:00' : '21:00';
                 }else{

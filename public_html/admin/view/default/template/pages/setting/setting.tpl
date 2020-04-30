@@ -63,7 +63,7 @@
                                                     .strftime('%A', strtotime($day))
                                                     .':</div>';
                             $tt = array();
-                            foreach (array('opens', 'closed') as $state) {
+                            foreach (array('opens', 'closes') as $state) {
                                 $f = $form['fields']['opening_'.$day.'_'.$state];
                                 $tt[] = '<div class="row col-sm-2" >'.$f.'</div>';
                                 unset($form['fields']['opening_'.$day.'_'.$state]);
