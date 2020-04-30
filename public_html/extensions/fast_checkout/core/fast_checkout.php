@@ -421,4 +421,13 @@ class ExtensionFastCheckout extends Extension
         }
     }
 
+    public function onControllerCommonPage_UpdateData()
+    {
+        $that = $this->baseObject;
+
+        if ($that->request->get['rt'] === 'checkout/fast_checkout') {
+            $that->processTemplate('common/fast_checkout_page.tpl');
+        }
+    }
+
 }

@@ -415,6 +415,7 @@ $guest_data = $this->session->data['guest'];
 			var form = $('#PayFrm');
 			form.find('input[name="account_credit"]').val(1);
 
+			$('.spinner-overlay').fadeIn(100);
 			$('form').unbind("submit"),
 				$.ajax({
 					url: form.attr('action'),
@@ -424,6 +425,7 @@ $guest_data = $this->session->data['guest'];
 					success: function (data) {
 						$('#fast_checkout_summary_block').trigger('reload')
 						$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
+						$('.spinner-overlay').fadeOut(500);
 					}
 				});
 				//form.submit();
@@ -440,6 +442,7 @@ $guest_data = $this->session->data['guest'];
 			$('#payment_details').remove();
 			$('form').unbind("submit"),
 				form.attr('action', url);
+			$('.spinner-overlay').fadeIn(100);
 			$.ajax({
 				url: url,
 				type: 'GET',
@@ -447,6 +450,7 @@ $guest_data = $this->session->data['guest'];
 				success: function (data) {
 					$('#fast_checkout_summary_block').trigger('reload')
 					$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
+					$('.spinner-overlay').fadeOut(100);
 				}
 			});
 			//form.submit();
