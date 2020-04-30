@@ -15,8 +15,7 @@
 					<tr>
 						<td style="width:<?php echo $this->config->get('config_image_grid_width'); ?>px">
 							<img src="<?php echo $p['thumbnail']['main_url'] ?>"
-								 style="width:<?php echo $this->config->get('config_image_grid_width'); ?>
-                                     px; height:auto;"/></td>
+								 style="width:<?php echo $this->config->get('config_image_grid_width'); ?>px; height:auto;"/></td>
 						<td style="text-align: left"><?php echo $p['name'] ?>
                             <?php if ($p['option'] && is_array($p['option'])) { ?>
 							<p class="list-group-item-text">
@@ -37,7 +36,7 @@
 							</p>
                     <?php } ?>
 						</td>
-						<td style="text-align: right; font-weight: bold;"><?php echo $p['price']."  x  ".$p['quantity']; ?></td>
+						<td style="text-align: right; font-weight: bold;"><?php echo $p['price']."&nbsp;x&nbsp;".$p['quantity']; ?></td>
 					</tr>
 				</table>
 			</li>
