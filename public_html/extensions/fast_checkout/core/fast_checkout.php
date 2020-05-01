@@ -411,6 +411,10 @@ class ExtensionFastCheckout extends Extension
         $that = $this->baseObject;
         $cart_key = $that->request->post_or_get('cart_key');
 
+        if ($that->customer && $that->customer->getId()) {
+            unset($that->session->data['guest']);
+        }
+
         if ((!$cart_key || empty($cart_key)) && $that->request->get['rt'] === 'checkout/fast_checkout') {
             $cart_key = randomWord(5);
             $that->session->data['cart_key'] = $cart_key;
