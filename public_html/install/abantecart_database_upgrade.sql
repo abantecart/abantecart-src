@@ -154,3 +154,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('general','display_r
 
 ALTER TABLE `ac_reviews`
 ADD COLUMN `verified_purchase` TINYINT NOT NULL DEFAULT 0 AFTER `rating`;
+
+UPDATE `ac_resource_types` SET
+`file_types` = '/.+(jpe?g|gif|png|ico|svg|svgz|webp)$/i'
+WHERE `type_id` = 1;
