@@ -35,7 +35,7 @@ class ModelTotalBalance extends Model
                     'id'         => 'balance',
                     'title'      => $language->get('text_balance_checkout'),
                     'text'       => '-'.$this->currency->format($cust_data['used_balance']),
-                    'value'      => -$this->session->data['used_balance'],
+                    'value'      => -$cust_data['used_balance'],
                     'sort_order' => 999,
                     'total_type' => 'balance',
                 );
