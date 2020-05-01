@@ -289,7 +289,6 @@ class ControllerResponsesCheckoutPay extends AController
                 $this->html->getSecureURL('r/checkout/pay/address', '&cart_key='.$this->cart_key)
             );
         }
-
         $this->updateOrCreateOrder($in_data, $request);
 
         $this->view->batchAssign($this->data);
@@ -330,15 +329,19 @@ class ControllerResponsesCheckoutPay extends AController
     {
         $this->data['payment_methods'] = $this->_get_payment_methods();
         $this->data['payment_method'] = $request['payment_method'];
-        if (!$this->data['payment_method']) {
+        if (!$this->data['payment_method'] && !$this->session->data['fast_checkout'][$this->cart_key]['payment_method']) {
             //check autoselct payment
             foreach ($this->data['payment_methods'] as $id => $payment) {
                 $psettings = $this->model_checkout_extension->getSettings($id);
-                if ($psettings[$id.'_autoselect'] && !$this->session->data['fast_checkout'][$this->cart_key]['used_balance_full']) {
+                if ($psettings[$id.'_autoselect']) {
                     $this->data['payment_method'] = $id;
                 }
             }
+        } elseif (!$this->data['payment_method'] && $this->session->data['fast_checkout'][$this->cart_key]['payment_method']) {
+            $this->data['payment_method'] = $this->session->data['fast_checkout'][$this->cart_key]['payment_method']['id'];
         }
+
+
 
         //show selected payment form
         if ($this->data['payment_method']) {
@@ -1531,13 +1534,19 @@ class ControllerResponsesCheckoutPay extends AController
                 if ($balance > 0) {
                     if ($balance >= $order_total) {
                         $this->session->data['fast_checkout'][$this->cart_key]['used_balance'] = $order_total;
-                        $$this->session->data['fast_checkout'][$this->cart_key]['used_balance_full'] = true;
+                        $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full'] = true;
                     } else { //partial pay
                         $this->session->data['fast_checkout'][$this->cart_key]['used_balance'] = $balance;
                         $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full'] = false;
                     }
                 }
             }
+            $in_data = array_merge((array)$this->session->data, $this->session->data['fast_checkout'][$this->cart_key]);
+            $this->updateOrCreateOrder($in_data, $request);
+
+            $order_totals = $this->cart->buildTotalDisplay(true);
+            $order_total = $order_totals['total'];
+$aaaaa = $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full'];
             //if balance enough to cover order amount
             if ($order_total == 0 && $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full']) {
                 //select no other payment required.

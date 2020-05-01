@@ -41,7 +41,7 @@
                 }
                 ?>
                 <div class="payment_item">
-                    <div class="thumbnail payment-option <?php echo $current; ?>" data-payment-id="<?php echo $id; ?>">
+                    <div class="thumbnail payment-option <?php echo $current; ?>" data-payment-id="<?php echo $id; ?>" paiment-awailable="<?php if(!$csession['used_balance_full']) { echo 'true'; } else { echo 'false'; } ?>">
                         <div class="caption">
                             <p class="text-center"><?php if ($id == $payment_method) {  echo '<i class="fa fa-check"></i>'; } echo $payment['title']; ?></p>
                         </div>
@@ -74,18 +74,17 @@
         }
         ?>
         <?php if ($balance > 0) { ?>
-        <div class="payment_item <?php if ($csession['used_balance']) { ?>balance_applied<?php } ?>">
-            <div class="thumbnail payment-option <?php echo $current; ?>" data-payment-id="account_balance">
+        <div class="payment_item <?php if ($csession['used_balance']) { ?>balance_applied<?php } ?> <?php if ($csession['used_balance_full']) { ?>balance_applied_full<?php } ?>">
+            <div class="thumbnail payment-option <?php if ($csession['used_balance_full']) { ?>current<?php } ?>" data-payment-id="account_balance">
                 <div class="caption">
-                    <p class="text-center"><?php if ($id == $payment_method) {  echo '<i class="fa fa-check"></i>'; } ?>
+                    <p class="text-center"><?php if ($csession['used_balance_full']) {  echo '<i class="fa fa-check"></i>'; } ?>
                         <span class="hidden-xxs"><?php echo sprintf($fast_checkout_text_account_credit,
                             $balance_value) ?></span>
                         <span class="visible-xxs"><?php echo $balance_value; ?></span>
                     </p>
                 </div>
-                <div style="height: 100px;">
-                    <i class="fa fa-money fa-fw fa-3x"></i>
-                    <br /><br />
+				<div style="min-height: 66px;"><i class="fa fa-money fa-fw fa-3x"></i></div>
+                <div>
                     <div class="input-group">
                         <span class="input-group-btn">
                         <?php if ($csession['used_balance']) { ?>
