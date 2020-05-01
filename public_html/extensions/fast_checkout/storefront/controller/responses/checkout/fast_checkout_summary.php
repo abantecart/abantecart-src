@@ -19,15 +19,7 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
             $this->session->data['fast_checkout_view_mode'] = $this->request->get_or_post('viewport');
         }
 
-        $this->cart_key = $this->request->post_or_get('cart_key');
-        if (!$this->cart_key && $this->session->data['cart_key']) {
-            $this->cart_key = $this->session->data['cart_key'];
-        }
-
-        if (!$this->cart_key) {
-            $this->cart_key = randomWord(5);
-            $this->session->data['cart_key'] = $this->cart_key;
-        }
+        $this->cart_key = $this->session->data['cart_key'];
 
         if (!isset($this->session->data['fast_checkout'][$this->cart_key])
             || $this->session->data['fast_checkout'][$this->cart_key]['cart'] !== $this->session->data['cart']) {

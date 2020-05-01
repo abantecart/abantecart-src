@@ -384,11 +384,21 @@ i.fa-home {
 div.registerbox label > input {
 	display: none;
 }
-div.registerbox label > input + i {
+div.registerbox label > input + .checkbox_place > i {
 	visibility: hidden;
 	color: #00A1CB;
 }
 
-div.registerbox  label > input:checked + i {
+div.registerbox  label > input:checked + .checkbox_place > i {
 	visibility: visible;
+}
+
+div.registerbox .checkbox_place {
+	border: 1px solid #ddd;
+	padding: 3px;
+}
+table.table-shipments {
+	border-right: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
 }

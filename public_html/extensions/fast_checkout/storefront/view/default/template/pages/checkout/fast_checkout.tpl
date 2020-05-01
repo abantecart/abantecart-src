@@ -10,12 +10,13 @@
 
 <script>
     <?php if ($cart_url) { ?>
-	let loadPage = function () {
+	let loadPage = function (cart_key) {
+		console.log(cart_key);
 		if ($('#fast_checkout_cart').html() == '') {
 			$('.spinner-overlay').fadeIn(100);
 		}
 		$.ajax({
-			url: '<?php echo $cart_url; ?>',
+			url: '<?php echo $cart_url; ?>'+'&cart_key='+(cart_key || ''),
 			type: 'GET',
 			dataType: 'html',
 			success: function (data) {

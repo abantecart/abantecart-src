@@ -43,15 +43,9 @@ class ControllerResponsesCheckoutPay extends AController
         $this->loadModel('checkout/extension');
         $this->loadModel('checkout/order');
         $this->loadLanguage('fast_checkout/fast_checkout');
-        $this->cart_key = $this->request->post_or_get('cart_key');
-        if (!$this->cart_key && $this->session->data['cart_key']) {
-            $this->cart_key = $this->session->data['cart_key'];
-        }
+        $this->cart_key = $this->session->data['cart_key'];
 
-        if (!$this->cart_key) {
-            $this->cart_key = randomWord(5);
-            $this->session->data['cart_key'] = $this->cart_key;
-        }
+        $this->data['cart_key'] = $this->cart_key;
 
         if (!isset($this->session->data['fast_checkout'][$this->cart_key])
             || $this->session->data['fast_checkout'][$this->cart_key]['cart'] !== $this->session->data['cart']) {
@@ -70,6 +64,9 @@ class ControllerResponsesCheckoutPay extends AController
 
         //handle coupon
         $this->_handleCoupon($request);
+
+        //handle coupon
+        $this->_handleBalance($request);
 
         $get_params = '&cart_key='.$this->cart_key;
 
@@ -294,7 +291,6 @@ class ControllerResponsesCheckoutPay extends AController
 
         $this->updateOrCreateOrder($in_data, $request);
 
-
         $this->view->batchAssign($this->data);
         $this->response->setOutput($this->view->fetch('responses/checkout/main.tpl'));
         return null;
@@ -437,7 +433,15 @@ class ControllerResponsesCheckoutPay extends AController
             if ($balance > 0 && $balance >= $this->data['total']) {
                 $this->data['balance_enough'] = true;
             }
+            $this->data['balance'] = $balance;
             $this->data['balance_value'] = $this->currency->format($balance, $this->session->data['currency'], 1);
+            $this->data['used_balance_full'] = $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full'];
+            $this->data['used_balance'] = $this->session->data['fast_checkout'][$this->cart_key]['used_balance'];
+
+            $this->data['balance_remains'] = $this->data['balance_value'];
+            if ((float)$this->data['used_balance'] > 0) {
+                $this->data['balance_remains'] = $this->currency->format($balance_def_currency - (float)$this->data['used_balance']);
+            }
         }
 
         if ($this->data['payment_available'] === true) {
@@ -1426,7 +1430,7 @@ class ControllerResponsesCheckoutPay extends AController
                                 'type'    => 'radio',
                                 'id'      => $val['id'],
                                 'name'    => 'shipping_method',
-                                'options' => [$val['id'] => '<i class="fa fa-check fa-2x"></i>'],
+                                'options' => [$val['id'] => '<div class="checkbox_place"><i class="fa fa-check fa-2x"></i></div>'],
                                 'value'   => $selected,
                             ]);
                     }
@@ -1492,6 +1496,55 @@ class ControllerResponsesCheckoutPay extends AController
         } else {
             if ($request['remove_coupon']) {
                 unset($this->session->data['fast_checkout'][$this->cart_key]['coupon']);
+            }
+        }
+    }
+
+    private function _handleBalance($request)
+    {
+        if (!$this->customer->isLogged() || !$request['balance']) {
+            return null;
+        }
+
+        if ($request['balance'] == 'disapply' || $request['balance'] == 'reapply') {
+            unset($this->session->data['fast_checkout'][$this->cart_key]['used_balance'],
+                $this->session->data['fast_checkout'][$this->cart_key]['balance'],
+                $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full']
+            );
+        }
+        if ($request['balance'] == 'apply' || $request['balance'] == 'reapply') {
+            //get customer balance in general currency
+            $balance = $this->customer->getBalance();
+            $order_totals = $this->cart->buildTotalDisplay(true);
+            $order_total = $order_totals['total'];
+            if ($this->session->data['fast_checkout'][$this->cart_key]['used_balance']) {
+                #check if we still have balance.
+                if ($this->session->data['fast_checkout'][$this->cart_key]['used_balance'] <= $balance) {
+                    $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full'] = true;
+                } else {
+                    //if balance become less or 0 reapply partial
+                    $this->session->data['fast_checkout'][$this->cart_key]['used_balance'] = $balance;
+                    $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full'] = false;
+                }
+            } else {
+                if ($balance > 0) {
+                    if ($balance >= $order_total) {
+                        $this->session->data['fast_checkout'][$this->cart_key]['used_balance'] = $order_total;
+                        $$this->session->data['fast_checkout'][$this->cart_key]['used_balance_full'] = true;
+                    } else { //partial pay
+                        $this->session->data['fast_checkout'][$this->cart_key]['used_balance'] = $balance;
+                        $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full'] = false;
+                    }
+                }
+            }
+            //if balance enough to cover order amount
+            if ($order_total == 0 && $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full']) {
+                //select no other payment required.
+                $this->session->data['fast_checkout'][$this->cart_key]['payment_method'] = array(
+                    'id'    => 'no_payment_required',
+                    'title' => $this->language->get('no_payment_required'),
+                );
+                return null;
             }
         }
     }
