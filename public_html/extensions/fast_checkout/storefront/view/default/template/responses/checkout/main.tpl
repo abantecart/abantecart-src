@@ -158,7 +158,7 @@
                         $(this).find('.btn-primary').button('loading');
                         //All Good send form
 						$.post(form.attr('action'), form.serialize(), function (data) {
-							loadPage()
+							loadPage('<?php echo $cart_key; ?>')
 						})
                         console.log(form.attr('action'))
                         return false;

@@ -171,7 +171,7 @@ $guest_data = $this->session->data['guest'];
                     ?>
 					<div class="row">
 						<div class="registerbox">
-							<table class="table table-striped table-bordered">
+							<table class="table table-striped table-shipments">
                                 <?php
                                 foreach ($csession['shipping_methods'] as $shipping_method) { ?>
 									<tr>
@@ -181,9 +181,11 @@ $guest_data = $this->session->data['guest'];
                                         <?php foreach ($shipping_method['quote'] as $quote) { ?>
 											<tr>
 												<td style="width: 5%; text-align: center; vertical-align: middle;"><?php echo $quote['radio'];?></td>
-												<td>
-													<label for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
-														   title="<?php echo has_value($quote['description']) ? $quote['description'] : ''; ?>"
+												<td style="vertical-align: middle;">
+													<label for="<?php
+													$idd = str_replace('.', '', $quote['id']);
+													echo preg_replace('/[^a-zA-Z0-9\.-_]/', '', $idd . $quote['id']); ?>"
+														   title="<?php echo has_value($quote['description']) ? $quote['description'] : $quote['title']; ?>"
 														   style="cursor: pointer;">
                                                         <?php $icon = (array)$shipping_method['icon'];
                                                         if (sizeof($icon)) { ?>
@@ -200,7 +202,7 @@ $guest_data = $this->session->data['guest'];
                                                         <?php echo $quote['title']; ?>
 													</label>
 												</td>
-												<td class="align_right"><label for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
+												<td style="vertical-align: middle;" class="align_right"><label for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
 																			   style="cursor: pointer;"><?php echo $quote['text']; ?></label>
 												</td>
 											</tr>
@@ -216,43 +218,6 @@ $guest_data = $this->session->data['guest'];
                                     <?php } ?>
                                 <?php } ?>
 							</table>
-						</div>
-					</div>
-					<div class="row">
-						<div class="form-group col-xxs-12">
-							<div class="left-inner-addon">
-								<i class="fa fa-truck"></i>
-								<select data-placeholder="" class="form-control input-lg" id="shipping_method"
-										name="shipping_method" <?php echo $readonly; ?>>
-                                    <?php
-                                    if (count($csession['shipping_methods'])) {
-                                        if (!$csession['shipping_method']) {
-                                            //no shipping yet selected
-                                            echo '<option value="" selected>- '.$fast_checkout_text_select_shipping_method
-                                                .' -</option>';
-                                        }
-                                        foreach ($csession['shipping_methods'] as $shp_key => $shmd) {
-                                            if ($shmd['error']) {
-                                                $text = $shmd['title'].': '.$shmd['error'];
-                                                echo '<option disabled title="'.$text.'">'.$text.'</option>';
-                                            } elseif (!$shmd['error'] && is_array($shmd['quote'])) {
-                                                foreach ($shmd['quote'] as $q_key => $quote) {
-                                                    $current = '';
-                                                    if ($quote['id'] == $csession['shipping_method']['id']) {
-                                                        $current = ' selected ';
-                                                    }
-
-                                                    echo '<option value="'.$shp_key.'.'.$q_key.'" '.$current.'>'.
-                                                        $quote['title'].': '.$quote['text']
-                                                        .'</option>';
-                                                }
-                                            }
-                                        }
-                                    }
-                                    ?>
-								</select>
-								<div class="select_arrow"><i class="fa fa-angle-double-down"></i></div>
-							</div>
 						</div>
 					</div>
                 <?php } //eof if product has shipping ?>

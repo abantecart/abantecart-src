@@ -43,15 +43,9 @@ class ControllerResponsesCheckoutPay extends AController
         $this->loadModel('checkout/extension');
         $this->loadModel('checkout/order');
         $this->loadLanguage('fast_checkout/fast_checkout');
-        $this->cart_key = $this->request->post_or_get('cart_key');
-        if (!$this->cart_key && $this->session->data['cart_key']) {
-            $this->cart_key = $this->session->data['cart_key'];
-        }
+        $this->cart_key = $this->session->data['cart_key'];
 
-        if (!$this->cart_key) {
-            $this->cart_key = randomWord(5);
-            $this->session->data['cart_key'] = $this->cart_key;
-        }
+        $this->data['cart_key'] = $this->cart_key;
 
         if (!isset($this->session->data['fast_checkout'][$this->cart_key])
             || $this->session->data['fast_checkout'][$this->cart_key]['cart'] !== $this->session->data['cart']) {
@@ -296,7 +290,6 @@ class ControllerResponsesCheckoutPay extends AController
         }
 
         $this->updateOrCreateOrder($in_data, $request);
-
 
         $this->view->batchAssign($this->data);
         $this->response->setOutput($this->view->fetch('responses/checkout/main.tpl'));
@@ -1437,7 +1430,7 @@ class ControllerResponsesCheckoutPay extends AController
                                 'type'    => 'radio',
                                 'id'      => $val['id'],
                                 'name'    => 'shipping_method',
-                                'options' => [$val['id'] => '<i class="fa fa-check fa-2x"></i>'],
+                                'options' => [$val['id'] => '<div class="checkbox_place"><i class="fa fa-check fa-2x"></i></div>'],
                                 'value'   => $selected,
                             ]);
                     }

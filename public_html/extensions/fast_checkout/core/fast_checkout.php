@@ -40,23 +40,7 @@ class ExtensionFastCheckout extends Extension
         //Check if we need to substidude regular cart with fast checkout cart for single product
         $cart_key = $that->request->post_or_get('cart_key');
         $product_id = $that->request->post_or_get('product_id');
-//        if (!$cart_key && $product_id) {
-//            //we have single product checkout
-//            $cart_key = randomWord(5);
-//            $that->request->get['cart_key'] = $cart_key;
-//            //new custom cart
-//            $ret = $this->buildCustomCart($that, $cart_key);
-//            if ($ret) {
-//                echo "Error: $ret"; //??????
-//            }
-//        } else {
-//            if ($cart_key && isset($that->session->data['fast_checkout'][$cart_key]['cart'])) {
-//                //custom cart already build
-//                $csession = &$that->session->data['fast_checkout'][$cart_key];
-//                $cart_class_name = get_class($that->cart);
-//                $this->registry->set('cart', new $cart_class_name($this->registry, $csession));
-//            }
-//        }
+
     }
 
 //    private function buildCustomCart($that, $cart_key)
@@ -184,7 +168,9 @@ class ExtensionFastCheckout extends Extension
     public function onControllerPagesCheckoutShipping_InitData()
     {
         $that = $this->baseObject;
-        redirect($that->html->getSecureURL($this->sc_rt, "&viewport=".$that->config->get('fast_checkout_view_mode')));
+        $cart_key = randomWord(5);
+        $that->session->data['cart_key'] = $cart_key;
+        redirect($that->html->getSecureURL($this->sc_rt, "&cart_key=".$cart_key));
     }
 
     public function onControllerCommonFooter_UpdateData()
@@ -261,110 +247,110 @@ class ExtensionFastCheckout extends Extension
 
     private function _add_prod_listing_buttons($that)
     {
-        $buy_now = $buy_now_text = $that->language->get('fast_checkout_buy_now');
-        $add_to_cart = $add_to_cart_text = $that->language->get('button_add_to_cart');
-
-        if (!$that->data['products'] || !is_array($that->data['products'])) {
-            return;
-        }
-        foreach ($that->data['products'] as $prod) {
-            if (!$prod['options']) {
-                $pay_now_html = $pay_now_list_html = '';
-                //if config to show both add to cart and buy now
-                if (!$that->config->get('fast_checkout_hide_add_to_cart')) {
-                    $buy_now = '';
-                    $pay_now_html .= '<a title="'.$add_to_cart_text.'" data-id="'.$prod['product_id'].'" href="#" class="productcart sch_productcart">
-                                      <i class="fa fa-cart-plus fa-fw"></i> </a>';
-                    $pay_now_list_html .= '<a title="'.$add_to_cart_text.'" data-id="'.$prod['product_id'].'" href="#" class="productcart sch_productcart">
-                                            <i class="fa fa-cart-plus fa-fw"></i> '.$add_to_cart.'</a>';
-                }
-                if ($that->config->get('fast_checkout_view_mode') == 'window') {
-                    $pay_now_html .= '<a title="'.$buy_now_text.'" 
-                                        href="'.$that->html->getSecureURL('r/checkout/pay',
-                            '&viewport=window&product_id='.$prod['product_id']).'" class="btn btn-primary sch_buynow">
-                                                        <i class="fa fa-credit-card fa-fw"></i> '.$buy_now.'</a>';
-                } else {
-                    $pay_now_html .= '<a title="'.$buy_now_text.'" href="#" data-id="'.$prod['product_id'].'" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#pay_modal" class="btn btn-primary sch_buynow">
-                                    <i class="fa fa-credit-card fa-fw"></i> '.$buy_now.'</a>';
-                }
-                $that->view->addHookVar('product_add_to_cart_html_'.$prod['product_id'], $pay_now_html);
-
-                $pay_now_list_html .= '<a title="'.$buy_now_text.'" href="#" data-id="'.$prod['product_id'].'" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#pay_modal" class="btn btn-primary sch_buynow">
-                    <i class="fa fa-credit-card fa-fw"></i> </a>';
-                $that->view->addHookVar('product_add_to_cart_list_html_'.$prod['product_id'], $pay_now_list_html);
-            }
-        }
+//        $buy_now = $buy_now_text = $that->language->get('fast_checkout_buy_now');
+//        $add_to_cart = $add_to_cart_text = $that->language->get('button_add_to_cart');
+//
+//        if (!$that->data['products'] || !is_array($that->data['products'])) {
+//            return;
+//        }
+//        foreach ($that->data['products'] as $prod) {
+//            if (!$prod['options']) {
+//                $pay_now_html = $pay_now_list_html = '';
+//                //if config to show both add to cart and buy now
+//                if (!$that->config->get('fast_checkout_hide_add_to_cart')) {
+//                    $buy_now = '';
+//                    $pay_now_html .= '<a title="'.$add_to_cart_text.'" data-id="'.$prod['product_id'].'" href="#" class="productcart sch_productcart">
+//                                      <i class="fa fa-cart-plus fa-fw"></i> </a>';
+//                    $pay_now_list_html .= '<a title="'.$add_to_cart_text.'" data-id="'.$prod['product_id'].'" href="#" class="productcart sch_productcart">
+//                                            <i class="fa fa-cart-plus fa-fw"></i> '.$add_to_cart.'</a>';
+//                }
+//                if ($that->config->get('fast_checkout_view_mode') == 'window') {
+//                    $pay_now_html .= '<a title="'.$buy_now_text.'"
+//                                        href="'.$that->html->getSecureURL('r/checkout/pay',
+//                            '&viewport=window&product_id='.$prod['product_id']).'" class="btn btn-primary sch_buynow">
+//                                                        <i class="fa fa-credit-card fa-fw"></i> '.$buy_now.'</a>';
+//                } else {
+//                    $pay_now_html .= '<a title="'.$buy_now_text.'" href="#" data-id="'.$prod['product_id'].'" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#pay_modal" class="btn btn-primary sch_buynow">
+//                                    <i class="fa fa-credit-card fa-fw"></i> '.$buy_now.'</a>';
+//                }
+//                $that->view->addHookVar('product_add_to_cart_html_'.$prod['product_id'], $pay_now_html);
+//
+//                $pay_now_list_html .= '<a title="'.$buy_now_text.'" href="#" data-id="'.$prod['product_id'].'" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#pay_modal" class="btn btn-primary sch_buynow">
+//                    <i class="fa fa-credit-card fa-fw"></i> </a>';
+//                $that->view->addHookVar('product_add_to_cart_list_html_'.$prod['product_id'], $pay_now_list_html);
+//            }
+//        }
     }
 
     public function onControllerPagesProductProduct_UpdateData()
     {
-        $that = $this->baseObject;
-        $url = $that->html->getSecureURL('r/checkout/pay');
-
-        $this->_init($that);
-
-        $buy_now = $that->language->get('fast_checkout_buy_now');
-        $add_to_cart = $that->language->get('button_add_to_cart');
-
-        //if config to show both add to cart and buy now
-        $pay_now_html = '';
-        if ($that->config->get('fast_checkout_view_mode') == 'window') {
-            $pay_now_html .= '<a title="'.$buy_now.'" 
-                                href="'.$that->html->getSecureURL('r/checkout/pay',
-                    '&viewport=window&product_id='.$that->request->get['product_id']).'" class="btn btn-primary sch_buynow">
-                                <i class="fa fa-credit-card fa-fw"></i> '.$buy_now.'</a>';
-        }
-        if (!$that->config->get('fast_checkout_hide_add_to_cart')) {
-            $pay_now_html .= '<a href="#" onclick="document.getElementById(\'product\').submit(); return false;" class="btn btn-default btn-xl cart sch_productcart"><i class="fa fa-cart-plus fa-fw"></i> <span class="hidden-xs">'
-                .$add_to_cart.'</span></a>&nbsp;&nbsp;';
-        }
-        $pay_now_html .= '<a data-href="'.$url.'" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#pay_modal" class="btn btn-primary btn-xl sch_buynow">
-        <i class="fa fa-credit-card fa-fw"></i> <span class="hidden-xs">'.$buy_now.'</span></a>';
-        $that->view->addHookVar('product_add_to_cart_html', $pay_now_html);
-
-        //NOTE: pages/product/product.post.tpl template is included to handle modal
-
-        if ($that->config->get('embed_mode')) {
-            $that->view->setTemplate('embed/product/product_sc.tpl');
-        }
+//        $that = $this->baseObject;
+//        $url = $that->html->getSecureURL('r/checkout/pay');
+//
+//        $this->_init($that);
+//
+//        $buy_now = $that->language->get('fast_checkout_buy_now');
+//        $add_to_cart = $that->language->get('button_add_to_cart');
+//
+//        //if config to show both add to cart and buy now
+//        $pay_now_html = '';
+//        if ($that->config->get('fast_checkout_view_mode') == 'window') {
+//            $pay_now_html .= '<a title="'.$buy_now.'"
+//                                href="'.$that->html->getSecureURL('r/checkout/pay',
+//                    '&viewport=window&product_id='.$that->request->get['product_id']).'" class="btn btn-primary sch_buynow">
+//                                <i class="fa fa-credit-card fa-fw"></i> '.$buy_now.'</a>';
+//        }
+//        if (!$that->config->get('fast_checkout_hide_add_to_cart')) {
+//            $pay_now_html .= '<a href="#" onclick="document.getElementById(\'product\').submit(); return false;" class="btn btn-default btn-xl cart sch_productcart"><i class="fa fa-cart-plus fa-fw"></i> <span class="hidden-xs">'
+//                .$add_to_cart.'</span></a>&nbsp;&nbsp;';
+//        }
+//        $pay_now_html .= '<a data-href="'.$url.'" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-target="#pay_modal" class="btn btn-primary btn-xl sch_buynow">
+//        <i class="fa fa-credit-card fa-fw"></i> <span class="hidden-xs">'.$buy_now.'</span></a>';
+//        $that->view->addHookVar('product_add_to_cart_html', $pay_now_html);
+//
+//        //NOTE: pages/product/product.post.tpl template is included to handle modal
+//
+//        if ($that->config->get('embed_mode')) {
+//            $that->view->setTemplate('embed/product/product_sc.tpl');
+//        }
     }
 
     public function onControllerResponsesEmbedJS_UpdateData()
     {
-        if ($this->baseObject_method != 'product') {
-            return null;
-        }
-        $that = $this->baseObject;
-
-        $this->_init($that);
-        $product_id = $that->request->get['product_id'];
-
-        $buy_now = $that->language->get('fast_checkout_buy_now');
-
-        $url = $that->html->getSecureURL('r/checkout/pay', '&product_id='.$product_id);
-        $target = $this->baseObject->data['target'];
-
-        $pay_now_html = '<button data-href="'.$url
-            .'" data-backdrop="static" data-keyboard="false" data-target="#abc_embed_modal" data-toggle="abcmodal" class="abantecart_button">'
-            .$buy_now.'</button>';
-
-        $product_data = $that->view->getData('product');
-        if (!$product_data['options'] && !is_array($product_data['options'])) {
-            $that->load->model('catalog/product');
-            $product_options = $that->model_catalog_product->getProductOptions($product_id);
-        } else {
-            $product_options = $product_data['options'];
-        }
-        if (!$product_options) {
-            $js = "$('#".$target." .abantecart_addtocart').append('".$pay_now_html."')";
-            if ($that->config->get('fast_checkout_hide_add_to_cart')) {
-
-                unset($product_data['quantity'], $product_data['button_addtocart']);
-                $that->view->assign('product', $product_data);
-            }
-            $that->view->addHookVar('embed_product_js', $js);
-        }
-        $that->view->setTemplate('embed/js_product_sc.tpl');
+//        if ($this->baseObject_method != 'product') {
+//            return null;
+//        }
+//        $that = $this->baseObject;
+//
+//        $this->_init($that);
+//        $product_id = $that->request->get['product_id'];
+//
+//        $buy_now = $that->language->get('fast_checkout_buy_now');
+//
+//        $url = $that->html->getSecureURL('r/checkout/pay', '&product_id='.$product_id);
+//        $target = $this->baseObject->data['target'];
+//
+//        $pay_now_html = '<button data-href="'.$url
+//            .'" data-backdrop="static" data-keyboard="false" data-target="#abc_embed_modal" data-toggle="abcmodal" class="abantecart_button">'
+//            .$buy_now.'</button>';
+//
+//        $product_data = $that->view->getData('product');
+//        if (!$product_data['options'] && !is_array($product_data['options'])) {
+//            $that->load->model('catalog/product');
+//            $product_options = $that->model_catalog_product->getProductOptions($product_id);
+//        } else {
+//            $product_options = $product_data['options'];
+//        }
+//        if (!$product_options) {
+//            $js = "$('#".$target." .abantecart_addtocart').append('".$pay_now_html."')";
+//            if ($that->config->get('fast_checkout_hide_add_to_cart')) {
+//
+//                unset($product_data['quantity'], $product_data['button_addtocart']);
+//                $that->view->assign('product', $product_data);
+//            }
+//            $that->view->addHookVar('embed_product_js', $js);
+//        }
+//        $that->view->setTemplate('embed/js_product_sc.tpl');
     }
 
     public function onControllerPagesAccountInvoice_UpdateData()
@@ -418,6 +404,17 @@ class ExtensionFastCheckout extends Extension
             header('Location: '.$that->html->getSecureURL('checkout/fast_checkout_success',
                     '&viewport=window&order_id='.$that->session->data['processed_order_id']));
             exit;
+        }
+    }
+
+    public function onControllerCommonPage_InitData() {
+        $that = $this->baseObject;
+        $cart_key = $that->request->post_or_get('cart_key');
+
+        if ((!$cart_key || empty($cart_key)) && $that->request->get['rt'] === 'checkout/fast_checkout') {
+            $cart_key = randomWord(5);
+            $that->session->data['cart_key'] = $cart_key;
+            redirect($that->html->getSecureURL($this->sc_rt, "&cart_key=".$cart_key));
         }
     }
 
