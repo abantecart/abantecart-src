@@ -465,25 +465,35 @@ $guest_data = $this->session->data['guest'];
 			pageRequest(url);
 		});
 
-		$(".pay-form").on("click", ".credit-pay-btn", function () {
-			var form = $('#PayFrm');
-			form.find('input[name="account_credit"]').val(1);
-
-			$('.spinner-overlay').fadeIn(100);
-			$('form').unbind("submit"),
-				$.ajax({
-					url: form.attr('action'),
-					type: 'POST',
-					dataType: 'html',
-					data: form.serialize(),
-					success: function (data) {
-						$('#fast_checkout_summary_block').trigger('reload')
-						$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
-						$('.spinner-overlay').fadeOut(500);
-					}
-				});
-			//form.submit();
+		$(".pay-form").on("click", ".btn-apply-balance", function () {
+			let url = '<?php echo $main_url ?>&=' + getUrlParams('balance', 'apply');
+			pageRequest(url);
 		});
+
+		$(".pay-form").on("click", ".btn-remove-balance", function () {
+			let url = '<?php echo $main_url ?>&' + getUrlParams('balance', 'disapply');
+			pageRequest(url);
+		});
+
+		// $(".pay-form").on("click", ".credit-pay-btn", function () {
+		// 	var form = $('#PayFrm');
+		// 	form.find('input[name="account_credit"]').val(1);
+		//
+		// 	$('.spinner-overlay').fadeIn(100);
+		// 	$('form').unbind("submit"),
+		// 		$.ajax({
+		// 			url: form.attr('action'),
+		// 			type: 'POST',
+		// 			dataType: 'html',
+		// 			data: form.serialize(),
+		// 			success: function (data) {
+		// 				$('#fast_checkout_summary_block').trigger('reload')
+		// 				$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
+		// 				$('.spinner-overlay').fadeOut(500);
+		// 			}
+		// 		});
+		// 	//form.submit();
+		// });
 
 		$(".pay-form").on("click", ".payment-option", function () {
 			if ($(this).hasClass('selected')) {

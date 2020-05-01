@@ -42,6 +42,9 @@
                 ?>
                 <div class="payment_item">
                     <div class="thumbnail payment-option <?php echo $current; ?>" data-payment-id="<?php echo $id; ?>">
+                        <div class="caption">
+                            <p class="text-center"><?php if ($id == $payment_method) {  echo '<i class="fa fa-check"></i>'; } echo $payment['title']; ?></p>
+                        </div>
                         <?php if ($payment['icon']) {
                             $icon = $payment['icon'];
                             ?>
@@ -64,15 +67,48 @@
 											background-position: center; background-size: contain; background-repeat: no-repeat;" >
                             </div>
                         <?php } ?>
-                        <div class="caption">
-                            <p class="text-center"><?php if ($id == $payment_method) {  echo '<i class="fa fa-check"></i>'; } echo $payment['title']; ?></p>
-                        </div>
                     </div>
                 </div>
                 <?php
             }
         }
         ?>
+        <?php if ($balance > 0) { ?>
+        <div class="payment_item">
+            <div class="thumbnail payment-option <?php echo $current; ?>" data-payment-id="account_balance">
+                <div class="caption">
+                    <p class="text-center"><?php if ($id == $payment_method) {  echo '<i class="fa fa-check"></i>'; } ?>
+                        <span class="hidden-xxs"><?php echo sprintf($fast_checkout_text_account_credit,
+                            $balance_value) ?></span>
+                        <span class="visible-xxs"><?php echo $balance_value; ?></span>
+                    </p>
+                </div>
+                <div style="height: 100px;">
+                    <i class="fa fa-money fa-fw fa-3x"></i>
+                    <br /><br />
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                        <?php if ($csession['used_balance']) { ?>
+                            <button class="btn btn-default btn-md btn-remove-balance" type="button">
+                            <i class="fa fa-trash fa-fw"></i>
+                            <span class="hidden-xxs">
+                                <?php echo $fast_checkout_text_remove; ?>
+                            </span>
+                          </button>
+                        <?php } else { ?>
+                            <button class="btn btn-default btn-md btn-apply-balance" type="button">
+                            <i class="fa fa-check fa-fw"></i>
+                            <span class="hidden-xxs">
+                                <?php echo $fast_checkout_text_apply; ?>
+                            </span>
+                          </button>
+                        <?php } ?>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php } ?>
     </div>
 </div>
 
