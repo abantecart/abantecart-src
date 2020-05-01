@@ -431,7 +431,7 @@ $guest_data = $this->session->data['guest'];
 		});
 
 		$(".pay-form").on("click", ".btn-apply-balance", function () {
-			let url = '<?php echo $main_url ?>&=' + getUrlParams('balance', 'apply');
+			let url = '<?php echo $main_url ?>&' + getUrlParams('balance', 'apply');
 			pageRequest(url);
 		});
 
@@ -465,6 +465,9 @@ $guest_data = $this->session->data['guest'];
 				return;
 			}
 			var payment_id = $(this).data('payment-id');
+			if (payment_id == 'account_balance') {
+				return;
+			}
 			let url = '<?php echo $main_url ?>&' + getUrlParams('payment_method', payment_id);
 			//pageRequest(url);
 			var form = $('#PayFrm');
