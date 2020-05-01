@@ -74,7 +74,7 @@
         }
         ?>
         <?php if ($balance > 0) { ?>
-        <div class="payment_item">
+        <div class="payment_item <?php if ($csession['used_balance']) { ?>balance_applied<?php } ?>">
             <div class="thumbnail payment-option <?php echo $current; ?>" data-payment-id="account_balance">
                 <div class="caption">
                     <p class="text-center"><?php if ($id == $payment_method) {  echo '<i class="fa fa-check"></i>'; } ?>
