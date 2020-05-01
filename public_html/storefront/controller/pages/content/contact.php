@@ -53,8 +53,10 @@ class ControllerPagesContentContact extends AController
                     $r = new AResource('image');
                     $resource_info = $r->getResource($config_mail_logo);
                     if ($resource_info) {
-                        $this->data['mail_template_data']['logo_html'] = html_entity_decode($resource_info['resource_code'],
-                            ENT_QUOTES, 'UTF-8');
+                        $this->data['mail_template_data']['logo_html'] = html_entity_decode(
+                            $resource_info['resource_code'],
+                            ENT_QUOTES, 'UTF-8'
+                        );
                     }
                 } else {
                     $store_logo = md5(pathinfo($config_mail_logo, PATHINFO_FILENAME))
@@ -186,7 +188,38 @@ class ControllerPagesContentContact extends AController
 
         $this->view->assign('action', $this->html->getURL('content/contact'));
         $this->view->assign('store', $this->config->get('store_name'));
-        $this->view->assign('address', nl2br($this->config->get('config_address')));
+
+        $address_data = array();
+        if($this->config->get('config_address')){
+            $address_data['address_1'] = nl2br($this->config->get('config_address'));
+        }
+        if($this->config->get('config_postcode')){
+            $address_data['postcode'] = $this->config->get('config_postcode');
+        }
+        if($this->config->get('config_city')){
+            $address_data['city'] = $this->config->get('config_city');
+        }
+        if($this->config->get('config_zone_id')){
+            $this->loadModel( 'localisation/zone' );
+            $zone = $this->model_localisation_zone->getZone( $this->config->get('config_zone_id') );
+            if($zone) {
+                $address_data['zone'] = $zone['name'];
+            }
+        }
+        $address_format = '';
+        if($this->config->get('config_country_id')){
+            $this->loadModel( 'localisation/country' );
+            $country = $this->model_localisation_country->getCountry( $this->config->get('config_country_id') );
+            if($country) {
+                $address_data['country'] = $country['name'];
+                $address_format = $country['address_format'];
+            }
+        }
+
+        $address = $this->customer->getFormattedAddress( $address_data , $address_format);
+
+        $this->view->assign('address_data', $address_data);
+        $this->view->assign('address', $address);
         $this->view->assign('telephone', $this->config->get('config_telephone'));
         $this->view->assign('fax', $this->config->get('config_fax'));
 
