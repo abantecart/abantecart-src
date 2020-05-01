@@ -58,14 +58,14 @@
                     if (!$opening) {
                         $days = daysOfWeekList();
                         foreach ($days as $day) {
-                            $opening_hours .= '<div class="col-sm-9 row">
-                                                <div class="row col-sm-2 text-right padding5 mr5">'
+                            $opening_hours .= '<div class="col-xs-9 row">
+                                                <div class="row col-xs-3 text-right padding5 mr5">'
                                                     .strftime('%A', strtotime($day))
                                                     .':</div>';
                             $tt = array();
                             foreach (array('opens', 'closes') as $state) {
                                 $f = $form['fields']['opening_'.$day.'_'.$state];
-                                $tt[] = '<div class="row col-sm-2" >'.$f.'</div>';
+                                $tt[] = '<div class="row col-xs-3" >'.$f.'</div>';
                                 unset($form['fields']['opening_'.$day.'_'.$state]);
                             }
                             $opening_hours .= implode('', $tt).'</div>';
