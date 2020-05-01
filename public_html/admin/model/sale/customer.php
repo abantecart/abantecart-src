@@ -394,6 +394,7 @@ class ModelSaleCustomer extends Model
      * @param int $customer_id
      *
      * @return array
+     * @throws AException
      */
     public function getAddressesByCustomerId($customer_id)
     {
@@ -475,14 +476,14 @@ class ModelSaleCustomer extends Model
 								   FROM ".$this->db->table("customers")."
 								   WHERE customer_id = '".(int)$customer_id."'");
 
-        $result_row = $this->dcrypt->decrypt_data($query->row, 'customers');
-        return $result_row;
+        return $this->dcrypt->decrypt_data($query->row, 'customers');
     }
 
     /**
      * @param array $data
      *
      * @return array|int
+     * @throws AException
      */
     public function getTotalCustomers($data = array())
     {
@@ -490,10 +491,11 @@ class ModelSaleCustomer extends Model
     }
 
     /**
-     * @param array  $data
+     * @param array $data
      * @param string $mode
      *
      * @return array|int
+     * @throws AException
      */
     public function getCustomers($data = array(), $mode = 'default')
     {
@@ -797,7 +799,7 @@ class ModelSaleCustomer extends Model
                 $where[] = "LCASE(email) LIKE '%".$this->db->escape(strtolower($email), true)."%'";
             }
             $sql .= implode(' OR ', $where).$store_based;
-            $sql .= "ORDER BY firstname, lastname, email";
+            $sql .= " ORDER BY firstname, lastname, email";
 
             $query = $this->db->query($sql);
             $result_rows = array();
@@ -944,10 +946,11 @@ class ModelSaleCustomer extends Model
     }
 
     /**
-     * @param array  $data
+     * @param array $data
      * @param string $mode
      *
      * @return array|int
+     * @throws AException
      */
     public function getAllSubscribers($data = array(), $mode = 'default')
     {
@@ -959,6 +962,7 @@ class ModelSaleCustomer extends Model
      * @param array $data
      *
      * @return array|int
+     * @throws AException
      */
     public function getTotalAllSubscribers($data = array())
     {
@@ -967,10 +971,11 @@ class ModelSaleCustomer extends Model
     }
 
     /**
-     * @param array  $data
+     * @param array $data
      * @param string $mode
      *
      * @return array|int
+     * @throws AException
      */
     public function getOnlyNewsletterSubscribers($data = array(), $mode = 'default')
     {
@@ -983,6 +988,7 @@ class ModelSaleCustomer extends Model
      * @param array $data
      *
      * @return int
+     * @throws AException
      */
     public function getTotalOnlyNewsletterSubscribers($data = array())
     {
@@ -992,10 +998,11 @@ class ModelSaleCustomer extends Model
     }
 
     /**
-     * @param array  $data
+     * @param array $data
      * @param string $mode
      *
      * @return array|int
+     * @throws AException
      */
     public function getOnlyCustomers($data = array(), $mode = 'default')
     {
@@ -1007,6 +1014,7 @@ class ModelSaleCustomer extends Model
      * @param array $data
      *
      * @return int
+     * @throws AException
      */
     public function getTotalOnlyCustomers($data = array())
     {
@@ -1023,8 +1031,7 @@ class ModelSaleCustomer extends Model
 									FROM `".$this->db->table("customer_groups")."`
 									WHERE `name` = 'Newsletter Subscribers'
 									LIMIT 0,1");
-        $result = !$query->row['customer_group_id'] ? (int)$this->config->get('config_customer_group_id') : (int)$query->row['customer_group_id'];
-        return $result;
+        return !$query->row['customer_group_id'] ? (int)$this->config->get('config_customer_group_id') : (int)$query->row['customer_group_id'];
     }
 
     /**
@@ -1043,6 +1050,8 @@ class ModelSaleCustomer extends Model
 
     /**
      * @param int $customer_id - customer_id
+     *
+     * @throws AException
      */
     public function sendApproveMail($customer_id)
     {

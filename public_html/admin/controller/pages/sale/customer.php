@@ -1012,7 +1012,24 @@ class ControllerPagesSaleCustomer extends AController
 
         if (mb_strlen($data['email']) > 96 || !preg_match(EMAIL_REGEX_PATTERN, $data['email'])) {
             $this->error['email'] = $this->language->get('error_email');
+        }else{
+            //check for customer with given email
+            $exists = $this->model_sale_customer->getCustomersByEmails(array($data['email']));
+            foreach($exists as $item){
+                if( $customer_id === null ) {
+                   $this->error['email'] .= $this->language->get('error_email_exists');
+                   break;
+                }
+                if($customer_id == $item['customer_id']){
+                    continue;
+                }else{
+                    $this->error['email'] .= $this->language->get('error_email_exists');
+                    break;
+                }
+            }
+
         }
+
 
         if (mb_strlen($data['telephone']) > 32) {
             $this->error['telephone'] = $this->language->get('error_telephone');
