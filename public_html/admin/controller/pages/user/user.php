@@ -465,13 +465,14 @@ class ControllerPagesUserUser extends AController
         if (mb_strlen($this->request->post['username']) < 2 || mb_strlen($this->request->post['username']) > 20) {
             $this->error['username'] = $this->language->get('error_username');
         }else{
+            $inc = $this->request->get['user_id'] ? ' AND user_id <> '.(int)$this->request->get['user_id'] : '';
             $exists = $this->model_user_user->getUsers(
                 array(
-                    'subsql_filter' => " `username` = '".$this->db->escape($this->request->post['username'])."'"
+                    'subsql_filter' => " `username` = '".$this->db->escape($this->request->post['username'])."'".$inc
                 ),
                 'total_only'
             );
-            if($exists){
+            if($exists ){
                 $this->error['username'] = $this->language->get('error_username');
             }
         }
