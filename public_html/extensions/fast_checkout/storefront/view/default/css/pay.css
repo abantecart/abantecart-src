@@ -406,3 +406,6 @@ table.table-shipments {
 	background-color: #d9edf5;
 	border-color: #d9edf5;
 }
+.payment_item.balance_applied_full .thumbnail {
+	background: lightblue;
+}

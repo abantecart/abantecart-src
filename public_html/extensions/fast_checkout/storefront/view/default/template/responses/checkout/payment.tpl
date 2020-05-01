@@ -465,7 +465,8 @@ $guest_data = $this->session->data['guest'];
 				return;
 			}
 			var payment_id = $(this).data('payment-id');
-			if (payment_id == 'account_balance') {
+			const paimentAwailable = $(this).attr('paiment-awailable')
+			if (payment_id == 'account_balance' || paimentAwailable == 'false') {
 				return;
 			}
 			let url = '<?php echo $main_url ?>&' + getUrlParams('payment_method', payment_id);

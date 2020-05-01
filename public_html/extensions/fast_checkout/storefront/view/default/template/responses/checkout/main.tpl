@@ -239,7 +239,9 @@
             pageRequest = function (url) {
                 //window.location.href = url;
 				$('.spinner-overlay').fadeIn(100);
-				url += '&balance=reapply'
+				if (!url.includes('balance')) {
+					url += '&balance=reapply'
+				}
 				$.get(url, {} , function (data) {
 					$('#fast_checkout_summary_block').trigger('reload')
 					$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
