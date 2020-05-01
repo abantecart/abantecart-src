@@ -178,23 +178,44 @@ class AConfigManager
                         $error['ssl_url'] = $this->language->get('error_ssl_url');
                     }
 
-                    if (sizeof($fields) > 1) {
-                        if (mb_strlen($fields['config_owner']) < 2 || mb_strlen($fields['config_owner']) > 64) {
-                            $error['owner'] = $this->language->get('error_owner');
-                        }
 
-                        if (mb_strlen($fields['config_address']) < 2 || mb_strlen($fields['config_address']) > 256) {
-                            $error['address'] = $this->language->get('error_address');
-                        }
-
-                        if (mb_strlen($fields['store_main_email']) > 96 || (!preg_match(EMAIL_REGEX_PATTERN, $fields['store_main_email']))) {
-                            $error['email'] = $this->language->get('error_email');
-                        }
-
-                        if (mb_strlen($fields['config_telephone']) > 32) {
-                            $error['telephone'] = $this->language->get('error_telephone');
-                        }
+                    if ( isset($fields['config_owner'])
+                        && (
+                            mb_strlen($fields['config_owner']) < 2
+                            || mb_strlen($fields['config_owner']) > 64
+                        )
+                    ){
+                        $error['owner'] = $this->language->get('error_owner');
                     }
+
+                    if ( isset($fields['config_address'])
+                        && (
+                            mb_strlen($fields['config_address']) < 2
+                            || mb_strlen($fields['config_address']) > 256
+                        )
+                    ) {
+                        $error['address'] = $this->language->get('error_address');
+                    }
+
+                    if ( isset($fields['store_main_email'])
+                        && (
+                            mb_strlen($fields['store_main_email']) > 96
+                            || (!preg_match(EMAIL_REGEX_PATTERN, $fields['store_main_email']))
+                           )
+                    ) {
+                        $error['email'] = $this->language->get('error_email');
+                    }
+
+                    if ( isset($fields['config_telephone']) && mb_strlen($fields['config_telephone']) > 32) {
+                        $error['telephone'] = $this->language->get('error_telephone');
+                    }
+                    if ( isset($fields['config_postcode']) && mb_strlen($fields['config_postcode']) < 3) {
+                        $error['postcode'] = $this->language->get('error_postcode');
+                    }
+                    if ( isset($fields['config_city']) && mb_strlen($fields['config_city']) < 2) {
+                        $error['city'] = $this->language->get('error_city');
+                    }
+
                     break;
 
                 case 'general':

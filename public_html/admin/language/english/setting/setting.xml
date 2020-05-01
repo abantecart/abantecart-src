@@ -1035,4 +1035,12 @@
 		<key>entry_opening_hours</key>
 		<value><![CDATA[Opening:]]></value>
 	</definition>
+	<definition>
+		<key>error_postcode</key>
+		<value><![CDATA[Postal code is required]]></value>
+	</definition>
+	<definition>
+		<key>error_city</key>
+		<value><![CDATA[City name is required]]></value>
+	</definition>
 </definitions>
