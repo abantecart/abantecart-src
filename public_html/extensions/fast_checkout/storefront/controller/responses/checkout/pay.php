@@ -65,9 +65,6 @@ class ControllerResponsesCheckoutPay extends AController
         //handle coupon
         $this->_handleCoupon($request);
 
-        //handle coupon
-        $this->_handleBalance($request);
-
         $get_params = '&cart_key='.$this->cart_key;
 
 
@@ -224,6 +221,10 @@ class ControllerResponsesCheckoutPay extends AController
         //set shipping method
         $this->_select_shipping($this->request->get['shipping_method']);
 
+        //handle balance
+        $this->_handleBalance($request);
+
+
         //final step to build cart view and totals
         if (!$this->_build_cart_product_details()) {
             $this->_show_error('No items to be purchased are found');
@@ -333,7 +334,7 @@ class ControllerResponsesCheckoutPay extends AController
             //check autoselct payment
             foreach ($this->data['payment_methods'] as $id => $payment) {
                 $psettings = $this->model_checkout_extension->getSettings($id);
-                if ($psettings[$id.'_autoselect']) {
+                if ($psettings[$id.'_autoselect'] && !$this->session->data['fast_checkout'][$this->cart_key]['used_balance_full']) {
                     $this->data['payment_method'] = $id;
                 }
             }

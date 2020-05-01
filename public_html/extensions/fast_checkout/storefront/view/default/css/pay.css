@@ -402,3 +402,7 @@ table.table-shipments {
 	border-left: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
 }
+.payment_item.balance_applied .thumbnail {
+	background-color: #d9edf5;
+	border-color: #d9edf5;
+}
