@@ -36,7 +36,6 @@ class ControllerResponsesListingGridUserPermission extends AController
 
         $page = $this->request->post['page']; // get the requested page
         $limit = $this->request->post['rows']; // get how many rows we want to have into the grid
-        $sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
         $sord = $this->request->post['sord']; // get the direction
 
         // process jGrid search parameter
@@ -190,7 +189,11 @@ class ControllerResponsesListingGridUserPermission extends AController
         foreach ($controllers as $key => $controller) {
             if ($search_str) {
                 if (!is_int(strpos($controller, $search_str))) {
-                    unset($controllers[$key]);
+                    unset(
+                        $controllers[$key],
+                        $access[$key],
+                        $modify[$key]
+                    );
                 }
             }
         }

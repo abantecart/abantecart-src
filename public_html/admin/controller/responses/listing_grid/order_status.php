@@ -69,6 +69,7 @@ class ControllerResponsesListingGridOrderStatus extends AController
         $response->page = $page;
         $response->total = $total_pages;
         $response->records = $total;
+        $response->userdata = new stdClass();
 
         $results = $this->model_localisation_order_status->getOrderStatuses($data);
         $i = 0;
