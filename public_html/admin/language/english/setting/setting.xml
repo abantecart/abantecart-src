@@ -1033,6 +1033,6 @@
 	</definition>
 	<definition>
 		<key>entry_opening_hours</key>
-		<value><![CDATA[Opening Hours:]]></value>
+		<value><![CDATA[Opening:]]></value>
 	</definition>
 </definitions>
