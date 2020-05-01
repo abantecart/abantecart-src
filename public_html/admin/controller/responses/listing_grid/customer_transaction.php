@@ -157,7 +157,7 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
 
     public function addTransaction()
     {
-        sleep(10);
+
         if (!$this->csrftoken->isTokenValid()) {
             $error = new AError('');
             return $error->toJSONResponse('NO_PERMISSIONS_402',
