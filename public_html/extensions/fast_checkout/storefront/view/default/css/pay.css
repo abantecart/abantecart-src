@@ -274,9 +274,7 @@
 }
 
 .address_edit_link {
-	position: absolute;
-	right: 20px;
-	bottom: 20px;
+	position: relative;
 	font-size: 18px;
 }
 .badge {
@@ -395,7 +393,7 @@ div.registerbox  label > input:checked + .checkbox_place > i {
 
 div.registerbox .checkbox_place {
 	border: 1px solid #ddd;
-	padding: 3px;
+	cursor: pointer;
 }
 table.table-shipments {
 	border-right: 1px solid #ddd;

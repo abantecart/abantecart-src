@@ -26,8 +26,6 @@
             </div>
         <?php } ?>
     </div>
-<?php } else { ?>
-    <hr>
 <?php } ?>
 
 <div class="row">

@@ -295,69 +295,16 @@ $guest_data = $this->session->data['guest'];
                 <?php } ?>
 				<input type="hidden" name="account_credit" value="0">
 	</form>
-    <?php if ($loggedin && $balance_enough === true) { ?>
-		<ul class="nav nav-tabs payment_tabs" role="tablist">
-			<li class="paywith">
-                <?php echo $fast_checkout_text_pay_with; ?>
-			</li>
-            <?php if ($payment_available === true) { ?>
-				<li class="active">
-					<a href="#credit_card" role="tab" data-toggle="tab">
-						<i class="fa fa-credit-card fa-fw"></i>
-						<span class="hidden-xxs"><?php echo $fast_checkout_text_credit_card; ?></span>
-					</a>
-				</li>
-            <?php } ?>
-            <?php if ($payment_available !== true){ ?>
-			<li class="active">
-                <?php } else { ?>
-			<li>
-                <?php } ?>
-				<a href="#account_credit" role="tab" data-toggle="tab">
-					<i class="fa fa-money fa-fw"></i>
-					<span class="hidden-xxs"><?php echo sprintf($fast_checkout_text_account_credit,
-                            $balance_value) ?></span>
-					<span class="visible-xxs"><?php echo $balance_value; ?></span>
-				</a>
-			</li>
-		</ul>
-		<div class="tab-content">
-            <?php if ($payment_available === true) { ?>
-				<div class="tab-pane fade in active" id="credit_card"></div>
-				<div class="tab-pane fade text-center" id="account_credit"></div>
-            <?php } else { ?>
-				<div class="tab-pane fade in active text-center" id="account_credit"></div>
-            <?php } ?>
-		</div>
-    <?php } else {
+    <?php
         if ($payment_available === true) {
-            include($this->templateResource('/template/responses/checkout/payment_select.tpl'));
+    ?>
+		<h5 class="text-center"><?php echo $fast_checkout_text_select_payment; ?>:</h5>
+		<?php include($this->templateResource('/template/responses/checkout/payment_select.tpl')) ?>
+	<?php
         }
-    } ?>
+    ?>
     <?php } ?>
 </fieldset>
-
-
-<?php if ($loggedin && $balance_enough === true) { ?>
-    <?php if ($payment_available === true) { ?>
-		<div id="hidden_credit_card" style="display: none;">
-			<h5 class="text-center"><?php echo $fast_checkout_text_select_payment; ?>:</h5>
-            <?php include($this->templateResource('/template/responses/checkout/payment_select.tpl')) ?>
-		</div>
-    <?php } ?>
-	<div id="hidden_account_credit" style="display: none;">
-		<h5 class="text-center"><?php echo $fast_checkout_text_your_balance; ?>:</h5>
-		<h2><?php echo $balance_value; ?> <i class="fa fa-money fa-fw"></i></h2>
-		<div class="row">
-			<div class="form-group col-xxs-12">
-				<button class="credit-pay-btn btn btn-primary btn-lg btn-block"
-						data-loading-text="<i class='fa fa-spinner fa-spin '></i> Processing ...">
-                    <?php echo sprintf($fast_checkout_text_pay_from_balance, $total_string); ?>
-				</button>
-			</div>
-		</div>
-	</div>
-<?php } ?>
 
 <script type="text/javascript">
 	getUrlParams = function (key, value) {

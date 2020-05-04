@@ -246,7 +246,7 @@
 	</definition>
 	<definition>
 		<key>fast_checkout_text_select_payment</key>
-		<value><![CDATA[Please select the paymnet options]]></value>
+		<value><![CDATA[Please select the paymnet option]]></value>
 	</definition>
 	<definition>
 		<key>fast_checkout_text_order_download_pending</key>

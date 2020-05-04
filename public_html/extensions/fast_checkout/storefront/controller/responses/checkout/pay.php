@@ -1,10 +1,21 @@
 <?php
 /*------------------------------------------------------------------------------
-$Id$
+  $Id$
 
-This file and its content is copyright of AlgoZone Inc - ©AlgoZone Inc 2003-2016. All rights reserved.
+  AbanteCart, Ideal OpenSource Ecommerce Solution
+  http://www.AbanteCart.com
 
-You may not, except with our express written permission, modify, distribute or commercially exploit the content. Nor may you transmit it or store it in any other website or other form of electronic retrieval system.
+  Copyright © 2011-2020 Belavier Commerce LLC
+
+  This source file is subject to Open Software License (OSL 3.0)
+  License details is bundled with this package in the file LICENSE.txt.
+  It is also available at this URL:
+  <http://www.opensource.org/licenses/OSL-3.0>
+
+ UPGRADE NOTE:
+   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+   versions in the future. If you wish to customize AbanteCart for your
+   needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 
 if (!defined('DIR_CORE')) {
@@ -86,8 +97,6 @@ class ControllerResponsesCheckoutPay extends AController
                     $order_id
                 );
                 $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
-                $this->_load_header_footer();
 
                 $this->view->batchAssign($this->data);
                 $this->response->setOutput($this->view->fetch('responses/checkout/main.tpl'));
@@ -279,8 +288,6 @@ class ControllerResponsesCheckoutPay extends AController
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-        $this->_load_header_footer();
-
         $this->data['fast_checkout_view_mode'] = $this->session->data['fast_checkout_view_mode'];
 
         $in_data = array_merge((array)$this->session->data, $this->session->data['fast_checkout'][$this->cart_key]);
@@ -359,7 +366,7 @@ class ControllerResponsesCheckoutPay extends AController
             $dd = new ADispatcher($rt);
             //style buttons
             $paymentHTML = preg_replace(
-                "/<a id=\"back\".*?<\/a>/s",
+                "/<a id=\"back\".*?<\/a>/si",
                 '',
                 $dd->dispatchGetOutput()
             );
@@ -733,7 +740,6 @@ class ControllerResponsesCheckoutPay extends AController
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-        //$this->_load_header_footer();
         $this->data['order_id'] = $order_id;
 
         $this->view->batchAssign($this->data);
@@ -1513,7 +1519,8 @@ class ControllerResponsesCheckoutPay extends AController
         if ($request['balance'] == 'disapply' || $request['balance'] == 'reapply') {
             unset($this->session->data['fast_checkout'][$this->cart_key]['used_balance'],
                 $this->session->data['fast_checkout'][$this->cart_key]['balance'],
-                $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full']
+                $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full'],
+                $this->session->data['fast_checkout'][$this->cart_key]['payment_method']
             );
         }
         if ($request['balance'] == 'apply' || $request['balance'] == 'reapply') {
@@ -1546,7 +1553,6 @@ class ControllerResponsesCheckoutPay extends AController
 
             $order_totals = $this->cart->buildTotalDisplay(true);
             $order_total = $order_totals['total'];
-$aaaaa = $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full'];
             //if balance enough to cover order amount
             if ($order_total == 0 && $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full']) {
                 //select no other payment required.
@@ -1577,17 +1583,6 @@ $aaaaa = $this->session->data['fast_checkout'][$this->cart_key]['used_balance_fu
         }
     }
 
-    protected function _load_header_footer()
-    {
-//        try {
-//            $cntr = $this->dispatch('responses/includes/head');
-//            $this->data['head'] = $cntr->dispatchGetOutput();
-//            $cntr = $this->dispatch('responses/includes/footer');
-//            $this->data['footer'] = $cntr->dispatchGetOutput();
-//        } catch (\Exception $e) {
-//        }
-    }
-
     protected function _to_log($message)
     {
         if (!$message) {
@@ -1606,7 +1601,6 @@ $aaaaa = $this->session->data['fast_checkout'][$this->cart_key]['used_balance_fu
             $error_text = $this->language->get('fast_checkout_error_incorrect_request');
 //$dbg = debug_backtrace(); $error_text .= ' see line: '.$dbg[0]['line'];
         }
-        $this->_load_header_footer();
         $this->response->setOutput($this->_build_error($error_text));
     }
 

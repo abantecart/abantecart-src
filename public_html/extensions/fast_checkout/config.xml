@@ -58,5 +58,5 @@
 		<sql>uninstall.sql</sql>
 		<trigger>uninstall.php</trigger>
 	</uninstall>
-	<help_link><![CDATA[http://www.algozone.com/abantecart/fast_checkout/]]></help_link>
+	<help_link><![CDATA[https://docs.abantecart.com/fast_checkout/]]></help_link>
 </extension>
