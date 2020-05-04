@@ -247,16 +247,32 @@
 	background-color: #337ab7;
 	border-color: #2e6da4;
 }
+.checkout-fast_checkout .column_right {
+	position: -webkit-sticky;
+	position: -moz-sticky;
+	position: -ms-sticky;
+	position: -o-sticky;
+	position: sticky;
+	top: 15px;
+}
 
 @media all and (max-width: 600px) {
 	.payment_item {
 		width: 100%;
+	}
+	.checkout-fast_checkout .column_right {
+		position: relative;
+		top: auto;
 	}
 }
 
 @media all and (min-width: 601px) and (max-width: 1150px) {
 	.payment_item {
 		width: 50%;
+	}
+	.checkout-fast_checkout .column_right {
+		position: relative;
+		top: auto;
 	}
 }
 
@@ -274,9 +290,7 @@
 }
 
 .address_edit_link {
-	position: absolute;
-	right: 20px;
-	bottom: 20px;
+	position: relative;
 	font-size: 18px;
 }
 .badge {
@@ -287,6 +301,9 @@
 ul.product_option_list, ul.product_option_list li {
 	list-style: circle;
 	list-style-position: inside;
+}
+#fast_checkout_cart {
+	min-height: 500px;
 }
 .fast_checkout_cart_btn {
 	color: #fff;
@@ -395,7 +412,7 @@ div.registerbox  label > input:checked + .checkbox_place > i {
 
 div.registerbox .checkbox_place {
 	border: 1px solid #ddd;
-	padding: 3px;
+	cursor: pointer;
 }
 table.table-shipments {
 	border-right: 1px solid #ddd;

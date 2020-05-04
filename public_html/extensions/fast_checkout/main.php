@@ -1,12 +1,22 @@
 <?php
 /*------------------------------------------------------------------------------
-$Id$
+  $Id$
 
-This file and its content is copyright of AlgoZone Inc - ©AlgoZone Inc 2003-2016. All rights reserved.
+  AbanteCart, Ideal OpenSource Ecommerce Solution
+  http://www.AbanteCart.com
 
-You may not, except with our express written permission, modify, distribute or commercially exploit the content. Nor may you transmit it or store it in any other website or other form of electronic retrieval system.
+  Copyright © 2011-2020 Belavier Commerce LLC
+
+  This source file is subject to Open Software License (OSL 3.0)
+  License details is bundled with this package in the file LICENSE.txt.
+  It is also available at this URL:
+  <http://www.opensource.org/licenses/OSL-3.0>
+
+ UPGRADE NOTE:
+   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+   versions in the future. If you wish to customize AbanteCart for your
+   needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
