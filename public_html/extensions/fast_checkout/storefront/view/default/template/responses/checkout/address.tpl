@@ -130,8 +130,7 @@
     <?php } ?>
 
 
-    <button type="submit" class="btn btn-primary btn-lg btn-block btn-pay"
-            data-loading-text="<i class='fa fa-spinner fa-spin '></i> Saving ..."><?php echo $fast_checkout_text_enter_address
+    <button type="submit" class="btn btn-primary btn-lg btn-block btn-pay"><?php echo $fast_checkout_text_enter_address
             .' '.$text_mmmm; ?></button>
 </fieldset>
 
