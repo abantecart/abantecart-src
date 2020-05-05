@@ -127,7 +127,7 @@ class ControllerResponsesToolRlManager extends AController
             'name'   => 'rl_typeFrm',
             'action' => $this->data['action'],
             'attr'   => 'data-confirm-exit="true"  class="aform form-horizontal"',
-        )).
+        ));
         $this->data['form']['fields']['type_id'] = $form->getFieldHtml(array(
             'type'  => 'hidden',
             'name'  => 'type_id',
