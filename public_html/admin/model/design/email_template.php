@@ -9,6 +9,8 @@ class ModelDesignEmailTemplate extends Model
     public static function getEmailTemplates(array $data)
     {
         $db = Registry::getInstance()->get('db');
+        $language = Registry::getInstance()->get('language');
+
         $etTableName = $db->table('email_templates');
         $langTableName = $db->table('languages');
 
@@ -45,7 +47,7 @@ class ModelDesignEmailTemplate extends Model
 
 
         $arWhere[] = $allowedSearchFields['store_id'].'='.($data['store_id'] ?: '0');
-
+        $arWhere[] = $etTableName.'.language_id'.'='.$language->getContentLanguageID();
 
 
         if (!empty($arWhere)) {
