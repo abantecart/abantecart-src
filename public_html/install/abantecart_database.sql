@@ -12680,7 +12680,7 @@ CREATE TABLE `ac_email_templates` (
   `date_deleted` timestamp NULL DEFAULT NULL,
   `store_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `email_templates_text_id_idx` (`text_id`,`language_id`)
+  UNIQUE KEY `email_templates_text_id_idx` (`text_id`,`language_id`, `store_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
