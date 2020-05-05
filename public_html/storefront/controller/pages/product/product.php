@@ -173,14 +173,15 @@ class ControllerPagesProductProduct extends AController
         $this->data['update_view_count_url'] = $this->html->getURL('common/view_count/product', '&product_id='.$product_id);
 
         $this->loadModel('catalog/review');
-        if ($this->config->get('display_reviews')) {
+        $this->data['display_reviews'] = $this->config->get('display_reviews');
+        if ($this->data['display_reviews']) {
             $this->data['tab_review'] = sprintf($this->language->get('tab_review'), $this->model_catalog_review->getTotalReviewsByProductId($product_id));
         } else {
             $this->data['tab_review'] = $this->language->get('tab_review_empty');
         }
 
         $this->data['review_form_status'] = $this->isReviewAllowed($product_id);
-        $average = $this->config->get('display_reviews')
+        $average = $this->data['display_reviews']
                    ? $this->model_catalog_review->getAverageRating($product_id)
                    : false;
 
