@@ -84,7 +84,8 @@ class ControllerPagesCatalogProductRelations extends AController
 
         $this->loadModel('catalog/category');
         $this->data['categories'] = array();
-        $results = $this->model_catalog_category->getCategories(0);
+
+        $results = $this->model_catalog_category->getCategories(0, $this->session->data['current_store_id']);
         foreach ($results as $r) {
             $this->data['categories'][$r['category_id']] = $r['name'];
         }
@@ -139,14 +140,6 @@ class ControllerPagesCatalogProductRelations extends AController
             'style' => 'button2',
         ));
         $this->data['cancel'] = $this->html->getSecureURL('catalog/product');
-
-        $this->loadModel('catalog/category');
-        $this->data['categories'] = array();
-        $results = $this->model_catalog_category->getCategories(0);
-
-        foreach ($results as $r) {
-            $this->data['categories'][$r['category_id']] = $r['name'];
-        }
 
         $this->data['form']['fields']['category'] = $form->getFieldHtml(array(
             'type'        => 'checkboxgroup',
