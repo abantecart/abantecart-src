@@ -338,6 +338,13 @@ class ResourceUploadHandler
         if (!preg_match($this->options['accept_file_types'], $file->name)) {
             return Registry::getInstance()->get('language')->get('error_acceptFileTypes');
         }
+        //if type accepted but GD is not supports them
+        else{
+            $gdInfo = gd_info();
+            if($file->type == 'image/webp' && !$gdInfo["WebP Support"]){
+                return 'GD2 does not support WebP !';
+            }
+        }
         if ($uploaded_file && is_uploaded_file($uploaded_file)) {
             $file_size = filesize($uploaded_file);
         } else {
