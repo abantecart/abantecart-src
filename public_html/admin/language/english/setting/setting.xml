@@ -1043,4 +1043,8 @@
 		<key>error_city</key>
 		<value><![CDATA[City name is required]]></value>
 	</definition>
+	<definition>
+		<key>entry_image_resize_fill_color</key>
+		<value><![CDATA[Color of fill for image resize<br/><span class="help">Color that will be filled into empty areas during image resizing from rectangle into square</span>]]></value>
+	</definition>
 </definitions>

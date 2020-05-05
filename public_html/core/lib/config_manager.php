@@ -1307,6 +1307,15 @@ class AConfigManager
             ));
         }
 
+        $fields['image_resize_fill_color'] = $form->getFieldHtml(
+            $props[] = array(
+                'type'     => 'color',
+                'name'     => 'config_image_resize_fill_color',
+                'value'    => $data['config_image_resize_fill_color'] ? $data['config_image_resize_fill_color'] : '#ffffff',
+                'style'    => 'small-field'
+            )
+        );
+
         if (isset($data['one_field'])) {
             $fields = $this->_filterField($fields, $props, $data['one_field']);
         }

@@ -264,15 +264,17 @@ class AImage
         $image_old = $this->image;
         if ($this->_is_memory_enough($this->info['width'], $this->info['height'])) {
             $this->image = imagecreatetruecolor($width, $height);
-
-            if (isset($this->info['mime']) && $this->info['mime'] == 'image/png') {
+            $fillColor = $this->registry->get('config')->get('config_image_resize_fill_color');
+            $fillColor = !$fillColor ? '#ffffff' : $fillColor;
+            list($r, $g, $b) = sscanf($fillColor, "#%02x%02x%02x");
+            if (isset($this->info['mime']) && in_array($this->info['mime'], array('image/png','image/webp',) ) )  {
                 imagealphablending($this->image, false);
                 imagesavealpha($this->image, true);
-                $background = imagecolorallocatealpha($this->image, 255, 255, 255, 127);
+                $background = imagecolorallocatealpha($this->image, $r, $g, $b, 127);
                 imagefill($this->image, 0, 0, $background);
             } else {
                 if (!$nofill) { // if image no transparent
-                    $background = imagecolorallocate($this->image, 255, 255, 255);
+                    $background = imagecolorallocate($this->image, $r, $g, $b);
                     imagefilledrectangle($this->image, 0, 0, $width, $height, $background);
                 }
             }

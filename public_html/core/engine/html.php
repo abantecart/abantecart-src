@@ -1253,6 +1253,63 @@ class InputHtmlElement extends HtmlElement
 }
 
 /**
+ * Class InputHtmlElement
+ *
+ * @property string $element_id
+ * @property string $default
+ * @property string $value
+ * @property string $name
+ * @property string $attr
+ * @property string $required
+ * @property string $style
+ * @property string $placeholder
+ * @property string $regexp_pattern
+ * @property string $error_text
+ * @property string $help_url
+ * @property bool   $multilingual
+ */
+class ColorHtmlElement extends HtmlElement
+{
+    /**
+     * @return string
+     */
+    public function getHtml()
+    {
+
+        if (!isset($this->default)) {
+            $this->default = '';
+        }
+        if ($this->value == '' && !empty($this->default)) {
+            $this->value = $this->default;
+        }
+
+        $this->view->batchAssign(
+            array(
+                'name'           => $this->name,
+                'id'             => $this->element_id,
+                'type'           => 'color',
+                'value'          => str_replace('"', '&quot;', $this->value),
+                'default'        => $this->default,
+                'attr'           => $this->attr,
+                'required'       => $this->required,
+                'style'          => $this->style,
+                'error_text'     => $this->error_text,
+            )
+        );
+        if (is_object($this->language)
+            && sizeof($this->language->getActiveLanguages()) > 1
+        ) {
+            $this->view->assign('multilingual', $this->multilingual);
+        }
+        if (!empty($this->help_url)) {
+            $this->view->assign('help_url', $this->help_url);
+        }
+
+        return $this->view->fetch('form/input.tpl');
+    }
+}
+
+/**
  * Class PasswordHtmlElement
  *
  * @property string $element_id

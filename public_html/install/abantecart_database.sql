@@ -1693,6 +1693,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('appearance','admin_template','default'),
 ('appearance','admin_width','100%'),
 ('appearance','config_storefront_template','default'),
+('appearance','config_image_resize_fill_color', '#ffffff'),
 
 
 -- mail
