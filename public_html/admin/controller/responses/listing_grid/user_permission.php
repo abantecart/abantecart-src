@@ -229,6 +229,7 @@ class ControllerResponsesListingGridUserPermission extends AController
         $response->page = $page;
         $response->total = $total_pages;
         $response->records = $total;
+        $response->userdata = new stdClass();
 
         $i = 0;
         $controllers = array_slice($controllers, $data['start'], $data['limit']);
