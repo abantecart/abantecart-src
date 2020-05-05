@@ -132,16 +132,14 @@ class ModelDesignEmailTemplate extends Model
         return false;
     }
 
-    public static function getByTextIdAndLanguageId($textId, $languageId)
+    public function getByTextIdAndLanguageId($textId, $languageId)
     {
         if (!$textId || !(int)$languageId) {
             return false;
         }
-
-        $db = Registry::getInstance()->get('db');
-        $etTableName = $db->table('email_templates');
-        $query = 'SELECT * FROM '.$etTableName.' WHERE text_id=\''.$textId.'\' and language_id='.(int)$languageId;
-        $result = $db->query($query);
+        $etTableName = $this->db->table('email_templates');
+        $query = 'SELECT * FROM '.$etTableName.' WHERE text_id=\''.$textId.'\' AND language_id='.(int)$languageId.' AND store_id='.$this->config->get('config_store_id');
+        $result = $this->db->query($query);
         if ($result && $result->num_rows > 0) {
             return $result->rows[0];
         }
@@ -162,6 +160,22 @@ class ModelDesignEmailTemplate extends Model
         $query = 'INSERT INTO '.$etTableName.' ('.implode(',', $keys).') VALUES (\''.implode('\',\'', $values).'\')';
         if ($db->query($query)) {
             return self::getByTextIdAndLanguageId($data['text_id'], $data['language_id']);
+        }
+    }
+
+    public function copyToNewStore($oldStoreId, $newStoreId) {
+        if (!(int)$newStoreId) {
+            return false;
+        }
+        $etTableName = $this->db->table('email_templates');
+        $sql = 'SELECT * FROM '.$etTableName.' WHERE store_id='.$oldStoreId;
+        $result = $this->db->query($sql);
+        if ($result && $result->num_rows > 0) {
+            foreach ($result->rows as $row) {
+                $row['store_id'] = $newStoreId;
+                $this->db->query('INSERT INTO '.$etTableName.'(`status`, `text_id`, `language_id`, `headers`, `subject`, `html_body`, `text_body`, `allowed_placeholders`, `store_id`)'.
+                    ' VALUES ('.$row['status'].', \''.$row['text_id'].'\', '.$row['language_id'].', \''.$row['headers'].'\', \''.$row['subject'].'\', \''.$row['html_body'].'\', \''.$row['text_body'].'\', \''.$row['allowed_placeholders'].'\', '.$row['store_id'].')');
+            }
         }
     }
 

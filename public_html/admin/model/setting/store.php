@@ -52,6 +52,8 @@ class ModelSettingStore extends Model
 					FROM ".$this->db->table("settings")." 
 					WHERE `store_id` = '".$this->db->escape($data['clone_store'])."'";
             $this->db->query($sql);
+            $this->load->model('design/email_template');
+            $this->model_design_email_template->copyToNewStore($this->db->escape($data['clone_store']), $store_id);
         } else {
             // add settings of extension of default store to new store settings
             // NOTE: we do this because of extension status in settings table. It used to recognize is extension installed or not
@@ -76,7 +78,7 @@ class ModelSettingStore extends Model
         }
         unset($data['store_description']);
 
-        //Copy some data to details 
+        //Copy some data to details
         $this->model_setting_setting->editSetting('details',
             array(
                 'config_url'     => $data['config_url'],

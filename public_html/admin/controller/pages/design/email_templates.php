@@ -188,7 +188,7 @@ class ControllerPagesDesignEmailTemplates extends AController
 
         if ((int)$this->request->get['id']) {
             $emailTemplate = $this->model_design_email_template->getById((int)$this->request->get['id']);
-            if ($emailTemplate['language_id'] != $this->language->getContentLanguageID()) {
+            if ($emailTemplate['language_id'] != $this->language->getContentLanguageID() || $emailTemplate['store_id'] != $this->config->get('config_store_id')) {
                 $existTemplate = $this->model_design_email_template->getByTextIdAndLanguageId($emailTemplate['text_id'], $this->language->getContentLanguageID());
                 if (!$existTemplate) {
                     redirect($this->html->getSecureURL('design/email_templates/insert', '&text_id='.$emailTemplate['text_id']));
