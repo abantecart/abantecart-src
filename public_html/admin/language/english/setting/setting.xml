@@ -1033,7 +1033,7 @@
 	</definition>
 	<definition>
 		<key>entry_opening_hours</key>
-		<value><![CDATA[Opening:]]></value>
+		<value><![CDATA[Opening Hours:]]></value>
 	</definition>
 	<definition>
 		<key>error_postcode</key>

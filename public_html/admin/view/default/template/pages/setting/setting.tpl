@@ -75,12 +75,13 @@
                     continue;
             }
             //push switch after featured field
-            $form['fields'] = array_slice($form['fields'], 0, 17, true) +
-                array(
-                    'opening_hours' => $opening_hours,
-                ) +
-                array_slice($form['fields'], 17, count($form['fields']) - 1, true);
-
+            if($opening_hours) {
+                $form['fields'] = array_slice($form['fields'], 0, 17, true) +
+                    array(
+                        'opening_hours' => $opening_hours,
+                    ) +
+                    array_slice($form['fields'], 17, count($form['fields']) - 1, true);
+            }
             foreach ($form['fields'] as $name => $field) { ?>
 			<?php
 				//Logic to calculate fields width
