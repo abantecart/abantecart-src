@@ -20,7 +20,7 @@
         log_not_found off;
     }
     ### Retina images handler. Check cookie and looking for file with @2x at the end of name
-    location ~* ^(.*)\.(jpg|jpeg|png|gif)$ {
+    location ~* ^(.*)\.(jpg|jpeg|png|gif|webp)$ {
         set $hidpi_uri $1@2x.$2;
         if ($http_cookie !~ 'HTTP_IS_RETINA=1') {
           break;
@@ -28,7 +28,7 @@
         try_files $hidpi_uri $uri =404;
     }
 
-    location ~*  \.(jpg|jpeg|png|gif|css|js|ico)$ {
+    location ~*  \.(jpg|jpeg|png|gif|css|js|ico|webp)$ {
         expires max;
         log_not_found off;
     }
