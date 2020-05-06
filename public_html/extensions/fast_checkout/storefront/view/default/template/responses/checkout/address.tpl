@@ -110,6 +110,7 @@
         </div>
     </div>
 
+	<?php if ($type === 'payment') { ?>
 	<div class="row">
 		<div class="form-group col-xxs-12">
 			<div class="left-inner-addon">
@@ -119,13 +120,12 @@
 					   id="cc_email"
 					   name="cc_email"
 					   type="text"
-					   value="<?php echo $customer_email; ?>" <?php if ($loggedin) {
-                    echo 'readonly';
-                } ?>>
+					   value="<?php echo $customer_email; ?>">
 			</div>
 		</div>
 	</div>
-    <?php if ($require_telephone) { ?>
+    <?php }
+    if ($require_telephone) { ?>
 	<div class="row">
 		<div class="form-group col-xxs-12">
 			<div class="left-inner-addon">

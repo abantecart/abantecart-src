@@ -61,6 +61,9 @@ class ControllerResponsesCheckoutPay extends AController
         if (!isset($this->session->data['fast_checkout'][$this->cart_key])
             || $this->session->data['fast_checkout'][$this->cart_key]['cart'] !== $this->session->data['cart']) {
             $this->session->data['fast_checkout'][$this->cart_key]['cart'] = $this->session->data['cart'];
+            if ($this->session->data['coupon']) {
+                $this->session->data['fast_checkout'][$this->cart_key]['coupon'] = $this->session->data['coupon'];
+            }
         }
 
         $cart_class_name = get_class($this->cart);
@@ -1038,6 +1041,7 @@ class ControllerResponsesCheckoutPay extends AController
 
         if ($this->request->get['type'] == 'payment') {
             $data = $this->session->data['guest'];
+            $this->data['customer_email'] = $this->session->data['guest']['email'];
         } else {
             $data = $this->session->data['guest']['shipping'];
         }
@@ -1310,7 +1314,7 @@ class ControllerResponsesCheckoutPay extends AController
 
         $ac_payments = [];
         //#Check config of selected shipping method and see if we have accepted payments restriction
-        $shipping_ext = explode('.', $this->session->data['shipping_method']['id']);
+        $shipping_ext = explode('.', $this->session->data['fast_checkout'][$this->cart_key]['shipping_method']['id']);
         $ship_ext_config = $this->model_checkout_extension->getSettings($shipping_ext[0]);
         $accept_payment_ids = $ship_ext_config[$shipping_ext[0]."_accept_payments"];
         if (is_array($accept_payment_ids) && count($accept_payment_ids)) {
@@ -1408,6 +1412,17 @@ class ControllerResponsesCheckoutPay extends AController
 
             array_multisort($sort_order, SORT_ASC, $quote_data);
             $this->session->data['fast_checkout'][$this->cart_key]['shipping_methods'] = $quote_data;
+
+            if ($this->session->data['fast_checkout'][$this->cart_key]['shipping_method']) {
+                $shippingMethods = explode('.', $this->session->data['fast_checkout'][$this->cart_key]['shipping_method']['id']);
+                $shippingMethod = $shippingMethods[0];
+                if ($shippingMethod && $quote_data[$shippingMethod]) {
+                    $this->session->data['fast_checkout'][$this->cart_key]['shipping_method'] = $quote_data[$shippingMethod]['quote'][$shippingMethod];
+                } else {
+                    unset($this->session->data['fast_checkout'][$this->cart_key]['shipping_method']);
+                }
+            }
+
             //if any error in shipping method, need to log
             if (count($this->session->data['fast_checkout'][$this->cart_key]['shipping_methods'])) {
                 foreach ($this->session->data['fast_checkout'][$this->cart_key]['shipping_methods'] as $shp_key => $shmd) {
@@ -1415,7 +1430,7 @@ class ControllerResponsesCheckoutPay extends AController
                         $this->_to_log("Error with shipping quote: ".$shmd['error']);
                     }
                 }
-            } else {
+            } elseif (count($this->session->data['fast_checkout'][$this->cart_key]['shipping_methods']) === 0 && $this->cart->hasShipping()) {
                 $this->_to_log("No shipping option offered to the customer at checkout. Probably, need to check shipping setting!");
             }
         }

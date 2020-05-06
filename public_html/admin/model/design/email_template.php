@@ -132,14 +132,17 @@ class ModelDesignEmailTemplate extends Model
         return false;
     }
 
-    public function getByTextIdAndLanguageId($textId, $languageId)
+    public static function getByTextIdAndLanguageId($textId, $languageId)
     {
         if (!$textId || !(int)$languageId) {
             return false;
         }
-        $etTableName = $this->db->table('email_templates');
-        $query = 'SELECT * FROM '.$etTableName.' WHERE text_id=\''.$textId.'\' AND language_id='.(int)$languageId.' AND store_id='.$this->config->get('config_store_id');
-        $result = $this->db->query($query);
+        $db = Registry::getInstance()->get('db');
+        $storeId = Registry::getInstance()->get('config')->get('config_store_id');
+
+        $etTableName = $db->table('email_templates');
+        $query = 'SELECT * FROM '.$etTableName.' WHERE text_id=\''.$textId.'\' AND language_id='.(int)$languageId.' AND store_id='.$storeId;
+        $result = $db->query($query);
         if ($result && $result->num_rows > 0) {
             return $result->rows[0];
         }

@@ -85,6 +85,7 @@ $guest_data = $this->session->data['guest'];
 						<div class="shipping_address_details"></div>
                         <?php
                     } ?>
+
 				</div>
 
                 <?php
@@ -99,13 +100,13 @@ $guest_data = $this->session->data['guest'];
                 <?php
                 if ($show_payment == true) {
                     if ($need_payment_address) { ?>
-						<div class="form-group col-xxs-12 col-xs-6">
+						<div class="form-group <?php if ($this->cart->hasShipping()) { ?> col-xxs-12 col-xs-6 <?php } ?>">
                             <?php if ($guest_data) {
                             $address = $this->customer->getFormattedAddress($guest_data, $guest_data['address_format']);
                             ?>
 							<div class="left-inner-addon">
 								<i class="fa fa-bank"></i>
-								<a href="<?php echo $edit_address_url; ?>&type=payment" class="address_edit"><i
+								<a href="<?php echo $edit_address_url; ?>&type=payment" class="address_edit" id="payment_address_edit"><i
 											class="fa fa-edit"></i></a>
 								<div class="well">
 									<b><?php echo $fast_checkout_text_payment_address; ?>:</b> <br/>
@@ -161,9 +162,16 @@ $guest_data = $this->session->data['guest'];
                     <?php }
                 } ?>
 
+                <?php if ($this->cart->hasShipping() && count($csession['shipping_methods']) === 0){  ?>
+					<div class="alert alert-danger" role="alert">
+                        <?php echo $this->language->get('fast_checkout_no_shipments_available'); ?>
+					</div>
+                    <?php
+                    $payment_available = false;
+                } ?>
 
                 <?php
-                if ($this->cart->hasShipping()) {
+                if ($this->cart->hasShipping() && count($csession['shipping_methods']) > 0) {
                     $readonly = '';
                     if (count($csession['shipping_methods']) == 1) {
                         $readonly = ' readonly ';
@@ -220,8 +228,7 @@ $guest_data = $this->session->data['guest'];
 							</table>
 						</div>
 					</div>
-                <?php } //eof if product has shipping ?>
-
+                <?php }  ?>
                 <?php
                 //if not all required fields are selected, do not show payment fields
                 if ($show_payment == true){
@@ -231,6 +238,7 @@ $guest_data = $this->session->data['guest'];
 					<div class="form-group col-xxs-12">
 						<div class="left-inner-addon">
 							<i class="fa fa-envelope"></i>
+							<div class="input-group">
 							<input class="form-control input-lg"
 								   placeholder="Your Email"
 								   id="cc_email"
@@ -238,6 +246,12 @@ $guest_data = $this->session->data['guest'];
 								   type="text"
 								   value="<?php echo $customer_email; ?>"
                                 readonly>
+								<span class="input-group-btn">
+									<button class="btn btn-default btn-lg btn-edit-email" type="button">
+										<i class="fa fa-edit fa-fw"></i>
+									</button>
+							</span>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -301,7 +315,11 @@ $guest_data = $this->session->data['guest'];
 		<h5 class="text-center"><?php echo $fast_checkout_text_select_payment; ?>:</h5>
 		<?php include($this->templateResource('/template/responses/checkout/payment_select.tpl')) ?>
 	<?php
-        }
+        } else { ?>
+            <div class="alert alert-danger" role="alert">
+						<?php echo $this->language->get('fast_checkout_error_no_payment'); ?>
+			</div>
+        <?php }
     ?>
     <?php } ?>
 </fieldset>
@@ -596,6 +614,14 @@ $guest_data = $this->session->data['guest'];
 
 		updateShippingAddressDisplay()
 		updatePaymentAddressDisplay()
+
+		$('.btn-edit-email').on('click', function () {
+			<?php if ($this->customer && $this->customer->getId()) { ?>
+				location.replace('<?php echo $this->html->getSecureUrl("account/edit");?>')
+            <?php } else { ?>
+			$('#payment_address_edit').click()
+            <?php } ?>
+		})
 
 
 		$('#PayFrm').on('submit', function (event) {
