@@ -230,7 +230,10 @@ class ControllerResponsesCheckoutPay extends AController
         //set shipping method
         $this->_select_shipping($this->request->get['shipping_method']);
 
-        //handle balance
+        //handle balance. Re-apply ballance on every request as total can change
+        if ($this->session->data['fast_checkout'][$this->cart_key]['used_balance'] && !$request['balance']) {
+            $request['balance'] = 'reapply';
+        }
         $this->_handleBalance($request);
 
 
