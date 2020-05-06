@@ -236,9 +236,8 @@ $guest_data = $this->session->data['guest'];
 								   id="cc_email"
 								   name="cc_email"
 								   type="text"
-								   value="<?php echo $customer_email; ?>" <?php if ($loggedin) {
-                                echo 'readonly';
-                            } ?>>
+								   value="<?php echo $customer_email; ?>"
+                                readonly>
 						</div>
 					</div>
 				</div>
@@ -351,6 +350,9 @@ $guest_data = $this->session->data['guest'];
 
 		$(".registerbox input[type='radio']").change(function () {
 			let url = '<?php echo $main_url ?>&' + getUrlParams('shipping_method', $(this).val());
+			if ($('#PayFrm').serialize()) {
+				url = '<?php echo $main_url ?>&' + $('#PayFrm').serialize()
+			}
 			pageRequest(url);
 		});
 
@@ -368,12 +370,14 @@ $guest_data = $this->session->data['guest'];
 				$.aCCValidator.show_error($(this), '.form-group');
 				return false;
 			}
-			let url = '<?php echo $main_url ?>&' + getUrlParams('coupon_code', coupon);
+			//let url = '<?php echo $main_url ?>&' + getUrlParams('coupon_code', coupon);
+			let url = '<?php echo $main_url ?>&'+$('#PayFrm').serialize()
 			pageRequest(url);
 		});
 
 		$(".pay-form").on("click", ".btn-remove-coupon", function () {
-			let url = '<?php echo $main_url ?>&' + getUrlParams('remove_coupon', true);
+			//let url = '<?php echo $main_url ?>&' + getUrlParams('remove_coupon', true);
+			let url = '<?php echo $main_url ?>&'+$('#PayFrm').serialize()+'&remove_coupon=true'
 			pageRequest(url);
 		});
 
@@ -416,7 +420,8 @@ $guest_data = $this->session->data['guest'];
 			if (payment_id == 'account_balance' || paimentAwailable == 'false') {
 				return;
 			}
-			let url = '<?php echo $main_url ?>&' + getUrlParams('payment_method', payment_id);
+			//let url = '<?php echo $main_url ?>&' + getUrlParams('payment_method', payment_id);
+			let url = '<?php echo $main_url ?>&'+$('#PayFrm').serialize()+'&payment_method='+payment_id
 			//pageRequest(url);
 			var form = $('#PayFrm');
 			$('#payment_details').remove();

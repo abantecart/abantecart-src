@@ -1,6 +1,7 @@
 <link href="<?php echo $this->templateResource('/css/bootstrap-xxs.css'); ?>" rel="stylesheet" type='text/css'/>
 <link href="<?php echo $this->templateResource('/css/pay.css'); ?>" rel="stylesheet" type='text/css'/>
 
+
 <script type="text/javascript"
 		src="<?php echo $this->templateResource('/js/credit_card_validation.js'); ?>"></script>
 <script type="text/javascript"
@@ -16,13 +17,16 @@
 			$('.spinner-overlay').fadeIn(100);
 		}
 		$.ajax({
-			url: '<?php echo $cart_url; ?>'+'&cart_key='+(cart_key || ''),
+			url: '<?php echo $cart_url; ?>' + '&cart_key=' + (cart_key || ''),
 			type: 'GET',
 			dataType: 'html',
 			success: function (data) {
+				$('.spinner-overlay').fadeOut(500)
 				$('#fast_checkout_summary_block').trigger('reload')
 				$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
-				$('.spinner-overlay').fadeOut(500)
+			},
+			error: function () {
+				$('.spinner-overlay').fadeOut(500);
 			}
 		});
 	}

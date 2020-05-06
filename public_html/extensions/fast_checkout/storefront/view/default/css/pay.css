@@ -68,6 +68,12 @@
 	color: #00A1CB;
 }
 
+.pay-form .left-inner-addon i.fa-spin.fa-refresh {
+	font: normal normal normal 14px/1 FontAwesome;
+	position: relative;
+	padding: unset;
+}
+
 .pay-form .thumbnail {
 	cursor: pointer;
 }

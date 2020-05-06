@@ -110,6 +110,22 @@
         </div>
     </div>
 
+	<div class="row">
+		<div class="form-group col-xxs-12">
+			<div class="left-inner-addon">
+				<i class="fa fa-envelope"></i>
+				<input class="form-control input-lg"
+					   placeholder="Your Email"
+					   id="cc_email"
+					   name="cc_email"
+					   type="text"
+					   value="<?php echo $customer_email; ?>" <?php if ($loggedin) {
+                    echo 'readonly';
+                } ?>>
+			</div>
+		</div>
+	</div>
+
     <?php if ($type == 'payment' && $this->cart->hasShipping()) { ?>
         <div class="row">
             <div class="form-group col-xs-2">
