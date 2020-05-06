@@ -14,7 +14,6 @@
                 </a>
             </div>
         </div>
-        <script src="https://js.stripe.com/v3/"></script>
         <div class="form-group ">
             <label class="col-sm-4 control-label"><?php echo $entry_cc_owner; ?></label>
             <div class="col-sm-7 input-group">
@@ -46,6 +45,7 @@
     </div>
 
     <script type="text/javascript">
+        loadScript("https://js.stripe.com/v3/", initStripe);
         jQuery(document).ready(function () {
             var submitSent = false;
             $('#enter_card').hover(function () {
@@ -157,30 +157,38 @@
                     }
                 });
             }
+
+
         });
-        var stripe = Stripe(
-            '<?php echo $this->config->get('default_stripe_published_key');?>',
-            {
-                betas: ['payment_intent_beta_3']
+
+        function initStripe(){
+            if( Stripe === undefined ){
+                return;
             }
-        );
-        var elements = stripe.elements();
-        var card = elements.create('card', {
-            hidePostalCode: true,
-            style: {
-                base: {
-                    iconColor: '#666EE8',
-                    color: '#31325F',
-                    lineHeight: '40px',
-                    fontWeight: 300,
-                    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-                    fontSize: '15px',
-                    '::placeholder': {
-                        color: '#CFD7E0',
+            stripe = Stripe(
+                '<?php echo $this->config->get('default_stripe_published_key');?>',
+                {
+                    betas: ['payment_intent_beta_3']
+                }
+            );
+            elements = stripe.elements();
+            card = elements.create('card', {
+                hidePostalCode: true,
+                style: {
+                    base: {
+                        iconColor: '#666EE8',
+                        color: '#31325F',
+                        lineHeight: '40px',
+                        fontWeight: 300,
+                        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                        fontSize: '15px',
+                        '::placeholder': {
+                            color: '#CFD7E0',
+                        },
                     },
-                },
-            }
-        });
-        card.mount('#card-element');
+                }
+            });
+            card.mount('#card-element');
+        }
     </script>
 <?php } ?>

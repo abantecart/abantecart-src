@@ -23,16 +23,29 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesCheckoutFastCheckout extends AController
 {
-    private $error = array();
     public $data = array();
 
     public function main()
     {
+        if(HTTPS !== true){
+            $this->messages->saveError(
+                'FastCheckout non-secure page!',
+                'Page of Fast Checkout is non-secure. Checkout forbidden! Please set up ssl on server and set https store url!'
+            );
+            if( is_int(strpos($this->config->get('config_ssl_url'), 'https://')) ){
+                redirect($this->config->get('config_ssl_url').'?'.http_build_query($_GET));
+            }else{
+                echo 'Non-secure connection! Checkout process forbidden.';
+                exit;
+            }
+        }
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->data['cart_url'] = $this->html->getSecureURL('r/checkout/pay',
-            '&order_id='.$this->session->data['fast_checkout']['cart_key']);
+        $this->data['cart_url'] = $this->html->getSecureURL(
+                                                    'r/checkout/pay',
+                                                    '&order_id='.$this->session->data['fast_checkout']['cart_key']
+        );
 
         $this->view->batchAssign($this->data);
 

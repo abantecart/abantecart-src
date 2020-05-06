@@ -65,6 +65,7 @@ class ControllerResponsesCheckoutPay extends AController
 
         $cart_class_name = get_class($this->cart);
         $this->registry->set('cart', new $cart_class_name($this->registry, $this->session->data['fast_checkout'][$this->cart_key]));
+        $this->data['require_telephone'] = $this->config->get('fast_checkout_require_phone_number');
     }
 
     public function main()
@@ -105,8 +106,6 @@ class ControllerResponsesCheckoutPay extends AController
 
         $this->data['address_edit_base_url'] = $this->html->getSecureURL('account/address/update', '&address_id=');
 
-
-        $this->data['require_telephone'] = $this->config->get('fast_checkout_require_phone_number');
         if (!$this->customer->isLogged() && $this->allow_guest) {
             $this->data['allow_account_creation'] = $this->config->get('fast_checkout_create_account');
         }
@@ -427,13 +426,19 @@ class ControllerResponsesCheckoutPay extends AController
             } else {
                 $this->data['customer_email'] = $this->session->data['guest']['email'];
             }
-            $this->data['customer_telephone'] = $request['cc_telephone'];
+
+            if ($request['telephone']) {
+                $this->data['customer_telephone'] = $request['telephone'];
+            } else {
+                $this->data['customer_telephone'] = $this->session->data['guest']['telephone'];
+            }
+
             $this->data['reset_url'] = $this->html->getSecureURL('account/login');
 
         } else {
             //customer details
             $this->data['customer_email'] = $this->customer->getEmail();
-            $this->data['customer_telephone'] = $request['cc_telephone'];
+            $this->data['customer_telephone'] = $this->customer->getTelephone();
 
             //balance handling
             $balance_def_currency = $this->customer->getBalance();
@@ -466,7 +471,6 @@ class ControllerResponsesCheckoutPay extends AController
 
     protected function _build_cart_product_details()
     {
-
         $qty = 0;
         $resource = new AResource('image');
 
@@ -1049,6 +1053,7 @@ class ControllerResponsesCheckoutPay extends AController
         if ($this->request->is_POST()) {
             $this->loadModel('account/address');
             $this->error = $this->model_account_address->validateAddressData($post);
+            $this->_validateEmailTelephone($post);
             if ($this->error && $this->error['warning']) {
                 //we have errors
                 $this->error['message'] = $this->error['warning'];
@@ -1065,6 +1070,7 @@ class ControllerResponsesCheckoutPay extends AController
             if (!$this->session->data['guest']) {
                 $this->session->data['guest'] = [];
             }
+
             $this->session->data['guest']['firstname'] = $post['firstname'];
             $this->session->data['guest']['lastname'] = $post['lastname'];
             $this->session->data['guest']['email'] = $post['cc_email'];
@@ -1106,6 +1112,8 @@ class ControllerResponsesCheckoutPay extends AController
         }
 
         if ($this->request->get['type'] == 'shipping' || isset($post['same_as_shipping'])) {
+            $this->session->data['guest']['email'] = $post['cc_email'];
+            $this->session->data['guest']['telephone'] = $post['telephone'];
             $this->session->data['guest']['shipping']['company'] = '';
             $this->session->data['guest']['shipping']['firstname'] = $post['firstname'];
             $this->session->data['guest']['shipping']['lastname'] = $post['lastname'];
@@ -1229,6 +1237,18 @@ class ControllerResponsesCheckoutPay extends AController
 
         $this->loadModel('localisation/country');
         $this->data['countries'] = $this->model_localisation_country->getCountries();
+
+        if ($data['cc_email']) {
+            $this->data['customer_email'] = $data['cc_email'];
+        } else {
+            $this->data['customer_email'] = $this->session->data['guest']['email'];
+        }
+
+        if ($data['telephone']) {
+            $this->data['customer_telephone'] = $data['telephone'];
+        } else {
+            $this->data['customer_telephone'] = $this->session->data['guest']['telephone'];
+        }
 
         //login form portion
         $this->data['reset_url'] = $this->html->getSecureURL('account/login');
@@ -1495,6 +1515,18 @@ class ControllerResponsesCheckoutPay extends AController
             return false;
         }
         return true;
+    }
+
+    protected function _validateEmailTelephone($request){
+        $errors = array();
+        if ($this->config->get('fast_checkout_require_phone_number') && !$request['telephone']) {
+            $errors[] .= $this->language->get('fast_checkout_error_phone');
+        }
+
+        if (!$request['cc_email']) {
+            $errors[] = $this->language->get('fast_checkout_error_email');
+        }
+        $this->error['warning'] .= implode('<br>', $errors);
     }
 
     protected function _handleCoupon($request)

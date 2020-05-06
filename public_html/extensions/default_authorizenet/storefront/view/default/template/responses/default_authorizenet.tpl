@@ -142,14 +142,6 @@ $acjs_url =  $this->config->get('default_authorizenet_test_mode')
     function paymentFormUpdate(opaqueData) {
         $("#dataDescriptor").val( opaqueData.dataDescriptor );
         $("#dataValue").val( opaqueData.dataValue );
-
-        // If using your own form to collect the sensitive data from the customer,
-        // blank out the fields before submitting them to your server.
-/*		$("#cc_number").val('');
-        $("#cc_expire_date_month").val('');
-        $("#cc_expire_date_year").val('');
-        $("#cc_cvv2").val('');*/
-
         confirmSubmit($('#authorizenet'), 'index.php?rt=extension/default_authorizenet/send');
     }
 

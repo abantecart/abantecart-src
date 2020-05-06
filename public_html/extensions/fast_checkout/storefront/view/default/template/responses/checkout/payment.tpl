@@ -242,17 +242,18 @@ $guest_data = $this->session->data['guest'];
 					</div>
 				</div>
 
-                <?php if ($require_telephone) { ?>
+                <?php if ($require_telephone) {?>
 					<div class="row">
 						<div class="form-group col-xxs-12">
 							<div class="left-inner-addon">
 								<i class="fa fa-phone"></i>
-								<input id="cc_telephone"
+								<input id="telephone"
 									   class="form-control input-lg"
 									   placeholder="<?php echo $fast_checkout_text_telephone_placeholder; ?>"
-									   name="cc_telephone"
+									   name="telephone"
 									   type="text"
-									   value="<?php echo $customer_telephone; ?>">
+									   value="<?php echo $customer_telephone; ?>"
+                                readonly>
 							</div>
 						</div>
 					</div>
@@ -457,7 +458,7 @@ $guest_data = $this->session->data['guest'];
 			$('#account_credit').html($('#hidden_account_credit').html());
 		});
 
-		$('form.validate-creditcard #cc_telephone').bind({
+		$('form.validate-creditcard #telephone').bind({
 			change: function () {
 				//check as email is entered
 				if (validatePhone($(this).val())) {

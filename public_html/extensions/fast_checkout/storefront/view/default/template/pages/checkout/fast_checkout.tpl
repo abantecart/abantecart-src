@@ -12,8 +12,8 @@
 <script>
     <?php if ($cart_url) { ?>
 	let loadPage = function (cart_key) {
-		console.log(cart_key);
-		if ($('#fast_checkout_cart').html() == '') {
+console.log(cart_key);
+		if ($('#fast_checkout_cart').html() === '') {
 			$('.spinner-overlay').fadeIn(100);
 		}
 		$.ajax({
@@ -21,15 +21,15 @@
 			type: 'GET',
 			dataType: 'html',
 			success: function (data) {
-				$('.spinner-overlay').fadeOut(500)
-				$('#fast_checkout_summary_block').trigger('reload')
+				$('.spinner-overlay').fadeOut(500);
+				$('#fast_checkout_summary_block').trigger('reload');
 				$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
 			},
 			error: function () {
 				$('.spinner-overlay').fadeOut(500);
 			}
 		});
-	}
+	};
     <?php } ?>
 
 	$(document).ready(() => {

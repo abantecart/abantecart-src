@@ -68,41 +68,42 @@
             </div>
         </div>
     </div>
-
-    </div>
+</div>
 
     <script type="text/javascript">
         jQuery(document).ready(function () {
-
             var submitSent = false;
+            var payFormDiv = $(".pay-form");
 
-            $(".pay-form").on("click", "#new_user", function () {
+            payFormDiv.on("click", "#new_user", function () {
                 $(this).removeClass('btn-default').addClass('btn-primary');
                 $("#login_user").removeClass('btn-primary').addClass('btn-default');
             });
-            $(".pay-form").on("click", "#login_user", function () {
+
+            payFormDiv.on("click", "#login_user", function () {
                 $(this).removeClass('btn-default').addClass('btn-primary');
                 $("#new_user").removeClass('btn-primary').addClass('btn-default');
                 $("#new_address").removeClass('btn-primary').addClass('btn-default');
             });
-            $(".pay-form").on("click", "#new_address", function () {
+
+            payFormDiv.on("click", "#new_address", function () {
                 $(this).removeClass('btn-default').addClass('btn-primary');
                 $("#login_user").removeClass('btn-primary').addClass('btn-default');
             });
 
             //Form related: event to log creditcard entering, but we use it on all forms to show errors
-            var form = $('.pay-form form');
+            var form = $('.pay-form #PayFrm, .pay-form #AddressFrm,  .pay-form #Address2Frm');
             if (form.length) {
                 form.aCCValidator({});
 
-                $(".pay-form .form-group input").on("keypress", function () {
+                form.find(".form-group input").on("keypress", function () {
                     $.aCCValidator.reset($(this), '.form-group');
                 });
-                $(".pay-form .form-group select").on("change", function () {
+                form.find(".form-group select").on("change", function () {
                     $.aCCValidator.reset($(this), '.form-group');
                 });
 
-                $('.pay-form .button-checkbox').each(function () {
+                form.find(".button-checkbox").each(function () {
                     var $widget = $(this),
                         $button = $widget.find('button'),
                         $checkbox = $widget.find('input:checkbox'),
@@ -139,28 +140,26 @@
 
                     function init() {
                         updateDisplay();
-                        if ($button.find('.state-icon').length == 0) {
+                        if ($button.find('.state-icon').length === 0) {
                             $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
                         }
                     }
-
                     init();
                 });
 
-                form.submit(function (event) {
+                form.submit(function () {
                     if (submitSent !== true) {
                         submitSent = true;
-                        console.log(validateForm($(this)))
+console.log(validateForm($(this)));
                         if (validateForm($(this)) !== true) {
                             submitSent = false;
                             return false;
                         }
                         $(this).find('.btn-primary').button('loading');
                         //All Good send form
-						$.post(form.attr('action'), form.serialize(), function (data) {
-							loadPage('<?php echo $cart_key; ?>')
-						})
-                        console.log(form.attr('action'))
+                        $.post(form.attr('action'), form.serialize(), function (data) {
+                            loadPage('<?php echo $cart_key; ?>')
+                        });
                         return false;
                     }
                     return false;
@@ -173,12 +172,12 @@
                 form.find(':input').each(function () {
                     var el = $(this);
                     var name = el.attr('name');
-                    if (name == undefined) {
+                    if (name === undefined) {
                         return;
                     }
 
                     //coupon can be only applied, cannot submit
-                    if (name == 'coupon_code' && !el.attr('disabled')) {
+                    if (name === 'coupon_code' && !el.attr('disabled')) {
                         var str_val = el.val().replace(/\s+/g, '');
                         if (str_val.length > 0) {
                             $.aCCValidator.show_error(el, '.form-group');
@@ -186,75 +185,69 @@
                         }
                     }
 
-                    if (name == 'loginname' && el.val().length < 3) {
+                    if (name === 'loginname' && el.val().length < 3) {
                         $.aCCValidator.show_error(el, '.form-group');
                         ret = false;
                     }
-                    if (name == 'password' && el.val().length < 3) {
+                    if (name === 'password' && el.val().length < 3) {
                         $.aCCValidator.show_error(el, '.form-group');
                         ret = false;
                     }
-                    if (name == 'cc_telephone' && !validatePhone(el.val())) {
+                    if (name === 'telephone' && !validatePhone(el.val())) {
                         $.aCCValidator.show_error(el, '.form-group');
                         ret = false;
                     }
-                    if (name == 'cc_email' && !validateEmail(el.val())) {
+                    if (name === 'cc_email' && !validateEmail(el.val())) {
                         $.aCCValidator.show_error(el, '.form-group');
                         ret = false;
                     }
-                    if (name == 'shipping_address_id' && !el.val()) {
+                    if (name === 'shipping_address_id' && !el.val()) {
                         $.aCCValidator.show_error(el, '.form-group');
                         ret = false;
                     }
-                    if (name == 'payment_address_id' && !el.val()) {
+                    if (name === 'payment_address_id' && !el.val()) {
                         $.aCCValidator.show_error(el, '.form-group');
                         ret = false;
                     }
-                    if (name == 'shipping_method' && !el.val()) {
+                    if (name === 'shipping_method' && !el.val()) {
                         $.aCCValidator.show_error(el, '.form-group');
                         ret = false;
-                    }
-                    //cc validation
-                    if (ret !== false && name == 'cc_number') {
-                        ret = $.aCCValidator.validate(form);
                     }
                 });
                 return ret;
-            }
+            };
 
             showLoading = function (modal_body) {
                 modal_body.html('<div class="modal_loader" style="text-align: center"><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i></div>');
-            }
-
+            };
             validateEmail = function (email) {
                 var re = /^\s*(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))\s*$/;
                 return re.test(email);
-            }
-
+            };
             validatePhone = function (number) {
                 var re = /^\s*[\+]?[0-9]{0,3}?[-\s\.]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}\s*$/im;
                 return re.test(number);
-            }
+            };
 
             pageRequest = function (url) {
 				$('.spinner-overlay').fadeIn(100);
 				$.get(url, {} , function (data) {
-					$('#fast_checkout_summary_block').trigger('reload')
-					$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
+					$('#fast_checkout_summary_block').trigger('reload');
+					$('#fast_checkout_cart').hide().html(data).fadeIn(1000);
 					$('.spinner-overlay').fadeOut(500);
 				})
-            }
+            };
 
 			$('a.address_edit').on('click', function (event) {
-				event.preventDefault()
+				event.preventDefault();
 				$('.spinner-overlay').fadeIn(100);
 				$.ajax({
 					url: $(this).attr('href'),
 					type: 'GET',
 					dataType: 'html',
 					success: function (data) {
-						$('#fast_checkout_summary_block').trigger('reload')
-						$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
+						$('#fast_checkout_summary_block').trigger('reload');
+						$('#fast_checkout_cart').hide().html(data).fadeIn(1000);
 						$('.spinner-overlay').fadeOut(500);
 					}
 				});

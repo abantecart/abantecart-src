@@ -125,6 +125,23 @@
 			</div>
 		</div>
 	</div>
+    <?php if ($require_telephone) { ?>
+	<div class="row">
+		<div class="form-group col-xxs-12">
+			<div class="left-inner-addon">
+				<i class="fa fa-envelope"></i>
+				<input class="form-control input-lg"
+					   placeholder="Your Telephone"
+					   id="telephone"
+					   name="telephone"
+					   type="text"
+					   value="<?php echo $customer_telephone; ?>" <?php if ($loggedin) {
+                    echo 'readonly';
+                } ?>>
+			</div>
+		</div>
+	</div>
+    <?php } ?>
 
     <?php if ($type == 'payment' && $this->cart->hasShipping()) { ?>
         <div class="row">
