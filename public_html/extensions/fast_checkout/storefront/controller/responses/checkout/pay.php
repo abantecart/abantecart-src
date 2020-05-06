@@ -1294,7 +1294,7 @@ class ControllerResponsesCheckoutPay extends AController
 
         $ac_payments = [];
         //#Check config of selected shipping method and see if we have accepted payments restriction
-        $shipping_ext = explode('.', $this->session->data['shipping_method']['id']);
+        $shipping_ext = explode('.', $this->session->data['fast_checkout'][$this->cart_key]['shipping_method']['id']);
         $ship_ext_config = $this->model_checkout_extension->getSettings($shipping_ext[0]);
         $accept_payment_ids = $ship_ext_config[$shipping_ext[0]."_accept_payments"];
         if (is_array($accept_payment_ids) && count($accept_payment_ids)) {
