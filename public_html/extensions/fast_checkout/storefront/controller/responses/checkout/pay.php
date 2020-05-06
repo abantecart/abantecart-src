@@ -1034,6 +1034,7 @@ class ControllerResponsesCheckoutPay extends AController
 
         if ($this->request->get['type'] == 'payment') {
             $data = $this->session->data['guest'];
+            $this->data['customer_email'] = $this->session->data['guest']['email'];
         } else {
             $data = $this->session->data['guest']['shipping'];
         }
