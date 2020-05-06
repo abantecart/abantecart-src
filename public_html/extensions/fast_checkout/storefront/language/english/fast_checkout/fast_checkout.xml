@@ -292,5 +292,9 @@
 		<key>fast_checkout_order_summary</key>
 		<value><![CDATA[Order Summary]]></value>
 	</definition>
+	<definition>
+		<key>fast_checkout_no_shipments_available</key>
+		<value><![CDATA[No shipments are available.]]></value>
+	</definition>
 
 </definitions>

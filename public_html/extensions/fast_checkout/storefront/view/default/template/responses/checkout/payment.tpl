@@ -163,7 +163,7 @@ $guest_data = $this->session->data['guest'];
 
 
                 <?php
-                if ($this->cart->hasShipping()) {
+                if ($this->cart->hasShipping() && count($csession['shipping_methods']) > 0) {
                     $readonly = '';
                     if (count($csession['shipping_methods']) == 1) {
                         $readonly = ' readonly ';
@@ -220,8 +220,13 @@ $guest_data = $this->session->data['guest'];
 							</table>
 						</div>
 					</div>
-                <?php } //eof if product has shipping ?>
-
+                <?php } else { //eof if product has shipping ?>
+					<div class="alert alert-danger" role="alert">
+						<?php echo $this->language->get('fast_checkout_no_shipments_available'); ?>
+					</div>
+                <?php
+                    $payment_available = false;
+                } ?>
                 <?php
                 //if not all required fields are selected, do not show payment fields
                 if ($show_payment == true){
@@ -307,7 +312,11 @@ $guest_data = $this->session->data['guest'];
 		<h5 class="text-center"><?php echo $fast_checkout_text_select_payment; ?>:</h5>
 		<?php include($this->templateResource('/template/responses/checkout/payment_select.tpl')) ?>
 	<?php
-        }
+        } else { ?>
+            <div class="alert alert-danger" role="alert">
+						<?php echo $this->language->get('fast_checkout_error_no_payment'); ?>
+			</div>
+        <?php }
     ?>
     <?php } ?>
 </fieldset>
