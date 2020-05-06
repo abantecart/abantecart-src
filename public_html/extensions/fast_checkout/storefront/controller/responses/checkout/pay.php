@@ -61,6 +61,9 @@ class ControllerResponsesCheckoutPay extends AController
         if (!isset($this->session->data['fast_checkout'][$this->cart_key])
             || $this->session->data['fast_checkout'][$this->cart_key]['cart'] !== $this->session->data['cart']) {
             $this->session->data['fast_checkout'][$this->cart_key]['cart'] = $this->session->data['cart'];
+            if ($this->session->data['coupon']) {
+                $this->session->data['fast_checkout'][$this->cart_key]['coupon'] = $this->session->data['coupon'];
+            }
         }
 
         $cart_class_name = get_class($this->cart);
