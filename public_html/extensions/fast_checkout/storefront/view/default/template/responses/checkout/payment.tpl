@@ -85,6 +85,7 @@ $guest_data = $this->session->data['guest'];
 						<div class="shipping_address_details"></div>
                         <?php
                     } ?>
+
 				</div>
 
                 <?php
@@ -99,7 +100,7 @@ $guest_data = $this->session->data['guest'];
                 <?php
                 if ($show_payment == true) {
                     if ($need_payment_address) { ?>
-						<div class="form-group col-xxs-12 col-xs-6">
+						<div class="form-group <?php if ($this->cart->hasShipping()) { ?> col-xxs-12 col-xs-6 <?php } ?>">
                             <?php if ($guest_data) {
                             $address = $this->customer->getFormattedAddress($guest_data, $guest_data['address_format']);
                             ?>
@@ -161,6 +162,13 @@ $guest_data = $this->session->data['guest'];
                     <?php }
                 } ?>
 
+                <?php if ($this->cart->hasShipping() && count($csession['shipping_methods']) === 0){  ?>
+					<div class="alert alert-danger" role="alert">
+                        <?php echo $this->language->get('fast_checkout_no_shipments_available'); ?>
+					</div>
+                    <?php
+                    $payment_available = false;
+                } ?>
 
                 <?php
                 if ($this->cart->hasShipping() && count($csession['shipping_methods']) > 0) {
@@ -220,13 +228,7 @@ $guest_data = $this->session->data['guest'];
 							</table>
 						</div>
 					</div>
-                <?php } else { //eof if product has shipping ?>
-					<div class="alert alert-danger" role="alert">
-						<?php echo $this->language->get('fast_checkout_no_shipments_available'); ?>
-					</div>
-                <?php
-                    $payment_available = false;
-                } ?>
+                <?php }  ?>
                 <?php
                 //if not all required fields are selected, do not show payment fields
                 if ($show_payment == true){

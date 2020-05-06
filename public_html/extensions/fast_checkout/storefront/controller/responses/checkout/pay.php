@@ -1410,7 +1410,7 @@ class ControllerResponsesCheckoutPay extends AController
                         $this->_to_log("Error with shipping quote: ".$shmd['error']);
                     }
                 }
-            } else {
+            } elseif (count($this->session->data['fast_checkout'][$this->cart_key]['shipping_methods']) === 0 && $this->cart->hasShipping()) {
                 $this->_to_log("No shipping option offered to the customer at checkout. Probably, need to check shipping setting!");
             }
         }
