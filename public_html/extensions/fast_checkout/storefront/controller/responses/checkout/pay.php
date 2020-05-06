@@ -1392,6 +1392,17 @@ class ControllerResponsesCheckoutPay extends AController
 
             array_multisort($sort_order, SORT_ASC, $quote_data);
             $this->session->data['fast_checkout'][$this->cart_key]['shipping_methods'] = $quote_data;
+
+            if ($this->session->data['fast_checkout'][$this->cart_key]['shipping_method']) {
+                $shippingMethods = explode('.', $this->session->data['fast_checkout'][$this->cart_key]['shipping_method']['id']);
+                $shippingMethod = $shippingMethods[0];
+                if ($shippingMethod && $quote_data[$shippingMethod]) {
+                    $this->session->data['fast_checkout'][$this->cart_key]['shipping_method'] = $quote_data[$shippingMethod]['quote'][$shippingMethod];
+                } else {
+                    unset($this->session->data['fast_checkout'][$this->cart_key]['shipping_method']);
+                }
+            }
+
             //if any error in shipping method, need to log
             if (count($this->session->data['fast_checkout'][$this->cart_key]['shipping_methods'])) {
                 foreach ($this->session->data['fast_checkout'][$this->cart_key]['shipping_methods'] as $shp_key => $shmd) {

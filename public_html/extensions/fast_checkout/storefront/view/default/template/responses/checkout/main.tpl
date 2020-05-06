@@ -150,7 +150,6 @@
                 form.submit(function (event) {
                     if (submitSent !== true) {
                         submitSent = true;
-                        console.log(validateForm($(this)))
                         if (validateForm($(this)) !== true) {
                             submitSent = false;
                             return false;
