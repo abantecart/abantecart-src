@@ -12,7 +12,6 @@
 <script>
     <?php if ($cart_url) { ?>
 	let loadPage = function (cart_key) {
-console.log(cart_key);
 		if ($('#fast_checkout_cart').html() === '') {
 			$('.spinner-overlay').fadeIn(100);
 		}

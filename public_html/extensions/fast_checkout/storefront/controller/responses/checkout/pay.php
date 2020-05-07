@@ -269,6 +269,7 @@ class ControllerResponsesCheckoutPay extends AController
         if ($this->data['show_payment'] == true) {
             $this->_build_payment_view($request, $get_params);
         }
+        $this->addLoginForm($request, $get_params);
 
         $this->data['step'] = !$this->data['step'] ? 'payment' : $this->data['step'];
 
@@ -327,6 +328,41 @@ class ControllerResponsesCheckoutPay extends AController
             $this->error['message'] = $this->language->get('fast_checkout_error_unexpected');
             unset($this->session->data['order_id']);
             return $this->main();
+        }
+    }
+
+    protected function addLoginForm($request, $get_params) {
+        if (!$this->customer->isLogged()) {
+            $form = new AForm();
+            $form->setForm(['form_name' => 'LoginFrm']);
+            $this->data['login_form']['form_open'] = $form->getFieldHtml(
+                [
+                    'type'   => 'form',
+                    'name'   => 'LoginFrm',
+                    'method' => 'post',
+                    'action' => $this->html->getSecureURL('r/checkout/pay/login', $get_params),
+                    'csrf' => true,
+                ]
+            );
+            $this->data['customer_name'] = $request['cc_owner'];
+            if ($this->session->data['guest']) {
+                $this->data['customer_name'] =
+                    $this->session->data['guest']['firstname'].' '.$this->session->data['guest']['lastname'];
+            }
+            if ($request['cc_email']) {
+                $this->data['customer_email'] = $request['cc_email'];
+            } else {
+                $this->data['customer_email'] = $this->session->data['guest']['email'];
+            }
+
+            if ($request['telephone']) {
+                $this->data['customer_telephone'] = $request['telephone'];
+            } else {
+                $this->data['customer_telephone'] = $this->session->data['guest']['telephone'];
+            }
+
+            $this->data['reset_url'] = $this->html->getSecureURL('account/login');
+
         }
     }
 
@@ -416,35 +452,7 @@ class ControllerResponsesCheckoutPay extends AController
         }
 
         //check if logged in
-        if (!$this->customer->isLogged()) {
-            $form->setForm(['form_name' => 'LoginFrm']);
-            $this->data['login_form']['form_open'] = $form->getFieldHtml(
-                [
-                    'type'   => 'form',
-                    'name'   => 'LoginFrm',
-                    'action' => $this->html->getSecureURL('r/checkout/pay/login', $get_params),
-                ]
-            );
-            $this->data['customer_name'] = $request['cc_owner'];
-            if ($this->session->data['guest']) {
-                $this->data['customer_name'] =
-                    $this->session->data['guest']['firstname'].' '.$this->session->data['guest']['lastname'];
-            }
-            if ($request['cc_email']) {
-                $this->data['customer_email'] = $request['cc_email'];
-            } else {
-                $this->data['customer_email'] = $this->session->data['guest']['email'];
-            }
-
-            if ($request['telephone']) {
-                $this->data['customer_telephone'] = $request['telephone'];
-            } else {
-                $this->data['customer_telephone'] = $this->session->data['guest']['telephone'];
-            }
-
-            $this->data['reset_url'] = $this->html->getSecureURL('account/login');
-
-        } else {
+        if ($this->customer->isLogged()) {
             //customer details
             $this->data['customer_email'] = $this->customer->getEmail();
             $this->data['customer_telephone'] = $this->customer->getTelephone();

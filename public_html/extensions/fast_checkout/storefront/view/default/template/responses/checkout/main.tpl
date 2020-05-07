@@ -147,6 +147,8 @@
                     init();
                 });
 
+
+
                 form.submit(function () {
                     if (submitSent !== true) {
                         submitSent = true;
@@ -243,6 +245,44 @@
 				});
                 return ret;
             };
+
+
+			$('#LoginFrm').on('submit', function () {
+				$('#LoginFrm').aCCValidator({});
+				if (submitSent !== true) {
+					submitSent = true;
+					if (validateForm($(this)) !== true) {
+						submitSent = false;
+						return false;
+					}
+					$(this).find('.btn-primary').button('loading');
+					//All Good send form
+					$.post($(this).attr('action'), $(this).serialize(), function (data) {
+						loadPage('<?php echo $cart_key; ?>')
+					});
+					return false;
+				}
+				return false;
+			})
+
+			$('#LoginFrm_Submit').on('click', function () {
+				$('#LoginFrm').aCCValidator({});
+				loginFrm = $('#LoginFrm')
+				if (submitSent !== true) {
+					submitSent = true;
+					if (validateForm(loginFrm) !== true) {
+						submitSent = false;
+						return false;
+					}
+					loginFrm.find('.btn-primary').button('loading');
+					//All Good send form
+					$.post(loginFrm.attr('action'), loginFrm.serialize(), function (data) {
+						loadPage('<?php echo $cart_key; ?>')
+					});
+					return false;
+				}
+				return false;
+			})
 
             showLoading = function (modal_body) {
                 modal_body.html('<div class="modal_loader" style="text-align: center"><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i></div>');

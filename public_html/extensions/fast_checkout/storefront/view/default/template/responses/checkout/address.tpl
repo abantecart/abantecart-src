@@ -36,7 +36,7 @@
         } ?>">
             <div class="left-inner-addon">
                 <i class="fa fa-building"></i>
-                <input id="cc_number" class="form-control input-lg" placeholder="<?php echo $entry_address_1; ?>"
+                <input id="cc_address_1" class="form-control input-lg" placeholder="<?php echo $entry_address_1; ?>"
                        name="address_1" type="text" value="<?php echo $form['address_1']->value; ?>">
             </div>
         </div>
@@ -48,7 +48,7 @@
         } ?>">
             <div class="left-inner-addon">
                 <i class="fa fa-building-o"></i>
-                <input id="cc_number" class="form-control input-lg" placeholder="<?php echo $entry_address_2; ?>"
+                <input id="cc_address_2" class="form-control input-lg" placeholder="<?php echo $entry_address_2; ?>"
                        name="address_2" type="text" value="<?php echo $form['address_2']->value; ?>">
             </div>
         </div>

@@ -21,7 +21,7 @@
 </fieldset>
 <br>
 <div class=" text-center">
-    <button class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Authenticating ... ">
+    <button id="LoginFrm_Submit" class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-spin '></i> Authenticating ... ">
         <i class="fa fa-lock fa-fw"></i> <?php echo $fast_checkout_button_login; ?>
     </button>
     <a href="<?php echo $reset_url; ?>" class="btn btn-default" target="_login">

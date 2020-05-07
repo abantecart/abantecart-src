@@ -162,7 +162,7 @@ $guest_data = $this->session->data['guest'];
                     <?php }
                 } ?>
 
-                <?php if ($this->cart->hasShipping() && count($csession['shipping_methods']) === 0){  ?>
+                <?php if ($this->cart->hasShipping() && count($csession['shipping_methods']) === 0) { ?>
 					<div class="alert alert-danger" role="alert">
                         <?php echo $this->language->get('fast_checkout_no_shipments_available'); ?>
 					</div>
@@ -188,19 +188,19 @@ $guest_data = $this->session->data['guest'];
                                     <?php if (!$shipping_method['error']) { ?>
                                         <?php foreach ($shipping_method['quote'] as $quote) { ?>
 											<tr>
-												<td style="width: 5%; text-align: center; vertical-align: middle;"><?php echo $quote['radio'];?></td>
+												<td style="width: 5%; text-align: center; vertical-align: middle;"><?php echo $quote['radio']; ?></td>
 												<td style="vertical-align: middle;">
 													<label for="<?php
-													$idd = str_replace('.', '', $quote['id']);
-													echo preg_replace('/[^a-zA-Z0-9\.-_]/', '', $idd . $quote['id']); ?>"
+                                                    $idd = str_replace('.', '', $quote['id']);
+                                                    echo preg_replace('/[^a-zA-Z0-9\.-_]/', '', $idd.$quote['id']); ?>"
 														   title="<?php echo has_value($quote['description']) ? $quote['description'] : $quote['title']; ?>"
 														   style="cursor: pointer;">
                                                         <?php $icon = (array)$shipping_method['icon'];
                                                         if (sizeof($icon)) { ?>
                                                             <?php if (is_file(DIR_RESOURCE.$icon['image'])) { ?>
 																<span class="shipping_icon mr10"><img style="width:<?php echo $this->config->get('config_image_grid_width'); ?>px; height:auto;"
-																			src="resources/<?php echo $icon['image']; ?>"
-																			title="<?php echo $icon['title']; ?>"/></span>
+																									  src="resources/<?php echo $icon['image']; ?>"
+																									  title="<?php echo $icon['title']; ?>"/></span>
                                                             <?php } else {
                                                                 if (!empty($icon['resource_code'])) { ?>
 																	<span class="shipping_icon mr10"><?php echo $icon['resource_code']; ?></span>
@@ -211,7 +211,7 @@ $guest_data = $this->session->data['guest'];
 													</label>
 												</td>
 												<td style="vertical-align: middle;" class="align_right"><label for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
-																			   style="cursor: pointer;"><?php echo $quote['text']; ?></label>
+																											   style="cursor: pointer;"><?php echo $quote['text']; ?></label>
 												</td>
 											</tr>
                                         <?php } ?>
@@ -228,7 +228,7 @@ $guest_data = $this->session->data['guest'];
 							</table>
 						</div>
 					</div>
-                <?php }  ?>
+                <?php } ?>
                 <?php
                 //if not all required fields are selected, do not show payment fields
                 if ($show_payment == true){
@@ -239,13 +239,13 @@ $guest_data = $this->session->data['guest'];
 						<div class="left-inner-addon">
 							<i class="fa fa-envelope"></i>
 							<div class="input-group">
-							<input class="form-control input-lg"
-								   placeholder="Your Email"
-								   id="cc_email"
-								   name="cc_email"
-								   type="text"
-								   value="<?php echo $customer_email; ?>"
-                                readonly>
+								<input class="form-control input-lg"
+									   placeholder="Your Email"
+									   id="cc_email"
+									   name="cc_email"
+									   type="text"
+									   value="<?php echo $customer_email; ?>"
+									   readonly>
 								<span class="input-group-btn">
 									<button class="btn btn-default btn-lg btn-edit-email" type="button">
 										<i class="fa fa-edit fa-fw"></i>
@@ -256,7 +256,7 @@ $guest_data = $this->session->data['guest'];
 					</div>
 				</div>
 
-                <?php if ($require_telephone) {?>
+                <?php if ($require_telephone) { ?>
 					<div class="row">
 						<div class="form-group col-xxs-12">
 							<div class="left-inner-addon">
@@ -267,7 +267,7 @@ $guest_data = $this->session->data['guest'];
 									   name="telephone"
 									   type="text"
 									   value="<?php echo $customer_telephone; ?>"
-                                readonly>
+									   readonly>
 							</div>
 						</div>
 					</div>
@@ -308,20 +308,20 @@ $guest_data = $this->session->data['guest'];
 					</div>
                 <?php } ?>
 				<input type="hidden" name="account_credit" value="0">
-	</form>
     <?php
-        if ($payment_available === true) {
-    ?>
+    if ($payment_available === true) {
+        ?>
 		<h5 class="text-center"><?php echo $fast_checkout_text_select_payment; ?>:</h5>
-		<?php include($this->templateResource('/template/responses/checkout/payment_select.tpl')) ?>
-	<?php
-        } else { ?>
-            <div class="alert alert-danger" role="alert">
-						<?php echo $this->language->get('fast_checkout_error_no_payment'); ?>
-			</div>
-        <?php }
+        <?php include($this->templateResource('/template/responses/checkout/payment_select.tpl')) ?>
+        <?php
+    } else { ?>
+		<div class="alert alert-danger" role="alert">
+            <?php echo $this->language->get('fast_checkout_error_no_payment'); ?>
+		</div>
+    <?php }
     ?>
     <?php } ?>
+	</form>
 </fieldset>
 
 <script type="text/javascript">
@@ -390,13 +390,13 @@ $guest_data = $this->session->data['guest'];
 				return false;
 			}
 			//let url = '<?php echo $main_url ?>&' + getUrlParams('coupon_code', coupon);
-			let url = '<?php echo $main_url ?>&'+$('#PayFrm').serialize()
+			let url = '<?php echo $main_url ?>&' + $('#PayFrm').serialize()
 			pageRequest(url);
 		});
 
 		$(".pay-form").on("click", ".btn-remove-coupon", function () {
 			//let url = '<?php echo $main_url ?>&' + getUrlParams('remove_coupon', true);
-			let url = '<?php echo $main_url ?>&'+$('#PayFrm').serialize()+'&remove_coupon=true'
+			let url = '<?php echo $main_url ?>&' + $('#PayFrm').serialize() + '&remove_coupon=true'
 			pageRequest(url);
 		});
 
@@ -440,7 +440,7 @@ $guest_data = $this->session->data['guest'];
 				return;
 			}
 			//let url = '<?php echo $main_url ?>&' + getUrlParams('payment_method', payment_id);
-			let url = '<?php echo $main_url ?>&'+$('#PayFrm').serialize()+'&payment_method='+payment_id
+			let url = '<?php echo $main_url ?>&' + $('#PayFrm').serialize() + '&payment_method=' + payment_id
 			//pageRequest(url);
 			var form = $('#PayFrm');
 			$('#payment_details').remove();
@@ -616,18 +616,11 @@ $guest_data = $this->session->data['guest'];
 		updatePaymentAddressDisplay()
 
 		$('.btn-edit-email').on('click', function () {
-			<?php if ($this->customer && $this->customer->getId()) { ?>
-				location.replace('<?php echo $this->html->getSecureUrl("account/edit");?>')
+            <?php if ($this->customer && $this->customer->getId()) { ?>
+			location.replace('<?php echo $this->html->getSecureUrl("account/edit");?>')
             <?php } else { ?>
 			$('#payment_address_edit').click()
             <?php } ?>
-		})
-
-
-		$('#PayFrm').on('submit', function (event) {
-			alert('Handle!')
-			return false;
-
 		})
 
 
