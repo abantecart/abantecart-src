@@ -373,6 +373,19 @@ class ControllerResponsesCheckoutPay extends AController
                 'btn-primary btn-lg btn-block',
                 $paymentHTML
             );
+
+            $paymentHTML = preg_replace(
+                '/<a class="btn btn-default pull-left".*?<\/a>/si',
+                '',
+                $paymentHTML
+            );
+
+            $paymentHTML = preg_replace(
+                '/<a .*? class="btn btn-default".*?<\/a>/si',
+                '',
+                $paymentHTML
+            );
+
             $this->view->assign('payment_form', $paymentHTML);
         }
 

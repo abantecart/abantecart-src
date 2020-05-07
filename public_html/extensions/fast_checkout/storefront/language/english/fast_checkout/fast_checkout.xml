@@ -300,5 +300,13 @@
 		<key>fast_checkout_no_shipments_available</key>
 		<value><![CDATA[No shipments are available.]]></value>
 	</definition>
+	<definition>
+		<key>fast_checkout_telephone_placeholder</key>
+		<value><![CDATA[Your Telephone]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_email_placeholder</key>
+		<value><![CDATA[Your Email]]></value>
+	</definition>
 
 </definitions>
