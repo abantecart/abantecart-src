@@ -570,8 +570,7 @@ class ControllerPagesAccountOrderDetails extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        //do a few checks
-        //is order exists
+        //Run a few checks on passed data and
         $order_id = (int)$this->request->get['order_id'];
         $customer_id = $this->customer->getId();
 
@@ -622,8 +621,7 @@ class ControllerPagesAccountOrderDetails extends AController
             $this->redirect($this->html->getSecureURL('account/invoice'));
         }
 
-        //now do change
-
+        //now do the changes
         $new_order_status_id = $this->order_status->getStatusByTextId('canceled_by_customer');
         if ($new_order_status_id) {
             $this->loadModel('checkout/order');

@@ -28,7 +28,6 @@ class ControllerResponsesAccountOrderDetails extends AController
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
