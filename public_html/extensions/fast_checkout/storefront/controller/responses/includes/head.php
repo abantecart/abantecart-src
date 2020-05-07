@@ -51,34 +51,33 @@ class ControllerResponsesIncludesHead extends AController
             $this->view->assign('maintenance_warning', $this->language->get('text_maintenance_notice'));
         }
 
-        if ($this->session->data['fast_checkout_view_mode'] != 'modal') {
-            $view = new AView($this->registry, 0);
-            $data = array();
-            $data['store'] = $this->config->get('store_name');
-            $data['logo'] = $this->config->get('config_logo');
-            $data['homepage'] = $this->html->getHomeURL();
-            $logo_path = DIR_RESOURCE.$data['logo'];
+        $view = new AView($this->registry, 0);
+        $data = array();
+        $data['store'] = $this->config->get('store_name');
+        $data['logo'] = $this->config->get('config_logo');
+        $data['homepage'] = $this->html->getHomeURL();
+        $logo_path = DIR_RESOURCE.$data['logo'];
 
-            //see if we have a resource ID instead of path
-            if (is_numeric($data['logo'])) {
-                $resource = new AResource('image');
-                $image_data = $resource->getResource($data['logo']);
-                $img_sub_path = $image_data['type_name'].'/'.$image_data['resource_path'];
-                if (is_file(DIR_RESOURCE.$img_sub_path)) {
-                    $data['logo'] = $img_sub_path;
-                    $logo_path = DIR_RESOURCE.$img_sub_path;
-                } else {
-                    $data['logo'] = $image_data['resource_code'];
-                }
+        //see if we have a resource ID instead of path
+        if (is_numeric($data['logo'])) {
+            $resource = new AResource('image');
+            $image_data = $resource->getResource($data['logo']);
+            $img_sub_path = $image_data['type_name'].'/'.$image_data['resource_path'];
+            if (is_file(DIR_RESOURCE.$img_sub_path)) {
+                $data['logo'] = $img_sub_path;
+                $logo_path = DIR_RESOURCE.$img_sub_path;
+            } else {
+                $data['logo'] = $image_data['resource_code'];
             }
-
-            //get logo image dimensions
-            $info = get_image_size($logo_path);
-            $data['logo_width'] = $info['width'];
-            $data['logo_height'] = $info['height'];
-            $view->batchAssign($data);
-            $this->view->assign('header', $view->fetch('responses/includes/page_header.tpl'));
         }
+
+        //get logo image dimensions
+        $info = get_image_size($logo_path);
+        $data['logo_width'] = $info['width'];
+        $data['logo_height'] = $info['height'];
+        $view->batchAssign($data);
+        $this->view->assign('header', $view->fetch('responses/includes/page_header.tpl'));
+
         $this->processTemplate('responses/includes/head.tpl');
 
         //init controller data

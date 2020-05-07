@@ -29,17 +29,6 @@
 			<type>checkbox</type>
 			<default_value>0</default_value>
 		</item>
-		<item id="fast_checkout_hide_add_to_cart">
-			<type>checkbox</type>
-			<default_value>0</default_value>
-		</item>
-		<item id="fast_checkout_view_mode">
-			<type>selectbox</type>
-			<variants>
-				<item>modal</item>
-				<item>window</item>
-			</variants>
-		</item>
 		<item id="fast_checkout_sort_order">
 			<type>input</type>
 			<default_value>1</default_value>

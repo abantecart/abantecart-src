@@ -44,11 +44,6 @@ class ControllerResponsesCheckoutPay extends AController
         $this->session->data['fast-checkout'] = true;
 
         $this->allow_guest = $this->config->get('config_guest_checkout');
-        if (in_array($this->request->get_or_post('viewport'), ['modal', 'window'])) {
-            $this->session->data['fast_checkout_view_mode'] = $this->request->get_or_post('viewport');
-        } else {
-            unset($this->session->data['fast_checkout_view_mode']);
-        }
 
         $this->loadModel('catalog/product');
         $this->loadModel('checkout/extension');
@@ -292,8 +287,6 @@ class ControllerResponsesCheckoutPay extends AController
         $this->data['csession'] = $this->session->data['fast_checkout'][$this->cart_key];
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
-        $this->data['fast_checkout_view_mode'] = $this->session->data['fast_checkout_view_mode'];
 
         $in_data = array_merge((array)$this->session->data, $this->session->data['fast_checkout'][$this->cart_key]);
         if (!$in_data['guest'] && !$this->customer->getId()) {

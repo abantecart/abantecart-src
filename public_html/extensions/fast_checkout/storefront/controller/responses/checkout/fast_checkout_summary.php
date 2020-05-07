@@ -33,9 +33,6 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
         $this->session->data['fast-checkout'] = true;
 
         $this->allow_guest = $this->config->get('config_guest_checkout');
-        if (in_array($this->request->get_or_post('viewport'), ['modal', 'window'])) {
-            $this->session->data['fast_checkout_view_mode'] = $this->request->get_or_post('viewport');
-        }
 
         $this->cart_key = $this->session->data['cart_key'];
 

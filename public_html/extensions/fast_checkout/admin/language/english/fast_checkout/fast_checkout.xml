@@ -26,24 +26,7 @@
 			<![CDATA[Guest Checkout Create Account <br /><span class="help">Offer guests to create the accounts at the end of the checkout. This is transparent to guests and email will be sent with login details.</span>]]></value>
 	</definition>
 	<definition>
-		<key>fast_checkout_hide_add_to_cart</key>
-		<value><![CDATA[Hide "Add to Cart" Button <br /><span class="help">If you need to allow only fast checkout, you can disable standard add to cart buttons</span>]]></value>
-	</definition>
-	<definition>
 		<key>fast_checkout_languages</key>
 		<value><![CDATA[Language Definitions]]></value>
-	</definition>
-	<definition>
-		<key>fast_checkout_view_mode</key>
-		<value>
-			<![CDATA[Checkout View Mode: <br /><span class="help">Can be "window" (This means checkout process will be on another web-page) or "Modal" (checkout process will run on the same page without redirecting) </span>]]></value>
-	</definition>
-	<definition>
-		<key>fast_checkout_view_mode_modal</key>
-		<value><![CDATA[Modal]]></value>
-	</definition>
-	<definition>
-		<key>fast_checkout_view_mode_window</key>
-		<value><![CDATA[Window]]></value>
 	</definition>
 </definitions>

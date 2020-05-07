@@ -44,11 +44,7 @@ class ControllerResponsesIncludesFooter extends AController
         $this->data['text_project_label'] = $this->language->get('text_powered_by').' '.project_base();
 
         $this->view->batchAssign($this->data);
-        if ($this->session->data['fast_checkout_view_mode'] != 'modal') {
-            $tpl = 'responses/includes/page_footer.tpl';
-        } else {
-            $tpl = 'responses/includes/footer.tpl';
-        }
+        $tpl = 'responses/includes/page_footer.tpl';
         $this->processTemplate($tpl);
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
