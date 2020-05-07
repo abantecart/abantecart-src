@@ -1,8 +1,7 @@
 
 <div class="enter_card">
 
-<form id="authorizenet" class="validate-creditcard">
-<?php echo  $csrftoken.$csrfinstance;?>
+<?php  echo $form_open;?>
 <h4 class="heading4"><?php echo $text_credit_card; ?></h4>
 
     <?php echo $this->getHookVar('payment_table_pre'); ?>

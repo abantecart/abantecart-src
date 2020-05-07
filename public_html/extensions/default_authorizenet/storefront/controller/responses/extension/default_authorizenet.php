@@ -7,7 +7,7 @@
  */
 class ControllerResponsesExtensionDefaultAuthorizeNet extends AController
 {
-
+    public $data = array();
     public function main()
     {
         //init controller data
@@ -15,79 +15,78 @@ class ControllerResponsesExtensionDefaultAuthorizeNet extends AController
 
         $this->loadLanguage('default_authorizenet/default_authorizenet');
 
-        $data = $this->buildCCForm();
-        $this->view->batchAssign($data);
+        $this->buildCCForm();
 
-        //init controller data
+        //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
         //load creditcard input validation
         $this->document->addScriptBottom($this->view->templateResource('/javascript/credit_card_validation.js'));
-
+        $this->view->batchAssign($this->data);
         $this->processTemplate('responses/default_authorizenet.tpl');
     }
 
     public function form_verification()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('default_authorizenet/default_authorizenet');
-
-        $data = $this->buildCCForm();
-        $this->view->batchAssign($data);
-
-        //init controller data
-        $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
         //load creditcard input validation
         $this->document->addScriptBottom($this->view->templateResource('/javascript/credit_card_validation.js'));
 
+        $this->buildCCForm();
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        $this->view->batchAssign($this->data);
         $this->processTemplate('responses/default_authorizenet_verification.tpl');
     }
 
     public function buildCCForm()
     {
-        $data = array();
+
         //need an order details
         $this->loadModel('checkout/order');
         $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-        $data['payment_address'] = $order_info['payment_address_1']." ".$order_info['payment_address_2'];
-        $data['edit_address'] = $this->html->getSecureURL('checkout/address/payment');
+        $this->data['payment_address'] = $order_info['payment_address_1']." ".$order_info['payment_address_2'];
+        $this->data['edit_address'] = $this->html->getSecureURL('checkout/address/payment');
 
-        $data['text_credit_card'] = $this->language->get('text_credit_card');
-        $data['text_wait'] = $this->language->get('text_wait');
+        $this->data['text_credit_card'] = $this->language->get('text_credit_card');
+        $this->data['text_wait'] = $this->language->get('text_wait');
 
-        $csrftoken = $this->registry->get('csrftoken');
-        $data['csrfinstance'] = HtmlElementFactory::create(array(
-            'type'  => 'hidden',
-            'name'  => 'csrfinstance',
-            'value' => $csrftoken->setInstance(),
-        ));
-        $data['csrftoken'] = HtmlElementFactory::create(array(
-            'type'  => 'hidden',
-            'name'  => 'csrftoken',
-            'value' => $csrftoken->setToken(),
-        ));
+        $form = new AForm();
+        $form->setForm(
+            array(
+                'form_name' => 'authorizenet',
+            )
+        );
 
-        $data['entry_cc_owner'] = $this->language->get('entry_cc_owner');
-        $data['cc_owner_firstname'] = HtmlElementFactory::create(array(
+        $this->data['form_open'] = $form->getFieldHtml(
+            array(
+                'type' => 'form',
+                'name' => 'authorizenet',
+                'attr' => 'class = "validate-creditcard"',
+                'csrf' => true,
+            )
+        );
+
+        $this->data['entry_cc_owner'] = $this->language->get('entry_cc_owner');
+        $this->data['cc_owner_firstname'] = HtmlElementFactory::create(array(
             'type'        => 'input',
             'name'        => 'cc_owner_firstname',
             'placeholder' => 'First name',
             'value'       => $order_info['payment_firstname'],
         ));
 
-        $data['cc_owner_lastname'] = HtmlElementFactory::create(array(
+        $this->data['cc_owner_lastname'] = HtmlElementFactory::create(array(
             'type'        => 'input',
             'name'        => 'cc_owner_lastname',
             'placeholder' => 'Last name',
             'value'       => $order_info['payment_lastname'],
         ));
 
-        $data['entry_cc_number'] = $this->language->get('entry_cc_number');
-        $data['cc_number'] = HtmlElementFactory::create(array(
+        $this->data['entry_cc_number'] = $this->language->get('entry_cc_number');
+        $this->data['cc_number'] = HtmlElementFactory::create(array(
             'type'        => 'input',
             'name'        => 'cc_number',
             'attr'        => 'autocomplete="off"',
@@ -95,13 +94,13 @@ class ControllerResponsesExtensionDefaultAuthorizeNet extends AController
             'value'       => '',
         ));
 
-        $data['entry_cc_expire_date'] = $this->language->get('entry_cc_expire_date');
+        $this->data['entry_cc_expire_date'] = $this->language->get('entry_cc_expire_date');
 
-        $data['entry_cc_cvv2'] = $this->language->get('entry_cc_cvv2');
-        $data['entry_cc_cvv2_short'] = $this->language->get('entry_cc_cvv2_short');
-        $data['cc_cvv2_help_url'] = $this->html->getURL('r/extension/default_authorizenet/cvv2_help');
+        $this->data['entry_cc_cvv2'] = $this->language->get('entry_cc_cvv2');
+        $this->data['entry_cc_cvv2_short'] = $this->language->get('entry_cc_cvv2_short');
+        $this->data['cc_cvv2_help_url'] = $this->html->getURL('r/extension/default_authorizenet/cvv2_help');
 
-        $data['cc_cvv2'] = HtmlElementFactory::create(array(
+        $this->data['cc_cvv2'] = HtmlElementFactory::create(array(
             'type'  => 'input',
             'name'  => 'cc_cvv2',
             'value' => '',
@@ -109,15 +108,15 @@ class ControllerResponsesExtensionDefaultAuthorizeNet extends AController
             'attr'  => ' autocomplete="off" ',
         ));
 
-        $data['button_confirm'] = $this->language->get('button_confirm');
-        $data['button_back'] = $this->language->get('button_back');
+        $this->data['button_confirm'] = $this->language->get('button_confirm');
+        $this->data['button_back'] = $this->language->get('button_back');
 
         $months = array();
 
         for ($i = 1; $i <= 12; $i++) {
             $months[sprintf('%02d', $i)] = sprintf('%02d - ', $i).strftime('%B', mktime(0, 0, 0, $i, 1, 2000));
         }
-        $data['cc_expire_date_month'] = HtmlElementFactory::create(
+        $this->data['cc_expire_date_month'] = HtmlElementFactory::create(
             array(
                 'type'    => 'selectbox',
                 'name'    => 'cc_expire_date_month',
@@ -131,7 +130,7 @@ class ControllerResponsesExtensionDefaultAuthorizeNet extends AController
         for ($i = $today['year']; $i < $today['year'] + 11; $i++) {
             $years[strftime('%Y', mktime(0, 0, 0, 1, 1, $i))] = strftime('%Y', mktime(0, 0, 0, 1, 1, $i));
         }
-        $data['cc_expire_date_year'] = HtmlElementFactory::create(array(
+        $this->data['cc_expire_date_year'] = HtmlElementFactory::create(array(
             'type'    => 'selectbox',
             'name'    => 'cc_expire_date_year',
             'value'   => sprintf('%02d', date('Y') + 1),
@@ -142,7 +141,7 @@ class ControllerResponsesExtensionDefaultAuthorizeNet extends AController
         $back = $this->request->get['rt'] != 'checkout/guest_step_3'
                 ? $this->html->getSecureURL('checkout/payment')
                 : $this->html->getSecureURL('checkout/guest_step_2');
-        $data['back'] = HtmlElementFactory::create(array(
+        $this->data['back'] = HtmlElementFactory::create(array(
             'type'  => 'button',
             'name'  => 'back',
             'text'  => $this->language->get('button_back'),
@@ -151,7 +150,7 @@ class ControllerResponsesExtensionDefaultAuthorizeNet extends AController
             'icon'  => 'icon-arrow-left',
         ));
 
-        $data['submit'] = HtmlElementFactory::create(array(
+        $this->data['submit'] = HtmlElementFactory::create(array(
             'type'  => 'button',
             'name'  => 'authorizenet_button',
             'text'  => $this->language->get('button_confirm'),
@@ -159,7 +158,6 @@ class ControllerResponsesExtensionDefaultAuthorizeNet extends AController
             'icon'  => 'icon-ok icon-white',
         ));
 
-        return $data;
     }
 
     public function cvv2_help()
