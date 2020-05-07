@@ -110,7 +110,6 @@
         </div>
     </div>
 
-	<?php if ($type === 'payment') { ?>
 	<div class="row">
 		<div class="form-group col-xxs-12">
 			<div class="left-inner-addon">
@@ -124,7 +123,7 @@
 			</div>
 		</div>
 	</div>
-    <?php }
+    <?php
     if ($require_telephone) { ?>
 	<div class="row">
 		<div class="form-group col-xxs-12">

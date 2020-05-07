@@ -158,8 +158,11 @@
                         }
                         $(this).find('.btn-primary').button('loading');
                         //All Good send form
+						$('.spinner-overlay').fadeIn(100);
                         $.post(form.attr('action'), form.serialize(), function (data) {
-                            loadPage('<?php echo $cart_key; ?>')
+							$('.spinner-overlay').fadeOut(500);
+							$('#fast_checkout_summary_block').trigger('reload');
+							$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
                         });
                         return false;
                     }
