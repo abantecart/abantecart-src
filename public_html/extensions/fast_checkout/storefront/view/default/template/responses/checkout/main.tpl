@@ -212,7 +212,35 @@
                         $.aCCValidator.show_error(el, '.form-group');
                         ret = false;
                     }
-                });
+					if (name === 'firstname' && !el.val()) {
+						$.aCCValidator.show_error(el, '.form-group');
+						ret = false;
+					}
+					if (name === 'lastname' && !el.val()) {
+						$.aCCValidator.show_error(el, '.form-group');
+						ret = false;
+					}
+					if (name === 'address_1' && !el.val()) {
+						$.aCCValidator.show_error(el, '.form-group');
+						ret = false;
+					}
+					if (name === 'city' && !el.val()) {
+						$.aCCValidator.show_error(el, '.form-group');
+						ret = false;
+					}
+					if (name === 'postcode' && !el.val()) {
+						$.aCCValidator.show_error(el, '.form-group');
+						ret = false;
+					}
+					if (name === 'zone_id' && (!el.val() || el.val().toLowerCase() == 'false') ) {
+						$.aCCValidator.show_error(el, '.form-group');
+						ret = false;
+					}
+					if (name === 'country_id' && (!el.val() || el.val().toLowerCase() == 'false')) {
+						$.aCCValidator.show_error(el, '.form-group');
+						ret = false;
+					}
+				});
                 return ret;
             };
 
