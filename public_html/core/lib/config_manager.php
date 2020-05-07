@@ -38,16 +38,18 @@ if (!defined('DIR_CORE')) {
  * @property AIMManager                   $im
  * @property AConfig                      $config
  * @property ARequest                     $request
+ * @property ExtensionsApi                $extensions
  *
  * @method array() _build_form_general $method_name
  *
  */
 class AConfigManager
 {
-    public $errors = 0;
     protected $registry;
     protected $groups = array();
     protected $templates = array();
+    public $data = array();
+    public $errors = array();
 
     public function __construct()
     {
@@ -93,9 +95,7 @@ class AConfigManager
             $data['tmpl_id'] = 'default';
         }
         $data['one_field'] = $setting_key;
-
-        $fields = $this->getFormFields($group, $form, $data);
-        return $fields;
+        return $this->getFormFields($group, $form, $data);
     }
 
     /**
@@ -109,12 +109,14 @@ class AConfigManager
      */
     public function getFormFields($group, $form, $data)
     {
-
         $method_name = "_build_form_".$group;
         if (!method_exists($this, $method_name)) {
             return array();
         }
-        return $this->$method_name($form, $data);
+
+        $this->data['fields'] = $this->$method_name($form, $data);
+        $this->extensions->hk_ProcessData($this, $method_name, $data);
+        return $this->data['fields'];
     }
 
     /**To be removed in v 1.3 or next major release
@@ -136,15 +138,15 @@ class AConfigManager
             return false;
         }
         $this->load->language('setting/setting');
-        $error = null;
+        $this->errors = array();
         foreach ($fields as $field_name => $field_value) {
             switch ($group) {
                 case 'details':
                     if ($field_name == 'store_name' && !$field_value) {
-                        $error['name'] = $this->language->get('error_name');
+                        $this->errors['name'] = $this->language->get('error_name');
                     }
                     if ($field_name == 'config_title' && !$field_value) {
-                        $error['title'] = $this->language->get('error_title');
+                        $this->errors['title'] = $this->language->get('error_title');
                     }
                     //URLS validation
                     if ($field_name == 'config_url' && $field_value) {
@@ -154,10 +156,10 @@ class AConfigManager
                         $config_ssl_url = $field_value;
                     }
                     if ($field_name == 'config_url' && (!$field_value || !preg_match("/^(http|https):\/\//", $field_value))) {
-                        $error['url'] = $this->language->get('error_url');
+                        $this->errors['url'] = $this->language->get('error_url');
                     }
                     if ($field_name == 'config_ssl_url' && $field_value && !preg_match("/^(http|https):\/\//", $field_value)) {
-                        $error['ssl_url'] = $this->language->get('error_ssl_url');
+                        $this->errors['ssl_url'] = $this->language->get('error_ssl_url');
                     } //when quicksave only ssl_url
                     elseif ($field_name == 'config_ssl_url' && $field_value && !has_value($fields['config_url'])) {
                         $saved_settings = $this->model_setting_setting->getSetting($group, $store_id);
@@ -170,12 +172,12 @@ class AConfigManager
                         $config_url = $field_value;
                     }
                     //When store url is secure but ssl_url not - show error
-                    if (!$error['url']
-                        && !$error['ssl_url']
+                    if (!$this->errors['url']
+                        && !$this->errors['ssl_url']
                         && preg_match("/^(https):\/\//", $config_url)
                         && preg_match("/^(http):\/\//", $config_ssl_url)
                     ) {
-                        $error['ssl_url'] = $this->language->get('error_ssl_url');
+                        $this->errors['ssl_url'] = $this->language->get('error_ssl_url');
                     }
 
 
@@ -185,7 +187,7 @@ class AConfigManager
                             || mb_strlen($fields['config_owner']) > 64
                         )
                     ){
-                        $error['owner'] = $this->language->get('error_owner');
+                        $this->errors['owner'] = $this->language->get('error_owner');
                     }
 
                     if ( isset($fields['config_address'])
@@ -194,7 +196,7 @@ class AConfigManager
                             || mb_strlen($fields['config_address']) > 256
                         )
                     ) {
-                        $error['address'] = $this->language->get('error_address');
+                        $this->errors['address'] = $this->language->get('error_address');
                     }
 
                     if ( isset($fields['store_main_email'])
@@ -203,41 +205,40 @@ class AConfigManager
                             || (!preg_match(EMAIL_REGEX_PATTERN, $fields['store_main_email']))
                            )
                     ) {
-                        $error['email'] = $this->language->get('error_email');
+                        $this->errors['email'] = $this->language->get('error_email');
                     }
 
                     if ( isset($fields['config_telephone']) && mb_strlen($fields['config_telephone']) > 32) {
-                        $error['telephone'] = $this->language->get('error_telephone');
+                        $this->errors['telephone'] = $this->language->get('error_telephone');
                     }
                     if ( isset($fields['config_postcode']) && mb_strlen($fields['config_postcode']) < 3) {
-                        $error['postcode'] = $this->language->get('error_postcode');
+                        $this->errors['postcode'] = $this->language->get('error_postcode');
                     }
                     if ( isset($fields['config_city']) && mb_strlen($fields['config_city']) < 2) {
-                        $error['city'] = $this->language->get('error_city');
+                        $this->errors['city'] = $this->language->get('error_city');
                     }
-
                     break;
 
                 case 'general':
 
                     if ($field_name == 'config_catalog_limit' && !$field_value) {
-                        $error['catalog_limit'] = $this->language->get('error_limit');
+                        $this->errors['catalog_limit'] = $this->language->get('error_limit');
                     }
 
                     if ($field_name == 'config_bestseller_limit' && !$field_value) {
-                        $error['bestseller_limit'] = $this->language->get('error_limit');
+                        $this->errors['bestseller_limit'] = $this->language->get('error_limit');
                     }
 
                     if ($field_name == 'config_featured_limit' && !$field_value) {
-                        $error['featured_limit'] = $this->language->get('error_limit');
+                        $this->errors['featured_limit'] = $this->language->get('error_limit');
                     }
 
                     if ($field_name == 'config_latest_limit' && !$field_value) {
-                        $error['latest_limit'] = $this->language->get('error_limit');
+                        $this->errors['latest_limit'] = $this->language->get('error_limit');
                     }
 
                     if ($field_name == 'config_special_limit' && !$field_value) {
-                        $error['special_limit'] = $this->language->get('error_limit');
+                        $this->errors['special_limit'] = $this->language->get('error_limit');
                     }
                     break;
 
@@ -257,7 +258,7 @@ class AConfigManager
                     foreach ($item_name as $key) {
                         foreach (array('width', 'height') as $dim) {
                             if ($field_name == 'config_image_'.$key.'_'.$dim && !$field_value) {
-                                $error['image_'.$key.'_'.$dim] = $this->language->get('error_image_'.$key);
+                                $this->errors['image_'.$key.'_'.$dim] = $this->language->get('error_image_'.$key);
                             }
                         }
                     }
@@ -266,13 +267,13 @@ class AConfigManager
 
                 case 'checkout':
                     if ($field_name == 'config_start_order_id' && $field_value && !(int)$field_value) {
-                        $error['start_order_id'] = $this->language->get('error_start_order_id');
+                        $this->errors['start_order_id'] = $this->language->get('error_start_order_id');
                     }
                     if ($field_name == 'starting_invoice_id' && $field_value && !(int)$field_value) {
-                        $error['starting_invoice_id'] = $this->language->get('error_starting_invoice_id');
+                        $this->errors['starting_invoice_id'] = $this->language->get('error_starting_invoice_id');
                     }
                     if ($field_name == 'config_expire_order_days' && $field_value && !(int)$field_value) {
-                        $error['expire_order_days'] = $this->language->get('error_expire_order_days');
+                        $this->errors['expire_order_days'] = $this->language->get('error_expire_order_days');
                     }
 
                     break;
@@ -287,14 +288,14 @@ class AConfigManager
                             || ($field_name == 'config_smtp_port' && !$field_value)
                             || ($field_name == 'config_smtp_timeout' && !$field_value))
                     ) {
-                        $error['mail'] = $this->language->get('error_mail');
+                        $this->errors['mail'] = $this->language->get('error_mail');
                     }
 
                     break;
 
                 case 'system':
                     if ($field_name == 'config_error_filename' && !$field_value) {
-                        $error['error_filename'] = $this->language->get('error_error_filename');
+                        $this->errors['error_filename'] = $this->language->get('error_error_filename');
                     }
                     if ($field_name == 'config_upload_max_size') {
                         $fields[$field_value] = preformatInteger($field_value);
@@ -305,7 +306,8 @@ class AConfigManager
             }
 
         }
-        return array('error' => $error, 'validated' => $fields);
+        $this->extensions->hk_ValidateData($this, func_get_args());
+        return array('error' => $this->errors, 'validated' => $fields);
     }
 
     /**
@@ -419,11 +421,19 @@ class AConfigManager
             'value'    => $data['config_latitude'],
             'style'    => 'medium-field',
         ));
+
         $fields['longitude'] = $form->getFieldHtml($props[] = array(
             'type'     => 'input',
             'name'     => 'config_longitude',
             'value'    => $data['config_longitude'],
             'style'    => 'medium-field',
+        ));
+
+        $fields['store_image'] = $form->getFieldHtml($props[] = array(
+            'type'        => 'resource',
+            'name'        => 'config_store_image',
+            'resource_id' => $data['config_store_image_resource_id'],
+            'rl_type'     => 'image',
         ));
 
         $fields['email'] = $form->getFieldHtml($props[] = array(
