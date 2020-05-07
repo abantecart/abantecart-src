@@ -116,7 +116,7 @@
 			<div class="left-inner-addon">
 				<i class="fa fa-envelope"></i>
 				<input class="form-control input-lg"
-					   placeholder="Your Email"
+					   placeholder="<?php echo $this->language->get('fast_checkout_email_placeholder'); ?>"
 					   id="cc_email"
 					   name="cc_email"
 					   type="text"
@@ -129,9 +129,9 @@
 	<div class="row">
 		<div class="form-group col-xxs-12">
 			<div class="left-inner-addon">
-				<i class="fa fa-envelope"></i>
+				<i class="fa fa-phone"></i>
 				<input class="form-control input-lg"
-					   placeholder="Your Telephone"
+					   placeholder="<?php echo $this->language->get('fast_checkout_telephone_placeholder'); ?>"
 					   id="telephone"
 					   name="telephone"
 					   type="text"
