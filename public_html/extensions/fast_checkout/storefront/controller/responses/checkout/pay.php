@@ -297,6 +297,7 @@ class ControllerResponsesCheckoutPay extends AController
                 $this->html->getSecureURL('r/checkout/pay/address', '&cart_key='.$this->cart_key)
             );
         }
+
         $this->updateOrCreateOrder($in_data, $request);
 
         $this->view->batchAssign($this->data);
@@ -325,8 +326,7 @@ class ControllerResponsesCheckoutPay extends AController
             }
             $this->session->data['order_id'] = $order_id;
         } else {
-            $this->_to_log(sprintf($this->language->get('fast_checkout_error_unexpected_log'),
-                var_export($in_data, true)));
+            $this->_to_log(sprintf($this->language->get('fast_checkout_error_unexpected_log'), var_export($in_data, true)));
             $this->error['message'] = $this->language->get('fast_checkout_error_unexpected');
             unset($this->session->data['order_id']);
             return $this->main();
@@ -373,7 +373,7 @@ class ControllerResponsesCheckoutPay extends AController
         $this->data['payment_methods'] = $this->_get_payment_methods();
         $this->data['payment_method'] = $request['payment_method'];
         if (!$this->data['payment_method'] && !$this->session->data['fast_checkout'][$this->cart_key]['payment_method']) {
-            //check autoselct payment
+            //check autoselect payment
             foreach ($this->data['payment_methods'] as $id => $payment) {
                 $psettings = $this->model_checkout_extension->getSettings($id);
                 if ($psettings[$id.'_autoselect']) {
@@ -390,7 +390,9 @@ class ControllerResponsesCheckoutPay extends AController
         if ($this->data['payment_method']) {
             $this->session->data['fast_checkout'][$this->cart_key]['payment_method'] = [
                 'id'    => $this->data['payment_method'],
-                'title' => $this->data['payment_methods'][$this->data['payment_method']]['title'],
+                'title' => $this->data['payment_method'] == 'no_payment_required'
+                            ? $this->language->get('no_payment_required')
+                            : $this->data['payment_methods'][$this->data['payment_method']]['title'],
             ];
 
             $rt = '';
@@ -599,6 +601,7 @@ class ControllerResponsesCheckoutPay extends AController
                 'title' => $this->language->get('no_payment_required'),
             ];
             $in_data = array_merge((array)$this->session->data, $this->session->data['fast_checkout'][$this->cart_key]);
+
             $this->updateOrCreateOrder($in_data, $request);
 
         } else {
@@ -1611,6 +1614,10 @@ class ControllerResponsesCheckoutPay extends AController
                     if ($balance >= $order_total) {
                         $this->session->data['fast_checkout'][$this->cart_key]['used_balance'] = $order_total;
                         $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full'] = true;
+                        $this->session->data['fast_checkout'][$this->cart_key]['payment_method'] = array(
+                                            'id'    => 'no_payment_required',
+                                            'title' => $this->language->get('no_payment_required'),
+                                        );
                     } else { //partial pay
                         $this->session->data['fast_checkout'][$this->cart_key]['used_balance'] = $balance;
                         $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full'] = false;
@@ -1625,11 +1632,6 @@ class ControllerResponsesCheckoutPay extends AController
             $order_total = $order_totals['total'];
             //if balance enough to cover order amount
             if ($order_total == 0 && $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full']) {
-                //select no other payment required.
-                $this->session->data['fast_checkout'][$this->cart_key]['payment_method'] = array(
-                    'id'    => 'no_payment_required',
-                    'title' => $this->language->get('no_payment_required'),
-                );
                 return null;
             }
         }
