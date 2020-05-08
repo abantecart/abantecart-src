@@ -125,7 +125,7 @@ class ControllerResponsesExtensionDefaultRealex extends AController
         );
 
         $conf_cc_list = unserialize($this->config->get('default_realex_creditcard_selection'));
-        $card_types = array('');
+        $card_types = array();
         foreach ($conf_cc_list as $cc_type => $cc) {
             if ($cc['enabled']) {
                 $card_types[$cc_type] = $this->language->get('default_realex_creditcard_selection_'.$cc_type);
