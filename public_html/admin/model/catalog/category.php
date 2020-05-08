@@ -222,18 +222,23 @@ class ModelCatalogCategory extends Model
      */
     public function getCategories($parent_id = null, $store_id = null)
     {
-        $store_id = is_array($store_id) ? array_map('intval',$store_id) : (int)$store_id;
+        $store_id = is_array($store_id) ? array_map('intval',$store_id) : $store_id;
         $language_id = $this->language->getContentLanguageID();
         $cache_key = 'category.'.$parent_id.'.store_'.$store_id.'_lang_'.$language_id;
         $category_data = $this->cache->pull($cache_key);
 
         if ($category_data === false) {
             $category_data = array();
-            $sql = "SELECT c.*, cs.* ".($store_id?', s.name as store_name':'' )."
-					FROM ".$this->db->table("categories")." c
+            if($store_id === null) {
+                $sql = "SELECT * ";
+            }else {
+                $sql = "SELECT c.*, cs.*, s.name as store_name";
+            }
+
+			$sql .= " FROM ".$this->db->table("categories")." c
 					LEFT JOIN ".$this->db->table("category_descriptions")." cd
 					ON (c.category_id = cd.category_id) ";
-            if ($store_id >= 0) {
+            if ($store_id !== null) {
                 $sql .= "RIGHT JOIN ".$this->db->table("categories_to_stores")." cs 
                             ON (c.category_id = cs.category_id AND ";
                     if( is_array($store_id) ){
