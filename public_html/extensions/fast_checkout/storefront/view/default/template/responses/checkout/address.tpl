@@ -8,6 +8,7 @@
     <?php } ?>
 </div>
 <fieldset>
+    <?php echo $this->getHookVar('address_form_top'); ?>
     <label class="visible-xs text-center text-uppercase"><?php echo $type.' '.$fast_checkout_text_address; ?></label>
     <div class="row">
         <div class="form-group col-xxs-12 col-xs-6 <?php if ($errors['firstname']) {
@@ -164,7 +165,9 @@
 
     <button type="submit" class="btn btn-primary btn-lg btn-block btn-pay"><?php echo $fast_checkout_text_enter_address
             .' '.$text_mmmm; ?></button>
+    <?php echo $this->getHookVar('address_form_bottom'); ?>
 </fieldset>
+
 
 </form>
 

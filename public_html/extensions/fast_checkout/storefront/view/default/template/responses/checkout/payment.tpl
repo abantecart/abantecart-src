@@ -17,6 +17,8 @@ $guest_data = $this->session->data['guest'];
 		  action="<?php echo $pay_form['form_open']->action; ?>"
 		  class="validate-creditcard"
 		  method="post">
+
+        <?php echo $this->getHookVar('payment_form_top'); ?>
         <?php
         if (count($all_addresses) == 1) {
             $readonly = ' readonly ';
@@ -308,6 +310,7 @@ $guest_data = $this->session->data['guest'];
 					</div>
                 <?php } ?>
 				<input type="hidden" name="account_credit" value="0">
+                <?php echo $this->getHookVar('payment_form_bottom'); ?>
 	</form>
     <?php
     if ($payment_available === true) {
