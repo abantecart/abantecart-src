@@ -208,7 +208,7 @@ class ControllerResponsesCheckoutPay extends AController
                 if ($this->allow_guest && !$this->session->data['guest']['shipping']) {
                     //shipping required, show address form for guest
                     $this->action = 'enter';
-                    return $this->_address('shipping', $this->session->data['guest']);
+                    return $this->_address('shipping', []);
                 } else {
                     if ($this->allow_guest && $this->session->data['guest']) {
                         $this->session->data['fast_checkout'][$this->cart_key]['tax_zone_id'] = $this->session->data['guest']['zone_id'];
