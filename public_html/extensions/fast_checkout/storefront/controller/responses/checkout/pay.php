@@ -630,12 +630,13 @@ class ControllerResponsesCheckoutPay extends AController
                 $this->error['message'] = $this->language->get('fast_checkout_error_balance_pay');
                 return $this->main();
             }
-        } else {
-            //FUTURE: Payment handler will process payment in here.
-            $this->_to_log($this->language->get('fast_checkout_error_handler_object'));
-            $this->error['message'] = $this->language->get('fast_checkout_error_unknown_payment');
-            return $this->main();
         }
+//         else {
+//            //FUTURE: Payment handler will process payment in here.
+//            $this->_to_log($this->language->get('fast_checkout_error_handler_object'));
+//            $this->error['message'] = $this->language->get('fast_checkout_error_unknown_payment');
+//            return $this->main();
+//        }
 
         $this->action = 'confirm';
         $this->data['step'] = 'confirm';

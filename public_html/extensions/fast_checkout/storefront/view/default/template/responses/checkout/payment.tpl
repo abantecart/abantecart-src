@@ -231,7 +231,7 @@ $guest_data = $this->session->data['guest'];
                 <?php } ?>
                 <?php
                 //if not all required fields are selected, do not show payment fields
-                if ($show_payment == true){
+                if ($show_payment == true) {
                 ?>
 
 				<div class="row">
@@ -308,6 +308,7 @@ $guest_data = $this->session->data['guest'];
 					</div>
                 <?php } ?>
 				<input type="hidden" name="account_credit" value="0">
+	</form>
     <?php
     if ($payment_available === true) {
         ?>
@@ -321,7 +322,6 @@ $guest_data = $this->session->data['guest'];
     <?php }
     ?>
     <?php } ?>
-	</form>
 </fieldset>
 
 <script type="text/javascript">
