@@ -509,7 +509,7 @@ $guest_data = $this->session->data['guest'];
 			$('#account_credit').html($('#hidden_account_credit').html());
 		});
 
-		$('form.validate-creditcard #telephone').bind({
+		$('form.validate-creditcard [name=telephone]').bind({
 			change: function () {
 				//check as email is entered
 				if (validatePhone($(this).val())) {
@@ -528,7 +528,7 @@ $guest_data = $this->session->data['guest'];
 			}
 		});
 
-		$('form.validate-creditcard #cc_email').bind({
+		$('form.validate-creditcard [name=cc_email]').bind({
 			change: function () {
 				//check as email is entered
 				if (validateEmail($(this).val())) {
@@ -547,7 +547,7 @@ $guest_data = $this->session->data['guest'];
 			}
 		});
 
-		$('form.validate-creditcard #cc_number').bind({
+		$('form.validate-creditcard [name=cc_number]').bind({
 			change: function () {
 				//check as number is entered
 				$.aCCValidator.precheckCCNumber($(this));
@@ -558,7 +558,7 @@ $guest_data = $this->session->data['guest'];
 			}
 		});
 
-		$('form.validate-creditcard #cc_owner').bind({
+		$('form.validate-creditcard [name=cc_owner]').bind({
 			change: function () {
 				$.aCCValidator.checkCCName($(this), 'reset');
 			},
@@ -567,7 +567,7 @@ $guest_data = $this->session->data['guest'];
 			}
 		});
 
-		$('form.validate-creditcard #cc_expire_date_month').bind({
+		$('form.validate-creditcard [name=cc_expire_date_month]').bind({
 			change: function () {
 				$.aCCValidator.checkExp($(this), 'reset');
 			},
@@ -576,7 +576,7 @@ $guest_data = $this->session->data['guest'];
 			}
 		});
 
-		$('form.validate-creditcard #cc_expire_date_year').bind({
+		$('form.validate-creditcard [name=cc_expire_date_year]').bind({
 			change: function () {
 				$.aCCValidator.checkExp($(this), 'reset');
 			},
@@ -585,7 +585,7 @@ $guest_data = $this->session->data['guest'];
 			}
 		});
 
-		$('form.validate-creditcard #cc_cvv2').bind({
+		$('form.validate-creditcard [name=cc_cvv2]').bind({
 			change: function () {
 				$.aCCValidator.checkCVV($(this), 'reset');
 			},
