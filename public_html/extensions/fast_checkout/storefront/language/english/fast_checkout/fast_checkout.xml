@@ -308,5 +308,16 @@
 		<key>fast_checkout_email_placeholder</key>
 		<value><![CDATA[Your Email]]></value>
 	</definition>
-
+	<definition>
+		<key>button_history</key>
+		<value><![CDATA[History]]></value>
+	</definition>
+	<definition>
+		<key>error_postcode</key>
+		<value><![CDATA[Postcode incorrect]]></value>
+	</definition>
+	<definition>
+		<key>text_basket</key>
+		<value><![CDATA[Cart]]></value>
+	</definition>
 </definitions>
