@@ -327,7 +327,7 @@ class ModelExtensionDefaultFedex extends Model
 
                 $response = $client->getRates($request);
                 if ($response->HighestSeverity != 'FAILURE' && $response->HighestSeverity != 'ERROR') {
-                    if ($response->RateReplyDetails && count($response->RateReplyDetails) > 1) {
+                    if ($response->RateReplyDetails && count((array)$response->RateReplyDetails) > 1) {
                         foreach ($response->RateReplyDetails as $rateReply) {
                             if (is_object($rateReply->RatedShipmentDetails)) {
                                 $rate = number_format(
