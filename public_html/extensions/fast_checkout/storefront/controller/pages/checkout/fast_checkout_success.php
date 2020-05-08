@@ -31,6 +31,33 @@ class ControllerPagesCheckoutFastCheckoutSuccess extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
+        $this->loadLanguage('fast_checkout/fast_checkout');
+
+        $this->document->setTitle($this->language->get('heading_title'));
+        $this->document->resetBreadcrumbs();
+
+        $this->document->addBreadcrumb(
+            array(
+                'href'      => $this->html->getHomeURL(),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
+            ));
+
+        $this->document->addBreadcrumb(
+            array(
+                'href'      => $this->html->getSecureURL('checkout/cart'),
+                'text'      => $this->language->get('text_basket'),
+                'separator' => $this->language->get('text_separator'),
+            ));
+
+        $this->document->addBreadcrumb(
+            array(
+                'href'      => $this->html->getSecureURL('checkout/fast_checkout'),
+                'text'      => $this->language->get('fast_checkout_text_fast_checkout_title'),
+                'separator' => $this->language->get('text_separator'),
+            ));
+
+
         $this->data['success_url'] = $this->html->getSecureURL('r/checkout/pay/success', '&viewport=window&order_id='.$this->request->get['order_id']);
 
         $this->view->batchAssign($this->data);
