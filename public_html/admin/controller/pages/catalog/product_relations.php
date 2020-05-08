@@ -90,7 +90,7 @@ class ControllerPagesCatalogProductRelations extends AController
         $results = $this->model_catalog_category->getCategories(0, $products_stores);
 
         foreach ($results as $r) {
-            $this->data['categories'][$r['category_id']] = $r['name']. (count($products_stores) ? "   (".$r['store_name'].")":'');
+            $this->data['categories'][$r['category_id']] = $r['name']. (count($products_stores)>1 ? "   (".$r['store_name'].")":'');
         }
 
         $this->loadModel('setting/store');
