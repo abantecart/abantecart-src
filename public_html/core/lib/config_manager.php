@@ -275,12 +275,9 @@ class AConfigManager
                     if ($field_name == 'config_expire_order_days' && $field_value && !(int)$field_value) {
                         $this->errors['expire_order_days'] = $this->language->get('error_expire_order_days');
                     }
-
                     break;
-
                 case 'api':
                     break;
-
                 case 'mail':
 
                     if (($fields['config_mail_protocol'] == 'smtp')
@@ -427,13 +424,6 @@ class AConfigManager
             'name'     => 'config_longitude',
             'value'    => $data['config_longitude'],
             'style'    => 'medium-field',
-        ));
-
-        $fields['store_image'] = $form->getFieldHtml($props[] = array(
-            'type'        => 'resource',
-            'name'        => 'config_store_image',
-            'resource_id' => $data['config_store_image_resource_id'],
-            'rl_type'     => 'image',
         ));
 
         $fields['email'] = $form->getFieldHtml($props[] = array(
