@@ -216,27 +216,38 @@ class ModelCatalogCategory extends Model
 
     /**
      * @param int $parent_id
-     * @param int $store_id
+     * @param int|array $store_id
      *
      * @return array
      */
     public function getCategories($parent_id = null, $store_id = null)
     {
+        $store_id = is_array($store_id) ? array_map('intval',$store_id) : (int)$store_id;
         $language_id = $this->language->getContentLanguageID();
         $cache_key = 'category.'.$parent_id.'.store_'.$store_id.'_lang_'.$language_id;
         $category_data = $this->cache->pull($cache_key);
 
         if ($category_data === false) {
             $category_data = array();
-            $sql = "SELECT *
+            $sql = "SELECT c.*, cs.* ".($store_id?', s.name as store_name':'' )."
 					FROM ".$this->db->table("categories")." c
 					LEFT JOIN ".$this->db->table("category_descriptions")." cd
 					ON (c.category_id = cd.category_id) ";
-            if (!is_null($store_id)) {
-                $sql .= "RIGHT JOIN ".$this->db->table("categories_to_stores")." cs ON (c.category_id = cs.category_id AND cs.store_id = '".(int)$store_id."')";
+            if ($store_id) {
+                $sql .= "RIGHT JOIN ".$this->db->table("categories_to_stores")." cs 
+                            ON (c.category_id = cs.category_id AND ";
+                    if( is_array($store_id) ){
+                        $sql .= "store_id IN (".implode(', ',$store_id).")";
+                    }else{
+                        $sql .= "store_id = ".(int)$store_id;
+                    }
+                $sql .= ")";
+                $sql .= "LEFT JOIN ".$this->db->table('stores')." s 
+                            ON s.store_id = cs.store_id";
             }
 
-            $sql .= "WHERE c.parent_id = '".(int)$parent_id."'
+
+            $sql .= " WHERE c.parent_id = '".(int)$parent_id."'
 						AND cd.language_id = '".(int)$language_id."'
 					ORDER BY c.sort_order, cd.name ASC";
             $query = $this->db->query($sql);
@@ -248,6 +259,7 @@ class ModelCatalogCategory extends Model
                     'name'        => $this->getPath($result['category_id'], $language_id),
                     'status'      => $result['status'],
                     'sort_order'  => $result['sort_order'],
+                    'store_name' => $result['store_name']
                 );
 
                 $category_data = array_merge($category_data, $this->getCategories($result['category_id'], $store_id));
