@@ -272,38 +272,38 @@ class ModelExtensionFastCheckout extends Model
         //build welcome email in text format
         $login_url = $this->html->getSecureURL('account/login');
         $this->language->load('mail/account_create');
-        $subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
-        $store_logo = md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)).'.'
-            .pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
+        $main_data = [
+            'store_name' =>$this->config->get('store_name'),
+            'login_url' => $this->html->getSecureURL('account/login')
+        ];
+        $config_mail_logo = $this->config->get('config_mail_logo');
+        $config_mail_logo = !$config_mail_logo ? $this->config->get('config_logo') : $config_mail_logo;
+        if ($config_mail_logo) {
+            if (is_numeric($config_mail_logo)) {
+                $r = new AResource('image');
+                $resource_info = $r->getResource($config_mail_logo);
+                if ($resource_info) {
+                    $main_data['logo_html'] = html_entity_decode($resource_info['resource_code'], ENT_QUOTES, 'UTF-8');
+                }
+            } else {
+                $main_data['logo_uri'] = 'cid:'
+                    .md5(pathinfo($config_mail_logo, PATHINFO_FILENAME))
+                    .'.'.pathinfo($config_mail_logo, PATHINFO_EXTENSION);
+            }
+        }
+        $main_data['config_mail_logo'] = $config_mail_logo;
+        //backward compatibility. TODO: remove this in 2.0
+        if ($main_data['logo_uri']) {
+            $main_data['logo'] = $this->data['mail_template_data']['logo_uri'];
+        } else {
+            $main_data['logo'] = $this->config->get('config_mail_logo');
+        }
 
-        $this->data['mail_plain_text'] =
-            sprintf($this->language->get('text_welcome'), $this->config->get('store_name'))."\n\n";
-
-        $this->data['mail_plain_text'] .= $this->language->get('text_login')."\n";
-        $this->data['mail_plain_text'] .= $login_url."\n\n";
-
-        $this->data['mail_plain_text'] .= strip_tags(sprintf($this->language->get('fast_checkout_mail_login_password'),
-                $data['loginname'], $data['password']))."\n\n";
-        $this->data['mail_plain_text'] .= $this->language->get('text_thanks')."\n";
-        $this->data['mail_plain_text'] .= $this->config->get('store_name');
-
-        //build HTML message with the template
-        $this->data['mail_template_data']['text_welcome'] =
-            sprintf($this->language->get('text_welcome'), $this->config->get('store_name'))."\n\n";
-        $this->data['mail_template_data']['text_thanks'] = $this->language->get('text_thanks');
-
-        $this->data['mail_template_data']['text_login'] = $this->language->get('text_login');
-        $this->data['mail_template_data']['text_login_later'] = '<a href="'.$login_url.'">'.$login_url.'</a>';
-
-        $this->data['mail_template_data']['text_services'] =
-            sprintf($this->language->get('fast_checkout_mail_login_password'), $data['loginname'], $data['password']);
-
-        $this->data['mail_template_data']['logo'] = 'cid:'.$store_logo;
-        $this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
-        $this->data['mail_template_data']['store_url'] = $this->config->get('config_url');
-        $this->data['mail_template_data']['text_project_label'] = project_base();
-
-        $this->data['mail_template'] = 'mail/account_create.tpl';
+        if (!$this->config->get('config_customer_approval')) {
+            $template = 'storefront_welcome_email_activated';
+        } else {
+            $template = 'storefront_welcome_email_approval';
+        }
 
         //allow to change email data from extensions
         $this->extensions->hk_ProcessData($this, 'sf_fast_checkout_welcome_mail');
@@ -316,8 +316,7 @@ class ModelExtensionFastCheckout extends Model
         $mail->setTo($data['email']);
         $mail->setFrom($this->config->get('store_main_email'));
         $mail->setSender($this->config->get('store_name'));
-        $mail->setSubject($subject);
-        $mail->setText(html_entity_decode($this->data['mail_plain_text'], ENT_QUOTES, 'UTF-8'));
+        $mail->setTemplate($template, $main_data);
         $mail->addAttachment(DIR_RESOURCE.$this->config->get('config_logo'), $data['store_logo']);
         $mail->setHtml($html_body);
         $mail->send();
