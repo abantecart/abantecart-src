@@ -578,7 +578,7 @@ class ModelCheckoutOrder extends Model
         );
         $this->data['mail_template_data']['customer_fax'] = $order_row['fax'];
         $this->data['mail_template_data']['customer_ip'] = $order_row['ip'];
-        $this->data['mail_template_data']['comment'] = trim(nl2br($order_row['comment']));
+        $this->data['mail_template_data']['comment'] = trim(nl2br(html_entity_decode($order_row['comment'], ENT_QUOTES,'UTF-8')));
 
         //override with the data from the before hooks
         if ($this->data) {
