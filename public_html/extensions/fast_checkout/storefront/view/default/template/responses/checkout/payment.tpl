@@ -310,12 +310,42 @@ $guest_data = $this->session->data['guest'];
 					</div>
                 <?php } ?>
 				<input type="hidden" name="account_credit" value="0">
+
+                <?php if ($allow_account_creation || $support_recurring_billing) { ?>
+					<div class="row">
+						<div class="form-group col-xxs-4 col-xs-4">
+						</div>
+                        <?php if ($support_recurring_billing) { ?>
+							<div class="form-group col-xxs-8 col-xs-4 pull-right">
+								<div class="input-group pull-right">
+            <span class="button-checkbox">
+                <button type="button" class="btn"
+						data-color="primary"> <?php echo $fast_checkout_text_bill_me_monthly; ?></button>
+                <input type="checkbox" name="cc_bill_monthly" class="hidden"/>
+            </span>
+								</div>
+							</div>
+                        <?php } ?>
+                        <?php if ($allow_account_creation) { ?>
+							<div class="form-group col-xxs-8 col-xs-4 pull-right">
+								<div class="input-group pull-right">
+            <span class="button-checkbox">
+                <button type="button" class="btn"
+						data-color="primary"> <?php echo $fast_checkout_text_create_account; ?></button>
+                <input type="checkbox" name="create_account" class="hidden" checked="checked"/>
+            </span>
+								</div>
+							</div>
+                        <?php } ?>
+					</div>
+                <?php } ?>
+
                 <?php echo $this->getHookVar('payment_form_bottom'); ?>
+
 	</form>
     <?php
     if ($payment_available === true) {
         ?>
-		<h5 class="text-center"><?php echo $fast_checkout_text_select_payment; ?>:</h5>
         <?php include($this->templateResource('/template/responses/checkout/payment_select.tpl')) ?>
         <?php
     } else { ?>

@@ -129,6 +129,10 @@
 
                     function updateDisplay() {
                         var isChecked = $checkbox.is(':checked');
+						$.post('<?php echo $onChangeCheckboxBtnUrl; ?>', {
+							fieldName: $checkbox.attr('name'),
+							isOn: $checkbox.is(':checked')
+						})
                         $button.data('state', (isChecked) ? "on" : "off");
                         $button.find('.state-icon')
                             .removeClass()

@@ -77,6 +77,8 @@ class ControllerResponsesCheckoutPay extends AController
 
         $get_params = '&cart_key='.$this->cart_key;
 
+        $this->data['onChangeCheckboxBtnUrl'] = $this->html->getSecureURL('r/checkout/pay/changeCheckBox');
+
 
         //check the case when we have order_id in session.
         //this indicates incomplete earlier order process
@@ -724,7 +726,7 @@ class ControllerResponsesCheckoutPay extends AController
                     'icon' => 'fa fa-briefcase fa-fw',
                 ]
             );
-            if ($this->config->get('fast_checkout_create_account') && $request['create_account']) {
+            if ($this->config->get('fast_checkout_create_account') && $this->session->data['fast_checkout'][$this->cart_key]['additional']['create_account'] == 'true') {
                 $this->_save_customer_account($order_data);
             }
 
@@ -1677,5 +1679,14 @@ class ControllerResponsesCheckoutPay extends AController
         $this->data['error'] = $error_text;
         $this->view->batchAssign($this->data);
         return $this->view->fetch('responses/checkout/error.tpl');
+    }
+
+    public function changeCheckBox() {
+        $fieldName = $this->request->post['fieldName'];
+        $isOn = $this->request->post['isOn'];
+        if (!$fieldName) {
+            return;
+        }
+        $this->session->data['fast_checkout'][$this->cart_key]['additional'][$fieldName] = $isOn;
     }
 }
