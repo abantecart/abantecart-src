@@ -147,8 +147,6 @@
                     init();
                 });
 
-
-
                 form.submit(function () {
                     if (submitSent !== true) {
                         submitSent = true;
