@@ -233,7 +233,7 @@ class ModelCatalogCategory extends Model
 					FROM ".$this->db->table("categories")." c
 					LEFT JOIN ".$this->db->table("category_descriptions")." cd
 					ON (c.category_id = cd.category_id) ";
-            if ($store_id) {
+            if ($store_id >= 0) {
                 $sql .= "RIGHT JOIN ".$this->db->table("categories_to_stores")." cs 
                             ON (c.category_id = cs.category_id AND ";
                     if( is_array($store_id) ){
