@@ -71,6 +71,7 @@ class ControllerResponsesExtensionDefaultBanktransfer extends AController
         $comment = $this->language->get('text_instructions')."\n";
         $comment .= $this->config->get('default_banktransfer_instructions_'.$this->language->getLanguageID())."\n\n";
         $comment .= $this->language->get('text_payment')."\n";
+        $comment = html_entity_decode($comment,ENT_QUOTES,'UTF-8');
 
         $this->model_checkout_order->confirm($this->session->data['order_id'], $this->config->get('default_banktransfer_order_status_id'), $comment);
     }
