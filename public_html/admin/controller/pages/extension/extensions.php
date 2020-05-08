@@ -365,7 +365,7 @@ class ControllerPagesExtensionExtensions extends AController
 
         $result = array('resource_field_list' => array());
         foreach ($settings as $item) {
-            $data = array();
+            $data = (array)$item;
             if ($item['name'] == $extension.'_status') {
                 $data['attr'] = ' reload_on_save="true"';
                 //set sign for confirmation modal about dependants for disable action

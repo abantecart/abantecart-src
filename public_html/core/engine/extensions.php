@@ -1358,20 +1358,26 @@ class ExtensionUtils
                 if (is_serialized($value)) {
                     $value = unserialize($value);
                 }
-                $result[$i] = array(
-                    'name'          => (string)$true_item_id,
-                    'value'         => $value,
-                    'type'          => (string)$item->type,
-                    'resource_type' => (string)$item->resource_type,
-                    //to use few datasources inside the same form-element such as html_template
-                    'data_source'   => (array)$item->variants->data_source,
-                    'model_rt'      => (string)$item->variants->data_source->model_rt,
-                    'method'        => (string)$item->variants->data_source->method,
+                $result[$i] = (array)$item;
+
+                if( $item->type == 'zones' ){
+                    $result[$i]['zone_value'] = $settings[(string)$item->zone_field_name];
+                }
+
+                $result[$i]['name'] = (string)$true_item_id;
+                $result[$i]['value'] = $value;
+
+                //to use few datasources inside the same form-element such as html_template
+                $result[$i]['data_source'] = (array)$item->variants->data_source;
+                $result[$i]['model_rt']    = (string)$item->variants->data_source->model_rt;
+                $result[$i]['method']      = (string)$item->variants->data_source->method;
                     //end of remove
-                    'field1'        => (string)$item->variants->fields->field[0],
-                    'field2'        => (string)$item->variants->fields->field[1],
-                    'template'      => (string)$item->template,
-                );
+                $result[$i]['field1']      = (string)$item->variants->fields->field[0];
+                if(isset($item->variants->fields->field)) {
+                    $result[$i]['field2'] = (string)$item->variants->fields->field[1];
+                }
+                $result[$i]['template']    = (string)$item->template;
+
                 // if just static option values are used
                 if ($item->variants->item) {
                     foreach ($item->variants->item as $k) {
