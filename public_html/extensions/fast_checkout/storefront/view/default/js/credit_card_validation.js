@@ -313,7 +313,7 @@
         }
 
         select_cctype = function ($el, cc_type) {
-            var $cct = $el.closest('form').find('#cc_type');
+            var $cct = $el.closest('form').find('[name=' + o.cc_field_type + ']');
             if ($cct.length) {
                 //select cc_type in the select box
                 var empty;

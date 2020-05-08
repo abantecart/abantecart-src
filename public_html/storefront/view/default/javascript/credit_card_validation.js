@@ -1,5 +1,5 @@
 /* 
- Credit Card Valildation JavaScript Class
+ Credit Card Validation JavaScript Class
  aCCValidator class to validate details on creditcard form
  Features: Check credit card type while entering numbers. Full number validation, Validation of name, and CVV data.
  Easy and clean UI based on bootstrap v3
@@ -7,7 +7,7 @@
  Developer: Pavel Rojkov (projkov@abantecart.com)
 
 
- Credit Card Valildation class
+ Credit Card Validation class
  */
 
 (function ($) {
@@ -135,7 +135,7 @@
             cc_field_cvv: 'cc_cvv2',
             cc_field_month: 'cc_expire_date_month',
             cc_field_year: 'cc_expire_date_year',
-            wrapper: '<span class="input-group-addon"></span>',
+            wrapper: '<div class="right-inner-addon"></div>',
             warning: '<i class="fa fa-exclamation"></i>',
             success: '<i class="fa fa-check"></i>',
             error_class: 'has-error',
@@ -163,7 +163,7 @@
                 }
 
                 if ($field.attr('name') == o.cc_field_type) {
-                    if (!$.aCCValidator.checkType($field)) {
+                    if (!$field.val() || $field.val() == 'notfound') {
                         failed = true;
                     }
                 }
@@ -211,7 +211,7 @@
                 }
             }
 
-        }
+        };
 
         /* Validate full number (when leave the field) */
         $.aCCValidator.checkCCNumber = function ($el) {
@@ -302,7 +302,8 @@
         }
 
         select_cctype = function ($el, cc_type) {
-            var $cct = $el.closest('form').find('#cc_type');
+            var $cct = $el.closest('form').find('[name=' + o.cc_field_type + ']');
+
             if ($cct.length) {
                 //select cc_type in the select box
                 var empty;
@@ -403,7 +404,6 @@
             // Now check the modulus 10 check digit - if required
             if (card_rec && card_rec.checkdigit) {
                 var checksum = 0;
-                var mychar = "";
                 var j = 1;
 
                 // Process each digit one by one starting on the right
@@ -458,7 +458,7 @@ jQuery(document).ready(function () {
     //event to log creditcard entering
     $('form.validate-creditcard').aCCValidator({});
 
-    $('form.validate-creditcard #cc_number').bind({
+    $('form.validate-creditcard [name=cc_number]').bind({
         change: function () {
             //check as number is entered
             $.aCCValidator.precheckCCNumber($(this));
@@ -468,7 +468,7 @@ jQuery(document).ready(function () {
             $.aCCValidator.checkCCNumber($(this));
         },
         keyup: function (e) {
-            if (e.keyCode == 13) {
+            if (e.keyCode === 13) {
                 //enter pressed. validate all data
                 $('form.validate-creditcard').submit();
             } else if ($(this).val()) {
@@ -477,7 +477,7 @@ jQuery(document).ready(function () {
         }
     });
 
-    $('form.validate-creditcard #cc_owner').bind({
+    $('form.validate-creditcard [name=cc_owner]').bind({
         change: function () {
             $.aCCValidator.checkCCName($(this), 'reset');
         },
@@ -485,7 +485,7 @@ jQuery(document).ready(function () {
             $.aCCValidator.checkCCName($(this));
         },
         keyup: function (e) {
-            if (e.keyCode == 13) {
+            if (e.keyCode === 13) {
                 //enter pressed. validate all data
                 $('form.validate-creditcard').submit();
             } else {
@@ -494,7 +494,7 @@ jQuery(document).ready(function () {
         }
     });
 
-    $('form.validate-creditcard #cc_cvv2').bind({
+    $('form.validate-creditcard [name=cc_cvv2]').bind({
         change: function () {
             $.aCCValidator.checkCVV($(this), 'reset');
         },
@@ -502,7 +502,7 @@ jQuery(document).ready(function () {
             $.aCCValidator.checkCVV($(this));
         },
         keyup: function (e) {
-            if (e.keyCode == 13) {
+            if (e.keyCode === 13) {
                 //enter pressed. validate all data
                 $('form.validate-creditcard').submit();
             } else {
@@ -518,7 +518,7 @@ jQuery(document).ready(function () {
             $.aCCValidator.checkType($(this));
         },
         keyup: function (e) {
-            if (e.keyCode == 13) {
+            if (e.keyCode === 13) {
                 //enter pressed. validate all data
                 $('form.validate-creditcard').submit();
             } else {

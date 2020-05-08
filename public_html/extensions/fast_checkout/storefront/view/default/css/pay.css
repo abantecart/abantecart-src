@@ -55,9 +55,12 @@
 
 .pay-form .left-inner-addon .select_arrow {
 	top: 0;
-	right: 33px;
+	right: 17px;
 	position: absolute;
 	pointer-events: none;
+	font-size: 22px;
+	padding: 11px 0;
+	color: #00A1CB;
 }
 
 .pay-form .left-inner-addon>i {
@@ -98,7 +101,9 @@
 
 .pay-form .left-inner-addon .address_edit {
 	position: absolute;
-	right: 50px;
+	right: 10px;
+	font-size: 22px;
+	padding: 12px 10px;
 }
 
 .pay-form .left-inner-addon .btn {
@@ -298,6 +303,11 @@
 .address_edit_link {
 	position: relative;
 	font-size: 18px;
+	display: block;
+	height: 18px;
+}
+.address_edit_link a {
+	float: right;
 }
 .badge {
 	background-color: unset;
