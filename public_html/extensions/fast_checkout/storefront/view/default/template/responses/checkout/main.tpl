@@ -89,6 +89,8 @@
             payFormDiv.on("click", "#new_address", function () {
                 $(this).removeClass('btn-default').addClass('btn-primary');
                 $("#login_user").removeClass('btn-primary').addClass('btn-default');
+                $('#login_error_container').html('')
+				$('#pay_error_container').html('')
             });
 
             //Form related: event to log creditcard entering, but we use it on all forms to show errors
@@ -278,7 +280,9 @@
 					loginFrm.find('.btn-primary').button('loading');
 					//All Good send form
 					$.post(loginFrm.attr('action'), loginFrm.serialize(), function (data) {
-						loadPage('<?php echo $cart_key; ?>')
+						$('.spinner-overlay').fadeOut(500);
+						$('#fast_checkout_summary_block').trigger('reload');
+						$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
 					});
 					return false;
 				}
