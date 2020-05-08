@@ -982,6 +982,7 @@ class ControllerResponsesCheckoutPay extends AController
     protected function _clear_data()
     {
         unset($this->session->data['fast_checkout'][$this->cart_key]);
+        unset($this->session->data['used_balance']);
         unset($this->session->data['cart']);
         unset($this->session->data['cart_key']);
         unset(
@@ -1585,7 +1586,8 @@ class ControllerResponsesCheckoutPay extends AController
             unset($this->session->data['fast_checkout'][$this->cart_key]['used_balance'],
                 $this->session->data['fast_checkout'][$this->cart_key]['balance'],
                 $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full'],
-                $this->session->data['fast_checkout'][$this->cart_key]['payment_method']
+                $this->session->data['fast_checkout'][$this->cart_key]['payment_method'],
+                $this->session->data['used_balance']
             );
         }
         if ($request['balance'] == 'apply' || $request['balance'] == 'reapply') {
@@ -1613,6 +1615,7 @@ class ControllerResponsesCheckoutPay extends AController
                     }
                 }
             }
+            $this->session->data['used_balance'] = $this->session->data['fast_checkout'][$this->cart_key]['used_balance'];
             $in_data = array_merge((array)$this->session->data, $this->session->data['fast_checkout'][$this->cart_key]);
             $this->updateOrCreateOrder($in_data, $request);
 
