@@ -11,10 +11,10 @@
 	</div>
 	<div class="form-group form-inline">
 		<label class="col-sm-4 control-label"><?php echo $entry_cc_number; ?></label>
-		<div class="col-sm-5 input-group">
+		<div class="col-sm-4 input-group">
 			<?php echo $cc_number; ?>
 		</div>
-		<div class="col-sm-2 input-group">
+		<div class="col-sm-3 input-group">
 			<?php echo $cc_type; ?>
 		</div>
 		<span class="help-block"></span>
