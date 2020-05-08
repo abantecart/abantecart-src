@@ -1,3 +1,49 @@
+AbanteCart version 1.2.16
+
+In this release we bring a few new features, such as one page fast checkout, product collections, email templates, local delivery and others.
+AbanteCart v1.2.16 also includes a number of improvements and fixes based on customers feedback.
+
+Core:
+- PHP v7.4 support
+- Webp image format support
+- Append php call stack into db-driver exception
+- HTML Cache deprecated
+- Improve tax class
+- Add Mustache library
+- Parameter tampering fix: Price manipulation of products
+
+Control Panel:
+- Additional settings for local business into store details page
+- Products/categories/brands collections
+- New product review settings and management
+- Stock auto-disable fix
+- Order edits, currency handling on different browsers
+- Bug fix with multi-currency order recalculation
+- Email templates and management
+- Product import bug fix
+- Listing grid icons and css updates
+- Set minimal search chars of 2 for ajax chosen
+- mce-editor JavaScript fix
+
+Storefront:
+- Google Recaptcha V3 support
+- Fast one page checkout
+- improvement validation of parameters for few methods of catalog/product model.
+- Country without States issue fix
+
+Core Extensions:
+- New Fast one page checkout
+- New Local Delivery shipment
+- default_stripe added 3d-secure support. 3d-party library updated
+- default_cod minor fixes
+- LiqPay upgrade
+- Realex upgrade
+- Cardconnect upgrade
+- Payza payment depricated
+
+Improvements and bug fixes reported on the forum and github.
+
+
 AbanteCart version 1.2.15
 
 This is unplanned release to provide clarity and better interface for multi-location stock management.
