@@ -60,7 +60,7 @@
 	pointer-events: none;
 }
 
-.pay-form .left-inner-addon i {
+.pay-form .left-inner-addon>i {
 	z-index: 100;
 	position: absolute;
 	font-size: 22px;
