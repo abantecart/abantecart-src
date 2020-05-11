@@ -411,20 +411,24 @@ class ControllerPagesCatalogProduct extends AController
         ));
         $this->document->addBreadcrumb(array(
             'href'      => $this->html->getSecureURL('catalog/product'),
-            'text'      =>
-                ($product_id
-                    ? $this->language->get('text_edit').'&nbsp;'.$this->language->get('text_product').' - '
-                    .$this->data['product_description'][$content_language_id]['name']
-                    : $this->language->get('text_insert')),
+            'text'      => ($product_id
+                            ? $this->language->get('text_edit')
+                                .'&nbsp;'
+                                .$this->language->get('text_product')
+                                .' - '
+                                .$this->data['product_description'][$content_language_id]['name']
+                            : $this->language->get('text_insert')),
             'separator' => ' :: ',
             'current'   => true,
         ));
 
         $this->loadModel('catalog/category');
         $this->data['categories'] = array();
-        $results = $this->model_catalog_category->getCategories(0, $this->session->data['current_store_id']);
+        $product_stores = $this->model_catalog_product->getProductStores($product_id);
+        $results = $this->model_catalog_category->getCategories(0, $product_stores);
         foreach ($results as $r) {
-            $this->data['categories'][$r['category_id']] = $r['name'];
+            $name = $r['name'].(count($product_stores)>1 ? ' ('.$r['store_name'].')':'');
+            $this->data['categories'][$r['category_id']] = $name;
         }
 
         $this->loadModel('setting/store');
