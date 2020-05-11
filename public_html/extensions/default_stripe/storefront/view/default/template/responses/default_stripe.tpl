@@ -45,8 +45,8 @@
     </div>
 
     <script type="text/javascript">
-        loadScript("https://js.stripe.com/v3/", initStripe);
         jQuery(document).ready(function () {
+            loadScript("https://js.stripe.com/v3/", initStripe);
             var submitSent = false;
             $('#enter_card').hover(function () {
                 $(this).tooltip('show');
