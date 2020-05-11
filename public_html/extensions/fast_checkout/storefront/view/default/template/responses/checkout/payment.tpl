@@ -343,6 +343,7 @@ $guest_data = $this->session->data['guest'];
                 <?php echo $this->getHookVar('payment_form_bottom'); ?>
 
 	</form>
+
     <?php
     if ($payment_available === true) {
         ?>
@@ -354,7 +355,28 @@ $guest_data = $this->session->data['guest'];
 		</div>
     <?php }
     ?>
-    <?php } ?>
+
+	<div id="returnPolicyModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="returnPolicyModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h3 id="returnPolicyModalLabel"><?php echo $text_accept_agree_href_link; ?></h3>
+				</div>
+				<div class="modal-body">
+				</div>
+				<div class="modal-footer">
+					<button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo $text_close; ?></button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="align_right"><?php echo $text_accept_agree ?>&nbsp;
+		<a onclick="openModalRemote('#returnPolicyModal', '<?php echo $text_accept_agree_href; ?>'); return false;"
+		   href="<?php echo $text_accept_agree_href; ?>"><b><?php echo $text_accept_agree_href_link; ?>fdsfdsd</b></a>
+	</div>
+
+	<?php } ?>
 </fieldset>
 
 <script type="text/javascript">

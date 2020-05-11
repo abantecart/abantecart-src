@@ -79,6 +79,20 @@ class ControllerResponsesCheckoutPay extends AController
 
         $this->data['onChangeCheckboxBtnUrl'] = $this->html->getSecureURL('r/checkout/pay/changeCheckBox');
 
+        if ($this->config->get('config_checkout_id')) {
+            $this->loadLanguage('checkout/confirm');
+            $this->loadModel('catalog/content');
+            $content_info = $this->model_catalog_content->getContent($this->config->get('config_checkout_id'));
+            if ($content_info) {
+                $this->data['text_accept_agree'] = $this->language->get('text_accept_agree');
+                $this->data['text_accept_agree_href'] = $this->html->getURL('r/content/content/loadInfo', '&content_id='.$this->config->get('config_checkout_id'), true);
+                $this->data['text_accept_agree_href_link'] = $content_info['title'];
+            } else {
+                $this->data['text_accept_agree'] = '';
+            }
+        } else {
+            $this->data['text_accept_agree'] = '';
+        }
 
         //check the case when we have order_id in session.
         //this indicates incomplete earlier order process
@@ -636,12 +650,6 @@ class ControllerResponsesCheckoutPay extends AController
                 return $this->main();
             }
         }
-//         else {
-//            //FUTURE: Payment handler will process payment in here.
-//            $this->_to_log($this->language->get('fast_checkout_error_handler_object'));
-//            $this->error['message'] = $this->language->get('fast_checkout_error_unknown_payment');
-//            return $this->main();
-//        }
 
         $this->action = 'confirm';
         $this->data['step'] = 'confirm';
