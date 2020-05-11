@@ -847,7 +847,7 @@ class AConfigManager
         }
 
         $cntmnr = new AContentManager();
-        $results = $cntmnr->getContents();
+        $results = $cntmnr->getContents(array(),'default',$this->session->data['current_store_id']);
         $contents = array('' => $this->language->get('text_none'));
         foreach ($results as $item) {
             if (!$item['status']) {
