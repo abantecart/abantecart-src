@@ -353,7 +353,7 @@ class ControllerResponsesExtensionDefaultRealex extends AController
         $cardname = html_entity_decode($post['cc_owner'], ENT_QUOTES, 'UTF-8');
         $cardtype = $post['cc_type'];
         // card expire date mm/yy
-        $expdate = $post['cc_expire_date_month'].substr($post['cc_expire_date_year'], 2, 2);
+        $expdate = $post['cc_expire_date_month'].$post['cc_expire_date_year'];
         $cardissue = $post['cc_issue'];
         $order_ref = $order_id.'AB'.strftime("%Y%m%d%H%M%S").mt_rand(1, 999);
 
