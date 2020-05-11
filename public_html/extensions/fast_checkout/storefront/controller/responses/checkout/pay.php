@@ -56,6 +56,7 @@ class ControllerResponsesCheckoutPay extends AController
         if (!isset($this->session->data['fast_checkout'][$this->cart_key])
             || $this->session->data['fast_checkout'][$this->cart_key]['cart'] !== $this->session->data['cart']) {
             $this->session->data['fast_checkout'][$this->cart_key]['cart'] = $this->session->data['cart'];
+            $this->removeNoStockProducts();
             if ($this->session->data['coupon']) {
                 $this->session->data['fast_checkout'][$this->cart_key]['coupon'] = $this->session->data['coupon'];
             }
@@ -1698,5 +1699,14 @@ class ControllerResponsesCheckoutPay extends AController
             return;
         }
         $this->session->data['fast_checkout'][$this->cart_key]['additional'][$fieldName] = $isOn;
+    }
+
+    protected function removeNoStockProducts() {
+        $cartProducts = $this->cart->getProducts();
+        foreach ($cartProducts as $key => $cartProduct) {
+            if (!$cartProduct['stock'] && !$this->config->get('config_stock_checkout')) {
+                unset($this->session->data['fast_checkout'][$this->cart_key]['cart'][$key]);
+            }
+        }
     }
 }
