@@ -308,17 +308,16 @@ class ModelExtensionFastCheckout extends Model
         //allow to change email data from extensions
         $this->extensions->hk_ProcessData($this, 'sf_fast_checkout_welcome_mail');
 
-        $view = new AView($this->registry, 0);
-        $view->batchAssign($this->data['mail_template_data']);
-        $html_body = $view->fetch($this->data['mail_template']);
-
         $mail = new AMail($this->config);
         $mail->setTo($data['email']);
         $mail->setFrom($this->config->get('store_main_email'));
         $mail->setSender($this->config->get('store_name'));
         $mail->setTemplate($template, $main_data);
-        $mail->addAttachment(DIR_RESOURCE.$this->config->get('config_logo'), $data['store_logo']);
-        $mail->setHtml($html_body);
+        if (is_file(DIR_RESOURCE.$config_mail_logo)) {
+            $mail->addAttachment(DIR_RESOURCE.$config_mail_logo,
+                md5(pathinfo($config_mail_logo, PATHINFO_FILENAME))
+                .'.'.pathinfo($config_mail_logo, PATHINFO_EXTENSION));
+        }
         $mail->send();
         return true;
     }
