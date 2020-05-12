@@ -241,7 +241,7 @@ class ModelCatalogCategory extends Model
             if ($store_id !== null) {
                 $sql .= "RIGHT JOIN ".$this->db->table("categories_to_stores")." cs 
                             ON (c.category_id = cs.category_id AND ";
-                    if( is_array($store_id) ){
+                    if( is_array($store_id) && !empty($store_id) ){
                         $sql .= "store_id IN (".implode(', ',$store_id).")";
                     }else{
                         $sql .= "store_id = ".(int)$store_id;
