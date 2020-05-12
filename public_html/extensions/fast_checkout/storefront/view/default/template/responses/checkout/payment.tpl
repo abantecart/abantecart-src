@@ -1,7 +1,6 @@
 <?php
 $guest_data = $this->session->data['guest'];
 ?>
-
 <div id="pay_error_container">
     <?php if ($info) { ?>
 		<div class="info alert alert-info"><i class="fa fa fa-check fa-fw"></i> <?php echo $info; ?></div>
@@ -34,17 +33,18 @@ $guest_data = $this->session->data['guest'];
 			</div>
             <?php
         }
-        ?>
 
-        <?php if ($this->cart->hasShipping()) { ?>
+        if ($this->cart->hasShipping()) { ?>
 		<div class="row">
 			<div class="form-group <?php if ($show_payment) {
                 echo "col-xxs-12 col-xs-6";
             } ?>">
                 <?php if ($guest_data['shipping']) {
-                $address = $this->customer->getFormattedAddress($guest_data['shipping'],
-                    $guest_data['shipping']['address_format']);
-                ?>
+                $address = $this->customer->getFormattedAddress(
+                        $guest_data['shipping'],
+                        $guest_data['shipping']['address_format']
+                );
+?>
 				<div class="left-inner-addon">
 					<i class="fa fa-home" id="delivery_icon"></i>
 					<a href="<?php echo $edit_address_url; ?>&type=shipping" class="address_edit"><i
@@ -97,9 +97,8 @@ $guest_data = $this->session->data['guest'];
                 }
                 ?>
 
-                <?php } //eof if product has shipping ?>
+                <?php } //eof if product has shipping
 
-                <?php
                 if ($show_payment == true) {
                     if ($need_payment_address) { ?>
 						<div class="form-group <?php if ($this->cart->hasShipping()) { ?> col-xxs-12 col-xs-6 <?php } ?>">
@@ -274,6 +273,21 @@ $guest_data = $this->session->data['guest'];
 						</div>
 					</div>
                 <?php } ?>
+                <?php echo $this->getHookVar('payment_form_fields'); ?>
+
+                <?php if ($this->config->get('fast_checkout_show_order_comment_field')) { ?>
+					<div class="row">
+						<div class="form-group col-xxs-12" title="write comment">
+							<div class="left-inner-addon">
+								<i class="fa fa-comment"></i>
+								<textarea id="comment"
+									   class="form-control input-lg p"
+    								   name="comment"
+								><?php echo $comment; ?></textarea>
+							</div>
+						</div>
+					</div>
+                <?php } ?>
 
                 <?php if ($enabled_coupon) { ?>
 					<div class="row">
@@ -347,41 +361,41 @@ $guest_data = $this->session->data['guest'];
     <?php
     if ($payment_available === true) {
         ?>
-        <?php include($this->templateResource('/template/responses/checkout/payment_select.tpl')) ?>
-        <?php
-    } else { ?>
-		<div class="alert alert-danger" role="alert">
-            <?php echo $this->language->get('fast_checkout_error_no_payment'); ?>
-		</div>
-    <?php }
-    ?>
-
-	<div id="returnPolicyModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="returnPolicyModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					<h3 id="returnPolicyModalLabel"><?php echo $text_accept_agree_href_link; ?></h3>
-				</div>
-				<div class="modal-body">
-				</div>
-				<div class="modal-footer">
-					<button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo $text_close; ?></button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="align_right"><?php echo $text_accept_agree ?>&nbsp;
-		<a onclick="openModalRemote('#returnPolicyModal', '<?php echo $text_accept_agree_href; ?>'); return false;"
-		   href="<?php echo $text_accept_agree_href; ?>"><b><?php echo $text_accept_agree_href_link; ?>fdsfdsd</b></a>
-	</div>
-
+        <div class="payment-select-container">
+            <div class="div-cover"></div>
+            <?php include($this->templateResource('/template/responses/checkout/payment_select.tpl')) ?>
+            <?php
+        } else { ?>
+            <div class="alert alert-danger" role="alert">
+                <?php echo $this->language->get('fast_checkout_error_no_payment'); ?>
+            </div>
+        <?php } ?>
+            <div id="returnPolicyModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="returnPolicyModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 id="returnPolicyModalLabel"><?php echo $text_accept_agree_href_link; ?></h3>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo $text_close; ?></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="align_right"><?php echo $text_accept_agree ?>&nbsp;
+                <a onclick="openModalRemote('#returnPolicyModal', '<?php echo $text_accept_agree_href; ?>'); return false;"
+                   href="<?php echo $text_accept_agree_href; ?>"><b><?php echo $text_accept_agree_href_link; ?></b></a>
+            </div>
+        </div>
 	<?php } ?>
 </fieldset>
 
 <script type="text/javascript">
 	getUrlParams = function (key, value) {
-		let searchParams = new URLSearchParams(window.location.search)
+		let searchParams = new URLSearchParams(window.location.search);
 		//Remove old value
 		if (searchParams.has('cart_key')) {
 			searchParams.delete('cart_key')
@@ -403,9 +417,17 @@ $guest_data = $this->session->data['guest'];
 			searchParams.append(key, value)
 		}
 		return searchParams.toString()
-	}
+	};
 
 	jQuery(document).ready(function () {
+
+		$("textarea[name=comment]").on('blur', function () {
+            $.ajax({
+              type: "POST",
+              url: '<?php echo $main_url ?>',
+              data: {comment: $(this).val()},
+            });
+		});
 
 		$("#payment_address_id").change(function () {
 			let url = '<?php echo $main_url ?>&' + getUrlParams('payment_address_id', $(this).val());
@@ -445,13 +467,13 @@ $guest_data = $this->session->data['guest'];
 				return false;
 			}
 			//let url = '<?php echo $main_url ?>&' + getUrlParams('coupon_code', coupon);
-			let url = '<?php echo $main_url ?>&' + $('#PayFrm').serialize()
+			let url = '<?php echo $main_url ?>&' + $('#PayFrm').serialize();
 			pageRequest(url);
 		});
 
 		$(".pay-form").on("click", ".btn-remove-coupon", function () {
 			//let url = '<?php echo $main_url ?>&' + getUrlParams('remove_coupon', true);
-			let url = '<?php echo $main_url ?>&' + $('#PayFrm').serialize() + '&remove_coupon=true'
+			let url = '<?php echo $main_url ?>&' + $('#PayFrm').serialize() + '&remove_coupon=true';
 			pageRequest(url);
 		});
 
@@ -465,54 +487,34 @@ $guest_data = $this->session->data['guest'];
 			pageRequest(url);
 		});
 
-		// $(".pay-form").on("click", ".credit-pay-btn", function () {
-		// 	var form = $('#PayFrm');
-		// 	form.find('input[name="account_credit"]').val(1);
-		//
-		// 	$('.spinner-overlay').fadeIn(100);
-		// 	$('form').unbind("submit"),
-		// 		$.ajax({
-		// 			url: form.attr('action'),
-		// 			type: 'POST',
-		// 			dataType: 'html',
-		// 			data: form.serialize(),
-		// 			success: function (data) {
-		// 				$('#fast_checkout_summary_block').trigger('reload')
-		// 				$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
-		// 				$('.spinner-overlay').fadeOut(500);
-		// 			}
-		// 		});
-		// 	//form.submit();
-		// });
 
 		$(".pay-form").on("click", ".payment-option", function () {
 			if ($(this).hasClass('selected')) {
 				return;
 			}
 			var payment_id = $(this).data('payment-id');
-			const paimentAwailable = $(this).attr('paiment-awailable')
-			if (payment_id == 'account_balance' || paimentAwailable == 'false') {
+			const paymentAvailable = $(this).attr('paiment-awailable');
+			if (payment_id == 'account_balance' || paymentAvailable == 'false') {
 				return;
 			}
 			//let url = '<?php echo $main_url ?>&' + getUrlParams('payment_method', payment_id);
-			let url = '<?php echo $main_url ?>&' + $('#PayFrm').serialize() + '&payment_method=' + payment_id
+			let url = '<?php echo $main_url ?>&' + $('#PayFrm').serialize() + '&payment_method=' + payment_id;
 			//pageRequest(url);
 			var form = $('#PayFrm');
 			$('#payment_details').remove();
-			$('form').unbind("submit"),
-				form.attr('action', url);
+			$('form').unbind("submit");
+			form.attr('action', url);
 			$('.spinner-overlay').fadeIn(100);
 			$.ajax({
 				url: url,
 				type: 'GET',
 				dataType: 'html',
 				success: function (data) {
-					$('#fast_checkout_summary_block').trigger('reload')
-					$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
+					$('#fast_checkout_summary_block').trigger('reload');
+					$('#fast_checkout_cart').hide().html(data).fadeIn(1000);
 					$('.spinner-overlay').fadeOut(100);
 				}
 			});
-			//form.submit();
 		});
 
 		//load first tab
@@ -533,7 +535,7 @@ $guest_data = $this->session->data['guest'];
 
 		$('form.validate-creditcard [name=telephone]').bind({
 			change: function () {
-				//check as email is entered
+				//check as telephone is entered
 				if (validatePhone($(this).val())) {
 					$.aCCValidator.show_success($(this), '.form-group');
 				} else {
@@ -617,7 +619,7 @@ $guest_data = $this->session->data['guest'];
 		});
 
 		getAddressHtml = function (address) {
-			let html = ''
+			let html = '';
 			if (typeof address != "undefined") {
 				if (address.firstname || address.lasttname) {
 					html += address.firstname + ' ' + address.lastname + ' <br/>'
@@ -645,39 +647,38 @@ $guest_data = $this->session->data['guest'];
                 <?php } ?>
 			}
 			return html
-		}
+		};
 
 		updateShippingAddressDisplay = function () {
 			let addresses = JSON.parse(atob('<?php echo base64_encode(json_encode($all_addresses)); ?>'))
-			let shipping_address_id = $("#shipping_address_id").val()
-			let address = addresses.find((el) => el.address_id == shipping_address_id)
+			let shipping_address_id = $("#shipping_address_id").val();
+			let address = addresses.find((el) => el.address_id == shipping_address_id);
 
 			if (typeof address != "undefined") {
 				$('.shipping_address_details').hide().html(getAddressHtml(address)).fadeIn(1000);
 			}
-		}
+		};
 
 		updatePaymentAddressDisplay = function () {
-			let addresses = JSON.parse(atob('<?php echo base64_encode(json_encode($all_addresses)); ?>'))
-			let payment_address_id = $("#payment_address_id").val()
-			let address = addresses.find((el) => el.address_id == payment_address_id)
+			let addresses = JSON.parse(atob('<?php echo base64_encode(json_encode($all_addresses)); ?>'));
+			let payment_address_id = $("#payment_address_id").val();
+			let address = addresses.find((el) => el.address_id == payment_address_id);
 
 			if (typeof address != "undefined") {
 				$('.payment_address_details').hide().html(getAddressHtml(address)).fadeIn(1000);
 			}
-		}
+		};
 
-		updateShippingAddressDisplay()
-		updatePaymentAddressDisplay()
+		updateShippingAddressDisplay();
+		updatePaymentAddressDisplay();
 
 		$('.btn-edit-email').on('click', function () {
             <?php if ($this->customer && $this->customer->getId()) { ?>
-			location.replace('<?php echo $this->html->getSecureUrl("account/edit");?>')
+			location.replace('<?php echo $this->html->getSecureUrl("account/edit");?>');
             <?php } else { ?>
-			$('#payment_address_edit').click()
+			$('#payment_address_edit').click();
             <?php } ?>
-		})
-
+		});
 
 	});
 

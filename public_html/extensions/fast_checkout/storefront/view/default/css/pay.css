@@ -38,7 +38,7 @@
 	position: relative;
 }
 
-.pay-form .left-inner-addon input {
+.pay-form .left-inner-addon input,  .pay-form .left-inner-addon textarea {
 	padding-left: 42px;
 }
 
@@ -441,4 +441,23 @@ table.table-shipments {
 }
 .payment_item.balance_applied_full .thumbnail {
 	background: lightblue;
+}
+
+.payment-select-container{
+	margin: 0;
+	padding: 0;
+	height: auto;
+	width: auto;
+	overflow: hidden;
+}
+.div-cover{
+	background-color: grey;
+	opacity: 20%;
+	width: 100%;
+	height: 520px;
+	left: 0;
+	z-index: 10000;
+	position: absolute;
+	cursor: not-allowed;
+	display: none;
 }

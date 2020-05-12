@@ -22,7 +22,11 @@
 			success: function (data) {
 				$('.spinner-overlay').fadeOut(500);
 				$('#fast_checkout_summary_block').trigger('reload');
-				$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
+				$('#fast_checkout_cart').hide().html(data).fadeIn(1000);
+
+                if($('form#PayFrm')) {
+                    validateForm($('form#PayFrm'));
+                }
 			},
 			error: function () {
 				$('.spinner-overlay').fadeOut(500);

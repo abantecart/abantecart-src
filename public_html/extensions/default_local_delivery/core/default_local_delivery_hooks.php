@@ -130,4 +130,39 @@ class ExtensionDefaultLocalDelivery extends Extension
         $view->batchAssign($data);
         $that->view->addHookVar('order_attributes', $view->fetch('pages/checkout/default_local_delivery_fields.tpl'));
     }
+
+
+    public function onControllerResponsesCheckoutPay_InitData(){
+        /** @var ControllerResponsesCheckoutPay $that */
+        $that = $this->baseObject;
+        if( !$that->config->get('fast_checkout_status')){
+            return;
+        }
+        $shipping_method = $that->session->data['fast_checkout'][$that->getCartKey()]['shipping_method'];
+        if($shipping_method['id'] == 'default_local_delivery.default_local_delivery'){
+            //show comment field for local delivery anyway
+            $that->config->get('fast_checkout_show_order_comment_field');
+        }
+    }
+
+    public function onControllerResponsesCheckoutPay_UpdateData(){
+        /** @var ControllerResponsesCheckoutPay $that */
+        $that = $this->baseObject;
+        if( !$that->config->get('fast_checkout_status') || $that->request->is_POST()){
+            return;
+        }
+        $shipping_method = $that->session->data['fast_checkout'][$that->getCartKey()]['shipping_method'];
+        if($shipping_method['id'] != 'default_local_delivery.default_local_delivery'){
+            return;
+        }
+
+        if(!$that->config->get('fast_checkout_require_phone_number')) {
+            $view = new AView(Registry::getInstance(), 0);
+            $view->batchAssign($that->data);
+            $view->batchAssign($that->view->getData());
+            $view->assign('fast_checkout_text_apply', $that->language->get('fast_checkout_text_apply'));
+            $html = $view->fetch('pages/checkout/fast_checkout_fields.tpl');
+            $that->view->addHookVar('payment_form_fields', $html);
+        }
+    }
 }

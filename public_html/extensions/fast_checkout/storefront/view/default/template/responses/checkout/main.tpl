@@ -45,6 +45,7 @@
                     </div>
                 <?php }
                 if ($step == 'payment' && ($loggedin === true || $this->config->get('config_guest_checkout'))) { ?>
+
                     <div class="tab-pane fade in <?php if (!$action || $action == 'payment') {
                         echo 'active';
                     } ?>" id="new">
@@ -89,8 +90,8 @@
             payFormDiv.on("click", "#new_address", function () {
                 $(this).removeClass('btn-default').addClass('btn-primary');
                 $("#login_user").removeClass('btn-primary').addClass('btn-default');
-                $('#login_error_container').html('')
-				$('#pay_error_container').html('')
+                $('#login_error_container').html('');
+				$('#pay_error_container').html('');
             });
 
             //Form related: event to log creditcard entering, but we use it on all forms to show errors
@@ -174,86 +175,6 @@
                 });
             }
 
-            //on submit validate
-            validateForm = function (form) {
-                var ret = true;
-                form.find(':input').each(function () {
-                    var el = $(this);
-                    var name = el.attr('name');
-                    if (name === undefined) {
-                        return;
-                    }
-
-                    //coupon can be only applied, cannot submit
-                    if (name === 'coupon_code' && !el.attr('disabled')) {
-                        var str_val = el.val().replace(/\s+/g, '');
-                        if (str_val.length > 0) {
-                            $.aCCValidator.show_error(el, '.form-group');
-                            ret = false;
-                        }
-                    }
-
-                    if (name === 'loginname' && el.val().length < 3) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                    if (name === 'password' && el.val().length < 3) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                    if (name === 'telephone' && !validatePhone(el.val())) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                    if (name === 'cc_email' && !validateEmail(el.val())) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                    if (name === 'shipping_address_id' && !el.val()) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                    if (name === 'payment_address_id' && !el.val()) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                    if (name === 'shipping_method' && !el.val()) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-					if (name === 'firstname' && !el.val()) {
-						$.aCCValidator.show_error(el, '.form-group');
-						ret = false;
-					}
-					if (name === 'lastname' && !el.val()) {
-						$.aCCValidator.show_error(el, '.form-group');
-						ret = false;
-					}
-					if (name === 'address_1' && !el.val()) {
-						$.aCCValidator.show_error(el, '.form-group');
-						ret = false;
-					}
-					if (name === 'city' && !el.val()) {
-						$.aCCValidator.show_error(el, '.form-group');
-						ret = false;
-					}
-					if (name === 'postcode' && !el.val()) {
-						$.aCCValidator.show_error(el, '.form-group');
-						ret = false;
-					}
-					if (name === 'zone_id' && (!el.val() || el.val().toLowerCase() == 'false') ) {
-						$.aCCValidator.show_error(el, '.form-group');
-						ret = false;
-					}
-					if (name === 'country_id' && (!el.val() || el.val().toLowerCase() == 'false')) {
-						$.aCCValidator.show_error(el, '.form-group');
-						ret = false;
-					}
-				});
-                return ret;
-            };
-
-
 			$('#LoginFrm').on('submit', function () {
 				$('#LoginFrm').aCCValidator({});
 				if (submitSent !== true) {
@@ -270,7 +191,7 @@
 					return false;
 				}
 				return false;
-			})
+			});
 
 			$('#LoginFrm_Submit').on('click', function () {
 				$('#LoginFrm').aCCValidator({});
@@ -291,7 +212,7 @@
 					return false;
 				}
 				return false;
-			})
+			});
 
             showLoading = function (modal_body) {
                 modal_body.html('<div class="modal_loader" style="text-align: center"><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i></div>');
@@ -327,9 +248,97 @@
 						$('.spinner-overlay').fadeOut(500);
 					}
 				});
-			})
-
+			});
         });
+
+        //on submit validate
+        validateForm = function(form) {
+            var ret = true;
+            form.find(':input').each(function () {
+                var el = $(this);
+                var name = el.attr('name');
+                if (name === undefined) {
+                    return;
+                }
+
+                //coupon can be only applied, cannot submit
+                if (name === 'coupon_code' && !el.attr('disabled')) {
+                    var str_val = el.val().replace(/\s+/g, '');
+                    if (str_val.length > 0) {
+                        $.aCCValidator.show_error(el, '.form-group');
+                        ret = false;
+                    }
+                }
+
+                if (name === 'loginname' && el.val().length < 3) {
+                    $.aCCValidator.show_error(el, '.form-group');
+                    ret = false;
+                }
+                if (name === 'password' && el.val().length < 3) {
+                    $.aCCValidator.show_error(el, '.form-group');
+                    ret = false;
+                }
+                if (name === 'telephone' && !validatePhone(el.val())) {
+                    $.aCCValidator.show_error(el, '.form-group');
+                    ret = false;
+                }
+                if (name === 'cc_email' && !validateEmail(el.val())) {
+                    $.aCCValidator.show_error(el, '.form-group');
+                    ret = false;
+                }
+                if (name === 'shipping_address_id' && !el.val()) {
+                    $.aCCValidator.show_error(el, '.form-group');
+                    ret = false;
+                }
+                if (name === 'payment_address_id' && !el.val()) {
+                    $.aCCValidator.show_error(el, '.form-group');
+                    ret = false;
+                }
+                if (name === 'shipping_method' && !el.val()) {
+                    $.aCCValidator.show_error(el, '.form-group');
+                    ret = false;
+                }
+                if (name === 'firstname' && !el.val()) {
+                    $.aCCValidator.show_error(el, '.form-group');
+                    ret = false;
+                }
+                if (name === 'lastname' && !el.val()) {
+                    $.aCCValidator.show_error(el, '.form-group');
+                    ret = false;
+                }
+                if (name === 'address_1' && !el.val()) {
+                    $.aCCValidator.show_error(el, '.form-group');
+                    ret = false;
+                }
+                if (name === 'city' && !el.val()) {
+                    $.aCCValidator.show_error(el, '.form-group');
+                    ret = false;
+                }
+                if (name === 'postcode' && !el.val()) {
+                    $.aCCValidator.show_error(el, '.form-group');
+                    ret = false;
+                }
+                if (name === 'zone_id' && (!el.val() || el.val().toLowerCase() == 'false') ) {
+                    $.aCCValidator.show_error(el, '.form-group');
+                    ret = false;
+                }
+                if (name === 'country_id' && (!el.val() || el.val().toLowerCase() == 'false')) {
+                    $.aCCValidator.show_error(el, '.form-group');
+                    ret = false;
+                }
+            });
+            var cover = $('.div-cover');
+            if(cover){
+                if( ret === false ) {
+                    cover.css('height', $('.payment-select-container').height());
+                    cover.show();
+                }else{
+                    cover.hide();
+                }
+            }
+
+            return ret;
+        };
     </script>
 <?php
 echo $footer;

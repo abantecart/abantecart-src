@@ -25,6 +25,10 @@
 			<type>checkbox</type>
 			<default_value>0</default_value>
 		</item>
+		<item id="fast_checkout_show_order_comment_field">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
 		<item id="fast_checkout_create_account">
 			<type>checkbox</type>
 			<default_value>0</default_value>

@@ -67,19 +67,20 @@ class ControllerResponsesCheckoutPay extends AController
         $this->data['require_telephone'] = $this->config->get('fast_checkout_require_phone_number');
     }
 
+    public function getCartKey()
+    {
+        return $this->cart_key;
+    }
+
     public function main()
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
         $request = array_merge($this->request->get, $this->request->post);
 
         //handle coupon
         $this->_handleCoupon($request);
-
         $get_params = '&cart_key='.$this->cart_key;
-
         $this->data['onChangeCheckboxBtnUrl'] = $this->html->getSecureURL('r/checkout/pay/changeCheckBox');
-
         if ($this->config->get('config_checkout_id')) {
             $this->loadLanguage('checkout/confirm');
             $this->loadModel('catalog/content');
@@ -113,14 +114,13 @@ class ControllerResponsesCheckoutPay extends AController
                     $order_id
                 );
                 $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
                 $this->view->batchAssign($this->data);
                 $this->response->setOutput($this->view->fetch('responses/checkout/main.tpl'));
             }
+            $this->handleComment($order_details, $this->request->post);
         }
 
         $this->data['address_edit_base_url'] = $this->html->getSecureURL('account/address/update', '&address_id=');
-
         if (!$this->customer->isLogged() && $this->allow_guest) {
             $this->data['allow_account_creation'] = $this->config->get('fast_checkout_create_account');
         }
@@ -244,7 +244,7 @@ class ControllerResponsesCheckoutPay extends AController
         //set shipping method
         $this->_select_shipping($this->request->get['shipping_method']);
 
-        //handle balance. Re-apply ballance on every request as total can change
+        //handle balance. Re-apply balance on every request as total can change
         if ($this->session->data['fast_checkout'][$this->cart_key]['used_balance'] && !$request['balance']) {
             $request['balance'] = 'reapply';
         }
@@ -320,6 +320,22 @@ class ControllerResponsesCheckoutPay extends AController
         return null;
     }
 
+    public function updateOrderData(){
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+
+        $in_data = array_merge(
+            (array)$this->session->data,
+            $this->session->data['fast_checkout'][$this->cart_key]
+        );
+        $request = array_merge($this->request->get, $this->request->post);
+        $this->updateOrCreateOrder($in_data, $request);
+
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        return null;
+    }
+
     protected function updateOrCreateOrder($in_data, $request) {
         if (!$this->session->data['order_id']) {
             //create order and save details
@@ -332,12 +348,17 @@ class ControllerResponsesCheckoutPay extends AController
         $order_id = $order->saveOrder();
 
         if ($order_id) {
-            if ($this->customer->getId() && $request['cc_telephone']) {
+            if ($request['cc_telephone']) {
                 $this->loadModel('extension/fast_checkout');
-                $this->model_extension_fast_checkout->updateOrderDetails($order_id,
-                    [
+                $this->model_extension_fast_checkout->updateOrderDetails(
+                    $order_id,
+                    array(
                         'telephone' => $request['cc_telephone'],
-                    ]);
+                    )
+                );
+                if( !$this->customer->isLogged() ){
+                    $this->session->data['guest']['telephone'] = $request['cc_telephone'];
+                }
             }
             $this->session->data['order_id'] = $order_id;
         } else {
@@ -497,6 +518,8 @@ class ControllerResponsesCheckoutPay extends AController
             if ((float)$this->data['used_balance'] > 0) {
                 $this->data['balance_remains'] = $this->currency->format($balance_def_currency - (float)$this->data['used_balance']);
             }
+        }else{
+            $this->data['customer_telephone'] = $this->session->data['guest']['telephone'];
         }
 
         if ($this->data['payment_available'] === true) {
@@ -619,8 +642,6 @@ class ControllerResponsesCheckoutPay extends AController
 
             $this->updateOrCreateOrder($in_data, $request);
 
-        } else {
-            //FUTURE: Payment handler will validate in here.
         }
 
         if (!$this->customer->getId()) {
@@ -1590,7 +1611,7 @@ class ControllerResponsesCheckoutPay extends AController
         }
     }
 
-    private function _handleBalance($request)
+    protected function _handleBalance($request)
     {
         if (!$this->customer->isLogged() || !$request['balance']) {
             return null;
@@ -1646,6 +1667,18 @@ class ControllerResponsesCheckoutPay extends AController
         }
     }
 
+    protected function handleComment($order_data, $request){
+        if($this->request->is_POST()) {
+            if (isset($request['comment'])) {
+                $this->updateOrCreateOrder($order_data, $request);
+                $this->session->data['fast_checkout'][$this->cart_key]['comment'] = $request['comment'];
+                exit('Ok');
+            }
+        }else{
+            $this->data['comment'] = $this->session->data['fast_checkout'][$this->cart_key]['comment'];
+        }
+    }
+
     protected function _validateCoupon($coupon_code)
     {
         $promotion = new APromotion();
@@ -1680,7 +1713,6 @@ class ControllerResponsesCheckoutPay extends AController
     {
         if (!$error_text) {
             $error_text = $this->language->get('fast_checkout_error_incorrect_request');
-//$dbg = debug_backtrace(); $error_text .= ' see line: '.$dbg[0]['line'];
         }
         $this->response->setOutput($this->_build_error($error_text));
     }

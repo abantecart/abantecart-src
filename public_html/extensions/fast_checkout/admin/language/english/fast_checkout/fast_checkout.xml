@@ -29,4 +29,8 @@
 		<key>fast_checkout_languages</key>
 		<value><![CDATA[Language Definitions]]></value>
 	</definition>
+	<definition>
+		<key>fast_checkout_show_order_comment_field</key>
+		<value><![CDATA[Show order comment field<br/><span class="help">Comment textarea will be show during fast checkout process</span>]]></value>
+	</definition>
 </definitions>
