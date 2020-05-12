@@ -22,4 +22,5 @@ $page_id = $query->row['page_id'];
 //
 $layout->deletePageLayoutByID($page_id, $layout_id);
 
+$this->db->query('DELETE FROM '.$this->db->table('email_templates').' WHERE `text_id`=\'fast_checkout_welcome_email_guest_registration\'');
 
