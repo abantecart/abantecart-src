@@ -1,6 +1,7 @@
 <?php
 $guest_data = $this->session->data['guest'];
 ?>
+
 <div id="pay_error_container">
     <?php if ($info) { ?>
 		<div class="info alert alert-info"><i class="fa fa fa-check fa-fw"></i> <?php echo $info; ?></div>
@@ -33,9 +34,10 @@ $guest_data = $this->session->data['guest'];
 			</div>
             <?php
         }
+        ?>
 
-        if ($this->cart->hasShipping()) { ?>
 		<div class="row">
+        <?php if ($this->cart->hasShipping()) { ?>
 			<div class="form-group <?php if ($show_payment) {
                 echo "col-xxs-12 col-xs-6";
             } ?>">
@@ -101,7 +103,7 @@ $guest_data = $this->session->data['guest'];
 
                 if ($show_payment == true) {
                     if ($need_payment_address) { ?>
-						<div class="form-group <?php if ($this->cart->hasShipping()) { ?> col-xxs-12 col-xs-6 <?php } ?>">
+						<div class="form-group col-xxs-12 <?php if ($this->cart->hasShipping()) { ?>col-xs-6 <?php } ?>">
                             <?php if ($guest_data) {
                             $address = $this->customer->getFormattedAddress($guest_data, $guest_data['address_format']);
                             ?>
@@ -323,7 +325,6 @@ $guest_data = $this->session->data['guest'];
 						</div>
 					</div>
                 <?php } ?>
-				<input type="hidden" name="account_credit" value="0">
 
                 <?php if ($allow_account_creation || $support_recurring_billing) { ?>
 					<div class="row">
@@ -478,12 +479,12 @@ $guest_data = $this->session->data['guest'];
 		});
 
 		$(".pay-form").on("click", ".btn-apply-balance", function () {
-			let url = '<?php echo $main_url ?>&' + getUrlParams('balance', 'apply');
+			let url = '<?php echo $main_url ?>&'+ $('#PayFrm').serialize()+ '&' + getUrlParams('balance', 'apply');
 			pageRequest(url);
 		});
 
 		$(".pay-form").on("click", ".btn-remove-balance", function () {
-			let url = '<?php echo $main_url ?>&' + getUrlParams('balance', 'disapply');
+			let url = '<?php echo $main_url ?>&'+ $('#PayFrm').serialize()+ '&' + getUrlParams('balance', 'disapply');
 			pageRequest(url);
 		});
 
