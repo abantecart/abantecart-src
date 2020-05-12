@@ -309,7 +309,6 @@ $guest_data = $this->session->data['guest'];
 						</div>
 					</div>
                 <?php } ?>
-				<input type="hidden" name="account_credit" value="0">
 
                 <?php if ($allow_account_creation || $support_recurring_billing) { ?>
 					<div class="row">
@@ -456,12 +455,12 @@ $guest_data = $this->session->data['guest'];
 		});
 
 		$(".pay-form").on("click", ".btn-apply-balance", function () {
-			let url = '<?php echo $main_url ?>&' + getUrlParams('balance', 'apply');
+			let url = '<?php echo $main_url ?>&'+ $('#PayFrm').serialize()+ '&' + getUrlParams('balance', 'apply');
 			pageRequest(url);
 		});
 
 		$(".pay-form").on("click", ".btn-remove-balance", function () {
-			let url = '<?php echo $main_url ?>&' + getUrlParams('balance', 'disapply');
+			let url = '<?php echo $main_url ?>&'+ $('#PayFrm').serialize()+ '&' + getUrlParams('balance', 'disapply');
 			pageRequest(url);
 		});
 
