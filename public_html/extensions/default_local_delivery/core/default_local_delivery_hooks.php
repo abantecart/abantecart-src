@@ -148,7 +148,7 @@ class ExtensionDefaultLocalDelivery extends Extension
     public function onControllerResponsesCheckoutPay_UpdateData(){
         /** @var ControllerResponsesCheckoutPay $that */
         $that = $this->baseObject;
-        if( !$that->config->get('fast_checkout_status') || $that->request->is_POST()){
+        if( !$that->config->get('fast_checkout_status')){
             return;
         }
         $shipping_method = $that->session->data['fast_checkout'][$that->getCartKey()]['shipping_method'];

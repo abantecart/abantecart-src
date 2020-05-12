@@ -442,7 +442,7 @@ $guest_data = $this->session->data['guest'];
 
 		$("#shipping_method").change(function () {
 			let url = '<?php echo $main_url ?>&' + getUrlParams('shipping_method', $(this).val());
-			pageRequest(url);
+            pageRequest(url);
 		});
 
 		$(".registerbox input[type='radio']").change(function () {

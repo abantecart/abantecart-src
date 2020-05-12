@@ -13,11 +13,11 @@
                     $pay_button_style = 'btn-primary';
                 }
                 ?>
-                    <?php if ($step == 'address') { ?>
+                    <?php if ($step == 'address' && ($loggedin === true || $this->config->get('config_guest_checkout'))) { ?>
                         <a href="#address" id="new_address" role="tab" data-toggle="tab"
                            class="big btn <?php echo $pay_button_style; ?>">
-                            <i class="fa fa-map fa-fw"></i>&nbsp;<span class="hidden-xxs"><?php echo $type.' '
-                                    .$fast_checkout_text_address; ?></span>
+                            <i class="fa fa-map fa-fw"></i>&nbsp;
+                            <span class="hidden-xxs"><?php echo $type.' '.$fast_checkout_text_address; ?></span>
                         </a>
                     <?php }
                     if ($step == 'payment' && $this->config->get('config_guest_checkout')) { ?>
@@ -37,7 +37,7 @@
         </div>
         <div class="col-xxs-12" >
             <div class="tab-content">
-                <?php if ($step == 'address') { ?>
+                <?php if ($step == 'address' && ($loggedin === true || $this->config->get('config_guest_checkout'))) { ?>
                     <div class="tab-pane fade in <?php if (!$action || $action == 'enter') {
                         echo 'active';
                     } ?>" id="address">
@@ -60,7 +60,7 @@
                     </div>
                 <?php } ?>
                 <?php if ($loggedin !== true) { ?>
-                    <div class="tab-pane fade <?php if ($action == 'login') {
+                    <div class="tab-pane fade <?php if ($action == 'login' ||  ($step =='address' && !$this->config->get('config_guest_checkout'))) {
                         echo 'in active';
                     } ?>" id="user">
                         <?php include($this->templateResource('/template/responses/checkout/login.tpl')) ?>
@@ -168,6 +168,9 @@
 							$('.spinner-overlay').fadeOut(500);
 							$('#fast_checkout_summary_block').trigger('reload');
 							$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
+                            if($('form#PayFrm')) {
+                                validateForm($('form#PayFrm'));
+                            }
                         });
                         return false;
                     }
@@ -232,7 +235,10 @@
 					$('#fast_checkout_summary_block').trigger('reload');
 					$('#fast_checkout_cart').hide().html(data).fadeIn(1000);
 					$('.spinner-overlay').fadeOut(500);
-				})
+                    if($('form#PayFrm')) {
+                        validateForm($('form#PayFrm'));
+                    }
+				});
             };
 
 			$('a.address_edit').on('click', function (event) {
