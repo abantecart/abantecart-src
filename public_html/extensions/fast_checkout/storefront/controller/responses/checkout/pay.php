@@ -470,7 +470,6 @@ class ControllerResponsesCheckoutPay extends AController
                 '',
                 $paymentHTML
             );
-
             $this->view->assign('payment_form', $paymentHTML);
         }
 
@@ -504,7 +503,13 @@ class ControllerResponsesCheckoutPay extends AController
         if ($this->customer->isLogged()) {
             //customer details
             $this->data['customer_email'] = $this->customer->getEmail();
-            $this->data['customer_telephone'] = $this->customer->getTelephone();
+            if( $this->session->data['order_id'] ){
+                $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
+                $this->data['customer_telephone'] = $order_info['telephone'];
+            }else{
+                $this->data['customer_telephone'] = $this->customer->getTelephone();
+            }
+
 
             //balance handling
             $balance_def_currency = $this->customer->getBalance();
@@ -541,7 +546,7 @@ class ControllerResponsesCheckoutPay extends AController
     {
         $qty = 0;
         $resource = new AResource('image');
-
+        $products = array();
         foreach ($this->cart->getProducts() as $result) {
             $option_data = [];
 
@@ -661,7 +666,7 @@ class ControllerResponsesCheckoutPay extends AController
                 $guest_info['telephone'] = $request['cc_telephone'];
             }
             //check case when order without any addresses
-            if (!$guest_info['firstname'] && !$guest_info['firstname'] && $request['cc_owner']) {
+            if (!$guest_info['firstname'] && !$guest_info['lastname'] && $request['cc_owner']) {
                 list($guest_info['firstname'], $guest_info['lastname']) = explode(' ', trim($request['cc_owner']));
             }
         }
