@@ -21,7 +21,7 @@
 /**
  * Class ModelExtensionFastCheckout
  *
- * @property ModelAccountOrder $model_account_order
+ * @property ModelAccountOrder    $model_account_order
  * @property ModelAccountCustomer $model_account_customer
  */
 class ModelExtensionFastCheckout extends Model
@@ -273,8 +273,10 @@ class ModelExtensionFastCheckout extends Model
         $login_url = $this->html->getSecureURL('account/login');
         $this->language->load('mail/account_create');
         $main_data = [
-            'store_name' =>$this->config->get('store_name'),
-            'login_url' => $this->html->getSecureURL('account/login')
+            'store_name' => $this->config->get('store_name'),
+            'login_url'  => $this->html->getSecureURL('account/login'),
+            'login'      => $data['loginname'],
+            'password'   => $data['password'],
         ];
         $config_mail_logo = $this->config->get('config_mail_logo');
         $config_mail_logo = !$config_mail_logo ? $this->config->get('config_logo') : $config_mail_logo;
@@ -299,11 +301,7 @@ class ModelExtensionFastCheckout extends Model
             $main_data['logo'] = $this->config->get('config_mail_logo');
         }
 
-        if (!$this->config->get('config_customer_approval')) {
-            $template = 'storefront_welcome_email_activated';
-        } else {
-            $template = 'storefront_welcome_email_approval';
-        }
+        $template = 'fast_checkout_welcome_email_guest_registration';
 
         //allow to change email data from extensions
         $this->extensions->hk_ProcessData($this, 'sf_fast_checkout_welcome_mail');
