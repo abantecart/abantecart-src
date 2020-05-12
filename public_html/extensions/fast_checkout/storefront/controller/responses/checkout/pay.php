@@ -117,7 +117,7 @@ class ControllerResponsesCheckoutPay extends AController
                 $this->view->batchAssign($this->data);
                 $this->response->setOutput($this->view->fetch('responses/checkout/main.tpl'));
             }
-            $this->handleComment($order_details, $this->request->post);
+            $this->data['comment'] = $this->session->data['fast_checkout'][$this->cart_key]['comment'];
         }
 
         $this->data['address_edit_base_url'] = $this->html->getSecureURL('account/address/update', '&address_id=');
@@ -346,10 +346,9 @@ class ControllerResponsesCheckoutPay extends AController
 
         $order->buildOrderData($in_data);
         $order_id = $order->saveOrder();
-
+        $this->loadModel('extension/fast_checkout');
         if ($order_id) {
             if ($request['cc_telephone']) {
-                $this->loadModel('extension/fast_checkout');
                 $this->model_extension_fast_checkout->updateOrderDetails(
                     $order_id,
                     array(
@@ -360,6 +359,16 @@ class ControllerResponsesCheckoutPay extends AController
                     $this->session->data['guest']['telephone'] = $request['cc_telephone'];
                 }
             }
+            if ($request['comment']) {
+                $this->model_extension_fast_checkout->updateOrderDetails(
+                    $order_id,
+                    array(
+                        'comment' => $request['comment'],
+                    )
+                );
+                $this->session->data['fast_checkout'][$this->cart_key]['comment'] = $request['comment'];
+            }
+
             $this->session->data['order_id'] = $order_id;
         } else {
             $this->_to_log(sprintf($this->language->get('fast_checkout_error_unexpected_log'), var_export($in_data, true)));
@@ -1667,17 +1676,6 @@ class ControllerResponsesCheckoutPay extends AController
         }
     }
 
-    protected function handleComment($order_data, $request){
-        if($this->request->is_POST()) {
-            if (isset($request['comment'])) {
-                $this->updateOrCreateOrder($order_data, $request);
-                $this->session->data['fast_checkout'][$this->cart_key]['comment'] = $request['comment'];
-                exit('Ok');
-            }
-        }else{
-            $this->data['comment'] = $this->session->data['fast_checkout'][$this->cart_key]['comment'];
-        }
-    }
 
     protected function _validateCoupon($coupon_code)
     {

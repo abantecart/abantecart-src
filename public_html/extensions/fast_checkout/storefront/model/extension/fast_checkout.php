@@ -193,6 +193,7 @@ class ModelExtensionFastCheckout extends Model
 
         $allowed = array(
             'telephone',
+            'comment'
         );
         $upd = array();
         foreach ($allowed as $field_name) {

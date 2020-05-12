@@ -425,7 +425,7 @@ $guest_data = $this->session->data['guest'];
 		$("textarea[name=comment]").on('blur', function () {
             $.ajax({
               type: "POST",
-              url: '<?php echo $main_url ?>',
+              url: '<?php echo $this->html->getSecureUrl('r/checkout/pay/updateOrderData'); ?>',
               data: {comment: $(this).val()},
             });
 		});
