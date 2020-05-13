@@ -24,8 +24,8 @@ if (!defined('DIR_CORE')) {
 if (!class_exists('ExtensionFastCheckout')) {
     include_once('core/fast_checkout.php');
 }
-$controllers = array(
-    'storefront' => array(
+$controllers = [
+    'storefront' => [
         'blocks/fast_checkout_cart_btn',
         'blocks/fast_checkout_summary',
         'responses/checkout/pay',
@@ -36,21 +36,19 @@ $controllers = array(
         'pages/account/order_details',
         'pages/checkout/fast_checkout',
         'pages/checkout/fast_checkout_success',
-    ),
-    'admin'      => array(),
-);
+    ],
+    'admin'      => [],
+];
 
-$models = array(
-    'storefront' => array('extension/fast_checkout'),
-    'admin'      => array('extension/fast_checkout'),
-);
+$models = [
+    'storefront' => ['extension/fast_checkout'],
+    'admin'      => ['extension/fast_checkout'],
+];
 
-$templates = array(
-    'storefront' => array(
+$templates = [
+    'storefront' => [
         'embed/footer.post.tpl',
         'common/footer.post.tpl',
-        'pages/product/product.tpl',
-        'pages/product/product_listing.tpl',
         'pages/account/order_details.tpl',
         'blocks/product_list.tpl',
         'blocks/fast_checkout_summary.tpl',
@@ -72,16 +70,16 @@ $templates = array(
         'embed/account/order_details.tpl',
         'pages/checkout/fast_checkout.tpl',
         'pages/checkout/fast_checkout_success.tpl',
-    ),
-    'admin'      => array(),
-);
+    ],
+    'admin'      => [],
+];
 
-$languages = array(
-    'storefront' => array(
+$languages = [
+    'storefront' => [
         'english/fast_checkout/fast_checkout',
-    ),
-    'admin'      => array(
+    ],
+    'admin'      => [
         'english/fast_checkout/fast_checkout',
-    ),
-);
+    ],
+];
 
