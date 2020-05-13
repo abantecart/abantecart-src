@@ -1514,7 +1514,7 @@ class ControllerResponsesCheckoutPay extends AController
                     #Check config if we allowed to set this shipping and skip the step
                     $ext_config = $this->model_checkout_extension->getSettings($method_name);
                     $autoselect = $ext_config[$method_name."_autoselect"];
-                    if (sizeof($only_method[$key]['quote']) == 1 || $autoselect) {
+                    if ((is_array($only_method[$key]['quote']) && sizeof($only_method[$key]['quote']) == 1) || $autoselect) {
                         $this->session->data['fast_checkout'][$this->cart_key]['shipping_method'] = current($only_method[$method_name]['quote']);
                     }
                 }

@@ -279,7 +279,7 @@ $guest_data = $this->session->data['guest'];
 
                 <?php if ($this->config->get('fast_checkout_show_order_comment_field')) { ?>
 					<div class="row">
-						<div class="form-group col-xxs-12" title="write comment">
+						<div class="form-group col-xxs-12" title="<?php echo $fast_checkout_text_order_comment; ?>">
 							<div class="left-inner-addon">
 								<i class="fa fa-comment"></i>
                                 <div class="input-group">
