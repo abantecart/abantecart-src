@@ -290,6 +290,12 @@ class ModelExtensionDefaultAuthorizeNet extends Model
         $transactionRequestType->setShipTo($ship_address_obj);
         $transactionRequestType->setCustomer($customerData);
         $transactionRequestType->addToTransactionSettings($duplicateWindowSetting);
+        if(!$this->config->get('default_authorizenet_test_mode')) {
+            $solution = new AnetAPI\SolutionType();
+            $solution->setId('AAA179397');
+            $transactionRequestType->setSolution($solution);
+        }
+
         /*$transactionRequestType->addToUserFields($merchantDefinedField1);
         $transactionRequestType->addToUserFields($merchantDefinedField2);*/
         // Assemble the complete transaction request
