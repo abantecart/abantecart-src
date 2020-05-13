@@ -347,15 +347,16 @@ class ControllerResponsesCheckoutPay extends AController
         $order_id = $order->saveOrder();
         $this->loadModel('extension/fast_checkout');
         if ($order_id) {
-            if ($request['cc_telephone']) {
+            if ($request['cc_telephone'] || $request['telephone']) {
+                $telephone = $request['cc_telephone'] ? $request['cc_telephone'] : $request['telephone'];
                 $this->model_extension_fast_checkout->updateOrderDetails(
                     $order_id,
                     array(
-                        'telephone' => $request['cc_telephone'],
+                        'telephone' => $telephone,
                     )
                 );
                 if( !$this->customer->isLogged() ){
-                    $this->session->data['guest']['telephone'] = $request['cc_telephone'];
+                    $this->session->data['guest']['telephone'] = $telephone;
                 }
             }
             if ($request['comment']) {
@@ -506,7 +507,8 @@ class ControllerResponsesCheckoutPay extends AController
             $this->data['customer_email'] = $this->customer->getEmail();
             if( $this->session->data['order_id'] ){
                 $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-                $this->data['customer_telephone'] = $order_info['telephone'];
+                $this->session->data['fast_checkout'][$this->cart_key]['telephone'] =
+                            $this->data['customer_telephone'] = $order_info['telephone'];
             }else{
                 $this->data['customer_telephone'] = $this->customer->getTelephone();
             }
