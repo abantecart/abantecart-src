@@ -239,7 +239,7 @@ class ModelCatalogCategory extends Model
 					LEFT JOIN ".$this->db->table("category_descriptions")." cd
 					ON (c.category_id = cd.category_id) ";
             if ($store_id !== null) {
-                $sql .= "RIGHT JOIN ".$this->db->table("categories_to_stores")." cs 
+                $sql .= " RIGHT JOIN ".$this->db->table("categories_to_stores")." cs 
                             ON (c.category_id = cs.category_id AND ";
                     if( is_array($store_id) && !empty($store_id) ){
                         $sql .= "store_id IN (".implode(', ',$store_id).")";
@@ -247,7 +247,7 @@ class ModelCatalogCategory extends Model
                         $sql .= "store_id = ".(int)$store_id;
                     }
                 $sql .= ")";
-                $sql .= "LEFT JOIN ".$this->db->table('stores')." s 
+                $sql .= " LEFT JOIN ".$this->db->table('stores')." s 
                             ON s.store_id = cs.store_id";
             }
 
