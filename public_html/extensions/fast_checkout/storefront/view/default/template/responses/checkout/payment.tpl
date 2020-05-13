@@ -282,10 +282,18 @@ $guest_data = $this->session->data['guest'];
 						<div class="form-group col-xxs-12" title="write comment">
 							<div class="left-inner-addon">
 								<i class="fa fa-comment"></i>
-								<textarea id="comment"
-									   class="form-control input-lg p"
-    								   name="comment"
-								><?php echo $comment; ?></textarea>
+                                <div class="input-group">
+                                    <textarea id="comment"
+                                           class="form-control input-lg p"
+                                           name="comment"
+                                    ><?php echo $comment; ?></textarea>
+                                    <span class="input-group-btn">
+                                       <button class="btn btn-default btn-lg btn-comment" type="button">
+                                       <i class="fa fa-check fa-fw"></i>
+                                       <span class="hidden-xxs"><?php echo $fast_checkout_text_apply; ?></span>
+                                      </button>
+                                    </span>
+                                </div>
 							</div>
 						</div>
 					</div>
@@ -422,12 +430,26 @@ $guest_data = $this->session->data['guest'];
 
 	jQuery(document).ready(function () {
 
-		$("textarea[name=comment]").on('blur', function () {
+		$(".btn-comment").on('click', function () {
+		    var that = $(this).closest('.form-group');
             $.ajax({
-              type: "POST",
-              url: '<?php echo $this->html->getSecureUrl('r/checkout/pay/updateOrderData'); ?>',
-              data: {comment: $(this).val()},
+                type: "POST",
+                url: '<?php echo $this->html->getSecureUrl('r/checkout/pay/updateOrderData'); ?>',
+                data: {comment: $('textarea[name=comment]').val()},
+                success: function(){
+                    that
+                        .removeClass('has-error')
+                        .removeClass('has-success')
+                        .addClass('has-success');
+                },
+                error: function(){
+                    that
+                        .removeClass('has-error')
+                        .removeClass('has-success')
+                        .addClass('has-error');
+                }
             });
+
 		});
 
 		$("#payment_address_id").change(function () {

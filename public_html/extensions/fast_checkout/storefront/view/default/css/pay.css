@@ -461,3 +461,8 @@ table.table-shipments {
 	cursor: not-allowed;
 	display: none;
 }
+
+#comment{
+	height: 46px;
+
+}
