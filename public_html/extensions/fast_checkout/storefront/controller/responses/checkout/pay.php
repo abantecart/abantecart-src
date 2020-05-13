@@ -416,7 +416,9 @@ class ControllerResponsesCheckoutPay extends AController
     {
         $this->data['payment_methods'] = $this->_get_payment_methods();
         $this->data['payment_method'] = $request['payment_method'];
-        if (!$this->data['payment_method'] && !$this->session->data['fast_checkout'][$this->cart_key]['payment_method']) {
+        if (!$this->data['payment_method'] && count($this->data['payment_methods'])==1 ) {
+            $this->data['payment_method'] = key($this->data['payment_methods']);
+        }else if (!$this->data['payment_method'] && !$this->session->data['fast_checkout'][$this->cart_key]['payment_method']) {
             //check autoselect payment
             foreach ($this->data['payment_methods'] as $id => $payment) {
                 $psettings = $this->model_checkout_extension->getSettings($id);
