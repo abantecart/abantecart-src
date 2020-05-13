@@ -7,7 +7,7 @@ if ($show_payment == false) {
 ?>
 <?php echo $login_form['form_open']; ?>
 <div id="login_error_container">
-    <?php if ($action == 'login' && $error) { ?>
+    <?php if (in_array($action, array('','login')) && $error) { ?>
 		<div class="alert alert-danger" role="alert"><i class="fa fa-exclamation fa-fw"></i> <?php echo $error; ?></div>
     <?php } ?>
 </div>

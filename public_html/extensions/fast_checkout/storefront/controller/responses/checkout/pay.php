@@ -74,9 +74,9 @@ class ControllerResponsesCheckoutPay extends AController
 
     public function main()
     {
+
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $request = array_merge($this->request->get, $this->request->post);
-
         //handle coupon
         $this->_handleCoupon($request);
         $get_params = '&cart_key='.$this->cart_key;
@@ -250,7 +250,6 @@ class ControllerResponsesCheckoutPay extends AController
         }
         $this->_handleBalance($request);
 
-
         //final step to build cart view and totals
         if (!$this->_build_cart_product_details()) {
             $this->_show_error('No items to be purchased are found');
@@ -286,6 +285,7 @@ class ControllerResponsesCheckoutPay extends AController
         if ($this->data['show_payment'] == true) {
             $this->_build_payment_view($request, $get_params);
         }
+
         $this->addLoginForm($request, $get_params);
 
         $this->data['step'] = !$this->data['step'] ? 'payment' : $this->data['step'];
@@ -308,9 +308,8 @@ class ControllerResponsesCheckoutPay extends AController
 
         $in_data = array_merge((array)$this->session->data, $this->session->data['fast_checkout'][$this->cart_key]);
         if (!$in_data['guest'] && !$this->customer->getId()) {
-            redirect(
-                $this->html->getSecureURL('r/checkout/pay/address', '&cart_key='.$this->cart_key)
-            );
+            $this->address();
+            return;
         }
 
         $this->updateOrCreateOrder($in_data, $request);
@@ -1051,7 +1050,7 @@ class ControllerResponsesCheckoutPay extends AController
         //Validate login
         $loginname = $this->request->post['loginname'];
         $password = $this->request->post['password'];
-        if (!isset($loginname) || !isset($password) || $this->_validate_login($loginname, $password) == false) {
+        if (!isset($loginname) || !isset($password) || !$this->_validate_login($loginname, $password)) {
             $this->action = 'login';
             $this->loadLanguage('account/login');
             $this->error['message'] = $this->language->get('error_login');
@@ -1061,6 +1060,7 @@ class ControllerResponsesCheckoutPay extends AController
         } else {
             $this->action = 'payment';
         }
+
         return $this->main();
     }
 
