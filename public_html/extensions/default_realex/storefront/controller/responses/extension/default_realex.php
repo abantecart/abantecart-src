@@ -135,10 +135,8 @@ class ControllerResponsesExtensionDefaultRealex extends AController
         $data['entry_cc_type'] = $this->language->get('entry_cc_type');
         $data['cc_type'] = $form->getFieldHtml(
             array(
-                'type'    => 'selectbox',
+                'type'    => 'hidden',
                 'name'    => 'cc_type',
-                'value'   => '',
-                'options' => $card_types,
             )
         );
 

@@ -340,10 +340,6 @@
                     $.aCCValidator.show_error(el, '.form-group');
                     ret = false;
                 }
-                if (name === 'cc_field_type' && (!el.val() || !$.aCCValidator.checkType(el)) ) {
-                    $.aCCValidator.show_error(el, '.form-group');
-                    ret = false;
-                }
             });
             var cover = $('.div-cover');
             if(cover){

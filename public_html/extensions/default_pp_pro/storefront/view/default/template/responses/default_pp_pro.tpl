@@ -14,9 +14,7 @@
 		<div class="col-sm-4 input-group">
 			<?php echo $cc_number; ?>
 		</div>
-		<div class="col-sm-3 input-group">
-			<?php echo $cc_type; ?>
-		</div>
+		<?php echo $cc_type; ?>
 		<span class="help-block"></span>
 	</div>
 	<div class="form-group form-inline">
@@ -85,7 +83,7 @@ jQuery(document).ready(function() {
 		$.ajax({
 			type: 'POST',
 			url: '<?php echo $action; ?>',
-			data: $('#paypal :input'),
+			data: $form.serialize(),
 			dataType: 'json',
 			beforeSend: function() {
 				$('.alert').remove();

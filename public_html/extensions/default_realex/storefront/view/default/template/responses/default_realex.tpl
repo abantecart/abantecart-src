@@ -15,9 +15,7 @@
 		<div class="col-sm-5 input-group">
 			<?php echo $cc_number; ?>
 		</div>
-		<div class="col-sm-2 input-group">
-			<?php echo $cc_type; ?>
-		</div>
+		<?php echo $cc_type; ?>
 		<span class="help-block"></span>
 	</div>
 	<div class="form-group form-inline">

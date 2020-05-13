@@ -162,11 +162,6 @@
                     }
                 }
 
-                if ($field.attr('name') == o.cc_field_type) {
-                    if (!$field.val() || $field.val() == 'notfound') {
-                        failed = true;
-                    }
-                }
                 if ($field.attr('name') == o.cc_field_cvv) {
                     if (!$.aCCValidator.checkCVV($field)) {
                         failed = true;
@@ -303,20 +298,23 @@
 
         select_cctype = function ($el, cc_type) {
             var $cct = $el.closest('form').find('[name=' + o.cc_field_type + ']');
-
             if ($cct.length) {
                 //select cc_type in the select box
                 var empty;
                 var found;
-                $cct.find('option').each(function () {
-                    if ($(this).val().toLowerCase() == cc_type.toLowerCase()) {
-                        $(this).prop('selected', true);
-                        found = true;
-                        return;
-                    } else if ($(this).val() == 'notfound') {
-                        empty = true;
-                    }
-                });
+                if($cct.attr('type') == 'hidden'){
+                    $cct.val(cc_type.toLowerCase());
+                }else {
+                    $cct.find('option').each(function () {
+                        if ($(this).val().toLowerCase() == cc_type.toLowerCase()) {
+                            $(this).prop('selected', true);
+                            found = true;
+                            return;
+                        } else if ($(this).val() == 'notfound') {
+                            empty = true;
+                        }
+                    });
+                }
                 if (found) {
                     show_success($cct, '.input-group', 'no_icon');
                 } else {

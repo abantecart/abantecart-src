@@ -73,11 +73,8 @@ class ControllerResponsesExtensionDefaultPPPro extends AController
         $data['accepted_cards'] = $options;
         $data['cc_type'] = $form->getFieldHtml(
             array(
-                'type'    => 'selectbox',
+                'type'    => 'hidden',
                 'name'    => 'cc_type',
-                'value'   => '',
-                'options' => $options,
-                'style'   => 'input-medium',
             )
         );
 
