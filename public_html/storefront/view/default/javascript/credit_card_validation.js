@@ -188,7 +188,7 @@
             } else {
                 return true;
             }
-        }
+        };
 
         /* Prefill creditcard type based on first set of numbers */
         $.aCCValidator.precheckCCNumber = function ($el) {
@@ -231,7 +231,7 @@
             //all good
             show_success($el, '.input-group');
             return true;
-        }
+        };
 
         /* Validate Name */
         $.aCCValidator.checkCCName = function ($el, mode) {
@@ -249,7 +249,7 @@
                 show_success($el, '.form-group');
                 return true;
             }
-        }
+        };
 
         /* Validate CVV */
         $.aCCValidator.checkCVV = function ($el, mode) {
@@ -267,7 +267,7 @@
                 show_success($el, '.form-group');
                 return true;
             }
-        }
+        };
 
         /* Validate exp month */
         $.aCCValidator.checkExp = function ($el, mode) {
@@ -284,7 +284,7 @@
                 show_success($el, '.input-group', 'no_icon');
                 return true;
             }
-        }
+        };
         $.aCCValidator.checkType = function ($el, mode) {
             var $ig = $el.closest('.input-group');
             if (mode == 'reset') {
@@ -299,7 +299,7 @@
                 show_success($el, '.input-group', 'no_icon');
                 return true;
             }
-        }
+        };
 
         select_cctype = function ($el, cc_type) {
             var $cct = $el.closest('form').find('[name=' + o.cc_field_type + ']');
@@ -332,7 +332,7 @@
                     show_error($cct, '.input-group', 'no_icon');
                 }
             }
-        }
+        };
 
         /* Show bootstrap field input-group-addon */
         show_addon = function ($el, html) {
@@ -341,14 +341,14 @@
                 $ig.append(o.wrapper);
             }
             $ig.find('.input-group-addon').html(html);
-        }
+        };
 
         hide_addon = function ($el) {
             var $ig = $el.closest('.input-group');
             if ($ig.find('.input-group-addon').length) {
                 $ig.find('.input-group-addon').remove();
             }
-        }
+        };
 
         show_success = function ($el, selector, mode) {
             var $att = $el.closest(selector);
@@ -358,7 +358,7 @@
                 hide_addon($el);
                 show_addon($el, o.success);
             }
-        }
+        };
 
         show_error = function ($el, selector, mode) {
             var $att = $el.closest(selector);
@@ -368,7 +368,7 @@
                 hide_addon($el);
                 show_addon($el, o.warning);
             }
-        }
+        };
 
         lookupCreditCardType = function (cardnumber) {
             //look for matching cc type backwards
@@ -384,7 +384,7 @@
                 }
             }
             return false;
-        }
+        };
 
         CheckDigits = function (cardnumber) {
             var card_rec;

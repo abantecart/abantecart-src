@@ -332,10 +332,23 @@
                     $.aCCValidator.show_error(el, '.form-group');
                     ret = false;
                 }
+                if (name === 'cc_cvv2' && (!el.val() || !$.aCCValidator.checkCVV(el)) ) {
+                    $.aCCValidator.show_error(el, '.form-group');
+                    ret = false;
+                }
+                if (name === 'cc_number' && (!el.val() || !$.aCCValidator.checkCCNumber(el)) ) {
+                    $.aCCValidator.show_error(el, '.form-group');
+                    ret = false;
+                }
+                if (name === 'cc_field_type' && (!el.val() || !$.aCCValidator.checkType(el)) ) {
+                    $.aCCValidator.show_error(el, '.form-group');
+                    ret = false;
+                }
             });
             var cover = $('.div-cover');
             if(cover){
-                if( ret === false ) {
+                <?php //show cover only for non-payment form and selectors! ?>
+                if( ret === false && form.parents('.payment-select-container').length == 0) {
                     cover.css('height', $('.payment-select-container').height());
                     cover.show();
                 }else{

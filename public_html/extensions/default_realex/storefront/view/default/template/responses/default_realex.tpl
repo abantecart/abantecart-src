@@ -80,7 +80,7 @@
 		var submitSent = false;
 
 		//validate submit
-		$('form').submit(function (event) {
+		$('#<?php echo $form_open->name;?>').submit(function (event) {
 			event.preventDefault();
 			if (submitSent !== true) {
 				submitSent = true;
