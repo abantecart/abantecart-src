@@ -69,7 +69,7 @@ jQuery(document).ready(function() {
 		event.preventDefault();
 		if(submitSent !== true) {
 			submitSent = true;
-			if( !$.aCCValidator.validate($('form.validate-creditcard')) ){
+			if( !$.aCCValidator.validate($(this)) ){
 				submitSent = false;
 				try { resetLockBtn(); } catch (e){}
 				return false;

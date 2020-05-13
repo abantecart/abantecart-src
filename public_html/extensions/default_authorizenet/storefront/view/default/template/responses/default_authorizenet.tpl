@@ -144,53 +144,26 @@ $acjs_url =  $this->config->get('default_authorizenet_test_mode')
         confirmSubmit($('#authorizenet'), 'index.php?rt=extension/default_authorizenet/send');
     }
 
-
-
-$('#new_card').click(function() {
-    $('.saved_cards').hide();
-    $('.enter_card').show();
-    $('#save_cc').change();
-
-});
-
-$('#delete_card').click(function() {
-    var $form = $('#authorizenet_saved_cc');
-    confirmSubmit($form, 'index.php?rt=extension/default_authorizenet/delete_card');
-});
-
-$('#enter_card').hover(function() {
-    $(this).tooltip('show');
-});
-
-$('#save_cc').change(function() {
-    if ($(this).is(':checked')) {
-        $(this).val(1);
-    } else {
-        $(this).val(0);
-    }
-});
-
-$('#authorizenet_saved_cc').submit(function(event) {
-    event.preventDefault();
-    var $form = $(this);
-	$('.alert').remove();
-	$(this).find('.action-buttons').hide();
-	$(this).find('.action-buttons').before(
-		'<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin fa-fw"></i> <?php echo $text_wait; ?></div>'
-	);
-    confirmSubmit($form, 'index.php?rt=extension/default_authorizenet/send');
-});
-
+    var submitSent = false;
 //validate submit
 $('#authorizenet').submit(function(event) {
     event.preventDefault();
-
-	$('.alert').remove();
-	$(this).find('.action-buttons').hide();
-	$(this).find('.action-buttons').before(
-		'<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin fa-fw"></i> <?php echo $text_wait; ?></div>'
-	);
-    sendPaymentDataToAnet();
+    if (submitSent !== true) {
+        submitSent = true;
+        if (!$.aCCValidator.validate($(this))) {
+            submitSent = false;
+            try { resetLockBtn(); } catch (e) {}
+            return false;
+        } else {
+            $('.alert').remove();
+            $(this).find('.action-buttons').hide();
+            $(this).find('.action-buttons').before(
+                '<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin fa-fw"></i> <?php echo $text_wait; ?></div>'
+            );
+            sendPaymentDataToAnet();
+            return false;
+        }
+    }
 });
 
 function confirmSubmit($form, url) {
