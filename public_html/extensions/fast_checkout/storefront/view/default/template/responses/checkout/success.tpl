@@ -62,9 +62,5 @@
 		}
 		return false;
 	});
-	$(document).ready(function () {
-		$('.container-fluid .col-md-9.col-xs-12.mt20').removeClass('col-md-9')
-		$('.container-fluid .column_right.col-md-3.col-xs-12.mt20').css('display', 'none')
-	})
 </script>
 <?php echo $footer; ?>
