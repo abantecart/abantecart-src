@@ -423,10 +423,12 @@ class ControllerResponsesCheckoutPay extends AController
         }
         $this->data['payment_method'] = $request['payment_method'];
         $selected_payment = $this->session->data['fast_checkout'][$this->cart_key]['payment_method'];
+        //case when switches shipping method into method with accepted payments list
         if($selected_payment && !isset($this->data['payment_methods'][$selected_payment['id']])){
             unset($this->session->data['fast_checkout'][$this->cart_key]['payment_method']);
             $selected_payment = array();
         }
+
         if (!$this->data['payment_method'] && count($this->data['payment_methods'])==1 ) {
             $this->data['payment_method'] = key($this->data['payment_methods']);
         }else if (!$this->data['payment_method'] && !$selected_payment) {
@@ -516,7 +518,8 @@ class ControllerResponsesCheckoutPay extends AController
             if( $this->session->data['order_id'] ){
                 $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
                 $this->session->data['fast_checkout'][$this->cart_key]['telephone'] =
-                            $this->data['customer_telephone'] = $order_info['telephone'];
+                                $this->data['customer_telephone'] =
+                                $order_info['telephone'];
             }else{
                 $this->data['customer_telephone'] = $this->customer->getTelephone();
             }
@@ -538,6 +541,9 @@ class ControllerResponsesCheckoutPay extends AController
             $this->data['used_balance_full'] = $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full'];
             $this->data['used_balance'] = $this->session->data['fast_checkout'][$this->cart_key]['used_balance'];
 
+            if($this->data['used_balance_full'] ){
+                unset($this->data['payment_methods'],$this->data['payment_method'] );
+            }
             $this->data['balance_remains'] = $this->data['balance_value'];
             if ((float)$this->data['used_balance'] > 0) {
                 $this->data['balance_remains'] = $this->currency->format($balance_def_currency - (float)$this->data['used_balance']);
