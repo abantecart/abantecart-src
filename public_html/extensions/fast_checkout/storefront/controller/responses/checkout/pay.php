@@ -318,8 +318,8 @@ class ControllerResponsesCheckoutPay extends AController
         return null;
     }
 
-    public function updateOrderData()
-    {
+    public function updateOrderData(){
+        //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $in_data = array_merge(
@@ -329,6 +329,7 @@ class ControllerResponsesCheckoutPay extends AController
         $request = array_merge($this->request->get, $this->request->post);
         $this->updateOrCreateOrder($in_data, $request);
 
+        //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
         return null;
     }
@@ -354,7 +355,7 @@ class ControllerResponsesCheckoutPay extends AController
                         'telephone' => $telephone,
                     )
                 );
-                if (!$this->customer->isLogged()) {
+                if( !$this->customer->isLogged() ){
                     $this->session->data['guest']['telephone'] = $telephone;
                 }
             }
@@ -421,20 +422,23 @@ class ControllerResponsesCheckoutPay extends AController
             unset($this->data['payment_methods']['default_pp_express']);
         }
         $this->data['payment_method'] = $request['payment_method'];
-        if (!$this->data['payment_method'] && count($this->data['payment_methods']) == 1) {
+        $selected_payment = $this->session->data['fast_checkout'][$this->cart_key]['payment_method'];
+        if($selected_payment && !isset($this->data['payment_methods'][$selected_payment['id']])){
+            unset($this->session->data['fast_checkout'][$this->cart_key]['payment_method']);
+            $selected_payment = array();
+        }
+        if (!$this->data['payment_method'] && count($this->data['payment_methods'])==1 ) {
             $this->data['payment_method'] = key($this->data['payment_methods']);
-        } else {
-            if (!$this->data['payment_method'] && !$this->session->data['fast_checkout'][$this->cart_key]['payment_method']) {
-                //check autoselect payment
-                foreach ($this->data['payment_methods'] as $id => $payment) {
-                    $psettings = $this->model_checkout_extension->getSettings($id);
-                    if ($psettings[$id.'_autoselect']) {
-                        $this->data['payment_method'] = $id;
-                    }
+        }else if (!$this->data['payment_method'] && !$selected_payment) {
+            //check autoselect payment
+            foreach ($this->data['payment_methods'] as $id => $payment) {
+                $psettings = $this->model_checkout_extension->getSettings($id);
+                if ($psettings[$id.'_autoselect']) {
+                    $this->data['payment_method'] = $id;
                 }
-            } elseif (!$this->data['payment_method'] && $this->session->data['fast_checkout'][$this->cart_key]['payment_method']) {
-                $this->data['payment_method'] = $this->session->data['fast_checkout'][$this->cart_key]['payment_method']['id'];
             }
+        } elseif (!$this->data['payment_method'] && $selected_payment) {
+            $this->data['payment_method'] = $selected_payment['id'];
         }
 
         //show selected payment form
@@ -442,8 +446,8 @@ class ControllerResponsesCheckoutPay extends AController
             $this->session->data['fast_checkout'][$this->cart_key]['payment_method'] = [
                 'id'    => $this->data['payment_method'],
                 'title' => $this->data['payment_method'] == 'no_payment_required'
-                    ? $this->language->get('no_payment_required')
-                    : $this->data['payment_methods'][$this->data['payment_method']]['title'],
+                            ? $this->language->get('no_payment_required')
+                            : $this->data['payment_methods'][$this->data['payment_method']]['title'],
             ];
 
             $rt = '';
@@ -509,11 +513,11 @@ class ControllerResponsesCheckoutPay extends AController
         if ($this->customer->isLogged()) {
             //customer details
             $this->data['customer_email'] = $this->customer->getEmail();
-            if ($this->session->data['order_id']) {
+            if( $this->session->data['order_id'] ){
                 $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
                 $this->session->data['fast_checkout'][$this->cart_key]['telephone'] =
-                $this->data['customer_telephone'] = $order_info['telephone'];
-            } else {
+                            $this->data['customer_telephone'] = $order_info['telephone'];
+            }else{
                 $this->data['customer_telephone'] = $this->customer->getTelephone();
             }
 
@@ -538,7 +542,7 @@ class ControllerResponsesCheckoutPay extends AController
             if ((float)$this->data['used_balance'] > 0) {
                 $this->data['balance_remains'] = $this->currency->format($balance_def_currency - (float)$this->data['used_balance']);
             }
-        } else {
+        }else{
             $this->data['customer_telephone'] = $this->session->data['guest']['telephone'];
         }
 
@@ -1666,9 +1670,9 @@ class ControllerResponsesCheckoutPay extends AController
                         $this->session->data['fast_checkout'][$this->cart_key]['used_balance'] = $order_total;
                         $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full'] = true;
                         $this->session->data['fast_checkout'][$this->cart_key]['payment_method'] = array(
-                            'id'    => 'no_payment_required',
-                            'title' => $this->language->get('no_payment_required'),
-                        );
+                                            'id'    => 'no_payment_required',
+                                            'title' => $this->language->get('no_payment_required'),
+                                        );
                     } else { //partial pay
                         $this->session->data['fast_checkout'][$this->cart_key]['used_balance'] = $balance;
                         $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full'] = false;
