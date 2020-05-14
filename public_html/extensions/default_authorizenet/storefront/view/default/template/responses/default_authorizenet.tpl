@@ -8,12 +8,14 @@
 
     <div class="form-group form-inline">
         <span class="subtext"><?php echo $entry_billing_address; ?>: <?php echo $payment_address; ?>...</span>
-        <div class="col-sm-2 input-group">
-            <a href="<?php echo $edit_address; ?>" class="btn btn-default btn-sm">
-                <i class="fa fa-edit fa-fw"></i>
-                <?php echo $entry_edit; ?>
-            </a>
-        </div>
+        <?php if($edit_address){ ?>
+            <div class="col-sm-2 input-group">
+                <a href="<?php echo $edit_address; ?>" class="btn btn-default btn-sm">
+                    <i class="fa fa-edit fa-fw"></i>
+                    <?php echo $entry_edit; ?>
+                </a>
+            </div>
+        <?php } ?>
     </div>
 
     <div class="form-group  form-inline">
