@@ -516,7 +516,7 @@ $guest_data = $this->session->data['guest'];
 				return;
 			}
 			var payment_id = $(this).data('payment-id');
-			const paymentAvailable = $(this).attr('paiment-awailable');
+			const paymentAvailable = $(this).attr('data-payment-available');
 			if (payment_id == 'account_balance' || paymentAvailable == 'false') {
 				return;
 			}

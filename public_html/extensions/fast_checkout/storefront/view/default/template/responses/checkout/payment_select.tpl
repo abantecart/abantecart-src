@@ -2,7 +2,7 @@
 <div class="row">
     <div class="form-group col-xxs-12 payment_items">
         <?php
-        if ($total_payment = count($payment_methods)) {
+        if ($total_payment = count((array)$payment_methods)) {
             foreach ($payment_methods as $id => $payment) {
                 $current = '';
                 if ($id == $payment_method) {
@@ -10,7 +10,7 @@
                 }
                 ?>
                 <div class="payment_item">
-                    <div class="thumbnail payment-option <?php echo $current; ?>" data-payment-id="<?php echo $id; ?>" paiment-awailable="<?php if(!$csession['used_balance_full']) { echo 'true'; } else { echo 'false'; } ?>">
+                    <div class="thumbnail payment-option <?php echo $current; ?>" data-payment-id="<?php echo $id; ?>" data-payment-available="<?php if(!$csession['used_balance_full']) { echo 'true'; } else { echo 'false'; } ?>">
                         <div class="caption">
                             <p class="text-center"><?php if ($id == $payment_method) {  echo '<i class="fa fa-check"></i>'; } echo $payment['title']; ?></p>
                         </div>
