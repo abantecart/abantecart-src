@@ -173,23 +173,6 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 		ExpandColClick: true,
 		ExpandColumn: '<?php echo $data['expand_column']; ?>',
 		<?php } ?>
-		loadBeforeSend: function(xhr,
-								 settings) {
-		//	console.log(settings.data)
-		},
-		beforeRequest: function() {
-			$('.ui-search-input input').val($('.ui-search-input input').val().replace('\t', ''));
-		},
-		serializeGridData: function(postData) {
-			if (typeof $('.ui-search-input input').val() != "undefined") {
-				$('.ui-search-input input').val($('.ui-search-input input').val().replace('\t', ''));
-			}
-		console.log(postData)
-			if (typeof postData.filters != "undefined") {
-				postData.filters = postData.filters.replace('\t','');
-				return postData;
-			}
-		},
 		gridComplete: function() {
 			<?php if( $data["drag_sort_column"] ) { ?>
 			//enable row drag/drop sorting only if sorting present and used
@@ -564,11 +547,6 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 			<?php } ?>
 		}
 	});
-console.log(table_id);
-	$(table_id).bind("jqGridBeforeRequest", function(data) {
-		$('.ui-search-input input').val($('.ui-search-input input').val().replace('\t',''));
-		console.error(data)
-	})
 
 	$(table_id).jqGrid('navGrid',
 						table_id + '_pager',
