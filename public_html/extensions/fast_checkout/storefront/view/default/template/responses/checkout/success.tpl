@@ -27,6 +27,7 @@
                     echo "<p>".$text_order_download_pending."</p><br/>";
                 } ?>
                 <div class="order_completed_buttons">
+                    <?php echo $this->getHookVar('order_completed_buttons'); ?>
                     <?php
                     //if we have download
                     if ($download_url) { ?>
