@@ -69,7 +69,7 @@ class ExtensionAvataxIntegration extends Extension
         $that =& $this->baseObject;
         if ($that->data['table_id'] == 'customer_grid') {
             $that->loadLanguage('avatax_integration/avatax_integration');
-            $that->data['actions']['edit']['children']['avatax_integration'] = array(
+            $that->data['actions']['dropdown']['children']['avatax_integration'] = array(
                 'text' => $that->language->get('avatax_integration_name'),
                 'href' => $that->html->getSecureURL('sale/avatax_customer_data', '&customer_id=%ID%'),
             );
