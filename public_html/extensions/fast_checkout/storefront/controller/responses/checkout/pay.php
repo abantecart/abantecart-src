@@ -1135,7 +1135,7 @@ class ControllerResponsesCheckoutPay extends AController
 
         //Validate address entries
         $post = $this->request->post;
-        if ($this->request->is_POST()) {
+        if ( $this->request->is_POST() && $this->action != 'login' ) {
             $this->loadModel('account/address');
             $this->error = $this->model_account_address->validateAddressData($post);
             $this->_validateEmailTelephone($post);
