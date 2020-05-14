@@ -96,24 +96,53 @@
 </div>
 </div>
 </div>
-<?php
-$acjs_url =  $this->config->get('default_authorizenet_test_mode')
-                ? 'https://jstest.authorize.net/v1/Accept.js'
-                : 'https://js.authorize.net/v1/Accept.js';
-?>
-<script type="text/javascript" src="<?php echo $acjs_url;?>" charset="utf-8"></script>
 
 <script type="text/javascript"><!--
+    var submitSent = false;
+   jQuery(document).ready(function () {
+       <?php
+       $acjs_url =  $this->config->get('default_authorizenet_test_mode')
+                       ? 'https://jstest.authorize.net/v1/Accept.js'
+                       : 'https://js.authorize.net/v1/Accept.js';
+       ?>
+       loadScript("<?php echo $acjs_url;?>",
+        function(){
+        //validate submit
+        $('#authorizenet').submit(function(event) {
+
+            event.preventDefault();
+            if (submitSent !== true) {
+
+                submitSent = true;
+                if (!$.aCCValidator.validate($(this))) {
+                    submitSent = false;
+                    try { resetLockBtn(); } catch (e) {}
+                    return false;
+                } else {
+                    $('.alert').remove();
+                    $(this).find('.action-buttons').hide();
+                    $(this).find('.action-buttons').before(
+                        '<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin fa-fw"></i> <?php echo $text_wait; ?></div>'
+                    );
+                    sendPaymentDataToAnet();
+                    return false;
+                }
+            }
+        });
+
+        }
+       );
+    });
     function sendPaymentDataToAnet() {
         var authData = {};
             authData.clientKey = "<?php echo $this->config->get('default_authorizenet_api_public_key');?>";
             authData.apiLoginID = "<?php echo $this->config->get('default_authorizenet_api_login_id');?>";
 
         var cardData = {};
-            cardData.cardNumber = $("#cc_number").val();
-            cardData.month = $("#cc_expire_date_month").val();
-            cardData.year = $("#cc_expire_date_year").val();
-            cardData.cardCode = $("#cc_cvv2").val();
+            cardData.cardNumber = $("[name=cc_number]").val();
+            cardData.month = $("[name=cc_expire_date_month]").val();
+            cardData.year = $("[name=cc_expire_date_year]").val();
+            cardData.cardCode = $("[name=cc_cvv2]").val();
         var secureData = {};
         secureData.authData = authData;
         secureData.cardData = cardData;
@@ -130,11 +159,13 @@ $acjs_url =  $this->config->get('default_authorizenet_test_mode')
                     + 'Authorize.Net: '
                     + response.messages.message[i].text
                     + '( ' + response.messages.message[i].code +' )<div class=""></div></div>';
-                $('#payment').before(alert);
+                $('#<?php echo $form_open->name?>').before(alert);
                 i = i + 1;
             }
+
 			$('.wait').remove();
 			$('#authorizenet').find('.action-buttons').show();
+			submitSent = false;
         }else {
             paymentFormUpdate(response.opaqueData);
         }
@@ -146,27 +177,7 @@ $acjs_url =  $this->config->get('default_authorizenet_test_mode')
         confirmSubmit($('#authorizenet'), 'index.php?rt=extension/default_authorizenet/send');
     }
 
-    var submitSent = false;
-//validate submit
-$('#authorizenet').submit(function(event) {
-    event.preventDefault();
-    if (submitSent !== true) {
-        submitSent = true;
-        if (!$.aCCValidator.validate($(this))) {
-            submitSent = false;
-            try { resetLockBtn(); } catch (e) {}
-            return false;
-        } else {
-            $('.alert').remove();
-            $(this).find('.action-buttons').hide();
-            $(this).find('.action-buttons').before(
-                '<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin fa-fw"></i> <?php echo $text_wait; ?></div>'
-            );
-            sendPaymentDataToAnet();
-            return false;
-        }
-    }
-});
+
 
 function confirmSubmit($form, url) {
 
