@@ -53,11 +53,13 @@ class ControllerResponsesCheckoutPay extends AController
 
         $this->data['cart_key'] = $this->cart_key;
 
-        if (!isset($this->session->data['fast_checkout'][$this->cart_key])
-            || $this->session->data['fast_checkout'][$this->cart_key]['cart'] !== $this->session->data['cart']) {
+        if (
+            !isset($this->session->data['fast_checkout'][$this->cart_key])
+            || $this->session->data['fast_checkout'][$this->cart_key]['cart'] !== $this->session->data['cart']
+        ) {
             $this->session->data['fast_checkout'][$this->cart_key]['cart'] = $this->session->data['cart'];
             $this->removeNoStockProducts();
-            if ($this->session->data['coupon']) {
+            if ( $this->session->data['coupon'] ){
                 $this->session->data['fast_checkout'][$this->cart_key]['coupon'] = $this->session->data['coupon'];
             }
         }
@@ -454,6 +456,11 @@ class ControllerResponsesCheckoutPay extends AController
                             ? $this->language->get('no_payment_required')
                             : $this->data['payment_methods'][$this->data['payment_method']]['title'],
             ];
+
+            if( !$this->session->data['order_id'] ) {
+                $in_data = array_merge((array)$this->session->data, $this->session->data['fast_checkout'][$this->cart_key]);
+                $this->updateOrCreateOrder($in_data, $request);
+            }
 
             $rt = '';
             if ($this->data['payment_method'] != 'no_payment_required') {
