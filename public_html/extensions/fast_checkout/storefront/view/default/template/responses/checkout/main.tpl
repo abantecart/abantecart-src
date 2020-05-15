@@ -168,18 +168,19 @@
 						$.post(form.attr('action'), form.serialize(), function (data) {
 							try {
 								parsedData = JSON.parse(data);
-								if (typeof parsedData.url != "undefined") {
-									location.href = parsedData.url
-								}
 							} catch (e) {
 
 							}
-							
-							$('.spinner-overlay').fadeOut(500);
-							$('#fast_checkout_summary_block').trigger('reload');
-							$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
-							if ($('form#PayFrm')) {
-								validateForm($('form#PayFrm'));
+							if (typeof parsedData.url != "undefined") {
+								location.href = parsedData.url
+							} else {
+
+								$('.spinner-overlay').fadeOut(500);
+								$('#fast_checkout_summary_block').trigger('reload');
+								$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
+								if ($('form#PayFrm')) {
+									validateForm($('form#PayFrm'));
+								}
 							}
 						});
 						return false;
