@@ -264,13 +264,20 @@ $guest_data = $this->session->data['guest'];
 						<div class="form-group col-xxs-12">
 							<div class="left-inner-addon">
 								<i class="fa fa-phone"></i>
-								<input id="telephone"
-									   class="form-control input-lg"
-									   placeholder="<?php echo $fast_checkout_text_telephone_placeholder; ?>"
-									   name="telephone"
-									   type="text"
-									   value="<?php echo $customer_telephone; ?>"
-									   readonly>
+                                <div class="input-group">
+                                    <input id="telephone"
+                                           class="form-control input-lg"
+                                           placeholder="<?php echo $fast_checkout_text_telephone_placeholder; ?>"
+                                           name="telephone"
+                                           type="text"
+                                           value="<?php echo $customer_telephone; ?>"
+                                           readonly>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default btn-lg btn-edit-email" type="button">
+                                            <i class="fa fa-edit fa-fw"></i>
+                                        </button>
+                                    </span>
+                                </div>
 							</div>
 						</div>
 					</div>
@@ -286,7 +293,7 @@ $guest_data = $this->session->data['guest'];
                                     <textarea id="comment"
                                               class="form-control input-lg p"
                                               name="comment"
-                                              placeholder="<?php echo $fast_checkout_text_comment_placeholder; ?>"
+                                              placeholder="<?php echo $fast_checkout_text_telephone_placeholder; ?>"
                                     ><?php echo $comment; ?></textarea>
                                     <span class="input-group-btn">
                                        <button class="btn btn-default btn-lg btn-comment" type="button">
