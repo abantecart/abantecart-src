@@ -503,7 +503,7 @@ class ControllerResponsesCheckoutPay extends AController
 
         //check if any payment is available for address or show balance if available.
         $this->data['payment_select_action'] = $payment_select_action;
-        $this->data['payment_available'] = $this->data['payment_methods'] ? true : false;
+        $this->data['payment_available'] = ($this->data['payment_methods'] || $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full']) ? true : false;
         if ($this->data['balance_enough'] !== true && $this->data['payment_available'] !== true) {
             $this->error['message'] = $this->data['payment_available'];
             $this->data['payment_available'] = false;
@@ -1401,6 +1401,10 @@ class ControllerResponsesCheckoutPay extends AController
         $shipping_ext = explode('.', $this->session->data['fast_checkout'][$this->cart_key]['shipping_method']['id']);
         $ship_ext_config = $this->model_checkout_extension->getSettings($shipping_ext[0]);
         $accept_payment_ids = $ship_ext_config[$shipping_ext[0]."_accept_payments"];
+        if ($this->session->data['fast_checkout'][$this->cart_key]['used_balance_full']) {
+            $accept_payment_ids = [];
+        }
+
         if (is_array($accept_payment_ids) && count($accept_payment_ids)) {
             //#filter only allowed payment methods based on shipping
             foreach ($results as $result) {
@@ -1408,6 +1412,8 @@ class ControllerResponsesCheckoutPay extends AController
                     $ac_payments[] = $result;
                 }
             }
+        } elseif ($this->session->data['fast_checkout'][$this->cart_key]['used_balance_full']) {
+            $ac_payments = [];
         } else {
             $ac_payments = $results;
         }
