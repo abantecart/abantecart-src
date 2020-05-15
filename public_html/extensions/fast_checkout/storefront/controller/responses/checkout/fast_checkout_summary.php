@@ -47,6 +47,13 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
 
         $cart_class_name = get_class($this->cart);
         $this->registry->set('cart', new $cart_class_name($this->registry, $this->session->data['fast_checkout'][$this->cart_key]));
+        //do we need to apply taxed on payment address?
+        if ($this->cart->hasShipping() && !$this->config->get('config_tax_customer')) {
+            $this->tax->setZone(
+                $this->session->data['fast_checkout'][$this->cart_key]['tax_country_id'],
+                $this->session->data['fast_checkout'][$this->cart_key]['tax_zone_id']
+            );
+        }
     }
 
     public function main()

@@ -13,6 +13,14 @@
 <div id="content" class="panel panel-default">
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
+			<?php if (!empty ($list_url)) { ?>
+			<div class="btn-group">
+				<a class="btn btn-white tooltips" href="<?php echo $list_url; ?>" data-toggle="tooltip" data-original-title="<?php echo $text_back_to_list; ?>">
+					<i class="fa fa-arrow-left fa-lg"></i>
+				</a>
+			</div>
+			<?php } ?>
+
 			<?php if ($insert){ ?>
 				<div class="btn-group mr10 toolbar">
 					<a class="actionitem btn btn-primary lock-on-click tooltips" href="<?php echo $insert; ?>"
@@ -152,14 +160,13 @@
 	</div>
 	</form>
 
-</div><!-- <div class="tab-content"> -->
+</div>
 
 <script type="text/javascript">
 
 	$(document).ready(function () {
 		$('.chosen-container-multi, .chosen-container-single').css('width', '30%');
 	});
-
 
 	var idx = $('#conditions_list div.form-group').length + 1;
 	$('#add_condition').click(function () {
@@ -185,7 +192,6 @@
 		});
 	});
 
-
 	var removeCondition = function (elm) {
 		$(elm).parents('.form-group').remove();
 		$("#collectionsFrm").attr('changed', 'true');
@@ -206,8 +212,6 @@
 				$('#collectionsFrm').submit()
 			}
 		});
-
 	});
-
 
 </script>

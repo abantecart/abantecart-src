@@ -1,5 +1,22 @@
 <?php
+/*------------------------------------------------------------------------------
+  $Id$
 
+  AbanteCart, Ideal OpenSource Ecommerce Solution
+  http://www.AbanteCart.com
+
+  Copyright © 2011-2020 Belavier Commerce LLC
+
+  This source file is subject to Open Software License (OSL 3.0)
+  License details is bundled with this package in the file LICENSE.txt.
+  It is also available at this URL:
+  <http://www.opensource.org/licenses/OSL-3.0>
+
+ UPGRADE NOTE:
+   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+   versions in the future. If you wish to customize AbanteCart for your
+   needs please refer to http://www.AbanteCart.com for more information.
+------------------------------------------------------------------------------*/
 class ControllerPagesDesignEmailTemplates extends AController
 {
     public $error = array();
@@ -69,6 +86,7 @@ class ControllerPagesDesignEmailTemplates extends AController
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
 
         $this->view->assign('insert', $this->html->getSecureURL('design/email_templates/insert'));
+        $this->view->assign('help_url', $this->gen_help_url('email_templates'));
 
         $this->processTemplate('pages/design/email_templates_list.tpl');
         //update controller data
@@ -111,6 +129,8 @@ class ControllerPagesDesignEmailTemplates extends AController
         $this->getForm();
 
         $this->view->batchAssign($this->data);
+        $this->view->assign('help_url', $this->gen_help_url('email_templates'));
+        $this->view->assign('list_url', $this->html->getSecureURL('design/email_templates'));
         $this->processTemplate('pages/design/email_templates_form.tpl');
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -164,6 +184,8 @@ class ControllerPagesDesignEmailTemplates extends AController
         $this->getForm();
 
         $this->view->batchAssign($this->data);
+        $this->view->assign('help_url', $this->gen_help_url('email_templates'));
+        $this->view->assign('list_url', $this->html->getSecureURL('design/email_templates'));
         $this->processTemplate('pages/design/email_templates_form.tpl');
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);

@@ -32,19 +32,22 @@ Storefront:
 - improvement validation of parameters for a few methods of catalog/product model.
 - A country without States issue fix
 - Google Tag Management
+- Products/categories/brands collections
 
 Core Extensions:
 - New Fast one page checkout
 - New Local Delivery shipment
-- default_stripe added 3d-secure support. 3d-party library updated
-- default_cod minor fixes
+- Stripe added 3d-secure support and library updated
+- COD fixes
 - LiqPay upgrade
 - Realex upgrade
+- Authorize.net update
 - Cardconnect upgrade
 - Payza payment deprecated
 
 Improvements and bug fixes reported on the forum and GitHub.
 
+------------------------------------------------------------
 
 AbanteCart version 1.2.15
 
@@ -72,6 +75,7 @@ Extensions:
 
 Improvements and bug fixes reported on the forum and github.
 
+------------------------------------------------------------
 
 AbanteCart version 1.2.14
 

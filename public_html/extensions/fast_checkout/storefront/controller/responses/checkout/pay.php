@@ -237,7 +237,10 @@ class ControllerResponsesCheckoutPay extends AController
 
         //do we need to apply taxed on payment address?
         if ($this->cart->hasShipping() && !$this->config->get('config_tax_customer')) {
-            $this->tax->setZone($this->session->data['fast_checkout'][$this->cart_key]['tax_country_id'], $this->session->data['fast_checkout'][$this->cart_key]['tax_zone_id']);
+            $this->tax->setZone(
+                $this->session->data['fast_checkout'][$this->cart_key]['tax_country_id'],
+                $this->session->data['fast_checkout'][$this->cart_key]['tax_zone_id']
+            );
         }
 
         //set shipping method
@@ -1135,7 +1138,7 @@ class ControllerResponsesCheckoutPay extends AController
 
         //Validate address entries
         $post = $this->request->post;
-        if ($this->request->is_POST()) {
+        if ( $this->request->is_POST() && $this->action != 'login' ) {
             $this->loadModel('account/address');
             $this->error = $this->model_account_address->validateAddressData($post);
             $this->_validateEmailTelephone($post);
@@ -1659,6 +1662,7 @@ class ControllerResponsesCheckoutPay extends AController
         if ($request['balance'] == 'apply' || $request['balance'] == 'reapply') {
             //get customer balance in general currency
             $balance = $this->customer->getBalance();
+
             $order_totals = $this->cart->buildTotalDisplay(true);
             $order_total = $order_totals['total'];
             if ($this->session->data['fast_checkout'][$this->cart_key]['used_balance']) {
