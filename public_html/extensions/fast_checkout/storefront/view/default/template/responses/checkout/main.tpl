@@ -134,49 +134,59 @@
 							fieldName: $checkbox.attr('name'),
 							isOn: $checkbox.is(':checked')
 						})
-                        $button.data('state', (isChecked) ? "on" : "off");
-                        $button.find('.state-icon')
-                            .removeClass()
-                            .addClass('state-icon ' + settings[$button.data('state')].icon);
-                        if (isChecked) {
-                            $button.removeClass('btn-default').addClass('btn-' + color + ' ');
-                        } else {
-                            $button.removeClass('btn-' + color + ' ').addClass('btn-default');
-                        }
-                    }
+						$button.data('state', (isChecked) ? "on" : "off");
+						$button.find('.state-icon')
+							.removeClass()
+							.addClass('state-icon ' + settings[$button.data('state')].icon);
+						if (isChecked) {
+							$button.removeClass('btn-default').addClass('btn-' + color + ' ');
+						} else {
+							$button.removeClass('btn-' + color + ' ').addClass('btn-default');
+						}
+					}
 
-                    function init() {
-                        updateDisplay();
-                        if ($button.find('.state-icon').length === 0) {
-                            $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
-                        }
-                    }
-                    init();
-                });
+					function init() {
+						updateDisplay();
+						if ($button.find('.state-icon').length === 0) {
+							$button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+						}
+					}
 
-                form.submit(function () {
-                    if (submitSent !== true) {
-                        submitSent = true;
-                        if (validateForm($(this)) !== true) {
-                            submitSent = false;
-                            return false;
-                        }
-                        $(this).find('.btn-primary').button('loading');
-                        //All Good send form
+					init();
+				});
+
+				form.submit(function () {
+					if (submitSent !== true) {
+						submitSent = true;
+						if (validateForm($(this)) !== true) {
+							submitSent = false;
+							return false;
+						}
+						$(this).find('.btn-primary').button('loading');
+						//All Good send form
 						$('.spinner-overlay').fadeIn(100);
-                        $.post(form.attr('action'), form.serialize(), function (data) {
+						$.post(form.attr('action'), form.serialize(), function (data) {
+							try {
+								parsedData = JSON.parse(data);
+								if (typeof parsedData.url != "undefined") {
+									location.href = parsedData.url
+								}
+							} catch (e) {
+
+							}
+							
 							$('.spinner-overlay').fadeOut(500);
 							$('#fast_checkout_summary_block').trigger('reload');
 							$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
-                            if($('form#PayFrm')) {
-                                validateForm($('form#PayFrm'));
-                            }
-                        });
-                        return false;
-                    }
-                    return false;
-                });
-            }
+							if ($('form#PayFrm')) {
+								validateForm($('form#PayFrm'));
+							}
+						});
+						return false;
+					}
+					return false;
+				});
+			}
 
 			$('#LoginFrm').on('submit', function () {
 				$('#LoginFrm').aCCValidator({});

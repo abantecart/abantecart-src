@@ -652,7 +652,7 @@ class ControllerResponsesCheckoutPay extends AController
         }
 
         //validate payment details
-        if ($this->customer->isLogged() && $request['account_credit']) {
+        if ($this->customer->isLogged() && $this->session->data['fast_checkout'][$this->cart_key]['used_balance_full']) {
             //validate account balance
             $balance = $this->currency->convert(
                 $this->customer->getBalance(),
@@ -665,7 +665,6 @@ class ControllerResponsesCheckoutPay extends AController
                 $this->error['message'] = $this->language->get('fast_checkout_error_low_balance');
                 return $this->main();
             }
-            $this->session->data['fast_checkout'][$this->cart_key]['used_balance'] = $this->cart->getFinalTotal();
             $this->session->data['fast_checkout'][$this->cart_key]['payment_method'] = [
                 'id'    => 'no_payment_required',
                 'title' => $this->language->get('no_payment_required'),
@@ -691,18 +690,12 @@ class ControllerResponsesCheckoutPay extends AController
 
         $order_id = $this->session->data['order_id'];
         //Process payment
-        if ($request['account_credit']) {
-            //process account balance with cart total.
-            //NOTE: Can not use order['total'] as it will be 0 for account balance pay.
-            if ($this->_process_account_balance($this->cart->getFinalTotal(), $order_id) === true) {
-                $this->model_checkout_order->confirm($order_id, $this->config->get('config_order_status_id'));
-                redirect(
-                    $this->html->getSecureURL('r/checkout/pay/success', '&order_id='.$order_id.'&cart_key='.$this->cart_key)
-                );
-            } else {
-                $this->error['message'] = $this->language->get('fast_checkout_error_balance_pay');
-                return $this->main();
-            }
+        if ($this->session->data['fast_checkout'][$this->cart_key]['used_balance_full']) {
+            $this->model_checkout_order->confirm($order_id, $this->config->get('config_order_status_id'));
+            $this->load->library('json');
+            $data['url'] = $this->html->getSecureURL('checkout/success', '&order_id='.$order_id);
+            $this->response->setOutput(AJson::encode($data));
+            return;
         }
 
         $this->action = 'confirm';
@@ -1414,6 +1407,14 @@ class ControllerResponsesCheckoutPay extends AController
             }
         } elseif ($this->session->data['fast_checkout'][$this->cart_key]['used_balance_full']) {
             $ac_payments = [];
+            $paymentHTML = $this->html->buildButton([
+                'text'  => $this->language->get('order_confirm'),
+                'title' => $this->language->get('order_confirm'),
+                'id'    => 'no_payment_confirm',
+                'style' => 'btn btn-primary btn-lg btn-block',
+                'icon'  => 'fa fa-check',
+            ]);
+            $this->view->assign('payment_form', $paymentHTML);
         } else {
             $ac_payments = $results;
         }

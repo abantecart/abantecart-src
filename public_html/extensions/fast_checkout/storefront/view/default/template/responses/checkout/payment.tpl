@@ -703,6 +703,10 @@ $guest_data = $this->session->data['guest'];
             <?php } ?>
 		});
 
+		$('#no_payment_confirm').on('click', function (e) {
+			$('#PayFrm').submit();
+		});
+
 	});
 
 </script>
