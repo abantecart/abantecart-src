@@ -171,7 +171,7 @@
 							} catch (e) {
 
 							}
-							if (typeof parsedData.url != "undefined") {
+							if (typeof parsedData != "undefined" && typeof parsedData.url != "undefined") {
 								location.href = parsedData.url
 							} else {
 
