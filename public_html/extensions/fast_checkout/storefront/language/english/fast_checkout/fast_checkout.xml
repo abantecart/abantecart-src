@@ -325,6 +325,10 @@
 		<value><![CDATA[Cart]]></value>
 	</definition>
 	<definition>
+		<key>fast_checkout_text_comment_placeholder</key>
+		<value><![CDATA[Add an order comment]]></value>
+	</definition>
+	<definition>
 		<key>order_confirm</key>
 		<value><![CDATA[Order Confirm]]></value>
 	</definition>
