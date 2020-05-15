@@ -408,7 +408,7 @@ i.fa-home {
 	to {transform: rotate(359deg);}
 }
 
-@media all and (max-width: 991px) {
+@media all and (max-width: 850px) {
 	.col-xxs-12 {
 		padding-right: 0px;
 	}
