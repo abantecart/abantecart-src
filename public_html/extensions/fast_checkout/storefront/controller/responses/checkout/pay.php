@@ -287,6 +287,11 @@ class ControllerResponsesCheckoutPay extends AController
         }
 
         if ($this->data['show_payment'] == true) {
+            //Order must be created before payment form rendering!
+            if( !$this->session->data['order_id'] ) {
+                $in_data = array_merge((array)$this->session->data, $this->session->data['fast_checkout'][$this->cart_key]);
+                $this->updateOrCreateOrder($in_data, $request);
+            }
             $this->_build_payment_view($request, $get_params);
         }
 
@@ -457,12 +462,6 @@ class ControllerResponsesCheckoutPay extends AController
                             : $this->data['payment_methods'][$this->data['payment_method']]['title'],
             ];
 
-            if( !$this->session->data['order_id'] ) {
-                $in_data = array_merge((array)$this->session->data, $this->session->data['fast_checkout'][$this->cart_key]);
-                $this->updateOrCreateOrder($in_data, $request);
-            }
-
-            $rt = '';
             if ($this->data['payment_method'] != 'no_payment_required') {
                 $rt = 'responses/extension/'.$this->data['payment_method'];
             } else {
