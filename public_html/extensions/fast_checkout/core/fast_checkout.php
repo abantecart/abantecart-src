@@ -42,6 +42,7 @@ class ExtensionFastCheckout extends Extension
         $that = $this->baseObject;
         $cart_key = randomWord(5);
         $that->session->data['cart_key'] = $cart_key;
+        unset($that->session->data['used_balance']);
         redirect($that->html->getSecureURL($this->sc_rt, "&cart_key=".$cart_key));
     }
 
