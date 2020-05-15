@@ -1612,7 +1612,7 @@ class ControllerResponsesCheckoutPay extends AController
             }
         }
 
-        if ($this->config->get('fast_checkout_require_phone_number') && !$request['cc_telephone']) {
+        if ($this->config->get('fast_checkout_require_phone_number') && !$request['telephone'] && !$request['cc_telephone'] ) {
             $this->error['message'] = $this->language->get('fast_checkout_error_phone');
             return false;
         }
