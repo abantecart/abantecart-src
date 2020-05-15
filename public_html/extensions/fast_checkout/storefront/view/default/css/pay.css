@@ -150,7 +150,9 @@
 	padding: 5px;
 }
 
-.pay-form .form-group input[type="checkbox"] {
+#PayFrm .form-group input[type="checkbox"],
+#Address2 .form-group input[type="checkbox"]
+{
 	display: none;
 }
 
@@ -158,7 +160,9 @@
 	width: 20px;
 }
 
-.pay-form .form-group input[type="checkbox"] + .btn-group > label span:first-child {
+#PayFrm .form-group input[type="checkbox"] + .btn-group > label span:first-child,
+#Address2Frm .form-group input[type="checkbox"] + .btn-group > label span:first-child
+{
 	display: none;
 }
 
@@ -170,7 +174,9 @@
 	display: inline-block;
 }
 
-.pay-form .form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
+#PayFrm .form-group input[type="checkbox"]:checked + .btn-group > label span:last-child,
+#Address2Frm .form-group input[type="checkbox"]:checked + .btn-group > label span:last-child
+{
 	display: none;
 }
 
