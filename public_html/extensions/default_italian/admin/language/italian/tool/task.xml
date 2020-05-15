@@ -72,4 +72,16 @@
 		<key>text_completed</key>
 		<value><![CDATA[ Completato ]]></value>
 	</definition>
+	<definition>
+		<key>text_task_not_found</key>
+		<value><![CDATA[Attività non trovata.]]></value>
+	</definition>
+	<definition>
+		<key>text_empty_task</key>
+		<value><![CDATA[L&#39;attività non contiene passaggi. Rimosso.]]></value>
+	</definition>
+	<definition>
+		<key>text_forbidden_to_restart</key>
+		<value><![CDATA[Vietato riavviare!]]></value>
+	</definition>
 </definitions>

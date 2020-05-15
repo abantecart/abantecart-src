@@ -220,4 +220,8 @@
 		<key>text_success_scheduled</key>
 		<value><![CDATA[Успех: вы успешно создали запланированную задачу импорта! <a href="%s">Смотрите подробности</a>]]></value>
 	</definition>
+	<definition>
+		<key>text_complete_import_with_errors</key>
+		<value><![CDATA[%s строки с ошибками.]]></value>
+	</definition>
 </definitions>

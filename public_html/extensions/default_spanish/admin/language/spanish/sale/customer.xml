@@ -384,4 +384,8 @@
 		<key>error_incorrect_debit_credit</key>
 		<value><![CDATA[Error: el valor de débito o crédito no puede ser mayor que 99999999999.9999]]></value>
 	</definition>
+	<definition>
+		<key>error_email_exists</key>
+		<value><![CDATA[¡El cliente con esta dirección de correo electrónico ya existe!]]></value>
+	</definition>
 </definitions>

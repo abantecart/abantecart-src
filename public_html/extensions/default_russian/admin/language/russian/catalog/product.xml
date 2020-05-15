@@ -592,4 +592,16 @@
 		<key>entry_stock_checkout</key>
 		<value><![CDATA[Разрешать покупку если нет в наличии: <br/><span class="help">Позвольте клиентам покупать товар, когда его нет на складе.</span>]]></value>
 	</definition>
+	<definition>
+		<key>entry_stock_locations</key>
+		<value><![CDATA[Расположение на складе:]]></value>
+	</definition>
+	<definition>
+		<key>entry_locations</key>
+		<value><![CDATA[Место проживания:]]></value>
+	</definition>
+	<definition>
+		<key>text_create_collection</key>
+		<value><![CDATA[Создать коллекцию]]></value>
+	</definition>
 </definitions>

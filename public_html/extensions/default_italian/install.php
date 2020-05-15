@@ -11,6 +11,16 @@
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
+
+//before install validate it is unique
+$lng_code = 'it';
+$lng_name = 'Italiano';
+$lng_directory = 'italian';
+$lng_locale = 'it_IT.UTF-8,it_IT,italian';
+$lng_flag_path = 'extensions/default_italian/storefront/language/italian/flag.png';
+$lng_sort = 3; // sorting order with other languages
+$lng_status = 0; // Status on installation of extension
+
 $this->db->query("INSERT INTO ".DB_PREFIX."languages (`name`,`code`,`locale`,`image`,`directory`,`filename`,`sort_order`, `status`)
 				  VALUES ('Italiano', 'it', 'it_IT.UTF-8,it_IT,italian', 'extensions/default_italian/storefront/language/italian/flag.png','italian','italian','3',0);");
 $new_language_id = $this->db->getLastId();

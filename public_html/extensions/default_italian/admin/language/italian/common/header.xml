@@ -464,4 +464,12 @@
 		<key>text_taxes</key>
 		<value><![CDATA[Contributo]]></value>
 	</definition>
+	<definition>
+		<key>email_templates</key>
+		<value><![CDATA[Modelli e-mail]]></value>
+	</definition>
+	<definition>
+		<key>text_collection</key>
+		<value><![CDATA[collezioni]]></value>
+	</definition>
 </definitions>

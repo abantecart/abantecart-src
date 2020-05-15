@@ -38,8 +38,7 @@
 	</definition>
 	<definition>
 		<key>entry_value</key>
-		<value>
-			<![CDATA[Valore:<br /><span class="help">Imposta su 1.00000 se questo è il peso predefinito.</span>]]></value>
+		<value><![CDATA[Valore:<br /><span class="help">Imposta su 1.00000 se questo è il peso predefinito.</span>]]></value>
 	</definition>
 	<definition>
 		<key>error_permission</key>
@@ -55,12 +54,22 @@
 	</definition>
 	<definition>
 		<key>error_default</key>
-		<value>
-			<![CDATA[ATTENZIONE: Questa tipologia di peso non può essere eliminata perchè è attualmente assegnata come tipologia di peso predefinita nel negozio!]]></value>
+		<value><![CDATA[ATTENZIONE: Questa tipologia di peso non può essere eliminata perchè è attualmente assegnata come tipologia di peso predefinita nel negozio!]]></value>
 	</definition>
 	<definition>
 		<key>error_product</key>
-		<value>
-			<![CDATA[ATTENZIONE: Questa tipologia di peso non può essere eliminata perchè è attualmente assegnata a %s prodotti!]]></value>
+		<value><![CDATA[ATTENZIONE: Questa tipologia di peso non può essere eliminata perchè è attualmente assegnata a %s prodotti!]]></value>
+	</definition>
+	<definition>
+		<key>error_iso_code</key>
+		<value><![CDATA[Il codice ISO deve contenere 4 caratteri e deve essere unico!]]></value>
+	</definition>
+	<definition>
+		<key>entry_iso_code</key>
+		<value><![CDATA[ISO-code:]]></value>
+	</definition>
+	<definition>
+		<key>column_iso_code</key>
+		<value><![CDATA[ISO-code]]></value>
 	</definition>
 </definitions>

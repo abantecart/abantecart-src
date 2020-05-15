@@ -380,4 +380,8 @@
 		<key>error_incorrect_debit_credit</key>
 		<value><![CDATA[Ошибка: дебетовое или кредитное значение не может превышать 99999999999.9999]]></value>
 	</definition>
+	<definition>
+		<key>error_email_exists</key>
+		<value><![CDATA[Клиент с таким адресом электронной почты уже существует!]]></value>
+	</definition>
 </definitions>

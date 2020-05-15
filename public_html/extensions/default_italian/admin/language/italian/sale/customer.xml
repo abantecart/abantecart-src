@@ -360,4 +360,24 @@
 		<key>text_never</key>
 		<value><![CDATA[mai]]></value>
 	</definition>
+	<definition>
+		<key>column_id</key>
+		<value><![CDATA[ID]]></value>
+	</definition>
+	<definition>
+		<key>text_other_type_placeholder</key>
+		<value><![CDATA[digita qui il nuovo nome]]></value>
+	</definition>
+	<definition>
+		<key>error_incorrect_debit_credit</key>
+		<value><![CDATA[Errore: il valore di debito o credito non può essere maggiore di 99999999999.99.99]]></value>
+	</definition>
+	<definition>
+		<key>text_register_date</key>
+		<value><![CDATA[Data di registrazione:]]></value>
+	</definition>
+	<definition>
+		<key>error_email_exists</key>
+		<value><![CDATA[Il cliente con questo indirizzo email esiste già!]]></value>
+	</definition>
 </definitions>

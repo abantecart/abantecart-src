@@ -188,4 +188,12 @@
 		<key>text_out_of_stock</key>
 		<value><![CDATA[Нет на складе]]></value>
 	</definition>
+	<definition>
+		<key>tab_review_empty</key>
+		<value><![CDATA[Отзывы]]></value>
+	</definition>
+	<definition>
+		<key>text_verified_review</key>
+		<value><![CDATA[Подтвержденная покупка]]></value>
+	</definition>
 </definitions>

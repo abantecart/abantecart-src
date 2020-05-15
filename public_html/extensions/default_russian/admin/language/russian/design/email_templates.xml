@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>email_templates</key>
+		<value><![CDATA[Шаблоны электронной почты]]></value>
+	</definition>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Шаблоны электронной почты]]></value>
+	</definition>
+	<definition>
+		<key>column_text_id</key>
+		<value><![CDATA[Текст шаблона сообщения электронной почты]]></value>
+	</definition>
+	<definition>
+		<key>column_language</key>
+		<value><![CDATA[язык]]></value>
+	</definition>
+	<definition>
+		<key>column_subject</key>
+		<value><![CDATA[Тема]]></value>
+	</definition>
+	<definition>
+		<key>button_save</key>
+		<value><![CDATA[Сохранить]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Положение дел:]]></value>
+	</definition>
+	<definition>
+		<key>entry_text_id</key>
+		<value><![CDATA[Текст ID:]]></value>
+	</definition>
+	<definition>
+		<key>entry_language_id</key>
+		<value><![CDATA[Язык:]]></value>
+	</definition>
+	<definition>
+		<key>entry_headers</key>
+		<value><![CDATA[Пользовательские Заголовки:]]></value>
+	</definition>
+	<definition>
+		<key>entry_subject</key>
+		<value><![CDATA[Тема:]]></value>
+	</definition>
+	<definition>
+		<key>entry_html_body</key>
+		<value><![CDATA[Тело HTML:]]></value>
+	</definition>
+	<definition>
+		<key>entry_text_body</key>
+		<value><![CDATA[Тело текста:]]></value>
+	</definition>
+	<definition>
+		<key>entry_allowed_placeholders</key>
+		<value><![CDATA[Разрешенные заполнители: <br/><span class="help">Список имен переменных, разделенных запятой</span>]]></value>
+	</definition>
+	<definition>
+		<key>save_complete</key>
+		<value><![CDATA[Сохранить завершено]]></value>
+	</definition>
+	<definition>
+		<key>save_error</key>
+		<value><![CDATA[Ошибка сохранения. Пожалуйста, смотрите журнал.]]></value>
+	</definition>
+	<definition>
+		<key>save_error_text_id</key>
+		<value><![CDATA[Текстовый ID обязателен и должен содержать до 254 символов! Одно слово. Charsets: AZ, AZ и _]]></value>
+	</definition>
+	<definition>
+		<key>save_error_text_id_unique</key>
+		<value><![CDATA[Текст ID должен быть уникальным!]]></value>
+	</definition>
+	<definition>
+		<key>save_error_text_header</key>
+		<value><![CDATA[Заголовки должны быть до 254 символов!]]></value>
+	</definition>
+	<definition>
+		<key>save_error_text_subject</key>
+		<value><![CDATA[Тема обязательна и должна содержать до 254 символов!]]></value>
+	</definition>
+	<definition>
+		<key>save_error_html_body</key>
+		<value><![CDATA[Тело HTML требуется!]]></value>
+	</definition>
+	<definition>
+		<key>save_error_text_body</key>
+		<value><![CDATA[Тело текста обязательно!]]></value>
+	</definition>
+	<definition>
+		<key>save_error_language_id</key>
+		<value><![CDATA[Язык обязателен!]]></value>
+	</definition>
+</definitions>

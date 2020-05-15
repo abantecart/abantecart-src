@@ -56,4 +56,8 @@
 		<key>error_enquiry</key>
 		<value><![CDATA[La richiesta deve avere da 10 a 3000 caratteri!]]></value>
 	</definition>
+	<definition>
+		<key>entry_duplicate_message_subject</key>
+		<value><![CDATA[Nuova richiesta da %s (%s)]]></value>
+	</definition>
 </definitions>

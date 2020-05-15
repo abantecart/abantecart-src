@@ -328,4 +328,16 @@
 		<key>text_out_of_stock</key>
 		<value><![CDATA[Esaurito]]></value>
 	</definition>
+	<definition>
+		<key>text_act_on_behalf</key>
+		<value><![CDATA[Avviso: modalità impersonata per il cliente: %s. Utente: %s]]></value>
+	</definition>
+	<definition>
+		<key>price_with_tax</key>
+		<value><![CDATA[IVA inclusa]]></value>
+	</definition>
+	<definition>
+		<key>text_back_on_top</key>
+		<value><![CDATA[Torna in cima]]></value>
+	</definition>
 </definitions>

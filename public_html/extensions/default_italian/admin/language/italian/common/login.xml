@@ -44,4 +44,8 @@
 		<key>error_login_message_text</key>
 		<value><![CDATA[Dati di accesso utente: ]]></value>
 	</definition>
+	<definition>
+		<key>error_login_secure</key>
+		<value><![CDATA[Stai tentando di accedere in modalità non sicura non sicura! Passare a <a href="%s">HTTPS</a> sicuro per procedere]]></value>
+	</definition>
 </definitions>

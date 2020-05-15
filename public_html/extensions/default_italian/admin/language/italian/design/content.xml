@@ -110,13 +110,11 @@
 	</definition>
 	<definition>
 		<key>error_account</key>
-		<value>
-			<![CDATA[ATENZIONE: Questo contenuto non può essere cancellato in quanto è attualmente assegnato ai termini predefiniti del conto del negozio!]]></value>
+		<value><![CDATA[ATENZIONE: Questo contenuto non può essere cancellato in quanto è attualmente assegnato ai termini predefiniti del conto del negozio!]]></value>
 	</definition>
 	<definition>
 		<key>error_checkout</key>
-		<value>
-			<![CDATA[ATTENZIONE: Il contenuto non può essere eliminato, in quanto è attualmente assegnato come termini di pagamento e spedizione predefiniti per il negozio!]]></value>
+		<value><![CDATA[ATTENZIONE: Il contenuto non può essere eliminato, in quanto è attualmente assegnato come termini di pagamento e spedizione predefiniti per il negozio!]]></value>
 	</definition>
 	<definition>
 		<key>error_required_data</key>
@@ -137,5 +135,13 @@
 	<definition>
 		<key>tab_layout</key>
 		<value><![CDATA[ Impaginazione ]]></value>
+	</definition>
+	<definition>
+		<key>entry_meta_description</key>
+		<value><![CDATA[Descrizione del meta tag:]]></value>
+	</definition>
+	<definition>
+		<key>entry_meta_keywords</key>
+		<value><![CDATA[Parole chiave meta tag:]]></value>
 	</definition>
 </definitions>

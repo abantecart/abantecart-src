@@ -179,9 +179,21 @@
 	<definition>
 		<key>text_new_review</key>
 		<value><![CDATA[In attesa dell'approvazione della recensione del prodotto.]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_pending_review_approval</key>
 		<value><![CDATA[Recensione per id prodotto %s è pubblicato. Azione di approvazione è necessario! Clicca per vedere #admin#rt=catalog/review/update&review_id=%s]]></value>
-	</definition>	
+	</definition>
+	<definition>
+		<key>text_out_of_stock</key>
+		<value><![CDATA[Esaurito]]></value>
+	</definition>
+	<definition>
+		<key>tab_review_empty</key>
+		<value><![CDATA[Recensioni]]></value>
+	</definition>
+	<definition>
+		<key>text_verified_review</key>
+		<value><![CDATA[Acquisto verificato]]></value>
+	</definition>
 </definitions>

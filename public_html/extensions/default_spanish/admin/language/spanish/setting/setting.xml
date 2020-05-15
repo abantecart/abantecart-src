@@ -935,4 +935,68 @@ imagen</span>]]></value>
 		<key>entry_mail_logo</key>
 		<value><![CDATA[Logotipo de correo electrónico:]]></value>
 	</definition>
+	<definition>
+		<key>entry_google_tag_manager</key>
+		<value><![CDATA[ID de Google Tag Manager: <br/>]]></value>
+	</definition>
+	<definition>
+		<key>entry_tax_class</key>
+		<value><![CDATA[Clase impositiva predeterminada: <br/><span class="help">El valor predeterminado se tomará como valor predeterminado para la clase impositiva del nuevo producto que se crea.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_account_recaptcha_v3</key>
+		<value><![CDATA[Habilitar reCaptcha v3]]></value>
+	</definition>
+	<definition>
+		<key>text_review_disable</key>
+		<value><![CDATA[No permitir]]></value>
+	</definition>
+	<definition>
+		<key>text_review_allow_all</key>
+		<value><![CDATA[Cualquier cliente o visitante]]></value>
+	</definition>
+	<definition>
+		<key>text_review_allow_only_registered</key>
+		<value><![CDATA[Cliente registrado]]></value>
+	</definition>
+	<definition>
+		<key>text_review_allow_who_purchase</key>
+		<value><![CDATA[Cliente con pedido verificado]]></value>
+	</definition>
+	<definition>
+		<key>entry_display_reviews</key>
+		<value><![CDATA[Mostrar comentarios:]]></value>
+	</definition>
+	<definition>
+		<key>entry_city</key>
+		<value><![CDATA[Ciudad:]]></value>
+	</definition>
+	<definition>
+		<key>entry_postcode</key>
+		<value><![CDATA[Código postal:]]></value>
+	</definition>
+	<definition>
+		<key>entry_latitude</key>
+		<value><![CDATA[Latitud:]]></value>
+	</definition>
+	<definition>
+		<key>entry_longitude</key>
+		<value><![CDATA[Longitud:]]></value>
+	</definition>
+	<definition>
+		<key>entry_opening_hours</key>
+		<value><![CDATA[Horario de apertura:]]></value>
+	</definition>
+	<definition>
+		<key>error_postcode</key>
+		<value><![CDATA[Se requiere código postal]]></value>
+	</definition>
+	<definition>
+		<key>error_city</key>
+		<value><![CDATA[Se requiere el nombre de la ciudad]]></value>
+	</definition>
+	<definition>
+		<key>entry_image_resize_fill_color</key>
+		<value><![CDATA[Color de relleno para cambiar el tamaño de la imagen <br/><span class="help">Color que se rellenará en áreas vacías durante el cambio de tamaño de la imagen de rectángulo a cuadrado</span>]]></value>
+	</definition>
 </definitions>

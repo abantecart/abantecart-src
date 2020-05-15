@@ -760,4 +760,8 @@
 		<key>text_all_stores</key>
 		<value><![CDATA[Todas las tiendas]]></value>
 	</definition>
+	<definition>
+		<key>text_subtract_order</key>
+		<value><![CDATA[Restar orden]]></value>
+	</definition>
 </definitions>

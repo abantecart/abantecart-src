@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>email_templates</key>
+		<value><![CDATA[Modelli e-mail]]></value>
+	</definition>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Modelli e-mail]]></value>
+	</definition>
+	<definition>
+		<key>column_text_id</key>
+		<value><![CDATA[ID testo modello e-mail]]></value>
+	</definition>
+	<definition>
+		<key>column_language</key>
+		<value><![CDATA[linguaggio]]></value>
+	</definition>
+	<definition>
+		<key>column_subject</key>
+		<value><![CDATA[Soggetto]]></value>
+	</definition>
+	<definition>
+		<key>button_save</key>
+		<value><![CDATA[Salva]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Stato:]]></value>
+	</definition>
+	<definition>
+		<key>entry_text_id</key>
+		<value><![CDATA[ID testo:]]></value>
+	</definition>
+	<definition>
+		<key>entry_language_id</key>
+		<value><![CDATA[Linguaggio:]]></value>
+	</definition>
+	<definition>
+		<key>entry_headers</key>
+		<value><![CDATA[Intestazioni personalizzate:]]></value>
+	</definition>
+	<definition>
+		<key>entry_subject</key>
+		<value><![CDATA[Soggetto:]]></value>
+	</definition>
+	<definition>
+		<key>entry_html_body</key>
+		<value><![CDATA[Corpo HTML:]]></value>
+	</definition>
+	<definition>
+		<key>entry_text_body</key>
+		<value><![CDATA[Corpo del testo:]]></value>
+	</definition>
+	<definition>
+		<key>entry_allowed_placeholders</key>
+		<value><![CDATA[Segnaposto consentiti: <br/><span class="help">elenco separato da virgole di nomi di variabili</span>]]></value>
+	</definition>
+	<definition>
+		<key>save_complete</key>
+		<value><![CDATA[Salva completato]]></value>
+	</definition>
+	<definition>
+		<key>save_error</key>
+		<value><![CDATA[Salva errore. Si prega di consultare il registro.]]></value>
+	</definition>
+	<definition>
+		<key>save_error_text_id</key>
+		<value><![CDATA[L&#39;ID testo è obbligatorio e deve contenere fino a 254 caratteri! Una parola. Set di caratteri: AZ az e _]]></value>
+	</definition>
+	<definition>
+		<key>save_error_text_id_unique</key>
+		<value><![CDATA[L&#39;ID testo deve essere univoco!]]></value>
+	</definition>
+	<definition>
+		<key>save_error_text_header</key>
+		<value><![CDATA[Le intestazioni devono avere un massimo di 254 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>save_error_text_subject</key>
+		<value><![CDATA[L&#39;oggetto è obbligatorio e deve contenere fino a 254 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>save_error_html_body</key>
+		<value><![CDATA[Html Body è richiesto!]]></value>
+	</definition>
+	<definition>
+		<key>save_error_text_body</key>
+		<value><![CDATA[Il corpo del testo è obbligatorio!]]></value>
+	</definition>
+	<definition>
+		<key>save_error_language_id</key>
+		<value><![CDATA[È richiesta la lingua!]]></value>
+	</definition>
+</definitions>

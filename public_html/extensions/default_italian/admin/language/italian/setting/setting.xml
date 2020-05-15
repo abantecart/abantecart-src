@@ -909,4 +909,76 @@
 		<key>entry_task_api_key</key>
 		<value><![CDATA[Compiti API chiave: <br/><span class="help"> Si tratta di una chiave segreta per permettere AbanteCart per eseguire i processi in programma dal browser con file di /task.php. Se non è impostata, compiti non verrà eseguito tramite browser <br/> NOTA:.. Questo API Key non è richiesta per l'esecuzione di compiti di riga di comando </span>]]></value>
 	</definition>
+	<definition>
+		<key>entry_mail_logo</key>
+		<value><![CDATA[Logo e-mail:]]></value>
+	</definition>
+	<definition>
+		<key>entry_google_tag_manager</key>
+		<value><![CDATA[ID Google Tag Manager: <br/>]]></value>
+	</definition>
+	<definition>
+		<key>entry_duplicate_contact_us</key>
+		<value><![CDATA[Richieste di contatto duplicate ai messaggi]]></value>
+	</definition>
+	<definition>
+		<key>entry_tax_class</key>
+		<value><![CDATA[Classe fiscale predefinita: <br/><span class="help">Il valore predefinito verrà preso come valore predefinito per la classe fiscale del nuovo prodotto creato.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_account_recaptcha_v3</key>
+		<value><![CDATA[Abilita reCaptcha v3]]></value>
+	</definition>
+	<definition>
+		<key>text_review_disable</key>
+		<value><![CDATA[Non permettere]]></value>
+	</definition>
+	<definition>
+		<key>text_review_allow_all</key>
+		<value><![CDATA[Qualsiasi cliente o visitatore]]></value>
+	</definition>
+	<definition>
+		<key>text_review_allow_only_registered</key>
+		<value><![CDATA[Cliente registrato]]></value>
+	</definition>
+	<definition>
+		<key>text_review_allow_who_purchase</key>
+		<value><![CDATA[Cliente con ordine verificato]]></value>
+	</definition>
+	<definition>
+		<key>entry_display_reviews</key>
+		<value><![CDATA[Recensioni display:]]></value>
+	</definition>
+	<definition>
+		<key>entry_city</key>
+		<value><![CDATA[Città:]]></value>
+	</definition>
+	<definition>
+		<key>entry_postcode</key>
+		<value><![CDATA[Codice postale:]]></value>
+	</definition>
+	<definition>
+		<key>entry_latitude</key>
+		<value><![CDATA[Latitudine:]]></value>
+	</definition>
+	<definition>
+		<key>entry_longitude</key>
+		<value><![CDATA[Longitudine:]]></value>
+	</definition>
+	<definition>
+		<key>entry_opening_hours</key>
+		<value><![CDATA[Orari di apertura:]]></value>
+	</definition>
+	<definition>
+		<key>error_postcode</key>
+		<value><![CDATA[Codice postale è richiesto]]></value>
+	</definition>
+	<definition>
+		<key>error_city</key>
+		<value><![CDATA[È richiesto il nome della città]]></value>
+	</definition>
+	<definition>
+		<key>entry_image_resize_fill_color</key>
+		<value><![CDATA[Colore di riempimento per il ridimensionamento dell&#39;immagine <br/><span class="help">Colore che verrà riempito in aree vuote durante il ridimensionamento dell&#39;immagine dal rettangolo al quadrato</span>]]></value>
+	</definition>
 </definitions>

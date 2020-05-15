@@ -632,4 +632,16 @@
 		<key>entry_stock_checkout</key>
 		<value><![CDATA[Stock Checkout: <br/><span class="help">Permita que los clientes continúen comprando si los productos que están pidiendo no están en stock.</span>]]></value>
 	</definition>
+	<definition>
+		<key>entry_stock_locations</key>
+		<value><![CDATA[Ubicaciones de stock:]]></value>
+	</definition>
+	<definition>
+		<key>entry_locations</key>
+		<value><![CDATA[Ubicaciones:]]></value>
+	</definition>
+	<definition>
+		<key>text_create_collection</key>
+		<value><![CDATA[Crear colección]]></value>
+	</definition>
 </definitions>
