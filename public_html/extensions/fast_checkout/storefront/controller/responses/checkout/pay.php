@@ -654,6 +654,7 @@ class ControllerResponsesCheckoutPay extends AController
         $request = $this->request->post;
         //validate order details
         if (!$this->_validate_order_details($request)) {
+            $this->action = "payment";
             return $this->main();
         }
 
