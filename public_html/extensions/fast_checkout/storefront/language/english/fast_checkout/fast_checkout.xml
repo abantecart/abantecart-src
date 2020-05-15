@@ -324,4 +324,8 @@
 		<key>text_basket</key>
 		<value><![CDATA[Cart]]></value>
 	</definition>
+	<definition>
+		<key>order_confirm</key>
+		<value><![CDATA[Order Confirm]]></value>
+	</definition>
 </definitions>
