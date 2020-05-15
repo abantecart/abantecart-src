@@ -30,7 +30,7 @@ Storefront:
 - Google Recaptcha V3 support
 - Fast one-page checkout
 - improvement validation of parameters for a few methods of catalog/product model.
-- A country without States issue fix
+- A country without States issue fix    
 - Google Tag Management
 - Products/categories/brands collections
 
