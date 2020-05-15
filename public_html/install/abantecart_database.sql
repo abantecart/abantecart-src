@@ -11498,9 +11498,9 @@ VALUES  (10,'template',131),
         (10,'blocks',133),
         (10,'menu',134),
         (10,'content',135),
-		(10,'banner_manager',136),
-		(10,'forms_manager',200),
-		(10,'email_templates',137);
+        (10,'banner_manager',136),
+        (10,'forms_manager',200),
+        (10,'email_templates',137);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (11,'text_templates',131),
@@ -11561,7 +11561,6 @@ VALUES  (40,'241',131),
         (40,'246',136),
         (40,'281',137),
         (40,'248',200);
-
 
 --
 -- SUBMENU SYSTEM->SETTINGS
