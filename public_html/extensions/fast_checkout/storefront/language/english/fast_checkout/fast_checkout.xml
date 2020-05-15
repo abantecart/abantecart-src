@@ -326,7 +326,7 @@
 	</definition>
 	<definition>
 		<key>fast_checkout_text_comment_placeholder</key>
-		<value><![CDATA[Comment your order]]></value>
+		<value><![CDATA[Add an order comment]]></value>
 	</definition>
 	<definition>
 		<key>order_confirm</key>
