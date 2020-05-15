@@ -11519,8 +11519,8 @@ VALUES  (12,'design/template',131),
         (12,'design/menu',134),
         (12,'design/content',135),
         (12,'extension/banner_manager',136),
-        (12,'tool/forms_manager',200),
-        (12,'design/email_templates',137);
+        (12,'design/email_templates',137),
+        (12,'tool/forms_manager',200);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (13,'design',131),
@@ -11529,8 +11529,8 @@ VALUES  (13,'design',131),
         (13,'design',134),
         (13,'design',135),
         (13,'design',136),
-        (13,'design',200),
-        (13,'design',137);
+        (13,'design',137),
+        (13,'design',200);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
 VALUES  (14,1,131),
@@ -11559,7 +11559,7 @@ VALUES  (40,'241',131),
         (40,'244',134),
         (40,'245',135),
         (40,'246',136),
-        (40,'281',137),
+        (40,'280',137),
         (40,'248',200);
 
 
@@ -12291,7 +12291,8 @@ VALUES
   ( 276, 1, NOW() ),
   ( 277, 1, NOW() ),
   ( 278, 1, NOW() ),
-  ( 279, 1, NOW() );
+  ( 279, 1, NOW() ),
+  ( 280, 1, NOW() );
 
 INSERT INTO `ac_resource_descriptions`
 (`resource_id`, `language_id`, `name`, `title`, `description`, `resource_path`, `resource_code`, `date_added`)
@@ -12375,7 +12376,9 @@ VALUES
   ( 276,1,'Icon Settings IM', '', '', '', '<i class="fa fa-bullhorn"></i>&nbsp;', NOW() ),
   ( 277,1,'Icon Resource Library', '', '', '', '<i class="fa fa-image"></i>&nbsp;', NOW() ),
   ( 278,1,'Icon Analytics & Insights', '', '', '', '<i class="fa fa-signal"></i>&nbsp;', NOW() ),
-  ( 279,1,'Icon Collections', '', '', '', '<i class="fa fa-paste"></i>&nbsp;', NOW() );
+  ( 279,1,'Icon Collections', '', '', '', '<i class="fa fa-paste"></i>&nbsp;', NOW() ),
+  ( 280,1,'Icon Email Templates', '', '', '', '<i class="fa fa-envelope-open-o"></i>&nbsp;', NOW() );
+
 
 
 --

@@ -88,18 +88,19 @@ INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (15,'core',137);
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (40,'281',137);
+VALUES  (40,'280',137);
 
 
 #Admin Menu Icons
 INSERT INTO `ac_resource_library` ( `resource_id`, `type_id`, `date_added`)
 VALUES
-  ( 279, 1, NOW() );
+  ( 279, 1, NOW() ), ( 280, 1, NOW() );
 
 INSERT INTO `ac_resource_descriptions`
 (`resource_id`, `language_id`, `name`, `title`, `description`, `resource_path`, `resource_code`, `date_added`)
 VALUES
-  ( 279,1,'Icon Collections', '', '', '', '<i class="fa fa-paste"></i>&nbsp;', NOW() );
+  ( 279,1,'Icon Collections', '', '', '', '<i class="fa fa-paste"></i>&nbsp;', NOW() ),
+  ( 280,1,'Icon Email Templates', '', '', '', '<i class="fa fa-envelope-open-o"></i>&nbsp;', NOW() );
 
 
 -- SUBMENU CATALOG
