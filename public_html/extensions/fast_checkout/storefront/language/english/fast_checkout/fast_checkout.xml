@@ -169,10 +169,6 @@
 		<value><![CDATA[Pay %s with credit]]></value>
 	</definition>
 	<definition>
-		<key>fast_checkout_text_telephone_placeholder</key>
-		<value><![CDATA[Contact telephone Number Ex. +1.212.555.5555]]></value>
-	</definition>
-	<definition>
 		<key>fast_checkout_text_same_as_shipping_address</key>
 		<value><![CDATA[Same as delivery]]></value>
 	</definition>
@@ -323,5 +319,9 @@
 	<definition>
 		<key>text_basket</key>
 		<value><![CDATA[Cart]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_comment_placeholder</key>
+		<value><![CDATA[Comment your order]]></value>
 	</definition>
 </definitions>

@@ -284,8 +284,9 @@ $guest_data = $this->session->data['guest'];
 								<i class="fa fa-comment"></i>
                                 <div class="input-group">
                                     <textarea id="comment"
-                                           class="form-control input-lg p"
-                                           name="comment"
+                                              class="form-control input-lg p"
+                                              name="comment"
+                                              placeholder="<?php echo $fast_checkout_text_comment_placeholder; ?>"
                                     ><?php echo $comment; ?></textarea>
                                     <span class="input-group-btn">
                                        <button class="btn btn-default btn-lg btn-comment" type="button">
@@ -362,12 +363,9 @@ $guest_data = $this->session->data['guest'];
                         <?php } ?>
 					</div>
                 <?php } ?>
-
                 <?php echo $this->getHookVar('payment_form_bottom'); ?>
-
 	</form>
-
-    <?php
+<?php
     if ($payment_available === true) {
         ?>
         <div class="payment-select-container">
