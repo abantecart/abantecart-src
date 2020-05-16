@@ -5,17 +5,17 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
+
+ UPGRADE NOTE:
    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
    versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
+   needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
@@ -103,7 +103,7 @@ function check_install_directory()
  */
 function check_file_permissions($registry)
 {
-    //check file permissions. 
+    //check file permissions.
     $ret_array = array();
     $index = DIR_ROOT.'/index.php';
     if (is_writable($index) || substr(sprintf("%o", fileperms($index)), -3) == '777') {
@@ -312,7 +312,7 @@ function check_php_configuraion()
  */
 function check_server_configuration($registry)
 {
-    //check server configurations. 
+    //check server configurations.
     $ret_array = array();
 
     $size = disk_size(DIR_ROOT);
@@ -326,12 +326,31 @@ function check_server_configuration($registry)
     }
 
     //if SEO is enabled
-    if ($registry->get('config')->get('enable_seo_url')) {
-        $htaccess = DIR_ROOT.'/.htaccess';
-        if (!file_exists($htaccess)) {
+    if ($registry->get('config')->get('enable_seo_url') && IS_ADMIN) {
+        $curl_handle=curl_init();
+
+        $storeUrl = $registry->get('config')->get('config_url');
+
+        $options = array(
+            CURLOPT_URL            => $storeUrl.(substr($storeUrl, -1) !== '/' ? '/' : '' ).'check_seo_url',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HEADER         => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_ENCODING       => '',
+            CURLOPT_AUTOREFERER    => true,
+            CURLOPT_CONNECTTIMEOUT => 120,
+            CURLOPT_TIMEOUT        => 120,
+            CURLOPT_MAXREDIRS      => 10,
+        );
+        curl_setopt_array( $curl_handle, $options );
+        curl_exec($curl_handle);
+        $httpCode = curl_getinfo($curl_handle, CURLINFO_HTTP_CODE);
+        curl_close($curl_handle);
+
+        if ($httpCode !== 200) {
             $ret_array[] = array(
                 'title' => 'SEO URLs does not work',
-                'body'  => $htaccess.' file is missing. SEO URL functionality will not work. Check the <a href="http://docs.abantecart.com/pages/tips/enable_seo.html" target="_help_doc">manual for SEO URL setting</a> ',
+                'body'  => 'SEO URL functionality will not work. Check the <a href="http://docs.abantecart.com/pages/tips/enable_seo.html" target="_help_doc">manual for SEO URL setting</a> ',
                 'type'  => 'W',
             );
         }

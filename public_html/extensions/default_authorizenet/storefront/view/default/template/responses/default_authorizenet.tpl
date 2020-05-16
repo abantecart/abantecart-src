@@ -1,20 +1,21 @@
 
 <div class="enter_card">
 
-<form id="authorizenet" class="validate-creditcard">
-<?php echo  $csrftoken.$csrfinstance;?>
+<?php  echo $form_open;?>
 <h4 class="heading4"><?php echo $text_credit_card; ?></h4>
 
     <?php echo $this->getHookVar('payment_table_pre'); ?>
 
     <div class="form-group form-inline">
         <span class="subtext"><?php echo $entry_billing_address; ?>: <?php echo $payment_address; ?>...</span>
-        <div class="col-sm-2 input-group">
-            <a href="<?php echo $edit_address; ?>" class="btn btn-default btn-sm">
-                <i class="fa fa-edit fa-fw"></i>
-                <?php echo $entry_edit; ?>
-            </a>
-        </div>
+        <?php if($edit_address){ ?>
+            <div class="col-sm-2 input-group">
+                <a href="<?php echo $edit_address; ?>" class="btn btn-default btn-sm">
+                    <i class="fa fa-edit fa-fw"></i>
+                    <?php echo $entry_edit; ?>
+                </a>
+            </div>
+        <?php } ?>
     </div>
 
     <div class="form-group  form-inline">
@@ -95,24 +96,53 @@
 </div>
 </div>
 </div>
-<?php
-$acjs_url =  $this->config->get('default_authorizenet_test_mode')
-                ? 'https://jstest.authorize.net/v1/Accept.js'
-                : 'https://js.authorize.net/v1/Accept.js';
-?>
-<script type="text/javascript" src="<?php echo $acjs_url;?>" charset="utf-8"></script>
 
 <script type="text/javascript"><!--
+    var submitSent = false;
+   jQuery(document).ready(function () {
+       <?php
+       $acjs_url =  $this->config->get('default_authorizenet_test_mode')
+                       ? 'https://jstest.authorize.net/v1/Accept.js'
+                       : 'https://js.authorize.net/v1/Accept.js';
+       ?>
+       loadScript("<?php echo $acjs_url;?>",
+        function(){
+        //validate submit
+        $('#authorizenet').submit(function(event) {
+
+            event.preventDefault();
+            if (submitSent !== true) {
+
+                submitSent = true;
+                if (!$.aCCValidator.validate($(this))) {
+                    submitSent = false;
+                    try { resetLockBtn(); } catch (e) {}
+                    return false;
+                } else {
+                    $('.alert').remove();
+                    $(this).find('.action-buttons').hide();
+                    $(this).find('.action-buttons').before(
+                        '<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin fa-fw"></i> <?php echo $text_wait; ?></div>'
+                    );
+                    sendPaymentDataToAnet();
+                    return false;
+                }
+            }
+        });
+
+        }
+       );
+    });
     function sendPaymentDataToAnet() {
         var authData = {};
             authData.clientKey = "<?php echo $this->config->get('default_authorizenet_api_public_key');?>";
             authData.apiLoginID = "<?php echo $this->config->get('default_authorizenet_api_login_id');?>";
 
         var cardData = {};
-            cardData.cardNumber = $("#cc_number").val();
-            cardData.month = $("#cc_expire_date_month").val();
-            cardData.year = $("#cc_expire_date_year").val();
-            cardData.cardCode = $("#cc_cvv2").val();
+            cardData.cardNumber = $("[name=cc_number]").val();
+            cardData.month = $("[name=cc_expire_date_month]").val();
+            cardData.year = $("[name=cc_expire_date_year]").val();
+            cardData.cardCode = $("[name=cc_cvv2]").val();
         var secureData = {};
         secureData.authData = authData;
         secureData.cardData = cardData;
@@ -129,11 +159,13 @@ $acjs_url =  $this->config->get('default_authorizenet_test_mode')
                     + 'Authorize.Net: '
                     + response.messages.message[i].text
                     + '( ' + response.messages.message[i].code +' )<div class=""></div></div>';
-                $('#payment').before(alert);
+                $('#<?php echo $form_open->name?>').before(alert);
                 i = i + 1;
             }
+
 			$('.wait').remove();
 			$('#authorizenet').find('.action-buttons').show();
+			submitSent = false;
         }else {
             paymentFormUpdate(response.opaqueData);
         }
@@ -142,65 +174,10 @@ $acjs_url =  $this->config->get('default_authorizenet_test_mode')
     function paymentFormUpdate(opaqueData) {
         $("#dataDescriptor").val( opaqueData.dataDescriptor );
         $("#dataValue").val( opaqueData.dataValue );
-
-        // If using your own form to collect the sensitive data from the customer,
-        // blank out the fields before submitting them to your server.
-/*		$("#cc_number").val('');
-        $("#cc_expire_date_month").val('');
-        $("#cc_expire_date_year").val('');
-        $("#cc_cvv2").val('');*/
-
         confirmSubmit($('#authorizenet'), 'index.php?rt=extension/default_authorizenet/send');
     }
 
 
-
-$('#new_card').click(function() {
-    $('.saved_cards').hide();
-    $('.enter_card').show();
-    $('#save_cc').change();
-
-});
-
-$('#delete_card').click(function() {
-    var $form = $('#authorizenet_saved_cc');
-    confirmSubmit($form, 'index.php?rt=extension/default_authorizenet/delete_card');
-});
-
-$('#enter_card').hover(function() {
-    $(this).tooltip('show');
-});
-
-$('#save_cc').change(function() {
-    if ($(this).is(':checked')) {
-        $(this).val(1);
-    } else {
-        $(this).val(0);
-    }
-});
-
-$('#authorizenet_saved_cc').submit(function(event) {
-    event.preventDefault();
-    var $form = $(this);
-	$('.alert').remove();
-	$(this).find('.action-buttons').hide();
-	$(this).find('.action-buttons').before(
-		'<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin fa-fw"></i> <?php echo $text_wait; ?></div>'
-	);
-    confirmSubmit($form, 'index.php?rt=extension/default_authorizenet/send');
-});
-
-//validate submit
-$('#authorizenet').submit(function(event) {
-    event.preventDefault();
-
-	$('.alert').remove();
-	$(this).find('.action-buttons').hide();
-	$(this).find('.action-buttons').before(
-		'<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin fa-fw"></i> <?php echo $text_wait; ?></div>'
-	);
-    sendPaymentDataToAnet();
-});
 
 function confirmSubmit($form, url) {
 

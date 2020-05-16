@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Licence details is bundled with this package in the file LICENSE.txt.
@@ -73,11 +73,8 @@ class ControllerResponsesExtensionDefaultPPPro extends AController
         $data['accepted_cards'] = $options;
         $data['cc_type'] = $form->getFieldHtml(
             array(
-                'type'    => 'selectbox',
+                'type'    => 'hidden',
                 'name'    => 'cc_type',
-                'value'   => '',
-                'options' => $options,
-                'style'   => 'input-medium',
             )
         );
 

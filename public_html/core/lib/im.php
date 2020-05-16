@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -267,13 +267,13 @@ class AIM
      * 0 - storefront (customer) and 1 - Admin (user)
      * notes: If message is not provided, message text will be takes from languages based on checkpoint text key.
      */
-    public function send($sendpoint, $msg_details = array())
+    public function send($sendpoint, $msg_details = [], $templateTextId = '', $templateData = [])
     {
         $this->load->language('common/im');
         $customer_im_settings = array();
         if (IS_ADMIN !== true) {
             $sendpoints_list = $this->sendpoints;
-            //do have storefront sendpoint? 
+            //do have storefront sendpoint?
             if (!empty($sendpoints_list[$sendpoint][0])) {
                 $this->load->model('account/customer');
                 $customer_im_settings = $this->getCustomerNotificationSettings();
@@ -380,7 +380,11 @@ class AIM
                         if ($message && $to) {
                             //use safe call
                             try {
-                                $driver->send($to, $store_name.$message);
+                                if ($protocol == 'email') {
+                                    $driver->send($to, $store_name.$message, $templateTextId, $templateData);
+                                } else {
+                                    $driver->send($to, $store_name.$message);
+                                }
                             } catch (Exception $e) {
                             }
                         }
@@ -402,7 +406,11 @@ class AIM
                     if ($message && $to) {
                         //use safe call
                         try {
-                            $driver->sendFew($to, $store_name.$message);
+                            if ($protocol == 'email') {
+                                $driver->sendFew($to, $store_name.$message, $templateTextId, $templateData);
+                            } else {
+                                $driver->sendFew($to, $store_name.$message);
+                            }
                         } catch (Exception $e) {
                         }
                     }
@@ -421,7 +429,7 @@ class AIM
         $protocols = $this->protocols;
         //TODO: in the future should to create separate configurable sendpoints list for guests
         $sendpoints = $this->sendpoints;
-        if (is_callable($this->customer) && $this->customer->isLogged()) {
+        if ($this->customer && $this->customer->isLogged()) {
             $settings = $this->model_account_customer->getCustomerNotificationSettings();
         } //for guests before order creation
         elseif ($this->session->data['guest']) {
@@ -585,7 +593,7 @@ final class AMailIM
         return 'Email';
     }
 
-    public function send($to, $text)
+    public function send($to, $text, $templateTextId='', $templateData = [])
     {
         $this->load->language('common/im');
         $to = trim($to);
@@ -598,9 +606,13 @@ final class AMailIM
         $mail->setTo($to);
         $mail->setFrom($this->config->get('store_main_email'));
         $mail->setSender($this->config->get('store_name'));
-        $mail->setSubject($this->config->get('store_name').' '.$this->language->get('im_text_notification'));
-        $mail->setHtml($text);
-        $mail->setText($text);
+        if (empty($templateTextId)) {
+            $mail->setSubject($this->config->get('store_name').' '.$this->language->get('im_text_notification'));
+            $mail->setHtml($text);
+            $mail->setText($text);
+        } else {
+            $mail->setTemplate($templateTextId, $templateData, $this->language->getContentLanguageID());
+        }
         $mail->send();
         unset($mail);
 
@@ -611,10 +623,10 @@ final class AMailIM
      * @param array $to
      * @param       $text
      */
-    public function sendFew($to, $text)
+    public function sendFew($to, $text, $templateTextId = '', $templateData=[])
     {
         foreach ($to as $uri) {
-            $this->send($uri, $text);
+            $this->send($uri, $text, $templateTextId, $templateData);
         }
     }
 

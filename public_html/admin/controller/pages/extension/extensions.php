@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -365,7 +365,7 @@ class ControllerPagesExtensionExtensions extends AController
 
         $result = array('resource_field_list' => array());
         foreach ($settings as $item) {
-            $data = array();
+            $data = (array)$item;
             if ($item['name'] == $extension.'_status') {
                 $data['attr'] = ' reload_on_save="true"';
                 //set sign for confirmation modal about dependants for disable action

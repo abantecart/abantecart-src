@@ -85,8 +85,8 @@
 	        <img src="extensions/default_pp_standart/image/icon.png"><br>Install Paypal</a>
 	    </div>
 	    <div class="col-sm-3 h5 center">
-	        <a href="#admin#rt=extension/extensions/install&extension=default_payza" target="_extension">
-	        <img src="extensions/default_payza/image/icon.png"><br>Install Payza</a>
+	        <a href="#admin#rt=extension/extensions/install&extension=default_authorizenet" target="_extension">
+	        <img src="extensions/default_authorizenet/image/icon.png"><br>Install Authorize.Net</a>
 	    </div>
 	    <div class="col-sm-3 h5 center">
 	        <a href="#admin#rt=extension/extensions/payment" target="_extension">

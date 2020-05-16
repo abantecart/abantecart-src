@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -71,6 +71,7 @@ class ControllerResponsesExtensionDefaultBanktransfer extends AController
         $comment = $this->language->get('text_instructions')."\n";
         $comment .= $this->config->get('default_banktransfer_instructions_'.$this->language->getLanguageID())."\n\n";
         $comment .= $this->language->get('text_payment')."\n";
+        $comment = html_entity_decode($comment,ENT_QUOTES,'UTF-8');
 
         $this->model_checkout_order->confirm($this->session->data['order_id'], $this->config->get('default_banktransfer_order_status_id'), $comment);
     }

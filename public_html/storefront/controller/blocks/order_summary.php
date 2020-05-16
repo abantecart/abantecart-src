@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -38,7 +38,10 @@ class ControllerBlocksOrderSummary extends AController
         $this->view->assign('view', $this->html->getSecureURL('checkout/cart'));
 
         $rt = $this->request->get['rt'];
-        if (strpos($rt, 'checkout') !== false && $rt != 'checkout/cart') {
+        if($rt == 'checkout/success') {
+            //do now show any info on success page
+            return;
+        }elseif (strpos($rt, 'checkout') !== false && $rt != 'checkout/cart') {
             $this->view->assign('checkout', '');
         } else {
             if ($this->cart->hasMinRequirement() && $this->cart->hasMaxRequirement()) {

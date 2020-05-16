@@ -124,4 +124,104 @@
 		<key>error_file_empty</key>
 		<value><![CDATA[Il file è vuoto.]]></value>
 	</definition>
+	<definition>
+		<key>import_wizard_title</key>
+		<value><![CDATA[Importazione guidata dati]]></value>
+	</definition>
+	<definition>
+		<key>tab_import_wizard</key>
+		<value><![CDATA[Procedura guidata di importazione]]></value>
+	</definition>
+	<definition>
+		<key>text_load_file_notes</key>
+		<value><![CDATA[È possibile caricare file CSV o di testo per importare dati. Per la struttura dei dati, puoi seguire il formato proprietario (vedi esportazione) o il formato libero. <br/> Per i dati con il formato gratuito, sarà necessario mappare manualmente gli elementi dei dati. Solo prodotti e categorie supportati per l&#39;importazione di formati gratuiti.]]></value>
+	</definition>
+	<definition>
+		<key>text_import_wizard_notes</key>
+		<value><![CDATA[Selezionare una tabella di destinazione e il campo del database corrispondente per ciascuna colonna di dati di importazione fornita. Se non viene selezionato alcun campo, i dati della colonna di input verranno ignorati. <br/><b>Nota:</b> i valori dei dati specifici per lingua e archivio verranno assegnati all&#39;attuale archivio di contenuti e lingua selezionata]]></value>
+	</definition>
+	<definition>
+		<key>text_records_to_be_loaded</key>
+		<value><![CDATA[Ci saranno %s record caricati ed elaborati in questa importazione!]]></value>
+	</definition>
+	<definition>
+		<key>text_import_task_title</key>
+		<value><![CDATA[Esecuzione del processo di importazione]]></value>
+	</definition>
+	<definition>
+		<key>text_import_file_col</key>
+		<value><![CDATA[Importa colonna di file]]></value>
+	</definition>
+	<definition>
+		<key>text_import_file_data</key>
+		<value><![CDATA[Importa campione di dati]]></value>
+	</definition>
+	<definition>
+		<key>text_destination_col</key>
+		<value><![CDATA[Seleziona la tabella di destinazione]]></value>
+	</definition>
+	<definition>
+		<key>text_import_update_on</key>
+		<value><![CDATA[Aggiorna se esiste]]></value>
+	</definition>
+	<definition>
+		<key>text_import_split</key>
+		<value><![CDATA[Dividi dati per]]></value>
+	</definition>
+	<definition>
+		<key>title_export_map</key>
+		<value><![CDATA[Seleziona, copia e salva questa mappatura per uso futuro.]]></value>
+	</definition>
+	<definition>
+		<key>text_export_map</key>
+		<value><![CDATA[Esporta mappatura]]></value>
+	</definition>
+	<definition>
+		<key>title_load_map</key>
+		<value><![CDATA[Pubblica nel campo sotto i dati di mappatura pre-salvati]]></value>
+	</definition>
+	<definition>
+		<key>text_load_map</key>
+		<value><![CDATA[Caricare la mappatura]]></value>
+	</definition>
+	<definition>
+		<key>error_table_selection</key>
+		<value><![CDATA[Nessuna tabella o campi di destinazione di importazione selezionati!]]></value>
+	</definition>
+	<definition>
+		<key>error_required_selection</key>
+		<value><![CDATA[Campo dati obbligatorio mancante &#39;%s&#39; per la tabella di destinazione!]]></value>
+	</definition>
+	<definition>
+		<key>error_tmp_dir_non_writable</key>
+		<value><![CDATA[Directory temporanea %s non è scrivibile! Modifica le autorizzazioni per procedere.]]></value>
+	</definition>
+	<definition>
+		<key>error_empty_request</key>
+		<value><![CDATA[Richiesta vuota]]></value>
+	</definition>
+	<definition>
+		<key>text_complete_import</key>
+		<value><![CDATA[Il processo di importazione è stato completato. %s righe elaborate.]]></value>
+	</definition>
+	<definition>
+		<key>text_complete_import_with_errors</key>
+		<value><![CDATA[%s riga (e) con errori.]]></value>
+	</definition>
+	<definition>
+		<key>text_see_log</key>
+		<value><![CDATA[Per ulteriori dettagli, consultare il <a href="%s" target="_new">file di registro %s</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_success_abort</key>
+		<value><![CDATA[Attività interrotta correttamente.]]></value>
+	</definition>
+	<definition>
+		<key>button_schedule_import</key>
+		<value><![CDATA[Importa pianificazione]]></value>
+	</definition>
+	<definition>
+		<key>text_success_scheduled</key>
+		<value><![CDATA[Operazione riuscita: l&#39;attività di importazione pianificata è stata creata correttamente! <a href="%s">Vedi i dettagli</a>]]></value>
+	</definition>
 </definitions>

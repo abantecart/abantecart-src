@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -35,9 +35,11 @@ class ModelCatalogReview extends Model
 							  product_id = '".$this->db->escape($data['product_id'])."',
 							  text = '".$this->db->escape(strip_tags($data['text']))."',
 							  rating = '".(int)$data['rating']."',
+							  verified_purchase = '".(int)$data['verified_purchase']."',
 							  status = '".(int)$data['status']."',
 							  date_added = NOW()");
         $this->cache->remove('product');
+        $this->cache->remove('collection');
         return $this->db->getLastId();
     }
 
@@ -48,7 +50,7 @@ class ModelCatalogReview extends Model
     public function editReview($review_id, $data)
     {
 
-        $allowFields = array('product_id', 'customer_id', 'author', 'text', 'rating', 'status', 'date_added');
+        $allowFields = array('product_id', 'customer_id', 'author', 'text', 'rating', 'status', 'date_added', 'verified_purchase');
         $update_data = array(' date_modified = NOW() ');
         foreach ($data as $key => $val) {
             if (in_array($key, $allowFields)) {
@@ -60,6 +62,7 @@ class ModelCatalogReview extends Model
 						  SET ".implode(',', $update_data)."
 						  WHERE review_id = '".(int)$review_id."'");
         $this->cache->remove('product');
+        $this->cache->remove('collection');
     }
 
     /**
@@ -72,6 +75,7 @@ class ModelCatalogReview extends Model
 
         $this->db->query("DELETE FROM ".$this->db->table("reviews")." WHERE review_id = '".(int)$review_id."'");
         $this->cache->remove('product');
+        $this->cache->remove('collection');
     }
 
     /**
@@ -100,7 +104,7 @@ class ModelCatalogReview extends Model
         if ($mode == 'total_only') {
             $total_sql = 'COUNT(*) as total';
         } else {
-            $total_sql = 'r.review_id, r.product_id, pd.name, r.author, r.rating, r.status, r.date_added';
+            $total_sql = 'r.review_id, r.product_id, pd.name, r.author, r.rating, r.verified_purchase, r.status, r.date_added';
         }
         $filter = (isset($data['filter']) ? $data['filter'] : array());
         $join = '';
@@ -140,6 +144,7 @@ class ModelCatalogReview extends Model
             'rating'     => 'r.rating',
             'status'     => 'r.status',
             'date_added' => 'r.date_added',
+            'verified_purchase' => 'r.verified_purchase',
         );
 
         if (isset($data['sort']) && in_array($data['sort'], array_keys($sort_data))) {

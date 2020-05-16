@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -52,6 +52,8 @@ class ModelSettingStore extends Model
 					FROM ".$this->db->table("settings")." 
 					WHERE `store_id` = '".$this->db->escape($data['clone_store'])."'";
             $this->db->query($sql);
+            $this->load->model('design/email_template');
+            $this->model_design_email_template->copyToNewStore($this->db->escape($data['clone_store']), $store_id);
         } else {
             // add settings of extension of default store to new store settings
             // NOTE: we do this because of extension status in settings table. It used to recognize is extension installed or not
@@ -76,7 +78,7 @@ class ModelSettingStore extends Model
         }
         unset($data['store_description']);
 
-        //Copy some data to details 
+        //Copy some data to details
         $this->model_setting_setting->editSetting('details',
             array(
                 'config_url'     => $data['config_url'],

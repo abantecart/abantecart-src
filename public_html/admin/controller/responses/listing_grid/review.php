@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -83,6 +83,7 @@ class ControllerResponsesListingGridReview extends AController
                 $result['name'],
                 $result['author'],
                 $result['rating'],
+                $result['verified_purchase'] ? $this->language->get('text_yes') : $this->language->get('text_no'),
                 $this->html->buildCheckbox(array(
                     'name'  => 'status['.$result['review_id'].']',
                     'value' => $result['status'],
@@ -166,7 +167,7 @@ class ControllerResponsesListingGridReview extends AController
 
         $this->loadLanguage('catalog/review');
         $this->loadModel('catalog/review');
-        $allowedFields = array_merge(array('status', 'author', 'product_id', 'text', 'rating'), (array)$this->data['allowed_fields']);
+        $allowedFields = array_merge(array('status', 'author', 'product_id', 'text', 'rating', 'verified_purchase'), (array)$this->data['allowed_fields']);
 
         if (isset($this->request->get['id'])) {
             //request sent from edit form. ID in url

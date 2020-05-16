@@ -376,4 +376,8 @@
 		<key>entry_im</key>
 		<value><![CDATA[МС:]]></value>
 	</definition>
+	<definition>
+		<key>entry_stock_locations</key>
+		<value><![CDATA[Расположение на складе:]]></value>
+	</definition>
 </definitions>

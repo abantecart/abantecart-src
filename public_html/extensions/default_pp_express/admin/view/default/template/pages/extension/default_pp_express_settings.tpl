@@ -71,22 +71,23 @@ echo $tabs;
 	</div>
 
 	<div class="panel-body panel-body-nopadding">
-		<div class="row">
-			<div class="col-sm-3 mt10"><img src="<?php echo HTTPS_EXT . 'default_pp_express/image/express_checkout_logo_u2452_normal.png'; ?>"/></div>
-			<div class="col-sm-6"><?php echo $text_signup_account_note; ?></div>
-			<div class="col-sm-3 mt10"><a class="btn btn-primary"
-			                         target="_blank"
-			                         href="https://www.paypal.com/us/webapps/mpp/referral/paypal-express-checkout?partner_id=V5VQZUVNK5RT6"
-									 title="Sign Up Now"><?php echo $button_signup; ?></a>
-			</div>
-		</div>
 	</div>
 
 </div>
 <?php  echo $form['form_open']; ?>
 <div class="panel-body panel-body-nopadding tab-content <?php if ( $this->config->get('default_pp_express_test') ) { echo 'status_test'; } ?>">
 
-		<label class="h4 heading"><?php echo $this->config->get('default_pp_express_test') ? $text_api_credentials_sandbox : $text_api_credentials; ?></label>
+	<?php
+	if ($this->registry->get('config')->get('fast_checkout_status')) {
+	?>
+	<div class="alert alert-danger">
+		<p>Note: PayPal Express can not be used with Fast Checkout enabled!</p>
+	</div>
+	<?php
+	}
+	?>
+
+	<label class="h4 heading"><?php echo $this->config->get('default_pp_express_test') ? $text_api_credentials_sandbox : $text_api_credentials; ?></label>
 		<?php foreach ($settings as $name => $field) {
 			if ( !in_array($name, $settings_order['api']) ) {
 				continue;

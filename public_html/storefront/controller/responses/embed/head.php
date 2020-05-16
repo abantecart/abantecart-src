@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -65,6 +65,10 @@ class ControllerResponsesEmbedHead extends AController
 
         if ($this->config->get('config_maintenance') && isset($this->session->data['merchant'])) {
             $this->view->assign('maintenance_warning', $this->language->get('text_maintenance_notice'));
+        }
+
+        if (isset($this->session->data['merchant'])) {
+            $this->view->assign('act_on_behalf_warning', sprintf($this->language->get('text_act_on_behalf'), $this->customer->getId(), $this->session->data['merchant_username']));
         }
 
         $this->processTemplate('embed/head.tpl');

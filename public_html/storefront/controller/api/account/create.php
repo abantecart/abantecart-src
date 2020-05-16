@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -42,7 +42,7 @@ class ControllerApiAccountCreate extends AControllerAPI
         $this->loadModel('account/customer');
         $this->loadLanguage('account/create');
         $this->loadLanguage('account/success');
-        //????? Think of way to validate and block machine registrations (non-human)		
+        //????? Think of way to validate and block machine registrations (non-human)
         $this->v_error = $this->model_account_customer->validateRegistrationData($request_data);
         if (!$this->v_error) {
             $this->model_account_customer->addCustomer($request_data);
@@ -53,27 +53,24 @@ class ControllerApiAccountCreate extends AControllerAPI
 
             $this->loadLanguage('mail/account_create');
 
-            $subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
+            $data = [
+                'store_name' =>$this->config->get('store_name'),
+                'login_url' => $this->html->getSecureURL('account/login')
+                ];
 
             $message = sprintf($this->language->get('text_welcome'), $this->config->get('store_name'))."\n\n";
 
             if (!$this->config->get('config_customer_approval')) {
-                $message .= $this->language->get('text_login')."\n";
+                $template = 'storefront_welcome_email_activated';
             } else {
-                $message .= $this->language->get('text_approval')."\n";
+                $template = 'storefront_welcome_email_approval';
             }
-
-            $message .= $this->html->getSecureURL('account/login')."\n\n";
-            $message .= $this->language->get('text_services')."\n\n";
-            $message .= $this->language->get('text_thanks')."\n";
-            $message .= $this->config->get('store_name');
 
             $mail = new AMail($this->config);
             $mail->setTo($request_data['email']);
             $mail->setFrom($this->config->get('store_main_email'));
             $mail->setSender($this->config->get('store_name'));
-            $mail->setSubject($subject);
-            $mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
+            $mail->setTemplate($template, $data);
             $mail->send();
             $this->data['status'] = 1;
             if (!$this->config->get('config_customer_approval')) {
@@ -110,7 +107,7 @@ class ControllerApiAccountCreate extends AControllerAPI
 
     public function get()
     {
-        //Get all required data fileds for registration. 
+        //Get all required data fileds for registration.
         $this->loadLanguage('account/create');
         $this->extensions->hk_InitData($this, __FUNCTION__);
 

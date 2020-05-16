@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -227,6 +227,10 @@ class ControllerResponsesEmbedJS extends AController
             )
         );
 
+        if (!$this->config->get('display_reviews') && isset($product_info['rating'])) {
+            unset($product_info['rating']);
+        }
+
         $this->data['product'] = $product_info;
 
         $this->view->setTemplate('embed/js_product.tpl');
@@ -440,6 +444,155 @@ class ControllerResponsesEmbedJS extends AController
     protected function setJsHttpHeaders()
     {
         $this->response->addHeader('Content-Type: text/javascript; charset=UTF-8');
+    }
+
+    public function collection()
+    {
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+
+        $collection_id = (int)$this->request->get['collection_id'];
+
+        if (!$collection_id) {
+            return null;
+        }
+
+        $this->data['target'] = $this->request->get['target_id'];
+        if (!$this->data['target']) {
+            return null;
+        }
+
+        $this->loadModel('catalog/collection');
+        $collection = $this->model_catalog_collection->getById($collection_id);
+
+        //can not locate collection? get out
+        if (!$collection) {
+            return null;
+        }
+
+        $this->data['ajax_url'] = $this->html->getCatalogURL('r/product/collection', '&collection_id='.$collection_id);
+
+        $collectionProducts=[];
+        if ($collection['conditions']) {
+            $sortOrder = $this->config->get('config_product_default_sort_order');
+            list ($sort, $order) = explode('-', $sortOrder);
+            $collectionProducts = $this->model_catalog_collection->getProducts($collection['conditions'], $sort ?: 'date_modified', $order ?: 'DESC', 0, 10000, $collection_id);
+        }
+        $resource = new AResource('image');
+
+        if (!empty($collectionProducts['items'])) {
+            $this->loadModel('catalog/review');
+            $this->loadModel('catalog/product');
+
+            $productIds = $products = [];
+
+            foreach ($collectionProducts['items'] as $result) {
+                $productIds[] = (int)$result['product_id'];
+            }
+            $productsInfo = $this->model_catalog_product->getProductsAllInfo($productIds);
+
+            $thumbnails = $resource->getMainThumbList(
+                'products',
+                $productIds,
+                $this->config->get('config_image_category_width'),
+                $this->config->get('config_image_category_height')
+            );
+            $stockInfo = $this->model_catalog_product->getProductsStockInfo($productIds);
+            foreach ($collectionProducts['items'] as $result) {
+                $thumbnail = $thumbnails[$result['product_id']];
+                $rating = $productsInfo[$result['product_id']]['rating'];
+                $special = false;
+                $discount = $productsInfo[$result['product_id']]['discount'];
+                if ($discount) {
+                    $price = $this->currency->format(
+                        $this->tax->calculate(
+                            $discount,
+                            $result['tax_class_id'],
+                            $this->config->get('config_tax'))
+                    );
+                } else {
+                    $price = $this->currency->format(
+                        $this->tax->calculate(
+                            $result['price'],
+                            $result['tax_class_id'],
+                            $this->config->get('config_tax')
+                        )
+                    );
+                    $special = $productsInfo[$result['product_id']]['special'];
+                    if ($special) {
+                        $special = $this->currency->format(
+                            $this->tax->calculate(
+                                $special,
+                                $result['tax_class_id'],
+                                $this->config->get('config_tax')
+                            )
+                        );
+                    }
+                }
+
+                //check for stock status, availability and config
+                $track_stock = false;
+                $in_stock = false;
+                $no_stock_text = $this->language->get('text_out_of_stock');
+                $total_quantity = 0;
+                $stock_checkout = $result['stock_checkout'] === ''
+                    ? $this->config->get('config_stock_checkout')
+                    : $result['stock_checkout'];
+                if ($stockInfo[$result['product_id']]['subtract']) {
+                    $track_stock = true;
+                    $total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
+                    //we have stock or out of stock checkout is allowed
+                    if ($total_quantity > 0 || $stock_checkout) {
+                        $in_stock = true;
+                    }
+                }
+
+                $rt = $this->config->get('config_embed_click_action') == 'modal' ? 'r/product/product' : 'product/product';
+                $product = array(
+                    'product_id'          => $result['product_id'],
+                    'name'                => $result['name'],
+                    'blurb'               => $result['blurb'],
+                    'model'               => $result['model'],
+                    'thumb'               => $thumbnail,
+                    'price'               => $price,
+                    'raw_price'           => $result['price'],
+                    'call_to_order'       => $result['call_to_order'],
+                    'options'             => $productsInfo[$result['product_id']]['options'],
+                    'special'             => $special,
+                    'product_details_url' => $this->html->getURL($rt, '&product_id='.$result['product_id']),
+                    'description'         => html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
+                    'track_stock'         => $track_stock,
+                    'in_stock'            => $in_stock,
+                    'no_stock_text'       => $no_stock_text,
+                    'total_quantity'      => $total_quantity,
+                    'tax_class_id'        => $result['tax_class_id'],
+                );
+                if ($this->config->get('display_reviews')) {
+                    $product['rating'] = $rating;
+                    $product['stars'] = sprintf($this->language->get('text_stars'), $rating);
+                }
+                $products[] = $product;
+            }
+            $this->data['products'] = $products;
+
+            if ($this->config->get('config_customer_price')) {
+                $display_price = true;
+            } elseif ($this->customer->isLogged()) {
+                $display_price = true;
+            } else {
+                $display_price = false;
+            }
+            $this->view->assign('display_price', $display_price);
+        }
+
+        $this->view->setTemplate('embed/js_collection.tpl');
+
+        $this->view->batchAssign($this->language->getASet('product/collection'));
+        $this->view->batchAssign($this->data);
+        $this->setJsHttpHeaders();
+        $this->processTemplate();
+
+        //init controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
 }

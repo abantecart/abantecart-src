@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -35,7 +35,7 @@ class ModelTotalBalance extends Model
                     'id'         => 'balance',
                     'title'      => $language->get('text_balance_checkout'),
                     'text'       => '-'.$this->currency->format($cust_data['used_balance']),
-                    'value'      => -$this->session->data['used_balance'],
+                    'value'      => -$cust_data['used_balance'],
                     'sort_order' => 999,
                     'total_type' => 'balance',
                 );

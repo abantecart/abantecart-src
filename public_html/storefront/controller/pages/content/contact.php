@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -53,8 +53,10 @@ class ControllerPagesContentContact extends AController
                     $r = new AResource('image');
                     $resource_info = $r->getResource($config_mail_logo);
                     if ($resource_info) {
-                        $this->data['mail_template_data']['logo_html'] = html_entity_decode($resource_info['resource_code'],
-                            ENT_QUOTES, 'UTF-8');
+                        $this->data['mail_template_data']['logo_html'] = html_entity_decode(
+                            $resource_info['resource_code'],
+                            ENT_QUOTES, 'UTF-8'
+                        );
                     }
                 } else {
                     $store_logo = md5(pathinfo($config_mail_logo, PATHINFO_FILENAME))
@@ -71,7 +73,7 @@ class ControllerPagesContentContact extends AController
 
             $this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
             $this->data['mail_template_data']['store_url'] = $this->config->get('config_url');
-            $this->data['mail_template_data']['text_project_label'] = project_base();
+            $this->data['mail_template_data']['text_project_label'] = htmlspecialchars_decode(project_base());
             $this->data['mail_template_data']['entry_enquiry'] = $this->data['mail_plain_text'] = $this->language->get('entry_enquiry');
             $this->data['mail_plain_text'] .= "\r\n".$post_data['enquiry']."\r\n";
             $this->data['mail_template_data']['enquiry'] = nl2br($post_data['enquiry']."\r\n");
@@ -87,8 +89,13 @@ class ControllerPagesContentContact extends AController
                     $field_details = $this->form->getField($field_name);
                     $this->data['mail_plain_text'] .= "\r\n".rtrim($field_details['name'], ':').":\t".$field_value;
                     $this->data['mail_template_data']['form_fields'][rtrim($field_details['name'], ':')] = $field_value;
+                    $this->data['mail_template_data']['tpl_form_fields'][] = [
+                        'name' => rtrim($field_details['name'], ':'),
+                        'value' => $field_value
+                    ];
                 }
             }
+            $this->data['mail_template_data']['first_name'] = strip_tags($post_data['first_name']);
 
             $mail = new AMail($this->config);
             if ($file_paths) {
@@ -123,9 +130,7 @@ class ControllerPagesContentContact extends AController
             $mail->setFrom($this->config->get('store_main_email'));
             $mail->setReplyTo($post_data['email']);
             $mail->setSender($post_data['first_name']);
-            $mail->setSubject($subject);
-            $mail->setHtml($html_body);
-            $mail->setText($text_body);
+            $mail->setTemplate('storefront_contact_us_mail', $this->data['mail_template_data']);
             if (is_file(DIR_RESOURCE.$config_mail_logo)) {
                 $mail->addAttachment(DIR_RESOURCE.$config_mail_logo,
                     md5(pathinfo($config_mail_logo, PATHINFO_FILENAME))
@@ -151,7 +156,7 @@ class ControllerPagesContentContact extends AController
                     ),
                 ),
             );
-            $this->im->send('customer_contact', $message_arr);
+            $this->im->send('customer_contact', $message_arr, 'storefront_contact_us_mail_admin_notify', $post_data);
 
             $this->extensions->hk_ProcessData($this);
             redirect($success_url);
@@ -183,7 +188,38 @@ class ControllerPagesContentContact extends AController
 
         $this->view->assign('action', $this->html->getURL('content/contact'));
         $this->view->assign('store', $this->config->get('store_name'));
-        $this->view->assign('address', nl2br($this->config->get('config_address')));
+
+        $address_data = array();
+        if($this->config->get('config_address')){
+            $address_data['address_1'] = nl2br($this->config->get('config_address'));
+        }
+        if($this->config->get('config_postcode')){
+            $address_data['postcode'] = $this->config->get('config_postcode');
+        }
+        if($this->config->get('config_city')){
+            $address_data['city'] = $this->config->get('config_city');
+        }
+        if($this->config->get('config_zone_id')){
+            $this->loadModel( 'localisation/zone' );
+            $zone = $this->model_localisation_zone->getZone( $this->config->get('config_zone_id') );
+            if($zone) {
+                $address_data['zone'] = $zone['name'];
+            }
+        }
+        $address_format = '';
+        if($this->config->get('config_country_id')){
+            $this->loadModel( 'localisation/country' );
+            $country = $this->model_localisation_country->getCountry( $this->config->get('config_country_id') );
+            if($country) {
+                $address_data['country'] = $country['name'];
+                $address_format = $country['address_format'];
+            }
+        }
+
+        $address = $this->customer->getFormattedAddress( $address_data , $address_format);
+
+        $this->view->assign('address_data', $address_data);
+        $this->view->assign('address', $address);
         $this->view->assign('telephone', $this->config->get('config_telephone'));
         $this->view->assign('fax', $this->config->get('config_fax'));
 

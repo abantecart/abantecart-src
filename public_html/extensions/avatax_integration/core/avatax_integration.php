@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -69,7 +69,7 @@ class ExtensionAvataxIntegration extends Extension
         $that =& $this->baseObject;
         if ($that->data['table_id'] == 'customer_grid') {
             $that->loadLanguage('avatax_integration/avatax_integration');
-            $that->data['actions']['edit']['children']['avatax_integration'] = array(
+            $that->data['actions']['dropdown']['children']['avatax_integration'] = array(
                 'text' => $that->language->get('avatax_integration_name'),
                 'href' => $that->html->getSecureURL('sale/avatax_customer_data', '&customer_id=%ID%'),
             );

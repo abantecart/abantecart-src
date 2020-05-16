@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -38,16 +38,18 @@ if (!defined('DIR_CORE')) {
  * @property AIMManager                   $im
  * @property AConfig                      $config
  * @property ARequest                     $request
+ * @property ExtensionsApi                $extensions
  *
  * @method array() _build_form_general $method_name
  *
  */
 class AConfigManager
 {
-    public $errors = 0;
     protected $registry;
-    private $groups = array();
-    private $templates = array();
+    protected $groups = array();
+    protected $templates = array();
+    public $data = array();
+    public $errors = array();
 
     public function __construct()
     {
@@ -93,9 +95,7 @@ class AConfigManager
             $data['tmpl_id'] = 'default';
         }
         $data['one_field'] = $setting_key;
-
-        $fields = $this->getFormFields($group, $form, $data);
-        return $fields;
+        return $this->getFormFields($group, $form, $data);
     }
 
     /**
@@ -109,21 +109,23 @@ class AConfigManager
      */
     public function getFormFields($group, $form, $data)
     {
-
         $method_name = "_build_form_".$group;
         if (!method_exists($this, $method_name)) {
             return array();
         }
-        return $this->$method_name($form, $data);
+
+        $this->data['fields'] = $this->$method_name($form, $data);
+        $this->extensions->hk_ProcessData($this, $method_name, $data);
+        return $this->data['fields'];
     }
 
     /**To be removed in v 1.3 or next major release
      *
-     * @deprecated since 1.2.4
-     *
      * @param $section
      *
      * @return array
+     * @deprecated since 1.2.4
+     *
      */
     public function getTemplatesLIst($section)
     {
@@ -136,15 +138,15 @@ class AConfigManager
             return false;
         }
         $this->load->language('setting/setting');
-        $error = null;
+        $this->errors = array();
         foreach ($fields as $field_name => $field_value) {
             switch ($group) {
                 case 'details':
                     if ($field_name == 'store_name' && !$field_value) {
-                        $error['name'] = $this->language->get('error_name');
+                        $this->errors['name'] = $this->language->get('error_name');
                     }
                     if ($field_name == 'config_title' && !$field_value) {
-                        $error['title'] = $this->language->get('error_title');
+                        $this->errors['title'] = $this->language->get('error_title');
                     }
                     //URLS validation
                     if ($field_name == 'config_url' && $field_value) {
@@ -154,10 +156,10 @@ class AConfigManager
                         $config_ssl_url = $field_value;
                     }
                     if ($field_name == 'config_url' && (!$field_value || !preg_match("/^(http|https):\/\//", $field_value))) {
-                        $error['url'] = $this->language->get('error_url');
+                        $this->errors['url'] = $this->language->get('error_url');
                     }
                     if ($field_name == 'config_ssl_url' && $field_value && !preg_match("/^(http|https):\/\//", $field_value)) {
-                        $error['ssl_url'] = $this->language->get('error_ssl_url');
+                        $this->errors['ssl_url'] = $this->language->get('error_ssl_url');
                     } //when quicksave only ssl_url
                     elseif ($field_name == 'config_ssl_url' && $field_value && !has_value($fields['config_url'])) {
                         $saved_settings = $this->model_setting_setting->getSetting($group, $store_id);
@@ -170,53 +172,73 @@ class AConfigManager
                         $config_url = $field_value;
                     }
                     //When store url is secure but ssl_url not - show error
-                    if (!$error['url']
-                        && !$error['ssl_url']
+                    if (!$this->errors['url']
+                        && !$this->errors['ssl_url']
                         && preg_match("/^(https):\/\//", $config_url)
                         && preg_match("/^(http):\/\//", $config_ssl_url)
                     ) {
-                        $error['ssl_url'] = $this->language->get('error_ssl_url');
+                        $this->errors['ssl_url'] = $this->language->get('error_ssl_url');
                     }
 
-                    if (sizeof($fields) > 1) {
-                        if (mb_strlen($fields['config_owner']) < 2 || mb_strlen($fields['config_owner']) > 64) {
-                            $error['owner'] = $this->language->get('error_owner');
-                        }
 
-                        if (mb_strlen($fields['config_address']) < 2 || mb_strlen($fields['config_address']) > 256) {
-                            $error['address'] = $this->language->get('error_address');
-                        }
+                    if ( isset($fields['config_owner'])
+                        && (
+                            mb_strlen($fields['config_owner']) < 2
+                            || mb_strlen($fields['config_owner']) > 64
+                        )
+                    ){
+                        $this->errors['owner'] = $this->language->get('error_owner');
+                    }
 
-                        if (mb_strlen($fields['store_main_email']) > 96 || (!preg_match(EMAIL_REGEX_PATTERN, $fields['store_main_email']))) {
-                            $error['email'] = $this->language->get('error_email');
-                        }
+                    if ( isset($fields['config_address'])
+                        && (
+                            mb_strlen($fields['config_address']) < 2
+                            || mb_strlen($fields['config_address']) > 256
+                        )
+                    ) {
+                        $this->errors['address'] = $this->language->get('error_address');
+                    }
 
-                        if (mb_strlen($fields['config_telephone']) > 32) {
-                            $error['telephone'] = $this->language->get('error_telephone');
-                        }
+                    if ( isset($fields['store_main_email'])
+                        && (
+                            mb_strlen($fields['store_main_email']) > 96
+                            || (!preg_match(EMAIL_REGEX_PATTERN, $fields['store_main_email']))
+                           )
+                    ) {
+                        $this->errors['email'] = $this->language->get('error_email');
+                    }
+
+                    if ( isset($fields['config_telephone']) && mb_strlen($fields['config_telephone']) > 32) {
+                        $this->errors['telephone'] = $this->language->get('error_telephone');
+                    }
+                    if ( isset($fields['config_postcode']) && mb_strlen($fields['config_postcode']) < 3) {
+                        $this->errors['postcode'] = $this->language->get('error_postcode');
+                    }
+                    if ( isset($fields['config_city']) && mb_strlen($fields['config_city']) < 2) {
+                        $this->errors['city'] = $this->language->get('error_city');
                     }
                     break;
 
                 case 'general':
 
                     if ($field_name == 'config_catalog_limit' && !$field_value) {
-                        $error['catalog_limit'] = $this->language->get('error_limit');
+                        $this->errors['catalog_limit'] = $this->language->get('error_limit');
                     }
 
                     if ($field_name == 'config_bestseller_limit' && !$field_value) {
-                        $error['bestseller_limit'] = $this->language->get('error_limit');
+                        $this->errors['bestseller_limit'] = $this->language->get('error_limit');
                     }
 
                     if ($field_name == 'config_featured_limit' && !$field_value) {
-                        $error['featured_limit'] = $this->language->get('error_limit');
+                        $this->errors['featured_limit'] = $this->language->get('error_limit');
                     }
 
                     if ($field_name == 'config_latest_limit' && !$field_value) {
-                        $error['latest_limit'] = $this->language->get('error_limit');
+                        $this->errors['latest_limit'] = $this->language->get('error_limit');
                     }
 
                     if ($field_name == 'config_special_limit' && !$field_value) {
-                        $error['special_limit'] = $this->language->get('error_limit');
+                        $this->errors['special_limit'] = $this->language->get('error_limit');
                     }
                     break;
 
@@ -236,7 +258,7 @@ class AConfigManager
                     foreach ($item_name as $key) {
                         foreach (array('width', 'height') as $dim) {
                             if ($field_name == 'config_image_'.$key.'_'.$dim && !$field_value) {
-                                $error['image_'.$key.'_'.$dim] = $this->language->get('error_image_'.$key);
+                                $this->errors['image_'.$key.'_'.$dim] = $this->language->get('error_image_'.$key);
                             }
                         }
                     }
@@ -245,20 +267,17 @@ class AConfigManager
 
                 case 'checkout':
                     if ($field_name == 'config_start_order_id' && $field_value && !(int)$field_value) {
-                        $error['start_order_id'] = $this->language->get('error_start_order_id');
+                        $this->errors['start_order_id'] = $this->language->get('error_start_order_id');
                     }
                     if ($field_name == 'starting_invoice_id' && $field_value && !(int)$field_value) {
-                        $error['starting_invoice_id'] = $this->language->get('error_starting_invoice_id');
+                        $this->errors['starting_invoice_id'] = $this->language->get('error_starting_invoice_id');
                     }
                     if ($field_name == 'config_expire_order_days' && $field_value && !(int)$field_value) {
-                        $error['expire_order_days'] = $this->language->get('error_expire_order_days');
+                        $this->errors['expire_order_days'] = $this->language->get('error_expire_order_days');
                     }
-
                     break;
-
                 case 'api':
                     break;
-
                 case 'mail':
 
                     if (($fields['config_mail_protocol'] == 'smtp')
@@ -266,14 +285,14 @@ class AConfigManager
                             || ($field_name == 'config_smtp_port' && !$field_value)
                             || ($field_name == 'config_smtp_timeout' && !$field_value))
                     ) {
-                        $error['mail'] = $this->language->get('error_mail');
+                        $this->errors['mail'] = $this->language->get('error_mail');
                     }
 
                     break;
 
                 case 'system':
                     if ($field_name == 'config_error_filename' && !$field_value) {
-                        $error['error_filename'] = $this->language->get('error_error_filename');
+                        $this->errors['error_filename'] = $this->language->get('error_error_filename');
                     }
                     if ($field_name == 'config_upload_max_size') {
                         $fields[$field_value] = preformatInteger($field_value);
@@ -284,17 +303,19 @@ class AConfigManager
             }
 
         }
-        return array('error' => $error, 'validated' => $fields);
+        $this->extensions->hk_ValidateData($this, func_get_args());
+        return array('error' => $this->errors, 'validated' => $fields);
     }
 
     /**
-     * @var AForm   $form
-     *
+     * @param AForm $form
      * @param array $data
      *
      * @return array
+     * @throws AException
+     *
      */
-    private function _build_form_details($form, $data)
+    protected function _build_form_details($form, $data)
     {
 
         $language_id = $this->language->getContentLanguageID();
@@ -357,6 +378,15 @@ class AConfigManager
             'required' => true,
             'style'    => 'large-field',
         ));
+
+        $fields['postcode'] = $form->getFieldHtml($props[] = array(
+            'type'     => 'input',
+            'name'     => 'config_postcode',
+            'value'    => $data['config_postcode'],
+            'required' => true,
+            'style'    => 'tiny-field',
+        ));
+
         $fields['address'] = $form->getFieldHtml($props[] = array(
             'type'     => 'textarea',
             'name'     => 'config_address',
@@ -364,6 +394,38 @@ class AConfigManager
             'required' => true,
             'style'    => 'large-field',
         ));
+
+        $fields['city'] = $form->getFieldHtml($props[] = array(
+            'type'     => 'input',
+            'name'     => 'config_city',
+            'value'    => $data['config_city'],
+            'required' => true,
+            'style'    => 'medium-field',
+        ));
+
+        $fields['country'] = $form->getFieldHtml($props[] = array(
+            'type'            => 'zones',
+            'name'            => 'config_country_id',
+            'value'           => $data['config_country_id'],
+            'zone_field_name' => 'config_zone_id',
+            'zone_value'      => $data['config_zone_id'],
+            'submit_mode'     => 'id',
+        ));
+
+        $fields['latitude'] = $form->getFieldHtml($props[] = array(
+            'type'     => 'input',
+            'name'     => 'config_latitude',
+            'value'    => $data['config_latitude'],
+            'style'    => 'medium-field',
+        ));
+
+        $fields['longitude'] = $form->getFieldHtml($props[] = array(
+            'type'     => 'input',
+            'name'     => 'config_longitude',
+            'value'    => $data['config_longitude'],
+            'style'    => 'medium-field',
+        ));
+
         $fields['email'] = $form->getFieldHtml($props[] = array(
             'type'     => 'input',
             'name'     => 'store_main_email',
@@ -383,6 +445,34 @@ class AConfigManager
             'value' => $data['config_fax'],
             'style' => 'medium-field',
         ));
+
+        $days = daysOfWeekList();
+        $h = 0;
+        $times = array('' => '--:--');
+        while($h<24){
+            $times[$h.":00"] = $h.":00";
+            $h++;
+        }
+
+        foreach($days as $day){
+            foreach(array('opens', 'closes') as $state) {
+                if( !isset($data['config_opening_'.$day.'_'.$state]) ) {
+                    $value =  $state == 'opens' ? '9:00' : '21:00';
+                }else{
+                    $value = $data['config_opening_'.$day.'_'.$state];
+                }
+
+                $fields['opening_'.$day.'_'.$state] = $form->getFieldHtml(
+                    $props[] = array(
+                        'type'  => 'selectbox',
+                        'name'  => 'config_opening_'.$day.'_'.$state,
+                        'options' => $times,
+                        'value' => $value,
+                    )
+                );
+            }
+        }
+
 
         $results = $this->language->getAvailableLanguages();
         $languages = $language_codes = array();
@@ -412,15 +502,12 @@ class AConfigManager
         foreach ($results as $v) {
             $weight_classes[$v['unit']] = $v['title'];
         }
-
-        $fields['country'] = $form->getFieldHtml($props[] = array(
-            'type'            => 'zones',
-            'name'            => 'config_country_id',
-            'value'           => $data['config_country_id'],
-            'zone_field_name' => 'config_zone_id',
-            'zone_value'      => $data['config_zone_id'],
-            'submit_mode'     => 'id',
-        ));
+        $this->load->model('localisation/tax_class');
+        $results = $this->model_localisation_tax_class->getTaxClasses();
+        $tax_classes = array('' => $this->language->get('text_select'));
+        foreach ($results as $v) {
+            $tax_classes[$v['tax_class_id']] = $v['title'];
+        }
 
         $fields['duplicate_contact_us'] = $form->getFieldHtml($props[] = array(
             'type'  => 'checkbox',
@@ -504,13 +591,20 @@ class AConfigManager
             'options' => $weight_classes,
         ));
 
+        $fields['tax_class'] = $form->getFieldHtml($props[] = array(
+            'type'    => 'selectbox',
+            'name'    => 'config_tax_class_id',
+            'value'   => $data['config_tax_class_id'],
+            'options' => $tax_classes,
+        ));
+
         if (isset($data['one_field'])) {
             $fields = $this->_filterField($fields, $props, $data['one_field']);
         }
         return $fields;
     }
 
-    private function _filterField($fields, $props, $field_name)
+    protected function _filterField($fields, $props, $field_name)
     {
         $output = array();
         foreach ($props as $n => $properties) {
@@ -531,13 +625,13 @@ class AConfigManager
     }
 
     /**
-     * @var AForm   $form
-     *
+     * @param AForm $form
      * @param array $data
      *
      * @return array
+     * @throws AException
      */
-    private function _build_form_general($form, $data)
+    protected function _build_form_general($form, $data)
     {
         $fields = array();
         //general section
@@ -626,11 +720,22 @@ class AConfigManager
             'value'   => $data['config_stock_status_id'],
             'options' => $stock_statuses,
         ));
+        $fields['display_reviews'] = $form->getFieldHtml($props[] = array(
+            'type'    => 'checkbox',
+            'name'    => 'display_reviews',
+            'value'   => $data['display_reviews'],
+            'style'   => 'btn_switch',
+        ));
         $fields['reviews'] = $form->getFieldHtml($props[] = array(
-            'type'  => 'checkbox',
-            'name'  => 'enable_reviews',
-            'value' => $data['enable_reviews'],
-            'style' => 'btn_switch',
+            'type'    => 'selectbox',
+            'name'    => 'enable_reviews',
+            'value'   => $data['enable_reviews'],
+            'options' => array(
+                0 => $this->language->get('text_review_disable'),
+                1 => $this->language->get('text_review_allow_all'),
+                2 => $this->language->get('text_review_allow_only_registered'),
+                3 => $this->language->get('text_review_allow_who_purchase'),
+            ),
         ));
         $fields['download'] = $form->getFieldHtml($props[] = array(
             'type'  => 'checkbox',
@@ -675,6 +780,13 @@ class AConfigManager
             'style' => 'btn_switch',
         ));
 
+        $fields['account_recaptcha_v3'] = $form->getFieldHtml($props[] = array(
+            'type'  => 'checkbox',
+            'name'  => 'account_recaptcha_v3',
+            'value' => $data['account_recaptcha_v3'],
+            'style' => 'btn_switch',
+        ));
+
         $fields['recaptcha_site_key'] = $form->getFieldHtml($props[] = array(
             'type'  => 'input',
             'name'  => 'config_recaptcha_site_key',
@@ -695,6 +807,13 @@ class AConfigManager
             'style' => 'medium-field',
         ));
 
+        $fields['google_tag_manager'] = $form->getFieldHtml($props[] = [
+            'type'  => 'input',
+            'name'  => 'config_google_tag_manager_id',
+            'value' => $data['config_google_tag_manager_id'],
+            'style' => 'medium-field',
+        ]);
+
         if (isset($data['one_field'])) {
             $fields = $this->_filterField($fields, $props, $data['one_field']);
         }
@@ -707,8 +826,9 @@ class AConfigManager
      *
      * @return array
      *
+     * @throws AException
      */
-    private function _build_form_checkout($form, $data)
+    protected function _build_form_checkout($form, $data)
     {
         $fields = array();
         //checkout section
@@ -727,7 +847,7 @@ class AConfigManager
         }
 
         $cntmnr = new AContentManager();
-        $results = $cntmnr->getContents();
+        $results = $cntmnr->getContents(array(),'default',$this->session->data['current_store_id']);
         $contents = array('' => $this->language->get('text_none'));
         foreach ($results as $item) {
             if (!$item['status']) {
@@ -902,13 +1022,13 @@ class AConfigManager
     }
 
     /**
-     * @var AForm   $form
-     *
      * @param array $data
      *
      * @return array
+     * @var AForm   $form
+     *
      */
-    private function _build_form_appearance($form, $data)
+    protected function _build_form_appearance($form, $data)
     {
         $fields = array();
 
@@ -1187,6 +1307,15 @@ class AConfigManager
             ));
         }
 
+        $fields['image_resize_fill_color'] = $form->getFieldHtml(
+            $props[] = array(
+                'type'     => 'color',
+                'name'     => 'config_image_resize_fill_color',
+                'value'    => $data['config_image_resize_fill_color'] ? $data['config_image_resize_fill_color'] : '#ffffff',
+                'style'    => 'small-field'
+            )
+        );
+
         if (isset($data['one_field'])) {
             $fields = $this->_filterField($fields, $props, $data['one_field']);
         }
@@ -1194,8 +1323,8 @@ class AConfigManager
     }
 
     /**
-     * @param    string $section - can be storefront or admin
-     * @param    int    $status  - template extension status
+     * @param string $section - can be storefront or admin
+     * @param int    $status  - template extension status
      *
      * @return array
      */
@@ -1227,13 +1356,13 @@ class AConfigManager
     }
 
     /**
-     * @var AForm   $form
-     *
      * @param array $data
      *
      * @return array
+     * @var AForm   $form
+     *
      */
-    private function _build_form_mail($form, $data)
+    protected function _build_form_mail($form, $data)
     {
         $fields = array();
         //mail section
@@ -1302,13 +1431,13 @@ class AConfigManager
     }
 
     /**
-     * @var AForm   $form
-     *
      * @param array $data
      *
      * @return array
+     * @var AForm   $form
+     *
      */
-    private function _build_form_im($form, $data)
+    protected function _build_form_im($form, $data)
     {
         $fields = array();
 
@@ -1363,13 +1492,13 @@ class AConfigManager
     }
 
     /**
-     * @var AForm   $form
-     *
      * @param array $data
      *
      * @return array
+     * @var AForm   $form
+     *
      */
-    private function _build_form_api($form, $data)
+    protected function _build_form_api($form, $data)
     {
         $fields = array();
         //api section
@@ -1424,13 +1553,13 @@ class AConfigManager
     // validate form fields
 
     /**
-     * @var AForm   $form
-     *
      * @param array $data
      *
      * @return array
+     * @var AForm   $form
+     *
      */
-    private function _build_form_system($form, $data)
+    protected function _build_form_system($form, $data)
     {
         $fields = array();
         //system section
@@ -1523,12 +1652,16 @@ class AConfigManager
                 'style' => 'btn_switch',
             )).'<br/>'.sprintf($this->language->get('text_setting_cache_drivers'), $current_cache_driver, implode(', ', $cache_drivers));;
 
-        $fields['html_cache'] = $form->getFieldHtml($props[] = array(
-            'type'  => 'checkbox',
-            'name'  => 'config_html_cache',
-            'value' => $data['config_html_cache'],
-            'style' => 'btn_switch',
-        ));
+        //TODO: remove setting as deprecated.
+        if ($data['config_html_cache']) {
+            $fields['html_cache'] = $form->getFieldHtml($props[] = array(
+                'type'  => 'checkbox',
+                'name'  => 'config_html_cache',
+                'value' => $data['config_html_cache'],
+                'style' => 'btn_switch',
+            ));
+        }
+
         $fields['upload_max_size'] = $form->getFieldHtml($props[] = array(
                 'type'  => 'input',
                 'name'  => 'config_upload_max_size',

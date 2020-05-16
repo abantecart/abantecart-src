@@ -181,4 +181,8 @@
 		<key>error_nothing_to_do</key>
 		<value><![CDATA[Errore: Imposta origine del linguaggio e metodo di traduzione!]]></value>
 	</definition>
+	<definition>
+		<key>text_translate_override_existing</key>
+		<value><![CDATA[Nota: tutte le descrizioni esistenti nella lingua di destinazione verranno sostituite con una nuova traduzione. Puoi disabilitare l&#39;override in <a href="%s">Sistema-&gt; Impostazioni-&gt; Dettagli negozio</a> .]]></value>
+	</definition>
 </definitions>

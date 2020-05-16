@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -851,8 +851,8 @@ class ACart
         $this->total_data = $total_data;
         $this->final_total = $total;
         //if balance become less or 0 reapply partial
-        if ($this->session->data['used_balance'] && $this->final_total) {
-            $this->session->data['used_balance_full'] = false;
+        if ($this->cust_data['used_balance'] && $this->final_total) {
+            $this->cust_data['used_balance_full'] = false;
         }
         return $this->final_total;
     }
@@ -899,7 +899,6 @@ class ACart
             $sort_order[$key] = $value['sort_order'];
         }
         array_multisort($sort_order, SORT_ASC, $total_data);
-        //return result in array
         return array('total' => $total, 'total_data' => $total_data, 'taxes' => $taxes);
     }
 

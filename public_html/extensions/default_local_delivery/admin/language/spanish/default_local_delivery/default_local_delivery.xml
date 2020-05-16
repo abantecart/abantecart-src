@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>default_local_delivery_name</key>
+    <value><![CDATA[Entrega local]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Entrega]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Éxito: ¡Has modificado la entrega local!]]></value>
+  </definition>
+  <definition>
+    <key>default_local_delivery_total</key>
+    <value><![CDATA[Total:<br /><span class="help">cantidad subtotal necesaria antes de que el módulo de envío gratuito esté disponible. Sin símbolo de moneda.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_local_delivery_cost</key>
+    <value><![CDATA[Coste de envío:]]></value>
+  </definition>
+  <definition>
+    <key>default_local_delivery_postal_codes</key>
+    <value><![CDATA[Códigos postales:<br /><span class="help">separados por comas</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advertencia: ¡No tiene permiso para modificar la entrega local!]]></value>
+  </definition>
+</definitions>

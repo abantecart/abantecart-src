@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -176,7 +176,10 @@ final class Atargz
         $infos['name100'] = str_replace($racine, '', $item);
         list (, , $infos['mode8'], , $infos['uid8'], $infos['gid8'], , , , $infos['mtime12']) = stat($item);
         $infos['size12'] = is_dir($item) ? 0 : filesize($item);
-        $infos['link1'] = is_link($item) ? 2 : is_dir($item) ? 5 : 0;
+
+        $infos['link1'] = is_link($item) ? 2 : is_dir($item);
+        $infos['link1'] = $infos['link1'] === false ? 5 : 0;
+
         $infos['link100'] == 2 ? readlink($item) : "";
 
         $a = function_exists('posix_getpwuid') ? posix_getpwuid(fileowner($item)) : array('name' => 'Unknown');

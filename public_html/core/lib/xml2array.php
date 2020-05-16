@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -49,9 +49,9 @@ class MyDOMDocument extends DOMDocument
                     }
                 }
                 $mValue = $this->toArray($oChildNode);
-                $sKey = ($oChildNode->nodeName{0} == '#') ? 0 : $oChildNode->nodeName;
+                $sKey = ($oChildNode->nodeName [0] == '#') ? 0 : $oChildNode->nodeName;
                 $mValue = is_array($mValue) ? $mValue[$oChildNode->nodeName] : $mValue;
-                // how many of thse child nodes do we have?
+                // how many of these child nodes do we have?
                 if ($iChildCount > 1) {  // more than 1 child - make numeric array
                     $mResult[$sKey][] = $mValue;
                 } else {

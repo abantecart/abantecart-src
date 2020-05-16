@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -506,6 +506,18 @@ class ACustomer
         if ($format == '') {
             $format = '{firstname} {lastname}'."\n".'{company}'."\n".'{address_1}'."\n".'{address_2}'."\n".'{city} {postcode}'."\n".'{zone}'."\n".'{country}';
         }
+        //when some data missing - remove it from address format
+        preg_match_all('/\{(.*?)\}/', $format, $matches);
+        if($matches[1]) {
+            $matches = $matches[1];
+            foreach($matches as $key){
+                if( !isset( $data_array[$key] ) ){
+                    $format = str_replace('{'.$key.'}','', $format);
+                }
+            }
+            $format = trim($format);
+        }
+
         //Set default variable to be set for address based on the data
         if (count($locate) <= 0) {
             $locate = array();

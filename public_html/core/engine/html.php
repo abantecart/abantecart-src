@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -1253,6 +1253,63 @@ class InputHtmlElement extends HtmlElement
 }
 
 /**
+ * Class InputHtmlElement
+ *
+ * @property string $element_id
+ * @property string $default
+ * @property string $value
+ * @property string $name
+ * @property string $attr
+ * @property string $required
+ * @property string $style
+ * @property string $placeholder
+ * @property string $regexp_pattern
+ * @property string $error_text
+ * @property string $help_url
+ * @property bool   $multilingual
+ */
+class ColorHtmlElement extends HtmlElement
+{
+    /**
+     * @return string
+     */
+    public function getHtml()
+    {
+
+        if (!isset($this->default)) {
+            $this->default = '';
+        }
+        if ($this->value == '' && !empty($this->default)) {
+            $this->value = $this->default;
+        }
+
+        $this->view->batchAssign(
+            array(
+                'name'           => $this->name,
+                'id'             => $this->element_id,
+                'type'           => 'color',
+                'value'          => str_replace('"', '&quot;', $this->value),
+                'default'        => $this->default,
+                'attr'           => $this->attr,
+                'required'       => $this->required,
+                'style'          => $this->style,
+                'error_text'     => $this->error_text,
+            )
+        );
+        if (is_object($this->language)
+            && sizeof($this->language->getActiveLanguages()) > 1
+        ) {
+            $this->view->assign('multilingual', $this->multilingual);
+        }
+        if (!empty($this->help_url)) {
+            $this->view->assign('help_url', $this->help_url);
+        }
+
+        return $this->view->fetch('form/input.tpl');
+    }
+}
+
+/**
  * Class PasswordHtmlElement
  *
  * @property string $element_id
@@ -1644,10 +1701,12 @@ class CheckboxGroupHtmlElement extends HtmlElement
         $this->value = !is_array($this->value) ? array($this->value => $this->value) : $this->value;
         $this->_validate_options();
 
-        $option_keys = array_keys($this->options);
-        foreach ($this->value as $value) {
-            if ($value && !in_array($value, $option_keys)) {
-                $this->options += array($value => 'unknown');
+        if ($this->options && is_array($this->options)) {
+            $option_keys = array_keys($this->options);
+            foreach ($this->value as $value) {
+                if ($value && !in_array($value, $option_keys)) {
+                    $this->options += array($value => 'unknown');
+                }
             }
         }
 
@@ -1938,13 +1997,15 @@ class ReCaptchaHtmlElement extends HtmlElement
 {
     public function getHtml()
     {
+
         $this->view->batchAssign(
             array(
                 'name'               => $this->name,
                 'id'                 => $this->element_id,
                 'attr'               => $this->attr.' data-aform-field-type="captcha"',
                 'language_code'      => $this->language_code,
-                'recaptcha_site_key' => $this->recaptcha_site_key,
+                'recaptcha_site_key' => trim($this->recaptcha_site_key),
+                'recaptcha_v3'       => $this->registry->get('config')->get('account_recaptcha_v3') ?: 0,
             )
         );
         return $this->view->fetch('form/recaptcha.tpl');
@@ -2536,7 +2597,7 @@ class ZonesHtmlElement extends HtmlElement
 }
 
 /*
-* Build pagination HTML element based on the template. 
+* Build pagination HTML element based on the template.
 * Supported v 1.1.5+
 */
 

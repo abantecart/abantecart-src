@@ -15,8 +15,9 @@ class ControllerResponsesExtensionCardConnect extends AController
     {
         $this->loadLanguage('cardconnect/cardconnect');
         $test_mode = $this->config->get('cardconnect_test_mode') ? 'ON' : 'OFF';
-        $port = $this->config->get('cardconnect_test_mode') ? 6443 : 8443;
-        $api_endpoint = 'https://'.$this->config->get('cardconnect_site').':'.$port.'/cardconnect/rest/';
+        $api_endpoint = 'https://'
+                        .($this->config->get('cardconnect_test_mode') ? 'fts-uat.cardconnect.com' : 'fts.cardconnect.com')
+                        .'/cardconnect/rest/';
         $merchid = $this->config->get('cardconnect_merchant_id');
         require_once DIR_EXT.'cardconnect/core/lib/pest/PestJSON.php';
         $pest = new PestJSON($api_endpoint);
@@ -24,7 +25,7 @@ class ControllerResponsesExtensionCardConnect extends AController
         try {
             $pest->setupAuth($this->config->get('cardconnect_username'), $this->config->get('cardconnect_password'));
             $response = $pest->put($api_endpoint."auth", array('merchid' => $merchid));
-        } catch (Pest_Exception $e) {
+        } catch (Exception $e) {
             $response = null;
         }
 

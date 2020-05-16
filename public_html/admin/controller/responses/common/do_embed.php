@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -454,6 +454,145 @@ class ControllerResponsesCommonDoEmbed extends AController
         $this->view->batchAssign($this->language->getASet('common/do_embed'));
         $this->view->batchAssign($this->data);
         $this->processTemplate('responses/embed/do_embed_manufacturer_modal.tpl');
+    }
+
+    public function collections()
+    {
+
+        //this var can be an array
+        $collection_id = (array)$this->request->get['id'];
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+
+        $form = new AForm('ST');
+        $form->setForm(array(
+            'form_name' => 'getEmbedFrm',
+        ));
+        $this->data['form']['form_open'] = $form->getFieldHtml(array(
+            'type' => 'form',
+            'name' => 'getEmbedFrm',
+            'attr' => 'class="aform form-horizontal"',
+        ));
+
+        $this->data['fields'][] = $form->getFieldHtml(array(
+            'type'  => 'checkbox',
+            'name'  => 'image',
+            'value' => 1,
+            'style' => 'btn_switch btn-group-xs',
+        ));
+        $this->data['fields'][] = $form->getFieldHtml(array(
+            'type'  => 'checkbox',
+            'name'  => 'name',
+            'value' => 1,
+            'style' => 'btn_switch btn-group-xs',
+        ));
+
+        $this->data['fields'][] = $form->getFieldHtml(array(
+            'type'  => 'checkbox',
+            'name'  => 'products_count',
+            'value' => 1,
+            'style' => 'btn_switch btn-group-xs',
+        ));
+
+        $this->loadLanguage('catalog/collections');
+
+        $results = $this->language->getAvailableLanguages();
+        $languages = $language_codes = array();
+        foreach ($results as $v) {
+            $languages[$v['code']] = $v['name'];
+            $lng_code = $this->language->getLanguageCodeByLocale($v['locale']);
+            $language_codes[$lng_code] = $v['name'];
+        }
+        $this->data['fields'][] = $form->getFieldHtml(array(
+            'type'    => 'selectbox',
+            'name'    => 'language',
+            'value'   => $this->config->get('config_storefront_language'),
+            'options' => $language_codes,
+        ));
+
+        $this->load->model('localisation/currency');
+        $results = $this->model_localisation_currency->getCurrencies();
+        $currencies = array();
+        foreach ($results as $v) {
+            $currencies[$v['code']] = $v['title'];
+        }
+        $this->data['fields'][] = $form->getFieldHtml(array(
+            'type'    => 'selectbox',
+            'name'    => 'currency',
+            'value'   => $this->config->get('config_currency'),
+            'options' => $currencies,
+        ));
+
+        $this->data['text_area'] = $form->getFieldHtml(array(
+            'type'  => 'textarea',
+            'name'  => 'code_area',
+            'attr'  => 'rows="10"',
+            'style' => 'ml_field',
+        ));
+
+        $this->loadModel('catalog/collection');
+        $this->loadModel('setting/store');
+        //if loaded not default store - hide store switcher
+        $current_store_settings = $this->model_setting_store->getStore($this->config->get('config_store_id'));
+        $remote_store_url = $current_store_settings['config_url'];
+
+        $options = $subcategories = array();
+        //if embed for only one category
+        if (count($collection_id) == 1) {
+            $collection_id = current($collection_id);
+            $collection_info = $this->model_catalog_collection->getById($collection_id);
+            $collection_stores = $this->model_catalog_collection->getCollectionStoresInfo($collection_id);
+
+            if (count($collection_stores) == 1) {
+                $remote_store_url = $collection_stores[0]['store_url'];
+            }
+
+        }
+
+        $options = $this->model_catalog_collection->getCollections([
+            'status_id' => 1,
+            'store_id' => $this->config->get('store_id')
+        ]);
+
+        $opt = [
+         //   0 => $this->language->get('text_select')
+        ];
+        foreach ($options['items'] as $cat) {
+            $opt[$cat['id']] = $cat['name'];
+        }
+
+        $this->data['fields'][] = $form->getFieldHtml(array(
+            'type'      => 'selectbox',
+            'name'      => 'collection_id',
+            'value'     => $collection_id,
+            'options'   => $opt,
+            'style'     => 'medium-field',
+        ));
+
+        $this->data['text_area'] = $form->getFieldHtml(array(
+            'type'  => 'textarea',
+            'name'  => 'code_area',
+            'attr'  => 'rows="10"',
+            'style' => 'ml_field',
+        ));
+
+        $this->data['collection_id'] = $this->request->get['collection_id'];
+        $this->data['entry_collection_id'] = $this->language->get('entry_collection_id');
+
+        $remote_store_url = $this->_prepare_url($remote_store_url);
+        $this->data['sf_js_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/js';
+        $this->data['sf_base_url'] = $remote_store_url;
+        $this->data['help_url'] = $this->gen_help_url('embed');
+
+        $this->data['sf_css_embed_url'] = $remote_store_url.'storefront/view/'.$this->config->get('config_storefront_template').'/stylesheet/embed.css';
+
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+        $this->loadlanguage('common/do_embed');
+        $this->view->batchAssign($this->language->getASet('common/do_embed'));
+        $this->view->batchAssign($this->data);
+        $this->processTemplate('responses/embed/do_embed_collection_modal.tpl');
     }
 
     protected function _prepare_url($url)

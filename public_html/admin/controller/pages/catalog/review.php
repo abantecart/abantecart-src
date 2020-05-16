@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -25,7 +25,7 @@ class ControllerPagesCatalogReview extends AController
 {
     public $error = array();
     public $data = array();
-    private $fields = array('status', 'rating', 'text', 'author');
+    private $fields = array('status', 'rating', 'text', 'author', 'verified_purchase');
 
     public function main()
     {
@@ -130,6 +130,7 @@ class ControllerPagesCatalogReview extends AController
             $this->language->get('column_product'),
             $this->language->get('column_author'),
             $this->language->get('column_rating'),
+            $this->language->get('column_verified_purchase'),
             $this->language->get('column_status'),
             $this->language->get('column_date_added'),
         );
@@ -157,6 +158,13 @@ class ControllerPagesCatalogReview extends AController
             array(
                 'name'   => 'rating',
                 'index'  => 'rating',
+                'width'  => 60,
+                'align'  => 'center',
+                'search' => false,
+            ),
+            array(
+                'name'   => 'verified_purchase',
+                'index'  => 'verified_purchase',
                 'width'  => 60,
                 'align'  => 'center',
                 'search' => false,
@@ -259,6 +267,9 @@ class ControllerPagesCatalogReview extends AController
 
         if ($review_id && $this->request->is_GET()) {
             $review_info = $this->model_catalog_review->getReview($review_id);
+            if ($review_info['customer_id']) {
+                $this->data['customerUrl'] = $this->html->getSecureURL('sale/customer/update', '&customer_id='.$review_info['customer_id']);
+            }
         }
 
         foreach ($this->fields as $field) {
@@ -336,6 +347,12 @@ class ControllerPagesCatalogReview extends AController
             'type'  => 'checkbox',
             'name'  => 'status',
             'value' => $this->data['status'],
+            'style' => 'btn_switch',
+        ));
+        $this->data['form']['fields']['verified_purchase'] = $form->getFieldHtml(array(
+            'type'  => 'checkbox',
+            'name'  => 'verified_purchase',
+            'value' => $this->data['verified_purchase'],
             'style' => 'btn_switch',
         ));
         $this->data['form']['fields']['author'] = $form->getFieldHtml(array(

@@ -1,5 +1,5 @@
 /* 
- Credit Card Valildation JavaScript Class
+ Credit Card Validation JavaScript Class
  aCCValidator class to validate details on creditcard form
  Features: Check credit card type while entering numbers. Full number validation, Validation of name, and CVV data.
  Easy and clean UI based on bootstrap v3
@@ -7,7 +7,7 @@
  Developer: Pavel Rojkov (projkov@abantecart.com)
 
 
- Credit Card Valildation class
+ Credit Card Validation class
  */
 
 (function ($) {
@@ -135,7 +135,7 @@
             cc_field_cvv: 'cc_cvv2',
             cc_field_month: 'cc_expire_date_month',
             cc_field_year: 'cc_expire_date_year',
-            wrapper: '<span class="input-group-addon"></span>',
+            wrapper: '<div class="right-inner-addon"></div>',
             warning: '<i class="fa fa-exclamation"></i>',
             success: '<i class="fa fa-check"></i>',
             error_class: 'has-error',
@@ -162,11 +162,6 @@
                     }
                 }
 
-                if ($field.attr('name') == o.cc_field_type) {
-                    if (!$.aCCValidator.checkType($field)) {
-                        failed = true;
-                    }
-                }
                 if ($field.attr('name') == o.cc_field_cvv) {
                     if (!$.aCCValidator.checkCVV($field)) {
                         failed = true;
@@ -188,7 +183,7 @@
             } else {
                 return true;
             }
-        }
+        };
 
         /* Prefill creditcard type based on first set of numbers */
         $.aCCValidator.precheckCCNumber = function ($el) {
@@ -211,7 +206,7 @@
                 }
             }
 
-        }
+        };
 
         /* Validate full number (when leave the field) */
         $.aCCValidator.checkCCNumber = function ($el) {
@@ -231,7 +226,7 @@
             //all good
             show_success($el, '.input-group');
             return true;
-        }
+        };
 
         /* Validate Name */
         $.aCCValidator.checkCCName = function ($el, mode) {
@@ -249,7 +244,7 @@
                 show_success($el, '.form-group');
                 return true;
             }
-        }
+        };
 
         /* Validate CVV */
         $.aCCValidator.checkCVV = function ($el, mode) {
@@ -267,7 +262,7 @@
                 show_success($el, '.form-group');
                 return true;
             }
-        }
+        };
 
         /* Validate exp month */
         $.aCCValidator.checkExp = function ($el, mode) {
@@ -284,7 +279,7 @@
                 show_success($el, '.input-group', 'no_icon');
                 return true;
             }
-        }
+        };
         $.aCCValidator.checkType = function ($el, mode) {
             var $ig = $el.closest('.input-group');
             if (mode == 'reset') {
@@ -299,23 +294,27 @@
                 show_success($el, '.input-group', 'no_icon');
                 return true;
             }
-        }
+        };
 
         select_cctype = function ($el, cc_type) {
-            var $cct = $el.closest('form').find('#cc_type');
+            var $cct = $el.closest('form').find('[name=' + o.cc_field_type + ']');
             if ($cct.length) {
                 //select cc_type in the select box
                 var empty;
                 var found;
-                $cct.find('option').each(function () {
-                    if ($(this).val().toLowerCase() == cc_type.toLowerCase()) {
-                        $(this).prop('selected', true);
-                        found = true;
-                        return;
-                    } else if ($(this).val() == 'notfound') {
-                        empty = true;
-                    }
-                });
+                if($cct.attr('type') == 'hidden'){
+                    $cct.val(cc_type.toLowerCase());
+                }else {
+                    $cct.find('option').each(function () {
+                        if ($(this).val().toLowerCase() == cc_type.toLowerCase()) {
+                            $(this).prop('selected', true);
+                            found = true;
+                            return;
+                        } else if ($(this).val() == 'notfound') {
+                            empty = true;
+                        }
+                    });
+                }
                 if (found) {
                     show_success($cct, '.input-group', 'no_icon');
                 } else {
@@ -331,7 +330,7 @@
                     show_error($cct, '.input-group', 'no_icon');
                 }
             }
-        }
+        };
 
         /* Show bootstrap field input-group-addon */
         show_addon = function ($el, html) {
@@ -340,14 +339,14 @@
                 $ig.append(o.wrapper);
             }
             $ig.find('.input-group-addon').html(html);
-        }
+        };
 
         hide_addon = function ($el) {
             var $ig = $el.closest('.input-group');
             if ($ig.find('.input-group-addon').length) {
                 $ig.find('.input-group-addon').remove();
             }
-        }
+        };
 
         show_success = function ($el, selector, mode) {
             var $att = $el.closest(selector);
@@ -357,7 +356,7 @@
                 hide_addon($el);
                 show_addon($el, o.success);
             }
-        }
+        };
 
         show_error = function ($el, selector, mode) {
             var $att = $el.closest(selector);
@@ -367,7 +366,7 @@
                 hide_addon($el);
                 show_addon($el, o.warning);
             }
-        }
+        };
 
         lookupCreditCardType = function (cardnumber) {
             //look for matching cc type backwards
@@ -383,7 +382,7 @@
                 }
             }
             return false;
-        }
+        };
 
         CheckDigits = function (cardnumber) {
             var card_rec;
@@ -403,7 +402,6 @@
             // Now check the modulus 10 check digit - if required
             if (card_rec && card_rec.checkdigit) {
                 var checksum = 0;
-                var mychar = "";
                 var j = 1;
 
                 // Process each digit one by one starting on the right
@@ -458,7 +456,7 @@ jQuery(document).ready(function () {
     //event to log creditcard entering
     $('form.validate-creditcard').aCCValidator({});
 
-    $('form.validate-creditcard #cc_number').bind({
+    $('form.validate-creditcard [name=cc_number]').bind({
         change: function () {
             //check as number is entered
             $.aCCValidator.precheckCCNumber($(this));
@@ -468,7 +466,7 @@ jQuery(document).ready(function () {
             $.aCCValidator.checkCCNumber($(this));
         },
         keyup: function (e) {
-            if (e.keyCode == 13) {
+            if (e.keyCode === 13) {
                 //enter pressed. validate all data
                 $('form.validate-creditcard').submit();
             } else if ($(this).val()) {
@@ -477,7 +475,7 @@ jQuery(document).ready(function () {
         }
     });
 
-    $('form.validate-creditcard #cc_owner').bind({
+    $('form.validate-creditcard [name=cc_owner]').bind({
         change: function () {
             $.aCCValidator.checkCCName($(this), 'reset');
         },
@@ -485,7 +483,7 @@ jQuery(document).ready(function () {
             $.aCCValidator.checkCCName($(this));
         },
         keyup: function (e) {
-            if (e.keyCode == 13) {
+            if (e.keyCode === 13) {
                 //enter pressed. validate all data
                 $('form.validate-creditcard').submit();
             } else {
@@ -494,7 +492,7 @@ jQuery(document).ready(function () {
         }
     });
 
-    $('form.validate-creditcard #cc_cvv2').bind({
+    $('form.validate-creditcard [name=cc_cvv2]').bind({
         change: function () {
             $.aCCValidator.checkCVV($(this), 'reset');
         },
@@ -502,7 +500,7 @@ jQuery(document).ready(function () {
             $.aCCValidator.checkCVV($(this));
         },
         keyup: function (e) {
-            if (e.keyCode == 13) {
+            if (e.keyCode === 13) {
                 //enter pressed. validate all data
                 $('form.validate-creditcard').submit();
             } else {
@@ -518,7 +516,7 @@ jQuery(document).ready(function () {
             $.aCCValidator.checkType($(this));
         },
         keyup: function (e) {
-            if (e.keyCode == 13) {
+            if (e.keyCode === 13) {
                 //enter pressed. validate all data
                 $('form.validate-creditcard').submit();
             } else {

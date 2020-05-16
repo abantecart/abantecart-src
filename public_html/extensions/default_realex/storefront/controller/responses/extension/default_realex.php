@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -112,20 +112,20 @@ class ControllerResponsesExtensionDefaultRealex extends AController
         $today = getdate();
         $years = array();
         for ($i = $today['year']; $i < $today['year'] + 11; $i++) {
-            $years[strftime('%Y', mktime(0, 0, 0, 1, 1, $i))] = strftime('%Y', mktime(0, 0, 0, 1, 1, $i));
+            $years[strftime('%y', mktime(0, 0, 0, 1, 1, $i))] = strftime('%Y', mktime(0, 0, 0, 1, 1, $i));
         }
         $data['cc_expire_date_year'] = $form->getFieldHtml(
             array(
                 'type'    => 'selectbox',
                 'name'    => 'cc_expire_date_year',
-                'value'   => sprintf('%02d', date('Y') + 1),
+                'value'   => sprintf('%02d', date('y') + 1),
                 'options' => $years,
                 'style'   => 'short',
             )
         );
 
         $conf_cc_list = unserialize($this->config->get('default_realex_creditcard_selection'));
-        $card_types = array('');
+        $card_types = array();
         foreach ($conf_cc_list as $cc_type => $cc) {
             if ($cc['enabled']) {
                 $card_types[$cc_type] = $this->language->get('default_realex_creditcard_selection_'.$cc_type);
@@ -135,10 +135,8 @@ class ControllerResponsesExtensionDefaultRealex extends AController
         $data['entry_cc_type'] = $this->language->get('entry_cc_type');
         $data['cc_type'] = $form->getFieldHtml(
             array(
-                'type'    => 'selectbox',
+                'type'    => 'hidden',
                 'name'    => 'cc_type',
-                'value'   => '',
-                'options' => $card_types,
             )
         );
 
@@ -353,7 +351,7 @@ class ControllerResponsesExtensionDefaultRealex extends AController
         $cardname = html_entity_decode($post['cc_owner'], ENT_QUOTES, 'UTF-8');
         $cardtype = $post['cc_type'];
         // card expire date mm/yy
-        $expdate = $post['cc_expire_date_month'].substr($post['cc_expire_date_year'], 2, 2);
+        $expdate = $post['cc_expire_date_month'].$post['cc_expire_date_year'];
         $cardissue = $post['cc_issue'];
         $order_ref = $order_id.'AB'.strftime("%Y%m%d%H%M%S").mt_rand(1, 999);
 

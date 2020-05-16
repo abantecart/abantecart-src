@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -249,23 +249,22 @@ class ModelSaleCustomerTransaction extends Model
 
                 $store_info = $this->model_setting_store->getStore((int)$this->session->data['current_store_id']);
 
-                $subject = sprintf($language->get('text_transaction_notification_subject'), $store_info['store_name']);
 
                 $url = html_entity_decode($store_info['config_url'].'index.php?rt=account/transactions', ENT_QUOTES, 'UTF-8');
 
                 $amount = $this->currency->format($data['credit'] - $data['debit']);
-                $message = sprintf($language->get('text_transaction_notification_message'),
-                        $store_info['store_name'],
-                        $amount,
-                        $store_info['store_name'])."\n\n";
-                $message .= $url."\n\n";
-                $message .= $data['description'];
+
+                $mailData = [
+                    'store_name' => $store_info['store_name'],
+                    'amount' => $amount,
+                    'transactions_url' => $url
+                ];
+
                 $mail = new AMail($this->config);
                 $mail->setTo($customer_info['email']);
                 $mail->setFrom($store_info['store_main_email']);
                 $mail->setSender($store_info['store_name']);
-                $mail->setSubject($subject);
-                $mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
+                $mail->setTemplate('admin_new_transaction_notify', $mailData);
                 $mail->send();
 
                 //notify customer

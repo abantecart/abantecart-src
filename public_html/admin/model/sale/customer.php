@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -236,7 +236,7 @@ class ModelSaleCustomer extends Model
 
         if (in_array($field, $data)) {
             if ($this->dcrypt->active && in_array($field, $this->dcrypt->getEcryptedFields("customers"))) {
-                //check key_id to use 
+                //check key_id to use
                 $query_key = $this->db->query(
                     "SELECT key_id
 									 FROM ".$this->db->table("customers")."
@@ -394,6 +394,7 @@ class ModelSaleCustomer extends Model
      * @param int $customer_id
      *
      * @return array
+     * @throws AException
      */
     public function getAddressesByCustomerId($customer_id)
     {
@@ -475,14 +476,14 @@ class ModelSaleCustomer extends Model
 								   FROM ".$this->db->table("customers")."
 								   WHERE customer_id = '".(int)$customer_id."'");
 
-        $result_row = $this->dcrypt->decrypt_data($query->row, 'customers');
-        return $result_row;
+        return $this->dcrypt->decrypt_data($query->row, 'customers');
     }
 
     /**
      * @param array $data
      *
      * @return array|int
+     * @throws AException
      */
     public function getTotalCustomers($data = array())
     {
@@ -490,10 +491,11 @@ class ModelSaleCustomer extends Model
     }
 
     /**
-     * @param array  $data
+     * @param array $data
      * @param string $mode
      *
      * @return array|int
+     * @throws AException
      */
     public function getCustomers($data = array(), $mode = 'default')
     {
@@ -642,7 +644,7 @@ class ModelSaleCustomer extends Model
         );
 
         //Total calculation for encrypted mode
-        // NOTE: Performance slowdown might be noticed or larger search results	
+        // NOTE: Performance slowdown might be noticed or larger search results
         if ($mode != 'total_only') {
             $sql .= " ORDER BY ".($sort_data[$data['sort']] ? $sort_data[$data['sort']] : 'name');
             if (isset($data['order']) && (strtoupper($data['order']) == 'DESC')) {
@@ -797,7 +799,7 @@ class ModelSaleCustomer extends Model
                 $where[] = "LCASE(email) LIKE '%".$this->db->escape(strtolower($email), true)."%'";
             }
             $sql .= implode(' OR ', $where).$store_based;
-            $sql .= "ORDER BY firstname, lastname, email";
+            $sql .= " ORDER BY firstname, lastname, email";
 
             $query = $this->db->query($sql);
             $result_rows = array();
@@ -944,10 +946,11 @@ class ModelSaleCustomer extends Model
     }
 
     /**
-     * @param array  $data
+     * @param array $data
      * @param string $mode
      *
      * @return array|int
+     * @throws AException
      */
     public function getAllSubscribers($data = array(), $mode = 'default')
     {
@@ -959,6 +962,7 @@ class ModelSaleCustomer extends Model
      * @param array $data
      *
      * @return array|int
+     * @throws AException
      */
     public function getTotalAllSubscribers($data = array())
     {
@@ -967,10 +971,11 @@ class ModelSaleCustomer extends Model
     }
 
     /**
-     * @param array  $data
+     * @param array $data
      * @param string $mode
      *
      * @return array|int
+     * @throws AException
      */
     public function getOnlyNewsletterSubscribers($data = array(), $mode = 'default')
     {
@@ -983,6 +988,7 @@ class ModelSaleCustomer extends Model
      * @param array $data
      *
      * @return int
+     * @throws AException
      */
     public function getTotalOnlyNewsletterSubscribers($data = array())
     {
@@ -992,10 +998,11 @@ class ModelSaleCustomer extends Model
     }
 
     /**
-     * @param array  $data
+     * @param array $data
      * @param string $mode
      *
      * @return array|int
+     * @throws AException
      */
     public function getOnlyCustomers($data = array(), $mode = 'default')
     {
@@ -1007,6 +1014,7 @@ class ModelSaleCustomer extends Model
      * @param array $data
      *
      * @return int
+     * @throws AException
      */
     public function getTotalOnlyCustomers($data = array())
     {
@@ -1023,8 +1031,7 @@ class ModelSaleCustomer extends Model
 									FROM `".$this->db->table("customer_groups")."`
 									WHERE `name` = 'Newsletter Subscribers'
 									LIMIT 0,1");
-        $result = !$query->row['customer_group_id'] ? (int)$this->config->get('config_customer_group_id') : (int)$query->row['customer_group_id'];
-        return $result;
+        return !$query->row['customer_group_id'] ? (int)$this->config->get('config_customer_group_id') : (int)$query->row['customer_group_id'];
     }
 
     /**
@@ -1043,6 +1050,8 @@ class ModelSaleCustomer extends Model
 
     /**
      * @param int $customer_id - customer_id
+     *
+     * @throws AException
      */
     public function sendApproveMail($customer_id)
     {
@@ -1065,19 +1074,7 @@ class ModelSaleCustomer extends Model
             }
             $store_info['config_mail_logo'] = !$store_info['config_mail_logo'] ? $store_info['config_logo'] : $store_info['config_mail_logo'];
 
-            //build plain text email
-            $this->data['mail_plain_text'] = sprintf($this->language->get('text_welcome'), $store_info['store_name'])."\n\n";
-            $this->data['mail_plain_text'] .= $this->language->get('text_login')."\n";
-            $this->data['mail_plain_text'] .= $store_info['store_url']."\n\n";
-            $this->data['mail_plain_text'] .= $this->language->get('text_services')."\n\n";
-            $this->data['mail_plain_text'] .= $this->language->get('text_thanks')."\n";
-            $this->data['mail_plain_text'] .= $store_info['store_name'];
 
-            //build HTML message with the template
-            $this->data['mail_template_data']['text_welcome'] = sprintf($this->language->get('text_welcome'), $store_info['store_name'])."\n\n";
-            $this->data['mail_template_data']['text_login'] = $this->language->get('text_login');
-            $this->data['mail_template_data']['text_login_later'] = '<a href="'.$store_info['store_url'].'">'.$store_info['store_url'].'</a>';
-            $this->data['mail_template_data']['text_services'] = $this->language->get('text_services');
             if ($store_info['config_mail_logo']) {
                 if (is_numeric($store_info['config_mail_logo'])) {
                     $r = new AResource('image');
@@ -1101,8 +1098,8 @@ class ModelSaleCustomer extends Model
 
             $this->data['mail_template_data']['store_name'] = $store_info['store_name'];
             $this->data['mail_template_data']['store_url'] = $store_info['store_url'];
-            $this->data['mail_template_data']['text_thanks'] = $this->language->get('text_thanks');
-            $this->data['mail_template_data']['text_project_label'] = project_base();
+            $this->data['mail_template_data']['login_url'] = $store_info['store_url'];
+
 
             $this->data['mail_template'] = 'mail/account_create.tpl';
 
@@ -1117,9 +1114,7 @@ class ModelSaleCustomer extends Model
             $mail->setTo($customer_info['email']);
             $mail->setFrom($this->config->get('store_main_email'));
             $mail->setSender($store_info['store_name']);
-            $mail->setSubject(sprintf($this->language->get('text_subject'), $store_info['store_name']));
-            $mail->setText(html_entity_decode($this->data['mail_plain_text'], ENT_QUOTES, 'UTF-8'));
-            $mail->setHtml($html_body);
+            $mail->setTemplate('storefront_welcome_email_approved', $this->data['mail_template_data']);
             if (is_file(DIR_RESOURCE.$store_info['config_mail_logo'])) {
                 $mail->addAttachment(DIR_RESOURCE.$store_info['config_mail_logo'],
                     md5(pathinfo($store_info['config_mail_logo'], PATHINFO_FILENAME))

@@ -11,12 +11,10 @@
 	</div>
 	<div class="form-group form-inline">
 		<label class="col-sm-4 control-label"><?php echo $entry_cc_number; ?></label>
-		<div class="col-sm-5 input-group">
+		<div class="col-sm-4 input-group">
 			<?php echo $cc_number; ?>
 		</div>
-		<div class="col-sm-2 input-group">
-			<?php echo $cc_type; ?>
-		</div>
+		<?php echo $cc_type; ?>
 		<span class="help-block"></span>
 	</div>
 	<div class="form-group form-inline">
@@ -69,7 +67,7 @@ jQuery(document).ready(function() {
 		event.preventDefault();
 		if(submitSent !== true) {
 			submitSent = true;
-			if( !$.aCCValidator.validate($('form.validate-creditcard')) ){
+			if( !$.aCCValidator.validate($(this)) ){
 				submitSent = false;
 				try { resetLockBtn(); } catch (e){}
 				return false;
@@ -85,7 +83,7 @@ jQuery(document).ready(function() {
 		$.ajax({
 			type: 'POST',
 			url: '<?php echo $action; ?>',
-			data: $('#paypal :input'),
+			data: $form.serialize(),
 			dataType: 'json',
 			beforeSend: function() {
 				$('.alert').remove();

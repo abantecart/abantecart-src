@@ -20,4 +20,8 @@
 		<key>column_url</key>
 		<value><![CDATA[Url accedido]]></value>
 	</definition>
+	<definition>
+		<key>text_referer</key>
+		<value><![CDATA[Referente:]]></value>
+	</definition>
 </definitions>

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -57,7 +57,9 @@ class ModelUserUser extends Model
                 1 => array('message' => $language->get('im_account_update_text_to_admin')),
             );
 
-            $this->im->sendToUser($user_id, 'account_update', $message_arr);
+            $this->im->sendToUser($user_id, 'account_update', $message_arr, 'storefront_customer_account_update', [
+                'store_name' => $this->config->get('store_name'),
+            ]);
         }
 
         if ($data['password']) {

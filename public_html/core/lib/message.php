@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -345,14 +345,14 @@ class AMessage
     {
         $output = '';
         // delete expired banners first
-        $this->db->query("DELETE FROM ".$this->db->table("ant_messages")." 
-							WHERE end_date < CURRENT_TIMESTAMP");
+        $this->db->query( "DELETE FROM ".$this->db->table("ant_messages")." WHERE end_date < CURRENT_TIMESTAMP" );
         $sql = "SELECT *
 				 FROM ".$this->db->table("ant_messages")." 
 				 WHERE start_date< CURRENT_TIMESTAMP and end_date > CURRENT_TIMESTAMP
 					AND ( language_code = '".$this->registry->get('config')->get('admin_language')."'
-							OR COALESCE(language_code,'*') = '*' OR language_code = '*' )
-				 ORDER BY viewed_date ASC, priority DESC, COALESCE(language_code,'') DESC, COALESCE(url,'') DESC";
+							OR COALESCE(language_code,'*') = '*')
+				 ORDER BY viewed_date ASC, priority DESC, COALESCE(language_code,'') DESC, COALESCE(url,'') DESC
+				 LIMIT 1";
         $result = $this->db->query($sql);
         if ($result->num_rows) {
             $output = $result->row['html'] ? $result->row['html'] : $result->row['description'];

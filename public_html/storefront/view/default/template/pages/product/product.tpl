@@ -272,7 +272,7 @@ if ($error){ ?>
 		<div class="col-md-12 productdesc">
 			<ul class="nav nav-tabs" id="myTab">
 				<li class="active"><a href="#description"><?php echo $tab_description; ?></a></li>
-				<?php if ($review_status){ ?>
+				<?php if ($display_reviews || $review_form_status){ ?>
 					<li><a href="#review"><?php echo $tab_review; ?></a></li>
 				<?php } ?>
 				<?php if ($tags){ ?>
@@ -321,9 +321,10 @@ if ($error){ ?>
 
 				</div>
 
-				<?php if ($review_status){ ?>
+				<?php if (($display_reviews || $review_form_status)){ ?>
 					<div class="tab-pane" id="review">
 						<div id="current_reviews" class="mb20"></div>
+                        <?php if($review_form_status){ ?>
 						<div class="heading" id="review_title"><h4><?php echo $text_write; ?></h4></div>
 						<div class="content">
 							<fieldset>
@@ -377,6 +378,7 @@ if ($error){ ?>
 
 							</fieldset>
 						</div>
+                        <?php } ?>
 					</div>
 				<?php } ?>
 
@@ -615,7 +617,7 @@ if ($error){ ?>
 		var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
 
 		<?php if ($review_recaptcha) { ?>
-		var captcha = '&g-recaptcha-response=' + encodeURIComponent($('textarea[name=\'g-recaptcha-response\']').val());
+		var captcha = '&g-recaptcha-response=' + encodeURIComponent($('[name=\'g-recaptcha-response\']').val());
 		<?php } else { ?>
 		var captcha = '&captcha=' + encodeURIComponent($('input[name=\'captcha\']').val());
 		<?php } ?>
@@ -624,7 +626,11 @@ if ($error){ ?>
 			type: 'POST',
 			url: '<?php echo $product_review_write_url;?>',
 			dataType: 'json',
-			data: 'name=' + encodeURIComponent($('input[name=\'name\']').val()) + '&text=' + encodeURIComponent($('textarea[name=\'text\']').val()) + '&rating=' + encodeURIComponent($('input[name=\'rating\']:checked').val() ? $('input[name=\'rating\']:checked').val() : '') + captcha,
+			data: 'name='
+                + encodeURIComponent($('input[name=\'name\']').val())
+                + '&text='
+                + encodeURIComponent($('textarea[name=\'text\']').val())
+                + '&rating=' + encodeURIComponent($('input[name=\'rating\']:checked').val() ? $('input[name=\'rating\']:checked').val() : '') + captcha,
 			beforeSend: function () {
 				$('.success, .warning').remove();
 				$('#review_button').attr('disabled', 'disabled');
@@ -634,7 +640,9 @@ if ($error){ ?>
 				$('#review_button').attr('disabled', '');
 				$('.wait').remove();
 				<?php if ($review_recaptcha) { ?>
-				grecaptcha.reset();
+				try{ grecaptcha.reset();} catch(e){}
+				try{ ReCaptchaCallbackV3(); } catch(e){}
+
 				<?php } ?>
 				try { resetLockBtn(); } catch (e){}
 			},

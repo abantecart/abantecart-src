@@ -917,4 +917,68 @@
 		<key>entry_mail_logo</key>
 		<value><![CDATA[Логотип в email-письме:]]></value>
 	</definition>
+	<definition>
+		<key>entry_google_tag_manager</key>
+		<value><![CDATA[Идентификатор менеджера тегов Google: <br/>]]></value>
+	</definition>
+	<definition>
+		<key>entry_tax_class</key>
+		<value><![CDATA[Класс налога по умолчанию: <br/><span class="help">Значение по умолчанию будет принято как значение по умолчанию для класса налога нового создаваемого продукта.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_account_recaptcha_v3</key>
+		<value><![CDATA[Включить reCaptcha v3]]></value>
+	</definition>
+	<definition>
+		<key>text_review_disable</key>
+		<value><![CDATA[Не позволяйте]]></value>
+	</definition>
+	<definition>
+		<key>text_review_allow_all</key>
+		<value><![CDATA[Любой клиент или посетитель]]></value>
+	</definition>
+	<definition>
+		<key>text_review_allow_only_registered</key>
+		<value><![CDATA[Зарегистрированный клиент]]></value>
+	</definition>
+	<definition>
+		<key>text_review_allow_who_purchase</key>
+		<value><![CDATA[Клиент с подтвержденным заказом]]></value>
+	</definition>
+	<definition>
+		<key>entry_display_reviews</key>
+		<value><![CDATA[Показать отзывы:]]></value>
+	</definition>
+	<definition>
+		<key>entry_city</key>
+		<value><![CDATA[Город:]]></value>
+	</definition>
+	<definition>
+		<key>entry_postcode</key>
+		<value><![CDATA[Почтовый индекс:]]></value>
+	</definition>
+	<definition>
+		<key>entry_latitude</key>
+		<value><![CDATA[Широта:]]></value>
+	</definition>
+	<definition>
+		<key>entry_longitude</key>
+		<value><![CDATA[Долгота:]]></value>
+	</definition>
+	<definition>
+		<key>entry_opening_hours</key>
+		<value><![CDATA[Часы работы:]]></value>
+	</definition>
+	<definition>
+		<key>error_postcode</key>
+		<value><![CDATA[Требуется почтовый индекс]]></value>
+	</definition>
+	<definition>
+		<key>error_city</key>
+		<value><![CDATA[Требуется название города]]></value>
+	</definition>
+	<definition>
+		<key>entry_image_resize_fill_color</key>
+		<value><![CDATA[Цвет заливки для изменения размера изображения <br/><span class="help">Цвет, который будет заполняться пустыми областями при изменении размера изображения с прямоугольника на квадрат</span>]]></value>
+	</definition>
 </definitions>

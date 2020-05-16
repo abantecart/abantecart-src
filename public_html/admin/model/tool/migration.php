@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -226,6 +226,7 @@ class ModelToolMigration extends Model
         $this->cache->remove('category_description');
         $this->cache->remove('manufacturer');
         $this->cache->remove('product');
+        $this->cache->remove('collection');
         $this->cache->remove('product_image');
         $this->cache->remove('product_option');
         $this->cache->remove('product_option_description');

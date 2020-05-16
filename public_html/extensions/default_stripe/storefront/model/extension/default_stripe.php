@@ -38,7 +38,7 @@ class ModelExtensionDefaultStripe extends Model
         if ($status) {
             $payment_data = array(
                 'id'         => 'default_stripe',
-                'title'      => $this->language->get('text_title'),
+                'title'      => $this->language->get('text_title', 'default_stripe/default_stripe'),
                 'sort_order' => $this->config->get('default_stripe_sort_order'),
             );
         }
@@ -46,9 +46,23 @@ class ModelExtensionDefaultStripe extends Model
         return $payment_data;
     }
 
+    public function createPaymentIntent($data)
+    {
+        try {
+            require_once(DIR_EXT.'default_stripe/core/stripe_modules.php');
+            grantStripeAccess($this->config);
+            $response = \Stripe\PaymentIntent::create( $data );
+            $this->session->data['stripe']['pi']['id'] = $response['id'];
+            return $response;
+        } catch (\Exception $e) {
+            return array(
+                'error' => $e->getMessage(),
+            );
+        }
+    }
+
     public function processPayment($pd, $customer_stripe_id = '')
     {
-        $response = '';
         $this->load->model('checkout/order');
         $this->load->language('default_stripe/default_stripe');
         $order_info = $this->model_checkout_order->getOrder($pd['order_id']);
@@ -72,9 +86,31 @@ class ModelExtensionDefaultStripe extends Model
                 $charge_data['capture'] = true;
             }
 
+            //build cc details
+            $cc_details = array(
+                'id' => $pd['cc_token'],
+            );
+
+            if (!$pd['use_saved_cc']) {
+                if (!$cc_details['id']) {
+                    $msg = new AMessage();
+                    $msg->saveError(
+                        'Stripe failed to get card token for order_id '.$pd['order_id'],
+                        'Unable to use card for customer'.$customer_stripe_id
+                    );
+                    $response = array('error' => $this->language->get('error_system'));
+
+                    return $response;
+                }
+            }
+
+            $charge_data['card'] = $cc_details['id'];
+
             if ($order_info['shipping_method']) {
-                $shipping_name = $order_info['shipping_firstname'] ? $order_info['shipping_firstname'] : $order_info['firstname'];
-                $shipping_name .= '  '.($order_info['shipping_lastname'] ? $order_info['shipping_lastname'] : $order_info['lastname']);
+                $shipping_name =
+                    $order_info['shipping_firstname'] ? $order_info['shipping_firstname'] : $order_info['firstname'];
+                $shipping_name .= '  '
+                    .($order_info['shipping_lastname'] ? $order_info['shipping_lastname'] : $order_info['lastname']);
                 $charge_data['shipping'] = array(
                     'name'    => $shipping_name,
                     'phone'   => $order_info['telephone'],
@@ -226,5 +262,100 @@ class ModelExtensionDefaultStripe extends Model
         }
 
         return $response;
+    }
+
+    public function getStripeCustomerID($customer_id)
+    {
+        if (!has_value($customer_id)) {
+            return false;
+        }
+
+        $test_mode = $this->config->get('stripe_test_mode') ? 1 : 0;
+        $query = $this->db->query("SELECT sc.customer_stripe_id
+    									FROM ".$this->db->table("stripe_customers")." sc  
+    									WHERE sc.customer_id = '".(int)$customer_id."' 
+    										AND sc.stripe_test_mode = '".(int)$test_mode."'"
+        );
+
+        return $query->row['customer_stripe_id'];
+    }
+
+    public function getStripeCustomer($customer_id)
+    {
+        $customer_stripe_id = $this->getStripeCustomerID($customer_id);
+        if (!has_value($customer_stripe_id)) {
+            return array();
+        }
+        try {
+            require_once(DIR_EXT.'default_stripe/core/stripe_modules.php');
+            grantStripeAccess($this->config);
+
+            return Stripe\Customer::retrieve($customer_stripe_id);
+        } catch (Exception $e) {
+            //log in AException
+            $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
+            ac_exception_handler($ae);
+
+            return null;
+        }
+    }
+
+    /**
+     * @param ACustomer $customer
+     *
+     * @return null|Stripe\Customer
+     */
+    public function createStripeCustomer($customer)
+    {
+
+        try {
+            require_once(DIR_EXT.'default_stripe/core/stripe_modules.php');
+            grantStripeAccess($this->config);
+            if($customer instanceof ACustomer) {
+                $stripe_customer = Stripe\Customer::create(array(
+                    "email"       => $customer->getEmail(),
+                    "description" => "Customer ID: ".$customer->getId(),
+                ));
+            }elseif( is_array($customer)){
+                $stripe_customer = Stripe\Customer::create(array(
+                    "email"       => $customer['email'],
+                    "description" => "Guest Customer: ".$customer['firstname'].' '.$customer['firstname']
+                ));
+            }else{
+                return false;
+            }
+
+
+            return $stripe_customer;
+
+        } catch (Exception $e) {
+            //log in AException
+            $ae = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
+            ac_exception_handler($ae);
+
+            return null;
+        }
+    }
+
+    public function getPaymentIntent($pi_id)
+    {
+
+        require_once(DIR_EXT.'default_stripe/core/stripe_modules.php');
+        grantStripeAccess($this->config);
+
+        return \Stripe\PaymentIntent::retrieve($pi_id);
+    }
+
+    /**
+     * @param string $pi_id
+     * @param array $data
+     *
+     * @throws \Stripe\Exception\ApiErrorException
+     */
+    public function updatePaymentIntent($pi_id, $data)
+    {
+        require_once(DIR_EXT.'default_stripe/core/stripe_modules.php');
+        grantStripeAccess($this->config);
+        \Stripe\PaymentIntent::update($pi_id, $data);
     }
 }

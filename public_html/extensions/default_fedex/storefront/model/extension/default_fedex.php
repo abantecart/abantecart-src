@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -327,7 +327,7 @@ class ModelExtensionDefaultFedex extends Model
 
                 $response = $client->getRates($request);
                 if ($response->HighestSeverity != 'FAILURE' && $response->HighestSeverity != 'ERROR') {
-                    if ($response->RateReplyDetails && count($response->RateReplyDetails) > 1) {
+                    if ($response->RateReplyDetails && count((array)$response->RateReplyDetails) > 1) {
                         foreach ($response->RateReplyDetails as $rateReply) {
                             if (is_object($rateReply->RatedShipmentDetails)) {
                                 $rate = number_format(

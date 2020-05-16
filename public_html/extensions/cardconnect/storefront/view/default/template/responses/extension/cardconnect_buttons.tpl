@@ -93,7 +93,7 @@
                     ?>
 					<iframe id="tokenframe"
 							name="tokenframe"
-							src="https://fts.cardconnect.com:<?php echo $port ?>/itoke/ajax-tokenizer.html?invalidinputevent=true&css=input{border:1px solid rgb(204, 204, 204); width: 150px; padding: 6px 12px; height: 20px; font-size: 14px; line-height: 1.42857143; color: rgb(85, 85, 85); background-color: rgb(255, 255, 255); } body{margin: 0;}%2Eerror{color:%20red;}"
+							src="https://<?php echo $api_domain;?>/itoke/ajax-tokenizer.html?invalidinputevent=true&css=<?php echo urlencode("input{border:1px solid rgb(204, 204, 204); width: 150px; padding: 6px 12px; height: 20px; font-size: 14px; line-height: 1.42857143; color: rgb(85, 85, 85); background-color: rgb(255, 255, 255); } body{ margin: 0;} .error{color: red;}");?>"
 							frameborder="0" scrolling="no" width="100%"
 							height="35"></iframe>
 					<input type="hidden" name="cc_token" id="cc_token">
@@ -117,7 +117,7 @@
 							name="cc_expire_date_month">
                         <?php
                         foreach ($cc_expire_date_month->options as $v => $option) {
-                            echo "<option value='$v'>$option</option>";
+                            echo "<option value=\"".$v."\" ".($v==$cc_expire_date_month->value ? 'selected':'').">$option</option>";
                         }
                         ?>
 					</select>

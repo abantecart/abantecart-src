@@ -252,4 +252,12 @@
 		<key>text_bestsellers</key>
 		<value><![CDATA[Prodotti venduti]]></value>
 	</definition>
+	<definition>
+		<key>text_collection</key>
+		<value><![CDATA[Collezione]]></value>
+	</definition>
+	<definition>
+		<key>entry_collection_resource_type</key>
+		<value><![CDATA[Collezione selezionata:]]></value>
+	</definition>
 </definitions>

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -47,7 +47,6 @@ class AImage
     /**
      * @param string $filename
      *
-     * @throws AException
      */
     public function __construct($filename)
     {
@@ -125,19 +124,24 @@ class AImage
                 $res_img = imagecreatefrompng($filename);
             } elseif ($mime == 'image/jpeg') {
                 $res_img = imagecreatefromjpeg($filename);
+            } elseif ($mime == 'image/webp') {
+                $res_img = imagecreatefromwebp($filename);
             }
             return $res_img;
         } else {
-            throw new AException(AC_ERR_LOAD, 'Unable to create internal image from file '.$filename.'. Try to decrease original image size '.$this->info['width'].'x'.$this->info['height'].'px or reduce file size or increase memory limit for PHP.');
+            throw new AException(AC_ERR_LOAD,
+                'Unable to create internal image from file '.$filename.'. Try to decrease original image size '
+                .$this->info['width'].'x'.$this->info['height']
+                .'px or reduce file size or increase memory limit for PHP.');
         }
 
     }
 
     /**
      * @param string $filename
-     * @param int    $width
-     * @param int    $height
-     * @param array  $options
+     * @param int $width
+     * @param int $height
+     * @param array $options
      *
      * @return bool
      */
@@ -170,7 +174,7 @@ class AImage
 
     /**
      * @param string $filename - full file name
-     * @param int    $quality  - some number in range from 1 till 100
+     * @param int $quality - some number in range from 1 till 100
      *
      * @return bool
      */
@@ -186,7 +190,7 @@ class AImage
 
     /**
      * @param string $filename - full file name
-     * @param int    $quality  - some number in range from 1 till 100
+     * @param int $quality - some number in range from 1 till 100
      *
      * @return bool
      */
@@ -209,6 +213,8 @@ class AImage
                 imagepng($this->image, $filename, 9, PNG_ALL_FILTERS);
             } elseif ($extension == 'gif') {
                 imagegif($this->image, $filename);
+            } elseif ($extension == 'webp') {
+                imagewebp($this->image, $filename);
             }
             if (is_file($filename)) {
                 $result = chmod($filename, 0777);
@@ -229,8 +235,8 @@ class AImage
     }
 
     /**
-     * @param int        $width
-     * @param int        $height
+     * @param int $width
+     * @param int $height
      * @param bool|false $nofill - sign for background fill
      *
      * @return bool|null
@@ -258,15 +264,17 @@ class AImage
         $image_old = $this->image;
         if ($this->_is_memory_enough($this->info['width'], $this->info['height'])) {
             $this->image = imagecreatetruecolor($width, $height);
-
-            if (isset($this->info['mime']) && $this->info['mime'] == 'image/png') {
+            $fillColor = $this->registry->get('config')->get('config_image_resize_fill_color');
+            $fillColor = !$fillColor ? '#ffffff' : $fillColor;
+            list($r, $g, $b) = sscanf($fillColor, "#%02x%02x%02x");
+            if (isset($this->info['mime']) && in_array($this->info['mime'], array('image/png','image/webp',) ) )  {
                 imagealphablending($this->image, false);
                 imagesavealpha($this->image, true);
-                $background = imagecolorallocatealpha($this->image, 255, 255, 255, 127);
+                $background = imagecolorallocatealpha($this->image, $r, $g, $b, 127);
                 imagefill($this->image, 0, 0, $background);
             } else {
                 if (!$nofill) { // if image no transparent
-                    $background = imagecolorallocate($this->image, 255, 255, 255);
+                    $background = imagecolorallocate($this->image, $r, $g, $b);
                     imagefilledrectangle($this->image, 0, 0, $width, $height, $background);
                 }
             }
@@ -288,7 +296,12 @@ class AImage
                 imagedestroy($image_old);
             }
         } else {
-            $message = 'Image file '.$this->file.' cannot be resized. Try to decrease original image size '.$this->info['width'].'x'.$this->info['height'].'px or reduce file size.';
+            $message = 'Image file '.$this->file
+                .' cannot be resized. Try to decrease original image size '
+                .$this->info['width']
+                .'x'
+                .$this->info['height']
+                .'px or reduce file size.';
             $res = new AResource('image');
             $resource_id = $res->getIdFromHexPath(str_replace(DIR_RESOURCE.'image/', '', $this->file));
             if ($resource_id) {
@@ -312,6 +325,7 @@ class AImage
      * @param string $position
      *
      * @return bool
+     * @throws AException
      */
     public function watermark($filename, $position = 'bottomright')
     {
@@ -344,7 +358,7 @@ class AImage
             }
             imagecopy($this->image, $watermark, $watermark_pos_x, $watermark_pos_y, 0, 0, 120, 40);
             imagedestroy($watermark);
-        } catch (AException $e) {
+        } catch (Exception $e) {
             $warning = new AWarning('Cannot to apply watermark to the image file '.$this->file.'. '.$e->getMessage());
             $warning->toLog()->toDebug();
             return false;
@@ -383,7 +397,7 @@ class AImage
     }
 
     /**
-     * @param float  $degree
+     * @param float $degree
      * @param string $color
      *
      * @return bool
@@ -400,7 +414,7 @@ class AImage
                 imagecolorallocate($this->image, $rgb[0], $rgb[1], $rgb[2]));
             $this->info['width'] = imagesx($this->image);
             $this->info['height'] = imagesy($this->image);
-        } catch (AException $e) {
+        } catch (Exception $e) {
             $warning = new AWarning('Cannot to rotate image file '.$this->file.'. '.$e->getMessage());
             $warning->toLog()->toDebug();
             return false;
@@ -420,7 +434,7 @@ class AImage
         }
         try {
             imagefilter($this->image, $filter);
-        } catch (AException $e) {
+        } catch (Exception $e) {
             $warning = new AWarning('Cannot to apply filter to the image file '.$this->file.'. '.$e->getMessage());
             $warning->toLog()->toDebug();
             return false;
@@ -430,9 +444,9 @@ class AImage
 
     /**
      * @param string $text
-     * @param int    $x
-     * @param int    $y
-     * @param int    $size
+     * @param int $x
+     * @param int $y
+     * @param int $size
      * @param string $color
      *
      * @return bool
@@ -446,7 +460,7 @@ class AImage
         try {
             imagestring($this->image, $size, $x, $y, $text,
                 imagecolorallocate($this->image, $rgb[0], $rgb[1], $rgb[2]));
-        } catch (AException $e) {
+        } catch (Exception $e) {
             $warning = new AWarning('Cannot to add text into image file '.$this->file.'. '.$e->getMessage());
             $warning->toLog()->toDebug();
             return false;
@@ -456,11 +470,12 @@ class AImage
 
     /**
      * @param string $filename
-     * @param int    $x
-     * @param int    $y
-     * @param int    $opacity
+     * @param int $x
+     * @param int $y
+     * @param int $opacity
      *
      * @return bool
+     * @throws AException
      */
     public function merge($filename, $x = 0, $y = 0, $opacity = 100)
     {
@@ -475,7 +490,7 @@ class AImage
             $merge_width = imagesx($merge);
             $merge_height = imagesy($merge);
             imagecopymerge($this->image, $merge, $x, $y, 0, 0, $merge_width, $merge_height, $opacity);
-        } catch (AException $e) {
+        } catch (Exception $e) {
             $warning = new AWarning('Cannot to merge image files '.$this->file.' and '.$filename.'. '.$e->getMessage());
             $warning->toLog()->toDebug();
             return false;

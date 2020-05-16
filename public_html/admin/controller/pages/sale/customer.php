@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -118,17 +118,23 @@ class ControllerPagesSaleCustomer extends AController
             'multiselect'  => 'true',
             // actions
             'actions'      => array(
+                'edit'     => array(
+                    'text' => $this->language->get('text_edit'),
+                    'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
+                ),
+                'save'          => array(
+                    'text' => $this->language->get('button_save'),
+                ),
+                'delete'        => array(
+                    'text' => $this->language->get('button_delete'),
+                ),
                 'actonbehalfof' => array(
                     'text'   => $this->language->get('button_actas'),
                     'href'   => $this->html->getSecureURL('sale/customer/actonbehalf', '&customer_id=%ID%'),
                     'target' => 'new',
                 ),
-                'approve'       => array(
-                    'text' => $this->language->get('button_approve'),
-                    'href' => $this->html->getSecureURL('sale/customer/approve', '&customer_id=%ID%'),
-                ),
-                'edit'          => array(
-                    'text'     => $this->language->get('text_edit'),
+                'dropdown'          => array(
+                    'text'     => $this->language->get('text_choose_action'),
                     'href'     => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
                     'children' => array_merge(array(
                         'quickview'   => array(
@@ -146,12 +152,6 @@ class ControllerPagesSaleCustomer extends AController
                             'href' => $this->html->getSecureURL('sale/customer_transaction', '&customer_id=%ID%'),
                         ),
                     ), (array)$this->data['grid_edit_expand']),
-                ),
-                'save'          => array(
-                    'text' => $this->language->get('button_save'),
-                ),
-                'delete'        => array(
-                    'text' => $this->language->get('button_delete'),
                 ),
             ),
             'grid_ready'   => 'grid_ready();',
@@ -936,7 +936,9 @@ class ControllerPagesSaleCustomer extends AController
                     redirect($add_store_url);
                 }
             } else {
-                startStorefrontSession($this->user->getId(), array('customer_id' => $this->request->get['customer_id']));
+                startStorefrontSession($this->user->getId(), ['customer_id' => $this->request->get['customer_id'],
+                                                              'merchant_username' => $this->user->getUserName()
+                    ]);
                 if ($store_settings['config_ssl']) {
                     redirect($this->html->getCatalogURL('account/account', '', '', true));
                 } else {
@@ -1010,7 +1012,24 @@ class ControllerPagesSaleCustomer extends AController
 
         if (mb_strlen($data['email']) > 96 || !preg_match(EMAIL_REGEX_PATTERN, $data['email'])) {
             $this->error['email'] = $this->language->get('error_email');
+        }else{
+            //check for customer with given email
+            $exists = $this->model_sale_customer->getCustomersByEmails(array($data['email']));
+            foreach($exists as $item){
+                if( $customer_id === null ) {
+                   $this->error['email'] .= $this->language->get('error_email_exists');
+                   break;
+                }
+                if($customer_id == $item['customer_id']){
+                    continue;
+                }else{
+                    $this->error['email'] .= $this->language->get('error_email_exists');
+                    break;
+                }
+            }
+
         }
+
 
         if (mb_strlen($data['telephone']) > 32) {
             $this->error['telephone'] = $this->language->get('error_telephone');

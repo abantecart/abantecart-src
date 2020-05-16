@@ -220,4 +220,8 @@
 		<key>text_success_scheduled</key>
 		<value><![CDATA[Éxito: ha creado correctamente la tarea de importación programada. <a href="%s">Ver detalles</a>]]></value>
 	</definition>
+	<definition>
+		<key>text_complete_import_with_errors</key>
+		<value><![CDATA[%s fila (s) con errores.]]></value>
+	</definition>
 </definitions>

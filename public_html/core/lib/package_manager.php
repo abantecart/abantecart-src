@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -66,11 +66,12 @@ class APackageManager
     }
 
     /**
-     * @param string  $url
+     * @param string $url
      * @param boolean $save
-     * @param string  $new_file_name
+     * @param string $new_file_name
      *
      * @return boolean|array
+     * @throws AException
      */
     public function getRemoteFile($url, $save = true, $new_file_name = '')
     {
@@ -93,18 +94,20 @@ class APackageManager
     /**
      * @param string $url
      *
+     * @param bool $secure
+     *
      * @return bool|string
+     * @throws AException
      */
-    public function getRemoteFileHeaders($url)
+    public function getRemoteFileHeaders($url, $secure = false)
     {
         if (!$url) {
             return false;
         }
         $file = new AConnect();
-        $file->connect_method =
-            'socket'; //use this method because curl returns no header 'Content-Disposition' with file name
+        $file->connect_method = 'curl';
         $url = $url.(!is_int(strpos($url, '?')) ? '?file_size=1' : '&file_size=1');
-        $result = $file->getDataHeaders($url);
+        $result = $file->getDataHeaders($url, ($secure ? 443 : null));
         if (!$result) {
             $this->error = $file->error;
             return false;
@@ -585,15 +588,15 @@ class APackageManager
 
     /**
      * @param $fconnect
-     * @param $ftpbasedir
-     * @param $ftpath
+     * @param $ftpBaseDir
+     * @param $ftpPath
      *
      * @return bool
      */
-    private function ftpMakeSubDirs($fconnect, $ftpbasedir, $ftpath)
+    private function ftpMakeSubDirs($fconnect, $ftpBaseDir, $ftpPath)
     {
-        @ftp_chdir($fconnect, $ftpbasedir); // /var/www/uploads
-        $parts = explode('/', $ftpath); // 2013/06/11/username
+        @ftp_chdir($fconnect, $ftpBaseDir); // /var/www/uploads
+        $parts = explode('/', $ftpPath); // 2013/06/11/username
         foreach ($parts as $part) {
             if (!@ftp_chdir($fconnect, $part)) {
                 ftp_mkdir($fconnect, $part);
@@ -725,9 +728,15 @@ class APackageManager
                     $config = !$config ? getExtensionConfigXml($extension_id) : $config;
                     // running sql upgrade script if it exists
                     if (isset($config->upgrade->sql)) {
-                        $file = $this->session->data['package_info']['tmp_dir'].$package_dirname.'/code/extensions/'
-                            .$extension_id.'/'.(string)$config->upgrade->sql;
-                        $file = !file_exists($file) ? DIR_EXT.$extension_id.'/'.(string)$config->upgrade->sql : $file;
+                        $file = $this->session->data['package_info']['tmp_dir']
+                                .$package_dirname
+                                .'/code/extensions/'
+                                .$extension_id
+                                .'/'
+                                .(string)$config->upgrade->sql;
+                        $file = !file_exists($file)
+                                ? DIR_EXT.$extension_id.'/'.(string)$config->upgrade->sql
+                                : $file;
                         if (file_exists($file)) {
                             if( ! $this->db->performSql($file) ) {
                                 $this->error = 'SQL-ERROR: "'.$this->db->error.'"';
@@ -872,8 +881,8 @@ class APackageManager
             $dh = opendir($path);
             while (($file = readdir($dh)) !== false) {
                 if ($file != '.' && $file != '..') { // skip self and parent pointing directories
-                    $fullpath = $path.'/'.$file;
-                    $this->chmod_R($fullpath, $filemode, $dirmode);
+                    $fullPath = $path.'/'.$file;
+                    $this->chmod_R($fullPath, $filemode, $dirmode);
                 }
             }
             closedir($dh);
@@ -926,7 +935,7 @@ class APackageManager
 
     /**
      * Method returns absolute path to temporary directory for unpacking package
-     * if system/temp is unaccessable - use php temp directory
+     * if system/temp is inaccessible - use php temp directory
      *
      * @return string
      */

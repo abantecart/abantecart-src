@@ -84,4 +84,8 @@
 		<key>im_account_update_text_to_admin</key>
 		<value><![CDATA[I suoi dati account utente di amministratore sono stati cambiati.]]></value>
 	</definition>
+	<definition>
+		<key>im_order_update_text_to_guest</key>
+		<value><![CDATA[Il tuo ordine <a href="%s"># %s</a> è stato aggiornato. Per maggiori dettagli, visita la pagina dell&#39;ordine %s.]]></value>
+	</definition>
 </definitions>

@@ -5,17 +5,17 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
+
+ UPGRADE NOTE:
    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
    versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
+   needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 
 function isFunctionAvailable($func_name)
@@ -28,7 +28,7 @@ function isFunctionAvailable($func_name)
  * */
 function preformatFloat($value, $decimal_point = '.')
 {
-    if ($decimal_point != '.') {
+    if ($decimal_point != '.' && strpos($value, $decimal_point)) {
         $value = str_replace('.', '~', $value);
         $value = str_replace($decimal_point, '.', $value);
     }
@@ -44,7 +44,7 @@ function preformatInteger($value)
 }
 
 /*
- * prepare string for text id 
+ * prepare string for text id
  * */
 function preformatTextID($value)
 {
@@ -95,7 +95,7 @@ function moneyDisplayFormat($value, $mode = 'no_round')
 }
 
 /*
- * check that argument variable has value (even 0 is a value)  
+ * check that argument variable has value (even 0 is a value)
  * */
 function has_value($value)
 {
@@ -111,7 +111,7 @@ function has_value($value)
 }
 
 /*
- * check that argument variable has value (even 0 is a value)  
+ * check that argument variable has value (even 0 is a value)
  * */
 function is_serialized($value)
 {
@@ -127,7 +127,7 @@ function is_serialized($value)
 }
 
 /*
- * check that argument array is multidimensional  
+ * check that argument array is multidimensional
  * */
 function is_multi($array)
 {
@@ -202,7 +202,7 @@ function getUniqueSeoKeyword($seo_key, $object_key_name = '', $object_id = 0)
 }
 
 /*
-* Echo array with readable formal. Useful in debugging of array data. 
+* Echo array with readable formal. Useful in debugging of array data.
 */
 function echo_array($array_data)
 {
@@ -369,7 +369,7 @@ function dateDisplay2ISO($string_date, $format = '')
 }
 
 /*
-* Function to format date from database format (ISO) into the display (language based) format 
+* Function to format date from database format (ISO) into the display (language based) format
 * Param: iso date, format based on PHP date function (optional)
 * Default format is taken from current language date_format_short setting
 */
@@ -413,7 +413,7 @@ function dateInt2Display($int_date, $format = '')
 }
 
 /*
-* Function to show Now date (local time) in the display (language based) format 
+* Function to show Now date (local time) in the display (language based) format
 * Param: format based on PHP date function (optional)
 * Default format is taken from current language date_format_short setting
 */
@@ -1339,4 +1339,46 @@ function redirect($url)
     }
     header('Location: '.str_replace('&amp;', '&', $url));
     exit;
+}
+
+function df($var, $filename = 'debug.txt') {
+    $backtrace = debug_backtrace();
+    $backtracePath = [];
+    foreach($backtrace as $k => $bt)
+    {
+        if($k > 1)
+            break;
+        $backtracePath[] = substr($bt['file'], strlen($_SERVER['DOCUMENT_ROOT'])) . ':' . $bt['line'];
+    }
+
+    $data = func_get_args();
+    if(count($data) == 0)
+        return;
+    elseif(count($data) == 1)
+        $data = current($data);
+
+    if(!is_string($data) && !is_numeric($data) && !is_object($data))
+        $data = var_export($data, 1);
+
+    //   if (is_object($data)) {
+    //     $data = ' Variable is Object, use DD like functions! ';
+    // }
+
+    file_put_contents(
+        $filename,
+        "\n--------------------------" . date('Y-m-d H:i:s ') . microtime()
+        . "-----------------------\n Backtrace: " . implode(' → ', $backtracePath) . "\n"
+        . $data, FILE_APPEND
+    );
+}
+
+function daysOfWeekList()
+{
+    $timestamp = strtotime('next Sunday');
+    $days = array();
+    for ($i = 0; $i < 7; $i++) {
+        $days[] = strtolower(date('l', $timestamp));
+        $timestamp = strtotime('+1 day', $timestamp);
+    }
+    return $days;
 }

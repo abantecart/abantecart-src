@@ -16,12 +16,16 @@ $('body').append('<div id="blocker" style="display: none; width: 1667px; height:
 
 $('#checkout').click(function() {
 	$('#blocker').show();
+	$(this).button('loading');
 	$.ajax({
 		type: 'GET',
 		url: '<?php echo $this->html->getURL('r/checkout/no_payment/confirm');?>',
 		success: function() {
 			location = '<?php echo $continue; ?>';
-		}		
+		},
+        error: function(){
+            $('#checkout').button('reset');
+        }
 	});
 });
 </script>

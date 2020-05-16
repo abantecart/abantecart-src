@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -84,9 +84,13 @@ class ControllerPagesCatalogProductRelations extends AController
 
         $this->loadModel('catalog/category');
         $this->data['categories'] = array();
-        $results = $this->model_catalog_category->getCategories(0);
+
+        $products_stores = $this->model_catalog_product->getProductStores($product_id);
+
+        $results = $this->model_catalog_category->getCategories(0, $products_stores);
+
         foreach ($results as $r) {
-            $this->data['categories'][$r['category_id']] = $r['name'];
+            $this->data['categories'][$r['category_id']] = $r['name']. (count($products_stores)>1 ? "   (".$r['store_name'].")":'');
         }
 
         $this->loadModel('setting/store');
@@ -139,14 +143,6 @@ class ControllerPagesCatalogProductRelations extends AController
             'style' => 'button2',
         ));
         $this->data['cancel'] = $this->html->getSecureURL('catalog/product');
-
-        $this->loadModel('catalog/category');
-        $this->data['categories'] = array();
-        $results = $this->model_catalog_category->getCategories(0);
-
-        foreach ($results as $r) {
-            $this->data['categories'][$r['category_id']] = $r['name'];
-        }
 
         $this->data['form']['fields']['category'] = $form->getFieldHtml(array(
             'type'        => 'checkboxgroup',

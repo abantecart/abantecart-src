@@ -380,4 +380,8 @@
 		<key>entry_im</key>
 		<value><![CDATA[MI:]]></value>
 	</definition>
+	<definition>
+		<key>entry_stock_locations</key>
+		<value><![CDATA[Ubicaciones de stock:]]></value>
+	</definition>
 </definitions>

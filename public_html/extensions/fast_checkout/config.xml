@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension>
+	<id>fast_checkout</id>
+	<version>1.2.0</version>
+	<type>extension</type>
+	<category>Checkout</category>
+	<cartversions>
+		<item>1.2</item>
+	</cartversions>
+	<priority>10</priority>
+	<settings>
+		<item id="fast_checkout_status">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="fast_checkout_require_payment_address">
+			<type>checkbox</type>
+			<default_value>1</default_value>
+		</item>
+		<item id="fast_checkout_allow_coupon">
+			<type>checkbox</type>
+			<default_value>1</default_value>
+		</item>
+		<item id="fast_checkout_require_phone_number">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="fast_checkout_show_order_comment_field">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="fast_checkout_create_account">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="fast_checkout_sort_order">
+			<type>input</type>
+			<default_value>1</default_value>
+		</item>
+		<item id="fast_checkout_languages">
+			<type>html_template</type>
+			<default_value/>
+			<template>responses/extension/fast_checkout_languages.tpl</template>
+		</item>
+	</settings>
+	<install>
+		<sql>install.sql</sql>
+		<trigger>install.php</trigger>
+	</install>
+	<uninstall>
+		<sql>uninstall.sql</sql>
+		<trigger>uninstall.php</trigger>
+	</uninstall>
+	<help_link><![CDATA[https://docs.abantecart.com/fast_checkout/]]></help_link>
+</extension>

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -73,7 +73,17 @@ class ControllerPagesCatalogCategory extends AController
             'drag_sort_column' => 'sort_order',
             'actions'          => array(
                 'edit'   => array(
-                    'text'     => $this->language->get('text_edit'),
+                    'text' => $this->language->get('text_edit'),
+                    'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
+                ),
+                'save'   => array(
+                    'text' => $this->language->get('button_save'),
+                ),
+                'delete' => array(
+                    'text' => $this->language->get('button_delete'),
+                ),
+                'dropdown'   => array(
+                    'text'     => $this->language->get('text_choose_action'),
                     'href'     => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
                     'children' => array_merge(array(
                         'quickview' => array(
@@ -95,12 +105,6 @@ class ControllerPagesCatalogCategory extends AController
                             'href' => $this->html->getSecureURL('catalog/category/edit_layout', '&category_id=%ID%'),
                         ),
                     ), (array)$this->data['grid_edit_expand']),
-                ),
-                'save'   => array(
-                    'text' => $this->language->get('button_save'),
-                ),
-                'delete' => array(
-                    'text' => $this->language->get('button_delete'),
                 ),
             ),
             'grid_ready'       => 'grid_ready(data);',

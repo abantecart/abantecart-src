@@ -77,4 +77,5 @@
 	    <sql></sql>
 	    <trigger>uninstall.php</trigger>
 	</uninstall>
+	<help_link><![CDATA[https://abantecart.atlassian.net/wiki/spaces/AD/pages/1514176513/PayPal]]></help_link>
 </extension>

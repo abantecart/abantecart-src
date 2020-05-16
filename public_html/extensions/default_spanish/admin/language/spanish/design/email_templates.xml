@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>email_templates</key>
+		<value><![CDATA[Plantillas de correo electrónico]]></value>
+	</definition>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Plantillas de correo electrónico]]></value>
+	</definition>
+	<definition>
+		<key>column_text_id</key>
+		<value><![CDATA[ID de texto de plantilla de correo electrónico]]></value>
+	</definition>
+	<definition>
+		<key>column_language</key>
+		<value><![CDATA[Idioma]]></value>
+	</definition>
+	<definition>
+		<key>column_subject</key>
+		<value><![CDATA[Tema]]></value>
+	</definition>
+	<definition>
+		<key>button_save</key>
+		<value><![CDATA[Salvar]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Estado:]]></value>
+	</definition>
+	<definition>
+		<key>entry_text_id</key>
+		<value><![CDATA[ID de texto:]]></value>
+	</definition>
+	<definition>
+		<key>entry_language_id</key>
+		<value><![CDATA[Idioma:]]></value>
+	</definition>
+	<definition>
+		<key>entry_headers</key>
+		<value><![CDATA[Encabezados personalizados:]]></value>
+	</definition>
+	<definition>
+		<key>entry_subject</key>
+		<value><![CDATA[Tema:]]></value>
+	</definition>
+	<definition>
+		<key>entry_html_body</key>
+		<value><![CDATA[Cuerpo HTML:]]></value>
+	</definition>
+	<definition>
+		<key>entry_text_body</key>
+		<value><![CDATA[Cuerpo del texto:]]></value>
+	</definition>
+	<definition>
+		<key>entry_allowed_placeholders</key>
+		<value><![CDATA[Marcadores de posición permitidos: <br/><span class="help">Coma lista separada de nombres de variables</span>]]></value>
+	</definition>
+	<definition>
+		<key>save_complete</key>
+		<value><![CDATA[Guardar completo]]></value>
+	</definition>
+	<definition>
+		<key>save_error</key>
+		<value><![CDATA[Guardar error Por favor vea el registro.]]></value>
+	</definition>
+	<definition>
+		<key>save_error_text_id</key>
+		<value><![CDATA[¡Se requiere ID de texto y debe tener hasta 254 caracteres! Una palabra. Charsets: AZ az y _]]></value>
+	</definition>
+	<definition>
+		<key>save_error_text_id_unique</key>
+		<value><![CDATA[ID de texto debe ser único!]]></value>
+	</definition>
+	<definition>
+		<key>save_error_text_header</key>
+		<value><![CDATA[¡Los encabezados deben tener hasta 254 caracteres!]]></value>
+	</definition>
+	<definition>
+		<key>save_error_text_subject</key>
+		<value><![CDATA[¡El sujeto es obligatorio y debe tener hasta 254 caracteres!]]></value>
+	</definition>
+	<definition>
+		<key>save_error_html_body</key>
+		<value><![CDATA[Se requiere cuerpo HTML!]]></value>
+	</definition>
+	<definition>
+		<key>save_error_text_body</key>
+		<value><![CDATA[¡Se requiere el cuerpo del texto!]]></value>
+	</definition>
+	<definition>
+		<key>save_error_language_id</key>
+		<value><![CDATA[Se requiere idioma!]]></value>
+	</definition>
+</definitions>

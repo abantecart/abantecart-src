@@ -22,8 +22,7 @@
 	</definition>
 	<definition>
 		<key>entry_item_url</key>
-		<value>
-			<![CDATA[Link<br /><span class="help">Per i collegamenti esterni aggiungere http: // o https: // all'inizio. Puoi anche utilizzare un URL relativo, ad esempio ../subfolder/index.php</span>]]></value>
+		<value><![CDATA[Link<br /><span class="help">Per i collegamenti esterni aggiungere http: // o https: // all'inizio. Puoi anche utilizzare un URL relativo, ad esempio ../subfolder/index.php</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_parent_id</key>
@@ -60,5 +59,21 @@
 	<definition>
 		<key>error_non_ascii</key>
 		<value><![CDATA[Solo caratteri alfanumerici sono consentiti per il campo ID menu!]]></value>
+	</definition>
+	<definition>
+		<key>entry_link_type</key>
+		<value><![CDATA[Tipo di collegamento]]></value>
+	</definition>
+	<definition>
+		<key>text_category_link_type</key>
+		<value><![CDATA[Pagina categoria]]></value>
+	</definition>
+	<definition>
+		<key>text_content_link_type</key>
+		<value><![CDATA[Pagina dei contenuti]]></value>
+	</definition>
+	<definition>
+		<key>text_custom_link_type</key>
+		<value><![CDATA[Link o URL personalizzato]]></value>
 	</definition>
 </definitions>

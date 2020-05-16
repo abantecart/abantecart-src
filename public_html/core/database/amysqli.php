@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -107,10 +107,15 @@ final class AMySQLi
                 return true;
             }
         } else {
-            $this->error = 'SQL Error: '.mysqli_error($this->connection).'<br />Error No: '.mysqli_errno($this->connection).'<br />SQL: '.$sql;
+            $this->error = 'SQL Error: '.mysqli_error($this->connection).'<br />Error No: '.mysqli_errno($this->connection).'<br />SQL: '.$sql."\n";
             if ($noexcept) {
                 return false;
             } else {
+                $dbg = debug_backtrace();
+                $this->error .= "PHP call stack:\n";
+                foreach($dbg as $k=>$d){
+                    $this->error .= "#".$k." ".$d['file'].':'.$d['line']."\n";
+                }
                 throw new AException(AC_ERR_MYSQL, $this->error);
             }
         }

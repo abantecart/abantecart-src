@@ -124,4 +124,8 @@
 		<key>entry_parent_category</key>
 		<value><![CDATA[Settore superiore:]]></value>
 	</definition>
+	<definition>
+		<key>text_top_level</key>
+		<value><![CDATA[- Livello superiore -]]></value>
+	</definition>
 </definitions>

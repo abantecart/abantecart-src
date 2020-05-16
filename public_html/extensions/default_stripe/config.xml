@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <extension>
 	<id>default_stripe</id>
-	<version>1.0.3</version>
+	<version>1.0.4</version>
 	<type>payment</type>
 	<category>payment</category>
 	<cartversions>
@@ -12,7 +12,7 @@
 	<settings>
 		<item id="default_stripe_settlement">
 			<type>hidden</type>
-			<default_value>auto</default_value>
+			<default_value>automatic</default_value>
 		</item>
 		<item id="default_stripe_status">
 			<type>checkbox</type>
@@ -48,7 +48,7 @@
 					<field>name</field>
 				</fields>
 			</variants>
-			<default_value>2</default_value>
+			<default_value>1</default_value>
 		</item>
 		<item id="default_stripe_status_decline">
 			<type>selectbox</type>

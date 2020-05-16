@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -860,7 +860,7 @@ class ControllerResponsesProductProduct extends AController
         }
 
         if (empty($selected_unit)) {
-            //no weight yet, use product weight unit as default 
+            //no weight yet, use product weight unit as default
             $selected_unit = trim($prd_weight_info['unit']);
         } else {
             if ($option_weight_class_id != trim($prd_info['weight_class_id']) && $selected_unit != '%') {
@@ -1701,11 +1701,11 @@ class ControllerResponsesProductProduct extends AController
         $this->loadModel('setting/store');
         $store_info = $this->model_setting_store->getStore($order_store_id);
         if (HTTPS === true && $store_info['config_ssl_url']) {
-            $total_calc_url = $store_info['config_ssl_url'].'index.php?rt=r/product/product/calculateTotal';
+            $total_calc_url = $store_info['config_ssl_url'].'index.php?rt=r/product/product/calculateTotal'.'&currency='.$order_info['currency'];
         } elseif (HTTPS === true && !$store_info['config_ssl_url']) {
-            $total_calc_url = str_replace('http://', 'https://', $store_info['config_url']).'index.php?rt=r/product/product/calculateTotal';
+            $total_calc_url = str_replace('http://', 'https://', $store_info['config_url']).'index.php?rt=r/product/product/calculateTotal'.'&currency='.$order_info['currency'];
         } else {
-            $total_calc_url = $store_info['config_url'].'index.php?rt=r/product/product/calculateTotal';
+            $total_calc_url = $store_info['config_url'].'index.php?rt=r/product/product/calculateTotal'.'&currency='.$order_info['currency'];
         }
 
         $this->data['total_calc_url'] = $total_calc_url;

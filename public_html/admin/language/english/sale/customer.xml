@@ -377,4 +377,8 @@
 		<key>text_register_date</key>
 		<value><![CDATA[Register Date:]]></value>
 	</definition>
+	<definition>
+		<key>error_email_exists</key>
+		<value><![CDATA[Customer with this email address already exists!]]></value>
+	</definition>
 </definitions>

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -120,7 +120,10 @@ class ControllerResponsesToolImportProcess extends AController
         $task_result = $task_info['last_result'];
         if ($task_result) {
             $tm->deleteTask($task_id);
-            $result_text = sprintf($this->language->get('text_complete_import'), (int)$task_info['settings']['success_count']);
+            $result_text = sprintf($this->language->get('text_complete_import'), (int)$task_info['settings']['total_rows_count']);
+            if ((int)$task_info['settings']['failed_count']) {
+                $result_text .= ' '.sprintf($this->language->get('text_complete_import_with_errors'), (int)$task_info['settings']['failed_count']);
+            }
         }
 
         $log_file = $task_info['settings']['logfile'];

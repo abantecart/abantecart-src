@@ -40,14 +40,19 @@ class ControllerResponsesExtensionDefaultStripe extends AController
         $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
         $this->data['payment_address'] = $order_info['payment_address_1']." ".$order_info['payment_address_2'];
 
-        $this->data['edit_address'] = $this->html->getSecureURL('checkout/address/payment');
+        if($this->customer->isLogged()) {
+            $this->data['edit_address'] = $this->html->getSecureURL('checkout/address/payment');
+        }
         //data for token
-        $this->data['address_1'] = $order_info['payment_address_1'];
-        $this->data['address_2'] = $order_info['payment_address_2'];
-        $this->data['address_city'] = $order_info['payment_city'];
-        $this->data['address_postcode'] = $order_info['payment_postcode'];
+
+        $this->data['email'] = $order_info['email'];
+        $this->data['telephone'] = $order_info['telephone'];
+        $this->data['payment_address_1'] = $order_info['payment_address_1'];
+        $this->data['payment_address_2'] = $order_info['payment_address_2'];
+        $this->data['payment_city'] = $order_info['payment_city'];
+        $this->data['payment_postcode'] = $order_info['payment_postcode'];
         $this->data['address_country_code'] = $order_info['payment_iso_code_2'];
-        $this->data['address_zone_code'] = $order_info['payment_zone_code'];
+        $this->data['payment_zone'] = $order_info['payment_zone_code'];
 
         $this->data['text_credit_card'] = $this->language->get('text_credit_card');
         $this->data['text_wait'] = $this->language->get('text_wait');
@@ -91,24 +96,77 @@ class ControllerResponsesExtensionDefaultStripe extends AController
             )
         );
         $this->data['default_stripe_ssl_off_error'] = $this->language->get('default_stripe_ssl_off_error');
+
+        $currency = $this->currency->getCode();
+        if($this->customer->isLogged()){
+            $customer = $this->customer;
+        }else{
+            $customer = array(
+                'firstname' => $order_info['payment_firstname'],
+                'lastname' => $order_info['payment_lastname'],
+                'email'     => $order_info['email']
+            );
+        }
+        $customer_stripe_id = $this->model_extension_default_stripe->createStripeCustomer($customer);
+        $paymentIntent = $this->model_extension_default_stripe->createPaymentIntent(
+            array(
+
+                'payment_method_types' => array("card"),
+                'capture_method'       => 'manual',
+                'amount'               => round(
+                                                $this->currency->convert(
+                                                    $this->cart->getFinalTotal(),
+                                                    $this->config->get('config_currency'),
+                                                    $currency),
+                                                2)
+                                        * 100,
+                'currency'             => $currency,
+                'customer'             => $customer_stripe_id,
+                'receipt_email'        => $this->customer->getEmail(),
+                'shipping'             => array(
+                    'address' =>
+                        array(
+                            'line1'       => $order_info['shipping_address_1'],
+                            'city'        => $order_info['shipping_city'],
+                            'country'     => $order_info['shipping_country'],
+                            'line2'       => $order_info['shipping_address_2'],
+                            'postal_code' => $order_info['shipping_postcode'],
+                            'state'       => $order_info['shipping_zone'],
+                        ),
+                    'name'    => $order_info['shipping_firstname'].' '.$order_info['shipping_lastname'],
+                    'carrier' => $order_info['shipping_method'],
+                    'phone'   => $order_info['telephone'],
+                ),
+                'statement_descriptor' => 'Order #'.$order_info['order_id'],
+                "metadata"             => array(
+                    'integration_check' => 'accept_a_payment',
+                    "order_id" => $order_info['order_id'],
+                ),
+            )
+        );
+
+        if ($paymentIntent['error']) {
+            $this->data['error'] = $paymentIntent['error'];
+            $this->messages->saveWarning(
+                'Stripe Error',
+                $paymentIntent['error'].' OrderID:'.$order_info['order_id']
+            );
+        } else {
+            $this->data['client_secret'] = $paymentIntent['client_secret'];
+
+            $this->session->data['stripe']['pi_id'] = $paymentIntent['id'];
+        }
+
         $this->view->batchAssign($this->data);
 
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
-        //load creditcard input validation
-        $this->document->addScriptBottom($this->view->templateResource('/javascript/credit_card_validation.js'));
 
         $this->processTemplate('responses/default_stripe.tpl');
     }
 
     public function send()
     {
-        //init controller data
-        $this->extensions->hk_InitData($this, __FUNCTION__);
-
-        $json = array();
-
         if (!$this->csrftoken->isTokenValid()) {
             $json['error'] = $this->language->get('error_unknown');
             $this->load->library('json');
@@ -116,55 +174,54 @@ class ControllerResponsesExtensionDefaultStripe extends AController
             return;
         }
 
-        $this->loadLanguage('default_stripe/default_stripe');
-
-        //validate input
-        $post = $this->request->post;
-
-        //check if saved cc mode is used
-        if (!$post['use_saved_cc']) {
-            if (empty($post['cc_token'])) {
-                $json['error'] = $this->language->get('error_incorrect_number');
-            }
-
-            if (empty($post['cc_owner'])) {
-                $json['error'] = $this->language->get('error_incorrect_name');
-            }
-
-        }
-
-        if (isset($json['error'])) {
-            if ($json['error']) {
-                $csrftoken = $this->registry->get('csrftoken');
-                $json['csrfinstance'] = $csrftoken->setInstance();
-                $json['csrftoken'] = $csrftoken->setToken();
-            }
-            $this->load->library('json');
-            $this->response->setOutput(AJson::encode($json));
-            return null;
-        }
-
         $this->loadModel('checkout/order');
         $this->loadModel('extension/default_stripe');
         $this->loadLanguage('default_stripe/default_stripe');
+
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+
+        //validate input
         $order_id = $this->session->data['order_id'];
 
-        // currency code
-        $currency = $this->currency->getCode();
-        // order amount without decimal delimiter
-        $amount = round($this->currency->convert($this->cart->getFinalTotal(), $this->config->get('config_currency'), $currency), 2) * 100;
+        $p_result = array();
+        try {
+            $pi_id = $this->session->data['stripe']['pi_id'];
+            if ( ($intent = $this->model_extension_default_stripe->getPaymentIntent($pi_id)) ) {
+                $p_result['paid'] = true;
+                $this->load->model('checkout/order');
+                if ($this->config->get('default_stripe_settlement') == 'automatic') {
+                    $intent->capture();
+                    $order_status_id = $this->config->get('default_stripe_status_success_settled');
+                    //auto complete the order in settled mode
+                    $this->model_checkout_order->confirm(
+                        $order_id,
+                        $order_status_id
+                    );
+                } else {
+                    //complete the order in unsettled mode
+                    $order_status_id = $this->config->get('default_stripe_status_success_unsettled');
+                    $this->model_checkout_order->confirm(
+                        $order_id,
+                        $order_status_id
+                    );
+                }
+                $this->model_checkout_order->updatePaymentMethodData(
+                    $order_id,
+                    array('id' => $pi_id)
+                );
 
-        ADebug::checkpoint('Stripe Payment: Start processing order ID '.$order_id);
-
-        $pd = array(
-            'order_id' => $order_id,
-            'amount'   => $amount,
-            'currency' => $currency,
-            'cc_token' => $post['cc_token'],
-        );
-
-        $p_result = $this->model_extension_default_stripe->processPayment($pd);
-
+            } else {
+                // Some other error, assume payment declined
+                $this->model_checkout_order->addHistory(
+                    $order_id,
+                    $this->config->get('default_stripe_status_decline'),
+                    'Unsuccessful payment Intent. ID '.$pi_id.'.'
+                );
+            }
+        } catch (\Exception $e) {
+            $p_result['error'] = $e->getMessage();
+        }
         ADebug::variable('Processing payment result: ', $p_result);
         if ($p_result['error']) {
             // transaction failed
@@ -181,9 +238,6 @@ class ControllerResponsesExtensionDefaultStripe extends AController
             }
         }
 
-        //init controller data
-        $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
         if (isset($json['error'])) {
             if ($json['error']) {
                 $csrftoken = $this->registry->get('csrftoken');
@@ -191,6 +245,10 @@ class ControllerResponsesExtensionDefaultStripe extends AController
                 $json['csrftoken'] = $csrftoken->setToken();
             }
         }
+
+        //init controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+
         $this->load->library('json');
         $this->response->setOutput(AJson::encode($json));
     }

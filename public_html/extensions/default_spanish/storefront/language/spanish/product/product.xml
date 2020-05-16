@@ -188,4 +188,12 @@
 		<key>text_out_of_stock</key>
 		<value><![CDATA[Agotado]]></value>
 	</definition>
+	<definition>
+		<key>tab_review_empty</key>
+		<value><![CDATA[Comentarios]]></value>
+	</definition>
+	<definition>
+		<key>text_verified_review</key>
+		<value><![CDATA[Compra verificada]]></value>
+	</definition>
 </definitions>

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -57,6 +57,15 @@ final class AResponse
         $header_name = explode(":", $header);
         $header_name = strtolower(trim($header_name[0]));
         $this->headers[$header_name] = $header;
+    }
+    /**
+     * @param string $header
+     */
+    public function removeHeader($header)
+    {
+        $header_name = explode(":", $header);
+        $header_name = strtolower(trim($header_name[0]));
+        unset($this->headers[$header_name]);
     }
 
     public function addJSONHeader()

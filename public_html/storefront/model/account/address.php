@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -207,7 +207,7 @@ class ModelAccountAddress extends Model
             $this->error['zone'] = $this->language->get('error_zone');
         }
 
-        if (!$this->error) {
+        if (!$this->error && (int)$data['zone_id'] !== 0) {
             $sql = "SELECT * FROM ".$this->db->table("zones")."
 					WHERE country_id = '".(int)$data['country_id']."'
 						AND zone_id = '".(int)$data['zone_id']."';";

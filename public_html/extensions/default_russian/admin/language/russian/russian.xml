@@ -756,4 +756,8 @@
 		<key>text_all_stores</key>
 		<value><![CDATA[Все магазины]]></value>
 	</definition>
+	<definition>
+		<key>text_subtract_order</key>
+		<value><![CDATA[Вычесть заказ]]></value>
+	</definition>
 </definitions>

@@ -584,4 +584,24 @@
 		<key>text_success_relation_set</key>
 		<value><![CDATA[Relazioni di prodotti selezionati è stato inviato con successo!]]></value>
 	</definition>
+	<definition>
+		<key>text_success_copy_layout</key>
+		<value><![CDATA[Nota: anche il layout del prodotto personalizzato è stato clonato.]]></value>
+	</definition>
+	<definition>
+		<key>entry_stock_checkout</key>
+		<value><![CDATA[Stock Checkout: <br/><span class="help">Consenti ai clienti di effettuare il checkout anche se i prodotti sono esauriti.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_stock_locations</key>
+		<value><![CDATA[Posizioni di magazzino:]]></value>
+	</definition>
+	<definition>
+		<key>entry_locations</key>
+		<value><![CDATA[sedi:]]></value>
+	</definition>
+	<definition>
+		<key>text_create_collection</key>
+		<value><![CDATA[Crea raccolta]]></value>
+	</definition>
 </definitions>

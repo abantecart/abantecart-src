@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -154,6 +154,7 @@ class ModelCatalogCategory extends Model
 
         $this->cache->remove('category');
         $this->cache->remove('product');
+        $this->cache->remove('collection');
 
     }
 
@@ -193,6 +194,7 @@ class ModelCatalogCategory extends Model
 
         $this->cache->remove('category');
         $this->cache->remove('product');
+        $this->cache->remove('collection');
     }
 
     /**
@@ -214,27 +216,43 @@ class ModelCatalogCategory extends Model
 
     /**
      * @param int $parent_id
-     * @param int $store_id
+     * @param int|array $store_id
      *
      * @return array
      */
     public function getCategories($parent_id = null, $store_id = null)
     {
+        $store_id = is_array($store_id) ? array_map('intval',$store_id) : $store_id;
         $language_id = $this->language->getContentLanguageID();
         $cache_key = 'category.'.$parent_id.'.store_'.$store_id.'_lang_'.$language_id;
         $category_data = $this->cache->pull($cache_key);
 
         if ($category_data === false) {
             $category_data = array();
-            $sql = "SELECT *
-					FROM ".$this->db->table("categories")." c
-					LEFT JOIN ".$this->db->table("category_descriptions")." cd
-					ON (c.category_id = cd.category_id) ";
-            if (!is_null($store_id)) {
-                $sql .= "RIGHT JOIN ".$this->db->table("categories_to_stores")." cs ON (c.category_id = cs.category_id AND cs.store_id = '".(int)$store_id."')";
+            if($store_id === null) {
+                $sql = "SELECT * ";
+            }else {
+                $sql = "SELECT c.*, cs.*, s.name as store_name";
             }
 
-            $sql .= "WHERE c.parent_id = '".(int)$parent_id."'
+			$sql .= " FROM ".$this->db->table("categories")." c
+					LEFT JOIN ".$this->db->table("category_descriptions")." cd
+					ON (c.category_id = cd.category_id) ";
+            if ($store_id !== null) {
+                $sql .= " RIGHT JOIN ".$this->db->table("categories_to_stores")." cs 
+                            ON (c.category_id = cs.category_id AND ";
+                    if( is_array($store_id) && !empty($store_id) ){
+                        $sql .= "store_id IN (".implode(', ',$store_id).")";
+                    }else{
+                        $sql .= "store_id = ".(int)$store_id;
+                    }
+                $sql .= ")";
+                $sql .= " LEFT JOIN ".$this->db->table('stores')." s 
+                            ON s.store_id = cs.store_id";
+            }
+
+
+            $sql .= " WHERE c.parent_id = '".(int)$parent_id."'
 						AND cd.language_id = '".(int)$language_id."'
 					ORDER BY c.sort_order, cd.name ASC";
             $query = $this->db->query($sql);
@@ -246,6 +264,7 @@ class ModelCatalogCategory extends Model
                     'name'        => $this->getPath($result['category_id'], $language_id),
                     'status'      => $result['status'],
                     'sort_order'  => $result['sort_order'],
+                    'store_name' => $result['store_name']
                 );
 
                 $category_data = array_merge($category_data, $this->getCategories($result['category_id'], $store_id));

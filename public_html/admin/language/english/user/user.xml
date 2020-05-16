@@ -90,7 +90,7 @@
 	</definition>
 	<definition>
 		<key>error_username</key>
-		<value><![CDATA[Username must be between 2 and 20 characters!]]></value>
+		<value><![CDATA[Username must be between 2 and 20 characters and must be unique!]]></value>
 	</definition>
 	<definition>
 		<key>error_password</key>

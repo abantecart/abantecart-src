@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -137,7 +137,7 @@ class ControllerApiProductProduct extends AControllerAPI
         $product_info['options'] = $this->model_catalog_product->getProductOptions($product_id);
 
         $this->loadModel('catalog/review');
-        if ($this->config->get('enable_reviews')) {
+        if ($this->isReviewAllowed($product_id)) {
             $average = $this->model_catalog_review->getAverageRating($product_id);
             $product_info['text_stars'] = sprintf($this->language->get('text_stars'), $average);
             $product_info['stars'] = sprintf($this->language->get('text_stars'), $average);

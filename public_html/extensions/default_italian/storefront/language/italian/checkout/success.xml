@@ -44,4 +44,16 @@
 			<p>Si prega di indirizzare eventuali domande al <a href="%s">padrone del negozio</a>.</p>
 			<p>Grazie per la compera con noi in linea!</p>]]></value>
 	</definition>
+	<definition>
+		<key>text_message_failed_order</key>
+		<value><![CDATA[Oops! Si è verificato un problema con la tua transazione. Il tuo ordine verrà verificato manualmente dall&#39;amministratore.]]></value>
+	</definition>
+	<definition>
+		<key>text_title_failed_order_to_admin</key>
+		<value><![CDATA[Ordine non riuscito # %s]]></value>
+	</definition>
+	<definition>
+		<key>text_message_failed_order_to_admin</key>
+		<value><![CDATA[Risposta mancata o mancante dalla verifica del pagamento. È richiesta la verifica manuale!]]></value>
+	</definition>
 </definitions>

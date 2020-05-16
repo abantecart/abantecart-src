@@ -5,10 +5,10 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
-  Lincence details is bundled with this package in the file LICENSE.txt.
+  Licence details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -47,37 +47,29 @@ class ControllerResponsesExtensionDefaultLiqPay extends AController
             false
         );
 
-        $language = $this->language->getCurrentLanguage();
-        $language_code = $language['code'] == 'ru' ? 'ru' : 'en';
 
         $fields = array();
-        $fields['version'] = 3;
-        $fields['public_key'] = $public_key;
+        $fields['action'] = 'pay';
+        $fields['version'] = '3';
         $fields['amount'] = $amount;
         $fields['currency'] = $currency;
         $fields['description'] = $description;
-        $fields['order_id'] = $order_id;
-        $fields['result_url'] = $return_url;
-        $fields['server_url'] = $callback_url;
-        $fields['type'] = 'buy';
-        $fields['pay_way'] = 'card,liqpay';
-        $fields['language'] = $language_code;
+        $fields['order_id'] = 'order_id_'.$order_id;
         $fields['sandbox'] = (int)$this->config->get('default_liqpay_test_mode');
 
-        //data - result of base64_encode( $json_string )
-        //signature - result of base64_encode( sha1( $private_key . $data . $private_key ) )
-        $params = array();
-        $params['data'] = base64_encode(json_encode($fields));
-        $params['signature'] = base64_encode(sha1($private_key.$params['data'].$private_key, 1));
+        $liqpay = new LiqPay($public_key, $private_key);
+        $params = $liqpay->cnb_form_raw($fields);
 
         $form = new AForm();
         $form->setForm(array('form_name' => 'checkout'));
         $data['form']['form_open'] = $form->getFieldHtml(
             array(
-                'type'   => 'form',
-                'name'   => 'checkout',
-                'action' => 'https://www.liqpay.com/api/checkout',
+                'type'    => 'form',
+                'name'    => 'checkout',
+                'action'  => $params['url'],
+                'enctype' => 'application/x-www-form-urlencoded'
             ));
+        unset($params['url']);
 
         foreach ($params as $k => $val) {
             $data['form']['fields'][$k] = $form->getFieldHtml(
@@ -87,6 +79,7 @@ class ControllerResponsesExtensionDefaultLiqPay extends AController
                     'value' => $val,
                 ));
         }
+
 
         if ($this->request->get['rt'] == 'checkout/guest_step_3') {
             $back_url = $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit', true);

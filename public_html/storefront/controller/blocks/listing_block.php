@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -62,6 +62,7 @@ class ControllerBlocksListingBlock extends AController
                 //Only products have special listing data preparation
                 if (in_array($this->data['listing_datasource'],
                     array(
+                        'collection',
                         'custom_products',
                         'catalog_product_getPopularProducts',
                         'catalog_product_getSpecialProducts',
@@ -161,19 +162,23 @@ class ControllerBlocksListingBlock extends AController
                 'href'         => $this->html->getSEOURL('product/product', '&product_id='.$result['product_id'], '&encode'),
                 'add'          => $add_to_cart,
                 'item_name'    => 'product',
-                'track_stock'    => $track_stock,
+                'track_stock'  => $track_stock,
+                'blurb'        => $result['blurb'],
                 'in_stock'       => $in_stock,
                 'no_stock_text'  => $no_stock_text,
                 'total_quantity' => $total_quantity,
                 'tax_class_id' => $result['tax_class_id'],
             );
         }
-        $data_source = array(
-            'rl_object_name' => 'products',
-            'data_type'      => 'product_id',
-        );
-        //add thumbnails to list of products. 1 thumbnail per product
-        $products = $this->_prepareCustomItems($data_source, $products);
+
+        if(!current($products)['thumb']) {
+            $data_source = array(
+                        'rl_object_name' => 'products',
+                        'data_type'      => 'product_id',
+                    );
+            //add thumbnails to list of products. 1 thumbnail per product
+            $products = $this->_prepareCustomItems($data_source, $products);
+        }
         //need to override reference (see params)
         $data = $products;
 
@@ -186,7 +191,7 @@ class ControllerBlocksListingBlock extends AController
             $display_price = false;
         }
         $this->view->assign('display_price', $display_price);
-        $this->view->assign('review_status', $this->config->get('enable_reviews'));
+        $this->view->assign('review_status', $this->config->get('display_reviews'));
 
         $this->view->assign('products', $products);
         $vertical_tpl = array(
@@ -278,6 +283,7 @@ class ControllerBlocksListingBlock extends AController
             return false;
         }
 
+        $result = [];
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $listing = new AListing($this->data['custom_block_id']);
@@ -296,6 +302,7 @@ class ControllerBlocksListingBlock extends AController
         if (strpos($content['listing_datasource'], 'custom_') === false) {
             $route = $content['listing_datasource'];
             $limit = $content['limit'];
+
 
             // for resource library
             if ($route == 'media') {
@@ -394,6 +401,13 @@ class ControllerBlocksListingBlock extends AController
             } else {
                 // otherwise -  select list from method
                 if ($route) {
+
+                    $args = array('limit' => $limit);
+
+                    if ($route == 'collection' && $content['collection_id']) {
+                        $args['collection_id'] = $content['collection_id'];
+                    }
+
                     $this->loadModel($data_source['storefront_model']);
                     $result = call_user_func_array(array(
                         $this->{'model_'.str_replace('/', '_', $data_source['storefront_model'])},
@@ -401,7 +415,7 @@ class ControllerBlocksListingBlock extends AController
                     ),
                         $listing->getlistingArguments($data_source['storefront_model'],
                             $data_source['storefront_method'],
-                            array('limit' => $limit)));
+                            $args));
                     if ($result) {
                         $desc = $listing->getListingDataSources();
                         foreach ($desc as $d) {
@@ -410,12 +424,8 @@ class ControllerBlocksListingBlock extends AController
                                 break;
                             }
                         }
-                        //add thumbnails to custom list of items. 1 thumbnail per item
-                        $result = $this->_prepareCustomItems($data_source, $result);
                     }
-
                 }
-
             }
         } else { // for custom listings
 
@@ -436,9 +446,10 @@ class ControllerBlocksListingBlock extends AController
 
             // Skip if data source is vanished but still set in the listing.
             $result = array_filter($result);
-        }
 
-        if ($result) {
+
+        }
+        if ($result && !current($result)['thumb']) {
             //add thumbnails to custom list of items. 1 thumbnail per item
             $result = $this->_prepareCustomItems($data_source, $result);
         }
@@ -452,6 +463,7 @@ class ControllerBlocksListingBlock extends AController
      * @param array $result
      *
      * @return array
+     * @throws AException
      */
     private function _prepareCustomItems($data_source, $result)
     {

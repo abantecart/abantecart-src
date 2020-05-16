@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>fast_checkout_name</key>
+		<value><![CDATA[Fast Checkout]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_fast_checkout_title</key>
+		<value><![CDATA[Fast Checkout]]></value>
+	</definition>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Fast Checkout]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_buy_now</key>
+		<value><![CDATA[Buy Now]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_incorrect_request</key>
+		<value><![CDATA[Oops! Incorrect request.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_handler</key>
+		<value><![CDATA[Unable to locate payment handler! Please check files %s or %s]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_no_handler</key>
+		<value><![CDATA[No payment processor available.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_unknown_payment</key>
+		<value><![CDATA[Unknown payment!]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_unexpected</key>
+		<value><![CDATA[Unexpected error has occurred! Please try again.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_unexpected_log</key>
+		<value><![CDATA[Unexpected error has occurred. Unable to build order data based on array: %s]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_handler_object</key>
+		<value><![CDATA[Unable to confirm order. Payment handler is not object.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_system_issue</key>
+		<value><![CDATA[Oops! System issue. Contact site administrator.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_no_payment</key>
+		<value><![CDATA[No payments are available.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_product_option</key>
+		<value><![CDATA[Product option error. %s]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_no_address</key>
+		<value><![CDATA[No addresses found in your account! Please add an address in your account.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_low_balance</key>
+		<value><![CDATA[You do not have sufficient account balance for this order!]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_balance_pay</key>
+		<value><![CDATA[There is a issue processing account credit payment! Please try again.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_payment_address</key>
+		<value><![CDATA[Payment address is missing or not selected.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_payment_unavailable</key>
+		<value><![CDATA[Payment is not available in your location.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_shipping_address</key>
+		<value><![CDATA[Delivery address is missing or not selected.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_shipping_method</key>
+		<value><![CDATA[Delivery method was not selected.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_phone</key>
+		<value><![CDATA[Your contact phone number is not provided.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_owner</key>
+		<value><![CDATA[Your name is not provided.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_email</key>
+		<value><![CDATA[Your email is not provided or invalid.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_card_number</key>
+		<value><![CDATA[Credit card number is not provided.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_cvv</key>
+		<value><![CDATA[CVV number is not provided.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_expire</key>
+		<value><![CDATA[Credit cart expiration date is not provided or invalid.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_balance_apply</key>
+		<value><![CDATA[Credit cart expiration date is not provided or invalid.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_account_created</key>
+		<value><![CDATA[Account has been created and login instruction sent to your email.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_mail_login_password</key>
+		<value><![CDATA[Your Login Name: %s <br>Your Password: %s]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_order_success_message</key>
+		<value><![CDATA[Success! Your order has been successfully created!]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_order_processing_message</key>
+		<value><![CDATA[Success! Order now processing!]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_payment_address</key>
+		<value><![CDATA[Payment Address]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_shipping_address</key>
+		<value><![CDATA[Delivery Address]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_select_shipping_method</key>
+		<value><![CDATA[Choose a delivery method]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_pay_with</key>
+		<value><![CDATA[Pay With:]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_credit_card</key>
+		<value><![CDATA[Credit Card]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_account_credit</key>
+		<value><![CDATA[Account Credit (%s)]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_pay</key>
+		<value><![CDATA[Pay]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_enter_cc_details</key>
+		<value><![CDATA[Enter Credit Card details below]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_your_balance</key>
+		<value><![CDATA[Your account credit balance is]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_pay_from_balance</key>
+		<value><![CDATA[Pay %s with credit]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_telephone_placeholder</key>
+		<value><![CDATA[Contact telephone Number Ex. +1.212.555.5555]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_same_as_shipping_address</key>
+		<value><![CDATA[Same as delivery]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_enter_address</key>
+		<value><![CDATA[Enter Address]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_card_number</key>
+		<value><![CDATA[Card number]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_bill_me_monthly</key>
+		<value><![CDATA[Bill me monthly]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_create_account</key>
+		<value><![CDATA[Create account]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_please_login</key>
+		<value><![CDATA[Please Login with details below]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_button_login</key>
+		<value><![CDATA[LOGIN]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_button_reset_login</key>
+		<value><![CDATA[Register / Reset login]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_login</key>
+		<value><![CDATA[Login]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_logout</key>
+		<value><![CDATA[Logout]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_address</key>
+		<value><![CDATA[Address]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_new_customer</key>
+		<value><![CDATA[I am new customer]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_loading</key>
+		<value><![CDATA[Loading...]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_order_is_completed</key>
+		<value><![CDATA[Order is completed!]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_thank_you</key>
+		<value><![CDATA[Thank you for your order!]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_button_start_download</key>
+		<value><![CDATA[Start Download]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_order_downloads</key>
+		<value><![CDATA[Order Downloads]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_button_order_details</key>
+		<value><![CDATA[Order Details]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_select_delivery</key>
+		<value><![CDATA[Please select the delivery options]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_select_payment</key>
+		<value><![CDATA[Please select the payment option]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_order_download_pending</key>
+		<value><![CDATA[Product download in your order is not yet available. Please wait for order verification!]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_info_duplicate_order</key>
+		<value><![CDATA[It looks like you just placed a different order. <a href="%s">See order details</a>]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_email_start_download</key>
+		<value><![CDATA[You can access your download(s) with the link below.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_email_order_downloads</key>
+		<value><![CDATA[You can access order downloads with the link below.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_download_subject</key>
+		<value><![CDATA[Your order download.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_apply</key>
+		<value><![CDATA[Apply]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_remove</key>
+		<value><![CDATA[Remove]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_coupon_code</key>
+		<value><![CDATA[Enter coupon code]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_order_comment</key>
+		<value><![CDATA[Add the order comment]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_error_coupon</key>
+		<value><![CDATA[Coupon is invalid or expired!]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_back_to_cart</key>
+		<value><![CDATA[Back to Cart]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_order_summary</key>
+		<value><![CDATA[Order Summary]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_no_shipments_available</key>
+		<value><![CDATA[No shipments are available.]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_telephone_placeholder</key>
+		<value><![CDATA[Your phone number]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_email_placeholder</key>
+		<value><![CDATA[Your email]]></value>
+	</definition>
+	<definition>
+		<key>button_history</key>
+		<value><![CDATA[History]]></value>
+	</definition>
+	<definition>
+		<key>error_postcode</key>
+		<value><![CDATA[Postcode incorrect]]></value>
+	</definition>
+	<definition>
+		<key>text_basket</key>
+		<value><![CDATA[Cart]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_text_comment_placeholder</key>
+		<value><![CDATA[Add an order comment]]></value>
+	</definition>
+	<definition>
+		<key>order_confirm</key>
+		<value><![CDATA[Order Confirm]]></value>
+	</definition>
+</definitions>

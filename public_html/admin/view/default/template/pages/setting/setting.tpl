@@ -49,7 +49,40 @@
 	<div class="panel-body panel-body-nopadding tab-content col-xs-12 <?php echo $status_off; ?>">
 
 		<label class="h4 heading"><?php echo $form_title; ?></label>
-			<?php foreach ($form['fields'] as $name => $field) { ?>
+			<?php
+            //rebuild opening hours time set
+            $opening = false;
+            $opening_hours = '';
+            foreach ($form['fields'] as $name=> $field) {
+                if (!is_int(strpos($name, 'opening_'))) { continue; }
+                    if (!$opening) {
+                        $days = daysOfWeekList();
+                        foreach ($days as $day) {
+                            $opening_hours .= '<div class="col-xs-9 row">
+                                                <div class="row col-xs-3 text-right padding5 mr5">'
+                                                    .strftime('%A', strtotime($day))
+                                                    .':</div>';
+                            $tt = array();
+                            foreach (array('opens', 'closes') as $state) {
+                                $f = $form['fields']['opening_'.$day.'_'.$state];
+                                $tt[] = '<div class="row col-xs-3" >'.$f.'</div>';
+                                unset($form['fields']['opening_'.$day.'_'.$state]);
+                            }
+                            $opening_hours .= implode('', $tt).'</div>';
+                        }
+                        $opening = true;
+                    }
+                    continue;
+            }
+            //push switch after featured field
+            if($opening_hours) {
+                $form['fields'] = array_slice($form['fields'], 0, 17, true) +
+                    array(
+                        'opening_hours' => $opening_hours,
+                    ) +
+                    array_slice($form['fields'], 17, count($form['fields']) - 1, true);
+            }
+            foreach ($form['fields'] as $name => $field) { ?>
 			<?php
 				//Logic to calculate fields width
 				$widthcasses = "col-sm-7";

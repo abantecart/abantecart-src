@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>default_local_delivery_name</key>
+    <value><![CDATA[Local Delivery]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Delivery]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Success: You have modified local delivery!]]></value>
+  </definition>
+  <definition>
+    <key>default_local_delivery_total</key>
+    <value><![CDATA[Min order amount:<br /><span class="help">Minimum sub-total amount to be met for delivery option to be available.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_local_delivery_cost</key>
+    <value><![CDATA[Delivery Fee:]]></value>
+  </definition>
+  <definition>
+    <key>default_local_delivery_postal_codes</key>
+    <value><![CDATA[Postal Codes:<br /><span class="help"> Comma separated postal codes list</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Warning: You do not have permission to modify local delivery!]]></value>
+  </definition>
+</definitions>

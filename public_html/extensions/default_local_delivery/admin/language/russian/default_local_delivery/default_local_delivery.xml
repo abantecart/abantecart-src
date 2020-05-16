@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>default_local_delivery_name</key>
+    <value><![CDATA[Местная доставка]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Доставка]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Успешно: Вы изменили местную доставку!]]></value>
+  </definition>
+  <definition>
+    <key>default_local_delivery_total</key>
+    <value><![CDATA[Всего:<br /><span class="help">'Итого' сумма, после достижения которой модуль доставки становится доступным.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_local_delivery_postal_codes</key>
+    <value><![CDATA[Список почтовых индексов: <br /><span class="help">Список индексов через запятую</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_local_delivery_cost</key>
+    <value><![CDATA[Стоимость доставки:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Предупреждение: Вы не имеете прав на изменение местной доставки!]]></value>
+  </definition>
+</definitions>

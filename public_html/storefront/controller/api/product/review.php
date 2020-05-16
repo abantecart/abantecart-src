@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -36,7 +36,7 @@ class ControllerApiProductReview extends AControllerAPI
             return null;
         }
 
-        if (!$this->config->get('enable_reviews')) {
+        if (!$this->isReviewAllowed($product_id)) {
             $this->rest->setResponseData(array('Error' => 'Reviews for products are disabled'));
             $this->rest->sendResponse(200);
             return null;
@@ -90,7 +90,7 @@ class ControllerApiProductReview extends AControllerAPI
 
     public function put()
     {
-        //Allow to review only for logged in customers. 
+        //Allow to review only for logged in customers.
         if (!$this->customer->isLoggedWithToken($this->request->get['token'])) {
             $this->rest->setResponseData(array('error' => 'Login attempt failed!'));
             $this->rest->sendResponse(401);

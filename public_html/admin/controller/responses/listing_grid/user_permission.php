@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -36,7 +36,6 @@ class ControllerResponsesListingGridUserPermission extends AController
 
         $page = $this->request->post['page']; // get the requested page
         $limit = $this->request->post['rows']; // get how many rows we want to have into the grid
-        $sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
         $sord = $this->request->post['sord']; // get the direction
 
         // process jGrid search parameter
@@ -190,7 +189,11 @@ class ControllerResponsesListingGridUserPermission extends AController
         foreach ($controllers as $key => $controller) {
             if ($search_str) {
                 if (!is_int(strpos($controller, $search_str))) {
-                    unset($controllers[$key]);
+                    unset(
+                        $controllers[$key],
+                        $access[$key],
+                        $modify[$key]
+                    );
                 }
             }
         }
@@ -226,6 +229,7 @@ class ControllerResponsesListingGridUserPermission extends AController
         $response->page = $page;
         $response->total = $total_pages;
         $response->records = $total;
+        $response->userdata = new stdClass();
 
         $i = 0;
         $controllers = array_slice($controllers, $data['start'], $data['limit']);

@@ -5,10 +5,10 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
-  Lincence details is bundled with this package in the file LICENSE.txt.
+  Licence details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -20,6 +20,8 @@
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
+
+require_once (DIR_EXT.'default_liqpay/vendor/LiqPay.php');
 
 $controllers = array(
     'storefront' => array('responses/extension/default_liqpay'),

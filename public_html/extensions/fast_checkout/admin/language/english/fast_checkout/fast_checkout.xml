@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>fast_checkout_name</key>
+		<value><![CDATA[Fast Checkout]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_note</key>
+		<value><![CDATA[]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_allow_coupon</key>
+		<value><![CDATA[Allow coupon entry <br /><span class="help">Enable coupon entry by customers and guests</span>]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_require_payment_address</key>
+		<value><![CDATA[Require Payment Address <br /><span class="help">Require payment address selection by customers and guests</span>]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_require_phone_number</key>
+		<value><![CDATA[Require Phone Number <br /><span class="help">Require phone number entry by customer or guest specific to the order</span>]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_create_account</key>
+		<value>
+			<![CDATA[Guest Checkout Create Account <br /><span class="help">Offer the guest to create an account at the end of the checkout. This is transparent to guests and email will be sent with the login details.</span>]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_languages</key>
+		<value><![CDATA[Language Definitions]]></value>
+	</definition>
+	<definition>
+		<key>fast_checkout_show_order_comment_field</key>
+		<value><![CDATA[Show order comment field<br/><span class="help">Comment textarea will be shown during fast checkout process</span>]]></value>
+	</definition>
+</definitions>

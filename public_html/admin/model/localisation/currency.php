@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -219,7 +219,7 @@ class ModelLocalisationCurrency extends Model
         $query = $this->db->query("SELECT *
                                     FROM ".$this->db->table("currencies")." 
                                     WHERE code != '".$this->db->escape($base_currency_code)."'
-                                        AND date_modified > '".date(strtotime('-1 day'))."'");
+                                        AND date_modified > '".date("Y-m-d H:i:s", strtotime('-1 day'))."'");
 
         foreach ($query->rows as $result) {
             $url = 'https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency='.$base_currency_code.'&to_currency='.$result['code'].'&apikey='.$api_key;

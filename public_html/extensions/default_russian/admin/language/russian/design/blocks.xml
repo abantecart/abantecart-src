@@ -62,8 +62,7 @@
 	</definition>
 	<definition>
 		<key>entry_block_status_note</key>
-		<value>
-			<![CDATA[Примечание: Вы должны добавить этот блок в <a style="text-decoration: underline; font-weight: bold;" href="#admin#rt=design/layout">МАКЕТ</a> на нужную страницу, чтобы увидеть блок]]></value>
+		<value><![CDATA[Примечание: Вы должны добавить этот блок в <a style="text-decoration: underline; font-weight: bold;" href="#admin#rt=design/layout">МАКЕТ</a> на нужную страницу, чтобы увидеть блок]]></value>
 	</definition>
 	<definition>
 		<key>entry_block_type</key>
@@ -87,8 +86,7 @@
 	</definition>
 	<definition>
 		<key>entry_block_description</key>
-		<value>
-			<![CDATA[Описание пользовательского блока <p> Примечание: Только для внутреннего использования </p>]]></value>
+		<value><![CDATA[Описание пользовательского блока <p> Примечание: Только для внутреннего использования </p>]]></value>
 	</definition>
 	<definition>
 		<key>entry_block_content</key>
@@ -108,13 +106,11 @@
 	</definition>
 	<definition>
 		<key>error_delete</key>
-		<value>
-			<![CDATA[Не удается удалить, потому что этот блок в использовании. Пожалуйста, посетите раздел Макет.]]></value>
+		<value><![CDATA[Не удается удалить, потому что этот блок в использовании. Пожалуйста, посетите раздел Макет.]]></value>
 	</definition>
 	<definition>
 		<key>error_text_status</key>
-		<value>
-			<![CDATA[Невозможно изменить статус, потому что этот блок не используется. Пожалуйста, посетите раздел Макет.]]></value>
+		<value><![CDATA[Невозможно изменить статус, потому что этот блок не используется. Пожалуйста, посетите раздел Макет.]]></value>
 	</definition>
 	<definition>
 		<key>text_success_deleted</key>
@@ -255,5 +251,13 @@
 	<definition>
 		<key>text_enable</key>
 		<value><![CDATA[Вкл/Выкл]]></value>
+	</definition>
+	<definition>
+		<key>text_collection</key>
+		<value><![CDATA[Коллекция]]></value>
+	</definition>
+	<definition>
+		<key>entry_collection_resource_type</key>
+		<value><![CDATA[Выбранная коллекция:]]></value>
 	</definition>
 </definitions>

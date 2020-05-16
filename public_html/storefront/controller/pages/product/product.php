@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -173,10 +173,19 @@ class ControllerPagesProductProduct extends AController
         $this->data['update_view_count_url'] = $this->html->getURL('common/view_count/product', '&product_id='.$product_id);
 
         $this->loadModel('catalog/review');
-        $this->data['tab_review'] = sprintf($this->language->get('tab_review'), $this->model_catalog_review->getTotalReviewsByProductId($product_id));
+        $this->data['display_reviews'] = $this->config->get('display_reviews');
+        if ($this->data['display_reviews']) {
+            $this->data['tab_review'] = sprintf($this->language->get('tab_review'), $this->model_catalog_review->getTotalReviewsByProductId($product_id));
+        } else {
+            $this->data['tab_review'] = $this->language->get('tab_review_empty');
+        }
 
-        if ($this->config->get('enable_reviews')) {
-            $average = $this->model_catalog_review->getAverageRating($product_id);
+        $this->data['review_form_status'] = $this->isReviewAllowed($product_id);
+        $average = $this->data['display_reviews']
+                   ? $this->model_catalog_review->getAverageRating($product_id)
+                   : false;
+
+        if ($this->data['review_form_status']) {
             $this->data['rating_element'] = HtmlElementFactory::create(
                 array(
                     'type'    => 'rating',
@@ -185,11 +194,8 @@ class ControllerPagesProductProduct extends AController
                     'options' => array(1 => 1, 2, 3, 4, 5),
                     'pack'    => true,
                 ));
-        } else {
-            $average = false;
         }
 
-        $this->data['review_status'] = $this->config->get('enable_reviews');
         $this->data['text_stars'] = sprintf($this->language->get('text_stars'), $average);
         $this->data['review_name'] = HtmlElementFactory::create(
             array(
@@ -690,7 +696,7 @@ class ControllerPagesProductProduct extends AController
             );
             $image = $resource->getResourceAllObjects('products', $result['product_id'], $sizes, 1);
 
-            if ($this->config->get('enable_reviews')) {
+            if ($this->config->get('display_reviews')) {
                 $rating = $this->model_catalog_review->getAverageRating($result['product_id']);
             } else {
                 $rating = false;
@@ -784,7 +790,7 @@ class ControllerPagesProductProduct extends AController
             }
         }
 
-        #check if product is in a wishlist 
+        #check if product is in a wishlist
         $this->data['is_customer'] = false;
         if ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) {
             $this->data['is_customer'] = true;

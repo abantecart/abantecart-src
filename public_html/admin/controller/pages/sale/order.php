@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -81,13 +81,26 @@ class ControllerPagesSaleOrder extends AController
             'multiselect'  => 'true',
             // actions
             'actions'      => array(
-                'print'  => array(
+                'edit'     => array(
+                    'text' => $this->language->get('tab_order_details'),
+                    'href' => $this->html->getSecureURL(
+                        'sale/order/details',
+                        '&order_id=%ID%'
+                    ),
+                ),
+                'save'     => array(
+                    'text' => $this->language->get('button_save'),
+                ),
+                'delete'   => array(
+                    'text' => $this->language->get('button_delete'),
+                ),
+                'print'    => array(
                     'text'   => $this->language->get('button_invoice'),
                     'href'   => $this->html->getSecureURL('sale/invoice', '&order_id=%ID%'),
                     'target' => '_invoice',
                 ),
-                'edit'   => array(
-                    'text'     => $this->language->get('text_edit'),
+                'dropdown' => array(
+                    'text'     => $this->language->get('text_choose_action'),
                     'href'     => $this->html->getSecureURL('sale/order/update', '&order_id=%ID%'),
                     'children' => array_merge(array(
                         'quickview' => array(
@@ -125,12 +138,6 @@ class ControllerPagesSaleOrder extends AController
                         ),
 
                     ), (array)$this->data['grid_edit_expand']),
-                ),
-                'save'   => array(
-                    'text' => $this->language->get('button_save'),
-                ),
-                'delete' => array(
-                    'text' => $this->language->get('button_delete'),
                 ),
             ),
         );
@@ -550,17 +557,18 @@ class ControllerPagesSaleOrder extends AController
             }
 
             //append stock locations from order
-            $stock_located = $this->model_catalog_product->getOrderProductStockLocations($order_product['order_product_id']);
+            $stock_located =
+                $this->model_catalog_product->getOrderProductStockLocations($order_product['order_product_id']);
             $stock_quantities = array();
 
-            if($stock_located) {
+            if ($stock_located) {
                 $stock_quantities = array();
                 foreach ($stock_located as $row) {
                     $stock_quantities[] = array(
                         'location_id' => $row['location_id'],
-                        'name' => $row['location_name'],
-                        'quantity' => $row['quantity'],
-                        'available' => $row['available_quantity']
+                        'name'        => $row['location_name'],
+                        'quantity'    => $row['quantity'],
+                        'available'   => $row['available_quantity'],
                     );
                 }
             }
@@ -575,19 +583,19 @@ class ControllerPagesSaleOrder extends AController
                 'quantity'         => $order_product['quantity'],
                 'stock_quantities' => $stock_quantities,
                 'price'            => $this->currency->format(
-                                        $order_product['price'],
-                                        $order_info['currency'],
-                                        $order_info['value']
+                    $order_product['price'],
+                    $order_info['currency'],
+                    $order_info['value']
                 ),
                 'total'            => $this->currency->format_total(
-                                        $order_product['price'],
-                                        $order_product['quantity'],
-                                        $order_info['currency'],
-                                        $order_info['value']
+                    $order_product['price'],
+                    $order_product['quantity'],
+                    $order_info['currency'],
+                    $order_info['value']
                 ),
                 'href'             => $this->html->getSecureURL(
-                                        'catalog/product/update',
-                                        '&product_id='.$order_product['product_id']
+                    'catalog/product/update',
+                    '&product_id='.$order_product['product_id']
                 ),
             );
 
@@ -715,8 +723,8 @@ class ControllerPagesSaleOrder extends AController
             'options'       => array(),
             'style'         => 'aform_noaction chosen',
             'ajax_url'      => $this->html->getSecureURL(
-                                    'r/product/product/products',
-                                    '&currency_code='.$this->data['currency']['code']
+                'r/product/product/products',
+                '&currency_code='.$this->data['currency']['code']
             ),
             'placeholder'   => $this->language->get('text_select_from_lookup'),
             'option_attr'   => array('price'),
@@ -725,13 +733,13 @@ class ControllerPagesSaleOrder extends AController
         ));
 
         $this->data['add_product_url'] = $this->html->getSecureURL(
-                                            'r/product/product/orderProductForm',
-                                            '&order_id='.$order_id
+            'r/product/product/orderProductForm',
+            '&order_id='.$order_id
         );
         $this->data['edit_order_total'] = $this->html->getSecureURL('sale/order/recalc', '&order_id='.$order_id);
         $this->data['delete_order_total'] = $this->html->getSecureURL(
-                                            'sale/order/delete_total',
-                                            '&order_id='.$order_id
+            'sale/order/delete_total',
+            '&order_id='.$order_id
         );
 
         $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
@@ -769,6 +777,7 @@ class ControllerPagesSaleOrder extends AController
             'shipping_city',
             'shipping_postcode',
             'fax',
+            'telephone',
             'shipping_zone',
             'shipping_zone_id',
             'shipping_country',
@@ -900,11 +909,20 @@ class ControllerPagesSaleOrder extends AController
             ));
         }
 
-        $this->data['form']['fields']['fax'] = $form->getFieldHtml(array(
-            'type'  => 'input',
-            'name'  => 'fax',
-            'value' => $this->data['fax'],
-        ));
+        $this->data['form']['fields']['telephone'] = $form->getFieldHtml(
+            array(
+                'type'  => 'input',
+                'name'  => 'telephone',
+                'value' => $this->data['telephone'],
+            )
+        );
+        $this->data['form']['fields']['fax'] = $form->getFieldHtml(
+            array(
+                'type'  => 'input',
+                'name'  => 'fax',
+                'value' => $this->data['fax'],
+            )
+        );
 
         $this->loadModel('localisation/country');
         $this->data['countries'] = $this->model_localisation_country->getCountries();
@@ -1340,7 +1358,7 @@ class ControllerPagesSaleOrder extends AController
 
         //NOTE: This is an empty controller to be hooked from extensions
 
-        if( $this->session->data['error'] ){
+        if ($this->session->data['error']) {
             $this->data['error_warning'] = $this->session->data['error'];
             unset($this->session->data['error']);
         }
@@ -1417,7 +1435,8 @@ class ControllerPagesSaleOrder extends AController
 
                     if ($download_id) {
                         $download_info = $this->download->getDownloadInfo($download_id);
-                        $download_info['attributes_data'] = serialize($this->download->getDownloadAttributesValues($download_id));
+                        $download_info['attributes_data'] =
+                            serialize($this->download->getDownloadAttributesValues($download_id));
                         $this->download->addProductDownloadToOrder($order_product_id, $order_id, $download_info);
                     }
                 }

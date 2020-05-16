@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -155,9 +155,9 @@ class ControllerResponsesListingGridBlocksGrid extends AController
                 foreach ($this->request->post['selected'] as $id) {
                     $listing_manager->saveCustomListItem(
                         array(
-                            'id' => $id,
+                            'id'         => $id,
                             'sort_order' => (int)$k,
-                            'store_id'           => $this->config->get('config_store_id')
+                            'store_id'   => $this->config->get('config_store_id'),
                         )
                     );
                     $k++;
@@ -210,6 +210,8 @@ class ControllerResponsesListingGridBlocksGrid extends AController
             $this->getCustomListingSubForm();
         } elseif ($listing_datasource == 'media') {
             $this->getMediaListingSubForm();
+        } elseif ($listing_datasource == 'collection') {
+            $this->getCollectionListingSubForm();
         } elseif ($listing_datasource == '') {
             return null;
         } else {
@@ -252,6 +254,65 @@ class ControllerResponsesListingGridBlocksGrid extends AController
             )));
 
         $this->data['response'] = $view->fetch('responses/design/block_auto_listing_subform.tpl');
+
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        $this->response->setOutput($this->data['response']);
+    }
+
+    public function getCollectionListingSubForm()
+    {
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+        $this->loadLanguage('design/blocks');
+        $custom_block_id = (int)$this->request->get['custom_block_id'];
+        $content = array();
+
+        $lm = new ALayoutManager();
+        if (!$custom_block_id) {
+            $form = new AForm ('ST');
+        } else {
+            $form = new AForm ('HS');
+            $content = $lm->getBlockDescriptions($custom_block_id);
+            $content = $content[$this->language->getContentLanguageID()]['content'];
+            $content = unserialize($content);
+        }
+        $form->setForm(array('form_name' => 'BlockFrm'));
+
+        $this->loadModel('catalog/collection');
+
+        $collections = $this->model_catalog_collection->getCollections([
+            'store_id' => $this->config->get('store_id'),
+            'status'   => 1,
+        ]);
+
+        $arCollections[''] = $this->language->get('text_select');
+        foreach ($collections['items'] as $item) {
+            $arCollections[$item['id']] = $item['name'];
+        }
+        $view = new AView($this->registry, 0);
+        $view->batchAssign(array(
+            'entry_collection_resource_type'  => $this->language->get('entry_collection_resource_type'),
+            'collection_resource_type'        => $form->getFieldHtml(
+                array(
+                    'type'     => 'selectbox',
+                    'name'     => 'collection_id',
+                    'value'    => $content['collection_id'],
+                    'options'  => $arCollections,
+                    'style'    => 'no-save',
+                )),
+            'entry_collection_resource_limit' => $this->language->get('entry_limit'),
+            'collection_resource_limit'       => $form->getFieldHtml(
+                array(
+                    'type'     => 'input',
+                    'name'     => 'limit',
+                    'value'    => $content['limit'],
+                    'style'    => 'no-save',
+                    'help_url' => $this->gen_help_url('block_limit'),
+                )),
+
+        ));
+        $this->data['response'] = $view->fetch('responses/design/block_collection_listing_subform.tpl');
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);

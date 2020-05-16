@@ -5,17 +5,17 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
-  
- UPGRADE NOTE: 
+
+ UPGRADE NOTE:
    Do not edit or add to this file if you wish to upgrade AbanteCart to newer
    versions in the future. If you wish to customize AbanteCart for your
-   needs please refer to http://www.AbanteCart.com for more information.  
+   needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
@@ -73,7 +73,21 @@ class ControllerPagesCatalogProduct extends AController
             'sortorder'    => 'desc',
             'actions'      => array(
                 'edit'   => array(
-                    'text'     => $this->language->get('text_edit'),
+                        'text' => $this->language->get('text_edit'),
+                        'href' => $this->html->getSecureURL('catalog/product/update', '&product_id=%ID%'),
+                ),
+                'save'   => array(
+                    'text' => $this->language->get('button_save'),
+                ),
+                'delete' => array(
+                    'text' => $this->language->get('button_delete'),
+                ),
+                'clone'  => array(
+                    'text' => $this->language->get('text_clone'),
+                    'href' => $this->html->getSecureURL('catalog/product/copy', '&product_id=%ID%'),
+                ),
+                'dropdown' => array(
+                    'text'     => $this->language->get('text_choose_action'),
                     'href'     => $this->html->getSecureURL('catalog/product/update', '&product_id=%ID%'),
                     'children' => array_merge(array(
                         'quickview'  => array(
@@ -114,16 +128,7 @@ class ControllerPagesCatalogProduct extends AController
 
                     ), (array)$this->data['grid_edit_expand']),
                 ),
-                'save'   => array(
-                    'text' => $this->language->get('button_save'),
-                ),
-                'delete' => array(
-                    'text' => $this->language->get('button_delete'),
-                ),
-                'clone'  => array(
-                    'text' => $this->language->get('text_clone'),
-                    'href' => $this->html->getSecureURL('catalog/product/copy', '&product_id=%ID%'),
-                ),
+
             ),
         );
 
@@ -273,8 +278,10 @@ class ControllerPagesCatalogProduct extends AController
         $grid_settings['multiaction_options']['delete'] = $this->language->get('text_delete_selected');
         $grid_settings['multiaction_options']['save'] = $this->language->get('text_save_selected');
         $grid_settings['multiaction_options']['relate'] = $this->language->get('text_set_related');
+        $grid_settings['multiaction_options']['create_collection'] = $this->language->get('text_create_collection');
 
         $this->view->assign('relate_selected_url', $grid_settings['editurl']);
+        $this->view->assign('create_collection_url', $this->html->getSecureURL('catalog/collections/insert'));
         $this->view->assign('text_success_relation_set', $this->language->get('text_success_relation_set'));
 
         $grid = $this->dispatch('common/listing_grid', array($grid_settings));
@@ -404,20 +411,24 @@ class ControllerPagesCatalogProduct extends AController
         ));
         $this->document->addBreadcrumb(array(
             'href'      => $this->html->getSecureURL('catalog/product'),
-            'text'      =>
-                ($product_id
-                    ? $this->language->get('text_edit').'&nbsp;'.$this->language->get('text_product').' - '
-                    .$this->data['product_description'][$content_language_id]['name']
-                    : $this->language->get('text_insert')),
+            'text'      => ($product_id
+                            ? $this->language->get('text_edit')
+                                .'&nbsp;'
+                                .$this->language->get('text_product')
+                                .' - '
+                                .$this->data['product_description'][$content_language_id]['name']
+                            : $this->language->get('text_insert')),
             'separator' => ' :: ',
             'current'   => true,
         ));
 
         $this->loadModel('catalog/category');
         $this->data['categories'] = array();
-        $results = $this->model_catalog_category->getCategories(0, $this->session->data['current_store_id']);
+        $product_stores = $this->model_catalog_product->getProductStores($product_id);
+        $results = $this->model_catalog_category->getCategories(0, $product_stores);
         foreach ($results as $r) {
-            $this->data['categories'][$r['category_id']] = $r['name'];
+            $name = $r['name'].(count($product_stores)>1 ? ' ('.$r['store_name'].')':'');
+            $this->data['categories'][$r['category_id']] = $name;
         }
 
         $this->loadModel('setting/store');
@@ -761,10 +772,11 @@ class ControllerPagesCatalogProduct extends AController
             'value' => moneyDisplayFormat($this->data['cost']),
             'style' => 'small-field',
         ));
+
         $this->data['form']['fields']['data']['tax_class'] = $form->getFieldHtml(array(
             'type'     => 'selectbox',
             'name'     => 'tax_class_id',
-            'value'    => $this->data['tax_class_id'],
+            'value'    => isset($this->data['tax_class_id']) ? $this->data['tax_class_id'] : $this->config->get('config_tax_class_id'),
             'options'  => $this->data['tax_classes'],
             'help_url' => $this->gen_help_url('tax_class'),
             'style'    => 'medium-field',

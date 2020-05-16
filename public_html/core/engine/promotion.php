@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -269,7 +269,8 @@ class APromotion
      */
     public function getProductSpecials($sort = 'p.sort_order', $order = 'ASC', $start = 0, $limit = 20)
     {
-
+        $start = abs((int)$start);
+        $limit = abs((int)$limit);
         $language_id = (int)$this->config->get('storefront_language_id');
         $store_id = (int)$this->config->get('config_store_id');
         $customer_group_id = (int)$this->customer_group_id;

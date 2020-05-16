@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -158,26 +158,39 @@ class ModelSettingSetting extends Model
     }
 
     /**
-     * @param string   $group
-     * @param array    $data
+     * @param string $group
+     * @param array $data
      * @param int|null $store_id
+     *
+     * @throws AException
      */
     public function editSetting($group, $data, $store_id = null)
     {
         $store_id = is_null($store_id) ? ($this->config->get('config_store_id')) : (int)$store_id;
+        $translate_override_existing = $this->config->get('translate_override_existing');
+        //do not override when content language is not a source!
+        if( $translate_override_existing
+            &&
+            $this->config->get('translate_src_lang_code') != $this->language->getContentLanguageCode()
+        ){
+            $translate_override_existing = false;
+        }
+
         $languages = $this->language->getAvailableLanguages();
         // check what is it - update or insert of setting
 
         $edit_type = 'insert';
         foreach ($languages as $language) {
-            if ($this->config->get('config_description_'.$language['language_id'])) {
+            if (
+                $this->config->get('config_description_'.$language['language_id']) !== null
+            ) {
                 $edit_type = 'update';
                 break;
             }
         }
         $src_lang_id = $this->language->getLanguageIdByCode($this->config->get('translate_src_lang_code'));
         // if override - edit type is insert
-        if ($this->config->get('translate_override_existing')
+        if ($translate_override_existing
             && (isset($data['config_description_'.$src_lang_id])
                 || isset($data['config_title_'.$src_lang_id])
                 || isset($data['config_meta_description_'.$src_lang_id])
@@ -189,11 +202,13 @@ class ModelSettingSetting extends Model
         $locales = array();
         foreach ($languages as $language) {
             // if update and not override - skip
-            if (!$this->config->get('translate_override_existing') && $edit_type == 'update') {
+            if (!$translate_override_existing && $edit_type == 'update') {
                 continue;
             }
             $locale = $this->language->getLanguageCodeByLocale($language['locale']);
-            if ($locale != $this->config->get('translate_src_lang_code') && $edit_type == 'insert') {
+            if( $locale != $this->config->get('translate_src_lang_code')
+                && $edit_type == 'insert'
+            ) {
                 $locales[$language['language_id']] = $locale;
             }
         }
@@ -201,17 +216,25 @@ class ModelSettingSetting extends Model
         // if need translate
         if ($locales) {
             if ($src_lang_id) {
-                foreach (array('config_description', 'config_title', 'config_meta_description', 'config_meta_keywords') as $n) {
+                foreach (
+                    array('config_description', 'config_title', 'config_meta_description', 'config_meta_keywords') as $n) {
                     $key = $n.'_'.$src_lang_id;
                     $src_text = isset($data[$key]) ? $data[$key] : $this->config->get($key);
+                    $src_text = trim($src_text);
                     foreach ($locales as $dst_lang_id => $dst_code) {
-
-                        $data[$n.'_'.$dst_lang_id] = $this->language->translate($this->config->get('translate_src_lang_code'), $src_text, $dst_code);
+                        if($src_text) {
+                            $data[$n.'_'.$dst_lang_id] = $this->language->translate(
+                                $this->config->get('translate_src_lang_code'),
+                                $src_text,
+                                $dst_code
+                            );
+                        }
                     }
                 }
             }
         }
 
+        $url_protocol = $ssl_url_protocol = '';
         if (has_value($data['config_url'])) {
             $url_protocol = preg_match("/^(https):\/\//", $data['config_url']) ? 'https' : 'http';
         }

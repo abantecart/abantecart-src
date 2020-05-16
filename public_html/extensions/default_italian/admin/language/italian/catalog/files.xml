@@ -102,7 +102,7 @@
 	</definition>
 	<definition>
 		<key>entry_activate</key>
-		<value><![CDATA[Activated<span class="help">Download will be activates on the event selected.<br>Example: Immediately. Download is activate  after order is placed, regardless of the order status</span>]]></value>
+		<value><![CDATA[Activated<span class="help">Download will be activates on the event selected.<br>Example: Immediately. Download is activate	after order is placed, regardless of the order status</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_sort_order</key>
@@ -132,7 +132,6 @@
 		<key>text_success_download_save</key>
 		<value><![CDATA[Complimenti: il file è stato modificato! ]]></value>
 	</definition>
-
 	<definition>
 		<key>error_download_exists</key>
 		<value><![CDATA[Error: Cannot to update download because it does not exists in database! ]]></value>
@@ -223,16 +222,16 @@
 	</definition>
 	<definition>
 		<key>success_push_to_orders</key>
-		<value><![CDATA[Success: Download was pushed  to %s order(s) successfully]]></value>
+		<value><![CDATA[Success: Download was pushed	to %s order(s) successfully]]></value>
 	</definition>
-    <definition>
-        <key>text_no_download_attributes_yet</key>
-        <value><![CDATA[ No download attributes yet. <a href="%s" target="_blank">Click to add</a>]]></value>
-    </definition>
-    <definition>
-        <key>text_confirm_push</key>
-        <value><![CDATA[ Confirm? ]]></value>
-    </definition>
+	<definition>
+		<key>text_no_download_attributes_yet</key>
+		<value><![CDATA[ No download attributes yet. <a href="%s" target="_blank">Click to add</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm_push</key>
+		<value><![CDATA[ Confirm? ]]></value>
+	</definition>
 	<definition>
 		<key>error_downloads_disabled</key>
 		<value><![CDATA[Warning: Downloads are disabled in store settings. <a href="#admin#rt=setting/setting&active=general" target="new">Click to Edit</a>!]]></value>
@@ -252,5 +251,9 @@
 	<definition>
 		<key>text_shared_with</key>
 		<value><![CDATA[Shared with:]]></value>
+	</definition>
+	<definition>
+		<key>entry_also_mapped_to</key>
+		<value><![CDATA[Condiviso con]]></value>
 	</definition>
 </definitions>

@@ -29,7 +29,7 @@
 	</table>
 
 	<?php
-	if ( sizeof($transactions) <=0 ) {
+	if ( sizeof((array)$transactions) <=0 ) {
 	?>
 		<div><?php echo $text_error; ?></div>
 	<?php	

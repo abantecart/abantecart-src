@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -157,7 +157,7 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
 
     public function addTransaction()
     {
-        sleep(10);
+
         if (!$this->csrftoken->isTokenValid()) {
             $error = new AError('');
             return $error->toJSONResponse('NO_PERMISSIONS_402',

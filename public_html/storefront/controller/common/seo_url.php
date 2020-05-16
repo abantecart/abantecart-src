@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -60,6 +60,14 @@ class ControllerCommonSeoUrl extends AController
                     if ($url[0] == 'content_id') {
                         $this->request->get['content_id'] = $url[1];
                     }
+
+                    if ($url[0] == 'collection_id') {
+                        $this->request->get['collection_id'] = $url[1];
+                    }
+
+                    if ($url[0] == 'check_seo') {
+                        $this->request->get['check_seo'] = $url[1];
+                    }
                 } else {
                     $this->request->get['rt'] = 'pages/error/not_found';
                 }
@@ -73,6 +81,10 @@ class ControllerCommonSeoUrl extends AController
                 $this->request->get['rt'] = 'pages/product/manufacturer';
             } elseif (isset($this->request->get['content_id'])) {
                 $this->request->get['rt'] = 'pages/content/content';
+            } elseif (isset($this->request->get['collection_id'])) {
+                $this->request->get['rt'] = 'pages/product/collection';
+            } elseif (isset($this->request->get['check_seo'])) {
+                $this->request->get['rt'] = 'pages/index/check_seo';
             }
             $this->extensions->hk_ProcessData($this, 'seo_url');
             if (isset($this->request->get['rt'])) {
@@ -116,6 +128,8 @@ class ControllerCommonSeoUrl extends AController
                 $url = $this->html->{$method}('product/manufacturer', '&manufacturer_id='.$get['manufacturer_id']);
             } elseif (isset($get['content_id'])) {
                 $url = $this->html->{$method}('content/content', '&content_id='.$get['content_id']);
+            } elseif (isset($get['collection_id'])) {
+                $url = $this->html->{$method}('product/collection', '&collection_id='.$get['collection_id']);
             }
         }
 

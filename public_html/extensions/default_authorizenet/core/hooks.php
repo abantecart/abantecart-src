@@ -16,12 +16,12 @@ class ExtensionDefaultAuthorizeNet extends Extension
     {
         $that = $this->baseObject;
         $current_ext_id = $that->request->get['extension'];
-        if (IS_ADMIN && $current_ext_id == 'authorizenet' && $this->baseObject_method == 'edit') {
+        if (IS_ADMIN && $current_ext_id == 'default_authorizenet' && $this->baseObject_method == 'edit') {
             $html = '<a class="btn btn-white tooltips" '
                         .'target="_blank" '
-                        .'href="https://www.authorize.net" '
-                        .'title="Visit authorizenet">
-                        <i class="fa fa-external-link fa-lg"></i>
+                        .'href="https://account.authorize.net/signUpNow?resellerID=34073" '
+                        .'title="Signup with Authorize.net">
+                        <i class="fa fa-user-plus fa-lg"></i> New Account
                     </a>';
             $that->view->addHookVar('extension_toolbar_buttons', $html);
         }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension>
 	<id>cardconnect</id>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<type>payment</type>
 	<category>Payment</category>
 	<cartversions>
@@ -10,10 +10,6 @@
 	<priority>10</priority>
 	<dependencies></dependencies>
 	<settings>
-		<item id="cardconnect_site">
-			<type required="true">input</type>
-			<default_value>fts.cardconnect.com</default_value>
-		</item>
 		<item id="cardconnect_merchant_id">
 			<type required="true">input</type>
 			<default_value></default_value>

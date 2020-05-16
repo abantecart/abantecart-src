@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -54,7 +54,7 @@ class ControllerTaskToolImportProcess extends AController
 
         $output = array('result' => $result);
         if ($result) {
-            $output['message'] = $this->success_count.' rows processed.';
+            $output['message'] = $this->success_count.' rows processed success. ';
             if ($this->failed_count) {
                 $output['message'] .= $this->failed_count.' rows processed with error.';
             }
@@ -146,6 +146,7 @@ class ControllerTaskToolImportProcess extends AController
                     try {
                         $result = $this->model_tool_import_process->$method($task_id, $vals, $import_details);
                     } catch (AException $e) {
+                        $return[] = "Import Error row number {$index} with {$rowData[0]}: ".$e->getMessage();
                         $result = false;
                     }
 
@@ -153,6 +154,12 @@ class ControllerTaskToolImportProcess extends AController
                         $this->success_count++;
                     } else {
                         $step_failed_count++;
+                    }
+                }
+                if (!empty($return)) {
+                    $imp_log = new ALog(DIR_LOGS.$type."_import_{$task_id}.txt");
+                    foreach ($return as $message) {
+                        $imp_log->write($message);
                     }
                 }
             } else {

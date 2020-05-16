@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2018 Belavier Commerce LLC
+  Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -26,6 +26,7 @@ if (!defined('DIR_CORE')) {
  * @property ModelToolUpdater                     $model_tool_updater
  * @property ModelSettingStore                    $model_setting_store
  * @property ModelCatalogCategory                 $model_catalog_category
+ * @property ModelCatalogCollection               $model_catalog_collection
  * @property ModelCatalogDownload                 $model_catalog_download
  * @property ModelCatalogProduct                  $model_catalog_product
  * @property ModelCatalogManufacturer             $model_catalog_manufacturer
@@ -154,9 +155,19 @@ abstract class AController
         }
 
         //set embed mode if passed
-        if ($this->request->get['embed_mode']) {
-            $config = $this->registry->get('config');
-            $config->set('embed_mode', true);
+
+        if ($this->config && $this->request && $this->request->get['embed_mode']) {
+            $this->config->set('embed_mode', true);
+        }elseif( $this->config
+                    && $this->request
+                    && strpos($this->request->get['rt'], 'embed') === false
+                    && !$this->config->get('embed_mode')
+        ){
+            //defense from clickjacking
+            $this->response->addHeader('X-Frame-Options: SAMEORIGIN');
+        }else{
+            //remove for embed
+            $this->response->removeHeader('X-Frame-Options: SAMEORIGIN');
         }
     }
 
@@ -533,4 +544,31 @@ abstract class AController
         return $url;
     }
 
+    public function isReviewAllowed($productId = 0) {
+            $enableReviews = $this->config->get('enable_reviews');
+            if (!$enableReviews) {
+                return false; // Disallow for all
+            }
+
+            switch ($enableReviews) {
+                case 1: {
+                    return true; // Allow for all
+                } break;
+                case 2: { //allow only registered
+                    if ($this->customer && $this->customer->isLogged()) {
+                        return true;
+                    }
+                    return false;
+                } break;
+                case 3: { //allow who purchase
+                    $this->loadModel('checkout/order');
+                    if (!$this->customer || !$this->customer->isLogged() || !$this->customer->getId() || !(int)$productId) {
+                        return false;
+                    }
+                    return $this->model_checkout_order->productIsPurchasedByCustomer($this->customer->getId(), $productId);
+
+                } break;
+                default: return false;
+            }
+    }
 }

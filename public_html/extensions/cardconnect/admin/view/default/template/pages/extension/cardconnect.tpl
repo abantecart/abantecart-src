@@ -2,7 +2,6 @@
 
 	$exclude_settings = array(
 		'cardconnect_status',
-		'cardconnect_site',
 		'cardconnect_username',
 		'cardconnect_password',
 		'cardconnect_merchant_id',
