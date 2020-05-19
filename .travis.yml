@@ -19,6 +19,7 @@ php:
   #- hhvm
 
 services: mysql
+sudo: true
 
 # optionally specify a list of environments, for example to test different RDBMS
 env:
@@ -31,6 +32,7 @@ matrix:
       env: DB=pgsql  # PDO driver for pgsql is unsupported by HHVM (3rd party install for support)
 
 before_script:
+  - bash .travis.install-mysql-5.5.sh
 #  - mkdir -p reports
   - if [[ "$DB" == "mysql" ]]; then mysql -e "CREATE DATABASE IF NOT EXISTS abantecart_test_build;" -uroot; fi
   - php ./public_html/install/cli_install.php install --db_host=localhost --db_user=root --db_password= --db_name=abantecart_test_build  --db_driver=amysqli  --db_prefix=abc_ --admin_path=admin  --username=admin  --password=admin  --email=dsuprunenko@abantecart.com  --http_server=http://abantecart-src.travis-ci.org/public_html --with-sample-data
