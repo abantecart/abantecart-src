@@ -33,7 +33,7 @@ if (!defined('DIR_CORE')) {
  * @property ExtensionsAPI    $extensions
  * @property ARequest         $request
  */
-final class ADownload
+class ADownload
 {
 
     public $errors = array();
