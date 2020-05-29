@@ -47,7 +47,7 @@ class ControllerCommonPage extends AController
             $this->view->assign( 'google_tag_manager', $this->config->get('config_google_tag_manager_id'));
         }
 
-        $this->view->assign('lang', $this->language->get('code'));
+        $this->view->assign('lang', $this->language->getLanguageCode());
         $this->view->assign('direction', $this->language->get('direction'));
 
         $this->addChild('common/head', 'head', 'common/head.tpl');
