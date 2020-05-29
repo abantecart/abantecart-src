@@ -232,7 +232,7 @@ class AResourceManager extends AResource
         if (isset($data['resource_code'])) {
             $_update['resource_code'] = $data['resource_code'];
         }
-        $fields = array('name', 'title', 'description');
+        $fields = array('name', 'title', 'description', 'resource_path', 'resource_code');
         if ($data['name']) {
             foreach ($data['name'] as $language_id => $name) {
                 if ($this->config->get('translate_override_existing') && $language_id != $data['language_id']) {
