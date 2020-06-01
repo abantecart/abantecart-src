@@ -26,7 +26,7 @@ if (!defined('DIR_CORE')) {
  *
  * @property ExtensionsApi $extensions
  */
-final class AMail
+class AMail
 {
     /**
      * @var string email-address
@@ -72,7 +72,7 @@ final class AMail
     public $parameter = '';
     public $error = array();
 
-    private $extensions;
+    protected $extensions;
 
     /**
      * @param null | AConfig $config
