@@ -21,6 +21,11 @@ if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
+/**
+ * Class AMail
+ *
+ * @property ExtensionsApi $extensions
+ */
 final class AMail
 {
     /**
@@ -67,6 +72,8 @@ final class AMail
     public $parameter = '';
     public $error = array();
 
+    private $extensions;
+
     /**
      * @param null | AConfig $config
      */
@@ -85,6 +92,7 @@ final class AMail
         $this->log = $registry->get('log');
         $this->messages = $registry->get('messages');
         $this->storeId = $config->get('config_store_id') ?: 0;
+        $this->extensions = $registry->get('extensions');
     }
 
     /**
@@ -202,6 +210,11 @@ final class AMail
             }
         }
 
+        $this->extensions->hk_ProcessData($this, 'setTemplate', [
+            'text_id'     => $text_id,
+            'language_id' => $languageId,
+        ]);
+
         $subject = html_entity_decode($this->emailTemplate['subject'], ENT_QUOTES);
         $htmlBody = html_entity_decode($this->emailTemplate['html_body'], ENT_QUOTES);
         $textBody = $this->emailTemplate['text_body'];
@@ -221,12 +234,21 @@ final class AMail
             $headers = explode(',', $emailTemplate->headers);
             foreach ($headers as $header) {
                 $parts = explode(':', $header);
-                if (count((array) $parts) !== 2) {
+                if (count((array)$parts) !== 2) {
                     continue;
                 }
                 $this->addHeader($parts[0], $parts[1]);
             }
         }
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function setPlaceholder($key, $value)
+    {
+        $this->placeholders[$key] = $value;
     }
 
     /**
