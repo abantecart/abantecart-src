@@ -313,6 +313,7 @@ class ACart
                     foreach ($option_value_queries as $item) {
                         $option_data[] = array(
                             'product_option_value_id' => $item['product_option_value_id'],
+                            'product_option_id'       => $product_option_id,
                             'name'                    => $option_query['name'],
                             'value'                   => $item['name'],
                             'prefix'                  => $item['prefix'],
