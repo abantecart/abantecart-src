@@ -179,7 +179,7 @@ class ControllerPagesProductCategory extends AController
                         'name'  => $result['name'],
                         'href'  => $this->html->getSEOURL(
                             'product/category',
-                            '&path='.$request['path'].'_'.$result['category_id'].$url,
+                            '&path='.$request['path'].'_'.$result['category_id'],
                             '&encode'
                         ),
                         'thumb' => $thumbnail,
