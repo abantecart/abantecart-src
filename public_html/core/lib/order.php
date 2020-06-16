@@ -132,6 +132,26 @@ class AOrder
         foreach ($results as $result) {
             $this->load->model('total/'.$result['key']);
             $this->{'model_total_'.$result['key']}->getTotal($total_data, $total, $taxes, $indata);
+
+            //allow to change total data on-the-fly for extensions, for example rounding of amount etc
+            $this->data = array(
+                'total_key' => $result['key'],
+                'total_data' => $total_data,
+                'total' => $total,
+                'taxes'  => $taxes,
+            );
+
+            $this->extensions->hk_ProcessData($this, __FUNCTION__);
+
+            $total_data = $this->data['total_data'];
+            $total = $this->data['total'];
+            $taxes = $this->data['taxes'];
+            unset(
+                $this->data['total_key'],
+                $this->data['total_data'],
+                $this->data['total'],
+                $this->data['taxes']
+            );
         }
 
         $sort_order = array();
