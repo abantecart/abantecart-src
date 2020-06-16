@@ -36,6 +36,8 @@ if (!defined('DIR_CORE')) {
  */
 class ACart
 {
+    /** @var array  */
+    public $data = array();
     /**
      * @var Registry
      */
@@ -139,6 +141,7 @@ class ACart
      * @param bool $recalculate
      *
      * @return array
+     * @throws AException
      */
     public function getProducts($recalculate = false)
     {
@@ -192,9 +195,10 @@ class ACart
 
     /**
      * @param string $key
-     * @param bool   $recalculate
+     * @param bool $recalculate
      *
      * @return array
+     * @throws AException
      */
     public function getProduct($key, $recalculate = false)
     {
@@ -401,7 +405,7 @@ class ACart
             $stock = false;
         }
 
-        //case for nontrackable option values set but main stock track enabled
+        //case for non-trackable option values set but main stock track enabled
         if(
             $options
             && $product_query['subtract']
@@ -444,9 +448,11 @@ class ACart
     }
 
     /**
-     * @param int   $product_id
-     * @param int   $qty
+     * @param int $product_id
+     * @param int $qty
      * @param array $options
+     *
+     * @throws AException
      */
     public function add($product_id, $qty = 1, $options = array())
     {
@@ -519,7 +525,9 @@ class ACart
 
     /**
      * @param string $key
-     * @param int    $qty
+     * @param int $qty
+     *
+     * @throws AException
      */
     public function update($key, $qty)
     {
@@ -566,6 +574,7 @@ class ACart
      * @param array $product_ids
      *
      * @return int
+     * @throws AException
      */
     public function getWeight($product_ids = array())
     {
@@ -611,6 +620,7 @@ class ACart
      * Products with no special settings for shipping
      *
      * @return array
+     * @throws AException
      */
     public function basicShippingProducts()
     {
@@ -628,6 +638,8 @@ class ACart
      * Products with special settings for shipping
      *
      * @return array
+     * @throws AException
+     * @throws AException
      */
     public function specialShippingProducts()
     {
@@ -645,6 +657,8 @@ class ACart
      * Check if all products are free shipping
      *
      * @return bool
+     * @throws AException
+     * @throws AException
      */
     public function areAllFreeShipping()
     {
@@ -701,6 +715,8 @@ class ACart
      * @param bool $recalculate
      *
      * @return float
+     * @throws AException
+     * @throws AException
      */
     public function getSubTotal($recalculate = false)
     {
@@ -721,6 +737,7 @@ class ACart
      * candidate to be deprecated
      *
      * @return array
+     * @throws AException
      */
     public function getTaxes()
     {
@@ -734,6 +751,8 @@ class ACart
      * @param bool $recalculate
      *
      * @return array
+     * @throws AException
+     * @throws AException
      */
     public function getAppliedTaxes($recalculate = false)
     {
@@ -784,6 +803,8 @@ class ACart
      * @param bool $recalculate
      *
      * @return float
+     * @throws AException
+     * @throws AException
      */
     public function getTotal($recalculate = false)
     {
@@ -846,6 +867,24 @@ class ACart
              * @var ModelTotalTotal|ModelTotalBalance|ModelTotalCoupon|ModelTotalHandling|ModelTotalLowOrderFee|ModelTotalShipping|ModelTotalSubTotal|ModelTotalTax $sf_total_mdl
              */
             $sf_total_mdl->getTotal($total_data, $total, $taxes, $this->cust_data);
+            //trick to change data via hooks
+            $this->data = array(
+                'total_key' => $extn['key'],
+                'total_data' => $total_data,
+                 'total' => $total,
+                 'taxes'  => $taxes,
+             );
+            $this->registry->get('extensions')->hk_ProcessData($this, __FUNCTION__);
+
+             $total_data = $this->data['total_data'];
+             $total = $this->data['total'];
+             $taxes = $this->data['taxes'];
+             unset(
+                 $this->data['total_key'],
+                 $this->data['total_data'],
+                 $this->data['total'],
+                 $this->data['taxes']
+             );
             $sf_total_mdl = null;
         }
 
@@ -907,6 +946,7 @@ class ACart
      * Check if order/cart total has minimum amount setting met if it was set
      *
      * @return bool
+     * @throws AException
      */
     public function hasMinRequirement()
     {
@@ -921,6 +961,7 @@ class ACart
      * Check if order/cart total has maximum amount setting met if it was set
      *
      * @return bool
+     * @throws AException
      */
     public function hasMaxRequirement()
     {
@@ -959,6 +1000,8 @@ class ACart
      * Return TRUE if all products have stock
      *
      * @return bool
+     * @throws AException
+     * @throws AException
      */
     public function hasStock()
     {
@@ -976,6 +1019,8 @@ class ACart
      * Return FALSE if all products do NOT require shipping
      *
      * @return bool
+     * @throws AException
+     * @throws AException
      */
     public function hasShipping()
     {
@@ -994,6 +1039,8 @@ class ACart
      * Return FALSE if all products do NOT have download type
      *
      * @return bool
+     * @throws AException
+     * @throws AException
      */
     public function hasDownload()
     {
