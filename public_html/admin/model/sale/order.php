@@ -162,6 +162,7 @@ class ModelSaleOrder extends Model
      */
     public function editOrder($order_id, $data)
     {
+        $orderData = $this->getOrder($order_id);
         $fields = array(
             'telephone',
             'email',
@@ -271,6 +272,8 @@ class ModelSaleOrder extends Model
             foreach ($data['totals'] as $total_id => $text_value) {
                 //get number portion together with the sign
                 $number = preformatFloat($text_value, $this->language->get('decimal_point'));
+                //convert it into default currency
+                $number = $this->currency->convert($number, $orderData['currency'], $this->config->get('config_currency'));
                 $this->db->query("UPDATE ".$this->db->table("order_totals")."
                                   SET `text` = '".$this->db->escape($text_value)."',
                                       `value` = '".$number."'
@@ -1017,14 +1020,14 @@ class ModelSaleOrder extends Model
                     $customer_email = $order_query->row['email'];
                 }
 
-                $mailData = [
+                $mailData = array(
                     'store_name' => $order_query->row['store_name'],
                     'order_id' => $order_id,
                     'date_added' => dateISO2Display($order_query->row['date_added'], $language->get('date_format_short')),
                     'order_status_name' => $order_query->row['status'],
                     'invoice' => $invoice,
                     'comment' => $data['comment'] ? strip_tags(html_entity_decode($data['comment'], ENT_QUOTES, 'UTF-8')) : ''
-                ];
+                );
 
                 $mail = new AMail($this->config);
                 $mail->setTo($customer_email);
