@@ -478,7 +478,12 @@ class ModelCheckoutOrder extends Model
                                                 WHERE order_id = '".(int)$order_id."'
                                                 ORDER BY sort_order ASC");
 
-        $subject = sprintf($language->get('text_subject'), $order_row['store_name'], $order_id);
+        foreach($order_total_query->rows as $row){
+            if($row['type'] == 'total' ){
+                $this->data['mail_template_data']['order_total'] = $row;
+                break;
+            }
+        }
 
         // HTML Mail
         $this->data['mail_template_data']['title'] = sprintf(
