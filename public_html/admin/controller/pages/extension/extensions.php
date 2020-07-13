@@ -568,6 +568,7 @@ class ControllerPagesExtensionExtensions extends AController
             $this->extension_manager->editSetting($extension, $save_data);
             $this->cache->remove('settings');
             $this->session->data['success'] = $this->language->get('text_save_success');
+            $this->extensions->hk_ProcessData($this,__FUNCTION__);
             redirect($this->data['target_url']);
         }
 
