@@ -100,8 +100,12 @@ class ALayout
         $key_param = $this->getKeyParamByController($controller);
         $key_value = $key_param ? $this->request->get[$key_param] : null;
         // for nested categories
-        if ($key_param == 'path' && $key_value && is_int(strpos($key_value, '_'))) {
-            $key_value = (int)substr($key_value, strrpos($key_value, '_') + 1);
+        if ($key_param == 'path' && $key_value) {
+            if( is_int(strpos($key_value, '_'))) {
+                $key_value = (int)substr($key_value, strrpos($key_value, '_') + 1);
+            }elseif(!$key_value){
+                $key_value = $key_param = null;
+            }
         }
 
         $key_param = is_null($key_value) ? null : $key_param;

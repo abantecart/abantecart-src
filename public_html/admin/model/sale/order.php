@@ -110,17 +110,26 @@ class ModelSaleOrder extends Model
     }
 
     /**
-     * @param int   $order_id
+     * @param int $order_id
      * @param array $data
      *
-     * @return int
+     * @return int|null
+     * @throws AException
      */
     public function addOrderTotal($order_id, $data)
     {
         if (!has_value($order_id)) {
             return null;
         }
+        $order_info = $this->getOrder($order_id);
+        if(!$order_info){
+            return null;
+        }
         $value = preformatFloat($data['text'], $this->language->get('decimal_point'));
+        if($order_info['currency'] != $this->config->get('config_currency')){
+            $currency = new ACurrency($this->registry);
+            $value = $currency->convert($value,$order_info['currency'], $this->config->get('config_currency'));
+        }
 
         $this->db->query("INSERT INTO ".$this->db->table("order_totals")."
                         SET `order_id` = '".(int)$order_id."',
