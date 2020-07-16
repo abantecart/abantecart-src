@@ -31,16 +31,45 @@ class ModelToolOnlineNow extends Model
      */
     public function setOnline($ip, $customer_id, $url, $referer)
     {
-        //delete old records
-        $this->db->query("DELETE FROM `".$this->db->table("online_customers")."`
-                		  WHERE `date_added`< (NOW() - INTERVAL 1 HOUR)");
+        //if we save data less than 10 seconds ago - skip
+        if( time() - (int)$this->session->data['marked_as_online'] < 10){
+            return;
+        }
 
+        $this->deleteOld();
         //insert new record
-        $this->db->query("REPLACE INTO `".$this->db->table("online_customers")."`
-                        SET `ip` = '".$this->db->escape($ip)."',
-                            `customer_id` = '".(int)$customer_id."',
-                            `url` = '".$this->db->escape($url)."',
-                            `referer` = '".$this->db->escape($referer)."',
-                            `date_added` = NOW()");
+        $result = $this->db->query(
+                    "INSERT INTO `".$this->db->table("online_customers")."`
+                            ( `ip`, `customer_id`, `url`, `referer`, `date_added` )
+                            VALUES (
+                                '".$this->db->escape($ip)."',
+                                '".(int)$customer_id."',
+                                '".$this->db->escape($url)."',
+                                '".$this->db->escape($referer)."',
+                                NOW()
+                                )",
+                    true
+        );
+        if(!$result){
+            $sql = "UPDATE `".$this->db->table("online_customers")."`
+                    SET `customer_id` = '".(int)$customer_id."',
+                        `url` = '".$this->db->escape($url)."',
+                        `referer` = '".$this->db->escape($referer)."',
+                        `date_added` = NOW()
+                    WHERE `ip` = '".$this->db->escape($ip)."'";
+            $this->db->query($sql);
+        }
+        $this->session->data['marked_as_online'] = time();
+    }
+
+    protected function deleteOld(){
+        $cache_key = "customer.online.save";
+        $cache = $this->cache->pull($cache_key);
+        if(!$cache || (time()-$cache) > 3600 ){
+            //delete old records
+            $this->db->query("DELETE FROM `".$this->db->table("online_customers")."`
+                              WHERE `date_added`< (NOW() - INTERVAL 1 HOUR)");
+            $this->cache->push($cache_key, time());
+        }
     }
 }
