@@ -1256,7 +1256,7 @@ class ModelSaleOrder extends Model
      * @param array  $data
      * @param string $mode
      *
-     * @return array
+     * @return int|array
      */
     public function getOrders($data = array(), $mode = 'default')
     {
@@ -1415,7 +1415,7 @@ class ModelSaleOrder extends Model
     /**
      * @param array $data
      *
-     * @return array
+     * @return int
      */
     public function getTotalOrders($data = array())
     {
@@ -1447,7 +1447,10 @@ class ModelSaleOrder extends Model
      */
     public function generateInvoiceId($order_id)
     {
-        $query = $this->db->query("SELECT MAX(invoice_id) AS invoice_id FROM `".$this->db->table("orders")."`");
+        $query = $this->db->query(
+            "SELECT MAX(invoice_id) AS invoice_id 
+             FROM `".$this->db->table("orders")."`"
+        );
 
         if ($query->row['invoice_id'] && $query->row['invoice_id'] >= $this->config->get('starting_invoice_id')) {
             $invoice_id = (int)$query->row['invoice_id'] + 1;
@@ -1474,10 +1477,12 @@ class ModelSaleOrder extends Model
      */
     public function getOrderProducts($order_id, $order_product_id = 0)
     {
-        $query = $this->db->query("SELECT *
-                                    FROM ".$this->db->table("order_products")."
-                                    WHERE order_id = '".(int)$order_id."'
-                                    ".((int)$order_product_id ? " AND order_product_id='".(int)$order_product_id."'" : ''));
+        $query = $this->db->query(
+            "SELECT *
+            FROM ".$this->db->table("order_products")."
+            WHERE order_id = '".(int)$order_id."'
+            ".((int)$order_product_id ? " AND order_product_id='".(int)$order_product_id."'" : '')
+        );
         return $query->rows;
     }
 
@@ -1510,15 +1515,16 @@ class ModelSaleOrder extends Model
      */
     public function getOrderOptions($order_id, $order_product_id)
     {
-        $query = $this->db->query("SELECT op.*, po.element_type, po.attribute_id, po.product_option_id, pov.subtract
-                                    FROM ".$this->db->table("order_options")." op
-                                    LEFT JOIN ".$this->db->table("product_option_values")." pov
-                                        ON op.product_option_value_id = pov.product_option_value_id
-                                    LEFT JOIN ".$this->db->table("product_options")." po
-                                        ON pov.product_option_id = po.product_option_id
-                                    WHERE op.order_id = '".(int)$order_id."'
-                                        AND op.order_product_id = '".(int)$order_product_id."'");
-
+        $query = $this->db->query(
+            "SELECT op.*, po.element_type, po.attribute_id, po.product_option_id, pov.subtract
+            FROM ".$this->db->table("order_options")." op
+            LEFT JOIN ".$this->db->table("product_option_values")." pov
+                ON op.product_option_value_id = pov.product_option_value_id
+            LEFT JOIN ".$this->db->table("product_options")." po
+                ON pov.product_option_id = po.product_option_id
+            WHERE op.order_id = '".(int)$order_id."'
+                AND op.order_product_id = '".(int)$order_product_id."'"
+        );
         return $query->rows;
     }
 

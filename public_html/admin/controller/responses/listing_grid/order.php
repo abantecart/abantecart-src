@@ -80,14 +80,15 @@ class ControllerResponsesListingGridOrder extends AController
 
         if (isset($this->request->post['_search']) && $this->request->post['_search'] == 'true') {
             $searchData = json_decode(htmlspecialchars_decode($this->request->post['filters']), true);
-
-            foreach ($searchData['rules'] as $rule) {
-                if (!in_array($rule['field'], $allowedFields)) {
-                    continue;
-                }
-                $data['filter_'.$rule['field']] = $rule['data'];
-                if ($rule['field'] == 'date_added') {
-                    $data['filter_'.$rule['field']] = dateDisplay2ISO($rule['data']);
+            if($searchData['rules']) {
+                foreach ($searchData['rules'] as $rule) {
+                    if (!in_array($rule['field'], $allowedFields)) {
+                        continue;
+                    }
+                    $data['filter_'.$rule['field']] = $rule['data'];
+                    if ($rule['field'] == 'date_added') {
+                        $data['filter_'.$rule['field']] = dateDisplay2ISO($rule['data']);
+                    }
                 }
             }
         }
@@ -188,6 +189,7 @@ class ControllerResponsesListingGridOrder extends AController
      * update only one field
      *
      * @return void
+     * @throws AException
      */
     public function update_field()
     {
