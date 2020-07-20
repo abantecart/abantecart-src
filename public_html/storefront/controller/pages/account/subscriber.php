@@ -23,7 +23,7 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesAccountSubscriber extends AController
 {
-    private $error = array();
+    public $error = array();
     public $data;
 
     public function main()
