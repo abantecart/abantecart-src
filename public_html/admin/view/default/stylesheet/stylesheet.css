@@ -3329,6 +3329,10 @@ body.stickyheader .sticky_left {
 	padding: 45px 15px 15px;
 	position: relative;
 }
+.embed-url::after {
+	color: #959595;
+	content: "embed url";
+}
 
 #code_options .acheckboxgroup {
 	height: 157px !important;

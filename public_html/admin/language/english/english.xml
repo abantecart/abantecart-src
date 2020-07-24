@@ -690,6 +690,10 @@
 		<value><![CDATA[Сopy and paste this into your HTML-code where you'd like to sell]]></value>
 	</definition>
 	<definition>
+		<key>text_copy_embed_url</key>
+		<value><![CDATA[Сopy and paste this URL into your another site where you'd like to sell]]></value>
+	</definition>
+	<definition>
 		<key>button_retry</key>
 		<value><![CDATA[Retry]]></value>
 	</definition>

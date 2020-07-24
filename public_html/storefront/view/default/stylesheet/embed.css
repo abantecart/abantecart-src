@@ -8,7 +8,8 @@ AbanteCart storefront CSS-styles for embedded blocks
 }
 
 .abantecart-widget-container .abantecart_product{
-	width: 250px;
+	width: auto;
+	max-width: 300px;
 }
 
 .abantecart-widget-container .abantecart_image{

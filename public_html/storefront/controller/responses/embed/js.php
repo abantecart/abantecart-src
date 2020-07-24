@@ -93,7 +93,7 @@ class ControllerResponsesEmbedJS extends AController
 
         $this->data['embed_click_action'] = $this->config->get('config_embed_click_action');
 
-        $this->view->setTemplate('embed/js.tpl');
+        $this->view->setTemplate('embed/js.js.tpl');
         $this->view->batchAssign($this->data);
         $this->setJsHttpHeaders();
         $this->processTemplate();

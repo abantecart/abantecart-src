@@ -44,17 +44,21 @@
 			</form>
 
 		</div>
-
+        <div class="col-sm-12 col-xs-12">
+            <div data-example-id="textarea-form-control" class="embed-code embed-url">
+                <div class="btn-clipboard"><?php echo $text_copy_embed_url; ?></div>
+                <form>
+                    <?php echo $url; ?>
+                </form>
+            </div>
+        </div>
 		<div class="col-sm-12 col-xs-12">
-
 			<div data-example-id="textarea-form-control" class="embed-code">
 				<div class="btn-clipboard"><?php echo $text_copy_embed_code; ?></div>
 			    <form>
 				    <?php echo $text_area;?>
 			    </form>
 			  </div>
-
-
 		</div>
 	</div>
 </div>
@@ -62,9 +66,6 @@
 <div id="code" style="display:none;"></div>
 
 <script type="text/javascript">
-	$(document).ready(function(){
-		$('.do_embed a').tooltip();
-	});
 	var options = {
 		'image': '<span class="abantecart_image"></span>\n',
 		'name': '<h3 class="abantecart_name"></h3>\n',
@@ -72,6 +73,7 @@
 	};
 
 	var buildEmbedCode = function(){
+        window.abc_count = 0;
 		var common_params = '';
 		var language = $('div#embed_modal').find('select[name="language"]').val();
 		var currency = $('div#embed_modal').find('select[name="currency"]').val();
@@ -81,15 +83,24 @@
 		if(currency && currency.length > 0){
 			common_params += ' data-currency="'+currency+'"';
 		}
+        let url = '<?php echo $direct_embed_url; ?>';
+        url += '&lang=' + language;
+        url += '&curr=' + currency;
+        url += '&height=' + $('#embed_container.embed_preview').get(0).scrollHeight;
+        $('#code_options').find('input[type="hidden"]').each(function () {
+            if ($(this).val() == 1) {
+                url += '&' + $(this).attr('name') + '=1';
+            }
+        });
 
 		var html = '<script src="<?php echo $sf_js_embed_url; ?>" type="text/javascript"><\/script>\n';
 			html += '<ul style="display:none;" class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>"'+common_params+'>\n';
 
 		var d = new Date();
 		$.each($('div#embed_modal').find("input[name='manufacturer_id[]']:checked, input[name='manufacturer_id[]'][type='hidden']"), function() {
-		    id = $(this).val();
+		    var id = $(this).val();
 			html += '\t<li id="abc_' + (d.getTime() + id) + '" class="abantecart_manufacturer" data-manufacturer-id="'+ id +'">\n';
-
+            url += '&manufacturer_id[]=' + id;
 			$('#code_options').find('input[type="hidden"]').each(function(){
 				if($(this).val()==1){
 					html += '\t\t'+options[$(this).attr('name')];
@@ -98,37 +109,18 @@
 			html += '\t<\/li>\n';
 		});
 		html += '<\/ul>';
-		return html;
+        $('#getEmbedFrm_code_area').val(html);
+        $("#embed_container" ).html(html);
+        $('#getEmbedFrm_url').val(url);
+
 	}
 
-	window.abc_count = 0;
-	var ec = buildEmbedCode();
-	$('#getEmbedFrm_code_area').val(ec);
-	$("#embed_container" ).html(ec);
-
-
 	$(document).ready(function(){
-
-		$('div#embed_modal').find("input[name='manufacturer_id[]']").on('click', function(){
-			var ec = buildEmbedCode();
-			window.abc_count = 0;
-			$('#getEmbedFrm_code_area').val(ec);
-			$("#embed_container" ).html(ec);
-		});
-
-		$('div#embed_modal').find('div.btn_switch').find('button').on('click', function(){
-			var ec = buildEmbedCode();
-			window.abc_count = 0;
-			$('#getEmbedFrm_code_area').val(ec);
-			$("#embed_container" ).html(ec);
-		});
-
-		$('div#embed_modal').find('div.input-group').find('select').on('change', function(){
-			var ec = buildEmbedCode();
-			window.abc_count = 0;
-			$('#getEmbedFrm_code_area').val(ec);
-			$("#embed_container" ).html(ec);
-		});
+        $('.do_embed a').tooltip();
+        buildEmbedCode();
+		$('div#embed_modal').find("input[name='manufacturer_id[]']").on('click', buildEmbedCode);
+		$('div#embed_modal').find('div.btn_switch').find('button').on('click', buildEmbedCode);
+		$('div#embed_modal').find('div.input-group').find('select').on('change', buildEmbedCode);
 
 		$(".btn-clipboard").click(function(){
 			var txt = $('#getEmbedFrm_code_area').val();
