@@ -508,6 +508,7 @@ function notice(text, autohide, elm, type, icon) {
 		z_index: 99999,
 		delay: delay,
 		type: type,
+		allow_dismiss: (delay<1),
 		placement: {
 			from: 'top',
 			align: 'left'
@@ -1265,3 +1266,23 @@ jQuery.fn.extend({
 		return params;
 	};
 })(jQuery);
+
+function copyToClipboard(el, target) {
+	if( $(el).attr('data-copy')== undefined || $(el).attr('data-copy').length === 0 ){
+		var value = $(el).val();
+		if(value.length>0) {
+			$(el).select();
+			document.execCommand("copy");
+		}else{
+			alert('Nothing to copy!');
+			return;
+		}
+	}else {
+		let $temp = $("<input type=\"text\">");
+		$("body").append($temp);
+		$temp.val($(el).attr('data-copy')).select();
+		document.execCommand("copy");
+		$temp.remove();
+	}
+	info_alert('Copied!', true, $(target));
+}

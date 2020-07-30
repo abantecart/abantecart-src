@@ -646,29 +646,15 @@
 		$(this).val(v);
 	});
 
-	let copyStrippedText = function(el) {
-		let $temp = $("<input>");
-		$("body").append($temp);
-		$temp.val($(el).attr('copy_data')).select();
-		document.execCommand("copy");
-		$temp.remove();
-		$(el).attr('title', 'Copied')
-		$(el).tooltip('enable').tooltip('show')
-		setTimeout(() => {
-			$(el).attr('title', 'Copy')
-			$(el).tooltip('disable').tooltip('hide')
-		}, 1000);
-	}
-
 	$(document).ready(() => {
 		let index = 0;
 		$('.product_option_value').each(function () {
 			if ($(this).text().length < $(this).attr('title').length) {
 				 $(this).append('&nbsp;&nbsp;&nbsp;<a id="product_option_value_copy'+index+'" ' +
-						 'copy_data="'+$(this).attr('title')+'"'+
-					 ' onClick="copyStrippedText(\'#product_option_value_copy'+index+'\')" title="Copy"><i class="fa fa-copy"></i></a>')
+						 'data-copy="'+$(this).attr('title')+'"'+
+					 ' onClick="copyToClipboard(\'#product_option_value_copy'+index+'\', this)" title="Copy"><i class="fa fa-copy"></i></a>')
 			}
-			index ++
+			index ++;
 		})
 	})
 

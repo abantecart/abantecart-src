@@ -46,9 +46,17 @@
 		</div>
         <div class="col-sm-12 col-xs-12">
             <div data-example-id="textarea-form-control" class="embed-code embed-url">
-                <div class="btn-clipboard"><?php echo $text_copy_embed_url; ?></div>
                 <form>
-                    <?php echo $url; ?>
+                    <div class="input-group">
+                        <?php echo $url; ?>
+                        <span class="input-group-addon">
+                            <span class="help_element">
+                                <a id="copyEmbedUrlBtn" onclick="copyToClipboard('#getEmbedFrm_url', this); return false;" title="copy">
+                                    <i class="fa fa-copy fa-lg"></i>
+                                </a>
+                            </span>
+                        </span>
+                    </div>
                 </form>
             </div>
         </div>
@@ -122,21 +130,10 @@
 		$('div#embed_modal').find('div.btn_switch').find('button').on('click', buildEmbedCode);
 		$('div#embed_modal').find('div.input-group').find('select').on('change', buildEmbedCode);
 
-		$(".btn-clipboard").click(function(){
-			var txt = $('#getEmbedFrm_code_area').val();
-			prompt ("Copy html-code, then click OK.", txt);
-        });
-
-		$("#getEmbedFrm_code_area").focus(function() {
-		    var $this = $(this);
-		    $this.select();
-
-		    // Work around Chrome's little problem
-		    $this.mouseup(function() {
-		        // Prevent further mouseup intervention
-		        $this.unbind("mouseup");
-		        return false;
-		    });
-		});
+        let preselect = function(){
+          let $this = $(this);
+          $this.select();
+      }
+      $("#getEmbedFrm_code_area, #getEmbedFrm_url").focus(preselect).click(preselect);
 	});
 </script>
