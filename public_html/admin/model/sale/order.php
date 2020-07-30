@@ -126,9 +126,18 @@ class ModelSaleOrder extends Model
             return null;
         }
         $value = preformatFloat($data['text'], $this->language->get('decimal_point'));
-        if($order_info['currency'] != $this->config->get('config_currency')){
+
+        if ($order_info['currency'] != $this->config->get('config_currency')) {
             $currency = new ACurrency($this->registry);
-            $value = $currency->convert($value,$order_info['currency'], $this->config->get('config_currency'));
+            if ($data['type'] == 'discount') {
+                $value = -abs($value);
+            }
+            $data['text'] = $currency->format($value, $order_info['currency'], 1);
+            $value = $currency->convert($value, $order_info['currency'], $this->config->get('config_currency'));
+        }
+
+        if ($data['type'] == 'discount') {
+            $value = -abs($value);
         }
 
         $this->db->query("INSERT INTO ".$this->db->table("order_totals")."
@@ -140,7 +149,6 @@ class ModelSaleOrder extends Model
                             `type` = '".$this->db->escape($data['type'])."',
                             `key` = '".$this->db->escape($data['key'])."'"
         );
-
         return $this->db->getLastId();
     }
 
