@@ -95,7 +95,6 @@
         let url = '<?php echo $direct_embed_url; ?>';
         url += '&lang=' + language;
         url += '&curr=' + currency;
-        url += '&height=' + $('#embed_container.embed_preview').get(0).scrollHeight;
         $('#code_options').find('input[type="hidden"]').each(function () {
             if ($(this).val() == 1) {
                 url += '&' + $(this).attr('name') + '=1';
@@ -121,6 +120,14 @@
         html += '<\/ul>';
         $('#getEmbedFrm_code_area').val(html);
         $("#embed_container").html(html);
+        setTimeout(
+            function () {
+                $('#getEmbedFrm_url').val(
+                    $('#getEmbedFrm_url').val()
+                    + '&height=' + $('#embed_container.embed_preview').get(0).scrollHeight);
+            },
+            1000
+        );
         $('#getEmbedFrm_url').val(url);
     }
 
@@ -130,7 +137,7 @@
         $('div#embed_modal').find('div.btn_switch').find('button').on('click', buildEmbedCode);
         $('div#embed_modal').find('div.input-group').find('select').on('change', buildEmbedCode);
 
-        let preselect = function(){
+        let preselect = function () {
             let $this = $(this);
             $this.select();
         }

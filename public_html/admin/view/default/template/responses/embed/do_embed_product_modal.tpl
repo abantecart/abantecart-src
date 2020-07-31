@@ -104,7 +104,6 @@
         url += '&product_id=<?php echo $product_id?>';
         url += '&lang=' + language;
         url += '&curr=' + currency;
-        url += '&height=' + $('#embed_container.embed_preview').get(0).scrollHeight;
 
         var html = '<script src="<?php echo $sf_js_embed_url; ?>" type="text/javascript"><\/script>\n';
         html += '<div style="display:none;" class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>"' + common_params + '>\n';
@@ -113,12 +112,20 @@
         $('#code_options').find('input[type="hidden"]').each(function () {
             if ($(this).val() == 1) {
                 html += '\t\t' + options[$(this).attr('name')];
-                url += '&'+ $(this).attr('name')+'=1';
+                url += '&' + $(this).attr('name') + '=1';
             }
         });
         html += '\t<\/div>\n<\/div>';
         $('#getEmbedFrm_code_area').val(html);
         $("#embed_container").html(html);
+        setTimeout(
+            function () {
+                $('#getEmbedFrm_url').val(
+                    $('#getEmbedFrm_url').val()
+                    + '&height=' + $('#embed_container.embed_preview').get(0).scrollHeight);
+            },
+            1000
+        );
         $('#getEmbedFrm_url').val(url);
     };
     $(document).ready(function () {

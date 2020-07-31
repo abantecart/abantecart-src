@@ -98,14 +98,16 @@ class ControllerResponsesEmbedGet extends AController
         $h = isset($params['height']) && (int)$params['height'] ? (int)$params['height'] : 450;
 
         $this->data['output'] = array(
-            "type" => "rich",
-            "version" => "1.0",
-            "title" => "Embedded Abantecart Widget",
-            "provider_name" => "AbanteCart",
-            "provider_url" => "http://www.abantecart.com/",
+            "type"             => "rich",
+            "version"          => "1.0",
+            "title"            => "Embedded Abantecart Widget",
+            "provider_name"    => "AbanteCart",
+            "provider_url"     => "http://www.abantecart.com/",
             "provider_version" => VERSION,
-            'height' => 800,
-            "html" => '<div class="oembed-content"></div>',
+            'height'           => $h,
+            'width'            => '100%',
+            "html"             => '<iframe src="'.$url.'" height="'.$h
+                .'" width="100%" frameborder="0" scrolling="auto" marginwidth="0" marginheight="0"></iframe>',
         );
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
