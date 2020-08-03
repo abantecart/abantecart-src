@@ -405,25 +405,35 @@ var init = function () {
             return append;
         }
 
-        var popupCenter  = function(url, title, w, h)
-        {
-            var WindoW = window.parent ?? window;
-            // Fixes dual-screen position                             Most browsers      Firefox
-            const dualScreenLeft = WindoW.screenLeft !== undefined ? WindoW.screenLeft : WindoW.screenX;
-            const dualScreenTop = WindoW.screenTop !== undefined ? WindoW.screenTop : WindoW.screenY;
+        var popupCenter = function (url, title, w, h) {
+            try {
+                var WindoW = window.parent ? window.parent : window;
+                // Fixes dual-screen position                             Most browsers      Firefox
+                const dualScreenLeft = WindoW.screenLeft !== undefined ? WindoW.screenLeft : WindoW.screenX;
+                const dualScreenTop = WindoW.screenTop !== undefined ? WindoW.screenTop : WindoW.screenY;
 
-            const width = WindoW.innerWidth ? WindoW.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
-            const height = WindoW.innerHeight ? WindoW.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+                const width = WindoW.innerWidth ? WindoW.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+                const height = WindoW.innerHeight ? WindoW.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
 
-            const systemZoom = width / WindoW.screen.availWidth;
-            const left = (width - w) / 2 / systemZoom + dualScreenLeft
-            const top = (height - h) / 2 / systemZoom + dualScreenTop
+                const systemZoom = width / WindoW.screen.availWidth;
+                const left = (width - w) / 2 / systemZoom + dualScreenLeft
+                const top = (height - h) / 2 / systemZoom + dualScreenTop
+                var newWindoW = window.open(
+                    url,
+                    title,
+                    'resizable=yes,status=no,scrollbars=no,location=no,menubar=no,width=' + w + ',height=' + h + ',top=' + top + ',left=' + left
+                );
+            } catch (ex) {
+
+            }
             var newWindoW = window.open(
                 url,
                 title,
-                'resizable=yes,status=no,scrollbars=no,location=no,menubar=no,width='+ w+',height=' + h +',top=' + top+',left='+left
+                'resizable=yes,status=no,scrollbars=no,location=no,menubar=no,width=' + w + ',height=' + h + ',top=' + top + ',left=' + left
             );
-            if (WindoW.focus){ newWindoW.focus(); }
+            if (WindoW.focus) {
+                newWindoW.focus();
+            }
         }
     }
 };

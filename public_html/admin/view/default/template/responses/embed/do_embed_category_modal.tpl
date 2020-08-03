@@ -122,9 +122,15 @@
         $("#embed_container").html(html);
         setTimeout(
             function () {
-                $('#getEmbedFrm_url').val(
-                    $('#getEmbedFrm_url').val()
-                    + '&height=' + $('#embed_container.embed_preview').get(0).scrollHeight);
+                outerHeight = 0;
+                $('#embed_container.embed_preview')
+                    .find('.abantecart-widget-container')
+                    .children().each(
+                    function () {
+                        outerHeight += $(this).outerHeight();
+                    }
+                );
+                $('#getEmbedFrm_url').val($('#getEmbedFrm_url').val() + '&height=' + outerHeight);
             },
             1000
         );

@@ -5,6 +5,7 @@ AbanteCart storefront CSS-styles for embedded blocks
 */
 
 .abantecart-widget-container{
+	overflow: auto;
 }
 
 .abantecart-widget-container .abantecart_product{
