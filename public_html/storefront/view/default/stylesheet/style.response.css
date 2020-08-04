@@ -2130,14 +2130,15 @@ img.rating{
 
 	.cart-info .estimate, .cart-info .coupon {
 		width: 99%;
+		float: right !important;
 	}
 
 	.cart-info .estimate table {
 		border-left: none;
 	}
 
-	.cart-info .coupon button {
-		margin-top: 10px;
+	.cart-info .coupon button, .cart-info .estimate button {
+		margin-top: 0;
 	}
 
 	.cart-info .coupon table {
@@ -2238,7 +2239,7 @@ img.rating{
 	}
 
 	.cart-info .coupon button, .cart-info .estimate button {
-		margin-top: 10px;
+		margin-top: 0px;
 	}
 
 	.cart-info.totals a {
