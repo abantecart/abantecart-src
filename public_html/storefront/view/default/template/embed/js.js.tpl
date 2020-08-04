@@ -216,7 +216,10 @@ var init = function () {
                         if (embed_click_action === 'same_window') {
                             window.location = url;
                         } else {
-                            popupCenter(url, 'title', 800,600);
+                            window.open(url,
+                                'embed-store',
+                                'width=800,height=600,left=200,top=200'
+                            );
                         }
                         return false;
                     }
@@ -406,30 +409,10 @@ var init = function () {
         }
 
         var popupCenter = function (url, title, w, h) {
-            try {
-                var WindoW = window.parent ? window.parent : window;
-                // Fixes dual-screen position                             Most browsers      Firefox
-                const dualScreenLeft = WindoW.screenLeft !== undefined ? WindoW.screenLeft : WindoW.screenX;
-                const dualScreenTop = WindoW.screenTop !== undefined ? WindoW.screenTop : WindoW.screenY;
-
-                const width = WindoW.innerWidth ? WindoW.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
-                const height = WindoW.innerHeight ? WindoW.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
-
-                const systemZoom = width / WindoW.screen.availWidth;
-                const left = (width - w) / 2 / systemZoom + dualScreenLeft
-                const top = (height - h) / 2 / systemZoom + dualScreenTop
-                var newWindoW = window.open(
-                    url,
-                    title,
-                    'resizable=yes,status=no,scrollbars=no,location=no,menubar=no,width=' + w + ',height=' + h + ',top=' + top + ',left=' + left
-                );
-            } catch (ex) {
-
-            }
             var newWindoW = window.open(
                 url,
                 title,
-                'resizable=yes,status=no,scrollbars=no,location=no,menubar=no,width=' + w + ',height=' + h + ',top=' + top + ',left=' + left
+                'resizable=yes,status=no,scrollbars=no,location=no,menubar=no,width=' + w + ',height=' + h
             );
             if (WindoW.focus) {
                 newWindoW.focus();
