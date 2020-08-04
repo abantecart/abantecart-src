@@ -26,14 +26,15 @@ foreach ($params as $param => $v) {
     class="abantecart-widget-container"
     data-url="<?php echo $sf_base_url; ?>"
     data-css-url="<?php echo $sf_css_embed_url; ?>"
-    data-language="<?php echo $params['language']?>>"
-    data-currency="<?php echo $params['currency']?>">
-    <?php foreach($params['category_id'] as $k=>$id){?>
-    <li id="abc_cat_<?php echo $id; ?>"
-         class="abantecart_category"
-         data-category-id="<?php echo $id; ?>">
-        <?php echo $html; ?>
-    </li>
+    data-language="<?php echo $params['language'] ?>"
+    data-currency="<?php echo $params['currency'] ?>"
+>
+    <?php foreach ($params['category_id'] as $k => $id) { ?>
+        <li id="abc_cat_<?php echo $id; ?>"
+            class="abantecart_category"
+            data-category-id="<?php echo $id; ?>">
+            <?php echo $html; ?>
+        </li>
     <?php } ?>
 </ul>
 

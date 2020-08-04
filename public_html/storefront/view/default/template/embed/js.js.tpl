@@ -407,17 +407,6 @@ var init = function () {
             }
             return append;
         }
-
-        var popupCenter = function (url, title, w, h) {
-            var newWindoW = window.open(
-                url,
-                title,
-                'resizable=yes,status=no,scrollbars=no,location=no,menubar=no,width=' + w + ',height=' + h
-            );
-            if (WindoW.focus) {
-                newWindoW.focus();
-            }
-        }
     }
 };
 
