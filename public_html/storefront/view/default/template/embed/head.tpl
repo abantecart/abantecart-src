@@ -1,15 +1,17 @@
 <head>
-<meta http-equiv="cache-control" content="max-age=0">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="-1">
-<meta http-equiv="expires" content="Tue, 01 Jan 1980 11:00:00 GMT">
-<meta http-equiv="pragma" content="no-cache">
+    <meta charset="UTF-8">
+    <title><?php echo $this->document->getTitle(); ?></title>
+    <meta http-equiv="cache-control" content="max-age=0">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="-1">
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 11:00:00 GMT">
+    <meta http-equiv="pragma" content="no-cache">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<base href="<?php echo $base; ?>" />
+    <base href="<?php echo $base; ?>"/>
 
-<?php foreach ($links as $link) { ?>
+    <?php foreach ($links as $link) { ?>
 <link href="<?php echo $link['href']; ?>" rel="<?php echo $link['rel']; ?>" />
 <?php } ?>
 
