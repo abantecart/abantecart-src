@@ -130,7 +130,7 @@
                         outerHeight += $(this).outerHeight();
                     }
                 );
-                $('#getEmbedFrm_url').val($('#getEmbedFrm_url').val() + '&height=' + (outerHeight + 10);
+                $('#getEmbedFrm_url').val($('#getEmbedFrm_url').val() + '&height=' + (outerHeight + 20);
             },
             1000
         );
