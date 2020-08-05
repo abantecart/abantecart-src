@@ -62,7 +62,14 @@
         </div>
         <div class="col-sm-12 col-xs-12">
             <div data-example-id="textarea-form-control" class="embed-code">
-                <div class="btn-clipboard"><?php echo $text_copy_embed_code; ?></div>
+                <div class="btn-clipboard"><?php echo $text_copy_embed_code; ?>
+                    <span class="help_element">
+                        <a id="copyEmbedUrlBtn" onclick="copyToClipboard('#getEmbedFrm_code_area', this); return false;"
+                           title="copy">
+                            <i class="fa fa-copy fa-lg"></i>
+                        </a>
+                    </span>
+                </div>
                 <form>
                     <?php echo $text_area; ?>
                 </form>
@@ -123,14 +130,15 @@
         setTimeout(
             function () {
                 outerHeight = 0;
-                $('#embed_container.embed_preview')
-                    .find('.abantecart-widget-container')
-                    .children().each(
+                $.each(
+                    $('#embed_container.embed_preview')
+                        .find('.abantecart-widget-container')
+                        .children(),
                     function () {
                         outerHeight += $(this).outerHeight();
                     }
                 );
-                $('#getEmbedFrm_url').val($('#getEmbedFrm_url').val() + '&height=' + (outerHeight + 20);
+                $('#getEmbedFrm_url').val($('#getEmbedFrm_url').val() + '&height=' + (outerHeight + 20));
             },
             1000
         );
