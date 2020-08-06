@@ -392,12 +392,17 @@ class ALanguage
 
         if (!isset($request->cookie['language']) || $request->cookie['language'] != $lang_code) {
             //Set cookie for the language code
-            setcookie('language',
+            setCookieOrParams(
+                'language',
                 $lang_code,
-                time() + 60 * 60 * 24 * 30,
-                dirname($request->server['PHP_SELF']),
-                null,
-                (defined('HTTPS') && HTTPS)
+                [
+                    'path'     => dirname($request->server['PHP_SELF']),
+                    'domain'   => null,
+                    'secure'   => (defined('HTTPS') && HTTPS),
+                    'httponly' => true,
+                    'samesite' => 'none',
+                    'lifetime' => time() + 60 * 60 * 24 * 30,
+                ]
             );
         }
         //set current language

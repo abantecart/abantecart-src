@@ -26,8 +26,8 @@
         document.write(include);
     }
 <?php if($retina){?>
-    if((window.devicePixelRatio===undefined?1:window.devicePixelRatio)>1) {
-        document.cookie = 'HTTP_IS_RETINA=1;path=/';
+    if ((window.devicePixelRatio === undefined ? 1 : window.devicePixelRatio) > 1) {
+        document.cookie = 'HTTP_IS_RETINA=1; path=/; samesite=None';
     }
 <?php } ?>
 </script>

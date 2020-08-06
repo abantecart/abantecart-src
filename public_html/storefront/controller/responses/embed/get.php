@@ -54,21 +54,26 @@ class ControllerResponsesEmbedGet extends AController
         $remote_store_url = str_replace(array('http://', 'https://'), '//', $remote_store_url);
         $this->data['sf_base_url'] = $remote_store_url;
         $this->data['sf_js_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/js';
-        $this->data['sf_css_embed_url'] = $remote_store_url.'storefront/view/'.$this->config->get('config_storefront_template').'/stylesheet/embed.css';
+        $this->data['sf_css_embed_url'] =
+            $remote_store_url.'storefront/view/'.$this->config->get('config_storefront_template')
+            .'/stylesheet/embed.css';
 
         $this->data['homepage'] = HTTPS_SERVER;
         $this->data['params'] = $_get;
         unset($this->data['params']['rt']);
-        if($this->data['params']['lang']){
-            $langObj = new ALanguage( $this->registry, $this->data['params']['lang']);
-            if($langObj->getLanguageDetails($this->data['params']['language'])) {
+        if ($this->data['params']['curr']) {
+            $this->data['params']['currency'] = $this->data['params']['curr'];
+        }
+        if ($this->data['params']['lang']) {
+            $langObj = new ALanguage($this->registry, $this->data['params']['lang']);
+            if ($langObj->getLanguageDetails($this->data['params']['language'])) {
                 $this->registry->set('language', $langObj);
             }
-            $this->data['params']['language'] = $this->language->getLanguageCode();
+            $this->data['params']['language'] = $this->data['params']['lang'];
             $this->data['params']['direction'] = $this->language->get('direction');
         }
         $template = '';
-        if($_get['product_id']) {
+        if ($_get['product_id']) {
             $template = 'embed/get_product_embed_code.tpl';
         }elseif($_get['category_id']) {
             $template = 'embed/get_category_embed_code.tpl';

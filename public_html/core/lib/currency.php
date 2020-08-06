@@ -144,12 +144,17 @@ final class ACurrency
 
         if ((!isset($this->request->cookie['currency'])) || ($this->request->cookie['currency'] != $currency)) {
             //Set cookie for the currency code
-            setcookie('currency',
+            setCookieOrParams(
+                'currency',
                 $currency,
-                time() + 60 * 60 * 24 * 30,
-                dirname($this->request->server['PHP_SELF']),
-                null,
-                (defined('HTTPS') && HTTPS)
+                [
+                    'path'     => dirname($this->request->server['PHP_SELF']),
+                    'domain'   => null,
+                    'secure'   => (defined('HTTPS') && HTTPS),
+                    'httponly' => true,
+                    'samesite' => 'none',
+                    'lifetime' => time() + 60 * 60 * 24 * 30,
+                ]
             );
         }
     }

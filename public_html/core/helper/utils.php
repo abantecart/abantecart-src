@@ -1382,3 +1382,37 @@ function daysOfWeekList()
     }
     return $days;
 }
+
+function setCookieOrParams($name = null, $value = null, $options = [])
+{
+    /** @var string $lifetime - seconds
+     * @var string $path - dirname($_SERVER['PHP_SELF']);
+     * @var string $domain
+     * @var string $secure - if you only want to receive the cookie over HTTPS
+     * @var bool $httponly - prevent JavaScript access to session cookie
+     * @var string $samesite - 'none', 'lax' or 'strict'
+     */
+    extract($options);
+
+    if (PHP_VERSION_ID < 70300) {
+        if (!$name) {
+            session_set_cookie_params($lifetime, $path.'; samesite='.$samesite, $domain, $secure, $httponly);
+        } else {
+            setcookie($name, $value, $lifetime, $path.'; samesite='.$samesite, $domain, $secure, $httponly);
+        }
+    } else {
+        $options = [
+            'lifetime' => $lifetime,
+            'path'     => $path,
+            'domain'   => $domain,
+            'secure'   => $secure,
+            'httponly' => $httponly,
+            'samesite' => $samesite,
+        ];
+        if (!$name) {
+            session_set_cookie_params($options);
+        } else {
+            setcookie($name, $value, $options);
+        }
+    }
+}
