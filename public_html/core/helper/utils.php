@@ -1402,7 +1402,6 @@ function setCookieOrParams($name = null, $value = null, $options = [])
         }
     } else {
         $options = [
-            'lifetime' => $lifetime,
             'path'     => $path,
             'domain'   => $domain,
             'secure'   => $secure,
@@ -1410,8 +1409,10 @@ function setCookieOrParams($name = null, $value = null, $options = [])
             'samesite' => $samesite,
         ];
         if (!$name) {
+            $options['lifetime'] = $lifetime;
             session_set_cookie_params($options);
         } else {
+            $options['expires'] = $lifetime;
             setcookie($name, $value, $options);
         }
     }
