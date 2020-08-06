@@ -32,7 +32,9 @@ foreach ($params as $param => $v) {
     <?php foreach ($params['category_id'] as $k => $id) { ?>
         <li id="abc_cat_<?php echo $id; ?>"
             class="abantecart_category"
-            data-category-id="<?php echo $id; ?>">
+            data-category-id="<?php echo $id; ?>"
+            data-language="<?php echo $params['language'] ?>"
+            data-currency="<?php echo $params['currency'] ?>">
             <?php echo $html; ?>
         </li>
     <?php } ?>

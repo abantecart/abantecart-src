@@ -26,6 +26,24 @@ class ControllerResponsesEmbedJS extends AController
 
     public $data = array();
 
+    public function __construct($registry, $instance_id, $controller, $parent_controller = '')
+    {
+        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+        $lang_code =
+            isset($this->request->get['language']) ? (string)$this->request->get['language'] : (string)$this->request->get['lang'];
+        if ($lang_code) {
+            $langObj = new ALanguage($this->registry, $lang_code);
+            if ($langObj->getLanguageDetails($lang_code)) {
+                $this->registry->set('language', $langObj);
+            }
+        }
+        $curr_code =
+            isset($this->request->get['currency']) ? (string)$this->request->get['currency'] : (string)$this->request->get['curr'];
+        if ($curr_code) {
+            $this->currency->set($curr_code);
+        }
+    }
+
     /**
      * NOTE: main() is bootup method
      */
@@ -165,7 +183,8 @@ class ControllerResponsesEmbedJS extends AController
         $this->data['display_price'] = $display_price;
 
         $rt = $this->config->get('config_embed_click_action') == 'modal' ? 'r/product/product' : 'product/product';
-        $this->data['product_details_url'] = $this->html->getURL($rt, '&product_id='.$product_id);
+        $this->data['product_details_url'] =
+            $this->html->getURL($rt, '&product_id='.$product_id.'&language='.$this->language->getLanguageCode());
 
         //handle stock messages
         // if track stock is off. no messages needed.

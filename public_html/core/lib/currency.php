@@ -78,8 +78,9 @@ final class ACurrency
             $cache->push($cache_key, $this->currencies);
         }
 
-        $currencyCode =
-            $this->isValidCodeFormat($this->request->get['currency']) ? $this->request->get['currency'] : '';
+        $currencyCode = $this->isValidCodeFormat($this->request->get['currency'])
+            ? $this->request->get['currency']
+            : '';
         if ($currencyCode && array_key_exists($currencyCode, $this->currencies)) {
             $this->set($currencyCode);
             // Currency is switched, set sign for external use via isSwitched method

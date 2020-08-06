@@ -114,7 +114,7 @@
         var d = new Date();
         $.each($('div#embed_modal').find("input[name='category_id[]']:checked"), function () {
             var id = $(this).val();
-            html += '\t<li id="abc_' + (d.getTime() + id) + '" class="abantecart_category" data-category-id="' + id + '">\n';
+            html += '\t<li id="abc_' + (d.getTime() + id) + '" class="abantecart_category" data-category-id="' + id + '" data-language="' + language + '" data-currency="' + currency + '">\n';
             url += '&category_id[]=' + id;
 
             $('#code_options').find('input[type="hidden"]').each(function () {

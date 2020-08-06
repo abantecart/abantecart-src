@@ -23,14 +23,16 @@ foreach ($params as $param => $v) {
 
 <script src="<?php echo $sf_js_embed_url.$common_params; ?>" type="text/javascript"></script>
 <ul style="display:none;"
-     class="abantecart-widget-container"
-     data-url="<?php echo $sf_base_url; ?>"
-     data-css-url="<?php echo $sf_css_embed_url; ?>"
-     data-language="<?php echo  $params['language']?>"
-     data-currency="<?php echo  $params['currency']?>">
+    class="abantecart-widget-container"
+    data-url="<?php echo $sf_base_url; ?>"
+    data-css-url="<?php echo $sf_css_embed_url; ?>"
+    data-language="<?php echo $params['language'] ?>"
+    data-currency="<?php echo $params['currency'] ?>">
     <li id="abc_<?php echo (int)(microtime() * 1000); ?>"
-         class="abantecart_collection"
-         data-collection-id="<?php echo $params['collection_id']; ?>">
+        class="abantecart_collection"
+        data-collection-id="<?php echo $params['collection_id']; ?>"
+        data-language="<?php echo $params['language'] ?>"
+        data-currency="<?php echo $params['currency'] ?>">
         <?php echo $html; ?>
     </li>
 </ul>

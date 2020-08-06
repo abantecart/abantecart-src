@@ -104,9 +104,9 @@
 		var html = '<script src="<?php echo $sf_js_embed_url; ?>" type="text/javascript"><\/script>\n';
 			html += '<ul style="display:none;" class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>"' + common_params + '>\n';
 
-		var d = new Date(),
-		    id = $('#getEmbedFrm_collection_id').val();
-			html += '\t<li id="abc_' + (d.getTime() + id) + '" class="abantecart_collection" data-collection-id="'+ id +'">\n';
+        var d = new Date(),
+            id = $('#getEmbedFrm_collection_id').val();
+        html += '\t<li id="abc_' + (d.getTime() + id) + '" class="abantecart_collection" data-collection-id="' + id + '" data-language="' + language + '" data-currency="' + currency + '">\n';
 
         $('#code_options').find('input[type="hidden"]').each(function () {
             if ($(this).val() == 1) {
