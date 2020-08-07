@@ -342,13 +342,14 @@ var init = function () {
             if (child.is('[data-currency]')) {
                 url += '&currency=' + child.attr('data-currency');
             }
-            url += abc_add_common_params(child.parent('.abantecart-widget-container'));
+            url += abc_add_common_params(child.parent('.abantecart-widget-container')) + '&time_stamp=' + d.getTime();
             abc_process_request(url);
         }
 
         var abc_populate_categories_items = function (children, w_url) {
             //using local jQuery
             $ = jQuery;
+            var d = new Date();
             var url = w_url + '?rt=r/embed/js/categories';
             var target_id, category_id;
 
@@ -364,13 +365,14 @@ var init = function () {
                     }
                 }
             })
-            url += abc_add_common_params(children.first().parent('.abantecart-widget-container'));
+            url += abc_add_common_params(children.first().parent('.abantecart-widget-container')) + '&time_stamp=' + d.getTime();
             abc_process_request(url);
         }
 
         var abc_populate_collection_items = function (children, w_url) {
             //using local jQuery
             $ = jQuery;
+            var d = new Date();
             var url = w_url + '?rt=r/embed/js/collection';
             var target_id, collection_id;
             if ($(children).is('[data-collection-id]')) {
@@ -384,13 +386,14 @@ var init = function () {
                 }
             }
 
-            url += abc_add_common_params(children.first().parent('.abantecart-widget-container'));
+            url += abc_add_common_params(children.first().parent('.abantecart-widget-container')) + '&time_stamp=' + d.getTime();
             abc_process_request(url);
         }
 
         var abc_populate_manufacturers_items = function (children, w_url) {
             //using local jQuery
             $ = jQuery;
+            var d = new Date();
             var url = w_url + '?rt=r/embed/js/manufacturers';
             var target_id, manufacturer_id;
 
@@ -406,7 +409,7 @@ var init = function () {
                     }
                 }
             })
-            url += abc_add_common_params(children.first().parent('.abantecart-widget-container'));
+            url += abc_add_common_params(children.first().parent('.abantecart-widget-container')) + '&time_stamp=' + d.getTime();
             abc_process_request(url);
         }
 

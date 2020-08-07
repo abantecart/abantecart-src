@@ -146,8 +146,14 @@ class ControllerResponsesEmbedJS extends AController
             return null;
         }
         //deal with quotes in name
-        $product_info['name'] =
-            htmlentities(html_entity_decode($product_info['name'], ENT_QUOTES, 'UTF-8'), ENT_QUOTES, 'UTF-8');
+        $product_info['name'] = htmlentities(
+            html_entity_decode(
+                $product_info['name'],
+                ENT_QUOTES,
+                'UTF-8'),
+            ENT_QUOTES,
+            'UTF-8'
+        );
 
         $resource = new AResource('image');
         $product_info['thumbnail'] = $resource->getMainThumb(

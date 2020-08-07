@@ -1,23 +1,28 @@
 <?php //populate product div on client side ?>
 (function(){
-	var html = '';
-	if($('#<?php echo $target;?> .abantecart_name')){
-		$('#<?php echo $target;?> .abantecart_name').html('<?php echo $product['name']?>');
-	}
+var html = '';
+if($('#<?php echo $target; ?> .abantecart_name')){
+$('#<?php echo $target; ?> .abantecart_name').html('<?php echo $product['name'] ?>');
+}
 
-	if($('#<?php echo $target;?> .abantecart_image')){
-		html = '<a data-href="<?php echo $product_details_url;?>"  data-id="<?php echo $product['product_id']; ?>" data-html="true" data-target="#abc_embed_modal" data-backdrop="static" data-keyboard="false" data-toggle="abcmodal" href="#" class="product_thumb" data-original-title="">'
-			+ '<?php echo $product['thumbnail']['thumb_html']?></a>';
-		$('#<?php echo $target;?> .abantecart_image').html(html);
-	}
+if($('#<?php echo $target; ?> .abantecart_image')){
+html = '<a data-href="<?php echo $product_details_url; ?>" data-id="<?php echo $product['product_id']; ?>"
+           data-html="true" data-target="#abc_embed_modal" data-backdrop="static" data-keyboard="false"
+           data-toggle="abcmodal" href="#" class="product_thumb" data-original-title="">'
+    + '<?php echo nl2br($product['thumbnail']['thumb_html']); ?></a>';
+$('#<?php echo $target; ?> .abantecart_image').html(html);
+}
 
 <?php
-if($product['price'] && $display_price){?>
-	html ='';
-	if($('<?php echo $target;?> .abantecart_price')){
-	<?php if ($product['special']) { ?>
-			html = '<div class="priceold"><?php echo $product['price'] ?></div>'+
-					'<div class="pricenew"><?php echo $product['special'] ?></div>';
+if ($product['price'] && $display_price) {
+    ?>
+    html ='';
+    if($('<?php echo $target; ?> .abantecart_price')){
+    <?php if ($product['special']) { ?>
+        html = '
+        <div class="priceold"><?php echo $product['price'] ?></div>'+
+        '
+        <div class="pricenew"><?php echo $product['special'] ?></div>';
 		<?php } else { ?>
 			html = '<div class="oneprice"><?php echo $product['price'] ?></div>'
 		<?php } ?>
