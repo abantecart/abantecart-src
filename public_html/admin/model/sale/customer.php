@@ -1099,16 +1099,10 @@ class ModelSaleCustomer extends Model
             $this->data['mail_template_data']['store_name'] = $store_info['store_name'];
             $this->data['mail_template_data']['store_url'] = $store_info['store_url'];
             $this->data['mail_template_data']['login_url'] = $store_info['store_url'];
-
-
             $this->data['mail_template'] = 'mail/account_create.tpl';
 
             //allow to change email data from extensions
             $this->extensions->hk_ProcessData($this, 'cp_customer_approve_mail');
-
-            $view = new AView($this->registry, 0);
-            $view->batchAssign($this->data['mail_template_data']);
-            $html_body = $view->fetch($this->data['mail_template']);
 
             $mail = new AMail($this->config);
             $mail->setTo($customer_info['email']);
