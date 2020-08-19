@@ -27,6 +27,7 @@
  */
 class ModelSaleOrder extends Model
 {
+    public $data = [];
     /**
      * @param array $data
      *
@@ -1037,20 +1038,22 @@ class ModelSaleOrder extends Model
                     $customer_email = $order_query->row['email'];
                 }
 
-                $mailData = array(
-                    'store_name' => $order_query->row['store_name'],
-                    'order_id' => $order_id,
-                    'date_added' => dateISO2Display($order_query->row['date_added'], $language->get('date_format_short')),
+                $this->data['mail_template_data'] = [
+                    'store_name'        => $order_query->row['store_name'],
+                    'order_id'          => $order_id,
+                    'date_added'        => dateISO2Display($order_query->row['date_added'],
+                        $language->get('date_format_short')),
                     'order_status_name' => $order_query->row['status'],
-                    'invoice' => $invoice,
-                    'comment' => $data['comment'] ? strip_tags(html_entity_decode($data['comment'], ENT_QUOTES, 'UTF-8')) : ''
-                );
-
+                    'invoice'           => $invoice,
+                    'comment'           => $data['comment'] ? strip_tags(html_entity_decode($data['comment'],
+                        ENT_QUOTES, 'UTF-8')) : '',
+                ];
+                $this->extensions->hk_ProcessData($this, 'order_status_notify');
                 $mail = new AMail($this->config);
                 $mail->setTo($customer_email);
                 $mail->setFrom($this->config->get('store_main_email'));
                 $mail->setSender($order_query->row['store_name']);
-                $mail->setTemplate('admin_order_status_notify', $mailData);
+                $mail->setTemplate('admin_order_status_notify', $this->data['mail_template_data']);
                 $mail->send();
 
                 //send IMs except emails.

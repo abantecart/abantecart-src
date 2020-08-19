@@ -29,7 +29,7 @@ class ModelToolGlobalSearch extends Model
      * @var object Registry
      */
     public $registry;
-
+    public $data = [];
     /**
      * commands available in the system
      *
@@ -375,6 +375,14 @@ class ModelToolGlobalSearch extends Model
                 $output = $result->row ['total'];
                 break;
             default :
+                $this->data['result'] = [];
+                $this->extensions->hk_ProcessData($this, 'getTotal',
+                    ['search_category' => $search_category, 'term' => $needle]);
+                if (!$this->data['result']) {
+                    $output = 0;
+                } else {
+                    $output = (int)$this->data['result'];
+                }
                 break;
         }
 
@@ -717,7 +725,14 @@ class ModelToolGlobalSearch extends Model
                 break;
 
             default :
-                $result = array(0 => array("text" => "no results! "));
+                $this->data['result'] = [];
+                $this->extensions->hk_ProcessData($this, 'getResult',
+                    ['search_category' => $search_category, 'term' => $needle, 'limit' => 3]);
+                if (!$this->data['result']) {
+                    $result = [];
+                } else {
+                    $result = $this->data['result'];
+                }
                 break;
         }
 
