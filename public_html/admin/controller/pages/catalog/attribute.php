@@ -158,7 +158,7 @@ class ControllerPagesCatalogAttribute extends AController
         if ($this->request->is_POST() && $this->validateAttributeForm()) {
             $attribute_id = $this->attribute_manager->addAttribute($this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('catalog/attribute/update', '&attribute_id='.$attribute_id));
+            redirect($this->html->getSecureURL('catalog/attribute/update', '&attribute_id='.$attribute_id));
         }
         $this->_getForm();
 
@@ -168,10 +168,8 @@ class ControllerPagesCatalogAttribute extends AController
 
     public function update()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
         $this->view->assign('success', $this->session->data['success']);
         if (isset($this->session->data['success'])) {
             unset($this->session->data['success']);
@@ -180,9 +178,12 @@ class ControllerPagesCatalogAttribute extends AController
         $this->document->setTitle($this->language->get('heading_title'));
 
         if ($this->request->is_POST() && $this->validateAttributeForm()) {
-            $this->attribute_manager->updateAttribute($this->request->get['attribute_id'], $this->request->post);
+            $this->data['inserted'] =
+                $this->attribute_manager->updateAttribute($this->request->get['attribute_id'], $this->request->post);
+            $this->extensions->hk_ProcessData($this, __FUNCTION__);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('catalog/attribute/update', '&attribute_id='.$this->request->get['attribute_id']));
+            redirect($this->html->getSecureURL('catalog/attribute/update',
+                '&attribute_id='.$this->request->get['attribute_id']));
         }
 
         $this->_getForm();
