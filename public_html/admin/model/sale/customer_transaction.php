@@ -29,6 +29,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
  */
 class ModelSaleCustomerTransaction extends Model
 {
+    public $data = [];
     /**
      * @param int $customer_transaction_id
      */
@@ -254,17 +255,17 @@ class ModelSaleCustomerTransaction extends Model
 
                 $amount = $this->currency->format($data['credit'] - $data['debit']);
 
-                $mailData = [
-                    'store_name' => $store_info['store_name'],
-                    'amount' => $amount,
-                    'transactions_url' => $url
+                $this->data['mail_template_data'] = [
+                    'store_name'       => $store_info['store_name'],
+                    'amount'           => $amount,
+                    'transactions_url' => $url,
                 ];
-
+                $this->extensions->hk_ProcessData($this, 'admin_new_transaction_notify', [$data]);
                 $mail = new AMail($this->config);
                 $mail->setTo($customer_info['email']);
                 $mail->setFrom($store_info['store_main_email']);
                 $mail->setSender($store_info['store_name']);
-                $mail->setTemplate('admin_new_transaction_notify', $mailData);
+                $mail->setTemplate('admin_new_transaction_notify', $this->data['mail_template_data']);
                 $mail->send();
 
                 //notify customer
