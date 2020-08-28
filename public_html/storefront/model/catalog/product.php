@@ -602,7 +602,8 @@ class ModelCatalogProduct extends Model
             } else {
                 $sql .= " AND (LCASE(pd.name) LIKE '%".$this->db->escape(mb_strtolower($keyword), true)."%'
                                 OR ".implode(' OR ', $tags_str)."
-                                OR LCASE(pd.description) LIKE '%".$this->db->escape(mb_strtolower($keyword), true)."%'";
+                                OR LCASE(pd.description) LIKE '%".$this->db->escape(mb_strtolower($keyword), true)."%'
+                                OR LCASE(pd.blurb) LIKE '%".$this->db->escape(mb_strtolower($keyword), true)."%'";
             }
 
             if (!$model) {
@@ -707,9 +708,10 @@ class ModelCatalogProduct extends Model
                 $sql .= " AND (LCASE(pd.name) LIKE '%".$this->db->escape(mb_strtolower($keyword), true)."%' OR "
                     .implode(' OR ', $tags_str);
             } else {
-                $sql .= " AND (LCASE(pd.name) LIKE '%".$this->db->escape(mb_strtolower($keyword), true)."%' OR "
-                    .implode(' OR ', $tags_str)." OR LCASE(pd.description) LIKE '%"
-                    .$this->db->escape(mb_strtolower($keyword), true)."%'";
+                $sql .= " AND (LCASE(pd.name) LIKE '%".$this->db->escape(mb_strtolower($keyword), true)."%' 
+                                OR ".implode(' OR ', $tags_str)." 
+                                OR LCASE(pd.description) LIKE '%".$this->db->escape(mb_strtolower($keyword), true)."%'
+                                OR LCASE(pd.blurb) LIKE '%".$this->db->escape(mb_strtolower($keyword), true)."%'";
             }
 
             if (!$model) {
