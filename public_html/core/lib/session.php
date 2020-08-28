@@ -165,7 +165,7 @@ final class ASession
                 'domain'   => null,
                 'secure'   => (defined('HTTPS') && HTTPS),
                 'httponly' => true,
-                'samesite' => 'none',
+                'samesite' => 'lax',
                 'lifetime' => 0,
             ]
         );

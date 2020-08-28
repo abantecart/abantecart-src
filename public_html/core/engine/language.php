@@ -400,7 +400,7 @@ class ALanguage
                     'domain'   => null,
                     'secure'   => (defined('HTTPS') && HTTPS),
                     'httponly' => true,
-                    'samesite' => 'none',
+                    'samesite' => 'lax',
                     'lifetime' => time() + 60 * 60 * 24 * 30,
                 ]
             );
