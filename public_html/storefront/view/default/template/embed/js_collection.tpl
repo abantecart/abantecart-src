@@ -3,23 +3,15 @@ var html = '';
 
 $('#<?php
 echo $target; ?>.abantecart_collection').append(
-'
-<style>ul.abantecart_products li {
-        float: none;
-    }
-
-    '
-    +
-
-    ' .priceold { text-decoration: line-through; }</style>
-<ul class="abantecart_products"></ul>');
+    '<style>ul.abantecart_products li {float: none;} '
+    + ' .priceold { text-decoration: line-through; }</style><ul class="abantecart_products"></ul>'
+);
 <?php
 foreach ((array) $products as $product) {
     ?>
     if($('#<?php
     echo $target; ?> .abantecart_collection ul')) {
-    html = '
-    <li><a data-href="<?php
+    html = '<li><a data-href="<?php
         echo $product['product_details_url']; ?>" data-id="<?php
         echo $product['product_id']; ?>" '
         + ' data-html="true" data-target="#abc_embed_modal" data-backdrop="static" data-keyboard="false" '
@@ -27,8 +19,7 @@ foreach ((array) $products as $product) {
         + '<?php
         echo nl2br($product['thumb']['thumb_html']); ?></a>';
 
-        html += '
-        <div><h3 class="abantecart_product_name"><a data-href="<?php
+        html += '<div><h3 class="abantecart_product_name"><a data-href="<?php
                 echo $product['product_details_url']; ?>" '
                 + ' data-id="<?php
                 echo $product['product_id']; ?>"'
@@ -36,26 +27,20 @@ foreach ((array) $products as $product) {
                 + ' data-target="#abc_embed_modal" data-toggle="abcmodal" href="#"'
                 + ' class="collection_thumb">'
                 + '<?php
-                echo nl2br(addslashes($product['name'])); ?></a></h3></div>
-        ';
+                echo nl2br(addslashes($product['name'])); ?></a></h3></div>';
 
         <?php
         if ($product['price'] && $display_price) {
             ?>
             <?php
             if ($product['special']) { ?>
-                html += '
-                <div class="priceold"><?php
+                html += '<div class="priceold"><?php
                     echo $product['price'] ?></div>'
-                                                   + '
-                <div class="pricenew"><?php
-                    echo $product['special'] ?></div>';
+                    + '<div class="pricenew"><?php echo $product['special'] ?></div>';
             <?php
             } else { ?>
-                html += '
-                <div class="oneprice"><?php
-                    echo $product['price'] ?></div>'
-            <?php
+                html += '<div class="oneprice"><?php echo $product['price'] ?></div>'
+        <?php
             }
         }
         ?>
@@ -70,8 +55,7 @@ foreach ((array) $products as $product) {
                 .'" alt="'.$product['stars'].'" /></div>' ?>';
         <?php
         } ?>
-        html += '
-    </li>';
+        html += '</li>';
     $('#<?php
     echo $target; ?>.abantecart_collection ul').append(html);
     }
