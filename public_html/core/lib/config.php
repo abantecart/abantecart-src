@@ -111,7 +111,7 @@ final class AConfig
         $db = $this->registry->get('db');
 
         //detect URL for the store
-        $url = str_replace('www.', '', $_SERVER['HTTP_HOST']).get_url_path($_SERVER['PHP_SELF']);
+        $url = str_replace('www.', '', $_SERVER['HTTP_HOST']).get_url_path($_SERVER['REQUEST_URI']);
         if (defined('INSTALL')) {
             $url = str_replace('install/', '', $url);
         }
@@ -177,7 +177,8 @@ final class AConfig
         */
         $config_url = preg_replace("(^https?://)", "", $this->cnfg['config_url']);
         $config_url = preg_replace("(^://)", "", $config_url);
-        if (!(is_int(strpos($config_url, $url))) && !(is_int(strpos($url, $config_url)))) {
+
+        if ($url != $config_url) {
             // if requested url not a default store URL - do check other stores.
             $cache_key = 'settings.store.'.md5('http://'.$url);
             $store_settings = $cache->pull($cache_key);
