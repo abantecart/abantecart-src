@@ -24,22 +24,19 @@
  */
 class ModelToolMPAPI extends Model
 {
-    protected $data = array();
-    protected $mp_url = 'bWFya2V0cGxhY2UuYWJhbnRlY2FydC5jb20v';
+    protected $mp_url = 'aHR0cHM6Ly9tYXJrZXRwbGFjZS5hYmFudGVjYXJ0LmNvbS8=';
+
+    public function __construct($registry)
+    {
+        parent::__construct($registry);
+    }
 
     /**
-     * @param bool $withProtocol
-     *
      * @return string
      */
-    public function getMPURL($withProtocol = true)
+    public function getMPURL()
     {
-        $url = '';
-        if ($withProtocol) {
-            $url .= HTTPS === true ? 'https:' : 'http:';
-        }
-        $url .= '//'.base64_decode($this->mp_url);
-        return $url;
+         return base64_decode($this->mp_url);
     }
 
     /**
@@ -47,6 +44,7 @@ class ModelToolMPAPI extends Model
      *
      * @return bool
      * Disconnect store from AbanteCart marketplace
+     * @throws AException
      */
     public function disconnect($mp_token)
     {
@@ -54,14 +52,13 @@ class ModelToolMPAPI extends Model
             return false;
         }
 
-        $params = array(
+        $params = [
             'rt'       => 'a/account/authorize/disconnect',
             'mp_token' => $mp_token,
-        );
+        ];
         $connect = new AConnect();
         $connect->connect_method = 'curl';
-        $response = $this->send($connect, $params);
-        return $response;
+        return $this->send($connect, $params);
     }
 
     /**
@@ -70,6 +67,7 @@ class ModelToolMPAPI extends Model
      * @param string $mp_token
      *
      * @return bool
+     * @throws AException
      */
     public function authorize($mp_token)
     {
@@ -77,10 +75,10 @@ class ModelToolMPAPI extends Model
             return false;
         }
 
-        $auth_params = array(
+        $auth_params = [
             'rt'       => 'a/account/authorize/authorize',
             'mp_token' => $mp_token,
-        );
+        ];
 
         $connect = new AConnect();
         $connect->connect_method = 'curl';
@@ -101,29 +99,29 @@ class ModelToolMPAPI extends Model
      * @param string $mp_token
      *
      * @return array
+     * @throws AException
      */
     public function getMyExtensions($mp_token)
     {
         if (!$mp_token) {
-            return array();
+            return [];
         }
 
         $connect = new AConnect(true);
         $connect->connect_method = 'curl';
-        $params = array(
+        $params = [
             'rt'       => 'a/account/account/get_extensions',
             'mp_token' => $mp_token,
-        );
-        $response = $this->send($connect, $params);
-        return $response;
+        ];
+        return $this->send($connect, $params);
     }
 
-    public function processRequest($params = array())
+    public function processRequest($params = [])
     {
-        $output = array(
-            'categories' => array(),
-            'products'   => array(),
-        );
+        $output = [
+            'categories' => [],
+            'products'   => [],
+        ];
         $connect = new AConnect();
         $connect->connect_method = 'curl'; // set curl as default connection type
 
@@ -152,10 +150,11 @@ class ModelToolMPAPI extends Model
         }
         // get category list
         $output['categories'] = $this->send($connect,
-            array(
+                                            [
                 'rt'          => 'a/product/category',
                 'category_id' => 0,
-            ));
+                                            ]
+        );
 
         if ($output['categories']) {
             foreach ($output['categories']['subcategories'] as &$category) {
@@ -166,11 +165,11 @@ class ModelToolMPAPI extends Model
                     .'&sord='.$get_params['sord']
                     .'&limit='.$get_params['limit']
                 );
-                $category['active'] = $category['category_id'] == $params['category_id'] ? true : false;
+                $category['active'] = ($category['category_id'] == $params['category_id']);
             }
             unset($category);
             //add all categories option at the beginning of array
-            array_unshift($output['categories']['subcategories'], array(
+            array_unshift($output['categories']['subcategories'], [
                 'category_id' => '',
                 'name'        => $this->language->get('text_all_categories'),
                 'href'        => $this->html->getSecureURL(
@@ -180,7 +179,8 @@ class ModelToolMPAPI extends Model
                     .'&limit='.$get_params['limit']
                 ),
                 'active'      => $params['category_id'] ? false : true,
-            ));
+            ]
+            );
         }
         //Load purchased extensions if requested
         if ($params['purchased_only']) {
@@ -205,7 +205,7 @@ class ModelToolMPAPI extends Model
         //prepare extensions for listing
         //Check if extension is installed or requires updating based on versions
 
-        if ($output['products']['rows']) {
+        if ((array)$output['products'] && (array)$output['products']['rows']) {
             foreach ($output['products']['rows'] as &$product) {
                 $info = $product['cell'];
                 $info['rating'] = (int)$info['rating'];
@@ -227,18 +227,19 @@ class ModelToolMPAPI extends Model
         }
 
         if (!$output['categories'] && !$output['products']) {
-            $output = array();
+            $output = [];
         }
         return $output;
     }
 
     /**
      * @param AConnect $connect
-     * @param array    $params - plain associative array
+     * @param array $params - plain associative array
      *
      * @return mixed
+     * @throws AException
      */
-    private function send($connect, $params = array())
+    private function send($connect, $params = [])
     {
         if (!is_object($connect)) {
             return false;
@@ -257,8 +258,7 @@ class ModelToolMPAPI extends Model
 
         $GET = array_merge($params, $GET);
         $href = '?'.http_build_query($GET);
-        $response = $connect->getResponse($this->getMPURL().$href);
-        return $response;
+        return $connect->getResponse($this->getMPURL().$href);
     }
 
 }

@@ -1,5 +1,4 @@
 <?php
-
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -19,6 +18,13 @@
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 
+/**
+ * Class ARouter
+ *
+ * @property AResponse $response
+ * @property ARequest $request
+ * @property AConfig $config
+ */
 final class ARouter
 {
     /**
@@ -142,6 +148,17 @@ final class ARouter
                         //Pages section has priority
                         if ($this->detectController("pages")) {
                             $this->request_type = 'page';
+                            // defense from click-jacking attack (prevention of bad iframe covering)
+                            // adds header only for page controllers or when embed mode is disabled
+                            if ($this->config && $this->request && $this->request->get['embed_mode']) {
+                                $this->config->set('embed_mode', true);
+                            } elseif ($this->config
+                                && $this->request
+                                && strpos($this->request->get['rt'], 'embed') === false
+                                && !$this->config->get('embed_mode')
+                            ) {
+                                $this->response->addHeader('X-Frame-Options: SAMEORIGIN');
+                            }
                         } else {
                             if ($this->detectController("responses")) {
                                 $this->request_type = 'response';
@@ -195,7 +212,6 @@ final class ARouter
                 } else {
                     $resp_controller->build('error/ajaxerror/not_found');
                 }
-
             } else {
                 if ($this->request_type == 'api') {
                     $api_controller = new AAPI($this->registry);
@@ -251,7 +267,6 @@ final class ARouter
                 }
             }
         }
-
     }
 
     /**
