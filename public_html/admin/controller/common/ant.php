@@ -128,6 +128,6 @@ class ControllerCommonANT extends AController
 
         // check for extensions updates
         $this->loadModel('tool/updater');
-        $this->model_tool_updater->check4updates();
+        $this->model_tool_updater->check4updates(true);
     }
 }
