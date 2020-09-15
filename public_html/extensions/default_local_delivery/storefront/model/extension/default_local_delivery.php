@@ -7,6 +7,8 @@
 
   Copyright © 2011-2020 Belavier Commerce LLC
 
+  Modified by WHY2 Support for AbanteCart
+
   This source file is subject to Open Software License (OSL 3.0)
   Licence details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
@@ -29,17 +31,16 @@ class ModelExtensionDefaultLocalDelivery extends Model
         $language = new ALanguage($this->registry, $this->language->getLanguageCode(), 0);
         $language->load($language->language_details['filename']);
         $language->load('default_local_delivery/default_local_delivery');
-
+        $postcode         = str_replace( ' ', '', $address['postcode'] );
         if ($this->config->get('default_local_delivery_status') ) {
             if( $this->config->get('default_local_delivery_postal_codes') ){
                 $codes = explode(",",$this->config->get('default_local_delivery_postal_codes'));
-                $codes = array_map('trim', $codes);
-                if( in_array($address['postcode'], $codes) ){
-                    $status = true;
-                } else {
-                    $status = false;
+                foreach ($codes as $code) {
+                    if ( fnmatch( $code,$postcode,FNM_CASEFOLD ) ) {
+                        $status = true;
+                    }
                 }
-            }else{
+            } else{
                 $status = true;
             }
         } else {
@@ -60,8 +61,8 @@ class ModelExtensionDefaultLocalDelivery extends Model
                 'title'        => $language->get('text_description'),
                 'cost'         => (float)$this->config->get('default_local_delivery_cost'),
                 'text'         => (float)$this->config->get('default_local_delivery_cost')
-                                  ? $this->currency->format((float)$this->config->get('default_local_delivery_cost'))
-                                  : $language->get('text_free'),
+                    ? $this->currency->format((float)$this->config->get('default_local_delivery_cost'))
+                    : $language->get('text_free'),
             );
 
             $method_data = array(
