@@ -22,7 +22,7 @@
   </definition>
   <definition>
     <key>default_local_delivery_postal_codes</key>
-    <value><![CDATA[Códigos postales: <br /> <span class = "help"> Lista de códigos postales separados por comas. Compatible con comodines *. Ejemplo 30001,3002,40 *, * ND </span>]]></value>
+    <value><![CDATA[Códigos postales: <br /> <span class = "help"> Lista de códigos postales separados por comas. Compatible con comodines *. Ejemplo 30001,3002,40*,*ND</span>]]></value>
   </definition>
   <definition>
     <key>error_permission</key>
