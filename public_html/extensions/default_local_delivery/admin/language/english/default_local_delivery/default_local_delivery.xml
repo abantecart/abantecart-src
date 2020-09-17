@@ -22,7 +22,7 @@
   </definition>
   <definition>
     <key>default_local_delivery_postal_codes</key>
-    <value><![CDATA[Postal Codes:<br /><span class="help"> Comma separated postal codes list</span>]]></value>
+    <value><![CDATA[Postal Codes:<br /><span class="help"> Comma separated postal codes list. Wildcard * supported. Example 30001,3002,40*,*ND</span>]]></value>
   </definition>
   <definition>
     <key>error_permission</key>
