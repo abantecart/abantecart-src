@@ -52,7 +52,6 @@ class ModelToolUpdater extends Model
 
         if ($update_info === false) {
             $update_info = $this->_getUpdateInfo();
-
             if ($update_info) {
                 $this->cache->push('extensions.updates', $update_info);
             }
@@ -109,6 +108,7 @@ class ModelToolUpdater extends Model
         /** @var ModelToolMPAPI $mdl */
         $mdl = $this->load->model('tool/mp_api');
         $url = $mdl->getMPURL().'?rt=a/product/updates';
+        $url .= "&mp_token=".$this->config->get('mp_token');
         $url .= "&store_id=".UNIQUE_ID;
         $url .= "&store_ip=".$_SERVER ['SERVER_ADDR'];
         $url .= "&store_url=".HTTP_SERVER;
@@ -136,13 +136,18 @@ class ModelToolUpdater extends Model
                 if (!isset($installed[$extKey])) {
                     continue 1;
                 }
+                //if major version given
+                $tmp = explode('.',$version);
+                if(count($tmp) == 2){
+                    $version .= '.0';
+                }
 
                 //skip not supported by cart
                 if (!$version_info['cart_versions'] || !in_array(VERSION, $version_info['cart_versions'])) {
                     continue;
                 }
-                //skip old or current versions
-                if (version_compare($installed[$extKey], $version, '>=')) {
+                //skip old versions
+                if (version_compare($installed[$extKey], $version, '>')) {
                     continue;
                 }
                 //if we have 2 or more versions of extension for asked cart version

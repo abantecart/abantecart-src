@@ -573,7 +573,7 @@ class ControllerPagesSaleOrder extends AController
                 }
             }
 
-            $this->data['order_products'][] = array(
+            $this->data['order_products'][$order_product['order_product_id']] = array(
                 'order_product_id' => $order_product['order_product_id'],
                 'product_id'       => $order_product['product_id'],
                 'product_status'   => $product['status'],

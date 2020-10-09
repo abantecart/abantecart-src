@@ -393,5 +393,13 @@
 		<key>text_more_extensions</key>
 		<value><![CDATA[More extensions are available for easy install.]]></value>
 	</definition>
+	<definition>
+		<key>text_license_expires</key>
+		<value><![CDATA[Support Till]]></value>
+	</definition>
+	<definition>
+		<key>button_get_support</key>
+		<value><![CDATA[Get Support]]></value>
+	</definition>
 
 </definitions>

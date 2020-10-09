@@ -57,12 +57,22 @@ class ControllerResponsesListingGridExtension extends AController
         }
 
         //sort
-        $allowedSort = array_merge(array(1 => 'key', 'name', 'category', 'date_modified', 'status', 'store_name'), (array)$this->data['allowed_sort']);
+        $allowedSort = array_merge(
+            [
+                1 => 'key',
+                'name',
+                'category',
+                'date_modified',
+                'status',
+                'store_name'
+            ],
+            (array) $this->data['allowed_sort']
+        );
         if (!in_array($sidx, $allowedSort)) {
             $sidx = 'date_modified';
         }
 
-        $allowedDirection = array(SORT_ASC => 'asc', SORT_DESC => 'desc');
+        $allowedDirection = [SORT_ASC => 'asc', SORT_DESC => 'desc'];
         if (!in_array($sord, $allowedDirection)) {
             $sord = 'asc';
         }
@@ -70,17 +80,16 @@ class ControllerResponsesListingGridExtension extends AController
         //extensions that has record in DB but missing files
         $missing_extensions = $this->extensions->getMissingExtensions();
 
-        $data = array(
+        $data = [
             'store_id'   => $store_id,
             'search'     => $search_str,
             'filter'     => $this->session->data['extension_filter'],
-            'sort_order' => array($sidx, $sord),
-        );
+            'sort_order' => [$sidx, $sord],
+        ];
         if ($this->config->get('config_store_id')) {
             $data['store_id'] = (int)$this->config->get('config_store_id');
         }
         //extensions list. NOTE: set "force" mode to get data from db
-
         $extensions = $this->extension_manager->getExtensionsList($data, 'force');
 
         $total = $extensions->total;
@@ -91,18 +100,18 @@ class ControllerResponsesListingGridExtension extends AController
         }
 
         $response = new stdClass();
-        $response->rows = array();
+        $response->rows = [];
         $response->page = $page;
         $response->total = $total_pages;
         $response->records = $total;
         $response->userdata = new stdClass();
 
         $i = 0;
-        $for_push = $push = array();
+        $for_push = $push = [];
 
         // get extensions for install
         $ready_to_install = $this->session->data['ready_to_install'];
-        $to_install = $to_inst_keys = array();
+        $to_install = $to_inst_keys = [];
 
         if (!has_value($this->session->data['extension_filter'])
             || $this->session->data['extension_filter'] == 'extensions'
@@ -111,14 +120,14 @@ class ControllerResponsesListingGridExtension extends AController
             if ($ready_to_install && is_array($ready_to_install)) {
                 foreach ($ready_to_install as $pack) {
                     $to_install[$pack['extension_name']] =
-                        array(
+                        [
                             'remote_install'    => true,
                             'key'               => $pack['extension_name'],
                             'name'              => $pack['download_name'],
                             'extension_version' => $pack['extension_version'],
                             'installation_key'  => $pack['installation_key'],
                             'date_modified'     => $pack['date_modified'],
-                        );
+                        ];
                     $to_inst_keys[] = $pack['extension_name'];
                 }
             }
@@ -176,11 +185,13 @@ class ControllerResponsesListingGridExtension extends AController
                     $status = $this->language->get('text_not_installed');
                 } else {
                     $response->userdata->classes[$id] = 'disable-delete disable-install disable-remote-install';
-                    $status = $this->html->buildCheckbox(array(
+                    $status = $this->html->buildCheckbox(
+                        [
                         'name'  => $extension.'['.$extension.'_status]',
                         'value' => $row['status'],
                         'style' => 'btn_switch',
-                    ));
+                        ]
+                    );
                 }
 
                 $icon_ext_img_url = HTTPS_EXT.$extension.'/image/icon.png';
@@ -194,26 +205,39 @@ class ControllerResponsesListingGridExtension extends AController
 
                 $category = $row['category'];
                 // if update available
-                if (is_array($updates) && in_array($extension, array_keys($updates))) {
-                    if ($updates[$extension]['installation_key']) {
-                        $update_now_url = $this->html->getSecureURL('tool/package_installer', '&extension_key='.$updates[$extension]['installation_key']);
-                    } else {
-                        $update_now_url = $updates[$extension]['url'];
+                if (is_array($updates) && isset($updates[$extension])) {
+                    if (version_compare($updates[$extension], $row['version'], '>')) {
+                        if ($updates[$extension]['installation_key']) {
+                            $update_now_url = $this->html->getSecureURL(
+                                'tool/package_installer',
+                                '&extension_key='.$updates[$extension]['installation_key']
+                            );
+                        } else {
+                            $update_now_url = $updates[$extension]['url'];
+                        }
+                        $name = '<p class="alert-info">'.$name.'<br>'.sprintf(
+                                $this->language->get('text_update_available'),
+                                $updates[$extension]['version'],
+                                $update_now_url
+                            ).'</p>';
+                        $push[] = $i;
                     }
-                    $name = '<p class="alert-info">'.$name.'<br>'.sprintf($this->language->get('text_update_available'),
-                            $updates[$extension]['version'],
-                            $update_now_url).'</p>';
-                    $push[] = $i;
+                    //when support period expired
+                    if($updates[$extension]['license_expires']
+                        && dateISO2Int($updates[$extension]['license_expires']) > time())
+                    {
+                        $response->userdata->classes[$id] = 'orange '.$response->userdata->classes[$id];
+                    }
                 }
             }
 
-            $response->rows[$i]['cell'] = array(
+            $response->rows[$i]['cell'] = [
                 $icon,
                 $extension,
                 $name,
                 $category,
                 dateISO2Display($row['date_modified'], $this->language->get('date_format_short')),
-            );
+            ];
             if (!$this->config->get('config_store_id')) {
                 $response->rows[$i]['cell'][] = $row['store_name'] ? $row['store_name'] : $this->language->get('text_default');
             }
@@ -251,10 +275,11 @@ class ControllerResponsesListingGridExtension extends AController
         if (!$this->user->canModify('listing_grid/extension')) {
             $error = new AError('');
             return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
+                                          [
                     'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/extension'),
                     'reset_value' => true,
-                ));
+                                          ]
+            );
         }
 
         $this->loadLanguage('extension/extensions');
@@ -281,10 +306,11 @@ class ControllerResponsesListingGridExtension extends AController
         if ($this->extension_manager->errors) {
             $error = new AError('');
             return $error->toJSONResponse('VALIDATION_ERROR_406',
-                array(
+                                          [
                     'error_text'  => '<br>'.implode('<br>', $this->extension_manager->errors),
                     'reset_value' => true,
-                ));
+                                          ]
+            );
         }
     }
 
@@ -297,7 +323,7 @@ class ControllerResponsesListingGridExtension extends AController
         // first of all we need check dependencies
         $config = getExtensionConfigXml($this->request->get['extension']);
         $result = $this->extension_manager->validateDependencies($this->request->get['extension'], $config);
-        $this->data = array('license_text' => '', 'error_text' => '');
+        $this->data = ['license_text' => '', 'error_text' => ''];
         if ($result) {
             // if all fine show license agreement
             if (file_exists(DIR_EXT.$this->request->get['extension']."/license.txt")) {

@@ -1008,3 +1008,11 @@ tr.jqgrow td[aria-describedby="extension_grid_icon"] img{
 	margin-top: 10px;
 }
 
+.ui-jqgrid-btable .orange {
+	padding: 10px 10px 10px 20px;
+	margin-bottom: 15px;
+	background: #f8cb91 !important;
+	border: 1px solid #050505;
+	font-size: 12px;
+}
+

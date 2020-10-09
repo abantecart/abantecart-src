@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -23,7 +24,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerPagesExtensionExtensionSummary extends AController
 {
-    public $data = array();
+    public $data = [];
 
     public function main()
     {
@@ -48,28 +49,60 @@ class ControllerPagesExtensionExtensionSummary extends AController
         $datetime_format = $this->language->get('date_format_short').' '.$this->language->get('time_format');
 
         if ($this->data['extension_info']['date_installed']) {
-            $this->data['extension_info']['installed'] = dateISO2Display($this->data['extension_info']['date_installed'], $datetime_format);
+            $this->data['extension_info']['installed'] =
+                dateISO2Display(
+                    $this->data['extension_info']['date_installed'],
+                    $datetime_format
+                );
         }
         if ($this->data['extension_info']['date_added']) {
-            $this->data['extension_info']['date_added'] = dateISO2Display($this->data['extension_info']['date_added'], $datetime_format);
+            $this->data['extension_info']['date_added'] =
+                dateISO2Display($this->data['extension_info']['date_added'], $datetime_format);
         }
         $updates = $this->cache->pull('extensions.updates');
 
         // if update available
-        if (is_array($updates) && in_array($extension, array_keys($updates))) {
-            if ($updates[$extension]['installation_key']) {
-                $update_now_url = $this->html->getSecureURL('tool/package_installer', '&extension_key='.$updates[$extension]['installation_key']);
-            } else {
-                $update_now_url = $updates[$extension]['url'];
+        if (is_array($updates) && isset($updates[$extension])) {
+            //show button for upgrading when version greater than current
+            if (version_compare($updates[$extension], $this->data['extension_info']['version'], '>')) {
+                if ($updates[$extension]['installation_key']) {
+                    $update_now_url = $this->html->getSecureURL(
+                        'tool/package_installer', '&extension_key='.$updates[$extension]['installation_key']
+                    );
+                } else {
+                    $update_now_url = $updates[$extension]['url'];
+                }
+                $this->data['upgrade_button'] = $this->html->buildElement(
+                    [
+                        'type' => 'button',
+                        'name' => 'btn_upgrade',
+                        'id'   => 'upgradenow',
+                        'href' => $update_now_url,
+                        'text' => $this->language->get('button_upgrade'),
+                    ]
+                );
             }
-            $this->data['upgrade_button'] = $this->html->buildElement(
-                array(
-                    'type' => 'button',
-                    'name' => 'btn_upgrade',
-                    'id'   => 'upgradenow',
-                    'href' => $update_now_url,
-                    'text' => $this->language->get('button_upgrade'),
-                ));
+            if ($this->data['extension_info']['license_key']) {
+                if ($updates && isset($updates[$extension]['license_expires'])) {
+                    if(dateISO2Int($updates[$extension]['license_expires']) > time()){
+                        $this->data['get_support_button'] = $this->html->buildElement(
+                            [
+                                'type' => 'button',
+                                'name' => 'btn_get_support',
+                                'id'   => 'getsupportnow',
+                                'href' => $updates[$extension]['product_url'],
+                                'text' => $this->language->get('button_get_support'),
+                            ]
+                        );
+                    }
+                    $this->data['extension_info']['license_expires'] = dateISO2Display(
+                        $updates[$extension]['license_expires'],
+                        $this->language->get('date_format_short')
+                    );
+                    $this->data['text_license_expires'] = $this->language->get('text_license_expires');
+
+                }
+            }
         }
 
         $this->data['extension_info']['license'] = $this->data['extension_info']['license_key'];
