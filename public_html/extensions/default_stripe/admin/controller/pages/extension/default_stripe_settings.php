@@ -4,7 +4,11 @@ class ControllerPagesExtensionDefaultStripeSettings extends AController
 {
     public $error = array();
     public $data = array();
-    public $errors = array('default_stripe_sk_live', 'default_stripe_sk_test');
+    public $errors = array(
+        'default_stripe_sk_live',
+        'default_stripe_sk_test',
+        'default_stripe_account_id',
+    );
 
     protected $fields = array(
         'default_stripe_access_token',
@@ -13,6 +17,7 @@ class ControllerPagesExtensionDefaultStripeSettings extends AController
         'default_stripe_sk_test',
         'default_stripe_settlement',
         'default_stripe_published_key',
+        'default_stripe_account_id'
     );
 
     public function main()
@@ -190,6 +195,15 @@ class ControllerPagesExtensionDefaultStripeSettings extends AController
             'placeholder' => 'pk_*************',
         ));
 
+        $this->data['form']['fields']['default_stripe_account_id'] = $form->getFieldHtml(
+            array(
+                'type'     => 'input',
+                'name'     => 'default_stripe_account_id',
+                'value'    => $this->data['default_stripe_account_id'],
+                'required' => true
+            )
+        );
+
         //load tabs controller
         $this->data['groups'][] = 'additional_settings';
         $this->data['link_additional_settings'] = $this->data['action'];
@@ -221,6 +235,10 @@ class ControllerPagesExtensionDefaultStripeSettings extends AController
             if (!$this->request->post['default_stripe_sk_test']) {
                 $this->error['default_stripe_sk_test'] = $this->language->get('error_default_stripe_sk_test');
             }
+        }
+
+        if (!$this->request->post['default_stripe_account_id']) {
+            $this->error['default_stripe_account_id'] = $this->language->get('error_default_stripe_account_id');
         }
 
         if (!$this->error) {

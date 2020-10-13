@@ -52,11 +52,11 @@
 	</definition>
 	<definition>
 		<key>text_connect_success</key>
-		<value><![CDATA[Connected to Stripe sucessfuly]]></value>
+		<value><![CDATA[Connected to Stripe successfully]]></value>
 	</definition>
 	<definition>
 		<key>text_disconnect_success</key>
-		<value><![CDATA[Disconnected from Stripe sucessfuly]]></value>
+		<value><![CDATA[Disconnected from Stripe successfully]]></value>
 	</definition>
 	<definition>
 		<key>default_stripe_test_mode</key>
@@ -107,7 +107,6 @@
 		<key>default_stripe_settlement_delayed</key>
 		<value><![CDATA[Delayed (autorize only)]]></value>
 	</definition>
-
 	<definition>
 		<key>error_system</key>
 		<value><![CDATA[Internal error. Check error log or input parameters!]]></value>
@@ -120,9 +119,16 @@
 		<key>error_stripe_sk_live</key>
 		<value><![CDATA[Stripe live key is required]]></value>
 	</definition>
-
 	<definition>
 		<key>error_permission</key>
 		<value><![CDATA[Warning: You do not have permission to modify Stripe Payment!]]></value>
+	</definition>
+	<definition>
+		<key>default_stripe_account_id</key>
+		<value><![CDATA[Stripe Account ID:<br/><span class="help">Locate this in Stripe Connect Section. Look inside Stripe Dashboard -> Connected Accounts. It starts with acct_... </span>]]></value>
+	</definition>
+	<definition>
+		<key>error_default_stripe_account_id</key>
+		<value><![CDATA[Stripe Account ID is required]]></value>
 	</definition>
 </definitions>
