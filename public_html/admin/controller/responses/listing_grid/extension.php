@@ -31,7 +31,7 @@ class ControllerResponsesListingGridExtension extends AController
 
     public function main()
     {
-
+$this->loadModel('tool/updater')->check4Updates(true);
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -148,6 +148,7 @@ class ControllerResponsesListingGridExtension extends AController
             if (!$extension) {
                 continue;
             }
+            $expired = false;
             $response->rows[$i]['id'] = str_replace(' ', '-', $row['key']).'_'.(int)$row['store_id'];
             $id = $response->rows[$i]['id'];
 
@@ -164,7 +165,9 @@ class ControllerResponsesListingGridExtension extends AController
                 $status = $this->language->get('text_ready_to_install');
                 $response->userdata->classes[$id] = 'success disable-edit disable-delete disable-uninstall disable-install';
 
-            } elseif (in_array($extension, $missing_extensions)) {
+            }
+            //missing extension (removed manually)
+            elseif (in_array($extension, $missing_extensions)) {
                 $response->userdata->classes[$id] = 'warning disable-edit disable-install disable-uninstall disable-remote-install';
 
                 $icon = '<img src="'.RDIR_TEMPLATE.'image/default_extension.png'.'" alt="" border="0" />';
@@ -172,7 +175,9 @@ class ControllerResponsesListingGridExtension extends AController
                 $category = $status = '';
                 // change it for show it in list first by default sorting
                 $row['date_modified'] = date('Y-m-d H:i:s', time());
-            } elseif (!file_exists(DIR_EXT.$extension.'/main.php') || !file_exists(DIR_EXT.$extension.'/config.xml')) {
+            }
+            //corrupted extension
+            elseif (!file_exists(DIR_EXT.$extension.'/main.php') || !file_exists(DIR_EXT.$extension.'/config.xml')) {
                 $response->userdata->classes[$id] = 'warning disable-edit disable-install disable-uninstall disable-remote-install';
                 $icon = '<img src="'.RDIR_TEMPLATE.'image/default_extension.png'.'" alt="" border="0" />';
                 $name = sprintf($this->language->get('text_broken_extension'), $extension);
@@ -206,7 +211,7 @@ class ControllerResponsesListingGridExtension extends AController
                 $category = $row['category'];
                 // if update available
                 if (is_array($updates) && isset($updates[$extension])) {
-                    if (version_compare($updates[$extension], $row['version'], '>')) {
+                    if (version_compare($updates[$extension]['version'], $row['version'], '>')) {
                         if ($updates[$extension]['installation_key']) {
                             $update_now_url = $this->html->getSecureURL(
                                 'tool/package_installer',
@@ -222,14 +227,24 @@ class ControllerResponsesListingGridExtension extends AController
                             ).'</p>';
                         $push[] = $i;
                     }
-                    //when support period expired
-                    if($updates[$extension]['license_expires']
-                        && dateISO2Int($updates[$extension]['license_expires']) > time())
-                    {
-                        $response->userdata->classes[$id] = 'orange '.$response->userdata->classes[$id];
-                    }
+                }
+                //when support period expired
+                if( ($updates
+                        && $updates[$extension]['license_expires']
+                        && dateISO2Int($updates[$extension]['license_expires']) < time())
+                    ||
+                    //if no update info - takes date from extension table
+                    (dateISO2Int($row['license_expires']) < time())
+                ){
+                    $expired = true;
+                    $response->userdata->classes[$id] = 'expired '.$response->userdata->classes[$id];
                 }
             }
+
+            if(!$expired){
+                $response->userdata->classes[$id] .= ' disable-expired ';
+            }
+            $response->userdata->mp_product_url[$id] = $row['mp_product_url'];
 
             $response->rows[$i]['cell'] = [
                 $icon,
@@ -248,7 +263,6 @@ class ControllerResponsesListingGridExtension extends AController
                     unset($response->rows[$i]);
                 }
             }
-
             $i++;
         }
 

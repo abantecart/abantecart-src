@@ -75,7 +75,7 @@ final class ALog
      */
     public function write($message)
     {
-        if (!$this->mode) {
+        if (!$this->mode || trim($message) === '') {
             return null;
         }
         $file = $this->filename;

@@ -63,8 +63,8 @@ class ModelToolUpdater extends Model
      */
     protected function getExtensionsList()
     {
-        $e = new AExtensionManager();
-        $extensions_list = $e->getExtensionsList();
+        $extManager = new AExtensionManager();
+        $extensions_list = $extManager->getExtensionsList();
         $list = [];
         $installed_extensions = $this->extensions->getInstalled('');
         if ($extensions_list->num_rows) {
@@ -75,20 +75,11 @@ class ModelToolUpdater extends Model
                 }
                 // if extension is installed
                 if (in_array($extension['key'], $installed_extensions)) {
-                    $status = $extension['status']
-                        ? $this->language->get('text_enabled') : $this->language->get(
-                            'text_disabled'
-                        );
-
-                    $extension_name = trim($this->extensions->getExtensionName($extension['key']));
-                    $list[$extension['key']] = [
-                        'name'        => $extension_name,
-                        'type'        => $extension['type'],
-                        'category'    => $extension['category'],
-                        'status'      => $status,
-                        'license_key' => $extension['license_key'],
-                        'version'     => $extension['version'],
-                    ];
+                    $list[$extension['key']] = $extension;
+                    $list[$extension['key']]['status'] = $extension['status']
+                        ? $this->language->get('text_enabled')
+                        : $this->language->get('text_disabled');
+                    $list[$extension['key']]['name'] = trim($this->extensions->getExtensionName($extension['key']));
                 }
             }
         }
@@ -104,7 +95,7 @@ class ModelToolUpdater extends Model
      */
     protected function _getUpdateInfo()
     {
-        $el = $this->getExtensionsList();
+        $installed = $this->getExtensionsList();
         /** @var ModelToolMPAPI $mdl */
         $mdl = $this->load->model('tool/mp_api');
         $url = $mdl->getMPURL().'?rt=a/product/updates';
@@ -115,9 +106,8 @@ class ModelToolUpdater extends Model
         $url .= "&software_name=AbanteCart";
         $url .= "&software_version=".VERSION;
         $url .= "&language_code=".$this->language->getLanguageCode();
-        foreach ($el as $extKey => $extension) {
+        foreach ($installed as $extKey => $extension) {
             $url .= '&extensions['.$extKey.']='.$extension['version'];
-            $installed[$extKey] = $extension['version'];
         }
         //do connect without any http-redirects
         $pack = new AConnect(true, true);
@@ -130,6 +120,7 @@ class ModelToolUpdater extends Model
 
         //filter data
         $output = [];
+        $clearCache = false;
         foreach ($updatesInfo as $extKey => $versions) {
             foreach ($versions as $version => $version_info) {
                 //skip not installed
@@ -147,21 +138,40 @@ class ModelToolUpdater extends Model
                     continue;
                 }
                 //skip old versions
-                if (version_compare($installed[$extKey], $version, '>')) {
+                if (version_compare($installed[$extKey]['version'], $version, '>')) {
                     continue;
                 }
                 //if we have 2 or more versions of extension for asked cart version
                 if (
                     //check is version older than installed
                     (!isset($output[$extKey][$version])
-                        || version_compare($installed[$extKey], $version, '<'))
+                        || version_compare($installed[$extKey]['version'], $version, '<'))
                     // check for newer version in the list to take last
                     && (!isset($output[$extKey]) || version_compare($output[$extKey]['version'], $version, '<'))
                 ) {
                     $version_info['version'] = $version;
                     $output[$extKey] = $version_info;
+                    //check if extension have an update of support time
+                    if($installed[$extKey]['license_key']){
+                        if(!$installed[$extKey]['license_expires']){
+                            $installed[$extKey]['license_expires'] = date('Y-m-d H:i:s', time());
+                        }
+                        //if extension have changed support time - update data
+                        if(dateISO2Int($version_info['license_expires']) > time()
+                            && $version_info['installation_key'] != $installed[$extKey]['license_key']){
+                            $sql = "UPDATE ".$this->db->table('extensions')."
+                                    SET license_key = '".$this->db->escape($version_info['installation_key'])."',
+                                        license_expires = '".$this->db->escape($version_info['license_expires'])."'
+                                    WHERE `key` = '".$this->db->escape($extKey)."'";
+                            $this->db->query($sql);
+                            $clearCache = true;
+                        }
+                    }
                 }
             }
+        }
+        if($clearCache){
+            $this->cache->remove('extensions');
         }
         return $output;
     }

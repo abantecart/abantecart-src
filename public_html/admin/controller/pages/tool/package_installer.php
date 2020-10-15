@@ -247,7 +247,7 @@ class ControllerPagesToolPackageInstaller extends AController
     {
         $pmanager = new APackageManager();
         if (!$pmanager->validate()) {
-            $this->data['error_warning'] .= $this->html->convertLinks( $pmanager->error );
+            $this->data['error_warning'] .= $this->html->convertLinks($pmanager->error);
         }
     }
 
@@ -481,6 +481,13 @@ class ControllerPagesToolPackageInstaller extends AController
         $package_info['package_url'] = $url;
         $package_info['package_name'] = $package_name;
         $package_info['package_size'] = $headers['Content-Length'];
+        if ($headers['License-Expires']) {
+            $package_info['license_expires'] = $headers['License-Expires'];
+        }
+        if ($headers['Product-Url']) {
+            $package_info['product_url'] = $headers['Product-Url'];
+        }
+
         $already_downloaded = false;
 
         // if file already downloaded - check size.
@@ -1183,13 +1190,15 @@ class ControllerPagesToolPackageInstaller extends AController
          */
         $this->extension_manager->add(
             [
-                'type'        => (string) $config->type,
-                'key'         => (string) $config->id,
-                'status'      => 0,
-                'priority'    => (string) $config->priority,
-                'version'     => (string) $config->version,
-                'license_key' => $this->registry->get('session')->data['package_info']['extension_key'],
-                'category'    => (string) $config->category,
+                'type'            => (string) $config->type,
+                'key'             => (string) $config->id,
+                'status'          => 0,
+                'priority'        => (string) $config->priority,
+                'version'         => (string) $config->version,
+                'license_key'     => $this->registry->get('session')->data['package_info']['extension_key'],
+                'category'        => (string) $config->category,
+                'license_expires' => (string) $package_info['license_expires'],
+                'mp_product_url'  => (string) $package_info['product_url'],
             ]
         );
 

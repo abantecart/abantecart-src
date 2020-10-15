@@ -82,28 +82,36 @@ class ControllerPagesExtensionExtensionSummary extends AController
                     ]
                 );
             }
-            if ($this->data['extension_info']['license_key']) {
-                if ($updates && isset($updates[$extension]['license_expires'])) {
-                    if(dateISO2Int($updates[$extension]['license_expires']) > time()){
-                        $this->data['get_support_button'] = $this->html->buildElement(
-                            [
-                                'type' => 'button',
-                                'name' => 'btn_get_support',
-                                'id'   => 'getsupportnow',
-                                'href' => $updates[$extension]['product_url'],
-                                'text' => $this->language->get('button_get_support'),
-                            ]
-                        );
-                    }
-                    $this->data['extension_info']['license_expires'] = dateISO2Display(
-                        $updates[$extension]['license_expires'],
-                        $this->language->get('date_format_short')
+        }
+        $expires = '';
+        if ($this->data['extension_info']['license_key']) {
+            if($updates && isset($updates[$extension]['license_expires'])){
+                $expires = $this->data['extension_info']['license_expires'];
+            }
+            if(!$expires && $this->data['extension_info']['license_expires']){
+                $expires = $this->data['extension_info']['license_expires'];
+            }
+            if ($expires) {
+                if(dateISO2Int($expires) < time()){
+                    $this->data['get_support_button'] = $this->html->buildElement(
+                        [
+                            'type'   => 'button',
+                            'name'   => 'btn_get_support',
+                            'id'     => 'getsupportnow',
+                            'target' => "_new",
+                            'href'   => $this->data['extension_info']['mp_product_url'],
+                            'text'   => $this->language->get('button_get_support'),
+                        ]
                     );
-                    $this->data['text_license_expires'] = $this->language->get('text_license_expires');
-
                 }
+                $this->data['extension_info']['license_expires'] = dateISO2Display(
+                    $expires,
+                    $this->language->get('date_format_short')
+                );
+                $this->data['text_license_expires'] = $this->language->get('text_license_expires');
             }
         }
+
 
         $this->data['extension_info']['license'] = $this->data['extension_info']['license_key'];
         $this->view->batchAssign($this->data);

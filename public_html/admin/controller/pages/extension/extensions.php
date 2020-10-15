@@ -117,6 +117,10 @@ class ControllerPagesExtensionExtensions extends AController
             'sortorder'    => 'desc',
             'multiselect'  => 'false',
             'actions'      => [
+                'expired'           => [
+                    'text' => $this->language->get('text_license_expired'),
+                    'href' => "#",
+                ],
                 'edit'           => [
                     'text' => $this->language->get('text_edit'),
                     'href' => $this->html->getSecureURL('extension/extensions/edit', '&store_id='.$store_id),
@@ -244,8 +248,10 @@ class ControllerPagesExtensionExtensions extends AController
 
         $mp_category_id = $ext_type_to_category[$this->data['extension_type']];
         if ($mp_category_id) {
-            $this->data['more_extensions_url'] =
-                $this->html->getSecureURL('extension/extensions_store', '&category_id='.$mp_category_id);
+            $this->data['more_extensions_url'] = $this->html->getSecureURL(
+                'extension/extensions_store',
+                '&category_id='.$mp_category_id
+            );
         } else {
             $this->data['more_extensions_url'] = $this->html->getSecureURL('extension/extensions_store');
         }
@@ -721,7 +727,7 @@ class ControllerPagesExtensionExtensions extends AController
             ? $this->html->convertLinks($this->language->get($extension.'_note'))
             : '';
         /**
-         * @var DOMElement $ext
+         * @var ExtensionUtils $ext
          */
         $config = $ext->getConfig();
         if (!empty($config->preview->item)) {

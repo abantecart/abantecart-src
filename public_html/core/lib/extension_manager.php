@@ -126,6 +126,8 @@ class AExtensionManager
                  `priority` = '".$this->db->escape($priority)."',
                  `version` = '".$this->db->escape($version)."',
                  `license_key` = '".$this->db->escape($license_key)."',
+                 `license_expires` = '".$this->db->escape($data['license_expires'])."',
+                 `mp_product_url` = '".$this->db->escape($data['mp_product_url'])."',
                  `date_added` = NOW()"
         );
 

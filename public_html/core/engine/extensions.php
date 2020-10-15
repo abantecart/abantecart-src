@@ -475,16 +475,7 @@ class ExtensionsApi
         }
 
         $sql = "SELECT DISTINCT
-                      e.extension_id,
-                      e.type,
-                      e.key,
-                      e.category,
-                      e.priority,
-                      e.version,
-                      e.license_key,
-                      e.date_installed,
-                      e.date_modified,
-                      e.date_added,
+                      e.*,
                       s.store_id,
                       st.alias as store_name,
                       s.value as status
