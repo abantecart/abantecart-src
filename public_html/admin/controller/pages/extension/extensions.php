@@ -702,9 +702,9 @@ class ControllerPagesExtensionExtensions extends AController
         }
 
         //info about available updates
-        $upd = $this->cache->pull('extensions.updates');
+        $upd = $this->session->data['extensions_updates'];
         if (is_array($upd) && in_array($extension, array_keys($upd))) {
-            if (version_compare($upd[$extension], $this->data['extension_info']['version'], '>')) {
+            if (version_compare($upd[$extension]['version'], $this->data['extension_info']['version'], '>')) {
                 $this->data['info'] = sprintf(
                     $this->language->get('text_update_available'),
                     $upd[$extension]['version'],
@@ -726,9 +726,6 @@ class ControllerPagesExtensionExtensions extends AController
         $this->data['extension_info']['note'] = $ext->getConfig('note')
             ? $this->html->convertLinks($this->language->get($extension.'_note'))
             : '';
-        /**
-         * @var ExtensionUtils $ext
-         */
         $config = $ext->getConfig();
         if (!empty($config->preview->item)) {
             foreach ($config->preview->item as $item) {
@@ -964,9 +961,10 @@ class ControllerPagesExtensionExtensions extends AController
 
     /**
      * @param string $extension
-     * @param int    $store_id
+     * @param int $store_id
      *
      * @return bool
+     * @throws AException
      */
     private function _validateSettings($extension, $store_id)
     {

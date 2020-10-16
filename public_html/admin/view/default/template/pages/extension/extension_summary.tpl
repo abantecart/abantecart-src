@@ -14,23 +14,23 @@
                 <div class="col-md-2"><?php echo $text_installed_on . ': <br/><b>' . $extension_info['installed']; ?></b></div>
             <?php
             }
-            if ($extension_info['date_added']) { ?>
-                <div class="col-md-2"><?php echo $text_date_added . ': <br/><b>' . $extension_info['date_added']; ?></b></div>
-            <?php
-            }
             //Licence key if present
-            if ($extension_info['license']) { ?>
-                <div class="col-md-2"><?php echo $text_license . ': <br/><b>' . $extension_info['license']; ?></b></div>
-            <?php
+            if ($extension_info['license']) {
                 //expiration date if present
                 if ($extension_info['license_expires']) { ?>
                     <div class="col-md-2"><?php echo $text_license_expires
-                            . ': '. $get_support_button .'<br/><b>' . $extension_info['license_expires']; ?></b></div>
+                            . ':<br/><b>' . $extension_info['license_expires']; ?></b></div>
                 <?php
                 }
             }
             if ( $upgrade_button ) { ?>
-                <div><a class="btn btn-primary" href="<?php echo $upgrade_button->href ?>"><?php echo $upgrade_button->text ?></a></div>
+                <div class="col-md-1"><a class="btn btn-primary" href="<?php echo $upgrade_button->href ?>"><?php echo $upgrade_button->text ?></a></div>
+            <?php }
+            if($extension_info['license']){ ?>
+            <div class="col-md-2"><?php echo $text_license . ': <br/><b>' . $extension_info['license']; ?></b></div>
+            <?php }
+            if($get_support_button){ ?>
+            <div class="col-md-2"><?php echo $get_support_button; ?></div>
             <?php } ?>
             <?php echo $this->getHookVar('extension_summary_item'); ?>
         </div>

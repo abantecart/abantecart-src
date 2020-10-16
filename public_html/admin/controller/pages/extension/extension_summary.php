@@ -22,12 +22,18 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
 
+/**
+ * Class ControllerPagesExtensionExtensionSummary
+ *
+ * @property ModelToolMPAPI $model_tool_mp_api
+ */
 class ControllerPagesExtensionExtensionSummary extends AController
 {
     public $data = [];
 
     public function main()
     {
+        $this->loadModel('tool/mp_api');
         //Load input arguments for gid settings
         $this->data = func_get_arg(0);
         //init controller data
@@ -57,14 +63,17 @@ class ControllerPagesExtensionExtensionSummary extends AController
         }
         if ($this->data['extension_info']['date_added']) {
             $this->data['extension_info']['date_added'] =
-                dateISO2Display($this->data['extension_info']['date_added'], $datetime_format);
+                dateISO2Display(
+                    $this->data['extension_info']['date_added'],
+                    $datetime_format
+                );
         }
-        $updates = $this->cache->pull('extensions.updates');
+        $updates = $this->session->data['extensions_updates'];
 
         // if update available
         if (is_array($updates) && isset($updates[$extension])) {
             //show button for upgrading when version greater than current
-            if (version_compare($updates[$extension], $this->data['extension_info']['version'], '>')) {
+            if (version_compare($updates[$extension]['version'], $this->data['extension_info']['version'], '>')) {
                 if ($updates[$extension]['installation_key']) {
                     $update_now_url = $this->html->getSecureURL(
                         'tool/package_installer', '&extension_key='.$updates[$extension]['installation_key']
@@ -83,7 +92,8 @@ class ControllerPagesExtensionExtensionSummary extends AController
                 );
             }
         }
-        $expires = '';
+
+        $mpProductUrl = $expires = '';
         if ($this->data['extension_info']['license_key']) {
             if($updates && isset($updates[$extension]['license_expires'])){
                 $expires = $this->data['extension_info']['license_expires'];
@@ -93,16 +103,7 @@ class ControllerPagesExtensionExtensionSummary extends AController
             }
             if ($expires) {
                 if(dateISO2Int($expires) < time()){
-                    $this->data['get_support_button'] = $this->html->buildElement(
-                        [
-                            'type'   => 'button',
-                            'name'   => 'btn_get_support',
-                            'id'     => 'getsupportnow',
-                            'target' => "_new",
-                            'href'   => $this->data['extension_info']['mp_product_url'],
-                            'text'   => $this->language->get('button_get_support'),
-                        ]
-                    );
+                    $mpProductUrl = $this->data['extension_info']['mp_product_url'];
                 }
                 $this->data['extension_info']['license_expires'] = dateISO2Display(
                     $expires,
@@ -110,6 +111,21 @@ class ControllerPagesExtensionExtensionSummary extends AController
                 );
                 $this->data['text_license_expires'] = $this->language->get('text_license_expires');
             }
+            if(!$mpProductUrl){
+                $mpProductUrl = $this->model_tool_mp_api->getMPURL().$extension.'/support';
+            }
+
+            //if license_key presents - show support button
+            $this->data['get_support_button'] = $this->html->buildElement(
+                [
+                    'type'   => 'button',
+                    'name'   => 'btn_get_support',
+                    'id'     => 'getsupportnow',
+                    'target' => "_new",
+                    'href'   => $mpProductUrl,
+                    'text'   => $this->language->get('button_get_support'),
+                ]
+            );
         }
 
 

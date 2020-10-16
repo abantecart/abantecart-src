@@ -31,7 +31,6 @@ class ControllerResponsesListingGridExtension extends AController
 
     public function main()
     {
-$this->loadModel('tool/updater')->check4Updates(true);
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -141,7 +140,7 @@ $this->loadModel('tool/updater')->check4Updates(true);
         }
 
         $rows = array_merge($to_install, $extensions->rows);
-        $updates = $this->cache->pull('extensions.updates');
+        $updates = $this->session->data['extensions_updates'];
 
         foreach ($rows as $row) {
             $extension = $row['key'];
@@ -201,11 +200,15 @@ $this->loadModel('tool/updater')->check4Updates(true);
 
                 $icon_ext_img_url = HTTPS_EXT.$extension.'/image/icon.png';
                 $icon_ext_dir = DIR_EXT.$extension.'/image/icon.png';
-                $icon = (is_file($icon_ext_dir) ? $icon_ext_img_url : RDIR_TEMPLATE.'image/default_extension.png');
+                $icon = (is_file($icon_ext_dir)
+                    ? $icon_ext_img_url
+                    : RDIR_TEMPLATE.'image/default_extension.png');
+
                 if (!$this->config->has($extension.'_status')) {
                     $icon = '<img src="'.$icon.'" alt="" border="0" />';
                 } else {
-                    $icon = '<a href="'.$this->html->getSecureURL('extension/extensions/edit', $this->data['url'].'&extension='.$extension).'"><img src="'.$icon.'" alt="" border="0" /></a>';
+                    $icon = '<a href="'.$this->html->getSecureURL('extension/extensions/edit', $this->data['url'].'&extension='.$extension).'">'
+                        .'<img src="'.$icon.'" alt="" border="0" /></a>';
                 }
 
                 $category = $row['category'];

@@ -82,8 +82,7 @@ abstract class Extension
     {
         if ((strpos($method, 'hk') === 0) && ($this->ExtensionsApi !== null)) {
             array_unshift($args, $this);
-            $return = call_user_func_array(array($this->ExtensionsApi, $method), $args);
-            return $return;
+            return call_user_func_array([$this->ExtensionsApi, $method], $args);
         }
         return null;
     }
@@ -99,7 +98,7 @@ abstract class Extension
 class ExtensionCollection
 {
 
-    protected $extensions = array();
+    protected $extensions = [];
 
     /**
      * @param array $extensions
@@ -154,7 +153,7 @@ class ExtensionCollection
                 $extension->loadExtensionsApi($baseObject->ExtensionsApi);
             }
 
-            $tmp_return = call_user_func_array(array($extension, $method), $args);
+            $tmp_return = call_user_func_array([$extension, $method], $args);
             //when around method hook - returns ONLY first result
             if (strpos($method, 'around') === 0 && method_exists($extension, $method)) {
                 $return = $tmp_return;
@@ -206,12 +205,12 @@ class ExtensionCollection
  *
  * long description.
  *
- * @property ADb    $db
+ * @property ADb $db
  * @property ACache $cache
  * @method hk_InitData(object $baseObject, string $baseObjectMethod)
  * @method hk_UpdateData(object $baseObject, string $baseObjectMethod)
  * @method hk_ProcessData(object $baseObject, string $point_name = '', mixed $array = null)
- * @method hk_ValidateData(object $baseObject, array $args = array())
+ * @method hk_ValidateData(object $baseObject, array $args = [])
  * @method hk_confirm(object $baseObject, int $order_id, int $order_status_id, string $comment)
  * @method hk_create(object $baseObject, array $data, int $order_status_id)
  * @method hk_query(object $baseObject, string $sql, bool $noexcept)
@@ -272,23 +271,22 @@ class ExtensionsApi
     /**
      * @var array
      */
-    protected $extension_types = array(
+    protected $extension_types = [
         'extensions',
         'payment',
         'shipping',
         'template',
         'language',
         'tax',
-    );
+    ];
 
     public function __construct()
     {
-
         $this->registry = Registry::getInstance();
         $this->cache = $this->registry->get('cache');
-        $this->extensions_dir = array();
-        $this->db_extensions = array();
-        $this->missing_extensions = array();
+        $this->extensions_dir = [];
+        $this->db_extensions = [];
+        $this->missing_extensions = [];
 
         $extensions = glob(DIR_EXT.'*', GLOB_ONLYDIR);
         if ($extensions) {
@@ -296,9 +294,10 @@ class ExtensionsApi
                 //skip other directory not containing extensions
                 if (is_file($ext.'/config.xml')) {
                     $ext_text_id = basename($ext);
+                    /** @var SimpleXMLElement|stdClass $xml */
                     $xml = @simplexml_load_file($ext.'/config.xml');
                     //be sure that extension dirname equal extension-text-id in config.xml
-                    if ($xml !== false && (string)$xml->id == $ext_text_id) {
+                    if ($xml !== false && (string) $xml->id == $ext_text_id) {
                         $this->extensions_dir[] = $ext_text_id;
                     }
                 }
@@ -306,7 +305,6 @@ class ExtensionsApi
         }
 
         if ($this->registry->has('db')) {
-
             $this->db = $this->registry->get('db');
 
             //get extensions from db
@@ -368,8 +366,8 @@ class ExtensionsApi
             }
         }
 
-        $type = (string)$type;
-        $extension_data = array();
+        $type = (string) $type;
+        $extension_data = [];
         if (in_array($type, $this->extension_types)) {
             $sql = "SELECT DISTINCT e.key
                     FROM ".$this->db->table("extensions")." e
@@ -429,7 +427,7 @@ class ExtensionsApi
                 FROM ".$this->db->table("extensions")."
                 ".($key ? "WHERE `key` = '".$this->db->escape($key)."'" : '');
         $query = $this->db->query($sql);
-        $extension_data = array();
+        $extension_data = [];
         if ($query->num_rows == 1) {
             $extension_data = $query->row;
         } else {
@@ -449,7 +447,7 @@ class ExtensionsApi
     /**
      * Load extensions list from database
      *
-     * @param array  $data
+     * @param array $data
      *                     key - search extensions by key and name
      *                     category - search extensions by category
      *                     page - page number ( limit should be defined also )
@@ -458,7 +456,7 @@ class ExtensionsApi
      *
      * @return bool|stdClass object array of extensions
      */
-    public function getExtensionsList($data = array(), $mode = '')
+    public function getExtensionsList($data = [], $mode = '')
     {
         $cache_key = '';
         if ($mode == '' && $this->cache && $this->cache->isCacheEnabled()) {
@@ -492,8 +490,8 @@ class ExtensionsApi
         }
 
         if (has_value($data['search'])) {
-            $keys = array();
-            $ext_list = $this->getExtensionsList(array('filter' => $data['filter']));
+            $keys = [];
+            $ext_list = $this->getExtensionsList(['filter' => $data['filter']]);
             if ($ext_list->total) {
                 foreach ($ext_list->rows as $extension) {
                     // searching ext by name
@@ -514,13 +512,13 @@ class ExtensionsApi
             $sql .= " AND e.`category` = '".$this->db->escape($data['category'])."' ";
         }
         if (has_value($data['status'])) {
-            $sql .= " AND s.value = '".(int)$data['status']."' ";
+            $sql .= " AND s.value = '".(int) $data['status']."' ";
         }
 
         if (has_value($data['store_id'])) {
-            $sql .= " AND COALESCE(s.`store_id`,0) = '".(int)$data['store_id']."' ";
+            $sql .= " AND COALESCE(s.`store_id`,0) = '".(int) $data['store_id']."' ";
         } else {
-            $sql .= " AND COALESCE(s.`store_id`,0) = '".(int)$this->registry->get('config')->get('config_store_id')
+            $sql .= " AND COALESCE(s.`store_id`,0) = '".(int) $this->registry->get('config')->get('config_store_id')
                 ."' ";
         }
 
@@ -536,7 +534,7 @@ class ExtensionsApi
         $total = null;
         if (has_value($data['page']) && has_value($data['limit'])) {
             $total = $this->db->query($sql);
-            $sql .= " LIMIT ".(int)(($data['page'] - 1) * $data['limit']).", ".(int)($data['limit'])." ";
+            $sql .= " LIMIT ".(int) (($data['page'] - 1) * $data['limit']).", ".(int) ($data['limit'])." ";
         }
 
         $result = $this->db->query($sql);
@@ -590,13 +588,13 @@ class ExtensionsApi
 
         if (file_exists($filename)) {
             /**
-             * @var SimpleXMLElement $xml
+             * @var SimpleXMLElement|stdClass $xml
              */
             $xml = simplexml_load_file($filename);
             if ($xml && $xml->definition) {
                 foreach ($xml->definition as $def) {
-                    if ((string)$def->key == $extension.'_name') {
-                        $name = (string)$def->value;
+                    if ((string) $def->key == $extension.'_name') {
+                        $name = (string) $def->value;
                         break;
                     }
                 }
@@ -761,8 +759,8 @@ class ExtensionsApi
         /**
          * @var Registry
          */
-        $ext_controllers = $ext_models = $ext_languages = $ext_templates = array();
-        $enabled_extensions = $hook_extensions = array();
+        $ext_controllers = $ext_models = $ext_languages = $ext_templates = [];
+        $enabled_extensions = $hook_extensions = [];
 
         foreach ($this->db_extensions as $ext) {
             //check if extension is enabled and not already in the picked list
@@ -774,15 +772,14 @@ class ExtensionsApi
                 && !in_array($ext, $enabled_extensions)
                 && has_value($ext)
             ) {
-
                 //priority for extension execution is set in the <priority> tag of extension configuration
                 //order for priority is already set here
                 $enabled_extensions[] = $ext;
 
-                $controllers = $languages = $models = $templates = array(
-                    'storefront' => array(),
-                    'admin'      => array(),
-                );
+                $controllers = $languages = $models = $templates = [
+                    'storefront' => [],
+                    'admin'      => [],
+                ];
                 if (is_file(DIR_EXT.$ext.'/main.php')) {
                     /** @noinspection PhpIncludeInspection */
                     include(DIR_EXT.$ext.'/main.php');
@@ -819,8 +816,8 @@ class ExtensionsApi
     /**
      * check if language file exists in extension resource
      *
-     * @param string   $route
-     * @param string   $language_name
+     * @param string $route
+     * @param string $language_name
      * @param int|bool $section
      *
      * @return array|bool
@@ -840,10 +837,10 @@ class ExtensionsApi
         foreach ($this->extensions_dir as $ext) {
             $f = DIR_EXT.$ext.$file;
             if (is_file($f)) {
-                return array(
+                return [
                     'file'      => $f,
                     'extension' => $ext,
-                );
+                ];
             }
         }
         return false;
@@ -853,9 +850,9 @@ class ExtensionsApi
      * check if resource ( model, language, template ) is an extension resource
      *
      * @param  $resource_type - resource type - M, L, T  ( model, language, template )
-     * @param  $route         - resource route to check
-     * @param  $ext_status    - extension mode for resource route to check (enabled and all)
-     * @param  $mode          - mode to force storefront
+     * @param  $route - resource route to check
+     * @param  $ext_status - extension mode for resource route to check (enabled and all)
+     * @param  $mode - mode to force storefront
      *
      * @return array|bool - false if not found, array with extension name and file name if found
      */
@@ -882,7 +879,8 @@ class ExtensionsApi
                 break;
             case 'L' :
                 $query = $this->registry->get('db')->query(
-                    "SELECT directory FROM ".$this->db->table("languages")." 
+                    "SELECT directory 
+                    FROM ".$this->db->table("languages")." 
                     WHERE code='".$this->registry->get('session')->data['language']."'"
                 );
                 $file = $ext_section
@@ -905,7 +903,7 @@ class ExtensionsApi
         $section = trim($ext_section, '/');
 
         //list only enabled extensions or all depending on status flag
-        $extensions_lookup_list = array();
+        $extensions_lookup_list = [];
         if ($ext_status == 'enabled') {
             $extensions_lookup_list = $this->enabled_extensions;
         } else {
@@ -927,21 +925,21 @@ class ExtensionsApi
                     && in_array($route, $source[$ext][$section]))
             ) {
                 if (is_file($f)) {
-                    return array(
+                    return [
                         'file'      => $f,
                         'extension' => $ext,
                         'base_path' => $file,
-                    );
+                    ];
                 }
                 if ($resource_type == 'T') {
                     //check default template
                     $f = DIR_EXT.$ext.$ext_section.DIR_EXT_TEMPLATE.'default/template/'.$route;
                     if (is_file($f)) {
-                        return array(
+                        return [
                             'file'      => $f,
                             'extension' => $ext,
                             'base_path' => $ext_section.DIR_EXT_TEMPLATE.'default/template/'.$route,
-                        );
+                        ];
                     }
                 }
             }
@@ -952,10 +950,10 @@ class ExtensionsApi
             foreach ($this->extensions_dir as $ext) {
                 $f = DIR_EXT.$ext.$file;
                 if (is_file($f)) {
-                    return array(
+                    return [
                         'file'      => $f,
                         'extension' => $ext,
-                    );
+                    ];
                 }
             }
         }
@@ -971,7 +969,6 @@ class ExtensionsApi
      */
     public function getAllPrePostTemplates($route)
     {
-
         if (!$this->registry->has('config')) {
             return false;
         }
@@ -988,29 +985,29 @@ class ExtensionsApi
 
         //list only enabled extensions
         $extensions_lookup_list = $this->enabled_extensions;
-        $output = array();
+        $output = [];
         foreach ($extensions_lookup_list as $ext) {
             //looking for active template tpl
             $f = DIR_EXT.$ext.$file;
-            $ext_tpls = is_array($source[$ext][$section]) ? $source[$ext][$section] : array();
+            $ext_tpls = is_array($source[$ext][$section]) ? $source[$ext][$section] : [];
             if (in_array($route, $ext_tpls)) {
                 if (is_file($f)) {
-                    $output[$ext] = array(
+                    $output[$ext] = [
                         'file'      => $f,
                         'extension' => $ext,
                         'base_path' => $file,
-                    );
+                    ];
                 }
                 //if active template tpl not found - looking for default
                 if (!isset($output[$ext])) {
                     //check default template
                     $f = DIR_EXT.$ext.$ext_section.DIR_EXT_TEMPLATE.'default/template/'.$route;
                     if (is_file($f)) {
-                        $output[] = array(
+                        $output[] = [
                             'file'      => $f,
                             'extension' => $ext,
                             'base_path' => $ext_section.DIR_EXT_TEMPLATE.'default/template/'.$route,
-                        );
+                        ];
                     }
                 }
             }
@@ -1028,7 +1025,6 @@ class ExtensionsApi
      */
     public function isExtensionController($route)
     {
-
         $section = trim((IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE), '/');
         $path_build = '';
         $path_nodes = explode('/', $route);
@@ -1040,7 +1036,7 @@ class ExtensionsApi
                 $file = DIR_EXT.$ext.(IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE).'controller/'.$path_build.'.php';
                 $ext_controllers = is_array($this->extension_controllers[$ext][$section])
                     ? $this->extension_controllers[$ext][$section]
-                    : array();
+                    : [];
                 if (in_array($path_build, $ext_controllers) && is_file($file)) {
                     //remove current node
                     array_shift($path_nodes);
@@ -1052,13 +1048,13 @@ class ExtensionsApi
                         $method = 'main';
                     }
 
-                    return array(
+                    return [
                         'route'     => $path_build,
                         'extension' => $ext,
                         'file'      => $file,
                         'class'     => 'Controller'.preg_replace('/[^a-zA-Z0-9]/', '', $path_build),
                         'method'    => $method,
-                    );
+                    ];
                 }
             }
 
@@ -1093,22 +1089,23 @@ class ExtensionsApi
      *
      * @param string $property Name of the {@link extension} to get.
      *
-     * @throws AException
      * @return extension
+     * @throws AException
      */
     public function __get($property)
     {
         if ($this->extensions->$property !== false) {
             return $this->extensions->$property;
         }
-        throw new AException(AC_ERR_LOAD,
+        throw new AException(
+            AC_ERR_LOAD,
             'Extensions of name "'.$property.'" not found in ExtensionsApi '
         );
     }
 
     /**
      * @param string $method (hk_[function] calls)
-     * @param array  $args
+     * @param array $args
      *
      * @return mixed|null
      */
@@ -1122,7 +1119,7 @@ class ExtensionsApi
 
     /**
      * @param string $method
-     * @param array  $args
+     * @param array $args
      *
      * @return mixed|null
      */
@@ -1150,22 +1147,20 @@ class ExtensionsApi
         $before_args = $args;
         array_shift($before_args);
         $args[] =& $before_args;
-        call_user_func_array(array($this->extensions, 'before'.$extension_method), $args);
+        call_user_func_array([$this->extensions, 'before'.$extension_method], $args);
         $args = $before_args;
         array_unshift($args, $baseObject);
 
         $can_run = true;
         if (method_exists($baseObject, $method) || method_exists($baseObject, '__call')) {
-
             // callback surrounds the method execution
-            $can_run = call_user_func_array(array($this->extensions, 'around'.$extension_method), $args);
+            $can_run = call_user_func_array([$this->extensions, 'around'.$extension_method], $args);
 
             // method is allowed to run
             if ($can_run === true) {
                 $object_args = $args;
                 array_shift($object_args);
-                $return = call_user_func_array(array($baseObject, $method), $object_args);
-
+                $return = call_user_func_array([$baseObject, $method], $object_args);
                 // have replaced the method
             } elseif ($can_run !== false) {
                 $return = $can_run;
@@ -1175,10 +1170,10 @@ class ExtensionsApi
         if ($can_run !== false) {
             $on_args = $args;
             $on_args[] =& $return;
-            call_user_func_array(array($this->extensions, 'on'.$extension_method), $on_args);
+            call_user_func_array([$this->extensions, 'on'.$extension_method], $on_args);
         }
 
-        call_user_func_array(array($this->extensions, 'after'.$extension_method), $args);
+        call_user_func_array([$this->extensions, 'after'.$extension_method], $args);
 
         return $return;
     }
@@ -1199,7 +1194,7 @@ class ExtensionUtils
      */
     protected $name;
     /**
-     * @var SimpleXmlElement|DOMNode
+     * @var SimpleXmlElement|stdClass
      */
     protected $config;
     /**
@@ -1209,21 +1204,21 @@ class ExtensionUtils
     /**
      * @var array
      */
-    protected $error = array();
+    protected $error = [];
     /**
      * @var array
      */
-    protected $tags = array();
+    protected $tags = [];
 
     /**
      * @param string $ext
-     * @param int    $store_id
+     * @param int $store_id
      */
     public function __construct($ext, $store_id = 0)
     {
         $this->registry = Registry::getInstance();
-        $this->name = (string)$ext;
-        $this->store_id = (int)$store_id;
+        $this->name = (string) $ext;
+        $this->store_id = (int) $store_id;
         $this->config = getExtensionConfigXml($ext);
 
         if (!$this->config) {
@@ -1247,7 +1242,7 @@ class ExtensionUtils
      */
     public function getConfig($val = null)
     {
-        return !empty($val) ? isset($this->config->$val) ? (string)$this->config->$val : null : $this->config;
+        return !empty($val) ? isset($this->config->$val) ? (string) $this->config->$val : null : $this->config;
     }
 
     /**
@@ -1261,29 +1256,29 @@ class ExtensionUtils
         }
 
         //load extensions resources
-        $controllers = $languages = $models = $templates = array(
-            'storefront' => array(),
-            'admin'      => array(),
-        );
+        $controllers = $languages = $models = $templates = [
+            'storefront' => [],
+            'admin'      => [],
+        ];
         /** @noinspection PhpIncludeInspection */
         include($filename);
-        $validate_resources = array(
+        $validate_resources = [
             'controllers' => $controllers,
             'languages'   => $languages,
             'models'      => $models,
             'templates'   => $templates,
-        );
+        ];
 
         //extensions resources
         $extensions = $this->registry->get('extensions');
-        $ext_resources = array(
+        $ext_resources = [
             'controllers' => $extensions->getExtensionControllers(),
             'languages'   => $extensions->getExtensionLanguages(),
             'models'      => $extensions->getExtensionModels(),
             'templates'   => $extensions->getExtensionTemplates(),
-        );
+        ];
 
-        $conflict_resources = array();
+        $conflict_resources = [];
 
         foreach ($validate_resources as $resource_type => $resources) {
             if (empty($resources)) {
@@ -1294,7 +1289,7 @@ class ExtensionUtils
                     continue;
                 }
                 foreach ($checked_resources as $section => $section_resources) {
-                    $conflict = array_intersect((array)$resources[$section], (array)$section_resources);
+                    $conflict = array_intersect((array) $resources[$section], (array) $section_resources);
                     if (!empty($conflict)) {
                         $conflict_resources[$checked_name][$resource_type][$section] = $conflict;
                     }
@@ -1331,63 +1326,63 @@ class ExtensionUtils
     {
         $this->registry->get('load')->model('setting/setting');
         $settings = $this->registry->get('model_setting_setting')->getSetting($this->name, $this->store_id);
-        $result = array();
-        $this->registry->get('session')->data['extension_required_fields'] = array();
+        $result = [];
+        $this->registry->get('session')->data['extension_required_fields'] = [];
         //add other settings items
         if (isset($this->config->settings->item)) {
             $i = 0;
             foreach ($this->config->settings->item as $item) {
                 //detect if setting is serialized
 
-                $true_item_id = (string)$item['id'];
+                $true_item_id = (string) $item['id'];
                 $value_key = substr($item['id'], -2);
                 $item['id'] = $value_key == '[]'
                     ? substr($true_item_id, 0, strlen($true_item_id) - 2)
                     : $true_item_id;
 
-                $value = $settings[(string)$item['id']];
+                $value = $settings[(string) $item['id']];
                 if (is_serialized($value)) {
                     $value = unserialize($value);
                 }
-                $result[$i] = (array)$item;
+                $result[$i] = (array) $item;
 
-                if( $item->type == 'zones' ){
-                    $result[$i]['zone_value'] = $settings[(string)$item->zone_field_name];
+                if ($item->type == 'zones') {
+                    $result[$i]['zone_value'] = $settings[(string) $item->zone_field_name];
                 }
 
-                $result[$i]['name'] = (string)$true_item_id;
+                $result[$i]['name'] = (string) $true_item_id;
                 $result[$i]['value'] = $value;
 
                 //to use few datasources inside the same form-element such as html_template
-                $result[$i]['data_source'] = (array)$item->variants->data_source;
-                $result[$i]['model_rt']    = (string)$item->variants->data_source->model_rt;
-                $result[$i]['method']      = (string)$item->variants->data_source->method;
-                    //end of remove
-                $result[$i]['field1']      = (string)$item->variants->fields->field[0];
-                if(isset($item->variants->fields->field)) {
-                    $result[$i]['field2'] = (string)$item->variants->fields->field[1];
+                $result[$i]['data_source'] = (array) $item->variants->data_source;
+                $result[$i]['model_rt'] = (string) $item->variants->data_source->model_rt;
+                $result[$i]['method'] = (string) $item->variants->data_source->method;
+                //end of remove
+                $result[$i]['field1'] = (string) $item->variants->fields->field[0];
+                if (isset($item->variants->fields->field)) {
+                    $result[$i]['field2'] = (string) $item->variants->fields->field[1];
                 }
-                $result[$i]['template']    = (string)$item->template;
+                $result[$i]['template'] = (string) $item->template;
 
                 // if just static option values are used
                 if ($item->variants->item) {
                     foreach ($item->variants->item as $k) {
-                        $k = (string)$k;
-                        $result[$i]['options'][$k] = $this->registry->get('language')->get((string)$item['id'].'_'.$k);
+                        $k = (string) $k;
+                        $result[$i]['options'][$k] = $this->registry->get('language')->get((string) $item['id'].'_'.$k);
                     }
                 }
 
-                if ((string)$item['id'] == $this->name.'_status') {
+                if ((string) $item['id'] == $this->name.'_status') {
                     $result[$i]['style'] = 'btn_switch';
                     $result[$i]['attr'] = 'reload_on_save="true"';
                 }
 
                 $type_attr = $item->type->attributes();
-                if ((string)$type_attr['required'] == 'true') {
+                if ((string) $type_attr['required'] == 'true') {
                     $result[$i]['required'] = true;
                     $this->registry->get('session')->data['extension_required_fields'][] = $result[$i]['name'];
                 }
-                if ((string)$type_attr['readonly'] == 'true') {
+                if ((string) $type_attr['readonly'] == 'true') {
                     $result[$i]['attr'] .= ' readonly';
                 }
 
@@ -1406,7 +1401,7 @@ class ExtensionUtils
      * @return array - array of 2 elements: result and array - item_ids list that not valid
      * @throws AException
      */
-    public function validateSettings($data = array())
+    public function validateSettings($data = [])
     {
         // if values not set or we change only status of extension
         if (!$data
@@ -1420,17 +1415,17 @@ class ExtensionUtils
         //1. check is all required fields are set
         $result = $this->checkRequiredSettings($data);
         if (!$result) {
-            return array('result' => false);
+            return ['result' => false];
         }
 
         //2. is data valid?
         //2.1 - check by regex pattern from entity of config.xml
         if (isset($this->config->settings->item)) {
             foreach ($this->config->settings->item as $item) {
-                if (!isset($data[(string)$item['id']])) {
+                if (!isset($data[(string) $item['id']])) {
                     continue;//if data for check not given - do nothing
                 }
-                $value = $data[(string)$item['id']];
+                $value = $data[(string) $item['id']];
                 if (!is_multi($value)) {
                     if (is_array($value)) {
                         $value = array_map('trim', $value);
@@ -1438,21 +1433,21 @@ class ExtensionUtils
                         $value = trim($value);
                     }
                 }
-                if ((string)$item->pattern_validate) {
-                    $matches = array();
-                    $pattern = trim(trim((string)$item->pattern_validate), '/');
+                if ((string) $item->pattern_validate) {
+                    $matches = [];
+                    $pattern = trim(trim((string) $item->pattern_validate), '/');
                     $pattern = '/'.$pattern.'/';
                     //is pattern valid?
                     if (preg_match($pattern, $value, $matches) === false) {
-                        return array(
+                        return [
                             'result' => false,
-                            'errors' => array(
-                                'pattern' => 'Regex pattern for field "'.(string)$item['id'].'" is not valid.',
-                            ),
-                        );
+                            'errors' => [
+                                'pattern' => 'Regex pattern for field "'.(string) $item['id'].'" is not valid.',
+                            ],
+                        ];
                     } else {
                         if (!$matches) {
-                            return array('result' => false, 'errors' => array((string)$item['id'] => ''));
+                            return ['result' => false, 'errors' => [(string) $item['id'] => '']];
                         }
                     }
                 }
@@ -1469,19 +1464,19 @@ class ExtensionUtils
             if (function_exists('settingsValidation')) {
                 $result = call_user_func('settingsValidation', $data);
                 if (!isset($result['result']) || !isset($result['errors']) || !is_array($result['errors'])) {
-                    return array(
+                    return [
                         'result' => false,
-                        'errors' => array(
+                        'errors' => [
                             'pattern' => 'Error: Cannot to validate data by validate.php file. '
                                 .'Function returns incorrect formatted data.',
-                        ),
-                    );
+                        ],
+                    ];
                 }
                 return $result;
             }
         }
 
-        return array('result' => true);
+        return ['result' => true];
     }
 
     /**
@@ -1489,20 +1484,19 @@ class ExtensionUtils
      *
      * @return bool
      */
-    public function checkRequiredSettings($data = array())
+    public function checkRequiredSettings($data = [])
     {
-
         if (isset($this->config->settings->item)) {
             /**
-             * @var $items SimpleXmlElement
+             * @var $items SimpleXmlElement|stdClass
              */
             $items = $this->config->settings->item;
             foreach ($items as $item) {
-                if (!isset($data[(string)$item['id']])) {
+                if (!isset($data[(string) $item['id']])) {
                     //if data for check not given - do nothing
                     continue;
                 }
-                $value = $data[(string)$item['id']];
+                $value = $data[(string) $item['id']];
                 if (!is_multi($value)) {
                     if (is_array($value)) {
                         $value = array_map('trim', $value);
@@ -1511,9 +1505,8 @@ class ExtensionUtils
                     }
                 }
 
-                /** @noinspection PhpUndefinedMethodInspection */
                 $type_attr = $item->type->attributes();
-                if ((string)$type_attr['required'] == 'true' && !$value) {
+                if ((string) $type_attr['required'] == 'true' && !$value) {
                     return false;
                 }
             }
@@ -1528,30 +1521,29 @@ class ExtensionUtils
      */
     public function getDefaultSettings()
     {
-
-        $result = array();
+        $result = [];
         if (isset($this->config->settings->item)) {
             foreach ($this->config->settings->item as $item) {
-                if ((string)$item['id'] == $this->name.'_status') {
+                if ((string) $item['id'] == $this->name.'_status') {
                     continue;
                 }
 
-                if (in_array((string)$item->type, array('checkboxgroup', 'multiselectbox'))) {
-                    $value = (string)$item->default_value;
+                if (in_array((string) $item->type, ['checkboxgroup', 'multiselectbox'])) {
+                    $value = (string) $item->default_value;
                 } else {
                     $value = $this->registry->get('html')->convertLinks(
-                        htmlentities((string)$item->default_value, ENT_QUOTES, 'UTF-8')
+                        htmlentities((string) $item->default_value, ENT_QUOTES, 'UTF-8')
                     );
                 }
 
-                if ((string)$item->type == 'resource' && $value) {
-                    $resource = new AResource((string)$item->resource_type);
-                    $resource_id = $resource->getIdFromHexPath(str_replace((string)$item->resource_type, '', $value));
+                if ((string) $item->type == 'resource' && $value) {
+                    $resource = new AResource((string) $item->resource_type);
+                    $resource_id = $resource->getIdFromHexPath(str_replace((string) $item->resource_type, '', $value));
                     $resource_info = $resource->getResource($resource_id);
-                    $value = (string)$item->resource_type.'/'.$resource_info['resource_path'];
+                    $value = (string) $item->resource_type.'/'.$resource_info['resource_path'];
                 }
-                $result[(string)$item['id']] = $value;
-                if ((string)$item['id'] == 'priority') {
+                $result[(string) $item['id']] = $value;
+                if ((string) $item['id'] == 'priority') {
                     $result['sort_order'] = $value;
                 }
             }

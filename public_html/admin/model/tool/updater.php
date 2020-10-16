@@ -45,7 +45,7 @@ class ModelToolUpdater extends Model
     public function check4Updates($force = false)
     {
         if (!$force) {
-            $update_info = $this->cache->pull('extensions.updates');
+            $update_info = $this->session->data['extensions_updates'];
         } else {
             $update_info = false;
         }
@@ -53,7 +53,7 @@ class ModelToolUpdater extends Model
         if ($update_info === false) {
             $update_info = $this->_getUpdateInfo();
             if ($update_info) {
-                $this->cache->push('extensions.updates', $update_info);
+                $this->session->data['extensions_updates'] = $update_info;
             }
         }
     }
@@ -171,6 +171,7 @@ class ModelToolUpdater extends Model
             }
         }
         if($clearCache){
+            unset($this->session->data['extensions_updates']);
             $this->cache->remove('extensions');
         }
         return $output;
