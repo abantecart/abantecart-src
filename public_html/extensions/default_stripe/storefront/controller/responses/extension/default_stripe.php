@@ -95,6 +95,11 @@ class ControllerResponsesExtensionDefaultStripe extends AController
                 'icon'  => 'icon-ok icon-white',
             )
         );
+
+        $this->data['public_key'] = $this->config->get('default_stripe_test_mode')
+                            ? $this->config->get('default_stripe_pk_test')
+                            : $this->config->get('default_stripe_pk_live');
+
         $this->data['default_stripe_ssl_off_error'] = $this->language->get('default_stripe_ssl_off_error');
 
         $currency = $this->currency->getCode();

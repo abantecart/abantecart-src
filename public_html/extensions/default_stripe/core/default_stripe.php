@@ -74,14 +74,15 @@ class ExtensionDefaultStripe extends Extension
 
         $that->document->addScript('https://js.stripe.com/v3');
 
+        $publicKey = $that->config->get('default_stripe_test_mode')
+            ? $that->config->get('default_stripe_pk_test')
+            : $that->config->get('default_stripe_pk_live');
+
         $that->view->addHookVar(
             'simple_checkout_main',
-            '
-<script type="text/javascript">
-
+            '<script type="text/javascript">
 
 $(document).ready( function(){
-    
     //replace card form elements with own container
     $("#cc_number")
         .parents("div.row")
@@ -89,7 +90,7 @@ $(document).ready( function(){
     
     $("#cc_expire_date_month").parents("div.row").remove();
 
-    var stripe = Stripe("'. $that->config->get('default_stripe_published_key').'");
+    var stripe = Stripe("'.$publicKey.'");
     var elements = stripe.elements();
     var card = elements.create(\'card\', {
         hidePostalCode: true,
@@ -108,7 +109,7 @@ $(document).ready( function(){
         }
     });
     card.mount(\'#card-element\');
-		
+
     $("#PayFrm").on("click", ".btn-pay", function(event) {
         event.preventDefault();
         if (validateForm($("#PayFrm")) !== true ){

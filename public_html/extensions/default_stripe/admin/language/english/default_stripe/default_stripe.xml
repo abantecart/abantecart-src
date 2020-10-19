@@ -28,12 +28,10 @@
 		<key>default_stripe_save_cards_limit</key>
 		<value><![CDATA[Max credit cards saved:<br /><span class="help">Set maximum number of credit cards to be saved by customers (up to 100). If set to 0 or blank saving of cards will not be allowed. Security note: Customer credit card details are saved on stripe secure servers to ensure maximum data security measures. No credit card details will be saved on your site.</span>]]></value>
 	</definition>
-
 	<definition>
 		<key>text_default_stripe_connect</key>
 		<value><![CDATA[You need to connect with stripe to set up payment details]]></value>
 	</definition>
-
 	<definition>
 		<key>text_default_stripe_settings</key>
 		<value><![CDATA[Stripe settings]]></value>
@@ -64,48 +62,48 @@
 	</definition>
 	<definition>
 		<key>default_stripe_sk_live</key>
-		<value><![CDATA[Live Secret Key:<br /><span class="help">Locate this in Stripe API Keys Section. Key starts with sk_live_... </span>]]></value>
+		<value><![CDATA[Live Secret Key:<br /><span class="help">Locate this in Stripe Dashboard -> Developers -> API Keys Section. Key starts with sk_live_... </span>]]></value>
 	</definition>
 	<definition>
 		<key>default_stripe_pk_live</key>
-		<value><![CDATA[Live Publishable Key:<br /><span class="help">Locate this in Stripe API Keys Section. Key starts with pk_live_... </span>]]></value>
+		<value><![CDATA[Live Publishable Key:<br /><span class="help">Locate this in Stripe Dashboard -> Developers -> API Keys Section. Key starts with pk_live_... </span>]]></value>
 	</definition>
 	<definition>
 		<key>default_stripe_sk_test</key>
-		<value><![CDATA[Test Secret Key:<br /><span class="help">Locate this in Stripe API Keys Section. Key starts with sk_test_... </span>]]></value>
+		<value><![CDATA[Test Secret Key:<br /><span class="help">Locate this in Stripe Dashboard -> Developers -> API Keys Section. Key starts with sk_test_... </span>]]></value>
 	</definition>
 	<definition>
 		<key>default_stripe_pk_test</key>
-		<value><![CDATA[Test Publishable Key:<br /><span class="help">Locate this in Stripe API Keys Section. Key starts with pk_test_... </span>]]></value>
+		<value><![CDATA[Test Publishable Key:<br /><span class="help">Locate this in Stripe Dashboard -> Developers -> API Keys Section. Key starts with pk_test_... </span>]]></value>
 	</definition>
 	<definition>
 		<key>default_stripe_settlement</key>
-		<value><![CDATA[Settlement type:<br /><span class="help">If set to 'auto', then the transaction will be included in today's settlement. If set to 'delayed', then the transaction will be authorised but not settled(captured). You must manually capture transactions within 7 days of authorisation</span>]]></value>
+		<value>
+			<![CDATA[Settlement type:<br /><span class="help">If set to 'auto', then the transaction will be included in today's settlement. If set to 'delayed', then the transaction will be authorised but not settled(captured). You must manually capture transactions within 7 days of authorisation</span>]]></value>
 	</definition>
 	<definition>
-		<key>default_stripe_published_key</key>
+		<key>default_stripe_pk</key>
 		<value><![CDATA[Published Key:]]></value>
 	</definition>
 	<definition>
 		<key>default_stripe_status_success_settled</key>
-		<value><![CDATA[Success & settled:<br /><span class="help">Select main order status you want to set in responce to payment processor status</span>]]></value>
+		<value><![CDATA[Success & settled:<br /><span class="help">Select main order status you want to set in response to payment processor status</span>]]></value>
 	</definition>
 	<definition>
 		<key>default_stripe_status_success_unsettled</key>
-		<value><![CDATA[Success & not settled:<br /><span class="help">Select main order status you want to set in responce to payment processor status</span>]]></value>
+		<value><![CDATA[Success & not settled:<br /><span class="help">Select main order status you want to set in response to payment processor status</span>]]></value>
 	</definition>
 	<definition>
 		<key>default_stripe_status_decline</key>
-		<value><![CDATA[Decline:<br /><span class="help">Order status you want to record in history in responce to payment processor status. Main order status is not affected. Order will not be placed only after payment is a success.</span>]]></value>
+		<value><![CDATA[Decline:<br /><span class="help">Order status you want to record in history in response to payment processor status. Main order status is not affected. Order will not be placed only after payment is a success.</span>]]></value>
 	</definition>
-
 	<definition>
 		<key>default_stripe_settlement_auto</key>
 		<value><![CDATA[Auto (authorize and capture)]]></value>
 	</definition>
 	<definition>
 		<key>default_stripe_settlement_delayed</key>
-		<value><![CDATA[Delayed (autorize only)]]></value>
+		<value><![CDATA[Delayed (authorize only)]]></value>
 	</definition>
 	<definition>
 		<key>error_system</key>
