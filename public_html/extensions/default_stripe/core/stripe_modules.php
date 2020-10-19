@@ -10,8 +10,5 @@ function grantStripeAccess($config)
     } else {
         \Stripe\Stripe::setApiKey($config->get('default_stripe_sk_live'));
     }
-    if($config->get('default_stripe_account_id')) {
-        \Stripe\Stripe::setAccountId($config->get('default_stripe_account_id'));
-    }
     \Stripe\Stripe::setApiVersion("2019-02-19");
 }

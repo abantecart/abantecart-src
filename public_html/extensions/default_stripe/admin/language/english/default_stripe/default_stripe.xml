@@ -121,12 +121,4 @@
 		<key>error_permission</key>
 		<value><![CDATA[Warning: You do not have permission to modify Stripe Payment!]]></value>
 	</definition>
-	<definition>
-		<key>default_stripe_account_id</key>
-		<value><![CDATA[Stripe Account ID:<br/><span class="help">Locate this in Stripe Connect Section. Look inside Stripe Dashboard -> Connected Accounts. It starts with acct_... </span>]]></value>
-	</definition>
-	<definition>
-		<key>error_default_stripe_account_id</key>
-		<value><![CDATA[Stripe Account ID is required]]></value>
-	</definition>
 </definitions>
