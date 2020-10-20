@@ -394,7 +394,7 @@
 		<value><![CDATA[More extensions are available for easy install.]]></value>
 	</definition>
 	<definition>
-		<key>text_license_expires</key>
+		<key>text_support_expiration</key>
 		<value><![CDATA[Support Till]]></value>
 	</definition>
 	<definition>

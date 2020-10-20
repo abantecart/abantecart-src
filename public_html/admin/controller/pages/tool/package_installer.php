@@ -481,8 +481,8 @@ class ControllerPagesToolPackageInstaller extends AController
         $package_info['package_url'] = $url;
         $package_info['package_name'] = $package_name;
         $package_info['package_size'] = $headers['Content-Length'];
-        if ($headers['License-Expires']) {
-            $package_info['license_expires'] = $headers['License-Expires'];
+        if ($headers['Support-Expiration']) {
+            $package_info['support_expiration'] = $headers['Support-Expiration'];
         }
         if ($headers['Product-Url']) {
             $package_info['product_url'] = $headers['Product-Url'];
@@ -1197,7 +1197,7 @@ class ControllerPagesToolPackageInstaller extends AController
                 'version'         => (string) $config->version,
                 'license_key'     => $this->registry->get('session')->data['package_info']['extension_key'],
                 'category'        => (string) $config->category,
-                'license_expires' => (string) $package_info['license_expires'],
+                'support_expiration' => (string) $package_info['support_expiration'],
                 'mp_product_url'  => (string) $package_info['product_url'],
             ]
         );

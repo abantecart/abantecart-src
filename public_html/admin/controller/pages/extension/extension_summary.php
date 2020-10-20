@@ -95,21 +95,21 @@ class ControllerPagesExtensionExtensionSummary extends AController
 
         $mpProductUrl = $expires = '';
         if ($this->data['extension_info']['license_key']) {
-            if($updates && isset($updates[$extension]['license_expires'])){
-                $expires = $this->data['extension_info']['license_expires'];
+            if($updates && isset($updates[$extension]['support_expiration'])){
+                $expires = $this->data['extension_info']['support_expiration'];
             }
-            if(!$expires && $this->data['extension_info']['license_expires']){
-                $expires = $this->data['extension_info']['license_expires'];
+            if(!$expires && $this->data['extension_info']['support_expiration']){
+                $expires = $this->data['extension_info']['support_expiration'];
             }
             if ($expires) {
                 if(dateISO2Int($expires) < time()){
                     $mpProductUrl = $this->data['extension_info']['mp_product_url'];
                 }
-                $this->data['extension_info']['license_expires'] = dateISO2Display(
+                $this->data['extension_info']['support_expiration'] = dateISO2Display(
                     $expires,
                     $this->language->get('date_format_short')
                 );
-                $this->data['text_license_expires'] = $this->language->get('text_license_expires');
+                $this->data['text_support_expiration'] = $this->language->get('text_support_expiration');
             }
             if(!$mpProductUrl){
                 $mpProductUrl = $this->model_tool_mp_api->getMPURL().$extension.'/support';

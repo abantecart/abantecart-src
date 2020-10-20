@@ -233,11 +233,11 @@ class ControllerResponsesListingGridExtension extends AController
                 }
                 //when support period expired
                 if( ($updates
-                        && $updates[$extension]['license_expires']
-                        && dateISO2Int($updates[$extension]['license_expires']) < time())
+                        && $updates[$extension]['support_expiration']
+                        && dateISO2Int($updates[$extension]['support_expiration']) < time())
                     ||
                     //if no update info - takes date from extension table
-                    (dateISO2Int($row['license_expires']) < time())
+                    (dateISO2Int($row['support_expiration']) < time())
                 ){
                     $expired = true;
                     $response->userdata->classes[$id] = 'expired '.$response->userdata->classes[$id];
