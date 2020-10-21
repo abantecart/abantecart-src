@@ -805,6 +805,8 @@ CREATE TABLE `ac_extensions` (
   `version` varchar(32),
   `license_key` varchar(32),
   `date_installed` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `support_expiration` TIMESTAMP NULL,
+  `mp_product_url` VARCHAR(255) NULL DEFAULT '',
   `date_added` timestamp NOT NULL default '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`extension_id`),
