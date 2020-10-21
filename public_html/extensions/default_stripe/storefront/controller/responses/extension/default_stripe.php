@@ -10,7 +10,7 @@ if (!defined('DIR_CORE')) {
  */
 class ControllerResponsesExtensionDefaultStripe extends AController
 {
-    public $data = array();
+    public $data = [];
 
     public function main()
     {
@@ -21,18 +21,18 @@ class ControllerResponsesExtensionDefaultStripe extends AController
         //build submit form
         $form = new AForm();
         $form->setForm(
-            array(
+            [
                 'form_name' => 'stripe',
-            )
+            ]
         );
 
         $this->data['form_open'] = $form->getFieldHtml(
-            array(
+            [
                 'type' => 'form',
                 'name' => 'stripe',
                 'attr' => 'class = "validate-creditcard"',
                 'csrf' => true,
-            )
+            ]
         );
 
         //need an order details
@@ -59,12 +59,12 @@ class ControllerResponsesExtensionDefaultStripe extends AController
 
         $this->data['entry_cc_owner'] = $this->language->get('entry_cc_owner');
         $this->data['cc_owner'] = $form->getFieldHtml(
-            array(
+            [
                 'type'        => 'input',
                 'name'        => 'cc_owner',
                 'placeholder' => $this->language->get('entry_cc_owner'),
                 'value'       => $order_info['payment_firstname'].' '.$order_info['payment_lastname'],
-            )
+            ]
         );
 
         $this->data['button_confirm'] = $this->language->get('button_confirm');
@@ -76,42 +76,47 @@ class ControllerResponsesExtensionDefaultStripe extends AController
             $back_url = $this->html->getSecureURL('checkout/payment', '&mode=edit', true);
         }
         $this->data['back'] = $this->html->buildElement(
-            array(
+            [
                 'type'  => 'button',
                 'name'  => 'back',
                 'text'  => $this->language->get('button_back'),
                 'style' => 'button',
                 'href'  => $back_url,
                 'icon'  => 'icon-arrow-left',
-            )
+            ]
         );
 
         $this->data['submit'] = $this->html->buildElement(
-            array(
+            [
                 'type'  => 'button',
                 'name'  => 'stripe_button',
                 'text'  => $this->language->get('button_confirm'),
                 'style' => 'button btn-orange pull-right',
                 'icon'  => 'icon-ok icon-white',
-            )
+            ]
         );
+
+        $this->data['public_key'] = $this->config->get('default_stripe_test_mode')
+                                    ? $this->config->get('default_stripe_pk_test')
+                                    : $this->config->get('default_stripe_pk_live');
+
         $this->data['default_stripe_ssl_off_error'] = $this->language->get('default_stripe_ssl_off_error');
 
         $currency = $this->currency->getCode();
         if($this->customer->isLogged()){
             $customer = $this->customer;
         }else{
-            $customer = array(
+            $customer = [
                 'firstname' => $order_info['payment_firstname'],
                 'lastname' => $order_info['payment_lastname'],
                 'email'     => $order_info['email']
-            );
+            ];
         }
         $customer_stripe_id = $this->model_extension_default_stripe->createStripeCustomer($customer);
         $paymentIntent = $this->model_extension_default_stripe->createPaymentIntent(
-            array(
+            [
 
-                'payment_method_types' => array("card"),
+                'payment_method_types' => ["card"],
                 'capture_method'       => 'manual',
                 'amount'               => round(
                                                 $this->currency->convert(
@@ -123,26 +128,26 @@ class ControllerResponsesExtensionDefaultStripe extends AController
                 'currency'             => $currency,
                 'customer'             => $customer_stripe_id,
                 'receipt_email'        => $this->customer->getEmail(),
-                'shipping'             => array(
+                'shipping'             => [
                     'address' =>
-                        array(
+                        [
                             'line1'       => $order_info['shipping_address_1'],
                             'city'        => $order_info['shipping_city'],
                             'country'     => $order_info['shipping_country'],
                             'line2'       => $order_info['shipping_address_2'],
                             'postal_code' => $order_info['shipping_postcode'],
                             'state'       => $order_info['shipping_zone'],
-                        ),
+                        ],
                     'name'    => $order_info['shipping_firstname'].' '.$order_info['shipping_lastname'],
                     'carrier' => $order_info['shipping_method'],
                     'phone'   => $order_info['telephone'],
-                ),
+                ],
                 'statement_descriptor' => 'Order #'.$order_info['order_id'],
-                "metadata"             => array(
+                "metadata"             => [
                     'integration_check' => 'accept_a_payment',
                     "order_id" => $order_info['order_id'],
-                ),
-            )
+                ],
+            ]
         );
 
         if ($paymentIntent['error']) {
@@ -184,7 +189,7 @@ class ControllerResponsesExtensionDefaultStripe extends AController
         //validate input
         $order_id = $this->session->data['order_id'];
 
-        $p_result = array();
+        $p_result = [];
         try {
             $pi_id = $this->session->data['stripe']['pi_id'];
             if ( ($intent = $this->model_extension_default_stripe->getPaymentIntent($pi_id)) ) {
@@ -208,7 +213,7 @@ class ControllerResponsesExtensionDefaultStripe extends AController
                 }
                 $this->model_checkout_order->updatePaymentMethodData(
                     $order_id,
-                    array('id' => $pi_id)
+                    ['id' => $pi_id]
                 );
 
             } else {
@@ -261,13 +266,13 @@ class ControllerResponsesExtensionDefaultStripe extends AController
         $this->data['text_note'] = $this->language->get('text_note');
         $this->data['order_id'] = $this->session->data['order_id'];
         //list of required fields for payment 
-        $this->data['required_fields'] = array(
+        $this->data['required_fields'] = [
             'name'                         => 'cc_owner',
             'credit_card_number'           => 'cc_number',
             'credit_card_cvv2'             => 'cc_cvv2',
             'credit_card_expiration_month' => 'cc_expire_date_month',
             'credit_card_expiration_year'  => 'cc_expire_date_year',
-        );
+        ];
 
         $this->data['process_rt'] = 'default_stripe/api_confirm';
 

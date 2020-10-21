@@ -169,7 +169,7 @@
                 return;
             }
             stripe = Stripe(
-                '<?php echo $this->config->get('default_stripe_published_key');?>',
+                '<?php echo $public_key;?>',
                 {
                     betas: ['payment_intent_beta_3']
                 }
