@@ -172,7 +172,7 @@ class ControllerPagesAccountInvoice extends AController
 
             $products = array();
             $order_products = $this->model_account_order->getOrderProducts($order_id);
-
+            $this->data['raw_products'] = $order_products;
             $product_ids = array();
             foreach ($order_products as $product) {
                 $product_ids[] = (int)$product['product_id'];
