@@ -395,7 +395,7 @@
 	</definition>
 	<definition>
 		<key>text_support_expiration</key>
-		<value><![CDATA[Support Till]]></value>
+		<value><![CDATA[Support is active until]]></value>
 	</definition>
 	<definition>
 		<key>text_license_expired</key>
