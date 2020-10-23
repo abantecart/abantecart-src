@@ -315,7 +315,15 @@ class AHtml extends AController
         if ($this->registry->get('config')->get('config_ssl') == 2) {
             $ssl = true;
         }
-        $http = $ssl ? HTTPS_SERVER : HTTP_SERVER;
+
+        if($ssl && parse_url($this->registry->get('config')->get('config_ssl_url'), PHP_URL_SCHEME) == 'https'){
+            $HTTPS_SERVER = $this->registry->get('config')->get('config_ssl_url');
+        }else{
+            $HTTPS_SERVER = HTTPS_SERVER;
+        }
+
+        $http = $ssl ? $HTTPS_SERVER : HTTP_SERVER;
+
 
         $url = $http.INDEX_FILE.$this->url_encode($suburl, $encode);
         return $url;
