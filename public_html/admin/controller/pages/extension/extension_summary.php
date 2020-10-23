@@ -94,27 +94,37 @@ class ControllerPagesExtensionExtensionSummary extends AController
         }
 
         $mpProductUrl = $expires = '';
-        if ($this->data['extension_info']['license_key']) {
-            if($updates && isset($updates[$extension]['support_expiration'])){
-                $expires = $this->data['extension_info']['support_expiration'];
-            }
-            if(!$expires && $this->data['extension_info']['support_expiration']){
-                $expires = $this->data['extension_info']['support_expiration'];
-            }
-            if ($expires) {
-                if(dateISO2Int($expires) < time()){
-                    $mpProductUrl = $this->data['extension_info']['mp_product_url'];
-                }
-                $this->data['extension_info']['support_expiration'] = dateISO2Display(
-                    $expires,
-                    $this->language->get('date_format_short')
-                );
-                $this->data['text_support_expiration'] = $this->language->get('text_support_expiration');
-            }
-            if(!$mpProductUrl){
-                $mpProductUrl = $this->model_tool_mp_api->getMPURL().$extension.'/support';
-            }
+        if( isset($updates[$extension]['support_expiration'])
+            && $updates[$extension]['support_expiration'] === '0000-00-00 00:00:00')
+        {
+            $updates[$extension]['support_expiration'] = null;
+        }
 
+        if($this->data['extension_info']['support_expiration'] === '0000-00-00 00:00:00'){
+            $this->data['extension_info']['support_expiration'] = null;
+        }
+
+        if($updates && $updates[$extension]['support_expiration']){
+            $expires = $updates[$extension]['support_expiration'];
+        }
+        if(!$expires && $this->data['extension_info']['support_expiration']){
+            $expires = $this->data['extension_info']['support_expiration'];
+        }
+
+        if ($expires) {
+            if(dateISO2Int($expires) < time()){
+                $mpProductUrl = $this->data['extension_info']['mp_product_url'];
+            }
+            $this->data['extension_info']['support_expiration'] = dateISO2Display(
+                $expires,
+                $this->language->get('date_format_short')
+            );
+            $this->data['text_support_expiration'] = $this->language->get('text_support_expiration');
+        }
+        if(!$mpProductUrl){
+            $mpProductUrl = $this->model_tool_mp_api->getMPURL().$extension.'/support';
+        }
+        if ($this->data['extension_info']['support_expiration']) {
             //if license_key presents - show support button
             $this->data['get_support_button'] = $this->html->buildElement(
                 [

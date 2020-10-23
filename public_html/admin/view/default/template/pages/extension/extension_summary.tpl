@@ -15,13 +15,11 @@
             <?php
             }
             //Licence key if present
-            if ($extension_info['license']) {
-                //expiration date if present
-                if ($extension_info['support_expiration']) { ?>
-                    <div class="col-md-2"><?php echo $text_support_expiration
-                            . ':<br/><b>' . $extension_info['support_expiration']; ?></b></div>
-                <?php
-                }
+            //expiration date if present
+            if ($extension_info['support_expiration']) { ?>
+                <div class="col-md-2"><?php echo $text_support_expiration
+                        . ':<br/><b>' . $extension_info['support_expiration']; ?></b></div>
+            <?php
             }
             if ( $upgrade_button ) { ?>
                 <div class="col-md-1"><a class="btn btn-primary" href="<?php echo $upgrade_button->href ?>"><?php echo $upgrade_button->text ?></a></div>

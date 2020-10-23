@@ -152,20 +152,21 @@ class ModelToolUpdater extends Model
                     $version_info['version'] = $version;
                     $output[$extKey] = $version_info;
                     //check if extension have an update of support time
-                    if($installed[$extKey]['license_key']){
-                        if(!$installed[$extKey]['support_expiration']){
-                            $installed[$extKey]['support_expiration'] = date('Y-m-d H:i:s', time());
+                    if(!$installed[$extKey]['support_expiration']){
+                        $installed[$extKey]['support_expiration'] = date('Y-m-d H:i:s', time());
+                    }
+                    //if extension have changed support time - update data
+                    if(dateISO2Int($version_info['support_expiration']) >= time()){
+                        $upd = '';
+                        if($installed[$extKey]['license_key'] && $version_info['installation_key'] != $installed[$extKey]['license_key']){
+                            $upd .= " license_key = '".$this->db->escape($version_info['installation_key'])."', ";
                         }
-                        //if extension have changed support time - update data
-                        if(dateISO2Int($version_info['support_expiration']) > time()
-                            && $version_info['installation_key'] != $installed[$extKey]['license_key']){
-                            $sql = "UPDATE ".$this->db->table('extensions')."
-                                    SET license_key = '".$this->db->escape($version_info['installation_key'])."',
-                                        support_expiration = '".$this->db->escape($version_info['support_expiration'])."'
-                                    WHERE `key` = '".$this->db->escape($extKey)."'";
-                            $this->db->query($sql);
-                            $clearCache = true;
-                        }
+
+                        $sql = "UPDATE ".$this->db->table('extensions')."
+                                SET ".$upd." support_expiration = '".$this->db->escape($version_info['support_expiration'])."'
+                                WHERE `key` = '".$this->db->escape($extKey)."'";
+                        $this->db->query($sql);
+                        $clearCache = true;
                     }
                 }
             }

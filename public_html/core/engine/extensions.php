@@ -557,6 +557,13 @@ class ExtensionsApi
                 );
             }
         }
+        if ($result->rows) {
+            foreach ($result->rows as &$row) {
+                if($row['support_expiration'] === '0000-00-00 00:00:00'){
+                    $row['support_expiration'] = null;
+                }
+            }
+        }
 
         $result->total = $total ? $total->num_rows : $result->num_rows;
         if ($this->cache && $this->cache->isCacheEnabled()) {
