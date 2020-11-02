@@ -35,6 +35,8 @@ class ControllerResponsesListingGridExtension extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('extension/extensions');
+        /** @var ModelToolMPAPI $mpModel */
+        $mpModel = $this->loadModel('tool/mp_api');
 
         $page = $this->request->post['page']; // get the requested page
         if ((int)$page < 0) {
@@ -248,7 +250,13 @@ class ControllerResponsesListingGridExtension extends AController
             if(!$expired){
                 $response->userdata->classes[$id] .= ' disable-expired ';
             }
-            $response->userdata->mp_product_url[$id] = $row['mp_product_url'];
+            $response->userdata->mp_product_url[$id] = $row['mp_product_url']
+                                        ? $row['mp_product_url']
+                                        : $updates[$extension]['url'];
+            //if url of product page still empty - send to search result page
+            if( !$response->userdata->mp_product_url[$id]){
+                $response->userdata->mp_product_url[$id] = $mpModel->getMPURL().'?rt=product/search&keyword='.$extension;
+            }
 
             $response->rows[$i]['cell'] = [
                 $icon,
