@@ -388,7 +388,7 @@ final class AConnect
         if (!$this->curl_options) {
             $this->curl_options = Array(
                 CURLOPT_CONNECTTIMEOUT => $this->timeout,  //wait for connect
-                CURLOPT_TIMEOUT        => !$headers_only ? $this->timeout : 1,  // timeout for open connection
+                CURLOPT_TIMEOUT        => !$headers_only ? $this->timeout : 3,  // timeout for open connection
                 CURLOPT_HTTPHEADER     => array('Expect:'),
                 CURLOPT_MAXREDIRS      => 4,
                 CURLOPT_RETURNTRANSFER => true,
