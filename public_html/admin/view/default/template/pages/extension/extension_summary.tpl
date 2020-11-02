@@ -16,7 +16,7 @@
             }
             //Licence key if present
             //expiration date if present
-            if ($extension_info['support_expiration']) { ?>
+            if ($extension_info['support_expiration'] && $extension_info['support_expiration_int'] !== 0) { ?>
                 <div class="col-md-2"><?php echo $text_support_expiration
                         . ':<br/><b>' . $extension_info['support_expiration']; ?></b></div>
             <?php

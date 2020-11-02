@@ -112,18 +112,21 @@ class ControllerPagesExtensionExtensionSummary extends AController
         }
 
         if ($expires) {
-            if(dateISO2Int($expires) < time()){
+            $expiresInt = dateISO2Int($expires);
+            $this->data['extension_info']['support_expiration_int'] = $expiresInt;
+            if($expiresInt < time()){
                 $mpProductUrl = $this->data['extension_info']['mp_product_url'];
             }
-            $this->data['extension_info']['support_expiration'] = dateISO2Display(
-                $expires,
-                $this->language->get('date_format_short')
-            );
+            $this->data['extension_info']['support_expiration']  =
+                $expires != '1970-01-01 00:00:00'
+                ? dateISO2Display( $expires,$this->language->get('date_format_short'))
+                : $expires;
             $this->data['text_support_expiration'] = $this->language->get('text_support_expiration');
         }
         if(!$mpProductUrl){
             $mpProductUrl = $this->model_tool_mp_api->getMPURL().$extension.'/support';
         }
+
         if ($this->data['extension_info']['support_expiration']) {
             //if license_key presents - show support button
             $this->data['get_support_button'] = $this->html->buildElement(
