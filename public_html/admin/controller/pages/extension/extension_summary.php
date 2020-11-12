@@ -127,6 +127,7 @@ class ControllerPagesExtensionExtensionSummary extends AController
             $mpProductUrl = $this->model_tool_mp_api->getMPURL().$extension.'/support';
         }
 
+        $this->data['text_support_expired'] = $this->language->get('text_support_expired');
         if ($this->data['extension_info']['support_expiration']) {
             //if license_key presents - show support button
             $this->data['get_support_button'] = $this->html->buildElement(

@@ -398,6 +398,10 @@
 		<value><![CDATA[Support is active until]]></value>
 	</definition>
 	<definition>
+		<key>text_support_expired</key>
+		<value><![CDATA[Support expired]]></value>
+	</definition>
+	<definition>
 		<key>text_license_expired</key>
 		<value><![CDATA[Extension support has expired or not connected to marketplace]]></value>
 	</definition>

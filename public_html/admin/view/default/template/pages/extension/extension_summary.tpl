@@ -16,9 +16,13 @@
             }
             //Licence key if present
             //expiration date if present
-            if ($extension_info['support_expiration'] && $extension_info['support_expiration_int'] !== 0) { ?>
+            if ($extension_info['support_expiration'] && $extension_info['support_expiration_int'] !== 0) {
+                if($extension_info['support_expiration_int']<time()){ ?>
+                    <div class="col-md-2"><b><?php echo $text_support_expired; ?></b></div><?php
+                }else{ ?>
                 <div class="col-md-2"><?php echo $text_support_expiration
                         . ':<br/><b>' . $extension_info['support_expiration']; ?></b></div>
+                <?php }?>
             <?php
             }
             if ( $upgrade_button ) { ?>
