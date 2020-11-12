@@ -163,7 +163,7 @@ class ModelToolUpdater extends Model
                     //if extension have changed support time - update data
                     if(dateISO2Int($version_info['support_expiration']) >= time()){
                         $upd = '';
-                        if($installed[$extKey]['license_key'] && $version_info['installation_key'] != $installed[$extKey]['license_key']){
+                        if($version_info['installation_key'] != $installed[$extKey]['license_key']){
                             $upd .= " license_key = '".$this->db->escape($version_info['installation_key'])."', ";
                         }
 
