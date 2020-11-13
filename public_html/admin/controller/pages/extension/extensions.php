@@ -704,6 +704,9 @@ class ControllerPagesExtensionExtensions extends AController
         //info about available updates
         $upd = $this->session->data['extensions_updates'];
         if (is_array($upd) && in_array($extension, array_keys($upd))) {
+            if(count(explode('.',$this->data['extension_info']['version']))==2){
+                $this->data['extension_info']['version'] .= '.0';
+            }
             if (version_compare($upd[$extension]['version'], $this->data['extension_info']['version'], '>')) {
                 $this->data['info'] = sprintf(
                     $this->language->get('text_update_available'),

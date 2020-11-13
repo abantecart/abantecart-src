@@ -149,6 +149,9 @@ class ControllerResponsesListingGridExtension extends AController
             if (!$extension) {
                 continue;
             }
+            if(count(explode('.',$row['version']))==2){
+                $row['version'] .= '.0';
+            }
             $expired = false;
             $response->rows[$i]['id'] = str_replace(' ', '-', $row['key']).'_'.(int)$row['store_id'];
             $id = $response->rows[$i]['id'];
@@ -217,6 +220,7 @@ class ControllerResponsesListingGridExtension extends AController
                 // if update available
                 if (is_array($updates) && isset($updates[$extension])) {
                     if (version_compare($updates[$extension]['version'], $row['version'], '>')) {
+                        $this->log->write($extension.": ". $updates[$extension]['version']." > ". $row['version']);
                         if ($updates[$extension]['installation_key']) {
                             $update_now_url = $this->html->getSecureURL(
                                 'tool/package_installer',
