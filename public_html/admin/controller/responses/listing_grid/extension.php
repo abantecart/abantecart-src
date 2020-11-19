@@ -220,7 +220,6 @@ class ControllerResponsesListingGridExtension extends AController
                 // if update available
                 if (is_array($updates) && isset($updates[$extension])) {
                     if (version_compare($updates[$extension]['version'], $row['version'], '>')) {
-                        $this->log->write($extension.": ". $updates[$extension]['version']." > ". $row['version']);
                         if ($updates[$extension]['installation_key']) {
                             $update_now_url = $this->html->getSecureURL(
                                 'tool/package_installer',
@@ -245,6 +244,9 @@ class ControllerResponsesListingGridExtension extends AController
                     ||
                     //if no update info - takes date from extension table
                     ($row['support_expiration'] && dateISO2Int($row['support_expiration']) < time())
+                    ||
+                    //if extension purchased but store disconnected
+                    ($row['installation_key'] && !$this->config->get('mp_token'))
                 ){
                     $expired = true;
                     $response->userdata->classes[$id] = 'expired '.$response->userdata->classes[$id];
