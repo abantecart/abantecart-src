@@ -165,7 +165,8 @@ final class ASession
                 'domain'   => null,
                 'secure'   => (defined('HTTPS') && HTTPS),
                 'httponly' => true,
-                'samesite' => 'lax',
+                //NOTE: lax mode blocks transferring of cookie when redirecting from another domain
+                'samesite' => (defined('HTTPS') && HTTPS) ? 'None' : 'lax',
                 'lifetime' => 0,
             ]
         );
