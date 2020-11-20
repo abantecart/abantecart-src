@@ -246,7 +246,7 @@ class ControllerResponsesListingGridExtension extends AController
                     ($row['support_expiration'] && dateISO2Int($row['support_expiration']) < time())
                     ||
                     //if extension purchased but store disconnected
-                    ($row['installation_key'] && !$this->config->get('mp_token'))
+                    ($row['license_key'] && !$this->config->get('mp_token'))
                 ){
                     $expired = true;
                     $response->userdata->classes[$id] = 'expired '.$response->userdata->classes[$id];

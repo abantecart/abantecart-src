@@ -221,7 +221,7 @@ class ControllerPagesExtensionExtensions extends AController
         $return_url = base64_encode($this->html->getSecureURL('tool/extensions_store/connect'));
         $mp_params = '?rt=account/authenticate&return_url='.$return_url;
         $mp_params .= '&store_id='.UNIQUE_ID;
-        $mp_params .= '&store_url='.HTTP_SERVER;
+        $mp_params .= '&store_url='.HTTPS_SERVER;
         $mp_params .= '&store_version='.VERSION;
         $this->view->assign('amp_connect_url', $this->model_tool_mp_api->getMPURL().$mp_params);
         $this->view->assign('amp_disconnect_url', $this->html->getSecureURL('tool/extensions_store/disconnect'));
