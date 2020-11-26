@@ -224,7 +224,7 @@ class ControllerResponsesExtensionCardConnect extends AController
                     $this->cart->getFinalTotal(),
                     $this->config->get('config_currency'),
                     $currency
-                ), 2) * 100;
+                ), 2);
         $pd = array(
             'amount'          => $amount,
             'currency'        => $currency,

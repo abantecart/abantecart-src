@@ -111,7 +111,7 @@ class ModelExtensionCardConnect extends Model
                 "merchid" => $this->config->get('cardconnect_merchant_id'),
                 "retref"  => $ch_id,
                 //amount in cents!!!
-                "amount"  => $amount * 100,
+                "amount"  => $amount,
             )
         );
 
@@ -143,7 +143,7 @@ class ModelExtensionCardConnect extends Model
                 "merchid" => $this->config->get('cardconnect_merchant_id'),
                 "retref"  => $ch_id,
                 //amount in cents!!!
-                "amount"  => $amount * 100,
+                "amount"  => $amount,
             )
         );
         $this->_log('API Response:  '."\n".var_export($response, true));
