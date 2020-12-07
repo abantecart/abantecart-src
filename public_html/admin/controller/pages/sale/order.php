@@ -763,27 +763,24 @@ class ControllerPagesSaleOrder extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
+    public function payment()
+    {
+        redirect($this->html->getSecureURL(
+            'sale/order/address',
+            '&order_id='.$this->request->get['order_id'])
+        );
+    }
+
     public function shipping()
     {
-
-        $this->data = array();
-        $fields = array(
-
-            'shipping_firstname',
-            'shipping_lastname',
-            'shipping_company',
-            'shipping_address_1',
-            'shipping_address_2',
-            'shipping_city',
-            'shipping_postcode',
-            'fax',
-            'telephone',
-            'shipping_zone',
-            'shipping_zone_id',
-            'shipping_country',
-            'shipping_country_id',
+        redirect($this->html->getSecureURL(
+            'sale/order/address',
+            '&order_id='.$this->request->get['order_id'])
         );
+    }
 
+    public function address()
+    {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -793,7 +790,7 @@ class ControllerPagesSaleOrder extends AController
             $this->model_sale_order->editOrder($this->request->get['order_id'], $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
             redirect($this->html->getSecureURL(
-                'sale/order/shipping',
+                'sale/order/address',
                 '&order_id='.$this->request->get['order_id'])
             );
         }
@@ -834,8 +831,8 @@ class ControllerPagesSaleOrder extends AController
             'separator' => ' :: ',
         ));
         $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('sale/order/shipping', '&order_id='.$order_id),
-            'text'      => $this->language->get('tab_shipping'),
+            'href'      => $this->html->getSecureURL('sale/order/address', '&order_id='.$order_id),
+            'text'      => $this->language->get('tab_address'),
             'separator' => ' :: ',
             'current'   => true,
         ));
@@ -854,19 +851,11 @@ class ControllerPagesSaleOrder extends AController
             'text'  => $this->language->get('text_invoice'),
             'style' => 'button3',
         ));
-        $this->data['action'] = $this->html->getSecureURL('sale/order/shipping', '&order_id='.$order_id);
+        $this->data['action'] = $this->html->getSecureURL('sale/order/address', '&order_id='.$order_id);
         $this->data['cancel'] = $this->html->getSecureURL('sale/order');
         $this->data['common_zone'] = $this->html->getSecureURL('common/zone');
 
-        $this->_initTabs('shipping');
-
-        foreach ($fields as $f) {
-            if (isset ($this->request->post [$f])) {
-                $this->data [$f] = $this->request->post [$f];
-            } elseif (isset($order_info[$f])) {
-                $this->data[$f] = $order_info[$f];
-            }
-        }
+        $this->_initTabs('address');
 
         $this->data['form_title'] = $this->language->get('edit_title_shipping');
         $this->data['update'] = $this->html->getSecureURL('listing_grid/order/update_field', '&id='.$order_id);
@@ -897,33 +886,6 @@ class ControllerPagesSaleOrder extends AController
             'style' => 'button2',
         ));
 
-        foreach ($fields as $f) {
-            if ($f == 'shipping_zone') {
-                break;
-            }
-            $name = str_replace('shipping_', '', $f);
-            $this->data['form']['fields'][$name] = $form->getFieldHtml(array(
-                'type'  => 'input',
-                'name'  => $f,
-                'value' => $this->data[$f],
-            ));
-        }
-
-        $this->data['form']['fields']['telephone'] = $form->getFieldHtml(
-            array(
-                'type'  => 'input',
-                'name'  => 'telephone',
-                'value' => $this->data['telephone'],
-            )
-        );
-        $this->data['form']['fields']['fax'] = $form->getFieldHtml(
-            array(
-                'type'  => 'input',
-                'name'  => 'fax',
-                'value' => $this->data['fax'],
-            )
-        );
-
         $this->loadModel('localisation/country');
         $this->data['countries'] = $this->model_localisation_country->getCountries();
         $this->data['countries'] = array_merge(array(
@@ -933,6 +895,77 @@ class ControllerPagesSaleOrder extends AController
             ),
         ), $this->data['countries']);
 
+        //preparing shipping feilds
+        $this->shippingFields($order_info, $form);
+        //preparing payment feilds
+        $this->paymentFields($order_info, $form);
+
+        $this->data['google_api_key'] = $this->config->get('config_google_api_key');
+
+        $this->addChild('pages/sale/order_summary', 'summary_form', 'pages/sale/order_summary.tpl');
+        $this->view->assign('help_url', $this->gen_help_url('order_shipping'));
+        $this->view->batchAssign($this->data);
+
+        $this->processTemplate('pages/sale/order_address.tpl');
+
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+    }
+
+    private function shippingFields($order_info, $form)
+    {
+        $fields = array(
+            'shipping_firstname',
+            'shipping_lastname',
+            'shipping_company',
+            'shipping_address_1',
+            'shipping_address_2',
+            'shipping_city',
+            'shipping_postcode',
+            'fax',
+            'telephone',
+            'shipping_zone',
+            'shipping_zone_id',
+            'shipping_country',
+            'shipping_country_id',
+        );
+
+
+        foreach ($fields as $f) {
+            if (isset ($this->request->post [$f])) {
+                $this->data [$f] = $this->request->post [$f];
+            } elseif (isset($order_info[$f])) {
+                $this->data[$f] = $order_info[$f];
+            }
+        }
+
+        foreach ($fields as $f) {
+            if ($f == 'shipping_zone') {
+                break;
+            }
+            $name = str_replace('shipping_', '', $f);
+            $this->data['form']['shipping_fields'][$name] = $form->getFieldHtml(array(
+                'type'  => 'input',
+                'name'  => $f,
+                'value' => $this->data[$f],
+            ));
+        }
+
+        $this->data['form']['shipping_fields']['telephone'] = $form->getFieldHtml(
+            array(
+                'type'  => 'input',
+                'name'  => 'telephone',
+                'value' => $this->data['telephone'],
+            )
+        );
+        $this->data['form']['shipping_fields']['fax'] = $form->getFieldHtml(
+            array(
+                'type'  => 'input',
+                'name'  => 'fax',
+                'value' => $this->data['fax'],
+            )
+        );
+
         $countries = array();
         foreach ($this->data['countries'] as $country) {
             $countries[$country['country_id']] = $country['name'];
@@ -941,34 +974,31 @@ class ControllerPagesSaleOrder extends AController
             $this->data['shipping_country_id'] = $this->config->get('config_country_id');
         }
 
-        $this->data['form']['fields']['country'] = $form->getFieldHtml(array(
+        $this->data['form']['shipping_fields']['country'] = $form->getFieldHtml(array(
             'type'    => 'selectbox',
             'name'    => 'shipping_country_id',
             'value'   => $this->data['shipping_country_id'],
             'options' => $countries,
         ));
 
-        $this->data['form']['fields']['zone'] = $form->getFieldHtml(array(
+        $this->data['form']['shipping_fields']['zone'] = $form->getFieldHtml(array(
             'type'    => 'selectbox',
             'name'    => 'shipping_zone_id',
             'value'   => '',
             'options' => array(),
         ));
 
-        $this->addChild('pages/sale/order_summary', 'summary_form', 'pages/sale/order_summary.tpl');
-        $this->view->assign('help_url', $this->gen_help_url('order_shipping'));
-        $this->view->batchAssign($this->data);
-
-        $this->processTemplate('pages/sale/order_shipping.tpl');
-
-        //update controller data
-        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        $this->data['full_shipping_address'] = $this->data['shipping_address_1']
+            . ' ' . $this->data['shipping_address_2']
+            . ', ' . $this->data['shipping_city']
+            . ', ' . $this->data['shipping_zone']
+            . ', ' . $this->data['shipping_postcode']
+            . ', ' . $this->data['shipping_country'];
     }
 
-    public function payment()
+    private function paymentFields($order_info, $form)
     {
 
-        $this->data = array();
         $fields = array(
             'payment_firstname',
             'payment_lastname',
@@ -983,80 +1013,6 @@ class ControllerPagesSaleOrder extends AController
             'payment_country_id',
         );
 
-        //init controller data
-        $this->extensions->hk_InitData($this, __FUNCTION__);
-
-        $this->document->setTitle($this->language->get('heading_title'));
-
-        if ($this->request->is_POST() && $this->_validateForm()) {
-            $this->model_sale_order->editOrder($this->request->get['order_id'], $this->request->post);
-            $this->session->data['success'] = $this->language->get('text_success');
-            redirect($this->html->getSecureURL('sale/order/payment',
-                '&order_id='.$this->request->get['order_id']));
-        }
-
-        if (isset($this->request->get['order_id'])) {
-            $order_id = (int)$this->request->get['order_id'];
-        } else {
-            $order_id = 0;
-        }
-
-        $order_info = $this->model_sale_order->getOrder($order_id);
-
-        if (empty($order_info)) {
-            $this->session->data['error'] = $this->language->get('error_order_load');
-            redirect($this->html->getSecureURL('sale/order'));
-        }
-
-        //set content language to order language ID.
-        if ($this->language->getContentLanguageID() != $order_info['language_id']) {
-            //reset content language
-            $this->language->setCurrentContentLanguage($order_info['language_id']);
-        }
-
-        $this->document->initBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('index/home'),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
-        ));
-
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('sale/order'),
-            'text'      => $this->language->get('heading_title'),
-            'separator' => ' :: ',
-        ));
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('sale/order/details', '&order_id='.$order_id),
-            'text'      => $this->language->get('heading_title').' #'.$order_id,
-            'separator' => ' :: ',
-        ));
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('sale/order/payment', '&order_id='.$order_id),
-            'text'      => $this->language->get('tab_payment'),
-            'separator' => ' :: ',
-            'current'   => true,
-        ));
-
-        if (isset($this->session->data['success'])) {
-            $this->data['success'] = $this->session->data['success'];
-            unset($this->session->data['success']);
-        } else {
-            $this->data['success'] = '';
-        }
-
-        $this->data['order_id'] = $order_id;
-        $this->data['invoice_url'] = $this->html->getSecureURL('sale/invoice', '&order_id='.$order_id);
-        $this->data['button_invoice'] = $this->html->buildButton(array(
-            'name'  => 'invoice',
-            'text'  => $this->language->get('text_invoice'),
-            'style' => 'button3',
-        ));
-        $this->data['action'] = $this->html->getSecureURL('sale/order/payment', '&order_id='.$order_id);
-        $this->data['cancel'] = $this->html->getSecureURL('sale/order');
-        $this->data['common_zone'] = $this->html->getSecureURL('common/zone');
-
-        $this->_initTabs('payment');
-
         foreach ($fields as $f) {
             if (isset ($this->request->post [$f])) {
                 $this->data [$f] = $this->request->post [$f];
@@ -1065,60 +1021,27 @@ class ControllerPagesSaleOrder extends AController
             }
         }
 
-        $this->data['form_title'] = $this->language->get('edit_title_payment');
-        $this->data['update'] = $this->html->getSecureURL('listing_grid/order/update_field', '&id='.$order_id);
-        $form = new AForm('HS');
-
-        $form->setForm(array(
-            'form_name' => 'orderFrm',
-            'update'    => $this->data['update'],
-        ));
-
-        $this->data['form']['id'] = 'orderFrm';
-        $this->data['form']['form_open'] = $form->getFieldHtml(array(
-            'type'   => 'form',
-            'name'   => 'orderFrm',
-            'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
-            'action' => $this->data['action'],
-        ));
-        $this->data['form']['submit'] = $form->getFieldHtml(array(
-            'type'  => 'button',
-            'name'  => 'submit',
-            'text'  => $this->language->get('button_save'),
-            'style' => 'button1',
-        ));
-        $this->data['form']['cancel'] = $form->getFieldHtml(array(
-            'type'  => 'button',
-            'name'  => 'cancel',
-            'text'  => $this->language->get('button_cancel'),
-            'style' => 'button2',
-        ));
-
         foreach ($fields as $f) {
             if ($f == 'payment_zone') {
                 break;
             }
             $name = str_replace('payment_', '', $f);
-            $this->data['form']['fields'][$name] = $form->getFieldHtml(array(
+            $this->data['form']['payment_fields'][$name] = $form->getFieldHtml(array(
                 'type'  => 'input',
                 'name'  => $f,
                 'value' => $this->data[$f],
             ));
         }
 
-        $this->loadModel('localisation/country');
-        $this->data['countries'] = $this->model_localisation_country->getCountries();
-
         $countries = array();
         foreach ($this->data['countries'] as $country) {
             $countries[$country['country_id']] = $country['name'];
         }
-
         if (!$this->data['payment_country_id']) {
             $this->data['payment_country_id'] = $this->config->get('config_country_id');
         }
 
-        $this->data['form']['fields']['country'] = $form->getFieldHtml(array(
+        $this->data['form']['payment_fields']['country'] = $form->getFieldHtml(array(
             'type'    => 'selectbox',
             'name'    => 'payment_country_id',
             'value'   => $this->data['payment_country_id'],
@@ -1126,7 +1049,7 @@ class ControllerPagesSaleOrder extends AController
             'style'   => 'no-save',
         ));
 
-        $this->data['form']['fields']['zone'] = $form->getFieldHtml(array(
+        $this->data['form']['payment_fields']['zone'] = $form->getFieldHtml(array(
             'type'    => 'selectbox',
             'name'    => 'payment_zone_id',
             'value'   => '',
@@ -1134,15 +1057,12 @@ class ControllerPagesSaleOrder extends AController
             'style'   => 'no-save',
         ));
 
-        $this->addChild('pages/sale/order_summary', 'summary_form', 'pages/sale/order_summary.tpl');
-
-        $this->view->assign('help_url', $this->gen_help_url('order_payment'));
-        $this->view->batchAssign($this->data);
-
-        $this->processTemplate('pages/sale/order_payment.tpl');
-
-        //update controller data
-        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        $this->data['full_payment_address'] = $this->data['payment_address_1']
+            . ' ' . $this->data['payment_address_2']
+            . ', ' . $this->data['payment_city']
+            . ', ' . $this->data['payment_zone']
+            . ', ' . $this->data['payment_postcode']
+            . ', ' . $this->data['payment_country'];
     }
 
     public function history()

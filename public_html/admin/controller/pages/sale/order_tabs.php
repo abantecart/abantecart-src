@@ -39,11 +39,10 @@ class ControllerPagesSaleOrderTabs extends AController
         $this->loadLanguage('sale/order');
         $order_id = $this->request->get['order_id'];
         $this->data['order_id'] = $order_id;
-        $this->data['groups'] = array('order_details', 'shipping', 'payment');
+        $this->data['groups'] = array('order_details', 'address');
 
         $this->data['link_order_details'] = $this->html->getSecureURL('sale/order/details', '&order_id='.$order_id);
-        $this->data['link_shipping'] = $this->html->getSecureURL('sale/order/shipping', '&order_id='.$order_id);
-        $this->data['link_payment'] = $this->html->getSecureURL('sale/order/payment', '&order_id='.$order_id);
+        $this->data['link_address'] = $this->html->getSecureURL('sale/order/address', '&order_id='.$order_id);
         if ($this->model_sale_order->getTotalOrderDownloads($order_id)) {
             $this->data['link_files'] = $this->html->getSecureURL('sale/order/files', '&order_id='.$order_id);
             $this->data['groups'][] = 'files';

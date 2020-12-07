@@ -814,6 +814,13 @@ class AConfigManager
             'style' => 'medium-field',
         ]);
 
+        $fields['google_api_key'] = $form->getFieldHtml($props[] = [
+            'type'  => 'input',
+            'name'  => 'config_google_api_key',
+            'value' => $data['config_google_api_key'],
+            'style' => 'medium-field',
+        ]);
+
         if (isset($data['one_field'])) {
             $fields = $this->_filterField($fields, $props, $data['one_field']);
         }

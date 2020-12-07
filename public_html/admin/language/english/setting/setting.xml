@@ -858,6 +858,10 @@
 		<value><![CDATA[Google Tag Manager ID:<br />]]></value>
 	</definition>
 	<definition>
+		<key>entry_google_api_key</key>
+		<value><![CDATA[Google API Key (to enable google maps):<br /><span class="help">You can see address on the map. To enable google maps add your Google maps API key <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Google Credentials Page</a>.</span>]]></value>
+	</definition>
+	<definition>
 		<key>entry_ssl_url</key>
 		<value><![CDATA[Secure Store URL:<br /><span class="help">Include the full SSL URL(HTTPS) to your store. Make sure to add '/' at the end. Example: https://www.yourdomain.com/path/</span>]]></value>
 	</definition>
