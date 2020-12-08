@@ -116,14 +116,9 @@ class ControllerPagesSaleOrder extends AController
                             'href' => $this->html->getSecureURL('sale/order/details',
                                 '&order_id=%ID%'),
                         ),
-                        'shipping'  => array(
-                            'text' => $this->language->get('tab_shipping'),
-                            'href' => $this->html->getSecureURL('sale/order/shipping',
-                                '&order_id=%ID%'),
-                        ),
-                        'payment'   => array(
-                            'text' => $this->language->get('tab_payment'),
-                            'href' => $this->html->getSecureURL('sale/order/payment',
+                        'address'  => array(
+                            'text' => $this->language->get('tab_address'),
+                            'href' => $this->html->getSecureURL('sale/order/address',
                                 '&order_id=%ID%'),
                         ),
                         'files'     => array(
@@ -988,12 +983,14 @@ class ControllerPagesSaleOrder extends AController
             'options' => array(),
         ));
 
-        $this->data['full_shipping_address'] = $this->data['shipping_address_1']
+        $this->data['full_shipping_address'] = addslashes(
+            $this->data['shipping_address_1']
             . ' ' . $this->data['shipping_address_2']
             . ', ' . $this->data['shipping_city']
             . ', ' . $this->data['shipping_zone']
             . ', ' . $this->data['shipping_postcode']
-            . ', ' . $this->data['shipping_country'];
+            . ', ' . $this->data['shipping_country']
+        );
     }
 
     private function paymentFields($order_info, $form)
@@ -1057,12 +1054,14 @@ class ControllerPagesSaleOrder extends AController
             'style'   => 'no-save',
         ));
 
-        $this->data['full_payment_address'] = $this->data['payment_address_1']
+        $this->data['full_payment_address'] = addslashes(
+            $this->data['payment_address_1']
             . ' ' . $this->data['payment_address_2']
             . ', ' . $this->data['payment_city']
             . ', ' . $this->data['payment_zone']
             . ', ' . $this->data['payment_postcode']
-            . ', ' . $this->data['payment_country'];
+            . ', ' . $this->data['payment_country']
+        );
     }
 
     public function history()

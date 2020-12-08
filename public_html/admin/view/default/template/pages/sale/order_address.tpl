@@ -124,13 +124,14 @@
 	];
 	var geocoder;
 	var map;
+	var minZoom = 18;
 
 	function initMap() {
 		var bounds = new google.maps.LatLngBounds();
 		map = new google.maps.Map(
 			document.getElementById("google_map"), {
 				center: new google.maps.LatLng(37.4419, -122.1419),
-				zoom: 13,
+				zoom: minZoom,
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			});
 		geocoder = new google.maps.Geocoder();
@@ -157,6 +158,8 @@
 					infoWindow(marker, map, title, address);
 					bounds.extend(marker.getPosition());
 					map.fitBounds(bounds);
+					var zoom = map.getZoom();
+					map.setZoom(zoom > minZoom ? minZoom : zoom);
 				} else {
 					alert("geocode of " + address + " failed:" + status);
 				}
@@ -174,19 +177,6 @@
 		});
 	}
 
-	function createMarker(results) {
-		var marker = new google.maps.Marker({
-			map: map,
-			position: results[0].geometry.location,
-			title: title,
-			animation: google.maps.Animation.DROP,
-			address: address
-		})
-		bounds.extend(marker.getPosition());
-		map.fitBounds(bounds);
-		infoWindow(marker, map, title, address);
-		return marker;
-	}
     <?php } ?>
 
 	jQuery(function ($) {
