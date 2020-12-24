@@ -290,11 +290,11 @@ final class AUser
      */
     static function generatePassword($length = 8)
     {
-        $chars = "1234567890abcdefghijkmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        $chars = str_split("1234567890abcdefghijkmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
         $i = 0;
         $password = "";
         while ($i <= $length) {
-            $password .= $chars[mt_rand(0, strlen($chars))];
+            $password .= $chars[mt_rand(0, count($chars))];
             $i++;
         }
         return $password;
