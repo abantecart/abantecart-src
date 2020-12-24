@@ -273,12 +273,8 @@
 		<value><![CDATA[Order Details]]></value>
 	</definition>
 	<definition>
-		<key>tab_shipping</key>
-		<value><![CDATA[Shipping Address]]></value>
-	</definition>
-	<definition>
-		<key>tab_payment</key>
-		<value><![CDATA[Payment Address]]></value>
+		<key>tab_address</key>
+		<value><![CDATA[Order Address]]></value>
 	</definition>
 	<definition>
 		<key>tab_history</key>
@@ -375,5 +371,13 @@
 	<definition>
 		<key>entry_stock_locations</key>
 		<value><![CDATA[Stock Locations:]]></value>
+	</definition>
+	<definition>
+		<key>edit_title_map</key>
+		<value><![CDATA[On the map]]></value>
+	</definition>
+	<definition>
+		<key>text_enable_google_map</key>
+		<value><![CDATA[To view addresses on the interective Google map provide Google API key in the general settings]]></value>
 	</definition>
 </definitions>
