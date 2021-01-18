@@ -301,6 +301,7 @@ class ModelCatalogProduct extends Model
             $sort_data = array(
                 'pd.name'       => 'LCASE(pd.name)',
                 'p.sort_order'  => 'p.sort_order',
+                'price'         => 'final_price',
                 'p.price'       => 'final_price',
                 'special'       => 'final_price',
                 'rating'        => 'rating',
