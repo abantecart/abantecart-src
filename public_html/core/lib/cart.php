@@ -37,7 +37,7 @@ if (!defined('DIR_CORE')) {
 class ACart
 {
     /** @var array  */
-    public $data = array();
+    public $data = [];
     /**
      * @var Registry
      */
@@ -50,11 +50,11 @@ class ACart
      * @var ALanguage
      */
     protected $language;
-    protected $cart_data = array();
+    protected $cart_data = [];
     /**
      * @var array
      */
-    protected $cust_data = array();
+    protected $cust_data = [];
     /**
      * @var float
      */
@@ -62,7 +62,7 @@ class ACart
     /**
      * @var array
      */
-    protected $taxes = array();
+    protected $taxes = [];
     /**
      * @var float
      */
@@ -111,7 +111,7 @@ class ACart
         $this->promotion = new APromotion($this->cust_data['customer_group_id']);
 
         if (!isset($this->cust_data['cart']) || !is_array($this->cust_data['cart'])) {
-            $this->cust_data['cart'] = array();
+            $this->cust_data['cart'] = [];
         }
     }
 
@@ -150,7 +150,7 @@ class ACart
             return $this->cart_data;
         }
 
-        $product_data = array();
+        $product_data = [];
         //process data in the cart session per each product in the cart
         foreach ($this->cust_data['cart'] as $key => $data) {
             if ($key == 'virtual') {
@@ -163,7 +163,7 @@ class ACart
             if (isset($data['options'])) {
                 $options = (array)$data['options'];
             } else {
-                $options = array();
+                $options = [];
             }
 
             $product_result = $this->buildProductDetails($product_id, $quantity, $options);
@@ -205,7 +205,7 @@ class ACart
         if ($recalculate) {
             $this->getProducts(true);
         }
-        return has_value($this->cust_data['cart'][$key]) ? $this->cust_data['cart'][$key] : array();
+        return has_value($this->cust_data['cart'][$key]) ? $this->cust_data['cart'][$key] : [];
     }
 
     /**
@@ -220,14 +220,14 @@ class ACart
      * @return array
      * @throws AException
      */
-    public function buildProductDetails($product_id, $quantity = 0, $options = array())
+    public function buildProductDetails($product_id, $quantity = 0, $options = [])
     {
 
         if (!has_value($product_id) || !is_numeric($product_id) || $quantity == 0) {
-            return array();
+            return [];
         }
 
-        $options = !is_array($options) ? array() : $options;
+        $options = !is_array($options) ? [] : $options;
 
         $stock = true;
         /**
@@ -238,7 +238,7 @@ class ACart
 
         $product_query = $sf_product_mdl->getProductDataForCart($product_id);
         if (count($product_query) <= 0 || $product_query['call_to_order']) {
-            return array();
+            return [];
         }
 
         $stock_checkout = $product_query['stock_checkout'];
@@ -247,8 +247,8 @@ class ACart
         }
 
         $option_price = 0;
-        $option_data = array();
-        $groups = array();
+        $option_data = [];
+        $groups = [];
         $is_some_option_stock_trackable = 0;
         //Process each option and value
         $hasTrackOptions = $sf_product_mdl->hasTrackOptions($product_id);
@@ -260,8 +260,8 @@ class ACart
 
             $option_query = $sf_product_mdl->getProductOption($product_id, $product_option_id);
             $element_type = $option_query['element_type'];
-            $option_value_query = array();
-            $option_value_queries = array();
+            $option_value_query = [];
+            $option_value_queries = [];
 
             if (!in_array($element_type, $elements_with_options)) {
                 //This is single value element, get all values and expect only one
@@ -288,7 +288,7 @@ class ACart
                     $option_value_query['price'] = $group_value_query['price'];
                     $groups[] = $option_value_query['group_id'];
                 }
-                $option_data[] = array(
+                $option_data[] = [
                     'product_option_value_id' => $option_value_query['product_option_value_id'],
                     'product_option_id'       => $product_option_id,
                     'name'                    => $option_query['name'],
@@ -301,7 +301,7 @@ class ACart
                     'inventory_quantity'      => ($option_value_query['subtract'] ? (int)$option_value_query['quantity'] : 1000000),
                     'weight'                  => $option_value_query['weight'],
                     'weight_type'             => $option_value_query['weight_type'],
-                );
+                ];
 
                 //check if need to track stock and we have it
                 if ($option_value_query['subtract']
@@ -315,7 +315,7 @@ class ACart
             } else {
                 if ($option_value_queries) {
                     foreach ($option_value_queries as $item) {
-                        $option_data[] = array(
+                        $option_data[] = [
                             'product_option_value_id' => $item['product_option_value_id'],
                             'product_option_id'       => $product_option_id,
                             'name'                    => $option_query['name'],
@@ -326,7 +326,7 @@ class ACart
                             'inventory_quantity'      => ($item['subtract'] ? (int)$item['quantity'] : 1000000),
                             'weight'                  => $item['weight'],
                             'weight_type'             => $item['weight_type'],
-                        );
+                        ];
                         //check if need to track stock and we have it
                         if ($item['subtract'] && $item['quantity'] < $quantity) {
                             $stock = false;
@@ -416,9 +416,7 @@ class ACart
             $stock = false;
         }
 
-
-
-        $result = array(
+        return [
             'product_id'         => $product_query['product_id'],
             'name'               => $product_query['name'],
             'model'              => $product_query['model'],
@@ -443,8 +441,7 @@ class ACart
             'shipping_price'     => $product_query['shipping_price'],
             'free_shipping'      => $product_query['free_shipping'],
             'sku'                => $product_query['sku'],
-        );
-        return $result;
+        ];
     }
 
     /**
@@ -452,17 +449,28 @@ class ACart
      * @param int $qty
      * @param array $options
      *
+     * @return false
      * @throws AException
      */
-    public function add($product_id, $qty = 1, $options = array())
+    public function add($product_id, $qty = 1, $options = [])
     {
         $product_id = (int)$product_id;
+        if(!$product_id){
+            $dbg = debug_backtrace();
+            $debugInfo = '';
+            foreach($dbg as $d){
+                $debugInfo .= $d['file'].':'.$d['line']."\n";
+            }
+            $this->registry->get('log')->write(
+                "Attempt to add zero-value product ID into cart lib. \nDebug Backtrace: \n".$debugInfo
+            );
+            return false;
+        }
         if (!$options) {
             $key = $product_id;
         } else {
             $key = $product_id.':'.md5(serialize($options));
         }
-
         if ((int)$qty && ((int)$qty > 0)) {
             if (!isset($this->cust_data['cart'][$key])) {
                 $this->cust_data['cart'][$key]['qty'] = (int)$qty;
@@ -480,26 +488,28 @@ class ACart
 
         //reload data for the cart
         $this->getProducts(true);
+        return true;
     }
 
     /**
      * @param $key
      * @param $data
      *
-     * @return null
+     * @return bool
      */
     public function addVirtual($key, $data)
     {
 
         if (!has_value($data)) {
-            return null;
+            return false;
         }
 
         if (!isset($this->cust_data['cart']['virtual']) || !is_array($this->cust_data['cart']['virtual'])) {
-            $this->cust_data['cart']['virtual'] = array();
+            $this->cust_data['cart']['virtual'] = [];
         }
 
         $this->cust_data['cart']['virtual'][$key] = $data;
+        return true;
     }
 
     /**
@@ -565,7 +575,7 @@ class ACart
 
     public function clear()
     {
-        $this->cust_data['cart'] = array();
+        $this->cust_data['cart'] = [];
     }
 
     /**
@@ -576,7 +586,7 @@ class ACart
      * @return int
      * @throws AException
      */
-    public function getWeight($product_ids = array())
+    public function getWeight($product_ids = [])
     {
         $weight = 0;
         $products = $this->getProducts();
@@ -624,7 +634,7 @@ class ACart
      */
     public function basicShippingProducts()
     {
-        $basic_ship_products = array();
+        $basic_ship_products = [];
         $products = $this->getProducts();
         foreach ($products as $product) {
             if ($product['shipping'] && !$product['ship_individually'] && !$product['free_shipping'] && $product['shipping_price'] == 0) {
@@ -643,7 +653,7 @@ class ACart
      */
     public function specialShippingProducts()
     {
-        $special_ship_products = array();
+        $special_ship_products = [];
         $products = $this->getProducts();
         foreach ($products as $product) {
             if ($product['shipping'] && ($product['ship_individually'] || $product['free_shipping'] || $product['shipping_price'] > 0)) {
@@ -764,7 +774,7 @@ class ACart
         //round base currency price calculation to 2 decimal place
         $decimal_place = 2;
 
-        $this->taxes = array();
+        $this->taxes = [];
         // taxes for products
         $products = $this->getProducts();
         foreach ($products as $product) {
@@ -836,10 +846,10 @@ class ACart
             return $this->final_total;
         }
         $this->final_total = 0.0;
-        $this->total_data = array();
+        $this->total_data = [];
 
-        $total_data = array();
-        $calc_order = array();
+        $total_data = [];
+        $calc_order = [];
         $total = 0.0;
 
         //if cart is empty, nothing to do.
@@ -868,12 +878,12 @@ class ACart
              */
             $sf_total_mdl->getTotal($total_data, $total, $taxes, $this->cust_data);
             //trick to change data via hooks
-            $this->data = array(
+            $this->data = [
                 'total_key' => $extn['key'],
                 'total_data' => $total_data,
                  'total' => $total,
                  'taxes'  => $taxes,
-             );
+            ];
             $this->registry->get('extensions')->hk_ProcessData($this, __FUNCTION__);
 
              $total_data = $this->data['total_data'];
@@ -934,12 +944,12 @@ class ACart
         $total = $this->getFinalTotal($recalculate);
         $total_data = $this->getFinalTotalData();
         //sort data for view
-        $sort_order = array();
+        $sort_order = [];
         foreach ($total_data as $key => $value) {
             $sort_order[$key] = $value['sort_order'];
         }
         array_multisort($sort_order, SORT_ASC, $total_data);
-        return array('total' => $total, 'total_data' => $total_data, 'taxes' => $taxes);
+        return ['total' => $total, 'total_data' => $total_data, 'taxes' => $taxes];
     }
 
     /**
