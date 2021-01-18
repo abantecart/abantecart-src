@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -23,7 +24,7 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesCheckoutFastCheckout extends AController
 {
-    public $data = array();
+    public $data = [];
 
     public function main()
     {
@@ -33,21 +34,21 @@ class ControllerPagesCheckoutFastCheckout extends AController
         }
         //validate if order min/max are met
         if (!$this->cart->hasMinRequirement() || !$this->cart->hasMaxRequirement()) {
-            $this->redirect($this->html->getSecureURL($cart_rt));
+            redirect($this->html->getSecureURL($cart_rt));
         }
 
         if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
-            $this->redirect($this->html->getSecureURL($cart_rt));
+            redirect($this->html->getSecureURL($cart_rt));
         }
 
-        if(HTTPS !== true){
+        if (HTTPS !== true) {
             $this->messages->saveError(
                 'FastCheckout non-secure page!',
                 'Page of Fast Checkout is non-secure. Checkout forbidden! Please set up ssl on server and set https store url!'
             );
-            if( is_int(strpos($this->config->get('config_ssl_url'), 'https://')) ){
+            if (is_int(strpos($this->config->get('config_ssl_url'), 'https://'))) {
                 redirect($this->config->get('config_ssl_url').'?'.http_build_query($_GET));
-            }else{
+            } else {
                 echo 'Non-secure connection! Checkout process forbidden.';
                 exit;
             }
@@ -61,29 +62,47 @@ class ControllerPagesCheckoutFastCheckout extends AController
         $this->document->resetBreadcrumbs();
 
         $this->document->addBreadcrumb(
-            array(
+            [
                 'href'      => $this->html->getHomeURL(),
                 'text'      => $this->language->get('text_home'),
                 'separator' => false,
-            ));
+            ]
+        );
 
         $this->document->addBreadcrumb(
-            array(
+            [
                 'href'      => $this->html->getSecureURL('checkout/cart'),
                 'text'      => $this->language->get('text_basket'),
                 'separator' => $this->language->get('text_separator'),
-            ));
+            ]
+        );
 
         $this->document->addBreadcrumb(
-            array(
+            [
                 'href'      => $this->html->getSecureURL('checkout/fast_checkout'),
                 'text'      => $this->language->get('fast_checkout_text_fast_checkout_title'),
                 'separator' => $this->language->get('text_separator'),
-            ));
+            ]
+        );
+
+        $this->document->addStyle(
+            [
+                'href' => $this->view->templateResource('/css/bootstrap-xxs.css'),
+                'rel'  => 'stylesheet',
+            ]
+        );
+        $this->document->addStyle(
+            [
+                'href' => $this->view->templateResource('/css/pay.css'),
+                'rel'  => 'stylesheet',
+            ]
+        );
+        $this->document->addScript($this->view->templateResource('/js/credit_card_validation.js'));
+        $this->document->addScript($this->view->templateResource('/javascript/common.js'));
 
         $this->data['cart_url'] = $this->html->getSecureURL(
-                                                    'r/checkout/pay',
-                                                    '&order_id='.$this->session->data['fast_checkout']['cart_key']
+            'r/checkout/pay',
+            '&order_id='.$this->session->data['fast_checkout']['cart_key']
         );
 
         $this->view->batchAssign($this->data);

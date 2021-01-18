@@ -1634,13 +1634,15 @@ class ControllerResponsesCheckoutPay extends AController
     {
         $errors = array();
         if ($this->config->get('fast_checkout_require_phone_number') && !$request['telephone']) {
-            $errors[] .= $this->language->get('fast_checkout_error_phone');
+            $errors[] = $this->language->get('fast_checkout_error_phone');
         }
 
         if (!$request['cc_email']) {
             $errors[] = $this->language->get('fast_checkout_error_email');
         }
-        $this->error['warning'] .= implode('<br>', $errors);
+        if($errors) {
+            $this->error['warning'] .= implode('<br>', $errors);
+        }
     }
 
     protected function _handleCoupon($request)

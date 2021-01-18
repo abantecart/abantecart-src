@@ -283,7 +283,6 @@ $guest_data = $this->session->data['guest'];
 					</div>
                 <?php } ?>
                 <?php echo $this->getHookVar('payment_form_fields'); ?>
-
                 <?php if ($this->config->get('fast_checkout_show_order_comment_field')) { ?>
 					<div class="row">
 						<div class="form-group col-xxs-12" title="<?php echo $fast_checkout_text_order_comment; ?>">
@@ -293,7 +292,7 @@ $guest_data = $this->session->data['guest'];
                                     <textarea id="comment"
                                               class="form-control input-lg p"
                                               name="comment"
-                                              placeholder="<?php echo $fast_checkout_text_telephone_placeholder; ?>"
+                                              placeholder="<?php echo $fast_checkout_text_comment_placeholder; ?>"
                                     ><?php echo $comment; ?></textarea>
                                     <span class="input-group-btn">
                                        <button class="btn btn-default btn-lg btn-comment" type="button">
