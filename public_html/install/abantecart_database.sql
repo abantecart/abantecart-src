@@ -838,7 +838,6 @@ INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `v
 
 ('extensions', 'banner_manager', 'extensions', 1, 1, '1.0.1', null, now(), now(), now() ),
 ('extensions', 'forms_manager', 'extensions', 1, 1, '1.0.2', null, now(), now(), now() ),
-('extensions', 'neowize_insights', 'extensions', 1, 1, '1.0.5', null, now(), now(), now() ),
 ('payment', 'default_pp_standart', 'payment', 0, 1, '1.0.2', null, now(), now() + INTERVAL 2 MINUTE , now() ),
 ('payment', 'default_pp_pro', 'payment', 0, 1, '1.0.2', null, now(), now() + INTERVAL 2 MINUTE , now() )
 ;
@@ -1781,11 +1780,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('banner_manager','banner_manager_date_installed', NOW()),
 ('banner_manager','store_id',0),
 ('banner_manager','banner_manager_status',1),
-
-('neowize_insights','neowize_insights_priority',10),
-('neowize_insights','neowize_insights_date_installed', NOW()),
-('neowize_insights','store_id',0),
-('neowize_insights','neowize_insights_status',1),
 
 ('forms_manager','forms_manager_priority',10),
 ('forms_manager','forms_manager_date_installed', NOW()),
@@ -12011,33 +12005,6 @@ VALUES
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (40,'235',217),
         (40,'236',218);
-
-
---
--- SUBMENU REPORTS->ANALYTICS
--- ITEM_ID
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES
-(10,'neowize_insights',222);
--- ITEM_TEXT
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES (11,'neowize_insights_name',222);
--- ITEM_URL
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES (12,'neowize/dashboard',222);
--- PARENT_ID
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES (13,'report_analytics',222);
--- SORT_ORDER
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
-VALUES (14,2,222);
--- ITEM_TYPE
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES (15,'extension',222);
--- ITEM_RL_ID
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (40,'278',222);
-
 
 --
 -- Storefront menu names inserts
