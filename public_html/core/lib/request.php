@@ -265,8 +265,14 @@ final class ARequest
         if (empty($name)) {
             return false;
         }
-        $path = dirname($this->server['PHP_SELF']);
-        setcookie($name, null, -1, $path);
+        setCookieOrParams(
+            $name,
+            null,
+            [
+                'lifetime' => -1,
+                'path'     => dirname($this->server['PHP_SELF'])
+            ]
+        );
         unset($this->cookie[$name], $_COOKIE[$name]);
         return true;
     }

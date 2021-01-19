@@ -101,9 +101,11 @@ if($faster_browser_rendering == true) { ?>
 
 <script type="text/javascript">
 	var baseUrl = '<?php echo $base; ?>';
-<?php if($retina){?>
+<?php if($retina){
+        $samesite = ((defined('HTTPS') && HTTPS) ? 'None' : 'lax');
+?>
 	if((window.devicePixelRatio===undefined?1:window.devicePixelRatio)>1) {
-		document.cookie = 'HTTP_IS_RETINA=1;path=/';
+		document.cookie = 'HTTP_IS_RETINA=1;path=/; samesite=<?php echo $samesite; ?>';
 	}
 <?php } ?>
 <?php if($cart_ajax){ ?>

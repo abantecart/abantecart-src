@@ -25,9 +25,11 @@
         var include = '<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-3.5.1.min.js"><\/script>';
         document.write(include);
     }
-<?php if($retina){?>
+<?php if($retina){
+    $samesite = ((defined('HTTPS') && HTTPS) ? 'None' : 'lax');
+?>
     if ((window.devicePixelRatio === undefined ? 1 : window.devicePixelRatio) > 1) {
-        document.cookie = 'HTTP_IS_RETINA=1; path=/; samesite=None';
+        document.cookie = 'HTTP_IS_RETINA=1; path=/; samesite=<?php echo $samesite; ?>';
     }
 <?php } ?>
 </script>

@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -26,90 +27,54 @@ if (!defined('DIR_CORE')) {
  */
 class ACustomer
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $customer_id;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $loginname;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $firstname;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $lastname;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $email;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $telephone;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $fax;
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $newsletter;
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $customer_group_id;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $customer_group_name;
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $customer_tax_exempt;
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $address_id;
-    /**
-     * @var AConfig
-     */
+    /** @var AConfig */
     protected $config;
-    /**
-     * @var ACache
-     */
+    /** @var ACache */
     protected $cache;
-    /**
-     * @var ADB
-     */
+    /** @var ADB */
     protected $db;
-    /**
-     * @var ARequest
-     */
+    /** @var ARequest */
     protected $request;
-    /**
-     * @var ASession
-     */
+    /** @var ASession */
     protected $session;
-    /**
-     * @var ADataEncryption
-     */
+    /** @var ADataEncryption */
     protected $dcrypt;
-    /**
-     * @var ExtensionsApi
-     */
+    /** @var ExtensionsApi */
     protected $extensions;
+    /** @var ALoader */
+    protected $load;
+
+    /** @var array (unauthenticated customer details) */
+    protected $unauth_customer = [];
 
     /**
-     * @var array (unauthenticated customer details)
-     */
-    protected $unauth_customer = array();
-
-    /**
-     * @param  Registry $registry
+     * @param Registry $registry
+     *
+     * @throws AException
      */
     public function __construct($registry)
     {
@@ -124,10 +89,12 @@ class ACustomer
 
         if (isset($this->session->data['customer_id'])) {
             $customer_data = $this->db->query(
-                "SELECT c.*, cg.* FROM ".$this->db->table("customers")." c
-					LEFT JOIN ".$this->db->table("customer_groups")." cg on c.customer_group_id = cg.customer_group_id
-					WHERE customer_id = '".(int)$this->session->data['customer_id']."' 
-					AND status = '1'"
+                "SELECT c.*, cg.* 
+                FROM ".$this->db->table("customers")." c
+                LEFT JOIN ".$this->db->table("customer_groups")." cg 
+                    ON c.customer_group_id = cg.customer_group_id
+                WHERE customer_id = '".(int) $this->session->data['customer_id']."' 
+                    AND status = '1'"
             );
 
             if ($customer_data->num_rows) {
@@ -145,10 +112,17 @@ class ACustomer
                 || !$this->isValidEnabledCustomer()
             ) {
                 //clean up
-                $this->unauth_customer = array();
+                $this->unauth_customer = [];
                 //expire unauth cookie
                 unset($_COOKIE['customer']);
-                setcookie('customer', '', time() - 3600, dirname($this->request->server['PHP_SELF']));
+                setCookieOrParams(
+                    'customer',
+                    '',
+                    [
+                        'lifetime' => time() - 3600,
+                        'path'     => dirname($this->request->server['PHP_SELF']),
+                    ]
+                );
             }
             //check if unauthenticated customer cart content was found and merge with session
             $saved_cart = $this->getCustomerCart();
@@ -175,8 +149,9 @@ class ACustomer
                 $customer_id = $this->isUnauthCustomer();
             }
         }
-        $this->load->model('tool/online_now');
-        $registry->get('model_tool_online_now')->setOnline($ip, $customer_id, $url, $referer);
+        /** @var ModelToolOnlineNow $mdl */
+        $mdl = $this->load->model('tool/online_now');
+        $mdl->setOnline($ip, $customer_id, $url, $referer);
         //call hooks
         $this->extensions->hk_ProcessData($this, 'constructor', $customer_id);
     }
@@ -189,7 +164,6 @@ class ACustomer
      */
     public function login($loginname, $password)
     {
-
         $approved_only = '';
         if ($this->config->get('config_customer_approval')) {
             $approved_only = " AND approved = '1'";
@@ -200,18 +174,19 @@ class ACustomer
         if (defined('SALT')) {
             $add_pass_sql = "OR password = '".$this->db->escape(md5($password.SALT))."'";
         }
-        $customer_data = $this->db->query("SELECT *
-											FROM ".$this->db->table("customers")."
-											WHERE LOWER(loginname)  = LOWER('".$this->db->escape($loginname)."')
-											AND (
-												password = 	SHA1(CONCAT(salt, 
-															SHA1(CONCAT(salt, SHA1('".$this->db->escape($password)."')))
-														))
-												".$add_pass_sql."
-											)
-											AND status = '1'".$approved_only);
+        $customer_data = $this->db->query(
+            "SELECT *
+            FROM ".$this->db->table("customers")."
+            WHERE LOWER(loginname)  = LOWER('".$this->db->escape($loginname)."')
+                AND (
+                    password = 	SHA1(CONCAT(salt, 
+                                SHA1(CONCAT(salt, SHA1('".$this->db->escape($password)."')))
+                            ))
+                    ".$add_pass_sql."
+                )
+                AND status = '1' ".$approved_only
+        );
         if ($customer_data->num_rows) {
-
             $this->_customer_init($customer_data->row);
             $this->session->data['customer_id'] = $this->customer_id;
             //load customer saved cart and merge with session cart before login
@@ -222,19 +197,26 @@ class ACustomer
 
             //set cookie for unauthenticated user (expire in 1 year)
             $encryption = new AEncryption($this->config->get('encryption_key'));
-            $customer_data = $encryption->encrypt(serialize(array(
-                'first_name'  => $this->firstname,
-                'customer_id' => $this->customer_id,
-                'script_name' => $this->request->server['SCRIPT_NAME'],
-            )));
+            $customer_data = $encryption->encrypt(
+                serialize(
+                    [
+                        'first_name'  => $this->firstname,
+                        'customer_id' => $this->customer_id,
+                        'script_name' => $this->request->server['SCRIPT_NAME'],
+                    ]
+                )
+            );
             //Set cookie for this customer to track unauthenticated activity, expire in 1 year
-            setcookie('customer',
+            setCookieOrParams(
+                'customer',
                 $customer_data,
-                time() + 60 * 60 * 24 * 365,
-                dirname($this->request->server['PHP_SELF']),
-                null,
-                (defined('HTTPS') && HTTPS),
-                true
+                [
+                    'lifetime' => time() + 60 * 60 * 24 * 365,
+                    'path'     => dirname($this->request->server['PHP_SELF']),
+                    'secure'   => (defined('HTTPS') && HTTPS),
+                    'httponly' => true,
+                    'samesite' => ((defined('HTTPS') && HTTPS) ? 'None' : 'lax'),
+                ]
             );
             //set date of login
             $this->setLastLogin($this->customer_id);
@@ -255,8 +237,7 @@ class ACustomer
      */
     private function _customer_init($data)
     {
-
-        $this->customer_id = (int)$data['customer_id'];
+        $this->customer_id = (int) $data['customer_id'];
         $this->loginname = $data['loginname'];
         $this->firstname = $data['firstname'];
         $this->lastname = $data['lastname'];
@@ -269,11 +250,11 @@ class ACustomer
             $this->telephone = $data['telephone'];
             $this->fax = $data['fax'];
         }
-        $this->newsletter = (int)$data['newsletter'];
+        $this->newsletter = (int) $data['newsletter'];
 
-        $this->customer_group_id = (int)$data['customer_group_id'];
+        $this->customer_group_id = (int) $data['customer_group_id'];
         //save it to use in APromotion class
-        $this->session->data['customer_group_id'] = (int)$data['customer_group_id'];
+        $this->session->data['customer_group_id'] = (int) $data['customer_group_id'];
 
         $this->customer_group_name = $data['name'];
 
@@ -281,22 +262,24 @@ class ACustomer
         //save this sign to use in ATax lib
         $this->session->data['customer_tax_exempt'] = $data['tax_exempt'];
 
-        $this->address_id = (int)$data['address_id'];
+        $this->address_id = (int) $data['address_id'];
 
-        $this->db->query("SET @CUSTOMER_ID = '".(int)$this->customer_id."'");
+        $this->db->query("SET @CUSTOMER_ID = '".(int) $this->customer_id."'");
     }
 
     public function setLastLogin($customer_id)
     {
-        $customer_id = (int)$customer_id;
+        $customer_id = (int) $customer_id;
         if (!$customer_id) {
             return false;
         }
 
         //insert new record
-        $this->db->query("UPDATE `".$this->db->table("customers")."`
-						SET `last_login` = NOW()
-						WHERE customer_id = ".$customer_id);
+        $this->db->query(
+            "UPDATE `".$this->db->table("customers")."`
+            SET `last_login` = NOW()
+            WHERE customer_id = ".$customer_id
+        );
         return true;
     }
 
@@ -323,7 +306,14 @@ class ACustomer
 
         //expire unauth cookie
         unset($_COOKIE['customer']);
-        setcookie('customer', '', time() - 3600, dirname($this->request->server['PHP_SELF']));
+        setCookieOrParams(
+            'customer',
+            '',
+            [
+                'lifetime' => time() - 3600,
+                'path'     => dirname($this->request->server['PHP_SELF']),
+            ]
+        );
         $this->extensions->hk_ProcessData($this, 'logout');
     }
 
@@ -334,8 +324,8 @@ class ACustomer
      */
     public function isLoggedWithToken($token)
     {
-        if ((isset($this->session->data['token']) && !isset($token))
-            || ((isset($token) && (isset($this->session->data['token']) && ($token != $this->session->data['token']))))
+        if (isset($this->session->data['token']) && !isset($token)
+            || (isset($token) && isset($this->session->data['token']) && $token != $this->session->data['token'])
         ) {
             return false;
         } else {
@@ -389,8 +379,6 @@ class ACustomer
 
     /**
      * Validate if loginname is the same as email.
-     *
-     * @param none
      *
      * @return bool
      */
@@ -476,43 +464,45 @@ class ACustomer
     }
 
     /**
+     * @param array $data_array
+     * @param string $format
+     * @param array $locate
+     *
+     * @return string
      * @deprecated
      * @since 1.2.7
      *
-     * @param array  $data_array
-     * @param string $format
-     * @param array  $locate
-     *
-     * @return string
      */
-    public function getFormatedAdress($data_array, $format = '', $locate = array())
+    public function getFormatedAdress($data_array, $format = '', $locate = [])
     {
         return $this->getFormattedAddress($data_array, $format, $locate);
     }
 
     /**
-     * @since 1.2.7
-     *
-     * @param array  $data_array
+     * @param array $data_array
      * @param string $format
-     * @param array  $locate
+     * @param array $locate
      *
      * @return string
+     * @since 1.2.7
+     *
      */
-    public function getFormattedAddress($data_array, $format = '', $locate = array())
+    public function getFormattedAddress($data_array, $format = '', $locate = [])
     {
-        $data_array = (array)$data_array;
+        $data_array = (array) $data_array;
         // Set default format
         if ($format == '') {
-            $format = '{firstname} {lastname}'."\n".'{company}'."\n".'{address_1}'."\n".'{address_2}'."\n".'{city} {postcode}'."\n".'{zone}'."\n".'{country}';
+            $format =
+                '{firstname} {lastname}'."\n".'{company}'."\n".'{address_1}'."\n".'{address_2}'."\n".'{city} {postcode}'
+                ."\n".'{zone}'."\n".'{country}';
         }
         //when some data missing - remove it from address format
         preg_match_all('/\{(.*?)\}/', $format, $matches);
-        if($matches[1]) {
+        if ($matches[1]) {
             $matches = $matches[1];
-            foreach($matches as $key){
-                if( !isset( $data_array[$key] ) ){
-                    $format = str_replace('{'.$key.'}','', $format);
+            foreach ($matches as $key) {
+                if (!isset($data_array[$key])) {
+                    $format = str_replace('{'.$key.'}', '', $format);
                 }
             }
             $format = trim($format);
@@ -520,14 +510,18 @@ class ACustomer
 
         //Set default variable to be set for address based on the data
         if (count($locate) <= 0) {
-            $locate = array();
+            $locate = [];
             foreach ($data_array as $key => $value) {
                 $locate[] = "{".$key."}";
             }
         }
 
-        return str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($locate, $data_array, $format))));
-
+        return str_replace(
+            ["\r\n", "\r", "\n"], '<br />', preg_replace(
+                                    ["/\s\s+/", "/\r\r+/", "/\n\n+/"], '<br />',
+                                    trim(str_replace($locate, $data_array, $format))
+                                )
+        );
     }
 
     /**
@@ -542,11 +536,12 @@ class ACustomer
             return false;
         }
 
-        $query = $this->db->query("SELECT sum(credit) - sum(debit) as balance
+        $query = $this->db->query(
+            "SELECT sum(credit) - sum(debit) as balance
 									FROM ".$this->db->table("customer_transactions")."
-									WHERE customer_id = '".(int)$this->getId()."'");
-        $balance = (float)$query->row['balance'];
-        return $balance;
+            WHERE customer_id = '".(int) $this->getId()."'"
+        );
+        return (float) $query->row['balance'];
     }
 
     /**
@@ -579,7 +574,7 @@ class ACustomer
     public function saveCustomerCart()
     {
         $customer_id = $this->customer_id;
-        $store_id = (int)$this->config->get('config_store_id');
+        $store_id = (int) $this->config->get('config_store_id');
         if (!$customer_id) {
             $customer_id = $this->unauth_customer['customer_id'];
         }
@@ -588,28 +583,32 @@ class ACustomer
         }
 
         //before write get cart-info from db to non-override cart for other stores of multistore
-        $result = $this->db->query("SELECT cart
-									FROM ".$this->db->table("customers")."
-									WHERE customer_id = '".(int)$customer_id."' AND status = '1'");
+        $result = $this->db->query(
+            "SELECT cart
+            FROM ".$this->db->table("customers")."
+            WHERE customer_id = '".(int) $customer_id."' 
+                AND status = '1'"
+        );
         $cart = unserialize($result->row['cart']);
         //check is format of cart old or new
         $new = $this->_is_new_cart_format($cart);
 
         if (!$new) {
-            $cart = array(); //clean cart from old format
+            $cart = []; //clean cart from old format
         }
         $cart['store_'.$store_id] = $this->session->data['cart'];
-        $this->db->query("UPDATE ".$this->db->table("customers")."
-						  SET
-								cart = '".$this->db->escape(serialize($cart))."',
-								ip = '".$this->db->escape($this->request->getRemoteIP())."'
-						  WHERE customer_id = '".(int)$customer_id."'");
+        $this->db->query(
+            "UPDATE ".$this->db->table("customers")."
+            SET
+                cart = '".$this->db->escape(serialize($cart))."',
+                ip = '".$this->db->escape($this->request->getRemoteIP())."'
+            WHERE customer_id = '".(int) $customer_id."'"
+        );
     }
 
     /**
      * Confirm that current customer is valid
      *
-     * @param none
      *
      * @return bool
      */
@@ -624,8 +623,9 @@ class ACustomer
         }
 
         $sql = "SELECT cart
-				FROM ".$this->db->table("customers")."
-				WHERE customer_id = '".(int)$customer_id."' AND status = '1'";
+                FROM ".$this->db->table("customers")."
+                WHERE customer_id = '".(int) $customer_id."' 
+                    AND status = '1'";
         $result = $this->db->query($sql);
         if ($result->num_rows) {
             return true;
@@ -637,25 +637,24 @@ class ACustomer
     /**
      * Get cart content
      *
-     * @param none
-     *
      * @return array()
      */
     public function getCustomerCart()
     {
-        $store_id = (int)$this->config->get('config_store_id');
+        $store_id = (int) $this->config->get('config_store_id');
         $customer_id = $this->customer_id;
         if (!$customer_id) {
             $customer_id = $this->unauth_customer['customer_id'];
         }
         if (!$customer_id) {
-            return array();
+            return [];
         }
 
-        $cart = array();
+        $cart = [];
         $sql = "SELECT cart
-				FROM ".$this->db->table("customers")."
-				WHERE customer_id = '".(int)$customer_id."' AND status = '1'";
+                FROM ".$this->db->table("customers")."
+                WHERE customer_id = '".(int) $customer_id."' 
+                    AND status = '1'";
 
         $result = $this->db->query($sql);
         if ($result->num_rows) {
@@ -667,21 +666,22 @@ class ACustomer
                 if (isset($cart['store_'.$store_id])) {
                     $cart = $cart['store_'.$store_id];
                 } elseif ($new) {
-                    $cart = array();
+                    $cart = [];
                 }
                 //clean products
                 if ($cart) {
-                    $cart_products = array();
+                    $cart_products = [];
                     foreach ($cart as $key => $val) {
                         $k = explode(':', $key);
-                        $cart_products[] = (int)$k[0]; // <-product_id
+                        $cart_products[] = (int) $k[0]; // <-product_id
                     }
                     $sql = "SELECT product_id
-							FROM ".$this->db->table('products_to_stores')." pts
-							WHERE store_id = '".$store_id."' AND product_id IN (".implode(', ', $cart_products).")";
+                            FROM ".$this->db->table('products_to_stores')." pts
+                            WHERE store_id = '".$store_id."' 
+                                AND product_id IN (".implode(', ', $cart_products).")";
 
                     $result = $this->db->query($sql);
-                    $products = array();
+                    $products = [];
                     foreach ($result->rows as $row) {
                         $products[] = $row['product_id'];
                     }
@@ -705,25 +705,25 @@ class ACustomer
      */
     public function mergeCustomerCart($cart)
     {
-        $store_id = (int)$this->config->get('config_store_id');
-        $cart = !is_array($cart) ? array() : $cart;
+        $store_id = (int) $this->config->get('config_store_id');
+        $cart = !is_array($cart) ? [] : $cart;
         //check is format of cart old or new
         $new = $this->_is_new_cart_format($cart);
 
         if ($new) {
             $cart = $cart['store_'.$store_id];
         }
-        $cart = !is_array($cart) ? array() : $cart; // for case when data format is new but cart for store does not yet created
+        $cart =
+            !is_array($cart) ? [] : $cart; // for case when data format is new but cart for store does not yet created
 
         if ($cart && !is_array($this->session->data['cart'])) {
-            $this->session->data['cart'] = array();
+            $this->session->data['cart'] = [];
         }
         foreach ($cart as $key => $value) {
             if (!array_key_exists($key, $this->session->data['cart'])) {
                 $this->session->data['cart'][$key] = $value;
             }
         }
-
     }
 
     /**
@@ -733,8 +733,7 @@ class ACustomer
      */
     public function clearCustomerCart()
     {
-
-        $cart = array();
+        $cart = [];
         $customer_id = $this->customer_id;
         if (!$customer_id) {
             $customer_id = $this->unauth_customer['customer_id'];
@@ -742,10 +741,12 @@ class ACustomer
         if (!$customer_id) {
             return false;
         }
-        $this->db->query("UPDATE ".$this->db->table("customers")."
-						SET
-							cart = '".$this->db->escape(serialize($cart))."'
-						WHERE customer_id = '".(int)$customer_id."'");
+        $this->db->query(
+            "UPDATE ".$this->db->table("customers")."
+                        SET
+                            cart = '".$this->db->escape(serialize($cart))."'
+                        WHERE customer_id = '".(int) $customer_id."'"
+        );
         return true;
     }
 
@@ -756,7 +757,7 @@ class ACustomer
      *
      * @return bool
      */
-    protected function _is_new_cart_format($cart_data = array())
+    protected function _is_new_cart_format($cart_data = [])
     {
         if (empty($cart_data)) {
             return false;
@@ -815,7 +816,7 @@ class ACustomer
      *
      * @return null
      */
-    public function saveWishList($whishlist = array())
+    public function saveWishList($whishlist = [])
     {
         $customer_id = $this->customer_id;
         if (!$customer_id) {
@@ -824,18 +825,18 @@ class ACustomer
         if (!$customer_id) {
             return false;
         }
-        $this->db->query("UPDATE ".$this->db->table("customers")."
-							SET
-								wishlist = '".$this->db->escape(serialize($whishlist))."',
-								ip = '".$this->db->escape($this->request->getRemoteIP())."'
-							WHERE customer_id = '".(int)$customer_id."'");
+        $this->db->query(
+            "UPDATE ".$this->db->table("customers")."
+            SET
+                wishlist = '".$this->db->escape(serialize($whishlist))."',
+                ip = '".$this->db->escape($this->request->getRemoteIP())."'
+            WHERE customer_id = '".(int) $customer_id."'"
+        );
         return true;
     }
 
     /**
      * Get cart content
-     *
-     * @param none
      *
      * @return array()
      */
@@ -846,29 +847,31 @@ class ACustomer
             $customer_id = $this->unauth_customer['customer_id'];
         }
         if (!$customer_id) {
-            return array();
+            return [];
         }
-        $customer_data = $this->db->query("SELECT wishlist
-											FROM ".$this->db->table("customers")."
-											WHERE customer_id = '".(int)$customer_id."' AND status = '1'");
+        $customer_data = $this->db->query(
+            "SELECT wishlist
+            FROM ".$this->db->table("customers")."
+            WHERE customer_id = '".(int) $customer_id."' 
+                AND status = '1'"
+        );
         if ($customer_data->num_rows) {
             //load customer saved cart
             if (($customer_data->row['wishlist']) && (is_string($customer_data->row['wishlist']))) {
                 return unserialize($customer_data->row['wishlist']);
             }
         }
-        return array();
+        return [];
     }
 
     /**
      * @param string $type
-     * @param array  $tr_details - amount, order_id, transaction_type, description, comments, creator
+     * @param array $tr_details - amount, order_id, transaction_type, description, comments, creator
      *
      * @return bool
      */
     protected function _record_transaction($type, $tr_details)
     {
-
         if (!$this->isLogged()) {
             return false;
         }
@@ -877,25 +880,27 @@ class ACustomer
         }
 
         if ($type == 'debit') {
-            $amount = 'debit = '.(float)$tr_details['amount'];
+            $amount = 'debit = '.(float) $tr_details['amount'];
         } else {
             if ($type == 'credit') {
-                $amount = 'credit = '.(float)$tr_details['amount'];
+                $amount = 'credit = '.(float) $tr_details['amount'];
             } else {
                 return false;
             }
         }
 
-        $this->db->query("INSERT INTO ".$this->db->table("customer_transactions")."
-						SET customer_id 		= '".(int)$this->getId()."',
-							order_id 			= '".(int)$tr_details['order_id']."',
-							transaction_type 	= '".$this->db->escape($tr_details['transaction_type'])."',
-							description 		= '".$this->db->escape($tr_details['description'])."',
-							comment 			= '".$this->db->escape($tr_details['comment'])."',
-							".$amount.",
-							section				= '".((int)$tr_details['section'] ? (int)$tr_details['section'] : 0)."',
-							created_by 			= '".(int)$tr_details['created_by']."',
-							date_added = NOW()");
+        $this->db->query(
+            "INSERT INTO ".$this->db->table("customer_transactions")."
+            SET customer_id = '".(int) $this->getId()."',
+                order_id = '".(int) $tr_details['order_id']."',
+                transaction_type = '".$this->db->escape($tr_details['transaction_type'])."',
+                description = '".$this->db->escape($tr_details['description'])."',
+                comment = '".$this->db->escape($tr_details['comment'])."',
+                ".$amount.",
+                section = '".((int) $tr_details['section'] ? (int) $tr_details['section'] : 0)."',
+                created_by = '".(int) $tr_details['created_by']."',
+                date_added = NOW()"
+        );
 
         if ($this->db->getLastId()) {
             return true;

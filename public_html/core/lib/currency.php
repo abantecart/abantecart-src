@@ -153,7 +153,7 @@ final class ACurrency
                     'domain'   => null,
                     'secure'   => (defined('HTTPS') && HTTPS),
                     'httponly' => true,
-                    'samesite' => 'lax',
+                    'samesite' => ((defined('HTTPS') && HTTPS) ? 'None' : 'lax'),
                     'lifetime' => time() + 60 * 60 * 24 * 30,
                 ]
             );
