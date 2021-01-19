@@ -1,4 +1,4 @@
-/** @var  AView $this */
+<?php /** @var  AView $this */ ?>
 //set global sign of allowed 3d party cookies as true by default. This value might be overridden by test cookie js
 var abc_cookie_allowed = true;
 var abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
@@ -20,7 +20,7 @@ var init = function () {
 
     /******** Load jQuery if not yet loaded (note: supported jquery >= 10 ) *********/
     if (window.jQuery === undefined) {
-        script_loader("//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js");
+        script_loader("//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js");
         // Poll for jQuery to come into existence
         var scounter = 0;
         var checkReady = function (callback, second) {
@@ -46,7 +46,7 @@ var init = function () {
             },
             function ($) {
                 //one more attempt to load local library
-                script_loader("<?php echo $this->templateResource("/javascript/jquery-1.12.4.min.js"); ?>");
+                script_loader("<?php echo $this->templateResource("/javascript/jquery-3.5.1.min.js"); ?>");
                 checkReady(function ($) {
                     jQuery = window.jQuery.noConflict(true);
                     main();
@@ -85,10 +85,10 @@ var init = function () {
             if (ss[i].href == url) return;
         }
         var css_tag = document.createElement('link');
-		css_tag.setAttribute("rel",'stylesheet')
-		css_tag.setAttribute("type",'text/css');
-		css_tag.setAttribute("media","all");
-		css_tag.setAttribute("href",url);
+        css_tag.setAttribute("rel",'stylesheet')
+        css_tag.setAttribute("type",'text/css');
+        css_tag.setAttribute("media","all");
+        css_tag.setAttribute("href",url);
         // Try to find the head, otherwise default to the documentElement
         (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(css_tag);
     }
@@ -140,10 +140,10 @@ var init = function () {
         jQuery(document).ready(function ($) {
             var modal = '';
             //for embedding with modal
-            if (embed_click_action == 'modal') {
+            if (embed_click_action === 'modal') {
                 /******** Load custom modal *********/
-                css_loader("<?php echo $this->templateResource('/stylesheet/bootstrap.embed.css'); ?>");
-                script_loader("<?php echo $this->templateResource('/javascript/bootstrap.embed.js'); ?>");
+                css_loader("<?php echo AUTO_SERVER . '/' . $this->templateResource('/stylesheet/bootstrap.embed.css'); ?>");
+                script_loader("<?php echo AUTO_SERVER . '/' . $this->templateResource('/javascript/bootstrap.embed.js'); ?>");
 
                 // Load bootstrap custom modal (single instance)
                 modal = '<div id="abc_embed_modal" class="abcmodal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">' +
@@ -179,7 +179,7 @@ var init = function () {
                 abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
                 abc_token_value = abc_get_cookie();
                 var testcookieurl = '<?php echo $abc_embed_test_cookie_url; ?>';
-                if (abc_token_value != undefined && abc_token_value != '') {
+                if (abc_token_value !== undefined && abc_token_value !== '') {
                     testcookieurl += '&<?php echo EMBED_TOKEN_NAME; ?>=' + abc_token_value;
                 }
                 abc_process_request(testcookieurl);
@@ -286,9 +286,9 @@ var init = function () {
             var url_params = abc_add_common_params($first_obj);
             abc_populate_cart(main_url, url_params);
 
-            $('.abantecart-widget-container').on("click", ".abantecart_addtocart", function (e) {
+            cntner.on("click", ".abantecart_addtocart", function (e) {
                 var add_url = '';
-                if ($(e.target).attr('data-toggle') == "abcmodal") {
+                if ($(e.target).attr('data-toggle') === "abcmodal") {
                     add_url = $(e.target).attr('data-href');
                 } else {
                     add_url = $(this).find('button').attr('data-href');
@@ -298,7 +298,7 @@ var init = function () {
                     add_url += '&quantity=' + $('.abantecart_quantity input').val();
                 }
 
-                if ($(e.target).attr('data-toggle') == "abcmodal") {
+                if ($(e.target).attr('data-toggle') === "abcmodal") {
                     $(e.target).attr('data-href', add_url);
                     return null;
                 }

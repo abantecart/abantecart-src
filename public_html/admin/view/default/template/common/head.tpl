@@ -19,10 +19,10 @@
 <?php } ?>
 
 <script type="text/javascript"
-        src="<?php echo $ssl ? 'https' : 'http'?>://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        src="<?php echo $ssl ? 'https' : 'http'?>://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
     if (typeof jQuery == 'undefined') {
-        var include = '<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-1.12.4.min.js"><\/script>';
+        var include = '<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-3.5.1.min.js"><\/script>';
         document.write(include);
     }
 <?php if($retina){?>
@@ -31,7 +31,7 @@
     }
 <?php } ?>
 </script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-migrate-1.4.1.min.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery.cookies.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-ui/jquery-ui-1.10.4.custom.min.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/bootstrap.min.js"></script>
