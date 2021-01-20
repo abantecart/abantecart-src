@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -206,7 +206,7 @@ class ControllerPagesExtensionExtensions extends AController
         }
         $grid_settings['colModel'][] = [
             'name'   => 'status',
-            'index'  => 'status',
+            'index'  => 'e.status',
             'width'  => 120,
             'align'  => 'center',
             'search' => false,
