@@ -3,12 +3,12 @@
 </div>
 <div id="fast_checkout_cart"></div>
 
-<script>
+<script type="application/javascript">
     if ($('#fast_checkout_cart').html() === '') {
         $('.spinner-overlay').fadeIn(100);
     }
     <?php if ($cart_url) { ?>
-    let loadPage = function (cart_key) {
+    let loadPage = function(cart_key) {
         $.ajax({
             url: '<?php echo $cart_url; ?>' + '&cart_key=' + (cart_key || ''),
             type: 'GET',
@@ -26,7 +26,7 @@
             }
         });
     };
-    $(document).on('ready', loadPage);
+    $(document).ready( loadPage );
     <?php } ?>
 
 
