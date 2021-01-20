@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension>
 	<id>cardconnect</id>
-	<version>1.0.3</version>
+	<version>1.0.4</version>
 	<type>payment</type>
 	<category>Payment</category>
 	<cartversions>
