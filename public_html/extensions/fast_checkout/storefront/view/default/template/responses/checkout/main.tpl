@@ -231,15 +231,6 @@
             showLoading = function (modal_body) {
                 modal_body.html('<div class="modal_loader" style="text-align: center"><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i></div>');
             };
-            validateEmail = function (email) {
-                var re = /^\s*(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))\s*$/;
-                return re.test(email);
-            };
-            validatePhone = function (number) {
-                var re = /^\s*[\+]?[0-9]{0,3}?[-\s\.]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}\s*$/im;
-                return re.test(number);
-            };
-
             pageRequest = function (url) {
 				$('.spinner-overlay').fadeIn(100);
 				$.get(url, {} , function (data) {
@@ -364,6 +355,14 @@
             }
 
             return ret;
+        };
+        validateEmail = function (email) {
+            var re = /^\s*(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))\s*$/;
+            return re.test(email);
+        };
+        validatePhone = function (number) {
+            var re = /^\s*[\+]?[0-9]{0,3}?[-\s\.]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}\s*$/im;
+            return re.test(number);
         };
     </script>
 <?php
