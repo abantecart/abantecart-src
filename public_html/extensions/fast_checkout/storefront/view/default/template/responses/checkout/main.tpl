@@ -73,8 +73,106 @@
 
     <script type="text/javascript">
         jQuery(document).ready(function () {
-            var submitSent = false;
-            var payFormDiv = $(".pay-form");
+            //on submit validate
+            const validateForm = function (form) {
+                        var ret = true;
+                        form.find(':input').each(function () {
+                            var el = $(this);
+                            var name = el.attr('name');
+                            if (name === undefined) {
+                                return;
+                            }
+
+                            //coupon can be only applied, cannot submit
+                            if (name === 'coupon_code' && !el.attr('disabled')) {
+                                var str_val = el.val().replace(/\s+/g, '');
+                                if (str_val.length > 0) {
+                                    $.aCCValidator.show_error(el, '.form-group');
+                                    ret = false;
+                                }
+                            }
+
+                            if (name === 'loginname' && el.val().length < 3) {
+                                $.aCCValidator.show_error(el, '.form-group');
+                                ret = false;
+                            }
+                            if (name === 'password' && el.val().length < 3) {
+                                $.aCCValidator.show_error(el, '.form-group');
+                                ret = false;
+                            }
+                            if (name === 'telephone' && !validatePhone(el.val())) {
+                                $.aCCValidator.show_error(el, '.form-group');
+                                ret = false;
+                            }
+                            if (name === 'cc_email' && !validateEmail(el.val())) {
+                                $.aCCValidator.show_error(el, '.form-group');
+                                ret = false;
+                            }
+                            if (name === 'shipping_address_id' && !el.val()) {
+                                $.aCCValidator.show_error(el, '.form-group');
+                                ret = false;
+                            }
+                            if (name === 'payment_address_id' && !el.val()) {
+                                $.aCCValidator.show_error(el, '.form-group');
+                                ret = false;
+                            }
+                            if (name === 'shipping_method' && !el.val()) {
+                                $.aCCValidator.show_error(el, '.form-group');
+                                ret = false;
+                            }
+                            if (name === 'firstname' && !el.val()) {
+                                $.aCCValidator.show_error(el, '.form-group');
+                                ret = false;
+                            }
+                            if (name === 'lastname' && !el.val()) {
+                                $.aCCValidator.show_error(el, '.form-group');
+                                ret = false;
+                            }
+                            if (name === 'address_1' && !el.val()) {
+                                $.aCCValidator.show_error(el, '.form-group');
+                                ret = false;
+                            }
+                            if (name === 'city' && !el.val()) {
+                                $.aCCValidator.show_error(el, '.form-group');
+                                ret = false;
+                            }
+                            if (name === 'postcode' && !el.val()) {
+                                $.aCCValidator.show_error(el, '.form-group');
+                                ret = false;
+                            }
+                            if (name === 'zone_id' && (!el.val() || el.val().toLowerCase() == 'false') ) {
+                                $.aCCValidator.show_error(el, '.form-group');
+                                ret = false;
+                            }
+                            if (name === 'country_id' && (!el.val() || el.val().toLowerCase() == 'false')) {
+                                $.aCCValidator.show_error(el, '.form-group');
+                                ret = false;
+                            }
+                            if (name === 'cc_cvv2' && (!el.val() || !$.aCCValidator.checkCVV(el)) ) {
+                                $.aCCValidator.show_error(el, '.form-group');
+                                ret = false;
+                            }
+                            if (name === 'cc_number' && (!el.val() || !$.aCCValidator.checkCCNumber(el)) ) {
+                                $.aCCValidator.show_error(el, '.form-group');
+                                ret = false;
+                            }
+                        });
+                        var cover = $('.div-cover');
+                        if(cover){
+                            <?php //show cover only for non-payment form and selectors! ?>
+                            if( ret === false && form.parents('.payment-select-container').length == 0) {
+                                cover.css('height', $('.payment-select-container').height());
+                                cover.show();
+                            }else{
+                                cover.hide();
+                            }
+                        }
+
+                        return ret;
+                    };
+
+            let submitSent = false;
+            let payFormDiv = $(".pay-form");
 
             payFormDiv.on("click", "#new_user", function () {
                 $(this).removeClass('btn-default').addClass('btn-primary');
@@ -259,103 +357,7 @@
 			});
         });
 
-        //on submit validate
-        validateForm = function(form) {
-            var ret = true;
-            form.find(':input').each(function () {
-                var el = $(this);
-                var name = el.attr('name');
-                if (name === undefined) {
-                    return;
-                }
 
-                //coupon can be only applied, cannot submit
-                if (name === 'coupon_code' && !el.attr('disabled')) {
-                    var str_val = el.val().replace(/\s+/g, '');
-                    if (str_val.length > 0) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                }
-
-                if (name === 'loginname' && el.val().length < 3) {
-                    $.aCCValidator.show_error(el, '.form-group');
-                    ret = false;
-                }
-                if (name === 'password' && el.val().length < 3) {
-                    $.aCCValidator.show_error(el, '.form-group');
-                    ret = false;
-                }
-                if (name === 'telephone' && !validatePhone(el.val())) {
-                    $.aCCValidator.show_error(el, '.form-group');
-                    ret = false;
-                }
-                if (name === 'cc_email' && !validateEmail(el.val())) {
-                    $.aCCValidator.show_error(el, '.form-group');
-                    ret = false;
-                }
-                if (name === 'shipping_address_id' && !el.val()) {
-                    $.aCCValidator.show_error(el, '.form-group');
-                    ret = false;
-                }
-                if (name === 'payment_address_id' && !el.val()) {
-                    $.aCCValidator.show_error(el, '.form-group');
-                    ret = false;
-                }
-                if (name === 'shipping_method' && !el.val()) {
-                    $.aCCValidator.show_error(el, '.form-group');
-                    ret = false;
-                }
-                if (name === 'firstname' && !el.val()) {
-                    $.aCCValidator.show_error(el, '.form-group');
-                    ret = false;
-                }
-                if (name === 'lastname' && !el.val()) {
-                    $.aCCValidator.show_error(el, '.form-group');
-                    ret = false;
-                }
-                if (name === 'address_1' && !el.val()) {
-                    $.aCCValidator.show_error(el, '.form-group');
-                    ret = false;
-                }
-                if (name === 'city' && !el.val()) {
-                    $.aCCValidator.show_error(el, '.form-group');
-                    ret = false;
-                }
-                if (name === 'postcode' && !el.val()) {
-                    $.aCCValidator.show_error(el, '.form-group');
-                    ret = false;
-                }
-                if (name === 'zone_id' && (!el.val() || el.val().toLowerCase() == 'false') ) {
-                    $.aCCValidator.show_error(el, '.form-group');
-                    ret = false;
-                }
-                if (name === 'country_id' && (!el.val() || el.val().toLowerCase() == 'false')) {
-                    $.aCCValidator.show_error(el, '.form-group');
-                    ret = false;
-                }
-                if (name === 'cc_cvv2' && (!el.val() || !$.aCCValidator.checkCVV(el)) ) {
-                    $.aCCValidator.show_error(el, '.form-group');
-                    ret = false;
-                }
-                if (name === 'cc_number' && (!el.val() || !$.aCCValidator.checkCCNumber(el)) ) {
-                    $.aCCValidator.show_error(el, '.form-group');
-                    ret = false;
-                }
-            });
-            var cover = $('.div-cover');
-            if(cover){
-                <?php //show cover only for non-payment form and selectors! ?>
-                if( ret === false && form.parents('.payment-select-container').length == 0) {
-                    cover.css('height', $('.payment-select-container').height());
-                    cover.show();
-                }else{
-                    cover.hide();
-                }
-            }
-
-            return ret;
-        };
         validateEmail = function (email) {
             var re = /^\s*(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))\s*$/;
             return re.test(email);
