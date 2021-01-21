@@ -1729,10 +1729,10 @@ class ModelCatalogProduct extends Model
             }
 
             if (isset($filter['pfrom']) && !is_null($filter['pfrom'])) {
-                $sql .= " AND p.price >= '".(float)$filter['pfrom']."'";
+                $sql .= " AND final_price >= '".(float)$filter['pfrom']."'";
             }
             if (isset($filter['pto']) && !is_null($filter['pto'])) {
-                $sql .= " AND p.price <= '".(float)$filter['pto']."'";
+                $sql .= " AND final_price <= '".(float)$filter['pto']."'";
             }
             if (isset($filter['category_id']) && !is_null($filter['category_id'])) {
                 $sql .= " AND p2c.category_id = '".(int)$filter['category_id']."'";
@@ -1755,7 +1755,7 @@ class ModelCatalogProduct extends Model
                 'name'          => 'pd.name',
                 'model'         => 'p.model',
                 'quantity'      => 'p.quantity',
-                'price'         => 'p.price',
+                'price'         => 'final_price',
                 'status'        => 'p.status',
                 'sort_order'    => 'p.sort_order',
                 'date_modified' => 'p.date_modified',
