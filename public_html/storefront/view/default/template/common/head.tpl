@@ -102,7 +102,7 @@ if($faster_browser_rendering == true) { ?>
 <script type="text/javascript">
 	var baseUrl = '<?php echo $base; ?>';
 <?php if($retina){
-        $samesite = ((defined('HTTPS') && HTTPS) ? 'None' : 'lax');
+        $samesite = ((defined('HTTPS') && HTTPS) ? 'None; secure=1;' : 'lax; secure=0;');
 ?>
 	if((window.devicePixelRatio===undefined?1:window.devicePixelRatio)>1) {
 		document.cookie = 'HTTP_IS_RETINA=1;path=/; samesite=<?php echo $samesite; ?>';

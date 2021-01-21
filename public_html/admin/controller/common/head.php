@@ -51,7 +51,7 @@ class ControllerCommonHead extends AController
         $retina = $this->config->get('config_retina_enable');
         $this->data['retina'] = $retina;
         //remove cookie for retina
-        if (!$retina) {
+        if (!$retina && isset($this->request->cookie['HTTP_IS_RETINA'])) {
             $this->request->deleteCookie('HTTP_IS_RETINA');
         }
 

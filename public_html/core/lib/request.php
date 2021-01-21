@@ -49,7 +49,6 @@ final class ARequest
         $this->cookie = $_COOKIE;
         $this->files = $_FILES;
         $this->server = $_SERVER;
-
         //check if there is any encrypted data
         if (has_value($this->get['__e'])) {
             $this->get = array_replace_recursive($this->get, $this->decodeURI($this->get['__e']));
