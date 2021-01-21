@@ -95,7 +95,7 @@ class ModelExtensionCardConnect extends Model
             return ['error' => 'Order not found'];
         }
 
-        $pd['amount'] = round( $order_info['total'], 2 );
+        $pd['amount'] = number_format((float)$order_info['total'], 2, '.', '');
         $pd['currency']  = $order_info['currency'];
 
         $expiry = $cvv2 = $profile_id = $capture = $bankaba = '';
