@@ -64,7 +64,7 @@ class ControllerResponsesListingGridExtension extends AController
                 'name',
                 'category',
                 'date_modified',
-                'status',
+                'e.status',
                 'store_name'
             ],
             (array) $this->data['allowed_sort']
