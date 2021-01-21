@@ -1051,4 +1051,8 @@
 		<key>entry_image_resize_fill_color</key>
 		<value><![CDATA[Color of fill for image resize<br/><span class="help">Color that will be filled into empty areas during image resizing from rectangle into square</span>]]></value>
 	</definition>
+	<definition>
+		<key>warning_https_store_url</key>
+		<value><![CDATA[To maintain correct platform functionality in all browsers and maintain data security, HTTPS protocol is required. All requests should be sent to HTTPS]]></value>
+	</definition>
 </definitions>
