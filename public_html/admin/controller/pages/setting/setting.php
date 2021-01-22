@@ -254,7 +254,12 @@ class ControllerPagesSettingSetting extends AController
     {
         if(strpos($this->data['settings']['config_url'],'https') === false){
             if( !$this->data['settings']['config_ssl_url']
-                || strpos($this->data['settings']['config_ssl_url'],'https') === false)
+                || strpos($this->data['settings']['config_ssl_url'],'https') === false
+                || (
+                    strpos($this->data['settings']['config_url'],'https') === false
+                    && strpos($this->data['settings']['config_ssl_url'],'https') !== false
+                )
+            )
             {
                 $this->data['error_https'] = $this->language->get('warning_https_store_url');
             }
