@@ -12358,7 +12358,7 @@ CREATE TABLE `ac_resource_types` (
   `type_name` varchar(40) NOT NULL default '',
   `default_directory` varchar(255) COLLATE utf8_general_ci NOT NULL,
   `default_icon` varchar(255) COLLATE utf8_general_ci DEFAULT NULL,
-  `file_types` varchar(40) NOT NULL default '',
+  `file_types` varchar(255) NOT NULL default '',
   `access_type`tinyint(1) NOT NULL default '0' COMMENT '0-Public, 1-Secured',
   PRIMARY KEY (`type_id`),
   KEY `group_id` (`type_id`, `type_name`)
