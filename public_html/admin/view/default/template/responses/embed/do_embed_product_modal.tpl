@@ -143,7 +143,7 @@
 
     $('div#embed_modal').find('div.input-group').find('select').on('change', buildEmbedCode);
 
-    let preselect = function(){
+    preselect = function(){
         let $this = $(this);
         $this.select();
     }
