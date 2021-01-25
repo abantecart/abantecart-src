@@ -23,7 +23,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerPagesCatalogManufacturerLayout extends AController
 {
-    public $data = array();
+    public $data = [];
 
     public function main()
     {
@@ -47,7 +47,7 @@ class ControllerPagesCatalogManufacturerLayout extends AController
         if (has_value($manufacturer_id) && $this->request->is_GET()) {
             if (!$manufacturer_info) {
                 $this->session->data['warning'] = $this->language->get('error_manufacturer_not_found');
-                $this->redirect($this->html->getSecureURL('catalog/manufacturer'));
+                redirect($this->html->getSecureURL('catalog/manufacturer'));
             }
         }
 
@@ -67,22 +67,28 @@ class ControllerPagesCatalogManufacturerLayout extends AController
             unset($this->session->data['success']);
         }
 
-        $this->document->initBreadcrumb(array(
+        $this->document->initBreadcrumb(
+            [
             'href'      => $this->html->getSecureURL('index/home'),
             'text'      => $this->language->get('text_home'),
             'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
             'href'      => $this->html->getSecureURL('catalog/manufacturer'),
             'text'      => $this->language->get('heading_title'),
             'separator' => ' :: ',
-        ));
-        $this->document->addBreadcrumb(array(
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
             'href'      => $this->data['manufacturer_edit'],
             'text'      => $this->data['heading_title'],
             'separator' => ' :: ',
             'current'   => true,
-        ));
+            ]
+        );
 
         $this->data['active'] = 'layout';
 
@@ -96,24 +102,26 @@ class ControllerPagesCatalogManufacturerLayout extends AController
         } else {
             $tmpl_id = $this->config->get('config_storefront_template');
         }
-        $params = array(
+        $params = [
             'manufacturer_id' => $manufacturer_id,
             'page_id'         => $page_id,
             'layout_id'       => $layout_id,
             'tmpl_id'         => $tmpl_id,
-        );
+        ];
         $url = '&'.$this->html->buildURI($params);
 
         // get templates
-        $this->data['templates'] = array();
+        $this->data['templates'] = [];
         $directories = glob(DIR_STOREFRONT.'view/*', GLOB_ONLYDIR);
         foreach ($directories as $directory) {
             $this->data['templates'][] = basename($directory);
         }
-        $enabled_templates = $this->extensions->getExtensionsList(array(
+        $enabled_templates = $this->extensions->getExtensionsList(
+            [
             'filter' => 'template',
             'status' => 1,
-        ));
+            ]
+        );
         foreach ($enabled_templates->rows as $template) {
             $this->data['templates'][] = $template['key'];
         }
@@ -121,25 +129,31 @@ class ControllerPagesCatalogManufacturerLayout extends AController
         $action = $this->html->getSecureURL('catalog/manufacturer_layout/save');
         // Layout form data
         $form = new AForm('HT');
-        $form->setForm(array(
+        $form->setForm(
+            [
             'form_name' => 'layout_form',
-        ));
+            ]
+        );
 
-        $this->data['form_begin'] = $form->getFieldHtml(array(
+        $this->data['form_begin'] = $form->getFieldHtml(
+            [
             'type'   => 'form',
             'name'   => 'layout_form',
             'attr'   => 'data-confirm-exit="true"',
             'action' => $action,
-        ));
+            ]
+        );
 
-        $this->data['hidden_fields'] = '';
+        $this->data['hidden_fields'] = [];
         foreach ($params as $name => $value) {
             $this->data[$name] = $value;
-            $this->data['hidden_fields'] .= $form->getFieldHtml(array(
+            $this->data['hidden_fields'][] = $form->getFieldHtml(
+                [
                 'type'  => 'hidden',
                 'name'  => $name,
                 'value' => $value,
-            ));
+                ]
+            );
         }
 
         $this->data['page_url'] = $page_url;
@@ -148,12 +162,12 @@ class ControllerPagesCatalogManufacturerLayout extends AController
         // insert external form of layout
         $layout = new ALayoutManager($tmpl_id, $page_id, $layout_id);
 
-        $layoutform = $this->dispatch('common/page_layout', array($layout));
+        $layoutform = $this->dispatch('common/page_layout', [$layout]);
         $this->data['layoutform'] = $layoutform->dispatchGetOutput();
 
-        //build pages and available layouts for clonning
+        //build pages and available layouts for cloning
         $this->data['pages'] = $layout->getAllPages();
-        $av_layouts = array("0" => $this->language->get('text_select_copy_layout'));
+        $av_layouts = ["0" => $this->language->get('text_select_copy_layout')];
         foreach ($this->data['pages'] as $page) {
             if ($page['layout_id'] != $layout_id) {
                 $av_layouts[$page['layout_id']] = $page['layout_name'];
@@ -161,23 +175,29 @@ class ControllerPagesCatalogManufacturerLayout extends AController
         }
 
         $form = new AForm('HT');
-        $form->setForm(array(
+        $form->setForm(
+            [
             'form_name' => 'cp_layout_frm',
-        ));
+            ]
+        );
 
-        $this->data['cp_layout_select'] = $form->getFieldHtml(array(
+        $this->data['cp_layout_select'] = $form->getFieldHtml(
+            [
             'type'    => 'selectbox',
             'name'    => 'layout_change',
             'value'   => '',
             'options' => $av_layouts,
-        ));
+            ]
+        );
 
-        $this->data['cp_layout_frm'] = $form->getFieldHtml(array(
+        $this->data['cp_layout_frm'] = $form->getFieldHtml(
+            [
             'type'   => 'form',
             'name'   => 'cp_layout_frm',
             'attr'   => 'class="aform form-inline"',
             'action' => $action,
-        ));
+            ]
+        );
         if ($this->config->get('config_embed_status')) {
             $this->view->assign('embed_url', $this->html->getSecureURL('common/do_embed/manufacturers', '&manufacturer_id='.$manufacturer_id));
         }
@@ -192,7 +212,7 @@ class ControllerPagesCatalogManufacturerLayout extends AController
     public function save()
     {
         if ($this->request->is_GET()) {
-            $this->redirect($this->html->getSecureURL('catalog/manufacturer_layout'));
+            redirect($this->html->getSecureURL('catalog/manufacturer_layout'));
         }
 
         $page_controller = 'pages/product/manufacturer';
@@ -205,7 +225,7 @@ class ControllerPagesCatalogManufacturerLayout extends AController
 
         if (!has_value($manufacturer_id)) {
             $this->session->data['error'] = $this->language->get('error_product_not_found');
-            $this->redirect($this->html->getSecureURL('catalog/manufacturer/update'));
+            redirect($this->html->getSecureURL('catalog/manufacturer/update'));
         }
 
         $post_data = $this->request->post;
@@ -218,11 +238,11 @@ class ControllerPagesCatalogManufacturerLayout extends AController
             $layout_id = $pages[0]['layout_id'];
         } else {
 
-            $page_info = array(
+            $page_info = [
                 'controller' => $page_controller,
                 'key_param'  => $page_key_param,
                 'key_value'  => $manufacturer_id,
-            );
+            ];
 
             $languages = $this->language->getAvailableLanguages();
             $this->loadModel('catalog/manufacturer');
@@ -253,7 +273,7 @@ class ControllerPagesCatalogManufacturerLayout extends AController
                 $this->session->data['success'] = $this->language->get('text_success_layout');
             }
         }
-        $this->redirect($this->html->getSecureURL('catalog/manufacturer_layout', '&manufacturer_id='.$manufacturer_id));
+        redirect($this->html->getSecureURL('catalog/manufacturer_layout', '&manufacturer_id='.$manufacturer_id));
     }
 
 }
