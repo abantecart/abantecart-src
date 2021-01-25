@@ -1346,8 +1346,7 @@ class ModelCatalogProduct extends Model
 
                 if ($option['required']) {
                     if (empty($input_options[$option['product_option_id']])) {
-                        $errors[] = $option['name'].': '.$this->language->get('error_required_options')
-                        .' '.$option['error_text'];
+                        $errors[] = $option['name'].': '.$this->language->get('error_required_options');
                     }
                 }
 
