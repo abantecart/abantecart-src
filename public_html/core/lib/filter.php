@@ -295,6 +295,7 @@ final class AGrid
                         }
                         $field_name = $rule['field'];
                     }
+                    $rule['data'] = trim($rule['data']);
                     //support table name extension in fields
                     if (strpos($field_name, '.')) {
                         $parts = explode('.', $field_name);
