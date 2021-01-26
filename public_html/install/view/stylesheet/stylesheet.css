@@ -201,3 +201,13 @@ footer a {
 	font-weight: bold;
 	color: #000;
 }
+
+.installation-complete>div.h4{
+	min-height: 50px;
+}
+.installation-complete .snapshots>a>img{
+	max-height: 50px;
+	border: none;
+	margin-bottom: 10px;
+}
+
