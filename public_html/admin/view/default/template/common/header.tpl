@@ -276,8 +276,13 @@ echo $this->html->buildElement(
 
 	<script type="text/javascript">
         $(document).ready(function () {
+<?php if($config_voicecontrol){ ?>
+            if(!recognition){
+                $('div#voice_start').hide();
+            }
+<?php }
 
-			<?php if (sizeof((array)$breadcrumbs) <= 1 && $ant) { ?>
+        if (sizeof((array)$breadcrumbs) <= 1 && $ant) { ?>
             //register ant shown in dashboard
             updateANT('<?php echo $mark_read_url; ?>');
 			<?php } ?>
