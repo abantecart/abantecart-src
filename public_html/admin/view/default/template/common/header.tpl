@@ -17,7 +17,10 @@
 					echo $this->getHookVar('logoimage_hookvar');
 				} else{
 					?>
-					<img class="logo_image" src="<?php echo $template_dir; ?>image/logo.png" width="190"
+					<img class="logo_image"
+                         src="<?php echo $template_dir; ?>image/logo.png"
+                         width="190"
+						 alt="<?php echo $heading_title; ?>"
 						 title="<?php echo $heading_title; ?>"/>
 					<?php
 				}
@@ -33,7 +36,7 @@
 			<div class="visible-xs hidden-sm hidden-md hidden-lg">
 				<div class="media userlogged">
 					<a href="<?php echo $account_edit; ?>">
-						<img class="tooltips" src="<?php echo $avatar; ?>" title="<?php echo $username; ?>"/>
+						<img class="tooltips" src="<?php echo $avatar; ?>" title="<?php echo $username; ?>" alt="<?php echo $username; ?>"/>
 					</a>
 				</div>
 			</div>
@@ -99,7 +102,7 @@
 									<span class="badge"><i class="fa fa-bell"></i></span>
 								<?php } ?>
 							</button>
-							<div class="dropdown-menu dropdown-menu-head ant-menu-head pull-right">
+							<div id="ant_dropdown" class="dropdown-menu dropdown-menu-head ant-menu-head pull-right">
 								<h5 class="title"><?php echo $text_abc_notification; ?></h5>
 								<ul class="dropdown-list gen-list">
 									<li>
@@ -126,7 +129,7 @@
 				</li>
 				<?php
 				if ($languages){
-					$cur_lang = array ();
+					$cur_lang = [];
 					foreach ($languages as $language){
 						if ($language['code'] == $language_code){
 							$cur_lang = $language;
@@ -139,6 +142,7 @@
 						<button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
 							<?php if ($cur_lang['image']){ ?>
 								<img src="<?php echo $cur_lang['image']; ?>"
+                                     alt="<?php echo $cur_lang['name']; ?>"
 									 title="<?php echo $cur_lang['name']; ?>"/>
 							<?php } else{ ?>
 								<i class="fa fa-language fa-lg"></i>
@@ -149,17 +153,19 @@
 							<h5 class="title"><?php echo $cur_lang['name']; ?>
 								<a href="<?php echo $language_settings; ?>"><i class="fa fa-gears"></i></a>
 							</h5>
-							<form action="<?php echo str_replace('&', '&amp;', $action); ?>" method="post"
+							<form action="<?php echo str_replace('&', '&amp;', $action); ?>"
+                                  method="post"
 								  enctype="multipart/form-data" id="language_form">
 								<ul class="dropdown-list gen-list">
 									<?php foreach ($languages as $language){ ?>
 										<li>
 											<a onClick="$('input[name=\'language_code\']').attr('value', '<?php echo $language['code']; ?>'); $('#language_form').submit();">
-											<?php
+                                        <?php
 												if ($language['image']){ ?>
-													<img src="<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>"/>
-													<?php
-												} else{ ?>
+													<img src="<?php echo $language['image']; ?>"
+                                                         title="<?php echo $language['name']; ?>"
+                                                         alt="<?php echo $language['name']; ?>"/>
+                                        <?php } else{ ?>
 													<div class="pull-left" style="width: 19px;">&nbsp;</div>
 												<?php } ?>
 												<span class="ml10"><?php echo $language['name']; ?></span>
@@ -224,10 +230,13 @@
 <?php }
 
 echo $this->html->buildElement(
-		array ('type'        => 'modal',
-		       'id'          => 'message_modal',
-		       'modal_type'  => 'lg',
-		       'data_source' => 'ajax'));
+    [
+        'type'        => 'modal',
+        'id'          => 'message_modal',
+        'modal_type'  => 'lg',
+        'data_source' => 'ajax'
+    ]
+);
 ?>
 
 	<div class="pageheader">
@@ -281,33 +290,35 @@ echo $this->html->buildElement(
                 $('div#voice_start').hide();
             }
 <?php }
+      if (sizeof((array)$breadcrumbs) <= 1 && $ant) { ?>
+            $('#ant_dropdown').on('shown.bs.dropdown', function(){
+                //register ant shown in dashboard
+                updateANT('<?php echo $mark_read_url; ?>');
+            });
 
-        if (sizeof((array)$breadcrumbs) <= 1 && $ant) { ?>
-            //register ant shown in dashboard
-            updateANT('<?php echo $mark_read_url; ?>');
-			<?php } ?>
+      <?php } ?>
 
             //global search section
-            $("#global_search").chosen({'width': '260px', 'white-space': 'nowrap'});
-
-            $("#global_search").ajaxChosen({
+            $("#global_search")
+                .chosen({'width': '260px', 'white-space': 'nowrap'})
+                .ajaxChosen({
                 type: 'GET',
                 url: '<?php echo $search_suggest_url; ?>',
                 dataType: 'json',
                 jsonTermKey: "term",
                 keepTypingMsg: "<?php echo $text_continue_typing; ?>",
                 lookingForMsg: "<?php echo $text_looking_for; ?>",
-				minTermLength: 2
+                minTermLength: 2
             }, function (data) {
                 if (data.response.length < 1) {
                     $("#searchform").chosen({no_results_text: "<?php echo $text_no_results; ?>"});
                     return '';
                 }
                 //build result array
-                var dataobj = new Object;
+                var dataobj = {};
                 $.each(data.response, function (i, row) {
                     if (!dataobj[row.category]) {
-                        dataobj[row.category] = new Object;
+                        dataobj[row.category] = {};
                         dataobj[row.category].name = row.category_name;
                         dataobj[row.category].icon = row.category_icon;
                         dataobj[row.category].items = [];
@@ -332,7 +343,7 @@ echo $this->html->buildElement(
                     var onclick = 'onClick="window.open(&apos;' + url + '&apos;);"';
                     var header = '<span class="h5">' + searchSectionIcon(category) + datacat.name + '</span>';
                     //show more result only if there are more records
-                    if (datacat.items.length == 3) {
+                    if (datacat.items.length === 3) {
                         header += '<span class="pull-right"><a class="more-in-category" ' + onclick + '><?php echo $text_all_matches;?></a></span>';
                     }
                     results.push({
@@ -347,7 +358,7 @@ echo $this->html->buildElement(
                 return results;
             });
 
-			<?php if(!$home_page) { ?>
+<?php if(!$home_page) { ?>
             $(window).on('load', function () {
                 setTimeout(
                     function () {
@@ -359,7 +370,7 @@ echo $this->html->buildElement(
                 );
             });
 
-			<?php } ?>
+<?php } ?>
             //update ANT Viewed message only on click
             $('.ant_window button').click(function (event) {
                 updateANT('<?php echo $mark_read_url; ?>');
@@ -375,15 +386,15 @@ echo $this->html->buildElement(
 
             $('.rightpanel').on('shown.bs.tab', function (e) {
                 var target = $(e.target).attr("href");
-                if (target == '#rp-alluser') {
+                if (target === '#rp-alluser') {
                     loadAndShowData('<?php echo $latest_customers_url; ?>', $('#rp-alluser'));
-                } else if (target == '#rp-orders') {
+                } else if (target === '#rp-orders') {
                     loadAndShowData('<?php echo $latest_orders_url; ?>', $('#rp-orders'));
                 }
             });
 
         });
-	</script>
+</script>
 
 <?php } else{ ?><!-- not logged in -->
 
@@ -398,7 +409,7 @@ echo $this->html->buildElement(
 				} else{
 					?>
 					<img class="logo_image" src="<?php echo $template_dir; ?>image/logo.png"
-						 title="<?php echo $heading_title; ?>"/>
+						 title="<?php echo $heading_title; ?>" alt="logo"/>
 					<?php
 				}
 				?>
@@ -407,13 +418,13 @@ echo $this->html->buildElement(
 		<!-- logopanel -->
 	</div>
 
-	<script type="text/javascript">
-        //remove cookies if logged out
-        $(document).ready(function () {
-            $.removeCookie("sticky-header");
-            $.removeCookie("sticky-leftpanel");
-            $.removeCookie("leftpanel-collapsed");
-        });
-	</script>
+<script type="text/javascript">
+       //remove cookies if logged out
+       $(document).ready(function () {
+       $.removeCookie("sticky-header");
+       $.removeCookie("sticky-leftpanel");
+       $.removeCookie("leftpanel-collapsed");
+    });
+</script>
 
 <?php } ?>
