@@ -153,7 +153,7 @@ class ModelCatalogProduct extends Model
         if ($seo_keys) {
             foreach ($seo_keys as $lang_id => $seo_key) {
                 //if seo-key of new clone more than 255 characters - just do hash
-                if (mb_strlen($seo_key) > 255) {
+                if (mb_strlen($seo_key) > 250) {
                     $seo_key = md5($seo_key);
                 }
                 $this->language->replaceDescriptions(
@@ -370,6 +370,10 @@ class ModelCatalogProduct extends Model
         if (isset($data['keyword'])) {
             $data['keyword'] = SEOEncode($data['keyword'], 'product_id', $product_id);
             if ($data['keyword']) {
+                //if seo-key of new clone more than 255 characters - just do hash
+                if (mb_strlen($data['keyword']) > 250) {
+                    $data['keyword'] = md5($data['keyword']);
+                }
                 $this->language->replaceDescriptions(
                     'url_aliases',
                     [
