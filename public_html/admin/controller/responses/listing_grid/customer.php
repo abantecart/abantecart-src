@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -24,11 +25,9 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerResponsesListingGridCustomer extends AController
 {
     public $error = '';
-    public $data = array();
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -36,22 +35,22 @@ class ControllerResponsesListingGridCustomer extends AController
         $this->loadModel('sale/customer');
         $this->load->library('json');
 
-        $approved = array(
+        $approved = [
             1 => $this->language->get('text_yes'),
             0 => $this->language->get('text_no'),
-        );
+        ];
 
         $page = $this->request->post['page'];  // get the requested page
         $limit = $this->request->post['rows']; // get how many rows we want to have into the grid
         $sidx = $this->request->post['sidx'];  // get index row - i.e. user click to sort
         $sord = $this->request->post['sord'];  // get the direction
 
-        $data = array(
+        $data = [
             'sort'  => $sidx,
             'order' => $sord,
             'start' => ($page - 1) * $limit,
             'limit' => $limit,
-        );
+        ];
         if (has_value($this->request->get['customer_group'])) {
             $data['filter']['customer_group_id'] = $this->request->get['customer_group'];
         }
@@ -62,7 +61,7 @@ class ControllerResponsesListingGridCustomer extends AController
             $data['filter']['approved'] = $this->request->get['approved'];
         }
 
-        $allowedFields = array_merge(array('customer_id', 'name', 'email'), (array)$this->data['allowed_fields']);
+        $allowedFields = array_merge(['customer_id', 'name', 'email'], (array) $this->data['allowed_fields']);
 
         if (isset($this->request->post['_search']) && $this->request->post['_search'] == 'true') {
             $searchData = AJson::decode(htmlspecialchars_decode($this->request->post['filters']), true);
@@ -71,7 +70,7 @@ class ControllerResponsesListingGridCustomer extends AController
                 if (!in_array($rule['field'], $allowedFields)) {
                     continue;
                 }
-                $data['filter'][$rule['field']] = $rule['data'];
+                $data['filter'][$rule['field']] = trim($rule['data']);
             }
         }
 
@@ -102,7 +101,7 @@ class ControllerResponsesListingGridCustomer extends AController
         $results = $this->model_sale_customer->getCustomers($data, $mode);
         if ($mode) {
             //get orders count for customers list by separate request to prevent slow sql issue
-            $customers_ids = array();
+            $customers_ids = [];
             foreach ($results as $result) {
                 $customers_ids[] = $result['customer_id'];
             }
@@ -112,38 +111,45 @@ class ControllerResponsesListingGridCustomer extends AController
         $i = 0;
         foreach ($results as $result) {
             if ($mode) {
-                $order_cnt = (int)$orders_count[$result['customer_id']];
+                $order_cnt = (int) $orders_count[$result['customer_id']];
             } else {
-                $order_cnt = (int)$result['orders_count'];
+                $order_cnt = (int) $result['orders_count'];
             }
             $response->rows[$i]['id'] = $result['customer_id'];
-            $response->rows[$i]['cell'] = array(
+            $response->rows[$i]['cell'] = [
                 $result['customer_id'],
                 $result['name'],
-                '<a href="'.$this->html->getSecureURL('sale/contact', '&email[]='.$result['email']).'">'.$result['email'].'</a>',
+                '<a href="'.$this->html->getSecureURL('sale/contact', '&email[]='.$result['email']).'">'
+                    .$result['email'].'</a>',
                 $result['customer_group'],
-                $this->html->buildCheckbox(array(
-                    'name'  => 'status['.$result['customer_id'].']',
-                    'value' => $result['status'],
-                    'style' => 'btn_switch',
-                )),
-                $this->html->buildSelectBox(array(
-                    'name'    => 'approved['.$result['customer_id'].']',
-                    'value'   => $result['approved'],
-                    'options' => $approved,
-                )),
+                $this->html->buildCheckbox(
+                    [
+                        'name'  => 'status['.$result['customer_id'].']',
+                        'value' => $result['status'],
+                        'style' => 'btn_switch',
+                    ]
+                ),
+                $this->html->buildSelectBox(
+                    [
+                        'name'    => 'approved['.$result['customer_id'].']',
+                        'value'   => $result['approved'],
+                        'options' => $approved,
+                    ]
+                ),
                 ($order_cnt > 0 ?
-                    $this->html->buildButton(array(
-                        'name'   => 'view orders',
-                        'text'   => $order_cnt,
-                        'style'  => 'btn btn-default btn-xs',
-                        'href'   => $this->html->getSecureURL('sale/order', '&customer_id='.$result['customer_id']),
-                        'title'  => $this->language->get('text_view').' '.$this->language->get('tab_history'),
-                        'target' => '_blank',
-                    ))
+                    $this->html->buildButton(
+                        [
+                            'name'   => 'view orders',
+                            'text'   => $order_cnt,
+                            'style'  => 'btn btn-default btn-xs',
+                            'href'   => $this->html->getSecureURL('sale/order', '&customer_id='.$result['customer_id']),
+                            'title'  => $this->language->get('text_view').' '.$this->language->get('tab_history'),
+                            'target' => '_blank',
+                        ]
+                    )
                     : 0),
                 $result['date_added'],
-            );
+            ];
             $i++;
         }
         $this->data['response'] = $response;
@@ -157,7 +163,6 @@ class ControllerResponsesListingGridCustomer extends AController
 
     public function update()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -165,11 +170,13 @@ class ControllerResponsesListingGridCustomer extends AController
         $this->loadLanguage('sale/customer');
         if (!$this->user->canModify('listing_grid/customer')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
+            return $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
                     'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/customer'),
                     'reset_value' => true,
-                ));
+                ]
+            );
         }
 
         switch ($this->request->post['oper']) {
@@ -187,14 +194,20 @@ class ControllerResponsesListingGridCustomer extends AController
                     foreach ($ids as $id) {
                         $err = $this->_validateForm('status', $this->request->post['status'][$id], $id);
                         if (!$err) {
-                            $this->model_sale_customer->editCustomerField($id, 'status', $this->request->post['status'][$id]);
+                            $this->model_sale_customer->editCustomerField(
+                                $id, 
+                                'status', 
+                                $this->request->post['status'][$id]
+                            );
                         } else {
                             $error = new AError('');
-                            return $error->toJSONResponse('VALIDATION_ERROR_406',
-                                array(
+                            return $error->toJSONResponse(
+                                'VALIDATION_ERROR_406',
+                                [
                                     'error_text'  => $err,
                                     'reset_value' => false,
-                                ));
+                                ]
+                            );
                         }
                         $do_approve = $this->request->post['approved'][$id];
                         $err = $this->_validateForm('approved', $do_approve, $id);
@@ -208,18 +221,19 @@ class ControllerResponsesListingGridCustomer extends AController
                             $this->model_sale_customer->editCustomerField($id, 'approved', $do_approve);
                         } else {
                             $error = new AError('');
-                            return $error->toJSONResponse('VALIDATION_ERROR_406',
-                                array(
+                            return $error->toJSONResponse(
+                                'VALIDATION_ERROR_406',
+                                [
                                     'error_text'  => $err,
                                     'reset_value' => false,
-                                ));
+                                ]
+                            );
                         }
                     }
                 }
                 break;
 
             default:
-
         }
 
         //update controller data
@@ -230,10 +244,10 @@ class ControllerResponsesListingGridCustomer extends AController
      * update only one field
      *
      * @return null
+     * @throws AException
      */
     public function update_field()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -242,12 +256,13 @@ class ControllerResponsesListingGridCustomer extends AController
 
         if (!$this->user->canModify('listing_grid/customer')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
+            return $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
                     'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/customer'),
                     'reset_value' => true,
-                ));
-
+                ]
+            );
         }
         $customer_id = $this->request->get['id'];
         $address_id = $this->request->get['address_id'];
@@ -256,18 +271,22 @@ class ControllerResponsesListingGridCustomer extends AController
             if ($post_data['password'] || $post_data['password_confirm']) {
                 $error = new AError('');
                 if (mb_strlen($post_data['password']) < 4) {
-                    return $error->toJSONResponse('VALIDATION_ERROR_406',
-                        array(
+                    return $error->toJSONResponse(
+                        'VALIDATION_ERROR_406',
+                        [
                             'error_text'  => $this->language->get('error_password'),
                             'reset_value' => true,
-                        ));
+                        ]
+                    );
                 }
                 if ($post_data['password'] != $post_data['password_confirm']) {
-                    return $error->toJSONResponse('VALIDATION_ERROR_406',
-                        array(
+                    return $error->toJSONResponse(
+                        'VALIDATION_ERROR_406',
+                        [
                             'error_text'  => $this->language->get('error_confirm'),
                             'reset_value' => true,
-                        ));
+                        ]
+                    );
                 }
                 //passwords do match, save
                 $this->model_sale_customer->editCustomerField($customer_id, 'password', $post_data['password']);
@@ -290,15 +309,15 @@ class ControllerResponsesListingGridCustomer extends AController
                                 $this->model_sale_customer->editCustomerField($customer_id, $field, $value);
                             }
                         }
-
                     } else {
                         $error = new AError('');
-                        return $error->toJSONResponse('VALIDATION_ERROR_406',
-                            array(
+                        return $error->toJSONResponse(
+                            'VALIDATION_ERROR_406',
+                            [
                                 'error_text'  => $err,
                                 'reset_value' => false,
-                            ));
-
+                            ]
+                        );
                     }
                 }
             }
@@ -321,11 +340,13 @@ class ControllerResponsesListingGridCustomer extends AController
                     $this->model_sale_customer->editCustomerField($k, $field, $v);
                 } else {
                     $error = new AError('');
-                    return $error->toJSONResponse('VALIDATION_ERROR_406',
-                        array(
+                    return $error->toJSONResponse(
+                        'VALIDATION_ERROR_406',
+                        [
                             'error_text'  => $err,
                             'reset_value' => false,
-                        ));
+                        ]
+                    );
                 }
             }
         }
@@ -334,9 +355,8 @@ class ControllerResponsesListingGridCustomer extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function _validateForm($field, $value, $customer_id = '')
+    protected function _validateForm($field, $value, $customer_id = '')
     {
-
         switch ($field) {
             case 'loginname' :
                 $login_name_pattern = '/^[\w._-]+$/i';
@@ -401,26 +421,26 @@ class ControllerResponsesListingGridCustomer extends AController
 
     public function customers()
     {
-        $customers_data = array();
+        $customers_data = [];
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadModel('sale/customer');
         if (isset($this->request->post['term'])) {
-            $filter = array(
+            $filter = [
                 'limit'               => 20,
                 'content_language_id' => $this->language->getContentLanguageID(),
-                'filter'              => array(
+                'filter'              => [
                     'name_email'     => $this->request->post['term'],
                     'match'          => 'any',
                     'only_customers' => 1,
-                ),
-            );
+                ],
+            ];
             $customers = $this->model_sale_customer->getCustomers($filter);
             foreach ($customers as $cdata) {
-                $customers_data[] = array(
+                $customers_data[] = [
                     'id'   => $cdata['customer_id'],
                     'name' => $cdata['firstname'].' '.$cdata['lastname'],
-                );
+                ];
             }
         }
 

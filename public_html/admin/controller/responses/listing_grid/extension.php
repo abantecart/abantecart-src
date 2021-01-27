@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -27,8 +27,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
  */
 class ControllerResponsesListingGridExtension extends AController
 {
-    public $data;
-
     public function main()
     {
         //init controller data
@@ -39,7 +37,7 @@ class ControllerResponsesListingGridExtension extends AController
         $mpModel = $this->loadModel('tool/mp_api');
 
         $page = $this->request->post['page']; // get the requested page
-        if ((int)$page < 0) {
+        if ((int) $page < 0) {
             $page = 0;
         }
         $limit = $this->request->post['rows']; // get how many rows we want to have into the grid
@@ -49,10 +47,10 @@ class ControllerResponsesListingGridExtension extends AController
         $search_str = '';
         if (isset($this->request->post['_search']) && $this->request->post['_search'] == 'true') {
             $searchData = json_decode(htmlspecialchars_decode($this->request->post['filters']), true);
-            $search_str = $searchData['rules'][0]['data'];
+            $search_str = trim($searchData['rules'][0]['data']);
         }
 
-        $store_id = (int)$this->config->get('config_store_id');
+        $store_id = (int) $this->config->get('config_store_id');
         if ($this->request->get_or_post('store_id')) {
             $store_id = $this->request->get_or_post('store_id');
         }
@@ -65,7 +63,7 @@ class ControllerResponsesListingGridExtension extends AController
                 'category',
                 'date_modified',
                 'e.status',
-                'store_name'
+                'store_name',
             ],
             (array) $this->data['allowed_sort']
         );
@@ -88,7 +86,7 @@ class ControllerResponsesListingGridExtension extends AController
             'sort_order' => [$sidx, $sord],
         ];
         if ($this->config->get('config_store_id')) {
-            $data['store_id'] = (int)$this->config->get('config_store_id');
+            $data['store_id'] = (int) $this->config->get('config_store_id');
         }
         //extensions list. NOTE: set "force" mode to get data from db
         $extensions = $this->extension_manager->getExtensionsList($data, 'force');
@@ -117,7 +115,6 @@ class ControllerResponsesListingGridExtension extends AController
         if (!has_value($this->session->data['extension_filter'])
             || $this->session->data['extension_filter'] == 'extensions'
         ) {
-
             if ($ready_to_install && is_array($ready_to_install)) {
                 foreach ($ready_to_install as $pack) {
                     $to_install[$pack['extension_name']] =
@@ -149,11 +146,11 @@ class ControllerResponsesListingGridExtension extends AController
             if (!$extension) {
                 continue;
             }
-            if(count(explode('.',$row['version']))==2){
+            if (count(explode('.', $row['version'])) == 2) {
                 $row['version'] .= '.0';
             }
             $expired = false;
-            $response->rows[$i]['id'] = str_replace(' ', '-', $row['key']).'_'.(int)$row['store_id'];
+            $response->rows[$i]['id'] = str_replace(' ', '-', $row['key']).'_'.(int) $row['store_id'];
             $id = $response->rows[$i]['id'];
 
             $response->userdata->extension_id[$id] = $extension;
@@ -167,23 +164,23 @@ class ControllerResponsesListingGridExtension extends AController
                 $icon = '<img src="'.RDIR_TEMPLATE.'image/default_extension.png'.'" alt="" border="0" />';
                 $category = '';
                 $status = $this->language->get('text_ready_to_install');
-                $response->userdata->classes[$id] = 'success disable-edit disable-delete disable-uninstall disable-install';
-
-            }
-            //missing extension (removed manually)
+                $response->userdata->classes[$id] = 'success disable-edit disable-delete '
+                                                    .'disable-uninstall disable-install';
+            } //missing extension (removed manually)
             elseif (in_array($extension, $missing_extensions)) {
-                $response->userdata->classes[$id] = 'warning disable-edit disable-install disable-uninstall disable-remote-install';
+                $response->userdata->classes[$id] = 'warning disable-edit disable-install '
+                                                    .'disable-uninstall disable-remote-install';
 
-                $icon = '<img src="'.RDIR_TEMPLATE.'image/default_extension.png'.'" alt="" border="0" />';
+                $icon = '<img src="'.RDIR_TEMPLATE.'image/default_extension.png'.'" alt="'.$extension.'" />';
                 $name = sprintf($this->language->get('text_missing_extension'), $extension);
                 $category = $status = '';
                 // change it for show it in list first by default sorting
                 $row['date_modified'] = date('Y-m-d H:i:s', time());
-            }
-            //corrupted extension
+            } //corrupted extension
             elseif (!file_exists(DIR_EXT.$extension.'/main.php') || !file_exists(DIR_EXT.$extension.'/config.xml')) {
-                $response->userdata->classes[$id] = 'warning disable-edit disable-install disable-uninstall disable-remote-install';
-                $icon = '<img src="'.RDIR_TEMPLATE.'image/default_extension.png'.'" alt="" border="0" />';
+                $response->userdata->classes[$id] = 'warning disable-edit disable-install '
+                                                    .'disable-uninstall disable-remote-install';
+                $icon = '<img src="'.RDIR_TEMPLATE.'image/default_extension.png'.'" alt="'.$extension.'" />';
                 $name = sprintf($this->language->get('text_broken_extension'), $extension);
                 $category = $status = '';
                 // change it for show it in list first by default sorting
@@ -196,9 +193,9 @@ class ControllerResponsesListingGridExtension extends AController
                     $response->userdata->classes[$id] = 'disable-delete disable-install disable-remote-install';
                     $status = $this->html->buildCheckbox(
                         [
-                        'name'  => $extension.'['.$extension.'_status]',
-                        'value' => $row['status'],
-                        'style' => 'btn_switch',
+                            'name'  => $extension.'['.$extension.'_status]',
+                            'value' => $row['status'],
+                            'style' => 'btn_switch',
                         ]
                     );
                 }
@@ -210,10 +207,13 @@ class ControllerResponsesListingGridExtension extends AController
                     : RDIR_TEMPLATE.'image/default_extension.png');
 
                 if (!$this->config->has($extension.'_status')) {
-                    $icon = '<img src="'.$icon.'" alt="" border="0" />';
+                    $icon = '<img src="'.$icon.'" alt="'.$extension.'"/>';
                 } else {
-                    $icon = '<a href="'.$this->html->getSecureURL('extension/extensions/edit', $this->data['url'].'&extension='.$extension).'">'
-                        .'<img src="'.$icon.'" alt="" border="0" /></a>';
+                    $icon = '<a href="'.$this->html->getSecureURL(
+                                                    'extension/extensions/edit',
+                                                    $this->data['url'].'&extension='.$extension)
+                        .'">'
+                        .'<img src="'.$icon.'" alt="'.$extension.'"/></a>';
                 }
 
                 $category = $row['category'];
@@ -228,40 +228,42 @@ class ControllerResponsesListingGridExtension extends AController
                         } else {
                             $update_now_url = $updates[$extension]['url'];
                         }
-                        $name = '<p class="alert-info">'.$name.'<br>'.sprintf(
-                                $this->language->get('text_update_available'),
-                                $updates[$extension]['version'],
-                                $update_now_url
-                            ).'</p>';
+                        $name = '<p class="alert-info">'
+                                .$name
+                                .'<br>'
+                                .sprintf(
+                                    $this->language->get('text_update_available'),
+                                    $updates[$extension]['version'],
+                                    $update_now_url)
+                                .'</p>';
                         $push[] = $i;
                     }
                 }
                 //when support period expired
-                if( ($updates
+                if (($updates
                         && isset($updates[$extension]['support_expiration'])
                         && $updates[$extension]['support_expiration']
                         && dateISO2Int($updates[$extension]['support_expiration']) < time())
-                    ||
-                    //if no update info - takes date from extension table
+                    || //if no update info - takes date from extension table
                     ($row['support_expiration'] && dateISO2Int($row['support_expiration']) < time())
-                    ||
-                    //if extension purchased but store disconnected
+                    || //if extension purchased but store disconnected
                     ($row['license_key'] && !$this->config->get('mp_token'))
-                ){
+                ) {
                     $expired = true;
                     $response->userdata->classes[$id] = 'expired '.$response->userdata->classes[$id];
                 }
             }
 
-            if(!$expired){
+            if (!$expired) {
                 $response->userdata->classes[$id] .= ' disable-expired ';
             }
             $response->userdata->mp_product_url[$id] = $row['mp_product_url']
-                                        ? $row['mp_product_url']
-                                        : $updates[$extension]['url'];
+                ? $row['mp_product_url']
+                : $updates[$extension]['url'];
             //if url of product page still empty - send to search result page
-            if( !$response->userdata->mp_product_url[$id]){
-                $response->userdata->mp_product_url[$id] = $mpModel->getMPURL().'?rt=product/search&keyword='.$extension;
+            if (!$response->userdata->mp_product_url[$id]) {
+                $response->userdata->mp_product_url[$id] = $mpModel->getMPURL()
+                                                        .'?rt=product/search&keyword='.$extension;
             }
 
             $response->rows[$i]['cell'] = [
@@ -272,7 +274,9 @@ class ControllerResponsesListingGridExtension extends AController
                 dateISO2Display($row['date_modified'], $this->language->get('date_format_short')),
             ];
             if (!$this->config->get('config_store_id')) {
-                $response->rows[$i]['cell'][] = $row['store_name'] ? $row['store_name'] : $this->language->get('text_default');
+                $response->rows[$i]['cell'][] = $row['store_name']
+                                                ? $row['store_name']
+                                                : $this->language->get('text_default');
             }
             $response->rows[$i]['cell'][] = $status;
             if ($push) {
@@ -290,7 +294,7 @@ class ControllerResponsesListingGridExtension extends AController
             }
         }
 
-        $response->rows = array_slice($response->rows, (int)($page - 1) * $limit, $limit);
+        $response->rows = array_slice($response->rows, (int) ($page - 1) * $limit, $limit);
         $this->data['response'] = $response;
 
         //update controller data
@@ -306,11 +310,15 @@ class ControllerResponsesListingGridExtension extends AController
 
         if (!$this->user->canModify('listing_grid/extension')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                                          [
-                    'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/extension'),
+            return $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
+                    'error_text'  => sprintf(
+                            $this->language->get('error_permission_modify'),
+                            'listing_grid/extension'
+                    ),
                     'reset_value' => true,
-                                          ]
+                ]
             );
         }
 
@@ -337,11 +345,12 @@ class ControllerResponsesListingGridExtension extends AController
         $this->load->library('json');
         if ($this->extension_manager->errors) {
             $error = new AError('');
-            return $error->toJSONResponse('VALIDATION_ERROR_406',
-                                          [
+            return $error->toJSONResponse(
+                'VALIDATION_ERROR_406',
+                [
                     'error_text'  => '<br>'.implode('<br>', $this->extension_manager->errors),
                     'reset_value' => true,
-                                          ]
+                ]
             );
         }
     }
@@ -359,7 +368,9 @@ class ControllerResponsesListingGridExtension extends AController
         if ($result) {
             // if all fine show license agreement
             if (file_exists(DIR_EXT.$this->request->get['extension']."/license.txt")) {
-                $this->data['license_text'] = file_get_contents(DIR_EXT.$this->request->get['extension']."/license.txt");
+                $this->data['license_text'] = file_get_contents(
+                                                    DIR_EXT.$this->request->get['extension']."/license.txt"
+                                                );
                 $this->data['license_text'] = htmlentities($this->data['license_text'], ENT_QUOTES, 'UTF-8');
                 $this->data['license_text'] = nl2br($this->data['license_text']);
             }

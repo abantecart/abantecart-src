@@ -1,12 +1,11 @@
 <?php
-
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -28,21 +27,27 @@ class ModelLocalisationZone extends Model
      */
     public function addZone($data)
     {
-        $this->db->query("INSERT INTO ".$this->db->table("zones")."
-                          SET status = '".(int)$data['status']."',
+        $this->db->query(
+            "INSERT INTO ".$this->db->table("zones")."
+                          SET status = '".(int) $data['status']."',
                                 code = '".$this->db->escape($data['code'])."',
-                                country_id = '".(int)$data['country_id']."'");
+                                country_id = '".(int) $data['country_id']."'"
+        );
 
         $zone_id = $this->db->getLastId();
 
         foreach ($data['zone_name'] as $language_id => $value) {
-            $this->language->replaceDescriptions('zone_descriptions',
-                array('zone_id' => (int)$zone_id),
-                array(
-                    $language_id => array(
+            $this->language->replaceDescriptions(
+                'zone_descriptions',
+                [
+                    'zone_id' => (int) $zone_id,
+                ],
+                [
+                    $language_id => [
                         'name' => $value['name'],
-                    ),
-                ));
+                    ],
+                ]
+            );
         }
 
         $this->cache->remove('localization');
@@ -50,13 +55,13 @@ class ModelLocalisationZone extends Model
     }
 
     /**
-     * @param int   $zone_id
+     * @param int $zone_id
      * @param array $data
      */
     public function editZone($zone_id, $data)
     {
-        $fields = array('status', 'code', 'country_id',);
-        $update = array();
+        $fields = ['status', 'code', 'country_id',];
+        $update = [];
         foreach ($fields as $f) {
             if (isset($data[$f])) {
                 $update[] = $f." = '".$this->db->escape($data[$f])."'";
@@ -66,20 +71,22 @@ class ModelLocalisationZone extends Model
             $this->db->query(
                 "UPDATE ".$this->db->table("zones")." 
                 SET ".implode(',', $update)." 
-                WHERE zone_id = '".(int)$zone_id."'"
+                WHERE zone_id = '".(int) $zone_id."'"
             );
             $this->cache->remove('localization');
         }
 
         if ($data['zone_name']) {
             foreach ($data['zone_name'] as $language_id => $value) {
-                $this->language->replaceDescriptions('zone_descriptions',
-                    array('zone_id' => (int)$zone_id),
-                    array(
-                        $language_id => array(
+                $this->language->replaceDescriptions(
+                    'zone_descriptions',
+                    ['zone_id' => (int) $zone_id],
+                    [
+                        $language_id => [
                             'name' => $value['name'],
-                        ),
-                    ));
+                        ],
+                    ]
+                );
             }
         }
         $this->cache->remove('localization');
@@ -90,8 +97,8 @@ class ModelLocalisationZone extends Model
      */
     public function deleteZone($zone_id)
     {
-        $this->db->query("DELETE FROM ".$this->db->table("zone_descriptions")." WHERE zone_id = '".(int)$zone_id."'");
-        $this->db->query("DELETE FROM ".$this->db->table("zones")." WHERE zone_id = '".(int)$zone_id."'");
+        $this->db->query("DELETE FROM ".$this->db->table("zone_descriptions")." WHERE zone_id = '".(int) $zone_id."'");
+        $this->db->query("DELETE FROM ".$this->db->table("zones")." WHERE zone_id = '".(int) $zone_id."'");
         $this->cache->remove('localization');
     }
 
@@ -114,8 +121,8 @@ class ModelLocalisationZone extends Model
                       zd.language_id
             FROM ".$this->db->table("zones")." z
             LEFT JOIN ".$this->db->table("zone_descriptions")." zd 
-                ON (z.zone_id = zd.zone_id AND zd.language_id = '".(int)$language_id."')
-            WHERE z.zone_id = '".(int)$zone_id."'"
+                ON (z.zone_id = zd.zone_id AND zd.language_id = '".(int) $language_id."')
+            WHERE z.zone_id = '".(int) $zone_id."'"
         );
         $ret_data = $query->row;
         $ret_data['zone_name'] = $this->getZoneDescriptions($zone_id);
@@ -129,23 +136,25 @@ class ModelLocalisationZone extends Model
      */
     public function getZoneDescriptions($zone_id)
     {
-        $zone_data = array();
-        $query = $this->db->query("SELECT *
-                                    FROM ".$this->db->table("zone_descriptions")." 
-                                    WHERE zone_id = '".(int)$zone_id."'");
+        $zone_data = [];
+        $query = $this->db->query(
+            "SELECT *
+            FROM ".$this->db->table("zone_descriptions")." 
+            WHERE zone_id = '".(int) $zone_id."'"
+        );
         foreach ($query->rows as $result) {
-            $zone_data[$result['language_id']] = array('name' => $result['name']);
+            $zone_data[$result['language_id']] = ['name' => $result['name']];
         }
         return $zone_data;
     }
 
     /**
-     * @param array  $data
+     * @param array $data
      * @param string $mode
      *
-     * @return array
+     * @return array|int
      */
-    public function getZones($data = array(), $mode = 'default')
+    public function getZones($data = [], $mode = 'default')
     {
         $language_id = $this->language->getContentLanguageID();
         $default_language_id = $this->language->getDefaultLanguageID();
@@ -153,7 +162,7 @@ class ModelLocalisationZone extends Model
         if ($mode == 'total_only') {
             $sql = "SELECT count(*) as total FROM ".$this->db->table("zones")." z ";
         } else {
-            $sql = "SELECT	z.zone_id, 
+            $sql = "SELECT  z.zone_id, 
                             z.country_id, 
                             z.code, z.status, 
                             z.sort_order, 
@@ -163,12 +172,12 @@ class ModelLocalisationZone extends Model
                     FROM ".$this->db->table("zones")." z ";
         }
         $sql .= "LEFT JOIN ".$this->db->table("zone_descriptions")
-            ." zd ON (z.zone_id = zd.zone_id AND zd.language_id = '".(int)$language_id."') ";
+            ." zd ON (z.zone_id = zd.zone_id AND zd.language_id = '".(int) $language_id."') ";
         $sql .= "LEFT JOIN ".$this->db->table("countries")." c ON (z.country_id = c.country_id)";
         $sql .= "LEFT JOIN ".$this->db->table("country_descriptions")
-            ." cd1 ON (c.country_id = cd1.country_id AND cd1.language_id = '".(int)$language_id."') ";
+            ." cd1 ON (c.country_id = cd1.country_id AND cd1.language_id = '".(int) $language_id."') ";
         $sql .= "LEFT JOIN ".$this->db->table("country_descriptions")
-            ." cd2 ON (c.country_id = cd2.country_id AND cd2.language_id = '".(int)$default_language_id."') ";
+            ." cd2 ON (c.country_id = cd2.country_id AND cd2.language_id = '".(int) $default_language_id."') ";
 
         if (!empty($data['search'])) {
             $sql .= " WHERE ".$data['search'];
@@ -213,7 +222,7 @@ class ModelLocalisationZone extends Model
                 $data['limit'] = 20;
             }
 
-            $sql .= " LIMIT ".(int)$data['start'].",".(int)$data['limit'];
+            $sql .= " LIMIT ".(int) $data['start'].",".(int) $data['limit'];
         }
 
         $query = $this->db->query($sql);
@@ -224,9 +233,9 @@ class ModelLocalisationZone extends Model
     /**
      * @param array $data
      *
-     * @return array
+     * @return int
      */
-    public function getTotalZones($data = array())
+    public function getTotalZones($data = [])
     {
         return $this->getZones($data, 'total_only');
     }
@@ -243,10 +252,10 @@ class ModelLocalisationZone extends Model
                 "SELECT *, COALESCE( zd1.name, zd2.name) as name 
                 FROM ".$this->db->table("zones")." z
                 LEFT JOIN ".$this->db->table("zone_descriptions")." zd1
-                    ON (z.zone_id = zd1.zone_id AND zd1.language_id = '".(int)$language_id."')
+                    ON (z.zone_id = zd1.zone_id AND zd1.language_id = '".(int) $language_id."')
                 LEFT JOIN ".$this->db->table("zone_descriptions")." zd2
-                    ON (z.zone_id = zd2.zone_id AND zd2.language_id = '".(int)$default_language_id."')
-                WHERE z.country_id = '".(int)$country_id."'
+                    ON (z.zone_id = zd2.zone_id AND zd2.language_id = '".(int) $default_language_id."')
+                WHERE z.country_id = '".(int) $country_id."'
                 ORDER BY zd1.name, zd2.name"
             );
             $zone_data = $query->rows;
@@ -274,11 +283,11 @@ class ModelLocalisationZone extends Model
                 "SELECT z.*, COALESCE( zd1.name, zd2.name) as name
                 FROM ".$this->db->table("zones")." z
                 LEFT JOIN ".$this->db->table("zone_descriptions")." zd1 
-                    ON (z.zone_id = zd1.zone_id AND zd1.language_id = '".(int)$language_id."') 
+                    ON (z.zone_id = zd1.zone_id AND zd1.language_id = '".(int) $language_id."') 
                 LEFT JOIN ".$this->db->table("zone_descriptions")." zd2 
-                    ON (z.zone_id = zd2.zone_id AND zd2.language_id = '".(int)$default_language_id."') 
+                    ON (z.zone_id = zd2.zone_id AND zd2.language_id = '".(int) $default_language_id."') 
                 INNER JOIN ".$this->db->table("zones_to_locations")." zl
-                    ON ( zl.zone_id = z.zone_id AND zl.location_id = '".(int)$location_id."' )
+                    ON ( zl.zone_id = z.zone_id AND zl.location_id = '".(int) $location_id."' )
                 ORDER BY zd1.name, zd2.name"
             );
             $zone_data = $query->rows;
@@ -298,10 +307,10 @@ class ModelLocalisationZone extends Model
         $query = $this->db->query(
             "SELECT count(*) AS total
             FROM ".$this->db->table("zones")." 
-            WHERE country_id = '".(int)$country_id."'"
+            WHERE country_id = '".(int) $country_id."'"
         );
 
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
 
     /**
@@ -318,9 +327,9 @@ class ModelLocalisationZone extends Model
             "SELECT c.country_id 
             FROM ".$this->db->table("countries")." c
             LEFT JOIN ".$this->db->table("country_descriptions")." cd1 
-                ON (c.country_id = cd1.country_id AND cd1.language_id = '".(int)$language_id."')
+                ON (c.country_id = cd1.country_id AND cd1.language_id = '".(int) $language_id."')
             LEFT JOIN ".$this->db->table("country_descriptions")." cd2 
-                ON (c.country_id = cd2.country_id AND cd2.language_id = '".(int)$default_language_id."')
+                ON (c.country_id = cd2.country_id AND cd2.language_id = '".(int) $default_language_id."')
             WHERE cd1.name = '".$this->db->escape($name)."' 
                 OR cd2.name = '".$this->db->escape($name)."' 
                 AND status = '1' 
@@ -328,7 +337,7 @@ class ModelLocalisationZone extends Model
         );
 
         if ($query->num_rows > 0) {
-            return (int)$query->row['country_id'];
+            return (int) $query->row['country_id'];
         }
         return 0;
     }

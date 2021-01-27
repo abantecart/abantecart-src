@@ -1,12 +1,11 @@
 <?php
-
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -21,13 +20,9 @@
 
 class ControllerResponsesListingGridCustomerTransaction extends AController
 {
-
-    public $data = array();
-    public $error = array();
-
+    public $error = [];
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -40,13 +35,13 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
         $sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
         $sord = $this->request->post['sord']; // get the direction
 
-        $data = array(
+        $data = [
             'sort'        => $sidx,
             'order'       => $sord,
             'start'       => ($page - 1) * $limit,
             'limit'       => $limit,
-            'customer_id' => (int)$this->request->get['customer_id'],
-        );
+            'customer_id' => (int) $this->request->get['customer_id'],
+        ];
 
         if (has_value($this->request->get['user'])) {
             $data['filter']['user'] = $this->request->get['user'];
@@ -67,8 +62,10 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
             $data['filter']['date_end'] = dateDisplay2ISO($this->request->get['date_end']);
         }
 
-        $allowedFields = array_merge(array('user', 'credit', 'debit', 'transaction_type', 'date_start', 'date_end'),
-            (array)$this->data['allowed_fields']);
+        $allowedFields = array_merge(
+            ['user', 'credit', 'debit', 'transaction_type', 'date_start', 'date_end'],
+            (array) $this->data['allowed_fields']
+        );
 
         if (isset($this->request->post['_search']) && $this->request->post['_search'] == 'true') {
             $searchData = AJson::decode(htmlspecialchars_decode($this->request->post['filters']), true);
@@ -77,7 +74,7 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
                 if (!in_array($rule['field'], $allowedFields)) {
                     continue;
                 }
-                $data['filter'][$rule['field']] = $rule['data'];
+                $data['filter'][$rule['field']] = trim($rule['data']);
             }
         }
 
@@ -103,13 +100,13 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
         $i = 0;
         foreach ($results as $result) {
             $response->rows[$i]['id'] = $result['customer_transaction_id'];
-            $response->rows[$i]['cell'] = array(
+            $response->rows[$i]['cell'] = [
                 $result['date_added'],
                 $result['user'],
                 $result['debit'],
                 $result['credit'],
                 $result['transaction_type'],
-            );
+            ];
             $i++;
         }
         $this->data['response'] = $response;
@@ -120,12 +117,12 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
         $this->response->setOutput(AJson::encode($this->data['response']));
     }
 
-    private function validateForm($data = array())
+    private function validateForm($data = [])
     {
-        $output = array(
-            'credit' => (float)$data['credit'],
-            'debit'  => (float)$data['debit'],
-        );
+        $output = [
+            'credit' => (float) $data['credit'],
+            'debit'  => (float) $data['debit'],
+        ];
 
         if (!$output['credit'] && !$output['debit']) {
             $this->error[] = $this->language->get('error_empty_debit_credit');
@@ -148,7 +145,7 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
         $output['transaction_type'] = htmlentities($output['transaction_type'], ENT_QUOTES, 'UTF-8');
         $output['comment'] = htmlentities($data['comment'], ENT_QUOTES, 'UTF-8');
         $output['description'] = htmlentities($data['description'], ENT_QUOTES, 'UTF-8');
-        $output['notify'] = (int)$data['notify'] ? 1 : 0;
+        $output['notify'] = (int) $data['notify'] ? 1 : 0;
         $this->data['output'] = $output;
         $this->extensions->hk_ValidateData($this);
 
@@ -157,24 +154,28 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
 
     public function addTransaction()
     {
-
         if (!$this->csrftoken->isTokenValid()) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array('error_text' => 'Unknown error'));
+            return $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                ['error_text' => 'Unknown error']
+            );
         }
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         if (!$this->user->canModify('listing_grid/customer_transaction') || $this->request->is_GET()) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
-                    'error_text'  => sprintf($this->language->get('error_permission_modify'),
+            return $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
+                    'error_text'  => sprintf(
+                        $this->language->get('error_permission_modify'),
                         'listing_grid/customer_transaction'
                     ),
                     'reset_value' => true,
-                ));
+                ]
+            );
         }
 
         $this->loadLanguage('sale/customer');
@@ -197,17 +198,21 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
             $result['result'] = true;
             $result['result_text'] = $this->language->get('text_transaction_success');
             $balance = $this->model_sale_customer_transaction->getBalance($this->request->get['customer_id']);
-            $result['balance'] = $this->language->get('text_balance').' '.$this->currency->format($balance,
-                    $this->config->get('config_currency'));
+            $result['balance'] = $this->language->get('text_balance').' '.$this->currency->format(
+                    $balance,
+                    $this->config->get('config_currency')
+                );
         } else {
             $error = new AError('');
-            return $error->toJSONResponse('VALIDATION_ERROR_406',
-                array(
+            return $error->toJSONResponse(
+                'VALIDATION_ERROR_406',
+                [
                     'error_text'   => $this->error,
                     'csrfinstance' => $this->csrftoken->setInstance(),
                     'csrftoken'    => $this->csrftoken->setToken(),
                     'reset_value'  => true,
-                ));
+                ]
+            );
         }
 
         //update controller data
@@ -220,7 +225,6 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
 
     public function transaction()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->load->library('json');
@@ -229,133 +233,165 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
 
         if (!$this->user->canAccess('listing_grid/customer_transaction')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
+            return $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
                     'error_text'  => sprintf(
                         $this->language->get('error_permission_access'),
-                        'listing_grid/customer_transaction'),
+                        'listing_grid/customer_transaction'
+                    ),
                     'reset_value' => true,
-                ));
+                ]
+            );
         }
 
-        $transaction_id = (int)$this->request->get['customer_transaction_id'];
+        $transaction_id = (int) $this->request->get['customer_transaction_id'];
         $this->data['customer_transaction_id'] = $transaction_id;
 
         if ($transaction_id) {
-            $info = $this->model_sale_customer_transaction
-                ->getCustomerTransaction($this->request->get['customer_transaction_id']);
+            $info = $this->model_sale_customer_transaction->getCustomerTransaction(
+                $this->request->get['customer_transaction_id']
+            );
 
             $this->data['text_title'] = $this->language->get('popup_title_info');
             $readonly = true;
         } else {
             $this->data['text_title'] = $this->language->get('popup_title_insert');
             $readonly = false;
-            $info = array();
+            $info = [];
         }
 
         $form = new AForm();
-        $form->setForm(array(
-            'form_name' => 'transaction_form',
-        ));
-        $this->data['form']['form_open'] = $form->getFieldHtml(array(
-            'type'   => 'form',
-            'name'   => 'tFrm',
-            'action' => $this->html->getSecureURL(
-                'listing_grid/customer_transaction/addtransaction',
-                '&customer_id='.$this->request->get['customer_id']),
-            'attr'   => 'data-confirm-exit="true" class="form-horizontal"',
-            'csrf'   => true,
-        ));
+        $form->setForm(
+            [
+                'form_name' => 'transaction_form',
+            ]
+        );
+        $this->data['form']['form_open'] = $form->getFieldHtml(
+            [
+                'type'   => 'form',
+                'name'   => 'tFrm',
+                'action' => $this->html->getSecureURL(
+                    'listing_grid/customer_transaction/addtransaction',
+                    '&customer_id='.$this->request->get['customer_id']
+                ),
+                'attr'   => 'data-confirm-exit="true" class="form-horizontal"',
+                'csrf'   => true,
+            ]
+        );
 
-        $this->data['form']['submit'] = $form->getFieldHtml(array(
-            'type' => 'button',
-            'name' => 'submit',
-            'text' => $this->language->get('button_save'),
-        ));
+        $this->data['form']['submit'] = $form->getFieldHtml(
+            [
+                'type' => 'button',
+                'name' => 'submit',
+                'text' => $this->language->get('button_save'),
+            ]
+        );
 
-        $this->data['form']['cancel'] = $form->getFieldHtml(array(
-            'type' => 'button',
-            'name' => 'cancel',
-            'text' => $this->language->get('button_cancel'),
-        ));
+        $this->data['form']['cancel'] = $form->getFieldHtml(
+            [
+                'type' => 'button',
+                'name' => 'cancel',
+                'text' => $this->language->get('button_cancel'),
+            ]
+        );
 
-        $this->data['form']['fields']['credit'] = $form->getFieldHtml(array(
-            'type'  => 'input',
-            'name'  => 'credit',
-            'value' => $info['credit'],
-            'attr'  => ($readonly ? 'disabled="disabled"' : '').' maxlength="16"',
-        ));
+        $this->data['form']['fields']['credit'] = $form->getFieldHtml(
+            [
+                'type'  => 'input',
+                'name'  => 'credit',
+                'value' => $info['credit'],
+                'attr'  => ($readonly ? 'disabled="disabled"' : '').' maxlength="16"',
+            ]
+        );
 
-        $this->data['form']['fields']['debit'] = $form->getFieldHtml(array(
-            'type'  => 'input',
-            'name'  => 'debit',
-            'value' => $info['debit'],
-            'attr'  => ($readonly ? 'disabled="disabled"' : '').' maxlength="16"',
-        ));
+        $this->data['form']['fields']['debit'] = $form->getFieldHtml(
+            [
+                'type'  => 'input',
+                'name'  => 'debit',
+                'value' => $info['debit'],
+                'attr'  => ($readonly ? 'disabled="disabled"' : '').' maxlength="16"',
+            ]
+        );
 
         $types = $this->model_sale_customer_transaction->getTransactionTypes();
         $types[''] = $this->language->get('text_option_other_type');
         reset($types);
 
-        $this->data['form']['fields']['transaction_type'] = $form->getFieldHtml(array(
-            'type'    => 'selectbox',
-            'name'    => 'transaction_type[0]',
-            'options' => $types,
-            'value'   => $info['transaction_type'] == '' ? current($types) : $info['transaction_type'],
-            'attr'    => ($readonly ? 'disabled="disabled"' : ''),
-        ));
+        $this->data['form']['fields']['transaction_type'] = $form->getFieldHtml(
+            [
+                'type'    => 'selectbox',
+                'name'    => 'transaction_type[0]',
+                'options' => $types,
+                'value'   => $info['transaction_type'] == '' ? current($types) : $info['transaction_type'],
+                'attr'    => ($readonly ? 'disabled="disabled"' : ''),
+            ]
+        );
 
-        $this->data['form']['fields']['other_type'] = $form->getFieldHtml(array(
-            'type'        => 'input',
-            'name'        => 'transaction_type[1]',
-            'placeholder' => $this->language->get('text_other_type_placeholder'),
-            'value'       => (!in_array($info['transaction_type'], $types) ? $info['transaction_type'] : ''),
-            'attr'        => ($readonly ? 'disabled="disabled"' : ''),
-        ));
+        $this->data['form']['fields']['other_type'] = $form->getFieldHtml(
+            [
+                'type'        => 'input',
+                'name'        => 'transaction_type[1]',
+                'placeholder' => $this->language->get('text_other_type_placeholder'),
+                'value'       => (!in_array($info['transaction_type'], $types) ? $info['transaction_type'] : ''),
+                'attr'        => ($readonly ? 'disabled="disabled"' : ''),
+            ]
+        );
 
         if (!$readonly) {
             $this->data['form']['fields']['notify'] = $form->getFieldHtml(
-                array(
+                [
                     'type'    => 'checkbox',
                     'name'    => 'notify',
                     'value'   => 1,
                     'checked' => false,
-                ));
+                ]
+            );
         }
 
-        $this->data['form']['fields']['transaction_comment'] = $form->getFieldHtml(array(
-            'type'  => 'textarea',
-            'name'  => 'comment',
-            'value' => $info['comment'],
-            'attr'  => ($readonly ? 'disabled="disabled"' : ''),
-        ));
+        $this->data['form']['fields']['transaction_comment'] = $form->getFieldHtml(
+            [
+                'type'  => 'textarea',
+                'name'  => 'comment',
+                'value' => $info['comment'],
+                'attr'  => ($readonly ? 'disabled="disabled"' : ''),
+            ]
+        );
 
-        $this->data['form']['fields']['transaction_description'] = $form->getFieldHtml(array(
-            'type'  => 'textarea',
-            'name'  => 'description',
-            'value' => $info['description'],
-            'attr'  => ($readonly ? 'disabled="disabled"' : ''),
-        ));
+        $this->data['form']['fields']['transaction_description'] = $form->getFieldHtml(
+            [
+                'type'  => 'textarea',
+                'name'  => 'description',
+                'value' => $info['description'],
+                'attr'  => ($readonly ? 'disabled="disabled"' : ''),
+            ]
+        );
 
         if ($readonly) {
-            $this->data['form']['fields']['date_added'] = $form->getFieldHtml(array(
-                'type'  => 'input',
-                'name'  => 'date_added',
-                'value' => dateISO2Display($info['date_added'],
-                    $this->language->get('date_format_short')
-                    .' '.$this->language->get('time_format')
-                ),
-                'attr'  => 'disabled="disabled"',
-            ));
-            $this->data['form']['fields']['date_modified'] = $form->getFieldHtml(array(
-                'type'  => 'input',
-                'name'  => 'date_modified',
-                'value' => dateISO2Display($info['date_modified'],
-                    $this->language->get('date_format_short')
-                    .' '.$this->language->get('time_format')
-                ),
-                'attr'  => 'disabled="disabled"',
-            ));
+            $this->data['form']['fields']['date_added'] = $form->getFieldHtml(
+                [
+                    'type'  => 'input',
+                    'name'  => 'date_added',
+                    'value' => dateISO2Display(
+                        $info['date_added'],
+                        $this->language->get('date_format_short')
+                        .' '.$this->language->get('time_format')
+                    ),
+                    'attr'  => 'disabled="disabled"',
+                ]
+            );
+            $this->data['form']['fields']['date_modified'] = $form->getFieldHtml(
+                [
+                    'type'  => 'input',
+                    'name'  => 'date_modified',
+                    'value' => dateISO2Display(
+                        $info['date_modified'],
+                        $this->language->get('date_format_short')
+                        .' '.$this->language->get('time_format')
+                    ),
+                    'attr'  => 'disabled="disabled"',
+                ]
+            );
         }
 
         //update controller data
@@ -365,6 +401,5 @@ class ControllerResponsesListingGridCustomerTransaction extends AController
         $this->view->batchAssign($this->data);
 
         $this->processTemplate('responses/sale/customer_transaction_form.tpl');
-
     }
 }
