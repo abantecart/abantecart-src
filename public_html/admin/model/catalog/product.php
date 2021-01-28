@@ -153,8 +153,8 @@ class ModelCatalogProduct extends Model
         if ($seo_keys) {
             foreach ($seo_keys as $lang_id => $seo_key) {
                 //if seo-key of new clone more than 255 characters - just do hash
-                if (mb_strlen($seo_key) > 250) {
-                    $seo_key = md5($seo_key);
+                if (mb_strlen($seo_key['keyword']) > 250) {
+                    $seo_key['keyword'] = md5($seo_key['keyword'].time());
                 }
                 $this->language->replaceDescriptions(
                     'url_aliases',
@@ -372,7 +372,7 @@ class ModelCatalogProduct extends Model
             if ($data['keyword']) {
                 //if seo-key of new clone more than 255 characters - just do hash
                 if (mb_strlen($data['keyword']) > 250) {
-                    $data['keyword'] = md5($data['keyword']);
+                    $data['keyword'] = md5($data['keyword'].time());
                 }
                 $this->language->replaceDescriptions(
                     'url_aliases',
@@ -711,7 +711,6 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      * @param int $product_option_id
      *
-     * @throws AException
      */
     protected function _deleteProductOption($product_id, $product_option_id)
     {
@@ -1097,7 +1096,6 @@ class ModelCatalogProduct extends Model
      * @param int $language_id
      *
      * @return null
-     * @throws AException
      */
     public function deleteProductOptionValue($product_id, $pd_opt_val_id, $language_id = 0)
     {
@@ -1934,7 +1932,6 @@ class ModelCatalogProduct extends Model
      * @param array $data
      *
      * @return null
-     * @throws AException
      */
     public function updateProductOptionValues($product_id, $option_id, $data)
     {
