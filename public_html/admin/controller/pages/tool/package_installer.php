@@ -1123,6 +1123,10 @@ class ControllerPagesToolPackageInstaller extends AController
         );
 
         $version = (string) $config->version;
+        //in case when short version such as 1.1. Replace it to 1.1.0
+        if(count(explode('.', $version))==2){
+            $version .= '.0';
+        }
         $type = (string) $config->type;
         $type = !$type && $package_info['package_type'] ? $package_info['package_type'] : $type;
         $type = !$type ? 'extension' : $type;
@@ -1134,8 +1138,13 @@ class ControllerPagesToolPackageInstaller extends AController
             $already_installed = true;
             $installed_info = $this->extensions->getExtensionInfo($extension_id);
             $installed_version = $installed_info['version'];
+            //in case when short version such as 1.1. Replace it to 1.1.0
+            if(count(explode('.', $installed_version))==2){
+                $installed_version .= '.0';
+            }
 
             if (versionCompare($version, $installed_version, '<=')) {
+
                 // if installed version the same or higher - do nothing
                 return true;
             } else {
