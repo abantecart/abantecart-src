@@ -156,7 +156,7 @@ h1 a:hover, h2 a:hover, h3 a:hover {
 
 /***** content panel for no columns mode (no authentication) *****/
 .mainpanel.no-columns {
-	margin-left: 0px;
+	margin-left: 0;
 	max-width: 900px;
 	margin-left: auto;
 	margin-right: auto;
@@ -198,7 +198,6 @@ h1 a:hover, h2 a:hover, h3 a:hover {
 	height: 50px;
 	font-size: 22px;
 	cursor: pointer;
-	float: left;
 	border-right: 1px solid #eee;
 	-moz-transition: all 0.2s ease-out 0s;
 	-webkit-transition: all 0.2s ease-out 0s;
@@ -306,7 +305,7 @@ h1 a:hover, h2 a:hover, h3 a:hover {
 
 .headermenu .dropdown-menu {
 	border: 0;
-	margin-top: 0px;
+	margin-top: 0;
 	margin-right: -1px;
 	-moz-border-radius: 2px 0 2px 2px;
 	-webkit-border-radius: 2px 0 2px 2px;
@@ -1116,7 +1115,7 @@ p {
 }
 
 .reslibrary .thumbnail {
-	margin-bottom: 0px;
+	margin-bottom: 0;
 }
 
 .reslibrary .thumbnail .html {
@@ -1739,7 +1738,7 @@ a.resource_edit .img-responsive {
 	background-image: none;
 }
 
-/* Show first level menues in collapse state*/
+/* Show first level menu in collapse state*/
 .leftpanel-collapsed .nav-bracket > li > a > span:last-child {
 	position: absolute;
 	background: #fff;
@@ -1835,7 +1834,7 @@ a.resource_edit .img-responsive {
 	display: none;
 }
 
-/* Show second level menues in collapse state*/
+/* Show second level menu in collapse state*/
 .leftpanel-collapsed .nav-bracket .child1 > li.nav-parent.nav-hover > a > span:last-child {
 	position: absolute;
 	background: #fff;
@@ -3188,7 +3187,7 @@ body.stickyheader .sticky_left {
 	font: 11px Tahoma, Arial, Helvetica;
 	color: #000000;
 	position: absolute;
-	top: 0px;
+	top: 0;
 	left: 5px;
 }
 
@@ -3353,8 +3352,6 @@ body.stickyheader .sticky_left {
 
 .btn-clipboard {
 	border: 1px solid #e1e1e8;
-
-	border: 1px solid #e1e1e8;
 	border-radius: 0 4px;
 	display: block;
 	font-size: 12px;
@@ -3387,7 +3384,7 @@ body.stickyheader .sticky_left {
 /*TextEditor RL button label style*/
 .text-editor {
 	padding: 3px;
-	margin-bottom: 0px;
+	margin-bottom: 0;
 }
 
 .text-editor .nav.nav-tabs {
