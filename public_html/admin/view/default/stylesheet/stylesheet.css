@@ -3333,6 +3333,10 @@ body.stickyheader .sticky_left {
 	content: "embed url";
 }
 
+#previewHtmlBody{
+	cursor: pointer;
+}
+
 #code_options .acheckboxgroup {
 	height: 157px !important;
 	margin-bottom: 10px;
