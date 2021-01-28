@@ -53,6 +53,11 @@
 	line-height: normal;
 }
 
+#payment_details select{
+	appearance: auto;
+	padding: initial;
+}
+
 .pay-form .left-inner-addon .select_arrow {
 	top: 0;
 	right: 17px;
