@@ -93,7 +93,7 @@ var mcei = {
     body_class: "content post-type-post post-status-auto-draft post-format-standard locale-en-gb",
     autoresize_on: true,
     add_unload_trigger: false,
-    height: '262px'
+    height: '100%'
 };
 
 
