@@ -7,21 +7,24 @@
                 $current = '';
                 if ($id == $payment_method) {
                     $current = ' selected ';
-                }
-                ?>
+                } ?>
                 <div class="payment_item">
-                    <div class="thumbnail payment-option <?php echo $current; ?>" data-payment-id="<?php echo $id; ?>" data-payment-available="<?php if(!$csession['used_balance_full']) { echo 'true'; } else { echo 'false'; } ?>">
+                    <div class="thumbnail payment-option <?php echo $current; ?>"
+                         data-payment-id="<?php echo $id; ?>"
+                         data-payment-available="<?php echo (!$csession['used_balance_full'] ? 'true': 'false'); ?>">
                         <div class="caption">
-                            <p class="text-center"><?php if ($id == $payment_method) {  echo '<i class="fa fa-check"></i>'; } echo $payment['title']; ?></p>
+                            <p class="text-center"><?php
+                                if ($id == $payment_method) {
+                                    echo '<i class="fa fa-check"></i>'; } echo $payment['title'];
+                                ?></p>
                         </div>
                         <?php if ($payment['icon']) {
                             $icon = $payment['icon'];
                             ?>
                             <?php if (is_file(DIR_RESOURCE.$icon['image'])) { ?>
-
-								<div style="height: 100px; background-image: url('resources/<?php echo $icon['image']; ?>');
-										background-position: center; background-size: contain; background-repeat: no-repeat;" >
-								</div>
+                                <div style="height: 100px; background-image: url('resources/<?php echo $icon['image']; ?>');
+                                        background-position: center; background-size: contain; background-repeat: no-repeat;" >
+                                </div>
                             <?php } else {
                                 if (!empty($icon['resource_code'])) { ?>
                                     <?php echo $icon['resource_code']; ?>
@@ -41,18 +44,20 @@
                 <?php
             }
         }
-        ?>
-        <?php if ($balance > 0) { ?>
+        if ($balance > 0) { ?>
         <div class="payment_item <?php if ($csession['used_balance']) { ?>balance_applied<?php } ?> <?php if ($csession['used_balance_full']) { ?>balance_applied_full<?php } ?>">
             <div class="thumbnail payment-option <?php if ($csession['used_balance_full']) { ?>current<?php } ?>" data-payment-id="account_balance">
                 <div class="caption">
                     <p class="text-center"><?php if ($csession['used_balance_full']) {  echo '<i class="fa fa-check"></i>'; } ?>
-                        <span class="hidden-xxs"><?php echo sprintf($fast_checkout_text_account_credit,
-                            $balance_value) ?></span>
+                        <span class="hidden-xxs"><?php
+                            echo sprintf(
+                                    $fast_checkout_text_account_credit,
+                                    $balance_value);
+                            ?></span>
                         <span class="visible-xxs"><?php echo $balance_value; ?></span>
                     </p>
                 </div>
-				<div style="min-height: 66px;"><i class="fa fa-money fa-fw fa-3x"></i></div>
+                <div style="min-height: 66px;"><i class="fa fa-money fa-fw fa-3x"></i></div>
                 <div>
                     <div class="input-group">
                         <span class="input-group-btn">
@@ -79,14 +84,3 @@
         <?php } ?>
     </div>
 </div>
-
-<?php
-if ($payment_form) {
-    ?>
-    <div id="payment_details" class="row">
-        <?php include($this->templateResource('/template/responses/checkout/payment_form.tpl')); ?>
-    </div>
-    <?php
-}
-?>
-

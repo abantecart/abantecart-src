@@ -369,7 +369,7 @@ $guest_data = $this->session->data['guest'];
                         <?php } ?>
 					</div>
                 <?php } ?>
-                <?php echo $this->getHookVar('payment_form_bottom'); ?>
+                <?php //echo $this->getHookVar('payment_form_bottom'); ?>
 	</form>
 <?php
     if ($payment_available === true) {
@@ -406,36 +406,42 @@ $guest_data = $this->session->data['guest'];
 	<?php } ?>
 </fieldset>
 
+<hr>
+<?php if ($payment_form) { ?>
+    <div id="payment_details" class="row">
+        <?php include($this->templateResource('/template/responses/checkout/payment_form.tpl')); ?>
+    </div>
+<?php } ?>
+
 <script type="text/javascript">
-	getUrlParams = function (key, value) {
-		let searchParams = new URLSearchParams(window.location.search);
-		//Remove old value
-		if (searchParams.has('cart_key')) {
-			searchParams.delete('cart_key')
-		}
-		if (searchParams.has('rt')) {
-			searchParams.delete('rt')
-		}
-		if (searchParams.has('coupon_code')) {
-			searchParams.delete('coupon_code')
-		}
-		if (searchParams.has('remove_coupon')) {
-			searchParams.delete('remove_coupon')
-		}
+    getUrlParams = function (key, value) {
+        let searchParams = new URLSearchParams(window.location.search);
+        //Remove old value
+        if (searchParams.has('cart_key')) {
+            searchParams.delete('cart_key')
+        }
+        if (searchParams.has('rt')) {
+            searchParams.delete('rt')
+        }
+        if (searchParams.has('coupon_code')) {
+            searchParams.delete('coupon_code')
+        }
+        if (searchParams.has('remove_coupon')) {
+            searchParams.delete('remove_coupon')
+        }
 
-		//Set New Value
-		if (searchParams.has(key)) {
-			searchParams.set(key, value)
-		} else {
-			searchParams.append(key, value)
-		}
-		return searchParams.toString()
-	};
+        //Set New Value
+        if (searchParams.has(key)) {
+            searchParams.set(key, value)
+        } else {
+            searchParams.append(key, value)
+        }
+        return searchParams.toString()
+    };
 
-	jQuery(document).ready(function () {
-
-		$(".btn-comment").on('click', function () {
-		    var that = $(this).closest('.form-group');
+    jQuery(document).ready(function () {
+        $(".btn-comment").on('click', function () {
+            var that = $(this).closest('.form-group');
             $.ajax({
                 type: "POST",
                 url: '<?php echo $this->html->getSecureUrl('r/checkout/pay/updateOrderData'); ?>',
@@ -454,263 +460,261 @@ $guest_data = $this->session->data['guest'];
                 }
             });
 
-		});
+        });
 
-		$("#payment_address_id").change(function () {
-			let url = '<?php echo $main_url ?>&' + getUrlParams('payment_address_id', $(this).val());
-			pageRequest(url);
-		});
-
-		$("#shipping_address_id").change(function () {
-			let url = '<?php echo $main_url ?>&' + getUrlParams('shipping_address_id', $(this).val());
-			pageRequest(url);
-		});
-
-		$("#shipping_method").change(function () {
-			let url = '<?php echo $main_url ?>&' + getUrlParams('shipping_method', $(this).val());
+        $("#payment_address_id").change(function () {
+            let url = '<?php echo $main_url ?>&' + getUrlParams('payment_address_id', $(this).val());
             pageRequest(url);
-		});
+        });
 
-		$(".registerbox input[type='radio']").change(function () {
-			let url = '<?php echo $main_url ?>&' + getUrlParams('shipping_method', $(this).val());
-			if ($('#PayFrm').serialize()) {
-				url = '<?php echo $main_url ?>&' + $('#PayFrm').serialize()
-			}
-			pageRequest(url);
-		});
+        $("#shipping_address_id").change(function () {
+            let url = '<?php echo $main_url ?>&' + getUrlParams('shipping_address_id', $(this).val());
+            pageRequest(url);
+        });
 
-		$("#coupon_code").on('keyup', function (e) {
-			if (e.keyCode === 13) {
-				$(".btn-coupon").click()
-			}
-		});
+        $("#shipping_method").change(function () {
+            let url = '<?php echo $main_url ?>&' + getUrlParams('shipping_method', $(this).val());
+            pageRequest(url);
+        });
 
+        $(".registerbox input[type='radio']").change(function () {
+            let url = '<?php echo $main_url ?>&' + getUrlParams('shipping_method', $(this).val());
+            if ($('#PayFrm').serialize()) {
+                url = '<?php echo $main_url ?>&' + $('#PayFrm').serialize()
+            }
+            pageRequest(url);
+        });
 
-		$(".pay-form").on("click", ".btn-coupon", function () {
-			var $input = $(this).closest('.input-group').find('input');
-			var coupon = $input.val().replace(/\s+/g, '');
-			if (!coupon) {
-				$.aCCValidator.show_error($(this), '.form-group');
-				return false;
-			}
-			//let url = '<?php echo $main_url ?>&' + getUrlParams('coupon_code', coupon);
-			let url = '<?php echo $main_url ?>&' + $('#PayFrm').serialize();
-			pageRequest(url);
-		});
-
-		$(".pay-form").on("click", ".btn-remove-coupon", function () {
-			//let url = '<?php echo $main_url ?>&' + getUrlParams('remove_coupon', true);
-			let url = '<?php echo $main_url ?>&' + $('#PayFrm').serialize() + '&remove_coupon=true';
-			pageRequest(url);
-		});
-
-		$(".pay-form").on("click", ".btn-apply-balance", function () {
-			let url = '<?php echo $main_url ?>&'+ $('#PayFrm').serialize()+ '&' + getUrlParams('balance', 'apply');
-			pageRequest(url);
-		});
-
-		$(".pay-form").on("click", ".btn-remove-balance", function () {
-			let url = '<?php echo $main_url ?>&'+ $('#PayFrm').serialize()+ '&' + getUrlParams('balance', 'disapply');
-			pageRequest(url);
-		});
+        $("#coupon_code").on('keyup', function (e) {
+            if (e.keyCode === 13) {
+                $(".btn-coupon").click()
+            }
+        });
 
 
-		$(".pay-form").on("click", ".payment-option", function () {
-			if ($(this).hasClass('selected')) {
-				return;
-			}
-			var payment_id = $(this).data('payment-id');
-			const paymentAvailable = $(this).attr('data-payment-available');
-			if (payment_id == 'account_balance' || paymentAvailable == 'false') {
-				return;
-			}
-			//let url = '<?php echo $main_url ?>&' + getUrlParams('payment_method', payment_id);
-			let url = '<?php echo $main_url ?>&' + $('#PayFrm').serialize() + '&payment_method=' + payment_id;
-			//pageRequest(url);
-			var form = $('#PayFrm');
-			$('#payment_details').remove();
-			$('form').unbind("submit");
-			form.attr('action', url);
-			$('.spinner-overlay').fadeIn(100);
-			$.ajax({
-				url: url,
-				type: 'GET',
-				dataType: 'html',
-				success: function (data) {
-					$('#fast_checkout_summary_block').trigger('reload');
-					$('#fast_checkout_cart').hide().html(data).fadeIn(1000);
-					$('.spinner-overlay').fadeOut(100);
-				}
-			});
-		});
+        $(".pay-form").on("click", ".btn-coupon", function () {
+            var $input = $(this).closest('.input-group').find('input');
+            var coupon = $input.val().replace(/\s+/g, '');
+            if (!coupon) {
+                $.aCCValidator.show_error($(this), '.form-group');
+                return false;
+            }
+            //let url = '<?php echo $main_url ?>&' + getUrlParams('coupon_code', coupon);
+            let url = '<?php echo $main_url ?>&' + $('#PayFrm').serialize();
+            pageRequest(url);
+        });
 
-		//load first tab
+        $(".pay-form").on("click", ".btn-remove-coupon", function () {
+            //let url = '<?php echo $main_url ?>&' + getUrlParams('remove_coupon', true);
+            let url = '<?php echo $main_url ?>&' + $('#PayFrm').serialize() + '&remove_coupon=true';
+            pageRequest(url);
+        });
+
+        $(".pay-form").on("click", ".btn-apply-balance", function () {
+            let url = '<?php echo $main_url ?>&'+ $('#PayFrm').serialize()+ '&' + getUrlParams('balance', 'apply');
+            pageRequest(url);
+        });
+
+        $(".pay-form").on("click", ".btn-remove-balance", function () {
+            let url = '<?php echo $main_url ?>&'+ $('#PayFrm').serialize()+ '&' + getUrlParams('balance', 'disapply');
+            pageRequest(url);
+        });
+
+
+        $(".pay-form").on("click", ".payment-option", function () {
+            if ($(this).hasClass('selected')) {
+                return;
+            }
+            var payment_id = $(this).data('payment-id');
+            const paymentAvailable = $(this).attr('data-payment-available');
+            if (payment_id === 'account_balance' || paymentAvailable === 'false') {
+                return;
+            }
+            var form = $('#PayFrm');
+            let url = '<?php echo $main_url ?>&' + form.serialize() + '&payment_method=' + payment_id;
+            $('#payment_details').remove();
+            $('form').unbind("submit");
+            form.attr('action', url);
+            $('.spinner-overlay').fadeIn(100);
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'html',
+                success: function (data) {
+                    $('#fast_checkout_summary_block').trigger('reload');
+                    $('#fast_checkout_cart').hide().html(data).fadeIn(1000);
+                    $('.spinner-overlay').fadeOut(100);
+                }
+            });
+        });
+
+        //load first tab
         <?php if ($payment_available === true){ ?>
-		$('#credit_card').html($('#hidden_credit_card').html());
+        $('#credit_card').html($('#hidden_credit_card').html());
         <?php } else { ?>
-		$('#account_credit').html($('#hidden_account_credit').html());
+        $('#account_credit').html($('#hidden_account_credit').html());
         <?php } ?>
-		$("a[href='#credit_card']").on('shown.bs.tab', function (e) {
-			$('#account_credit').html('');
-			$('#credit_card').html($('#hidden_credit_card').html());
-		});
+        $("a[href='#credit_card']").on('shown.bs.tab', function (e) {
+            $('#account_credit').html('');
+            $('#credit_card').html($('#hidden_credit_card').html());
+        });
 
-		$("a[href='#account_credit']").on('shown.bs.tab', function (e) {
-			$('#credit_card').html('');
-			$('#account_credit').html($('#hidden_account_credit').html());
-		});
+        $("a[href='#account_credit']").on('shown.bs.tab', function (e) {
+            $('#credit_card').html('');
+            $('#account_credit').html($('#hidden_account_credit').html());
+        });
 
-		$('form.validate-creditcard [name=telephone]').bind({
-			change: function () {
-				//check as telephone is entered
-				if (validatePhone($(this).val())) {
-					$.aCCValidator.show_success($(this), '.form-group');
-				} else {
-					$.aCCValidator.show_error($(this), '.form-group');
-				}
-			},
-			blur: function () {
-				//check full number as lost focus
-				if (validatePhone($(this).val())) {
-					$.aCCValidator.show_success($(this), '.form-group');
-				} else {
-					$.aCCValidator.show_error($(this), '.form-group');
-				}
-			}
-		});
+        $('form.validate-creditcard [name=telephone]').bind({
+            change: function () {
+                //check as telephone is entered
+                if (validatePhone($(this).val())) {
+                    $.aCCValidator.show_success($(this), '.form-group');
+                } else {
+                    $.aCCValidator.show_error($(this), '.form-group');
+                }
+            },
+            blur: function () {
+                //check full number as lost focus
+                if (validatePhone($(this).val())) {
+                    $.aCCValidator.show_success($(this), '.form-group');
+                } else {
+                    $.aCCValidator.show_error($(this), '.form-group');
+                }
+            }
+        });
 
-		$('form.validate-creditcard [name=cc_email]').bind({
-			change: function () {
-				//check as email is entered
-				if (validateEmail($(this).val())) {
-					$.aCCValidator.show_success($(this), '.form-group');
-				} else {
-					$.aCCValidator.show_error($(this), '.form-group');
-				}
-			},
-			blur: function () {
-				//check full number as lost focus
-				if (validateEmail($(this).val())) {
-					$.aCCValidator.show_success($(this), '.form-group');
-				} else {
-					$.aCCValidator.show_error($(this), '.form-group');
-				}
-			}
-		});
+        $('form.validate-creditcard [name=cc_email]').bind({
+            change: function () {
+                //check as email is entered
+                if (validateEmail($(this).val())) {
+                    $.aCCValidator.show_success($(this), '.form-group');
+                } else {
+                    $.aCCValidator.show_error($(this), '.form-group');
+                }
+            },
+            blur: function () {
+                //check full number as lost focus
+                if (validateEmail($(this).val())) {
+                    $.aCCValidator.show_success($(this), '.form-group');
+                } else {
+                    $.aCCValidator.show_error($(this), '.form-group');
+                }
+            }
+        });
 
-		$('form.validate-creditcard [name=cc_number]').bind({
-			change: function () {
-				//check as number is entered
-				$.aCCValidator.precheckCCNumber($(this));
-			},
-			blur: function () {
-				//check full number as lost focus
-				$.aCCValidator.checkCCNumber($(this));
-			}
-		});
+        $('form.validate-creditcard [name=cc_number]').bind({
+            change: function () {
+                //check as number is entered
+                $.aCCValidator.precheckCCNumber($(this));
+            },
+            blur: function () {
+                //check full number as lost focus
+                $.aCCValidator.checkCCNumber($(this));
+            }
+        });
 
-		$('form.validate-creditcard [name=cc_owner]').bind({
-			change: function () {
-				$.aCCValidator.checkCCName($(this), 'reset');
-			},
-			blur: function () {
-				$.aCCValidator.checkCCName($(this));
-			}
-		});
+        $('form.validate-creditcard [name=cc_owner]').bind({
+            change: function () {
+                $.aCCValidator.checkCCName($(this), 'reset');
+            },
+            blur: function () {
+                $.aCCValidator.checkCCName($(this));
+            }
+        });
 
-		$('form.validate-creditcard [name=cc_expire_date_month]').bind({
-			change: function () {
-				$.aCCValidator.checkExp($(this), 'reset');
-			},
-			blur: function () {
-				$.aCCValidator.checkExp($(this));
-			}
-		});
+        $('form.validate-creditcard [name=cc_expire_date_month]').bind({
+            change: function () {
+                $.aCCValidator.checkExp($(this), 'reset');
+            },
+            blur: function () {
+                $.aCCValidator.checkExp($(this));
+            }
+        });
 
-		$('form.validate-creditcard [name=cc_expire_date_year]').bind({
-			change: function () {
-				$.aCCValidator.checkExp($(this), 'reset');
-			},
-			blur: function () {
-				$.aCCValidator.checkExp($(this));
-			}
-		});
+        $('form.validate-creditcard [name=cc_expire_date_year]').bind({
+            change: function () {
+                $.aCCValidator.checkExp($(this), 'reset');
+            },
+            blur: function () {
+                $.aCCValidator.checkExp($(this));
+            }
+        });
 
-		$('form.validate-creditcard [name=cc_cvv2]').bind({
-			change: function () {
-				$.aCCValidator.checkCVV($(this), 'reset');
-			},
-			blur: function () {
-				$.aCCValidator.checkCVV($(this));
-			}
-		});
+        $('form.validate-creditcard [name=cc_cvv2]').bind({
+            change: function () {
+                $.aCCValidator.checkCVV($(this), 'reset');
+            },
+            blur: function () {
+                $.aCCValidator.checkCVV($(this));
+            }
+        });
 
-		getAddressHtml = function (address) {
-			let html = '';
-			if (typeof address != "undefined") {
-				if (address.firstname || address.lasttname) {
-					html += address.firstname + ' ' + address.lastname + ' <br/>'
-				}
-				if (address.company) {
-					html += address.company + ' <br/>'
-				}
-				if (address.address_2) {
-					html += address.address_2 + ' <br/>'
-				}
-				if (address.address_1) {
-					html += address.address_1 + ' <br/>'
-				}
-				if (address.city || address.postcode) {
-					html += address.city + ' ' + address.postcode + ' <br/>'
-				}
-				if (address.zone) {
-					html += address.zone + ' <br/>'
-				}
-				if (address.country) {
-					html += address.country
-				}
+        getAddressHtml = function (address) {
+            let html = '';
+            if (typeof address != "undefined") {
+                if (address.firstname || address.lasttname) {
+                    html += address.firstname + ' ' + address.lastname + ' <br/>'
+                }
+                if (address.company) {
+                    html += address.company + ' <br/>'
+                }
+                if (address.address_2) {
+                    html += address.address_2 + ' <br/>'
+                }
+                if (address.address_1) {
+                    html += address.address_1 + ' <br/>'
+                }
+                if (address.city || address.postcode) {
+                    html += address.city + ' ' + address.postcode + ' <br/>'
+                }
+                if (address.zone) {
+                    html += address.zone + ' <br/>'
+                }
+                if (address.country) {
+                    html += address.country
+                }
                 <?php if ($address_edit_base_url) { ?>
-				html += '<div class="address_edit_link"><a href="<?php echo $address_edit_base_url; ?>' + address.address_id + '"><i class="fa fa-edit"></i></a></div>'
+                html += '<div class="address_edit_link"><a href="<?php echo $address_edit_base_url; ?>' + address.address_id + '"><i class="fa fa-edit"></i></a></div>'
                 <?php } ?>
-			}
-			return html
-		};
+            }
+            return html
+        };
 
-		updateShippingAddressDisplay = function () {
-			let addresses = JSON.parse(atob('<?php echo base64_encode(json_encode($all_addresses)); ?>'))
-			let shipping_address_id = $("#shipping_address_id").val();
-			let address = addresses.find((el) => el.address_id == shipping_address_id);
+        updateShippingAddressDisplay = function () {
+            let addresses = JSON.parse(atob('<?php echo base64_encode(json_encode($all_addresses)); ?>'))
+            let shipping_address_id = $("#shipping_address_id").val();
+            let address = addresses.find((el) => el.address_id == shipping_address_id);
 
-			if (typeof address != "undefined") {
-				$('.shipping_address_details').hide().html(getAddressHtml(address)).fadeIn(1000);
-			}
-		};
+            if (typeof address != "undefined") {
+                $('.shipping_address_details').hide().html(getAddressHtml(address)).fadeIn(1000);
+            }
+        };
 
-		updatePaymentAddressDisplay = function () {
-			let addresses = JSON.parse(atob('<?php echo base64_encode(json_encode($all_addresses)); ?>'));
-			let payment_address_id = $("#payment_address_id").val();
-			let address = addresses.find((el) => el.address_id == payment_address_id);
+        updatePaymentAddressDisplay = function () {
+            let addresses = JSON.parse(atob('<?php echo base64_encode(json_encode($all_addresses)); ?>'));
+            let payment_address_id = $("#payment_address_id").val();
+            let address = addresses.find((el) => el.address_id == payment_address_id);
 
-			if (typeof address != "undefined") {
-				$('.payment_address_details').hide().html(getAddressHtml(address)).fadeIn(1000);
-			}
-		};
+            if (typeof address != "undefined") {
+                $('.payment_address_details').hide().html(getAddressHtml(address)).fadeIn(1000);
+            }
+        };
 
-		updateShippingAddressDisplay();
-		updatePaymentAddressDisplay();
+        updateShippingAddressDisplay();
+        updatePaymentAddressDisplay();
 
-		$('.btn-edit-email').on('click', function () {
+        $('.btn-edit-email').on('click', function () {
             <?php if ($this->customer && $this->customer->getId()) { ?>
-			location.replace('<?php echo $this->html->getSecureUrl("account/edit");?>');
+            location.replace('<?php echo $this->html->getSecureUrl("account/edit");?>');
             <?php } else { ?>
-			$('#payment_address_edit').click();
+            $('#payment_address_edit').click();
             <?php } ?>
-		});
+        });
 
-		$('#no_payment_confirm').on('click', function (e) {
-			$('#PayFrm').submit();
-		});
+        $('#no_payment_confirm').on('click', function (e) {
+            $('#PayFrm').submit();
+        });
 
-	});
+    });
 
 </script>

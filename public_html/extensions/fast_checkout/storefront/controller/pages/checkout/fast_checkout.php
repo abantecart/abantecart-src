@@ -102,7 +102,7 @@ class ControllerPagesCheckoutFastCheckout extends AController
 
         $this->data['cart_url'] = $this->html->getSecureURL(
             'r/checkout/pay',
-            '&order_id='.$this->session->data['fast_checkout']['cart_key']
+            '&cart_key='.$this->session->data['fast_checkout']['cart_key']
         );
 
         $this->view->batchAssign($this->data);
