@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" dir="<?php echo $direction; ?>" lang="<?php echo $params['language']; ?>"
+<html xmlns="http://www.w3.org/1999/xhtml"
+      dir="<?php echo $direction; ?>"
+      lang="<?php echo $params['language']; ?>"
       xml:lang="<?php echo $params['language']; ?>">
 <head>
     <meta charset="UTF-8">
@@ -8,7 +10,8 @@
 <?php $options = array(
     'image'     => '<div class="abantecart_image"></div>',
     'name'      => '<h3 class="abantecart_name"></h3>',
-    'products_count' => '<p class="abantecart_products_count"></p>',
+    'price'     => '<div class="abantecart_price"></div>',
+    'limit'     => '<input class="abantecart_limit" type="hidden" name="limit" value="">',
 );
 $html = '';
 $common_params = '';
@@ -18,8 +21,7 @@ foreach ($params as $param => $v) {
     }else{
         $common_params .= '&'.$param.'='.$v;
     }
-}
-?>
+} ?>
 
 <script src="<?php echo $sf_js_embed_url.$common_params; ?>" type="text/javascript"></script>
 <ul style="display:none;"

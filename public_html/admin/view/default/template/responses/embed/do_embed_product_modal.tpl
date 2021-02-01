@@ -106,12 +106,14 @@
         url += '&curr=' + currency;
 
         var html = '<script src="<?php echo $sf_js_embed_url; ?>" type="text/javascript"><\/script>\n';
-        html += '<div style="display:none;" class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>"' + common_params + '>\n';
-        html += '\t<div id="abc_<?php echo (int)(microtime()
-            * 1000);
-            ?>" class="abantecart_product" data-product-id="<?php echo $product_id; ?>" data-language="' + language + '" data-currency="' + currency + '">\n';
+        html += '<div style="display:none;" class="abantecart-widget-container" '
+                +'data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>"'
+                + common_params + '>\n';
+        html += '\t<div id="abc_<?php echo (int)(microtime() * 1000); ?>" '
+            +'class="abantecart_product" data-product-id="<?php echo $product_id; ?>" data-language="'
+                + language + '" data-currency="' + currency + '">\n';
         $('#code_options').find('input[type="hidden"]').each(function () {
-            if ($(this).val() == 1) {
+            if ($(this).val() === '1') {
                 html += '\t\t' + options[$(this).attr('name')];
                 url += '&' + $(this).attr('name') + '=1';
             }

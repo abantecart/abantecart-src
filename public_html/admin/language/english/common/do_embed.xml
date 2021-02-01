@@ -25,6 +25,10 @@
     	<value><![CDATA[Show Price]]></value>
   	</definition>
   	<definition>
+    	<key>entry_limit</key>
+    	<value><![CDATA[Limit ]]></value>
+  	</definition>
+  	<definition>
     	<key>entry_rating</key>
     	<value><![CDATA[Show Reviews And Rating]]></value>
   	</definition>

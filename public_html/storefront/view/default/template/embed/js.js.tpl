@@ -82,7 +82,7 @@ var init = function () {
         //check if css is already loaded
         var ss = document.styleSheets;
         for (var i = 0, max = ss.length; i < max; i++) {
-            if (ss[i].href == url) return;
+            if (ss[i].href === url) return;
         }
         var css_tag = document.createElement('link');
         css_tag.setAttribute("rel",'stylesheet')
@@ -155,22 +155,25 @@ var init = function () {
                 if($icon) { ?>
                 modal += '<img src="<?php echo AUTO_SERVER; ?>resources/<?php echo $icon; ?>"/>&nbsp;';
                 <?php } ?>
-                modal += '&nbsp;<?php echo $store_name; ?>' +
-                    '</div><div class="abcmodal-header-menu">' +
-                    '<a class="abcmodal-reload" href="#" data-href="<?php echo $account;?>"><?php echo $text_account;?></a>&nbsp;&nbsp;' +
-                    '|&nbsp;<a class="abcmodal-reload" href="#" data-href="<?php echo $cart;?>"><?php echo $text_cart;?></a>&nbsp;&nbsp;' +
-                    '|&nbsp;<a class="abcmodal-reload" href="#" data-href="<?php echo $checkout;?>"><?php echo $text_checkout;?></a>&nbsp;&nbsp;' +
-                    '</div>' +
-                    '<button aria-hidden="true" data-dismiss="abcmodal" class="abcmodal_close" type="button">&times;</button>' +
-                    '<h4 class="abcmodal-title"></h4>' +
-                    '</div>' +
-                    '<div class="abcmodal-body"><iframe id="amp_product_frame" width="100%" height="650px" frameBorder="0"></iframe>' +
-                    '<div id="iframe_loading" display="none"></div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="abantecart-widget-cart"></div>';
+                modal += '&nbsp;' + <?php js_echo($store_name); ?> +
+                    + '</div><div class="abcmodal-header-menu">'
+                    + '<a class="abcmodal-reload" href="#" data-href="<?php echo $account;?>">'
+                    + <?php js_echo($text_account);?>
+                    + '</a>&nbsp;&nbsp;'
+                    + '|&nbsp;<a class="abcmodal-reload" href="#" data-href="<?php echo $cart;?>">'
+                    + <?php js_echo($text_cart);?>
+                    + '</a>&nbsp;&nbsp;'
+                    + '|&nbsp;<a class="abcmodal-reload" href="#" data-href="<?php echo $checkout;?>">'
+                    + <?php js_echo($text_checkout);?>
+                    + '</a>&nbsp;&nbsp;'
+                    + '</div>'
+                    + '<button aria-hidden="true" data-dismiss="abcmodal" class="abcmodal_close" type="button">&times;</button>'
+                    + '<h4 class="abcmodal-title"></h4>'
+                    + '</div>'
+                    + '<div class="abcmodal-body"><iframe id="amp_product_frame" width="100%" height="650px" frameBorder="0"></iframe>'
+                    + '<div id="iframe_loading" display="none"></div>'
+                    + '</div></div></div></div>'
+                    + '<div class="abantecart-widget-cart"></div>';
 
                 $('body').append(modal);
                 <?php
@@ -383,6 +386,19 @@ var init = function () {
                 }
                 if ($(children).is('[data-currency]')) {
                     url += '&currency=' + $(children).attr('data-currency');
+                }
+                if ($(children).has('.abantecart_name').length) {
+                    url += '&product_name=1';
+                }
+                if ($(children).has('.abantecart_image').length) {
+                    url += '&product_image=1';
+                }
+                if ($(children).has('.abantecart_price').length) {
+                    url += '&product_price=1';
+                }
+                var limit = $(children).find('input[name=limit]');
+                if (limit.length) {
+                    url += '&limit='+ limit.val();
                 }
             }
 

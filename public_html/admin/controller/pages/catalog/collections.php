@@ -225,7 +225,7 @@ class ControllerPagesCatalogCollections extends AController
                 'embed_url',
                 $this->html->getSecureURL(
                     'common/do_embed/collections',
-                    '&id='.(int) $this->request->get['id']
+                    '&collection_id='.(int) $this->request->get['id']
                 )
             );
         }
@@ -271,7 +271,7 @@ class ControllerPagesCatalogCollections extends AController
                 }
 
                 $this->data['form']['show_on_storefront']->href = $storeHome
-                        .'/?rt=product/collection&collection_id='.(int) $this->request->get['id'];
+                    .'/?rt=product/collection&collection_id='.(int) $this->request->get['id'];
                 if ($this->data['keyword'] && (int) $this->config->get('enable_seo_url')) {
                     $this->data['form']['show_on_storefront']->href = $storeHome.'/'.$this->data['keyword'];
                 }
@@ -408,10 +408,10 @@ class ControllerPagesCatalogCollections extends AController
             ]
         );
         $this->data['generate_seo_url'] = $this->html->getSecureURL(
-                    'common/common/getseokeyword',
-                    '&object_key_name=collection_id&id='
-                        .($this->request->get['id'] ? : '0'
-                    )
+            'common/common/getseokeyword',
+            '&object_key_name=collection_id&id='
+            .($this->request->get['id'] ? : '0'
+            )
         );
 
         $this->data['form']['fields']['general']['keyword'] = $form->getFieldHtml(
@@ -448,10 +448,10 @@ class ControllerPagesCatalogCollections extends AController
                         'any' => $this->language->get('text_any'),
                     ],
                     'value'   => (isset($this->data['conditions']['relation']['if'])
-                                    ? $this->data['conditions']['relation']['if']
-                                    : ''),
+                        ? $this->data['conditions']['relation']['if']
+                        : ''),
                 ]
-            )
+            ),
         ];
 
         $this->data['conditions_relation']['fields']['value'] = [
@@ -465,8 +465,8 @@ class ControllerPagesCatalogCollections extends AController
                         'false' => $this->language->get('text_false'),
                     ],
                     'value'   => (isset($this->data['conditions']['relation']['value'])
-                                    ? $this->data['conditions']['relation']['value']
-                                    : ''),
+                        ? $this->data['conditions']['relation']['value']
+                        : ''),
                 ]
             ),
         ];
@@ -517,8 +517,8 @@ class ControllerPagesCatalogCollections extends AController
         $this->data['condition_object']['text'] = $this->language->get('entry_condition_object');
 
         $this->data['condition_url'] = $this->html->getSecureURL(
-                'listing_grid/collections/getFieldsByConditionObject',
-                '&id='.$this->data['id']
+            'listing_grid/collections/getFieldsByConditionObject',
+            '&id='.$this->data['id']
         );
         $this->data['active'] = 'general';
         $tabs_obj = $this->dispatch('pages/catalog/collection_tabs', [$this->data]);
@@ -537,15 +537,15 @@ class ControllerPagesCatalogCollections extends AController
         }
 
         $error_text = $this->html->isSEOkeywordExists(
-                    'collection_id='.$this->request->get['id'],
-                    $this->request->post['keyword']
+            'collection_id='.$this->request->get['id'],
+            $this->request->post['keyword']
         );
-        if( $error_text ) {
+        if ($error_text) {
             $this->error['warning'] = $error_text;
             $this->error['keyword'] = $this->language->get('save_error_unique_keyword');
         }
 
-            return empty($this->error);
+        return empty($this->error);
     }
 
     public function edit_layout()
