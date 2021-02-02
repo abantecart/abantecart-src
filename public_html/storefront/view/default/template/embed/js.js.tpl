@@ -252,13 +252,15 @@ var init = function () {
                 //clear iframe
                 $iframe.attr('src', '');
                 $iframe.hide();
+
                 $('#iframe_loading').show();
-                $iframe.load(function () {
+                $iframe.on('load',function () {
                     $('#iframe_loading').hide();
                     $iframe.show();
                 });
                 var d = new Date();
                 //get href of modal caller
+
                 var frame_url = abc_process_url(url + '&time_stamp=' + d.getTime());
                 $iframe.attr("src", frame_url);
                 return false;
