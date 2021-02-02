@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -26,11 +27,10 @@ class ControllerPagesCatalogCollectionTabs extends AController
 
     public $data = [];
 
-    public function main()
+    public function main($data = [])
     {
-
         //Load input arguments for gid settings
-        $this->data = func_get_arg(0);
+        $this->data = $data;
         if (!is_array($this->data)) {
             throw new AException (AC_ERR_LOAD, 'Error: Could not create grid. Grid definition is not array.');
         }
@@ -40,17 +40,21 @@ class ControllerPagesCatalogCollectionTabs extends AController
         $this->loadLanguage('catalog/collections');
 
         $this->data['id'] = $this->request->get['id'];
-
         $this->data['groups'] = ['general'];
-
         foreach ($this->data['groups'] as $group) {
-            $this->data['link_'.$group] = $this->html->getSecureURL('catalog/collections/'.($this->data['id'] ? 'update' : 'insert'),
-                    ($this->data['id'] ? '&id='.$this->data['id'] : '')).'#'.$group;
+            $this->data['link_'.$group] = $this->html->getSecureURL(
+                    'catalog/collections/'.($this->data['id'] ? 'update' : 'insert'),
+                    ($this->data['id'] ? '&id='.$this->data['id'] : '')
+                )
+                .'#'.$group;
         }
 
         if ($this->data['id']) {
             $this->data['groups'][] = 'layout';
-            $this->data['link_layout'] = $this->html->getSecureURL('catalog/collections/edit_layout', '&id='.$this->data['id']);
+            $this->data['link_layout'] = $this->html->getSecureURL(
+                'catalog/collections/edit_layout',
+                '&id='.$this->data['id']
+            );
         }
 
         $this->view->batchAssign($this->data);

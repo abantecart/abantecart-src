@@ -231,6 +231,9 @@ class ACache
         //get group name from the key Example: key=[group].text
         $group = $this->_get_group($key);
         $this->cache[$group][$key] = $data;
+        if(!isset($this->cache_saves[$group][$key])){
+            $this->cache_saves[$group][$key] = 0;
+        }
         $this->cache_saves[$group][$key] += 1;
 
         if (!is_null($data) && $this->enabled && $this->cache_driver && $this->cache_driver->isSupported()) {
@@ -298,12 +301,15 @@ class ACache
 
         $group = $this->_get_group($key);
         if ($this->_exists($key, $group)) {
+            if(!isset($this->cache_hits[$group][$key])){
+                $this->cache_hits[$group][$key] = 0;
+            }
             $this->cache_hits[$group][$key] += 1;
             return $this->cache[$group][$key];
         }
 
         if ($this->enabled && $this->cache_driver && $this->cache_driver->isSupported()) {
-            //load cache from storage		
+            //load cache from storage
             $data = $this->cache_driver->get($key, $group);
             if ($data === false) {
                 //check if cache is locked
@@ -318,11 +324,16 @@ class ACache
             if ($data !== false) {
                 $data = unserialize($data);
                 $this->cache[$group][$key] = $data;
+                $this->cache_loads[$group][$key] = $this->cache_loads[$group][$key] ?? 0;
                 $this->cache_loads[$group][$key] += 1;
                 return $data;
             }
         }
+        if(!isset($this->cache_misses[$group])){
+            $this->cache_misses[$group] = [];
+        }
 
+        $this->cache_misses[$group][$key] = $this->cache_misses[$group][$key] ?? 0;
         $this->cache_misses[$group][$key] += 1;
         return false;
     }

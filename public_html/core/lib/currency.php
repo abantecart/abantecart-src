@@ -27,7 +27,7 @@ if (!defined('DIR_CORE')) {
 final class ACurrency
 {
     private $code;
-    private $currencies = array();
+    private $currencies = [];
     private $config;
     private $db;
     private $language;
@@ -64,7 +64,7 @@ final class ACurrency
         } else {
             $query = $this->db->query("SELECT * FROM ".$this->db->table("currencies"));
             foreach ($query->rows as $result) {
-                $this->currencies[$result['code']] = array(
+                $this->currencies[$result['code']] = [
                     'code'          => $result['code'],
                     'currency_id'   => $result['currency_id'],
                     'title'         => $result['title'],
@@ -73,12 +73,12 @@ final class ACurrency
                     'decimal_place' => $result['decimal_place'],
                     'value'         => $result['value'],
                     'status'        => $result['status'],
-                );
+                ];
             }
             $cache->push($cache_key, $this->currencies);
         }
 
-        $currencyCode = $this->isValidCodeFormat($this->request->get['currency'])
+        $currencyCode = isset($this->request->get['currency']) && $this->isValidCodeFormat($this->request->get['currency'])
             ? $this->request->get['currency']
             : '';
         if ($currencyCode && array_key_exists($currencyCode, $this->currencies)) {

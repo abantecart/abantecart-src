@@ -150,7 +150,7 @@ final class ARouter
                             $this->request_type = 'page';
                             // defense from click-jacking attack (prevention of bad iframe covering)
                             // adds header only for page controllers or when embed mode is disabled
-                            if ($this->config && $this->request && $this->request->get['embed_mode']) {
+                            if ($this->config && $this->request && isset($this->request->get['embed_mode']) && $this->request->get['embed_mode']) {
                                 $this->config->set('embed_mode', true);
                             } elseif ($this->config
                                 && $this->request

@@ -328,6 +328,7 @@ class ExtensionsApi
             //check if we have extensions in dir that has no record in db
             $diff = array_diff($this->extensions_dir, $this->db_extensions);
             if (!empty($diff)) {
+                $sessionData = $this->registry->get('session')->data;
                 foreach ($diff as $ext) {
                     $data['key'] = $ext;
                     $data['status'] = 0;
@@ -336,7 +337,8 @@ class ExtensionsApi
                     $data['version'] = $misext->getConfig('version');
                     $data['priority'] = $misext->getConfig('priority');
                     $data['category'] = $misext->getConfig('category');
-                    $data['license_key'] = $this->registry->get('session')->data['package_info']['extension_key'];
+
+                    $data['license_key'] = $sessionData['package_info']['extension_key'] ?? null;
 
                     if ($this->registry->has('extension_manager')) {
                         $this->registry->get('extension_manager')->add($data);
@@ -483,13 +485,13 @@ class ExtensionsApi
                 LEFT JOIN ".$this->db->table("stores")." st ON st.store_id = s.store_id
                 WHERE e.key<>'' AND  e.`type` ";
 
-        if (has_value($data['filter']) && $data['filter'] != 'extensions') {
+        if (isset($data['filter']) && has_value($data['filter']) && $data['filter'] != 'extensions') {
             $sql .= " = '".$this->db->escape($data['filter'])."'";
         } else {
             $sql .= " IN ('".implode("', '", $this->extension_types)."') ";
         }
 
-        if (has_value($data['search'])) {
+        if (isset($data['search']) && has_value($data['search'])) {
             $keys = [];
             $ext_list = $this->getExtensionsList(['filter' => $data['filter']]);
             if ($ext_list->total) {
@@ -508,21 +510,20 @@ class ExtensionsApi
                 $sql .= " AND e.`key` LIKE '%".$this->db->escape($data['search'], true)."%' ";
             }
         }
-        if (has_value($data['category'])) {
+        if (isset($data['category']) && has_value($data['category'])) {
             $sql .= " AND e.`category` = '".$this->db->escape($data['category'])."' ";
         }
-        if (has_value($data['status'])) {
+        if (isset($data['status']) && has_value($data['status'])) {
             $sql .= " AND s.value = '".(int) $data['status']."' ";
         }
 
-        if (has_value($data['store_id'])) {
+        if (isset($data['store_id']) && has_value($data['store_id'])) {
             $sql .= " AND COALESCE(s.`store_id`,0) = '".(int) $data['store_id']."' ";
         } else {
-            $sql .= " AND COALESCE(s.`store_id`,0) = '".(int) $this->registry->get('config')->get('config_store_id')
-                ."' ";
+            $sql .= " AND COALESCE(s.`store_id`,0) = '".(int) $this->registry->get('config')->get('config_store_id')."' ";
         }
 
-        if (has_value($data['sort_order']) && $data['sort_order'][0] != 'name') {
+        if (isset($data['sort_order']) && has_value($data['sort_order']) && $data['sort_order'][0] != 'name') {
             if ($data['sort_order'][0] == 'key') {
                 $data['sort_order'][0] = '`key`';
             }
@@ -532,14 +533,18 @@ class ExtensionsApi
             $sql .= "\n ORDER BY e.priority desc";
         }
         $total = null;
-        if (has_value($data['page']) && has_value($data['limit'])) {
+        if (isset($data['page'])
+            && isset($data['limit'])
+            && has_value($data['page'])
+            && has_value($data['limit'])
+        ) {
             $total = $this->db->query($sql);
             $sql .= " LIMIT ".(int) (($data['page'] - 1) * $data['limit']).", ".(int) ($data['limit'])." ";
         }
 
         $result = $this->db->query($sql);
 
-        if (has_value($data['sort_order']) && $data['sort_order'][0] == 'name') {
+        if (isset($data['sort_order']) && has_value($data['sort_order']) && $data['sort_order'][0] == 'name') {
             if ($result->rows) {
                 foreach ($result->rows as &$row) {
                     if (trim($row['key']) == '') {

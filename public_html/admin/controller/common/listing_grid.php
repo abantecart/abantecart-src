@@ -25,7 +25,7 @@ class ControllerCommonListingGrid extends AController
 {
     public $data; // array for template
 
-    public function main()
+    public function main($data = [])
     {
         //Load input arguments for gid settings
         $this->data = func_get_arg(0);

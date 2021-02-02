@@ -158,7 +158,7 @@ abstract class AController
         }
 
         //set embed mode if passed
-        if ($this->config && $this->request && $this->request->get['embed_mode']) {
+        if ($this->config && $this->request && isset($this->request->get['embed_mode']) && $this->request->get['embed_mode']) {
             $this->config->set('embed_mode', true);
         }
     }
