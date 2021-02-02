@@ -17,7 +17,7 @@ function confirmCOD(e) {
     $('body').css('cursor', 'wait');
     $.ajax({
         type: 'GET',
-        url: '<?php echo $this->html->getSecureURL('r/extension/default_cod/confirmtt');?>',
+        url: '<?php echo $this->html->getSecureURL('r/extension/default_cod/confirm');?>',
         global: false,
         beforeSend: function () {
             $('.alert').remove();
