@@ -80,10 +80,10 @@ require_once(DIR_CORE.'/lib/error.php');
 require_once(DIR_CORE.'/lib/warning.php');
 
 //define rt - route for application controller
-if ($_GET['rt']) {
+if (isset($_GET['rt'])) {
     define('ROUTE', $_GET['rt']);
 } else {
-    if ($_POST['rt']) {
+    if (isset($_POST['rt'])) {
         define('ROUTE', $_POST['rt']);
     } else {
         define('ROUTE', 'index/home');
