@@ -83,6 +83,9 @@ class AError
         }
         //TODO: use registry object instead?? what if registry not accessible?
         $this->error_descriptions = $GLOBALS['error_descriptions'];
+        if(!isset($this->error_descriptions[0])){
+            $this->error_descriptions[0] = 'Unknown Error';
+        }
 
         $this->version = 'AbanteCart core v.'.VERSION;
     }
