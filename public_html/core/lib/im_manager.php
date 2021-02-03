@@ -29,7 +29,7 @@ if (!defined('DIR_CORE')) {
 class AIMManager extends AIM
 {
 
-    public $errors = array();
+    public $errors = [];
     //add sendpoints list for admin-side
     /**
      * @var array
@@ -43,29 +43,29 @@ class AIMManager extends AIM
      * For additional sendpoints ( from extensions) you can store language keys wherever you want.
      *
      */
-    public $admin_sendpoints = array(
-        'order_update'              => array(
-            0 => array('text_key' => 'im_order_update_text_to_customer'),
-            1 => array(),
-        ),
-        'account_update'            => array(
-            0 => array(),
-            1 => array('text_key' => 'im_account_update_text_to_admin', 'force_send' => array('email')),
-        ),
-        'customer_account_approved' => array(
-            0 => array('text_key' => 'im_customer_account_approved_text_to_customer', 'force_send' => array('email')),
-            1 => array(),
-        ),
-        'customer_account_update'   => array(
-            0 => array('text_key' => 'im_customer_account_update_text_to_customer', 'force_send' => array('email')),
-            1 => array(),
-        ),
+    public $admin_sendpoints = [
+        'order_update'              => [
+            0 => ['text_key' => 'im_order_update_text_to_customer'],
+            1 => [],
+        ],
+        'account_update'            => [
+            0 => [],
+            1 => ['text_key' => 'im_account_update_text_to_admin', 'force_send' => ['email']],
+        ],
+        'customer_account_approved' => [
+            0 => ['text_key' => 'im_customer_account_approved_text_to_customer', 'force_send' => ['email']],
+            1 => [],
+        ],
+        'customer_account_update'   => [
+            0 => ['text_key' => 'im_customer_account_update_text_to_customer', 'force_send' => ['email']],
+            1 => [],
+        ],
         /* TODO: Need to decide how to handle system messages in respect to IM
         'system_messages' 			=> array (
                 0 => array(),
                 1 => array('text_key' => 'im_system_messages_text_to_admin'),
         */
-    );
+    ];
 
     //NOTE: This class is loaded in INIT for admin only
     public function __construct()
@@ -94,26 +94,29 @@ class AIMManager extends AIM
         return true;
     }
 
-    public function send($sendpoint, $text_vars = array(), $templateTextId='', $templateData = [])
+    public function send($sendpoint, $textVars = [], $templateTextId='', $templateData = [])
     {
-        return parent::send($sendpoint, $text_vars, $templateTextId=$templateTextId, $templateData = $templateData);
+        return parent::send($sendpoint, $textVars, $templateTextId, $templateData);
     }
 
     /**
-     * @param int    $customer_id
+     * @param int $customer_id
      * @param string $sendpoint
-     * @param array  $msg_details - structure:
+     * @param array $msg_details - structure:
      *                            array(
-     *                            message => 'text',
+     *                              message => 'text',
      *                            );
      *                            notes: If message is not provided, message text will be takes from languages based on checkpoint text key.
+     * @param string $templateTextId
+     * @param array $templateData
      *
      * @return array|bool
+     * @throws AException
      */
-    public function sendToCustomer($customer_id, $sendpoint, $msg_details = array(), $templateTextId = '', $templateData = [])
+    public function sendToCustomer($customer_id, $sendpoint, $msg_details = [], $templateTextId = '', $templateData = [])
     {
         if (!$customer_id) {
-            return array();
+            return [];
         }
         $this->load->language('common/im');
         $sendpoints_list = $this->admin_sendpoints;
@@ -184,6 +187,7 @@ class AIMManager extends AIM
 
                     $driver = new $classname();
                 } catch (Exception $e) {
+                    $this->log->write(__CLASS__.'::'.__METHOD__.": ".$e->getMessage());
                 }
             }
             //if driver cannot be initialized - skip protocol
@@ -233,19 +237,21 @@ class AIMManager extends AIM
     }
 
     /**
-     * @param int   $order_id
+     * @param int $order_id
      * @param array $msg_details - structure:
      *                           array(
      *                           message => 'text',
      *                           );
      *                           notes: If message is not provided, message text will be takes from languages based on checkpoint text key.
+     * @param string $templateTextId
+     * @param array $templateData
      *
      * @return array|bool
      */
-    public function sendToGuest($order_id, $msg_details = array(), $templateTextId = '', $templateData = [])
+    public function sendToGuest($order_id, $msg_details = [], $templateTextId = '', $templateData = [])
     {
         if (!$order_id) {
-            return array();
+            return [];
         }
         $this->load->language('common/im');
         $this->registry->set('force_skip_errors', true);
@@ -306,6 +312,7 @@ class AIMManager extends AIM
 
                     $driver = new $classname();
                 } catch (Exception $e) {
+                    $this->log->write(__CLASS__.'::'.__METHOD__.": ".$e->getMessage());
                 }
             }
             //if driver cannot be initialized - skip protocol
@@ -331,6 +338,7 @@ class AIMManager extends AIM
                             $driver->send($to, $store_name.$message);
                         }
                     } catch (Exception $e) {
+                        $this->log->write(__CLASS__.'::'.__METHOD__.": ".$e->getMessage());
                     }
                 }
             }
@@ -343,12 +351,12 @@ class AIMManager extends AIM
     public function getCustomerIMSettings($customer_id)
     {
         if (!$customer_id) {
-            return array();
+            return [];
         }
 
         //get only active IM drivers
         $im_protocols = $this->getProtocols();
-        $im_settings = array();
+        $im_settings = [];
         $sql = "SELECT *
 				FROM ".$this->db->table('customer_notifications')."
 				WHERE customer_id = ".(int)$customer_id;
@@ -368,7 +376,7 @@ class AIMManager extends AIM
         $user_id = (int)$user_id;
         $store_id = (int)$store_id;
         if (!$user_id) {
-            return array();
+            return [];
         }
 
         $sql = "SELECT *
@@ -378,7 +386,7 @@ class AIMManager extends AIM
 				ORDER BY `sendpoint`, `protocol`";
         $result = $this->db->query($sql);
 
-        $output = array();
+        $output = [];
         foreach ($result->rows as $row) {
             $section = (int)$row['section'] ? 'admin' : 'storefront';
             $sendpoint = $row['sendpoint'];
@@ -389,22 +397,25 @@ class AIMManager extends AIM
     }
 
     /**
-     * @param int    $user_id
+     * @param int $user_id
      * @param string $sendpoint
-     * @param array  $msg_details
+     * @param array $msg_details
+     * @param string $templateTextId
+     * @param array $templateData
      *
      * @return null
-
-    $msg_details structure:
+     *
+     * $msg_details structure:
      * array(
      * message => 'text',
      * );
      * notes: If message is not provided, message text will be takes from languages based on checkpoint text key.
+     * @throws AException
      */
-    public function sendToUser($user_id, $sendpoint, $msg_details = array(), $templateTextId = '', $templateData = [])
+    public function sendToUser($user_id, $sendpoint, $msg_details = [], $templateTextId = '', $templateData = [])
     {
         if (!$user_id) {
-            return array();
+            return [];
         }
 
         $this->load->language('common/im');
@@ -475,6 +486,7 @@ class AIMManager extends AIM
 
                     $driver = new $classname();
                 } catch (Exception $e) {
+                    $this->log->write(__CLASS__.'::'.__METHOD__.": ".$e->getMessage());
                 }
             }
             //if driver cannot be initialized - skip protocol
@@ -505,6 +517,7 @@ class AIMManager extends AIM
                                 $driver->send($to, $store_name.$message);
                             }
                         } catch (Exception $e) {
+                            $this->log->write(__CLASS__.'::'.__METHOD__.": ".$e->getMessage());
                         }
                     }
 
@@ -522,8 +535,8 @@ class AIMManager extends AIM
         $user_id = (int)$user_id;
         $store_id = (int)$store_id;
 
-        if (!$user_id || !$sendpoint || !in_array($section, array('admin', 'storefront', ''))) {
-            return array();
+        if (!$user_id || !$sendpoint || !in_array($section, ['admin', 'storefront', ''])) {
+            return [];
         }
 
         $sql = "SELECT *
@@ -540,7 +553,7 @@ class AIMManager extends AIM
         $sql .= "ORDER BY un.protocol";
         $result = $this->db->query($sql);
 
-        $output = array();
+        $output = [];
         foreach ($result->rows as $row) {
             if (!$output[$row['protocol']]) {
                 $output[$row['protocol']] = $row['uri'];
@@ -551,12 +564,12 @@ class AIMManager extends AIM
 
     public function validateUserSettings($settings)
     {
-        $this->errors = array();
+        $this->errors = [];
         if (!$settings) {
             return null;
         }
         //get all installed drivers
-        $drivers = $this->getIMDriverObjects(array('status' => ''));
+        $drivers = $this->getIMDriverObjects(['status' => '']);
         $supported_protocols = array_keys($drivers);
         foreach ($settings as $protocol => $uri) {
 
@@ -580,13 +593,13 @@ class AIMManager extends AIM
         }
     }
 
-    public function saveIMSettings($user_id, $section, $sendpoint, $store_id, $settings = array())
+    public function saveIMSettings($user_id, $section, $sendpoint, $store_id, $settings = [])
     {
 
         $user_id = (int)$user_id;
         $store_id = (int)$store_id;
         $settings = (array)$settings;
-        if (!$user_id || !$sendpoint || !in_array($section, array('admin', 'storefront', ''))) {
+        if (!$user_id || !$sendpoint || !in_array($section, ['admin', 'storefront', ''])) {
             return false;
         }
 
@@ -602,7 +615,7 @@ class AIMManager extends AIM
 
             $this->db->query($sql);
 
-            $sections = $section ? array($section) : array('admin', 'storefront');
+            $sections = $section ? [$section] : ['admin', 'storefront'];
             foreach ($sections as $s) {
                 $s = $s == 'admin' ? 1 : 0;
                 $sql = "INSERT INTO ".$this->db->table('user_notifications')."
@@ -623,11 +636,11 @@ class AIMManager extends AIM
 
     public function getIMDriversList()
     {
-        $filter = array(
+        $filter = [
             'category' => 'Communication',
-        );
+        ];
         $extensions = $this->extensions->getExtensionsList($filter);
-        $driver_list = array();
+        $driver_list = [];
         foreach ($extensions->rows as $ext) {
             $driver_txt_id = $ext['key'];
 
@@ -639,7 +652,8 @@ class AIMManager extends AIM
             try {
                 /** @noinspection PhpIncludeInspection */
                 include_once(DIR_EXT.$driver_txt_id.'/core/lib/'.$driver_txt_id.'.php');
-            } catch (AException $e) {
+            } catch (Exception $e) {
+                $this->log->write(__CLASS__.'::'.__METHOD__.": ".$e->getMessage());
             }
             $classname = preg_replace('/[^a-zA-Z]/', '', $driver_txt_id);
 

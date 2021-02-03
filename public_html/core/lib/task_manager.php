@@ -353,7 +353,7 @@ class ATaskManager
                 }
             } else {
                 if ($this->log_level == 'detailed') {
-                    $this->log_level['steps'][$step_details['step_id']] = $step_result;
+                    $this->run_log[] = 'Step #'.$step_details['step_id'].' result: success';
                 }
             }
             $this->_update_task_state($task_id, ['progress' => ceil($k * 100 / $steps_count)]);

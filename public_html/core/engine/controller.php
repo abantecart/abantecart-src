@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -23,86 +24,86 @@ if (!defined('DIR_CORE')) {
 /** @noinspection PhpUndefinedClassInspection */
 
 /**
- * @property ModelToolUpdater                     $model_tool_updater
- * @property ModelSettingStore                    $model_setting_store
- * @property ModelCatalogCategory                 $model_catalog_category
- * @property ModelCatalogCollection               $model_catalog_collection
- * @property ModelCatalogDownload                 $model_catalog_download
- * @property ModelCatalogProduct                  $model_catalog_product
- * @property ModelCatalogManufacturer             $model_catalog_manufacturer
- * @property ModelLocalisationStockStatus         $model_localisation_stock_status
- * @property ModelLocalisationTaxClass            $model_localisation_tax_class
- * @property ModelLocalisationWeightClass         $model_localisation_weight_class
- * @property ModelLocalisationLengthClass         $model_localisation_length_class
- * @property ModelToolImage                       $model_tool_image
- * @property ModelSaleCustomerGroup               $model_sale_customer_group
- * @property ModelCatalogReview                   $model_catalog_review
- * @property ModelSettingExtension                $model_setting_extension
- * @property ModelUserUserGroup                   $model_user_user_group
- * @property ModelSettingSetting                  $model_setting_setting
- * @property ModelUserUser                        $model_user_user
- * @property ModelSaleOrder                       $model_sale_order
- * @property ModelSaleCustomer                    $model_sale_customer
- * @property ModelSaleCustomerTransaction         $model_sale_customer_transaction
- * @property ModelLocalisationCurrency            $model_localisation_currency
- * @property ModelLocalisationCountry             $model_localisation_country
- * @property ModelLocalisationZone                $model_localisation_zone
- * @property ModelLocalisationLocation            $model_localisation_location
- * @property ModelLocalisationLanguage            $model_localisation_language
+ * @property ModelToolUpdater $model_tool_updater
+ * @property ModelSettingStore $model_setting_store
+ * @property ModelCatalogCategory $model_catalog_category
+ * @property ModelCatalogCollection $model_catalog_collection
+ * @property ModelCatalogDownload $model_catalog_download
+ * @property ModelCatalogProduct $model_catalog_product
+ * @property ModelCatalogManufacturer $model_catalog_manufacturer
+ * @property ModelLocalisationStockStatus $model_localisation_stock_status
+ * @property ModelLocalisationTaxClass $model_localisation_tax_class
+ * @property ModelLocalisationWeightClass $model_localisation_weight_class
+ * @property ModelLocalisationLengthClass $model_localisation_length_class
+ * @property ModelToolImage $model_tool_image
+ * @property ModelSaleCustomerGroup $model_sale_customer_group
+ * @property ModelCatalogReview $model_catalog_review
+ * @property ModelSettingExtension $model_setting_extension
+ * @property ModelUserUserGroup $model_user_user_group
+ * @property ModelSettingSetting $model_setting_setting
+ * @property ModelUserUser $model_user_user
+ * @property ModelSaleOrder $model_sale_order
+ * @property ModelSaleCustomer $model_sale_customer
+ * @property ModelSaleCustomerTransaction $model_sale_customer_transaction
+ * @property ModelLocalisationCurrency $model_localisation_currency
+ * @property ModelLocalisationCountry $model_localisation_country
+ * @property ModelLocalisationZone $model_localisation_zone
+ * @property ModelLocalisationLocation $model_localisation_location
+ * @property ModelLocalisationLanguage $model_localisation_language
  * @property ModelLocalisationLanguageDefinitions $model_localisation_language_definitions
- * @property ModelLocalisationOrderStatus         $model_localisation_order_status
- * @property ModelReportViewed                    $model_report_viewed
- * @property ModelSaleCoupon                      $model_sale_coupon
- * @property ModelSaleContact                     $model_sale_contact
- * @property ModelToolBackup                      $model_tool_backup
- * @property ModelToolGlobalSearch                $model_tool_global_search
- * @property ModelToolMigration                   $model_tool_migration
- * @property ModelToolDatasetManager              $model_tool_dataset_manager
- * @property ModelToolInstallUpgradeHistory       $model_tool_install_upgrade_history
- * @property ModelToolMessageManager              $model_tool_message_manager
- * @property ModelReportPurchased                 $model_report_purchased
- * @property ModelReportSale                      $model_report_sale
- * @property ModelToolPackageInstaller            $model_tool_package_installer
- * @property ModelToolSeoUrl                      $model_tool_seo_url
- * @property ModelCheckoutExtension               $model_checkout_extension
- * @property ModelToolTableRelationships          $model_tool_table_relationships
- * @property ModelAccountOrder                    $model_account_order
- * @property ModelAccountAddress                  $model_account_address
- * @property ModelCheckoutOrder                   $model_checkout_order
- * @property ModelToolBackup                      $model_tools_backup
- * @property ModelAccountCustomer                 $model_account_customer
- * @property ModelCatalogContent                  $model_catalog_content
- * @property ModelToolDatasetsManager             $model_tool_datasets_manager
- * @property AConfig                              $config
- * @property ADB                                  $db
- * @property ACache                               $cache
- * @property ALanguageManager                     $language
- * @property AResource                            $resource
- * @property AView                                $view
- * @property ALoader                              $load
- * @property ARouter                              $router
- * @property AHtml                                $html
- * @property ARequest                             $request
- * @property AResponse                            $response
- * @property ASession                             $session
- * @property ExtensionsApi                        $extensions
- * @property AExtensionManager                    $extension_manager
- * @property ALayout                              $layout
- * @property ACurrency                            $currency
- * @property ACart                                $cart
- * @property ATax                                 $tax
- * @property AUser                                $user
- * @property ALog                                 $log
- * @property AMessage                             $messages
- * @property ACustomer                            $customer
- * @property ADocument                            $document
- * @property ADispatcher                          $dispatcher
- * @property ADataEncryption                      $dcrypt
- * @property ModelToolFileUploads                 $model_tool_file_uploads
- * @property ADownload                            $download
- * @property AOrderStatus                         $order_status
- * @property AIMManager                           $im
- * @property CSRFToken                            $csrftoken
+ * @property ModelLocalisationOrderStatus $model_localisation_order_status
+ * @property ModelReportViewed $model_report_viewed
+ * @property ModelSaleCoupon $model_sale_coupon
+ * @property ModelSaleContact $model_sale_contact
+ * @property ModelToolBackup $model_tool_backup
+ * @property ModelToolGlobalSearch $model_tool_global_search
+ * @property ModelToolMigration $model_tool_migration
+ * @property ModelToolDatasetManager $model_tool_dataset_manager
+ * @property ModelToolInstallUpgradeHistory $model_tool_install_upgrade_history
+ * @property ModelToolMessageManager $model_tool_message_manager
+ * @property ModelReportPurchased $model_report_purchased
+ * @property ModelReportSale $model_report_sale
+ * @property ModelToolPackageInstaller $model_tool_package_installer
+ * @property ModelToolSeoUrl $model_tool_seo_url
+ * @property ModelCheckoutExtension $model_checkout_extension
+ * @property ModelToolTableRelationships $model_tool_table_relationships
+ * @property ModelAccountOrder $model_account_order
+ * @property ModelAccountAddress $model_account_address
+ * @property ModelCheckoutOrder $model_checkout_order
+ * @property ModelToolBackup $model_tools_backup
+ * @property ModelAccountCustomer $model_account_customer
+ * @property ModelCatalogContent $model_catalog_content
+ * @property ModelToolDatasetsManager $model_tool_datasets_manager
+ * @property AConfig $config
+ * @property ADB $db
+ * @property ACache $cache
+ * @property ALanguageManager $language
+ * @property AResource $resource
+ * @property AView $view
+ * @property ALoader $load
+ * @property ARouter $router
+ * @property AHtml $html
+ * @property ARequest $request
+ * @property AResponse $response
+ * @property ASession $session
+ * @property ExtensionsApi $extensions
+ * @property AExtensionManager $extension_manager
+ * @property ALayout $layout
+ * @property ACurrency $currency
+ * @property ACart $cart
+ * @property ATax $tax
+ * @property AUser $user
+ * @property ALog $log
+ * @property AMessage $messages
+ * @property ACustomer $customer
+ * @property ADocument $document
+ * @property ADispatcher $dispatcher
+ * @property ADataEncryption $dcrypt
+ * @property ModelToolFileUploads $model_tool_file_uploads
+ * @property ADownload $download
+ * @property AOrderStatus $order_status
+ * @property AIMManager $im
+ * @property CSRFToken $csrftoken
  */
 abstract class AController
 {
@@ -129,7 +130,6 @@ abstract class AController
      */
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
-
         $this->registry = $registry;
         $this->instance_id = $instance_id;
         $this->controller = $controller;
@@ -158,7 +158,8 @@ abstract class AController
         }
 
         //set embed mode if passed
-        if ($this->config && $this->request && isset($this->request->get['embed_mode']) && $this->request->get['embed_mode']) {
+        if ($this->config && $this->request && isset($this->request->get['embed_mode'])
+            && $this->request->get['embed_mode']) {
             $this->config->set('embed_mode', true);
         }
     }
@@ -175,7 +176,7 @@ abstract class AController
     /**
      * Function to enable caching for this page/block
      *
-     * @return true/false
+     * @return bool
      */
     public function html_cache()
     {
@@ -299,17 +300,19 @@ abstract class AController
      * @param string $mode
      *
      * @return null
+     * @throws AException
      */
     public function loadLanguage($rt, $mode = '')
     {
         if (empty ($rt) || !method_exists($this->language, 'load')) {
-            return null;
+            return false;
         }
         // strip off pages or response
         $rt = preg_replace('/^(api|pages|responses)\//', '', $rt);
         $this->languages[] = $rt;
         //load all translations to the view
         $this->view->batchAssign($this->language->load($rt, $mode));
+        return true;
     }
 
     /**
@@ -345,9 +348,10 @@ abstract class AController
     // Redirect to new page
 
     /**
+     * @param $url
+     *
      * @deprecated since v1.2.9
      *
-     * @param $url
      */
     protected function redirect($url)
     {
@@ -396,8 +400,9 @@ abstract class AController
         foreach ($this->children as $block) {
             if (!empty($block['position'])) {
                 //assign count based on position (currently div. by 10)
-                if ((int)$block['position'] % 10 == 0) {
-                    $blocks[(int)($block['position'] / 10 - 1)] = $block['block_txt_id'].'_'.(int)$block['instance_id'];
+                if ((int) $block['position'] % 10 == 0) {
+                    $blocks[(int) ($block['position'] / 10 - 1)] =
+                        $block['block_txt_id'].'_'.(int) $block['instance_id'];
                 } else {
                     array_push($blocks, $block['block_txt_id'].'_'.$block['instance_id']);
                 }
@@ -467,11 +472,10 @@ abstract class AController
                         && isset($this->request->get['tmpl_debug']))
                     && ($this->session->data['tmpl_debug'] == $this->request->get['tmpl_debug'])
                 ) {
-
                     $block_details = $this->layout->getBlockDetails($this->instance_id);
                     $excluded_blocks = ['common/head'];
 
-                    if (!empty($this->instance_id) && (string)$this->instance_id != '0'
+                    if (!empty($this->instance_id) && (string) $this->instance_id != '0'
                         && !in_array($block_details['controller'], $excluded_blocks)
                     ) {
                         if (!empty($this->parent_controller)) {
@@ -488,8 +492,9 @@ abstract class AController
                                 'parent_controller' => $this->parent_controller->dispatcher->getFile(),
                                 'parent_tpl'        => $prt_block_tpl_file,
                             ];
-                            $debug_wrapper = $this->dispatch('common/template_debug',
-                                                             ['instance_id' => $this->instance_id, 'details' => $args]
+                            $debug_wrapper = $this->dispatch(
+                                'common/template_debug',
+                                ['instance_id' => $this->instance_id, 'details' => $args]
                             );
                             $debug_output = $debug_wrapper->dispatchGetOutput();
                             $output = trim($this->view->getOutput());
@@ -499,7 +504,6 @@ abstract class AController
                             $this->view->setOutput($output);
                         }
                     }
-
                 }
             } else {
                 unset($this->session->data['tmpl_debug']);
@@ -529,7 +533,6 @@ abstract class AController
                 $wrn->toDebug();
             }
         }
-
     }
 
     /**
@@ -565,9 +568,10 @@ abstract class AController
 
         // NOTEs: Need to skip for some common controllers.
         // Need to include this validation in constructor and break out of it if failed.
+        return null;
     }
 
-     /**
+    /**
      * Generate the URL to external help
      *
      * @param string $sub_key
@@ -589,31 +593,38 @@ abstract class AController
         return "http://docs.abantecart.com/tag/".$main_key;
     }
 
-    public function isReviewAllowed($productId = 0) {
-            $enableReviews = $this->config->get('enable_reviews');
-            if (!$enableReviews) {
-                return false; // Disallow for all
-            }
+    public function isReviewAllowed($productId = 0)
+    {
+        $enableReviews = $this->config->get('enable_reviews');
+        if (!$enableReviews) {
+            // Disallow for all
+            return false;
+        }
 
-            switch ($enableReviews) {
-                case 1: {
-                    return true; // Allow for all
-                } break;
-                case 2: { //allow only registered
-                    if ($this->customer && $this->customer->isLogged()) {
-                        return true;
-                    }
+        switch ($enableReviews) {
+            case 1:
+            {
+                // Allow for all
+                return true;
+            }
+            case 2:
+            { //allow only registered
+                if ($this->customer && $this->customer->isLogged()) {
+                    return true;
+                }
+                return false;
+            }
+            case 3:
+            { //allow who purchase
+                $this->loadModel('checkout/order');
+                if (!$this->customer || !$this->customer->isLogged() || !$this->customer->getId()
+                    || !(int) $productId) {
                     return false;
-                } break;
-                case 3: { //allow who purchase
-                    $this->loadModel('checkout/order');
-                    if (!$this->customer || !$this->customer->isLogged() || !$this->customer->getId() || !(int)$productId) {
-                        return false;
-                    }
-                    return $this->model_checkout_order->productIsPurchasedByCustomer($this->customer->getId(), $productId);
-
-                } break;
-                default: return false;
+                }
+                return $this->model_checkout_order->productIsPurchasedByCustomer($this->customer->getId(), $productId);
             }
+            default:
+                return false;
+        }
     }
 }

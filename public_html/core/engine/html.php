@@ -1523,6 +1523,7 @@ class SelectboxHtmlElement extends HtmlElement
                 'name'                 => $this->name,
                 'id'                   => $this->element_id,
                 'value'                => $this->value,
+                'ovalue'               => $this->value,
                 'options'              => $this->options,
                 'disabled'             => $this->disabled,
                 'disabled_options'     => $this->disabled_options,
