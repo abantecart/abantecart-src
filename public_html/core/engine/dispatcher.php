@@ -330,13 +330,13 @@ final class ADispatcher
             //Process each child controller
             foreach ($children as $child) {
                 //Add highest Debug level here with backtrace to review this
-                ADebug::checkpoint($child['controller'].' ( child of '.$this->controller.', instance_id: '
-                    .$child['instance_id'].' ) dispatch START');
+                ADebug::checkpoint($child['controller'].' ( child of '.$this->controller
+                                   .', instance_id: '.$child['instance_id'].' ) dispatch START');
                 //Process each child and create dispatch to call recursive
                 $dispatch = new ADispatcher($child['controller'], ["instance_id" => $child['instance_id']]);
                 $dispatch->dispatch($controller);
                 // Append output of child controller to current controller
-                if ($child['position']) { // made for recognizing few custom_blocks in the same placeholder
+                if (isset($child['position']) && $child['position']) { // made for recognizing few custom_blocks in the same placeholder
                     $controller->view->assign($child['block_txt_id'].'_'.$child['instance_id'],
                         $this->response->getOutput());
                 } else {

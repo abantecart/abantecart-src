@@ -100,13 +100,13 @@ var mcei = {
 
 $(document).ready(function () {
     //system check warnings
-    <?php if($system_error) { ?>
+    <?php if($system_error ?? '') { ?>
         error_alert(<?php js_echo($system_error); ?>, false);
     <?php } ?>
-    <?php if($system_warning) { ?>
+    <?php if($system_warning ?? '') { ?>
         warning_alert(<?php js_echo($system_warning); ?>, false);
     <?php } ?>
-    <?php if($system_notice) { ?>
+    <?php if($system_notice ?? '') { ?>
         info_alert(<?php js_echo($system_notice); ?>, false);
     <?php } ?>
   
@@ -240,7 +240,7 @@ $(document).ready(function(){
     $('#message_modal').on('hide.bs.modal', notifier_updater );
 <?php
     //do ajax call to check extension updates
-    if($check_updates_url){ ?>
+    if($check_updates_url ?? ''){ ?>
     $.get('<?php echo $check_updates_url?>');
 <?php }?>
 });

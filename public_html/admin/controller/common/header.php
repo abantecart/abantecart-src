@@ -104,7 +104,6 @@ class ControllerCommonHeader extends AController
             foreach ($results as $result) {
                 $stores[] = [
                     'name' => $result['name'],
-                    'href' => $result['config_url'],
                 ];
             }
             $this->data['stores'] = $stores;

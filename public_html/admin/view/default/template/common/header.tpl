@@ -245,7 +245,7 @@ echo $this->html->buildElement(
 		$breadcrumbs_html = '';
 		foreach ($breadcrumbs as $breadcrumb){
 			$breadcrumbs_html .= '<li>';
-			if ($breadcrumb['current']){
+			if ($breadcrumb['current'] ?? false){
 				$current = $breadcrumb;
 				$breadcrumbs_html .= $breadcrumb['icon'] . $breadcrumb['text'];
 			} else{
@@ -255,17 +255,17 @@ echo $this->html->buildElement(
 		}
 		?>
 		<h2>
-			<?php if ($current_menu['icon']){ ?>
+			<?php if ($current_menu['icon'] ?? ''){ ?>
 				<?php echo $current_menu['icon']; ?>
 			<?php } else{ ?>
 				<i class="fa fa-th-list"></i>
 			<?php } ?>
-			<?php if ($current && $current['text']){
+			<?php if ($current && isset($current['text']) && $current['text']){
 				echo $current['text'];
 			} else{
 				echo $heading_title;
 			} ?>
-			<?php if ($current && $current['sub_text']){ ?>
+			<?php if ($current && isset($current['sub_text']) && $current['sub_text']){ ?>
 				<span><?php echo $current['sub_text']; ?></span>
 			<?php } ?>
 		</h2>

@@ -57,14 +57,14 @@ class ControllerCommonHead extends AController
 
         $this->data['message_manager_url'] = $message_link;
 
-        if ($this->session->data['checkupdates']) {
+        if ($this->session->data['checkupdates'] ?? false) {
             $this->data['check_updates_url'] = $this->html->getSecureURL('r/common/common/checkUpdates');
         }
 
         $this->data['icon'] = $this->config->get('config_icon');
 
         if (isset($this->request->server['HTTPS'])
-            && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))
+            && ($this->request->server['HTTPS'] == 'on' || $this->request->server['HTTPS'] == '1')
         ) {
             $this->data['ssl'] = 1;
         }
