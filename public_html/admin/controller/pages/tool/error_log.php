@@ -41,7 +41,7 @@ class ControllerPagesToolErrorLog extends AController
             $this->data['success'] = '';
         }
 
-        $filename = $this->request->get['filename'];
+        $filename = $this->request->get['filename'] ?? '';
         if ($filename && is_file(DIR_LOGS.$filename)) {
             $file = DIR_LOGS.$filename;
             $this->data['clear_url'] = '';
