@@ -13,18 +13,19 @@
             url: '<?php echo $cart_url; ?>' + '&cart_key=' + (cart_key || ''),
             type: 'GET',
             dataType: 'html',
-            success: function (data) {
-                $('#fast_checkout_summary_block').trigger('reload');
-                $('#fast_checkout_cart').hide().html(data).fadeIn(1000);
-                $('.spinner-overlay').fadeOut(500);
+            success: function (data){
+                    $('#fast_checkout_summary_block').trigger('reload');
+                    $('#fast_checkout_cart').hide().html(data).fadeIn(1000);
+                    $('.spinner-overlay').fadeOut(500);
             },
             error: function () {
                 $('.spinner-overlay').fadeOut(500);
             }
-        });
+        })
     };
-    $(document).ready( loadPage );
-    <?php } ?>
+    $(document).ready( loadPage('<?php echo $cart_key?>') );
+<?php } ?>
+
 
 
 </script>

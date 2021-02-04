@@ -1,68 +1,68 @@
 <?php
 $guest_data = $this->session->data['guest'];
 ?>
-
 <div id="pay_error_container">
-    <?php if ($info) { ?>
-		<div class="info alert alert-info"><i class="fa fa fa-check fa-fw"></i> <?php echo $info; ?></div>
+    <?php if ($info ?? '') { ?>
+        <div class="info alert alert-info">
+            <i class="fa fa fa-check fa-fw"></i> <?php echo $info; ?></div>
     <?php } ?>
-    <?php if ($error) { ?>
-		<div class="alert alert-danger" role="alert"><i class="fa fa-exclamation fa-fw"></i> <?php echo $error; ?>
-		</div>
+    <?php if ($error ?? '') { ?>
+        <div class="alert alert-danger" role="alert">
+            <i class="fa fa-exclamation fa-fw"></i><?php echo $error; ?></div>
     <?php } ?>
 </div>
 
 <fieldset>
-	<form id="<?php echo $pay_form['form_open']->name; ?>"
-		  action="<?php echo $pay_form['form_open']->action; ?>"
-		  class="validate-creditcard"
-		  method="post">
-
-        <?php echo $this->getHookVar('payment_form_top'); ?>
-        <?php
+    <form id="<?php echo $pay_form['form_open']->name; ?>"
+          action="<?php echo $pay_form['form_open']->action; ?>"
+          class="validate-creditcard"
+          method="post">
+    <?php
+        echo $this->getHookVar('payment_form_top');
         if (count($all_addresses) == 1) {
             $readonly = ' readonly ';
         }
-
         //do we show payment details yet? Show only if shipping selected
-        if ($show_payment == false) {
-            ?>
-			<div class="row">
-				<div class="form-group col-xxs-12 text-center">
-					<label class="h5 text-uppercase"><?php echo $fast_checkout_text_select_delivery; ?></label>
-				</div>
-			</div>
+        if (!$show_payment) { ?>
+            <div class="row">
+                <div class="form-group col-xxs-12 text-center">
+                    <label class="h5 text-uppercase"><?php echo $fast_checkout_text_select_delivery; ?></label>
+                </div>
+            </div>
             <?php
-        }
-        ?>
+        } ?>
 
-		<div class="row">
+        <div class="row">
         <?php if ($this->cart->hasShipping()) { ?>
-			<div class="form-group <?php if ($show_payment) {
+            <div class="form-group <?php if ($show_payment) {
                 echo "col-xxs-12 col-xs-6";
             } ?>">
-                <?php if ($guest_data['shipping']) {
+            <?php if ($guest_data['shipping']) {
                 $address = $this->customer->getFormattedAddress(
                         $guest_data['shipping'],
                         $guest_data['shipping']['address_format']
-                );
-?>
-				<div class="left-inner-addon">
-					<i class="fa fa-home" id="delivery_icon"></i>
-					<a href="<?php echo $edit_address_url; ?>&type=shipping" class="address_edit"><i
-								class="fa fa-edit"></i></a>
-					<div class="well">
-						<b><?php echo $fast_checkout_text_shipping_address; ?>:</b> <br/>
+                ); ?>
+                <div class="left-inner-addon">
+                    <i class="fa fa-home" id="delivery_icon"></i>
+                    <a href="<?php echo $edit_address_url; ?>&type=shipping" class="address_edit">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <div class="well">
+                        <b><?php echo $fast_checkout_text_shipping_address; ?>:</b>
+                        <br/>
                         <?php echo $address; ?>
-					</div>
-                    <?php } else { ?>
-					<div class="shipping_address_label"><?php echo $fast_checkout_text_shipping_address; ?>:</div>
-					<div class="left-inner-addon">
-						<i class="fa fa-home" id="delivery_icon"></i>
-						<select data-placeholder="" class="form-control input-lg" id="shipping_address_id"
-								name="shipping_address_id" <?php echo $readonly; ?>>
-							<option disabled><?php echo $fast_checkout_text_shipping_address; ?>:</option>
-							<option disabled></option>
+                    </div>
+            <?php } else { ?>
+                    <div class="shipping_address_label"><?php echo $fast_checkout_text_shipping_address; ?>:</div>
+                    <div class="left-inner-addon">
+                        <i class="fa fa-home" id="delivery_icon"></i>
+                        <select aria-label="shipping_address_id"
+                                data-placeholder=""
+                                class="form-control input-lg"
+                                id="shipping_address_id"
+                                name="shipping_address_id" <?php echo $readonly; ?>>
+                            <option disabled><?php echo $fast_checkout_text_shipping_address; ?>:</option>
+                            <option disabled></option>
                             <?php
                             if (count($all_addresses)) {
                                 foreach ($all_addresses as $addr) {
@@ -72,57 +72,59 @@ $guest_data = $this->session->data['guest'];
                                     }
                                     $address = $this->customer->getFormattedAddress($addr, $addr['address_format']);
                                     $lines = explode("<br />", $address);
-                                    echo '<option value="'.$addr['address_id'].'" '.$current.'>'.$lines[0].', '
-                                        .$lines[1].'...</option>';
+                                    echo '<option value="'.$addr['address_id'].'" '.$current.'>'
+                                            .$lines[0].', '.$lines[1]
+                                        .'...</option>';
                                     for ($i = 0; $i <= count($lines); $i++) {
                                         echo '<option disabled>&nbsp;&nbsp;&nbsp;'.$lines[$i].'</option>';
                                     }
                                 }
-                            }
-                            ?>
-						</select>
-						<div class="select_arrow"><i class="fa fa-angle-double-down"></i></div>
+                            } ?>
+                        </select>
+                        <div class="select_arrow"><i class="fa fa-angle-double-down"></i></div>
                         <?php } ?>
-					</div>
-                    <?php
-                    if (count($all_addresses)) { ?>
-						<div class="shipping_address_details"></div>
-                        <?php
-                    } ?>
+                    </div>
+            <?php
+            if (count($all_addresses)) { ?>
+                     <div class="shipping_address_details"></div>
+            <?php   } ?>
 
-				</div>
+                </div>
 
                 <?php
                 $readonly = '';
-                if (count($csession['shipping_methods']) == 1) {
+                if (isset($csession['shipping_methods']) && count($csession['shipping_methods']) == 1) {
                     $readonly = ' readonly ';
                 }
-                ?>
-
-                <?php } //eof if product has shipping
+            } //eof if product has shipping
 
                 if ($show_payment == true) {
                     if ($need_payment_address) { ?>
-						<div class="form-group col-xxs-12 <?php if ($this->cart->hasShipping()) { ?>col-xs-6 <?php } ?>">
+                        <div class="form-group col-xxs-12 <?php if ($this->cart->hasShipping()) { ?>col-xs-6 <?php } ?>">
                             <?php if ($guest_data) {
                             $address = $this->customer->getFormattedAddress($guest_data, $guest_data['address_format']);
                             ?>
-							<div class="left-inner-addon">
-								<i class="fa fa-bank"></i>
-								<a href="<?php echo $edit_address_url; ?>&type=payment" class="address_edit" id="payment_address_edit"><i
-											class="fa fa-edit"></i></a>
-								<div class="well">
-									<b><?php echo $fast_checkout_text_payment_address; ?>:</b> <br/>
+                            <div class="left-inner-addon">
+                                <i class="fa fa-bank"></i>
+                                <a href="<?php echo $edit_address_url; ?>&type=payment" class="address_edit" id="payment_address_edit">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <div class="well">
+                                    <b><?php echo $fast_checkout_text_payment_address; ?>:</b>
+                                    <br/>
                                     <?php echo $address; ?>
-								</div>
+                                </div>
                                 <?php } else { ?>
-								<div class="payment_address_label"><?php echo $fast_checkout_text_payment_address; ?>:</div>
-								<div class="left-inner-addon">
-									<i class="fa fa-bank"></i>
-									<select data-placeholder="" class="form-control input-lg" id="payment_address_id"
-											name="payment_address_id" <?php echo $readonly; ?>>
-										<option disabled><?php echo $fast_checkout_text_payment_address; ?>:</option>
-										<option disabled></option>
+                                <div class="payment_address_label"><?php echo $fast_checkout_text_payment_address; ?>:</div>
+                                <div class="left-inner-addon">
+                                    <i class="fa fa-bank"></i>
+                                    <select aria-label="payment_address_id"
+                                            data-placeholder=""
+                                            class="form-control input-lg"
+                                            id="payment_address_id"
+                                            name="payment_address_id" <?php echo $readonly; ?>>
+                                        <option disabled><?php echo $fast_checkout_text_payment_address; ?>:</option>
+                                        <option disabled></option>
                                         <?php
                                         if (count($all_addresses)) {
                                             foreach ($all_addresses as $addr) {
@@ -132,43 +134,43 @@ $guest_data = $this->session->data['guest'];
                                                 }
                                                 $address = $this->customer->getFormattedAddress($addr, $addr['address_format']);
                                                 $lines = explode("<br />", $address);
-                                                echo '<option value="'.$addr['address_id'].'" '.$current.'>'.$lines[0].', '
-                                                    .$lines[1].'...</option>';
+                                                echo '<option value="'.$addr['address_id'].'" '.$current.'>'
+                                                        .$lines[0].', '.$lines[1]
+                                                    .'...</option>';
                                                 for ($i = 0; $i <= count($lines); $i++) {
                                                     echo '<option disabled>&nbsp;&nbsp;&nbsp;'.$lines[$i].'</option>';
                                                 }
                                             }
-                                        }
-                                        ?>
-									</select>
-									<div class="select_arrow"><i class="fa fa-angle-double-down"></i></div>
+                                        } ?>
+                                    </select>
+                                    <div class="select_arrow"><i class="fa fa-angle-double-down"></i></div>
                                     <?php } ?>
-								</div>
+                                </div>
                                 <?php
                                 if (count($all_addresses)) { ?>
-									<div class="payment_address_details"></div>
+                                    <div class="payment_address_details"></div>
                                     <?php
                                 } ?>
-								<input name="cc_owner" type="hidden" value="<?php echo $customer_name; ?>">
-							</div>
-						</div>
+                                <input name="cc_owner" type="hidden" value="<?php echo $customer_name; ?>">
+                            </div>
+                        </div>
                     <?php } else { ?>
-						<div class="row">
-							<div class="form-group col-xxs-12">
-								<div class="left-inner-addon">
-									<i class="fa fa-user"></i>
-									<input class="form-control input-lg" placeholder="Your Name" name="cc_owner" type="text"
-										   value="<?php echo $customer_name; ?>">
-								</div>
-							</div>
-						</div>
+                        <div class="row">
+                            <div class="form-group col-xxs-12">
+                                <div class="left-inner-addon">
+                                    <i class="fa fa-user"></i>
+                                    <input class="form-control input-lg" placeholder="Your Name" name="cc_owner" type="text"
+                                           value="<?php echo $customer_name; ?>">
+                                </div>
+                            </div>
+                        </div>
                     <?php }
                 } ?>
 
                 <?php if ($this->cart->hasShipping() && count($csession['shipping_methods']) === 0) { ?>
-					<div class="alert alert-danger" role="alert">
+                    <div class="alert alert-danger" role="alert">
                         <?php echo $this->language->get('fast_checkout_no_shipments_available'); ?>
-					</div>
+                    </div>
                     <?php
                     $payment_available = false;
                 } ?>
@@ -178,94 +180,95 @@ $guest_data = $this->session->data['guest'];
                     $readonly = '';
                     if (count($csession['shipping_methods']) == 1) {
                         $readonly = ' readonly ';
-                    }
-                    ?>
-					<div class="row">
-						<div class="registerbox">
-							<table class="table table-striped table-shipments">
-                                <?php
-                                foreach ($csession['shipping_methods'] as $shipping_method) { ?>
-									<tr>
-										<td colspan="3"><b><?php echo $shipping_method['title']; ?></b></td>
-									</tr>
-                                    <?php if (!$shipping_method['error']) { ?>
+                    } ?>
+                    <div class="row">
+                        <div class="registerbox">
+                            <table class="table table-striped table-shipments">
+                        <?php   foreach ($csession['shipping_methods'] as $shipping_method) { ?>
+                                    <tr>
+                                        <td colspan="3"><b><?php echo $shipping_method['title']; ?></b></td>
+                                    </tr>
+                            <?php if (!$shipping_method['error']) { ?>
                                         <?php foreach ($shipping_method['quote'] as $quote) { ?>
-											<tr>
-												<td style="width: 5%; text-align: center; vertical-align: middle;"><?php echo $quote['radio']; ?></td>
-												<td style="vertical-align: middle;">
-													<label for="<?php
-                                                    $idd = str_replace('.', '', $quote['id']);
-                                                    echo preg_replace('/[^a-zA-Z0-9\.-_]/', '', $idd.$quote['id']); ?>"
-														   title="<?php echo has_value($quote['description']) ? $quote['description'] : $quote['title']; ?>"
-														   style="cursor: pointer;">
+                                            <tr>
+                                                <td style="width: 5%; text-align: center; vertical-align: middle;"><?php echo $quote['radio']; ?></td>
+                                                <td style="vertical-align: middle;">
+                                                    <label for="<?php
+                                                            $idd = str_replace('.', '', $quote['id']);
+                                                                echo preg_replace('/[^a-zA-Z0-9\.-_]/', '', $idd.$quote['id']); ?>"
+                                                           title="<?php echo has_value($quote['description']) ? $quote['description'] : $quote['title']; ?>"
+                                                       style="cursor: pointer;">
                                                         <?php $icon = (array)$shipping_method['icon'];
-                                                        if (sizeof($icon)) { ?>
-                                                            <?php if (is_file(DIR_RESOURCE.$icon['image'])) { ?>
-																<span class="shipping_icon mr10"><img style="width:<?php echo $this->config->get('config_image_grid_width'); ?>px; height:auto;"
-																									  src="resources/<?php echo $icon['image']; ?>"
-																									  title="<?php echo $icon['title']; ?>"/></span>
+                                                        if (sizeof($icon)) {
+                                                            if (is_file(DIR_RESOURCE.$icon['image'])) { ?>
+                                                                <span class="shipping_icon mr10">
+                                                                    <img style="width:<?php echo $this->config->get('config_image_grid_width'); ?>px; height:auto;"
+                                                                         src="resources/<?php echo $icon['image']; ?>"
+                                                                         title="<?php echo $icon['title']; ?>" alt=""/>
+                                                                </span>
                                                             <?php } else {
                                                                 if (!empty($icon['resource_code'])) { ?>
-																	<span class="shipping_icon mr10"><?php echo $icon['resource_code']; ?></span>
+                                                                    <span class="shipping_icon mr10"><?php echo $icon['resource_code']; ?></span>
                                                                 <?php }
                                                             }
                                                         } ?>
                                                         <?php echo $quote['title']; ?>
-													</label>
-												</td>
-												<td style="vertical-align: middle;" class="align_right"><label for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
-																											   style="cursor: pointer;"><?php echo $quote['text']; ?></label>
-												</td>
-											</tr>
-                                        <?php } ?>
-                                    <?php } else { ?>
-										<tr>
-											<td colspan="3">
-												<div class="alert alert-danger"><i
-															class="fa fa-exclamation"></i> <?php echo $shipping_method['error']; ?>
-												</div>
-											</td>
-										</tr>
+                                                    </label>
+                                                </td>
+                                                <td style="vertical-align: middle;" class="align_right">
+                                                    <label for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
+                                                           style="cursor: pointer;"><?php echo $quote['text']; ?></label>
+                                                </td>
+                                            </tr>
+                                        <?php }
+                            } else { ?>
+                                        <tr>
+                                            <td colspan="3">
+                                                <div class="alert alert-danger">
+                                                    <i class="fa fa-exclamation"></i> <?php echo $shipping_method['error']; ?>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     <?php } ?>
                                 <?php } ?>
-							</table>
-						</div>
-					</div>
-                <?php } ?>
-                <?php
-                //if not all required fields are selected, do not show payment fields
-                if ($show_payment == true) {
-                ?>
+                            </table>
+                        </div>
+                    </div>
+                <?php }
 
-				<div class="row">
-					<div class="form-group col-xxs-12">
-						<div class="left-inner-addon">
-							<i class="fa fa-envelope"></i>
-							<div class="input-group">
-								<input class="form-control input-lg"
-									   placeholder="Your Email"
-									   id="cc_email"
-									   name="cc_email"
-									   type="text"
-									   value="<?php echo $customer_email; ?>"
-									   readonly>
-								<span class="input-group-btn">
-									<button class="btn btn-default btn-lg btn-edit-email" type="button">
-										<i class="fa fa-edit fa-fw"></i>
-									</button>
-							</span>
-							</div>
-						</div>
-					</div>
-				</div>
+                //if not all required fields are selected, do not show payment fields
+                if ($show_payment == true) { ?>
+                <div class="row">
+                    <div class="form-group col-xxs-12">
+                        <div class="left-inner-addon">
+                            <i class="fa fa-envelope"></i>
+                            <div class="input-group">
+                                <input class="form-control input-lg"
+                                       aria-label="cc_email"
+                                       placeholder="Your Email"
+                                       id="cc_email"
+                                       name="cc_email"
+                                       type="text"
+                                       value="<?php echo $customer_email; ?>"
+                                       readonly>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-lg btn-edit-email" type="button">
+                                        <i class="fa fa-edit fa-fw"></i>
+                                    </button>
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <?php if ($require_telephone) { ?>
-					<div class="row">
-						<div class="form-group col-xxs-12">
-							<div class="left-inner-addon">
-								<i class="fa fa-phone"></i>
+                    <div class="row">
+                        <div class="form-group col-xxs-12">
+                            <div class="left-inner-addon">
+                                <i class="fa fa-phone"></i>
                                 <div class="input-group">
                                     <input id="telephone"
+                                           aria-label="telephone"
                                            class="form-control input-lg"
                                            placeholder="<?php echo $fast_checkout_text_telephone_placeholder; ?>"
                                            name="telephone"
@@ -278,18 +281,18 @@ $guest_data = $this->session->data['guest'];
                                         </button>
                                     </span>
                                 </div>
-							</div>
-						</div>
-					</div>
-                <?php } ?>
-                <?php echo $this->getHookVar('payment_form_fields'); ?>
-                <?php if ($this->config->get('fast_checkout_show_order_comment_field')) { ?>
-					<div class="row">
-						<div class="form-group col-xxs-12" title="<?php echo $fast_checkout_text_order_comment; ?>">
-							<div class="left-inner-addon">
-								<i class="fa fa-comment"></i>
+                            </div>
+                        </div>
+                    </div>
+                <?php }
+                    echo $this->getHookVar('payment_form_fields');
+                if ($this->config->get('fast_checkout_show_order_comment_field')) { ?>
+                    <div class="row">
+                        <div class="form-group col-xxs-12" title="<?php echo $fast_checkout_text_order_comment; ?>">
+                            <div class="left-inner-addon">
+                                <i class="fa fa-comment"></i>
                                 <div class="input-group">
-                                    <textarea id="comment"
+                                    <textarea aria-label="order_comment" id="comment"
                                               class="form-control input-lg p"
                                               name="comment"
                                               placeholder="<?php echo $fast_checkout_text_comment_placeholder; ?>"
@@ -301,88 +304,87 @@ $guest_data = $this->session->data['guest'];
                                       </button>
                                     </span>
                                 </div>
-							</div>
-						</div>
-					</div>
+                            </div>
+                        </div>
+                    </div>
                 <?php } ?>
 
                 <?php if ($enabled_coupon) { ?>
-					<div class="row">
-						<div class="form-group col-xxs-12">
-							<div class="left-inner-addon">
-								<i class="fa fa-ticket"></i>
-								<div class="input-group">
-									<input id="coupon_code"
-										   class="form-control input-lg"
-										   placeholder="<?php echo $fast_checkout_text_coupon_code; ?>"
-										   name="coupon_code"
-										   type="text"
-										   value="<?php echo $csession['coupon']; ?>"
+                    <div class="row">
+                        <div class="form-group col-xxs-12">
+                            <div class="left-inner-addon">
+                                <i class="fa fa-ticket"></i>
+                                <div class="input-group">
+                                    <input id="coupon_code"
+                                           aria-label="coupon"
+                                           class="form-control input-lg"
+                                           placeholder="<?php echo $fast_checkout_text_coupon_code; ?>"
+                                           name="coupon_code"
+                                           type="text"
+                                           value="<?php echo $csession['coupon']; ?>"
                                         <?php if ($csession['coupon']) {
                                             echo "disabled";
                                         } ?>
-									>
-									<span class="input-group-btn">
-						<?php if ($csession['coupon']) { ?>
-							<button class="btn btn-default btn-lg btn-remove-coupon" type="button">
-							<i class="fa fa-trash fa-fw"></i> <span
-										class="hidden-xxs"><?php echo $fast_checkout_text_remove; ?></span>
-						  </button>
-                        <?php } else { ?>
-							<button class="btn btn-default btn-lg btn-coupon" type="button">
-							<i class="fa fa-check fa-fw"></i> <span
-										class="hidden-xxs"><?php echo $fast_checkout_text_apply; ?></span>
-						  </button>
-                        <?php } ?>
-						</span>
-								</div>
-							</div>
-						</div>
-					</div>
+                                    ><span class="input-group-btn">
+                                    <?php if ($csession['coupon']) { ?>
+                                        <button class="btn btn-default btn-lg btn-remove-coupon" type="button">
+                                            <i class="fa fa-trash fa-fw"></i>
+                                            <span class="hidden-xxs"><?php echo $fast_checkout_text_remove; ?></span>
+                                      </button>
+                                    <?php } else { ?>
+                                        <button class="btn btn-default btn-lg btn-coupon" type="button">
+                                            <i class="fa fa-check fa-fw"></i>
+                                            <span class="hidden-xxs"><?php echo $fast_checkout_text_apply; ?></span>
+                                      </button>
+                                    <?php } ?>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <?php } ?>
 
                 <?php if ($allow_account_creation || $support_recurring_billing) { ?>
-					<div class="row">
-						<div class="form-group col-xxs-4 col-xs-4">
-						</div>
+                    <div class="row">
+                        <div class="form-group col-xxs-4 col-xs-4">
+                        </div>
                         <?php if ($support_recurring_billing) { ?>
-							<div class="form-group col-xxs-8 col-xs-4 pull-right">
-								<div class="input-group pull-right">
-            <span class="button-checkbox">
-                <button type="button" class="btn"
-						data-color="primary"> <?php echo $fast_checkout_text_bill_me_monthly; ?></button>
-                <input type="checkbox" name="cc_bill_monthly" class="hidden"/>
-            </span>
-								</div>
-							</div>
+                            <div class="form-group col-xxs-8 col-xs-4 pull-right">
+                                <div class="input-group pull-right">
+                                    <span class="button-checkbox">
+                                        <button type="button" class="btn"
+                                                data-color="primary"> <?php echo $fast_checkout_text_bill_me_monthly; ?></button>
+                                        <input type="checkbox" name="cc_bill_monthly" class="hidden"/>
+                                    </span>
+                                </div>
+                            </div>
                         <?php } ?>
                         <?php if ($allow_account_creation) { ?>
-							<div class="form-group col-xxs-8 col-xs-4 pull-right">
-								<div class="input-group pull-right">
-            <span class="button-checkbox">
-                <button type="button" class="btn"
-						data-color="primary"> <?php echo $fast_checkout_text_create_account; ?></button>
-                <input type="checkbox" name="create_account" class="hidden" checked="checked"/>
-            </span>
-								</div>
-							</div>
+                            <div class="form-group col-xxs-8 col-xs-4 pull-right">
+                                <div class="input-group pull-right">
+                                    <span class="button-checkbox">
+                                        <button type="button" class="btn"
+                                                data-color="primary"> <?php echo $fast_checkout_text_create_account; ?></button>
+                                        <input aria-label="" type="checkbox" name="create_account" class="hidden" checked="checked"/>
+                                    </span>
+                                </div>
+                            </div>
                         <?php } ?>
-					</div>
-                <?php } ?>
-                <?php //echo $this->getHookVar('payment_form_bottom'); ?>
-	</form>
+                    </div>
+                <?php }
+                echo $this->getHookVar('payment_form_bottom'); ?>
+    </form>
 <?php
-    if ($payment_available === true) {
-        ?>
+    if ($payment_available === true) { ?>
         <div class="payment-select-container">
             <div class="div-cover"></div>
             <?php include($this->templateResource('/template/responses/checkout/payment_select.tpl')) ?>
-            <?php
-        } else { ?>
+<?php
+    } else { ?>
             <div class="alert alert-danger" role="alert">
                 <?php echo $this->language->get('fast_checkout_error_no_payment'); ?>
             </div>
-        <?php } ?>
+    <?php } ?>
             <div id="returnPolicyModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="returnPolicyModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -390,8 +392,7 @@ $guest_data = $this->session->data['guest'];
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             <h3 id="returnPolicyModalLabel"><?php echo $text_accept_agree_href_link; ?></h3>
                         </div>
-                        <div class="modal-body">
-                        </div>
+                        <div class="modal-body"></div>
                         <div class="modal-footer">
                             <button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo $text_close; ?></button>
                         </div>
@@ -403,7 +404,7 @@ $guest_data = $this->session->data['guest'];
                    href="<?php echo $text_accept_agree_href; ?>"><b><?php echo $text_accept_agree_href_link; ?></b></a>
             </div>
         </div>
-	<?php } ?>
+    <?php } ?>
 </fieldset>
 
 <hr>
@@ -441,7 +442,7 @@ $guest_data = $this->session->data['guest'];
 
     jQuery(document).ready(function () {
         $(".btn-comment").on('click', function () {
-            var that = $(this).closest('.form-group');
+            let that = $(this).closest('.form-group');
             $.ajax({
                 type: "POST",
                 url: '<?php echo $this->html->getSecureUrl('r/checkout/pay/updateOrderData'); ?>',
@@ -459,7 +460,6 @@ $guest_data = $this->session->data['guest'];
                         .addClass('has-error');
                 }
             });
-
         });
 
         $("#payment_address_id").change(function () {
