@@ -155,7 +155,7 @@ var init = function () {
                 if($icon) { ?>
                 modal += '<img src="<?php echo AUTO_SERVER; ?>resources/<?php echo $icon; ?>"/>&nbsp;';
                 <?php } ?>
-                modal += '&nbsp;' + <?php js_echo($store_name); ?> +
+                modal += '&nbsp;' + <?php js_echo($store_name); ?>
                     + '</div><div class="abcmodal-header-menu">'
                     + '<a class="abcmodal-reload" href="#" data-href="<?php echo $account;?>">'
                     + <?php js_echo($text_account);?>
