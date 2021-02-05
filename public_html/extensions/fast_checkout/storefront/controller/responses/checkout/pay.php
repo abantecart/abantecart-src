@@ -551,8 +551,8 @@ class ControllerResponsesCheckoutPay extends AController
                 $this->data['customer_telephone'] = $this->customer->getTelephone();
             }
 
-            if(!$this->data['customer_telephone']){
-                //redirect by ajax call !
+            if(!$this->data['customer_telephone'] && $this->config->get('fast_checkout_require_phone_number')){
+                //redirect by ajax call if phone number required!
                 $this->response->setOutput('<script type="application/javascript">
                     location = "'.$this->html->getSecureURL('account/edit', '&telephone=').'";
                     e.stopPropagation();
