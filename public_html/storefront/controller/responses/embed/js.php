@@ -37,7 +37,7 @@ class ControllerResponsesEmbedJS extends AController
                 $this->registry->set('language', $langObj);
             }
         }
-        $curr_code = (string) ($this->request->get['currency'] ?? $this->request->get['curr'] ?? 'USD');
+        $curr_code = $this->request->get['currency'] ?? $this->request->get['curr'] ?? '';
         if ($curr_code) {
             $this->currency->set($curr_code);
         }
