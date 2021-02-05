@@ -2677,6 +2677,7 @@ class PaginationHtmlElement extends HtmlElement
         $registry = $this->registry;
         $html = new AHtml($registry);
         $s = $this->sts;
+        $s['no_perpage'] = $s['no_perpage'] ?? 0;
         //some more defaults
         if ($s['page'] < 1 || !is_numeric($s['page'])) {
             $s['page'] = 1;

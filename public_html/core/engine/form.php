@@ -426,7 +426,7 @@ class AForm
      */
     public function getFieldHtml($data)
     {
-        $data['form'] = $this->form['form_name'];
+        $data['form'] = $this->form['form_name'] ?? '';
 
         if ($data['type'] == 'form') {
             $data['javascript'] = $this->addFormJs();
@@ -464,7 +464,7 @@ class AForm
             case 'ST': //standards
                 $view->batchAssign(
                     [
-                        'id' => $this->form['form_name'],
+                        'id' => $this->form['form_name'] ?? '',
                     ]
                 );
                 $output = $view->fetch('form/form_js_st.tpl');
@@ -472,10 +472,10 @@ class AForm
             case 'HS': //highlight on change and show save button
                 $view->batchAssign(
                     [
-                        'id'              => $this->form['form_name'],
+                        'id'              => $this->form['form_name'] ?? '',
                         'button_save'     => $language->get('button_save'),
                         'button_reset'    => $language->get('button_reset'),
-                        'update'          => $this->form['update'],
+                        'update'          => $this->form['update'] ?? '',
                         'text_processing' => $language->get('text_processing'),
                         'text_saved'      => $language->get('text_saved'),
                     ]
@@ -565,8 +565,8 @@ class AForm
                             'title'       => $field['name'],
                             'description' => (!empty($field['description']) ? $field['description'] : ''),
                             'error'       => (!empty($this->errors[$field['field_name']])
-                                            ? $this->errors[$field['field_name']]
-                                            : ''),
+                                ? $this->errors[$field['field_name']]
+                                : ''),
                             'item_html'   => $item->getHtml(),
                         ]
                     );

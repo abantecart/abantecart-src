@@ -53,6 +53,7 @@ class AResource
     protected $access_type;
     /** @var array */
     protected $file_types;
+
     /** @param string $type */
     public function __construct($type)
     {
@@ -76,7 +77,7 @@ class AResource
     {
         $cache_key = 'resources.'.$this->type;
         $cache_key = preg_replace('/[^a-zA-Z0-9.]/', '', $cache_key)
-                    .'.store_'.(int) $this->config->get('config_store_id');
+            .'.store_'.(int) $this->config->get('config_store_id');
         $type_data = $this->cache->pull($cache_key);
         if ($type_data === false || empty($type_data['type_id'])) {
             $sql = "SELECT * 
@@ -190,7 +191,6 @@ class AResource
      *
      * @return string
      * @throws AException
-     * @deprecated since 1.2.7
      *
      */
     public function getResourceThumb($resource_id, $width, $height, $language_id = '')
@@ -293,10 +293,11 @@ class AResource
     public function getResizedImageURL(array $rsrc_info, $width, $height)
     {
         $resource_id = (int) $rsrc_info['resource_id'];
+        $rsrc_info['default_icon'] = $rsrc_info['default_icon'] ?? '';
         //get original file path & details
         $origin_path = DIR_RESOURCE.$this->type_dir.$rsrc_info['resource_path'];
         $info = pathinfo($origin_path);
-        $extension = $info['extension'];
+        $extension = $info['extension'] ?? '';
         if (in_array($extension, ['ico', 'svg', 'svgz'])) {
             // returns ico-file as original
             return $this->buildResourceURL($rsrc_info['resource_path'], 'full');
@@ -352,14 +353,14 @@ class AResource
         } else {
             //Build thumbnails path similar to resource library path
             $sub_path = 'thumbnails/'
-                        .dirname($rsrc_info['resource_path']).'/'
-                        .$name
-                        .'-'
-                        .$resource_id
-                        .'-'
-                        .$width
-                        .'x'
-                        .$height;
+                .dirname($rsrc_info['resource_path']).'/'
+                .$name
+                .'-'
+                .$resource_id
+                .'-'
+                .$width
+                .'x'
+                .$height;
             $new_image = $sub_path.'.'.$extension;
             if (!check_resize_image(
                 $origin_path, $new_image, $width, $height, $this->config->get('config_image_quality')
@@ -381,7 +382,7 @@ class AResource
             //hook here to affect this image
             $this->extensions->hk_ProcessData($this, __FUNCTION__);
             //prepend URL and return
-            $http_path = $this->data['http_dir'];
+            $http_path = $this->data['http_dir'] ?? '';
             if (!$http_path) {
                 $http_path = HTTPS_IMAGE;
             }
@@ -399,7 +400,7 @@ class AResource
     {
         if ($mode == 'full') {
             $this->extensions->hk_ProcessData($this, __FUNCTION__);
-            $http_path = $this->data['http_dir'];
+            $http_path = $this->data['http_dir'] ?? '';
             if (!$http_path) {
                 $http_path = HTTPS_DIR_RESOURCE;
             }
@@ -452,10 +453,10 @@ class AResource
     public function getMainThumb($object_name, $object_id, $width, $height, $noimage = true)
     {
         $sizes = [
-                'thumb' => [
-                    'width' => $width,
-                    'height' => $height
-                ]
+            'thumb' => [
+                'width'  => $width,
+                'height' => $height,
+            ],
         ];
         $result = $this->getResourceAllObjects($object_name, $object_id, $sizes, 1, $noimage);
         $output = [];
@@ -528,8 +529,8 @@ class AResource
         if (!$results && $noimage && $this->getType() == 'image') {
             $results = [
                 [
-                    'resource_path' => 'no_image.jpg'
-                ]
+                    'resource_path' => 'no_image.jpg',
+                ],
             ];
         }
 
