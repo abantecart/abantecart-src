@@ -298,7 +298,6 @@ final class ADispatcher
                 $args = $this->args;
             }
 
-
             $dispatch = call_user_func_array([$controller, $this->method], $args);
             //Check if return is a dispatch and need to call new page
             if ($dispatch && is_object($dispatch)) {

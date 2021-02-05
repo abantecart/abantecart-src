@@ -134,7 +134,7 @@ class ControllerResponsesListingGridCollections extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    public function getFieldsByConditionObject($value)
+    public function getFieldsByConditionObject($instance_id = 0, $value = [])
     {
         $this->loadLanguage('catalog/collections');
 

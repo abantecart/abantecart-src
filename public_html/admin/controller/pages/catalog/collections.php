@@ -479,6 +479,7 @@ class ControllerPagesCatalogCollections extends AController
                 $this->request->post['idx'] = $i;
                 $this->request->post['condition_object'] = $rule['object'];
                 $args = [
+                    0, //instance_id. @see core/engine/dispatcher
                     [
                         'operator' => $rule['operator'],
                         'value'    => $rule['value'],
