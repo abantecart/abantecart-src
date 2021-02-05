@@ -178,7 +178,7 @@ var init = function () {
                 $('body').append(modal);
                 <?php
                 // do cookie-test if session id not retrieved from http-request
-                if($test_cookie) { ?>
+                if($test_cookie ?? false) { ?>
                 abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
                 abc_token_value = abc_get_cookie();
                 var testcookieurl = '<?php echo $abc_embed_test_cookie_url; ?>';

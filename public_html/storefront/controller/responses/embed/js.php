@@ -30,18 +30,14 @@ class ControllerResponsesEmbedJS extends AController
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
-        $lang_code =
-            isset($this->request->get['language']) ? (string) $this->request->get['language']
-                : (string) $this->request->get['lang'];
+        $lang_code = (string) ($this->request->get['language'] ?? '') ?: ($this->request->get['lang'] ?? '');
         if ($lang_code) {
             $langObj = new ALanguage($this->registry, $lang_code);
             if ($langObj->getLanguageDetails($lang_code)) {
                 $this->registry->set('language', $langObj);
             }
         }
-        $curr_code =
-            isset($this->request->get['currency']) ? (string) $this->request->get['currency']
-                : (string) $this->request->get['curr'];
+        $curr_code = (string) ($this->request->get['currency'] ?? $this->request->get['curr'] ?? 'USD');
         if ($curr_code) {
             $this->currency->set($curr_code);
         }
@@ -529,8 +525,8 @@ class ControllerResponsesEmbedJS extends AController
                 $collection['conditions'],
                 $sort ? : 'date_modified',
                 $order ? : 'DESC',
-                (int) $this->request->get['start'] ? : 0,
-                (int) $this->request->get['limit'] ? : 1000,
+                $this->request->get['start'] ?? 0,
+                $this->request->get['limit'] ?? 1000,
                 $collection_id
             );
         }
@@ -624,7 +620,7 @@ class ControllerResponsesEmbedJS extends AController
                     'options'             => $productsInfo[$result['product_id']]['options'],
                     'special'             => $special,
                     'product_details_url' => $this->html->getURL($rt, '&product_id='.$result['product_id']),
-                    'description'         => html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
+                    'description'         => html_entity_decode($result['description']??'', ENT_QUOTES, 'UTF-8'),
                     'track_stock'         => $track_stock,
                     'in_stock'            => $in_stock,
                     'no_stock_text'       => $no_stock_text,
