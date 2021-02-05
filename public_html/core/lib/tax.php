@@ -32,7 +32,7 @@ if (!defined('DIR_CORE')) {
  */
 class ATax
 {
-    protected $taxes = array();
+    protected $taxes = [];
     /**
      * @var Registry
      */
@@ -45,6 +45,8 @@ class ATax
     /**
      * @param            $registry Registry
      * @param null|array $c_data
+     *
+     * @throws AException
      */
     public function __construct($registry, &$c_data = null)
     {
@@ -56,6 +58,7 @@ class ATax
         } else {
             $this->customer_data =& $c_data;
         }
+        $this->customer_data['tax_exempt'] = $this->customer_data['tax_exempt'] ?? false;
 
         if ($this->customer_data['country_id'] && $this->customer_data['zone_id']) {
             $country_id = $this->customer_data['country_id'];
@@ -92,15 +95,17 @@ class ATax
      *
      * @param int $country_id
      * @param int $zone_id
+     *
+     * @throws AException
      */
     public function setZone($country_id, $zone_id)
     {
         $country_id = (int)$country_id;
         $zone_id = (int)$zone_id;
         $results = $this->getTaxes($country_id, $zone_id);
-        $this->taxes = array();
+        $this->taxes = [];
         foreach ($results as $result) {
-            $this->taxes[$result['tax_class_id']][] = array(
+            $this->taxes[$result['tax_class_id']][] = [
                 'tax_class_id'        => $result['tax_class_id'],
                 'rate'                => $result['rate'],
                 'rate_prefix'         => $result['rate_prefix'],
@@ -109,7 +114,7 @@ class ATax
                 'description'         => $result['description'],
                 'tax_exempt_groups'   => unserialize($result['tax_exempt_groups']),
                 'priority'            => $result['priority'],
-            );
+            ];
         }
         $this->customer_data['country_id'] = $country_id;
         $this->customer_data['zone_id'] = $zone_id;
@@ -123,6 +128,7 @@ class ATax
      * @param int $zone_id
      *
      * @return mixed|null
+     * @throws AException
      */
     public function getTaxes($country_id, $zone_id)
     {
@@ -235,7 +241,7 @@ class ATax
      *
      * @return float
      */
-    public function calcTaxAmount($amount, $tax_rate = array())
+    public function calcTaxAmount($amount, $tax_rate = [])
     {
         $tax_amount = 0.0;
         if (!$this->customer_data['tax_exempt']
@@ -263,33 +269,19 @@ class ATax
     }
 
     /**
-     * @deprecated
-     * @since 1.2.7
-     *
-     * @param float $amount
-     * @param       $tax_class_id
-     *
-     * @return array
-     */
-    public function getAplicableRates($amount, $tax_class_id)
-    {
-        return $this->getApplicableRates($amount, $tax_class_id);
-    }
-
-    /**
      * Get array with applicable rates for tax class based on the provided amount
      * Array returns Absolute and Percent rates in separate arrays
      *
      * @since 1.2.7
      *
      * @param float $amount
-     * @param       $tax_class_id
+     * @param int   $tax_class_id
      *
      * @return array
      */
     public function getApplicableRates($amount, $tax_class_id)
     {
-        $rates = array();
+        $rates = [];
         if (isset($this->taxes[$tax_class_id])) {
             foreach ($this->taxes[$tax_class_id] as $tax_rate) {
                 if (!empty($tax_rate) && isset($tax_rate['rate'])) {
@@ -340,7 +332,7 @@ class ATax
      */
     public function getDescription($tax_class_id)
     {
-        return (isset($this->taxes[$tax_class_id]) ? $this->taxes[$tax_class_id] : array());
+        return (isset($this->taxes[$tax_class_id]) ? $this->taxes[$tax_class_id] : []);
     }
 
     /**
@@ -365,25 +357,18 @@ class ATax
         switch ($operator) {
             case 'eq':
                 return ($value1 == $value2);
-                break;
             case 'ne':
                 return ($value1 != $value2);
-                break;
             case 'le':
                 return ($value1 <= $value2);
-                break;
             case 'ge':
                 return ($value1 >= $value2);
-                break;
             case 'lt':
                 return ($value1 < $value2);
-                break;
             case 'gt':
                 return ($value1 > $value2);
-                break;
             default:
                 return false;
-                break;
         }
     }
 }

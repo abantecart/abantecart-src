@@ -240,10 +240,11 @@ echo $this->html->buildElement(
 ?>
 
 	<div class="pageheader">
-		<?php
+	<?php
 		$current = '';
 		$breadcrumbs_html = '';
 		foreach ($breadcrumbs as $breadcrumb){
+            $breadcrumb['icon'] = $breadcrumb['icon'] ?? '';
 			$breadcrumbs_html .= '<li>';
 			if ($breadcrumb['current'] ?? false){
 				$current = $breadcrumb;
@@ -252,8 +253,7 @@ echo $this->html->buildElement(
 				$breadcrumbs_html .= '<a href="' . $breadcrumb['href'] . '">' . $breadcrumb['icon'] . $breadcrumb['text'] . '</a>';
 			}
 			$breadcrumbs_html .= '</li>';
-		}
-		?>
+		} ?>
 		<h2>
 			<?php if ($current_menu['icon'] ?? ''){ ?>
 				<?php echo $current_menu['icon']; ?>

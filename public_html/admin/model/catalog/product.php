@@ -2147,9 +2147,14 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductStoresInfo($product_id)
     {
+        $product_id = (int)$product_id;
+        if(!$product_id){
+            return [];
+        }
         $query = $this->db->query(
             "SELECT p2s.*,
                 s.name as store_name,

@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpUndefinedClassInspection */
 
 /*------------------------------------------------------------------------------
   $Id$
@@ -161,6 +162,7 @@ class ACustomer
      * @param string $password
      *
      * @return bool
+     * @throws AException
      */
     public function login($loginname, $password)
     {
@@ -234,6 +236,7 @@ class ACustomer
      * @param $data array
      *
      * @return void
+     * @throws AException
      */
     private function _customer_init($data)
     {
@@ -338,7 +341,7 @@ class ACustomer
      */
     public function isUnauthCustomer()
     {
-        return $this->unauth_customer['customer_id'];
+        return $this->unauth_customer['customer_id'] ?? null;
     }
 
     /**
@@ -346,7 +349,7 @@ class ACustomer
      */
     public function getUnauthName()
     {
-        return $this->unauth_customer['first_name'];
+        return $this->unauth_customer['first_name'] ?? '';
     }
 
     /**
@@ -469,21 +472,6 @@ class ACustomer
      * @param array $locate
      *
      * @return string
-     * @deprecated
-     * @since 1.2.7
-     *
-     */
-    public function getFormatedAdress($data_array, $format = '', $locate = [])
-    {
-        return $this->getFormattedAddress($data_array, $format, $locate);
-    }
-
-    /**
-     * @param array $data_array
-     * @param string $format
-     * @param array $locate
-     *
-     * @return string
      * @since 1.2.7
      *
      */
@@ -492,9 +480,13 @@ class ACustomer
         $data_array = (array) $data_array;
         // Set default format
         if ($format == '') {
-            $format =
-                '{firstname} {lastname}'."\n".'{company}'."\n".'{address_1}'."\n".'{address_2}'."\n".'{city} {postcode}'
-                ."\n".'{zone}'."\n".'{country}';
+            $format = '{firstname} {lastname}'
+                ."\n".'{company}'
+                ."\n".'{address_1}'
+                ."\n".'{address_2}'
+                ."\n".'{city} {postcode}'
+                ."\n".'{zone}'
+                ."\n".'{country}';
         }
         //when some data missing - remove it from address format
         preg_match_all('/\{(.*?)\}/', $format, $matches);
@@ -517,10 +509,12 @@ class ACustomer
         }
 
         return str_replace(
-            ["\r\n", "\r", "\n"], '<br />', preg_replace(
-                                    ["/\s\s+/", "/\r\r+/", "/\n\n+/"], '<br />',
-                                    trim(str_replace($locate, $data_array, $format))
-                                )
+            ["\r\n", "\r", "\n"],
+            '<br />',
+            preg_replace(
+                ["/\s\s+/", "/\r\r+/", "/\n\n+/"], '<br />',
+                trim(str_replace($locate, $data_array, $format))
+            )
         );
     }
 
@@ -529,6 +523,7 @@ class ACustomer
      * Return customer account balance in customer currency based on debit/credit calculation
      *
      * @return float|bool
+     * @throws AException
      */
     public function getBalance()
     {
@@ -538,7 +533,7 @@ class ACustomer
 
         $query = $this->db->query(
             "SELECT sum(credit) - sum(debit) as balance
-									FROM ".$this->db->table("customer_transactions")."
+            FROM ".$this->db->table("customer_transactions")."
             WHERE customer_id = '".(int) $this->getId()."'"
         );
         return (float) $query->row['balance'];
@@ -550,6 +545,7 @@ class ACustomer
      * @param array $tr_details - amount, order_id, transaction_type, description, comments, creator
      *
      * @return bool
+     * @throws AException
      */
     public function debitTransaction($tr_details)
     {
@@ -562,6 +558,7 @@ class ACustomer
      * @param array $tr_details - amount, order_id, transaction_type, description, comments, creator
      *
      * @return bool
+     * @throws AException
      */
     public function creditTransaction($tr_details)
     {
@@ -611,6 +608,7 @@ class ACustomer
      *
      *
      * @return bool
+     * @throws AException
      */
     public function isValidEnabledCustomer()
     {
@@ -638,6 +636,7 @@ class ACustomer
      * Get cart content
      *
      * @return array()
+     * @throws AException
      */
     public function getCustomerCart()
     {
@@ -702,6 +701,7 @@ class ACustomer
      * @param array - cart from database
      *
      * @void
+     * @throws AException
      */
     public function mergeCustomerCart($cart)
     {
@@ -730,6 +730,7 @@ class ACustomer
      * Clear cart from database content
      *
      * @return bool
+     * @throws AException
      */
     public function clearCustomerCart()
     {
@@ -743,9 +744,9 @@ class ACustomer
         }
         $this->db->query(
             "UPDATE ".$this->db->table("customers")."
-                        SET
-                            cart = '".$this->db->escape(serialize($cart))."'
-                        WHERE customer_id = '".(int) $customer_id."'"
+            SET
+                cart = '".$this->db->escape(serialize($cart))."'
+            WHERE customer_id = '".(int) $customer_id."'"
         );
         return true;
     }
@@ -779,6 +780,7 @@ class ACustomer
      * @param int $product_id
      *
      * @return null
+     * @throws AException
      */
     public function addToWishList($product_id)
     {
@@ -797,6 +799,7 @@ class ACustomer
      * @param int $product_id
      *
      * @return null
+     * @throws AException
      */
     public function removeFromWishList($product_id)
     {
@@ -815,6 +818,7 @@ class ACustomer
      * @param array $whishlist
      *
      * @return null
+     * @throws AException
      */
     public function saveWishList($whishlist = [])
     {
@@ -839,6 +843,7 @@ class ACustomer
      * Get cart content
      *
      * @return array()
+     * @throws AException
      */
     public function getWishList()
     {
@@ -869,6 +874,7 @@ class ACustomer
      * @param array $tr_details - amount, order_id, transaction_type, description, comments, creator
      *
      * @return bool
+     * @throws AException
      */
     protected function _record_transaction($type, $tr_details)
     {

@@ -127,6 +127,9 @@ final class ACurrency
      */
     public function set($currency)
     {
+        if(! isset($this->currencies[$currency]) ){
+            return false;
+        }
         // if currency disabled - set first enabled from list
         if (!$this->currencies[$currency]['status']) {
             foreach ($this->currencies as $curr) {
