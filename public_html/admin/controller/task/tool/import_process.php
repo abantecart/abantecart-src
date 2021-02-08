@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -28,13 +29,12 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
  */
 class ControllerTaskToolImportProcess extends AController
 {
-    public $data = array();
     protected $success_count = 0;
     protected $failed_count = 0;
 
-    public function processRows()
+    public function processRows(...$args)
     {
-        list($task_id, $step_id,) = func_get_args();
+        list($task_id, $step_id,) = $args;
         $this->load->library('json');
         //for aborting process
         ignore_user_abort(false);
@@ -52,7 +52,7 @@ class ControllerTaskToolImportProcess extends AController
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-        $output = array('result' => $result);
+        $output = ['result' => $result];
         if ($result) {
             $output['message'] = $this->success_count.' rows processed success. ';
             if ($this->failed_count) {
@@ -66,7 +66,6 @@ class ControllerTaskToolImportProcess extends AController
 
     private function _process($task_id, $step_id)
     {
-
         if (!$task_id || !$step_id) {
             $error_text = 'Cannot run task step. Task_id (or step_id) has not been set.';
             $this->_return_error($error_text);
@@ -83,16 +82,15 @@ class ControllerTaskToolImportProcess extends AController
             $this->_return_error($error_text);
         }
         //record the start
-        $tm->updateStep($step_id, array('last_time_run' => date('Y-m-d H:i:s')));
+        $tm->updateStep($step_id, ['last_time_run' => date('Y-m-d H:i:s')]);
 
-        $return = array();
+        $return = [];
         $start = $step_info['settings']['start'];
         $stop = $step_info['settings']['stop'];
         $filename = $import_details['file'];
         $type = $import_details['table'];
         $delimiter = $import_details['delimiter'];
 
-        $step_result = false;
         $step_failed_count = 0;
 
         //read records from source file
@@ -101,11 +99,16 @@ class ControllerTaskToolImportProcess extends AController
             $a_data->setLogFile(DIR_LOGS."import_".$task_id.".txt");
             //import each row separately
             for ($i = $start; $i <= $stop; $i++) {
-                $csv_array = $a_data->CSV2ArrayFromFile($filename, array_search($delimiter, $a_data->csvDelimiters), $i, 1);
+                $csv_array = $a_data->CSV2ArrayFromFile(
+                    $filename,
+                    array_search($delimiter, $a_data->csvDelimiters),
+                    $i,
+                    1
+                );
                 if ($csv_array) {
                     $results = $a_data->importData($csv_array);
                 } else {
-                    $results = array('error' => true);
+                    $results = ['error' => true];
                 }
 
                 if (isset($results['error'])) {
@@ -127,9 +130,8 @@ class ControllerTaskToolImportProcess extends AController
                 $step_failed_count = 0;
 
                 foreach ($records as $index => $rowData) {
-                    $vals = array();
+                    $vals = [];
                     //check if we match row data count to header
-
                     if (count($rowData) != count($columns)) {
                         //incomplete row. Exit
                         $return[] = "Error: incomplete data in row number: ".$index." with: ".$rowData[0];
@@ -176,12 +178,12 @@ class ControllerTaskToolImportProcess extends AController
         } else {
             $task_settings['logfile'] = $type.'_import_'.$task_id.'.txt';
         }
-        $task_settings['success_count'] = (int)$task_info['settings']['success_count'] + $this->success_count;
-        $task_settings['failed_count'] = (int)$task_info['settings']['failed_count'] + $this->failed_count;
+        $task_settings['success_count'] = (int) $task_info['settings']['success_count'] + $this->success_count;
+        $task_settings['failed_count'] = (int) $task_info['settings']['failed_count'] + $this->failed_count;
 
-        $tm->updateTaskDetails($task_id, array('settings' => $task_settings));
+        $tm->updateTaskDetails($task_id, ['settings' => $task_settings]);
         //sends always true as result
-        $tm->updateStep($step_id, array('last_result' => $this->failed_count ? false : true));
+        $tm->updateStep($step_id, ['last_result' => $this->failed_count ? false : true]);
         //all done, clear cache
         $this->cache->remove('*');
         //return always true fo import process only. we think one failed row cannot block task
@@ -191,20 +193,20 @@ class ControllerTaskToolImportProcess extends AController
     protected function readFileSeek($source, $delimiter, $enclosure = '"', $line_num = 1, $range = 1)
     {
         if (!$source) {
-            return array();
+            return [];
         }
 
         ini_set('auto_detect_line_endings', true);
         $fh = fopen($source, 'r');
         if (!$fh || !is_resource($fh)) {
-            return array();
+            return [];
         }
 
         $lineNo = 0;
         $startLine = $line_num;
         $endLine = $line_num + $range;
         //always return first line with header
-        $buffer = array(0 => fgetcsv($fh, 0, $delimiter, $enclosure));
+        $buffer = [0 => fgetcsv($fh, 0, $delimiter, $enclosure)];
         while (($data = fgetcsv($fh, 0, $delimiter, $enclosure)) !== false) {
             if ($lineNo >= $startLine) {
                 $buffer[] = $data;
@@ -222,11 +224,13 @@ class ControllerTaskToolImportProcess extends AController
     {
         $error = new AError($error_text);
         $error->toLog()->toDebug();
-        return $error->toJSONResponse('APP_ERROR_402',
-            array(
+        return $error->toJSONResponse(
+            'APP_ERROR_402',
+            [
                 'error_text'  => $error_text,
                 'reset_value' => true,
-            ));
+            ]
+        );
     }
 
 }

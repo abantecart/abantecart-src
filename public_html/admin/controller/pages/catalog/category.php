@@ -1,5 +1,4 @@
 <?php
-
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -304,9 +303,8 @@ class ControllerPagesCatalogCategory extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    public function update()
+    public function update(...$args)
     {
-        $args = func_get_args();
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -652,9 +650,13 @@ class ControllerPagesCatalogCategory extends AController
                 $this->error['warning'][] = $this->language->get('error_name');
             }
         }
-        if (($error_text = $this->html->isSEOkeywordExists(
-            'category_id='.$this->request->get['category_id'], $this->request->post['keyword']
-        ))) {
+
+        $error_text = $this->html->isSEOkeywordExists(
+            'category_id='.$this->request->get['category_id'],
+            $this->request->post['keyword']
+        );
+
+        if ($error_text) {
             $this->error['warning'][] = $error_text;
         }
 
@@ -677,7 +679,10 @@ class ControllerPagesCatalogCategory extends AController
         $page_key_param = 'path';
         $category_id = (int) $this->request->get['category_id'];
         $this->data['category_id'] = $category_id;
-        $page_url = $this->html->getSecureURL('catalog/category/edit_layout', '&category_id='.$category_id);
+        $page_url = $this->html->getSecureURL(
+            'catalog/category/edit_layout',
+            '&category_id='.$category_id
+        );
         //note: category can not be ID of 0.
         if (!has_value($category_id)) {
             redirect($this->html->getSecureURL('catalog/category'));
@@ -704,7 +709,10 @@ class ControllerPagesCatalogCategory extends AController
             unset($this->session->data['success']);
         }
 
-        $this->data['heading_title'] = $this->language->get('text_edit').' '.$this->language->get('text_category').' - '
+        $this->data['heading_title'] = $this->language->get('text_edit')
+            .' '
+            .$this->language->get('text_category')
+            .' - '
             .$this->data['category_description'][$this->language->getContentLanguageID()]['name'];
 
         $this->document->setTitle($this->data['heading_title']);

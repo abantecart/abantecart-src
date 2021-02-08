@@ -28,7 +28,7 @@ class ControllerCommonListingGrid extends AController
     public function main($data = [])
     {
         //Load input arguments for gid settings
-        $this->data = func_get_arg(0);
+        $this->data = $data;
         if (!is_array($this->data)) {
             throw new AException (AC_ERR_LOAD, 'Error: Could not create grid. Grid definition is not array.');
         }
