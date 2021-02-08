@@ -224,8 +224,9 @@ var loadMedia = function (type, wrapper) {
 				}
 
 				html += '<div class="col-md-1 col-sm-2 col-xs-6 reslibrary_block">';
-				html += '<div class="center thumbnail" id="image_row' + item['resource_id'] + '" >\
-                <a class="btn resource_edit" '+data_mode+' data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">' + src + '</a></div>';
+				html += '<div class="center thumbnail" id="image_row' + item['resource_id']
+                    + '" ><a class="btn resource_edit" '+data_mode+' data-type="'
+                        + type + '" data-rl-id="' + item['resource_id'] + '">' + src + '</a></div>';
 
 				//do not show if no object id
 				if( json.object_id ){

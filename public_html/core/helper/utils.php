@@ -65,6 +65,7 @@ function preformatTextID($value)
 
 function moneyDisplayFormat($value, $mode = 'no_round')
 {
+    $value = (float)$value;
     $registry = Registry::getInstance();
 
     $decimal_point = $registry->get('language')->get('decimal_point');
@@ -1181,7 +1182,7 @@ function echo_html2view($html)
  */
 function human_filesize($bytes, $decimals = 2)
 {
-    $sz = 'BKMGTP';
+    $sz = ['B','K','M','G','T','P'];
     $factor = floor((strlen($bytes) - 1) / 3);
     return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).@$sz[$factor];
 }
