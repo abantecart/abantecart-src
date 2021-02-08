@@ -26,7 +26,11 @@ class ControllerResponsesCommonResourceLibrary extends AController
 {
     public $data = [];
     // TODO: need to find solution for this hardcoded preview sizes
-    public $thumb_sizes = ['width' => 100, 'height' => 100];
+    public $thumb_sizes = [
+        'width' => 100,
+        'height' => 100
+    ];
+    public $listLimit = 18;
 
     public function main()
     {
@@ -382,19 +386,18 @@ class ControllerResponsesCommonResourceLibrary extends AController
 
         $rm = new AResourceManager();
         $rm->setType($this->data['type']);
-        $list_limit = 18;
 
         //Build request URI and filter params
         $uri = '&object_name='.$this->data['object_name']
-            .'&object_id='.$this->data['object_id'];
+                .'&object_id='.$this->data['object_id'];
         $uri .= '&type='.$this->data['type']
-            .'&mode='.$this->data['mode']
-            .'&language_id='.$language_id
-            .'&action='.$this->data['action'];
+                .'&mode='.$this->data['mode']
+                .'&language_id='.$language_id
+                .'&action='.$this->data['action'];
         $filter_data = [
             'type_id'     => $rm->getTypeId(),
             'language_id' => $language_id,
-            'limit'       => $list_limit,
+            'limit'       => $this->listLimit,
         ];
         if (!empty($this->request->get['keyword'])) {
             $filter_data['keyword'] = $this->request->get['keyword'];
@@ -462,7 +465,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $this->data['no_sort_url'] = $this->html->getSecureURL('common/resource_library', $uri, '&encode');
         $this->data['full_url'] = $this->html->getSecureURL('common/resource_library', $full_uri, '&encode');
 
-        if ($resources_total > $list_limit) {
+        if ($resources_total > $this->listLimit) {
             $this->data['pagination_bootstrap'] = HtmlElementFactory::create(
                 [
                 'type'       => 'Pagination',
@@ -471,7 +474,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
                 'text_limit' => $this->language->get('text_per_page'),
                 'total'      => $resources_total,
                 'page'       => $page,
-                'limit'      => $list_limit,
+                'limit'      => $this->listLimit,
                 'url'        => $this->data['current_url'],
                 'size_class' => 'sm',
                 'no_perpage' => true,
@@ -1188,13 +1191,16 @@ class ControllerResponsesCommonResourceLibrary extends AController
             } else {
                 $file_path = DIR_RESOURCE.$rm->getTypeDir().$result['resource_path'];
                 $result['name'] = pathinfo($result['name'], PATHINFO_FILENAME);
-                if (file_exists($file_path) && ($fd = fopen($file_path, "r"))) {
+                $fd = file_exists($file_path) ? fopen($file_path, "r") : null;
+                if ($fd) {
                     $fSize = filesize($file_path);
                     $path_parts = pathinfo($file_path);
-                    $this->response->addHeader('Content-type: application/octet-stream');
+                    $mime = mime_content_type($file_path);
+                    $this->response->addHeader('Content-type: '. ($mime ? $mime : 'application/octet-stream'));
                     $this->response->addHeader(
                         "Content-Disposition: filename=\"".$result['name']
-                        .'.'.$path_parts["extension"]."\""
+                        .'.'
+                        .$path_parts["extension"]."\""
                     );
                     $this->response->addHeader("Content-length: ".$fSize);
                     //use this to open files directly
@@ -1409,16 +1415,29 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $this->response->setOutput(AJson::encode($info));
     }
 
-    public function get_resources_scripts()
-    {
-        /**
-         * @var string $object_name - name of RL-object for assistance of resources, for ex. products, categories, etc
-         * @var int    $object_id   - id of object
-         * @var array  $types       - array with RL-types (image, audio,video,archive etc)
-         * @var bool   $onload      - sign of call function after js-script load
-         * @var string $mode        - mode of RL
-         */
-        list($object_name, $object_id, $types, $onload, $mode, $page, $limit, $sort, $order) = func_get_args();
+    /**
+     * @param string $object_name - name of RL-object for assistance of resources, for ex. products, categories, etc
+     * @param int $object_id - id of object
+     * @param array $types - array with RL-types (image, audio,video,archive etc)
+     * @param bool $onload - sign of call function after js-script load
+     * @param string $mode - mode of RL
+     * @param int $page
+     * @param int $limit
+     * @param string $sort
+     * @param string $order
+     */
+
+    public function get_resources_scripts(
+        $object_name,
+        $object_id,
+        $types,
+        $onload = true,
+        $mode = '',
+        $page = 1 ,
+        $limit = 18,
+        $sort = null,
+        $order = 'ASC'
+    ){
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
