@@ -22,15 +22,15 @@
  * Class AFilter
  *
  * @property ARequest $request
- * @property ADB      $db
- * @property AHtml    $html
+ * @property ADB $db
+ * @property AHtml $html
  * @property ASession $session
  */
 final class AFilter
 {
 
     private $registry;
-    private $data = array();
+    private $data = [];
     private $method;
 
     //NOTE: Filter class automatically gets values from POST or GET on construct
@@ -72,17 +72,16 @@ final class AFilter
         }
 
         //Build Filter Data for result output and model query
-        $this->data['filter_data'] = array(
+        $this->data['filter_data'] = [
             'sort'                => $this->data['sidx'],
             'order'               => $this->data['sord'],
             'limit'               => $this->data['rows'],
             'start'               => ($this->data['page'] - 1) * $this->data['rows'],
-            'content_language_id' => $this->session->data['content_language_id'],
-        );
+            'content_language_id' => ($this->session->data['content_language_id'] ?? 1),
+        ];
 
         //Validate fields that are allowed and build expected filter parameters
-        if (sizeof((array)$filter_conf['filter_params'])) {
-
+        if (sizeof((array) $filter_conf['filter_params'])) {
             //support table name extension in fields
             //check if we have associative array
             if (is_assoc($filter_conf['filter_params'])) {
@@ -90,18 +89,17 @@ final class AFilter
             } else {
                 $keys_arr = $filter_conf['filter_params'];
             }
-            $fl_str = array();
+            $fl_str = [];
             foreach ($keys_arr as $kk => $filter) {
                 $value = isset($this->request->{$this->method}[$filter])
                     ? $this->request->{$this->method}[$filter]
                     : false;
                 //set null as non-set value. 0 - is value!!!
-                if ($value === '' || $value === false || $value === array()) {
+                if ($value === '' || $value === false || $value === []) {
                     $value = null;
                 }
-                if (isset($value) && !is_null($value)) {
+                if (isset($value)) {
                     $this->data['filter_data']['filter'][$filter] = $value;
-
                     if (is_assoc($filter_conf['filter_params'])) {
                         //support table name extension in fields
                         $field_name = $filter_conf['filter_params'][$filter];
@@ -120,7 +118,7 @@ final class AFilter
             $this->data['filter_string'] = implode(' AND ', $fl_str);
         }
 
-        $allowedSortDirection = array('ASC', 'DESC');
+        $allowedSortDirection = ['ASC', 'DESC'];
         if (!in_array($this->data['sord'], $allowedSortDirection)) {
             $this->data['sord'] = 'DESC';
         }
@@ -144,36 +142,52 @@ final class AFilter
         return $total_pages;
     }
 
-    // Return SQL Like string for allowed input parameters
+    /**
+     * Return SQL Like string for allowed input parameters
+     *
+     * @return string
+     */
     public function getFilterString()
     {
         return $this->data['filter_string'];
     }
 
+    /**
+     * @param string $param_name
+     *
+     * @return mixed
+     */
     public function getParam($param_name)
     {
         return $this->data[$param_name];
     }
 
+    /**
+     * @param string $param_name
+     *
+     * @return mixed
+     */
     public function getFilterParam($param_name)
     {
         return $this->data['filter_data']['filter'][$param_name];
     }
 
+    /**
+     * @return array
+     */
     public function getFilterData()
     {
         return $this->data['filter_data'];
     }
 
     //Build URI based on current filter params used
-    public function buildFilterURI($exclude_list = array())
+    public function buildFilterURI($exclude_list = [])
     {
-
-        $process_array = array();
+        $process_array = [];
         //add input params from different parts of filter
         foreach (array_keys($this->data) as $param) {
             //skip some params.
-            if (in_array($param, array('filter_data', 'filter_string', 'page'))) {
+            if (in_array($param, ['filter_data', 'filter_string', 'page'])) {
                 continue;
             }
 
@@ -192,8 +206,7 @@ final class AFilter
 
         //sort array to maintain the order
         asort($process_array);
-        $uri = $this->html->buildURI($process_array, $exclude_list);
-        return $uri;
+        return $this->html->buildURI($process_array, $exclude_list);
     }
 
     public function __get($key)
@@ -210,9 +223,9 @@ final class AFilter
 /**
  * Class AGrid
  *
- * @property ALoader  $load
+ * @property ALoader $load
  * @property ARequest $request
- * @property ADB      $db
+ * @property ADB $db
  */
 final class AGrid
 {
@@ -226,7 +239,7 @@ final class AGrid
 
     /**
      * @param string $method
-     * @param array  $data
+     * @param array $data
      */
     public function __construct($method, $data)
     {
@@ -259,19 +272,18 @@ final class AGrid
 
     /**
      * @param string $adv_filter_str
-     * @param array  $allowedFields
+     * @param array $allowedFields
      *
      * @return string
      * @throws AException
      */
     public function filter($adv_filter_str, $allowedFields)
     {
-        $allowedFields = (array)$allowedFields;
-        $allowedOperations = array('AND', 'OR');
-        $search_param = array();
+        $allowedFields = (array) $allowedFields;
+        $allowedOperations = ['AND', 'OR'];
+        $search_param = [];
         $op = '';
         if (isset($this->search) && $this->search == 'true') {
-
             $this->load->library('json');
             $searchData = AJson::decode(htmlspecialchars_decode($this->filters), true);
             $op = $searchData['groupOp'];
@@ -282,7 +294,6 @@ final class AGrid
 
             if ($searchData['rules']) {
                 foreach ($searchData['rules'] as $rule) {
-
                     // $allowedFields can be simple or key based array
                     if (is_assoc($allowedFields)) {
                         if (!array_key_exists($rule['field'], $allowedFields)) {
@@ -322,9 +333,10 @@ final class AGrid
                             //search encoded
                             $needle = htmlspecialchars($rule['data'], ENT_QUOTES, "UTF-8");
                             $str .= " LIKE '%".$this->db->escape($needle, true)."%') ";
-                            //todo: remove this in 2.0.
-                            $str .= " OR ( LOWER(".$colname.")";
-                            $str .= " LIKE '%".$this->db->escape($rule['data'], true)."%') ";
+                            if ($rule['data'] != $needle) {
+                                $str .= " OR ( LOWER(".$colname.")";
+                                $str .= " LIKE '%".$this->db->escape($rule['data'], true)."%') ";
+                            }
                             break;
                         default:
                             $str = $colname." = '".$this->db->escape($rule['data'])."' ";

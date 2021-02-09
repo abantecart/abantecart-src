@@ -1253,11 +1253,18 @@ class InputHtmlElement extends HtmlElement
         if (is_object($this->language)
             && sizeof($this->language->getActiveLanguages()) > 1
         ) {
-            $this->view->assign('multilingual', $this->multilingual);
+            $multilingual = $this->multilingual;
+        }else{
+            $multilingual = false;
         }
+        $this->view->assign('multilingual', $multilingual);
+
         if (!empty($this->help_url)) {
-            $this->view->assign('help_url', $this->help_url);
+            $help_url = $this->help_url;
+        }else{
+            $help_url = null;
         }
+        $this->view->assign('help_url', $help_url);
 
         return $this->view->fetch('form/input.tpl');
     }
