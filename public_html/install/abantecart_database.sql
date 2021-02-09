@@ -12365,9 +12365,9 @@ CREATE TABLE `ac_resource_types` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 INSERT INTO `ac_resource_types` (`type_id`, `type_name`, `default_icon`, `default_directory`, `file_types`, `access_type`) VALUES
-(1, 'image', 'icon_resource_image.png', 'image/', '/.+(jpe?g|gif|png|ico|svg|svgz|webp)$/i', 0),
-(2, 'audio', 'icon_resource_audio.png', 'audio/', '/.+(mp3|wav)$/i', 0),
-(3, 'video', 'icon_resource_video.png', 'video/', '/.+(avi|mpg|mov|flv)$/i', 0),
+(1, 'image', 'icon_resource_image.png', 'image/', '/.+(jpe?g|gif|png|ico|svg|svgz|webp|avif)$/i', 0),
+(2, 'audio', 'icon_resource_audio.png', 'audio/', '/.+(mp3|wav|ogg)$/i', 0),
+(3, 'video', 'icon_resource_video.png', 'video/', '/.+(avi|mpg|mpeg|mov|flv|mp4|webm|ogg)$/i', 0),
 (4, 'pdf', 'icon_resource_pdf.png', 'pdf_document/', '/.+(pdf)$/i', 0),
 (5, 'archive', 'icon_resource_archive.png', 'archive/', '/.+(zip|rar|gz|7z)$/i', 1),
 (6, 'download', 'icon_resource_download.png', 'download/', '/.+$/i', 1);
