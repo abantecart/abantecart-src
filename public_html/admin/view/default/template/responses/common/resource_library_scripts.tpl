@@ -251,7 +251,11 @@ var loadMedia = function (type, wrapper) {
 					}
 					html += '</div>';
 				} else {
-					html += '<div class="caption center ellipsis"><a href="#" class="resource_edit" '+data_mode+' data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">'+item['name']+'</a></div><br />';
+					html += '<div class="caption center ellipsis">';
+					if(item.name) {
+                       html += '<a href="#" class="resource_edit" ' + data_mode + ' data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">' + item['name'] + '</a>';
+                    }
+					html+= '</div><br />';
 				}
 				html += '</div></div>';
 			});
