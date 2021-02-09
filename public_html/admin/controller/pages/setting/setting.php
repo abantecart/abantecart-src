@@ -222,9 +222,7 @@ class ControllerPagesSettingSetting extends AController
 
         $this->_getForm();
         //https url validation
-      //  if($this->data['form']['fields']['config_url']){
-            $this->validateHttpsUrl();
-        //}
+        $this->validateHttpsUrl();
 
         $this->data['content_language_id'] = $this->session->data['content_language_id'];
         $this->data['common_zone'] = $this->html->getSecureURL('common/zone');
@@ -367,14 +365,6 @@ class ControllerPagesSettingSetting extends AController
                 'href'  => $this->html->getSecureURL('setting/store/insert'),
             ]
         );
-
-        $this->loadModel('setting/store');
-        $results = $this->model_setting_store->getStores();
-        $stores = [];
-        $stores[0] = $this->language->get('text_default');
-        foreach ($results as $result) {
-            $stores[$result['store_id']] = $result['alias'];
-        }
 
         //load tabs controller
         $this->data['active'] = 'all';
@@ -583,6 +573,7 @@ class ControllerPagesSettingSetting extends AController
      * @param array $data
      *
      * @return array
+     * @throws AException
      */
     private function _build_details($form, $data)
     {
@@ -745,6 +736,7 @@ class ControllerPagesSettingSetting extends AController
      * @param int $store_id
      *
      * @return bool
+     * @throws AException
      */
     private function _validate($group, $store_id = 0)
     {
@@ -769,6 +761,7 @@ class ControllerPagesSettingSetting extends AController
             return false;
         }
     }
+
 
     public function phpinfo()
     {
