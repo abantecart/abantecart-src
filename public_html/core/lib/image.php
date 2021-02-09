@@ -77,7 +77,7 @@ class AImage
     }
 
     private function isGDResource($obj){
-        return (is_resource($obj) || get_class($obj) == 'GdImage');
+        return (is_resource($obj) || $obj instanceof GdImage);
     }
 
     /**

@@ -446,6 +446,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
                 $this->thumb_sizes['height'],
                 $language_id
             );
+
             $result[$key]['url'] = $rm->buildResourceURL($item['resource_path'], 'full');
             $result[$key]['relative_url'] = $rm->buildResourceURL($item['resource_path'], 'relative');
             $result[$key]['mapped_to_current'] = $rm->isMapped(
@@ -501,8 +502,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
         if ($this->request->get['mode'] == 'single') {
             $this->data['types'] = [$rm->getResourceTypeByName($this->request->get['type'])];
         } else {
-            $this->data['types'] =
-                isset($this->session->data['rl_types']) ? $this->session->data['rl_types'] : $rm->getResourceTypes();
+            $this->data['types'] = $this->session->data['rl_types'] ?? $rm->getResourceTypes();
         }
 
         $this->data['type'] = $this->request->get['type'];
@@ -972,11 +972,9 @@ class ControllerResponsesCommonResourceLibrary extends AController
                 $this->thumb_sizes['width'],
                 $this->thumb_sizes['height']
             );
-
             $result['items'][$key]['url'] = $rm->buildResourceURL($item['resource_path'], 'full');
             $result['items'][$key]['relative_url'] = $rm->buildResourceURL($item['resource_path'], 'relative');
             $result['items'][$key]['can_delete'] = $result['items'][$key]['mapped'] == 1;
-
         }
 
         if (isset($this->request->get['page'])) {

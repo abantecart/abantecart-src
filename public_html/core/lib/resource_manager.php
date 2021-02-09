@@ -689,29 +689,25 @@ class AResourceManager extends AResource
             $top_sql = " count(*) as total ";
         } else {
             $top_sql = "  rl.resource_id,
-						  COALESCE(rl.date_added, '', rl.date_added) as date_added,
-						  rd.name,
-						  rd.title,
-						  rd.description,
-						  (SELECT COUNT(resource_id) FROM ".$this->db->table("resource_map")." rm1 WHERE rm1.resource_id = rd.resource_id) as mapped, 
-			";
+                          COALESCE(rl.date_added, '', rl.date_added) as date_added,
+                          rd.name,
+                          rd.title,
+                          rd.description,
+                          (SELECT COUNT(resource_id) FROM ".$this->db->table("resource_map")." rm1 WHERE rm1.resource_id = rd.resource_id) as mapped, 
+            ";
             if ($language_id == (int) $this->language->getDefaultLanguageID()) {
                 //only 1 language
-                $top_sql .= "
-						  rd.resource_path as resource_path,
-						  rd.resource_code as resource_code
-				";
+                $top_sql .= " rd.resource_path as resource_path,
+                              rd.resource_code as resource_code ";
             } else {
-                $top_sql .= "
-						  COALESCE(rd.resource_path,rdd.resource_path) as resource_path,
-						  COALESCE(rd.resource_code,rdd.resource_code) as resource_code
-				";
+                $top_sql .= " COALESCE(rd.resource_path,rdd.resource_path) as resource_path,
+                              COALESCE(rd.resource_code,rdd.resource_code) as resource_code ";
             }
         }
 
         $where = $join = '';
-        $join = " LEFT JOIN ".$this->db->table("resource_descriptions")
-            ." rd ON (rl.resource_id = rd.resource_id AND rd.language_id = '".$language_id."') ";
+        $join = " LEFT JOIN ".$this->db->table("resource_descriptions")." rd 
+                    ON (rl.resource_id = rd.resource_id AND rd.language_id = '".$language_id."') ";
         if ($language_id != (int) $this->language->getDefaultLanguageID()) {
             //add default language
             $join .= " LEFT JOIN ".$this->db->table("resource_descriptions")
@@ -743,7 +739,8 @@ class AResourceManager extends AResource
             $where .= " rl.type_id = '".(int) $data['type_id']."'";
         }
 
-        $sql = "SELECT ".$top_sql." FROM ".$this->db->table("resource_library")." rl".$join.$where;
+        $sql = "SELECT ".$top_sql." 
+                FROM ".$this->db->table("resource_library")." rl ".$join.$where;
 
         if (!empty($data['subsql_filter'])) {
             $sql .= ($where ? " AND " : 'WHERE ').$data['subsql_filter'];
