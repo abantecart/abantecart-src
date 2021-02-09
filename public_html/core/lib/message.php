@@ -362,6 +362,7 @@ class AMessage
 
     /**
      * @return array
+     * @throws AException
      */
     public function getANTMessage()
     {
@@ -370,9 +371,10 @@ class AMessage
         $this->db->query("DELETE FROM ".$this->db->table("ant_messages")." WHERE end_date < CURRENT_TIMESTAMP");
         $sql = "SELECT *
                  FROM ".$this->db->table("ant_messages")." 
-                 WHERE start_date< CURRENT_TIMESTAMP and end_date > CURRENT_TIMESTAMP
-                    AND ( language_code = '".$this->registry->get('config')->get('admin_language')."'
-                            OR COALESCE(language_code,'*') = '*')
+                 WHERE viewed < 1 
+                    AND start_date< CURRENT_TIMESTAMP and end_date > CURRENT_TIMESTAMP
+                    AND ( language_code = '".$this->registry->get('config')->get('admin_language')."' 
+                        OR COALESCE(language_code,'*') = '*')
                  ORDER BY viewed ASC, priority DESC, COALESCE(language_code,'') DESC, COALESCE(url,'') DESC
                  LIMIT 1";
         $result = $this->db->query($sql);
