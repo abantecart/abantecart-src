@@ -317,7 +317,7 @@ class ALanguage
     public function getClientBrowserLanguage()
     {
         $request = $this->registry->get('request');
-        $browser_langs = (string)$request->server['HTTP_ACCEPT_LANGUAGE'];
+        $browser_langs = $request->server['HTTP_ACCEPT_LANGUAGE'] ?? '';
 
         if ($browser_langs) {
             $parse = explode(';', $browser_langs);
@@ -366,8 +366,7 @@ class ALanguage
         }
 
         //language code is provided as input. Higher priority
-        $request_lang = isset($request->get['language']) ? $request->get['language'] : '';
-        $request_lang = isset($request->post['language']) ? $request->post['language'] : $request_lang;
+        $request_lang = $request->post_or_get('language');
         unset($request->get['language'], $request->post['language']);
 
         if ($request_lang && array_key_exists($request_lang, $languages)) {
@@ -421,7 +420,7 @@ class ALanguage
             if (isset($request->get['content_language_code'])) {
                 $cont_lang_code = $request->get['content_language_code'];
             } else {
-                $cont_lang_code = !isset($session->data['content_language']) ? $cont_lang_code : $session->data['content_language'];
+                $cont_lang_code = $session->data['content_language'] ?? $cont_lang_code;
             }
             $this->setCurrentContentLanguage('', $cont_lang_code);
         }
@@ -462,7 +461,9 @@ class ALanguage
      */
     public function getDefaultLanguageCode()
     {
-        return $this->is_admin ? $this->registry->get('config')->get('admin_language') : $this->registry->get('config')->get('config_storefront_language');
+        return $this->is_admin
+            ? $this->registry->get('config')->get('admin_language')
+            : $this->registry->get('config')->get('config_storefront_language');
     }
 
     /**
@@ -771,11 +772,12 @@ class ALanguage
     }
 
     /**
-     * @param int    $language_id
+     * @param int $language_id
      * @param string $filename
-     * @param int    $section
+     * @param int $section
      *
      * @return array
+     * @throws AException
      */
     protected function _load_from_db($language_id, $filename, $section)
     {
@@ -800,9 +802,10 @@ class ALanguage
 
     /**
      * @param        $filename
-     * @param  array $definitions
+     * @param array $definitions
      *
      * @return bool
+     * @throws AException
      */
     protected function _save_to_db($filename, $definitions)
     {
@@ -1025,16 +1028,17 @@ class ALanguage
      * @param array $data
      *
      * @return bool
+     * @throws AException
      */
     protected function _is_definition_in_db($data)
     {
         $sql = "SELECT *
-					 FROM ".DB_PREFIX."language_definitions
-					 WHERE language_id = '".$data['language_id']."'
-						   AND  block = '".$data['block']."'
-						   AND section =  '".$data['section']."'
-						   AND language_key =  '".$data['language_key']."'
-						   AND language_value =  '".$data['language_value']."'";
+                 FROM ".DB_PREFIX."language_definitions
+                 WHERE language_id = '".$data['language_id']."'
+                       AND  block = '".$data['block']."'
+                       AND section =  '".$data['section']."'
+                       AND language_key =  '".$data['language_key']."'
+                       AND language_value =  '".$data['language_value']."'";
         $exist = $this->db->query($sql);
         return ($exist->num_rows ? true : false);
     }

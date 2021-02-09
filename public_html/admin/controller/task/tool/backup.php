@@ -199,7 +199,8 @@ class ControllerTaskToolBackup extends AController
 
     public function CompressBackup(...$args)
     {
-        list(, , $settings) = $args;
+        $settings = $args[2];
+
         $backup_name = preg_replace('[^0-9A-z_\.]', '', $settings['backup_name']);
         $backup_name = !$backup_name ? 'manual_backup' : $backup_name;
 

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -36,17 +36,17 @@ class ABackup
      * @var string - mode of sql dump. can be "data_only" and "recreate"
      */
     public $sql_dump_mode = 'data_only';
-    private $backup_name;
-    private $backup_dir;
-    private $slash;
+    protected $backup_name;
+    protected $backup_dir;
+    protected $slash;
     /**
      * @var Registry
      */
-    private $registry;
+    protected $registry;
     /**
      * @var array
      */
-    public $error = array();
+    public $error = [];
 
     /**
      * @param string $name
@@ -136,12 +136,13 @@ class ABackup
     }
 
     /**
-     * @param array  $tables    - tables list
+     * @param array $tables - tables list
      * @param string $dump_file - path of file with sql dump
      *
      * @return bool|string - path of dump file or false
+     * @throws AException
      */
-    public function dumpTables($tables = array(), $dump_file = '')
+    public function dumpTables($tables = [], $dump_file = '')
     {
         if (!$tables || !is_array($tables) || !$this->backup_dir) {
             $error_text = 'Error: Cannot to dump of tables during sql-dumping. Empty table list or unknown destination folder.';
@@ -150,7 +151,7 @@ class ABackup
             return false;
         }
 
-        $table_list = array();
+        $table_list = [];
         foreach ($tables as $table) {
             if (!is_string($table)) {
                 continue;
@@ -168,10 +169,11 @@ class ABackup
         // get sizes of tables
 
         $sql = "SELECT TABLE_NAME AS 'table_name',
-					table_rows AS 'num_rows', (data_length + index_length - data_free) AS 'size'
-				FROM information_schema.TABLES
-				WHERE information_schema.TABLES.table_schema = '".DB_DATABASE."'
-					AND TABLE_NAME IN ('".implode("','", $table_list)."')	";
+                        table_rows AS 'num_rows', 
+                        (data_length + index_length - data_free) AS 'size'
+                FROM information_schema.TABLES
+                WHERE information_schema.TABLES.table_schema = '".DB_DATABASE."'
+                    AND TABLE_NAME IN ('".implode("','", $table_list)."') ";
         if ($prefix_len) {
             $sql .= " AND TABLE_NAME like '".DB_PREFIX."%'";
         }
@@ -180,7 +182,7 @@ class ABackup
         $memory_limit = (getMemoryLimitInBytes() - memory_get_usage()) / 4;
 
         // sql-file for small tables
-        $dump_file = !$dump_file ? $this->backup_dir.'data/dump_'.DB_DATABASE.'_'.date('Y-m-d-His').'.sql' : $dump_file;
+        $dump_file = $dump_file ?: $this->backup_dir.'data/dump_'.DB_DATABASE.'_'.date('Y-m-d-His').'.sql';
         $file = fopen($dump_file, 'w');
         if (!$file) {
             $error_text = 'Error: Cannot create file as "'.$dump_file.'" during sql-dumping. Check is it writable.';
@@ -205,20 +207,21 @@ class ABackup
             // to split data by pages use range of values of column that have PRIMARY KEY. NOT LIMIT-OFFSET!!!
             // 1. - get column name with primary key and data type integer
             $sql = "SELECT COLUMN_NAME
-					FROM information_schema.COLUMNS c
-					WHERE c.`TABLE_SCHEMA` = '".DB_DATABASE."'
-						AND c.`TABLE_NAME` = '".$table_name."'
-						AND c.`COLUMN_KEY` = 'PRI'
-					    AND c.`DATA_TYPE`='int'
-					LIMIT 0,1;";
+                    FROM information_schema.COLUMNS c
+                    WHERE c.`TABLE_SCHEMA` = '".DB_DATABASE."'
+                        AND c.`TABLE_NAME` = '".$table_name."'
+                        AND c.`COLUMN_KEY` = 'PRI'
+                        AND c.`DATA_TYPE`='int'
+                    LIMIT 0,1;";
             $r = $db->query($sql);
-            $column_name = $r->row['COLUMN_NAME'];
+            $column_name = $r->row['COLUMN_NAME'] ?? '';
 
             $small_table = false;
 
             if ($column_name) {
-                $sql = "SELECT MAX(`".$column_name."`) as max, MIN(`".$column_name."`) as min
-						FROM `".$table_name."`";
+                $sql = "SELECT MAX(`".$column_name."`) as max, 
+                               MIN(`".$column_name."`) as min
+                        FROM `".$table_name."`";
                 $r = $db->query($sql);
                 $column_max = $r->row['max'];
                 $column_min = $r->row['min'];
@@ -247,8 +250,9 @@ class ABackup
 
                 if (!$small_table) {
                     $sql = "SELECT *
-						 FROM `".$table_name."`
-						 WHERE `".$column_name."` >= '".$start."' AND `".$column_name."`< '".$stop."'";
+                            FROM `".$table_name."`
+                            WHERE `".$column_name."` >= '".$start."' 
+                                AND `".$column_name."`< '".$stop."'";
                 } else {
                     $sql = "SELECT * FROM `".$table_name."`";
                 }
@@ -262,8 +266,8 @@ class ABackup
                     }
                     $values = '';
                     foreach ($row as $value) {
-                        $value = str_replace(array("\x00", "\x0a", "\x0d", "\x1a"), array('\0', '\n', '\r', '\Z'), $value);
-                        $value = str_replace(array("\n", "\r", "\t"), array('\n', '\r', '\t'), $value);
+                        $value = str_replace(["\x00", "\x0a", "\x0d", "\x1a"], ['\0', '\n', '\r', '\Z'], $value);
+                        $value = str_replace(["\n", "\r", "\t"], ['\n', '\r', '\t'], $value);
                         $value = str_replace('\\', '\\\\', $value);
                         $value = str_replace('\'', '\\\'', $value);
                         $value = str_replace('\\\n', '\n', $value);
@@ -271,7 +275,11 @@ class ABackup
                         $value = str_replace('\\\t', '\t', $value);
                         $values .= '\''.$value.'\', ';
                     }
-                    fwrite($file, 'INSERT INTO `'.$table_name.'` ('.preg_replace('/, $/', '', $fields).') VALUES ('.preg_replace('/, $/', '', $values).');'."\n");
+                    fwrite(
+                        $file,
+                        'INSERT INTO `'.$table_name.'` ('.preg_replace('/, $/', '', $fields).') 
+                        VALUES ('.preg_replace('/, $/', '', $values).');'."\n"
+                    );
                 }
                 unset($r, $sql);
                 $start += $limit;
@@ -291,6 +299,7 @@ class ABackup
 
     /**
      * @return bool
+     * @throws AException
      */
     public function dumpDatabase()
     {
@@ -324,6 +333,7 @@ class ABackup
      * @param string $table_name
      *
      * @return bool
+     * @throws AException
      */
     public function dumpTable($table_name)
     {
@@ -332,11 +342,13 @@ class ABackup
         }
 
         $table_name = $this->registry->get('db')->escape($table_name); // for any case
-
         $backupFile = $this->backup_dir.'data/'.DB_DATABASE.'_'.$table_name.'_dump_'.date("Y-m-d-H-i-s").'.sql';
-
-        $result = $this->dumpTables($tables = array($table_name), $backupFile);
-
+        $result = $this->dumpTables(
+            [
+                $table_name
+            ],
+            $backupFile
+        );
         if (!$result) {
             $error_text = "Error: Can't create sql dump of database table during backup";
             $this->log->write($error_text);
@@ -516,7 +528,9 @@ class ABackup
             foreach ($objects as $obj) {
                 if ($obj != "." && $obj != "..") {
                     @chmod($dir."/".$obj, 0777);
-                    $err = is_dir($dir."/".$obj) ? $this->_removeDir($dir."/".$obj) : unlink($dir."/".$obj);
+                    $err = is_dir($dir."/".$obj)
+                            ? $this->_removeDir($dir."/".$obj)
+                            : unlink($dir."/".$obj);
                     if (!$err) {
                         $error_text = "Error: Can't to delete file or directory: '".$dir."/".$obj."'.";
                         $this->log->write($error_text);
@@ -526,8 +540,7 @@ class ABackup
                 }
             }
             reset($objects);
-            rmdir($dir);
-            return true;
+            return rmdir($dir);
         } else {
             return $dir;
         }
@@ -572,9 +585,7 @@ class ABackup
             ) {
                 continue;
             }
-            /**
-             * @var $f DirectoryIterator
-             */
+            /** DirectoryIterator $f */
             if ($f->isFile()) {
                 copy($real_path, $dest.$this->slash.$f->getFilename());
             } else {
@@ -589,7 +600,7 @@ class ABackup
         return true;
     }
 
-    private function _add_empty_index_file($dir)
+    protected function _add_empty_index_file($dir)
     {
         //if empty directory - creates new empty file to prevent
         // excluding directory during tar.gz compression via PharData class
@@ -609,7 +620,7 @@ class ABackup
     public function validate()
     {
         //reset errors array before validation
-        $this->error = array();
+        $this->error = [];
         //1. check is backup directory is writable
         if (!is_writable(DIR_BACKUP)) {
             $this->error[] = 'Directory '.DIR_BACKUP.' is non-writable. It is recommended to set write mode for it.';
@@ -628,7 +639,7 @@ class ABackup
         }
 
         //3. check already created backup directories
-        foreach (array($this->backup_dir, $this->backup_dir."files".$this->slash, $this->backup_dir."data".$this->slash) as $dir) {
+        foreach ([$this->backup_dir, $this->backup_dir."files".$this->slash, $this->backup_dir."data".$this->slash] as $dir) {
             if (is_dir($dir) && !is_writable($dir)) {
                 $this->error[] = 'Directory '.$dir.' already exists and it is non-writable. It is recommended to set write mode for it.';
             }
