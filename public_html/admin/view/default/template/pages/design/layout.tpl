@@ -95,12 +95,11 @@ foreach ($pages as $page) {
 	</div>
 
 	<?php echo $form_begin; ?>
-	<div id="page-layout" class="panel-body panel-body-nopadding tab-content col-xs-12">
-		<?php echo $layoutform; ?>
-		<?php echo $hidden_fields; ?>
-	</div>
-	</form>
 
+	<!-- layout iframe - everything will be rendered inside. -->
+	<iframe id="layout-iframe" src="<?php echo $page_builder_url; ?>" width="100%" height="100%" style="display:none; border:none;"></iframe>
+
+	</form>
 </div>
 
 <script type="text/javascript">
