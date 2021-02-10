@@ -542,18 +542,21 @@ class ControllerResponsesCheckoutPay extends AController
         if ($this->customer->isLogged()) {
             //customer details
             $this->data['customer_email'] = $this->customer->getEmail();
+            $this->data['customer_telephone'] = $this->customer->getTelephone();
+
             if ($this->session->data['order_id']) {
                 $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-                $this->session->data['fast_checkout'][$this->cart_key]['telephone']
-                    = $this->data['customer_telephone']
-                    = $order_info['telephone'];
-            } else {
-                $this->data['customer_telephone'] = $this->customer->getTelephone();
+                if($order_info['telephone'] ?? '') {
+                    $this->session->data['fast_checkout'][$this->cart_key]['telephone']
+                        =
+                    $this->data['customer_telephone'] = $order_info['telephone'];
+                }
             }
 
             if(!$this->data['customer_telephone'] && $this->config->get('fast_checkout_require_phone_number')){
                 //redirect by ajax call if phone number required!
-                $this->response->setOutput('<script type="application/javascript">
+                $this->response->setOutput(
+                        '<script type="application/javascript">
                     location = "'.$this->html->getSecureURL('account/edit', '&telephone=').'";
                     e.stopPropagation();
                 </script>');

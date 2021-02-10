@@ -1235,6 +1235,8 @@ class ControllerPagesCatalogProduct extends AController
         if (isset($data['date_available'])) {
             $data['date_available'] = dateDisplay2ISO($data['date_available']);
         }
+        //set default store if not set
+        $data['product_store'] = $data['product_store'] ?? [0];
         return $data;
     }
 }
