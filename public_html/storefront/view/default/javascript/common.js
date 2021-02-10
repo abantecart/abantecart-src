@@ -68,7 +68,13 @@ $(document).ready(function () {
         $(this).tooltip('show');
     });
 
+
     $('#footer').ajaxError(function (e, jqXHR, settings, exception) {
+        //if have no connection of page load abort
+        if(jqXHR.status === 0){
+            return;
+        }
+
         try {
             var error_msg = $.parseJSON(jqXHR.responseText);
             var error_text = 'Unknown AJAX Error!'
