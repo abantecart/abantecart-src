@@ -780,8 +780,9 @@ function compressTarGZ($tar_filename, $tar_dir, $compress_level = 5)
                 unlink($tar);
             }
         } catch (Exception $e) {
-            $error = new AError('Tar GZ compressing error: '.$e->getMessage());
-            $error->toLog()->toDebug();
+//            // commented by cause "Iterator RecursiveIteratorIterator returned a file that could not be opened"
+//             $error = new AError('Tar GZ compressing error: '.$e->getMessage());
+//             $error->toLog()->toDebug();
             $exit_code = 1;
         }
     } else {
