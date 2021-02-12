@@ -1428,6 +1428,7 @@ class TextareaHtmlElement extends HtmlElement
 /**
  * Class TextEditorHtmlElement
  *
+ * @property ALanguage $language
  * @property string $element_id
  * @property string $value
  * @property string $name
@@ -1436,6 +1437,9 @@ class TextareaHtmlElement extends HtmlElement
  * @property string $style
  * @property string $placeholder
  * @property string $base_url - need for inserting pictures into html for emails
+ * @property bool   $preview - enable/disable visual mode of tinymce. default true
+ * @property string $preview_url - custom preview url
+ * @property string $js_onload - custom js-code will be run on doc ready
  * @property bool   $multilingual
  */
 class TextEditorHtmlElement extends HtmlElement
@@ -1446,17 +1450,21 @@ class TextEditorHtmlElement extends HtmlElement
      */
     public function getHtml()
     {
+        $this->multilingual = $this->multilingual ?? '';
         $this->view->batchAssign(
             [
                 'name'        => $this->name,
                 'id'          => $this->element_id,
                 'value'       => $this->value,
                 'ovalue'      => htmlentities($this->value, ENT_QUOTES, 'UTF-8'),
-                'attr'        => $this->attr,
-                'required'    => $this->required,
-                'style'       => $this->style,
-                'placeholder' => $this->placeholder,
-                'base_url'    => $this->base_url,
+                'attr'        => $this->attr ?? '',
+                'required'    => $this->required ?? false,
+                'style'       => $this->style ?? '',
+                'placeholder' => $this->placeholder ?? '',
+                'base_url'    => $this->base_url ?? '',
+                'preview'     => $this->preview ?? true,
+                'preview_url' => $this->preview_url ?? '',
+                'js_onload'   => $this->js_onload ?? ''
             ]
         );
         if (is_object($this->language)) {
@@ -1468,6 +1476,7 @@ class TextEditorHtmlElement extends HtmlElement
             $text['tab_text'] = $this->language->get('tab_text');
             $text['tab_visual'] = $this->language->get('tab_visual');
             $text['button_add_media'] = $this->language->get('button_add_media');
+            $text['button_preview'] = $this->language->get('button_preview');
 
             $this->view->batchAssign($text);
         }
