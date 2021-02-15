@@ -765,4 +765,8 @@
 		<key>text_subtract_order</key>
 		<value><![CDATA[Subtract Order]]></value>
 	</definition>
+	<definition>
+		<key>button_preview</key>
+		<value><![CDATA[Preview]]></value>
+	</definition>
 </definitions>

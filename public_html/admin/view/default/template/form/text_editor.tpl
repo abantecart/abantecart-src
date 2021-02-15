@@ -12,6 +12,7 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
                 &nbsp;&nbsp;&nbsp;<?php echo $tab_text; ?>&nbsp;&nbsp;&nbsp;
             </a>
         </li>
+        <?php if($preview){ ?>
         <li role="presentation">
             <a href="#visual_<?php echo $wrapper_id; ?>"
                aria-controls="visual_<?php echo $wrapper_id; ?>"
@@ -20,6 +21,7 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
                 &nbsp;&nbsp;&nbsp;<?php echo $tab_visual; ?>&nbsp;&nbsp;&nbsp;
             </a>
         </li>
+        <?php } ?>
     </ul>
 
     <div class="common_content_actions pull-right">
@@ -44,93 +46,123 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
             <?php
             } ?>
 
-            <a title="<?php
-            js_echo($button_add_media); ?>"
-               data-original-title="<?php
-               js_echo($button_add_media); ?>"
+            <a title="<?php echo_html2view($button_add_media); ?>"
+               data-original-title="<?php echo_html2view($button_add_media); ?>"
                href="#"
-               class="btn btn-primary tooltips add_media">
-                <i class="fa fa-file-picture-o fa-fw"></i> <?php
-                echo $button_add_media; ?>
+               class="btn btn-primary tooltips add_media mr10">
+                <i class="fa fa-file-picture-o fa-fw"></i>
+                <?php echo $button_add_media; ?>
             </a>
+            <?php if($preview_url){ ?>
+                <a target="_blank"
+                   title="<?php echo_html2view($button_preview); ?>"
+                   onclick="previewHtmlBody(event); return false;"
+                   class="btn btn-default tooltips">
+                        <i class="fa fa-eye fa-fw"></i>
+                        <?php echo $button_preview; ?>
+                </a>
+                <script type="application/javascript">
+                function previewHtmlBody(e){
+                    e.preventDefault();
+                    let errors = false;
+                    $.ajax({
+                      type: "POST",
+                      url: '<?php echo $preview_url; ?>',
+                      data: { email_template_preview: $('#<?php echo $id ?>').val() },
+                      error: function(){
+                            errors = true;
+                      },
+                    });
+                    if(!errors) {
+                        window.open('<?php echo $preview_url; ?>');
+                    }
+                    return false;
+                }
+                </script>
+            <?php } ?>
         </div>
 
     </div>
     <!-- Tab panes -->
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="text_<?php
-        echo $wrapper_id; ?>">
+        <div role="tabpanel" class="tab-pane active" id="text_<?php echo $wrapper_id; ?>">
             <div class="zennable">
-
                 <div class="toolbar text-editor-toolbar">
                     <div class="primary_content_actions">
                         <div class="btn-group">
-                            <a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_strong"
+                            <a href="#" 
+                               class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_strong"
                                data-original-title="Paragraph">p</a>
-                            <a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_strong"
+                            <a href="#" 
+                               class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_strong"
                                data-original-title="Bold">b</a>
-                            <a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_em"
+                            <a href="#" 
+                               class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_em"
                                data-original-title="Italic">i</a>
-                            <a href="#" class="btn btn-default btn-xs tooltips qt_cnt_link"
+                            <a href="#" 
+                               class="btn btn-default btn-xs tooltips qt_cnt_link"
                                data-original-title="Insert link">a</a>
-                            <a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_block"
+                            <a href="#" 
+                               class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_block"
                                data-original-title="Blockquote">blockquote</a>
-                            <a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_del"
+                            <a href="#" 
+                               class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_del"
                                data-original-title="Deleted text (strikethrough)">del</a>
-                            <a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_ins"
+                            <a href="#" 
+                               class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_ins"
                                data-original-title="Inserted text">ins</a>
-                            <a href="#" class="btn btn-default btn-xs tooltips qt_cnt_img"
+                            <a href="#" 
+                               class="btn btn-default btn-xs tooltips qt_cnt_img"
                                data-original-title="Insert image">img</a>
-                            <a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_ul"
+                            <a href="#" 
+                               class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_ul"
                                data-original-title="Bulleted list">ul</a>
-                            <a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_ol"
+                            <a href="#" 
+                               class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_ol"
                                data-original-title="Numbered list">ol</a>
-                            <a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_li"
+                            <a href="#" 
+                               class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_li"
                                data-original-title="List item">li</a>
-                            <a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_code"
+                            <a href="#" 
+                               class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_code"
                                data-original-title="Code">code</a>
-                            <a href="#" class="btn btn-default btn-xs tooltips qt_cnt_comment"
+                            <a href="#" 
+                               class="btn btn-default btn-xs tooltips qt_cnt_comment"
                                data-original-title="Comment">comment</a>
-                            <a href="#" class="btn btn-default btn-xs tooltips qt_cnt_expand"
+                            <a href="#" 
+                               class="btn btn-default btn-xs tooltips qt_cnt_expand"
                                data-original-title="Expand">
                                 <i class="fa fa-expand fa-fw"></i>
                             </a>
-                            <a href="#" class="btn btn-default btn-xs tooltips qt_cnt_shrink"
-                               data-original-title="Shrink" style="display:none">
+                            <a href="#" 
+                               class="btn btn-default btn-xs tooltips qt_cnt_shrink"
+                               data-original-title="Shrink" 
+                               style="display:none">
                                 <i class="fa fa-compress fa-fw"></i>
                             </a>
                         </div>
                     </div>
                 </div>
                 <div class="zen-backdrop">
-			        <textarea
-                            class="form-control atext <?php
-                            echo $style ?>"
-                            name="<?php
-                            echo $name ?>"
-                            placeholder="<?php
-                            echo $placeholder; ?>"
-                            id="<?php
-                            echo $id ?>"
-                            data-orgvalue="<?php
-                            echo $ovalue ?>"
-                        <?php echo $attr ?>
-                        ><?php echo $value ?></textarea>
+                    <textarea aria-label="editor-area"
+                            class="form-control atext <?php echo $style ?>"
+                            name="<?php echo $name ?>"
+                            placeholder="<?php echo $placeholder; ?>"
+                            id="<?php echo $id ?>"
+                            data-orgvalue="<?php echo_html2view($ovalue); ?>"
+                            <?php echo $attr ?>><?php echo $value ?></textarea>
                 </div>
             </div>
         </div>
-
         <div role="tabpanel" class="tab-pane" id="visual_<?php echo $wrapper_id ?>">
-            <textarea
+            <textarea  aria-label="editor-tab-area"
                     class="visual_editor"
                     name="<?php echo $name ?>"
                     disabled="disabled"
                     placeholder="<?php echo $placeholder; ?>"
-                    id="text_editor_<?php echo $id ?>"><?php echo $value ?></textarea>
+                    id="text_editor_<?php echo $id ?>"><?php echo $value; ?></textarea>
         </div>
-
     </div>
-
 </div>
 
 
@@ -142,6 +174,14 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
         //initiate editor
         mcei.selector = 'textarea#text_editor_<?php echo $id ?>';
         tinymce.baseURL = "<?php echo $template_dir; ?>javascript/tinymce";
+
+        <?php
+        if(!$preview){ ?>
+            mcei.visual = false;
+        <?php }
+        //add ability to call custom js-code from php
+        echo $js_onload; ?>
+
         tinymce.init(mcei);
 
         //for modal mode
@@ -165,10 +205,9 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
         });
 
         $('#<?php echo $wrapper_id; ?> a.qt_cnt').on('click', function () {
-            var elem = $(this);
-            var tag = elem.text();
-            var editor, cursorPosition;
-            editor = $('#<?php echo $id ?>');
+            let elem = $(this);
+            let tag = elem.text();
+            let editor = $('#<?php echo $id ?>');
             if (elem.hasClass('closing')) {
                 textareaInsert(editor, '<' + tag + '>');
                 elem.text(tag.replace('/', ''));
@@ -182,10 +221,9 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
         });
 
         $('#<?php echo $wrapper_id; ?> a.qt_cnt_link').on('click', function () {
-            var elem = $(this);
-            var tag = elem.text();
-            var editor, cursorPosition;
-            editor = $('#<?php echo $id ?>');
+            let elem = $(this);
+            let tag = elem.text();
+            let editor = $('#<?php echo $id ?>');
             if (elem.hasClass('closing')) {
                 textareaInsert(editor, '<' + tag + '>');
                 elem.text(tag.replace('/', ''));
@@ -199,24 +237,20 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
         });
 
         $('#<?php echo $wrapper_id; ?> a.qt_cnt_img').on('click', function () {
-            var editor, cursorPosition;
-            editor = $('#<?php echo $id ?>');
-            textareaInsert(editor, '<img src="" alt="" />');
+            textareaInsert($('#<?php echo $id ?>'), '<img src="" alt="" />');
             return false;
         });
 
         $('#<?php echo $wrapper_id; ?> a.qt_cnt_comment').on('click', function () {
-            var editor, cursorPosition;
-            editor = $('#<?php echo $id ?>');
-            textareaInsert(editor, '<!-- comment -->');
+            textareaInsert($('#<?php echo $id ?>'), '<!-- comment -->');
             return false;
         });
 
         $('#<?php echo $wrapper_id; ?>').on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
-            var newtab_id = $(e.target).attr('aria-controls'), // newly activated tab
+            let newtab_id = $(e.target).attr('aria-controls'), // newly activated tab
                 prevtab_id = $(e.relatedTarget).attr('aria-controls'); // previous active tab
 
-            var textarea, value;
+            let textarea, value;
             textarea = $('#' + prevtab_id + ' textarea');
 
             if (prevtab_id === 'visual_<?php echo $wrapper_id?>') {
@@ -259,5 +293,6 @@ echo $wrapper_id ?>" class="text-editor panel panel-default">
             openTextEditRLModal(editor, cursorPosition, '<?php echo $base_url?>');
             return false;
         });
+
     });
 </script>
