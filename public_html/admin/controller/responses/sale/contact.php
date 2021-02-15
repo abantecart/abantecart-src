@@ -265,8 +265,7 @@ class ControllerResponsesSaleContact extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->session->data['sale_contact_presave'] = [];
-        $this->session->data['sale_contact_presave'] = $this->request->post;
+        $this->session->data['sale_contact_presave'] = $this->request->post ?? [];
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
