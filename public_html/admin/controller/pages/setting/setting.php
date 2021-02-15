@@ -31,7 +31,6 @@ class ControllerPagesSettingSetting extends AController
 {
     public $error = [];
     public $groups = [];
-    public $data = [];
 
     /**
      * @param Registry $registry
@@ -54,9 +53,9 @@ class ControllerPagesSettingSetting extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->document->setTitle($this->language->get('heading_title'));
-        $group = $this->request->get['active'];
-        $post = (array) $this->request->post;
-        $get = (array) $this->request->get;
+        $group = $this->request->get['active'] ?? '';
+        $post = $this->request->post ?? [];
+        $get = $this->request->get ?? [];
 
         if ($this->request->is_POST() && $this->_validate($get['active'], $get['store_id'])) {
             //do not touch password when it ten stars
@@ -66,19 +65,8 @@ class ControllerPagesSettingSetting extends AController
                 unset($post['config_smtp_password']);
             }
 
-            foreach (['config_logo', 'config_mail_logo', 'config_icon'] as $n) {
-                if (has_value($post[$n])) {
-                    $post[$n] = html_entity_decode($post[$n], ENT_COMPAT, 'UTF-8');
-                } else {
-                    if (!$post[$n] && isset($post[$n.'_resource_id'])) {
-                        //we save resource ID vs resource path
-                        $post[$n] = $post[$n.'_resource_id'];
-                    }
-                }
-            }
-
             //html decode store name
-            if (has_value($post['store_name'])) {
+            if (isset($post['store_name'])) {
                 $post['store_name'] = html_entity_decode($post['store_name'], ENT_COMPAT, 'UTF-8');
             }
 
@@ -456,7 +444,7 @@ class ControllerPagesSettingSetting extends AController
         $this->main();
     }
 
-    private function _getForm()
+    protected function _getForm()
     {
         $this->data['action'] = $this->html->getSecureURL(
             'setting/setting',
@@ -520,18 +508,28 @@ class ControllerPagesSettingSetting extends AController
 
         switch ($this->data['active']) {
             case 'details':
-                $this->data = array_merge_recursive($this->data, $this->_build_details($form, $this->data['settings']));
+                $this->data = array_merge_recursive(
+                    $this->data,
+                    $this->_build_details($form, $this->data['settings'])
+                );
                 break;
             case 'general' :
-                $this->data = array_merge_recursive($this->data, $this->_build_general($form, $this->data['settings']));
+                $this->data = array_merge_recursive(
+                    $this->data,
+                    $this->_build_general($form, $this->data['settings'])
+                );
                 break;
             case 'checkout':
-                $this->data =
-                    array_merge_recursive($this->data, $this->_build_checkout($form, $this->data['settings']));
+                $this->data = array_merge_recursive(
+                    $this->data,
+                    $this->_build_checkout($form, $this->data['settings'])
+                );
                 break;
             case 'appearance' :
-                $this->data =
-                    array_merge_recursive($this->data, $this->_build_appearance($form, $this->data['settings']));
+                $this->data = array_merge_recursive(
+                    $this->data,
+                    $this->_build_appearance($form, $this->data['settings'])
+                );
                 //when opens page for looking setting of template (from settings grid or search)
                 if (isset($this->request->get['active'])) {
                     $parts = explode('-', $this->request->get['active']);
@@ -575,7 +573,7 @@ class ControllerPagesSettingSetting extends AController
      * @return array
      * @throws AException
      */
-    private function _build_details($form, $data)
+    protected function _build_details($form, $data)
     {
         $ret_data = [];
         $ret_data['form_language_switch'] = $this->html->getContentLanguageSwitcher();
@@ -591,7 +589,7 @@ class ControllerPagesSettingSetting extends AController
      *
      * @return array
      */
-    private function _build_general($form, $data)
+    protected function _build_general($form, $data)
     {
         $ret_data = [];
         $ret_data['form'] = [
@@ -606,7 +604,7 @@ class ControllerPagesSettingSetting extends AController
      *
      * @return array
      */
-    private function _build_checkout($form, $data)
+    protected function _build_checkout($form, $data)
     {
         $ret_data = [];
         $ret_data['form'] = [
@@ -621,10 +619,10 @@ class ControllerPagesSettingSetting extends AController
      *
      * @return array
      */
-    private function _build_appearance($form, $data)
+    protected function _build_appearance($form, $data)
     {
         $ret_data = [];
-
+        $ret_data['form_language_switch'] = $this->html->getContentLanguageSwitcher();
         $ret_data['form'] = [
             'fields' => $this->conf_mngr->getFormFields('appearance', $form, $data),
         ];
@@ -638,7 +636,7 @@ class ControllerPagesSettingSetting extends AController
      *
      * @return array
      */
-    private function _build_mail($form, $data)
+    protected function _build_mail($form, $data)
     {
         $ret_data = [];
         $ret_data['form'] = [
@@ -653,7 +651,7 @@ class ControllerPagesSettingSetting extends AController
      *
      * @return array
      */
-    private function _build_im($form, $data)
+    protected function _build_im($form, $data)
     {
         $ret_data = [];
         $ret_data['form'] = [
@@ -668,7 +666,7 @@ class ControllerPagesSettingSetting extends AController
      *
      * @return array
      */
-    private function _build_api($form, $data)
+    protected function _build_api($form, $data)
     {
         $ret_data = [];
         $ret_data['form'] = [
@@ -683,7 +681,7 @@ class ControllerPagesSettingSetting extends AController
      *
      * @return array
      */
-    private function _build_system($form, $data)
+    protected function _build_system($form, $data)
     {
         $ret_data = [];
 
@@ -738,7 +736,7 @@ class ControllerPagesSettingSetting extends AController
      * @return bool
      * @throws AException
      */
-    private function _validate($group, $store_id = 0)
+    protected function _validate($group, $store_id = 0)
     {
         if (!$this->user->canModify('setting/setting')) {
             $this->error['warning'] = $this->language->get('error_permission');
