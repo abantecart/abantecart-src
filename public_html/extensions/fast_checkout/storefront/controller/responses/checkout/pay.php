@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpUndefinedClassInspection */
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -484,6 +485,7 @@ class ControllerResponsesCheckoutPay extends AController
             } else {
                 $rt = 'responses/checkout/no_payment';
             }
+
             $dd = new ADispatcher($rt);
             //style buttons
             $paymentHTML = preg_replace(
@@ -779,14 +781,14 @@ class ControllerResponsesCheckoutPay extends AController
         $this->loadModel('checkout/order');
         $order_details = $this->model_checkout_order->getOrder($order_id);
         if ($order_details && $order_details['order_status_id'] > 0) {
-            $this->_process_success($order_id, $order_details, $this->cart_key);
+            $this->_process_success($order_id, $order_details);
         } else {
             $this->error['message'] = $this->language->get('fast_checkout_error_unexpected');
             $this->main();
         }
     }
 
-    protected function _process_success($order_id, $order_data, $cart_key, $request = [])
+    protected function _process_success($order_id, $order_data)
     {
         if (!$order_id || empty($order_data)) {
             $this->error['message'] = $this->language->get('fast_checkout_error_unexpected');
@@ -1129,7 +1131,8 @@ class ControllerResponsesCheckoutPay extends AController
             $this->loadLanguage('account/login');
             $this->error['message'] = $this->language->get('error_login');
             if ($this->request->get['type']) {
-                return $this->_address($this->request->get['type'], $this->request->post);
+                $this->_address($this->request->get['type'], $this->request->post);
+                return;
             }
         } else {
             $this->action = 'payment';
@@ -1184,7 +1187,7 @@ class ControllerResponsesCheckoutPay extends AController
         } else {
             $data = $this->session->data['guest']['shipping'];
         }
-        return $this->_address($this->request->get['type'], $data);
+        $this->_address($this->request->get['type'], $data);
     }
 
     public function address()
@@ -1200,10 +1203,12 @@ class ControllerResponsesCheckoutPay extends AController
             if ($this->error && $this->error['warning']) {
                 //we have errors
                 $this->error['message'] = $this->error['warning'];
-                return $this->_address($this->request->get['type'], $post);
+                $this->_address($this->request->get['type'], $post);
+                return;
             }
         } else {
-            return $this->_address($this->request->get['type'], $post);
+            $this->_address($this->request->get['type'], $post);
+            return;
         }
 
         //all good save guest address
@@ -1294,6 +1299,12 @@ class ControllerResponsesCheckoutPay extends AController
         $this->main();
     }
 
+    /**
+     * @param string $type
+     * @param array $data
+     *
+     * @throws AException
+     */
     protected function _address($type, $data)
     {
         $params = "&cart_key=".$this->cart_key.'&type='.$type;
@@ -1432,13 +1443,12 @@ class ControllerResponsesCheckoutPay extends AController
         //build cart view and totals
         if (!$this->_build_cart_product_details()) {
             $this->_show_error('No items to be purchased are found');
-            return null;
+            return;
         }
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
         $this->view->batchAssign($this->data);
         $this->response->setOutput($this->view->fetch('responses/checkout/main.tpl'));
-        return null;
     }
 
     protected function _validate_login($loginname, $password)
@@ -1538,22 +1548,22 @@ class ControllerResponsesCheckoutPay extends AController
 
     protected function _select_shipping($selected = '')
     {
+        $session =& $this->session->data['fast_checkout'][$this->cart_key];
         $selected_shipping = [];
         if ($selected) {
             $selected_shipping = explode('.', $selected);
         }
 
-        if (!isset($this->session->data['fast_checkout'][$this->cart_key]['shipping_methods'])
-            || !$this->config->get(
-                'config_shipping_session'
-            )) {
+        if (!isset($session['shipping_methods'])
+            || !$this->config->get('config_shipping_session')
+        ) {
             $quote_data = [];
 
             $results = $this->model_checkout_extension->getExtensions('shipping');
-            if ($this->session->data['fast_checkout'][$this->cart_key]['shipping_address_id']) {
+            if ($session['shipping_address_id']) {
                 $this->loadModel('account/address');
                 $shipping_address = $this->model_account_address->getAddress(
-                    $this->session->data['fast_checkout'][$this->cart_key]['shipping_address_id']
+                    $session['shipping_address_id']
                 );
             } else {
                 $shipping_address = $this->session->data['guest']['shipping'];
@@ -1587,22 +1597,20 @@ class ControllerResponsesCheckoutPay extends AController
             }
 
             array_multisort($sort_order, SORT_ASC, $quote_data);
-            $this->session->data['fast_checkout'][$this->cart_key]['shipping_methods'] = $quote_data;
+            $session['shipping_methods'] = $quote_data;
 
-            if ($this->session->data['fast_checkout'][$this->cart_key]['shipping_method']) {
-                $shippingMethods =
-                    explode('.', $this->session->data['fast_checkout'][$this->cart_key]['shipping_method']['id']);
+            if ($session['shipping_method']) {
+                $shippingMethods = explode('.', $session['shipping_method']['id']);
                 $shippingMethod = $shippingMethods[0];
                 if ($shippingMethod && $quote_data[$shippingMethod]) {
-                    $this->session->data['fast_checkout'][$this->cart_key]['shipping_method'] =
-                        $quote_data[$shippingMethod]['quote'][$shippingMethod];
+                    $session['shipping_method'] = $quote_data[$shippingMethod]['quote'][$shippingMethod];
                 } else {
-                    unset($this->session->data['fast_checkout'][$this->cart_key]['shipping_method']);
+                    unset($session['shipping_method']);
                 }
             }
 
             //if any error in shipping method, need to log
-            $shipMethods = $this->session->data['fast_checkout'][$this->cart_key]['shipping_methods'] ?? [];
+            $shipMethods = $session['shipping_methods'] ?? [];
             if ( count($shipMethods) ){
                 foreach ($shipMethods as $method) {
                     if ($method['error'] ?? '') {
@@ -1620,12 +1628,11 @@ class ControllerResponsesCheckoutPay extends AController
         //# If only 1 shipping and it is set to be defaulted
         if ($selected_shipping) {
             //user selected new shipping method
-            $this->session->data['fast_checkout'][$this->cart_key]['shipping_method'] =
-                $this->session->data['fast_checkout'][$this->cart_key]['shipping_methods'][$selected_shipping[0]]['quote'][$selected_shipping[1]];
+            $session['shipping_method'] = $session['shipping_methods'][$selected_shipping[0]]['quote'][$selected_shipping[1]];
         } else {
-            if (count($this->session->data['fast_checkout'][$this->cart_key]['shipping_methods']) == 1) {
+            if (count($session['shipping_methods']) == 1) {
                 //set only method
-                $only_method = $this->session->data['fast_checkout'][$this->cart_key]['shipping_methods'];
+                $only_method = $session['shipping_methods'];
                 foreach ($only_method as $key => $value) {
                     $method_name = $key;
                     #Check config if we allowed to set this shipping and skip the step
@@ -1633,15 +1640,14 @@ class ControllerResponsesCheckoutPay extends AController
                     $autoselect = $ext_config[$method_name."_autoselect"];
                     if ((is_array($only_method[$key]['quote']) && sizeof($only_method[$key]['quote']) == 1)
                         || $autoselect) {
-                        $this->session->data['fast_checkout'][$this->cart_key]['shipping_method'] =
-                            current($only_method[$method_name]['quote']);
+                        $session['shipping_method'] = current($only_method[$method_name]['quote']);
                     }
                 }
             }
         }
 
-        $this->data['shipping_methods'] = $this->session->data['fast_checkout'][$this->cart_key]['shipping_methods'] ?? [];
-        $shipping = $this->session->data['fast_checkout'][$this->cart_key]['shipping_method']['id'];
+        $this->data['shipping_methods'] = $session['shipping_methods'] ?? [];
+        $shipping = $session['shipping_method']['id'];
         if ($this->data['shipping_methods']) {
             foreach ($this->data['shipping_methods'] as $k => $v) {
                 if ($v['quote'] && is_array($v['quote'])) {
@@ -1673,7 +1679,14 @@ class ControllerResponsesCheckoutPay extends AController
         } else {
             $this->data['shipping_methods'] = [];
         }
-        $this->session->data['fast_checkout'][$this->cart_key]['shipping_methods'] = $this->data['shipping_methods'];
+        $session['shipping_methods'] = $this->data['shipping_methods'];
+        if($selected_shipping){
+            $in_data = array_merge(
+                (array) $this->session->data,
+                $session
+            );
+            $this->updateOrCreateOrder($in_data, ['shipping_method' => $selected ]);
+        }
     }
 
     protected function _validate_order_details($request)
