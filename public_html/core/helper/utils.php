@@ -1355,3 +1355,44 @@ function setCookieOrParams($name = null, $value = null, $options = [])
         }
     }
 }
+
+/**
+ * @param string|int $source
+ *
+ * @return array
+ * @throws AException
+ */
+function getMailLogoDetails( &$source)
+{
+    $output = [
+        'uri'  => null,
+        'html' => null
+    ];
+    //if resource ID was given
+    if (is_numeric($source)) {
+        $r = new AResource('image');
+        $resource_info = $r->getResource($source);
+        if ($resource_info) {
+            if($resource_info['resource_code']) {
+                $output['html'] = html_entity_decode(
+                    $resource_info['resource_code'],
+                    ENT_QUOTES, 'UTF-8'
+                );
+            }else{
+                $source = $r->getTypeDir().$resource_info['resource_path'];
+                $output['uri'] = 'cid:'
+                    .md5(pathinfo($resource_info['resource_path'], PATHINFO_FILENAME))
+                    .'.'
+                    .pathinfo($resource_info['resource_path'], PATHINFO_EXTENSION);
+            }
+        }
+    }
+    // if resource path was given
+    else {
+        $output['uri'] = 'cid:'
+            .md5(pathinfo($source, PATHINFO_FILENAME))
+            .'.'
+            .pathinfo($source, PATHINFO_EXTENSION);
+    }
+    return $output;
+}

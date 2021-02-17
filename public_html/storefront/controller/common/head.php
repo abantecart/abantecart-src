@@ -1,11 +1,13 @@
 <?php
+/** @noinspection PhpUndefinedClassInspection */
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -54,21 +56,29 @@ class ControllerCommonHead extends AController
             $this->view->assign('base', HTTP_SERVER);
         }
 
-        $icon_rl = $this->config->get('config_icon');
+        $iconUri = $this->config->get('config_icon');
         //see if we have a resource ID or path
-        if ($icon_rl) {
-            if (is_numeric($icon_rl)) {
+        if ($iconUri) {
+            if (is_numeric($iconUri)) {
                 $resource = new AResource('image');
-                $image_data = $resource->getResource($icon_rl);
-                if (is_file(DIR_RESOURCE.$image_data['image'])) {
-                    $icon_rl = 'resources/'.$image_data['image'];
+                $resourceInfo = $resource->getResource($iconUri);
+                if (is_file(DIR_RESOURCE.$resourceInfo['type_dir'].$resourceInfo['resource_path'])) {
+                    $iconUri = $resourceInfo['type_dir'].$resourceInfo['resource_path'];
                 } else {
-                    $icon_rl = $image_data['resource_code'];
+                    $this->messages->saveWarning(
+                        'Check favicon.',
+                        'Warning: please check favicon in your store settings. Favicon cannot to be a code!.'
+                    );
+                    $iconUri = '';
                 }
             } else {
-                if (!is_file(DIR_RESOURCE.$icon_rl)) {
-                    $this->messages->saveWarning('Check favicon.', 'Warning: please check favicon in your store settings. Current path is "'.DIR_RESOURCE.$icon_rl.'" but file does not exists.');
-                    $icon_rl = '';
+                if (!is_file(DIR_RESOURCE.$iconUri)) {
+                    $this->messages->saveWarning(
+                        'Check favicon.',
+                        'Warning: please check favicon in your store settings. Current path is "'
+                            .DIR_RESOURCE.$iconUri.'" but file does not exists.'
+                    );
+                    $iconUri = '';
                 }
             }
         }
@@ -77,7 +87,7 @@ class ControllerCommonHead extends AController
             $this->view->assign( 'google_tag_manager', $this->config->get('config_google_tag_manager_id'));
         }
 
-        $this->view->assign('icon', $icon_rl);
+        $this->view->assign('icon', $iconUri);
         $this->view->assign('lang', $this->language->get('code'));
         $this->view->assign('direction', $this->language->get('direction'));
         $this->view->assign('links', $this->document->getLinks());

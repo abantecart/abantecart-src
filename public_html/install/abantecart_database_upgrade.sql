@@ -5,3 +5,4 @@ ADD COLUMN `mp_product_url` VARCHAR(255) NULL DEFAULT '' AFTER `support_expirati
 ALTER TABLE `ac_resource_types`
 CHANGE COLUMN `file_types` `file_types` VARCHAR(255) NOT NULL DEFAULT '' ;
 
+##add script to update config_log and config_mail_logo settings as multilingual

@@ -8,7 +8,7 @@
 <?php } ?>
 
 <?php if ( is_file( DIR_RESOURCE . $icon ) ) {  ?>
-<link href="resources/<?php echo $icon; ?>" type="image/png" rel="icon" />
+<link href="resources/<?php echo $icon; ?>" type="<?php echo mime_content_type(DIR_RESOURCE . $icon)?>>" rel="icon" />
 <?php } ?>
 
 <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/stylesheet.css" />

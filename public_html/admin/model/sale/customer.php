@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUndefinedClassInspection */
 
 /*------------------------------------------------------------------------------
   $Id$
@@ -37,6 +37,7 @@ class ModelSaleCustomer extends Model
      * @param $data
      *
      * @return int
+     * @throws AException
      */
     public function addCustomer($data)
     {
@@ -80,6 +81,7 @@ class ModelSaleCustomer extends Model
      * @param array $address
      *
      * @return int
+     * @throws AException
      */
     public function addAddress($customer_id, $address = [])
     {
@@ -112,6 +114,8 @@ class ModelSaleCustomer extends Model
     /**
      * @param int $customer_id
      * @param array $data
+     *
+     * @throws AException
      */
     public function editCustomer($customer_id, $data)
     {
@@ -163,6 +167,7 @@ class ModelSaleCustomer extends Model
      * @param array $address
      *
      * @return bool
+     * @throws AException
      */
     public function editAddress($customer_id, $address_id, $address)
     {
@@ -200,6 +205,7 @@ class ModelSaleCustomer extends Model
      * @param int $address_id
      *
      * @return bool
+     * @throws AException
      */
     public function deleteAddress($customer_id, $address_id)
     {
@@ -220,6 +226,7 @@ class ModelSaleCustomer extends Model
      * @param mixed $value
      *
      * @return bool
+     * @throws AException
      */
     public function editCustomerField($customer_id, $field, $value)
     {
@@ -375,6 +382,8 @@ class ModelSaleCustomer extends Model
     /**
      * @param int $customer_id
      * @param string $default_address_id
+     *
+     * @throws AException
      */
     public function setDefaultAddress($customer_id, $default_address_id)
     {
@@ -391,6 +400,8 @@ class ModelSaleCustomer extends Model
      * @param int $address_id
      * @param string $field_name
      * @param mixed $value
+     *
+     * @throws AException
      */
     public function editAddressField($address_id, $field_name, $value)
     {
@@ -489,6 +500,8 @@ class ModelSaleCustomer extends Model
 
     /**
      * @param int $customer_id
+     *
+     * @throws AException
      */
     public function deleteCustomer($customer_id)
     {
@@ -510,6 +523,7 @@ class ModelSaleCustomer extends Model
      * @param int $customer_id
      *
      * @return array
+     * @throws AException
      */
     public function getCustomer($customer_id)
     {
@@ -752,6 +766,7 @@ class ModelSaleCustomer extends Model
      * @param mixed $value
      *
      * @return array
+     * @throws AException
      */
     private function _filter_by_encrypted_field($data, $field, $value)
     {
@@ -777,6 +792,8 @@ class ModelSaleCustomer extends Model
 
     /**
      * @param int $customer_id
+     *
+     * @throws AException
      */
     public function approve($customer_id)
     {
@@ -789,6 +806,7 @@ class ModelSaleCustomer extends Model
 
     /**
      * @return array
+     * @throws AException
      */
     public function getCustomersByNewsletter()
     {
@@ -813,6 +831,7 @@ class ModelSaleCustomer extends Model
      * @param string $keyword
      *
      * @return array
+     * @throws AException
      */
     public function getCustomersByKeyword($keyword)
     {
@@ -843,6 +862,7 @@ class ModelSaleCustomer extends Model
      * @param array $emails
      *
      * @return array
+     * @throws AException
      */
     public function getCustomersByEmails($emails)
     {
@@ -878,6 +898,7 @@ class ModelSaleCustomer extends Model
      * @param int $product_id
      *
      * @return array
+     * @throws AException
      */
     public function getCustomersByProduct($product_id)
     {
@@ -907,6 +928,7 @@ class ModelSaleCustomer extends Model
      * @param int $customer_id
      *
      * @return array
+     * @throws AException
      */
     public function getAddresses($customer_id)
     {
@@ -927,6 +949,7 @@ class ModelSaleCustomer extends Model
      * @param string $customer_id
      *
      * @return bool
+     * @throws AException
      */
     public function is_unique_loginname($loginname, $customer_id = '')
     {
@@ -952,6 +975,7 @@ class ModelSaleCustomer extends Model
 
     /**
      * @return int
+     * @throws AException
      */
     public function getTotalCustomersAwaitingApproval()
     {
@@ -967,6 +991,7 @@ class ModelSaleCustomer extends Model
      * @param int $customer_id
      *
      * @return int
+     * @throws AException
      */
     public function getTotalAddressesByCustomerId($customer_id)
     {
@@ -982,6 +1007,7 @@ class ModelSaleCustomer extends Model
      * @param int $country_id
      *
      * @return int
+     * @throws AException
      */
     public function getTotalAddressesByCountryId($country_id)
     {
@@ -997,6 +1023,7 @@ class ModelSaleCustomer extends Model
      * @param int $zone_id
      *
      * @return int
+     * @throws AException
      */
     public function getTotalAddressesByZoneId($zone_id)
     {
@@ -1012,6 +1039,7 @@ class ModelSaleCustomer extends Model
      * @param int $customer_group_id
      *
      * @return int
+     * @throws AException
      */
     public function getTotalCustomersByCustomerGroupId($customer_group_id)
     {
@@ -1102,6 +1130,7 @@ class ModelSaleCustomer extends Model
 
     /**
      * @return int
+     * @throws AException
      */
     public function getSubscribersCustomerGroupId()
     {
@@ -1119,6 +1148,7 @@ class ModelSaleCustomer extends Model
      * @param int $customer_id
      *
      * @return bool
+     * @throws AException
      */
     public function isSubscriber($customer_id)
     {
@@ -1142,41 +1172,25 @@ class ModelSaleCustomer extends Model
         if ($customer_info && !$customer_info['approved']) {
             $this->load->language('mail/customer');
             $this->load->model('setting/store');
+            $languageId = $this->language->getContentLanguageID() ?? $this->language->getLanguageID();
             $store_info = $this->model_setting_store->getStore($customer_info['store_id']);
             if ($store_info) {
                 $store_info['store_url'] = $store_info['config_url'].'index.php?rt=account/login';
             } else {
                 $store_info = [
-                    'store_name'       => $this->config->get('store_name'),
-                    'store_url'        => $this->config->get('config_url').'index.php?rt=account/login',
-                    'config_mail_logo' => $this->config->get('config_mail_logo'),
-                    'config_logo'      => $this->config->get('config_logo'),
+                    'store_name'                    => $this->config->get('store_name'),
+                    'store_url'                     => $this->config->get('config_url').'index.php?rt=account/login',
+                    'config_mail_logo_'.$languageId => $this->config->get('config_mail_logo_'.$languageId),
+                    'config_logo_'.$languageId      => $this->config->get('config_logo_'.$languageId),
                 ];
             }
-            $store_info['config_mail_logo'] =
-                !$store_info['config_mail_logo'] ? $store_info['config_logo'] : $store_info['config_mail_logo'];
 
-            if ($store_info['config_mail_logo']) {
-                if (is_numeric($store_info['config_mail_logo'])) {
-                    $r = new AResource('image');
-                    $resource_info = $r->getResource($store_info['config_mail_logo']);
-                    if ($resource_info) {
-                        $this->data['mail_template_data']['logo_html'] = html_entity_decode(
-                            $resource_info['resource_code'],
-                            ENT_QUOTES, 'UTF-8'
-                        );
-                    }
-                } else {
-                    $this->data['mail_template_data']['logo_uri'] = 'cid:'
-                        .md5(pathinfo($store_info['config_mail_logo'], PATHINFO_FILENAME))
-                        .'.'.pathinfo($store_info['config_mail_logo'], PATHINFO_EXTENSION);
-                }
-            }
-            //backward compatibility. TODO: remove this in 2.0
-            if ($this->data['mail_template_data']['logo_uri']) {
-                $this->data['mail_template_data']['logo'] = $this->data['mail_template_data']['logo_uri'];
-            } else {
-                $this->data['mail_template_data']['logo'] = $store_info['config_mail_logo'];
+            $mailLogo = $store_info['config_mail_logo_'.$languageId] ?: $store_info['config_logo_'.$languageId];
+
+            if ($mailLogo) {
+                $result = getMailLogoDetails($mailLogo);
+                $this->data['mail_template_data']['logo_uri'] = $result['uri'];
+                $this->data['mail_template_data']['logo_html'] = $result['html'];
             }
 
             $this->data['mail_template_data']['store_name'] = $store_info['store_name'];
@@ -1192,11 +1206,11 @@ class ModelSaleCustomer extends Model
             $mail->setFrom($this->config->get('store_main_email'));
             $mail->setSender($store_info['store_name']);
             $mail->setTemplate('storefront_welcome_email_approved', $this->data['mail_template_data']);
-            if (is_file(DIR_RESOURCE.$store_info['config_mail_logo'])) {
+            if (is_file(DIR_RESOURCE.$mailLogo)) {
                 $mail->addAttachment(
-                    DIR_RESOURCE.$store_info['config_mail_logo'],
-                    md5(pathinfo($store_info['config_mail_logo'], PATHINFO_FILENAME))
-                    .'.'.pathinfo($store_info['config_mail_logo'], PATHINFO_EXTENSION)
+                    DIR_RESOURCE.$mailLogo,
+                    md5(pathinfo($mailLogo, PATHINFO_FILENAME))
+                    .'.'.pathinfo($mailLogo, PATHINFO_EXTENSION)
                 );
             }
             $mail->send();

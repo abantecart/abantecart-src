@@ -68,34 +68,26 @@ class ControllerResponsesEmbedJS extends AController
 
         $this->view->assign('store_name', $this->config->get('store_name'));
 
-        $icon_rl = $this->config->get('config_icon');
+        $iconUri = $this->config->get('config_icon');
         //see if we have a resource ID or path
-        if (is_numeric($icon_rl)) {
+        if (is_numeric($iconUri)) {
             $resource = new AResource('image');
-            $image_data = $resource->getResource($icon_rl);
-            if (is_file(DIR_RESOURCE.$image_data['image'])) {
-                $icon_rl = 'resources/'.$image_data['image'];
+            $resourceInfo = $resource->getResource($iconUri);
+            if (is_file(DIR_RESOURCE.$resourceInfo['type_dir'].$resourceInfo['resource_path'])) {
+                $iconUri = $resourceInfo['type_dir'].$resourceInfo['resource_path'];
             } else {
-                $icon_rl = $image_data['resource_code'];
+                $this->messages->saveWarning(
+                    'Check favicon.',
+                    'Warning: please check favicon in your store settings. Favicon cannot to be a code!.'
+                );
+                $iconUri = '';
             }
         } else {
-            if (!is_file(DIR_RESOURCE.$icon_rl)) {
-                $icon_rl = '';
+            if (!is_file(DIR_RESOURCE.$iconUri)) {
+                $iconUri = '';
             }
         }
-        $this->view->assign('icon', $icon_rl);
-
-        $this->data['logo'] = $this->config->get('config_icon');
-        //see if we have a resource ID
-        if (is_numeric($this->data['logo'])) {
-            $resource = new AResource('image');
-            $image_data = $resource->getResource($this->data['logo']);
-            if (is_file(DIR_RESOURCE.$image_data['image'])) {
-                $this->data['logo'] = 'resources/'.$image_data['image'];
-            } else {
-                $this->data['logo'] = $image_data['resource_code'];
-            }
-        }
+        $this->view->assign('icon', $iconUri);
 
         $this->data['homepage'] = HTTPS_SERVER;
         $this->data['abc_embed_test_cookie_url'] = $this->html->getURL('r/embed/js/testcookie', '&timestamp='.time());

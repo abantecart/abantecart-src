@@ -221,14 +221,15 @@ class ControllerResponsesSettingSettingQuickForm extends AController
     /* Quick Start Guide */
     public function quick_start_save_next()
     {
+        $languageId = $this->language->getContentLanguageID() ?? $this->language->getLanguageID();
         $group = $this->session->data['quick_start_step'];
         if (!isset($group)) {
             //get setting group if session has expired
             $group = $this->request->get['active'];
             $this->session->data['quick_start_step'] = $group;
         }
-        $store_id = !isset($this->session->data['current_store_id']) ? 0 : $this->session->data['current_store_id'];
-        if (has_value($this->request->get['store_id'])) {
+        $store_id = $this->session->data['current_store_id'] ?? 0;
+        if (isset($this->request->get['store_id'])) {
             $store_id = $this->request->get['store_id'];
             $this->session->data['current_store_id'] = $store_id;
         }
@@ -240,40 +241,30 @@ class ControllerResponsesSettingSettingQuickForm extends AController
                 $this->loadLanguage('setting/setting');
                 $this->loadLanguage('common/header');
                 $this->loadLanguage('common/quick_start');
+                $post = $this->request->post;
+                $section = $group;
 
                 if ($group == 'appearance') {
                     $section = $this->request->get['tmpl_id'] == 'default'
-                        ? 'appearance'
-                        : $this->request->get['tmpl_id'];
-                    if (has_value($this->request->post['config_logo'])) {
-                        $this->request->post['config_logo'] = html_entity_decode(
-                            $this->request->post['config_logo'],
-                            ENT_COMPAT,
-                            'UTF-8'
-                        );
-                    } elseif (!$this->request->post['config_logo']
-                        && isset($this->request->post['config_logo_resource_id'])
-                    ) {
-                        //we save resource ID vs resource path
-                        $this->request->post['config_logo'] = $this->request->post['config_logo_resource_id'];
-                    }
+                                ? 'appearance'
+                                : $this->request->get['tmpl_id'];
 
-                    if (has_value($this->request->post['config_icon'])) {
-                        $this->request->post['config_icon'] = html_entity_decode(
-                            $this->request->post['config_icon'],
-                            ENT_COMPAT,
-                            'UTF-8'
-                        );
-                    } elseif (!$this->request->post['config_icon']
-                        && isset($this->request->post['config_icon_resource_id'])
-                    ) {
-                        //we save resource ID vs resource path
-                        $this->request->post['config_icon'] = $this->request->post['config_icon_resource_id'];
+                    foreach (['config_logo', 'config_mail_logo', 'config_icon'] as $n) {
+                        $newName = in_array($n, ['config_logo', 'config_mail_logo']) ? $n.'_'.$languageId : $n;
+                        if (isset($post[$n.'_resource_id'])) {
+                            //we save resource ID vs resource path
+                            $post[$newName] = $post[$n.'_resource_id'];
+                        }elseif (isset($post[$n])) {
+                            $post[$newName] = html_entity_decode($post[$n], ENT_COMPAT, 'UTF-8');
+                            if($newName != $n){
+                                unset($post[$n]);
+                            }
+                        }
                     }
-                    $this->model_setting_setting->editSetting($section, $this->request->post, $store_id);
-                } else {
-                    $this->model_setting_setting->editSetting($group, $this->request->post, $store_id);
                 }
+
+                $this->model_setting_setting->editSetting($section, $post, $store_id);
+
                 $this->session->data['success'] = $this->language->get('text_success');
                 $output['result_text'] = $this->language->get('text_success');
                 //set next step

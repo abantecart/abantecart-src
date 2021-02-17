@@ -1,4 +1,6 @@
 <?php
+/** @noinspection PhpUndefinedClassInspection */
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -21,13 +23,12 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
 
-class ControllerCommonHead extends AController
+class  ControllerCommonHead extends AController
 {
     public $data = [];
 
     public function main()
     {
-
         //use to init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -60,10 +61,17 @@ class ControllerCommonHead extends AController
         if ($this->session->data['checkupdates'] ?? false) {
             $this->data['check_updates_url'] = $this->html->getSecureURL('r/common/common/checkUpdates');
         }
+        if (is_numeric($this->config->get('config_icon'))) {
+            $r = new AResource('image');
+            $resourceInfo = $r->getResource($this->config->get('config_icon'), $this->language->getLanguageID());
+            if ($resourceInfo) {
+                $this->data['icon'] = $resourceInfo['type_dir'].$resourceInfo['resource_path'];
+            }
+        } else {
+            $this->data['icon'] = $this->config->get('config_icon');
+        }
 
-        $this->data['icon'] = $this->config->get('config_icon');
-
-        if ( HTTPS === true ) {
+        if (HTTPS === true) {
             $this->data['ssl'] = 1;
         }
 

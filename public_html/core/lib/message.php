@@ -379,12 +379,12 @@ class AMessage
                  LIMIT 1";
         $result = $this->db->query($sql);
         if ($result->num_rows) {
-            $output = $result->row['html'] ? $result->row['html'] : $result->row['description'];
+            $output = $result->row['html'] ?: $result->row['description'];
         }
         return [
-            'id' => $result->row['id'],
-            'viewed' => $result->row['viewed'],
-            'html' => $output,
+            'id' => $result->row['id'] ?? null,
+            'viewed' => $result->row['viewed'] ?? 0,
+            'html' => $output ?? '',
         ];
     }
 

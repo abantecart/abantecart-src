@@ -212,6 +212,7 @@ class ExtensionCollection
  * @method hk_ProcessData(object $baseObject, string $point_name = '', mixed $array = null)
  * @method hk_ValidateData(object $baseObject, array $args = [])
  * @method hk_confirm(object $baseObject, int $order_id, int $order_status_id, string $comment)
+ * @method hk_update(object $baseObject, int $order_id, int $order_status_id, string $comment, bool $notify)
  * @method hk_create(object $baseObject, array $data, int $order_status_id)
  * @method hk_query(object $baseObject, string $sql, bool $noexcept)
  * @method hk_load(object $baseObject, string $block, string $mode)

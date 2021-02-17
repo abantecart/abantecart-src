@@ -170,13 +170,14 @@ class ControllerResponsesListingGridCustomer extends AController
         $this->loadLanguage('sale/customer');
         if (!$this->user->canModify('listing_grid/customer')) {
             $error = new AError('');
-            return $error->toJSONResponse(
+            $error->toJSONResponse(
                 'NO_PERMISSIONS_402',
                 [
                     'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/customer'),
                     'reset_value' => true,
                 ]
             );
+            return;
         }
 
         switch ($this->request->post['oper']) {
@@ -201,13 +202,14 @@ class ControllerResponsesListingGridCustomer extends AController
                             );
                         } else {
                             $error = new AError('');
-                            return $error->toJSONResponse(
+                            $error->toJSONResponse(
                                 'VALIDATION_ERROR_406',
                                 [
                                     'error_text'  => $err,
                                     'reset_value' => false,
                                 ]
                             );
+                            return;
                         }
                         $do_approve = $this->request->post['approved'][$id];
                         $err = $this->_validateForm('approved', $do_approve, $id);
@@ -221,13 +223,14 @@ class ControllerResponsesListingGridCustomer extends AController
                             $this->model_sale_customer->editCustomerField($id, 'approved', $do_approve);
                         } else {
                             $error = new AError('');
-                            return $error->toJSONResponse(
+                            $error->toJSONResponse(
                                 'VALIDATION_ERROR_406',
                                 [
                                     'error_text'  => $err,
                                     'reset_value' => false,
                                 ]
                             );
+                            return;
                         }
                     }
                 }
@@ -243,7 +246,6 @@ class ControllerResponsesListingGridCustomer extends AController
     /**
      * update only one field
      *
-     * @return null
      * @throws AException
      */
     public function update_field()
@@ -256,37 +258,40 @@ class ControllerResponsesListingGridCustomer extends AController
 
         if (!$this->user->canModify('listing_grid/customer')) {
             $error = new AError('');
-            return $error->toJSONResponse(
+            $error->toJSONResponse(
                 'NO_PERMISSIONS_402',
                 [
                     'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/customer'),
                     'reset_value' => true,
                 ]
             );
+            return;
         }
-        $customer_id = $this->request->get['id'];
-        $address_id = $this->request->get['address_id'];
+        $customer_id = $this->request->get['id'] ?? null;
+        $address_id = $this->request->get['address_id'] ?? null;
         $post_data = $this->request->post;
         if (isset($customer_id)) {
             if ($post_data['password'] || $post_data['password_confirm']) {
                 $error = new AError('');
                 if (mb_strlen($post_data['password']) < 4) {
-                    return $error->toJSONResponse(
+                    $error->toJSONResponse(
                         'VALIDATION_ERROR_406',
                         [
                             'error_text'  => $this->language->get('error_password'),
                             'reset_value' => true,
                         ]
                     );
+                    return;
                 }
                 if ($post_data['password'] != $post_data['password_confirm']) {
-                    return $error->toJSONResponse(
+                    $error->toJSONResponse(
                         'VALIDATION_ERROR_406',
                         [
                             'error_text'  => $this->language->get('error_confirm'),
                             'reset_value' => true,
                         ]
                     );
+                    return;
                 }
                 //passwords do match, save
                 $this->model_sale_customer->editCustomerField($customer_id, 'password', $post_data['password']);
@@ -311,19 +316,20 @@ class ControllerResponsesListingGridCustomer extends AController
                         }
                     } else {
                         $error = new AError('');
-                        return $error->toJSONResponse(
+                        $error->toJSONResponse(
                             'VALIDATION_ERROR_406',
                             [
                                 'error_text'  => $err,
                                 'reset_value' => false,
                             ]
                         );
+                        return;
                     }
                 }
             }
             //update controller data
             $this->extensions->hk_UpdateData($this, __FUNCTION__);
-            return null;
+            return;
         }
 
         //request sent from jGrid. ID is key of array
@@ -340,13 +346,14 @@ class ControllerResponsesListingGridCustomer extends AController
                     $this->model_sale_customer->editCustomerField($k, $field, $v);
                 } else {
                     $error = new AError('');
-                    return $error->toJSONResponse(
+                    $error->toJSONResponse(
                         'VALIDATION_ERROR_406',
                         [
                             'error_text'  => $err,
                             'reset_value' => false,
                         ]
                     );
+                    return;
                 }
             }
         }

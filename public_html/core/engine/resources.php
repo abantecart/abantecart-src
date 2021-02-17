@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUndefinedClassInspection */
 
 /*------------------------------------------------------------------------------
   $Id$
@@ -245,6 +245,7 @@ class AResource
                             COALESCE(rd.resource_path,rdd.resource_path) as resource_path,
                             COALESCE(rd.resource_code,rdd.resource_code) as resource_code,
                             rt.type_name,
+                            rt.default_directory as type_dir,
                             rt.default_icon
                     FROM ".$this->db->table("resource_library")." rl "."
                     LEFT JOIN ".$this->db->table("resource_descriptions")." rd
