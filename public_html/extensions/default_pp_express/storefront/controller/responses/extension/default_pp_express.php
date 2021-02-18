@@ -150,25 +150,30 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController
                 false
             ),
         ];
-
+        $products_data = $this->_get_products_data(
+            [
+                'currency' => $this->session->data['currency'],
+                'value'    => '',
+            ]
+        );
         $payment_data = [
             'METHOD'                         => 'DoExpressCheckoutPayment',
             'VERSION'                        => '98.0',
             'USER'                           => html_entity_decode(
-                                                $this->config->get('default_pp_express_username'),
-                                                ENT_QUOTES,
-                                                'UTF-8'
-                                            ),
+                $this->config->get('default_pp_express_username'),
+                ENT_QUOTES,
+                'UTF-8'
+            ),
             'PWD'                            => html_entity_decode(
-                                                $this->config->get('default_pp_express_password'),
-                                                ENT_QUOTES,
-                                                'UTF-8'
-                                            ),
+                $this->config->get('default_pp_express_password'),
+                ENT_QUOTES,
+                'UTF-8'
+            ),
             'SIGNATURE'                      => html_entity_decode(
-                                                $this->config->get('default_pp_express_signature'),
-                                                ENT_QUOTES,
-                                                'UTF-8'
-                                            ),
+                $this->config->get('default_pp_express_signature'),
+                ENT_QUOTES,
+                'UTF-8'
+            ),
             'PAYMENTREQUEST_0_PAYMENTACTION' => $paymentaction,
             'PAYMENTREQUEST_0_AMT'           => $this->currency->format(
                 $order_info['total'],
@@ -176,16 +181,41 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController
                 $order_info['value'],
                 false
             ),
-            'PAYMENTREQUEST_0_ITEMAMT'       => $data['amountBreakdown']['item_total'],
+            'PAYMENTREQUEST_0_ITEMAMT'       => $this->data['items_total'],
             'PAYMENTREQUEST_0_CURRENCYCODE'  => $order_info['currency'],
             'PAYMENTREQUEST_0_TAXAMT'        => $data['amountBreakdown']['tax_total'],
             'PAYMENTREQUEST_0_SHIPPINGAMT'   => $data['amountBreakdown']['shipping'],
             'PAYMENTREQUEST_0_HANDLINGAMT'   => $data['amountBreakdown']['handling'],
+            'PAYMENTREQUEST_0_DISCOUNT'      => $data['amountBreakdown']['discount'],
             'BUTTONSOURCE'                   => 'Abante_Cart',
             'TOKEN'                          => $this->session->data['pp_express_checkout']['token'],
             'PAYERID'                        => $this->session->data['pp_express_checkout']['PayerID'],
             'LOCALECODE'                     => $locale[1],
         ];
+
+        $skip_item_list = false;
+
+        if (($this->data['items_total'] - $payment_data['PAYMENTREQUEST_0_AMT']) >= 0.0) {
+            $payment_data['L_PAYMENTREQUEST_0_ITEMAMT'] = $payment_data['PAYMENTREQUEST_0_AMT'];
+            $skip_item_list = true;
+        }
+        if (!$skip_item_list) {
+            foreach ($products_data as $key => $product) {
+                $payment_data['L_PAYMENTREQUEST_0_NAME'.$key] = $product['name'];
+                $payment_data['L_PAYMENTREQUEST_0_AMT'.$key] = (float) $product['price'];
+                $payment_data['L_PAYMENTREQUEST_0_NUMBER'.$key] = $product['model'];
+                $payment_data['L_PAYMENTREQUEST_0_QTY'.$key] = $product['quantity'];
+                $payment_data['L_PAYMENTREQUEST_0_ITEMWEIGHTVALUE'.$key] = $product['weight'];
+                $payment_data['L_PAYMENTREQUEST_0_ITEMWEGHTUNIT'.$key] = $product['weight_type'];
+            }
+        } else {
+            $payment_data['L_PAYMENTREQUEST_0_NAME0'] = $this->language->get('text_order_total_amount');
+            $payment_data['L_PAYMENTREQUEST_0_AMT0'] = $payment_data['PAYMENTREQUEST_0_AMT'];
+            $payment_data['L_PAYMENTREQUEST_0_NUMBER0'] = '';
+            $payment_data['L_PAYMENTREQUEST_0_QTY0'] = 1;
+            $payment_data['L_PAYMENTREQUEST_0_ITEMWEIGHTVALUE0'] = '';
+            $payment_data['L_PAYMENTREQUEST_0_ITEMWEGHTUNIT0'] = '';
+        }
         ADebug::variable('Paypal Express Debug Log sent confirm:', var_export($payment_data, true));
 
         $curl = curl_init($api_endpoint);
@@ -277,37 +307,71 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController
             $language = $this->language->getCurrentLanguage();
             $locale = explode(',', $language['locale']);
             $order_total = (float) $this->currency->format_number($amount, $this->session->data['currency']);
+
+            $taxes = $discount = $handling_fee = 0.0;
+            $data = [];
+            foreach ($this->cart->getFinalTotalData() as $total) {
+                $data['order_'.$total['id']] = $this->currency->convert(
+                    $total['value'],
+                    $this->config->get('config_currency'),
+                    $this->currency->getCode()
+                );
+                if ($total['total_type'] == 'discount') {
+                    $discount += abs($data['order_'.$total['id']]);
+                } elseif ($total['total_type'] == 'fee') {
+                    $handling_fee += abs($data['order_'.$total['id']]);
+                } elseif ($total['total_type'] == 'tax') {
+                    $taxes += $data['order_'.$total['id']];
+                }
+            }
+            $data['amountBreakdown'] = [
+                'item_total' =>
+                    $data['order_subtotal'],
+                'tax_total'  =>
+                    $taxes,
+                'shipping'   =>
+                    (float) $data['order_shipping'],
+                'discount'   =>
+                    (float) $discount,
+                'handling'   =>
+                    (float) $handling_fee,
+            ];
+
             $payment_data = [
                 'METHOD'                         => 'SetExpressCheckout',
                 'VERSION'                        => '98.0',
                 'USER'                           => html_entity_decode(
-                                                    $this->config->get('default_pp_express_username'),
-                                                    ENT_QUOTES,
-                                                    'UTF-8'
-                                                ),
+                    $this->config->get('default_pp_express_username'),
+                    ENT_QUOTES,
+                    'UTF-8'
+                ),
                 'PWD'                            => html_entity_decode(
-                                                    $this->config->get('default_pp_express_password'),
-                                                    ENT_QUOTES,
-                                                    'UTF-8'
-                                                ),
+                    $this->config->get('default_pp_express_password'),
+                    ENT_QUOTES,
+                    'UTF-8'
+                ),
                 'SIGNATURE'                      => html_entity_decode(
-                                                    $this->config->get('default_pp_express_signature'),
-                                                    ENT_QUOTES,
-                                                    'UTF-8'
-                                                ),
+                    $this->config->get('default_pp_express_signature'),
+                    ENT_QUOTES,
+                    'UTF-8'
+                ),
                 'PAYMENTREQUEST_0_PAYMENTACTION' => $paymentaction,
                 'PAYMENTREQUEST_0_AMT'           => $order_total,
                 'PAYMENTREQUEST_0_CURRENCYCODE'  => $this->session->data['currency'],
+                'PAYMENTREQUEST_0_ITEMAMT'       => $this->data['items_total'],
+                'PAYMENTREQUEST_0_TAXAMT'        => $data['amountBreakdown']['tax_total'],
+                'PAYMENTREQUEST_0_SHIPPINGAMT'   => $data['amountBreakdown']['shipping'],
+                'PAYMENTREQUEST_0_HANDLINGAMT'   => $data['amountBreakdown']['handling'],
                 'RETURNURL'                      => $this->html->getSecureURL(
-                                                        'r/extension/default_pp_express/callback',
-                                                        ($this->request->get['to_confirm'] ? '&to_confirm=1' : '')
-                                                    ),
+                    'r/extension/default_pp_express/callback',
+                    ($this->request->get['to_confirm'] ? '&to_confirm=1' : '')
+                ),
                 'CANCELURL'                      => $this->request->get['redirect_to']
-                                                    ??    $this->request->server['HTTP_REFERER'],
+                    ?? $this->request->server['HTTP_REFERER'],
                 'LOCALECODE'                     => $locale[1],
             ];
             $skip_item_list = false;
-            if (($this->data['items_total'] - $order_total) !== 0.0) {
+            if (($this->data['items_total'] - $order_total) >= 0.0) {
                 $payment_data['L_PAYMENTREQUEST_0_ITEMAMT'] = $order_total;
                 $skip_item_list = true;
             }
@@ -421,20 +485,20 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController
                 'METHOD'    => 'GetExpressCheckoutDetails',
                 'VERSION'   => '98.0',
                 'USER'      => html_entity_decode(
-                                $this->config->get('default_pp_express_username'),
-                                ENT_QUOTES,
-                                'UTF-8'
-                            ),
+                    $this->config->get('default_pp_express_username'),
+                    ENT_QUOTES,
+                    'UTF-8'
+                ),
                 'PWD'       => html_entity_decode(
-                                $this->config->get('default_pp_express_password'),
-                                ENT_QUOTES,
-                                'UTF-8'
-                            ),
+                    $this->config->get('default_pp_express_password'),
+                    ENT_QUOTES,
+                    'UTF-8'
+                ),
                 'SIGNATURE' => html_entity_decode(
-                                $this->config->get('default_pp_express_signature'),
-                                ENT_QUOTES,
-                                'UTF-8'
-                            ),
+                    $this->config->get('default_pp_express_signature'),
+                    ENT_QUOTES,
+                    'UTF-8'
+                ),
                 'TOKEN'     => $session['pp_express_checkout']['token'],
             ];
             ADebug::variable('Paypal Express Debug Log sent callback:', var_export($payment_data, true));
@@ -656,6 +720,7 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController
             $this->data['items_total'] += $price * $product['quantity'];
         }
 
+        //include discount amount into items total amt (see pp doc)
         $this->data['discount_amount_cart'] = 0;
         $totals = $this->cart->buildTotalDisplay();
 
@@ -666,17 +731,6 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController
             if (in_array($total['id'], ['promotion', 'coupon'])) {
                 $total['value'] = $total['value'] < 0 ? $total['value'] * -1 : $total['value'];
                 $this->data['discount_amount_cart'] += $total['value'];
-            } else {
-                $price = $this->currency->format($total['value'], $order_info['currency'], $order_info['value'], false);
-                $this->data['products'][] = [
-                    'name'     => html_entity_decode($total['title'], ENT_QUOTES, 'UTF-8'),
-                    'model'    => '',
-                    'price'    => $price,
-                    'quantity' => 1,
-                    'option'   => [],
-                    'weight'   => 0,
-                ];
-                $this->data['items_total'] += $price;
             }
         }
 
