@@ -8,7 +8,7 @@
   Copyright © 2011-2020 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
-  Lincence details is bundled with this package in the file LICENSE.txt.
+  Licence details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -27,8 +27,6 @@ if (!defined('DIR_CORE')) {
  */
 class ControllerResponsesExtension2Checkout extends AController
 {
-    public $data = array();
-
     public function main()
     {
         $this->loadLanguage('2checkout/2checkout');
@@ -36,15 +34,9 @@ class ControllerResponsesExtension2Checkout extends AController
         $this->data['button_back'] = $this->language->get('button_back');
 
         $this->load->model('checkout/order');
-
         $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 
-        if ($this->config->get('2checkout_test')) {
-            $this->data['action'] = 'https://sandbox.2checkout.com/checkout/purchase';
-        } else {
-            $this->data['action'] = 'https://www.2checkout.com/checkout/purchase';
-        }
-
+        $this->data['action'] = 'https://www.2checkout.com/checkout/purchase';
         $this->data['sid'] = $this->config->get('2checkout_account');
         $this->data['currency_code'] = $order_info['currency'];
         $this->data['total'] = $this->currency->format($order_info['total'], $order_info['currency'], $order_info['value'], false);
@@ -58,6 +50,11 @@ class ControllerResponsesExtension2Checkout extends AController
         $this->data['country'] = $order_info['payment_country'];
         $this->data['email'] = $order_info['email'];
         $this->data['phone'] = $order_info['telephone'];
+
+        if ($this->config->get('2checkout_test')) {
+            $this->data['demo'] = true;
+        }
+
         if ($order_info['shipping_lastname']) {
             $this->data['ship_name'] = $order_info['shipping_firstname'].' '.$order_info['shipping_lastname'];
         } else {
@@ -78,12 +75,12 @@ class ControllerResponsesExtension2Checkout extends AController
             $this->data['ship_country'] = $order_info['payment_country'];
         }
 
-        $this->data['products'] = array();
+        $this->data['products'] = [];
 
         $products = $this->cart->getProducts();
 
         foreach ($products as $product) {
-            $this->data['products'][] = array(
+            $this->data['products'][] = [
                 'product_id'  => $product['product_id'],
                 'name'        => $product['name'],
                 'description' => $product['name'],
@@ -94,7 +91,7 @@ class ControllerResponsesExtension2Checkout extends AController
                     $order_info['value'],
                     false
                 ),
-            );
+            ];
         }
 
         if ($this->config->get('2checkout_test')) {
@@ -200,6 +197,6 @@ class ControllerResponsesExtension2Checkout extends AController
 
         $this->load->library('json');
         $this->response->addJSONHeader();
-        $this->response->setOutput(AJson::encode(array('result' => $result)));
+        $this->response->setOutput(AJson::encode(['result' => $result]));
     }
 }
