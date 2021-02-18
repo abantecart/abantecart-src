@@ -72,7 +72,19 @@
 </div>
 
     <script type="text/javascript">
+
+
+        let validateEmail = function (email) {
+            var re = /^\s*(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))\s*$/;
+            return re.test(email);
+        };
+        let validateTelephone = function (number) {
+            var re = /^\s*[\+]?[0-9]{0,3}?[-\s\.]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}\s*$/im;
+            return re.test(number);
+        };
+
         jQuery(document).ready(function () {
+
             //on submit validate
             const validateForm = function (form) {
                         var ret = true;
@@ -100,7 +112,7 @@
                                 $.aCCValidator.show_error(el, '.form-group');
                                 ret = false;
                             }
-                            if (name === 'telephone' && !validatePhone(el.val())) {
+                            if (name === 'telephone' && !validateTelephone(el.val())) {
                                 $.aCCValidator.show_error(el, '.form-group');
                                 ret = false;
                             }
@@ -169,7 +181,7 @@
                         }
 
                         return ret;
-                    };
+                    }($('form#PayFrm'));
 
             let submitSent = false;
             let payFormDiv = $(".pay-form");
@@ -189,7 +201,7 @@
                 $(this).removeClass('btn-default').addClass('btn-primary');
                 $("#login_user").removeClass('btn-primary').addClass('btn-default');
                 $('#login_error_container').html('');
-				$('#pay_error_container').html('');
+                $('#pay_error_container').html('');
             });
 
             //Form related: event to log creditcard entering, but we use it on all forms to show errors
@@ -205,7 +217,7 @@
                 });
 
                 form.find(".button-checkbox").each(function () {
-                    var $widget = $(this),
+                    let $widget = $(this),
                         $button = $widget.find('button'),
                         $checkbox = $widget.find('input:checkbox'),
                         color = $button.data('color'),
@@ -228,144 +240,137 @@
 
                     function updateDisplay() {
                         var isChecked = $checkbox.is(':checked');
-						$.post('<?php echo $onChangeCheckboxBtnUrl; ?>', {
-							fieldName: $checkbox.attr('name'),
-							isOn: $checkbox.is(':checked')
-						})
-						$button.data('state', (isChecked) ? "on" : "off");
-						$button.find('.state-icon')
-							.removeClass()
-							.addClass('state-icon ' + settings[$button.data('state')].icon);
-						if (isChecked) {
-							$button.removeClass('btn-default').addClass('btn-' + color + ' ');
-						} else {
-							$button.removeClass('btn-' + color + ' ').addClass('btn-default');
-						}
-					}
+                        $.post('<?php echo $onChangeCheckboxBtnUrl; ?>', {
+                            fieldName: $checkbox.attr('name'),
+                            isOn: $checkbox.is(':checked')
+                        })
+                        $button.data('state', (isChecked) ? "on" : "off");
+                        $button.find('.state-icon')
+                            .removeClass()
+                            .addClass('state-icon ' + settings[$button.data('state')].icon);
+                        if (isChecked) {
+                            $button.removeClass('btn-default').addClass('btn-' + color + ' ');
+                        } else {
+                            $button.removeClass('btn-' + color + ' ').addClass('btn-default');
+                        }
+                    }
 
-					function init() {
-						updateDisplay();
-						if ($button.find('.state-icon').length === 0) {
-							$button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
-						}
-					}
+                    function init() {
+                        updateDisplay();
+                        if ($button.find('.state-icon').length === 0) {
+                            $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+                        }
+                    }
 
-					init();
-				});
+                    init();
+                });
 
-				form.submit(function () {
-					if (submitSent !== true) {
-						submitSent = true;
-						if (validateForm($(this)) !== true) {
-							submitSent = false;
-							return false;
-						}
-						$(this).find('.btn-primary').button('loading');
-						//All Good send form
-						$('.spinner-overlay').fadeIn(100);
-						$.post(form.attr('action'), form.serialize(), function (data) {
-							try {
-								parsedData = JSON.parse(data);
-							} catch (e) {
+                form.submit(function () {
+                    if (submitSent !== true) {
+                        submitSent = true;
+                        if (validateForm($(this)) !== true) {
+                            submitSent = false;
+                            return false;
+                        }
+                        $(this).find('.btn-primary').button('loading');
+                        //All Good send form
+                        $('.spinner-overlay').fadeIn(100);
+                        $.post(form.attr('action'), form.serialize(), function (data) {
+                            try {
+                                parsedData = JSON.parse(data);
+                            } catch (e) {
 
-							}
-							if (typeof parsedData != "undefined" && typeof parsedData.url != "undefined") {
-								location.href = parsedData.url
-							} else {
+                            }
+                            if (typeof parsedData != "undefined" && typeof parsedData.url != "undefined") {
+                                location.href = parsedData.url
+                            } else {
 
-								$('.spinner-overlay').fadeOut(500);
-								$('#fast_checkout_summary_block').trigger('reload');
-								$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
-								if ($('form#PayFrm')) {
-									validateForm($('form#PayFrm'));
-								}
-							}
-						});
-						return false;
-					}
-					return false;
-				});
-			}
+                                $('.spinner-overlay').fadeOut(500);
+                                $('#fast_checkout_summary_block').trigger('reload');
+                                $('#fast_checkout_cart').hide().html(data).fadeIn(1000)
+                                if ($('form#PayFrm')) {
+                                    validateForm($('form#PayFrm'));
+                                }
+                            }
+                        });
+                        return false;
+                    }
+                    return false;
+                });
+            }
 
-			$('#LoginFrm').on('submit', function () {
-				$('#LoginFrm').aCCValidator({});
-				if (submitSent !== true) {
-					submitSent = true;
-					if (validateForm($(this)) !== true) {
-						submitSent = false;
-						return false;
-					}
-					$(this).find('.btn-primary').button('loading');
-					//All Good send form
-					$.post($(this).attr('action'), $(this).serialize(), function (data) {
-						loadPage('<?php echo $cart_key; ?>')
-					});
-					return false;
-				}
-				return false;
-			});
+            $('#LoginFrm').on('submit', function () {
+                $('#LoginFrm').aCCValidator({});
+                if (submitSent !== true) {
+                    submitSent = true;
+                    if (validateForm($(this)) !== true) {
+                        submitSent = false;
+                        return false;
+                    }
+                    $(this).find('.btn-primary').button('loading');
+                    //All Good send form
+                    $.post($(this).attr('action'), $(this).serialize(), function (data) {
+                        loadPage('<?php echo $cart_key; ?>')
+                    });
+                    return false;
+                }
+                return false;
+            });
 
-			$('#LoginFrm_Submit').on('click', function () {
-				$('#LoginFrm').aCCValidator({});
-				loginFrm = $('#LoginFrm')
-				if (submitSent !== true) {
-					submitSent = true;
-					if (validateForm(loginFrm) !== true) {
-						submitSent = false;
-						return false;
-					}
-					loginFrm.find('.btn-primary').button('loading');
-					//All Good send form
-					$.post(loginFrm.attr('action'), loginFrm.serialize(), function (data) {
-						$('.spinner-overlay').fadeOut(500);
-						$('#fast_checkout_summary_block').trigger('reload');
-						$('#fast_checkout_cart').hide().html(data).fadeIn(1000)
-					});
-					return false;
-				}
-				return false;
-			});
+            $('#LoginFrm_Submit').on('click', function () {
+                $('#LoginFrm').aCCValidator({});
+                loginFrm = $('#LoginFrm')
+                if (submitSent !== true) {
+                    submitSent = true;
+                    if (validateForm(loginFrm) !== true) {
+                        submitSent = false;
+                        return false;
+                    }
+                    loginFrm.find('.btn-primary').button('loading');
+                    //All Good send form
+                    $.post(loginFrm.attr('action'), loginFrm.serialize(), function (data) {
+                        $('.spinner-overlay').fadeOut(500);
+                        $('#fast_checkout_summary_block').trigger('reload');
+                        $('#fast_checkout_cart').hide().html(data).fadeIn(1000)
+                    });
+                    return false;
+                }
+                return false;
+            });
 
             showLoading = function (modal_body) {
                 modal_body.html('<div class="modal_loader" style="text-align: center"><i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i></div>');
             };
             pageRequest = function (url) {
-				$('.spinner-overlay').fadeIn(100);
-				$.get(url, {} , function (data) {
-					$('#fast_checkout_summary_block').trigger('reload');
-					$('#fast_checkout_cart').hide().html(data).fadeIn(1000);
-					$('.spinner-overlay').fadeOut(500);
+                $('.spinner-overlay').fadeIn(100);
+                $.get(url, {} , function (data) {
+                    $('#fast_checkout_summary_block').trigger('reload');
+                    $('#fast_checkout_cart').hide().html(data).fadeIn(1000);
+                    $('.spinner-overlay').fadeOut(500);
                     if($('form#PayFrm')) {
                         validateForm($('form#PayFrm'));
                     }
-				});
+                });
             };
 
-			$('a.address_edit').on('click', function (event) {
-				event.preventDefault();
-				$('.spinner-overlay').fadeIn(100);
-				$.ajax({
-					url: $(this).attr('href'),
-					type: 'GET',
-					dataType: 'html',
-					success: function (data) {
-						$('#fast_checkout_summary_block').trigger('reload');
-						$('#fast_checkout_cart').hide().html(data).fadeIn(1000);
-						$('.spinner-overlay').fadeOut(500);
-					}
-				});
-			});
+            $('a.address_edit').on('click', function (event) {
+                event.preventDefault();
+                $('.spinner-overlay').fadeIn(100);
+                $.ajax({
+                    url: $(this).attr('href'),
+                    type: 'GET',
+                    dataType: 'html',
+                    success: function (data) {
+                        $('#fast_checkout_summary_block').trigger('reload');
+                        $('#fast_checkout_cart').hide().html(data).fadeIn(1000);
+                        $('.spinner-overlay').fadeOut(500);
+                    }
+                });
+            });
         });
 
 
-        validateEmail = function (email) {
-            var re = /^\s*(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))\s*$/;
-            return re.test(email);
-        };
-        validatePhone = function (number) {
-            var re = /^\s*[\+]?[0-9]{0,3}?[-\s\.]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}\s*$/im;
-            return re.test(number);
-        };
+
     </script>
 <?php
 echo $footer;

@@ -259,7 +259,7 @@ class ModelAccountCustomer extends Model
         ) {
             $message_arr = [
                 0 => [
-                    'message' => $language->get('im_customer_account_update_text_to_customer')
+                    'message' => $language->get('im_customer_account_update_text_to_customer'),
                 ],
             ];
             $this->im->send('customer_account_update', $message_arr, 'storefront_customer_account_update', $data);
@@ -442,7 +442,7 @@ class ModelAccountCustomer extends Model
             $language->load('common/im');
             $message_arr = [
                 0 => [
-                    'message' => $language->get('im_customer_account_update_password_to_customer')
+                    'message' => $language->get('im_customer_account_update_password_to_customer'),
                 ],
             ];
             $this->im->send(
@@ -908,15 +908,15 @@ class ModelAccountCustomer extends Model
                 }
             }
         }
-
+        $data['firstname'] = $data['firstname'] ?? '';
         if ((mb_strlen($data['firstname']) < 1) || (mb_strlen($data['firstname']) > 32)) {
             $this->error['firstname'] = $this->language->get('error_firstname');
         }
-
+        $data['lastname'] = $data['lastname'] ?? '';
         if ((mb_strlen($data['lastname']) < 1) || (mb_strlen($data['lastname']) > 32)) {
             $this->error['lastname'] = $this->language->get('error_lastname');
         }
-
+        $data['email'] = $data['email'] ?? '';
         if ((mb_strlen($data['email']) > 96) || (!preg_match(EMAIL_REGEX_PATTERN, $data['email']))) {
             $this->error['email'] = $this->language->get('error_email');
         }
@@ -924,9 +924,11 @@ class ModelAccountCustomer extends Model
         if (($this->customer->getEmail() != $data['email']) && $this->getTotalCustomersByEmail($data['email'])) {
             $this->error['warning'] = $this->language->get('error_exists');
         }
-
-        if ($data['telephone'] && (mb_strlen($data['telephone']) < 3 || mb_strlen($data['telephone']) > 32)) {
-            $this->error['telephone'] = $this->language->get('error_telephone');
+        $phone = $data['telephone'] ?? '';
+        if ($phone) {
+            if (mb_strlen($phone) < 3 || mb_strlen($phone) > 32 || !preg_match('/^[0-9\-]*$/', $phone)) {
+                $this->error['telephone'] = $this->language->get('error_telephone');
+            }
         }
 
         if (count($this->error) && empty($this->error['warning'])) {

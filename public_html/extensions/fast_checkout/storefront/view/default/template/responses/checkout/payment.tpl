@@ -567,7 +567,7 @@ $guest_data = $this->session->data['guest'];
         $('form.validate-creditcard [name=telephone]').bind({
             change: function () {
                 //check as telephone is entered
-                if (validatePhone($(this).val())) {
+                if (validateTelephone($(this).val())) {
                     $.aCCValidator.show_success($(this), '.form-group');
                 } else {
                     $.aCCValidator.show_error($(this), '.form-group');
@@ -575,7 +575,7 @@ $guest_data = $this->session->data['guest'];
             },
             blur: function () {
                 //check full number as lost focus
-                if (validatePhone($(this).val())) {
+                if (validateTelephone($(this).val())) {
                     $.aCCValidator.show_success($(this), '.form-group');
                 } else {
                     $.aCCValidator.show_error($(this), '.form-group');
