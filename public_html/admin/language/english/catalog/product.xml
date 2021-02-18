@@ -155,7 +155,7 @@
 	</definition>
 	<definition>
 		<key>entry_manufacturer</key>
-		<value><![CDATA[Manufacturer:]]></value>
+		<value><![CDATA[Brand:]]></value>
 	</definition>
 	<definition>
 		<key>entry_shipping</key>

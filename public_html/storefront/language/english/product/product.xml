@@ -34,7 +34,7 @@
 	</definition>
 	<definition>
 		<key>text_manufacturer</key>
-		<value><![CDATA[Manufacturer:]]></value>
+		<value><![CDATA[Brand:]]></value>
 	</definition>
 	<definition>
 		<key>text_instock</key>
