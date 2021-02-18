@@ -1180,12 +1180,16 @@ class ModelSaleCustomer extends Model
                 $store_info = [
                     'store_name'                    => $this->config->get('store_name'),
                     'store_url'                     => $this->config->get('config_url').'index.php?rt=account/login',
-                    'config_mail_logo_'.$languageId => $this->config->get('config_mail_logo_'.$languageId),
-                    'config_logo_'.$languageId      => $this->config->get('config_logo_'.$languageId),
+                    'config_mail_logo_'.$languageId =>
+                        $this->config->get('config_mail_logo_'.$languageId) ?: $this->config->get('config_mail_logo'),
+                    'config_logo_'.$languageId      =>
+                        $this->config->get('config_logo_'.$languageId) ?: $this->config->get('config_logo'),
                 ];
             }
 
             $mailLogo = $store_info['config_mail_logo_'.$languageId] ?: $store_info['config_logo_'.$languageId];
+            $mailLogo = $mailLogo ?: $store_info['config_mail_logo'];
+            $mailLogo = $mailLogo ?: $store_info['config_logo'];
 
             if ($mailLogo) {
                 $result = getMailLogoDetails($mailLogo);

@@ -258,9 +258,9 @@ class ALanguage
     public function getActiveLanguages()
     {
         $active_languages = [];
-        foreach ($this->available_languages as $result) {
+        foreach ($this->available_languages as $code => $result) {
             if ($result['status'] == 1) {
-                $active_languages[] = $result;
+                $active_languages[$code] = $result;
             }
         }
         return $active_languages;

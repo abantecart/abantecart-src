@@ -250,15 +250,17 @@ class ControllerResponsesSettingSettingQuickForm extends AController
                                 : $this->request->get['tmpl_id'];
 
                     foreach (['config_logo', 'config_mail_logo', 'config_icon'] as $n) {
-                        $newName = in_array($n, ['config_logo', 'config_mail_logo']) ? $n.'_'.$languageId : $n;
+                        //use resource id as value
+                        //also check if language specific logo presents
+                        if (isset($post[$n.'_'.$languageId.'_resource_id'])) {
+                            $post[$n.'_'.$languageId] = $post[$n.'_'.$languageId.'_resource_id'];
+                            unset($post[$n.'_'.$languageId.'_resource_id']);
+                        }
                         if (isset($post[$n.'_resource_id'])) {
-                            //we save resource ID vs resource path
-                            $post[$newName] = $post[$n.'_resource_id'];
-                        }elseif (isset($post[$n])) {
-                            $post[$newName] = html_entity_decode($post[$n], ENT_COMPAT, 'UTF-8');
-                            if($newName != $n){
-                                unset($post[$n]);
-                            }
+                            $post[$n] = $post[$n.'_resource_id'];
+                            unset($post[$n.'_resource_id']);
+                        } elseif (isset($post[$n])) {
+                            $post[$n] = html_entity_decode($post[$n], ENT_COMPAT, 'UTF-8');
                         }
                     }
                 }

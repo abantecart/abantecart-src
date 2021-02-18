@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUndefinedClassInspection */
 
 /*------------------------------------------------------------------------------
   $Id$
@@ -1291,6 +1291,23 @@ class AConfigManager
                 'config_image_grid_width',
                 'config_image_grid_height',
             ];
+            $languages = $this->language->getActiveLanguages();
+            $logosArr = [
+                'logo' => 'config_logo',
+                'mail_logo' => 'config_mail_logo'
+            ];
+            if(count($languages) > 1){
+                //see if we have resource id or path
+                $languageId = $data['language_id'] ?? $this->language->getContentLanguageID();
+                foreach ($languages as $lang){
+                    $lId = $lang['language_id'];
+                    //leave only content language
+                    if($languageId != $lId){ continue;}
+
+                    $logosArr['logo_'.mb_strtolower($lang['name'])] = $fieldset[] = 'config_logo_'.$lId;
+                    $logosArr['mail_logo_'.mb_strtolower($lang['name'])] = $fieldset[] = 'config_mail_logo_'.$lId;
+                }
+            }
 
             foreach ($fieldset as $name) {
                 if (!has_value($data[$name]) && has_value($default_values[$name])) {
@@ -1307,37 +1324,20 @@ class AConfigManager
                     'required' => true,
                 ]
             );
-            //see if we have resource id or path
-            $languageId = $data['language_id'] ?? $this->language->getContentLanguageID();
-
-            if (is_numeric($data['config_logo_'.$languageId])) {
-                $value = $data['config_logo_'.$languageId];
-            }else {
-                $value = htmlspecialchars($data['config_logo_'.$languageId], ENT_COMPAT, 'UTF-8');
+            // "default" logos + additional for language
+            foreach($logosArr as $alias=>$name) {
+                $value = is_numeric($data[$name])
+                    ? $data[$name]
+                    : htmlspecialchars($name, ENT_COMPAT, 'UTF-8');
+                $fields[$alias] = (string)$form->getFieldHtml(
+                    $props[] = [
+                        'type'        => 'resource',
+                        'name'        => $name,
+                        'resource_id' => $value,
+                        'rl_type'     => 'image',
+                    ]
+                );
             }
-            $fields['logo'] = $form->getFieldHtml(
-                $props[] = [
-                    'type'        => 'resource',
-                    'name'        => 'config_logo',
-                    'resource_id' => $value,
-                    'rl_type'     => 'image',
-                ]
-            );
-
-            //see if we have resource id or path
-            if (is_numeric($data['config_mail_logo_'.$languageId])) {
-                $value = $data['config_mail_logo_'.$languageId];
-            }else{
-                $value = htmlspecialchars($data['config_mail_logo_'.$languageId], ENT_COMPAT, 'UTF-8');
-            }
-            $fields['mail_logo'] = $form->getFieldHtml(
-                $props[] = [
-                    'type'          => 'resource',
-                    'name'          => 'config_mail_logo',
-                    'resource_id' => $value,
-                    'rl_type'       => 'image',
-                ]
-            );
 
             //see if we have resource id or path
             if (is_numeric($data['config_icon'])) {
@@ -1528,8 +1528,9 @@ class AConfigManager
             $props[] = [
                 'type'  => 'color',
                 'name'  => 'config_image_resize_fill_color',
-                'value' => $data['config_image_resize_fill_color'] ? $data['config_image_resize_fill_color']
-                    : '#ffffff',
+                'value' => $data['config_image_resize_fill_color']
+                            ? $data['config_image_resize_fill_color']
+                            : '#ffffff',
                 'style' => 'small-field',
             ]
         );
@@ -1562,7 +1563,10 @@ class AConfigManager
         if ($section != 'admin') {
             //get extension templates
             $extension_templates = $this->extension_manager->getExtensionsList(
-                ['filter' => 'template', 'status' => (int) $status]
+                [
+                    'filter' => 'template',
+                    'status' => (int) $status
+                ]
             );
             if ($extension_templates->total > 0) {
                 foreach ($extension_templates->rows as $row) {

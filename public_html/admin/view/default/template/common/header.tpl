@@ -16,13 +16,14 @@
 				if ($this->getHookVar('logoimage_hookvar')){
 					echo $this->getHookVar('logoimage_hookvar');
 				} else{
-					?>
-					<img class="logo_image"
-                         src="<?php echo $template_dir; ?>image/logo.png"
-                         width="190"
-						 alt="<?php echo $heading_title; ?>"
-						 title="<?php echo $heading_title; ?>"/>
-					<?php
+				    if(isset($logo_width)){
+				    ?>
+                        <?php if (is_file(DIR_RESOURCE . $logo)) { ?>
+                            <img src="resources/<?php echo $logo; ?>" width="190" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>"/>
+                        <?php } else if (!empty($logo)) { ?>
+                            <?php echo $logo; ?>
+                        <?php }
+                    }
 				}
 				?>
 			</a>

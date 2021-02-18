@@ -28,7 +28,8 @@ class ControllerCommonHeader extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->data['store'] = $this->config->get('store_name');
-        $this->data['logo'] = $this->config->get('config_logo_'.$this->language->getLanguageID());
+        $this->data['logo'] = $this->config->get('config_logo_'.$this->language->getLanguageID())
+                            ?: $this->config->get('config_logo');
         $this->data['homepage'] = $this->html->getHomeURL();
 
         //see if we have a resource ID instead of path

@@ -60,6 +60,24 @@ class ControllerCommonHeader extends AController
         $this->data['action'] = $this->html->getSecureURL('index/home');
         $this->data['search_action'] = $this->html->getSecureURL('tool/global_search');
 
+        $this->data['logo'] = $this->config->get('config_logo_'.$this->language->getLanguageID())
+                                ?: $this->config->get('config_logo');
+        if (is_numeric($this->data['logo'])) {
+            $resource = new AResource('image');
+            $image_data = $resource->getResource($this->data['logo']);
+            $img_sub_path = $image_data['type_name'].'/'.$image_data['resource_path'];
+            if (is_file(DIR_RESOURCE.$img_sub_path)) {
+                $this->data['logo'] = $img_sub_path;
+                $logo_path = DIR_RESOURCE.$img_sub_path;
+                //get logo image dimensions
+                $info = get_image_size($logo_path);
+                $this->data['logo_width'] = $info['width'];
+                $this->data['logo_height'] = $info['height'];
+            } else {
+                $this->data['logo'] = $image_data['resource_code'];
+            }
+        }
+
         //redirect after language change
         if (!$this->request->get['rt'] || $this->request->get['rt'] == 'index/home') {
             $this->data['redirect'] = $this->html->getSecureURL('index/home');

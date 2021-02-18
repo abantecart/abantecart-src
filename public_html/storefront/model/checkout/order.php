@@ -594,7 +594,10 @@ class ModelCheckoutOrder extends Model
         );
 
         $mailLogo = $this->config->get('config_mail_logo_'.$languageId)
-            ? : $this->config->get('config_logo_'.$languageId);
+                    ?: $this->config->get('config_logo_'.$languageId);
+        $mailLogo = $mailLogo ?: $this->config->get('config_mail_logo');
+        $mailLogo = $mailLogo ?: $this->config->get('config_logo');
+
         if ($mailLogo) {
             $result = getMailLogoDetails($mailLogo);
             $this->data['mail_template_data']['logo_uri'] = $result['uri'];

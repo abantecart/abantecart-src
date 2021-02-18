@@ -58,7 +58,8 @@ class ControllerResponsesSaleInvoice extends AController
         $this->data['column_total'] = $this->language->get('column_total');
         $this->data['column_comment'] = $this->language->get('column_comment');
 
-        $logo = $this->config->get('config_logo_'.$this->language->getLanguageID());
+        $logo = $this->config->get('config_logo_'.$this->language->getLanguageID())
+                ?: $this->config->get('config_logo');
         $result = getMailLogoDetails($logo);
         $this->data['logo'] = $result['html'] ?: HTTPS_DIR_RESOURCE.$logo;
 

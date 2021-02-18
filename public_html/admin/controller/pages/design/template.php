@@ -230,15 +230,17 @@ class ControllerPagesDesignTemplate extends AController
         if ($this->request->is_POST() && $this->_validate('appearance')) {
             $post = $this->request->post;
             foreach (['config_logo', 'config_mail_logo', 'config_icon'] as $n) {
-                $newName = in_array($n, ['config_logo', 'config_mail_logo']) ? $n.'_'.$languageId : $n;
+                //use resource id as value
+                //also check if language specific logo presents
+                if (isset($post[$n.'_'.$languageId.'_resource_id'])) {
+                    $post[$n.'_'.$languageId] = $post[$n.'_'.$languageId.'_resource_id'];
+                    unset($post[$n.'_'.$languageId.'_resource_id']);
+                }
                 if (isset($post[$n.'_resource_id'])) {
-                    //we save resource ID vs resource path
-                    $post[$newName] = $post[$n.'_resource_id'];
-                }elseif (isset($post[$n])) {
-                    $post[$newName] = html_entity_decode($post[$n], ENT_COMPAT, 'UTF-8');
-                    if($newName != $n){
-                        unset($post[$n]);
-                    }
+                    $post[$n] = $post[$n.'_resource_id'];
+                    unset($post[$n.'_resource_id']);
+                } elseif (isset($post[$n])) {
+                    $post[$n] = html_entity_decode($post[$n], ENT_COMPAT, 'UTF-8');
                 }
             }
 
@@ -365,7 +367,7 @@ class ControllerPagesDesignTemplate extends AController
             }
         }
         $this->data['preview_img'] = $preview_img;
-
+        $this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
         $this->view->assign('help_url', $this->gen_help_url('edit_storefront_template'));
         $this->view->batchAssign($this->data);
@@ -430,6 +432,15 @@ class ControllerPagesDesignTemplate extends AController
             $form,
             $this->data['settings']
         );
+
+        $languages = $this->language->getActiveLanguages();
+        $contentLanguage = $languages[ $this->language->getContentLanguageCode() ?? $this->language->getLanguageCode() ];
+        if(count($languages) > 1){
+            //language related logos
+            $langName = mb_strtolower($contentLanguage['name']);
+            $this->data['entry_logo_'.$langName] = ucfirst($langName).' '.$this->language->get('entry_logo');
+            $this->data['entry_mail_logo_'.$langName] = ucfirst($langName).' '.$this->language->get('entry_mail_logo');
+        }
 
         $resources_scripts = $this->dispatch(
             'responses/common/resource_library/get_resources_scripts',

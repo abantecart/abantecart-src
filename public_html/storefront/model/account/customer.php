@@ -1042,8 +1042,12 @@ class ModelAccountCustomer extends Model
         }
 
         $this->data['mail_template_data']['login_url'] = $login_url;
+
         $mailLogo = $this->config->get('config_mail_logo_'.$languageId)
-            ? : $this->config->get('config_logo_'.$languageId);
+                    ?: $this->config->get('config_logo_'.$languageId);
+        $mailLogo = $mailLogo ?: $this->config->get('config_mail_logo');
+        $mailLogo = $mailLogo ?: $this->config->get('config_logo');
+
         if ($mailLogo) {
             $result = getMailLogoDetails($mailLogo);
             $this->data['mail_template_data']['logo_uri'] = $result['uri'];
@@ -1094,7 +1098,10 @@ class ModelAccountCustomer extends Model
         $this->data['mail_template_data']['activate_url'] = '<a href="'.$activate_url.'">'.$activate_url.'</a>';
 
         $mailLogo = $this->config->get('config_mail_logo_'.$languageId)
-            ? : $this->config->get('config_logo_'.$languageId);
+                    ?: $this->config->get('config_logo_'.$languageId);
+        $mailLogo = $mailLogo ?: $this->config->get('config_mail_logo');
+        $mailLogo = $mailLogo ?: $this->config->get('config_logo');
+
         if ($mailLogo) {
             $result = getMailLogoDetails($mailLogo);
             $this->data['mail_template_data']['logo_uri'] = $result['uri'];
