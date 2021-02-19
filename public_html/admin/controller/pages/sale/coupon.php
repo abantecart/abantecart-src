@@ -277,8 +277,8 @@ class ControllerPagesSaleCoupon extends AController
 
         $this->document->setTitle($this->language->get('heading_title'));
 
-        $this->view->assign('success', $this->session->data['success']);
         if (isset($this->session->data['success'])) {
+            $this->view->assign('success', $this->session->data['success']);
             unset($this->session->data['success']);
         }
         $this->load->library('json');
@@ -305,6 +305,7 @@ class ControllerPagesSaleCoupon extends AController
 
             $this->model_sale_coupon->editCoupon($this->request->get['coupon_id'], $post);
             $this->model_sale_coupon->editCouponProducts($this->request->get['coupon_id'], $post);
+            $this->model_sale_coupon->editCouponCategories($this->request->get['coupon_id'], $post);
             $this->session->data['success'] = $this->language->get('text_success');
             redirect($this->html->getSecureURL('sale/coupon/update', '&coupon_id='.$this->request->get['coupon_id']));
         }
@@ -362,18 +363,29 @@ class ControllerPagesSaleCoupon extends AController
 
         if (!is_array($this->data['coupon_description'])) {
             if (isset($this->request->get['coupon_id'])) {
-                $this->data['coupon_description'] =
-                    $this->model_sale_coupon->getCouponDescriptions($this->request->get['coupon_id']);
+                $this->data['coupon_description'] = $this->model_sale_coupon->getCouponDescriptions(
+                    $this->request->get['coupon_id']
+                );
             } else {
                 $this->data['coupon_description'] = [];
             }
         }
         if (!is_array($this->data['coupon_product'])) {
             if (isset($coupon_info)) {
-                $this->data['coupon_product'] =
-                    $this->model_sale_coupon->getCouponProducts($this->request->get['coupon_id']);
+                $this->data['coupon_product'] = $this->model_sale_coupon->getCouponProducts(
+                    $this->request->get['coupon_id']
+                );
             } else {
                 $this->data['coupon_product'] = [];
+            }
+        }
+        if (!is_array($this->data['coupon_category'])) {
+            if (isset($coupon_info)) {
+                $this->data['coupon_category'] = $this->model_sale_coupon->getCouponCategories(
+                    $this->request->get['coupon_id']
+                );
+            } else {
+                $this->data['coupon_category'] = [];
             }
         }
 
@@ -638,14 +650,29 @@ class ControllerPagesSaleCoupon extends AController
             );
         }
 
+        $this->loadModel('catalog/category');
+        $this->data['categories'] = [];
+        $allStores = $this->model_setting_store->getStores();
+        $results = $this->model_catalog_category->getCategories(0);
+        foreach ($results as $r) {
+            $this->data['categories'][$r['category_id']] = $r['name']. (count($allStores)>1 ? "   (".$r['store_name'].")":'');
+        }
+
+        $this->data['form']['fields']['category'] = $form->getFieldHtml(
+            [
+                'type'        => 'checkboxgroup',
+                'name'        => 'coupon_category[]',
+                'value'       => $this->data['coupon_category'],
+                'options'     => $this->data['categories'],
+                'style'       => 'chosen',
+                'placeholder' => $this->language->get('text_select_category'),
+            ]
+        );
         //load only prior saved products
         $this->data['products'] = [];
         if (count($this->data['coupon_product'])) {
             $this->loadModel('catalog/product');
-            $ids = [];
-            foreach ($this->data['coupon_product'] as $id) {
-                $ids[] = (int) $id;
-            }
+            $ids = array_map('intval', array_values($this->data['coupon_product']));
             $filter = ['subsql_filter' => 'p.product_id in ('.implode(',', $ids).')'];
             $results = $this->model_catalog_product->getProducts($filter);
 
@@ -688,7 +715,7 @@ class ControllerPagesSaleCoupon extends AController
         $this->processTemplate('pages/sale/coupon_form.tpl');
     }
 
-    private function _validateForm()
+    protected function _validateForm()
     {
         if (!$this->user->canModify('sale/coupon')) {
             $this->error['warning'] = $this->language->get('error_permission');

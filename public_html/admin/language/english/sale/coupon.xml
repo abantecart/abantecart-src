@@ -83,6 +83,10 @@
 			<![CDATA[Total Amount:<br /><span class="help">The sub-total amount that must reached before the coupon is valid.</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_category</key>
+		<value><![CDATA[Selected Categories:]]></value>
+	</definition>
+	<definition>
 		<key>entry_product</key>
 		<value><![CDATA[Selected Products:]]></value>
 	</definition>
@@ -131,5 +135,9 @@
 	<definition>
 		<key>error_date</key>
 		<value><![CDATA[Please set date range!]]></value>
+	</definition>
+	<definition>
+		<key>text_select_category</key>
+		<value><![CDATA[- Select Category -]]></value>
 	</definition>
 </definitions>
