@@ -1670,8 +1670,8 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 -- Appearance
 
 ('appearance','storefront_width','100%'),
-('appearance','config_logo','image/18/73/3.png'),
-('appearance','config_mail_logo','image/18/73/3.png'),
+('appearance','config_logo','7'),
+('appearance','config_mail_logo','7'),
 ('appearance','config_icon','image/18/73/4.png'),
 ('appearance','config_image_thumb_width',380),
 ('appearance','config_image_thumb_height',380),
@@ -12160,22 +12160,24 @@ CREATE INDEX `ac_resource_descriptions_title_idx` ON `ac_resource_descriptions` 
 #storefront menu icons
 INSERT INTO `ac_resource_library` ( `resource_id`, `type_id`, `date_added`)
 VALUES
-(1,1,now()),
-(2,1,now()),
-(3,1,now()),
-(4,1,now()),
-(5,1,now()),
-(6,1,now());
+(1,1,NOW()),
+(2,1,NOW()),
+(3,1,NOW()),
+(4,1,NOW()),
+(5,1,NOW()),
+(6,1,NOW()),
+(7,1,NOW());
 
 INSERT INTO `ac_resource_descriptions`
 (`resource_id`, `language_id`, `name`, `title`, `description`, `resource_path`, `resource_code`, `date_added`)
 VALUES
-(1,1,'Star Icon','','','','<i class="fa fa-star"></i>&nbsp;&nbsp;',now()),
-(2,1,'Icon Home','','','','<i class="fa fa-home"></i>&nbsp;',now()),
-(3,1,'Login Icon','','','','<i class="fa fa-lock"></i>&nbsp;&nbsp;',now()),
-(4,1,'Account Icon','','','','<i class="fa fa-user"></i>&nbsp;',now()),
-(5,1,'Cart Icon','','','','<i class="fa fa-shopping-cart"></i>&nbsp;',now()),
-(6,1,'Checkout Icon','','','','<i class="fa fa-barcode"></i>&nbsp;&nbsp;',now());
+(1,1,'Star Icon','','','','<i class="fa fa-star"></i>&nbsp;&nbsp;',NOW()),
+(2,1,'Icon Home','','','','<i class="fa fa-home"></i>&nbsp;',NOW()),
+(3,1,'Login Icon','','','','<i class="fa fa-lock"></i>&nbsp;&nbsp;',NOW()),
+(4,1,'Account Icon','','','','<i class="fa fa-user"></i>&nbsp;',NOW()),
+(5,1,'Cart Icon','','','','<i class="fa fa-shopping-cart"></i>&nbsp;',NOW()),
+(6,1,'Checkout Icon','','','','<i class="fa fa-barcode"></i>&nbsp;&nbsp;',NOW()),
+(7,1,'store_logo.png','','','18/73/3.png','',NOW());
 
 #Admin Menu Icons
 INSERT INTO `ac_resource_library` ( `resource_id`, `type_id`, `date_added`)

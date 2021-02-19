@@ -200,7 +200,7 @@ class ControllerPagesInstall extends AController
             return AJson::encode(['ret_code' => 100]);
         } elseif ($step == 4) {
             // Load demo data
-            if ($this->session->data['install_step_data']['load_demo_data'] == 'on') {
+            if (($this->session->data['install_step_data']['load_demo_data'] ?? '') == 'on') {
                 $this->_load_demo_data();
             }
             //Clean session for configurations. We do not need them any more
