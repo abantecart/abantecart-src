@@ -8,7 +8,7 @@
         $('.spinner-overlay').fadeIn(100);
     }
     <?php if ($cart_url) { ?>
-    let loadPage = function(cart_key) {
+    var loadPage = function(cart_key) {
         $.ajax({
             url: '<?php echo $cart_url; ?>' + '&cart_key=' + (cart_key || ''),
             type: 'GET',
@@ -25,7 +25,5 @@
     };
     $(document).ready( loadPage('<?php echo $cart_key?>') );
 <?php } ?>
-
-
 
 </script>

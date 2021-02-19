@@ -234,10 +234,7 @@ $guest_data = $this->session->data['guest'];
                             </table>
                         </div>
                     </div>
-                <?php }
-
-                //if not all required fields are selected, do not show payment fields
-                if ($show_payment == true) { ?>
+                <?php } ?>
                 <div class="row">
                     <div class="form-group col-xxs-12">
                         <div class="left-inner-addon">
@@ -285,96 +282,101 @@ $guest_data = $this->session->data['guest'];
                         </div>
                     </div>
                 <?php }
+                if ($show_payment == true) {
                     echo $this->getHookVar('payment_form_fields');
-                if ($this->config->get('fast_checkout_show_order_comment_field')) { ?>
-                    <div class="row">
-                        <div class="form-group col-xxs-12" title="<?php echo $fast_checkout_text_order_comment; ?>">
-                            <div class="left-inner-addon">
-                                <i class="fa fa-comment"></i>
-                                <div class="input-group">
-                                    <textarea aria-label="order_comment" id="comment"
-                                              class="form-control input-lg p"
-                                              name="comment"
-                                              placeholder="<?php echo $fast_checkout_text_comment_placeholder; ?>"
-                                    ><?php echo $comment; ?></textarea>
-                                    <span class="input-group-btn">
-                                       <button class="btn btn-default btn-lg btn-comment" type="button">
-                                       <i class="fa fa-check fa-fw"></i>
-                                       <span class="hidden-xxs"><?php echo $fast_checkout_text_apply; ?></span>
-                                      </button>
-                                    </span>
+                    if ($this->config->get('fast_checkout_show_order_comment_field')) { ?>
+                        <div class="row">
+                            <div class="form-group col-xxs-12" title="<?php echo $fast_checkout_text_order_comment; ?>">
+                                <div class="left-inner-addon">
+                                    <i class="fa fa-comment"></i>
+                                    <div class="input-group">
+                                        <textarea aria-label="order_comment" id="comment"
+                                                  class="form-control input-lg p"
+                                                  name="comment"
+                                                  placeholder="<?php echo $fast_checkout_text_comment_placeholder; ?>"
+                                        ><?php echo $comment; ?></textarea>
+                                        <span class="input-group-btn">
+                                           <button class="btn btn-default btn-lg btn-comment" type="button">
+                                           <i class="fa fa-check fa-fw"></i>
+                                           <span class="hidden-xxs"><?php echo $fast_checkout_text_apply; ?></span>
+                                          </button>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                <?php } ?>
+                    <?php } ?>
 
-                <?php if ($enabled_coupon) { ?>
-                    <div class="row">
-                        <div class="form-group col-xxs-12">
-                            <div class="left-inner-addon">
-                                <i class="fa fa-ticket"></i>
-                                <div class="input-group">
-                                    <input id="coupon_code"
-                                           aria-label="coupon"
-                                           class="form-control input-lg"
-                                           placeholder="<?php echo $fast_checkout_text_coupon_code; ?>"
-                                           name="coupon_code"
-                                           type="text"
-                                           value="<?php echo $csession['coupon']; ?>"
-                                        <?php if ($csession['coupon']) {
-                                            echo "disabled";
-                                        } ?>
-                                    ><span class="input-group-btn">
-                                    <?php if ($csession['coupon']) { ?>
-                                        <button class="btn btn-default btn-lg btn-remove-coupon" type="button">
-                                            <i class="fa fa-trash fa-fw"></i>
-                                            <span class="hidden-xxs"><?php echo $fast_checkout_text_remove; ?></span>
-                                      </button>
-                                    <?php } else { ?>
-                                        <button class="btn btn-default btn-lg btn-coupon" type="button">
-                                            <i class="fa fa-check fa-fw"></i>
-                                            <span class="hidden-xxs"><?php echo $fast_checkout_text_apply; ?></span>
-                                      </button>
-                                    <?php } ?>
-                                    </span>
+                    <?php if ($enabled_coupon) { ?>
+                        <div class="row">
+                            <div class="form-group col-xxs-12">
+                                <div class="left-inner-addon">
+                                    <i class="fa fa-ticket"></i>
+                                    <div class="input-group">
+                                        <input id="coupon_code"
+                                               aria-label="coupon"
+                                               class="form-control input-lg"
+                                               placeholder="<?php echo $fast_checkout_text_coupon_code; ?>"
+                                               name="coupon_code"
+                                               type="text"
+                                               value="<?php echo $csession['coupon']; ?>"
+                                            <?php if ($csession['coupon']) {
+                                                echo "disabled";
+                                            } ?>
+                                        ><span class="input-group-btn">
+                                        <?php if ($csession['coupon']) { ?>
+                                            <button class="btn btn-default btn-lg btn-remove-coupon" type="button">
+                                                <i class="fa fa-trash fa-fw"></i>
+                                                <span class="hidden-xxs"><?php echo $fast_checkout_text_remove; ?></span>
+                                          </button>
+                                        <?php } else { ?>
+                                            <button class="btn btn-default btn-lg btn-coupon" type="button">
+                                                <i class="fa fa-check fa-fw"></i>
+                                                <span class="hidden-xxs"><?php echo $fast_checkout_text_apply; ?></span>
+                                          </button>
+                                        <?php } ?>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                <?php } ?>
+                    <?php } ?>
 
-                <?php if ($allow_account_creation || $support_recurring_billing) { ?>
-                    <div class="row">
-                        <div class="form-group col-xxs-4 col-xs-4">
+                    <?php if ($allow_account_creation || $support_recurring_billing) { ?>
+                        <div class="row">
+                            <div class="form-group col-xxs-4 col-xs-4">
+                            </div>
+                            <?php if ($support_recurring_billing) { ?>
+                                <div class="form-group col-xxs-8 col-xs-4 pull-right">
+                                    <div class="input-group pull-right">
+                                        <span class="button-checkbox">
+                                            <button type="button" class="btn"
+                                                    data-color="primary"> <?php echo $fast_checkout_text_bill_me_monthly; ?></button>
+                                            <input type="checkbox" name="cc_bill_monthly" class="hidden"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                            <?php if ($allow_account_creation) { ?>
+                                <div class="form-group col-xxs-8 col-xs-4 pull-right">
+                                    <div class="input-group pull-right">
+                                        <span class="button-checkbox">
+                                            <button type="button" class="btn"
+                                                    data-color="primary"> <?php echo $fast_checkout_text_create_account; ?></button>
+                                            <input aria-label="" type="checkbox" name="create_account" class="hidden" checked="checked"/>
+                                        </span>
+                                    </div>
+                                </div>
+                            <?php } ?>
                         </div>
-                        <?php if ($support_recurring_billing) { ?>
-                            <div class="form-group col-xxs-8 col-xs-4 pull-right">
-                                <div class="input-group pull-right">
-                                    <span class="button-checkbox">
-                                        <button type="button" class="btn"
-                                                data-color="primary"> <?php echo $fast_checkout_text_bill_me_monthly; ?></button>
-                                        <input type="checkbox" name="cc_bill_monthly" class="hidden"/>
-                                    </span>
-                                </div>
-                            </div>
-                        <?php } ?>
-                        <?php if ($allow_account_creation) { ?>
-                            <div class="form-group col-xxs-8 col-xs-4 pull-right">
-                                <div class="input-group pull-right">
-                                    <span class="button-checkbox">
-                                        <button type="button" class="btn"
-                                                data-color="primary"> <?php echo $fast_checkout_text_create_account; ?></button>
-                                        <input aria-label="" type="checkbox" name="create_account" class="hidden" checked="checked"/>
-                                    </span>
-                                </div>
-                            </div>
-                        <?php } ?>
-                    </div>
-                <?php }
-                echo $this->getHookVar('payment_form_bottom'); ?>
+                    <?php }
+                    echo $this->getHookVar('payment_form_bottom');
+                }?>
     </form>
 <?php
+
+//if not all required fields are selected, do not show payment fields
+if ($show_payment == true) {
     if ($payment_available === true) { ?>
         <div class="payment-select-container">
             <div class="div-cover"></div>
@@ -440,7 +442,7 @@ $guest_data = $this->session->data['guest'];
         return searchParams.toString()
     };
 
-    jQuery(document).ready(function () {
+    $(document).ready(function () {
         $(".btn-comment").on('click', function () {
             let that = $(this).closest('.form-group');
             $.ajax({
@@ -714,7 +716,6 @@ $guest_data = $this->session->data['guest'];
         $('#no_payment_confirm').on('click', function (e) {
             $('#PayFrm').submit();
         });
-
     });
 
 </script>
