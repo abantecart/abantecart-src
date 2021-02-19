@@ -12166,7 +12166,8 @@ VALUES
 (4,1,NOW()),
 (5,1,NOW()),
 (6,1,NOW()),
-(7,1,NOW());
+(7,1,NOW()),
+(8,1,NOW());
 
 INSERT INTO `ac_resource_descriptions`
 (`resource_id`, `language_id`, `name`, `title`, `description`, `resource_path`, `resource_code`, `date_added`)
@@ -12177,7 +12178,8 @@ VALUES
 (4,1,'Account Icon','','','','<i class="fa fa-user"></i>&nbsp;',NOW()),
 (5,1,'Cart Icon','','','','<i class="fa fa-shopping-cart"></i>&nbsp;',NOW()),
 (6,1,'Checkout Icon','','','','<i class="fa fa-barcode"></i>&nbsp;&nbsp;',NOW()),
-(7,1,'store_logo.png','','','18/73/3.png','',NOW());
+(7,1,'store_logo.png','','','18/73/3.png','',NOW()),
+(8,1,'favicon.png','','','18/73/4.png','',NOW());
 
 #Admin Menu Icons
 INSERT INTO `ac_resource_library` ( `resource_id`, `type_id`, `date_added`)
