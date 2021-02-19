@@ -18,20 +18,20 @@
 With this extension you can use 2Checkout payment system to accept payments from your customers.<br>
 <b>Sign up free today!  Use promo code ABANTECART2CO for a waiver of your application service fee (a savings of $10.99) and start selling online today! </b> Visit <a href="https://www.2checkout.com/signup/">www.2checkout.com</a>, complete the application, and then enter the code into the promo code field to take advantage of this special offer today!
 <br> Once register login to get account credentials to configure this extension
-<br>Don't forget to setup INS URL here <a href="https://www.2checkout.com/va/notifications/">https://www.2checkout.com/va/notifications/</a>.
+<br>Don't forget to setup INS URL and Redirect URL here <a href="https://secure.2checkout.com/cpanel/webhooks_api.php">https://secure.2checkout.com/cpanel/webhooks_api.php</a>.
 <br><br>Your INS URL is <h4>#storefront#rt=extension/2checkout/callback</h4>
-<br><br>Also setup Approved URL here <a href="https://www.2checkout.com/va/acct/detail_company_info">https://www.2checkout.com/va/acct/detail_company_info</a> and choose "Header return".
-<br><br>Your Approved URL  is <h4>#storefront#rt=checkout/success</h4>
+<br><br>Also setup the Redirect URL and choose Return method "Header redirect".
+<br><br>Your Redirect URL is <h4>#storefront#rt=checkout/success</h4>
 		 ]]></value>
 	</definition>
 	<definition>
 		<key>2checkout_account</key>
-		<value><![CDATA[2Checkout Account ID:]]></value>
+		<value><![CDATA[2Checkout Merchant Code:]]></value>
 	</definition>
 	<definition>
 		<key>2checkout_secret</key>
 		<value>
-			<![CDATA[Secret Word:<br /><span class="help">The secret word to confirm transactions with (must be the same as defined on the merchant account configuration page.</span>]]></value>
+			<![CDATA[Secret Key:<br /><span class="help">The secret word to confirm transactions with (must be the same as defined on the merchant account configuration page.</span>]]></value>
 	</definition>
 	<definition>
 		<key>2checkout_test</key>
@@ -63,10 +63,10 @@ With this extension you can use 2Checkout payment system to accept payments from
 	</definition>
 	<definition>
 		<key>error_account</key>
-		<value><![CDATA[Account No. Required!]]></value>
+		<value><![CDATA[Merchant Code Required!]]></value>
 	</definition>
 	<definition>
 		<key>error_secret</key>
-		<value><![CDATA[Secret Word Required!]]></value>
+		<value><![CDATA[Secret Key Required!]]></value>
 	</definition>
 </definitions>
