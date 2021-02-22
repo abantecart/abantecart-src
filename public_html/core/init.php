@@ -69,6 +69,9 @@ Mustache_Autoloader::register();
 // SEO URL Keyword separator
 define('SEO_URL_SEPARATOR', '-');
 
+//root category ID
+define('ROOT_CATEGORY_ID',0);
+
 // EMAIL REGEXP PATTERN
 define('EMAIL_REGEX_PATTERN', '/^[A-Z0-9._%-]+@[A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,16}$/i');
 

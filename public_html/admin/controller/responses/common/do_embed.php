@@ -24,8 +24,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerResponsesCommonDoEmbed extends AController
 {
-    public $data = [];
-
     public function main()
     {
     }
@@ -177,7 +175,7 @@ class ControllerResponsesCommonDoEmbed extends AController
                 $category_info = $this->model_catalog_category->getCategory($cat_id);
                 $subcategories = $this->model_catalog_category->getCategories($cat_id);
                 if ($category_info['parent_id'] == 0) {
-                    $options = $this->model_catalog_category->getCategories(0);
+                    $options = $this->model_catalog_category->getCategories(ROOT_CATEGORY_ID);
                 } else {
                     $cat_desc = $this->model_catalog_category->getCategoryDescriptions($cat_id);
                     $options = [
@@ -369,9 +367,7 @@ class ControllerResponsesCommonDoEmbed extends AController
 
         $store_id = $this->session->data['current_store_id'];
         $current_store_settings = $this->model_setting_store->getStore($store_id);
-        $remote_store_url = $current_store_settings['config_ssl_url']
-            ? $current_store_settings['config_ssl_url']
-            : $current_store_settings['config_url'];
+        $remote_store_url = $current_store_settings['config_ssl_url'] ? : $current_store_settings['config_url'];
 
         $this->data['sf_js_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/js';
         $this->data['direct_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/get';

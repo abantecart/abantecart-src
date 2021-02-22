@@ -33,8 +33,8 @@ class ControllerPagesSaleCoupon extends AController
         'total',
         'logged',
         'shipping',
-        'coupon_category',
-        'coupon_product',
+        'coupon_categories',
+        'coupon_products',
         'date_start',
         'date_end',
         'uses_total',
@@ -370,22 +370,22 @@ class ControllerPagesSaleCoupon extends AController
                 $this->data['coupon_description'] = [];
             }
         }
-        if (!is_array($this->data['coupon_product'])) {
+        if (!is_array($this->data['coupon_products'])) {
             if (isset($couponInfo)) {
-                $this->data['coupon_product'] = $this->model_sale_coupon->getCouponProducts(
+                $this->data['coupon_products'] = $this->model_sale_coupon->getCouponProducts(
                     $this->request->get['coupon_id']
                 );
             } else {
-                $this->data['coupon_product'] = [];
+                $this->data['coupon_products'] = [];
             }
         }
-        if (!is_array($this->data['coupon_category'])) {
+        if (!is_array($this->data['coupon_categories'])) {
             if (isset($couponInfo)) {
-                $this->data['coupon_category'] = $this->model_sale_coupon->getCouponCategories(
+                $this->data['coupon_categories'] = $this->model_sale_coupon->getCouponCategories(
                     $this->request->get['coupon_id']
                 );
             } else {
-                $this->data['coupon_category'] = [];
+                $this->data['coupon_categories'] = [];
             }
         }
 
@@ -653,7 +653,7 @@ class ControllerPagesSaleCoupon extends AController
         $this->loadModel('catalog/category');
         $this->data['categories'] = [];
         $allStores = $this->model_setting_store->getStores();
-        $results = $this->model_catalog_category->getCategories(0);
+        $results = $this->model_catalog_category->getCategories(ROOT_CATEGORY_ID);
         foreach ($results as $r) {
             $this->data['categories'][$r['category_id']] =
                 $r['name'].(count($allStores) > 1 ? "   (".$r['store_name'].")" : '');
@@ -662,8 +662,8 @@ class ControllerPagesSaleCoupon extends AController
         $this->data['form']['fields']['category'] = $form->getFieldHtml(
             [
                 'type'        => 'checkboxgroup',
-                'name'        => 'coupon_category[]',
-                'value'       => $this->data['coupon_category'],
+                'name'        => 'coupon_categories[]',
+                'value'       => $this->data['coupon_categories'],
                 'options'     => $this->data['categories'],
                 'style'       => 'chosen',
                 'placeholder' => $this->language->get('text_select_category'),
@@ -684,9 +684,9 @@ class ControllerPagesSaleCoupon extends AController
 
         //load only prior saved products
         $this->data['products'] = [];
-        if (count($this->data['coupon_product'])) {
+        if (count($this->data['coupon_products'])) {
             $this->loadModel('catalog/product');
-            $ids = array_map('intval', array_values($this->data['coupon_product']));
+            $ids = array_map('intval', array_values($this->data['coupon_products']));
             $filter = ['subsql_filter' => 'p.product_id in ('.implode(',', $ids).')'];
             $results = $this->model_catalog_product->getProducts($filter);
 
@@ -713,8 +713,8 @@ class ControllerPagesSaleCoupon extends AController
         $this->data['form']['fields']['product'] = $form->getFieldHtml(
             [
                 'type'        => 'multiselectbox',
-                'name'        => 'coupon_product[]',
-                'value'       => $this->data['coupon_product'],
+                'name'        => 'coupon_products[]',
+                'value'       => $this->data['coupon_products'],
                 'options'     => $this->data['products'],
                 'style'       => 'chosen',
                 'ajax_url'    => $this->html->getSecureURL('r/product/product/products'),

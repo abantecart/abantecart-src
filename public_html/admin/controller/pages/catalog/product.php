@@ -468,7 +468,7 @@ class ControllerPagesCatalogProduct extends AController
         $this->loadModel('catalog/category');
         $this->data['categories'] = [];
         $product_stores = $this->model_catalog_product->getProductStores($product_id);
-        $results = $this->model_catalog_category->getCategories(0, $product_stores);
+        $results = $this->model_catalog_category->getCategories(ROOT_CATEGORY_ID, $product_stores);
         foreach ($results as $r) {
             $name = $r['name'].(count($product_stores) > 1 ? ' ('.$r['store_name'].')' : '');
             $this->data['categories'][$r['category_id']] = $name;
@@ -901,7 +901,7 @@ class ControllerPagesCatalogProduct extends AController
         if ($this->data['subtract'] && !$product_info['has_track_options']) {
             $dd = new ADispatcher('responses/product/product/stockLocations', [$product_info['product_id']]);
             $this->data['form']['fields']['data']['stock_locations'] = $dd->dispatchGetOutput(
-                    'responses/product/product/stockLocations'
+                'responses/product/product/stockLocations'
             );
         }
 
