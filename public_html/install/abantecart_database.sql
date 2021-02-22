@@ -595,6 +595,7 @@ CREATE TABLE `ac_coupons` (
   `uses_total` int(11) NOT NULL,
   `uses_customer` varchar(11) COLLATE utf8_general_ci NOT NULL,
   `status` int(1) NOT NULL,
+  `condition_rule` ENUM('OR', 'AND') NOT NULL DEFAULT 'OR',
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`coupon_id`)
@@ -626,6 +627,18 @@ CREATE TABLE `ac_coupons_products` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 CREATE INDEX `ac_coupons_products_idx` ON `ac_coupons_products` ( `coupon_id`, `product_id`  );
+--
+-- DDL for table `coupon_categories`
+--
+DROP TABLE IF EXISTS `ac_coupons_categories`;
+CREATE TABLE `ac_coupons_categories` (
+  `coupon_category_id` int(11) NOT NULL AUTO_INCREMENT,
+  `coupon_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  PRIMARY KEY (`coupon_category_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1;
+
+CREATE INDEX `ac_coupons_categories_idx` ON `ac_coupons_categories` ( `coupon_id`, `category_id`  );
 
 
 --

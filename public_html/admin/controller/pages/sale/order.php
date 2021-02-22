@@ -534,7 +534,7 @@ class ControllerPagesSaleOrder extends AController
 
         $this->loadModel('catalog/product');
         $this->loadModel('catalog/category');
-        $this->data['categories'] = $this->model_catalog_category->getCategories(0);
+        $this->data['categories'] = $this->model_catalog_category->getCategories(ROOT_CATEGORY_ID);
 
         $this->data['order_products'] = [];
         $order_products = $this->model_sale_order->getOrderProducts($order_id);

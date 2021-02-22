@@ -628,7 +628,7 @@ class AView
      * @param string $filename
      * @param string $mode
      *
-     * @return mixed
+     * @return string
      */
     private function _get_template_path($path, $filename, $mode)
     {
@@ -644,7 +644,7 @@ class AView
         }
 
         $template_path_arr = $this->_test_template_paths($path, $filename, $mode);
-        return $template_path_arr['path'];
+        return $template_path_arr['path'] ?? '';
     }
 
     /**
