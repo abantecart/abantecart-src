@@ -5,6 +5,10 @@ ADD COLUMN `mp_product_url` VARCHAR(255) NULL DEFAULT '' AFTER `support_expirati
 ALTER TABLE `ac_resource_types`
 CHANGE COLUMN `file_types` `file_types` VARCHAR(255) NOT NULL DEFAULT '' ;
 
+ALTER TABLE `ac_coupons`
+ADD COLUMN `condition_rule` ENUM('OR', 'AND') NOT NULL DEFAULT 'OR' AFTER `status`;
+
+
 --
 -- DDL for table `coupon_categories`
 --

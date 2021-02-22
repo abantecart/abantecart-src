@@ -1,4 +1,6 @@
 <?php
+/** @noinspection PhpUndefinedClassInspection */
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -24,10 +26,11 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      *
      * @return array
+     * @throws AException
      */
     public function getProduct($product_id)
     {
-        if (!(int)$product_id) {
+        if (!(int) $product_id) {
             return [];
         }
         $query = $this->db->query(
@@ -41,11 +44,12 @@ class ModelCatalogProduct extends Model
             $this->_sql_final_price_string()." ".
             $this->_sql_join_string().
             " LEFT JOIN ".$this->db->table("length_class_descriptions")." lcd
-                                    ON (p.length_class_id = lcd.length_class_id
-                                        AND lcd.language_id = '".(int)$this->config->get('storefront_language_id')."')
-                WHERE p.product_id = '".(int)$product_id."'
-                        AND p2s.store_id = '".(int)$this->config->get('config_store_id')."'
-                        AND p.date_available <= NOW() AND p.status = '1'");
+                                ON (p.length_class_id = lcd.length_class_id
+                                    AND lcd.language_id = '".(int) $this->config->get('storefront_language_id')."')
+            WHERE p.product_id = '".(int) $product_id."'
+                    AND p2s.store_id = '".(int) $this->config->get('config_store_id')."'
+                    AND p.date_available <= NOW() AND p.status = '1'"
+        );
         return $query->row;
     }
 
@@ -55,31 +59,36 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      *
      * @return int
+     * @throws AException
      */
     public function isStockTrackable($product_id)
     {
-        if (!(int)$product_id) {
+        if (!(int) $product_id) {
             return 0;
         }
         $track_status = 0;
         //check product option values
-        $query = $this->db->query("SELECT pov.product_option_value_id, pov.subtract AS subtract
-                                    FROM ".$this->db->table("product_options")." po
-                                    LEFT JOIN ".$this->db->table("product_option_values")." pov
-                                        ON (po.product_option_id = pov.product_option_id)
-                                    WHERE po.product_id = '".(int)$product_id."'  AND po.status = 1");
+        $query = $this->db->query(
+            "SELECT pov.product_option_value_id, pov.subtract AS subtract
+            FROM ".$this->db->table("product_options")." po
+            LEFT JOIN ".$this->db->table("product_option_values")." pov
+                ON (po.product_option_id = pov.product_option_id)
+            WHERE po.product_id = '".(int) $product_id."'  AND po.status = 1"
+        );
 
         foreach ($query->rows as $row) {
-            $track_status += (int)$row['subtract'];
+            $track_status += (int) $row['subtract'];
         }
         //if no options - check whole product subtract
         if (!$track_status) {
             //check main product
-            $query = $this->db->query("SELECT subtract
-                                    FROM ".$this->db->table("products")." p
-                                    WHERE p.product_id = '".(int)$product_id."'");
+            $query = $this->db->query(
+                "SELECT subtract
+                FROM ".$this->db->table("products")." p
+                WHERE p.product_id = '".(int) $product_id."'"
+            );
 
-            $track_status = (int)$query->row['subtract'];
+            $track_status = (int) $query->row['subtract'];
         }
         return $track_status;
     }
@@ -87,11 +96,12 @@ class ModelCatalogProduct extends Model
     /**
      * Returns array with stock information
      *
-     * @since 1.2.7
-     *
      * @param array $product_ids
      *
      * @return array
+     * @throws AException
+     * @since 1.2.7
+     *
      */
     public function getProductsStockInfo($product_ids = [])
     {
@@ -101,7 +111,7 @@ class ModelCatalogProduct extends Model
 
         $ids = [];
         foreach ($product_ids as $id) {
-            $id = (int)$id;
+            $id = (int) $id;
             if (!$id) {
                 continue;
             }
@@ -134,8 +144,8 @@ class ModelCatalogProduct extends Model
         $output = [];
         foreach ($query->rows as $row) {
             $output[$row['product_id']] = [
-                'subtract' => (((int)$row['subtract'] + (int)$row['option_subtract']) > 0 ? true : false),
-                'quantity' => ((int)$row['quantity'] + (int)$row['option_quantity']),
+                'subtract' => (((int) $row['subtract'] + (int) $row['option_subtract']) > 0), //boolean!
+                'quantity' => ((int) $row['quantity'] + (int) $row['option_quantity']),
             ];
         }
         $this->cache->push($cache_key, $output);
@@ -149,20 +159,23 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      *
      * @return int
+     * @throws AException
      */
     public function hasAnyStock($product_id)
     {
-        if (!(int)$product_id) {
+        if (!(int) $product_id) {
             return 0;
         }
         $trackable = false;
         $total_quantity = 0;
         //check product option values
-        $query = $this->db->query("SELECT pov.quantity AS quantity, pov.subtract
-                                    FROM ".$this->db->table("product_options")." po
-                                    LEFT JOIN ".$this->db->table("product_option_values")." pov
-                                        ON (po.product_option_id = pov.product_option_id)
-                                    WHERE po.product_id = '".(int)$product_id."' AND po.status = 1");
+        $query = $this->db->query(
+            "SELECT pov.quantity AS quantity, pov.subtract
+            FROM ".$this->db->table("product_options")." po
+            LEFT JOIN ".$this->db->table("product_option_values")." pov
+                ON (po.product_option_id = pov.product_option_id)
+            WHERE po.product_id = '".(int) $product_id."' AND po.status = 1"
+        );
         if ($query->num_rows) {
             foreach ($query->rows as $row) {
                 //if tracking of stock disabled - set quantity as big
@@ -185,11 +198,13 @@ class ModelCatalogProduct extends Model
 
         if (!$trackable) {
             //get product quantity without options
-            $query = $this->db->query("SELECT quantity, subtract
-                                        FROM ".$this->db->table("products")." p
-                                        WHERE p.product_id = '".(int)$product_id."'");
+            $query = $this->db->query(
+                "SELECT quantity, subtract
+                FROM ".$this->db->table("products")." p
+                WHERE p.product_id = '".(int) $product_id."'"
+            );
             if ($query->row['subtract']) {
-                $total_quantity = (int)$query->row['quantity'];
+                $total_quantity = (int) $query->row['quantity'];
             } else {
                 $total_quantity = true;
             }
@@ -199,12 +214,13 @@ class ModelCatalogProduct extends Model
 
     public function getProductDataForCart($product_id)
     {
-        if (!(int)$product_id) {
+        if (!(int) $product_id) {
             return [];
         }
         $query = $this->db->query(
             "SELECT p.product_id,
                         pd.name,
+                        p2c.category_id,
                         pd.meta_keywords,
                         pd.meta_description,
                         pd.description,
@@ -244,16 +260,38 @@ class ModelCatalogProduct extends Model
                 FROM ".$this->db->table("products")." p
                 LEFT JOIN ".$this->db->table("product_descriptions")." pd
                     ON (p.product_id = pd.product_id
-                            AND pd.language_id = '".(int)$this->config->get('storefront_language_id')."')
-                LEFT JOIN ".$this->db->table("weight_classes")." wc ON (p.weight_class_id = wc.weight_class_id)
+                            AND pd.language_id = '".(int) $this->config->get('storefront_language_id')."')
+                            
+                LEFT JOIN ".$this->db->table("products_to_categories")." p2c 
+                    ON p2c.product_id = p.product_id
+                LEFT JOIN ".$this->db->table("weight_classes")." wc 
+                    ON (p.weight_class_id = wc.weight_class_id)
                 LEFT JOIN ".$this->db->table("weight_class_descriptions")." wcd
                     ON (wc.weight_class_id = wcd.weight_class_id
-                            AND wcd.language_id = '".(int)$this->config->get('storefront_language_id')."' )
-                LEFT JOIN ".$this->db->table("length_classes")." mc ON (p.length_class_id = mc.length_class_id)
-                LEFT JOIN ".$this->db->table("length_class_descriptions")." mcd ON (mc.length_class_id = mcd.length_class_id)
-                WHERE p.product_id = '".(int)$product_id."' AND p.date_available <= NOW() AND p.status = '1'");
+                            AND wcd.language_id = '".(int) $this->config->get('storefront_language_id')."' )
+                LEFT JOIN ".$this->db->table("length_classes")." mc 
+                    ON (p.length_class_id = mc.length_class_id)
+                LEFT JOIN ".$this->db->table("length_class_descriptions")." mcd 
+                    ON (mc.length_class_id = mcd.length_class_id)
+                WHERE p.product_id = '".(int) $product_id."' 
+                    AND p.date_available <= NOW() 
+                    AND p.status = '1'"
+        );
+        $output = [];
+        foreach ($query->rows as $row) {
+            if (isset($output['categories'])) {
+                $output['categories'][] = (int) $row['category_id'];
+                $row['categories'] = $output['categories'];
+            } else {
+                $row['categories'] = [
+                    (int) $row['category_id'],
+                ];
+            }
+            unset($row['category_id']);
+            $output = $row;
+        }
 
-        return $query->row;
+        return $output;
     }
 
     /**
@@ -264,6 +302,7 @@ class ModelCatalogProduct extends Model
      * @param int $limit
      *
      * @return array
+     * @throws AException
      */
     public function getProductsByCategoryId(
         $category_id,
@@ -272,11 +311,11 @@ class ModelCatalogProduct extends Model
         $start = 0,
         $limit = 20
     ) {
-        $start = abs((int)$start);
-        $limit = abs((int)$limit);
-        $store_id = (int)$this->config->get('config_store_id');
-        $language_id = (int)$this->config->get('storefront_language_id');
-        $cache_key = 'product.listing.products_category.'.(int)$category_id
+        $start = abs((int) $start);
+        $limit = abs((int) $limit);
+        $store_id = (int) $this->config->get('config_store_id');
+        $language_id = (int) $this->config->get('storefront_language_id');
+        $cache_key = 'product.listing.products_category.'.(int) $category_id
             .'.store_'.$store_id
             .'_sort_'.$sort
             .'_order_'.$order
@@ -285,7 +324,6 @@ class ModelCatalogProduct extends Model
             .'_lang_'.$language_id;
         $cache = $this->cache->pull($cache_key);
         if ($cache === false) {
-
             $sql = "SELECT *,
                             p.product_id,
                             ".$this->_sql_final_price_string().",
@@ -300,7 +338,7 @@ class ModelCatalogProduct extends Model
                 ON (p.product_id = p2c.product_id)
             WHERE p.status = '1' AND p.date_available <= NOW()
                     AND p2s.store_id = '".$store_id."'
-                    AND p2c.category_id = '".(int)$category_id."'";
+                    AND p2c.category_id = '".(int) $category_id."'";
 
             $sort_data = [
                 'pd.name'       => 'LCASE(pd.name)',
@@ -329,7 +367,7 @@ class ModelCatalogProduct extends Model
                 $start = 0;
             }
 
-            $sql .= " LIMIT ".(int)$start.",".(int)$limit;
+            $sql .= " LIMIT ".(int) $start.",".(int) $limit;
             $query = $this->db->query($sql);
 
             $cache = $query->rows;
@@ -343,12 +381,13 @@ class ModelCatalogProduct extends Model
      * @param int $category_id
      *
      * @return int
+     * @throws AException
      */
     public function getTotalProductsByCategoryId($category_id = 0)
     {
-        $store_id = (int)$this->config->get('config_store_id');
+        $store_id = (int) $this->config->get('config_store_id');
 
-        $cache_key = 'product.listing.products_by_category.'.(int)$category_id.'.store_'.$store_id;
+        $cache_key = 'product.listing.products_by_category.'.(int) $category_id.'.store_'.$store_id;
         $cache = $this->cache->pull($cache_key);
         if ($cache === false) {
             $query = $this->db->query(
@@ -359,7 +398,7 @@ class ModelCatalogProduct extends Model
                 LEFT JOIN ".$this->db->table("products_to_stores")." p2s 
                     ON (p.product_id = p2s.product_id)
                 WHERE 
-                    p2c.category_id = '".(int)$category_id."'
+                    p2c.category_id = '".(int) $category_id."'
                     AND p.status = '1'
                     AND p.date_available <= NOW()
                     AND p2s.store_id = '".$store_id."'"
@@ -380,6 +419,7 @@ class ModelCatalogProduct extends Model
      * @param int $limit
      *
      * @return array
+     * @throws AException
      */
     public function getProductsByManufacturerId(
         $manufacturer_id,
@@ -388,23 +428,25 @@ class ModelCatalogProduct extends Model
         $start = 0,
         $limit = 20
     ) {
-        $start = abs((int)$start);
-        $limit = abs((int)$limit);
-        if (!(int)$manufacturer_id) {
+        $start = abs((int) $start);
+        $limit = abs((int) $limit);
+        if (!(int) $manufacturer_id) {
             return [];
         }
-        $sql = "SELECT *, p.product_id,
-                        ".$this->_sql_final_price_string().",
-                        pd.name AS name, 
-                        pd.blurb,
-                        m.name AS manufacturer,
-                        ss.name AS stock,
-                        ".$this->_sql_avg_rating_string().",
-                        ".$this->_sql_review_count_string()."
-                        ".$this->_sql_join_string()."
-        WHERE p.status = '1' AND p.date_available <= NOW()
-            AND p2s.store_id = '".(int)$this->config->get('config_store_id')."'
-            AND m.manufacturer_id = '".(int)$manufacturer_id."'";
+        $sql = "SELECT *, 
+                    p.product_id,
+                    ".$this->_sql_final_price_string().",
+                    pd.name AS name, 
+                    pd.blurb,
+                    m.name AS manufacturer,
+                    ss.name AS stock,
+                    ".$this->_sql_avg_rating_string().",
+                    ".$this->_sql_review_count_string()."
+                    ".$this->_sql_join_string()."
+        WHERE p.status = '1' 
+            AND p.date_available <= NOW()
+            AND p2s.store_id = '".(int) $this->config->get('config_store_id')."'
+            AND m.manufacturer_id = '".(int) $manufacturer_id."'";
 
         $sort_data = [
             'pd.name'       => 'LCASE(pd.name)',
@@ -432,7 +474,7 @@ class ModelCatalogProduct extends Model
             $start = 0;
         }
 
-        $sql .= " LIMIT ".(int)$start.",".(int)$limit;
+        $sql .= " LIMIT ".(int) $start.",".(int) $limit;
         $query = $this->db->query($sql);
 
         return $query->rows;
@@ -442,6 +484,7 @@ class ModelCatalogProduct extends Model
      * @param int $manufacturer_id
      *
      * @return int
+     * @throws AException
      */
     public function getTotalProductsByManufacturerId($manufacturer_id = 0)
     {
@@ -450,9 +493,9 @@ class ModelCatalogProduct extends Model
             FROM ".$this->db->table("products")."
             WHERE status = '1'
                     AND date_available <= NOW()
-                    AND manufacturer_id = '".(int)$manufacturer_id."'"
+                    AND manufacturer_id = '".(int) $manufacturer_id."'"
         );
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
 
     /**
@@ -464,6 +507,7 @@ class ModelCatalogProduct extends Model
      * @param int $limit
      *
      * @return array
+     * @throws AException
      */
     public function getProductsByTag(
         $tag,
@@ -473,8 +517,8 @@ class ModelCatalogProduct extends Model
         $start = 0,
         $limit = 20
     ) {
-        $start = abs((int)$start);
-        $limit = abs((int)$limit);
+        $start = abs((int) $start);
+        $limit = abs((int) $limit);
         if ($tag) {
             $sql = "SELECT *, p.product_id,
                             ".$this->_sql_final_price_string().",
@@ -485,9 +529,9 @@ class ModelCatalogProduct extends Model
                             ".$this->_sql_review_count_string()."
                             ".$this->_sql_join_string()."
                     LEFT JOIN ".$this->db->table("product_tags")." pt 
-                        ON (p.product_id = pt.product_id AND pt.language_id = '"
-                .(int)$this->config->get('storefront_language_id')."')
-                    WHERE p2s.store_id = '".(int)$this->config->get('config_store_id')."'
+                        ON (p.product_id = pt.product_id 
+                            AND pt.language_id = '".(int) $this->config->get('storefront_language_id')."')
+                    WHERE p2s.store_id = '".(int) $this->config->get('config_store_id')."'
                         AND (LCASE(pt.tag) = '".$this->db->escape(mb_strtolower($tag))."'";
 
             $keywords = explode(" ", $tag);
@@ -502,7 +546,7 @@ class ModelCatalogProduct extends Model
                 $data = [];
 
                 foreach (explode(',', $category_id) as $category_id) {
-                    $data[] = "'".(int)$category_id."'";
+                    $data[] = "'".(int) $category_id."'";
                 }
 
                 $sql .= " AND p.product_id IN (SELECT product_id
@@ -538,7 +582,7 @@ class ModelCatalogProduct extends Model
                 $start = 0;
             }
 
-            $sql .= " LIMIT ".(int)$start.",".(int)$limit;
+            $sql .= " LIMIT ".(int) $start.",".(int) $limit;
 
             $query = $this->db->query($sql);
 
@@ -576,8 +620,8 @@ class ModelCatalogProduct extends Model
         $start = 0,
         $limit = 20
     ) {
-        $start = abs((int)$start);
-        $limit = abs((int)$limit);
+        $start = abs((int) $start);
+        $limit = abs((int) $limit);
         //trim keyword
         $keyword = trim($keyword);
         if ($keyword) {
@@ -593,7 +637,7 @@ class ModelCatalogProduct extends Model
                             ".$this->_sql_join_string()."
             LEFT JOIN ".$this->db->table("product_tags")." pt 
                 ON (p.product_id = pt.product_id)
-            WHERE p2s.store_id = '".(int)$this->config->get('config_store_id')."' ";
+            WHERE p2s.store_id = '".(int) $this->config->get('config_store_id')."' ";
 
             $tags = explode(' ', trim($keyword));
             $tags_str = [];
@@ -628,7 +672,7 @@ class ModelCatalogProduct extends Model
                 $category_ids = explode(',', $string);
 
                 foreach ($category_ids as $category_id) {
-                    $data[] = "'".(int)$category_id."'";
+                    $data[] = "'".(int) $category_id."'";
                 }
 
                 $sql .= " AND p.product_id IN (SELECT product_id
@@ -665,7 +709,7 @@ class ModelCatalogProduct extends Model
                 $start = 0;
             }
 
-            $sql .= " LIMIT ".(int)$start.",".(int)$limit;
+            $sql .= " LIMIT ".(int) $start.",".(int) $limit;
             $query = $this->db->query($sql);
             $products = [];
             if ($query->num_rows) {
@@ -674,7 +718,6 @@ class ModelCatalogProduct extends Model
                 }
             }
             return $products;
-
         } else {
             return [];
         }
@@ -696,12 +739,13 @@ class ModelCatalogProduct extends Model
             $sql = "SELECT COUNT( DISTINCT p.product_id ) AS total
                     FROM ".$this->db->table("products")." p
                     LEFT JOIN ".$this->db->table("product_descriptions")." pd
-                                ON (p.product_id = pd.product_id AND pd.language_id = '"
-                .(int)$this->config->get('storefront_language_id')."')
+                        ON (p.product_id = pd.product_id 
+                                AND pd.language_id = '".(int) $this->config->get('storefront_language_id')."')
                     LEFT JOIN ".$this->db->table("products_to_stores")." p2s
-                                ON (p.product_id = p2s.product_id)
-                    LEFT JOIN ".$this->db->table("product_tags")." pt ON (p.product_id = pt.product_id)
-                    WHERE p2s.store_id = '".(int)$this->config->get('config_store_id')."'";
+                        ON (p.product_id = p2s.product_id)
+                    LEFT JOIN ".$this->db->table("product_tags")." pt 
+                        ON (p.product_id = pt.product_id)
+                    WHERE p2s.store_id = '".(int) $this->config->get('config_store_id')."'";
 
             $tags = explode(' ', trim($keyword));
             $tags_str = [];
@@ -737,7 +781,7 @@ class ModelCatalogProduct extends Model
                 $category_ids = explode(',', $string);
 
                 foreach ($category_ids as $category_id) {
-                    $data[] = "category_id = '".(int)$category_id."'";
+                    $data[] = "category_id = '".(int) $category_id."'";
                 }
 
                 $sql .= " AND p.product_id IN (SELECT product_id 
@@ -768,7 +812,7 @@ class ModelCatalogProduct extends Model
     {
         $tag = trim($tag);
         if ($tag) {
-            $language_id = (int)$this->config->get('storefront_language_id');
+            $language_id = (int) $this->config->get('storefront_language_id');
             $sql = "SELECT COUNT(DISTINCT p.product_id) AS total
                     FROM ".$this->db->table("products")." p
                     LEFT JOIN ".$this->db->table("product_descriptions")." pd 
@@ -779,7 +823,7 @@ class ModelCatalogProduct extends Model
                         ON (p.product_id = p2s.product_id)
                     LEFT JOIN ".$this->db->table("manufacturers")." m 
                         ON (p.manufacturer_id = m.manufacturer_id)
-                    WHERE p2s.store_id = '".(int)$this->config->get('config_store_id')."'
+                    WHERE p2s.store_id = '".(int) $this->config->get('config_store_id')."'
                         AND (LCASE(pt.tag) = '".$this->db->escape(mb_strtolower($tag))."'";
 
             $keywords = explode(" ", $tag);
@@ -799,7 +843,7 @@ class ModelCatalogProduct extends Model
                 $category_ids = explode(',', $string);
 
                 foreach ($category_ids as $category_id) {
-                    $data[] = "category_id = '".(int)$category_id."'";
+                    $data[] = "category_id = '".(int) $category_id."'";
                 }
                 $sql .= " AND p.product_id IN (SELECT product_id 
                                                 FROM ".$this->db->table("products_to_categories")." 
@@ -819,11 +863,12 @@ class ModelCatalogProduct extends Model
      * @param int $category_id
      *
      * @return string
+     * @throws AException
      */
     public function getPath($category_id)
     {
         $string = $category_id.',';
-        $results = $this->model_catalog_category->getCategories((int)$category_id);
+        $results = $this->model_catalog_category->getCategories((int) $category_id);
         foreach ($results as $result) {
             $string .= $this->getPath($result['category_id']);
         }
@@ -834,14 +879,15 @@ class ModelCatalogProduct extends Model
      * @param int $limit
      *
      * @return array
+     * @throws AException
      */
     public function getLatestProducts($limit)
     {
-        $limit = abs((int)$limit);
+        $limit = abs((int) $limit);
         $cache_key = 'product.latest.'
-                    .$limit
-                    .'.store_'.(int)$this->config->get('config_store_id')
-                    .'_lang_'.$this->config->get('storefront_language_id');
+            .$limit
+            .'.store_'.(int) $this->config->get('config_store_id')
+            .'_lang_'.$this->config->get('storefront_language_id');
         $cache = $this->cache->pull($cache_key);
 
         if ($cache === false) {
@@ -856,11 +902,11 @@ class ModelCatalogProduct extends Model
                         ".$this->_sql_join_string()."
                     WHERE p.status = '1'
                             AND p.date_available <= NOW()
-                            AND p2s.store_id = '".(int)$this->config->get('config_store_id')."'
+                            AND p2s.store_id = '".(int) $this->config->get('config_store_id')."'
                     ORDER BY p.date_added DESC";
 
-            if ((int)$limit) {
-                $sql .= " LIMIT ".(int)$limit;
+            if ((int) $limit) {
+                $sql .= " LIMIT ".(int) $limit;
             }
 
             $query = $this->db->query($sql);
@@ -875,10 +921,11 @@ class ModelCatalogProduct extends Model
      * @param int $limit
      *
      * @return array
+     * @throws AException
      */
     public function getPopularProducts($limit = 0)
     {
-        $limit = abs((int)$limit);
+        $limit = abs((int) $limit);
         $sql = "SELECT *,
                         pd.name AS name,
                         m.name AS manufacturer,
@@ -888,11 +935,11 @@ class ModelCatalogProduct extends Model
                         ".$this->_sql_join_string()."
                 WHERE p.status = '1'
                         AND p.date_available <= NOW()
-                        AND p2s.store_id = '".(int)$this->config->get('config_store_id')."'
+                        AND p2s.store_id = '".(int) $this->config->get('config_store_id')."'
                 ORDER BY p.viewed DESC, p.date_added DESC";
 
-        if ((int)$limit) {
-            $sql .= " LIMIT ".(int)$limit;
+        if ((int) $limit) {
+            $sql .= " LIMIT ".(int) $limit;
         }
         $query = $this->db->query($sql);
         return $query->rows;
@@ -902,12 +949,13 @@ class ModelCatalogProduct extends Model
      * @param $limit
      *
      * @return array
+     * @throws AException
      */
     public function getFeaturedProducts($limit)
     {
-        $limit = abs((int)$limit);
-        $language_id = (int)$this->config->get('storefront_language_id');
-        $store_id = (int)$this->config->get('config_store_id');
+        $limit = abs((int) $limit);
+        $language_id = (int) $this->config->get('storefront_language_id');
+        $store_id = (int) $this->config->get('config_store_id');
         $cache_key = 'product.featured.'.$limit.'.store_'.$store_id.'_lang_'.$language_id;
         $product_data = $this->cache->pull($cache_key);
         if ($product_data === false) {
@@ -926,8 +974,8 @@ class ModelCatalogProduct extends Model
                         AND p.date_available <= NOW()
                     ORDER BY p.sort_order ASC, p.date_available DESC ";
 
-            if ((int)$limit) {
-                $sql .= " LIMIT ".(int)$limit;
+            if ((int) $limit) {
+                $sql .= " LIMIT ".(int) $limit;
             }
 
             $query = $this->db->query($sql);
@@ -941,12 +989,13 @@ class ModelCatalogProduct extends Model
      * @param $limit
      *
      * @return array
+     * @throws AException
      */
     public function getBestSellerProducts($limit)
     {
-        $limit = abs((int)$limit);
-        $language_id = (int)$this->config->get('storefront_language_id');
-        $store_id = (int)$this->config->get('config_store_id');
+        $limit = abs((int) $limit);
+        $language_id = (int) $this->config->get('storefront_language_id');
+        $store_id = (int) $this->config->get('config_store_id');
         $cache_key = 'product.bestseller.'.$limit.'.store_'.$store_id.'_lang_'.$language_id;
 
         $product_data = $this->cache->pull($cache_key);
@@ -962,15 +1011,15 @@ class ModelCatalogProduct extends Model
                     WHERE o.order_status_id > '0' AND p.status = '1' AND p.date_available <= NOW()
                     GROUP BY op.product_id
                     ORDER BY total DESC";
-            if ((int)$limit) {
-                $sql .= " LIMIT ".(int)$limit;
+            if ((int) $limit) {
+                $sql .= " LIMIT ".(int) $limit;
             }
             $query = $this->db->query($sql);
 
             if ($query->num_rows) {
                 $products = [];
                 foreach ($query->rows as $result) {
-                    $products[] = (int)$result['product_id'];
+                    $products[] = (int) $result['product_id'];
                 }
 
                 if ($products) {
@@ -1014,6 +1063,7 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      *
      * @return null
+     * @throws AException
      */
     public function updateViewed($product_id)
     {
@@ -1021,10 +1071,12 @@ class ModelCatalogProduct extends Model
             return false;
         }
 
-        $this->db->query("UPDATE ".$this->db->table("products")."
-                            SET viewed = viewed + 1,
-                                date_modified = date_modified 
-                            WHERE product_id = '".(int)$product_id."'");
+        $this->db->query(
+            "UPDATE ".$this->db->table("products")."
+            SET viewed = viewed + 1,
+                date_modified = date_modified 
+            WHERE product_id = '".(int) $product_id."'"
+        );
         return true;
     }
 
@@ -1033,15 +1085,18 @@ class ModelCatalogProduct extends Model
      * @param int $status
      *
      * @return null
+     * @throws AException
      */
     public function updateStatus($product_id, $status = 0)
     {
         if (empty($product_id)) {
             return false;
         }
-        $this->db->query("UPDATE ".$this->db->table("products")."
-                        SET status = ".(int)$status."
-                        WHERE product_id = '".(int)$product_id."'");
+        $this->db->query(
+            "UPDATE ".$this->db->table("products")."
+            SET status = ".(int) $status."
+            WHERE product_id = '".(int) $product_id."'"
+        );
         $this->cache->remove('product');
         return true;
     }
@@ -1055,6 +1110,7 @@ class ModelCatalogProduct extends Model
      * @param $option_value_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductGroupOptions($product_id, $option_id, $option_value_id)
     {
@@ -1063,23 +1119,25 @@ class ModelCatalogProduct extends Model
         }
         $product_option = $this->db->query(
             "SELECT group_id 
-                FROM ".$this->db->table("product_options")."
-                WHERE status=1 AND product_id = '".(int)$product_id."'
-                    AND product_option_id = '".(int)$option_id."' ");
+            FROM ".$this->db->table("product_options")."
+            WHERE status=1 AND product_id = '".(int) $product_id."'
+                AND product_option_id = '".(int) $option_id."' "
+        );
         if (!$product_option->row['group_id']) {
             return [];
         }
         //get all option values of group
         $option_values = $this->db->query(
             "SELECT pov.*, povd.name
-                FROM ".$this->db->table("product_options")." po
-                LEFT JOIN ".$this->db->table("product_option_values")." pov 
-                    ON (po.product_option_id = pov.product_option_id)
-                LEFT JOIN  ".$this->db->table("product_option_value_descriptions")." povd
-                    ON (pov.product_option_value_id = povd.product_option_value_id 
-                            AND povd.language_id = '".(int)$this->config->get('storefront_language_id')."' )
-                WHERE po.status = 1 AND po.group_id = '".(int)$product_option->row['group_id']."'
-                ORDER BY pov.sort_order ");
+            FROM ".$this->db->table("product_options")." po
+            LEFT JOIN ".$this->db->table("product_option_values")." pov 
+                ON (po.product_option_id = pov.product_option_id)
+            LEFT JOIN  ".$this->db->table("product_option_value_descriptions")." povd
+                ON (pov.product_option_value_id = povd.product_option_value_id 
+                        AND povd.language_id = '".(int) $this->config->get('storefront_language_id')."' )
+            WHERE po.status = 1 AND po.group_id = '".(int) $product_option->row['group_id']."'
+            ORDER BY pov.sort_order "
+        );
 
         //find attribute_value_id of option_value
         //find all option values with attribute_value_id
@@ -1121,16 +1179,17 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      *
      * @return boolean
+     * @throws AException
      */
     public function hasAnyOptions($product_id)
     {
-        if (!(int)$product_id) {
+        if (!(int) $product_id) {
             return null;
         }
         $query = $this->db->query(
             "SELECT count(*) as total 
             FROM ".$this->db->table("product_options")." 
-            WHERE status = 1 AND product_id = '".(int)$product_id."'"
+            WHERE status = 1 AND product_id = '".(int) $product_id."'"
         );
         if ($query->row['total'] > 0) {
             return true;
@@ -1143,13 +1202,14 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductOptions($product_id)
     {
-        if (!(int)$product_id) {
+        if (!(int) $product_id) {
             return [];
         }
-        $language_id = (int)$this->config->get('storefront_language_id');
+        $language_id = (int) $this->config->get('storefront_language_id');
         $cache_key = 'product.options.'.$product_id.'.lang_'.$language_id;
         $product_option_data = $this->cache->pull($cache_key);
         $elements = HtmlElementFactory::getAvailableElements();
@@ -1157,13 +1217,14 @@ class ModelCatalogProduct extends Model
             $product_option_data = [];
             $product_option_query = $this->db->query(
                 "SELECT po.*, pod.option_placeholder, pod.error_text
-                    FROM ".$this->db->table("product_options")." po
-                    LEFT JOIN ".$this->db->table("product_option_descriptions")." pod
-                        ON pod.product_option_id = po.product_option_id AND pod.language_id =  '".$language_id."'
-                    WHERE po.product_id = '".(int)$product_id."'
-                        AND po.group_id = 0
-                        AND po.status = 1
-                    ORDER BY po.sort_order"
+                FROM ".$this->db->table("product_options")." po
+                LEFT JOIN ".$this->db->table("product_option_descriptions")." pod
+                    ON pod.product_option_id = po.product_option_id 
+                        AND pod.language_id =  '".$language_id."'
+                WHERE po.product_id = '".(int) $product_id."'
+                    AND po.group_id = 0
+                    AND po.status = 1
+                ORDER BY po.sort_order"
             );
             if ($product_option_query) {
                 foreach ($product_option_query->rows as $product_option) {
@@ -1171,9 +1232,9 @@ class ModelCatalogProduct extends Model
                     $product_option_value_data = [];
                     $product_option_value_query = $this->db->query(
                         "SELECT *
-                            FROM ".$this->db->table("product_option_values")."
-                            WHERE product_option_id = '".(int)$product_option['product_option_id']."'
-                            ORDER BY sort_order"
+                        FROM ".$this->db->table("product_option_values")."
+                        WHERE product_option_id = '".(int) $product_option['product_option_id']."'
+                        ORDER BY sort_order"
                     );
                     if ($product_option_value_query) {
                         foreach ($product_option_value_query->rows as $product_option_value) {
@@ -1186,10 +1247,9 @@ class ModelCatalogProduct extends Model
                             }
                             $pd_opt_val_description_qr = $this->db->query(
                                 "SELECT *
-                                    FROM ".$this->db->table("product_option_value_descriptions")."
-                                    WHERE product_option_value_id = '"
-                                .(int)$product_option_value['product_option_value_id']."'
-                                    AND language_id = '".(int)$language_id."'"
+                                FROM ".$this->db->table("product_option_value_descriptions")."
+                                WHERE product_option_value_id = '" .(int) $product_option_value['product_option_value_id']."'
+                                AND language_id = '".(int) $language_id."'"
                             );
 
                             // ignore option value with 0 quantity and disabled subtract
@@ -1222,9 +1282,9 @@ class ModelCatalogProduct extends Model
                     }
                     $prd_opt_description_qr = $this->db->query(
                         "SELECT *
-                            FROM ".$this->db->table("product_option_descriptions")."
-                            WHERE product_option_id = '".(int)$product_option['product_option_id']."'
-                                AND language_id = '".(int)$language_id."'"
+                        FROM ".$this->db->table("product_option_descriptions")."
+                        WHERE product_option_id = '".(int) $product_option['product_option_id']."'
+                            AND language_id = '".(int) $language_id."'"
                     );
 
                     $product_option_data[$product_option['product_option_id']] = [
@@ -1255,21 +1315,24 @@ class ModelCatalogProduct extends Model
      * @param int $product_option_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductOption($product_id, $product_option_id)
     {
-        if (!(int)$product_id || !(int)$product_option_id) {
+        if (!(int) $product_id || !(int) $product_option_id) {
             return [];
         }
 
-        $query = $this->db->query("SELECT *
-                        FROM ".$this->db->table("product_options")." po
-                        LEFT JOIN ".$this->db->table("product_option_descriptions")." pod 
-                            ON (po.product_option_id = pod.product_option_id)
-                        WHERE po.status=1 AND po.product_option_id = '".(int)$product_option_id."'
-                            AND po.product_id = '".(int)$product_id."'
-                            AND pod.language_id = '".(int)$this->config->get('storefront_language_id')."'
-                        ORDER BY po.sort_order");
+        $query = $this->db->query(
+            "SELECT *
+            FROM ".$this->db->table("product_options")." po
+            LEFT JOIN ".$this->db->table("product_option_descriptions")." pod 
+                ON (po.product_option_id = pod.product_option_id)
+            WHERE po.status=1 AND po.product_option_id = '".(int) $product_option_id."'
+                AND po.product_id = '".(int) $product_id."'
+                AND pod.language_id = '".(int) $this->config->get('storefront_language_id')."'
+            ORDER BY po.sort_order"
+        );
         return $query->row;
     }
 
@@ -1278,18 +1341,20 @@ class ModelCatalogProduct extends Model
      * @param $product_option_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductOptionValues($product_id, $product_option_id)
     {
-        if (!(int)$product_id || !(int)$product_option_id) {
+        if (!(int) $product_id || !(int) $product_option_id) {
             return [];
         }
         $query = $this->db->query(
             "SELECT *
-                 FROM ".$this->db->table("product_option_values")." pov
-                 WHERE pov.product_option_id = '".(int)$product_option_id."'
-                    AND pov.product_id = '".(int)$product_id."'
-                 ORDER BY pov.sort_order");
+            FROM ".$this->db->table("product_option_values")." pov
+            WHERE pov.product_option_id = '".(int) $product_option_id."'
+                AND pov.product_id = '".(int) $product_id."'
+            ORDER BY pov.sort_order"
+        );
         return $query->rows;
     }
 
@@ -1298,29 +1363,31 @@ class ModelCatalogProduct extends Model
      * @param int $product_option_value_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductOptionValue($product_id, $product_option_value_id)
     {
-        if (!(int)$product_id || !(int)$product_option_value_id) {
+        if (!(int) $product_id || !(int) $product_option_value_id) {
             return [];
         }
 
         $query = $this->db->query(
             "SELECT *,
-                        COALESCE(povd.product_id,povd2.product_id) as product_id,
-                        COALESCE(povd.language_id,povd2.language_id) as language_id,
-                        COALESCE(povd.product_option_value_id,povd2.product_option_value_id) as product_option_value_id,
-                        COALESCE(povd.name,povd2.name) as name
-                FROM ".$this->db->table("product_option_values")." pov
-                LEFT JOIN ".$this->db->table("product_option_value_descriptions")." povd
-                        ON (pov.product_option_value_id = povd.product_option_value_id
-                                AND povd.language_id = '".(int)$this->config->get('storefront_language_id')."' )
-                LEFT JOIN ".$this->db->table("product_option_value_descriptions")." povd2
-                        ON (pov.product_option_value_id = povd2.product_option_value_id
-                                AND povd2.language_id = '1' )
-                WHERE pov.product_option_value_id = '".(int)$product_option_value_id."'
-                    AND pov.product_id = '".(int)$product_id."'
-                ORDER BY pov.sort_order");
+                    COALESCE(povd.product_id,povd2.product_id) as product_id,
+                    COALESCE(povd.language_id,povd2.language_id) as language_id,
+                    COALESCE(povd.product_option_value_id,povd2.product_option_value_id) as product_option_value_id,
+                    COALESCE(povd.name,povd2.name) as name
+            FROM ".$this->db->table("product_option_values")." pov
+            LEFT JOIN ".$this->db->table("product_option_value_descriptions")." povd
+                    ON (pov.product_option_value_id = povd.product_option_value_id
+                            AND povd.language_id = '".(int) $this->config->get('storefront_language_id')."' )
+            LEFT JOIN ".$this->db->table("product_option_value_descriptions")." povd2
+                    ON (pov.product_option_value_id = povd2.product_option_value_id
+                            AND povd2.language_id = '1' )
+            WHERE pov.product_option_value_id = '".(int) $product_option_value_id."'
+                AND pov.product_id = '".(int) $product_id."'
+            ORDER BY pov.sort_order"
+        );
         return $query->row;
     }
 
@@ -1331,10 +1398,10 @@ class ModelCatalogProduct extends Model
      * @param array $input_options
      *
      * @return array
+     * @throws AException
      */
     public function validateProductOptions($product_id, $input_options)
     {
-
         $errors = [];
         if (empty($product_id) && empty($input_options)) {
             return [];
@@ -1343,7 +1410,6 @@ class ModelCatalogProduct extends Model
         if (is_array($product_options) && $product_options) {
             $this->load->language('checkout/cart');
             foreach ($product_options as $option) {
-
                 if ($option['required']) {
                     if (empty($input_options[$option['product_option_id']])) {
                         $errors[] = $option['name'].': '.$this->language->get('error_required_options');
@@ -1351,10 +1417,9 @@ class ModelCatalogProduct extends Model
                 }
 
                 if ($option['regexp_pattern']
-                    && !preg_match($option['regexp_pattern'], (string)$input_options[$option['product_option_id']])) {
+                    && !preg_match($option['regexp_pattern'], (string) $input_options[$option['product_option_id']])) {
                     $errors[] = $option['name'].': '.$option['error_text'];
                 }
-
             }
         }
 
@@ -1365,16 +1430,19 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductTags($product_id)
     {
-        if (!(int)$product_id) {
+        if (!(int) $product_id) {
             return [];
         }
-        $query = $this->db->query("SELECT *
-                                    FROM ".$this->db->table("product_tags")."
-                                    WHERE product_id = '".(int)$product_id."'
-                                            AND language_id = '".(int)$this->config->get('storefront_language_id')."'");
+        $query = $this->db->query(
+            "SELECT *
+            FROM ".$this->db->table("product_tags")."
+            WHERE product_id = '".(int) $product_id."'
+                    AND language_id = '".(int) $this->config->get('storefront_language_id')."'"
+        );
 
         return $query->rows;
     }
@@ -1383,21 +1451,24 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductDownloads($product_id)
     {
-        if (!(int)$product_id) {
+        if (!(int) $product_id) {
             return [];
         }
 
         $query = $this->db->query(
             "SELECT *
-                     FROM ".$this->db->table("products_to_downloads")." p2d
-                     LEFT JOIN ".$this->db->table("downloads")." d ON (p2d.download_id = d.download_id)
-                     LEFT JOIN ".$this->db->table("download_descriptions")." dd
-                        ON (d.download_id = dd.download_id
-                                AND dd.language_id = '".(int)$this->config->get('storefront_language_id')."')
-                     WHERE p2d.product_id = '".(int)$product_id."'");
+             FROM ".$this->db->table("products_to_downloads")." p2d
+             LEFT JOIN ".$this->db->table("downloads")." d 
+                ON (p2d.download_id = d.download_id)
+             LEFT JOIN ".$this->db->table("download_descriptions")." dd
+                ON (d.download_id = dd.download_id
+                        AND dd.language_id = '".(int) $this->config->get('storefront_language_id')."')
+             WHERE p2d.product_id = '".(int) $product_id."'"
+        );
 
         return $query->rows;
     }
@@ -1406,18 +1477,20 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      *
      * @return array
+     * @throws AException
      */
     public function getProductRelated($product_id)
     {
         $product_data = [];
-        if (!(int)$product_id) {
+        if (!(int) $product_id) {
             return [];
         }
 
         $product_related_query = $this->db->query(
             "SELECT *
                  FROM ".$this->db->table("products_related")."
-                 WHERE product_id = '".(int)$product_id."'");
+                 WHERE product_id = '".(int) $product_id."'"
+        );
 
         foreach ($product_related_query->rows as $result) {
             $product_query = $this->db->query(
@@ -1426,11 +1499,12 @@ class ModelCatalogProduct extends Model
                             m.name AS manufacturer,
                             ss.name AS stock,
                             ".$this->_sql_avg_rating_string().", ".
-                $this->_sql_review_count_string().
-                $this->_sql_join_string()."
-                    WHERE p.product_id = '".(int)$result['related_id']."'
-                        AND p2s.store_id = '".(int)$this->config->get('config_store_id')."'
-                        AND p.date_available <= NOW() AND p.status = '1'");
+                            $this->_sql_review_count_string().
+                            $this->_sql_join_string()."
+                    WHERE p.product_id = '".(int) $result['related_id']."'
+                        AND p2s.store_id = '".(int) $this->config->get('config_store_id')."'
+                        AND p.date_available <= NOW() AND p.status = '1'"
+            );
 
             if ($product_query->num_rows) {
                 $product_data[$result['related_id']] = $product_query->row;
@@ -1444,16 +1518,17 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      *
      * @return array
+     * @throws AException
      */
     public function getCategories($product_id)
     {
-        if (!(int)$product_id) {
+        if (!(int) $product_id) {
             return [];
         }
         $query = $this->db->query(
             "SELECT *
             FROM ".$this->db->table("products_to_categories")."
-            WHERE product_id = '".(int)$product_id."'"
+            WHERE product_id = '".(int) $product_id."'"
         );
         return $query->rows;
     }
@@ -1480,9 +1555,9 @@ class ModelCatalogProduct extends Model
     {
         //special prices
         if (is_object($this->customer) && $this->customer->isLogged()) {
-            $customer_group_id = (int)$this->customer->getCustomerGroupId();
+            $customer_group_id = (int) $this->customer->getCustomerGroupId();
         } else {
-            $customer_group_id = (int)$this->config->get('config_customer_group_id');
+            $customer_group_id = (int) $this->config->get('config_customer_group_id');
         }
 
         $sql = " ( SELECT p2sp.price
@@ -1500,16 +1575,15 @@ class ModelCatalogProduct extends Model
 
     protected function _sql_join_string()
     {
-
         return "FROM ".$this->db->table("products")." p
                 LEFT JOIN ".$this->db->table("product_descriptions")." pd
                     ON (p.product_id = pd.product_id
-                            AND pd.language_id = '".(int)$this->config->get('storefront_language_id')."')
+                            AND pd.language_id = '".(int) $this->config->get('storefront_language_id')."')
                 LEFT JOIN ".$this->db->table("products_to_stores")." p2s ON (p.product_id = p2s.product_id)
                 LEFT JOIN ".$this->db->table("manufacturers")." m ON (p.manufacturer_id = m.manufacturer_id)
                 LEFT JOIN ".$this->db->table("stock_statuses")." ss
                         ON (p.stock_status_id = ss.stock_status_id
-                            AND ss.language_id = '".(int)$this->config->get('storefront_language_id')."')";
+                            AND ss.language_id = '".(int) $this->config->get('storefront_language_id')."')";
     }
 
     public function getProductsAllInfo($products = [])
@@ -1518,17 +1592,17 @@ class ModelCatalogProduct extends Model
             return false;
         }
         foreach ($products as &$id) {
-            $id = (int)$id;
+            $id = (int) $id;
         }
 
         //special prices
         if (is_object($this->customer) && $this->customer->isLogged()) {
-            $customer_group_id = (int)$this->customer->getCustomerGroupId();
+            $customer_group_id = (int) $this->customer->getCustomerGroupId();
         } else {
-            $customer_group_id = (int)$this->config->get('config_customer_group_id');
+            $customer_group_id = (int) $this->config->get('config_customer_group_id');
         }
-        $language_id = (int)$this->config->get('storefront_language_id');
-        $store_id = (int)$this->config->get('config_store_id');
+        $language_id = (int) $this->config->get('storefront_language_id');
+        $store_id = (int) $this->config->get('config_store_id');
         $cache_key = 'product.all_info.'
             .md5(implode('', $products))
             .'.'.$customer_group_id
@@ -1563,7 +1637,7 @@ class ModelCatalogProduct extends Model
                 $result = $this->db->query($sql);
                 $rating = [];
                 foreach ($result->rows as $row) {
-                    $rating[$row['product_id']] = (int)$row['total'];
+                    $rating[$row['product_id']] = (int) $row['total'];
                 }
             } else {
                 $rating = false;
@@ -1573,7 +1647,7 @@ class ModelCatalogProduct extends Model
             $sql = "SELECT product_id, price
                     FROM ".$this->db->table("product_discounts")."
                     WHERE product_id IN (".implode(', ', $products).")
-                        AND customer_group_id = '".(int)$customer_group_id."'
+                        AND customer_group_id = '".(int) $customer_group_id."'
                         AND quantity = '1'
                         AND ((date_start = '0000-00-00' OR date_start < NOW())
                         AND (date_end = '0000-00-00' OR date_end > NOW()))
@@ -1617,7 +1691,6 @@ class ModelCatalogProduct extends Model
             $temp = $temp2 = '';
             $options = [];
             foreach ($result->rows as $row) {
-
                 if ($row['product_id'] != $temp) {
                     $temp2 = '';
                 }
@@ -1644,7 +1717,7 @@ class ModelCatalogProduct extends Model
                 $output[$product]['special'] = $specials[$product];
                 $output[$product]['discount'] = $discounts[$product];
                 $output[$product]['options'] = $options[$product];
-                $output[$product]['rating'] = $rating !== false ? (int)$rating[$product] : false;
+                $output[$product]['rating'] = $rating !== false ? (int) $rating[$product] : false;
             }
             $this->cache->push($cache_key, $output);
         }
@@ -1656,18 +1729,17 @@ class ModelCatalogProduct extends Model
      * @param string $mode
      *
      * @return false|mixed
+     * @throws AException
      */
     public function getProducts($data = [], $mode = 'default')
     {
-
         if (!empty($data['content_language_id'])) {
-            $language_id = ( int )$data['content_language_id'];
+            $language_id = ( int ) $data['content_language_id'];
         } else {
-            $language_id = (int)$this->config->get('storefront_language_id');
+            $language_id = (int) $this->config->get('storefront_language_id');
         }
 
         if ($data || $mode == 'total_only') {
-
             $filter = (isset($data['filter']) ? $data['filter'] : []);
 
             if ($mode == 'total_only') {
@@ -1677,21 +1749,23 @@ class ModelCatalogProduct extends Model
                             ON (p.product_id = pd.product_id)";
             } else {
                 $sql = "SELECT *,
-                                p.product_id,
-                                ".$this->_sql_final_price_string().",
-                                pd.name AS name,
-                                m.name AS manufacturer,
-                                ss.name AS stock,
-                                ".$this->_sql_avg_rating_string().",
-                                ".$this->_sql_review_count_string()."
-                                ".$this->_sql_join_string();
+                        p.product_id,
+                        ".$this->_sql_final_price_string().",
+                        pd.name AS name,
+                        m.name AS manufacturer,
+                        ss.name AS stock,
+                        ".$this->_sql_avg_rating_string().",
+                        ".$this->_sql_review_count_string()."
+                        ".$this->_sql_join_string();
             }
 
             if (isset($filter['category_id']) && !is_null($filter['category_id'])) {
-                $sql .= " LEFT JOIN ".$this->db->table("products_to_categories")
-                    ." p2c ON (p.product_id = p2c.product_id)";
+                $sql .= " LEFT JOIN ".$this->db->table("products_to_categories")." p2c 
+                            ON (p.product_id = p2c.product_id)";
             }
-            $sql .= " WHERE pd.language_id = '".$language_id."' AND p.date_available <= NOW() AND p.status = '1' ";
+            $sql .= " WHERE pd.language_id = '".$language_id."' 
+                        AND p.date_available <= NOW() 
+                        AND p.status = '1' ";
 
             if (!empty($data['subsql_filter'])) {
                 $sql .= " AND ".$data['subsql_filter'];
@@ -1739,20 +1813,20 @@ class ModelCatalogProduct extends Model
             }
 
             if (isset($filter['pfrom']) && !is_null($filter['pfrom'])) {
-                $sql .= " AND final_price >= '".(float)$filter['pfrom']."'";
+                $sql .= " AND final_price >= '".(float) $filter['pfrom']."'";
             }
             if (isset($filter['pto']) && !is_null($filter['pto'])) {
-                $sql .= " AND final_price <= '".(float)$filter['pto']."'";
+                $sql .= " AND final_price <= '".(float) $filter['pto']."'";
             }
             if (isset($filter['category_id']) && !is_null($filter['category_id'])) {
-                $sql .= " AND p2c.category_id = '".(int)$filter['category_id']."'";
+                $sql .= " AND p2c.category_id = '".(int) $filter['category_id']."'";
             }
             if (isset($filter['manufacturer_id']) && !is_null($filter['manufacturer_id'])) {
-                $sql .= " AND p.manufacturer_id = '".(int)$filter['manufacturer_id']."'";
+                $sql .= " AND p.manufacturer_id = '".(int) $filter['manufacturer_id']."'";
             }
 
             if (isset($filter['status']) && !is_null($filter['status'])) {
-                $sql .= " AND p.status = '".(int)$filter['status']."'";
+                $sql .= " AND p.status = '".(int) $filter['status']."'";
             }
 
             //If for total, we done building the query
@@ -1794,7 +1868,7 @@ class ModelCatalogProduct extends Model
                     $data['limit'] = 20;
                 }
 
-                $sql .= " LIMIT ".(int)$data['start'].",".(int)$data['limit'];
+                $sql .= " LIMIT ".(int) $data['start'].",".(int) $data['limit'];
             }
             $query = $this->db->query($sql);
 
@@ -1804,11 +1878,16 @@ class ModelCatalogProduct extends Model
             $product_data = $this->cache->pull($cache_key);
 
             if ($product_data === false) {
-                $query = $this->db->query("SELECT *
-                                            FROM ".$this->db->table("products")." p
-                                            LEFT JOIN ".$this->db->table("product_descriptions")." pd ON (p.product_id = pd.product_id)
-                                            WHERE pd.language_id = '".$language_id."' AND p.date_available <= NOW() AND p.status = '1'
-                                            ORDER BY pd.name ASC");
+                $query = $this->db->query(
+                    "SELECT *
+                    FROM ".$this->db->table("products")." p
+                    LEFT JOIN ".$this->db->table("product_descriptions")." pd 
+                        ON (p.product_id = pd.product_id)
+                    WHERE pd.language_id = '".$language_id."' 
+                        AND p.date_available <= NOW() 
+                        AND p.status = '1'
+                    ORDER BY pd.name ASC"
+                );
                 $product_data = $query->rows;
                 $this->cache->push($cache_key, $product_data);
             }
@@ -1821,6 +1900,7 @@ class ModelCatalogProduct extends Model
      * @param array $data
      *
      * @return array|null
+     * @throws AException
      */
     public function getTotalProducts($data = [])
     {
@@ -1834,11 +1914,12 @@ class ModelCatalogProduct extends Model
      * @param int $limit
      *
      * @return array
+     * @throws AException
      */
     public function getProductSpecials($sort = 'p.sort_order', $order = 'ASC', $start = 0, $limit = 0)
     {
-        $start = abs((int)$start);
-        $limit = abs((int)$limit);
+        $start = abs((int) $start);
+        $limit = abs((int) $limit);
         $promotion = new APromotion();
         return $promotion->getProductSpecials($sort, $order, $start, $limit);
     }
@@ -1847,6 +1928,7 @@ class ModelCatalogProduct extends Model
      * @param int $product_id
      *
      * @return bool
+     * @throws AException
      */
     public function hasTrackOptions($product_id)
     {
@@ -1854,7 +1936,7 @@ class ModelCatalogProduct extends Model
                 FROM ".$this->db->table('product_option_values')." pov
                 INNER JOIN ".$this->db->table('product_options')." po
                     ON (pov.product_option_id = po.product_option_id AND po.status = 1) 
-                WHERE pov.product_id=".(int)$product_id." AND pov.subtract = 1";
+                WHERE pov.product_id=".(int) $product_id." AND pov.subtract = 1";
         $result = $this->db->query($sql);
         return ($result->num_rows ? true : false);
     }

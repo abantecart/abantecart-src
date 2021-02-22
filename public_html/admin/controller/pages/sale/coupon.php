@@ -40,6 +40,7 @@ class ControllerPagesSaleCoupon extends AController
         'uses_total',
         'uses_customer',
         'status',
+        'condition_rule',
     ];
 
     public function main()
@@ -67,7 +68,6 @@ class ControllerPagesSaleCoupon extends AController
 
         if (isset($this->session->data['error'])) {
             $this->data['error_warning'] = $this->session->data['error'];
-
             unset($this->session->data['error']);
         } elseif (isset($this->error['warning'])) {
             $this->data['error_warning'] = $this->error['warning'];
@@ -345,8 +345,8 @@ class ControllerPagesSaleCoupon extends AController
             ]
         );
 
-        if (has_value($this->request->get['coupon_id']) && $this->request->is_GET()) {
-            $coupon_info = $this->model_sale_coupon->getCouponByID($this->request->get['coupon_id']);
+        if (isset($this->request->get['coupon_id']) && $this->request->is_GET()) {
+            $couponInfo = $this->model_sale_coupon->getCouponByID($this->request->get['coupon_id']);
         }
 
         $this->data['languages'] = $this->language->getAvailableLanguages();
@@ -354,8 +354,8 @@ class ControllerPagesSaleCoupon extends AController
         foreach ($this->fields as $f) {
             if (isset ($this->request->post [$f])) {
                 $this->data [$f] = $this->request->post [$f];
-            } elseif (isset($coupon_info) && isset($coupon_info[$f])) {
-                $this->data[$f] = $coupon_info[$f];
+            } elseif (isset($couponInfo) && isset($couponInfo[$f])) {
+                $this->data[$f] = $couponInfo[$f];
             } else {
                 $this->data[$f] = '';
             }
@@ -371,7 +371,7 @@ class ControllerPagesSaleCoupon extends AController
             }
         }
         if (!is_array($this->data['coupon_product'])) {
-            if (isset($coupon_info)) {
+            if (isset($couponInfo)) {
                 $this->data['coupon_product'] = $this->model_sale_coupon->getCouponProducts(
                     $this->request->get['coupon_id']
                 );
@@ -380,7 +380,7 @@ class ControllerPagesSaleCoupon extends AController
             }
         }
         if (!is_array($this->data['coupon_category'])) {
-            if (isset($coupon_info)) {
+            if (isset($couponInfo)) {
                 $this->data['coupon_category'] = $this->model_sale_coupon->getCouponCategories(
                     $this->request->get['coupon_id']
                 );
@@ -399,9 +399,9 @@ class ControllerPagesSaleCoupon extends AController
 
         if (isset($this->request->post['date_start'])) {
             $this->data['date_start'] = $this->request->post['date_start'];
-        } elseif (isset($coupon_info)) {
+        } elseif (isset($couponInfo)) {
             $this->data['date_start'] = dateISO2Display(
-                $coupon_info['date_start'],
+                $couponInfo['date_start'],
                 $this->language->get('date_format_short')
             );
         } else {
@@ -413,9 +413,9 @@ class ControllerPagesSaleCoupon extends AController
 
         if (isset($this->request->post['date_end'])) {
             $this->data['date_end'] = $this->request->post['date_end'];
-        } elseif (isset($coupon_info)) {
+        } elseif (isset($couponInfo)) {
             $this->data['date_end'] = dateISO2Display(
-                $coupon_info['date_end'],
+                $couponInfo['date_end'],
                 $this->language->get('date_format_short')
             );
         } else {
@@ -655,7 +655,8 @@ class ControllerPagesSaleCoupon extends AController
         $allStores = $this->model_setting_store->getStores();
         $results = $this->model_catalog_category->getCategories(0);
         foreach ($results as $r) {
-            $this->data['categories'][$r['category_id']] = $r['name']. (count($allStores)>1 ? "   (".$r['store_name'].")":'');
+            $this->data['categories'][$r['category_id']] =
+                $r['name'].(count($allStores) > 1 ? "   (".$r['store_name'].")" : '');
         }
 
         $this->data['form']['fields']['category'] = $form->getFieldHtml(
@@ -668,6 +669,19 @@ class ControllerPagesSaleCoupon extends AController
                 'placeholder' => $this->language->get('text_select_category'),
             ]
         );
+
+        $this->data['form']['fields']['condition_rule'] = $form->getFieldHtml(
+            [
+                'type'    => 'selectbox',
+                'name'    => 'condition_rule',
+                'value'   => $this->data['condition_rule'],
+                'options' => [
+                    'OR'  => $this->language->get('text_or'),
+                    'AND' => $this->language->get('text_and'),
+                ],
+            ]
+        );
+
         //load only prior saved products
         $this->data['products'] = [];
         if (count($this->data['coupon_product'])) {
@@ -743,10 +757,10 @@ class ControllerPagesSaleCoupon extends AController
             $this->error['code'] = $this->language->get('error_code');
         }
 
-        if (!has_value($this->request->post['date_start'])) {
+        if (!isset($this->request->post['date_start'])) {
             $this->error['date_start'] = $this->language->get('error_date');
         }
-        if (!has_value($this->request->post['date_end'])) {
+        if (!isset($this->request->post['date_end'])) {
             $this->error['date_end'] = $this->language->get('error_date');
         }
 

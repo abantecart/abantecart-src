@@ -418,6 +418,7 @@ class ACart
 
         return [
             'product_id'         => $product_query['product_id'],
+            'categories'         => $product_query['categories'],
             'name'               => $product_query['name'],
             'model'              => $product_query['model'],
             'shipping'           => $product_query['shipping'],
@@ -791,7 +792,7 @@ class ACart
             }
         }
         //tax for shipping
-        if ($this->cust_data['shipping_method']['tax_class_id']) {
+        if (isset($this->cust_data['shipping_method']['tax_class_id'])) {
             $tax_id = $this->cust_data['shipping_method']['tax_class_id'];
             $cost = $this->cust_data['shipping_method']['cost'];
             if (!isset($this->taxes[$tax_id])) {

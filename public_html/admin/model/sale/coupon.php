@@ -47,6 +47,8 @@ class ModelSaleCoupon extends Model
             $data['date_end'] = "NULL";
         }
 
+        $data['condition_rule'] = $data['condition_rule'] == 'AND' ? 'AND' : 'OR';
+
         $this->db->query(
             "INSERT INTO ".$this->db->table("coupons")." 
             SET code = '".$this->db->escape($data['code'])."',
@@ -60,6 +62,7 @@ class ModelSaleCoupon extends Model
                 uses_total = '".(int) $data['uses_total']."',
                 uses_customer = '".(int) $data['uses_customer']."',
                 status = '".(int) $data['status']."',
+                condition_rule = '".$data['condition_rule']."',
                 date_added = NOW()"
         );
         $coupon_id = $this->db->getLastId();
@@ -78,20 +81,24 @@ class ModelSaleCoupon extends Model
         }
         if (isset($data['coupon_product'])) {
             foreach ($data['coupon_product'] as $product_id) {
-                $this->db->query(
-                    "INSERT INTO ".$this->db->table("coupons_products")." 
-                    SET coupon_id = '".(int) $coupon_id."', 
-                        product_id = '".(int) $product_id."'"
-                );
+                if((int) $product_id) {
+                    $this->db->query(
+                        "INSERT INTO ".$this->db->table("coupons_products")." 
+                        SET coupon_id = '".(int) $coupon_id."', 
+                            product_id = '".(int) $product_id."'"
+                    );
+                }
             }
         }
         if (isset($data['coupon_category'])) {
             foreach ($data['coupon_category'] as $category_id) {
-                $this->db->query(
-                    "INSERT INTO ".$this->db->table("coupons_categories")." 
-                    SET coupon_id = '".(int) $coupon_id."', 
-                        category_id = '".(int) $category_id."'"
-                );
+                if((int) $category_id) {
+                    $this->db->query(
+                        "INSERT INTO ".$this->db->table("coupons_categories")." 
+                        SET coupon_id = '".(int) $coupon_id."', 
+                            category_id = '".(int) $category_id."'"
+                        );
+                }
             }
         }
         return $coupon_id;
@@ -120,6 +127,9 @@ class ModelSaleCoupon extends Model
                 $data['date_end'] = 'NULL';
             }
         }
+        if(isset($data['condition_rule'])) {
+            $data['condition_rule'] = $data['condition_rule'] == 'AND' ? 'AND' : 'OR';
+        }
 
         $coupon_table_fields = [
             'code',
@@ -133,6 +143,7 @@ class ModelSaleCoupon extends Model
             'uses_total',
             'uses_customer',
             'status',
+            'condition_rule'
         ];
         $update = [];
         foreach ($coupon_table_fields as $f) {
@@ -191,11 +202,13 @@ class ModelSaleCoupon extends Model
         );
         if (isset($data['coupon_product'])) {
             foreach ($data['coupon_product'] as $product_id) {
-                $this->db->query(
-                    "INSERT INTO ".$this->db->table("coupons_products")." 
-                    SET coupon_id = '".(int) $coupon_id."',
-                        product_id = '".(int) $product_id."'"
-                );
+                if((int)$product_id) {
+                    $this->db->query(
+                        "INSERT INTO ".$this->db->table("coupons_products")." 
+                        SET coupon_id = '".(int) $coupon_id."',
+                            product_id = '".(int) $product_id."'"
+                    );
+                }
             }
         }
     }
@@ -213,11 +226,13 @@ class ModelSaleCoupon extends Model
         );
         if (isset($data['coupon_category'])) {
             foreach ($data['coupon_category'] as $category_id) {
-                $this->db->query(
-                    "INSERT INTO ".$this->db->table("coupons_categories")." 
+                if((int) $category_id) {
+                    $this->db->query(
+                        "INSERT INTO ".$this->db->table("coupons_categories")." 
                     SET coupon_id = '".(int) $coupon_id."',
                         category_id = '".(int) $category_id."'"
-                );
+                    );
+                }
             }
         }
     }

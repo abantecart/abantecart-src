@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpUndefinedClassInspection */
 
 /*------------------------------------------------------------------------------
   $Id$
@@ -30,6 +31,8 @@ if (!defined('DIR_CORE')) {
  * @property AConfig $config
  * @property ACache $cache
  * @property ADB $db
+ * @property ALoader $load
+ * @property ModelCatalogCategory $model_catalog_category
  */
 class APromotion
 {
@@ -509,6 +512,8 @@ class APromotion
             return [];
         }
 
+        $couponProductIds = $couponCategoryIds = [];
+
         $status = true;
         $coupon_query = $this->db->query(
             "SELECT *
@@ -521,23 +526,24 @@ class APromotion
                 AND (date_end = '0000-00-00' OR date_end > NOW()))
                 AND c.status = '1'"
         );
-        $coupon_product_data = [];
-        if ($coupon_query->num_rows) {
-            if ($coupon_query->row['total'] > $this->cart->getSubTotal()) {
+        $couponInfo = $coupon_query->row;
+
+        if ($couponInfo) {
+            if ($couponInfo['total'] > $this->cart->getSubTotal()) {
                 $status = false;
             }
             $coupon_redeem_query = $this->db->query(
                 "SELECT COUNT(*) AS total
                  FROM `".$this->db->table("orders")."`
                  WHERE order_status_id > '0' 
-                    AND coupon_id = '".(int) $coupon_query->row['coupon_id']."'"
+                    AND coupon_id = '".(int) $couponInfo['coupon_id']."'"
             );
 
-            if ($coupon_redeem_query->row['total'] >= $coupon_query->row['uses_total']
-                && $coupon_query->row['uses_total'] > 0) {
+            if ($coupon_redeem_query->row['total'] >= $couponInfo['uses_total']
+                && $couponInfo['uses_total'] > 0) {
                 $status = false;
             }
-            if ($coupon_query->row['logged'] && !is_null($this->customer) && !$this->customer->getId()) {
+            if ($couponInfo['logged'] && !is_null($this->customer) && !$this->customer->getId()) {
                 $status = false;
             }
 
@@ -546,38 +552,64 @@ class APromotion
                     "SELECT COUNT(*) AS total
                      FROM `".$this->db->table("orders")."`
                      WHERE order_status_id > '0'
-                            AND coupon_id = '".(int) $coupon_query->row['coupon_id']."'
+                            AND coupon_id = '".(int) $couponInfo['coupon_id']."'
                             AND customer_id = '".(int) $this->customer->getId()."'"
                 );
 
-                if ($coupon_redeem_query->row['total'] >= $coupon_query->row['uses_customer']
-                    && $coupon_query->row['uses_customer'] > 0) {
+                if ($coupon_redeem_query->row['total'] >= $couponInfo['uses_customer']
+                    && $couponInfo['uses_customer'] > 0) {
                     $status = false;
                 }
             }
 
-            $coupon_product_query = $this->db->query(
+            $result = $this->db->query(
                 "SELECT *
                 FROM ".$this->db->table("coupons_products")."
-                WHERE coupon_id = '".(int) $coupon_query->row['coupon_id']."'"
+                WHERE coupon_id = '".(int) $couponInfo['coupon_id']."'"
+            );
+            $couponProductIds = array_column($result->rows, 'product_id');
+            $couponProductIds = array_map('intval', $couponProductIds);
+
+            $result = $this->db->query(
+                "SELECT *
+                FROM ".$this->db->table("coupons_categories")."
+                WHERE coupon_id = '".(int) $couponInfo['coupon_id']."'"
             );
 
-            foreach ($coupon_product_query->rows as $result) {
-                $coupon_product_data[] = $result['product_id'];
+            $couponCategoryIds = $result->num_rows ? array_column($result->rows, 'category_id') : [];
+            $couponCategoryIds = array_map('intval', $couponCategoryIds);
+
+            /** @var ModelCatalogCategory $mdl */
+            $mdl = $this->load->model('catalog/category');
+            foreach ($result->rows as $category) {
+                $couponCategoryIds = array_merge(
+                    $couponCategoryIds,
+                    $mdl->getChildrenIDs($category['category_id'])
+                );
             }
 
-            if ($coupon_product_data) {
-                $coupon_product = false;
-
+            //if apply coupon for selected products of categories
+            if ($couponProductIds || $couponCategoryIds) {
+                $productFound = $categoryFound = false;
+                $cartProductIds = $cartProductCategories = [];
                 foreach ($this->cart->getProducts() as $product) {
-                    if (in_array($product['product_id'], $coupon_product_data)) {
-                        $coupon_product = true;
-
-                        break;
-                    }
+                    $cartProductIds[] = (int) $product['product_id'];
+                    $cartProductCategories = array_merge($cartProductCategories, $product['categories']);
                 }
 
-                if (!$coupon_product) {
+                if (array_intersect($cartProductIds, $couponProductIds)) {
+                    $productFound = true;
+                }
+                if (array_intersect($cartProductCategories, $couponCategoryIds)) {
+                    $categoryFound = true;
+                }
+                //if product in the one of coupon categories OR in the coupon's product list
+                if ($couponInfo['condition_rule'] === 'OR' && ($productFound || $categoryFound)) {
+                    $status = true;
+                } //if product in the one of coupon categories AND in the coupon's product list
+                elseif ($couponInfo['condition_rule'] === 'AND' && $productFound && $categoryFound) {
+                    $status = true;
+                } else {
                     $status = false;
                 }
             }
@@ -587,20 +619,21 @@ class APromotion
 
         if ($status) {
             return [
-                'coupon_id'     => $coupon_query->row['coupon_id'],
-                'code'          => $coupon_query->row['code'],
-                'name'          => $coupon_query->row['name'],
-                'type'          => $coupon_query->row['type'],
-                'discount'      => $coupon_query->row['discount'],
-                'shipping'      => $coupon_query->row['shipping'],
-                'total'         => $coupon_query->row['total'],
-                'product'       => $coupon_product_data,
-                'date_start'    => $coupon_query->row['date_start'],
-                'date_end'      => $coupon_query->row['date_end'],
-                'uses_total'    => $coupon_query->row['uses_total'],
-                'uses_customer' => $coupon_query->row['uses_customer'],
-                'status'        => $coupon_query->row['status'],
-                'date_added'    => $coupon_query->row['date_added'],
+                'coupon_id'     => $couponInfo['coupon_id'],
+                'code'          => $couponInfo['code'],
+                'name'          => $couponInfo['name'],
+                'type'          => $couponInfo['type'],
+                'discount'      => $couponInfo['discount'],
+                'shipping'      => $couponInfo['shipping'],
+                'total'         => $couponInfo['total'],
+                'product'       => $couponProductIds,
+                'category'      => $couponCategoryIds,
+                'date_start'    => $couponInfo['date_start'],
+                'date_end'      => $couponInfo['date_end'],
+                'uses_total'    => $couponInfo['uses_total'],
+                'uses_customer' => $couponInfo['uses_customer'],
+                'status'        => $couponInfo['status'],
+                'date_added'    => $couponInfo['date_added'],
             ];
         }
         return [];
