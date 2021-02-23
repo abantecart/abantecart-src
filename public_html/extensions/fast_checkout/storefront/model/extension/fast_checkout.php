@@ -294,6 +294,7 @@ class ModelExtensionFastCheckout extends Model
 
         //build confirmation email
         $language = new ALanguage($this->registry, $data['language_code']);
+        $language->setCurrentLanguage();
         $languageId = $language->getLanguageID();
         $language->load('fast_checkout/fast_checkout');
         $language->load('mail/account_create');
