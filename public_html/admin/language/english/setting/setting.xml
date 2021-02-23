@@ -356,11 +356,13 @@
 	</definition>
 	<definition>
 		<key>entry_image_product_height</key>
-		<value><![CDATA[Product List Height:<br /><span class="help">This is to control height of a preview image in the listing pages of admin and other places in the storefront. Note, this setting is shared between admin and default storefront template.</span>]]></value>
+		<value>
+			<![CDATA[Product List Height:<br /><span class="help">This is to control height of a preview image in the listing pages of admin and other places in the storefront. Note, this setting is shared between admin and default storefront template.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_image_product_width</key>
-		<value><![CDATA[Product List Width:<br /><span class="help">This is to control width of a preview image in the listing pages of admin and other places in the storefront. Note, this setting is shared between admin and default storefront template.</span>]]></value>
+		<value>
+			<![CDATA[Product List Width:<br /><span class="help">This is to control width of a preview image in the listing pages of admin and other places in the storefront. Note, this setting is shared between admin and default storefront template.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_image_additional</key>
@@ -404,11 +406,13 @@
 	</definition>
 	<definition>
 		<key>entry_image_grid_width</key>
-		<value><![CDATA[Grid Image Width:<br /><span class="help">This is to control width of a very small preview image in the listing grids of admin and other places in the storefront. Note, this setting is shared between admin and default storefront template.</span>]]></value>
+		<value>
+			<![CDATA[Grid Image Width:<br /><span class="help">This is to control width of a very small preview image in the listing grids of admin and other places in the storefront. Note, this setting is shared between admin and default storefront template.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_image_grid_height</key>
-		<value><![CDATA[Grid Image Height:<br /><span class="help">This is to control height of a very small preview image in the listing grids of admin and other places in the storefront. Note, this setting is shared between admin and default storefront template.</span>]]></value>
+		<value>
+			<![CDATA[Grid Image Height:<br /><span class="help">This is to control height of a very small preview image in the listing grids of admin and other places in the storefront. Note, this setting is shared between admin and default storefront template.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_alert_mail</key>
@@ -851,7 +855,8 @@
 	</definition>
 	<definition>
 		<key>entry_google_analytics</key>
-		<value><![CDATA[Google Analytics Account Number:<br /><span class="help">Add your <a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">Google Analytics Account Number</a> to enable site activity tracking. This also enables ecommerce activity tracking. You must enable ecommerce tracking in google on the profile settings page for your website</span>]]></value>
+		<value>
+			<![CDATA[Google Analytics Account Number:<br /><span class="help">Add your <a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">Google Analytics Account Number</a> to enable site activity tracking. This also enables ecommerce activity tracking. You must enable ecommerce tracking in google on the profile settings page for your website</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_google_tag_manager</key>
@@ -859,11 +864,13 @@
 	</definition>
 	<definition>
 		<key>entry_google_api_key</key>
-		<value><![CDATA[Google API Key (to enable google maps):<br /><span class="help">You can see address on the map. To enable google maps add your Google maps API key <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Google Credentials Page</a>.</span>]]></value>
+		<value>
+			<![CDATA[Google API Key (to enable google maps):<br /><span class="help">You can see address on the map. To enable google maps add your Google maps API key <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Google Credentials Page</a>.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_ssl_url</key>
-		<value><![CDATA[Secure Store URL:<br /><span class="help">Include the full SSL URL(HTTPS) to your store. Make sure to add '/' at the end. Example: https://www.yourdomain.com/path/</span>]]></value>
+		<value>
+			<![CDATA[Secure Store URL:<br /><span class="help">Include the full SSL URL(HTTPS) to your store. Make sure to add '/' at the end. Example: https://www.yourdomain.com/path/</span>]]></value>
 	</definition>
 	<definition>
 		<key>error_ssl_url</key>
@@ -908,11 +915,13 @@
 	</definition>
 	<definition>
 		<key>entry_recaptcha_site_key</key>
-		<value><![CDATA[Google reCAPTCHA Site Key:<br /><span class="help">Add <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> to help your visitors with better captcha entry. If you enable reCAPTCHA site/secret keys, Google reCAPTCHA v2 will be activated instead of default AbanteCart captcha image</span>]]></value>
+		<value>
+			<![CDATA[Google reCAPTCHA Site Key:<br /><span class="help">Add <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> to help your visitors with better captcha entry. If you enable reCAPTCHA site/secret keys, Google reCAPTCHA v2 will be activated instead of default AbanteCart captcha image</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_recaptcha_secret_key</key>
-		<value><![CDATA[Google reCAPTCHA Secret Key:<br /><span class="help">Add <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> to help your visitors with better captcha entry. If you enable reCAPTCHA site/secret keys, Google reCAPTCHA v2 will be activated instead of default AbanteCart captcha image</span>]]></value>
+		<value>
+			<![CDATA[Google reCAPTCHA Secret Key:<br /><span class="help">Add <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> to help your visitors with better captcha entry. If you enable reCAPTCHA site/secret keys, Google reCAPTCHA v2 will be activated instead of default AbanteCart captcha image</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_setting_php_exceed</key>
@@ -981,11 +990,13 @@
 	</definition>
 	<definition>
 		<key>entry_html_cache</key>
-		<value><![CDATA[HTML Cache:<br /><span class="help">Enabled HTML pages and blocks caching to get better speed for your pages. This is additional caching to regular data caching enabled in system/config.php file</span>]]></value>
+		<value>
+			<![CDATA[HTML Cache:<br /><span class="help">Enabled HTML pages and blocks caching to get better speed for your pages. This is additional caching to regular data caching enabled in system/config.php file</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_task_api_key</key>
-		<value><![CDATA[Tasks API Key:<br/><span class="help">This is a secret key to allow AbanteCart to run scheduled processes from the browser with /task.php file. If not set, tasks will not run via browser.<br/>NOTE: This API Key is not required for running tasks command line.</span>]]></value>
+		<value>
+			<![CDATA[Tasks API Key:<br/><span class="help">This is a secret key to allow AbanteCart to run scheduled processes from the browser with /task.php file. If not set, tasks will not run via browser.<br/>NOTE: This API Key is not required for running tasks command line.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_duplicate_contact_us</key>
@@ -1054,5 +1065,13 @@
 	<definition>
 		<key>warning_https_store_url</key>
 		<value><![CDATA[To maintain correct platform functionality in all browsers and maintain data security, HTTPS protocol is required. All requests should be sent to HTTPS]]></value>
+	</definition>
+	<definition>
+		<key>entry_default_logo</key>
+		<value><![CDATA[Default Store Logo:]]></value>
+	</definition>
+	<definition>
+		<key>entry_default_mail_logo</key>
+		<value><![CDATA[Default Email Logo:]]></value>
 	</definition>
 </definitions>
