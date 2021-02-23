@@ -567,7 +567,8 @@ class ControllerResponsesCheckoutPay extends AController
             if ($this->session->data['order_id']) {
                 $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
                 if ($order_info['telephone'] ?? '') {
-                    $session['telephone'] = $this->data['customer_telephone'] = $order_info['telephone'];
+                    $session['telephone'] =
+                            $this->data['customer_telephone'] = $this->customer->getTelephone();
                 }
             }
 
