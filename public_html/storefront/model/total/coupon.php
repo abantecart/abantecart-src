@@ -28,6 +28,7 @@ class ModelTotalCoupon extends Model
     {
         if (isset($cust_data['coupon']) && $this->config->get('coupon_status')) {
             $promotion = new APromotion();
+            // see filtering parameters inside this method ! */
             $coupon = $promotion->getCouponData($cust_data['coupon']);
 
             if (!$coupon) {
@@ -35,9 +36,6 @@ class ModelTotalCoupon extends Model
             }
             $discount_total = 0;
             $subtotal = $this->cart->getSubTotal();
-            if ($coupon['total'] && $subtotal < $coupon['total']) {
-                return;
-            }
 
             if (!$coupon['product']) {
                 $coupon_total = $subtotal;
