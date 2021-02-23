@@ -210,7 +210,7 @@ class ControllerPagesDesignTemplate extends AController
     public function edit()
     {
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
+        $this->loadLanguage('setting/setting');
         $this->document->setTitle($this->language->get('heading_title'));
         $tmpl_id = $this->request->get['tmpl_id'] ?? '';
         $this->data['tmpl_id'] = $tmpl_id;
@@ -301,7 +301,7 @@ class ControllerPagesDesignTemplate extends AController
 
         $this->data['templates'] = $templates;
         $this->data['current_template'] = $tmpl_id;
-        $this->loadLanguage('setting/setting');
+
         //button for template cloning
         $dev_tools = $this->extensions->getExtensionsList(
             [
@@ -432,6 +432,8 @@ class ControllerPagesDesignTemplate extends AController
             $form,
             $this->data['settings']
         );
+        $this->data['entry_logo'] = $this->language->get('entry_default_logo');
+        $this->data['entry_mail_logo'] = $this->language->get('entry_default_mail_logo');
 
         $languages = $this->language->getActiveLanguages();
         $contentLanguage = $languages[ $this->language->getContentLanguageCode() ?? $this->language->getLanguageCode() ];

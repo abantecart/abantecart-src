@@ -181,11 +181,11 @@ class ControllerResponsesListingGridCoupon extends AController
                     return;
                 }
                 //save products to coupon
-                if (isset($this->request->post['coupon_product'])) {
+                if (isset($this->request->post['coupon_products'])) {
                     $this->model_sale_coupon->editCouponProducts($this->request->get['id'], $this->request->post);
                 }
                 //save categories to coupon
-                if (isset($this->request->post['coupon_category'])) {
+                if (isset($this->request->post['coupon_categories'])) {
                     $this->model_sale_coupon->editCouponCategories($this->request->get['id'], $this->request->post);
                 }
             }
