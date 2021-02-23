@@ -41,8 +41,8 @@ class ControllerResponsesProductProduct extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $this->loadModel('catalog/product');
-        if (isset($post['coupon_product'])) {
-            $products = $post['coupon_product'];
+        if (isset($post['coupon_products'])) {
+            $products = $post['coupon_products'];
             foreach ($products as $product_id) {
                 $product_info = $this->model_catalog_product->getProduct($product_id);
                 if ($product_info) {
