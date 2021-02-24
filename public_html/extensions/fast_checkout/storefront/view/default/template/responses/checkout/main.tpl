@@ -3,114 +3,118 @@
 ?>
 <script type="text/javascript">
     var validateEmail = function (email) {
-        var re = /^\s*(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))\s*$/;
+        var re = <?php echo EMAIL_REGEX_PATTERN; ?>;
         return re.test(email);
     };
     var validateTelephone = function (number) {
-        var re = /^[0-9\-]*$/im;
+        <?php $pattern = $this->config->get('config_phone_validation_pattern') ? : '/^[0-9\-]{3,32}$/'; ?>
+        var re = <?php echo $pattern; ?>im;
         return re.test(number);
     };
 
     //on submit validate
     var validateForm = function(form) {
-                var ret = true;
-                form.find(':input').each(function () {
-                    var el = $(this);
-                    var name = el.attr('name');
-                    if (name === undefined) {
-                        return;
-                    }
+        if(!form){
+            return;
+        }
+        var ret = true;
+        form.find(':input').each(function () {
+            var el = $(this);
+            var name = el.attr('name');
+            if (name === undefined) {
+                return;
+            }
 
-                    //coupon can be only applied, cannot submit
-                    if (name === 'coupon_code' && !el.attr('disabled')) {
-                        var str_val = el.val().replace(/\s+/g, '');
-                        if (str_val.length > 0) {
-                            $.aCCValidator.show_error(el, '.form-group');
-                            ret = false;
-                        }
-                    }
-
-                    if (name === 'loginname' && el.val().length < 3) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                    if (name === 'password' && el.val().length < 3) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                    if (name === 'telephone' && !validateTelephone(el.val())) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                    if (name === 'cc_email' && !validateEmail(el.val())) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                    if (name === 'shipping_address_id' && !el.val()) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                    if (name === 'payment_address_id' && !el.val()) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                    if (name === 'shipping_method' && !el.val()) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                    if (name === 'firstname' && !el.val()) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                    if (name === 'lastname' && !el.val()) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                    if (name === 'address_1' && !el.val()) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                    if (name === 'city' && !el.val()) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                    if (name === 'postcode' && !el.val()) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                    if (name === 'zone_id' && (!el.val() || el.val().toLowerCase() == 'false') ) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                    if (name === 'country_id' && (!el.val() || el.val().toLowerCase() == 'false')) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                    if (name === 'cc_cvv2' && (!el.val() || !$.aCCValidator.checkCVV(el)) ) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                    if (name === 'cc_number' && (!el.val() || !$.aCCValidator.checkCCNumber(el)) ) {
-                        $.aCCValidator.show_error(el, '.form-group');
-                        ret = false;
-                    }
-                });
-                var cover = $('.div-cover');
-                if(cover){
-                    <?php //show cover only for non-payment form and selectors! ?>
-                    if( ret === false && form.parents('.payment-select-container').length == 0) {
-                        cover.css('height', $('.payment-select-container').height());
-                        cover.show();
-                    }else{
-                        cover.hide();
-                    }
+            //coupon can be only applied, cannot submit
+            if (name === 'coupon_code' && !el.attr('disabled')) {
+                var str_val = el.val().replace(/\s+/g, '');
+                if (str_val.length > 0) {
+                    $.aCCValidator.show_error(el, '.form-group');
+                    ret = false;
                 }
+            }
 
-                return ret;
-            };
+            if (name === 'loginname' && el.val().length < 3) {
+                $.aCCValidator.show_error(el, '.form-group');
+                ret = false;
+            }
+            if (name === 'password' && el.val().length < 3) {
+                $.aCCValidator.show_error(el, '.form-group');
+                ret = false;
+            }
+            if (name === 'telephone' && !validateTelephone(el.val())) {
+                $.aCCValidator.show_error(el, '.form-group');
+                ret = false;
+            }
+            if (name === 'cc_email' && !validateEmail(el.val())) {
+                $.aCCValidator.show_error(el, '.form-group');
+                ret = false;
+            }
+            if (name === 'shipping_address_id' && !el.val()) {
+                $.aCCValidator.show_error(el, '.form-group');
+                ret = false;
+            }
+            if (name === 'payment_address_id' && !el.val()) {
+                $.aCCValidator.show_error(el, '.form-group');
+                ret = false;
+            }
+            if (name === 'shipping_method' && !el.val()) {
+                $.aCCValidator.show_error(el, '.form-group');
+                ret = false;
+            }
+            if (name === 'firstname' && !el.val()) {
+                $.aCCValidator.show_error(el, '.form-group');
+                ret = false;
+            }
+            if (name === 'lastname' && !el.val()) {
+                $.aCCValidator.show_error(el, '.form-group');
+                ret = false;
+            }
+            if (name === 'address_1' && !el.val()) {
+                $.aCCValidator.show_error(el, '.form-group');
+                ret = false;
+            }
+            if (name === 'city' && !el.val()) {
+                $.aCCValidator.show_error(el, '.form-group');
+                ret = false;
+            }
+            if (name === 'postcode' && !el.val()) {
+                $.aCCValidator.show_error(el, '.form-group');
+                ret = false;
+            }
+            if (name === 'zone_id' && (!el.val() || el.val().toLowerCase() === 'false') ) {
+                $.aCCValidator.show_error(el, '.form-group');
+                ret = false;
+            }
+            if (name === 'country_id' && (!el.val() || el.val().toLowerCase() === 'false')) {
+                $.aCCValidator.show_error(el, '.form-group');
+                ret = false;
+            }
+            if (name === 'cc_cvv2' && (!el.val() || !$.aCCValidator.checkCVV(el)) ) {
+                $.aCCValidator.show_error(el, '.form-group');
+                ret = false;
+            }
+            if (name === 'cc_number' && (!el.val() || !$.aCCValidator.checkCCNumber(el)) ) {
+                $.aCCValidator.show_error(el, '.form-group');
+                ret = false;
+            }
+        });
+        var cover = $('.div-cover');
+        if(cover){
+            <?php //show cover only for non-payment form and selectors! ?>
+            if( ret === false && form.parents('.payment-select-container').length === 0) {
+                cover.css('height', $('.payment-select-container').height());
+                cover.show();
+            }else{
+                cover.hide();
+            }
+        }
+
+        return ret;
+    };
 
     jQuery(document).ready(function () {
-        validateForm($('form#PayFrm'));
+        $('form#PayFrm, form#AddressFrm, form#Address2Frm').each(validateForm);
 
         let submitSent = false;
         let payFormDiv = $(".pay-form");
@@ -207,19 +211,14 @@
                     $.post(form.attr('action'), form.serialize(), function (data) {
                         try {
                             parsedData = JSON.parse(data);
-                        } catch (e) {
-
-                        }
+                        } catch (e) { }
                         if (typeof parsedData != "undefined" && typeof parsedData.url != "undefined") {
                             location.href = parsedData.url
                         } else {
-
                             $('.spinner-overlay').fadeOut(500);
                             $('#fast_checkout_summary_block').trigger('reload');
                             $('#fast_checkout_cart').hide().html(data).fadeIn(1000)
-                            if ($('form#PayFrm')) {
-                                validateForm($('form#PayFrm'));
-                            }
+                            validateForm(form);
                         }
                     });
                     return false;

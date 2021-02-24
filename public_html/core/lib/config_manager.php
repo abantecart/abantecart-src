@@ -1047,6 +1047,15 @@ class AConfigManager
                 'style' => 'btn_switch',
             ]
         );
+        $fields['phone_validation_pattern'] = $form->getFieldHtml(
+            $props[] = [
+                'type'  => 'input',
+                'name'  => 'config_phone_validation_pattern',
+                'value' => $data['config_phone_validation_pattern'],
+                'placeholder' => '/^[0-9\-]{3,32}$/',
+                'style' => 'small-field',
+            ]
+        );
         $fields['prevent_email_as_login'] = $form->getFieldHtml(
             $props[] = [
                 'type'  => 'checkbox',

@@ -1074,4 +1074,8 @@
 		<key>entry_default_mail_logo</key>
 		<value><![CDATA[Default Email Logo:]]></value>
 	</definition>
+	<definition>
+		<key>entry_phone_validation_pattern</key>
+		<value><![CDATA[Phone Validation Regex Pattern:]]></value>
+	</definition>
 </definitions>

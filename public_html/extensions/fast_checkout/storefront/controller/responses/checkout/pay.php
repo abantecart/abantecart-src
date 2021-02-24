@@ -1247,12 +1247,11 @@ class ControllerResponsesCheckoutPay extends AController
         }
 
         //all good save guest address
+        $sessionGuest =& $this->session->data['guest'];
+        $sessionGuest = $sessionGuest ? : [];
         //is this first or payment address?
         if ($this->request->get['type'] == 'payment' || !$this->session->data['guest']) {
-            $sessionGuest =& $this->session->data['guest'];
             //do not clear if we have guest data and edit
-            $sessionGuest = $sessionGuest ? : [];
-
             $sessionGuest['firstname'] = $post['firstname'];
             $sessionGuest['lastname'] = $post['lastname'];
             $sessionGuest['email'] = $post['cc_email'];
@@ -1393,7 +1392,6 @@ class ControllerResponsesCheckoutPay extends AController
                 'required' => true,
             ]
         );
-
         $this->data['form']['zone'] = $form->getFieldHtml(
             [
                 'type'     => 'selectbox',
@@ -1401,7 +1399,6 @@ class ControllerResponsesCheckoutPay extends AController
                 'required' => true,
             ]
         );
-
         $this->data['form']['postcode'] = $form->getFieldHtml(
             [
                 'type'     => 'input',
@@ -1410,6 +1407,7 @@ class ControllerResponsesCheckoutPay extends AController
                 'required' => true,
             ]
         );
+
         $this->loadModel('localisation/country');
         $countries = $this->model_localisation_country->getCountries();
         $options = ['false' => $this->language->get('text_select')];
@@ -1441,17 +1439,9 @@ class ControllerResponsesCheckoutPay extends AController
         $this->loadModel('localisation/country');
         $this->data['countries'] = $this->model_localisation_country->getCountries();
 
-        if ($data['cc_email']) {
-            $this->data['customer_email'] = $data['cc_email'];
-        } else {
-            $this->data['customer_email'] = $this->session->data['guest']['email'];
-        }
+        $this->data['customer_email'] = $data['cc_email'] ?: $this->session->data['guest']['email'];
+        $this->data['customer_telephone'] = $data['telephone'] ? : $this->session->data['guest']['telephone'];
 
-        if ($data['telephone']) {
-            $this->data['customer_telephone'] = $data['telephone'];
-        } else {
-            $this->data['customer_telephone'] = $this->session->data['guest']['telephone'];
-        }
 
         //login form portion
         $this->data['reset_url'] = $this->html->getSecureURL('account/login');
