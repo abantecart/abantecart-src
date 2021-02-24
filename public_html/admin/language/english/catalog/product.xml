@@ -610,4 +610,12 @@
 		<key>text_create_collection</key>
 		<value><![CDATA[Create Collection]]></value>
 	</definition>
+	<definition>
+		<key>text_enable_selected</key>
+		<value><![CDATA[Enable Selected]]></value>
+	</definition>
+	<definition>
+		<key>text_disable_selected</key>
+		<value><![CDATA[Disable Selected]]></value>
+	</definition>
 </definitions>
