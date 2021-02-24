@@ -307,10 +307,14 @@ class ControllerPagesCatalogProduct extends AController
 
         $grid_settings['search_form'] = true;
 
-        $grid_settings['multiaction_options']['delete'] = $this->language->get('text_delete_selected');
-        $grid_settings['multiaction_options']['save'] = $this->language->get('text_save_selected');
-        $grid_settings['multiaction_options']['relate'] = $this->language->get('text_set_related');
-        $grid_settings['multiaction_options']['create_collection'] = $this->language->get('text_create_collection');
+        $grid_settings['multiaction_options'] = [
+            'delete'            => $this->language->get('text_delete_selected'),
+            'save'              => $this->language->get('text_save_selected'),
+            'enable'            => $this->language->get('text_enable_selected'),
+            'disable'           => $this->language->get('text_disable_selected'),
+            'relate'            => $this->language->get('text_set_related'),
+            'create_collection' => $this->language->get('text_create_collection'),
+        ];
 
         $this->view->assign('relate_selected_url', $grid_settings['editurl']);
         $this->view->assign('create_collection_url', $this->html->getSecureURL('catalog/collections/insert'));
