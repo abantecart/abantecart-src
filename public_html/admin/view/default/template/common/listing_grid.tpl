@@ -1,38 +1,31 @@
-<div class="ui-jqgrid-wrapper" id="<?php
-echo $data['table_id'] ?>_wrapper">
-    <form class="form-inline" id="<?php
-    echo $data['table_id'] ?>_form" action="<?php
-    echo $data["editurl"] ?>" method="POST" role="form">
-        <table id="<?php
-        echo $data['table_id'] ?>"></table>
-        <div id="<?php
-        echo $data['table_id'] ?>_pager"></div>
-        <div class="no_results"><?php
-            echo $text_no_results; ?></div>
+<div class="ui-jqgrid-wrapper"
+     id="<?php echo $data['table_id'] ?>_wrapper">
+    <form class="form-inline"
+          id="<?php echo $data['table_id'] ?>_form"
+          action="<?php echo $data["editurl"] ?>"
+          method="POST"
+          role="form">
+        <table id="<?php echo $data['table_id'] ?>"></table>
+        <div id="<?php echo $data['table_id'] ?>_pager"></div>
+        <div class="no_results"><?php echo $text_no_results; ?></div>
         <?php
         if ($data['multiselect'] == 'true' && !$data['multiselect_noselectbox']) { ?>
-            <div class="multiactions <?php
-            echo $data['multiaction_class']; ?>" id="<?php
-            echo $data['table_id'] ?>_multiactions" align="right">
-                <select id="<?php
-                echo $data['table_id'] ?>_selected_action" name="<?php
-                echo $data['table_id'] ?>_action">
+            <div class="multiactions <?php echo $data['multiaction_class']; ?>"
+                 id="<?php echo $data['table_id'] ?>_multiactions"
+                 align="right">
+                <select id="<?php echo $data['table_id'] ?>_selected_action"
+                        name="<?php echo $data['table_id'] ?>_action">
                     <?php
-                    if (sizeof((array) $multiaction_options) > 1) { ?>
-                        <option value=""><?php
-                            echo $text_choose_action; ?></option>
-                        <?php
+                    if (sizeof((array) $multiaction_options) > 1) {
+                        echo '<option value="">'.$text_choose_action.'</option>';
                     }
-                    foreach ($multiaction_options as $value => $text) { ?>
-                        <option value="<?php
-                        echo $value; ?>"><?php
-                            echo $text; ?></option>
-                        <?php
+                    foreach ($multiaction_options as $value => $text) {
+                        echo '<option value="'.$value.'">'.$text.'</option>';
                     } ?>
                 </select>
-                <a id="<?php
-                echo $data['table_id'] ?>_go" class="btn btn-xs btn-default"><?php
-                    echo $text_go; ?></a>
+                <a id="<?php echo $data['table_id'] ?>_go" class="btn btn-xs btn-default">
+                    <?php echo $text_go; ?>
+                </a>
             </div>
         <?php
         } ?>
@@ -46,20 +39,19 @@ echo $this->html->buildElement(
         'id'          => 'viewport_modal',
         'modal_type'  => 'lg',
         'data_source' => 'ajax',
-        'js_onload'   => "
-						var url = $(this).data('bs.modal').options.fullmodeHref;
-						$('#viewport_modal .modal-header a.btn').attr('href',url);
-						",
+        'js_onload'   => " 
+                        var url = $(this).data('bs.modal').options.fullmodeHref;
+                        $('#viewport_modal .modal-header a.btn').attr('href',url); ",
         'js_onclose'  => "$('#".$data['table_id']."').trigger('reloadGrid',[{current:true}]);",
     ]
 );
 ?>
 
-<script type="text/javascript" src="<?php
-echo $template_dir; ?>javascript/jqgrid/plugins/jquery.tablednd.js"></script>
+<script type="text/javascript"
+        src="<?php echo $template_dir; ?>javascript/jqgrid/plugins/jquery.tablednd.js"></script>
 <script type="text/javascript">
 
-    const initGrid_<?php echo $data['table_id'] ?> = function ($) {
+    var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 
         let text_choose_action;
         let text_select_items;
@@ -70,7 +62,6 @@ echo $template_dir; ?>javascript/jqgrid/plugins/jquery.tablednd.js"></script>
                 js_echo($col_name);
                 echo ',';
             }
-            //echo "'" . implode("','", $data['colNames']) . "'"
             ?>];
         const jq_model = [<?php
             $i = 1;
@@ -318,9 +309,6 @@ echo $template_dir; ?>javascript/jqgrid/plugins/jquery.tablednd.js"></script>
                             case 'continue':
                                 $html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-forward fa-lg"></i>';
                                 break;
-                            case 'run':
-                                $html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-play fa-lg"></i>';
-                                break;
                             case 'approve':
                                 $html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-check-square-o fa-lg"></i>';
                                 break;
@@ -330,9 +318,8 @@ echo $template_dir; ?>javascript/jqgrid/plugins/jquery.tablednd.js"></script>
                             case 'clone':
                                 $html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-clone fa-lg"></i>';
                                 break;
+                            case 'run':
                             case 'remote_install':
-                                $html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-play fa-lg"></i>';
-                                break;
                             case 'install':
                                 $html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-play fa-lg"></i>';
                                 break;
@@ -344,31 +331,34 @@ echo $template_dir; ?>javascript/jqgrid/plugins/jquery.tablednd.js"></script>
                                 $html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-eye fa-lg"></i>';
                                 break;
                             default:
-                                $html_btn .= ' '.$href.' id="action_'.$type.'_%ID%"  '.(!empty($action['target'])
-                                        ? 'target="'.$action['target'].'"' : '').'><i class="fa fa-'.$type
-                                    .' fa-lg"></i>';
+                                $html_btn .= ' '.$href
+                                    .' id="action_'.$type.'_%ID%"  '
+                                    .(!empty($action['target']) ? 'target="'.$action['target'].'"' : '')
+                                    .'><i class="fa fa-'.$type.' fa-lg"></i>';
                         }
                         $html_btn .= '</a>';
 
                         //for dropdown
                         if ($action['children']) {
-                            $html_children =
-                                '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" role="menu"><h5 class="title">'
-                                .htmlentities($text_select_from_list, ENT_QUOTES, 'UTF-8')
-                                .'</h5><ul class="dropdown-list grid-dropdown">';
+                            $html_children = '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" '
+                                .'role="menu">'
+                                    .'<h5 class="title">'
+                                    .htmlentities($text_select_from_list, ENT_QUOTES, 'UTF-8')
+                                    .'</h5><ul class="dropdown-list grid-dropdown">';
+
                             foreach ($action['children'] as $child) {
                                 $li_class = '';
                                 $href = has_value($child['href']) ? $child['href'] : '#';
                                 //for viewport mode
                                 if ($child['vhref']) {
-                                    $href = 'data-toggle="modal" data-target="#viewport_modal" href="'.$child['vhref']
-                                        .'" data-fullmode-href="'.$href.'"';
+                                    $href = 'data-toggle="modal" data-target="#viewport_modal"'
+                                        .' href="'.$child['vhref'].'" data-fullmode-href="'.$href.'"';
                                 } else {
                                     $href = 'href="'.$href.'"';
                                 }
-                                $html_children .= '<li class="'.$li_class.'"><a '.$href.' rel="%ID%">'.htmlentities(
-                                        $child['text'], ENT_QUOTES, 'UTF-8'
-                                    ).'</a></li>';
+                                $html_children .= '<li class="'.$li_class.'"><a '.$href.' rel="%ID%">'
+                                    .htmlentities( $child['text'], ENT_QUOTES, 'UTF-8' )
+                                    .'</a></li>';
                             }
                             $html_children .= '</ul></div>';
                             $html_btn = '<div class="btn-group">'.$html_btn.''.$html_children.'</div>';
@@ -651,9 +641,9 @@ echo $template_dir; ?>javascript/jqgrid/plugins/jquery.tablednd.js"></script>
                 .trigger("reloadGrid", [{current: true}]);
             return false;
         });
-        <?php } ?>
+        <?php }
 
-        <?php if ($data['multiselect'] == 'true') { ?>
+        if ($data['multiselect'] == 'true') { ?>
         $(table_id + '_multiactions').appendTo($(table_id + '_pager_right'));
         $(table_id + "_go").click(function () {
             //get all selected rows based on multi-select
@@ -664,8 +654,8 @@ echo $template_dir; ?>javascript/jqgrid/plugins/jquery.tablednd.js"></script>
                 alert(text_select_items);
                 return;
             }
-
-            switch ($(table_id + '_selected_action').val()) {
+            var bulkAction = $(table_id + '_selected_action').val();
+            switch (bulkAction) {
                 case 'delete':
                     $(table_id).jqGrid(
                         'delGridRow',
@@ -700,10 +690,12 @@ echo $template_dir; ?>javascript/jqgrid/plugins/jquery.tablednd.js"></script>
                         }
                     );
                     break;
+                case 'disable':
+                case 'enable':
                 case 'save':
-                    const form_data = $(table_id + '_form').serializeArray();
+                    var form_data = $(table_id + '_form').serializeArray();
                     form_data.push({name: 'id', value: ids});
-                    form_data.push({name: 'oper', value: 'save'});
+                    form_data.push({name: 'oper', value: bulkAction});
                     $.ajax({
                         url: '<?php echo $data["editurl"] ?>',
                         type: 'POST',
@@ -724,6 +716,7 @@ echo $template_dir; ?>javascript/jqgrid/plugins/jquery.tablednd.js"></script>
                     alert(text_choose_action);
                     return;
                 default:
+                    console.log('unknown grid bulk action: '+bulkAction);
                     break;
             }
         });
