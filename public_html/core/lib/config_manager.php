@@ -1335,14 +1335,11 @@ class AConfigManager
             );
             // "default" logos + additional for language
             foreach($logosArr as $alias=>$name) {
-                $value = is_numeric($data[$name])
-                    ? $data[$name]
-                    : htmlspecialchars($name, ENT_COMPAT, 'UTF-8');
                 $fields[$alias] = (string)$form->getFieldHtml(
                     $props[] = [
                         'type'        => 'resource',
                         'name'        => $name,
-                        'resource_id' => $value,
+                        'resource_id' => $data[$name] ?? '',
                         'rl_type'     => 'image',
                     ]
                 );
