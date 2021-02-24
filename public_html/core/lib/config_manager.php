@@ -1334,14 +1334,26 @@ class AConfigManager
                 ]
             );
             // "default" logos + additional for language
-            foreach($logosArr as $alias=>$name) {
-                $fields[$alias] = (string)$form->getFieldHtml(
-                    $props[] = [
-                        'type'        => 'resource',
-                        'name'        => $name,
-                        'resource_id' => $data[$name] ?? '',
-                        'rl_type'     => 'image',
-                    ]
+            foreach ($logosArr as $alias => $name) {
+                $defaultValue = $data[$name] ?? '';
+                $p = [
+                    'type'    => 'resource',
+                    'name'    => $name,
+                    'rl_type' => 'image',
+                ];
+                if (is_numeric($defaultValue) || !$defaultValue) {
+                    $p['resource_id'] = $defaultValue;
+                } else {
+                    $p = [
+                        'resource_path' => htmlspecialchars(
+                            $defaultValue,
+                            ENT_COMPAT,
+                            'UTF-8'
+                        ),
+                    ];
+                }
+                $fields[$alias] = (string) $form->getFieldHtml(
+                    $props[] = $p
                 );
             }
 
