@@ -352,9 +352,8 @@ class ModelExtensionFastCheckout extends Model
         }
 
         //build confirmation email
-        $language = new ALanguage($this->registry, $this->language->getLanguageCode());
-        $language->load('fast_checkout/fast_checkout');
-        $languageId = $language->getLanguageID();
+        $this->language->load('fast_checkout/fast_checkout');
+        $languageId = $this->language->getContentLanguageID() ? : $this->language->getLanguageID();
 
         $subject = sprintf($this->language->get('fast_checkout_download_subject'), $this->config->get('store_name'));
 

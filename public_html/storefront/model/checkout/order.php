@@ -526,6 +526,7 @@ class ModelCheckoutOrder extends Model
         //build confirmation email
         $language = new ALanguage($this->registry, $order_row['code']);
         $language->load($order_row['filename']);
+        $language->setCurrentLanguage();
         $language->load('mail/order_confirm');
         $languageId = $language->getLanguageID();
 
