@@ -114,7 +114,9 @@
     };
 
     jQuery(document).ready(function () {
-        $('form#PayFrm, form#AddressFrm, form#Address2Frm').each(validateForm);
+        $('form#PayFrm, form#AddressFrm, form#Address2Frm').each( function(){
+            validateForm($(this));
+        });
 
         let submitSent = false;
         let payFormDiv = $(".pay-form");

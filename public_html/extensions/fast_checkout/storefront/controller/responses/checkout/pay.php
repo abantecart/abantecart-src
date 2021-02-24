@@ -314,7 +314,8 @@ class ControllerResponsesCheckoutPay extends AController
             $this->data['customer_email'] = $this->customer->getEmail();
             $phone = $this->data['customer_telephone'] = $this->customer->getTelephone();
             if ($phone && $this->config->get('fast_checkout_require_phone_number')) {
-                if (mb_strlen($phone) < 3 || mb_strlen($phone) > 32 || !preg_match('/^[0-9\-]*$/', $phone)) {
+                $pattern = $this->config->get('config_phone_validation_pattern') ? : '/^[0-9\-]{3,32}$/';
+                if (mb_strlen($phone) < 3 || mb_strlen($phone) > 32 || !preg_match($pattern, $phone)) {
                     //hide payment form when phone number required and incorrect
                     $this->data['show_payment'] = false;
                 }
@@ -1738,8 +1739,10 @@ class ControllerResponsesCheckoutPay extends AController
             }
         }
 
-        if ($this->config->get('fast_checkout_require_phone_number') && !$request['telephone']
-            && !$request['cc_telephone']) {
+        if ($this->config->get('fast_checkout_require_phone_number')
+            && !$request['telephone']
+            && !$request['cc_telephone']
+        ) {
             $this->error['message'] = $this->language->get('fast_checkout_error_phone');
             return false;
         }
