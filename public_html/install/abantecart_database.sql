@@ -1664,7 +1664,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout','config_customer_group_id',1),
 ('checkout','config_customer_approval',0),
 ('checkout','config_customer_email_activation',0),
-('checkout','config_phone_validation_pattern','/^[0-9\-]{3,32}$/'),
+('checkout','config_phone_validation_pattern','/^[0-9]{3,32}$/'),
 ('checkout','prevent_email_as_login',1),
 ('checkout','config_guest_checkout',1),
 ('checkout','config_account_id',2),

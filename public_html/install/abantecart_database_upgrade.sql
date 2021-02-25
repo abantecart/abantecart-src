@@ -9,7 +9,7 @@ ALTER TABLE `ac_coupons`
 ADD COLUMN `condition_rule` ENUM('OR', 'AND') NOT NULL DEFAULT 'OR' AFTER `status`;
 
 INSERT INTO `ac_settings` (`group`, `key`, `value`)
-VALUES ('checkout','config_phone_validation_pattern','/^[0-9\-]{3,32}$/');
+VALUES ('checkout','config_phone_validation_pattern','/^[0-9]{3,32}$/');
 
 
 --
