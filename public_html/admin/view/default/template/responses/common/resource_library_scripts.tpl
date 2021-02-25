@@ -289,85 +289,85 @@ var loadMedia = function (type, wrapper) {
 
 
 var loadSingle = function (type, wrapper_id, resource_id, field) {
-	if (!wrapper_id || wrapper_id === '') {
-		wrapper_id = modalscope.wrapper_id;
-	} else {
-		modalscope.wrapper_id = wrapper_id;
-	}
-	if (!field || field === '') {
-		field = modalscope.field_id;
-	} else {
-		modalscope.field_id = field;
-	}
+    if (!wrapper_id || wrapper_id === '') {
+        wrapper_id = modalscope.wrapper_id;
+    } else {
+        modalscope.wrapper_id = wrapper_id;
+    }
+    if (!field || field === '') {
+        field = modalscope.field_id;
+    } else {
+        modalscope.field_id = field;
+    }
 
-	$.ajax({
-		url: urls.resource_single + '&resource_id=' + resource_id,
-		type: 'GET',
-		//disable async-mode by cause of slow connections via proxies (limit for connections count at the same time)
-		async: false,
-		data: { type: type },
-		dataType: 'json',
-		global: false,
-		success: function (item) {
-			var html = '';
-			if (item != null) {
-				var t = new Date().getTime();
-				var src = '';
-				if (type === 'image' && item['resource_code']) {
-					src = item['thumbnail_url']
-				} else {
-					<?php // variable t needs to prevent browser caching in case of replacement of file of resource?>
-					src = '<img onerror="imgError(this);" class="img-responsive" src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
-				}
-
-				html += '<div class="resource_single col-sm-6 col-xs-12 text-center">';
-				html += '<div class="thumbnail fileupload_drag_area" id="image_row' + item['resource_id'] + '" >'+
-						'<a class="btn resource_edit" ' +
-								'data-mode="single" ' +
-								'data-type="' + type + '" ' +
-								'data-wrapper_id="' + wrapper_id + '" ' +
-								'data-field="' + field + '" ' +
-								'data-rl-id="' + item['resource_id'] + '">' + src + '</a></div>';
-
-				html += '<a class="btn resource_delete tooltips" data-rl-id="' + item['resource_id'] + '" ' +
-						'data-original-title="<?php echo_html2view($button_delete) ?>" ' +
-						'><i class="fa fa-times"></i>&nbsp;<?php echo $button_remove?></a>';
-				html += '</div>';
-				var resource_uri = '';
-				if(item['resource_path'].length > 0){
-					resource_uri =  item['type_name'] + '/' + item['resource_path'];
-				}else{
-					resource_uri = item['resource_id'];
-				}
-				// if not tinymce-mode
-                if(field.length>0) {
-                    $('#' + field).val(resource_uri);
-                    $('#' + field + '_resource_id').val(item['resource_id']);
-                    $('#' + field + '_resource_code').val(item['resource_code']);
+    $.ajax({
+        url: urls.resource_single + '&resource_id=' + resource_id,
+        type: 'GET',
+        //disable async-mode by cause of slow connections via proxies (limit for connections count at the same time)
+        async: false,
+        data: { type: type },
+        dataType: 'json',
+        global: false,
+        success: function (item) {
+            var html = '';
+            if (item != null) {
+                var t = new Date().getTime();
+                var src = '';
+                if (type === 'image' && item.resource_code) {
+                    src = item.thumbnail_url
+                } else {
+                    <?php // variable t needs to prevent browser caching in case of replacement of file of resource?>
+                    src = '<img onerror="imgError(this);" class="img-responsive" src="' + item.thumbnail_url + '?t=' + t + '" title="' + item.name + '" />';
                 }
 
-				//add item properties for single mode for CKE
-				if($('#RlFrm_image_size').length>0){
-					var dim = $('#RlFrm_image_size').val().split('_');
-					item['width'] = dim[0];
-					item['height'] = dim[1];
-					//check title to paste it into alt attribute
-					if(item['title'].length<1 && $('#RlFrm_title').val().length>0){
-						item['title'] = $('#RlFrm_title').val();
-					}
-				}
+                html += '<div class="resource_single col-sm-6 col-xs-12 text-center">';
+                html += '<div class="thumbnail fileupload_drag_area" id="image_row' + item.resource_id + '" >'+
+                        '<a class="btn resource_edit" ' +
+                                'data-mode="single" ' +
+                                'data-type="' + type + '" ' +
+                                'data-wrapper_id="' + wrapper_id + '" ' +
+                                'data-field="' + field + '" ' +
+                                'data-rl-id="' + item.resource_id + '">' + src + '</a></div>';
 
-				modalscope.selected_resource = item;
+                html += '<a class="btn resource_delete tooltips" data-rl-id="' + item.resource_id + '" ' +
+                        'data-original-title="<?php echo_html2view($button_delete) ?>" ' +
+                        '><i class="fa fa-times"></i>&nbsp;<?php echo $button_remove?></a>';
+                html += '</div>';
+                var resource_uri = '';
+                if(item.resource_path && item.resource_path.length > 0){
+                    resource_uri =  item.type_name + '/' + item.resource_path;
+                }else{
+                    resource_uri = item.resource_id;
+                }
+                // if not tinymce-mode
+                if(field.length>0) {
+                    $('#' + field).val(resource_uri);
+                    $('#' + field + '_resource_id').val(item.resource_id);
+                    $('#' + field + '_resource_code').val(item.resource_code);
+                }
 
-			} else {
-				html = '<div class="resource_single col-sm-6 col-xs-12"><div class="center thumbnail fileupload_drag_area" >';
-				html += '<a class="btn resource_add tooltips transparent" ' +
-						'data-mode="single" ' +
-						'data-type="' + type + '" ' +
-						'data-wrapper_id="' + wrapper_id + '" ' +
-						'data-field="' + field + '" ' +
-						'data-original-title="<?php echo_html2view($text_add_media) ?>"><img src="<?php echo $template_dir . 'image/icons/icon_add_media.png'; ?>" alt="<?php echo_html2view($text_add_media); ?>" width="100" /></a>';
-				html += '</div></div>';
+                //add item properties for single mode for wyswyg
+                if($('#RlFrm_image_size').length > 0){
+                    var dim = $('#RlFrm_image_size').val().split('_');
+                    item.width = dim[0];
+                    item.height = dim[1];
+                    //check title to paste it into alt attribute
+                    if(item.title.length<1 && $('#RlFrm_title').val().length>0){
+                        item.title = $('#RlFrm_title').val();
+                    }
+                }
+
+                modalscope.selected_resource = item;
+
+            } else {
+                html = '<div class="resource_single col-sm-6 col-xs-12"><div class="center thumbnail fileupload_drag_area" >';
+                html += '<a class="btn resource_add tooltips transparent" ' +
+                        'data-mode="single" ' +
+                        'data-type="' + type + '" ' +
+                        'data-wrapper_id="' + wrapper_id + '" ' +
+                        'data-field="' + field + '" ' +
+                        'data-original-title="<?php echo_html2view($text_add_media) ?>"><img src="<?php echo $template_dir . 'image/icons/icon_add_media.png'; ?>" alt="<?php echo_html2view($text_add_media); ?>" width="100" /></a>';
+                html += '</div></div>';
 
                 $('#'+field).val('');
                 $('#'+field+'_resource_id').val('');
