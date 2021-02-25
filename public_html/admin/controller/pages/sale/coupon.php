@@ -757,10 +757,11 @@ class ControllerPagesSaleCoupon extends AController
             $this->error['code'] = $this->language->get('error_code');
         }
 
-        if (!isset($this->request->post['date_start'])) {
+        if (!isset($this->request->post['date_start']) || !$this->request->post['date_start']) {
             $this->error['date_start'] = $this->language->get('error_date');
         }
-        if (!isset($this->request->post['date_end'])) {
+
+        if (!isset($this->request->post['date_end']) || !$this->request->post['date_end']) {
             $this->error['date_end'] = $this->language->get('error_date');
         }
 

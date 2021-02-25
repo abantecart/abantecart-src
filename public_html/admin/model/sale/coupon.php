@@ -35,13 +35,13 @@ class ModelSaleCoupon extends Model
      */
     public function addCoupon($data)
     {
-        if (isset($data['date_start'])) {
+        if (isset($data['date_start']) && $data['date_start']) {
             $data['date_start'] = "DATE('".$data['date_start']."')";
         } else {
             $data['date_start'] = "NULL";
         }
 
-        if (isset($data['date_end'])) {
+        if (isset($data['date_end']) && $data['date_end']) {
             $data['date_end'] = "DATE('".$data['date_end']."')";
         } else {
             $data['date_end'] = "NULL";
@@ -116,21 +116,18 @@ class ModelSaleCoupon extends Model
         if (!(int) $coupon_id || !$data) {
             return false;
         }
-        if (isset($data['date_start'])) {
+        if (isset($data['date_start']) && $data['date_start']) {
             $data['date_start'] = "DATE('".$data['date_start']."')";
-        } else {
-            if (isset($data['date_start'])) {
-                $data['date_start'] = 'NULL';
-            }
+        } elseif (array_key_exists('date_start', $data)) {
+            $data['date_start'] = 'NULL';
         }
 
-        if (isset($data['date_end'])) {
+        if (isset($data['date_end']) && $data['date_end']) {
             $data['date_end'] = "DATE('".$data['date_end']."')";
-        } else {
-            if (isset($data['date_end'])) {
-                $data['date_end'] = 'NULL';
-            }
+        } elseif (array_key_exists('date_end', $data)) {
+            $data['date_end'] = 'NULL';
         }
+
         if (isset($data['condition_rule'])) {
             $data['condition_rule'] = $data['condition_rule'] == 'AND' ? 'AND' : 'OR';
         }
