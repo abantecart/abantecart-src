@@ -54,9 +54,9 @@ class ControllerPagesContentContact extends AController
             $this->data['mail_template_data']['subject'] = $subject;
 
             $mailLogo = $this->config->get('config_mail_logo_'.$languageId)
-                        ?: $this->config->get('config_logo_'.$languageId);
-            $mailLogo = $mailLogo ?: $this->config->get('config_mail_logo');
-            $mailLogo = $mailLogo ?: $this->config->get('config_logo');
+                ? : $this->config->get('config_logo_'.$languageId);
+            $mailLogo = $mailLogo ? : $this->config->get('config_mail_logo');
+            $mailLogo = $mailLogo ? : $this->config->get('config_logo');
 
             if ($mailLogo) {
                 $result = getMailLogoDetails($mailLogo);
@@ -82,9 +82,9 @@ class ControllerPagesContentContact extends AController
                     }
                     $field_details = $this->form->getField($field_name);
                     $this->data['mail_plain_text'] .= "\r\n"
-                                                        .rtrim($field_details['name'], ':')
-                                                        .":\t"
-                                                        .$field_value;
+                        .rtrim($field_details['name'], ':')
+                        .":\t"
+                        .$field_value;
                     $this->data['mail_template_data']['form_fields'][rtrim($field_details['name'], ':')] = $field_value;
                     $this->data['mail_template_data']['tpl_form_fields'][] = [
                         'name'  => rtrim($field_details['name'], ':'),
@@ -100,14 +100,14 @@ class ControllerPagesContentContact extends AController
                 foreach ($file_paths as $file_info) {
                     $basename = pathinfo(str_replace(' ', '_', $file_info['path']), PATHINFO_BASENAME);
                     $this->data['mail_plain_text'] .= "\t"
-                                                        .$file_info['display_name']
-                                                        .': '
-                                                        .$basename
-                                                        ." (".round(filesize($file_info['path']) / 1024, 2)
-                                                            ."Kb)\r\n";
+                        .$file_info['display_name']
+                        .': '
+                        .$basename
+                        ." (".round(filesize($file_info['path']) / 1024, 2)
+                        ."Kb)\r\n";
                     $mail->addAttachment($file_info['path'], $basename);
                     $this->data['mail_template_data']['form_fields'][$file_info['display_name']] =
-                                            $basename." (".round(filesize($file_info['path']) / 1024, 2)."Kb)";
+                        $basename." (".round(filesize($file_info['path']) / 1024, 2)."Kb)";
                 }
             }
 
@@ -136,11 +136,17 @@ class ControllerPagesContentContact extends AController
             $mail->setReplyTo($post_data['email']);
             $mail->setSender($post_data['first_name']);
             $mail->setTemplate('storefront_contact_us_mail', $this->data['mail_template_data']);
+            $attachment = [];
             if (is_file(DIR_RESOURCE.$mailLogo)) {
+                $attachment = [
+                    'file' => DIR_RESOURCE.$mailLogo,
+                    'name' => md5(pathinfo($mailLogo, PATHINFO_FILENAME))
+                        .'.'
+                        .pathinfo($mailLogo, PATHINFO_EXTENSION),
+                ];
                 $mail->addAttachment(
-                    DIR_RESOURCE.$mailLogo,
-                    md5(pathinfo($mailLogo, PATHINFO_FILENAME))
-                    .'.'.pathinfo($mailLogo, PATHINFO_EXTENSION)
+                    $attachment['file'],
+                    $attachment['name']
                 );
             }
             $mail->send();
@@ -163,7 +169,13 @@ class ControllerPagesContentContact extends AController
                     ),
                 ],
             ];
-            $this->im->send('customer_contact', $message_arr, 'storefront_contact_us_mail_admin_notify', $post_data);
+            $this->im->send(
+                'customer_contact',
+                $message_arr,
+                'storefront_contact_us_mail_admin_notify',
+                $post_data,
+                $attachment ? [$attachment] : []
+            );
 
             $this->extensions->hk_ProcessData($this);
             redirect($success_url);

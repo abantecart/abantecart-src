@@ -774,11 +774,18 @@ class ModelCheckoutOrder extends Model
         $mail->setFrom($this->config->get('store_main_email'));
         $mail->setSender($order_row['store_name']);
         $mail->setTemplate('storefront_order_confirm', $this->data['mail_template_data']);
+        $attachment = [];
         if (is_file(DIR_RESOURCE.$mailLogo)) {
+            $attachment = [
+                'file' => DIR_RESOURCE.$mailLogo,
+                'name' => md5(pathinfo($mailLogo, PATHINFO_FILENAME))
+                        .'.'
+                    .pathinfo($mailLogo, PATHINFO_EXTENSION)
+            ];
+
             $mail->addAttachment(
-                DIR_RESOURCE.$mailLogo,
-                md5(pathinfo($mailLogo, PATHINFO_FILENAME))
-                .'.'.pathinfo($mailLogo, PATHINFO_EXTENSION)
+                $attachment['file'],
+                $attachment['name']
             );
         }
         $mail->send();
@@ -835,11 +842,13 @@ class ModelCheckoutOrder extends Model
                 'message' => sprintf($language->get('im_new_order_text_to_admin'), $order_id),
             ],
         ];
+
         $this->im->send(
             'new_order',
             $message_arr,
             'storefront_order_confirm_admin_notify',
-            $this->data['mail_template_data']
+            $this->data['mail_template_data'],
+            $attachment ? [$attachment] : []
         );
 
         return true;
