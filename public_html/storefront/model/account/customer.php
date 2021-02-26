@@ -750,8 +750,15 @@ class ModelAccountCustomer extends Model
             $this->error['warning'] = $this->language->get('error_exists');
         }
 
-        if (mb_strlen($data['telephone']) > 32) {
-            $this->error['telephone'] = $this->language->get('error_telephone');
+        $phone = $data['telephone'] ?? '';
+        if ($phone) {
+            $pattern = $this->config->get('config_phone_validation_pattern') ? : '/^[0-9]{3,32}$/';
+            if (mb_strlen($phone) < 3
+                || mb_strlen($phone) > 32
+                || !preg_match($pattern, $phone)
+            ) {
+                $this->error['telephone'] = $this->language->get('error_telephone');
+            }
         }
 
         if ((mb_strlen($data['address_1']) < 3) || (mb_strlen($data['address_1']) > 128)) {
