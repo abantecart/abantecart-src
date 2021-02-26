@@ -261,6 +261,7 @@ class ControllerPagesSaleCoupon extends AController
 
             $coupon_id = $this->model_sale_coupon->addCoupon($post);
             $this->session->data['success'] = $this->language->get('text_success');
+            $this->extensions->hk_ProcessData($this,__METHOD__);
             redirect($this->html->getSecureURL('sale/coupon/update', '&coupon_id='.$coupon_id));
         }
         $this->_getForm();
@@ -307,6 +308,7 @@ class ControllerPagesSaleCoupon extends AController
             $this->model_sale_coupon->editCouponProducts($this->request->get['coupon_id'], $post);
             $this->model_sale_coupon->editCouponCategories($this->request->get['coupon_id'], $post);
             $this->session->data['success'] = $this->language->get('text_success');
+            $this->extensions->hk_ProcessData($this,__METHOD__);
             redirect($this->html->getSecureURL('sale/coupon/update', '&coupon_id='.$this->request->get['coupon_id']));
         }
         $this->_getForm();

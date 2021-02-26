@@ -218,50 +218,19 @@ class ModelCatalogProduct extends Model
             return [];
         }
         $query = $this->db->query(
-            "SELECT p.product_id,
-                        pd.name,
-                        p2c.category_id,
-                        pd.meta_keywords,
-                        pd.meta_description,
-                        pd.description,
-                        pd.blurb,
-                        p.model,
-                        p.sku,
-                        p.location,
-                        p.quantity,
-                        p.stock_checkout,
-                        p.stock_status_id,
-                        p.manufacturer_id,
-                        p.shipping,
-                        p.ship_individually,
-                        p.free_shipping,
-                        p.shipping_price,
-                        p.price,
-                        p.tax_class_id,
-                        p.date_available,
-                        p.weight,
-                        p.weight_class_id,
-                        p.length,
-                        p.width,
-                        p.height,
-                        p.length_class_id,
-                        p.status,
-                        p.viewed,
-                        p.sort_order,
-                        p.subtract,
-                        p.minimum,
-                        p.maximum,
-                        p.cost,
-                        p.call_to_order,
-                        p.date_added,
-                        p.date_modified,
-                        wcd.unit AS weight_class,
-                        mcd.unit AS length_class
+            "SELECT p.*,
+                    pd.name,
+                    pd.meta_keywords,
+                    pd.meta_description,
+                    pd.description,
+                    pd.blurb,
+                    p2c.category_id,
+                    wcd.unit AS weight_class,
+                    mcd.unit AS length_class
                 FROM ".$this->db->table("products")." p
                 LEFT JOIN ".$this->db->table("product_descriptions")." pd
                     ON (p.product_id = pd.product_id
                             AND pd.language_id = '".(int) $this->config->get('storefront_language_id')."')
-                            
                 LEFT JOIN ".$this->db->table("products_to_categories")." p2c 
                     ON p2c.product_id = p.product_id
                 LEFT JOIN ".$this->db->table("weight_classes")." wc 
