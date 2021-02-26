@@ -223,7 +223,9 @@ class AMail
         $htmlBody = html_entity_decode($this->emailTemplate['html_body'], ENT_QUOTES);
         $textBody = $this->emailTemplate['text_body'];
 
-        $mustache = new Mustache_Engine;
+        // allow to pass html as text_variable (needed for logo as resource_html)
+        //override default escaping by transparent custom
+        $mustache = new Mustache_Engine(['escape' => function($value){ return $value;}]);
         $subject = $mustache->render($subject, $this->placeholders);
         $htmlBody = $mustache->render($htmlBody, $this->placeholders);
         $textBody = $mustache->render($textBody, $this->placeholders);
