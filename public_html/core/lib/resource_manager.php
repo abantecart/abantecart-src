@@ -94,11 +94,11 @@ class AResourceManager extends AResource
             return null;
         }
         $sql = "UPDATE ".$this->db->table('resource_types')."
-				SET type_name='".$this->db->escape($data['type_name'])."',
-					default_directory='".$this->db->escape($data['default_directory'])."',
-					default_icon='".$this->db->escape($data['default_icon'])."',
-					file_types='".$this->db->escape($data['file_types'])."'
-				WHERE type_id =  ".(int) $data['type_id'];
+                SET type_name='".$this->db->escape($data['type_name'])."',
+                    default_directory='".$this->db->escape($data['default_directory'])."',
+                    default_icon='".$this->db->escape($data['default_icon'])."',
+                    file_types='".$this->db->escape($data['file_types'])."'
+                WHERE type_id =  ".(int) $data['type_id'];
         $this->db->query($sql);
 
         $this->cache->remove('resources');
@@ -164,8 +164,8 @@ class AResourceManager extends AResource
         }
 
         $sql = "INSERT INTO ".$this->db->table("resource_library")."
-				SET type_id = '".$this->type_id."',
-					date_added = NOW()";
+                SET type_id = '".$this->type_id."',
+                    date_added = NOW()";
         $this->db->query($sql);
         $resource_id = $this->db->getLastId();
 
@@ -186,9 +186,8 @@ class AResourceManager extends AResource
                 DIR_RESOURCE.$this->type_dir.$resource_path
             );
             if (!$result) {
-                $message = "Error: Cannot move resource to resources directory. Please check permissions of ".dirname(
-                        DIR_RESOURCE.$this->type_dir.$resource_path
-                    ).' directory!';
+                $message = "Error: Cannot move resource to resources directory. Please check permissions of "
+                    .dirname(DIR_RESOURCE.$this->type_dir.$resource_path).' directory!';
                 $error = new AError ($message);
                 $error->toLog()->toDebug();
                 //remove resource on fail
@@ -199,26 +198,31 @@ class AResourceManager extends AResource
             $resource_path = '';
         }
 
+        $desc = $descriptions = [];
         foreach ($resource['name'] as $language_id => $name) {
-            if ($this->config->get('translate_override_existing') && $language_id != $resource['language_id']) {
-                continue;
-            }
-
-            $this->language->replaceDescriptions(
-                'resource_descriptions',
-                ['resource_id' => (int) $resource_id],
-                [
-                    (int) $language_id => [
-                        'name'          => $resource['name'][$language_id],
-                        'title'         => $resource['title'][$language_id],
-                        'description'   => $resource['description'][$language_id],
-                        'resource_path' => $resource_path,
-                        'resource_code' => $resource['resource_code'],
-                        'date_added'    => date('Y-m-d H:i:s'),
-                    ],
-                ]
-            );
+            $desc = [
+                'name'          => $resource['name'][$language_id] ? : '',
+                'title'         => $resource['title'][$language_id] ? : '',
+                'description'   => $resource['description'][$language_id] ? : '',
+                'resource_path' => $resource_path,
+                'resource_code' => $resource['resource_code'] ? : '',
+                'date_added'    => date('Y-m-d H:i:s'),
+            ];
+            $descriptions[(int) $language_id] = $desc;
         }
+        if ($desc) {
+            foreach ($this->language->getAvailableLanguages() as $lang) {
+                if (!isset($descriptions[$lang['language_id']])) {
+                    $descriptions[$lang['language_id']] = $desc;
+                }
+            }
+        }
+
+        $this->language->replaceDescriptions(
+            'resource_descriptions',
+            ['resource_id' => (int) $resource_id],
+            $descriptions
+        );
         $this->cache->remove('resources');
         return $resource_id;
     }
@@ -446,9 +450,9 @@ class AResourceManager extends AResource
         }
 
         $sql = "SELECT resource_id FROM ".$this->db->table("resource_map")." 
-				WHERE resource_id = '".(int) $resource_id."'
-					  AND object_name = '".$this->db->escape($object_name)."'
-					  AND object_id = '".(int) $object_id."'";
+                WHERE resource_id = '".(int) $resource_id."'
+                      AND object_name = '".$this->db->escape($object_name)."'
+                      AND object_id = '".(int) $object_id."'";
         $result = $this->db->query($sql);
 
         if ($result->num_rows) {
@@ -457,18 +461,18 @@ class AResourceManager extends AResource
 
         //need to get sort order
         $sql = "SELECT MAX(sort_order) as sort_order
-				FROM ".$this->db->table("resource_map")." 
-				WHERE object_name = '".$this->db->escape($object_name)."'
-					  AND object_id = '".(int) $object_id."'";
+                FROM ".$this->db->table("resource_map")." 
+                WHERE object_name = '".$this->db->escape($object_name)."'
+                      AND object_id = '".(int) $object_id."'";
         $result = $this->db->query($sql);
         $new_sort_order = $result->row['sort_order'] + 1;
 
         $sql = "INSERT INTO ".$this->db->table("resource_map")."
-				SET resource_id = '".(int) $resource_id."',
-					object_name = '".$this->db->escape($object_name)."',
-					object_id = '".(int) $object_id."',
-					sort_order = '".(int) $new_sort_order."',
-					date_added = NOW()";
+                SET resource_id = '".(int) $resource_id."',
+                    object_name = '".$this->db->escape($object_name)."',
+                    object_id = '".(int) $object_id."',
+                    sort_order = '".(int) $new_sort_order."',
+                    date_added = NOW()";
         $this->db->query($sql);
 
         $this->cache->remove('resources');
@@ -500,10 +504,10 @@ class AResourceManager extends AResource
             }
             //skip already mapped
             $sql = "SELECT resource_id
-					FROM ".$this->db->table("resource_map")." 
-					WHERE resource_id = '".(int) $id."'
-						  AND object_name = '".$this->db->escape($object_name)."'
-						  AND object_id = '".(int) $object_id."'";
+                    FROM ".$this->db->table("resource_map")." 
+                    WHERE resource_id = '".(int) $id."'
+                          AND object_name = '".$this->db->escape($object_name)."'
+                          AND object_id = '".(int) $object_id."'";
             $result = $this->db->query($sql);
 
             if ($result->num_rows) {
@@ -517,18 +521,18 @@ class AResourceManager extends AResource
         foreach ($ids as $resource_id) {
             //need to get sort order
             $sql = "SELECT MAX(sort_order) as sort_order
-					FROM ".$this->db->table("resource_map")." 
-					WHERE object_name = '".$this->db->escape($object_name)."'
-						  AND object_id = '".(int) $object_id."'";
+                    FROM ".$this->db->table("resource_map")." 
+                    WHERE object_name = '".$this->db->escape($object_name)."'
+                          AND object_id = '".(int) $object_id."'";
             $result = $this->db->query($sql);
             $new_sort_order = $result->row['sort_order'] + 1;
 
             $sql = "INSERT INTO ".$this->db->table("resource_map")." 
-					SET resource_id = '".(int) $resource_id."',
-						object_name = '".$this->db->escape($object_name)."',
-						object_id = '".(int) $object_id."',
-						sort_order = '".(int) $new_sort_order."',
-						date_added = NOW()";
+                    SET resource_id = '".(int) $resource_id."',
+                        object_name = '".$this->db->escape($object_name)."',
+                        object_id = '".(int) $object_id."',
+                        sort_order = '".(int) $new_sort_order."',
+                        date_added = NOW()";
             $this->db->query($sql);
         }
         return true;
@@ -551,9 +555,9 @@ class AResourceManager extends AResource
         }
 
         $sql = "DELETE FROM ".$this->db->table("resource_map")." 
-				WHERE resource_id = '".(int) $resource_id."'
-					AND object_name = '".$this->db->escape($object_name)."'
-					AND object_id = '".(int) $object_id."'";
+                WHERE resource_id = '".(int) $resource_id."'
+                    AND object_name = '".$this->db->escape($object_name)."'
+                    AND object_id = '".(int) $object_id."'";
         $this->db->query($sql);
 
         $this->cache->remove('resources');
@@ -589,9 +593,9 @@ class AResourceManager extends AResource
         }
 
         $sql = "DELETE FROM ".$this->db->table("resource_map")." 
-				WHERE resource_id IN (".implode(", ", $ids).")
-					AND object_name = '".$this->db->escape($object_name)."'
-					AND object_id = '".(int) $object_id."'";
+                WHERE resource_id IN (".implode(", ", $ids).")
+                    AND object_name = '".$this->db->escape($object_name)."'
+                    AND object_id = '".(int) $object_id."'";
         $this->db->query($sql);
         return true;
     }
@@ -617,10 +621,10 @@ class AResourceManager extends AResource
                 continue;
             }
             $sql = "UPDATE ".$this->db->table("resource_map")."
-					SET sort_order = '".(int) $sort_order."'
-					WHERE resource_id = '".(int) $resource_id."'
-							AND object_name = '".$this->db->escape($object_name)."'
-							AND object_id = '".(int) $object_id."'";
+                    SET sort_order = '".(int) $sort_order."'
+                    WHERE resource_id = '".(int) $resource_id."'
+                            AND object_name = '".$this->db->escape($object_name)."'
+                            AND object_id = '".(int) $object_id."'";
             $this->db->query($sql);
 
             $this->cache->remove('resources');
@@ -834,8 +838,8 @@ class AResourceManager extends AResource
             return null;
         }
         $sql = "SELECT count(*) as total
-				FROM ".$this->db->table('resource_map')." rm
-				WHERE rm.resource_id = '".(int) $resource_id."'";
+                FROM ".$this->db->table('resource_map')." rm
+                WHERE rm.resource_id = '".(int) $resource_id."'";
 
         if ($object_name) {
             $sql .= " AND rm.object_name = '".$this->db->escape($object_name)."' AND object_id = ".(int) $object_id;

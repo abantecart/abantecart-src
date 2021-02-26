@@ -27,14 +27,13 @@ class ControllerResponsesCommonResourceLibrary extends AController
     public $data = [];
     // TODO: need to find solution for this hardcoded preview sizes
     public $thumb_sizes = [
-        'width' => 100,
-        'height' => 100
+        'width'  => 100,
+        'height' => 100,
     ];
     public $listLimit = 18;
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -90,19 +89,22 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $this->data['rl_map'] = $this->html->getSecureURL(
             'common/resource_library/map',
             '&object_name='.$this->data['object_name']
-                .'&object_id='.$this->data['object_id']);
+            .'&object_id='.$this->data['object_id']
+        );
 
         $this->data['rl_unmap'] = $this->html->getSecureURL(
             'common/resource_library/unmap',
             '&object_name='.$this->data['object_name']
-                .'&object_id='.$this->data['object_id']);
+            .'&object_id='.$this->data['object_id']
+        );
 
         $this->data['rl_upload'] = $this->html->getSecureURL(
             'common/resource_library/upload',
             '&mode='.$this->data['mode']
-                .'&type='.$this->request->get['type']
-                .'&object_name='.$this->request->get['object_name']
-                .'&object_id='.$this->request->get['object_id']);
+            .'&type='.$this->request->get['type']
+            .'&object_name='.$this->request->get['object_name']
+            .'&object_id='.$this->request->get['object_id']
+        );
 
         $this->data['rl_replace'] = $this->html->getSecureURL(
             'common/resource_library/replace',
@@ -174,7 +176,8 @@ class ControllerResponsesCommonResourceLibrary extends AController
             $resource['mapped_to_current'] = $rm->isMapped(
                 $resource['resource_id'],
                 $this->data['object_name'],
-                $this->data['object_id']);
+                $this->data['object_id']
+            );
 
             // also check is mapped at all
             //NOTE: we allow to delete resource that mapped ONLY to current object
@@ -224,15 +227,17 @@ class ControllerResponsesCommonResourceLibrary extends AController
      */
     public function add()
     {
-
         if (!$this->user->canModify('common/resource_library')) {
             $error = new AError('');
-            $error->toJSONResponse('NO_PERMISSIONS_402',
-                                          [
-                    'error_text'  => sprintf($this->language->get('error_permission_modify'),
-                        'common/resource_library'),
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
+                    'error_text'  => sprintf(
+                        $this->language->get('error_permission_modify'),
+                        'common/resource_library'
+                    ),
                     'reset_value' => true,
-                                          ]
+                ]
             );
             return;
         }
@@ -260,12 +265,12 @@ class ControllerResponsesCommonResourceLibrary extends AController
 
         if (!$this->data['types']) {
             $error = new AError('');
-            $error->toJSONResponse('VALIDATION_ERROR_406',
-
-                                          [
+            $error->toJSONResponse(
+                'VALIDATION_ERROR_406',
+                [
                     'error_text'  => 'Incorrect resource library type list!',
                     'reset_value' => true,
-                                          ]
+                ]
             );
             return;
         }
@@ -287,7 +292,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $this->data['rl_get_info'] = $this->html->getSecureURL('common/resource_library/get_resource_details');
         $this->data['rl_upload'] = $this->html->getSecureURL('common/resource_library/upload', $params);
 
-        if ((int)ini_get('post_max_size') <= 2) { // because 2Mb is default value for php
+        if ((int) ini_get('post_max_size') <= 2) { // because 2Mb is default value for php
             $this->data['attention'] = sprintf($this->language->get('error_file size'), ini_get('post_max_size'));
         }
 
@@ -375,7 +380,6 @@ class ControllerResponsesCommonResourceLibrary extends AController
      */
     public function list_library()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -389,11 +393,11 @@ class ControllerResponsesCommonResourceLibrary extends AController
 
         //Build request URI and filter params
         $uri = '&object_name='.$this->data['object_name']
-                .'&object_id='.$this->data['object_id'];
+            .'&object_id='.$this->data['object_id'];
         $uri .= '&type='.$this->data['type']
-                .'&mode='.$this->data['mode']
-                .'&language_id='.$language_id
-                .'&action='.$this->data['action'];
+            .'&mode='.$this->data['mode']
+            .'&language_id='.$language_id
+            .'&action='.$this->data['action'];
         $filter_data = [
             'type_id'     => $rm->getTypeId(),
             'language_id' => $language_id,
@@ -424,7 +428,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $page = 1;
         if (isset($this->request->get['page'])) {
             $page = $this->request->get['page'];
-            if ((int)$page < 1) {
+            if ((int) $page < 1) {
                 $page = 1;
             }
             $filter_data['start'] = (($page - 1) * $filter_data['limit']);
@@ -469,17 +473,17 @@ class ControllerResponsesCommonResourceLibrary extends AController
         if ($resources_total > $this->listLimit) {
             $this->data['pagination_bootstrap'] = HtmlElementFactory::create(
                 [
-                'type'       => 'Pagination',
-                'name'       => 'pagination',
-                'text'       => $this->language->get('text_pagination'),
-                'text_limit' => $this->language->get('text_per_page'),
-                'total'      => $resources_total,
-                'page'       => $page,
-                'limit'      => $this->listLimit,
-                'url'        => $this->data['current_url'],
-                'size_class' => 'sm',
-                'no_perpage' => true,
-                'style'      => 'pagination',
+                    'type'       => 'Pagination',
+                    'name'       => 'pagination',
+                    'text'       => $this->language->get('text_pagination'),
+                    'text_limit' => $this->language->get('text_per_page'),
+                    'total'      => $resources_total,
+                    'page'       => $page,
+                    'limit'      => $this->listLimit,
+                    'url'        => $this->data['current_url'],
+                    'size_class' => 'sm',
+                    'no_perpage' => true,
+                    'style'      => 'pagination',
                 ]
             );
         }
@@ -496,9 +500,8 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $this->processTemplate('responses/common/resource_library.tpl');
     }
 
-    private function _common($rm)
+    protected function _common($rm)
     {
-
         if ($this->request->get['mode'] == 'single') {
             $this->data['types'] = [$rm->getResourceTypeByName($this->request->get['type'])];
         } else {
@@ -564,13 +567,13 @@ class ControllerResponsesCommonResourceLibrary extends AController
 
         $this->data['rl_types'] = $form->getFieldHtml(
             [
-            'type'        => 'selectbox',
-            'name'        => 'rl_types',
-            'placeholder' => $this->language->get('text_type'),
-            'options'     => $options,
-            'value'       => $this->data['type'],
-            'style'       => 'input-sm',
-            'attr'        => 'disabled',
+                'type'        => 'selectbox',
+                'name'        => 'rl_types',
+                'placeholder' => $this->language->get('text_type'),
+                'options'     => $options,
+                'value'       => $this->data['type'],
+                'style'       => 'input-sm',
+                'attr'        => 'disabled',
             ]
         );
 
@@ -584,7 +587,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
             [
                 'id'      => 'language_id',
                 'name'    => 'language_id',
-                'options' => array_column($allLanguages,'language_id','name'),
+                'options' => array_column($allLanguages, 'language_id', 'name'),
                 'value'   => $this->language->getContentLanguageID(),
             ]
         );
@@ -597,14 +600,15 @@ class ControllerResponsesCommonResourceLibrary extends AController
     {
         if (!$this->user->canModify('common/resource_library')) {
             $error = new AError('');
-            $error->toJSONResponse('NO_PERMISSIONS_402',
-                                          [
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
                     'error_text'  => sprintf(
                         $this->language->get('error_permission_modify'),
                         'common/resource_library'
                     ),
                     'reset_value' => true,
-                                          ]
+                ]
             );
             return;
         }
@@ -621,7 +625,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
                     'common/resource_library/delete',
                     '&type='.$this->request->get['type']
                 ),
-                'max_file_size'     => (int)$this->config->get('config_upload_max_size') * 1024,
+                'max_file_size'     => (int) $this->config->get('config_upload_max_size') * 1024,
                 'upload_dir'        => $rm->getTypeDir(),
                 'upload_url'        => '',
                 'accept_file_types' => $rm->getTypeFileTypes(),
@@ -670,9 +674,10 @@ class ControllerResponsesCommonResourceLibrary extends AController
                 $result[$k]->resource_id = $resource_id;
                 $result[$k]->type = $info['type_name'];
                 $result[$k]->language_id = $data['language_id'];
-                $result[$k]->resource_detail_url =
-                    $this->html->getSecureURL('common/resource_library/update_resource_details',
-                        '&resource_id='.$resource_id);
+                $result[$k]->resource_detail_url = $this->html->getSecureURL(
+                    'common/resource_library/update_resource_details',
+                    '&resource_id='.$resource_id
+                );
                 $result[$k]->resource_path = $info['resource_path'];
                 $result[$k]->thumbnail_url = $rm->getResizedImageURL(
                     $info,
@@ -680,14 +685,15 @@ class ControllerResponsesCommonResourceLibrary extends AController
                     $this->config->get('config_image_grid_height')
                 );
                 if (!empty($this->request->get['object_name']) && !empty($this->request->get['object_id'])) {
-                    $rm->mapResource($this->request->get['object_name'], $this->request->get['object_id'],
-                        $resource_id);
+                    $rm->mapResource(
+                        $this->request->get['object_name'], $this->request->get['object_id'],
+                        $resource_id
+                    );
                 }
             } else {
                 $result[$k]->error = $this->language->get('error_not_added');
                 $result[$k]->error_text = $result[$k]->error;
             }
-
         }
 
         //update controller data
@@ -703,17 +709,17 @@ class ControllerResponsesCommonResourceLibrary extends AController
      */
     public function replace()
     {
-
         if (!$this->user->canModify('common/resource_library')) {
             $error = new AError('');
-            $error->toJSONResponse('NO_PERMISSIONS_402',
-                                          [
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
                     'error_text'  => sprintf(
                         $this->language->get('error_permission_modify'),
                         'common/resource_library'
                     ),
                     'reset_value' => true,
-                                          ]
+                ]
             );
             return;
         }
@@ -721,14 +727,15 @@ class ControllerResponsesCommonResourceLibrary extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $resource_id = (int)$this->request->get['resource_id'];
+        $resource_id = (int) $this->request->get['resource_id'];
         if (!$resource_id) {
             $error = new AError('');
-            $error->toJSONResponse('VALIDATION_ERROR_406',
-                                          [
+            $error->toJSONResponse(
+                'VALIDATION_ERROR_406',
+                [
                     'error_text'  => $this->language->get('error_not_replaced'),
                     'reset_value' => false,
-                                          ]
+                ]
             );
             return;
         }
@@ -737,11 +744,12 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $info = $rm->getResource($resource_id, $this->language->getContentLanguageID());
         if (!$info) {
             $error = new AError('');
-            $error->toJSONResponse('VALIDATION_ERROR_406',
-                                          [
+            $error->toJSONResponse(
+                'VALIDATION_ERROR_406',
+                [
                     'error_text'  => $this->language->get('error_not_exists'),
                     'reset_value' => false,
-                                          ]
+                ]
             );
             return;
         }
@@ -754,7 +762,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
                     'common/resource_library/delete',
                     '&type='.$this->request->get['type']
                 ),
-                'max_file_size'     => (int)$this->config->get('config_upload_max_size') * 1024,
+                'max_file_size'     => (int) $this->config->get('config_upload_max_size') * 1024,
                 'upload_dir'        => $rm->getTypeDir(),
                 'upload_url'        => '',
                 'accept_file_types' => $rm->getTypeFileTypes(),
@@ -793,8 +801,10 @@ class ControllerResponsesCommonResourceLibrary extends AController
             //resource_path
             $resource_path = $rm->buildResourcePath($resource_id, $r->name);
 
-            if (!rename(DIR_RESOURCE.$info['type_name'].'/'.$r->name,
-                DIR_RESOURCE.$info['type_name'].'/'.$resource_path)
+            if (!rename(
+                DIR_RESOURCE.$info['type_name'].'/'.$r->name,
+                DIR_RESOURCE.$info['type_name'].'/'.$resource_path
+            )
             ) {
                 $message = sprintf($this->language->get('error_cannot_move'), $r->name);
                 $error = new AError ($message);
@@ -822,17 +832,17 @@ class ControllerResponsesCommonResourceLibrary extends AController
 
     public function add_code()
     {
-
         if (!$this->user->canModify('common/resource_library')) {
             $error = new AError('');
-            $error->toJSONResponse('NO_PERMISSIONS_402',
-                                          [
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
                     'error_text'  => sprintf(
                         $this->language->get('error_permission_modify'),
                         'common/resource_library'
                     ),
                     'reset_value' => true,
-                                          ]
+                ]
             );
             return;
         }
@@ -851,7 +861,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $rm->setType($this->request->get['type']);
         $data = $this->request->post;
 
-        $language_id = (int)$this->request->post['language_id'];
+        $language_id = (int) $this->request->post['language_id'];
         $language_id = !$language_id ? $this->language->getContentLanguageID() : $language_id;
 
         $data['name'] = [$language_id => $this->request->post['name']];
@@ -872,7 +882,11 @@ class ControllerResponsesCommonResourceLibrary extends AController
                 $this->request->post['language_id']
             );
             if (!empty($this->request->get['object_name']) && !empty($this->request->get['object_id'])) {
-                $rm->mapResource($this->request->get['object_name'], $this->request->get['object_id'], $resource_id);
+                $rm->mapResource(
+                    $this->request->get['object_name'],
+                    $this->request->get['object_id'],
+                    $resource_id
+                );
             }
         } else {
             $error = new AError('');
@@ -896,7 +910,6 @@ class ControllerResponsesCommonResourceLibrary extends AController
 
     public function resources()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         $page = 1;
@@ -939,7 +952,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
 
         if (isset($this->request->get['page'])) {
             $page = $this->request->get['page'];
-            if ((int)$page < 1) {
+            if ((int) $page < 1) {
                 $page = 1;
             }
             $filter_data['page'] = $page;
@@ -967,8 +980,8 @@ class ControllerResponsesCommonResourceLibrary extends AController
         ];
 
         foreach ($result['items'] as $key => $item) {
-
-            $result['items'][$key]['thumbnail_url'] = $rm->getResizedImageURL($item,
+            $result['items'][$key]['thumbnail_url'] = $rm->getResizedImageURL(
+                $item,
                 $this->thumb_sizes['width'],
                 $this->thumb_sizes['height']
             );
@@ -979,17 +992,20 @@ class ControllerResponsesCommonResourceLibrary extends AController
 
         if (isset($this->request->get['page'])) {
             if ($resources_total > $list_limit) {
-                $result['pagination'] = (string)HtmlElementFactory::create(
+                $result['pagination'] = (string) HtmlElementFactory::create(
                     [
-                    'type'       => 'Pagination',
-                    'name'       => 'pagination',
-                    'text'       => $this->language->get('text_pagination'),
-                    'text_limit' => $this->language->get('text_per_page'),
-                    'total'      => $resources_total,
-                    'page'       => $page,
-                    'limit'      => $list_limit,
-                    'url'        => $this->html->getSecureURL('common/resource_library/resources', $uri.'&page={page}'),
-                    'style'      => 'pagination',
+                        'type'       => 'Pagination',
+                        'name'       => 'pagination',
+                        'text'       => $this->language->get('text_pagination'),
+                        'text_limit' => $this->language->get('text_per_page'),
+                        'total'      => $resources_total,
+                        'page'       => $page,
+                        'limit'      => $list_limit,
+                        'url'        => $this->html->getSecureURL(
+                            'common/resource_library/resources',
+                            $uri.'&page={page}'
+                        ),
+                        'style'      => 'pagination',
                     ]
                 );
             }
@@ -1007,14 +1023,15 @@ class ControllerResponsesCommonResourceLibrary extends AController
     {
         if (!$this->user->canModify('common/resource_library')) {
             $error = new AError('');
-            $error->toJSONResponse('NO_PERMISSIONS_402',
-                                          [
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
                     'error_text'  => sprintf(
                         $this->language->get('error_permission_modify'),
                         'common/resource_library'
                     ),
                     'reset_value' => true,
-                                          ]
+                ]
             );
             return;
         }
@@ -1023,9 +1040,13 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $rm = new AResourceManager();
-        $resource_id = (int)$this->request->get['resource_id'];
+        $resource_id = (int) $this->request->get['resource_id'];
         if (has_value($this->request->get['object_name']) && has_value($this->request->get['object_id'])) {
-            $rm->unmapResource($this->request->get['object_name'], $this->request->get['object_id'], $resource_id);
+            $rm->unmapResource(
+                $this->request->get['object_name'],
+                $this->request->get['object_id'],
+                $resource_id
+            );
         }
         $result = $rm->deleteResource($resource_id);
 
@@ -1048,17 +1069,17 @@ class ControllerResponsesCommonResourceLibrary extends AController
 
     public function map()
     {
-
         if (!$this->user->canModify('common/resource_library')) {
             $error = new AError('');
-            $error->toJSONResponse('NO_PERMISSIONS_402',
-                                          [
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
                     'error_text'  => sprintf(
                         $this->language->get('error_permission_modify'),
                         'common/resource_library'
                     ),
                     'reset_value' => true,
-                                          ]
+                ]
             );
             return;
         }
@@ -1088,17 +1109,17 @@ class ControllerResponsesCommonResourceLibrary extends AController
 
     public function unmap()
     {
-
         if (!$this->user->canModify('common/resource_library')) {
             $error = new AError('');
-            $error->toJSONResponse('NO_PERMISSIONS_402',
-                                          [
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
                     'error_text'  => sprintf(
                         $this->language->get('error_permission_modify'),
                         'common/resource_library'
                     ),
                     'reset_value' => true,
-                                          ]
+                ]
             );
             return;
         }
@@ -1137,7 +1158,6 @@ class ControllerResponsesCommonResourceLibrary extends AController
 
     public function update_sort_order()
     {
-
         if (!$this->user->canModify('common/resource_library')) {
             $error = new AError('');
             $error->toJSONResponse(
@@ -1157,7 +1177,8 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $rm = new AResourceManager();
-        $rm->updateSortOrder($this->request->post['sort_order'],
+        $rm->updateSortOrder(
+            $this->request->post['sort_order'],
             $this->request->get['object_name'],
             $this->request->get['object_id']
         );
@@ -1172,12 +1193,14 @@ class ControllerResponsesCommonResourceLibrary extends AController
 
     public function get_resource_preview()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $rm = new AResourceManager();
-        $result = $rm->getResource($this->request->get['resource_id'], $this->language->getContentLanguageID());
+        $result = $rm->getResource(
+            $this->request->get['resource_id'],
+            $this->language->getContentLanguageID()
+        );
         if (!empty($result)) {
             $rm->setType($result['type_name']);
             if (!empty($result['resource_code'])) {
@@ -1194,7 +1217,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
                     $fSize = filesize($file_path);
                     $path_parts = pathinfo($file_path);
                     $mime = mime_content_type($file_path);
-                    $this->response->addHeader('Content-type: '. ($mime ? $mime : 'application/octet-stream'));
+                    $this->response->addHeader('Content-type: '.($mime ? : 'application/octet-stream'));
                     $this->response->addHeader(
                         "Content-Disposition: filename=\"".$result['name']
                         .'.'
@@ -1220,7 +1243,6 @@ class ControllerResponsesCommonResourceLibrary extends AController
 
     public function update_resource_details()
     {
-
         if (!$this->user->canModify('common/resource_library')) {
             $error = new AError('');
             $error->toJSONResponse(
@@ -1292,7 +1314,6 @@ class ControllerResponsesCommonResourceLibrary extends AController
 
     public function _multiple_update()
     {
-
         if (!$this->user->canModify('common/resource_library')) {
             $error = new AError('');
             $error->toJSONResponse(
@@ -1350,7 +1371,6 @@ class ControllerResponsesCommonResourceLibrary extends AController
 
     public function get_resources_html()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -1372,7 +1392,6 @@ class ControllerResponsesCommonResourceLibrary extends AController
 
     public function get_resource_details()
     {
-
         if (!$this->user->canModify('common/resource_library')) {
             $error = new AError('');
             $error->toJSONResponse(
@@ -1391,7 +1410,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $resource_id = (int)$this->request->get['resource_id'];
+        $resource_id = (int) $this->request->get['resource_id'];
         $language_id = $this->language->getContentLanguageID();
 
         $rm = new AResourceManager();
@@ -1431,12 +1450,11 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $types,
         $onload = true,
         $mode = '',
-        $page = 1 ,
+        $page = 1,
         $limit = 18,
         $sort = null,
         $order = 'ASC'
-    ){
-
+    ) {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
         //sign of call js-function on page load. default true.
@@ -1446,7 +1464,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
         $this->data['types'] = $rm->getResourceTypes();
 
         if ($types) {
-            $types = (array)$types;
+            $types = (array) $types;
             foreach ($this->data['types'] as $key => $type) {
                 if (!in_array($type['type_name'], $types)) {
                     unset($this->data['types'][$key]);
@@ -1489,7 +1507,7 @@ class ControllerResponsesCommonResourceLibrary extends AController
 
     /**
      * @param string $object_name
-     * @param int    $object_id
+     * @param int $object_id
      *
      * @return string
      */
