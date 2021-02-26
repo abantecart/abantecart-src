@@ -1187,8 +1187,8 @@ class ModelSaleCustomer extends Model
                 ];
             }
 
-            $mailLogo = $store_info['config_mail_logo_'.$languageId] ?: $store_info['config_logo_'.$languageId];
-            $mailLogo = $mailLogo ?: $store_info['config_mail_logo'];
+            $mailLogo = $store_info['config_mail_logo_'.$languageId] ?: $store_info['config_mail_logo'];
+            $mailLogo = $mailLogo ?: $store_info['config_logo_'.$languageId];
             $mailLogo = $mailLogo ?: $store_info['config_logo'];
 
             if ($mailLogo) {
