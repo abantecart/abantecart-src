@@ -1,299 +1,305 @@
 <?xml version="1.0"?>
 <extension>
-    <id>default_royal_mail</id>
-    <version>1.0.1</version>
+	<id>default_royal_mail</id>
+	<version>1.1.0</version>
 	<type>shipping</type>
 	<category>shipping</category>
-    <cartversions>
-        <item>1.2</item>
-    </cartversions>
-    <layout></layout>
-    <priority>10</priority>
-    <settings>
-        <item id="default_royal_mail_1st_class_standard">
-            <type>checkbox</type>
-            <default_value>0</default_value>
-        </item>
-	    <item id="default_royal_mail_1st_class_standard_rates">
-            <type>textarea</type>
-            <default_value>.1:1.58,.25:1.96,.5:2.48,.75:3.05,1:3.71,1.25:4.90,1.5:5.66,1.75:6.42,2:7.18,4:8.95,6:12.00,8:15.05,10:18.10</default_value>
-        </item>
-	    <item id="default_royal_mail_1st_class_standard_compensation_rates">
-            <type>textarea</type>
-            <default_value>39:0,100:1,250:2.25,500:3.5</default_value>
-        </item>
-	    <item id="default_royal_mail_1st_class_recorded">
-            <type>checkbox</type>
-            <default_value>0</default_value>
-        </item>
-	    <item id="default_royal_mail_1st_class_recorded_rates_gb">
-            <type>textarea</type>
-            <default_value>.1:2.35,.25:2.73,.5:3.25,.75:3.82,1:4.86,1.25:5.67,1.5:6.43,1.75:7.19,2:7.95,4:9.72,6:12.77,8:15.82,10:18.87</default_value>
-        </item>
-	    <item id="default_royal_mail_1st_class_recorded_compensation_rates_gb">
-            <type>textarea</type>
-            <default_value>39:0</default_value>
-        </item>
-        <item id="default_royal_mail_2nd_class_standard">
-            <type>checkbox</type>
-            <default_value>0</default_value>
-        </item>
-	    <item id="default_royal_mail_2nd_class_standard_rates">
-            <type>textarea</type>
-            <default_value>.1:1.33,.25:1.72,.5:2.16,.75:2.61,1:3.15</default_value>
-        </item>
-	    <item id="default_royal_mail_2nd_class_recorded">
-	         <type>checkbox</type>
-	         <default_value>0</default_value>
-	    </item>
-	    <item id="default_royal_mail_2nd_class_recorded_rates_gb">
-            <type>textarea</type>
-            <default_value>.1:2.10,.25:2.49,.5:2.93,.75:3.38,1:3.92</default_value>
-        </item>
-	    <item id="default_royal_mail_2nd_class_recorded_compensation_rates_gb">
-            <type>textarea</type>
-            <default_value>39:0</default_value>
-        </item>
-        <item id="default_royal_mail_standard_parcels">
-            <type>checkbox</type>
-            <default_value>0</default_value>
-        </item>
-	    <item id="default_royal_mail_standard_parcels_rates_gb">
-            <type>textarea</type>
-            <default_value>2:4.41,4:7.66,6:10.43,8:12.67,10:13.61,20:15.86</default_value>
-        </item>
-	    <item id="default_royal_mail_standard_parcels_compensation_rates_gb">
-            <type>textarea</type>
-            <default_value>39:0,100:1,250:2.25,500:3.5</default_value>
-        </item>
-
-	    <item id="default_royal_mail_free_gb">
-            <type>selectbox</type>
-            <variants>
-                <item>1st_class_standard</item>
-                <item>1st_class_recorded</item>
-                <item>2nd_class_standard</item>
-                <item>2nd_class_recorded</item>
-                <item>standard_parcels</item>
-            </variants>
-        </item>
-
-        <item id="default_royal_mail_airmail">
-            <type>checkbox</type>
-            <default_value>0</default_value>
-        </item>
-	    <item id="default_royal_mail_airmail_countries">
-            <type>checkboxgroup</type>
-            <variants>
-                <data_source>
-                   <model_rt>localisation/country</model_rt>
-                   <method>getCountries</method>
-                </data_source>
-                <fields>
-                    <field>iso_code_2</field>
-                    <field>name</field>
-                </fields>
-            </variants>
-		    <default_value>a:54:{i:0;s:2:"AL";i:1;s:2:"AD";i:2;s:2:"AM";i:3;s:2:"AT";i:4;s:2:"AZ";i:5;s:2:"BY";i:6;s:2:"BE";i:7;s:2:"BA";i:8;s:2:"BG";i:9;s:2:"HR";i:10;s:2:"CY";i:11;s:2:"CZ";i:12;s:2:"DK";i:13;s:2:"EE";i:14;s:2:"FO";i:15;s:2:"FI";i:16;s:2:"FR";i:17;s:2:"GE";i:18;s:2:"DE";i:19;s:2:"GI";i:20;s:2:"GR";i:21;s:2:"GL";i:22;s:2:"HU";i:23;s:2:"IS";i:24;s:2:"IE";i:25;s:2:"IT";i:26;s:2:"KZ";i:27;s:2:"KG";i:28;s:2:"LV";i:29;s:2:"LI";i:30;s:2:"LT";i:31;s:2:"LU";i:32;s:2:"MK";i:33;s:2:"MT";i:34;s:2:"MD";i:35;s:2:"MC";i:36;s:2:"NL";i:37;s:2:"NO";i:38;s:2:"PL";i:39;s:2:"PT";i:40;s:2:"RO";i:41;s:2:"RU";i:42;s:2:"SM";i:43;s:2:"SK";i:44;s:2:"SI";i:45;s:2:"ES";i:46;s:2:"SE";i:47;s:2:"CH";i:48;s:2:"TJ";i:49;s:2:"TR";i:50;s:2:"TM";i:51;s:2:"UA";i:52;s:2:"UZ";i:53;s:2:"VA";} </default_value>
-        </item>
-	    <item id="default_royal_mail_airmail_in_countries_rates">
-            <type>textarea</type>
-            <default_value>0.01:1.31,0.02:1.31,0.04:1.31,0.06:1.31,0.08:1.31,0.1:1.31,0.12:1.42,0.14:1.57,0.16:1.7,0.18:1.85,0.2:1.98,0.22</default_value>
-        </item>
-	    <item id="default_royal_mail_airmail_not_in_countries_rates">
-            <type>textarea</type>
-            <default_value>0.02:1.82,0.02:1.82,0.04:1.82,0.06:1.82,0.08:1.82,0.1:1.82,0.12:2.1,0.14:2.38,0.16:2.65,0.18:2.93,0.2:3.2,0.22</default_value>
-        </item>
-        <item id="default_royal_mail_international_signed">
-            <type>checkbox</type>
-            <default_value>0</default_value>
-        </item>
-	    <item id="default_royal_mail_international_signed_countries">
-            <type>checkboxgroup</type>
-            <variants>
-                <data_source>
-                   <model_rt>localisation/country</model_rt>
-                   <method>getCountries</method>
-                </data_source>
-                <fields>
-                    <field>iso_code_2</field>
-                    <field>name</field>
-                </fields>
-            </variants>
-            <default_value>a:54:{i:0;s:2:"AL";i:1;s:2:"AD";i:2;s:2:"AM";i:3;s:2:"AT";i:4;s:2:"AZ";i:5;s:2:"BY";i:6;s:2:"BE";i:7;s:2:"BA";i:8;s:2:"BG";i:9;s:2:"HR";i:10;s:2:"CY";i:11;s:2:"CZ";i:12;s:2:"DK";i:13;s:2:"EE";i:14;s:2:"FO";i:15;s:2:"FI";i:16;s:2:"FR";i:17;s:2:"GE";i:18;s:2:"DE";i:19;s:2:"GI";i:20;s:2:"GR";i:21;s:2:"GL";i:22;s:2:"HU";i:23;s:2:"IS";i:24;s:2:"IE";i:25;s:2:"IT";i:26;s:2:"KZ";i:27;s:2:"KG";i:28;s:2:"LV";i:29;s:2:"LI";i:30;s:2:"LT";i:31;s:2:"LU";i:32;s:2:"MK";i:33;s:2:"MT";i:34;s:2:"MD";i:35;s:2:"MC";i:36;s:2:"NL";i:37;s:2:"NO";i:38;s:2:"PL";i:39;s:2:"PT";i:40;s:2:"RO";i:41;s:2:"RU";i:42;s:2:"SM";i:43;s:2:"SK";i:44;s:2:"SI";i:45;s:2:"ES";i:46;s:2:"SE";i:47;s:2:"CH";i:48;s:2:"TJ";i:49;s:2:"TR";i:50;s:2:"TM";i:51;s:2:"UA";i:52;s:2:"UZ";i:53;s:2:"VA";} </default_value>
-        </item>
-	    <item id="default_royal_mail_international_signed_in_countries_rates">
-            <type>textarea</type>
-            <default_value>.1:4.91,.12:5.01,.14:5.15,.16:5.27,.18:5.4,.2:5.52,.22:5.65,.24:5.76,.26:5.88,.28:6.01,.3:6.14,.34:6.36,.38:6.58,.42:6.8,.46:7.02,.5:7.24,.56:7.57,.62:7.9,.68:8.23,.74:8.56,.8:8.89,.9:9.44,1:9.99,1.2:10.99,1.4:11.99,1.6:12.99,1.8:13.99,2:14.99</default_value>
-        </item>
-	    <item id="default_royal_mail_international_signed_in_countries_c_rates">
-            <type>textarea</type>
-            <default_value>39:0,250:2.20</default_value>
-        </item>
-	    <item id="default_royal_mail_international_signed_not_in_countries_rates">
-            <type>textarea</type>
-            <default_value>.1:5.38,.12:5.63,.14:5.89,.16:6.14,.18:6.4,.2:6.64,.22:6.88,.24:7.11,.26:7.34,.28:7.58,.3:7.81,.34:8.29,.38:8.77,.42:9.25,.46:9.73,.5:10.21,.56:10.9,.62:11.59,.68:12.28,.74:12.97,.8:13.66,.9:14.81,1:15.96,1.2:18.16,1.4:20.36,1.6:22.56,1.8:24.76,2:26.96</default_value>
-        </item>
-	    <item id="default_royal_mail_international_signed_not_in_countries_c_rates">
-            <type>textarea</type>
-            <default_value>39:0,250:2.20</default_value>
-        </item>
-        <item id="default_royal_mail_airsure">
-            <type>checkbox</type>
-            <default_value>0</default_value>
-        </item>
-	    <item id="default_royal_mail_airsure_countries">
-            <type>checkboxgroup</type>
-            <variants>
-                <data_source>
-                   <model_rt>localisation/country</model_rt>
-                   <method>getCountries</method>
-                </data_source>
-                <fields>
-                    <field>iso_code_2</field>
-                    <field>name</field>
-                </fields>
-            </variants>
-            <default_value>a:18:{i:0;s:2:"AD";i:1;s:2:"AT";i:2;s:2:"BE";i:3;s:2:"CH";i:4;s:2:"DE";i:5;s:2:"DK";i:6;s:2:"ES";i:7;s:2:"FO";i:8;s:2:"FI";i:9;s:2:"FR";i:10;s:2:"IE";i:11;s:2:"IS";i:12;s:2:"LI";i:13;s:2:"LU";i:14;s:2:"MC";i:15;s:2:"NL";i:16;s:2:"PT";i:17;s:2:"SE";} </default_value>
-        </item>
-	    <item id="default_royal_mail_airsure_in_countries_rates">
-            <type>textarea</type>
-            <default_value>.1:5.71,.12:5.81,.14:5.95,.16:6.07,.18:6.2,.2:6.32,.22:6.45,.24:6.56,.26:6.68,.28:6.81,.3:6.94,.34:7.16,.38:7.38,.42:7.6,.46:7.82,.5:8.04,.56:8.37,.62:8.7,.68:9.03,.74:9.36,.8:9.69,.9:10.24,1:10.79,1.2:11.79,1.4:12.79,1.6:13.79,1.8:14.79,2:15.79</default_value>
-        </item>
-	    <item id="default_royal_mail_airsure_countries_2">
-            <type>checkboxgroup</type>
-            <variants>
-                <data_source>
-                   <model_rt>localisation/country</model_rt>
-                   <method>getCountries</method>
-                </data_source>
-                <fields>
-                    <field>iso_code_2</field>
-                    <field>name</field>
-                </fields>
-            </variants>
-            <default_value>a:7:{i:0;s:2:"BR";i:1;s:2:"CA";i:2;s:2:"HK";i:3;s:2:"MY";i:4;s:2:"NZ";i:5;s:2:"SG";i:6;s:2:"US";} </default_value>
-        </item>
-	    <item id="default_royal_mail_airsure_in_countries_2_rates">
-            <type>textarea</type>
-            <default_value>.1:6.18,.12:6.43,.14:6.69,.16:6.94,.18:7.2,.2:7.44,.22:7.68,.24:7.91,.26:8.14,.28:8.38,.3:8.61,.34:9.09,.38:9.57,.42:10.05,.46:10.53,.5:11.01,.56:11.7,.62:12.39,.68:13.08,.74:13.77,.8:14.46,.9:15.61,1:16.76,1.2:18.96,1.4:21.16,1.6:23.36,1.8:25.56,2:27.76</default_value>
-        </item>
-	    <item id="default_royal_mail_airsure_countries_3">
-            <type>checkboxgroup</type>
-            <variants>
-                <data_source>
-                   <model_rt>localisation/country</model_rt>
-                   <method>getCountries</method>
-                </data_source>
-                <fields>
-                    <field>iso_code_2</field>
-                    <field>name</field>
-                </fields>
-            </variants>
-            <default_value>a:18:{i:0;s:2:"AD";i:1;s:2:"AT";i:2;s:2:"BE";i:3;s:2:"CH";i:4;s:2:"DE";i:5;s:2:"DK";i:6;s:2:"ES";i:7;s:2:"FO";i:8;s:2:"FI";i:9;s:2:"FR";i:10;s:2:"IE";i:11;s:2:"IS";i:12;s:2:"LI";i:13;s:2:"LU";i:14;s:2:"MC";i:15;s:2:"NL";i:16;s:2:"PT";i:17;s:2:"SE";} </default_value>
-        </item>
-	    <item id="default_royal_mail_airsure_in_countries_3_rates">
-            <type>textarea</type>
-            <default_value>39:0,500:2.2</default_value>
-        </item>
-	    <item id="default_royal_mail_airsure_countries_4">
-            <type>checkboxgroup</type>
-            <variants>
-                <data_source>
-                   <model_rt>localisation/country</model_rt>
-                   <method>getCountries</method>
-                </data_source>
-                <fields>
-                    <field>iso_code_2</field>
-                    <field>name</field>
-                </fields>
-            </variants>
-            <default_value>a:7:{i:0;s:2:"BR";i:1;s:2:"CA";i:2;s:2:"HK";i:3;s:2:"MY";i:4;s:2:"NZ";i:5;s:2:"SG";i:6;s:2:"US";} </default_value>
-        </item>
-	    <item id="default_royal_mail_airsure_in_countries_4_rates">
-            <type>textarea</type>
-            <default_value>39:0,500:2.2</default_value>
-        </item>
-
-        <item id="default_royal_mail_surface">
-            <type>checkbox</type>
-            <default_value>0</default_value>
-        </item>
-	    <item id="default_royal_mail_surface_rates">
-            <type>textarea</type>
-            <default_value>.1:0.91,.15:1.22,.2:1.53,.25:1.84,.3:2.14,.35:2.44,.4:2.76,.45:3.06,.5:3.36,.55:3.67,.6:3.98,.65:4.28,.7:4.59,.75:4.89,.8:5.2,.85:5.5,.9:5.81,1:6.42,1.1:7.03,1.2:7.65,1.3:8.25,1.4:8.87,1.5:9.48,1.6:10.09,1.7:10.61,1.8:11.13,1.9:11.65,2:12.17</default_value>
-        </item>
-
-	    <item id="default_royal_mail_free">
-            <type>selectbox</type>
-            <variants>
-                <item>airmail</item>
-                <item>international_signed</item>
-                <item>airsure</item>
-                <item>surface</item>
-            </variants>
-        </item>
-
-        <item id="default_royal_mail_display_weight">
-            <type>checkbox</type>
-            <default_value>0</default_value>
-        </item>
-        <item id="default_royal_mail_display_insurance">
-            <type>checkbox</type>
-            <default_value>0</default_value>
-        </item>
-        <item id="default_royal_mail_display_time">
-            <type>checkbox</type>
-            <default_value>0</default_value>
-        </item>
-        <item id="default_royal_mail_weight_class">
-            <type>selectbox</type>
+	<cartversions>
+		<item>1.3</item>
+	</cartversions>
+	<layout></layout>
+	<priority>10</priority>
+	<settings>
+		<item id="default_royal_mail_1st_class_standard">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_1st_class_standard_rates">
+			<type>textarea</type>
+			<default_value>.1:1.58,.25:1.96,.5:2.48,.75:3.05,1:3.71,1.25:4.90,1.5:5.66,1.75:6.42,2:7.18,4:8.95,6:12.00,8:15.05,10:18.10</default_value>
+		</item>
+		<item id="default_royal_mail_1st_class_standard_compensation_rates">
+			<type>textarea</type>
+			<default_value>39:0,100:1,250:2.25,500:3.5</default_value>
+		</item>
+		<item id="default_royal_mail_1st_class_recorded">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_1st_class_recorded_rates_gb">
+			<type>textarea</type>
+			<default_value>.1:2.35,.25:2.73,.5:3.25,.75:3.82,1:4.86,1.25:5.67,1.5:6.43,1.75:7.19,2:7.95,4:9.72,6:12.77,8:15.82,10:18.87</default_value>
+		</item>
+		<item id="default_royal_mail_1st_class_recorded_compensation_rates_gb">
+			<type>textarea</type>
+			<default_value>39:0</default_value>
+		</item>
+		<item id="default_royal_mail_2nd_class_standard">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_2nd_class_standard_rates">
+			<type>textarea</type>
+			<default_value>.1:1.33,.25:1.72,.5:2.16,.75:2.61,1:3.15</default_value>
+		</item>
+		<item id="default_royal_mail_2nd_class_recorded">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_2nd_class_recorded_rates_gb">
+			<type>textarea</type>
+			<default_value>.1:2.10,.25:2.49,.5:2.93,.75:3.38,1:3.92</default_value>
+		</item>
+		<item id="default_royal_mail_2nd_class_recorded_compensation_rates_gb">
+			<type>textarea</type>
+			<default_value>39:0</default_value>
+		</item>
+		<item id="default_royal_mail_standard_parcels">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_standard_parcels_rates_gb">
+			<type>textarea</type>
+			<default_value>2:4.41,4:7.66,6:10.43,8:12.67,10:13.61,20:15.86</default_value>
+		</item>
+		<item id="default_royal_mail_standard_parcels_compensation_rates_gb">
+			<type>textarea</type>
+			<default_value>39:0,100:1,250:2.25,500:3.5</default_value>
+		</item>
+		<item id="default_royal_mail_free_gb">
+			<type>selectbox</type>
+			<variants>
+				<item>1st_class_standard</item>
+				<item>1st_class_recorded</item>
+				<item>2nd_class_standard</item>
+				<item>2nd_class_recorded</item>
+				<item>standard_parcels</item>
+			</variants>
+		</item>
+		<item id="default_royal_mail_airmail">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_airmail_countries">
+			<type>checkboxgroup</type>
 			<variants>
 				<data_source>
-                   <model_rt>localisation/weight_class</model_rt>
-                   <method>getWeightClasses</method>
+					<model_rt>localisation/country</model_rt>
+					<method>getCountries</method>
+				</data_source>
+				<fields>
+					<field>iso_code_2</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>a:54:{i:0;s:2:"AL";i:1;s:2:"AD";i:2;s:2:"AM";i:3;s:2:"AT";i:4;s:2:"AZ";i:5;s:2:"BY";i:6;s:2:"BE";i:7;s:2:"BA";i:8;s:2:"BG";i:9;s:2:"HR";i:10;s:2:"CY";i:11;s:2:"CZ";i:12;s:2:"DK";i:13;s:2:"EE";i:14;s:2:"FO";i:15;s:2:"FI";i:16;s:2:"FR";i:17;s:2:"GE";i:18;s:2:"DE";i:19;s:2:"GI";i:20;s:2:"GR";i:21;s:2:"GL";i:22;s:2:"HU";i:23;s:2:"IS";i:24;s:2:"IE";i:25;s:2:"IT";i:26;s:2:"KZ";i:27;s:2:"KG";i:28;s:2:"LV";i:29;s:2:"LI";i:30;s:2:"LT";i:31;s:2:"LU";i:32;s:2:"MK";i:33;s:2:"MT";i:34;s:2:"MD";i:35;s:2:"MC";i:36;s:2:"NL";i:37;s:2:"NO";i:38;s:2:"PL";i:39;s:2:"PT";i:40;s:2:"RO";i:41;s:2:"RU";i:42;s:2:"SM";i:43;s:2:"SK";i:44;s:2:"SI";i:45;s:2:"ES";i:46;s:2:"SE";i:47;s:2:"CH";i:48;s:2:"TJ";i:49;s:2:"TR";i:50;s:2:"TM";i:51;s:2:"UA";i:52;s:2:"UZ";i:53;s:2:"VA";}
+			</default_value>
+		</item>
+		<item id="default_royal_mail_airmail_in_countries_rates">
+			<type>textarea</type>
+			<default_value>0.01:1.31,0.02:1.31,0.04:1.31,0.06:1.31,0.08:1.31,0.1:1.31,0.12:1.42,0.14:1.57,0.16:1.7,0.18:1.85,0.2:1.98,0.22</default_value>
+		</item>
+		<item id="default_royal_mail_airmail_not_in_countries_rates">
+			<type>textarea</type>
+			<default_value>0.02:1.82,0.02:1.82,0.04:1.82,0.06:1.82,0.08:1.82,0.1:1.82,0.12:2.1,0.14:2.38,0.16:2.65,0.18:2.93,0.2:3.2,0.22</default_value>
+		</item>
+		<item id="default_royal_mail_international_signed">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_international_signed_countries">
+			<type>checkboxgroup</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/country</model_rt>
+					<method>getCountries</method>
+				</data_source>
+				<fields>
+					<field>iso_code_2</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>a:54:{i:0;s:2:"AL";i:1;s:2:"AD";i:2;s:2:"AM";i:3;s:2:"AT";i:4;s:2:"AZ";i:5;s:2:"BY";i:6;s:2:"BE";i:7;s:2:"BA";i:8;s:2:"BG";i:9;s:2:"HR";i:10;s:2:"CY";i:11;s:2:"CZ";i:12;s:2:"DK";i:13;s:2:"EE";i:14;s:2:"FO";i:15;s:2:"FI";i:16;s:2:"FR";i:17;s:2:"GE";i:18;s:2:"DE";i:19;s:2:"GI";i:20;s:2:"GR";i:21;s:2:"GL";i:22;s:2:"HU";i:23;s:2:"IS";i:24;s:2:"IE";i:25;s:2:"IT";i:26;s:2:"KZ";i:27;s:2:"KG";i:28;s:2:"LV";i:29;s:2:"LI";i:30;s:2:"LT";i:31;s:2:"LU";i:32;s:2:"MK";i:33;s:2:"MT";i:34;s:2:"MD";i:35;s:2:"MC";i:36;s:2:"NL";i:37;s:2:"NO";i:38;s:2:"PL";i:39;s:2:"PT";i:40;s:2:"RO";i:41;s:2:"RU";i:42;s:2:"SM";i:43;s:2:"SK";i:44;s:2:"SI";i:45;s:2:"ES";i:46;s:2:"SE";i:47;s:2:"CH";i:48;s:2:"TJ";i:49;s:2:"TR";i:50;s:2:"TM";i:51;s:2:"UA";i:52;s:2:"UZ";i:53;s:2:"VA";}
+			</default_value>
+		</item>
+		<item id="default_royal_mail_international_signed_in_countries_rates">
+			<type>textarea</type>
+			<default_value>.1:4.91,.12:5.01,.14:5.15,.16:5.27,.18:5.4,.2:5.52,.22:5.65,.24:5.76,.26:5.88,.28:6.01,.3:6.14,.34:6.36,.38:6.58,.42:6.8,.46:7.02,.5:7.24,.56:7.57,.62:7.9,.68:8.23,.74:8.56,.8:8.89,.9:9.44,1:9.99,1.2:10.99,1.4:11.99,1.6:12.99,1.8:13.99,2:14.99
+			</default_value>
+		</item>
+		<item id="default_royal_mail_international_signed_in_countries_c_rates">
+			<type>textarea</type>
+			<default_value>39:0,250:2.20</default_value>
+		</item>
+		<item id="default_royal_mail_international_signed_not_in_countries_rates">
+			<type>textarea</type>
+			<default_value>.1:5.38,.12:5.63,.14:5.89,.16:6.14,.18:6.4,.2:6.64,.22:6.88,.24:7.11,.26:7.34,.28:7.58,.3:7.81,.34:8.29,.38:8.77,.42:9.25,.46:9.73,.5:10.21,.56:10.9,.62:11.59,.68:12.28,.74:12.97,.8:13.66,.9:14.81,1:15.96,1.2:18.16,1.4:20.36,1.6:22.56,1.8:24.76,2:26.96
+			</default_value>
+		</item>
+		<item id="default_royal_mail_international_signed_not_in_countries_c_rates">
+			<type>textarea</type>
+			<default_value>39:0,250:2.20</default_value>
+		</item>
+		<item id="default_royal_mail_airsure">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_airsure_countries">
+			<type>checkboxgroup</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/country</model_rt>
+					<method>getCountries</method>
+				</data_source>
+				<fields>
+					<field>iso_code_2</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>a:18:{i:0;s:2:"AD";i:1;s:2:"AT";i:2;s:2:"BE";i:3;s:2:"CH";i:4;s:2:"DE";i:5;s:2:"DK";i:6;s:2:"ES";i:7;s:2:"FO";i:8;s:2:"FI";i:9;s:2:"FR";i:10;s:2:"IE";i:11;s:2:"IS";i:12;s:2:"LI";i:13;s:2:"LU";i:14;s:2:"MC";i:15;s:2:"NL";i:16;s:2:"PT";i:17;s:2:"SE";}
+			</default_value>
+		</item>
+		<item id="default_royal_mail_airsure_in_countries_rates">
+			<type>textarea</type>
+			<default_value>.1:5.71,.12:5.81,.14:5.95,.16:6.07,.18:6.2,.2:6.32,.22:6.45,.24:6.56,.26:6.68,.28:6.81,.3:6.94,.34:7.16,.38:7.38,.42:7.6,.46:7.82,.5:8.04,.56:8.37,.62:8.7,.68:9.03,.74:9.36,.8:9.69,.9:10.24,1:10.79,1.2:11.79,1.4:12.79,1.6:13.79,1.8:14.79,2:15.79
+			</default_value>
+		</item>
+		<item id="default_royal_mail_airsure_countries_2">
+			<type>checkboxgroup</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/country</model_rt>
+					<method>getCountries</method>
+				</data_source>
+				<fields>
+					<field>iso_code_2</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>a:7:{i:0;s:2:"BR";i:1;s:2:"CA";i:2;s:2:"HK";i:3;s:2:"MY";i:4;s:2:"NZ";i:5;s:2:"SG";i:6;s:2:"US";}</default_value>
+		</item>
+		<item id="default_royal_mail_airsure_in_countries_2_rates">
+			<type>textarea</type>
+			<default_value>.1:6.18,.12:6.43,.14:6.69,.16:6.94,.18:7.2,.2:7.44,.22:7.68,.24:7.91,.26:8.14,.28:8.38,.3:8.61,.34:9.09,.38:9.57,.42:10.05,.46:10.53,.5:11.01,.56:11.7,.62:12.39,.68:13.08,.74:13.77,.8:14.46,.9:15.61,1:16.76,1.2:18.96,1.4:21.16,1.6:23.36,1.8:25.56,2:27.76
+			</default_value>
+		</item>
+		<item id="default_royal_mail_airsure_countries_3">
+			<type>checkboxgroup</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/country</model_rt>
+					<method>getCountries</method>
+				</data_source>
+				<fields>
+					<field>iso_code_2</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>a:18:{i:0;s:2:"AD";i:1;s:2:"AT";i:2;s:2:"BE";i:3;s:2:"CH";i:4;s:2:"DE";i:5;s:2:"DK";i:6;s:2:"ES";i:7;s:2:"FO";i:8;s:2:"FI";i:9;s:2:"FR";i:10;s:2:"IE";i:11;s:2:"IS";i:12;s:2:"LI";i:13;s:2:"LU";i:14;s:2:"MC";i:15;s:2:"NL";i:16;s:2:"PT";i:17;s:2:"SE";}
+			</default_value>
+		</item>
+		<item id="default_royal_mail_airsure_in_countries_3_rates">
+			<type>textarea</type>
+			<default_value>39:0,500:2.2</default_value>
+		</item>
+		<item id="default_royal_mail_airsure_countries_4">
+			<type>checkboxgroup</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/country</model_rt>
+					<method>getCountries</method>
+				</data_source>
+				<fields>
+					<field>iso_code_2</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>a:7:{i:0;s:2:"BR";i:1;s:2:"CA";i:2;s:2:"HK";i:3;s:2:"MY";i:4;s:2:"NZ";i:5;s:2:"SG";i:6;s:2:"US";}</default_value>
+		</item>
+		<item id="default_royal_mail_airsure_in_countries_4_rates">
+			<type>textarea</type>
+			<default_value>39:0,500:2.2</default_value>
+		</item>
+		<item id="default_royal_mail_surface">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_surface_rates">
+			<type>textarea</type>
+			<default_value>.1:0.91,.15:1.22,.2:1.53,.25:1.84,.3:2.14,.35:2.44,.4:2.76,.45:3.06,.5:3.36,.55:3.67,.6:3.98,.65:4.28,.7:4.59,.75:4.89,.8:5.2,.85:5.5,.9:5.81,1:6.42,1.1:7.03,1.2:7.65,1.3:8.25,1.4:8.87,1.5:9.48,1.6:10.09,1.7:10.61,1.8:11.13,1.9:11.65,2:12.17
+			</default_value>
+		</item>
+
+		<item id="default_royal_mail_free">
+			<type>selectbox</type>
+			<variants>
+				<item>airmail</item>
+				<item>international_signed</item>
+				<item>airsure</item>
+				<item>surface</item>
+			</variants>
+		</item>
+
+		<item id="default_royal_mail_display_weight">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_display_insurance">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_display_time">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_royal_mail_weight_class">
+			<type>selectbox</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/weight_class</model_rt>
+					<method>getWeightClasses</method>
 				</data_source>
 				<fields>
 					<field>unit</field>
 					<field>title</field>
 				</fields>
 			</variants>
-        </item>
-        <item id="default_royal_mail_tax">
-            <type>selectbox</type>
+		</item>
+		<item id="default_royal_mail_tax">
+			<type>selectbox</type>
 			<variants>
 				<item>0</item>
 				<data_source>
-                   <model_rt>localisation/tax_class</model_rt>
-                   <method>getTaxClasses</method>
+					<model_rt>localisation/tax_class</model_rt>
+					<method>getTaxClasses</method>
 				</data_source>
 				<fields>
 					<field>tax_class_id</field>
 					<field>title</field>
 				</fields>
 			</variants>
-        </item>
-	    <item id="default_royal_mail_location_id">
-            <type>selectbox</type>
+		</item>
+		<item id="default_royal_mail_location_id">
+			<type>selectbox</type>
 			<variants>
 				<item>0</item>
 				<data_source>
-                   <model_rt>localisation/location</model_rt>
-                   <method>getLocations</method>
+					<model_rt>localisation/location</model_rt>
+					<method>getLocations</method>
 				</data_source>
 				<fields>
 					<field>location_id</field>
 					<field>name</field>
 				</fields>
 			</variants>
-        </item>
-    </settings>
-    <install>
-	    <sql></sql>
-	    <trigger></trigger>
+		</item>
+	</settings>
+	<install>
+		<sql></sql>
+		<trigger></trigger>
 	</install>
 	<uninstall>
-	    <sql></sql>
-	    <trigger></trigger>
+		<sql></sql>
+		<trigger></trigger>
 	</uninstall>
 </extension>

@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <extension>
-    <id>forms_manager</id>
-    <version>1.0.3</version>
+	<id>forms_manager</id>
+	<version>1.1.0</version>
 	<type>extension</type>
 	<category>utility</category>
-    <cartversions>
-        <item>1.2.0</item>
-    </cartversions>
-    <layout></layout>
-    <priority>10</priority>
-    <settings>
-        <item id="forms_manager_status">
-            <type>checkbox</type>
-            <default_value>0</default_value>
-        </item>
+	<cartversions>
+		<item>1.3</item>
+	</cartversions>
+	<layout></layout>
+	<priority>10</priority>
+	<settings>
+		<item id="forms_manager_status">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
 		<item id="forms_manager_default_sender_name">
 			<type>input</type>
 			<default_value>Your Name</default_value>
@@ -22,17 +22,17 @@
 			<type>input</type>
 			<default_value>youremail</default_value>
 		</item>
-    </settings>
+	</settings>
 	<note>true</note>
-    <preview>
+	<preview>
 		<item>forms_manager_big.png</item>
 	</preview>
 	<help_file><![CDATA[help.txt]]></help_file>
 	<help_link><![CDATA[http://www.abantecart.com]]></help_link>
-    <install>
-	    <trigger>install.php</trigger>
+	<install>
+		<trigger>install.php</trigger>
 	</install>
 	<uninstall>
-	    <trigger>uninstall.php</trigger>
+		<trigger>uninstall.php</trigger>
 	</uninstall>
 </extension>
