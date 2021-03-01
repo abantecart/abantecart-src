@@ -97,6 +97,11 @@
 				}
 				$widthcasses .= " col-xs-12";
 			?>
+        <?php
+        if($name == 'ssl_url' && $error_https){ ?>
+            <div class="<?php echo $widthcasses; ?> col-sm-offset-4 alert alert-danger">
+                <i class="fa fa-exclamation-triangle"></i> <?php echo $error_https; ?></div>
+        <?php } ?>
 		<div id="<?php echo $field->element_id.'_fld'; ?>" class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
 			<label class="control-label col-sm-4" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">

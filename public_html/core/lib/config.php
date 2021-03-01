@@ -243,19 +243,20 @@ final class AConfig
         if (IS_ADMIN) {
             //Check if admin has specific store in session or selected
             $session = $this->registry->get('session');
-            $store_id = $this->registry->get('request')->get['store_id'];
+            $store_id = $this->registry->get('request')->get['store_id'] ?? null;
             if (has_value($store_id)) {
                 $this->cnfg['current_store_id'] = (int)$store_id;
             } else {
-                if (has_value($session->data['current_store_id'])) {
+                if (isset($session->data['current_store_id']) && has_value($session->data['current_store_id'])) {
                     $this->cnfg['current_store_id'] = $session->data['current_store_id'];
                 } elseif (isset($session->data['config_store_id'])) {
                     //nothing to do
                     $this->cnfg['current_store_id'] = $session->data['config_store_id'];
                 }
             }
+            $this->cnfg['current_store_id'] = $this->cnfg['current_store_id'] ?? null;
             //reload store settings if not what is loaded now
-            if ($this->cnfg['current_store_id'] != $this->cnfg['config_store_id']) {
+            if ((int)$this->cnfg['current_store_id'] != (int)$this->cnfg['config_store_id']) {
                 $this->_reload_settings($this->cnfg['current_store_id']);
                 $this->cnfg['config_store_id'] = $this->cnfg['current_store_id'];
             }

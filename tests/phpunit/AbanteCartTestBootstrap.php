@@ -23,7 +23,7 @@ class AbanteCartTest extends PHPUnit\Framework\TestCase {
 
 
 		// Required PHP Version
-		define('MIN_PHP_VERSION', '5.6.0');
+		define('MIN_PHP_VERSION', '7.1.0');
 		if (version_compare(phpversion(), MIN_PHP_VERSION, '<') == TRUE) {
 			throw new Exception( MIN_PHP_VERSION . '+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
 		}

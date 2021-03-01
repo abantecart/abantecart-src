@@ -48,13 +48,11 @@ class ModelToolPackageInstaller extends Model
                 $percents = 100;
             }
 
-        } elseif (isset($this->session->data['curl_handler'])) {
-            return curl_getinfo($this->session->data['curl_handler'], CURLINFO_SIZE_DOWNLOAD);
+        } elseif (isset($this->session->data['curl'][CURLINFO_SIZE_DOWNLOAD])) {
+            return $this->session->data['curl'][CURLINFO_SIZE_DOWNLOAD];
         } else {
             $percents = floor(filesize($this->session->data['package_info']['tmp_dir'].$this->session->data['package_info']['package_name']) * 100 / $this->session->data['package_info']['package_size']);
         }
         return $percents;
     }
 }
-
-?>

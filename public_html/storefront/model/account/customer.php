@@ -1,4 +1,6 @@
 <?php
+/** @noinspection PhpUndefinedClassInspection */
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -18,18 +20,19 @@
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 
+use ReCaptcha\ReCaptcha;
+
 /**
  * Class ModelAccountCustomer
  *
  * @property ModelCatalogContent $model_catalog_content
- * @property AIM                 $im
- * @property ModelAccountOrder   $model_account_order
+ * @property AIM $im
+ * @property ModelAccountOrder $model_account_order
  * @property ACustomer $customer
  */
 class ModelAccountCustomer extends Model
 {
-    public $data = array();
-    public $error = array();
+    public $error = [];
 
     /**
      * @param array $data
@@ -42,10 +45,10 @@ class ModelAccountCustomer extends Model
         $key_sql = '';
         if ($this->dcrypt->active) {
             $data = $this->dcrypt->encrypt_data($data, 'customers');
-            $key_sql = ", key_id = '".(int)$data['key_id']."'";
+            $key_sql = ", key_id = '".(int) $data['key_id']."'";
         }
-        if (!(int)$data['customer_group_id']) {
-            $data['customer_group_id'] = (int)$this->config->get('config_customer_group_id');
+        if (!(int) $data['customer_group_id']) {
+            $data['customer_group_id'] = (int) $this->config->get('config_customer_group_id');
         }
         if (!isset($data['status'])) {
             // if need to activate via email  - disable status
@@ -56,7 +59,7 @@ class ModelAccountCustomer extends Model
             }
         }
         if (isset($data['approved'])) {
-            $data['approved'] = (int)$data['approved'];
+            $data['approved'] = (int) $data['approved'];
         } else {
             if (!$this->config->get('config_customer_approval')) {
                 $data['approved'] = 1;
@@ -75,17 +78,17 @@ class ModelAccountCustomer extends Model
         foreach ($subscriber->rows as $row) {
             $this->db->query(
                 "DELETE FROM ".$this->db->table("customers")." 
-                 WHERE customer_id = '".(int)$row['customer_id']."'"
+                 WHERE customer_id = '".(int) $row['customer_id']."'"
             );
             $this->db->query(
                 "DELETE FROM ".$this->db->table("addresses")." 
-                 WHERE customer_id = '".(int)$row['customer_id']."'"
+                 WHERE customer_id = '".(int) $row['customer_id']."'"
             );
         }
 
         $salt_key = genToken(8);
         $sql = "INSERT INTO ".$this->db->table("customers")."
-              SET	store_id = '".(int)$this->config->get('config_store_id')."',
+              SET	store_id = '".(int) $this->config->get('config_store_id')."',
                     loginname = '".$this->db->escape($data['loginname'])."',
                     firstname = '".$this->db->escape(trim($data['firstname']))."',
                     lastname = '".$this->db->escape(trim($data['lastname']))."',
@@ -94,10 +97,10 @@ class ModelAccountCustomer extends Model
                     fax = '".$this->db->escape($data['fax'])."',
                     salt = '".$this->db->escape($salt_key)."', 
                     password = '".$this->db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password']))))."',
-                    newsletter = '".(int)$data['newsletter']."',
-                    customer_group_id = '".(int)$data['customer_group_id']."',
-                    approved = '".(int)$data['approved']."',
-                    status = '".(int)$data['status']."'".$key_sql.",
+                    newsletter = '".(int) $data['newsletter']."',
+                    customer_group_id = '".(int) $data['customer_group_id']."',
+                    approved = '".(int) $data['approved']."',
+                    status = '".(int) $data['status']."'".$key_sql.",
                     ip = '".$this->db->escape($data['ip'])."',
                     data = '".$this->db->escape(serialize($data['data']))."',
                     date_added = NOW()";
@@ -107,10 +110,11 @@ class ModelAccountCustomer extends Model
         $key_sql = '';
         if ($this->dcrypt->active) {
             $data = $this->dcrypt->encrypt_data($data, 'addresses');
-            $key_sql = ", key_id = '".(int)$data['key_id']."'";
+            $key_sql = ", key_id = '".(int) $data['key_id']."'";
         }
-        $this->db->query("INSERT INTO ".$this->db->table("addresses")." 
-                          SET 	customer_id = '".(int)$customer_id."', 
+        $this->db->query(
+            "INSERT INTO ".$this->db->table("addresses")." 
+                          SET 	customer_id = '".(int) $customer_id."', 
                                 firstname = '".$this->db->escape($data['firstname'])."', 
                                 lastname = '".$this->db->escape($data['lastname'])."', 
                                 company = '".$this->db->escape($data['company'])."', 
@@ -118,14 +122,17 @@ class ModelAccountCustomer extends Model
                                 address_2 = '".$this->db->escape($data['address_2'])."', 
                                 city = '".$this->db->escape($data['city'])."', 
                                 postcode = '".$this->db->escape($data['postcode'])."', 
-                                country_id = '".(int)$data['country_id']."'".
+                                country_id = '".(int) $data['country_id']."'".
             $key_sql.",
-                                zone_id = '".(int)$data['zone_id']."'");
+                                zone_id = '".(int) $data['zone_id']."'"
+        );
 
         $address_id = $this->db->getLastId();
-        $this->db->query("UPDATE ".$this->db->table("customers")."
-                            SET address_id = '".(int)$address_id."'
-                            WHERE customer_id = '".(int)$customer_id."'");
+        $this->db->query(
+            "UPDATE ".$this->db->table("customers")."
+                            SET address_id = '".(int) $address_id."'
+                            WHERE customer_id = '".(int) $customer_id."'"
+        );
 
         if (!$data['approved']) {
             $language = new ALanguage($this->registry);
@@ -134,10 +141,18 @@ class ModelAccountCustomer extends Model
 
             if ($data['subscriber']) {
                 //notify administrator of pending subscriber approval
-                $msg_text = sprintf($language->get('text_pending_subscriber_approval'), $data['firstname'].' '.$data['lastname'], $customer_id);
+                $msg_text = sprintf(
+                    $language->get('text_pending_subscriber_approval'),
+                    $data['firstname'].' '.$data['lastname'],
+                    $customer_id
+                );
             } else {
                 //notify administrator of pending customer approval
-                $msg_text = sprintf($language->get('text_pending_customer_approval'), $data['firstname'].' '.$data['lastname'], $customer_id);
+                $msg_text = sprintf(
+                    $language->get('text_pending_customer_approval'),
+                    $data['firstname'].' '.$data['lastname'],
+                    $customer_id
+                );
             }
             $msg = new AMessage();
             $msg->saveNotice($language->get('text_new_customer'), $msg_text);
@@ -167,11 +182,11 @@ class ModelAccountCustomer extends Model
             $lang_key = 'im_new_customer_text_to_admin';
             $templateId = 'storefront_new_customer_admin_notify';
         }
-        $message_arr = array(
-            1 => array(
+        $message_arr = [
+            1 => [
                 'message' => sprintf($language->get($lang_key), $customer_id, $data['firstname'].' '.$data['lastname']),
-            ),
-        );
+            ],
+        ];
         $this->im->send('new_customer', $message_arr, $templateId, $data);
         return $customer_id;
     }
@@ -191,7 +206,7 @@ class ModelAccountCustomer extends Model
         $key_sql = '';
         if ($this->dcrypt->active) {
             $data = $this->dcrypt->encrypt_data($data, 'customers');
-            $key_sql = ", key_id = '".(int)$data['key_id']."'";
+            $key_sql = ", key_id = '".(int) $data['key_id']."'";
         }
 
         $data['store_name'] = $this->config->get('store_name');
@@ -202,44 +217,51 @@ class ModelAccountCustomer extends Model
 
         //update login only if needed
         $loginname = '';
-        if (!empty($data['loginname']) && trim($data['loginname']) != $this->customer->getLoginName()){
+        if (!empty($data['loginname']) && trim($data['loginname']) != $this->customer->getLoginName()) {
             $loginname = " loginname = '".$this->db->escape($data['loginname'])."', ";
-            $message_arr = array(
-                0 => array('message' => sprintf($language->get('im_customer_account_update_login_to_customer'), $data['loginname'])),
-            );
+            $message_arr = [
+                0 => [
+                    'message' => sprintf(
+                        $language->get('im_customer_account_update_login_to_customer'), $data['loginname']
+                    ),
+                ],
+            ];
             $data['old_loginname'] = $this->customer->getLoginName();
             $this->im->send('customer_account_update', $message_arr, 'storefront_customer_account_update', $data);
         }
 
         //get existing data and compare
-        $current_rec = $this->getCustomer((int)$this->customer->getId());
+        $current_rec = $this->getCustomer((int) $this->customer->getId());
         foreach ($current_rec as $rec => $val) {
             if ($rec == 'email' && $val != $data['email']) {
-                $message_arr = array(
-                    0 => array('message' => sprintf($language->get('im_customer_account_update_email_to_customer'), $data['email'])),
-                );
+                $message_arr = [
+                    0 => [
+                        'message' => sprintf(
+                            $language->get('im_customer_account_update_email_to_customer'), $data['email']
+                        ),
+                    ],
+                ];
                 $data['old_email'] = $val;
                 $this->im->send('customer_account_update', $message_arr, 'storefront_customer_account_update', $data);
             }
         }
 
         //trim and remove double whitespaces
-        foreach (array('firstname', 'lastname') as $f) {
+        foreach (['firstname', 'lastname'] as $f) {
             $data[$f] = str_replace('  ', ' ', trim($data[$f]));
         }
 
-        if(
+        if (
             trim($data['firstname']) != $this->customer->getFirstName()
-            ||
-            trim($data['lastname']) != $this->customer->getLastName()
-            ||
-            trim($data['telephone']) != $this->customer->getTelephone()
-            ||
-            trim($data['fax']) != $this->customer->getFax()
-        ){
-            $message_arr = array(
-                0 => array('message' => $language->get('im_customer_account_update_text_to_customer')),
-            );
+            || trim($data['lastname']) != $this->customer->getLastName()
+            || trim($data['telephone']) != $this->customer->getTelephone()
+            || trim($data['fax']) != $this->customer->getFax()
+        ) {
+            $message_arr = [
+                0 => [
+                    'message' => $language->get('im_customer_account_update_text_to_customer'),
+                ],
+            ];
             $this->im->send('customer_account_update', $message_arr, 'storefront_customer_account_update', $data);
         }
 
@@ -250,16 +272,17 @@ class ModelAccountCustomer extends Model
                       telephone = '".$this->db->escape($data['telephone'])."',
                       fax = '".$this->db->escape($data['fax'])."'"
             .$key_sql.
-            " WHERE customer_id = '".(int)$this->customer->getId()."'";
+            " WHERE customer_id = '".(int) $this->customer->getId()."'";
         $this->db->query($sql);
         return true;
     }
 
     /**
      * @param array $data
-     * @param int   $customer_id
+     * @param int $customer_id
      *
      * @return bool
+     * @throws AException
      */
     public function editCustomerNotifications($data, $customer_id = 0)
     {
@@ -268,10 +291,10 @@ class ModelAccountCustomer extends Model
         }
 
         if (!$customer_id) {
-            $customer_id = (int)$this->customer->getId();
+            $customer_id = (int) $this->customer->getId();
         }
 
-        $upd = array();
+        $upd = [];
         //get only active IM drivers
         $im_protocols = $this->im->getProtocols();
         foreach ($im_protocols as $protocol) {
@@ -285,7 +308,7 @@ class ModelAccountCustomer extends Model
                 WHERE TABLE_SCHEMA = '".DB_DATABASE."' 
                     AND TABLE_NAME = '".$this->db->table("customers")."'";
         $result = $this->db->query($sql);
-        $columns = array();
+        $columns = [];
         foreach ($result->rows as $row) {
             $columns[] = $row['column_name'];
         }
@@ -299,7 +322,7 @@ class ModelAccountCustomer extends Model
         $key_sql = '';
         if ($this->dcrypt->active) {
             $data = $this->dcrypt->encrypt_data($data, 'customers');
-            $key_sql = ", key_id = '".(int)$data['key_id']."'";
+            $key_sql = ", key_id = '".(int) $data['key_id']."'";
         }
 
         $sql = "UPDATE ".$this->db->table('customers')."
@@ -312,21 +335,22 @@ class ModelAccountCustomer extends Model
 
     /**
      * @return array
+     * @throws AException
      */
     public function getCustomerNotificationSettings()
     {
         //get only active IM drivers
         $im_protocols = $this->im->getProtocols();
-        $im_settings = array();
+        $im_settings = [];
         $sql = "SELECT *
                 FROM ".$this->db->table('customer_notifications')."
-                WHERE customer_id = ".(int)$this->customer->getId();
+                WHERE customer_id = ".(int) $this->customer->getId();
         $result = $this->db->query($sql);
         foreach ($result->rows as $row) {
             if (!in_array($row['protocol'], $im_protocols)) {
                 continue;
             }
-            $im_settings[$row['sendpoint']][$row['protocol']] = (int)$row['status'];
+            $im_settings[$row['sendpoint']][$row['protocol']] = (int) $row['status'];
         }
         return $im_settings;
     }
@@ -335,11 +359,11 @@ class ModelAccountCustomer extends Model
      * @param array $settings
      *
      * @return bool|null
+     * @throws AException
      */
     public function saveCustomerNotificationSettings($settings)
     {
-
-        $customer_id = (int)$this->customer->getId();
+        $customer_id = (int) $this->customer->getId();
         //do not save settings for guests
         if (!$customer_id) {
             return null;
@@ -348,10 +372,10 @@ class ModelAccountCustomer extends Model
         $sendpoints = array_keys($this->im->sendpoints);
         $im_protocols = $this->im->getProtocols();
 
-        $update = array();
+        $update = [];
         foreach ($sendpoints as $sendpoint) {
             foreach ($im_protocols as $protocol) {
-                $update[$sendpoint][$protocol] = (int)$settings[$sendpoint][$protocol];
+                $update[$sendpoint][$protocol] = (int) $settings[$sendpoint][$protocol];
             }
         }
 
@@ -368,7 +392,7 @@ class ModelAccountCustomer extends Model
                             ('".$customer_id."',
                             '".$this->db->escape($sendpoint)."',
                             '".$this->db->escape($protocol)."',
-                            '".(int)$status."',
+                            '".(int) $status."',
                             NOW());";
                     $this->db->query($sql);
                 }
@@ -399,11 +423,13 @@ class ModelAccountCustomer extends Model
     public function editPassword($loginname, $password)
     {
         $salt_key = genToken(8);
-        $this->db->query("UPDATE ".$this->db->table("customers")."
-                            SET
-                                salt = '".$this->db->escape($salt_key)."', 
-                                password = '".$this->db->escape(sha1($salt_key.sha1($salt_key.sha1($password))))."'
-                            WHERE loginname = '".$this->db->escape($loginname)."'");
+        $this->db->query(
+            "UPDATE ".$this->db->table("customers")."
+            SET
+                salt = '".$this->db->escape($salt_key)."', 
+                password = '".$this->db->escape(sha1($salt_key.sha1($salt_key.sha1($password))))."'
+            WHERE loginname = '".$this->db->escape($loginname)."'"
+        );
         //send IM
         $sql = "SELECT customer_id, firstname, lastname
                 FROM ".$this->db->table("customers")."
@@ -414,30 +440,39 @@ class ModelAccountCustomer extends Model
             $language = new ALanguage($this->registry);
             $language->load($language->language_details['directory']);
             $language->load('common/im');
-            $message_arr = array(
-                0 => array('message' => $language->get('im_customer_account_update_password_to_customer')),
+            $message_arr = [
+                0 => [
+                    'message' => $language->get('im_customer_account_update_password_to_customer'),
+                ],
+            ];
+            $this->im->send(
+                'customer_account_update',
+                $message_arr,
+                'storefront_password_reset_notify',
+                [
+                    'customer_id' => $customer_id,
+                    'loginname'   => $loginname,
+                    'firstname'   => $result->row['firstname'],
+                    'lastname'    => $result->row['lastname'],
+                    'store_name'  => $this->config->get('store_name'),
+                ]
             );
-            $this->im->send('customer_account_update', $message_arr, 'storefront_password_reset_notify', [
-                'customer_id' => $customer_id,
-                'loginname' => $loginname,
-                'firstname' => $result->row['firstname'],
-                'lastname' => $result->row['lastname'],
-                'store_name' => $this->config->get('store_name')
-            ]);
         }
     }
 
     /**
      * @param int $newsletter
      * @param int $customer_id - optional parameter for unsubscribe page!
+     *
+     * @throws AException
      */
     public function editNewsletter($newsletter, $customer_id = 0)
     {
-        $customer_id = (int)$customer_id ? (int)$customer_id : (int)$this->customer->getId();
+        $customer_id = (int) $customer_id ? (int) $customer_id : (int) $this->customer->getId();
         $this->db->query(
             "UPDATE ".$this->db->table("customers")."
-                SET newsletter = '".(int)$newsletter."'
-                WHERE customer_id = '".$customer_id."'"
+            SET newsletter = '".(int) $newsletter."'
+            WHERE customer_id = '".$customer_id."'"
         );
     }
 
@@ -446,17 +481,20 @@ class ModelAccountCustomer extends Model
      * @param $status
      *
      * @return bool
+     * @throws AException
      */
     public function editStatus($customer_id, $status)
     {
-        $customer_id = (int)$customer_id;
-        $status = (int)$status;
+        $customer_id = (int) $customer_id;
+        $status = (int) $status;
         if (!$customer_id) {
             return false;
         }
-        $this->db->query("UPDATE ".$this->db->table("customers")."
-                           SET status = '".(int)$status."'
-                           WHERE customer_id = '".$customer_id."'");
+        $this->db->query(
+            "UPDATE ".$this->db->table("customers")."
+           SET status = '".(int) $status."'
+           WHERE customer_id = '".$customer_id."'"
+        );
         return true;
     }
 
@@ -465,16 +503,19 @@ class ModelAccountCustomer extends Model
      * @param $data
      *
      * @return bool
+     * @throws AException
      */
     public function updateOtherData($customer_id, $data)
     {
-        $customer_id = (int)$customer_id;
+        $customer_id = (int) $customer_id;
         if (!$customer_id) {
             return false;
         }
-        $this->db->query("UPDATE ".$this->db->table("customers")."
-                           SET data = '".$this->db->escape(serialize($data))."'
-                           WHERE customer_id = '".$customer_id."'");
+        $this->db->query(
+            "UPDATE ".$this->db->table("customers")."
+           SET data = '".$this->db->escape(serialize($data))."'
+           WHERE customer_id = '".$customer_id."'"
+        );
         return true;
     }
 
@@ -482,13 +523,15 @@ class ModelAccountCustomer extends Model
      * @param int $customer_id
      *
      * @return array
+     * @throws AException
      */
     public function getCustomer($customer_id)
     {
         $query = $this->db->query(
             "SELECT *
-                FROM ".$this->db->table("customers")."
-                WHERE customer_id = '".(int)$customer_id."'");
+            FROM ".$this->db->table("customers")."
+            WHERE customer_id = '".(int) $customer_id."'"
+        );
         $result_row = $this->dcrypt->decrypt_data($query->row, 'customers');
         $result_row['data'] = unserialize($result_row['data']);
         return $result_row;
@@ -496,9 +539,10 @@ class ModelAccountCustomer extends Model
 
     /**
      * @param string $email
-     * @param bool   $no_subscribers - sign that needed list without subscribers
+     * @param bool $no_subscribers - sign that needed list without subscribers
      *
      * @return int
+     * @throws AException
      */
     public function getTotalCustomersByEmail($email, $no_subscribers = true)
     {
@@ -521,6 +565,7 @@ class ModelAccountCustomer extends Model
      * @param string $login
      *
      * @return array
+     * @throws AException
      */
     public function getCustomerByLogin($login)
     {
@@ -535,13 +580,16 @@ class ModelAccountCustomer extends Model
      * @param string $email
      *
      * @return array
+     * @throws AException
      */
     public function getCustomerByEmail($email)
     {
         //assuming that data is not encrypted. Can not call these otherwise
-        $query = $this->db->query("SELECT *
-                                    FROM ".$this->db->table("customers")."
-                                    WHERE LOWER(`email`) = LOWER('".$this->db->escape($email)."')");
+        $query = $this->db->query(
+            "SELECT *
+            FROM ".$this->db->table("customers")."
+            WHERE LOWER(`email`) = LOWER('".$this->db->escape($email)."')"
+        );
         $output = $this->dcrypt->decrypt_data($query->row, 'customers');
         if ($output['data']) {
             $output['data'] = unserialize($output['data']);
@@ -553,12 +601,15 @@ class ModelAccountCustomer extends Model
      * @param string $loginname
      *
      * @return array
+     * @throws AException
      */
     public function getCustomerByLoginname($loginname)
     {
-        $query = $this->db->query("SELECT *
-                                    FROM ".$this->db->table("customers")."
-                                    WHERE LOWER(`loginname`) = LOWER('".$this->db->escape($loginname)."')");
+        $query = $this->db->query(
+            "SELECT *
+            FROM ".$this->db->table("customers")."
+            WHERE LOWER(`loginname`) = LOWER('".$this->db->escape($loginname)."')"
+        );
         $output = $this->dcrypt->decrypt_data($query->row, 'customers');
         if ($output['data']) {
             $output['data'] = unserialize($output['data']);
@@ -571,6 +622,7 @@ class ModelAccountCustomer extends Model
      * @param string $email
      *
      * @return array
+     * @throws AException
      */
     public function getCustomerByLoginnameAndEmail($loginname, $email)
     {
@@ -579,7 +631,7 @@ class ModelAccountCustomer extends Model
         if (strtolower($result_row['email']) == strtolower($email)) {
             return $result_row;
         } else {
-            return array();
+            return [];
         }
     }
 
@@ -588,14 +640,17 @@ class ModelAccountCustomer extends Model
      * @param string $email
      *
      * @return array
+     * @throws AException
      */
     public function getCustomerByLastnameAndEmail($lastname, $email)
     {
-        $query = $this->db->query("SELECT *
+        $query = $this->db->query(
+            "SELECT *
                                     FROM ".$this->db->table("customers")."
-                                    WHERE LOWER(`lastname`) = LOWER('".$this->db->escape($lastname)."')");
+                                    WHERE LOWER(`lastname`) = LOWER('".$this->db->escape($lastname)."')"
+        );
         //validate if we have row with matching decrypted email;
-        $result_row = array();
+        $result_row = [];
         foreach ($query->rows as $result) {
             if (strtolower($email) == strtolower($this->dcrypt->decrypt_field($result['email'], $result['key_id']))) {
                 $result_row = $result;
@@ -608,7 +663,7 @@ class ModelAccountCustomer extends Model
 
             return $result_row;
         } else {
-            return array();
+            return [];
         }
     }
 
@@ -616,15 +671,18 @@ class ModelAccountCustomer extends Model
      * @param string $loginname
      *
      * @return bool
+     * @throws AException
      */
     public function is_unique_loginname($loginname)
     {
         if (empty($loginname)) {
             return false;
         }
-        $query = $this->db->query("SELECT COUNT(*) AS total
+        $query = $this->db->query(
+            "SELECT COUNT(*) AS total
                                    FROM ".$this->db->table("customers")."
-                                   WHERE LOWER(`loginname`) = LOWER('".$loginname."')");
+                                   WHERE LOWER(`loginname`) = LOWER('".$loginname."')"
+        );
         if ($query->row['total'] > 0) {
             return false;
         } else {
@@ -640,14 +698,16 @@ class ModelAccountCustomer extends Model
      */
     public function validateRegistrationData($data)
     {
-        $this->error = array();
+        $this->error = [];
         //If captcha enabled, validate
         if ($this->config->get('config_account_create_captcha')) {
             if ($this->config->get('config_recaptcha_secret_key')) {
                 require_once DIR_VENDORS.'/google_recaptcha/autoload.php';
-                $recaptcha = new \ReCaptcha\ReCaptcha($this->config->get('config_recaptcha_secret_key'));
-                $resp = $recaptcha->verify($data['g-recaptcha-response'],
-                    $this->request->getRemoteIP());
+                $recaptcha = new ReCaptcha($this->config->get('config_recaptcha_secret_key'));
+                $resp = $recaptcha->verify(
+                    $data['g-recaptcha-response'],
+                    $this->request->getRemoteIP()
+                );
                 if (!$resp->isSuccess() && $resp->getErrorCodes()) {
                     $this->error['captcha'] = $this->language->get('error_captcha');
                 }
@@ -690,8 +750,15 @@ class ModelAccountCustomer extends Model
             $this->error['warning'] = $this->language->get('error_exists');
         }
 
-        if (mb_strlen($data['telephone']) > 32) {
-            $this->error['telephone'] = $this->language->get('error_telephone');
+        $phone = $data['telephone'] ?? '';
+        if ($phone) {
+            $pattern = $this->config->get('config_phone_validation_pattern') ? : '/^[0-9]{3,32}$/';
+            if (mb_strlen($phone) < 3
+                || mb_strlen($phone) > 32
+                || !preg_match($pattern, $phone)
+            ) {
+                $this->error['telephone'] = $this->language->get('error_telephone');
+            }
         }
 
         if ((mb_strlen($data['address_1']) < 3) || (mb_strlen($data['address_1']) > 128)) {
@@ -750,11 +817,10 @@ class ModelAccountCustomer extends Model
                 if (!$result) {
                     $this->error[$protocol] = implode('<br>', $driver_obj->errors);
                 }
-
             }
         }
 
-        $this->extensions->hk_ValidateData($this, array(__FUNCTION__));
+        $this->extensions->hk_ValidateData($this, [__FUNCTION__]);
 
         return $this->error;
     }
@@ -763,16 +829,19 @@ class ModelAccountCustomer extends Model
      * @param array $data
      *
      * @return array
+     * @throws AException
      */
     public function validateSubscribeData($data)
     {
-        $this->error = array();
+        $this->error = [];
 
         if ($this->config->get('config_recaptcha_secret_key')) {
             require_once DIR_VENDORS.'/google_recaptcha/autoload.php';
-            $recaptcha = new \ReCaptcha\ReCaptcha($this->config->get('config_recaptcha_secret_key'));
-            $resp = $recaptcha->verify($data['g-recaptcha-response'],
-                $this->request->getRemoteIP());
+            $recaptcha = new ReCaptcha($this->config->get('config_recaptcha_secret_key'));
+            $resp = $recaptcha->verify(
+                $data['g-recaptcha-response'],
+                $this->request->getRemoteIP()
+            );
             if (!$resp->isSuccess() && $resp->getErrorCodes()) {
                 $this->error['captcha'] = $this->language->get('error_captcha');
             }
@@ -816,7 +885,7 @@ class ModelAccountCustomer extends Model
             }
         }
 
-        $this->extensions->hk_ValidateData($this, array(__FUNCTION__));
+        $this->extensions->hk_ValidateData($this, [__FUNCTION__]);
 
         return $this->error;
     }
@@ -825,10 +894,11 @@ class ModelAccountCustomer extends Model
      * @param array $data
      *
      * @return array
+     * @throws AException
      */
     public function validateEditData($data)
     {
-        $this->error = array();
+        $this->error = [];
 
         //validate loginname only if cannot match email and if it is set. Edit of loginname not allowed
         if ($this->config->get('prevent_email_as_login') && isset($data['loginname'])) {
@@ -845,15 +915,15 @@ class ModelAccountCustomer extends Model
                 }
             }
         }
-
+        $data['firstname'] = $data['firstname'] ?? '';
         if ((mb_strlen($data['firstname']) < 1) || (mb_strlen($data['firstname']) > 32)) {
             $this->error['firstname'] = $this->language->get('error_firstname');
         }
-
+        $data['lastname'] = $data['lastname'] ?? '';
         if ((mb_strlen($data['lastname']) < 1) || (mb_strlen($data['lastname']) > 32)) {
             $this->error['lastname'] = $this->language->get('error_lastname');
         }
-
+        $data['email'] = $data['email'] ?? '';
         if ((mb_strlen($data['email']) > 96) || (!preg_match(EMAIL_REGEX_PATTERN, $data['email']))) {
             $this->error['email'] = $this->language->get('error_email');
         }
@@ -861,9 +931,15 @@ class ModelAccountCustomer extends Model
         if (($this->customer->getEmail() != $data['email']) && $this->getTotalCustomersByEmail($data['email'])) {
             $this->error['warning'] = $this->language->get('error_exists');
         }
-
-        if ($data['telephone'] && (mb_strlen($data['telephone']) < 3 || mb_strlen($data['telephone']) > 32)) {
-            $this->error['telephone'] = $this->language->get('error_telephone');
+        $phone = $data['telephone'] ?? '';
+        if ($phone) {
+            $pattern = $this->config->get('config_phone_validation_pattern') ? : '/^[0-9]{3,32}$/';
+            if (mb_strlen($phone) < 3
+                || mb_strlen($phone) > 32
+                || !preg_match($pattern, $phone)
+            ) {
+                $this->error['telephone'] = $this->language->get('error_telephone');
+            }
         }
 
         if (count($this->error) && empty($this->error['warning'])) {
@@ -885,25 +961,27 @@ class ModelAccountCustomer extends Model
                 if (!$result) {
                     $this->error[$protocol] = implode('<br>', $driver_obj->errors);
                 }
-
             }
         }
 
-        $this->extensions->hk_ValidateData($this, array(__FUNCTION__));
+        $this->extensions->hk_ValidateData($this, [__FUNCTION__]);
 
         return $this->error;
     }
 
     /**
      * @return int
+     * @throws AException
      */
     public function getTotalTransactions()
     {
-        $query = $this->db->query("SELECT COUNT(*) AS total
+        $query = $this->db->query(
+            "SELECT COUNT(*) AS total
                                    FROM `".$this->db->table("customer_transactions")."`
-                                   WHERE customer_id = '".(int)$this->customer->getId()."'");
+                                   WHERE customer_id = '".(int) $this->customer->getId()."'"
+        );
 
-        return (int)$query->row['total'];
+        return (int) $query->row['total'];
     }
 
     /**
@@ -911,6 +989,7 @@ class ModelAccountCustomer extends Model
      * @param int $limit
      *
      * @return mixed
+     * @throws AException
      */
     public function getTransactions($start = 0, $limit = 20)
     {
@@ -918,7 +997,8 @@ class ModelAccountCustomer extends Model
             $start = 0;
         }
 
-        $query = $this->db->query("SELECT 
+        $query = $this->db->query(
+            "SELECT 
                                         t.customer_transaction_id,
                                         t.order_id,
                                         t.section,
@@ -928,9 +1008,10 @@ class ModelAccountCustomer extends Model
                                         t.description,
                                         t.date_added
                                 FROM `".$this->db->table("customer_transactions")."` t
-                                WHERE customer_id = '".(int)$this->customer->getId()."'
+                                WHERE customer_id = '".(int) $this->customer->getId()."'
                                 ORDER BY t.date_added DESC
-                                LIMIT ".(int)$start.",".(int)$limit);
+                                LIMIT ".(int) $start.",".(int) $limit
+        );
 
         return $query->rows;
     }
@@ -941,10 +1022,11 @@ class ModelAccountCustomer extends Model
             "SELECT customer_group_id
             FROM `".$this->db->table("customer_groups")."`
             WHERE `name` = 'Newsletter Subscribers'
-            LIMIT 0,1");
-        $result = !$query->row['customer_group_id'] ? (int)$this->config->get('config_customer_group_id') : $query->row['customer_group_id'];
-
-        return $result;
+            LIMIT 0,1"
+        );
+        return !$query->row['customer_group_id']
+            ? (int) $this->config->get('config_customer_group_id')
+            : $query->row['customer_group_id'];
     }
 
     /**
@@ -952,6 +1034,7 @@ class ModelAccountCustomer extends Model
      * @param bool $activated
      *
      * @return bool
+     * @throws AException
      */
     public function sendWelcomeEmail($email, $activated)
     {
@@ -961,6 +1044,7 @@ class ModelAccountCustomer extends Model
         //build welcome email in text format
         $login_url = $this->html->getSecureURL('account/login');
         $this->language->load('mail/account_create');
+        $languageId = $this->language->getLanguageID();
 
         if ($activated) {
             $template = 'storefront_welcome_email_activated';
@@ -970,28 +1054,18 @@ class ModelAccountCustomer extends Model
 
         $this->data['mail_template_data']['login_url'] = $login_url;
 
-        $config_mail_logo = $this->config->get('config_mail_logo');
-        $config_mail_logo = !$config_mail_logo ? $this->config->get('config_logo') : $config_mail_logo;
-        if ($config_mail_logo) {
-            if (is_numeric($config_mail_logo)) {
-                $r = new AResource('image');
-                $resource_info = $r->getResource($config_mail_logo);
-                if ($resource_info) {
-                    $this->data['mail_template_data']['logo_html'] = html_entity_decode($resource_info['resource_code'], ENT_QUOTES, 'UTF-8');
-                }
-            } else {
-                $this->data['mail_template_data']['logo_uri'] = 'cid:'
-                    .md5(pathinfo($config_mail_logo, PATHINFO_FILENAME))
-                    .'.'.pathinfo($config_mail_logo, PATHINFO_EXTENSION);
-            }
+        $mailLogo = $this->config->get('config_mail_logo_'.$languageId)
+                    ?: $this->config->get('config_mail_logo');
+        $mailLogo = $mailLogo ?: $this->config->get('config_logo_'.$languageId);
+        $mailLogo = $mailLogo ?: $this->config->get('config_logo');
+
+        if ($mailLogo) {
+            $result = getMailLogoDetails($mailLogo);
+            $this->data['mail_template_data']['logo_uri'] = $result['uri'];
+            $this->data['mail_template_data']['logo_html'] = $result['html'];
         }
-        $this->data['mail_template_data']['config_mail_logo'] = $config_mail_logo;
-        //backward compatibility. TODO: remove this in 2.0
-        if ($this->data['mail_template_data']['logo_uri']) {
-            $this->data['mail_template_data']['logo'] = $this->data['mail_template_data']['logo_uri'];
-        } else {
-            $this->data['mail_template_data']['logo'] = $this->config->get('config_mail_logo');
-        }
+
+        $this->data['mail_template_data']['config_mail_logo'] = $mailLogo;
 
         $this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
         $this->data['mail_template_data']['store_url'] = $this->config->get('config_url');
@@ -999,7 +1073,6 @@ class ModelAccountCustomer extends Model
 
         //allow to change email data from extensions
         $this->extensions->hk_ProcessData($this, 'sf_account_welcome_mail');
-
 
         $this->_send_email($email, $template, $this->data['mail_template_data']);
 
@@ -1010,12 +1083,14 @@ class ModelAccountCustomer extends Model
      * @param int $customer_id
      *
      * @return bool
+     * @throws AException
      */
     public function emailActivateLink($customer_id)
     {
         if (!$customer_id) {
             return null;
         }
+        $languageId = $this->language->getLanguageID();
         $customer_data = $this->getCustomer($customer_id);
 
         //encrypt token and data
@@ -1033,49 +1108,37 @@ class ModelAccountCustomer extends Model
 
         $this->data['mail_template_data']['activate_url'] = '<a href="'.$activate_url.'">'.$activate_url.'</a>';
 
-        $config_mail_logo = $this->config->get('config_mail_logo');
-        $config_mail_logo = !$config_mail_logo ? $this->config->get('config_logo') : $config_mail_logo;
-        if ($config_mail_logo) {
-            if (is_numeric($config_mail_logo)) {
-                $r = new AResource('image');
-                $resource_info = $r->getResource($config_mail_logo);
-                if ($resource_info) {
-                    $this->data['mail_template_data']['logo_html'] = html_entity_decode($resource_info['resource_code'],
-                        ENT_QUOTES, 'UTF-8');
-                }
-            } else {
-                $this->data['mail_template_data']['logo_uri'] = 'cid:'
-                    .md5(pathinfo($config_mail_logo, PATHINFO_FILENAME))
-                    .'.'.pathinfo($config_mail_logo, PATHINFO_EXTENSION);
-            }
+        $mailLogo = $this->config->get('config_mail_logo_'.$languageId)
+                    ?: $this->config->get('config_mail_logo');
+        $mailLogo = $mailLogo ?: $this->config->get('config_logo_'.$languageId);
+        $mailLogo = $mailLogo ?: $this->config->get('config_logo');
+
+        if ($mailLogo) {
+            $result = getMailLogoDetails($mailLogo);
+            $this->data['mail_template_data']['logo_uri'] = $result['uri'];
+            $this->data['mail_template_data']['logo_html'] = $result['html'];
         }
 
-        $this->data['mail_template_data']['config_mail_logo'] = $config_mail_logo;
-
-        //backward compatibility. TODO: remove this in 2.0
-        if ($this->data['mail_template_data']['logo_uri']) {
-            $this->data['mail_template_data']['logo'] = $this->data['mail_template_data']['logo_uri'];
-        } else {
-            $this->data['mail_template_data']['logo'] = $config_mail_logo;
-        }
+        $this->data['mail_template_data']['config_mail_logo'] = $mailLogo;
 
         $this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
         $this->data['mail_template_data']['store_url'] = $this->config->get('config_url');
         $this->data['mail_template_data']['text_project_label'] = project_base();
 
-
         //allow to change email data from extensions
         $this->extensions->hk_ProcessData($this, 'sf_account_activation_mail');
 
-
-        $this->_send_email($customer_data['email'], 'storefront_send_activate_link',$this->data['mail_template_data']);
+        $this->_send_email($customer_data['email'], 'storefront_send_activate_link', $this->data['mail_template_data']);
 
         return true;
     }
 
     /**
      * @param string $email
+     * @param string $template
      * @param array $data
+     *
+     * @throws AException
      */
     protected function _send_email($email, $template, $data)
     {
@@ -1087,9 +1150,11 @@ class ModelAccountCustomer extends Model
         $mail->setTemplate($template, $data);
 
         if (is_file(DIR_RESOURCE.$data['config_mail_logo'])) {
-            $mail->addAttachment(DIR_RESOURCE.$data['config_mail_logo'],
+            $mail->addAttachment(
+                DIR_RESOURCE.$data['config_mail_logo'],
                 md5(pathinfo($data['config_mail_logo'], PATHINFO_FILENAME))
-                .'.'.pathinfo($data['config_mail_logo'], PATHINFO_EXTENSION));
+                .'.'.pathinfo($data['config_mail_logo'], PATHINFO_EXTENSION)
+            );
         }
         $mail->send();
     }
@@ -1103,7 +1168,7 @@ class ModelAccountCustomer extends Model
     public function parseOrderToken($ot)
     {
         if (!$ot || !$this->config->get('config_guest_checkout')) {
-            return array();
+            return [];
         }
 
         //try to decrypt order token
@@ -1111,18 +1176,18 @@ class ModelAccountCustomer extends Model
         $decrypted = $enc->decrypt($ot);
         list($order_id, $email) = explode('::', $decrypted);
 
-        $order_id = (int)$order_id;
+        $order_id = (int) $order_id;
         if (!$decrypted || !$order_id || !$email) {
-            return array();
+            return [];
         }
         $this->load->model('account/order');
         $order_info = $this->model_account_order->getOrder($order_id, '', 'view');
 
         //compare emails
         if ($order_info['email'] != $email) {
-            return array();
+            return [];
         }
 
-        return array($order_id, $email);
+        return [$order_id, $email];
     }
 }

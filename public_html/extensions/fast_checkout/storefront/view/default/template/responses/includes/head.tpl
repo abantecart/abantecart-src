@@ -24,14 +24,9 @@
               media="<?php echo $style['media']; ?>"/>
     <?php } ?>
 
-    <script type="text/javascript"
-            src="<?php echo $ssl ? 'https' : 'http' ?>://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script type="text/javascript">
-        if (typeof jQuery == 'undefined') {
-            var include = '\x3Cscript type="text/javascript" src="<?php echo $this->templateResource("/javascript/jquery-1.11.0.min.js"); ?>">\x3C/script>';
-            document.write(include);
-        }
-    </script>
+    <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-3.5.1.min.js'); ?>"></script>
+    <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-migrate-1.4.1.min.js');?>"></script>
+
     <script type="text/javascript"
             src="<?php echo $this->templateResource('/javascript/bootstrap.min.js'); ?>"></script>
     <script type="text/javascript"

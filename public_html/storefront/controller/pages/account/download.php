@@ -89,10 +89,10 @@ class ControllerPagesAccountDownload extends AController
             } else {
                 $customer_downloads = $this->download->getCustomerDownloads(($page - 1) * $limit, $limit);
             }
-            $product_ids = array();
-            foreach ($customer_downloads as $result) {
-                $product_ids[] = (int)$result['product_id'];
-            }
+            $this->data['raw_downloads'] = $customer_downloads;
+            $product_ids = array_column($customer_downloads, 'product_id');
+            $product_ids = array_map('intval', $product_ids);
+
             $resource = new AResource('image');
             $thumbnails = $resource->getMainThumbList(
                 'products',
@@ -145,6 +145,7 @@ class ControllerPagesAccountDownload extends AController
                 $attributes = $this->download->getDownloadAttributesValuesForCustomer($download_info['download_id']);
 
                 $downloads[] = array(
+                    'order_download_id' => $download_info['order_download_id'],
                     'thumbnail'   => $thumbnail,
                     'attributes'  => $attributes,
                     'order_id'    => $download_info['order_id'],

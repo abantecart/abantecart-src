@@ -320,11 +320,14 @@ class ControllerPagesDesignEmailTemplates extends AController
 
         $this->data['form']['fields']['html_body'] = $form->getFieldHtml(
             [
-                'type'     => 'texteditor',
+                'type'     => 'textarea',
                 'name'     => 'html_body',
                 'value'    => $this->data['html_body'],
+                'attr'     => 'rows="16"',
                 'required' => true,
-            ]);
+            ]
+        );
+        $this->data['previewHtmlBodyUrl'] =$this->html->getSecureURL('r/design/email_template_preview');
 
         $this->data['form']['fields']['text_body'] = $form->getFieldHtml(
             [

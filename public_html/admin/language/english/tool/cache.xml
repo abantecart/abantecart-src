@@ -34,7 +34,7 @@
 	</definition>
 	<definition>
 		<key>text_manufacturers</key>
-		<value><![CDATA[Manufacturers]]></value>
+		<value><![CDATA[Brands]]></value>
 	</definition>
 	<definition>
 		<key>text_localisations</key>
@@ -78,7 +78,7 @@
 	</definition>
 	<definition>
 		<key>desc_manufacturers</key>
-		<value><![CDATA[Manufacturer data]]></value>
+		<value><![CDATA[Brand data]]></value>
 	</definition>
 	<definition>
 		<key>desc_localisations</key>

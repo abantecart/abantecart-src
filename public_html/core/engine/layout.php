@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -30,6 +30,7 @@ if (!defined('DIR_CORE')) {
  * @property ADB      $db
  * @property AMessage $messages
  * @property ARequest $request
+ * @property ExtensionsApi $extensions
  */
 class ALayout
 {
@@ -37,9 +38,9 @@ class ALayout
      * @var Registry
      */
     protected $registry;
-    private $page = array();
-    private $layout = array();
-    public $blocks = array();
+    private $page = [];
+    private $layout = [];
+    public $blocks = [];
     /**
      * @var string
      */
@@ -94,11 +95,15 @@ class ALayout
         }
 
         // Locate and set page information. This needs to be called once per page 
-        $unique_page = array();
+        $unique_page = [];
 
         // find page records for given controller
         $key_param = $this->getKeyParamByController($controller);
-        $key_value = $key_param ? $this->request->get[$key_param] : null;
+        $key_value = null;
+        if($key_param){
+            $key_value = $this->request->get[$key_param] ?? null;
+        }
+
         // for nested categories
         if ($key_param == 'path' && $key_value) {
             if( is_int(strpos($key_value, '_'))) {
@@ -139,7 +144,7 @@ class ALayout
         4. If locate page id use the layout.
         */
 
-        $this->page = !empty($unique_page) ? $unique_page : $pages[0];
+        $this->page = $unique_page ? : $pages[0];
         $this->page_id = $this->page['page_id'];
         //if no page found set default page id 1
         if (empty($this->page_id)) {
@@ -153,7 +158,11 @@ class ALayout
             $layouts = $this->getDefaultLayout();
             if (sizeof($layouts) == 0) {
                 // ????? How to terminate ????
-                throw new AException(AC_ERR_LOAD_LAYOUT, 'No layout found for page_id/controller '.$this->page_id.'::'.$this->page['controller'].'! '.genExecTrace('full'));
+                throw new AException(
+                    AC_ERR_LOAD_LAYOUT,
+                    'No layout found for page_id/controller '.$this->page_id
+                        .'::'.$this->page['controller'].'! '.genExecTrace('full')
+                );
             }
         }
 
@@ -172,6 +181,7 @@ class ALayout
      * @param string $key_value
      *
      * @return array|null
+     * @throws AException
      */
     public function getPages($controller = '', $key_param = '', $key_value = '')
     {
@@ -194,10 +204,10 @@ class ALayout
                 if (!empty ($key_value)) {
                     // so if we have key_param key_value pair we select pages with controller and with or without key_param
                     $where .= " AND ( COALESCE( key_param, '' ) = ''
-										OR
-										( key_param = '".$this->db->escape($key_param)."'
-											AND key_value = '".$this->db->escape($key_value)."' ) )
-								AND template_id = '".$this->tmpl_id."' ";
+                                        OR
+                                        ( key_param = '".$this->db->escape($key_param)."'
+                                            AND key_value = '".$this->db->escape($key_value)."' ) )
+                                AND template_id = '".$this->tmpl_id."' ";
 
                 } else { //write to log this stuff. it's abnormal situation
                     $message = "Error: Error in data of page with controller: '".$controller."'. Please check for key_value present where key_param was set.\n";
@@ -209,12 +219,14 @@ class ALayout
             }
         }
 
-        $sql = "SELECT p.page_id, controller, key_param, key_value, p.date_added, p.date_modified "
-            ."FROM ".$this->db->table("pages")." p "
-            ."LEFT JOIN ".$this->db->table("pages_layouts")." pl ON pl.page_id = p.page_id "
-            ."LEFT JOIN ".$this->db->table("layouts")." l ON l.layout_id = pl.layout_id "
-            .$where
-            ."ORDER BY key_param DESC, key_value DESC, p.page_id ASC";
+        $sql = "SELECT p.page_id, controller, key_param, key_value, p.date_added, p.date_modified 
+                FROM ".$this->db->table("pages")." p 
+                LEFT JOIN ".$this->db->table("pages_layouts")." pl 
+                    ON pl.page_id = p.page_id 
+                LEFT JOIN ".$this->db->table("layouts")." l 
+                    ON l.layout_id = pl.layout_id ".
+                $where."
+                ORDER BY key_param DESC, key_value DESC, p.page_id ASC";
         $query = $this->db->query($sql);
         $pages = $query->rows;
         $this->cache->push($cache_key, $pages);
@@ -246,12 +258,13 @@ class ALayout
                 $key = '';
                 break;
         }
-
+        $this->extensions->hk_ProcessData($this,__METHOD__,func_get_args());
         return $key;
     }
 
     /**
      * @return array
+     * @throws AException
      */
     public function getDefaultLayout()
     {
@@ -264,9 +277,9 @@ class ALayout
             $where = "WHERE template_id = '".$this->db->escape($this->tmpl_id)."' AND layout_type = '0' ";
 
             $sql = "SELECT layout_id, layout_type, layout_name, date_added, date_modified
-					FROM ".$this->db->table("layouts")."
-					".$where."
-					ORDER BY layout_id ASC";
+                    FROM ".$this->db->table("layouts")."
+                    ".$where."
+                    ORDER BY layout_id ASC";
 
             $result = $this->db->query($sql);
             $layouts = $result->rows;
@@ -281,6 +294,7 @@ class ALayout
      * @param string $layout_type
      *
      * @return array|null
+     * @throws AException
      */
     public function getLayouts($layout_type = '')
     {
@@ -303,18 +317,16 @@ class ALayout
                 $where .= empty($layout_type) ? "" : "AND layout_type = '".(int)$layout_type."' ";
             }
 
-            $sql = "SELECT "
-                ."l.layout_id as layout_id, "
-                ."l.layout_type as layout_type, "
-                ."l.layout_name as layout_name, "
-                ."l.date_added as date_added, "
-                ."l.date_modified as date_modified "
-                ."FROM "
-                .$this->db->table("layouts")." as l "
+            $sql = "SELECT 
+                l.layout_id as layout_id, 
+                l.layout_type as layout_type, 
+                l.layout_name as layout_name, 
+                l.date_added as date_added, 
+                l.date_modified as date_modified 
+                FROM ".$this->db->table("layouts")." as l "
                 .$join
                 .$where
-                ." ORDER BY "
-                ."l.layout_id Asc";
+                ." ORDER BY l.layout_id ASC";
 
             $query = $this->db->query($sql);
             $layouts = $query->rows;
@@ -333,7 +345,10 @@ class ALayout
     public function getLayoutBlocks($layout_id)
     {
         if (empty($layout_id)) {
-            throw new AException(AC_ERR_LOAD_LAYOUT, 'No layout specified for getLayoutBlocks!'.$layout_id);
+            throw new AException(
+                AC_ERR_LOAD_LAYOUT,
+                'No layout specified for getLayoutBlocks!'.$layout_id
+            );
         }
         $store_id = (int)$this->config->get('config_store_id');
         $cache_key = 'layout.blocks.'.$layout_id;
@@ -373,7 +388,7 @@ class ALayout
      */
     public function getChildren($instance_id = 0)
     {
-        $children = array();
+        $children = [];
         // Look into all blocks and locate all children
         foreach ($this->blocks as $block) {
             if ((string)$block['parent_instance_id'] == (string)$instance_id) {
@@ -396,41 +411,41 @@ class ALayout
                 return $block;
             }
         }
-        return array();
+        return [];
     }
 
     /**
-     * @param int    $instance_id
-     * @param string $newchild
-     * @param string $block_txt_id
+     * @param int    $instanceId
+     * @param string $newChild
+     * @param string $blockTxtId
      * @param string $template
      */
-    public function addChildFirst($instance_id, $newchild, $block_txt_id, $template)
+    public function addChildFirst($instanceId, $newChild, $blockTxtId, $template)
     {
-        $new_block = array();
-        $new_block['parent_instance_id'] = $instance_id;
-        $new_block['instance_id'] = $block_txt_id.$instance_id;
-        $new_block['block_id'] = $block_txt_id;
-        $new_block['controller'] = $newchild;
-        $new_block['block_txt_id'] = $block_txt_id;
+        $new_block = [];
+        $new_block['parent_instance_id'] = $instanceId;
+        $new_block['instance_id'] = $blockTxtId.$instanceId;
+        $new_block['block_id'] = $blockTxtId;
+        $new_block['controller'] = $newChild;
+        $new_block['block_txt_id'] = $blockTxtId;
         $new_block['template'] = $template;
         array_unshift($this->blocks, $new_block);
     }
 
     /**
-     * @param int    $instance_id
-     * @param string $newchild
-     * @param string $block_txt_id
+     * @param int    $instanceId
+     * @param string $newChild
+     * @param string $blockTxtId
      * @param string $template
      */
-    public function addChild($instance_id, $newchild, $block_txt_id, $template)
+    public function addChild($instanceId, $newChild, $blockTxtId, $template)
     {
-        $new_block = array();
-        $new_block['parent_instance_id'] = $instance_id;
-        $new_block['instance_id'] = $block_txt_id.$instance_id;
-        $new_block['block_id'] = $block_txt_id;
-        $new_block['controller'] = $newchild;
-        $new_block['block_txt_id'] = $block_txt_id;
+        $new_block = [];
+        $new_block['parent_instance_id'] = $instanceId;
+        $new_block['instance_id'] = $blockTxtId.$instanceId;
+        $new_block['block_id'] = $blockTxtId;
+        $new_block['controller'] = $newChild;
+        $new_block['block_txt_id'] = $blockTxtId;
         $new_block['template'] = $template;
         array_push($this->blocks, $new_block);
     }
@@ -439,6 +454,7 @@ class ALayout
      * @param int $instance_id
      *
      * @return string
+     * @throws AException
      */
     public function getBlockTemplate($instance_id)
     {
@@ -503,11 +519,12 @@ class ALayout
      * @param int $custom_block_id
      *
      * @return array
+     * @throws AException
      */
     public function getBlockDescriptions($custom_block_id = 0)
     {
         if (!(int)$custom_block_id) {
-            return array();
+            return [];
         }
         $cache_key = 'layout.block.descriptions.'.$custom_block_id;
         $output = $this->cache->pull($cache_key);
@@ -516,12 +533,14 @@ class ALayout
             return $output;
         }
 
-        $output = array();
-        $result = $this->db->query("SELECT bd.*, COALESCE(bl.status,0) as status
-									FROM ".$this->db->table("block_descriptions")." bd
-									LEFT JOIN ".$this->db->table("block_layouts")." bl
-										ON bl.custom_block_id = bd.custom_block_id
-									WHERE bd.custom_block_id = '".( int )$custom_block_id."'");
+        $output = [];
+        $result = $this->db->query(
+            "SELECT bd.*, COALESCE(bl.status,0) as status
+            FROM ".$this->db->table("block_descriptions")." bd
+            LEFT JOIN ".$this->db->table("block_layouts")." bl
+                ON bl.custom_block_id = bd.custom_block_id
+            WHERE bd.custom_block_id = '".( int )$custom_block_id."'"
+        );
         if ($result->num_rows) {
             foreach ($result->rows as $row) {
                 $output[$row['language_id']] = $row;

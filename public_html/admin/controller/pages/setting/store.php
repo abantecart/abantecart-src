@@ -23,8 +23,8 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesSettingStore extends AController
 {
-    public $error = array();
-    public $data = array();
+    public $error = [];
+    public $data = [];
 
     public function insert()
     {
@@ -101,7 +101,7 @@ class ControllerPagesSettingStore extends AController
     public function getForm()
     {
 
-        $this->data = array();
+        $this->data = [];
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -110,17 +110,21 @@ class ControllerPagesSettingStore extends AController
         $this->data['content_language_id'] = $this->session->data['content_language_id'];
         $this->data['form_language_switch'] = $this->html->getContentLanguageSwitcher();
 
-        $this->document->initBreadcrumb(array(
+        $this->document->initBreadcrumb(
+            [
             'href'      => $this->html->getSecureURL('index/home'),
             'text'      => $this->language->get('text_home'),
             'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
             'href'      => $this->html->getSecureURL('setting/setting'),
             'text'      => $this->language->get('heading_title'),
             'separator' => ' :: ',
             'current'   => true,
-        ));
+            ]
+        );
 
         if (isset($this->session->data['success'])) {
             $this->data['success'] = $this->session->data['success'];
@@ -149,52 +153,60 @@ class ControllerPagesSettingStore extends AController
             $this->data['store_id'] = 0;
         }
 
-        $stores = $store_options = array();
-        $stores[0] = array('name' => $this->language->get('text_default'));
+        $stores = $store_options = [];
+        $stores[0] = ['name' => $this->language->get('text_default')];
         $this->loadModel('setting/store');
         $results = $this->model_setting_store->getStores();
         foreach ($results as $result) {
-            $stores[$result['store_id']] = array(
+            $stores[$result['store_id']] = [
                 'name' => $result['alias'],
                 'href' => $this->html->getSecureURL('setting/setting', '&active='.$this->data['active'].'&store_id='.$result['store_id']),
-            );
+            ];
             $store_options[$result['store_id']] = $result['alias'];
         }
 
         if ($this->data['delete']) {
-            $this->data['delete_store_button'] = $this->html->buildElement(array(
+            $this->data['delete_store_button'] = $this->html->buildElement(
+                [
                 'type'  => 'button',
                 'title' => $this->language->get('button_delete_store'),
                 'text'  => '&nbsp;',
                 'style' => 'icon_delete',
                 'href'  => $this->html->getSecureURL('setting/store/delete', '&store_id='.$this->request->get['store_id']),
-            ));
+                ]
+            );
         }
 
         if ($this->data['edit_settings']) {
-            $this->data['edit_settings_button'] = $this->html->buildElement(array(
+            $this->data['edit_settings_button'] = $this->html->buildElement(
+                [
                 'type'  => 'button',
                 'title' => $this->language->get('button_edit_settings'),
                 'text'  => $this->language->get('button_edit_settings'),
                 'href'  => $this->data['edit_settings'],
                 'style' => 'button2',
-            ));
+                ]
+            );
         }
 
-        $this->data['cancel_store_button'] = $this->html->buildElement(array(
+        $this->data['cancel_store_button'] = $this->html->buildElement(
+            [
             'type'  => 'button',
             'text'  => $this->language->get('button_cancel'),
             'href'  => $this->data['cancel'],
             'style' => 'button2',
-        ));
+            ]
+        );
 
-        $this->data['new_store_button'] = $this->html->buildElement(array(
+        $this->data['new_store_button'] = $this->html->buildElement(
+            [
             'type'  => 'button',
             'title' => $this->language->get('button_add_store'),
             'text'  => '&nbsp;',
             'href'  => $this->html->getSecureURL('setting/store/insert'),
-        ));
-        $store_info = array();
+            ]
+        );
+        $store_info = [];
         if (isset($this->request->get['store_id']) && $this->request->is_GET()) {
             $store_info = $this->model_setting_store->getStore($this->request->get['store_id']);
         } else {
@@ -218,89 +230,111 @@ class ControllerPagesSettingStore extends AController
             $form = new AForm('HS');
         }
 
-        $form->setForm(array(
+        $form->setForm(
+            [
             'form_name' => 'storeFrm',
             'update'    => $this->data['update'],
-        ));
+            ]
+        );
 
         $this->data['form']['id'] = 'storeFrm';
-        $this->data['form']['form_open'] = $form->getFieldHtml(array(
+        $this->data['form']['form_open'] = $form->getFieldHtml(
+            [
             'type'   => 'form',
             'name'   => 'storeFrm',
             'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
             'action' => $this->data['action'],
-        ));
-        $this->data['form']['submit'] = $form->getFieldHtml(array(
+            ]
+        );
+        $this->data['form']['submit'] = $form->getFieldHtml(
+            [
             'type'  => 'button',
             'name'  => 'submit',
             'text'  => $this->language->get('button_save'),
             'style' => 'button1',
-        ));
-        $this->data['form']['cancel'] = $form->getFieldHtml(array(
+            ]
+        );
+        $this->data['form']['cancel'] = $form->getFieldHtml(
+            [
             'type'  => 'button',
             'name'  => 'cancel',
             'text'  => $this->language->get('button_cancel'),
             'style' => 'button2',
-        ));
-        $this->data['form']['fields']['general']['status'] = $form->getFieldHtml(array(
+            ]
+        );
+        $this->data['form']['fields']['general']['status'] = $form->getFieldHtml(
+            [
             'type'  => 'checkbox',
             'name'  => 'status',
             'value' => $store_info['status'],
             'style' => 'btn_switch',
-        ));
-        $this->data['form']['fields']['general']['name'] = $form->getFieldHtml(array(
+            ]
+        );
+        $this->data['form']['fields']['general']['name'] = $form->getFieldHtml(
+            [
             'type'     => 'input',
             'name'     => 'name',
             'value'    => $store_info['name'],
             'required' => true,
-        ));
-        $this->data['form']['fields']['general']['alias'] = $form->getFieldHtml(array(
+            ]
+        );
+        $this->data['form']['fields']['general']['alias'] = $form->getFieldHtml(
+            [
             'type'  => 'input',
             'name'  => 'alias',
             'value' => $store_info['alias'],
-        ));
+            ]
+        );
         if (empty($store_info['store_description'][$this->session->data['content_language_id']]['description'])) {
             $store_info['store_description'] = $this->model_setting_store->getStoreDescriptions($this->request->get['store_id']);
         }
-        $this->data['form']['fields']['general']['description'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['general']['description'] = $form->getFieldHtml(
+            [
             'type'  => 'texteditor',
             'name'  => 'store_description['.$this->session->data['content_language_id'].'][description]',
             'value' => $store_info['store_description'][$this->session->data['content_language_id']]['description'],
             'style' => 'xl-field',
-        ));
-        $this->data['form']['fields']['general']['url'] = $form->getFieldHtml(array(
+            ]
+        );
+        $this->data['form']['fields']['general']['url'] = $form->getFieldHtml(
+            [
             'type'     => 'input',
             'name'     => 'config_url',
             'value'    => $store_info['config_url'],
             'required' => true,
             'style'    => 'large-field',
-        ));
-        $this->data['form']['fields']['general']['ssl_url'] = $form->getFieldHtml(array(
+            ]
+        );
+        $this->data['form']['fields']['general']['ssl_url'] = $form->getFieldHtml(
+            [
             'type'     => 'input',
             'name'     => 'config_ssl_url',
             'value'    => $store_info['config_ssl_url'],
             'required' => true,
             'style'    => 'large-field',
-        ));
+            ]
+        );
 
         if (!isset($this->request->get['store_id'])) {
-            $store_options = array_merge(array('' => ' --- '), $store_options);
-            $this->data['form']['fields']['general']['clone_store'] = $form->getFieldHtml(array(
+            $store_options = array_merge(['' => ' --- '], $store_options);
+            $this->data['form']['fields']['general']['clone_store'] = $form->getFieldHtml(
+                [
                 'type'    => 'selectbox',
                 'name'    => 'clone_store',
                 'options' => $store_options,
                 'value'   => 0,
                 'style'   => "no-save",
-            ));
+                ]
+            );
         }
 
         $resources_scripts = $this->dispatch(
             'responses/common/resource_library/get_resources_scripts',
-            array(
+            [
                 'object_name' => '',
                 'object_id'   => '',
-                'types'       => array('image'),
-            )
+                'types'       => ['image'],
+            ]
         );
         $this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
 

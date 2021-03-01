@@ -125,7 +125,7 @@
 							<i class="fa fa-save"></i> <?php echo $button_save; ?>
 						</button>
 						&nbsp;
-						<a class="btn btn-default rl_reset tooltips" title="<?php echo $button_reload; ?>" href="<?php echo $cancel; ?>">
+						<a class="btn btn-default rl_reset tooltips" title="<?php echo $button_reload; ?>" href="<?php echo $cancel ?? ''; ?>">
 							<i class="fa fa-refresh"></i> <?php echo $button_reset; ?>
 						</a>
 					</div>

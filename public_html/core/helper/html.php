@@ -153,7 +153,7 @@ function renderAdminMenu($menu, $level = 0, $current_rt = '')
         if (!empty($item['children'])) {
             $child_class .= 'nav-parent ';
         }
-        if ($item['rt'] && $current_rt == $item['rt']) {
+        if (isset($item['rt']) && $item['rt'] && $current_rt == $item['rt']) {
             $child_class .= 'active ';
         }
         if ($child_class) {

@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -23,7 +24,7 @@ if (!defined('DIR_CORE')) {
 
 class ControllerBlocksSearch extends AController
 {
-    public $data = array();
+    public $data = [];
 
     public function main()
     {
@@ -37,17 +38,18 @@ class ControllerBlocksSearch extends AController
         $this->data['entry_search'] = $this->language->get('entry_search');
         $this->data['text_category'] = $this->language->get('text_category');
         $this->data['search'] = $this->html->buildElement(
-            array(
+            [
                 'type'        => 'input',
                 'name'        => 'filter_keyword',
-                'value'       => (isset($this->request->get['keyword']) ? $this->request->get['keyword'] : $this->language->get('text_keyword')),
+                'value'       => $this->request->get['keyword'] ?? $this->language->get('text_keyword'),
                 'placeholder' => $this->language->get('text_keyword'),
 
-            ));
+            ]
+        );
 
         //load top level categories
         $this->load->model('catalog/category');
-        $this->data['top_categories'] = $this->model_catalog_category->getCategories(0);
+        $this->data['top_categories'] = $this->model_catalog_category->getCategories(ROOT_CATEGORY_ID);
         $this->data['button_go'] = $this->language->get('button_go');
 
         $this->view->batchAssign($this->data);

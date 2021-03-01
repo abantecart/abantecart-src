@@ -1,4 +1,6 @@
 <?php
+/** @noinspection SqlDialectInspection */
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -24,10 +26,11 @@ if (!defined('DIR_CORE')) {
 class ModelCatalogReview extends Model
 {
     /**
-     * @param int   $product_id
+     * @param int $product_id
      * @param array $data
      *
      * @return int
+     * @throws AException
      */
     public function addReview($product_id, $data)
     {
@@ -37,25 +40,31 @@ class ModelCatalogReview extends Model
             $orderProductsTable = $this->db->table('order_products');
             $ordersTable = $this->db->table('orders');
 
-            $sql = 'SELECT product_id FROM '.$orderProductsTable.
-                ' INNER JOIN '.$ordersTable.' ON '.$ordersTable.'.order_id='.$orderProductsTable.'.order_id AND '.
-                $ordersTable.'.customer_id='.$customerId.' AND '.$ordersTable.'.order_status_id>0'.
-                ' AND '.$ordersTable.'.store_id='.$this->config->get('config_store_id').
-                ' WHERE '.$orderProductsTable.'.product_id='.$product_id.' LIMIT 1';
+            $sql = 'SELECT product_id 
+                    FROM '.$orderProductsTable.' 
+                    INNER JOIN '.$ordersTable.' 
+                        ON '.$ordersTable.'.order_id='.$orderProductsTable.'.order_id 
+                            AND '.$ordersTable.'.customer_id='.$customerId.' 
+                            AND '.$ordersTable.'.order_status_id>0 
+                            AND '.$ordersTable.'.store_id='.$this->config->get('config_store_id').' 
+                    WHERE '.$orderProductsTable.'.product_id='.$product_id.' 
+                    LIMIT 1';
             $result = $this->db->query($sql);
             if ($result->num_rows > 0) {
                 $verified_purchase = 1;
             }
         }
 
-        $this->db->query("INSERT INTO ".$this->db->table("reviews")." 
-						  SET author = '".$this->db->escape($data['name'])."',
-						      customer_id = '".(int)$this->customer->getId()."',
-						      product_id = '".(int)$product_id."',
-						      text = '".$this->db->escape(strip_tags($data['text']))."',
-						      rating = '".(int)$data['rating']."',
-						      verified_purchase = '".$verified_purchase."',
-						      date_added = NOW()");
+        $this->db->query(
+            "INSERT INTO ".$this->db->table("reviews")." 
+            SET author = '".$this->db->escape($data['name'])."',
+                customer_id = '".(int) $this->customer->getId()."',
+                product_id = '".(int) $product_id."',
+                text = '".$this->db->escape(strip_tags($data['text']))."',
+                rating = '".(int) $data['rating']."',
+                verified_purchase = '".$verified_purchase."',
+                date_added = NOW()"
+        );
 
         $review_id = $this->db->getLastId();
         //notify administrator of pending review approval
@@ -81,25 +90,29 @@ class ModelCatalogReview extends Model
      */
     public function getReviewsByProductId($product_id, $start = 0, $limit = 20)
     {
-        $query = $this->db->query("SELECT r.review_id,
-										  r.author,
-										  r.rating,
-										  r.text,
-                                          r.verified_purchase,
-										  p.product_id,
-										  pd.name,
-										  p.price,
-										  r.date_added
-							        FROM ".$this->db->table("reviews")." r
-							        LEFT JOIN ".$this->db->table("products")." p ON (r.product_id = p.product_id)
-							        LEFT JOIN ".$this->db->table("product_descriptions")." pd ON (p.product_id = pd.product_id)
-							        WHERE p.product_id = '".(int)$product_id."'
-							                AND p.date_available <= NOW()
-							                AND p.status = '1'
-							                AND r.status = '1'
-							                AND pd.language_id = '".(int)$this->config->get('storefront_language_id')."'
-							        ORDER BY r.date_added DESC
-							        LIMIT ".(int)$start.",".(int)$limit);
+        $query = $this->db->query(
+            "SELECT r.review_id,
+                  r.author,
+                  r.rating,
+                  r.text,
+                  r.verified_purchase,
+                  p.product_id,
+                  pd.name,
+                  p.price,
+                  r.date_added
+            FROM ".$this->db->table("reviews")." r
+            LEFT JOIN ".$this->db->table("products")." p 
+                ON (r.product_id = p.product_id)
+            LEFT JOIN ".$this->db->table("product_descriptions")." pd 
+                ON (p.product_id = pd.product_id)
+            WHERE p.product_id = '".(int) $product_id."'
+                    AND COALESCE(p.date_available, NOW()) <= NOW()
+                    AND p.status = '1'
+                    AND r.status = '1'
+                    AND pd.language_id = '".(int) $this->config->get('storefront_language_id')."'
+            ORDER BY r.date_added DESC
+            LIMIT ".(int) $start.",".(int) $limit
+        );
 
         return $query->rows;
     }
@@ -111,14 +124,18 @@ class ModelCatalogReview extends Model
      */
     public function getAverageRating($product_id)
     {
-        $cache = $this->cache->pull('product.rating.'.(int)$product_id);
+        $cacheKey = 'product.rating.'.(int) $product_id;
+        $cache = $this->cache->pull($cacheKey);
         if ($cache === false) {
-            $query = $this->db->query("SELECT AVG(rating) AS total
-										FROM ".$this->db->table("reviews")." 
-										WHERE status = '1' AND product_id = '".(int)$product_id."'
-										GROUP BY product_id");
-            $cache = (int)$query->row['total'];
-            $this->cache->push('product.rating.'.(int)$product_id, $cache);
+            $query = $this->db->query(
+                "SELECT AVG(rating) AS total
+                FROM ".$this->db->table("reviews")." 
+                WHERE status = '1' 
+                    AND product_id = '".(int) $product_id."'
+                GROUP BY product_id"
+            );
+            $cache = (int) $query->row['total'];
+            $this->cache->push($cacheKey, $cache);
         }
         return $cache;
     }
@@ -128,16 +145,20 @@ class ModelCatalogReview extends Model
      */
     public function getTotalReviews()
     {
-        $cache = $this->cache->pull('product.reviews.totals');
+        $cacheKey = 'product.reviews.totals';
+        $cache = $this->cache->pull($cacheKey);
         if ($cache === false) {
-            $query = $this->db->query("SELECT COUNT(*) AS total
-									FROM ".$this->db->table("reviews")." r
-									LEFT JOIN ".$this->db->table("products")." p ON (r.product_id = p.product_id)
-									WHERE p.date_available <= NOW()
-										AND p.status = '1'
-										AND r.status = '1'");
-            $cache = (int)$query->row['total'];
-            $this->cache->push('product.reviews.totals', $cache);
+            $query = $this->db->query(
+                "SELECT COUNT(*) AS total
+                FROM ".$this->db->table("reviews")." r
+                LEFT JOIN ".$this->db->table("products")." p 
+                    ON (r.product_id = p.product_id)
+                WHERE p.date_available <= NOW()
+                    AND p.status = '1'
+                    AND r.status = '1'"
+            );
+            $cache = (int) $query->row['total'];
+            $this->cache->push($cacheKey, $cache);
         }
         return $cache;
     }
@@ -149,21 +170,25 @@ class ModelCatalogReview extends Model
      */
     public function getTotalReviewsByProductId($product_id)
     {
-        $language_id = (int)$this->config->get('storefront_language_id');
+        $language_id = (int) $this->config->get('storefront_language_id');
         $cache_key = 'product.reviews.totals.'.$product_id.'.lang_'.$language_id;
         $cache = $this->cache->pull($cache_key);
         if ($cache === false) {
-            $query = $this->db->query("SELECT COUNT(*) AS total
-										FROM ".$this->db->table("reviews")." r
-										LEFT JOIN ".$this->db->table("products")." p ON (r.product_id = p.product_id)
-										LEFT JOIN ".$this->db->table("product_descriptions")." pd ON (p.product_id = pd.product_id)
-										WHERE p.product_id = '".(int)$product_id."'
-											AND p.date_available <= NOW()
-											AND p.status = '1'
-											AND r.status = '1'
-											AND pd.language_id = '".$language_id."'");
+            $query = $this->db->query(
+                "SELECT COUNT(*) AS total
+                FROM ".$this->db->table("reviews")." r
+                LEFT JOIN ".$this->db->table("products")." p 
+                    ON (r.product_id = p.product_id)
+                LEFT JOIN ".$this->db->table("product_descriptions")." pd 
+                    ON (p.product_id = pd.product_id)
+                WHERE p.product_id = '".(int) $product_id."'
+                    AND COALESCE(p.date_available, NOW()) <= NOW()
+                    AND p.status = '1'
+                    AND r.status = '1'
+                    AND pd.language_id = '".$language_id."'"
+            );
 
-            $cache = (int)$query->row['total'];
+            $cache = (int) $query->row['total'];
             $this->cache->push($cache_key, $cache);
         }
         return $cache;

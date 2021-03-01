@@ -4447,3 +4447,8 @@ paypal pro styles
 span.verified_review {
 	color: #F00;
 }
+
+
+div#relatedproducts .productname{
+	width: 100%;
+}

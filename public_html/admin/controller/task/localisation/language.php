@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,15 +23,14 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerTaskLocalisationLanguage extends AController
 {
-    public $data = array();
+    public $data = [];
 
-    public function main()
-    {
-    }
+    public function main(){ }
 
-    public function translate()
+    public function translate(...$args)
     {
-        list($task_id, $step_id,) = func_get_args();
+        $translate_result = false;
+        list($task_id, $step_id,) = $args;
         $this->load->library('json');
 
         if (!$task_id || !$step_id) {
@@ -43,10 +42,11 @@ class ControllerTaskLocalisationLanguage extends AController
         $step_info = $tm->getTaskStep($task_id, $step_id);
 
         if ($step_info['sort_order'] == 1) {
-            $tm->updateTask($task_id,
-                array(
+            $tm->updateTask(
+                $task_id,
+                [
                     'last_time_run' => date('Y-m-d H:i:s'),
-                )
+                ]
             );
         }
 
@@ -55,7 +55,7 @@ class ControllerTaskLocalisationLanguage extends AController
             $this->_return_error($error_text);
         }
 
-        $tm->updateStep($step_id, array('last_time_run' => date('Y-m-d H:i:s')));
+        $tm->updateStep($step_id, ['last_time_run' => date('Y-m-d H:i:s')]);
 
         if (!$step_info['settings']) {
             $error_text = 'Cannot run task step_id'.$step_id.'. Unknown settings for it.';
@@ -84,39 +84,43 @@ class ControllerTaskLocalisationLanguage extends AController
 
         //do translate only when items presents
         if ($specific_sql) {
-            $translate_result = $this->language->cloneLanguageRows($table_name,
+            $translate_result = $this->language->cloneLanguageRows(
+                $table_name,
                 $pkeys,
                 $dst_language_id,
                 $src_language_id,
                 $specific_sql,
-                $step_settings['translate_method']);
+                $step_settings['translate_method']
+            );
         }
 
         if ($translate_result) {
             //update task details to show them at the end
-            $tm->updateTaskDetails($task_id,
-                array(
+            $tm->updateTaskDetails(
+                $task_id,
+                [
                     //set 1 as "admin"
                     'created_by' => 1,
-                    'settings'   => array(),
-                ));
+                    'settings'   => [],
+                ]
+            );
             $step_result = true;
         } else {
             $step_result = false;
         }
 
-        $tm->updateStep($step_id, array('last_result' => $step_result));
+        $tm->updateStep($step_id, ['last_result' => $step_result]);
 
         if (!$step_result) {
             $this->_return_error('Some errors during step run. See log for details.');
         }
 
-        $this->response->setOutput(AJson::encode(array('result' => true, 'message' => $translate_result)));
+        $this->response->setOutput(AJson::encode(['result' => true, 'message' => $translate_result]));
     }
 
     private function _return_error($error_text)
     {
-        $this->response->setOutput(AJson::encode(array('result' => false, 'error_text' => $error_text)));
+        $this->response->setOutput(AJson::encode(['result' => false, 'error_text' => $error_text]));
     }
 
 }

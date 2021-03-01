@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,12 +24,12 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerTaskToolBackup extends AController
 {
-    private $error = array();
+    public $error = [];
 
-    public function dumpTables()
+    public function dumpTables(...$args)
     {
-
-        list($task_id, $step_id, $settings) = func_get_args();
+        $table_list = [];
+        list(, , $settings) = $args;
         $backup_name = preg_replace('[^0-9A-z_\.]', '', $settings['backup_name']);
         $backup_name = !$backup_name ? 'manual_backup' : $backup_name;
 
@@ -50,11 +51,14 @@ class ControllerTaskToolBackup extends AController
         if ($table_list === false) {
             $error_text = 'Dump tables error. Cannot obtain table list.';
             $error = new AError($error_text);
-            return $error->toJSONResponse('APP_ERROR_402',
-                array(
+            $error->toJSONResponse(
+                'APP_ERROR_402',
+                [
                     'error_text'  => $error_text,
                     'reset_value' => true,
-                ));
+                ]
+            );
+            return;
         }
 
         $result = $bkp->dumpTables($table_list);
@@ -62,32 +66,35 @@ class ControllerTaskToolBackup extends AController
         if ($result) {
             $this->load->library('json');
             $this->response->addJSONHeader();
-            $output = array('result' => true, 'message' => sizeof($table_list).' tables dumped.');
+            $output = [
+                'result'  => true,
+                'message' => sizeof($table_list).' tables dumped.',
+            ];
             $this->response->setOutput(AJson::encode($output));
         } else {
             $error = new AError('dump tables error');
-            return $error->toJSONResponse('APP_ERROR_402',
-                array(
+            $error->toJSONResponse(
+                'APP_ERROR_402',
+                [
                     'error_text'  => implode("\n", $bkp->error),
                     'reset_value' => true,
-                ));
+                ]
+            );
         }
-
     }
 
-    public function backupContentFiles()
+    public function backupContentFiles(...$args)
     {
-
-        list($task_id, $step_id, $settings) = func_get_args();
+        list(, , $settings) = $args;
         $backup_name = preg_replace('[^0-9A-z_\.]', '', $settings['backup_name']);
         $backup_name = !$backup_name ? 'manual_backup' : $backup_name;
 
         $bkp = new ABackup($backup_name);
-        $content_dirs = array( // white list
-                               'resources',
-                               'image',
-                               'download',
-        );
+        $content_dirs = [ // white list
+                          'resources',
+                          'image',
+                          'download',
+        ];
 
         $result = true;
         $files = glob(DIR_ROOT.'/*', GLOB_ONLYDIR);
@@ -96,44 +103,48 @@ class ControllerTaskToolBackup extends AController
             if (is_dir($file) && in_array(basename($file), $content_dirs)) { //only dirs from white list
                 $res = $bkp->backupDirectory($file, false);
             }
-            $result = !$res ? $res : $result;
+            $result = !$res ? false : $result;
         }
 
         if ($result) {
             $this->load->library('json');
             $this->response->addJSONHeader();
-            $output = array('result' => true, 'message' => '( backup content files )');
+            $output = [
+                'result'  => true,
+                'message' => '( backup content files )',
+            ];
             $this->response->setOutput(AJson::encode($output));
         } else {
             $error = new AError('files backup error');
-            return $error->toJSONResponse('APP_ERROR_402',
-                array(
+            $error->toJSONResponse(
+                'APP_ERROR_402',
+                [
                     'error_text'  => implode("\n", $bkp->error),
                     'reset_value' => true,
-                ));
+                ]
+            );
         }
-
     }
 
-    public function backupCodeFiles()
+    public function backupCodeFiles(...$args)
     {
-        list($task_id, $step_id, $settings) = func_get_args();
+        list(, , $settings) = $args;
         $backup_name = preg_replace('[^0-9A-z_\.]', '', $settings['backup_name']);
         $backup_name = !$backup_name ? 'manual_backup' : $backup_name;
         $bkp = new ABackup($backup_name);
 
-        $content_dirs = array(
+        $content_dirs = [
             'resources',
             'image',
             'download',
-        );
+        ];
 
         $result = true;
         $files = array_merge(glob(DIR_ROOT.'/.*'), glob(DIR_ROOT.'/*'));
 
         foreach ($files as $file) {
             //those file names give glob for hidden files (see above)
-            if (in_array(basename($file), array('.', '..'))) {
+            if (in_array(basename($file), ['.', '..'])) {
                 continue;
             }
             $res = true;
@@ -145,49 +156,55 @@ class ControllerTaskToolBackup extends AController
                     $res = $bkp->backupDirectory($file, false);
                 }
             }
-            $result = !$res ? $res : $result;
+            $result = !$res ? false : $result;
         }
 
         if ($result) {
             $this->load->library('json');
             $this->response->addJSONHeader();
-            $output = array('result' => true, 'message' => ' Backup code files('.sizeof($files).' directories)');
+            $output = [
+                'result'  => true,
+                'message' => ' Backup code files('.sizeof($files).' directories)',
+            ];
             $this->response->setOutput(AJson::encode($output));
         } else {
             $error = new AError('files backup error');
-            return $error->toJSONResponse('APP_ERROR_402',
-                array(
+            $error->toJSONResponse(
+                'APP_ERROR_402',
+                [
                     'error_text'  => implode("\n", $bkp->error),
                     'reset_value' => true,
-                ));
+                ]
+            );
         }
-
     }
 
-    public function backupConfig()
+    public function backupConfig(...$args)
     {
-        list($task_id, $step_id, $settings) = func_get_args();
+        list(, , $settings) = $args;
         $backup_name = preg_replace('[^0-9A-z_\.]', '', $settings['backup_name']);
         $backup_name = !$backup_name ? 'manual_backup' : $backup_name;
         $bkp = new ABackup($backup_name);
         $result = $bkp->backupFile(DIR_ROOT.'/system/config.php', false);
 
-        $output = array('result' => ($result ? true : false), 'message' => '( backup config file )');
+        $output = [
+            'result'  => ($result),
+            'message' => '( backup config file )',
+        ];
 
         $this->load->library('json');
         $this->response->addJSONHeader();
         $this->response->setOutput(AJson::encode($output));
     }
 
-    public function CompressBackup()
+    public function CompressBackup(...$args)
     {
+        $settings = $args[2];
 
-        list($task_id, $step_id, $settings) = func_get_args();
         $backup_name = preg_replace('[^0-9A-z_\.]', '', $settings['backup_name']);
         $backup_name = !$backup_name ? 'manual_backup' : $backup_name;
 
         $bkp = new ABackup($backup_name);
-
         $arc_basename = DIR_BACKUP.$bkp->getBackupName();
         if (is_file($arc_basename.'.tar')) {
             unlink($arc_basename.'.tar');
@@ -197,25 +214,24 @@ class ControllerTaskToolBackup extends AController
         }
 
         $result = $bkp->archive($arc_basename.'.tar.gz', DIR_BACKUP, $bkp->getBackupName());
-
         if ($result) {
             $this->load->library('json');
             $this->response->addJSONHeader();
-            $output = array(
+            $output = [
                 'result'   => true,
                 'filename' => $bkp->getBackupName(),
                 'message'  => '( compressing )',
-            );
+            ];
             $this->response->setOutput(AJson::encode($output));
         } else {
             $error = new AError('compress backup error');
-            return $error->toJSONResponse('APP_ERROR_402',
-                array(
+            $error->toJSONResponse(
+                'APP_ERROR_402',
+                [
                     'error_text'  => implode("\n", $bkp->error),
                     'reset_value' => true,
-                ));
+                ]
+            );
         }
-
     }
-
 }

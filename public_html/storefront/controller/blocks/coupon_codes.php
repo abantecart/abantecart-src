@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -23,12 +24,10 @@ if (!defined('DIR_CORE')) {
 
 class ControllerBlocksCouponCodes extends AController
 {
-    public $data = array();
+    public $data = [];
 
-    public function main()
+    public function main($action = '')
     {
-
-        $action = func_get_arg(0);
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -40,29 +39,33 @@ class ControllerBlocksCouponCodes extends AController
 
         $this->data['coupon_status'] = $this->config->get('coupon_status');
 
-        $entereted_cpn = (isset($this->request->post['coupon']) ? $this->request->post['coupon'] : $this->session->data['coupon']);
+        $enteredCoupon = $this->request->post['coupon'] ?? $this->session->data['coupon'];
 
         $form = new AForm();
-        $form->setForm(array('form_name' => 'coupon'));
+        $form->setForm(['form_name' => 'coupon']);
 
-        $this->data['coupon_code'] = $entereted_cpn;
+        $this->data['coupon_code'] = $enteredCoupon;
         $this->data['form_open'] = $form->getFieldHtml(
-            array(
+            [
                 'type'   => 'form',
                 'name'   => 'coupon',
                 'action' => $action,
                 'csrf'   => true,
-            )
+            ]
         );
-        $this->data['coupon'] = $form->getFieldHtml(array(
-            'type'  => 'input',
-            'name'  => 'coupon',
-            'value' => $entereted_cpn,
-        ));
-        $this->data['submit'] = $form->getFieldHtml(array(
-            'type' => 'submit',
-            'name' => $this->language->get('button_coupon'),
-        ));
+        $this->data['coupon'] = $form->getFieldHtml(
+            [
+                'type'  => 'input',
+                'name'  => 'coupon',
+                'value' => $enteredCoupon,
+            ]
+        );
+        $this->data['submit'] = $form->getFieldHtml(
+            [
+                'type' => 'submit',
+                'name' => $this->language->get('button_coupon'),
+            ]
+        );
 
         $this->view->batchAssign($this->data);
         $this->processTemplate('blocks/coupon_form.tpl');
@@ -71,5 +74,3 @@ class ControllerBlocksCouponCodes extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 }
-
-?>

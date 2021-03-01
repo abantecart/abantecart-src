@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -31,18 +31,20 @@ if (!defined('DIR_CORE')) {
 class ATaskManager
 {
     protected $registry;
-    public $errors = array(); // errors during process
+    public $errors = []; // errors during process
     protected $starter;
     /**
      * @var ALog
      */
     protected $task_log;
     /**
-     * @var string - can be 'html' for running task.php directly from browser, 'ajax' - for running task by ajax-requests and 'cli' - shell run
+     * @var string - can be 'html' for running task.php directly from browser,
+     *                      'ajax' - for running task by ajax-requests
+     *                      and 'cli' - shell run
      */
-    private $mode = 'html';
+    private $mode;
 
-    protected $run_log = array();
+    protected $run_log = [];
     /**
      * @var string can be 'simple' or 'detailed'
      */
@@ -57,10 +59,12 @@ class ATaskManager
 
     /**
      * @param string $mode Can be html or cli. Needed for run log format
+     *
+     * @throws AException
      */
     public function __construct($mode = 'html')
     {
-        $this->mode = in_array($mode, array('html', 'ajax', 'cli')) ? $mode : 'html';
+        $this->mode = in_array($mode, ['html', 'ajax', 'cli']) ? $mode : 'html';
         $this->registry = Registry::getInstance();
         // who is initiator of process, admin or storefront
         $this->starter = IS_ADMIN === true ? 1 : 0;
@@ -83,9 +87,17 @@ class ATaskManager
         $this->log_level = $level;
     }
 
-    public function runTasks()
+    public function runTasks($options = [])
     {
-        $this->run_log = array();
+        $this->run_log = [];
+        if($options['force-all']){
+            $allTasks = $this->getTasks();
+            foreach($allTasks as $t){
+                if($t['status'] != static::STATUS_RUNNING){
+                    $this->updateTask($t['task_id'],['status'=> static::STATUS_READY]);
+                }
+            }
+        }
         $task_list = $this->_getReadyTasks();
         // run loop tasks
         foreach ($task_list as $task) {
@@ -146,10 +158,10 @@ class ATaskManager
         $task_id = (int)$task_id;
         //get list only ready tasks for needed start-side (sf, admin or both)
         $sql = "SELECT *
-				FROM ".$this->db->table('tasks')." t
-				WHERE t.status = ".self::STATUS_READY."
-					AND t.starter IN ('".$this->starter."','2')
-					".($task_id ? " AND t.task_id = ".$task_id : '');
+                FROM ".$this->db->table('tasks')." t
+                WHERE t.status = ".self::STATUS_READY."
+                    AND t.starter IN ('".$this->starter."','2')
+                    ".($task_id ? " AND t.task_id = ".$task_id : '');
         $result = $this->db->query($sql);
         return $task_id ? $result->row : $result->rows;
     }
@@ -225,15 +237,15 @@ class ATaskManager
         //change status to active
         $this->_update_step_state(
             $step_id,
-            array(
+            [
                 'last_time_run' => date('Y-m-d H:i:s'),
                 //change status of step to "running" while it run
                 'status'        => self::STATUS_READY,
-            )
+            ]
         );
 
         try {
-            $dd = new ADispatcher($step_details['controller'], array($task_id, $step_id, $step_details['settings']));
+            $dd = new ADispatcher($step_details['controller'], [$task_id, $step_id, $step_details['settings']]);
             // waiting for result array from step's controller
             $response = $dd->dispatchGetOutput();
 
@@ -242,23 +254,23 @@ class ATaskManager
             if (json_last_error() == JSON_ERROR_NONE) {
                 $response = $json;
             }
-            $result = isset($response['result']) && $response['result'] ? true : false;
+            $result = (isset($response['result']) && $response['result']);
             if ($result) {
                 $response_message = isset($response['message']) ? $response['message'] : '';
             } else {
                 $response_message = isset($response['error_text']) ? $response['error_text'] : '';
             }
-        } catch (AException $e) {
+        } catch (Exception $e) {
             $this->log->write($e);
             $result = false;
         }
 
         $this->_update_step_state(
             $step_id,
-            array(
+            [
                 'result' => (int)$result,
                 'status' => ($result ? self::STATUS_COMPLETED : self::STATUS_FAILED),
-            )
+            ]
         );
 
         if (!$result) {
@@ -301,7 +313,7 @@ class ATaskManager
             }
         }
 
-        $this->updateTask($task_id, array('status' => $task_status));
+        $this->updateTask($task_id, ['status' => $task_status]);
     }
 
     /**
@@ -319,10 +331,10 @@ class ATaskManager
 
         $this->_update_task_state(
             $task_id,
-            array(
+            [
                 'status'        => self::STATUS_RUNNING,
                 'last_time_run' => date('Y-m-d H:i:s'),
-            )
+            ]
         );
 
         //get steps
@@ -341,10 +353,10 @@ class ATaskManager
                 }
             } else {
                 if ($this->log_level == 'detailed') {
-                    $this->log_level['steps'][$step_details['step_id']] = $step_result;
+                    $this->run_log[] = 'Step #'.$step_details['step_id'].' result: success';
                 }
             }
-            $this->_update_task_state($task_id, array('progress' => ceil($k * 100 / $steps_count)));
+            $this->_update_task_state($task_id, ['progress' => ceil($k * 100 / $steps_count)]);
             $k++;
         }
 
@@ -357,20 +369,20 @@ class ATaskManager
      *
      * @return bool
      */
-    protected function _update_task_state($task_id, $state = array())
+    protected function _update_task_state($task_id, $state = [])
     {
         $task_id = (int)$task_id;
         if (!$task_id) {
             return false;
         }
 
-        $upd_flds = array(
+        $upd_flds = [
             'last_result',
             'last_time_run',
             'status',
             'progress',
-        );
-        $data = array();
+        ];
+        $data = [];
         foreach ($upd_flds as $fld_name) {
             if (has_value($state[$fld_name])) {
                 $data[$fld_name] = $state[$fld_name];
@@ -385,15 +397,15 @@ class ATaskManager
      *
      * @return bool
      */
-    protected function _update_step_state($step_id, $state = array())
+    protected function _update_step_state($step_id, $state = [])
     {
-        $upd_flds = array(
+        $upd_flds = [
             'task_id',
             'last_result',
             'last_time_run',
             'status',
-        );
-        $data = array();
+        ];
+        $data = [];
         foreach ($upd_flds as $fld_name) {
             if (has_value($state[$fld_name])) {
                 $data[$fld_name] = $state[$fld_name];
@@ -426,7 +438,7 @@ class ATaskManager
      *
      * @return int
      */
-    public function addTask($data = array())
+    public function addTask($data = [])
     {
         if (!$data) {
             $this->errors[] = 'Error: Can not to create task. Empty data given.';
@@ -434,8 +446,8 @@ class ATaskManager
         }
         // check
         $sql = "SELECT *
-				FROM ".$this->db->table('tasks')."
-				WHERE name = '".$this->db->escape($data['name'])."'";
+                FROM ".$this->db->table('tasks')."
+                WHERE name = '".$this->db->escape($data['name'])."'";
         $res = $this->db->query($sql);
         if ($res->num_rows) {
             $this->deleteTask($res->row['task_id']);
@@ -443,26 +455,26 @@ class ATaskManager
         }
 
         $sql = "INSERT INTO ".$this->db->table('tasks')."
-				(`name`,
-				`starter`,
-				`status`,
-				`start_time`,
-				`last_time_run`,
-				`progress`,
-				`last_result`,
-				`run_interval`,
-				`max_execution_time`,
-				`date_added`)
-				VALUES ('".$this->db->escape($data['name'])."',
-						'".(int)$data['starter']."',
-						'".(int)$data['status']."',
-						'".$this->db->escape($data['start_time'])."',
-						'".$this->db->escape($data['last_time_run'])."',
-						'".(int)$data['progress']."',
-						'".(int)$data['last_result']."',
-						'".(int)$data['run_interval']."',
-						'".(int)$data['max_execution_time']."',
-						NOW())";
+                        (`name`,
+                        `starter`,
+                        `status`,
+                        `start_time`,
+                        `last_time_run`,
+                        `progress`,
+                        `last_result`,
+                        `run_interval`,
+                        `max_execution_time`,
+                        `date_added`)
+                VALUES ('".$this->db->escape($data['name'])."',
+                        '".(int)$data['starter']."',
+                        '".(int)$data['status']."',
+                        '".$this->db->escape($data['start_time'])."',
+                        '".$this->db->escape($data['last_time_run'])."',
+                        '".(int)$data['progress']."',
+                        '".(int)$data['last_result']."',
+                        '".(int)$data['run_interval']."',
+                        '".(int)$data['max_execution_time']."',
+                        NOW())";
         $this->db->query($sql);
         $task_id = $this->db->getLastId();
         if (has_value($data['created_by']) || has_value($data['settings'])) {
@@ -477,14 +489,14 @@ class ATaskManager
      *
      * @return bool
      */
-    public function updateTask($task_id, $data = array())
+    public function updateTask($task_id, $data = [])
     {
         $task_id = (int)$task_id;
         if (!$task_id) {
             return false;
         }
 
-        $upd_flds = array(
+        $upd_flds = [
             'name'               => 'string',
             'starter'            => 'int',
             'status'             => 'int',
@@ -495,8 +507,8 @@ class ATaskManager
             'run_interval'       => 'int',
             'max_execution_time' => 'int',
             'date_modified'      => 'timestamp',
-        );
-        $update = array();
+        ];
+        $update = [];
         foreach ($upd_flds as $fld_name => $fld_type) {
             if (has_value($data[$fld_name])) {
                 switch ($fld_type) {
@@ -518,8 +530,8 @@ class ATaskManager
         }
 
         $sql = "UPDATE ".$this->db->table('tasks')."
-				SET ".implode(', ', $update)."
-				WHERE task_id = ".(int)$task_id;
+                SET ".implode(', ', $update)."
+                WHERE task_id = ".(int)$task_id;
         $this->db->query($sql);
 
         if (has_value($data['created_by']) || has_value($data['settings'])) {
@@ -536,7 +548,7 @@ class ATaskManager
      *
      * @return bool
      */
-    public function updateTaskDetails($task_id, $data = array())
+    public function updateTaskDetails($task_id, $data = [])
     {
         $task_id = (int)$task_id;
         if (!$task_id) {
@@ -548,8 +560,8 @@ class ATaskManager
         }
 
         $sql = "SELECT *
-				FROM ".$this->db->table('task_details')."
-				WHERE task_id = ".$task_id;
+                FROM ".$this->db->table('task_details')."
+                WHERE task_id = ".$task_id;
         $result = $this->db->query($sql);
         if ($result->num_rows) {
             foreach ($result->row as $k => $ov) {
@@ -558,16 +570,16 @@ class ATaskManager
                 }
             }
             $sql = "UPDATE ".$this->db->table('task_details')."
-					SET settings = '".$this->db->escape($data['settings'])."'
-					WHERE task_id = ".$task_id;
+                    SET settings = '".$this->db->escape($data['settings'])."'
+                    WHERE task_id = ".$task_id;
         } else {
             $data['created_by'] = isset($data['created_by']) ? $data['created_by'] : 1;
             $sql = "INSERT INTO ".$this->db->table('task_details')."
-					(task_id, created_by, settings, date_modified)
-					 VALUES (   '".$task_id."',
-								'".$this->db->escape($data['created_by'])."',
-								'".$this->db->escape($data['settings'])."',
-								NOW())";
+                        (task_id, created_by, settings, date_modified)
+                     VALUES (   '".$task_id."',
+                                '".$this->db->escape($data['created_by'])."',
+                                '".$this->db->escape($data['settings'])."',
+                            NOW())";
         }
         $this->db->query($sql);
         return true;
@@ -578,7 +590,7 @@ class ATaskManager
      *
      * @return bool|int
      */
-    public function addStep($data = array())
+    public function addStep($data = [])
     {
         if (!$data) {
             $this->errors[] = 'Error: Can not to create task\'s step. Empty data given.';
@@ -586,25 +598,25 @@ class ATaskManager
         }
         $data['settings'] = !is_string($data['settings']) ? serialize($data['settings']) : $data['settings'];
         $sql = "INSERT INTO ".$this->db->table('task_steps')."
-				(`task_id`,
-				`sort_order`,
-				`status`,
-				`last_time_run`,
-				`last_result`,
-				`max_execution_time`,
-				`controller`,
-				`settings`,
-				`date_modified`)
-				VALUES (
-						'".(int)$data['task_id']."',
-						'".(int)$data['sort_order']."',
-						'".(int)$data['status']."',
-						'".$this->db->escape($data['last_time_run'])."',
-						'".(int)$data['last_result']."',
-						'".(int)$data['max_execution_time']."',
-						'".$this->db->escape($data['controller'])."',
-						'".$this->db->escape($data['settings'])."',
-						NOW())";
+                (`task_id`,
+                `sort_order`,
+                `status`,
+                `last_time_run`,
+                `last_result`,
+                `max_execution_time`,
+                `controller`,
+                `settings`,
+                `date_modified`)
+                VALUES (
+                        '".(int)$data['task_id']."',
+                        '".(int)$data['sort_order']."',
+                        '".(int)$data['status']."',
+                        '".$this->db->escape($data['last_time_run'])."',
+                        '".(int)$data['last_result']."',
+                        '".(int)$data['max_execution_time']."',
+                        '".$this->db->escape($data['controller'])."',
+                        '".$this->db->escape($data['settings'])."',
+                        NOW())";
         $this->db->query($sql);
         return $this->db->getLastId();
     }
@@ -615,14 +627,14 @@ class ATaskManager
      *
      * @return bool
      */
-    public function updateStep($step_id, $data = array())
+    public function updateStep($step_id, $data = [])
     {
         $step_id = (int)$step_id;
         if (!$step_id) {
             return false;
         }
 
-        $upd_flds = array(
+        $upd_flds = [
             'task_id'            => 'int',
             'starter'            => 'int',
             'status'             => 'int',
@@ -633,8 +645,8 @@ class ATaskManager
             'controller'         => 'string',
             'settings'           => 'string',
             'date_modified'      => 'timestamp',
-        );
-        $update = array();
+        ];
+        $update = [];
         foreach ($upd_flds as $fld_name => $fld_type) {
             if (has_value($data[$fld_name])) {
                 switch ($fld_type) {
@@ -656,8 +668,8 @@ class ATaskManager
         }
 
         $sql = "UPDATE ".$this->db->table('task_steps')."
-				SET ".implode(', ', $update)."
-				WHERE step_id = ".(int)$step_id;
+                SET ".implode(', ', $update)."
+                WHERE step_id = ".(int)$step_id;
         $this->db->query($sql);
         return true;
     }
@@ -693,12 +705,13 @@ class ATaskManager
     {
         $task_id = (int)$task_id;
         if (!$task_id) {
-            return array();
+            return [];
         }
         $sql = "SELECT *
-				FROM ".$this->db->table('tasks')." t
-				LEFT JOIN ".$this->db->table('task_details')." td ON td.task_id = t.task_id
-				WHERE t.task_id = '".$task_id."'";
+                FROM ".$this->db->table('tasks')." t
+                LEFT JOIN ".$this->db->table('task_details')." td 
+                    ON td.task_id = t.task_id
+                WHERE t.task_id = '".$task_id."'";
         $result = $this->db->query($sql);
         $output = $result->row;
         if ($output) {
@@ -721,13 +734,14 @@ class ATaskManager
     {
         $task_name = $this->db->escape($task_name);
         if (!$task_name) {
-            return array();
+            return [];
         }
 
         $sql = "SELECT *
-				FROM ".$this->db->table('tasks')." t
-				LEFT JOIN ".$this->db->table('task_details')." td ON td.task_id = t.task_id
-				WHERE t.name = '".$task_name."'";
+                FROM ".$this->db->table('tasks')." t
+                LEFT JOIN ".$this->db->table('task_details')." td 
+                    ON td.task_id = t.task_id
+                WHERE t.name = '".$task_name."'";
         $result = $this->db->query($sql);
         $output = $result->row;
         if ($output) {
@@ -750,14 +764,14 @@ class ATaskManager
     {
         $task_id = (int)$task_id;
         if (!$task_id) {
-            return array();
+            return [];
         }
-        $output = array();
+        $output = [];
         try {
             $sql = "SELECT *
-				FROM ".$this->db->table('task_steps')."
-				WHERE task_id = ".$task_id."
-				ORDER BY sort_order";
+                    FROM ".$this->db->table('task_steps')."
+                    WHERE task_id = ".$task_id."
+                    ORDER BY sort_order";
             $result = $this->db->query($sql);
             $memory_limit = getMemoryLimitInBytes();
             foreach ($result->rows as $row) {
@@ -768,7 +782,7 @@ class ATaskManager
                 $row['settings'] = $row['settings'] ? unserialize($row['settings']) : '';
                 $output[(string)$row['step_id']] = $row;
             }
-        } catch (AException $e) {
+        } catch (Exception $e) {
             $this->log->write('Error: Task Manager Memory overflow! To Get all Steps of Task you should to increase memory_limit_size in your php.ini');
         }
         return $output;
@@ -785,12 +799,12 @@ class ATaskManager
         $task_id = (int)$task_id;
         $step_id = (int)$step_id;
         if (!$task_id || !$step_id) {
-            return array();
+            return [];
         }
 
         $sql = "SELECT *
-				FROM ".$this->db->table('task_steps')."
-				WHERE task_id = ".$task_id." AND step_id = ".$step_id;
+                FROM ".$this->db->table('task_steps')."
+                WHERE task_id = ".$task_id." AND step_id = ".$step_id;
         $result = $this->db->query($sql);
         $output = $result->row;
         if ($output) {
@@ -808,11 +822,11 @@ class ATaskManager
     {
         $task_id = (int)$task_id;
         if (!$task_id) {
-            return array();
+            return [];
         }
 
         $all_steps = $this->getTaskSteps($task_id);
-        $steps = array();
+        $steps = [];
         foreach ($all_steps as $step) {
             //skip all steps that not scheduled
             if ($step['status'] != self::STATUS_READY) {
@@ -828,10 +842,10 @@ class ATaskManager
      *
      * @return array
      */
-    public function getTotalTasks($data = array())
+    public function getTotalTasks($data = [])
     {
         $sql = "SELECT COUNT(*) as total
-				FROM ".$this->db->table('tasks');
+                FROM ".$this->db->table('tasks');
         $sql .= ' WHERE 1=1 ';
 
         if (!empty($data['subsql_filter'])) {
@@ -851,13 +865,14 @@ class ATaskManager
      *
      * @return array
      */
-    public function getTasks($data = array())
+    public function getTasks($data = [])
     {
 
         $sql = "SELECT td.*, t.*
-				FROM ".$this->db->table('tasks')." t
-				LEFT JOIN ".$this->db->table('task_details')." td ON td.task_id = t.task_id
-				WHERE 1=1 ";
+                FROM ".$this->db->table('tasks')." t
+                LEFT JOIN ".$this->db->table('task_details')." td 
+                    ON td.task_id = t.task_id
+                WHERE 1=1 ";
 
         if (!empty($data['subsql_filter'])) {
             $sql .= " AND ".$data['subsql_filter'];
@@ -867,12 +882,12 @@ class ATaskManager
             $sql .= " AND (LCASE(t.name) LIKE '%".$this->db->escape(mb_strtolower($data['filter']['name']))."%')";
         }
 
-        $sort_data = array(
+        $sort_data = [
             'name'          => 't.name',
             'status'        => 't.status',
             'start_time'    => 't.start_time',
             'date_modified' => 't.date_modified',
-        );
+        ];
 
         if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)) {
             $sql .= " ORDER BY ".$sort_data[$data['sort']];

@@ -11,8 +11,8 @@ if (!defined('DIR_CORE')) {
  */
 class ModelExtensionCardConnect extends Model
 {
-    public $data = array();
-    public $error = array();
+    public $data = [];
+    public $error = [];
     protected $log;
     protected $logging;
     /**
@@ -36,7 +36,7 @@ class ModelExtensionCardConnect extends Model
             $this->client = new CardConnectRestClient($api_endpoint,
                 $this->config->get('cardconnect_username'),
                 $this->config->get('cardconnect_password'));
-        } catch (AException $e) {
+        } catch (Exception $e) {
             $registry->get('log')->write($e->getMessage());
         }
     }
@@ -55,10 +55,10 @@ class ModelExtensionCardConnect extends Model
 
         if ($this->config->get('cardconnect_status')) {
             $sql = "SELECT *
-					FROM ".$this->db->table('zones_to_locations')."
-					WHERE location_id = '".(int)$this->config->get('cardconnect_location_id')."'
-						   AND country_id = '".(int)$address['country_id']."'
-						   AND (zone_id = '".(int)$address['zone_id']."' OR zone_id = '0')";
+                    FROM ".$this->db->table('zones_to_locations')."
+                    WHERE location_id = '".(int)$this->config->get('cardconnect_location_id')."'
+                           AND country_id = '".(int)$address['country_id']."'
+                           AND (zone_id = '".(int)$address['zone_id']."' OR zone_id = '0')";
             $query = $this->db->query($sql);
 
             if (!$this->config->get('cardconnect_location_id')) {
@@ -72,30 +72,33 @@ class ModelExtensionCardConnect extends Model
             $status = false;
         }
 
-        $payment_data = array();
+        $payment_data = [];
         if ($status) {
-            $payment_data = array(
+            $payment_data = [
                 'id'         => 'cardconnect',
                 'title'      => $this->language->get('text_title'),
                 'sort_order' => $this->config->get('cardconnect_sort_order'),
-            );
+            ];
         }
         return $payment_data;
     }
 
     public function processPayment($pd)
     {
-        $response = array();
+        $response = [];
         $this->load->model('checkout/order');
         $this->load->language('cardconnect/cardconnect');
 
         $order_info = $this->model_checkout_order->getOrder($pd['order_id']);
         if (!$order_info) {
             $this->_log('Order ID '.$pd['order_id'].' not found');
-            return array('error' => 'Order not found');
+            return ['error' => 'Order not found'];
         }
 
-        $account = $expiry = $cvv2 = $profile_id = $capture = $bankaba = '';
+        $pd['amount'] = number_format((float)$order_info['total'], 2, '.', '');
+        $pd['currency']  = $order_info['currency'];
+
+        $expiry = $cvv2 = $profile_id = $capture = $bankaba = '';
         $existing_card = false;
 
         $customer_id = (int)$this->customer->getId();
@@ -119,7 +122,7 @@ class ModelExtensionCardConnect extends Model
                 //create profile if now yet created
                 if (!$profile_id) {
                     $profile_id = $this->createProfile(
-                        array(
+                        [
                             'customer_id'      => $customer_id,
                             'cc_number'        => $pd['cc_number'],
                             'cc_expire_month'  => $pd['cc_expire_month'],
@@ -131,7 +134,7 @@ class ModelExtensionCardConnect extends Model
                             'cc_state'         => $order_info['payment_zone'],
                             'cc_country_code'  => $order_info['payment_iso_code_2'],
                             'cc_postcode'      => $order_info['payment_postcode'],
-                        )
+                        ]
                     );
                     if ($profile_id) {
                         $this->_log("Created new profile ID {$profile_id} for customer ID {$customer_id}");
@@ -173,7 +176,7 @@ class ModelExtensionCardConnect extends Model
             $order_status_id = $this->config->get('cardconnect_status_success_unsettled');
         }
 
-        $data = array(
+        $data = [
             'merchid'  => $this->config->get('cardconnect_merchant_id'),
             'account'  => $account,
             'expiry'   => $expiry,
@@ -194,14 +197,14 @@ class ModelExtensionCardConnect extends Model
             'profile'  => $profile_id,
             'capture'  => $capture,
             'bankaba'  => $bankaba,
-        );
+        ];
 
         $this->_log('CardConnect '.($capture == 'Y' ? 'capture' : 'authorize').' transaction. Request: '.var_export($data, true));
         try {
             $response_data = $this->client->authorizeTransaction($data);
-        } catch (Pest_Exception $e) {
+        } catch (Exception $e) {
             $this->_log('CardConnect Rest Library Error! '.$e->getMessage());
-            $response_data = array();
+            $response_data = [];
         }
 
         $this->_log('CardConnect response: '.var_export($response_data, true));
@@ -210,7 +213,7 @@ class ModelExtensionCardConnect extends Model
             $this->load->model('checkout/order');
             $payment_method = 'card';
 
-            $this->model_checkout_order->addOrderHistory($order_info['order_id'], $order_status_id);
+            $this->model_checkout_order->addHistory($order_info['order_id'], $order_status_id,'');
             $order_info = array_merge($order_info, $response_data);
             $cardconnect_order_id = $this->addOrder($order_info, $payment_method);
             $this->addTransaction($cardconnect_order_id, $type, $status, $order_info);
@@ -246,8 +249,10 @@ class ModelExtensionCardConnect extends Model
             $this->model_checkout_order->addHistory(
                 $pd['order_id'],
                 0,
-                "Payment status: ".(isset($response_data['resptext']) ? $response_data['resptext'] : 'unknown').", 
-				Transaction Number: ".(isset($response_data['retref']) ? $response_data['retref'] : 'unknown')
+                "Payment status: "
+                    .(isset($response_data['resptext']) ? $response_data['resptext'] : 'unknown')
+                .", Transaction Number: "
+                    .(isset($response_data['retref']) ? $response_data['retref'] : 'unknown')
             );
             $this->_log("Update order {$pd['order_id']} with: ".(isset($response_data['resptext']) ? $response_data['resptext'] : 'unknown'));
 
@@ -258,15 +263,15 @@ class ModelExtensionCardConnect extends Model
 
     public function getYears()
     {
-        $years = array();
+        $years = [];
 
         $today = getdate();
 
         for ($i = $today['year']; $i < $today['year'] + 11; $i++) {
-            $years[] = array(
+            $years[] = [
                 'text'  => strftime('%Y', mktime(0, 0, 0, 1, 1, $i)),
                 'value' => strftime('%y', mktime(0, 0, 0, 1, 1, $i)),
-            );
+            ];
         }
 
         return $years;
@@ -276,9 +281,9 @@ class ModelExtensionCardConnect extends Model
     {
         $query = $this->db->query(
             "SELECT * 
-				FROM ".$this->db->table('cardconnect_cards')."  
-				WHERE `token` = '".$this->db->escape($token)."' 
-					AND `customer_id` = '".(int)$customer_id."'");
+            FROM ".$this->db->table('cardconnect_cards')."  
+            WHERE `token` = '".$this->db->escape($token)."' 
+                AND `customer_id` = '".(int)$customer_id."'");
 
         if ($query->num_rows) {
             return $query->row;
@@ -291,8 +296,8 @@ class ModelExtensionCardConnect extends Model
     {
         $query = $this->db->query(
             "SELECT * 
-				FROM ".$this->db->table('cardconnect_cards')." 
-				WHERE `customer_id` = '".(int)$customer_id."'");
+            FROM ".$this->db->table('cardconnect_cards')." 
+            WHERE `customer_id` = '".(int)$customer_id."'");
 
         return $query->rows;
     }
@@ -300,13 +305,13 @@ class ModelExtensionCardConnect extends Model
     public function addCard($customer_id, $profileid, $token, $account, $expiry, $type = '')
     {
         $sql = "REPLACE INTO ".$this->db->table('cardconnect_cards')."
-				SET `customer_id` = '".(int)$customer_id."', 
-					`profileid` = '".$this->db->escape($profileid)."', 
-					`token` = '".$this->db->escape($token)."', 
-					`type` = '".$this->db->escape($type)."', 
-					`account` = '".$this->db->escape($account)."', 
-					`expiry` = '".$this->db->escape($expiry)."', 
-					`date_added` = NOW()";
+                SET `customer_id` = '".(int)$customer_id."', 
+                    `profileid` = '".$this->db->escape($profileid)."', 
+                    `token` = '".$this->db->escape($token)."', 
+                    `type` = '".$this->db->escape($type)."', 
+                    `account` = '".$this->db->escape($account)."', 
+                    `expiry` = '".$this->db->escape($expiry)."', 
+                    `date_added` = NOW()";
         $this->_log($sql);
         $this->db->query($sql);
     }
@@ -319,8 +324,8 @@ class ModelExtensionCardConnect extends Model
     {
         $this->db->query(
             "DELETE FROM ".$this->db->table('cardconnect_cards')." 
-					WHERE `token` = '".$this->db->escape($card_token)."' 
-						AND `customer_id` = '".(int)$customer_id."'");
+            WHERE `token` = '".$this->db->escape($card_token)."' 
+                AND `customer_id` = '".(int)$customer_id."'");
     }
 
     /**
@@ -333,15 +338,15 @@ class ModelExtensionCardConnect extends Model
     {
         $this->db->query(
             "INSERT INTO ".$this->db->table('cardconnect_orders')." 
-					SET `order_id` = '".(int)$order_info['order_id']."', 
-						`cardconnect_test_mode` = '".(int)$this->config->get('cardconnect_test_mode')."',
-						`customer_id` = '".(int)$this->customer->getId()."', 
-						`payment_method` = '".$this->db->escape($payment_method)."', 
-						`retref` = '".$this->db->escape($order_info['retref'])."', 
-						`authcode` = '".$this->db->escape($order_info['authcode'])."', 
-						`currency_code` = '".$this->db->escape($order_info['currency'])."', 
-						`total` = '".$this->currency->format($order_info['total'], $order_info['currency'], false, false)."', 
-						`date_added` = NOW()");
+            SET `order_id` = '".(int)$order_info['order_id']."', 
+                `cardconnect_test_mode` = '".(int)$this->config->get('cardconnect_test_mode')."',
+                `customer_id` = '".(int)$this->customer->getId()."', 
+                `payment_method` = '".$this->db->escape($payment_method)."', 
+                `retref` = '".$this->db->escape($order_info['retref'])."', 
+                `authcode` = '".$this->db->escape($order_info['authcode'])."', 
+                `currency_code` = '".$this->db->escape($order_info['currency'])."', 
+                `total` = '".$this->currency->format($order_info['total'], $order_info['currency'], false, false)."', 
+                `date_added` = NOW()");
         return $this->db->getLastId();
     }
 
@@ -349,13 +354,13 @@ class ModelExtensionCardConnect extends Model
     {
         $this->db->query(
             "INSERT INTO ".$this->db->table('cardconnect_order_transactions')." 
-					SET `cardconnect_order_id` = '".(int)$cardconnect_order_id."', 
-						`type` = '".$this->db->escape($type)."', 
-						`retref` = '".$this->db->escape($order_info['retref'])."', 
-						`amount` = '".(float)$this->currency->format($order_info['total'], $order_info['currency'], false, false)."', 
-						`status` = '".$this->db->escape($status)."', 
-						`date_modified` = NOW(), 
-						`date_added` = NOW()"
+            SET `cardconnect_order_id` = '".(int)$cardconnect_order_id."', 
+                `type` = '".$this->db->escape($type)."', 
+                `retref` = '".$this->db->escape($order_info['retref'])."', 
+                `amount` = '".(float)$this->currency->format($order_info['total'], $order_info['currency'], false, false)."', 
+                `status` = '".$this->db->escape($status)."', 
+                `date_modified` = NOW(), 
+                `date_added` = NOW()"
         );
     }
 
@@ -363,9 +368,9 @@ class ModelExtensionCardConnect extends Model
     {
         $this->db->query(
             "UPDATE ".$this->db->table('cardconnect_order_transactions')." 
-					SET `status` = '".$this->db->escape($status)."', 
-						`date_modified` = NOW() 
-					WHERE `retref` = '".$this->db->escape($retref)."'");
+            SET `status` = '".$this->db->escape($status)."', 
+                `date_modified` = NOW() 
+            WHERE `retref` = '".$this->db->escape($retref)."'");
     }
 
     /**
@@ -379,10 +384,11 @@ class ModelExtensionCardConnect extends Model
             return '';
         }
         $test_mode = $this->config->get('cardconnect_test_mode') ? 1 : 0;
-        $query = $this->db->query("SELECT profileid
-									FROM ".$this->db->table("cardconnect_customers")."  
-									WHERE customer_id = '".(int)$customer_id."' 
-										AND test_mode = '".(int)$test_mode."'"
+        $query = $this->db->query(
+            "SELECT profileid
+            FROM ".$this->db->table("cardconnect_customers")."  
+            WHERE customer_id = '".(int)$customer_id."' 
+                AND test_mode = '".(int)$test_mode."'"
         );
         return $query->row['profileid'];
     }
@@ -390,7 +396,7 @@ class ModelExtensionCardConnect extends Model
     public function createProfile($customer_data)
     {
         // Merchant ID
-        $request = array(
+        $request = [
             'merchid'     => $this->config->get('cardconnect_merchant_id'),
             'defaultacct' => "Y",
             'account'     => $customer_data['cc_number'],
@@ -401,17 +407,18 @@ class ModelExtensionCardConnect extends Model
             'region'      => $customer_data['cc_state'],
             'country'     => $customer_data['cc_country_code'],
             'postal'      => $customer_data['cc_postcode'],
-        );
+        ];
         $this->_log('Request profile data : '.var_export($request, true));
         $response = $this->client->profileCreate($request);
         $this->_log('Response profile data : '.var_export($response, true));
         if ((int)$customer_data['customer_id']) {
-            $this->db->query("REPLACE INTO ".$this->db->table("cardconnect_customers")."
-						(profileid, customer_id, test_mode, date_added)
-						VALUES ('".$this->db->escape($response['profileid'])."', 
-								".(int)$customer_data['customer_id'].", 
-								'".($this->config->get('cardconnect_test_mode') ? 1 : 0)."',
-								NOW())");
+            $this->db->query(
+                "REPLACE INTO ".$this->db->table("cardconnect_customers")."
+                (profileid, customer_id, test_mode, date_added)
+                VALUES ('".$this->db->escape($response['profileid'])."', 
+                        ".(int)$customer_data['customer_id'].", 
+                        '".($this->config->get('cardconnect_test_mode') ? 1 : 0)."',
+                        NOW())");
         }
         return $response['profileid'];
     }

@@ -54,16 +54,18 @@ function preformatTextID($value)
 /**
  * format money float based on locale
  *
- * @since 1.1.8
- *
  * @param $value
  * @param $mode (no_round => show number with real decimal, hide_zero_decimal => remove zeros from decimal part)
  *
  * @return string
+ * @throws AException
+ * @since 1.1.8
+ *
  */
 
 function moneyDisplayFormat($value, $mode = 'no_round')
 {
+    $value = (float)$value;
     $registry = Registry::getInstance();
 
     $decimal_point = $registry->get('language')->get('decimal_point');
@@ -168,9 +170,10 @@ function SEOEncode($string_value, $object_key_name = '', $object_id = 0)
 /**
  * @param        $seo_key
  * @param string $object_key_name
- * @param int    $object_id
+ * @param int $object_id
  *
  * @return string
+ * @throws AException
  */
 function getUniqueSeoKeyword($seo_key, $object_key_name = '', $object_id = 0)
 {
@@ -187,7 +190,7 @@ function getUniqueSeoKeyword($seo_key, $object_key_name = '', $object_id = 0)
 
     $result = $db->query($sql);
     if ($result->num_rows) {
-        $keywords = array();
+        $keywords = [];
         foreach ($result->rows as $row) {
             $keywords[] = $row['keyword'];
         }
@@ -223,10 +226,10 @@ function echo_array($array_data)
 function getFilesInDir($dir, $file_ext = '')
 {
     if (!is_dir($dir)) {
-        return array();
+        return [];
     }
     $dir = rtrim($dir, '\\/');
-    $result = array();
+    $result = [];
 
     foreach (glob("$dir/*") as $f) {
         if (is_dir($f)) { // if is directory
@@ -245,8 +248,8 @@ function getFilesInDir($dir, $file_ext = '')
 //NOTE: Function will return false if major versions do not match.
 function versionCompare($version1, $version2, $operator)
 {
-    $version1 = explode('.', preg_replace('/[^0-9\.]/', '', $version1));
-    $version2 = explode('.', preg_replace('/[^0-9\.]/', '', $version2));
+    $version1 = explode('.', preg_replace('/[^0-9.]/', '', $version1));
+    $version2 = explode('.', preg_replace('/[^0-9.]/', '', $version2));
     $i = 0;
     while ($i < 3) {
         if (isset($version1[$i])) {
@@ -257,7 +260,7 @@ function versionCompare($version1, $version2, $operator)
         if (isset($version2[$i])) {
             $version2[$i] = (int)$version2[$i];
         } else {
-            $version2[$i] = ($i == 2 && isset($version1[$i])) ? (int)$version1[$i] : 99;;
+            $version2[$i] = ($i == 2 && isset($version1[$i])) ? (int)$version1[$i] : 99;
         }
         $i++;
     }
@@ -336,7 +339,7 @@ function format4Datepicker($date_format)
 function dateISO2Int($string_date)
 {
     $string_date = trim($string_date);
-    $is_datetime = strlen($string_date) > 10 ? true : false;
+    $is_datetime = strlen($string_date) > 10;
     return dateFromFormat($string_date, ($is_datetime ? 'Y-m-d H:i:s' : 'Y-m-d'));
 }
 
@@ -381,7 +384,7 @@ function dateISO2Display($iso_date, $format = '')
         $registry = Registry::getInstance();
         $format = $registry->get('language')->get('date_format_short');
     }
-    $empties = array('0000-00-00', '0000-00-00 00:00:00', '1970-01-01', '1970-01-01 00:00:00');
+    $empties = ['0000-00-00', '0000-00-00 00:00:00', '1970-01-01', '1970-01-01 00:00:00'];
     if ($iso_date && !in_array($iso_date, $empties)) {
         return date($format, dateISO2Int($iso_date));
     } else {
@@ -435,98 +438,36 @@ function dateFromFormat($string_date, $date_format, $timezone = null)
         return null;
     }
     $string_date = empty($string_date) ? date($date_format) : $string_date;
-    if (method_exists($date, 'createFromFormat')) {
-        $iso_date = DateTime::createFromFormat($date_format, $string_date, $timezone);
-        $result = $iso_date ? $iso_date->getTimestamp() : null;
-    } else {
-        $iso_date = DateTimeCreateFromFormat($date_format, $string_date);
-        $result = $iso_date ? $iso_date : null;
-    }
-    return $result;
-}
-
-/**
- * Function of getting integer timestamp from string date formatted by date() function
- *
- * @deprecated since php 5.3
- *
- * @param string $date_format
- * @param string $string_date
- *
- * @return int
- */
-function DateTimeCreateFromFormat($date_format, $string_date)
-{
-    // convert date format first from format of date() to format of strftime()
-    $chars = array(
-        // Day - no strf eq : S
-        'd' => '%d',
-        'D' => '%a',
-        'j' => '%e',
-        'l' => '%A',
-        'N' => '%u',
-        'w' => '%w',
-        'z' => '%j',
-        // Week - no date eq : %U, %W
-        'W' => '%V',
-        // Month - no strf eq : n, t
-        'F' => '%B',
-        'm' => '%m',
-        'M' => '%b',
-        // Year - no strf eq : L; no date eq : %C, %g
-        'o' => '%G',
-        'Y' => '%Y',
-        'y' => '%y',
-        // Time - no strf eq : B, G, u; no date eq : %r, %R, %T, %X
-        'a' => '%P',
-        'A' => '%p',
-        'g' => '%l',
-        'h' => '%I',
-        'H' => '%H',
-        'i' => '%M',
-        's' => '%S',
-        // Timezone - no strf eq : e, I, P, Z
-        'O' => '%z',
-        'T' => '%Z',
-        // Full Date / Time - no strf eq : c, r; no date eq : %c, %D, %F, %x
-        'U' => '%s',
-    );
-    $strftime_format = strtr((string)$date_format, $chars);
-
-    $date_parsed = strptime($string_date, $strftime_format);
-    $int_date =
-        mktime($date_parsed["tm_hour"], $date_parsed["tm_min"], $date_parsed["tm_sec"], $date_parsed["tm_mon"] + 1,
-            ($date_parsed["tm_mday"]), (1900 + $date_parsed["tm_year"]));
-    return $int_date;
+    $iso_date = DateTime::createFromFormat($date_format, $string_date, $timezone);
+    return $iso_date ? $iso_date->getTimestamp() : null;
 }
 
 //strptime function with solution for windows
 if (!function_exists("strptime")) {
     function strptime($date, $format)
     {
-        $masks = array(
+        $masks = [
             '%d' => '(?P<d>[0-9]{2})',
             '%m' => '(?P<m>[0-9]{2})',
             '%Y' => '(?P<Y>[0-9]{4})',
             '%H' => '(?P<H>[0-9]{2})',
             '%M' => '(?P<M>[0-9]{2})',
             '%S' => '(?P<S>[0-9]{2})',
-        );
+        ];
 
         $regexp = "#".strtr(preg_quote($format), $masks)."#";
         if (!preg_match($regexp, $date, $out)) {
             return false;
         }
 
-        $ret = array(
+        return [
             "tm_sec"  => (int)$out['S'],
             "tm_min"  => (int)$out['M'],
             "tm_hour" => (int)$out['H'],
             "tm_mday" => (int)$out['d'],
             "tm_mon"  => $out['m'] ? $out['m'] - 1 : 0,
             "tm_year" => $out['Y'] > 1900 ? $out['Y'] - 1900 : 0,
-        );
-        return $ret;
+        ];
     }
 }
 
@@ -538,6 +479,7 @@ if (!function_exists("strptime")) {
 function getExtensionConfigXml($extension_txt_id)
 {
     $registry = Registry::getInstance();
+    /** @var SimpleXMLElement|null $result */
     $result = $registry->get($extension_txt_id.'_configXML');
 
     if (!is_null($result)) {
@@ -564,15 +506,10 @@ function getExtensionConfigXml($extension_txt_id)
 
     /**
      * DOMDocument of extension config
-     *
-     * @var $base_dom DOMDocument
      */
     $base_dom = new DOMDocument();
     $base_dom->load($filename);
     $xpath = new DOMXpath($base_dom);
-    /**
-     * @var $firstNode DOMNodeList
-     */
     $firstNode = $base_dom->getElementsByTagName('settings');
     // check is "settings" entity exists
     if (is_null($firstNode->item(0))) {
@@ -592,16 +529,16 @@ function getExtensionConfigXml($extension_txt_id)
         $firstNode = $fst->getElementsByTagName('item')->item(0);
     }
 
-    $xml_files = array(
-        'top'    => array(
+    $xml_files = [
+        'top'    => [
             DIR_CORE.'extension/'.'default/config_top.xml',
             DIR_CORE.'extension/'.(string)$ext_configs->type.'/config_top.xml',
-        ),
-        'bottom' => array(
+        ],
+        'bottom' => [
             DIR_CORE.'extension/'.'default/config_bottom.xml',
             DIR_CORE.'extension/'.(string)$ext_configs->type.'/config_bottom.xml',
-        ),
-    );
+        ],
+    ];
 
     // then loop for all additional xml-config-files
     foreach ($xml_files as $place => $files) {
@@ -673,7 +610,7 @@ function getExtensionConfigXml($extension_txt_id)
  *
  * @return bool
  */
-function startStorefrontSession($user_id, $data = array())
+function startStorefrontSession($user_id, $data = [])
 {
     //NOTE: do not allow create sf-session via POST-request.
     // Related to language-switcher and enabled maintenance mode(see usages)
@@ -707,11 +644,11 @@ function startStorefrontSession($user_id, $data = array())
 function build_sort_order($array, $min, $max, $sort_direction = 'asc')
 {
     if (empty($array)) {
-        return array();
+        return [];
     }
 
     //if no min or max, set interval to 10
-    $return_arr = array();
+    $return_arr = [];
     if ($max > 0) {
         $divider = 1;
         if (count($array) > 1) {
@@ -842,9 +779,10 @@ function compressTarGZ($tar_filename, $tar_dir, $compress_level = 5)
                 gzip($tar, $compress_level);
                 unlink($tar);
             }
-        } catch (PharException $e) {
-            $error = new AError('Tar GZ compressing error: '.$e->getMessage());
-            $error->toLog()->toDebug();
+        } catch (Exception $e) {
+//            // commented by cause "Iterator RecursiveIteratorIterator returned a file that could not be opened"
+//             $error = new AError('Tar GZ compressing error: '.$e->getMessage());
+//             $error->toLog()->toDebug();
             $exit_code = 1;
         }
     } else {
@@ -968,7 +906,7 @@ function compressZIP($zip_filename, $zip_dir)
 function getMimeType($filename)
 {
     $filename = (string)$filename;
-    $mime_types = array(
+    $mime_types = [
         'txt'  => 'text/plain',
         'htm'  => 'text/html',
         'html' => 'text/html',
@@ -1022,7 +960,7 @@ function getMimeType($filename)
         // open office
         'odt'  => 'application/vnd.oasis.opendocument.text',
         'ods'  => 'application/vnd.oasis.opendocument.spreadsheet',
-    );
+    ];
 
     $pieces = explode('.', $filename);
     $ext = strtolower(array_pop($pieces));
@@ -1118,7 +1056,7 @@ function genExecTrace($depth = 5)
     } else {
         $length = $depth;
     }
-    $result = array();
+    $result = [];
     for ($i = 0; $i < $length; $i++) {
         $result[] = ' - '.substr($trace[$i], strpos($trace[$i], ' '));
     }
@@ -1245,7 +1183,7 @@ function echo_html2view($html)
  */
 function human_filesize($bytes, $decimals = 2)
 {
-    $sz = 'BKMGTP';
+    $sz = ['B','K','M','G','T','P'];
     $factor = floor((strlen($bytes) - 1) / 3);
     return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).@$sz[$factor];
 }
@@ -1260,18 +1198,18 @@ function human_filesize($bytes, $decimals = 2)
 function get_image_size($filename)
 {
     if (file_exists($filename) && ($info = getimagesize($filename))) {
-        return array(
+        return [
             'width'  => $info[0],
             'height' => $info[1],
             'mime'   => $info['mime'],
-        );
+        ];
     }
     if ($filename) {
         $error =
             new  AError('Error: Cannot get image size of file '.$filename.'. File not found or it\'s not an image!');
         $error->toLog()->toDebug();
     }
-    return array();
+    return [];
 }
 
 /**
@@ -1285,7 +1223,6 @@ function get_image_size($filename)
  * @param int    $quality
  *
  * @return string / path to new image
- * @throws AException
  */
 function check_resize_image($orig_image, $new_image, $width, $height, $quality)
 {
@@ -1318,11 +1255,12 @@ function check_resize_image($orig_image, $new_image, $width, $height, $quality)
     if (!file_exists(DIR_IMAGE.$new_image) || (filemtime($orig_image) > filemtime(DIR_IMAGE.$new_image))) {
         $image = new AImage($orig_image);
         $result = $image->resizeAndSave(DIR_IMAGE.$new_image,
-            $width,
-            $height,
-            array(
+                                        $width,
+                                        $height,
+                                        [
                 'quality' => $quality,
-            ));
+                                        ]
+        );
         unset($image);
         if (!$result) {
             return null;
@@ -1375,7 +1313,7 @@ function df($var, $filename = 'debug.txt') {
 function daysOfWeekList()
 {
     $timestamp = strtotime('next Sunday');
-    $days = array();
+    $days = [];
     for ($i = 0; $i < 7; $i++) {
         $days[] = strtolower(date('l', $timestamp));
         $timestamp = strtotime('+1 day', $timestamp);
@@ -1416,4 +1354,45 @@ function setCookieOrParams($name = null, $value = null, $options = [])
             setcookie($name, $value, $options);
         }
     }
+}
+
+/**
+ * @param string|int $source
+ *
+ * @return array
+ * @throws AException
+ */
+function getMailLogoDetails( &$source)
+{
+    $output = [
+        'uri'  => null,
+        'html' => null
+    ];
+    //if resource ID was given
+    if (is_numeric($source)) {
+        $r = new AResource('image');
+        $resource_info = $r->getResource($source);
+        if ($resource_info) {
+            if($resource_info['resource_code']) {
+                $output['html'] = html_entity_decode(
+                    $resource_info['resource_code'],
+                    ENT_QUOTES, 'UTF-8'
+                );
+            }else{
+                $source = $r->getTypeDir().$resource_info['resource_path'];
+                $output['uri'] = 'cid:'
+                    .md5(pathinfo($resource_info['resource_path'], PATHINFO_FILENAME))
+                    .'.'
+                    .pathinfo($resource_info['resource_path'], PATHINFO_EXTENSION);
+            }
+        }
+    }
+    // if resource path was given
+    else {
+        $output['uri'] = 'cid:'
+            .md5(pathinfo($source, PATHINFO_FILENAME))
+            .'.'
+            .pathinfo($source, PATHINFO_EXTENSION);
+    }
+    return $output;
 }

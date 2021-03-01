@@ -33,7 +33,7 @@ class ExtensionFastCheckout extends Extension
         header("Access-Control-Allow-Origin: ".'http://'.REAL_HOST.get_url_path($_SERVER['PHP_SELF']));
         $this->registry = Registry::getInstance();
         if (!isset($this->registry->get('session')->data['fast_checkout'])) {
-            $this->registry->get('session')->data['fast_checkout'] = array();
+            $this->registry->get('session')->data['fast_checkout'] = [];
         }
     }
 
@@ -74,11 +74,11 @@ class ExtensionFastCheckout extends Extension
         }
 
         $that->document->addStyle(
-            array(
+            [
                 'href'  => $that->view->templateResource('/css/fast_checkout.css'),
                 'rel'   => 'stylesheet',
                 'media' => 'screen',
-            )
+            ]
         );
         $that->document->addScript($that->view->templateResource('/js/credit_card_validation.js'));
         $that->loadLanguage('fast_checkout/fast_checkout');
@@ -123,6 +123,28 @@ class ExtensionFastCheckout extends Extension
 
         if ($that->request->get['rt'] === 'checkout/fast_checkout') {
             $that->processTemplate('common/fast_checkout_page.tpl');
+        }
+    }
+    public function onControllerPagesAccountEdit_InitData()
+    {
+        /** @var ControllerPagesAccountEdit $that */
+        $that = $this->baseObject;
+        //show error message if empty phone
+        if ($that->request->is_GET()
+            && isset($that->request->get['telephone'])
+            && $that->customer->isLogged()
+            && $that->config->get('fast_checkout_require_phone_number')
+        ) {
+            $that->loadLanguage('account/edit');
+            $that->error['telephone'] = $that->language->get('error_telephone');
+        }
+    }
+
+    public function onControllerPagesCheckoutGuestStep1_InitData()
+    {
+        $that = $this->baseObject;
+        if($that->config->get('fast_checkout_status')){
+            redirect($that->html->getSecureURL('checkout/fast_checkout'));
         }
     }
 

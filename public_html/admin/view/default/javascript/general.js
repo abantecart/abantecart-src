@@ -344,15 +344,15 @@ jQuery(document).ready(function() {
 	});
 
 	//check if ads blocking is enabled in user browser
-	var div = $('<div>').attr('class', 'afs_ads').html('&nbsp;');
-	$('body').prepend(div);
-	setTimeout(function(){
-		if(!$(".afs_ads").is(':visible')) {
-			warning_alert('Ads block is enabled in your browser. Some AbanteCart administration features might not function as they will be blocked. Disable ads blocking in your browser.');
-		} else {
-			$(".afs_ads").remove();
-		}
-	}, 500);
+	// var div = $('<div>').attr('class', 'afs_ads').html('&nbsp;');
+	// $('body').prepend(div);
+	// setTimeout(function(){
+	// 	if(!$(".afs_ads").is(':visible')) {
+	// 		warning_alert('Ads block is enabled in your browser. Some AbanteCart administration features might not function as they will be blocked. Disable ads blocking in your browser.');
+	// 	} else {
+	// 		$(".afs_ads").remove();
+	// 	}
+	// }, 500);
 
 });
 

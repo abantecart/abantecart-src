@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,9 +24,9 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerResponsesCommonDoEmbed extends AController
 {
-    public $data = [];
-
-    public function main(){}
+    public function main()
+    {
+    }
 
     public function product()
     {
@@ -85,68 +86,88 @@ class ControllerResponsesCommonDoEmbed extends AController
         $this->loadModel('catalog/product');
         $this->loadModel('setting/store');
         $form = new AForm('ST');
-        $form->setForm([
-            'form_name' => 'getEmbedFrm',
-        ]);
-        $this->data['form']['form_open'] = $form->getFieldHtml([
-            'type' => 'form',
-            'name' => 'getEmbedFrm',
-            'attr' => 'class="aform form-horizontal"',
-        ]);
+        $form->setForm(
+            [
+                'form_name' => 'getEmbedFrm',
+            ]
+        );
+        $this->data['form']['form_open'] = $form->getFieldHtml(
+            [
+                'type' => 'form',
+                'name' => 'getEmbedFrm',
+                'attr' => 'class="aform form-horizontal"',
+            ]
+        );
 
-        $this->data['fields']['image'] = $form->getFieldHtml([
-            'type'  => 'checkbox',
-            'name'  => 'image',
-            'value' => 1,
-            'style' => 'btn_switch btn-group-xs',
-        ]);
-        $this->data['fields']['name'] = $form->getFieldHtml([
-            'type'  => 'checkbox',
-            'name'  => 'name',
-            'value' => 1,
-            'style' => 'btn_switch btn-group-xs',
-        ]);
+        $this->data['fields']['image'] = $form->getFieldHtml(
+            [
+                'type'  => 'checkbox',
+                'name'  => 'image',
+                'value' => 1,
+                'style' => 'btn_switch btn-group-xs',
+            ]
+        );
+        $this->data['fields']['name'] = $form->getFieldHtml(
+            [
+                'type'  => 'checkbox',
+                'name'  => 'name',
+                'value' => 1,
+                'style' => 'btn_switch btn-group-xs',
+            ]
+        );
 
         if ($type == 'products') {
-            $this->data['fields']['blurb'] = $form->getFieldHtml([
-                'type'  => 'checkbox',
-                'name'  => 'blurb',
-                'value' => 1,
-                'style' => 'btn_switch btn-group-xs',
-            ]);
-            $this->data['fields']['price'] = $form->getFieldHtml([
-                'type'  => 'checkbox',
-                'name'  => 'price',
-                'value' => 1,
-                'style' => 'btn_switch btn-group-xs',
-            ]);
-            $this->data['fields']['rating'] = $form->getFieldHtml([
-                'type'  => 'checkbox',
-                'name'  => 'rating',
-                'value' => 1,
-                'style' => 'btn_switch btn-group-xs',
-            ]);
-            $this->data['fields']['quantity'] = $form->getFieldHtml([
-                'type'  => 'checkbox',
-                'name'  => 'quantity',
-                'value' => 1,
-                'style' => 'btn_switch btn-group-xs',
-            ]);
-            $this->data['fields']['addtocart'] = $form->getFieldHtml([
-                'type'  => 'checkbox',
-                'name'  => 'addtocart',
-                'value' => 1,
-                'style' => 'btn_switch btn-group-xs',
-            ]);
+            $this->data['fields']['blurb'] = $form->getFieldHtml(
+                [
+                    'type'  => 'checkbox',
+                    'name'  => 'blurb',
+                    'value' => 1,
+                    'style' => 'btn_switch btn-group-xs',
+                ]
+            );
+            $this->data['fields']['price'] = $form->getFieldHtml(
+                [
+                    'type'  => 'checkbox',
+                    'name'  => 'price',
+                    'value' => 1,
+                    'style' => 'btn_switch btn-group-xs',
+                ]
+            );
+            $this->data['fields']['rating'] = $form->getFieldHtml(
+                [
+                    'type'  => 'checkbox',
+                    'name'  => 'rating',
+                    'value' => 1,
+                    'style' => 'btn_switch btn-group-xs',
+                ]
+            );
+            $this->data['fields']['quantity'] = $form->getFieldHtml(
+                [
+                    'type'  => 'checkbox',
+                    'name'  => 'quantity',
+                    'value' => 1,
+                    'style' => 'btn_switch btn-group-xs',
+                ]
+            );
+            $this->data['fields']['addtocart'] = $form->getFieldHtml(
+                [
+                    'type'  => 'checkbox',
+                    'name'  => 'addtocart',
+                    'value' => 1,
+                    'style' => 'btn_switch btn-group-xs',
+                ]
+            );
         } elseif ($type == 'categories') {
             $this->loadModel('catalog/category');
-            $this->data['fields']['products_count'] = $form->getFieldHtml([
-                'type'  => 'checkbox',
-                'name'  => 'products_count',
-                'value' => 1,
-                'style' => 'btn_switch btn-group-xs',
-            ]);
-            $category_id = (array)$this->data['category_id'];
+            $this->data['fields']['products_count'] = $form->getFieldHtml(
+                [
+                    'type'  => 'checkbox',
+                    'name'  => 'products_count',
+                    'value' => 1,
+                    'style' => 'btn_switch btn-group-xs',
+                ]
+            );
+            $category_id = (array) $this->data['category_id'];
             $subcategories = [];
             //if embed for only one category
             if (sizeof($category_id) == 1) {
@@ -154,7 +175,7 @@ class ControllerResponsesCommonDoEmbed extends AController
                 $category_info = $this->model_catalog_category->getCategory($cat_id);
                 $subcategories = $this->model_catalog_category->getCategories($cat_id);
                 if ($category_info['parent_id'] == 0) {
-                    $options = $this->model_catalog_category->getCategories(0);
+                    $options = $this->model_catalog_category->getCategories(ROOT_CATEGORY_ID);
                 } else {
                     $cat_desc = $this->model_catalog_category->getCategoryDescriptions($cat_id);
                     $options = [
@@ -174,7 +195,7 @@ class ControllerResponsesCommonDoEmbed extends AController
                     }
                 } else {
                     foreach ($category_id as &$c) {
-                        $c = (int)$c;
+                        $c = (int) $c;
                     }
                     unset($c);
                     $subsql = ' c.category_id IN ('.implode(',', $category_id).') ';
@@ -190,29 +211,33 @@ class ControllerResponsesCommonDoEmbed extends AController
                 $opt[$cat['category_id']] = $cat['name'];
             }
 
-            $this->data['fields'][] = $form->getFieldHtml([
-                'type'      => 'checkboxgroup',
-                'name'      => 'category_id[]',
-                'value'     => $category_id,
-                'options'   => $opt,
-                'scrollbox' => true,
-                'style'     => 'medium-field',
-            ]);
+            $this->data['fields'][] = $form->getFieldHtml(
+                [
+                    'type'      => 'checkboxgroup',
+                    'name'      => 'category_id[]',
+                    'value'     => $category_id,
+                    'options'   => $opt,
+                    'scrollbox' => true,
+                    'style'     => 'medium-field',
+                ]
+            );
         } elseif ($type == 'manufacturers') {
             $this->loadModel('catalog/manufacturer');
-            $manufacturer_id = (array)$this->data['manufacturer_id'];
-            $this->data['fields'][] = $form->getFieldHtml([
-                'type'  => 'checkbox',
-                'name'  => 'products_count',
-                'value' => 1,
-                'style' => 'btn_switch btn-group-xs',
-            ]);
+            $manufacturer_id = (array) $this->data['manufacturer_id'];
+            $this->data['fields'][] = $form->getFieldHtml(
+                [
+                    'type'  => 'checkbox',
+                    'name'  => 'products_count',
+                    'value' => 1,
+                    'style' => 'btn_switch btn-group-xs',
+                ]
+            );
 
             if (!sizeof($manufacturer_id)) {
                 return null;
             } else {
                 foreach ($manufacturer_id as &$c) {
-                    $c = (int)$c;
+                    $c = (int) $c;
                 }
                 unset($c);
                 $subsql = ' m.manufacturer_id IN ('.implode(',', $manufacturer_id).') ';
@@ -225,70 +250,89 @@ class ControllerResponsesCommonDoEmbed extends AController
                 $opt[$m['manufacturer_id']] = $m['name'];
             }
             if (sizeof($manufacturer_id) > 1) {
-                $this->data['fields'][] = $form->getFieldHtml([
-                    'type'      => 'checkboxgroup',
-                    'name'      => 'manufacturer_id[]',
-                    'value'     => $manufacturer_id,
-                    'options'   => $opt,
-                    'scrollbox' => true,
-                    'style'     => 'medium-field',
-                ]);
+                $this->data['fields'][] = $form->getFieldHtml(
+                    [
+                        'type'      => 'checkboxgroup',
+                        'name'      => 'manufacturer_id[]',
+                        'value'     => $manufacturer_id,
+                        'options'   => $opt,
+                        'scrollbox' => true,
+                        'style'     => 'medium-field',
+                    ]
+                );
             } else {
-
-                $this->data['fields'][] = $form->getFieldHtml([
-                    'type'  => 'hidden',
-                    'name'  => 'manufacturer_id[]',
-                    'value' => current($manufacturer_id),
-                ]);
+                $this->data['fields'][] = $form->getFieldHtml(
+                    [
+                        'type'  => 'hidden',
+                        'name'  => 'manufacturer_id[]',
+                        'value' => current($manufacturer_id),
+                    ]
+                );
             }
         } elseif ($type == 'collections') {
             $this->loadLanguage('catalog/collections');
             $this->loadModel('catalog/collection');
-            $collection_id = (array)$this->data['collection_id'];
-            $this->data['fields'][] = $form->getFieldHtml([
-                'type'  => 'checkbox',
-                'name'  => 'products_count',
-                'value' => 1,
-                'style' => 'btn_switch btn-group-xs',
-            ]);
+            $collection_id = (array) $this->data['collection_id'];
+            $this->data['fields']['price'] = $form->getFieldHtml(
+                [
+                    'type'  => 'checkbox',
+                    'name'  => 'price',
+                    'value' => 1,
+                    'style' => 'btn_switch btn-group-xs',
+                ]
+            );
+
+            $this->data['fields'][] = $form->getFieldHtml(
+                [
+                    'type'  => 'input',
+                    'name'  => 'limit',
+                    'value' => 20,
+                    'style' => 'col-sm-2',
+                ]
+            );
             //if embed for only one category
             if (count($collection_id) == 1) {
                 $collection_id = current($collection_id);
             }
 
-            $options = $this->model_catalog_collection->getCollections([
-                'status_id' => 1,
-                'store_id'  => $this->config->get('store_id'),
-            ]);
+            $options = $this->model_catalog_collection->getCollections(
+                [
+                    'status_id' => 1,
+                    'store_id'  => $this->config->get('store_id'),
+                ]
+            );
 
             $opt = [];
             foreach ($options['items'] as $cat) {
                 $opt[$cat['id']] = $cat['name'];
             }
 
-            $this->data['fields'][] = $form->getFieldHtml([
-                'type'    => 'selectbox',
-                'name'    => 'collection_id',
-                'value'   => $collection_id,
-                'options' => $opt,
-                'style'   => 'medium-field',
-            ]);
+            $this->data['fields'][] = $form->getFieldHtml(
+                [
+                    'type'    => 'selectbox',
+                    'name'    => 'collection_id',
+                    'value'   => $collection_id,
+                    'options' => $opt,
+                    'style'   => 'medium-field',
+                ]
+            );
             $this->data['entry_collection_id'] = $this->language->get('entry_collection_id');
         }
 
         $results = $this->language->getAvailableLanguages();
-        $languages = $language_codes = [];
+        $language_codes = [];
         foreach ($results as $v) {
-            $languages[$v['code']] = $v['name'];
             $lng_code = $this->language->getLanguageCodeByLocale($v['locale']);
             $language_codes[$lng_code] = $v['name'];
         }
-        $this->data['fields'][] = $form->getFieldHtml([
-            'type'    => 'selectbox',
-            'name'    => 'language',
-            'value'   => $this->config->get('config_storefront_language'),
-            'options' => $language_codes,
-        ]);
+        $this->data['fields'][] = $form->getFieldHtml(
+            [
+                'type'    => 'selectbox',
+                'name'    => 'language',
+                'value'   => $this->config->get('config_storefront_language'),
+                'options' => $language_codes,
+            ]
+        );
 
         $this->load->model('localisation/currency');
         $results = $this->model_localisation_currency->getCurrencies();
@@ -296,30 +340,34 @@ class ControllerResponsesCommonDoEmbed extends AController
         foreach ($results as $v) {
             $currencies[$v['code']] = $v['title'];
         }
-        $this->data['fields'][] = $form->getFieldHtml([
-            'type'    => 'selectbox',
-            'name'    => 'currency',
-            'value'   => $this->config->get('config_currency'),
-            'options' => $currencies,
-        ]);
+        $this->data['fields'][] = $form->getFieldHtml(
+            [
+                'type'    => 'selectbox',
+                'name'    => 'currency',
+                'value'   => $this->config->get('config_currency'),
+                'options' => $currencies,
+            ]
+        );
 
-        $this->data['url'] = $form->getFieldHtml([
-            'type' => 'input',
-            'name' => 'url',
-            'attr' => 'readonly',
-        ]);
-        $this->data['text_area'] = $form->getFieldHtml([
-            'type'  => 'textarea',
-            'name'  => 'code_area',
-            'attr'  => 'rows="10" readonly',
-            'style' => 'ml_field',
-        ]);
+        $this->data['url'] = $form->getFieldHtml(
+            [
+                'type' => 'input',
+                'name' => 'url',
+                'attr' => 'readonly',
+            ]
+        );
+        $this->data['text_area'] = $form->getFieldHtml(
+            [
+                'type'  => 'textarea',
+                'name'  => 'code_area',
+                'attr'  => 'rows="10" readonly',
+                'style' => 'ml_field',
+            ]
+        );
 
         $store_id = $this->session->data['current_store_id'];
         $current_store_settings = $this->model_setting_store->getStore($store_id);
-        $remote_store_url = $current_store_settings['config_ssl_url']
-            ? $current_store_settings['config_ssl_url']
-            : $current_store_settings['config_url'];
+        $remote_store_url = $current_store_settings['config_ssl_url'] ? : $current_store_settings['config_url'];
 
         $this->data['sf_js_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/js';
         $this->data['direct_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/get';
@@ -331,8 +379,13 @@ class ControllerResponsesCommonDoEmbed extends AController
 
         //override css url for extension templates
         if ($template_name != 'default') {
-            $css_file =
-                DIR_ROOT.'/extensions/'.$template_name.'/storefront/view/'.$template_name.'/stylesheet/embed.css';
+            $css_file = DIR_ROOT
+                .'/extensions/'
+                .$template_name
+                .'/storefront/view/'
+                .$template_name
+                .'/stylesheet/embed.css';
+
             if (is_file($css_file)) {
                 $this->data['sf_css_embed_url'] =
                     $remote_store_url

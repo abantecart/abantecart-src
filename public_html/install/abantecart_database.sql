@@ -595,6 +595,7 @@ CREATE TABLE `ac_coupons` (
   `uses_total` int(11) NOT NULL,
   `uses_customer` varchar(11) COLLATE utf8_general_ci NOT NULL,
   `status` int(1) NOT NULL,
+  `condition_rule` ENUM('OR', 'AND') NOT NULL DEFAULT 'OR',
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`coupon_id`)
@@ -626,6 +627,18 @@ CREATE TABLE `ac_coupons_products` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 CREATE INDEX `ac_coupons_products_idx` ON `ac_coupons_products` ( `coupon_id`, `product_id`  );
+--
+-- DDL for table `coupon_categories`
+--
+DROP TABLE IF EXISTS `ac_coupons_categories`;
+CREATE TABLE `ac_coupons_categories` (
+  `coupon_category_id` int(11) NOT NULL AUTO_INCREMENT,
+  `coupon_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  PRIMARY KEY (`coupon_category_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1;
+
+CREATE INDEX `ac_coupons_categories_idx` ON `ac_coupons_categories` ( `coupon_id`, `category_id`  );
 
 
 --
@@ -805,6 +818,8 @@ CREATE TABLE `ac_extensions` (
   `version` varchar(32),
   `license_key` varchar(32),
   `date_installed` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `support_expiration` DATETIME NULL,
+  `mp_product_url` VARCHAR(255) NULL DEFAULT '',
   `date_added` timestamp NOT NULL default '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`extension_id`),
@@ -836,7 +851,6 @@ INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `v
 
 ('extensions', 'banner_manager', 'extensions', 1, 1, '1.0.1', null, now(), now(), now() ),
 ('extensions', 'forms_manager', 'extensions', 1, 1, '1.0.2', null, now(), now(), now() ),
-('extensions', 'neowize_insights', 'extensions', 1, 1, '1.0.5', null, now(), now(), now() ),
 ('payment', 'default_pp_standart', 'payment', 0, 1, '1.0.2', null, now(), now() + INTERVAL 2 MINUTE , now() ),
 ('payment', 'default_pp_pro', 'payment', 0, 1, '1.0.2', null, now(), now() + INTERVAL 2 MINUTE , now() )
 ;
@@ -1650,6 +1664,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout','config_customer_group_id',1),
 ('checkout','config_customer_approval',0),
 ('checkout','config_customer_email_activation',0),
+('checkout','config_phone_validation_pattern','/^[0-9]{3,32}$/'),
 ('checkout','prevent_email_as_login',1),
 ('checkout','config_guest_checkout',1),
 ('checkout','config_account_id',2),
@@ -1669,9 +1684,9 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 -- Appearance
 
 ('appearance','storefront_width','100%'),
-('appearance','config_logo','image/18/73/3.png'),
-('appearance','config_mail_logo','image/18/73/3.png'),
-('appearance','config_icon','image/18/73/4.png'),
+('appearance','config_logo','7'),
+('appearance','config_mail_logo','7'),
+('appearance','config_icon','8'),
 ('appearance','config_image_thumb_width',380),
 ('appearance','config_image_thumb_height',380),
 ('appearance','config_image_popup_width',500),
@@ -1779,11 +1794,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('banner_manager','banner_manager_date_installed', NOW()),
 ('banner_manager','store_id',0),
 ('banner_manager','banner_manager_status',1),
-
-('neowize_insights','neowize_insights_priority',10),
-('neowize_insights','neowize_insights_date_installed', NOW()),
-('neowize_insights','store_id',0),
-('neowize_insights','neowize_insights_status',1),
 
 ('forms_manager','forms_manager_priority',10),
 ('forms_manager','forms_manager_date_installed', NOW()),
@@ -12010,33 +12020,6 @@ INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (40,'235',217),
         (40,'236',218);
 
-
---
--- SUBMENU REPORTS->ANALYTICS
--- ITEM_ID
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES
-(10,'neowize_insights',222);
--- ITEM_TEXT
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES (11,'neowize_insights_name',222);
--- ITEM_URL
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES (12,'neowize/dashboard',222);
--- PARENT_ID
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES (13,'report_analytics',222);
--- SORT_ORDER
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
-VALUES (14,2,222);
--- ITEM_TYPE
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES (15,'extension',222);
--- ITEM_RL_ID
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (40,'278',222);
-
-
 --
 -- Storefront menu names inserts
 --
@@ -12128,7 +12111,7 @@ VALUES  (20, NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (21,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (22,'1.2.17','1');
+VALUES  (22,'1.3.0','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (23,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
@@ -12191,22 +12174,26 @@ CREATE INDEX `ac_resource_descriptions_title_idx` ON `ac_resource_descriptions` 
 #storefront menu icons
 INSERT INTO `ac_resource_library` ( `resource_id`, `type_id`, `date_added`)
 VALUES
-(1,1,now()),
-(2,1,now()),
-(3,1,now()),
-(4,1,now()),
-(5,1,now()),
-(6,1,now());
+(1,1,NOW()),
+(2,1,NOW()),
+(3,1,NOW()),
+(4,1,NOW()),
+(5,1,NOW()),
+(6,1,NOW()),
+(7,1,NOW()),
+(8,1,NOW());
 
 INSERT INTO `ac_resource_descriptions`
 (`resource_id`, `language_id`, `name`, `title`, `description`, `resource_path`, `resource_code`, `date_added`)
 VALUES
-(1,1,'Star Icon','','','','<i class="fa fa-star"></i>&nbsp;&nbsp;',now()),
-(2,1,'Icon Home','','','','<i class="fa fa-home"></i>&nbsp;',now()),
-(3,1,'Login Icon','','','','<i class="fa fa-lock"></i>&nbsp;&nbsp;',now()),
-(4,1,'Account Icon','','','','<i class="fa fa-user"></i>&nbsp;',now()),
-(5,1,'Cart Icon','','','','<i class="fa fa-shopping-cart"></i>&nbsp;',now()),
-(6,1,'Checkout Icon','','','','<i class="fa fa-barcode"></i>&nbsp;&nbsp;',now());
+(1,1,'Star Icon','','','','<i class="fa fa-star"></i>&nbsp;&nbsp;',NOW()),
+(2,1,'Icon Home','','','','<i class="fa fa-home"></i>&nbsp;',NOW()),
+(3,1,'Login Icon','','','','<i class="fa fa-lock"></i>&nbsp;&nbsp;',NOW()),
+(4,1,'Account Icon','','','','<i class="fa fa-user"></i>&nbsp;',NOW()),
+(5,1,'Cart Icon','','','','<i class="fa fa-shopping-cart"></i>&nbsp;',NOW()),
+(6,1,'Checkout Icon','','','','<i class="fa fa-barcode"></i>&nbsp;&nbsp;',NOW()),
+(7,1,'store_logo.png','','','18/73/3.png','',NOW()),
+(8,1,'favicon.png','','','18/73/4.png','',NOW());
 
 #Admin Menu Icons
 INSERT INTO `ac_resource_library` ( `resource_id`, `type_id`, `date_added`)
@@ -12389,16 +12376,16 @@ CREATE TABLE `ac_resource_types` (
   `type_name` varchar(40) NOT NULL default '',
   `default_directory` varchar(255) COLLATE utf8_general_ci NOT NULL,
   `default_icon` varchar(255) COLLATE utf8_general_ci DEFAULT NULL,
-  `file_types` varchar(40) NOT NULL default '',
+  `file_types` varchar(255) NOT NULL default '',
   `access_type`tinyint(1) NOT NULL default '0' COMMENT '0-Public, 1-Secured',
   PRIMARY KEY (`type_id`),
   KEY `group_id` (`type_id`, `type_name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 INSERT INTO `ac_resource_types` (`type_id`, `type_name`, `default_icon`, `default_directory`, `file_types`, `access_type`) VALUES
-(1, 'image', 'icon_resource_image.png', 'image/', '/.+(jpe?g|gif|png|ico|svg|svgz|webp)$/i', 0),
-(2, 'audio', 'icon_resource_audio.png', 'audio/', '/.+(mp3|wav)$/i', 0),
-(3, 'video', 'icon_resource_video.png', 'video/', '/.+(avi|mpg|mov|flv)$/i', 0),
+(1, 'image', 'icon_resource_image.png', 'image/', '/.+(jpe?g|gif|png|ico|svg|svgz|webp|avif)$/i', 0),
+(2, 'audio', 'icon_resource_audio.png', 'audio/', '/.+(mp3|wav|ogg)$/i', 0),
+(3, 'video', 'icon_resource_video.png', 'video/', '/.+(avi|mpg|mpeg|mov|flv|mp4|webm|ogg)$/i', 0),
 (4, 'pdf', 'icon_resource_pdf.png', 'pdf_document/', '/.+(pdf)$/i', 0),
 (5, 'archive', 'icon_resource_archive.png', 'archive/', '/.+(zip|rar|gz|7z)$/i', 1),
 (6, 'download', 'icon_resource_download.png', 'download/', '/.+$/i', 1);

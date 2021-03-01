@@ -5,7 +5,7 @@
 	<type>payment</type>
 	<category>payment</category>
 	<cartversions>
-		<item>1.2</item>
+		<item>1.3</item>
 	</cartversions>
 	<layout></layout>
 	<priority>10</priority>

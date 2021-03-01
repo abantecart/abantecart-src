@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <extension>
 	<id>2checkout</id>
-	<version>1.0.2</version>
+	<version>1.1.0</version>
 	<type>payment</type>
 	<category>payment</category>
 	<cartversions>
-		<item>1.2</item>
+		<item>1.3</item>
 	</cartversions>
 	<layout></layout>
 	<priority>10</priority>
@@ -44,9 +44,7 @@
 			<variants>
 				<item>0</item>
 				<data_source>
-					   
 					<model_rt>localisation/location</model_rt>
-					   
 					<method>getLocations</method>
 				</data_source>
 				<fields>

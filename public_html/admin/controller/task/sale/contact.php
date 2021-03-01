@@ -23,13 +23,13 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerTaskSaleContact extends AController
 {
-    public $data = array();
+    public $data = [];
     private $protocol;
     private $sent_count = 0;
 
-    public function sendSms()
+    public function sendSms(...$args)
     {
-        list($task_id, $step_id,) = func_get_args();
+        list($task_id, $step_id,) = $args;
         $this->load->library('json');
         //for aborting process
         ignore_user_abort(false);
@@ -47,7 +47,7 @@ class ControllerTaskSaleContact extends AController
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-        $output = array('result' => $result);
+        $output = ['result' => $result];
         if ($result) {
             $output['message'] = $this->sent_count.' sms sent.';
         } else {
@@ -57,9 +57,9 @@ class ControllerTaskSaleContact extends AController
         $this->response->setOutput(AJson::encode($output));
     }
 
-    public function sendEmail()
+    public function sendEmail(...$args)
     {
-        list($task_id, $step_id,) = func_get_args();
+        list($task_id, $step_id,) = $args;
 
         $this->load->library('json');
         //for aborting process
@@ -78,7 +78,7 @@ class ControllerTaskSaleContact extends AController
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        $output = array('result' => $result);
+        $output = ['result' => $result];
         if ($result) {
             $output['message'] = $this->sent_count.' emails sent.';
         } else {
@@ -102,12 +102,12 @@ class ControllerTaskSaleContact extends AController
         $task_info = $tm->getTaskById($task_id);
         $sent = (int)$task_info['settings']['sent'];
         $task_steps = $tm->getTaskSteps($task_id);
-        $step_info = array();
+        $step_info = [];
         foreach ($task_steps as $task_step) {
             if ($task_step['step_id'] == $step_id) {
                 $step_info = $task_step;
                 if ($task_step['sort_order'] == 1) {
-                    $tm->updateTask($task_id, array('last_time_run' => date('Y-m-d H:i:s')));
+                    $tm->updateTask($task_id, ['last_time_run' => date('Y-m-d H:i:s')]);
                 }
                 break;
             }
@@ -118,7 +118,7 @@ class ControllerTaskSaleContact extends AController
             $this->_return_error($error_text);
         }
 
-        $tm->updateStep($step_id, array('last_time_run' => date('Y-m-d H:i:s')));
+        $tm->updateStep($step_id, ['last_time_run' => date('Y-m-d H:i:s')]);
 
         if (!$step_info['settings']) {
             $error_text = 'Cannot run task step #'.$step_id.'. Unknown settings for it.';
@@ -136,12 +136,12 @@ class ControllerTaskSaleContact extends AController
             $from = $this->config->get('store_main_email');
         }
 
-        $send_data = array(
+        $send_data = [
             'subject' => $step_info['settings']['subject'],
             'message' => $step_info['settings']['message'],
             'sender'  => $step_info['settings']['store_name'],
             'from'    => $from,
-        );
+        ];
         //send emails in loop and update task's step info for restarting if step or task failed
         $step_settings = $step_info['settings'];
         $cnt = 0;
@@ -156,7 +156,7 @@ class ControllerTaskSaleContact extends AController
             return true;
         }
         foreach ($send_to as $to) {
-            $send_data['subscriber'] = in_array($to, $step_info['settings']['subscribers']) ? true : false;
+            $send_data['subscriber'] = in_array($to, $step_info['settings']['subscribers']);
 
             if ($this->protocol == 'email') {
                 $result = $this->_send_email($to, $send_data);
@@ -171,18 +171,19 @@ class ControllerTaskSaleContact extends AController
                 //remove sent address from step
                 $k = array_search($to, $step_settings['to']);
                 unset($step_settings['to'][$k]);
-                $tm->updateStep($step_id, array('settings' => serialize($step_settings)));
+                $tm->updateStep($step_id, ['settings' => serialize($step_settings)]);
                 //update task details to show them at the end
                 $sent++;
                 $tm->updateTaskDetails($task_id,
-                    array(
-                        //set 1 as "admin"
-                        'created_by' => 1,
-                        'settings'   => array(
+                                       [
+                                           //set 1 as "admin"
+                                           'created_by' => 1,
+                                           'settings'   => [
                             'recipients_count' => $task_info['settings']['recipients_count'],
                             'sent'             => $sent,
-                        ),
-                    ));
+                                           ],
+                                       ]
+                );
 
             } else {
                 $step_result = false;
@@ -190,7 +191,7 @@ class ControllerTaskSaleContact extends AController
             $cnt++;
         }
 
-        $tm->updateStep($step_id, array('last_result' => $step_result));
+        $tm->updateStep($step_id, ['last_result' => $step_result]);
 
         if (!$step_result) {
             $this->_return_error('Some errors during step run.');
@@ -203,10 +204,11 @@ class ControllerTaskSaleContact extends AController
         $error = new AError($error_text);
         $error->toLog()->toDebug();
         return $error->toJSONResponse('APP_ERROR_402',
-            array(
+                                      [
                 'error_text'  => $error_text,
                 'reset_value' => true,
-            ));
+                                      ]
+        );
     }
 
     private function _send_email($email, $data)
@@ -225,7 +227,7 @@ class ControllerTaskSaleContact extends AController
         $text_unsubscribe = $this->language->get('text_unsubscribe');
         $message_body = $data['message'];
         if ($data['subscriber']) {
-            $customer_info = $this->model_sale_customer->getCustomersByEmails(array($email));
+            $customer_info = $this->model_sale_customer->getCustomersByEmails([$email]);
             $customer_id = $customer_info[0]['customer_id'];
             if ($customer_id) {
                 $message_body .= "\n\n<br><br>".sprintf($text_unsubscribe,

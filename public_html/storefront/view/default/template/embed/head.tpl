@@ -22,15 +22,15 @@
 <link rel="<?php echo $style['rel']; ?>" type="text/css" href="<?php echo $style['href']; ?>" media="<?php echo $style['media']; ?>" />
 <?php } ?>
 
-<script type="text/javascript" src="<?php echo $ssl ? 'https': 'http'?>://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo $ssl ? 'https': 'http'?>://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 if (typeof jQuery == 'undefined') {
-   var include = '\x3Cscript type="text/javascript" src="<?php echo $this->templateResource("/javascript/jquery-1.12.4.min.js"); ?>">\x3C/script>';
+   var include = '\x3Cscript type="text/javascript" src="<?php echo $this->templateResource("/javascript/jquery-3.5.1.min.js"); ?>">\x3C/script>';
    document.write(include);
 }
 </script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/bootstrap.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-migrate-1.2.1.min.js');?>"></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-migrate-1.4.1.min.js');?>"></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/common.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/intl-tel-input/js/intlTelInput.min.js'); ?>"></script>
 

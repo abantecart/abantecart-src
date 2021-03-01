@@ -55,13 +55,13 @@ final class ADispatcher
     /**
      * @var array
      */
-    protected $args = array();
+    protected $args = [];
 
     /**
      * @param string $rt
      * @param array  $args
      */
-    public function __construct($rt, $args = array())
+    public function __construct($rt, $args = [])
     {
 
         $this->registry = Registry::getInstance();
@@ -192,7 +192,7 @@ final class ADispatcher
             //reset to save controller output
             $this->response->setOutput('');
 
-            $dispatch_pre = new ADispatcher($route, array("instance_id" => ''));
+            $dispatch_pre = new ADispatcher($route, ["instance_id" => '']);
             $dispatch_pre->dispatch();
             $result = $this->response->getOutput();
 
@@ -277,7 +277,7 @@ final class ADispatcher
         if (class_exists($this->class)) {
             $controller = new $this->class(
                 $this->registry,
-                $this->args["instance_id"],
+                $this->args["instance_id"] ?? null,
                 $this->controller,
                 $parent_controller
             );
@@ -286,11 +286,19 @@ final class ADispatcher
             $error = new AError('Error: controller class not exist '.$this->class.'!', AC_ERR_CLASS_CLASS_NOT_EXIST);
             $error->toLog()->toDebug();
         }
-        if (is_callable(array($controller, $this->method))) {
+        if (is_callable([$controller, $this->method])) {
             /**
              * @var $dispatch ADispatcher
              */
-            $dispatch = call_user_func_array(array($controller, $this->method), $this->args);
+            $r = new ReflectionMethod($controller, $this->method);
+            $params = $r->getParameters();
+            if(!$params){
+                $args = [];
+            }else {
+                $args = $this->args;
+            }
+
+            $dispatch = call_user_func_array([$controller, $this->method], $args);
             //Check if return is a dispatch and need to call new page
             if ($dispatch && is_object($dispatch)) {
                 if ($this->args["instance_id"] == 0) {
@@ -321,13 +329,13 @@ final class ADispatcher
             //Process each child controller
             foreach ($children as $child) {
                 //Add highest Debug level here with backtrace to review this
-                ADebug::checkpoint($child['controller'].' ( child of '.$this->controller.', instance_id: '
-                    .$child['instance_id'].' ) dispatch START');
+                ADebug::checkpoint($child['controller'].' ( child of '.$this->controller
+                                   .', instance_id: '.$child['instance_id'].' ) dispatch START');
                 //Process each child and create dispatch to call recursive
-                $dispatch = new ADispatcher($child['controller'], array("instance_id" => $child['instance_id']));
+                $dispatch = new ADispatcher($child['controller'], ["instance_id" => $child['instance_id']]);
                 $dispatch->dispatch($controller);
                 // Append output of child controller to current controller
-                if ($child['position']) { // made for recognizing few custom_blocks in the same placeholder
+                if (isset($child['position']) && $child['position']) { // made for recognizing few custom_blocks in the same placeholder
                     $controller->view->assign($child['block_txt_id'].'_'.$child['instance_id'],
                         $this->response->getOutput());
                 } else {
@@ -355,7 +363,7 @@ final class ADispatcher
                 AC_ERR_CLASS_METHOD_NOT_EXIST
             );
             $err->toLog()->toDebug();
-            if (in_array($this->controller_type, array('responses', 'api', 'task'))) {
+            if (in_array($this->controller_type, ['responses', 'api', 'task'])) {
                 $dd = new ADispatcher('responses/error/ajaxerror/not_found');
                 $dd->dispatch();
             }

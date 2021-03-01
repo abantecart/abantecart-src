@@ -15,7 +15,10 @@ class ModelExtensionDefaultStripe extends Model
     public function getMethod($address)
     {
         $this->load->language('default_stripe/default_stripe');
-        if ($this->config->get('default_stripe_status') && $this->config->get('default_stripe_published_key')) {
+        $publicKey = $this->config->get('default_stripe_test_mode')
+                    ? $this->config->get('default_stripe_pk_test')
+                    : $this->config->get('default_stripe_pk_live');
+        if ($this->config->get('default_stripe_status') && $publicKey) {
             $query = $this->db->query(
                 "SELECT * 
 					FROM `".$this->db->table("zones_to_locations")."` 

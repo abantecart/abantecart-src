@@ -45,4 +45,21 @@ if (!$menuItem) {
         ]
     );
 }
-?>
+
+//Default stripe settings changes
+if($this->config->get('default_stripe_status') && $this->config->get('default_stripe_access_token'))
+{
+    /** @var ModelSettingSetting $mdl */
+    $mdl = $this->load->model('setting/setting');
+    $mdl->editSetting(
+        'default_stripe',
+        [
+            'default_stripe_pk_live' => $this->config->get('default_stripe_published_key'),
+            'default_stripe_sk_live' => $this->config->get('default_stripe_access_token'),
+            'default_stripe_pk_test' => $this->config->get('default_stripe_published_key'),
+            'default_stripe_sk_test' => $this->config->get('default_stripe_access_token'),
+        ]
+    );
+}
+
+

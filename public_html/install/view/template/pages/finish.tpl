@@ -16,9 +16,7 @@
 	</div>
 	
 	<div class="panel-body panel-body-nopadding">
-	
 		<div class="warning alert alert-error alert-danger"><?php echo $message; ?></div>
-
 		<p>Congratulations! You have successfully installed AbanteCart eCommerce application. See access to your store front and control panel sections below. Bookmark or remember your control panel link and keep it save.</p>
 		<p>Thank you for this choice, and enjoy many features AbanteCart has to offer.</p> 
 		<p>Your comments and contributions are very welcome.</p>
@@ -48,45 +46,61 @@
 		</br>
 		</br>
 
-		<div class="container-fluid">
-			<div class="h4 heading col-md-12 text-center" style="min-height: 50px;">Enable Payment & Shipping</div>
-		    <div class="snapshots col-md-2">
-			    <?php $url = '../'.$admin_path."&rt=extension/extensions/install&extension=default_stripe"; ?>
-			    <a href="<?php echo $url;?>" target="_new_admin"><img src="../extensions/default_stripe/image/icon.png" alt="Install Stripe Payment" style="border: none;"/></a><br />
-			    <a href="<?php echo $url;?>" target="_new_admin">Stripe</a>
-			</div>
-		    <div class="snapshots col-md-2">
-			    <?php $url = '../'.$admin_path."&rt=extension/extensions/install&extension=default_pp_standart"; ?>
-			    <a href="<?php echo $url;?>" target="_new_admin"><img src="../extensions/default_pp_standart/image/icon.png" alt="Install Paypal Standart Payment" style="border: none;" /></a><br />
-			    <a href="<?php echo $url;?>" target="_new_admin">Paypal</a>
-			</div>
-		    <div class="snapshots col-md-2">
-			    <?php $url = '../'.$admin_path."&rt=extension/extensions/install&extension=default_free_shipping"; ?>
-			    <a href="<?php echo $url;?>" target="_new_admin"><img src="../extensions/default_free_shipping/image/icon.png" alt="Install Free Shipping" style="border: none;" /></a><br />
-			    <a href="<?php echo $url;?>" target="_new_admin">Free Shipping</a>
-			</div>
-		    <div class="snapshots col-md-2">
-			    <?php $url = '../'.$admin_path."&rt=extension/extensions/install&extension=default_ups"; ?>
-			    <a href="<?php echo $url;?>" target="_new_admin"><img src="../extensions/default_ups/image/icon.png" alt="Install UPS Shipping" style="border: none;" /></a><br />
-			    <a href="<?php echo $url;?>" target="_new_admin">UPS</a>
-			</div>
-		    <div class="snapshots col-md-2">
-			    <?php $url = '../'.$admin_path."&rt=extension/extensions/install&extension=default_fedex"; ?>
-			    <a href="<?php echo $url;?>" target="_new_admin"><img src="../extensions/default_fedex/image/icon.png" alt="Install FedEx Shipping" style="border: none;" /></a><br />
-			    <a href="<?php echo $url;?>" target="_new_admin">FedEx</a>
-			</div>
-		    <div class="snapshots col-md-2">
-			    <?php $url = '../'.$admin_path."&rt=extension/extensions/extensions"; ?>
-			    <a href="<?php echo $url;?>" target="_new_admin"><img src="../admin/view/default/image/default_extension.png" alt="Many other options" style="border: none;" /></a><br />
-			    <a href="<?php echo $url;?>" target="_new_admin">Many Others</a>
-			</div>
-		</div>
+        <div class="container-fluid installation-complete">
+            <div class="h4 heading col-md-12 text-center">Enable Payment & Shipping</div>
+            <div class="snapshots col-md-2">
+                <?php $url = '../'.$admin_path."&rt=extension/extensions/install&extension=default_stripe"; ?>
+                <a href="<?php echo $url;?>" target="_new_admin">
+                    <img src="../extensions/default_stripe/image/icon.png" alt="Install Stripe Payment"/>
+                </a>
+                <br />
+                <a href="<?php echo $url;?>" target="_new_admin">Stripe</a>
+            </div>
+            <div class="snapshots col-md-2">
+                <?php $url = '../'.$admin_path."&rt=extension/extensions/install&extension=default_pp_standart"; ?>
+                <a href="<?php echo $url;?>" target="_new_admin">
+                    <img src="../extensions/default_pp_standart/image/icon.png" alt="Install Paypal Standart Payment"/>
+                </a>
+                <br />
+                <a href="<?php echo $url;?>" target="_new_admin">Paypal</a>
+            </div>
+            <div class="snapshots col-md-2">
+                <?php $url = '../'.$admin_path."&rt=extension/extensions/install&extension=default_free_shipping"; ?>
+                <a href="<?php echo $url;?>" target="_new_admin">
+                    <img src="../extensions/default_free_shipping/image/icon.png" alt="Install Free Shipping"/>
+                </a>
+                <br />
+                <a href="<?php echo $url;?>" target="_new_admin">Free Shipping</a>
+            </div>
+            <div class="snapshots col-md-2">
+                <?php $url = '../'.$admin_path."&rt=extension/extensions/install&extension=default_ups"; ?>
+                <a href="<?php echo $url;?>" target="_new_admin">
+                    <img src="../extensions/default_ups/image/icon.png" alt="Install UPS Shipping"/>
+                </a>
+                <br />
+                <a href="<?php echo $url;?>" target="_new_admin">UPS</a>
+            </div>
+            <div class="snapshots col-md-2">
+                <?php $url = '../'.$admin_path."&rt=extension/extensions/install&extension=default_fedex"; ?>
+                <a href="<?php echo $url;?>" target="_new_admin">
+                    <img src="../extensions/default_fedex/image/icon.png" alt="Install FedEx Shipping"/>
+                </a>
+                <br />
+                <a href="<?php echo $url;?>" target="_new_admin">FedEx</a>
+            </div>
+            <div class="snapshots col-md-2">
+                <?php $url = '../'.$admin_path."&rt=extension/extensions/extensions"; ?>
+                <a href="<?php echo $url;?>" target="_new_admin">
+                    <img src="../admin/view/default/image/default_extension.png" alt="Many other options"/>
+                </a>
+                <br />
+                <a href="<?php echo $url;?>" target="_new_admin">Many Others</a>
+            </div>
+        </div>
+    </div>
+</div>
 
-	</div>
-		
-	</div>
-	
-	</div>
+</div>
 	<div class="col-md-3">
 		<div class="panel panel-default">
 			<div class="panel-body text-center">

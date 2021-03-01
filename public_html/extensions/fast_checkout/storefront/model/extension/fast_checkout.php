@@ -1,11 +1,12 @@
-<?php
+<?php /** @noinspection PhpUndefinedClassInspection */
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -26,16 +27,22 @@
  */
 class ModelExtensionFastCheckout extends Model
 {
-    public $data = array();
+    public $data = [];
 
+    /**
+     * @param int $order_id
+     * @param int $customer_id
+     *
+     * @throws AException
+     */
     public function updateOrderCustomer($order_id, $customer_id)
     {
         $order_id = (int)$order_id;
         $customer_id = (int)$customer_id;
 
         $sql = "UPDATE ".$this->db->table('orders')."
-				SET customer_id=".(int)$customer_id."
-				WHERE order_id =".(int)$order_id;
+                SET customer_id=".(int)$customer_id."
+                WHERE order_id =".(int)$order_id;
         $this->db->query($sql);
     }
 
@@ -45,6 +52,7 @@ class ModelExtensionFastCheckout extends Model
      * @param $data
      *
      * @return int
+     * @throws AException
      */
     public function addCustomer($data)
     {
@@ -79,37 +87,46 @@ class ModelExtensionFastCheckout extends Model
         }
 
         // delete subscription accounts for given email
-        $subscriber = $this->db->query("SELECT customer_id
-										FROM ".$this->db->table("customers")."
-										WHERE LOWER(`email`) = LOWER('".$this->db->escape($data['email'])."')
-											AND customer_group_id IN (SELECT customer_group_id
-																		  FROM ".$this->db->table('customer_groups')."
-																		  WHERE `name` = 'Newsletter Subscribers')");
+        $subscriber = $this->db->query(
+            "SELECT customer_id
+            FROM ".$this->db->table("customers")."
+            WHERE LOWER(`email`) = LOWER('".$this->db->escape($data['email'])."')
+                AND customer_group_id 
+                    IN (SELECT customer_group_id
+                        FROM ".$this->db->table('customer_groups')."
+                        WHERE `name` = 'Newsletter Subscribers')"
+        );
         foreach ($subscriber->rows as $row) {
-            $this->db->query("DELETE FROM ".$this->db->table("customers")." WHERE customer_id = '"
-                .(int)$row['customer_id']."'");
-            $this->db->query("DELETE FROM ".$this->db->table("addresses")." WHERE customer_id = '"
-                .(int)$row['customer_id']."'");
+            $this->db->query(
+                "DELETE 
+                FROM ".$this->db->table("customers")." 
+                WHERE customer_id = '".(int)$row['customer_id']."'"
+            );
+            $this->db->query(
+                "DELETE 
+                FROM ".$this->db->table("addresses")." 
+                WHERE customer_id = '".(int)$row['customer_id']."'"
+            );
         }
 
         $salt_key = genToken(8);
         $sql = "INSERT INTO ".$this->db->table("customers")."
-			  SET	store_id = '".(int)$this->config->get('config_store_id')."',
-					loginname = '".$this->db->escape($data['loginname'])."',
-					firstname = '".$this->db->escape($data['firstname'])."',
-					lastname = '".$this->db->escape($data['lastname'])."',
-					email = '".$this->db->escape($data['email'])."',
-					telephone = '".$this->db->escape($data['telephone'])."',
-					fax = '".$this->db->escape($data['fax'])."',
-					salt = '".$this->db->escape($salt_key)."',
-					password = '".$this->db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password']))))."',
-					newsletter = '".(int)$data['newsletter']."',
-					customer_group_id = '".(int)$data['customer_group_id']."',
-					approved = '".(int)$data['approved']."',
-					status = '".(int)$data['status']."'".$key_sql.",
-					ip = '".$this->db->escape($data['ip'])."',
-					data = '".$this->db->escape(serialize($data['data']))."',
-					date_added = NOW()";
+                SET store_id = '".(int)$this->config->get('config_store_id')."',
+                    loginname = '".$this->db->escape($data['loginname'])."',
+                    firstname = '".$this->db->escape($data['firstname'])."',
+                    lastname = '".$this->db->escape($data['lastname'])."',
+                    email = '".$this->db->escape($data['email'])."',
+                    telephone = '".$this->db->escape($data['telephone'])."',
+                    fax = '".$this->db->escape($data['fax'])."',
+                    salt = '".$this->db->escape($salt_key)."',
+                    password = '".$this->db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password']))))."',
+                    newsletter = '".(int)$data['newsletter']."',
+                    customer_group_id = '".(int)$data['customer_group_id']."',
+                    approved = '".(int)$data['approved']."',
+                    status = '".(int)$data['status']."'".$key_sql.",
+                    ip = '".$this->db->escape($data['ip'])."',
+                    `data` = '".$this->db->escape(serialize($data['data']))."',
+                    date_added = NOW()";
         $this->db->query($sql);
         $customer_id = $this->db->getLastId();
 
@@ -128,35 +145,36 @@ class ModelExtensionFastCheckout extends Model
         //enable notification setting for newsletter via email
         if ($data['newsletter']) {
             $sql = "INSERT INTO ".$this->db->table('customer_notifications')."
-					(customer_id, sendpoint, protocol, status, date_added)
-				VALUES
-				('".$customer_id."',
-				'newsletter',
-				'email',
-				'1',
-				NOW());";
+                        (customer_id, sendpoint, protocol, status, date_added)
+                    VALUES
+                    ('".$customer_id."',
+                    'newsletter',
+                    'email',
+                    '1',
+                    NOW());";
             $this->db->query($sql);
         }
 
         //notify admin
         $language = new ALanguage($this->registry);
         $language->load('common/im');
-        $message_arr = array(
-            1 => array(
+        $message_arr = [
+            1 => [
                 'message' => sprintf($language->get('im_new_customer_text_to_admin'), $customer_id),
-            ),
-        );
+            ],
+        ];
         $this->im->send('new_customer', $message_arr);
 
         return $customer_id;
     }
 
     /**
-     * @param $data
+     * @param array $data
      *
      * @return int
+     * @throws AException
      */
-    public function addAddress($data = array())
+    public function addAddress($data = [])
     {
         if (!$data || !(int)$data['customer_id']) {
             return false;
@@ -168,34 +186,41 @@ class ModelExtensionFastCheckout extends Model
             $key_sql = ", key_id = '".(int)$data['key_id']."'";
         }
 
-        $this->db->query("INSERT INTO `".$this->db->table("addresses")."`
-						  SET customer_id = '".(int)$data['customer_id']."',
-							company = '".$this->db->escape($data['company'])."',
-							firstname = '".$this->db->escape($data['firstname'])."',
-							lastname = '".$this->db->escape($data['lastname'])."',
-							address_1 = '".$this->db->escape($data['address_1'])."',
-							address_2 = '".$this->db->escape($data['address_2'])."',
-							postcode = '".$this->db->escape($data['postcode'])."',
-							city = '".$this->db->escape($data['city'])."',
-							zone_id = '".(int)$data['zone_id']."',
-							country_id = '".(int)$data['country_id']."'".$key_sql);
+        $this->db->query(
+            "INSERT INTO `".$this->db->table("addresses")."`
+            SET customer_id = '".(int)$data['customer_id']."',
+            company = '".$this->db->escape($data['company'])."',
+            firstname = '".$this->db->escape($data['firstname'])."',
+            lastname = '".$this->db->escape($data['lastname'])."',
+            address_1 = '".$this->db->escape($data['address_1'])."',
+            address_2 = '".$this->db->escape($data['address_2'])."',
+            postcode = '".$this->db->escape($data['postcode'])."',
+            city = '".$this->db->escape($data['city'])."',
+            zone_id = '".(int)$data['zone_id']."',
+            country_id = '".(int)$data['country_id']."'".$key_sql);
+        return $this->db->getLastId();
 
-        $address_id = $this->db->getLastId();
-        return $address_id;
     }
 
-    public function updateOrderDetails($order_id, $data = array())
+    /**
+     * @param int $order_id
+     * @param array $data
+     *
+     * @return bool
+     * @throws AException
+     */
+    public function updateOrderDetails($order_id, $data = [])
     {
         $order_id = (int)$order_id;
         if (!$order_id) {
             return false;
         }
 
-        $allowed = array(
+        $allowed = [
             'telephone',
             'comment'
-        );
-        $upd = array();
+        ];
+        $upd = [];
         foreach ($allowed as $field_name) {
             if (isset($data[$field_name])) {
                 $upd[] = "`".$field_name."` = '".$this->db->escape($data[$field_name])."' ";
@@ -203,8 +228,8 @@ class ModelExtensionFastCheckout extends Model
         }
 
         $sql = "UPDATE ".$this->db->table('orders')."
-				SET ".implode(', ', $upd)."
-				WHERE order_id = ".$order_id." AND order_status_id = 0";
+                SET ".implode(', ', $upd)."
+                WHERE order_id = ".$order_id." AND order_status_id = 0";
         $this->db->query($sql);
         return true;
 
@@ -215,39 +240,40 @@ class ModelExtensionFastCheckout extends Model
      * @param int $customer_id
      *
      * @return array
+     * @throws AException
      */
     public function getCustomerOrderDownloads($order_id, $customer_id)
     {
         $customer_id = (int)$customer_id;
         $order_id = (int)$order_id;
         if (!$order_id) {
-            return array();
+            return [];
         }
         $sql = "SELECT o.order_id,
-					  o.order_status_id,
-					  od.download_id,
-					  od.status,
-					  od.date_added,
-					  od.order_download_id,
-					  d.activate,
-					  od.activate_order_status_id,
-					  od.name,
-					  od.filename,
-					  od.mask,
-					  od.remaining_count,
-					  od.expire_date,
-					  op.product_id,
-					  o.email
-			   FROM ".$this->db->table("order_downloads")." od
-			   INNER JOIN ".$this->db->table("orders")." o ON (od.order_id = o.order_id)
-			   LEFT JOIN ".$this->db->table("downloads")." d ON (d.download_id = od.download_id)
-			   LEFT JOIN ".$this->db->table("order_products")." op ON (op.order_product_id = od.order_product_id)
-			   WHERE o.order_id = '".$order_id."'
-			   ".($customer_id ? " AND o.customer_id = '".$customer_id."'" : "")."
-			   ORDER BY  o.date_added DESC, od.sort_order ASC ";
+                      o.order_status_id,
+                      od.download_id,
+                      od.status,
+                      od.date_added,
+                      od.order_download_id,
+                      d.activate,
+                      od.activate_order_status_id,
+                      od.name,
+                      od.filename,
+                      od.mask,
+                      od.remaining_count,
+                      od.expire_date,
+                      op.product_id,
+                      o.email
+               FROM ".$this->db->table("order_downloads")." od
+               INNER JOIN ".$this->db->table("orders")." o ON (od.order_id = o.order_id)
+               LEFT JOIN ".$this->db->table("downloads")." d ON (d.download_id = od.download_id)
+               LEFT JOIN ".$this->db->table("order_products")." op ON (op.order_product_id = od.order_product_id)
+               WHERE o.order_id = '".$order_id."'
+               ".($customer_id ? " AND o.customer_id = '".$customer_id."'" : "")."
+               ORDER BY  o.date_added DESC, od.sort_order ASC ";
 
         $query = $this->db->query($sql);
-        $downloads = array();
+        $downloads = [];
         foreach ($query->rows as $download_info) {
             $downloads[$download_info['order_download_id']] = $download_info;
         }
@@ -258,8 +284,9 @@ class ModelExtensionFastCheckout extends Model
      * @param array $data
      *
      * @return bool
+     * @throws AException
      */
-    public function sendEmailActivation($data = array())
+    public function sendEmailActivation($data = [])
     {
         if (!$data || !is_array($data)) {
             return false;
@@ -267,39 +294,29 @@ class ModelExtensionFastCheckout extends Model
 
         //build confirmation email
         $language = new ALanguage($this->registry, $data['language_code']);
+        $language->setCurrentLanguage();
+        $languageId = $language->getLanguageID();
         $language->load('fast_checkout/fast_checkout');
         $language->load('mail/account_create');
 
         //build welcome email in text format
-        $login_url = $this->html->getSecureURL('account/login');
         $this->language->load('mail/account_create');
-        $main_data = [
+        $this->data['mail_template_data'] = [
             'store_name' => $this->config->get('store_name'),
             'login_url'  => $this->html->getSecureURL('account/login'),
             'login'      => $data['loginname'],
             'password'   => $data['password'],
         ];
-        $config_mail_logo = $this->config->get('config_mail_logo');
-        $config_mail_logo = !$config_mail_logo ? $this->config->get('config_logo') : $config_mail_logo;
-        if ($config_mail_logo) {
-            if (is_numeric($config_mail_logo)) {
-                $r = new AResource('image');
-                $resource_info = $r->getResource($config_mail_logo);
-                if ($resource_info) {
-                    $main_data['logo_html'] = html_entity_decode($resource_info['resource_code'], ENT_QUOTES, 'UTF-8');
-                }
-            } else {
-                $main_data['logo_uri'] = 'cid:'
-                    .md5(pathinfo($config_mail_logo, PATHINFO_FILENAME))
-                    .'.'.pathinfo($config_mail_logo, PATHINFO_EXTENSION);
-            }
-        }
-        $main_data['config_mail_logo'] = $config_mail_logo;
-        //backward compatibility. TODO: remove this in 2.0
-        if ($main_data['logo_uri']) {
-            $main_data['logo'] = $this->data['mail_template_data']['logo_uri'];
-        } else {
-            $main_data['logo'] = $this->config->get('config_mail_logo');
+
+        $mailLogo = $this->config->get('config_mail_logo_'.$languageId)
+                    ?: $this->config->get('config_mail_logo');
+        $mailLogo = $mailLogo ?: $this->config->get('config_logo_'.$languageId);
+        $mailLogo = $mailLogo ?: $this->config->get('config_logo');
+
+        if ($mailLogo) {
+            $result = getMailLogoDetails($mailLogo);
+            $this->data['mail_template_data']['logo_uri'] = $result['uri'];
+            $this->data['mail_template_data']['logo_html'] = $result['html'];
         }
 
         $template = 'fast_checkout_welcome_email_guest_registration';
@@ -311,38 +328,43 @@ class ModelExtensionFastCheckout extends Model
         $mail->setTo($data['email']);
         $mail->setFrom($this->config->get('store_main_email'));
         $mail->setSender($this->config->get('store_name'));
-        $mail->setTemplate($template, $main_data);
-        if (is_file(DIR_RESOURCE.$config_mail_logo)) {
-            $mail->addAttachment(DIR_RESOURCE.$config_mail_logo,
-                md5(pathinfo($config_mail_logo, PATHINFO_FILENAME))
-                .'.'.pathinfo($config_mail_logo, PATHINFO_EXTENSION));
+        $mail->setTemplate($template, $this->data['mail_template_data']);
+        if (is_file(DIR_RESOURCE.$mailLogo)) {
+            $mail->addAttachment(DIR_RESOURCE.$mailLogo,
+                md5(pathinfo($mailLogo, PATHINFO_FILENAME))
+                .'.'.pathinfo($mailLogo, PATHINFO_EXTENSION));
         }
         $mail->send();
         return true;
     }
 
-    public function emailDownloads($order_data, $download)
+    /**
+     * @param array $order_data
+     * @param array $downloadInfo
+     *
+     * @return bool
+     * @throws AException
+     */
+    public function emailDownloads($order_data, $downloadInfo)
     {
-        if (empty($download) || !is_array($download) || empty($order_data) || !is_array($order_data)) {
+        if (empty($downloadInfo) || !is_array($downloadInfo) || empty($order_data) || !is_array($order_data)) {
             return false;
         }
 
         //build confirmation email
-        $language = new ALanguage($this->registry, $this->language->getLanguageCode());
-        $language->load('fast_checkout/fast_checkout');
+        $this->language->load('fast_checkout/fast_checkout');
+        $languageId = $this->language->getContentLanguageID() ? : $this->language->getLanguageID();
 
         $subject = sprintf($this->language->get('fast_checkout_download_subject'), $this->config->get('store_name'));
-        $store_logo = md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)).'.'
-            .pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
 
-        if ($download['count'] == 1) {
+        if ($downloadInfo['count'] == 1) {
             $text_email_download = $this->language->get('fast_checkout_email_start_download');
             $text_email_download_link = $this->language->get('fast_checkout_button_start_download');
         } else {
             $text_email_download = $this->language->get('fast_checkout_email_order_downloads');
             $text_email_download_link = $this->language->get('fast_checkout_text_order_downloads');
         }
-        $email_download_link = $download['download_url'];
+        $email_download_link = $downloadInfo['download_url'];
 
         $this->data['mail_plain_text'] = $text_email_download."\n\n";
         $this->data['mail_plain_text'] .= $email_download_link."\n\n";
@@ -351,7 +373,6 @@ class ModelExtensionFastCheckout extends Model
 
         //build HTML message with the template
         $this->data['mail_template_data']['text_thanks'] = $this->language->get('fast_checkout_text_thank_you');
-        $this->data['mail_template_data']['logo'] = 'cid:'.$store_logo;
         $this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
         $this->data['mail_template_data']['store_url'] = $this->config->get('config_url');
         $this->data['mail_template_data']['text_email_download'] = $text_email_download;
@@ -360,6 +381,17 @@ class ModelExtensionFastCheckout extends Model
         $this->data['mail_template_data']['text_project_label'] = project_base();
 
         $this->data['mail_template'] = 'mail/guest_download.tpl';
+
+        $mailLogo = $this->config->get('config_mail_logo_'.$languageId)
+                    ?: $this->config->get('config_mail_logo');
+        $mailLogo = $mailLogo ?: $this->config->get('config_logo_'.$languageId);
+        $mailLogo = $mailLogo ?: $this->config->get('config_logo');
+
+        if ($mailLogo) {
+            $result = getMailLogoDetails($mailLogo);
+            $this->data['mail_template_data']['logo_uri'] = $result['uri'];
+            $this->data['mail_template_data']['logo_html'] = $result['html'];
+        }
 
         //allow to change email data from extensions
         $this->extensions->hk_ProcessData($this, 'sf_fast_checkout_guest_download_mail');
@@ -374,16 +406,26 @@ class ModelExtensionFastCheckout extends Model
         $mail->setSender($this->config->get('store_name'));
         $mail->setSubject($subject);
         $mail->setText(html_entity_decode($this->data['mail_plain_text'], ENT_QUOTES, 'UTF-8'));
-        $mail->addAttachment(DIR_RESOURCE.$this->config->get('config_logo'));
+        if (is_file(DIR_RESOURCE.$mailLogo)) {
+            $mail->addAttachment(DIR_RESOURCE.$mailLogo,
+                md5(pathinfo($mailLogo, PATHINFO_FILENAME))
+                .'.'.pathinfo($mailLogo, PATHINFO_EXTENSION));
+        }
         $mail->setHtml($html_body);
         $mail->send();
         return true;
     }
 
+    /**
+     * @param string $ot - order token
+     *
+     * @return array
+     * @throws AException
+     */
     public function parseOrderToken($ot)
     {
         if (!$ot) {
-            return array();
+            return [];
         }
 
         //try to decrypt order token
@@ -393,62 +435,65 @@ class ModelExtensionFastCheckout extends Model
 
         $order_id = (int)$order_id;
         if (!$decrypted || !$order_id || !$email || !$sec_token) {
-            return array();
+            return [];
         }
         $this->load->model('account/order');
         $order_info = $this->model_account_order->getOrder($order_id, '', 'view');
 
         //compare emails
         if ($order_info['email'] != $email) {
-            return array();
+            return [];
         }
         //compare security token
         if ($sec_token != $this->getGuestToken($order_id)) {
-            return array();
+            return [];
         }
-        return array($order_id, $email, $sec_token);
+        return [$order_id, $email, $sec_token];
     }
 
-    //Get order security token for guest
+    /**
+     * Get order security token for guest
+     * @param $order_id
+     *
+     * @return string
+     * @throws AException
+     */
     public function getGuestToken($order_id)
     {
         $order_id = (int)$order_id;
 
         $sql = "SELECT *
-		    	FROM ".$this->db->table('order_data')." od
-		    	WHERE `type_id` in ( SELECT DISTINCT type_id
-		    						 FROM ".$this->db->table('order_data_types')."
-		    						 WHERE `name`='guest_token' )
-		    		AND order_id = '".$order_id."'";
+                FROM ".$this->db->table('order_data')." od
+                WHERE `type_id` in ( SELECT DISTINCT type_id
+                                     FROM ".$this->db->table('order_data_types')."
+                                     WHERE `name`='guest_token' )
+                    AND order_id = '".$order_id."'";
         $query = $this->db->query($sql);
-        $token = $query->rows[0]['data'];
-        return $token;
+        return $query->rows[0]['data'];
     }
 
     //Save order security token for guest
+
+    /**
+     * @param int $order_id
+     * @param string $token
+     *
+     * @throws AException
+     */
     public function saveGuestToken($order_id, $token)
     {
         $order_id = (int)$order_id;
 
         $sql = "SELECT DISTINCT `type_id`
-		    	FROM ".$this->db->table('order_data_types')."
-		    	WHERE `name`='guest_token'";
+                FROM ".$this->db->table('order_data_types')."
+                WHERE `name`='guest_token'";
         $result = $this->db->query($sql);
         $type_id = $result->rows[0]['type_id'];
         if ($type_id) {
             $sql = "REPLACE INTO ".$this->db->table('order_data')."
-			    	(`order_id`, `type_id`, `data`, `date_added`)
-			    	VALUES (".(int)$order_id.", ".(int)$type_id.", '".$this->db->escape($token)."', NOW() )";
+                    (`order_id`, `type_id`, `data`, `date_added`)
+                    VALUES (".(int)$order_id.", ".(int)$type_id.", '".$this->db->escape($token)."', NOW() )";
             $this->db->query($sql);
-        }
-    }
-
-    public function getTotalOrderDownloads($order_id, $customers_id)
-    {
-        if (method_exists($this->download, 'getTotalOrderDownloads')) {
-            return $this->download->getTotalOrderDownloads($order_id, $customers_id);
-        } else {
-            return $this->_get_total_order_downloads($order_id, $customers_id);
         }
     }
 
@@ -456,10 +501,15 @@ class ModelExtensionFastCheckout extends Model
      * @param int $order_id
      * @param int $customer_id
      *
-     * @return mixed
+     * @return int
+     * @throws AException
      */
-    protected function _get_total_order_downloads($order_id, $customer_id)
+    public function getTotalOrderDownloads($order_id, $customer_id)
     {
-        return sizeof($this->getCustomerOrderDownloads($order_id, $customer_id));
+        if (method_exists($this->download, 'getTotalOrderDownloads')) {
+            return $this->download->getTotalOrderDownloads($order_id, $customer_id);
+        } else {
+            return sizeof($this->getCustomerOrderDownloads($order_id, $customer_id));
+        }
     }
 }

@@ -39,6 +39,7 @@ define('DIR_ABANTECART', str_replace('\'', '/', realpath(DIR_APP_SECTION.'../'))
 
 // Startup
 require_once(DIR_ABANTECART.'system/config.php');
+require_once(DIR_CORE.'helper/utils.php');
 // New Installation? Redirect to install
 if (!defined('DB_DATABASE')) {
     header('Location: ../install/index.php');
@@ -83,7 +84,7 @@ if ($from_admin) {
     //read 100 lines backwards from the eof or less 
     $max_lines = 100;
     $max_bytes = filesize(DIR_ABANTECART."system/logs/error.txt");
-    $lines = array();
+    $lines = [];
     while ($count < $max_lines) {
         //read one line back
         while ($t != "\n") {
@@ -103,8 +104,7 @@ if ($from_admin) {
     $body = rawurlencode($log_contents_end.implode("", array_reverse($lines)));
 }
 
-?>
-<?php echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
+echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en" xml:lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -122,35 +122,42 @@ if ($from_admin) {
                 <?php echo $error; ?>
             </div>
             <br><br>
-            <center>
-                <?php
-                if ($from_admin) {
-                    ?>
+            <div style="text-align: center;">
+        <?php
+                if ($from_admin) { ?>
                     <div style="font-size: 16px;">
-                        <b><a href="mailto:help@abantecart.com?subject=<?php echo $subject ?>&body=<?php echo $body ?>">Report this problem to AbanteCart team (do not change email subject)</a></b>
+                        <b>
+                            <a href="mailto:help@abantecart.com?subject=<?php echo $subject ?>&body=<?php echo $body ?>">Report this problem to AbanteCart team (do not change email subject)</a>
+                        </b>
                     </div>
                     <br><br>
                     <?php
-                }
-                ?>
+                } ?>
                 <div>
-                    <b><a href="http://docs.abantecart.com/pages/tips/troubleshooting.html" target="_docs">Check AbanteCart Troubleshooting Guide</a></b>
+                    <b>
+                        <a href="http://docs.abantecart.com/pages/tips/troubleshooting.html" target="_docs">Check AbanteCart Troubleshooting Guide</a>
+                    </b>
                 </div>
                 <br><br>
                 <div>
-                    <b><a href="http://www.abantecart.com/contact-us" target="_abantecart">Need help? Contact for support</a></b>
+                    <b>
+                        <a href="http://www.abantecart.com/contact-us" target="_abantecart">Need help? Contact for support</a>
+                    </b>
                 </div>
 
                 <br><br>
                 <div>
                     <a href="<?php echo HTTP_ABANTECART; ?>">Go to main page</a>
                 </div>
-            </center>
+            </div>
         </div>
         <div id="content_bottom"></div>
     </div>
-    <div id="footer"><a onclick="window.open('http://www.abantecart.com');">Project Homepage</a>|<a onclick="window.open('http://docs.abantecart.com');">Documentation</a>|<a onclick="window.open('http://forum.abantecart.com');">Support Forums</a>|<a
-            onclick="window.open('http://marketplace.abantecart.com');">Marketplace</a></div>
+    <div id="footer">
+        <a onclick="window.open('http://www.abantecart.com');">Project Homepage
+        </a>|<a onclick="window.open('http://docs.abantecart.com');">Documentation
+        </a>|<a onclick="window.open('http://forum.abantecart.com');">Support Forums
+        </a>|<a onclick="window.open('http://marketplace.abantecart.com');">Marketplace</a></div>
 </div>
 </body>
 </html>

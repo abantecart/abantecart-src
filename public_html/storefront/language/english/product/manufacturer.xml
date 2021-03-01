@@ -6,11 +6,11 @@
 	</definition>
 	<definition>
 		<key>text_error</key>
-		<value><![CDATA[Manufacturer not found!]]></value>
+		<value><![CDATA[Brand not found!]]></value>
 	</definition>
 	<definition>
 		<key>text_empty</key>
-		<value><![CDATA[There are no products to list from this manufacturer.]]></value>
+		<value><![CDATA[There are no products to list from this brand.]]></value>
 	</definition>
 	<definition>
 		<key>text_stars</key>

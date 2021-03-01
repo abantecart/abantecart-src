@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,9 +23,9 @@ if (!defined('DIR_CORE')) {
 
 class ControllerResponsesEmbedGet extends AController
 {
-    public $data = array();
+    public $data = [];
     /**
-     * NOTE: main() is bootup method
+     * NOTE: main() is boot-up method
      */
     public function main()
     {
@@ -46,16 +46,17 @@ class ControllerResponsesEmbedGet extends AController
 
         $this->loadModel('catalog/product');
         $remote_store_url = $this->config->get('config_url');
-        $product_stores = $this->model_catalog_product->getProductStoresInfo( $_get['product_id'] );
+        $product_stores = $this->model_catalog_product->getProductStoresInfo( $_get['product_id'] ?? 0 );
 
         if ($product_stores && count($product_stores) == 1) {
             $remote_store_url = $product_stores[0]['store_url'];
         }
-        $remote_store_url = str_replace(array('http://', 'https://'), '//', $remote_store_url);
+        $remote_store_url = str_replace(['http://', 'https://'], '//', $remote_store_url);
         $this->data['sf_base_url'] = $remote_store_url;
         $this->data['sf_js_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/js';
-        $this->data['sf_css_embed_url'] =
-            $remote_store_url.'storefront/view/'.$this->config->get('config_storefront_template')
+        $this->data['sf_css_embed_url'] = $remote_store_url
+            .'storefront/view/'
+            .$this->config->get('config_storefront_template')
             .'/stylesheet/embed.css';
 
         $this->data['homepage'] = HTTPS_SERVER;
@@ -66,22 +67,23 @@ class ControllerResponsesEmbedGet extends AController
         }
         if ($this->data['params']['lang']) {
             $langObj = new ALanguage($this->registry, $this->data['params']['lang']);
-            if ($langObj->getLanguageDetails($this->data['params']['language'])) {
+            if ($langObj->getLanguageDetails($this->data['params']['lang'])) {
                 $this->registry->set('language', $langObj);
             }
             $this->data['params']['language'] = $this->data['params']['lang'];
             $this->data['params']['direction'] = $this->language->get('direction');
         }
         $template = '';
-        if ($_get['product_id']) {
+        if ($_get['product_id'] ?? null) {
             $template = 'embed/get_product_embed_code.tpl';
-        }elseif($_get['category_id']) {
+        }elseif($_get['category_id'] ?? null) {
             $template = 'embed/get_category_embed_code.tpl';
-        }elseif($_get['manufacturer_id']) {
+        }elseif($_get['manufacturer_id'] ?? null) {
             $template = 'embed/get_manufacturer_embed_code.tpl';
-        }elseif($_get['collection_id']) {
+        }elseif($_get['collection_id'] ?? null) {
             $template = 'embed/get_collection_embed_code.tpl';
         }
+
         if($template) {
             $this->view->setTemplate($template);
             $this->view->batchAssign($this->data);
@@ -100,9 +102,9 @@ class ControllerResponsesEmbedGet extends AController
         $query = parse_url($url, PHP_URL_QUERY);
 
         parse_str($query, $params);
-        $h = isset($params['height']) && (int)$params['height'] ? (int)$params['height'] : 450;
+        $h = (int)($params['height'] ?? 450);
 
-        $this->data['output'] = array(
+        $this->data['output'] = [
             "type"             => "rich",
             "version"          => "1.0",
             "title"            => "Embedded Abantecart Widget",
@@ -111,9 +113,9 @@ class ControllerResponsesEmbedGet extends AController
             "provider_version" => VERSION,
             'height'           => $h,
             'width'            => '100%',
-            "html"             => '<iframe src="'.$url.'" height="'.$h
-                .'" width="100%" frameborder="0" scrolling="auto" marginwidth="0" marginheight="0"></iframe>',
-        );
+            "html"             => '<iframe src="'.$url.'" height="'.$h.'" width="100%" frameborder="0" '
+                                .'scrolling="auto" marginwidth="0" marginheight="0"></iframe>',
+        ];
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 

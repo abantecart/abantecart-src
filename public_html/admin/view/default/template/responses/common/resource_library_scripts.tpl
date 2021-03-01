@@ -1,9 +1,12 @@
 <?php echo $this->html->buildElement(
-		array('type' => 'modal',
-				'id' => 'rl_modal',
-				'modal_type' => 'xlg',
-				'data_source' => 'ajax',
-				'title' => $text_resource_library)); ?>
+    [
+        'type'        => 'modal',
+        'id'          => 'rl_modal',
+        'modal_type'  => 'xlg',
+        'data_source' => 'ajax',
+        'title'       => $text_resource_library
+    ]
+); ?>
 
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/fileupload/jquery.fileupload-ui.js"></script>
@@ -13,17 +16,17 @@
 $('#rl_modal').appendTo('body'); <?php // move modal at the end of html-body. It needed for exclusion html-form of modal from page html-form?>
 
 var urls = {
-			resource_library: '<?php echo $rl_resource_library; ?>',
-			resources: '<?php echo $rl_resources; ?>',
-			resource_single: '<?php echo $rl_resource_single; ?>',
-			map: '<?php echo $rl_map; ?>',
-			unmap: '<?php echo $rl_unmap; ?>',
-			del: '<?php echo $rl_delete; ?>',
-			download: '<?php echo $rl_download; ?>',
-			upload: '<?php echo $rl_upload; ?>',
-			resource: '<?php echo HTTPS_DIR_RESOURCE; ?>'
-		},
-		default_type = '<?php echo $default_type["type_name"]; ?>';
+        resource_library: '<?php echo $rl_resource_library; ?>',
+        resources: '<?php echo $rl_resources; ?>',
+        resource_single: '<?php echo $rl_resource_single; ?>',
+        map: '<?php echo $rl_map; ?>',
+        unmap: '<?php echo $rl_unmap; ?>',
+        del: '<?php echo $rl_delete; ?>',
+        download: '<?php echo $rl_download; ?>',
+        upload: '<?php echo $rl_upload; ?>',
+        resource: '<?php echo HTTPS_DIR_RESOURCE; ?>'
+    },
+    default_type = '<?php echo $default_type["type_name"]; ?>';
 
 //vars for open modal.  will purge after modal close!
 var modalscope = {
@@ -34,103 +37,103 @@ var modalscope = {
 };
 
 var rl_error_handler = function(jqXHR){
-	//If 401 authentication issue redirect for user to login
-    if(jqXHR.status == 401){
+    //If 401 authentication issue redirect for user to login
+    if(jqXHR.status === 401){
         window.location.reload();
         return;
     }
-    
+
     //skip ajax aborted state error
     if (jqXHR.status === 0 || jqXHR.readyState === 0) {
         return;
     }
 
-	try {
-		var err = $.parseJSON(jqXHR.responseText);
+    try {
+        var err = $.parseJSON(jqXHR.responseText);
 
-		if (err.hasOwnProperty("error_text")) {
-			var errors = err.error_text;
-			var errlist = typeof errors === 'string' ? [errors] : errors;
+        if (err.hasOwnProperty("error_text")) {
+            var errors = err.error_text;
+            var errlist = typeof errors === 'string' ? [errors] : errors;
 
-			if (errlist.length > 0) {
-				for (var k in errlist) {
-					rl_error_alert(errlist[k], false);
-				}
-			}
-		}
-	} catch (e) {
-		rl_error_alert(jqXHR.responseText, false);
-	}
+            if (errlist.length > 0) {
+                for (var k in errlist) {
+                    rl_error_alert(errlist[k], false);
+                }
+            }
+        }
+    } catch (e) {
+        rl_error_alert(jqXHR.responseText, false);
+    }
 }
 
 /*
  Main resource library modal
  */
 var mediaDialog = function (type, action, id) {
-	//reset content of modal
-	$('#rl_modal .modal-body').html('');
-		
-	var src = urls.resource_library + '&action=' + action + '&type=' + type + '&mode=' + modalscope.mode;
-	if (id) {
-		src += '&resource_id=' + id;
-	}
-	if(modalscope.wrapper_id!=undefined && modalscope.wrapper_id!=null){
-		src += '&wrapper_id='+modalscope.wrapper_id;
-	}
-	if(modalscope.field_id!=undefined && modalscope.field_id!=null){
-		src += '&field_id='+modalscope.field_id;
-	}
-	reloadModal(src);
+    //reset content of modal
+    $('#rl_modal .modal-body').html('');
+
+    var src = urls.resource_library + '&action=' + action + '&type=' + type + '&mode=' + modalscope.mode;
+    if (id) {
+        src += '&resource_id=' + id;
+    }
+    if(modalscope.wrapper_id !== undefined && modalscope.wrapper_id !== null){
+        src += '&wrapper_id='+modalscope.wrapper_id;
+    }
+    if(modalscope.field_id !== undefined && modalscope.field_id !== null){
+        src += '&field_id='+modalscope.field_id;
+    }
+    reloadModal(src);
 };
 
 var sideDialog = function (type, action, id) {
-	//reset content of modal
-	$('#rl_dynamic_container').html('');
-	var src = urls.resource_library + '&action=' + action + '&type=' + type + '&mode=' + modalscope.mode;
-	if (id) {
-		src += '&resource_id=' + id;
-		//highlite resource in the list
-		$("#rl_container .thmb").removeClass('view_details');
-		$("#rl_container .thmb[data-rl-id='"+id+"']").addClass('view_details');
-	}
-	if(modalscope.wrapper_id!=undefined && modalscope.wrapper_id!=null){
-		src += '&wrapper_id='+modalscope.wrapper_id;
-	}
-	if(modalscope.field_id!=undefined && modalscope.field_id!=null){
-		src += '&field_id='+modalscope.field_id;
-	}
-	loadSection('#rl_dynamic_container', src);
+    //reset content of modal
+    $('#rl_dynamic_container').html('');
+    var src = urls.resource_library + '&action=' + action + '&type=' + type + '&mode=' + modalscope.mode;
+    if (id) {
+        src += '&resource_id=' + id;
+        //highlight resource in the list
+        $("#rl_container .thmb").removeClass('view_details');
+        $("#rl_container .thmb[data-rl-id='"+id+"']").addClass('view_details');
+    }
+    if(modalscope.wrapper_id !== undefined && modalscope.wrapper_id !== null){
+        src += '&wrapper_id='+modalscope.wrapper_id;
+    }
+    if(modalscope.field_id !== undefined && modalscope.field_id !== null){
+        src += '&field_id='+modalscope.field_id;
+    }
+    loadSection('#rl_dynamic_container', src);
 };
 
 var loadSection = function (section, URL) {
-	if(!section || !URL) {
-		return;
-	}
-	$(section).html('<div id="iframe_loading" class="center_div_abs"><i class="fa fa-spinner fa-spin fa-2x"></i></div>');
-	//ajax call to load dynamic rl side bar HTML
-	$.ajax({
-		url: URL,
-		type: 'GET',
-		dataType: 'html',
-		global: false,
-		success: function (html) {
-			//remove all open tooltips bootstrap work around
-			$(section + ' .tooltip.in').remove();
-			$(section).html('');
-			$(section).html(html);
-			//bind evend in the modal
-			bindCustomEvents(section);
-			bind_rl(section);
-		},
-		error: rl_error_handler
-	});
+    if(!section || !URL) {
+        return;
+    }
+    $(section).html('<div id="iframe_loading" class="center_div_abs"><i class="fa fa-spinner fa-spin fa-2x"></i></div>');
+    //ajax call to load dynamic rl side bar HTML
+    $.ajax({
+        url: URL,
+        type: 'GET',
+        dataType: 'html',
+        global: false,
+        success: function (html) {
+            //remove all open tooltips bootstrap work around
+            $(section + ' .tooltip.in').remove();
+            $(section).html('');
+            $(section).html(html);
+            //bind evend in the modal
+            bindCustomEvents(section);
+            bind_rl(section);
+        },
+        error: rl_error_handler
+    });
 }
 
 var reloadModal = function (URL) {
 	var section = '#rl_modal .modal-body';
 	//main ajax call to load rl content
 	$(section).html('<div id="iframe_loading" class="center_div_abs"><i class="fa fa-spinner fa-spin fa-2x"></i></div>');
-	
+
 	$.ajax({
 		url: URL,
 		type: 'GET',
@@ -151,10 +154,10 @@ var reloadModal = function (URL) {
 					//reload original media list to show new selections
 					//not for URL mode
 					$(section).html('');
-					if (modalscope.mode != 'single') {
+					if (modalscope.mode !== 'single') {
 						<?php 	foreach ($types as $type) { ?>
 						loadMedia('<?php echo $type['type_name']?>', modalscope.wrapper_id);
-						<?php 	} ?>
+						<?php } ?>
 					}
 					//if any other modal is open, make it active
 					if (isModalOpen()) {
@@ -211,7 +214,7 @@ var loadMedia = function (type, wrapper) {
 			}
 			$(json.items).each(function (index, item) {
 				var src = '';
-				if (type == 'image' && item['resource_code']) {
+				if (type === 'image' && item['resource_code']) {
 					src = '<div class="html rl_large_icon">' + item['thumbnail_url'] + '</div>';
 				}else if(item['resource_code']){
 					src = '<div class="html rl_large_icon"><i class="fa fa-code fa-lg"></i></div>';
@@ -219,11 +222,12 @@ var loadMedia = function (type, wrapper) {
 					<?php // variable t needs to prevent browser caching in case of replacement of file of resource?>
 					src = '<img onerror="imgError(this);" class="img-responsive" src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
 				}
-				
+
 				html += '<div class="col-md-1 col-sm-2 col-xs-6 reslibrary_block">';
-				html += '<div class="center thumbnail" id="image_row' + item['resource_id'] + '" >\
-                <a class="btn resource_edit" '+data_mode+' data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">' + src + '</a></div>';
-				
+				html += '<div class="center thumbnail" id="image_row' + item['resource_id']
+                    + '" ><a class="btn resource_edit" '+data_mode+' data-type="'
+                        + type + '" data-rl-id="' + item['resource_id'] + '">' + src + '</a></div>';
+
 				//do not show if no object id
 				if( json.object_id ){
 					html += '<div class="caption center">';
@@ -237,8 +241,8 @@ var loadMedia = function (type, wrapper) {
 							'data-confirmation="delete" ' +
 							'data-confirmation-text="<?php echo_html2view($text_confirm_unmap) ?>" ' +
 							'onclick="unmap_resource(' + item['resource_id'] + ',\'' + json.object_name + '\',\'' + json.object_id + '\');"><i class="fa fa-unlink"></i></a>';
-	
-					if (item['can_delete'] == true) {
+
+					if (item['can_delete'] === true) {
 						html += '<a class="btn resource_delete tooltips" data-rl-id="' + item['resource_id'] + '" ' +
 								'data-original-title="<?php echo_html2view($button_delete); ?>" ' +
 								'data-confirmation="delete" ' +
@@ -247,12 +251,16 @@ var loadMedia = function (type, wrapper) {
 					}
 					html += '</div>';
 				} else {
-					html += '<div class="caption center ellipsis"><a href="#" class="resource_edit" '+data_mode+' data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">'+item['name']+'</a></div><br />';
+					html += '<div class="caption center ellipsis">';
+					if(item.name) {
+                       html += '<a href="#" class="resource_edit" ' + data_mode + ' data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">' + item['name'] + '</a>';
+                    }
+					html+= '</div><br />';
 				}
 				html += '</div></div>';
 			});
 
-			//check if more available 
+			//check if more available
 			if(json.total > json.limit) {
 				html += '<div class="col-md-1 col-sm-2 col-xs-6 reslibrary_block">' +
 						'<div class="center thumbnail">';
@@ -260,7 +268,7 @@ var loadMedia = function (type, wrapper) {
 				html += '<div class="caption center ellipsis"><a href="#" class="list_maped_resources resource_edit" '+data_mode+' data-type="' + type + '"><?php echo_html2view($text_view_more) ?></a></div><br />';
 				html += '</div>';
 			}
-		
+
 			html += '<div class="col-md-1 col-sm-2 col-xs-6 reslibrary_block">' +
 					'<div class="center thumbnail fileupload_drag_area">' +
 					'<form action="<?php echo $rl_upload; ?>&type=' + type + '" method="POST" enctype="multipart/form-data"><input type="file" name="files[]" multiple="" class="hide">';
@@ -281,134 +289,139 @@ var loadMedia = function (type, wrapper) {
 
 
 var loadSingle = function (type, wrapper_id, resource_id, field) {
-	if (!wrapper_id || wrapper_id == undefined || wrapper_id == null || wrapper_id == '') {
-		wrapper_id = modalscope.wrapper_id;
-	} else {
-		modalscope.wrapper_id = wrapper_id;
-	}
-	if (!field || field == undefined || field == null || field == '') {
-		field = modalscope.field_id;
-	} else {
-		modalscope.field_id = field;
-	}
+    if (!wrapper_id || wrapper_id === '') {
+        wrapper_id = modalscope.wrapper_id;
+    } else {
+        modalscope.wrapper_id = wrapper_id;
+    }
+    if (!field || field === '') {
+        field = modalscope.field_id;
+    } else {
+        modalscope.field_id = field;
+    }
 
-	$.ajax({
-		url: urls.resource_single + '&resource_id=' + resource_id,
-		type: 'GET',
-		//disable async-mode by cause of slow connections via proxies (limit for connections count at the same time)
-		async: false,
-		data: { type: type },
-		dataType: 'json',
-		global: false,
-		success: function (item) {
-			var html = '';
-			if (item != null) {
-				var t = new Date().getTime();
-				var src = '';
-				if (type == 'image' && item['resource_code']) {
-					src = item['thumbnail_url']
-				} else {
-					<?php // variable t needs to prevent browser caching in case of replacement of file of resource?>
-					src = '<img onerror="imgError(this);" class="img-responsive" src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
-				}
+    $.ajax({
+        url: urls.resource_single + '&resource_id=' + resource_id,
+        type: 'GET',
+        //disable async-mode by cause of slow connections via proxies (limit for connections count at the same time)
+        async: false,
+        data: { type: type },
+        dataType: 'json',
+        global: false,
+        success: function (item) {
+            var html = '';
+            if (item != null) {
+                var t = new Date().getTime();
+                var src = '';
+                if (type === 'image' && item.resource_code) {
+                    src = item.thumbnail_url
+                } else {
+                    <?php // variable t needs to prevent browser caching in case of replacement of file of resource?>
+                    src = '<img onerror="imgError(this);" class="img-responsive" src="' + item.thumbnail_url + '?t=' + t + '" title="' + item.name + '" />';
+                }
 
-				html += '<div class="resource_single col-sm-6 col-xs-12 text-center">';
-				html += '<div class="thumbnail fileupload_drag_area" id="image_row' + item['resource_id'] + '" >'+
-						'<a class="btn resource_edit" ' +
-								'data-mode="single" ' +
-								'data-type="' + type + '" ' +
-								'data-wrapper_id="' + wrapper_id + '" ' +
-								'data-field="' + field + '" ' +
-								'data-rl-id="' + item['resource_id'] + '">' + src + '</a></div>';
+                html += '<div class="resource_single col-sm-6 col-xs-12 text-center">';
+                html += '<div class="thumbnail fileupload_drag_area" id="image_row' + item.resource_id + '" >'+
+                        '<a class="btn resource_edit" ' +
+                                'data-mode="single" ' +
+                                'data-type="' + type + '" ' +
+                                'data-wrapper_id="' + wrapper_id + '" ' +
+                                'data-field="' + field + '" ' +
+                                'data-rl-id="' + item.resource_id + '">' + src + '</a></div>';
 
-				html += '<a class="btn resource_delete tooltips" data-rl-id="' + item['resource_id'] + '" ' +
-						'data-original-title="<?php echo_html2view($button_delete) ?>" ' +
-						'><i class="fa fa-times"></i>&nbsp;<?php echo $button_remove?></a>';
-				html += '</div>';
-				var resource_uri = '';
-				if(item['resource_path'].length > 0){
-					resource_uri =  item['type_name'] + '/' + item['resource_path'];
-				}else{
-					resource_uri = item['resource_id'];
-				}
-				$('#' + field).val(resource_uri);
-				$('#'+field+'_resource_id').val(item['resource_id']);
-				$('#'+field+'_resource_code').val(item['resource_code']);
+                html += '<a class="btn resource_delete tooltips" data-rl-id="' + item.resource_id + '" ' +
+                        'data-original-title="<?php echo_html2view($button_delete) ?>" ' +
+                        '><i class="fa fa-times"></i>&nbsp;<?php echo $button_remove?></a>';
+                html += '</div>';
+                var resource_uri = '';
+                if(item.resource_path && item.resource_path.length > 0){
+                    resource_uri =  item.type_name + '/' + item.resource_path;
+                }else{
+                    resource_uri = item.resource_id;
+                }
+                // if not tinymce-mode
+                if(field.length>0) {
+                    $('#' + field).val(resource_uri);
+                    $('#' + field + '_resource_id').val(item.resource_id);
+                    $('#' + field + '_resource_code').val(item.resource_code);
+                }
 
-				//add item properties for single mode for CKE
-				if($('#RlFrm_image_size').length>0){
-					var dim = $('#RlFrm_image_size').val().split('_');
-					item['width'] = dim[0];
-					item['height'] = dim[1];
-					//check title to paste it into alt attribute
-					if(item['title'].length<1 && $('#RlFrm_title').val().length>0){
-						item['title'] = $('#RlFrm_title').val();
-					}
-				}
+                //add item properties for single mode for wyswyg
+                if($('#RlFrm_image_size').length > 0){
+                    var dim = $('#RlFrm_image_size').val().split('_');
+                    item.width = dim[0];
+                    item.height = dim[1];
+                    //check title to paste it into alt attribute
+                    if(item.title.length<1 && $('#RlFrm_title').val().length>0){
+                        item.title = $('#RlFrm_title').val();
+                    }
+                }
 
-				modalscope.selected_resource = item;
+                modalscope.selected_resource = item;
 
-			} else {
-				html = '<div class="resource_single col-sm-6 col-xs-12"><div class="center thumbnail fileupload_drag_area" >';
-				html += '<a class="btn resource_add tooltips transparent" ' +
-						'data-mode="single" ' +
-						'data-type="' + type + '" ' +
-						'data-wrapper_id="' + wrapper_id + '" ' +
-						'data-field="' + field + '" ' +
-						'data-original-title="<?php echo_html2view($text_add_media) ?>"><img src="<?php echo $template_dir . 'image/icons/icon_add_media.png'; ?>" alt="<?php echo_html2view($text_add_media); ?>" width="100" /></a>';
-				html += '</div></div>';
+            } else {
+                html = '<div class="resource_single col-sm-6 col-xs-12"><div class="center thumbnail fileupload_drag_area" >';
+                html += '<a class="btn resource_add tooltips transparent" ' +
+                        'data-mode="single" ' +
+                        'data-type="' + type + '" ' +
+                        'data-wrapper_id="' + wrapper_id + '" ' +
+                        'data-field="' + field + '" ' +
+                        'data-original-title="<?php echo_html2view($text_add_media) ?>"><img src="<?php echo $template_dir . 'image/icons/icon_add_media.png'; ?>" alt="<?php echo_html2view($text_add_media); ?>" width="100" /></a>';
+                html += '</div></div>';
 
-				$('#'+field).val('');
-				$('#'+field+'_resource_id').val('');
-				$('#'+field+'_resource_code').val('');
-				modalscope.selected_resource = {};
-			}
-			$('#' + wrapper_id).html(html);
-			$('#' + wrapper_id).find('.resource_delete').on('click', function(){
-				loadSingle(type, wrapper_id, null, field);
-			});
-			//mark as changed
-			var changed = '';
-			if($('#'+field).attr('data-orgvalue') != $('#'+field).val()) {
-				$('#' + wrapper_id).find('.resource_single .thumbnail').addClass('changed');
-				$('#'+field).parents('form').prop('changed', 'true');
+                $('#'+field).val('');
+                $('#'+field+'_resource_id').val('');
+                $('#'+field+'_resource_code').val('');
+                modalscope.selected_resource = {};
+            }
+            // if not tinymce-mode
+            if(field.length>0) {
+                $('#' + wrapper_id).html(html)
+                    .find('.resource_delete').on('click', function () {
+                    loadSingle(type, wrapper_id, null, field);
+                });
+                //mark as changed
+                var changed = '';
+                if ($('#' + field).attr('data-orgvalue') !== $('#' + field).val()) {
+                    $('#' + wrapper_id).find('.resource_single .thumbnail').addClass('changed');
+                    $('#' + field).parents('form').prop('changed', 'true');
 
-			}
-		},
-		error: rl_error_handler
-	});
-
+                }
+            }
+        },
+        error: rl_error_handler
+    });
 }
 
 jQuery(function () {
 
-	<?php
-	if($onload){
-		foreach ($types as $type) { ?>
-			loadMedia('<?php echo $type['type_name']?>');
-		<?php }
-	}?>
+    <?php
+    if($onload){
+        foreach ($types as $type) { ?>
+            loadMedia('<?php echo $type['type_name']?>');
+        <?php }
+    }?>
 
-	//generic mode to list all resources
-	$(document).on("click", 'a.list_resources', function () {
-		mediaDialog($(this).attr('data-type'), 'list_library');
-		sideDialog($(this).attr('data-type'), 'add');
-		return false;
-	});
+    //generic mode to list all resources
+    $(document).on("click", 'a.list_resources', function () {
+        mediaDialog($(this).attr('data-type'), 'list_library');
+        sideDialog($(this).attr('data-type'), 'add');
+        return false;
+    });
 
-	//mode to list maped resources
-	$(document).on("click", 'a.list_maped_resources', function () {
-		mediaDialog($(this).attr('data-type'), 'list_object');
-		sideDialog($(this).attr('data-type'), 'add');
-		return false;
-	});
+    //mode to list maped resources
+    $(document).on("click", 'a.list_maped_resources', function () {
+        mediaDialog($(this).attr('data-type'), 'list_object');
+        sideDialog($(this).attr('data-type'), 'add');
+        return false;
+    });
 
 	$(document).on('click', 'a.resource_add', function () {
 		//set here mode based on link attribute (in case when we have a few RL single elements in the form)
 		modalscope.mode = $(this).attr('data-mode') ? $(this).attr('data-mode') : '';
 		var list_type = 'list_object';
-		
-		if(modalscope.mode=='single'){
+
+		if(modalscope.mode === 'single'){
 			if( $(this).attr('data-wrapper_id')){
 				modalscope.wrapper_id = $(this).attr('data-wrapper_id');
 			}
@@ -416,9 +429,9 @@ jQuery(function () {
 				modalscope.field_id = $(this).attr('data-field');
 			}
 			list_type = 'list_library';
-		} else if(modalscope.mode=='list_all'){
+		} else if(modalscope.mode === 'list_all'){
 			//list all resources mode
-			list_type = 'list_library';			
+			list_type = 'list_library';
 		}
 
 		mediaDialog($(this).attr('data-type'), list_type);
@@ -430,25 +443,25 @@ jQuery(function () {
 		//set here mode based on link attribute (in case when we have a few RL single elements in the form)
 		modalscope.mode = $(this).attr('data-mode') ? $(this).attr('data-mode') : '';
 		var list_type = 'list_object';
-		
-		if(modalscope.mode=='single'){
-			if( $(this).attr('data-wrapper_id')!=undefined ){
+
+		if(modalscope.mode === 'single'){
+			if( $(this).attr('data-wrapper_id') !== undefined ){
 				modalscope.wrapper_id = $(this).attr('data-wrapper_id');
 			}
 			if( $(this).attr('data-field') ){
 				modalscope.field_id = $(this).attr('data-field');
 			}
 			list_type = 'list_library';
-		} else if(modalscope.mode=='list_all'){
+		} else if(modalscope.mode === 'list_all'){
 			//list all resources mode
-			list_type = 'list_library';			
+			list_type = 'list_library';
 		} else{
 			modalscope.wrapper_id = $(e.relatedTarget).parents('.type_blocks');
 		}
 
 		if (!isModalOpen('#rl_modal')) {
 			//if new open of modal, load modal together with sidebar
-			mediaDialog($(this).attr('data-type'), list_type, $(this).attr('data-rl-id'));			
+			mediaDialog($(this).attr('data-type'), list_type, $(this).attr('data-rl-id'));
 		}
 		//load sidebar for edit
 		sideDialog($(this).attr('data-type'), 'update', $(this).attr('data-rl-id'));
@@ -487,11 +500,11 @@ jQuery(function () {
 
 
 function map_resource(rl_id, object_name, object_id) {
-	if (rl_id == null || rl_id == '') {
+	if (rl_id == null || rl_id === '') {
 		return false;
 	}
 	var URL = urls.map + '&resource_id=' + rl_id + '&mode=' + modalscope.mode + '&type=' + $('#library').attr('data-type');
-	if (object_name != undefined && object_name != null && object_name.length > 0) {
+	if (object_name !== undefined && object_name !== null && object_name.length > 0) {
 		URL += '&object_name=' + object_name + '&object_id=' + object_id;
 	}
 	$.ajax({
@@ -512,11 +525,11 @@ function map_resource(rl_id, object_name, object_id) {
 }
 
 function unmap_resource(rl_id, object_name, object_id) {
-	if (rl_id == null || rl_id == '') {
+	if (rl_id == null || rl_id === '') {
 		return false;
 	}
 	var URL = urls.unmap + '&resource_id=' + rl_id + '&mode=' + modalscope.mode + '&type=' + $('#library').attr('data-type');
-	if (object_name != undefined && object_name != null && object_name.length > 0) {
+	if (object_name !== undefined && object_name !== null && object_name.length > 0) {
 		URL += '&object_name=' + object_name + '&object_id=' + object_id;
 	}
 	$.ajax({
@@ -537,7 +550,7 @@ function unmap_resource(rl_id, object_name, object_id) {
 }
 
 function delete_resource(rl_id, object_name, object_id) {
-	if (rl_id == null || rl_id == '') {
+	if (rl_id == null || rl_id === '') {
 		return false;
 	}
 	var URL = urls.del + '&resource_id=' + rl_id;
@@ -556,7 +569,7 @@ function delete_resource(rl_id, object_name, object_id) {
 			}
 			if (isModalOpen()) {
 				var type = $('#RlFrm_type').val();
-				if(type==undefined){
+				if(type === undefined){
 					type = $('#library').attr('data-type');
 				}
 				mediaDialog(type, 'list_library');
@@ -603,7 +616,7 @@ var bind_rl = function (elm) {
 	});
 
 	$obj.find('.thmb .checksign').click(function () {
-		if (modalscope.mode == 'single') {
+		if (modalscope.mode === 'single') {
 			//get RL ID from check box value
 			var rl_id = $(this).val();
 
@@ -634,7 +647,7 @@ var bind_rl = function (elm) {
 	});
 
 	$obj.find('#rl_selectall').click(function () {
-		if (modalscope.mode == 'single') {
+		if (modalscope.mode === 'single') {
 			return false;
 		}
 
@@ -659,13 +672,13 @@ var bind_rl = function (elm) {
 		var tab = active_tab();
 		var tab_id = tab.attr('id');
 		var rl_id;
-		if (tab_id == 'resource') {
+		if (tab_id === 'resource') {
 			rl_id = tab.attr('data-rl-id');
 		} else {
 			rl_id = $(this).attr('data-rl-id');
 		}
 
-		if (rl_id < 1 || rl_id == 'undefined') {
+		if (rl_id < 1 || rl_id === 'undefined') {
 			return false;
 		}
 		var reload_url = $("#rl_container").attr('data-current-url');
@@ -675,7 +688,7 @@ var bind_rl = function (elm) {
 
 		//reload modal dialog if only mapping. If need to save at the same time - just return false
 		if(!$(this).hasClass('rl_save')) {
-			if (tab_id == 'resource') {
+			if (tab_id === 'resource') {
 				mediaDialog(type, 'list_object', rl_id);
 				sideDialog(type, 'update', rl_id);
 			} else {
@@ -688,7 +701,7 @@ var bind_rl = function (elm) {
 	});
 
 	$obj.find('.rl_link_multiple').click(function () {
-		if (modalscope.mode == 'single') {
+		if (modalscope.mode === 'single') {
 			return false;
 		}
 		multi_action('map');
@@ -697,7 +710,7 @@ var bind_rl = function (elm) {
 
 	$obj.find('.rl_unlink').click(function () {
 		var rl_id = $(this).attr('data-rl-id');
-		if (rl_id < 1 || rl_id == 'undefined') {
+		if (rl_id < 1 || rl_id === 'undefined') {
 			return false;
 		}
 		var reload_url = $("#rl_container").attr('data-current-url');
@@ -705,7 +718,7 @@ var bind_rl = function (elm) {
 
 		unmap_resource(rl_id);
 		var tab = active_tab();
-		if (tab.attr('id') == 'resource') {
+		if (tab.attr('id') === 'resource') {
 			mediaDialog(type, 'list_object', rl_id);
 			sideDialog(type, 'update', rl_id);
 		} else {
@@ -723,7 +736,7 @@ var bind_rl = function (elm) {
 	});
 
 	$obj.find('.rl_select').click(function () {
-		if (modalscope.mode == 'single') {	
+		if (modalscope.mode === 'single') {
 			var rl_id = $(this).attr('data-rl-id');
 			//reload media and mark for save
 			loadSingle($('#library').attr('data-type'), modalscope.wrapper_id, rl_id, modalscope.field_id);
@@ -735,14 +748,14 @@ var bind_rl = function (elm) {
 	});
 
 	$obj.find('.rl_save').click(function () {
-		//save rl details. 
+		//save rl details.
 		var datastring = $('.edit_resource_form').find('[id^="RlFrm_"]').serialize();
 
 		var type = $('#type').val();
-		if (type == undefined) {
+		if (type === undefined) {
 			type = $('#rl_types').val();
 		}
-		if (type == undefined) {
+		if (type === undefined) {
 			type = $('#library').attr('data-type');
 		}
 		var src = urls.resource_library + '&type=' + type;
@@ -774,19 +787,18 @@ var bind_rl = function (elm) {
 			//reload listing page (whole modal)
 			reloadModal($("#rl_container").attr('data-current-url'));
 			//reload edit pane
-			sideDialog(type, 'update', rid);			
+			sideDialog(type, 'update', rid);
 		}
-		
 		return false;
 	});
 
 	$obj.find('.rl_save_multiple').click(function () {
-		if (modalscope.mode == 'single') {
+		if (modalscope.mode === 'single') {
 			return false;
 		}
 
 		var thmbs = $('div.thmb.checked');
-		if (thmbs.length == 0) {
+		if (thmbs.length === 0) {
 			return false;
 		}
 
@@ -808,12 +820,12 @@ var bind_rl = function (elm) {
 			error: rl_error_handler
 		});
 		reloadModal($("#rl_container").attr('data-current-url'));
-		sideDialog(type, 'add');			
+		sideDialog(type, 'add');
 		return false;
 	});
 
 	$obj.find('.rl_reset').click(function () {
-		//reset rl details. 
+		//reset rl details.
 		var type = $('#RlFrm_type').val();
 		var rid = $('#RlFrm_resource_id').val();
 		//see what tab is now active
@@ -831,8 +843,8 @@ var bind_rl = function (elm) {
 	});
 
 	<?php
-	   //NOTE! all events for deleting of resource see inside resource_library.tpl and resource_library_edit.tpl in attribute "onclick"
-	   // It maden so because user must to confirm action by another js-click-event
+    //NOTE! all events for deleting of resource see inside resource_library.tpl and resource_library_edit.tpl in attribute "onclick"
+    // was made so because user must to confirm action by another js-click-event
 	?>
 	$obj.find('.rl_download').click(function () {
 		var rl_id = $(this).attr('data-rl-id');
@@ -864,7 +876,7 @@ var bind_rl = function (elm) {
 	//hook to switch language
 	$obj.find('.content_language_form').one("submit", function (e) {
 		//grab the event and do not call default language submit
-		e.preventDefault(); 
+		e.preventDefault();
 		var $elm = $obj.find('.content_language_form');
     	$elm.closest('.content_language').removeClass('open');
 		var $inputs = $elm.find(':input');
@@ -879,7 +891,7 @@ var bind_rl = function (elm) {
 		reloadModal(url);
 		//reload side panel
 		if(rl_id) {
-			sideDialog(type, 'update', rl_id);		
+			sideDialog(type, 'update', rl_id);
 		} else {
 			sideDialog(type, 'add');
 		}
@@ -894,10 +906,9 @@ var bind_rl = function (elm) {
 		var url = $("#rl_container").attr('data-current-url')+ '&type=' + new_type;
 		reloadModal(url);
 		sideDialog(new_type, 'add');
-		
 		return false;
 	});
-	
+
 }
 
 
@@ -929,10 +940,10 @@ var active_tab = function () {
 
 var multi_action = function (action) {
 	var thmbs = $('div.thmb.checked');
-	if (thmbs.length == 0) {
+	if (thmbs.length === 0) {
 		return false;
 	}
-	if (action != 'map' && action != 'unmap' && action != 'delete') {
+	if (action !== 'map' && action !== 'unmap' && action !== 'delete') {
 		return false;
 	}
 
@@ -962,10 +973,10 @@ var multi_action = function (action) {
 	var reload_url = $("#rl_container").attr('data-current-url');
 	if(reload_url) {
 		reloadModal(reload_url);
-		sideDialog($(this).attr('data-type'), 'add');		
+		sideDialog($(this).attr('data-type'), 'add');
 	} else {
 		// reload modal with object's resources
-		active_tab().click(); 
+		active_tab().click();
 	}
 }
 
@@ -1000,43 +1011,47 @@ jQuery(function () {
 			URL = urls.upload+'&type='+$('div.fileupload_drag_area').find('a.btn').attr('data-type');
 		}
 
-		var jqXHR = $.ajax({
-			xhr: function() {
-					var xhrobj = $.ajaxSettings.xhr();
-		                if (xhrobj.upload) {
-						xhrobj.upload.addEventListener('progress', function (event) {
-		                                        var percent = 0;
-		                                        var position = event.loaded || event.position;
-		                                        var total = event.total;
-		                                        if (event.lengthComputable) {
-		                                            percent = Math.ceil(position / total * 100);
-		                                        }
-		                                        //Set progress
-		                                        status.setProgress(percent);
-		                                    }, false);
-		            } else {
-		                console.log("Uploadress is not supported.");
-		            }
-		            return xhrobj;
-		        },
-			url: URL,
-			type: "POST",
-			contentType: false,
-			processData: false,
-			cache: false,
-			async: false,
-			data: formData,
-			datatype: 'json',
+        var jqXHR = $.ajax({
+            xhr: function() {
+                    var xhrobj = $.ajaxSettings.xhr();
+                        if (xhrobj.upload) {
+                        xhrobj.upload.addEventListener(
+                            'progress',
+                            function (event) {
+                                var percent = 0;
+                                var position = event.loaded || event.position;
+                                var total = event.total;
+                                if (event.lengthComputable) {
+                                    percent = Math.ceil(position / total * 100);
+                                }
+                                //Set progress
+                                status.setProgress(percent);
+                            },
+                            false
+                        );
+                    } else {
+                        console.log("Uploadress is not supported.");
+                    }
+                    return xhrobj;
+               },
+            url: URL,
+            type: "POST",
+            contentType: false,
+            processData: false,
+            cache: false,
+            async: false,
+            data: formData,
+            datatype: 'json',
 
-			success: function (data) {
-				response = data[0];
-				status.setProgress(100);
-			}
-		});
+            success: function (data) {
+                response = data[0];
+                status.setProgress(100);
+            }
+        });
 
-		/* status.setAbort(jqXHR); */
-		return response;
-	}
+        /* status.setAbort(jqXHR); */
+        return response;
+    }
 
 	var rowCount = 0;
 	var createStatusbar = function (obj) {
@@ -1047,13 +1062,11 @@ jQuery(function () {
 		this.progressBar = $('<div class="progress col-sm-4"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">loading</div></div>').appendTo(this.statusbar);
 		/*
 			TODO: Fix progress bar and upload abort feature
-			this.abort = $('<a class="remove btn btn-xs btn-danger-alt tooltips" data-original-title="Abort" title="Abort"><i class="fa fa-minus-circle"></i></a>').appendTo(this.statusbar);	
+			this.abort = $('<a class="remove btn btn-xs btn-danger-alt tooltips" data-original-title="Abort" title="Abort"><i class="fa fa-minus-circle"></i></a>').appendTo(this.statusbar);
 		*/
 
 		this.abort = $('').appendTo(this.statusbar);
-
 		this.statusbar.appendTo(obj);
-
 		this.setFileNameSize = function (name, size) {
 			var sizeStr = "";
 			var sizeKB = size / 1024;
@@ -1085,7 +1098,7 @@ jQuery(function () {
 		var e = 0;
 		//set type of resource for upload etc
 		var rl_type = $('#resource_types_tabs li.active').attr('data-type');
-		if(rl_type==undefined){
+		if(rl_type === undefined){
 			rl_type = $('#library').attr('data-type');
 		}
 		if(!rl_type){
@@ -1110,21 +1123,21 @@ jQuery(function () {
 			}
 		}
 
-		if ((rl_type == undefined || rl_type.length < 1) && response.hasOwnProperty('type')) {
+		if ((rl_type === undefined || rl_type.length < 1) && response.hasOwnProperty('type')) {
 			rl_type = response.type;
 		}
 
 		var list_type = 'list_object';
-		if(modalscope.mode=='single' || modalscope.mode=='list_all'){
+		if(modalscope.mode === 'single' || modalscope.mode === 'list_all'){
 			list_type = 'list_library';
 		}
 
-		if (e != files.length) {
+		if (e !== files.length) {
 			if (files.length > 1) {
 				mediaDialog(rl_type, list_type);
 				sideDialog(rl_type, 'add');
 			} else {
-				if( modalscope.mode=='single'){
+				if( modalscope.mode === 'single'){
 					loadSingle(rl_type, modalscope.wrapper_id, response.resource_id, modalscope.field_id);
 				}
 				mediaDialog(rl_type, list_type, response.resource_id);
@@ -1174,7 +1187,7 @@ jQuery(function () {
 		e.preventDefault();
 		var files = e.originalEvent.dataTransfer.files;
 		var btn = o.find('a.btn');
-		//check if modal is open and we have details 
+		//check if modal is open and we have details
 		if (!modalscope.mode ) {
 			//enable single mode based on attribute
 			modalscope.mode = btn.attr('data-mode') ? btn.attr('data-mode') : modalscope.mode;
@@ -1183,7 +1196,7 @@ jQuery(function () {
 		modalscope.field_id = btn.attr('data-field');
 
 		//if replacement of file - take only first dragged file
-		if ($('div.fileupload_drag_area').attr('data-upload-type') == 'single') {
+		if ($('div.fileupload_drag_area').attr('data-upload-type') === 'single') {
 			files = [files[0]];
 		}
 

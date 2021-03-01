@@ -80,11 +80,15 @@
 	<definition>
 		<key>entry_total</key>
 		<value>
-			<![CDATA[Total Amount:<br /><span class="help">The sub-total amount that must reached before the coupon is valid.</span>]]></value>
+			<![CDATA[Total Amount:<br/><span class="help">The sub-total amount that must reached before the coupon is valid.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_category</key>
+		<value><![CDATA[Categories:<br/><span class="help">Apply Coupon When Products From One Of Selected Categories.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_product</key>
-		<value><![CDATA[Selected Products:]]></value>
+		<value><![CDATA[Products:<br/><span class="help">Apply Coupon When Cart Contains One Of Selected Products.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_date_start</key>
@@ -131,5 +135,17 @@
 	<definition>
 		<key>error_date</key>
 		<value><![CDATA[Please set date range!]]></value>
+	</definition>
+	<definition>
+		<key>text_select_category</key>
+		<value><![CDATA[- Select Category -]]></value>
+	</definition>
+	<definition>
+		<key>text_or</key>
+		<value><![CDATA[OR]]></value>
+	</definition>
+	<definition>
+		<key>text_and</key>
+		<value><![CDATA[AND]]></value>
 	</definition>
 </definitions>

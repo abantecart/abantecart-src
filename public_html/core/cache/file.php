@@ -343,10 +343,17 @@ class ACacheDriverFile extends ACacheDriver
 
         // If the folder doesn't exist try to create it
         if (!is_dir($dir)) {
-            // Make sure the index file is there
-            $indexFile = $dir.'/index.php';
-            if (mkdir($dir, 0777, true)) {
-                file_put_contents($indexFile, "<?php die('Restricted Access!'); ?>");
+            if(file_exists($dir)){
+                $log = Registry::getInstance()->get('log');
+                if($log){
+                    $log->write(__CLASS__.' Error: Tried to create directory '.$dir.' but it exists and not a directory!');
+                }
+            }else {
+                // Make sure the index file is there
+                $indexFile = $dir.'/index.php';
+                if (mkdir($dir, 0777, true)) {
+                    file_put_contents($indexFile, "<?php die('Restricted Access!'); ?>");
+                }
             }
         }
 

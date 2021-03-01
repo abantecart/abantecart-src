@@ -35,6 +35,8 @@ if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] 
     define('HTTPS', true);
 } elseif (isset($_SERVER['HTTP_X_FORWARDED_SERVER']) && ($_SERVER['HTTP_X_FORWARDED_SERVER'] == 'secure' || $_SERVER['HTTP_X_FORWARDED_SERVER'] == 'ssl')) {
     define('HTTPS', true);
+} elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+    define('HTTPS', true);
 } elseif (isset($_SERVER['SCRIPT_URI']) && (substr($_SERVER['SCRIPT_URI'], 0, 5) == 'https')) {
     define('HTTPS', true);
 } elseif (isset($_SERVER['HTTP_HOST']) && (strpos($_SERVER['HTTP_HOST'], ':443') !== false)) {
@@ -67,6 +69,9 @@ Mustache_Autoloader::register();
 // SEO URL Keyword separator
 define('SEO_URL_SEPARATOR', '-');
 
+//root category ID
+define('ROOT_CATEGORY_ID',0);
+
 // EMAIL REGEXP PATTERN
 define('EMAIL_REGEX_PATTERN', '/^[A-Z0-9._%-]+@[A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,16}$/i');
 
@@ -78,10 +83,10 @@ require_once(DIR_CORE.'/lib/error.php');
 require_once(DIR_CORE.'/lib/warning.php');
 
 //define rt - route for application controller
-if ($_GET['rt']) {
+if (isset($_GET['rt'])) {
     define('ROUTE', $_GET['rt']);
 } else {
-    if ($_POST['rt']) {
+    if (isset($_POST['rt'])) {
         define('ROUTE', $_POST['rt']);
     } else {
         define('ROUTE', 'index/home');
@@ -364,7 +369,7 @@ try {
 
         //Now we have session, reload config for store if provided or set in session
         $session = $registry->get('session');
-        if (has_value($request->get['store_id']) || has_value($session->data['current_store_id'])) {
+        if (isset($request->get['store_id']) || isset($session->data['current_store_id'])) {
             $config = new AConfig($registry);
             $registry->set('config', $config);
         }

@@ -441,3 +441,12 @@
     };
 
 })(jQuery);
+
+
+/* Listen events for form with validate-creditcard css class */
+
+jQuery(document).ready(function () {
+    //event to log creditcard entering
+    $('form.validate-creditcard').aCCValidator({});
+
+});

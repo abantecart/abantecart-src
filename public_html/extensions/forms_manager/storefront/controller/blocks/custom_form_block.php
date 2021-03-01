@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -29,27 +29,26 @@ if (!defined('DIR_CORE')) {
 class ControllerBlocksCustomFormBlock extends AController
 {
 
-    public $data = array();
+    public $data = [];
     protected $validators = '';
     protected $validated_types;
 
-    public function main()
+    public function main($instance_id = 0)
     {
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->validated_types = array(
+        $this->validated_types = [
             'D' => 'date',
             'E' => 'email',
             'N' => 'number',
             'F' => 'phone',
             'A' => 'ipaddress',
-        );
+        ];
 
         $this->loadLanguage('forms_manager/forms_manager');
 
-        $instance_id = func_get_arg(0);
         $block_data = $this->getBlockContent($instance_id);
         $this->view->assign('block_framed', $block_data['block_framed']);
         $this->view->assign('content', $block_data['content']);
@@ -90,14 +89,14 @@ class ControllerBlocksCustomFormBlock extends AController
         if ($descriptions[$key]['content']) {
             $content = unserialize($descriptions[$key]['content']);
         } else {
-            $content = array('form_id' => null);
+            $content = ['form_id' => null];
         }
 
         $this->loadModel('tool/forms_manager');
         $form_data = $this->model_tool_forms_manager->getForm($content['form_id']);
 
         if (empty($form_data)) {
-            return array();
+            return [];
         }
 
         $form = new AForm();
@@ -113,14 +112,12 @@ class ControllerBlocksCustomFormBlock extends AController
             unset($this->session->data['custom_form_'.$content['form_id']]['errors']);
         }
 
-        $output = array(
+        return [
             'title'         => ($key ? $descriptions[$key]['title'] : ''),
             'content'       => $form->getFormHtml(),
             'block_wrapper' => ($key ? $descriptions[$key]['block_wrapper'] : 0),
             'block_framed'  => ($key ? (int)$descriptions[$key]['block_framed'] : 0),
-        );
-
-        return $output;
+        ];
     }
 
 }
