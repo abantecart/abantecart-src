@@ -56,9 +56,8 @@ class ATax
             $this->customer_data =& $c_data;
         }
         $this->customer_data['tax_exempt'] = $this->customer_data['tax_exempt'] ?? false;
-        if ($this->customer_data['guest']
-            && (isset($this->customer_data['guest']['country_id'])
-                || isset($this->customer_data['guest']['shipping']['country_id']))
+        if (isset($this->customer_data['guest']['country_id'])
+                || isset($this->customer_data['guest']['shipping']['country_id'])
         ) {
             //if takes billing address
             if ($this->config->get('config_tax_customer')) {
