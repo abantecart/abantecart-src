@@ -251,7 +251,7 @@ class ControllerPagesDesignMenu extends AController
         if (($this->request->is_POST()) && $this->_validateForm($this->request->post)) {
             $post = $this->request->post;
             if (isset ($post['item_icon'])) {
-                $post['item_icon'] = html_entity_decode($post['item_icon'], ENT_COMPAT, 'UTF-8');
+                $post['item_icon'] = (int)$post['item_icon'];
             }
 
             $item_keys = [
@@ -260,7 +260,6 @@ class ControllerPagesDesignMenu extends AController
                 'item_url',
                 'parent_id',
                 'sort_order',
-                'item_icon_resource_id',
             ];
 
             $update_item = [];
@@ -272,13 +271,7 @@ class ControllerPagesDesignMenu extends AController
                     }
                 }
 
-                if (has_value($update_item['item_icon_resource_id'])) {
-                    $update_item['item_icon_rl_id'] = $update_item['item_icon_resource_id'];
-                } else {
-                    $update_item['item_icon_rl_id'] = '';
-                }
-                unset($update_item['item_icon_resource_id']);
-
+                $update_item['item_icon_rl_id'] = $update_item['item_icon'] ?: '';
                 // set condition for updating row
                 $this->menu->updateMenuItem($item_id, $update_item);
             }
@@ -293,7 +286,7 @@ class ControllerPagesDesignMenu extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function _getForm()
+    protected function _getForm()
     {
         if (isset ($this->error['warning'])) {
             $this->data['error_warning'] = $this->error['warning'];
@@ -506,8 +499,7 @@ class ControllerPagesDesignMenu extends AController
             [
                 'type'          => 'resource',
                 'name'          => 'item_icon',
-                'resource_path' => htmlspecialchars($this->data['item_icon'], ENT_COMPAT, 'UTF-8'),
-                'resource_id'   => $this->data['item_icon_rl_id'],
+                'resource_id'   => $this->data['item_icon_rl_id'] ? : '',
                 'rl_type'       => 'image',
             ]
         );

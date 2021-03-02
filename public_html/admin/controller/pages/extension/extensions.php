@@ -29,7 +29,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerPagesExtensionExtensions extends AController
 {
 
-    public $data;
     public $error;
 
     public function main()
@@ -348,7 +347,8 @@ class ControllerPagesExtensionExtensions extends AController
         $settings = $ext->getSettings();
 
         $this->data['extension_info'] = $this->extensions->getExtensionInfo($extension);
-        if (!$this->data['extension_info']) { // if extension is not installed yet - redirect to list
+        // if extension is not installed yet - redirect to list
+        if (!$this->data['extension_info']) {
             redirect($this->html->getSecureURL('extension/extensions'));
         }
         $this->data['extension_info']['id'] = $extension;
@@ -994,7 +994,7 @@ class ControllerPagesExtensionExtensions extends AController
         }
 
         $this->extensions->hk_ValidateData($this);
-        return $this->error ? false : true;
+        return (!$this->error);
     }
 
     public function install()

@@ -333,16 +333,10 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
                         'data-original-title="<?php echo_html2view($button_delete) ?>" ' +
                         '><i class="fa fa-times"></i>&nbsp;<?php echo $button_remove?></a>';
                 html += '</div>';
-                var resource_uri = '';
-                if(item.resource_path && item.resource_path.length > 0){
-                    resource_uri =  item.type_name + '/' + item.resource_path;
-                }else{
-                    resource_uri = item.resource_id;
-                }
+
                 // if not tinymce-mode
                 if(field.length>0) {
-                    $('#' + field).val(resource_uri);
-                    $('#' + field + '_resource_id').val(item.resource_id);
+                    $('#' + field).val(item.resource_id);
                     $('#' + field + '_resource_code').val(item.resource_code);
                 }
 
