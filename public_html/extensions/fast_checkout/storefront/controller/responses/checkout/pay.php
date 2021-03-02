@@ -32,7 +32,6 @@ if (!defined('DIR_CORE')) {
 class ControllerResponsesCheckoutPay extends AController
 {
     public $error = [];
-    public $data = [];
     protected $action = '';
     protected $allow_guest = false;
     protected $form_rt = '';
@@ -133,7 +132,11 @@ class ControllerResponsesCheckoutPay extends AController
             $this->data['comment'] = $session['comment'];
         }
 
-        $this->data['address_edit_base_url'] = $this->html->getSecureURL('account/address/update', '&address_id=');
+        $this->data['address_edit_base_url'] = $this->html->getSecureURL(
+            'account/address/update',
+            '&address_id='
+        );
+
         if (!$this->customer->isLogged() && $this->allow_guest) {
             $this->data['allow_account_creation'] = $this->config->get('fast_checkout_create_account');
         }
@@ -141,9 +144,9 @@ class ControllerResponsesCheckoutPay extends AController
         //Do we require payment address based on extension setting
         $this->data['need_payment_address'] = $this->config->get('fast_checkout_require_payment_address');
         $this->data['all_addresses'] = [];
+        $tax_country_id = $tax_zone_id = '';
         //Check for settings if need payment address
         if ($this->data['need_payment_address']) {
-            $tax_country_id = $tax_zone_id = '';
             if ($this->customer->isLogged()) {
                 $this->loadModel('account/address');
                 $this->data['all_addresses'] = $this->model_account_address->getAddresses();
@@ -163,8 +166,10 @@ class ControllerResponsesCheckoutPay extends AController
                 foreach ($this->data['all_addresses'] as $adr) {
                     if ($adr['address_id'] == $address_id) {
                         $session['payment_address_id'] = $adr['address_id'];
-                        $tax_zone_id = $adr['zone_id'];
-                        $tax_country_id = $adr['country_id'];
+                        if ($this->config->get('config_tax_customer')) {
+                            $tax_zone_id = $adr['zone_id'];
+                            $tax_country_id = $adr['country_id'];
+                        }
                         break;
                     }
                 }
@@ -181,25 +186,30 @@ class ControllerResponsesCheckoutPay extends AController
                         $this->_address('payment', []);
                         return;
                     } else {
-                        if ($this->session->data['guest'] ?? []) {
-                            $tax_zone_id = $this->session->data['guest']['zone_id'];
-                            $tax_country_id = $this->session->data['guest']['country_id'];
+                        if ($this->session->data['guest']) {
+                            $tax_country_id = $this->config->get('config_tax_customer')
+                                ? $this->session->data['guest']['country_id']
+                                : '';
+                            $tax_zone_id = $this->config->get('config_tax_customer')
+                                ? $this->session->data['guest']['zone_id']
+                                : '';
                         }
                     }
                 }
             }
-            //do we need to apply taxed on payment address?
-            if (!$this->cart->hasShipping() || $this->config->get('config_tax_customer')) {
+            if ($tax_country_id) {
                 $this->tax->setZone($tax_country_id, $tax_zone_id);
             }
         }
 
         //check if shipping required.
         if (!$this->cart->hasShipping()) {
-            unset($session['shipping_address_id']);
-            unset($session['shipping_method']);
-            unset($session['shipping_methods']);
-            unset($this->session->data['guest']['shipping']);
+            unset(
+                $session['shipping_address_id'],
+                $session['shipping_method'],
+                $session['shipping_methods'],
+                $this->session->data['guest']['shipping']
+            );
         } else {
             if ($this->customer->isLogged()) {
                 $this->loadModel('account/address');
@@ -211,27 +221,33 @@ class ControllerResponsesCheckoutPay extends AController
                     $this->error['message'] = $this->language->get('fast_checkout_error_no_address');
                 }
                 //was address changed?
-                $address_id = $this->customer->getAddressId();
                 if ($this->request->get['shipping_address_id']) {
                     $address_id = $this->request->get['shipping_address_id'];
                 } else {
                     if ($session['shipping_address_id']) {
                         $address_id = $session['shipping_address_id'];
+                    } else {
+                        $address_id = $this->customer->getAddressId();
                     }
                 }
+
                 foreach ($this->data['all_addresses'] as $adr) {
                     if ($adr['address_id'] == $address_id) {
                         $session['shipping_address_id'] = $adr['address_id'];
-                        $session['tax_zone_id'] = $adr['zone_id'];
-                        $session['tax_country_id'] = $adr['country_id'];
+                        if (!$this->config->get('config_tax_customer')) {
+                            $tax_zone_id = $adr['zone_id'];
+                            $tax_country_id = $adr['country_id'];
+                        }
                         break;
                     }
                 }
                 if (!$address_id) {
                     $adr = current($this->data['all_addresses']);
                     $session['shipping_address_id'] = $adr['address_id'];
-                    $session['tax_zone_id'] = $adr['zone_id'];
-                    $session['tax_country_id'] = $adr['country_id'];
+                    if (!$this->config->get('config_tax_customer')) {
+                        $tax_zone_id = $adr['zone_id'];
+                        $tax_country_id = $adr['country_id'];
+                    }
                 }
             } else {
                 if ($this->allow_guest && !$this->session->data['guest']['shipping']) {
@@ -241,8 +257,14 @@ class ControllerResponsesCheckoutPay extends AController
                     return;
                 } else {
                     if ($this->allow_guest && $this->session->data['guest']) {
-                        $session['tax_zone_id'] = $this->session->data['guest']['zone_id'];
-                        $session['tax_country_id'] = $this->session->data['guest']['country_id'];
+                        $tax_country_id = !$this->config->get('config_tax_customer')
+                        && isset($this->session->data['guest']['shipping']['country_id'])
+                            ? $this->session->data['guest']['shipping']['country_id']
+                            : $this->session->data['guest']['country_id'];
+                        $tax_zone_id = !$this->config->get('config_tax_customer')
+                        && isset($this->session->data['guest']['shipping']['zone_id'])
+                            ? $this->session->data['guest']['shipping']['zone_id']
+                            : $this->session->data['guest']['zone_id'];
                     } else {
                         //no guess allowed, need to login
                         $this->action = 'login';
@@ -251,12 +273,14 @@ class ControllerResponsesCheckoutPay extends AController
             }
         }
 
-        //do we need to apply taxed on payment address?
-        if ($this->cart->hasShipping() && !$this->config->get('config_tax_customer')) {
+        if ($tax_country_id) {
             $this->tax->setZone(
-                $session['tax_country_id'],
-                $session['tax_zone_id']
+                $tax_zone_id,
+                $tax_zone_id
             );
+
+            $session['tax_country_id'] = $tax_country_id;
+            $session['tax_zone_id'] = $tax_zone_id;
         }
 
         //set shipping method
@@ -392,6 +416,18 @@ class ControllerResponsesCheckoutPay extends AController
             $order = new AOrder($this->registry);
         } else {
             $order = new AOrder($this->registry, $this->session->data['order_id']);
+        }
+        //set correct zone for taxes if guest checkout
+        $guestData = $this->session->data['guest'] ?? $this->session->data;
+        if (isset($guestData['country_id'])) {
+            if (!$this->config->get('config_customer_tax')) {
+                $countryId = $guestData['shipping']['country_id'] ?? $guestData['country_id'];
+                $zoneId = $guestData['shipping']['zone_id'] ?? $guestData['zone_id'];
+            } else {
+                $countryId = $guestData['country_id'];
+                $zoneId = $guestData['zone_id'];
+            }
+            $this->tax->setZone($countryId, $zoneId);
         }
 
         $order->buildOrderData($in_data);
@@ -569,7 +605,7 @@ class ControllerResponsesCheckoutPay extends AController
                 $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
                 if ($order_info['telephone'] ?? '') {
                     $session['telephone'] =
-                            $this->data['customer_telephone'] = $this->customer->getTelephone();
+                    $this->data['customer_telephone'] = $this->customer->getTelephone();
                 }
             }
 
@@ -717,6 +753,10 @@ class ControllerResponsesCheckoutPay extends AController
             $this->_show_error();
             return;
         }
+        $this->tax->setZone(
+            $session['tax_country_id'],
+            $session['tax_zone_id']
+        );
 
         //recalculate totals
         $this->cart->buildTotalDisplay(true);
@@ -1265,7 +1305,9 @@ class ControllerResponsesCheckoutPay extends AController
             $sessionGuest['city'] = $post['city'];
             $sessionGuest['country_id'] = $post['country_id'];
 
-            $this->tax->setZone($post['country_id'], $post['zone_id']);
+            if ($this->config->get('config_customer_tax')) {
+                $this->tax->setZone($post['country_id'], $post['zone_id']);
+            }
 
             $this->loadModel('localisation/country');
             $country_info = $this->model_localisation_country->getCountry($post['country_id']);
@@ -1327,6 +1369,10 @@ class ControllerResponsesCheckoutPay extends AController
             } else {
                 $sessionGuest['shipping']['zone'] = '';
                 $sessionGuest['shipping']['zone_code'] = '';
+            }
+
+            if (!$this->config->get('config_customer_tax')) {
+                $this->tax->setZone($post['country_id'], $post['zone_id']);
             }
         }
         $this->action = 'payment';
@@ -1440,9 +1486,8 @@ class ControllerResponsesCheckoutPay extends AController
         $this->loadModel('localisation/country');
         $this->data['countries'] = $this->model_localisation_country->getCountries();
 
-        $this->data['customer_email'] = $data['cc_email'] ?: $this->session->data['guest']['email'];
+        $this->data['customer_email'] = $data['cc_email'] ? : $this->session->data['guest']['email'];
         $this->data['customer_telephone'] = $data['telephone'] ? : $this->session->data['guest']['telephone'];
-
 
         //login form portion
         $this->data['reset_url'] = $this->html->getSecureURL('account/login');
