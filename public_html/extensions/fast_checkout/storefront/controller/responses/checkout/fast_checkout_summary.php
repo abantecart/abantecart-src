@@ -26,28 +26,31 @@ if (!defined('DIR_CORE')) {
  * Class ControllerResponsesCheckoutFastCheckoutSummary
  *
  * @property boolean $allow_guest
- * @property string $cart_key
  */
 class ControllerResponsesCheckoutFastCheckoutSummary extends AController
 {
+    /** @var string */
+    protected $cart_key;
+
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
-        $session =& $this->session->data['fast_checkout'][$this->cart_key];
+        $this->cart_key = $this->session->data['cart_key'];
+        $fc_session =& $this->session->data['fast_checkout'][$this->cart_key];
         //set sign that checkout is fast. See usage in hooks
         $this->session->data['fast-checkout'] = true;
         $this->allow_guest = $this->config->get('config_guest_checkout');
-        $this->cart_key = $this->session->data['cart_key'];
-        if (!isset($session) || $session['cart'] !== $this->session->data['cart']) {
-            $session['cart'] = $this->session->data['cart'];
+
+        if (!isset($fc_session) || $fc_session['cart'] !== $this->session->data['cart']) {
+            $fc_session['cart'] = $this->session->data['cart'];
             $this->removeNoStockProducts();
             if ($this->session->data['coupon']) {
-                $session['coupon'] = $this->session->data['coupon'];
+                $fc_session['coupon'] = $this->session->data['coupon'];
             }
         }
 
         $cart_class_name = get_class($this->cart);
-        $this->registry->set('cart', new $cart_class_name($this->registry, $session));
+        $this->registry->set('cart', new $cart_class_name($this->registry, $fc_session));
     }
 
     public function main()

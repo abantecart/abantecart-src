@@ -36,7 +36,6 @@ class ControllerResponsesCheckoutPay extends AController
     protected $allow_guest = false;
     protected $form_rt = '';
     protected $cart_key = '';
-    protected $cart_ses = [];
     /** @var array short reference to fast checkout session data */
     protected $fc_session;
 
@@ -55,14 +54,14 @@ class ControllerResponsesCheckoutPay extends AController
         $this->cart_key = $this->session->data['cart_key'];
 
         $this->data['cart_key'] = $this->cart_key;
-        $this->fc_session =& $this->session->data['fast_checkout'][$this->cart_key];
+        $this->fc_session = $this->session->data['fast_checkout'][$this->cart_key];
 
-        if ( !isset($this->fc_session)
+        if (!isset($this->fc_session)
             || $this->fc_session['cart'] !== $this->session->data['cart']
         ) {
             $this->fc_session['cart'] = $this->session->data['cart'];
             $this->removeNoStockProducts();
-            if ($this->session->data['coupon']) {
+            if (isset($this->session->data['coupon'])) {
                 $this->fc_session['coupon'] = $this->session->data['coupon'];
             }
         }
@@ -71,11 +70,17 @@ class ControllerResponsesCheckoutPay extends AController
         $this->registry->set(
             'cart',
             new $cart_class_name(
-                  $this->registry,
-                  $this->fc_session
+                $this->registry,
+                $this->fc_session
             )
         );
         $this->data['require_telephone'] = $this->config->get('fast_checkout_require_phone_number');
+    }
+
+    public function __destruct()
+    {
+        //this needed to save session for next controller call
+        $this->session->data['fast_checkout'][$this->cart_key] = $this->fc_session;
     }
 
     public function getCartKey()
@@ -397,12 +402,14 @@ class ControllerResponsesCheckoutPay extends AController
 
     public function updateOrderData()
     {
+        //this needed to save session for next controller call
+        $this->session->data['fast_checkout'][$this->cart_key] = $this->fc_session;
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $in_data = array_merge(
             (array) $this->session->data,
-            $this->session->data['fast_checkout'][$this->cart_key]
+            $this->fc_session
         );
         $request = array_merge($this->request->get, $this->request->post);
         $this->updateOrCreateOrder($in_data, $request);
@@ -413,6 +420,9 @@ class ControllerResponsesCheckoutPay extends AController
 
     protected function updateOrCreateOrder($in_data, $request)
     {
+        //this needed to save session for next controller call
+        $this->session->data['fast_checkout'][$this->cart_key] = $this->fc_session;
+
         if (!$this->session->data['order_id']) {
             //create order and save details
             $order = new AOrder($this->registry);
@@ -455,7 +465,9 @@ class ControllerResponsesCheckoutPay extends AController
                         'comment' => $request['comment'],
                     ]
                 );
-                $this->session->data['fast_checkout'][$this->cart_key]['comment'] = $request['comment'];
+                $this->fc_session['comment']
+                    = $this->session->data['fast_checkout'][$this->cart_key]['comment']
+                    = $request['comment'];
             }
 
             $this->session->data['order_id'] = $order_id;
@@ -757,6 +769,8 @@ class ControllerResponsesCheckoutPay extends AController
             $this->fc_session['tax_country_id'],
             $this->fc_session['tax_zone_id']
         );
+        //this needed to save session for next controller call
+        $this->session->data['fast_checkout'][$this->cart_key] = $this->fc_session;
 
         //recalculate totals
         $this->cart->buildTotalDisplay(true);
@@ -910,7 +924,7 @@ class ControllerResponsesCheckoutPay extends AController
                 ]
             );
             if ($this->config->get('fast_checkout_create_account')
-                && $this->session->data['fast_checkout'][$this->cart_key]['additional']['create_account'] == 'true') {
+                && $this->fc_session['additional']['create_account'] == 'true') {
                 $this->_save_customer_account($order_data);
             }
 
@@ -1709,7 +1723,8 @@ class ControllerResponsesCheckoutPay extends AController
                     $ext_config = $this->model_checkout_extension->getSettings($method_name);
                     $autoselect = $ext_config[$method_name."_autoselect"];
                     if ((is_array($only_method[$key]['quote']) && sizeof($only_method[$key]['quote']) == 1)
-                        || $autoselect) {
+                        || $autoselect
+                    ) {
                         $this->fc_session['shipping_method'] = current($only_method[$method_name]['quote']);
                     }
                 }
@@ -1827,10 +1842,14 @@ class ControllerResponsesCheckoutPay extends AController
         if ($this->data['enabled_coupon'] && $request['coupon_code']
             && $this->_validateCoupon($request['coupon_code'])
         ) {
-            $this->session->data['fast_checkout'][$this->cart_key]['coupon'] = $request['coupon_code'];
+            $this->fc_session['coupon']
+                = $this->session->data['fast_checkout'][$this->cart_key]['coupon'] = $request['coupon_code'];
         } else {
             if ($request['remove_coupon']) {
-                unset($this->session->data['fast_checkout'][$this->cart_key]['coupon']);
+                unset(
+                    $this->session->data['fast_checkout'][$this->cart_key]['coupon'],
+                    $this->fc_session['coupon']
+                );
             }
         }
     }
@@ -1944,7 +1963,9 @@ class ControllerResponsesCheckoutPay extends AController
         if (!$fieldName) {
             return;
         }
-        $this->session->data['fast_checkout'][$this->cart_key]['additional'][$fieldName] = $isOn;
+        $this->fc_session['additional'][$fieldName]
+            = $this->session->data['fast_checkout'][$this->cart_key]['additional'][$fieldName]
+            = $isOn;
     }
 
     protected function removeNoStockProducts()
@@ -1952,7 +1973,10 @@ class ControllerResponsesCheckoutPay extends AController
         $cartProducts = $this->cart->getProducts();
         foreach ($cartProducts as $key => $cartProduct) {
             if (!$cartProduct['stock'] && !$this->config->get('config_stock_checkout')) {
-                unset($this->session->data['fast_checkout'][$this->cart_key]['cart'][$key]);
+                unset(
+                    $this->session->data['fast_checkout'][$this->cart_key]['cart'][$key],
+                    $this->fc_session['fast_checkout'][$this->cart_key]['cart'][$key]
+                );
             }
         }
     }
