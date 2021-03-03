@@ -75,6 +75,28 @@ class ControllerResponsesCheckoutPay extends AController
             )
         );
         $this->data['require_telephone'] = $this->config->get('fast_checkout_require_phone_number');
+
+        //set tax zone for tax class based on session data
+        $tax_country_id = null;
+        if($this->allow_guest && isset($this->session->data['guest'])){
+            //when payment address was set as address for taxes
+            if ($this->config->get('config_tax_customer')) {
+                $tax_country_id = $this->session->data['guest']['country_id'];
+                $tax_zone_id = $this->session->data['guest']['zone_id'];
+            }else{
+                $tax_country_id = isset($this->session->data['guest']['shipping']['country_id'])
+                    ? $this->session->data['guest']['shipping']['country_id']
+                    : $this->session->data['guest']['country_id'];
+                $tax_zone_id = isset($this->session->data['guest']['shipping']['zone_id'])
+                    ? $this->session->data['guest']['shipping']['zone_id']
+                    : $this->session->data['guest']['zone_id'];
+            }
+        }
+
+        if($tax_country_id){
+            $this->tax->setZone($tax_country_id, $tax_zone_id);
+        }
+
     }
 
     public function __destruct()
@@ -428,18 +450,6 @@ class ControllerResponsesCheckoutPay extends AController
             $order = new AOrder($this->registry);
         } else {
             $order = new AOrder($this->registry, $this->session->data['order_id']);
-        }
-        //set correct zone for taxes if guest checkout
-        $guestData = $this->session->data['guest'] ?? $this->session->data;
-        if (isset($guestData['country_id'])) {
-            if (!$this->config->get('config_customer_tax')) {
-                $countryId = $guestData['shipping']['country_id'] ?? $guestData['country_id'];
-                $zoneId = $guestData['shipping']['zone_id'] ?? $guestData['zone_id'];
-            } else {
-                $countryId = $guestData['country_id'];
-                $zoneId = $guestData['zone_id'];
-            }
-            $this->tax->setZone($countryId, $zoneId);
         }
 
         $order->buildOrderData($in_data);
