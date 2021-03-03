@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -24,12 +24,12 @@ if (!defined('DIR_CORE')) {
 final class AConfig
 {
     public $data;
-    private $cnfg = array();
+    private $cnfg = [];
     /**
      * @var Registry
      */
     private $registry;
-    public $groups = array('details', 'general', 'checkout', 'appearance', 'mail', 'im', 'api', 'system');
+    public $groups = ['details', 'general', 'checkout', 'appearance', 'mail', 'im', 'api', 'system'];
 
     public function __construct($registry)
     {
@@ -88,7 +88,7 @@ final class AConfig
         $file = DIR_CONFIG.$filename.'.php';
 
         if (file_exists($file)) {
-            $cfg = array();
+            $cfg = [];
 
             /** @noinspection PhpIncludeInspection */
             require($file);
@@ -184,37 +184,98 @@ final class AConfig
             $store_settings = $cache->pull($cache_key);
 
             if (empty($store_settings)) {
+                $foundStoreId = null;
+                $domain = str_replace('www.', '', $_SERVER['HTTP_HOST']);
+                $subPath = explode("/",trim($_SERVER['REQUEST_URI'],"/"));
+
+                //get all store IDs by domain name
+                $sql = "SELECT DISTINCT `store_id`, REPLACE(REPLACE(`value`,'http://',''),'https://','') as uri 
+                        FROM ".$db->table('settings')."
+                        WHERE `group`='details'
+                            AND
+                                ( (`key` = 'config_url' AND (`value` LIKE '%".$db->escape($domain)."%'))
+                            XOR (`key` = 'config_ssl_url' AND (`value` LIKE '%".$db->escape($domain)."%')) ) 
+                        ORDER BY LENGTH(`value`) DESC";
+                $result = $db->query($sql);
+
+                // seek by full path first (index page of store)
+                foreach($result->rows as $row){
+                    $testUri = $domain.'/'.implode("/",$subPath).'/';
+
+                    if( $row['uri'] == $testUri ){
+                        $foundStoreId = (int)$row['store_id'];
+                        break;
+                    }
+                }
+                //if path not found in list - seek by path parts (index page + seo-keyword)
+                if(is_null($foundStoreId)){
+                    foreach($result->rows as $row){
+                        $tmp = $subPath;
+                        while(count($tmp)>0){
+                            $testUri = $domain.'/'.implode("/",$tmp).'/';
+                            if(strlen($row['uri']) > strlen($testUri)){
+                                //do not allow dig too deep into uri subfolders
+                                break 1;
+                            }
+                            if( is_int( strpos($row['uri'],$testUri))){
+                                $foundStoreId = (int)$row['store_id'];
+                                break 2;
+                            }
+                            array_pop($tmp);
+                        }
+                    }
+                }
+
+                //get all settings for specific store
                 $sql = "SELECT se.`key`, se.`value`, st.store_id
                       FROM ".$db->table('settings')." se
                       RIGHT JOIN ".$db->table('stores')." st ON se.store_id = st.store_id
-                      WHERE se.store_id = (SELECT DISTINCT store_id FROM ".$db->table('settings')."
-                                           WHERE `group`='details'
-                                           AND
-                                           ( (`key` = 'config_url' AND (`value` LIKE '%".$db->escape($url)."'))
-                                           XOR
-                                           (`key` = 'config_ssl_url' AND (`value` LIKE '%".$db->escape($url)."')) )
-                                           LIMIT 0,1)
+                      WHERE se.store_id = ".(int)$foundStoreId."
                             AND st.status = 1
                             AND TRIM(se.`group`) NOT IN
                                                     (SELECT TRIM(`key`) as `key`
                                                     FROM ".$db->table("extensions").")";
                 $query = $db->query($sql);
-                $store_settings = $query->rows;
+                $store_settings = [];
+                if($query->num_rows) {
+                    $store_settings = array_column($query->rows, 'value', 'key');
+                    $store_settings['store_id'] = $foundStoreId;
+                }
+
+                if($store_settings){
+                    //replace base url with url without fake(store-alias-path) subfolder
+                    $autoUri = rtrim($domain.dirname($_SERVER['SCRIPT_NAME']),'/');
+                    $autoUri .= $autoUri ? '/' : '';
+                    foreach(['config_url', 'config_ssl_url'] as $confUrl){
+                        $get =& $this->registry->get('request')->get;
+                        if($store_settings[$confUrl]) {
+                            $protocol = parse_url($store_settings[$confUrl], PHP_URL_SCHEME);
+                            if ($store_settings[$confUrl] != $protocol.'://'.$autoUri) {
+                                //remove fake(store-alias-path) prefix from seo-key which we got from .htaccess (_route_)
+                                $diff = substr( $store_settings[$confUrl], strlen($protocol.'://'.$autoUri));
+                                $store_settings['seo_prefix'] = $diff;
+                                    if(isset($get['_route_'])) {
+                                    $get['_route_'] = str_replace($diff, '', $get['_route_']);
+                                    if(!$get['_route_']){
+                                        unset($get['_route_']);
+                                    }
+                                }
+                                $store_settings[$confUrl] = $protocol.'://'.$autoUri;
+                            }
+                        }
+                    }
+                }
             }
 
             if ($store_settings) {
                 //store found by URL, load settings
-                foreach ($store_settings as $row) {
-                    $value = $row['value'];
-                    $this->cnfg[$row['key']] = $value;
-                }
+                $this->cnfg = array_merge($this->cnfg,$store_settings);
 
                 //fix for rare issue on a database and creation of empty cache
                 if ($this->cnfg['config_cache_enable']) {
                     $cache->push($cache_key, $store_settings);
                 }
-
-                $this->cnfg['config_store_id'] = $store_settings[0]['store_id'];
+                $this->cnfg['config_store_id'] = $store_settings['store_id'];
                 $this->cnfg['current_store_id'] = $this->cnfg['config_store_id'];
             } else {
                 //write to log when system check enabled
