@@ -35,7 +35,7 @@ class ModelTotalCoupon extends Model
                 return;
             }
             $discount_total = 0;
-            $subtotal = $this->cart->getSubTotal();
+            $subtotal = $this->cart->getSubTotal(true);
 
             if (!$coupon['product']) {
                 $coupon_total = $subtotal;
