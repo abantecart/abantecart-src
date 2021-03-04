@@ -240,6 +240,7 @@ class AHtml extends AController
     {
         $session = $this->registry->get('session');
         $config = $this->registry->get('config');
+        $seo_prefix = $config->get('seo_prefix');
         // add session id for cross-domain transition in non-secure mode
         if ($config->get('config_shared_session') && HTTPS !== true) {
             $params .= '&session_id='.session_id();
@@ -263,7 +264,7 @@ class AHtml extends AController
             $suburl .= '&tmpl_debug='.$this->request->get['tmpl_debug'];
         }
 
-        return HTTPS_SERVER.INDEX_FILE.$this->url_encode($suburl, $encode);
+        return HTTPS_SERVER.$seo_prefix.INDEX_FILE.$this->url_encode($suburl, $encode);
     }
 
     /**
@@ -338,7 +339,7 @@ class AHtml extends AController
         }else{
             $HTTPS_SERVER = HTTPS_SERVER.$seo_prefix;
         }
-        $http = $ssl ? $HTTPS_SERVER : HTTP_SERVER;
+        $http = $ssl ? $HTTPS_SERVER : HTTP_SERVER.$seo_prefix;
         return $http.INDEX_FILE.$this->url_encode($suburl, $encode);
     }
 
@@ -1044,7 +1045,8 @@ abstract class HtmlElement
             }
             $this->value = [0];
             if ($this->required) {
-                $url = HTTPS_SERVER;
+                $seo_prefix = $this->registry->get('config')->get('seo_prefix');
+                $url = HTTPS_SERVER.$seo_prefix;
                 $query_string = $this->registry->get('request')->server['QUERY_STRING'];
                 if (strpos($query_string, '_route_=') === false) {
                     $url .= '?';
