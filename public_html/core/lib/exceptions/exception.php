@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -73,17 +74,63 @@ class AException extends Exception
 
     public function logError()
     {
-        $this->error->toLog();
+        //error reporting levels based on settings.
+        // see admin menu-> system->settings->system -> debugging
+        $config = $this->registry->get('config');
+        if ($config->get('config_debug')) {
+            switch ($config->get('config_debug_level')) {
+                // no logs , only exception errors
+                case 0:
+                    if ($this->getCode() > E_ERROR) {
+                        return;
+                    }
+                    break;
+                // errors and warnings
+                case 1:
+                    if ($this->getCode() > (E_ERROR | E_WARNING | E_DEPRECATED)) {
+                        return;
+                    }
+                    break;
+                // basic logs and stack of execution
+                case 2:
+                case 3:
+                    if ($this->getCode() > (E_ERROR | E_WARNING | E_PARSE | E_DEPRECATED)) {
+                        return;
+                    }
+                    break;
+                // all errors except notices
+                case 4:
+                    if ($this->getCode() > (E_ALL & ~E_NOTICE)) {
+                        return;
+                    }
+                    break;
+                // all errors
+                default:
+                    $this->error->toLog();
+                    break;
+            }
+        }
+        //if no settings for debug level - write only php and linter errors into the log
+        if ($this->getCode() <= 1) {
+            $this->error->toLog();
+        }
     }
 
+    /**
+     * @return AError
+     */
     public function mailError()
     {
-        $this->error->toMail();
+        return $this->error->toMail();
     }
 
+    /**
+     * @throws AException
+     */
     public function showErrorPage()
     {
-        if ($this->registry && $this->registry->has('router') && $this->registry->get('router')->getRequestType() != 'page') {
+        if ($this->registry && $this->registry->has('router')
+            && $this->registry->get('router')->getRequestType() != 'page') {
             $router = new ARouter($this->registry);
             $router->processRoute('error/ajaxerror');
             $this->registry->get('response')->output();
