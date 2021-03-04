@@ -58,7 +58,7 @@ class ABackup
          * @var Registry
          */
         $this->registry = Registry::getInstance();
-        $this->slash = IS_WINDOWS === true ? '\\' : '/';
+        $this->slash = defined('IS_WINDOWS') && IS_WINDOWS === true ? '\\' : '/';
         //first of all check backup directory create or set writable permissions
         // Before backup process need to call validate() method! (see below)
         if (!make_writable_dir(DIR_BACKUP)) {
