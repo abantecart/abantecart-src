@@ -370,7 +370,7 @@ final class AConfig
                     $diff = substr($store_settings[$confUrl], strlen($protocol.'://'.$autoUri));
                     $store_settings['seo_prefix'] = $diff;
                     if (isset($get['_route_'])) {
-                        $get['_route_'] = str_replace($diff, '', $get['_route_']);
+                        $get['_route_'] = str_replace([$diff,INDEX_FILE], '', $get['_route_']);
                         if (!$get['_route_']) {
                             unset($get['_route_']);
                         }
