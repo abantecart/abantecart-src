@@ -406,9 +406,18 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController
             }
 
             if (has_value($this->config->get('default_pp_express_custom_logo'))) {
-                $payment_data['LOGOIMG'] = HTTPS_SERVER
-                    .'resources/'
-                    .$this->config->get('default_pp_express_custom_logo');
+                if (is_numeric($this->config->get('default_pp_express_custom_logo'))) {
+                    $resource = new AResource('image');
+                    $image = $resource->getResource($this->config->get('default_pp_express_custom_logo'));
+                    $img_sub_path = $image['type_name'].'/'.$image['resource_path'];
+                    if (is_file(DIR_RESOURCE.$img_sub_path)) {
+                        $payment_data['LOGOIMG'] = 'https:'.HTTPS_DIR_RESOURCE.$img_sub_path;
+                    }
+                } else {
+                    $payment_data['LOGOIMG'] = HTTPS_SERVER
+                        .'resources/'
+                        .$this->config->get('default_pp_express_custom_logo');
+                }
             }
 
             if (has_value($this->config->get('default_pp_express_custom_bg_color'))) {
