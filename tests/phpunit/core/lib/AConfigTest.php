@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @property ADB $db
+ * @property ASession $session
+ * @property ACache $cache
+ */
 class AConfigTest extends AbanteCartTest
 {
     /** @var AConfig */
@@ -94,10 +98,10 @@ class AConfigTest extends AbanteCartTest
             $parsed = parse_url($store['url']);
             $parsed['path'] = $parsed['path'] == '/' ? '' : $parsed['path'];
             $_SERVER['HTTP_HOST'] = $parsed['host'];
-            $_SERVER['PHP_SELF'] = $parsed['path'].'/index.php';
-
+            $_SERVER['REQUEST_URI'] = $parsed['path'].'/';
+            $this->registry->get('session')->data['current_store_id'] = $store['store_id'];
             $this->abc_object = new AConfig($this->registry);
-            $expected = (int)$this->abc_object->get('config_store_id');
+            $expected = (int) $this->abc_object->get('config_store_id');
             $this->assertEquals($store['store_id'], $expected);
             $this->abc_object = null;
         }
