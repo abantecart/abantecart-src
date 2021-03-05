@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpUndefinedClassInspection */
+<?php
+/** @noinspection PhpUndefinedClassInspection */
 
 /*------------------------------------------------------------------------------
   $Id$
@@ -34,9 +35,7 @@ if (!defined('DIR_CORE')) {
  */
 class AResource
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     public $data = [];
     public $obj_list = ['products', 'categories', 'manufacturers', 'product_option_value'];
     /** @var Registry */
@@ -54,7 +53,11 @@ class AResource
     /** @var array */
     protected $file_types;
 
-    /** @param string $type */
+    /**
+     * @param string $type
+     *
+     * @throws AException
+     */
     public function __construct($type)
     {
         $this->registry = Registry::getInstance();
@@ -304,7 +307,9 @@ class AResource
             return $this->buildResourceURL($rsrc_info['resource_path'], 'full');
         }
 
-        $type_image = is_file(DIR_IMAGE.'icon_resource_'.$this->type.'.png') ? 'icon_resource_'.$this->type.'.png' : '';
+        $type_image = is_file(DIR_IMAGE.'icon_resource_'.$this->type.'.png')
+            ? 'icon_resource_'.$this->type.'.png'
+            : '';
 
         //is this a resource with code ?
         if (!empty($rsrc_info['resource_code'])) {
@@ -355,13 +360,9 @@ class AResource
             //Build thumbnails path similar to resource library path
             $sub_path = 'thumbnails/'
                 .dirname($rsrc_info['resource_path']).'/'
-                .$name
-                .'-'
-                .$resource_id
-                .'-'
-                .$width
-                .'x'
-                .$height;
+                .$name.'-'
+                .$resource_id.'-'
+                .$width.'x'.$height;
             $new_image = $sub_path.'.'.$extension;
             if (!check_resize_image(
                 $origin_path, $new_image, $width, $height, $this->config->get('config_image_quality')
@@ -710,24 +711,24 @@ class AResource
             ." and rl.type_id = ".$this->db->escape($this->type_id);
 
         $sql = "SELECT
-					rl.resource_id,
-					rd.name,
-					rd.title,
-					rd.description,
-					COALESCE(rd.resource_path,rdd.resource_path) as resource_path,
-					COALESCE(rd.resource_code,rdd.resource_code) as resource_code,
-					rm.default,
-					rm.sort_order
-				FROM ".$this->db->table("resource_library")." rl "."
-				LEFT JOIN ".$this->db->table("resource_map")." rm
-					ON rm.resource_id = rl.resource_id "."
-				LEFT JOIN ".$this->db->table("resource_descriptions")." rd
-					ON (rl.resource_id = rd.resource_id AND rd.language_id = '".$language_id."')
-				LEFT JOIN ".$this->db->table("resource_descriptions")." rdd
-					ON (rl.resource_id = rdd.resource_id AND rdd.language_id = '".$this->language->getDefaultLanguageID(
+                    rl.resource_id,
+                    rd.name,
+                    rd.title,
+                    rd.description,
+                    COALESCE(rd.resource_path,rdd.resource_path) as resource_path,
+                    COALESCE(rd.resource_code,rdd.resource_code) as resource_code,
+                    rm.default,
+                    rm.sort_order
+                FROM ".$this->db->table("resource_library")." rl "."
+                LEFT JOIN ".$this->db->table("resource_map")." rm
+                    ON rm.resource_id = rl.resource_id "."
+                LEFT JOIN ".$this->db->table("resource_descriptions")." rd
+                    ON (rl.resource_id = rd.resource_id AND rd.language_id = '".$language_id."')
+                LEFT JOIN ".$this->db->table("resource_descriptions")." rdd
+                    ON (rl.resource_id = rdd.resource_id AND rdd.language_id = '".$this->language->getDefaultLanguageID(
             )."')
-				".$where."
-				ORDER BY rm.sort_order ASC";
+                ".$where."
+                ORDER BY rm.sort_order ASC";
 
         $query = $this->db->query($sql);
         $resources = $query->rows;
@@ -784,9 +785,12 @@ class AResource
 
         $store_id = (int) $this->config->get('config_store_id');
         //attempt to load cache
-        $cache_key =
-            'resources.list.'.$this->type.'.'.$object_name.'.'.$width.'x'.$height.'.'.md5(implode('.', $object_ids));
-        $cache_key = preg_replace('/[^a-zA-Z0-9.]/', '', $cache_key).'.store_'.$store_id.'_lang_'.$language_id;
+        $cache_key = 'resources.list.'
+            .$this->type
+            .'.'.md5(implode('.', $object_ids).implode('.', func_get_args()));
+        $cache_key = preg_replace('/[^a-zA-Z0-9.]/', '', $cache_key)
+            .'.store_'.$store_id
+            .'_lang_'.$language_id;
         $output = $this->cache->pull($cache_key);
         if ($output !== false) {
             return $output;
@@ -899,7 +903,12 @@ class AResource
      */
     public function getMainImage($object_name, $object_id, $width, $height, $noimage = true)
     {
-        $sizes = ['main' => ['width' => $width, 'height' => $height]];
+        $sizes = [
+            'main' => [
+                'width'  => $width,
+                'height' => $height,
+            ],
+        ];
         $result = $this->getResourceAllObjects($object_name, $object_id, $sizes, 1, $noimage);
         $output = [];
         if ($result) {
