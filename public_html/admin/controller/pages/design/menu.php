@@ -28,7 +28,6 @@ class ControllerPagesDesignMenu extends AController
     private $columns = [
         'item_id',
         'item_icon',
-        'item_icon_rl_id',
         'item_text',
         'item_url',
         'parent_id',
@@ -211,7 +210,6 @@ class ControllerPagesDesignMenu extends AController
                 [
                     'item_id'         => $text_id,
                     'item_icon'       => $post['item_icon'],
-                    'item_icon_rl_id' => $post['item_icon_resource_id'],
                     'item_text'       => $post['item_text'],
                     'parent_id'       => $post['parent_id'],
                     'item_url'        => $post['item_url'],
@@ -270,8 +268,6 @@ class ControllerPagesDesignMenu extends AController
                         $update_item[$item_key] = $post[$item_key];
                     }
                 }
-
-                $update_item['item_icon_rl_id'] = $update_item['item_icon'] ?: '';
                 // set condition for updating row
                 $this->menu->updateMenuItem($item_id, $update_item);
             }
@@ -497,10 +493,10 @@ class ControllerPagesDesignMenu extends AController
 
         $this->data['form']['fields']['item_icon'] = $form->getFieldHtml(
             [
-                'type'          => 'resource',
-                'name'          => 'item_icon',
-                'resource_id'   => $this->data['item_icon_rl_id'] ? : '',
-                'rl_type'       => 'image',
+                'type'        => 'resource',
+                'name'        => 'item_icon',
+                'resource_id' => $this->data['item_icon'] ? : $this->data['item_icon_rl_id'],
+                'rl_type'     => 'image',
             ]
         );
         //adds scripts for RL work
