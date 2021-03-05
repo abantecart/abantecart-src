@@ -281,10 +281,12 @@ class ModelCatalogCategory extends Model
      */
     public function getCategories($parent_id = null, $store_id = null)
     {
-        $store_id = is_array($store_id) ? array_map('intval', $store_id) : $store_id;
+        $store_id = is_array($store_id) ? array_map('intval', $store_id) : (int) $store_id;
         $language_id = $this->language->getContentLanguageID();
-        $cache_key = 'category.'.$parent_id.'.store_'.$store_id.'_lang_'.$language_id;
-        $category_data = $this->cache->pull($cache_key);
+        $cacheKey = 'category.'.$parent_id
+            .'.store_'.md5(serialize($store_id))
+            .'_lang_'.$language_id;
+        $category_data = $this->cache->pull($cacheKey);
 
         if ($category_data === false) {
             $category_data = [];
@@ -331,7 +333,7 @@ class ModelCatalogCategory extends Model
                 );
             }
 
-            $this->cache->push($cache_key, $category_data);
+            $this->cache->push($cacheKey, $category_data);
         }
 
         return $category_data;
