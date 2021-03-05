@@ -1627,7 +1627,9 @@ class ControllerResponsesCheckoutPay extends AController
                 $icon = $psettings[$pkey][$pkey."_payment_storefront_icon"];
                 if (has_value($icon)) {
                     $icon_data = $this->model_checkout_extension->getSettingImage($icon);
-                    $icon_data['image'] = $icon;
+                    $icon_data['image'] = is_numeric($icon)
+                        ? $icon_data['type_dir'].'/'.$icon_data['resource_path']
+                        : $icon;
                     $method_data[$pkey]['icon'] = $icon_data;
                 }
                 //check if this is a redirect type of the payment

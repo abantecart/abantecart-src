@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,12 +24,10 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesCheckoutShipping extends AController
 {
-    public $error = array();
-    public $data = array();
+    public $error = [];
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -43,39 +42,40 @@ class ControllerPagesCheckoutShipping extends AController
 
         //validate if order min/max are met
         if (!$this->cart->hasMinRequirement() || !$this->cart->hasMaxRequirement()) {
-            $this->redirect($this->html->getSecureURL('checkout/cart'));
+            redirect($this->html->getSecureURL('checkout/cart'));
         }
 
         if ($this->request->is_POST() && $this->validate()) {
-
             $shipping = explode('.', $this->request->post['shipping_method']);
-            $this->session->data['shipping_method'] = $this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]];
+            $this->session->data['shipping_method'] =
+                $this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]];
             $this->session->data['comment'] = strip_tags($this->request->post['comment']);
 
             //process data
             $this->extensions->hk_ProcessData($this);
-
-            $this->redirect($this->html->getSecureURL($payment_rt));
+            redirect($this->html->getSecureURL($payment_rt));
         }
 
         if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
-            $this->redirect($this->html->getSecureURL($cart_rt));
+            redirect($this->html->getSecureURL($cart_rt));
         }
 
         if (!$this->customer->isLogged()) {
             $this->session->data['redirect'] = $this->html->getSecureURL($checkout_rt);
-            $this->redirect($this->html->getSecureURL($login_rt));
+            redirect($this->html->getSecureURL($login_rt));
         }
         unset($this->session->data['redirect']);
 
         //if no products require shipping go to payment step
         if (!$this->cart->hasShipping()) {
-            unset($this->session->data['shipping_address_id']);
-            unset($this->session->data['shipping_method']);
-            unset($this->session->data['shipping_methods']);
+            unset(
+                $this->session->data['shipping_address_id'],
+                $this->session->data['shipping_method'],
+                $this->session->data['shipping_methods']
+            );
 
             $this->tax->setZone($this->session->data['country_id'], $this->session->data['zone_id']);
-            $this->redirect($this->html->getSecureURL($payment_rt, "&back=cart"));
+            redirect($this->html->getSecureURL($payment_rt, "&back=cart"));
         }
 
         //If no shipping address is set yet, use default
@@ -85,7 +85,7 @@ class ControllerPagesCheckoutShipping extends AController
 
         //still missing address, go to address selection page
         if (!$this->session->data['shipping_address_id']) {
-            $this->redirect($this->html->getSecureURL($address_rt));
+            redirect($this->html->getSecureURL($address_rt));
         }
 
         $this->loadModel('account/address');
@@ -93,7 +93,7 @@ class ControllerPagesCheckoutShipping extends AController
 
         //something wrong with shipping address go to address selection page
         if (!$shipping_address) {
-            $this->redirect($this->html->getSecureURL($address_rt));
+            redirect($this->html->getSecureURL($address_rt));
         }
 
         // if tax zone is taken from shipping address
@@ -107,34 +107,35 @@ class ControllerPagesCheckoutShipping extends AController
         $this->loadModel('checkout/extension');
 
         if (!isset($this->session->data['shipping_methods']) || !$this->config->get('config_shipping_session')) {
-            $quote_data = array();
+            $quote_data = [];
 
             $results = $this->model_checkout_extension->getExtensions('shipping');
             foreach ($results as $result) {
-                $this->loadModel('extension/'.$result['key']);
-
-                /** @noinspection PhpUndefinedMethodInspection */
-                $quote = $this->{'model_extension_'.$result['key']}->getQuote($shipping_address);
+                /** @var ModelExtensionDefaultFlatRateShipping|object $mdl */
+                $mdl = $this->loadModel('extension/'.$result['key']);
+                $quote = $mdl->getQuote($shipping_address);
 
                 if ($quote) {
-                    $quote_data[$result['key']] = array(
+                    $quote_data[$result['key']] = [
                         'title'      => $quote['title'],
                         'quote'      => $quote['quote'],
                         'sort_order' => $quote['sort_order'],
                         'error'      => $quote['error'],
-                    );
+                    ];
                     //# Add storefront icon if available
                     $ext_setgs = $this->model_checkout_extension->getSettings($result['key']);
                     $icon = $ext_setgs[$result['key']."_shipping_storefront_icon"];
                     if (has_value($icon)) {
                         $icon_data = $this->model_checkout_extension->getSettingImage($icon);
-                        $icon_data['image'] = $icon;
+                        $icon_data['image'] = is_numeric($icon)
+                            ? $icon_data['type_dir'].'/'.$icon_data['resource_path']
+                            : $icon;
                         $quote_data[$result['key']]['icon'] = $icon_data;
                     }
                 }
             }
 
-            $sort_order = array();
+            $sort_order = [];
             foreach ($quote_data as $key => $value) {
                 $sort_order[$key] = $value['sort_order'];
             }
@@ -143,7 +144,7 @@ class ControllerPagesCheckoutShipping extends AController
             $this->session->data['shipping_methods'] = $quote_data;
         }
 
-        //# If only 1 shipping and it is set to be defaulted, select and skip and redirect to paymnet 
+        //# If only 1 shipping and it is set to be defaulted, select and skip and redirect to payment 
         if (count($this->session->data['shipping_methods']) == 1 && $this->request->get['mode'] != 'edit') {
             //set only method
             $only_method = $this->session->data['shipping_methods'];
@@ -155,36 +156,38 @@ class ControllerPagesCheckoutShipping extends AController
                 if ($autoselect) {
                     if (sizeof($only_method[$method_name]['quote']) == 1) {
                         $this->session->data['shipping_method'] = current($only_method[$method_name]['quote']);
-                        $this->redirect($this->html->getSecureURL($payment_rt, "&back=cart"));
+                        redirect($this->html->getSecureURL($payment_rt, "&back=cart"));
                     }
                 }
             }
         }
 
         $this->document->setTitle($this->language->get('heading_title'));
-
         $this->document->resetBreadcrumbs();
 
         $this->document->addBreadcrumb(
-            array(
+            [
                 'href'      => $this->html->getHomeURL(),
                 'text'      => $this->language->get('text_home'),
                 'separator' => false,
-            ));
+            ]
+        );
 
         $this->document->addBreadcrumb(
-            array(
+            [
                 'href'      => $this->html->getSecureURL($cart_rt),
                 'text'      => $this->language->get('text_basket'),
                 'separator' => $this->language->get('text_separator'),
-            ));
+            ]
+        );
 
         $this->document->addBreadcrumb(
-            array(
+            [
                 'href'      => $this->html->getSecureURL($checkout_rt),
                 'text'      => $this->language->get('text_shipping'),
                 'separator' => $this->language->get('text_separator'),
-            ));
+            ]
+        );
 
         $this->data['error_warning'] = $this->error['warning'];
 
@@ -192,30 +195,34 @@ class ControllerPagesCheckoutShipping extends AController
             $this->data['error_warning'] = $this->language->get('error_no_shipping');
         }
 
-        $this->data['address'] = $this->customer->getFormattedAddress($shipping_address, $shipping_address['address_format']);
+        $this->data['address'] = $this->customer->getFormattedAddress(
+            $shipping_address,
+            $shipping_address['address_format']
+        );
 
         $item = $this->html->buildElement(
-            array(
+            [
                 'type'  => 'button',
                 'name'  => 'change_address',
                 'style' => 'button',
                 'text'  => $this->language->get('button_change_address'),
-            ));
+            ]
+        );
         $this->data['change_address'] = $item;
         $this->data['change_address_href'] = $this->html->getSecureURL($address_rt);
 
         $form = new AForm();
-        $form->setForm(array('form_name' => 'shipping'));
+        $form->setForm(['form_name' => 'shipping']);
         $this->data['form']['form_open'] = $form->getFieldHtml(
-            array(
+            [
                 'type'   => 'form',
                 'name'   => 'shipping',
                 'action' => $this->html->getSecureURL($checkout_rt),
                 'csrf'   => true,
-            )
+            ]
         );
 
-        $this->data['shipping_methods'] = $this->session->data['shipping_methods'] ? $this->session->data['shipping_methods'] : array();
+        $this->data['shipping_methods'] = $this->session->data['shipping_methods'] ? : [];
         $shipping = $this->session->data['shipping_method']['id'];
         if ($this->data['shipping_methods']) {
             foreach ($this->data['shipping_methods'] as $k => $v) {
@@ -232,41 +239,45 @@ class ControllerPagesCheckoutShipping extends AController
                         }
 
                         $this->data['shipping_methods'][$k]['quote'][$key]['radio'] = $form->getFieldHtml(
-                            array(
+                            [
                                 'type'    => 'radio',
                                 'id'      => $val['id'],
                                 'name'    => 'shipping_method',
-                                'options' => array($val['id'] => ''),
+                                'options' => [$val['id'] => ''],
                                 'value'   => $selected,
-                            ));
+                            ]
+                        );
                     }
                 }
             }
         } else {
-            $this->data['shipping_methods'] = array();
+            $this->data['shipping_methods'] = [];
         }
 
-        $this->data['comment'] = isset($this->request->post['comment']) ? $this->request->post['comment'] : $this->session->data['comment'];
+        $this->data['comment'] = $this->request->post['comment'] ? : $this->session->data['comment'];
         $this->data['form']['comment'] = $form->getFieldHtml(
-            array(
+            [
                 'type'  => 'textarea',
                 'name'  => 'comment',
                 'value' => $this->data['comment'],
                 'attr'  => ' rows="3" style="width: 99%" ',
-            ));
+            ]
+        );
         $this->data['back'] = $this->html->getSecureURL($cart_rt);
         $this->data['form']['back'] = $form->getFieldHtml(
-            array(
+            [
                 'type'  => 'button',
                 'name'  => 'back',
                 'style' => 'button',
                 'text'  => $this->language->get('button_back'),
-            ));
+            ]
+        );
         $this->data['form']['continue'] = $form->getFieldHtml(
-            array(
+            [
                 'type' => 'submit',
                 'name' => $this->language->get('button_continue'),
-            ));
+            ]
+        );
         //render buttons
         $this->view->batchAssign($this->data);
         if ($this->config->get('embed_mode') == true) {
@@ -282,7 +293,6 @@ class ControllerPagesCheckoutShipping extends AController
 
         //update data before render
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
     }
 
     public function validate()
@@ -302,11 +312,6 @@ class ControllerPagesCheckoutShipping extends AController
 
         //validate post data
         $this->extensions->hk_ValidateData($this);
-
-        if (!$this->error) {
-            return true;
-        } else {
-            return false;
-        }
+        return (!$this->error);
     }
 }
