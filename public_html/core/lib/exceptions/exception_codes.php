@@ -18,14 +18,8 @@
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 
-if (!defined('E_DEPRECATED')) {
-    define('E_DEPRECATED', 8192);
-} // since PHP 5.3.0
-if (!defined('E_RECOVERABLE_ERROR')) {
-    define('E_RECOVERABLE_ERROR', 4096);
-} // since PHP 5.2.0
-
 // Error codes
+define('AC_HOOK_AROUND', 9999);
 
 define('AC_ERR_CLASS_CLASS_NOT_EXIST', 9000); // class class not exist
 define('AC_ERR_CLASS_METHOD_NOT_EXIST', 9001); // class method not exist
@@ -43,7 +37,7 @@ define('AC_ERR_CONNECT', 10004); // connect to upgrade server error
 define('AC_ERR_LOAD_LAYOUT', 10005); // layout load error
 
 // TODO: multilingual descriptions
-$error_descriptions = array(
+$error_descriptions = [
     E_ERROR             => 'error',
     E_WARNING           => 'warning',
     E_PARSE             => 'parsing error',
@@ -69,5 +63,4 @@ $error_descriptions = array(
 
     AC_ERR_USER_ERROR   => 'App Error',
     AC_ERR_USER_WARNING => 'App Warning',
-
-);
+];

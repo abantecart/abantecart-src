@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -21,49 +21,34 @@
 /**
  * Class ADispatcher
  *
- * @property ARequest      $request
- * @property AResponse     $response
- * @property AView         $view
+ * @property ARequest $request
+ * @property AResponse $response
+ * @property AView $view
  * @property ExtensionsApi $extensions
  */
 final class ADispatcher
 {
-    /**
-     * @var Registry
-     */
+    /** @var Registry */
     protected $registry;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $file;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $class;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $method;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $controller;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $controller_type;
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $args = [];
 
     /**
      * @param string $rt
-     * @param array  $args
+     * @param array $args
      */
     public function __construct($rt, $args = [])
     {
-
         $this->registry = Registry::getInstance();
         $rt = str_replace('../', '', $rt);
         if (!empty($args)) {
@@ -209,21 +194,23 @@ final class ADispatcher
      * @param string $controller
      *
      * @return string
+     * @throws AException
+     * @throws ReflectionException
      */
     public function dispatchGetOutput($controller = '')
     {
-
         $this->dispatch($controller);
         $output = $this->response->getOutput();
         $this->response->setOutput('');
-
         return $output;
     }
 
     /**
-     * @param AController|string $parent_controller
+     * @param string $parent_controller
      *
      * @return null|string
+     * @throws AException
+     * @throws ReflectionException
      */
     public function dispatch($parent_controller = '')
     {
@@ -251,7 +238,6 @@ final class ADispatcher
                 AC_ERR_CLASS_CLASS_NOT_EXIST
             );
             $error->toLog()->toDebug();
-
             return null;
         } elseif (
             empty($this->file)
@@ -261,7 +247,6 @@ final class ADispatcher
             $warning_txt = 'ADispatch: skipping unavailable controller …';
             $warning = new AWarning($warning_txt);
             $warning->toDebug();
-
             return null;
         }
 
@@ -286,86 +271,95 @@ final class ADispatcher
             $error = new AError('Error: controller class not exist '.$this->class.'!', AC_ERR_CLASS_CLASS_NOT_EXIST);
             $error->toLog()->toDebug();
         }
-        if (is_callable([$controller, $this->method])) {
-            /**
-             * @var $dispatch ADispatcher
-             */
-            $r = new ReflectionMethod($controller, $this->method);
-            $params = $r->getParameters();
-            if(!$params){
-                $args = [];
-            }else {
-                $args = $this->args;
-            }
-
-            $dispatch = call_user_func_array([$controller, $this->method], $args);
-            //Check if return is a dispatch and need to call new page
-            if ($dispatch && is_object($dispatch)) {
-                if ($this->args["instance_id"] == 0) {
-                    //If main controller come back for new dispatch
-                    return $dispatch->getController().'/'.$dispatch->getMethod();
+        try {
+            if (is_callable([$controller, $this->method])) {
+                /**
+                 * @var $dispatch ADispatcher
+                 */
+                $r = new ReflectionMethod($controller, $this->method);
+                $params = $r->getParameters();
+                if (!$params) {
+                    $args = [];
                 } else {
-                    // Call new dispatch for new controller and exit
-                    //???? need to put limit for recursion to prevent overflow
-                    $dispatch->dispatch();
-
-                    return null;
+                    $args = $this->args;
                 }
+
+                $dispatch = call_user_func_array([$controller, $this->method], $args);
+                //Check if return is a dispatch and need to call new page
+                if ($dispatch && is_object($dispatch)) {
+                    if ($this->args["instance_id"] == 0) {
+                        //If main controller come back for new dispatch
+                        return $dispatch->getController().'/'.$dispatch->getMethod();
+                    } else {
+                        // Call new dispatch for new controller and exit
+                        //???? need to put limit for recursion to prevent overflow
+                        $dispatch->dispatch();
+                        return null;
+                    }
+                } else {
+                    if ($dispatch == 'completed') {
+                        //Check if we have message completed in controller response.
+                        //If completed. stop further execution.
+                        return 'completed';
+                    }
+                }
+                /**
+                 * Load layout and process children controllers
+                 * @method AController getChildren()
+                 */
+                $children = $controller->getChildren();
+
+                ADebug::variable('Processing children of '.$this->controller, $children);
+
+                //Process each child controller
+                foreach ($children as $child) {
+                    //Add highest Debug level here with backtrace to review this
+                    ADebug::checkpoint(
+                        $child['controller'].' ( child of '.$this->controller
+                        .', instance_id: '.$child['instance_id'].' ) dispatch START'
+                    );
+                    //Process each child and create dispatch to call recursive
+                    $dispatch = new ADispatcher($child['controller'], ["instance_id" => $child['instance_id']]);
+                    $dispatch->dispatch($controller);
+                    // Append output of child controller to current controller
+                    if (isset($child['position'])
+                        && $child['position']) { // made for recognizing few custom_blocks in the same placeholder
+                        $controller->view->assign(
+                            $child['block_txt_id'].'_'.$child['instance_id'],
+                            $this->response->getOutput()
+                        );
+                    } else {
+                        $controller->view->assign($child['block_txt_id'], $this->response->getOutput());
+                    }
+                    //clean up and remove output
+                    $this->response->setOutput('');
+                    ADebug::checkpoint($child['controller'].' ( child of '.$this->controller.' ) dispatch END');
+                }
+                //Request controller to generate output
+                $controller->finalize();
+
+                //check for controller.pre
+                $output_post = $this->dispatchPrePost($this->controller.POSTFIX_POST);
+                //add pre and post controllers output
+                $this->response->setOutput($output_pre.$this->response->getOutput().$output_post);
+
+                //clean up and destroy the object
+                unset($controller, $dispatch);
             } else {
-                if ($dispatch == 'completed') {
-                    //Check if we have message completed in controller response.
-                    //If completed. stop further execution.
-                    return 'completed';
+                $err = new AError(
+                    'Error: controller method not exist '.$this->class.'::'.$this->method.'!',
+                    AC_ERR_CLASS_METHOD_NOT_EXIST
+                );
+                $err->toLog()->toDebug();
+                if (in_array($this->controller_type, ['responses', 'api', 'task'])) {
+                    $dd = new ADispatcher('responses/error/ajaxerror/not_found');
+                    $dd->dispatch();
                 }
             }
-            /**
-             * Load layout and process children controllers
-             * @method AController getChildren()
-             */
-            $children = $controller->getChildren();
-
-            ADebug::variable('Processing children of '.$this->controller, $children);
-
-            //Process each child controller
-            foreach ($children as $child) {
-                //Add highest Debug level here with backtrace to review this
-                ADebug::checkpoint($child['controller'].' ( child of '.$this->controller
-                                   .', instance_id: '.$child['instance_id'].' ) dispatch START');
-                //Process each child and create dispatch to call recursive
-                $dispatch = new ADispatcher($child['controller'], ["instance_id" => $child['instance_id']]);
-                $dispatch->dispatch($controller);
-                // Append output of child controller to current controller
-                if (isset($child['position']) && $child['position']) { // made for recognizing few custom_blocks in the same placeholder
-                    $controller->view->assign($child['block_txt_id'].'_'.$child['instance_id'],
-                        $this->response->getOutput());
-                } else {
-                    $controller->view->assign($child['block_txt_id'], $this->response->getOutput());
-                }
-                //clean up and remove output
-                $this->response->setOutput('');
-                ADebug::checkpoint($child['controller'].' ( child of '.$this->controller.' ) dispatch END');
-            }
-            //Request controller to generate output
-            $controller->finalize();
-
-            //check for controller.pre
-            $output_post = $this->dispatchPrePost($this->controller.POSTFIX_POST);
-
-            //add pre and post controllers output
-            $this->response->setOutput($output_pre.$this->response->getOutput().$output_post);
-
-            //clean up and destroy the object
-            unset($controller);
-            unset($dispatch);
-        } else {
-            $err = new AError(
-                'Error: controller method not exist '.$this->class.'::'.$this->method.'!',
-                AC_ERR_CLASS_METHOD_NOT_EXIST
-            );
-            $err->toLog()->toDebug();
-            if (in_array($this->controller_type, ['responses', 'api', 'task'])) {
-                $dd = new ADispatcher('responses/error/ajaxerror/not_found');
-                $dd->dispatch();
+        } //catching output of around hook (it can be only one)
+        catch (AException $e) {
+            if ($e->getCode() != AC_HOOK_AROUND) {
+                throw $e;
             }
         }
         ADebug::checkpoint(''.$this->class.'/'.$this->method.' dispatch END');
