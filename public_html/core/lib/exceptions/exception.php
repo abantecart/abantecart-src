@@ -77,7 +77,7 @@ class AException extends Exception
         //error reporting levels based on settings.
         // see admin menu-> system->settings->system -> debugging
         $config = $this->registry->get('config');
-        if ($config->get('config_debug')) {
+        if ($config && $config->get('config_debug')) {
             switch ($config->get('config_debug_level')) {
                 // no logs , only exception errors
                 case 0:
