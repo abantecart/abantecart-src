@@ -74,7 +74,7 @@
   </definition>
   <definition>
     <key>error_telephone</key>
-    <value><![CDATA[Telephone must be between 3 and 32 characters!]]></value>
+    <value><![CDATA[Telephone must be between 3 and 32 numeric only characters!]]></value>
   </definition>
   <definition>
     <key>loginname_update_required</key>
