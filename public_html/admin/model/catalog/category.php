@@ -302,9 +302,7 @@ class ModelCatalogCategory extends Model
 
             if ($store_id === null) {
                 $sql .= " LEFT JOIN ".$this->db->table("categories_to_stores")." cs 
-                               ON (c.category_id = cs.category_id) 
-                          LEFT JOIN ".$this->db->table('stores')." s 
-                               ON s.store_id = cs.store_id";
+                               ON (c.category_id = cs.category_id)";
             } else {
                 $sql .= " RIGHT JOIN ".$this->db->table("categories_to_stores")." cs 
                                 ON (c.category_id = cs.category_id AND ";
@@ -313,10 +311,13 @@ class ModelCatalogCategory extends Model
                 } else {
                     $sql .= "store_id = ".(int) $store_id;
                 }
-                $sql .= ")";
+                $sql .= ") ";
             }
 
-            $sql .= " WHERE c.parent_id = '".(int) $parent_id."'
+            $sql .= " 
+                    LEFT JOIN ".$this->db->table('stores')." s 
+                       ON s.store_id = cs.store_id 
+                    WHERE c.parent_id = '".(int) $parent_id."'
                         AND cd.language_id = '".(int) $language_id."'
                     ORDER BY c.sort_order, cd.name ASC";
             $query = $this->db->query($sql);
