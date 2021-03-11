@@ -161,7 +161,7 @@ class ExtensionCollection
 
             $tmp_return = call_user_func_array([$extension, $method], $args);
             //when around method hook - returns ONLY first result
-            if (strpos($method, 'around') === 0 && method_exists($extension, $method)) {
+            if (strpos($method, 'override') === 0 && method_exists($extension, $method)) {
                 static::$around_method_found = true;
                 //if hook wants to be skipped
                 if ($tmp_return === false) {
@@ -188,7 +188,7 @@ class ExtensionCollection
     public function __call($method, $args)
     {
         $return = $this->dispatchMethod($method, $args);
-        if (strpos($method, 'around') === 0) {
+        if (strpos($method, 'override') === 0) {
             if (static::$around_method_found) {
                 //when no result from around-hook - set result to true to interrupt hook call-chain
                 return $return;
@@ -1143,7 +1143,7 @@ class ExtensionsApi
         $can_run = true;
         if (method_exists($baseObject, $method) || method_exists($baseObject, '__call')) {
             // callback surrounds the method execution
-            $result = call_user_func_array([$this->extensions, 'around'.$extension_method], $args);
+            $result = call_user_func_array([$this->extensions, 'override'.$extension_method], $args);
             // method is allowed to run
             if (!ExtensionCollection::$around_method_found) {
                 $object_args = $args;
@@ -1155,7 +1155,7 @@ class ExtensionsApi
             }
         } else {
             //callback surrounds the method execution
-            $result = call_user_func_array([$this->extensions, 'around'.$extension_method], $args);
+            $result = call_user_func_array([$this->extensions, 'override'.$extension_method], $args);
             if (ExtensionCollection::$around_method_found && $result !== false) {
                 //Fake Exception to send result to dispatcher
                 // via AException
@@ -1163,7 +1163,7 @@ class ExtensionsApi
                 /** @see ADispatcher::dispatch() */
                 throw new AException(
                     AC_HOOK_AROUND,
-                    'Class '.get_class($baseObject).' overridden by extension "around" hook.',
+                    'Class '.get_class($baseObject).' overridden by extension "override" hook.',
                     '',
                     '',
                     $result
