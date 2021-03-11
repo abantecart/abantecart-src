@@ -468,9 +468,11 @@ class ControllerPagesCatalogProduct extends AController
             ]
         );
 
+        $this->loadModel('setting/store');
         $this->loadModel('catalog/category');
         $this->data['categories'] = [];
-        $product_stores = $this->model_catalog_product->getProductStores($product_id);
+
+        $product_stores = array_column($this->model_setting_store->getStores(),'store_id');
         $results = $this->model_catalog_category->getCategories(ROOT_CATEGORY_ID, $product_stores);
         foreach ($results as $r) {
             $name = $r['name'].(count($product_stores) > 1 ? ' ('.$r['store_name'].')' : '');
