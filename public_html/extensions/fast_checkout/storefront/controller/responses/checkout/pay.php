@@ -34,7 +34,6 @@ class ControllerResponsesCheckoutPay extends AController
     public $error = [];
     protected $action = '';
     protected $allow_guest = false;
-    protected $form_rt = '';
     protected $cart_key = '';
     /** @var array short reference to fast checkout session data */
     protected $fc_session;
@@ -77,13 +76,13 @@ class ControllerResponsesCheckoutPay extends AController
         $this->data['require_telephone'] = $this->config->get('fast_checkout_require_phone_number');
 
         //set tax zone for tax class based on session data
-        $tax_country_id = null;
-        if($this->allow_guest && isset($this->session->data['guest'])){
+        $tax_zone_id = $tax_country_id = null;
+        if ($this->allow_guest && isset($this->session->data['guest'])) {
             //when payment address was set as address for taxes
             if ($this->config->get('config_tax_customer')) {
                 $tax_country_id = $this->session->data['guest']['country_id'];
                 $tax_zone_id = $this->session->data['guest']['zone_id'];
-            }else{
+            } else {
                 $tax_country_id = isset($this->session->data['guest']['shipping']['country_id'])
                     ? $this->session->data['guest']['shipping']['country_id']
                     : $this->session->data['guest']['country_id'];
@@ -93,10 +92,9 @@ class ControllerResponsesCheckoutPay extends AController
             }
         }
 
-        if($tax_country_id){
+        if ($tax_country_id) {
             $this->tax->setZone($tax_country_id, $tax_zone_id);
         }
-
     }
 
     public function __destruct()
@@ -195,7 +193,9 @@ class ControllerResponsesCheckoutPay extends AController
                 foreach ($this->data['all_addresses'] as $adr) {
                     if ($adr['address_id'] == $address_id) {
                         $this->fc_session['payment_address_id'] = $adr['address_id'];
-                        if ($this->config->get('config_tax_customer')) {
+                        if ($this->config->get('config_tax_customer')
+                            || (!$this->config->get('config_tax_customer') && !$this->cart->hasShipping())
+                        ) {
                             $tax_zone_id = $adr['zone_id'];
                             $tax_country_id = $adr['country_id'];
                         }
@@ -690,6 +690,10 @@ class ControllerResponsesCheckoutPay extends AController
         }
     }
 
+    /**
+     * @return bool
+     * @throws AException
+     */
     protected function _build_cart_product_details()
     {
         $qty = 0;
@@ -757,11 +761,7 @@ class ControllerResponsesCheckoutPay extends AController
         $this->data['totals'] = $display_totals['total_data'];
         $this->data['total'] = $display_totals['total'];
         $this->data['total_string'] = $this->currency->format($display_totals['total']);
-        if ($this->data['totals']) {
-            return true;
-        } else {
-            return false;
-        }
+        return ($this->data['totals']);
     }
 
     public function confirm()
@@ -983,6 +983,13 @@ class ControllerResponsesCheckoutPay extends AController
         $this->response->setOutput($this->view->fetch('responses/checkout/success.tpl'));
     }
 
+    /**
+     * @param float $amount
+     * @param int $order_id
+     *
+     * @return bool
+     * @throws AException
+     */
     protected function _process_account_balance($amount, $order_id)
     {
         if ($amount) {
@@ -1088,6 +1095,13 @@ class ControllerResponsesCheckoutPay extends AController
         }
     }
 
+    /**
+     * @param int $order_id
+     * @param string $order_token
+     *
+     * @return array
+     * @throws AException
+     */
     protected function _get_download($order_id, $order_token = '')
     {
         $download_url = '';
@@ -1545,6 +1559,13 @@ class ControllerResponsesCheckoutPay extends AController
         $this->response->setOutput($this->view->fetch('responses/checkout/main.tpl'));
     }
 
+    /**
+     * @param string $loginname
+     * @param string $password
+     *
+     * @return bool
+     * @throws AException
+     */
     protected function _validate_login($loginname, $password)
     {
         if (!$this->customer->login($loginname, $password)) {
@@ -1559,6 +1580,10 @@ class ControllerResponsesCheckoutPay extends AController
         }
     }
 
+    /**
+     * @return array
+     * @throws AException
+     */
     protected function _get_payment_methods()
     {
         $this->loadModel('checkout/extension');
@@ -1786,6 +1811,12 @@ class ControllerResponsesCheckoutPay extends AController
         }
     }
 
+    /**
+     * @param array $request
+     *
+     * @return bool
+     * @throws AException
+     */
     protected function _validate_order_details($request)
     {
         if ($this->config->get('fast_checkout_require_payment_address')) {
@@ -1927,6 +1958,12 @@ class ControllerResponsesCheckoutPay extends AController
         }
     }
 
+    /**
+     * @param string $coupon_code
+     *
+     * @return bool
+     * @throws AException
+     */
     protected function _validateCoupon($coupon_code)
     {
         $promotion = new APromotion();
@@ -1941,6 +1978,12 @@ class ControllerResponsesCheckoutPay extends AController
         return (!$this->error);
     }
 
+    /**
+     * @param string $message
+     *
+     * @return bool
+     * @throws AException
+     */
     protected function _to_log($message)
     {
         if (!$message) {
@@ -1961,6 +2004,11 @@ class ControllerResponsesCheckoutPay extends AController
         $this->response->setOutput($this->_build_error($error_text));
     }
 
+    /**
+     * @param string $error_text
+     *
+     * @return string
+     */
     protected function _build_error($error_text = '')
     {
         $this->data['error'] = $error_text;
