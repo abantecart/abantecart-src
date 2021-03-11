@@ -45,7 +45,7 @@ class ControllerResponsesEmbedGet extends AController
         }
 
         $this->loadModel('catalog/product');
-        $remote_store_url = $this->config->get('config_url');
+        $remote_store_url = $this->config->get('config_url').$this->config->get('seo_prefix');
         $product_stores = $this->model_catalog_product->getProductStoresInfo( $_get['product_id'] ?? 0 );
 
         if ($product_stores && count($product_stores) == 1) {
