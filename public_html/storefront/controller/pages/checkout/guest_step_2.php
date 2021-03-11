@@ -115,7 +115,8 @@ class ControllerPagesCheckoutGuestStep2 extends AController
                             'title' => $this->language->get('no_payment_required'),
                         ];
                     } else {
-                        $session['payment_method'] = $session['payment_methods'][$this->request->post['payment_method']];
+                        $session['payment_method'] =
+                            $session['payment_methods'][$this->request->post['payment_method']];
                     }
                     $session['comment'] = $this->request->post['comment'];
                     $this->extensions->hk_ProcessData($this);
@@ -156,7 +157,9 @@ class ControllerPagesCheckoutGuestStep2 extends AController
                     $icon = $ext_setgs[$result['key']."_shipping_storefront_icon"];
                     if (has_value($icon)) {
                         $icon_data = $this->model_checkout_extension->getSettingImage($icon);
-                        $icon_data['image'] = $icon;
+                        $icon_data['image'] = is_numeric($icon)
+                            ? $icon_data['type_dir'].'/'.$icon_data['resource_path']
+                            : $icon;
                         $quote_data[$result['key']]['icon'] = $icon_data;
                     }
                 }
@@ -199,7 +202,9 @@ class ControllerPagesCheckoutGuestStep2 extends AController
                 $icon = $psettings[$pkey][$pkey."_payment_storefront_icon"];
                 if (has_value($icon)) {
                     $icon_data = $this->model_checkout_extension->getSettingImage($icon);
-                    $icon_data['image'] = $icon;
+                    $icon_data['image'] = is_numeric($icon)
+                        ? $icon_data['type_dir'].'/'.$icon_data['resource_path']
+                        : $icon;
                     $method_data[$result['key']]['icon'] = $icon_data;
                 }
                 //check if this is a redirect type of the payment
@@ -262,7 +267,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController
                 $only_method = $ac_payments;
                 reset($only_method);
                 $pkey = key($only_method);
-                if ($psettings[$pkey][$pkey."_autoselect"] && $skip_step) {
+                if ($psettings[$pkey][$pkey."_autoselect"]) {
                     $session['payment_method'] = $only_method[$pkey];
                     redirect($this->html->getSecureURL('checkout/guest_step_3'));
                 }
@@ -316,7 +321,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController
         if (isset($session['success'])) {
             unset($session['success']);
         }
-        $mode = $this->request->get['mode'] ?: '';
+        $mode = $this->request->get['mode'] ? : '';
         $action = $this->html->getSecureURL(
             'checkout/guest_step_2',
             ($mode ? '&mode='.$mode : ''),
