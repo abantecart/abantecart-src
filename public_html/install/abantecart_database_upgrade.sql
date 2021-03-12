@@ -16,7 +16,7 @@ VALUES ('checkout','config_phone_validation_pattern','/^[0-9]{3,32}$/');
 -- DDL for table `coupon_categories`
 --
 DROP TABLE IF EXISTS `ac_coupons_categories`;
-CREATE TABLE `ac_coupons_products` (
+CREATE TABLE `ac_coupons_categories` (
   `coupon_category_id` int(11) NOT NULL AUTO_INCREMENT,
   `coupon_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
