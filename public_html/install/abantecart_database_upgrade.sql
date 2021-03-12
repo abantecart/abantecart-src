@@ -24,5 +24,3 @@ CREATE TABLE `ac_coupons_products` (
 ) ENGINE=MyISAM AUTO_INCREMENT=1;
 
 CREATE INDEX `ac_coupons_categories_idx` ON `ac_coupons_categories` ( `coupon_id`, `category_id`  );
-
-##add script to update config_log and config_mail_logo settings as multilingual

@@ -1,4 +1,5 @@
 <?php
+/** @var AController $this */
 $menu = new AMenu ("admin");
 $rm = new AResourceManager();
 $rm->setType('image');
@@ -46,6 +47,8 @@ if (!$menuItem) {
     );
 }
 
+/** @var ModelSettingSetting $mdl */
+$mdl = $this->load->model('setting/setting');
 //Default stripe settings changes
 if($this->config->get('default_stripe_status') && $this->config->get('default_stripe_access_token'))
 {
@@ -61,5 +64,3 @@ if($this->config->get('default_stripe_status') && $this->config->get('default_st
         ]
     );
 }
-
-
