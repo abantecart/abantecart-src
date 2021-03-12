@@ -153,7 +153,8 @@ class ModelInstall extends Model
         if (!extension_loaded('phar')) {
             $this->error['warning'] = 'Warning: PHAR extension needs to be loaded for AbanteCart to work!';
         }
-
+        $f = fopen(DIR_ABANTECART.'system/config.php','w');
+        fclose($f);
         if (!is_writable(DIR_ABANTECART.'system/config.php')) {
             $this->error['warning'] = 'Warning: config.php needs to be writable for AbanteCart to be installed!';
         }
