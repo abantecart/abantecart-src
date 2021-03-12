@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -42,6 +43,8 @@ final class ACurrency
 
     /**
      * @param $registry Registry
+     *
+     * @throws AException
      */
     public function __construct($registry)
     {
@@ -51,9 +54,7 @@ final class ACurrency
         $this->request = $registry->get('request');
         $this->session = $registry->get('session');
         $this->log = $registry->get('log');
-        /**
-         * @var AMessage
-         */
+        /** @var AMessage */
         $this->message = $registry->get('messages');
 
         $cache = $registry->get('cache');
@@ -78,9 +79,10 @@ final class ACurrency
             $cache->push($cache_key, $this->currencies);
         }
 
-        $currencyCode = isset($this->request->get['currency']) && $this->isValidCodeFormat($this->request->get['currency'])
-            ? $this->request->get['currency']
-            : '';
+        $currencyCode =
+            isset($this->request->get['currency']) && $this->isValidCodeFormat($this->request->get['currency'])
+                ? $this->request->get['currency']
+                : '';
         if ($currencyCode && array_key_exists($currencyCode, $this->currencies)) {
             $this->set($currencyCode);
             // Currency is switched, set sign for external use via isSwitched method
@@ -90,7 +92,6 @@ final class ACurrency
                 $this->session->data['shipping_methods'],
                 $this->session->data['shipping_method']
             );
-
         } elseif (isset($this->session->data['currency'])
             && array_key_exists($this->session->data['currency'], $this->currencies)
         ) {
@@ -124,10 +125,12 @@ final class ACurrency
 
     /**
      * @param string $currency
+     *
+     * @return false
      */
     public function set($currency)
     {
-        if(! isset($this->currencies[$currency]) ){
+        if (!isset($this->currencies[$currency])) {
             return false;
         }
         // if currency disabled - set first enabled from list
@@ -161,16 +164,18 @@ final class ACurrency
                 ]
             );
         }
+        return true;
     }
 
     /**
      * Format only number part (digit based)
      *
-     * @param float  $number
+     * @param float $number
      * @param string $currency
      * @param string $crr_value
      *
      * @return string
+     * @throws AException
      */
     public function format_number($number, $currency = '', $crr_value = '')
     {
@@ -180,12 +185,13 @@ final class ACurrency
     /**
      * Format total number part and/or currency symbol based on original price and quantity
      *
-     * @param float  $price
-     * @param float  $qty
+     * @param float $price
+     * @param float $qty
      * @param string $currency
      * @param string $crr_value
      *
      * @return string
+     * @throws AException
      */
     public function format_total($price, $qty, $currency = '', $crr_value = '')
     {
@@ -200,12 +206,13 @@ final class ACurrency
     /**
      * Format number part and/or currency symbol
      *
-     * @param float  $number
+     * @param float $number
      * @param string $currency
      * @param string $crr_value
-     * @param bool   $format
+     * @param bool $format
      *
      * @return string|float
+     * @throws AException
      */
     public function format($number, $currency = '', $crr_value = '', $format = true)
     {
@@ -223,7 +230,7 @@ final class ACurrency
             $value = $number;
         }
 
-        $decimal_place = (int)$this->currencies[$currency]['decimal_place'];
+        $decimal_place = (int) $this->currencies[$currency]['decimal_place'];
 
         if ($format) {
             $formatted_number = $this->wrap_display_format(round(abs($value), $decimal_place), $currency);
@@ -239,25 +246,13 @@ final class ACurrency
     }
 
     /**
-     * @deprecated since 1.2.10
-     *
-     * @param        $number
-     * @param string $currency
-     *
-     * @return string
-     */
-    public function wrap_dysplay_format($number, $currency = '')
-    {
-        return $this->wrap_display_format($number, $currency);
-    }
-
-    /**
      * Format number part and/or currency symbol
      *
-     * @param float  $number
+     * @param float $number
      * @param string $currency
      *
      * @return string
+     * @throws AException
      * @internal param bool $format
      */
     public function wrap_display_format($number, $currency = '')
@@ -267,7 +262,7 @@ final class ACurrency
         }
         $symbol_left = $this->currencies[$currency]['symbol_left'];
         $symbol_right = $this->currencies[$currency]['symbol_right'];
-        $decimal_place = (int)$this->currencies[$currency]['decimal_place'];
+        $decimal_place = (int) $this->currencies[$currency]['decimal_place'];
         $decimal_point = $this->language->get('decimal_point');
         $thousand_point = $this->language->get('thousand_point');
 
@@ -276,7 +271,7 @@ final class ACurrency
     }
 
     /**
-     * @param float  $value
+     * @param float $value
      * @param string $code_from
      * @param string $code_to
      *
@@ -287,7 +282,7 @@ final class ACurrency
         $from = isset($this->currencies[$code_from]['value']) ? $this->currencies[$code_from]['value'] : 0;
         $to = isset($this->currencies[$code_to]['value']) ? $this->currencies[$code_to]['value'] : 0;
         $to_decimal = isset($this->currencies[$code_to]['decimal_place'])
-            ? (int)$this->currencies[$code_to]['decimal_place']
+            ? (int) $this->currencies[$code_to]['decimal_place']
             : 2;
 
         $error = false;

@@ -555,8 +555,6 @@ class ControllerPagesToolImportExport extends AController
                 $this->data['cols'] = fgetcsv($fh, 0, $import_data['delimiter']);
                 $this->data['data'] = fgetcsv($fh, 0, $import_data['delimiter']);
             }
-        } else {
-            //unsupported type
         }
 
         $this->data['request_count'] = $import_data['request_count'];
@@ -639,13 +637,13 @@ class ControllerPagesToolImportExport extends AController
         if ($import_data['file_type'] != 'csv') {
             $this->session->data['error'] = $this->language->get('error_file_format');
             $this->main();
-            return null;
+            return;
         }
 
         if (!$this->data['results']) {
             $this->session->data['error'] = $this->language->get('error_data_corrupted');
             $this->main();
-            return null;
+            return;
         }
     }
 
@@ -660,7 +658,8 @@ class ControllerPagesToolImportExport extends AController
             return false;
         }
 
-        foreach ($this->tables[$post['table']]['columns'] as $id => $data) {
+        $cols = $this->tables[$post['table']]['columns'] ?? [];
+        foreach ($cols as $id => $data) {
             if ($data['required'] && !in_array($id, $post[$post['table']."_fields"])) {
                 $this->error = sprintf($this->language->get('error_required_selection'), $id);
                 return false;

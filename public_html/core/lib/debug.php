@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -21,8 +21,8 @@
 
 class ADebug
 {
-    static public $checkpoints = array();
-    static public $queries = array();
+    static public $checkpoints = [];
+    static public $queries = [];
     static public $queries_time = 0;
     static private $debug = 0; //off
     static private $debug_level = 0; //only exceptions
@@ -62,13 +62,14 @@ class ADebug
         if (!self::isActive()) {
             return false;
         }
-        self::$queries[] = array(
+        self::$queries[] = [
             'sql'  => $query,
             'time' => sprintf('%01.5f', $time),
             'file' => $backtrace['file'],
             'line' => $backtrace['line'],
-        );
+        ];
         self::$queries_time += $time;
+        return true;
     }
 
     static function checkpoint($name)
@@ -78,7 +79,7 @@ class ADebug
         }
 
         $e = new Exception();
-        self::$checkpoints[] = array(
+        self::$checkpoints[] = [
             'name'           => $name,
             'time'           => self::microtime(),
             'memory'         => memory_get_usage(),
@@ -86,7 +87,8 @@ class ADebug
             'queries'        => count(self::$queries),
             'type'           => 'checkpoint',
             'trace'          => $e->getTraceAsString(),
-        );
+        ];
+        return true;
     }
 
     static function variable($name, $variable)
@@ -101,17 +103,18 @@ class ADebug
         echo '</pre>';
         $msg = ob_get_clean();
 
-        self::$checkpoints[] = array(
+        self::$checkpoints[] = [
             'name' => $name,
             'msg'  => $msg,
             'type' => 'variable',
-        );
+        ];
+        return true;
     }
 
     static function error($name, $code, $msg)
     {
 
-        self::$checkpoints[] = array(
+        self::$checkpoints[] = [
             'name'           => $name,
             'time'           => self::microtime(),
             'memory'         => memory_get_usage(),
@@ -120,14 +123,14 @@ class ADebug
             'msg'            => $msg,
             'code'           => $code,
             'type'           => 'error',
-        );
+        ];
         self::$_is_error = true;
     }
 
     static function warning($name, $code, $msg)
     {
 
-        self::$checkpoints[] = array(
+        self::$checkpoints[] = [
             'name'           => $name,
             'time'           => self::microtime(),
             'memory'         => memory_get_usage(),
@@ -136,7 +139,7 @@ class ADebug
             'msg'            => $msg,
             'code'           => $code,
             'type'           => 'warning',
-        );
+        ];
         self::$_is_error = true;
     }
 
@@ -185,7 +188,7 @@ class ADebug
                         <td><b>Info</b></td>
                     </tr>';
 
-        $show = array('error', 'warning');
+        $show = ['error', 'warning'];
         foreach (self::$checkpoints as $c) {
             if (!in_array($c['type'], $show)) {
                 continue;
@@ -201,8 +204,8 @@ class ADebug
         if (!self::isActive()) {
             return false;
         }
-        $previous = array();
-        $cummulative = array();
+        $previous = [];
+        $cumulative = [];
 
         $first = true;
 
@@ -229,9 +232,9 @@ class ADebug
                     }
                     if ($first == true) {
                         $first = false;
-                        $cummulative = $c;
+                        $cumulative = $c;
                     }
-                    $time = sprintf("%01.4f", $c['time'] - $cummulative['time']);
+                    $time = sprintf("%01.4f", $c['time'] - $cumulative['time']);
                 }
                 echo '<div class="debug_info">';
                 echo 'Queries - '.count(self::$queries).'<br />';
@@ -256,14 +259,14 @@ class ADebug
                     echo '<tr valign="top" class="debug_'.$c['type'].'" ><td><b>'.$c['name'].'</b><br /></td>';
                     echo '<td>';
                     if ($first == true && $c['type'] != 'variable') {
-                        $previous = array(
+                        $previous = [
                             'time'           => $c['time'],
                             'memory'         => 0,
                             'included_files' => 0,
                             'queries'        => 0,
-                        );
+                        ];
                         $first = false;
-                        $cummulative = $c;
+                        $cumulative = $c;
                     }
 
                     switch ($c['type']) {
@@ -280,7 +283,7 @@ class ADebug
                                 .$c['included_files'].')'.'<br />';
                             echo '- Queries: '.($c['queries'] - $previous['queries']).' ('.$c['queries'].')'.'<br />';
                             echo '- Time: '.sprintf("%01.4f", $c['time'] - $previous['time']).' ('.sprintf("%01.4f",
-                                    $c['time'] - $cummulative['time']).')'.'<br />';
+                                    $c['time'] - $cumulative['time']).')'.'<br />';
                             if (self::$debug_level > 3) {
                                 self::display_queries($previous['queries'], $c['queries']);
                             }
@@ -323,7 +326,7 @@ class ADebug
                 break;
             default:
         }
-
+        return true;
     }
 
 }

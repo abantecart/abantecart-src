@@ -158,7 +158,7 @@ class ExtensionCardconnect extends Extension
             return null;
         }
         $that = $this->baseObject;
-        if (!$this->_is_enabled($that)) {
+        if (!$this->_is_enabled()) {
             return null;
         }
         if (IS_ADMIN !== true) {
