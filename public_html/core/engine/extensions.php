@@ -1162,7 +1162,7 @@ class ExtensionsApi
                 // and interrupt running of base controller method
                 /** @see ADispatcher::dispatch() */
                 throw new AException(
-                    AC_HOOK_AROUND,
+                    AC_HOOK_OVERRIDE,
                     'Class '.get_class($baseObject).' overridden by extension "override" hook.',
                     '',
                     '',

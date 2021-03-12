@@ -19,7 +19,7 @@
 ------------------------------------------------------------------------------*/
 
 // Error codes
-define('AC_HOOK_AROUND', 9999);
+define('AC_HOOK_OVERRIDE', 9999);
 
 define('AC_ERR_CLASS_CLASS_NOT_EXIST', 9000); // class class not exist
 define('AC_ERR_CLASS_METHOD_NOT_EXIST', 9001); // class method not exist

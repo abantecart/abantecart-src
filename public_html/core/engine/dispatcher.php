@@ -292,7 +292,6 @@ final class ADispatcher
                         return $dispatch->getController().'/'.$dispatch->getMethod();
                     } else {
                         // Call new dispatch for new controller and exit
-                        //???? need to put limit for recursion to prevent overflow
                         $dispatch->dispatch();
                         return null;
                     }
@@ -358,7 +357,7 @@ final class ADispatcher
             }
         } //catching output of around hook (it can be only one)
         catch (AException $e) {
-            if ($e->getCode() != AC_HOOK_AROUND) {
+            if ($e->getCode() != AC_HOOK_OVERRIDE) {
                 throw $e;
             }
         }
