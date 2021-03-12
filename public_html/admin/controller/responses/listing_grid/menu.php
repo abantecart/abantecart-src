@@ -100,6 +100,7 @@ class ControllerResponsesListingGridMenu extends AController
             $h = (int) $this->config->get('config_image_grid_height');
             foreach ($results as $result) {
                 $icon = '';
+                $result['item_icon_rl_id'] = $result['item_icon_rl_id'] ? : $result['item_icon'];
                 $resource = $ar->getResource($result['item_icon_rl_id']);
                 if ($resource['resource_path'] || !$resource['resource_code']) {
                     $thumb = $ar->getResourceThumb($result['item_icon_rl_id'], $w, $h);
@@ -122,7 +123,7 @@ class ControllerResponsesListingGridMenu extends AController
                     ),
                     'action',
                     $new_level,
-                    ($menu_parent_id ? $menu_parent_id : null),
+                    ($menu_parent_id ? : null),
                     ($result['item_id'] == $leaf_nodes[$result['item_id']]),
                     false,
                 ];
@@ -186,8 +187,12 @@ class ControllerResponsesListingGridMenu extends AController
                         foreach ($ids as $id) {
                             $array[$id] = $this->request->post['sort_order'][$id];
                         }
-                        $new_sort =
-                            build_sort_order($ids, min($array), max($array), $this->request->post['sort_direction']);
+                        $new_sort = build_sort_order(
+                            $ids,
+                            min($array),
+                            max($array),
+                            $this->request->post['sort_direction']
+                        );
                         $this->request->post['sort_order'] = $new_sort;
                     }
                     foreach ($ids as $item_id) {
