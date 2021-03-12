@@ -981,4 +981,25 @@
 		<key>entry_image_resize_fill_color</key>
 		<value><![CDATA[Цвет заливки для изменения размера изображения <br/><span class="help">Цвет, который будет заполняться пустыми областями при изменении размера изображения с прямоугольника на квадрат</span>]]></value>
 	</definition>
+	<definition>
+		<key>entry_google_api_key</key>
+		<value><![CDATA[
+ Ключ Google API (для включения карт Google): <br/><span class="help">Вы можете увидеть адрес на карте. Чтобы включить карты Google Maps, добавьте свой ключ API карт Google Maps <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Страница учетных данных Google</a> .</span>]]></value>
+	</definition>
+	<definition>
+		<key>warning_https_store_url</key>
+		<value><![CDATA[Для обеспечения правильной работы платформы во всех браузерах и обеспечения безопасности данных требуется протокол HTTPS. Все запросы следует отправлять на HTTPS.]]></value>
+	</definition>
+	<definition>
+		<key>entry_default_logo</key>
+		<value><![CDATA[Логотип магазина по умолчанию:]]></value>
+	</definition>
+	<definition>
+		<key>entry_default_mail_logo</key>
+		<value><![CDATA[Логотип электронной почты по умолчанию:]]></value>
+	</definition>
+	<definition>
+		<key>entry_phone_validation_pattern</key>
+		<value><![CDATA[Шаблон регулярного выражения проверки телефона:]]></value>
+	</definition>
 </definitions>

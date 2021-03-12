@@ -999,4 +999,25 @@ imagen</span>]]></value>
 		<key>entry_image_resize_fill_color</key>
 		<value><![CDATA[Color de relleno para cambiar el tamaño de la imagen <br/><span class="help">Color que se rellenará en áreas vacías durante el cambio de tamaño de la imagen de rectángulo a cuadrado</span>]]></value>
 	</definition>
+	<definition>
+		<key>entry_google_api_key</key>
+		<value><![CDATA[
+ Clave API de Google (para habilitar mapas de Google): <br/><span class="help">Puede ver la dirección en el mapa. Para habilitar los mapas de Google, agregue su clave de API de mapas de <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Google Página de credenciales de Google</a> .</span>]]></value>
+	</definition>
+	<definition>
+		<key>warning_https_store_url</key>
+		<value><![CDATA[Para mantener la funcionalidad correcta de la plataforma en todos los navegadores y mantener la seguridad de los datos, se requiere el protocolo HTTPS. Todas las solicitudes deben enviarse a HTTPS]]></value>
+	</definition>
+	<definition>
+		<key>entry_default_logo</key>
+		<value><![CDATA[Logotipo predeterminado de la tienda:]]></value>
+	</definition>
+	<definition>
+		<key>entry_default_mail_logo</key>
+		<value><![CDATA[Logotipo de correo electrónico predeterminado:]]></value>
+	</definition>
+	<definition>
+		<key>entry_phone_validation_pattern</key>
+		<value><![CDATA[Patrón de expresiones regulares de validación de teléfono:]]></value>
+	</definition>
 </definitions>

@@ -70,8 +70,7 @@
 	</definition>
 	<definition>
 		<key>entry_logged</key>
-		<value>
-			<![CDATA[Login cliente:<br /><span class="help">Il cliente deve essere loggato per utilizzare il coupon.</span>]]></value>
+		<value><![CDATA[Login cliente:<br /><span class="help">Il cliente deve essere loggato per utilizzare il coupon.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_shipping</key>
@@ -79,8 +78,7 @@
 	</definition>
 	<definition>
 		<key>entry_total</key>
-		<value>
-			<![CDATA[Importo totale:<br /><span class="help">L'importo totale che si deve raggiungere prima che il coupon sia valido.</span>]]></value>
+		<value><![CDATA[Importo totale:<br /><span class="help">L'importo totale che si deve raggiungere prima che il coupon sia valido.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_product</key>
@@ -96,13 +94,11 @@
 	</definition>
 	<definition>
 		<key>entry_uses_total</key>
-		<value>
-			<![CDATA[Utilizza Per Coupon:<br /><span class="help">Il numero massimo di volte in cui il coupon può essere utilizzato da qualsiasi cliente. Lasciare vuoto per un numero illimitato.</span>]]></value>
+		<value><![CDATA[Utilizza Per Coupon:<br /><span class="help">Il numero massimo di volte in cui il coupon può essere utilizzato da qualsiasi cliente. Lasciare vuoto per un numero illimitato.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_uses_customer</key>
-		<value>
-			<![CDATA[Utilizza per cliente:<br /><span class="help">Il numero massimo di volte in cui il coupon può essere utilizzato da un singolo cliente. lasciare vuoto per un numero illimitato.</span>]]></value>
+		<value><![CDATA[Utilizza per cliente:<br /><span class="help">Il numero massimo di volte in cui il coupon può essere utilizzato da un singolo cliente. lasciare vuoto per un numero illimitato.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_status</key>
@@ -131,5 +127,21 @@
 	<definition>
 		<key>error_date</key>
 		<value><![CDATA[Si prega di impostare l'intervallo delle date!]]></value>
+	</definition>
+	<definition>
+		<key>entry_category</key>
+		<value><![CDATA[Categorie: <br/><span class="help">Applica coupon quando prodotti da una delle categorie selezionate.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_select_category</key>
+		<value><![CDATA[- Seleziona categoria -]]></value>
+	</definition>
+	<definition>
+		<key>text_or</key>
+		<value><![CDATA[O]]></value>
+	</definition>
+	<definition>
+		<key>text_and</key>
+		<value><![CDATA[E]]></value>
 	</definition>
 </definitions>

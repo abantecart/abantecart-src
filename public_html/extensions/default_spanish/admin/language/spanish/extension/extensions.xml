@@ -396,4 +396,20 @@
 		<key>text_save_success</key>
 		<value><![CDATA[éxito: Ha modificado la configuración de extensión!]]></value>
 	</definition>
+	<definition>
+		<key>text_support_expiration</key>
+		<value><![CDATA[El soporte está activo hasta]]></value>
+	</definition>
+	<definition>
+		<key>text_support_expired</key>
+		<value><![CDATA[Soporte caducado]]></value>
+	</definition>
+	<definition>
+		<key>text_license_expired</key>
+		<value><![CDATA[El soporte de extensión ha caducado o no está conectado al mercado]]></value>
+	</definition>
+	<definition>
+		<key>button_get_support</key>
+		<value><![CDATA[Obtener apoyo]]></value>
+	</definition>
 </definitions>

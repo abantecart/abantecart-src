@@ -981,4 +981,25 @@
 		<key>entry_image_resize_fill_color</key>
 		<value><![CDATA[Colore di riempimento per il ridimensionamento dell&#39;immagine <br/><span class="help">Colore che verrà riempito in aree vuote durante il ridimensionamento dell&#39;immagine dal rettangolo al quadrato</span>]]></value>
 	</definition>
+	<definition>
+		<key>entry_google_api_key</key>
+		<value><![CDATA[
+ Google API Key (per abilitare Google Maps): <br/><span class="help">Puoi vedere l&#39;indirizzo sulla mappa. Per abilitare Google Maps, aggiungi la tua chiave API di Google Maps. <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Pagina delle credenziali di Google.</a></span>]]></value>
+	</definition>
+	<definition>
+		<key>warning_https_store_url</key>
+		<value><![CDATA[Per mantenere la corretta funzionalità della piattaforma in tutti i browser e mantenere la sicurezza dei dati, è richiesto il protocollo HTTPS. Tutte le richieste devono essere inviate a HTTPS]]></value>
+	</definition>
+	<definition>
+		<key>entry_default_logo</key>
+		<value><![CDATA[Logo negozio predefinito:]]></value>
+	</definition>
+	<definition>
+		<key>entry_default_mail_logo</key>
+		<value><![CDATA[Logo email predefinito:]]></value>
+	</definition>
+	<definition>
+		<key>entry_phone_validation_pattern</key>
+		<value><![CDATA[Pattern Regex di convalida del telefono:]]></value>
+	</definition>
 </definitions>
