@@ -24,17 +24,18 @@ if (!defined('DIR_CORE')) {
 
 class AException extends Exception
 {
-
     public $registry = null;
     protected $error;
+    protected $extraData;
 
-    public function __construct($errno = 0, $errstr = '', $file = '', $line = '')
+    public function __construct($errno = 0, $errstr = '', $file = '', $line = '', $extra = null)
     {
         parent::__construct();
-        $this->code = $errno ? $errno : $this->code;
-        $this->message = $errstr ? $errstr : $this->message;
-        $this->file = $file ? $file : $this->file;
-        $this->line = $line ? $line : $this->line;
+        $this->code = $errno ? : $this->code;
+        $this->message = $errstr ? : $this->message;
+        $this->file = $file ? : $this->file;
+        $this->line = $line ? : $this->line;
+        $this->extraData = $extra;
         if (class_exists('Registry')) {
             $this->registry = Registry::getInstance();
         }
@@ -50,6 +51,11 @@ class AException extends Exception
     public function errorCode()
     {
         return $this->code;
+    }
+
+    public function getExtraData()
+    {
+        return $this->extraData;
     }
 
     public function errorMessage()
