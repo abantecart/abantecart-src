@@ -43,8 +43,9 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 define('DIR_ROOT', $root_path);
 define('DIR_CORE', DIR_ROOT.'/core/');
 
-require_once(DIR_ROOT.'/system/config.php');
-
+if(is_file(DIR_ROOT.'/system/config.php')) {
+    require_once(DIR_ROOT.'/system/config.php');
+}
 // New Installation
 if (!defined('DB_DATABASE')) {
     header('Location: install/index.php');
