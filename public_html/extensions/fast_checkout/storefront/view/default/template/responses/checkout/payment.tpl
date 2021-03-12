@@ -64,7 +64,7 @@ $guest_data = $this->session->data['guest'];
                             <option disabled><?php echo $fast_checkout_text_shipping_address; ?>:</option>
                             <option disabled></option>
                             <?php
-                            if (count($all_addresses)) {
+                            if ($all_addresses) {
                                 foreach ($all_addresses as $addr) {
                                     $current = '';
                                     if ($addr['address_id'] == $csession['shipping_address_id']) {
@@ -85,7 +85,7 @@ $guest_data = $this->session->data['guest'];
                         <?php } ?>
                     </div>
             <?php
-            if (count($all_addresses)) { ?>
+            if ($all_addresses) { ?>
                      <div class="shipping_address_details"></div>
             <?php   } ?>
 
@@ -126,7 +126,7 @@ $guest_data = $this->session->data['guest'];
                                         <option disabled><?php echo $fast_checkout_text_payment_address; ?>:</option>
                                         <option disabled></option>
                                         <?php
-                                        if (count($all_addresses)) {
+                                        if ($all_addresses) {
                                             foreach ($all_addresses as $addr) {
                                                 $current = '';
                                                 if ($addr['address_id'] == $csession['payment_address_id']) {
@@ -147,7 +147,7 @@ $guest_data = $this->session->data['guest'];
                                     <?php } ?>
                                 </div>
                                 <?php
-                                if (count($all_addresses)) { ?>
+                                if ($all_addresses) { ?>
                                     <div class="payment_address_details"></div>
                                     <?php
                                 } ?>

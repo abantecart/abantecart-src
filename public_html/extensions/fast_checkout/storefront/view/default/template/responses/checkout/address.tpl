@@ -103,7 +103,7 @@
                 <i class="fa fa-map"></i>
                 <select class="form-control input-lg" id="country_id" name="country_id">
                 <?php
-                    if (count($form['country_id']->options)) {
+                    if ($form['country_id']->options) {
                         foreach ($form['country_id']->options as $id => $name) {
                             $current = '';
                             if ($id == $form['country_id']->value) {
