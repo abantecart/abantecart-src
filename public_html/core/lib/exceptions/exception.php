@@ -80,35 +80,31 @@ class AException extends Exception
 
     public function logError()
     {
+        $criticalErrors = [
+            E_ERROR,
+            E_PARSE,
+            E_CORE_ERROR,
+            E_COMPILE_ERROR,
+            AC_ERR_CLASS_CLASS_NOT_EXIST,
+            AC_ERR_CLASS_METHOD_NOT_EXIST,
+            AC_ERR_CLASS_PROPERTY_NOT_EXIST,
+            AC_ERR_USER_ERROR,
+            AC_ERR_MYSQL,
+            AC_ERR_REQUIREMENTS,
+            AC_ERR_LOAD,
+            AC_ERR_CONNECT_METHOD,
+            AC_ERR_CONNECT,
+            AC_ERR_LOAD_LAYOUT,
+        ];
         //error reporting levels based on settings.
         // see admin menu-> system->settings->system -> debugging
-        if($this->registry) {
+        if ($this->registry) {
             $config = $this->registry->get('config');
             if ($config) {
                 switch ($config->get('config_debug_level')) {
                     // no logs , only exception errors
                     case 0:
-                        if (in_array(
-                            $this->getCode(),
-                            [
-                                E_ERROR,
-                                E_PARSE,
-                                E_CORE_ERROR,
-                                E_COMPILE_ERROR,
-
-                                AC_ERR_CLASS_CLASS_NOT_EXIST,
-                                AC_ERR_CLASS_METHOD_NOT_EXIST,
-                                AC_ERR_CLASS_PROPERTY_NOT_EXIST,
-                                AC_ERR_USER_ERROR,
-                                AC_ERR_MYSQL,
-                                AC_ERR_REQUIREMENTS,
-                                AC_ERR_LOAD,
-                                AC_ERR_CONNECT_METHOD,
-                                AC_ERR_CONNECT,
-                                AC_ERR_LOAD_LAYOUT,
-                            ]
-                        )
-                        ) {
+                        if (in_array($this->getCode(), $criticalErrors)) {
                             $this->error->toLog();
                             return;
                         }
@@ -117,30 +113,15 @@ class AException extends Exception
                     case 1:
                         if (in_array(
                             $this->getCode(),
-                            [
-                                E_ERROR,
-                                E_PARSE,
-                                E_CORE_ERROR,
-                                E_COMPILE_ERROR,
-                                AC_ERR_CLASS_CLASS_NOT_EXIST,
-                                AC_ERR_CLASS_METHOD_NOT_EXIST,
-                                AC_ERR_CLASS_PROPERTY_NOT_EXIST,
-                                AC_ERR_USER_ERROR,
-                                AC_ERR_MYSQL,
-                                AC_ERR_REQUIREMENTS,
-                                AC_ERR_LOAD,
-                                AC_ERR_CONNECT_METHOD,
-                                AC_ERR_CONNECT,
-                                AC_ERR_LOAD_LAYOUT,
-                                //warnings
-                                E_WARNING,
-                                E_CORE_WARNING,
-                                E_COMPILE_WARNING,
-                                E_USER_WARNING,
-                                AC_ERR_USER_WARNING,
-
-                            ]
-                        )
+                                ($criticalErrors + [
+                                    //warnings
+                                    E_WARNING,
+                                    E_CORE_WARNING,
+                                    E_COMPILE_WARNING,
+                                    E_USER_WARNING,
+                                    AC_ERR_USER_WARNING,
+                                ])
+                            )
                         ) {
                             $this->error->toLog();
                             return;
@@ -164,6 +145,11 @@ class AException extends Exception
                         $this->error->toLog();
                         break;
                 }
+            }
+        } else {
+            if (in_array($this->getCode(), $criticalErrors)) {
+                $this->error->toLog();
+                return;
             }
         }
         //if no settings for debug level - write only php and linter errors into the log
