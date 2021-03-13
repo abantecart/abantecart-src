@@ -1344,13 +1344,11 @@ class AConfigManager
                 if (is_numeric($defaultValue) || !$defaultValue) {
                     $p['resource_id'] = $defaultValue;
                 } else {
-                    $p = [
-                        'resource_path' => htmlspecialchars(
+                    $p['resource_path'] = htmlspecialchars(
                             $defaultValue,
                             ENT_COMPAT,
                             'UTF-8'
-                        ),
-                    ];
+                        );
                 }
                 $fields[$alias] = (string) $form->getFieldHtml(
                     $props[] = $p
