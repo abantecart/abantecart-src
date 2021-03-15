@@ -193,7 +193,6 @@
             });
             card.mount('#card-element');
         }
-
         $(window).on( 'load',onLoad_func);
         $(document).ready(onLoad_func);
     </script>

@@ -1,9 +1,7 @@
 <?php
-/** @noinspection PhpUndefinedVariableInspection */
 include($tpl_common_dir.'action_confirm.tpl'); ?>
 
 <div id="content" class="panel panel-default">
-
     <div class="panel-heading col-xs-12">
         <div class="primary_content_actions pull-left">
             <?php
@@ -24,13 +22,11 @@ include($tpl_common_dir.'action_confirm.tpl'); ?>
                        data-confirmation="delete"
                        onclick="disconnect(); return false;" href="#"
                        data-confirmation-text="<?php
-                       echo $text_disconnect_confirm; ?>"
-                    >
+                       echo $text_disconnect_confirm; ?>" >
                         <i class="fa fa-unlink fa-fw"></i>
                     </a>
                 </div>
-            <?php
-            } ?>
+            <?php } ?>
             <div class="btn-group">
                 <a class="btn btn-primary" href="<?php
                 echo $btn_extensions_store->href; ?>">
@@ -80,9 +76,8 @@ echo $this->html->buildElement(
         'modal_type' => 'sm',
         'title'      => $text_please_confirm,
         'content'    => '',
-        'footer'     => '<button type="button" class="btn btn-default" id="confirm_cancel">'.$button_cancel.'</button>
-							<button type="button" class="btn btn-primary" id="confirm_disable">'.$button_confirm
-            .'</button>',
+        'footer'     => '<button type="button" class="btn btn-default" id="confirm_cancel">'.$button_cancel.'</button>'
+            .'<button type="button" class="btn btn-primary" id="confirm_disable">'.$button_confirm.'</button>',
     ]
 );
 ?>

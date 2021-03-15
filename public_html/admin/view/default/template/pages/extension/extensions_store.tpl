@@ -41,30 +41,30 @@
                     }
                 }
             } ?>
-		<div class="btn-group">
-		  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-			<i class="fa fa-folder-o"></i>
-			 <?php echo $current_categ; ?> <span class="caret"></span>
-		  </button>
-		  <ul class="dropdown-menu">
-			<?php foreach ($content['categories']['subcategories'] as $category) { ?>
-					<li class="<?php echo $category['active'] ? 'disabled' : '' ?>">
-						<a href="<?php echo $category['href'] ?>"
-						   title="<?php echo trim($category['description']) ?>"><?php echo $category['name'] ?></a>
-					</li>
-			<?php } ?>
-		  </ul>
-		</div>
-		<div class="btn-group form-inline">
-			<?php echo $form['form_open']; ?>
-			<div class="form-group">
-				<div class="input-group">
-				<?php echo $form['input']; ?>
-				</div>
-				<button type="submit" class="btn btn-primary lock-on-click"><?php echo $button_go; ?></button>
-			</div>
-			</form>
-		</div>
+        <div class="btn-group">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+            <i class="fa fa-folder-o"></i>
+             <?php echo $current_categ; ?> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+            <?php foreach ($content['categories']['subcategories'] as $category) { ?>
+                    <li class="<?php echo $category['active'] ? 'disabled' : '' ?>">
+                        <a href="<?php echo $category['href'] ?>"
+                           title="<?php echo trim($category['description']) ?>"><?php echo $category['name'] ?></a>
+                    </li>
+            <?php } ?>
+          </ul>
+        </div>
+        <div class="btn-group form-inline">
+            <?php echo $form['form_open']; ?>
+            <div class="form-group">
+                <div class="input-group">
+                <?php echo $form['input']; ?>
+                </div>
+                <button type="submit" class="btn btn-primary lock-on-click"><?php echo $button_go; ?></button>
+            </div>
+            </form>
+        </div>
 		<?php } ?>
 		<div class="btn-group pull-right ml10">
 			<a class="btn btn-white tooltips"
@@ -100,7 +100,7 @@
                 <?php
                 if ($content['products']['rows']) {
                     foreach ($content['products']['rows'] as $product) {
-                        $item = array();
+                        $item = [];
                         $item['product_id'] = $product['id'];
                         $item['image'] = $product['cell']['thumb'];
                         $item['main_image'] = $product['cell']['main_image'];
@@ -152,7 +152,7 @@
 								<img src="<?php echo $this->templateResource('/image/loading_row.gif'); ?>"
                                      class="load_ondemand"
                                      data-src="<?php echo $item['main_image'] ?>"
-                                     width="500px">
+                                     width="500px" alt="...loading">
 							</div>
 							</div>
 						</div>
@@ -278,7 +278,7 @@
 <?php
 if (!$mp_connected) {
     echo $this->html->buildElement(
-        array(
+        [
             'type'       => 'modal',
             'id'         => 'amp_modal',
             'modal_type' => 'lg',
@@ -286,11 +286,11 @@ if (!$mp_connected) {
             'content'    => '<iframe id="amp_frame" width="100%" height="400px" frameBorder="0"></iframe>'
                             .'<div id="iframe_loading" class="center_div"><i class="fa fa-spinner fa-spin fa-2x"></i></div>',
             'footer'     => '',
-        )
+        ]
     );
 }
 echo $this->html->buildElement(
-    array(
+    [
         'type'       => 'modal',
         'id'         => 'amp_product_modal',
         'modal_type' => 'lg',
@@ -298,10 +298,10 @@ echo $this->html->buildElement(
         'content'    => '<iframe id="amp_product_frame" width="100%" height="650px" frameBorder="0"></iframe>'
                         .'<div id="iframe_product_loading" class="center_div"><i class="fa fa-spinner fa-spin fa-2x"></i></div>',
         'footer'     => '',
-    )
+    ]
 );
 echo $this->html->buildElement(
-    array(
+    [
         'type'       => 'modal',
         'id'         => 'amp_order_modal',
         'modal_type' => 'lg',
@@ -309,7 +309,7 @@ echo $this->html->buildElement(
         'content'    => '<iframe id="amp_order_frame" width="100%" height="650px" frameBorder="0"></iframe>'
                         .'<div id="iframe_order_loading" class="center_div"><i class="fa fa-spinner fa-spin fa-2x"></i></div>',
         'footer'     => '',
-    )
+    ]
 );
 ?>
 
