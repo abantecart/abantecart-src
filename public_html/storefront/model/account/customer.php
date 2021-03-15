@@ -7,7 +7,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -1055,9 +1055,9 @@ class ModelAccountCustomer extends Model
         $this->data['mail_template_data']['login_url'] = $login_url;
 
         $mailLogo = $this->config->get('config_mail_logo_'.$languageId)
-                    ?: $this->config->get('config_mail_logo');
-        $mailLogo = $mailLogo ?: $this->config->get('config_logo_'.$languageId);
-        $mailLogo = $mailLogo ?: $this->config->get('config_logo');
+            ? : $this->config->get('config_mail_logo');
+        $mailLogo = $mailLogo ? : $this->config->get('config_logo_'.$languageId);
+        $mailLogo = $mailLogo ? : $this->config->get('config_logo');
 
         if ($mailLogo) {
             $result = getMailLogoDetails($mailLogo);
@@ -1068,7 +1068,8 @@ class ModelAccountCustomer extends Model
         $this->data['mail_template_data']['config_mail_logo'] = $mailLogo;
 
         $this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
-        $this->data['mail_template_data']['store_url'] = $this->config->get('config_url');
+        $this->data['mail_template_data']['store_url'] =
+            $this->config->get('config_url').$this->config->get('seo_prefix');
         $this->data['mail_template_data']['text_project_label'] = project_base();
 
         //allow to change email data from extensions
@@ -1109,9 +1110,9 @@ class ModelAccountCustomer extends Model
         $this->data['mail_template_data']['activate_url'] = '<a href="'.$activate_url.'">'.$activate_url.'</a>';
 
         $mailLogo = $this->config->get('config_mail_logo_'.$languageId)
-                    ?: $this->config->get('config_mail_logo');
-        $mailLogo = $mailLogo ?: $this->config->get('config_logo_'.$languageId);
-        $mailLogo = $mailLogo ?: $this->config->get('config_logo');
+            ? : $this->config->get('config_mail_logo');
+        $mailLogo = $mailLogo ? : $this->config->get('config_logo_'.$languageId);
+        $mailLogo = $mailLogo ? : $this->config->get('config_logo');
 
         if ($mailLogo) {
             $result = getMailLogoDetails($mailLogo);
@@ -1122,7 +1123,8 @@ class ModelAccountCustomer extends Model
         $this->data['mail_template_data']['config_mail_logo'] = $mailLogo;
 
         $this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
-        $this->data['mail_template_data']['store_url'] = $this->config->get('config_url');
+        $this->data['mail_template_data']['store_url'] =
+            $this->config->get('config_url').$this->config->get('seo_prefix');
         $this->data['mail_template_data']['text_project_label'] = project_base();
 
         //allow to change email data from extensions

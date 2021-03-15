@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -26,19 +26,20 @@ class ModelUserUserGroup extends Model
 
     public function addUserGroup($data)
     {
-
         if (!isset($data['permission'])) {
             $controllers = $this->getAllControllers();
-            $types = array('access', 'modify');
+            $types = ['access', 'modify'];
             foreach ($types as $type) {
                 foreach ($controllers as $controller) {
                     $data['permission'][$type][$controller] = 0;
                 }
             }
         }
-        $this->db->query("INSERT INTO ".$this->db->table("user_groups")." 
-						  SET name = '".$this->db->escape($data['name'])."',
-							  permission = '".(isset($data['permission']) ? serialize($data['permission']) : '')."'");
+        $this->db->query(
+            "INSERT INTO ".$this->db->table("user_groups")." 
+            SET name = '".$this->db->escape($data['name'])."',
+                permission = '".(isset($data['permission']) ? serialize($data['permission']) : '')."'"
+        );
         return $this->db->getLastId();
     }
 
@@ -48,7 +49,7 @@ class ModelUserUserGroup extends Model
         $user_group_id = !$user_group_id ? $this->addUserGroup($data['name']) : $user_group_id;
         $user_group = $this->getUserGroup($user_group_id);
 
-        $update = array();
+        $update = [];
         if (isset($data['name'])) {
             $update[] = "name = '".$this->db->escape($data['name'])."'";
         }
@@ -58,7 +59,7 @@ class ModelUserUserGroup extends Model
 
             if (isset($data['permission']['access'])) {
                 foreach ($data['permission']['access'] as $controller => $value) {
-                    $value = !in_array($value, array(null, 0, 1)) ? 0 : $value;
+                    $value = !in_array($value, [null, 0, 1]) ? 0 : $value;
                     $p['access'][$controller] = $value;
                     if (!isset($p['modify'][$controller]) && !isset($data['permission']['modify'][$controller])) {
                         $p['modify'][$controller] = 0;
@@ -67,7 +68,7 @@ class ModelUserUserGroup extends Model
             }
             if (isset($data['permission']['modify'])) {
                 foreach ($data['permission']['modify'] as $controller => $value) {
-                    $value = !in_array($value, array(null, 0, 1)) ? 0 : $value;
+                    $value = !in_array($value, [null, 0, 1]) ? 0 : $value;
                     $p['modify'][$controller] = $value;
                     if (!isset($p['access'][$controller]) && !isset($data['permission']['access'][$controller])) {
                         $p['access'][$controller] = 0;
@@ -78,46 +79,68 @@ class ModelUserUserGroup extends Model
         }
 
         if (!empty($update)) {
-            $this->db->query("UPDATE ".$this->db->table("user_groups")." SET ".implode(',', $update)." WHERE user_group_id = '".(int)$user_group_id."'");
+            $this->db->query(
+                "UPDATE ".$this->db->table("user_groups")." 
+                SET ".implode(',', $update)." 
+                WHERE user_group_id = '".(int) $user_group_id."'"
+            );
         }
     }
 
     public function deleteUserGroup($user_group_id)
     {
-        $this->db->query("DELETE FROM ".$this->db->table("user_groups")." WHERE user_group_id = '".(int)$user_group_id."'");
+        $this->db->query(
+            "DELETE FROM ".$this->db->table("user_groups")." 
+            WHERE user_group_id = '".(int) $user_group_id."'"
+        );
     }
 
     public function addPermission($user_id, $type, $page)
     {
-        $user_query = $this->db->query("SELECT DISTINCT user_group_id FROM ".$this->db->table("users")." WHERE user_id = '".(int)$user_id."'");
+        $user_query = $this->db->query(
+            "SELECT DISTINCT user_group_id 
+            FROM ".$this->db->table("users")." 
+            WHERE user_id = '".(int) $user_id."'"
+        );
 
         if ($user_query->num_rows) {
-            $user_group_query = $this->db->query("SELECT DISTINCT * FROM ".$this->db->table("user_groups")." WHERE user_group_id = '".(int)$user_query->row['user_group_id']."'");
+            $user_group_query = $this->db->query(
+                "SELECT DISTINCT * 
+                FROM ".$this->db->table("user_groups")." 
+                WHERE user_group_id = '".(int) $user_query->row['user_group_id']."'"
+            );
 
             if ($user_group_query->num_rows) {
                 $data = unserialize($user_group_query->row['permission']);
                 $data[$type][$page] = 1;
-                $this->db->query("UPDATE ".$this->db->table("user_groups")." SET permission = '".serialize($data)."' WHERE user_group_id = '".(int)$user_query->row['user_group_id']."'");
+                $this->db->query(
+                    "UPDATE ".$this->db->table("user_groups")." 
+                    SET permission = '".serialize($data)."' 
+                    WHERE user_group_id = '".(int) $user_query->row['user_group_id']."'"
+                );
             }
         }
     }
 
     public function getUserGroup($user_group_id)
     {
-        $query = $this->db->query("SELECT DISTINCT * FROM ".$this->db->table("user_groups")." WHERE user_group_id = '".(int)$user_group_id."'");
+        $query = $this->db->query(
+            "SELECT DISTINCT * 
+             FROM ".$this->db->table("user_groups")." 
+             WHERE user_group_id = '".(int) $user_group_id."'"
+        );
 
-        $user_group = array(
+        return [
             'name'       => $query->row['name'],
             'permission' => unserialize($query->row['permission']),
-        );
-        return $user_group;
+        ];
     }
 
-    public function getUserGroups($data = array())
+    public function getUserGroups($data = [])
     {
         $sql = "SELECT *
-				FROM ".$this->db->table("user_groups")." 
-				ORDER BY name";
+                FROM ".$this->db->table("user_groups")." 
+                ORDER BY name";
 
         if (isset($data['order']) && ($data['order'] == 'DESC')) {
             $sql .= " DESC";
@@ -158,8 +181,7 @@ class ModelUserUserGroup extends Model
      */
     public function getAllControllers($order = 'asc')
     {
-
-        $ignore = array(
+        $ignore = [
             'index/home',
             'common/layout',
             'common/login',
@@ -169,15 +191,17 @@ class ModelUserUserGroup extends Model
             'common/footer',
             'common/header',
             'common/menu',
-        );
+        ];
 
-        $controllers_list = array();
+        $controllers_list = [];
         $files_pages = glob(DIR_APP_SECTION.'controller/pages/*/*.php');
         //NOTE: if controllers joins to group - take group as rt for permissions
         $files_pages = array_merge($files_pages, glob(DIR_APP_SECTION.'controller/pages/*/*'));
         $files_response = glob(DIR_APP_SECTION.'controller/responses/*/*.php');
         $files_response = array_merge($files_response, glob(DIR_APP_SECTION.'controller/responses/*'));
-        $files = array_merge($files_pages, $files_response);
+        $files_api = glob(DIR_APP_SECTION.'controller/api/*/*.php');
+        $files_api = array_merge($files_api, glob(DIR_APP_SECTION.'controller/api/*'));
+        $files = array_merge($files_pages, $files_response, $files_api);
 
         // looking for controllers inside core
         foreach ($files as $file) {
@@ -192,7 +216,9 @@ class ModelUserUserGroup extends Model
         $files_pages = array_merge($files_pages, glob(DIR_EXT.'/*/admin/controller/pages/*/*'));
         $files_response = glob(DIR_EXT.'/*/admin/controller/responses/*/*.php');
         $files_response = array_merge($files_response, glob(DIR_EXT.'/*/admin/controller/responses/*/*'));
-        $files = array_merge($files_pages, $files_response);
+        $files_api = glob(DIR_EXT.'/*/admin/controller/api/*/*.php');
+        $files_api = array_merge($files_api, glob(DIR_EXT.'/*/admin/controller/api/*/*'));
+        $files = array_merge($files_pages, $files_response, $files_api);
         foreach ($files as $file) {
             $data = explode('/', dirname($file));
             $controller = end($data).'/'.basename($file, '.php');

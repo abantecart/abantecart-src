@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -21,10 +21,7 @@
 
 class ControllerResponsesListingGridMenu extends AController
 {
-    public $data = array();
-    /**
-     * @var AMenu_Storefront
-     */
+    /** @var AMenu_Storefront */
     protected $menu;
 
     public function main()
@@ -37,7 +34,7 @@ class ControllerResponsesListingGridMenu extends AController
         $this->loadModel('tool/image');
 
         $page = $this->request->post['page']; // get the requested page
-        if ((int)$page < 0) {
+        if ((int) $page < 0) {
             $page = 0;
         }
         $limit = $this->request->post['rows']; // get how many rows we want to have into the grid
@@ -57,7 +54,7 @@ class ControllerResponsesListingGridMenu extends AController
         } else {
             if ($this->request->post['nodeid']) {
                 $menu_parent_id = $this->request->post['nodeid'];
-                $new_level = (integer)$this->request->post["n_level"] + 1;
+                $new_level = (integer) $this->request->post["n_level"] + 1;
             }
         }
 
@@ -68,8 +65,8 @@ class ControllerResponsesListingGridMenu extends AController
         }
 
         //sort
-        $allowedSort = array('item_id', 'item_text', 'sort_order');
-        $allowedDirection = array(SORT_ASC => 'asc', SORT_DESC => 'desc');
+        $allowedSort = ['item_id', 'item_text', 'sort_order'];
+        $allowedDirection = [SORT_ASC => 'asc', SORT_DESC => 'desc'];
         if (!in_array($sidx, $allowedSort)) {
             $sidx = $allowedSort[0];
         }
@@ -79,8 +76,8 @@ class ControllerResponsesListingGridMenu extends AController
             $sord = array_search($sord, $allowedDirection);
         }
 
-        $sort = array();
-        $total = count((array)$menu_items);
+        $sort = [];
+        $total = count((array) $menu_items);
         $response = new stdClass();
 
         if ($total > 0) {
@@ -99,32 +96,37 @@ class ControllerResponsesListingGridMenu extends AController
 
             $i = 0;
             $ar = new AResource('image');
-            $w = (int)$this->config->get('config_image_grid_width');
-            $h = (int)$this->config->get('config_image_grid_height');
+            $w = (int) $this->config->get('config_image_grid_width');
+            $h = (int) $this->config->get('config_image_grid_height');
             foreach ($results as $result) {
                 $icon = '';
+                $result['item_icon_rl_id'] = $result['item_icon_rl_id'] ? : $result['item_icon'];
                 $resource = $ar->getResource($result['item_icon_rl_id']);
                 if ($resource['resource_path'] || !$resource['resource_code']) {
                     $thumb = $ar->getResourceThumb($result['item_icon_rl_id'], $w, $h);
-                    $icon = $thumb ? '<img src="'.$thumb.'" alt="" style="width: '.$w.'px; height: '.$h.'px;"/>' : '';
+                    $icon = $thumb
+                        ? '<img src="'.$thumb.'" alt="" style="width: '.$w.'px; height: '.$h.'px;"/>'
+                        : '';
                 } elseif ($resource['resource_code']) {
                     $icon = '<i class="fa fa-code fa-2x"></i>';
                 }
                 $response->rows[$i]['id'] = $result['item_id'];
-                $response->rows[$i]['cell'] = array(
+                $response->rows[$i]['cell'] = [
                     $icon,
                     $result['item_id'],
                     $result['item_text'][$language_id],
-                    $this->html->buildInput(array(
-                        'name'  => 'sort_order['.$result['item_id'].']',
-                        'value' => $result['sort_order'],
-                    )),
+                    $this->html->buildInput(
+                        [
+                            'name'  => 'sort_order['.$result['item_id'].']',
+                            'value' => $result['sort_order'],
+                        ]
+                    ),
                     'action',
                     $new_level,
-                    ($menu_parent_id ? $menu_parent_id : null),
-                    ($result['item_id'] == $leaf_nodes[$result['item_id']] ? true : false),
+                    ($menu_parent_id ? : null),
+                    ($result['item_id'] == $leaf_nodes[$result['item_id']]),
                     false,
-                );
+                ];
                 $i++;
             }
         } else {
@@ -151,15 +153,18 @@ class ControllerResponsesListingGridMenu extends AController
         $this->loadLanguage('design/menu');
         if (!$this->user->canModify('listing_grid/menu')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
                     'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/menu'),
                     'reset_value' => true,
-                ));
+                ]
+            );
+            return;
         }
 
         $menu = new AMenu_Storefront();
-        $item_keys = array('item_text', 'item_url', 'parent_id', 'sort_order');
+        $item_keys = ['item_text', 'item_url', 'parent_id', 'sort_order'];
         switch ($this->request->post['oper']) {
             case 'del':
                 $ids = explode(',', $this->request->post['id']);
@@ -174,7 +179,7 @@ class ControllerResponsesListingGridMenu extends AController
                 break;
             case 'save':
                 $ids = explode(',', $this->request->post['id']);
-                $array = array();
+                $array = [];
                 if (!empty($ids)) {
                     //resort required.
                     if ($this->request->post['resort'] == 'yes') {
@@ -182,12 +187,16 @@ class ControllerResponsesListingGridMenu extends AController
                         foreach ($ids as $id) {
                             $array[$id] = $this->request->post['sort_order'][$id];
                         }
-                        $new_sort =
-                            build_sort_order($ids, min($array), max($array), $this->request->post['sort_direction']);
+                        $new_sort = build_sort_order(
+                            $ids,
+                            min($array),
+                            max($array),
+                            $this->request->post['sort_direction']
+                        );
                         $this->request->post['sort_order'] = $new_sort;
                     }
                     foreach ($ids as $item_id) {
-                        $item_values = array();
+                        $item_values = [];
                         foreach ($item_keys as $key) {
                             if (isset($this->request->post[$key][$item_id])) {
                                 $item_values[$key] = $this->request->post[$key][$item_id];
@@ -215,23 +224,27 @@ class ControllerResponsesListingGridMenu extends AController
      */
     public function update_field()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadLanguage('localisation/language');
         if (!$this->user->canModify('listing_grid/menu')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
                     'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/menu'),
                     'reset_value' => true,
-                ));
+                ]
+            );
+            return;
         }
 
         $menu = new AMenu_Storefront();
-        $allowedFields = array_merge(array('item_icon', 'item_text', 'item_url', 'parent_id', 'sort_order'),
-            (array)$this->data['allowed_fields']);
+        $allowedFields = array_merge(
+            ['item_icon', 'item_text', 'item_url', 'parent_id', 'sort_order'],
+            (array) $this->data['allowed_fields']
+        );
 
         if (isset($this->request->get['id'])) {
             //request sent from edit form. ID in url
@@ -239,7 +252,7 @@ class ControllerResponsesListingGridMenu extends AController
                 if (!in_array($key, $allowedFields)) {
                     continue;
                 }
-                $data = array($key => $value);
+                $data = [$key => $value];
                 $menu->updateMenuItem($this->request->get['id'], $data);
             }
             return null;
@@ -251,7 +264,7 @@ class ControllerResponsesListingGridMenu extends AController
                 continue;
             }
             foreach ($value as $k => $v) {
-                $data = array($key => $v);
+                $data = [$key => $v];
                 $menu->updateMenuItem($k, $data);
             }
         }

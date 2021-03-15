@@ -86,6 +86,7 @@ class AHtml extends AController
      * @param $args
      *
      * @return null|string
+     * @throws AException
      */
     public function __call($function_name, $args)
     {
@@ -111,6 +112,7 @@ class AHtml extends AController
      * @param string $params
      *
      * @return string
+     * @throws AException
      */
     private function buildURL($rt, $params = '')
     {
@@ -142,18 +144,22 @@ class AHtml extends AController
      * @return string
      *
      * Note: Non secure URL is base on store_url setting. If this setting is using https URL, all URLs will be secure
+     * @throws AException
      */
     public function getHomeURL()
     {
+        $seo_prefix = $this->registry->get('config')->get('seo_prefix');
+
         //for embed mode get home link with getURL
         if ($this->registry->get('config')->get('embed_mode') == true) {
             return $this->getURL('index/home');
         } else {
             //get config_url first
-            $home_url = $this->registry->get('config')->get('config_url');
+            $home_url = $this->registry->get('config')->get('config_url').$seo_prefix;
             if (!$home_url) {
-                $home_url =
-                    defined('HTTP_SERVER') ? HTTP_SERVER : 'http://'.REAL_HOST.get_url_path($_SERVER['PHP_SELF']);
+                $home_url = defined('HTTP_SERVER')
+                    ? HTTP_SERVER.$seo_prefix
+                    : 'http://'.REAL_HOST.get_url_path($_SERVER['PHP_SELF']);
             }
             return $home_url;
         }
@@ -169,6 +175,7 @@ class AHtml extends AController
      * @return string
      *
      * Note: Non secure URL is base on store_url setting. If this setting is using https URL, all URLs will be secure
+     * @throws AException
      */
     public function getNonSecureURL($rt, $params = '', $encode = '')
     {
@@ -181,18 +188,25 @@ class AHtml extends AController
      * @param string $rt
      * @param string $params
      * @param string $encode
-     * @param bool   $nonsecure - force to be non secure
+     * @param bool $nonsecure - force to be non secure
      *
      * @return string
+     * @throws AException
      */
     public function getURL($rt, $params = '', $encode = '', $nonsecure = false)
     {
+        $seo_prefix = $this->registry->get('config')->get('seo_prefix');
+
         //detect if request is using HTTPS
         if ($nonsecure === false && HTTPS === true) {
-            $server = defined('HTTPS_SERVER') ? HTTPS_SERVER : 'https://'.REAL_HOST.get_url_path($_SERVER['PHP_SELF']);
+            $server = defined('HTTPS_SERVER')
+                ? HTTPS_SERVER.$seo_prefix
+                : 'https://'.REAL_HOST.get_url_path($_SERVER['PHP_SELF']);
         } else {
             //to prevent garbage session need to check constant HTTP_SERVER
-            $server = defined('HTTP_SERVER') ? HTTP_SERVER : 'http://'.REAL_HOST.get_url_path($_SERVER['PHP_SELF']);
+            $server = defined('HTTP_SERVER')
+                ? HTTP_SERVER.$seo_prefix
+                : 'http://'.REAL_HOST.get_url_path($_SERVER['PHP_SELF']);
         }
 
         if ($this->registry->get('config')->get('storefront_template_debug')
@@ -209,8 +223,7 @@ class AHtml extends AController
         if ($this->registry->get('session')->data['session_mode'] == 'embed_token') {
             $params .= '&'.EMBED_TOKEN_NAME.'='.session_id();
         }
-        $url = $server.INDEX_FILE.$this->url_encode($this->buildURL($rt, $params), $encode);
-        return $url;
+        return $server.INDEX_FILE.$this->url_encode($this->buildURL($rt, $params), $encode);
     }
 
     /**
@@ -221,11 +234,13 @@ class AHtml extends AController
      * @param string $encode
      *
      * @return string
+     * @throws AException
      */
     public function getSecureURL($rt, $params = '', $encode = '')
     {
         $session = $this->registry->get('session');
         $config = $this->registry->get('config');
+        $seo_prefix = $config->get('seo_prefix');
         // add session id for cross-domain transition in non-secure mode
         if ($config->get('config_shared_session') && HTTPS !== true) {
             $params .= '&session_id='.session_id();
@@ -249,8 +264,7 @@ class AHtml extends AController
             $suburl .= '&tmpl_debug='.$this->request->get['tmpl_debug'];
         }
 
-        $url = HTTPS_SERVER.INDEX_FILE.$this->url_encode($suburl, $encode);
-        return $url;
+        return HTTPS_SERVER.$seo_prefix.INDEX_FILE.$this->url_encode($suburl, $encode);
     }
 
     /**
@@ -261,6 +275,7 @@ class AHtml extends AController
      * @param string $encode
      *
      * @return string
+     * @throws AException
      */
     public function getSEOURL($rt, $params = '', $encode = '')
     {
@@ -282,6 +297,7 @@ class AHtml extends AController
      * @param string $encode
      *
      * @return string
+     * @throws AException
      */
     public function getSecureSEOURL($rt, $params = '', $encode = '')
     {
@@ -294,17 +310,20 @@ class AHtml extends AController
         return $this->url_encode($this->model_tool_seo_url->rewrite($this->getSecureURL($rt, $params)), $encode);
     }
 
-    /**This builds URL to the catalog to be used in admin
+    /**
+     * This builds URL to the catalog to be used in admin
      *
      * @param string $rt
      * @param string $params
      * @param string $encode
-     * @param bool   $ssl
+     * @param bool $ssl
      *
      * @return string
+     * @throws AException
      */
     public function getCatalogURL($rt, $params = '', $encode = '', $ssl = false)
     {
+        $seo_prefix = $this->registry->get('config')->get('seo_prefix');
         //add token for embed mode with forbidden 3d-party cookies
         if ($this->registry->get('session')->data['session_mode'] == 'embed_token') {
             $params .= '&'.EMBED_TOKEN_NAME.'='.session_id();
@@ -316,16 +335,12 @@ class AHtml extends AController
         }
 
         if($ssl && parse_url($this->registry->get('config')->get('config_ssl_url'), PHP_URL_SCHEME) == 'https'){
-            $HTTPS_SERVER = $this->registry->get('config')->get('config_ssl_url');
+            $HTTPS_SERVER = $this->registry->get('config')->get('config_ssl_url').$seo_prefix;
         }else{
-            $HTTPS_SERVER = HTTPS_SERVER;
+            $HTTPS_SERVER = HTTPS_SERVER.$seo_prefix;
         }
-
-        $http = $ssl ? $HTTPS_SERVER : HTTP_SERVER;
-
-
-        $url = $http.INDEX_FILE.$this->url_encode($suburl, $encode);
-        return $url;
+        $http = $ssl ? $HTTPS_SERVER : HTTP_SERVER.$seo_prefix;
+        return $http.INDEX_FILE.$this->url_encode($suburl, $encode);
     }
 
     /**
@@ -351,6 +366,7 @@ class AHtml extends AController
      * @param $filter_params array - array of vars to filter
      *
      * @return string - url without unwanted filter parameters
+     * @throws AException
      */
     public function currentURL($filter_params = [])
     {
@@ -454,6 +470,7 @@ class AHtml extends AController
      * @param string $keyword
      *
      * @return string
+     * @throws AException
      */
     public function isSEOKeywordExists($query, $keyword = '')
     {
@@ -620,20 +637,25 @@ class AHtml extends AController
     }
 
     /**
-     * @param        $html      - text that might contain internal links #admin# or #storefront#
+     * @param string $html - text that might contain internal links #admin# or #storefront#
      *                          $mode  - 'href' create complete a tag or default just replace URL
-     * @param string $type      - can be 'message' to convert url into <a> tag or empty
-     * @param bool   $for_admin - force mode for converting links to admin side from storefront scope (see AIM-class etc)
+     * @param string $type - can be 'message' to convert url into <a> tag or empty
+     * @param bool $for_admin - force mode for converting links to admin side from storefront scope (see AIM-class etc)
      *
      * @return string - html code with parsed internal URLs
+     * @throws AException
      */
     public function convertLinks($html, $type = '', $for_admin = false)
     {
-        $is_admin = (IS_ADMIN === true || $for_admin) ? true : false;
+        $is_admin = (IS_ADMIN === true || $for_admin);
         $route_sections = $is_admin ? ["admin", "storefront"] : ["storefront"];
         foreach ($route_sections as $rt_type) {
-            preg_match_all('/(#'.$rt_type.'#rt=){1}[a-z0-9\/_\-\?\&=\%#]{1,255}(\b|\")/', $html, $matches,
-                PREG_OFFSET_CAPTURE);
+            preg_match_all(
+                '/(#'.$rt_type.'#rt=){1}[a-z0-9\/_\-\?\&=\%#]{1,255}(\b|\")/',
+                $html,
+                $matches,
+                PREG_OFFSET_CAPTURE
+            );
             if ($matches) {
                 foreach ($matches[0] as $match) {
                     $href = str_replace('?', '&', $match[0]);
@@ -933,6 +955,8 @@ abstract class HtmlElement
 
     /**
      * @param array $data
+     *
+     * @throws AException
      */
     function __construct($data)
     {
@@ -1021,7 +1045,8 @@ abstract class HtmlElement
             }
             $this->value = [0];
             if ($this->required) {
-                $url = HTTPS_SERVER;
+                $seo_prefix = $this->registry->get('config')->get('seo_prefix');
+                $url = HTTPS_SERVER.$seo_prefix;
                 $query_string = $this->registry->get('request')->server['QUERY_STRING'];
                 if (strpos($query_string, '_route_=') === false) {
                     $url .= '?';
@@ -2241,7 +2266,9 @@ class DateHtmlElement extends HtmlElement
                 'attr'       => 'aform_field_type="date" '.$this->attr.' data-aform-field-type="captcha"',
                 'required'   => $this->required,
                 'style'      => $this->style,
-                'dateformat' => $this->dateformat ? $this->dateformat : format4Datepicker($this->language->get('date_format_short')),
+                'dateformat' => $this->dateformat
+                    ? $this->dateformat
+                    : format4Datepicker($this->language->get('date_format_short')),
                 'highlight'  => $this->highlight,
             ]
         );
@@ -2650,6 +2677,8 @@ class PaginationHtmlElement extends HtmlElement
 
     /**
      * @param array $data
+     *
+     * @throws AException
      */
     public function __construct($data)
     {
@@ -2813,6 +2842,8 @@ class ModalHtmlElement extends HtmlElement
 {
     /**
      * @param array $data
+     *
+     * @throws AException
      */
     public function __construct($data)
     {

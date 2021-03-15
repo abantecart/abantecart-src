@@ -18,8 +18,7 @@
 	</definition>
 	<definition>
 		<key>text_uninstall_confirm</key>
-		<value>
-			<![CDATA[Пожалуйста, подтвердите, что вы хотите удалить расширение [ %extension% ]. Все настройки модуля и связанные с ними данные могут быть удалены и утрачены.]]></value>
+		<value><![CDATA[Пожалуйста, подтвердите, что вы хотите удалить расширение [ %extension% ]. Все настройки модуля и связанные с ними данные могут быть удалены и утрачены.]]></value>
 	</definition>
 	<definition>
 		<key>text_delete</key>
@@ -139,13 +138,11 @@
 	</definition>
 	<definition>
 		<key>text_missing_extension</key>
-		<value>
-			<![CDATA[&quot;Расширение %s: Источник не может быть определен! Пожалуйста, удалите его и вернитесь к поставщику расширений, чтобы загрузить его еще раз&quot;]]></value>
+		<value><![CDATA[&quot;Расширение %s: Источник не может быть определен! Пожалуйста, удалите его и вернитесь к поставщику расширений, чтобы загрузить его еще раз&quot;]]></value>
 	</definition>
 	<definition>
 		<key>text_broken_extension</key>
-		<value>
-			<![CDATA[&quot;Расширение %s: Источник, вероятно, сломан! Не удается найти config.xml или main.php файлы. Пожалуйста, удалите его и вернитесь к поставщику расширений, чтобы получить исходный код и переустановить расширение.&quot;]]></value>
+		<value><![CDATA[&quot;Расширение %s: Источник, вероятно, сломан! Не удается найти config.xml или main.php файлы. Пожалуйста, удалите его и вернитесь к поставщику расширений, чтобы получить исходный код и переустановить расширение.&quot;]]></value>
 	</definition>
 	<definition>
 		<key>text_extension_pagination</key>
@@ -201,8 +198,7 @@
 	</definition>
 	<definition>
 		<key>text_visit_repository</key>
-		<value>
-			<![CDATA[Пожалуйста, посетите %extensions_store% хранилище расширений</a> для загрузки расширения]]></value>
+		<value><![CDATA[Пожалуйста, посетите %extensions_store% хранилище расширений</a> для загрузки расширения]]></value>
 	</definition>
 	<definition>
 		<key>text_license</key>
@@ -258,8 +254,7 @@
 	</definition>
 	<definition>
 		<key>additional_settings_confirm</key>
-		<value>
-			<![CDATA[Чтобы задать дополнительные параметры расширения для другого магазина, вам необходимо войти в панель управления на другом доменном имени. Ок?]]></value>
+		<value><![CDATA[Чтобы задать дополнительные параметры расширения для другого магазина, вам необходимо войти в панель управления на другом доменном имени. Ок?]]></value>
 	</definition>
 	<definition>
 		<key>error_no_help_file</key>
@@ -299,8 +294,7 @@
 	</definition>
 	<definition>
 		<key>text_confirm_disable_dependants</key>
-		<value>
-			<![CDATA[Расширение %s имеет подчиненные ему: <br>%s<br> Они будут отключены автоматически.<br>Подтверждаете?]]></value>
+		<value><![CDATA[Расширение %s имеет подчиненные ему: <br>%s<br> Они будут отключены автоматически.<br>Подтверждаете?]]></value>
 	</definition>
 	<definition>
 		<key>text_status</key>
@@ -308,44 +302,36 @@
 	</definition>
 	<definition>
 		<key>text_sort_order</key>
-		<value>
-			<![CDATA[Порядок запуска:<span class="help">Номер указывающий позицию отображения этого расширения по отношению к другим.</span>]]></value>
+		<value><![CDATA[Порядок запуска:<span class="help">Номер указывающий позицию отображения этого расширения по отношению к другим.</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_payment_minimum_total</key>
-		<value>
-			<![CDATA[Минимальный заказ:<span class="help">Минимальный заказ должен быть достигнут, чтобы был дозволен этот платеж</span>]]></value>
+		<value><![CDATA[Минимальный заказ:<span class="help">Минимальный заказ должен быть достигнут, чтобы был дозволен этот платеж</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_payment_maximum_total</key>
-		<value>
-			<![CDATA[Максимальный заказ:<span class="help">Максимальная сумма заказа должна быть достигнута, чтобы запретить этот платеж</span>]]></value>
+		<value><![CDATA[Максимальный заказ:<span class="help">Максимальная сумма заказа должна быть достигнута, чтобы запретить этот платеж</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_payment_storefront_icon</key>
-		<value>
-			<![CDATA[Изображение на витрине:<span class="help">Изображение оплаты для отображения в процессе заказа в разделе оплаты</span>]]></value>
+		<value><![CDATA[Изображение на витрине:<span class="help">Изображение оплаты для отображения в процессе заказа в разделе оплаты</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_shipping_storefront_icon</key>
-		<value>
-			<![CDATA[Изображение на витрине:<span class="help">Изображение доставки для отображения в процессе заказа в разделе выбора доставки</span>]]></value>
+		<value><![CDATA[Изображение на витрине:<span class="help">Изображение доставки для отображения в процессе заказа в разделе выбора доставки</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_autoselect_payment</key>
-		<value>
-			<![CDATA[Автоматический выбор:<br /><span class="help">
+		<value><![CDATA[Автоматический выбор:<br /><span class="help">
 			Установить метод оплаты по умолчанию. Этот метод оплаты будет предварительно выбран при наличии других методов оплаты. Если доступен единственный вариант оплаты, шаг выбора оплаты будет пропущен.</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_autoselect_shipping</key>
-		<value>
-			<![CDATA[Автоматический выбор:<br /><span class="help">Включить, чтобы пропустить страницу выбора доставки, если есть только один вариант доставки. Этот метод доставки будет выбран автоматически</span>]]></value>
+		<value><![CDATA[Автоматический выбор:<br /><span class="help">Включить, чтобы пропустить страницу выбора доставки, если есть только один вариант доставки. Этот метод доставки будет выбран автоматически</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_accept_payments_shipping</key>
-		<value>
-			<![CDATA[Разрешенные методы оплаты:<br /><span class="help">Выбрать конкретные способы оплаты необходимые для данного способа доставки. Если ничего не выбрано, все доступные способы оплаты будут показаны</span>]]></value>
+		<value><![CDATA[Разрешенные методы оплаты:<br /><span class="help">Выбрать конкретные способы оплаты необходимые для данного способа доставки. Если ничего не выбрано, все доступные способы оплаты будут показаны</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_ready_to_install</key>
@@ -410,5 +396,21 @@
 	<definition>
 		<key>text_save_success</key>
 		<value><![CDATA[Успех: Вы изменили настройки расширения!]]></value>
+	</definition>
+	<definition>
+		<key>text_support_expiration</key>
+		<value><![CDATA[Поддержка активна до]]></value>
+	</definition>
+	<definition>
+		<key>text_support_expired</key>
+		<value><![CDATA[Срок поддержки истек]]></value>
+	</definition>
+	<definition>
+		<key>text_license_expired</key>
+		<value><![CDATA[Поддержка расширений истекла или не подключена к торговой площадке]]></value>
+	</definition>
+	<definition>
+		<key>button_get_support</key>
+		<value><![CDATA[Получать поддержку]]></value>
 	</definition>
 </definitions>

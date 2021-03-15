@@ -25,7 +25,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerPagesCatalogProduct extends AController
 {
     public $error = [];
-    public $data = [];
 
     public function main()
     {
@@ -469,9 +468,11 @@ class ControllerPagesCatalogProduct extends AController
             ]
         );
 
+        $this->loadModel('setting/store');
         $this->loadModel('catalog/category');
         $this->data['categories'] = [];
-        $product_stores = $this->model_catalog_product->getProductStores($product_id);
+
+        $product_stores = array_column($this->model_setting_store->getStores(),'store_id');
         $results = $this->model_catalog_category->getCategories(ROOT_CATEGORY_ID, $product_stores);
         foreach ($results as $r) {
             $name = $r['name'].(count($product_stores) > 1 ? ' ('.$r['store_name'].')' : '');
@@ -599,8 +600,10 @@ class ControllerPagesCatalogProduct extends AController
         if (isset($this->request->post['product_tags'])) {
             $this->data['product_tags'] = $this->request->post['product_tags'];
         } elseif (isset($product_info)) {
-            $this->data['product_tags'] =
-                $this->model_catalog_product->getProductTags($product_id, $content_language_id);
+            $this->data['product_tags'] = $this->model_catalog_product->getProductTags(
+                $product_id,
+                $content_language_id
+            );
         } else {
             $this->data['product_tags'] = '';
         }
@@ -611,7 +614,7 @@ class ControllerPagesCatalogProduct extends AController
             $this->data['preview'] = $this->model_tool_image->resize('no_image.jpg', 100, 100);
         }
 
-        if (!has_value($this->data['stock_status_id'])) {
+        if (!isset($this->data['stock_status_id'])) {
             $this->data['stock_status_id'] = $this->config->get('config_stock_status_id');
         }
         if (isset($this->request->post['date_available'])) {
@@ -807,7 +810,11 @@ class ControllerPagesCatalogProduct extends AController
             [
                 'type'        => 'checkboxgroup',
                 'name'        => 'product_store[]',
-                'value'       => $this->data['product_store'],
+                // if new product - take selected store from storeSwitcher
+                //otherwise - take product data
+                'value'       => $product_id
+                    ? $this->data['product_store']
+                    : ($this->data['product_store'] ?: [$this->config->get('config_store_id')]),
                 'options'     => $this->data['stores'],
                 'style'       => 'chosen',
                 'placeholder' => $this->language->get('entry_store'),
@@ -866,9 +873,7 @@ class ControllerPagesCatalogProduct extends AController
                 'name'     => 'tax_class_id',
                 'value'    => isset($this->data['tax_class_id'])
                     ? $this->data['tax_class_id']
-                    : $this->config->get(
-                        'config_tax_class_id'
-                    ),
+                    : $this->config->get('config_tax_class_id'),
                 'options'  => $this->data['tax_classes'],
                 'help_url' => $this->gen_help_url('tax_class'),
                 'style'    => 'medium-field',
@@ -897,8 +902,9 @@ class ControllerPagesCatalogProduct extends AController
                 'value'    => (int) $this->data['quantity'],
                 'style'    => 'col-xs-1 small-field',
                 'help_url' => $this->gen_help_url('product_inventory'),
-                'attr'     => ($product_info['has_track_options'] || $product_info['stock_locations'] ? 'disabled'
-                    : ''),
+                'attr'     => ($product_info['has_track_options'] || $product_info['stock_locations']
+                                ? 'disabled'
+                                : ''),
             ]
         );
 
@@ -931,7 +937,7 @@ class ControllerPagesCatalogProduct extends AController
             [
                 'type'    => 'selectbox',
                 'name'    => 'stock_checkout',
-                'value'   => (has_value($this->data['stock_checkout']) ? $this->data['stock_checkout'] : ''),
+                'value'   => $this->data['stock_checkout'] ?: '',
                 'options' => [
                     '' => $this->language->get('text_default'),
                     0  => $this->language->get('text_no'),
@@ -945,10 +951,7 @@ class ControllerPagesCatalogProduct extends AController
             [
                 'type'     => 'selectbox',
                 'name'     => 'stock_status_id',
-                'value'    => (has_value($this->data['stock_status_id'])
-                    ? (int) $this->data['stock_status_id']
-                    : $this->config->get('config_stock_status_id')
-                ),
+                'value'    => (int)($this->data['stock_status_id'] ? : $this->config->get('config_stock_status_id')),
                 'options'  => $this->data['stock_statuses'],
                 'help_url' => $this->gen_help_url('product_inventory'),
                 'style'    => 'small-field',
@@ -1133,7 +1136,10 @@ class ControllerPagesCatalogProduct extends AController
 
         $this->data['product_id'] = $product_id;
         if ($product_id && $this->config->get('config_embed_status')) {
-            $this->data['embed_url'] = $this->html->getSecureURL('common/do_embed/product', '&product_id='.$product_id);
+            $this->data['embed_url'] = $this->html->getSecureURL(
+                'common/do_embed/product',
+                '&product_id='.$product_id
+            );
         }
 
         $this->data['text_clone'] = $this->language->get('text_clone');
@@ -1227,11 +1233,7 @@ class ControllerPagesCatalogProduct extends AController
 
         $this->extensions->hk_ValidateData($this, [__FUNCTION__]);
 
-        if (!$this->error) {
-            return true;
-        } else {
-            return false;
-        }
+        return (!$this->error);
     }
 
     protected function _prepareData($data = [])

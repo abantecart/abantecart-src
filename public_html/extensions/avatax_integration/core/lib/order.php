@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -24,19 +25,19 @@ if (!defined('DIR_CORE')) {
 /**
  * Class AOrderAvatax
  *
- * @property ACart                  $cart
- * @property AConfig                $config
- * @property ATax                   $tax
- * @property ACurrency              $currency
- * @property ARequest               $request
- * @property ALoader                $load
- * @property ASession               $session
- * @property ExtensionsAPI          $extensions
- * @property ModelAccountOrder      $model_account_order
- * @property ModelAccountAddress    $model_account_address
+ * @property ACart $cart
+ * @property AConfig $config
+ * @property ATax $tax
+ * @property ACurrency $currency
+ * @property ARequest $request
+ * @property ALoader $load
+ * @property ASession $session
+ * @property ExtensionsAPI $extensions
+ * @property ModelAccountOrder $model_account_order
+ * @property ModelAccountAddress $model_account_address
  * @property ModelCheckoutExtension $model_checkout_extension
- * @property ModelCheckoutOrder     $model_checkout_order
- * @property AIM                    $im
+ * @property ModelCheckoutOrder $model_checkout_order
+ * @property AIM $im
  *
  */
 class AOrderAvatax
@@ -58,7 +59,7 @@ class AOrderAvatax
     /**
      * @var array public property. needs to use inside hooks
      */
-    public $data = array();
+    public $data = [];
 
     public function __construct($registry, $order_id = '')
     {
@@ -69,9 +70,9 @@ class AOrderAvatax
 
         //if nothing is passed use session array. Customer session, can function on storefront only
         if (!has_value($order_id)) {
-            $this->order_id = (int)$this->session->data['order_id'];
+            $this->order_id = (int) $this->session->data['order_id'];
         } else {
-            $this->order_id = (int)$order_id;
+            $this->order_id = (int) $order_id;
         }
 
         if (is_object($this->registry->get('customer'))) {
@@ -100,8 +101,7 @@ class AOrderAvatax
         //get order details for specific status. NOTE: Customer ID need to be set in customer class
         $this->order_data = $this->model_account_order->getOrder($this->order_id, $order_status_id);
         $this->extensions->hk_ProcessData($this, 'load_order_data');
-        $output = (array)$this->data + (array)$this->order_data;
-        return $output;
+        return (array) $this->data + (array) $this->order_data;
     }
 
     /**
@@ -109,21 +109,22 @@ class AOrderAvatax
      *
      * @return array
      * NOTE: method to create an order based on provided data array.
+     * @throws AException
      */
     public function buildOrderData($indata)
     {
-        $order_info = array();
+        $order_info = [];
         if (empty($indata)) {
-            return array();
+            return [];
         }
 
-        $total_data = array();
+        $total_data = [];
         $total = 0;
         $taxes = $this->cart->getTaxes();
 
         $this->load->model('checkout/extension');
 
-        $sort_order = array();
+        $sort_order = [];
 
         $results = $this->model_checkout_extension->getExtensions('total');
 
@@ -138,7 +139,7 @@ class AOrderAvatax
             $this->{'model_total_'.$result['key']}->getTotal($total_data, $total, $taxes, $indata);
         }
 
-        $sort_order = array();
+        $sort_order = [];
 
         foreach ($total_data as $key => $value) {
             $sort_order[$key] = $value['sort_order'];
@@ -148,7 +149,7 @@ class AOrderAvatax
 
         $order_info['store_id'] = $this->config->get('config_store_id');
         $order_info['store_name'] = $this->config->get('store_name');
-        $order_info['store_url'] = $this->config->get('config_url');
+        $order_info['store_url'] = $this->config->get('config_url').$this->config->get('seo_prefix');
         //prepare data with customer details.
         if ($this->customer->getId()) {
             $order_info['customer_id'] = $this->customer->getId();
@@ -178,7 +179,6 @@ class AOrderAvatax
                 $order_info['shipping_country'] = $ship_address['country'];
                 $order_info['shipping_country_id'] = $ship_address['country_id'];
                 $order_info['shipping_address_format'] = $ship_address['address_format'];
-
             } else {
                 $order_info['shipping_firstname'] = '';
                 $order_info['shipping_lastname'] = '';
@@ -286,15 +286,15 @@ class AOrderAvatax
                 $order_info['payment_country'] = $indata['guest']['country'];
                 $order_info['payment_country_id'] = $indata['guest']['country_id'];
                 $order_info['payment_address_format'] = $indata['guest']['address_format'];
-
             } else {
-                return array();
+                return [];
             }
         }
 
         if (isset($indata['shipping_method']['title'])) {
             $order_info['shipping_method'] = $indata['shipping_method']['title'];
-            $order_info['shipping_method_key'] = $indata['shipping_method']['id']; // note - id by mask method_txt_id.method_option_id. for ex. default_weight.default_weight_1
+            $order_info['shipping_method_key'] =
+                $indata['shipping_method']['id']; // note - id by mask method_txt_id.method_option_id. for ex. default_weight.default_weight_1
         } else {
             $order_info['shipping_method'] = '';
             $order_info['shipping_method_key'] = '';
@@ -308,11 +308,10 @@ class AOrderAvatax
             $order_info['payment_method'] = '';
         }
 
-        $product_data = array();
+        $product_data = [];
 
         foreach ($this->cart->getProducts() as $key => $product) {
-
-            $product_data[] = array(
+            $product_data[] = [
                 'key'        => $key,
                 'product_id' => $product['product_id'],
                 'name'       => $product['name'],
@@ -325,8 +324,7 @@ class AOrderAvatax
                 'total'      => $product['total'],
                 'tax'        => $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']),
                 'stock'      => $product['stock'],
-                'sku'        => $product['sku'],
-            );
+            ];
         }
 
         $order_info['products'] = $product_data;
@@ -356,16 +354,13 @@ class AOrderAvatax
 
         $this->extensions->hk_ProcessData($this, 'build_order_data', $order_info);
         // merge two arrays. $this-> data can be changed by hooks.
-        $output = $this->data + $this->order_data;
-
-        return $output;
+        return $this->data + $this->order_data;
     }
 
     public function getOrderData()
     {
         $this->extensions->hk_ProcessData($this, 'get_order_data');
-        $output = $this->data + $this->order_data;
-        return $output;
+        return $this->data + $this->order_data;
     }
 
     public function saveOrder()

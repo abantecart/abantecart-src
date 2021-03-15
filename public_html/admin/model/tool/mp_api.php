@@ -260,5 +260,4 @@ class ModelToolMPAPI extends Model
         $href = '?'.http_build_query($GET);
         return $connect->getResponse($this->getMPURL().$href);
     }
-
 }

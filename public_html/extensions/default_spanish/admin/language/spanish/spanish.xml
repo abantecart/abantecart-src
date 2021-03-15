@@ -764,4 +764,12 @@
 		<key>text_subtract_order</key>
 		<value><![CDATA[Restar orden]]></value>
 	</definition>
+	<definition>
+		<key>text_copy_embed_url</key>
+		<value><![CDATA[Copie y pegue esta URL en su otro sitio donde le gustaría vender]]></value>
+	</definition>
+	<definition>
+		<key>button_preview</key>
+		<value><![CDATA[Avance]]></value>
+	</definition>
 </definitions>

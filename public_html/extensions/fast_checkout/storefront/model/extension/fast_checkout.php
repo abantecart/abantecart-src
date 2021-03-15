@@ -374,7 +374,7 @@ class ModelExtensionFastCheckout extends Model
         //build HTML message with the template
         $this->data['mail_template_data']['text_thanks'] = $this->language->get('fast_checkout_text_thank_you');
         $this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
-        $this->data['mail_template_data']['store_url'] = $this->config->get('config_url');
+        $this->data['mail_template_data']['store_url'] = $this->config->get('config_url').$this->config->get('seo_prefix');
         $this->data['mail_template_data']['text_email_download'] = $text_email_download;
         $this->data['mail_template_data']['text_email_download_link'] = $text_email_download_link;
         $this->data['mail_template_data']['email_download_link'] = $email_download_link;

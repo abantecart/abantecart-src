@@ -97,7 +97,10 @@ abstract class Extension
  */
 class ExtensionCollection
 {
-
+    // sign that we found override hook in the hook list
+    public static $around_method_found = false;
+    //inner sign means override hook wants to be skipped
+    public static $noInterrupt = false;
     protected $extensions = [];
 
     /**
@@ -134,6 +137,9 @@ class ExtensionCollection
 
     protected function dispatchMethod($method, $args)
     {
+        //signs for use at outside.See descriptions above
+        static::$around_method_found = false;
+
         $return = null;
 
         $baseObject = array_shift($args);
@@ -155,13 +161,13 @@ class ExtensionCollection
 
             $tmp_return = call_user_func_array([$extension, $method], $args);
             //when around method hook - returns ONLY first result
-            if (strpos($method, 'around') === 0 && method_exists($extension, $method)) {
-                $return = $tmp_return;
-                //for avoid functions
-                if ($return === null) {
-                    $return = Extension::REPLACED_METHOD;
+            if (strpos($method, 'override') === 0 && method_exists($extension, $method)) {
+                static::$around_method_found = true;
+                //if hook wants to be skipped
+                if ($tmp_return === false) {
+                    return false;
                 }
-                return $return;
+                return $tmp_return ? : true;
             }
             if ($tmp_return !== null) {
                 $return = $tmp_return;
@@ -182,16 +188,10 @@ class ExtensionCollection
     public function __call($method, $args)
     {
         $return = $this->dispatchMethod($method, $args);
-        if (strpos($method, 'around') === 0) {
-            //when no result from around-hook - set result to true to continue call-chain and run base method
-            if ($return === null) {
-                //set canrun to true
-                $return = true;
-            }
-            //when hook has been called - return null to prevent run base method later
-            //case for avoid methods and
-            elseif ($return === Extension::REPLACED_METHOD || $return === true) {
-                $return = null;
+        if (strpos($method, 'override') === 0) {
+            if (static::$around_method_found) {
+                //when no result from around-hook - set result to true to interrupt hook call-chain
+                return $return;
             }
         }
         return $return;
@@ -205,7 +205,6 @@ class ExtensionCollection
  *
  * long description.
  *
- * @property ADb $db
  * @property ACache $cache
  * @method hk_InitData(object $baseObject, string $baseObjectMethod)
  * @method hk_UpdateData(object $baseObject, string $baseObjectMethod)
@@ -221,57 +220,31 @@ class ExtensionCollection
  */
 class ExtensionsApi
 {
-    /**
-     * @var Registry
-     */
+    /** @var Registry */
     protected $registry;
-    /**
-     * @var array $extensions - array of extensions objects
-     */
+    /** @var ADB */
+    protected $db;
+    /** @var ExtensionCollection $extensions - array of extensions objects */
     protected $extensions;
-    /**
-     * @var array $extensions_dir - list of all extensions in extension dir
-     */
+    /** @var array $extensions_dir - list of all extensions in extension dir */
     protected $extensions_dir;
-    /**
-     * @var array $enabled_extensions - array of enabled extensions
-     */
+    /** @var array $enabled_extensions - array of enabled extensions */
     protected $enabled_extensions;
-    /**
-     * @var array $db_extensions - array of extensions stored in db
-     */
+    /** @var array $db_extensions - array of extensions stored in db */
     protected $db_extensions;
-    /**
-     * @var array $missing_extensions - array of extensions stored in db but missing folder in extensions dir
-     */
+    /** @var array $missing_extensions - array of extensions stored in db but missing folder in extensions dir */
     protected $missing_extensions;
-
-    /**
-     * @var array $extension_controllers - array of extensions controllers
-     */
+    /** @var array $extension_controllers - array of extensions controllers */
     protected $extension_controllers;
-
-    /**
-     * @var array $extension_models - array of extensions models
-     */
+    /** @var array $extension_models - array of extensions models */
     protected $extension_models;
-
-    /**
-     * @var array $extension_languages - array of extensions languages
-     */
+    /** @var array $extension_languages - array of extensions languages */
     protected $extension_languages;
-    /**
-     * @var $ExtensionsApi ExtensionsApi
-     */
+    /** @var $ExtensionsApi ExtensionsApi */
     protected $ExtensionsApi;
-
-    /**
-     * @var array $extension_templates - array of extensions templates
-     */
+    /** @var array $extension_templates - array of extensions templates */
     protected $extension_templates;
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $extension_types = [
         'extensions',
         'payment',
@@ -285,6 +258,7 @@ class ExtensionsApi
     {
         $this->registry = Registry::getInstance();
         $this->cache = $this->registry->get('cache');
+        $this->db = $this->registry->get('db');
         $this->extensions_dir = [];
         $this->db_extensions = [];
         $this->missing_extensions = [];
@@ -306,8 +280,6 @@ class ExtensionsApi
         }
 
         if ($this->registry->has('db')) {
-            $this->db = $this->registry->get('db');
-
             //get extensions from db
             $query = $this->getExtensionsList();
             foreach ($query->rows as $result) {
@@ -350,9 +322,138 @@ class ExtensionsApi
     }
 
     /**
+     * Check if a {@link Extension} from the {@link ExtensionCollection} for this ExtensionsApi exists.
+     * {@source}
+     * Use like <code>isset($ExtensionsApi->extensionName)</code>
+     *
+     * @param string $property Name of the {@link extension} to check.
+     *
+     * @return boolean
+     */
+    public function __isset($property)
+    {
+        if ($this->extensions->$property !== false) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Get a {@link Extension} from the {@link ExtensionCollection} for this ExtensionsApi.
+     * {@source}
+     * Use like <code>$ExtensionsApi->extensionName</code>
+     *
+     * @param string $property Name of the {@link extension} to get.
+     *
+     * @return extension
+     * @throws AException
+     */
+    public function __get($property)
+    {
+        if ($this->extensions->$property !== false) {
+            return $this->extensions->$property;
+        }
+        throw new AException(
+            AC_ERR_LOAD,
+            'Extensions of name "'.$property.'" not found in ExtensionsApi '
+        );
+    }
+
+    /**
+     * @param string $method (hk_[function] calls)
+     * @param array $args
+     *
+     * @return mixed|null
+     * @throws AException
+     */
+    public function __call($method, array $args)
+    {
+        if (substr($method, 0, 2) == 'hk') {
+            return $this->__ExtensionsApiCall(substr($method, 2), $args);
+        }
+        return null;
+    }
+
+    /**
+     * load all available (installed) extensions (for admin)
+     *
+     * @void
+     */
+    public function loadAvailableExtensions()
+    {
+        $this->loadEnabledExtensions(true);
+    }
+
+    /**
+     * load all enabled extensions.
+     * If force parameter provided,load all installed (for admin)
+     *
+     * @param bool $force_enabled_off
+     *
+     * @void
+     * @throws Exception
+     */
+    public function loadEnabledExtensions($force_enabled_off = false)
+    {
+        $ext_controllers = $ext_models = $ext_languages = $ext_templates = [];
+        $enabled_extensions = $hook_extensions = [];
+
+        foreach ($this->db_extensions as $ext) {
+            //check if extension is enabled and not already in the picked list
+            if (
+                has_value($ext)
+                && !in_array($ext, $enabled_extensions)
+                //check if we need only available extensions with status 0
+                && (($force_enabled_off && has_value($this->registry->get('config')->get($ext.'_status')))
+                    || $this->registry->get('config')->get($ext.'_status')
+                )
+            ) {
+                //priority for extension execution is set in the <priority> tag of extension configuration
+                //order for priority is already set here
+                $enabled_extensions[] = $ext;
+
+                $controllers = $languages = $models = $templates = [
+                    'storefront' => [],
+                    'admin'      => [],
+                ];
+                if (is_file(DIR_EXT.$ext.'/main.php')) {
+                    /** @noinspection PhpIncludeInspection */
+                    include(DIR_EXT.$ext.'/main.php');
+                }
+                $ext_controllers[$ext] = $controllers;
+                $ext_models[$ext] = $models;
+                $ext_languages[$ext] = $languages;
+                $ext_templates[$ext] = $templates;
+
+                $class = 'Extension'.preg_replace('/[^a-zA-Z0-9]/', '', $ext);
+                if (class_exists($class)) {
+                    $hook_extensions[] = $class;
+                }
+            }
+        }
+        $this->enabled_extensions = $enabled_extensions;
+        $this->setExtensionCollection(new ExtensionCollection($hook_extensions));
+
+        ADebug::variable('List of loaded extensions', $enabled_extensions);
+
+        $this->setExtensionControllers($ext_controllers);
+        ADebug::variable('List of controllers used by extensions', $ext_controllers);
+
+        $this->setExtensionModels($ext_models);
+        ADebug::variable('List of models used by extensions', $ext_models);
+
+        $this->setExtensionLanguages($ext_languages);
+        ADebug::variable('List of languages used by extensions', $ext_languages);
+
+        $this->setExtensionTemplates($ext_templates);
+        ADebug::variable('List of templates used by extensions', $ext_templates);
+    }
+
+    /**
      * @param string $type
      *
      * @return array
+     * @throws AException
      */
     public function getInstalled($type = '')
     {
@@ -410,6 +511,7 @@ class ExtensionsApi
      * @param string $key
      *
      * @return array
+     * @throws AException
      */
     public function getExtensionInfo($key = '')
     {
@@ -458,6 +560,7 @@ class ExtensionsApi
      * @param string $mode - can be "force" to prevent cache load
      *
      * @return bool|stdClass object array of extensions
+     * @throws AException
      */
     public function getExtensionsList($data = [], $mode = '')
     {
@@ -521,7 +624,8 @@ class ExtensionsApi
         if (isset($data['store_id']) && has_value($data['store_id'])) {
             $sql .= " AND COALESCE(s.`store_id`,0) = '".(int) $data['store_id']."' ";
         } else {
-            $sql .= " AND COALESCE(s.`store_id`,0) = '".(int) $this->registry->get('config')->get('config_store_id')."' ";
+            $sql .= " AND COALESCE(s.`store_id`,0) = '".(int) $this->registry->get('config')->get('config_store_id')
+                ."' ";
         }
 
         if (isset($data['sort_order']) && has_value($data['sort_order']) && $data['sort_order'][0] != 'name') {
@@ -550,6 +654,7 @@ class ExtensionsApi
                 foreach ($result->rows as &$row) {
                     if (trim($row['key']) == '') {
                         unset($row);
+                        continue;
                     }
                     $names[] = mb_strtolower(trim($this->getExtensionName($row['key'])));
                     $row['name'] = trim($this->getExtensionName($row['key']));
@@ -565,7 +670,7 @@ class ExtensionsApi
         }
         if ($result->rows) {
             foreach ($result->rows as &$row) {
-                if($row['support_expiration'] === '0000-00-00 00:00:00'){
+                if ($row['support_expiration'] === '0000-00-00 00:00:00') {
                     $row['support_expiration'] = null;
                 }
             }
@@ -625,7 +730,7 @@ class ExtensionsApi
     }
 
     /**
-     * @return array
+     * @return ExtensionCollection
      */
     public function getExtensionCollection()
     {
@@ -724,8 +829,6 @@ class ExtensionsApi
     }
 
     /**
-     * @avoid
-     *
      * @param array $value
      */
     public function setExtensionModels($value)
@@ -736,7 +839,7 @@ class ExtensionsApi
     /**
      * @param $extension
      *
-     * @return bool|null
+     * @return bool
      */
     public function isExtensionAvailable($extension)
     {
@@ -745,85 +848,7 @@ class ExtensionsApi
                 return true;
             }
         }
-        return null;
-    }
-
-    /**
-     * load all available (installed) extensions (for admin)
-     *
-     * @void
-     */
-    public function loadAvailableExtensions()
-    {
-        $this->loadEnabledExtensions(true);
-    }
-
-    /**
-     * load all enabled extensions.
-     * If force parameter provided,load all installed (for admin)
-     *
-     * @param bool $force_enabled_off
-     *
-     * @void
-     * @throws Exception
-     */
-    public function loadEnabledExtensions($force_enabled_off = false)
-    {
-        /**
-         * @var Registry
-         */
-        $ext_controllers = $ext_models = $ext_languages = $ext_templates = [];
-        $enabled_extensions = $hook_extensions = [];
-
-        foreach ($this->db_extensions as $ext) {
-            //check if extension is enabled and not already in the picked list
-            if (
-                //check if we need only available extensions with status 0
-                (($force_enabled_off && has_value($this->registry->get('config')->get($ext.'_status')))
-                    || $this->registry->get('config')->get($ext.'_status')
-                )
-                && !in_array($ext, $enabled_extensions)
-                && has_value($ext)
-            ) {
-                //priority for extension execution is set in the <priority> tag of extension configuration
-                //order for priority is already set here
-                $enabled_extensions[] = $ext;
-
-                $controllers = $languages = $models = $templates = [
-                    'storefront' => [],
-                    'admin'      => [],
-                ];
-                if (is_file(DIR_EXT.$ext.'/main.php')) {
-                    /** @noinspection PhpIncludeInspection */
-                    include(DIR_EXT.$ext.'/main.php');
-                }
-                $ext_controllers[$ext] = $controllers;
-                $ext_models[$ext] = $models;
-                $ext_languages[$ext] = $languages;
-                $ext_templates[$ext] = $templates;
-
-                $class = 'Extension'.preg_replace('/[^a-zA-Z0-9]/', '', $ext);
-                if (class_exists($class)) {
-                    $hook_extensions[] = $class;
-                }
-            }
-        }
-        $this->enabled_extensions = $enabled_extensions;
-        $this->setExtensionCollection(new ExtensionCollection($hook_extensions));
-
-        ADebug::variable('List of loaded extensions', $enabled_extensions);
-
-        $this->setExtensionControllers($ext_controllers);
-        ADebug::variable('List of controllers used by extensions', $ext_controllers);
-
-        $this->setExtensionModels($ext_models);
-        ADebug::variable('List of models used by extensions', $ext_models);
-
-        $this->setExtensionLanguages($ext_languages);
-        ADebug::variable('List of languages used by extensions', $ext_languages);
-
-        $this->setExtensionTemplates($ext_templates);
-        ADebug::variable('List of templates used by extensions', $ext_templates);
+        return false;
     }
 
     /**
@@ -868,6 +893,7 @@ class ExtensionsApi
      * @param  $mode - mode to force storefront
      *
      * @return array|bool - false if not found, array with extension name and file name if found
+     * @throws AException
      */
     public function isExtensionResource($resource_type, $route, $ext_status = '', $mode = '')
     {
@@ -979,6 +1005,7 @@ class ExtensionsApi
      * @param string $route - relative path of file.
      *
      * @return array|bool
+     * @throws AException
      */
     public function getAllPrePostTemplates($route)
     {
@@ -1079,62 +1106,11 @@ class ExtensionsApi
     }
 
     /**
-     * Check if a {@link Extension} from the {@link ExtensionCollection} for this ExtensionsApi exists.
-     * {@source}
-     * Use like <code>isset($ExtensionsApi->extensionName)</code>
-     *
-     * @param string $property Name of the {@link extension} to check.
-     *
-     * @return boolean
-     */
-    public function __isset($property)
-    {
-        if ($this->extensions->$property !== false) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Get a {@link Extension} from the {@link ExtensionCollection} for this ExtensionsApi.
-     * {@source}
-     * Use like <code>$ExtensionsApi->extensionName</code>
-     *
-     * @param string $property Name of the {@link extension} to get.
-     *
-     * @return extension
-     * @throws AException
-     */
-    public function __get($property)
-    {
-        if ($this->extensions->$property !== false) {
-            return $this->extensions->$property;
-        }
-        throw new AException(
-            AC_ERR_LOAD,
-            'Extensions of name "'.$property.'" not found in ExtensionsApi '
-        );
-    }
-
-    /**
-     * @param string $method (hk_[function] calls)
-     * @param array $args
-     *
-     * @return mixed|null
-     */
-    public function __call($method, array $args)
-    {
-        if (substr($method, 0, 2) == 'hk') {
-            return $this->__ExtensionsApiCall(substr($method, 2), $args);
-        }
-        return null;
-    }
-
-    /**
      * @param string $method
      * @param array $args
      *
      * @return mixed|null
+     * @throws AException
      */
     protected function __ExtensionsApiCall($method, array $args)
     {
@@ -1167,16 +1143,31 @@ class ExtensionsApi
         $can_run = true;
         if (method_exists($baseObject, $method) || method_exists($baseObject, '__call')) {
             // callback surrounds the method execution
-            $can_run = call_user_func_array([$this->extensions, 'around'.$extension_method], $args);
-
+            $result = call_user_func_array([$this->extensions, 'override'.$extension_method], $args);
             // method is allowed to run
-            if ($can_run === true) {
+            if (!ExtensionCollection::$around_method_found) {
                 $object_args = $args;
                 array_shift($object_args);
                 $return = call_user_func_array([$baseObject, $method], $object_args);
                 // have replaced the method
             } elseif ($can_run !== false) {
-                $return = $can_run;
+                $return = $result;
+            }
+        } else {
+            //callback surrounds the method execution
+            $result = call_user_func_array([$this->extensions, 'override'.$extension_method], $args);
+            if (ExtensionCollection::$around_method_found && $result !== false) {
+                //Fake Exception to send result to dispatcher
+                // via AException
+                // and interrupt running of base controller method
+                /** @see ADispatcher::dispatch() */
+                throw new AException(
+                    AC_HOOK_OVERRIDE,
+                    'Class '.get_class($baseObject).' overridden by extension "override" hook.',
+                    '',
+                    '',
+                    $result
+                );
             }
         }
 
@@ -1185,9 +1176,7 @@ class ExtensionsApi
             $on_args[] =& $return;
             call_user_func_array([$this->extensions, 'on'.$extension_method], $on_args);
         }
-
         call_user_func_array([$this->extensions, 'after'.$extension_method], $args);
-
         return $return;
     }
 
@@ -1226,6 +1215,8 @@ class ExtensionUtils
     /**
      * @param string $ext
      * @param int $store_id
+     *
+     * @throws AException
      */
     public function __construct($ext, $store_id = 0)
     {
@@ -1531,6 +1522,7 @@ class ExtensionUtils
 
     /**
      * @return array
+     * @throws AException
      */
     public function getDefaultSettings()
     {

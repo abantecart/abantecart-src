@@ -692,10 +692,9 @@ class ControllerPagesSaleCoupon extends AController
             $filter = ['subsql_filter' => 'p.product_id in ('.implode(',', $ids).')'];
             $results = $this->model_catalog_product->getProducts($filter);
 
-            $product_ids = [];
-            foreach ($results as $result) {
-                $product_ids[] = (int) $result['product_id'];
-            }
+            $product_ids = array_column($results,'product_id');
+            $product_ids = array_map('intval',$product_ids);
+
             //get thumbnails by one pass
             $resource = new AResource('image');
             $thumbnails = $resource->getMainThumbList(

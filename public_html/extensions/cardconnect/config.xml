@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension>
 	<id>cardconnect</id>
-	<version>1.0.4</version>
+	<version>1.1.0</version>
 	<type>payment</type>
 	<category>Payment</category>
 	<cartversions>
@@ -18,9 +18,9 @@
 			<type required="true">input</type>
 			<default_value></default_value>
 		</item>
-			<item id="cardconnect_password">
+		<item id="cardconnect_password">
 			<type required="true">input</type>
-		<default_value></default_value>
+			<default_value></default_value>
 		</item>
 		<item id="cardconnect_test_mode">
 			<type>checkbox</type>

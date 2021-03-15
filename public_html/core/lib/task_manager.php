@@ -774,10 +774,16 @@ class ATaskManager
                     ORDER BY sort_order";
             $result = $this->db->query($sql);
             $memory_limit = getMemoryLimitInBytes();
+            //if limitation not set  - think as unlimited
+            $memory_limit = $memory_limit == -1 ? 100000000000000000000000 : $memory_limit;
             foreach ($result->rows as $row) {
                 $used = memory_get_usage();
                 if ($memory_limit - $used <= 204800) {
-                    $this->log->write('Error: Task Manager Memory overflow! To Get all Steps of Task you should to increase memory_limit_size in your php.ini');
+                    $this->log->write(
+                        'Error: Task Manager Memory overflow! '
+                        .'To Get all Steps of Task you should to increase memory_limit_size in your php.ini'
+                        ."\n".' Memory_limit: '.$memory_limit.', memory_used: '.$used
+                    );
                 }
                 $row['settings'] = $row['settings'] ? unserialize($row['settings']) : '';
                 $output[(string)$row['step_id']] = $row;

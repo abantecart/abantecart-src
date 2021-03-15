@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -21,39 +22,35 @@ if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
+/**
+ * Class ControllerResponsesCheckoutFastCheckoutSummary
+ *
+ * @property boolean $allow_guest
+ */
 class ControllerResponsesCheckoutFastCheckoutSummary extends AController
 {
-
-    public $data = array();
+    /** @var string */
+    protected $cart_key;
 
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
+        $this->cart_key = $this->session->data['cart_key'];
+        $fc_session =& $this->session->data['fast_checkout'][$this->cart_key];
         //set sign that checkout is fast. See usage in hooks
         $this->session->data['fast-checkout'] = true;
-
         $this->allow_guest = $this->config->get('config_guest_checkout');
 
-        $this->cart_key = $this->session->data['cart_key'];
-
-        if (!isset($this->session->data['fast_checkout'][$this->cart_key])
-            || $this->session->data['fast_checkout'][$this->cart_key]['cart'] !== $this->session->data['cart']) {
-            $this->session->data['fast_checkout'][$this->cart_key]['cart'] = $this->session->data['cart'];
+        if (!isset($fc_session) || $fc_session['cart'] !== $this->session->data['cart']) {
+            $fc_session['cart'] = $this->session->data['cart'];
             $this->removeNoStockProducts();
             if ($this->session->data['coupon']) {
-                $this->session->data['fast_checkout'][$this->cart_key]['coupon'] = $this->session->data['coupon'];
+                $fc_session['coupon'] = $this->session->data['coupon'];
             }
         }
 
         $cart_class_name = get_class($this->cart);
-        $this->registry->set('cart', new $cart_class_name($this->registry, $this->session->data['fast_checkout'][$this->cart_key]));
-        //do we need to apply taxed on payment address?
-        if ($this->cart->hasShipping() && !$this->config->get('config_tax_customer')) {
-            $this->tax->setZone(
-                $this->session->data['fast_checkout'][$this->cart_key]['tax_country_id'],
-                $this->session->data['fast_checkout'][$this->cart_key]['tax_zone_id']
-            );
-        }
+        $this->registry->set('cart', new $cart_class_name($this->registry, $fc_session));
     }
 
     public function main()
@@ -65,14 +62,12 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
         $this->buildCartProductDetails();
 
         $this->view->batchAssign($this->data);
-        $this->response->setOutput($this->view->fetch('responses/checkout/fast_checkout_summary.tpl'));
-        return null;
-
-        //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        $this->response->setOutput($this->view->fetch('responses/checkout/fast_checkout_summary.tpl'));
     }
 
-    protected function removeNoStockProducts() {
+    protected function removeNoStockProducts()
+    {
         $cartProducts = $this->cart->getProducts();
         foreach ($cartProducts as $key => $cartProduct) {
             if (!$cartProduct['stock'] && !$this->config->get('config_stock_checkout')) {
@@ -85,10 +80,22 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
     {
         $qty = 0;
         $resource = new AResource('image');
+        $products = [];
+        $mSizes = [
+            'main'  =>
+                [
+                    'width'  => $this->config->get('config_image_cart_width'),
+                    'height' => $this->config->get('config_image_cart_height'),
+                ],
+            'thumb' => [
+                'width'  => $this->config->get('config_image_cart_width'),
+                'height' => $this->config->get('config_image_cart_height'),
+            ],
+        ];
 
         foreach ($this->cart->getProducts() as $result) {
             $option_data = [];
-
+            $option = [];
             foreach ($result['option'] as $option) {
                 $value = $option['value'];
                 // hide binary value for checkbox
@@ -124,18 +131,6 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
                 $this->config->get('config_image_grid_height')
             );
 
-            $mSizes = array(
-                'main'  =>
-                    array(
-                        'width' => $this->config->get('config_image_cart_width'),
-                        'height' => $this->config->get('config_image_cart_height')
-                    ),
-                'thumb' => array(
-                    'width' =>  $this->config->get('config_image_cart_width'),
-                    'height' => $this->config->get('config_image_cart_height')
-                ),
-            );
-
             $main_image = $resource->getResourceAllObjects(
                 'product_option_value',
                 $option['product_option_value_id'],
@@ -160,23 +155,27 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
                 'option'    => $option_data,
                 'quantity'  => $result['quantity'],
                 'stock'     => $result['stock'],
-                'price'     => $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'],
-                    $this->config->get('config_tax'))),
-                'href'      => $this->html->getSEOURL('product/product', '&product_id='.$result['product_id'], true),
+                'price'     => $this->currency->format(
+                    $this->tax->calculate(
+                        $result['price'],
+                        $result['tax_class_id'],
+                        $this->config->get('config_tax')
+                    )
+                ),
+                'href'      => $this->html->getSEOURL(
+                    'product/product',
+                    '&product_id='.$result['product_id'],
+                    true
+                ),
             ];
         }
-        $this->data['products'] = $products;
 
+        $this->data['products'] = $products;
         $display_totals = $this->cart->buildTotalDisplay(true);
 
         $this->data['totals'] = $display_totals['total_data'];
         $this->data['total'] = $display_totals['total'];
         $this->data['total_string'] = $this->currency->format($display_totals['total']);
-        if ($this->data['totals']) {
-            return true;
-        } else {
-            return false;
-        }
-
+        return ($this->data['totals']);
     }
 }

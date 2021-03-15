@@ -113,11 +113,11 @@ function buildStoreFrontMenuTree($menu_array, $level = 0)
         $result .= '<a '.$class.$href.'>';
 
         //check icon rl type html, image or none.
-        $rl_id = $item['icon_rl_id'];
+        $rl_id = $item['icon_rl_id'] ?: $item['icon'];
         if ($rl_id) {
             $resource = $ar->getResource($rl_id);
             if ($resource['resource_path'] && is_file(DIR_RESOURCE.'image/'.$resource['resource_path'])) {
-                $result .= '<img class="menu_image" src="'.HTTPS_DIR_RESOURCE.'image/'.$resource['resource_path'].'" alt="" />';
+                $result .= '<img class="menu_image" src="'.HTTPS_DIR_RESOURCE.'image/'.$resource['resource_path'].'" />';
             } elseif ($resource['resource_code']) {
                 $result .= $resource['resource_code'];
             }

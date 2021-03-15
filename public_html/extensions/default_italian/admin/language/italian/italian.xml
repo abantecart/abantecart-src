@@ -768,4 +768,12 @@
 		<key>text_subtract_order</key>
 		<value><![CDATA[Sottrai ordine]]></value>
 	</definition>
+	<definition>
+		<key>text_copy_embed_url</key>
+		<value><![CDATA[Copia e incolla questo URL nel tuo altro sito in cui desideri vendere]]></value>
+	</definition>
+	<definition>
+		<key>button_preview</key>
+		<value><![CDATA[Anteprima]]></value>
+	</definition>
 </definitions>

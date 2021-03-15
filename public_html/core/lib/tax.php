@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -24,22 +25,18 @@ if (!defined('DIR_CORE')) {
 /**
  * Class ATax
  *
- * @property ASession  $session
- * @property AConfig   $config
- * @property ACache    $cache
- * @property ADB       $db
+ * @property ASession $session
+ * @property AConfig $config
+ * @property ACache $cache
+ * @property ADB $db
  * @property ACustomer $customer
  */
 class ATax
 {
     protected $taxes = [];
-    /**
-     * @var Registry
-     */
+    /** @var Registry */
     protected $registry;
-    /**
-     * @var ASession or customer's data
-     */
+    /** @var ASession or customer's data */
     protected $customer_data;
 
     /**
@@ -59,19 +56,50 @@ class ATax
             $this->customer_data =& $c_data;
         }
         $this->customer_data['tax_exempt'] = $this->customer_data['tax_exempt'] ?? false;
-
-        if ($this->customer_data['country_id'] && $this->customer_data['zone_id']) {
-            $country_id = $this->customer_data['country_id'];
-            $zone_id = $this->customer_data['zone_id'];
+        if (isset($this->customer_data['guest']['country_id'])
+                || isset($this->customer_data['guest']['shipping']['country_id'])
+        ) {
+            //if takes billing address
+            if ($this->config->get('config_tax_customer')) {
+                $countryId = $this->customer_data['guest']['country_id']
+                    ?? $this->customer_data['guest']['shipping']['country_id'];
+                $zoneId = $this->customer_data['guest']['zone_id']
+                    ?? $this->customer_data['guest']['shipping']['zone_id'];
+            } //if takes shipping address
+            else {
+                $countryId = $this->customer_data['guest']['shipping']['country_id']
+                    ?? $this->customer_data['guest']['country_id'];
+                $zoneId = $this->customer_data['guest']['shipping']['zone_id']
+                    ?? $this->customer_data['guest']['zone_id'];
+            }
+        } elseif (
+            isset($this->customer_data['shipping_address_id'])
+            || isset($this->customer_data['payment_address_id'])
+        ) {
+            /** @var ModelAccountAddress $mdl */
+            $mdl = $this->registry->get('load')->model('account/address', 'storefront');
+            //if takes billing address
+            if ($this->config->get('config_tax_customer')) {
+                $address = $mdl->getAddress($this->customer_data['payment_address_id']);
+            } //if takes shipping address
+            else {
+                $address = $mdl->getAddress($this->customer_data['shipping_address_id']);
+            }
+            $countryId = $address['country_id'] ?? $this->customer_data['country_id'];
+            $zoneId = $address['zone_id'] ?? $this->customer_data['zone_id'];
+        } elseif ($this->customer_data['country_id'] && $this->customer_data['zone_id']) {
+            $countryId = $this->customer_data['country_id'];
+            $zoneId = $this->customer_data['zone_id'];
         } else {
             if ($this->config->get('config_tax_store')) {
-                $country_id = $this->config->get('config_country_id');
-                $zone_id = $this->config->get('config_zone_id');
+                $countryId = $this->config->get('config_country_id');
+                $zoneId = $this->config->get('config_zone_id');
             } else {
-                $country_id = $zone_id = 0;
+                $countryId = $zoneId = 0;
             }
         }
-        $this->setZone($country_id, $zone_id);
+
+        $this->setZone($countryId, $zoneId);
 
         //if guest or registered customer non-exemption and tax rate without exemption mark
         if (!$this->customer_data['customer_group_id']) {
@@ -89,6 +117,7 @@ class ATax
         $this->registry->set($key, $value);
     }
 
+
     /**
      * Set tax country ID and zone ID for the session
      * Also it loads available taxes for the zone
@@ -100,20 +129,20 @@ class ATax
      */
     public function setZone($country_id, $zone_id)
     {
-        $country_id = (int)$country_id;
-        $zone_id = (int)$zone_id;
+        $country_id = (int) $country_id;
+        $zone_id = (int) $zone_id;
         $results = $this->getTaxes($country_id, $zone_id);
         $this->taxes = [];
         foreach ($results as $result) {
             $this->taxes[$result['tax_class_id']][] = [
-                'tax_class_id'        => $result['tax_class_id'],
-                'rate'                => $result['rate'],
-                'rate_prefix'         => $result['rate_prefix'],
+                'tax_class_id' => $result['tax_class_id'],
+                'rate' => $result['rate'],
+                'rate_prefix' => $result['rate_prefix'],
                 'threshold_condition' => $result['threshold_condition'],
-                'threshold'           => $result['threshold'],
-                'description'         => $result['description'],
-                'tax_exempt_groups'   => unserialize($result['tax_exempt_groups']),
-                'priority'            => $result['priority'],
+                'threshold' => $result['threshold'],
+                'description' => $result['description'],
+                'tax_exempt_groups' => unserialize($result['tax_exempt_groups']),
+                'priority' => $result['priority'],
             ];
         }
         $this->customer_data['country_id'] = $country_id;
@@ -132,8 +161,8 @@ class ATax
      */
     public function getTaxes($country_id, $zone_id)
     {
-        $country_id = (int)$country_id;
-        $zone_id = (int)$zone_id;
+        $country_id = (int) $country_id;
+        $zone_id = (int) $zone_id;
 
         $language = $this->registry->get('language');
         $language_id = $language->getLanguageID();
@@ -159,17 +188,19 @@ class ATax
 							tr.priority	
 					FROM ".$this->db->table("tax_rates")." tr
 					LEFT JOIN ".$this->db->table("tax_rate_descriptions")." trd1 ON 
-						(tr.tax_rate_id = trd1.tax_rate_id AND trd1.language_id = '".(int)$language_id."')
+						(tr.tax_rate_id = trd1.tax_rate_id AND trd1.language_id = '".(int) $language_id."')
 					LEFT JOIN ".$this->db->table("tax_rate_descriptions")." trd2 ON 
-						(tr.tax_rate_id = trd2.tax_rate_id AND trd2.language_id = '".(int)$default_lang_id."')
+						(tr.tax_rate_id = trd2.tax_rate_id AND trd2.language_id = '".(int) $default_lang_id."')
 					LEFT JOIN ".$this->db->table("tax_classes")." tc ON tc.tax_class_id = tr.tax_class_id
 					LEFT JOIN ".$this->db->table("tax_class_descriptions")." td1 ON 
-						(tc.tax_class_id = td1.tax_class_id AND td1.language_id = '".(int)$language_id."')
+						(tc.tax_class_id = td1.tax_class_id AND td1.language_id = '".(int) $language_id."')
 					LEFT JOIN ".$this->db->table("tax_class_descriptions")." td2 ON 
-						(tc.tax_class_id = td2.tax_class_id AND td2.language_id = '".(int)$default_lang_id."')
+						(tc.tax_class_id = td2.tax_class_id AND td2.language_id = '".(int) $default_lang_id."')
 					WHERE (tr.zone_id = '0' OR tr.zone_id = '".$zone_id."')
 						AND tr.location_id in (SELECT z2l.location_id
-											   FROM ".$this->db->table("zones_to_locations")." z2l, ".$this->db->table("locations")." l
+											   FROM ".$this->db->table("zones_to_locations")." z2l, ".$this->db->table(
+                    "locations"
+                )." l
 											   WHERE z2l.location_id = l.location_id and z2l.zone_id = '".$zone_id."')
 					ORDER BY tr.priority ASC";
             $tax_rate_query = $this->db->query($sql);
@@ -186,8 +217,8 @@ class ATax
      * This is used in display of product price with tax added or not (based on config_tax )
      *
      * @param float $value
-     * @param int   $tax_class_id
-     * @param bool  $calculate
+     * @param int $tax_class_id
+     * @param bool $calculate
      *
      * @return float
      */
@@ -207,7 +238,7 @@ class ATax
         if ($this->customer_data['customer_tax_exempt']) {
             return true;
         } else {
-            if (in_array($customer_group_id, (array)$tax_rate_info['tax_exempt_groups'])) {
+            if (in_array($customer_group_id, (array) $tax_rate_info['tax_exempt_groups'])) {
                 return true;
             }
         }
@@ -218,7 +249,7 @@ class ATax
      * Calculate total applicable tax amount based on the amount provided
      *
      * @param float $amount
-     * @param int   $tax_class_id
+     * @param int $tax_class_id
      *
      * @return float
      */
@@ -243,6 +274,7 @@ class ATax
      */
     public function calcTaxAmount($amount, $tax_rate = [])
     {
+        $amount = (float) $amount;
         $tax_amount = 0.0;
         if (!$this->customer_data['tax_exempt']
             && !$this->_is_tax_rate_exempt($tax_rate, $this->customer_data['customer_group_id'])
@@ -259,10 +291,10 @@ class ATax
 
             if ($tax_rate['rate_prefix'] == '$') {
                 //this is absolute value rate in default currency
-                $tax_amount = $tax_rate['rate'];
+                $tax_amount = (float) $tax_rate['rate'];
             } else {
                 //This is percent based rate
-                $tax_amount = $amount * $tax_rate['rate'] / 100;
+                $tax_amount = $amount * (float) $tax_rate['rate'] / 100;
             }
         }
         return $tax_amount;
@@ -272,12 +304,12 @@ class ATax
      * Get array with applicable rates for tax class based on the provided amount
      * Array returns Absolute and Percent rates in separate arrays
      *
-     * @since 1.2.7
-     *
      * @param float $amount
-     * @param int   $tax_class_id
+     * @param int $tax_class_id
      *
      * @return array
+     * @since 1.2.7
+     *
      */
     public function getApplicableRates($amount, $tax_class_id)
     {
@@ -304,12 +336,12 @@ class ATax
     /**
      * Get accumulative tax rate (deprecated)
      *
-     * @deprecated
-     * @since 1.1.8
-     *
      * @param int $tax_class_id
      *
      * @return float
+     * @deprecated
+     * @since 1.1.8
+     *
      */
     public function getRate($tax_class_id)
     {
@@ -346,13 +378,13 @@ class ATax
     }
 
     /**
-     * @param float  $value1
-     * @param float  $value2
+     * @param float $value1
+     * @param float $value2
      * @param string $operator
      *
      * @return bool
      */
-    private function _compare($value1, $value2, $operator)
+    protected function _compare($value1, $value2, $operator)
     {
         switch ($operator) {
             case 'eq':

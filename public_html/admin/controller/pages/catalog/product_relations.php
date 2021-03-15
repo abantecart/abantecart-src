@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -24,8 +24,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerPagesCatalogProductRelations extends AController
 {
-    private $error = [];
-    public $data = [];
+    public $error = [];
 
     public function main()
     {
@@ -77,7 +76,10 @@ class ControllerPagesCatalogProductRelations extends AController
         $this->document->addBreadcrumb(
             [
                 'href'      => $this->html->getSecureURL('catalog/product/update', '&product_id='.$product_id),
-                'text'      => $this->language->get('text_edit').'&nbsp;'.$this->language->get('text_product').' - '
+                'text'      => $this->language->get('text_edit')
+                    .'&nbsp;'
+                    .$this->language->get('text_product')
+                    .' - '
                     .$this->data['product_description'][$language_id]['name'],
                 'separator' => ' :: ',
             ]
@@ -91,16 +93,19 @@ class ControllerPagesCatalogProductRelations extends AController
             ]
         );
 
+        $this->loadModel('setting/store');
         $this->loadModel('catalog/category');
         $this->data['categories'] = [];
 
-        $products_stores = $this->model_catalog_product->getProductStores($product_id);
+        $products_stores = array_column($this->model_setting_store->getStores(), 'store_id');
 
         $results = $this->model_catalog_category->getCategories(ROOT_CATEGORY_ID, $products_stores);
 
         foreach ($results as $r) {
             $this->data['categories'][$r['category_id']] = $r['name']
-                .(count($products_stores) > 1 ? "   (".$r['store_name'].")" : '');
+                .(count($products_stores) > 1
+                    ? "   (".$r['store_name'].")"
+                    : '');
         }
 
         $this->loadModel('setting/store');
@@ -178,19 +183,18 @@ class ControllerPagesCatalogProductRelations extends AController
         //load only prior saved products
         $this->data['products'] = [];
         if (count($this->data['product_related'])) {
-            $ids = [];
-            foreach ($this->data['product_related'] as $id) {
-                $ids[] = (int) $id;
-            }
+            $ids = array_map('intval',$this->data['product_related']);
 
             $this->loadModel('catalog/product');
-            $filter = ['subsql_filter' => 'p.product_id in ('.implode(',', $ids).')'];
-            $results = $this->model_catalog_product->getProducts($filter);
-
-            $product_ids = [];
-            foreach ($results as $result) {
-                $product_ids[] = (int) $result['product_id'];
+            if($ids) {
+                $filter = ['subsql_filter' => 'p.product_id in ('.implode(',', $ids).')'];
+                $results = $this->model_catalog_product->getProducts($filter);
+            }else{
+                $results = [];
             }
+
+            $product_ids = array_column($results,'product_id');
+
             //get thumbnails by one pass
             $resource = new AResource('image');
             $thumbnails = $resource->getMainThumbList(

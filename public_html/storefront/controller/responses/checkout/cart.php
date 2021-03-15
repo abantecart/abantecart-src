@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -23,23 +24,20 @@ if (!defined('DIR_CORE')) {
 
 class ControllerResponsesCheckoutCart extends AController
 {
-    private $error = array();
-    public $data = array();
+    public $data = [];
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         if ($this->request->is_POST()) {
-
             if (isset($this->request->post['quantity'])) {
                 if (!is_array($this->request->post['quantity'])) {
                     if (isset($this->request->post['option'])) {
                         $option = $this->request->post['option'];
                     } else {
-                        $option = array();
+                        $option = [];
                     }
 
                     $this->cart->add($this->request->post['product_id'], $this->request->post['quantity'], $option);
@@ -49,10 +47,12 @@ class ControllerResponsesCheckoutCart extends AController
                     }
                 }
 
-                unset($this->session->data['shipping_methods']);
-                unset($this->session->data['shipping_method']);
-                unset($this->session->data['payment_methods']);
-                unset($this->session->data['payment_method']);
+                unset(
+                    $this->session->data['shipping_methods'],
+                    $this->session->data['shipping_method'],
+                    $this->session->data['payment_methods'],
+                    $this->session->data['payment_method']
+                );
             }
 
             if (isset($this->request->post['remove'])) {
@@ -66,33 +66,33 @@ class ControllerResponsesCheckoutCart extends AController
             }
 
             if (isset($this->request->post['quantity']) || isset($this->request->post['remove'])) {
-                unset($this->session->data['shipping_methods']);
-                unset($this->session->data['shipping_method']);
-                unset($this->session->data['payment_methods']);
-                unset($this->session->data['payment_method']);
+                unset(
+                    $this->session->data['shipping_methods'],
+                    $this->session->data['shipping_method'],
+                    $this->session->data['payment_methods'],
+                    $this->session->data['payment_method']
+                );
             }
         }
 
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
     }
 
     /**
      * change_zone_get_shipping_methods()
-     * Ajax function to apply new country and zone to be used in tax and/or shipping culculation.
+     * Ajax function to apply new country and zone to be used in tax and/or shipping calculation.
      * Return: List of available shipping methods and cost
      */
-
     public function change_zone_get_shipping_methods()
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $output = array();
+        $output = [];
         $this->load->library('json');
         if ($this->request->is_GET()) {
             $this->response->setOutput(AJson::encode($output));
-            return '';
+            return;
         }
 
         //need to reset zone for tax even if shipping is not needed
@@ -100,14 +100,14 @@ class ControllerResponsesCheckoutCart extends AController
         $this->loadModel('localisation/zone');
         $country_info = $this->model_localisation_country->getCountry($this->request->post['country_id']);
         $zone_info = $this->model_localisation_zone->getZone($this->request->post['zone_id']);
-        $shipping_address = array(
+        $shipping_address = [
             'postcode'          => $this->request->post['postcode'],
             'country_id'        => $this->request->post['country_id'],
             'country_iso_code2' => $country_info['iso_code_2'],
             'iso_code_2'        => $country_info['iso_code_2'],
             'zone_id'           => $this->request->post['zone_id'],
             'zone_code'         => $zone_info['code'],
-        );
+        ];
 
         $this->tax->setZone($shipping_address['country_id'], $shipping_address['zone_id']);
 
@@ -117,22 +117,21 @@ class ControllerResponsesCheckoutCart extends AController
 
             $results = $this->model_checkout_extension->getExtensions('shipping');
             foreach ($results as $result) {
-                $this->loadModel('extension/'.$result['key']);
-
-                /** @noinspection PhpUndefinedMethodInspection */
-                $quote = $this->{'model_extension_'.$result['key']}->getQuote($shipping_address);
+                /** @var ModelExtensionDefaultFlatRateShipping|object $mdl */
+                $mdl = $this->loadModel('extension/'.$result['key']);
+                $quote = $mdl->getQuote($shipping_address);
 
                 if ($quote) {
-                    $output[$result['key']] = array(
+                    $output[$result['key']] = [
                         'title'      => $quote['title'],
                         'quote'      => $quote['quote'],
                         'sort_order' => $quote['sort_order'],
                         'error'      => $quote['error'],
-                    );
+                    ];
                 }
             }
 
-            $sort_order = array();
+            $sort_order = [];
             foreach ($output as $key => $value) {
                 $sort_order[$key] = $value['sort_order'];
             }
@@ -141,27 +140,28 @@ class ControllerResponsesCheckoutCart extends AController
 
             //add ready selectbox element
             if (count($output)) {
-                $disp_ship = array();
+                $displayShippings = [];
                 foreach ($output as $shp_data) {
-                    $shp_data['quote'] = (array)$shp_data['quote'];
+                    $shp_data['quote'] = (array) $shp_data['quote'];
                     foreach ($shp_data['quote'] as $qt_data) {
-                        $disp_ship[$qt_data['id']] = $qt_data['title']." - ".$qt_data['text'];
+                        $displayShippings[$qt_data['id']] = $qt_data['title']." - ".$qt_data['text'];
                     }
                 }
 
-                if ($disp_ship) {
-                    $selectbox = HtmlElementFactory::create(array(
-                        'type'    => 'selectbox',
-                        'name'    => 'shippings',
-                        'options' => $disp_ship,
-                        'style'   => 'large-field',
-                    ));
+                if ($displayShippings) {
+                    $selectbox = HtmlElementFactory::create(
+                        [
+                            'type'    => 'selectbox',
+                            'name'    => 'shippings',
+                            'options' => $displayShippings,
+                            'style'   => 'large-field',
+                        ]
+                    );
                     $output['selectbox'] = $selectbox->getHTML();
                 } else {
                     $output['selectbox'] = '';
                 }
             }
-
         } else {
             $output['selectbox'] = '';
         }
@@ -177,13 +177,13 @@ class ControllerResponsesCheckoutCart extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $output = array();
+        $output = [];
 
         $this->load->library('json');
 
         if ($this->request->is_GET()) {
             $this->response->setOutput(AJson::encode($output));
-            return '';
+            return;
         }
 
         if ($this->request->post['country_id'] && $this->request->post['zone_id']) {
@@ -196,11 +196,14 @@ class ControllerResponsesCheckoutCart extends AController
             if (!$this->session->data['shipping_method']) {
                 $clear_shipping = true;
             }
-            $this->session->data['shipping_method'] = $this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]];
+            $this->session->data['shipping_method'] =
+                $this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]];
         } else {
-            unset($this->session->data['shipping_address_id']);
-            unset($this->session->data['shipping_method']);
-            unset($this->session->data['shipping_methods']);
+            unset(
+                $this->session->data['shipping_address_id'],
+                $this->session->data['shipping_method'],
+                $this->session->data['shipping_methods']
+            );
         }
 
         $display_totals = $this->cart->buildTotalDisplay(true);
@@ -221,16 +224,15 @@ class ControllerResponsesCheckoutCart extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
+        $cart_html = '';
         try {
             $this->config->set('embed_mode', true);
             $cart = $this->dispatch('pages/checkout/cart');
             $cart_html = $cart->dispatchGetOutput();
-        } catch (AException $e) {
+        } catch (Exception $e) {
         }
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
         $this->response->setOutput($cart_html);
     }
 

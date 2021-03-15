@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -43,8 +43,9 @@ if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 define('DIR_ROOT', $root_path);
 define('DIR_CORE', DIR_ROOT.'/core/');
 
-require_once(DIR_ROOT.'/system/config.php');
-
+if(is_file(DIR_ROOT.'/system/config.php')) {
+    require_once(DIR_ROOT.'/system/config.php');
+}
 // New Installation
 if (!defined('DB_DATABASE')) {
     header('Location: install/index.php');
@@ -53,6 +54,8 @@ if (!defined('DB_DATABASE')) {
 
 // Load all initial set up
 require_once(DIR_ROOT.'/core/init.php');
+/** @var Registry $registry */
+/** @var Aconfig $config */
 
 ADebug::checkpoint('init end');
 
@@ -112,3 +115,6 @@ ADebug::checkpoint('app end');
 if ($router->getRequestType() == 'page') {
     ADebug::display();
 }
+// add ability to call hook at the end
+/** @var AHook $hook */
+$hook->hk_IndexEnd();

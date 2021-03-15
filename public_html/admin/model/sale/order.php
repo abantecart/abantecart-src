@@ -1159,11 +1159,11 @@ class ModelSaleOrder extends Model
                 $this->data['mail_template_data'] = [
                     'store_name'        => $order_query->row['store_name'],
                     'order_id'          => $order_id,
-                    'date_added'        => dateISO2Display(
+                    'order_date_added'        => dateISO2Display(
                                                 $order_query->row['date_added'],
                                                 $language->get('date_format_short')
                                             ),
-                    'order_status_name' => $order_query->row['status'],
+                    'order_status' => $order_query->row['status'],
                     'invoice'           => $invoice,
                     'comment'           => $data['comment']
                                             ? strip_tags(

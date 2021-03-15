@@ -1,11 +1,13 @@
 <?php
+/** @noinspection PhpUndefinedClassInspection */
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,17 +25,21 @@ if (!defined('DIR_CORE')) {
 
 /**
  * Class ModelAccountAddress
+ *
+ * @property ModelLocalisationCountry $model_localisation_country
+ * @property ModelLocalisationZone $model_localisation_zone
  */
 class ModelAccountAddress extends Model
 {
-    public $error = array();
+    public $error = [];
 
     /**
      * @param $data
      *
      * @return int
+     * @throws AException
      */
-    public function addAddress($data = array())
+    public function addAddress($data = [])
     {
         if (!$data) {
             return false;
@@ -42,11 +48,12 @@ class ModelAccountAddress extends Model
         $key_sql = '';
         if ($this->dcrypt->active) {
             $data = $this->dcrypt->encrypt_data($data, 'addresses');
-            $key_sql = ", key_id = '".(int)$data['key_id']."'";
+            $key_sql = ", key_id = '".(int) $data['key_id']."'";
         }
 
-        $this->db->query("INSERT INTO `".$this->db->table("addresses")."`
-						SET customer_id = '".(int)$this->customer->getId()."',
+        $this->db->query(
+            "INSERT INTO `".$this->db->table("addresses")."`
+						SET customer_id = '".(int) $this->customer->getId()."',
 							company = '".$this->db->escape($data['company'])."',
 							firstname = '".$this->db->escape($data['firstname'])."',
 							lastname = '".$this->db->escape($data['lastname'])."',
@@ -54,29 +61,33 @@ class ModelAccountAddress extends Model
 							address_2 = '".$this->db->escape($data['address_2'])."',
 							postcode = '".$this->db->escape($data['postcode'])."',
 							city = '".$this->db->escape($data['city'])."',
-							zone_id = '".(int)$data['zone_id']."',
-							country_id = '".(int)$data['country_id']."'".$key_sql);
+							zone_id = '".(int) $data['zone_id']."',
+							country_id = '".(int) $data['country_id']."'".$key_sql
+        );
 
         $address_id = $this->db->getLastId();
 
         if (isset($data['default']) && $data['default'] == '1') {
-            $this->db->query("UPDATE ".$this->db->table("customers")."
-							SET address_id = '".(int)$address_id."'
-							WHERE customer_id = '".(int)$this->customer->getId()."'");
+            $this->db->query(
+                "UPDATE ".$this->db->table("customers")."
+                SET address_id = '".(int) $address_id."'
+                WHERE customer_id = '".(int) $this->customer->getId()."'"
+            );
         }
 
         return $address_id;
     }
 
     /**
-     * @param int   $address_id
+     * @param int $address_id
      * @param array $data
      *
      * @return bool
+     * @throws AException
      */
     public function editAddress($address_id, $data)
     {
-        $address_id = (int)$address_id;
+        $address_id = (int) $address_id;
         if (!$address_id || !$data) {
             return false;
         }
@@ -85,52 +96,61 @@ class ModelAccountAddress extends Model
         $key_sql = '';
         if ($this->dcrypt->active) {
             $data = $this->dcrypt->encrypt_data($data, 'addresses');
-            $key_sql = ", key_id = '".(int)$data['key_id']."'";
+            $key_sql = ", key_id = '".(int) $data['key_id']."'";
         }
 
         $this->db->query(
             "UPDATE ".$this->db->table("addresses")."
-				SET company = '".$this->db->escape($data['company'])."',
-					firstname = '".$this->db->escape($data['firstname'])."',
-					lastname = '".$this->db->escape($data['lastname'])."',
-					address_1 = '".$this->db->escape($data['address_1'])."',
-					address_2 = '".$this->db->escape($data['address_2'])."',
-					postcode = '".$this->db->escape($data['postcode'])."',
-					city = '".$this->db->escape($data['city'])."',
-					zone_id = '".(int)$data['zone_id']."',
-					country_id = '".(int)$data['country_id']."'".$key_sql."
-				WHERE address_id  = '".(int)$address_id."' AND customer_id = '".(int)$this->customer->getId()."'");
+                SET company = '".$this->db->escape($data['company'])."',
+                    firstname = '".$this->db->escape($data['firstname'])."',
+                    lastname = '".$this->db->escape($data['lastname'])."',
+                    address_1 = '".$this->db->escape($data['address_1'])."',
+                    address_2 = '".$this->db->escape($data['address_2'])."',
+                    postcode = '".$this->db->escape($data['postcode'])."',
+                    city = '".$this->db->escape($data['city'])."',
+                    zone_id = '".(int) $data['zone_id']."',
+                    country_id = '".(int) $data['country_id']."'".$key_sql."
+                WHERE address_id  = '".(int) $address_id."' AND customer_id = '".(int) $this->customer->getId()."'"
+        );
 
         if (isset($data['default'])) {
             $this->db->query(
                 "UPDATE ".$this->db->table("customers")."
-					SET address_id = '".(int)$address_id."'
-					WHERE customer_id = '".(int)$this->customer->getId()."'");
+                    SET address_id = '".(int) $address_id."'
+                    WHERE customer_id = '".(int) $this->customer->getId()."'"
+            );
         }
         return true;
     }
 
     /**
      * @param int $address_id
+     *
+     * @throws AException
      */
     public function deleteAddress($address_id)
     {
         $this->db->query(
             "DELETE FROM ".$this->db->table("addresses")."
-				WHERE address_id = '".(int)$address_id."' AND customer_id = '".(int)$this->customer->getId()."'");
+            WHERE address_id = '".(int) $address_id."' 
+                AND customer_id = '".(int) $this->customer->getId()."'"
+        );
     }
 
     /**
      * @param int $address_id
      *
      * @return array|bool
+     * @throws AException
      */
     public function getAddress($address_id)
     {
         $address_query = $this->db->query(
             "SELECT DISTINCT *
-				 FROM ".$this->db->table("addresses")."
-				 WHERE address_id = '".(int)$address_id."' and customer_id = '".(int)$this->customer->getId()."'");
+             FROM ".$this->db->table("addresses")."
+             WHERE address_id = '".(int) $address_id."' 
+                AND customer_id = '".(int) $this->customer->getId()."'"
+        );
 
         if ($address_query->num_rows) {
             return $this->_build_address_data($address_query->row);
@@ -141,44 +161,47 @@ class ModelAccountAddress extends Model
 
     /**
      * @return array
+     * @throws AException
      */
     public function getAddresses()
     {
-        $address_data = array();
+        $address_data = [];
 
         $query = $this->db->query(
             "SELECT *
-				FROM ".$this->db->table("addresses")."
-				WHERE customer_id = '".(int)$this->customer->getId()."'");
+            FROM ".$this->db->table("addresses")."
+            WHERE customer_id = '".(int) $this->customer->getId()."'"
+        );
 
         foreach ($query->rows as $result) {
             $address_data[] = $this->_build_address_data($result);
         }
-
         return $address_data;
     }
 
     /**
      * @return int
+     * @throws AException
      */
     public function getTotalAddresses()
     {
         $query = $this->db->query(
             "SELECT COUNT(*) AS total
-				FROM ".$this->db->table("addresses")."
-				WHERE customer_id = '".(int)$this->customer->getId()."'");
-
-        return (int)$query->row['total'];
+            FROM ".$this->db->table("addresses")."
+            WHERE customer_id = '".(int) $this->customer->getId()."'"
+        );
+        return (int) $query->row['total'];
     }
 
     /**
      * @param array $data
      *
      * @return array
+     * @throws AException
      */
     public function validateAddressData($data)
     {
-        $this->error = array();
+        $this->error = [];
         if (mb_strlen($data['firstname']) < 1 || mb_strlen($data['firstname']) > 32) {
             $this->error['firstname'] = $this->language->get('error_firstname');
         }
@@ -207,10 +230,11 @@ class ModelAccountAddress extends Model
             $this->error['zone'] = $this->language->get('error_zone');
         }
 
-        if (!$this->error && (int)$data['zone_id'] !== 0) {
-            $sql = "SELECT * FROM ".$this->db->table("zones")."
-					WHERE country_id = '".(int)$data['country_id']."'
-						AND zone_id = '".(int)$data['zone_id']."';";
+        if (!$this->error && (int) $data['zone_id'] !== 0) {
+            $sql = "SELECT * 
+                    FROM ".$this->db->table("zones")."
+                    WHERE country_id = '".(int) $data['country_id']."'
+                        AND zone_id = '".(int) $data['zone_id']."';";
             $result = $this->db->query($sql);
             if (!$result->num_rows) {
                 $this->error['zone'] = $this->language->get('error_zone');
@@ -262,7 +286,7 @@ class ModelAccountAddress extends Model
             $code = '';
         }
 
-        $address_data = array(
+        return [
             'address_id'     => $addr_row['address_id'],
             'firstname'      => $addr_row['firstname'],
             'lastname'       => $addr_row['lastname'],
@@ -279,9 +303,7 @@ class ModelAccountAddress extends Model
             'iso_code_2'     => $iso_code_2,
             'iso_code_3'     => $iso_code_3,
             'address_format' => $address_format,
-        );
-
-        return $address_data;
+        ];
     }
 
 }

@@ -65,7 +65,7 @@ class ControllerPagesContentContact extends AController
             }
 
             $this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
-            $this->data['mail_template_data']['store_url'] = $this->config->get('config_url');
+            $this->data['mail_template_data']['store_url'] = $this->config->get('config_url').$this->config->get('seo_prefix');
             $this->data['mail_template_data']['text_project_label'] = htmlspecialchars_decode(project_base());
             $this->data['mail_template_data']['entry_enquiry'] =
             $this->data['mail_plain_text'] = $this->language->get('entry_enquiry');

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,9 +23,9 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ModelToolBackup extends Model
 {
-    public $errors = array();
+    public $errors = [];
     public $backup_filename;
-    private $eta = array();
+    private $eta = [];
     /**
      * @var int raw size of backup directory/ needed for calculation of eta of compression
      */
@@ -33,6 +33,8 @@ class ModelToolBackup extends Model
 
     /**
      * @param string $sql
+     *
+     * @throws AException
      */
     public function restore($sql)
     {
@@ -52,6 +54,7 @@ class ModelToolBackup extends Model
      * @param string $mode
      *
      * @return bool
+     * @throws AException
      */
     public function load($xml_source, $mode = 'string')
     {
@@ -65,13 +68,13 @@ class ModelToolBackup extends Model
             $xmlname = $xml_obj->getName();
             if ($xmlname == 'template_layouts') {
                 $load = new ALayoutManager();
-                $load->loadXML(array('xml' => $xml_source));
+                $load->loadXML(['xml' => $xml_source]);
             } elseif ($xmlname == 'datasets') {
                 $load = new ADataset();
-                $load->loadXML(array('xml' => $xml_source));
+                $load->loadXML(['xml' => $xml_source]);
             } elseif ($xmlname == 'forms') {
                 $load = new AFormManager();
-                $load->loadXML(array('xml' => $xml_source));
+                $load->loadXML(['xml' => $xml_source]);
             } else {
                 return false;
             }
@@ -85,10 +88,11 @@ class ModelToolBackup extends Model
      * function returns table list of abantecart
      *
      * @return array|bool
+     * @throws AException
      */
     public function getTables()
     {
-        $table_data = array();
+        $table_data = [];
         $prefix_len = strlen(DB_PREFIX);
 
         $query = $this->db->query("SHOW TABLES FROM `".DB_DATABASE."`", true);
@@ -115,12 +119,13 @@ class ModelToolBackup extends Model
     }
 
     /**
-     * @param array      $tables
-     * @param bool|true  $rl
+     * @param array $tables
+     * @param bool|true $rl
      * @param bool|false $config
-     * @param string     $sql_dump_mode
+     * @param string $sql_dump_mode
      *
      * @return bool
+     * @throws AException
      */
     public function backup($tables, $rl = true, $config = false, $sql_dump_mode = 'data_only')
     {
@@ -132,7 +137,7 @@ class ModelToolBackup extends Model
         }
 
         // do sql dump
-        if (!in_array($sql_dump_mode, array('data_only', 'recreate'))) {
+        if (!in_array($sql_dump_mode, ['data_only', 'recreate'])) {
             $sql_dump_mode = 'data_only';
         }
         $bkp->sql_dump_mode = $sql_dump_mode;
@@ -156,13 +161,13 @@ class ModelToolBackup extends Model
 
     /**
      * @param string $task_name
-     * @param array  $data
+     * @param array $data
      *
      * @return array|bool
+     * @throws AException
      */
-    public function createBackupTask($task_name, $data = array())
+    public function createBackupTask($task_name, $data = [])
     {
-
         if (!$task_name) {
             $this->errors[] = 'Can not to create task. Empty task name given';
         }
@@ -176,7 +181,7 @@ class ModelToolBackup extends Model
 
         //1. create new task
         $task_id = $tm->addTask(
-            array(
+            [
                 'name'               => $task_name,
                 //admin-side is starter
                 'starter'            => 1,
@@ -189,7 +194,7 @@ class ModelToolBackup extends Model
                 'last_result'        => '0',
                 'run_interval'       => '0',
                 'max_execution_time' => '0',
-            )
+            ]
         );
         if (!$task_id) {
             $this->errors = array_merge($this->errors, $tm->errors);
@@ -203,7 +208,7 @@ class ModelToolBackup extends Model
 
             //calculate estimate time for dumping of tables
             // get sizes of tables
-            $table_list = array();
+            $table_list = [];
             foreach ($data['table_list'] as $table) {
                 if (!is_string($table)) {
                     continue;
@@ -211,9 +216,9 @@ class ModelToolBackup extends Model
                 $table_list[] = $this->db->escape($table);
             }
             $sql = "SELECT SUM(data_length + index_length - data_free) AS 'db_size'
-					FROM information_schema.TABLES
-					WHERE information_schema.TABLES.table_schema = '".DB_DATABASE."'
-						AND TABLE_NAME IN ('".implode("','", $table_list)."')	";
+                    FROM information_schema.TABLES
+                    WHERE information_schema.TABLES.table_schema = '".DB_DATABASE."'
+                        AND TABLE_NAME IN ('".implode("','", $table_list)."')";
 
             $result = $this->db->query($sql);
             $db_size = $result->row['db_size']; //size in bytes
@@ -223,20 +228,22 @@ class ModelToolBackup extends Model
             $max_eta = ini_get('max_execution_time');
             $eta = $eta < $max_eta ? $max_eta : $eta;
 
-            $step_id = $tm->addStep(array(
-                'task_id'            => $task_id,
-                'sort_order'         => 1,
-                'status'             => 1,
-                'last_time_run'      => '0000-00-00 00:00:00',
-                'last_result'        => '0',
-                'max_execution_time' => $eta,
-                'controller'         => 'task/tool/backup/dumptables',
-                'settings'           => array(
-                    'table_list'    => $data['table_list'],
-                    'sql_dump_mode' => $data['sql_dump_mode'],
-                    'backup_name'   => $backup_filename,
-                ),
-            ));
+            $step_id = $tm->addStep(
+                [
+                    'task_id'            => $task_id,
+                    'sort_order'         => 1,
+                    'status'             => 1,
+                    'last_time_run'      => '0000-00-00 00:00:00',
+                    'last_result'        => '0',
+                    'max_execution_time' => $eta,
+                    'controller'         => 'task/tool/backup/dumptables',
+                    'settings'           => [
+                        'table_list'    => $data['table_list'],
+                        'sql_dump_mode' => $data['sql_dump_mode'],
+                        'backup_name'   => $backup_filename,
+                    ],
+                ]
+            );
 
             if (!$step_id) {
                 $this->errors = array_merge($this->errors, $tm->errors);
@@ -258,19 +265,21 @@ class ModelToolBackup extends Model
             $max_eta = ini_get('max_execution_time');
             $eta = $eta < $max_eta ? $max_eta : $eta;
 
-            $step_id = $tm->addStep(array(
-                'task_id'            => $task_id,
-                'sort_order'         => 2,
-                'status'             => 1,
-                'last_time_run'      => '0000-00-00 00:00:00',
-                'last_result'        => '0',
-                'max_execution_time' => $eta,
-                'controller'         => 'task/tool/backup/backupCodeFiles',
-                'settings'           => array(
-                    'interrupt_on_step_fault' => false,
-                    'backup_name'             => $backup_filename,
-                ),
-            ));
+            $step_id = $tm->addStep(
+                [
+                    'task_id'            => $task_id,
+                    'sort_order'         => 2,
+                    'status'             => 1,
+                    'last_time_run'      => '0000-00-00 00:00:00',
+                    'last_result'        => '0',
+                    'max_execution_time' => $eta,
+                    'controller'         => 'task/tool/backup/backupCodeFiles',
+                    'settings'           => [
+                        'interrupt_on_step_fault' => false,
+                        'backup_name'             => $backup_filename,
+                    ],
+                ]
+            );
 
             if (!$step_id) {
                 $this->errors = array_merge($this->errors, $tm->errors);
@@ -290,19 +299,21 @@ class ModelToolBackup extends Model
             $max_eta = ini_get('max_execution_time');
             $eta = $eta < $max_eta ? $max_eta : $eta;
 
-            $step_id = $tm->addStep(array(
-                'task_id'            => $task_id,
-                'sort_order'         => 3,
-                'status'             => 1,
-                'last_time_run'      => '0000-00-00 00:00:00',
-                'last_result'        => '0',
-                'max_execution_time' => $eta,
-                'controller'         => 'task/tool/backup/backupContentFiles',
-                'settings'           => array(
-                    'interrupt_on_step_fault' => false,
-                    'backup_name'             => $backup_filename,
-                ),
-            ));
+            $step_id = $tm->addStep(
+                [
+                    'task_id'            => $task_id,
+                    'sort_order'         => 3,
+                    'status'             => 1,
+                    'last_time_run'      => '0000-00-00 00:00:00',
+                    'last_result'        => '0',
+                    'max_execution_time' => $eta,
+                    'controller'         => 'task/tool/backup/backupContentFiles',
+                    'settings'           => [
+                        'interrupt_on_step_fault' => false,
+                        'backup_name'             => $backup_filename,
+                    ],
+                ]
+            );
 
             if (!$step_id) {
                 $this->errors = array_merge($this->errors, $tm->errors);
@@ -322,19 +333,21 @@ class ModelToolBackup extends Model
             $max_eta = ini_get('max_execution_time');
             $eta = $eta < $max_eta ? $max_eta : $eta;
 
-            $step_id = $tm->addStep(array(
-                'task_id'            => $task_id,
-                'sort_order'         => 4,
-                'status'             => 1,
-                'last_time_run'      => '0000-00-00 00:00:00',
-                'last_result'        => '0',
-                'max_execution_time' => $eta,
-                'controller'         => 'task/tool/backup/compressbackup',
-                'settings'           => array(
-                    'interrupt_on_step_fault' => false,
-                    'backup_name'             => $backup_filename,
-                ),
-            ));
+            $step_id = $tm->addStep(
+                [
+                    'task_id'            => $task_id,
+                    'sort_order'         => 4,
+                    'status'             => 1,
+                    'last_time_run'      => '0000-00-00 00:00:00',
+                    'last_result'        => '0',
+                    'max_execution_time' => $eta,
+                    'controller'         => 'task/tool/backup/compressbackup',
+                    'settings'           => [
+                        'interrupt_on_step_fault' => false,
+                        'backup_name'             => $backup_filename,
+                    ],
+                ]
+            );
             if (!$step_id) {
                 $this->errors = array_merge($this->errors, $tm->errors);
                 return false;
@@ -361,10 +374,11 @@ class ModelToolBackup extends Model
      * @param array $table_list
      *
      * @return array
+     * @throws AException
      */
-    public function getTableSizes($table_list = array())
+    public function getTableSizes($table_list = [])
     {
-        $tables = array();
+        $tables = [];
         foreach ($table_list as $table) {
             if (!is_string($table)) {
                 continue;
@@ -373,12 +387,12 @@ class ModelToolBackup extends Model
         }
 
         $sql = "SELECT TABLE_NAME AS 'table_name',
-					table_rows AS 'num_rows', (data_length + index_length - data_free) AS 'size'
-				FROM information_schema.TABLES
-				WHERE information_schema.TABLES.table_schema = '".DB_DATABASE."'
-					AND TABLE_NAME IN ('".implode("','", $tables)."')	";
+                    table_rows AS 'num_rows', (data_length + index_length - data_free) AS 'size'
+                FROM information_schema.TABLES
+                WHERE information_schema.TABLES.table_schema = '".DB_DATABASE."'
+                    AND TABLE_NAME IN ('".implode("','", $tables)."')	";
         $result = $this->db->query($sql);
-        $output = array();
+        $output = [];
         foreach ($result->rows as $row) {
             if ($row['size'] > 1048576) {
                 $text = round(($row['size'] / 1048576), 1).'Mb';
@@ -386,10 +400,10 @@ class ModelToolBackup extends Model
                 $text = round($row['size'] / 1024, 1).'Kb';
             }
 
-            $output[$row['table_name']] = array(
+            $output[$row['table_name']] = [
                 'bytes' => $row['size'],
                 'text'  => $text,
-            );
+            ];
         }
 
         return $output;
@@ -401,16 +415,16 @@ class ModelToolBackup extends Model
     public function getCodeSize()
     {
         $all_dirs = scandir(DIR_ROOT);
-        $content_dirs = array( // black list
-                               '.',
-                               '..',
-                               'resources',
-                               'image',
-                               'download',
-        );
+        $content_dirs = [
+            // black list
+            '.',
+            '..',
+            'resources',
+            'image',
+            'download',
+        ];
         $dirs_size = 0;
         foreach ($all_dirs as $d) {
-
             //skip content directories
             if (in_array($d, $content_dirs)) {
                 continue;
@@ -430,11 +444,12 @@ class ModelToolBackup extends Model
      */
     public function getContentSize()
     {
-        $content_dirs = array( // white list
-                               'resources',
-                               'image',
-                               'download',
-        );
+        $content_dirs = [
+            // white list
+            'resources',
+            'image',
+            'download',
+        ];
         $dirs_size = 0;
         foreach ($content_dirs as $d) {
             $dirs_size += $this->_get_directory_size(DIR_ROOT.'/'.$d);

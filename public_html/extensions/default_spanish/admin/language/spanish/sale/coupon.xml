@@ -74,8 +74,7 @@
 	</definition>
 	<definition>
 		<key>entry_logged</key>
-		<value>
-			<![CDATA[Login cliente:<br /><span class="help">El cliente debe estar conectado para usar el cupon.</span>]]></value>
+		<value><![CDATA[Login cliente:<br /><span class="help">El cliente debe estar conectado para usar el cupon.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_shipping</key>
@@ -128,5 +127,21 @@
 	<definition>
 		<key>error_date</key>
 		<value><![CDATA[Por favor, establece rango de fechas!]]></value>
+	</definition>
+	<definition>
+		<key>entry_category</key>
+		<value><![CDATA[Categorías: <br/><span class="help">Aplicar cupón cuando productos de una de las categorías seleccionadas.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_select_category</key>
+		<value><![CDATA[- Selecciona una categoría -]]></value>
+	</definition>
+	<definition>
+		<key>text_or</key>
+		<value><![CDATA[O]]></value>
+	</definition>
+	<definition>
+		<key>text_and</key>
+		<value><![CDATA[Y]]></value>
 	</definition>
 </definitions>

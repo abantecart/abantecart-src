@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,14 +24,13 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerResponsesToolBackup extends AController
 {
-    public $errors = array();
-    public $data = array();
+    public $errors = [];
 
     public function buildTask()
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $this->data['output'] = array();
+        $this->data['output'] = [];
 
         if ($this->request->is_POST() && $this->_validate()) {
             $this->loadModel('tool/backup');
@@ -40,24 +40,29 @@ class ControllerResponsesToolBackup extends AController
             if (!$task_details) {
                 $this->errors = array_merge($this->errors, $this->model_tool_backup->errors);
                 $error = new AError('files backup error');
-                return $error->toJSONResponse('APP_ERROR_402',
-                    array(
+                $error->toJSONResponse(
+                    'APP_ERROR_402',
+                    [
                         'error_text'  => implode(' ', $this->errors),
                         'reset_value' => true,
-                    ));
+                    ]
+                );
+                return;
             } elseif (!$task_api_key) {
                 $error = new AError('files backup error');
-                return $error->toJSONResponse('APP_ERROR_402',
-                    array(
+                $error->toJSONResponse(
+                    'APP_ERROR_402',
+                    [
                         'error_text'  => 'Please set up Task API Key in the settings!',
                         'reset_value' => true,
-                    ));
+                    ]
+                );
+                return;
             } else {
                 $task_details['task_api_key'] = $task_api_key;
                 $task_details['url'] = HTTPS_SERVER.'task.php';
                 $this->data['output']['task_details'] = $task_details;
             }
-
         }
 
         //update controller data
@@ -66,7 +71,6 @@ class ControllerResponsesToolBackup extends AController
         $this->load->library('json');
         $this->response->addJSONHeader();
         $this->response->setOutput(AJson::encode($this->data['output']));
-
     }
 
     /**
@@ -77,7 +81,7 @@ class ControllerResponsesToolBackup extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $task_id = (int)$this->request->post['task_id'];
+        $task_id = (int) $this->request->post['task_id'];
         $result_text = '';
         if ($task_id) {
             $backup_name = '';
@@ -101,51 +105,58 @@ class ControllerResponsesToolBackup extends AController
                 $result_text = sprintf($this->language->get('backup_complete_text_dir'), DIR_BACKUP.$backup_name);
             }
 
-            $install_upgrade_history->addRows(array(
-                'date_added'  => date("Y-m-d H:i:s", time()),
-                'name'        => 'Manual Backup',
-                'version'     => VERSION,
-                'backup_file' => $display_name,
-                'backup_date' => date("Y-m-d H:i:s", time()),
-                'type'        => 'backup',
-                'user'        => $this->user->getUsername(),
-            ));
-
+            $install_upgrade_history->addRows(
+                [
+                    'date_added'  => date("Y-m-d H:i:s", time()),
+                    'name'        => 'Manual Backup',
+                    'version'     => VERSION,
+                    'backup_file' => $display_name,
+                    'backup_date' => date("Y-m-d H:i:s", time()),
+                    'type'        => 'backup',
+                    'user'        => $this->user->getUsername(),
+                ]
+            );
         }
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
         $this->load->library('json');
         $this->response->addJSONHeader();
-        $this->response->setOutput(AJson::encode(array(
-            'result'      => true,
-            'result_text' => $result_text,
-        ))
+        $this->response->setOutput(
+            AJson::encode(
+                [
+                    'result'      => true,
+                    'result_text' => $result_text,
+                ]
+            )
         );
     }
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         if ($this->request->is_POST() && $this->_validate()) {
-
             $this->loadModel('tool/backup');
 
-            $bkp = $this->model_tool_backup->backup($this->request->post['backup'], $this->request->post['backup_files'], $this->request->post['backup_config']);
+            $bkp = $this->model_tool_backup->backup(
+                $this->request->post['backup'], $this->request->post['backup_files'],
+                $this->request->post['backup_config']
+            );
             if ($bkp) {
                 $install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
-                $install_upgrade_history->addRows(array(
-                    'date_added'  => date("Y-m-d H:i:s", time()),
-                    'name'        => 'Manual Backup',
-                    'version'     => VERSION,
-                    'backup_file' => $this->model_tool_backup->backup_filename.'.tar.gz',
-                    'backup_date' => date("Y-m-d H:i:s", time()),
-                    'type'        => 'backup',
-                    'user'        => $this->user->getUsername(),
-                ));
+                $install_upgrade_history->addRows(
+                    [
+                        'date_added'  => date("Y-m-d H:i:s", time()),
+                        'name'        => 'Manual Backup',
+                        'version'     => VERSION,
+                        'backup_file' => $this->model_tool_backup->backup_filename.'.tar.gz',
+                        'backup_date' => date("Y-m-d H:i:s", time()),
+                        'type'        => 'backup',
+                        'user'        => $this->user->getUsername(),
+                    ]
+                );
             }
             if ($this->model_tool_backup->errors) {
                 $this->session->data['error'] = $this->model_tool_backup->errors;
@@ -158,11 +169,11 @@ class ControllerResponsesToolBackup extends AController
             //update controller data
             $this->extensions->hk_UpdateData($this, __FUNCTION__);
         } else {
-            return $this->dispatch('error/permission');
+            $this->dispatch('error/permission');
         }
     }
 
-    private function _validate()
+    protected function _validate()
     {
         if (!$this->user->canModify('tool/backup')) {
             $this->errors['warning'] = $this->language->get('error_permission');
@@ -172,16 +183,15 @@ class ControllerResponsesToolBackup extends AController
         $this->request->post['backup_content'] = $this->request->post['backup_content'] ? true : false;
         $this->request->post['compress_backup'] = $this->request->post['compress_backup'] ? true : false;
 
-        if (!$this->request->post['table_list'] && !$this->request->post['backup_code'] && !$this->request->post['backup_content']) {
+        if (!$this->request->post['table_list']
+            && !$this->request->post['backup_code']
+            && !$this->request->post['backup_content']
+        ) {
             $this->errors['warning'] = $this->language->get('error_nothing_to_backup');
         }
 
         $this->extensions->hk_ValidateData($this);
 
-        if (!$this->errors) {
-            return true;
-        } else {
-            return false;
-        }
+        return (!$this->errors);
     }
 }

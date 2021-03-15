@@ -376,4 +376,16 @@
 		<key>entry_stock_locations</key>
 		<value><![CDATA[Posizioni di magazzino:]]></value>
 	</definition>
+	<definition>
+		<key>tab_address</key>
+		<value><![CDATA[Indirizzo dell&#39;ordine]]></value>
+	</definition>
+	<definition>
+		<key>edit_title_map</key>
+		<value><![CDATA[Sulla mappa]]></value>
+	</definition>
+	<definition>
+		<key>text_enable_google_map</key>
+		<value><![CDATA[Per visualizzare gli indirizzi sulla mappa interattiva di Google, fornire la chiave API di Google nelle impostazioni generali]]></value>
+	</definition>
 </definitions>

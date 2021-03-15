@@ -25,14 +25,22 @@ class ControllerResponsesExtensionDefaultSkrill extends AController
 {
     public function main()
     {
-
         $this->load->model('checkout/order');
         $this->loadLanguage('default_skrill/default_skrill');
 
-        $cancel_url = $this->request->get['rt'] != 'checkout/guest_step_3' ? $this->html->getSecureURL('checkout/payment')
-            : $this->html->getSecureURL('checkout/guest_step_2');
+        $cancel_url =
+            $this->request->get['rt'] != 'checkout/guest_step_3' ? $this->html->getSecureURL('checkout/payment')
+                : $this->html->getSecureURL('checkout/guest_step_2');
 
-        if (is_file(DIR_RESOURCE.$this->config->get('config_logo'))) {
+        $logo = '';
+        if (is_numeric($this->config->get('config_logo'))) {
+            $resource = new AResource('image');
+            $image = $resource->getResource($this->config->get('config_logo'));
+            $img_sub_path = $image['type_name'].'/'.$image['resource_path'];
+            if (is_file(DIR_RESOURCE.$img_sub_path)) {
+                $logo = 'https:'.HTTPS_DIR_RESOURCE.$img_sub_path;
+            }
+        } elseif (is_file(DIR_RESOURCE.$this->config->get('config_logo'))) {
             $logo = HTTPS_DIR_RESOURCE.$this->config->get('config_logo');
         } else {
             $logo = $this->config->get('config_logo');
@@ -49,7 +57,7 @@ class ControllerResponsesExtensionDefaultSkrill extends AController
 
         $skrill_url = 'https://pay.skrill.com';
         //$skrill_url = 'https://sandbox.dev.skrillws.net/pay';
-        $fields = array(
+        $fields = [
             'rid'                   => '53571612',
             'ext_ref_id'            => 'abantecart',
             'pay_to_email'          => $this->config->get('default_skrill_email'),
@@ -70,47 +78,52 @@ class ControllerResponsesExtensionDefaultSkrill extends AController
             'city'                  => $order_info['payment_city'],
             'state'                 => $order_info['payment_zone'],
             'country'               => $order_info['payment_iso_code_3'],
-            'amount'                => $this->currency->format($order_info['total'], $order_info['currency'], $order_info['value'], false),
+            'amount'                => $this->currency->format(
+                $order_info['total'], $order_info['currency'], $order_info['value'], false
+            ),
             'currency'              => $order_info['currency'],
             'detail1_text'          => $products,
             'merchant_fields'       => 'order_id',
             'order_id'              => $encryption->encrypt($this->session->data['order_id']),
-        );
+        ];
 
         $form = new AForm();
-        $form->setForm(array('form_name' => 'checkout'));
+        $form->setForm(['form_name' => 'checkout']);
         $data['form']['form_open'] = $form->getFieldHtml(
-            array(
+            [
                 'type'    => 'form',
                 'name'    => 'checkout',
                 'action'  => $skrill_url,
                 'enctype' => 'application/x-www-form-urlencoded',
-            ));
+            ]
+        );
 
         foreach ($fields as $key => $value) {
             $data['form'][$key] = $form->getFieldHtml(
-                array(
+                [
                     'type'  => 'hidden',
                     'name'  => $key,
                     'value' => $value,
-                ));
+                ]
+            );
         }
 
         $data['form']['back'] = $form->getFieldHtml(
-            array(
+            [
                 'type'  => 'button',
                 'name'  => 'back',
                 'text'  => $this->language->get('button_back'),
                 'style' => 'button',
                 'href'  => $cancel_url,
-            )
+            ]
         );
 
         $data['form']['submit'] = $form->getFieldHtml(
-            array(
+            [
                 'type' => 'submit',
                 'name' => $this->language->get('button_confirm'),
-            ));
+            ]
+        );
         $this->view->batchAssign($data);
         $this->processTemplate('responses/default_skrill.tpl');
     }

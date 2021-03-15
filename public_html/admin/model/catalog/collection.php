@@ -1,5 +1,24 @@
 <?php
+/** @noinspection PhpUndefinedClassInspection */
 
+/*------------------------------------------------------------------------------
+  $Id$
+
+  AbanteCart, Ideal OpenSource Ecommerce Solution
+  http://www.AbanteCart.com
+
+  Copyright © 2011-2021 Belavier Commerce LLC
+
+  This source file is subject to Open Software License (OSL 3.0)
+  License details is bundled with this package in the file LICENSE.txt.
+  It is also available at this URL:
+  <http://www.opensource.org/licenses/OSL-3.0>
+
+ UPGRADE NOTE:
+   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+   versions in the future. If you wish to customize AbanteCart for your
+   needs please refer to http://www.AbanteCart.com for more information.
+------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
@@ -8,6 +27,7 @@ class ModelCatalogCollection extends Model
 {
     public function insert($data)
     {
+        $keyword = '';
         $db = Registry::getInstance()->get('db');
         $language = Registry::getInstance()->get('language');
 
@@ -57,30 +77,34 @@ class ModelCatalogCollection extends Model
             $lastId = $db->query('SELECT LAST_INSERT_ID() as last_id;');
             $lastId = $lastId->row['last_id'];
 
-            $descriptionData['collection_id'] = (int)$lastId;
+            $descriptionData['collection_id'] = (int) $lastId;
 
             $this->updateOrCreateDescription($descriptionData);
 
             if ($keyword) {
                 $seo_key = SEOEncode($keyword, 'collection_id', $lastId);
             } else {
-                //Default behavior to save SEO URL keyword from ccollection name in default language
-                /**
-                 * @var ALanguageManager
-                 */
-                $seo_key = SEOEncode($descriptionData['title'] ?: $data['name'],
+                //Default behavior to save SEO URL keyword from collection name in default language
+                /** @var ALanguageManager */
+                $seo_key = SEOEncode(
+                    $descriptionData['title'] ? : $data['name'],
                     'collection_id',
-                    $lastId);
+                    $lastId
+                );
             }
             if ($seo_key) {
-                $language->replaceDescriptions('url_aliases',
-                    array('query' => "collection_id=".(int)$lastId),
-                    array((int)$language->getContentLanguageID() => array('keyword' => $seo_key)));
+                $language->replaceDescriptions(
+                    'url_aliases',
+                    ['query' => "collection_id=".(int) $lastId],
+                    [(int) $language->getContentLanguageID() => ['keyword' => $seo_key]]
+                );
             } else {
-                $db->query('DELETE
-							FROM '.$db->table("url_aliases")." 
-							WHERE query = 'collection_id=".(int)$lastId."'
-								AND language_id = '".(int)$language->getContentLanguageID()."'");
+                $db->query(
+                    'DELETE
+                    FROM '.$db->table("url_aliases")." 
+                    WHERE query = 'collection_id=".(int) $lastId."'
+                        AND language_id = '".(int) $language->getContentLanguageID()."'"
+                );
             }
 
             return $this->getById($lastId);
@@ -89,7 +113,7 @@ class ModelCatalogCollection extends Model
 
     public function update($id, $data)
     {
-        if (!(int)$id) {
+        if (!(int) $id) {
             return false;
         }
         $db = Registry::getInstance()->get('db');
@@ -99,7 +123,7 @@ class ModelCatalogCollection extends Model
 
         $descriptionData = [
             'language_id'   => $language->getContentLanguageID(),
-            'collection_id' => (int)$id,
+            'collection_id' => (int) $id,
         ];
         if (isset($data['title'])) {
             $descriptionData['title'] = $data['title'];
@@ -130,7 +154,6 @@ class ModelCatalogCollection extends Model
             $arUpdate[] = $key.'=\''.(($key != 'conditions') ? $db->escape($val) : json_encode($val)).'\'';
         }
 
-
         if (!empty($arUpdate)) {
             $query = 'UPDATE '.$colTableName.' SET '.implode(',', $arUpdate).' WHERE id='.$id;
             $db->query($query);
@@ -143,24 +166,26 @@ class ModelCatalogCollection extends Model
         if (isset($keyword)) {
             $keyword = SEOEncode($keyword);
             if ($keyword) {
-                $language->replaceDescriptions('url_aliases',
-                    ['query' => 'collection_id='.(int)$id],
-                    [(int)$language->getContentLanguageID() => array('keyword' => $keyword)]);
+                $language->replaceDescriptions(
+                    'url_aliases',
+                    ['query' => 'collection_id='.(int) $id],
+                    [(int) $language->getContentLanguageID() => ['keyword' => $keyword]]
+                );
             } else {
-                $db->query('DELETE
-								FROM '.$db->table('url_aliases')." 
-								WHERE query = 'collection_id=".(int)$id."'
-									AND language_id = '".(int)$language->getContentLanguageID()."'");
+                $db->query(
+                    'DELETE
+                    FROM '.$db->table('url_aliases')." 
+                    WHERE query = 'collection_id=".(int) $id."'
+                        AND language_id = '".(int) $language->getContentLanguageID()."'"
+                );
             }
-
         }
         $this->cache->remove('collection');
-
     }
 
     public function delete($id)
     {
-        if (!(int)$id) {
+        if (!(int) $id) {
             return false;
         }
         $db = Registry::getInstance()->get('db');
@@ -192,12 +217,11 @@ class ModelCatalogCollection extends Model
         $arWhere = [];
         if (isset($data['_search']) && $data['_search'] == 'true') {
             $filters = json_decode(htmlspecialchars_decode($data['filters']), true);
-            foreach ((array)$filters['rules'] as $filter) {
+            foreach ((array) $filters['rules'] as $filter) {
                 if (!$allowedSearchFields[$filter['field']]) {
                     continue;
                 }
                 $arWhere[] = $allowedSearchFields[$filter['field']].' LIKE \'%'.$db->escape($filter['data']).'%\'';
-
             }
         }
 
@@ -205,7 +229,7 @@ class ModelCatalogCollection extends Model
             $arWhere[] = $allowedSearchFields['status'].'='.$data['status'];
         }
 
-        $arWhere[] = $allowedSearchFields['store_id'].'='.($data['store_id'] ?: '0');
+        $arWhere[] = $allowedSearchFields['store_id'].'='.($data['store_id'] ? : '0');
 
         if (!empty($arWhere)) {
             $query .= ' WHERE '.implode(' AND ', $arWhere);
@@ -222,11 +246,11 @@ class ModelCatalogCollection extends Model
         }
 
         $limit = 20;
-        if (isset($data['rows']) && (int)$data['rows'] <= 50) {
-            $limit = (int)$data['rows'];
+        if (isset($data['rows']) && (int) $data['rows'] <= 50) {
+            $limit = (int) $data['rows'];
         }
 
-        $page = isset($data['page']) ? (int)$data['page'] : 1;
+        $page = isset($data['page']) ? (int) $data['page'] : 1;
         $start = $page * $limit - $limit;
 
         $query .= " LIMIT ".$start.",".$limit;
@@ -253,14 +277,18 @@ class ModelCatalogCollection extends Model
 
     public function updateOrCreateDescription($data)
     {
-        if (!(int)$data['collection_id'] || !(int)$data['language_id']) {
+        if (!(int) $data['collection_id'] || !(int) $data['language_id']) {
             return false;
         }
         $db = Registry::getInstance()->get('db');
         $colDesTableName = $db->table('collection_descriptions');
 
-        $exists = $db->query('SELECT id FROM '.$colDesTableName.' WHERE collection_id='.(int)$data['collection_id'].
-            ' AND language_id='.(int)$data['language_id']);
+        $exists = $db->query(
+            'SELECT id 
+            FROM '.$colDesTableName.' 
+            WHERE collection_id='.(int) $data['collection_id'].
+            ' AND language_id='.(int) $data['language_id']
+        );
 
         if ($exists->row['id']) {
             $arUpdate = [];
@@ -271,7 +299,11 @@ class ModelCatalogCollection extends Model
                 $arUpdate[] = $key.'=\''.$db->escape($val).'\'';
             }
             if (!empty($arUpdate)) {
-                return $db->query('UPDATE '.$colDesTableName.' SET '.implode(',', $arUpdate).' WHERE id='.$exists->row['id']);
+                return $db->query(
+                    'UPDATE '.$colDesTableName.' 
+                    SET '.implode(',', $arUpdate).' 
+                    WHERE id='.$exists->row['id']
+                );
             }
             return false;
         }
@@ -283,12 +315,14 @@ class ModelCatalogCollection extends Model
             $value = $db->escape($value);
         }
 
-        return $db->query('INSERT INTO '.$colDesTableName.' ('.implode(',', $keys).') VALUES (\''.implode('\',\'', $values).'\')');
+        return $db->query(
+            'INSERT INTO '.$colDesTableName.' ('.implode(',', $keys).') VALUES (\''.implode('\',\'', $values).'\')'
+        );
     }
 
     public function getById($id)
     {
-        if (!(int)$id) {
+        if (!(int) $id) {
             return false;
         }
         $db = Registry::getInstance()->get('db');
@@ -313,10 +347,12 @@ class ModelCatalogCollection extends Model
         if ($result) {
             $data = $result->row;
             $data['conditions'] = json_decode($data['conditions'], true);
-            $seo_url = $db->query('SELECT *
-								FROM '.$db->table('url_aliases')." 
-								WHERE query = 'collection_id=".(int)$id."'
-									AND language_id = '".(int)$language->getContentLanguageID()."'");
+            $seo_url = $db->query(
+                'SELECT *
+                FROM '.$db->table('url_aliases')." 
+                WHERE query = 'collection_id=".(int) $id."'
+                    AND language_id = '".(int) $language->getContentLanguageID()."'"
+            );
             if ($seo_url->row) {
                 $data['keyword'] = $seo_url->row['keyword'];
             }
@@ -329,7 +365,9 @@ class ModelCatalogCollection extends Model
     {
         $db = Registry::getInstance()->get('db');
         $tagsTableName = $db->table('product_tags');
-        $query = 'SELECT tag FROM '.$tagsTableName.' GROUP BY tag';
+        $query = 'SELECT tag 
+                FROM '.$tagsTableName.' 
+                GROUP BY tag';
         $result = $db->query($query);
         if ($result->rows) {
             return $result->rows;
@@ -339,15 +377,18 @@ class ModelCatalogCollection extends Model
 
     public function getProducts(array $conditions, $sort, $order, $start, $limit, $collectionId)
     {
-        $store_id = (int)$this->config->get('config_store_id');
-        $language_id = (int)$this->config->get('storefront_language_id');
-        $cache_key =
-            'collection.listing.products_collection.'.(int)$collectionId.'.store_'.$store_id.'_sort_'.$sort.'_order_'.$order;
-        $cache_key .= '_start_'.$start.'_limit_'.$limit.'_lang_'.$language_id;
+        $store_id = (int) $this->config->get('config_store_id');
+        $language_id = (int) $this->config->get('storefront_language_id');
+        $cache_key = 'collection.listing.products_collection.'.(int) $collectionId
+            .'.store_'.$store_id
+            .'_sort_'.$sort
+            .'_order_'.$order
+            .'_start_'.$start
+            .'_limit_'.$limit
+            .'_lang_'.$language_id;
         $result = $this->cache->pull($cache_key);
 
         if ($result === false) {
-
             $result = [
                 'items' => [],
                 'total' => 0,
@@ -387,7 +428,7 @@ class ModelCatalogCollection extends Model
                 'INNER JOIN '.$p2sTable.' ON '.$p2sTable.'.product_id='.$productsTable.'.product_id'.
                 ' AND '.$p2sTable.'.store_id='.$this->config->get('config_store_id'),
                 'LEFT JOIN '.$pdTable.' ON '.$pdTable.'.product_id='.$productsTable.'.product_id'.
-                ' AND language_id='.(int)$this->language->getContentLanguageID(),
+                ' AND language_id='.(int) $this->language->getContentLanguageID(),
             ];
             foreach ($conditions as $condition) {
                 //Brands filter
@@ -396,26 +437,31 @@ class ModelCatalogCollection extends Model
                         ' ('.implode(',', $condition['value']).')';
                 }
                 //Category filter
-                if ($condition['object'] === 'categories' && is_array($condition['value']) && !empty($condition['value'])) {
+                if ($condition['object'] === 'categories' && is_array($condition['value'])
+                    && !empty($condition['value'])) {
                     $arSelect[] = $p2cTable.'.category_id';
                     $arJoins[] = 'LEFT JOIN '.$p2cTable.' ON '.$p2cTable.'.product_id='.$productsTable.'.product_id';
                     $arWhere[] = 'category_id '.$this->gerInOperator($condition['operator'], $relation['value']).
                         ' ('.implode(',', $condition['value']).')';
                 }
                 //Products filter
-                if ($condition['object'] === 'products' && is_array($condition['value']) && !empty($condition['value'])) {
-                    $arWhere[] = $productsTable.'.product_id '.$this->gerInOperator($condition['operator'], $relation['value']).
+                if ($condition['object'] === 'products' && is_array($condition['value'])
+                    && !empty($condition['value'])) {
+                    $arWhere[] =
+                        $productsTable.'.product_id '.$this->gerInOperator($condition['operator'], $relation['value']).
                         ' ('.implode(',', $condition['value']).')';
                 }
                 //Product price filter
-                if ($condition['object'] === 'product_price' && (int)$condition['value'] > 0) {
-                    $arWhere[] = 'price '.$this->gerEqualOperator($condition['operator'], $relation['value']).$condition['value'];
+                if ($condition['object'] === 'product_price' && (int) $condition['value'] > 0) {
+                    $arWhere[] = 'price '.$this->gerEqualOperator($condition['operator'], $relation['value'])
+                        .$condition['value'];
                 }
                 //Tags filter
                 if ($condition['object'] === 'tags' && is_array($condition['value']) && !empty($condition['value'])) {
                     $arSelect[] = $productsTagsTable.'.tag';
-                    $arJoins[] = 'LEFT JOIN '.$productsTagsTable.' ON '.$productsTagsTable.'.product_id='.$productsTable.'.product_id'.
-                        ' AND '.$productsTagsTable.'.language_id='.(int)$this->language->getContentLanguageID();
+                    $arJoins[] = 'LEFT JOIN '.$productsTagsTable.' ON '.$productsTagsTable.'.product_id='.$productsTable
+                        .'.product_id'.
+                        ' AND '.$productsTagsTable.'.language_id='.(int) $this->language->getContentLanguageID();
                     foreach ($condition['value'] as &$value) {
                         $value = "'".$value."'";
                     }
@@ -438,7 +484,7 @@ class ModelCatalogCollection extends Model
 
             $query .= ' GROUP BY '.$productsTable.'.product_id';
 
-            $allowedSort = array(
+            $allowedSort = [
                 'pd.name'       => 'LCASE('.$pdTable.'.name)',
                 'p.sort_order'  => $productsTable.'.sort_order',
                 'p.price'       => 'final_price',
@@ -446,12 +492,12 @@ class ModelCatalogCollection extends Model
                 'rating'        => 'rating',
                 'date_modified' => $productsTable.'.date_modified',
                 'review'        => 'review',
-            );
+            ];
 
             if ($allowedSort[$sort]) {
-                $query .= ' ORDER BY '.$allowedSort[$sort].' '.($order ?: 'ASC');
+                $query .= ' ORDER BY '.$allowedSort[$sort].' '.($order ? : 'ASC');
             } else {
-                $query .= ' ORDER BY '.$productsTable.'.date_modified '.($order ?: 'ASC');
+                $query .= ' ORDER BY '.$productsTable.'.date_modified '.($order ? : 'ASC');
             }
 
             if (isset($start) && $limit) {
@@ -476,9 +522,9 @@ class ModelCatalogCollection extends Model
     {
         //special prices
         if (is_object($this->customer) && $this->customer->isLogged()) {
-            $customer_group_id = (int)$this->customer->getCustomerGroupId();
+            $customer_group_id = (int) $this->customer->getCustomerGroupId();
         } else {
-            $customer_group_id = (int)$this->config->get('config_customer_group_id');
+            $customer_group_id = (int) $this->config->get('config_customer_group_id');
         }
 
         $p2sp = $this->db->table('product_specials');
@@ -570,17 +616,19 @@ class ModelCatalogCollection extends Model
 
     public function getCollectionStoresInfo($collection_id)
     {
-        $query = $this->db->query("SELECT c.*,
-											s.name as store_name,
-											ss.`value` as store_url,
-											sss.`value` as store_ssl_url
-									FROM ".$this->db->table("collections")." c
-									LEFT JOIN ".$this->db->table("stores")." s ON s.store_id = c.store_id
-									LEFT JOIN ".$this->db->table("settings")." ss
-										ON (ss.store_id = c.store_id AND ss.`key`='config_url')
-									LEFT JOIN ".$this->db->table("settings")." sss
-										ON (sss.store_id = c.store_id AND sss.`key`='config_ssl_url')
-									WHERE c.id = '".(int)$collection_id."'");
+        $query = $this->db->query(
+            "SELECT c.*,
+                    s.name as store_name,
+                    ss.`value` as store_url,
+                    sss.`value` as store_ssl_url
+            FROM ".$this->db->table("collections")." c
+            LEFT JOIN ".$this->db->table("stores")." s ON s.store_id = c.store_id
+            LEFT JOIN ".$this->db->table("settings")." ss
+                ON (ss.store_id = c.store_id AND ss.`key`='config_url')
+            LEFT JOIN ".$this->db->table("settings")." sss
+                ON (sss.store_id = c.store_id AND sss.`key`='config_ssl_url')
+            WHERE c.id = '".(int) $collection_id."'"
+        );
         return $query->rows;
     }
 

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -26,6 +26,7 @@ if (!defined('DIR_CORE')) {
  *
  * @property ExtensionsApi $extensions
  * @method hk_InitEnd
+ * @method hk_IndexEnd
  */
 final class AHook
 {
@@ -56,7 +57,7 @@ final class AHook
         }
 
         array_unshift($args, $this);
-        $return = call_user_func_array(array($this->extensions, $method), $args);
+        $return = call_user_func_array([$this->extensions, $method], $args);
         return $return;
     }
 }

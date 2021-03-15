@@ -283,34 +283,41 @@ class ModelCatalogCategory extends Model
     {
         $store_id = is_array($store_id) ? array_map('intval', $store_id) : $store_id;
         $language_id = $this->language->getContentLanguageID();
-        $cache_key = 'category.'.$parent_id.'.store_'.$store_id.'_lang_'.$language_id;
-        $category_data = $this->cache->pull($cache_key);
+        $cacheKey = 'category.'.$parent_id
+            .'.store_'.md5(serialize($store_id))
+            .'_lang_'.$language_id;
+        $category_data = $this->cache->pull($cacheKey);
 
         if ($category_data === false) {
             $category_data = [];
             if ($store_id === null) {
-                $sql = "SELECT * ";
+                $sql = "SELECT c.*, s.name as store_name ";
             } else {
-                $sql = "SELECT c.*, cs.*, s.name as store_name";
+                $sql = "SELECT c.*, cs.*, s.name as store_name ";
             }
 
             $sql .= " FROM ".$this->db->table("categories")." c
                     LEFT JOIN ".$this->db->table("category_descriptions")." cd
                     ON (c.category_id = cd.category_id) ";
-            if ($store_id !== null) {
+
+            if ($store_id === null) {
+                $sql .= " LEFT JOIN ".$this->db->table("categories_to_stores")." cs 
+                               ON (c.category_id = cs.category_id)";
+            } else {
                 $sql .= " RIGHT JOIN ".$this->db->table("categories_to_stores")." cs 
-                            ON (c.category_id = cs.category_id AND ";
+                                ON (c.category_id = cs.category_id AND ";
                 if (is_array($store_id) && !empty($store_id)) {
                     $sql .= "store_id IN (".implode(', ', $store_id).")";
                 } else {
                     $sql .= "store_id = ".(int) $store_id;
                 }
-                $sql .= ")";
-                $sql .= " LEFT JOIN ".$this->db->table('stores')." s 
-                            ON s.store_id = cs.store_id";
+                $sql .= ") ";
             }
 
-            $sql .= " WHERE c.parent_id = '".(int) $parent_id."'
+            $sql .= " 
+                    LEFT JOIN ".$this->db->table('stores')." s 
+                       ON s.store_id = cs.store_id 
+                    WHERE c.parent_id = '".(int) $parent_id."'
                         AND cd.language_id = '".(int) $language_id."'
                     ORDER BY c.sort_order, cd.name ASC";
             $query = $this->db->query($sql);
@@ -331,7 +338,7 @@ class ModelCatalogCategory extends Model
                 );
             }
 
-            $this->cache->push($cache_key, $category_data);
+            $this->cache->push($cacheKey, $category_data);
         }
 
         return $category_data;

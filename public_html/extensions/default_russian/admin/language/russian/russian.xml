@@ -760,4 +760,12 @@
 		<key>text_subtract_order</key>
 		<value><![CDATA[Вычесть заказ]]></value>
 	</definition>
+	<definition>
+		<key>text_copy_embed_url</key>
+		<value><![CDATA[Скопируйте и вставьте этот URL на другой сайт, на котором вы хотите продавать]]></value>
+	</definition>
+	<definition>
+		<key>button_preview</key>
+		<value><![CDATA[Предварительный просмотр]]></value>
+	</definition>
 </definitions>
