@@ -1002,4 +1002,8 @@
 		<key>entry_phone_validation_pattern</key>
 		<value><![CDATA[Pattern Regex di convalida del telefono:]]></value>
 	</definition>
+	<definition>
+		<key>entry_cron_command</key>
+		<value><![CDATA[Comando Crontab in Linux <span class="help">Esegui il comando crontab -e con lo stesso utente Linux che esegue un server web per AbanteCart. Nell&#39;editor aggiungi il comando</span>]]></value>
+	</definition>
 </definitions>

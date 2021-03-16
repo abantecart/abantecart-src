@@ -1002,4 +1002,8 @@
 		<key>entry_phone_validation_pattern</key>
 		<value><![CDATA[Шаблон регулярного выражения проверки телефона:]]></value>
 	</definition>
+	<definition>
+		<key>entry_cron_command</key>
+		<value><![CDATA[Crontab в команде Linux <span class="help">Выполните команду crontab -e с тем же пользователем Linux, который запускает веб-сервер для AbanteCart. В редакторе добавляем команду</span>]]></value>
+	</definition>
 </definitions>

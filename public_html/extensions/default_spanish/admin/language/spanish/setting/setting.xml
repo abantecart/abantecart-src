@@ -1020,4 +1020,8 @@ imagen</span>]]></value>
 		<key>entry_phone_validation_pattern</key>
 		<value><![CDATA[Patrón de expresiones regulares de validación de teléfono:]]></value>
 	</definition>
+	<definition>
+		<key>entry_cron_command</key>
+		<value><![CDATA[Crontab en el comando de Linux <span class="help">Ejecute el comando crontab -e con el mismo usuario de Linux que ejecuta un servidor web para AbanteCart. En el editor agregue el comando</span>]]></value>
+	</definition>
 </definitions>
