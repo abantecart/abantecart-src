@@ -371,7 +371,8 @@ final class AConfig
                     $store_settings['seo_prefix'] = $diff;
                     if (isset($get['_route_'])) {
                         //this covers both cases (when store url with slash at the end of url and without)
-                        $get['_route_'] = str_replace([$diff,INDEX_FILE], '', rtrim($get['_route_'],'/').'/');
+                        $get['_route_'] = str_replace(INDEX_FILE, '', $get['_route_']);
+                        $get['_route_'] = str_replace($diff, '', rtrim($get['_route_'],'/').'/');
                         if (!$get['_route_']) {
                             unset($get['_route_']);
                         }
