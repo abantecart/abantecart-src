@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<?php $options = array(
+<?php $options = [
     'image'     => '<span class="abantecart_image"></span>',
     'name'      => '<h3 class="abantecart_name"></h3>',
     'products_count' => '<p class="abantecart_products_count"></p>',
-);
+];
 $html = '';
 $common_params = '';
 foreach ($params as $param => $v) {
