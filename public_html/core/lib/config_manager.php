@@ -2048,6 +2048,18 @@ class AConfigManager
                 ],
             ]
         );
+
+        $tmp = '*/5 * * * * php '.DIR_ROOT.'/task.php > '.DIR_LOGS.'tasks.log 2>&1';
+        $fields['cron_command'] = $form->getFieldHtml(
+            $props[] = [
+                'type'     => 'input',
+                'name'     => 'cron_command',
+                'value'    => $tmp,
+                'attr'     => 'disabled data-copy="'.htmlspecialchars($tmp,ENT_QUOTES).'"',
+                'help_url' => 'https://abantecart.atlassian.net/wiki/spaces/AD/pages/15007901/Scheduled+Tasks#ScheduledTasks-CRON'
+            ]
+        );
+
         if (isset($data['one_field'])) {
             $fields = $this->_filterField($fields, $props, $data['one_field']);
         }
