@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Credit or Debit Card (Processed securely by CardKnox)]]></value>
+  </definition>
+  <definition>
+    <key>text_credit_card</key>
+    <value><![CDATA[Credit Card Details]]></value>
+  </definition>
+  <definition>
+    <key>text_account_number</key>
+    <value><![CDATA[ACH Account Number]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_text_your_name</key>
+    <value><![CDATA[Your Name]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_text_routing_number</key>
+    <value><![CDATA[Routing Number]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_text_check_ach</key>
+    <value><![CDATA[Check (ACH)]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_text_ebt</key>
+    <value><![CDATA[EBT Online]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_text_ebt_number</key>
+    <value><![CDATA[EBT Card Number]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_pinpad_error</key>
+    <value><![CDATA[Oops. Something went wrong. (%s)]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_pinpad_error_accu200</key>
+    <value><![CDATA[Cancelled]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_pinpad_error_accu400</key>
+    <value><![CDATA[inactivity timeout]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_pinpad_error_accu600</key>
+    <value><![CDATA[Invalid Data received by Terminal]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_pinpad_error_accu710</key>
+    <value><![CDATA[Terminal Security Issue]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_pinpad_error_accu720</key>
+    <value><![CDATA[Terminal Communication Issue]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_pinpad_error_accu730</key>
+    <value><![CDATA[Terminal Internal Error]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_pinpad_error_accu800</key>
+    <value><![CDATA[General Error Encountered]]></value>
+  </definition>
+  <definition>
+    <key>cardknox_ebt_declined</key>
+    <value><![CDATA[EBT card declined]]></value>
+  </definition>
+</definitions>
