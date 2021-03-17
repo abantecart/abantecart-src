@@ -5,25 +5,110 @@ In this release, we bring a few new features
 Core:
 - PHP v8.0 support
 - jQuery upgrade to v3.5.1
+- Resource Library images path improvements
+- New Get Embed code modal. Embed links code and copy
+- error reporting levels support based on settings
+- SSL detection improvements
+- SameSite cookies
+- tinyMCE editor update
+- AOrder improvements related to hooks
+- ACArt improvements related to hooks
+- AMail class: remove final, and change private to protected properties
+- ADownload class now extendable
 
 
 Control Panel:
+- Crontab in Linux command path
+- Dashboard new icons
+- Default extensions new icons
+- Category selector multi-store display
+- Product and categories grid new bulk action
+- Grid filters improvements
+- Email preview page
+- show map for order address. Google Maps API
+- order recalculation fix related to adding total in not default currency
+- ontroller/pages/extension. added hook call
+- model language fix related to mysql8
+
 
 Storefront:
 - Multilingual store logo support
 - Same domain multi-store support
-- Improved phone validation and setting
+- Improved phone validation and Regex Pattern setting
 - Coupons can now be assigned per category
+- reformat of account/edit controller
+- Search in product descriptions now includes blurb
+- Controller account subscriber fix related to hook calls
+- performance improvement of onlineNow model
+- responses/product/product added backward compatibility
 
 
 
 Core Extensions:
-- Add moore hooks and improve exensions API
-- Cardknox new paymnet extension
--
+- Add more hooks and improve extensions API
+- Cardknox new payment extension
+- PayPal standard store logo fixes
+- 2Checkout sandbox deprecated
+- PayPal Express totals details
+- Local delivery Tax class selection
+- Update default local delivery to work with asterisk/wildcard
+- Fast Checkout summary tax fixes
+- Fast checkout downloads email fix
+- Fast checkout require phone number for registered customer
+- Fast checkout form validations improvements
+- cardconnect currency admin display fix
+- Neowise deprecated
+- Stripe account transactions list fix
+- Stripe Added Account ID
+- Stripe publishable key fix
 
 
 Improvements and bug fixes reported on the forum and GitHub.
+- storefront menu cache
+- admin_order_status_notify status fix
+- static pages logo update
+- Resource library drag-n-drop fix
+- resource caching fix
+- phpunit related fixes
+- Fast checkout init from login page fix
+- manufactures to Brands
+- Unknown Ajax error
+- Cache Management page HTML cache deprecated
+- all settings page unrecognized expression error fix
+- media manage empty titles fix
+- resources mixed content fix
+- admin: minor improvement of login page
+- collection embed settings and limit improve
+- php8.0 compatibility fix. dispatcher and collection management
+- embed fast checkout fixes
+- -n- tag editor fixes
+- Fast checkout Require Payment Address fix
+- common.js reformat
+- Email templates visual editor deprecated
+- Fast Checkout saved cards dropdown fix
+- SEO URL key database limit
+- package installer improvement
+- task_cli.php improvement
+- storefront related products fix
+- clearing cache when store setting change detection
+- installed icons fix
+- apostrophe in the customer name fix
+- layouts non-unique id
+- embed with HTML resources improve
+- mkdir cache warning
+- customer groups sorting fix
+- Allowed file extensions edit fix
+- shipping extensions grid fix
+- Storefront: modelCatalogProduct bugfix of sorting
+- online customers database improvements
+- fast checkout order comments placeholder
+- ACart minor improvements
+- db-fix of support_expiration field
+- AOrderStatus library fix
+- updater version detection fix
+- AHtml fix of getCatalogUrl function
+- attribute_manager extendability fix
+- wordpress embed margin fix
 
 ------------------------------------------------------------
 
@@ -60,7 +145,7 @@ Storefront:
 - Google Recaptcha V3 support
 - Fast one-page checkout
 - improvement validation of parameters for a few methods of catalog/product model.
-- A country without States issue fix    
+- A country without States issue fix
 - Google Tag Management
 - Products/categories/brands collections
 
@@ -950,7 +1035,7 @@ Many other fixes and improvements that would make this list very large and borin
 
 AbanteCart version 1.1.9 with new features and improvements.
 
-Release Notes:  Version 1.1.9
+Release Notes:  Version 1.1.9
 
 New Features and improvements summary:
 - New account activation verification via email
@@ -1021,7 +1106,7 @@ Installation :
 
 AbanteCart version 1.1.8 with new features and improvements.
 
-Release Notes:  Version 1.1.8
+Release Notes:  Version 1.1.8
 
 New Features and improvements summary:
 - New Improved Digital Products support (Product Downloads)
@@ -1125,7 +1210,7 @@ Extensions:
 
 AbanteCart version 1.1.7 with new features, improvements and bug fixes.
 
-Release Notes:  Version 1.1.7
+Release Notes:  Version 1.1.7
 
 New Features and improvements summary:
 
@@ -1255,7 +1340,7 @@ Extensions:
 
 AbanteCart version 1.1.6 with new features, improvements and bug fixes.
 
-Release Notes:  Version 1.1.6
+Release Notes:  Version 1.1.6
 
 New Features and improvements summary:
 
@@ -1345,7 +1430,7 @@ Extensions:
 
 
 
-Release Notes:  Version 1.1.5
+Release Notes:  Version 1.1.5
 
 New Features and improvements summary:
 
