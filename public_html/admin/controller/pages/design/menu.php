@@ -1,5 +1,4 @@
 <?php
-
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -25,7 +24,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerPagesDesignMenu extends AController
 {
     public $error = [];
-    private $columns = [
+    protected $columns = [
         'item_id',
         'item_icon',
         'item_text',
@@ -261,7 +260,6 @@ class ControllerPagesDesignMenu extends AController
             ];
 
             $update_item = [];
-
             if ($item_id) {
                 foreach ($item_keys as $item_key) {
                     if (isset ($post[$item_key])) {

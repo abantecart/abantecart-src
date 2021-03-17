@@ -22,7 +22,8 @@ foreach ($params as $param => $v) {
     }else{
         $common_params .= '&'.$param.'='.$v;
     }
-} ?>
+}
+?>
 
 <script src="<?php echo $sf_js_embed_url.$common_params; ?>" type="text/javascript"></script>
 <ul style="display:none;"

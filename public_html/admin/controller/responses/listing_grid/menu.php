@@ -100,13 +100,13 @@ class ControllerResponsesListingGridMenu extends AController
             $h = (int) $this->config->get('config_image_grid_height');
             foreach ($results as $result) {
                 $icon = '';
-                $result['item_icon_rl_id'] = $result['item_icon_rl_id'] ? : $result['item_icon'];
-                $resource = $ar->getResource($result['item_icon_rl_id']);
+                $iconRLId = $result['item_icon'] ? : $result['item_icon_rl_id'];
+                $resource = $ar->getResource($iconRLId);
                 if ($resource['resource_path'] || !$resource['resource_code']) {
-                    $thumb = $ar->getResourceThumb($result['item_icon_rl_id'], $w, $h);
+                    $thumb = $ar->getResourceThumb($iconRLId, $w, $h);
                     $icon = $thumb
-                        ? '<img src="'.$thumb.'" alt="" style="width: '.$w.'px; height: '.$h.'px;"/>'
-                        : '';
+                            ? '<img src="'.$thumb.'" alt="" style="width: '.$w.'px; height: '.$h.'px;"/>'
+                            : '';
                 } elseif ($resource['resource_code']) {
                     $icon = '<i class="fa fa-code fa-2x"></i>';
                 }

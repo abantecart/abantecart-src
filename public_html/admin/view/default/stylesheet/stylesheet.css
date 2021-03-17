@@ -2429,6 +2429,10 @@ body.stickyheader .sticky_left {
 	border: 3px solid #EEEEEE;
 }
 
+.contentpanel .panel-body .shortcut img.img-circle {
+	max-width: 73px;
+}
+
 .mb0 {
 	margin-bottom: 0;
 }

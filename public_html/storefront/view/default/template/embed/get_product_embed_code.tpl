@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<?php $options = array(
+<?php $options = [
     'image'     => '<div class="abantecart_image"></div>',
     'name'      => '<h3 class="abantecart_name"></h3>',
     'price'     => '<div class="abantecart_price"></div>',
@@ -13,7 +13,7 @@
     'blurb'     => '<div class="abantecart_blurb"></div>',
     'quantity'  => '<div class="abantecart_quantity"></div>',
     'addtocart' => '<div class="abantecart_addtocart"></div>',
-);
+];
 $html = '';
 $common_params = '';
 foreach ($params as $param => $v) {
