@@ -381,6 +381,7 @@ final class AConnect
      */
     private function _processCurl($url, $port = 80, $filename = null, $length_only = false, $headers_only = false)
     {
+        $response = false;
         //Curl Connection for HTTP and HTTPS
         $authentication = $this->auth['name'] ? 1 : 0;
         $curl_sock = curl_init();
@@ -407,6 +408,20 @@ final class AConnect
         $redirect_count = $this->redirect_count;
 
         $this->curl_options[CURLOPT_FOLLOWLOCATION] = false;
+
+        if ($authentication) {
+            $this->curl_options[CURLOPT_USERPWD] = $this->auth['name'].':'.$this->auth['pass'];
+        }
+        $this->curl_options[CURLOPT_REFERER] = $this->request_referer;
+        if ($length_only || $headers_only) {
+            $this->curl_options[CURLOPT_HEADER] = true;
+            $this->curl_options[CURLOPT_NOBODY] = true;
+        } else {
+            unset($this->curl_options[CURLOPT_HEADER], $this->curl_options[CURLOPT_NOBODY]);
+        }
+
+        curl_setopt_array($curl_sock, $this->curl_options);
+
         if ($redirect_count > 0) {
             $newUrl = $url;
             $rch = curl_copy_handle($curl_sock);
@@ -429,6 +444,7 @@ final class AConnect
                 }
 
                 curl_setopt($rch, CURLOPT_URL, $newUrl);
+
                 $header = curl_exec($rch);
                 if (curl_errno($rch)) {
                     $code = 0;
@@ -439,6 +455,8 @@ final class AConnect
                         $newUrl = trim(array_pop($matches));
                     } else {
                         $code = 0;
+                        $response = $header;
+                        $curlInfo = curl_getinfo($rch);
                     }
                 }
                 $redirect_count--;
@@ -449,22 +467,12 @@ final class AConnect
             }
             $url = $newUrl;
         }
-        $this->curl_options[CURLOPT_URL] = $url;
 
-        if ($authentication) {
-            $this->curl_options[CURLOPT_USERPWD] = $this->auth['name'].':'.$this->auth['pass'];
+        if (!$response) {
+            $response = curl_exec($curl_sock);
+            $curlInfo = curl_getinfo($curl_sock);
         }
-        $this->curl_options[CURLOPT_REFERER] = $this->request_referer;
-        if ($length_only || $headers_only) {
-            $this->curl_options[CURLOPT_HEADER] = true;
-            $this->curl_options[CURLOPT_NOBODY] = true;
-        } else {
-            unset($this->curl_options[CURLOPT_HEADER], $this->curl_options[CURLOPT_NOBODY]);
-        }
-
-        curl_setopt_array($curl_sock, $this->curl_options);
-
-        if (!($response = curl_exec($curl_sock))) {
+        if (!$response) {
             if (curl_errno($curl_sock)) {
                 $this->error = 'Error: '.curl_error($curl_sock);
             } else {
@@ -472,17 +480,17 @@ final class AConnect
             }
             return false;
         } else {
-            $content_type = curl_getinfo($curl_sock, CURLINFO_CONTENT_TYPE);
-            $content_length = curl_getinfo($curl_sock, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
-            $status = (int) curl_getinfo($curl_sock, CURLINFO_HTTP_CODE);
+            $content_type = $curlInfo['content_type'];
+            $content_length = $curlInfo['content_length_download'];
+            $status = (int) $curlInfo['http_code'];
             if (!in_array($status, [0, 200, 300, 301, 302, 304, 305, 307])) {
                 $this->error = 'Error: Can\'t get data(file '.$filename.') by URL '
-                                .$url.', HTTP status code : '.$status;
+                    .$url.', HTTP status code : '.$status;
                 return false;
             }
 
             if ($headers_only) {
-                $header_size = curl_getinfo($curl_sock, CURLINFO_HEADER_SIZE);
+                $header_size = $curlInfo['header_size'];
                 $header = substr($response, 0, $header_size);
                 preg_match_all('/^([^:\n]*): ?(.*)$/m', $header, $hds, PREG_SET_ORDER);
                 $headers = [];
@@ -493,10 +501,10 @@ final class AConnect
             }
 
             // check for curl errors
-            if (strlen($response) && (curl_errno($curl_sock) == CURLE_OK)
-                && (curl_getinfo(
-                        $curl_sock, CURLINFO_HTTP_CODE
-                    ) == 200)) {
+            if (strlen($response)
+                && (curl_errno($curl_sock) == CURLE_OK)
+                && ($status == 200)
+            ) {
                 // check for gzipped content
                 if ((ord($response[0]) == 0x1f) && (ord($response[1]) == 0x8b)) {
                     // skip header and unzip the data
@@ -505,7 +513,6 @@ final class AConnect
             }
 
             if ($length_only) {
-                $content_length = curl_getinfo($curl_sock, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
                 curl_close($curl_sock);
                 return $content_length;
             }
@@ -517,7 +524,11 @@ final class AConnect
         $content_length = $content_length ? (int) $content_length : -1;
         $content_type = $content_type ? $content_type : -1;
 
-        return ["mime" => $content_type, "length" => $content_length, "data" => $response];
+        return [
+            "mime"   => $content_type,
+            "length" => $content_length,
+            "data"   => $response,
+        ];
     }
 
     /**
