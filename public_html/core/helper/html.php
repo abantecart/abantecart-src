@@ -113,7 +113,7 @@ function buildStoreFrontMenuTree($menu_array, $level = 0)
         $result .= '<a '.$class.$href.'>';
 
         //check icon rl type html, image or none.
-        $rl_id = $item['icon_rl_id'] ?: $item['icon'];
+        $rl_id = $item['icon'] ?: $item['icon_rl_id'];
         if ($rl_id) {
             $resource = $ar->getResource($rl_id);
             if ($resource['resource_path'] && is_file(DIR_RESOURCE.'image/'.$resource['resource_path'])) {
@@ -125,7 +125,7 @@ function buildStoreFrontMenuTree($menu_array, $level = 0)
 
         $result .= '<span class="menu_text">'.$item['text'].'</span></a>';
 
-        //if children build inner clild tree
+        //if children build inner child tree
         if (!empty($item['children'])) {
             $result .= "\r\n".buildStoreFrontMenuTree($item['children'], $level + 1);
         }
