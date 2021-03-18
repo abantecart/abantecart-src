@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -60,6 +60,7 @@ class ModelToolUpdater extends Model
 
     /**
      * @return array
+     * @throws AException
      */
     protected function getExtensionsList()
     {
@@ -110,9 +111,8 @@ class ModelToolUpdater extends Model
             $url .= '&extensions['.$extKey.']='.$extension['version'];
         }
         //do connect without any http-redirects
-        $pack = new AConnect(true, true);
+        $pack = new AConnect(true);
         $updatesInfo = $pack->getData($url);
-
         // get array with updates information
         if (!$updatesInfo) {
             return [];
@@ -128,15 +128,14 @@ class ModelToolUpdater extends Model
                     continue 1;
                 }
                 //if major version given
-                $tmp = explode('.',$version);
-                if(count($tmp) == 2){
+                $tmp = explode('.', $version);
+                if (count($tmp) == 2) {
                     $version .= '.0';
                 }
 
                 //skip not supported by cart
                 if (!$version_info['cart_versions']
-                    ||
-                    (!in_array(VERSION, $version_info['cart_versions'])
+                    || (!in_array(VERSION, $version_info['cart_versions'])
                         && !in_array(MASTER_VERSION.'.'.MINOR_VERSION, $version_info['cart_versions'])
                     )
                 ) {
@@ -157,18 +156,20 @@ class ModelToolUpdater extends Model
                     $version_info['version'] = $version;
                     $output[$extKey] = $version_info;
                     //check if extension have an update of support time
-                    if(!$installed[$extKey]['support_expiration']){
+                    if (!$installed[$extKey]['support_expiration']) {
                         $installed[$extKey]['support_expiration'] = date('Y-m-d H:i:s', time());
                     }
                     //if extension have changed support time - update data
-                    if(dateISO2Int($version_info['support_expiration']) >= time()){
+                    if (dateISO2Int($version_info['support_expiration']) >= time()) {
                         $upd = '';
-                        if($version_info['installation_key'] != $installed[$extKey]['license_key']){
+                        if ($version_info['installation_key'] != $installed[$extKey]['license_key']) {
                             $upd .= " license_key = '".$this->db->escape($version_info['installation_key'])."', ";
                         }
 
                         $sql = "UPDATE ".$this->db->table('extensions')."
-                                SET ".$upd." support_expiration = '".$this->db->escape($version_info['support_expiration'])."'
+                                SET ".$upd." support_expiration = '".$this->db->escape(
+                                $version_info['support_expiration']
+                            )."'
                                 WHERE `key` = '".$this->db->escape($extKey)."'";
                         $this->db->query($sql);
                         $clearCache = true;
@@ -176,7 +177,7 @@ class ModelToolUpdater extends Model
                 }
             }
         }
-        if($clearCache){
+        if ($clearCache) {
             unset($this->session->data['extensions_updates']);
             $this->cache->remove('extensions');
         }

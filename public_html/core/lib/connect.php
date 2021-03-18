@@ -31,15 +31,9 @@ if (!defined('DIR_CORE')) {
  */
 final class AConnect
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     public $connect_method;
-    /**
-     *  error text
-     *
-     * @var array
-     */
+    /** @var array */
     public $error = [];
     /**
      * enable/disable silent mode, mode without any messages to web-page
@@ -47,11 +41,7 @@ final class AConnect
      * @var boolean
      */
     private $silent_mode;
-    /**
-     * registry to provide access to cart objects
-     *
-     * @var Registry
-     */
+    /** @var Registry */
     private $registry;
     /**
      * http-headers list
@@ -104,7 +94,7 @@ final class AConnect
      */
     public function __construct($silent_mode = true, $direct = false)
     {
-        $this->redirect_count = $direct ? 0 : 3;
+        $this->redirect_count = $direct ? 1 : 3;
         $this->silent_mode = $silent_mode;
         $this->registry = Registry::getInstance();
         $this->connect_method = null;
@@ -418,9 +408,11 @@ final class AConnect
             $this->curl_options[CURLOPT_HEADER] = true;
             $this->curl_options[CURLOPT_NOBODY] = true;
         } else {
-            unset($this->curl_options[CURLOPT_HEADER], $this->curl_options[CURLOPT_NOBODY]);
+            unset(
+                $this->curl_options[CURLOPT_HEADER],
+                $this->curl_options[CURLOPT_NOBODY]
+            );
         }
-
         curl_setopt_array($curl_sock, $this->curl_options);
 
         if ($redirect_count > 0) {
