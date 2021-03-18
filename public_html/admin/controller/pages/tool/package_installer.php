@@ -480,7 +480,7 @@ class ControllerPagesToolPackageInstaller extends AController
 
         $package_info['package_url'] = $url;
         $package_info['package_name'] = $package_name;
-        $package_info['package_size'] = $headers['Content-Length'];
+        $package_info['package_size'] = $headers['content-length'];
         if ($headers['Support-Expiration']) {
             $package_info['support_expiration'] = $headers['Support-Expiration'];
         }
