@@ -454,7 +454,7 @@ class ControllerPagesToolPackageInstaller extends AController
         }
         //if we have json returned, something went wrong.
         $package_name = '';
-        if (preg_match("/application\/json/", $headers['Content-Type'])) {
+        if (is_int(strpos($headers['content-type'], 'json'))) {
             $error = $pmanager->getRemoteFile($url, false);
             $error_text = $error['error'];
             $error_text = empty($error_text) ? 'Unknown error happened.' : $error_text;

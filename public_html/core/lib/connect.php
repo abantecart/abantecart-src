@@ -382,6 +382,7 @@ final class AConnect
     private function _processCurl($url, $port = 80, $filename = null, $length_only = false, $headers_only = false)
     {
         $response = false;
+        $curlInfo = [];
         //Curl Connection for HTTP and HTTPS
         $authentication = $this->auth['name'] ? 1 : 0;
         $curl_sock = curl_init();
@@ -429,6 +430,9 @@ final class AConnect
             curl_setopt($rch, CURLOPT_NOBODY, true);
             curl_setopt($rch, CURLOPT_FORBID_REUSE, false);
             curl_setopt($rch, CURLOPT_RETURNTRANSFER, true);
+            if (!$this->curl_options[CURLOPT_POST]) {
+                curl_setopt($rch, CURLOPT_HTTPGET, true);
+            }
             do {
                 if ($this->curl_options) {
                     // check for curl options
@@ -505,6 +509,7 @@ final class AConnect
                 && (curl_errno($curl_sock) == CURLE_OK)
                 && ($status == 200)
             ) {
+                $response = substr($response, $curlInfo['header_size']);
                 // check for gzipped content
                 if ((ord($response[0]) == 0x1f) && (ord($response[1]) == 0x8b)) {
                     // skip header and unzip the data
@@ -523,7 +528,6 @@ final class AConnect
 
         $content_length = $content_length ? (int) $content_length : -1;
         $content_type = $content_type ? $content_type : -1;
-
         return [
             "mime"   => $content_type,
             "length" => $content_length,
@@ -694,12 +698,12 @@ final class AConnect
         if (!$response_array) {
             return [];
         } else {
-            if (strpos($response_array["mime"], 'xml')) {
+            if (is_int(strpos($response_array["mime"], 'xml'))) {
                 $output = new DOMDocument();
                 $output->loadXML($response_array["data"]);
                 $out = new MyDOMDocument();
                 $output = $out->toArray($output);
-            } elseif (strpos($response_array["mime"], 'json')) {
+            } elseif (is_int(strpos($response_array["mime"], 'json'))) {
                 if (!$output = json_decode($response_array["data"], true)) {
                     $this->error = "Error: json parse error. ";
                     return false;
