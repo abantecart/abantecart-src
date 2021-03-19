@@ -32,7 +32,7 @@ function preformatFloat($value, $decimal_point = '.')
         $value = str_replace('.', '~', $value);
         $value = str_replace($decimal_point, '.', $value);
     }
-    return (float)preg_replace('/[^0-9\-\.]/', '', $value);
+    return (float) preg_replace('/[^0-9\-\.]/', '', $value);
 }
 
 /*
@@ -40,7 +40,7 @@ function preformatFloat($value, $decimal_point = '.')
  * */
 function preformatInteger($value)
 {
-    return (int)preg_replace('/[^0-9\-]/', '', $value);
+    return (int) preg_replace('/[^0-9\-]/', '', $value);
 }
 
 /*
@@ -65,7 +65,7 @@ function preformatTextID($value)
 
 function moneyDisplayFormat($value, $mode = 'no_round')
 {
-    $value = (float)$value;
+    $value = (float) $value;
     $registry = Registry::getInstance();
 
     $decimal_point = $registry->get('language')->get('decimal_point');
@@ -75,7 +75,7 @@ function moneyDisplayFormat($value, $mode = 'no_round')
     $thousand_point = !$thousand_point ? '' : $thousand_point;
 
     $currency = $registry->get('currency')->getCurrency();
-    $decimal_place = (int)$currency['decimal_place'];
+    $decimal_place = (int) $currency['decimal_place'];
     $decimal_place = !$decimal_place ? 2 : $decimal_place;
 
     // detect if need to show raw number for decimal points
@@ -93,7 +93,7 @@ function moneyDisplayFormat($value, $mode = 'no_round')
         $decimal_place = 0;
     }
 
-    return number_format((float)$value, $decimal_place, $decimal_point, $thousand_point);
+    return number_format((float) $value, $decimal_place, $decimal_point, $thousand_point);
 }
 
 /*
@@ -101,10 +101,10 @@ function moneyDisplayFormat($value, $mode = 'no_round')
  * */
 function has_value($value)
 {
-    if ($value !== (array)$value && $value !== '' && $value !== null) {
+    if ($value !== (array) $value && $value !== '' && $value !== null) {
         return true;
     } else {
-        if ($value === (array)$value && count($value) > 0) {
+        if ($value === (array) $value && count($value) > 0) {
             return true;
         } else {
             return false;
@@ -133,25 +133,23 @@ function is_serialized($value)
  * */
 function is_multi($array)
 {
-    if ($array === (array)$array && count($array) != count($array, COUNT_RECURSIVE)) {
+    if ($array === (array) $array && count($array) != count($array, COUNT_RECURSIVE)) {
         return true;
     } else {
         return false;
     }
 }
 
-/*
-*
-*/
 /**
  * Function convert input text to alpha numeric string for SEO URL use
  * if optional parameter object_key_name (product, category, content etc) given function will return unique SEO keyword
  *
  * @param        $string_value
  * @param string $object_key_name
- * @param int    $object_id
+ * @param int $object_id
  *
  * @return string
+ * @throws AException
  */
 function SEOEncode($string_value, $object_key_name = '', $object_id = 0)
 {
@@ -177,7 +175,7 @@ function SEOEncode($string_value, $object_key_name = '', $object_id = 0)
  */
 function getUniqueSeoKeyword($seo_key, $object_key_name = '', $object_id = 0)
 {
-    $object_id = (int)$object_id;
+    $object_id = (int) $object_id;
     $registry = Registry::getInstance();
     $db = $registry->get('db');
     $sql = "SELECT `keyword`
@@ -253,14 +251,14 @@ function versionCompare($version1, $version2, $operator)
     $i = 0;
     while ($i < 3) {
         if (isset($version1[$i])) {
-            $version1[$i] = (int)$version1[$i];
+            $version1[$i] = (int) $version1[$i];
         } else {
-            $version1[$i] = ($i == 2 && isset($version2[$i])) ? (int)$version2[$i] : 99;
+            $version1[$i] = ($i == 2 && isset($version2[$i])) ? (int) $version2[$i] : 99;
         }
         if (isset($version2[$i])) {
-            $version2[$i] = (int)$version2[$i];
+            $version2[$i] = (int) $version2[$i];
         } else {
-            $version2[$i] = ($i == 2 && isset($version1[$i])) ? (int)$version1[$i] : 99;
+            $version2[$i] = ($i == 2 && isset($version1[$i])) ? (int) $version1[$i] : 99;
         }
         $i++;
     }
@@ -358,7 +356,6 @@ function dateInt2ISO($int_date)
 */
 function dateDisplay2ISO($string_date, $format = '')
 {
-
     if (empty($format)) {
         $registry = Registry::getInstance();
         $format = $registry->get('language')->get('date_format_short');
@@ -379,7 +376,6 @@ function dateDisplay2ISO($string_date, $format = '')
 
 function dateISO2Display($iso_date, $format = '')
 {
-
     if (empty($format)) {
         $registry = Registry::getInstance();
         $format = $registry->get('language')->get('date_format_short');
@@ -390,7 +386,6 @@ function dateISO2Display($iso_date, $format = '')
     } else {
         return '';
     }
-
 }
 
 /*
@@ -401,7 +396,6 @@ function dateISO2Display($iso_date, $format = '')
 
 function dateInt2Display($int_date, $format = '')
 {
-
     if (empty($format)) {
         $registry = Registry::getInstance();
         $format = $registry->get('language')->get('date_format_short');
@@ -412,7 +406,6 @@ function dateInt2Display($int_date, $format = '')
     } else {
         return '';
     }
-
 }
 
 /*
@@ -461,10 +454,10 @@ if (!function_exists("strptime")) {
         }
 
         return [
-            "tm_sec"  => (int)$out['S'],
-            "tm_min"  => (int)$out['M'],
-            "tm_hour" => (int)$out['H'],
-            "tm_mday" => (int)$out['d'],
+            "tm_sec"  => (int) $out['S'],
+            "tm_min"  => (int) $out['M'],
+            "tm_hour" => (int) $out['H'],
+            "tm_mday" => (int) $out['d'],
             "tm_mon"  => $out['m'] ? $out['m'] - 1 : 0,
             "tm_year" => $out['Y'] > 1900 ? $out['Y'] - 1900 : 0,
         ];
@@ -475,6 +468,7 @@ if (!function_exists("strptime")) {
  * @param string $extension_txt_id
  *
  * @return SimpleXMLElement | false
+ * @throws AException
  */
 function getExtensionConfigXml($extension_txt_id)
 {
@@ -532,11 +526,11 @@ function getExtensionConfigXml($extension_txt_id)
     $xml_files = [
         'top'    => [
             DIR_CORE.'extension/'.'default/config_top.xml',
-            DIR_CORE.'extension/'.(string)$ext_configs->type.'/config_top.xml',
+            DIR_CORE.'extension/'.(string) $ext_configs->type.'/config_top.xml',
         ],
         'bottom' => [
             DIR_CORE.'extension/'.'default/config_bottom.xml',
-            DIR_CORE.'extension/'.(string)$ext_configs->type.'/config_bottom.xml',
+            DIR_CORE.'extension/'.(string) $ext_configs->type.'/config_bottom.xml',
         ],
     ];
 
@@ -606,7 +600,7 @@ function getExtensionConfigXml($extension_txt_id)
  * Also function returns false on POST-requests!
  *
  * @param       $user_id int - control panel user_id
- * @param array $data    data for writing into new session storage
+ * @param array $data data for writing into new session storage
  *
  * @return bool
  */
@@ -617,8 +611,8 @@ function startStorefrontSession($user_id, $data = [])
     if ($_SERVER['REQUEST_METHOD'] != 'GET') {
         return false;
     }
-    $data = (array)$data;
-    $data['merchant'] = (int)$user_id;
+    $data = (array) $data;
+    $data['merchant'] = (int) $user_id;
     if (!$data['merchant']) {
         return false;
     }
@@ -634,9 +628,9 @@ function startStorefrontSession($user_id, $data = [])
 /**
  * Function to built array with sort_order equally incremented
  *
- * @param array  $array to build sort order for
- * @param int    $min   - minimal sort order number (start)
- * @param int    $max   - maximum sort order number (end)
+ * @param array $array to build sort order for
+ * @param int $min - minimal sort order number (start)
+ * @param int $max - maximum sort order number (end)
  * @param string $sort_direction
  *
  * @return array with sort order added.
@@ -724,10 +718,10 @@ function is_html($test_string)
 /**
  * Get either a Gravatar URL or complete image tag for a specified email address.
  *
- * @param string     $email The email address
- * @param int|string $s     Size in pixels, defaults to 80px [ 1 - 2048 ]
- * @param string     $d     Default image set to use [ 404 | mm | identicon | monsterid | wavatar ]
- * @param string     $r     Maximum rating (inclusive) [ g | pg | r | x ]
+ * @param string $email The email address
+ * @param int|string $s Size in pixels, defaults to 80px [ 1 - 2048 ]
+ * @param string $d Default image set to use [ 404 | mm | identicon | monsterid | wavatar ]
+ * @param string $r Maximum rating (inclusive) [ g | pg | r | x ]
  *
  * @return String containing either just a URL or a complete image tag
  */
@@ -802,8 +796,8 @@ function compressTarGZ($tar_filename, $tar_dir, $compress_level = 5)
 }
 
 /**
- * @param string      $src
- * @param int         $level
+ * @param string $src
+ * @param int $level
  * @param string|bool $dst
  *
  * @return bool
@@ -905,7 +899,7 @@ function compressZIP($zip_filename, $zip_dir)
 
 function getMimeType($filename)
 {
-    $filename = (string)$filename;
+    $filename = (string) $filename;
     $mime_types = [
         'txt'  => 'text/plain',
         'htm'  => 'text/html',
@@ -997,13 +991,13 @@ function getMemoryLimitInBytes()
     switch (substr($size_str, -1)) {
         case 'M':
         case 'm':
-            return (int)$size_str * 1048576;
+            return (int) $size_str * 1048576;
         case 'K':
         case 'k':
-            return (int)$size_str * 1024;
+            return (int) $size_str * 1024;
         case 'G':
         case 'g':
-            return (int)$size_str * 1073741824;
+            return (int) $size_str * 1073741824;
         default:
             return $size_str;
     }
@@ -1183,7 +1177,7 @@ function echo_html2view($html)
  */
 function human_filesize($bytes, $decimals = 2)
 {
-    $sz = ['B','K','M','G','T','P'];
+    $sz = ['B', 'K', 'M', 'G', 'T', 'P'];
     $factor = floor((strlen($bytes) - 1) / 3);
     return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)).@$sz[$factor];
 }
@@ -1194,6 +1188,7 @@ function human_filesize($bytes, $decimals = 2)
  * @param $filename
  *
  * @return array|bool
+ * @throws AException
  */
 function get_image_size($filename)
 {
@@ -1217,12 +1212,13 @@ function get_image_size($filename)
  * NOTE: Resource Library handles resize by itself
  *
  * @param string $orig_image (full path)
- * @param string $new_image  (relative path start from DIR_IMAGE)
- * @param int    $width
- * @param int    $height
- * @param int    $quality
+ * @param string $new_image (relative path start from DIR_IMAGE)
+ * @param int $width
+ * @param int $height
+ * @param int $quality
  *
  * @return string / path to new image
+ * @throws AException
  */
 function check_resize_image($orig_image, $new_image, $width, $height, $quality)
 {
@@ -1244,8 +1240,10 @@ function check_resize_image($orig_image, $new_image, $width, $height, $quality)
                     && file_put_contents($indexFile, "<?php die('Restricted Access!'); ?>");
                 if (!$result) {
                     $error =
-                        new AWarning('Cannot to create directory '.DIR_IMAGE.$path.'. Please check permissions for '
-                            .DIR_IMAGE);
+                        new AWarning(
+                            'Cannot to create directory '.DIR_IMAGE.$path.'. Please check permissions for '
+                            .DIR_IMAGE
+                        );
                     $error->toLog();
                 }
             }
@@ -1254,12 +1252,13 @@ function check_resize_image($orig_image, $new_image, $width, $height, $quality)
 
     if (!file_exists(DIR_IMAGE.$new_image) || (filemtime($orig_image) > filemtime(DIR_IMAGE.$new_image))) {
         $image = new AImage($orig_image);
-        $result = $image->resizeAndSave(DIR_IMAGE.$new_image,
-                                        $width,
-                                        $height,
-                                        [
+        $result = $image->resizeAndSave(
+            DIR_IMAGE.$new_image,
+            $width,
+            $height,
+            [
                 'quality' => $quality,
-                                        ]
+            ]
         );
         unset($image);
         if (!$result) {
@@ -1279,24 +1278,27 @@ function redirect($url)
     exit;
 }
 
-function df($var, $filename = 'debug.txt') {
+function df($var, $filename = 'debug.txt')
+{
     $backtrace = debug_backtrace();
     $backtracePath = [];
-    foreach($backtrace as $k => $bt)
-    {
-        if($k > 1)
+    foreach ($backtrace as $k => $bt) {
+        if ($k > 1) {
             break;
-        $backtracePath[] = substr($bt['file'], strlen($_SERVER['DOCUMENT_ROOT'])) . ':' . $bt['line'];
+        }
+        $backtracePath[] = substr($bt['file'], strlen($_SERVER['DOCUMENT_ROOT'])).':'.$bt['line'];
     }
 
     $data = func_get_args();
-    if(count($data) == 0)
+    if (count($data) == 0) {
         return;
-    elseif(count($data) == 1)
+    } elseif (count($data) == 1) {
         $data = current($data);
+    }
 
-    if(!is_string($data) && !is_numeric($data) && !is_object($data))
+    if (!is_string($data) && !is_numeric($data) && !is_object($data)) {
         $data = var_export($data, 1);
+    }
 
     //   if (is_object($data)) {
     //     $data = ' Variable is Object, use DD like functions! ';
@@ -1304,9 +1306,9 @@ function df($var, $filename = 'debug.txt') {
 
     file_put_contents(
         $filename,
-        "\n--------------------------" . date('Y-m-d H:i:s ') . microtime()
-        . "-----------------------\n Backtrace: " . implode(' → ', $backtracePath) . "\n"
-        . $data, FILE_APPEND
+        "\n--------------------------".date('Y-m-d H:i:s ').microtime()
+        ."-----------------------\n Backtrace: ".implode(' → ', $backtracePath)."\n"
+        .$data, FILE_APPEND
     );
 }
 
@@ -1362,23 +1364,23 @@ function setCookieOrParams($name = null, $value = null, $options = [])
  * @return array
  * @throws AException
  */
-function getMailLogoDetails( &$source)
+function getMailLogoDetails(&$source)
 {
     $output = [
         'uri'  => null,
-        'html' => null
+        'html' => null,
     ];
     //if resource ID was given
     if (is_numeric($source)) {
         $r = new AResource('image');
         $resource_info = $r->getResource($source);
         if ($resource_info) {
-            if($resource_info['resource_code']) {
+            if ($resource_info['resource_code']) {
                 $output['html'] = html_entity_decode(
                     $resource_info['resource_code'],
                     ENT_QUOTES, 'UTF-8'
                 );
-            }else{
+            } else {
                 $source = $r->getTypeDir().$resource_info['resource_path'];
                 $output['uri'] = 'cid:'
                     .md5(pathinfo($resource_info['resource_path'], PATHINFO_FILENAME))
@@ -1386,8 +1388,7 @@ function getMailLogoDetails( &$source)
                     .pathinfo($resource_info['resource_path'], PATHINFO_EXTENSION);
             }
         }
-    }
-    // if resource path was given
+    } // if resource path was given
     else {
         $output['uri'] = 'cid:'
             .md5(pathinfo($source, PATHINFO_FILENAME))
@@ -1395,4 +1396,38 @@ function getMailLogoDetails( &$source)
             .pathinfo($source, PATHINFO_EXTENSION);
     }
     return $output;
+}
+
+/**
+ * function determine is extension will work on cart based on cart versions list
+ * @param $versions
+ *
+ * @return array
+ */
+function isExtensionSupportsCart($versions)
+{
+    $full_check = false;
+    $minor_check = false;
+
+    foreach ($versions as $item) {
+        $version = (string) $item;
+        $versions[] = $version;
+        $subVersionArray = explode('.', preg_replace('/[^0-9\.]/', '', $version));
+        $full_check = versionCompare($version, VERSION, '<=');
+        $minor_check = !$minor_check
+            ? versionCompare(
+                $subVersionArray[0].'.'.$subVersionArray[1],
+                MASTER_VERSION.'.'.MINOR_VERSION,
+                '=='
+            )
+            : $minor_check;
+
+        if ($full_check && $minor_check) {
+            break;
+        }
+    }
+    return [
+        'full_check'  => $full_check,
+        'minor_check' => $minor_check,
+    ];
 }

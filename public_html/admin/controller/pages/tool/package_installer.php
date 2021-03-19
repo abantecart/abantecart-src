@@ -1068,24 +1068,10 @@ class ControllerPagesToolPackageInstaller extends AController
     */
     private function _check_cart_version($config_xml)
     {
-        $full_check = false;
-        $minor_check = false;
-        $versions = [];
-        foreach ($config_xml->cartversions->item as $item) {
-            $version = (string) $item;
-            $versions[] = $version;
-            $subVersionArray = explode('.', preg_replace('/[^0-9\.]/', '', $version));
-            $full_check = versionCompare($version, VERSION, '<=');
-            $minor_check = versionCompare(
-                $subVersionArray[0].'.'.$subVersionArray[1],
-                MASTER_VERSION.'.'.MINOR_VERSION,
-                '=='
-            );
-
-            if ($full_check && $minor_check) {
-                break;
-            }
-        }
+        $versions = $config_xml->cartversions->item ? (array) $config_xml->cartversions->item : [];
+        $chks = isExtensionSupportsCart($versions);
+        $full_check = $chks['full_check'];
+        $minor_check = $chks['minor_check'];
 
         if (!$full_check || !$minor_check) {
             $this->session->data['package_info']['confirm_version_incompatibility'] = false;
@@ -1124,7 +1110,7 @@ class ControllerPagesToolPackageInstaller extends AController
 
         $version = (string) $config->version;
         //in case when short version such as 1.1. Replace it to 1.1.0
-        if(count(explode('.', $version))==2){
+        if (count(explode('.', $version)) == 2) {
             $version .= '.0';
         }
         $type = (string) $config->type;
@@ -1139,12 +1125,11 @@ class ControllerPagesToolPackageInstaller extends AController
             $installed_info = $this->extensions->getExtensionInfo($extension_id);
             $installed_version = $installed_info['version'];
             //in case when short version such as 1.1. Replace it to 1.1.0
-            if(count(explode('.', $installed_version))==2){
+            if (count(explode('.', $installed_version)) == 2) {
                 $installed_version .= '.0';
             }
 
             if (versionCompare($version, $installed_version, '<=')) {
-
                 // if installed version the same or higher - do nothing
                 return true;
             } else {
@@ -1199,15 +1184,15 @@ class ControllerPagesToolPackageInstaller extends AController
          */
         $this->extension_manager->add(
             [
-                'type'            => (string) $config->type,
-                'key'             => (string) $config->id,
-                'status'          => 0,
-                'priority'        => (string) $config->priority,
-                'version'         => (string) $config->version,
-                'license_key'     => $this->registry->get('session')->data['package_info']['extension_key'],
-                'category'        => (string) $config->category,
+                'type'               => (string) $config->type,
+                'key'                => (string) $config->id,
+                'status'             => 0,
+                'priority'           => (string) $config->priority,
+                'version'            => (string) $config->version,
+                'license_key'        => $this->registry->get('session')->data['package_info']['extension_key'],
+                'category'           => (string) $config->category,
                 'support_expiration' => (string) $package_info['support_expiration'],
-                'mp_product_url'  => (string) $package_info['product_url'],
+                'mp_product_url'     => (string) $package_info['product_url'],
             ]
         );
 
