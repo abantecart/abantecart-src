@@ -29,8 +29,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
  */
 class ControllerPagesExtensionExtensionSummary extends AController
 {
-    public $data = [];
-
     public function main($data = [])
     {
         $this->loadModel('tool/mp_api');
@@ -76,7 +74,8 @@ class ControllerPagesExtensionExtensionSummary extends AController
             if (version_compare($updates[$extension]['version'], $this->data['extension_info']['version'], '>')) {
                 if ($updates[$extension]['installation_key']) {
                     $update_now_url = $this->html->getSecureURL(
-                        'tool/package_installer', '&extension_key='.$updates[$extension]['installation_key']
+                        'tool/package_installer',
+                        '&extension_key='.$updates[$extension]['installation_key']
                     );
                 } else {
                     $update_now_url = $updates[$extension]['url'];
@@ -111,15 +110,17 @@ class ControllerPagesExtensionExtensionSummary extends AController
         }
 
         if ($expires) {
-            $expiresInt = dateISO2Int($expires);
+            //do not allow expire date as Integer be a zero
+            $expiresInt = $expires == '1970-01-01 00:00:00' ? 1 : dateISO2Int($expires);
             $this->data['extension_info']['support_expiration_int'] = $expiresInt;
             if ($expiresInt < time()) {
                 $mpProductUrl = $this->data['extension_info']['mp_product_url'];
             }
+
             $this->data['extension_info']['support_expiration'] =
-                $expires != '1970-01-01 00:00:00'
-                    ? dateISO2Display($expires, $this->language->get('date_format_short'))
-                    : $expires;
+                $expires == '1970-01-01 00:00:00'
+                    ? $expires
+                    : dateISO2Display($expires, $this->language->get('date_format_short'));
             $this->data['text_support_expiration'] = $this->language->get('text_support_expiration');
         }
         if (!$mpProductUrl) {
