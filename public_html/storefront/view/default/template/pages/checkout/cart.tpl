@@ -62,8 +62,10 @@ if (sizeof((array) $error_warning) > 0) {
                         <div>
                     <?php
                             foreach ($product['option'] as $option) { ?>
-                                - <small title="<?php echo $option['title'] ?>"><?php echo $option['name']; ?><?php echo $option['value']; ?></small><br/>
-                            <?php
+                                - <small title="<?php
+                                echo $option['title'] ?>"><?php
+                                    echo $option['name'].": ".$option['value']; ?></small><br/>
+                                <?php
                             } ?>
                         </div>
                     </td>
