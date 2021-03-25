@@ -50,7 +50,10 @@ class ControllerResponsesCheckoutPay extends AController
         $this->loadModel('checkout/extension');
         $this->loadModel('checkout/order');
         $this->loadLanguage('fast_checkout/fast_checkout');
-        $this->cart_key = $this->session->data['cart_key'];
+        $this->cart_key = $this->session->data['cart_key'] ? : randomWord(5);
+        if ($this->cart_key && !$this->session->data['fast_checkout'][$this->cart_key]) {
+            $this->session->data['fast_checkout'][$this->cart_key] = [];
+        }
 
         $this->data['cart_key'] = $this->cart_key;
         $this->fc_session = $this->session->data['fast_checkout'][$this->cart_key];

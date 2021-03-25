@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -35,7 +35,10 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
-        $this->cart_key = $this->session->data['cart_key'];
+        $this->cart_key = $this->session->data['cart_key'] ? : randomWord(5);
+        if (!$this->session->data['fast_checkout'][$this->cart_key]) {
+            $this->session->data['fast_checkout'][$this->cart_key] = [];
+        }
         $fc_session =& $this->session->data['fast_checkout'][$this->cart_key];
         //set sign that checkout is fast. See usage in hooks
         $this->session->data['fast-checkout'] = true;

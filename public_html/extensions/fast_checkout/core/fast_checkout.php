@@ -143,9 +143,17 @@ class ExtensionFastCheckout extends Extension
     public function onControllerPagesCheckoutGuestStep1_InitData()
     {
         $that = $this->baseObject;
-        if($that->config->get('fast_checkout_status')){
+        if ($that->config->get('fast_checkout_status')) {
             redirect($that->html->getSecureURL('checkout/fast_checkout'));
         }
+    }
+
+    public function onControllerPagesAccountLogout_UpdateData()
+    {
+        $that = $this->baseObject;
+        unset(
+            $that->session->data['fast_checkout']
+        );
     }
 
 }
