@@ -338,7 +338,6 @@ class ControllerPagesCatalogProduct extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->document->setTitle($this->language->get('heading_title'));
         if ($this->request->is_POST() && $this->_validateForm()) {
             $product_data = $this->_prepareData($this->request->post);
             $product_id = $this->model_catalog_product->addProduct($product_data);
@@ -358,8 +357,6 @@ class ControllerPagesCatalogProduct extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
-        $this->document->setTitle($this->language->get('heading_title'));
 
         $this->view->assign('error_warning', $this->session->data['warning']);
         if (isset($this->session->data['warning'])) {
@@ -433,9 +430,17 @@ class ControllerPagesCatalogProduct extends AController
             if ($product_info['has_track_options']) {
                 $product_info['quantity'] = $this->model_catalog_product->hasAnyStock($product_id);
             }
+            $this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($product_id);
+            $title = $this->language->get('text_edit')
+                .'&nbsp;'
+                .$this->language->get('text_product')
+                .' - '
+                .$this->data['product_description'][$content_language_id]['name'];
+        } else {
+            $title = $this->language->get('text_insert');
         }
+        $this->document->setTitle($title);
 
-        $this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($product_id);
         $this->data['error'] = $this->error;
         $this->data['cancel'] = $this->html->getSecureURL('catalog/product');
 
@@ -456,13 +461,7 @@ class ControllerPagesCatalogProduct extends AController
         $this->document->addBreadcrumb(
             [
                 'href'      => $this->html->getSecureURL('catalog/product'),
-                'text'      => ($product_id
-                    ? $this->language->get('text_edit')
-                    .'&nbsp;'
-                    .$this->language->get('text_product')
-                    .' - '
-                    .$this->data['product_description'][$content_language_id]['name']
-                    : $this->language->get('text_insert')),
+                'text'      => $title,
                 'separator' => ' :: ',
                 'current'   => true,
             ]
