@@ -255,14 +255,17 @@ class ControllerResponsesListingGridExtension extends AController
                     $response->userdata->classes[$id] = 'expired '.$response->userdata->classes[$id];
                 }
                 //check of minor cart version
-                if (!$expired && !is_null($this->config->get($extension."_status"))) {
+                if (!is_null($this->config->get($extension."_status"))) {
                     $cfg = getExtensionConfigXml($extension);
                     if ($cfg->cartversions->item) {
                         $allSupportedCartVersions = (array) $cfg->cartversions->item;
                         $checks = isExtensionSupportsCart($allSupportedCartVersions);
                         if (!$checks['minor_check']) {
-                            $expired = true;
-                            $response->userdata->classes[$id] = 'expired '.$response->userdata->classes[$id];
+                            $name = '<p class="alert-info">'
+                                .$name
+                                .'<br>'
+                                .$this->language->get('text_compatibility', 'extension/extensions_store')
+                                .'</p>';
                         }
                     }
                 }
