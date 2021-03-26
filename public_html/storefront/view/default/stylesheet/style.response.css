@@ -2569,3 +2569,8 @@ img.rating {
 .intl-tel-input .country-list {
     z-index: 4 !important;
 }
+
+.pay-form .row {
+    margin-left: 0;
+    margin-right: 0;
+}
