@@ -255,12 +255,12 @@ class ControllerResponsesListingGridExtension extends AController
                     $response->userdata->classes[$id] = 'expired '.$response->userdata->classes[$id];
                 }
                 //check of minor cart version
-                if (!$expired) {
+                if (!$expired && !is_null($this->config->get($extension."_status"))) {
                     $cfg = getExtensionConfigXml($extension);
                     if ($cfg->cartversions->item) {
                         $allSupportedCartVersions = (array) $cfg->cartversions->item;
-                        $chks = isExtensionSupportsCart($allSupportedCartVersions);
-                        if (!$chks['minor_check']) {
+                        $checks = isExtensionSupportsCart($allSupportedCartVersions);
+                        if (!$checks['minor_check']) {
                             $expired = true;
                             $response->userdata->classes[$id] = 'expired '.$response->userdata->classes[$id];
                         }
@@ -324,7 +324,7 @@ class ControllerResponsesListingGridExtension extends AController
 
         if (!$this->user->canModify('listing_grid/extension')) {
             $error = new AError('');
-            return $error->toJSONResponse(
+            $error->toJSONResponse(
                 'NO_PERMISSIONS_402',
                 [
                     'error_text'  => sprintf(
@@ -334,6 +334,7 @@ class ControllerResponsesListingGridExtension extends AController
                     'reset_value' => true,
                 ]
             );
+            return;
         }
 
         $this->loadLanguage('extension/extensions');
@@ -359,13 +360,14 @@ class ControllerResponsesListingGridExtension extends AController
         $this->load->library('json');
         if ($this->extension_manager->errors) {
             $error = new AError('');
-            return $error->toJSONResponse(
+            $error->toJSONResponse(
                 'VALIDATION_ERROR_406',
                 [
                     'error_text'  => '<br>'.implode('<br>', $this->extension_manager->errors),
                     'reset_value' => true,
                 ]
             );
+            return;
         }
     }
 
