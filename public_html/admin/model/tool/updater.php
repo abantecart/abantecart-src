@@ -117,9 +117,9 @@ class ModelToolUpdater extends Model
         if (!$updatesInfo) {
             return [];
         }
-
         //filter data
         $output = [];
+        $savedExpirations = [];
         $clearCache = false;
         foreach ($updatesInfo as $extKey => $versions) {
             foreach ($versions as $version => $version_info) {
@@ -131,6 +131,41 @@ class ModelToolUpdater extends Model
                 $tmp = explode('.', $version);
                 if (count($tmp) == 2) {
                     $version .= '.0';
+                }
+                $version_info['version'] = $version;
+
+                //check if extension have an update of support time
+                if (!$installed[$extKey]['support_expiration']) {
+                    $installed[$extKey]['support_expiration'] = date('Y-m-d H:i:s', time());
+                }
+                //if extension have changed support time - update data
+                if (
+                    !empty($version_info['support_expiration'])
+                    && (
+                        (
+                            !isset($savedExpirations[$extKey])
+                            && dateISO2Int($version_info['support_expiration']) >= dateISO2Int('1970-01-01 00:00:00')
+                        )
+                        || (
+                            isset($savedExpirations[$extKey])
+                            && dateISO2Int($version_info['support_expiration']) >= dateISO2Int(
+                                $savedExpirations[$extKey]
+                            )
+                        )
+                    )
+                ) {
+                    $upd = '';
+                    if ($version_info['installation_key'] != $installed[$extKey]['license_key']) {
+                        $upd .= " license_key = '".$this->db->escape($version_info['installation_key'])."', ";
+                    }
+
+                    $sql = "UPDATE ".$this->db->table('extensions')."
+                            SET ".$upd." 
+                                support_expiration = '".$this->db->escape($version_info['support_expiration'])."'
+                            WHERE `key` = '".$this->db->escape($extKey)."'";
+                    $this->db->query($sql);
+                    $savedExpirations[$extKey] = $version_info['support_expiration'];
+                    $clearCache = true;
                 }
 
                 //skip not supported by cart
@@ -153,27 +188,7 @@ class ModelToolUpdater extends Model
                     // check for newer version in the list to take last
                     && (!isset($output[$extKey]) || version_compare($output[$extKey]['version'], $version, '<'))
                 ) {
-                    $version_info['version'] = $version;
                     $output[$extKey] = $version_info;
-                    //check if extension have an update of support time
-                    if (!$installed[$extKey]['support_expiration']) {
-                        $installed[$extKey]['support_expiration'] = date('Y-m-d H:i:s', time());
-                    }
-                    //if extension have changed support time - update data
-                    if (dateISO2Int($version_info['support_expiration']) >= time()) {
-                        $upd = '';
-                        if ($version_info['installation_key'] != $installed[$extKey]['license_key']) {
-                            $upd .= " license_key = '".$this->db->escape($version_info['installation_key'])."', ";
-                        }
-
-                        $sql = "UPDATE ".$this->db->table('extensions')."
-                                SET ".$upd." support_expiration = '".$this->db->escape(
-                                $version_info['support_expiration']
-                            )."'
-                                WHERE `key` = '".$this->db->escape($extKey)."'";
-                        $this->db->query($sql);
-                        $clearCache = true;
-                    }
                 }
             }
         }
