@@ -219,7 +219,7 @@ class ControllerPagesCheckoutPayment extends AController
                 'id'    => 'no_payment_required',
                 'title' => $this->language->get('no_payment_required'),
             ];
-
+            $this->extensions->hk_ProcessData($this, 'no_payment_was_set');
             redirect($this->html->getSecureURL($confirm_rt));
         }
 
@@ -231,6 +231,7 @@ class ControllerPagesCheckoutPayment extends AController
             $pkey = key($only_method);
             if ($psettings[$pkey][$pkey."_autoselect"]) {
                 $this->session->data['payment_method'] = $only_method[$pkey];
+                $this->extensions->hk_ProcessData($this, 'payment_autoselect');
                 redirect($this->html->getSecureURL($confirm_rt));
             }
         }
