@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -198,6 +198,7 @@ class ControllerResponsesCheckoutCart extends AController
             }
             $this->session->data['shipping_method'] =
                 $this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]];
+            $this->cart->replaceCustData('shipping_method', $this->session->data['shipping_method']);
         } else {
             unset(
                 $this->session->data['shipping_address_id'],
