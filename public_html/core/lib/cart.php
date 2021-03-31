@@ -1086,4 +1086,19 @@ class ACart
         }
         return $download;
     }
+
+    /**
+     * Function allow to replace customer_data inside instance.
+     * Useful for cases when we override cart class with custom data
+     *
+     * @param string $key
+     * @param mixed $value
+     */
+    public function replaceCustData($key, $value)
+    {
+        if (!$key || !is_string($key)) {
+            return;
+        }
+        $this->cust_data[$key] = $value;
+    }
 }
