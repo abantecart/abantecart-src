@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -25,43 +26,64 @@ class ControllerPagesAccountSuccess extends AController
 {
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->document->setTitle($this->language->get('heading_title'));
-
         $this->document->resetBreadcrumbs();
-
         $this->document->addBreadcrumb(
-            array(
+            [
                 'href'      => $this->html->getHomeURL(),
                 'text'      => $this->language->get('text_home'),
                 'separator' => false,
-            ));
+            ]
+        );
 
         $this->document->addBreadcrumb(
-            array(
+            [
                 'href'      => $this->html->getSecureURL('account/account'),
                 'text'      => $this->language->get('text_account'),
                 'separator' => $this->language->get('text_separator'),
-            ));
+            ]
+        );
 
         $this->document->addBreadcrumb(
-            array(
+            [
                 'href'      => $this->html->getSecureURL('account/success'),
                 'text'      => $this->language->get('text_success'),
                 'separator' => $this->language->get('text_separator'),
-            ));
+            ]
+        );
 
         $this->view->assign('heading_title', $this->language->get('heading_title'));
 
         if ($this->config->get('config_customer_email_activation')) {
-            $this->view->assign('text_message', sprintf($this->language->get('text_activate'), $this->config->get('store_name'), $this->html->getURL('content/contact')));
+            $this->view->assign(
+                'text_message',
+                sprintf(
+                    $this->language->get('text_activate'),
+                    $this->config->get('store_name'),
+                    $this->html->getURL('content/contact')
+                )
+            );
+            $this->view->assign('heading_title', $this->language->get('heading_title_activation'));
         } elseif ($this->config->get('config_customer_approval')) {
-            $this->view->assign('text_message', sprintf($this->language->get('text_approval'), $this->config->get('store_name'), $this->html->getURL('content/contact')));
+            $this->view->assign(
+                'text_message',
+                sprintf(
+                    $this->language->get('text_approval'),
+                    $this->config->get('store_name'),
+                    $this->html->getURL('content/contact')
+                )
+            );
         } else {
-            $this->view->assign('text_message', sprintf($this->language->get('text_message'), $this->html->getURL('content/contact')));
+            $this->view->assign(
+                'text_message',
+                sprintf(
+                    $this->language->get('text_message'),
+                    $this->html->getURL('content/contact')
+                )
+            );
         }
 
         $this->view->assign('button_continue', $this->language->get('button_continue'));
@@ -78,12 +100,13 @@ class ControllerPagesAccountSuccess extends AController
         }
 
         $continue = $this->html->buildElement(
-            array(
+            [
                 'type'  => 'button',
                 'name'  => 'continue_button',
                 'text'  => $this->language->get('button_continue'),
                 'style' => 'button',
-            ));
+            ]
+        );
         $this->view->assign('continue_button', $continue);
 
         if ($this->config->get('embed_mode') == true) {
@@ -97,7 +120,6 @@ class ControllerPagesAccountSuccess extends AController
 
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
         unset($this->session->data['success']);
     }
 
