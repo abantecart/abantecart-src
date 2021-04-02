@@ -445,6 +445,10 @@ class ControllerResponsesCheckoutPay extends AController
 
     protected function updateOrCreateOrder($in_data, $request)
     {
+        //if customer unknown - skip creation of order
+        if(!$this->config->get('config_guest_checkout') && !$this->customer->isLogged()){
+            return [];
+        }
         //this needed to save session for next controller call
         $this->session->data['fast_checkout'][$this->cart_key] = $this->fc_session;
 
@@ -458,6 +462,7 @@ class ControllerResponsesCheckoutPay extends AController
         $order->buildOrderData($in_data);
         $order_id = $order->saveOrder();
         $this->loadModel('extension/fast_checkout');
+
         if ($order_id) {
             if ($request['cc_telephone'] || $request['telephone']) {
                 $telephone = $request['cc_telephone'] ? : $request['telephone'];
