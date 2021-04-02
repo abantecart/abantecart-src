@@ -159,9 +159,16 @@ class ModelToolUpdater extends Model
                         $upd .= " license_key = '".$this->db->escape($version_info['installation_key'])."', ";
                     }
 
+                    if($version_info['core_extension']){
+                        $version_info['support_expiration'] = null;
+                    }
+
                     $sql = "UPDATE ".$this->db->table('extensions')."
                             SET ".$upd." 
-                                support_expiration = '".$this->db->escape($version_info['support_expiration'])."'
+                                support_expiration = ".($version_info['support_expiration']
+                                                            ? "'".$this->db->escape($version_info['support_expiration'])."'"
+                                                            : "NULL"
+                                                        )." 
                             WHERE `key` = '".$this->db->escape($extKey)."'";
                     $this->db->query($sql);
                     $savedExpirations[$extKey] = $version_info['support_expiration'];
