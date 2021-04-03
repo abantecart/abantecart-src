@@ -25,35 +25,22 @@ if (!defined('DIR_CORE')) {
 /**
  * Class ControllerResponsesCheckoutFastCheckoutSummary
  *
- * @property boolean $allow_guest
  */
 class ControllerResponsesCheckoutFastCheckoutSummary extends AController
 {
-    /** @var string */
-    protected $cart_key;
 
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
-        $this->cart_key = $this->session->data['cart_key'] ? : randomWord(5);
-        if (!$this->session->data['fast_checkout'][$this->cart_key]) {
-            $this->session->data['fast_checkout'][$this->cart_key] = [];
-        }
-        $fc_session =& $this->session->data['fast_checkout'][$this->cart_key];
-        //set sign that checkout is fast. See usage in hooks
-        $this->session->data['fast-checkout'] = true;
-        $this->allow_guest = $this->config->get('config_guest_checkout');
-
-        if (!isset($fc_session) || $fc_session['cart'] !== $this->session->data['cart']) {
-            $fc_session['cart'] = $this->session->data['cart'];
-            $this->removeNoStockProducts();
-            if ($this->session->data['coupon']) {
-                $fc_session['coupon'] = $this->session->data['coupon'];
-            }
+        $cart_key = $registry->get('session')->data['fc']['cart_key'];
+        //if cart key must be present in the FC session data anyway!
+        if (!$cart_key) {
+            return;
         }
 
+        //swap cart in the registry to replace default cart data with FC cart data
         $cart_class_name = get_class($this->cart);
-        $this->registry->set('cart', new $cart_class_name($this->registry, $fc_session));
+        $registry->set('cart', new $cart_class_name($registry, $this->session->data['fc']));
     }
 
     public function main()
@@ -67,16 +54,6 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
         $this->view->batchAssign($this->data);
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
         $this->response->setOutput($this->view->fetch('responses/checkout/fast_checkout_summary.tpl'));
-    }
-
-    protected function removeNoStockProducts()
-    {
-        $cartProducts = $this->cart->getProducts();
-        foreach ($cartProducts as $key => $cartProduct) {
-            if (!$cartProduct['stock'] && !$this->config->get('config_stock_checkout')) {
-                unset($this->session->data['fast_checkout'][$this->cart_key]['cart'][$key]);
-            }
-        }
     }
 
     protected function buildCartProductDetails()

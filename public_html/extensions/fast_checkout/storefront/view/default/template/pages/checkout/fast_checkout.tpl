@@ -8,22 +8,22 @@
         $('.spinner-overlay').fadeIn(100);
     }
     <?php if ($cart_url) { ?>
-    var loadPage = function(cart_key) {
+    var loadPage = function () {
         $.ajax({
-            url: '<?php echo $cart_url; ?>' + '&cart_key=' + (cart_key || ''),
+            url: '<?php echo $cart_url; ?>',
             type: 'GET',
             dataType: 'html',
-            success: function (data){
-                    $('#fast_checkout_summary_block').trigger('reload');
-                    $('#fast_checkout_cart').hide().html(data).fadeIn(1000);
-                    $('.spinner-overlay').fadeOut(500);
+            success: function (data) {
+                $('#fast_checkout_summary_block').trigger('reload');
+                $('#fast_checkout_cart').hide().html(data).fadeIn(1000);
+                $('.spinner-overlay').fadeOut(500);
             },
             error: function () {
                 $('.spinner-overlay').fadeOut(500);
             }
         })
     };
-    $(document).ready( loadPage('<?php echo $cart_key?>') );
-<?php } ?>
+    $(document).ready(loadPage());
+    <?php } ?>
 
 </script>

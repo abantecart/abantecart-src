@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -24,7 +24,148 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesCheckoutFastCheckout extends AController
 {
-    public $data = [];
+
+    public function __construct($registry, $instance_id, $controller, $parent_controller = '')
+    {
+        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+
+        // TODO: need to check cart_key from request and key from fc-session (case for two browser tabs and parallel buy-now processes)
+        //        if ($this->cart_key && !$this->session->data['fast_checkout'][$this->cart_key]) {
+        //            $this->session->data['fast_checkout'][$this->cart_key] = [];
+        //        }
+        if ($this->request->is_POST()) {
+            $this->session->data['fc']['cart_key'] = randomWord(5);
+        } elseif (!$this->session->data['fc']['cart_key']) {
+            $this->session->data['fc']['cart_key'] = randomWord(5);
+        }
+
+        //set sign for commonHead controller.
+        // Needed to change url in the tpl. See addToCart method inside js
+        $registry->set('fast_checkout', true);
+        //short name
+        $fc_session =& $this->session->data['fc'];
+
+        $cartClassName = get_class($this->cart);
+        //create new cart with single product (onclick buy-now button)
+        if ($this->request->get['single_checkout'] && $this->request->is_POST()) {
+            $post = $this->request->post;
+            $fc_session['single_checkout'] = true;
+            $fc_session['cart'] = [];
+            $this->registry->set(
+                'cart',
+                new $cartClassName($this->registry, $fc_session)
+            );
+            if (isset($this->request->post['product_id'])) {
+                $this->loadModel('catalog/product', 'storefront');
+                $product_id = $post['product_id'];
+
+                if (isset($post['option'])) {
+                    $options = $post['option'];
+                } else {
+                    $options = [];
+                }
+
+                //for FILE-attributes
+                if (has_value($this->request->files['option']['name'])) {
+                    $fm = new AFile();
+                    foreach ($this->request->files['option']['name'] as $id => $name) {
+                        $attribute_data = $this->model_catalog_product->getProductOption($product_id, $id);
+                        $attribute_data['settings'] = unserialize($attribute_data['settings']);
+                        $file_path_info = $fm->getUploadFilePath($attribute_data['settings']['directory'], $name);
+
+                        $options[$id] = $file_path_info['name'];
+
+                        if (!has_value($name)) {
+                            continue;
+                        }
+
+                        if ($attribute_data['required'] && !$this->request->files['option']['size'][$id]) {
+                            $this->session->data['error'] = $this->language->get('error_required_options');
+                            redirect($_SERVER['HTTP_REFERER']);
+                        }
+
+                        $file_data = [
+                            'option_id' => $id,
+                            'name'      => $file_path_info['name'],
+                            'path'      => $file_path_info['path'],
+                            'type'      => $this->request->files['option']['type'][$id],
+                            'tmp_name'  => $this->request->files['option']['tmp_name'][$id],
+                            'error'     => $this->request->files['option']['error'][$id],
+                            'size'      => $this->request->files['option']['size'][$id],
+                        ];
+
+                        $file_errors = $fm->validateFileOption($attribute_data['settings'], $file_data);
+
+                        if (has_value($file_errors)) {
+                            $this->session->data['error'] = implode('<br/>', $file_errors);
+                            redirect($_SERVER['HTTP_REFERER']);
+                        } else {
+                            $result = move_uploaded_file($file_data['tmp_name'], $file_path_info['path']);
+
+                            if (!$result || $this->request->files['package_file']['error']) {
+                                $this->session->data['error'] .= '<br>Error: '.getTextUploadError(
+                                        $this->request->files['option']['error'][$id]
+                                    );
+                                redirect($_SERVER['HTTP_REFERER']);
+                            }
+                        }
+
+                        $dataset = new ADataset('file_uploads', 'admin');
+                        $dataset->addRows(
+                            [
+                                'date_added' => date("Y-m-d H:i:s", time()),
+                                'name'       => $file_path_info['name'],
+                                'type'       => $file_data['type'],
+                                'section'    => 'product_option',
+                                'section_id' => $attribute_data['attribute_id'],
+                                'path'       => $file_path_info['path'],
+                            ]
+                        );
+                    }
+                }
+
+                if ($text_errors = $this->model_catalog_product->validateProductOptions($product_id, $options)) {
+                    $this->session->data['error'] = $text_errors;
+                    //send options values back via _GET
+                    $url = '&'.http_build_query(['option' => $post['option']]);
+                    redirect(
+                        $this->html->getSecureURL(
+                            'product/product',
+                            '&product_id='.$post['product_id'].$url
+                        )
+                    );
+                }
+
+                $this->cart->add($post['product_id'], $post['quantity'], $options);
+            }
+            //if we added single product via POST request - do redirect to self
+            redirect($this->html->getSecureURL('checkout/fast_checkout'));
+        } //do clone of default cart
+        else {
+            $fc_session['single_checkout'] = false;
+            $fc_session['cart'] = $fc_session['cart'] ? : $this->session->data['cart'];
+            $this->removeNoStockProducts();
+            if (isset($this->session->data['coupon'])) {
+                $fc_session['coupon'] = $this->session->data['coupon'];
+            }
+            $this->registry->set(
+                'cart',
+                new $cartClassName($this->registry, $fc_session)
+            );
+        }
+    }
+
+    protected function removeNoStockProducts()
+    {
+        $cartProducts = $this->cart->getProducts();
+        foreach ($cartProducts as $key => $cartProduct) {
+            if (!$cartProduct['stock'] && !$this->config->get('config_stock_checkout')) {
+                unset(
+                    $this->session->data['fc']['cart'][$key],
+                );
+            }
+        }
+    }
 
     public function main()
     {
@@ -100,10 +241,7 @@ class ControllerPagesCheckoutFastCheckout extends AController
         $this->document->addScript($this->view->templateResource('/js/credit_card_validation.js'));
         $this->document->addScript($this->view->templateResource('/javascript/common.js'));
 
-        $this->data['cart_url'] = $this->html->getSecureURL(
-            'r/checkout/pay',
-            '&cart_key='.$this->session->data['fast_checkout']['cart_key']
-        );
+        $this->data['cart_url'] = $this->html->getSecureURL('r/checkout/pay');
 
         $this->view->batchAssign($this->data);
 

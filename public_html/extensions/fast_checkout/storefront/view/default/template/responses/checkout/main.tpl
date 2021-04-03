@@ -245,7 +245,7 @@
                 $(this).find('.btn-primary').button('loading');
                 //All Good send form
                 $.post($(this).attr('action'), $(this).serialize(), function (data) {
-                    loadPage('<?php echo $cart_key; ?>')
+                    loadPage()
                 });
                 return false;
             }

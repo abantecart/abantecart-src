@@ -20,9 +20,9 @@ echo $head; ?>
         $('.spinner-overlay').fadeIn(100);
     }
     <?php if ($cart_url) { ?>
-    let loadPage = function (cart_key) {
+    let loadPage = function () {
         $.ajax({
-            url: '<?php echo $cart_url; ?>' + '&cart_key=' + (cart_key || ''),
+            url: '<?php echo $cart_url; ?>',
             type: 'GET',
             dataType: 'html',
             success: function (data) {
@@ -35,7 +35,7 @@ echo $head; ?>
             }
         });
     };
-    $(document).ready(loadPage('<?php echo $cart_key?>'));
+    $(document).ready(loadPage());
     <?php } ?>
 </script>
 <?php

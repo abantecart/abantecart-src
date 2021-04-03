@@ -52,6 +52,7 @@ $templates = [
         'embed/footer.post.tpl',
         'common/footer.post.tpl',
         'pages/account/order_details.tpl',
+        'pages/product/add_to_cart_buttons.tpl',
         'blocks/product_list.tpl',
         'blocks/fast_checkout_summary.tpl',
         'blocks/fast_checkout_cart_btn.tpl',

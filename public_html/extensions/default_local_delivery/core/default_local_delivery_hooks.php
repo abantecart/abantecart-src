@@ -138,7 +138,7 @@ class ExtensionDefaultLocalDelivery extends Extension
         if( !$that->config->get('fast_checkout_status')){
             return;
         }
-        $shipping_method = $that->session->data['fast_checkout'][$that->getCartKey()]['shipping_method'];
+        $shipping_method = $that->session->data['fc']['shipping_method'];
         if($shipping_method['id'] == 'default_local_delivery.default_local_delivery'){
             //show comment field for local delivery anyway
             $that->config->get('fast_checkout_show_order_comment_field');
@@ -151,7 +151,7 @@ class ExtensionDefaultLocalDelivery extends Extension
         if( !$that->config->get('fast_checkout_status')){
             return;
         }
-        $shipping_method = $that->session->data['fast_checkout'][$that->getCartKey()]['shipping_method'];
+        $shipping_method = $that->session->data['fc']['shipping_method'];
         if($shipping_method['id'] != 'default_local_delivery.default_local_delivery'){
             return;
         }
