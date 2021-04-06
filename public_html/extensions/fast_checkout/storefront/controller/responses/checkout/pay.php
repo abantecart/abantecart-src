@@ -78,6 +78,10 @@ class ControllerResponsesCheckoutPay extends AController
         }
         //short reference to fast checkout session
         $this->fc_session =& $this->session->data['fc'];
+        //set cart key into cookie every request to compare it on js-side
+        // (case when two single-checkout tabs opened)
+        //see js function checkCartKey(); in the tpls
+        setcookie('fc_cart_key', $this->fc_session['cart_key']);
     }
 
     //DO NOT REMOVE!

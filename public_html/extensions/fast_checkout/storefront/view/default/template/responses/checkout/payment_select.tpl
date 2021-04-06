@@ -29,14 +29,14 @@
                                 if (!empty($icon['resource_code'])) { ?>
                                     <?php echo $icon['resource_code']; ?>
                                 <?php } else { ?>
-									<div style="height: 100px; background-image: url('extensions/fast_checkout/storefront/view/default/images/payment.png');
-											background-position: center; background-size: contain; background-repeat: no-repeat;" >
-									</div>
+                                    <div style="height: 100px; background-image: url('extensions/fast_checkout/storefront/view/default/images/payment.png');
+                                            background-position: center; background-size: contain; background-repeat: no-repeat;" >
+                                    </div>
                                 <?php }
                             } ?>
                         <?php } else { ?>
                             <div style="height: 100px; background-image: url('extensions/fast_checkout/storefront/view/default/images/payment.png');
-											background-position: center; background-size: contain; background-repeat: no-repeat;" >
+                                            background-position: center; background-size: contain; background-repeat: no-repeat;" >
                             </div>
                         <?php } ?>
                     </div>

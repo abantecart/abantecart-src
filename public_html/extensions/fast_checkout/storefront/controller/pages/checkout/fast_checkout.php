@@ -49,7 +49,7 @@ class ControllerPagesCheckoutFastCheckout extends AController
         //create new cart with single product (onclick buy-now button)
         if ($this->request->get['single_checkout'] && $this->request->is_POST()) {
             $post = $this->request->post;
-            $fc_session['single_checkout'] = true;
+            $fc_session['single_checkout'] = $this->data['single_checkout'] = true;
             $fc_session['cart'] = [];
             $this->registry->set(
                 'cart',
@@ -137,12 +137,15 @@ class ControllerPagesCheckoutFastCheckout extends AController
                 }
 
                 $this->cart->add($post['product_id'], $post['quantity'], $options);
+                $productCartKey = !$options ? $product_id : $product_id.':'.md5(serialize($options));
             }
             //if we added single product via POST request - do redirect to self
-            redirect($this->html->getSecureURL('checkout/fast_checkout'));
+            redirect($this->html->getSecureURL('checkout/fast_checkout', '&product_key='.$productCartKey));
         } //do clone of default cart
         else {
-            $fc_session['single_checkout'] = false;
+            if (!$fc_session['single_checkout']) {
+                $fc_session['single_checkout'] = false;
+            }
             $fc_session['cart'] = $fc_session['cart'] ? : $this->session->data['cart'];
             $this->removeNoStockProducts();
             if (isset($this->session->data['coupon'])) {
@@ -152,6 +155,30 @@ class ControllerPagesCheckoutFastCheckout extends AController
                 'cart',
                 new $cartClassName($this->registry, $fc_session)
             );
+        }
+
+        if ($this->request->get['single_checkout']) {
+            $this->data['single_checkout'] = true;
+        }
+        //save cart_key into cookie to check on js-side
+        // if another fc changed it
+        setcookie('fc_cart_key', $fc_session['cart_key']);
+
+        //check if two single-checkout tabs opened
+        if (isset($this->request->get['product_key'])) {
+            $cartProducts = $this->cart->getProducts();
+            $cartSingleProduct = $cartProducts[$this->request->get['product_key']];
+            if (count($cartProducts) > 1 && $cartSingleProduct) {
+                redirect(
+                    $this->html->getSEOURL(
+                        'product/product',
+                        '&product_id='.$cartSingleProduct['product_id']
+                    )
+                );
+            } elseif (!$cartSingleProduct) {
+                //if product not forund in the cart - just redirect to home
+                redirect($this->html->getHomeURL());
+            }
         }
     }
 
@@ -242,6 +269,11 @@ class ControllerPagesCheckoutFastCheckout extends AController
         $this->document->addScript($this->view->templateResource('/javascript/common.js'));
 
         $this->data['cart_url'] = $this->html->getSecureURL('r/checkout/pay');
+        $this->data['cart_key'] = $this->session->data['fc']['cart_key'];
+        $this->data['single_checkout'] = $this->session->data['fc']['single_checkout'];
+        if ($this->request->get['product_key']) {
+            $this->data['product_key'] = $this->request->get['product_key'];
+        }
 
         $this->view->batchAssign($this->data);
 
