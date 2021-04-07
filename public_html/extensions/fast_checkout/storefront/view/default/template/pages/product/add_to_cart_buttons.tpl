@@ -1,4 +1,3 @@
-<?php // default addToCart button (for default checkout process) ?>
 <a href="#"
    onclick="$(this).closest('form').submit(); return false;"
    class="cart">

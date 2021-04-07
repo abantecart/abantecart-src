@@ -25,9 +25,9 @@ if (!defined('DIR_CORE')) {
 class ControllerPagesCheckoutFastCheckout extends AController
 {
 
-    public function __construct($registry, $instance_id, $controller, $parent_controller = '')
+    public function __construct($registry, $instanceId, $controller, $parentController = '')
     {
-        parent::__construct($registry, $instance_id, $controller, $parent_controller);
+        parent::__construct($registry, $instanceId, $controller, $parentController);
 
         // TODO: need to check cart_key from request and key from fc-session (case for two browser tabs and parallel buy-now processes)
         //        if ($this->cart_key && !$this->session->data['fast_checkout'][$this->cart_key]) {
@@ -43,21 +43,21 @@ class ControllerPagesCheckoutFastCheckout extends AController
         // Needed to change url in the tpl. See addToCart method inside js
         $registry->set('fast_checkout', true);
         //short name
-        $fc_session =& $this->session->data['fc'];
+        $fcSession =& $this->session->data['fc'];
 
         $cartClassName = get_class($this->cart);
         //create new cart with single product (onclick buy-now button)
         if ($this->request->get['single_checkout'] && $this->request->is_POST()) {
             $post = $this->request->post;
-            $fc_session['single_checkout'] = $this->data['single_checkout'] = true;
-            $fc_session['cart'] = [];
+            $fcSession['single_checkout'] = $this->data['single_checkout'] = true;
+            $fcSession['cart'] = [];
             $this->registry->set(
                 'cart',
-                new $cartClassName($this->registry, $fc_session)
+                new $cartClassName($this->registry, $fcSession)
             );
             if (isset($this->request->post['product_id'])) {
                 $this->loadModel('catalog/product', 'storefront');
-                $product_id = $post['product_id'];
+                $productId = $post['product_id'];
 
                 if (isset($post['option'])) {
                     $options = $post['option'];
@@ -69,38 +69,38 @@ class ControllerPagesCheckoutFastCheckout extends AController
                 if (has_value($this->request->files['option']['name'])) {
                     $fm = new AFile();
                     foreach ($this->request->files['option']['name'] as $id => $name) {
-                        $attribute_data = $this->model_catalog_product->getProductOption($product_id, $id);
-                        $attribute_data['settings'] = unserialize($attribute_data['settings']);
-                        $file_path_info = $fm->getUploadFilePath($attribute_data['settings']['directory'], $name);
+                        $attributeData = $this->model_catalog_product->getProductOption($productId, $id);
+                        $attributeData['settings'] = unserialize($attributeData['settings']);
+                        $filePathInfo = $fm->getUploadFilePath($attributeData['settings']['directory'], $name);
 
-                        $options[$id] = $file_path_info['name'];
+                        $options[$id] = $filePathInfo['name'];
 
                         if (!has_value($name)) {
                             continue;
                         }
 
-                        if ($attribute_data['required'] && !$this->request->files['option']['size'][$id]) {
+                        if ($attributeData['required'] && !$this->request->files['option']['size'][$id]) {
                             $this->session->data['error'] = $this->language->get('error_required_options');
                             redirect($_SERVER['HTTP_REFERER']);
                         }
 
-                        $file_data = [
+                        $fileData = [
                             'option_id' => $id,
-                            'name'      => $file_path_info['name'],
-                            'path'      => $file_path_info['path'],
+                            'name'      => $filePathInfo['name'],
+                            'path'      => $filePathInfo['path'],
                             'type'      => $this->request->files['option']['type'][$id],
                             'tmp_name'  => $this->request->files['option']['tmp_name'][$id],
                             'error'     => $this->request->files['option']['error'][$id],
                             'size'      => $this->request->files['option']['size'][$id],
                         ];
 
-                        $file_errors = $fm->validateFileOption($attribute_data['settings'], $file_data);
+                        $fileErrors = $fm->validateFileOption($attributeData['settings'], $fileData);
 
-                        if (has_value($file_errors)) {
-                            $this->session->data['error'] = implode('<br/>', $file_errors);
+                        if (has_value($fileErrors)) {
+                            $this->session->data['error'] = implode('<br/>', $fileErrors);
                             redirect($_SERVER['HTTP_REFERER']);
                         } else {
-                            $result = move_uploaded_file($file_data['tmp_name'], $file_path_info['path']);
+                            $result = move_uploaded_file($fileData['tmp_name'], $filePathInfo['path']);
 
                             if (!$result || $this->request->files['package_file']['error']) {
                                 $this->session->data['error'] .= '<br>Error: '.getTextUploadError(
@@ -114,18 +114,18 @@ class ControllerPagesCheckoutFastCheckout extends AController
                         $dataset->addRows(
                             [
                                 'date_added' => date("Y-m-d H:i:s", time()),
-                                'name'       => $file_path_info['name'],
-                                'type'       => $file_data['type'],
+                                'name'       => $filePathInfo['name'],
+                                'type'       => $fileData['type'],
                                 'section'    => 'product_option',
-                                'section_id' => $attribute_data['attribute_id'],
-                                'path'       => $file_path_info['path'],
+                                'section_id' => $attributeData['attribute_id'],
+                                'path'       => $filePathInfo['path'],
                             ]
                         );
                     }
                 }
 
-                if ($text_errors = $this->model_catalog_product->validateProductOptions($product_id, $options)) {
-                    $this->session->data['error'] = $text_errors;
+                if ($textErrors = $this->model_catalog_product->validateProductOptions($productId, $options)) {
+                    $this->session->data['error'] = $textErrors;
                     //send options values back via _GET
                     $url = '&'.http_build_query(['option' => $post['option']]);
                     redirect(
@@ -137,23 +137,23 @@ class ControllerPagesCheckoutFastCheckout extends AController
                 }
 
                 $this->cart->add($post['product_id'], $post['quantity'], $options);
-                $productCartKey = !$options ? $product_id : $product_id.':'.md5(serialize($options));
+                $productCartKey = !$options ? $productId : $productId.':'.md5(serialize($options));
             }
             //if we added single product via POST request - do redirect to self
             redirect($this->html->getSecureURL('checkout/fast_checkout', '&product_key='.$productCartKey));
         } //do clone of default cart
         else {
-            if (!$fc_session['single_checkout']) {
-                $fc_session['single_checkout'] = false;
+            if (!$fcSession['single_checkout']) {
+                $fcSession['single_checkout'] = false;
             }
-            $fc_session['cart'] = $fc_session['cart'] ? : $this->session->data['cart'];
+            $fcSession['cart'] = $fcSession['cart'] ? : $this->session->data['cart'];
             $this->removeNoStockProducts();
             if (isset($this->session->data['coupon'])) {
-                $fc_session['coupon'] = $this->session->data['coupon'];
+                $fcSession['coupon'] = $this->session->data['coupon'];
             }
             $this->registry->set(
                 'cart',
-                new $cartClassName($this->registry, $fc_session)
+                new $cartClassName($this->registry, $fcSession)
             );
         }
 
@@ -162,7 +162,7 @@ class ControllerPagesCheckoutFastCheckout extends AController
         }
         //save cart_key into cookie to check on js-side
         // if another fc changed it
-        setcookie('fc_cart_key', $fc_session['cart_key']);
+        setcookie('fc_cart_key', $fcSession['cart_key']);
 
         //check if two single-checkout tabs opened
         if (isset($this->request->get['product_key'])) {
@@ -196,17 +196,17 @@ class ControllerPagesCheckoutFastCheckout extends AController
 
     public function main()
     {
-        $cart_rt = 'checkout/cart';
+        $cartRt = 'checkout/cart';
         if ($this->config->get('embed_mode') == true) {
-            $cart_rt = 'r/checkout/cart/embed';
+            $cartRt = 'r/checkout/cart/embed';
         }
         //validate if order min/max are met
         if (!$this->cart->hasMinRequirement() || !$this->cart->hasMaxRequirement()) {
-            redirect($this->html->getSecureURL($cart_rt));
+            redirect($this->html->getSecureURL($cartRt));
         }
 
         if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
-            redirect($this->html->getSecureURL($cart_rt));
+            redirect($this->html->getSecureURL($cartRt));
         }
 
         if (HTTPS !== true) {
