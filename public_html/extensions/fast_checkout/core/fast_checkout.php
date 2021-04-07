@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpUndefinedClassInspection */
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -27,19 +28,6 @@ class ExtensionFastCheckout extends Extension
     protected $registry;
     protected $sc_rt =  'checkout/fast_checkout';
 
-//    public function __construct()
-//    {
-//        if(!$this->baseObject || !$this->isEnabled()){
-//            return;
-//        }
-//        //CORS solution for http 2 https
-//        header("Access-Control-Allow-Origin: ".'http://'.REAL_HOST.get_url_path($_SERVER['PHP_SELF']));
-//        $this->registry = Registry::getInstance();
-//        if (!isset($this->registry->get('session')->data['fc'])) {
-//            $this->registry->get('session')->data['fc'] = [];
-//        }
-//    }
-
     /**
      * @return bool
      */
@@ -55,7 +43,7 @@ class ExtensionFastCheckout extends Extension
         $this->baseObject->loadLanguage('fast_checkout/fast_checkout');
     }
 
-    // add button BUYNOW to sf product page
+    // add button BUY-NOW to sf product page
     public function onControllerPagesProductProduct_UpdateData(){
         $that = $this->baseObject;
         $data= [];
@@ -149,13 +137,12 @@ class ExtensionFastCheckout extends Extension
     /**
      * @param AController $that
      *
-     * @return null
      * @throws AException
      */
     private function _init($that)
     {
         if ($this->init_loaded === true) {
-            return null;
+            return;
         }
 
         $that->document->addStyle(
@@ -183,25 +170,6 @@ class ExtensionFastCheckout extends Extension
             '&viewport=window&order_id='.$that->session->data['processed_order_id'])
         );
         exit;
-    }
-
-    public function onControllerCommonPage_InitData() {
-        if(!$this->isEnabled()){
-            return;
-        }
-
-//        $that = $this->baseObject;
-//        $cart_key = $that->request->post_or_get('cart_key');
-//
-//        if ($that->customer && $that->customer->getId()) {
-//            unset($that->session->data['guest']);
-//        }
-//
-//        if ((!$cart_key || empty($cart_key)) && $that->request->get['rt'] === 'checkout/fast_checkout') {
-//            $cart_key = randomWord(5);
-//            $that->session->data['cart_key'] = $cart_key;
-//            redirect($that->html->getSecureURL($this->sc_rt, "&cart_key=".$cart_key));
-//        }
     }
 
     public function onControllerCommonPage_UpdateData()
