@@ -32,51 +32,35 @@ if (!defined('DIR_CORE')) {
  */
 class AView
 {
-    /**
-     * @var $registry Registry
-     */
+    /** @var $registry Registry */
     protected $registry;
-    /**
-     * @var
-     */
+
     protected $id;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $template = '';
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $default_template;
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $instance_id;
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $enableOutput = false;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $output = '';
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $hook_vars = [];
     /**
+     * List of hook variables that has been replaced.
+     * Used to prevent overriding hookvar by another hook of another extension
      * @var array
      */
+    protected $hook_vars_replaces = [];
+    /** @var array */
     public $data = [];
 
     protected $render;
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $has_extensions;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $html_cache_key;
 
     /**
@@ -110,27 +94,11 @@ class AView
         $this->registry->set($key, $value);
     }
 
-    /**
-     * @deprecated since v1.2.9
-     *
-     * @param string $url
-     */
-    protected function redirect($url)
-    {
-        redirect($url);
-    }
-
-    /**
-     * @void
-     */
     public function enableOutput()
     {
         $this->enableOutput = true;
     }
 
-    /**
-     * @void
-     */
     public function disableOutput()
     {
         $this->enableOutput = false;
@@ -217,7 +185,12 @@ class AView
      */
     public function append($template_variable, $value = '', $default_value = '')
     {
-        if (empty($template_variable)) {
+
+        if (empty($template_variable)
+            ||
+            // do not append when hook var was replaced before
+            in_array($template_variable, $this->hook_vars_replaces)
+        ) {
             return;
         }
         if (!is_null($value)) {
@@ -229,7 +202,6 @@ class AView
 
     /**
      * @param array $assign_arr - associative array
-     *
      */
     public function batchAssign($assign_arr)
     {
@@ -264,8 +236,21 @@ class AView
      */
     public function addHookVar($name, $value)
     {
-        if (!empty($name)) {
+        if (!empty($name) && !in_array($name, $this->hook_vars_replaces)
+        ){
             $this->hook_vars[$name] .= $value;
+        }
+    }
+
+    /**
+     * @param string $name
+     * @param string $value
+     */
+    public function replaceHookVar($name, $value)
+    {
+        if (!empty($name)) {
+            $this->hook_vars[$name] = $value;
+            $this->hook_vars_replaces[] = $name;
         }
     }
 

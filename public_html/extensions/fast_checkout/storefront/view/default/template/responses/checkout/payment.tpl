@@ -460,7 +460,8 @@ if ($show_payment == true) {
                         .removeClass('has-error')
                         .removeClass('has-success')
                         .addClass('has-error');
-                }
+                },
+                complete: checkCartKey
             });
         });
 
@@ -546,6 +547,7 @@ if ($show_payment == true) {
                     $('#fast_checkout_summary_block').trigger('reload');
                     $('#fast_checkout_cart').hide().html(data).fadeIn(1000);
                     $('.spinner-overlay').fadeOut(100);
+                    checkCartKey();
                 }
             });
         });

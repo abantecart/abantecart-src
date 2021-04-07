@@ -41,41 +41,19 @@ class ControllerResponsesCheckoutPay extends AController
     public function __construct($registry, $instance_id, $controller, $parent_controller = '')
     {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
-        //set sign that checkout is fast. See usage in hooks
-        $this->session->data['fast-checkout'] = true;
 
         $this->allow_guest = $this->config->get('config_guest_checkout');
+        $cartClassName = get_class($this->cart);
+        $this->registry->set(
+            'cart',
+            new $cartClassName($this->registry, $this->session->data['fc'])
+        );
 
         $this->loadModel('catalog/product');
         $this->loadModel('checkout/extension');
         $this->loadModel('checkout/order');
         $this->loadLanguage('fast_checkout/fast_checkout');
-        $this->cart_key = $this->session->data['cart_key'] ? : randomWord(5);
-        if ($this->cart_key && !$this->session->data['fast_checkout'][$this->cart_key]) {
-            $this->session->data['fast_checkout'][$this->cart_key] = [];
-        }
 
-        $this->data['cart_key'] = $this->cart_key;
-        $this->fc_session = $this->session->data['fast_checkout'][$this->cart_key];
-
-        if (!isset($this->fc_session)
-            || $this->fc_session['cart'] !== $this->session->data['cart']
-        ) {
-            $this->fc_session['cart'] = $this->session->data['cart'];
-            $this->removeNoStockProducts();
-            if (isset($this->session->data['coupon'])) {
-                $this->fc_session['coupon'] = $this->session->data['coupon'];
-            }
-        }
-
-        $cart_class_name = get_class($this->cart);
-        $this->registry->set(
-            'cart',
-            new $cart_class_name(
-                $this->registry,
-                $this->fc_session
-            )
-        );
         $this->data['require_telephone'] = $this->config->get('fast_checkout_require_phone_number');
 
         //set tax zone for tax class based on session data
@@ -98,17 +76,19 @@ class ControllerResponsesCheckoutPay extends AController
         if ($tax_country_id) {
             $this->tax->setZone($tax_country_id, $tax_zone_id);
         }
+        //short reference to fast checkout session
+        $this->fc_session =& $this->session->data['fc'];
+        //set cart key into cookie every request to compare it on js-side
+        // (case when two single-checkout tabs opened)
+        //see js function checkCartKey(); in the tpls
+        setcookie('fc_cart_key', $this->fc_session['cart_key']);
     }
 
+    //DO NOT REMOVE!
     public function __destruct()
     {
         //this needed to save session for next controller call
-        $this->session->data['fast_checkout'][$this->cart_key] = $this->fc_session;
-    }
-
-    public function getCartKey()
-    {
-        return $this->cart_key;
+        $this->session->data['fc'] = $this->fc_session;
     }
 
     public function main()
@@ -117,7 +97,7 @@ class ControllerResponsesCheckoutPay extends AController
         $request = array_merge($this->request->get, $this->request->post);
         //handle coupon
         $this->_handleCoupon($request);
-        $get_params = '&cart_key='.$this->cart_key;
+        $get_params = '';
         $this->data['onChangeCheckboxBtnUrl'] = $this->html->getSecureURL('r/checkout/pay/changeCheckBox');
         if ($this->config->get('config_checkout_id')) {
             $this->loadLanguage('checkout/confirm');
@@ -381,11 +361,7 @@ class ControllerResponsesCheckoutPay extends AController
         if ($this->data['show_payment'] == true) {
             //Order must be created before payment form rendering!
             if (!$this->session->data['order_id']) {
-                $in_data = array_merge(
-                    (array) $this->session->data,
-                    $this->fc_session
-                );
-                $this->updateOrCreateOrder($in_data, $request);
+                $this->updateOrCreateOrder($this->fc_session, $request);
             }
             $this->_build_payment_view($request, $get_params);
         }
@@ -397,7 +373,7 @@ class ControllerResponsesCheckoutPay extends AController
         //last step with payment form
         $this->data['action'] = $this->action;
         $this->data['error'] = '';
-        if ($this->session->data['guest'] ?? []) {
+        if ($this->session->data['guest']) {
             $this->data['edit_address_url'] = $this->html->getSecureURL(
                 'r/checkout/pay/edit_address',
                 $get_params
@@ -413,13 +389,13 @@ class ControllerResponsesCheckoutPay extends AController
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-        $in_data = array_merge((array) $this->session->data, $this->fc_session);
-        if (!$in_data['guest'] && !$this->customer->getId()) {
+        if (!$this->fc_session['guest'] && !$this->customer->getId()) {
             $this->address();
+            $this->session->data['fc'] = $this->fc_session;
             return;
         }
 
-        $this->updateOrCreateOrder($in_data, $request);
+        $this->updateOrCreateOrder($this->fc_session, $request);
 
         $this->view->batchAssign($this->data);
         $this->response->setOutput($this->view->fetch('responses/checkout/main.tpl'));
@@ -428,16 +404,12 @@ class ControllerResponsesCheckoutPay extends AController
     public function updateOrderData()
     {
         //this needed to save session for next controller call
-        $this->session->data['fast_checkout'][$this->cart_key] = $this->fc_session;
+        $this->session->data['fc'] = $this->fc_session;
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $in_data = array_merge(
-            (array) $this->session->data,
-            $this->fc_session
-        );
         $request = array_merge($this->request->get, $this->request->post);
-        $this->updateOrCreateOrder($in_data, $request);
+        $this->updateOrCreateOrder($this->fc_session, $request);
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -446,11 +418,11 @@ class ControllerResponsesCheckoutPay extends AController
     protected function updateOrCreateOrder($in_data, $request)
     {
         //if customer unknown - skip creation of order
-        if(!$this->config->get('config_guest_checkout') && !$this->customer->isLogged()){
+        if (!$this->config->get('config_guest_checkout') && !$this->customer->isLogged()) {
             return [];
         }
         //this needed to save session for next controller call
-        $this->session->data['fast_checkout'][$this->cart_key] = $this->fc_session;
+        $this->session->data['fc'] = $this->fc_session;
 
         if (!$this->session->data['order_id']) {
             //create order and save details
@@ -484,7 +456,7 @@ class ControllerResponsesCheckoutPay extends AController
                     ]
                 );
                 $this->fc_session['comment']
-                    = $this->session->data['fast_checkout'][$this->cart_key]['comment']
+                    = $this->session->data['fc']['comment']
                     = $request['comment'];
             }
 
@@ -635,8 +607,9 @@ class ControllerResponsesCheckoutPay extends AController
             if ($this->session->data['order_id']) {
                 $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
                 if ($order_info['telephone'] ?? '') {
-                    $this->fc_session['telephone'] =
-                    $this->data['customer_telephone'] = $this->customer->getTelephone();
+                    $this->fc_session['telephone']
+                        = $this->data['customer_telephone']
+                        = $this->customer->getTelephone();
                 }
             }
 
@@ -788,7 +761,7 @@ class ControllerResponsesCheckoutPay extends AController
             $this->fc_session['tax_zone_id']
         );
         //this needed to save session for next controller call
-        $this->session->data['fast_checkout'][$this->cart_key] = $this->fc_session;
+        $this->session->data['fc'] = $this->fc_session;
 
         //recalculate totals
         $this->cart->buildTotalDisplay(true);
@@ -820,11 +793,8 @@ class ControllerResponsesCheckoutPay extends AController
                 'id'    => 'no_payment_required',
                 'title' => $this->language->get('no_payment_required'),
             ];
-            $in_data = array_merge(
-                (array) $this->session->data,
-                $this->fc_session
-            );
-            $this->updateOrCreateOrder($in_data, $request);
+
+            $this->updateOrCreateOrder($this->fc_session, $request);
         }
 
         if (!$this->customer->getId()) {
@@ -1228,7 +1198,7 @@ class ControllerResponsesCheckoutPay extends AController
     protected function _clear_data()
     {
         unset(
-            $this->session->data['fast_checkout'][$this->cart_key],
+            // $this->session->data['fc'],
             $this->session->data['used_balance'],
             $this->session->data['cart'],
             $this->session->data['cart_key'],
@@ -1422,6 +1392,7 @@ class ControllerResponsesCheckoutPay extends AController
             }
         }
         $this->action = 'payment';
+        $this->fc_session['guest'] = $sessionGuest;
         $this->main();
     }
 
@@ -1433,10 +1404,15 @@ class ControllerResponsesCheckoutPay extends AController
      */
     protected function _address($type, $data)
     {
-        $params = "&cart_key=".$this->cart_key.'&type='.$type;
+        $params = '&type='.$type;
         $this->loadLanguage('account/address');
         $form = new AForm();
-        $form->setForm(['form_name' => 'Address2Frm']);
+        $form->setForm(
+            [
+                'form_name' => 'Address2Frm',
+            ]
+        );
+
         $this->data['form']['form_open'] = $form->getFieldHtml(
             [
                 'type'   => 'form',
@@ -1811,11 +1787,7 @@ class ControllerResponsesCheckoutPay extends AController
         }
         $this->fc_session['shipping_methods'] = $this->data['shipping_methods'];
         if ($selected_shipping) {
-            $in_data = array_merge(
-                (array) $this->session->data,
-                $this->fc_session
-            );
-            $this->updateOrCreateOrder($in_data, ['shipping_method' => $selected]);
+            $this->updateOrCreateOrder($this->fc_session, ['shipping_method' => $selected]);
         }
     }
 
@@ -1894,11 +1866,11 @@ class ControllerResponsesCheckoutPay extends AController
             && $this->_validateCoupon($request['coupon_code'])
         ) {
             $this->fc_session['coupon']
-                = $this->session->data['fast_checkout'][$this->cart_key]['coupon'] = $request['coupon_code'];
+                = $this->session->data['fc']['coupon'] = $request['coupon_code'];
         } else {
             if ($request['remove_coupon']) {
                 unset(
-                    $this->session->data['fast_checkout'][$this->cart_key]['coupon'],
+                    $this->session->data['fc']['coupon'],
                     $this->fc_session['coupon']
                 );
             }
@@ -1951,11 +1923,7 @@ class ControllerResponsesCheckoutPay extends AController
                 }
             }
             $this->session->data['used_balance'] = $this->fc_session['used_balance'];
-            $in_data = array_merge(
-                (array) $this->session->data,
-                $this->fc_session
-            );
-            $this->updateOrCreateOrder($in_data, $request);
+            $this->updateOrCreateOrder($this->fc_session, $request);
 
             $order_totals = $this->cart->buildTotalDisplay(true);
             $order_total = $order_totals['total'];
@@ -2032,20 +2000,8 @@ class ControllerResponsesCheckoutPay extends AController
             return;
         }
         $this->fc_session['additional'][$fieldName]
-            = $this->session->data['fast_checkout'][$this->cart_key]['additional'][$fieldName]
+            = $this->session->data['fc']['additional'][$fieldName]
             = $isOn;
     }
 
-    protected function removeNoStockProducts()
-    {
-        $cartProducts = $this->cart->getProducts();
-        foreach ($cartProducts as $key => $cartProduct) {
-            if (!$cartProduct['stock'] && !$this->config->get('config_stock_checkout')) {
-                unset(
-                    $this->session->data['fast_checkout'][$this->cart_key]['cart'][$key],
-                    $this->fc_session['fast_checkout'][$this->cart_key]['cart'][$key]
-                );
-            }
-        }
-    }
 }

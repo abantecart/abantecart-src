@@ -183,7 +183,8 @@
                     $.post('<?php echo $onChangeCheckboxBtnUrl; ?>', {
                         fieldName: $checkbox.attr('name'),
                         isOn: $checkbox.is(':checked')
-                    })
+                    });
+                    checkCartKey();
                     $button.data('state', (isChecked) ? "on" : "off");
                     $button.find('.state-icon')
                         .removeClass()
@@ -216,6 +217,7 @@
                     //All Good send form
                     $('.spinner-overlay').fadeIn(100);
                     $.post(form.attr('action'), form.serialize(), function (data) {
+                        checkCartKey();
                         try {
                             parsedData = JSON.parse(data);
                         } catch (e) { }
@@ -245,7 +247,7 @@
                 $(this).find('.btn-primary').button('loading');
                 //All Good send form
                 $.post($(this).attr('action'), $(this).serialize(), function (data) {
-                    loadPage('<?php echo $cart_key; ?>')
+                    loadPage();
                 });
                 return false;
             }
@@ -253,8 +255,8 @@
         });
 
         $('#LoginFrm_Submit').on('click', function () {
-            $('#LoginFrm').aCCValidator({});
-            let loginFrm = $('#LoginFrm')
+            var loginFrm = $('#LoginFrm')
+            loginFrm.aCCValidator({});
             if (submitSent !== true) {
                 submitSent = true;
                 if (validateForm(loginFrm) !== true) {
@@ -267,6 +269,7 @@
                     $('.spinner-overlay').fadeOut(500);
                     $('#fast_checkout_summary_block').trigger('reload');
                     $('#fast_checkout_cart').hide().html(data).fadeIn(1000)
+                    checkCartKey();
                 });
                 return false;
             }
@@ -285,6 +288,7 @@
                 if($('form#PayFrm')) {
                     validateForm($('form#PayFrm'));
                 }
+                checkCartKey();
             });
         };
 
@@ -299,6 +303,7 @@
                     $('#fast_checkout_summary_block').trigger('reload');
                     $('#fast_checkout_cart').hide().html(data).fadeIn(1000);
                     $('.spinner-overlay').fadeOut(500);
+                    checkCartKey();
                 }
             });
         });
@@ -378,7 +383,6 @@
         </div>
     </div>
 </div>
-
 
 <?php
 echo $footer;
