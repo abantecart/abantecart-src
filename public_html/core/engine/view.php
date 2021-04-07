@@ -271,6 +271,17 @@ class AView
 
     /**
      * @param string $name
+     * @param string $value
+     */
+    public function replaceHookVar($name, $value)
+    {
+        if (!empty($name)) {
+            $this->hook_vars[$name] = $value;
+        }
+    }
+
+    /**
+     * @param string $name
      *
      * @return string
      */
