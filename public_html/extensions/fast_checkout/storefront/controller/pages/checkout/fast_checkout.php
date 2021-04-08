@@ -138,6 +138,17 @@ class ControllerPagesCheckoutFastCheckout extends AController
 
                 $this->cart->add($post['product_id'], $post['quantity'], $options);
                 $productCartKey = !$options ? $productId : $productId.':'.md5(serialize($options));
+                if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
+                    $this->session->data['error'] = $this->language->get('fast_checkout_text_not_enough_stock');
+                    //send options values back via _GET
+                    $url = '&'.http_build_query(['option' => $post['option']]);
+                    redirect(
+                        $this->html->getSecureURL(
+                            'product/product',
+                            '&product_id='.$post['product_id'].$url
+                        )
+                    );
+                }
             }
             //if we added single product via POST request - do redirect to self
             redirect($this->html->getSecureURL('checkout/fast_checkout', '&product_key='.$productCartKey));
@@ -176,7 +187,7 @@ class ControllerPagesCheckoutFastCheckout extends AController
                     )
                 );
             } elseif (!$cartSingleProduct) {
-                //if product not forund in the cart - just redirect to home
+                //if product not found in the cart - just redirect to home
                 redirect($this->html->getHomeURL());
             }
         }
