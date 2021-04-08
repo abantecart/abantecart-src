@@ -71,7 +71,13 @@ class ExtensionFastCheckout extends Extension
         }
 
         $that = $this->baseObject;
-        unset($that->session->data['used_balance']);
+        unset(
+            $that->session->data['used_balance'],
+            //remove fast checkout session to prevent wrong cart
+            // of prior incomplete checkout process
+            $that->session->data['fc']
+        );
+
         redirect($that->html->getSecureURL($this->sc_rt));
     }
 
