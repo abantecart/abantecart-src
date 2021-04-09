@@ -419,7 +419,7 @@ class ControllerResponsesCheckoutPay extends AController
     {
         //if customer unknown - skip creation of order
         if (!$this->config->get('config_guest_checkout') && !$this->customer->isLogged()) {
-            return [];
+            return;
         }
         //this needed to save session for next controller call
         $this->session->data['fc'] = $this->fc_session;
@@ -1218,10 +1218,21 @@ class ControllerResponsesCheckoutPay extends AController
         //Validate login
         $loginname = $this->request->post['loginname'];
         $password = $this->request->post['password'];
-        if (!isset($loginname) || !isset($password) || !$this->_validate_login($loginname, $password)) {
+        if (!isset($loginname) || !isset($password)) {
             $this->action = 'login';
             $this->loadLanguage('account/login');
             $this->error['message'] = $this->language->get('error_login');
+            if ($this->request->get['type']) {
+                $this->_address($this->request->get['type'], $this->request->post);
+                return;
+            }
+        } elseif (!$this->_validate_login($loginname, $password)) {
+            $this->action = 'login';
+            $this->loadLanguage('account/login');
+            $this->error['message'] = $this->error['login_message']
+                .' '
+                .$this->language->get('error_login');
+
             if ($this->request->get['type']) {
                 $this->_address($this->request->get['type'], $this->request->post);
                 return;
@@ -1552,7 +1563,27 @@ class ControllerResponsesCheckoutPay extends AController
      */
     protected function _validate_login($loginname, $password)
     {
+        $this->loadLanguage('account/login');
         if (!$this->customer->login($loginname, $password)) {
+            if ($this->config->get('config_customer_email_activation')) {
+                //check if account is not confirmed in the email.
+                $this->loadModel('account/customer');
+                $customer_info = $this->model_account_customer->getCustomerByLogin($loginname);
+                if ($customer_info
+                    && !$customer_info['status']
+                    && isset($customer_info['data']['email_activation'])
+                    && $customer_info['data']['email_activation']
+                ) {
+                    //show link for resend activation code to email
+                    $enc = new AEncryption($this->config->get('encryption_key'));
+                    $rid = $enc->encrypt($customer_info['customer_id'].'::'.$customer_info['data']['email_activation']);
+                    $this->error['login_message'] = sprintf(
+                        $this->language->get('text_resend_activation_email'),
+                        "\n"
+                        .$this->html->getSecureURL('account/create/resend', '&rid='.$rid)
+                    );
+                }
+            }
             return false;
         } else {
             unset($this->session->data['guest']);
@@ -1654,7 +1685,7 @@ class ControllerResponsesCheckoutPay extends AController
     protected function _select_shipping($selected = '')
     {
         //if shipping not required - skip
-        if(!$this->cart->hasShipping()) {
+        if (!$this->cart->hasShipping()) {
             return;
         }
         $selected_shipping = [];
