@@ -29,10 +29,7 @@ class ControllerPagesCheckoutFastCheckout extends AController
     {
         parent::__construct($registry, $instanceId, $controller, $parentController);
 
-        // TODO: need to check cart_key from request and key from fc-session (case for two browser tabs and parallel buy-now processes)
-        //        if ($this->cart_key && !$this->session->data['fast_checkout'][$this->cart_key]) {
-        //            $this->session->data['fast_checkout'][$this->cart_key] = [];
-        //        }
+        $this->loadLanguage('fast_checkout/fast_checkout');
         if ($this->request->is_POST()) {
             $this->session->data['fc']['cart_key'] = randomWord(5);
         } elseif (!$this->session->data['fc']['cart_key']) {
