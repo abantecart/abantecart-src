@@ -706,7 +706,10 @@ class ExtensionAvataxIntegration extends Extension
                         $resultMessage .= $message->getSeverity().": ".$message->getSummary()."\n";
                     }
                     $warning = new AWarning("Fault of AVATAX calculation: \n ".$resultMessage);
-                    $warning->toLog()->toDebug();
+                    $warning->toDebug();
+                    if($config->get('avatax_integration_logging')) {
+                        $warning->toLog()->toDebug();
+                    }
                 } else {
                     return $getTaxResult->getTotalTax();
                 }
@@ -853,8 +856,8 @@ class ExtensionAvataxIntegration extends Extension
     public function validate_address($address_data)
     {
         $ret = [];
-        if (!is_array($address_data) || !$address_data['address_id']) {
-            $ret['message'] = "Missing Address ID";
+        if (!is_array($address_data)) {
+            $ret['message'] = "Missing Address Data";
             $ret['error'] = true;
             return $ret;
         }
@@ -878,9 +881,9 @@ class ExtensionAvataxIntegration extends Extension
         $that->load->model('account/address');
         $addressSvc = new AvaTax\AddressServiceRest($serviceURL, $accountNumber, $licenseKey);
         $address = new AvaTax\Address();
-        if ($address_data['address_id'] == 'guest') {
+        if ($address_data['address_id'] == 'guest' || !$address_data['address_id'] ) {
             $customerAddress = $address_data;
-        } else {
+        }else {
             $customerAddress = $that->model_account_address->getAddress($address_data['address_id']);
         }
 
@@ -1064,5 +1067,43 @@ class ExtensionAvataxIntegration extends Extension
         $view = new AView($this->registry, 0);
         $view->batchAssign($data);
         $that->view->addHookVar('customer_attributes', $view->fetch('pages/account/tax_exempt_edit.tpl'));
+    }
+
+    public function onModelAccountAddress_ValidateData(){
+        /** @var ModelAccountAddress $that */
+        $that = $this->baseObject;
+        if($that->config->get('avatax_integration_status')
+            && $that->config->get('avatax_integration_address_validation')
+            && !$that->error
+        ){
+            $address = func_get_arg(0)['address'];
+            if($that->customer->isLogged()){
+                $address['address_id'] = $that->session->data['shipping_address_id']
+                                        ? : $that->session->data['payment_address_id'];
+            }else{
+                $address['address_id'] = 'guest';
+            }
+            if($address['country_id']){
+                /** @var ModelLocalisationCountry $mdl */
+                $mdl = $that->load->model('localisation/country');
+                $countryDetails = $mdl->getCountry($address['country_id']);
+                if($countryDetails){
+                    $address['iso_code_2'] = $countryDetails['iso_code_2'];
+                }
+            }
+            if($address['zone_id']){
+                /** @var ModelLocalisationZone $mdl */
+                $mdl = $that->load->model('localisation/zone');
+                $zoneDetails = $mdl->getZone($address['zone_id']);
+                if($zoneDetails){
+                    $address['zone_code'] = $zoneDetails['code'];
+                }
+            }
+
+            $result = $this->validate_address($address);
+            if( $result['error']){
+                $that->error['warning'] = $result['message'];
+            }
+        }
     }
 }

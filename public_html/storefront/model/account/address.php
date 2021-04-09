@@ -245,7 +245,7 @@ class ModelAccountAddress extends Model
             $this->error['warning'] = $this->language->get('gen_data_entry_error');
         }
 
-        $this->extensions->hk_ValidateData($this);
+        $this->extensions->hk_ValidateData($this, [ 'address' => $data ] );
 
         return $this->error;
     }
@@ -256,7 +256,7 @@ class ModelAccountAddress extends Model
      * @return array
      * @throws AException
      */
-    private function _build_address_data($address_row)
+    protected function _build_address_data($address_row)
     {
         $addr_row = $this->dcrypt->decrypt_data($address_row, 'addresses');
 
