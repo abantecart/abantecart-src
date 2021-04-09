@@ -34,7 +34,6 @@ class ControllerResponsesCheckoutPay extends AController
     public $error = [];
     protected $action = '';
     protected $allow_guest = false;
-    protected $cart_key = '';
     /** @var array short reference to fast checkout session data */
     protected $fc_session;
 
@@ -752,7 +751,7 @@ class ControllerResponsesCheckoutPay extends AController
 
         $this->action = 'confirm';
         //Validate quick cart instance
-        if (!$this->cart_key || !$this->fc_session) {
+        if (!$this->fc_session) {
             $this->_show_error();
             return;
         }
@@ -1198,7 +1197,6 @@ class ControllerResponsesCheckoutPay extends AController
     protected function _clear_data()
     {
         unset(
-            // $this->session->data['fc'],
             $this->session->data['used_balance'],
             $this->session->data['cart'],
             $this->session->data['cart_key'],
@@ -1206,7 +1204,9 @@ class ControllerResponsesCheckoutPay extends AController
             $this->session->data['shipping_methods'],
             $this->session->data['payment_method'],
             $this->session->data['payment_methods'],
-            $this->session->data['order_id']
+            $this->session->data['order_id'],
+            $this->session->data['fc']['used_balance'],
+            $this->session->data['fc']['used_balance_full']
         );
         $this->cart->clear();
     }
