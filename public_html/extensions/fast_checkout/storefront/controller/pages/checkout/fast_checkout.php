@@ -30,7 +30,7 @@ class ControllerPagesCheckoutFastCheckout extends AController
         parent::__construct($registry, $instanceId, $controller, $parentController);
 
         $this->loadLanguage('fast_checkout/fast_checkout');
-        if ($this->request->is_POST()) {
+        if ($this->request->is_POST() && $this->request->get['single_checkout']) {
             $this->session->data['fc']['cart_key'] = randomWord(5);
         } elseif (!$this->session->data['fc']['cart_key']) {
             $this->session->data['fc']['cart_key'] = randomWord(5);

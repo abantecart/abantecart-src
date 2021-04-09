@@ -707,11 +707,23 @@ if ($show_payment == true) {
         updateShippingAddressDisplay();
         updatePaymentAddressDisplay();
 
-        $('.btn-edit-email').on('click', function () {
+        $('.btn-edit-email').on('click', function (event) {
             <?php if ($this->customer && $this->customer->getId()) { ?>
             location.replace('<?php echo $this->html->getSecureUrl("account/edit");?>');
             <?php } else { ?>
-            $('#payment_address_edit').click();
+                event.preventDefault();
+                $('.spinner-overlay').fadeIn(100);
+                $.ajax({
+                    url: '<?php echo $edit_address_url; ?>',
+                    type: 'GET',
+                    dataType: 'html',
+                    success: function (data) {
+                        $('#fast_checkout_summary_block').trigger('reload');
+                        $('#fast_checkout_cart').hide().html(data).fadeIn(1000);
+                        $('.spinner-overlay').fadeOut(500);
+                        checkCartKey();
+                    }
+                });
             <?php } ?>
         });
 
