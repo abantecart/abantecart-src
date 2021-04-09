@@ -1653,6 +1653,10 @@ class ControllerResponsesCheckoutPay extends AController
 
     protected function _select_shipping($selected = '')
     {
+        //if shipping not required - skip
+        if(!$this->cart->hasShipping()) {
+            return;
+        }
         $selected_shipping = [];
         if ($selected) {
             $selected_shipping = explode('.', $selected);
