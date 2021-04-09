@@ -852,7 +852,8 @@ INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `v
 ('extensions', 'banner_manager', 'extensions', 1, 1, '1.0.1', null, now(), now(), now() ),
 ('extensions', 'forms_manager', 'extensions', 1, 1, '1.0.2', null, now(), now(), now() ),
 ('payment', 'default_pp_standart', 'payment', 0, 1, '1.0.2', null, now(), now() + INTERVAL 2 MINUTE , now() ),
-('payment', 'default_pp_pro', 'payment', 0, 1, '1.0.2', null, now(), now() + INTERVAL 2 MINUTE , now() )
+('payment', 'default_pp_pro', 'payment', 0, 1, '1.0.2', null, now(), now() + INTERVAL 2 MINUTE , now() ),
+('extensions', 'fast_checkout', 'Checkout', 1, 10, '1.2.0', null, now(), now() + INTERVAL 2 MINUTE , now() )
 ;
 
 --
@@ -1801,7 +1802,19 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('forms_manager','forms_manager_status',1),
 ('forms_manager','forms_manager_default_sender_name', ''),
 ('forms_manager','forms_manager_default_sender_email', ''),
-('forms_manager','forms_manager_sort_order', '')
+('forms_manager','forms_manager_sort_order', ''),
+
+('fast_checkout','fast_checkout_store_id', 0),
+('fast_checkout','fast_checkout_status', 1),
+('fast_checkout','fast_checkout_layout', ''),
+('fast_checkout','fast_checkout_priority', 10),
+('fast_checkout','fast_checkout_require_payment_address', 1),
+('fast_checkout','fast_checkout_allow_coupon', 1),
+('fast_checkout','fast_checkout_require_phone_number', 1),
+('fast_checkout','fast_checkout_show_order_comment_field', 1),
+('fast_checkout','fast_checkout_create_account', 0),
+('fast_checkout','fast_checkout_sort_order', 1),
+('fast_checkout','fast_checkout_status', 1)
 ;
 
 
