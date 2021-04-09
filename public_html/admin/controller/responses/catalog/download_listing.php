@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -23,7 +24,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerResponsesCatalogDownloadListing extends AController
 {
-    public $data = array();
+    public $data = [];
 
     /**
      * response method, if response type is html - it send jqgrid, otherwise - json-data for grid
@@ -47,73 +48,78 @@ class ControllerResponsesCatalogDownloadListing extends AController
 
     private function _html_response()
     {
-
         $this->loadLanguage('catalog/download');
         $form_name = isset($this->request->get['form_name']) ? $this->request->get['form_name'] : 'SharedFrm';
-        $multivalue_hidden_id = isset($this->request->get['multivalue_hidden_id']) ? $this->request->get['multivalue_hidden_id'] : 'popup';
+        $multivalue_hidden_id =
+            isset($this->request->get['multivalue_hidden_id']) ? $this->request->get['multivalue_hidden_id'] : 'popup';
 
         //remember selected rows for response
         if (isset($this->request->post['selected'])) {
-            $this->session->data['listing_selected'] = AJson::decode(html_entity_decode($this->request->post['selected']), true);
+            $this->session->data['listing_selected'] =
+                AJson::decode(html_entity_decode($this->request->post['selected']), true);
         }
-        $grid_settings = array(
+        $grid_settings = [
             'table_id'                => 'download_grid_'.$multivalue_hidden_id,
-            'url'                     => $this->html->getSecureURL('catalog/download_listing',
+            'url'                     => $this->html->getSecureURL(
+                'catalog/download_listing',
                 '&response_type=json&product_id='.$this->request->get['product_id']
-                .(isset($this->request->get['shared_only']) ? '&shared_only=1' : '')),
+                .(isset($this->request->get['shared_only']) ? '&shared_only=1' : '')
+            ),
             'editurl'                 => '',
             'sortname'                => 'name',
             'sortorder'               => 'asc',
-            'actions'                 => array(),
+            'actions'                 => [],
             'multiselect_noselectbox' => true,
-        );
+        ];
 
-        $grid_settings['colNames'] = array(
+        $grid_settings['colNames'] = [
             $this->language->get('column_image'),
             $this->language->get('column_name'),
-        );
+        ];
         $grid_settings['colNames'][] = $this->language->get('column_action');
 
-        $grid_settings['colModel'] = array(
-            array(
+        $grid_settings['colModel'] = [
+            [
                 'name'     => 'image',
                 'index'    => 'image',
                 'align'    => 'center',
                 'width'    => 50,
                 'sortable' => false,
                 'search'   => false,
-            ),
-            array(
+            ],
+            [
                 'name'  => 'name',
                 'index' => 'name',
                 'align' => 'left',
                 'width' => 200,
-            ),
-            array(
+            ],
+            [
                 'name'     => 'action',
                 'index'    => 'action',
                 'align'    => 'center',
                 'width'    => 30,
                 'sortable' => false,
                 'search'   => false,
-            ),
-        );
+            ],
+        ];
 
         $grid_settings['search_form'] = true;
-        $grid = $this->dispatch('common/listing_grid', array($grid_settings));
+        $grid = $this->dispatch('common/listing_grid', [$grid_settings]);
         $listing_grid = $grid->dispatchGetOutput();
         unset($grid);
 
         // add js-scripts for grid rows selecting (redeclare onSelectRow event for grid)
         $view = new AView($this->registry, 0);
-        $view->batchAssign(array(
-            'id'               => $multivalue_hidden_id,
-            'form_name'        => $form_name.'_'.$multivalue_hidden_id,
-            'table_id'         => $grid_settings['table_id'],
-            'listing_grid'     => $listing_grid,
-            'filter_product'   => $this->language->get('filter_product'),
-            'filter_price_max' => $this->language->get('filter_price_max'),
-        ));
+        $view->batchAssign(
+            [
+                'id'               => $multivalue_hidden_id,
+                'form_name'        => $form_name.'_'.$multivalue_hidden_id,
+                'table_id'         => $grid_settings['table_id'],
+                'listing_grid'     => $listing_grid,
+                'filter_product'   => $this->language->get('filter_product'),
+                'filter_price_max' => $this->language->get('filter_price_max'),
+            ]
+        );
         $this->data['response'] = $view->fetch('responses/catalog/download_listing.tpl');
     }
 
@@ -125,21 +131,28 @@ class ControllerResponsesCatalogDownloadListing extends AController
 
         $excludes = $this->session->data['multivalue_excludes'];
 
-        $grid_filter_params = array('name');
+        $grid_filter_params = ['name'];
         // if need to show all downloads of product
         if ($this->request->get['product_id']) {
-            $additional_filter_string = (sizeof($excludes) ? "AND p2d.download_id NOT IN (".implode(', ', $excludes).")" : '');
+            $additional_filter_string = (sizeof($excludes)
+                ? "AND p2d.download_id NOT IN (".implode(', ', $excludes).")"
+                : ''
+            );
+
             if (isset($this->request->get['shared_only'])) {
                 $additional_filter_string .= 'AND shared=1';
             }
 
-            $filter_grid = new AFilter(array(
+            $filter_grid = new AFilter(
+                [
                     'method'                   => 'post',
                     'grid_filter_params'       => $grid_filter_params,
                     'additional_filter_string' => $additional_filter_string,
-                )
+                ]
             );
-            $results = $this->model_catalog_download->getProductDownloadsDetails($this->request->get['product_id'], $filter_grid->getFilterData());
+            $results = $this->model_catalog_download->getProductDownloadsDetails(
+                $this->request->get['product_id'], $filter_grid->getFilterData()
+            );
             $total = sizeof($results);
         } else {
             //Prepare filter config
@@ -147,11 +160,13 @@ class ControllerResponsesCatalogDownloadListing extends AController
             if (isset($this->request->get['shared_only'])) {
                 $additional_filter_string .= 'AND shared=1';
             }
-            $filter_grid = new AFilter(array(
-                'method'                   => 'post',
-                'grid_filter_params'       => $grid_filter_params,
-                'additional_filter_string' => $additional_filter_string,
-            ));
+            $filter_grid = new AFilter(
+                [
+                    'method'                   => 'post',
+                    'grid_filter_params'       => $grid_filter_params,
+                    'additional_filter_string' => $additional_filter_string,
+                ]
+            );
 
             $total = $this->model_catalog_download->getTotalDownloads($filter_grid->getFilterData());
             $results = $this->model_catalog_download->getDownloads($filter_grid->getFilterData());
@@ -163,7 +178,7 @@ class ControllerResponsesCatalogDownloadListing extends AController
         $response->records = $total;
 
         $i = 0;
-        $response->userdata = (object)array('page' => $page);
+        $response->userdata = (object) ['page' => $response->page];
         $data_type = 'download_id';
 
         $rl = new AResource('download');
@@ -171,29 +186,39 @@ class ControllerResponsesCatalogDownloadListing extends AController
 
         if ($results) {
             foreach ($results as $result) {
-                $resource_id = $rl->getIdFromHexPath(str_replace($rl_dir, '', $result['filename']));
+                $resource_id = is_numeric($result['filename'])
+                    ? $result['filename']
+                    : $rl->getIdFromHexPath(str_replace($rl_dir, '', $result['filename']));
                 $resource_info = $rl->getResource($resource_id);
                 $thumbnail = $rl->getResourceThumb($resource_id, 27, 27);
                 if ($resource_info['resource_path']) {
                     $thumbnail = $this->html->buildResourceImage(
-                        array(
+                        [
                             'url'    => $thumbnail,
                             'width'  => 27,
                             'height' => 27,
                             'attr'   => 'alt="'.$resource_info['title'].'"',
-                        ));
+                        ]
+                    );
                 } else {
                     $thumbnail = $resource_info['resource_code'];
                 }
 
                 $response->rows[$i]['id'] = $result['download_id'];
-                $response->rows[$i]['cell'] = array(
+                $response->rows[$i]['cell'] = [
                     $thumbnail,
                     $result['name'],
                     '<a class="btn_action" href="JavaScript:void(0);"
-						onclick="showPopup(\''.$this->html->getSecureURL('catalog/download/update', '&'.$data_type.'='.$result[$data_type]).'\')" title="'.$this->language->get('text_view').'">'.
-                    '<img height="27" src="'.RDIR_TEMPLATE.'image/icons/icon_grid_view.png" alt="'.$this->language->get('text_edit').'" /></a>',
-                );
+                        onclick="showPopup(\''
+                    .$this->html->getSecureURL(
+                        'catalog/download/update',
+                        '&'.$data_type.'='.$result[$data_type]
+                    )
+                    .'\')" title="'.$this->language->get('text_view').'">'.
+                    '<img height="27" src="'.RDIR_TEMPLATE.'image/icons/icon_grid_view.png" alt="'.$this->language->get(
+                        'text_edit'
+                    ).'" /></a>',
+                ];
                 $i++;
             }
         }

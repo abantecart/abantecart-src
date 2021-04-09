@@ -1318,18 +1318,20 @@ class ControllerResponsesProductProduct extends AController
         );
         $this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
 
-        $this->data['form']['fields']['general']['resource'] = $form->getFieldHtml(
-            $props[] = [
-                'type'          => 'resource',
-                'name'          => 'filename',
-                'resource_path' => htmlspecialchars($file_data['filename'], ENT_COMPAT, 'UTF-8'),
-                'rl_type'       => 'download',
-            ]
-        );
-
         $rl = new AResource('download');
         $rl_dir = $rl->getTypeDir();
-        $resource_id = $rl->getIdFromHexPath(str_replace($rl_dir, '', $file_data['filename']));
+        $resource_id = is_numeric($file_data['filename'])
+            ? $file_data['filename']
+            : $rl->getIdFromHexPath(str_replace($rl_dir, '', $file_data['filename']));
+
+        $this->data['form']['fields']['general']['resource'] = $form->getFieldHtml( [
+                    'type'          => 'resource',
+                    'name'          => 'filename',
+                    'resource_id'   => $resource_id,
+                    'rl_type'       => 'download',
+                ] );
+
+
         if ($resource_id) {
             $this->data['preview']['href'] = $this->html->getSecureURL(
                 'common/resource_library/get_resource_preview',

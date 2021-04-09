@@ -1543,7 +1543,10 @@ class ExtensionUtils
 
                 if ((string) $item->type == 'resource' && $value) {
                     $resource = new AResource((string) $item->resource_type);
-                    $resource_id = $resource->getIdFromHexPath(str_replace((string) $item->resource_type, '', $value));
+                    $rlTypeDir = $resource->getTypeDir();
+                    $resource_id = is_numeric($value)
+                                ? $value
+                                : $resource->getIdFromHexPath(str_replace($rlTypeDir, '', $value));
                     $resource_info = $resource->getResource($resource_id);
                     $value = (string) $item->resource_type.'/'.$resource_info['resource_path'];
                 }
