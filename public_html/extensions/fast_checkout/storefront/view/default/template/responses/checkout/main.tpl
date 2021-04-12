@@ -9,7 +9,6 @@
     var validateTelephone = function (number) {
         <?php $pattern = $this->config->get('config_phone_validation_pattern') ? : '/^[0-9]{3,32}$/'; ?>
         var re = <?php echo $pattern; ?>im;
-
         return re.test(number);
     };
 
@@ -116,8 +115,7 @@
 
     jQuery(document).ready(function () {
         <?php //run onload validation only for registered customers
-        if($this->customer->isLogged()){
-        ?>
+        if($this->customer->isLogged()){ ?>
         $('form#PayFrm, form#AddressFrm, form#Address2Frm').each( function(){
                 validateForm($(this));
         });

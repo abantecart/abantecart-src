@@ -1288,6 +1288,9 @@ class ControllerResponsesCheckoutPay extends AController
             $data = $this->session->data['guest'];
             $this->data['customer_email'] = $this->session->data['guest']['email'];
         } else {
+            if( $this->cart->hasShipping() && !$this->config->get('fast_checkout_require_payment_address')) {
+                $this->request->get['type'] = 'shipping';
+            }
             $data = $this->session->data['guest']['shipping'];
         }
         $this->_address($this->request->get['type'], $data);

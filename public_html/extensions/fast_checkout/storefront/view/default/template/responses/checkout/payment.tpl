@@ -34,9 +34,7 @@ $guest_data = $this->session->data['guest'];
 
         <div class="row">
         <?php if ($this->cart->hasShipping()) { ?>
-            <div class="form-group <?php if ($show_payment) {
-                echo "col-xxs-12 col-xs-6";
-            } ?>">
+            <div class="form-group <?php if ($show_payment) { echo "col-xxs-12 col-xs-6"; } ?>">
             <?php if ($guest_data['shipping']) {
                 $address = $this->customer->getFormattedAddress(
                         $guest_data['shipping'],
@@ -90,7 +88,6 @@ $guest_data = $this->session->data['guest'];
             <?php   } ?>
 
                 </div>
-
                 <?php
                 $readonly = '';
                 if (isset($csession['shipping_methods']) && count($csession['shipping_methods']) == 1) {
@@ -155,18 +152,18 @@ $guest_data = $this->session->data['guest'];
                             </div>
                         </div>
                     <?php } else { ?>
-                        <div class="row">
-                            <div class="form-group col-xxs-12">
-                                <div class="left-inner-addon">
-                                    <i class="fa fa-user"></i>
-                                    <input class="form-control input-lg" placeholder="Your Name" name="cc_owner" type="text"
-                                           value="<?php echo $customer_name; ?>">
-                                </div>
-                            </div>
-                        </div>
-                    <?php }
-                } ?>
-
+            </div>
+            <div class="row">
+                <div class="form-group col-xxs-12">
+                    <div class="left-inner-addon">
+                        <i class="fa fa-user"></i>
+                        <input class="form-control input-lg" placeholder="Your Name" name="cc_owner" type="text"
+                               value="<?php echo $customer_name; ?>">
+                    </div>
+                </div>
+            </div>
+        <?php }
+        } ?>
                 <?php if ($this->cart->hasShipping() && count($csession['shipping_methods']) === 0) { ?>
                     <div class="alert alert-danger" role="alert">
                         <?php echo $this->language->get('fast_checkout_no_shipments_available'); ?>
@@ -709,7 +706,7 @@ if ($show_payment == true) {
 
         $('.btn-edit-email').on('click', function (event) {
             <?php if ($this->customer && $this->customer->getId()) { ?>
-            location.replace('<?php echo $this->html->getSecureUrl("account/edit");?>');
+                location.replace('<?php echo $this->html->getSecureUrl("account/edit");?>');
             <?php } else { ?>
                 event.preventDefault();
                 $('.spinner-overlay').fadeIn(100);

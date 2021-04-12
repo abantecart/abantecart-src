@@ -1,40 +1,44 @@
 <?php echo $form['form_open']; ?>
 <div id="pay_error_container">
     <?php if ($info) { ?>
-        <div class="info alert alert-info"><i class="fa fa fa-check fa-fw"></i> <?php echo $info; ?></div>
+        <div class="info alert alert-info">
+            <i class="fa fa fa-check fa-fw"></i> <?php echo $info; ?>
+        </div>
     <?php } ?>
     <?php if ($error) { ?>
-        <div class="alert alert-danger" role="alert"><i class="fa fa-exclamation fa-fw"></i> <?php echo $error; ?></div>
+        <div class="alert alert-danger" role="alert">
+            <i class="fa fa-exclamation fa-fw"></i> <?php echo $error; ?>
+        </div>
     <?php } ?>
 </div>
 <fieldset>
     <?php echo $this->getHookVar('address_form_top'); ?>
     <label class="visible-xs text-center text-uppercase"><?php echo $type.' '.$fast_checkout_text_address; ?></label>
     <div class="row">
-        <div class="form-group col-xxs-12 col-xs-6 <?php if (isset($errors['firstname'])) {
-            echo 'has-error';
-        } ?>">
+        <div class="form-group col-xxs-12 col-xs-6 <?php if (isset($errors['firstname'])) { echo 'has-error'; } ?>">
             <div class="left-inner-addon">
                 <i class="fa fa-user"></i>
-                <input class="form-control input-lg" placeholder="<?php echo $entry_firstname; ?>" name="firstname"
-                       type="text" value="<?php echo $form['firstname']->value; ?>">
+                <input class="form-control input-lg"
+                       placeholder="<?php echo $entry_firstname; ?>"
+                       name="firstname"
+                       type="text"
+                       value="<?php echo $form['firstname']->value; ?>">
             </div>
         </div>
-        <div class="form-group col-xxs-12 col-xs-6 <?php if (isset($errors['lastname'])) {
-            echo 'has-error';
-        } ?>">
+        <div class="form-group col-xxs-12 col-xs-6 <?php if (isset($errors['lastname'])) { echo 'has-error'; } ?>">
             <div class="left-inner-addon">
                 <i class="fa fa-user"></i>
-                <input class="form-control input-lg" placeholder="<?php echo $entry_lastname; ?>" name="lastname"
-                       type="text" value="<?php echo $form['lastname']->value; ?>">
+                <input class="form-control input-lg"
+                       placeholder="<?php echo $entry_lastname; ?>"
+                       name="lastname"
+                       type="text"
+                       value="<?php echo $form['lastname']->value; ?>">
             </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="form-group col-xxs-12 <?php if (isset($errors['address_1'])) {
-            echo 'has-error';
-        } ?>">
+        <div class="form-group col-xxs-12 <?php if (isset($errors['address_1'])) { echo 'has-error'; } ?>">
             <div class="left-inner-addon">
                 <i class="fa fa-building"></i>
                 <input id="cc_address_1"
@@ -49,9 +53,7 @@
     </div>
 
     <div class="row">
-        <div class="form-group col-xxs-12 <?php if (isset($errors['address_2'])) {
-            echo 'has-error';
-        } ?>">
+        <div class="form-group col-xxs-12 <?php if (isset($errors['address_2'])) { echo 'has-error'; } ?>">
             <div class="left-inner-addon">
                 <i class="fa fa-building-o"></i>
                 <input id="cc_address_2"
@@ -66,9 +68,7 @@
     </div>
 
     <div class="row">
-        <div class="form-group col-xxs-12 col-xs-6 <?php if (isset($errors['city'])) {
-            echo 'has-error';
-        } ?>">
+        <div class="form-group col-xxs-12 col-xs-6 <?php if (isset($errors['city'])) { echo 'has-error'; } ?>">
             <div class="left-inner-addon">
                 <i class="fa fa-institution"></i>
                 <input class="form-control input-lg" placeholder="<?php echo $entry_city; ?>" name="city" type="text"
