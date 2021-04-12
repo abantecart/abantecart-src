@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,10 +24,9 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesAccountDownload extends AController
 {
-    public $data = array();
-
     public function main()
     {
+        $order_id = null;
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -52,25 +52,31 @@ class ControllerPagesAccountDownload extends AController
 
         $this->document->setTitle($this->language->get('heading_title'));
         $this->document->resetBreadcrumbs();
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getHomeURL(),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('account/account'),
-            'text'      => $this->language->get('text_account'),
-            'separator' => $this->language->get('text_separator'),
-        ));
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getHomeURL(),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('account/account'),
+                'text'      => $this->language->get('text_account'),
+                'separator' => $this->language->get('text_separator'),
+            ]
+        );
 
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('account/download'),
-            'text'      => $this->language->get('text_downloads'),
-            'separator' => $this->language->get('text_separator'),
-        ));
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('account/download'),
+                'text'      => $this->language->get('text_downloads'),
+                'separator' => $this->language->get('text_separator'),
+            ]
+        );
 
         if (isset($this->request->get['limit'])) {
-            $limit = (int)$this->request->get['limit'];
+            $limit = (int) $this->request->get['limit'];
             $limit = $limit > 50 ? 50 : $limit;
         } else {
             $limit = $this->config->get('config_catalog_limit');
@@ -82,7 +88,7 @@ class ControllerPagesAccountDownload extends AController
             } else {
                 $page = 1;
             }
-            $downloads = array();
+            $downloads = [];
             //get only enabled, not expired, which have remaining count > 0 and available
             if ($guest) {
                 $customer_downloads = $this->download->getCustomerOrderDownloads($order_id, 0);
@@ -99,8 +105,9 @@ class ControllerPagesAccountDownload extends AController
                 $product_ids,
                 $this->config->get('config_image_cart_width'),
                 $this->config->get('config_image_cart_height'),
-                false);
-            $suffix = array(
+                false
+            );
+            $suffix = [
                 'B',
                 'KB',
                 'MB',
@@ -110,7 +117,7 @@ class ControllerPagesAccountDownload extends AController
                 'EB',
                 'ZB',
                 'YB',
-            );
+            ];
 
             foreach ($customer_downloads as $download_info) {
                 $text_status = $this->download->getTextStatusForOrderDownload($download_info);
@@ -124,7 +131,7 @@ class ControllerPagesAccountDownload extends AController
                 $download_text = $download_button = '';
                 if (!$text_status) {
                     $download_button = $this->html->buildElement(
-                        array(
+                        [
                             'type'  => 'button',
                             'name'  => 'download_button_'.$download_info['order_download_id'],
                             'title' => $this->language->get('text_download'),
@@ -133,9 +140,10 @@ class ControllerPagesAccountDownload extends AController
                             'href'  => $this->html->getSecureURL(
                                 'account/download/startdownload',
                                 '&order_download_id='.$download_info['order_download_id']
-                                .($guest ? '&ot='.$order_token : '')),
+                                .($guest ? '&ot='.$order_token : '')
+                            ),
                             'icon'  => 'fa fa-download-alt',
-                        )
+                        ]
                     );
                 } else {
                     $download_text = $text_status;
@@ -144,26 +152,31 @@ class ControllerPagesAccountDownload extends AController
                 $thumbnail = $thumbnails[$download_info['product_id']];
                 $attributes = $this->download->getDownloadAttributesValuesForCustomer($download_info['download_id']);
 
-                $downloads[] = array(
+                $downloads[] = [
                     'order_download_id' => $download_info['order_download_id'],
-                    'thumbnail'   => $thumbnail,
-                    'attributes'  => $attributes,
-                    'order_id'    => $download_info['order_id'],
-                    'date_added'  => dateISO2Display($download_info['date_added'], $this->language->get('date_format_short')),
-                    'name'        => $download_info['name'],
-                    'remaining'   => $download_info['remaining_count'],
-                    'size'        => round(substr($size, 0, strpos($size, '.') + 4), 2).$suffix[$i],
-                    'button'      => $download_button,
-                    'text'        => $download_text,
-                    'expire_date' => dateISO2Display($download_info['expire_date'], $this->language->get('date_format_short').' '.$this->language->get('time_format_short')),
-                );
-
+                    'thumbnail'         => $thumbnail,
+                    'attributes'        => $attributes,
+                    'order_id'          => $download_info['order_id'],
+                    'date_added'        => dateISO2Display(
+                        $download_info['date_added'],
+                        $this->language->get('date_format_short')
+                    ),
+                    'name'              => $download_info['name'],
+                    'remaining'         => $download_info['remaining_count'],
+                    'size'              => round(substr($size, 0, strpos($size, '.') + 4), 2).$suffix[$i],
+                    'button'            => $download_button,
+                    'text'              => $download_text,
+                    'expire_date'       => dateISO2Display(
+                        $download_info['expire_date'],
+                        $this->language->get('date_format_short').' '.$this->language->get('time_format_short')
+                    ),
+                ];
             }
 
             $this->data['downloads'] = $downloads;
 
             $this->data['pagination_bootstrap'] = $this->html->buildElement(
-                array(
+                [
                     'type'       => 'Pagination',
                     'name'       => 'pagination',
                     'text'       => $this->language->get('text_pagination'),
@@ -173,7 +186,7 @@ class ControllerPagesAccountDownload extends AController
                     'limit'      => $limit,
                     'url'        => $this->html->getURL('account/download&limit='.$limit.'&page={page}', '&encode'),
                     'style'      => 'pagination',
-                )
+                ]
             );
 
             if ($downloads) {
@@ -185,14 +198,16 @@ class ControllerPagesAccountDownload extends AController
             $template = 'pages/error/not_found.tpl';
         }
 
-        $continue = HtmlElementFactory::create(array(
-            'type'  => 'button',
-            'name'  => 'continue_button',
-            'text'  => $this->language->get('button_continue'),
-            'style' => 'button',
-            'icon'  => 'fa fa-arrow-right',
-            'href'  => $this->html->getSecureURL('account/account'),
-        ));
+        $continue = HtmlElementFactory::create(
+            [
+                'type'  => 'button',
+                'name'  => 'continue_button',
+                'text'  => $this->language->get('button_continue'),
+                'style' => 'button',
+                'icon'  => 'fa fa-arrow-right',
+                'href'  => $this->html->getSecureURL('account/account'),
+            ]
+        );
         $this->data['button_continue'] = $continue;
 
         if ($this->session->data['warning']) {
@@ -211,15 +226,15 @@ class ControllerPagesAccountDownload extends AController
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $download_id = (int)$this->request->get['download_id'];
-        $order_download_id = (int)$this->request->get['order_download_id'];
+        $download_id = (int) $this->request->get['download_id'];
+        $order_download_id = (int) $this->request->get['order_download_id'];
 
         if (!$this->config->get('config_download')) {
             redirect($this->html->getSecureURL('account/account'));
         }
 
         $can_access = false;
-        $download_info = array();
+        $download_info = [];
 
         if ($download_id) {
             //downloads before order
@@ -240,7 +255,10 @@ class ControllerPagesAccountDownload extends AController
                     }
                 }
             } //allow download for guest customer
-            elseif (!$this->customer->isLogged() && isset($this->request->get['ot']) && $this->config->get('config_guest_checkout')) {
+            elseif (!$this->customer->isLogged() && isset($this->request->get['ot'])
+                && $this->config->get(
+                    'config_guest_checkout'
+                )) {
                 //try to decrypt order token
                 $order_token = $this->request->get['ot'];
                 if ($order_token) {
