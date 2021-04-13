@@ -1807,11 +1807,10 @@ class ControllerPagesSaleOrder extends AController
             $this->session->data['success'] = $this->language->get('text_success');
         }
 
-        redirect($this->html->getSecureURL('sale/order/details', '&order_id='.$order_id));
-
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        return true;
+
+        redirect($this->html->getSecureURL('sale/order/details', '&order_id='.$order_id));
     }
 
     public function delete_total()
@@ -1850,9 +1849,9 @@ class ControllerPagesSaleOrder extends AController
             }
         }
 
-        redirect($this->html->getSecureURL('sale/order/details', '&order_id='.$order_id));
-
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+        redirect($this->html->getSecureURL('sale/order/details', '&order_id='.$order_id));
     }
 }
