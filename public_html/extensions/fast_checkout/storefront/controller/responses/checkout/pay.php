@@ -502,14 +502,6 @@ class ControllerResponsesCheckoutPay extends AController
 
     protected function _build_payment_view($request, $get_params)
     {
-        if($this->fc_session['used_balance'] && !$this->fc_session['used_balance_full']){
-            unset($this->fc_session['used_balance'], $this->fc_session['used_balance_full']);
-            $this->messages->saveWarning(
-                'Misconfiguration of Order Total Configuration!',
-                'Partial balance usage do not allowed! '
-                    .'Please visit #admin#rt=extension/total and set "Balance" Calculation Order before "Total"'
-            );
-        }
         $this->data['payment_methods'] = $this->_get_payment_methods();
         //ignore unsupported paypal express payment
         if (isset($this->data['payment_methods']['default_pp_express'])) {
