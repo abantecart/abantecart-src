@@ -1810,7 +1810,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('fast_checkout','fast_checkout_status', 1),
 ('fast_checkout','fast_checkout_layout', ''),
 ('fast_checkout','fast_checkout_priority', 10),
-('fast_checkout','fast_checkout_require_payment_address', 1),
+('fast_checkout','fast_checkout_payment_address_equal_shipping', 0),
 ('fast_checkout','fast_checkout_allow_coupon', 1),
 ('fast_checkout','fast_checkout_require_phone_number', 1),
 ('fast_checkout','fast_checkout_show_order_comment_field', 1),

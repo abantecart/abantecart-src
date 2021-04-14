@@ -13,9 +13,9 @@
 			<type>checkbox</type>
 			<default_value>0</default_value>
 		</item>
-		<item id="fast_checkout_require_payment_address">
+		<item id="fast_checkout_payment_address_equal_shipping">
 			<type>checkbox</type>
-			<default_value>1</default_value>
+			<default_value>0</default_value>
 		</item>
 		<item id="fast_checkout_allow_coupon">
 			<type>checkbox</type>

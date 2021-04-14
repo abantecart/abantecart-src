@@ -64,15 +64,11 @@ $guest_data = $this->session->data['guest'];
                             <?php
                             if ($all_addresses) {
                                 foreach ($all_addresses as $addr) {
-                                    $current = '';
-                                    if ($addr['address_id'] == $csession['shipping_address_id']) {
-                                        $current = ' selected ';
-                                    }
+                                    $current = ($addr['address_id'] == $csession['shipping_address_id']) ? ' selected ' : '';
                                     $address = $this->customer->getFormattedAddress($addr, $addr['address_format']);
                                     $lines = explode("<br />", $address);
                                     echo '<option value="'.$addr['address_id'].'" '.$current.'>'
-                                            .$lines[0].', '.$lines[1]
-                                        .'...</option>';
+                                            .$lines[0].', '.$lines[1].'...</option>';
                                     for ($i = 0; $i <= count($lines); $i++) {
                                         echo '<option disabled>&nbsp;&nbsp;&nbsp;'.$lines[$i].'</option>';
                                     }
@@ -89,27 +85,33 @@ $guest_data = $this->session->data['guest'];
 
                 </div>
                 <?php
-                $readonly = '';
-                if (isset($csession['shipping_methods']) && count($csession['shipping_methods']) == 1) {
-                    $readonly = ' readonly ';
-                }
             } //eof if product has shipping
 
                 if ($show_payment == true) {
-                    if ($need_payment_address) { ?>
+                    $readonly = '';
+                    if ( (isset($csession['shipping_methods']) && count($csession['shipping_methods']) == 1)) {
+                        $readonly = ' readonly ';
+                    }
+                    ?>
                         <div class="form-group col-xxs-12 <?php if ($this->cart->hasShipping()) { ?>col-xs-6 <?php } ?>">
                             <?php if ($guest_data) {
-                            $address = $this->customer->getFormattedAddress($guest_data, $guest_data['address_format']);
+                                $address = $this->customer->getFormattedAddress(
+                                    $guest_data,
+                                    $guest_data['address_format']
+                                );
                             ?>
                             <div class="left-inner-addon">
                                 <i class="fa fa-bank"></i>
-                                <a href="<?php echo $edit_address_url; ?>&type=payment" class="address_edit" id="payment_address_edit">
-                                    <i class="fa fa-edit"></i>
-                                </a>
+                                <?php if(!$payment_equal_shipping_address){ ?>
+                                    <a href="<?php echo $edit_address_url; ?>&type=payment"
+                                       class="address_edit"
+                                       id="payment_address_edit">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                <?php } ?>
                                 <div class="well">
                                     <b><?php echo $fast_checkout_text_payment_address; ?>:</b>
-                                    <br/>
-                                    <?php echo $address; ?>
+                                    <br/><?php echo $address; ?>
                                 </div>
                                 <?php } else { ?>
                                 <div class="payment_address_label"><?php echo $fast_checkout_text_payment_address; ?>:</div>
@@ -119,52 +121,38 @@ $guest_data = $this->session->data['guest'];
                                             data-placeholder=""
                                             class="form-control input-lg"
                                             id="payment_address_id"
-                                            name="payment_address_id" <?php echo $readonly; ?>>
+                                            name="payment_address_id" <?php echo $readonly .' '.($payment_equal_shipping_address ? 'disabled' : ''); ?>>
                                         <option disabled><?php echo $fast_checkout_text_payment_address; ?>:</option>
                                         <option disabled></option>
                                         <?php
                                         if ($all_addresses) {
                                             foreach ($all_addresses as $addr) {
-                                                $current = '';
-                                                if ($addr['address_id'] == $csession['payment_address_id']) {
-                                                    $current = ' selected ';
-                                                }
+                                                $current = ($addr['address_id'] == $csession['payment_address_id']) ? ' selected ' : '';
                                                 $address = $this->customer->getFormattedAddress($addr, $addr['address_format']);
                                                 $lines = explode("<br />", $address);
                                                 echo '<option value="'.$addr['address_id'].'" '.$current.'>'
-                                                        .$lines[0].', '.$lines[1]
-                                                    .'...</option>';
+                                                        .$lines[0].', '.$lines[1] .'...</option>';
                                                 for ($i = 0; $i <= count($lines); $i++) {
                                                     echo '<option disabled>&nbsp;&nbsp;&nbsp;'.$lines[$i].'</option>';
                                                 }
                                             }
                                         } ?>
                                     </select>
+                                    <?php if(!$payment_equal_shipping_address){ ?>
                                     <div class="select_arrow"><i class="fa fa-angle-double-down"></i></div>
-                                    <?php } ?>
+                                    <?php }
+                                    } ?>
                                 </div>
                                 <?php
                                 if ($all_addresses) { ?>
                                     <div class="payment_address_details"></div>
                                     <?php
                                 } ?>
-                                <input name="cc_owner" type="hidden" value="<?php echo $customer_name; ?>">
                             </div>
                         </div>
-                    <?php } else { ?>
-            </div>
-            <div class="row">
-                <div class="form-group col-xxs-12">
-                    <div class="left-inner-addon">
-                        <i class="fa fa-user"></i>
-                        <input class="form-control input-lg" placeholder="Your Name" name="cc_owner" type="text"
-                               value="<?php echo $customer_name; ?>">
-                    </div>
-                </div>
-            </div>
-        <?php }
-        } ?>
-                <?php if ($this->cart->hasShipping() && count($csession['shipping_methods']) === 0) { ?>
+                    <?php
+                }
+                if ($this->cart->hasShipping() && count($csession['shipping_methods']) === 0) { ?>
                     <div class="alert alert-danger" role="alert">
                         <?php echo $this->language->get('fast_checkout_no_shipments_available'); ?>
                     </div>
@@ -614,15 +602,6 @@ if ($show_payment == true) {
             }
         });
 
-        $('form.validate-creditcard [name=cc_owner]').bind({
-            change: function () {
-                $.aCCValidator.checkCCName($(this), 'reset');
-            },
-            blur: function () {
-                $.aCCValidator.checkCCName($(this));
-            }
-        });
-
         $('form.validate-creditcard [name=cc_expire_date_month]').bind({
             change: function () {
                 $.aCCValidator.checkExp($(this), 'reset');
@@ -650,7 +629,7 @@ if ($show_payment == true) {
             }
         });
 
-        getAddressHtml = function (address) {
+        getAddressHtml = function (address, edit) {
             let html = '';
             if (typeof address != "undefined") {
                 if (address.firstname || address.lasttname) {
@@ -675,7 +654,12 @@ if ($show_payment == true) {
                     html += address.country
                 }
                 <?php if ($address_edit_base_url) { ?>
-                html += '<div class="address_edit_link"><a href="<?php echo $address_edit_base_url; ?>' + address.address_id + '"><i class="fa fa-edit"></i></a></div>'
+
+                html += '<div class="address_edit_link">';
+                if(edit) {
+                    html += '<a href="<?php echo $address_edit_base_url; ?>' + address.address_id + '"><i class="fa fa-edit"></i></a>';
+                }
+                html += '</div>';
                 <?php } ?>
             }
             return html
@@ -687,7 +671,7 @@ if ($show_payment == true) {
             let address = addresses.find((el) => el.address_id == shipping_address_id);
 
             if (typeof address != "undefined") {
-                $('.shipping_address_details').hide().html(getAddressHtml(address)).fadeIn(1000);
+                $('.shipping_address_details').hide().html(getAddressHtml(address, true)).fadeIn(1000);
             }
         };
 
@@ -695,9 +679,9 @@ if ($show_payment == true) {
             let addresses = JSON.parse(atob('<?php echo base64_encode(json_encode($all_addresses)); ?>'));
             let payment_address_id = $("#payment_address_id").val();
             let address = addresses.find((el) => el.address_id == payment_address_id);
-
+            let edit = <?php echo (!$payment_equal_shipping_address ? 'true' : 'false'); ?>;
             if (typeof address != "undefined") {
-                $('.payment_address_details').hide().html(getAddressHtml(address)).fadeIn(1000);
+                $('.payment_address_details').hide().html(getAddressHtml(address, edit)).fadeIn(1000);
             }
         };
 

@@ -150,67 +150,63 @@ class ControllerResponsesCheckoutPay extends AController
             $this->data['allow_account_creation'] = $this->config->get('fast_checkout_create_account');
         }
 
-        //Do we require payment address based on extension setting
-        $this->data['need_payment_address'] = $this->config->get('fast_checkout_require_payment_address');
+        $this->data['payment_equal_shipping_address'] = $this->config->get('fast_checkout_payment_address_equal_shipping');
         $this->data['all_addresses'] = [];
         $tax_country_id = $tax_zone_id = '';
-        //Check for settings if need payment address
-        if ($this->data['need_payment_address']) {
-            if ($this->customer->isLogged()) {
-                $this->loadModel('account/address');
-                $this->data['all_addresses'] = $this->model_account_address->getAddresses();
-                if (!count($this->data['all_addresses'])) {
-                    //Something wrong. Account is missing address, direct to regular customer address page.
-                    $this->error['message'] = $this->language->get('fast_checkout_error_no_address');
-                }
-                //was address changed?
-                $address_id = $this->customer->getAddressId();
-                if ($this->request->get['payment_address_id']) {
-                    $address_id = $this->request->get['payment_address_id'];
-                } else {
-                    if ($this->fc_session['payment_address_id']) {
-                        $address_id = $this->fc_session['payment_address_id'];
-                    }
-                }
-                foreach ($this->data['all_addresses'] as $adr) {
-                    if ($adr['address_id'] == $address_id) {
-                        $this->fc_session['payment_address_id'] = $adr['address_id'];
-                        if ($this->config->get('config_tax_customer')
-                            || (!$this->config->get('config_tax_customer') && !$this->cart->hasShipping())
-                        ) {
-                            $tax_zone_id = $adr['zone_id'];
-                            $tax_country_id = $adr['country_id'];
-                        }
-                        break;
-                    }
-                }
-                if (!$address_id) {
-                    $adr = current($this->data['all_addresses']);
-                    $this->fc_session['payment_address_id'] = $adr['address_id'];
-                }
+
+        if ($this->customer->isLogged()) {
+            $this->loadModel('account/address');
+            $this->data['all_addresses'] = $this->model_account_address->getAddresses();
+            if (!count($this->data['all_addresses'])) {
+                //Something wrong. Account is missing address, direct to regular customer address page.
+                $this->error['message'] = $this->language->get('fast_checkout_error_no_address');
+            }
+            //was address changed?
+            $address_id = $this->customer->getAddressId();
+            if ($this->request->get['payment_address_id']) {
+                $address_id = $this->request->get['payment_address_id'];
             } else {
-                if ($this->allow_guest) {
-                    //note: guest details in stored into main session to share details with main site
-                    if (!$this->session->data['guest']['address_1']) {
-                        //shipping required, show address form.
-                        $this->action = 'enter';
-                        $this->_address('payment', []);
-                        return;
-                    } else {
-                        if ($this->session->data['guest']) {
-                            $tax_country_id = $this->config->get('config_tax_customer')
-                                ? $this->session->data['guest']['country_id']
-                                : '';
-                            $tax_zone_id = $this->config->get('config_tax_customer')
-                                ? $this->session->data['guest']['zone_id']
-                                : '';
-                        }
-                    }
+                if ($this->fc_session['payment_address_id']) {
+                    $address_id = $this->fc_session['payment_address_id'];
                 }
             }
-            if ($tax_country_id) {
-                $this->tax->setZone($tax_country_id, $tax_zone_id);
+            foreach ($this->data['all_addresses'] as $adr) {
+                if ($adr['address_id'] == $address_id) {
+                    $this->fc_session['payment_address_id'] = $adr['address_id'];
+                    if ($this->config->get('config_tax_customer')
+                        || (!$this->config->get('config_tax_customer') && !$this->cart->hasShipping())
+                    ) {
+                        $tax_zone_id = $adr['zone_id'];
+                        $tax_country_id = $adr['country_id'];
+                    }
+                    break;
+                }
             }
+            if (!$address_id) {
+                $adr = current($this->data['all_addresses']);
+                $this->fc_session['payment_address_id'] = $adr['address_id'];
+            }
+            $this->data['payment_address'] = $this->model_account_address->getAddress($this->fc_session['payment_address_id']);
+        } elseif ($this->allow_guest) {
+            //note: guest details in stored into main session to share details with main site
+            if (!$this->session->data['guest']['address_1']) {
+                //shipping required, show address form.
+                $this->action = 'enter';
+                $this->_address('payment', []);
+                return;
+            } else {
+                if ($this->session->data['guest']) {
+                    $tax_country_id = $this->config->get('config_tax_customer')
+                        ? $this->session->data['guest']['country_id']
+                        : '';
+                    $tax_zone_id = $this->config->get('config_tax_customer')
+                        ? $this->session->data['guest']['zone_id']
+                        : '';
+                }
+            }
+        }
+        if ($tax_country_id) {
+            $this->tax->setZone($tax_country_id, $tax_zone_id);
         }
 
         //check if shipping required.
@@ -259,6 +255,8 @@ class ControllerResponsesCheckoutPay extends AController
                         $tax_zone_id = $adr['zone_id'];
                         $tax_country_id = $adr['country_id'];
                     }
+                }elseif($this->config->get('fast_checkout_payment_address_equal_shipping')){
+                    $this->fc_session['payment_address_id'] = $address_id;
                 }
             } else {
                 if ($this->allow_guest && !$this->session->data['guest']['shipping']) {
@@ -393,7 +391,7 @@ class ControllerResponsesCheckoutPay extends AController
             $this->session->data['fc'] = $this->fc_session;
             return;
         }
-
+        //prevent infinite recursion
         $this->updateOrCreateOrder($this->fc_session, $request);
 
         $this->view->batchAssign($this->data);
@@ -416,6 +414,16 @@ class ControllerResponsesCheckoutPay extends AController
 
     protected function updateOrCreateOrder($in_data, $request)
     {
+        //do not allow to run if already ran and failed
+        if($this->error['updateOrCreateOrder'] == true){
+            return;
+        }
+
+        //do nothing if customer is nobody
+        if(!$this->customer->isLogged() && !$this->session->data['guest']){
+            return;
+        }
+
         //if customer unknown - skip creation of order
         if (!$this->config->get('config_guest_checkout') && !$this->customer->isLogged()) {
             return;
@@ -429,7 +437,6 @@ class ControllerResponsesCheckoutPay extends AController
         } else {
             $order = new AOrder($this->registry, $this->session->data['order_id']);
         }
-
         $order->buildOrderData($in_data);
         $order_id = $order->saveOrder();
         $this->loadModel('extension/fast_checkout');
@@ -468,6 +475,7 @@ class ControllerResponsesCheckoutPay extends AController
                 )
             );
             $this->error['message'] = $this->language->get('fast_checkout_error_unexpected');
+            $this->error['updateOrCreateOrder'] = true;
             unset($this->session->data['order_id']);
             $this->main();
         }
@@ -487,12 +495,6 @@ class ControllerResponsesCheckoutPay extends AController
                     'csrf'   => true,
                 ]
             );
-            $this->data['customer_name'] = $request['cc_owner'];
-            if ($this->session->data['guest']) {
-                $this->data['customer_name'] = $this->session->data['guest']['firstname']
-                    .' '
-                    .$this->session->data['guest']['lastname'];
-            }
 
             $this->data['customer_email'] = $request['cc_email'] ? : $this->session->data['guest']['email'];
             $this->data['customer_telephone'] = $request['telephone'] ? : $this->session->data['guest']['telephone'];
@@ -802,13 +804,6 @@ class ControllerResponsesCheckoutPay extends AController
             $guest_info['email'] = $request['cc_email'];
             if ($request['cc_telephone']) {
                 $guest_info['telephone'] = $request['cc_telephone'];
-            }
-            //check case when order without any addresses
-            if (!$guest_info['firstname']
-                && !$guest_info['lastname']
-                && $request['cc_owner']
-            ) {
-                list($guest_info['firstname'], $guest_info['lastname']) = explode(' ', trim($request['cc_owner']));
             }
         }
 
@@ -1321,7 +1316,10 @@ class ControllerResponsesCheckoutPay extends AController
         $sessionGuest =& $this->session->data['guest'];
         $sessionGuest = $sessionGuest ? : [];
         //is this first or payment address?
-        if ($this->request->get['type'] == 'payment' || !$this->session->data['guest']) {
+        if ($this->request->get['type'] == 'payment'
+            || !$this->session->data['guest']
+            || $this->config->get('fast_checkout_payment_address_equal_shipping')
+        ) {
             //do not clear if we have guest data and edit
             $sessionGuest['firstname'] = $post['firstname'];
             $sessionGuest['lastname'] = $post['lastname'];
@@ -1364,7 +1362,11 @@ class ControllerResponsesCheckoutPay extends AController
             }
         }
 
-        if ($this->request->get['type'] == 'shipping' || isset($post['same_as_shipping'])) {
+        if (
+            $this->request->get['type'] == 'shipping'
+            || isset($post['same_as_shipping'])
+            || $this->config->get('fast_checkout_payment_address_equal_shipping')
+        ) {
             $sessionGuest['email'] = $post['cc_email'];
             $sessionGuest['telephone'] = $post['telephone'];
             $sessionGuest['shipping']['company'] = '';
@@ -1864,11 +1866,6 @@ class ControllerResponsesCheckoutPay extends AController
             && !$request['cc_telephone']
         ) {
             $this->error['message'] = $this->language->get('fast_checkout_error_phone');
-            return false;
-        }
-
-        if (!$this->customer->isLogged() && !$request['cc_owner']) {
-            $this->error['message'] = $this->language->get('fast_checkout_error_owner');
             return false;
         }
 
