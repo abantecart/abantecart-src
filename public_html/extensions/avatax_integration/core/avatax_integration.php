@@ -392,9 +392,10 @@ class ExtensionAvataxIntegration extends Extension
      */
     public function getTax($that, $cust_data, $commit = false, $total_data = 0, $return = false)
     {
+        $docHash = '';
         $load = $this->registry->get('load');
         $config = $this->registry->get('config');
-        $session =& $this->registry->get('fast_checkout') == true || $this->registry->get('session')->data['fc']
+        $session =& $this->registry->get('session')->data['fc']
             ? $this->registry->get('session')->data['fc']
             : $this->registry->get('session')->data;
 
@@ -487,8 +488,16 @@ class ExtensionAvataxIntegration extends Extension
             );
             if ($order_id) {
                 $docCode = $order_id.'-'.date("dmy", strtotime($date));
-                if ( $session['avatax']['getTax'][$docCode]) {
-                    return $session['avatax']['getTax'][$docCode];
+                $docHash = md5(
+                    $docCode
+                    .serialize($cust_data)
+                    .$session['payment_address_id']
+                    .$session['shipping_address_id']
+                    .$session['guest']
+                );
+
+                if ( $session['avatax']['getTax'][$docHash]) {
+                    return $session['avatax']['getTax'][$docHash];
                 }
 
                 $getTaxRequest->setDocDate($date);
@@ -555,28 +564,65 @@ class ExtensionAvataxIntegration extends Extension
             if (isset($order_data['shipping_postcode']) && !empty($order_data['shipping_postcode'])
                 && $config->get('config_tax_customer') == 0
             ) {
-                $address2->setLine1($order_data['shipping_address_1']);
-                $address2->setLine2($order_data['shipping_address_2']);
-                $address2->setCity($order_data['shipping_city']);
-                $address2->setRegion($order_data['shipping_zone_code']);
-                $address2->setCountry($order_data['shipping_iso_code_2']);
-                $address2->setPostalCode($order_data['shipping_postcode']);
-            } elseif (isset($order_data['payment_postcode']) && !empty($order_data['payment_postcode'])
+                $address2->setLine1(
+                    $customerAddress['address_1'] ?: $order_data['shipping_address_1']
+                );
+                $address2->setLine2(
+                    $customerAddress['address_2'] ?: $order_data['shipping_address_2']
+                );
+                $address2->setCity(
+                    $customerAddress['city'] ?: $order_data['shipping_city']
+                );
+                $address2->setRegion(
+                    $customerAddress['zone_code'] ?: $order_data['shipping_zone_code']
+                );
+                $address2->setCountry(
+                    $customerAddress['iso_code_2'] ?: $order_data['shipping_iso_code_2']
+                );
+                $address2->setPostalCode(
+                    $customerAddress['postcode'] ?: $order_data['shipping_postcode']
+                );
+            } elseif (isset($order_data['payment_postcode'])
+                && !empty($order_data['payment_postcode'])
                 && $config->get('config_tax_customer') == 1
             ) {
-                $address2->setLine1($order_data['payment_address_1']);
-                $address2->setLine2($order_data['payment_address_2']);
-                $address2->setCity($order_data['payment_city']);
-                $address2->setRegion($order_data['payment_zone_code']);
-                $address2->setCountry($order_data['payment_iso_code_2']);
-                $address2->setPostalCode($order_data['payment_postcode']);
+                $address2->setLine1(
+                    $customerAddress['address_1'] ?: $order_data['payment_address_1']
+                );
+                $address2->setLine2(
+                    $customerAddress['address_2'] ?: $order_data['payment_address_2']
+                );
+                $address2->setCity(
+                    $customerAddress['city'] ?: $order_data['payment_city']
+                );
+                $address2->setRegion(
+                    $customerAddress['zone_code'] ?: $order_data['payment_zone_code']
+                );
+                $address2->setCountry(
+                    $customerAddress['iso_code_2'] ?: $order_data['payment_iso_code_2']
+                );
+                $address2->setPostalCode(
+                    $customerAddress['postcode'] ?: $order_data['payment_postcode']
+                );
             } else {
-                $address2->setLine1($customerAddress['address_1']);
-                $address2->setLine2($customerAddress['address_2']);
-                $address2->setCity($customerAddress['city']);
-                $address2->setRegion($customerAddress['zone_code']);
-                $address2->setCountry($customerAddress['iso_code_2']);
-                $address2->setPostalCode($customerAddress['postcode']);
+                $address2->setLine1(
+                    $customerAddress['address_1'] ?: $order_data['address_1']
+                );
+                $address2->setLine2(
+                    $customerAddress['address_2'] ?: $order_data['address_2']
+                );
+                $address2->setCity(
+                    $customerAddress['city'] ?: $order_data['city']
+                );
+                $address2->setRegion(
+                    $customerAddress['zone_code'] ?: $order_data['zone_code']
+                );
+                $address2->setCountry(
+                    $customerAddress['iso_code_2'] ?: $order_data['iso_code_2']
+                );
+                $address2->setPostalCode(
+                    $customerAddress['postcode'] ?: $order_data['postcode']
+                );
             }
 
             $addresses[] = $address2;
@@ -710,7 +756,6 @@ class ExtensionAvataxIntegration extends Extension
                 $warning = new AWarning('AVATAX transaction: '.$message);
                 $warning->toLog()->toDebug();
             }
-
             if ($address1->PostalCode != "" && $address2->PostalCode != "" && !empty($getTaxRequest->Lines)) {
                 $getTaxResult = $taxSvc->getTax($getTaxRequest);
                 if ($config->get('avatax_integration_logging') == 1) {
@@ -731,7 +776,9 @@ class ExtensionAvataxIntegration extends Extension
                     }
                 } else {
                     $output = $getTaxResult->getTotalTax();
-                    $session['avatax']['getTax'][$docCode] = $output;
+                    if($docHash) {
+                        $session['avatax']['getTax'][$docHash] = $output;
+                    }
                     return $output;
                 }
             } else {

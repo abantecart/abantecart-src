@@ -1,5 +1,5 @@
 <?php
-$guest_data = $this->session->data['guest'];
+$guest_data = $this->session->data['fc']['guest'];
 ?>
 <div id="pay_error_container">
     <?php if ($info ?? '') { ?>
