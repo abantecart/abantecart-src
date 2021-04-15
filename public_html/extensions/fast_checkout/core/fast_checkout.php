@@ -49,7 +49,7 @@ class ExtensionFastCheckout extends Extension
         $data= [];
         $data['button_add_to_cart'] = $that->language->get('button_add_to_cart');
         $data['text_buynow'] = $that->language->get('fast_checkout_buy_now');
-        $data['buynow_url'] = $that->html->getSecureURL('p/checkout/fast_checkout','&single_checkout=1');
+        $data['buynow_url'] = $that->html->getSecureURL('checkout/fast_checkout','&single_checkout=1');
         $data['add_to_cart'] = $that->language->get('button_add_to_cart');
 
         /** @var AView $view */
@@ -61,7 +61,6 @@ class ExtensionFastCheckout extends Extension
             'product_add_to_cart_html',
             $view->fetch('pages/product/add_to_cart_buttons.tpl')
         );
-
     }
 
     public function onControllerPagesCheckoutShipping_InitData()
