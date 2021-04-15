@@ -37,6 +37,9 @@
 .pay-form .left-inner-addon {
 	position: relative;
 }
+.pay-form .input-group-btn>button {
+	min-height: 46px;
+}
 
 .pay-form .left-inner-addon input,  .pay-form .left-inner-addon textarea {
 	padding-left: 42px;

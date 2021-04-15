@@ -307,10 +307,9 @@
         });
     });
 
-
-
 </script>
 <?php echo $header; ?>
+
     <div class="pay-form">
         <div class="text-center">
             <?php if ($loggedin !== true) { ?>
