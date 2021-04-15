@@ -394,15 +394,17 @@ class ExtensionAvataxIntegration extends Extension
     {
         $load = $this->registry->get('load');
         $config = $this->registry->get('config');
-        $session = $this->registry->get('session');
+        $session =& $this->registry->get('fast_checkout') == true || $this->registry->get('session')->data['fc']
+            ? $this->registry->get('session')->data['fc']
+            : $this->registry->get('session')->data;
 
         $order_id = 0;
 
         if (IS_ADMIN === true) {
             $order_id = $cust_data['order_id'];
         } else {
-            if (isset($session->data['avatax_order_id'])) {
-                $order_id = $session->data['avatax_order_id'];
+            if (isset($session['avatax_order_id'])) {
+                $order_id = $session['avatax_order_id'];
             }
         }
 
@@ -420,10 +422,10 @@ class ExtensionAvataxIntegration extends Extension
             /** @var ModelAccountAddress $mdl */
             $mdl = $load->model('account/address');
             if ($config->get('config_tax_customer') == 0) {
-                $customerAddress = $mdl->getAddress($session->data['shipping_address_id']);
+                $customerAddress = $mdl->getAddress($session['shipping_address_id']);
             }
             if ($config->get('config_tax_customer') == 1) {
-                $customerAddress = $mdl->getAddress($session->data['payment_address_id']);
+                $customerAddress = $mdl->getAddress($session['payment_address_id']);
             }
             if (!$this->registry->get('customer')->isLogged() && isset($cust_data['guest']) && !$customerAddress) {
                 $customerAddress = $cust_data['guest'];
@@ -485,8 +487,8 @@ class ExtensionAvataxIntegration extends Extension
             );
             if ($order_id) {
                 $docCode = $order_id.'-'.date("dmy", strtotime($date));
-                if ( $that->session->data['avatax']['getTax'][$docCode]) {
-                    return $that->session->data['avatax']['getTax'][$docCode];
+                if ( $session['avatax']['getTax'][$docCode]) {
+                    return $session['avatax']['getTax'][$docCode];
                 }
 
                 $getTaxRequest->setDocDate($date);
@@ -671,9 +673,9 @@ class ExtensionAvataxIntegration extends Extension
                     }
                 }
             } else {
-                list($shp_method,) = explode('.', $that->session->data['shipping_method']['id']);
-                $shp_title = $that->session->data['shipping_method']['title'];
-                $shp_cost = $that->session->data['shipping_method']['cost'];
+                list($shp_method,) = explode('.', $session['shipping_method']['id']);
+                $shp_title = $session['shipping_method']['title'];
+                $shp_cost = $session['shipping_method']['cost'];
             }
 
             if ($shp_method) {
@@ -729,7 +731,7 @@ class ExtensionAvataxIntegration extends Extension
                     }
                 } else {
                     $output = $getTaxResult->getTotalTax();
-                    $that->session->data['avatax']['getTax'][$docCode] = $output;
+                    $session['avatax']['getTax'][$docCode] = $output;
                     return $output;
                 }
             } else {
@@ -1098,8 +1100,11 @@ class ExtensionAvataxIntegration extends Extension
         ) {
             $address = func_get_arg(0)['address'];
             if ($that->customer->isLogged()) {
-                $address['address_id'] = $that->session->data['shipping_address_id']
-                    ? : $that->session->data['payment_address_id'];
+                $session =& $this->registry->get('fast_checkout') == true || $this->registry->get('session')->data['fc']
+                            ? $this->registry->get('session')->data['fc']
+                            : $this->registry->get('session')->data;
+                $address['address_id'] = $session['shipping_address_id']
+                    ? : $session['payment_address_id'];
             } else {
                 $address['address_id'] = 'guest';
             }
