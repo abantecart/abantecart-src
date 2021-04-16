@@ -65,17 +65,24 @@ if($this->config->get('default_stripe_status') && $this->config->get('default_st
     );
 }
 
+
+$this->db->query(
+    "DELETE FROM ".$this->db->table('language_definitions')." 
+    WHERE language_key = 'fast_checkout_payment_address_equal_shipping'"
+);
+
 $sql = "INSERT INTO ".$this->db->table('language_definitions')."
         (`language_id`,
         `section`,
         `block`,
         `language_key`,
         `language_value`)
-    VALUES (
-    (int)$language_id, 
-    1, 
-    'fast_checkout_fast_checkout', 
-    'fast_checkout_payment_address_equal_shipping',
-     'Require Payment Address Be the same as Shipping Address'
-     );";
-$this->db->query($sql,true); // do safe update
+    VALUES 
+( '1', 
+  '1', 
+  'fast_checkout_fast_checkout', 
+  'fast_checkout_payment_address_equal_shipping',
+  'Require Payment Address Be the same as Shipping Address'
+);";
+$this->db->query($sql);
+
