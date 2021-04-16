@@ -254,9 +254,7 @@ class ControllerPagesAccountEdit extends AController
             ]
         );
         $this->data['back'] = $this->html->getSecureURL('account/account');
-
-        $this->extensions->hk_ProcessData($this,'account_edit');
-        
+       
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/account/edit.tpl');
 
