@@ -621,7 +621,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController
             }
         }
         //end of trick
-
+  
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/checkout/guest_step_1.tpl');
 

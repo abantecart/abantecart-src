@@ -267,6 +267,7 @@ $guest_data = $this->session->data['fc']['guest'];
                         </div>
                     </div>
                 <?php }
+                echo $this->getHookVar('customer_additional_attributes');
                 if ($show_payment == true) {
                     echo $this->getHookVar('payment_form_fields');
                     if ($this->config->get('fast_checkout_show_order_comment_field')) { ?>
@@ -425,6 +426,57 @@ if ($show_payment == true) {
             searchParams.append(key, value)
         }
         return searchParams.toString()
+    };
+
+    var getAddressHtml = function (address) {
+        let html = '';
+        if (typeof address != "undefined") {
+            if (address.firstname || address.lasttname) {
+                html += address.firstname + ' ' + address.lastname + ' <br/>'
+            }
+            if (address.company) {
+                html += address.company + ' <br/>'
+            }
+            if (address.address_2) {
+                html += address.address_2 + ' <br/>'
+            }
+            if (address.address_1) {
+                html += address.address_1 + ' <br/>'
+            }
+            if (address.city || address.postcode) {
+                html += address.city + ' ' + address.postcode + ' <br/>'
+            }
+            if (address.zone) {
+                html += address.zone + ' <br/>'
+            }
+            if (address.country) {
+                html += address.country
+            }
+            <?php if ($address_edit_base_url) { ?>
+                html += '<div class="address_edit_link"><a href="<?php echo $address_edit_base_url; ?>' + address.address_id + '"><i class="fa fa-edit"></i></a></div>'
+                <?php } ?>
+        }
+        return html
+    };
+
+    var updateShippingAddressDisplay = function () {
+        let addresses = JSON.parse(atob('<?php echo base64_encode(json_encode($all_addresses)); ?>'))
+        let shipping_address_id = $("#shipping_address_id").val();
+        let address = addresses.find((el) => el.address_id == shipping_address_id);
+
+        if (typeof address != "undefined") {
+            $('.shipping_address_details').hide().html(getAddressHtml(address)).fadeIn(1000);
+        }
+    };
+
+    var updatePaymentAddressDisplay = function () {
+        let addresses = JSON.parse(atob('<?php echo base64_encode(json_encode($all_addresses)); ?>'));
+        let payment_address_id = $("#payment_address_id").val();
+        let address = addresses.find((el) => el.address_id == payment_address_id);
+
+        if (typeof address != "undefined") {
+            $('.payment_address_details').hide().html(getAddressHtml(address)).fadeIn(1000);
+        }
     };
 
     $(document).ready(function () {
@@ -628,62 +680,6 @@ if ($show_payment == true) {
                 $.aCCValidator.checkCVV($(this));
             }
         });
-
-        getAddressHtml = function (address, edit) {
-            let html = '';
-            if (typeof address != "undefined") {
-                if (address.firstname || address.lasttname) {
-                    html += address.firstname + ' ' + address.lastname + ' <br/>'
-                }
-                if (address.company) {
-                    html += address.company + ' <br/>'
-                }
-                if (address.address_2) {
-                    html += address.address_2 + ' <br/>'
-                }
-                if (address.address_1) {
-                    html += address.address_1 + ' <br/>'
-                }
-                if (address.city || address.postcode) {
-                    html += address.city + ' ' + address.postcode + ' <br/>'
-                }
-                if (address.zone) {
-                    html += address.zone + ' <br/>'
-                }
-                if (address.country) {
-                    html += address.country
-                }
-                <?php if ($address_edit_base_url) { ?>
-
-                html += '<div class="address_edit_link">';
-                if(edit) {
-                    html += '<a href="<?php echo $address_edit_base_url; ?>' + address.address_id + '"><i class="fa fa-edit"></i></a>';
-                }
-                html += '</div>';
-                <?php } ?>
-            }
-            return html
-        };
-
-        updateShippingAddressDisplay = function () {
-            let addresses = JSON.parse(atob('<?php echo base64_encode(json_encode($all_addresses)); ?>'))
-            let shipping_address_id = $("#shipping_address_id").val();
-            let address = addresses.find((el) => el.address_id == shipping_address_id);
-
-            if (typeof address != "undefined") {
-                $('.shipping_address_details').hide().html(getAddressHtml(address, true)).fadeIn(1000);
-            }
-        };
-
-        updatePaymentAddressDisplay = function () {
-            let addresses = JSON.parse(atob('<?php echo base64_encode(json_encode($all_addresses)); ?>'));
-            let payment_address_id = $("#payment_address_id").val();
-            let address = addresses.find((el) => el.address_id == payment_address_id);
-            let edit = <?php echo (!$payment_equal_shipping_address ? 'true' : 'false'); ?>;
-            if (typeof address != "undefined") {
-                $('.payment_address_details').hide().html(getAddressHtml(address, edit)).fadeIn(1000);
-            }
-        };
 
         updateShippingAddressDisplay();
         updatePaymentAddressDisplay();

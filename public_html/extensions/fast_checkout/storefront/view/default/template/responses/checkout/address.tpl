@@ -147,7 +147,7 @@
         </div>
     </div>
     <?php } ?>
-
+    <?php echo $this->getHookVar('address_attributes'); ?>
     <?php if ($type == 'payment' && $this->cart->hasShipping()) { ?>
         <div class="row">
             <div class="form-group col-xs-2">
