@@ -63,21 +63,19 @@ if($this->config->get('default_stripe_status') && $this->config->get('default_st
             'default_stripe_sk_test' => $this->config->get('default_stripe_access_token'),
         ]
     );
-}//Default stripe settings changes
-if($this->config->get('fast_checkout_status'))
-{
-    $sql = "INSERT INTO ".$this->db->table('language_definitions')."
-            (`language_id`,
-            `section`,
-            `block`,
-            `language_key`,
-            `language_value`)
-        VALUES (
-        (int)$language_id, 
-        1, 
-        'fast_checkout_fast_checkout', 
-        'fast_checkout_payment_address_equal_shipping',
-         'Require Payment Address Be the same as Shipping Address'
-         );";
-   	$this->db->query($sql,true); // do safe update
 }
+
+$sql = "INSERT INTO ".$this->db->table('language_definitions')."
+        (`language_id`,
+        `section`,
+        `block`,
+        `language_key`,
+        `language_value`)
+    VALUES (
+    (int)$language_id, 
+    1, 
+    'fast_checkout_fast_checkout', 
+    'fast_checkout_payment_address_equal_shipping',
+     'Require Payment Address Be the same as Shipping Address'
+     );";
+$this->db->query($sql,true); // do safe update
