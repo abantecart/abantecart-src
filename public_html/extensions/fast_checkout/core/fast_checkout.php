@@ -234,7 +234,6 @@ class ExtensionFastCheckout extends Extension
     public function onControllerPagesCheckoutPayment_InitData()
     {
         $that = $this->baseObject;
-        var_dump('eeeeeeeeeeeee'); exit;
         unset( $that->session->data['fc'] );
     }
 
