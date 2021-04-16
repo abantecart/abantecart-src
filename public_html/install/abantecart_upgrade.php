@@ -76,13 +76,14 @@ $sql = "INSERT INTO ".$this->db->table('language_definitions')."
         `section`,
         `block`,
         `language_key`,
-        `language_value`)
+        `language_value`, 
+        `date_added`)
     VALUES 
 ( '1', 
   '1', 
   'fast_checkout_fast_checkout', 
   'fast_checkout_payment_address_equal_shipping',
-  'Require Payment Address Be the same as Shipping Address'
-);";
+  'Require Payment Address Be the same as Shipping Address',
+  NOW() )";
 $this->db->query($sql);
 
