@@ -621,8 +621,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController
             }
         }
         //end of trick
-        $this->extensions->hk_ProcessData($this,'guest_step_1');
-
+  
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/checkout/guest_step_1.tpl');
 
