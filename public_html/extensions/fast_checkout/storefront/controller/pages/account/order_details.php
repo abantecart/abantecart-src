@@ -419,7 +419,11 @@ class ControllerPagesAccountOrderDetails extends AController
 
         foreach ($customer_downloads as $download_info) {
             $text_status = $this->download->getTextStatusForOrderDownload($download_info);
-
+            if(is_numeric($download_info['filename'])){
+                $rl = new AResource('download');
+                $resource = $rl->getResource($download_info['filename']);
+                $download_info['filename'] = $rl->getTypeDir().$resource['resource_path'];
+            }
             $size = filesize(DIR_RESOURCE.$download_info['filename']);
             $i = 0;
 

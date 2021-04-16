@@ -35,6 +35,7 @@ $controllers = [
         'responses/checkout/fast_checkout',
         'responses/checkout/fast_checkout_success',
         'responses/checkout/fast_checkout_summary',
+
         'pages/account/order_details',
         'pages/checkout/fast_checkout',
         'pages/checkout/fast_checkout_success',
