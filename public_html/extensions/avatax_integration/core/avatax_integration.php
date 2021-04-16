@@ -432,7 +432,7 @@ class ExtensionAvataxIntegration extends Extension
                 }
                 //for registered customer
                 else{
-                    $customerAddress = $mdl->getAddress($session['shipping_address_id']);
+                    $customerAddress = $mdl->getAddress($cust_data['shipping_address_id'] ?: $session['shipping_address_id']);
                 }
             }
             //when payment address takes for taxes
@@ -444,7 +444,7 @@ class ExtensionAvataxIntegration extends Extension
                     $customerAddress = $cust_data['guest'];
                 }//for registered customer
                 else{
-                    $customerAddress = $mdl->getAddress($session['payment_address_id']);
+                    $customerAddress = $mdl->getAddress($cust_data['payment_address_id'] ?: $session['payment_address_id']);
                 }
             }
 
