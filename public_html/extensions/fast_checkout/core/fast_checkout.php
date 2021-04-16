@@ -65,17 +65,17 @@ class ExtensionFastCheckout extends Extension
 
     public function onControllerPagesCheckoutShipping_InitData()
     {
+        $that = $this->baseObject;
+            unset(
+                $that->session->data['used_balance'],
+                //remove fast checkout session to prevent wrong cart
+                // of prior incomplete checkout process
+                $that->session->data['fc']
+        );
+
         if(!$this->isEnabled()){
             return;
         }
-
-        $that = $this->baseObject;
-        unset(
-            $that->session->data['used_balance'],
-            //remove fast checkout session to prevent wrong cart
-            // of prior incomplete checkout process
-            $that->session->data['fc']
-        );
 
         redirect($that->html->getSecureURL($this->sc_rt));
     }
@@ -211,14 +211,12 @@ class ExtensionFastCheckout extends Extension
 
     public function onControllerPagesCheckoutGuestStep1_InitData()
     {
+        $that = $this->baseObject;
+        unset($that->session->data['fc']);
         if(!$this->isEnabled()){
             return;
         }
-
-        $that = $this->baseObject;
-        if ($that->config->get('fast_checkout_status')) {
-            redirect($that->html->getSecureURL('checkout/fast_checkout'));
-        }
+        redirect($that->html->getSecureURL('checkout/fast_checkout'));
     }
 
     public function onControllerPagesAccountLogout_UpdateData()
@@ -231,6 +229,13 @@ class ExtensionFastCheckout extends Extension
         unset(
             $that->session->data['fc']
         );
+    }
+
+    public function onControllerPagesCheckoutPayment_InitData()
+    {
+        $that = $this->baseObject;
+        var_dump('eeeeeeeeeeeee'); exit;
+        unset( $that->session->data['fc'] );
     }
 
 }

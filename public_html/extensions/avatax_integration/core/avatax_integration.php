@@ -395,10 +395,9 @@ class ExtensionAvataxIntegration extends Extension
         $docHash = '';
         $load = $this->registry->get('load');
         $config = $this->registry->get('config');
-        $session =& $this->registry->get('session')->data['fc']
+        $session = $this->registry->get('session')->data['fc'] && $config->get('fast_checkout_status')
             ? $this->registry->get('session')->data['fc']
             : $this->registry->get('session')->data;
-
         $order_id = 0;
 
         if (IS_ADMIN === true) {
@@ -485,8 +484,10 @@ class ExtensionAvataxIntegration extends Extension
 
             // Document Level Elements
             // Required Request Parameters
-            if (!$cust_data['customer_id']) {
+            if (!$cust_data['customer_id'] && IS_ADMIN === true) {
                 $cust_data['customer_id'] = 'guest';
+            }else{
+                $cust_data['customer_id'] = $customer->isLogged() ? $customer->getId() : 'guest';
             }
             $getTaxRequest->setCustomerCode($cust_data['customer_id']);
             if ($order_data['date_added'] && $return == false) {
@@ -1163,7 +1164,7 @@ class ExtensionAvataxIntegration extends Extension
         ) {
             $address = func_get_arg(0)['address'];
             if ($that->customer->isLogged()) {
-                $session =& $this->registry->get('fast_checkout') == true || $this->registry->get('session')->data['fc']
+                $session = $this->registry->get('fast_checkout') == true || $this->registry->get('session')->data['fc']
                     ? $this->registry->get('session')->data['fc']
                     : $this->registry->get('session')->data;
                 $address['address_id'] = $session['shipping_address_id']
