@@ -25,37 +25,39 @@ class ControllerResponsesExtensionDefaultCod extends AController
     {
 
         $item = $this->html->buildElement(
-            array(
+            [
                 'type'  => 'button',
                 'name'  => 'back',
                 'style' => 'button',
                 'text'  => $this->language->get('button_back'),
-            ));
+            ]
+        );
         $this->view->assign('button_back', $item);
 
         $item = $this->html->buildElement(
-            array(
+            [
                 'type'  => 'button',
                 'name'  => 'checkout',
                 'style' => 'button btn-primary',
                 'text'  => $this->language->get('button_confirm'),
-            ));
+            ]
+        );
         $this->view->assign('button_confirm', $item);
 
         $this->view->assign('continue', $this->html->getSecureURL('checkout/success'));
 
-        if ($this->request->get['rt'] == 'checkout/guest_step_3') {
-            $this->view->assign('back', $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit', true));
-        } else {
-            $this->view->assign('back', $this->html->getSecureURL('checkout/payment', '&mode=edit', true));
-        }
 
+            $this->view->assign('back', $this->html->getSecureURL(
+                ($this->request->get['rt'] == 'checkout/guest_step_3'
+                    ? 'checkout/guest_step_2'
+                    : 'checkout/payment'),
+                '&mode=edit', true));
         $this->processTemplate('responses/default_cod.tpl');
     }
 
     public function api()
     {
-        $data = array();
+        $data = [];
 
         $data['text_note'] = $this->language->get('text_note');
         $data['process_rt'] = 'default_cod/api_confirm';
@@ -66,7 +68,7 @@ class ControllerResponsesExtensionDefaultCod extends AController
 
     public function api_confirm()
     {
-        $data = array();
+        $data = [];
 
         $this->confirm();
         $data['success'] = 'completed';
@@ -79,5 +81,7 @@ class ControllerResponsesExtensionDefaultCod extends AController
     {
         $this->load->model('checkout/order');
         $this->model_checkout_order->confirm($this->session->data['order_id'], $this->config->get('default_cod_order_status_id'));
+        $this->response->addJSONHeader();
+        $this->response->setOutput(json_encode(['result' => true]));
     }
 }

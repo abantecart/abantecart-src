@@ -53,12 +53,12 @@ class ControllerApiAccountCreate extends AControllerAPI
 
             $this->loadLanguage('mail/account_create');
 
-            $data = [
-                'store_name' =>$this->config->get('store_name'),
-                'login_url' => $this->html->getSecureURL('account/login')
-                ];
+            $this->data['mail_template_data'] = [
+                'store_name' => $this->config->get('store_name'),
+                'login_url'  => $this->html->getSecureURL('account/login'),
+            ];
 
-            $message = sprintf($this->language->get('text_welcome'), $this->config->get('store_name'))."\n\n";
+            $this->extensions->hk_ProcessData($this, 'account_create');
 
             if (!$this->config->get('config_customer_approval')) {
                 $template = 'storefront_welcome_email_activated';
@@ -70,7 +70,7 @@ class ControllerApiAccountCreate extends AControllerAPI
             $mail->setTo($request_data['email']);
             $mail->setFrom($this->config->get('store_main_email'));
             $mail->setSender($this->config->get('store_name'));
-            $mail->setTemplate($template, $data);
+            $mail->setTemplate($template, $this->data['mail_template_data']);
             $mail->send();
             $this->data['status'] = 1;
             if (!$this->config->get('config_customer_approval')) {

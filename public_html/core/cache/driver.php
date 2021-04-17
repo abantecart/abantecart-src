@@ -83,7 +83,7 @@ class ACacheDriver
     public function setExpiration($expire_time)
     {
         $this->expire = $expire_time;
-        return false;
+        return true;
     }
 
     /**

@@ -6,35 +6,36 @@
 	</definition>
 	<definition>
 		<key>text_payment</key>
-		<value><![CDATA[Payment]]></value>
+		<value><![CDATA[Pago]]></value>
 	</definition>
 	<definition>
 		<key>2checkout_note</key>
 		<value><![CDATA[
-		Con esta extensión se puede permitir usar el sistema 2Checkout pago para los clientes.<br>
-<b>Regístrate gratis hoy mismo! Utilice ABANTECART2CO código promocional para una exención de la cuota del servicio de aplicación (un ahorro de $ 10,99) y empezar a vender en línea hoy! </b> Visita <a href="https://www.2checkout.com/signup/">www.2checkout.com</a>, complete la solicitud y, a continuación, introduzca el código en el campo código de promoción para llevar Aprovecha esta oferta especial de hoy!
-		Ir a <a href="https://www.2checkout.com/">https://www.2checkout.com/</a> primero en registrarse y obtener credenciales de cuenta.<br>
-		No se olvide de configurar URL aquí <a href="https://www.2checkout.com/va/notifications/">https://www.2checkout.com/va/notifications/</a> INS.<br>
-		Su URL es INS <h4>#storefront#rt=extension/2checkout/callback</h4>
-		<br><br>También configurar direcciones URL permitidas aquí  <a href="https://www.2checkout.com/va/acct/detail_company_info">https://www.2checkout.com/va/acct/detail_company_info</a> y elegir la opción "Redirección del Encabezado (Su URL) ".
-		<br><br>Su URL permitidas se <h4>#storefront#rt=checkout/success</h4>]]></value>
+		Con esta extensión, puede usar el sistema de pago 2Checkout para aceptar pagos de sus clientes. <br>
+<b> ¡Regístrese gratis hoy! Use el código de promoción ABANTECART2CO para obtener una exención de la tarifa de servicio de su solicitud (un ahorro de $ 10.99) y comience a vender en línea hoy.</b>  Visite <a href="https://www.2checkout.com/signup/">www.2checkout.com</a>, complete la solicitud y luego ingrese el código en el campo del código de promoción para tomar aproveche esta oferta especial hoy!
+<br> Una vez que se registre, inicie sesión para obtener las credenciales de la cuenta para configurar esta extensión
+<br>No olvide configurar la URL INS y la URL de redireccionamiento aquí <a href="https://secure.2checkout.com/cpanel/webhooks_api.php">https://secure.2checkout.com/cpanel/webhooks_api.php</a>.
+<br><br>Su URL de INS es<h4>#storefront#rt=extension/2checkout/callback</h4>
+<br><br>También configure la URL de redireccionamiento y elija el método de retorno "Redireccionamiento de encabezado".
+<br><br>Su URL de redireccionamiento es <h4>#storefront#rt=checkout/success</h4>
+]]></value>
 	</definition>
 	<definition>
 		<key>text_success</key>
-		<value><![CDATA[Success: You have modified 2Checkout account details!]]></value>
+		<value><![CDATA[Éxito: ha modificado los detalles de la cuenta de 2Checkout.]]></value>
 	</definition>
 	<definition>
 		<key>2checkout_account</key>
-		<value><![CDATA[2Checkout Account No.:]]></value>
+		<value><![CDATA[2Checkout Merchant Code:]]></value>
 	</definition>
 	<definition>
 		<key>2checkout_secret</key>
 		<value>
-			<![CDATA[Secret Word:<br /><span class="help">The secret word to confirm transactions with (must be the same as defined on the merchat account configuration page.</span>]]></value>
+			<![CDATA[Secret Key:<br /><span class="help">La palabra secreta para confirmar las transacciones (debe ser la misma que se define en la página de configuración de la cuenta del comerciante.</span>]]></value>
 	</definition>
 	<definition>
 		<key>2checkout_test</key>
-		<value><![CDATA[Test Mode:]]></value>
+		<value><![CDATA[Modo de prueba:]]></value>
 	</definition>
 	<definition>
 		<key>2checkout_test_1</key>
@@ -46,7 +47,7 @@
 	</definition>
 	<definition>
 		<key>2checkout_order_status_id</key>
-		<value><![CDATA[Order Status:]]></value>
+		<value><![CDATA[Estado del pedido:]]></value>
 	</definition>
 	<definition>
 		<key>2checkout_location_id</key>
@@ -58,14 +59,14 @@
 	</definition>
 	<definition>
 		<key>error_permission</key>
-		<value><![CDATA[Warning: You do not have permission to modify payment 2Checkout!]]></value>
+		<value><![CDATA[Advertencia: no tiene permiso para modificar el pago 2Checkout!]]></value>
 	</definition>
 	<definition>
 		<key>error_account</key>
-		<value><![CDATA[Account No. Required!]]></value>
+		<value><![CDATA[Número de cuenta requerido!]]></value>
 	</definition>
 	<definition>
 		<key>error_secret</key>
-		<value><![CDATA[Secret Word Required!]]></value>
+		<value><![CDATA[¡Se requiere clave secreta!]]></value>
 	</definition>
 </definitions>

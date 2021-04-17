@@ -1,11 +1,12 @@
-<?php
+<?php /** @noinspection PhpUndefinedClassInspection */
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -27,34 +28,74 @@ class ExtensionFastCheckout extends Extension
     protected $registry;
     protected $sc_rt =  'checkout/fast_checkout';
 
-    public function __construct()
+    /**
+     * @return bool
+     */
+    protected function isEnabled()
     {
-        //CORS solution for http 2 https
-        header("Access-Control-Allow-Origin: ".'http://'.REAL_HOST.get_url_path($_SERVER['PHP_SELF']));
-        $this->registry = Registry::getInstance();
-        if (!isset($this->registry->get('session')->data['fast_checkout'])) {
-            $this->registry->get('session')->data['fast_checkout'] = array();
-        }
+        return ($this->baseObject->config->get('fast_checkout_status'));
+    }
+
+    /**
+     * @throws AException
+     */
+    public function onControllerPagesProductProduct_InitData(){
+        $this->baseObject->loadLanguage('fast_checkout/fast_checkout');
+    }
+
+    // add button BUY-NOW to sf product page
+    public function onControllerPagesProductProduct_UpdateData(){
+        $that = $this->baseObject;
+        $data= [];
+        $data['button_add_to_cart'] = $that->language->get('button_add_to_cart');
+        $data['text_buynow'] = $that->language->get('fast_checkout_buy_now');
+        $data['buynow_url'] = $that->html->getSecureURL('checkout/fast_checkout','&single_checkout=1');
+        $data['add_to_cart'] = $that->language->get('button_add_to_cart');
+
+        /** @var AView $view */
+        $viewClass = get_class($that->view);
+
+        $view = new $viewClass(Registry::getInstance(),0);
+        $view->batchAssign($data);
+        $that->view->addHookVar(
+            'product_add_to_cart_html',
+            $view->fetch('pages/product/add_to_cart_buttons.tpl')
+        );
     }
 
     public function onControllerPagesCheckoutShipping_InitData()
     {
         $that = $this->baseObject;
-        $cart_key = randomWord(5);
-        $that->session->data['cart_key'] = $cart_key;
-        unset($that->session->data['used_balance']);
-        redirect($that->html->getSecureURL($this->sc_rt, "&cart_key=".$cart_key));
+            unset(
+                $that->session->data['used_balance'],
+                //remove fast checkout session to prevent wrong cart
+                // of prior incomplete checkout process
+                $that->session->data['fc']
+        );
+
+        if(!$this->isEnabled()){
+            return;
+        }
+
+        redirect($that->html->getSecureURL($this->sc_rt));
     }
 
     public function onControllerCommonFooter_UpdateData()
     {
-        $that = $this->baseObject;
+        if(!$this->isEnabled()){
+            return;
+        }
 
+        $that = $this->baseObject;
         $that->loadLanguage('fast_checkout/fast_checkout');
     }
 
     public function onControllerResponsesEmbedHead_InitData()
     {
+        if(!$this->isEnabled()){
+            return;
+        }
+
         $that = $this->baseObject;
         if (!$that->config->get('embed_mode')) {
             return null;
@@ -62,68 +103,138 @@ class ExtensionFastCheckout extends Extension
         $this->_init($that);
     }
 
+    //replacing of cart ajax url inside head.tpl when checkout mode is fast
+    public function onControllerCommonHead_UpdateData()
+    {
+        /** @var ControllerCommonHead $that */
+        $that = $this->baseObject;
+        $registry = Registry::getInstance();
+
+        if(!$this->isEnabled() || !$registry){
+            return;
+        }
+        if($registry->get('fast_checkout')){
+            $that->view->assign(
+                'cart_ajax_url',
+                $that->html->getURL('r/product/product/addToCart', '&fc=1')
+            );
+        }
+    }
+
+    //replacing of cart when checkout mode is fast
+    public function onControllerResponsesProductProduct_InitData()
+    {
+        if(!$this->isEnabled()){
+            return;
+        }
+        /** @var ControllerResponsesProductProduct $that */
+        $that = $this->baseObject;
+        $registry = Registry::getInstance();
+        if($that->request->get['fc']){
+            $cartClassName = get_class($that->cart);
+            $registry->set(
+                'cart',
+                new $cartClassName( $registry, $that->session->data['fc'])
+            );
+        }
+    }
+
     /**
      * @param AController $that
      *
-     * @return null
+     * @throws AException
      */
-    private function _init(&$that)
+    private function _init($that)
     {
         if ($this->init_loaded === true) {
-            return null;
+            return;
         }
 
         $that->document->addStyle(
-            array(
+            [
                 'href'  => $that->view->templateResource('/css/fast_checkout.css'),
                 'rel'   => 'stylesheet',
                 'media' => 'screen',
-            )
+            ]
         );
         $that->document->addScript($that->view->templateResource('/js/credit_card_validation.js'));
         $that->loadLanguage('fast_checkout/fast_checkout');
         $this->init_loaded = true;
     }
 
-    //if generic checkout process - remove sign of fast checkout
-    public function onControllerPagesCheckoutConfirm_InitData()
-    {
-        $this->baseObject->session->data['fast-checkout'] = false;
-    }
-
     //forward to fast_checkout success page if checkout was simple
     public function onControllerPagesCheckoutSuccess_ProcessData()
     {
+        if(!$this->isEnabled()){
+            return;
+        }
+
         $that =& $this->baseObject;
-        if ($that->session->data['fast-checkout']) {
-            header('Location: '.$that->html->getSecureURL('checkout/fast_checkout_success',
-                    '&viewport=window&order_id='.$that->session->data['processed_order_id']));
-            exit;
-        }
-    }
-
-    public function onControllerCommonPage_InitData() {
-        $that = $this->baseObject;
-        $cart_key = $that->request->post_or_get('cart_key');
-
-        if ($that->customer && $that->customer->getId()) {
-            unset($that->session->data['guest']);
-        }
-
-        if ((!$cart_key || empty($cart_key)) && $that->request->get['rt'] === 'checkout/fast_checkout') {
-            $cart_key = randomWord(5);
-            $that->session->data['cart_key'] = $cart_key;
-            redirect($that->html->getSecureURL($this->sc_rt, "&cart_key=".$cart_key));
-        }
+        header('Location: '.$that->html->getSecureURL(
+            'checkout/fast_checkout_success',
+            '&viewport=window&order_id='.$that->session->data['processed_order_id'])
+        );
+        exit;
     }
 
     public function onControllerCommonPage_UpdateData()
     {
+        if(!$this->isEnabled()){
+            return;
+        }
+
         $that = $this->baseObject;
 
         if ($that->request->get['rt'] === 'checkout/fast_checkout') {
             $that->processTemplate('common/fast_checkout_page.tpl');
         }
+    }
+
+    public function onControllerPagesAccountEdit_InitData()
+    {
+        if(!$this->isEnabled()){
+            return;
+        }
+
+        /** @var ControllerPagesAccountEdit $that */
+        $that = $this->baseObject;
+        //show error message if empty phone
+        if ($that->request->is_GET()
+            && isset($that->request->get['telephone'])
+            && $that->customer->isLogged()
+            && $that->config->get('fast_checkout_require_phone_number')
+        ) {
+            $that->loadLanguage('account/edit');
+            $that->error['telephone'] = $that->language->get('error_telephone');
+        }
+    }
+
+    public function onControllerPagesCheckoutGuestStep1_InitData()
+    {
+        $that = $this->baseObject;
+        unset($that->session->data['fc']);
+        if(!$this->isEnabled()){
+            return;
+        }
+        redirect($that->html->getSecureURL('checkout/fast_checkout'));
+    }
+
+    public function onControllerPagesAccountLogout_UpdateData()
+    {
+        if(!$this->isEnabled()){
+            return;
+        }
+
+        $that = $this->baseObject;
+        unset(
+            $that->session->data['fc']
+        );
+    }
+
+    public function onControllerPagesCheckoutPayment_InitData()
+    {
+        $that = $this->baseObject;
+        unset( $that->session->data['fc'] );
     }
 
 }

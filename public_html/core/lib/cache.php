@@ -62,7 +62,7 @@ class ACache
     /**
      * Holds the cached data.
      */
-    private $cache = array();
+    private $cache = [];
 
     /**
      * Holds cache storage driver object
@@ -74,22 +74,22 @@ class ACache
     /**
      * Number of times the cache data was saved/updated.
      */
-    private $cache_saves = array();
+    private $cache_saves = [];
 
     /**
      * Number of times the cache data was accessed.
      */
-    private $cache_hits = array();
+    private $cache_hits = [];
 
     /**
      * Number of times the cache was loaded from storage. Ideally, should be 1 for any key.
      */
-    private $cache_loads = array();
+    private $cache_loads = [];
 
     /**
      * Number of times the cache did not have data present. Ideally, should be 0 for any key.
      */
-    private $cache_misses = array();
+    private $cache_misses = [];
 
     /**
      * Called upon object declaration, should be in INIT.
@@ -153,7 +153,7 @@ class ACache
      * @return string
      * @since 1.2.7
      */
-    public function paramsToString($data = array())
+    public function paramsToString($data = [])
     {
         $output = '';
         if (empty($data)) {
@@ -231,6 +231,9 @@ class ACache
         //get group name from the key Example: key=[group].text
         $group = $this->_get_group($key);
         $this->cache[$group][$key] = $data;
+        if(!isset($this->cache_saves[$group][$key])){
+            $this->cache_saves[$group][$key] = 0;
+        }
         $this->cache_saves[$group][$key] += 1;
 
         if (!is_null($data) && $this->enabled && $this->cache_driver && $this->cache_driver->isSupported()) {
@@ -298,12 +301,15 @@ class ACache
 
         $group = $this->_get_group($key);
         if ($this->_exists($key, $group)) {
+            if(!isset($this->cache_hits[$group][$key])){
+                $this->cache_hits[$group][$key] = 0;
+            }
             $this->cache_hits[$group][$key] += 1;
             return $this->cache[$group][$key];
         }
 
         if ($this->enabled && $this->cache_driver && $this->cache_driver->isSupported()) {
-            //load cache from storage		
+            //load cache from storage
             $data = $this->cache_driver->get($key, $group);
             if ($data === false) {
                 //check if cache is locked
@@ -318,11 +324,16 @@ class ACache
             if ($data !== false) {
                 $data = unserialize($data);
                 $this->cache[$group][$key] = $data;
+                $this->cache_loads[$group][$key] = $this->cache_loads[$group][$key] ?? 0;
                 $this->cache_loads[$group][$key] += 1;
                 return $data;
             }
         }
+        if(!isset($this->cache_misses[$group])){
+            $this->cache_misses[$group] = [];
+        }
 
+        $this->cache_misses[$group][$key] = $this->cache_misses[$group][$key] ?? 0;
         $this->cache_misses[$group][$key] += 1;
         return false;
     }
@@ -460,7 +471,7 @@ class ACache
      */
     public function flush()
     {
-        $this->cache = array();
+        $this->cache = [];
         return true;
     }
 
@@ -471,13 +482,13 @@ class ACache
      * @param   string $group    The cache data group
      * @param   string $locktime The default locktime for locking the cache.
      *
-     * @return  object  Properties are lock and locklooped
+     * @return  array  Properties are lock and locklooped
      *
      * @since   1.2.7
      */
     public function lock($key, $group, $locktime = null)
     {
-        $ret = array();
+        $ret = [];
         $ret['waited'] = false;
 
         $locktime = ($locktime) ? $locktime : $this->locktime;
@@ -539,19 +550,17 @@ class ACache
      */
     public function unlock($key, $group)
     {
-
         if ($this->enabled && $this->cache_driver && $this->cache_driver->isSupported()) {
             $unlocked = $this->cache_driver->unlock($key, $group);
             if ($unlocked !== false) {
-                return $unlocked;
+                return true;
             }
         } else {
             return false;
         }
 
         //cleanup after cache unlock
-        $unlock = $this->cache_driver->remove($key.'_lc', $group);
-        return $unlock;
+        return $this->cache_driver->remove($key.'_lc', $group);
     }
 
     /**
@@ -570,7 +579,14 @@ class ACache
         $stats .= "<strong>Cache usage report:</strong>";
         $stats .= "</p>";
         $stats .= '<table>';
-        $stats .= '<tr><td></td><td width="9%"></td><td width="9%"></td><td width="9%"></td><td width="9%"></td><td width="9%"></td></tr>';
+        $stats .= '<tr>
+                        <td></td>
+                        <td style="width:9%;"></td>
+                        <td style="width:9%;"></td>
+                        <td style="width:9%;"></td>
+                        <td style="width:9%;"></td>
+                        <td style="width:9%;"></td>
+                    </tr>';
         foreach ($this->cache as $group => $cache) {
             $stats .= "<tr><td colspan=6>";
             $stats .= "<strong>Cache group: $group</strong>";
@@ -613,8 +629,10 @@ class ACache
                 }
 
                 $stats .= '<tr>
-						<td style="text-align:left; padding-left: 20px;">'.$key.'</td><td>'.number_format($size_in_bytes / $kb_in_bytes, 2).'k</td> '.$text.'
-					</tr>';
+                            <td style="text-align:left; padding-left: 20px;">'.$key.'</td>
+                            <td>'.number_format($size_in_bytes / $kb_in_bytes, 2).'k</td>
+                            '.$text.'
+                        </tr>';
             }
         }
         $stats .= "</table>";
@@ -635,11 +653,11 @@ class ACache
      */
     public function getCacheStorageDriver($driver_name)
     {
-        $driver = array();
+        $driver = [];
         $file_path = DIR_CORE.'cache/'.$driver_name.'.php';
         if (file_exists($file_path)) {
             $class = 'ACacheDriver'.ucfirst($driver_name);
-            $driver = array('class' => $class, 'file' => $file_path, 'driver_name' => $driver_name);
+            $driver = ['class' => $class, 'file' => $file_path, 'driver_name' => $driver_name];
         }
         return $driver;
     }
@@ -653,7 +671,7 @@ class ACache
      */
     public function getCacheStorageDrivers()
     {
-        $drivers = array();
+        $drivers = [];
 
         // Get an iterator and loop trough the driver php files.
         $files = new DirectoryIterator(DIR_CORE.'cache');
@@ -666,7 +684,7 @@ class ACache
             //Build class name from the file name.
             $driver_name = substr($file_name, 0, (strrpos($file_name, ".")));
             $class = 'ACacheDriver'.ucfirst($driver_name);
-            $drivers[$driver_name] = array('class' => $class, 'file' => $file->getPathname(), 'driver_name' => $driver_name);
+            $drivers[$driver_name] = ['class' => $class, 'file' => $file->getPathname(), 'driver_name' => $driver_name];
         }
 
         return $drivers;

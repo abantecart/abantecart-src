@@ -90,7 +90,7 @@
 	</definition>
 	<definition>
 		<key>error_telephone</key>
-		<value><![CDATA[Telephone must be greater than 3 and less than 32 characters!]]></value>
+		<value><![CDATA[Telephone must be greater than 3 and less than 32 numeric only characters!]]></value>
 	</definition>
 	<definition>
 		<key>error_address_1</key>

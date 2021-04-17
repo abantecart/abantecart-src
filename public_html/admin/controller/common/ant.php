@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -30,9 +31,8 @@ class ControllerCommonANT extends AController
 
     public function main()
     {
-
         // disable for login-logout pages
-        if (in_array($this->request->get['rt'], array('index/logout', 'index/login'))) {
+        if (in_array($this->request->get['rt'], ['index/logout', 'index/login'])) {
             unset($this->session->data['ant_messages']);
             return null;
         }
@@ -42,8 +42,9 @@ class ControllerCommonANT extends AController
         }
 
         // prevent repeats of requests or if last update older then 24hours
-        if (has_value($this->session->data['ant_messages']) && (time() - $this->session->data['ant_messages']['date_modified'] < 86400)) {
-           return null;
+        if (has_value($this->session->data['ant_messages'])
+            && (time() - $this->session->data['ant_messages']['date_modified'] < 86400)) {
+            return null;
         }
 
         //init controller data
@@ -70,13 +71,13 @@ class ControllerCommonANT extends AController
         }
 
         //do connect without any http-redirects
-        $connect = new AConnect (true, true);
+        $connect = new AConnect (true);
         $result = $connect->getResponseSecure($url);
-        $this->session->data ['ant_messages'] = array(); // prevent requests in future at this session
+        $this->session->data ['ant_messages'] = []; // prevent requests in future at this session
         // insert new messages in database
         if ($result && is_array($result)) {
             //set array for check response
-            $check_array = array(
+            $check_array = [
                 'message_id',
                 'type',
                 'date_added',
@@ -92,10 +93,10 @@ class ControllerCommonANT extends AController
                 'url',
                 'published',
                 'language_code',
-            );
-            $banners = array();
+            ];
+            $banners = [];
             foreach ($result as $notify) {
-                $tmp = array();
+                $tmp = [];
                 foreach ($notify as $key => $value) {
                     if (!in_array($key, $check_array)) {
                         continue;
@@ -128,6 +129,6 @@ class ControllerCommonANT extends AController
 
         // check for extensions updates
         $this->loadModel('tool/updater');
-        $this->model_tool_updater->check4updates();
+        $this->model_tool_updater->check4updates(true);
     }
 }

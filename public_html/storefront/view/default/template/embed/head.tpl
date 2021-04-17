@@ -1,15 +1,17 @@
 <head>
-<meta http-equiv="cache-control" content="max-age=0">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="-1">
-<meta http-equiv="expires" content="Tue, 01 Jan 1980 11:00:00 GMT">
-<meta http-equiv="pragma" content="no-cache">
+    <meta charset="UTF-8">
+    <title><?php echo $this->document->getTitle(); ?></title>
+    <meta http-equiv="cache-control" content="max-age=0">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="-1">
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 11:00:00 GMT">
+    <meta http-equiv="pragma" content="no-cache">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<base href="<?php echo $base; ?>" />
+    <base href="<?php echo $base; ?>"/>
 
-<?php foreach ($links as $link) { ?>
+    <?php foreach ($links as $link) { ?>
 <link href="<?php echo $link['href']; ?>" rel="<?php echo $link['rel']; ?>" />
 <?php } ?>
 
@@ -20,15 +22,15 @@
 <link rel="<?php echo $style['rel']; ?>" type="text/css" href="<?php echo $style['href']; ?>" media="<?php echo $style['media']; ?>" />
 <?php } ?>
 
-<script type="text/javascript" src="<?php echo $ssl ? 'https': 'http'?>://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo $ssl ? 'https': 'http'?>://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 if (typeof jQuery == 'undefined') {
-   var include = '\x3Cscript type="text/javascript" src="<?php echo $this->templateResource("/javascript/jquery-1.12.4.min.js"); ?>">\x3C/script>';
+   var include = '\x3Cscript type="text/javascript" src="<?php echo $this->templateResource("/javascript/jquery-3.5.1.min.js"); ?>">\x3C/script>';
    document.write(include);
 }
 </script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/bootstrap.min.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-migrate-1.2.1.min.js');?>"></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-migrate-1.4.1.min.js');?>"></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/common.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/intl-tel-input/js/intlTelInput.min.js'); ?>"></script>
 

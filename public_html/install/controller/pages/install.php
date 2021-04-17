@@ -27,25 +27,28 @@
  */
 class ControllerPagesInstall extends AController
 {
-    private $error = array();
-    public $data = array();
+    private $error = [];
+    public $data = [];
 
     public function main()
     {
 
-        $this->data = array();
+        $this->data = [];
         $run_level = $this->request->get['runlevel'];
 
         if (isset($run_level)) {
-            if (!in_array((int)$run_level, array(1, 2, 3, 4, 5))) {
-                $this->redirect(HTTP_SERVER.'index.php?rt=activation'.'&admin_path='.$this->request->post['admin_path']);
+            if (!in_array((int)$run_level, [1, 2, 3, 4, 5])) {
+                redirect(HTTP_SERVER.'index.php?rt=activation'.'&admin_path='.$this->request->post['admin_path']);
             }
 
-            if (!$this->session->data['install_step_data'] && (int)$run_level == 1) {
+            if (isset($this->session->data['install_step_data'])
+                    && !$this->session->data['install_step_data']
+                    && (int)$run_level == 1
+            ) {
                 if (filesize(DIR_ABANTECART.'system/config.php')) {
-                    $this->redirect(HTTP_SERVER.'index.php?rt=activation');
+                    redirect(HTTP_SERVER.'index.php?rt=activation');
                 } else {
-                    $this->redirect(HTTP_SERVER.'index.php?rt=license');
+                    redirect(HTTP_SERVER.'index.php?rt=license');
                 }
             }
 
@@ -54,15 +57,14 @@ class ControllerPagesInstall extends AController
         }
 
         if ($this->request->is_POST() && ($this->_validate())) {
-
             $this->session->data['install_step_data'] = $this->request->post;
-            $this->redirect(HTTP_SERVER.'index.php?rt=install&runlevel=1');
+            redirect(HTTP_SERVER.'index.php?rt=install&runlevel=1');
         }
 
         $this->data['error'] = $this->error;
         $this->data['action'] = HTTP_SERVER.'index.php?rt=install';
 
-        $fields = array(
+        $fields = [
             'db_driver',
             'db_host',
             'db_user',
@@ -74,9 +76,9 @@ class ControllerPagesInstall extends AController
             'password_confirm',
             'email',
             'admin_path',
-        );
-        $defaults = array('', 'localhost', '', '', '', 'abc_', 'admin', '', '', '', '');
-        $place_holder = array(
+        ];
+        $defaults = ['', 'localhost', '', '', '', 'abc_', 'admin', '', '', '', ''];
+        $place_holder = [
             'Select Database Driver',
             'Enter Database Hostname',
             'Enter Database Username',
@@ -88,7 +90,7 @@ class ControllerPagesInstall extends AController
             'Repeat the password',
             'Provide valid email of administrator',
             'Enter your secret admin key',
-        );
+        ];
 
         foreach ($fields as $k => $field) {
             if (isset($this->request->post[$field])) {
@@ -99,29 +101,36 @@ class ControllerPagesInstall extends AController
         }
 
         $form = new AForm('ST');
-        $form->setForm(array(
+        $form->setForm(
+            [
             'form_name' => 'form',
             'update'    => '',
-        ));
+            ]
+        );
 
         $this->data['form']['id'] = 'form';
-        $this->data['form']['form_open'] = $form->getFieldHtml(array(
+        $this->data['form']['form_open'] = $form->getFieldHtml(
+            [
             'type'   => 'form',
             'name'   => 'editFrm',
             'action' => $this->data['action'],
-        ));
+            ]
+        );
 
         foreach ($fields as $k => $field) {
             if ($field != 'db_driver') {
-                $this->data['form'][$field] = $form->getFieldHtml(array(
-                    'type'        => (in_array($field, array('password', 'password_confirm')) ? 'password' : 'input'),
-                    'name'        => $field,
-                    'value'       => $this->data[$field],
-                    'placeholder' => $place_holder[$k],
-                    'required'    => in_array($field, array('db_host', 'db_user', 'db_name', 'username', 'password', 'password_confirm', 'email', 'admin_path')),
-                ));
+                $this->data['form'][$field] = $form->getFieldHtml(
+                    [
+                        'type'        => (in_array($field, ['password', 'password_confirm']) ? 'password' : 'input'),
+                        'name'        => $field,
+                        'value'       => $this->data[$field],
+                        'placeholder' => $place_holder[$k],
+                        'required'    => in_array($field, ['db_host', 'db_user', 'db_name', 'username', 'password', 'password_confirm', 'email', 'admin_path']
+                        ),
+                    ]
+                );
             } else {
-                $options = array();
+                $options = [];
 
                 if (extension_loaded('mysqli')) {
                     $options['amysqli'] = 'MySQLi';
@@ -136,13 +145,15 @@ class ControllerPagesInstall extends AController
                     $options['mysql'] = 'MySQL';
                 }
                 if ($options) {
-                    $this->data['form'][$field] = $form->getFieldHtml(array(
+                    $this->data['form'][$field] = $form->getFieldHtml(
+                        [
                         'type'     => 'selectbox',
                         'name'     => $field,
                         'value'    => $this->data[$field],
                         'options'  => $options,
                         'required' => true,
-                    ));
+                        ]
+                    );
                 } else {
                     $this->data['form'][$field] = '';
                     $this->data['error'][$field] = 'No database support. Please install AMySQL or PDO_MySQL php extension.';
@@ -178,7 +189,7 @@ class ControllerPagesInstall extends AController
         if ($step == 2) {
             $this->_install_SQL();
             $this->response->addJSONHeader();
-            return AJson::encode(array('ret_code' => 50));
+            return AJson::encode(['ret_code' => 50]);
         } elseif ($step == 3) {
             //NOTE: Create config as late as possible. This will prevent triggering finished installation 
             $this->_configure();
@@ -186,28 +197,29 @@ class ControllerPagesInstall extends AController
             sleep(3);
             $this->session->data['finish'] = 'false';
             $this->response->addJSONHeader();
-            return AJson::encode(array('ret_code' => 100));
+            return AJson::encode(['ret_code' => 100]);
         } elseif ($step == 4) {
             // Load demo data
-            if ($this->session->data['install_step_data']['load_demo_data'] == 'on') {
+            if (($this->session->data['install_step_data']['load_demo_data'] ?? '') == 'on') {
                 $this->_load_demo_data();
             }
             //Clean session for configurations. We do not need them any more
             unset($this->session->data['install_step_data']);
             $this->session->data['finish'] = 'false';
             $this->response->addJSONHeader();
-            return AJson::encode(array('ret_code' => 150));
+            return AJson::encode(['ret_code' => 150]);
         } elseif ($step == 5) {
             //install is completed but we are not yet finished
             $this->session->data['finish'] = 'false';
             // Load languages with asynchronous approach
             $this->response->addJSONHeader();
-            return AJson::encode(array('ret_code' => 200));
+            return AJson::encode(['ret_code' => 200]);
         }
 
         $this->view->assign('url', HTTP_SERVER.'index.php?rt=install');
         $this->view->assign('redirect', HTTP_SERVER.'index.php?rt=finish');
-        $temp = $this->dispatch('pages/install/progressbar_scripts', array('url' => HTTP_SERVER.'index.php?rt=install/progressbar'));
+        $temp = $this->dispatch('pages/install/progressbar_scripts', ['url' => HTTP_SERVER.'index.php?rt=install/progressbar']
+        );
         $this->view->assign('progressbar_scripts', $temp->dispatchGetOutput());
 
         $this->addChild('common/header', 'header', 'common/header.tpl');
@@ -265,26 +277,26 @@ class ControllerPagesInstall extends AController
     public function progressbar()
     {
         session_write_close(); // unlock session !important!
-        $progress = new progressbar($this->_prepare_registry(), $this);
+        $progress = new progressbar($this->_prepare_registry());
         $this->response->addJSONHeader();
         switch ($this->request->get["work"]) {
             case "max":
-                echo AJson::encode(array('total' => $progress->get_max()));
+                echo AJson::encode(['total' => $progress->get_max()]);
                 break;
             case "do":
                 $result = $progress->do_work();
                 if (!$result) {
-                    $result = array(
+                    $result = [
                         'status'    => 406,
                         'errorText' => $result,
-                    );
+                    ];
                 } else {
-                    $result = array('status' => 100);
+                    $result = ['status' => 100];
                 }
                 echo AJson::encode($result);
                 break;
             case "progress":
-                echo AJson::encode(array('prc' => (int)$progress->get_progress()));
+                echo AJson::encode(['prc' => (int)$progress->get_progress()]);
                 break;
         }
     }
@@ -328,9 +340,11 @@ class progressbar implements AProgressBar
     function get_progress()
     {
         $cnt = 0;
-        $res = $this->registry->get('db')->query('SELECT section, COUNT(DISTINCT `block`) as cnt
-													FROM '.DB_PREFIX.'language_definitions
-													GROUP by section');
+        $res = $this->registry->get('db')->query(
+            'SELECT section, COUNT(DISTINCT `block`) as cnt
+            FROM '.DB_PREFIX.'language_definitions
+            GROUP by section'
+        );
         foreach ($res->rows as $row) {
             $cnt += $row['cnt'];
         }
@@ -339,7 +353,9 @@ class progressbar implements AProgressBar
 
     function do_work()
     {
-        define('IS_ADMIN', true);
+        if(!defined('IS_ADMIN')) {
+            define('IS_ADMIN', true);
+        }
         $language = new ALanguageManager($this->registry, 'en');
         //Load default language (1) English on install only.
         return $language->definitionAutoLoad(1, 'all', 'all');

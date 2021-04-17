@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -35,21 +36,22 @@ class ControllerResponsesToolExtensionsStore extends AController
 
     public function connect()
     {
-
         //we get token back
         $mp_token = $this->request->get_or_post('mp_token');
         $html = "";
         if ($mp_token) {
             //save token and return
             $this->loadModel('setting/setting');
-            $setting = array('mp_token' => $mp_token);
+            $setting = ['mp_token' => $mp_token];
             $this->model_setting_setting->editSetting('api', $setting);
 
-            $html = "
-				<script type='text/javascript'>
-				window.parent.reload_page();
-				</script>
-			";
+            $url = $this->html->getSecureURL('extension/extensions_store');
+            $html = "<script type='text/javascript'>
+                    window.top.location.href = '".$url."'; 
+                    </script>";
+            /** @var ModelToolUpdater $mdl */
+            $mdl = $this->loadModel('tool/updater');
+            $mdl->check4Updates(true);
         }
 
         $this->response->setOutput($html);
@@ -64,17 +66,20 @@ class ControllerResponsesToolExtensionsStore extends AController
             //disconnect remote marketplace fist 
             $result = $this->model_tool_mp_api->disconnect($mp_token);
             if ($result['status'] == 1) {
-                //reset token localy
+                //reset token locally
                 $this->loadModel('setting/setting');
-                $setting = array('mp_token' => '');
+                $setting = ['mp_token' => ''];
                 $this->model_setting_setting->editSetting('api', $setting);
                 $return = 'success';
                 unset($this->session->data['ready_to_install']);
+                /** @var ModelToolUpdater $mdl */
+                $mdl = $this->loadModel('tool/updater');
+                $mdl->check4Updates(true);
             } else {
                 $return = 'error';
             }
         }
-        //sucess all the time
+        //success all the time
         $this->response->setOutput($return);
     }
 
@@ -90,11 +95,12 @@ class ControllerResponsesToolExtensionsStore extends AController
             $url = $this->html->getSecureURL('extension/extensions_store', '&purchased_only=1');
         }
 
-        $html = "
-				<script type='text/javascript'>
-				window.top.location.href = '".$url."';
-				</script>
-		";
+        $html = "<script type='text/javascript'>
+                window.top.location.href = '".$url."';
+                </script>";
+        /** @var ModelToolUpdater $mdl */
+        $mdl = $this->loadModel('tool/updater');
+        $mdl->check4Updates(true);
 
         $this->response->setOutput($html);
     }

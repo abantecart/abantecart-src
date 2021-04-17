@@ -79,8 +79,8 @@ class ControllerResponsesProductProduct extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $product_id = (int)$this->request->post['product_id'];
-        $attribute_value_id = (int)$this->request->post['attribute_value_id'];
+        $product_id = (int)$this->request->post_or_get('product_id');
+        $attribute_value_id = (int)$this->request->post_or_get('attribute_value_id');
         $output = array();
         if ($attribute_value_id && is_int($attribute_value_id)) {
             $resource = new AResource('image');

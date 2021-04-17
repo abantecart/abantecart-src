@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,34 +24,45 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerResponsesListingGridProduct extends AController
 {
-    public $data = array();
-
     public function main()
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
         $this->loadLanguage('catalog/product');
         $this->loadModel('catalog/product');
         $this->loadModel('tool/image');
 
         //Clean up parameters if needed
-        if (isset($this->request->get['keyword']) && $this->request->get['keyword'] == $this->language->get('filter_product')) {
+        if (isset($this->request->get['keyword'])
+            && $this->request->get['keyword'] == $this->language->get('filter_product')
+        ) {
             unset($this->request->get['keyword']);
         }
-        if (isset($this->request->get['pfrom']) && $this->request->get['pfrom'] == 0) {
+        if (isset($this->request->get['pfrom'])
+            && $this->request->get['pfrom'] == 0
+        ) {
             unset($this->request->get['pfrom']);
         }
-        if (isset($this->request->get['pto']) && $this->request->get['pto'] == $this->language->get('filter_price_max')) {
+        if (isset($this->request->get['pto'])
+            && $this->request->get['pto'] == $this->language->get('filter_price_max')
+        ) {
             unset($this->request->get['pto']);
         }
 
         //Prepare filter config
-        $filter_params = array('category', 'status', 'keyword', 'match', 'pfrom', 'pto');
-        $grid_filter_params = array('name', 'sort_order', 'model');
+        $filter_params = [
+            'category',
+            'status',
+            'keyword',
+            'match',
+            'pfrom',
+            'pto',
+        ];
 
-        $filter_form = new AFilter(array('method' => 'get', 'filter_params' => $filter_params));
-        $filter_grid = new AFilter(array('method' => 'post', 'grid_filter_params' => $grid_filter_params));
+        $grid_filter_params = ['name', 'sort_order', 'model'];
+
+        $filter_form = new AFilter(['method' => 'get', 'filter_params' => $filter_params]);
+        $filter_grid = new AFilter(['method' => 'post', 'grid_filter_params' => $grid_filter_params]);
         $data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
 
         $total = $this->model_catalog_product->getTotalProducts($data);
@@ -59,12 +71,12 @@ class ControllerResponsesListingGridProduct extends AController
         $response->total = $filter_grid->calcTotalPages($total);
         $response->records = $total;
         $response->userdata = new stdClass();
-        $response->userdata->classes = array();
+        $response->userdata->classes = [];
         $results = $this->model_catalog_product->getProducts($data);
 
-        $product_ids = array();
+        $product_ids = [];
         foreach ($results as $result) {
-            $product_ids[] = (int)$result['product_id'];
+            $product_ids[] = (int) $result['product_id'];
         }
 
         $resource = new AResource('image');
@@ -87,30 +99,37 @@ class ControllerResponsesListingGridProduct extends AController
                 $price = $this->language->get('text_call_to_order');
             } else {
                 $price = $this->html->buildInput(
-                    array(
+                    [
                         'name'  => 'price['.$result['product_id'].']',
                         'value' => moneyDisplayFormat($result['price']),
-                    ));
+                    ]
+                );
             }
 
-            $response->rows[$i]['cell'] = array(
+            $response->rows[$i]['cell'] = [
                 $thumbnail['thumb_html'],
-                $this->html->buildInput(array(
-                    'name'  => 'product_description['.$result['product_id'].'][name]',
-                    'value' => $result['name'],
-                )),
-                $this->html->buildInput(array(
-                    'name'  => 'model['.$result['product_id'].']',
-                    'value' => $result['model'],
-                )),
+                $this->html->buildInput(
+                    [
+                        'name'  => 'product_description['.$result['product_id'].'][name]',
+                        'value' => $result['name'],
+                    ]
+                ),
+                $this->html->buildInput(
+                    [
+                        'name'  => 'model['.$result['product_id'].']',
+                        'value' => $result['model'],
+                    ]
+                ),
                 $price,
-                (int)$result['quantity'],
-                $this->html->buildCheckbox(array(
-                    'name'  => 'status['.$result['product_id'].']',
-                    'value' => $result['status'],
-                    'style' => 'btn_switch',
-                )),
-            );
+                (int) $result['quantity'],
+                $this->html->buildCheckbox(
+                    [
+                        'name'  => 'status['.$result['product_id'].']',
+                        'value' => $result['status'],
+                        'style' => 'btn_switch',
+                    ]
+                ),
+            ];
             $i++;
         }
         $this->data['response'] = $response;
@@ -124,28 +143,41 @@ class ControllerResponsesListingGridProduct extends AController
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
+        $post = $this->request->post;
 
         if (!$this->user->canModify('listing_grid/product')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
-                    'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/product'),
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
+                    'error_text'  => sprintf(
+                        $this->language->get('error_permission_modify'),
+                        'listing_grid/product'
+                    ),
                     'reset_value' => true,
-                ));
+                ]
+            );
+            return;
         }
 
         $this->loadModel('catalog/product');
         $this->loadLanguage('catalog/product');
 
-        switch ($this->request->post['oper']) {
+        switch ($post['oper']) {
             case 'del':
-                $ids = explode(',', $this->request->post['id']);
+                $ids = explode(',', $post['id']);
                 if (!empty($ids)) {
                     foreach ($ids as $id) {
                         $err = $this->_validateDelete($id);
                         if (!empty($err)) {
                             $error = new AError('');
-                            return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
+                            $error->toJSONResponse(
+                                'VALIDATION_ERROR_406',
+                                [
+                                    'error_text' => $err,
+                                ]
+                            );
+                            return;
                         }
                         $this->model_catalog_product->deleteProduct($id);
                     }
@@ -153,22 +185,54 @@ class ControllerResponsesListingGridProduct extends AController
                 }
                 break;
             case 'save':
-                $allowedFields = array_merge(array('product_description', 'model', 'call_to_order', 'price', 'quantity', 'status'), (array)$this->data['allowed_fields']);
-                $ids = explode(',', $this->request->post['id']);
+            case 'enable':
+            case 'disable':
+                $allowedFields = array_merge(
+                    [
+                        'product_description',
+                        'model',
+                        'call_to_order',
+                        'price',
+                        'quantity',
+                        'status',
+                    ],
+                    (array) $this->data['allowed_fields']
+                );
+
+                $ids = explode(',', $post['id']);
                 if (!empty($ids)) {
                     foreach ($ids as $id) {
                         foreach ($allowedFields as $f) {
-                            if ($f == 'status' && !isset($this->request->post['status'][$id])) {
-                                $this->request->post['status'][$id] = 0;
+                            if ($f == 'status' && !isset($post['status'][$id])) {
+                                $post['status'][$id] = 0;
                             }
 
-                            if (isset($this->request->post[$f][$id])) {
-                                $err = $this->_validateField($f, $this->request->post[$f][$id]);
+                            if($post['oper'] == 'enable'){
+                                $post['status'][$id] = 1;
+                            }elseif($post['oper'] == 'disable'){
+                                $post['status'][$id] = 0;
+                            }
+
+                            if (isset($post[$f][$id])) {
+                                $err = $this->_validateField(
+                                    $f,
+                                    $post[$f][$id]
+                                );
+
                                 if (!empty($err)) {
                                     $error = new AError('');
-                                    return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
+                                    $error->toJSONResponse(
+                                        'VALIDATION_ERROR_406',
+                                        [
+                                            'error_text' => $err,
+                                        ]
+                                    );
+                                    return;
                                 }
-                                $this->model_catalog_product->updateProduct($id, array($f => $this->request->post[$f][$id]));
+                                $this->model_catalog_product->updateProduct(
+                                    $id,
+                                    [$f => $post[$f][$id]]
+                                );
                             }
                         }
                     }
@@ -176,7 +240,7 @@ class ControllerResponsesListingGridProduct extends AController
                 }
                 break;
             case 'relate':
-                $ids = explode(',', $this->request->post['id']);
+                $ids = explode(',', $post['id']);
                 if (!empty($ids)) {
                     $this->model_catalog_product->relateProducts($ids);
                 }
@@ -192,56 +256,73 @@ class ControllerResponsesListingGridProduct extends AController
      * update only one field
      *
      * @return void
+     * @throws AException
      */
     public function update_field()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
+        $post = $this->request->post;
 
         if (!$this->user->canModify('listing_grid/product')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
                     'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/product'),
                     'reset_value' => true,
-                ));
+                ]
+            );
+            return;
         }
 
         $this->loadLanguage('catalog/product');
         $this->loadModel('catalog/product');
 
-        $product_id = (int)$this->request->get['id'];
+        $product_id = (int) $this->request->get['id'];
         if ($product_id) {
             //request sent from edit form. ID in url
-            foreach ($this->request->post as $key => $value) {
+            foreach ($post as $key => $value) {
                 $err = $this->_validateField($key, $value);
                 if (!empty($err)) {
                     $error = new AError('');
-                    return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
+                    $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $err]);
+                    return;
                 }
                 if ($key == 'date_available') {
                     $value = dateDisplay2ISO($value);
                 }
-                $data = array($key => $value);
+                $data = [$key => $value];
                 $this->model_catalog_product->updateProduct($product_id, $data);
                 $this->model_catalog_product->updateProductLinks($product_id, $data);
             }
             $this->extensions->hk_ProcessData($this, 'product_update', ['product_id' => $product_id]);
-            return null;
+            return;
         }
 
         //request sent from jGrid. ID is key of array
-        $allowedFields = array_merge(array('product_description', 'model', 'price', 'call_to_order', 'quantity', 'status'), (array)$this->data['allowed_fields']);
+        $allowedFields = array_merge(
+            [
+                'product_description',
+                'model',
+                'price',
+                'call_to_order',
+                'quantity',
+                'status',
+            ],
+            (array) $this->data['allowed_fields']
+        );
+
         foreach ($allowedFields as $f) {
-            if (isset($this->request->post[$f])) {
-                foreach ($this->request->post[$f] as $k => $v) {
+            if (isset($post[$f])) {
+                foreach ($post[$f] as $k => $v) {
                     $err = $this->_validateField($f, $v);
                     if (!empty($err)) {
                         $error = new AError('');
-                        return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
+                        $error->toJSONResponse('VALIDATION_ERROR_406', ['error_text' => $err]);
+                        return;
                     }
-                    $this->model_catalog_product->updateProduct($k, array($f => $v));
+                    $this->model_catalog_product->updateProduct($k, [$f => $v]);
                     $this->extensions->hk_ProcessData($this, 'product_update', ['product_id' => $k]);
                 }
             }
@@ -253,28 +334,37 @@ class ControllerResponsesListingGridProduct extends AController
 
     public function update_discount_field()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
+        $post = $this->request->post;
 
         if (!$this->user->canModify('listing_grid/product')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
-                    'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/product'),
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
+                    'error_text'  => sprintf(
+                        $this->language->get('error_permission_modify'),
+                        'listing_grid/product'
+                    ),
                     'reset_value' => true,
-                ));
+                ]
+            );
+            return;
         }
 
         $this->loadLanguage('catalog/product');
         $this->loadModel('catalog/product');
         if (isset($this->request->get['id'])) {
             //request sent from edit form. ID in url
-            foreach ($this->request->post as $key => $value) {
-                $data = array($key => $value);
-                $this->model_catalog_product->updateProductDiscount($this->request->get['id'], $data);
+            foreach ($post as $key => $value) {
+                $data = [$key => $value];
+                $this->model_catalog_product->updateProductDiscount(
+                    $this->request->get['id'],
+                    $data
+                );
             }
-            return null;
+            return;
         }
 
         //update controller data
@@ -283,28 +373,37 @@ class ControllerResponsesListingGridProduct extends AController
 
     public function update_special_field()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
+        $post = $this->request->post;
 
         if (!$this->user->canModify('listing_grid/product')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
-                    'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/product'),
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
+                    'error_text'  => sprintf(
+                        $this->language->get('error_permission_modify'),
+                        'listing_grid/product'
+                    ),
                     'reset_value' => true,
-                ));
+                ]
+            );
+            return;
         }
 
         $this->loadLanguage('catalog/product');
         $this->loadModel('catalog/product');
         if (isset($this->request->get['id'])) {
             //request sent from edit form. ID in url
-            foreach ($this->request->post as $key => $value) {
-                $data = array($key => $value);
-                $this->model_catalog_product->updateProductSpecial($this->request->get['id'], $data);
+            foreach ($post as $key => $value) {
+                $data = [$key => $value];
+                $this->model_catalog_product->updateProductSpecial(
+                    $this->request->get['id'],
+                    $data
+                );
             }
-            return null;
+            return;
         }
 
         //update controller data
@@ -313,17 +412,22 @@ class ControllerResponsesListingGridProduct extends AController
 
     public function update_relations_field()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         if (!$this->user->canModify('listing_grid/product')) {
             $error = new AError('');
-            return $error->toJSONResponse('NO_PERMISSIONS_402',
-                array(
-                    'error_text'  => sprintf($this->language->get('error_permission_modify'), 'listing_grid/product'),
+            $error->toJSONResponse(
+                'NO_PERMISSIONS_402',
+                [
+                    'error_text'  => sprintf(
+                        $this->language->get('error_permission_modify'),
+                        'listing_grid/product'
+                    ),
                     'reset_value' => true,
-                ));
+                ]
+            );
+            return;
         }
 
         $this->loadLanguage('catalog/product');
@@ -331,17 +435,17 @@ class ControllerResponsesListingGridProduct extends AController
         if (isset($this->request->get['id'])) {
             //request sent from edit form. ID in url
             foreach ($this->request->post as $key => $value) {
-                $data = array($key => $value);
+                $data = [$key => $value];
                 $this->model_catalog_product->updateProductLinks($this->request->get['id'], $data);
             }
-            return null;
+            return;
         }
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function _validateField($field, $value)
+    protected function _validateField($field, $value)
     {
         $this->data['error'] = '';
         switch ($field) {
@@ -368,14 +472,14 @@ class ControllerResponsesListingGridProduct extends AController
                 }
                 break;
         }
-        $this->extensions->hk_ValidateData($this, array(__FUNCTION__, $field, $value));
+        $this->extensions->hk_ValidateData($this, [__FUNCTION__, $field, $value]);
         return $this->data['error'];
     }
 
-    private function _validateDelete($id)
+    protected function _validateDelete($id)
     {
         $this->data['error'] = '';
-        $this->extensions->hk_ValidateData($this, array(__FUNCTION__, $id));
+        $this->extensions->hk_ValidateData($this, [__FUNCTION__, $id]);
         return $this->data['error'];
     }
 

@@ -70,9 +70,9 @@ class AOrderStatus
         $cache_key = 'localization.order_status.list';
         $order_statuses = $this->cache->pull($cache_key);
         if ($order_statuses === false) {
-            $order_statuses = $this->db->query("SELECT * FROM ".$this->db->table('order_statuses'));
+            $order_statuses = $this->db->query("SELECT * FROM ".$this->db->table('order_status_ids'));
             foreach ($order_statuses->rows as $s) {
-                if (!isset($this->statuses[$s['order_status_id']])) {
+                if (!isset($this->statuses[$s['order_status_id']]) && $s['status_text_id']) {
                     $this->statuses[$s['order_status_id']] = $s['status_text_id'];
                 }
             }

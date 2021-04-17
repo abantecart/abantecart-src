@@ -54,8 +54,12 @@ final class Atargz
         foreach ($src as $item) {
             $item = str_replace('\\', '/', $item);
         }
-        $Tar .= $this->addTarItem($item.((is_dir($item) && substr($item, -1) != '/') ? '/'
-                : ''), dirname($item).'/');
+        $Tar .= $this->addTarItem(
+            $item
+                .((is_dir($item) && substr($item, -1) != '/')
+                    ? '/'
+                    : ''),
+            dirname($item).'/');
 
         $Tar = str_pad($Tar, floor((strlen($Tar) + 10240 - 1) / 10240) * 10240, "\0");
         if (empty($dest)) {
@@ -173,6 +177,9 @@ final class Atargz
 
     private function addTarItem($item, $racine)
     {
+        if(!$item){
+            return '';
+        }
         $infos['name100'] = str_replace($racine, '', $item);
         list (, , $infos['mode8'], , $infos['uid8'], $infos['gid8'], , , , $infos['mtime12']) = stat($item);
         $infos['size12'] = is_dir($item) ? 0 : filesize($item);

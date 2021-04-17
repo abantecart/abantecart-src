@@ -24,7 +24,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerCommonHome extends AController
 {
 
-    public function login()
+    public function login($instance_id)
     {
 
         if (isset($this->request->get['rt']) && !isset($this->request->get['token'])) {

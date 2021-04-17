@@ -4,7 +4,7 @@
 		<item id="shipping_storefront_icon">
 			<type>resource</type>
 			<resource_type>image</resource_type>
-			<default_value></default_value>
+			<default_value/>
 		</item>
 		<item id="autoselect">
 			<type>checkbox</type>
@@ -25,7 +25,7 @@
 		</item>
 		<item id="sort_order">
 			<type>input</type>
-			<default_value></default_value>
+			<default_value/>
 		</item>
 	</settings>
 </extension>

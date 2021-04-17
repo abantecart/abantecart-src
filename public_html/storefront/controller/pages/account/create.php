@@ -369,7 +369,7 @@ class ControllerPagesAccountCreate extends AController
 
         $text_account_already = sprintf($this->language->get('text_account_already'), $this->html->getSecureURL('account/login'));
         $this->data['text_account_already'] = $text_account_already;
-
+      
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/account/create.tpl');
 

@@ -1,4 +1,6 @@
 <?php
+/** @noinspection PhpUndefinedConstantInspection */
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -70,7 +72,7 @@ class ACacheDriverAPC extends ACacheDriver
         if ($supported && php_sapi_name() === 'cli') {
             $supported = ini_get('apc.enable_cli');
         }
-        return (bool)$supported;
+        return (bool) $supported;
     }
 
     protected function _getCacheId($key, $group)
@@ -81,9 +83,9 @@ class ACacheDriverAPC extends ACacheDriver
     /**
      * Get cached data from a file by key and group
      *
-     * @param   string  $key          The cache data key
-     * @param   string  $group        The cache data group
-     * @param   boolean $check_expire True to verify cache time expiration
+     * @param string $key The cache data key
+     * @param string $group The cache data group
+     * @param boolean $check_expire True to verify cache time expiration
      *
      * @return  mixed  Boolean false on failure or a cached data string
      *
@@ -98,9 +100,9 @@ class ACacheDriverAPC extends ACacheDriver
     /**
      * Save data to a file by key and group
      *
-     * @param   string $key   The cache data key
-     * @param   string $group The cache data group
-     * @param   string $data  The data to store in cache
+     * @param string $key The cache data key
+     * @param string $group The cache data group
+     * @param string $data The data to store in cache
      *
      * @return  boolean
      *
@@ -115,8 +117,8 @@ class ACacheDriverAPC extends ACacheDriver
     /**
      * Remove a cached data file by key and group
      *
-     * @param   string $key   The cache data key
-     * @param   string $group The cache data group
+     * @param string $key The cache data key
+     * @param string $group The cache data group
      *
      * @return  boolean
      *
@@ -131,7 +133,7 @@ class ACacheDriverAPC extends ACacheDriver
     /**
      * Clean cache for a group provided.
      *
-     * @param   string $group The cache data group, passed '*' indicate all cache removal
+     * @param string $group The cache data group, passed '*' indicate all cache removal
      *
      * @return  boolean
      *
@@ -139,7 +141,6 @@ class ACacheDriverAPC extends ACacheDriver
      */
     public function clean($group)
     {
-
         $cache_info = apc_cache_info('user');
         $keys = $cache_info['cache_list'];
 
@@ -178,18 +179,17 @@ class ACacheDriverAPC extends ACacheDriver
     /**
      * Lock cached item
      *
-     * @param   string  $key      The cache data key
-     * @param   string  $group    The cache data group
-     * @param   integer $locktime Cached item max lock time
+     * @param string $key The cache data key
+     * @param string $group The cache data group
+     * @param integer $locktime Cached item max lock time
      *
-     * @return  boolean
+     * @return  array
      *
      * @since   1.2.7
      */
     public function lock($key, $group, $locktime)
     {
-
-        $output = array();
+        $output = [];
         $output['waited'] = false;
 
         $looptime = $locktime * 10;
@@ -201,6 +201,7 @@ class ACacheDriverAPC extends ACacheDriver
         if ($data_lock === false) {
             $lock_counter = 0;
             // Loop until you find that the lock has been released. That implies that data get from other thread has finished
+            /** @noinspection PhpExpressionAlwaysConstantInspection */
             while ($data_lock === false) {
                 if ($lock_counter > $looptime) {
                     $output['locked'] = false;
@@ -221,8 +222,8 @@ class ACacheDriverAPC extends ACacheDriver
     /**
      * Unlock cached item
      *
-     * @param   string $key   The cache data key
-     * @param   string $group The cache data group
+     * @param string $key The cache data key
+     * @param string $group The cache data group
      *
      * @return  boolean
      *

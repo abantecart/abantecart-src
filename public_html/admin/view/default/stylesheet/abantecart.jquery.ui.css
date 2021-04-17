@@ -946,6 +946,7 @@ tr.jqgrow td[aria-describedby="extension_grid_icon"] img{
 
 /*for jqgrid customization of action button set via userdata->classes property from response controller*/
 
+.disable-expired .grid_action_expired,
 .disable-delete .grid_action_delete,
 .disable-edit .grid_action_edit,
 .disable-view .grid_action_view,
@@ -1006,5 +1007,13 @@ tr.jqgrow td[aria-describedby="extension_grid_icon"] img{
 .ui-jqgrid-btable td>.alert-info{
 	display: grid;
 	margin-top: 10px;
+}
+
+.ui-jqgrid-btable .expired {
+	padding: 10px 10px 10px 20px;
+	margin-bottom: 15px;
+	background: #f8cb91 !important;
+	border: 1px solid #050505;
+	font-size: 12px;
 }
 

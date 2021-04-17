@@ -24,13 +24,13 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerPagesExtensionExtensionTabs extends AController
 {
 
-    public $data = array();
+    public $data = [];
 
-    public function main()
+    public function main($data = [])
     {
 
         //Load input arguments for gid settings
-        $this->data = func_get_arg(0);
+        $this->data = $data;
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
@@ -40,7 +40,10 @@ class ControllerPagesExtensionExtensionTabs extends AController
         $groups = (array)$this->data['groups'];
         array_unshift($groups, 'general');
         $this->data['groups'] = $groups;
-        $this->data['link_general'] = $this->html->getSecureURL('p/extension/extensions/edit', '&extension='.$this->request->get['extension']);
+        $this->data['link_general'] = $this->html->getSecureURL(
+            'p/extension/extensions/edit',
+            '&extension='.$this->request->get['extension']
+        );
 
         $this->data['active'] = $this->data['active_group'];
         $this->data['active'] = !$this->data['active'] ? current($groups) : $this->data['active'];

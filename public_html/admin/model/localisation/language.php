@@ -192,8 +192,8 @@ class ModelLocalisationLanguage extends Model
 
             if ($language_data === false) {
                 $query = $this->db->query("SELECT *
-											FROM ".$this->db->table("languages")." 
-											ORDER BY sort_order, name");
+                                            FROM ".$this->db->table("languages")." 
+                                            ORDER BY sort_order, name");
 
                 foreach ($query->rows as $result) {
                     if (empty($result['image'])) {
@@ -305,8 +305,8 @@ class ModelLocalisationLanguage extends Model
             $settings = array();
             //get all indexes of descriptions of the table
             $sql = "SELECT ".implode(', ', $info['primary_keys'])."
-					FROM ".$table_name."
-					WHERE language_id = ".$data['source_language'];
+                    FROM ".$table_name."
+                    WHERE language_id = ".$data['source_language'];
             $result = $this->db->query($sql);
 
             if ($divider >= $info['description_count']) {
@@ -406,6 +406,9 @@ class ModelLocalisationLanguage extends Model
         );
         foreach ($lang_tables as $table) {
             $table_name = $table['table_name'];
+            if(!$table_name && isset($table['TABLE_NAME'])){
+                $table_name = $table['TABLE_NAME'];
+            }
             if (in_array($table_name, $excludes)) {
                 continue;
             }

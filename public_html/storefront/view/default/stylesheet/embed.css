@@ -4,98 +4,109 @@
 AbanteCart storefront CSS-styles for embedded blocks
 */
 
-.abantecart-widget-container{
+.abantecart-widget-container {
+    overflow: auto;
 }
 
-.abantecart-widget-container .abantecart_product{
-	width: 250px;
+.abantecart-widget-container .abantecart_product {
+    width: auto;
+    max-width: 300px;
 }
 
-.abantecart-widget-container .abantecart_image{
-	margin: 10px auto;
-	text-align: center;
+.abantecart-widget-container .abantecart_image {
+    margin: 10px auto;
+    text-align: center;
 }
 
-.abantecart-widget-cart{
-	position: fixed;
-	right: 0;
-	top: 80px;
-	width: 100px;
-	height: 100px;
-	background-color: white;
-	overflow: auto;
+.abantecart-widget-cart {
+    position: fixed;
+    right: 0;
+    top: 80px;
+    width: 100px;
+    height: 100px;
+    background-color: white;
+    overflow: auto;
     visibility: visible;
     background: transparent url(../image/shoppingbag_icon.png) no-repeat;
     background-size: 80px;
     z-index: 20000;
 }
+
 .abantecart-widget-cart .cart_count {
-	position: relative;
-	top: 40px;
-	left: 10px;
-	width: 60px;
-	text-align: center;
-	color: #3071a9;
+    position: relative;
+    top: 40px;
+    left: 10px;
+    width: 60px;
+    text-align: center;
+    color: #3071a9;
 }
+
 a.abantecart-widget-cart {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 #iframe_loading {
-	text-align: center;	
-	height: 650px;
-	background-color: white;
-	overflow: auto;
+    text-align: center;
+    height: 650px;
+    background-color: white;
+    overflow: auto;
     background: transparent url(../image/spinner.gif) no-repeat;
-	background-position: center;
-	z-index: 2000;
+    background-position: center;
+    z-index: 2000;
 }
 
 /**** product ******/
 .abantecart_image .product_thumb img {
-	width: 200px;
-	height: auto;
+    width: 200px;
+    height: auto;
 }
+
 .abantecart_name {
-	text-align: center;
+    text-align: center;
 }
-.abantecart_price  {
-	margin-top: 10px;
-	font-size: 16px;
-	text-align: center;
-	padding-left: 10px;
-	padding-right: 10px;
+
+.abantecart_price {
+    margin-top: 10px;
+    font-size: 16px;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
 }
+
 .abantecart_price .priceold {
-	float: left;
-	margin-right: 10px;
-	text-decoration: line-through;
+    float: left;
+    margin-right: 10px;
+    text-decoration: line-through;
 }
+
 .abantecart_price .oneprice {
-	text-align: center;
+    text-align: center;
 }
+
 .abantecart_quantity {
-	margin: 10px 5px 0 0;
-	padding: 0 5px 0 10px;
-	overflow: hidden;
-	float: left;
+    margin: 10px 5px 0 0;
+    padding: 0 5px 0 10px;
+    overflow: hidden;
+    float: left;
 }
-.abantecart_quantity input{
-	min-width: 43px;
-	min-height: 30px;
+
+.abantecart_quantity input {
+    min-width: 43px;
+    min-height: 30px;
 }
+
 .abantecart_addtocart {
-	margin: 10px 5px 0 0 ;
-	overflow: hidden;
-	text-align: center;
+    margin: 10px 5px 0 0;
+    overflow: hidden;
+    text-align: center;
 }
+
 .abantecart-widget-container .abantecart_button {
     background-color: #fff;
-    border-color: #ccc;
-	color: #333;
+    color: #333;
     border-radius: 1px;
-	border-color: #ccc;
-	box-sizing: border-box;
+    border-color: #ccc;
+    box-sizing: border-box;
     -moz-user-select: none;
     background-image: none;
     cursor: pointer;
@@ -113,35 +124,41 @@ a.abantecart-widget-cart {
 
 /* category/manufacturers */
 ul.abantecart-widget-container {
-	display: block;
-	width: 100%;
+    display: block;
+    width: 100%;
 }
+
 .abantecart-widget-container h3 {
-	font: bold 16px/1.5 Helvetica, Verdana, sans-serif;
-	width: 300px; 
+    font: bold 16px/1.5 Helvetica, Verdana, sans-serif;
+    width: 300px;
 }
+
 .abantecart-widget-container li img {
-	float: left;
-	margin: 0 10px 0 0;
+    float: left;
+    margin: 0 10px 0 0;
 }
+
 .abantecart-widget-container li p {
-	font: 200 12px/1.5 Georgia, Times New Roman, serif;
-	text-align: center;
+    font: 200 12px/1.5 Georgia, Times New Roman, serif;
+    text-align: center;
 }
+
 .abantecart-widget-container li {
-	padding: 5px;
-	overflow: auto;
-	float: left;
-	list-style: none;
+    padding: 5px;
+    overflow: auto;
+    float: left;
+    list-style: none;
 }
+
 .abantecart-widget-container li:hover {
-	background: #eee;
+    background: #eee;
 }
+
 .abantecart-widget-container a {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 /* phone input css*/
-.intl-tel-input .country-list{
-	z-index: 4 !important;
+.intl-tel-input .country-list {
+    z-index: 4 !important;
 }

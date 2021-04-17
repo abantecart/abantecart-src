@@ -43,18 +43,22 @@ class ControllerPagesToolUpdater extends AController
 
         $this->document->setTitle($this->language->get('heading_title'));
         $this->document->resetBreadcrumbs();
-        $this->document->addBreadcrumb(array(
+        $this->document->addBreadcrumb(
+            [
             'href'      => $this->html->getSecureURL('index/home'),
             'text'      => $this->language->get('text_home'),
             'separator' => false,
-        ));
+            ]
+        );
 
-        $this->document->addBreadcrumb(array(
+        $this->document->addBreadcrumb(
+            [
             'href'      => $this->html->getSecureURL('tool/updater'),
             'text'      => $this->language->get('heading_title'),
             'separator' => ' :: ',
             'current'   => true,
-        ));
+            ]
+        );
 
         $this->data['heading_title'] = $this->language->get('heading_title');
         $this->data['text_no_results'] = $this->language->get('text_no_results');
@@ -76,12 +80,13 @@ class ControllerPagesToolUpdater extends AController
         }
 
         if (isset($this->session->data['error'])) {
-            $this->data['error_warning'] = is_array($this->session->data['error']) ? implode("</br>", $this->session->data['error']) : $this->session->data['error'];
+            $this->data['error_warning'] = is_array($this->session->data['error'])
+                ? implode("</br>", $this->session->data['error'])
+                : $this->session->data['error'];
             unset($this->session->data['error']);
         }
 
-        $this->data['extensions'] = array();
-
+        $this->data['extensions'] = [];
         $mp_token = $this->config->get('mp_token');
         if (!$mp_token) {
             $this->data['mp_connected'] = false;
@@ -98,14 +103,14 @@ class ControllerPagesToolUpdater extends AController
             $mp_params .= '&store_version='.VERSION;
             $this->data['amp_connect_url'] = $this->model_tool_mp_api->getMPURL().$mp_params;
             $this->data['amp_disconnect_url'] = $this->html->getSecureURL('tool/extensions_store/disconnect');
-
         } else {
             $this->data['mp_connected'] = true;
         }
-        if ($this->data['mp_connected']) {
-            $updates = $this->cache->pull('extensions.updates');
 
-            $this->data['extensions'] = array();
+        if ($this->data['mp_connected']) {
+            $updates = $this->session->data['extensions_updates'];
+
+            $this->data['extensions'] = [];
 
             if (!empty($updates) && is_array($updates)) {
                 foreach ($updates as $key => $version_info) {
@@ -129,14 +134,15 @@ class ControllerPagesToolUpdater extends AController
                     $this->data['extensions'][$key]['type'] = $ext_info['type'];
                     $this->data['extensions'][$key]['category'] = $ext_info['category'];
                     $this->data['extensions'][$key]['status'] = $this->html->buildElement(
-                        array(
+                        [
                             'type'  => 'checkbox',
                             'id'    => $key.'_status',
                             'name'  => $key.'_status',
                             'value' => $ext_info['status'],
                             'style' => 'btn_switch btn-group-xs disabled',
                             'attr'  => 'readonly="true" data-edit-url="'.$this->html->getSecureURL('extension/extensions/edit', '&extension='.$key).'"',
-                        ));
+                        ]
+                    );
 
                     if ($version_info['installation_key']) {
                         $this->data['extensions'][$key]['install_url'] = $this->html->getSecureURL('tool/package_installer', '&extension_key='.$version_info['installation_key']);

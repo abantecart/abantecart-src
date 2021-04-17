@@ -16,7 +16,11 @@
 		<a class="btn btn-default rl_download tooltips" data-rl-id="<?php echo $resource['resource_id']; ?>" href="#"
 		   onclick="return false;" data-original-title="<?php echo $text_preview; ?>"><i class="fa fa-download"></i></a>
 	</li>
-	<?php if ($resource['mapped_to_current'] && $mode != 'list_all') { ?>
+	<?php
+    if (isset($resource['mapped_to_current'])
+        && $resource['mapped_to_current']
+        && $mode != 'list_all'
+    ){ ?>
 		<li>
 			<a class="btn btn-default rl_unlink tooltips" data-rl-id="<?php echo $resource['resource_id']; ?>"
 			   onclick="return false;" href="#" data-original-title="<?php echo $txt_unlink_resource; ?>">
@@ -38,7 +42,7 @@
 		//disable delete button for multi-linked resource
 		if ($resource['can_delete']) {
 			$cssclass = $onclick = "";
-			if ($resource['mapped_to_current']) {
+			if (isset($resource['mapped_to_current']) && $resource['mapped_to_current']) {
 				$onclick = "delete_resource(" . $resource['resource_id'] . ", '" . $object_name . "', '" . $object_id . "');";
 			}else{
 				$onclick = "delete_resource(" . $resource['resource_id'] . ", '" . $object_name . "', '" . $object_id . "');";
@@ -216,8 +220,8 @@
 				</div>
 			</div>
 		<?php } else { ?>
-			<?php echo $form['field_resource_id']; ?>
-			<?php echo $form['field_type']; ?>
+			<?php echo $form['field_resource_id'] ?? ''; ?>
+			<?php echo $form['field_type'] ?? ''; ?>
 		<?php } ?>
 
 		<div class="form-group <?php echo(!empty($error['name']) ? "has-error" : ""); ?>">

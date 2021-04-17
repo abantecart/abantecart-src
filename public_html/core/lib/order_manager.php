@@ -84,6 +84,7 @@ class AOrderManager extends AOrder
         //load order details
         $order_info = $adm_order_mdl->getOrder($this->order_id);
         $original_totals = $adm_order_mdl->getOrderTotals($this->order_id);
+
         //identify totals with shared keys (example tax) and link to total ids
         $total2ids = array();
         foreach ($original_totals as $t_old) {
@@ -103,7 +104,6 @@ class AOrderManager extends AOrder
                     $upd_total['totals'][$t_old['order_total_id']] = $t_old['value'];
                 }
             }
-
             //save new totals
             $adm_order_mdl->editOrder($this->order_id, $upd_total);
             //reload original total as it has changed
@@ -286,7 +286,10 @@ class AOrderManager extends AOrder
                         $total_data[] = array(
                             'id'         => $or_total['key'],
                             'title'      => $or_total['title'],
-                            'text'       => $this->currency->format($or_total['value'], $order_info['currency'], $order_info['value'], true),
+                            'text'       => $or_total['text']
+                                ? $or_total['text']
+                                : $this->currency->format($or_total['value'], $order_info['currency'],
+                                    $order_info['value'], true),
                             'value'      => $or_total['value'],
                             'sort_order' => $or_total['sort_order'],
                             'total_type' => $or_total['type'],
@@ -305,7 +308,6 @@ class AOrderManager extends AOrder
                 /**
                  * parameters are references!!!
                  */
-
                 $sf_total_mdl->getTotal($total_data, $total, $taxes, $customer_data);
                 $sf_total_mdl = null;
             }

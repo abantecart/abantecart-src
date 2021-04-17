@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,15 +24,13 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerPagesCatalogProductRelations extends AController
 {
-    private $error = array();
-    public $data = array();
+    public $error = [];
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-        $product_id = (int)$this->request->get['product_id'];
+        $product_id = (int) $this->request->get['product_id'];
         $language_id = $this->language->getContentLanguageID();
 
         $this->loadLanguage('catalog/product');
@@ -60,41 +59,57 @@ class ControllerPagesCatalogProductRelations extends AController
             unset($this->session->data['success']);
         }
 
-        $this->document->initBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('index/home'),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
-        ));
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('catalog/product'),
-            'text'      => $this->language->get('heading_title'),
-            'separator' => ' :: ',
-        ));
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('catalog/product/update', '&product_id='.$product_id),
-            'text'      => $this->language->get('text_edit').'&nbsp;'.$this->language->get('text_product').' - '.$this->data['product_description'][$language_id]['name'],
-            'separator' => ' :: ',
-        ));
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL('catalog/product_relations', '&product_id='.$product_id),
-            'text'      => $this->language->get('tab_relations'),
-            'separator' => ' :: ',
-            'current'   => true,
-        ));
+        $this->document->initBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('index/home'),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('catalog/product'),
+                'text'      => $this->language->get('heading_title'),
+                'separator' => ' :: ',
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('catalog/product/update', '&product_id='.$product_id),
+                'text'      => $this->language->get('text_edit')
+                    .'&nbsp;'
+                    .$this->language->get('text_product')
+                    .' - '
+                    .$this->data['product_description'][$language_id]['name'],
+                'separator' => ' :: ',
+            ]
+        );
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL('catalog/product_relations', '&product_id='.$product_id),
+                'text'      => $this->language->get('tab_relations'),
+                'separator' => ' :: ',
+                'current'   => true,
+            ]
+        );
 
+        $this->loadModel('setting/store');
         $this->loadModel('catalog/category');
-        $this->data['categories'] = array();
+        $this->data['categories'] = [];
 
-        $products_stores = $this->model_catalog_product->getProductStores($product_id);
+        $products_stores = array_column($this->model_setting_store->getStores(), 'store_id');
 
-        $results = $this->model_catalog_category->getCategories(0, $products_stores);
+        $results = $this->model_catalog_category->getCategories(ROOT_CATEGORY_ID, $products_stores);
 
         foreach ($results as $r) {
-            $this->data['categories'][$r['category_id']] = $r['name']. (count($products_stores)>1 ? "   (".$r['store_name'].")":'');
+            $this->data['categories'][$r['category_id']] = $r['name']
+                .(count($products_stores) > 1
+                    ? "   (".$r['store_name'].")"
+                    : '');
         }
 
         $this->loadModel('setting/store');
-        $this->data['stores'] = array(0 => $this->language->get('text_default'));
+        $this->data['stores'] = [0 => $this->language->get('text_default')];
         $results = $this->model_setting_store->getStores();
         foreach ($results as $r) {
             $this->data['stores'][$r['store_id']] = $r['name'];
@@ -106,7 +121,7 @@ class ControllerPagesCatalogProductRelations extends AController
 
         $this->data['active'] = 'relations';
         //load tabs controller
-        $tabs_obj = $this->dispatch('pages/catalog/product_tabs', array($this->data));
+        $tabs_obj = $this->dispatch('pages/catalog/product_tabs', [$this->data]);
         $this->data['product_tabs'] = $tabs_obj->dispatchGetOutput();
         unset($tabs_obj);
 
@@ -114,60 +129,72 @@ class ControllerPagesCatalogProductRelations extends AController
         $this->data['related_products'] = $this->html->getSecureURL('product/product/related');
         $this->data['action'] = $this->html->getSecureURL('catalog/product_relations', '&product_id='.$product_id);
         $this->data['form_title'] = $this->language->get('text_edit').'&nbsp;'.$this->language->get('text_product');
-        $this->data['update'] = $this->html->getSecureURL('listing_grid/product/update_relations_field', '&id='.$product_id);
+        $this->data['update'] = $this->html->getSecureURL(
+            'listing_grid/product/update_relations_field',
+            '&id='.$product_id
+        );
         $form = new AForm('HS');
 
-        $form->setForm(array(
-            'form_name' => 'productFrm',
-            'update'    => $this->data['update'],
-        ));
+        $form->setForm(
+            [
+                'form_name' => 'productFrm',
+                'update'    => $this->data['update'],
+            ]
+        );
 
         $this->data['form']['id'] = 'productFrm';
-        $this->data['form']['form_open'] = $form->getFieldHtml(array(
-            'type'   => 'form',
-            'name'   => 'productFrm',
-            'action' => $this->data['action'],
-            'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
-        ));
-        $this->data['form']['submit'] = $form->getFieldHtml(array(
-            'type'  => 'button',
-            'name'  => 'submit',
-            'text'  => $this->language->get('button_save'),
-            'style' => 'button1',
-        ));
-        $this->data['form']['cancel'] = $form->getFieldHtml(array(
-            'type'  => 'button',
-            'href'  => $this->html->getSecureURL('catalog/product/update', '&product_id='.$product_id),
-            'name'  => 'cancel',
-            'text'  => $this->language->get('button_cancel'),
-            'style' => 'button2',
-        ));
+        $this->data['form']['form_open'] = $form->getFieldHtml(
+            [
+                'type'   => 'form',
+                'name'   => 'productFrm',
+                'action' => $this->data['action'],
+                'attr'   => 'data-confirm-exit="true" class="aform form-horizontal"',
+            ]
+        );
+        $this->data['form']['submit'] = $form->getFieldHtml(
+            [
+                'type'  => 'button',
+                'name'  => 'submit',
+                'text'  => $this->language->get('button_save'),
+                'style' => 'button1',
+            ]
+        );
+        $this->data['form']['cancel'] = $form->getFieldHtml(
+            [
+                'type'  => 'button',
+                'href'  => $this->html->getSecureURL('catalog/product/update', '&product_id='.$product_id),
+                'name'  => 'cancel',
+                'text'  => $this->language->get('button_cancel'),
+                'style' => 'button2',
+            ]
+        );
         $this->data['cancel'] = $this->html->getSecureURL('catalog/product');
 
-        $this->data['form']['fields']['category'] = $form->getFieldHtml(array(
-            'type'        => 'checkboxgroup',
-            'name'        => 'product_category[]',
-            'value'       => $this->data['product_category'],
-            'options'     => $this->data['categories'],
-            'style'       => 'chosen',
-            'placeholder' => $this->language->get('text_select_category'),
-        ));
+        $this->data['form']['fields']['category'] = $form->getFieldHtml(
+            [
+                'type'        => 'checkboxgroup',
+                'name'        => 'product_category[]',
+                'value'       => $this->data['product_category'],
+                'options'     => $this->data['categories'],
+                'style'       => 'chosen',
+                'placeholder' => $this->language->get('text_select_category'),
+            ]
+        );
         //load only prior saved products
-        $this->data['products'] = array();
+        $this->data['products'] = [];
         if (count($this->data['product_related'])) {
-            $ids = array();
-            foreach ($this->data['product_related'] as $id) {
-                $ids[] = (int)$id;
-            }
+            $ids = array_map('intval',$this->data['product_related']);
 
             $this->loadModel('catalog/product');
-            $filter = array('subsql_filter' => 'p.product_id in ('.implode(',', $ids).')');
-            $results = $this->model_catalog_product->getProducts($filter);
-
-            $product_ids = array();
-            foreach ($results as $result) {
-                $product_ids[] = (int)$result['product_id'];
+            if($ids) {
+                $filter = ['subsql_filter' => 'p.product_id in ('.implode(',', $ids).')'];
+                $results = $this->model_catalog_product->getProducts($filter);
+            }else{
+                $results = [];
             }
+
+            $product_ids = array_column($results,'product_id');
+
             //get thumbnails by one pass
             $resource = new AResource('image');
             $thumbnails = $resource->getMainThumbList(
@@ -184,27 +211,38 @@ class ControllerPagesCatalogProductRelations extends AController
             }
         }
 
-        $this->data['form']['fields']['related'] = $form->getFieldHtml(array(
-            'type'        => 'multiselectbox',
-            'name'        => 'product_related[]',
-            'value'       => $this->data['product_related'],
-            'options'     => $this->data['products'],
-            'style'       => 'chosen',
-            'ajax_url'    => $this->html->getSecureURL('r/product/product/products', '&exclude[]='.$product_id),
-            'placeholder' => $this->language->get('text_select_from_lookup'),
-        ));
+        $this->data['form']['fields']['related'] = $form->getFieldHtml(
+            [
+                'type'        => 'multiselectbox',
+                'name'        => 'product_related[]',
+                'value'       => $this->data['product_related'],
+                'options'     => $this->data['products'],
+                'style'       => 'chosen',
+                'ajax_url'    => $this->html->getSecureURL('r/product/product/products', '&exclude[]='.$product_id),
+                'placeholder' => $this->language->get('text_select_from_lookup'),
+            ]
+        );
 
-        $this->data['form']['fields']['store'] = $form->getFieldHtml(array(
-            'type'    => 'checkboxgroup',
-            'name'    => 'product_store[]',
-            'value'   => $this->data['product_store'],
-            'options' => $this->data['stores'],
-            'style'   => 'chosen',
-        ));
+        $this->data['form']['fields']['store'] = $form->getFieldHtml(
+            [
+                'type'    => 'checkboxgroup',
+                'name'    => 'product_store[]',
+                'value'   => $this->data['product_store'],
+                'options' => $this->data['stores'],
+                'style'   => 'chosen',
+            ]
+        );
         if ($this->config->get('config_embed_status')) {
-            $this->data['embed_url'] = $this->html->getSecureURL('common/do_embed/product', '&product_id='.$product_id);
+            $this->data['embed_url'] = $this->html->getSecureURL(
+                'common/do_embed/product',
+                '&product_id='.$product_id
+            );
         }
-        $this->addChild('pages/catalog/product_summary', 'summary_form', 'pages/catalog/product_summary.tpl');
+        $this->addChild(
+            'pages/catalog/product_summary',
+            'summary_form',
+            'pages/catalog/product_summary.tpl'
+        );
         $this->view->assign('help_url', $this->gen_help_url('product_relations'));
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/catalog/product_relations.tpl');

@@ -23,7 +23,7 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesAccountTransactions extends AController
 {
-    public $data = array();
+    public $data = [];
 
     /**
      * Main Controller function to show transaction history.
@@ -37,8 +37,7 @@ class ControllerPagesAccountTransactions extends AController
 
         if (!$this->customer->isLogged()) {
             $this->session->data['redirect'] = $this->html->getSecureURL('account/transactions');
-
-            $this->redirect($this->html->getSecureURL('account/login'));
+            redirect($this->html->getSecureURL('account/login'));
         }
 
         $this->document->setTitle($this->language->get('heading_title'));
@@ -46,25 +45,28 @@ class ControllerPagesAccountTransactions extends AController
         $this->document->resetBreadcrumbs();
 
         $this->document->addBreadcrumb(
-            array(
+            [
                 'href'      => $this->html->getHomeURL(),
                 'text'      => $this->language->get('text_home'),
                 'separator' => false,
-            ));
+            ]
+        );
 
         $this->document->addBreadcrumb(
-            array(
+            [
                 'href'      => $this->html->getSecureURL('account/account'),
                 'text'      => $this->language->get('text_account'),
                 'separator' => $this->language->get('text_separator'),
-            ));
+            ]
+        );
 
         $this->document->addBreadcrumb(
-            array(
+            [
                 'href'      => $this->html->getSecureURL('account/transactions'),
                 'text'      => $this->language->get('text_transactions'),
                 'separator' => $this->language->get('text_separator'),
-            ));
+            ]
+        );
 
         $this->loadModel('account/customer');
 
@@ -89,12 +91,12 @@ class ControllerPagesAccountTransactions extends AController
                 $limit = $this->config->get('config_catalog_limit');
             }
 
-            $trans = array();
+            $trans = [];
 
             $results = $this->model_account_customer->getTransactions(($page - 1) * $limit, $limit);
 
             foreach ($results as $result) {
-                $trans[] = array(
+                $trans[] = [
                     'customer_transaction_id' => $result['customer_transaction_id'],
                     'order_id'                => $result['order_id'],
                     'section'                 => $result['section'],
@@ -103,13 +105,13 @@ class ControllerPagesAccountTransactions extends AController
                     'transaction_type'        => $result['transaction_type'],
                     'description'             => $result['description'],
                     'date_added'              => dateISO2Display($result['date_added'], $this->language->get('date_format_short')),
-                );
+                ];
             }
 
             $this->data['transactions'] = $trans;
 
             $this->data['pagination_bootstrap'] = $this->html->buildElement(
-                array(
+                [
                     'type'       => 'Pagination',
                     'name'       => 'pagination',
                     'text'       => $this->language->get('text_pagination'),
@@ -117,26 +119,28 @@ class ControllerPagesAccountTransactions extends AController
                     'total'      => $trans_total,
                     'page'       => $page,
                     'limit'      => $limit,
-                    'url'        => $this->html->getSecureURL('account/transactions', '&limit='.$limit.'&page={page}'),
+                    'url'        => $this->html->getSecureURL(
+                        'account/transactions',
+                        '&limit='.$limit.'&page={page}'
+                    ),
                     'style'      => 'pagination',
-                ));
-
-            $this->data['continue'] = $this->html->getSecureURL('account/account');
-
-            $this->view->setTemplate('pages/account/transactions.tpl');
+                ]
+            );
         } else {
-            $this->data['continue'] = $this->html->getSecureURL('account/account');
-
-            $this->view->setTemplate('pages/account/transactions.tpl');
+            $this->data['text_error'] = $this->language->get('text_error', 'account/transactions');
         }
 
+        $this->data['continue'] = $this->html->getSecureURL('account/account');
+        $this->view->setTemplate('pages/account/transactions.tpl');
+
         $this->data['button_continue'] = $this->html->buildElement(
-            array(
+            [
                 'type'  => 'button',
                 'name'  => 'continue_button',
                 'text'  => $this->language->get('button_continue'),
                 'style' => 'button',
-            ));
+            ]
+        );
 
         $this->view->batchAssign($this->data);
         $this->processTemplate();

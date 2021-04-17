@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <extension>
-    <id>default_cod</id>
-    <version>1.0.1</version>
+	<id>default_cod</id>
+	<version>1.1.0</version>
 	<type>payment</type>
 	<category>payment</category>
-    <cartversions>
-        <item>1.2</item>
-    </cartversions>
-    <layout></layout>
-    <priority>10</priority>
-    <settings>
-	    <item id="default_cod_order_status_id">
-            <type>selectbox</type>
+	<cartversions>
+		<item>1.3</item>
+	</cartversions>
+	<layout></layout>
+	<priority>10</priority>
+	<settings>
+		<item id="default_cod_order_status_id">
+			<type>selectbox</type>
 			<variants>
 				<data_source>
-                   <model_rt>localisation/order_status</model_rt>
-                   <method>getOrderStatuses</method>
+					<model_rt>localisation/order_status</model_rt>
+					<method>getOrderStatuses</method>
 				</data_source>
 				<fields>
 					<field>order_status_id</field>
@@ -23,28 +23,28 @@
 				</fields>
 			</variants>
 			<default_value>2</default_value>
-        </item>
-	    <item id="default_cod_location_id">
-            <type>selectbox</type>
+		</item>
+		<item id="default_cod_location_id">
+			<type>selectbox</type>
 			<variants>
 				<item>0</item>
 				<data_source>
-                   <model_rt>localisation/location</model_rt>
-                   <method>getLocations</method>
+					<model_rt>localisation/location</model_rt>
+					<method>getLocations</method>
 				</data_source>
 				<fields>
 					<field>location_id</field>
 					<field>name</field>
 				</fields>
 			</variants>
-        </item>
-    </settings>
-    <install>
-	    <sql></sql>
-	    <trigger></trigger>
+		</item>
+	</settings>
+	<install>
+		<sql></sql>
+		<trigger></trigger>
 	</install>
 	<uninstall>
-	    <sql></sql>
-	    <trigger></trigger>
+		<sql></sql>
+		<trigger></trigger>
 	</uninstall>
 </extension>

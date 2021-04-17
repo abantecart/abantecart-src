@@ -21,7 +21,12 @@ if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
-final class AMail
+/**
+ * Class AMail
+ *
+ * @property ExtensionsApi $extensions
+ */
+class AMail
 {
     /**
      * @var string email-address
@@ -42,8 +47,8 @@ final class AMail
     protected $subject;
     protected $text;
     protected $html;
-    protected $attachments = array();
-    protected $headers = array();
+    protected $attachments = [];
+    protected $headers = [];
     /**
      * @var AMessage
      */
@@ -65,10 +70,14 @@ final class AMail
     public $crlf = "\r\n";
     public $verp = false;
     public $parameter = '';
-    public $error = array();
+    public $error = [];
+
+    protected $extensions;
 
     /**
      * @param null | AConfig $config
+     *
+     * @throws AException
      */
     public function __construct($config = null)
     {
@@ -85,6 +94,7 @@ final class AMail
         $this->log = $registry->get('log');
         $this->messages = $registry->get('messages');
         $this->storeId = $config->get('config_store_id') ?: 0;
+        $this->extensions = $registry->get('extensions');
     }
 
     /**
@@ -153,11 +163,13 @@ final class AMail
     }
 
     /**
-     * @param       $text_id
+     * @param string $text_id
      * @param array $placeholders
-     * @param int   $languageId
+     * @param int $languageId
+     *
+     * @throws AException
      */
-    public function setTemplate($text_id, array $placeholders = [], $languageId = 1)
+    public function setTemplate($text_id, array $placeholders = [], $languageId = 0)
     {
         $text_id = trim($text_id);
         if (empty($text_id)) {
@@ -171,25 +183,25 @@ final class AMail
         }
 
         $db = Registry::getInstance()->get('db');
-        /**
-         * @var ALanguageManager
-         */
-        $language = Registry::getInstance()->get('language');
-
-        if (IS_ADMIN) {
-            $languageId = $language->getContentLanguageID();
-        } else {
-            $languageId = $language->getLanguageID();
+        if(!$languageId) {
+            /** @var ALanguageManager */
+            $language = Registry::getInstance()->get('language');
+            $languageId = IS_ADMIN ? $language->getContentLanguageID() : $language->getLanguageID();
         }
 
-        $emailTemplate = $db->query('SELECT * FROM '.$db->table('email_templates').' WHERE text_id=\''.$text_id.'\' and language_id='.$languageId.'
-        and status=1 and store_id='.$this->storeId.' LIMIT 1');
+        $emailTemplate = $db->query(
+            "SELECT * 
+            FROM ".$db->table('email_templates')." 
+            WHERE text_id='".$text_id."' 
+                AND language_id = ".(int)$languageId."
+                AND status = 1 and store_id = ".(int) $this->storeId." LIMIT 1"
+        );
         if (empty($emailTemplate->rows)) {
             $this->log->write('Email Template with text id "'.$text_id.'" and language_id = '.$languageId.' not found');
             return;
         }
 
-        $this->emailTemplate = $emailTemplate->rows[0];
+        $this->emailTemplate = $emailTemplate->row;
         $arAllowedPlaceholders = explode(',', $this->emailTemplate['allowed_placeholders']);
 
         foreach ($arAllowedPlaceholders as &$placeholder) {
@@ -202,31 +214,45 @@ final class AMail
             }
         }
 
+        $this->extensions->hk_ProcessData($this, 'setTemplate', [
+            'text_id'     => $text_id,
+            'language_id' => $languageId,
+        ]);
+
         $subject = html_entity_decode($this->emailTemplate['subject'], ENT_QUOTES);
         $htmlBody = html_entity_decode($this->emailTemplate['html_body'], ENT_QUOTES);
         $textBody = $this->emailTemplate['text_body'];
 
-        $mustache = new Mustache_Engine;
-
+        // allow to pass html as text_variable (needed for logo as resource_html)
+        //override default escaping by transparent custom
+        $mustache = new Mustache_Engine(['escape' => function($value){ return $value;}]);
         $subject = $mustache->render($subject, $this->placeholders);
         $htmlBody = $mustache->render($htmlBody, $this->placeholders);
         $textBody = $mustache->render($textBody, $this->placeholders);
-
 
         $this->setSubject($subject);
         $this->setHtml($htmlBody);
         $this->setText($textBody);
 
-        if ($emailTemplate->headers) {
-            $headers = explode(',', $emailTemplate->headers);
+        if ($this->emailTemplate['headers']) {
+            $headers = explode(',', $this->emailTemplate['headers']);
             foreach ($headers as $header) {
                 $parts = explode(':', $header);
-                if (count((array) $parts) !== 2) {
+                if (count((array)$parts) !== 2) {
                     continue;
                 }
                 $this->addHeader($parts[0], $parts[1]);
             }
         }
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function setPlaceholder($key, $value)
+    {
+        $this->placeholders[$key] = $value;
     }
 
     /**
@@ -239,10 +265,10 @@ final class AMail
             $filename = md5(pathinfo($file, PATHINFO_FILENAME)).'.'.pathinfo($file, PATHINFO_EXTENSION);
         }
 
-        $this->attachments[] = array(
+        $this->attachments[] = [
             'filename' => $filename,
             'file'     => $file,
-        );
+        ];
     }
 
     /**

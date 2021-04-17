@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -32,63 +32,51 @@ if (!defined('DIR_CORE')) {
  */
 class AView
 {
-    /**
-     * @var $registry Registry
-     */
+    /** @var $registry Registry */
     protected $registry;
-    /**
-     * @var
-     */
+
     protected $id;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $template = '';
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $default_template;
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $instance_id;
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $enableOutput = false;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $output = '';
+    /** @var array */
+    protected $hook_vars = [];
     /**
+     * List of hook variables that has been replaced.
+     * Used to prevent overriding hookvar by another hook of another extension
      * @var array
      */
-    protected $hook_vars = array();
-    /**
-     * @var array
-     */
-    public $data = array();
+    protected $hook_vars_replaces = [];
+    /** @var array */
+    public $data = [];
 
     protected $render;
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $has_extensions;
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $html_cache_key;
 
     /**
      * @param Registry $registry
-     * @param int      $instance_id
+     * @param int $instance_id
+     *
+     * @throws AException
      */
     public function __construct($registry, $instance_id)
     {
         $this->registry = $registry;
         $this->has_extensions = $this->registry->has('extensions');
         if ($this->registry->get('config')) {
-            $this->default_template = IS_ADMIN ? $this->registry->get('config')->get('admin_template') : $this->registry->get('config')->get('config_storefront_template');
+            $this->default_template = IS_ADMIN
+                ? $this->registry->get('config')->get('admin_template')
+                : $this->registry->get('config')->get('config_storefront_template');
         }
         $this->data['template_dir'] = RDIR_TEMPLATE;
         $this->data['tpl_common_dir'] = RDIR_TEMPLATE.'/template/common/';
@@ -106,27 +94,11 @@ class AView
         $this->registry->set($key, $value);
     }
 
-    /**
-     * @deprecated since v1.2.9
-     *
-     * @param string $url
-     */
-    protected function redirect($url)
-    {
-        redirect($url);
-    }
-
-    /**
-     * @void
-     */
     public function enableOutput()
     {
         $this->enableOutput = true;
     }
 
-    /**
-     * @void
-     */
     public function disableOutput()
     {
         $this->enableOutput = false;
@@ -149,16 +121,15 @@ class AView
     }
 
     /**
-     * Return array with awailable variables and types in the view
+     * Return array with available variables and types in the view
      *
-     * @param string $key - optional parameter to spcify variable type of array.
+     * @param string $key - optional parameter to specify variable type of array.
      *
      * @return array | mixed
      */
     public function getVariables($key = '')
     {
-        $variables = array();
-        $scope = array();
+        $variables = [];
         if ($key) {
             $scope = $this->data[$key];
         } else {
@@ -191,12 +162,11 @@ class AView
      * @param string $value
      * @param string $default_value
      *
-     * @return null
      */
     public function assign($template_variable, $value = '', $default_value = '')
     {
         if (empty($template_variable)) {
-            return null;
+            return;
         }
         if (!is_null($value)) {
             $this->data[$template_variable] = $value;
@@ -212,12 +182,16 @@ class AView
      * @param string $value
      * @param string $default_value
      *
-     * @return null
      */
     public function append($template_variable, $value = '', $default_value = '')
     {
-        if (empty($template_variable)) {
-            return null;
+
+        if (empty($template_variable)
+            ||
+            // do not append when hook var was replaced before
+            in_array($template_variable, $this->hook_vars_replaces)
+        ) {
+            return;
         }
         if (!is_null($value)) {
             $this->data[$template_variable] = $this->data[$template_variable].$value;
@@ -228,25 +202,26 @@ class AView
 
     /**
      * @param array $assign_arr - associative array
-     *
-     * @return null
      */
     public function batchAssign($assign_arr)
     {
         if (empty($assign_arr) || !is_array($assign_arr)) {
-            return null;
+            return;
         }
 
         foreach ($assign_arr as $key => $value) {
             //when key already defined and type of old and new values are different send warning in debug-mode
             if (isset($this->data[$key]) && is_object($this->data[$key])) {
-                $warning_text = 'Warning! Variable "'.$key.'" in template "'.$this->template.'" overriding value and data type "object." ';
-                $warning_text .= 'Possibly need to review your code! (also check that extensions do not load language definitions in UpdateData hook).';
+                $warning_text = 'Warning! Variable "'.$key.'" in template "'
+                    .$this->template.'" overriding value and data type "object." ';
+                $warning_text .= 'Possibly need to review your code! (also check '
+                    .'that extensions do not load language definitions in UpdateData hook).';
                 $warning = new AWarning($warning_text);
                 $warning->toDebug();
                 continue; // prevent overriding.
             } elseif (isset($this->data[$key]) && gettype($this->data[$key]) != gettype($value)) {
-                $warning_text = 'Warning! Variable "'.$key.'" in template "'.$this->template.'" overriding value and data type "'.gettype($this->data[$key]).'" ';
+                $warning_text = 'Warning! Variable "'.$key.'" in template "'
+                    .$this->template.'" overriding value and data type "'.gettype($this->data[$key]).'" ';
                 $warning_text .= 'Forcing new data type '.gettype($value).'. Possibly need to review your code!';
                 $warning = new AWarning($warning_text);
                 $warning->toDebug();
@@ -261,8 +236,21 @@ class AView
      */
     public function addHookVar($name, $value)
     {
-        if (!empty($name)) {
+        if (!empty($name) && !in_array($name, $this->hook_vars_replaces)
+        ){
             $this->hook_vars[$name] .= $value;
+        }
+    }
+
+    /**
+     * @param string $name
+     * @param string $value
+     */
+    public function replaceHookVar($name, $value)
+    {
+        if (!empty($name)) {
+            $this->hook_vars[$name] = $value;
+            $this->hook_vars_replaces[] = $name;
         }
     }
 
@@ -417,9 +405,9 @@ class AView
             }
         }
 
-        if (!in_array(pathinfo($filename, PATHINFO_EXTENSION), array('tpl', 'php'))) {
+        if (!in_array(pathinfo($filename, PATHINFO_EXTENSION), ['tpl', 'php'])) {
             $this->extensions->hk_ProcessData($this, __FUNCTION__);
-            $http_path = $this->data['http_dir'];
+            $http_path = $this->data['http_dir'] ?? '';
         }
 
         if ($mode == 'http') {
@@ -453,11 +441,9 @@ class AView
     }
 
     /**
-     * Check if HTML Cache file present
      *
      * @param string $key
      *
-     * @return bool
      */
     public function setCacheKey($key)
     {
@@ -604,9 +590,9 @@ class AView
     private function _extensions_resource_map($filename)
     {
         if (empty($filename)) {
-            return array();
+            return [];
         }
-        $ret_arr = array();
+        $ret_arr = [];
         $extensions = $this->extensions->getEnabledExtensions();
         //loop through each extension and locate resource to use 
         //Note: first extension with exact resource or default resource will be used 
@@ -627,7 +613,7 @@ class AView
      * @param string $filename
      * @param string $mode
      *
-     * @return mixed
+     * @return string
      */
     private function _get_template_path($path, $filename, $mode)
     {
@@ -643,7 +629,7 @@ class AView
         }
 
         $template_path_arr = $this->_test_template_paths($path, $filename, $mode);
-        return $template_path_arr['path'];
+        return $template_path_arr['path'] ?? '';
     }
 
     /**
@@ -694,7 +680,7 @@ class AView
         }
         //return path. Empty path indicates, nothing found
         if ($ret_path) {
-            return array('match' => $match, 'path' => $ret_path);
+            return ['match' => $match, 'path' => $ret_path];
         } else {
             return null;
         }

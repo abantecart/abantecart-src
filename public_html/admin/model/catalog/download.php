@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -32,6 +33,7 @@ class ModelCatalogDownload extends Model
      * @param array $data
      *
      * @return int
+     * @throws AException
      */
     public function addDownload($data)
     {
@@ -47,20 +49,28 @@ class ModelCatalogDownload extends Model
             "INSERT INTO ".$this->db->table('downloads')."
               SET filename  = '".$this->db->escape($data['filename'])."',
                   mask = '".$this->db->escape($data['mask'])."',
-                  max_downloads = ".((int)$data['max_downloads'] ? "'".(int)$data['max_downloads']."'" : 'NULL').",
-                  ".(isset($data['shared']) ? "shared = ".(int)$data['shared'].", " : '')."
-                  expire_days = ".((int)$data['expire_days'] ? "'".(int)$data['expire_days']."'" : 'NULL').",
-                  sort_order = '".(int)$data['sort_order']."',
+                  max_downloads = ".((int) $data['max_downloads'] ? "'".(int) $data['max_downloads']."'" : 'NULL').",
+                  ".(isset($data['shared']) ? "shared = ".(int) $data['shared'].", " : '')."
+                  expire_days = ".((int) $data['expire_days'] ? "'".(int) $data['expire_days']."'" : 'NULL').",
+                  sort_order = '".(int) $data['sort_order']."',
                   activate = '".$this->db->escape($data['activate'])."',
-                  activate_order_status_id = '".(int)$data['activate_order_status_id']."',
-                  status = '".(int)$data['status']."',
-                  date_added = NOW()");
+                  activate_order_status_id = '".(int) $data['activate_order_status_id']."',
+                  status = '".(int) $data['status']."',
+                  date_added = NOW()"
+        );
 
         $download_id = $this->db->getLastId();
 
-        $this->language->replaceDescriptions('download_descriptions',
-            array('download_id' => (int)$download_id),
-            array($this->language->getContentLanguageID() => array('name' => $data['name'])));
+        $this->language->replaceDescriptions(
+            'download_descriptions',
+            ['download_id' => (int) $download_id],
+            [
+                $this->language->getContentLanguageID() => [
+                        'name' => $data['name'
+                    ]
+                ]
+            ]
+        );
 
         $this->addDownloadAttributeValues($download_id, $data['attributes'][0]);
         // assign download to product
@@ -72,18 +82,19 @@ class ModelCatalogDownload extends Model
     }
 
     /**
-     * @param int   $download_id
+     * @param int $download_id
      * @param array $data
      *
      * @return bool
+     * @throws AException
      */
     public function editDownload($download_id, $data)
     {
-        if (!(int)$download_id || !$data) {
+        if (!(int) $download_id || !$data) {
             return false;
         }
 
-        $fields = array(
+        $fields = [
             'filename'                 => 'string',
             'mask'                     => 'string',
             'max_downloads'            => 'int',
@@ -93,7 +104,7 @@ class ModelCatalogDownload extends Model
             'activate'                 => 'string',
             'activate_order_status_id' => 'int',
             'status'                   => 'int',
-        );
+        ];
 
         if (isset($data['activate'])) {
             if ($data['activate'] != 'order_status') {
@@ -104,31 +115,36 @@ class ModelCatalogDownload extends Model
                 $data['max_downloads'] = 0;
             }
         }
-        $update = array();
+        $update = [];
         foreach ($fields as $field_name => $type) {
             if (isset($data[$field_name])) {
                 if ($type == 'string') {
                     $update[] = "`".$field_name."` = '".$this->db->escape($data[$field_name])."'";
                 } elseif ($type == 'int') {
-                    if (in_array($field_name, array('max_downloads', 'expire_days'))) {
-                        $update[] =
-                            "`".$field_name."` = ".((int)$data[$field_name] ? "'".(int)$data[$field_name]."'" : 'NULL');
+                    if (in_array($field_name, ['max_downloads', 'expire_days'])) {
+                        $update[] = "`".$field_name."` = ".((int) $data[$field_name]
+                                                                ? "'".(int) $data[$field_name]."'"
+                                                                : 'NULL');
                     } else {
-                        $update[] = "`".$field_name."` = '".(int)$data[$field_name]."'";
+                        $update[] = "`".$field_name."` = '".(int) $data[$field_name]."'";
                     }
                 }
             }
         }
         if ($update) {
-            $this->db->query("UPDATE ".$this->db->table('downloads')."
-                                      SET ".implode(', ', $update)."
-                               WHERE download_id = ".(int)$download_id);
+            $this->db->query(
+                "UPDATE ".$this->db->table('downloads')."
+                SET ".implode(', ', $update)."
+                WHERE download_id = ".(int) $download_id
+            );
         }
 
         if (!empty($data['name'])) {
-            $this->language->replaceDescriptions('download_descriptions',
-                array('download_id' => (int)$download_id),
-                array($this->language->getContentLanguageID() => array('name' => $data['name'])));
+            $this->language->replaceDescriptions(
+                'download_descriptions',
+                ['download_id' => (int) $download_id],
+                [$this->language->getContentLanguageID() => ['name' => $data['name']]]
+            );
         }
 
         if (!empty($data['attributes'])) {
@@ -147,23 +163,28 @@ class ModelCatalogDownload extends Model
      * @param int $product_id
      *
      * @return bool|int
+     * @throws AException
      */
     public function mapDownload($download_id, $product_id)
     {
-        $download_id = (int)$download_id;
-        $product_id = (int)$product_id;
+        $download_id = (int) $download_id;
+        $product_id = (int) $product_id;
         if (!$product_id || !$download_id) {
             return false;
         }
 
-        $this->db->query("DELETE FROM ".$this->db->table('products_to_downloads')."
-                          WHERE product_id = '".(int)$product_id."'
-                            AND download_id = '".(int)$download_id."'");
+        $this->db->query(
+            "DELETE FROM ".$this->db->table('products_to_downloads')."
+            WHERE product_id = '".(int) $product_id."'
+                AND download_id = '".(int) $download_id."'"
+        );
 
-        $this->db->query("INSERT INTO ".$this->db->table('products_to_downloads')."
-                            SET
-                                product_id = '".(int)$product_id."',
-                                download_id = '".(int)$download_id."'");
+        $this->db->query(
+            "INSERT INTO ".$this->db->table('products_to_downloads')."
+            SET
+                product_id = '".(int) $product_id."',
+                download_id = '".(int) $download_id."'"
+        );
 
         $this->cache->remove('html_cache');
         return $this->db->getLastId();
@@ -174,18 +195,21 @@ class ModelCatalogDownload extends Model
      * @param int $product_id
      *
      * @return bool
+     * @throws AException
      */
     public function unmapDownload($download_id, $product_id)
     {
-        $download_id = (int)$download_id;
-        $product_id = (int)$product_id;
+        $download_id = (int) $download_id;
+        $product_id = (int) $product_id;
         if (!$product_id || !$download_id) {
             return false;
         }
 
-        $this->db->query("DELETE FROM ".$this->db->table('products_to_downloads')."
-                          WHERE product_id = '".(int)$product_id."'
-                            AND download_id = '".(int)$download_id."'");
+        $this->db->query(
+            "DELETE FROM ".$this->db->table('products_to_downloads')."
+             WHERE product_id = '".(int) $product_id."'
+               AND download_id = '".(int) $download_id."'"
+        );
         $this->cache->remove('html_cache');
         return true;
     }
@@ -194,41 +218,47 @@ class ModelCatalogDownload extends Model
      * @param int $product_id
      *
      * @return bool
+     * @throws AException
      */
     public function unmapDownloadsFromProduct($product_id)
     {
-        $product_id = (int)$product_id;
+        $product_id = (int) $product_id;
         if (!$product_id) {
             return false;
         }
 
-        $this->db->query("DELETE FROM ".$this->db->table('products_to_downloads')."
-                          WHERE product_id = '".(int)$product_id."'");
+        $this->db->query(
+            "DELETE FROM ".$this->db->table('products_to_downloads')."
+             WHERE product_id = '".(int) $product_id."'"
+        );
         $this->cache->remove('html_cache');
         return true;
     }
 
     /**
-     * @param int   $download_id
+     * @param int $download_id
      *
      * @param array $exclude_products
      *
      * @return array
+     * @throws AException
      */
-    public function getDownloadMapList($download_id, $exclude_products = array())
+    public function getDownloadMapList($download_id, $exclude_products = [])
     {
-        $download_id = (int)$download_id;
+        $download_id = (int) $download_id;
         if (!$download_id) {
-            return array();
+            return [];
         }
-        $output = array();
+        $output = [];
 
-        $result = $this->db->query("SELECT  pd.product_id, pd.name
-                                      FROM ".$this->db->table('products_to_downloads')." ptd
-                                      LEFT JOIN ".$this->db->table('product_descriptions')." pd
-                                        ON (pd.product_id = ptd.product_id 
-                                           AND pd.language_id = '".$this->language->getContentLanguageID()."')
-                                      WHERE ptd.download_id = '".(int)$download_id."'");
+        $result = $this->db->query(
+            "SELECT  pd.product_id, pd.name
+            FROM ".$this->db->table('products_to_downloads')." ptd
+            LEFT JOIN ".$this->db->table('product_descriptions')." pd
+            ON (pd.product_id = ptd.product_id 
+               AND pd.language_id = '".$this->language->getContentLanguageID()."')
+            WHERE ptd.download_id = '".(int) $download_id."'"
+        );
         foreach ($result->rows as $row) {
             if (!in_array($row['product_id'], $exclude_products)) {
                 $output[$row['product_id']] = $row['name'];
@@ -240,36 +270,46 @@ class ModelCatalogDownload extends Model
     /**
      * @param int $download_id
      *
-     * @return null
      * @throws AException
      */
     public function deleteDownload($download_id)
     {
-        $download_id = (int)$download_id;
+        $download_id = (int) $download_id;
         if (!$download_id) {
-            return null;
+            return;
         }
 
         $download = $this->getDownload($download_id);
         if (!$download) {
-            return null;
+            return;
         }
 
         $rm = new AResourceManager();
         $rm->setType('download');
-        $path = ltrim($download['filename'], 'download/');
-        $rl_id = $rm->getIdFromHexPath($path);
-        if ($rl_id && !$rm->isMapped($rl_id)) {
-            $rm->deleteResource($rl_id);
+        $rTypeDir = $rm->getTypeDir();
+        $resourceId = is_numeric($download['filename'])
+            ? $download['filename']
+            : $rm->getIdFromHexPath(str_replace($rTypeDir, '', $download['filename']));
+        if ($resourceId && !$rm->isMapped($resourceId)) {
+            $rm->deleteResource($resourceId);
         }
 
-        $this->db->query("DELETE FROM ".$this->db->table("downloads")." WHERE download_id = '".(int)$download_id."'");
-        $this->db->query("DELETE FROM ".$this->db->table("download_descriptions")." WHERE download_id = '"
-            .(int)$download_id."'");
-        $this->db->query("DELETE FROM ".$this->db->table("download_attribute_values")." WHERE download_id = '"
-            .(int)$download_id."'");
-        $this->db->query("DELETE FROM ".$this->db->table("products_to_downloads")." WHERE download_id = '"
-            .(int)$download_id."'");
+        $this->db->query(
+            "DELETE FROM ".$this->db->table("downloads")." 
+            WHERE download_id = '".(int) $download_id."'"
+        );
+        $this->db->query(
+            "DELETE FROM ".$this->db->table("download_descriptions")." 
+            WHERE download_id = '".(int) $download_id."'"
+        );
+        $this->db->query(
+            "DELETE FROM ".$this->db->table("download_attribute_values")." 
+            WHERE download_id = '".(int) $download_id."'"
+        );
+        $this->db->query(
+            "DELETE FROM ".$this->db->table("products_to_downloads")." 
+            WHERE download_id = '".(int) $download_id."'"
+        );
         $this->cache->remove('html_cache');
     }
 
@@ -277,53 +317,57 @@ class ModelCatalogDownload extends Model
      * @param int $download_id
      *
      * @return array
+     * @throws AException
      */
     public function getDownload($download_id)
     {
-        $download_id = (int)$download_id;
+        $download_id = (int) $download_id;
         if (!$download_id) {
-            return array();
+            return [];
         }
 
-        $query = $this->db->query("SELECT d.download_id,
-                                          dc.name,
-                                          filename,
-                                          mask,
-                                          max_downloads,
-                                          expire_days,
-                                          sort_order,
-                                          activate,
-                                          activate_order_status_id,
-                                          status,
-                                          shared,
-                                          date_added,
-                                          date_modified
-                                    FROM ".$this->db->table('downloads')." d
-                                    LEFT JOIN ".$this->db->table('download_descriptions')." dc
-                                        ON d.download_id=dc.download_id AND dc.language_id = '"
-            .(int)$this->language->getContentLanguageID()."'
-                                    WHERE d.download_id = '".(int)$download_id."'");
+        $query = $this->db->query(
+            "SELECT d.download_id,
+                  dc.name,
+                  filename,
+                  mask,
+                  max_downloads,
+                  expire_days,
+                  sort_order,
+                  activate,
+                  activate_order_status_id,
+                  status,
+                  shared,
+                  date_added,
+                  date_modified
+            FROM ".$this->db->table('downloads')." d
+            LEFT JOIN ".$this->db->table('download_descriptions')." dc
+                ON d.download_id=dc.download_id 
+                    AND dc.language_id = '".(int) $this->language->getContentLanguageID()."'
+            WHERE d.download_id = '".(int) $download_id."'"
+        );
         return $query->row;
     }
 
     /**
-     * @param int   $product_id
+     * @param int $product_id
      * @param array $data
      *
      * @return array
+     * @throws AException
      */
-    public function getProductDownloadsDetails($product_id, $data = array())
+    public function getProductDownloadsDetails($product_id, $data = [])
     {
-        if (!(int)$product_id) {
-            return array();
+        if (!(int) $product_id) {
+            return [];
         }
         $sql = "SELECT dd.*, d.*, p2d.*
                  FROM ".$this->db->table("products_to_downloads")." p2d
                  LEFT JOIN ".$this->db->table("downloads")." d ON (p2d.download_id = d.download_id)
                  LEFT JOIN ".$this->db->table("download_descriptions")." dd
                     ON (d.download_id = dd.download_id
-                            AND dd.language_id = '".(int)$this->language->getContentLanguageID()."')
-                 WHERE p2d.product_id = '".(int)$product_id."'";
+                            AND dd.language_id = '".(int) $this->language->getContentLanguageID()."')
+                 WHERE p2d.product_id = '".(int) $product_id."'";
         if (!empty($data['subsql_filter'])) {
             $sql .= " ".$data['subsql_filter'];
         }
@@ -331,32 +375,34 @@ class ModelCatalogDownload extends Model
         $query = $this->db->query($sql);
 
         foreach ($query->rows as &$row) {
-            $row['map_list'] = $this->getDownloadMapList($row['download_id'], array($row['product_id']));
+            $row['map_list'] = $this->getDownloadMapList($row['download_id'], [$row['product_id']]);
         }
 
         return $query->rows;
     }
 
     /**
-     * @param array  $data
+     * @param array $data
      * @param string $mode
      *
      * @return array
+     * @throws AException
      */
-    public function getDownloads($data = array(), $mode = 'default')
+    public function getDownloads($data = [], $mode = 'default')
     {
-
         if (!empty($data['content_language_id'])) {
-            $language_id = ( int )$data['content_language_id'];
+            $language_id = ( int ) $data['content_language_id'];
         } else {
-            $language_id = (int)$this->language->getContentLanguageID();
+            $language_id = (int) $this->language->getContentLanguageID();
         }
 
         if ($mode == 'total_only') {
             $total_sql = 'count(*) as total';
         } else {
-            $total_sql = 'dd.*, d.*, (SELECT COUNT(*) as cnt FROM '.$this->db->table("products_to_downloads")
-                .' ptd WHERE ptd.download_id = d.download_id) as product_count';
+            $total_sql = 'dd.*, d.*, 
+                            (SELECT COUNT(*) as cnt 
+                            FROM '.$this->db->table("products_to_downloads").' ptd 
+                            WHERE ptd.download_id = d.download_id) as product_count';
         }
 
         $sql = "SELECT $total_sql
@@ -368,16 +414,16 @@ class ModelCatalogDownload extends Model
             $sql .= " WHERE ".$data['subsql_filter'];
         }
 
-        //If for total, we done bulding the query
+        //If for total, we done building the query
         if ($mode == 'total_only') {
             $query = $this->db->query($sql);
             return $query->row['total'];
         }
 
-        $sort_data = array(
+        $sort_data = [
             'name'          => 'dd.name',
             'product_count' => 'product_count',
-        );
+        ];
 
         if (isset($data['sort']) && in_array($data['sort'], array_keys($sort_data))) {
             $sql .= " ORDER BY ".$data['sort'];
@@ -400,7 +446,7 @@ class ModelCatalogDownload extends Model
                 $data['limit'] = 20;
             }
 
-            $sql .= " LIMIT ".(int)$data['start'].",".(int)$data['limit'];
+            $sql .= " LIMIT ".(int) $data['start'].",".(int) $data['limit'];
         }
         $query = $this->db->query($sql);
         return $query->rows;
@@ -408,18 +454,20 @@ class ModelCatalogDownload extends Model
 
     /**
      * @return array
+     * @throws AException
      */
     public function getSharedDownloads()
     {
-        return $this->getDownloads(array('subsql_filter' => ' shared=1 '));
+        return $this->getDownloads(['subsql_filter' => ' shared=1 ']);
     }
 
     /**
      * @param array $data
      *
      * @return array
+     * @throws AException
      */
-    public function getTotalDownloads($data = array())
+    public function getTotalDownloads($data = [])
     {
         return $this->getDownloads($data, 'total_only');
     }
@@ -428,74 +476,91 @@ class ModelCatalogDownload extends Model
      * @param int $download_id
      *
      * @return array
+     * @throws AException
      */
     public function getDownloadDescriptions($download_id)
     {
-        $download_id = (int)$download_id;
-        $download_description_data = array();
+        $download_id = (int) $download_id;
+        $download_description_data = [];
 
-        $query = $this->db->query("SELECT *
-                                    FROM ".$this->db->table("download_descriptions")." 
-                                    WHERE download_id = '".(int)$download_id."'");
+        $query = $this->db->query(
+            "SELECT *
+            FROM ".$this->db->table("download_descriptions")." 
+            WHERE download_id = '".(int) $download_id."'"
+        );
 
         foreach ($query->rows as $result) {
-            $download_description_data[$result['language_id']] = array('name' => $result['name']);
+            $download_description_data[$result['language_id']] = ['name' => $result['name']];
         }
 
         return $download_description_data;
     }
 
     /**
-     * @param int   $download_id
+     * @param int $download_id
      * @param array $data
+     *
+     * @throws AException
      */
     public function addDownloadAttributeValues($download_id, $data)
     {
-        $download_id = (int)$download_id;
+        $download_id = (int) $download_id;
         $attr_mngr = new AAttribute_Manager('download_attribute');
         $attribute_info = $attr_mngr->getAttributeTypeInfo('download_attribute');
-        $attributes = $attr_mngr->getAttributes(array(
-            'attribute_type_id' => $attribute_info['attribute_type_id'],
-            'limit'             => null,
-        ));
+        $attributes = $attr_mngr->getAttributes(
+            [
+                'attribute_type_id' => $attribute_info['attribute_type_id'],
+                'limit'             => null,
+            ]
+        );
 
         foreach ($attributes as $attribute) {
             if (isset($data[$attribute['attribute_id']])) {
                 $value = serialize($data[$attribute['attribute_id']]);
-                $this->db->query("INSERT INTO ".$this->db->table('download_attribute_values')." (attribute_id, download_id, attribute_value_ids)
-                                 VALUES ('".$attribute['attribute_id']."', '".$download_id."', '".$value."')");
+                $this->db->query(
+                    "INSERT INTO ".$this->db->table('download_attribute_values')." (attribute_id, download_id, attribute_value_ids)
+                     VALUES ('".$attribute['attribute_id']."', '".$download_id."', '".$value."')"
+                );
             }
         }
         $this->cache->remove('html_cache');
     }
 
     /**
-     * @param int   $download_id
+     * @param int $download_id
      * @param array $data
+     *
+     * @throws AException
      */
     public function editDownloadAttributes($download_id, $data)
     {
-        $download_id = (int)$download_id;
+        $download_id = (int) $download_id;
         $attr_mngr = new AAttribute_Manager('download_attribute');
         $attribute_info = $attr_mngr->getAttributeTypeInfo('download_attribute');
-        $attributes = $attr_mngr->getAttributes(array(
-            'attribute_type_id' => $attribute_info['attribute_type_id'],
-            'limit'             => null,
-        ));
+        $attributes = $attr_mngr->getAttributes(
+            [
+                'attribute_type_id' => $attribute_info['attribute_type_id'],
+                'limit'             => null,
+            ]
+        );
 
         foreach ($attributes as $attribute) {
             if (isset($data[$attribute['attribute_id']])) {
                 $value = serialize($data[$attribute['attribute_id']]);
 
-                $this->db->query("DELETE
-                                   FROM ".$this->db->table('download_attribute_values')."
-                                   WHERE attribute_id = '".$attribute['attribute_id']."' AND download_id = '"
-                    .$download_id."'");
+                $this->db->query(
+                    "DELETE
+                   FROM ".$this->db->table('download_attribute_values')."
+                   WHERE attribute_id = '".$attribute['attribute_id']."' 
+                        AND download_id = '".$download_id."'"
+                );
 
-                $this->db->query("INSERT INTO ".$this->db->table('download_attribute_values')."
-                                SET attribute_value_ids = '".$this->db->escape($value)."',
-                                    attribute_id = '".$attribute['attribute_id']."',
-                                    download_id = '".$download_id."'");
+                $this->db->query(
+                    "INSERT INTO ".$this->db->table('download_attribute_values')."
+                    SET attribute_value_ids = '".$this->db->escape($value)."',
+                        attribute_id = '".$attribute['attribute_id']."',
+                        download_id = '".$download_id."'"
+                );
             }
         }
         $this->cache->remove('html_cache');
@@ -505,32 +570,35 @@ class ModelCatalogDownload extends Model
      * @param int $download_id
      *
      * @return array
+     * @throws AException
      */
     public function getDownloadAttributes($download_id)
     {
-        $download_id = (int)$download_id;
+        $download_id = (int) $download_id;
         $attr_mngr = new AAttribute_Manager('download_attribute');
         $attribute_info = $attr_mngr->getAttributeTypeInfo('download_attribute');
         $attributes = $attr_mngr->getAttributes(
-            array(
+            [
                 'attribute_type_id' => $attribute_info['attribute_type_id'],
                 'sort'              => 'sort_order',
                 'order'             => 'ASC',
                 'limit'             => null,
-            )
+            ]
         );
 
-        $output = $ids = array();
+        $output = $ids = [];
         foreach ($attributes as $attribute) {
-            $ids[] = (int)$attribute['attribute_id'];
+            $ids[] = (int) $attribute['attribute_id'];
             $attribute['values'] = $attr_mngr->getAttributeValues($attribute['attribute_id']);
             $output[$attribute['attribute_id']] = $attribute;
         }
         if ($ids) {
-            $result = $this->db->query("SELECT attribute_id, attribute_value_ids as value
-                                          FROM ".$this->db->table('download_attribute_values')."
-                                          WHERE attribute_id IN (".implode(',', $ids).") AND download_id = '"
-                .$download_id."'");
+            $result = $this->db->query(
+                "SELECT attribute_id, attribute_value_ids as value
+                FROM ".$this->db->table('download_attribute_values')."
+                WHERE attribute_id IN (".implode(',', $ids).") 
+                    AND download_id = '".$download_id."'"
+            );
 
             foreach ($result->rows as $row) {
                 if (isset($output[$row['attribute_id']])) {
@@ -542,18 +610,18 @@ class ModelCatalogDownload extends Model
     }
 
     /**
-     * @param int   $order_download_id
+     * @param int $order_download_id
      * @param array $data
      *
      * @return bool
+     * @throws AException
      */
     public function editOrderDownload($order_download_id, $data)
     {
-
-        if (!(int)$order_download_id) {
+        if (!(int) $order_download_id) {
             return false;
         }
-        $update = array();
+        $update = [];
 
         if (isset($data['expire_date'])) {
             if ($data['expire_date']) {
@@ -565,45 +633,48 @@ class ModelCatalogDownload extends Model
         }
         if (isset($data['remaining_count'])) {
             if ($data['remaining_count'] != '') {
-                $update[] = "`remaining_count` = '".(int)$data['remaining_count']."'";
+                $update[] = "`remaining_count` = '".(int) $data['remaining_count']."'";
             } else {
                 $update[] = "`remaining_count` = NULL";
             }
         }
         if (has_value($data['status'])) {
-            $update[] = "`status` = '".(int)$data['status']."'";
+            $update[] = "`status` = '".(int) $data['status']."'";
         }
         if ($update) {
-            $this->db->query("UPDATE ".$this->db->table("order_downloads")." 
-                              SET ".implode(', ', $update)."
-                              WHERE order_download_id='".(int)$order_download_id."'");
+            $this->db->query(
+                "UPDATE ".$this->db->table("order_downloads")." 
+                SET ".implode(', ', $update)."
+                WHERE order_download_id='".(int) $order_download_id."'"
+            );
         }
         $this->cache->remove('html_cache');
         return true;
     }
 
     /**
-     * @param            $product_id
+     * @param  int       $product_id
      * @param int|string $download_id (optional)
      *
      * @return array
+     * @throws AException
      */
     public function getOrdersWithProduct($product_id, $download_id = '')
     {
-        if (!(int)$product_id) {
-            return array();
+        if (!(int) $product_id) {
+            return [];
         }
         if ($download_id) {
             $sql = "SELECT DISTINCT op.order_id, op.order_product_id
-                FROM ".$this->db->table('order_products')." op, 
-                     ".$this->db->table('order_downloads')." od
-                WHERE 	od.order_id = op.order_id 
-                        AND op.product_id = '".(int)$product_id."' 
-                        AND od.download_id='".(int)$download_id."'";
+                    FROM ".$this->db->table('order_products')." op, 
+                         ".$this->db->table('order_downloads')." od
+                    WHERE  od.order_id = op.order_id 
+                        AND op.product_id = '".(int) $product_id."' 
+                        AND od.download_id='".(int) $download_id."'";
         } else {
             $sql = "SELECT DISTINCT op.order_id, op.order_product_id
-                FROM ".$this->db->table('order_products')." op 
-                WHERE  op.product_id = '".(int)$product_id."'";
+                    FROM ".$this->db->table('order_products')." op 
+                    WHERE  op.product_id = '".(int) $product_id."'";
         }
 
         $result = $this->db->query($sql);
@@ -611,27 +682,28 @@ class ModelCatalogDownload extends Model
     }
 
     /**
-     * @param int        $product_id
+     * @param int $product_id
      * @param int|string $download_id
      *
      * @return int
+     * @throws AException
      */
     public function getTotalOrdersWithProduct($product_id, $download_id = '')
     {
-        $product_id = (int)$product_id;
-        $download_id = (int)$download_id;
+        $product_id = (int) $product_id;
+        $download_id = (int) $download_id;
         return sizeof($this->getOrdersWithProduct($product_id, $download_id));
     }
 
     /**
      * @param $download_info
      *
-     * @return string
+     * @return array
+     * @throws AException
      */
     public function getTextStatusForOrderDownload($download_info)
     {
-
-        $text_status = array();
+        $text_status = [];
 
         if (dateISO2Int($download_info['expire_date']) < time()) {
             $text_status[] = $this->language->get('text_download_expired');
@@ -641,13 +713,16 @@ class ModelCatalogDownload extends Model
             $text_status[] = $this->language->get('text_download_remaining_count').': 0';
         }
 
-        if ((int)$download_info['activate_order_status_id'] > 0) {
-            if ((int)$download_info['activate_order_status_id'] != (int)$download_info['order_status_id']) {
+        if ((int) $download_info['activate_order_status_id'] > 0) {
+            if ((int) $download_info['activate_order_status_id'] != (int) $download_info['order_status_id']) {
                 $this->load->model('localisation/order_status');
-                $order_status_info =
-                    $this->model_localisation_order_status->getOrderStatus($download_info['activate_order_status_id']);
-                $text_status[] =
-                    sprintf($this->language->get('text_order_status_required'), $order_status_info['name']);
+                $order_status_info = $this->model_localisation_order_status->getOrderStatus(
+                    $download_info['activate_order_status_id']
+                );
+                $text_status[] = sprintf(
+                    $this->language->get('text_order_status_required'),
+                    $order_status_info['name']
+                );
             }
         }
 

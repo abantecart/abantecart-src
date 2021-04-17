@@ -282,6 +282,13 @@ class ExtensionDefaultPPExpress extends Extension
             if (has_value($that->config->get('default_pp_express_custom_logo'))) {
                 if (strpos($that->config->get('default_pp_express_custom_logo'), 'http') === 0) {
                     $custom_logo = $that->config->get('default_pp_express_custom_logo');
+                } elseif (is_numeric($that->config->get('default_pp_express_custom_logo'))) {
+                    $resource = new AResource('image');
+                    $image = $resource->getResource($that->config->get('default_pp_express_custom_logo'));
+                    $img_sub_path = $image['type_name'].'/'.$image['resource_path'];
+                    if (is_file(DIR_RESOURCE.$img_sub_path)) {
+                        $custom_logo = 'https:'.HTTPS_DIR_RESOURCE.$img_sub_path;
+                    }
                 } else {
                     $custom_logo = HTTPS_SERVER.'resources/'.$that->config->get('default_pp_express_custom_logo');
                 }
@@ -499,6 +506,13 @@ class ExtensionDefaultPPExpress extends Extension
             if (has_value($that->config->get('default_pp_express_custom_logo'))) {
                 if (strpos($that->config->get('default_pp_express_custom_logo'), 'http') === 0) {
                     $custom_logo = $that->config->get('default_pp_express_custom_logo');
+                } elseif (is_numeric($that->config->get('default_pp_express_custom_logo'))) {
+                    $resource = new AResource('image');
+                    $image = $resource->getResource($that->config->get('default_pp_express_custom_logo'));
+                    $img_sub_path = $image['type_name'].'/'.$image['resource_path'];
+                    if (is_file(DIR_RESOURCE.$img_sub_path)) {
+                        $custom_logo = 'https:'.HTTPS_DIR_RESOURCE.$img_sub_path;
+                    }
                 } else {
                     $custom_logo = HTTPS_SERVER.'resources/'.$that->config->get('default_pp_express_custom_logo');
                 }

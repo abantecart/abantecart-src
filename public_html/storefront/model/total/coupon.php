@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -27,78 +28,87 @@ class ModelTotalCoupon extends Model
     {
         if (isset($cust_data['coupon']) && $this->config->get('coupon_status')) {
             $promotion = new APromotion();
+            // see filtering parameters inside this method ! */
             $coupon = $promotion->getCouponData($cust_data['coupon']);
 
-            if ($coupon) {
-                $discount_total = 0;
+            if (!$coupon) {
+                return;
+            }
+            $discount_total = 0;
+            $subtotal = $this->cart->getSubTotal(true);
 
-                if (!$coupon['product']) {
-                    $coupon_total = $this->cart->getSubTotal();
-                } else {
-                    $coupon_total = 0;
-
-                    foreach ($this->cart->getProducts() as $product) {
-                        if (in_array($product['product_id'], $coupon['product'])) {
-                            $coupon_total += $product['total'];
-                        }
-                    }
-                }
-
-                if ($coupon['type'] == 'F') {
-                    $coupon['discount'] = min($coupon['discount'], $coupon_total);
-                }
+            if (!$coupon['product']) {
+                $coupon_total = $subtotal;
+            } else {
+                $coupon_total = 0;
 
                 foreach ($this->cart->getProducts() as $product) {
-                    $discount = 0;
+                    if (in_array($product['product_id'], $coupon['product'])) {
+                        $coupon_total += $product['total'];
+                    }
+                }
+            }
 
-                    if (!$coupon['product']) {
+            if ($coupon['type'] == 'F') {
+                $coupon['discount'] = min($coupon['discount'], $coupon_total);
+            }
+
+            foreach ($this->cart->getProducts() as $product) {
+                $discount = 0;
+
+                if (!$coupon['product']) {
+                    $status = true;
+                } else {
+                    if (in_array($product['product_id'], $coupon['product'])) {
                         $status = true;
                     } else {
-                        if (in_array($product['product_id'], $coupon['product'])) {
-                            $status = true;
-                        } else {
-                            $status = false;
-                        }
+                        $status = false;
                     }
-
-                    if ($status) {
-                        if ($coupon['type'] == 'F') {
-                            $discount = $coupon['discount'] * ($product['total'] / $coupon_total);
-                        } elseif ($coupon['type'] == 'P') {
-                            $discount = $product['total'] / 100 * $coupon['discount'];
-                        }
-
-                        if ($product['tax_class_id']) {
-                            $taxes[$product['tax_class_id']]['total'] -= $discount;
-                            $taxes[$product['tax_class_id']]['tax'] -= $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']) - $this->tax->calcTotalTaxAmount($product['total'] - $discount, $product['tax_class_id']);
-                        }
-                    }
-
-                    $discount_total += $discount;
-                }
-                $ship_data = $cust_data['shipping_method'];
-                if ($coupon['shipping'] && isset($ship_data)) {
-                    if (isset($ship_data['tax_class_id']) && $ship_data['tax_class_id']) {
-                        $taxes[$ship_data['tax_class_id']]['total'] -= $ship_data['cost'];
-                        $taxes[$ship_data['tax_class_id']]['tax'] -= $this->tax->calcTotalTaxAmount($ship_data['cost'], $ship_data['tax_class_id']);
-                    }
-
-                    $discount_total += $ship_data['cost'];
                 }
 
-                $total_data[] = array(
-                    'id'         => 'coupon',
-                    'title'      => $coupon['name'].':',
-                    'text'       => '-'.$this->currency->format($discount_total),
-                    'value'      => -$discount_total,
-                    'sort_order' => $this->config->get('coupon_sort_order'),
-                    'total_type' => $this->config->get('coupon_total_type'),
-                );
+                if ($status) {
+                    if ($coupon['type'] == 'F') {
+                        $discount = $coupon['discount'] * ($product['total'] / $coupon_total);
+                    } elseif ($coupon['type'] == 'P') {
+                        $discount = $product['total'] / 100 * $coupon['discount'];
+                    }
 
-                $total -= $discount_total;
+                    if ($product['tax_class_id']) {
+                        $taxes[$product['tax_class_id']]['total'] -= $discount;
+                        $taxes[$product['tax_class_id']]['tax'] -= $this->tax->calcTotalTaxAmount(
+                                $product['total'], $product['tax_class_id']
+                            )
+                            - $this->tax->calcTotalTaxAmount(
+                                $product['total'] - $discount,
+                                $product['tax_class_id']
+                            );
+                    }
+                }
+
+                $discount_total += $discount;
             }
+            $ship_data = $cust_data['shipping_method'];
+            if ($coupon['shipping'] && isset($ship_data)) {
+                if (isset($ship_data['tax_class_id']) && $ship_data['tax_class_id']) {
+                    $taxes[$ship_data['tax_class_id']]['total'] -= $ship_data['cost'];
+                    $taxes[$ship_data['tax_class_id']]['tax'] -= $this->tax->calcTotalTaxAmount(
+                        $ship_data['cost'],
+                        $ship_data['tax_class_id']
+                    );
+                }
+                $discount_total += $ship_data['cost'];
+            }
+
+            $total_data[] = [
+                'id'         => 'coupon',
+                'title'      => $coupon['name'].':',
+                'text'       => '-'.$this->currency->format($discount_total),
+                'value'      => -$discount_total,
+                'sort_order' => $this->config->get('coupon_sort_order'),
+                'total_type' => $this->config->get('coupon_total_type'),
+            ];
+
+            $total -= $discount_total;
         }
     }
 }
-
-?>

@@ -54,6 +54,7 @@ abstract class Model
 {
 
     public $registry;
+    public $data;
 
     /**
      * @param $registry Registry

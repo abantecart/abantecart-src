@@ -1,11 +1,13 @@
 <?php
+/** @noinspection PhpUndefinedClassInspection */
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,20 +25,20 @@ require 'vendor/autoload.php';
 class ExtensionAvataxIntegration extends Extension
 {
 
-    public $errors = array();
-    public $data = array();
-    public $totals = array();
+    public $errors = [];
+    public $data = [];
+    public $totals = [];
     public $postcode = 0;
     protected $controller;
     protected $registry;
 
-    protected $exemptGroups = array();
+    protected $exemptGroups = [];
 
     public function __construct()
     {
         $this->registry = Registry::getInstance();
         $this->controller = $this->baseObject;
-        $this->exemptGroups = array(
+        $this->exemptGroups = [
             ''  => '-----Please Select-----',
             'A' => 'A. Federal government (United States)',
             'B' => 'B. State government (United States)',
@@ -56,7 +58,7 @@ class ExtensionAvataxIntegration extends Extension
             'P' => 'P. Commercial aquaculture (Canada)',
             'Q' => 'Q. Commercial Fishery (Canada)',
             'R' => 'R. Non-resident (Canada)',
-        );
+        ];
     }
 
     protected function isEnabled()
@@ -66,30 +68,32 @@ class ExtensionAvataxIntegration extends Extension
 
     public function onControllerCommonListingGrid_InitData()
     {
+        /** @var ControllerCommonListingGrid $that */
         $that =& $this->baseObject;
         if ($that->data['table_id'] == 'customer_grid') {
             $that->loadLanguage('avatax_integration/avatax_integration');
-            $that->data['actions']['dropdown']['children']['avatax_integration'] = array(
+            $that->data['actions']['dropdown']['children']['avatax_integration'] = [
                 'text' => $that->language->get('avatax_integration_name'),
                 'href' => $that->html->getSecureURL('sale/avatax_customer_data', '&customer_id=%ID%'),
-            );
+            ];
         }
     }
 
     public function onControllerPagesCatalogProductTabs_InitData()
     {
+        /** @var ControllerPagesCatalogProductTabs $that */
         $that =& $this->baseObject;
         $that->loadLanguage('avatax_integration/avatax_integration');
 
-        $this->data = array();
-        $this->data['tabs'][] = array(
+        $this->data = [];
+        $this->data['tabs'][] = [
             'href'   => $that->html->getSecureURL(
                 'catalog/avatax_integration',
                 '&product_id='.$that->request->get['product_id']
             ),
             'text'   => $that->language->get('avatax_integration_name'),
             'active' => ($that->data['active'] == 'avatax_integration'),
-        );
+        ];
 
         $view = new AView(Registry::getInstance(), 0);
         $view->batchAssign($this->data);
@@ -98,14 +102,14 @@ class ExtensionAvataxIntegration extends Extension
 
     public function onControllerPagesSaleCustomer_InitData()
     {
+        /** @var ControllerPagesSaleCustomer $that */
         $that =& $this->baseObject;
         $that->loadLanguage('avatax_integration/avatax_integration');
         $customer_id = $that->request->get['customer_id'];
-        $avatax_tab[] = array(
+        $avatax_tab[] = [
             'href' => $that->html->getSecureURL('sale/avatax_customer_data', '&customer_id='.$customer_id),
             'text' => $that->language->get('avatax_integration_name'),
-        );
-        $tab_code = "";
+        ];
         foreach ($avatax_tab as $tab) {
             if ($tab['active']) {
                 $classname = 'active';
@@ -114,7 +118,7 @@ class ExtensionAvataxIntegration extends Extension
             }
 
             $tab_code = '<li class="'.$classname.'">';
-            $tab_code .= '	<a href="'.$tab['href'].'"><strong>'.$tab['text'].'</strong></a>';
+            $tab_code .= '    <a href="'.$tab['href'].'"><strong>'.$tab['text'].'</strong></a>';
             $tab_code .= '</li>';
         }
         $that->view->addHookVar('extension_tabs', $tab_code);
@@ -125,12 +129,10 @@ class ExtensionAvataxIntegration extends Extension
         $that =& $this->baseObject;
         $that->loadLanguage('avatax_integration/avatax_integration');
         $customer_id = $that->request->get['customer_id'];
-        $avatax_tab[] = array(
+        $avatax_tab[] = [
             'href' => $that->html->getSecureURL('sale/avatax_customer_data', '&customer_id='.$customer_id),
             'text' => $that->language->get('avatax_integration_name'),
-        );
-
-        $tab_code = "";
+        ];
         foreach ($avatax_tab as $tab) {
             if ($tab['active']) {
                 $classname = 'active';
@@ -139,7 +141,7 @@ class ExtensionAvataxIntegration extends Extension
             }
 
             $tab_code = '<li class="'.$classname.'">';
-            $tab_code .= '<a href="'.$tab['href'].'"><strong>'.$tab['text'].'</strong></a>';
+            $tab_code .= '    <a href="'.$tab['href'].'"><strong>'.$tab['text'].'</strong></a>';
             $tab_code .= '</li>';
         }
         $that->view->addHookVar('extension_tabs', $tab_code);
@@ -150,14 +152,15 @@ class ExtensionAvataxIntegration extends Extension
         $that = &$this->baseObject;
         $that->loadLanguage('avatax_integration/avatax_integration');
 
-        $this->data = array();
-        $this->data['tabs'][] = array(
+        $this->data = [];
+        $this->data['tabs'][] = [
             'href'   => $that->html->getSecureURL(
                 'catalog/avatax_integration',
-                '&product_id='.$that->request->get['product_id']),
+                '&product_id='.$that->request->get['product_id']
+            ),
             'text'   => $that->language->get('avatax_integration_name'),
             'active' => ($that->data['active'] == 'avatax_integration'),
-        );
+        ];
 
         $view = new AView(Registry::getInstance(), 0);
         $view->batchAssign($this->data);
@@ -174,7 +177,8 @@ class ExtensionAvataxIntegration extends Extension
             if ($order['order_status_id'] == $that->config->get('avatax_integration_status_success_settled')
                 || $order['order_status_id'] == $that->config->get('avatax_integration_status_cancel_settled')
             ) {
-                $that->view->addHookVar('order_details',
+                $that->view->addHookVar(
+                    'order_details',
                     '<div class="alert alert-danger" role="alert">'
                     .'Avatax is already calculated and documented. Edits to this order will not be reflected on Avatax!'
                     .'</div>'
@@ -185,6 +189,7 @@ class ExtensionAvataxIntegration extends Extension
 
     public function onControllerPagesSaleOrder_InitData()
     {
+        /** @var ControllerPagesSaleOrder $that */
         $that = $this->baseObject;
         if ($this->baseObject_method == 'history') {
             if (isset($that->request->post['order_status_id'])) {
@@ -199,7 +204,7 @@ class ExtensionAvataxIntegration extends Extension
                 $order = $that->model_sale_order->getOrder($order_id);
                 $order_totals = $that->model_sale_order->getOrderTotals($order_id);
                 $customer_id = $order['customer_id'];
-                $cust_data = array();
+                $cust_data = [];
                 $cust_data['customer_id'] = $customer_id;
                 $cust_data['order_id'] = $order_id;
                 $this->getTax($that, $cust_data, true, $order_totals);
@@ -212,7 +217,7 @@ class ExtensionAvataxIntegration extends Extension
                 $order = $that->model_sale_order->getOrder($order_id);
                 $order_totals = $that->model_sale_order->getOrderTotals($order_id);
                 $customer_id = $order['customer_id'];
-                $cust_data = array();
+                $cust_data = [];
                 $cust_data['customer_id'] = $customer_id;
                 $cust_data['order_id'] = $order_id;
                 $this->getTax($that, $cust_data, true, $order_totals, true);
@@ -223,9 +228,8 @@ class ExtensionAvataxIntegration extends Extension
             ) {
                 $that->load->model('sale/order');
                 $order = $that->model_sale_order->getOrder($order_id);
-                $order_totals = $that->model_sale_order->getOrderTotals($order_id);
                 $customer_id = $order['customer_id'];
-                $cust_data = array();
+                $cust_data = [];
                 $cust_data['customer_id'] = $customer_id;
                 $cust_data['order_id'] = $order_id.'-'.date("His", strtotime($order['date_added']));
                 //Cancel Tax
@@ -236,6 +240,7 @@ class ExtensionAvataxIntegration extends Extension
 
     public function onControllerResponsesListingGridOrder_UpdateData()
     {
+        /** @var ControllerResponsesListingGridOrder $that */
         $that = $this->baseObject;
         if ($this->baseObject_method == 'update_field') {
             if (isset($that->request->post['order_status_id'])) {
@@ -252,7 +257,7 @@ class ExtensionAvataxIntegration extends Extension
                 $order = $that->model_sale_order->getOrder($order_id);
                 $order_totals = $that->model_sale_order->getOrderTotals($order_id);
                 $customer_id = $order['customer_id'];
-                $cust_data = array();
+                $cust_data = [];
                 $cust_data['customer_id'] = $customer_id;
                 $cust_data['order_id'] = $order_id;
                 $this->getTax($that, $cust_data, true, $order_totals);
@@ -265,7 +270,7 @@ class ExtensionAvataxIntegration extends Extension
                 $order = $that->model_sale_order->getOrder($order_id);
                 $order_totals = $that->model_sale_order->getOrderTotals($order_id);
                 $customer_id = $order['customer_id'];
-                $cust_data = array();
+                $cust_data = [];
                 $cust_data['customer_id'] = $customer_id;
                 $cust_data['order_id'] = $order_id;
                 $this->getTax($that, $cust_data, true, $order_totals, true);
@@ -276,9 +281,8 @@ class ExtensionAvataxIntegration extends Extension
             ) {
                 $that->load->model('sale/order');
                 $order = $that->model_sale_order->getOrder($order_id);
-                $order_totals = $that->model_sale_order->getOrderTotals($order_id);
                 $customer_id = $order['customer_id'];
-                $cust_data = array();
+                $cust_data = [];
                 $cust_data['customer_id'] = $customer_id;
                 $cust_data['order_id'] = $order_id.'-'.date("His", strtotime($order['date_added']));
                 //Cancel Tax
@@ -322,9 +326,7 @@ class ExtensionAvataxIntegration extends Extension
         $that = $this->baseObject;
         $that->load->model('account/order');
         $product_data = $that->model_account_order->getOrderProducts($order_id);
-        /**
-         * @var ModelExtensionAvataxIntegration $mdl
-         */
+        /** @var ModelExtensionAvataxIntegration $mdl */
         $mdl = $that->load->model('extension/avatax_integration', 'storefront');
         foreach ($product_data as $key => $values) {
             $taxCodeValue = $mdl->getProductTaxCode($values['product_id']);
@@ -345,7 +347,7 @@ class ExtensionAvataxIntegration extends Extension
                 $address_id = $that->session->data['shipping_address_id']
                     ? $that->session->data['shipping_address_id']
                     : $that->session->data['payment_address_id'];
-                $address_info = array('address_id' => $address_id);
+                $address_info = ['address_id' => $address_id];
             }
             $res = $this->validate_address($address_info);
             if ($res['error']) {
@@ -379,69 +381,93 @@ class ExtensionAvataxIntegration extends Extension
     }
 
     /**
-     * @param      $that
+     * @param ModelTotalAvataxIntegrationTotal | ControllerPagesSaleOrder | ControllerResponsesListingGridOrder $that
      * @param      $cust_data
      * @param bool $commit
-     * @param int  $total_data
+     * @param int $total_data
      * @param bool $return
      *
-     * @return int
+     * @return int|false
      * @throws AException
      */
     public function getTax($that, $cust_data, $commit = false, $total_data = 0, $return = false)
     {
+        $docHash = '';
         $load = $this->registry->get('load');
         $config = $this->registry->get('config');
-        $session = $this->registry->get('session');
-
+        $session = $this->registry->get('session')->data['fc'] && $config->get('fast_checkout_status')
+            ? $this->registry->get('session')->data['fc']
+            : $this->registry->get('session')->data;
         $order_id = 0;
 
         if (IS_ADMIN === true) {
             $order_id = $cust_data['order_id'];
         } else {
-            if (isset($session->data['avatax_order_id'])) {
-                $order_id = $session->data['avatax_order_id'];
+            if (isset($session['avatax_order_id'])) {
+                $order_id = $session['avatax_order_id'];
             }
         }
 
         if (IS_ADMIN === true) {
-            $load->model('sale/customer');
-            $customer = $that->model_sale_customer->getCustomer($cust_data['customer_id']);
+            /** @var ModelSaleCustomer $mdl */
+            $mdl = $load->model('sale/customer');
+            $customer = $mdl->getCustomer($cust_data['customer_id']);
         } else {
-            $customer = new ACustomer($this->registry);
+            $customer = $this->registry->get('customer');
         }
-        $load->model('extension/avatax_integration');
+        $customerAddress = [];
+        /** @var ModelExtensionAvataxIntegration $avataxModel */
+        $avataxModel = $load->model('extension/avatax_integration');
         if (IS_ADMIN !== true) {
-            $load->model('account/address');
-
+            /** @var ModelAccountAddress $mdl */
+            $mdl = $load->model('account/address');
+            //when shipping address take for taxes
             if ($config->get('config_tax_customer') == 0) {
-                $customerAddress = $that->model_account_address->getAddress($session->data['shipping_address_id']);
+                //for guest
+                if (!$this->registry->get('customer')->isLogged()
+                    && isset($cust_data['guest']['shipping'])
+                ) {
+                    $customerAddress = $cust_data['guest']['shipping'];
+                }
+                //for registered customer
+                else{
+                    $customerAddress = $mdl->getAddress($cust_data['shipping_address_id'] ?: $session['shipping_address_id']);
+                }
             }
-            if ($config->get('config_tax_customer') == 1) {
-                $customerAddress = $that->model_account_address->getAddress($session->data['payment_address_id']);
-            }
-            if (!$this->registry->get('customer')->isLogged() && isset($cust_data['guest']) and !$customerAddress) {
-                $customerAddress = $cust_data['guest'];
+            //when payment address takes for taxes
+            elseif ($config->get('config_tax_customer') == 1) {
+                //for guest
+                if (!$this->registry->get('customer')->isLogged()
+                    && isset($cust_data['guest'])
+                ) {
+                    $customerAddress = $cust_data['guest'];
+                }//for registered customer
+                else{
+                    $customerAddress = $mdl->getAddress($cust_data['payment_address_id'] ?: $session['payment_address_id']);
+                }
             }
 
             if ($customer && !$customerAddress) {
-                $customerAddress = $that->model_account_address->getAddress($customer->getAddressId());
+                $customerAddress = $mdl->getAddress($customer->getAddressId());
             }
         }
         //Store Country iso_code_2 data
-        $load->model('localisation/country');
-        $temp = $that->model_localisation_country->getCountry($config->get('config_country_id'));
+        /** @var ModelLocalisationCountry $mdl */
+        $mdl = $load->model('localisation/country');
+        $temp = $mdl->getCountry($config->get('config_country_id'));
         $originCountry = $temp['iso_code_2'];
         //Store Zone value
-        $load->model('localisation/zone');
-        $temp = $that->model_localisation_zone->getZone($config->get('config_zone_id'));
+        /** @var ModelLocalisationZone $mdl */
+        $mdl = $load->model('localisation/zone');
+        $temp = $mdl->getZone($config->get('config_zone_id'));
         $originZone = $temp['code'];
         //Order data
         $order = new AOrder($this->registry);
 
         if (IS_ADMIN) {
-            $load->model('sale/order');
-            $order_data = $that->model_sale_order->getOrder($order_id);
+            /** @var ModelSaleOrder $mdl */
+            $mdl = $load->model('sale/order');
+            $order_data = $mdl->getOrder($order_id);
         } else {
             $order_data = $order->loadOrderData($order_id, 'any');
         }
@@ -458,8 +484,10 @@ class ExtensionAvataxIntegration extends Extension
 
             // Document Level Elements
             // Required Request Parameters
-            if (!$cust_data['customer_id']) {
+            if (!$cust_data['customer_id'] && IS_ADMIN === true) {
                 $cust_data['customer_id'] = 'guest';
+            }else{
+                $cust_data['customer_id'] = $customer->isLogged() ? $customer->getId() : 'guest';
             }
             $getTaxRequest->setCustomerCode($cust_data['customer_id']);
             if ($order_data['date_added'] && $return == false) {
@@ -472,12 +500,25 @@ class ExtensionAvataxIntegration extends Extension
             $getTaxRequest->setCompanyCode($config->get('avatax_integration_company_code'));
             $getTaxRequest->setClient('AbanteCart');
 
-            $customer_settings = $that->model_extension_avatax_integration->getCustomerSettings(
+            $customer_settings = $avataxModel->getCustomerSettings(
                 $cust_data['customer_id']
             );
             if ($order_id) {
+                $docCode = $order_id.'-'.date("dmy", strtotime($date));
+                $docHash = md5(
+                    $docCode
+                    .serialize($cust_data)
+                    .$session['payment_address_id']
+                    .$session['shipping_address_id']
+                    .$session['guest']
+                );
+
+                if ($session['avatax']['getTax'][$docHash]) {
+                    return $session['avatax']['getTax'][$docHash];
+                }
+
                 $getTaxRequest->setDocDate($date);
-                $getTaxRequest->setDocCode($order_id.'-'.date("His", strtotime($order_data['date_added'])));
+                $getTaxRequest->setDocCode($docCode);
                 $getTaxRequest->setDetailLevel(AvaTax\DetailLevel::$Tax);
                 //commit doc by parameter. ON sf-side it always false
                 if ($commit == true) {
@@ -525,7 +566,7 @@ class ExtensionAvataxIntegration extends Extension
             $getTaxRequest->setCurrencyCode($cust_data['CurrencyCode']);
 
             // Address Data
-            $addresses = array();
+            $addresses = [];
             $address1 = new AvaTax\Address();
             $address1->setAddressCode("1");
             $address1->setLine1($config->get('config_address'));
@@ -540,28 +581,65 @@ class ExtensionAvataxIntegration extends Extension
             if (isset($order_data['shipping_postcode']) && !empty($order_data['shipping_postcode'])
                 && $config->get('config_tax_customer') == 0
             ) {
-                $address2->setLine1($order_data['shipping_address_1']);
-                $address2->setLine2($order_data['shipping_address_2']);
-                $address2->setCity($order_data['shipping_city']);
-                $address2->setRegion($order_data['shipping_zone_code']);
-                $address2->setCountry($order_data['shipping_iso_code_2']);
-                $address2->setPostalCode($order_data['shipping_postcode']);
-            } elseif (isset($order_data['payment_postcode']) && !empty($order_data['payment_postcode'])
+                $address2->setLine1(
+                    $customerAddress['address_1'] ? : $order_data['shipping_address_1']
+                );
+                $address2->setLine2(
+                    $customerAddress['address_2'] ? : $order_data['shipping_address_2']
+                );
+                $address2->setCity(
+                    $customerAddress['city'] ? : $order_data['shipping_city']
+                );
+                $address2->setRegion(
+                    $customerAddress['zone_code'] ? : $order_data['shipping_zone_code']
+                );
+                $address2->setCountry(
+                    $customerAddress['iso_code_2'] ? : $order_data['shipping_iso_code_2']
+                );
+                $address2->setPostalCode(
+                    $customerAddress['postcode'] ? : $order_data['shipping_postcode']
+                );
+            } elseif (isset($order_data['payment_postcode'])
+                && !empty($order_data['payment_postcode'])
                 && $config->get('config_tax_customer') == 1
             ) {
-                $address2->setLine1($order_data['payment_address_1']);
-                $address2->setLine2($order_data['payment_address_2']);
-                $address2->setCity($order_data['payment_city']);
-                $address2->setRegion($order_data['payment_zone_code']);
-                $address2->setCountry($order_data['payment_iso_code_2']);
-                $address2->setPostalCode($order_data['payment_postcode']);
+                $address2->setLine1(
+                    $customerAddress['address_1'] ? : $order_data['payment_address_1']
+                );
+                $address2->setLine2(
+                    $customerAddress['address_2'] ? : $order_data['payment_address_2']
+                );
+                $address2->setCity(
+                    $customerAddress['city'] ? : $order_data['payment_city']
+                );
+                $address2->setRegion(
+                    $customerAddress['zone_code'] ? : $order_data['payment_zone_code']
+                );
+                $address2->setCountry(
+                    $customerAddress['iso_code_2'] ? : $order_data['payment_iso_code_2']
+                );
+                $address2->setPostalCode(
+                    $customerAddress['postcode'] ? : $order_data['payment_postcode']
+                );
             } else {
-                $address2->setLine1($customerAddress['address_1']);
-                $address2->setLine2($customerAddress['address_2']);
-                $address2->setCity($customerAddress['city']);
-                $address2->setRegion($customerAddress['zone_code']);
-                $address2->setCountry($customerAddress['iso_code_2']);
-                $address2->setPostalCode($customerAddress['postcode']);
+                $address2->setLine1(
+                    $customerAddress['address_1'] ? : $order_data['address_1']
+                );
+                $address2->setLine2(
+                    $customerAddress['address_2'] ? : $order_data['address_2']
+                );
+                $address2->setCity(
+                    $customerAddress['city'] ? : $order_data['city']
+                );
+                $address2->setRegion(
+                    $customerAddress['zone_code'] ? : $order_data['zone_code']
+                );
+                $address2->setCountry(
+                    $customerAddress['iso_code_2'] ? : $order_data['iso_code_2']
+                );
+                $address2->setPostalCode(
+                    $customerAddress['postcode'] ? : $order_data['postcode']
+                );
             }
 
             $addresses[] = $address2;
@@ -570,23 +648,26 @@ class ExtensionAvataxIntegration extends Extension
 
             // Line Data
             // Required Parameters
-            $lines = array();
+            $lines = [];
             //Product model
             if ($order_id) {
                 if (!IS_ADMIN) {
-                    $load->model('account/order');
-                    $product_data = $that->model_account_order->getOrderProducts($order_id);
+                    /** @var ModelAccountOrder $mdl */
+                    $mdl = $load->model('account/order');
+                    $product_data = $mdl->getOrderProducts($order_id);
                 } else {
-                    $load->model('sale/order');
-                    $product_data = $that->model_sale_order->getOrderProducts($order_id);
+                    /** @var ModelSaleOrder $mdl */
+                    $mdl = $load->model('sale/order');
+                    $product_data = $mdl->getOrderProducts($order_id);
                 }
                 $counter = 1;
                 foreach ($product_data as $key => $values) {
                     $line = new AvaTax\Line();
                     $line->setLineNo($counter);
                     //getting sku
-                    $load->model('catalog/product');
-                    $tmp = $that->model_catalog_product->getProduct($values['product_id']);
+                    /** @var ModelCatalogProduct $mdl */
+                    $mdl = $load->model('catalog/product');
+                    $tmp = $mdl->getProduct($values['product_id']);
                     if ($tmp['sku']) {
                         $line->setItemCode($tmp['sku']);
                     } else {
@@ -606,12 +687,11 @@ class ExtensionAvataxIntegration extends Extension
                     // Best Practice Request Parameters
                     $line->setDescription($values['name']);
                     $line->setTaxCode(
-                        $that->model_extension_avatax_integration->getProductTaxCode($values['product_id'])
+                        $avataxModel->getProductTaxCode($values['product_id'])
                     );
                     $lines[] = $line;
                     $counter++;
                 }
-
             } else {  //In this step we have not Order. Calculate tax by Cart data
                 $cart_products = $that->cart->getProducts();
                 $counter = 1;
@@ -633,7 +713,7 @@ class ExtensionAvataxIntegration extends Extension
                     // Best Practice Request Parameters
                     $line->setDescription($values['name']);
                     $line->setTaxCode(
-                        $that->model_extension_avatax_integration->getProductTaxCode($values['product_id'])
+                        $avataxModel->getProductTaxCode($values['product_id'])
                     );
                     $lines[] = $line;
                     $counter++;
@@ -645,7 +725,9 @@ class ExtensionAvataxIntegration extends Extension
             if (IS_ADMIN == true) {
                 list($shp_method,) = explode('.', $order_data['shipping_method_key']);
                 $shp_title = $order_data['shipping_method'];
-                $all_totals = $that->model_sale_order->getOrderTotals($order_id);
+                /** @var ModelSaleOrder $mdl */
+                $mdl = $that->model_sale_order;
+                $all_totals = $mdl->getOrderTotals($order_id);
                 $shp_cost = 0.0;
                 foreach ($all_totals as $t) {
                     if ($t['key'] == 'shipping') {
@@ -654,12 +736,13 @@ class ExtensionAvataxIntegration extends Extension
                     }
                 }
             } else {
-                list($shp_method,) = explode('.', $that->session->data['shipping_method']['id']);
-                $shp_title = $that->session->data['shipping_method']['title'];
-                $shp_cost = $that->session->data['shipping_method']['cost'];
+                list($shp_method,) = explode('.', $session['shipping_method']['id']);
+                $shp_title = $session['shipping_method']['title'];
+                $shp_cost = $session['shipping_method']['cost'];
             }
 
             if ($shp_method) {
+                $freight_tax_code = '';
                 if ($config->get('avatax_integration_shipping_taxcode_'.$shp_method)) {
                     $freight_tax_code = $config->get('avatax_integration_shipping_taxcode_'.$shp_method);
                 }
@@ -690,7 +773,6 @@ class ExtensionAvataxIntegration extends Extension
                 $warning = new AWarning('AVATAX transaction: '.$message);
                 $warning->toLog()->toDebug();
             }
-
             if ($address1->PostalCode != "" && $address2->PostalCode != "" && !empty($getTaxRequest->Lines)) {
                 $getTaxResult = $taxSvc->getTax($getTaxRequest);
                 if ($config->get('avatax_integration_logging') == 1) {
@@ -705,14 +787,22 @@ class ExtensionAvataxIntegration extends Extension
                         $resultMessage .= $message->getSeverity().": ".$message->getSummary()."\n";
                     }
                     $warning = new AWarning("Fault of AVATAX calculation: \n ".$resultMessage);
-                    $warning->toLog()->toDebug();
+                    $warning->toDebug();
+                    if ($config->get('avatax_integration_logging')) {
+                        $warning->toLog()->toDebug();
+                    }
                 } else {
-                    return $getTaxResult->getTotalTax();
+                    $output = $getTaxResult->getTotalTax();
+                    if ($docHash) {
+                        $session['avatax']['getTax'][$docHash] = $output;
+                    }
+                    return $output;
                 }
             } else {
                 return -1;
             }
         }
+        return false;
     }
 
     /**
@@ -725,7 +815,6 @@ class ExtensionAvataxIntegration extends Extension
         $accountNumber = $that->config->get('avatax_integration_account_number');
         $licenseKey = $that->config->get('avatax_integration_license_key');
         if (!empty($serviceURL) && !empty($accountNumber) && !empty($licenseKey)) {
-
             $taxSvc = new AvaTax\TaxServiceRest($serviceURL, $accountNumber, $licenseKey);
             $cancelTaxRequest = new AvaTax\CancelTaxRequest();
 
@@ -759,11 +848,11 @@ class ExtensionAvataxIntegration extends Extension
                 $avatax_integration_total_status = 0;
             }
             $that->loadModel('setting/setting');
-            $activateTotalArray = array(
-                'avatax_integration_total' => array(
+            $activateTotalArray = [
+                'avatax_integration_total' => [
                     'avatax_integration_total_status' => $avatax_integration_total_status,
-                ),
-            );
+                ],
+            ];
             foreach ($activateTotalArray as $group => $values) {
                 $that->model_setting_setting->editSetting($group, $values);
             }
@@ -775,6 +864,7 @@ class ExtensionAvataxIntegration extends Extension
         $that = $this->baseObject;
         if ($this->baseObject_method == 'update') {
             if (isset($that->request->post['avatax_integration']['avatax_integration_status'])) {
+                $avatax_integration_total_status = null;
                 if ($that->request->post['avatax_integration']['avatax_integration_status'] == 1) {
                     $avatax_integration_total_status = 1;
                 }
@@ -783,11 +873,11 @@ class ExtensionAvataxIntegration extends Extension
                 }
                 $that->loadModel('setting/setting');
                 $activateTotalArray =
-                    array(
-                        'avatax_integration_total' => array(
+                    [
+                        'avatax_integration_total' => [
                             'avatax_integration_total_status' => $avatax_integration_total_status,
-                        ),
-                    );
+                        ],
+                    ];
                 foreach ($activateTotalArray as $group => $values) {
                     $that->model_setting_setting->editSetting($group, $values);
                 }
@@ -850,9 +940,9 @@ class ExtensionAvataxIntegration extends Extension
      */
     public function validate_address($address_data)
     {
-        $ret = array();
-        if (!is_array($address_data) || !$address_data['address_id']) {
-            $ret['message'] = "Missing Address ID";
+        $ret = [];
+        if (!is_array($address_data)) {
+            $ret['message'] = "Missing Address Data";
             $ret['error'] = true;
             return $ret;
         }
@@ -876,13 +966,13 @@ class ExtensionAvataxIntegration extends Extension
         $that->load->model('account/address');
         $addressSvc = new AvaTax\AddressServiceRest($serviceURL, $accountNumber, $licenseKey);
         $address = new AvaTax\Address();
-        if ($address_data['address_id'] == 'guest') {
+        if ($address_data['address_id'] == 'guest' || !$address_data['address_id']) {
             $customerAddress = $address_data;
         } else {
             $customerAddress = $that->model_account_address->getAddress($address_data['address_id']);
         }
 
-        if (is_int(strpos($countryISO, (string)$customerAddress['iso_code_2']))) {
+        if (is_int(strpos($countryISO, (string) $customerAddress['iso_code_2']))) {
             // Required Request Parameters
             $address->setLine1($customerAddress['address_1']);
             $address->setCity($customerAddress['city']);
@@ -926,17 +1016,17 @@ class ExtensionAvataxIntegration extends Extension
     {
         $that = $this->baseObject;
         if ($that->request->is_POST() && $that->request->post['exemption_number']) {
-            $that->loadModel('extension/avatax_integration');
-            $customer_settings =
-                $that->model_extension_avatax_integration->getCustomerSettings($that->customer->getId());
-            if (in_array($customer_settings['status'], array(0, 2))) {
+            /** @var ModelExtensionAvataxIntegration $mdl */
+            $mdl = $that->loadModel('extension/avatax_integration');
+            $customer_settings = $mdl->getCustomerSettings($that->customer->getId());
+            if (in_array($customer_settings['status'], [0, 2])) {
                 $that->loadLanguage('avatax_integration/avatax_integration');
-                $that->model_extension_avatax_integration->setCustomerSettings(
+                $mdl->setCustomerSettings(
                     $that->customer->getId(),
-                    array(
+                    [
                         'exemption_number' => $that->request->post['exemption_number'],
                         'entity_use_code'  => $that->request->post['entity_use_code'],
-                    )
+                    ]
                 );
                 $that->messages->saveNotice(
                     $that->language->get('avatax_integration_review_number_title'),
@@ -944,21 +1034,23 @@ class ExtensionAvataxIntegration extends Extension
                         $that->language->get('avatax_integration_review_number_message'),
                         $that->customer->getId()
                     ),
-                    false);
+                    false
+                );
             }
         }
     }
 
     public function onControllerPagesAccountEdit_UpdateData()
     {
-        $data = array();
+        $data = [];
         $that = $this->baseObject;
-        $that->loadModel('extension/avatax_integration');
+        /** @var ModelExtensionAvataxIntegration $mdl */
+        $mdl = $that->loadModel('extension/avatax_integration');
         $that->loadLanguage('avatax_integration/avatax_integration');
         $data['text_tax_exemption'] = $that->language->get('avatax_integration_text_tax_exemption');
 
-        $customer_settings = $that->model_extension_avatax_integration->getCustomerSettings($that->customer->getId());
-        $data['form'] = array('fields' => array());
+        $customer_settings = $mdl->getCustomerSettings($that->customer->getId());
+        $data['form'] = ['fields' => []];
         if ($customer_settings['status'] == 1) {
             $data['text_status'] = $that->language->get('avatax_integration_status_approved');
         } else {
@@ -969,23 +1061,25 @@ class ExtensionAvataxIntegration extends Extension
             }
             if (!$customer_settings['exemption_number'] || $customer_settings['status'] == 2) {
                 $form = new AForm();
-                $form->setForm(array('form_name' => 'AccountFrm'));
+                $form->setForm(['form_name' => 'AccountFrm']);
                 $data['entry_exemption_number'] = $that->language->get('avatax_integration_exemption_number');
                 $data['form']['fields']['exemption_number'] = $form->getFieldHtml(
-                    array(
+                    [
                         'type'  => 'input',
                         'name'  => 'exemption_number',
                         'value' => $customer_settings['exemption_number'],
                         'style' => 'highlight',
-                    )
+                    ]
                 );
                 $data['entry_entity_use_code'] = $that->language->get('avatax_integration_entity_use_code');
-                $data['form']['fields']['entity_use_code'] = $form->getFieldHtml(array(
-                    'type'    => 'selectbox',
-                    'name'    => 'entity_use_code',
-                    'value'   => $customer_settings['entity_use_code'],
-                    'options' => $this->exemptGroups,
-                ));
+                $data['form']['fields']['entity_use_code'] = $form->getFieldHtml(
+                    [
+                        'type'    => 'selectbox',
+                        'name'    => 'entity_use_code',
+                        'value'   => $customer_settings['entity_use_code'],
+                        'options' => $this->exemptGroups,
+                    ]
+                );
             }
         }
 
@@ -1000,12 +1094,13 @@ class ExtensionAvataxIntegration extends Extension
 
     public function onControllerPagesAccountCreate_UpdateData()
     {
-        $data = array();
+        $data = [];
         /**
          * @var ControllerPagesAccountCreate $that
          */
         $that = $this->baseObject;
-        $that->loadModel('extension/avatax_integration');
+        /** @var ModelExtensionAvataxIntegration $mdl */
+        $mdl = $that->loadModel('extension/avatax_integration');
         $that->loadLanguage('avatax_integration/avatax_integration');
 
         if ($that->request->is_POST() && $that->data['customer_id']
@@ -1013,46 +1108,91 @@ class ExtensionAvataxIntegration extends Extension
             && !$that->errors
         ) {
             $customer_id = $that->data['customer_id'];
-            $customer_settings = $that->model_extension_avatax_integration->getCustomerSettings($customer_id);
-            if (in_array($customer_settings['status'], array(0, 2))) {
-                $that->model_extension_avatax_integration->setCustomerSettings(
+            $customer_settings = $mdl->getCustomerSettings($customer_id);
+            if (in_array($customer_settings['status'], [0, 2])) {
+                $mdl->setCustomerSettings(
                     $customer_id,
-                    array(
+                    [
                         'exemption_number' => $that->request->post['exemption_number'],
                         'entity_use_code'  => $that->request->post['entity_use_code'],
-                    )
+                    ]
                 );
                 $that->messages->saveNotice(
                     $that->language->get('avatax_integration_review_number_title'),
                     sprintf($that->language->get('avatax_integration_review_number_message'), $customer_id),
-                    false);
+                    false
+                );
             }
             return null;
         }
 
         $data['text_tax_exemption'] = $that->language->get('avatax_integration_text_tax_exemption');
-        $data['form'] = array('fields' => array());
+        $data['form'] = ['fields' => []];
         $form = new AForm();
-        $form->setForm(array('form_name' => 'AccountFrm'));
+        $form->setForm(['form_name' => 'AccountFrm']);
         $data['entry_exemption_number'] = $that->language->get('avatax_integration_exemption_number');
         $data['form']['fields']['exemption_number'] = $form->getFieldHtml(
-            array(
+            [
                 'type'  => 'input',
                 'name'  => 'exemption_number',
                 'value' => $that->request->post['exemption_number'],
                 'style' => 'highlight',
-            )
+            ]
         );
         $data['entry_entity_use_code'] = $that->language->get('avatax_integration_entity_use_code');
-        $data['form']['fields']['entity_use_code'] = $form->getFieldHtml(array(
-            'type'    => 'selectbox',
-            'name'    => 'entity_use_code',
-            'value'   => $that->request->post['entity_use_code'],
-            'options' => $this->exemptGroups,
-        ));
+        $data['form']['fields']['entity_use_code'] = $form->getFieldHtml(
+            [
+                'type'    => 'selectbox',
+                'name'    => 'entity_use_code',
+                'value'   => $that->request->post['entity_use_code'],
+                'options' => $this->exemptGroups,
+            ]
+        );
 
         $view = new AView($this->registry, 0);
         $view->batchAssign($data);
         $that->view->addHookVar('customer_attributes', $view->fetch('pages/account/tax_exempt_edit.tpl'));
+    }
+
+    public function onModelAccountAddress_ValidateData()
+    {
+        /** @var ModelAccountAddress $that */
+        $that = $this->baseObject;
+        if ($that->config->get('avatax_integration_status')
+            && $that->config->get('avatax_integration_address_validation')
+            && !$that->error
+        ) {
+            $address = func_get_arg(0)['address'];
+            if ($that->customer->isLogged()) {
+                $session = $this->registry->get('fast_checkout') == true || $this->registry->get('session')->data['fc']
+                    ? $this->registry->get('session')->data['fc']
+                    : $this->registry->get('session')->data;
+                $address['address_id'] = $session['shipping_address_id']
+                    ? : $session['payment_address_id'];
+            } else {
+                $address['address_id'] = 'guest';
+            }
+            if ($address['country_id']) {
+                /** @var ModelLocalisationCountry $mdl */
+                $mdl = $that->load->model('localisation/country');
+                $countryDetails = $mdl->getCountry($address['country_id']);
+                if ($countryDetails) {
+                    $address['iso_code_2'] = $countryDetails['iso_code_2'];
+                }
+            }
+            if ($address['zone_id']) {
+                /** @var ModelLocalisationZone $mdl */
+                $mdl = $that->load->model('localisation/zone');
+                $zoneDetails = $mdl->getZone($address['zone_id']);
+                if ($zoneDetails) {
+                    $address['zone_code'] = $zoneDetails['code'];
+                }
+            }
+
+            $result = $this->validate_address($address);
+            if ($result['error']) {
+                $that->error['warning'] = $result['message'];
+            }
+        }
     }
 }

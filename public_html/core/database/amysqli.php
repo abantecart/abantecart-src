@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -89,14 +89,14 @@ final class AMySQLi
         if ($result) {
             if (!is_bool($result)) {
                 $i = 0;
-                $data = array();
+                $data = [];
                 while ($row = $result->fetch_object()) {
                     $data[$i] = (array)$row;
                     $i++;
                 }
 
                 $query = new stdClass();
-                $query->row = isset($data[0]) ? $data[0] : array();
+                $query->row = isset($data[0]) ? $data[0] : [];
                 $query->rows = $data;
                 $query->num_rows = (int)$result->num_rows;
 
@@ -123,9 +123,10 @@ final class AMySQLi
 
     /**
      * @param string $value
-     * @param bool   $with_special_chars
+     * @param bool $with_special_chars
      *
      * @return string
+     * @throws AException
      */
     public function escape($value, $with_special_chars = false)
     {
@@ -168,9 +169,9 @@ final class AMySQLi
 
     public function getDBError()
     {
-        return array(
+        return [
             'error_text' => mysqli_error($this->connection),
             'errno'      => mysqli_errno($this->connection),
-        );
+        ];
     }
 }

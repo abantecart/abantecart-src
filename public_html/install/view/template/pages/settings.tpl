@@ -1,12 +1,10 @@
 <?php
 $img_good = '<img src="' . $template_dir . 'image/good.png" alt="Good" />';
 $img_bad = '<img src="' . $template_dir . 'image/bad.png" alt="Bad" />';
-echo $header;
-?>
+echo $header; ?>
 	<div class="row">
 		<div class="col-md-9">
 			<div class="panel panel-default">
-
 				<ul class="nav nav-tabs" role="tablist">
 					<li><a href="<?php echo $back; ?>">1: License</a></li>
 					<li class="active"><a href="#" onclick="return false;">2: Compatibility Validation</a></li>
@@ -14,7 +12,6 @@ echo $header;
 					<li class="disabled"><a href="#" onclick="return false;">4: Data Load</a></li>
 					<li class="disabled"><a href="#" onclick="return false;">5: Finished</a></li>
 				</ul>
-
 				<form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
 					<div class="panel-heading">
 						<h2>
@@ -309,9 +306,7 @@ echo $header;
 
 					<p>Fully featured Import/Export in CSV and XML formats</p>
 				</div>
-
 			</div>
 		</div>
-
 	</div>
 <?php echo $footer; ?>

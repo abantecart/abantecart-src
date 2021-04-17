@@ -26,29 +26,30 @@ if (!defined('DIR_CORE')) {
  * @var AController $this
  */
 $child_extension_id = $this->extension_manager->add(
-    array(
+    [
         'type'     => 'total',
         'key'      => 'avatax_integration_total',
         'status'   => 1,
         'priority' => 10,
-        'version'  => '1.0',
-    )
+        'version'  => '1.1',
+    ]
 );
 // edit settings
 $this->load->model('setting/setting');
 //insert avatax_integration_total before total
-$sort = $this->config->get('total_sort_order');
-$calc = $this->config->get('total_calculation_order');
-$this->model_setting_setting->editSetting('total',
-    array('total_sort_order' => ($sort + 1), 'total_calculation_order' => ($calc + 1)));
+/**
+ * NOTE! order calculation must be lower than 999 (hardcoded for "balance").
+ * It affect on balance application during fastCheckout process
+ */
+
 $this->model_setting_setting->editSetting(
     'avatax_integration_total',
-    array(
+    [
         'avatax_integration_total_status'            => 0,
-        'avatax_integration_total_sort_order'        => $sort,
-        'avatax_integration_total_calculation_order' => $calc,
+        'avatax_integration_total_sort_order'        => 500,
+        'avatax_integration_total_calculation_order' => 500,
         'avatax_integration_total_total_type'        => 'avatax_integration',
-    )
+    ]
 );
 
 $this->extension_manager->addDependant('avatax_integration_total', 'avatax_integration');

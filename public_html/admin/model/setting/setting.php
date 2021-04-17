@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -31,8 +31,11 @@ class ModelSettingSetting extends Model
      */
     public function getGroups()
     {
-        $data = array();
-        $query = $this->db->query("SELECT DISTINCT `group` FROM ".$this->db->table("settings")." ");
+        $data = [];
+        $query = $this->db->query(
+            "SELECT DISTINCT `group` 
+            FROM ".$this->db->table("settings")
+        );
         foreach ($query->rows as $result) {
             $data[] = $result['group'];
         }
@@ -47,10 +50,13 @@ class ModelSettingSetting extends Model
      */
     public function getSettingGroup($setting_key, $store_id = 0)
     {
-        $data = array();
-        $query = $this->db->query("SELECT DISTINCT `group` FROM ".$this->db->table("settings")." 
-						  WHERE `key` = '".$this->db->escape($setting_key)."'
-						  AND `store_id` = '".$store_id."'");
+        $data = [];
+        $query = $this->db->query(
+            "SELECT DISTINCT `group` 
+            FROM ".$this->db->table("settings")." 
+            WHERE `key` = '".$this->db->escape($setting_key)."'
+                AND `store_id` = '".$store_id."'"
+        );
 
         foreach ($query->rows as $result) {
             $data[] = $result['group'];
@@ -64,7 +70,7 @@ class ModelSettingSetting extends Model
      *
      * @return array
      */
-    public function getAllSettings($data = array(), $mode = 'default')
+    public function getAllSettings($data = [], $mode = 'default')
     {
 
         if ($mode == 'total_only') {
@@ -74,8 +80,9 @@ class ModelSettingSetting extends Model
         }
 
         $sql = "SELECT $total_sql
-				FROM ".$this->db->table("settings")." s
-				LEFT JOIN  ".$this->db->table("stores")." st ON st.store_id = s.store_id
+                FROM ".$this->db->table("settings")." s
+                LEFT JOIN  ".$this->db->table("stores")." st 
+                    ON st.store_id = s.store_id
                 WHERE s.group IN ('".implode("', '", $this->config->groups)."') ";
 
         if (isset($data['store_id'])) {
@@ -92,7 +99,7 @@ class ModelSettingSetting extends Model
             return $query->row['total'];
         }
 
-        $sort_data = array('group', 'key');
+        $sort_data = ['group', 'key'];
 
         if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
             $sql .= " ORDER BY `".$data['sort']."`";
@@ -110,11 +117,9 @@ class ModelSettingSetting extends Model
             if ($data['start'] < 0) {
                 $data['start'] = 0;
             }
-
             if ($data['limit'] < 1) {
                 $data['limit'] = 20;
             }
-
             $sql .= " LIMIT ".(int)$data['start'].",".(int)$data['limit'];
         }
 
@@ -127,7 +132,7 @@ class ModelSettingSetting extends Model
      *
      * @return array
      */
-    public function getTotalSettings($data = array())
+    public function getTotalSettings($data = [])
     {
         return $this->getAllSettings($data, 'total_only');
     }
@@ -140,13 +145,14 @@ class ModelSettingSetting extends Model
      */
     public function getSetting($group, $store_id = 0)
     {
-        $data = array();
+        $data = [];
 
         $query = $this->db->query(
             "SELECT *
-			FROM ".$this->db->table("settings")." 
-			WHERE `group` = '".$this->db->escape($group)."'
-					AND store_id = '".(int)$store_id."'");
+            FROM ".$this->db->table("settings")." 
+            WHERE `group` = '".$this->db->escape($group)."'
+                AND store_id = '".(int)$store_id."'"
+        );
         foreach ($query->rows as $result) {
             $value = $result['value'];
             if (is_serialized($value)) {
@@ -166,7 +172,9 @@ class ModelSettingSetting extends Model
      */
     public function editSetting($group, $data, $store_id = null)
     {
-        $store_id = is_null($store_id) ? ($this->config->get('config_store_id')) : (int)$store_id;
+        $store_id = is_null($store_id)
+                ? ($this->config->get('config_store_id'))
+                : (int)$store_id;
         $translate_override_existing = $this->config->get('translate_override_existing');
         //do not override when content language is not a source!
         if( $translate_override_existing
@@ -199,7 +207,7 @@ class ModelSettingSetting extends Model
             $edit_type = 'insert';
         }
 
-        $locales = array();
+        $locales = [];
         foreach ($languages as $language) {
             // if update and not override - skip
             if (!$translate_override_existing && $edit_type == 'update') {
@@ -216,8 +224,14 @@ class ModelSettingSetting extends Model
         // if need translate
         if ($locales) {
             if ($src_lang_id) {
-                foreach (
-                    array('config_description', 'config_title', 'config_meta_description', 'config_meta_keywords') as $n) {
+                $arr = [
+                    'config_description',
+                    'config_title',
+                    'config_meta_description',
+                    'config_meta_keywords'
+                ];
+
+                foreach ( $arr as $n) {
                     $key = $n.'_'.$src_lang_id;
                     $src_text = isset($data[$key]) ? $data[$key] : $this->config->get($key);
                     $src_text = trim($src_text);
@@ -273,7 +287,7 @@ class ModelSettingSetting extends Model
         foreach ($data as $key => $value) {
             if ($key == 'one_field') {
                 continue;
-            } //is'a sign for displaying one setting for quick edit form. ignore it!
+            } //is a sign for displaying one setting for quick edit form. ignore it!
 
             //check if setting is multi-value (array) and save serialized value.
             if (is_array($value)) {
@@ -288,18 +302,18 @@ class ModelSettingSetting extends Model
             }
 
             $sql = "DELETE FROM ".$this->db->table("settings")." 
-					WHERE `group` = '".$this->db->escape($group)."'
-							AND `key` = '".$this->db->escape($key)."'
-							AND `store_id` = '".$store_id."'";
+                    WHERE `group` = '".$this->db->escape($group)."'
+                            AND `key` = '".$this->db->escape($key)."'
+                        AND `store_id` = '".$store_id."'";
             $this->db->query($sql);
 
             $sql = "INSERT INTO ".$this->db->table("settings")." 
-					( `store_id`, `group`, `key`, `value`, `date_added`)
-				VALUES (  '".$store_id."',
-				          '".$this->db->escape($group)."',
-				          '".$this->db->escape($key)."',
-				          '".$this->db->escape($value)."',
-				          NOW())";
+                        ( `store_id`, `group`, `key`, `value`, `date_added`)
+                    VALUES (  '".$store_id."',
+                              '".$this->db->escape($group)."',
+                              '".$this->db->escape($key)."',
+                              '".$this->db->escape($value)."',
+                              NOW())";
             $this->db->query($sql);
         }
         // if change cache status - flush cache
@@ -310,6 +324,8 @@ class ModelSettingSetting extends Model
         $this->cache->remove('settings');
         $this->cache->remove('extensions');
         $this->cache->remove('stores');
+        $this->cache->remove('admin_menu');
+        $this->cache->remove('storefront_menu');
     }
 
     /**
@@ -319,12 +335,16 @@ class ModelSettingSetting extends Model
     public function deleteSetting($group, $store_id = 0)
     {
         $store_id = (int)$store_id;
-        $this->db->query("DELETE FROM ".$this->db->table("settings")." 
-						  WHERE `group` = '".$this->db->escape($group)."'
-						  AND `store_id` = '".$store_id."'");
+        $this->db->query(
+            "DELETE FROM ".$this->db->table("settings")." 
+            WHERE `group` = '".$this->db->escape($group)."'
+                AND `store_id` = '".$store_id."'"
+        );
 
         $this->cache->remove('settings');
         $this->cache->remove('extensions');
         $this->cache->remove('stores');
+        $this->cache->remove('admin_menu');
+        $this->cache->remove('storefront_menu');
     }
 }

@@ -47,7 +47,11 @@
     </div>
 
     <script type="text/javascript">
-        jQuery(document).ready(function () {
+        function onLoad_func(){
+            if (typeof loadScript === 'undefined') {
+                return;
+            }
+
             loadScript("https://js.stripe.com/v3/", initStripe);
             var submitSent = false;
             $('#enter_card').hover(function () {
@@ -159,16 +163,13 @@
                     }
                 });
             }
-
-
-        });
-
+        }
         function initStripe(){
             if( Stripe === undefined ){
                 return;
             }
             stripe = Stripe(
-                '<?php echo $this->config->get('default_stripe_published_key');?>',
+                '<?php echo $public_key;?>',
                 {
                     betas: ['payment_intent_beta_3']
                 }
@@ -192,5 +193,7 @@
             });
             card.mount('#card-element');
         }
+        $(window).on( 'load',onLoad_func);
+        $(document).ready(onLoad_func);
     </script>
 <?php } ?>

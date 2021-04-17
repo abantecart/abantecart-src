@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -24,22 +24,31 @@ if (!defined('DIR_CORE')) {
 class ControllerResponsesAccountOrderDetails extends AController
 {
 
-    public $data = array();
-
     public function main()
     {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
         try {
             $this->config->set('embed_mode', true);
             $cntr = $this->dispatch('pages/account/order_details');
             $html_out = $cntr->dispatchGetOutput();
         } catch (AException $e) {
         }
-
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
         $this->response->setOutput($html_out);
     }
+
+    public function startdownload()
+    {
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+        try {
+            $this->config->set('embed_mode', true);
+            $cntr = $this->dispatch('pages/account/order_details/startdownload');
+            $html_out = $cntr->dispatchGetOutput();
+        } catch (AException $e) { }
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        $this->response->setOutput($html_out);
+    }
+
 }

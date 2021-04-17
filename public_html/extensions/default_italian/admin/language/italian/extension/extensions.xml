@@ -18,8 +18,7 @@
 	</definition>
 	<definition>
 		<key>text_uninstall_confirm</key>
-		<value>
-			<![CDATA[ Conferma la disinstallazione dell'estensione [ %extension% ]. Tutte le impostazioni di estensione e relativi dati potrebbero essere cancellato e persi. ]]></value>
+		<value><![CDATA[ Conferma la disinstallazione dell'estensione [ %extension% ]. Tutte le impostazioni di estensione e relativi dati potrebbero essere cancellato e persi. ]]></value>
 	</definition>
 	<definition>
 		<key>text_delete</key>
@@ -139,13 +138,11 @@
 	</definition>
 	<definition>
 		<key>text_missing_extension</key>
-		<value>
-			<![CDATA["L'origine dell'estensione %s non può essere individuata! Si prega di eliminarla e visitare il fornitore dell'estensione per ottenere l'origine completa e installarla di nuovo "]]></value>
+		<value><![CDATA["L'origine dell'estensione %s non può essere individuata! Si prega di eliminarla e visitare il fornitore dell'estensione per ottenere l'origine completa e installarla di nuovo "]]></value>
 	</definition>
 	<definition>
 		<key>text_broken_extension</key>
-		<value>
-			<![CDATA["L'origine dell'estensione %s è probabilmente danneggiata! Non si riesce a trovare il file config.xml o main.php. Si prega di eliminarla e di visitare il fornitore dell'estensione per ottenere l'origine completa e installarla di nuovo "]]></value>
+		<value><![CDATA["L'origine dell'estensione %s è probabilmente danneggiata! Non si riesce a trovare il file config.xml o main.php. Si prega di eliminarla e di visitare il fornitore dell'estensione per ottenere l'origine completa e installarla di nuovo "]]></value>
 	</definition>
 	<definition>
 		<key>text_extension_pagination</key>
@@ -201,8 +198,7 @@
 	</definition>
 	<definition>
 		<key>text_visit_repository</key>
-		<value>
-			<![CDATA[Si prega di visitare %extensions_store% l'archivio delle estensioni </a> per scaricare l'estensione]]></value>
+		<value><![CDATA[Si prega di visitare %extensions_store% l'archivio delle estensioni </a> per scaricare l'estensione]]></value>
 	</definition>
 	<definition>
 		<key>text_license</key>
@@ -254,8 +250,7 @@
 	</definition>
 	<definition>
 		<key>additional_settings_confirm</key>
-		<value>
-			<![CDATA[Per configurare le impostazioni aggiuntive dell'estensione di un altro negozio effettua il Login nel pannello di controllo di un altro nome di dominio. Ok? ]]></value>
+		<value><![CDATA[Per configurare le impostazioni aggiuntive dell'estensione di un altro negozio effettua il Login nel pannello di controllo di un altro nome di dominio. Ok? ]]></value>
 	</definition>
 	<definition>
 		<key>error_no_help_file</key>
@@ -295,53 +290,43 @@
 	</definition>
 	<definition>
 		<key>text_confirm_disable_dependants</key>
-		<value>
-			<![CDATA[L'estensione %s che sono a carico sono: <br>%s<br> saranno anche automaticamente disabilitate.<br> Confermi?]]></value>
+		<value><![CDATA[L'estensione %s che sono a carico sono: <br>%s<br> saranno anche automaticamente disabilitate.<br> Confermi?]]></value>
 	</definition>
 	<definition>
 		<key>text_status</key>
-		<value>
-			<![CDATA[Stato:<span class="help">Questo è il controllo dello stato dell'estensione del storefront.</span>]]></value>
+		<value><![CDATA[Stato:<span class="help">Questo è il controllo dello stato dell'estensione del storefront.</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_sort_order</key>
-		<value>
-			<![CDATA[Ordine:<span class="help">Numero per impostare la posizione di visualizzazione per questa estensione in relazione alle altre estensioni abilitate. (L'ordinamento è dal numero più basso al più alto, ignorando lo 0 e i valori vuoti.) </span>]]></value>
+		<value><![CDATA[Ordine:<span class="help">Numero per impostare la posizione di visualizzazione per questa estensione in relazione alle altre estensioni abilitate. (L'ordinamento è dal numero più basso al più alto, ignorando lo 0 e i valori vuoti.) </span>]]></value>
 	</definition>
 	<definition>
 		<key>text_payment_minimum_total</key>
-		<value>
-			<![CDATA[Totale minimo dell'ordine:<span class="help">Importo minimo da raggiungere dell'ordine per permettere questo pagamento.</span>]]></value>
+		<value><![CDATA[Totale minimo dell'ordine:<span class="help">Importo minimo da raggiungere dell'ordine per permettere questo pagamento.</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_payment_maximum_total</key>
-		<value>
-			<![CDATA[Ordine totale masimo:<span class="help">Importo massimo da raggiungere per non consentire questo pagamento.</span>]]></value>
+		<value><![CDATA[Ordine totale masimo:<span class="help">Importo massimo da raggiungere per non consentire questo pagamento.</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_payment_storefront_icon</key>
-		<value>
-			<![CDATA[Storefront Icona:<span class="help">Visualizza l'icona del pagamento nel selezione di pagamento cassa.</span>]]></value>
+		<value><![CDATA[Storefront Icona:<span class="help">Visualizza l'icona del pagamento nel selezione di pagamento cassa.</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_shipping_storefront_icon</key>
-		<value>
-			<![CDATA[Storefront Icona:<span class="help">Icona del trasporto da visualizzare in selezione spedizione della cassa.</span>]]></value>
+		<value><![CDATA[Storefront Icona:<span class="help">Icona del trasporto da visualizzare in selezione spedizione della cassa.</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_autoselect_payment</key>
-		<value>
-			<![CDATA[Seleziona automaticamente:<span class="help">È possibile impostare il pagamento deve essere selezionata per impostazione predefinita. Questo metodo di pagamento sarà pre selezionati per pagamenti multipli. Se questa è l'unica opzione di pagamento disponibili, opzione di pagamento fase di selezione verrà saltata.</span>]]></value>
+		<value><![CDATA[Seleziona automaticamente:<span class="help">È possibile impostare il pagamento deve essere selezionata per impostazione predefinita. Questo metodo di pagamento sarà pre selezionati per pagamenti multipli. Se questa è l'unica opzione di pagamento disponibili, opzione di pagamento fase di selezione verrà saltata.</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_autoselect_shipping</key>
-		<value>
-			<![CDATA[Seleziona automaticamente:<span class="help">È possibile impostare che puoi saltare la pagina di selezione trasporto, se c'è una sola opzione di trasporto. Questo metodo di trasporto viene selezionato automaticamente.</span>]]></value>
+		<value><![CDATA[Seleziona automaticamente:<span class="help">È possibile impostare che puoi saltare la pagina di selezione trasporto, se c'è una sola opzione di trasporto. Questo metodo di trasporto viene selezionato automaticamente.</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_accept_payments_shipping</key>
-		<value>
-			<![CDATA[Accetta questi pagamenti:<span class="help">Se sono necessari metodidi pagamento specifici perquesto metodo di trasporto, selezionarli qui. Se non selezionati verranno visualizzati tuttii metodi di pagamento disponibili.</span>]]></value>
+		<value><![CDATA[Accetta questi pagamenti:<span class="help">Se sono necessari metodidi pagamento specifici perquesto metodo di trasporto, selezionarli qui. Se non selezionati verranno visualizzati tuttii metodi di pagamento disponibili.</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_ready_to_install</key>
@@ -353,8 +338,7 @@
 	</definition>
 	<definition>
 		<key>error_dependencies</key>
-		<value>
-			<![CDATA[Questa estensione non può essere abilitata perchè richiesta una dipendenza mancante o non abilitata.]]></value>
+		<value><![CDATA[Questa estensione non può essere abilitata perchè richiesta una dipendenza mancante o non abilitata.]]></value>
 	</definition>
 	<definition>
 		<key>button_howto</key>
@@ -411,5 +395,21 @@
 	<definition>
 		<key>text_update_available</key>
 		<value><![CDATA[La Nuova versione (%s) è disponibile. <a href="%s">Clicca per aggiornare ora.</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_support_expiration</key>
+		<value><![CDATA[Il supporto è attivo fino al]]></value>
+	</definition>
+	<definition>
+		<key>text_support_expired</key>
+		<value><![CDATA[Supporto scaduto]]></value>
+	</definition>
+	<definition>
+		<key>text_license_expired</key>
+		<value><![CDATA[Il supporto dell&#39;estensione è scaduto o non è connesso al marketplace]]></value>
+	</definition>
+	<definition>
+		<key>button_get_support</key>
+		<value><![CDATA[Ottieni supporto]]></value>
 	</definition>
 </definitions>

@@ -22,6 +22,7 @@
 					<b><?php echo $text_order_id; ?></b><br/>
 					#<?php echo $order_id; ?><br/>
 					<br/>
+					<?php echo $this->getHookVar('more_order_info'); ?>
 					<b><?php echo $column_status; ?></b><br/>
 					<?php echo $status; ?><br/>
 					<br/>
@@ -50,13 +51,18 @@
 					<?php } ?>
 					<b><?php echo $text_payment_method; ?></b><br/>
 					<?php echo $payment_method; ?></td>
-				<td><?php if ($shipping_address) { ?>
+				<td>
+					<?php echo $this->getHookVar('pre_shipping_address'); ?>
+					<?php if ($shipping_address) { ?>
 						<b><?php echo $text_shipping_address; ?></b><br/>
 						<address><?php echo $shipping_address; ?></address>
 					<?php } ?>
+					<?php echo $this->getHookVar('post_shipping_address'); ?>
 				</td>
 				<td><b><?php echo $text_payment_address; ?></b><br/>
+					<?php echo $this->getHookVar('pre_payment_address'); ?>
 					<address><?php echo $payment_address; ?></address>
+					<?php echo $this->getHookVar('post_payment_address'); ?>
 				</td>
 			</tr>
 		</table>
@@ -81,12 +87,15 @@
 							<br/>
 							&nbsp;
 							<small title="<?php echo $option['title']?>"> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
+						<?php echo $this->getHookVar('option_'.$option['name'].'_additional_info'); ?>
 						<?php } ?></td>
 					<td class="align_left valign_top"><?php echo $product['model']; ?></td>
 					<td class="align_right valign_top"><?php echo $product['quantity']; ?></td>
 					<td class="align_right valign_top"><?php echo $product['price']; ?></td>
 					<td class="align_right valign_top"><?php echo $product['total']; ?></td>
+					<?php echo $this->getHookVar('product_'.$product['id'].'_additional_info_1'); ?>
 				</tr>
+			<?php echo $this->getHookVar('product_'.$product['id'].'_additional_info_2'); ?>
 			<?php } ?>
 			<?php echo $this->getHookVar('list_more_product_last'); ?>
 		</table>

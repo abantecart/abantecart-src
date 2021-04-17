@@ -44,27 +44,43 @@
 			</form>
 
 		</div>
-
-		<div class="col-sm-12 col-xs-12">
-
-			<div data-example-id="textarea-form-control" class="embed-code">
-				<div class="btn-clipboard"><?php echo $text_copy_embed_code; ?></div>
-			    <form>
-				    <?php echo $text_area;?>
-			    </form>
-			  </div>
-
-
-		</div>
-	</div>
+        <div class="col-sm-12 col-xs-12">
+            <div data-example-id="textarea-form-control" class="embed-code embed-url">
+                <form>
+                    <div class="input-group">
+                        <?php echo $url; ?>
+                        <span class="input-group-addon">
+                            <span class="help_element">
+                                <a id="copyEmbedUrlBtn" onclick="copyToClipboard('#getEmbedFrm_url', this); return false;" title="copy">
+                                    <i class="fa fa-copy fa-lg"></i>
+                                </a>
+                            </span>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-12 col-xs-12">
+            <div data-example-id="textarea-form-control" class="embed-code">
+                <div class="btn-clipboard"><?php echo $text_copy_embed_code; ?>
+                    <span class="help_element">
+                        <a id="copyEmbedUrlBtn" onclick="copyToClipboard('#getEmbedFrm_code_area', this); return false;"
+                           title="copy">
+                            <i class="fa fa-copy fa-lg"></i>
+                        </a>
+                    </span>
+                </div>
+                <form>
+                    <?php echo $text_area; ?>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div id="code" style="display:none;"></div>
 
 <script type="text/javascript">
-	$(document).ready(function(){
-		$('.do_embed a').tooltip();
-	});
 	var options = {
 		'image': '<span class="abantecart_image"></span>\n',
 		'name': '<h3 class="abantecart_name"></h3>\n',
@@ -72,6 +88,7 @@
 	};
 
 	var buildEmbedCode = function(){
+        window.abc_count = 0;
 		var common_params = '';
 		var language = $('div#embed_modal').find('select[name="language"]').val();
 		var currency = $('div#embed_modal').find('select[name="currency"]').val();
@@ -81,70 +98,64 @@
 		if(currency && currency.length > 0){
 			common_params += ' data-currency="'+currency+'"';
 		}
-
-		var html = '<script src="<?php echo $sf_js_embed_url; ?>" type="text/javascript"><\/script>\n';
-			html += '<ul style="display:none;" class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>"'+common_params+'>\n';
-
-		var d = new Date();
-		$.each($('div#embed_modal').find("input[name='manufacturer_id[]']:checked, input[name='manufacturer_id[]'][type='hidden']"), function() {
-		    id = $(this).val();
-			html += '\t<li id="abc_' + (d.getTime() + id) + '" class="abantecart_manufacturer" data-manufacturer-id="'+ id +'">\n';
-
-			$('#code_options').find('input[type="hidden"]').each(function(){
-				if($(this).val()==1){
-					html += '\t\t'+options[$(this).attr('name')];
-				}
-			});
-			html += '\t<\/li>\n';
-		});
-		html += '<\/ul>';
-		return html;
-	}
-
-	window.abc_count = 0;
-	var ec = buildEmbedCode();
-	$('#getEmbedFrm_code_area').val(ec);
-	$("#embed_container" ).html(ec);
-
-
-	$(document).ready(function(){
-
-		$('div#embed_modal').find("input[name='manufacturer_id[]']").on('click', function(){
-			var ec = buildEmbedCode();
-			window.abc_count = 0;
-			$('#getEmbedFrm_code_area').val(ec);
-			$("#embed_container" ).html(ec);
-		});
-
-		$('div#embed_modal').find('div.btn_switch').find('button').on('click', function(){
-			var ec = buildEmbedCode();
-			window.abc_count = 0;
-			$('#getEmbedFrm_code_area').val(ec);
-			$("#embed_container" ).html(ec);
-		});
-
-		$('div#embed_modal').find('div.input-group').find('select').on('change', function(){
-			var ec = buildEmbedCode();
-			window.abc_count = 0;
-			$('#getEmbedFrm_code_area').val(ec);
-			$("#embed_container" ).html(ec);
-		});
-
-		$(".btn-clipboard").click(function(){
-			var txt = $('#getEmbedFrm_code_area').val();
-			prompt ("Copy html-code, then click OK.", txt);
+        let url = '<?php echo $direct_embed_url; ?>';
+        url += '&lang=' + language;
+        url += '&curr=' + currency;
+        $('#code_options').find('input[type="hidden"]').each(function () {
+            if ($(this).val() == 1) {
+                url += '&' + $(this).attr('name') + '=1';
+            }
         });
 
-		$("#getEmbedFrm_code_area").focus(function() {
-		    var $this = $(this);
-		    $this.select();
+        var html = '<script src="<?php echo $sf_js_embed_url; ?>" type="text/javascript"><\/script>\n';
+        html += '<ul style="display:none;" class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>"' + common_params + '>\n';
 
-		    // Work around Chrome's little problem
-		    $this.mouseup(function() {
-		        // Prevent further mouseup intervention
-		        $this.unbind("mouseup");
-		        return false;
-		    });
-		});
+        var d = new Date();
+        $.each($('div#embed_modal').find("input[name='manufacturer_id[]']:checked, input[name='manufacturer_id[]'][type='hidden']"), function () {
+            var id = $(this).val();
+            html += '\t<li id="abc_' + (d.getTime() + id) + '" class="abantecart_manufacturer" data-manufacturer-id="' + id + '" data-language="' + language + '" data-currency="' + currency + '">\n';
+            url += '&manufacturer_id[]=' + id;
+            $('#code_options').find('input[type="hidden"]').each(function () {
+                if ($(this).val() == 1) {
+                    html += '\t\t' + options[$(this).attr('name')];
+                }
+            });
+            html += '\t<\/li>\n';
+        });
+        html += '<\/ul>';
+        $('#getEmbedFrm_code_area').val(html);
+
+        //display preview
+        $("#embed_container").html(html);
+        setTimeout(
+            function () {
+                outerHeight = 0;
+                $('#embed_container.embed_preview')
+                    .find('.abantecart-widget-container')
+                    .children().each(
+                    function () {
+                        outerHeight += $(this).outerHeight();
+                    }
+                );
+                $('#getEmbedFrm_url').val($('#getEmbedFrm_url').val() + '&height=' + (outerHeight + 20));
+            },
+            1000
+        );
+        $('#getEmbedFrm_url').val(url);
+    }
+
+    $(document).ready(function () {
+        $('.do_embed a').tooltip();
+        buildEmbedCode();
+
+        $('div#embed_modal').find("input[name='manufacturer_id[]']").on('click', buildEmbedCode);
+        $('div#embed_modal').find('div.btn_switch').find('button').on('click', buildEmbedCode);
+        $('div#embed_modal').find('div.input-group').find('select').on('change', buildEmbedCode);
+
+        preselect = function(){
+          let $this = $(this);
+          $this.select();
+      }
+      $("#getEmbedFrm_code_area, #getEmbedFrm_url").focus(preselect).click(preselect);
 	});
 </script>

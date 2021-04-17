@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -24,13 +24,13 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerPagesSettingSettingTabs extends AController
 {
 
-    public $data = array();
+    public $data = [];
 
-    public function main()
+    public function main($data = [])
     {
 
         //Load input arguments for gid settings
-        $this->data = func_get_arg(0);
+        $this->data = $data;
         if (!is_array($this->data)) {
             throw new AException (AC_ERR_LOAD, 'Error: Could not create grid. Grid definition is not array.');
         }

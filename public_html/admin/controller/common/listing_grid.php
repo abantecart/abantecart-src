@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -23,12 +24,10 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerCommonListingGrid extends AController
 {
-    public $data; // array for template
-
-    public function main()
+    public function main($data = [])
     {
         //Load input arguments for gid settings
-        $this->data = func_get_arg(0);
+        $this->data = $data;
         if (!is_array($this->data)) {
             throw new AException (AC_ERR_LOAD, 'Error: Could not create grid. Grid definition is not array.');
         }
@@ -50,37 +49,37 @@ class ControllerCommonListingGrid extends AController
             //set flag to not include scripts/css twice
             $this->registry->set('jqgrid_script', true);
         }
-        $this->data['update_field'] = empty($this->data['update_field']) ? '' : $this->data['update_field'];
-        $this->data['editurl'] = empty($this->data['editurl']) ? '' : $this->data['editurl'];
-        $this->data['rowNum'] = empty($this->data['rowNum']) ? (int)$this->config->get('config_admin_limit') : $this->data['rowNum'];
-        $this->data['rowNum'] = !$this->data['rowNum'] ? 10 : $this->data['rowNum'];
+        $this->data['update_field'] = $this->data['update_field'] ? : '';
+        $this->data['editurl'] = $this->data['editurl'] ? : '';
+        $this->data['rowNum'] = $this->data['rowNum'] ? : (int) $this->config->get('config_admin_limit');
+        $this->data['rowNum'] = $this->data['rowNum'] ? : 10;
         if (empty($this->data['rowList'])) {
-            $this->data['rowList'] = array(
+            $this->data['rowList'] = [
                 $this->data['rowNum'],
                 $this->data['rowNum'] + 20,
                 $this->data['rowNum'] + 40,
-            );
+            ];
         }
 
-        $this->data['multiselect'] = empty($this->data['multiselect']) ? "true" : $this->data['multiselect'];
-        $this->data['multiaction'] = empty($this->data['multiaction']) ? "true" : $this->data['multiaction'];
-        $this->data['hoverrows'] = empty($this->data['hoverrows']) ? "true" : $this->data['hoverrows'];
-        $this->data['altRows'] = empty($this->data['altRows']) ? "true" : $this->data['altRows'];
-        $this->data["sortorder"] = empty($this->data["sortorder"]) ? "desc" : $this->data["sortorder"];
-        $this->data["columns_search"] = !isset($this->data["columns_search"]) ? true : $this->data["columns_search"];
-        $this->data["search_form"] = !isset($this->data["search_form"]) ? false : $this->data["search_form"];
+        $this->data['multiselect'] = $this->data['multiselect'] ? : "true";
+        $this->data['multiaction'] = $this->data['multiaction'] ? : "true";
+        $this->data['hoverrows'] = $this->data['hoverrows'] ? : "true";
+        $this->data['altRows'] = $this->data['altRows'] ? : "true";
+        $this->data["sortorder"] = $this->data["sortorder"] ? : "desc";
+        $this->data["columns_search"] = $this->data["columns_search"] ?? true;
+        $this->data["search_form"] = $this->data["search_form"] ?? false;
         // add custom buttons to jqgrid "pager" area
         if ($this->data['custom_buttons']) {
-            $custom_buttons = array();
+            $custom_buttons = [];
             $i = 0;
             foreach ($this->data['custom_buttons'] as $button) {
                 if (!$button['caption']) {
                     continue;
                 }
-                $button['buttonicon'] = empty($button['buttonicon']) ? 'ui-icon-newwin' : $button['buttonicon'];
-                $button['onClickButton'] = empty($button['onClickButton']) ? 'null' : $button['onClickButton'];
-                $button['position'] = empty($button['position']) ? 'last' : $button['position'];
-                $button['cursor'] = empty($button['cursor']) ? 'pointer' : $button['cursor'];
+                $button['buttonicon'] = $button['buttonicon'] ? : 'ui-icon-newwin';
+                $button['onClickButton'] = $button['onClickButton'] ? : 'null';
+                $button['position'] = $button['position'] ? : 'last';
+                $button['cursor'] = $button['cursor'] ? : 'pointer';
                 $custom_buttons[$i] = $button;
                 $i++;
             }
@@ -89,20 +88,23 @@ class ControllerCommonListingGrid extends AController
         // add action columns in case actions are defined
         if (!empty($this->data['actions'])) {
             $this->data['colNames'][] = $this->language->get('column_action');
-            $this->data['colModel'][] = array(
+            $this->data['colModel'][] = [
                 'name'     => 'action',
                 'index'    => 'action',
                 'align'    => 'center',
                 'sortable' => false,
                 'search'   => false,
-            );
+            ];
         }
 
         //check for reserved column name
         // name "parent" broke expanding of grid tree
         foreach ($this->data['colModel'] as $col) {
             if ($col['name'] == 'parent') {
-                throw new AException (AC_ERR_LOAD, 'Error: Could not create grid. Grid column model contains reserved column name ("'.$col['index'].'").');
+                throw new AException (AC_ERR_LOAD,
+                                      'Error: Could not create grid. Grid column model contains reserved column name ("'
+                                      .$col['index'].'").'
+                );
             }
         }
 
@@ -118,12 +120,9 @@ class ControllerCommonListingGrid extends AController
         }
 
         $this->view->assign('text_go', $this->language->get('button_go'));
-
         $this->view->assign('multiaction_options', $multiaction_options);
-
-        $this->view->assign('history_mode', isset($this->data['history_mode']) ? $this->data['history_mode'] : true);
-        $this->view->assign('init_onload', isset($this->data['init_onload']) ? $this->data['init_onload'] : true);
-
+        $this->view->assign('history_mode', $this->data['history_mode'] ?? true);
+        $this->view->assign('init_onload', $this->data['init_onload'] ?? true);
         $this->view->assign('text_save_all', $this->language->get('text_save_all'));
         $this->view->assign('text_select_items', $this->language->get('text_select_items'));
         $this->view->assign('text_no_results', $this->language->get('text_no_results'));
@@ -134,6 +133,5 @@ class ControllerCommonListingGrid extends AController
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
     }
 }

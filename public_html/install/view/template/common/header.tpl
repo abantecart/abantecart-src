@@ -8,10 +8,10 @@
 <link rel="stylesheet" type="text/css" href="view/stylesheet/stylesheet.css" />
 
 <script type="text/javascript"
-        src="<?php echo $ssl ? 'https' : 'http'?>://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        src="<?php echo $ssl ? 'https' : 'http'?>://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 if (typeof jQuery == 'undefined') {
-   var include = '<script type="text/javascript" src="view/javascript/jquery-1.12.4.min.js">';
+   var include = '<script type="text/javascript" src="view/javascript/jquery-3.5.1.min.js">';
    document.write(include);
 }
 </script>

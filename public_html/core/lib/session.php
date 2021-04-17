@@ -24,7 +24,7 @@
 final class ASession
 {
     public $registry = null;
-    public $data = array();
+    public $data = [];
     public $ses_name = SESSION_ID;
 
     /**
@@ -50,7 +50,7 @@ final class ASession
             ) {
                 // last request was more than 30 minutes ago
                 $this->clear();
-                redirect($this->registry->get('html')->currentURL(array('token')));
+                redirect($this->registry->get('html')->currentURL(['token']));
             }
         }
         // update last activity time stamp
@@ -64,7 +64,6 @@ final class ASession
     public function init($session_name)
     {
         $session_mode = '';
-        $path = '';
         if (defined('IS_API') && IS_API === true) {
             //set up session specific for API based on the token or create new
             $token = '';
@@ -78,21 +77,15 @@ final class ASession
             $final_session_id = $this->_prepare_session_id($token);
             session_id($final_session_id);
         } else {
-            $path = dirname($_SERVER['PHP_SELF']);
             if (!headers_sent()) {
-                session_set_cookie_params(
-                    0,
-                    $path,
-                    null,
-                    false,
-                    true);
+                $this->setCookie();
                 session_name($session_name);
                 // for shared ssl domain set session id of non-secure domain
                 if ($this->registry && $this->registry->get('config')) {
                     if ($this->registry->get('config')->get('config_shared_session') && isset($_GET['session_id'])) {
                         header('P3P: CP="CAO COR CURa ADMa DEVa OUR IND ONL COM DEM PRE"');
                         session_id($_GET['session_id']);
-                        setcookie($session_name, $_GET['session_id'], 0, $path, null, false, true);
+                        $this->setCookie($session_name, $_GET['session_id']);
                     }
                 }
 
@@ -100,7 +93,7 @@ final class ASession
                     //check and reset session if it is not valid
                     $final_session_id = $this->_prepare_session_id($_GET[EMBED_TOKEN_NAME]);
                     session_id($final_session_id);
-                    setcookie($session_name, $final_session_id, 0, $path, null, false);
+                    $this->setCookie($session_name, $final_session_id);
                     $session_mode = 'embed_token';
                 }
             }
@@ -109,12 +102,11 @@ final class ASession
         //check if session can not be started. Try one more time with new generated session ID
         if (!headers_sent()) {
             $is_session_ok = session_start();
-
             if (!$is_session_ok) {
                 //auto generating session id and try to start session again
                 $final_session_id = $this->_prepare_session_id();
                 session_id($final_session_id);
-                setcookie($session_name, $final_session_id, 0, $path, null, false);
+                $this->setCookie($session_name, $final_session_id);
                 session_start();
             }
         }
@@ -126,7 +118,7 @@ final class ASession
     {
         @session_unset();
         @session_destroy();
-        $_SESSION = array();
+        $_SESSION = [];
     }
 
     /**
@@ -161,5 +153,22 @@ final class ASession
         } else {
             return preg_match('/^[-,a-zA-Z0-9]{1,128}$/', $session_id) > 0;
         }
+    }
+
+    private function setCookie($name = null, $value = null)
+    {
+        setCookieOrParams(
+            $name,
+            $value,
+            [
+                'path'     => dirname($_SERVER['PHP_SELF']),
+                'domain'   => null,
+                'secure'   => (defined('HTTPS') && HTTPS),
+                'httponly' => true,
+                //NOTE: lax mode blocks transferring of cookie when redirecting from another domain
+                'samesite' => (defined('HTTPS') && HTTPS) ? 'None' : 'lax',
+                'lifetime' => 0,
+            ]
+        );
     }
 }

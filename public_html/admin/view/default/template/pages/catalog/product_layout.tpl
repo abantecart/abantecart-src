@@ -42,8 +42,13 @@ foreach ($templates as $template) {
 			</div>
 
 			<div class="btn-group mr10 toolbar">
-			<?php echo $cp_layout_frm; ?>
-				<?php echo $hidden_fields; ?>
+            <?php echo $cp_layout_frm;
+                if($hidden_fields) {
+                    foreach ($hidden_fields as $hidden) {
+                        $hidden->element_id = 'cp_layout_frm_'.preformatTextID($hidden->name);
+                        echo $hidden;
+                    }
+                } ?>
 				<div class="form-group">
 					<div class="input-group input-group-sm">
 					<?php echo $cp_layout_select; ?>
@@ -66,8 +71,13 @@ foreach ($templates as $template) {
 
 	<?php echo $form_begin; ?>
 	<div id="page-layout" class="panel-body panel-body-nopadding tab-content col-xs-12">
-		<?php echo $layoutform; ?>
-		<?php echo $hidden_fields; ?>
+       <?php echo $layoutform;
+        if($hidden_fields) {
+            foreach ($hidden_fields as $hidden) {
+                $hidden->element_id = 'layout_form_'.preformatTextID($hidden->name);
+                echo $hidden;
+            };
+        } ?>
 	</div>
 
 	<div class="panel-footer col-xs-12">
