@@ -196,7 +196,7 @@ class ControllerPagesCheckoutFastCheckout extends AController
         foreach ($cartProducts as $key => $cartProduct) {
             if (!$cartProduct['stock'] && !$this->config->get('config_stock_checkout')) {
                 unset(
-                    $this->session->data['fc']['cart'][$key],
+                    $this->session->data['fc']['cart'][$key]
                 );
             }
         }
