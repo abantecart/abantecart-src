@@ -352,9 +352,10 @@ class ControllerPagesSaleCustomer extends AController
         $this->document->setTitle($this->language->get('heading_title'));
 
         if ($this->request->is_POST() && $this->_validateForm()) {
-            $customer_id = $this->model_sale_customer->addCustomer($this->request->post);
-            $redirect_url = $this->html->getSecureURL('sale/customer/insert_address', '&customer_id='.$customer_id);
+            $customerId = $this->model_sale_customer->addCustomer($this->request->post);
+            $redirect_url = $this->html->getSecureURL('sale/customer/insert_address', '&customer_id='.$customerId);
             $this->session->data['success'] = $this->language->get('text_success');
+            $this->extensions->hk_ProcessData($this, __FUNCTION__, ['customer_id' => $customerId]);
             redirect($redirect_url);
         }
         $this->_getForm();
@@ -393,6 +394,7 @@ class ControllerPagesSaleCustomer extends AController
             $redirect_url = $this->html->getSecureURL('sale/customer/update', '&customer_id='.$customer_id);
 
             $this->session->data['success'] = $this->language->get('text_success');
+            $this->extensions->hk_ProcessData($this, __FUNCTION__);
             redirect($redirect_url);
         }
 
@@ -402,9 +404,9 @@ class ControllerPagesSaleCustomer extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function _getForm($args = [])
+    protected function _getForm($args = [])
     {
-        $viewport_mode = isset($args[0]['viewport_mode']) ? $args[0]['viewport_mode'] : '';
+        $viewport_mode = $args[0]['viewport_mode'] ?? '';
         $customer_id = $this->request->get['customer_id'];
 
         $this->data['token'] = $this->session->data['token'];
@@ -427,7 +429,7 @@ class ControllerPagesSaleCustomer extends AController
 
         $this->data['addresses'] = [];
         $customer_info = [];
-        if (has_value($customer_id)) {
+        if ($customer_id) {
             $customer_info = $this->model_sale_customer->getCustomer($customer_id);
             $this->data['button_orders_count'] = $this->html->buildElement(
                 [
@@ -655,7 +657,7 @@ class ControllerPagesSaleCustomer extends AController
                     'type'     => ($f == 'password' ? 'passwordset' : 'input'),
                     'name'     => $f,
                     'value'    => $this->data[$f],
-                    'required' => (in_array($f, ['password', 'fax', 'telephone']) ? false : true),
+                    'required' => !in_array($f, ['password', 'fax', 'telephone']),
                     'style'    => ($f == 'password' ? 'small-field' : ''),
                 ]
             );
@@ -755,6 +757,7 @@ class ControllerPagesSaleCustomer extends AController
             }
 
             $this->session->data['success'] = $this->language->get('text_success');
+            $this->extensions->hk_ProcessData($this, __FUNCTION__, ['address_id' => $address_id]);
             redirect($redirect_url);
         }
 
@@ -793,6 +796,7 @@ class ControllerPagesSaleCustomer extends AController
             );
 
             $this->session->data['success'] = $this->language->get('text_success');
+            $this->extensions->hk_ProcessData($this, __FUNCTION__);
             redirect($redirect_url);
         }
 
@@ -802,7 +806,7 @@ class ControllerPagesSaleCustomer extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function _getAddressForm()
+    protected function _getAddressForm()
     {
         $address_id = $this->request->get['address_id'];
         $customer_id = $this->request->get['customer_id'];
@@ -896,7 +900,8 @@ class ControllerPagesSaleCustomer extends AController
                 '&customer_id='.$customer_id.'&address_id='.$address_id
             );
             $this->data['update'] = $this->html->getSecureURL(
-                'listing_grid/customer/update_field', '&id='.$customer_id.'&address_id='.$address_id
+                'listing_grid/customer/update_field',
+                '&id='.$customer_id.'&address_id='.$address_id
             );
             $this->data['tab_customer_address'] = $this->language->get('text_edit_address');
             $form = new AForm('HS');
@@ -1117,6 +1122,7 @@ class ControllerPagesSaleCustomer extends AController
                 $this->loadModel('sale/customer_group');
                 $this->model_sale_customer->deleteAddress($customer_id, $address_id);
                 $this->session->data['success'] = $this->language->get('text_success');
+                $this->extensions->hk_ProcessData($this, __FUNCTION__);
                 redirect($this->html->getSecureURL('sale/customer/update', '&customer_id='.$customer_id));
             }
         }
@@ -1130,7 +1136,7 @@ class ControllerPagesSaleCustomer extends AController
      * @return bool
      * @throws AException
      */
-    private function _validateForm($customer_id = null)
+    protected function _validateForm($customer_id = null)
     {
         if (!$this->user->canModify('sale/customer')) {
             $this->error['warning'] = $this->language->get('error_permission');
@@ -1224,7 +1230,7 @@ class ControllerPagesSaleCustomer extends AController
      * @return bool
      * @throws AException
      */
-    private function _validateAddressForm()
+    protected function _validateAddressForm()
     {
         if (!$this->user->canModify('sale/customer')) {
             $this->error['warning'] = $this->language->get('error_permission');
