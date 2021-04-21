@@ -91,8 +91,9 @@ echo $order_tabs;
 				<label class="control-label col-sm-5"><?php echo $entry_fax; ?></label>
 				<div class="input-group afield col-sm-7"><?php echo $fax; ?></div>
 			</div>
-		<?php }
-		if ($im) { ?>
+		<?php } ?>
+		<?php echo $this->getHookVar('order_details_left_attributes'); ?>
+		<?php if ($im) { ?>
 			<div class="form-group">
 				<label class="control-label col-sm-5"><?php echo $entry_im; ?></label>
 				<div class="input-group afield col-sm-7">
@@ -221,9 +222,12 @@ echo $order_tabs;
 					<?php
 					foreach ($order_product['option'] as $option) { ?>
 						<dt><small title="<?php echo $option['title']?>">- <?php echo $option['name']; ?></small></dt><dd><small class="product_option_value" title="<?php echo $option['title']?>"><?php echo $option['value']; ?></small></dd>
+							<?php echo $this->getHookVar('order_details_option_'.$option['name'].'_additional_info'); ?>
 					<?php }?>
 						</dl>
-					<?php } ?></td>
+					<?php } ?>
+					<?php echo $this->getHookVar('order_details_product_'.$order_product['product_id'].'_additional_info_1'); ?>
+				</td>
 				<td class="right">
 					<?php
 					$readonly = !$order_product['product_status'] ? 'readonly' : '';
@@ -268,6 +272,7 @@ echo $order_tabs;
 						   name="product[<?php echo $order_product_row; ?>][total]"
 						   value="<?php echo $order_product['total']; ?>"/>
 				</td>
+			<?php echo $this->getHookVar('order_details_product_'.$order_product['product_id'].'_additional_info_2'); ?>
 			</tr>
 			</tbody>
 			<?php $order_product_row++ ?>

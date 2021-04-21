@@ -46,14 +46,21 @@
 			<tr>
 				<td class="align_left"><?php echo $shipping_firstname . ' ' . $shipping_lastname; ?>
 					<br/><?php echo $telephone; ?></td>
+                                <?php echo $this->getHookVar('checkout_confirm_shipping_info_1'); ?>
 				<td class="align_left">
 					<address>
+                                        <?php echo $this->getHookVar('checkout_confirm_shipping_info_pre_2'); ?>
 					<?php echo $shipping_address_1 . ' ' . $shipping_address_2; ?><br/>
 					<?php echo $shipping_city . ' ' . $shipping_zone . ' ' . $shipping_postcode; ?><br/>
 					<?php echo $shipping_country ?>
+					<?php echo $this->getHookVar('checkout_confirm_shipping_info_post_2'); ?>
 					</address>
 				</td>
-				<td class="align_left"><?php echo $shipping_method; ?></td>
+			<td class="align_left">
+				<?php echo $this->getHookVar('checkout_confirm_shipping_info_pre_3'); ?>
+				<?php echo $shipping_method; ?>
+				<?php echo $this->getHookVar('checkout_confirm_shipping_info_post_3'); ?>
+			</td>
 				<td class="align_right">
 					<a class="btn btn-default btn-xs" href="<?php echo $checkout_shipping_edit; ?>">
 						<i class="fa fa-edit"></i>
@@ -75,14 +82,21 @@
 				<tr>
 					<td class="align_left"><?php echo $payment_firstname . ' ' . $payment_lastname; ?>
 						<br/><?php echo $telephone; ?></td>
+			<?php echo $this->getHookVar('checkout_confirm_payment_info_1'); ?>
 					<td class="align_left">
 						<address>
+					<?php echo $this->getHookVar('checkout_confirm_payment_info_pre_2'); ?>
 						<?php echo $payment_address_1 . ' ' . $payment_address_2; ?><br/>
 						<?php echo $payment_city . ' ' . $payment_zone . ' ' . $payment_postcode; ?><br/>
 						<?php echo $payment_country ?>
+					<?php echo $this->getHookVar('checkout_confirm_payment_info_post_2'); ?>
 						</address>
 					</td>
-					<td class="align_left"><?php echo $payment_method; ?></td>
+			<td class="align_left">
+				<?php echo $this->getHookVar('checkout_confirm_payment_info_pre_3'); ?>
+				<?php echo $payment_method; ?>
+				<?php echo $this->getHookVar('checkout_confirm_payment_info_post_3'); ?>
+					</td>
 					<td class="align_right">
 						<a class="btn btn-default btn-xs" href="<?php echo $checkout_payment_edit; ?>">
 							<i class="fa fa-edit"></i>
@@ -140,11 +154,14 @@
 						<br/>
 						&nbsp;
 						<small title="<?php echo $option['title']?>"> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
-					<?php } ?></td>
+				<?php } ?>
+				<?php echo $this->getHookVar('checkout_confirm_product_'.$product['product_id'].'_additional_info_1'); ?>
+			</td>
 				<td><?php echo $product['price']; ?></td>
 				<td><?php echo $product['quantity']; ?></td>
 				<td class="checkout_heading"><?php echo $product['total']; ?></td>
 			</tr>
+		<?php echo $this->getHookVar('checkout_confirm_product_'.$product['product_id'].'_additional_info_2'); ?>
 		<?php } ?>
 		<?php echo $this->getHookVar('list_more_product_last'); ?>
 	</table>
