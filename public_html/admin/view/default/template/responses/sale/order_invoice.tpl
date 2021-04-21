@@ -15,8 +15,9 @@
 		<div class="div1">
 			<table width="100%">
 				<tr>
-
-					<td><?php echo $order['store_name']; ?><br/>
+					<td>
+						<?php echo $this->getHookVar('order_invoice_'.$order['order_id'].'_more_order_info'); ?>
+						<?php echo $order['store_name']; ?><br/>
 						<?php echo $order['address']; ?><br/>
 						<?php if ($order['telephone']) { ?>
 							<?php echo $text_telephone; ?> <?php echo $order['telephone']; ?><br/>
@@ -76,12 +77,15 @@
 							<br/>
 							&nbsp;
 							<small> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
+						<?php echo $this->getHookVar('order_invoice_'.$order['order_id'].'_option_'.$option['name'].'_additional_info'); ?>
 						<?php } ?></td>
 					<td><?php echo $product['model']; ?></td>
 					<td align="right"><?php echo $product['quantity']; ?></td>
 					<td align="right"><?php echo $product['price']; ?></td>
 					<td align="right"><?php echo $product['total']; ?></td>
+					<?php echo $this->getHookVar('order_invoice_'.$order['order_id'].'_product_'.$product['id'].'_additional_info_1'); ?>
 				</tr>
+			<?php echo $this->getHookVar('order_invoice_'.$order['order_id'].'_product_'.$product['id'].'_additional_info_2'); ?>
 			<?php } ?>
 			<?php foreach ($order['total'] as $total) { ?>
 				<tr>

@@ -139,6 +139,7 @@ if ($error){ ?>
                                         <?php foreach ($options as $option) { ?>
                                             <div class="form-group">
                                                 <?php if (!in_array($option['html']->type, ['hidden'])) { ?>
+                                                <?php echo $this->getHookVar('product_option_'.$option['name'].'_additional_info'); ?>
                                                 <label class="control-label"><?php echo $option['name']; ?></label>
                                                 <?php } ?>
                                                 <div class="input-group col-sm-10">
