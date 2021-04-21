@@ -384,6 +384,28 @@ class ControllerResponsesProductProduct extends AController
 
         $this->data['option_data'] = $this->model_catalog_product->getProductOption($product_id, $option_id);
 
+        $this->data['fields'] = [
+            'entry_status'=>'status',
+            'entry_option_name'=>'option_name',
+            'entry_option_placeholder' => 'option_placeholder',
+            'entry_sort_order' => 'option_sort_order',
+            'entry_required' => 'required',
+            'entry_allowed_extensions' => 'extensions',
+            'entry_min_size'=>'min_size',
+            'entry_max_size'=>'max_size',
+            'entry_upload_dir'=>'directory',
+            'entry_regexp_pattern' => 'option_regexp_pattern',
+            'entry_error_text'=>'option_error_text'
+        ];
+
+        $this->data['option_values_title'] = [
+            'entry_option_value',
+            'entry_option_quantity',
+            'entry_track_option_stock',
+            'entry_option_price',
+            'entry_option_prefix',
+            'entry_sort_order'
+        ];
         if ($this->data['option_data']) {
             $language_id = $this->language->getContentLanguageID();
             $this->data['language_id'] = $language_id;
@@ -1018,6 +1040,7 @@ class ControllerResponsesProductProduct extends AController
             $resources_html = $this->dispatch('responses/common/resource_library/get_resources_html');
             $this->data['resources_html'] = $resources_html->dispatchGetOutput();
         }
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
 
         $this->view->batchAssign($this->data);
         return $this->view->fetch('responses/product/option_value_row.tpl');

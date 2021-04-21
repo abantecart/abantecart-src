@@ -17,19 +17,6 @@
 		</div>
 
 		<?php
-		$fields = array('entry_status'=>'status',
-						'entry_option_name'=>'option_name',
-						'entry_option_placeholder' => 'option_placeholder',
-						'entry_sort_order' => 'option_sort_order',
-						'entry_required' => 'required',
-						'entry_allowed_extensions' => 'extensions',
-						'entry_min_size'=>'min_size',
-						'entry_max_size'=>'max_size',
-						'entry_upload_dir'=>'directory',
-						'entry_regexp_pattern' => 'option_regexp_pattern',
-						'entry_error_text'=>'option_error_text'
-
-		);
 		foreach ($fields as $e=>$name) { ?>
 				<?php
 					$entry = $$e;
@@ -95,16 +82,13 @@
 							<?php echo $text_default; ?>&nbsp;&nbsp;<i class="fa fa-refresh"></i>
 						</a>
 					</th>
-					<?php }
-					if($option_data['element_type']!='U'){ ?>
-					<th class="left"><?php echo $entry_option_value; ?></th>
-					<th class="left"><?php echo $entry_option_quantity; ?></th>
-					<th class="left"><?php echo $entry_track_option_stock; ?></th>
 					<?php } ?>
-
-					<th class="left"><?php echo $entry_option_price; ?></th>
-					<th class="left"><?php echo $entry_option_prefix; ?></th>
-					<th class="left"><?php echo $entry_sort_order; ?></th>
+					<?php foreach ($option_values_title as $entry) {
+					 if ($option_data['element_type']==='U' && ($entry==='entry_option_value' || $entry==='entry_option_quantity' || $entry==='entry_track_option_stock')) {
+					  continue;
+					} ?>
+					<th class="left"><?php echo ${$entry}; ?></th>
+					<?php } ?>
 					<th class="left"></th>
 					<?php if ($selectable){?>
 						<th class="left"></th>
