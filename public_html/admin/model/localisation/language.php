@@ -405,7 +405,7 @@ class ModelLocalisationLanguage extends Model
             $this->db->table('orders'),
         );
         foreach ($lang_tables as $table) {
-            $table_name = $table['table_name'];
+            $table_name = $table['TABLE_NAME'];
             if(!$table_name && isset($table['TABLE_NAME'])){
                 $table_name = $table['TABLE_NAME'];
             }
