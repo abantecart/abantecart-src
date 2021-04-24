@@ -23,7 +23,7 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesCheckoutAddress extends AController
 {
-    private $error = array();
+    public $error = array();
     public $data = array();
 
     public function shipping()

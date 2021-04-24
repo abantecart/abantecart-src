@@ -102,6 +102,7 @@
 				<td><?php echo $order['comment']; ?></td>
 			</tr>
 		</table>
+		<?php echo $this->getHookVar('order_invoice_'.$order['order_id'].'_bottom_info'); ?>
 	</div>
 <?php } ?>
 </body>
