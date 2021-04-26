@@ -180,7 +180,7 @@ $guest_data = $this->session->data['fc']['guest'];
                                                 <td style="vertical-align: middle;">
                                                     <label for="<?php
                                                             $idd = str_replace('.', '', $quote['id']);
-                                                                echo preg_replace('/[^a-zA-Z0-9\.-_]/', '', $idd.$quote['id']); ?>"
+                                                                echo preg_replace('/[^a-zA-Z0-9\.-_]/', '', $idd.$quote['id']); ?>_title"
                                                            title="<?php echo has_value($quote['description']) ? $quote['description'] : $quote['title']; ?>"
                                                        style="cursor: pointer;">
                                                         <?php $icon = (array)$shipping_method['icon'];
@@ -201,12 +201,15 @@ $guest_data = $this->session->data['fc']['guest'];
                                                     </label>
                                                 </td>
                                                 <td style="vertical-align: middle;" class="align_right">
-                                                    <label for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
+                                                    <label for="<?php
+                                                    $idd = str_replace('.', '', $quote['id']);
+                                                                echo preg_replace('/[^a-zA-Z0-9\.-_]/', '', $idd.$quote['id']); ?>_text"
                                                            style="cursor: pointer;"><?php echo $quote['text']; ?></label>
                                                 </td>
                                             </tr>
-                                        <?php }
-                            } else { ?>
+                                        <?php } ?>
+                                <?php echo $this->getHookVar('shipping_'.$shipping_method['title'].'_additional_info'); ?>
+                            <? } else { ?>
                                         <tr>
                                             <td colspan="3">
                                                 <div class="alert alert-danger">
