@@ -209,7 +209,7 @@ $guest_data = $this->session->data['fc']['guest'];
                                             </tr>
                                         <?php } ?>
                                 <?php echo $this->getHookVar('shipping_'.$shipping_method['title'].'_additional_info'); ?>
-                            <? } else { ?>
+                            <?php } else { ?>
                                         <tr>
                                             <td colspan="3">
                                                 <div class="alert alert-danger">
