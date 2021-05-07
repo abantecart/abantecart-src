@@ -68,6 +68,7 @@ if (sizeof((array) $error_warning) > 0) {
                                 <?php
                             } ?>
                         </div>
+                        <?php echo $this->getHookVar('checkout_cart_product_'.$product['key'].'_additional_info_1'); ?>
                     </td>
                     <td class="align_left"><?php echo $product['model']; ?></td>
                     <td class="align_right"><?php echo $product['price'].$tax_message; ?></td>
@@ -79,7 +80,8 @@ if (sizeof((array) $error_warning) > 0) {
                         <a href="<?php echo $product['remove_url']; ?>" class="btn btn-sm btn-default"><i class="fa fa-trash-o fa-fw"></i></a>
                     </td>
                 </tr>
-    <?php
+            <?php echo $this->getHookVar('checkout_cart_product_'.$product['key'].'_additional_info_2'); ?>
+            <?php
             } ?>
             <?php echo $this->getHookVar('list_more_product_last'); ?>
         </table>

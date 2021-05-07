@@ -78,14 +78,16 @@
 							&nbsp;
 							<small> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
 						<?php echo $this->getHookVar('order_invoice_'.$order['order_id'].'_option_'.$option['name'].'_additional_info'); ?>
-						<?php } ?></td>
+						<?php } ?>
+						<?php echo $this->getHookVar('order_invoice_'.$order['order_id'].'_product_'.$product['name'].'_additional_info'); ?>
+					</td>
 					<td><?php echo $product['model']; ?></td>
 					<td align="right"><?php echo $product['quantity']; ?></td>
 					<td align="right"><?php echo $product['price']; ?></td>
 					<td align="right"><?php echo $product['total']; ?></td>
-					<?php echo $this->getHookVar('order_invoice_'.$order['order_id'].'_product_'.$product['id'].'_additional_info_1'); ?>
+					<?php echo $this->getHookVar('order_invoice_'.$order['order_id'].'_product_'.$product['name'].'_additional_info_1'); ?>
 				</tr>
-			<?php echo $this->getHookVar('order_invoice_'.$order['order_id'].'_product_'.$product['id'].'_additional_info_2'); ?>
+			<?php echo $this->getHookVar('order_invoice_'.$order['order_id'].'_product_'.$product['name'].'_additional_info_2'); ?>
 			<?php } ?>
 			<?php foreach ($order['total'] as $total) { ?>
 				<tr>

@@ -15,9 +15,11 @@
 								<br/>
 							<?php } ?>
 						</div>
+						<?php echo $this->getHookVar('order_summary_product_'.$product['key'].'_additional_info_1'); ?>
 					</td>
 					<td class="align_right valign_top"><b><?php echo $product['price']; ?></b></td>
 				</tr>
+			<?php echo $this->getHookVar('order_summary_product_'.$product['key'].'_additional_info_2'); ?>
 			<?php } ?>
 			<?php echo $this->getHookVar('list_more_product_last'); ?>
 		</table>

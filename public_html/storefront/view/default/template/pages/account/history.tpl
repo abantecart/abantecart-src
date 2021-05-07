@@ -18,7 +18,9 @@
 	    			<tr>
 	    				<td><?php echo $text_date_added; ?> <?php echo $order[ 'date_added' ]; ?></td>
 	    				<td><?php echo $text_customer; ?> <?php echo $order[ 'name' ]; ?></td>
-	    				<td rowspan="2" style="text-align: right;"><?php echo $order[ 'button' ];?></td>
+	    				<td rowspan="2" style="text-align: right;"><?php echo $order[ 'button' ];?>
+							<?php echo $this->getHookVar('order_history_'.$order['order_id'].'_additional_info'); ?>
+						</td>
 	    			</tr>
 	    			<tr>
 	    				<td><?php echo $text_products; ?> <?php echo $order[ 'products' ]; ?></td>

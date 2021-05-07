@@ -38,6 +38,7 @@ if ($total_items > 0) {
 			<td class="times"><i class="fa fa-times fa-fw"></i></td>
 			<td class="quantity"><?php echo $product['quantity']; ?></td>
 		</tr>
+	<?php echo $this->getHookVar('cart_details_'.$product['key'].'_additional_info_1'); ?>
 	<?php } ?>
 
 	<?php echo $this->getHookVar('cart_top_post_list_hook'); ?>
