@@ -305,7 +305,7 @@ class ModelExtensionDefaultUps extends Model
          */
         $language = $this->lang;
         if (!$this->config->get('default_ups_test')) {
-            $url = 'https://www.ups.com/ups.app/xml/Rate';
+            $url = 'https://onlinetools.ups.com/ups.app/xml/Rate';
         } else {
             $url = 'https://wwwcie.ups.com/ups.app/xml/Rate';
         }
