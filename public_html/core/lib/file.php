@@ -47,7 +47,7 @@ class AFile
     /**
      * @param  $key - key to load data from registry
      *
-     * @return mixed  - data from registry
+     * @return object|null  - data from registry
      */
     public function __get($key)
     {
@@ -174,7 +174,7 @@ class AFile
      * @param object $download
      * @param string $target
      *
-     * @return int
+     * @return boolean|null
      */
     public function writeDownloadToFile($download, $target)
     {
@@ -183,13 +183,13 @@ class AFile
         }
         if (function_exists("file_put_contents")) {
             $bytes = @file_put_contents($target, $download->body);
+            $this->registry->get('log')->write(var_export($bytes, true)."\n\n\n".var_export($download->content_length, true));
             return $bytes == $download->content_length;
         }
 
         $handle = @fopen($target, 'w+');
         $bytes = fwrite($handle, $download->body);
         @fclose($handle);
-
         return $bytes == $download->content_length;
     }
 
@@ -200,6 +200,7 @@ class AFile
         curl_setopt($ch, CURLOPT_URL, $uri);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 
         $response = new stdClass();
 
@@ -207,6 +208,10 @@ class AFile
         $response->http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $response->content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
         $response->content_length = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+        //trick for cdn-servers (case when content length unknown )
+        if($response->content_length < 0 ){
+            $response->content_length = strlen($response->body);
+        }
         curl_close($ch);
 
         return $response;
