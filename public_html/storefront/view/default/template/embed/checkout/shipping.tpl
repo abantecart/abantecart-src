@@ -56,7 +56,7 @@
 			  <tr>
 				<td style="width: 5%"><?php echo $quote['radio']; ?></td>
 				<td>
-				<label for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>_title"
+				<label id="<?php echo $quote['id'];?>_title" for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
                        title="<?php echo has_value($quote['description']) ? $quote['description'] : ''; ?>"
                        style="cursor: pointer;">
 				<?php $icon = $shipping_method['icon'];
@@ -70,7 +70,7 @@
 				</label>
 				</td>
 				<td class="align_right">
-                    <label for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>_text"
+                    <label id="<?php echo $quote['id'];?>_text" for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
                            style="cursor: pointer;"><?php echo $quote['text']; ?></label>
                 </td>
 			  </tr>
