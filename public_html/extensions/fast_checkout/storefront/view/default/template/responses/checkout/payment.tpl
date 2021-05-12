@@ -185,17 +185,15 @@ $guest_data = $this->session->data['fc']['guest'];
                                                        style="cursor: pointer;">
                                                         <?php $icon = (array)$shipping_method['icon'];
                                                         if (sizeof($icon)) {
-                                                            if (is_file(DIR_RESOURCE.$icon['image'])) { ?>
-                                                                <span class="shipping_icon mr10">
+                                                            if (empty($icon['resource_code'])) { ?>
+                                    <span class="shipping_icon mr10">
                                                                     <img style="width:<?php echo $this->config->get('config_image_grid_width'); ?>px; height:auto;"
-                                                                         src="resources/<?php echo $icon['image']; ?>"
-                                                                         title="<?php echo $icon['title']; ?>" alt=""/>
+                                                                         src="resources/<?php echo $icon['type_dir'].$icon['resource_path']; ?>"
+                                                                         title="<?php echo_html2view($icon['title']); ?>" alt=""/>
                                                                 </span>
-                                                            <?php } else {
-                                                                if (!empty($icon['resource_code'])) { ?>
-                                                                    <span class="shipping_icon mr10"><?php echo $icon['resource_code']; ?></span>
-                                                                <?php }
-                                                            }
+                                    <?php } else { ?>
+                                    <span class="shipping_icon mr10"><?php echo $icon['resource_code']; ?></span>
+                                    <?php }
                                                         } ?>
                                                         <?php echo $quote['title']; ?>
                                                     </label>
