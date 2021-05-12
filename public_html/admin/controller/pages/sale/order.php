@@ -287,6 +287,8 @@ class ControllerPagesSaleOrder extends AController
             } else {
                 $this->model_sale_order->editOrder($this->request->get['order_id'], $this->request->post);
             }
+            
+            $this->extensions->hk_ProcessData($this, 'update');
 
             //recalc totals and update
             $this->session->data['success'] = $this->language->get('text_success');
@@ -299,10 +301,10 @@ class ControllerPagesSaleOrder extends AController
             );
         }
 
-        redirect($this->html->getSecureURL('sale/order'));
-
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+        redirect($this->html->getSecureURL('sale/order'));
     }
 
     public function details(...$args)

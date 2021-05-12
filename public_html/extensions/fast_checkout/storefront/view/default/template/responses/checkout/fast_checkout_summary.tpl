@@ -35,9 +35,12 @@
 							</ul>
 							</p>
                     <?php } ?>
+							<?php echo $this->getHookVar('fast_checkout_summary_product_'.$p['key'].'_additional_info'); ?>
 						</td>
 						<td style="text-align: right; font-weight: bold;"><?php echo $p['price']."&nbsp;x&nbsp;".$p['quantity']; ?></td>
+						<?php echo $this->getHookVar('fast_checkout_summary_product_'.$p['key'].'_additional_info_1'); ?>
 					</tr>
+					<?php echo $this->getHookVar('fast_checkout_summary_product_'.$p['key'].'_additional_info_2'); ?>
 				</table>
 			</li>
         <?php } ?>

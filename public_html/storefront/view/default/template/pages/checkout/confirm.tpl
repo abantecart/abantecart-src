@@ -44,7 +44,7 @@
 			<tr>
 				<td class="align_left"><?php echo $shipping_firstname . ' ' . $shipping_lastname; ?>
 					<br/><?php echo $telephone; ?></td>
-				<?php echo $this->getHookVar('checkout_confirm_shipping_info_1'); ?>
+					<?php echo $this->getHookVar('checkout_confirm_shipping_info_1'); ?>
 				<td class="align_left">
 					<address>
 				    <?php echo $this->getHookVar('checkout_confirm_shipping_info_pre_2'); ?>
@@ -80,7 +80,7 @@
 				<tr>
 					<td class="align_left"><?php echo $payment_firstname . ' ' . $payment_lastname; ?>
 						<br/><?php echo $telephone; ?></td>
-					<?php echo $this->getHookVar('checkout_confirm_payment_info_1'); ?>
+						<?php echo $this->getHookVar('checkout_confirm_payment_info_1'); ?>
 					<td class="align_left">
 						<address>
 							<?php echo $this->getHookVar('checkout_confirm_payment_info_pre_2'); ?>

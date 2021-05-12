@@ -77,6 +77,7 @@
 				<th class="align_right"><?php echo $text_quantity; ?></th>
 				<th class="align_right"><?php echo $text_price; ?></th>
 				<th class="align_right"><?php echo $text_total; ?></th>
+				<?php echo $this->getHookVar('product_additional_table_header'); ?>
 			</tr>
 			<?php foreach ($products as $product) { ?>
 				<tr>
@@ -88,7 +89,9 @@
 							&nbsp;
 							<small title="<?php echo $option['title']?>"> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
 						<?php echo $this->getHookVar('option_'.$option['name'].'_additional_info'); ?>
-						<?php } ?></td>
+						<?php } ?>
+						<?php echo $this->getHookVar('product_'.$product['id'].'_additional_info'); ?>
+					</td>
 					<td class="align_left valign_top"><?php echo $product['model']; ?></td>
 					<td class="align_right valign_top"><?php echo $product['quantity']; ?></td>
 					<td class="align_right valign_top"><?php echo $product['price']; ?></td>

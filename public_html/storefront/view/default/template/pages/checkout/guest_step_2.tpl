@@ -47,7 +47,7 @@
 								<tr>
 									<td style="width:5%;"><?php echo $quote['radio']; ?>
 									</td>
-									<td><label for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
+									<td><label id="<?php echo $quote['id'];?>_title" for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
 									           title="<?php echo has_value($quote['description']) ? $quote['description'] : ''; ?>"
 									           style="cursor: pointer;">
 											<?php $icon = (array)$shipping_method['icon'];
@@ -65,12 +65,13 @@
 											<?php echo $quote['title']; ?>
 										</label></td>
 									<td class="align_right">
-                                        <label for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
+                                        <label id="<?php echo $quote['id'];?>_text" for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
 									           style="cursor: pointer;"><?php echo $quote['text']; ?></label>
 									</td>
 								</tr>
-							<?php } ?>
-						<?php } else{ ?>
+					<?php } ?>
+					<?php echo $this->getHookVar('shipping_'.$shipping_method['title'].'_additional_info'); ?>
+					<?php } else{ ?>
 							<tr>
 								<td colspan="3">
 									<div class="alert alert-danger"><i

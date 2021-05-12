@@ -178,7 +178,7 @@ $guest_data = $this->session->data['fc']['guest'];
                                             <tr>
                                                 <td style="width: 5%; text-align: center; vertical-align: middle;"><?php echo $quote['radio']; ?></td>
                                                 <td style="vertical-align: middle;">
-                                                    <label for="<?php
+                                                    <label id="<?php echo $quote['id'];?>_title" for="<?php
                                                             $idd = str_replace('.', '', $quote['id']);
                                                                 echo preg_replace('/[^a-zA-Z0-9\.-_]/', '', $idd.$quote['id']); ?>"
                                                            title="<?php echo has_value($quote['description']) ? $quote['description'] : $quote['title']; ?>"
@@ -199,12 +199,13 @@ $guest_data = $this->session->data['fc']['guest'];
                                                     </label>
                                                 </td>
                                                 <td style="vertical-align: middle;" class="align_right">
-                                                    <label for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
+                                                    <label id="<?php echo $quote['id'];?>_text" for="<?php echo $quote['radio']->element_id.$quote['radio']->id; ?>"
                                                            style="cursor: pointer;"><?php echo $quote['text']; ?></label>
                                                 </td>
                                             </tr>
-                                        <?php }
-                            } else { ?>
+                                        <?php } ?>
+                                <?php echo $this->getHookVar('shipping_'.$shipping_method['title'].'_additional_info'); ?>
+                            <?php } else { ?>
                                         <tr>
                                             <td colspan="3">
                                                 <div class="alert alert-danger">

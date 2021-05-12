@@ -51,6 +51,7 @@ echo $form['form_open'];
 								<small title="<?php echo $option['title']?>"><?php echo $option['name']; ?> <?php echo $option['value']; ?></small><br/>
 							<?php } ?>
 						</div>
+						<?php echo $this->getHookVar('checkout_cart_product_'.$product['key'].'_additional_info_1'); ?>
 					</td>
 					<td class="align_left"><?php echo $product['model']; ?></td>
 					<td class="align_right"><?php echo $product['price']; ?></td>
@@ -62,6 +63,7 @@ echo $form['form_open'];
 						<a href="<?php echo $product['remove_url']; ?>" class="btn btn-sm btn-default"><i class="fa fa-trash-o fa-fw"></i></a>
 					</td>
 				</tr>
+			<?php echo $this->getHookVar('checkout_cart_product_'.$product['key'].'_additional_info_2'); ?>
 			<?php } ?>
 			<?php echo $this->getHookVar('list_more_product_last'); ?>
 		</table>
