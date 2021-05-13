@@ -247,6 +247,7 @@ class ExtensionsApi
     /** @var array */
     protected $extension_types = [
         'extensions',
+        'extension',
         'payment',
         'shipping',
         'template',
@@ -269,7 +270,7 @@ class ExtensionsApi
                 //skip other directory not containing extensions
                 if (is_file($ext.'/config.xml')) {
                     $ext_text_id = basename($ext);
-                    /** @var SimpleXMLElement|stdClass $xml */
+                    /** @var SimpleXMLElement|stdClass|false $xml */
                     $xml = @simplexml_load_file($ext.'/config.xml');
                     //be sure that extension dirname equal extension-text-id in config.xml
                     if ($xml !== false && (string) $xml->id == $ext_text_id) {
@@ -319,6 +320,11 @@ class ExtensionsApi
                 }
             }
         }
+    }
+
+    public function getExtensionTypes()
+    {
+        return $this->extension_types;
     }
 
     /**
@@ -1141,9 +1147,9 @@ class ExtensionsApi
         array_unshift($args, $baseObject);
 
         $can_run = true;
+        // callback surrounds the method execution
+        $result = call_user_func_array([$this->extensions, 'override'.$extension_method], $args);
         if (method_exists($baseObject, $method) || method_exists($baseObject, '__call')) {
-            // callback surrounds the method execution
-            $result = call_user_func_array([$this->extensions, 'override'.$extension_method], $args);
             // method is allowed to run
             if (!ExtensionCollection::$around_method_found) {
                 $object_args = $args;
@@ -1153,22 +1159,18 @@ class ExtensionsApi
             } elseif ($can_run !== false) {
                 $return = $result;
             }
-        } else {
-            //callback surrounds the method execution
-            $result = call_user_func_array([$this->extensions, 'override'.$extension_method], $args);
-            if (ExtensionCollection::$around_method_found && $result !== false) {
-                //Fake Exception to send result to dispatcher
-                // via AException
-                // and interrupt running of base controller method
-                /** @see ADispatcher::dispatch() */
-                throw new AException(
-                    AC_HOOK_OVERRIDE,
-                    'Class '.get_class($baseObject).' overridden by extension "override" hook.',
-                    '',
-                    '',
-                    $result
-                );
-            }
+        } elseif (ExtensionCollection::$around_method_found && $result !== false) {
+            //Fake Exception to send result to dispatcher
+            // via AException
+            // and interrupt running of base controller method
+            /** @see ADispatcher::dispatch() */
+            throw new AException(
+                AC_HOOK_OVERRIDE,
+                'Class '.get_class($baseObject).' overridden by extension "override" hook.',
+                '',
+                '',
+                $result
+            );
         }
 
         if ($can_run !== false) {
@@ -1242,7 +1244,7 @@ class ExtensionUtils
     /**
      * @param null $val
      *
-     * @return bool|DOMElement|null|SimpleXMLElement|string
+     * @return bool|SimpleXMLElement|string|null
      */
     public function getConfig($val = null)
     {
@@ -1372,7 +1374,7 @@ class ExtensionUtils
                 if ($item->variants->item) {
                     foreach ($item->variants->item as $k) {
                         $k = (string) $k;
-                        $result[$i]['options'][$k] = $this->registry->get('language')->get((string) $item['id'].'_'.$k);
+                        $result[$i]['options'][$k] = $this->registry->get('language')->get($item['id'].'_'.$k);
                     }
                 }
 
@@ -1446,7 +1448,7 @@ class ExtensionUtils
                         return [
                             'result' => false,
                             'errors' => [
-                                'pattern' => 'Regex pattern for field "'.(string) $item['id'].'" is not valid.',
+                                'pattern' => 'Regex pattern for field "'.$item['id'].'" is not valid.',
                             ],
                         ];
                     } else {
@@ -1545,10 +1547,10 @@ class ExtensionUtils
                     $resource = new AResource((string) $item->resource_type);
                     $rlTypeDir = $resource->getTypeDir();
                     $resource_id = is_numeric($value)
-                                ? $value
-                                : $resource->getIdFromHexPath(str_replace($rlTypeDir, '', $value));
+                        ? $value
+                        : $resource->getIdFromHexPath(str_replace($rlTypeDir, '', $value));
                     $resource_info = $resource->getResource($resource_id);
-                    $value = (string) $item->resource_type.'/'.$resource_info['resource_path'];
+                    $value = $item->resource_type.'/'.$resource_info['resource_path'];
                 }
                 $result[(string) $item['id']] = $value;
                 if ((string) $item['id'] == 'priority') {
