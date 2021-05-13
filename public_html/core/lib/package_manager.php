@@ -188,7 +188,7 @@ class APackageManager
      */
     public function backupPrevious($extension_id = '')
     {
-        $old_path = !$extension_id ? DIR_ROOT.DS.$this->session->data['package_info']['dst_dir'] : DIR_EXT;
+        $old_path = !$extension_id ? DIR_ROOT.self::DS.$this->session->data['package_info']['dst_dir'] : DIR_EXT;
         $package_id = !$extension_id ? $this->session->data['package_info']['package_id'] : $extension_id;
         if (!$package_id) {
             return false;
@@ -259,12 +259,12 @@ class APackageManager
                 $remote_dir = pathinfo(
                         $this->session->data['package_info']['ftp_path'].$core_filename,
                         PATHINFO_DIRNAME
-                    ).DS;
+                    ).self::DS;
 
                 $src_dir = $this->session->data['package_info']['tmp_dir']
                     .$this->session->data['package_info']['package_dir']
-                    .DS.'code'
-                    .DS.$core_filename;
+                    .self::DS.'code'
+                    .self::DS.$core_filename;
 
                 $result = $this->ftp_move($fconnect, $src_dir, $remote_file, $remote_dir);
                 if ($result) {
@@ -289,11 +289,11 @@ class APackageManager
             ftp_close($fconnect);
         } else {
             foreach ($coreFiles as $core_filename) {
-                if (is_file(DIR_ROOT.DS.$core_filename)) {
-                    unlink(DIR_ROOT.DS.$core_filename);
+                if (is_file(DIR_ROOT.self::DS.$core_filename)) {
+                    unlink(DIR_ROOT.self::DS.$core_filename);
                 }
                 //check is target directory exists before copying
-                $dir = pathinfo(DIR_ROOT.DS.$core_filename, PATHINFO_DIRNAME);
+                $dir = pathinfo(DIR_ROOT.self::DS.$core_filename, PATHINFO_DIRNAME);
                 if (!is_dir($dir)) {
                     mkdir($dir, 0777, true);
                 }
@@ -311,16 +311,16 @@ class APackageManager
                 $result = rename(
                     $this->session->data['package_info']['tmp_dir']
                     .$this->session->data['package_info']['package_dir']
-                    .DS.'code'
-                    .DS.$core_filename,
-                    DIR_ROOT.DS.$core_filename
+                    .self::DS.'code'
+                    .self::DS.$core_filename,
+                    DIR_ROOT.self::DS.$core_filename
                 );
                 if ($result) {
                     // for index.php do not set 777 permissions because hosting providers will ban it
                     if (pathinfo($core_filename, PATHINFO_BASENAME) == 'index.php') {
-                        chmod(DIR_ROOT.DS.$core_filename, 0755);
+                        chmod(DIR_ROOT.self::DS.$core_filename, 0755);
                     } else {
-                        chmod(DIR_ROOT.DS.$core_filename, 0777);
+                        chmod(DIR_ROOT.self::DS.$core_filename, 0777);
                     }
 
                     $install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
@@ -359,10 +359,10 @@ class APackageManager
                 $objects = scandir($dir);
                 foreach ($objects as $obj) {
                     if ($obj != "." && $obj != "..") {
-                        chmod($dir.DS.$obj, 0777);
-                        $err = is_dir($dir.DS.$obj) ? $this->removeDir($dir.DS.$obj) : unlink($dir.DS.$obj);
+                        chmod($dir.self::DS.$obj, 0777);
+                        $err = is_dir($dir.self::DS.$obj) ? $this->removeDir($dir.self::DS.$obj) : unlink($dir.self::DS.$obj);
                         if (!$err) {
-                            $this->error = "Error: Cannot delete file or directory: '".$dir.DS.$obj."'.";
+                            $this->error = "Error: Cannot delete file or directory: '".$dir.self::DS.$obj."'.";
                             $this->messages->saveNotice('Error', $this->error);
                             $error = new AError ($this->error);
                             $error->toLog()->toDebug();
@@ -406,13 +406,13 @@ class APackageManager
     {
         $package_dirname = $this->session->data['package_info']['package_dir'];
         $output = [];
-        if (!file_exists($this->session->data['package_info']['tmp_dir'].$package_dirname.DS."code")) {
+        if (!file_exists($this->session->data['package_info']['tmp_dir'].$package_dirname.self::DS."code")) {
             return false;
         } else {
-            $dir = $this->session->data['package_info']['tmp_dir'].$package_dirname.DS."code";
+            $dir = $this->session->data['package_info']['tmp_dir'].$package_dirname.self::DS."code";
             $d = [];
-            while ($dirs = glob($dir.DS.'*', GLOB_ONLYDIR)) {
-                $dir .= DS.'*';
+            while ($dirs = glob($dir.self::DS.'*', GLOB_ONLYDIR)) {
+                $dir .= self::DS.'*';
                 if (!$d) {
                     $d = $dirs;
                 } else {
@@ -424,7 +424,7 @@ class APackageManager
         if ($d) {
             foreach ($d as $dir) {
                 $dir = str_replace(
-                    $this->session->data['package_info']['tmp_dir'].$package_dirname.DS."code".DS,
+                    $this->session->data['package_info']['tmp_dir'].$package_dirname.self::DS."code".self::DS,
                     "",
                     $dir
                 );
@@ -523,7 +523,7 @@ class APackageManager
         // first fo all try to change directory to absolute server path
         //(for case when ftp-user does not locked in ftp root directory)
         if (@ftp_chdir($fconnect, $abs_path) === true) {
-            return $abs_path.DS;
+            return $abs_path.self::DS;
         } else {
             //for ftp chrooted users
             //get list of directories
@@ -544,7 +544,7 @@ class APackageManager
                         }
                     }
                     if ($target_dir) {
-                        return DS.trim($target_dir, DS).DS;
+                        return self::DS.trim($target_dir, self::DS).self::DS;
                     }
                 }
             }
@@ -578,7 +578,7 @@ class APackageManager
             $basedir = $this->session->data['package_info']['ftp_path'];
             //relative subdirs
             $sub_dirs = str_replace($basedir, '', $remote_dir);
-            if (substr($sub_dirs, 0, 1) == DS) {
+            if (substr($sub_dirs, 0, 1) == self::DS) {
                 $sub_dirs = substr($sub_dirs, 1);
             }
             $result = $this->ftpMakeSubDirs($fconnect, $basedir, $sub_dirs);
@@ -621,7 +621,7 @@ class APackageManager
     private function ftpMakeSubDirs($fconnect, $ftpBaseDir, $ftpPath)
     {
         @ftp_chdir($fconnect, $ftpBaseDir); // /var/www/uploads
-        $parts = explode(DS, $ftpPath); // 2013/06/11/username
+        $parts = explode(self::DS, $ftpPath); // 2013/06/11/username
         foreach ($parts as $part) {
             if (!@ftp_chdir($fconnect, $part)) {
                 ftp_mkdir($fconnect, $part);
@@ -650,18 +650,18 @@ class APackageManager
             // Stay only with in current directory
             if ($file != "." && $file != "..") {
                 // do the following if it is a directory
-                if (is_dir($src_dir.DS.$file)) {
-                    if (!@ftp_chdir($conn_id, $dst_dir.DS.$file)) {
+                if (is_dir($src_dir.self::DS.$file)) {
+                    if (!@ftp_chdir($conn_id, $dst_dir.self::DS.$file)) {
                         // create directories that do not yet exist
-                        ftp_mkdir($conn_id, $dst_dir.DS.$file);
-                        ftp_chmod($conn_id, 0755, $dst_dir.DS.$file);
+                        ftp_mkdir($conn_id, $dst_dir.self::DS.$file);
+                        ftp_chmod($conn_id, 0755, $dst_dir.self::DS.$file);
                     }
                     // recursive part
-                    $this->ftp_put_dir($conn_id, $src_dir.DS.$file, $dst_dir.DS.$file);
+                    $this->ftp_put_dir($conn_id, $src_dir.self::DS.$file, $dst_dir.self::DS.$file);
                 } else {
                     // put the files
-                    ftp_put($conn_id, $dst_dir.DS.$file, $src_dir.DS.$file, FTP_BINARY);
-                    ftp_chmod($conn_id, 0755, $dst_dir.DS.$file);
+                    ftp_put($conn_id, $dst_dir.self::DS.$file, $src_dir.self::DS.$file, FTP_BINARY);
+                    ftp_chmod($conn_id, 0755, $dst_dir.self::DS.$file);
                 }
             }
         }
@@ -751,10 +751,10 @@ class APackageManager
 
                     $config = null;
                     $ext_conf_filename = $this->session->data['package_info']['tmp_dir']
-                        .$package_dirname.DS
-                        .'code'.DS
-                        .'extensions'.DS
-                        .$extension_id.DS.'config.xml';
+                        .$package_dirname.self::DS
+                        .'code'.self::DS
+                        .'extensions'.self::DS
+                        .$extension_id.self::DS.'config.xml';
                     if (is_file($ext_conf_filename)) {
                         $config = simplexml_load_file($ext_conf_filename);
                     }
@@ -762,13 +762,13 @@ class APackageManager
                     // running sql upgrade script if it exists
                     if (isset($config->upgrade->sql)) {
                         $file = $this->session->data['package_info']['tmp_dir']
-                            .$package_dirname.DS
-                            .'code'.DS
-                            .'extensions'.DS
-                            .$extension_id.DS
+                            .$package_dirname.self::DS
+                            .'code'.self::DS
+                            .'extensions'.self::DS
+                            .$extension_id.self::DS
                             .$config->upgrade->sql;
                         $file = !file_exists($file)
-                            ? DIR_EXT.$extension_id.DS.$config->upgrade->sql
+                            ? DIR_EXT.$extension_id.self::DS.$config->upgrade->sql
                             : $file;
                         if (file_exists($file)) {
                             if (!$this->db->performSql($file)) {
@@ -782,12 +782,12 @@ class APackageManager
                     // running php install script if it exists
                     if (isset($config->upgrade->trigger)) {
                         $file = $this->session->data['package_info']['tmp_dir']
-                            .$package_dirname.DS
-                            .'code'.DS
-                            .'extensions'.DS
-                            .$extension_id.DS
+                            .$package_dirname.self::DS
+                            .'code'.self::DS
+                            .'extensions'.self::DS
+                            .$extension_id.self::DS
                             .$config->upgrade->trigger;
-                        $file = !file_exists($file) ? DIR_EXT.$extension_id.DS.$config->upgrade->trigger : $file;
+                        $file = !file_exists($file) ? DIR_EXT.$extension_id.self::DS.$config->upgrade->trigger : $file;
                         if (file_exists($file)) {
                             /** @noinspection PhpIncludeInspection */
                             include($file);
@@ -825,7 +825,7 @@ class APackageManager
         $package_tmpdir = $this->session->data['package_info']['tmp_dir'];
         // running sql upgrade script if it exists
         if (isset($config->upgrade->sql)) {
-            $file = $package_tmpdir.$package_dirname.DS.$config->upgrade->sql;
+            $file = $package_tmpdir.$package_dirname.self::DS.$config->upgrade->sql;
             if (is_file($file)) {
                 if (!$this->db->performSql($file)) {
                     $this->error = 'SQL-ERROR: "'.$this->db->error.'"';
@@ -835,7 +835,7 @@ class APackageManager
         }
         // running php upgrade script if it exists
         if (isset($config->upgrade->trigger)) {
-            $file = $package_tmpdir.$package_dirname.DS.$config->upgrade->trigger;
+            $file = $package_tmpdir.$package_dirname.self::DS.$config->upgrade->trigger;
             if (is_file($file)) {
                 /** @noinspection PhpIncludeInspection */
                 include($file);
@@ -893,7 +893,7 @@ class APackageManager
                 $fconnect,
                 $this->session->data['package_info']['tmp_dir'].'version.php',
                 'version.php',
-                $this->session->data['package_info']['ftp_path'].'core'.DS
+                $this->session->data['package_info']['ftp_path'].'core'.self::DS
             );
             ftp_close($fconnect);
         }
@@ -921,7 +921,7 @@ class APackageManager
             $dh = opendir($path);
             while (($file = readdir($dh)) !== false) {
                 if ($file != '.' && $file != '..') { // skip self and parent pointing directories
-                    $fullPath = $path.DS.$file;
+                    $fullPath = $path.self::DS.$file;
                     $this->chmod_R($fullPath, $filemode, $dirmode);
                 }
             }
@@ -984,7 +984,7 @@ class APackageManager
         $tmp_install_dir = $tmp_dir.'/install';
         //try to create tmp dir if not yet created and install.
         if (make_writable_dir($tmp_dir) && make_writable_dir($tmp_install_dir)) {
-            $dir = $tmp_install_dir.DS;
+            $dir = $tmp_install_dir.self::DS;
         } else {
             if (!is_dir(sys_get_temp_dir().'/abantecart_install')) {
                 mkdir(sys_get_temp_dir().'/abantecart_install/', 0777);
