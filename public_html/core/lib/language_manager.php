@@ -41,7 +41,7 @@ class ALanguageManager extends Alanguage
         parent::__construct($registry, $code, $section);
         if (!IS_ADMIN) { // forbid for non admin calls
             throw new AException (
-                ERR_LOAD,
+                AC_ERR_LOAD,
                 'Error: permission denied to access class ALanguageManager'
             );
         }
@@ -387,15 +387,13 @@ class ALanguageManager extends Alanguage
      * @param string $table_name - database table name with no prefix
      * @param array $index - unique index to perform select (associative array with column name as key)
      * @param array $txt_data - text data array. Format: [language id][key] => [value]
-     *
-     * @return null
      * @throws AException
      * @throws AException
      */
     private function _do_update_descriptions($table_name, $index, $txt_data)
     {
         if (empty($table_name) || empty($index) || empty($txt_data)) {
-            return null;
+            return;
         }
 
         foreach ($txt_data as $lang_id => $lang_data) {
@@ -419,7 +417,6 @@ class ALanguageManager extends Alanguage
             $sql .= "SET ".implode(", ", $update_data)." WHERE ".implode(" AND ", $update_index);
             $this->db->query($sql);
         }
-        return null;
     }
 
     /** Perform SQL insert
@@ -428,14 +425,12 @@ class ALanguageManager extends Alanguage
      * @param array $index - unique index to perform select (associative array with column name as key)
      * @param array $txt_data - text data array. Format: [language id][key] => [value]
      *
-     * @return null
-     * @throws AException
      * @throws AException
      */
     private function _do_insert_descriptions($table_name, $index, $txt_data)
     {
         if (empty($table_name) || empty($index) || empty($txt_data)) {
-            return null;
+            return;
         }
 
         foreach ($txt_data as $lang_id => $lang_data) {
@@ -448,7 +443,6 @@ class ALanguageManager extends Alanguage
             $sql .= "(`".implode("`, `", array_keys($load_data))."`) VALUES ('".implode("', '", $load_data)."') ";
             $this->db->query($sql);
         }
-        return null;
     }
 
     /**
@@ -459,8 +453,6 @@ class ALanguageManager extends Alanguage
      * @param array $txt_data - text data array. Format: [language id][key] => [value]
      * @param array $serialized_roadmap
      *
-     * @return bool|null
-     * @throws AException
      * @throws AException
      */
     private function _do_translate_descriptions($table_name, $index, $txt_data, $serialized_roadmap = [])
@@ -471,7 +463,7 @@ class ALanguageManager extends Alanguage
         $config = $this->registry->get('config');
         //check if translation is ON
         if (!$config->get('auto_translate_status')) {
-            return null;
+            return;
         }
 
         //locate source language based on translation setting
@@ -479,7 +471,7 @@ class ALanguageManager extends Alanguage
         $src_lang_id = $this->_get_language_id($src_lang_code);
 
         if (empty($txt_data[$src_lang_id])) {
-            return false;
+            return;
         }
         //translate all active languages
         foreach ($this->getActiveLanguages() as $lang) {
@@ -497,7 +489,7 @@ class ALanguageManager extends Alanguage
             if (count($descriptions)) {
                 //updates expect only 1 row per this index
                 foreach ($descriptions[0] as $key => $value) {
-                    $txt_to_translate = isset($txt_data[$src_lang_id][$key]) ? $txt_data[$src_lang_id][$key] : '';
+                    $txt_to_translate = $txt_data[$src_lang_id][$key] ?? '';
                     //check if force override settings is enabled and skip if translation exists
                     if (($config->get('translate_override_existing') && !empty($txt_to_translate))
                         || (empty($value) && !empty($txt_to_translate))
@@ -553,7 +545,6 @@ class ALanguageManager extends Alanguage
                 $this->_do_update_descriptions($table_name, $index, $update_txt_data);
             }
         }
-        return null;
     }
 
     #### END Language Descriptions admin API Section #####
@@ -937,7 +928,7 @@ class ALanguageManager extends Alanguage
      * @return array|null
      * @throws AException
      */
-    private function _translateSerializedData(
+    protected function _translateSerializedData(
         $unserialized,
         $roadmap,
         $source_lang_code,
@@ -954,7 +945,11 @@ class ALanguageManager extends Alanguage
 
         foreach ($roadmap as $key) {
             $unserialized = $this->_translateArrayRecursive(
-                $unserialized, $key, $source_lang_code, $dest_lang_code, $translate_method
+                $unserialized,
+                $key,
+                $source_lang_code,
+                $dest_lang_code,
+                $translate_method
             );
         }
 
@@ -1017,6 +1012,7 @@ class ALanguageManager extends Alanguage
      * Get available translation methods
      *
      * @return array
+     * @throws AException
      */
     public function getTranslationMethods()
     {
@@ -1073,7 +1069,6 @@ class ALanguageManager extends Alanguage
 
         //get all fields that are translatable
         $translatable_fields = $this->getTranslatableFields($table);
-
         //Build a keys string for select
         $keys_str = '';
         $tcount = 0;
@@ -1208,7 +1203,7 @@ class ALanguageManager extends Alanguage
             $load_data = $this->cache->pull($cache_key);
         }
         if (!$load_data) {
-            $sql = "SELECT DISTINCT table_name 
+            $sql = "SELECT DISTINCT table_name as `table_name` 
                     FROM information_schema.columns 
                     WHERE column_name = 'language_id' AND table_schema='".DB_DATABASE."'";
             $load_sql = $this->db->query($sql);
@@ -1250,7 +1245,7 @@ class ALanguageManager extends Alanguage
             return $load_data;
         } else {
             $result = [];
-            $sql = "SELECT column_name
+            $sql = "SELECT `column_name` as `COLUMN_NAME` 
                     FROM information_schema.columns 
                     WHERE table_name='".$this->db->escape($table_name)."' 
                         AND column_comment='translatable'
@@ -1259,7 +1254,7 @@ class ALanguageManager extends Alanguage
             $load_data = $load_sql->rows;
             //transform to single dimension
             foreach ($load_data as $row) {
-                $result[] = $row['column_name'];
+                $result[] = $row['COLUMN_NAME'];
             }
             //save cache
             if ($this->cache) {
