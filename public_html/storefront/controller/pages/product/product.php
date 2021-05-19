@@ -301,27 +301,36 @@ class ControllerPagesProductProduct extends AController
 
         if ($discount) {
             $product_price = round($discount, $decimal_place);
-            $this->data['price_num'] = $this->tax->calculate(
-                $discount,
-                $product_info['tax_class_id'],
-                (bool) $this->config->get('config_tax')
+            $this->data['price_num'] = round(
+                $this->tax->calculate(
+                    $discount,
+                    $product_info['tax_class_id'],
+                    (bool) $this->config->get('config_tax')
+                ),
+                $decimal_place
             );
             $this->data['special'] = false;
         } else {
             $product_price = round($product_info['price'], $decimal_place);
-            $this->data['price_num'] = $this->tax->calculate(
-                $product_price,
-                $product_info['tax_class_id'],
-                (bool) $this->config->get('config_tax')
+            $this->data['price_num'] = round(
+                $this->tax->calculate(
+                    $product_info['price'],
+                    $product_info['tax_class_id'],
+                    (bool) $this->config->get('config_tax')
+                ),
+                $decimal_place
             );
 
             $special = $promotion->getProductSpecial($product_id);
             if ($special) {
                 $product_price = round($special, $decimal_place);
-                $this->data['special_num'] = $this->tax->calculate(
-                    $special,
-                    $product_info['tax_class_id'],
-                    (bool) $this->config->get('config_tax')
+                $this->data['special_num'] = round(
+                    $this->tax->calculate(
+                        $special,
+                        $product_info['tax_class_id'],
+                        (bool) $this->config->get('config_tax')
+                    ),
+                    $decimal_place
                 );
             } else {
                 $this->data['special'] = false;

@@ -1,4 +1,7 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection
+ * @noinspection PhpUndefinedClassInspection
+*/
 
 /*------------------------------------------------------------------------------
   $Id$
@@ -21,7 +24,6 @@
 if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
-/** @noinspection PhpUndefinedClassInspection */
 
 /**
  * Class ACart
@@ -349,11 +351,6 @@ class ACart
             $price = $product_query['price'];
         }
 
-        //Need to round price after discounts and specials
-        //round base currency price to 2 decimal place
-        $decimal_place = 2;
-        $price = round($price, $decimal_place);
-
         foreach ($option_data as $item) {
             if ($item['prefix'] == '%') {
                 $option_price += $price * $item['price'] / 100;
@@ -361,8 +358,6 @@ class ACart
                 $option_price += $item['price'];
             }
         }
-        //round option price to currency decimal_place setting (most common 2, but still...)
-        $option_price = round($option_price, $decimal_place);
 
         // product downloads
         $download_data = $this->download->getProductOrderDownloads($product_id);
