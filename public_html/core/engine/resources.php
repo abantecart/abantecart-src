@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /** @noinspection PhpUndefinedClassInspection */
 
 /*------------------------------------------------------------------------------
@@ -140,7 +141,7 @@ class AResource
     /**
      * @param string $path
      *
-     * @return null|number
+     * @return null|int
      * @throws AException
      * @throws AException
      */
@@ -553,26 +554,26 @@ class AResource
                     $http_path = HTTPS_DIR_RESOURCE;
                 }
 
-                $direct_url = $http_path.$this->getTypeDir().$result['resource_path'];
+                $direct_url = $http_path.$this->getTypeDir().$rsrc_info['resource_path'];
                 $res_full_path = '';
                 if ($this->getType() == 'image') {
-                    $res_full_path = DIR_RESOURCE.$this->getTypeDir().$result['resource_path'];
+                    $res_full_path = DIR_RESOURCE.$this->getTypeDir().$rsrc_info['resource_path'];
                     if ($sizes['main']) {
                         $main_url = $this->getResizedImageURL(
-                            $result,
+                            $rsrc_info,
                             $sizes['main']['width'],
                             $sizes['main']['height']
                         );
                     } else {
                         // return href for image with size as-is
-                        $main_url = $http_path.$this->getTypeDir().$result['resource_path'];
+                        $main_url = $http_path.$this->getTypeDir().$rsrc_info['resource_path'];
                         //get original image size
                         $actual_sizes = get_image_size($res_full_path);
                         $sizes['main'] = $actual_sizes;
                     }
                     if ($sizes['thumb']) {
                         $thumb_url = $this->getResizedImageURL(
-                            $result,
+                            $rsrc_info,
                             $sizes['thumb']['width'],
                             $sizes['thumb']['height']
                         );
@@ -580,7 +581,7 @@ class AResource
 
                     if (!$thumb_url && $sizes['thumb']) {
                         $thumb_url = $this->model_tool_image->resize(
-                            $result['resource_path'],
+                            $rsrc_info['resource_path'],
                             $sizes['thumb']['width'],
                             $sizes['thumb']['height']
                         );
@@ -588,14 +589,14 @@ class AResource
                     //thumb2 - big thumbnails
                     if ($sizes['thumb2']) {
                         $thumb2_url = $this->getResizedImageURL(
-                            $result,
+                            $rsrc_info,
                             $sizes['thumb2']['width'],
                             $sizes['thumb2']['height']
                         );
                     }
                     if (!$thumb2_url && $sizes['thumb2']) {
                         $thumb2_url = $this->model_tool_image->resize(
-                            $result['resource_path'],
+                            $rsrc_info['resource_path'],
                             $sizes['thumb2']['width'],
                             $sizes['thumb2']['height']
                         );
@@ -603,14 +604,14 @@ class AResource
                 } else {
                     $main_url = $direct_url;
                     $thumb_url = $this->getResizedImageURL(
-                        $result,
+                        $rsrc_info,
                         $sizes['thumb']['width'],
                         $sizes['thumb']['height']
                     );
                 }
 
                 $resources[$k] = [
-                    'resource_id'   => $result['resource_id'],
+                    'resource_id'   => $rsrc_info['resource_id'],
                     'origin'        => $origin,
                     'direct_url'    => $direct_url,
                     //set full path to original file only for images (see above)
@@ -620,7 +621,7 @@ class AResource
                     'main_height'   => $sizes['main']['height'],
                     'main_html'     => $this->html->buildResourceImage(
                         [
-                            'url'    => $http_path.'image/'.$result['resource_path'],
+                            'url'    => $http_path.'image/'.$rsrc_info['resource_path'],
                             'width'  => $sizes['main']['width'],
                             'height' => $sizes['main']['height'],
                             'attr'   => 'alt="'.addslashes($rsrc_info['title']).'"',
