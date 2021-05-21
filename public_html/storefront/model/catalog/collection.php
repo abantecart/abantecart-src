@@ -84,7 +84,7 @@ class ModelCatalogCollection extends Model
             $arWhere = [];
             $arJoins = [
                 'INNER JOIN '.$p2sTable.' ON '.$p2sTable.'.product_id='.$productsTable.'.product_id'.
-                ' AND '.$p2sTable.'.store_id='.$this->config->get('config_store_id'),
+                ' AND '.$p2sTable.'.store_id='.$store_id,
                 'LEFT JOIN '.$pdTable.' ON '.$pdTable.'.product_id='.$productsTable.'.product_id'.
                 ' AND language_id='.(int)$this->config->get('storefront_language_id'),
             ];
