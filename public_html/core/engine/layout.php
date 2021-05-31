@@ -53,6 +53,7 @@ class ALayout
      * @var int
      */
     public $page_id;
+    public $data = [];
 
     /**
      * @param     $registry Registry
@@ -240,26 +241,26 @@ class ALayout
      */
     public function getKeyParamByController($controller = '')
     {
-        $key = null;
+        $this->data['key'] = null;
         switch ($controller) {
             case 'pages/product/product':
-                $key = 'product_id';
+                $this->data['key'] = 'product_id';
                 break;
             case 'pages/product/manufacturer':
-                $key = 'manufacturer_id';
+                $this->data['key'] = 'manufacturer_id';
                 break;
             case 'pages/product/category':
-                $key = 'path';
+                $this->data['key'] = 'path';
                 break;
             case 'pages/content/content':
-                $key = 'content_id';
+                $this->data['key'] = 'content_id';
                 break;
             default:
-                $key = '';
+                $this->data['key'] = '';
                 break;
         }
-        $this->extensions->hk_ProcessData($this,__METHOD__,func_get_args());
-        return $key;
+        $this->extensions->hk_ProcessData($this,__FUNCTION__,func_get_args());
+        return $this->data['key'];
     }
 
     /**
