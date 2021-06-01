@@ -305,6 +305,8 @@ class ControllerPagesSaleContact extends AController
             );
         }
         if($this->data['protocol'] == 'email') {
+            $this->load->model('setting/setting');
+            $storeSettings = $this->model_setting_setting->getSetting('details',$this->data['store_id']);
             $this->data['form']['fields']['message'] = $form->getFieldHtml(
                 [
                     'type'        => 'texteditor',
@@ -313,6 +315,7 @@ class ControllerPagesSaleContact extends AController
                     'style'       => 'ml_ckeditor',
                     'required'    => true,
                     'preview'     => false,
+                    'base_url'    => $storeSettings['config_ssl_url'] ?: $storeSettings['config_url'],
                     'preview_url' => $this->html->getSecureURL('r/design/email_template_preview')
                 ]
             );
