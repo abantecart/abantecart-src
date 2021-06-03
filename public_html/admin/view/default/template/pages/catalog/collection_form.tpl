@@ -164,54 +164,61 @@
 
 <script type="text/javascript">
 
-	$(document).ready(function () {
-		$('.chosen-container-multi, .chosen-container-single').css('width', '30%');
-	});
+    $(document).ready(function () {
+        $('.chosen-container-multi, .chosen-container-single').css('width', '30%');
+    });
 
-	var idx = $('#conditions_list div.form-group').length + 1;
-	$('#add_condition').click(function () {
-		if ($('#collectionsFrm_condition_object').val() == '0' ||
-			$('#' + $('#collectionsFrm_condition_object').val()).length > 0) {
-			return null;
-		}
+    var idx = $('#conditions_list div.form-group').length + 1;
+    $('#add_condition').click(function () {
+        if ($('#collectionsFrm_condition_object').val() == '0' ||
+            $('#' + $('#collectionsFrm_condition_object').val()).length > 0) {
+            return null;
+        }
 
-		$.ajax({
-			url: '<?php echo $condition_url; ?>',
-			type: 'POST',
-			dataType: 'json',
-			data: {'condition_object': $('#collectionsFrm_condition_object').val(), 'idx': idx},
-			success: function (data) {
-				$('#conditions_list').append('<div class="form-group"><label class="control-label col-sm-3 col-xs-12">' + data.text + '</label><div class="form-inline">' + data.fields + '&nbsp;<a class="btn btn-danger remove_cond" data-confirmation="delete" onclick="removeCondition(this);"><i class="fa fa-minus"></i></a></div></div>');
-				$("#collectionsFrm").attr('changed', 'true');
-				idx++;
+        $.ajax({
+            url: '<?php echo $condition_url; ?>',
+            type: 'POST',
+            dataType: 'json',
+            data: {'condition_object': $('#collectionsFrm_condition_object').val(), 'idx': idx},
+            success: function (data) {
+                $('#conditions_list').append(
+                    '<div class="form-group">' +
+                    '<label class="control-label col-sm-3 col-xs-12">' + data.text + '</label>' +
+                    '<div class="form-inline col-sm-7">' + data.fields +
+                    '&nbsp;<a class="btn btn-danger remove_cond" ' +
+                    'data-confirmation="delete" onclick="removeCondition(this);">' +
+                    '<i class="fa fa-minus"></i></a></div></div>'
+                );
+                $("#collectionsFrm").attr('changed', 'true');
+                idx++;
 
-				$('#collectionsFrm_condition_object').val(0).change();
+                $('#collectionsFrm_condition_object').val(0).change();
 
-				$('.chosen-container-multi, .chosen-container-single').css('width', '30%');
-			}
-		});
-	});
+                $('.chosen-container-multi, .chosen-container-single').css('width', '30%');
+            }
+        });
+    });
 
-	var removeCondition = function (elm) {
-		$(elm).parents('.form-group').remove();
-		$("#collectionsFrm").attr('changed', 'true');
-	}
+    var removeCondition = function (elm) {
+        $(elm).parents('.form-group').remove();
+        $("#collectionsFrm").attr('changed', 'true');
+    }
 
-	$(document).ready(function(){
-		$('#collectionsFrm_generate_seo_keyword').click(function(){
-			var seo_name = $('#collectionsFrm_name').val().replace('%','');
-			$.get('<?php echo $generate_seo_url;?>&seo_name='+seo_name, function(data){
-				$('#collectionsFrm_keyword').val(data).change();
-			});
-		});
+    $(document).ready(function () {
+        $('#collectionsFrm_generate_seo_keyword').click(function () {
+            var seo_name = $('#collectionsFrm_name').val().replace('%', '');
+            $.get('<?php echo $generate_seo_url;?>&seo_name=' + seo_name, function (data) {
+                $('#collectionsFrm_keyword').val(data).change();
+            });
+        });
 
-		$('.common_content_actions.pull-right .btn.btn-default.dropdown-toggle.tooltips').attr('disabled', 'disabled');
+        $('.common_content_actions.pull-right .btn.btn-default.dropdown-toggle.tooltips').attr('disabled', 'disabled');
 
-		$('[name^=conditions]').on('keypress',function(e) {
-			if(e.which == 13) {
-				$('#collectionsFrm').submit()
-			}
-		});
-	});
+        $('[name^=conditions]').on('keypress', function (e) {
+            if (e.which == 13) {
+                $('#collectionsFrm').submit()
+            }
+        });
+    });
 
 </script>
