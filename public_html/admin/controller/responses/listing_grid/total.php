@@ -92,21 +92,31 @@ class ControllerResponsesListingGridTotal extends AController
 
         $items = [];
         if ($extensions) {
+            $readOnly = [
+                'balance' => 999,
+                'total' => 1000
+            ];
             foreach ($extensions as $extension) {
                 $this->loadLanguage($extension['language_rt']);
-                if ($extension['extension_txt_id'] == 'balance') {
-                    $sort_order = 999;
-                    $calc_order = 999;
+                if( in_array($extension['extension_txt_id'], array_keys($readOnly))){
+                    $sort_order = $calc_order = $readOnly[$extension['extension_txt_id']];
                     $readonly = true;
-                } elseif ($extension['extension_txt_id'] == 'total') {
-                    $sort_order = 1000;
-                    $calc_order = 1000;
-                    $readonly = true;
+                    if((int) $this->config->get($extension['extension_txt_id'].'_sort_order') != $sort_order){
+                        $this->loadModel('setting/setting');
+                        $this->model_setting_setting->editSetting(
+                            $extension['extension_txt_id'],
+                            [
+                                $extension['extension_txt_id'].'_sort_order' => $sort_order,
+                                $extension['extension_txt_id'].'_calculation_order' => $sort_order
+                            ]
+                        );
+                    }
                 } else {
                     $sort_order = (int) $this->config->get($extension['extension_txt_id'].'_sort_order');
                     $calc_order = (int) $this->config->get($extension['extension_txt_id'].'_calculation_order');
                     $readonly = false;
                 }
+
                 $items[] = [
                     'id'                => $extension['extension_txt_id'],
                     'name'              => $this->language->get('total_name'),
@@ -120,8 +130,18 @@ class ControllerResponsesListingGridTotal extends AController
         }
 
         //sort
-        $allowedSort = ['name', 'status', 'sort_order', 'calculation_order'];
-        $allowedDirection = [SORT_ASC => 'asc', SORT_DESC => 'desc'];
+        $allowedSort = [
+            'name',
+            'status',
+            'sort_order',
+            'calculation_order'
+        ];
+
+        $allowedDirection = [
+            SORT_ASC => 'asc',
+            SORT_DESC => 'desc'
+        ];
+
         if (!in_array($sidx, $allowedSort)) {
             $sidx = $allowedSort[0];
         }
