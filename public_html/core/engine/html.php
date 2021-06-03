@@ -2311,7 +2311,7 @@ class EmailHtmlElement extends HtmlElement
             [
                 'name'           => $this->name,
                 'id'             => $this->element_id,
-                'type'           => 'text',
+                'type'           => 'email',
                 'value'          => str_replace('"', '&quot;', $this->value),
                 'default'        => $this->default,
                 //TODO: remove deprecated attribute aform_field_type
@@ -2337,6 +2337,8 @@ class EmailHtmlElement extends HtmlElement
  * @property string $element_id
  * @property string $name
  * @property string $value
+ * @property int $min
+ * @property int $max
  * @property string $default
  * @property string $style
  * @property string $attr
@@ -2364,8 +2366,10 @@ class NumberHtmlElement extends HtmlElement
             [
                 'name'           => $this->name,
                 'id'             => $this->element_id,
-                'type'           => 'text',
+                'type'           => 'number',
                 'value'          => str_replace('"', '&quot;', $this->value),
+                'min'            => $this->min,
+                'max'            => $this->max,
                 'default'        => $this->default,
                 //TODO: remove deprecated attribute aform_field_type
                 'attr'           => 'aform_field_type="number" '.$this->attr.' data-aform-field-type="captcha"',
