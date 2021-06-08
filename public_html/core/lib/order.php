@@ -356,7 +356,6 @@ class AOrder
                 'stock'      => $product['stock'],
             ];
         }
-$this->registry->get('log')->write(var_export($this->cart->getVirtualProducts(), true));
         $order_info['products'] = $product_data;
         $order_info['totals'] = $total_data;
         $order_info['comment'] = $indata['comment'];
