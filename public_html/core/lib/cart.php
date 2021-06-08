@@ -871,7 +871,7 @@ class ACart
         $total = 0.0;
 
         //if cart is empty, nothing to do.
-        if (!$this->getProducts()) {
+        if (!$this->hasProducts()) {
             return $total;
         }
 

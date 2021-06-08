@@ -131,8 +131,8 @@ class ControllerPagesAccountOrderDetails extends AController
         if ($order_info) {
             $this->data['order_id'] = $order_id;
             $this->data['invoice_id'] = $order_info['invoice_id']
-                    ? $order_info['invoice_prefix'].$order_info['invoice_id']
-                    : '';
+                ? $order_info['invoice_prefix'].$order_info['invoice_id']
+                : '';
 
             $this->data['email'] = $order_info['email'];
             $this->data['telephone'] = $order_info['telephone'];
@@ -260,26 +260,29 @@ class ControllerPagesAccountOrderDetails extends AController
                 }
 
                 $products[] = [
-                    'id'        => $product['product_id'],
-                    'thumbnail' => $thumbnail,
-                    'name'      => $product['name'],
-                    'model'     => $product['model'],
-                    'option'    => $option_data,
-                    'quantity'  => $product['quantity'],
-                    'price'     => $this->currency->format(
-                        $product['price'], $order_info['currency'],
-                        $order_info['value']
-                    ),
-                    'total'     => $this->currency->format(
-                        $product['total'], $order_info['currency'],
-                        $order_info['value']
-                    ),
+                    'id'               => (int) $product['product_id'],
+                    'order_product_id' => (int) $product['order_product_id'],
+                    'thumbnail'        => $thumbnail,
+                    'name'             => $product['name'],
+                    'model'            => $product['model'],
+                    'option'           => $option_data,
+                    'quantity'         => $product['quantity'],
+                    'price'            => $this->currency->format(
+                                                                    $product['price'],
+                                                                    $order_info['currency'],
+                                                                    $order_info['value']
+                                                                ),
+                    'total'            => $this->currency->format(
+                                                                    $product['total'],
+                                                                    $order_info['currency'],
+                                                                    $order_info['value']
+                                                                ),
+                    'url'              => $this->html->getSEOURL('product/product', '&product_id='.$product['product_id'])
                 ];
             }
             $this->data['products'] = $products;
             $this->data['totals'] = $this->model_account_order->getOrderTotals($order_id);
             $this->data['comment'] = $order_info['comment'];
-            $this->data['product_link'] = $this->html->getSecureURL('product/product', '&product_id=%ID%');
 
             $histories = [];
             $results = $this->model_account_order->getOrderHistories($order_id);
@@ -419,7 +422,7 @@ class ControllerPagesAccountOrderDetails extends AController
 
         foreach ($customer_downloads as $download_info) {
             $text_status = $this->download->getTextStatusForOrderDownload($download_info);
-            if(is_numeric($download_info['filename'])){
+            if (is_numeric($download_info['filename'])) {
                 $rl = new AResource('download');
                 $resource = $rl->getResource($download_info['filename']);
                 $download_info['filename'] = $rl->getTypeDir().$resource['resource_path'];

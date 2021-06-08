@@ -150,6 +150,32 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
             ];
         }
 
+        //check for virtual product such as gift certificate, account credit etc
+        $virtual_products = $this->cart->getVirtualProducts();
+        if ($virtual_products) {
+            foreach ($virtual_products as $virtual) {
+                $products[] = [
+                    'name'     => ($virtual['name'] ? : 'Virtual Product'),
+                    'model'    => $virtual['model'],
+                    'price'    => $this->currency->format(
+                                        $virtual['amount'],
+                                        $this->currency->getCode(),
+                                  ),
+                    'quantity' => ($virtual['quantity'] ? : 1),
+                    'option'   => [],
+                    'weight'   => (float)$virtual['weight'],
+                    'thumbnail'   => $virtual['thumbnail']
+                ];
+                $this->data['items_total'] += ($virtual['quantity'] ? : 1)
+                    * $this->currency->format(
+                        $virtual['amount'],
+                        $this->currency->getCode(),
+                        '',
+                        false
+                    );
+            }
+        }
+
         $this->data['products'] = $products;
         $display_totals = $this->cart->buildTotalDisplay(true);
 

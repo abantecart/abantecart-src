@@ -82,8 +82,8 @@
 			<?php foreach ($products as $product) { ?>
 				<tr>
 					<td align="left" valign="top"><?php echo $product['thumbnail']['thumb_html']; ?></td>
-					<td class="align_left  valign_top"><a
-								href="<?php echo str_replace('%ID%', $product['id'], $product_link) ?>"><?php echo $product['name']; ?></a>
+					<td class="align_left  valign_top">
+                        <a href="<?php echo $product['url']; ?>"><?php echo $product['name']; ?></a>
 						<?php foreach ($product['option'] as $option) { ?>
 							<br/>
 							&nbsp;

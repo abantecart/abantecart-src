@@ -206,7 +206,7 @@ class ABackup
             //then try to get table data by pagination.
             // to split data by pages use range of values of column that have PRIMARY KEY. NOT LIMIT-OFFSET!!!
             // 1. - get column name with primary key and data type integer
-            $sql = "SELECT COLUMN_NAME
+            $sql = "SELECT COLUMN_NAME as `COLUMN_NAME`
                     FROM information_schema.COLUMNS c
                     WHERE c.`TABLE_SCHEMA` = '".DB_DATABASE."'
                         AND c.`TABLE_NAME` = '".$table_name."'

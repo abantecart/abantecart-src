@@ -339,7 +339,7 @@ class AOrder
 
         $product_data = [];
 
-        foreach ($this->cart->getProducts() as $key => $product) {
+        foreach ($this->cart->getProducts() + $this->cart->getVirtualProducts() as $key => $product) {
             $product_data[] = [
                 'key'        => $key,
                 'product_id' => $product['product_id'],

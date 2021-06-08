@@ -693,7 +693,7 @@ class ControllerResponsesCheckoutPay extends AController
         $qty = 0;
         $resource = new AResource('image');
         $products = [];
-        foreach ($this->cart->getProducts() as $result) {
+        foreach ($this->cart->getProducts()  as $result) {
             $option_data = [];
 
             foreach ($result['option'] as $option) {
@@ -748,10 +748,36 @@ class ControllerResponsesCheckoutPay extends AController
                 'href'      => $this->html->getSEOURL('product/product', '&product_id='.$result['product_id'], true),
             ];
         }
+
+        //check for virtual product such as gift certificate, account credit etc
+        $virtual_products = $this->cart->getVirtualProducts();
+        if ($virtual_products) {
+            foreach ($virtual_products as $virtual) {
+                $products[] = [
+                    'name'     => ($virtual['name'] ? : 'Virtual Product'),
+                    'model'    => $virtual['model'],
+                    'price'    => $this->currency->format(
+                                        $virtual['amount'],
+                                        $this->currency->getCode(),
+                                  ),
+                    'quantity' => ($virtual['quantity'] ? : 1),
+                    'option'   => [],
+                    'weight'   => (float)$virtual['weight'],
+                    'thumbnail' => $virtual['thumbnail'],
+                ];
+                $this->data['items_total'] += ($virtual['quantity'] ? : 1)
+                    * $this->currency->format(
+                        $virtual['amount'],
+                        $this->currency->getCode(),
+                        '',
+                        false
+                    );
+            }
+        }
+
         $this->data['products'] = $products;
 
         $display_totals = $this->cart->buildTotalDisplay(true);
-
         $this->data['totals'] = $display_totals['total_data'];
         $this->data['total'] = $display_totals['total'];
         $this->data['total_string'] = $this->currency->format($display_totals['total']);
