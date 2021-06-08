@@ -349,13 +349,14 @@ class AOrder
                 'option'     => $product['option'],
                 'download'   => $product['download'],
                 'quantity'   => $product['quantity'],
-                'price'      => $product['price'],
-                'total'      => $product['total'],
+                //ternary for virtual products
+                'price'      => $product['amount'] ?: $product['price'],
+                'total'      => $product['amount'] ? ($product['amount']*$product['quantity']) : $product['total'],
                 'tax'        => $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']),
                 'stock'      => $product['stock'],
             ];
         }
-
+$this->registry->get('log')->write(var_export($this->cart->getVirtualProducts(), true));
         $order_info['products'] = $product_data;
         $order_info['totals'] = $total_data;
         $order_info['comment'] = $indata['comment'];
