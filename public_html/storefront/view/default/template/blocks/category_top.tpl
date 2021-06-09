@@ -76,6 +76,7 @@
     				</li>
     			<?php } ?>
     		<?php } ?>
+			<?php echo $this->getHookVar('categories_additional_info'); ?>
     	</ul>
     </nav>
 </section>
