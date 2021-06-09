@@ -68,17 +68,17 @@ class ControllerResponsesListingGridBannerManager extends AController
         $response->total = $total_pages;
         $response->records = $total;
 
-        $ids = array();
-        foreach ($results as $result) {
-            $ids[] = (int)$result['banner_id'];
-        }
+        $ids = array_column($results, 'banner_id');
+
         $resource = new AResource('image');
-        $thumbnails = $resource->getMainThumbList(
-            'banners',
-            $ids,
-            $this->config->get('config_image_grid_width'),
-            $this->config->get('config_image_grid_height')
-        );
+        $thumbnails = $ids
+            ? $resource->getMainThumbList(
+                'banners',
+                $ids,
+                $this->config->get('config_image_grid_width'),
+                $this->config->get('config_image_grid_height')
+            )
+            : [];
 
         $i = 0;
         foreach ($results as $result) {
@@ -388,12 +388,14 @@ class ControllerResponsesListingGridBannerManager extends AController
             }
         }
         $resource = new AResource('image');
-        $thumbnails = $resource->getMainThumbList(
-            'banners',
-            $ids,
-            27,
-            27
-        );
+        $thumbnails = $ids
+            ? $resource->getMainThumbList(
+                'banners',
+                $ids,
+                $this->config->get('config_image_grid_width'),
+                $this->config->get('config_image_grid_height')
+            )
+            : [];
 
         $i = 0;
         foreach ($results as $result) {
@@ -403,8 +405,12 @@ class ControllerResponsesListingGridBannerManager extends AController
             }
 
             $action = '<a class="btn_action" href="JavaScript:void(0);"
-						onclick="showPopup(\''.$this->html->getSecureURL('extension/banner_manager/edit', '&banner_id='.$result['banner_id']).'\')" title="'.$this->language->get('text_view').'">'.
-                '<img height="27" src="'.RDIR_TEMPLATE.'image/icons/icon_grid_view.png" alt="'.$this->language->get('text_edit').'" /></a>';
+                        onclick="showPopup(\''
+                            .$this->html->getSecureURL('extension/banner_manager/edit', '&banner_id='.$result['banner_id']).'\')" 
+                        title="'.$this->language->get('text_view').'">'.
+                '<img height="'.$this->config->get('config_image_grid_height').'" 
+                    src="'.RDIR_TEMPLATE.'image/icons/icon_grid_view.png" 
+                    alt="'.$this->language->get('text_edit').'" /></a>';
 
             $response->rows[$i]['id'] = $result['banner_id'];
             if ($result['banner_type'] == 1) {
@@ -454,22 +460,21 @@ class ControllerResponsesListingGridBannerManager extends AController
             );
             $banners = $this->model_extension_banner_manager->getBanners($filter);
 
-            $ids = array();
-            foreach ($banners as $result) {
-                $ids[] = (int)$result['banner_id'];
-            }
+            $ids = array_column($banners, 'banner_id');
             $resource = new AResource('image');
-            $thumbnails = $resource->getMainThumbList(
-                'banners',
-                $ids,
-                $this->config->get('config_image_grid_width'),
-                $this->config->get('config_image_grid_height'),
-                false
-            );
+            $thumbnails = $ids
+                ? $resource->getMainThumbList(
+                    'banners',
+                    $ids,
+                    $this->config->get('config_image_grid_width'),
+                    $this->config->get('config_image_grid_height'),
+                    false
+                )
+                : [];
 
             foreach ($banners as $banner) {
                 $thumbnail = $thumbnails[$banner['banner_id']];
-                $icon = $thumbnail['thumb_html'] ? $thumbnail['thumb_html'] : '<i class="fa fa-code fa-4x"></i>&nbsp;';
+                $icon = $thumbnail['thumb_html'] ? : '<i class="fa fa-code fa-4x"></i>&nbsp;';
 
                 $banners_data[] = array(
                     'image'      => $icon,

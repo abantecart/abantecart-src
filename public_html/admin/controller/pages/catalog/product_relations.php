@@ -197,12 +197,14 @@ class ControllerPagesCatalogProductRelations extends AController
 
             //get thumbnails by one pass
             $resource = new AResource('image');
-            $thumbnails = $resource->getMainThumbList(
-                'products',
-                $product_ids,
-                $this->config->get('config_image_grid_width'),
-                $this->config->get('config_image_grid_height')
-            );
+            $thumbnails = $product_ids
+                ? $resource->getMainThumbList(
+                                            'products',
+                                            $product_ids,
+                                            $this->config->get('config_image_grid_width'),
+                                            $this->config->get('config_image_grid_height')
+                                        )
+                : [];
 
             foreach ($results as $r) {
                 $thumbnail = $thumbnails[$r['product_id']];

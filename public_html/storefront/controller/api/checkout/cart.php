@@ -134,18 +134,17 @@ class ControllerApiCheckoutCart extends AControllerAPI
             $products = array();
             $cart_products = $this->cart->getProducts();
 
-            $product_ids = array();
-            foreach ($cart_products as $result) {
-                $product_ids[] = (int)$result['product_id'];
-            }
+            $product_ids = array_column($cart_products,'product_id');
 
             $resource = new AResource('image');
-            $thumbnails = $resource->getMainThumbList(
-                'products',
-                $product_ids,
-                $this->config->get('config_image_cart_width'),
-                $this->config->get('config_image_cart_height')
-            );
+            $thumbnails = $product_ids
+                ? $resource->getMainThumbList(
+                    'products',
+                    $product_ids,
+                    $this->config->get('config_image_cart_width'),
+                    $this->config->get('config_image_cart_height')
+                )
+                : [];
 
             if (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout')) {
                 $this->data['error_warning'] = $this->language->get('error_stock');

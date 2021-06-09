@@ -123,8 +123,10 @@ class ControllerPagesCheckoutCart extends AController
                                 foreach ($this->request->files['option']['name'] as $id => $name) {
                                     $attribute_data = $this->model_catalog_product->getProductOption($product_id, $id);
                                     $attribute_data['settings'] = unserialize($attribute_data['settings']);
-                                    $file_path_info =
-                                        $fm->getUploadFilePath($attribute_data['settings']['directory'], $name);
+                                    $file_path_info = $fm->getUploadFilePath(
+                                        $attribute_data['settings']['directory'],
+                                        $name
+                                    );
 
                                     $options[$id] = $file_path_info['name'];
 
@@ -154,9 +156,9 @@ class ControllerPagesCheckoutCart extends AController
                                         redirect($_SERVER['HTTP_REFERER']);
                                     } else {
                                         $result = move_uploaded_file($file_data['tmp_name'], $file_path_info['path']);
-
                                         if (!$result || $this->request->files['package_file']['error']) {
-                                            $this->session->data['error'] .= '<br>Error: '.getTextUploadError(
+                                            $this->session->data['error'] .= '<br>Error: '
+                                                .getTextUploadError(
                                                     $this->request->files['option']['error'][$id]
                                                 );
                                             redirect($_SERVER['HTTP_REFERER']);
@@ -178,7 +180,7 @@ class ControllerPagesCheckoutCart extends AController
                             }
 
                             if (
-                                $text_errors = $this->model_catalog_product->validateProductOptions($product_id, $options)
+                            $text_errors = $this->model_catalog_product->validateProductOptions($product_id, $options)
                             ) {
                                 $this->session->data['error'] = $text_errors;
                                 //send options values back via _GET
@@ -263,18 +265,17 @@ class ControllerPagesCheckoutCart extends AController
 
             $cart_products = $this->cart->getProducts();
 
-            $product_ids = [];
-            foreach ($cart_products as $result) {
-                $product_ids[] = (int) $result['product_id'];
-            }
+            $product_ids = array_column($cart_products, 'product_id');
 
             $resource = new AResource('image');
-            $thumbnails = $resource->getMainThumbList(
-                'products',
-                $product_ids,
-                $this->config->get('config_image_cart_width'),
-                $this->config->get('config_image_cart_height')
-            );
+            $thumbnails = $product_ids
+                ? $resource->getMainThumbList(
+                    'products',
+                    $product_ids,
+                    $this->config->get('config_image_cart_width'),
+                    $this->config->get('config_image_cart_height')
+                )
+                : [];
 
             $products = [];
             foreach ($cart_products as $result) {
@@ -338,8 +339,11 @@ class ControllerPagesCheckoutCart extends AController
                     }
                 }
 
-                $price_with_tax =
-                    $this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'));
+                $price_with_tax = $this->tax->calculate(
+                    $result['price'],
+                    $result['tax_class_id'],
+                    $this->config->get('config_tax')
+                );
 
                 $products[] = [
                     'remove'       => $form->getFieldHtml(
@@ -428,13 +432,17 @@ class ControllerPagesCheckoutCart extends AController
             $cf_total_max = $this->config->get('total_order_maximum');
             if (!$this->cart->hasMinRequirement()) {
                 $this->data['form']['checkout'] = '';
-                $error_msg[] =
-                    sprintf($this->language->get('error_order_minimum'), $this->currency->format($cf_total_min));
+                $error_msg[] = sprintf(
+                    $this->language->get('error_order_minimum'),
+                    $this->currency->format($cf_total_min)
+                );
             }
             if (!$this->cart->hasMaxRequirement()) {
                 $this->data['form']['checkout'] = '';
-                $error_msg[] =
-                    sprintf($this->language->get('error_order_maximum'), $this->currency->format($cf_total_max));
+                $error_msg[] = sprintf(
+                    $this->language->get('error_order_maximum'),
+                    $this->currency->format($cf_total_max)
+                );
             }
 
             //prepare coupon display
@@ -463,8 +471,9 @@ class ControllerPagesCheckoutCart extends AController
             $zone_data = [];
             if ($this->session->data['shipping_address_id']) {
                 $this->loadModel('account/address', 'storefront');
-                $shipping_address =
-                    $this->model_account_address->getAddress($this->session->data['shipping_address_id']);
+                $shipping_address = $this->model_account_address->getAddress(
+                    $this->session->data['shipping_address_id']
+                );
                 $postcode = $shipping_address['postcode'];
                 $country_id = $shipping_address['country_id'];
                 $zone_id = $shipping_address['zone_id'];
@@ -557,7 +566,7 @@ class ControllerPagesCheckoutCart extends AController
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 
-    private function _validateCoupon()
+    protected function _validateCoupon()
     {
         $promotion = new APromotion();
         $coupon = $promotion->getCouponData($this->request->post['coupon']);
@@ -567,11 +576,7 @@ class ControllerPagesCheckoutCart extends AController
 
         $this->extensions->hk_ValidateData($this);
 
-        if (!$this->error) {
-            return true;
-        } else {
-            return false;
-        }
+        return (!$this->error);
     }
 
     public function reapplyBalance()
@@ -610,7 +615,7 @@ class ControllerPagesCheckoutCart extends AController
         }
     }
 
-    private function _unset_methods_data_in_session()
+    protected function _unset_methods_data_in_session()
     {
         unset(
             $this->session->data['shipping_methods'],

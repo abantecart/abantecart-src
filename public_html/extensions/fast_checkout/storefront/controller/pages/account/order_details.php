@@ -180,21 +180,19 @@ class ControllerPagesAccountOrderDetails extends AController
 
             $products = [];
             $order_products = $this->model_account_order->getOrderProducts($order_id);
-
-            $product_ids = [];
-            foreach ($order_products as $product) {
-                $product_ids[] = (int) $product['product_id'];
-            }
+            $product_ids = array_column($order_products, 'product_id');
 
             //get thumbnails by one pass
             $resource = new AResource('image');
-            $thumbnails = $resource->getMainThumbList(
-                'products',
-                $product_ids,
-                $this->config->get('config_image_cart_width'),
-                $this->config->get('config_image_cart_width'),
-                false
-            );
+            $thumbnails = $product_ids
+                ? $resource->getMainThumbList(
+                    'products',
+                    $product_ids,
+                    $this->config->get('config_image_cart_width'),
+                    $this->config->get('config_image_cart_width'),
+                    false
+                )
+            : [];
 
             foreach ($order_products as $product) {
                 $options = $this->model_account_order->getOrderOptions($order_id, $product['order_product_id']);

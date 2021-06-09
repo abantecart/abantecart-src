@@ -1,11 +1,12 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,12 +24,10 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesCheckoutConfirm extends AController
 {
-    private $error = array();
-    public $data = array();
+    public $error = [];
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -56,7 +55,6 @@ class ControllerPagesCheckoutConfirm extends AController
 
         if (!$this->customer->isLogged()) {
             $this->session->data['redirect'] = $this->html->getSecureURL($checkout_rt);
-
             redirect($this->html->getSecureURL($login_rt));
         }
 
@@ -74,7 +72,6 @@ class ControllerPagesCheckoutConfirm extends AController
             unset($this->session->data['shipping_methods']);
 
             $this->tax->setZone($this->session->data['country_id'], $this->session->data['zone_id']);
-
         }
 
         if (!isset($this->session->data['payment_address_id']) || !$this->session->data['payment_address_id']) {
@@ -88,7 +85,7 @@ class ControllerPagesCheckoutConfirm extends AController
         if ($this->request->get['balance'] == 'disapply') {
             unset($this->session->data['used_balance'], $this->request->get['balance'], $this->session->data['used_balance_full']);
         }
-        $this->data = array();
+        $this->data = [];
 
         $order = new AOrder($this->registry);
         $this->data = $order->buildOrderData($this->session->data);
@@ -97,7 +94,7 @@ class ControllerPagesCheckoutConfirm extends AController
             // preventing rebuilding order of already processed orders
             //(by "back" button via browser history from external payment page(paypal, google_checkout etc))
             redirect($this->html->getSecureURL($success_rt));
-        }elseif($order_id===null){
+        } elseif ($order_id === null) {
             $error_text = 'Cannot to create order on confirmation page based on session data';
             $this->log->write($error_text."\n Session Data:\n".var_export($this->session->data, true));
             throw new AException(AC_ERR_REQUIREMENTS, $error_text);
@@ -108,37 +105,47 @@ class ControllerPagesCheckoutConfirm extends AController
 
         $this->document->resetBreadcrumbs();
 
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getHomeURL(),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
-        ));
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getHomeURL(),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
+            ]
+        );
 
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL($cart_rt),
-            'text'      => $this->language->get('text_basket'),
-            'separator' => $this->language->get('text_separator'),
-        ));
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL($cart_rt),
+                'text'      => $this->language->get('text_basket'),
+                'separator' => $this->language->get('text_separator'),
+            ]
+        );
 
         if ($this->cart->hasShipping()) {
-            $this->document->addBreadcrumb(array(
-                'href'      => $this->html->getSecureURL($checkout_rt),
-                'text'      => $this->language->get('text_shipping'),
-                'separator' => $this->language->get('text_separator'),
-            ));
+            $this->document->addBreadcrumb(
+                [
+                    'href'      => $this->html->getSecureURL($checkout_rt),
+                    'text'      => $this->language->get('text_shipping'),
+                    'separator' => $this->language->get('text_separator'),
+                ]
+            );
         }
 
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL($payment_rt, '&mode=edit', true),
-            'text'      => $this->language->get('text_payment'),
-            'separator' => $this->language->get('text_separator'),
-        ));
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL($payment_rt, '&mode=edit', true),
+                'text'      => $this->language->get('text_payment'),
+                'separator' => $this->language->get('text_separator'),
+            ]
+        );
 
-        $this->document->addBreadcrumb(array(
-            'href'      => $this->html->getSecureURL($confirm_rt),
-            'text'      => $this->language->get('text_confirm'),
-            'separator' => $this->language->get('text_separator'),
-        ));
+        $this->document->addBreadcrumb(
+            [
+                'href'      => $this->html->getSecureURL($confirm_rt),
+                'text'      => $this->language->get('text_confirm'),
+                'separator' => $this->language->get('text_separator'),
+            ]
+        );
 
         $this->data['error_warning'] = $this->error['warning'];
         $this->data['success'] = $this->session->data['success'];
@@ -148,29 +155,43 @@ class ControllerPagesCheckoutConfirm extends AController
 
         //balance
         $balance_def_currency = $this->customer->getBalance();
-        $balance = $this->currency->convert($balance_def_currency, $this->config->get('config_currency'), $this->session->data['currency']);
+        $balance = $this->currency->convert(
+            $balance_def_currency, $this->config->get('config_currency'), $this->session->data['currency']
+        );
 
-        if ($balance != 0 || ($balance == 0 && $this->config->get('config_zero_customer_balance')) && (float)$this->session->data['used_balance'] != 0) {
-            $this->data['balance'] = $this->language->get('text_balance_checkout').' '.$this->currency->format($balance, $this->session->data['currency'], 1);
-            if ((float)$this->session->data['used_balance'] > 0) {
-                $this->data['disapply_balance'] = array(
+        if ($balance != 0
+                || ($balance == 0 && $this->config->get('config_zero_customer_balance'))
+                && (float) $this->session->data['used_balance'] != 0
+        ) {
+            $this->data['balance'] = $this->language->get('text_balance_checkout')
+                .' '
+                .$this->currency->format($balance, $this->session->data['currency'], 1);
+            if ((float) $this->session->data['used_balance'] > 0) {
+                $this->data['disapply_balance'] = [
                     'href' => $this->html->getSecureURL($payment_rt, '&mode=edit&balance=disapply', true),
                     'text' => $this->language->get('button_disapply_balance'),
-                );
-                $this->data['balance'] .= ' ('.$this->currency->format($balance_def_currency - (float)$this->session->data['used_balance']).')';
-                $this->data['balance'] .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$this->currency->format((float)$this->session->data['used_balance']).' '.$this->language->get('text_applied_balance');
-            } elseif ((float)$this->session->data['used_balance'] == 0 && $balance > 0) {
-                $this->data['disapply_balance'] = array(
+                ];
+                $this->data['balance'] .= ' ('.$this->currency->format(
+                        $balance_def_currency - (float) $this->session->data['used_balance']
+                    ).')';
+                $this->data['balance'] .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$this->currency->format(
+                        (float) $this->session->data['used_balance']
+                    ).' '.$this->language->get('text_applied_balance');
+            } elseif ((float) $this->session->data['used_balance'] == 0 && $balance > 0) {
+                $this->data['disapply_balance'] = [
                     'href' => $this->html->getSecureURL($payment_rt, '&mode=edit&balance=apply', true),
                     'text' => $this->language->get('button_apply_balance'),
-                );
+                ];
             }
         }
 
         $this->loadModel('account/address');
         $shipping_address = $this->model_account_address->getAddress($this->session->data['shipping_address_id']);
         if ($this->cart->hasShipping()) {
-            $this->data['shipping_address'] = $this->customer->getFormattedAddress($shipping_address, $shipping_address['address_format']);
+            $this->data['shipping_address'] = $this->customer->getFormattedAddress(
+                $shipping_address,
+                $shipping_address['address_format']
+            );
         } else {
             $this->data['shipping_address'] = '';
         }
@@ -182,7 +203,10 @@ class ControllerPagesCheckoutConfirm extends AController
 
         $payment_address = $this->model_account_address->getAddress($this->session->data['payment_address_id']);
         if ($payment_address) {
-            $this->data['payment_address'] = $this->customer->getFormattedAddress($payment_address, $payment_address['address_format']);
+            $this->data['payment_address'] = $this->customer->getFormattedAddress(
+                $payment_address,
+                $payment_address['address_format']
+            );
         } else {
             $this->data['payment_address'] = '';
         }
@@ -198,27 +222,25 @@ class ControllerPagesCheckoutConfirm extends AController
         $this->loadModel('tool/seo_url');
         $this->loadModel('tool/image');
 
-        $product_ids = array();
-        foreach ($this->data['products'] as $result) {
-            $product_ids[] = (int)$result['product_id'];
-        }
+        $product_ids = array_column($this->data['products'], 'product_id');
 
         $resource = new AResource('image');
-        $thumbnails = $resource->getMainThumbList(
-            'products',
-            $product_ids,
-            $this->config->get('config_image_cart_width'),
-            $this->config->get('config_image_cart_height')
-        );
+        $thumbnails = $product_ids
+            ? $resource->getMainThumbList(
+                'products',
+                $product_ids,
+                $this->config->get('config_image_cart_width'),
+                $this->config->get('config_image_cart_height')
+            )
+            : [];
 
         //Format product data specific for confirmation page
         for ($i = 0; $i < sizeof($this->data['products']); $i++) {
             $product_id = $this->data['products'][$i]['product_id'];
             $opts = $this->data['products'][$i]['option'];
-            $options = array();
+            $options = [];
 
             $thumbnail = $thumbnails[$product_id];
-
             foreach ($opts as $option) {
                 //hide hidden options
                 if ($option['element_type'] == 'H') {
@@ -227,7 +249,7 @@ class ControllerPagesCheckoutConfirm extends AController
                 $title = '';
                 $value = $option['value'];
                 // hide binary value for checkbox
-                if ($option['element_type'] == 'C' && in_array($value, array(0, 1))) {
+                if ($option['element_type'] == 'C' && in_array($value, [0, 1])) {
                     $value = '';
                 }
                 // strip long textarea value
@@ -239,25 +261,27 @@ class ControllerPagesCheckoutConfirm extends AController
                         $value = mb_substr($value, 0, 64).'...';
                     }
                 }
-                $options[] = array(
+                $options[] = [
                     'name'  => $option['name'],
                     'value' => $value,
                     'title' => $title,
-                );
+                ];
                 // product image by option value
-                $mSizes = array(
+                $mSizes = [
                     'main'  =>
-                        array(
-                            'width' => $this->config->get('config_image_cart_width'),
-                            'height' => $this->config->get('config_image_cart_height')
-                        ),
-                    'thumb' => array(
-                        'width' =>  $this->config->get('config_image_cart_width'),
-                        'height' => $this->config->get('config_image_cart_height')
-                    ),
-                );
+                        [
+                            'width'  => $this->config->get('config_image_cart_width'),
+                            'height' => $this->config->get('config_image_cart_height'),
+                        ],
+                    'thumb' => [
+                        'width'  => $this->config->get('config_image_cart_width'),
+                        'height' => $this->config->get('config_image_cart_height'),
+                    ],
+                ];
                 $main_image =
-                    $resource->getResourceAllObjects('product_option_value', $option['product_option_value_id'], $mSizes, 1, false);
+                    $resource->getResourceAllObjects(
+                        'product_option_value', $option['product_option_value_id'], $mSizes, 1, false
+                    );
                 if (!empty($main_image)) {
                     $thumbnail['origin'] = $main_image['origin'];
                     $thumbnail['title'] = $main_image['title'];
@@ -269,18 +293,21 @@ class ControllerPagesCheckoutConfirm extends AController
 
             $this->data['products'][$i]['option'] = $options;
 
-            $tax = $this->tax->calcTotalTaxAmount($this->data['products'][$i]['total'], $this->data['products'][$i]['tax_class_id']);
+            $tax = $this->tax->calcTotalTaxAmount(
+                $this->data['products'][$i]['total'], $this->data['products'][$i]['tax_class_id']
+            );
             $price = $this->data['products'][$i]['price'];
             $qty = $this->data['products'][$i]['quantity'];
             $this->data['products'][$i] = array_merge(
                 $this->data['products'][$i],
-                array(
+                [
                     'thumb' => $thumbnail,
                     'tax'   => $this->currency->format($tax),
                     'price' => $this->currency->format($price),
                     'total' => $this->currency->format_total($price, $qty),
                     'href'  => $this->html->getSEOURL($product_rt, '&product_id='.$product_id, true),
-                ));
+                ]
+            );
         }
 
         $display_totals = $this->cart->buildTotalDisplay();
@@ -293,7 +320,11 @@ class ControllerPagesCheckoutConfirm extends AController
             $content_info = $this->model_catalog_content->getContent($this->config->get('config_checkout_id'));
             if ($content_info) {
                 $this->data['text_accept_agree'] = $this->language->get('text_accept_agree');
-                $this->data['text_accept_agree_href'] = $this->html->getURL('r/content/content/loadInfo', '&content_id='.$this->config->get('config_checkout_id'), true);
+                $this->data['text_accept_agree_href'] = $this->html->getURL(
+                    'r/content/content/loadInfo',
+                    '&content_id='.$this->config->get('config_checkout_id'),
+                    true
+                );
                 $this->data['text_accept_agree_href_link'] = $content_info['title'];
             } else {
                 $this->data['text_accept_agree'] = '';

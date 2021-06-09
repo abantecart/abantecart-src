@@ -24,8 +24,6 @@ if (!defined('DIR_CORE')) {
 
 class ControllerBlocksListingBlock extends AController
 {
-    public $data;
-
     public function main($instance_id = 0)
     {
         //disable cache when login display price setting is off or enabled showing of prices with taxes
@@ -117,14 +115,20 @@ class ControllerBlocksListingBlock extends AController
 
             $options = $products_info[$result['product_id']]['options'];
             if ($options) {
-                $add_to_cart =
-                    $this->html->getSEOURL('product/product', '&product_id='.$result['product_id'], '&encode');
+                $add_to_cart = $this->html->getSEOURL(
+                    'product/product',
+                    '&product_id='.$result['product_id'],
+                    '&encode'
+                );
             } else {
                 if ($this->config->get('config_cart_ajax')) {
                     $add_to_cart = '#';
                 } else {
-                    $add_to_cart =
-                        $this->html->getSecureURL('checkout/cart', '&product_id='.$result['product_id'], '&encode');
+                    $add_to_cart = $this->html->getSecureURL(
+                        'checkout/cart',
+                        '&product_id='.$result['product_id'],
+                        '&encode'
+                    );
                 }
             }
 
@@ -144,7 +148,8 @@ class ControllerBlocksListingBlock extends AController
             $in_stock = false;
             $no_stock_text = $this->language->get('text_out_of_stock');
             $total_quantity = 0;
-            $stock_checkout = $result['stock_checkout'] === '' ? $this->config->get('config_stock_checkout')
+            $stock_checkout = $result['stock_checkout'] === ''
+                ? $this->config->get('config_stock_checkout')
                 : $result['stock_checkout'];
             if ($stock_info[$result['product_id']]['subtract']) {
                 $track_stock = true;
@@ -168,7 +173,9 @@ class ControllerBlocksListingBlock extends AController
                 'thumb'          => $result['image'],
                 'image'          => $result['image'],
                 'href'           => $this->html->getSEOURL(
-                    'product/product', '&product_id='.$result['product_id'], '&encode'
+                    'product/product',
+                    '&product_id='.$result['product_id'],
+                    '&encode'
                 ),
                 'add'            => $add_to_cart,
                 'item_name'      => 'product',
@@ -212,8 +219,9 @@ class ControllerBlocksListingBlock extends AController
         if ($this->view->isTemplateExists($block_wrapper)) {
             $template = $block_wrapper;
         } else {
-            $template =
-                in_array($this->view->getTemplate(), $vertical_tpl) ? 'blocks/special.tpl' : 'blocks/special_home.tpl';
+            $template = in_array($this->view->getTemplate(), $vertical_tpl)
+                ? 'blocks/special.tpl'
+                : 'blocks/special_home.tpl';
         }
         $this->view->setTemplate($template);
     }
@@ -222,6 +230,7 @@ class ControllerBlocksListingBlock extends AController
      * @param array $content
      *
      * @return array
+     * @throws AException
      */
     protected function _prepareItems($content = [])
     {
@@ -246,12 +255,17 @@ class ControllerBlocksListingBlock extends AController
             $cn['item_name'] = $item_name;
             switch ($item_name) {
                 case 'category':
-                    $cn['href'] =
-                        $this->html->getSEOURL('product/category', '&category_id='.$cn['category_id'], '&encode');
+                    $cn['href'] = $this->html->getSEOURL(
+                        'product/category',
+                        '&category_id='.$cn['category_id'],
+                        '&encode'
+                    );
                     break;
                 case 'manufacturer':
                     $cn['href'] = $this->html->getSEOURL(
-                        'product/manufacturer', '&manufacturer_id='.$cn['manufacturer_id'], '&encode'
+                        'product/manufacturer',
+                        '&manufacturer_id='.$cn['manufacturer_id'],
+                        '&encode'
                     );
                     break;
             }
@@ -263,6 +277,7 @@ class ControllerBlocksListingBlock extends AController
      * @param int $instance_id
      *
      * @return array
+     * @throws AException
      */
     protected function _getBlockContent($instance_id)
     {
@@ -531,16 +546,18 @@ class ControllerBlocksListingBlock extends AController
 
             //build list of ids
             $ids = [];
-            foreach ($result as $k => $item) {
+            foreach ($result as $item) {
                 $ids[] = $item[$data_source['data_type']];
             }
 
-            $thumbnails = $resource->getMainThumbList(
-                $data_source['rl_object_name'],
-                $ids,
-                $image_sizes['thumb']['width'],
-                $image_sizes['thumb']['height']
-            );
+            $thumbnails = $ids
+                ? $resource->getMainThumbList(
+                    $data_source['rl_object_name'],
+                    $ids,
+                    $image_sizes['thumb']['width'],
+                    $image_sizes['thumb']['height']
+                )
+                : [];
 
             foreach ($result as $k => $item) {
                 $thumbnail = $thumbnails[$item[$data_source['data_type']]];

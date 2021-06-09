@@ -70,18 +70,16 @@ class ControllerResponsesProductProduct extends AController
                 }
                 $products = $this->model_catalog_product->getProducts($filter);
 
-                $product_ids = [];
-                foreach ($products as $result) {
-                    $product_ids[] = (int) $result['product_id'];
-                }
-
+                $product_ids = array_column($products, 'product_id');
                 $resource = new AResource('image');
-                $thumbnails = $resource->getMainThumbList(
-                    'products',
-                    $product_ids,
-                    $this->config->get('config_image_grid_width'),
-                    $this->config->get('config_image_grid_height')
-                );
+                $thumbnails = $product_ids
+                    ? $resource->getMainThumbList(
+                        'products',
+                        $product_ids,
+                        $this->config->get('config_image_grid_width'),
+                        $this->config->get('config_image_grid_height')
+                    )
+                    : [];
 
                 foreach ($products as $product_data) {
                     $thumbnail = $thumbnails[$product_data['product_id']];

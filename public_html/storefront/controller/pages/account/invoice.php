@@ -1,4 +1,5 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -30,11 +31,10 @@ class ControllerPagesAccountInvoice extends AController
 
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $order_id = (int)$this->request->get['order_id'];
+        $order_id = (int) $this->request->get['order_id'];
 
         $this->loadModel('account/customer');
         $this->loadModel('account/order');
@@ -54,7 +54,6 @@ class ControllerPagesAccountInvoice extends AController
         }
 
         if ($this->request->is_POST() && $this->_validate()) {
-
             $guest = true;
 
             $order_id = $this->request->post['order_id'];
@@ -96,9 +95,9 @@ class ControllerPagesAccountInvoice extends AController
 
         $this->document->addBreadcrumb(
             [
-            'href'      => $this->html->getSecureURL('account/invoice', '&order_id='.$order_id),
-            'text'      => $this->language->get('text_invoice'),
-            'separator' => $this->language->get('text_separator'),
+                'href'      => $this->html->getSecureURL('account/invoice', '&order_id='.$order_id),
+                'text'      => $this->language->get('text_invoice'),
+                'separator' => $this->language->get('text_separator'),
             ]
         );
 
@@ -127,12 +126,13 @@ class ControllerPagesAccountInvoice extends AController
 
         if ($order_info) {
             $this->data['order_id'] = $order_id;
-            $this->data['invoice_id'] = $order_info['invoice_id'] ? $order_info['invoice_prefix'].$order_info['invoice_id'] : '';
+            $this->data['invoice_id'] =
+                $order_info['invoice_id'] ? $order_info['invoice_prefix'].$order_info['invoice_id'] : '';
 
             $this->data['email'] = $order_info['email'];
             $this->data['telephone'] = $order_info['telephone'];
 
-            $this->data['mobile_phone'] = $this->im->getCustomerURI('sms', (int)$order_info['customer_id'], $order_id);
+            $this->data['mobile_phone'] = $this->im->getCustomerURI('sms', (int) $order_info['customer_id'], $order_id);
 
             $this->data['fax'] = $order_info['fax'];
 
@@ -151,7 +151,8 @@ class ControllerPagesAccountInvoice extends AController
                 'country'   => $order_info['shipping_country'],
             ];
 
-            $this->data['shipping_address'] = $this->customer->getFormattedAddress($shipping_data, $order_info['shipping_address_format']);
+            $this->data['shipping_address'] =
+                $this->customer->getFormattedAddress($shipping_data, $order_info['shipping_address_format']);
             $this->data['shipping_method'] = $order_info['shipping_method'];
 
             $payment_data = [
@@ -167,26 +168,26 @@ class ControllerPagesAccountInvoice extends AController
                 'country'   => $order_info['payment_country'],
             ];
 
-            $this->data['payment_address'] = $this->customer->getFormattedAddress($payment_data, $order_info['payment_address_format']);
+            $this->data['payment_address'] =
+                $this->customer->getFormattedAddress($payment_data, $order_info['payment_address_format']);
             $this->data['payment_method'] = $order_info['payment_method'];
 
             $products = [];
             $order_products = $this->model_account_order->getOrderProducts($order_id);
             $this->data['raw_products'] = $order_products;
-            $product_ids = [];
-            foreach ($order_products as $product) {
-                $product_ids[] = (int)$product['product_id'];
-            }
+            $product_ids = array_column($order_products, 'product_id');
 
             //get thumbnails by one pass
             $resource = new AResource('image');
-            $thumbnails = $resource->getMainThumbList(
-                'products',
-                $product_ids,
-                $this->config->get('config_image_cart_width'),
-                $this->config->get('config_image_cart_width'),
-                false
-            );
+            $thumbnails = $product_ids
+                ? $resource->getMainThumbList(
+                    'products',
+                    $product_ids,
+                    $this->config->get('config_image_cart_width'),
+                    $this->config->get('config_image_cart_width'),
+                    false
+                )
+                : [];
 
             foreach ($order_products as $product) {
                 $options = $this->model_account_order->getOrderOptions($order_id, $product['order_product_id']);
@@ -223,16 +224,18 @@ class ControllerPagesAccountInvoice extends AController
                     $mSizes = [
                         'main'  =>
                             [
-                                'width' => $this->config->get('config_image_cart_width'),
-                                'height' => $this->config->get('config_image_cart_height')
+                                'width'  => $this->config->get('config_image_cart_width'),
+                                'height' => $this->config->get('config_image_cart_height'),
                             ],
                         'thumb' => [
-                            'width' =>  $this->config->get('config_image_cart_width'),
-                            'height' => $this->config->get('config_image_cart_height')
+                            'width'  => $this->config->get('config_image_cart_width'),
+                            'height' => $this->config->get('config_image_cart_height'),
                         ],
                     ];
                     $main_image =
-                        $resource->getResourceAllObjects('product_option_value', $option['product_option_value_id'], $mSizes, 1, false);
+                        $resource->getResourceAllObjects(
+                            'product_option_value', $option['product_option_value_id'], $mSizes, 1, false
+                        );
                     if (!empty($main_image)) {
                         $thumbnail['origin'] = $main_image['origin'];
                         $thumbnail['title'] = $main_image['title'];
@@ -244,15 +247,21 @@ class ControllerPagesAccountInvoice extends AController
 
                 $products[] = [
                     'id'               => $product['product_id'],
-                    'order_product_id' => (int)$product['order_product_id'],
+                    'order_product_id' => (int) $product['order_product_id'],
                     'thumbnail'        => $thumbnail,
                     'name'             => $product['name'],
                     'model'            => $product['model'],
                     'option'           => $option_data,
                     'quantity'         => $product['quantity'],
-                    'price'            => $this->currency->format($product['price'], $order_info['currency'], $order_info['value']),
-                    'total'            => $this->currency->format_total($product['price'], $product['quantity'], $order_info['currency'], $order_info['value']),
-                    'url'              => $this->html->getSEOURL('product/product', '&product_id='.$product['product_id'])
+                    'price'            => $this->currency->format(
+                        $product['price'], $order_info['currency'], $order_info['value']
+                    ),
+                    'total'            => $this->currency->format_total(
+                        $product['price'], $product['quantity'], $order_info['currency'], $order_info['value']
+                    ),
+                    'url'              => $this->html->getSEOURL(
+                        'product/product', '&product_id='.$product['product_id']
+                    ),
                 ];
             }
             $this->data['products'] = $products;
@@ -307,7 +316,7 @@ class ControllerPagesAccountInvoice extends AController
 
                     $this->data['order_cancelation_url'] = $this->html->getSecureURL(
                         'account/invoice/CancelOrder',
-                        '&order_id='.( $guest ? $order_token : $order_id)
+                        '&order_id='.($guest ? $order_token : $order_id)
                     );
                 }
             }
@@ -357,25 +366,25 @@ class ControllerPagesAccountInvoice extends AController
 
         $this->document->addBreadcrumb(
             [
-            'href'      => $this->html->getHomeURL(),
-            'text'      => $this->language->get('text_home'),
-            'separator' => false,
+                'href'      => $this->html->getHomeURL(),
+                'text'      => $this->language->get('text_home'),
+                'separator' => false,
             ]
         );
 
         $this->document->addBreadcrumb(
             [
-            'href'      => $this->html->getSecureURL('account/account'),
-            'text'      => $this->language->get('text_account'),
-            'separator' => $this->language->get('text_separator'),
+                'href'      => $this->html->getSecureURL('account/account'),
+                'text'      => $this->language->get('text_account'),
+                'separator' => $this->language->get('text_separator'),
             ]
         );
 
         $this->document->addBreadcrumb(
             [
-            'href'      => $this->html->getSecureURL('account/invoice'),
-            'text'      => $this->language->get('heading_title'),
-            'separator' => $this->language->get('text_separator'),
+                'href'      => $this->html->getSecureURL('account/invoice'),
+                'text'      => $this->language->get('heading_title'),
+                'separator' => $this->language->get('text_separator'),
             ]
         );
 
@@ -393,7 +402,7 @@ class ControllerPagesAccountInvoice extends AController
             ]
         );
 
-        $order_id = (int)$this->request->post_or_get('order_id') ? (int)$this->request->post_or_get('order_id') : '';
+        $order_id = (int) $this->request->post_or_get('order_id') ? (int) $this->request->post_or_get('order_id') : '';
         $this->data['form']['order_id'] = $form->getFieldHtml(
             [
                 'type'     => 'input',
@@ -445,7 +454,7 @@ class ControllerPagesAccountInvoice extends AController
 
         //do a few checks
         //is order exists
-        $order_id = (int)$this->request->get['order_id'];
+        $order_id = (int) $this->request->get['order_id'];
         $customer_id = $this->customer->getId();
 
         $this->loadModel('account/order');
@@ -457,10 +466,11 @@ class ControllerPagesAccountInvoice extends AController
             $decrypted = $enc->decrypt($this->request->get['ot']);
             list($order_id, $email) = explode('::', $decrypted);
 
-            $order_id = (int)$order_id;
+            $order_id = (int) $order_id;
             if (!$decrypted || !$order_id || !$email) {
                 if ($order_id) {
-                    $this->session->data['redirect'] = $this->html->getSecureURL('account/invoice', '&order_id='.$order_id);
+                    $this->session->data['redirect'] =
+                        $this->html->getSecureURL('account/invoice', '&order_id='.$order_id);
                 }
                 redirect($this->html->getSecureURL('account/login'));
             }
@@ -486,6 +496,7 @@ class ControllerPagesAccountInvoice extends AController
             redirect($this->html->getSecureURL('account/invoice'));
         }
         //is cancellation enabled at all
+        $order_cancel_ids = [];
         if ($this->config->get('config_customer_cancelation_order_status_id')) {
             $order_cancel_ids = unserialize($this->config->get('config_customer_cancelation_order_status_id'));
         }
@@ -499,14 +510,18 @@ class ControllerPagesAccountInvoice extends AController
         $new_order_status_id = $this->order_status->getStatusByTextId('canceled_by_customer');
         if ($new_order_status_id) {
             $this->loadModel('checkout/order');
-            $this->model_checkout_order->update($order_id, $new_order_status_id, $this->language->get('text_request_cancellation_from_customer'), true);
+            $this->model_checkout_order->update(
+                $order_id, $new_order_status_id, $this->language->get('text_request_cancellation_from_customer'), true
+            );
             $this->session->data['success'] = $this->language->get('text_order_cancelation_success');
 
             $this->messages->saveNotice(
-                sprintf($this->language->get('text_order_cancelation_message_title'),
+                sprintf(
+                    $this->language->get('text_order_cancelation_message_title'),
                     $order_id
                 ),
-                sprintf($this->language->get('text_order_cancelation_message_body'),
+                sprintf(
+                    $this->language->get('text_order_cancelation_message_body'),
                     $order_info['firstname'].' '.$order_info['lastname'],
                     $order_id,
                     '#admin#rt=sale/order/details&order_id='.$order_id
@@ -514,7 +529,9 @@ class ControllerPagesAccountInvoice extends AController
             );
         } else {
             //when new order status id is null by some unexpected reason - just redirect on the same page
-            $this->log->write('Error: Unknown cancellation order status id. Probably integrity code problem. Check is file /core/lib/order_status.php exists.');
+            $this->log->write(
+                'Error: Unknown cancellation order status id. Probably integrity code problem. Check is file /core/lib/order_status.php exists.'
+            );
         }
 
         //update controller data
@@ -531,15 +548,17 @@ class ControllerPagesAccountInvoice extends AController
 
     protected function _validate()
     {
-
         if (!$this->csrftoken->isTokenValid()) {
             $this->error['warning'] = $this->language->get('error_unknown');
         } else {
-            if (!(int)$this->request->post['order_id']) {
+            if (!(int) $this->request->post['order_id']) {
                 $this->error['order_id'] = $this->language->get('error_order_id');
             }
 
-            if (mb_strlen($this->request->post['email']) > 96 || !preg_match(EMAIL_REGEX_PATTERN, $this->request->post['email'])) {
+            if (mb_strlen($this->request->post['email']) > 96
+                || !preg_match(
+                    EMAIL_REGEX_PATTERN, $this->request->post['email']
+                )) {
                 $this->error['email'] = $this->language->get('error_email');
             }
 

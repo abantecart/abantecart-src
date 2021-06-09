@@ -21,19 +21,14 @@
 
 class ControllerBlocksCart extends AController
 {
-
-    public $data = array();
-
     public function main()
     {
-
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
         $this->loadModel('tool/seo_url');
         $this->loadLanguage('total/total');
         $this->data['heading_title'] = $this->language->get('heading_title', 'blocks/cart');
-
         $this->data['text_subtotal'] = $this->language->get('text_subtotal');
         $this->data['text_empty'] = $this->language->get('text_empty');
         $this->data['text_remove'] = $this->language->get('text_remove');
@@ -42,39 +37,36 @@ class ControllerBlocksCart extends AController
         $this->data['text_checkout'] = $this->language->get('text_checkout');
         $this->data['text_items'] = $this->language->get('text_items');
         $this->data['text_total'] = $this->language->get('text_total');
-
         $this->data['view'] = $this->html->getSecureURL('checkout/cart');
         $this->data['checkout'] = $this->html->getSecureURL('checkout/shipping');
         $this->data['remove'] = $this->html->getURL('r/checkout/cart');
 
-        $products = array();
+        $products = [];
 
         $qty = 0;
         $cart_products = $this->cart->getProducts();
-        $product_ids = array();
-        foreach ($cart_products as $product) {
-            $product_ids[] = $product['product_id'];
-        }
-
+        $product_ids = array_column($cart_products, 'product_id');
         $resource = new AResource('image');
-        $thumbnails = $resource->getMainThumbList(
-            'products',
-            $product_ids,
-            $this->config->get('config_image_additional_width'),
-            $this->config->get('config_image_additional_width')
-        );
+        $thumbnails = $product_ids
+            ? $resource->getMainThumbList(
+                'products',
+                $product_ids,
+                $this->config->get('config_image_additional_width'),
+                $this->config->get('config_image_additional_width')
+            )
+            : [];
 
         foreach ($cart_products as $result) {
-            $option_data = array();
+            $option_data = [];
             $thumbnail = $thumbnails[$result['product_id']];
-
             foreach ($result['option'] as $option) {
+                $title = '';
                 if ($option['element_type'] == 'H') {
                     continue;
                 } //hide hidden options
                 $value = $option['value'];
                 // hide binary value for checkbox
-                if ($option['element_type'] == 'C' && in_array($value, array(0, 1))) {
+                if ($option['element_type'] == 'C' && in_array($value, [0, 1])) {
                     $value = '';
                 }
                 // strip long textarea value
@@ -88,25 +80,30 @@ class ControllerBlocksCart extends AController
                     }
                 }
 
-                $option_data[] = array(
+                $option_data[] = [
                     'name'  => $option['name'],
                     'value' => $value,
                     'title' => $title,
-                );
+                ];
                 // product image by option value
-                $mSizes = array(
+                $mSizes = [
                     'main'  =>
-                        array(
-                            'width' => $this->config->get('config_image_cart_width'),
-                            'height' => $this->config->get('config_image_cart_height')
-                        ),
-                    'thumb' => array(
-                        'width' =>  $this->config->get('config_image_cart_width'),
-                        'height' => $this->config->get('config_image_cart_height')
-                    ),
+                        [
+                            'width'  => $this->config->get('config_image_cart_width'),
+                            'height' => $this->config->get('config_image_cart_height'),
+                        ],
+                    'thumb' => [
+                        'width'  => $this->config->get('config_image_cart_width'),
+                        'height' => $this->config->get('config_image_cart_height'),
+                    ],
+                ];
+                $main_image = $resource->getResourceAllObjects(
+                    'product_option_value',
+                    $option['product_option_value_id'],
+                    $mSizes,
+                    1,
+                    false
                 );
-                $main_image =
-                    $resource->getResourceAllObjects('product_option_value', $option['product_option_value_id'], $mSizes, 1, false);
                 if (!empty($main_image)) {
                     $thumbnail['origin'] = $main_image['origin'];
                     $thumbnail['title'] = $main_image['title'];
@@ -118,16 +115,26 @@ class ControllerBlocksCart extends AController
 
             $qty += $result['quantity'];
 
-            $products[] = array(
+            $products[] = [
                 'key'      => $result['key'],
                 'name'     => $result['name'],
                 'option'   => $option_data,
                 'quantity' => $result['quantity'],
                 'stock'    => $result['stock'],
-                'price'    => $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
-                'href'     => $this->html->getSEOURL('product/product', '&product_id='.$result['product_id'], true),
+                'price'    => $this->currency->format(
+                    $this->tax->calculate(
+                        $result['price'],
+                        $result['tax_class_id'],
+                        $this->config->get('config_tax')
+                    )
+                ),
+                'href'     => $this->html->getSEOURL(
+                    'product/product',
+                    '&product_id='.$result['product_id'],
+                    true
+                ),
                 'thumb'    => $thumbnail,
-            );
+            ];
         }
 
         $this->data['products'] = $products;
@@ -145,7 +152,6 @@ class ControllerBlocksCart extends AController
 
         //init controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
     }
 
 }

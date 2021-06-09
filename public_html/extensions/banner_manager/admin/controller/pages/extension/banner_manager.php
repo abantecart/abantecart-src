@@ -889,13 +889,15 @@ class ControllerPagesExtensionBannerManager extends AController
                 $assigned_banners = $this->model_extension_banner_manager->getBanners(array('subsql_filter' => 'b.banner_id IN ('.implode(', ', $ids).')'));
 
                 $resource = new AResource('image');
-                $thumbnails = $resource->getMainThumbList(
-                    'banners',
-                    $ids,
-                    $this->config->get('config_image_grid_width'),
-                    $this->config->get('config_image_grid_height'),
-                    false
-                );
+                $thumbnails = $ids
+                    ? $resource->getMainThumbList(
+                        'banners',
+                        $ids,
+                        $this->config->get('config_image_grid_width'),
+                        $this->config->get('config_image_grid_height'),
+                        false
+                    )
+                    : [];
 
                 foreach ($assigned_banners as $banner) {
                     $id = $banner['banner_id'];
