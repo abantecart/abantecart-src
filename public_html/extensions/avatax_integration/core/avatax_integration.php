@@ -487,7 +487,7 @@ class ExtensionAvataxIntegration extends Extension
             if (!$cust_data['customer_id'] && IS_ADMIN === true) {
                 $cust_data['customer_id'] = 'guest';
             }else{
-                $cust_data['customer_id'] = $customer->isLogged() ? $customer->getId() : 'guest';
+                $cust_data['customer_id'] = $customer && $customer->isLogged() ? $customer->getId() : 'guest';
             }
             $getTaxRequest->setCustomerCode($cust_data['customer_id']);
             if ($order_data['date_added'] && $return == false) {
