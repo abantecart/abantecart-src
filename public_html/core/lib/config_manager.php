@@ -1289,6 +1289,8 @@ class AConfigManager
                 'config_image_popup_height',
                 'config_image_category_width',
                 'config_image_category_height',
+                'config_image_manufacturer_width',
+                'config_image_manufacturer_height',
                 'config_image_product_width',
                 'config_image_product_height',
                 'config_image_additional_width',
