@@ -129,13 +129,17 @@ class ControllerPagesDesignTemplate extends AController
 
             //button to extension
             if (!is_dir('storefront/view/'.$tmpl) && is_dir(DIR_EXT.$tmpl)) {
-                $templates[$tmpl]['extn_url'] =
-                    $this->html->getSecureURL('extension/extensions/edit', '&extension='.$tmpl);
+                $templates[$tmpl]['extn_url'] = $this->html->getSecureURL(
+                        'extension/extensions/edit',
+                        '&extension='.$tmpl
+                    );
             }
             //set default
             if ($this->data['default_template'] != $tmpl) {
                 $templates[$tmpl]['set_default_url'] = $this->html->getSecureURL(
-                    'design/template/set_default', '&tmpl_id='.$tmpl.'&store_id='.$this->data['store_id']
+                    'design/template/set_default',
+                    '&tmpl_id='.$tmpl
+                        .'&store_id='.$this->data['store_id']
                 );
             }
 
@@ -196,9 +200,24 @@ class ControllerPagesDesignTemplate extends AController
                 ],
                 $store_id
             );
+            $this->config->set('config_storefront_template', $this->request->get['tmpl_id']);
             $this->session->data['success'] = $this->language->get('text_success');
         } else {
             $this->session->data['warning'] = $this->language->get('text_error');
+        }
+
+        $extWithLayouts = findExtensionsLayouts($this->request->get['tmpl_id']);
+        if($extWithLayouts){
+            $list = [];
+            foreach($extWithLayouts as $key => $files){
+                $list[] = '<a target="_blank" href="'.$this->html->getSecureURL('extension/extensions/edit','&extension='.$key).'">'
+                        .$key.' ('.implode(', ',$files).')</a>';
+            }
+
+            $this->session->data['warning'] .= sprintf(
+                $this->language->get('warning_extensions_with_layouts'),
+                implode('<br>', $list)
+            );
         }
 
         redirect($this->html->getSecureURL('design/template'));

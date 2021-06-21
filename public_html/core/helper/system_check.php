@@ -538,3 +538,66 @@ function check_session_save_path()
     }
     return array();
 }
+
+/**
+ * Function seek an extension which made layout changes during it's installation process
+ * Template-extension ignores
+ *
+ * @param string $excludeExtension
+ *
+ * @throws AException
+ */
+function findExtensionsLayouts($excludeExtension = ''){
+
+    $output = [];
+    $registry = Registry::getInstance();
+    $config = $registry->get('config');
+    $exts = $registry->get('extensions');
+    $allExtensions = $exts->getExtensionInfo();
+    if($excludeExtension) {
+        $lm = new ALayoutManager($config->get('config_storefront_template'));
+        $currentTemplatePages = $lm->getAllPages();
+        $currentTemplatePages = array_column($currentTemplatePages,'layout_name');
+    }
+    foreach($allExtensions as $ext){
+        if(
+            $excludeExtension == $ext['key']
+            //or not installed
+            || !$config->has($ext['key'].'_status')
+            // or extension is template
+            || $ext['category'] == 'template'
+            || !is_dir(DIR_EXT.$ext['key'])
+        ){
+            continue;
+        }
+
+        $xmlLayouts = glob(DIR_EXT.$ext['key'].'/*{layout}*.xml',GLOB_BRACE);
+        if(!$xmlLayouts){
+            continue;
+        }
+        if($excludeExtension){
+            $absent = false;
+            foreach($xmlLayouts as $xmlFile) {
+
+                $extensionLayout = @simplexml_load_file($xmlFile);
+                if(!$extensionLayout){
+                    continue;
+                }
+                foreach($extensionLayout->layout as $l ){
+                        if(!in_array((string)$l->name,$currentTemplatePages)){
+                            $abs[] = (string)$l->name;
+                            $absent = true;
+                            break;
+                        }
+                }
+            }
+            //skip extension if it's layout already in the current template's layout list
+            if(!$absent){
+                continue;
+            }
+        }
+
+        $output[$ext['key']] = array_map('basename',$xmlLayouts);
+    }
+    return $output;
+}
