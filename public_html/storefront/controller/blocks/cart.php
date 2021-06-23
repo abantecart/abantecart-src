@@ -44,7 +44,7 @@ class ControllerBlocksCart extends AController
         $products = [];
 
         $qty = 0;
-        $cart_products = $this->cart->getProducts();
+        $cart_products = $this->cart->getProducts() + $this->cart->getVirtualProducts();
         $product_ids = array_column($cart_products, 'product_id');
         $resource = new AResource('image');
         $thumbnails = $product_ids
@@ -58,7 +58,7 @@ class ControllerBlocksCart extends AController
 
         foreach ($cart_products as $result) {
             $option_data = [];
-            $thumbnail = $thumbnails[$result['product_id']];
+            $thumbnail = $thumbnails[$result['product_id']] ?: $result['thumb'];
             foreach ($result['option'] as $option) {
                 $title = '';
                 if ($option['element_type'] == 'H') {
@@ -123,7 +123,7 @@ class ControllerBlocksCart extends AController
                 'stock'    => $result['stock'],
                 'price'    => $this->currency->format(
                     $this->tax->calculate(
-                        $result['price'],
+                        $result['price'] ?: $result['amount'],
                         $result['tax_class_id'],
                         $this->config->get('config_tax')
                     )

@@ -491,7 +491,7 @@ class ACart
         if (!isset($this->cust_data['cart']['virtual']) || !is_array($this->cust_data['cart']['virtual'])) {
             $this->cust_data['cart']['virtual'] = [];
         }
-
+        $data['key'] = $key;
         $this->cust_data['cart']['virtual'][$key] = $data;
         $this->extensions->hk_ProcessData($this, __METHOD__, func_get_args());
         return true;
@@ -741,9 +741,10 @@ class ACart
         }
 
         $this->sub_total = 0.0;
-        $products = $this->getProducts();
+        $products = $this->getProducts() + $this->getVirtualProducts();
         foreach ($products as $product) {
-            $this->sub_total += $product['total'];
+            $price = $product['price'] ?: $product['amount'];
+            $this->sub_total += ($price * $product['quantity']);
         }
         return $this->sub_total;
     }

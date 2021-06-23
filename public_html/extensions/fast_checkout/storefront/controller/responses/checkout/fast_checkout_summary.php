@@ -164,7 +164,7 @@ class ControllerResponsesCheckoutFastCheckoutSummary extends AController
                     'quantity' => ($virtual['quantity'] ? : 1),
                     'option'   => [],
                     'weight'   => (float)$virtual['weight'],
-                    'thumbnail'   => $virtual['thumbnail']
+                    'thumbnail'   => $virtual['thumb'] ?: $virtual['thumbnail']
                 ];
                 $this->data['items_total'] += ($virtual['quantity'] ? : 1)
                     * $this->currency->format(

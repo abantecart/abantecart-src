@@ -69,6 +69,7 @@ class ControllerPagesCheckoutCart extends AController
             if ($this->request->is_GET() && isset($this->request->get['remove'])) {
                 //remove product with button click.
                 $this->cart->remove($this->request->get['remove']);
+                $this->cart->removeVirtual($this->request->get['remove']);
                 $this->extensions->hk_ProcessData($this, 'remove_product');
                 redirect($this->html->getSecureURL($cart_rt));
             } else {
@@ -263,8 +264,7 @@ class ControllerPagesCheckoutCart extends AController
                 ]
             );
 
-            $cart_products = $this->cart->getProducts();
-
+            $cart_products = $this->cart->getProducts() + $this->cart->getVirtualProducts();
             $product_ids = array_column($cart_products, 'product_id');
 
             $resource = new AResource('image');
@@ -280,7 +280,7 @@ class ControllerPagesCheckoutCart extends AController
             $products = [];
             foreach ($cart_products as $result) {
                 $option_data = [];
-                $thumbnail = $thumbnails[$result['product_id']];
+                $thumbnail = $thumbnails[$result['product_id']] ?: $result['thumb'];
                 foreach ($result['option'] as $option) {
                     $title = '';
                     if ($option['element_type'] == 'H') {
@@ -340,7 +340,7 @@ class ControllerPagesCheckoutCart extends AController
                 }
 
                 $price_with_tax = $this->tax->calculate(
-                    $result['price'],
+                    $result['price'] ?: $result['amount'],
                     $result['tax_class_id'],
                     $this->config->get('config_tax')
                 );
@@ -378,7 +378,6 @@ class ControllerPagesCheckoutCart extends AController
                     ),
                 ];
             }
-
             $this->data['products'] = $products;
             $this->data['form']['update'] = $form->getFieldHtml(
                 [

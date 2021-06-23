@@ -168,7 +168,7 @@ class ControllerResponsesProductProduct extends AController
         }
 
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-        return $this->getCartContent();
+        $this->getCartContent();
     }
 
     public function getCartContent()
@@ -181,7 +181,7 @@ class ControllerResponsesProductProduct extends AController
         $dispatch = $this->dispatch('responses/product/product/get_cart_details', [$display_totals]);
 
         $this->data['cart_details'] = $dispatch->dispatchGetOutput();
-        $this->data['item_count'] = $this->cart->countProducts();
+        $this->data['item_count'] = $this->cart->countProducts() + count($this->cart->getVirtualProducts()) ;
 
         $this->data['total'] = $this->currency->format($display_totals['total']);
         //update controller data
@@ -201,7 +201,7 @@ class ControllerResponsesProductProduct extends AController
             return '';
         }
 
-        $cart_products = $this->cart->getProducts();
+        $cart_products = $this->cart->getProducts() + $this->cart->getVirtualProducts();
         $product_ids = array_column($cart_products, 'product_id');
         $resource = new AResource('image');
         $thumbnails = $product_ids
@@ -215,7 +215,7 @@ class ControllerResponsesProductProduct extends AController
         $qty = 0;
         foreach ($cart_products as $result) {
             $option_data = [];
-            $thumbnail = $thumbnails[$result['product_id']];
+            $thumbnail = $thumbnails[$result['product_id']] ?: $result['thumb'];
             foreach ($result['option'] as $option) {
                 $title = '';
                 $value = $option['value'];
@@ -278,12 +278,12 @@ class ControllerResponsesProductProduct extends AController
                 'stock'    => $result['stock'],
                 'price'    => $this->currency->format(
                     $this->tax->calculate(
-                        $result['price'],
+                        $result['price'] ?: $result['amount'],
                         $result['tax_class_id'],
                         $this->config->get('config_tax')
                     )
                 ),
-                'href'     => $this->html->getSEOURL('product/product', '&product_id='.$result['product_id']),
+                'href'     => $result['product_id'] ? $this->html->getSEOURL('product/product', '&product_id='.$result['product_id']) : null,
                 'thumb'    => $thumbnail,
             ];
         }

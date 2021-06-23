@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,9 +23,6 @@ if (!defined('DIR_CORE')) {
 
 class ControllerBlocksOrderSummary extends AController
 {
-
-    public $data = array();
-
     public function main()
     {
 
@@ -49,17 +46,17 @@ class ControllerBlocksOrderSummary extends AController
             }
         }
 
-        $products = array();
+        $products = [];
 
         $qty = 0;
 
-        foreach ($this->cart->getProducts() as $result) {
-            $option_data = array();
+        foreach ($this->cart->getProducts() + $this->cart->getVirtualProducts()  as $result) {
+            $option_data = [];
 
             foreach ($result['option'] as $option) {
                 $value = $option['value'];
                 // hide binary value for checkbox
-                if ($option['element_type'] == 'C' && in_array($value, array(0, 1))) {
+                if ($option['element_type'] == 'C' && in_array($value, [0, 1])) {
                     $value = '';
                 }
                 $title = '';
@@ -74,24 +71,36 @@ class ControllerBlocksOrderSummary extends AController
                     }
                 }
 
-                $option_data[] = array(
+                $option_data[] = [
                     'name'  => $option['name'],
                     'value' => $value,
                     'title' => $title,
-                );
+                ];
             }
 
             $qty += $result['quantity'];
 
-            $products[] = array(
+            $products[] = [
                 'key'      => $result['key'],
                 'name'     => $result['name'],
                 'option'   => $option_data,
                 'quantity' => $result['quantity'],
                 'stock'    => $result['stock'],
-                'price'    => $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
-                'href'     => $this->html->getSEOURL('product/product', '&product_id='.$result['product_id'], true),
-            );
+                'price'    => $this->currency->format(
+                    $this->tax->calculate(
+                        $result['price'] ?: $result['amount'],
+                        $result['tax_class_id'],
+                        $this->config->get('config_tax')
+                    )
+                ),
+                'href'     => $result['product_id']
+                        ? $this->html->getSEOURL(
+                            'product/product',
+                            '&product_id='.$result['product_id'],
+                            true
+                        )
+                        : null,
+            ];
         }
 
         $this->view->assign('products', $products);
