@@ -78,6 +78,7 @@ class ControllerPagesCheckoutGuestStep3 extends AController
         $this->data = [];
         $order = new AOrder($this->registry);
         $this->data = $order->buildOrderData($this->session->data);
+
         $this->session->data['order_id'] = $order->saveOrder();
 
         $this->document->resetBreadcrumbs();
@@ -178,7 +179,7 @@ class ControllerPagesCheckoutGuestStep3 extends AController
 
         $this->loadModel('tool/seo_url');
 
-        $product_ids = array_column($this->data['products'], 'products');
+        $product_ids = array_column($this->data['products'], 'product_id');
 
         //Format product data specific for confirmation page
         $resource = new AResource('image');
@@ -220,12 +221,16 @@ class ControllerPagesCheckoutGuestStep3 extends AController
             }
         }
 
+        $virtualProducts = $this->cart->getVirtualProducts();
         for ($i = 0; $i < sizeof($this->data['products']); $i++) {
             $product_id = $this->data['products'][$i]['product_id'];
+            $thumbnail = null;
             if ($thumbnails[$this->data['products'][$i]['key']]) {
                 $thumbnail = $thumbnails[$this->data['products'][$i]['key']];
-            } else {
+            } elseif($thumbnails[$product_id]) {
                 $thumbnail = $thumbnails[$product_id];
+            }else{
+                $thumbnail = $virtualProducts[$this->data['products'][$i]['key']]['thumb'];
             }
             $tax = $this->tax->calcTotalTaxAmount(
                 $this->data['products'][$i]['total'],
