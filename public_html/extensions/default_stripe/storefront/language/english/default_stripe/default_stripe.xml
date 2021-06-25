@@ -34,7 +34,7 @@
 	</definition>
 	<definition>
 		<key>entry_billing_address</key>
-		<value><![CDATA[for billing Address]]></value>
+		<value><![CDATA[for billing address]]></value>
 	</definition>
 	<definition>
 		<key>entry_edit</key>
