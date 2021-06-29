@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /** @noinspection PhpUndefinedClassInspection */
 
 /*------------------------------------------------------------------------------
@@ -64,12 +65,8 @@ class ControllerResponsesCheckoutPay extends AController
                 $tax_country_id = $guestSessionData['country_id'];
                 $tax_zone_id = $guestSessionData['zone_id'];
             } else {
-                $tax_country_id = isset($guestSessionData['shipping']['country_id'])
-                    ? $guestSessionData['shipping']['country_id']
-                    : $guestSessionData['country_id'];
-                $tax_zone_id = isset($guestSessionData['shipping']['zone_id'])
-                    ? $guestSessionData['shipping']['zone_id']
-                    : $guestSessionData['zone_id'];
+                $tax_country_id = $guestSessionData['shipping']['country_id'] ?? $guestSessionData['country_id'];
+                $tax_zone_id = $guestSessionData['shipping']['zone_id'] ?? $guestSessionData['zone_id'];
             }
         }
 
@@ -368,7 +365,7 @@ class ControllerResponsesCheckoutPay extends AController
 
         if ($this->data['show_payment'] == true) {
             //Order must be created before payment form rendering!
-            if (!$this->session->data['order_id']) {
+            if (!$this->session->data['order_id'] || $this->request->get['payment_address_id']) {
                 $this->updateOrCreateOrder($this->fc_session, $request);
             }
             $this->_build_payment_view($request, $get_params);
@@ -376,7 +373,7 @@ class ControllerResponsesCheckoutPay extends AController
 
         $this->addLoginForm($request, $get_params);
 
-        $this->data['step'] = !$this->data['step'] ? 'payment' : $this->data['step'];
+        $this->data['step'] = $this->data['step'] ?: 'payment';
 
         //last step with payment form
         $this->data['action'] = $this->action;
@@ -1542,11 +1539,7 @@ class ControllerResponsesCheckoutPay extends AController
                 'type'     => 'selectbox',
                 'name'     => 'country_id',
                 'options'  => $options,
-                'value'    => (isset($data['country_id'])
-                    ? $data['country_id']
-                    : $this->config->get(
-                        'config_country_id'
-                    )),
+                'value'    => ($data['country_id'] ?? $this->config->get('config_country_id')),
                 'required' => true,
             ]
         );
@@ -1557,7 +1550,7 @@ class ControllerResponsesCheckoutPay extends AController
             ]
         );
 
-        $this->data['zone_id'] = isset($data['zone_id']) ? $data['zone_id'] : 'false';
+        $this->data['zone_id'] = $data['zone_id'] ?? 'false';
 
         $this->loadModel('localisation/country');
         $this->data['countries'] = $this->model_localisation_country->getCountries();
@@ -1828,7 +1821,8 @@ class ControllerResponsesCheckoutPay extends AController
                     #Check config if we allowed to set this shipping and skip the step
                     $ext_config = $this->model_checkout_extension->getSettings($method_name);
                     $autoselect = $ext_config[$method_name."_autoselect"];
-                    if ((is_array($only_method[$key]['quote']) && sizeof($only_method[$key]['quote']) == 1)
+                    if (
+                        (is_array($value['quote']) && sizeof($value['quote']) == 1)
                         || $autoselect
                     ) {
                         $this->fc_session['shipping_method'] = current($only_method[$method_name]['quote']);
