@@ -141,6 +141,7 @@ echo $order_tabs;
 			<p class="form-control-static"><?php echo $date_added; ?></p>
 			</div>
 		</div>
+		<?php echo $this->getHookVar('order_details_right_attributes'); ?>
 		<div class="form-group">
 			<label class="control-label col-sm-5"><?php echo $entry_shipping_method; ?></label>
 			<div class="input-group afield col-sm-7">
