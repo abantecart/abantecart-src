@@ -1053,7 +1053,7 @@ class ACart
     public function hasShipping()
     {
         $shipping = false;
-        $products = $this->getProducts();
+        $products = $this->getProducts() + $this->getVirtualProducts();
         foreach ($products as $product) {
             if ($product['shipping']) {
                 $shipping = true;
@@ -1073,7 +1073,7 @@ class ACart
     public function hasDownload()
     {
         $download = false;
-        $products = $this->getProducts();
+        $products = $this->getProducts() + $this->getVirtualProducts();
         foreach ($products as $product) {
             if ($product['download']) {
                 $download = true;
