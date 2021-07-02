@@ -60,4 +60,5 @@
             }
         }
     }
+    <?php echo $this->getHookVar('fc_js_page'); ?>
 </script>
