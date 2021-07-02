@@ -22,6 +22,9 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
 
+/**
+ * Class ModelDesignEmailTemplate
+ */
 class ModelDesignEmailTemplate extends Model
 {
     /**
@@ -61,8 +64,8 @@ class ModelDesignEmailTemplate extends Model
                 if (!$allowedSearchFields[$filter['field']]) {
                     continue;
                 }
-                $arWhere[] =
-                    $allowedSearchFields[$filter['field']].' LIKE \'%'.$this->db->escape($filter['data']).'%\'';
+                $arWhere[] = $allowedSearchFields[$filter['field']]
+                    .' LIKE \'%'.$this->db->escape($filter['data']).'%\'';
             }
         }
 
@@ -116,7 +119,7 @@ class ModelDesignEmailTemplate extends Model
      * @param int $id
      * @param array $data
      *
-     * @return false
+     * @return bool
      * @throws AException
      */
     public function update($id, $data)
@@ -164,7 +167,7 @@ class ModelDesignEmailTemplate extends Model
      * @param string $textId
      * @param int $languageId
      *
-     * @return false
+     * @return false|array
      * @throws AException
      */
     public function getByTextIdAndLanguageId($textId, $languageId)
@@ -190,7 +193,7 @@ class ModelDesignEmailTemplate extends Model
     /**
      * @param array $data
      *
-     * @return false
+     * @return false|array
      * @throws AException
      */
     public function insert($data)
@@ -204,7 +207,7 @@ class ModelDesignEmailTemplate extends Model
         }
 
         $query = 'INSERT INTO '.$etTableName.' ('.implode(',', $keys).') 
-                VALUES (\''.implode('\',\'', $values).'\')';
+                  VALUES (\''.implode('\',\'', $values).'\')';
         if ($this->db->query($query)) {
             return $this->getByTextIdAndLanguageId($data['text_id'], $data['language_id']);
         }
@@ -215,7 +218,7 @@ class ModelDesignEmailTemplate extends Model
      * @param int $oldStoreId
      * @param int $newStoreId
      *
-     * @return false
+     * @return bool
      * @throws AException
      */
     public function copyToNewStore($oldStoreId, $newStoreId)
@@ -253,7 +256,7 @@ class ModelDesignEmailTemplate extends Model
     /**
      * @param int $id
      *
-     * @return false
+     * @return boolean
      * @throws AException
      */
     public function delete($id)
