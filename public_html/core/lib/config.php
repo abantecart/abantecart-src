@@ -47,7 +47,7 @@ final class AConfig
      */
     public function get($key)
     {
-        return (isset($this->cnfg[$key]) ? $this->cnfg[$key] : null);
+        return ($this->cnfg[$key] ?? null);
     }
 
     /**
@@ -258,7 +258,7 @@ final class AConfig
                 if ($this->cnfg['config_cache_enable']) {
                     $cache->push($cache_key, $cache_settings);
                 }
-                $this->cnfg['config_store_id'] = $store_settings['store_id'];
+                $this->cnfg['config_store_id'] = (int) $store_settings['store_id'];
                 $this->cnfg['current_store_id'] = $this->cnfg['config_store_id'];
             } else {
                 //write to log when system check enabled
@@ -292,15 +292,15 @@ final class AConfig
                 $this->cnfg['current_store_id'] = (int) $store_id;
             } else {
                 if (isset($session->data['current_store_id']) && has_value($session->data['current_store_id'])) {
-                    $this->cnfg['current_store_id'] = $session->data['current_store_id'];
+                    $this->cnfg['current_store_id'] = (int) $session->data['current_store_id'];
                 } elseif (isset($session->data['config_store_id'])) {
                     //nothing to do
-                    $this->cnfg['current_store_id'] = $session->data['config_store_id'];
+                    $this->cnfg['current_store_id'] = (int) $session->data['config_store_id'];
                 }
             }
             $this->cnfg['current_store_id'] = $this->cnfg['current_store_id'] ?? null;
             //reload store settings if not what is loaded now
-            if ((int) $this->cnfg['current_store_id'] != (int) $this->cnfg['config_store_id']) {
+            if ((int) $this->cnfg['current_store_id'] != $this->cnfg['config_store_id']) {
                 $this->_reload_settings($this->cnfg['current_store_id']);
                 $this->cnfg['config_store_id'] = $this->cnfg['current_store_id'];
             }
@@ -364,15 +364,17 @@ final class AConfig
         foreach (['config_url', 'config_ssl_url'] as $confUrl) {
             $get =& $this->registry->get('request')->get;
             if ($store_settings[$confUrl]) {
-                $protocol = parse_url($store_settings[$confUrl], PHP_URL_SCHEME);
-                if ($store_settings[$confUrl] != $protocol.'://'.$autoUri) {
+                $parsed = parse_url($store_settings[$confUrl]);
+                $protocol = $parsed['scheme'];
+                if (str_replace('www.', '', $store_settings[$confUrl]) != $protocol.'://'.$autoUri) {
                     //remove fake(store-alias-path) prefix from seo-key which we got from .htaccess (_route_)
-                    $diff = substr($store_settings[$confUrl], strlen($protocol.'://'.$autoUri));
+                    $diff =
+                        substr(str_replace('www.', '', $store_settings[$confUrl]), strlen($protocol.'://'.$autoUri));
                     $store_settings['seo_prefix'] = $diff;
                     if (isset($get['_route_'])) {
                         //this covers both cases (when store url with slash at the end of url and without)
                         $get['_route_'] = str_replace(INDEX_FILE, '', $get['_route_']);
-                        $get['_route_'] = str_replace($diff, '', rtrim($get['_route_'],'/').'/');
+                        $get['_route_'] = str_replace($diff, '', rtrim($get['_route_'], '/').'/');
                         if (!$get['_route_']) {
                             unset($get['_route_']);
                         }

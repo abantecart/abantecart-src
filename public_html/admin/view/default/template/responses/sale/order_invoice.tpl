@@ -33,6 +33,7 @@
 								<td><b><?php echo $text_date_added; ?></b></td>
 								<td><?php echo $order['date_added']; ?></td>
 							</tr>
+							<?php echo $this->getHookVar('order_invoice_'.$order['order_id'].'_more_order_info_1'); ?>
 							<?php if ($order['invoice_id']) { ?>
 								<tr>
 									<td><b><?php echo $text_invoice_id; ?></b></td>
