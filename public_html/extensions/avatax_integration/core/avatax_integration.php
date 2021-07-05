@@ -645,7 +645,7 @@ class ExtensionAvataxIntegration extends Extension
 
             // Line Data
             // Required Parameters
-            $lines = [];
+            $lines = $linesMapping = [];
             //Product model
             if ($order_id) {
                 if (!IS_ADMIN) {
@@ -664,11 +664,13 @@ class ExtensionAvataxIntegration extends Extension
                     /** @var ModelCatalogProduct $mdl */
                     $mdl = $load->model('catalog/product');
                     $tmp = $mdl->getProduct($values['product_id']);
-                    if ($tmp['sku']) {
-                        $line->setItemCode($tmp['sku']);
-                    } else {
-                        $line->setItemCode($values['product_id']);
-                    }
+                    $itemCode = $tmp['sku'] ?: $values['product_id'];
+                    $line->setItemCode($itemCode);
+                    $linesMapping[$counter] = [
+                                            'line_type' => 'item',
+                                            'item_code' => $itemCode
+                    ];
+
                     $line->setQty($values['quantity']);
                     if ($return == false) {
                         $line->setAmount($values['total']);
@@ -689,16 +691,17 @@ class ExtensionAvataxIntegration extends Extension
                     $counter++;
                 }
             } else {  //In this step we have not Order. Calculate tax by Cart data
-                $cart_products = $that->cart->getProducts();
+                $cart_products = $that->cart->getProducts() + $that->cart->getVirtualProducts();
                 $counter = 1;
                 foreach ($cart_products as $values) {
                     $line = new AvaTax\Line();
                     $line->setLineNo($counter);
-                    if ($values['sku']) {
-                        $line->setItemCode($values['sku']);
-                    } else {
-                        $line->setItemCode($values['product_id']);
-                    }
+                    $itemCode = $values['key'];
+                    $line->setItemCode($itemCode);
+                    $linesMapping[$counter] = [
+                                                'line_type' => 'item',
+                                                'item_code' => $itemCode
+                                                ];
                     $line->setQty($values['quantity']);
                     $line->setAmount($values['total']);
                     if ($total_data != 0) {
@@ -748,6 +751,10 @@ class ExtensionAvataxIntegration extends Extension
                 $line = new AvaTax\Line();
                 $line->setLineNo($counter);
                 $line->setItemCode($shp_method);
+                $linesMapping[$counter] = [
+                                        'line_type' => 'shipping',
+                                        'item_code' => $shp_method
+                                        ];
                 $line->setQty(1);
                 $line->setAmount($shp_cost);
                 if ($total_data != 0) {
@@ -789,9 +796,20 @@ class ExtensionAvataxIntegration extends Extension
                     }
                 } else {
                     $output = $getTaxResult->getTotalTax();
-                    if ($docHash) {
-                        $session['avatax']['getTax'][$docHash] = $output;
+                    if( $this->registry->get('session')->data['fc'] && $config->get('fast_checkout_status') ){
+                        $sess =& $this->registry->get('session')->data['fc'];
+                    }else{
+                        $sess =& $this->registry->get('session')->data;
                     }
+                    $sess['avatax']['getTax'] = $output;
+                    $taxLines = $getTaxResult->getTaxLines();
+
+                    foreach($taxLines as $line){
+                        /** @var \AvaTax\TaxLine $line */
+                        $linesMapping[$line->getLineNo()]['tax_amount'] = $line->getTaxCalculated();
+                    }
+
+                    $sess['avatax']['getTaxLines'] = $linesMapping;
                     return $output;
                 }
             } else {
