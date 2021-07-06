@@ -48,7 +48,7 @@ $this->model_setting_setting->editSetting(
         'avatax_integration_total_status'            => 0,
         'avatax_integration_total_sort_order'        => 500,
         'avatax_integration_total_calculation_order' => 500,
-        'avatax_integration_total_total_type'        => 'avatax_integration',
+        'avatax_integration_total_total_type'        => 'tax',
     ]
 );
 

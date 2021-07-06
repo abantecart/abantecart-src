@@ -49,4 +49,12 @@ class ModelTotalAvataxIntegrationTotal extends Model
             $total += $tax_amount;
         }
     }
+
+    public function getTaxLines(){
+        $session = $this->session->data['fc'] && $this->config->get('fast_checkout_status')
+                    ? $this->session->data['fc']
+                    : $this->session->data;
+
+        return $session['avatax']['getTaxLines'] ?? [];
+    }
 }
