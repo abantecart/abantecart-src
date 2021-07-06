@@ -119,7 +119,7 @@ class AMail
      */
     public function addHeader($header, $value)
     {
-        $this->headers[$header] = trim($value," ");
+        $this->headers[trim($header," ")] = trim($value," ");
     }
 
     /**
