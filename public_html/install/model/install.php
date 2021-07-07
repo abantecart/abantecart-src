@@ -147,6 +147,9 @@ class ModelInstall extends Model
         if (!extension_loaded('zlib')) {
             $this->error['warning'] = 'Warning: ZLIB extension needs to be loaded for AbanteCart to work!';
         }
+        if (!extension_loaded('fileinfo')) {
+            $this->error['warning'] = 'Warning: FileInfo extension needs to be loaded for AbanteCart to work!';
+        }
         if (!extension_loaded('openssl')) {
             $this->error['warning'] = 'Warning: OpenSSL extension needs to be loaded for AbanteCart to work!';
         }

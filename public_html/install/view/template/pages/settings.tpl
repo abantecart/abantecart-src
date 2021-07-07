@@ -120,6 +120,12 @@ echo $header; ?>
 									<td align="center"><?php echo extension_loaded('zlib') ? $img_good : $img_bad; ?></td>
 								</tr>
 								<tr>
+									<td>FileInfo:</td>
+									<td><?php echo extension_loaded('fileinfo') ? 'On' : 'Off'; ?></td>
+									<td>On</td>
+									<td align="center"><?php echo extension_loaded('fileinfo') ? $img_good : $img_bad; ?></td>
+								</tr>
+								<tr>
 									<td>MultiByte String:</td>
 									<td><?php echo (extension_loaded('mbstring') && function_exists('mb_internal_encoding')) ? 'On' : 'Off'; ?></td>
 									<td>On</td>
