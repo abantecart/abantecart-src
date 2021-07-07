@@ -136,19 +136,37 @@ class ControllerResponsesProductProduct extends AController
                 0,
                 false
             );
+
+            //no image? see images for other selected options
+            if (!$output['images'] && $product_id && $this->request->post['selected_options']) {
+                foreach($this->request->post['selected_options'] as $optValId) {
+                    $images = $resource->getResourceAllObjects(
+                        'product_option_value',
+                        $optValId,
+                        $oSizes,
+                        0,
+                        false
+                    );
+                    if ($images) {
+                        $output['main'] = $resource->getResourceAllObjects(
+                            'product_option_value',
+                            $optValId,
+                            $mSizes,
+                            1,
+                            false
+                        );
+                        $output['images'] = $images;
+                        break;
+                    }
+                }
+            }
             if (!$output['images']) {
                 unset($output['images']);
-            }
-
-            //no image? return main product images
-            if (!count($output) && $product_id) {
-                $output['main'] = $resource->getResourceAllObjects('products', $product_id, $mSizes, 1, false);
-                $output['images'] = $resource->getResourceAllObjects('products', $product_id, $oSizes, 0, false);
             }
         }
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
-
+       // var_Dump($output); exit;
         $this->load->library('json');
         $this->response->addJSONHeader();
         $this->response->setOutput(AJson::encode($output));
