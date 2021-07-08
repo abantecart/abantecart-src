@@ -19,7 +19,7 @@
 ------------------------------------------------------------------------------*/
 
 // Required PHP Version
-define('MIN_PHP_VERSION', '7.1.0');
+define('MIN_PHP_VERSION', '7.4.0');
 if (version_compare(phpversion(), MIN_PHP_VERSION, '<') == true) {
     die(MIN_PHP_VERSION.'+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
 }

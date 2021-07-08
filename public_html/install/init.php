@@ -21,7 +21,7 @@
 // AbanteCart Version
 define('VERSION', '1.2');
 // Required PHP Version
-define('MIN_PHP_VERSION', '7.1.0');
+define('MIN_PHP_VERSION', '7.4.0');
 
 // Detect if localhost is used.
 if (!isset($_SERVER['HTTP_HOST'])) {
