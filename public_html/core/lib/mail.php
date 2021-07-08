@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -66,7 +66,7 @@ class AMail
     protected $password;
     protected $port = 25;
     protected $timeout = 5;
-    public $newline = "\n";
+    public $newline = PHP_EOL;
     public $crlf = "\r\n";
     public $verp = false;
     public $parameter = '';
