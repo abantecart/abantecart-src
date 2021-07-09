@@ -1,4 +1,6 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -674,6 +676,10 @@ class AExtensionManager
         if (!$result) {
             return false;
         }
+        $result = $this->validatePhpVersion($extension_txt_id, $config);
+        if (!$result) {
+            return false;
+        }
         $result = $this->validateDependencies($extension_txt_id, $config);
         if (!$result) {
             return false;
@@ -871,6 +877,29 @@ class AExtensionManager
                 );
                 return false;
             }
+        }
+        return true;
+    }
+
+    /**
+     * @param string $extension_txt_id
+     * @param SimpleXMLElement|stdClass $config
+     *
+     * @return bool
+     */
+    public function validatePhpVersion($extension_txt_id, $config)
+    {
+        if (!isset($config->phpminversion)) {
+            return true;
+        }
+        $phpMinVersion = (string)$config->phpminversion ?: MIN_PHP_VERSION;
+        if (version_compare(phpversion(), $phpMinVersion, '<') == true) {
+            $this->errors[] = sprintf(
+                                '<b>%s</b> extension cannot be installed: <b>%s</b> php version required',
+                                $extension_txt_id,
+                                $phpMinVersion
+                            );
+            return false;
         }
         return true;
     }

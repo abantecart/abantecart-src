@@ -65,7 +65,7 @@ try {
 
 // Check Version
     if (version_compare(phpversion(), MIN_PHP_VERSION, '<') == true) {
-        throw new AException(AC_ERR_REQUIREMENTS, MIN_PHP_VERSION.'+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
+        exit(MIN_PHP_VERSION.'+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
     }
 
 //set ini parameters for session
