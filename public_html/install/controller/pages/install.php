@@ -28,12 +28,10 @@
 class ControllerPagesInstall extends AController
 {
     private $error = [];
-    public $data = [];
 
     public function main()
     {
 
-        $this->data = [];
         $run_level = $this->request->get['runlevel'];
 
         if (isset($run_level)) {
@@ -177,7 +175,7 @@ class ControllerPagesInstall extends AController
         $this->load->model('install');
         $result = $this->model_install->validateSettings($this->request->post);
         if (!$result) {
-            $this->error = $this->model_install->error;
+            $this->error = $this->model_install->errors;
         }
 
         return $result;
@@ -239,7 +237,6 @@ class ControllerPagesInstall extends AController
     {
         $this->load->model('install');
         $this->model_install->configure($this->session->data['install_step_data']);
-        return null;
     }
 
     private function _prepare_registry()

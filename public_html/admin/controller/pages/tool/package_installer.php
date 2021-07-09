@@ -39,15 +39,11 @@ class ControllerPagesToolPackageInstaller extends AController
         $this->_clean_temp_dir();
 
         $package_info = &$this->session->data['package_info'];
-        $extension_key = !$this->request->get['extension_key']
-            ? ''
-            : trim($this->request->get['extension_key']);
+        $extension_key = trim($this->request->get['extension_key']);
 
-        $extension_key = !$this->request->post['extension_key']
-            ? $extension_key
-            : trim($this->request->post['extension_key']);
+        $extension_key = trim($this->request->post['extension_key']) ?: $extension_key;
 
-        $extension_key = $package_info['extension_key'] ? $package_info['extension_key'] : $extension_key;
+        $extension_key = $package_info['extension_key'] ? : $extension_key;
         $this->session->data['package_info'] = [];
         $this->document->setTitle($this->language->get('heading_title'));
         $this->document->initBreadcrumb(
@@ -647,6 +643,15 @@ class ControllerPagesToolPackageInstaller extends AController
             $this->session->data['error'] = $this->language->get('error_package_structure');
             $this->_removeTempFiles();
             redirect($this->_get_begin_href());
+        }
+
+        //check system requirements
+        $results = checkPhpConfiguration((array)$config->phpmodules);
+        if($results){
+            foreach($results as $r) {
+                $this->session->data['error'] .= $r['body']."\n";
+            }
+            redirect($this->html->getSecureURL('tool/package_installer'));
         }
 
         //check cart version compatibility
