@@ -78,7 +78,17 @@ class ControllerResponsesCheckoutPay extends AController
         //set cart key into cookie every request to compare it on js-side
         // (case when two single-checkout tabs opened)
         //see js function checkCartKey(); in the tpls
-        setcookie('fc_cart_key', $this->fc_session['cart_key']);
+        setCookieOrParams(
+            'fc_cart_key',
+            $this->fc_session['cart_key'],
+            [
+                'path'     => dirname($this->request->server['PHP_SELF']),
+                'domain'   => null,
+                'secure'   => (defined('HTTPS') && HTTPS),
+                'httponly' => true,
+                'samesite' => ((defined('HTTPS') && HTTPS) ? 'None' : 'lax')
+            ]
+        );
     }
 
     //DO NOT REMOVE!

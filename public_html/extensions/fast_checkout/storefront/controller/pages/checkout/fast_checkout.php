@@ -170,7 +170,17 @@ class ControllerPagesCheckoutFastCheckout extends AController
         }
         //save cart_key into cookie to check on js-side
         // if another fc changed it
-        setcookie('fc_cart_key', $fcSession['cart_key']);
+        setCookieOrParams(
+            'fc_cart_key',
+            $fcSession['cart_key'],
+            [
+                'path'     => dirname($this->request->server['PHP_SELF']),
+                'domain'   => null,
+                'secure'   => (defined('HTTPS') && HTTPS),
+                'httponly' => true,
+                'samesite' => ((defined('HTTPS') && HTTPS) ? 'None' : 'lax')
+            ]
+        );
 
         //check if two single-checkout tabs opened
         if (isset($this->request->get['product_key'])) {
