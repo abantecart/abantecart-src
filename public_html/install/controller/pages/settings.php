@@ -32,11 +32,12 @@ class ControllerPagesSettings extends AController
         $template_data = [];
         if ($this->request->is_POST() && ($this->validate())) {
             redirect(HTTP_SERVER.'index.php?rt=install');
+        }elseif($this->request->is_GET()){
+            $this->validate();
         }
 
         $template_data['error_warning'] = $this->errors['warning'] ?: '';
         $template_data['errors'] = $this->errors;
-
 
         //show warning about opcache and apc but do not block installation
         if (ini_get('opcache.enable')) {

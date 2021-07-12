@@ -646,7 +646,7 @@ class ControllerPagesToolPackageInstaller extends AController
         }
 
         //check system requirements
-        $results = checkPhpConfiguration((array)$config->phpmodules);
+        $results = checkPhpConfiguration((array)$config->phpmodules->item, (string)$config->phpminversion);
         if($results){
             foreach($results as $r) {
                 $this->session->data['error'] .= $r['body']."\n";

@@ -230,17 +230,18 @@ function check_file_permissions($registry)
 
 /**
  * @param array $modules - list of specific modules needs to be installed on host
+ * @param string|null $phpMinVersion - minimal required version of PHP. If not set - take current
  *
  * @return array
  */
-function checkPhpConfiguration($modules = [])
+function checkPhpConfiguration( $modules = [], $phpMinVersion = null)
 {
     $output = [];
-
-    if (version_compare(phpversion(), MIN_PHP_VERSION, '<') == true) {
+    $phpMinVersion = $phpMinVersion ?: MIN_PHP_VERSION;
+    if (version_compare(phpversion(), $phpMinVersion, '<') == true) {
         $output['php_version'] = [
             'title' => 'Incompatible PHP version',
-            'body'  => 'You need to use PHP '.MIN_PHP_VERSION.' or above for AbanteCart to work!',
+            'body'  => 'You need to use PHP '.$phpMinVersion.' or above!',
             'type'  => 'E',
         ];
     }
@@ -252,7 +253,7 @@ function checkPhpConfiguration($modules = [])
             if (!extension_loaded($module)) {
                 $output[$module] = [
                     'title' => ucfirst($module).' extension is missing',
-                    'body'  => ucfirst($module).' extension needs to be enabled on PHP for AbanteCart to work!',
+                    'body'  => ucfirst($module).' extension needs to be enabled on PHP!',
                     'type'  => 'E',
                 ];
             }
@@ -304,7 +305,7 @@ function checkPhpConfiguration($modules = [])
     }
 
     if (!extension_loaded('mbstring') || !function_exists('mb_internal_encoding')) {
-        $output[] = [
+        $output['mbstring'] = [
             'title' => 'mbstring extension is missing',
             'body'  => 'MultiByte String extension needs to be loaded in PHP for AbanteCart to work!',
             'type'  => 'E',
@@ -343,7 +344,7 @@ function checkPhpConfiguration($modules = [])
     }
 
     //Recommended minimal PHP memory size is 64mb
-    if ($memory_limit < (64 * 1024 * 1024)) {
+    if ($memory_limit > 0 && $memory_limit < (64 * 1024 * 1024)) {
         $output['memory_limit'] = [
             'title' => 'Memory limitation',
             'body'  => 'Low PHP memory setting. Some Abantecart features will not work with memory limit less than 64Mb! '
