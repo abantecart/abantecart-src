@@ -25,20 +25,19 @@
  */
 class ControllerPagesSettings extends AController
 {
-    private $error = [];
+    private $errors = [];
 
     public function main()
     {
         $template_data = [];
         if ($this->request->is_POST() && ($this->validate())) {
             redirect(HTTP_SERVER.'index.php?rt=install');
+        }elseif($this->request->is_GET()){
+            $this->validate();
         }
 
-        if (isset($this->error['warning'])) {
-            $template_data['error_warning'] = $this->error['warning'];
-        } else {
-            $template_data['error_warning'] = '';
-        }
+        $template_data['error_warning'] = $this->errors['warning'] ?: '';
+        $template_data['errors'] = $this->errors;
 
         //show warning about opcache and apc but do not block installation
         if (ini_get('opcache.enable')) {
@@ -86,7 +85,7 @@ class ControllerPagesSettings extends AController
         $this->load->model('install');
         $result = $this->model_install->validateRequirements();
         if (!$result) {
-            $this->error = $this->model_install->error;
+            $this->errors = $this->model_install->errors;
         }
         return $result;
     }

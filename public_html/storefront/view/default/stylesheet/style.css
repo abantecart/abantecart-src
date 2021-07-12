@@ -1604,12 +1604,15 @@ ul.productpagecart {
 	margin-top: 20px;
 	margin-left: 0;
 	display: inline-block;
+	height: 150px;
+	width: 100%;
 }
 
 ul.productpagecart li {
 	display: inline-block;
 	margin-right: 10px;
-	height: 45px
+	width: 100%;
+	/*height: 45px*/
 }
 
 .productpagecart a {
@@ -1622,6 +1625,8 @@ ul.productpagecart li {
 
 .productpagecart li a.cart {
 	background-position: 10px 12px;
+	margin-left: 5px;
+	width: 50%;
 }
 
 .productpagecart li a.wish {

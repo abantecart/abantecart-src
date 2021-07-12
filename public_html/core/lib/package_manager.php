@@ -962,10 +962,10 @@ class APackageManager
         $this->getTempDir();
 
         //3. run validation for backup-process before install
-        $bkp = new ABackup('', false);
-        if (!$bkp->validate()) {
-            $this->error .= implode("\n", $bkp->error);
-        }
+//        $bkp = new ABackup('', false);
+//        if (!$bkp->validate()) {
+//            $this->error .= implode("\n", $bkp->error);
+//        }
 
         $this->extensions->hk_ValidateData($this);
 

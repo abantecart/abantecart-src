@@ -229,7 +229,7 @@ if ($error){ ?>
                                                 </li>
                                             </ul>
                                         <?php } ?>
-                                        <a class="productprint btn btn-large" href="javascript:window.print();">
+                                        <a class="productprint btn btn-large col-lg-2" href="javascript:window.print();">
                                             <i class="fa fa-print fa-fw"></i>
                                             <?php echo $button_print; ?>
                                         </a>
@@ -247,11 +247,11 @@ if ($error){ ?>
                                     ?>
                                     <?php if ($is_customer) { ?>
                                     <div class="wishlist">
-                                        <a class="wishlist_remove btn btn-large" href="#" onclick="wishlist_remove(); return false;" <?php echo $no_wishlist; ?>>
+                                        <a class="wishlist_remove btn btn-large col-lg-4" href="#" onclick="wishlist_remove(); return false;" <?php echo $no_wishlist; ?>>
                                             <i class="fa fa-trash-o fa-fw"></i>
                                             <?php echo $button_remove_wishlist; ?>
                                         </a>
-                                        <a class="wishlist_add btn btn-large" href="#" onclick="wishlist_add(); return false;" <?php echo $wishlist_css; ?>>
+                                        <a class="wishlist_add btn btn-large col-lg-4" href="#" onclick="wishlist_add(); return false;" <?php echo $wishlist_css; ?>>
                                             <i class="fa fa-plus-square fa-fw"></i>
                                             <?php echo $button_add_wishlist; ?>
                                         </a>

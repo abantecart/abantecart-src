@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -24,14 +24,15 @@ if (!defined('DIR_CORE')) {
 /**
  * Main driver for running system check
  *
- * @since 1.2.4
- *
- * @param  Registry $registry
- * @param string    $mode ('log', 'return')
+ * @param Registry $registry
+ * @param string $mode ('log', 'return')
  *
  * @return array
  *
  * Note: This is English text only. Can be call before database and languages are loaded
+ * @throws AException
+ * @since 1.2.4
+ *
  */
 
 function run_system_check($registry, $mode = 'log')
@@ -47,7 +48,7 @@ function run_system_check($registry, $mode = 'log')
     ) {
 
         $mlog = array_merge($mlog, check_file_permissions($registry));
-        $mlog = array_merge($mlog, check_php_configuraion());
+        $mlog = array_merge($mlog, checkPhpConfiguration());
         $mlog = array_merge($mlog, check_server_configuration($registry));
         $mlog = array_merge($mlog, check_order_statuses($registry));
         $mlog = array_merge($mlog, check_web_access());
@@ -100,6 +101,7 @@ function check_install_directory()
  * @param Registry $registry
  *
  * @return array
+ * @throws AException
  */
 function check_file_permissions($registry)
 {
@@ -226,62 +228,103 @@ function check_file_permissions($registry)
     return $ret_array;
 }
 
-function check_php_configuraion()
+/**
+ * @param array $modules - list of specific modules needs to be installed on host
+ * @param string|null $phpMinVersion - minimal required version of PHP. If not set - take current
+ *
+ * @return array
+ */
+function checkPhpConfiguration( $modules = [], $phpMinVersion = null)
 {
-    //check if all modules and settings on PHP side are OK.
-    $ret_array = [];
+    $output = [];
+    $phpMinVersion = $phpMinVersion ?: MIN_PHP_VERSION;
+    if (version_compare(phpversion(), $phpMinVersion, '<') == true) {
+        $output['php_version'] = [
+            'title' => 'Incompatible PHP version',
+            'body'  => 'You need to use PHP '.$phpMinVersion.' or above!',
+            'type'  => 'E',
+        ];
+    }
 
-    if (!extension_loaded('mysql') && !extension_loaded('mysqli')) {
-        $ret_array[] = [
+    //if needs to check specific php-extensions
+    if($modules){
+        foreach($modules as $module){
+            $module = strtolower($module);
+            if (!extension_loaded($module)) {
+                $output[$module] = [
+                    'title' => ucfirst($module).' extension is missing',
+                    'body'  => ucfirst($module).' extension needs to be enabled on PHP!',
+                    'type'  => 'E',
+                ];
+            }
+        }
+    }
+    //check if all modules and settings on PHP side are OK.
+    if (!extension_loaded('mysql') && !extension_loaded('mysqli') && !extension_loaded('pdo_mysql')) {
+        $output['mysql'] = [
             'title' => 'MySQL extension is missing',
             'body'  => 'MySQL extension needs to be enabled on PHP for AbanteCart to work!',
             'type'  => 'E',
         ];
     }
     if (!ini_get('file_uploads')) {
-        $ret_array[] = [
+        $output['file_uploads'] = [
             'title' => 'File Upload Warning',
             'body'  => 'PHP file_uploads option is disabled. File uploading will not function properly',
             'type'  => 'W',
         ];
     }
     if (ini_get('session.auto_start')) {
-        $ret_array[] = [
+        $output['session.auto_start'] = [
             'title' => 'Issue with session.auto_start',
             'body'  => 'AbanteCart will not work with session.auto_start enabled!',
             'type'  => 'E',
         ];
     }
+    if (!function_exists('simplexml_load_file')) {
+        $output['simplexml_load_file'] = [
+            'title' => 'SimpleXML Warning',
+            'body'  => 'SimpleXML functions needs to be available in PHP!',
+            'type'  => 'W',
+        ];
+    }
+
     if (!extension_loaded('gd')) {
-        $ret_array[] = [
+        $output['gd'] = [
             'title' => 'GD extension is missing',
             'body'  => 'GD extension needs to be enabled in PHP for AbanteCart to work! Images will not display properly',
             'type'  => 'E',
         ];
     }
+    if (!extension_loaded('curl')) {
+        $output['curl'] = [
+            'title' => 'CURL extension is missing',
+            'body'  => 'CURL extension needs to be enabled in PHP for AbanteCart to work!',
+            'type'  => 'E',
+        ];
+    }
 
     if (!extension_loaded('mbstring') || !function_exists('mb_internal_encoding')) {
-        $ret_array[] = [
+        $output['mbstring'] = [
             'title' => 'mbstring extension is missing',
             'body'  => 'MultiByte String extension needs to be loaded in PHP for AbanteCart to work!',
             'type'  => 'E',
         ];
     }
     if (!extension_loaded('fileinfo')) {
-        $ret_array[] = [
+        $output['fileinfo'] = [
             'title' => 'fileinfo extension is missing',
             'body'  => 'FileInfo extension needs to be loaded in PHP for AbanteCart to work!',
             'type'  => 'E',
         ];
     }
     if (!extension_loaded('zlib')) {
-        $ret_array[] = [
+        $output['zlib'] = [
             'title' => 'ZLIB extension is missing',
             'body'  => 'ZLIB extension needs to be loaded in PHP for backups to work!',
             'type'  => 'W',
         ];
     }
-
     //check memory limit
 
     $memory_limit = trim(ini_get('memory_limit'));
@@ -301,31 +344,33 @@ function check_php_configuraion()
     }
 
     //Recommended minimal PHP memory size is 64mb
-    if ($memory_limit < (64 * 1024 * 1024)) {
-        $ret_array[] = [
+    if ($memory_limit > 0 && $memory_limit < (64 * 1024 * 1024)) {
+        $output['memory_limit'] = [
             'title' => 'Memory limitation',
-            'body'  => 'Low PHP memory setting. Some Abantecart features will not work with memory limit less than 64Mb! Check <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_help_doc">PHP memory-limit setting</a>',
+            'body'  => 'Low PHP memory setting. Some Abantecart features will not work with memory limit less than 64Mb! '
+                .'Check <a href="https://php.net/manual/en/ini.core.php#ini.memory-limit" target="_help_doc">PHP memory-limit setting</a>',
             'type'  => 'W',
         ];
     }
 
-    return $ret_array;
+    return $output;
 }
 
 /**
  * @param Registry $registry
  *
  * @return array
+ * @throws AException
  */
 function check_server_configuration($registry)
 {
     //check server configurations.
-    $ret_array = [];
+    $output = [];
 
     $size = disk_size(DIR_ROOT);
     //check for size to drop below 10mb
     if (isset($size['bytes']) && $size['bytes'] < 1024 * 10000) {
-        $ret_array[] = [
+        $output[] = [
             'title' => 'Critically low disk space',
             'body'  => 'AbanteCart is running on critically low disk space of '.$size['human'].'! Increase disk size to prevent failure.',
             'type'  => 'E',
@@ -355,17 +400,22 @@ function check_server_configuration($registry)
         curl_close($curl_handle);
 
         if ($httpCode !== 200) {
-            $ret_array[] = [
+            $output[] = [
                 'title' => 'SEO URLs does not work',
-                'body'  => 'SEO URL functionality will not work. Check the <a href="http://docs.abantecart.com/pages/tips/enable_seo.html" target="_help_doc">manual for SEO URL setting</a> ',
+                'body'  => 'SEO URL functionality will not work. Check the <a href="https://docs.abantecart.com/pages/tips/enable_seo.html" target="_help_doc">manual for SEO URL setting</a> ',
                 'type'  => 'W',
             ];
         }
     }
 
-    return $ret_array;
+    return $output;
 }
 
+/**
+ * @param $start_dir
+ *
+ * @return array
+ */
 function get_all_files_dirs($start_dir)
 {
     $iter = new RecursiveIteratorIterator(
@@ -381,6 +431,11 @@ function get_all_files_dirs($start_dir)
     return $paths;
 }
 
+/**
+ * @param string $path
+ *
+ * @return array
+ */
 function disk_size($path)
 {
     //check if this is supported by server
@@ -406,6 +461,7 @@ function disk_size($path)
  * @param Registry $registry
  *
  * @return array
+ * @throws AException
  */
 function check_order_statuses($registry)
 {
@@ -415,23 +471,26 @@ function check_order_statuses($registry)
     $order_statuses = $registry->get('order_status')->getStatuses();
     $language_id = (int)$registry->get('language')->getDefaultLanguageID();
 
-    $query = $db->query("SELECT osi.order_status_id, osi.status_text_id
-							    FROM ".$db->table('order_statuses')." os
-								INNER JOIN ".$db->table('order_status_ids')." osi
-									ON osi.order_status_id = os.order_status_id
-								WHERE os.language_id = '".$language_id."'");
+    $query = $db->query(
+        "SELECT osi.order_status_id, osi.status_text_id
+        FROM ".$db->table('order_statuses')." os
+        INNER JOIN ".$db->table('order_status_ids')." osi
+            ON osi.order_status_id = os.order_status_id
+        WHERE os.language_id = '".$language_id."'"
+    );
     $db_statuses = [];
     foreach ($query->rows as $row) {
         $db_statuses[(int)$row['order_status_id']] = $row['status_text_id'];
     }
 
     $ret_array = [];
-
     foreach ($order_statuses as $id => $text_id) {
         if ($text_id != $db_statuses[$id]) {
             $ret_array[] = [
                 'title' => 'Incorrect order status with id '.$id,
-                'body'  => 'Incorrect status text id for order status #'.$id.'. Value must be "'.$text_id.'" ('.$db_statuses[$id].'). Please check data of tables '.$db->table('order_status_ids').' and '.$db->table('order_statuses'),
+                'body'  => 'Incorrect status text id for order status #'.$id.'. Value must be "'.$text_id
+                    .'" ('.$db_statuses[$id].'). Please check data of tables '
+                    .$db->table('order_status_ids').' and '.$db->table('order_statuses'),
                 'type'  => 'W',
             ];
         }
@@ -498,11 +557,11 @@ function check_web_access()
 
 /**
  * @param Registry $registry
- * @param string   $mode
+ * @param string $mode
  *
  * @return array
+ * @throws AException
  */
-
 function run_critical_system_check($registry, $mode = 'log')
 {
 

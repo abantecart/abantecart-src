@@ -313,12 +313,13 @@ function checkRequirements($options)
 {
     $options['password_confirm'] = $options['password'];
     $registry = Registry::getInstance();
-    $registry->get('load')->model('install');
-    $registry->get('model_install')->validateRequirements();
-    $errors = $registry->get('model_install')->error;
+    /** @var ModelInstall $mdl */
+    $mdl = $registry->get('load')->model('install');
+    $mdl->validateRequirements();
+    $errors = $mdl->errors;
     if (!$errors) {
-        $registry->get('model_install')->validateSettings($options);
-        $errors = $registry->get('model_install')->error;
+        $mdl->validateSettings($options);
+        $errors = $mdl->errors;
     }
     return $errors;
 }
