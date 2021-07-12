@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /** @noinspection PhpUndefinedClassInspection */
 
 /*------------------------------------------------------------------------------
@@ -53,16 +54,16 @@ class ModelAccountAddress extends Model
 
         $this->db->query(
             "INSERT INTO `".$this->db->table("addresses")."`
-						SET customer_id = '".(int) $this->customer->getId()."',
-							company = '".$this->db->escape($data['company'])."',
-							firstname = '".$this->db->escape($data['firstname'])."',
-							lastname = '".$this->db->escape($data['lastname'])."',
-							address_1 = '".$this->db->escape($data['address_1'])."',
-							address_2 = '".$this->db->escape($data['address_2'])."',
-							postcode = '".$this->db->escape($data['postcode'])."',
-							city = '".$this->db->escape($data['city'])."',
-							zone_id = '".(int) $data['zone_id']."',
-							country_id = '".(int) $data['country_id']."'".$key_sql
+            SET customer_id = '".(int) $this->customer->getId()."',
+                company = '".$this->db->escape($data['company'])."',
+                firstname = '".$this->db->escape($data['firstname'])."',
+                lastname = '".$this->db->escape($data['lastname'])."',
+                address_1 = '".$this->db->escape($data['address_1'])."',
+                address_2 = '".$this->db->escape($data['address_2'])."',
+                postcode = '".$this->db->escape($data['postcode'])."',
+                city = '".$this->db->escape($data['city'])."',
+                zone_id = '".(int) $data['zone_id']."',
+                country_id = '".(int) $data['country_id']."'".$key_sql
         );
 
         $address_id = $this->db->getLastId();

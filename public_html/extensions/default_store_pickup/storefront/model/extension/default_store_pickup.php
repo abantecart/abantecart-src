@@ -1,14 +1,15 @@
 <?php
+
 /*------------------------------------------------------------------------------
   $Id$
 
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
-  Lincence details is bundled with this package in the file LICENSE.txt.
+  License details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -30,43 +31,28 @@ class ModelExtensionDefaultStorePickup extends Model
         $language->load($language->language_details['directory']);
         $language->load('default_store_pickup/default_store_pickup');
 
-        if ($this->config->get('default_store_pickup_status')) {
-            $query = $this->db->query("SELECT *
-										FROM ".$this->db->table("zones_to_locations")."
-										WHERE location_id = '".(int)$this->config->get('default_store_pickup_location_id')."'
-											AND country_id = '".(int)$address['country_id']."'
-											AND (zone_id = '".(int)$address['zone_id']."' OR zone_id = '0')");
-
-            if (!$this->config->get('default_store_pickup_location_id')) {
-                $status = true;
-            } elseif ($query->num_rows) {
-                $status = true;
-            } else {
-                $status = false;
-            }
-        } else {
-            $status = false;
+        if ( !$this->config->get('default_store_pickup_status')
+             || !$this->config->get('config_country_id')
+             || !$this->config->get('config_zone_id')
+        ) {
+            return [];
         }
 
-        $method_data = array();
-        if ($status) {
-            $quote_data = array();
-            $quote_data['default_store_pickup'] = array(
-                'id'           => 'default_store_pickup.default_store_pickup',
-                'title'        => $language->get('text_description'),
-                'cost'         => 0.00,
-                'tax_class_id' => 0,
-                'text'         => $language->get('text_free'),
-            );
+        $quote_data = [];
+        $quote_data['default_store_pickup'] = [
+            'id'           => 'default_store_pickup.default_store_pickup',
+            'title'        => $language->get('text_description'),
+            'cost'         => 0.00,
+            'tax_class_id' => 0,
+            'text'         => $language->get('text_free'),
+        ];
 
-            $method_data = array(
-                'id'         => 'default_store_pickup',
-                'title'      => $language->get('text_title'),
-                'quote'      => $quote_data,
-                'sort_order' => $this->config->get('default_store_pickup_sort_order'),
-                'error'      => false,
-            );
-        }
-        return $method_data;
+        return [
+            'id'         => 'default_store_pickup',
+            'title'      => $language->get('text_title'),
+            'quote'      => $quote_data,
+            'sort_order' => $this->config->get('default_store_pickup_sort_order'),
+            'error'      => false,
+        ];
     }
 }
