@@ -27,8 +27,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
  */
 class ControllerPagesCatalogCollections extends AController
 {
-    public $error = [];
-    public $data = [];
+    public array $error = [];
 
     public function main()
     {
@@ -252,7 +251,7 @@ class ControllerPagesCatalogCollections extends AController
                     $this->data[$key] = $value;
                 }
                 $products = $this->model_catalog_collection->getProducts(
-                    $collection['conditions'],
+                    (array)$collection['conditions'],
                     'date_modified',
                     'DESC',
                     '0',
@@ -277,6 +276,8 @@ class ControllerPagesCatalogCollections extends AController
                 }
 
                 $this->data['form']['show_on_storefront']->text = $this->language->get('text_storefront');
+            }else{
+                redirect($this->html->getSecureURL('catalog/collections'));
             }
         }
 
@@ -348,7 +349,7 @@ class ControllerPagesCatalogCollections extends AController
             [
                 'type'  => 'checkbox',
                 'name'  => 'status',
-                'value' => isset($this->data['status']) ? $this->data['status'] : 1,
+                'value' => $this->data['status'] ?? 1,
                 'style' => 'btn_switch',
             ]
         );
@@ -447,9 +448,7 @@ class ControllerPagesCatalogCollections extends AController
                         'all' => $this->language->get('text_all'),
                         'any' => $this->language->get('text_any'),
                     ],
-                    'value'   => (isset($this->data['conditions']['relation']['if'])
-                        ? $this->data['conditions']['relation']['if']
-                        : ''),
+                    'value'   => ($this->data['conditions']['relation']['if'] ?? ''),
                 ]
             ),
         ];
@@ -464,9 +463,7 @@ class ControllerPagesCatalogCollections extends AController
                         'true'  => $this->language->get('text_true'),
                         'false' => $this->language->get('text_false'),
                     ],
-                    'value'   => (isset($this->data['conditions']['relation']['value'])
-                        ? $this->data['conditions']['relation']['value']
-                        : ''),
+                    'value'   => ($this->data['conditions']['relation']['value'] ?? ''),
                 ]
             ),
         ];
@@ -546,7 +543,7 @@ class ControllerPagesCatalogCollections extends AController
             $this->error['keyword'] = $this->language->get('save_error_unique_keyword');
         }
 
-        return empty($this->error);
+        return empty(!$this->error);
     }
 
     public function edit_layout()

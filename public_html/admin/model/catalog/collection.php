@@ -388,7 +388,7 @@ class ModelCatalogCollection extends Model
         $query .= ' WHERE '.$colTableName.'.id='.$id;
 
         $result = $db->query($query);
-        if ($result) {
+        if ($result->num_rows) {
             $data = $result->row;
             $data['conditions'] = json_decode($data['conditions'], true);
             $seo_url = $db->query(
@@ -405,6 +405,10 @@ class ModelCatalogCollection extends Model
         return false;
     }
 
+    /**
+     * @return array | false
+     * @throws AException
+     */
     public function getUniqueTags()
     {
         $db = Registry::getInstance()->get('db');
@@ -419,6 +423,17 @@ class ModelCatalogCollection extends Model
         return false;
     }
 
+    /**
+     * @param array $conditions
+     * @param string $sort
+     * @param string $order
+     * @param int $start
+     * @param int $limit
+     * @param int $collectionId
+     *
+     * @return array|false|mixed
+     * @throws AException
+     */
     public function getProducts(array $conditions, $sort, $order, $start, $limit, $collectionId)
     {
         $store_id = (int) $this->config->get('config_store_id');
@@ -448,15 +463,11 @@ class ModelCatalogCollection extends Model
             $conditions = $conditions['conditions'];
 
             $db = Registry::getInstance()->get('db');
-            $language = Registry::getInstance()->get('language');
-
             $productsTable = $db->table('products');
-            $categoriesTable = $db->table('categories');
             $p2sTable = $db->table('products_to_stores');
             $p2cTable = $db->table('products_to_categories');
             $productsTagsTable = $db->table('product_tags');
             $pdTable = $db->table('product_descriptions');
-            $manufacturersTable = $db->table('manufacturers');
 
             $arSelect = [
                 'SQL_CALC_FOUND_ROWS '.$productsTable.'.*',
