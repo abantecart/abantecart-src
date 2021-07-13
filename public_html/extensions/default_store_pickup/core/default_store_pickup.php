@@ -33,6 +33,30 @@ class ExtensionDefaultStorePickup extends Extension
         return ($this->baseObject->config->get('default_store_pickup_status'));
     }
 
+    protected function removeStoreAddressFromAddressBook()
+    {
+        $that = $this->baseObject;
+        /** @var ModelAccountAddress $mdl */
+        $mdl = $that->loadModel('account/address');
+        $allAddresses = $mdl->getAddresses();
+        $exists = false;
+        foreach ($allAddresses as $address) {
+            if (
+                $address['postcode'] == $that->config->get('config_postcode')
+                && $address['country_id'] == $that->config->get('config_country_id')
+                && $address['zone_id'] == $that->config->get('config_zone_id')
+            ) {
+                $id = $address['address_id'];
+                $exists = true;
+                break;
+            }
+        }
+        if ($exists) {
+            $mdl->deleteAddress( $id );
+            $that->session->data['shipping_address_id'] = $that->customer->getAddressId();
+        }
+    }
+
     public function onControllerPagesCheckoutShipping_ProcessData()
     {
         $that = $this->baseObject;
@@ -42,6 +66,7 @@ class ExtensionDefaultStorePickup extends Extension
         if ($that->request->post['shipping_method'] != 'default_store_pickup.default_store_pickup'
             || !$that->cart->hasShipping()
         ) {
+            $this->removeStoreAddressFromAddressBook();
             return;
         }
 
@@ -176,6 +201,17 @@ class ExtensionDefaultStorePickup extends Extension
             $that->config->get('config_country_id'),
             $that->config->get('config_zone_id')
         );
+    }
+
+    public function onControllerPagesCheckoutSuccess_ProcessData()
+    {
+        if(!$this->isEnabled()){
+            return;
+        }
+
+        $that =& $this->baseObject;
+        $this->removeStoreAddressFromAddressBook();
+        unset($that->session->data['shipping_address_id']);
     }
 
 }
