@@ -177,7 +177,7 @@ class ControllerPagesCheckoutFastCheckout extends AController
                 'path'     => dirname($this->request->server['PHP_SELF']),
                 'domain'   => null,
                 'secure'   => (defined('HTTPS') && HTTPS),
-                'httponly' => true,
+                'httponly' => false,
                 'samesite' => ((defined('HTTPS') && HTTPS) ? 'None' : 'lax')
             ]
         );
