@@ -170,6 +170,7 @@ class ExtensionFastCheckout extends Extension
         }
 
         $that =& $this->baseObject;
+        unset($that->session->data['fc']);
         header('Location: '.$that->html->getSecureURL(
             'checkout/fast_checkout_success',
             '&viewport=window&order_id='.$that->session->data['processed_order_id'])

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2020 Belavier Commerce LLC
+  Copyright © 2011-2021 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,9 +23,6 @@ if (!defined('DIR_CORE')) {
 
 class ControllerPagesCheckoutFastCheckoutSuccess extends AController
 {
-    private $error = array();
-    public $data = array();
-
     public function main()
     {
         //init controller data
@@ -37,28 +34,34 @@ class ControllerPagesCheckoutFastCheckoutSuccess extends AController
         $this->document->resetBreadcrumbs();
 
         $this->document->addBreadcrumb(
-            array(
+            [
                 'href'      => $this->html->getHomeURL(),
                 'text'      => $this->language->get('text_home'),
                 'separator' => false,
-            ));
+            ]
+        );
 
         $this->document->addBreadcrumb(
-            array(
+            [
                 'href'      => $this->html->getSecureURL('checkout/cart'),
                 'text'      => $this->language->get('text_basket'),
                 'separator' => $this->language->get('text_separator'),
-            ));
+            ]
+        );
 
         $this->document->addBreadcrumb(
-            array(
+            [
                 'href'      => $this->html->getSecureURL('checkout/fast_checkout'),
                 'text'      => $this->language->get('fast_checkout_text_fast_checkout_title'),
                 'separator' => $this->language->get('text_separator'),
-            ));
+            ]
+        );
 
 
-        $this->data['success_url'] = $this->html->getSecureURL('r/checkout/pay/success', '&viewport=window&order_id='.$this->request->get['order_id']);
+        $this->data['success_url'] = $this->html->getSecureURL(
+            'r/checkout/pay/success',
+            '&viewport=window&order_id='.$this->request->get['order_id']
+        );
 
         $this->view->batchAssign($this->data);
 
