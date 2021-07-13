@@ -1457,7 +1457,7 @@ ul.productinfo {
 ul.productinfo li {
 	padding: 5px 0;
 	list-style: none;
-	display: block
+	display: block;
 }
 
 ul.productinfo li .productinfoleft {
@@ -1609,7 +1609,7 @@ ul.productpagecart {
 }
 
 ul.productpagecart li {
-	display: inline-block;
+	display: flex;
 	margin-right: 10px;
 	width: 100%;
 	/*height: 45px*/
@@ -1623,10 +1623,11 @@ ul.productpagecart li {
 	position: relative;
 }
 
-.productpagecart li a.cart {
+.productpagecart a.cart {
 	background-position: 10px 12px;
 	margin-left: 5px;
-	width: 50%;
+	min-width: 135px;
+	display: block !important;
 }
 
 .productpagecart li a.wish {

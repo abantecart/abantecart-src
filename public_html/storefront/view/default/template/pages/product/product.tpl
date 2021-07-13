@@ -207,29 +207,26 @@ if ($error){ ?>
                                             <li><span class="nostock"><?php echo $stock; ?></span></li>
                                         </ul>
                                         <?php } else { ?>
-                                        <ul class="productpagecart">
-                                            <li><?php if(!$this->getHookVar('product_add_to_cart_html')) { ?>
-                                                <a href="#" onclick="$(this).closest('form').submit(); return false;" class="cart">
+                                        <div class="productpagecart">
+                                            <?php if(!$this->getHookVar('product_add_to_cart_html')) { ?>
+                                                <a href="#" onclick="$(this).closest('form').submit(); return false;" class="cart col-lg-5">
                                                     <i class="fa fa-cart-plus fa-fw"></i>
                                                     <?php echo $button_add_to_cart; ?>
                                                 </a>
                                                 <?php } else { ?>
                                                     <?php echo $this->getHookVar('product_add_to_cart_html'); ?>
                                                 <?php } ?>
-                                            </li>
-                                        </ul>
+                                        </div>
                                         <?php } ?>
                                         <?php } else { ?>
-                                            <ul class="productpagecart call_to_order">
-                                                <li>
+                                            <div class="productpagecart call_to_order">
                                                     <a href="#" class="call_to_order">
                                                         <i class="fa fa-phone fa-fw"></i>&nbsp;&nbsp;
                                                         <?php echo $text_call_to_order; ?>
                                                     </a>
-                                                </li>
-                                            </ul>
+                                            </div>
                                         <?php } ?>
-                                        <a class="productprint btn btn-large col-lg-2" href="javascript:window.print();">
+                                        <a class="productprint btn btn-large col-lg-4" href="javascript:window.print();">
                                             <i class="fa fa-print fa-fw"></i>
                                             <?php echo $button_print; ?>
                                         </a>
