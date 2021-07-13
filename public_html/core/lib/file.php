@@ -183,7 +183,6 @@ class AFile
         }
         if (function_exists("file_put_contents")) {
             $bytes = @file_put_contents($target, $download->body);
-            $this->registry->get('log')->write(var_export($bytes, true)."\n\n\n".var_export($download->content_length, true));
             return $bytes == $download->content_length;
         }
 
