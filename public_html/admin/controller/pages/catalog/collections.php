@@ -543,7 +543,7 @@ class ControllerPagesCatalogCollections extends AController
             $this->error['keyword'] = $this->language->get('save_error_unique_keyword');
         }
 
-        return empty(!$this->error);
+        return (!$this->error);
     }
 
     public function edit_layout()
