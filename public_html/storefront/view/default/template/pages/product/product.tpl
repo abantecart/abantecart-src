@@ -19,8 +19,8 @@ if ($error){ ?>
                 if (sizeof((array)$images) > 1){
                     $add_w = $this->config->get('config_image_additional_width');
                     $add_h = $this->config->get('config_image_additional_height');
-                    foreach ($images as $image){
-                        ?><li class="producthtumb"><?php
+                    foreach ($images as $image){ ?>
+                        <li class="producthtumb"><?php
                             if ($image['origin'] != 'external'){?>
                                 <a href="Javascript:void(0);" data-href="<?php echo $image['main_url']; ?>"
                                    data-standard="<?php echo $image['thumb2_url']; ?>"
@@ -220,7 +220,7 @@ if ($error){ ?>
                                         <?php } ?>
                                         <?php } else { ?>
                                             <div class="productpagecart call_to_order">
-                                                    <a href="#" class="call_to_order">
+                                                    <a href="#" class="cart col-lg-5 call_to_order">
                                                         <i class="fa fa-phone fa-fw"></i>&nbsp;&nbsp;
                                                         <?php echo $text_call_to_order; ?>
                                                     </a>

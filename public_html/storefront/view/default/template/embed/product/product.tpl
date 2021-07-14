@@ -188,8 +188,8 @@ if ($error) { ?>
 
                                         <?php } ?>
                                         <?php } else { ?>
-                                            <div class="productpagecart call_to_order">
-                                                <a href="#" class="call_to_order">
+                                            <div class="productpagecart mb10 call_to_order">
+                                                <a href="#" class="cart col-lg-5 call_to_order">
                                                     <i class="fa fa-phone fa-fw"></i>&nbsp;&nbsp;
                                                     <?php echo $text_call_to_order; ?>
                                                 </a>
