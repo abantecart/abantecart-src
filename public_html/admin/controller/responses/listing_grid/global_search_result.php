@@ -23,8 +23,8 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerResponsesListingGridGlobalSearchResult extends AController
 {
-    public $error = array();
-    public $data = array();
+    public $error = [];
+    public $data = [];
 
     public function main()
     {
@@ -51,8 +51,6 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController
             $total_pages = 0;
         }
 
-        //$page = $page>$total_pages ? $total_pages : $page;
-
         $response = new stdClass();
         $response->page = $page;
         $response->total = $total_pages;
@@ -63,10 +61,10 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController
 
             $response->rows[$i]['id'] = $i + 1;
             $response->userdata->type[$i + 1] = $result['type'];
-            $response->rows[$i]['cell'] = array(
+            $response->rows[$i]['cell'] = [
                 $i + 1,
                 $result['text'],
-            );
+            ];
             $i++;
         }
         $this->data['response'] = $response;
@@ -107,7 +105,7 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController
 
         $search_categories = $this->model_tool_global_search->getSearchSources('all');
         $result_controllers = $this->model_tool_global_search->results_controllers;
-        $results['response'] = array();
+        $results['response'] = [];
 
         foreach ($search_categories as $id => $name) {
             $r = $this->model_tool_global_search->getResult($id, $this->request->get['term'], 'suggest');
@@ -115,7 +113,7 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController
                 if (!$item) {
                     continue;
                 }
-                $tmp = array();
+                $tmp = [];
                 // exception for extension settings
                 if ($id == 'settings' && !empty($item['extension'])) {
                     $tmp_id = 'extensions';
