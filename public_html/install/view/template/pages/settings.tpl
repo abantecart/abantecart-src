@@ -89,7 +89,7 @@ echo $header; ?>
 								<tbody>
 								<tr>
 									<td>MySQL:</td>
-									<td><?php !$errors['mysql'] ? 'On' : 'Off'; ?></td>
+									<td><?php echo !$errors['mysql'] ? 'On' : 'Off'; ?></td>
 									<td>On</td>
 									<td align="center"><?php echo !$errors['mysql'] ? $img_good : $img_bad; ?></td>
 								</tr>
