@@ -520,8 +520,8 @@ if ($error) { ?>
                         html2 += '</li>';
                     }
                 } else {
-                    html1 = orig_imgs;
-                    html2 = orig_thumbs;
+                    //no images - no action
+                    return false;
                 }
                 $('div.bigimage').html(html1);
                 $('ul.smallimage').html(html2);
