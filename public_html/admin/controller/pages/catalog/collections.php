@@ -27,7 +27,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
  */
 class ControllerPagesCatalogCollections extends AController
 {
-    public array $error = [];
+    public $error = [];
 
     public function main()
     {
