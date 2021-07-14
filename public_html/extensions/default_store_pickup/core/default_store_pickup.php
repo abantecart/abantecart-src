@@ -203,7 +203,7 @@ class ExtensionDefaultStorePickup extends Extension
         );
     }
 
-    public function onControllerPagesCheckoutSuccess_ProcessData()
+    public function onControllerPagesCheckoutSuccess_InitData()
     {
         if(!$this->isEnabled()){
             return;
