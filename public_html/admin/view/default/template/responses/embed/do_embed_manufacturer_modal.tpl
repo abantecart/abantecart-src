@@ -127,22 +127,26 @@
 
         //display preview
         $("#embed_container").html(html);
-        setTimeout(
-            function () {
-                outerHeight = 0;
-                $('#embed_container.embed_preview')
-                    .find('.abantecart-widget-container')
-                    .children().each(
-                    function () {
-                        outerHeight += $(this).outerHeight();
-                    }
-                );
-                $('#getEmbedFrm_url').val($('#getEmbedFrm_url').val() + '&height=' + (outerHeight + 20));
-            },
-            1000
-        );
         $('#getEmbedFrm_url').val(url);
+        recalcHeightParam = true;
     }
+
+    recalcHeightParam = true;
+    var calcHeight = function(){
+        if(recalcHeightParam !== true){
+            return;
+        }
+        var outerHeight = 0;
+        $('#embed_container.embed_preview')
+            .find('.abantecart-widget-container')
+            .children().each(
+            function () {
+                outerHeight += $(this).outerHeight();
+            }
+        );
+        $('#getEmbedFrm_url').val($('#getEmbedFrm_url').val() + '&height=' + (outerHeight + 20));
+        recalcHeightParam = false;
+    };
 
     $(document).ready(function () {
         $('.do_embed a').tooltip();
@@ -153,9 +157,10 @@
         $('div#embed_modal').find('div.input-group').find('select').on('change', buildEmbedCode);
 
         preselect = function(){
+          calcHeight();
           let $this = $(this);
           $this.select();
       }
       $("#getEmbedFrm_code_area, #getEmbedFrm_url").focus(preselect).click(preselect);
-	});
+    });
 </script>
