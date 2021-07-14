@@ -152,7 +152,7 @@
         $("#embed_container").html(html);
         setTimeout(
             function () {
-                let outerHeight = 0;
+                outerHeight = 0;
                 $('#embed_container.embed_preview')
                     .find('.abantecart-widget-container')
                     .children().each(
