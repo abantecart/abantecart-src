@@ -877,7 +877,7 @@ class ControllerResponsesProductProduct extends AController
                     $arr = [
                         'type'  => in_array($this->data['option_data']['element_type'], ['T', 'B'])
                             ? 'textarea'
-                            : ($this->data['option_data']['element_type'] ? 'date' : 'input'),
+                            : ($this->data['option_data']['element_type'] == 'D' ? 'date' : 'input'),
                         'name'  => 'name['.$product_option_value_id.']',
                         'value' => $this->data['name'],
                     ];
